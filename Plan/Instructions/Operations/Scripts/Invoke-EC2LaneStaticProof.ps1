@@ -26,6 +26,7 @@ param(
   [string]$DeployBundleSha256 = "",
   [int]$MaxEc2RuntimeMinutes = 25,
   [switch]$AllowWatchdogOsShutdownFallback,
+  [switch]$CallerManagedRuntimeWindow,
   [switch]$SkipGitLfsPull,
   [switch]$Execute
 )
@@ -345,6 +346,7 @@ if (!$executeGatesPass) {
     Write-Host "Wrote blocked EC2 lane static proof record: $OutFile"
   }
   $record | ConvertTo-Json -Depth 20
+  if ($CallerManagedRuntimeWindow) { throw "Caller-managed EC2 static proof was blocked before execution; inspect $OutFile." }
   exit 2
 }
 
@@ -368,6 +370,7 @@ $startExitCode = $null
 $startOutputTail = $null
 $ssmAvailable = $false
 $instanceWatchdogStatus = $null
+$callerManagedWindowStatus = $null
 $startState = ""
 $finalState = ""
 $executionErrorMessage = ""
@@ -659,19 +662,47 @@ try {
     throw "EC2 capacity backoff is active until $($capacityBackoff.state.not_before)."
   }
   $markerHelper = Join-Path $PSScriptRoot "Set-EC2RuntimeWindowMarker.ps1"
-  $runtimeWindowMarkerActivation = & $markerHelper `
-    -Action Activate `
-    -ProjectRoot $ProjectRoot `
-    -WindowId $RuntimeWindowId `
-    -LaneId $LaneId `
-    -Purpose "bounded_ec2_static_proof" `
-    -DeployBundleS3Uri $DeployBundleS3Uri `
-    -DeployBundleSha256 $DeployBundleSha256 `
-    -EmergencyStopEvidencePath $EmergencyStopEvidencePath `
-    -MaxRuntimeMinutes $MaxEc2RuntimeMinutes `
-    -InstanceId $InstanceId `
-    -Region $Region | ConvertFrom-Json
-  if ($startState -ne "running") {
+  if ($CallerManagedRuntimeWindow) {
+    $callerManagedWindowStatus = Get-ActiveRuntimeWindowStatus `
+      -ProjectRoot $ProjectRoot `
+      -ExpectedWindowId $RuntimeWindowId `
+      -ExpectedLaneId $LaneId `
+      -ExpectedInstanceId $InstanceId `
+      -ExpectedRegion $Region `
+      -ExpectedDeployBundleS3Uri $DeployBundleS3Uri `
+      -ExpectedDeployBundleSha256 $DeployBundleSha256
+    if (!$callerManagedWindowStatus.verified) {
+      $executionFailureCategory = "caller_managed_runtime_window_not_verified"
+      throw "Caller-managed runtime window '$RuntimeWindowId' is not active or does not match this static proof."
+    }
+    if ($startState -ne "running") {
+      $executionFailureCategory = "caller_managed_instance_not_running"
+      throw "Caller-managed static proof requires the approved instance to already be running."
+    }
+    $instanceWatchdogStatus = Get-InstanceStopWatchdogStatus `
+      -Path $WatchdogEvidenceOutFile `
+      -ExpectedWindowId $RuntimeWindowId `
+      -ExpectedInstanceId $InstanceId `
+      -ExpectedRegion $Region
+    if (!$instanceWatchdogStatus.verified) {
+      $executionFailureCategory = "instance_stop_watchdog_not_verified"
+      throw "Caller-managed instance watchdog evidence is not verified."
+    }
+  } else {
+    $runtimeWindowMarkerActivation = & $markerHelper `
+      -Action Activate `
+      -ProjectRoot $ProjectRoot `
+      -WindowId $RuntimeWindowId `
+      -LaneId $LaneId `
+      -Purpose "bounded_ec2_static_proof" `
+      -DeployBundleS3Uri $DeployBundleS3Uri `
+      -DeployBundleSha256 $DeployBundleSha256 `
+      -EmergencyStopEvidencePath $EmergencyStopEvidencePath `
+      -MaxRuntimeMinutes $MaxEc2RuntimeMinutes `
+      -InstanceId $InstanceId `
+      -Region $Region | ConvertFrom-Json
+  }
+  if (!$CallerManagedRuntimeWindow -and $startState -ne "running") {
     Write-Host "Starting EC2 instance $InstanceId from state $startState"
     $previousErrorActionPreference = $ErrorActionPreference
     $ErrorActionPreference = "Continue"
@@ -704,7 +735,8 @@ try {
   }
   if (-not $ssmAvailable) { throw "SSM did not become Online for $InstanceId" }
 
-  try {
+  if (!$CallerManagedRuntimeWindow) {
+    try {
     $instanceWatchdogStatus = Invoke-VerifiedInstanceWatchdog `
       -WatchdogScriptPath (Join-Path $PSScriptRoot "Start-EC2InstanceStopWatchdog.ps1") `
       -InstanceId $InstanceId `
@@ -715,9 +747,10 @@ try {
       -TrackerId "TRK-W64-042" `
       -ItemId "ITEM-W64-042" `
       -AllowOsShutdownFallback:$AllowWatchdogOsShutdownFallback
-  } catch {
-    $executionFailureCategory = "instance_stop_watchdog_not_verified"
-    throw
+    } catch {
+      $executionFailureCategory = "instance_stop_watchdog_not_verified"
+      throw
+    }
   }
 
   $payloadPath = Join-Path $env:TEMP ("codex_ec2_lane_static_proof_{0}.json" -f $stamp)
@@ -759,7 +792,7 @@ catch {
 finally {
   try {
     $currentState = (aws ec2 describe-instances --region $Region --instance-ids $InstanceId --query "Reservations[0].Instances[0].State.Name" --output text).Trim()
-    if ($currentState -ne "stopped") {
+    if (!$CallerManagedRuntimeWindow -and $currentState -ne "stopped") {
       Write-Host "Stopping EC2 instance $InstanceId after static proof attempt"
       $previousErrorActionPreference = $ErrorActionPreference
       $ErrorActionPreference = "Continue"
@@ -778,7 +811,7 @@ finally {
       $null = Wait-InstanceState -DesiredState "stopped" -MaxAttempts 120 -SleepSeconds 5
     }
     $finalState = (aws ec2 describe-instances --region $Region --instance-ids $InstanceId --query "Reservations[0].Instances[0].State.Name" --output text).Trim()
-    if ($null -ne $runtimeWindowMarkerActivation -and $finalState -eq "stopped") {
+    if (!$CallerManagedRuntimeWindow -and $null -ne $runtimeWindowMarkerActivation -and $finalState -eq "stopped") {
       $markerHelper = Join-Path $PSScriptRoot "Set-EC2RuntimeWindowMarker.ps1"
       $runtimeWindowMarkerCompletion = & $markerHelper `
         -Action Complete `
@@ -818,6 +851,8 @@ $record = [ordered]@{
   emergency_stop_gate = $emergencyStopGate
   runtime_window_marker_activation = $runtimeWindowMarkerActivation
   runtime_window_marker_completion = $runtimeWindowMarkerCompletion
+  caller_managed_runtime_window = [bool]$CallerManagedRuntimeWindow
+  caller_managed_window_status = $callerManagedWindowStatus
   capacity_backoff = $capacityBackoff
   instance_watchdog = $instanceWatchdogStatus
   watchdog_evidence_out_file = $WatchdogEvidenceOutFile
@@ -856,8 +891,9 @@ if ($commandStatus -ne "Success") {
     $staticProofFailureCategory = "ssm_command_failed"
   }
 }
-if ($finalState -ne "stopped") {
-  $staticProofErrors += "Final EC2 state was $finalState, expected stopped."
+$expectedFinalState = $(if ($CallerManagedRuntimeWindow) { "running" } else { "stopped" })
+if ($finalState -ne $expectedFinalState) {
+  $staticProofErrors += "Final EC2 state was $finalState, expected $expectedFinalState."
   if ([string]::IsNullOrWhiteSpace($staticProofFailureCategory)) {
     $staticProofFailureCategory = "ec2_stop_not_verified"
   }
@@ -958,7 +994,7 @@ if ($null -ne $remoteProofPayload) {
 
 $staticProofSummary.pass = (
   $commandStatus -eq "Success" -and
-  $finalState -eq "stopped" -and
+  $finalState -eq $expectedFinalState -and
   $staticProofSummary.remote_payload_parsed -eq $true -and
   $staticProofSummary.object_info_pass -eq $true -and
   $staticProofSummary.required_models_present -eq $true -and
@@ -987,4 +1023,7 @@ if (![string]::IsNullOrWhiteSpace($OutFile)) {
 }
 
 $record | ConvertTo-Json -Depth 20
-if ($commandStatus -ne "Success" -or $finalState -ne "stopped") { exit 2 }
+if ($commandStatus -ne "Success" -or $finalState -ne $expectedFinalState) {
+  if ($CallerManagedRuntimeWindow) { throw "Caller-managed EC2 static proof failed; inspect $OutFile." }
+  exit 2
+}

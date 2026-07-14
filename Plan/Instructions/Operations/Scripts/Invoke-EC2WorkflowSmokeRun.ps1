@@ -48,6 +48,7 @@ param(
   [int]$PollSeconds = 3,
   [int]$MaxEc2RuntimeMinutes = 45,
   [switch]$AllowWatchdogOsShutdownFallback,
+  [switch]$CallerManagedRuntimeWindow,
   [switch]$SkipGitLfsPull,
   [switch]$Execute
 )
@@ -404,8 +405,9 @@ function Test-StaticProof {
     if ((Has-Property -Object $proof -Name "command_status") -and [string]$proof.command_status -ne "Success") {
       $result.errors += "EC2 static proof command_status is $($proof.command_status), not Success."
     }
-    if ((Has-Property -Object $proof -Name "final_state") -and [string]$proof.final_state -ne "stopped") {
-      $result.errors += "EC2 static proof final_state is $($proof.final_state), not stopped."
+    $expectedProofFinalState = $(if ($CallerManagedRuntimeWindow) { "running" } else { "stopped" })
+    if ((Has-Property -Object $proof -Name "final_state") -and [string]$proof.final_state -ne $expectedProofFinalState) {
+      $result.errors += "EC2 static proof final_state is $($proof.final_state), not $expectedProofFinalState."
     }
   }
 
@@ -777,6 +779,8 @@ $record = [ordered]@{
   emergency_stop_gate = $emergencyStopGate
   runtime_window_marker_activation = $null
   runtime_window_marker_completion = $null
+  caller_managed_runtime_window = [bool]$CallerManagedRuntimeWindow
+  caller_managed_window_status = $null
   capacity_backoff = $null
   instance_watchdog = $null
   watchdog_evidence_out_file = $WatchdogEvidenceOutFile
@@ -839,6 +843,7 @@ if (!$executeGatesPass) {
   $record | ConvertTo-Json -Depth 40 | Set-Content -LiteralPath $OutFile -Encoding UTF8
   Write-Host "Wrote blocked EC2 workflow smoke run record: $OutFile"
   $record | ConvertTo-Json -Depth 40
+  if ($CallerManagedRuntimeWindow) { throw "Caller-managed EC2 workflow smoke was blocked before execution; inspect $OutFile." }
   exit 2
 }
 
@@ -1417,19 +1422,47 @@ try {
     throw "EC2 capacity backoff is active until $($record.capacity_backoff.state.not_before)."
   }
   $markerHelper = Join-Path $PSScriptRoot "Set-EC2RuntimeWindowMarker.ps1"
-  $record.runtime_window_marker_activation = & $markerHelper `
-    -Action Activate `
-    -ProjectRoot $ProjectRoot `
-    -WindowId $RuntimeWindowId `
-    -LaneId $LaneId `
-    -Purpose "bounded_workflow_smoke" `
-    -DeployBundleS3Uri $DeployBundleS3Uri `
-    -DeployBundleSha256 $DeployBundleSha256 `
-    -EmergencyStopEvidencePath $EmergencyStopEvidencePath `
-    -MaxRuntimeMinutes $MaxEc2RuntimeMinutes `
-    -InstanceId $InstanceId `
-    -Region $Region | ConvertFrom-Json
-  if ($record.start_state -ne "running") {
+  if ($CallerManagedRuntimeWindow) {
+    $record.caller_managed_window_status = Get-ActiveRuntimeWindowStatus `
+      -ProjectRoot $ProjectRoot `
+      -ExpectedWindowId $RuntimeWindowId `
+      -ExpectedLaneId $LaneId `
+      -ExpectedInstanceId $InstanceId `
+      -ExpectedRegion $Region `
+      -ExpectedDeployBundleS3Uri $DeployBundleS3Uri `
+      -ExpectedDeployBundleSha256 $DeployBundleSha256
+    if (!$record.caller_managed_window_status.verified) {
+      $record.failure_category = "caller_managed_runtime_window_not_verified"
+      throw "Caller-managed runtime window '$RuntimeWindowId' is not active or does not match this smoke unit."
+    }
+    if ($record.start_state -ne "running") {
+      $record.failure_category = "caller_managed_instance_not_running"
+      throw "Caller-managed workflow smoke requires the approved instance to already be running."
+    }
+    $record.instance_watchdog = Get-InstanceStopWatchdogStatus `
+      -Path $WatchdogEvidenceOutFile `
+      -ExpectedWindowId $RuntimeWindowId `
+      -ExpectedInstanceId $InstanceId `
+      -ExpectedRegion $Region
+    if (!$record.instance_watchdog.verified) {
+      $record.failure_category = "instance_stop_watchdog_not_verified"
+      throw "Caller-managed instance watchdog evidence is not verified."
+    }
+  } else {
+    $record.runtime_window_marker_activation = & $markerHelper `
+      -Action Activate `
+      -ProjectRoot $ProjectRoot `
+      -WindowId $RuntimeWindowId `
+      -LaneId $LaneId `
+      -Purpose "bounded_workflow_smoke" `
+      -DeployBundleS3Uri $DeployBundleS3Uri `
+      -DeployBundleSha256 $DeployBundleSha256 `
+      -EmergencyStopEvidencePath $EmergencyStopEvidencePath `
+      -MaxRuntimeMinutes $MaxEc2RuntimeMinutes `
+      -InstanceId $InstanceId `
+      -Region $Region | ConvertFrom-Json
+  }
+  if (!$CallerManagedRuntimeWindow -and $record.start_state -ne "running") {
     Write-Host "Starting EC2 instance $InstanceId from state $($record.start_state)"
     $previousErrorActionPreference = $ErrorActionPreference
     $ErrorActionPreference = "Continue"
@@ -1464,8 +1497,9 @@ try {
   }
   if (!$ssmOnline) { throw "SSM did not become Online for $InstanceId." }
 
-  try {
-    $record.instance_watchdog = Invoke-VerifiedInstanceWatchdog `
+  if (!$CallerManagedRuntimeWindow) {
+    try {
+      $record.instance_watchdog = Invoke-VerifiedInstanceWatchdog `
       -WatchdogScriptPath (Join-Path $PSScriptRoot "Start-EC2InstanceStopWatchdog.ps1") `
       -InstanceId $InstanceId `
       -Region $Region `
@@ -1475,9 +1509,10 @@ try {
       -TrackerId "TRK-W64-042" `
       -ItemId "ITEM-W64-042" `
       -AllowOsShutdownFallback:$AllowWatchdogOsShutdownFallback
-  } catch {
-    $record.failure_category = "instance_stop_watchdog_not_verified"
-    throw
+    } catch {
+      $record.failure_category = "instance_stop_watchdog_not_verified"
+      throw
+    }
   }
 
   $payloadPath = Join-Path $env:TEMP ("codex_ec2_workflow_smoke_{0}.json" -f $stamp)
@@ -1555,8 +1590,10 @@ catch {
 }
 finally {
   try {
-    $shouldStopInstance = ($record.ec2_started -or $record.start_state -eq "running" -or $record.command_status -ne "not_started")
-    if ($shouldStopInstance) {
+    $shouldStopInstance = (!$CallerManagedRuntimeWindow -and ($record.ec2_started -or $record.start_state -eq "running" -or $record.command_status -ne "not_started"))
+    if ($CallerManagedRuntimeWindow) {
+      $record.final_state = (aws ec2 describe-instances --region $Region --instance-ids $InstanceId --query "Reservations[0].Instances[0].State.Name" --output text).Trim()
+    } elseif ($shouldStopInstance) {
       Write-Host "Stopping EC2 instance $InstanceId after workflow smoke attempt"
       $previousErrorActionPreference = $ErrorActionPreference
       $ErrorActionPreference = "Continue"
@@ -1577,7 +1614,7 @@ finally {
     } else {
       $record.final_state = $record.start_state
     }
-    if ($null -ne $record.runtime_window_marker_activation -and $record.final_state -eq "stopped") {
+    if (!$CallerManagedRuntimeWindow -and $null -ne $record.runtime_window_marker_activation -and $record.final_state -eq "stopped") {
       $markerHelper = Join-Path $PSScriptRoot "Set-EC2RuntimeWindowMarker.ps1"
       $record.runtime_window_marker_completion = & $markerHelper `
         -Action Complete `
@@ -1595,10 +1632,10 @@ finally {
   }
 }
 
-$record.next_action = $(if ($record.generation_executed -and $record.local_pullback.status -eq "pullback_record_created") { "Run image QA on the pulled-back generated image artifacts." } else { "Inspect run record, complete artifact pullback if needed, and do not claim image QA until artifacts are local and reviewed." })
+$record.next_action = $(if ($CallerManagedRuntimeWindow -and $record.generation_executed -and $record.local_pullback.status -eq "pullback_record_created") { "Return control to the batch coordinator; it must stop EC2 and complete the shared runtime marker before final acceptance." } elseif ($record.generation_executed -and $record.local_pullback.status -eq "pullback_record_created") { "Run image QA on the pulled-back generated image artifacts." } else { "Inspect run record, complete artifact pullback if needed, and do not claim image QA until artifacts are local and reviewed." })
 if ($record.result -eq "workflow_smoke_start_failed") {
   $record.next_action = $(if ($record.failure_category -eq "ec2_insufficient_instance_capacity") { "Do not retry in the same capacity window; preserve staged assets and wait for a fresh capacity state." } else { "Resolve the recorded EC2 start failure before another intentionally gated workflow smoke." })
-} elseif ($record.generation_executed -and $record.final_state -eq "stopped" -and $record.errors.Count -eq 0) {
+} elseif ($record.generation_executed -and $record.final_state -eq $(if ($CallerManagedRuntimeWindow) { "running" } else { "stopped" }) -and $record.errors.Count -eq 0) {
   $record.result = "workflow_smoke_generation_complete"
   $record.failure_category = $null
 } elseif ($record.ec2_started -or $record.command_status -ne "not_started") {
@@ -1627,4 +1664,8 @@ $record | ConvertTo-Json -Depth 50 | Set-Content -LiteralPath $OutFile -Encoding
 Write-Host "Wrote EC2 workflow smoke run record: $OutFile"
 $record | ConvertTo-Json -Depth 50
 
-if ($record.errors.Count -gt 0 -or !$record.generation_executed -or $record.final_state -ne "stopped") { exit 2 }
+$expectedFinalState = $(if ($CallerManagedRuntimeWindow) { "running" } else { "stopped" })
+if ($record.errors.Count -gt 0 -or !$record.generation_executed -or $record.final_state -ne $expectedFinalState) {
+  if ($CallerManagedRuntimeWindow) { throw "Caller-managed EC2 workflow smoke failed; inspect $OutFile." }
+  exit 2
+}

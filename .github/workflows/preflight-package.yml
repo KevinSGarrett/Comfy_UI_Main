@@ -88,6 +88,11 @@ jobs:
         run: |
           powershell -NoProfile -ExecutionPolicy Bypass -File "$env:GITHUB_WORKSPACE\tools\Test-WindowsCheckoutPathBudget.ps1" -ProjectRoot "$env:GITHUB_WORKSPACE" -CheckoutRoot "$env:GITHUB_WORKSPACE" -OutFile "$env:GITHUB_WORKSPACE\ci_artifacts\workflow_prerequisite_matching\windows_checkout_path_budget.json"
 
+      - name: EC2 batched runtime coordinator regression
+        shell: pwsh
+        run: |
+          powershell -NoProfile -ExecutionPolicy Bypass -File "$env:GITHUB_WORKSPACE\Plan\Instructions\QA\Scripts\Test-EC2BatchedRuntimeCoordinatorRegression.ps1" -ProjectRoot "$env:GITHUB_WORKSPACE" -OutFile "$env:GITHUB_WORKSPACE\ci_artifacts\workflow_prerequisite_matching\ec2_batched_runtime_coordinator_regression.json"
+
       - name: Sync exported workflow files
         shell: pwsh
         run: |

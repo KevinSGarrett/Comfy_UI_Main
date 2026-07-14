@@ -20,8 +20,9 @@ $now = [datetimeoffset]::UtcNow
 
 if (Test-Path -LiteralPath $WorkOrderFile -PathType Leaf) {
   $workOrder = Get-Content -Raw -LiteralPath $WorkOrderFile | ConvertFrom-Json
-  $valid = (
-    [string]$workOrder.status -ceq "READY_WORK_WAITING_FOR_EC2" -and
+  $workOrderStatus = [string]$workOrder.status
+  $validReady = (
+    $workOrderStatus -ceq "READY_WORK_WAITING_FOR_EC2" -and
     [string]$workOrder.result -ceq "pass_local_only" -and
     [int]$workOrder.unit_count -ge 1 -and [int]$workOrder.unit_count -le 5 -and
     [string]$workOrder.deploy_bundle_s3_uri -match '^s3://[^/]+/.+' -and
@@ -29,7 +30,13 @@ if (Test-Path -LiteralPath $WorkOrderFile -PathType Leaf) {
     ![bool]$workOrder.mask_truth_consumed -and
     ![bool]$workOrder.authorizes_ec2_start_by_automation
   )
-  if (!$valid) {
+  if ($workOrderStatus -ceq "COMPLETED") {
+    $classification = "NO_ELIGIBLE_GPU_WORK"
+  } elseif ($workOrderStatus -ceq "EXECUTING") {
+    $classification = "GPU_RUNTIME_WINDOW_STARTING"
+  } elseif ($workOrderStatus -ceq "FAILED_CLOSED") {
+    $classification = "BLOCKED_FAILED_GPU_WORK_ORDER"
+  } elseif (!$validReady) {
     $classification = "BLOCKED_INVALID_GPU_WORK_ORDER"
   } elseif ([datetimeoffset]::Parse([string]$workOrder.expires_at) -le $now) {
     $classification = "BLOCKED_STALE_GPU_WORK_ORDER"

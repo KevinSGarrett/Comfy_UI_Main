@@ -294,6 +294,52 @@ function Get-InstanceStopWatchdogStatus {
   }
 }
 
+function Get-ActiveRuntimeWindowStatus {
+  param(
+    [Parameter(Mandatory=$true)][string]$ProjectRoot,
+    [Parameter(Mandatory=$true)][string]$ExpectedWindowId,
+    [Parameter(Mandatory=$true)][string]$ExpectedLaneId,
+    [Parameter(Mandatory=$true)][string]$ExpectedInstanceId,
+    [Parameter(Mandatory=$true)][string]$ExpectedRegion,
+    [Parameter(Mandatory=$true)][string]$ExpectedDeployBundleS3Uri,
+    [Parameter(Mandatory=$true)][string]$ExpectedDeployBundleSha256
+  )
+
+  $markerPath = Join-Path $ProjectRoot "runtime_artifacts\ec2_runtime_windows\ACTIVE_EC2_RUNTIME_WINDOW.json"
+  $evidence = Read-EC2RuntimeSafetyEvidence -Path $markerPath
+  $payload = $evidence.payload
+  $expiresAt = $null
+  if ($null -ne $payload -and (Test-EC2RuntimeSafetyProperty $payload "expires_at")) {
+    try { $expiresAt = [datetimeoffset]::Parse([string]$payload.expires_at) } catch { $expiresAt = $null }
+  }
+  $checks = [ordered]@{
+    evidence_found = $evidence.found
+    json_valid = $evidence.json_valid
+    schema_supported = ($null -ne $payload -and [string]$payload.schema_version -ceq "2.0")
+    status_active = ($null -ne $payload -and [string]$payload.status -ceq "ACTIVE")
+    runtime_window_match = ($null -ne $payload -and [string]$payload.window_id -ceq $ExpectedWindowId)
+    lane_match = ($null -ne $payload -and [string]$payload.target_lane_id -ceq $ExpectedLaneId)
+    instance_match = ($null -ne $payload -and [string]$payload.instance_id -ceq $ExpectedInstanceId)
+    region_match = ($null -ne $payload -and [string]$payload.region -ceq $ExpectedRegion)
+    deploy_bundle_uri_match = ($null -ne $payload -and [string]$payload.deploy_bundle_s3_uri -ceq $ExpectedDeployBundleS3Uri)
+    deploy_bundle_sha256_match = ($null -ne $payload -and [string]$payload.deploy_bundle_sha256 -ceq $ExpectedDeployBundleSha256.ToLowerInvariant())
+    expiry_valid = ($null -ne $expiresAt -and $expiresAt -gt [datetimeoffset]::UtcNow)
+  }
+  $verified = (@($checks.GetEnumerator() | Where-Object { -not [bool]$_.Value }).Count -eq 0)
+  return [pscustomobject][ordered]@{
+    path = $markerPath
+    found = $evidence.found
+    json_valid = $evidence.json_valid
+    verified = $verified
+    status = $(if ($verified) { "pass" } else { "blocked" })
+    failure_category = $(if ($verified) { $null } else { "caller_managed_runtime_window_not_verified" })
+    window_id = $(if ($null -ne $payload) { [string]$payload.window_id } else { $null })
+    expires_at = $(if ($null -ne $payload) { [string]$payload.expires_at } else { $null })
+    checks = $checks
+    read_error = $evidence.read_error
+  }
+}
+
 function Invoke-VerifiedInstanceWatchdog {
   param(
     [Parameter(Mandatory=$true)][string]$WatchdogScriptPath,
