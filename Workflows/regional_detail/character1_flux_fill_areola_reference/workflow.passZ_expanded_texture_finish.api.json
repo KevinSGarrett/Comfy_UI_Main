@@ -1,0 +1,139 @@
+{
+  "3": {
+    "inputs": {
+      "seed": 713430311,
+      "steps": 32,
+      "cfg": 4.6,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "denoise": 0.28,
+      "model": ["23", 0],
+      "positive": ["8", 0],
+      "negative": ["9", 0],
+      "latent_image": ["12", 0]
+    },
+    "class_type": "KSampler",
+    "_meta": {"title": "Pass Z - Expanded geometry biological texture finish"}
+  },
+  "4": {
+    "inputs": {"ckpt_name": "realvisxlV50_v50Bakedvae.safetensors"},
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "5": {
+    "inputs": {"image": "character1_passY_expanded_fill_source.png"},
+    "class_type": "LoadImage"
+  },
+  "6": {
+    "inputs": {
+      "image": "character1_passO_areola_target_mask_v3.png",
+      "channel": "red"
+    },
+    "class_type": "LoadImageMask"
+  },
+  "7": {
+    "inputs": {"pixels": ["5", 0], "vae": ["4", 2]},
+    "class_type": "VAEEncode"
+  },
+  "8": {
+    "inputs": {
+      "text": "texture-only refinement of exactly two enormous saucer-sized areolas on one clearly adult Latina woman in a non-explicit topless fine-art portrait, preserve the exact large pigmentation footprint, diameter, nipple position, breast volume, natural sag, chest attachment, skin tone, adult face, identity, body, wardrobe, pose, lighting, and background, do not shrink or redraw the areola geometry created by the Flux Fill pass, use the supplied adult anatomical reference only for medium-brown mottled biological pigmentation, irregular softly feathered geographic boundary breakup, pores, follicles, fine creases, Montgomery glands, subtle veins, and continuous skin texture across the transition, retain comparatively small centered nipples, natural left-right asymmetry, unretouched high-resolution photography",
+      "clip": ["18", 1]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "9": {
+    "inputs": {
+      "text": "minor, young-looking, identity change, face change, body change outside mask, breast-size change, breast-shape change, breast-position change, shrinking pigmentation, smaller areolas, pale pink areolas, oversized nipples, perfect geometric circles, sharply pasted sticker edges, flat painted color, duplicate nipples, extra nipples, displaced nipples, merged breasts, torso seam, skin-color mismatch, plastic skin, waxy skin, blur, watermark, text",
+      "clip": ["18", 1]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "10": {
+    "inputs": {"samples": ["3", 0], "vae": ["4", 2]},
+    "class_type": "VAEDecode"
+  },
+  "11": {
+    "inputs": {
+      "filename_prefix": "codex_side_flux_fill_calibration/passZ_expanded_reference_texture_finish",
+      "images": ["14", 0]
+    },
+    "class_type": "SaveImage"
+  },
+  "12": {
+    "inputs": {"samples": ["7", 0], "mask": ["13", 0]},
+    "class_type": "SetLatentNoiseMask"
+  },
+  "13": {
+    "inputs": {
+      "mask": ["24", 0],
+      "left": 10,
+      "top": 10,
+      "right": 10,
+      "bottom": 10
+    },
+    "class_type": "FeatherMask"
+  },
+  "14": {
+    "inputs": {
+      "destination": ["5", 0],
+      "source": ["10", 0],
+      "x": 0,
+      "y": 0,
+      "resize_source": false,
+      "mask": ["13", 0]
+    },
+    "class_type": "ImageCompositeMasked"
+  },
+  "17": {
+    "inputs": {
+      "lora_name": "character1_areola_candidates\\Big_areolas-zit-gmr.safetensors",
+      "strength_model": 0.25,
+      "strength_clip": 0.12,
+      "model": ["4", 0],
+      "clip": ["4", 1]
+    },
+    "class_type": "LoraLoader"
+  },
+  "18": {
+    "inputs": {
+      "lora_name": "character1_areola_candidates\\AreolaHelper.safetensors",
+      "strength_model": 0.16,
+      "strength_clip": 0.08,
+      "model": ["17", 0],
+      "clip": ["17", 1]
+    },
+    "class_type": "LoraLoader"
+  },
+  "20": {
+    "inputs": {"ipadapter_file": "ip-adapter-plus_sdxl_vit-h.safetensors"},
+    "class_type": "IPAdapterModelLoader"
+  },
+  "21": {
+    "inputs": {"clip_name": "CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors"},
+    "class_type": "CLIPVisionLoader"
+  },
+  "22": {
+    "inputs": {"image": "character1_areola_reference_primary_medium.jpg"},
+    "class_type": "LoadImage"
+  },
+  "23": {
+    "inputs": {
+      "model": ["18", 0],
+      "ipadapter": ["20", 0],
+      "image": ["22", 0],
+      "weight": 0.84,
+      "weight_type": "style transfer precise",
+      "combine_embeds": "average",
+      "start_at": 0.0,
+      "end_at": 0.72,
+      "embeds_scaling": "K+V w/ C penalty",
+      "attn_mask": ["13", 0],
+      "clip_vision": ["21", 0]
+    },
+    "class_type": "IPAdapterAdvanced"
+  },
+  "24": {
+    "inputs": {"mask": ["6", 0], "expand": 18, "tapered_corners": true},
+    "class_type": "GrowMask"
+  }
+}

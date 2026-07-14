@@ -1,0 +1,102 @@
+{
+  "4": {
+    "inputs": {"ckpt_name": "flux1-dev-fp8.safetensors"},
+    "class_type": "CheckpointLoaderSimple",
+    "_meta": {"title": "Reuse installed Flux CLIP and VAE"}
+  },
+  "5": {
+    "inputs": {"image": "character1_passQ_ipadapter_areola_source.png"},
+    "class_type": "LoadImage"
+  },
+  "6": {
+    "inputs": {"image": "character1_passO_areola_target_mask_v3.png", "channel": "red"},
+    "class_type": "LoadImageMask"
+  },
+  "7": {
+    "inputs": {"text": "", "clip": ["4", 1]},
+    "class_type": "CLIPTextEncode"
+  },
+  "13": {
+    "inputs": {"mask": ["57", 0], "left": 12, "top": 12, "right": 12, "bottom": 12},
+    "class_type": "FeatherMask"
+  },
+  "46": {
+    "inputs": {
+      "text": "Non-explicit fine-art anatomical refinement of exactly two breasts on one clearly adult Latina woman. Preserve the exact adult identity, breast volume, natural low-set sag, chest attachment, body, pose, skin tone, lighting, and background. Within each supplied expanded circular mask create one enormous saucer-sized medium-brown areola that fills nearly the complete masked footprint and visibly covers at least two fifths of the breast surface. Big areolas, big areolas. Keep comparatively small centered nipples. Natural irregular softly feathered geographic pigmentation edges, mottled biological color variation, pores, follicles, fine creases, Montgomery glands, subtle veins, natural asymmetry, continuous hyperreal skin texture, unretouched high-resolution photography. Do not contract the pigmentation field toward an ordinary size.",
+      "clip": ["4", 1]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "48": {
+    "inputs": {"guidance": 30.0, "conditioning": ["46", 0]},
+    "class_type": "FluxGuidance"
+  },
+  "49": {
+    "inputs": {"unet_name": "flux1-fill-dev-fp8.safetensors", "weight_dtype": "fp8_e4m3fn"},
+    "class_type": "UNETLoader"
+  },
+  "50": {
+    "inputs": {"model": ["55", 0]},
+    "class_type": "DifferentialDiffusion"
+  },
+  "51": {
+    "inputs": {
+      "noise_mask": false,
+      "positive": ["48", 0],
+      "negative": ["7", 0],
+      "vae": ["4", 2],
+      "pixels": ["5", 0],
+      "mask": ["13", 0]
+    },
+    "class_type": "InpaintModelConditioning"
+  },
+  "52": {
+    "inputs": {
+      "seed": 713430310,
+      "steps": 25,
+      "cfg": 1.0,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 1.0,
+      "model": ["50", 0],
+      "positive": ["51", 0],
+      "negative": ["51", 1],
+      "latent_image": ["51", 2]
+    },
+    "class_type": "KSampler"
+  },
+  "53": {
+    "inputs": {"samples": ["52", 0], "vae": ["4", 2]},
+    "class_type": "VAEDecode"
+  },
+  "54": {
+    "inputs": {
+      "destination": ["5", 0],
+      "source": ["53", 0],
+      "x": 0,
+      "y": 0,
+      "resize_source": false,
+      "mask": ["13", 0]
+    },
+    "class_type": "ImageCompositeMasked"
+  },
+  "55": {
+    "inputs": {
+      "model": ["49", 0],
+      "lora_name": "character1_flux_calibration\\All_in_one_nipples.safetensors",
+      "strength_model": 0.78
+    },
+    "class_type": "LoraLoaderModelOnly"
+  },
+  "56": {
+    "inputs": {
+      "filename_prefix": "codex_side_flux_fill_calibration/passY_expanded_flux_fill_areola",
+      "images": ["54", 0]
+    },
+    "class_type": "SaveImage"
+  },
+  "57": {
+    "inputs": {"mask": ["6", 0], "expand": 18, "tapered_corners": true},
+    "class_type": "GrowMask"
+  }
+}
