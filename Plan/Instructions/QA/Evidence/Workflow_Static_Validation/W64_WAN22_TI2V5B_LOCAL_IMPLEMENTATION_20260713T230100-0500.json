@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-WAN22-TI2V5B-LOCAL-IMPLEMENTATION-20260713T230100-0500",
+  "timestamp": "2026-07-13T23:01:00-05:00",
+  "lane_id": "wan_2_2_ti2v_5b_primary_lane",
+  "result": "pass_local_workflow_implemented_assets_pending",
+  "classification": "WAN22_PRIMARY_GRAPH_READY_RUNTIME_PROOF_PENDING",
+  "workflow": "Plan/07_IMPLEMENTATION/workflow_templates/video_generation/wan_2_2_ti2v_5b_primary_lane/workflow.api.json",
+  "runtime_requirements": "Plan/07_IMPLEMENTATION/workflow_templates/video_generation/wan_2_2_ti2v_5b_primary_lane/runtime_requirements.json",
+  "prompt_profile": "PromptProfiles/video_generation/wan_2_2_ti2v_5b_primary_lane/fullbody_subtle_motion_seed2271301.json",
+  "run_package": "runtime_artifacts/run_packages/wan22_ti2v5b_fullbody_2271301_20260713/RUN_PACKAGE_MANIFEST.json",
+  "official_authority": {
+    "documentation": "https://docs.comfy.org/tutorials/video/wan/wan2_2",
+    "workflow_repository": "Comfy-Org/workflow_templates",
+    "workflow_path": "templates/video_wan2_2_5B_ti2v.json",
+    "model_repository": "Comfy-Org/Wan_2.2_ComfyUI_Repackaged",
+    "model_revision": "fb1388adc906ab39ffc26ee40e96b22886b56bc4",
+    "model_license": "Apache-2.0"
+  },
+  "bounded_configuration": {
+    "source_image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v4_full_body_standing_seed711670301_20260711T035900-0500/images/normal_v4_fullbody_standing_711670301_00001_.png",
+    "source_image_sha256": "b01b694125e08027195baf3c5a4eeac472eba242bfb4bbe69473625844134fc1",
+    "width": 480,
+    "height": 640,
+    "frame_count": 49,
+    "fps": 24,
+    "duration_seconds": 2.041667,
+    "seed": 2271301,
+    "steps": 20,
+    "sampler": "uni_pc",
+    "scheduler": "simple",
+    "cfg": 5.0
+  },
+  "validation": {
+    "powershell_parse_error_count": 0,
+    "workflow_static_result": "pass",
+    "workflow_node_count": 12,
+    "workflow_link_count": 13,
+    "workflow_static_defect_count": 0,
+    "run_package_result": "pass_local_only",
+    "patched_input_count": 19,
+    "prompt_request_node_count": 12,
+    "local_comfyui_version": "0.27.0",
+    "local_object_info_visible_node_type_count": 790,
+    "workflow_distinct_node_type_count": 11,
+    "missing_live_node_type_count": 0,
+    "object_info_validation_result": "PASS",
+    "validator_regression_test_count": 4,
+    "validator_regression_failures": 0,
+    "local_comfyui_port_closed_after_validation": true
+  },
+  "required_models": [
+    {"filename": "wan2.2_ti2v_5B_fp16.safetensors", "bytes": 9999658848, "sha256": "456f901338bd9eadbded3828b819109a9b68e8a525ca5cf8d0049a69fcfeca1e", "local_present": false},
+    {"filename": "umt5_xxl_fp8_e4m3fn_scaled.safetensors", "bytes": 6735906897, "sha256": "c3355d30191f1f066b26d93fba017ae9809dce6c627dda5f6a66eaa651204f68", "local_present": false},
+    {"filename": "wan2.2_vae.safetensors", "bytes": 1409400960, "sha256": "e40321bd36b9709991dae2530eb4ac303dd168276980d3e9bc4b6e2b75fed156", "local_present": false}
+  ],
+  "duplicate_work_guard": {
+    "project_model_roots_checked": ["C:/Comfy_UI_Main/models", "C:/Comfy_UI_Main/ComfyUI/models"],
+    "legacy_model_root_checked": "C:/Comfy_UI/models",
+    "matching_local_assets_found": 0,
+    "local_evidence_exact_filename_mentions_found_only_in_old_planning_rows": true,
+    "least_privilege_s3_list_result": "AccessDenied_by_design",
+    "root_breakglass_list_result": "session_expired_reauthentication_required",
+    "s3_absence_claimed": false,
+    "ec2_model_absence_claimed": false,
+    "required_pre_download_action": "Start the approved instance only inside the guarded runtime window, hash-inspect all three exact destination paths, and download only missing or mismatched files."
+  },
+  "aws": {
+    "account": "029530099913",
+    "active_role": "arn:aws:sts::029530099913:assumed-role/ComfyUIMainSessionRole/comfy-ui-main-session",
+    "approved_instance_id": "i-0560bf8d143f93bb1",
+    "instance_type": "g5.xlarge",
+    "instance_state_after_local_work": "stopped",
+    "ec2_started": false,
+    "generation_executed": false
+  },
+  "boundaries": {
+    "local_runtime_proven": false,
+    "ec2_runtime_proven": false,
+    "genuine_video_artifact_present": false,
+    "technical_temporal_qa_passed": false,
+    "direct_visual_review_passed": false,
+    "production_video_lane_certified": false,
+    "gold_masks_consumed": false,
+    "mask_or_geometry_authority_claimed": false,
+    "wave71_plus_activated": false,
+    "jira_mutated": false
+  },
+  "next_action": "Checkpoint this validated implementation through a protected codex/* PR, rebuild and publish its deploy bundle from the clean merge head, inspect EC2 model hashes before download, provision only missing assets, then generate one genuine short clip and perform temporal QA."
+}

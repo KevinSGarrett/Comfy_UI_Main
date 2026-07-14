@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "wan22_ti2v5b_fullbody_subtle_motion_seed2271301",
+  "target_lane_id": "wan_2_2_ti2v_5b_primary_lane",
+  "purpose": "One bounded native Wan 2.2 TI2V 5B image-to-video proof using an already reviewed full-body source and restrained motion designed for identity and temporal stability review.",
+  "request_patch_values": {
+    "positive_prompt": "cinematic realistic full-body studio video of one fully clothed adult woman, preserve the exact face identity hairstyle clothing proportions and neutral gray studio, subtle natural breathing, one gentle blink, tiny ponytail and fabric movement, relaxed weight shift, locked camera, stable framing, realistic skin texture, physically coherent motion",
+    "negative_prompt": "camera movement, zoom, pan, cut, scene change, identity drift, face morphing, age change, hairstyle change, clothing change, background change, body warping, limb deformation, extra limbs, fused fingers, foot sliding, jitter, flicker, temporal inconsistency, oversmoothed skin, plastic skin, blur, low quality, watermark, text",
+    "seed": 2271301,
+    "sampler_settings": {"steps": 20, "cfg": 5, "sampler_name": "uni_pc", "scheduler": "simple", "denoise": 1},
+    "video_latent": {"width": 480, "height": 640, "length": 49, "batch_size": 1},
+    "source_image": "wan22_ti2v_fullbody_seed711670301.png",
+    "output_video": {"filename_prefix": "video/wan22_ti2v5b_fullbody_seed2271301", "format": "mp4", "codec": "h264"}
+  },
+  "expected_outputs": {
+    "artifact_type": "video",
+    "minimum_output_count": 1,
+    "output_prefix": "wan22_ti2v5b_fullbody_seed2271301",
+    "frame_count": 49,
+    "fps": 24
+  },
+  "qa_focus": [
+    "source identity and wardrobe retention",
+    "face and hand temporal stability",
+    "limb continuity and foot sliding",
+    "frame-to-frame flicker and exposure pumping",
+    "motion plausibility without camera drift",
+    "first and last frame composition consistency"
+  ],
+  "runtime_boundaries": {
+    "one_sample_only": true,
+    "gold_masks_consumed": false,
+    "body_mask_or_geometry_authority_claimed": false,
+    "requires_direct_temporal_review": true,
+    "production_video_lane_certification_claimed": false
+  }
+}

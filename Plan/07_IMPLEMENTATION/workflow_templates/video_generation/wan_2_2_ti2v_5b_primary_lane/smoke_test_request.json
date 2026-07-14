@@ -1,0 +1,41 @@
+{
+  "lane_id": "wan_2_2_ti2v_5b_primary_lane",
+  "module_id": "MOD-VIDEO-WAN22-TI2V-5B-PRIMARY",
+  "workflow_path": "Plan/07_IMPLEMENTATION/workflow_templates/video_generation/wan_2_2_ti2v_5b_primary_lane/workflow.api.json",
+  "execution_target": "approved EC2 g5.xlarge ComfyUI API after exact model and input provisioning",
+  "api_endpoint": "/prompt",
+  "execution_allowed": false,
+  "execution_allowed_after": [
+    "all three required model files exist on EC2 with exact SHA-256 matches",
+    "the source image is staged from the hash-bound deploy bundle",
+    "object_info confirms all required native ComfyUI nodes",
+    "the protected-branch checkpoint and exact deploy-bundle hash gates pass",
+    "the EC2 runtime marker, emergency stop, and watchdog gates pass"
+  ],
+  "request_patch_values": {
+    "positive_prompt": "cinematic realistic full-body studio video of one fully clothed adult woman, preserve the exact face identity hairstyle clothing proportions and neutral gray studio, subtle natural breathing, one gentle blink, tiny ponytail and fabric movement, relaxed weight shift, locked camera, stable framing, realistic skin texture, physically coherent motion",
+    "negative_prompt": "camera movement, zoom, pan, cut, scene change, identity drift, face morphing, age change, hairstyle change, clothing change, background change, body warping, limb deformation, extra limbs, fused fingers, foot sliding, jitter, flicker, temporal inconsistency, oversmoothed skin, plastic skin, blur, low quality, watermark, text",
+    "seed": 2271301,
+    "sampler_settings": {"steps": 20, "cfg": 5, "sampler_name": "uni_pc", "scheduler": "simple", "denoise": 1},
+    "video_latent": {"width": 480, "height": 640, "length": 49, "batch_size": 1},
+    "source_image": "wan22_ti2v_fullbody_seed711670301.png",
+    "diffusion_model": "wan2.2_ti2v_5B_fp16.safetensors",
+    "text_encoder": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+    "vae_model": "wan2.2_vae.safetensors",
+    "output_video": {"filename_prefix": "video/wan22_ti2v5b_fullbody_seed2271301", "format": "mp4", "codec": "h264"}
+  },
+  "expected_outputs": {
+    "artifact_type": "video",
+    "minimum_output_count": 1,
+    "output_prefix": "wan22_ti2v5b_fullbody_seed2271301",
+    "container": "mp4",
+    "frame_count": 49,
+    "fps": 24,
+    "duration_seconds": 2.041667
+  },
+  "qa_protocols": [
+    "Plan/Instructions/QA/COMFYUI_WORKFLOW_TESTING_PROTOCOL.md",
+    "Plan/Instructions/QA/MODEL_LORA_CHECKPOINT_VALIDATION_PROTOCOL.md",
+    "Plan/10_REGISTRIES/wave27_video_route_selection_rules.json"
+  ]
+}

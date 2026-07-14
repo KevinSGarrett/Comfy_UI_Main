@@ -537,6 +537,8 @@ try:
     runtime_candidates = [
         os.path.join(PROJECT, "Plan", "07_IMPLEMENTATION", "workflow_templates", "base_generation", LANE_ID, "runtime_requirements.json"),
         os.path.join(PROJECT, "Workflows", "base_generation", LANE_ID, "runtime_requirements.json"),
+        os.path.join(PROJECT, "Plan", "07_IMPLEMENTATION", "workflow_templates", "video_generation", LANE_ID, "runtime_requirements.json"),
+        os.path.join(PROJECT, "Workflows", "video_generation", LANE_ID, "runtime_requirements.json"),
         os.path.join(PROJECT, "runtime_artifacts", "run_packages", LANE_ID + "_static_package_v1", "lane_files", "runtime_requirements.json"),
     ]
     runtime_path = next((candidate for candidate in runtime_candidates if os.path.exists(candidate)), None)
