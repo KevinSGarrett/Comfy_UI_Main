@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "created_iso": "2026-07-14T12:45:03-05:00",
+  "created_iso": "2026-07-14T14:45:00-05:00",
   "tracker_id": "TRK-W64-064",
   "item_id": "ITEM-W64-064",
   "status": "Blocked_Profile_Runtime_QA_And_Catalog_Intake_Pending",
@@ -22,16 +22,18 @@
     "lane_authority_present": 109,
     "lane_authority_missing": 0,
     "wave71_plus_named_deferred": 14,
-    "direct_runtime_evidence_links": 4,
+    "direct_runtime_evidence_links": 50,
     "approved_profiles": 0,
     "indexed_json_files": 112,
-    "additive_json_files_not_consumed": 26
+    "additive_json_files_not_consumed": 26,
+    "new_exact_runtime_evidence_links": 46,
+    "runtime_evidence_links_pending": 59
   },
   "normalized_blockers": [
     {
       "blocker_id": "REPRESENTATIVE_RUNTIME_OUTPUT_LINK_MISSING",
-      "count": 105,
-      "resolution": "Link per-profile representative output and visual QA evidence, or explicitly record pending runtime; do not approve from static text."
+      "count": 59,
+      "resolution": "Link remaining profiles to exact structured runtime and visual-QA pairs, or explicitly retain pending runtime; do not infer profile approval or lane-wide proof."
     },
     {
       "blocker_id": "WAVE71_PLUS_PROFILE_ACTIVATION_DEFERRED",
@@ -90,11 +92,11 @@
   ],
   "evidence": [
     "Plan/Instructions/QA/Evidence/Wave64/prompt_negative_prompt_qa.json",
-    "Plan/Instructions/QA/Evidence/Wave64/PROMPT_NEGATIVE_PROMPT_QA_20260714T124503-0500.json",
-    "Plan/Tracker/Evidence/PROMPT_NEGATIVE_PROMPT_QA_20260714T124503-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/PROMPT_NEGATIVE_PROMPT_QA_20260714T144500-0500.json",
+    "Plan/Tracker/Evidence/PROMPT_NEGATIVE_PROMPT_QA_20260714T144500-0500.json",
     "Plan/Instructions/QA/Evidence/Wave64/prompt_negative_prompt_qa_test_log.json",
     "Plan/Items/Reports/ITEM-W64-064_prompt_negative_prompt_qa.json",
     "Plan/10_REGISTRIES/prompt_profile_lane_authority_registry.json"
   ],
-  "next_action": "Keep profile approval fail-closed; intentionally intake additive prompt files only after that user-owned set is stable, and bind representative runtime plus visual QA per profile without duplicate generation."
+  "next_action": "Keep profile approval fail-closed; preserve the additive user-owned set without intake, and link only the remaining exact profile/runtime/visual-QA pairs without duplicate generation or lane-wide inference."
 }

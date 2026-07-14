@@ -70,6 +70,13 @@ class Row064LaneAuthorityTests(unittest.TestCase):
         callback(value)
         write(path, value)
 
+    def add_exact_runtime_pair(self, root: Path, profile: str, *, runtime_result: str = "pass_local_run_package_generation_smoke") -> tuple[Path, Path]:
+        runtime = root / "Plan/Instructions/QA/Evidence/Workflow_Runtime/exact_runtime.json"
+        visual = root / "Plan/Instructions/QA/Evidence/Image_Artifact_QA/EXACT_PROFILE_VISUAL_QA.json"
+        write(runtime, {"result": runtime_result})
+        write(visual, {"result": "pass_with_notes_strict_visual_qa", "samples": [{"profile": profile, "runtime_evidence": runtime.relative_to(root).as_posix()}]})
+        return runtime, visual
+
     def test_happy_path_maps_all_indexed_profiles_without_approval(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
@@ -138,6 +145,107 @@ class Row064LaneAuthorityTests(unittest.TestCase):
             blockers = MODULE.blocker_map(evidence)
             self.assertEqual(blockers["REPRESENTATIVE_RUNTIME_OUTPUT_LINK_MISSING"]["count"], 105)
             self.assertEqual(blockers["WAVE71_PLUS_PROFILE_ACTIVATION_DEFERRED"]["count"], 14)
+
+    def test_adds_only_exact_hash_bound_runtime_visual_pair_without_approval(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary); sources = self.fixture(root)
+            profile = "PromptProfiles/profile_004.json"
+            runtime, visual = self.add_exact_runtime_pair(root, profile)
+            registry, evidence = self.evaluate(root, sources)
+            record = next(item for item in evidence["profile_index"] if item.get("path") == profile)
+            self.assertEqual(registry["summary"]["exact_profile_runtime_bindings"], 5)
+            self.assertEqual(registry["summary"]["profile_runtime_bindings_pending"], 104)
+            self.assertEqual(record["runtime_evidence_paths"], sorted([runtime.relative_to(root).as_posix(), visual.relative_to(root).as_posix()]))
+            self.assertEqual(record["runtime_evidence_binding_basis"], "exact_profile_runtime_pair_in_structured_visual_qa")
+            self.assertEqual(record["approval_state"], "blocked_pending_representative_runtime_output")
+            self.assertFalse(record["runtime_evidence_bindings"][0]["profile_approval_inferred"])
+            self.assertEqual(MODULE.blocker_map(evidence)["REPRESENTATIVE_RUNTIME_OUTPUT_LINK_MISSING"]["count"], 104)
+
+    def test_does_not_link_missing_or_nonpassing_runtime(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary); sources = self.fixture(root)
+            self.add_exact_runtime_pair(root, "PromptProfiles/profile_004.json", runtime_result="blocked_missing_runtime")
+            registry, _ = self.evaluate(root, sources)
+            self.assertEqual(registry["summary"]["exact_profile_runtime_bindings"], 4)
+
+    def test_does_not_link_wave71_deferred_profile(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary); sources = self.fixture(root)
+            self.mutate(
+                sources["prior"],
+                lambda value: value["profile_index"][4].update({"wave71_plus_named": True}),
+            )
+            self.add_exact_runtime_pair(root, "PromptProfiles/profile_004.json")
+            registry, _ = self.evaluate(root, sources)
+            self.assertEqual(registry["summary"]["exact_profile_runtime_bindings"], 4)
+
+    def test_links_object_shaped_paths_with_structured_visual_checks(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary); sources = self.fixture(root)
+            profile = "PromptProfiles/profile_004.json"
+            runtime = root / "Plan/Instructions/QA/Evidence/Workflow_Runtime/object_runtime.json"
+            visual = root / "Plan/Instructions/QA/Evidence/Image_Artifact_QA/OBJECT_SHAPED_QA.json"
+            write(runtime, {"result": "pass_local_run_package_generation_smoke"})
+            write(
+                visual,
+                {
+                    "result": "pass_with_notes",
+                    "inputs": {
+                        "profile": {"path": profile, "sha256": "profile-hash"},
+                        "runtime_evidence": {
+                            "path": runtime.relative_to(root).as_posix(),
+                            "sha256": "runtime-hash",
+                        },
+                    },
+                    "checks": {"visual_subject_readable": True},
+                },
+            )
+            registry, evidence = self.evaluate(root, sources)
+            record = next(item for item in evidence["profile_index"] if item.get("path") == profile)
+            self.assertEqual(registry["summary"]["exact_profile_runtime_bindings"], 5)
+            self.assertIn(visual.relative_to(root).as_posix(), record["runtime_evidence_paths"])
+
+    def test_links_nested_sample_with_visual_result_without_visual_filename(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary); sources = self.fixture(root)
+            profile = "PromptProfiles/profile_004.json"
+            runtime = root / "Plan/Instructions/QA/Evidence/Workflow_Runtime/nested_runtime.json"
+            visual = root / "Plan/Instructions/QA/Evidence/Image_Artifact_QA/MULTISEED_ROBUSTNESS_QA.json"
+            write(runtime, {"result": "complete_runtime_execution"})
+            write(
+                visual,
+                {
+                    "result": "pass_with_notes",
+                    "samples": [
+                        {
+                            "profile": profile,
+                            "runtime_evidence": runtime.relative_to(root).as_posix(),
+                            "visual_result": "pass_with_notes_fullbody_scope",
+                        }
+                    ],
+                },
+            )
+            registry, _ = self.evaluate(root, sources)
+            self.assertEqual(registry["summary"]["exact_profile_runtime_bindings"], 5)
+
+    def test_does_not_zip_ambiguous_parallel_profile_runtime_lists(self) -> None:
+        payload = {
+            "profiles": ["PromptProfiles/a.json", "PromptProfiles/b.json"],
+            "runtime_evidence_paths": ["runtime-a.json", "runtime-b.json"],
+            "visual_review": {},
+        }
+        self.assertEqual(MODULE.profile_runtime_pairs(payload), set())
+
+    def test_does_not_zip_profiles_to_separate_technical_evidence(self) -> None:
+        payload = {
+            "prompt_profiles": ["PromptProfiles/a.json", "PromptProfiles/b.json"],
+            "technical_evidence": [
+                {"runtime_evidence": "runtime-a.json"},
+                {"runtime_evidence": "runtime-b.json"},
+            ],
+            "visual_review": {},
+        }
+        self.assertEqual(MODULE.profile_runtime_pairs(payload), set())
 
     def test_coverage_replacement_removes_stale_gap_tag(self) -> None:
         value = MODULE.replace_coverage("covered; ninety_three_lane_authority_gaps", ["all_109_indexed_prompt_lanes_authoritative"])
