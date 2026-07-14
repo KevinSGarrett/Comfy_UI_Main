@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-REALESRGAN-NORMAL-FULLBODY-TARGET-RUNTIME-VISUAL-QA-CBD75EF8-20260713T211500-0500",
+  "timestamp": "2026-07-13T21:15:00-05:00",
+  "lane_id": "sdxl_realesrgan_upscale_polish_lane",
+  "result": "pass_with_notes_target_runtime_conditional_resolution_export_retain_source_master",
+  "pass": true,
+  "source_image": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v4_full_body_standing_seed711670301_20260711T035900-0500/images/normal_v4_fullbody_standing_711670301_00001_.png",
+    "sha256": "b01b694125e08027195baf3c5a4eeac472eba242bfb4bbe69473625844134fc1",
+    "width": 768,
+    "height": 1024
+  },
+  "generated_image": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260713T210035-0500/images/4_realesrgan_normal_fullbody_w70_v1_00001_.png",
+    "sha256": "82380c991c35764a8c50c1740a52b9b835f59cbde94fa17aef0d56ee345b8bc3",
+    "width": 3072,
+    "height": 4096,
+    "bytes": 10546455
+  },
+  "metrics": {
+    "downsample_ssim": 0.9816441287966292,
+    "downsample_psnr_db": 41.02168329744667,
+    "downsample_mae": 1.208293080329895,
+    "mean_color_shift": 0.2156117707490921
+  },
+  "checks": {
+    "exact_4x_dimensions": true,
+    "downsample_ssim_gte_0_95": true,
+    "downsample_psnr_gte_29db": true,
+    "downsample_mae_lte_5": true,
+    "mean_color_shift_lte_3": true,
+    "composition_preserved": true,
+    "identity_preserved": true,
+    "body_hands_feet_and_clothing_broadly_preserved": true,
+    "no_blocking_visual_regression": true
+  },
+  "visual_review": {
+    "reviewer": "Codex Desktop autonomous release manager",
+    "disposition": "conditional_resolution_export",
+    "preferred_over_source": null,
+    "blocking_regressions": [],
+    "findings": [
+      "Full-body composition, pose, identity, hands, feet, and clothing remain broadly coherent at target runtime.",
+      "The upscale amplifies already smooth skin and clothing surfaces rather than reconstructing true missing detail.",
+      "The output is suitable only when higher pixel dimensions are required and the source master remains authoritative."
+    ],
+    "advisories": [
+      "smooth_skin_and_clothing_surfaces_are_amplified",
+      "upscale_is_not_true_detail_reconstruction",
+      "source_master_must_be_retained"
+    ]
+  },
+  "boundaries": {
+    "target_runtime_sample_reviewed": true,
+    "conditional_resolution_export_allowed": true,
+    "preferred_hyperrealism_export_claimed": false,
+    "body_anatomy_certification_claimed": false,
+    "mask_or_geometry_certification_claimed": false
+  }
+}

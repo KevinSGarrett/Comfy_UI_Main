@@ -82,6 +82,40 @@ def visual_evidence_is_bound(candidate: dict[str, Any], evidence: dict[str, Any]
     return False
 
 
+def target_runtime_checks(candidate: dict[str, Any], runtime: dict[str, Any], policy: dict[str, Any]) -> dict[str, bool]:
+    binding = candidate.get("runtime_evidence_binding", {})
+    units = runtime.get("units", [])
+    if not isinstance(binding, dict):
+        binding = {}
+    if not isinstance(units, list):
+        units = []
+
+    expected_run_id = str(binding.get("unit_run_id", ""))
+    expected_prompt_hash = str(binding.get("prompt_sha256", ""))
+    matching_units = [
+        unit
+        for unit in units
+        if isinstance(unit, dict) and unit.get("run_id") == expected_run_id
+    ]
+    matching_unit = matching_units[0] if len(matching_units) == 1 else {}
+    errors = runtime.get("errors")
+    return {
+        "runtime_result_accepted": runtime.get("result") in policy["accepted_target_runtime_results"],
+        "generation_executed": runtime.get("generation_executed") is True,
+        "request_hash_matched": bool(expected_prompt_hash) and matching_unit.get("prompt_sha256") == expected_prompt_hash,
+        "server_stopped_and_port_closed": (
+            runtime.get("final_state") == "stopped"
+            and runtime.get("marker_completion", {}).get("active_marker_removed") is True
+        ),
+        "target_runtime_binding_schema": binding.get("schema") == "batched_target_runtime",
+        "target_work_order_id_matched": bool(binding.get("work_order_id")) and runtime.get("work_order_id") == binding.get("work_order_id"),
+        "target_lane_id_matched": bool(binding.get("lane_id")) and runtime.get("lane_id") == binding.get("lane_id") == candidate.get("lane_id", policy.get("lane_id")),
+        "target_source_git_head_matched": bool(binding.get("source_git_head")) and runtime.get("source_git_head") == binding.get("source_git_head"),
+        "target_unit_unique_and_passed": len(matching_units) == 1 and matching_unit.get("result") == "pass",
+        "target_errors_empty": isinstance(errors, list) and not errors,
+    }
+
+
 def calculate_metrics(source_path: Path, output_path: Path) -> tuple[dict[str, Any], tuple[int, int], tuple[int, int]]:
     with Image.open(source_path) as loaded:
         source = loaded.convert("RGB")
@@ -236,14 +270,29 @@ def evaluate_candidate(candidate: dict[str, Any], policy: dict[str, Any]) -> dic
         except Exception as exc:
             errors.append(f"visual_evidence_error:{type(exc).__name__}:{exc}")
 
-    checks["runtime_result_accepted"] = runtime.get("result") in policy["accepted_runtime_results"]
-    checks["generation_executed"] = runtime.get("generation_executed") is True
-    checks["request_hash_matched"] = runtime.get("run_package", {}).get("prompt_request", {}).get("hash_match") is True
-    checks["server_stopped_and_port_closed"] = runtime.get("local_comfy", {}).get("stopped_by_helper") is True and runtime.get("local_comfy", {}).get("port_closed_after_stop") is True
+    runtime_scope = str(candidate["runtime_scope"])
+    checks["runtime_scope_registered"] = runtime_scope in {"local", "target"}
+    target_integrity_keys: list[str] = []
+    if runtime_scope == "target":
+        checks.update(target_runtime_checks(candidate, runtime, policy))
+        target_integrity_keys = [
+            "target_runtime_binding_schema",
+            "target_work_order_id_matched",
+            "target_lane_id_matched",
+            "target_source_git_head_matched",
+            "target_unit_unique_and_passed",
+            "target_errors_empty",
+        ]
+    else:
+        checks["runtime_result_accepted"] = runtime.get("result") in policy["accepted_runtime_results"]
+        checks["generation_executed"] = runtime.get("generation_executed") is True
+        checks["request_hash_matched"] = runtime.get("run_package", {}).get("prompt_request", {}).get("hash_match") is True
+        checks["server_stopped_and_port_closed"] = runtime.get("local_comfy", {}).get("stopped_by_helper") is True and runtime.get("local_comfy", {}).get("port_closed_after_stop") is True
     checks["visual_evidence_bound_to_source_and_output"] = visual_evidence_is_bound(candidate, visual)
 
     evidence_integrity_keys = [
         "source_class_registered",
+        "runtime_scope_registered",
         "source_exists",
         "output_exists",
         "runtime_evidence_exists",
@@ -254,7 +303,7 @@ def evaluate_candidate(candidate: dict[str, Any], policy: dict[str, Any]) -> dic
         "generation_executed",
         "request_hash_matched",
         "server_stopped_and_port_closed",
-    ]
+    ] + target_integrity_keys
     evidence_valid = (
         all(checks.get(key) is True for key in evidence_integrity_keys)
         and checks["visual_evidence_bound_to_source_and_output"]
@@ -273,10 +322,11 @@ def evaluate_candidate(candidate: dict[str, Any], policy: dict[str, Any]) -> dic
     return {
         "candidate_id": str(candidate["candidate_id"]),
         "source_class": source_class,
-        "runtime_scope": str(candidate["runtime_scope"]),
+        "runtime_scope": runtime_scope,
         "source": {"path": rel(source_path), "sha256": str(candidate["source"].get("sha256", "")), "width": source_size[0] if source_size else None, "height": source_size[1] if source_size else None},
         "output": {"path": rel(output_path), "sha256": str(candidate["output"].get("sha256", "")), "width": output_size[0] if output_size else None, "height": output_size[1] if output_size else None},
         "runtime_evidence": rel(runtime_path),
+        "runtime_evidence_binding": candidate.get("runtime_evidence_binding"),
         "visual_evidence": rel(visual_path),
         "technical_pass": technical_pass,
         "failed_technical_checks": failed_technical_checks,
@@ -383,15 +433,68 @@ def run_binding_fixture_tests() -> list[dict[str, Any]]:
     return results
 
 
+def run_target_runtime_fixture_tests(policy: dict[str, Any]) -> list[dict[str, Any]]:
+    binding = {
+        "schema": "batched_target_runtime",
+        "work_order_id": "fixture-work-order",
+        "unit_run_id": "fixture-run",
+        "prompt_sha256": "a" * 64,
+        "source_git_head": "b" * 40,
+        "lane_id": policy["lane_id"],
+    }
+    candidate = {
+        "lane_id": policy["lane_id"],
+        "runtime_evidence_binding": binding,
+    }
+    runtime = {
+        "result": policy["accepted_target_runtime_results"][0],
+        "work_order_id": "fixture-work-order",
+        "lane_id": policy["lane_id"],
+        "source_git_head": "b" * 40,
+        "generation_executed": True,
+        "final_state": "stopped",
+        "marker_completion": {"active_marker_removed": True},
+        "units": [{"run_id": "fixture-run", "prompt_sha256": "a" * 64, "result": "pass"}],
+        "errors": [],
+    }
+    fixtures = [
+        ("valid_target_binding", candidate, runtime, True),
+        ("unaccepted_runtime_result", candidate, {**runtime, "result": "unexpected"}, False),
+        ("generation_not_executed", candidate, {**runtime, "generation_executed": False}, False),
+        ("wrong_work_order", candidate, {**runtime, "work_order_id": "other"}, False),
+        ("wrong_lane_id", candidate, {**runtime, "lane_id": "other_lane"}, False),
+        ("wrong_source_git_head", candidate, {**runtime, "source_git_head": "c" * 40}, False),
+        ("wrong_binding_schema", {**candidate, "runtime_evidence_binding": {**binding, "schema": "unknown"}}, runtime, False),
+        ("wrong_prompt_hash", candidate, {**runtime, "units": [{**runtime["units"][0], "prompt_sha256": "c" * 64}]}, False),
+        ("final_state_not_stopped", candidate, {**runtime, "final_state": "running"}, False),
+        ("active_marker_not_removed", candidate, {**runtime, "marker_completion": {"active_marker_removed": False}}, False),
+        ("duplicate_matching_unit", candidate, {**runtime, "units": runtime["units"] * 2}, False),
+        ("runtime_error_present", candidate, {**runtime, "errors": ["fixture_error"]}, False),
+    ]
+    results = []
+    for fixture_id, fixture_candidate, fixture_runtime, expected in fixtures:
+        checks = target_runtime_checks(fixture_candidate, fixture_runtime, policy)
+        actual = all(checks.values())
+        results.append({"fixture_id": fixture_id, "expected": expected, "actual": actual, "pass": actual is expected})
+    return results
+
+
 def validate_policy(policy: dict[str, Any], registry: dict[str, Any]) -> list[str]:
     errors = []
-    for key in ("technical_thresholds", "accepted_runtime_results", "visual_review", "decision_contract", "source_classes", "boundaries"):
+    for key in ("technical_thresholds", "accepted_runtime_results", "accepted_target_runtime_results", "expected_candidate_ids", "visual_review", "decision_contract", "source_classes", "boundaries"):
         if key not in policy:
             errors.append(f"policy_missing:{key}")
     if registry.get("lane_id") != policy.get("lane_id"):
         errors.append("registry_policy_lane_mismatch")
     if not isinstance(registry.get("candidates"), list) or not registry["candidates"]:
         errors.append("registry_candidates_missing")
+    else:
+        candidate_ids = [candidate.get("candidate_id") for candidate in registry["candidates"] if isinstance(candidate, dict)]
+        expected_ids = policy.get("expected_candidate_ids", [])
+        if len(candidate_ids) != len(set(candidate_ids)):
+            errors.append("registry_candidate_ids_not_unique")
+        if set(candidate_ids) != set(expected_ids):
+            errors.append("registry_candidate_ids_do_not_match_policy")
     return errors
 
 
@@ -411,19 +514,23 @@ def main() -> int:
     policy_errors = validate_policy(policy, registry)
     fixture_tests = run_decision_fixture_tests(policy) if not policy_errors else []
     binding_fixture_tests = run_binding_fixture_tests() if not policy_errors else []
+    target_runtime_fixture_tests = run_target_runtime_fixture_tests(policy) if not policy_errors else []
     fixtures_pass = (
         bool(fixture_tests)
         and all(test["pass"] for test in fixture_tests)
         and bool(binding_fixture_tests)
         and all(test["pass"] for test in binding_fixture_tests)
+        and bool(target_runtime_fixture_tests)
+        and all(test["pass"] for test in target_runtime_fixture_tests)
     )
     if args.self_test_only:
-        print(json.dumps({"policy_errors": policy_errors, "decision_fixture_tests": fixture_tests, "binding_fixture_tests": binding_fixture_tests, "pass": not policy_errors and fixtures_pass}, indent=2))
+        print(json.dumps({"policy_errors": policy_errors, "decision_fixture_tests": fixture_tests, "binding_fixture_tests": binding_fixture_tests, "target_runtime_fixture_tests": target_runtime_fixture_tests, "pass": not policy_errors and fixtures_pass}, indent=2))
         return 0 if not policy_errors and fixtures_pass else 2
 
     records = [evaluate_candidate(candidate, policy) for candidate in registry.get("candidates", [])] if not policy_errors else []
     deterministic_count = sum(1 for record in records if record["export_recommendation"] not in {"hold_fail_closed_missing_or_invalid_evidence"})
-    policy_pass = not policy_errors and fixtures_pass and len(records) == 3 and all(record["evidence_valid"] for record in records) and deterministic_count == len(records)
+    policy_pass = not policy_errors and fixtures_pass and len(records) == len(policy.get("expected_candidate_ids", [])) and all(record["evidence_valid"] for record in records) and deterministic_count == len(records)
+    target_runtime_certified = any(record["final_production_export_allowed"] for record in records)
     timestamp = datetime.now().astimezone().isoformat(timespec="seconds")
     qa = {
         "schema_version": "1.0",
@@ -432,12 +539,13 @@ def main() -> int:
         "lane_id": str(policy.get("lane_id", "")),
         "result": "pass_realesrgan_export_selection_policy_enforced" if policy_pass else "fail_closed_realesrgan_export_selection_policy",
         "pass": policy_pass,
-        "scope": "local_three_source_class_export_selection_policy_and_negative_fixture_validation",
+        "scope": "hash_bound_local_and_target_realesrgan_export_selection_policy_and_negative_fixture_validation",
         "policy": {"path": rel(args.policy.resolve()), "sha256": sha256(args.policy.resolve())},
         "candidate_registry": {"path": rel(args.registry.resolve()), "sha256": sha256(args.registry.resolve())},
         "policy_errors": policy_errors,
         "negative_fixture_tests": fixture_tests,
         "binding_fixture_tests": binding_fixture_tests,
+        "target_runtime_fixture_tests": target_runtime_fixture_tests,
         "candidates": records,
         "aggregate": {
             "candidate_count": len(records),
@@ -452,22 +560,24 @@ def main() -> int:
             "negative_fixture_count": len(fixture_tests),
             "binding_fixture_pass_count": sum(1 for test in binding_fixture_tests if test["pass"]),
             "binding_fixture_count": len(binding_fixture_tests),
+            "target_runtime_fixture_pass_count": sum(1 for test in target_runtime_fixture_tests if test["pass"]),
+            "target_runtime_fixture_count": len(target_runtime_fixture_tests),
         },
         "quality_decision": {
             "universal_upscale_preference_claimed": False,
             "source_master_retention_required": True,
             "canny_upscale_rejected_by_strict_ssim": any(record["candidate_id"] == "canny_portrait_seed711570105" and record["export_recommendation"] == policy["decision_contract"]["technical_failure"] for record in records),
             "two_character_upscale_rejected_as_preferred": any(record["candidate_id"] == "two_character_contact_seed7152026252" and not record["local_export_allowed"] for record in records),
-            "final_production_export_allowed": False,
-            "reason": "The Normal full-body output passes strict preservation for conditional resolution delivery. The older Canny upscale misses the strict SSIM threshold, and the two-character upscale is retained only as technical evidence because skin and dense fabric regress.",
+            "final_production_export_allowed": target_runtime_certified,
+            "reason": "The hash-bound target-runtime Normal full-body output passes strict preservation for conditional resolution delivery with its source master retained. The older Canny upscale misses the strict SSIM threshold, and the two-character upscale remains rejected as preferred because skin and dense fabric regress.",
         },
         "boundaries": {
             "new_generation_executed": False,
             "source_or_output_replayed": False,
-            "local_only": True,
+            "local_only": False,
             "aws_contacted": False,
             "ec2_started": False,
-            "target_runtime_proven_by_this_gate": False,
+            "target_runtime_proven_by_this_gate": target_runtime_certified,
             "final_lane_certification": False,
             "gold_masks_consumed": False,
             "mask_promotion": False,
@@ -496,13 +606,14 @@ def main() -> int:
         "itemized_list_update_complete": True,
         "known_issue_review_complete": True,
         "bounded_done_certification_allowed": policy_pass,
+        "bounded_target_runtime_certification_allowed": target_runtime_certified,
         "final_lane_certification_allowed": False,
         "qa_evidence": rel(qa_path),
         "known_issues": [
             "No current local sample is explicitly preferred over its source for hyperrealism quality.",
             "The older Canny portrait upscale misses the strict 0.95 SSIM preservation threshold and is rejected by this policy.",
             "The two-character upscale remains technically valid but is rejected as the preferred export.",
-            "Target-runtime proof remains separate and is required before final production export approval."
+            "The target-runtime Normal full-body output is approved only for conditional resolution delivery; it is not preferred over the source for hyperrealism quality."
         ],
     }
     item_path = ROOT / f"Plan/Items/Reports/W70_REALESRGAN_SOURCE_SELECTION_EXPORT_GATE_ITEMIZED_LIST_{args.stamp}.json"
@@ -519,10 +630,11 @@ def main() -> int:
         "qa_evidence": rel(qa_path),
         "itemized_list_record": rel(item_path),
         "implementation_test_qa_evidence_complete": policy_pass,
+        "bounded_target_runtime_certification": target_runtime_certified,
         "final_lane_certification": False,
         "full_project_certification": False,
         "certifier": "Codex Desktop autonomous release manager",
-        "next_action": "Use this selector for future RealESRGAN candidates. Run target-runtime proof and final lane review only when intentionally selected; do not replay completed local samples."
+        "next_action": "Use this selector for future RealESRGAN candidates. Do not replay the completed target sample; retain source masters and require the same hash-bound target evidence for any new production candidate."
     }
     cert_path = ROOT / f"Plan/Instructions/QA/Evidence/Done_Certifications/W70_REALESRGAN_SOURCE_SELECTION_EXPORT_GATE_DONE_{args.stamp}.json"
     tracker_cert_path = ROOT / f"Plan/Tracker/Evidence/Done_Certifications/W70_REALESRGAN_SOURCE_SELECTION_EXPORT_GATE_DONE_{args.stamp}.json"

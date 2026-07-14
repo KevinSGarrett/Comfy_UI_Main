@@ -9352,3 +9352,10 @@ The selected RealESRGAN lane now has a current-head local run package for the co
 Next action: checkpoint the narrow role-selection helper and readiness evidence through a protected `codex/*` PR. After `main` is current, rebuild and validate the exact-head deploy bundle, recheck existing S3/EC2 model and input hashes without duplicate upload/install, and execute at most one guarded target-runtime unit only if every same-window safety gate passes. Preserve source-master retention and the manual mask/Wave71+/Jira/Flux boundaries.
 
 Evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_REALESRGAN_NORMAL_FULLBODY_TARGET_RUNTIME_LOCAL_PREP_2D1F5A8A_20260713T203415-0500.json`.
+## RealESRGAN Bounded Target Runtime Complete - 2026-07-13T21:25:00-05:00
+
+The hash-bound RealESRGAN Normal full-body target run completed on EC2, pulled back one 3072x4096 image, and passed the fail-closed four-candidate selector. Its only approved disposition is `conditional_resolution_export_retain_source_master`; no candidate is preferred over its source for hyperrealism quality. Do not rerun this target sample. EC2 is stopped and the runtime marker and emergency schedule are removed.
+
+Next action: keep Flux license-gated and continue the next concrete non-mask, non-Flux project task. Do not promote masks, rerun Wave70 hard gates, activate Wave71+, or use candidate masks as truth.
+
+Evidence: `Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_REALESRGAN_NORMAL_FULLBODY_TARGET_RUNTIME_CBD75EF8_20260713T211500-0500.json`; `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_REALESRGAN_SOURCE_SELECTION_EXPORT_GATE_20260713T212500-0500.json`; `Plan/Instructions/QA/Evidence/Done_Certifications/W70_REALESRGAN_SOURCE_SELECTION_EXPORT_GATE_DONE_20260713T212500-0500.json`.
