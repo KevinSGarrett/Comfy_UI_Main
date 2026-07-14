@@ -10,6 +10,13 @@ All automation routing must also follow:
 C:\Comfy_UI_Main\Plan\Instructions\AI_WORKER_LANE_ROUTING_POLICY.md
 ```
 
+All project-delivery classification must also follow:
+
+```text
+C:\Comfy_UI_Main\Plan\Instructions\COMFYUI_DELIVERY_RECOVERY_AND_PORTFOLIO_CONTROL.md
+C:\Comfy_UI_Main\Plan\10_REGISTRIES\comfyui_delivery_portfolio_registry.json
+```
+
 ## Local Source Of Truth And EC2 Stale Workspace Guard
 
 All cron jobs must read `C:\Comfy_UI_Main\Plan\Instructions\LOCAL_SOURCE_OF_TRUTH_AND_EC2_STALE_WORKSPACE_PROTOCOL.md` before steering runtime, EC2, S3, deploy-bundle, artifact pullback, Items, Tracker, or hydration work.
@@ -53,15 +60,17 @@ Main-session interruption is allowed only when the finding is blocking or safety
 Routine QA gaps, consistency findings, stale-but-superseded audit stubs, Jira control-plane notes, and non-blocking ledger mismatches should be written to external audit/evidence only. They should not message or redirect the main session unless they become blocking.
 
 Concrete progress means one of:
-- selected inpaint/runtime lane implementation or workflow wiring;
-- deploy-bundle rebuild/revalidation planning or proof;
-- S3 publish readiness or dry-run proof for selected runtime assets;
-- input/model install proof;
-- local ComfyUI object_info or runtime readiness proof;
-- generated artifact QA when live gates allow it;
-- narrow validator/helper work that directly unblocks runtime/QA/cost safety.
+- a new executable workflow capability that passes its applicable runtime checks;
+- a new genuine image, video, or audio artifact with direct modality QA;
+- a measured quality improvement on a fixed benchmark;
+- a non-duplicate target-runtime proof for a materially changed or newly implemented unit;
+- one exact external blocker followed by movement to another productive lane in the same window.
+
+Plans, dry runs, readiness checks, object listings, S3 preparation, dependency probes, handoff packets, Git/AWS hardening, safety checks, synthetic fixtures, and repeated gates are enabling work, not delivery. An enabling event may be credited once; repeating it without a material input or blocker change is `REPEATED_READINESS_ACTIVITY`.
 
 Hydration, proof-log, tracker, manifest, index, Git, or audit updates do not count as progress unless they follow a concrete ComfyUI runtime/orchestration/QA artifact.
+
+The two-hour supervisor must run `tools\New-ComfyUIDeliveryProgressSnapshot.ps1` once and report `last_real_generation_at`, `new_media_artifact_count`, `new_executable_capability_count`, `quality_metric_delta`, `repeated_readiness_or_gate_count`, `bookkeeping_effort_ratio`, and `starved_modalities`. Two consecutive windows without delivery truth are `DELIVERY_STAGNATION`. Any active image, video, or audio portfolio beyond the 12-hour delivery limit is `PORTFOLIO_STARVATION`.
 
 ## Codex Desktop Usage Reduction
 
@@ -245,7 +254,7 @@ All eight active automations remain `gpt-5.4-mini` low-effort orchestrators. The
 ## Role Ownership
 
 - The two-hour anti-loop supervisor is the primary progress and repo-cleanliness watchdog.
-- The fleet-health supervisor verifies that the automation fleet itself is healthy and that the two-hour supervisor finalizes audits.
+- The fleet-health supervisor verifies that the automation fleet itself is healthy, that the two-hour supervisor finalizes audits, and that its latest delivery classification is surfaced. Scheduler health alone cannot produce `FLEET_HEALTH_PASS` while the delivery snapshot reports stagnation or starvation.
 - The EC2 cost sentinel owns EC2/cost safety only.
 - The daily artifact QA audit owns artifact/evidence integrity only.
 - The daily cost/local-first audit owns local-first and EC2-on-time posture only.

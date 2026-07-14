@@ -6,6 +6,8 @@ This protocol defines the strict six-hour audit standard for verifying that Code
 
 The audit must not merely check whether the current top hydration text looks correct. It must determine whether the recent work window included sequence drift, ledger drift, stale manifests, skipped active rows, deferred-wave activation, or runtime-evidence labels being mistaken for project sequence.
 
+Correct sequence is necessary but not sufficient. The auditor must also determine whether the sequence produced genuine ComfyUI delivery under `COMFYUI_DELIVERY_RECOVERY_AND_PORTFOLIO_CONTROL.md`. A sequence pass cannot hide delivery stagnation or modality starvation.
+
 ## Required Review Scope
 
 Every six-hour milestone auditor run must perform a manifest-driven technical-plan review of:
@@ -50,10 +52,21 @@ Every six-hour audit JSON must include:
 - `residual_ledger_or_manifest_gap`
 - `actionable_manifest_maintenance_needed`
 - `target_thread_update_needed`
+- `delivery_classification`
+- `last_real_generation_at`
+- `new_media_artifact_count`
+- `new_executable_capability_count`
+- `quality_metric_delta`
+- `repeated_readiness_or_gate_count`
+- `bookkeeping_effort_ratio`
+- `starved_modalities`
+- `next_concrete_outcome`
 
 ## Classification Rules
 
 If current state is aligned and no recent sequence drift or ledger gap exists, use `MILESTONE_SEQUENCE_PASS`.
+
+`MILESTONE_SEQUENCE_PASS` may be paired with `DELIVERY_STAGNATION` or `PORTFOLIO_STARVATION`; in that case the overall milestone result is not a progress pass. Use `MILESTONE_DELIVERY_STAGNATION` or `MILESTONE_PORTFOLIO_STARVATION` and steer once toward the highest-priority executable portfolio outcome.
 
 If any wrong-sequence work occurred inside the audit window, classify as `MILESTONE_SEQUENCE_DRIFT`, even if later hydration corrected it.
 
@@ -89,3 +102,4 @@ Forbidden routine actions:
 - activating Wave71+ without activation-gate proof
 - treating `W68_*` or other runtime evidence labels as active project sequence
 - Git commit, push, stage, reset, checkout, or destructive cleanup
+- counting plans, readiness checks, dry runs, safety checks, or repeated evidence refreshes as user-visible delivery
