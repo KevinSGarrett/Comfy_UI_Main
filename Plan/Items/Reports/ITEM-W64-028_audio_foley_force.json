@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-028-AUDIO-FOLEY-FORCE-20260712T171200-0500",
-  "timestamp": "2026-07-12T17:12:00-05:00",
+  "timestamp": "2026-07-14T07:33:13-05:00",
   "item_id": "ITEM-W64-028",
   "tracker_id": "TRK-W64-028",
   "workstream": "audio_foley_force",
@@ -34,7 +34,20 @@
     "request_producer_probe": "five_technical_gates_pass_runtime_review_authority_blocked",
     "request_producer_missing_optional_count": 4,
     "authority_registry_unchanged_by_tests": true,
-    "remaining_remediable_high_or_medium_findings": 0
+    "remaining_remediable_high_or_medium_findings": 0,
+    "recovered_foley_packet_readiness": "pass_fail_closed",
+    "recovered_foley_tests_passed": 60,
+    "recovered_foley_tests_failed": 0,
+    "recovered_wav_candidate_count": 2,
+    "recovered_legacy_event_source_count": 4,
+    "recovered_legacy_event_pair_count": 2,
+    "recovered_missing_required_binding_count": 6,
+    "recovered_strict_packet_formable": false,
+    "recovered_evaluator_invoked": false,
+    "recovered_foley_semantic_review": "PASS",
+    "recovered_foley_semantic_review_confidence": "high",
+    "recovered_foley_semantic_review_high_or_medium_findings": 0,
+    "recovered_foley_semantic_review_record": "runtime_artifacts/agent_handoffs/claude_subscription/20260714T073926-0500_row028_recovered_foley_readiness_semantic_review/handoff_record.json"
   },
   "acceptance_gates": {
     "event_binding_check_contract": true,
@@ -48,12 +61,17 @@
     "genuine_production_av_review_present": false,
     "manual_body_contact_gold_mask_authority_present": false,
     "production_alignment_bundle_allowlisted": false,
-    "final_foley_force_certification_allowed": false
+    "final_foley_force_certification_allowed": false,
+    "recovered_foley_audio_present": true,
+    "recovered_legacy_event_lineage_present": true,
+    "recovered_legacy_timing_and_owner_alignment_present": true,
+    "recovered_strict_packet_formable": false
   },
   "blockers": [
     {
       "classification": "Blocked_Foley_Force_Production_Proof_Missing",
-      "reason": "No genuine non-synthetic production Foley audio with bound visual contact, force, A/V review, and runtime evidence exists."
+      "scope": "primary_row_blocker",
+      "reason": "Two existing Foley WAV candidates and four exact legacy event/timeline sources are now recovered and hash-verified, but no strict request can be formed without inventing visual-contact, Wave22 force, Wave30 event-linkage, run, shot, or take bindings."
     },
     {
       "classification": "Blocked_Gold_Mask_Dependency_Missing",
@@ -67,7 +85,7 @@
   "evidence": [
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/audio_foley_force.json",
-      "sha256": "d40c0760c6cb6cac65cade2bae67085e5b932019055cb3ed9b7998b980b68100"
+      "sha256": "244fa583a0e2848a6c75c4cd2b3556ce1fb049584c63f5d7d14f9de9bb7bcaa8"
     },
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/audio_foley_force_test_log.json",
@@ -80,6 +98,14 @@
     {
       "path": "runtime_artifacts/wave64_foley_force_alignment/20260711T185232-0500/windows_strict_tests.txt",
       "sha256": "aec9d5e6e15417e538da35ec15db5ddfc0b645e3a3231be5f69f550b483b0ad3"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_FOLEY_FORCE_RECOVERED_PACKET_READINESS_20260714T073313-0500.json",
+      "sha256": "8e0b4e15911768439de231e7edcc153668ab37737aedb6a0c2bb670a1df6e0da"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_FOLEY_FORCE_RECOVERED_PACKET_READINESS_TEST_LOG_20260714T073313-0500.json",
+      "sha256": "537edb221214c12d625ba92556443b1f86c22fe701f1d8a44b06ab7d89fbfb5e"
     }
   ],
   "runtime": {
@@ -89,7 +115,8 @@
     "approved_alignment_bundle_count": 0,
     "comfyui_started": false,
     "aws_contacted": false,
-    "ec2_started": false
+    "ec2_started": false,
+    "diagnostic_foley_readiness_candidate_count": 2
   },
-  "next_action": "Proceed with TRK-W64-029 / ITEM-W64-029 by implementing and validating spatial-audio room-acoustics evidence from Plan/05_AUDIO_SYSTEM/WAVE31_ROOM_ACOUSTICS_REVERB_PLAN.md while keeping row028 blocked until genuine non-synthetic production Foley, A/V, runtime, allowlisted bundle, and required manual gold-mask authority are present."
+  "next_action": "Use the recovered returned-EC2 mux and provisional A/V report for Row030 readiness reconciliation without inventing Row028 visual-contact or force authority."
 }

@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "evidence_id": "W64-AUDIO-FOLEY-FORCE-20260712T171200-0500",
-  "timestamp": "2026-07-12T17:12:00-05:00",
+  "timestamp": "2026-07-14T07:33:13-05:00",
   "tracker_id": "TRK-W64-028",
   "item_id": "ITEM-W64-028",
   "source_citation": "Plan/05_AUDIO_SYSTEM/WAVE22_AUDIO_FORCE_EVENT_BINDING_INTERFACE.md",
@@ -84,7 +84,16 @@
     "draft_2020_12_request_schema": "pass",
     "draft_2020_12_report_schema": "pass",
     "authority_registry_unchanged_by_tests": true,
-    "technical_offline_pass": true
+    "technical_offline_pass": true,
+    "recovered_foley_packet_readiness": {
+      "test_log": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_FOLEY_FORCE_RECOVERED_PACKET_READINESS_TEST_LOG_20260714T073313-0500.json",
+      "tests_run": 60,
+      "tests_passed": 60,
+      "tests_failed": 0,
+      "recovered_wav_candidates": 2,
+      "recovered_legacy_event_sources": 4,
+      "strict_packet_formable": false
+    }
   },
   "retained_probes": {
     "request_producer_probe": {
@@ -168,7 +177,11 @@
     "genuine_production_av_review_present": false,
     "manual_body_contact_gold_mask_authority_present": false,
     "production_alignment_bundle_allowlisted": false,
-    "row_complete": false
+    "row_complete": false,
+    "recovered_foley_audio_present": true,
+    "recovered_legacy_event_lineage_present": true,
+    "recovered_legacy_timing_and_owner_alignment_present": true,
+    "recovered_strict_packet_formable": false
   },
   "review": {
     "cursor_gap_review": {
@@ -201,7 +214,14 @@
     },
     "cursor_request_producer_gap_review": "runtime_artifacts/agent_handoffs/cursor/20260712T170122-0500_row028_foley_request_producer_gap/handoff_record.json",
     "claude_request_producer_review": "runtime_artifacts/agent_handoffs/claude_subscription/20260712T170439-0500_row028_foley_request_producer_final_review/handoff_record.json",
-    "claude_request_producer_test_findings_remediated": 3
+    "claude_request_producer_test_findings_remediated": 3,
+    "recovered_foley_readiness_semantic_review": {
+      "path": "runtime_artifacts/agent_handoffs/claude_subscription/20260714T073926-0500_row028_recovered_foley_readiness_semantic_review/handoff_record.json",
+      "sha256": "a83f4e332712294065e5478850e725d7bc9e9e4f408b16d799c2374e66c92313",
+      "status": "PASS",
+      "confidence": "high",
+      "high_or_medium_findings": 0
+    }
   },
   "environment_authority": {
     "authoritative_root": "C:\\Comfy_UI_Main",
@@ -217,13 +237,14 @@
     "generation_executed": false,
     "aws_contacted": false,
     "ec2_started": false,
-    "mask_promotion_executed": false
+    "mask_promotion_executed": false,
+    "diagnostic_foley_readiness_candidate_count": 2
   },
   "blockers": [
     {
       "classification": "Blocked_Foley_Force_Production_Proof_Missing",
       "scope": "primary_row_blocker",
-      "reason": "No genuine non-synthetic production Foley audio with bound visual contact, force-event, A/V review, and runtime proof exists for this row."
+      "reason": "Two existing Foley WAV candidates and four exact legacy event/timeline sources are now recovered and hash-verified, but no strict request can be formed without inventing visual-contact, Wave22 force, Wave30 event-linkage, run, shot, or take bindings."
     },
     {
       "classification": "Blocked_Gold_Mask_Dependency_Missing",
@@ -236,7 +257,7 @@
       "reason": "The canonical production alignment bundle allowlist contains zero approved bundles."
     }
   ],
-  "result": "blocked_foley_force_production_proof_missing",
+  "result": "blocked_recovered_foley_verified_packet_not_formable_missing_authoritative_bindings",
   "overall_pass": false,
   "status_decision": "Blocked_Foley_Force_Production_Proof_Missing",
   "strict_decision": {
@@ -246,10 +267,24 @@
     "request_producer_probe_pass": true,
     "synthetic_fail_closed_probe_pass": true,
     "adversarial_relabel_fail_closed_probe_pass": true,
+    "recovered_foley_readiness_fail_closed_pass": true,
+    "strict_recovered_packet_formed": false,
     "production_foley_or_av_review_claimed": false,
     "manual_gold_mask_authority_claimed": false,
     "production_alignment_bundle_approved": false,
     "certification_claimed": false,
     "wave71_activation_claimed": false
-  }
+  },
+  "recovered_foley_packet_readiness": {
+    "evidence": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_FOLEY_FORCE_RECOVERED_PACKET_READINESS_20260714T073313-0500.json",
+    "test_log": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_FOLEY_FORCE_RECOVERED_PACKET_READINESS_TEST_LOG_20260714T073313-0500.json",
+    "recovered_wav_candidate_count": 2,
+    "recovered_legacy_event_source_count": 4,
+    "legacy_event_pair_count": 2,
+    "missing_required_binding_count": 6,
+    "strict_packet_formable": false,
+    "evaluator_invoked": false,
+    "production_eligible": false
+  },
+  "reconciliation_evidence": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_FOLEY_FORCE_RECOVERED_PACKET_READINESS_20260714T073313-0500.json"
 }

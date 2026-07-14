@@ -1,0 +1,169 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-AUDIO-FOLEY-RECOVERED-PACKET-READINESS-20260714T0733130500",
+  "timestamp": "2026-07-14T07:33:13-05:00",
+  "tracker_id": "TRK-W64-028",
+  "item_id": "ITEM-W64-028",
+  "status_decision": "Blocked_Foley_Force_Production_Proof_Missing",
+  "source_manifests": {
+    "procedural_mix": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave42_legacy_audio_recovery_20260714T063840-0500/procedural_mix_diagnostic/local_procedural_audio_mix_candidate_20260702_034918.json",
+      "sha256": "e47e8f1efb363290e65e5419abb8c96198b5eae470a8a2b301568edb567dc9d7"
+    },
+    "returned_ec2_media": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave42_legacy_audio_recovery_20260714T063840-0500/returned_ec2_20260701T101322/final_ec2_returned_media_manifest.json",
+      "sha256": "9588fbcb703d73190f32dd001bb0089621d3024d7a58380b8a323c55352c65db"
+    },
+    "alignment_authority_registry": {
+      "path": "Plan/10_REGISTRIES/wave64_foley_force_alignment_authority_registry.json",
+      "sha256": "247a5e5c2a33cb49cccc72fc4002c035cc2910d5b7801faa11a3134830856587",
+      "approved_alignment_bundle_count": 0
+    }
+  },
+  "recovered_legacy_event_sources": {
+    "foley_event_manifest": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave42_legacy_audio_recovery_20260714T063840-0500/legacy_event_sources/foley_event_manifest.json",
+      "sha256": "74fc935dadc7d86f5798fc23f1bee5b1ca363b0fb44811c59f7ffe7e252b4525",
+      "bytes": 931,
+      "source_bytes_preserved": true
+    },
+    "sfx_cue_manifest": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave42_legacy_audio_recovery_20260714T063840-0500/legacy_event_sources/sfx_cue_manifest.json",
+      "sha256": "0e9da1ec9c7d754502a562c83167961d81523d7613f37fb6c9bba93c9f38574f",
+      "bytes": 907,
+      "source_bytes_preserved": true
+    },
+    "master_av_sync_timeline": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave42_legacy_audio_recovery_20260714T063840-0500/legacy_event_sources/master_av_sync_timeline.json",
+      "sha256": "9e6a0cb9252658c800d813b3ab47dcbe4a70ee4e1d0c9f330ca971fa78ea3876",
+      "bytes": 1208,
+      "source_bytes_preserved": true
+    },
+    "provisional_final_media_assets": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave42_legacy_audio_recovery_20260714T063840-0500/legacy_event_sources/provisional_final_media_assets_20260630_060942.json",
+      "sha256": "2746e8fcd712649f3d1334e872c78d35096e3a761cc7c344cb2f1b4dd1763747",
+      "bytes": 4265,
+      "source_bytes_preserved": true
+    }
+  },
+  "recovered_wav_candidates": [
+    {
+      "origin": "legacy_local_procedural_mix",
+      "role": "sfx_foley_stem",
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave42_legacy_audio_recovery_20260714T063840-0500/procedural_mix_diagnostic/wave42_release_scene_03_sfx_foley_stem.wav",
+      "sha256": "5e98e62b21dce499275bc185cda01bc237446114073386dd045f79f13e65a4c1",
+      "bytes": 441044,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "sample_rate": 22050,
+      "frames": 220500,
+      "duration_seconds": 10.0,
+      "integrity_verified": true,
+      "authority_class": "diagnostic_full_mix_candidate",
+      "production_eligible": false
+    },
+    {
+      "origin": "legacy_returned_ec2_media",
+      "role": "sfx_foley_original_generated",
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave42_legacy_audio_recovery_20260714T063840-0500/returned_ec2_20260701T101322/sfx_foley_original_generated.wav",
+      "sha256": "a9e14beacd8ef15fc983af60f8fd266cf38f21434285907ff22ae59e37a51312",
+      "bytes": 960044,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "sample_rate": 48000,
+      "frames": 480000,
+      "duration_seconds": 10.0,
+      "integrity_verified": true,
+      "authority_class": "provisional_returned_runtime_audio",
+      "production_eligible": false
+    }
+  ],
+  "legacy_event_alignment": [
+    {
+      "foley_id": "FOL001",
+      "sfx_cue_id": "SFX001",
+      "entity_id": "C01",
+      "scene_id": "release_scene_03",
+      "foley_window_seconds": [
+        2.0,
+        2.9
+      ],
+      "sfx_window_seconds": [
+        2.1,
+        2.8
+      ],
+      "timeline_window_seconds": [
+        2.1,
+        2.8
+      ],
+      "legacy_timing_and_owner_consistent": true,
+      "strict_visual_contact_or_force_authority_proven": false
+    },
+    {
+      "foley_id": "FOL002",
+      "sfx_cue_id": "SFX002",
+      "entity_id": "O01",
+      "scene_id": "release_scene_03",
+      "foley_window_seconds": [
+        6.2,
+        6.9
+      ],
+      "sfx_window_seconds": [
+        6.3,
+        6.7
+      ],
+      "timeline_window_seconds": [
+        6.3,
+        6.7
+      ],
+      "legacy_timing_and_owner_consistent": true,
+      "strict_visual_contact_or_force_authority_proven": false
+    }
+  ],
+  "strict_packet_readiness": {
+    "scene_id": "release_scene_03",
+    "run_id": null,
+    "shot_id": null,
+    "take_id": null,
+    "required_bindings_present": 0,
+    "missing_required_bindings": [
+      "visual_contact_manifest_binding",
+      "wave22_force_event_manifest_binding",
+      "wave30_audio_event_manifest_binding",
+      "run_id",
+      "shot_id",
+      "take_id"
+    ],
+    "missing_production_bindings": [
+      "runtime_proof_binding",
+      "av_review_proof_binding",
+      "production_alignment_bundle_binding",
+      "manual_body_contact_gold_mask_authority"
+    ],
+    "legacy_foley_manifest_is_wave22_schema": false,
+    "legacy_sfx_manifest_is_wave30_schema": false,
+    "returned_av_sync_report_is_independent_wave64_av_review_proof": false,
+    "packet_formable": false,
+    "evaluator_invoked": false,
+    "evaluator_skip_reason": "Fail closed before request production: required visual-contact, Wave22, Wave30, run, shot, and take bindings are unavailable."
+  },
+  "boundaries": {
+    "existing_audio_reused": true,
+    "legacy_source_bytes_recovered_without_rewrite": true,
+    "generation_executed": false,
+    "audio_modified": false,
+    "strict_manifest_or_identity_fields_invented": false,
+    "visual_contact_claimed": false,
+    "force_event_authority_claimed": false,
+    "manual_gold_mask_authority_claimed": false,
+    "production_runtime_claimed": false,
+    "production_av_review_claimed": false,
+    "production_alignment_bundle_claimed": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "mask_or_wave71_touched": false,
+    "jira_mutated": false
+  },
+  "result": "blocked_recovered_foley_verified_packet_not_formable_missing_authoritative_bindings",
+  "next_action": "Use the recovered returned-EC2 mux and provisional A/V report for Row030 readiness reconciliation without inventing Row028 visual-contact or force authority."
+}
