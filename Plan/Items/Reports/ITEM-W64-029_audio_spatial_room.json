@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-029-AUDIO-SPATIAL-ROOM-20260714T082800-0500",
-  "timestamp": "2026-07-14T08:28:00-05:00",
+  "timestamp": "2026-07-14T16:19:38-05:00",
   "item_id": "ITEM-W64-029",
   "tracker_id": "TRK-W64-029",
   "workstream": "audio_spatial_room",
@@ -37,7 +37,12 @@
     "combined_tests_passed": 61,
     "recovered_wavs_hash_verified_and_decoded": 9,
     "recovered_wavs_matching_strict_profile": 0,
-    "claude_recovered_readiness_review": "PASS_high_confidence"
+    "claude_recovered_readiness_review": "PASS_high_confidence",
+    "genuine_stereo_room_mix_created": true,
+    "genuine_stereo_room_mix_sha256": "5a07f0a654499266509453421c3efdc1b2e4ce83b8706e0138ebc4b1d3ad924a",
+    "room_mix_sample_rate_hz": 48000,
+    "room_mix_channels": 2,
+    "real_foley_and_original_ambience_present": true
   },
   "acceptance_gates": {
     "spatial_position_check_contract": true,
@@ -45,6 +50,7 @@
     "ambience_continuity_contract": true,
     "mix_balance_review_contract": true,
     "spatial_audio_playback_review_contract": true,
+    "genuine_room_mix_candidate_present": true,
     "genuine_production_spatial_audio_present": false,
     "genuine_production_playback_review_present": false,
     "genuine_production_runtime_proof_present": false,
@@ -53,7 +59,7 @@
     "final_spatial_room_certification_allowed": false
   },
   "blockers": [
-    {"classification": "Blocked_Spatial_Room_Production_Proof_Missing", "reason": "No genuine non-synthetic production spatial audio with bound room, mix, playback-review, and runtime evidence exists."},
+    {"classification": "Blocked_Spatial_Room_Production_Proof_Missing", "reason": "A genuine stereo room mix with real foley and original ambience now exists, but strict source geometry, room-acoustics, spatial-dialogue, playback-review, runtime, and production authority bindings are still absent."},
     {"classification": "Blocked_Spatial_Room_Production_Authority_Missing", "reason": "The canonical production bundle allowlist contains zero approved bundles."},
     {"classification": "Blocked_Recovered_Spatial_Profile_Mismatch", "reason": "All nine recovered WAVs decode, but all are mono at either 22050 Hz or 48000 Hz rather than the required 16000 Hz stereo profile."},
     {"classification": "Blocked_Recovered_Spatial_Bindings_Missing", "reason": "The recovered packet has no trustworthy geometry, Wave31 spatial/room, spatial-dialogue, continuity, playback, runtime, or production authority bindings."}
@@ -67,9 +73,11 @@
     {"path": "runtime_artifacts/wave64_spatial_room_evidence/request_producer_probe_20260712T173525-0500/report.json", "sha256": "9e81aa6dc7c9fb2ef009ad78377cac16a649daef68e01b09dbe4033ee6e6eae7"},
     {"path": "runtime_artifacts/wave64_spatial_room_evidence/request_producer_probe_20260712T173525-0500/windows_tests.txt", "sha256": "49c6f503b6f261e01b0c40d373dbb2225806c68cee381113f1eccddb3b2de657"},
     {"path": "runtime_artifacts/wave64_spatial_room_evidence/20260711T200153-0500/probe_summary.json", "sha256": "f1d3f597754ef42c2748ed0f7bde2df3f06e668f7e42654ee5ca4201ae392c58"},
-    {"path": "runtime_artifacts/wave64_spatial_room_evidence/20260711T200153-0500/windows_strict_tests.txt", "sha256": "a2d28058d84f04ffec08a714753bd7f25d42f0b181bf84351476495b56976aa0"}
+    {"path": "runtime_artifacts/wave64_spatial_room_evidence/20260711T200153-0500/windows_strict_tests.txt", "sha256": "a2d28058d84f04ffec08a714753bd7f25d42f0b181bf84351476495b56976aa0"},
+    {"path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_audio_chain_20260714T163400-0500/delivery_manifest.json", "sha256": "9eb91fb2c84105b470a27c939babd9ca8537045f3818f01f3187779e354c0a07"}
   ],
   "runtime": {
+    "genuine_room_mix_generation_count": 1,
     "production_spatial_audio_generation_count": 0,
     "production_spatial_audio_evaluation_count": 0,
     "production_playback_review_count": 0,
@@ -78,5 +86,5 @@
     "aws_contacted": false,
     "ec2_started": false
   },
-  "next_action": "Proceed with TRK-W64-031 / ITEM-W64-031 by mapping the recovered audio packet to the strict audio artifact review contract while keeping row029 blocked until genuine non-synthetic spatial audio, playback, runtime, and allowlisted bundle proof are present."
+  "next_action": "Bind the genuine room mix to strict geometry and room-acoustics measurements, then obtain independent playback, runtime, and allowlisted production proof; do not rebuild the completed mix unless review identifies an audio defect."
 }

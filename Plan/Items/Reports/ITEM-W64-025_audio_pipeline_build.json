@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-025-AUDIO-PIPELINE-BUILD-20260712T161737-0500",
-  "timestamp": "2026-07-14T06:38:40-05:00",
+  "timestamp": "2026-07-14T16:19:38-05:00",
   "item_id": "ITEM-W64-025",
   "tracker_id": "TRK-W64-025",
   "workstream": "audio_pipeline_build",
@@ -72,7 +72,14 @@
     "recovered_diagnostic_audio_present": true,
     "returned_ec2_runtime_packet_present": true,
     "provisional_av_sync_review_present": true,
-    "final_multimodal_review": "present_rejected_for_final_release"
+    "final_multimodal_review": "present_rejected_for_final_release",
+    "genuine_audio_delivery_chain": "pass_technical_review",
+    "genuine_audio_delivery_manifest_sha256": "9eb91fb2c84105b470a27c939babd9ca8537045f3818f01f3187779e354c0a07",
+    "genuine_mixdown_sha256": "5a07f0a654499266509453421c3efdc1b2e4ce83b8706e0138ebc4b1d3ad924a",
+    "genuine_mix_integrated_lufs": -17.99,
+    "genuine_mix_true_peak_dbtp": -3.09,
+    "genuine_mix_asr_transcript": "once upon a midnight",
+    "genuine_audio_chain_tests_passed": 11
   },
   "acceptance_gates": {
     "audio_workflow_valid": true,
@@ -82,7 +89,10 @@
     "proof_and_review_contracts": true,
     "deterministic_mix_builder": true,
     "synthetic_deterministic_mix_verified": true,
+    "genuine_audio_delivery_artifact_present": true,
     "genuine_audio_engine_runtime": false,
+    "bs1770_loudness_measurement_present": true,
+    "strict_ffv1_pcm_mux_present": true,
     "genuine_audio_review_record": false,
     "final_audio_certification": false,
     "recovered_diagnostic_audio_present": true,
@@ -94,17 +104,20 @@
     {
       "classification": "Blocked_Audio_Production_Runtime_Proof_Missing",
       "scope": "primary_row_blocker",
-      "reason": "Legacy diagnostic audio and the original returned-EC2 AV packet are now recovered and hash-verified, but SAPI/procedural candidates failed QA and the returned packet was rejected for final release; no approved production audio-engine proof bundle passes."
+      "reason": "A new genuine voice, real-foley, ambience, mix, and mux delivery artifact passes direct technical QA, but no approved Parler-TTS/CosyVoice2 production engine proof bundle passes yet."
     },
     {
       "classification": "Blocked_Audio_Playback_Review_Missing",
       "scope": "audio_review",
-      "reason": "A provisional automated AV-sync review exists, but the authoritative autonomous multimodal review rejected final release and does not prove production speaker identity, voice consistency, foley/action alignment, ambience/dialogue balance, clipping safety, or final mix quality."
+      "reason": "The new mix passes hash, ASR, decode, loudness, true-peak, waveform, spectrogram, and strict mux checks, but independent perceptual playback review is still absent."
     },
     {
-      "classification": "Blocked_Audio_Certification_Loudness_Authority_Missing",
-      "scope": "certification_loudness",
-      "reason": "The deterministic builder reports explicitly labeled PCM RMS/sample-peak technical proxies; no ITU-R BS.1770 integrated loudness or true-peak certification measurement exists."
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_audio_chain_20260714T163400-0500/delivery_manifest.json",
+      "sha256": "9eb91fb2c84105b470a27c939babd9ca8537045f3818f01f3187779e354c0a07"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/W64_GENUINE_AUDIO_DELIVERY_CHAIN_20260714T163400-0500.json",
+      "classification": "GENUINE_AUDIO_DELIVERY_CHAIN_BUILT"
     }
   ],
   "evidence": [
@@ -138,8 +151,8 @@
     }
   ],
   "runtime": {
-    "production_audio_generation_count": 0,
-    "production_mixdown_count": 0,
+    "production_audio_generation_count": 1,
+    "production_mixdown_count": 1,
     "production_runtime_proof_count": 0,
     "production_audio_review_count": 0,
     "comfyui_started": false,
@@ -151,5 +164,5 @@
     "recovery_aws_contacted": false,
     "recovery_ec2_started": false
   },
-  "next_action": "Feed the recovered packet through the existing strict Row025/027/028/030 producers and evaluators without regenerating media."
+  "next_action": "Run one bounded Parler-TTS or CosyVoice2 dialogue WAV, then obtain independent perceptual playback review without regenerating the completed WAN video or this genuine mix packet."
 }

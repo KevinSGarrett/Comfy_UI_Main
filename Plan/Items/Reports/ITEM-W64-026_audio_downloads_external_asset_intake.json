@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "report_id": "ITEM-W64-026-AUDIO-DOWNLOADS-EXTERNAL-ASSET-INTAKE-20260714",
+  "item_id": "ITEM-W64-026",
+  "tracker_id": "TRK-W64-026",
+  "timestamp": "2026-07-14T16:19:38-05:00",
+  "report_type": "supplemental_external_asset_intake",
+  "result": "assets_discovered_classified_and_crosswalked",
+  "source_root": "F:\\Len_Transfer\\Audio_Downloads",
+  "inventory": {
+    "files": 41071,
+    "directories": 1798,
+    "approximate_size_gib": 23.729,
+    "audio_files": 39771
+  },
+  "engine_candidates": {
+    "dialogue_tts": ["cosyvoice2_0_5b", "parler_tts_mini_v1", "qwen3_tts_rvc_directors_mode"],
+    "voice_conversion": ["cosyvoice2_0_5b", "better_mommy_girlfriend_rvc", "mae_asmr_rvc", "freevc"],
+    "deterministic_foley": ["open_nsfw_sfx"],
+    "text_to_audio": ["facebook_audiogen_medium", "stable_audio_open_1_0"],
+    "video_to_audio": ["mmaudio_batch_workflow", "mmaudio_studio_zero_workflow", "ltx2_foley_add_audio_workflow", "hunyuan_video_foley_workflow"],
+    "audio_video_loras": ["ltx2_i2v_oral_suite", "ltxdeepthroat_v01"],
+    "evaluation": ["cv3_eval"]
+  },
+  "corrected_non_audio_asset": "cassan",
+  "content_based_suppression_added": false,
+  "existing_item_status_changed": false,
+  "status_note": "Discovery and the real CC0 foley route are now exercised, but engine authority remains unchanged until a selected Parler-TTS or CosyVoice2 engine produces row-bound runtime and review evidence.",
+  "execution": {
+    "non_git_index_path": "runtime_artifacts/audio_asset_indexes/open_nsfw_sfx_20260714T162800-0500/audio_asset_index.jsonl",
+    "non_git_index_sha256": "a7df1ca2a2685974dc7f5e9e8091bde4299fa6937c94c2a3e5e14ddc98dfcc99",
+    "indexed_audio_files": 31936,
+    "selected_foley_sha256": "d0ebd3fd692c7668a1d4826a37a7a68f8821d249614254608f4c1e051ad356d7",
+    "selected_foley_per_file_license": "CC0-1.0 upstream claim",
+    "selected_foley_pack_license": "CC-BY-4.0 OpenNSFW pack usage terms",
+    "selected_foley_attribution": "SFX: OpenNSFW Sound Pack | joao-janz",
+    "selected_foley_pack_repackaged": false,
+    "selected_foley_mixed": true,
+    "content_based_suppression": false
+  },
+  "registry": "Plan/10_REGISTRIES/audio_downloads_external_asset_intake_registry.json",
+  "protocol": "Plan/Instructions/QA/AUDIO_EXTERNAL_ASSET_INTAKE_PROTOCOL.md",
+  "evidence": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/AUDIO_DOWNLOADS_EXTERNAL_ASSET_INTAKE_20260714T160325-0500.json",
+  "recommended_next_task": "Execute one real Parler-TTS or CosyVoice2 dialogue WAV through the existing Wave64 evaluators; reuse the completed non-Git index and real foley mix path."
+}
