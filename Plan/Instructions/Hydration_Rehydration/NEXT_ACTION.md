@@ -1,3 +1,12 @@
+## Wan 2.2 Changed-Source Target Runtime Passed - 2026-07-14T04:35:10-05:00
+
+The exact-head source-bound Wan bundle completed one guarded target-runtime unit for changed full-body source SHA-256 `e20a857f0ac23151ae1b8aa47fb4746c975e522a5598896f747ef08a50cc9336` and unseen seed 2271401. Prompt schema, remote source hash/size, S3 sync, pullback hashes, 49-frame technical QA, and direct temporal visual QA all pass. The excluded knee-up `Ref_Image_1/Full/New folder` source was not used. EC2 is stopped, the active marker is closed, and the emergency schedule is retired.
+
+Next action: checkpoint only this bounded runtime/QA proof through a protected `codex/*` PR, preserve seed 2271401 without rerun, then continue the next explicit non-mask implementation or orchestration task. Do not promote masks, rerun Wave70 hard gates, activate Wave71+, mutate Jira, or claim production video certification.
+
+Evidence: `Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_WAN22_SOURCE_DIVERSITY_TARGET_RUNTIME_20260714T043510-0500.json`; `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_SOURCE_DIVERSITY_TECHNICAL_QA_20260714T043510-0500.json`; `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_SOURCE_DIVERSITY_VISUAL_QA_20260714T043510-0500.json`.
+
+
 ## Wan 2.2 Changed-Source Local Readiness Passed - 2026-07-14T03:45:15-05:00
 
 One genuinely changed full-body Wan source is now local-ready: `Ref_Image_1/Full/78b8e4ca10fd769e0752bd21c3599339.jpg`, SHA-256 `e20a857f0ac23151ae1b8aa47fb4746c975e522a5598896f747ef08a50cc9336`, 3000x4000, with head, both hands, and both feet visible. The known knee-up `Ref_Image_1/Full/New folder` source remains excluded. Seed 2271401 has a new prompt/profile and output prefix. Source binding now validates exact path, bytes, hash, and staged filename, and the run package carries the source in `inputs/`. All 13 local matrix checks pass; two tampered-hash probes and the excluded-folder probe fail closed before unsafe packaging. The prior seed-robustness matrix also remains 13/13 green. EC2 remains stopped and no generation occurred.

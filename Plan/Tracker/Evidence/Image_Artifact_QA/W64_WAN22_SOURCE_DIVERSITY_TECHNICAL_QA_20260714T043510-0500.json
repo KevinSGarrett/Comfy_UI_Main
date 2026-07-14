@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-WAN22-SOURCE-DIVERSITY-TECHNICAL-QA-20260714T043510-0500",
+  "timestamp": "2026-07-14T04:35:10-05:00",
+  "lane_id": "wan_2_2_ti2v_5b_primary_lane",
+  "seed": 2271401,
+  "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_WAN22_SOURCE_DIVERSITY_TARGET_RUNTIME_20260714T043510-0500.json",
+  "review_method": "hash_bound_opencv_decode_and_frame_metric_evaluation",
+  "artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260714T041921-0500/images/12_wan22_ti2v5b_source_diversity_ref1_78b8_seed2271401_00001_.mp4",
+    "size_bytes": 83544,
+    "sha256": "5006e96e211538f3d2bb6795e93014d6642946583cc31aa635e171e13e1c80bf"
+  },
+  "decoder": {
+    "name": "opencv-python",
+    "version": "4.11.0",
+    "fourcc": "h264",
+    "width": 480,
+    "height": 640,
+    "decoded_frames": 49,
+    "unique_frames": 49,
+    "fps": 24.0,
+    "duration_seconds": 2.0416666666666665
+  },
+  "metrics": {
+    "black_frames": 0,
+    "freeze_transition_indexes": [],
+    "max_freeze_run_frames": 0,
+    "adjacent_rgb_mae_mean": 0.0024308124715401455,
+    "adjacent_rgb_mae_max": 0.005710158628575942,
+    "border_rgb_mae_mean": 0.000653485211793309,
+    "border_rgb_mae_max": 0.002666330337524414,
+    "first_last_rgb_mae": 0.03107118045582491,
+    "luminance_span": 1.3076790364583246
+  },
+  "checks": {
+    "artifact_sha256_matches": true,
+    "decode_produced_frames": true,
+    "decoded_dimensions_consistent": true,
+    "width_exact": true,
+    "height_exact": true,
+    "frame_count_exact": true,
+    "reported_frame_count_matches_decode": true,
+    "fps_exact_within_tolerance": true,
+    "all_frames_unique": true,
+    "no_black_frames": true,
+    "freeze_run_within_limit": true,
+    "luminance_span_within_limit": true,
+    "border_motion_within_limit": true,
+    "terminal_frame_decoded": true
+  },
+  "failed_checks": [],
+  "technical_pass": true,
+  "result": "pass_bounded_changed_source_video_technical_qa",
+  "source_evaluator_output": "runtime_artifacts/wan22_media_qa/aws_gpu_workflow_smoke_20260714T041921-0500/technical_qa.json",
+  "boundaries": {
+    "visual_quality_reviewed_here": false,
+    "identity_or_anatomy_certified_here": false,
+    "production_video_lane_certification_claimed": false,
+    "mask_or_geometry_authority_claimed": false
+  }
+}
