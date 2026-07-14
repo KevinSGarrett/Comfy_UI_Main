@@ -215,7 +215,7 @@ $exactAllowedCompletedStatusByLaneId = [ordered]@{
   "sdxl_realvisxl_controlnet_lineart_lane" = "portrait_target_runtime_scope_bounded_complete_with_notes_plus_local_fullbody_multiseed_robustness_pass_with_notes"
   "sdxl_realvisxl_controlnet_openpose_lane" = "bounded_target_runtime_openpose_v6_seed711470303_final_certification_complete_with_footwear_note"
   "sdxl_realvisxl_controlnet_normal_lane" = "bounded_normal_v4_fullbody_seed711670303_target_runtime_certified_with_notes"
-  "sdxl_realesrgan_upscale_polish_lane" = "local_realesrgan_source_selection_policy_enforced_one_conditional_two_rejected_pending_target_runtime_and_final_certification"
+  "sdxl_realesrgan_upscale_polish_lane" = "bounded_target_runtime_conditional_resolution_export_complete_source_master_retained"
 }
 $allowedPendingStatuses = @(
   "queued",

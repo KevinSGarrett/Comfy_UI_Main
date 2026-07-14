@@ -1,6 +1,6 @@
 {
     "schema_version":  "1.0",
-    "updated_at":  "2026-07-13T20:05:00-05:00",
+    "updated_at":  "2026-07-13T21:25:00-05:00",
     "artifact_id":  "TRK-W61-006",
     "purpose":  "Local queue for base-generation lane runtime proof order before EC2 execution resumes.",
     "local_only":  true,
@@ -27,7 +27,8 @@
                                                                             "sdxl_realvisxl_controlnet_depth_lane",
                                                                             "sdxl_realvisxl_controlnet_lineart_lane",
                                                                             "sdxl_realvisxl_controlnet_normal_lane",
-                                                                            "sdxl_realvisxl_controlnet_openpose_lane"
+                                                                            "sdxl_realvisxl_controlnet_openpose_lane",
+                                                                            "sdxl_realesrgan_upscale_polish_lane"
                                                                         ],
                              "bounded_certification_present_lane_ids":  [
                                                                               "sdxl_low_risk_fallback_lane",
@@ -36,15 +37,14 @@
                                                                               "sdxl_realvisxl_controlnet_depth_lane",
                                                                               "sdxl_realvisxl_controlnet_lineart_lane",
                                                                               "sdxl_realvisxl_controlnet_normal_lane",
-                                                                              "sdxl_realvisxl_controlnet_openpose_lane"
+                                                                              "sdxl_realvisxl_controlnet_openpose_lane",
+                                                                              "sdxl_realesrgan_upscale_polish_lane"
                                                                           ],
-                             "remote_assets_staged_without_target_runtime_proof_lane_ids":  [
-                                                                                                  "sdxl_realesrgan_upscale_polish_lane"
-                                                                                              ],
+                             "remote_assets_staged_without_target_runtime_proof_lane_ids":  [],
                              "runtime_not_started_lane_ids":  [
                                                                     "flux1_dev_primary_base"
                                                                 ],
-                             "proof_scope_note":  "Always read each lane status, promotion rule, proof evidence, and required next runtime gate. Base proof is for an older generic scope; Inpaint, Normal, and OpenPose certifications are bounded single-sample target-runtime decisions; remote-staged lanes must resume from their recorded missing step without re-uploading completed assets.",
+                             "proof_scope_note":  "Always read each lane status, promotion rule, proof evidence, and required next runtime gate. Base proof is for an older generic scope; Inpaint, Normal, OpenPose, and RealESRGAN certifications are bounded single-sample target-runtime decisions. RealESRGAN allows conditional resolution export only with the source master retained.",
                              "do_not_promote_later_lanes_before_first_lane_runtime_proof":  true,
                              "later_lane_promotion_allowed_after_first_lane_runtime_proof":  true,
                              "requires_aws_auth_gate_before_ec2":  true,
@@ -538,10 +538,10 @@
                       "role":  "ninth_realesrgan_upscale_polish_fail_closed_source_selection_policy_enforced",
                       "workflow_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realesrgan_upscale_polish_lane/workflow.api.json",
                       "requirements_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/sdxl_realesrgan_upscale_polish_lane/runtime_requirements.json",
-                      "status":  "local_realesrgan_source_selection_policy_enforced_one_conditional_two_rejected_pending_target_runtime_and_final_certification",
-                      "required_next_runtime_gate":  "target_runtime_proof_and_final_realesrgan_review_only_when_intentionally_selected",
-                      "local_pre_ec2_status":  "three_hash_bound_candidates_evaluated_normal_conditional_canny_technical_reject_two_character_visual_reject",
-                      "promotion_rule":  "Future candidates must pass the fail-closed source-selection gate. Retain every source master, do not claim universal improvement, and do not allow final production export until target-runtime proof and final lane review pass.",
+                      "status":  "bounded_target_runtime_conditional_resolution_export_complete_source_master_retained",
+                      "required_next_runtime_gate":  "none_for_completed_hash_bound_target_candidate_do_not_rerun",
+                      "local_pre_ec2_status":  "four_hash_bound_candidates_evaluated_target_normal_conditional_canny_technical_reject_two_character_visual_reject",
+                      "promotion_rule":  "Future candidates must pass the fail-closed source-selection gate with their own hash-bound target evidence. Retain every source master and do not claim universal hyperrealism improvement.",
                       "source_evidence":  [
                                               "Plan/07_IMPLEMENTATION/COMFYUI_WIRING_REPAIR_LIST.md",
                                               "Plan/10_REGISTRIES/wave14_workflow_patch_targets.json",
@@ -564,7 +564,10 @@
                                    "Plan/Instructions/QA/Evidence/Done_Certifications/W70_REALESRGAN_SOURCE_SELECTION_EXPORT_GATE_DONE_20260711T044500-0500.json"
                                ],
                       "proof_evidence":  [
-
+                                             "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_REALESRGAN_NORMAL_FULLBODY_TARGET_RUNTIME_CBD75EF8_20260713T211500-0500.json",
+                                             "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_REALESRGAN_NORMAL_FULLBODY_TARGET_RUNTIME_VISUAL_QA_CBD75EF8_20260713T211500-0500.json",
+                                             "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_REALESRGAN_SOURCE_SELECTION_EXPORT_GATE_20260713T212500-0500.json",
+                                             "Plan/Instructions/QA/Evidence/Done_Certifications/W70_REALESRGAN_SOURCE_SELECTION_EXPORT_GATE_DONE_20260713T212500-0500.json"
                                          ]
                   },
                   {
@@ -612,7 +615,7 @@
                          "Does not prove target-runtime behavior for the current Canny v6 microtexture/collar prompt candidate.",
                          "Does not prove target-runtime behavior for the current inpaint no-mouth v4 candidate.",
                          "Does not replace deeper multi-sample or final portfolio image-quality certification.",
-                         "The RealESRGAN upscale/polish lane has local runtime generation smoke and visual QA evidence for one source image only; target-runtime proof, broader robustness, and final certification remain separate."
+                         "The RealESRGAN upscale/polish lane has bounded target-runtime proof for one hash-bound Normal full-body source. Its conditional resolution export does not establish broader source-class robustness, preferred hyperrealism quality, body-mask or geometry authority, or universal certification."
                      ],
-    "next_action":  "Continue local-first on the next concrete non-mask orchestration/runtime task. Reuse completed local queue evidence, including RealESRGAN upscale/polish local runtime and visual QA, unless workflow/request/input/model/artifact integrity changed or final certification is intentionally selected. Do not start EC2, rerun Wave65, promote masks, or activate Wave71+."
+    "next_action":  "Continue local-first on the next concrete non-mask, non-Flux orchestration/runtime task. Do not rerun the completed hash-bound RealESRGAN target sample. Keep Flux license-gated; do not start EC2, rerun Wave65, promote masks, or activate Wave71+."
 }

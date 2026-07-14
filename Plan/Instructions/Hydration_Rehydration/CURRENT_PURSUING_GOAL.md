@@ -7257,3 +7257,6 @@ Evidence: `Plan/Instructions/QA/Evidence/Done_Certifications/W64_OPENPOSE_LANE_B
 Advance `sdxl_realesrgan_upscale_polish_lane` from its completed local multisource/source-selection evidence to one bounded target-runtime proof using only the conditionally approved Normal full-body source. The local package and role-aware transfer dry gate pass; checkpoint them first, then reuse hash-matching cloud assets and run one guarded unit only after exact-head deploy, Git, AWS, emergency-stop, watchdog, static, and input/model gates pass.
 
 Do not rerun prior local candidates, claim universal upscale improvement, discard source masters, promote masks, rerun Wave70 hard gates, activate Wave71+, mutate Jira, or execute license-gated Flux.
+## RealESRGAN Bounded Target Runtime Complete - 2026-07-13T21:25:00-05:00
+
+RealESRGAN target-runtime proof is complete for the exact hash-bound Normal full-body candidate. The selector permits conditional resolution delivery only, retains the source master, and makes no universal hyperrealism, body-mask, geometry, or anatomy claim. Do not replay this completed proof. Continue concrete non-mask project work while Flux remains license-gated and manual body gold masks remain unavailable.

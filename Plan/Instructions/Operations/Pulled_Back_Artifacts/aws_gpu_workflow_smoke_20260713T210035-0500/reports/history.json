@@ -1,0 +1,97 @@
+{
+  "meta": {
+    "4": {
+      "display_node": "4",
+      "node_id": "4",
+      "parent_node": null,
+      "real_node_id": "4"
+    }
+  },
+  "outputs": {
+    "4": {
+      "images": [
+        {
+          "filename": "realesrgan_normal_fullbody_w70_v1_00001_.png",
+          "subfolder": "",
+          "type": "output"
+        }
+      ]
+    }
+  },
+  "prompt": [
+    0,
+    "7917cbd2-0eaf-4b0a-a628-a5778d18231b",
+    {
+      "1": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "upscale_source_normal_fullbody_w70_v1.png"
+        }
+      },
+      "2": {
+        "class_type": "UpscaleModelLoader",
+        "inputs": {
+          "model_name": "RealESRGAN_x4plus.pth"
+        }
+      },
+      "3": {
+        "class_type": "ImageUpscaleWithModel",
+        "inputs": {
+          "image": [
+            "1",
+            0
+          ],
+          "upscale_model": [
+            "2",
+            0
+          ]
+        }
+      },
+      "4": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "filename_prefix": "realesrgan_normal_fullbody_w70_v1",
+          "images": [
+            "3",
+            0
+          ]
+        }
+      }
+    },
+    {
+      "client_id": "codex-realesrgan-target-cbd75ef8",
+      "create_time": 1783994461843
+    },
+    [
+      "4"
+    ]
+  ],
+  "status": {
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "7917cbd2-0eaf-4b0a-a628-a5778d18231b",
+          "timestamp": 1783994461843
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [],
+          "prompt_id": "7917cbd2-0eaf-4b0a-a628-a5778d18231b",
+          "timestamp": 1783994461852
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "7917cbd2-0eaf-4b0a-a628-a5778d18231b",
+          "timestamp": 1783994469014
+        }
+      ]
+    ],
+    "status_str": "success"
+  }
+}
