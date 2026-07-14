@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "created_at": "2026-07-13T19:12:24-05:00",
+  "result": "pass_local_only",
+  "classification": "EBS_ENCRYPTED_MIGRATION_PLANNING_IMPLEMENTED_LOCAL_PROOF",
+  "local_only": true,
+  "aws_read_only_inspection_performed": true,
+  "aws_mutation_performed": false,
+  "ec2_started_by_this_task": false,
+  "ec2_stopped_by_this_task": false,
+  "ebs_mutation_performed": false,
+  "observed_control_plane": {
+    "instance_id": "i-0560bf8d143f93bb1",
+    "region": "us-east-1",
+    "availability_zone": "us-east-1d",
+    "root_device_name": "/dev/sda1",
+    "root_volume_id": "vol-0eb9b2c6d3d2706d6",
+    "root_volume_size_gib": 1024,
+    "root_volume_type": "gp3",
+    "root_volume_encrypted": false,
+    "concurrent_runtime_owner": "codex-main-openpose-runtime",
+    "concurrent_runtime_respected": true
+  },
+  "implemented": [
+    "root-device-specific volume discovery",
+    "fresh hash-bound filesystem evidence checks for approved instance, region, and stopped completion",
+    "smaller, same-size, and capacity-increase encrypted replacement classifications",
+    "coordinator-generated EBS_FILESYSTEM_EVIDENCE.json after final stopped verification",
+    "local-only eight-phase rollback-first migration-plan generator",
+    "protected CI regression coverage"
+  ],
+  "validation": {
+    "ebs_migration_plan_regression_check_count": 12,
+    "ebs_migration_plan_regression_failed_check_count": 0,
+    "batched_runtime_regression_check_count": 22,
+    "batched_runtime_regression_failed_check_count": 0,
+    "runtime_safety_regression": "pass_local_only"
+  },
+  "execution_authorized": false,
+  "remaining_blocker": "BLOCKED_EBS_USED_BYTES_PROOF_MISSING",
+  "next_action": "After an already-required batched GPU window completes and writes stopped-window filesystem evidence, rerun readiness and generate the review plan. Implement and review a separate bounded migration executor before creating or replacing EBS resources."
+}
