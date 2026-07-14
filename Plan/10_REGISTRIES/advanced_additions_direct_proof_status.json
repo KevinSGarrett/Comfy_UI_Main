@@ -1,0 +1,291 @@
+{
+  "advanced_systems": [
+    {
+      "blockers": [
+        "model_or_runtime_capability_proof_missing",
+        "required_visual_evidence_missing",
+        "trusted_gold_mask_or_ownership_evidence_missing"
+      ],
+      "mapping_state": "complete",
+      "module_surfaces": [
+        "contact_graph",
+        "pressure_map",
+        "deformation_pass",
+        "interaction_qa"
+      ],
+      "planned_waves": [
+        21,
+        22,
+        23,
+        25
+      ],
+      "qa_gates": [
+        "contact_ownership",
+        "no_clipping",
+        "no_floating",
+        "occlusion_consistency"
+      ],
+      "required_capabilities": [
+        "pose_contact_extraction",
+        "pressure_inference",
+        "depth_occlusion_consistency"
+      ],
+      "review_requirements": {
+        "audio": [],
+        "visual": [
+          "contact_crops",
+          "occlusion_proof"
+        ]
+      },
+      "runtime_promotion_state": "blocked_missing_direct_runtime_evidence",
+      "system_id": "physical_interaction_engine"
+    },
+    {
+      "blockers": [
+        "production_robustness_multiseed_long_duration_certification_missing"
+      ],
+      "direct_proof_scope": {
+        "capabilities": [
+          "temporal_pose",
+          "regional_motion",
+          "sequence_consistency"
+        ],
+        "clip_count": 1,
+        "fps": 24,
+        "frame_count": 49,
+        "review": "frame_sequence_review"
+      },
+      "mapping_state": "complete",
+      "module_surfaces": [
+        "keyframe_planner",
+        "motion_timeline",
+        "temporal_qa"
+      ],
+      "planned_waves": [
+        26,
+        27,
+        28
+      ],
+      "qa_gates": [
+        "phase_consistency",
+        "identity_persistence",
+        "anatomy_persistence"
+      ],
+      "required_capabilities": [
+        "temporal_pose",
+        "regional_motion",
+        "sequence_consistency"
+      ],
+      "review_requirements": {
+        "audio": [],
+        "visual": [
+          "frame_sequence_review"
+        ]
+      },
+      "runtime_promotion_state": "bounded_direct_runtime_proof_pass_single_clip_not_production_certification",
+      "system_id": "micro_motion_layer"
+    },
+    {
+      "blockers": [
+        "model_or_runtime_capability_proof_missing",
+        "required_visual_evidence_missing",
+        "trusted_gold_mask_or_ownership_evidence_missing"
+      ],
+      "mapping_state": "complete",
+      "module_surfaces": [
+        "surface_state_ledger",
+        "mask_plan",
+        "skin_fabric_detail_passes"
+      ],
+      "planned_waves": [
+        18,
+        19,
+        29
+      ],
+      "qa_gates": [
+        "target_mask_only",
+        "surface_persistence",
+        "protected_neighbor_leakage"
+      ],
+      "required_capabilities": [
+        "trusted_regional_masks",
+        "material_response",
+        "state_tracking"
+      ],
+      "review_requirements": {
+        "audio": [],
+        "visual": [
+          "regional_surface_crops"
+        ]
+      },
+      "runtime_promotion_state": "blocked_missing_direct_runtime_evidence",
+      "system_id": "skin_material_realism"
+    },
+    {
+      "blockers": [
+        "model_or_runtime_capability_proof_missing",
+        "required_visual_evidence_missing"
+      ],
+      "mapping_state": "complete",
+      "module_surfaces": [
+        "scene_state_ledger",
+        "state_diff_report",
+        "revision_manager"
+      ],
+      "planned_waves": [
+        18,
+        29,
+        32
+      ],
+      "qa_gates": [
+        "planned_generated_state_match",
+        "shot_continuity"
+      ],
+      "required_capabilities": [
+        "state_detection",
+        "sequence_correspondence"
+      ],
+      "review_requirements": {
+        "audio": [],
+        "visual": [
+          "before_after_shot_review"
+        ]
+      },
+      "runtime_promotion_state": "blocked_missing_direct_runtime_evidence",
+      "system_id": "fluid_body_state_continuity"
+    },
+    {
+      "blockers": [
+        "model_or_runtime_capability_proof_missing",
+        "required_visual_evidence_missing",
+        "required_audio_evidence_missing"
+      ],
+      "mapping_state": "complete",
+      "module_surfaces": [
+        "audio_force_map",
+        "foley_timing",
+        "spatial_mix_metadata"
+      ],
+      "planned_waves": [
+        30,
+        31
+      ],
+      "qa_gates": [
+        "contact_transient_alignment",
+        "effort_alignment"
+      ],
+      "required_capabilities": [
+        "pose_contact_force",
+        "audio_timing"
+      ],
+      "review_requirements": {
+        "audio": [
+          "transient_sync_review"
+        ],
+        "visual": [
+          "contact_timing_review"
+        ]
+      },
+      "runtime_promotion_state": "blocked_missing_direct_runtime_evidence",
+      "system_id": "pose_to_audio_force_model"
+    },
+    {
+      "blockers": [
+        "model_or_runtime_capability_proof_missing",
+        "required_visual_evidence_missing",
+        "required_audio_evidence_missing"
+      ],
+      "mapping_state": "complete",
+      "module_surfaces": [
+        "variation_scheduler",
+        "fatigue_curves",
+        "take_manager"
+      ],
+      "planned_waves": [
+        26,
+        28,
+        29,
+        32
+      ],
+      "qa_gates": [
+        "anti_repetition",
+        "state_non_reset",
+        "pacing_consistency"
+      ],
+      "required_capabilities": [
+        "long_form_state",
+        "variation_planning"
+      ],
+      "review_requirements": {
+        "audio": [
+          "vocal_variation_review"
+        ],
+        "visual": [
+          "sequence_variation_review"
+        ]
+      },
+      "runtime_promotion_state": "blocked_missing_direct_runtime_evidence",
+      "system_id": "long_form_fatigue_variation"
+    },
+    {
+      "blockers": [
+        "model_or_runtime_capability_proof_missing",
+        "required_visual_evidence_missing",
+        "required_audio_evidence_missing"
+      ],
+      "mapping_state": "complete",
+      "module_surfaces": [
+        "room_acoustics_profile",
+        "spatial_renderer_handoff"
+      ],
+      "planned_waves": [
+        9,
+        30,
+        31
+      ],
+      "qa_gates": [
+        "camera_pan_match",
+        "environment_reverb_match",
+        "distance_cue_match"
+      ],
+      "required_capabilities": [
+        "room_geometry",
+        "camera_character_positions",
+        "spatial_audio"
+      ],
+      "review_requirements": {
+        "audio": [
+          "pan_reverb_distance_review"
+        ],
+        "visual": [
+          "camera_environment_review"
+        ]
+      },
+      "runtime_promotion_state": "blocked_missing_direct_runtime_evidence",
+      "system_id": "room_acoustics_spatial_audio"
+    }
+  ],
+  "artifact_id": "advanced_additions_direct_proof_status",
+  "claim_boundary": {
+    "body_mask_or_geometry_authority": false,
+    "jira_mutated": false,
+    "mask_promotion_authorized": false,
+    "production_video_lane_certification": false,
+    "single_clip_only": true,
+    "wave70_hard_gate_rerun": false,
+    "wave71_activation_authorized": false
+  },
+  "proof_summary": {
+    "bounded_direct_runtime_proof_pass": 1,
+    "bounded_pass_system": "micro_motion_layer",
+    "direct_runtime_proof_blocked": 6,
+    "production_certified": 0,
+    "systems_total": 7
+  },
+  "qa_decision": "micro_motion_bounded_runtime_proof_pass_six_systems_remain_fail_closed",
+  "runtime_promotion_state": "blocked",
+  "schema_version": "1.0",
+  "status": "Blocked_Six_Advanced_Systems_Direct_Proof_Missing_One_Bounded_System_Pass",
+  "timestamp": "2026-07-14T12:05:00-05:00",
+  "tracker_id": "TRK-W64-056"
+}
