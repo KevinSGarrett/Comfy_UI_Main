@@ -9,6 +9,8 @@ operation is performed.
 #>
 param(
   [string]$ProjectRoot = "C:\Comfy_UI_Main",
+  [ValidateSet("base_generation", "video_generation")]
+  [string]$WorkflowGroup = "base_generation",
   [Parameter(Mandatory=$true)][string]$RunPackageManifestFile,
   [Parameter(Mandatory=$true)][string]$AuthGateFile,
   [Parameter(Mandatory=$true)][string]$ProfileMatrixFile,
@@ -85,6 +87,7 @@ function Invoke-Case {
   $arguments = @(
     "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $validator,
     "-ProjectRoot", $ProjectRoot,
+    "-WorkflowGroup", $WorkflowGroup,
     "-LaneId", $laneId,
     "-AuthGateFile", $fixture.auth_path,
     "-ProfileMatrixFile", $profilePath,
@@ -182,7 +185,7 @@ $tests += Invoke-Case -Name "blocked_auth_cross_gate" -ExpectedExitCode 0 -Expec
 $fallbackDir = Join-Path $tempRoot "lane_scan_fallback"
 [System.IO.Directory]::CreateDirectory($fallbackDir) | Out-Null
 $fallbackOut = Join-Path $fallbackDir "readiness.json"
-& powershell -NoProfile -ExecutionPolicy Bypass -File $validator -ProjectRoot $ProjectRoot -LaneId $laneId -AuthGateFile $authPath -ProfileMatrixFile $profilePath -ModelRegistryCoverageFile $registryPath -OutFile $fallbackOut *> $null
+& powershell -NoProfile -ExecutionPolicy Bypass -File $validator -ProjectRoot $ProjectRoot -WorkflowGroup $WorkflowGroup -LaneId $laneId -AuthGateFile $authPath -ProfileMatrixFile $profilePath -ModelRegistryCoverageFile $registryPath -OutFile $fallbackOut *> $null
 $fallbackExit = $LASTEXITCODE
 $fallbackPayload = if (Test-Path -LiteralPath $fallbackOut) { Get-Content -LiteralPath $fallbackOut -Raw | ConvertFrom-Json } else { $null }
 $fallbackPass = (
@@ -243,7 +246,7 @@ $siblingRoot = $ProjectRoot.TrimEnd("\", "/") + "_sibling_regression_" + ([guid]
 $siblingManifest = Join-Path $siblingRoot "RUN_PACKAGE_MANIFEST.json"
 Copy-Item -LiteralPath $sourceManifestPath -Destination $siblingManifest
 $siblingReadinessOut = Join-Path $tempRoot "sibling_manifest_readiness.json"
-& powershell -NoProfile -ExecutionPolicy Bypass -File $validator -ProjectRoot $ProjectRoot -LaneId $laneId -AuthGateFile $authPath -ProfileMatrixFile $profilePath -ModelRegistryCoverageFile $registryPath -RunPackageManifestFile $siblingManifest -OutFile $siblingReadinessOut *> $null
+& powershell -NoProfile -ExecutionPolicy Bypass -File $validator -ProjectRoot $ProjectRoot -WorkflowGroup $WorkflowGroup -LaneId $laneId -AuthGateFile $authPath -ProfileMatrixFile $profilePath -ModelRegistryCoverageFile $registryPath -RunPackageManifestFile $siblingManifest -OutFile $siblingReadinessOut *> $null
 $siblingReadinessExit = $LASTEXITCODE
 $siblingReadiness = if (Test-Path -LiteralPath $siblingReadinessOut) { Get-Content -LiteralPath $siblingReadinessOut -Raw | ConvertFrom-Json } else { $null }
 $siblingHandoffOut = Join-Path $tempRoot "sibling_manifest_handoff.json"
@@ -291,6 +294,7 @@ $record = [ordered]@{
   comfyui_contacted = $false
   ec2_started = $false
   generation_executed = $false
+  workflow_group = $WorkflowGroup
   lane_id = $laneId
   test_count = $tests.Count
   passing_test_count = @($tests | Where-Object { [string]$_.result -eq "pass" }).Count
