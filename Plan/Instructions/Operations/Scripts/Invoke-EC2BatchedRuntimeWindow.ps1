@@ -394,9 +394,22 @@ try {
 
 if ($null -ne $firstSuccessfulSmokeFile -and $record.final_state -eq "stopped") {
   try {
+    $firstSuccessfulSmoke = Read-JsonRequired -Path $firstSuccessfulSmokeFile
+    if ($null -eq $firstSuccessfulSmoke.remote_result.root_filesystem) { throw "Successful smoke record has no root_filesystem telemetry." }
+    $filesystemEvidenceFile = Join-Path $OutDirectory "EBS_FILESYSTEM_EVIDENCE.json"
+    $filesystemEvidence = [ordered]@{
+      schema_version="1.0"; created_at=[datetimeoffset]::UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ")
+      result="filesystem_usage_captured_after_completed_runtime_window"; instance_id=$InstanceId; region=$Region; final_state=$record.final_state
+      runtime_window_id=$RuntimeWindowId; work_order_id=[string]$workOrder.work_order_id
+      source_smoke_record=(ConvertTo-ProjectRelativePath $firstSuccessfulSmokeFile)
+      source_smoke_record_sha256=(Get-FileHash -Algorithm SHA256 -LiteralPath $firstSuccessfulSmokeFile).Hash.ToLowerInvariant()
+      root_filesystem=$firstSuccessfulSmoke.remote_result.root_filesystem
+      ebs_mutation_authorized=$false
+    }
+    Write-JsonAtomic -Value $filesystemEvidence -Path $filesystemEvidenceFile
     $ebsOut = Join-Path $OutDirectory "EBS_RIGHT_SIZING_READINESS.json"
-    $ebsOutput = & (Join-Path $PSScriptRoot "Test-EC2EbsRightSizingReadiness.ps1") -ProjectRoot $ProjectRoot -InstanceId $InstanceId -Region $Region -FilesystemEvidenceFile $firstSuccessfulSmokeFile -OutFile $ebsOut | ConvertFrom-Json
-    $record.ebs_right_sizing_readiness = [ordered]@{ classification=$ebsOutput.classification; path=(ConvertTo-ProjectRelativePath $ebsOut); recommended_target_size_gib=$ebsOutput.recommended_target_size_gib; mutation_authorized=$false }
+    $ebsOutput = & (Join-Path $PSScriptRoot "Test-EC2EbsRightSizingReadiness.ps1") -ProjectRoot $ProjectRoot -InstanceId $InstanceId -Region $Region -FilesystemEvidenceFile $filesystemEvidenceFile -OutFile $ebsOut | ConvertFrom-Json
+    $record.ebs_right_sizing_readiness = [ordered]@{ classification=$ebsOutput.classification; path=(ConvertTo-ProjectRelativePath $ebsOut); filesystem_evidence=(ConvertTo-ProjectRelativePath $filesystemEvidenceFile); recommended_target_size_gib=$ebsOutput.recommended_target_size_gib; migration_target_size_gib=$ebsOutput.migration_target_size_gib; mutation_authorized=$false }
   } catch { $record.errors += "Post-stop EBS readiness check failed: $($_.Exception.Message)" }
 }
 

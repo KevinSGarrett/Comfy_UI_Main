@@ -93,6 +93,11 @@ jobs:
         run: |
           powershell -NoProfile -ExecutionPolicy Bypass -File "$env:GITHUB_WORKSPACE\Plan\Instructions\QA\Scripts\Test-EC2BatchedRuntimeCoordinatorRegression.ps1" -ProjectRoot "$env:GITHUB_WORKSPACE" -OutFile "$env:GITHUB_WORKSPACE\ci_artifacts\workflow_prerequisite_matching\ec2_batched_runtime_coordinator_regression.json"
 
+      - name: EC2 encrypted volume migration plan regression
+        shell: pwsh
+        run: |
+          powershell -NoProfile -ExecutionPolicy Bypass -File "$env:GITHUB_WORKSPACE\Plan\Instructions\QA\Scripts\Test-EC2EncryptedVolumeMigrationPlanRegression.ps1" -ProjectRoot "$env:GITHUB_WORKSPACE" -OutFile "$env:GITHUB_WORKSPACE\ci_artifacts\workflow_prerequisite_matching\ec2_encrypted_volume_migration_plan_regression.json"
+
       - name: Sync exported workflow files
         shell: pwsh
         run: |

@@ -15,7 +15,7 @@ This runbook is the active cost-control policy for `C:\Comfy_UI_Main`. It separa
 - `Get-EC2RuntimeReadinessDisposition.ps1` distinguishes `NO_ELIGIBLE_GPU_WORK`, `READY_WORK_WAITING_FOR_EC2`, `GPU_RUNTIME_WINDOW_STARTING`, `BLOCKED_FAILED_GPU_WORK_ORDER`, active backoff, active window, and unowned running state. These classifications do not grant automation EC2-start authority.
 - Insufficient-capacity failures are persisted by `Set-EC2CapacityBackoffState.ps1` at 15, 30, 60, then 120 minutes. A successful start clears the state. Repeated immediate start loops are prohibited.
 - S3 lifecycle expires replaceable deploy bundles after 90 days and old render pullback copies after 180 days, expires noncurrent versions after 30 days, and aborts incomplete multipart uploads after 7 days. `model-cache/` has no object expiration.
-- The attached 1 TiB gp3 volume is unencrypted. Do not guess a smaller replacement. Future live proofs capture root filesystem usage; `Test-EC2EbsRightSizingReadiness.ps1` must pass before a separate encrypted-volume migration is planned. Never start EC2 only to collect that measurement.
+- The attached 1 TiB gp3 volume is unencrypted. Do not guess a smaller replacement. Batched live proofs write hash-bound stopped-window filesystem evidence; `Test-EC2EbsRightSizingReadiness.ps1` must pass before `New-EC2EncryptedVolumeMigrationPlan.ps1` can produce a rollback-first review plan. The plan never authorizes execution. Never start EC2 only to collect the measurement.
 
 ## Current Cost Facts
 
@@ -123,6 +123,15 @@ powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instru
 ```
 
 Add `-Execute` only after reviewing the dry-run record and verifying the same-window emergency-stop schedule. The coordinator changes the work order from `READY_WORK_WAITING_FOR_EC2` to `EXECUTING`, then to `COMPLETED`, `READY_WORK_WAITING_FOR_EC2` for classified capacity failure, or `FAILED_CLOSED`. A successful live record requires every unit to report generation plus pullback, final instance state `stopped`, and matching marker completion.
+
+EBS readiness and migration-plan generation after a legitimate stopped runtime window:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\Test-EC2EbsRightSizingReadiness.ps1 -ProjectRoot C:\Comfy_UI_Main -FilesystemEvidenceFile <EBS_FILESYSTEM_EVIDENCE.json> -OutFile C:\Comfy_UI_Main\runtime_artifacts\ebs_migration\EBS_RIGHT_SIZING_READINESS.json
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\Comfy_UI_Main\Plan\Instructions\Operations\Scripts\New-EC2EncryptedVolumeMigrationPlan.ps1 -ProjectRoot C:\Comfy_UI_Main -ReadinessEvidenceFile C:\Comfy_UI_Main\runtime_artifacts\ebs_migration\EBS_RIGHT_SIZING_READINESS.json -KmsKeyId alias/aws/ebs -OutFile C:\Comfy_UI_Main\runtime_artifacts\ebs_migration\EBS_ENCRYPTED_VOLUME_MIGRATION_PLAN.json
+```
+
+The readiness record must bind fresh filesystem telemetry to the approved instance and region and independently record final state `stopped`. The plan requires a completed rollback snapshot, an offline read-only source copy through a same-AZ maintenance helper, bounded boot validation, and retention of both source volume and snapshot. It performs no AWS action and requires a separate reviewed executor before migration.
 
 Example static proof:
 
