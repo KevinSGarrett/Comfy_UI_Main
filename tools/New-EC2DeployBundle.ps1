@@ -414,8 +414,43 @@ $declaredInputAssets = @(
   @($laneRuntimeRequirements.required_input_assets | Where-Object { $null -ne $_ })
   @($laneRuntimeRequirements.required_inputs | Where-Object { $null -ne $_ })
 )
+$runPackageDir = [System.IO.Path]::GetFullPath((Split-Path -Parent $RunPackageManifestFile)).TrimEnd("\", "/")
+$sourceBinding = $runPackage.prompt_profile.source_binding
+$sourceBindingAvailable = ($null -ne $sourceBinding -and [bool]$sourceBinding.supplied -and [bool]$sourceBinding.valid)
 $requiredInputAssets = New-Object System.Collections.ArrayList
 foreach ($workflowInputFilename in $workflowInputFilenames) {
+  $sourceKind = "lane_runtime_requirement"
+  if ($sourceBindingAvailable -and [string]$sourceBinding.staged_filename -eq $workflowInputFilename) {
+    $sourceArtifact = [string]$sourceBinding.packaged
+    $filename = [string]$sourceBinding.staged_filename
+    $expectedSha256 = ([string]$sourceBinding.sha256).Trim().ToLowerInvariant()
+    $expectedSizeBytes = [int64]$sourceBinding.size_bytes
+    if ([string]::IsNullOrWhiteSpace($sourceArtifact) -or
+        [string]::IsNullOrWhiteSpace($filename) -or
+        [System.IO.Path]::GetFileName($filename) -ne $filename -or
+        $expectedSha256 -notmatch '^[0-9a-f]{64}$' -or
+        $expectedSizeBytes -lt 1) {
+      throw "Run-package source binding is incomplete or invalid for workflow input: $workflowInputFilename"
+    }
+    $sourcePath = Resolve-ProjectPath -Path $sourceArtifact
+    $sourcePathFull = [System.IO.Path]::GetFullPath($sourcePath)
+    if (!$sourcePathFull.StartsWith($runPackageDir + [System.IO.Path]::DirectorySeparatorChar, [System.StringComparison]::OrdinalIgnoreCase)) {
+      throw "Run-package source binding must remain inside its run package: $sourceArtifact"
+    }
+    if (!(Test-Path -LiteralPath $sourcePathFull -PathType Leaf)) {
+      throw "Run-package source binding file is missing: $sourceArtifact"
+    }
+    $actualSizeBytes = [int64](Get-Item -LiteralPath $sourcePathFull).Length
+    $actualSha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $sourcePathFull).Hash.ToLowerInvariant()
+    if ($actualSizeBytes -ne $expectedSizeBytes) {
+      throw "Run-package source binding size mismatch for $sourceArtifact`: expected $expectedSizeBytes observed $actualSizeBytes"
+    }
+    if ($actualSha256 -cne $expectedSha256) {
+      throw "Run-package source binding hash mismatch for $sourceArtifact`: expected $expectedSha256 observed $actualSha256"
+    }
+    $sourcePath = $sourcePathFull
+    $sourceKind = "run_package_source_binding"
+  } else {
   $matchingAssets = @($declaredInputAssets | Where-Object { [string]$_.filename -eq $workflowInputFilename })
   if ($matchingAssets.Count -ne 1) {
     throw "Workflow input must have exactly one required_input_assets entry: $workflowInputFilename (found $($matchingAssets.Count))"
@@ -438,6 +473,7 @@ foreach ($workflowInputFilename in $workflowInputFilenames) {
   if ($actualSha256 -cne $expectedSha256) {
     throw "Required lane input asset hash mismatch for $sourceArtifact`: expected $expectedSha256 observed $actualSha256"
   }
+  }
   $bundlePath = "runtime_inputs/$LaneId/$filename"
   Copy-BundleFile -SourcePath $sourcePath -ContentRoot $contentRoot -Records $records -BundleRelativePath $bundlePath -Required
   [void]$requiredInputAssets.Add([ordered]@{
@@ -447,6 +483,7 @@ foreach ($workflowInputFilename in $workflowInputFilenames) {
     comfyui_input_subdir = [string]$asset.comfyui_input_subdir
     sha256 = $actualSha256
     size_bytes = (Get-Item -LiteralPath $sourcePath).Length
+    source_kind = $sourceKind
   })
 }
 

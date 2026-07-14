@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-WAN22-SOURCE-BOUND-DEPLOY-BUNDLE-LOCAL-READINESS-20260714T040701-0500",
+  "timestamp": "2026-07-14T04:07:01-05:00",
+  "classification": "WAN22_SOURCE_BOUND_DEPLOY_BUNDLE_LOCAL_PASS",
+  "lane_id": "wan_2_2_ti2v_5b_primary_lane",
+  "source_git_head_before_checkpoint": "d813e8858e273a17b39795f73f50ade52ef57f9c",
+  "trigger": {
+    "classification": "WAN22_CHANGED_SOURCE_LOCAL_READINESS_PASS",
+    "evidence": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_WAN22_SOURCE_DIVERSITY_LOCAL_READINESS_20260714T034515-0500.json",
+    "observed_gap": "The deploy builder required every prompt LoadImage filename to exist in static lane runtime requirements and therefore rejected the exact run-package source binding before bundle creation.",
+    "prepatch_failure": "Workflow input must have exactly one required_input_assets entry: wan22_source_diversity_ref1_78b8e4ca.jpg (found 0)"
+  },
+  "implementation": {
+    "builder": "tools/New-EC2DeployBundle.ps1",
+    "regression": "Plan/Instructions/QA/Scripts/Test-EC2DeployBundleSourceBindingRegression.ps1",
+    "source_binding_acceptance_rule": "Accept only a supplied and valid run-package source binding whose staged filename matches the prompt LoadImage input, whose packaged path remains inside its run-package directory, and whose positive byte count and SHA-256 match the packaged file.",
+    "static_lane_requirement_fallback_preserved": true
+  },
+  "validation": {
+    "powershell_parse_errors": 0,
+    "source_binding_regression_result": "pass_local_only",
+    "source_binding_regression_test_count": 3,
+    "source_binding_regression_passing_count": 3,
+    "source_binding_regression_failed_count": 0,
+    "valid_source_binding_bundle_passed": true,
+    "source_hash_drift_failed_closed": true,
+    "run_package_directory_escape_failed_closed": true,
+    "prior_static_wan_input_bundle_passed": true,
+    "prior_static_wan_source_kind": "lane_runtime_requirement",
+    "changed_source_bundle_result": "pass_local_only",
+    "changed_source_bundle_zip_portability_gate": "pass",
+    "changed_source_runtime_input_source_kind": "run_package_source_binding",
+    "changed_source_runtime_input_sha256": "e20a857f0ac23151ae1b8aa47fb4746c975e522a5598896f747ef08a50cc9336",
+    "changed_source_runtime_input_size_bytes": 350118,
+    "local_patch_probe_bundle": "runtime_artifacts/d22source/w22sd_local_patch_v1.zip",
+    "local_patch_probe_bundle_sha256": "d3e056b7eda441eb9d2d36c8e25bf1a93f096f8d460e33c136be69d11a36f9d1"
+  },
+  "checks": {
+    "source_staged_to_runtime_inputs": true,
+    "source_hash_and_size_exact": true,
+    "source_path_contained_by_run_package": true,
+    "zip_manifest_and_entries_consistent": true,
+    "static_input_behavior_regression_free": true,
+    "aws_contacted": false,
+    "comfyui_contacted": false,
+    "ec2_started": false,
+    "generation_executed": false
+  },
+  "failed_checks": [],
+  "result": "pass_wan22_source_bound_deploy_bundle_local_readiness",
+  "boundaries": {
+    "s3_publish_completed": false,
+    "target_runtime_execution_completed": false,
+    "source_diversity_runtime_claimed": false,
+    "production_video_lane_certification_claimed": false,
+    "mask_or_geometry_authority_claimed": false,
+    "wave71_activation_claimed": false,
+    "jira_mutated": false
+  },
+  "next_action": "Checkpoint the deploy-builder source-binding support through a protected codex branch and required PR. After exact-head main is green, rebuild and revalidate the package and deploy bundle, publish and re-download the exact ZIP through S3, then consider one guarded seed-2271401 target-runtime unit."
+}
