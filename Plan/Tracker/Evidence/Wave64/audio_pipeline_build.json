@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "evidence_id": "W64-AUDIO-PIPELINE-BUILD-20260712T161737-0500",
-  "timestamp": "2026-07-13T05:10:04-05:00",
+  "timestamp": "2026-07-14T06:16:22-05:00",
   "tracker_id": "TRK-W64-025",
   "item_id": "ITEM-W64-025",
   "source_citation": "Plan/05_AUDIO_SYSTEM/AUDIO_GENERATION_AV_SYNC_BLUEPRINT.md",
@@ -199,15 +199,16 @@
     "production_audio_review_count": 0,
     "comfyui_started": false,
     "generation_executed": false,
-    "aws_contacted": false,
+    "aws_contacted": true,
     "ec2_started": false,
-    "mask_promotion_executed": false
+    "mask_promotion_executed": false,
+    "aws_read_only_inventory_executed": true
   },
   "blockers": [
     {
       "classification": "Blocked_Audio_Production_Runtime_Proof_Missing",
       "scope": "primary_row_blocker",
-      "reason": "Bounded inventory found zero genuine audio candidates in authoritative ComfyUI input and pulled-back runtime-artifact roots; retained PCM WAVs are synthetic fixtures only."
+      "reason": "Local authoritative roots and approved read-only S3 runtime prefixes contain no genuine audio candidate; the four existing WAN MP4s have video handlers and no audio handlers."
     },
     {
       "classification": "Blocked_Audio_Playback_Review_Missing",
@@ -220,7 +221,7 @@
       "reason": "The deterministic builder reports explicitly labeled PCM RMS/sample-peak technical proxies; no ITU-R BS.1770 integrated loudness or true-peak certification measurement exists."
     }
   ],
-  "result": "blocked_no_genuine_audio_runtime_input_in_bounded_roots",
+  "result": "blocked_no_genuine_audio_in_local_or_approved_aws_runtime_sources",
   "overall_pass": false,
   "status_decision": "Blocked_Audio_Production_Runtime_Proof_Missing",
   "strict_decision": {
@@ -241,5 +242,12 @@
     "candidate_count": 0,
     "genuine_runtime_candidate_present": false
   },
-  "reconciliation_evidence": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_PIPELINE_RUNTIME_INPUT_INVENTORY_20260713T051004-0500.json"
+  "reconciliation_evidence": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_PIPELINE_AWS_RUNTIME_INVENTORY_20260714T061622-0500.json",
+  "aws_production_audio_inventory": {
+    "evidence": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_PIPELINE_AWS_RUNTIME_INVENTORY_20260714T061622-0500.json",
+    "prefixes_checked": 3,
+    "standalone_audio_object_count": 0,
+    "existing_video_only_mp4_count": 4,
+    "genuine_runtime_candidate_present": false
+  }
 }
