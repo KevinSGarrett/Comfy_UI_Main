@@ -34,7 +34,13 @@ function Write-JsonNoBom {
     [int]$Depth = 30
   )
   $encoding = New-Object System.Text.UTF8Encoding($false)
-  [System.IO.File]::WriteAllText($Path, ($Value | ConvertTo-Json -Depth $Depth), $encoding)
+  $temporary = "$Path.$([guid]::NewGuid().ToString('N')).tmp"
+  try {
+    [System.IO.File]::WriteAllText($temporary, ($Value | ConvertTo-Json -Depth $Depth), $encoding)
+    Move-Item -LiteralPath $temporary -Destination $Path -Force
+  } finally {
+    Remove-Item -LiteralPath $temporary -Force -ErrorAction SilentlyContinue
+  }
 }
 
 function Get-RelativePathCompat {
@@ -67,9 +73,32 @@ function Resolve-ProjectPath {
   return Join-Path $ProjectRoot $Path
 }
 
+function Assert-ProjectInputFile {
+  param([Parameter(Mandatory=$true)][string]$Path)
+  $root = [System.IO.Path]::GetFullPath($ProjectRoot).TrimEnd("\", "/")
+  $resolved = [System.IO.Path]::GetFullPath($Path)
+  if (!$resolved.StartsWith($root + [System.IO.Path]::DirectorySeparatorChar, [System.StringComparison]::OrdinalIgnoreCase)) {
+    throw "Input file must remain inside ProjectRoot: $Path"
+  }
+  if (!(Test-Path -LiteralPath $resolved -PathType Leaf)) {
+    throw "Required input file missing: $resolved"
+  }
+}
+
 function ConvertTo-SafeId {
   param([Parameter(Mandatory=$true)][string]$Value)
   return (($Value.ToLowerInvariant() -replace '[^a-z0-9]+', '_').Trim('_'))
+}
+
+function Get-StringSha256Lower {
+  param([Parameter(Mandatory=$true)][string]$Value)
+  $bytes = [System.Text.Encoding]::UTF8.GetBytes($Value)
+  $sha256 = [System.Security.Cryptography.SHA256]::Create()
+  try {
+    return ([System.BitConverter]::ToString($sha256.ComputeHash($bytes))).Replace("-", "").ToLowerInvariant()
+  } finally {
+    $sha256.Dispose()
+  }
 }
 
 function New-Check {
@@ -92,6 +121,7 @@ if (!(Test-Path -LiteralPath $ProjectRoot)) {
 }
 
 $resolvedMatrixFile = Resolve-ProjectPath -Path $MatrixFile
+Assert-ProjectInputFile -Path $resolvedMatrixFile
 $matrix = Read-JsonFile -Path $resolvedMatrixFile
 $matrixId = [string]$matrix.matrix_id
 if ([string]::IsNullOrWhiteSpace($matrixId)) {
@@ -102,10 +132,21 @@ $laneId = [string]$matrix.lane_id
 if ([string]::IsNullOrWhiteSpace($laneId)) {
   throw "Matrix file must define lane_id."
 }
+$workflowGroup = [string]$matrix.workflow_group
+if ([string]::IsNullOrWhiteSpace($workflowGroup)) {
+  $workflowGroup = "base_generation"
+}
 
+$requiresRouterGate = $true
+if ($null -ne $matrix.PSObject.Properties["requires_router_gate"]) {
+  $requiresRouterGate = [bool]$matrix.requires_router_gate
+}
 $routeRequestFile = [string]$matrix.route_request_file
-if ([string]::IsNullOrWhiteSpace($routeRequestFile)) {
-  throw "Matrix file must define route_request_file."
+if ($requiresRouterGate -and [string]::IsNullOrWhiteSpace($routeRequestFile)) {
+  throw "Matrix file must define route_request_file when requires_router_gate=true."
+}
+if (![string]::IsNullOrWhiteSpace($routeRequestFile)) {
+  Assert-ProjectInputFile -Path (Resolve-ProjectPath -Path $routeRequestFile)
 }
 
 if ([string]::IsNullOrWhiteSpace($PackageRoot)) {
@@ -135,10 +176,13 @@ $sampleRecords = @()
 $checks = @()
 $seeds = @{}
 $prefixes = @{}
+$promptHashes = @{}
+$variantSignatures = @{}
 $index = 0
 foreach ($sample in $samples) {
   $index += 1
   $profileFile = Resolve-ProjectPath -Path ([string]$sample.profile_file)
+  Assert-ProjectInputFile -Path $profileFile
   $profile = Read-JsonFile -Path $profileFile
   $profileId = [string]$profile.profile_id
   if ([string]::IsNullOrWhiteSpace($profileId)) {
@@ -152,15 +196,23 @@ foreach ($sample in $samples) {
   $runId = "$(ConvertTo-SafeId -Value $RunIdPrefix)_$safeProfile"
   $client = "$ClientId-$index"
 
-  $output = & powershell -NoProfile -ExecutionPolicy Bypass -File $packageScript `
-    -ProjectRoot $ProjectRoot `
-    -LaneId $laneId `
-    -AllowNonFirstLane `
-    -RouteRequestFile $routeRequestFile `
-    -PromptProfileFile $profileFile `
-    -PackageRoot $PackageRoot `
-    -RunId $runId `
-    -ClientId $client 2>&1
+  $packageArgs = @(
+    "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $packageScript,
+    "-ProjectRoot", $ProjectRoot,
+    "-WorkflowGroup", $workflowGroup,
+    "-LaneId", $laneId,
+    "-AllowNonFirstLane"
+  )
+  if (![string]::IsNullOrWhiteSpace($routeRequestFile)) {
+    $packageArgs += @("-RouteRequestFile", $routeRequestFile)
+  }
+  $packageArgs += @(
+    "-PromptProfileFile", $profileFile,
+    "-PackageRoot", $PackageRoot,
+    "-RunId", $runId,
+    "-ClientId", $client
+  )
+  $output = & powershell @packageArgs 2>&1
   if ($LASTEXITCODE -ne 0) {
     throw "Package builder failed for profile $profileId`: $($output | Out-String)"
   }
@@ -169,8 +221,37 @@ foreach ($sample in $samples) {
   $manifest = Read-JsonFile -Path $manifestPath
   $seed = [string]$profile.request_patch_values.seed
   $outputPrefix = [string]$profile.request_patch_values.save_prefix
+  if ([string]::IsNullOrWhiteSpace($outputPrefix)) {
+    $outputPrefix = [string]$profile.request_patch_values.output_video.filename_prefix
+  }
+  if ([string]::IsNullOrWhiteSpace($outputPrefix)) {
+    $outputPrefix = [string]$profile.expected_outputs.output_prefix
+  }
+  $sourceImage = [string]$profile.request_patch_values.source_image
+  $videoLength = [string]$profile.request_patch_values.video_latent.length
+  $artifactType = [string]$profile.expected_outputs.artifact_type
+  $expectedWidth = [string]$profile.request_patch_values.video_latent.width
+  $expectedHeight = [string]$profile.request_patch_values.video_latent.height
+  $expectedFrameCount = [string]$profile.expected_outputs.frame_count
+  if ([string]::IsNullOrWhiteSpace($expectedFrameCount)) { $expectedFrameCount = $videoLength }
+  $expectedFps = [string]$profile.expected_outputs.fps
+  $promptHash = [string]$manifest.prompt_request.sha256
+  $variantMaterial = [ordered]@{
+    positive_prompt = [string]$profile.request_patch_values.positive_prompt
+    negative_prompt = [string]$profile.request_patch_values.negative_prompt
+    seed = $seed
+    sampler_settings = $profile.request_patch_values.sampler_settings
+    video_latent = $profile.request_patch_values.video_latent
+    source_image = $sourceImage
+    diffusion_model = [string]$profile.request_patch_values.diffusion_model
+    text_encoder = [string]$profile.request_patch_values.text_encoder
+    vae_model = [string]$profile.request_patch_values.vae_model
+  }
+  $variantSignature = Get-StringSha256Lower -Value ($variantMaterial | ConvertTo-Json -Depth 20 -Compress)
   if (![string]::IsNullOrWhiteSpace($seed)) { $seeds[$seed] = $true }
   if (![string]::IsNullOrWhiteSpace($outputPrefix)) { $prefixes[$outputPrefix] = $true }
+  if (![string]::IsNullOrWhiteSpace($promptHash)) { $promptHashes[$promptHash] = $true }
+  if (![string]::IsNullOrWhiteSpace($variantSignature)) { $variantSignatures[$variantSignature] = $true }
 
   $sampleRecords += [ordered]@{
     profile_id = $profileId
@@ -184,6 +265,15 @@ foreach ($sample in $samples) {
     prompt_profile_applied = [bool]$manifest.prompt_profile.applied
     seed = $seed
     output_prefix = $outputPrefix
+    source_image = $sourceImage
+    video_length = $videoLength
+    artifact_type = $artifactType
+    expected_width = $expectedWidth
+    expected_height = $expectedHeight
+    expected_frame_count = $expectedFrameCount
+    expected_fps = $expectedFps
+    prompt_request_sha256 = $promptHash
+    variant_signature_sha256 = $variantSignature
     local_only = [bool]$manifest.local_only
     ec2_started = [bool]$manifest.ec2_started
     generation_executed = [bool]$manifest.generation_executed
@@ -192,14 +282,28 @@ foreach ($sample in $samples) {
 
 $minimumSampleCount = [int]$matrix.minimum_sample_count
 if ($minimumSampleCount -lt 1) { $minimumSampleCount = $samples.Count }
+$requiresUniqueSeeds = $true
+if ($null -ne $matrix.PSObject.Properties["requires_unique_seeds"]) { $requiresUniqueSeeds = [bool]$matrix.requires_unique_seeds }
+$requiresUniqueOutputPrefixes = $true
+if ($null -ne $matrix.PSObject.Properties["requires_unique_output_prefixes"]) { $requiresUniqueOutputPrefixes = [bool]$matrix.requires_unique_output_prefixes }
+$requiresUniquePromptHashes = $true
+if ($null -ne $matrix.PSObject.Properties["requires_unique_prompt_hashes"]) { $requiresUniquePromptHashes = [bool]$matrix.requires_unique_prompt_hashes }
+$requiresUniqueVariantSignatures = $true
+if ($null -ne $matrix.PSObject.Properties["requires_unique_variant_signatures"]) { $requiresUniqueVariantSignatures = [bool]$matrix.requires_unique_variant_signatures }
 
 $checks += New-Check -Name "sample_count_meets_minimum" -Passed ($sampleRecords.Count -ge $minimumSampleCount) -Observed $sampleRecords.Count -Expected $minimumSampleCount
 $checks += New-Check -Name "all_packages_pass" -Passed (@($sampleRecords | Where-Object { $_["result"] -ne "pass_local_only" }).Count -eq 0) -Observed @($sampleRecords | ForEach-Object { $_["result"] }) -Expected "all pass_local_only"
-$checks += New-Check -Name "all_route_gates_pass" -Passed (@($sampleRecords | Where-Object { $_["route_result"] -ne "pass_local_only" }).Count -eq 0) -Observed @($sampleRecords | ForEach-Object { $_["route_result"] }) -Expected "all pass_local_only"
-$checks += New-Check -Name "all_routes_match_lane" -Passed (@($sampleRecords | Where-Object { $_["route_selected_lane_id"] -ne $laneId }).Count -eq 0) -Observed @($sampleRecords | ForEach-Object { $_["route_selected_lane_id"] }) -Expected $laneId
+if ($requiresRouterGate) {
+  $checks += New-Check -Name "all_route_gates_pass" -Passed (@($sampleRecords | Where-Object { $_["route_result"] -ne "pass_local_only" }).Count -eq 0) -Observed @($sampleRecords | ForEach-Object { $_["route_result"] }) -Expected "all pass_local_only"
+  $checks += New-Check -Name "all_routes_match_lane" -Passed (@($sampleRecords | Where-Object { $_["route_selected_lane_id"] -ne $laneId }).Count -eq 0) -Observed @($sampleRecords | ForEach-Object { $_["route_selected_lane_id"] }) -Expected $laneId
+} else {
+  $checks += New-Check -Name "all_route_gates_not_supplied_by_policy" -Passed (@($sampleRecords | Where-Object { $_["route_result"] -ne "not_supplied" }).Count -eq 0) -Observed @($sampleRecords | ForEach-Object { $_["route_result"] }) -Expected "all not_supplied"
+}
 $checks += New-Check -Name "all_prompt_profiles_applied" -Passed (@($sampleRecords | Where-Object { $_["prompt_profile_applied"] -ne $true }).Count -eq 0) -Observed @($sampleRecords | ForEach-Object { $_["prompt_profile_applied"] }) -Expected "all true"
-$checks += New-Check -Name "unique_seeds" -Passed ($seeds.Keys.Count -eq $sampleRecords.Count) -Observed $seeds.Keys.Count -Expected $sampleRecords.Count
-$checks += New-Check -Name "unique_output_prefixes" -Passed ($prefixes.Keys.Count -eq $sampleRecords.Count) -Observed $prefixes.Keys.Count -Expected $sampleRecords.Count
+$checks += New-Check -Name "unique_seeds" -Passed (!$requiresUniqueSeeds -or $seeds.Keys.Count -eq $sampleRecords.Count) -Observed $seeds.Keys.Count -Expected $(if ($requiresUniqueSeeds) { $sampleRecords.Count } else { "not required" })
+$checks += New-Check -Name "unique_output_prefixes" -Passed (!$requiresUniqueOutputPrefixes -or $prefixes.Keys.Count -eq $sampleRecords.Count) -Observed $prefixes.Keys.Count -Expected $(if ($requiresUniqueOutputPrefixes) { $sampleRecords.Count } else { "not required" })
+$checks += New-Check -Name "unique_prompt_request_hashes" -Passed (!$requiresUniquePromptHashes -or $promptHashes.Keys.Count -eq $sampleRecords.Count) -Observed $promptHashes.Keys.Count -Expected $(if ($requiresUniquePromptHashes) { $sampleRecords.Count } else { "not required" })
+$checks += New-Check -Name "unique_substantive_variant_signatures" -Passed (!$requiresUniqueVariantSignatures -or $variantSignatures.Keys.Count -eq $sampleRecords.Count) -Observed $variantSignatures.Keys.Count -Expected $(if ($requiresUniqueVariantSignatures) { $sampleRecords.Count } else { "not required" })
 $checks += New-Check -Name "matrix_local_only" -Passed (@($sampleRecords | Where-Object { $_["local_only"] -ne $true -or $_["ec2_started"] -ne $false -or $_["generation_executed"] -ne $false }).Count -eq 0) -Observed @($sampleRecords | ForEach-Object { [ordered]@{ profile_id = $_["profile_id"]; local_only = $_["local_only"]; ec2_started = $_["ec2_started"]; generation_executed = $_["generation_executed"] } }) -Expected "all local_only=true; ec2_started=false; generation_executed=false"
 
 $failures = @($checks | Where-Object { $_.result -ne "pass" })
@@ -210,7 +314,9 @@ $manifestRecord = [ordered]@{
   project_root = $ProjectRoot
   matrix_file = Convert-ToRepoPath -Path $resolvedMatrixFile
   lane_id = $laneId
-  route_request_file = Convert-ToRepoPath -Path (Resolve-ProjectPath -Path $routeRequestFile)
+  workflow_group = $workflowGroup
+  route_request_file = $(if ([string]::IsNullOrWhiteSpace($routeRequestFile)) { $null } else { Convert-ToRepoPath -Path (Resolve-ProjectPath -Path $routeRequestFile) })
+  requires_router_gate = $requiresRouterGate
   run_id_prefix = $RunIdPrefix
   matrix_dir = Convert-ToRepoPath -Path $matrixDir
   package_root = Convert-ToRepoPath -Path $PackageRoot
@@ -229,7 +335,7 @@ $manifestRecord = [ordered]@{
   failure_count = @($failures).Count
   failures = $failures
   result = $(if (@($failures).Count -eq 0) { "pass_local_only" } else { "fail" })
-  next_action = "After auth, Git, static proof, and runtime cost-control gates pass, execute these package manifests as a bounded multi-sample RealVisXL quality run and perform whole-image QA for every sample."
+  next_action = $(if (![string]::IsNullOrWhiteSpace([string]$matrix.next_action)) { [string]$matrix.next_action } else { "After auth, Git, static proof, and runtime cost-control gates pass, execute these package manifests as a bounded multi-sample quality run and perform whole-artifact QA for every sample." })
 }
 
 $manifestPath = Join-Path $matrixDir "RUN_PACKAGE_MATRIX_MANIFEST.json"

@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "matrix_id": "wan22_ti2v5b_seed_robustness_v1",
+  "workflow_group": "video_generation",
+  "lane_id": "wan_2_2_ti2v_5b_primary_lane",
+  "purpose": "Local-only preparation for two materially new Wan 2.2 seed-robustness samples without rerunning the completed seed 2271301 baseline.",
+  "minimum_sample_count": 2,
+  "requires_router_gate": false,
+  "requires_unique_seeds": true,
+  "requires_unique_output_prefixes": true,
+  "requires_unique_prompt_hashes": true,
+  "requires_unique_variant_signatures": true,
+  "local_only": true,
+  "ec2_start_allowed_by_matrix": false,
+  "generation_allowed_by_matrix": false,
+  "completed_baseline": {
+    "seed": 2271301,
+    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_WAN22_TI2V5B_TARGET_RUNTIME_SMOKE_20260714T004424-0500.json",
+    "technical_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_TI2V5B_TARGET_RUNTIME_TECHNICAL_QA_20260714T004424-0500.json",
+    "visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_TI2V5B_TARGET_RUNTIME_VISUAL_QA_20260714T004424-0500.json",
+    "rerun_allowed": false
+  },
+  "certification_scope": [
+    "seed robustness for the exact 480x640 49-frame source and prompt contract",
+    "hash-bound technical media QA for every new sample",
+    "direct temporal visual QA for every new sample",
+    "robustness evidence only; no production video certification"
+  ],
+  "samples": [
+    {
+      "profile_file": "PromptProfiles/video_generation/wan_2_2_ti2v_5b_primary_lane/fullbody_subtle_motion_seed2271302.json",
+      "certification_focus": "first unseen seed under the exact completed baseline source and duration contract"
+    },
+    {
+      "profile_file": "PromptProfiles/video_generation/wan_2_2_ti2v_5b_primary_lane/fullbody_subtle_motion_seed2271303.json",
+      "certification_focus": "second unseen seed under the exact completed baseline source and duration contract"
+    }
+  ],
+  "qa_protocols": [
+    "Plan/Instructions/QA/COMFYUI_WORKFLOW_TESTING_PROTOCOL.md",
+    "Plan/Instructions/QA/MODEL_LORA_CHECKPOINT_VALIDATION_PROTOCOL.md",
+    "Plan/10_REGISTRIES/wave27_video_route_selection_rules.json"
+  ],
+  "runtime_boundaries": {
+    "does_not_contact_aws": true,
+    "does_not_contact_github_api": true,
+    "does_not_contact_civitai": true,
+    "does_not_contact_comfyui": true,
+    "does_not_start_ec2": true,
+    "does_not_execute_generation": true,
+    "requires_exact_model_and_source_hash_proof_before_execution": true,
+    "requires_pullback_hashes_before_visual_qa": true,
+    "requires_direct_temporal_review_before_any_robustness_claim": true,
+    "production_video_lane_certification_claimed": false
+  },
+  "next_action": "Build and validate the two new local run packages, then execute them only inside one guarded target-runtime window with exact model/source hashes, pullback integrity, technical media QA, and direct temporal visual review; do not rerun seed 2271301 or claim production certification."
+}
