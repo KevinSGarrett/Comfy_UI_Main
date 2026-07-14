@@ -88,6 +88,13 @@ jobs:
         run: |
           powershell -NoProfile -ExecutionPolicy Bypass -File "$env:GITHUB_WORKSPACE\tools\Test-WindowsCheckoutPathBudget.ps1" -ProjectRoot "$env:GITHUB_WORKSPACE" -CheckoutRoot "$env:GITHUB_WORKSPACE" -OutFile "$env:GITHUB_WORKSPACE\ci_artifacts\workflow_prerequisite_matching\windows_checkout_path_budget.json"
 
+      - name: Delivery truth and hydration integrity regressions
+        if: ${{ matrix.lane_id == 'sdxl_low_risk_fallback_lane' }}
+        shell: pwsh
+        run: |
+          powershell -NoProfile -ExecutionPolicy Bypass -File "$env:GITHUB_WORKSPACE\tools\Test-ComfyUIDeliveryRecoveryControls.ps1" -ProjectRoot "$env:GITHUB_WORKSPACE" -OutFile "$env:GITHUB_WORKSPACE\ci_artifacts\workflow_prerequisite_matching\delivery_recovery_controls.json"
+          powershell -NoProfile -ExecutionPolicy Bypass -File "$env:GITHUB_WORKSPACE\tools\Test-ComfyUIHydrationIntegrityGuard.Tests.ps1" -ProjectRoot "$env:GITHUB_WORKSPACE" -OutFile "$env:GITHUB_WORKSPACE\ci_artifacts\workflow_prerequisite_matching\hydration_integrity_guard_tests.json"
+
       - name: EC2 batched runtime coordinator regression
         shell: pwsh
         run: |
