@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-WAN22-SEED-ROBUSTNESS-MATRIX-LOCAL-READINESS-20260714T015407-0500",
+  "timestamp": "2026-07-14T01:54:07-05:00",
+  "lane_id": "wan_2_2_ti2v_5b_primary_lane",
+  "matrix_id": "wan22_ti2v5b_seed_robustness_v1",
+  "result": "pass_local_only",
+  "classification": "WAN22_SEED_ROBUSTNESS_MATRIX_LOCAL_READY",
+  "summary": "Two unseen Wan 2.2 seeds are packaged for one future guarded batched target-runtime window. The completed seed 2271301 baseline is cited and explicitly excluded from rerun.",
+  "implementation": {
+    "route_optional_matrix_support": true,
+    "workflow_group_binding": true,
+    "video_output_prefix_support": true,
+    "unique_seed_guard": true,
+    "unique_output_prefix_guard": true,
+    "unique_prompt_hash_guard": true,
+    "unique_substantive_variant_signature_guard": true,
+    "atomic_matrix_manifest_write": true,
+    "project_input_containment": true,
+    "hash_bound_video_technical_qa_evaluator": true,
+    "production_certification_claimed": false
+  },
+  "matrix": {
+    "definition": "PromptProfiles/video_generation/wan_2_2_ti2v_5b_seed_robustness.matrix.json",
+    "persistent_manifest": "runtime_artifacts/run_package_matrices/wan22_ti2v5b_seed_robustness_v1_20260714_v1/RUN_PACKAGE_MATRIX_MANIFEST.json",
+    "sample_count": 2,
+    "seeds": [
+      2271302,
+      2271303
+    ],
+    "source_image": "wan22_ti2v_fullbody_seed711670301.png",
+    "width": 480,
+    "height": 640,
+    "frame_count": 49,
+    "fps": 24,
+    "baseline_seed_excluded_from_rerun": 2271301,
+    "baseline_runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_WAN22_TI2V5B_TARGET_RUNTIME_SMOKE_20260714T004424-0500.json"
+  },
+  "validation": {
+    "powershell_parse_errors": 0,
+    "json_parse_errors": 0,
+    "matrix_validation_result": "pass_local_only",
+    "matrix_validation_checks_passed": 11,
+    "matrix_validation_failures": 0,
+    "video_technical_qa_tests_passed": 5,
+    "video_technical_qa_test_failures": 0,
+    "duplicate_probe_expected_exit": 1,
+    "duplicate_probe_failed_checks": [
+      "unique_seeds",
+      "unique_output_prefixes",
+      "unique_substantive_variant_signatures"
+    ],
+    "legacy_realvisxl_matrix_current_result": "blocked_by_existing_route_license_policy_before_matrix_assertions",
+    "legacy_realvisxl_regression_claimed": false,
+    "diff_check": "pass"
+  },
+  "review": {
+    "cursor_first_attempt": {
+      "status": "timeout",
+      "record": "runtime_artifacts/agent_handoffs/cursor/20260714T012247-0500_wan22_robustness_matrix_gap_extraction_retry/handoff_record.json",
+      "fallback": "compact_bounded_codex_parameter_contract_review"
+    },
+    "sonnet_primary": {
+      "status": "PASS",
+      "classification": "CLAUDE_SONNET_HANDOFF_COMPLETED",
+      "confidence": "high",
+      "record": "runtime_artifacts/agent_handoffs/claude_subscription/20260714T014709-0500_wan22_seed_robustness_matrix_semantic_review/handoff_record.json",
+      "issues_after_review": 0
+    },
+    "sonnet_remediation_confirmation": {
+      "status": "PASS",
+      "classification": "CLAUDE_SONNET_HANDOFF_COMPLETED",
+      "confidence": "high",
+      "record": "runtime_artifacts/agent_handoffs/claude_subscription/20260714T015210-0500_wan22_seed_robustness_remediation_confirmation/handoff_record.json",
+      "blockers": []
+    }
+  },
+  "runtime": {
+    "aws_contacted": false,
+    "ec2_started": false,
+    "generation_executed": false,
+    "new_video_artifacts_created": 0,
+    "mask_truth_consumed": false,
+    "wave70_hard_gates_rerun": false,
+    "wave71_activated": false
+  },
+  "status_ceiling": {
+    "local_matrix_ready": true,
+    "target_runtime_seed_robustness_passed": false,
+    "production_video_lane_certified": false,
+    "body_mask_or_geometry_authority_claimed": false
+  },
+  "next_action": "Checkpoint the scoped implementation through a protected codex branch and required CI. After exact-head main is green, rebuild the two packages and one shared-source deploy bundle from that head, publish the exact bundle to S3, create a two-unit batched runtime work order, install same-window emergency-stop and watchdog controls, run one dry gate, execute seeds 2271302 and 2271303 only, pull back both videos, run technical QA, and complete direct temporal visual review. Do not rerun seed 2271301."
+}

@@ -1,3 +1,11 @@
+## Wan 2.2 Seed Robustness Matrix Local Readiness - 2026-07-14T01:54:07-05:00
+
+The completed Wan seed 2271301 baseline is preserved and will not be rerun. Two unseen seeds, 2271302 and 2271303, now have distinct hash-bound run packages for the exact 480x640, 49-frame, 24 fps source/prompt contract. The generic matrix tooling now supports video workflow groups, route-optional primary lanes, video output prefixes, atomic manifests, project-contained inputs, and substantive duplicate detection. A new OpenCV technical-video evaluator passes five regressions against the completed baseline. Local matrix validation passes 11 checks with zero failures; the duplicate probe fails closed as expected.
+
+Next action: checkpoint only this scoped implementation through a protected `codex/*` branch and required CI. After exact-head `main` is green, rebuild the two packages and shared-source deploy bundle from that head, publish the exact bundle to S3, create one two-unit batched runtime work order, install same-window emergency-stop and watchdog controls, dry-run once, then execute only seeds 2271302 and 2271303. Pull back and hash both videos, run technical QA, and perform direct temporal visual review. Keep the status ceiling at robustness evidence only; do not rerun seed 2271301, promote masks, rerun Wave70 hard gates, activate Wave71+, or claim production video certification.
+
+Evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_WAN22_SEED_ROBUSTNESS_MATRIX_LOCAL_READINESS_20260714T015407-0500.json`.
+
 ## Normal Target-Runtime Smoke Completed - 2026-07-13T15:15:00-05:00
 
 The exact-head Normal lane bundle from `2011cf98969515e0962033cb1094aa77a1444912` completed one bounded EC2 target-runtime smoke. The required full-body input was staged with SHA-256 `ff7695e83c73dc53025a7ab960a11d6e46299dcde546d26a5d46bce8637dc6fd`; live `/object_info` validation passed 12 nodes and 36 inputs with zero errors; ComfyUI returned prompt `9c0dc78a-7b1c-427e-b8e3-a63e7f18c373`; two 768x1024 images were pulled back; visual smoke QA passed. The approved instance is independently verified `stopped`, and the unused emergency schedule was deleted.
