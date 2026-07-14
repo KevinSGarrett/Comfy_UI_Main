@@ -34,6 +34,7 @@ SOURCES = {
     "promotion": Path("Plan/Instructions/QA/Evidence/Wave64/future_lane_promotion.json"),
     "route": Path("Plan/Instructions/QA/Evidence/Wave64/video_engine_routing.json"),
     "shot_plan": Path("Plan/Instructions/QA/Evidence/Wave64/Reference_Video_Input/wan22_source_diversity_loop_shot_plan.json"),
+    "context": Path("Plan/Instructions/QA/Evidence/Wave64/Video_Keyframes/normal_v4_keyframe_context_contract.json"),
 }
 POLICY_SOURCES = [
     "Plan/04_VIDEO_GIF_SYSTEM/WAVE15_BASE_IMAGE_TO_VIDEO_KEYFRAME_HANDOFF.md",
@@ -142,7 +143,7 @@ def build(
     paths = {name: (path if path.is_absolute() else root / path).resolve() for name, path in source_paths.items()}
     data = {name: load(path) for name, path in paths.items()}
     qa, runtime, technical = data["base_qa"], data["runtime"], data["technical"]
-    promotion, route, shot_plan = data["promotion"], data["route"], data["shot_plan"]
+    promotion, route, shot_plan, context = data["promotion"], data["route"], data["shot_plan"], data["context"]
 
     require(qa.get("pass") is True, "base image QA did not pass")
     require(qa.get("result") == "pass_with_notes_local_normal_v4_full_body_scope", "unexpected base image QA scope")
@@ -205,6 +206,14 @@ def build(
 
     require(shot_plan.get("candidate_only") is True and shot_plan.get("promotion_ready") is False, "downstream shot plan promotion boundary missing")
     require(shot_plan.get("target_output_generated") is False, "downstream shot plan unexpectedly claims target generation")
+    context_gates = context.get("gates", {})
+    require(context.get("source_artifact", {}).get("path") == output.get("path") and context.get("source_artifact", {}).get("sha256") == image_hash, "keyframe context source mismatch")
+    require(context_gates.get("frame_contract_exported") is True, "frame contract export proof missing")
+    require(context_gates.get("environment_profile_exists") is True, "environment profile proof missing")
+    require(context_gates.get("character_profile_exists") is True, "character profile proof missing")
+    require(context_gates.get("identity_camera_environment_continuity_passed") is False, "single-image context overclaims continuity")
+    require(context.get("boundaries", {}).get("single_image_anchor_only") is True, "context scope is not single-image")
+    require(context.get("boundaries", {}).get("promotion_claimed") is False, "context overclaims promotion")
 
     gates = {
         "base_image_qa_passed": True,
@@ -213,10 +222,10 @@ def build(
         "character_count_body_visibility_passed": body_visibility,
         "identity_camera_environment_continuity_passed": False,
         "output_hash_recorded": True,
-        "frame_contract_exported": False,
+        "frame_contract_exported": True,
         "required_promoted_keyframes_exist": False,
-        "environment_profile_exists": False,
-        "character_profile_exists": False,
+        "environment_profile_exists": True,
+        "character_profile_exists": True,
         "engine_route_valid": engine_route_valid,
         "model_assets_registered": model_assets_registered,
         "output_path_defined": output_path_defined,
@@ -239,15 +248,15 @@ def build(
         "status": "blocked_candidate_hash_bound_not_promotion_eligible",
         "candidate": {
             "shot_id": "wan22_fullbody_standing_seed2271301_bounded_smoke_candidate",
-            "scene_id": "normal_v4_fullbody_standing_unbound_scene_candidate",
-            "environment_id": None,
-            "character_ids": [],
+            "scene_id": "normal_v4_fullbody_studio_anchor_scene",
+            "environment_id": context["environment_profile"]["environment_id"],
+            "character_ids": [context["character_profile"]["character_id"]],
             "output_type": "video",
             "frame_rate_target": decode["fps"],
             "duration_seconds": decode["duration_seconds"],
-            "camera_plan_id": None,
-            "pose_plan_id": None,
-            "continuity_dependencies": [],
+            "camera_plan_id": context["camera_plan"]["camera_plan_id"],
+            "pose_plan_id": context["pose_plan"]["pose_plan_id"],
+            "continuity_dependencies": [context["context_id"]],
             "qa_targets": ["identity_stability", "environment_stability", "body_visibility", "temporal_stability"],
             "keyframe_artifact": {
                 "path": rel(image_path, root),
@@ -302,13 +311,14 @@ def build(
                 "bounded local full-body image QA pass with notes",
                 "exact still reused as input to one completed bounded WAN target-runtime smoke",
                 "WAN route and model assets proven for the bounded smoke contract",
+                "single-image frame composition contract exported",
+                "single-image environment and character identity anchors registered",
             ],
             "excluded": [
                 "promoted production keyframe",
                 "refine bridge QA",
-                "registered character identity continuity",
-                "registered environment and camera continuity",
-                "exported frame composition contract",
+                "multi-frame character identity continuity",
+                "multi-frame environment and camera continuity",
                 "production video lane certification",
                 "body mask or geometry authority",
             ],
@@ -360,13 +370,16 @@ def build(
             {"name": "VKH-R11_no_runtime_or_cloud_action", "result": "pass"},
             {"name": "VKH-R12_no_mask_or_wave71_or_jira_action", "result": "pass"},
             {"name": "VKH-R13_frame_rate_and_duration_bound_to_technical_qa", "result": "pass"},
+            {"name": "VKH-R14_frame_composition_contract_exported", "result": "pass"},
+            {"name": "VKH-R15_environment_profile_anchor_exists", "result": "pass"},
+            {"name": "VKH-R16_character_profile_anchor_exists", "result": "pass"},
         ],
-        "check_summary": {"checked": 13, "passed": 13, "failed": 0},
+        "check_summary": {"checked": 16, "passed": 16, "failed": 0},
         "normalized_blockers": [
             {
                 "blocker_id": "KEYFRAME_CANDIDATE_NOT_PROMOTION_ELIGIBLE",
                 "failed_gates": failed,
-                "resolution": "Provide scope-matched refine, identity/camera/environment continuity, frame-contract, profile, and explicit image-promotion proof before setting keyframe_manifest true.",
+                "resolution": "Provide scope-matched refine QA, multi-frame identity/camera/environment continuity, upstream Row016 quality authority, and explicit image-promotion proof before setting keyframe_manifest true.",
             },
             {
                 "blocker_id": "FRAME_REPAIR_EFFECTIVENESS_NOT_PROVEN",
@@ -379,7 +392,7 @@ def build(
         ],
         "source_bindings": source_bindings,
         "safety": deepcopy(candidate["safety"]),
-        "next_action": "Satisfy the exact failed keyframe eligibility gates without rerunning completed WAN, temporal, or loop proofs; then exercise one genuine repair span.",
+        "next_action": "Obtain scope-matched refine and multi-frame continuity proof, then clear upstream Row016 image-promotion authority before exercising one genuine repair span; do not rerun completed WAN, temporal, or loop proofs.",
     }
     return candidate, readiness
 

@@ -62,8 +62,8 @@
   "keyframe_candidate_state": {
     "candidate_manifest": {
       "path": "Plan/Instructions/QA/Evidence/Wave64/Video_Keyframes/normal_v4_wan22_keyframe_handoff_candidate.json",
-      "sha256": "20dae84c573122a58a43be1bbdec436e4da99d781e2155422635eb591fd24ad3",
-      "bytes": 7078
+      "sha256": "e3fa7072c6f78f07bc4b8ba4f0ff3040b06ae03f0ae31ff6b895836c3126d203",
+      "bytes": 7518
     },
     "readiness_evidence": "Plan/Instructions/QA/Evidence/Wave64/video_keyframe_handoff_readiness.json",
     "candidate_only": true,
@@ -74,10 +74,7 @@
     "failed_gates": [
       "refine_bridge_qa_passed",
       "identity_camera_environment_continuity_passed",
-      "frame_contract_exported",
       "required_promoted_keyframes_exist",
-      "environment_profile_exists",
-      "character_profile_exists",
       "promotion_allowed",
       "promoted_artifact"
     ],
@@ -121,14 +118,11 @@
       "failed_gates": [
         "refine_bridge_qa_passed",
         "identity_camera_environment_continuity_passed",
-        "frame_contract_exported",
         "required_promoted_keyframes_exist",
-        "environment_profile_exists",
-        "character_profile_exists",
         "promotion_allowed",
         "promoted_artifact"
       ],
-      "resolution": "Provide scope-matched refine, identity/camera/environment continuity, frame-contract, profile, and explicit image-promotion proof before setting keyframe_manifest true."
+      "resolution": "Provide scope-matched refine QA, multi-frame identity/camera/environment continuity, upstream Row016 quality authority, and explicit image-promotion proof before setting keyframe_manifest true."
     },
     {
       "blocker_id": "FRAME_REPAIR_EFFECTIVENESS_NOT_PROVEN",
@@ -264,7 +258,7 @@
     "mask_or_wave71_or_jira_touched": false,
     "full_video_certification_claimed": false
   },
-  "next_action": "Satisfy the exact failed keyframe eligibility gates without rerunning completed WAN, temporal, or loop proofs; then exercise one genuine repair span.",
+  "next_action": "Obtain scope-matched refine and multi-frame continuity proof, then clear upstream Row016 image-promotion authority before exercising one genuine repair span; do not rerun completed WAN, temporal, or loop proofs.",
   "evidence_paths": [
     "Plan/Instructions/QA/Evidence/Wave64/video_pipeline_build.json",
     "Plan/Instructions/QA/Evidence/Wave64/VIDEO_PIPELINE_BUILD_WAN_RECONCILIATION_20260714T131812-0500.json",
@@ -277,6 +271,8 @@
     "Plan/Tracker/Evidence/VIDEO_KEYFRAME_HANDOFF_READINESS_20260714T133824-0500.json",
     "Plan/Instructions/QA/Evidence/Wave64/video_keyframe_handoff_readiness_test_log.json",
     "Plan/08_SCHEMAS/video_keyframe_handoff.schema.json",
-    "Plan/07_IMPLEMENTATION/scripts/build_wave64_video_keyframe_handoff.py"
+    "Plan/07_IMPLEMENTATION/scripts/build_wave64_video_keyframe_handoff.py",
+    "Plan/Instructions/QA/Evidence/Wave64/VIDEO_KEYFRAME_HANDOFF_READINESS_20260714T141000-0500.json",
+    "Plan/Tracker/Evidence/VIDEO_KEYFRAME_HANDOFF_READINESS_20260714T141000-0500.json"
   ]
 }

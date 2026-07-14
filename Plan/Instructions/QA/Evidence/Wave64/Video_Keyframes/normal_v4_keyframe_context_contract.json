@@ -1,0 +1,120 @@
+{
+  "schema_version": "1.0",
+  "context_id": "normal_v4_single_image_keyframe_context_v1",
+  "timestamp": "2026-07-14T14:10:00-05:00",
+  "source_artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v4_full_body_standing_seed711670301_20260711T035900-0500/images/normal_v4_fullbody_standing_711670301_00001_.png",
+    "sha256": "b01b694125e08027195baf3c5a4eeac472eba242bfb4bbe69473625844134fc1",
+    "bytes": 800700,
+    "width": 768,
+    "height": 1024
+  },
+  "component_artifacts": {
+    "body_visibility_profile": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/Video_Keyframes/normal_v4_body_visibility_profile.json",
+      "sha256": "8b3f85a6bcc3d5f79d4d38104ba269caa144206f2ea61270b037f501d4289d6e",
+      "bytes": 380
+    },
+    "frame_composition_contract": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/Video_Keyframes/normal_v4_frame_composition_contract.json",
+      "sha256": "cabc881e21236ddd34791761458599601ebb492a6d18f0a29d2ba590784a1260",
+      "bytes": 862
+    },
+    "frame_composition_evidence": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/Video_Keyframes/normal_v4_frame_composition_evidence.json",
+      "sha256": "6cd94060aa876f9b13d747cc6f24980ad3d423de8d22009ac0f3716a86c0a895",
+      "bytes": 1554
+    }
+  },
+  "environment_profile": {
+    "environment_id": "env_neutral_gray_studio_anchor_001",
+    "version": "v001",
+    "display_name": "Neutral Gray Studio Single-Image Anchor",
+    "environment_type": "neutral_studio",
+    "status": "candidate_anchor_single_image",
+    "continuity_rules": {
+      "background_tone": "locked_to_anchor",
+      "light_direction": "locked_to_anchor",
+      "floor_horizon": "locked_to_anchor"
+    },
+    "qa_requirements": [
+      "background_tone_consistency",
+      "light_direction_consistency",
+      "floor_horizon_consistency"
+    ]
+  },
+  "character_profile": {
+    "character_id": "char_normal_v4_seed711670301_anchor",
+    "status": "candidate_identity_anchor_single_image",
+    "identity_anchor": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v4_full_body_standing_seed711670301_20260711T035900-0500/images/normal_v4_fullbody_standing_711670301_00001_.png",
+      "sha256": "b01b694125e08027195baf3c5a4eeac472eba242bfb4bbe69473625844134fc1",
+      "bytes": 800700,
+      "width": 768,
+      "height": 1024
+    },
+    "skeleton_evidence": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v4_full_body_standing_seed711670301_20260711T035900-0500/qa_generated_openpose_keypoints.json",
+      "sha256": "651186ea4bc3facb8eaa086fea1bce0e5f678a8b55e91557e2ea1ad8f4a6818c",
+      "bytes": 1445
+    },
+    "skeleton_evidence_status": "advisory_current_file_historical_hash_mismatch",
+    "body_visibility_profile_id": "full_body_head_hands_feet_visible_v1",
+    "continuity_scope": {
+      "anchor_image_count": 1,
+      "multi_frame_identity_continuity_proven": false,
+      "camera_environment_continuity_proven": false
+    }
+  },
+  "camera_plan": {
+    "camera_plan_id": "camera_normal_v4_fullbody_static_anchor_v1",
+    "shot_size": "full_body",
+    "framing": "portrait_768x1024_head_to_both_shoes",
+    "camera_motion": "static_anchor",
+    "continuity_proven": false
+  },
+  "pose_plan": {
+    "pose_plan_id": "pose_normal_v4_asymmetric_standing_anchor_v1",
+    "pose_class": "asymmetric_fullbody_standing",
+    "body_visibility_profile_id": "full_body_head_hands_feet_visible_v1",
+    "source_skeleton": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v4_full_body_standing_seed711670301_20260711T035900-0500/qa_generated_openpose_keypoints.json",
+      "sha256": "651186ea4bc3facb8eaa086fea1bce0e5f678a8b55e91557e2ea1ad8f4a6818c",
+      "bytes": 1445
+    },
+    "temporal_pose_continuity_proven": false
+  },
+  "gates": {
+    "frame_contract_exported": true,
+    "environment_profile_exists": true,
+    "character_profile_exists": true,
+    "identity_camera_environment_continuity_passed": false
+  },
+  "boundaries": {
+    "single_image_anchor_only": true,
+    "historical_keypoint_hash_matches_current": false,
+    "skeleton_geometry_authority_claimed": false,
+    "new_generation_executed": false,
+    "refine_qa_claimed": false,
+    "promotion_claimed": false,
+    "production_keyframe_claimed": false,
+    "mask_authority_claimed": false
+  },
+  "source_bindings": {
+    "base_qa": {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_NORMAL_V4_FULL_BODY_STANDING_QA_20260711T041000-0500.json",
+      "sha256": "783b6f51815d7158b0d0e11424929ebec7f271126465670f342a078cda2cdd01",
+      "bytes": 4592
+    },
+    "source_image": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v4_full_body_standing_seed711670301_20260711T035900-0500/images/normal_v4_fullbody_standing_711670301_00001_.png",
+      "sha256": "b01b694125e08027195baf3c5a4eeac472eba242bfb4bbe69473625844134fc1",
+      "bytes": 800700
+    },
+    "generated_keypoints": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v4_full_body_standing_seed711670301_20260711T035900-0500/qa_generated_openpose_keypoints.json",
+      "sha256": "651186ea4bc3facb8eaa086fea1bce0e5f678a8b55e91557e2ea1ad8f4a6818c",
+      "bytes": 1445
+    }
+  }
+}
