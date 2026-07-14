@@ -1,0 +1,205 @@
+{
+  "checked_input_count": 34,
+  "error_count": 0,
+  "errors": [],
+  "node_count": 11,
+  "nodes": [
+    {
+      "class_type": "KSampler",
+      "errors": [],
+      "hidden_input_names": [],
+      "input_names": [
+        "cfg",
+        "denoise",
+        "latent_image",
+        "model",
+        "negative",
+        "positive",
+        "sampler_name",
+        "scheduler",
+        "seed",
+        "steps"
+      ],
+      "node_id": "3",
+      "optional_input_names": [],
+      "required_input_names": [
+        "cfg",
+        "denoise",
+        "latent_image",
+        "model",
+        "negative",
+        "positive",
+        "sampler_name",
+        "scheduler",
+        "seed",
+        "steps"
+      ]
+    },
+    {
+      "class_type": "CheckpointLoaderSimple",
+      "errors": [],
+      "hidden_input_names": [],
+      "input_names": [
+        "ckpt_name"
+      ],
+      "node_id": "4",
+      "optional_input_names": [],
+      "required_input_names": [
+        "ckpt_name"
+      ]
+    },
+    {
+      "class_type": "EmptyLatentImage",
+      "errors": [],
+      "hidden_input_names": [],
+      "input_names": [
+        "batch_size",
+        "height",
+        "width"
+      ],
+      "node_id": "5",
+      "optional_input_names": [],
+      "required_input_names": [
+        "batch_size",
+        "height",
+        "width"
+      ]
+    },
+    {
+      "class_type": "CLIPTextEncode",
+      "errors": [],
+      "hidden_input_names": [],
+      "input_names": [
+        "clip",
+        "text"
+      ],
+      "node_id": "6",
+      "optional_input_names": [],
+      "required_input_names": [
+        "clip",
+        "text"
+      ]
+    },
+    {
+      "class_type": "CLIPTextEncode",
+      "errors": [],
+      "hidden_input_names": [],
+      "input_names": [
+        "clip",
+        "text"
+      ],
+      "node_id": "7",
+      "optional_input_names": [],
+      "required_input_names": [
+        "clip",
+        "text"
+      ]
+    },
+    {
+      "class_type": "ControlNetLoader",
+      "errors": [],
+      "hidden_input_names": [],
+      "input_names": [
+        "control_net_name"
+      ],
+      "node_id": "10",
+      "optional_input_names": [],
+      "required_input_names": [
+        "control_net_name"
+      ]
+    },
+    {
+      "class_type": "LoadImage",
+      "errors": [],
+      "hidden_input_names": [],
+      "input_names": [
+        "image"
+      ],
+      "node_id": "11",
+      "optional_input_names": [],
+      "required_input_names": [
+        "image"
+      ]
+    },
+    {
+      "class_type": "ControlNetApplyAdvanced",
+      "errors": [],
+      "hidden_input_names": [],
+      "input_names": [
+        "control_net",
+        "end_percent",
+        "image",
+        "negative",
+        "positive",
+        "start_percent",
+        "strength",
+        "vae"
+      ],
+      "node_id": "12",
+      "optional_input_names": [
+        "vae"
+      ],
+      "required_input_names": [
+        "control_net",
+        "end_percent",
+        "image",
+        "negative",
+        "positive",
+        "start_percent",
+        "strength"
+      ]
+    },
+    {
+      "class_type": "VAEDecode",
+      "errors": [],
+      "hidden_input_names": [],
+      "input_names": [
+        "samples",
+        "vae"
+      ],
+      "node_id": "8",
+      "optional_input_names": [],
+      "required_input_names": [
+        "samples",
+        "vae"
+      ]
+    },
+    {
+      "class_type": "SaveImage",
+      "errors": [],
+      "hidden_input_names": [
+        "extra_pnginfo",
+        "prompt"
+      ],
+      "input_names": [
+        "filename_prefix",
+        "images"
+      ],
+      "node_id": "9",
+      "optional_input_names": [],
+      "required_input_names": [
+        "filename_prefix",
+        "images"
+      ]
+    },
+    {
+      "class_type": "SaveImage",
+      "errors": [],
+      "hidden_input_names": [
+        "extra_pnginfo",
+        "prompt"
+      ],
+      "input_names": [
+        "filename_prefix",
+        "images"
+      ],
+      "node_id": "13",
+      "optional_input_names": [],
+      "required_input_names": [
+        "filename_prefix",
+        "images"
+      ]
+    }
+  ],
+  "status": "pass"
+}

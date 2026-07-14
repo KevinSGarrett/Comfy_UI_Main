@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-OPENPOSE-V6-TARGET-RUNTIME-RECOVERED-PULLBACK-61596842-20260713T200200-0500",
+  "timestamp": "2026-07-13T20:02:00-05:00",
+  "lane_id": "sdxl_realvisxl_controlnet_openpose_lane",
+  "run_id": "aws_gpu_workflow_smoke_20260713T193658-0500",
+  "source_git_head": "61596842255d73adc05f54622f1a2716e5317f22",
+  "result": "pass_target_runtime_generation_and_recovered_pullback_with_notes",
+  "failure_category": null,
+  "decision": "The bounded OpenPose generation and artifact set pass. The original batch aggregate remains failed closed because its S3 destination was outside the approved instance-role prefix; the already-persisted artifacts were recovered and hash-verified without another generation.",
+  "static_proof": {
+    "path": "runtime_artifacts/batched_runtime/openpose_v6_target_61596842_20260713T192933-0500/EC2_STATIC_PROOF.json",
+    "result": "ec2_static_proof_recorded",
+    "command_status": "Success",
+    "object_info_pass": true,
+    "model_proof_count": 2,
+    "model_missing_count": 0,
+    "model_hash_missing_count": 0,
+    "deploy_bundle_sha256_verified": true
+  },
+  "generation_proof": {
+    "path": "runtime_artifacts/batched_runtime/openpose_v6_target_61596842_20260713T192933-0500/unit-01-openpose_v6_target_runtime_61596842_20260713T192933-0500/WORKFLOW_SMOKE.json",
+    "result": "workflow_smoke_generation_complete",
+    "generation_executed": true,
+    "prompt_id": "f31feab3-54e5-48ba-85b5-29c0a195d3ad",
+    "node_errors": 0,
+    "prompt_schema_status": "pass",
+    "prompt_schema_node_count": 11,
+    "prompt_schema_checked_input_count": 34,
+    "prompt_schema_error_count": 0,
+    "required_input_sha256": "146ad56249d441e3580c5f9a6dbe8ab41024fbb12af3109c581fba50517029fe",
+    "required_input_hash_verified": true,
+    "errors": []
+  },
+  "original_batch_aggregate": {
+    "path": "runtime_artifacts/batched_runtime/openpose_v6_target_61596842_20260713T192933-0500/BATCH_RUNTIME_EXECUTION.json",
+    "result": "batch_runtime_failed_closed",
+    "failure_category": "batch_runtime_execution_failed",
+    "generation_result_preserved": true,
+    "pullback_succeeded": false,
+    "exact_pullback_failure": "The coordinator supplied artifact-output/batched-runtime, while the least-privilege instance role intentionally permits render-outputs/*.",
+    "final_state": "stopped"
+  },
+  "no_regeneration_recovery": {
+    "generation_executed": false,
+    "method": "Presigned PUT upload of the seven known persisted remote files, followed by local pullback validation.",
+    "ssm_command_id": "08d4c272-62ea-4c95-9658-478ff9ab6c75",
+    "ssm_status": "Success",
+    "pullback_record": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260713T193658-0500/PULLBACK_RECORD.json",
+    "pullback_status": "pullback_hashes_verified",
+    "remote_file_count": 6,
+    "local_file_count": 6,
+    "all_manifest_hashes_verified": true,
+    "instance_final_state": "stopped",
+    "active_runtime_marker_absent": true,
+    "emergency_schedule_deleted": true
+  },
+  "artifact_prefix_correction": {
+    "coordinator": "Plan/Instructions/Operations/Scripts/Invoke-EC2BatchedRuntimeWindow.ps1",
+    "source_default_before_fix": "comfy-ui-main/batched-runtime",
+    "runtime_argument_observed_in_failed_run": "artifact-output/batched-runtime",
+    "clarification": "The failed run supplied an explicit artifact-output prefix that overrode the coordinator's different but also unapproved source default. Both were outside the least-privilege render-outputs/* contract.",
+    "new_default": "render-outputs/batched-runtime",
+    "iam_policy_changed": false,
+    "coordinator_regression": "24/24 pass_local_only",
+    "runtime_window_safety_regression": "41/41 pass_local_only"
+  },
+  "boundaries": [
+    "This reconciles one already-completed bounded generation; it does not authorize a rerun.",
+    "The failed original aggregate is retained as historical evidence and is not relabeled as a pass.",
+    "No body, hand, contact, mask, gold-mask, or whole-body geometry authority is claimed.",
+    "Wave70 mask hard gates were not rerun and Wave71+ was not activated."
+  ]
+}

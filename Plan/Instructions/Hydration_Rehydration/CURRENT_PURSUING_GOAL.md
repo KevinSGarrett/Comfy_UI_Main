@@ -7245,3 +7245,10 @@ Continue autonomous end-to-end ComfyUI implementation from local authority `C:\C
 Hold OpenPose EC2 execution until the concurrent workflow and EC2 hardening edits have a stable exact-head checkpoint. Then perform one current-source readiness/static-proof pass and only the missing bounded target-runtime run or exact blocker. Keep AWS on the least-privilege `ComfyUIMainSessionRole`; root is break-glass only. Continue unrelated concrete non-mask implementation while waiting, without bookkeeping loops.
 
 Manual body gold masks still block only mask-dependent promotion, detailed body/hand/contact authority, final mask QA, and dependent Wave71+ activation. No candidate mask may be consumed as truth.
+## Current Goal: RealESRGAN Bounded Target Runtime - 2026-07-13T20:05:00-05:00
+
+Continue the autonomous ComfyUI project from the selected `sdxl_realesrgan_upscale_polish_lane`. OpenPose v6 seed `711470303` is now bounded target-runtime certified with a footwear-color note and must not be regenerated. Reuse existing RealESRGAN staging and local source-selection evidence; choose only a candidate that passes the fail-closed export gate, then prepare exact current-head local readiness before any EC2 execution.
+
+Keep the manual body gold-mask dependency boundary active. No mask promotion, Wave70 hard-gate rerun, Wave71+ activation, Jira mutation, stale EC2 planning authority, or duplication of completed local/AWS work is allowed.
+
+Evidence: `Plan/Instructions/QA/Evidence/Done_Certifications/W64_OPENPOSE_LANE_BOUNDED_TARGET_RUNTIME_FINAL_CERTIFICATION_61596842_20260713T200400-0500.json`; `Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json`.

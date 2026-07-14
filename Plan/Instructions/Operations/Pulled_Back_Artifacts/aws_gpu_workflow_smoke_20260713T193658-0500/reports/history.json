@@ -1,0 +1,212 @@
+{
+  "meta": {
+    "13": {
+      "display_node": "13",
+      "node_id": "13",
+      "parent_node": null,
+      "real_node_id": "13"
+    },
+    "9": {
+      "display_node": "9",
+      "node_id": "9",
+      "parent_node": null,
+      "real_node_id": "9"
+    }
+  },
+  "outputs": {
+    "13": {
+      "images": [
+        {
+          "filename": "codex_sdxl_realvisxl_controlnet_openpose_control_map_diagnostic_00001_.png",
+          "subfolder": "",
+          "type": "output"
+        }
+      ]
+    },
+    "9": {
+      "images": [
+        {
+          "filename": "op_fullbody_walk_v6_robust_711470303_00001_.png",
+          "subfolder": "",
+          "type": "output"
+        }
+      ]
+    }
+  },
+  "prompt": [
+    0,
+    "f31feab3-54e5-48ba-85b5-29c0a195d3ad",
+    {
+      "10": {
+        "class_type": "ControlNetLoader",
+        "inputs": {
+          "control_net_name": "OpenPoseXL2.safetensors"
+        }
+      },
+      "11": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "controlnet_openpose_full_body_walking_w70_v1.png"
+        }
+      },
+      "12": {
+        "class_type": "ControlNetApplyAdvanced",
+        "inputs": {
+          "control_net": [
+            "10",
+            0
+          ],
+          "end_percent": 1.0,
+          "image": [
+            "11",
+            0
+          ],
+          "negative": [
+            "7",
+            0
+          ],
+          "positive": [
+            "6",
+            0
+          ],
+          "start_percent": 0.0,
+          "strength": 0.85,
+          "vae": [
+            "4",
+            2
+          ]
+        }
+      },
+      "13": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "filename_prefix": "codex_sdxl_realvisxl_controlnet_openpose_control_map_diagnostic",
+          "images": [
+            "11",
+            0
+          ]
+        }
+      },
+      "3": {
+        "class_type": "KSampler",
+        "inputs": {
+          "cfg": 5.5,
+          "denoise": 1.0,
+          "latent_image": [
+            "5",
+            0
+          ],
+          "model": [
+            "4",
+            0
+          ],
+          "negative": [
+            "12",
+            1
+          ],
+          "positive": [
+            "12",
+            0
+          ],
+          "sampler_name": "dpmpp_2m_sde",
+          "scheduler": "karras",
+          "seed": 711470303,
+          "steps": 20
+        }
+      },
+      "4": {
+        "class_type": "CheckpointLoaderSimple",
+        "inputs": {
+          "ckpt_name": "realvisxlV50_v50Bakedvae.safetensors"
+        }
+      },
+      "5": {
+        "class_type": "EmptyLatentImage",
+        "inputs": {
+          "batch_size": 1,
+          "height": 1056,
+          "width": 704
+        }
+      },
+      "6": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "4",
+            1
+          ],
+          "text": "hyperrealistic full-length editorial fitness photograph, one adult woman walking forward in a studio, entire person visible from head to shoes, dynamic crossed-leg walking stance, both arms relaxed at her sides, both hands visible, realistic hands and fingers, natural shoulders and hips, coherent leg anatomy, realistic knees and ankles, athletic top and full-length leggings, clean white sneakers, natural skin texture, detailed face and hair, soft studio lighting, balanced exposure, uncluttered muted green studio background, lifelike lens rendering"
+        }
+      },
+      "7": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "4",
+            1
+          ],
+          "text": "cartoon, anime, illustration, plastic skin, waxy skin, over-smoothed skin, distorted anatomy, extra person, duplicate body, extra limbs, missing limbs, fused legs, broken knees, twisted ankles, extra fingers, missing fingers, fused fingers, deformed hands, hidden hands, cropped head, cropped feet, person out of frame, close-up portrait, seated pose, crossed eyes, low resolution, blurry, watermark, text, logo, openpose skeleton overlay, pose map stains, colored bones, colored dots, control map stains, nude, unclothed torso"
+        }
+      },
+      "8": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "3",
+            0
+          ],
+          "vae": [
+            "4",
+            2
+          ]
+        }
+      },
+      "9": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "filename_prefix": "op_fullbody_walk_v6_robust_711470303",
+          "images": [
+            "8",
+            0
+          ]
+        }
+      }
+    },
+    {
+      "client_id": "codex-openpose-target-61596842",
+      "create_time": 1783989444253
+    },
+    [
+      "9",
+      "13"
+    ]
+  ],
+  "status": {
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "f31feab3-54e5-48ba-85b5-29c0a195d3ad",
+          "timestamp": 1783989444254
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [],
+          "prompt_id": "f31feab3-54e5-48ba-85b5-29c0a195d3ad",
+          "timestamp": 1783989444263
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "f31feab3-54e5-48ba-85b5-29c0a195d3ad",
+          "timestamp": 1783989505753
+        }
+      ]
+    ],
+    "status_str": "success"
+  }
+}
