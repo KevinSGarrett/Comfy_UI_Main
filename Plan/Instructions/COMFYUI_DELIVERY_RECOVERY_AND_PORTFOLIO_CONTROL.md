@@ -99,8 +99,11 @@ Required audit fields:
 
 ```text
 delivery_classification
-last_real_generation_at
-new_media_artifact_count
+candidate_media_latest_write_at
+candidate_media_artifact_count
+verified_new_delivery_latest_execution_at
+verified_new_delivery_count
+verified_new_delivery
 new_executable_capability_count
 quality_metric_delta
 repeated_readiness_or_gate_count
@@ -112,4 +115,6 @@ starved_modalities
 next_concrete_outcome
 ```
 
-The snapshot is observational. Human/Codex final authority still verifies whether candidate artifacts and evidence qualify as genuine delivery.
+Candidate media write times are observational only and cannot produce `DELIVERY_ADVANCING`. Verified new delivery requires a recent evidence-native execution timestamp, a passing execution or direct-QA state, an existing media path, an exact SHA-256 match, and hash deduplication. Checkout, restoration, recovery, inventory, and readiness evidence cannot qualify as new delivery. Human/Codex final authority still verifies whether a hash-bound record qualifies for certification.
+
+Automations must treat schema versions before `1.1`, or any snapshot lacking `verified_new_delivery`, as observational-only and may not emit `DELIVERY_ADVANCING` from those records.

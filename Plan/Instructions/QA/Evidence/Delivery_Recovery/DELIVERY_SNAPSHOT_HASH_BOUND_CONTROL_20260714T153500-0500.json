@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0",
+  "created_iso": "2026-07-14T15:35:00-05:00",
+  "classification": "DELIVERY_SNAPSHOT_HASH_BOUND_CONTROL_PASS",
+  "scope": "delivery snapshot truth classification and hydration integrity controls",
+  "delivery_snapshot_contract": {
+    "candidate_media_write_times_observational_only": true,
+    "delivery_advancing_requires_existing_media_path": true,
+    "delivery_advancing_requires_exact_sha256": true,
+    "delivery_advancing_requires_recent_evidence_timestamp": true,
+    "delivery_advancing_requires_passing_execution_or_direct_qa": true,
+    "delivery_deduplicated_by_media_sha256": true,
+    "recovery_checkout_restoration_inventory_readiness_excluded": true,
+    "diagnostic_and_mask_preview_media_excluded": true
+  },
+  "regression_results": {
+    "touched_historical_media_verified_count": 0,
+    "unrelated_runtime_evidence_verified_count": 0,
+    "duplicate_media_hash_verified_count": 1,
+    "valid_hash_bound_direct_qa_verified_count": 1,
+    "recovery_evidence_verified_count": 0,
+    "rollback_backfill_evidence_verified_count": 0,
+    "diagnostic_mask_preview_verified_count": 0,
+    "negated_pass_state_verified_count": 0,
+    "delivery_recovery_controls_pass": true,
+    "hydration_guard_fixture_tests_pass": true,
+    "hydration_repair_mojibake_preflight_pass": true,
+    "hydration_integrity_after_repair_pass": true
+  },
+  "current_observation": {
+    "delivery_classification": "PORTFOLIO_STARVATION",
+    "candidate_media_artifact_count": 191,
+    "verified_new_delivery_count": 2,
+    "verified_modalities": [
+      "image"
+    ],
+    "starved_modalities": [
+      "image",
+      "video",
+      "audio"
+    ],
+    "interpretation": "Candidate media count is observational. Two recent image outputs meet the strict hash-bound contract, but image, video, and audio are all currently beyond the shorter portfolio-starvation freshness threshold."
+  },
+  "hydration_repair_evidence": "Plan/Instructions/QA/Evidence/Delivery_Recovery/HYDRATION_COMPACT_REPAIR_20260714T153200-0500.json",
+  "semantic_design_review": "runtime_artifacts/agent_handoffs/claude_subscription/20260714T152245-0500_delivery_snapshot_and_hydration_guard_design/handoff_record.json",
+  "files": [
+    "tools/New-ComfyUIDeliveryProgressSnapshot.ps1",
+    "tools/Test-ComfyUIDeliveryRecoveryControls.ps1",
+    "tools/Test-ComfyUIHydrationIntegrityGuard.ps1",
+    "tools/Test-ComfyUIHydrationIntegrityGuard.Tests.ps1",
+    "tools/Repair-ComfyUIHydrationCorruption.ps1",
+    ".github/workflows/preflight-package.yml",
+    "Plan/Instructions/COMFYUI_DELIVERY_RECOVERY_AND_PORTFOLIO_CONTROL.md"
+  ],
+  "boundaries": {
+    "generation_executed": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "mask_gate_run": false,
+    "wave71_activated": false,
+    "jira_mutated": false
+  },
+  "next_action": "After this controls batch merges, return directly to the genuine licensed audio-to-short-video outcome across compatible Wave64 Rows025-033."
+}
