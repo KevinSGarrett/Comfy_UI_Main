@@ -38,7 +38,7 @@
     {
       "stage": "regional_repair_detail",
       "lane_ids": ["sdxl_realvisxl_inpaint_detail_lane"],
-      "status": "partial_single_sample_target_runtime_with_notes",
+      "status": "partial_target_runtime_facial_plus_local_fixed_e2e_contact_repair_with_notes",
       "blockers": ["full_lane_multisample_robustness", "trusted_mask_dependent_scope"]
     },
     {
@@ -50,8 +50,8 @@
     {
       "stage": "upscale_final_polish",
       "lane_ids": ["sdxl_realesrgan_upscale_polish_lane"],
-      "status": "partial_local_conditional_only",
-      "blockers": ["target_runtime_proof", "final_lane_review"]
+      "status": "bounded_target_runtime_conditional_export_plus_local_fixed_e2e_rejection",
+      "blockers": ["new_candidates_require_own_hash_bound_runtime_and_visual_selection", "final_lane_review"]
     },
     {
       "stage": "promotion",
@@ -73,7 +73,7 @@
     "promotion_allowed": false,
     "promoted_lane_count": 0
   },
-  "current_decision": "planner_and_prompt_pass_artifact_partial_promotion_blocked",
+  "current_decision": "fixed_local_image_chain_complete_upscale_rejected_source_retained_promotion_blocked",
   "runtime_action_allowed": false,
   "generation_allowed": false,
   "mask_promotion_allowed": false,
