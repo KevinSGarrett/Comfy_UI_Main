@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "evidence_id": "W64-AUDIO-AV-SYNC-20260712T175907-0500",
-  "timestamp": "2026-07-12T17:59:07-05:00",
+  "timestamp": "2026-07-14T07:56:06-05:00",
   "tracker_id": "TRK-W64-030",
   "item_id": "ITEM-W64-030",
   "source_citation": "Plan/05_AUDIO_SYSTEM/WAVE30_AUDIO_VIDEO_SYNC_PLAN.md",
@@ -56,7 +56,17 @@
     "authority_registry_unchanged_by_tests": true,
     "technical_offline_pass": true,
     "producer_tests_run": 10,
-    "evaluator_tests_run": 31
+    "evaluator_tests_run": 31,
+    "recovered_av_sync_readiness": {
+      "test_log": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_AV_SYNC_RECOVERED_READINESS_TEST_LOG_20260714T075606-0500.json",
+      "tests_run": 47,
+      "tests_passed": 47,
+      "tests_failed": 0,
+      "mux_decodable": true,
+      "strict_profile_checks_passed": 1,
+      "strict_profile_checks_failed": 4,
+      "eligible_for_strict_packet": false
+    }
   },
   "retained_probes": {
     "probe_summary": {"path": "runtime_artifacts/wave64_av_sync_certification/20260711T210114-0500/probe_summary.json", "sha256": "56b5e02ac0b413064aa20ff49e6f305d009b23e729f048d6e65d3b84fc8b4246"},
@@ -148,7 +158,13 @@
     "genuine_production_playback_review_present": false,
     "genuine_production_runtime_proof_present": false,
     "production_bundle_allowlisted": false,
-    "row_complete": false
+    "row_complete": false,
+    "recovered_mux_present_and_decodable": true,
+    "recovered_audio_stream_present": true,
+    "legacy_provisional_report_present": true,
+    "legacy_provisional_report_accepted_as_current_proof": false,
+    "recovered_strict_mux_profile_passed": false,
+    "recovered_strict_packet_eligible": false
   },
   "review": {
     "cursor_packet_producer_gap_review": {"path": "runtime_artifacts/agent_handoffs/cursor/20260712T174821-0500_row030_av_sync_packet_producer_gap/handoff_record.json", "sha256": "4abce72b2491f3df3b186b7cc83e89bd5a0de1b3bbcdf00ad086e798524fe7b3"},
@@ -157,7 +173,8 @@
     "cursor_initial_implementation": {"path": "runtime_artifacts/agent_handoffs/cursor/20260711T201724-0500_wave64_av_sync_implementation/handoff_record.json", "sha256": "96612ad01cc06fc96e46b29085d787e9fcdf5c1ae9a61f293916adb2b6e2fbba", "status": "FAIL", "classification": "CURSOR_HANDOFF_WRAPPER_FAILED", "usable_files_written_before_timeout": 6},
     "cursor_narrow_retry": {"path": "runtime_artifacts/agent_handoffs/cursor/20260711T202801-0500_wave64_av_sync_implementation_retry_narrow/handoff_record.json", "sha256": "1a88012d4c001dc1af367ea0780eb09ad7cc4f7500a205cc9a2307ea3acfa910", "status": "PASS", "worker_execution_blocked_by_wsl_exe_interop": true},
     "claude_initial_review": {"path": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T204047-0500_wave64_av_sync_adversarial_review/handoff_record.json", "sha256": "f563c7ccaad57d4f5a9e9ef563f9a878133c05ee6b15df604909df6f72a9cffa", "high_findings": 2, "medium_or_medium_high_findings": 4, "low_findings": 1},
-    "claude_closure_review": {"path": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T205546-0500_wave64_av_sync_review_closure/handoff_record.json", "sha256": "0cff46f1daca96f621ce68ae9663cd2af5274281f5e7db4e15ca760703fc37ae", "remaining_high_findings": 0, "remaining_medium_findings": 0, "scope_hashes_verified": 8, "scope_hash_mismatches": 0}
+    "claude_closure_review": {"path": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T205546-0500_wave64_av_sync_review_closure/handoff_record.json", "sha256": "0cff46f1daca96f621ce68ae9663cd2af5274281f5e7db4e15ca760703fc37ae", "remaining_high_findings": 0, "remaining_medium_findings": 0, "scope_hashes_verified": 8, "scope_hash_mismatches": 0},
+    "recovered_av_sync_readiness_semantic_review": {"path": "runtime_artifacts/agent_handoffs/claude_subscription/20260714T080052-0500_row030_recovered_av_sync_readiness_semantic_review/handoff_record.json", "sha256": "79046dbbccfe3159e5d87b8a3e1b4f7e37008ddc6e628dc3c9b828a8ef7f5a9b", "status": "PASS", "confidence": "high", "high_or_medium_findings": 0}
   },
   "environment_authority": {
     "authoritative_root": "C:\\Comfy_UI_Main",
@@ -173,13 +190,14 @@
     "generation_executed": false,
     "aws_contacted": false,
     "ec2_started": false,
-    "mask_promotion_executed": false
+    "mask_promotion_executed": false,
+    "recovered_mux_readiness_evaluation_count": 1
   },
   "blockers": [
-    {"classification": "Blocked_AV_Sync_Production_Proof_Missing", "scope": "primary_row_blocker", "reason": "No genuine non-synthetic production audio/video mux with bound anchor, playback-review, and runtime proof exists for this row."},
+    {"classification": "Blocked_AV_Sync_Production_Proof_Missing", "scope": "primary_row_blocker", "reason": "The recovered 10-second MP4 decodes with H.264 video and mono AAC audio, but it fails four of five strict mux-profile checks and lacks source-video, identity, Wave30, anchor, playback, runtime, and production-bundle proof chains."},
     {"classification": "Blocked_AV_Sync_Production_Authority_Missing", "scope": "production_authority", "reason": "The canonical production certification bundle allowlist contains zero approved bundles."}
   ],
-  "result": "blocked_av_sync_production_proof_missing",
+  "result": "blocked_recovered_mux_decodable_but_not_strict_packet_eligible",
   "overall_pass": false,
   "status_decision": "Blocked_AV_Sync_Production_Proof_Missing",
   "strict_decision": {
@@ -187,9 +205,30 @@
     "offline_evaluator_and_schema_pass": true,
     "synthetic_fail_closed_probe_pass": true,
     "adversarial_relabel_fail_closed_probe_pass": true,
+    "recovered_mux_readiness_fail_closed_pass": true,
+    "strict_recovered_packet_formed": false,
+    "strict_recovered_evaluator_invoked": false,
     "production_av_sync_or_playback_claimed": false,
     "production_bundle_approved": false,
     "certification_claimed": false,
     "wave71_activation_claimed": false
-  }
+  },
+  "recovered_av_sync_readiness": {
+    "evidence": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_AV_SYNC_RECOVERED_READINESS_20260714T075606-0500.json",
+    "test_log": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_AV_SYNC_RECOVERED_READINESS_TEST_LOG_20260714T075606-0500.json",
+    "mux_decodable": true,
+    "mux_duration_seconds": 10.0,
+    "observed_video_codec": "h264",
+    "observed_audio_codec": "aac",
+    "observed_audio_sample_rate_hz": 48000,
+    "observed_audio_channels": 1,
+    "strict_profile_passed_checks": 1,
+    "strict_profile_failed_checks": 4,
+    "missing_required_field_count": 9,
+    "missing_production_proof_count": 3,
+    "strict_packet_eligible": false,
+    "strict_evaluator_invoked": false,
+    "production_eligible": false
+  },
+  "reconciliation_evidence": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_AV_SYNC_RECOVERED_READINESS_20260714T075606-0500.json"
 }

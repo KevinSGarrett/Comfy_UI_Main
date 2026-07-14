@@ -1,0 +1,141 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-AUDIO-AV-SYNC-RECOVERED-READINESS-20260714T0756060500",
+  "timestamp": "2026-07-14T07:56:06-05:00",
+  "tracker_id": "TRK-W64-030",
+  "item_id": "ITEM-W64-030",
+  "status_decision": "Blocked_AV_Sync_Production_Proof_Missing",
+  "recovered_artifacts": {
+    "returned_manifest": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave42_legacy_audio_recovery_20260714T063840-0500/returned_ec2_20260701T101322/final_ec2_returned_media_manifest.json",
+      "sha256": "9588fbcb703d73190f32dd001bb0089621d3024d7a58380b8a323c55352c65db"
+    },
+    "legacy_av_report": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave42_legacy_audio_recovery_20260714T063840-0500/returned_ec2_20260701T101322/av_sync_validation_report.json",
+      "sha256": "b59618d65b89d07513214063272a6775519a1be33a1c70bf8c12ab04c1824b47",
+      "reported_overall_status": "pass",
+      "accepted_as_current_strict_proof": false,
+      "rejection_reason": "Legacy report is explicitly provisional and does not implement any accepted Wave64 proof schema, producer identity, or hash lineage contract."
+    },
+    "legacy_timeline": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave42_legacy_audio_recovery_20260714T063840-0500/legacy_event_sources/master_av_sync_timeline.json",
+      "sha256": "9e6a0cb9252658c800d813b3ab47dcbe4a70ee4e1d0c9f330ca971fa78ea3876",
+      "timeline_id": "avsync_release_scene_03",
+      "accepted_as_wave30_manifest": false
+    },
+    "final_audio_mix": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave42_legacy_audio_recovery_20260714T063840-0500/returned_ec2_20260701T101322/final_audio_mix_provisional.wav",
+      "sha256": "65ded4d70ec8b68cc04672df16edb411f593ec8c527c3bd2987d5e0e44deaadb",
+      "bytes": 960044,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "sample_rate": 48000,
+      "frames": 480000,
+      "duration_seconds": 10.0,
+      "authority_class": "provisional_returned_runtime_audio"
+    },
+    "final_mux_candidate": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave42_legacy_audio_recovery_20260714T063840-0500/returned_ec2_20260701T101322/release_scene_03_final_video_candidate.mp4",
+      "sha256": "65a69b8f16a92e0a119f68698b45537076c58da647113d37cb78e8bb352e4718",
+      "bytes": 812208,
+      "container_format": "mov,mp4,m4a,3gp,3g2,mj2",
+      "duration_seconds": 10.0,
+      "streams": [
+        {
+          "index": 0,
+          "type": "video",
+          "codec": "h264",
+          "duration_seconds": 10.0,
+          "sample_rate": null,
+          "channels": null,
+          "width": 1280,
+          "height": 704,
+          "average_rate": "8"
+        },
+        {
+          "index": 1,
+          "type": "audio",
+          "codec": "aac",
+          "duration_seconds": 10.0,
+          "sample_rate": 48000,
+          "channels": 1,
+          "width": null,
+          "height": null,
+          "average_rate": "None"
+        }
+      ],
+      "decode_probe_succeeded": true,
+      "authority_class": "provisional_returned_runtime_mux"
+    }
+  },
+  "strict_profile_comparison": {
+    "required_profile": {
+      "container_formats": [
+        "matroska",
+        "matroska,webm"
+      ],
+      "video_codec": "ffv1",
+      "audio_codec": "pcm_s16le",
+      "audio_sample_rate_hz": 16000,
+      "audio_channels": 1
+    },
+    "observed_profile": {
+      "container_format": "mov,mp4,m4a,3gp,3g2,mj2",
+      "video_codec": "h264",
+      "audio_codec": "aac",
+      "audio_sample_rate_hz": 48000,
+      "audio_channels": 1,
+      "duration_seconds": 10.0
+    },
+    "checks": {
+      "container_allowed": false,
+      "video_codec_allowed": false,
+      "audio_codec_allowed": false,
+      "audio_sample_rate_allowed": false,
+      "audio_channel_count_allowed": true
+    },
+    "passed_check_count": 1,
+    "failed_check_count": 4,
+    "strict_mux_profile_pass": false
+  },
+  "mapping_decision": {
+    "scene_id": "release_scene_03",
+    "missing_required_fields": [
+      "run_id",
+      "shot_id",
+      "take_id",
+      "is_synthetic",
+      "evidence_origin",
+      "source_video_artifact",
+      "wave30_event_manifest_binding",
+      "wave30_mix_manifest_binding",
+      "observed_anchor_measurement_proof_binding"
+    ],
+    "missing_production_proofs": [
+      "playback_proof_binding",
+      "runtime_proof_binding",
+      "production_certification_bundle_binding"
+    ],
+    "source_video_distinct_from_final_mux_proven": false,
+    "legacy_report_current_proof_role": null,
+    "eligible_for_strict_packet": false,
+    "strict_evaluator_invoked": false,
+    "strict_evaluator_skip_reason": "Fail closed before packet production: required identity, source-video, Wave30, and anchor bindings are absent, and recovered MP4 does not meet strict mux profile."
+  },
+  "boundaries": {
+    "existing_media_reused": true,
+    "generation_executed": false,
+    "media_modified_or_remuxed": false,
+    "identity_or_proof_fields_invented": false,
+    "legacy_provisional_pass_promoted": false,
+    "production_playback_claimed": false,
+    "production_runtime_claimed": false,
+    "production_bundle_claimed": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "mask_or_wave71_touched": false,
+    "jira_mutated": false
+  },
+  "result": "blocked_recovered_mux_decodable_but_not_strict_packet_eligible",
+  "next_action": "Retain the recovered mux as provisional lineage evidence; do not remux or regenerate until an explicit strict-source and proof-chain task is selected."
+}
