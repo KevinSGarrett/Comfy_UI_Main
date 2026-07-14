@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-WAN22-TI2V5B-TARGET-RUNTIME-SMOKE-20260714T004424-0500",
+  "timestamp": "2026-07-14T00:44:24-05:00",
+  "lane_id": "wan_2_2_ti2v_5b_primary_lane",
+  "run_id": "aws_gpu_workflow_smoke_20260714T002123-0500",
+  "execution_target": {
+    "provider": "aws",
+    "region": "us-east-1",
+    "instance_id": "i-0560bf8d143f93bb1",
+    "instance_type": "g5.xlarge",
+    "gpu": "NVIDIA A10G 24GB",
+    "final_instance_state": "stopped"
+  },
+  "source_bindings": {
+    "source_git_head": "0d625de9254741f107f3d295d617749e48b13f79",
+    "run_package": "runtime_artifacts/run_packages/wan22_ti2v5b_fullbody_2271301_20260714_v3/RUN_PACKAGE_MANIFEST.json",
+    "deploy_bundle": {
+      "path": "runtime_artifacts/deploy_bundles/wan22_ti2v5b_fullbody_2271301_v3_20260714T001500-0500/DEPLOY_BUNDLE_MANIFEST.json",
+      "sha256": "9504f3fb8cf80e41806b936068591dd90d7d519d2f38a7c55fa39c2921b9c80b",
+      "s3_uri": "s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/wan22_ti2v5b_fullbody_2271301_v3_20260714T001500-0500/wan22_ti2v5b_fullbody_2271301_v3_20260714T001500-0500.zip"
+    },
+    "model_inventory_window": "runtime_artifacts/ec2_runtime_windows/rw-wan22-install2-20260713T233137/MODEL_INSTALL_WINDOW.json",
+    "static_proof_window": "runtime_artifacts/ec2_runtime_windows/rw-wan22-static-20260714T000156/EC2_STATIC_PROOF.json",
+    "smoke_window": "runtime_artifacts/ec2_runtime_windows/rw-wan22-smoke-20260714T001955/EC2_SMOKE_RUN.json",
+    "pullback_record": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260714T002123-0500/PULLBACK_RECORD.json"
+  },
+  "input": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v4_full_body_standing_seed711670301_20260711T035900-0500/images/normal_v4_fullbody_standing_711670301_00001_.png",
+    "staged_filename": "wan22_ti2v_fullbody_seed711670301.png",
+    "sha256": "b01b694125e08027195baf3c5a4eeac472eba242bfb4bbe69473625844134fc1"
+  },
+  "model_proofs": [
+    {
+      "filename": "wan2.2_ti2v_5B_fp16.safetensors",
+      "size_bytes": 9999658848,
+      "sha256": "456f901338bd9eadbded3828b819109a9b68e8a525ca5cf8d0049a69fcfeca1e",
+      "inventory_result": "ASSET_PRESENT_OK"
+    },
+    {
+      "filename": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+      "size_bytes": 6735906897,
+      "sha256": "c3355d30191f1f066b26d93fba017ae9809dce6c627dda5f6a66eaa651204f68",
+      "inventory_result": "ASSET_PRESENT_OK"
+    },
+    {
+      "filename": "wan2.2_vae.safetensors",
+      "size_bytes": 1409400960,
+      "sha256": "e40321bd36b9709991dae2530eb4ac303dd168276980d3e9bc4b6e2b75fed156",
+      "inventory_result": "ASSET_PRESENT_OK"
+    }
+  ],
+  "runtime_result": {
+    "generation_executed": true,
+    "prompt_id": "e730cbaa-e500-4d78-ab72-2b4edeaeda09",
+    "prompt_schema_status": "pass",
+    "prompt_schema_error_count": 0,
+    "required_node_count": 11,
+    "required_nodes_present": 11,
+    "s3_sync_succeeded": true,
+    "pullback_hashes_verified": true,
+    "errors": [],
+    "warnings": [
+      "The isolated ComfyUI server could not acquire the shared /home/ubuntu/ComfyUI/user/comfyui.db lock because another ComfyUI process was using it. Database initialization was nonfatal for this run; object-info, prompt execution, artifact save, S3 sync, and pullback all completed.",
+      "ONNX Runtime logged a nonfatal /sys/class/drm/card0 discovery warning before CUDA-backed generation completed on the NVIDIA A10G."
+    ]
+  },
+  "artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260714T002123-0500/images/12_wan22_ti2v5b_fullbody_seed2271301_00001_.mp4",
+    "size_bytes": 88902,
+    "sha256": "546da2e7d8ce3afaa02565913cef8008d3d45a2adb70d4449bab7f167c75b50d",
+    "s3_uri": "s3://comfy-ui-main-runtime-029530099913-us-east-1/render-outputs/aws_gpu_workflow_smoke_20260714T002123-0500/images/12_wan22_ti2v5b_fullbody_seed2271301_00001_.mp4"
+  },
+  "checks": {
+    "exact_model_sizes_and_sha256_verified_before_generation": true,
+    "duplicate_model_download_avoided": true,
+    "target_object_info_passed": true,
+    "prompt_schema_passed": true,
+    "generation_completed_without_node_errors": true,
+    "nonfatal_database_lock_warning_recorded": true,
+    "nonfatal_onnx_device_discovery_warning_recorded": true,
+    "artifact_uploaded_and_hash_verified_after_pullback": true,
+    "instance_stopped_after_window": true
+  },
+  "failed_checks": [],
+  "result": "pass_bounded_wan22_ti2v5b_target_runtime_smoke",
+  "boundaries": {
+    "single_clip_only": true,
+    "production_video_lane_certification_claimed": false,
+    "gold_masks_consumed": false,
+    "mask_or_geometry_authority_claimed": false,
+    "wave71_activation_claimed": false,
+    "jira_mutated": false
+  },
+  "next_action": "Complete hash-bound technical media QA and direct temporal visual review for this exact clip."
+}

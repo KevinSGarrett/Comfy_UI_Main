@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-07-13T22:55:00-05:00",
+  "updated_at": "2026-07-14T00:44:24-05:00",
   "workflow_group": "video_generation",
   "lanes": [
     {
@@ -9,13 +9,21 @@
       "role": "primary_native_wan_2_2_image_to_video_candidate",
       "workflow_path": "Plan/07_IMPLEMENTATION/workflow_templates/video_generation/wan_2_2_ti2v_5b_primary_lane/workflow.api.json",
       "requirements_path": "Plan/07_IMPLEMENTATION/workflow_templates/video_generation/wan_2_2_ti2v_5b_primary_lane/runtime_requirements.json",
-      "status": "workflow_implemented_runtime_assets_pending",
-      "required_next_runtime_gate": "install_exact_hash_bound_assets_then_one_bounded_ec2_clip_with_temporal_qa",
+      "status": "bounded_target_runtime_smoke_and_direct_visual_qa_passed",
+      "required_next_runtime_gate": "no_rerun_unless_source_profile_duration_seed_matrix_or_production_scope_changes",
       "promotion_rule": "One successful clip proves only the exact 480x640 49-frame source/profile configuration. It does not certify general video production, body masks, geometry, identity robustness, or Wave71+.",
       "source_evidence": [
         "Plan/10_REGISTRIES/wave27_video_route_selection_rules.json",
         "Plan/10_REGISTRIES/wave27_video_engine_registry.json",
-        "Plan/Instructions/QA/Evidence/Delivery_Recovery/COMPREHENSIVE_DELIVERY_REALITY_AUDIT_20260713T211700-0500.json"
+        "Plan/Instructions/QA/Evidence/Delivery_Recovery/COMPREHENSIVE_DELIVERY_REALITY_AUDIT_20260713T211700-0500.json",
+        "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_WAN22_TI2V5B_TARGET_RUNTIME_SMOKE_20260714T004424-0500.json",
+        "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_TI2V5B_TARGET_RUNTIME_TECHNICAL_QA_20260714T004424-0500.json",
+        "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_TI2V5B_TARGET_RUNTIME_VISUAL_QA_20260714T004424-0500.json"
+      ],
+      "proof_evidence": [
+        "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_WAN22_TI2V5B_TARGET_RUNTIME_SMOKE_20260714T004424-0500.json",
+        "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_TI2V5B_TARGET_RUNTIME_TECHNICAL_QA_20260714T004424-0500.json",
+        "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_TI2V5B_TARGET_RUNTIME_VISUAL_QA_20260714T004424-0500.json"
       ]
     }
   ]

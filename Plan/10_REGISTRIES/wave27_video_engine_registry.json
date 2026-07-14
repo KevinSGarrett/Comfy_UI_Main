@@ -61,23 +61,23 @@
         "creative temporal generation"
       ],
       "model_registry_link": {
-        "verification_status": "verified_official_source_metadata_runtime_unproven",
+        "verification_status": "verified_exact_hashes_and_bounded_target_runtime_smoke",
         "value": "Plan/07_IMPLEMENTATION/workflow_templates/video_generation/wan_2_2_ti2v_5b_primary_lane/runtime_requirements.json"
       },
       "object_info_evidence": {
-        "verification_status": "verified_local_core_nodes",
-        "value": "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W64_WAN22_TI2V5B_LOCAL_IMPLEMENTATION_20260713T230100-0500.json"
+        "verification_status": "verified_target_runtime_required_nodes",
+        "value": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_WAN22_TI2V5B_TARGET_RUNTIME_SMOKE_20260714T004424-0500.json"
       },
       "runtime_proof": {
-        "verification_status": "unverified",
-        "value": null
+        "verification_status": "verified_bounded_single_clip_technical_and_direct_visual_qa",
+        "value": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_TI2V5B_TARGET_RUNTIME_VISUAL_QA_20260714T004424-0500.json"
       },
       "supported_outputs": {
-        "verification_status": "verified_workflow_contract_runtime_unproven",
+        "verification_status": "verified_bounded_target_runtime",
         "values": ["mp4_h264"]
       },
       "supported_features": {
-        "verification_status": "verified_official_source_metadata_runtime_unproven",
+        "verification_status": "verified_bounded_target_runtime",
         "values": ["image_to_video", "text_image_hybrid_5b"]
       },
       "resource_limits": {
@@ -89,7 +89,7 @@
         "min_vram_gb": null
       },
       "execution_targets": {
-        "verification_status": "planned_not_runtime_proven",
+        "verification_status": "verified_bounded_target_runtime",
         "values": ["ec2:g5.xlarge"]
       },
       "cost_tiers": {
@@ -97,12 +97,16 @@
         "values": []
       },
       "availability": {
-        "verification_status": "local_and_runtime_inventory_checked_with_aws_list_gap",
-        "state": "workflow_ready_models_not_present_locally_ec2_hash_inspection_pending"
+        "verification_status": "verified_exact_hash_assets_on_approved_ec2",
+        "state": "available_bounded_target_runtime_smoke_complete"
       },
       "promotion_proof": {
-        "verification_status": "unverified",
-        "items": []
+        "verification_status": "bounded_runtime_and_direct_visual_qa_passed_not_production_certified",
+        "items": [
+          "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_WAN22_TI2V5B_TARGET_RUNTIME_SMOKE_20260714T004424-0500.json",
+          "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_TI2V5B_TARGET_RUNTIME_TECHNICAL_QA_20260714T004424-0500.json",
+          "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_TI2V5B_TARGET_RUNTIME_VISUAL_QA_20260714T004424-0500.json"
+        ]
       }
     },
     {

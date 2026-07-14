@@ -37,8 +37,8 @@
       "filename": "wan2.2_ti2v_5B_fp16.safetensors",
       "bytes": 9999658848,
       "sha256": "456f901338bd9eadbded3828b819109a9b68e8a525ca5cf8d0049a69fcfeca1e",
-      "hash_status": "pending_ec2_static_match",
-      "path_status": "pending_ec2_static_match",
+      "hash_status": "verified_ec2_static_and_target_runtime",
+      "path_status": "verified_ec2_static_and_target_runtime",
       "source_url": "https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/resolve/fb1388adc906ab39ffc26ee40e96b22886b56bc4/split_files/diffusion_models/wan2.2_ti2v_5B_fp16.safetensors",
       "node_id": "1",
       "node_class": "UNETLoader",
@@ -51,8 +51,8 @@
       "filename": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
       "bytes": 6735906897,
       "sha256": "c3355d30191f1f066b26d93fba017ae9809dce6c627dda5f6a66eaa651204f68",
-      "hash_status": "pending_ec2_static_match",
-      "path_status": "pending_ec2_static_match",
+      "hash_status": "verified_ec2_static_and_target_runtime",
+      "path_status": "verified_ec2_static_and_target_runtime",
       "source_url": "https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/resolve/fb1388adc906ab39ffc26ee40e96b22886b56bc4/split_files/text_encoders/umt5_xxl_fp8_e4m3fn_scaled.safetensors",
       "node_id": "2",
       "node_class": "CLIPLoader",
@@ -65,8 +65,8 @@
       "filename": "wan2.2_vae.safetensors",
       "bytes": 1409400960,
       "sha256": "e40321bd36b9709991dae2530eb4ac303dd168276980d3e9bc4b6e2b75fed156",
-      "hash_status": "pending_ec2_static_match",
-      "path_status": "pending_ec2_static_match",
+      "hash_status": "verified_ec2_static_and_target_runtime",
+      "path_status": "verified_ec2_static_and_target_runtime",
       "source_url": "https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/resolve/fb1388adc906ab39ffc26ee40e96b22886b56bc4/split_files/vae/wan2.2_vae.safetensors",
       "node_id": "3",
       "node_class": "VAELoader",
@@ -99,12 +99,19 @@
     "native_comfyui_nodes_only": true
   },
   "promotion_allowed_without_evidence": false,
-  "current_status": "workflow_implemented_runtime_assets_pending",
+  "current_status": "bounded_target_runtime_smoke_and_direct_visual_qa_passed",
+  "runtime_evidence": {
+    "model_inventory": "runtime_artifacts/ec2_runtime_windows/rw-wan22-install2-20260713T233137/MODEL_INSTALL_WINDOW.json",
+    "static_proof": "runtime_artifacts/ec2_runtime_windows/rw-wan22-static-20260714T000156/EC2_STATIC_PROOF.json",
+    "target_runtime_smoke": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_WAN22_TI2V5B_TARGET_RUNTIME_SMOKE_20260714T004424-0500.json",
+    "technical_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_TI2V5B_TARGET_RUNTIME_TECHNICAL_QA_20260714T004424-0500.json",
+    "direct_visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_TI2V5B_TARGET_RUNTIME_VISUAL_QA_20260714T004424-0500.json",
+    "artifact_sha256": "546da2e7d8ce3afaa02565913cef8008d3d45a2adb70d4449bab7f167c75b50d"
+  },
   "known_blockers": [
-    "The three model assets are not present in local project or legacy model roots.",
-    "The least-privilege session role cannot list the historical model bucket and the break-glass login is expired, so no S3 duplicate inventory claim is made.",
-    "EC2 model presence must be checked before any download after the approved instance starts.",
-    "No genuine Wan clip or direct temporal QA exists yet."
+    "Only one exact source, seed, 480x640 profile, and 49-frame two-second clip has target-runtime proof.",
+    "Longer duration, broader motion, source diversity, and multiseed production robustness remain unproven.",
+    "This video proof does not establish body-mask, hand/contact, geometry, or Wave71 authority."
   ],
   "boundaries": {
     "gold_masks_consumed": false,
