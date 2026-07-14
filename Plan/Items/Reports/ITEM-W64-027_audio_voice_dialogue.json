@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-027-AUDIO-VOICE-DIALOGUE-20260712T165435-0500",
-  "timestamp": "2026-07-14T07:03:04-05:00",
+  "timestamp": "2026-07-14T16:19:38-05:00",
   "item_id": "ITEM-W64-027",
   "tracker_id": "TRK-W64-027",
   "workstream": "audio_voice_dialogue",
@@ -50,7 +50,12 @@
     "recovered_sapi_semantic_review": "PASS",
     "recovered_sapi_semantic_review_confidence": "high",
     "recovered_sapi_semantic_review_high_or_medium_findings": 0,
-    "recovered_sapi_semantic_review_record": "runtime_artifacts/agent_handoffs/claude_subscription/20260714T071159-0500_row027_recovered_sapi_evaluation_semantic_review/handoff_record.json"
+    "recovered_sapi_semantic_review_record": "runtime_artifacts/agent_handoffs/claude_subscription/20260714T071159-0500_row027_recovered_sapi_evaluation_semantic_review/handoff_record.json",
+    "licensed_human_voice_excerpt_present": true,
+    "licensed_voice_source_sha256": "9d8bc88e382c47b9493e3e881931692be893e69c602761072f9f80ae41ae7db0",
+    "mixed_voice_stem_sha256": "95222b1ff4525777bca777378b8355a4f9e3c1038e152008e7eba8ef8070d4f0",
+    "mixed_output_asr_transcript": "once upon a midnight",
+    "mixed_output_asr_exact_match": true
   },
   "acceptance_gates": {
     "voice_profile_match_contract": true,
@@ -60,6 +65,8 @@
     "voice_continuity_contract": true,
     "audio_review_record_contract": true,
     "evaluator_request_producer": true,
+    "genuine_human_voice_audio_present": true,
+    "genuine_production_tts_voice_audio_present": false,
     "genuine_production_voice_audio_present": false,
     "genuine_production_proof_set_present": false,
     "production_proof_bundle_allowlisted": false,
@@ -73,12 +80,16 @@
     {
       "classification": "Blocked_Voice_Dialogue_Production_Proof_Missing",
       "scope": "primary_row_blocker",
-      "reason": "Recovered SAPI voice audio has now been evaluated: both character packets lack independent ASR, speaker, emotion, playback-review, runtime, and production-bundle proofs, and L002 additionally fails strict dialogue timing by 0.844 seconds."
+      "reason": "A public-domain real-human voice excerpt now passes exact mixed-output ASR, but it is a licensed source excerpt rather than a Parler-TTS/CosyVoice2 character voice run and lacks speaker, emotion, continuity, playback-review, runtime, and production-bundle proofs."
     },
     {
       "classification": "Blocked_Voice_Production_Proof_Authority_Missing",
       "scope": "production_proof_authority",
       "reason": "The canonical proof-bundle authority registry is intentionally empty, so no synthetic or locally authored packet can reach production PASS."
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_audio_chain_20260714T163400-0500/delivery_manifest.json",
+      "sha256": "9eb91fb2c84105b470a27c939babd9ca8537045f3818f01f3187779e354c0a07"
     }
   ],
   "evidence": [
@@ -101,7 +112,8 @@
   ],
   "runtime": {
     "production_voice_generation_count": 0,
-    "production_voice_evaluation_count": 0,
+    "licensed_human_voice_mix_count": 1,
+    "production_voice_evaluation_count": 1,
     "production_playback_review_count": 0,
     "approved_proof_bundle_count": 0,
     "comfyui_started": false,
@@ -109,5 +121,5 @@
     "ec2_started": false,
     "diagnostic_voice_evaluation_count": 2
   },
-  "next_action": "Map the recovered procedural/returned-runtime foley and AV packet through the existing strict Row028 and Row030 evaluators without regenerating media."
+  "next_action": "Run one bounded Parler-TTS or CosyVoice2 character dialogue WAV and bind speaker, emotion, continuity, runtime, and independent playback proofs; retain the public-domain excerpt as a verified source-path benchmark."
 }

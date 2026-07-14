@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-030-AUDIO-AV-SYNC-20260712T175907-0500",
-  "timestamp": "2026-07-14T07:56:06-05:00",
+  "timestamp": "2026-07-14T16:19:38-05:00",
   "item_id": "ITEM-W64-030",
   "tracker_id": "TRK-W64-030",
   "workstream": "audio_av_sync",
@@ -47,7 +47,13 @@
     "recovered_av_sync_semantic_review": "PASS",
     "recovered_av_sync_semantic_review_confidence": "high",
     "recovered_av_sync_semantic_review_high_or_medium_findings": 0,
-    "recovered_av_sync_semantic_review_record": "runtime_artifacts/agent_handoffs/claude_subscription/20260714T080052-0500_row030_recovered_av_sync_readiness_semantic_review/handoff_record.json"
+    "recovered_av_sync_semantic_review_record": "runtime_artifacts/agent_handoffs/claude_subscription/20260714T080052-0500_row030_recovered_av_sync_readiness_semantic_review/handoff_record.json",
+    "genuine_strict_mux_built": true,
+    "genuine_strict_mux_sha256": "a8f12ba653260f035a10556010e599e3915c14f57bdab01228672b5a46fed90a",
+    "genuine_strict_profile_checks_passed": 5,
+    "genuine_strict_profile_checks_failed": 0,
+    "genuine_strict_mux_video_frames": 48,
+    "genuine_strict_mux_audio_samples": 32640
   },
   "acceptance_gates": {
     "sync_offset_threshold_contract": true,
@@ -55,7 +61,8 @@
     "mux_manifest_contract": true,
     "av_review_record_contract": true,
     "audio_video_playback_sync_review_contract": true,
-    "genuine_non_synthetic_av_sync_media_present": false,
+    "genuine_non_synthetic_av_sync_media_present": true,
+    "genuine_strict_mux_profile_passed": true,
     "genuine_production_playback_review_present": false,
     "genuine_production_runtime_proof_present": false,
     "production_bundle_allowlisted": false,
@@ -67,7 +74,7 @@
     "recovered_strict_packet_eligible": false
   },
   "blockers": [
-    {"classification": "Blocked_AV_Sync_Production_Proof_Missing", "reason": "The recovered 10-second MP4 decodes with H.264 video and mono AAC audio, but it fails four of five strict mux-profile checks and lacks source-video, identity, Wave30, anchor, playback, runtime, and production-bundle proof chains."},
+    {"classification": "Blocked_AV_Sync_Production_Proof_Missing", "reason": "A new genuine 2.04-second Matroska/FFV1/PCM strict mux passes all five stream-profile checks, but strict Wave30 identity, anchor measurement, independent playback, runtime, and production-bundle proof chains are still absent."},
     {"classification": "Blocked_AV_Sync_Production_Authority_Missing", "reason": "The canonical production certification bundle allowlist contains zero approved bundles."}
   ],
   "evidence": [
@@ -79,11 +86,12 @@
     {"path": "runtime_artifacts/wave64_av_sync_certification/20260711T210114-0500/probe_summary.json", "sha256": "56b5e02ac0b413064aa20ff49e6f305d009b23e729f048d6e65d3b84fc8b4246"},
     {"path": "runtime_artifacts/wave64_av_sync_certification/20260711T210114-0500/windows_strict_tests.txt", "sha256": "07f2bd435d39bd1107344492ca7626a9e0dcb20954c683bcca3ebcfa6bd6bd07"},
     {"path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_AV_SYNC_RECOVERED_READINESS_20260714T075606-0500.json", "sha256": "11af937ba322f285d3aebdca6466afd20ade7056aad8f284dce781ab4e331d89"},
-    {"path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_AV_SYNC_RECOVERED_READINESS_TEST_LOG_20260714T075606-0500.json", "sha256": "2020309a5fa617e69bb18ccbb9fb6d446618ef3ef2f84fa2cbe126e7993088c4"}
+    {"path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_AV_SYNC_RECOVERED_READINESS_TEST_LOG_20260714T075606-0500.json", "sha256": "2020309a5fa617e69bb18ccbb9fb6d446618ef3ef2f84fa2cbe126e7993088c4"},
+    {"path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_audio_chain_20260714T163400-0500/delivery_manifest.json", "sha256": "9eb91fb2c84105b470a27c939babd9ca8537045f3818f01f3187779e354c0a07"}
   ],
   "runtime": {
-    "production_av_sync_generation_count": 0,
-    "production_av_sync_evaluation_count": 0,
+    "production_av_sync_generation_count": 1,
+    "production_av_sync_evaluation_count": 1,
     "production_playback_review_count": 0,
     "approved_production_bundle_count": 0,
     "comfyui_started": false,
@@ -91,5 +99,5 @@
     "ec2_started": false,
     "recovered_mux_readiness_evaluation_count": 1
   },
-  "next_action": "Retain the recovered mux as provisional lineage evidence; do not remux or regenerate until an explicit strict-source and proof-chain task is selected."
+  "next_action": "Bind the completed strict mux to genuine Wave30 identity and anchor measurement proof, then obtain independent playback/runtime proof and approved bundle authority; do not remux unless direct QA finds a media defect."
 }

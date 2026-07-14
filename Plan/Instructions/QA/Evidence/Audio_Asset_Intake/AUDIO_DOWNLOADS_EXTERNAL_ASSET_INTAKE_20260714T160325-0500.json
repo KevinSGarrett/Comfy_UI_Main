@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "AUDIO-DOWNLOADS-EXTERNAL-ASSET-INTAKE-20260714T160325-0500",
+  "timestamp": "2026-07-14T16:03:25-05:00",
+  "source_root": "F:\\Len_Transfer\\Audio_Downloads",
+  "result": "audio_asset_intake_registered",
+  "content_based_suppression_added": false,
+  "inventory": {
+    "files": 41071,
+    "directories": 1798,
+    "approximate_size_gib": 23.729,
+    "audio_files": 39771,
+    "top_level_asset_groups": 21,
+    "zero_byte_files": 97,
+    "zero_byte_audio_files": 0
+  },
+  "methods": [
+    "recursive file, directory, byte, and extension inventory",
+    "historical manifest-to-current path reconciliation",
+    "safetensors header and tensor-key inspection without loading tensor data",
+    "ComfyUI workflow JSON parse, node inventory, dependency extraction, and SHA-256",
+    "local README, model-card, LICENSE, and PDF terms inspection",
+    "deterministic media-header sample across both audio corpora",
+    "Wave64 item, tracker, evidence, model-registry, and queue crosswalk"
+  ],
+  "media_header_sample": {
+    "sampled_files": 316,
+    "cv3_eval_wav_sample": 120,
+    "open_nsfw_sfx_sample": 196,
+    "metadata_valid_after_float_wav_fallback": 316,
+    "invalid_media_in_sample": 0,
+    "sample_duration_hours": 1.108,
+    "observed_sample_rates_hz": [16000, 32000, 44100, 48000, 96000, 192000],
+    "observed_channels": [1, 2],
+    "note": "Five IEEE-float WAV files rejected by Python's PCM-only wave module parsed correctly through Mutagen WAVE metadata."
+  },
+  "workflow_hashes": {
+    "infinitetalk_tts_bgm_foley": "b204f61ec9079e0bd2652ec567ebf0c145f375e95ea66a1694b3973a70dc918b",
+    "ltx2_foley_add_audio": "4f4f6b36c416fe08861b09211ffc7b799d269768172e5b2373342df851bca7d3",
+    "mmaudio_batch": "6f2fdc29fddb372ec4e3bc058d1d08e71a01953ee82deb0caea4b4932b13ac43",
+    "qwen3_tts_rvc_directors_mode": "3f13c4f36811735c51c356d3291e83971b3d365d8f6054a10d0f464590a0264a",
+    "qwen3_exact_duplicate": true,
+    "mmaudio_studio_zero": "bc16a18e91912c4f811a6d95c3416fded89e39e4f5c632b61619147e5b71a8da",
+    "hunyuan_video_foley": "f292ad17b3cd406606e967d6d45c9467943e9992140be8bb92ea3af9e05c6919"
+  },
+  "verified_corrections": [
+    "cassan is an SD1 image LoRA, not an audio or RVC model",
+    "LTX2-i2v-OralSuite and ltxdeepthroat are LTX2-family AV LoRAs",
+    "ltx2NSFWFoleyAddAudio_v1 is a workflow template rather than an audio sample pack",
+    "Stable Audio Open has no local model weights",
+    "FreeVC is missing its main conversion checkpoint and WavLM-Large payload",
+    "AudioGen local metadata declares CC-BY-NC-4.0",
+    "CosyVoice2 and Parler-TTS local metadata declare Apache-2.0",
+    "OpenNSFW SFX terms state CC-BY-4.0, commercial use, attribution, and no repackaging",
+    "workflow templates reference models and custom nodes absent from the download root"
+  ],
+  "project_artifacts": [
+    "Plan/10_REGISTRIES/audio_downloads_external_asset_intake_registry.json",
+    "Plan/Instructions/QA/AUDIO_EXTERNAL_ASSET_INTAKE_PROTOCOL.md",
+    "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/AUDIO_DOWNLOADS_EXTERNAL_ASSET_INTAKE_20260714T160325-0500.json",
+    "Plan/Tracker/Evidence/Audio_Asset_Intake/AUDIO_DOWNLOADS_EXTERNAL_ASSET_INTAKE_20260714T160325-0500.json",
+    "Plan/Items/Reports/ITEM-W64-026_audio_downloads_external_asset_intake.json"
+  ],
+  "source_mutation": false,
+  "large_binary_copy_to_repo": false,
+  "existing_wave64_status_mutation": false,
+  "next_implementation": "Index OpenNSFW SFX, then execute one real Parler-TTS or CosyVoice2 dialogue plus foley chain through the existing Wave64 evaluators."
+}

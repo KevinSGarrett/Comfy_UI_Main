@@ -1,0 +1,337 @@
+{
+  "schema_version": "1.0",
+  "registry_id": "audio_downloads_external_asset_intake_20260714",
+  "generated_at": "2026-07-14T16:03:25-05:00",
+  "source_root": "F:\\Len_Transfer\\Audio_Downloads",
+  "storage_policy": "reference_in_place_until_selected_for_cache_ingestion",
+  "asset_visibility": "all_discovered_assets_registered",
+  "content_based_suppression": false,
+  "content_based_restrictions_added": [],
+  "inventory": {
+    "file_count": 41071,
+    "directory_count": 1798,
+    "approximate_size_gib": 23.729,
+    "audio_file_count": 39771,
+    "audio_extensions": {
+      ".wav": 36195,
+      ".mp3": 3560,
+      ".flac": 15,
+      ".ogg": 1
+    },
+    "model_payload_extensions": {
+      ".safetensors": 5,
+      ".pt": 4,
+      ".pth": 2,
+      ".bin": 2,
+      ".onnx": 9,
+      ".ckpt": 1
+    },
+    "zero_byte_file_count": 97,
+    "zero_byte_audio_file_count": 0,
+    "zero_byte_explanation": "Attribution markers, package markers, empty Python package initializers, and repository link-like files; no zero-byte WAV, MP3, FLAC, or OGG files were found.",
+    "legacy_manifest": {
+      "path": "F:\\Len_Transfer\\Audio_Downloads\\Review\\01_WAVE1_FULL_MANIFEST.csv",
+      "row_count": 41038,
+      "unique_path_count": 41036,
+      "current_added_path_count": 39,
+      "current_missing_or_unicode_normalized_path_count": 4,
+      "authority": "historical_inventory_only"
+    }
+  },
+  "technical_readiness_terms": {
+    "payload_present": "The principal downloaded payload is present; runtime dependencies and ComfyUI wiring still require validation.",
+    "direct_library": "Media can be loaded by an audio loader/mixer after indexing and resampling rules are applied.",
+    "workflow_template_only": "A ComfyUI UI workflow is present, but one or more referenced nodes, models, or sample inputs are not present in this source root.",
+    "partial_download": "Documentation or only part of the required model payload is present.",
+    "evaluation_corpus": "Intended for evaluator calibration and regression, not as a generation engine.",
+    "misclassified_non_audio": "The bytes identify a non-audio asset despite its placement in the audio download root."
+  },
+  "assets": [
+    {
+      "asset_id": "open_nsfw_sfx",
+      "path": "F:\\Len_Transfer\\Audio_Downloads\\OpenNSFW SFX",
+      "asset_class": "categorized_foley_sfx_music_library",
+      "availability": "direct_library",
+      "file_count": 32285,
+      "approximate_size_gib": 8.066,
+      "audio_inventory": {
+        "wav": 28373,
+        "mp3": 3560,
+        "flac": 15,
+        "ogg": 1
+      },
+      "format_observations": {
+        "observed_sample_rates_hz": [32000, 44100, 48000, 96000, 192000],
+        "observed_channels": [1, 2],
+        "normalization_required_before_mix": true
+      },
+      "license_metadata": {
+        "source": "F:\\Len_Transfer\\Audio_Downloads\\OpenNSFW SFX\\OpenNSFW SFX\\README - OpenNSFW SFX Pack Terms.pdf",
+        "license": "CC-BY-4.0 with pack attribution and no-repackaging terms",
+        "commercial_use_stated": true,
+        "attribution_required": true
+      },
+      "wave64_targets": ["TRK-W64-025", "TRK-W64-028", "TRK-W64-029", "TRK-W64-030", "TRK-W64-031", "TRK-W64-032"],
+      "recommended_use": "Primary deterministic foley and ambience source library; build a path/category/format/attribution index without copying the media into Git."
+    },
+    {
+      "asset_id": "cosyvoice2_0_5b",
+      "path": "F:\\Len_Transfer\\Audio_Downloads\\FunAudioLLM__CosyVoice2-0.5B",
+      "asset_class": "tts_and_voice_conversion_model",
+      "availability": "payload_present",
+      "file_count": 40,
+      "approximate_size_gib": 4.523,
+      "sample_rate_hz": 24000,
+      "principal_payloads": ["llm.pt", "flow.pt", "hift.pt", "campplus.onnx", "speech_tokenizer_v2.onnx", "CosyVoice-BlankEN/model.safetensors"],
+      "license_metadata": {
+        "source": "F:\\Len_Transfer\\Audio_Downloads\\FunAudioLLM__CosyVoice2-0.5B\\README.md",
+        "license": "Apache-2.0"
+      },
+      "runtime_requirements": ["CosyVoice Python repository or compatible ComfyUI custom node", "Python 3.10 environment recommended by upstream", "GPU runtime validation"],
+      "wave64_targets": ["TRK-W64-025", "TRK-W64-026", "TRK-W64-027", "TRK-W64-031", "TRK-W64-032"],
+      "recommended_use": "Primary multilingual expressive TTS and voice-continuity candidate."
+    },
+    {
+      "asset_id": "parler_tts_mini_v1",
+      "path": "F:\\Len_Transfer\\Audio_Downloads\\parler-tts__parler-tts-mini-v1",
+      "asset_class": "prompt_controlled_tts_model",
+      "availability": "payload_present",
+      "file_count": 26,
+      "approximate_size_gib": 3.273,
+      "sample_rate_hz": 44100,
+      "principal_payload": "model.safetensors",
+      "principal_payload_bytes": 3511490560,
+      "license_metadata": {
+        "source": "F:\\Len_Transfer\\Audio_Downloads\\parler-tts__parler-tts-mini-v1\\README.md",
+        "license": "Apache-2.0"
+      },
+      "runtime_requirements": ["parler-tts package", "Transformers-compatible GPU runtime", "ComfyUI wrapper or API bridge"],
+      "wave64_targets": ["TRK-W64-025", "TRK-W64-026", "TRK-W64-027", "TRK-W64-031", "TRK-W64-032"],
+      "recommended_use": "Primary English prompt-controlled dialogue candidate."
+    },
+    {
+      "asset_id": "facebook_audiogen_medium",
+      "path": "F:\\Len_Transfer\\Audio_Downloads\\facebook__audiogen-medium",
+      "asset_class": "text_to_audio_model",
+      "availability": "payload_present",
+      "file_count": 10,
+      "approximate_size_gib": 3.645,
+      "sample_rate_hz": 16000,
+      "principal_payloads": ["state_dict.bin", "compression_state_dict.bin"],
+      "license_metadata": {
+        "source": "F:\\Len_Transfer\\Audio_Downloads\\facebook__audiogen-medium\\README.md",
+        "license": "CC-BY-NC-4.0",
+        "commercial_use_stated": false
+      },
+      "runtime_requirements": ["AudioCraft", "ffmpeg", "GPU runtime validation", "ComfyUI wrapper or API bridge"],
+      "wave64_targets": ["TRK-W64-025", "TRK-W64-026", "TRK-W64-028", "TRK-W64-029", "TRK-W64-031", "TRK-W64-032"],
+      "recommended_use": "Text-generated foley and ambience candidate with required 16 kHz-to-mix-rate conversion."
+    },
+    {
+      "asset_id": "cv3_eval",
+      "path": "F:\\Len_Transfer\\Audio_Downloads\\CV3-Eval-main",
+      "asset_class": "tts_evaluation_corpus_and_tooling",
+      "availability": "evaluation_corpus",
+      "file_count": 8576,
+      "approximate_size_gib": 1.559,
+      "wav_count": 7822,
+      "sample_rate_hz": 16000,
+      "included_metrics": ["WER_or_CER", "speaker_similarity", "DNSMOS", "emotion_score"],
+      "license_metadata": {
+        "source": "F:\\Len_Transfer\\Audio_Downloads\\CV3-Eval-main\\CV3-Eval-main\\LICENSE",
+        "repository_license": "Apache-2.0",
+        "corpus_source_rights": "preserve upstream dataset-specific metadata"
+      },
+      "wave64_targets": ["TRK-W64-027", "TRK-W64-031", "TRK-W64-032"],
+      "recommended_use": "Calibrate and regression-test voice intelligibility, identity, emotion, and quality evaluators against real speech."
+    },
+    {
+      "asset_id": "ltx2_i2v_oral_suite",
+      "path": "F:\\Len_Transfer\\Audio_Downloads\\LTX2-i2v-OralSuite.safetensors",
+      "asset_class": "ltx2_audio_video_lora",
+      "availability": "payload_present",
+      "bytes": 1233513152,
+      "tensor_count": 2688,
+      "embedded_model_hash": "1ebeab9f0d0cde6f4ff165805ce1ced74083f065ddd10d9c7c3db7a101ae5993",
+      "base_model": "LTX2",
+      "runtime_requirements": ["compatible LTX2 base checkpoint", "LTX2 audio/video ComfyUI nodes", "audio-video runtime validation"],
+      "wave64_targets": ["TRK-W64-025", "TRK-W64-026", "TRK-W64-028", "TRK-W64-030", "TRK-W64-031", "TRK-W64-032"],
+      "recommended_use": "Specialized LTX2 AV LoRA; route through LTX2 rather than a standalone audio-model loader."
+    },
+    {
+      "asset_id": "ltxdeepthroat_v01",
+      "path": "F:\\Len_Transfer\\Audio_Downloads\\ltxdeepthroat_v01.safetensors",
+      "asset_class": "ltx2_3_audio_video_lora",
+      "availability": "payload_present",
+      "bytes": 1159259832,
+      "tensor_count": 3072,
+      "embedded_model_hash": "c8143db0a40518d72e8726a2bd5ff9f70cc480711ab0b84f6617a765c8bc328e",
+      "base_model": "ltx-2.3-22b-dev.safetensors",
+      "runtime_requirements": ["LTX 2.3 22B dev base checkpoint", "compatible LTX2 audio/video ComfyUI nodes", "audio-video runtime validation"],
+      "wave64_targets": ["TRK-W64-025", "TRK-W64-026", "TRK-W64-028", "TRK-W64-030", "TRK-W64-031", "TRK-W64-032"],
+      "recommended_use": "Specialized LTX2.3 AV LoRA with audio-attention tensors; use only with its declared LTX base family."
+    },
+    {
+      "asset_id": "better_mommy_girlfriend_rvc",
+      "path": "F:\\Len_Transfer\\Audio_Downloads\\BetterMommyGirlfriend",
+      "asset_class": "rvc_voice_model_pair",
+      "availability": "payload_present",
+      "principal_payloads": ["BetterMommyGirlfriend.pth", "added_IVF448_Flat_nprobe_1_BetterMommyGirlfriend_v2.index"],
+      "runtime_requirements": ["compatible RVC custom node", "isolated model-load validation", "reference/source audio"],
+      "wave64_targets": ["TRK-W64-025", "TRK-W64-026", "TRK-W64-027", "TRK-W64-031", "TRK-W64-032"],
+      "recommended_use": "RVC voice-conversion candidate."
+    },
+    {
+      "asset_id": "mae_asmr_rvc",
+      "path": "F:\\Len_Transfer\\Audio_Downloads\\MaeASMR",
+      "asset_class": "rvc_voice_model_pair",
+      "availability": "payload_present",
+      "principal_payloads": ["mommymae.pth", "added_IVF850_Flat_nprobe_1_mommymae_v2.index"],
+      "runtime_requirements": ["compatible RVC custom node", "isolated model-load validation", "reference/source audio"],
+      "wave64_targets": ["TRK-W64-025", "TRK-W64-026", "TRK-W64-027", "TRK-W64-031", "TRK-W64-032"],
+      "recommended_use": "RVC voice-conversion candidate."
+    },
+    {
+      "asset_id": "freevc",
+      "path": "F:\\Len_Transfer\\Audio_Downloads\\FreeVC",
+      "asset_class": "voice_conversion_codebase",
+      "availability": "partial_download",
+      "license_metadata": {
+        "source": "F:\\Len_Transfer\\Audio_Downloads\\FreeVC\\LICENSE",
+        "license": "MIT"
+      },
+      "present_payloads": ["speaker_encoder/ckpt/pretrained_bak_5805000.pt"],
+      "missing_runtime_payloads": ["checkpoints/freevc.pth", "wavlm/WavLM-Large.pt"],
+      "wave64_targets": ["TRK-W64-025", "TRK-W64-026", "TRK-W64-027", "TRK-W64-031", "TRK-W64-032"],
+      "recommended_use": "Complete the two missing runtime payloads before invoking the included conversion script or wrapping it for ComfyUI."
+    },
+    {
+      "asset_id": "stable_audio_open_1_0",
+      "path": "F:\\Len_Transfer\\Audio_Downloads\\stabilityai__stable-audio-open-1.0",
+      "asset_class": "text_to_audio_model_metadata",
+      "availability": "partial_download",
+      "sample_rate_hz": 44100,
+      "present_payloads": ["README.md", "LICENSE.md"],
+      "missing_runtime_payloads": ["model weights", "model configuration payloads"],
+      "license_metadata": {
+        "source": "F:\\Len_Transfer\\Audio_Downloads\\stabilityai__stable-audio-open-1.0\\LICENSE.md",
+        "license": "Stability AI Community License"
+      },
+      "wave64_targets": ["TRK-W64-025", "TRK-W64-026", "TRK-W64-028", "TRK-W64-029", "TRK-W64-031", "TRK-W64-032"],
+      "recommended_use": "Resume the model download if this engine is selected; the current folder cannot execute inference."
+    },
+    {
+      "asset_id": "qwen3_tts_rvc_directors_mode",
+      "path": "F:\\Len_Transfer\\Audio_Downloads\\qwen3TTSRVCUltimatePack_v20DirectorsMode",
+      "asset_class": "comfyui_tts_rvc_workflow",
+      "availability": "workflow_template_only",
+      "workflow_sha256": "3f13c4f36811735c51c356d3291e83971b3d365d8f6054a10d0f464590a0264a",
+      "exact_duplicate_path": "F:\\Len_Transfer\\Audio_Downloads\\qwen3TTSRVCUltimatePack_v20DirectorsMode (1)",
+      "referenced_models": ["Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign", "Qwen/Qwen3-TTS-12Hz-1.7B-Base", "local RVC .pth and .index"],
+      "required_nodes": ["ComfyUI-Qwen3-TTS", "RVC nodes", "rgthree-comfy"],
+      "wave64_targets": ["TRK-W64-025", "TRK-W64-026", "TRK-W64-027", "TRK-W64-031", "TRK-W64-032"],
+      "recommended_use": "Use one canonical copy as a wiring reference after its external model dependencies are installed."
+    },
+    {
+      "asset_id": "mmaudio_batch_workflow",
+      "path": "F:\\Len_Transfer\\Audio_Downloads\\mmaudioBatch_v10\\MMAudioBatchPSv1.json",
+      "asset_class": "comfyui_video_to_audio_workflow",
+      "availability": "workflow_template_only",
+      "workflow_sha256": "6f2fdc29fddb372ec4e3bc058d1d08e71a01953ee82deb0caea4b4932b13ac43",
+      "referenced_models": ["mmaudio_large_44k_nsfw_gold_8.5k_final_fp16.safetensors", "mmaudio_vae_44k_fp16.safetensors", "mmaudio_synchformer_fp16.safetensors", "apple_DFN5B-CLIP-ViT-H-14-384_fp16.safetensors"],
+      "wave64_targets": ["TRK-W64-025", "TRK-W64-026", "TRK-W64-028", "TRK-W64-030", "TRK-W64-031", "TRK-W64-032"],
+      "recommended_use": "Strong candidate workflow for video-conditioned foley after the four referenced MMAudio payloads and custom nodes are installed."
+    },
+    {
+      "asset_id": "mmaudio_studio_zero_workflow",
+      "path": "F:\\Len_Transfer\\Audio_Downloads\\slopDemonsMmaudio_zeroV3\\MMAudio Studio Zero v3.json",
+      "asset_class": "comfyui_multi_layer_video_to_audio_workflow",
+      "availability": "workflow_template_only",
+      "workflow_sha256": "bc16a18e91912c4f811a6d95c3416fded89e39e4f5c632b61619147e5b71a8da",
+      "referenced_models": ["mmaudio_large_44k_nsfw_gold_8.5k_final_fp16.safetensors", "mmaudio_large_44k_v2_fp32.safetensors", "mmaudio_vae_44k_fp16.safetensors", "mmaudio_synchformer_fp16.safetensors", "apple_DFN5B-CLIP-ViT-H-14-384_fp16.safetensors"],
+      "wave64_targets": ["TRK-W64-025", "TRK-W64-026", "TRK-W64-028", "TRK-W64-030", "TRK-W64-031", "TRK-W64-032"],
+      "recommended_use": "Multi-layer MMAudio wiring reference; referenced model payloads are not present in this download root."
+    },
+    {
+      "asset_id": "ltx2_foley_add_audio_workflow",
+      "path": "F:\\Len_Transfer\\Audio_Downloads\\ltx2NSFWFoleyAddAudio_v1\\LTX2 Foley add audio.json",
+      "asset_class": "comfyui_ltx2_add_audio_workflow",
+      "availability": "workflow_template_only",
+      "workflow_sha256": "4f4f6b36c416fe08861b09211ffc7b799d269768172e5b2373342df851bca7d3",
+      "referenced_models": ["LTX2/ltx-2-19b-dev-fp4.safetensors", "LTX2/ltx-2-19b-distilled-lora-384.safetensors", "gemma_3_12B_it_nvfp4.safetensors"],
+      "wave64_targets": ["TRK-W64-025", "TRK-W64-026", "TRK-W64-028", "TRK-W64-030", "TRK-W64-031", "TRK-W64-032"],
+      "recommended_use": "LTX2 AV wiring reference; this folder contains a workflow, not a foley sample pack."
+    },
+    {
+      "asset_id": "infinitetalk_tts_bgm_foley_workflow",
+      "path": "F:\\Len_Transfer\\Audio_Downloads\\infinitetalkTTSBGM_v10\\Inifinitetalk TTS BGM Foley US IP.json",
+      "asset_class": "comfyui_integrated_video_tts_bgm_foley_workflow",
+      "availability": "workflow_template_only",
+      "workflow_sha256": "b204f61ec9079e0bd2652ec567ebf0c145f375e95ea66a1694b3973a70dc918b",
+      "node_count": 72,
+      "referenced_systems": ["WanVideo", "InfiniteTalk", "VibeVoice", "MMAudio", "ACE-Step", "SoX", "audio quality enhancement"],
+      "wave64_targets": ["TRK-W64-025", "TRK-W64-026", "TRK-W64-027", "TRK-W64-028", "TRK-W64-029", "TRK-W64-030", "TRK-W64-031", "TRK-W64-032"],
+      "recommended_use": "Architecture reference only until its broad dependency set and hard-coded sample/tool paths are reconciled."
+    },
+    {
+      "asset_id": "hunyuan_video_foley_workflow",
+      "path": "F:\\Len_Transfer\\Audio_Downloads\\ultraPowerfulHolistic_v10\\workflow-foleyv1-gu3fPiMLMUatjlOxheDP-t8star-openart.ai.json",
+      "asset_class": "comfyui_hunyuan_video_foley_workflow",
+      "availability": "workflow_template_only",
+      "workflow_sha256": "f292ad17b3cd406606e967d6d45c9467943e9992140be8bb92ea3af9e05c6919",
+      "required_nodes": ["HunyuanVideoFoley", "MiniCPM-V", "VideoHelperSuite"],
+      "wave64_targets": ["TRK-W64-025", "TRK-W64-026", "TRK-W64-028", "TRK-W64-030", "TRK-W64-031", "TRK-W64-032"],
+      "recommended_use": "Alternative video-conditioned foley wiring candidate."
+    },
+    {
+      "asset_id": "cassan",
+      "path": "F:\\Len_Transfer\\Audio_Downloads\\cassan.safetensors",
+      "asset_class": "sd1_image_character_lora",
+      "availability": "misclassified_non_audio",
+      "bytes": 151114271,
+      "tensor_count": 792,
+      "declared_base_model": "Anything-v4-5-pruned.ckpt",
+      "audio_wave64_targets": [],
+      "recommended_use": "Route to the image LoRA catalog; do not spend audio-lane time attempting to load it as RVC, TTS, or foley."
+    },
+    {
+      "asset_id": "legacy_audio_download_helper",
+      "path": "F:\\Len_Transfer\\Audio_Downloads\\download_models.py",
+      "asset_class": "historical_download_helper",
+      "availability": "reference_only_superseded_where_corrected",
+      "declared_downloads": ["FunAudioLLM/CosyVoice2-0.5B", "parler-tts/parler-tts-mini-v1", "facebook/audiogen-medium", "stabilityai/stable-audio-open-1.0", "OlaWod/FreeVC"],
+      "stale_destination": "C:\\Comfy_UI_Lora\\Audio_Downloads",
+      "recommended_use": "Do not run unchanged. Reuse its model list only; selected downloads must target the current external or model-cache paths and preserve existing payloads."
+    },
+    {
+      "asset_id": "legacy_audio_review_packet",
+      "path": "F:\\Len_Transfer\\Audio_Downloads\\Review",
+      "asset_class": "historical_review_packet",
+      "availability": "reference_only_superseded_where_corrected",
+      "known_corrections": [
+        "cassan is an SD1 image LoRA, not audio",
+        "LTX2 files are AV LoRAs, not standalone audio checkpoints",
+        "ltx2NSFWFoleyAddAudio_v1 is a workflow template, not a foley library",
+        "Stable Audio contains no model weights",
+        "FreeVC lacks its main conversion checkpoint and WavLM payload",
+        "AudioGen is CC-BY-NC-4.0, not a general commercial license",
+        "workflow presence does not imply referenced models or nodes are installed"
+      ]
+    }
+  ],
+  "recommended_implementation_order": [
+    "Build a non-Git OpenNSFW SFX index and wire deterministic foley selection/mixing.",
+    "Run a bounded Parler-TTS or CosyVoice2 local model-load and single-output proof.",
+    "Use CV3-Eval to exercise WER, speaker-similarity, emotion, and DNSMOS evaluator paths.",
+    "Validate MaeASMR and BetterMommyGirlfriend through the selected RVC node lane.",
+    "Install the MMAudio dependencies referenced by the two strongest video-to-audio workflow templates and execute one bounded AV-sync proof.",
+    "Validate the LTX2 AV LoRAs only with their matching LTX base families.",
+    "Complete FreeVC and Stable Audio downloads only if selected after the first working production chain."
+  ],
+  "promotion_boundary": "This registry makes assets discoverable and routable. Row completion still requires the existing Wave64 runtime, artifact, playback, and sync evidence for the selected implementation.",
+  "large_file_hashing": {
+    "status": "deferred_to_selected_cache_ingestion",
+    "reason": "One broad SHA-256 pass over the model payloads exceeded 600 seconds on the transfer drive.",
+    "rule": "Hash each selected payload once during cache ingestion and store the hash in the authoritative model registry before target-runtime execution."
+  }
+}
