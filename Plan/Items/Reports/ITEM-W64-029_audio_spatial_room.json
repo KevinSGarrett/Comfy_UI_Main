@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "report_id": "ITEM-W64-029-AUDIO-SPATIAL-ROOM-20260712T173525-0500",
-  "timestamp": "2026-07-12T17:35:25-05:00",
+  "report_id": "ITEM-W64-029-AUDIO-SPATIAL-ROOM-20260714T082800-0500",
+  "timestamp": "2026-07-14T08:28:00-05:00",
   "item_id": "ITEM-W64-029",
   "tracker_id": "TRK-W64-029",
   "workstream": "audio_spatial_room",
@@ -14,6 +14,7 @@
     "mix_balance_and_stem_reconstruction_ready": true,
     "playback_runtime_and_production_authority_ready": true,
     "evidence_bundle_producer_ready": true,
+    "recovered_legacy_readiness_adapter_ready": true,
     "canonical_threshold_and_exact_hash_binding_ready": true,
     "manifest_identity_and_no_clobber_output_ready": true,
     "producer_creates_no_authority_proof": true,
@@ -31,7 +32,12 @@
     "synthetic_technical_probe": "expected_exit_2",
     "adversarial_relabel_probe": "expected_exit_2",
     "authority_registry_unchanged_by_tests": true,
-    "remaining_remediable_high_or_medium_findings": 0
+    "remaining_remediable_high_or_medium_findings": 0,
+    "recovered_readiness_tests_passed": 6,
+    "combined_tests_passed": 61,
+    "recovered_wavs_hash_verified_and_decoded": 9,
+    "recovered_wavs_matching_strict_profile": 0,
+    "claude_recovered_readiness_review": "PASS_high_confidence"
   },
   "acceptance_gates": {
     "spatial_position_check_contract": true,
@@ -43,15 +49,20 @@
     "genuine_production_playback_review_present": false,
     "genuine_production_runtime_proof_present": false,
     "production_bundle_allowlisted": false,
+    "recovered_legacy_packet_strict_bundle_eligible": false,
     "final_spatial_room_certification_allowed": false
   },
   "blockers": [
     {"classification": "Blocked_Spatial_Room_Production_Proof_Missing", "reason": "No genuine non-synthetic production spatial audio with bound room, mix, playback-review, and runtime evidence exists."},
-    {"classification": "Blocked_Spatial_Room_Production_Authority_Missing", "reason": "The canonical production bundle allowlist contains zero approved bundles."}
+    {"classification": "Blocked_Spatial_Room_Production_Authority_Missing", "reason": "The canonical production bundle allowlist contains zero approved bundles."},
+    {"classification": "Blocked_Recovered_Spatial_Profile_Mismatch", "reason": "All nine recovered WAVs decode, but all are mono at either 22050 Hz or 48000 Hz rather than the required 16000 Hz stereo profile."},
+    {"classification": "Blocked_Recovered_Spatial_Bindings_Missing", "reason": "The recovered packet has no trustworthy geometry, Wave31 spatial/room, spatial-dialogue, continuity, playback, runtime, or production authority bindings."}
   ],
   "evidence": [
-    {"path": "Plan/Instructions/QA/Evidence/Wave64/audio_spatial_room.json", "sha256": "abf626d9ad50963f8f5a58ba38e5d04e9560e39e51a858286c31e65df381606b"},
+    {"path": "Plan/Instructions/QA/Evidence/Wave64/audio_spatial_room.json", "sha256": "7bcb12e4867debdda04500fadc121c5e9c4780c5e1b9c6aefb5d053077d71c8e"},
     {"path": "Plan/Instructions/QA/Evidence/Wave64/audio_spatial_room_test_log.json", "sha256": "a7a5a0ad8f709dacee1e18f54febb4581b148c38475373b3cdc695ddcf25a34c"},
+    {"path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_SPATIAL_ROOM_RECOVERED_READINESS_20260714T082800-0500.json", "sha256": "4e30eb10a484f4c7b591723ff2998174fe5c097f6e14ab7e78225005c2db8bdd"},
+    {"path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_SPATIAL_ROOM_RECOVERED_READINESS_TEST_LOG_20260714T082800-0500.json", "sha256": "f6530bda9cc24493c1edc8ae5f3c1a43fba8ed678d9e2bd3873def0661c93265"},
     {"path": "runtime_artifacts/wave64_spatial_room_evidence/request_producer_probe_20260712T173525-0500/request.json", "sha256": "90c7a86169ac87ba31396872849750559d755e847e736c3249bbbf92ff4e6165"},
     {"path": "runtime_artifacts/wave64_spatial_room_evidence/request_producer_probe_20260712T173525-0500/report.json", "sha256": "9e81aa6dc7c9fb2ef009ad78377cac16a649daef68e01b09dbe4033ee6e6eae7"},
     {"path": "runtime_artifacts/wave64_spatial_room_evidence/request_producer_probe_20260712T173525-0500/windows_tests.txt", "sha256": "49c6f503b6f261e01b0c40d373dbb2225806c68cee381113f1eccddb3b2de657"},
@@ -67,5 +78,5 @@
     "aws_contacted": false,
     "ec2_started": false
   },
-  "next_action": "Proceed with TRK-W64-030 / ITEM-W64-030 by duplicate-checking and implementing the next strict audio/video synchronization gap from Plan/05_AUDIO_SYSTEM/WAVE30_AUDIO_VIDEO_SYNC_PLAN.md while keeping row029 blocked until genuine non-synthetic production spatial audio, playback, runtime, and allowlisted bundle proof are present."
+  "next_action": "Proceed with TRK-W64-031 / ITEM-W64-031 by mapping the recovered audio packet to the strict audio artifact review contract while keeping row029 blocked until genuine non-synthetic spatial audio, playback, runtime, and allowlisted bundle proof are present."
 }
