@@ -1,0 +1,378 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "video_keyframe_handoff.schema.json",
+  "title": "Video Keyframe Handoff",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "manifest_id",
+    "timestamp",
+    "tracker_id",
+    "item_id",
+    "status",
+    "candidate",
+    "eligibility",
+    "promotion",
+    "proof_scope",
+    "safety",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "manifest_id": { "type": "string", "minLength": 1 },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "tracker_id": { "const": "TRK-W64-019" },
+    "item_id": { "const": "ITEM-W64-019" },
+    "status": { "type": "string", "minLength": 1 },
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "shot_id",
+        "scene_id",
+        "environment_id",
+        "character_ids",
+        "output_type",
+        "frame_rate_target",
+        "duration_seconds",
+        "camera_plan_id",
+        "pose_plan_id",
+        "continuity_dependencies",
+        "qa_targets",
+        "keyframe_artifact",
+        "base_image_qa",
+        "runtime_context",
+        "generation_metadata",
+        "control_maps_used",
+        "masks_used",
+        "failure_rerun_history",
+        "candidate_only"
+      ],
+      "properties": {
+        "shot_id": { "type": "string", "minLength": 1 },
+        "scene_id": { "type": "string", "minLength": 1 },
+        "environment_id": { "type": ["string", "null"] },
+        "character_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "output_type": { "enum": ["gif", "mp4", "webm", "video"] },
+        "frame_rate_target": { "type": "number", "exclusiveMinimum": 0 },
+        "duration_seconds": { "type": "number", "exclusiveMinimum": 0 },
+        "camera_plan_id": { "type": ["string", "null"] },
+        "pose_plan_id": { "type": ["string", "null"] },
+        "continuity_dependencies": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "qa_targets": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "keyframe_artifact": { "$ref": "#/$defs/artifact" },
+        "base_image_qa": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "sha256", "passed", "scored", "decision"],
+          "properties": {
+            "path": { "type": "string", "minLength": 1 },
+            "sha256": { "$ref": "#/$defs/sha256" },
+            "passed": { "type": "boolean" },
+            "scored": { "type": "boolean" },
+            "decision": { "type": "string", "minLength": 1 }
+          }
+        },
+        "runtime_context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "bounded_smoke_previously_executed",
+            "runtime_input_hash_matched",
+            "selected_engine",
+            "engine_route_runtime_ready",
+            "production_video_certified",
+            "final_instance_state"
+          ],
+          "properties": {
+            "bounded_smoke_previously_executed": { "type": "boolean" },
+            "runtime_input_hash_matched": { "type": "boolean" },
+            "selected_engine": { "type": "string", "minLength": 1 },
+            "engine_route_runtime_ready": { "type": "boolean" },
+            "production_video_certified": { "type": "boolean" },
+            "final_instance_state": { "type": "string", "minLength": 1 }
+          }
+        },
+        "generation_metadata": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["source_base_engine", "refine_engine", "seed", "model_asset", "denoise_history"],
+          "properties": {
+            "source_base_engine": { "type": "string", "minLength": 1 },
+            "refine_engine": { "type": ["string", "null"] },
+            "seed": { "type": "integer", "minimum": 0 },
+            "model_asset": { "type": "string", "minLength": 1 },
+            "denoise_history": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["stage", "denoise"],
+                "properties": {
+                  "stage": { "type": "string", "minLength": 1 },
+                  "denoise": { "type": "number", "minimum": 0, "maximum": 1 }
+                }
+              },
+              "minItems": 1
+            }
+          }
+        },
+        "control_maps_used": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/artifact" }
+        },
+        "masks_used": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/artifact" }
+        },
+        "failure_rerun_history": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "candidate_only": { "type": "boolean" }
+      }
+    },
+    "eligibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gates", "failed_gates", "all_required_gates_passed", "production_keyframe_eligible"],
+      "properties": {
+        "gates": { "$ref": "#/$defs/gates" },
+        "failed_gates": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "all_required_gates_passed": { "type": "boolean" },
+        "production_keyframe_eligible": { "type": "boolean" }
+      }
+    },
+    "promotion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["promotion_allowed", "promotion_ready", "promoted_artifact", "decision", "source_evidence"],
+      "properties": {
+        "promotion_allowed": { "type": "boolean" },
+        "promotion_ready": { "type": "boolean" },
+        "promoted_artifact": { "type": "boolean" },
+        "decision": { "type": "string", "minLength": 1 },
+        "source_evidence": { "$ref": "#/$defs/binding" }
+      }
+    },
+    "proof_scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["established", "excluded", "production_keyframe_claimed", "production_video_lane_certification_claimed"],
+      "properties": {
+        "established": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "excluded": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "production_keyframe_claimed": { "type": "boolean" },
+        "production_video_lane_certification_claimed": { "type": "boolean" }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "generation_executed",
+        "aws_contacted",
+        "ec2_started",
+        "masks_consumed_as_truth",
+        "mask_promotion",
+        "wave70_hard_gate_rerun",
+        "wave71_activated",
+        "jira_mutated"
+      ],
+      "properties": {
+        "generation_executed": { "const": false },
+        "aws_contacted": { "const": false },
+        "ec2_started": { "const": false },
+        "masks_consumed_as_truth": { "const": false },
+        "mask_promotion": { "const": false },
+        "wave70_hard_gate_rerun": { "const": false },
+        "wave71_activated": { "const": false },
+        "jira_mutated": { "const": false }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_bindings", "policy_sources", "downstream_candidate_context"],
+      "properties": {
+        "source_bindings": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/binding" },
+          "minProperties": 5
+        },
+        "policy_sources": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 3,
+          "uniqueItems": true
+        },
+        "downstream_candidate_context": { "$ref": "#/$defs/binding" }
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "bytes"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "bytes": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "bytes"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "bytes": { "type": "integer", "minimum": 1 },
+        "width": { "type": "integer", "minimum": 1 },
+        "height": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "base_image_qa_passed",
+        "base_image_scored",
+        "refine_bridge_qa_passed",
+        "character_count_body_visibility_passed",
+        "identity_camera_environment_continuity_passed",
+        "output_hash_recorded",
+        "frame_contract_exported",
+        "required_promoted_keyframes_exist",
+        "environment_profile_exists",
+        "character_profile_exists",
+        "engine_route_valid",
+        "model_assets_registered",
+        "output_path_defined",
+        "promotion_allowed",
+        "promoted_artifact"
+      ],
+      "properties": {
+        "base_image_qa_passed": { "type": "boolean" },
+        "base_image_scored": { "type": "boolean" },
+        "refine_bridge_qa_passed": { "type": "boolean" },
+        "character_count_body_visibility_passed": { "type": "boolean" },
+        "identity_camera_environment_continuity_passed": { "type": "boolean" },
+        "output_hash_recorded": { "type": "boolean" },
+        "frame_contract_exported": { "type": "boolean" },
+        "required_promoted_keyframes_exist": { "type": "boolean" },
+        "environment_profile_exists": { "type": "boolean" },
+        "character_profile_exists": { "type": "boolean" },
+        "engine_route_valid": { "type": "boolean" },
+        "model_assets_registered": { "type": "boolean" },
+        "output_path_defined": { "type": "boolean" },
+        "promotion_allowed": { "type": "boolean" },
+        "promoted_artifact": { "type": "boolean" }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "candidate": { "properties": { "candidate_only": { "const": true } } }
+        }
+      },
+      "then": {
+        "properties": {
+          "eligibility": { "properties": { "production_keyframe_eligible": { "const": false } } },
+          "promotion": {
+            "properties": {
+              "promotion_allowed": { "const": false },
+              "promotion_ready": { "const": false },
+              "promoted_artifact": { "const": false }
+            }
+          },
+          "proof_scope": {
+            "properties": {
+              "production_keyframe_claimed": { "const": false },
+              "production_video_lane_certification_claimed": { "const": false }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "eligibility": { "properties": { "production_keyframe_eligible": { "const": true } } }
+        }
+      },
+      "then": {
+        "properties": {
+          "candidate": { "properties": { "candidate_only": { "const": false } } },
+          "eligibility": {
+            "properties": {
+              "all_required_gates_passed": { "const": true },
+              "failed_gates": { "maxItems": 0 },
+              "gates": {
+                "properties": {
+                  "base_image_qa_passed": { "const": true },
+                  "base_image_scored": { "const": true },
+                  "refine_bridge_qa_passed": { "const": true },
+                  "character_count_body_visibility_passed": { "const": true },
+                  "identity_camera_environment_continuity_passed": { "const": true },
+                  "output_hash_recorded": { "const": true },
+                  "frame_contract_exported": { "const": true },
+                  "required_promoted_keyframes_exist": { "const": true },
+                  "environment_profile_exists": { "const": true },
+                  "character_profile_exists": { "const": true },
+                  "engine_route_valid": { "const": true },
+                  "model_assets_registered": { "const": true },
+                  "output_path_defined": { "const": true },
+                  "promotion_allowed": { "const": true },
+                  "promoted_artifact": { "const": true }
+                }
+              }
+            }
+          },
+          "promotion": {
+            "properties": {
+              "promotion_allowed": { "const": true },
+              "promotion_ready": { "const": true },
+              "promoted_artifact": { "const": true }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
