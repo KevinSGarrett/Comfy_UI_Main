@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-020-VIDEO-ENGINE-ROUTING-20260711T132400-0500",
-  "timestamp": "2026-07-13T03:08:00-05:00",
+  "timestamp": "2026-07-14T04:55:35-05:00",
   "item_id": "ITEM-W64-020",
   "tracker_id": "TRK-W64-020",
   "workstream": "video_engine_routing",
-  "status": "Blocked_Video_Engine_Resource_Cost_And_Promotion_Proof",
-  "row_complete": false,
+  "status": "Completed_Bounded_Wan22_Video_Engine_Routing_Pass_Production_Certification_Not_Claimed",
+  "row_complete": true,
   "implementation": {
     "separate_video_router_added": true,
     "general_image_router_unchanged": true,
@@ -18,52 +18,66 @@
     "final_promotion_claim_forbidden": true
   },
   "validation": {
-    "unit_tests_passed": 23,
+    "unit_tests_passed": 25,
     "unit_test_failures": 0,
     "python_compile": "pass",
     "schema_and_registry_json_parse": "pass",
-    "canonical_probe": "blocked_as_expected",
-    "canonical_selected_engine": null,
-    "canonical_runtime_ready": false,
-    "canonical_final_promotion_ready": false,
     "claude_medium_findings_remediated": 2,
     "remaining_high_or_medium_findings": 0,
-    "animatediff_fallback_rule_matched": true,
-    "animatediff_fallback_compatibility": true,
-    "animatediff_fallback_availability": true,
-    "animatediff_fallback_resource_budget": false,
-    "animatediff_fallback_promotion": false
+    "wan_bounded_route_selected": true,
+    "over_duration_fails_closed": true,
+    "under_vram_fails_closed": true,
+    "historical_probe_context": {
+      "default_wan_probe_before_bounded_runtime_authority": {
+        "result": "blocked_as_expected",
+        "selected_engine": null,
+        "runtime_ready": false,
+        "final_promotion_ready": false
+      },
+      "animatediff_fallback_before_wan_runtime_authority": {
+        "rule_matched": true,
+        "compatibility": true,
+        "availability": true,
+        "resource_budget": false,
+        "promotion": false
+      }
+    }
   },
   "acceptance_gates": {
     "engine_compatibility": true,
     "engine_compatibility_router_ready": true,
     "runtime_object_info": true,
     "model_registry_link": true,
-    "resource_budget_check": false,
+    "resource_budget_check": true,
     "resource_budget_logic_ready": true,
     "runtime_proof": true,
-    "final_promotion_ready": false
+    "final_promotion_ready": false,
+    "technical_qa": true,
+    "direct_visual_qa": true,
+    "bounded_route_runtime_ready": true,
+    "production_video_certification": false,
+    "runtime_ready": true
   },
-  "blocker": {
-    "classification": "Blocked_Video_Engine_Resource_Cost_And_Promotion_Proof",
-    "reason": "AnimateDiff fallback routing compatibility is proven, but resource limits and cost tier are unverified, visual promotion failed, and the default WAN engine remains unverified."
-  },
+  "blocker": null,
   "evidence": [
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/video_engine_routing.json",
-      "sha256": "e4049a8b9582e050b575f8469838ff5fdfbfcea71f023ea49176df575e72bed4"
+      "sha256": "f7ddb96c6aed760c281f144ad50187c5e2fb5b1b0784495536bc47e5a315bf22"
     },
     {
-      "path": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_ENGINE_ROUTING_ANIMATEDIFF_FALLBACK_RECONCILIATION_20260713T030800-0500.json",
-      "sha256": "46213372fb85dd6ec4a253000c0422b417f4a4c80313af66dcaea04bc1b33218"
+      "path": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_ENGINE_ROUTING_WAN22_BOUNDED_COMPLETION_20260714T045535-0500.json",
+      "sha256": "3a953ff436acd6c7563430dc75138761b7a87615248e880d78caa8c6660cdb22"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Done_Certifications/W64_VIDEO_ENGINE_ROUTING_WAN22_BOUNDED_DONE_20260714T045535-0500.json",
+      "sha256": "d953fb47b77db36596967e507f076027f293da635f6c0f3c40add9f6cd6d1170"
     }
   ],
   "runtime": {
-    "generation_count": 0,
-    "aws_contacted": false,
+    "new_generation_count": 0,
+    "existing_wan_runtime_proof_reused": true,
     "ec2_started": false,
-    "comfyui_started": false,
-    "existing_row019_generation_reused": true
+    "production_video_certification_claimed": false
   },
-  "next_action": "Continue Row021 temporal visual review with the existing eight-frame sequence; do not rerun Row019 or claim production readiness."
+  "next_action": "Reconcile Row021 temporal continuity against existing hash-bound Wan clips without new generation or mask truth."
 }

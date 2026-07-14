@@ -1,0 +1,172 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-VIDEO-ENGINE-ROUTING-WAN22-BOUNDED-COMPLETION-20260714T045535-0500",
+  "timestamp": "2026-07-14T04:55:35-05:00",
+  "tracker_id": "TRK-W64-020",
+  "item_id": "ITEM-W64-020",
+  "status_decision": "Completed_Bounded_Wan22_Video_Engine_Routing_Pass_Production_Certification_Not_Claimed",
+  "source_citation": "Plan/04_VIDEO_GIF_SYSTEM/WAVE06_VIDEO_ENGINE_ROUTING_STRATEGY.md",
+  "inputs": [
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/complete_wave64_video_engine_routing_wan22.py",
+      "sha256": "d5336a6ad7104d0604e9c7ffa4f4daadbe4e225c28bdbb6b7aa2a661bd3d5a7b"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/route_video_engine_candidate.py",
+      "sha256": "4708b6a23112989947c6f2cafceba0977626a4928924581c958f32581b7a56d0"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/video_engine_route_request.schema.json",
+      "sha256": "424328c21e29e1cab036ae3f7280952e620bde824f332b087a67b709a7701061"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/video_engine_route_decision.schema.json",
+      "sha256": "3f46ebe173ba46d19050a32154ddd4051d8340f2298ba914f870181e829f6b5f"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_route_video_engine_candidate.py",
+      "sha256": "7e88a5b901822f809414bf7f6dbc2f0ab763899a9e4b44728a443b34a391b7aa"
+    },
+    {
+      "path": "Plan/09_EXAMPLES/wave64_wan22_bounded_route_request.example.json",
+      "sha256": "25063c8e7256be09cb4a06474424cb1861815c13b21348788c2d6b1d93f69b73"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/video_engine_routing_wan22_bounded_decision.json",
+      "sha256": "1d67d8b4bb4c8d5c74c301b1e849f6dd97955d7069e825fd3343b20912290a39"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave27_video_engine_registry.json",
+      "sha256": "86e0760aefbe9e817459494bd8250289a3317762bb289660e5912393c814b28e"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave27_video_route_selection_rules.json",
+      "sha256": "de46655a6e1e3737eae1e92af7cb651cb169e14993109d051c6beb515a2fd8ca"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_WAN22_SOURCE_DIVERSITY_TARGET_RUNTIME_20260714T043510-0500.json",
+      "sha256": "edf43c02ea3673020f95fbc7e21804803b0b45c41664bfd8d39b2441b6d40ca0"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_SOURCE_DIVERSITY_TECHNICAL_QA_20260714T043510-0500.json",
+      "sha256": "5aa5074a4db4ceff606504abda67c15b4268634e3387160ce792bdee1eab7e20"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_SOURCE_DIVERSITY_VISUAL_QA_20260714T043510-0500.json",
+      "sha256": "48d0d422c8ca77a540d16aad63f1062fd70e4a2934ddebb4ee2f19b23aff0432"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Run_Records/aws_gpu_workflow_smoke_20260714T041921-0500.json",
+      "sha256": "5b9a05b503cb62d81ef4d5b1dc0514799b5ee47c263d5c9cec721d39285a410c"
+    },
+    {
+      "path": "Plan/Instructions/Operations/AWS_EC2_GPU_SERVER_START_STOP_PROTOCOL.md",
+      "sha256": "8512d60a1676d08993535444f408851ca3636f6b27b9cdb45ced69063649b268"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_ENGINE_ROUTING_WAN22_BOUNDED_TEST_LOG_20260714T045535-0500.json",
+      "sha256": "32533757139b4306bd5330ca0019568bcdf7616524277333b40d2fec904f13ea"
+    }
+  ],
+  "verified_route_contract": {
+    "engine": "wan",
+    "model_lane": "wan_2_2_ti2v_5b_primary_lane",
+    "output": "mp4",
+    "width": 480,
+    "height": 640,
+    "frame_count": 49,
+    "fps": 24,
+    "duration_seconds": 2.0416666666666665,
+    "required_feature": "keyframes",
+    "execution_target": "ec2",
+    "minimum_vram_gb": 24,
+    "cost_tier": "high",
+    "motion_scope": "single_character_low_motion"
+  },
+  "resource_and_cost_authority": {
+    "approved_instance_id": "i-0560bf8d143f93bb1",
+    "instance_type": "g5.xlarge",
+    "gpu_family": "NVIDIA A10G",
+    "gpu_memory_gb": 24,
+    "instance_protocol": "Plan/Instructions/Operations/AWS_EC2_GPU_SERVER_START_STOP_PROTOCOL.md",
+    "official_instance_reference": "https://aws.amazon.com/ec2/instance-types/g5/",
+    "cost_tier": "high",
+    "cost_tier_policy": "Conservative project-local classification for a live EC2 GPU runtime window; no exact price claim is made."
+  },
+  "route_decision": {
+    "result": "compatible",
+    "selected_engine": "wan",
+    "runtime_ready": true,
+    "final_promotion_ready": false,
+    "matched_rule_ids": [
+      "requested_engine_override"
+    ],
+    "blocked_reasons": [],
+    "required_proof": [],
+    "wan_evaluation": {
+      "availability_passed": true,
+      "blocked_reasons": [],
+      "can_select": true,
+      "compatibility_passed": true,
+      "engine_id": "wan",
+      "promotion_passed": true,
+      "required_proof": [],
+      "resource_passed": true
+    }
+  },
+  "acceptance_gates": {
+    "engine_compatibility": true,
+    "runtime_object_info": true,
+    "model_registry_link": true,
+    "resource_budget_check": true,
+    "runtime_proof": true,
+    "technical_qa": true,
+    "direct_visual_qa": true,
+    "bounded_route_runtime_ready": true,
+    "runtime_ready": true,
+    "production_video_certification": false
+  },
+  "checks": {
+    "request_exact_bounded_contract": true,
+    "request_duration_matches_49_frames": true,
+    "wan_registry_authority_verified": true,
+    "resource_envelope_exact": true,
+    "execution_and_cost_policy_exact": true,
+    "route_selected_wan": true,
+    "route_runtime_ready": true,
+    "route_production_promotion_forbidden": true,
+    "route_has_no_blockers": true,
+    "wan_evaluation_all_gates_pass": true,
+    "runtime_proof_passed": true,
+    "runtime_shape_matches_request": true,
+    "runtime_safety_closed": true,
+    "runtime_run_record_matches_exact_instance": true,
+    "approved_instance_type_is_g5_xlarge": true,
+    "technical_qa_passed": true,
+    "technical_shape_matches_request": true,
+    "visual_qa_passed": true,
+    "production_video_certification_not_claimed": true,
+    "mask_and_wave71_authority_not_claimed": true
+  },
+  "check_summary": {
+    "checked": 20,
+    "passed": 20,
+    "failed": 0
+  },
+  "boundaries": {
+    "existing_runtime_proof_reused": true,
+    "new_generation_executed": false,
+    "completed_seeds_rerun": false,
+    "aws_contacted_by_this_reconciliation": false,
+    "ec2_started_by_this_reconciliation": false,
+    "single_short_clip_contract_only": true,
+    "broader_resolution_duration_or_motion_claimed": false,
+    "fine_hand_finger_foot_or_toe_certification_claimed": false,
+    "production_video_lane_certification_claimed": false,
+    "mask_or_geometry_authority_claimed": false,
+    "wave71_activation_claimed": false,
+    "jira_mutated": false
+  },
+  "result": "pass_bounded_wan22_video_engine_routing_row_complete",
+  "next_action": "Reconcile Row021 temporal continuity against existing hash-bound Wan clips without new generation or mask truth."
+}

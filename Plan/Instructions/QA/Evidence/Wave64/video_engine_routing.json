@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "evidence_id": "W64-VIDEO-ENGINE-ROUTING",
-  "timestamp": "2026-07-13T03:08:00-05:00",
+  "timestamp": "2026-07-14T04:55:35-05:00",
   "tracker_id": "TRK-W64-020",
   "item_id": "ITEM-W64-020",
   "source_citation": "Plan/04_VIDEO_GIF_SYSTEM/WAVE06_VIDEO_ENGINE_ROUTING_STRATEGY.md",
@@ -32,7 +32,7 @@
     },
     {
       "path": "Plan/10_REGISTRIES/wave27_video_engine_registry.json",
-      "sha256": "e9cd3e89c006edf3efc0180ae2b0d74f8f3e3b731bc90f158196229c711807b2"
+      "sha256": "86e0760aefbe9e817459494bd8250289a3317762bb289660e5912393c814b28e"
     },
     {
       "path": "Plan/10_REGISTRIES/wave27_video_route_selection_rules.json",
@@ -40,13 +40,17 @@
     },
     {
       "path": "Plan/Instructions/QA/Scripts/test_route_video_engine_candidate.py",
-      "sha256": "0079b00fd2e0a404856fa959f09c5b78019e6cc801526ba51372cda1a5538a70"
+      "sha256": "7e88a5b901822f809414bf7f6dbc2f0ab763899a9e4b44728a443b34a391b7aa"
+    },
+    {
+      "path": "Plan/09_EXAMPLES/wave64_wan22_bounded_route_request.example.json",
+      "sha256": "25063c8e7256be09cb4a06474424cb1861815c13b21348788c2d6b1d93f69b73"
     }
   ],
   "offline_validation": {
-    "test_log": "Plan/Instructions/QA/Evidence/Wave64/video_engine_routing_test_log.json",
-    "test_log_sha256": "8cc607c0f99f2b31542b3b61fb021d71d74311f67c330de22ad82a1198dda598",
-    "tests_run": 23,
+    "test_log": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_ENGINE_ROUTING_WAN22_BOUNDED_TEST_LOG_20260714T045535-0500.json",
+    "test_log_sha256": "32533757139b4306bd5330ca0019568bcdf7616524277333b40d2fec904f13ea",
+    "tests_run": 25,
     "test_failures": 0,
     "test_errors": 0,
     "python_compile": "pass",
@@ -55,44 +59,44 @@
     "technical_offline_pass": true
   },
   "canonical_route_probe": {
-    "request": "runtime_artifacts/wave64_video_engine_routing/canonical_request.json",
-    "request_file_sha256": "e775d0a0b673f28e4a106b5c531c22f66dc19f63e9e2499b4059d8eed873348d",
-    "decision": "runtime_artifacts/wave64_video_engine_routing/canonical_decision.json",
-    "decision_file_sha256": "b4bdd0f3691bec066ab604263ef79d96a32f275a0d1613d7992f9af6fe11bcc7",
-    "request_object_sha256": "a2e2e7772fd47a24452811fe1dd8e77ae509a65ccd704e379ad22ed2a11644d7",
-    "registry_object_sha256": "9ff8ee716923c2d8437f60addc1db1e8e793acf36e227368c0012e983092c930",
-    "rules_object_sha256": "397483e0977df4910afc94d2a70e892f636a3924c9a434a1a883603ec2011768",
-    "result": "blocked",
-    "selected_engine": null,
+    "request": "Plan/09_EXAMPLES/wave64_wan22_bounded_route_request.example.json",
+    "request_file_sha256": "25063c8e7256be09cb4a06474424cb1861815c13b21348788c2d6b1d93f69b73",
+    "decision": "Plan/Instructions/QA/Evidence/Wave64/video_engine_routing_wan22_bounded_decision.json",
+    "decision_file_sha256": "1d67d8b4bb4c8d5c74c301b1e849f6dd97955d7069e825fd3343b20912290a39",
+    "result": "compatible",
+    "selected_engine": "wan",
     "candidate_order": [
       "wan"
     ],
     "matched_rule_ids": [
-      "default_primary_candidate_wan"
+      "requested_engine_override"
     ],
-    "runtime_ready": false,
+    "runtime_ready": true,
     "final_promotion_ready": false,
-    "blocked_reason_count": 10,
-    "required_proof_count": 10
+    "blocked_reason_count": 0,
+    "required_proof_count": 0
   },
   "acceptance_gates": {
     "engine_compatibility": true,
     "engine_compatibility_router_ready": true,
     "runtime_object_info": true,
     "model_registry_link": true,
-    "resource_budget_check": false,
+    "resource_budget_check": true,
     "resource_budget_logic_ready": true,
     "runtime_proof": true,
     "final_promotion_ready": false,
-    "runtime_ready": false
+    "runtime_ready": true,
+    "technical_qa": true,
+    "direct_visual_qa": true,
+    "bounded_route_runtime_ready": true,
+    "production_video_certification": false
   },
   "runtime": {
-    "generation_executed": false,
-    "aws_contacted": false,
-    "ec2_started": false,
-    "comfyui_started": false,
-    "reason": "Fallback compatibility and availability are proven from Row019; resource, cost, promotion, and default WAN authority remain blocked.",
-    "existing_row019_generation_reused": true
+    "new_generation_executed": false,
+    "existing_wan_target_runtime_proof_reused": true,
+    "aws_contacted_by_this_reconciliation": false,
+    "ec2_started_by_this_reconciliation": false,
+    "final_instance_state_in_reused_proof": "stopped"
   },
   "review": {
     "cursor_gap_review": "runtime_artifacts/agent_handoffs/cursor/20260711T130316-0500_wave64_video_engine_routing_gap_review/handoff_record.json",
@@ -103,20 +107,18 @@
     "claude_confirmation": "runtime_artifacts/agent_handoffs/claude_subscription/20260711T132110-0500_wave64_video_engine_router_review_confirmation/handoff_record.json",
     "remaining_high_or_medium_findings": 0
   },
-  "blocker": {
-    "classification": "Blocked_Video_Engine_Resource_Cost_And_Promotion_Proof",
-    "reason": "AnimateDiff fallback routing compatibility is proven, but resource limits and cost tier are unverified, visual promotion failed, and the default WAN engine remains unverified."
-  },
-  "result": "blocked_fallback_route_compatible_resource_cost_and_promotion_unverified",
-  "overall_pass": false,
-  "status_decision": "Blocked_Video_Engine_Resource_Cost_And_Promotion_Proof",
+  "blocker": null,
+  "result": "pass_bounded_wan22_video_engine_routing_row_complete",
+  "overall_pass": true,
+  "status_decision": "Completed_Bounded_Wan22_Video_Engine_Routing_Pass_Production_Certification_Not_Claimed",
   "strict_decision": {
-    "row_complete": false,
+    "row_complete": true,
     "offline_implementation_pass": true,
     "engine_compatibility_claimed": true,
-    "runtime_ready_claimed": false,
+    "runtime_ready_claimed": true,
     "final_promotion_claimed": false,
-    "mask_or_geometry_authority_claimed": false
+    "mask_or_geometry_authority_claimed": false,
+    "production_video_certification_claimed": false
   },
   "animatediff_fallback_probe": {
     "matched_rule_ids": [
@@ -148,5 +150,6 @@
       "resource_passed": false
     }
   },
-  "reconciliation_evidence": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_ENGINE_ROUTING_ANIMATEDIFF_FALLBACK_RECONCILIATION_20260713T030800-0500.json"
+  "reconciliation_evidence": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_ENGINE_ROUTING_ANIMATEDIFF_FALLBACK_RECONCILIATION_20260713T030800-0500.json",
+  "completion_evidence": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_ENGINE_ROUTING_WAN22_BOUNDED_COMPLETION_20260714T045535-0500.json"
 }
