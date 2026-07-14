@@ -170,6 +170,7 @@ if ([string]::IsNullOrWhiteSpace($WorkflowQueueFile)) {
 } else {
   $WorkflowQueueFile = Resolve-ProjectPath -Path $WorkflowQueueFile
 }
+$workflowTemplateRoot = Split-Path -Parent $WorkflowQueueFile
 
 if ([string]::IsNullOrWhiteSpace($OutFile)) {
   $OutFile = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Model_Registry\W61_MODEL_REGISTRY_COVERAGE_$stamp.json"
@@ -315,7 +316,7 @@ foreach ($laneId in $activeLaneIds) {
     ($workflowLaneStatus -match "local_") -and
     @($workflowLaneLocalEvidence).Count -gt 0
   )
-  $requirementsPath = Join-Path $ProjectRoot ("Plan\07_IMPLEMENTATION\workflow_templates\base_generation\{0}\runtime_requirements.json" -f $laneId)
+  $requirementsPath = Join-Path $workflowTemplateRoot ("{0}\runtime_requirements.json" -f $laneId)
   $requirementsExists = Test-Path -LiteralPath $requirementsPath
   $laneChecks += New-Check -Name "runtime_requirements_exists" `
     -Passed $requirementsExists `
@@ -553,8 +554,8 @@ $record = [ordered]@{
   scope = @(
     "Plan/Registries/Models/model_registry.jsonl",
     "Plan/Registries/Models/model_runtime_validation_queue.csv",
-    "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
-    "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/<queued-lane>/runtime_requirements.json"
+    (ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $WorkflowQueueFile),
+    ((ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $workflowTemplateRoot).TrimEnd("/") + "/<queued-lane>/runtime_requirements.json")
   )
   local_only = $true
   missing_local_model_binary_evidence_substitution_enabled = [bool]$AllowMissingLocalModelBinariesWithEvidence

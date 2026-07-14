@@ -11,6 +11,8 @@ starts.
 #>
 param(
   [string]$ProjectRoot = "C:\Comfy_UI_Main",
+  [ValidateSet("base_generation", "video_generation")]
+  [string]$WorkflowGroup = "base_generation",
   [string]$LaneId = "sdxl_low_risk_fallback_lane",
   [string]$AuthGateFile = "",
   [string]$ProfileMatrixFile = "",
@@ -180,7 +182,7 @@ function Has-Property {
   return @($Object.PSObject.Properties.Name) -contains $Name
 }
 
-$laneDir = Join-Path $ProjectRoot "Plan\07_IMPLEMENTATION\workflow_templates\base_generation\$LaneId"
+$laneDir = Join-Path $ProjectRoot "Plan\07_IMPLEMENTATION\workflow_templates\$WorkflowGroup\$LaneId"
 $workflowPath = Join-Path $laneDir "workflow.api.json"
 $patchPath = Join-Path $laneDir "patch_points.json"
 $runtimePath = Join-Path $laneDir "runtime_requirements.json"
@@ -714,6 +716,7 @@ if (!$staticProof.generation_allowed) {
 $record = [ordered]@{
   evidence_id = "LANE-RUNTIME-READINESS-" + (Get-Date -Format "yyyyMMddTHHmmsszzz").Replace(":", "")
   timestamp = (Get-Date).ToString("yyyy-MM-ddTHH:mm:sszzz")
+  workflow_group = $WorkflowGroup
   lane_id = $LaneId
   lane_dir = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $laneDir
   lane_files = $laneFiles
