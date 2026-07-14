@@ -1,3 +1,11 @@
+## Wave64 Row020 Bounded Wan 2.2 Routing Complete - 2026-07-14T04:55:35-05:00
+
+`TRK-W64-020` / `ITEM-W64-020` is `Completed_Bounded_Wan22_Video_Engine_Routing_Pass_Production_Certification_Not_Claimed`. The strict video router now selects Wan 2.2 for the exact proven 480x640, 49-frame, 24 fps, 24 GB EC2, high-cost, single-keyframe contract. All 25 router regressions pass, the exact route is runtime-ready, and over-duration plus under-VRAM requests fail closed. Existing target-runtime, technical, and direct visual proof is reused without rerunning seeds 2271301-2271303 or 2271401. Final promotion remains false and production video certification is not claimed.
+
+Next action: reconcile `TRK-W64-021` / `ITEM-W64-021` temporal continuity against the existing hash-bound Wan clips without new generation or mask truth. Preserve stopped EC2, manual body-gold-mask boundaries, and all Wave71+/Jira restrictions.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/VIDEO_ENGINE_ROUTING_WAN22_BOUNDED_COMPLETION_20260714T045535-0500.json`.
+
 ## Wan 2.2 Changed-Source Target Runtime Passed - 2026-07-14T04:35:10-05:00
 
 The exact-head source-bound Wan bundle completed one guarded target-runtime unit for changed full-body source SHA-256 `e20a857f0ac23151ae1b8aa47fb4746c975e522a5598896f747ef08a50cc9336` and unseen seed 2271401. Prompt schema, remote source hash/size, S3 sync, pullback hashes, 49-frame technical QA, and direct temporal visual QA all pass. The excluded knee-up `Ref_Image_1/Full/New folder` source was not used. EC2 is stopped, the active marker is closed, and the emergency schedule is retired.

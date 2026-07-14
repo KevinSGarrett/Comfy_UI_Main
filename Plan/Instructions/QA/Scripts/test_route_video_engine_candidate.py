@@ -13,6 +13,8 @@ SCRIPT_PATH = (
     / "scripts"
     / "route_video_engine_candidate.py"
 )
+REGISTRY_PATH = Path(__file__).resolve().parents[3] / "10_REGISTRIES" / "wave27_video_engine_registry.json"
+RULES_PATH = Path(__file__).resolve().parents[3] / "10_REGISTRIES" / "wave27_video_route_selection_rules.json"
 
 spec = importlib.util.spec_from_file_location("route_video_engine_candidate", SCRIPT_PATH)
 router = importlib.util.module_from_spec(spec)
@@ -43,6 +45,33 @@ def base_request():
         "available_vram_gb": 16.0,
         "cost_tier": "medium",
         "requested_engine": None,
+        "promotion_required": True,
+    }
+
+
+def bounded_wan_request():
+    return {
+        "output_type": "mp4",
+        "width": 480,
+        "height": 640,
+        "duration_seconds": 49 / 24,
+        "fps": 24.0,
+        "character_count": 1,
+        "camera_movement": "none",
+        "motion_complexity": "low",
+        "reference_video_present": False,
+        "keyframe_count": 1,
+        "identity_lock_required": False,
+        "contact_deformation_required": False,
+        "audio_required": False,
+        "prior_generation_failed": False,
+        "frame_sequence_available": False,
+        "isolated_frame_failure": False,
+        "structured_linear_guidance": False,
+        "execution_target": "ec2",
+        "available_vram_gb": 24.0,
+        "cost_tier": "high",
+        "requested_engine": "wan",
         "promotion_required": True,
     }
 
@@ -178,6 +207,40 @@ def default_rules():
 
 
 class RouteVideoEngineCandidateTests(unittest.TestCase):
+    def test_current_registry_selects_only_the_bounded_wan_contract(self):
+        registry = json.loads(REGISTRY_PATH.read_text(encoding="utf-8"))
+        rules = json.loads(RULES_PATH.read_text(encoding="utf-8"))
+
+        decision = router.decide_route(bounded_wan_request(), registry, rules)
+
+        self.assertEqual(decision["result"], "compatible")
+        self.assertEqual(decision["selected_engine"], "wan")
+        self.assertTrue(decision["runtime_ready"])
+        self.assertFalse(decision["final_promotion_ready"])
+        self.assertEqual(decision["required_features"], ["keyframes"])
+        self.assertEqual(decision["required_proof"], [])
+
+    def test_current_registry_rejects_wan_requests_outside_the_proven_envelope(self):
+        registry = json.loads(REGISTRY_PATH.read_text(encoding="utf-8"))
+        rules = json.loads(RULES_PATH.read_text(encoding="utf-8"))
+
+        too_long = bounded_wan_request()
+        too_long["duration_seconds"] += 1 / 24
+        low_vram = bounded_wan_request()
+        low_vram["available_vram_gb"] = 23.99
+
+        for request in (too_long, low_vram):
+            with self.subTest(request=request):
+                decision = router.decide_route(request, registry, rules)
+                self.assertEqual(decision["result"], "blocked")
+                self.assertIsNone(decision["selected_engine"])
+                self.assertFalse(decision["runtime_ready"])
+                self.assertFalse(decision["final_promotion_ready"])
+                self.assertIn(
+                    "wan:resource_limits:insufficient_or_unverified",
+                    decision["blocked_reasons"],
+                )
+
     def canonical_registry(self):
         return {
             "engines": [
