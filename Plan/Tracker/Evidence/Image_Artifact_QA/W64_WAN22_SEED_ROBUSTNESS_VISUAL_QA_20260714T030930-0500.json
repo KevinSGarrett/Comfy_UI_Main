@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-WAN22-SEED-ROBUSTNESS-VISUAL-QA-20260714T030930-0500",
+  "timestamp": "2026-07-14T03:09:30-05:00",
+  "lane_id": "wan_2_2_ti2v_5b_primary_lane",
+  "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_WAN22_SEED_ROBUSTNESS_TARGET_RUNTIME_20260714T030930-0500.json",
+  "technical_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_SEED_ROBUSTNESS_TECHNICAL_QA_20260714T030930-0500.json",
+  "review_authority": "Codex Desktop direct visual QA",
+  "review_method": "direct_review_of_16_frame_contact_sheets_and_full_resolution_frames_0_12_24_36_48_for_each_unseen_seed_plus_preserved_baseline_review",
+  "review_assets": [
+    "runtime_artifacts/wan22_seed_robustness/visual_review/seed2271302_contact16.png",
+    "runtime_artifacts/wan22_seed_robustness/visual_review/seed2271302_keyframes_0_12_24_36_48.png",
+    "runtime_artifacts/wan22_seed_robustness/visual_review/seed2271303_contact16.png",
+    "runtime_artifacts/wan22_seed_robustness/visual_review/seed2271303_keyframes_0_12_24_36_48.png"
+  ],
+  "seed_reviews": [
+    {
+      "seed": 2271301,
+      "role": "preserved_baseline",
+      "visual_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_TI2V5B_TARGET_RUNTIME_VISUAL_QA_20260714T004424-0500.json",
+      "visual_pass": true
+    },
+    {
+      "seed": 2271302,
+      "identity_continuity": "pass",
+      "face_temporal_coherence": "pass_at_available_resolution",
+      "gross_body_and_limb_continuity": "pass",
+      "hands_and_feet_gross_stability": "pass_at_available_resolution",
+      "clothing_and_silhouette_continuity": "pass",
+      "floor_contact_and_foot_sliding": "pass_no_obvious_failure",
+      "background_and_camera_continuity": "pass",
+      "terminal_frame_collapse_absent": true,
+      "motion_quality": "restrained_plausible_head_hair_torso_and_weight_shift_motion",
+      "visual_pass": true
+    },
+    {
+      "seed": 2271303,
+      "identity_continuity": "pass",
+      "face_temporal_coherence": "pass_at_available_resolution",
+      "gross_body_and_limb_continuity": "pass",
+      "hands_and_feet_gross_stability": "pass_at_available_resolution",
+      "clothing_and_silhouette_continuity": "pass",
+      "floor_contact_and_foot_sliding": "pass_no_obvious_failure",
+      "background_and_camera_continuity": "pass",
+      "terminal_frame_collapse_absent": true,
+      "motion_quality": "restrained_plausible_head_hair_torso_and_weight_shift_motion",
+      "visual_pass": true
+    }
+  ],
+  "findings": [
+    "Both unseen seeds preserve one recognizable adult subject, the gray top, black leggings, white shoes, neutral studio, full-body composition, and locked camera through the terminal frame.",
+    "No sampled frame shows blanking, a scene cut, identity replacement, extra limb, gross limb discontinuity, body collapse, frame-edge warp, background jump, or obvious foot sliding.",
+    "Motion remains deliberately subtle and plausible across both unseen seeds, with small head, gaze, hair, torso, and weight-shift changes rather than static duplication or abrupt movement.",
+    "Hands and feet remain grossly coherent, but the 480x640 framing is insufficient for fine finger or toe certification; no such claim is made."
+  ],
+  "checks": {
+    "same_subject_preserved_across_all_three_seeds": true,
+    "face_temporally_coherent_at_available_resolution": true,
+    "gross_body_warp_or_extra_limb_absent": true,
+    "clothing_and_silhouette_continuity_passed": true,
+    "background_and_camera_continuity_passed": true,
+    "terminal_frame_collapse_absent": true,
+    "motion_present_and_restrained": true,
+    "final_visual_pass": true
+  },
+  "failed_checks": [],
+  "visual_pass": true,
+  "result": "pass_bounded_three_seed_direct_temporal_review",
+  "status_decision": "Bounded_Wan22_Exact_Contract_Seed_Robustness_Validated",
+  "boundaries": {
+    "three_seed_single_source_single_profile_family": true,
+    "fine_hand_finger_foot_or_toe_certification_claimed": false,
+    "source_diversity_claimed": false,
+    "long_duration_quality_claimed": false,
+    "production_video_lane_certification_claimed": false,
+    "gold_masks_consumed": false,
+    "mask_or_geometry_authority_claimed": false,
+    "wave71_activation_claimed": false,
+    "jira_mutated": false
+  },
+  "next_action": "Do not rerun seeds 2271301, 2271302, or 2271303 for this source/profile contract. Advance only through a changed, bounded source-diversity gate."
+}

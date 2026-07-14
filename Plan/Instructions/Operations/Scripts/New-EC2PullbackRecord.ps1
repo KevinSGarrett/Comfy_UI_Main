@@ -71,9 +71,12 @@ function Get-ArtifactType {
   if ($path -match '(^|/)logs?/') { return "log" }
   if ($path -match '(^|/)reports?/') { return "report" }
   if ($path -match '(^|/)workflows?/') { return "workflow" }
-  if ($path -match '(^|/)images?/' -or $ext -in @(".png", ".jpg", ".jpeg", ".webp", ".bmp")) { return "image" }
-  if ($path -match '(^|/)videos?/' -or $ext -in @(".mp4", ".mov", ".avi", ".webm", ".gif")) { return "video" }
-  if ($path -match '(^|/)audio/' -or $ext -in @(".wav", ".flac", ".mp3", ".ogg", ".m4a")) { return "audio" }
+  if ($ext -in @(".mp4", ".mov", ".avi", ".webm", ".gif")) { return "video" }
+  if ($ext -in @(".wav", ".flac", ".mp3", ".ogg", ".m4a")) { return "audio" }
+  if ($ext -in @(".png", ".jpg", ".jpeg", ".webp", ".bmp")) { return "image" }
+  if ($path -match '(^|/)videos?/') { return "video" }
+  if ($path -match '(^|/)audio/') { return "audio" }
+  if ($path -match '(^|/)images?/') { return "image" }
   if ($ext -eq ".json") { return "json" }
   return "other"
 }

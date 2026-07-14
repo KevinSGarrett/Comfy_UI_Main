@@ -1,3 +1,12 @@
+## Wan 2.2 Three-Seed Robustness Passed - 2026-07-14T03:14:30-05:00
+
+Wan seeds 2271301, 2271302, and 2271303 now pass the same hash-bound source, prompt-family, 480x640, 49-frame, 24 fps contract. Both unseen seeds completed target-runtime generation, S3 sync, pullback hash verification, OpenCV technical QA, and direct Codex temporal review. The initial batch failed closed before submitting seed 2271303, the coordinator exclusion defect was fixed and merged through PR 20, and the one-unit retry completed without duplicate generation. EC2 is stopped, its runtime marker is closed, and the obsolete emergency schedule is deleted. The MP4-under-images classifier defect is fixed with all 62 operations scripts parsing and every local smoke passing.
+
+Next action: checkpoint only the Wan runtime evidence, pullback artifacts, classifier fix/regression, queue, and hydration through a protected `codex/*` branch and required PR check. Then prepare one local-only, new-source Wan source-diversity readiness unit. Do not rerun seeds 2271301-2271303, start EC2 before an exact-head gate, promote masks, rerun Wave70 hard gates, activate Wave71+, mutate Jira, or claim production video certification.
+
+Evidence: `Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_WAN22_SEED_ROBUSTNESS_TARGET_RUNTIME_20260714T030930-0500.json`; `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_SEED_ROBUSTNESS_TECHNICAL_QA_20260714T030930-0500.json`; `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_SEED_ROBUSTNESS_VISUAL_QA_20260714T030930-0500.json`.
+
+
 ## Wan 2.2 Seed Robustness Matrix Local Readiness - 2026-07-14T01:54:07-05:00
 
 The completed Wan seed 2271301 baseline is preserved and will not be rerun. Two unseen seeds, 2271302 and 2271303, now have distinct hash-bound run packages for the exact 480x640, 49-frame, 24 fps source/prompt contract. The generic matrix tooling now supports video workflow groups, route-optional primary lanes, video output prefixes, atomic manifests, project-contained inputs, and substantive duplicate detection. A new OpenCV technical-video evaluator passes five regressions against the completed baseline. Local matrix validation passes 11 checks with zero failures; the duplicate probe fails closed as expected.
