@@ -1,0 +1,181 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "COMPREHENSIVE-DELIVERY-REALITY-AUDIT-20260713T211700-0500",
+  "generated_at": "2026-07-13T21:17:00-05:00",
+  "classification": "PORTFOLIO_STARVATION_WITH_RECOVERY_CONTROLS_IMPLEMENTED",
+  "scope": [
+    "C:/Comfy_UI_Main",
+    "C:/Comfy_UI legacy reconciliation evidence",
+    "Git and GitHub protection",
+    "seven live project automations",
+    "AWS identity and approved EC2 instance",
+    "primary runtime S3 bucket",
+    "image, video, and audio portfolios"
+  ],
+  "delivery_snapshot_24h": {
+    "delivery_classification": "PORTFOLIO_STARVATION",
+    "last_real_generation_at": "2026-07-13T21:01:12-05:00",
+    "new_media_artifact_count": 34,
+    "new_executable_capability_count": 0,
+    "validated_runtime_evidence_count": 19,
+    "quality_metric_delta_evidence_count": 0,
+    "repeated_readiness_or_gate_count": 34,
+    "bookkeeping_effort_ratio": 0.7794,
+    "product_changed_path_count": 62,
+    "bookkeeping_changed_path_count": 219,
+    "image_latest_candidate_at": "2026-07-13T21:01:12-05:00",
+    "video_latest_candidate_at": "2026-07-13T04:41:25-05:00",
+    "audio_latest_candidate_at": null,
+    "starved_modalities": ["video", "audio"],
+    "candidate_warning": "Media counts are observational candidates until source evidence and direct modality QA qualify them."
+  },
+  "root_and_duplicate_reconciliation": {
+    "authoritative_root": "C:/Comfy_UI_Main",
+    "legacy_root": "C:/Comfy_UI",
+    "legacy_root_active_authority": false,
+    "legacy_implementation_files_archived": 1279,
+    "legacy_evidence_files_archived": 4912,
+    "legacy_generated_approved_output_uniquely_missing_from_main": 0,
+    "legacy_source_modified_by_audit": false,
+    "completed_aws_proofs_must_not_be_rerun": true,
+    "source": "Plan/Instructions/QA/Evidence/Runtime_Readiness/LOCAL_LEGACY_AWS_DUPLICATE_RECONCILIATION_20260711T065400-0500.json"
+  },
+  "git_and_github": {
+    "recovery_branch": "codex/comprehensive-delivery-recovery-20260713",
+    "recovery_worktree": "C:/Comfy_UI_Main_recovery_20260713",
+    "main_worktree_preserved": true,
+    "main_dirty_path_count_at_final_probe": 15,
+    "main_dirty_changes_owned_or_generated_by_main_session": true,
+    "github_main_protection_check": "pass_21_of_21",
+    "direct_push_main_allowed": false,
+    "checkpoint_method": "branch_pull_request_required"
+  },
+  "aws": {
+    "identity_arn": "arn:aws:sts::029530099913:assumed-role/ComfyUIMainSessionRole/comfy-ui-main-session",
+    "approved_instance_id": "i-0560bf8d143f93bb1",
+    "instance_type": "g5.xlarge",
+    "instance_state_at_final_probe": "stopped",
+    "active_runtime_marker_present_at_final_probe": false,
+    "main_owned_realesrgan_runtime_completed_without_audit_interference": true,
+    "ebs_volume_id": "vol-0eb9b2c6d3d2706d6",
+    "ebs_encryption_and_resize_boundary": "Existing 1024 GiB gp3 volume remains outside this recovery change; migration requires used-byte proof.",
+    "legacy_bucket_live_inventory": "blocked_expired_root_breakglass_token"
+  },
+  "s3": {
+    "bucket": "comfy-ui-main-runtime-029530099913-us-east-1",
+    "object_count": 352,
+    "bytes": 15377429619,
+    "prefixes": {
+      "artifact-output": {"objects": 7, "bytes": 983729},
+      "deploy-bundles": {"objects": 278, "bytes": 35410857},
+      "model-cache": {"objects": 16, "bytes": 15321723606},
+      "render-outputs": {"objects": 51, "bytes": 19311427}
+    },
+    "latest_runtime_output": "render-outputs/batched-runtime/realesrgan-cbd75ef8-20260713T205800/unit-01/aws_gpu_workflow_smoke_20260713T210035-0500/images/4_realesrgan_normal_fullbody_w70_v1_00001_.png",
+    "duplicate_upload_or_rerun_authorized": false
+  },
+  "architecture": {
+    "production_surface": "separate_versioned_api_workflows",
+    "main_flow_snapshot": "Plan/12_SOURCE_SUMMARIES/source_snapshots/WAVE42_MAIN_FLOW_20260702.runtime_bound_snapshot.json",
+    "main_flow_nodes": 356,
+    "main_flow_links": 91,
+    "main_flow_status": "reference_and_ui_compatibility_surface_not_current_production_graph",
+    "reason": "Image implementation advanced in separate API workflows while the monolithic graph remained stale and video/audio remained note-only."
+  },
+  "portfolio_summary": {
+    "image": {
+      "status": "partial_bounded_runtime_proofs_not_near_perfect",
+      "active_lane_count": 10,
+      "core_gaps": [
+        "No fixed end-to-end base-control-repair-upscale benchmark with measured quality delta",
+        "RealVisXL broader composition remains unresolved",
+        "Inpaint is single-sample bounded",
+        "FLUX.1 Dev runtime has not started",
+        "Optional/scaffold engines require explicit product decisions"
+      ]
+    },
+    "video": {
+      "status": "fallback_smoke_and_offline_support_only",
+      "proven_generation": "AnimateDiff local eight-frame two-second fallback smoke",
+      "primary_engine_runtime_proven": false,
+      "core_gaps": [
+        "Wan 2.2 has no production graph or runtime proof",
+        "HunyuanVideo has no production graph or runtime proof",
+        "LTX2 A/V has no production graph or runtime proof",
+        "No primary-engine short clip with direct temporal review"
+      ]
+    },
+    "audio": {
+      "status": "offline_router_mixer_and_synthetic_fixtures_only",
+      "production_engine_selected": false,
+      "production_generation_count": 0,
+      "core_gaps": [
+        "No approved genuine voice engine/source",
+        "No genuine Foley/SFX or music/ambience source",
+        "No direct playback QA",
+        "No genuine mixed and muxed A/V deliverable"
+      ]
+    }
+  },
+  "automation_failure": {
+    "scheduler_and_cost_safety": "working",
+    "sequence_auditing": "partially_working",
+    "delivery_supervision": "material_failure",
+    "root_cause": [
+      "Readiness, dry-run, staging, and handoff activity counted as concrete progress",
+      "Fleet health could pass without reading delivery outcomes",
+      "Sequence correctness was evaluated independently of user-visible delivery",
+      "The anti-loop correction hard-coded selected-inpaint instead of portfolio priority",
+      "No modality starvation or measured-quality metrics existed"
+    ],
+    "latest_worker_monitor_context": {
+      "attempts": 50,
+      "useful_handoffs": 11,
+      "failed_or_incomplete": 39,
+      "scheduled_runs_per_day": 55.14,
+      "usage_reduction_confidence": "LOW"
+    }
+  },
+  "implemented_recovery_controls": [
+    "Created an authoritative image/video/audio lane portfolio with explicit product classifications and next outcomes",
+    "Declared separate API workflows as production architecture and the monolithic Main Flow as reference-only until synchronized",
+    "Defined narrow delivery truth, DELIVERY_STAGNATION, and PORTFOLIO_STARVATION",
+    "Added a bounded deterministic delivery snapshot and validation tool",
+    "Updated completion vocabulary to prevent bounded proof from being called lane completion",
+    "Reconciled stale OpenPose active-lane status against existing target-runtime certification evidence",
+    "Updated all seven canonical automation definitions",
+    "Updated all seven live project automations through the Codex app scheduler"
+  ],
+  "immediate_recovery_outcomes": [
+    {
+      "order": 1,
+      "modality": "image",
+      "outcome": "Complete direct QA for the just-finished RealESRGAN target-runtime artifact, then run one fixed end-to-end image benchmark with measured deltas."
+    },
+    {
+      "order": 2,
+      "modality": "video",
+      "outcome": "Implement one bounded Wan 2.2 image-to-video API workflow and produce a genuine short clip with temporal QA; retain AnimateDiff as fallback."
+    },
+    {
+      "order": 3,
+      "modality": "audio",
+      "outcome": "Select a licensed genuine voice plus Foley/ambience source, render and review a short mix, and mux it to the video deliverable."
+    },
+    {
+      "order": 4,
+      "modality": "architecture",
+      "outcome": "Keep separate API workflows authoritative; synchronize the Main Flow deliberately only after the modality graphs are proven."
+    }
+  ],
+  "safety_boundaries": {
+    "ec2_started_by_audit": false,
+    "generation_launched_by_audit": false,
+    "s3_mutated_by_audit": false,
+    "main_worktree_modified_by_audit": false,
+    "legacy_root_modified_by_audit": false,
+    "mask_promotion_or_hard_gate_run": false,
+    "wave71_activation": false,
+    "jira_mutation": false
+  }
+}

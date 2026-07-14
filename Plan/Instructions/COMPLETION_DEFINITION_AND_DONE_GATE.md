@@ -44,6 +44,17 @@ Implementation, validation, QA, tracker update, evidence, report, and manifest a
 
 Only Level 7 equals complete.
 
+### 2.1 Lane completion vocabulary
+
+Use `bounded_scope_complete` for a proven sample, seed, prompt, pose, resolution, or configuration. Do not shorten it to "lane complete." Package creation, queue progression, static readiness, S3 staging, and dry-run success are not runtime completion. A production image, video, or audio lane is certified only when its declared multisample scope has genuine runtime artifacts, applicable technical QA, and direct modality review.
+
+Portfolio delivery truth and lane classifications are governed by:
+
+```text
+Plan/Instructions/COMFYUI_DELIVERY_RECOVERY_AND_PORTFOLIO_CONTROL.md
+Plan/10_REGISTRIES/comfyui_delivery_portfolio_registry.json
+```
+
 ## 3. Universal done gate
 
 A task can be marked `COMPLETE_CERTIFIED` only when all applicable questions are answered yes:
@@ -90,6 +101,9 @@ Were delivery report, validation report, and manifest updated?
 
 Rehydration:
 Was next-session state updated?
+
+Portfolio:
+Is the result reflected accurately in the delivery portfolio without overstating bounded proof?
 ```
 
 If any applicable answer is no, the item is not complete.
