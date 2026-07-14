@@ -1,3 +1,12 @@
+## Wan 2.2 Three-Seed Robustness Passed - 2026-07-14T03:14:30-05:00
+
+The current concrete non-mask lane has completed bounded three-seed robustness for the exact Wan 2.2 TI2V 5B short-clip contract. All three videos are hash-bound and pass technical plus direct visual QA. This is not source-diversity, long-duration, fine-digit, production-video, mask, geometry, or Wave71+ certification. EC2 is stopped and no completed seed may be rerun.
+
+Pursuing goal: checkpoint this completed proof through the protected PR flow, then build one local-only new-source readiness unit that changes source scope while preserving the same bounded contract. Keep candidate/manual masks out of truth and keep all AWS execution false until a new exact-head gate explicitly authorizes a changed runtime unit.
+
+Evidence: `Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_WAN22_SEED_ROBUSTNESS_TARGET_RUNTIME_20260714T030930-0500.json`.
+
+
 ## Wan 2.2 Seed Robustness Matrix Local Readiness - 2026-07-14T01:54:07-05:00
 
 The completed Wan seed 2271301 baseline is preserved and will not be rerun. Two unseen seeds, 2271302 and 2271303, now have distinct hash-bound run packages for the exact 480x640, 49-frame, 24 fps source/prompt contract. The generic matrix tooling now supports video workflow groups, route-optional primary lanes, video output prefixes, atomic manifests, project-contained inputs, and substantive duplicate detection. A new OpenCV technical-video evaluator passes five regressions against the completed baseline. Local matrix validation passes 11 checks with zero failures; the duplicate probe fails closed as expected.

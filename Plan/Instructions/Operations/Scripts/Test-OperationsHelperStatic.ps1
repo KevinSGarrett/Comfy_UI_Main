@@ -1133,6 +1133,12 @@ function Invoke-PullbackManifestVerificationSmoke {
   $hash = (Get-FileHash -LiteralPath $imagePath -Algorithm SHA256).Hash.ToLowerInvariant()
   $bytes = (Get-Item -LiteralPath $imagePath).Length
 
+  # ComfyUI SaveVideo outputs may arrive under images/, so extension must win.
+  $videoPath = Join-Path $imageDir "sample.mp4"
+  [System.IO.File]::WriteAllBytes($videoPath, [byte[]](0,0,0,24,102,116,121,112,109,112,52,50))
+  $videoHash = (Get-FileHash -LiteralPath $videoPath -Algorithm SHA256).Hash.ToLowerInvariant()
+  $videoBytes = (Get-Item -LiteralPath $videoPath).Length
+
   $manifestPath = Join-Path $pullbackRoot "REMOTE_ARTIFACT_MANIFEST.json"
   $manifest = [ordered]@{
     run_id = "static_validation_pullback"
@@ -1142,6 +1148,13 @@ function Invoke-PullbackManifestVerificationSmoke {
         size_bytes = [int64]$bytes
         sha256 = $hash
         artifact_type = "image"
+        qa_required = $true
+      },
+      [ordered]@{
+        relative_path = "images/sample.mp4"
+        size_bytes = [int64]$videoBytes
+        sha256 = $videoHash
+        artifact_type = "video"
         qa_required = $true
       }
     )
@@ -1174,6 +1187,8 @@ function Invoke-PullbackManifestVerificationSmoke {
     file_count_local = $null
     qa_required_count = 0
     manifest_counted_as_artifact = $false
+    image_extension_classified_as_image = $false
+    video_extension_under_images_classified_as_video = $false
   }
 
   if ($entry.expected_output_file_exists) {
@@ -1186,12 +1201,16 @@ function Invoke-PullbackManifestVerificationSmoke {
       $entry.file_count_local = $record.file_count_local
       $entry.qa_required_count = @($record.qa_required_files).Count
       $entry.manifest_counted_as_artifact = (@($record.files | Where-Object { [string]$_.relative_path -eq "REMOTE_ARTIFACT_MANIFEST.json" }).Count -gt 0)
+      $entry.image_extension_classified_as_image = (@($record.files | Where-Object { [string]$_.relative_path -eq "images/sample.png" -and [string]$_.artifact_type -eq "image" }).Count -eq 1)
+      $entry.video_extension_under_images_classified_as_video = (@($record.files | Where-Object { [string]$_.relative_path -eq "images/sample.mp4" -and [string]$_.artifact_type -eq "video" }).Count -eq 1)
 
       if (-not $entry.hashes_verified) { $entry.result = "fail"; $entry.expected_output_error = "hashes_verified was false." }
       if ([string]$entry.status -ne "pullback_hashes_verified") { $entry.result = "fail"; $entry.expected_output_error = "Unexpected status: $($entry.status)" }
-      if ([int]$entry.file_count_remote -ne 1 -or [int]$entry.file_count_local -ne 1) { $entry.result = "fail"; $entry.expected_output_error = "Unexpected file counts remote=$($entry.file_count_remote) local=$($entry.file_count_local)" }
-      if ([int]$entry.qa_required_count -ne 1) { $entry.result = "fail"; $entry.expected_output_error = "Unexpected QA required count: $($entry.qa_required_count)" }
+      if ([int]$entry.file_count_remote -ne 2 -or [int]$entry.file_count_local -ne 2) { $entry.result = "fail"; $entry.expected_output_error = "Unexpected file counts remote=$($entry.file_count_remote) local=$($entry.file_count_local)" }
+      if ([int]$entry.qa_required_count -ne 2) { $entry.result = "fail"; $entry.expected_output_error = "Unexpected QA required count: $($entry.qa_required_count)" }
       if ($entry.manifest_counted_as_artifact) { $entry.result = "fail"; $entry.expected_output_error = "Remote manifest was counted as a pulled artifact." }
+      if (-not $entry.image_extension_classified_as_image) { $entry.result = "fail"; $entry.expected_output_error = "PNG under images was not classified as image." }
+      if (-not $entry.video_extension_under_images_classified_as_video) { $entry.result = "fail"; $entry.expected_output_error = "MP4 under images was not classified as video." }
     } catch {
       $entry.expected_output_error = $_.Exception.Message
       $entry.result = "fail"
