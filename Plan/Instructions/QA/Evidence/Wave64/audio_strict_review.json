@@ -1,13 +1,14 @@
 {
   "schema_version": "1.0",
-  "evidence_id": "W64-AUDIO-STRICT-REVIEW-20260712T183149-0500",
-  "timestamp": "2026-07-12T18:31:49-05:00",
+  "evidence_id": "W64-AUDIO-STRICT-REVIEW-20260714T092355-0500",
+  "timestamp": "2026-07-14T09:23:55-05:00",
   "tracker_id": "TRK-W64-031",
   "item_id": "ITEM-W64-031",
   "source_citation": "Plan/Instructions/QA/AUDIO_GENERATION_REVIEW_PROTOCOL.md",
   "implementation": {
     "dedicated_strict_audio_artifact_review_evaluator_added": true,
     "dedicated_strict_audio_review_request_producer_added": true,
+    "recovered_legacy_readiness_adapter_added": true,
     "wave30_prompt_and_optional_review_lineage_binding": true,
     "supplied_row030_sync_bypass_closed": true,
     "producer_and_evaluator_no_clobber_durable_publication": true,
@@ -34,7 +35,9 @@
     {"path": "Plan/08_SCHEMAS/wave64_strict_audio_review_report.schema.json", "sha256": "ea653e56ef87187f8c52923fe4cad124c2e949ae713ba56640960ce520fba474"},
     {"path": "Plan/10_REGISTRIES/wave64_strict_audio_review_authority_registry.json", "sha256": "f5a2cbfff1763cab4d7c2c57da3688a84ae371a76cd6dcead43da5a87a57f0a8"},
     {"path": "Plan/Instructions/QA/Scripts/test_wave64_strict_audio_artifact_review.py", "sha256": "aa00dc784b108da7d607fb9375ebce03da16ff1e27dad8c328d590e2bf19f94d"},
-    {"path": "Plan/Instructions/QA/Scripts/test_produce_wave64_strict_audio_review_request.py", "sha256": "0a4dabe735549285a75639f1b115c89649300130e0499eb30ed44fc36d5bb19d"}
+    {"path": "Plan/Instructions/QA/Scripts/test_produce_wave64_strict_audio_review_request.py", "sha256": "0a4dabe735549285a75639f1b115c89649300130e0499eb30ed44fc36d5bb19d"},
+    {"path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_recovered_strict_audio_review_readiness.py", "sha256": "b48ec4240fdeff456b750817c418ba2e58a7e2128a3709c761fd52e8f6b6c7d2"},
+    {"path": "Plan/Instructions/QA/Scripts/test_evaluate_wave64_recovered_strict_audio_review_readiness.py", "sha256": "6e1ef1ffa24310f29a174579c59e828f11e6a996f543a84060c5c1649e84d0e6"}
   ],
   "authority_bindings": {
     "audio_review_protocol": {"path": "Plan/Instructions/QA/AUDIO_GENERATION_REVIEW_PROTOCOL.md", "sha256": "c017a64f5946f493f1217f450dad80fd7816399a178891b11fe6b37fcf72d848"}
@@ -53,7 +56,10 @@
     "authority_registry_unchanged_by_tests": true,
     "technical_offline_pass": true,
     "producer_tests_run": 9,
-    "evaluator_tests_run": 53
+    "evaluator_tests_run": 53,
+    "recovered_readiness_tests_run": 6,
+    "combined_tests_run": 68,
+    "combined_test_failures": 0
   },
   "retained_probes": {
     "probe_summary": {"path": "runtime_artifacts/wave64_strict_audio_review/20260711T221501-0500/probe_summary.json", "sha256": "1861a3233c9faf95d54a35306ee59e0e617030ab2e15d64f5fd44b4b784b1a60"},
@@ -118,6 +124,21 @@
       ]
     }
   },
+  "recovered_legacy_readiness": {
+    "evidence": {"path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_STRICT_REVIEW_RECOVERED_READINESS_20260714T092355-0500.json", "sha256": "99e712fc38fdc26d71d5f4fa9e1b92ac8955cee12d2207a1d6b4646fd33a0bee"},
+    "test_log": {"path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_STRICT_REVIEW_RECOVERED_READINESS_TEST_LOG_20260714T092355-0500.json", "sha256": "bf93fe8746b9834a7b10c1fc7847f3307cc1f0849031abfada582b6feef70e90"},
+    "hash_verified_and_decoded_mix_candidate_count": 2,
+    "missing_required_binding_count": 8,
+    "missing_optional_proof_count": 3,
+    "legacy_qa_accepted_as_prompt_alignment": false,
+    "legacy_qa_accepted_as_playback_review": false,
+    "legacy_av_report_accepted_as_strict_row030_report": false,
+    "strict_request_eligible": false,
+    "strict_producer_invoked": false,
+    "strict_evaluator_invoked": false,
+    "legacy_provisional_result_promoted": false,
+    "result": "blocked_recovered_mixes_decodable_but_not_strict_audio_review_request_eligible"
+  },
   "current_authority": {
     "synthetic_prompt_producer_count": 1,
     "synthetic_playback_producer_count": 1,
@@ -142,6 +163,7 @@
     "row_complete": false
   },
   "review": {
+    "claude_recovered_readiness_semantic_review": {"path": "runtime_artifacts/agent_handoffs/claude_subscription/20260714T092453-0500_row031_recovered_strict_audio_semantic_review/handoff_record.json", "sha256": "b2ed9b3c5d8b6aa59f8664f645ea9a1996003b653adafe377d781aa4e565efd3", "status": "PASS", "confidence": "high", "remaining_high_or_medium_findings": 0},
     "cursor_request_producer_gap_review": {"path": "runtime_artifacts/agent_handoffs/cursor/20260712T180528-0500_row031_strict_audio_request_producer_gap/handoff_record.json", "sha256": "2e298096efed7e4315e6ac50b560228418dc9f477508c416a78e798d1e953625"},
     "claude_request_producer_initial_review": {"path": "runtime_artifacts/agent_handoffs/claude_subscription/20260712T181145-0500_row031_strict_audio_request_producer_semantic_review/handoff_record.json", "sha256": "ba9eecc34d3a400ac202cb91944be33a42f5413b3a2c10b2fbfe151e63de89c2", "classification": "CLAUDE_SUBSCRIPTION_INCOMPLETE_OUTPUT_CONTRACT", "usable_findings": 5},
     "claude_request_producer_closure_review": {"path": "runtime_artifacts/agent_handoffs/claude_subscription/20260712T182633-0500_row031_strict_audio_request_producer_closure_review/handoff_record.json", "sha256": "aa5b51313728dc35970221a4f5b3c1eabeb0bef9e9040d7867ffc2ce2c8601dc", "remaining_high_or_medium_findings": 0},
@@ -172,7 +194,7 @@
     {"classification": "Blocked_Strict_Audio_Production_Review_Proof_Missing", "scope": "primary_row_blocker", "reason": "No genuine production audio with independently approved non-synthetic prompt-alignment and playback-review producer proof exists for this row."},
     {"classification": "Blocked_Strict_Audio_Production_Authority_Missing", "scope": "production_authority", "reason": "The canonical registry has no approved production review authority and no allowlisted production review bundle."}
   ],
-  "result": "blocked_strict_audio_production_review_proof_missing",
+  "result": "blocked_recovered_mixes_decodable_but_not_strict_audio_review_request_eligible",
   "overall_pass": false,
   "status_decision": "Blocked_Strict_Audio_Production_Review_Proof_Missing",
   "strict_decision": {
@@ -181,6 +203,7 @@
     "canonical_integration_pass": true,
     "synthetic_fail_closed_probe_pass": true,
     "adversarial_relabel_fail_closed_probe_pass": true,
+    "recovered_strict_audio_request_eligible": false,
     "production_audio_or_playback_claimed": false,
     "production_bundle_approved": false,
     "certification_claimed": false,

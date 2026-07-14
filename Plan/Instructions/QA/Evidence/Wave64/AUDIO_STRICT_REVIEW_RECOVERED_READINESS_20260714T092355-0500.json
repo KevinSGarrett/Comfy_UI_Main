@@ -1,0 +1,130 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-STRICT-AUDIO-RECOVERED-READINESS-20260714T0923550500",
+  "timestamp": "2026-07-14T09:23:55-05:00",
+  "tracker_id": "TRK-W64-031",
+  "item_id": "ITEM-W64-031",
+  "status_decision": "Blocked_Strict_Audio_Production_Review_Proof_Missing",
+  "source_manifests": {
+    "recovery_evidence": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_PIPELINE_LEGACY_RECOVERY_20260714T063840-0500.json",
+      "sha256": "f4a400c89c1fcd29eb3c698fb009e09c892eec5ddd0a0e2bbb9e35ed8f5faa69"
+    },
+    "procedural_diagnostic": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave42_legacy_audio_recovery_20260714T063840-0500/procedural_mix_diagnostic/local_procedural_audio_mix_candidate_20260702_034918.json",
+      "sha256": "e47e8f1efb363290e65e5419abb8c96198b5eae470a8a2b301568edb567dc9d7",
+      "bytes": 10105,
+      "recovery_classification": "diagnostic_manifest",
+      "copied_not_generated": true
+    },
+    "returned_runtime": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave42_legacy_audio_recovery_20260714T063840-0500/returned_ec2_20260701T101322/final_ec2_returned_media_manifest.json",
+      "sha256": "9588fbcb703d73190f32dd001bb0089621d3024d7a58380b8a323c55352c65db",
+      "bytes": 3843,
+      "recovery_classification": "returned_runtime_manifest",
+      "copied_not_generated": true
+    }
+  },
+  "recovered_mix_candidates": {
+    "procedural_diagnostic": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave42_legacy_audio_recovery_20260714T063840-0500/procedural_mix_diagnostic/wave42_release_scene_03_procedural_audio_mix_candidate.wav",
+      "sha256": "cbe1bb2d357193fd56212a6b520be300e326d267d6b06d3922307543ca0fa0dd",
+      "bytes": 441044,
+      "recovery_classification": "diagnostic_procedural_mix",
+      "copied_not_generated": true,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "sample_rate_hz": 22050,
+      "frame_count": 220500,
+      "duration_seconds": 10.0,
+      "compression_type": "NONE",
+      "decode_probe_succeeded": true,
+      "authority_class": "diagnostic_full_mix_candidate",
+      "eligible_as_mix_wav_binding": true,
+      "eligible_as_prompt_alignment_proof": false,
+      "eligible_as_playback_review_proof": false
+    },
+    "returned_runtime_provisional": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave42_legacy_audio_recovery_20260714T063840-0500/returned_ec2_20260701T101322/final_audio_mix_provisional.wav",
+      "sha256": "65ded4d70ec8b68cc04672df16edb411f593ec8c527c3bd2987d5e0e44deaadb",
+      "bytes": 960044,
+      "recovery_classification": "returned_runtime_provisional_mix",
+      "copied_not_generated": true,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "sample_rate_hz": 48000,
+      "frame_count": 480000,
+      "duration_seconds": 10.0,
+      "compression_type": "NONE",
+      "decode_probe_succeeded": true,
+      "authority_class": "provisional_returned_runtime_mix",
+      "eligible_as_mix_wav_binding": true,
+      "eligible_as_prompt_alignment_proof": false,
+      "eligible_as_playback_review_proof": false
+    }
+  },
+  "supporting_recovered_evidence": {
+    "row027_voice": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_VOICE_DIALOGUE_RECOVERED_SAPI_EVALUATION_20260714T070304-0500.json",
+      "sha256": "ceec05e143396fc5c3a9d3f936a5b0ccb92d6931397283385b3fe623475894c0",
+      "status_decision": "Blocked_Voice_Dialogue_Production_Proof_Missing",
+      "accepted_as_row031_authority": false
+    },
+    "row029_spatial_room": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_SPATIAL_ROOM_RECOVERED_READINESS_20260714T082800-0500.json",
+      "sha256": "7b7800211207758d967673ab8fbf521628d9e9c0e274dc9900867e99a19d5b90",
+      "status_decision": "Blocked_Spatial_Room_Production_Proof_Missing",
+      "accepted_as_row031_authority": false
+    },
+    "row030_av_sync": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_AV_SYNC_RECOVERED_READINESS_20260714T075606-0500.json",
+      "sha256": "83493ba02e1ff1a108e394aae0d2a40b15eb4121d6bf62b485360e6bda1a7fa0",
+      "status_decision": "Blocked_AV_Sync_Production_Proof_Missing",
+      "accepted_as_row031_authority": false
+    }
+  },
+  "authority_state": {
+    "approved_non_synthetic_prompt_alignment_producer_count": 0,
+    "approved_non_synthetic_playback_producer_count": 0,
+    "approved_production_review_authority_count": 0,
+    "approved_production_review_bundle_count": 0,
+    "legacy_qa_labels_accepted_as_prompt_alignment": false,
+    "legacy_qa_labels_accepted_as_playback_review": false,
+    "legacy_av_report_accepted_as_strict_row030_report": false
+  },
+  "mapping_decision": {
+    "reusable_mix_binding_candidate_count": 2,
+    "missing_required_bindings": [
+      "run_id",
+      "is_synthetic",
+      "capture_mode",
+      "wave30_event_manifest_binding",
+      "wave30_mix_manifest_binding",
+      "wave30_qa_report_binding",
+      "prompt_reference_binding",
+      "prompt_alignment_proof_binding"
+    ],
+    "missing_optional_proofs": [
+      "playback_proof_binding",
+      "row030_av_sync_report_binding",
+      "production_review_bundle_binding"
+    ],
+    "eligible_for_strict_request": false,
+    "strict_producer_invoked": false,
+    "strict_evaluator_invoked": false,
+    "skip_reason": "Fail closed before request production: strict Wave30 event/mix/QA lineage, run identity, capture classification, prompt reference/alignment, playback, strict Row030 sync, and production review authority are absent."
+  },
+  "boundaries": {
+    "existing_audio_reused": true,
+    "generation_executed": false,
+    "audio_modified_or_remixed": false,
+    "identity_or_review_proof_invented": false,
+    "legacy_provisional_result_promoted": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "mask_or_wave71_touched": false,
+    "jira_mutated": false
+  },
+  "result": "blocked_recovered_mixes_decodable_but_not_strict_audio_review_request_eligible",
+  "next_action": "Retain both mixes as hash-bound diagnostic lineage. Do not form a strict Row031 request until exact Wave30, prompt-alignment, playback, strict sync, and production review authority artifacts exist for one selected mix."
+}
