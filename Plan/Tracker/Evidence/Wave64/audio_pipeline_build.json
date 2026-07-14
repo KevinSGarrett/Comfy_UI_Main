@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "evidence_id": "W64-AUDIO-PIPELINE-BUILD-20260712T161737-0500",
-  "timestamp": "2026-07-14T06:16:22-05:00",
+  "timestamp": "2026-07-14T06:38:40-05:00",
   "tracker_id": "TRK-W64-025",
   "item_id": "ITEM-W64-025",
   "source_citation": "Plan/05_AUDIO_SYSTEM/AUDIO_GENERATION_AV_SYNC_BLUEPRINT.md",
@@ -93,7 +93,18 @@
     "technical_offline_pass": true,
     "last_targeted_rerun": "2026-07-13T05:10:04-05:00",
     "last_targeted_rerun_tests_passed": 21,
-    "last_targeted_rerun_tests_failed": 0
+    "last_targeted_rerun_tests_failed": 0,
+    "legacy_recovery_validation": {
+      "timestamp": "2026-07-14T06:38:40-05:00",
+      "test_log": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_PIPELINE_LEGACY_RECOVERY_TEST_LOG_20260714T063840-0500.json",
+      "tests_run": 29,
+      "tests_passed": 29,
+      "tests_failed": 0,
+      "recovered_artifact_hashes_verified": 30,
+      "post_review_test_log": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_PIPELINE_LEGACY_RECOVERY_POST_REVIEW_TEST_20260714T065007-0500.json",
+      "post_review_tests_passed": 6,
+      "post_review_tests_failed": 0
+    }
   },
   "synthetic_technical_probe": {
     "production_evidence": false,
@@ -171,7 +182,12 @@
     "audio_review_contract": true,
     "genuine_audio_engine_runtime_proof": false,
     "genuine_audio_playback_review": false,
-    "final_audio_certification": false
+    "final_audio_certification": false,
+    "recovered_diagnostic_audio_present": true,
+    "returned_ec2_runtime_packet_present": true,
+    "provisional_av_sync_review_present": true,
+    "final_multimodal_review_present": true,
+    "final_multimodal_review_passed": false
   },
   "review": {
     "cursor_gap_review": "runtime_artifacts/agent_handoffs/cursor/20260711T160622-0500_wave64_audio_pipeline_gap_review/handoff_record.json",
@@ -190,7 +206,12 @@
     "cursor_audio_inventory_retry": "runtime_artifacts/agent_handoffs/cursor/20260713T050602-0500_w64_row025_audio_candidate_inventory_narrow/handoff_record.json",
     "audio_inventory_fallback": "compact_bounded_codex_inventory_after_two_timeouts",
     "semantic_review": "runtime_artifacts/agent_handoffs/claude_subscription/20260713T051823-0500_w64_row025_semantic_remediation_review/handoff_record.json",
-    "semantic_review_status": "pass_no_high_or_medium_findings"
+    "semantic_review_status": "pass_no_high_or_medium_findings",
+    "legacy_recovery_semantic_review": "runtime_artifacts/agent_handoffs/claude_subscription/20260714T064726-0500_row025_legacy_audio_recovery_semantic_review/handoff_record.json",
+    "legacy_recovery_semantic_review_status": "pass",
+    "legacy_recovery_semantic_review_confidence": "high",
+    "legacy_recovery_high_or_medium_findings": 0,
+    "legacy_recovery_low_findings_remediated": 1
   },
   "runtime": {
     "production_audio_generation_count": 0,
@@ -202,18 +223,22 @@
     "aws_contacted": true,
     "ec2_started": false,
     "mask_promotion_executed": false,
-    "aws_read_only_inventory_executed": true
+    "aws_read_only_inventory_executed": true,
+    "recovered_runtime_packet_count": 1,
+    "recovery_generation_executed": false,
+    "recovery_aws_contacted": false,
+    "recovery_ec2_started": false
   },
   "blockers": [
     {
       "classification": "Blocked_Audio_Production_Runtime_Proof_Missing",
       "scope": "primary_row_blocker",
-      "reason": "Local authoritative roots and approved read-only S3 runtime prefixes contain no genuine audio candidate; the four existing WAN MP4s have video handlers and no audio handlers."
+      "reason": "Legacy diagnostic audio and the original returned-EC2 AV packet are now recovered and hash-verified, but SAPI/procedural candidates failed QA and the returned packet was rejected for final release; no approved production audio-engine proof bundle passes."
     },
     {
       "classification": "Blocked_Audio_Playback_Review_Missing",
       "scope": "audio_review",
-      "reason": "No genuine playback review proves speaker identity, voice consistency, intelligibility, foley/action alignment, ambience/dialogue balance, clipping safety, mix balance, and AV sync."
+      "reason": "A provisional automated AV-sync review exists, but the authoritative autonomous multimodal review rejected final release and does not prove production speaker identity, voice consistency, foley/action alignment, ambience/dialogue balance, clipping safety, or final mix quality."
     },
     {
       "classification": "Blocked_Audio_Certification_Loudness_Authority_Missing",
@@ -221,7 +246,7 @@
       "reason": "The deterministic builder reports explicitly labeled PCM RMS/sample-peak technical proxies; no ITU-R BS.1770 integrated loudness or true-peak certification measurement exists."
     }
   ],
-  "result": "blocked_no_genuine_audio_in_local_or_approved_aws_runtime_sources",
+  "result": "blocked_legacy_audio_recovered_but_provisional_and_final_release_rejected",
   "overall_pass": false,
   "status_decision": "Blocked_Audio_Production_Runtime_Proof_Missing",
   "strict_decision": {
@@ -242,12 +267,23 @@
     "candidate_count": 0,
     "genuine_runtime_candidate_present": false
   },
-  "reconciliation_evidence": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_PIPELINE_AWS_RUNTIME_INVENTORY_20260714T061622-0500.json",
+  "reconciliation_evidence": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_PIPELINE_LEGACY_RECOVERY_20260714T063840-0500.json",
   "aws_production_audio_inventory": {
     "evidence": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_PIPELINE_AWS_RUNTIME_INVENTORY_20260714T061622-0500.json",
     "prefixes_checked": 3,
     "standalone_audio_object_count": 0,
     "existing_video_only_mp4_count": 4,
     "genuine_runtime_candidate_present": false
+  },
+  "legacy_audio_recovery": {
+    "evidence": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_PIPELINE_LEGACY_RECOVERY_20260714T063840-0500.json",
+    "recovery_root": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave42_legacy_audio_recovery_20260714T063840-0500",
+    "artifact_count": 30,
+    "recovered_diagnostic_candidate_present": true,
+    "returned_ec2_runtime_packet_present": true,
+    "provisional_av_sync_review_present": true,
+    "final_multimodal_review_present": true,
+    "final_multimodal_review_passed": false,
+    "production_eligible": false
   }
 }

@@ -1,0 +1,494 @@
+{
+  "audio_assets": [
+    {
+      "duration_seconds": 10.0,
+      "id": "dialogue_procedural_provisional",
+      "path": "dialogue_procedural_provisional.wav",
+      "sha256": "c5f604eadbd5e153b017ae2af4c979ad658c648d99e07b254b43aacd3c1c182c",
+      "size_bytes": 960044
+    },
+    {
+      "duration_seconds": 10.0,
+      "id": "sfx_foley_original_generated",
+      "path": "sfx_foley_original_generated.wav",
+      "sha256": "a9e14beacd8ef15fc983af60f8fd266cf38f21434285907ff22ae59e37a51312",
+      "size_bytes": 960044
+    },
+    {
+      "duration_seconds": 10.0,
+      "id": "music_original_generated_bed",
+      "path": "music_original_generated_bed.wav",
+      "sha256": "df743754556612f09f57fdce9b47716fd743a287a6a85320782b9da8a9548f66",
+      "size_bytes": 960044
+    },
+    {
+      "duration_seconds": 10.0,
+      "id": "final_audio_mix_provisional",
+      "path": "final_audio_mix_provisional.wav",
+      "sha256": "65ded4d70ec8b68cc04672df16edb411f593ec8c527c3bd2987d5e0e44deaadb",
+      "size_bytes": 960044
+    }
+  ],
+  "boundary": "Rendered media drop manifest over actual EC2-produced visual media and diagnostic audio assets. Autonomous QA remains responsible for acceptance; current evidence is not final-release proof.",
+  "created_by": "run_wave42_final_media_generation_on_ec2.py",
+  "generated_at_utc": "2026-07-01T10:15:18+00:00",
+  "keyframe_generation": {
+    "attempts": [
+      {
+        "keyframe_id": "KF_INIT",
+        "prompt_id": "79284aa8-0003-481a-abf9-49938958d11b",
+        "seed": 42043001,
+        "sha256": "9d526b45a660c80d584e153e5a7431ea7ef4c1bc83b94e08b652208e572cb71c",
+        "source": "/home/ubuntu/ComfyUI/output/wave42_release_scene_03_sdxl_keyframe_20260701_101322_kf_init_00001_.png",
+        "status": {
+          "completed": true,
+          "messages": [
+            [
+              "execution_start",
+              {
+                "prompt_id": "79284aa8-0003-481a-abf9-49938958d11b",
+                "timestamp": 1782900802759
+              }
+            ],
+            [
+              "execution_cached",
+              {
+                "nodes": [],
+                "prompt_id": "79284aa8-0003-481a-abf9-49938958d11b",
+                "timestamp": 1782900802760
+              }
+            ],
+            [
+              "execution_success",
+              {
+                "prompt_id": "79284aa8-0003-481a-abf9-49938958d11b",
+                "timestamp": 1782900816755
+              }
+            ]
+          ],
+          "status_str": "success"
+        },
+        "target": "/home/ubuntu/ComfyUI/user/default/Wave42_Project_Package/Implementation/final_media_inbox/release_scene_03/KF_INIT.png",
+        "workflow_payload": {
+          "1": {
+            "class_type": "CheckpointLoaderSimple",
+            "inputs": {
+              "ckpt_name": "RealVisXL_V5.0_fp16.safetensors"
+            }
+          },
+          "2": {
+            "class_type": "VAELoader",
+            "inputs": {
+              "vae_name": "sdxl_vae.safetensors"
+            }
+          },
+          "3": {
+            "class_type": "CLIPTextEncode",
+            "inputs": {
+              "clip": [
+                "1",
+                1
+              ],
+              "text": "hyperrealistic cinematic five-person group in a crowded modern room, natural documentary photography, five distinct adult characters standing shoulder to shoulder, realistic faces, natural skin texture, fabric detail, practical warm overhead light, soft shadows, 35mm lens, believable depth of field, opening lockoff, the group enters the frame with subtle head turns, no text overlays, no diagram, no labels"
+            }
+          },
+          "4": {
+            "class_type": "CLIPTextEncode",
+            "inputs": {
+              "clip": [
+                "1",
+                1
+              ],
+              "text": "storyboard, diagram, colored blocks, labels, text, watermark, low quality, blurry, distorted faces, warped hands, extra limbs, plastic skin, flat illustration, cartoon, poster"
+            }
+          },
+          "5": {
+            "class_type": "EmptyLatentImage",
+            "inputs": {
+              "batch_size": 1,
+              "height": 768,
+              "width": 1024
+            }
+          },
+          "6": {
+            "class_type": "KSampler",
+            "inputs": {
+              "cfg": 5.5,
+              "denoise": 1.0,
+              "latent_image": [
+                "5",
+                0
+              ],
+              "model": [
+                "1",
+                0
+              ],
+              "negative": [
+                "4",
+                0
+              ],
+              "positive": [
+                "3",
+                0
+              ],
+              "sampler_name": "euler",
+              "scheduler": "normal",
+              "seed": 42043001,
+              "steps": 10
+            }
+          },
+          "7": {
+            "class_type": "VAEDecode",
+            "inputs": {
+              "samples": [
+                "6",
+                0
+              ],
+              "vae": [
+                "2",
+                0
+              ]
+            }
+          },
+          "8": {
+            "class_type": "SaveImage",
+            "inputs": {
+              "filename_prefix": "wave42_release_scene_03_sdxl_keyframe_20260701_101322_kf_init",
+              "images": [
+                "7",
+                0
+              ]
+            }
+          }
+        }
+      },
+      {
+        "keyframe_id": "KF_MID",
+        "prompt_id": "0ab251fd-eeeb-4bbd-9fb1-334482c25e24",
+        "seed": 42043002,
+        "sha256": "4d2e1237bd318161786eb1d2d4c73e91479dcfd1d2ddaadf038058d745a70982",
+        "source": "/home/ubuntu/ComfyUI/output/wave42_release_scene_03_sdxl_keyframe_20260701_101322_kf_mid_00001_.png",
+        "status": {
+          "completed": true,
+          "messages": [
+            [
+              "execution_start",
+              {
+                "prompt_id": "0ab251fd-eeeb-4bbd-9fb1-334482c25e24",
+                "timestamp": 1782900817105
+              }
+            ],
+            [
+              "execution_cached",
+              {
+                "nodes": [
+                  "1",
+                  "2",
+                  "4",
+                  "5"
+                ],
+                "prompt_id": "0ab251fd-eeeb-4bbd-9fb1-334482c25e24",
+                "timestamp": 1782900817105
+              }
+            ],
+            [
+              "execution_success",
+              {
+                "prompt_id": "0ab251fd-eeeb-4bbd-9fb1-334482c25e24",
+                "timestamp": 1782900820194
+              }
+            ]
+          ],
+          "status_str": "success"
+        },
+        "target": "/home/ubuntu/ComfyUI/user/default/Wave42_Project_Package/Implementation/final_media_inbox/release_scene_03/KF_MID.png",
+        "workflow_payload": {
+          "1": {
+            "class_type": "CheckpointLoaderSimple",
+            "inputs": {
+              "ckpt_name": "RealVisXL_V5.0_fp16.safetensors"
+            }
+          },
+          "2": {
+            "class_type": "VAELoader",
+            "inputs": {
+              "vae_name": "sdxl_vae.safetensors"
+            }
+          },
+          "3": {
+            "class_type": "CLIPTextEncode",
+            "inputs": {
+              "clip": [
+                "1",
+                1
+              ],
+              "text": "hyperrealistic cinematic five-person group in a crowded modern room, natural documentary photography, five distinct adult characters standing shoulder to shoulder, realistic faces, natural skin texture, fabric detail, practical warm overhead light, soft shadows, 35mm lens, believable depth of field, mid-scene beat, the group reacts to a sound from off camera, no text overlays, no diagram, no labels"
+            }
+          },
+          "4": {
+            "class_type": "CLIPTextEncode",
+            "inputs": {
+              "clip": [
+                "1",
+                1
+              ],
+              "text": "storyboard, diagram, colored blocks, labels, text, watermark, low quality, blurry, distorted faces, warped hands, extra limbs, plastic skin, flat illustration, cartoon, poster"
+            }
+          },
+          "5": {
+            "class_type": "EmptyLatentImage",
+            "inputs": {
+              "batch_size": 1,
+              "height": 768,
+              "width": 1024
+            }
+          },
+          "6": {
+            "class_type": "KSampler",
+            "inputs": {
+              "cfg": 5.5,
+              "denoise": 1.0,
+              "latent_image": [
+                "5",
+                0
+              ],
+              "model": [
+                "1",
+                0
+              ],
+              "negative": [
+                "4",
+                0
+              ],
+              "positive": [
+                "3",
+                0
+              ],
+              "sampler_name": "euler",
+              "scheduler": "normal",
+              "seed": 42043002,
+              "steps": 10
+            }
+          },
+          "7": {
+            "class_type": "VAEDecode",
+            "inputs": {
+              "samples": [
+                "6",
+                0
+              ],
+              "vae": [
+                "2",
+                0
+              ]
+            }
+          },
+          "8": {
+            "class_type": "SaveImage",
+            "inputs": {
+              "filename_prefix": "wave42_release_scene_03_sdxl_keyframe_20260701_101322_kf_mid",
+              "images": [
+                "7",
+                0
+              ]
+            }
+          }
+        }
+      },
+      {
+        "keyframe_id": "KF_END",
+        "prompt_id": "d8004d0f-35da-47d9-a6f3-9757b913f0d8",
+        "seed": 42043003,
+        "sha256": "9b5e02983bdd8a82706854d642e2181edb58fb150b1fbae4772e3d53db6ff072",
+        "source": "/home/ubuntu/ComfyUI/output/wave42_release_scene_03_sdxl_keyframe_20260701_101322_kf_end_00001_.png",
+        "status": {
+          "completed": true,
+          "messages": [
+            [
+              "execution_start",
+              {
+                "prompt_id": "d8004d0f-35da-47d9-a6f3-9757b913f0d8",
+                "timestamp": 1782900821130
+              }
+            ],
+            [
+              "execution_cached",
+              {
+                "nodes": [
+                  "1",
+                  "2",
+                  "4",
+                  "5"
+                ],
+                "prompt_id": "d8004d0f-35da-47d9-a6f3-9757b913f0d8",
+                "timestamp": 1782900821131
+              }
+            ],
+            [
+              "execution_success",
+              {
+                "prompt_id": "d8004d0f-35da-47d9-a6f3-9757b913f0d8",
+                "timestamp": 1782900824230
+              }
+            ]
+          ],
+          "status_str": "success"
+        },
+        "target": "/home/ubuntu/ComfyUI/user/default/Wave42_Project_Package/Implementation/final_media_inbox/release_scene_03/KF_END.png",
+        "workflow_payload": {
+          "1": {
+            "class_type": "CheckpointLoaderSimple",
+            "inputs": {
+              "ckpt_name": "RealVisXL_V5.0_fp16.safetensors"
+            }
+          },
+          "2": {
+            "class_type": "VAELoader",
+            "inputs": {
+              "vae_name": "sdxl_vae.safetensors"
+            }
+          },
+          "3": {
+            "class_type": "CLIPTextEncode",
+            "inputs": {
+              "clip": [
+                "1",
+                1
+              ],
+              "text": "hyperrealistic cinematic five-person group in a crowded modern room, natural documentary photography, five distinct adult characters standing shoulder to shoulder, realistic faces, natural skin texture, fabric detail, practical warm overhead light, soft shadows, 35mm lens, believable depth of field, closing beat, the group settles into a tense quiet pose, no text overlays, no diagram, no labels"
+            }
+          },
+          "4": {
+            "class_type": "CLIPTextEncode",
+            "inputs": {
+              "clip": [
+                "1",
+                1
+              ],
+              "text": "storyboard, diagram, colored blocks, labels, text, watermark, low quality, blurry, distorted faces, warped hands, extra limbs, plastic skin, flat illustration, cartoon, poster"
+            }
+          },
+          "5": {
+            "class_type": "EmptyLatentImage",
+            "inputs": {
+              "batch_size": 1,
+              "height": 768,
+              "width": 1024
+            }
+          },
+          "6": {
+            "class_type": "KSampler",
+            "inputs": {
+              "cfg": 5.5,
+              "denoise": 1.0,
+              "latent_image": [
+                "5",
+                0
+              ],
+              "model": [
+                "1",
+                0
+              ],
+              "negative": [
+                "4",
+                0
+              ],
+              "positive": [
+                "3",
+                0
+              ],
+              "sampler_name": "euler",
+              "scheduler": "normal",
+              "seed": 42043003,
+              "steps": 10
+            }
+          },
+          "7": {
+            "class_type": "VAEDecode",
+            "inputs": {
+              "samples": [
+                "6",
+                0
+              ],
+              "vae": [
+                "2",
+                0
+              ]
+            }
+          },
+          "8": {
+            "class_type": "SaveImage",
+            "inputs": {
+              "filename_prefix": "wave42_release_scene_03_sdxl_keyframe_20260701_101322_kf_end",
+              "images": [
+                "7",
+                0
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "generated": true,
+    "model_files": {
+      "checkpoint": {
+        "path": "RealVisXL_V5.0_fp16.safetensors",
+        "sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+        "size_bytes": 6938065488
+      },
+      "vae": {
+        "path": "sdxl_vae.safetensors",
+        "sha256": "63aeecb90ff7bc1c115395962d3e803571385b61938377bc7089b36e81e92e2e",
+        "size_bytes": 334641164
+      }
+    },
+    "status": "generated_sdxl_keyframes"
+  },
+  "rights_evidence": {
+    "foley_original_recording_evidence": [
+      {
+        "path": "sfx_foley_original_generated.wav",
+        "status": "generated_original_diagnostic"
+      }
+    ],
+    "music_license_or_original_composition": {
+      "path": "music_original_generated_bed.wav",
+      "status": "generated_original_diagnostic"
+    },
+    "sfx_ambience_generation_evidence": [
+      {
+        "path": "sfx_foley_original_generated.wav",
+        "status": "generated_original_diagnostic"
+      }
+    ],
+    "voice_approvals": [
+      "local diagnostic/procedural voice or surrogate only; third-party OS/provider production license review remains required"
+    ]
+  },
+  "scene_id": "release_scene_03",
+  "video": {
+    "duration_seconds": 10.0,
+    "engine": "ComfyUI LTXV image-to-video plus ffmpeg mux",
+    "fallback_profile_selected": false,
+    "fps": 8.0,
+    "model_ids": [
+      "ltxv-2b-0.9.8-distilled-fp8.safetensors",
+      "t5xxl_fp8_e4m3fn.safetensors"
+    ],
+    "path": "release_scene_03_final_video_candidate.mp4",
+    "prompt_or_run_plan_ref": "VID_PLAN_05_FIVE_CHARACTER_GROUP",
+    "release_resolution_attempted": true,
+    "release_resolution_succeeded": true,
+    "resolution": "1280x704",
+    "selected_render_profile": {
+      "fps": 8.0,
+      "height": 720,
+      "length": 49,
+      "source": "WAVE42_FINAL_RENDER_PROFILES",
+      "steps": 8,
+      "width": 1280
+    },
+    "sha256": "65a69b8f16a92e0a119f68698b45537076c58da647113d37cb78e8bb352e4718",
+    "size_bytes": 812208
+  }
+}
