@@ -17,22 +17,25 @@ from zoneinfo import ZoneInfo
 ROOT = Path("C:/Comfy_UI_Main")
 TRK = "TRK-W64-019"
 ITEM = "ITEM-W64-019"
-STATUS = "Blocked_Keyframe_Repair_Loop_And_Production_Sequence_Proof_Missing"
-DECISION = "wan_primary_bounded_runtime_technical_visual_pass_remaining_video_pipeline_gates_fail_closed"
+STATUS = "Blocked_Keyframe_And_Repair_Proof_Missing_Bounded_Wan_Temporal_And_Loop_Pass"
+DECISION = "wan_bounded_runtime_multiclip_temporal_and_loop_export_pass_keyframe_and_repair_fail_closed"
 CANONICAL = Path("Plan/Instructions/QA/Evidence/Wave64/video_pipeline_build.json")
 SOURCES = {
     "prior": Path("Plan/Instructions/QA/Evidence/Wave64/VIDEO_PIPELINE_BUILD_RUNTIME_RECONCILIATION_20260713T024108-0500.json"),
     "runtime": Path("Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_WAN22_TI2V5B_TARGET_RUNTIME_SMOKE_20260714T004424-0500.json"),
     "technical": Path("Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_TI2V5B_TARGET_RUNTIME_TECHNICAL_QA_20260714T004424-0500.json"),
     "visual": Path("Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_TI2V5B_TARGET_RUNTIME_VISUAL_QA_20260714T004424-0500.json"),
+    "temporal": Path("Plan/Instructions/QA/Evidence/Wave64/VIDEO_TEMPORAL_VISUAL_REVIEW_WAN22_COMPLETION_20260714T051404-0500.json"),
+    "shot_plan": Path("Plan/Instructions/QA/Evidence/Wave64/Reference_Video_Input/wan22_source_diversity_loop_shot_plan.json"),
     "repair": Path("Plan/Instructions/QA/Evidence/Wave64/VIDEO_FRAME_REPAIR_REAL_SEQUENCE_ROUTING_20260713T042629-0500.json"),
-    "loop": Path("Plan/Instructions/QA/Evidence/Wave64/VIDEO_GIF_LOOP_EXPORT_REAL_RUNTIME_20260713T044336-0500.json"),
+    "loop": Path("Plan/Instructions/QA/Evidence/Wave64/VIDEO_GIF_LOOP_EXPORT_WAN22_COMPLETION_20260714T055507-0500.json"),
     "portfolio": Path("Plan/10_REGISTRIES/comfyui_delivery_portfolio_registry.json"),
 }
 NOTE = (
     "Wave64 Row019 WAN reconciliation: one hash-bound 49-frame primary clip passed target runtime, technical QA, "
     "and bounded direct temporal review. Keyframe manifest integration, effective repair, clean loop export, and "
-    "production-sequence review remain fail-closed, and the failed AnimateDiff fallback remains historical evidence."
+    "bounded multi-clip temporal review and loop export pass. Keyframe eligibility and effective repair remain "
+    "fail-closed, and the failed AnimateDiff fallback remains historical evidence."
 )
 
 
@@ -81,7 +84,7 @@ def normalize_note(current: str) -> str:
 def replace_coverage(current: str) -> str:
     stale = {"video_visual_temporal_quality_failure", "animatediff_visual_temporal_failure_active"}
     entries = [entry.strip() for entry in (current or "").split(";") if entry.strip() and entry.strip() not in stale]
-    for value in ("wan_primary_bounded_runtime_pass", "wan_49_frame_technical_pass", "wan_bounded_direct_temporal_review_pass", "video_pipeline_remaining_gates_fail_closed"):
+    for value in ("wan_primary_bounded_runtime_pass", "wan_196_frame_multiclip_temporal_pass", "wan_bounded_loop_export_pass", "keyframe_and_repair_gates_fail_closed"):
         if value not in entries:
             entries.append(value)
     return "; ".join(entries)
@@ -92,6 +95,7 @@ def build(root: Path, source_paths: dict[str, Path], timestamp: str) -> dict[str
     paths = {name: (path if path.is_absolute() else root / path).resolve() for name, path in source_paths.items()}
     data = {name: load(path) for name, path in paths.items()}
     prior, runtime, technical, visual = data["prior"], data["runtime"], data["technical"], data["visual"]
+    temporal, shot_plan = data["temporal"], data["shot_plan"]
     repair, loop, portfolio = data["repair"], data["loop"], data["portfolio"]
 
     require(prior.get("tracker_id") == TRK and prior.get("item_id") == ITEM, "prior Row019 identity mismatch")
@@ -133,14 +137,30 @@ def build(root: Path, source_paths: dict[str, Path], timestamp: str) -> dict[str
     require(visual_boundaries.get("long_duration_quality_claimed") is False, "WAN visual evidence overclaims duration quality")
     require(visual_boundaries.get("multiseed_robustness_claimed") is False, "WAN visual evidence overclaims multiseed robustness")
 
+    require(temporal.get("tracker_id") == "TRK-W64-021", "temporal review identity mismatch")
+    temporal_scope = temporal.get("bounded_evidence_scope", {})
+    temporal_gates = temporal.get("gate_results", {})
+    require(temporal_scope.get("clip_count") == 4 and temporal_scope.get("total_decoded_frames") == 196, "bounded multi-clip temporal scope missing")
+    require(temporal_gates.get("bounded_temporal_visual_pass") is True, "bounded multi-clip temporal review did not pass")
+    require(temporal_gates.get("production_video_lane_certification") is False, "temporal review overclaims production certification")
+    require(temporal.get("boundaries", {}).get("long_duration_quality_claimed") is False, "temporal review overclaims duration quality")
+
+    require(shot_plan.get("shot_plan_id") == "wan22_source_diversity_seed2271401_loop_reference_candidate", "shot plan identity mismatch")
+    require(shot_plan.get("candidate_only") is True and shot_plan.get("promotion_ready") is False, "shot plan promotion boundary missing")
+    require(shot_plan.get("target_output_generated") is False, "shot plan unexpectedly claims target generation")
+    require(shot_plan.get("selected_segment", {}).get("start_frame") == 12 and shot_plan.get("selected_segment", {}).get("end_frame") == 24, "shot plan segment mismatch")
+
     repair_gates = repair.get("gate_results", {})
     require(repair.get("tracker_id") == "TRK-W64-023", "repair evidence identity mismatch")
     require(repair_gates.get("repaired_candidate_present") is False and repair_gates.get("frame_repair_effectiveness", False) is False, "repair unexpectedly proven")
     require(repair_gates.get("final_temporal_acceptance") is False, "repair final acceptance unexpectedly true")
     loop_gates = loop.get("gate_results", {})
     require(loop.get("tracker_id") == "TRK-W64-024", "loop evidence identity mismatch")
-    require(loop_gates.get("technical_export_pass") is True, "loop technical export proof missing")
-    require(loop_gates.get("loop_playback_visual_pass") is False and loop_gates.get("final_export_certification") is False, "loop visual failure missing")
+    require(loop.get("result") == "pass_bounded_wan22_gif_loop_export_certification", "bounded WAN loop completion missing")
+    require(loop_gates.get("bounded_gif_export_certification") is True, "bounded loop certification did not pass")
+    require(loop_gates.get("visual_loop_review") is True and loop_gates.get("identity_and_no_popping") is True, "bounded loop visual proof missing")
+    require(loop_gates.get("production_video_lane_certification") is False, "loop evidence overclaims production certification")
+    require(loop.get("negative_evidence_preserved", {}).get("failed_animatediff_status") == "Blocked_Video_GIF_Loop_Playback_Quality_Failure", "failed AnimateDiff loop evidence not preserved")
 
     portfolio_row = next((row for row in portfolio.get("lanes", []) if row.get("lane_id") == "wan_2_2_primary_candidate"), None)
     require(bool(portfolio_row), "WAN portfolio row missing")
@@ -151,13 +171,15 @@ def build(root: Path, source_paths: dict[str, Path], timestamp: str) -> dict[str
         "video_workflow_valid": True,
         "keyframe_manifest": False,
         "frame_sequence_manifest": True,
-        "loop_export_gate": False,
+        "loop_export_gate": True,
         "artifact_evidence": True,
         "frame_repair_effectiveness": False,
-        "strict_frame_sequence_visual_review": False,
+        "strict_frame_sequence_visual_review": True,
         "bounded_primary_clip_runtime": True,
         "bounded_primary_clip_technical_qa": True,
         "bounded_primary_clip_direct_temporal_review": True,
+        "bounded_multiclip_temporal_review": True,
+        "bounded_gif_loop_export_certification": True,
     }
     checks = {
         "VPB-R01_prior_row019_contract_preserved": True,
@@ -171,8 +193,8 @@ def build(root: Path, source_paths: dict[str, Path], timestamp: str) -> dict[str
         "VPB-R07B_visual_certification_duration_and_robustness_not_claimed": not any((visual_boundaries["production_video_lane_certification_claimed"], visual_boundaries["long_duration_quality_claimed"], visual_boundaries["multiseed_robustness_claimed"])),
         "VPB-R08_keyframe_manifest_remains_blocked": gates["keyframe_manifest"] is False,
         "VPB-R09_repair_effectiveness_remains_blocked": gates["frame_repair_effectiveness"] is False,
-        "VPB-R10_loop_export_remains_blocked": gates["loop_export_gate"] is False,
-        "VPB-R11_production_sequence_review_remains_blocked": gates["strict_frame_sequence_visual_review"] is False,
+        "VPB-R10_bounded_loop_export_pass": gates["loop_export_gate"] is True,
+        "VPB-R11_bounded_multiclip_sequence_review_pass": gates["strict_frame_sequence_visual_review"] is True,
         "VPB-R12_failed_animatediff_fallback_preserved": prior["latest_runtime_attempt"]["visual_temporal_pass"] is False,
         "VPB-R13_instance_stopped": runtime["execution_target"]["final_instance_state"] == "stopped",
         "VPB-R14_no_generation_or_cloud_action_in_reconciliation": True,
@@ -182,8 +204,6 @@ def build(root: Path, source_paths: dict[str, Path], timestamp: str) -> dict[str
     blockers = [
         {"blocker_id": "KEYFRAME_MANIFEST_INTEGRATION_MISSING", "resolution": "Bind a real shot/keyframe manifest to a selected production sequence."},
         {"blocker_id": "FRAME_REPAIR_EFFECTIVENESS_NOT_PROVEN", "resolution": "Produce and directly compare a repaired candidate for a real failed span."},
-        {"blocker_id": "FINAL_LOOP_EXPORT_VISUAL_QA_FAILED", "resolution": "Produce a loop candidate without the recorded frames 5-7 popping and corruption."},
-        {"blocker_id": "PRODUCTION_SEQUENCE_REVIEW_NOT_PROVEN", "resolution": "Run scope-matched multi-clip production review; do not generalize one bounded WAN clip."},
         {"blocker_id": "CONTACT_SOFT_BODY_VIDEO_SCOPE_BLOCKED_GOLD_MASKS", "resolution": "Keep contact and soft-body claims blocked until trusted body/contact masks are available."},
     ]
     bindings = {name: bind(path, root) for name, path in paths.items()}
@@ -208,14 +228,16 @@ def build(root: Path, source_paths: dict[str, Path], timestamp: str) -> dict[str
             "production_lane_certified": False,
         },
         "historical_fallback_attempt": deepcopy(prior["latest_runtime_attempt"]),
+        "bounded_temporal_review": {"clip_count": 4, "total_decoded_frames": 196, "pass": True, "production_lane_certified": False},
+        "keyframe_candidate_state": {"shot_plan_id": shot_plan["shot_plan_id"], "candidate_only": True, "promotion_ready": False, "keyframe_manifest_gate": False},
         "repair_state": {"status_decision": repair.get("status_decision"), "gate_results": repair_gates},
-        "loop_export_state": {"status_decision": loop.get("status_decision"), "gate_results": loop_gates, "failed_frame_indexes": loop.get("failed_frame_indexes")},
+        "loop_export_state": {"status_decision": loop.get("status_decision"), "gate_results": loop_gates, "negative_evidence_preserved": loop.get("negative_evidence_preserved")},
         "normalized_blockers": blockers,
         "checks": [{"name": name, "result": "pass"} for name in checks],
         "check_summary": {"checked": len(checks), "passed": len(checks), "failed": 0},
         "source_bindings": bindings,
         "safety_boundary": {"generation_executed_in_reconciliation": False, "aws_contacted_in_reconciliation": False, "ec2_started": False, "mask_or_wave71_or_jira_touched": False, "full_video_certification_claimed": False},
-        "next_action": "Implement a real keyframe manifest and select one changed production sequence that can exercise repair and loop acceptance without repeating the completed WAN smoke.",
+        "next_action": "Bind a promoted, QA-approved still image into a real keyframe handoff manifest and exercise one genuine repair span without repeating completed WAN or loop proofs.",
     }
 
 
