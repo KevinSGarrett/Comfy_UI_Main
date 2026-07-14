@@ -1,0 +1,190 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "VIDEO_KEYFRAME_HANDOFF_READINESS_20260714T133824-0500",
+  "timestamp": "2026-07-14T13:38:24-05:00",
+  "tracker_id": "TRK-W64-019",
+  "item_id": "ITEM-W64-019",
+  "status": "Blocked_Keyframe_And_Repair_Proof_Missing_Bounded_Wan_Temporal_And_Loop_Pass",
+  "row_complete": false,
+  "result": "pass_candidate_compilation_blocked_production_keyframe_eligibility",
+  "candidate_manifest": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/Video_Keyframes/normal_v4_wan22_keyframe_handoff_candidate.json",
+    "sha256": "20dae84c573122a58a43be1bbdec436e4da99d781e2155422635eb591fd24ad3",
+    "bytes": 7078
+  },
+  "eligibility": {
+    "gates": {
+      "base_image_qa_passed": true,
+      "base_image_scored": true,
+      "refine_bridge_qa_passed": false,
+      "character_count_body_visibility_passed": true,
+      "identity_camera_environment_continuity_passed": false,
+      "output_hash_recorded": true,
+      "frame_contract_exported": false,
+      "required_promoted_keyframes_exist": false,
+      "environment_profile_exists": false,
+      "character_profile_exists": false,
+      "engine_route_valid": true,
+      "model_assets_registered": true,
+      "output_path_defined": true,
+      "promotion_allowed": false,
+      "promoted_artifact": false
+    },
+    "failed_gates": [
+      "refine_bridge_qa_passed",
+      "identity_camera_environment_continuity_passed",
+      "frame_contract_exported",
+      "required_promoted_keyframes_exist",
+      "environment_profile_exists",
+      "character_profile_exists",
+      "promotion_allowed",
+      "promoted_artifact"
+    ],
+    "all_required_gates_passed": false,
+    "production_keyframe_eligible": false
+  },
+  "promotion": {
+    "promotion_allowed": false,
+    "promotion_ready": false,
+    "promoted_artifact": false,
+    "decision": "deny_no_promotion_request",
+    "source_evidence": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/future_lane_promotion.json",
+      "sha256": "0131ef3a4cb513243d49d7250a80c75f6ec4f78642aa292603b6c9ebcf799fbf",
+      "bytes": 13042
+    }
+  },
+  "checks": [
+    {
+      "name": "VKH-R01_schema_valid",
+      "result": "pass"
+    },
+    {
+      "name": "VKH-R02_source_image_exists_and_hash_matches_qa",
+      "result": "pass"
+    },
+    {
+      "name": "VKH-R03_runtime_input_path_and_hash_match_candidate",
+      "result": "pass"
+    },
+    {
+      "name": "VKH-R04_base_image_bounded_qa_passed",
+      "result": "pass"
+    },
+    {
+      "name": "VKH-R05_character_count_and_body_visibility_passed",
+      "result": "pass"
+    },
+    {
+      "name": "VKH-R06_wan_route_runtime_ready",
+      "result": "pass"
+    },
+    {
+      "name": "VKH-R07_model_assets_registered_in_reused_runtime",
+      "result": "pass"
+    },
+    {
+      "name": "VKH-R08_promotion_denied_without_request",
+      "result": "pass"
+    },
+    {
+      "name": "VKH-R09_failed_gates_derived_from_boolean_map",
+      "result": "pass"
+    },
+    {
+      "name": "VKH-R10_candidate_only_overclaim_guard",
+      "result": "pass"
+    },
+    {
+      "name": "VKH-R11_no_runtime_or_cloud_action",
+      "result": "pass"
+    },
+    {
+      "name": "VKH-R12_no_mask_or_wave71_or_jira_action",
+      "result": "pass"
+    },
+    {
+      "name": "VKH-R13_frame_rate_and_duration_bound_to_technical_qa",
+      "result": "pass"
+    }
+  ],
+  "check_summary": {
+    "checked": 13,
+    "passed": 13,
+    "failed": 0
+  },
+  "normalized_blockers": [
+    {
+      "blocker_id": "KEYFRAME_CANDIDATE_NOT_PROMOTION_ELIGIBLE",
+      "failed_gates": [
+        "refine_bridge_qa_passed",
+        "identity_camera_environment_continuity_passed",
+        "frame_contract_exported",
+        "required_promoted_keyframes_exist",
+        "environment_profile_exists",
+        "character_profile_exists",
+        "promotion_allowed",
+        "promoted_artifact"
+      ],
+      "resolution": "Provide scope-matched refine, identity/camera/environment continuity, frame-contract, profile, and explicit image-promotion proof before setting keyframe_manifest true."
+    },
+    {
+      "blocker_id": "FRAME_REPAIR_EFFECTIVENESS_NOT_PROVEN",
+      "resolution": "After an eligible promoted keyframe exists, produce and directly compare a repaired candidate for one genuine failed span."
+    },
+    {
+      "blocker_id": "CONTACT_SOFT_BODY_VIDEO_SCOPE_BLOCKED_GOLD_MASKS",
+      "resolution": "Keep contact and soft-body claims blocked until trusted body/contact masks are available."
+    }
+  ],
+  "source_bindings": {
+    "base_qa": {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_NORMAL_V4_FULL_BODY_STANDING_QA_20260711T041000-0500.json",
+      "sha256": "783b6f51815d7158b0d0e11424929ebec7f271126465670f342a078cda2cdd01",
+      "bytes": 4592
+    },
+    "runtime": {
+      "path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_WAN22_TI2V5B_TARGET_RUNTIME_SMOKE_20260714T004424-0500.json",
+      "sha256": "283f7c5f9fbd28f5576986a3d16aef6e3688700764266c55a3912b6432e348b0",
+      "bytes": 4995
+    },
+    "technical": {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_TI2V5B_TARGET_RUNTIME_TECHNICAL_QA_20260714T004424-0500.json",
+      "sha256": "ef5960a1180b70335bdd6a5d5b29ec19d3d64a9db3f4c1424ece2e61b08f0772",
+      "bytes": 3415
+    },
+    "promotion": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/future_lane_promotion.json",
+      "sha256": "0131ef3a4cb513243d49d7250a80c75f6ec4f78642aa292603b6c9ebcf799fbf",
+      "bytes": 13042
+    },
+    "route": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/video_engine_routing.json",
+      "sha256": "f7ddb96c6aed760c281f144ad50187c5e2fb5b1b0784495536bc47e5a315bf22",
+      "bytes": 6650
+    },
+    "shot_plan": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/Reference_Video_Input/wan22_source_diversity_loop_shot_plan.json",
+      "sha256": "c9ca82efa9c524b944cfa7d5033bc435844a955ab69930220059edac741208b1",
+      "bytes": 1320
+    }
+  },
+  "safety": {
+    "generation_executed": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "masks_consumed_as_truth": false,
+    "mask_promotion": false,
+    "wave70_hard_gate_rerun": false,
+    "wave71_activated": false,
+    "jira_mutated": false
+  },
+  "next_action": "Satisfy the exact failed keyframe eligibility gates without rerunning completed WAN, temporal, or loop proofs; then exercise one genuine repair span.",
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/Video_Keyframes/normal_v4_wan22_keyframe_handoff_candidate.json",
+    "Plan/Instructions/QA/Evidence/Wave64/video_keyframe_handoff_readiness.json",
+    "Plan/Instructions/QA/Evidence/Wave64/VIDEO_KEYFRAME_HANDOFF_READINESS_20260714T133824-0500.json",
+    "Plan/Tracker/Evidence/VIDEO_KEYFRAME_HANDOFF_READINESS_20260714T133824-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/video_keyframe_handoff_readiness_test_log.json"
+  ]
+}

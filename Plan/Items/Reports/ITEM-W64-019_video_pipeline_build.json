@@ -21,8 +21,32 @@
   },
   "normalized_blockers": [
     {
-      "blocker_id": "KEYFRAME_MANIFEST_INTEGRATION_MISSING",
-      "resolution": "Bind a real shot/keyframe manifest to a selected production sequence."
+      "blocker_id": "KEYFRAME_CANDIDATE_NOT_PROMOTION_ELIGIBLE",
+      "failed_gates": [
+        "refine_bridge_qa_passed",
+        "identity_camera_environment_continuity_passed",
+        "frame_contract_exported",
+        "required_promoted_keyframes_exist",
+        "environment_profile_exists",
+        "character_profile_exists",
+        "promotion_allowed",
+        "promoted_artifact"
+      ],
+      "resolution": "Provide scope-matched refine, identity/camera/environment continuity, frame-contract, profile, and explicit image-promotion proof before setting keyframe_manifest true."
+    },
+    {
+      "blocker_id": "KEYFRAME_CANDIDATE_NOT_PROMOTION_ELIGIBLE",
+      "failed_gates": [
+        "refine_bridge_qa_passed",
+        "identity_camera_environment_continuity_passed",
+        "frame_contract_exported",
+        "required_promoted_keyframes_exist",
+        "environment_profile_exists",
+        "character_profile_exists",
+        "promotion_allowed",
+        "promoted_artifact"
+      ],
+      "resolution": "Provide scope-matched refine, identity/camera/environment continuity, frame-contract, profile, and explicit image-promotion proof before setting keyframe_manifest true."
     },
     {
       "blocker_id": "FRAME_REPAIR_EFFECTIVENESS_NOT_PROVEN",
@@ -38,7 +62,14 @@
     "Plan/Instructions/QA/Evidence/Wave64/VIDEO_PIPELINE_BUILD_WAN_RECONCILIATION_20260714T131812-0500.json",
     "Plan/Tracker/Evidence/VIDEO_PIPELINE_BUILD_WAN_RECONCILIATION_20260714T131812-0500.json",
     "Plan/Instructions/QA/Evidence/Wave64/video_pipeline_build_test_log.json",
-    "Plan/Items/Reports/ITEM-W64-019_video_pipeline_build.json"
+    "Plan/Items/Reports/ITEM-W64-019_video_pipeline_build.json",
+    "Plan/Instructions/QA/Evidence/Wave64/Video_Keyframes/normal_v4_wan22_keyframe_handoff_candidate.json",
+    "Plan/Instructions/QA/Evidence/Wave64/video_keyframe_handoff_readiness.json",
+    "Plan/Instructions/QA/Evidence/Wave64/VIDEO_KEYFRAME_HANDOFF_READINESS_20260714T133824-0500.json",
+    "Plan/Tracker/Evidence/VIDEO_KEYFRAME_HANDOFF_READINESS_20260714T133824-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/video_keyframe_handoff_readiness_test_log.json",
+    "Plan/08_SCHEMAS/video_keyframe_handoff.schema.json",
+    "Plan/07_IMPLEMENTATION/scripts/build_wave64_video_keyframe_handoff.py"
   ],
-  "next_action": "Bind a promoted, QA-approved still image into a real keyframe handoff manifest and exercise one genuine repair span without repeating completed WAN or loop proofs."
+  "next_action": "Satisfy the exact failed keyframe eligibility gates without rerunning completed WAN, temporal, or loop proofs; then exercise one genuine repair span."
 }

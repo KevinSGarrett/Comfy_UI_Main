@@ -1,0 +1,185 @@
+{
+  "schema_version": "1.0",
+  "manifest_id": "normal_v4_wan22_keyframe_handoff_candidate",
+  "timestamp": "2026-07-14T13:38:24-05:00",
+  "tracker_id": "TRK-W64-019",
+  "item_id": "ITEM-W64-019",
+  "status": "blocked_candidate_hash_bound_not_promotion_eligible",
+  "candidate": {
+    "shot_id": "wan22_fullbody_standing_seed2271301_bounded_smoke_candidate",
+    "scene_id": "normal_v4_fullbody_standing_unbound_scene_candidate",
+    "environment_id": null,
+    "character_ids": [],
+    "output_type": "video",
+    "frame_rate_target": 24,
+    "duration_seconds": 2.04,
+    "camera_plan_id": null,
+    "pose_plan_id": null,
+    "continuity_dependencies": [],
+    "qa_targets": [
+      "identity_stability",
+      "environment_stability",
+      "body_visibility",
+      "temporal_stability"
+    ],
+    "keyframe_artifact": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v4_full_body_standing_seed711670301_20260711T035900-0500/images/normal_v4_fullbody_standing_711670301_00001_.png",
+      "sha256": "b01b694125e08027195baf3c5a4eeac472eba242bfb4bbe69473625844134fc1",
+      "bytes": 800700,
+      "width": 768,
+      "height": 1024
+    },
+    "base_image_qa": {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_NORMAL_V4_FULL_BODY_STANDING_QA_20260711T041000-0500.json",
+      "sha256": "783b6f51815d7158b0d0e11424929ebec7f271126465670f342a078cda2cdd01",
+      "passed": true,
+      "scored": true,
+      "decision": "pass_with_notes_local_normal_v4_full_body_scope"
+    },
+    "runtime_context": {
+      "bounded_smoke_previously_executed": true,
+      "runtime_input_hash_matched": true,
+      "selected_engine": "wan",
+      "engine_route_runtime_ready": true,
+      "production_video_certified": false,
+      "final_instance_state": "stopped"
+    },
+    "generation_metadata": {
+      "source_base_engine": "sdxl_realvisxl_controlnet_normal_lane",
+      "refine_engine": null,
+      "seed": 711670301,
+      "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+      "denoise_history": [
+        {
+          "stage": "base_generation",
+          "denoise": 1.0
+        }
+      ]
+    },
+    "control_maps_used": [
+      {
+        "path": "Plan/Instructions/Operations/Prepared_Input_Assets/normal_full_body_standing_w70_v1/controlnet_normal_bae_full_body_standing_w70_v1.png",
+        "sha256": "ff7695e83c73dc53025a7ab960a11d6e46299dcde546d26a5d46bce8637dc6fd",
+        "bytes": 207794
+      }
+    ],
+    "masks_used": [],
+    "failure_rerun_history": [],
+    "candidate_only": true
+  },
+  "eligibility": {
+    "gates": {
+      "base_image_qa_passed": true,
+      "base_image_scored": true,
+      "refine_bridge_qa_passed": false,
+      "character_count_body_visibility_passed": true,
+      "identity_camera_environment_continuity_passed": false,
+      "output_hash_recorded": true,
+      "frame_contract_exported": false,
+      "required_promoted_keyframes_exist": false,
+      "environment_profile_exists": false,
+      "character_profile_exists": false,
+      "engine_route_valid": true,
+      "model_assets_registered": true,
+      "output_path_defined": true,
+      "promotion_allowed": false,
+      "promoted_artifact": false
+    },
+    "failed_gates": [
+      "refine_bridge_qa_passed",
+      "identity_camera_environment_continuity_passed",
+      "frame_contract_exported",
+      "required_promoted_keyframes_exist",
+      "environment_profile_exists",
+      "character_profile_exists",
+      "promotion_allowed",
+      "promoted_artifact"
+    ],
+    "all_required_gates_passed": false,
+    "production_keyframe_eligible": false
+  },
+  "promotion": {
+    "promotion_allowed": false,
+    "promotion_ready": false,
+    "promoted_artifact": false,
+    "decision": "deny_no_promotion_request",
+    "source_evidence": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/future_lane_promotion.json",
+      "sha256": "0131ef3a4cb513243d49d7250a80c75f6ec4f78642aa292603b6c9ebcf799fbf",
+      "bytes": 13042
+    }
+  },
+  "proof_scope": {
+    "established": [
+      "exact still path and SHA256",
+      "bounded local full-body image QA pass with notes",
+      "exact still reused as input to one completed bounded WAN target-runtime smoke",
+      "WAN route and model assets proven for the bounded smoke contract"
+    ],
+    "excluded": [
+      "promoted production keyframe",
+      "refine bridge QA",
+      "registered character identity continuity",
+      "registered environment and camera continuity",
+      "exported frame composition contract",
+      "production video lane certification",
+      "body mask or geometry authority"
+    ],
+    "production_keyframe_claimed": false,
+    "production_video_lane_certification_claimed": false
+  },
+  "safety": {
+    "generation_executed": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "masks_consumed_as_truth": false,
+    "mask_promotion": false,
+    "wave70_hard_gate_rerun": false,
+    "wave71_activated": false,
+    "jira_mutated": false
+  },
+  "provenance": {
+    "source_bindings": {
+      "base_qa": {
+        "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_NORMAL_V4_FULL_BODY_STANDING_QA_20260711T041000-0500.json",
+        "sha256": "783b6f51815d7158b0d0e11424929ebec7f271126465670f342a078cda2cdd01",
+        "bytes": 4592
+      },
+      "runtime": {
+        "path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_WAN22_TI2V5B_TARGET_RUNTIME_SMOKE_20260714T004424-0500.json",
+        "sha256": "283f7c5f9fbd28f5576986a3d16aef6e3688700764266c55a3912b6432e348b0",
+        "bytes": 4995
+      },
+      "technical": {
+        "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_TI2V5B_TARGET_RUNTIME_TECHNICAL_QA_20260714T004424-0500.json",
+        "sha256": "ef5960a1180b70335bdd6a5d5b29ec19d3d64a9db3f4c1424ece2e61b08f0772",
+        "bytes": 3415
+      },
+      "promotion": {
+        "path": "Plan/Instructions/QA/Evidence/Wave64/future_lane_promotion.json",
+        "sha256": "0131ef3a4cb513243d49d7250a80c75f6ec4f78642aa292603b6c9ebcf799fbf",
+        "bytes": 13042
+      },
+      "route": {
+        "path": "Plan/Instructions/QA/Evidence/Wave64/video_engine_routing.json",
+        "sha256": "f7ddb96c6aed760c281f144ad50187c5e2fb5b1b0784495536bc47e5a315bf22",
+        "bytes": 6650
+      },
+      "shot_plan": {
+        "path": "Plan/Instructions/QA/Evidence/Wave64/Reference_Video_Input/wan22_source_diversity_loop_shot_plan.json",
+        "sha256": "c9ca82efa9c524b944cfa7d5033bc435844a955ab69930220059edac741208b1",
+        "bytes": 1320
+      }
+    },
+    "policy_sources": [
+      "Plan/04_VIDEO_GIF_SYSTEM/WAVE15_BASE_IMAGE_TO_VIDEO_KEYFRAME_HANDOFF.md",
+      "Plan/04_VIDEO_GIF_SYSTEM/WAVE16_VIDEO_KEYFRAME_REFINE_BRIDGE_INTERFACE.md",
+      "Plan/04_VIDEO_GIF_SYSTEM/WAVE09_VIDEO_WORKFLOW_PROOF_REQUIREMENTS.md"
+    ],
+    "downstream_candidate_context": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/Reference_Video_Input/wan22_source_diversity_loop_shot_plan.json",
+      "sha256": "c9ca82efa9c524b944cfa7d5033bc435844a955ab69930220059edac741208b1",
+      "bytes": 1320
+    }
+  }
+}
