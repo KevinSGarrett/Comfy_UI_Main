@@ -1,0 +1,158 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-MULTIMODAL-RECOVERED-READINESS-20260714T1106010500",
+  "timestamp": "2026-07-14T11:06:01-05:00",
+  "tracker_id": "TRK-W64-033",
+  "item_id": "ITEM-W64-033",
+  "status_decision": "Blocked_Multimodal_Production_Review_Proof_Missing",
+  "source_bindings": {
+    "rules": {
+      "path": "Plan/10_REGISTRIES/wave64_multimodal_scorecard_rules.json",
+      "sha256": "92e3da80e3ae3223fd13565283355a59bf77946d1ac0a915015367f569492714",
+      "bytes": 3885
+    },
+    "current_row033_evidence": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/multimodal_cross_review.json",
+      "sha256": "3d1b9a97f7b0c5fd2860f7367342ea45c3283799c1dad5bba4c893f9e6ee6d39",
+      "bytes": 10696
+    },
+    "row033_item_report": {
+      "path": "Plan/Items/Reports/ITEM-W64-033_multimodal_cross_review.json",
+      "sha256": "be6a500d1eb951c7dc2c3d1a5a0e406126e60f5aa77626fb2d18a66fef24c5de",
+      "bytes": 4146
+    },
+    "request_producer": {
+      "path": "Plan/07_IMPLEMENTATION/scripts/produce_wave64_multimodal_scorecard_request.py",
+      "sha256": "c2b5b3b5b88652dd909e5406fcb51c6449b40285c78dd224de9e044b90204f83",
+      "bytes": 10776
+    },
+    "evaluator": {
+      "path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_multimodal_scorecard.py",
+      "sha256": "2d6b8a7899b17051a7c18945b831997581e1a0dff435ad33713613e4b25680ea",
+      "bytes": 67144
+    }
+  },
+  "required_binding_count": 7,
+  "binding_candidates": {
+    "image_review_binding": {
+      "present": true,
+      "candidate_binding": {
+        "path": "Plan/Instructions/QA/Evidence/Wave64/image_multi_sample_certification.json",
+        "sha256": "57917899b8dac7e5890d64ec463782789f96905b1a01fd263d95d0885379da78",
+        "bytes": 10384
+      },
+      "contract_compatible": false,
+      "blocking_reasons": [
+        "shared_multimodal_lineage_missing",
+        "image_review_not_complete"
+      ]
+    },
+    "video_review_binding": {
+      "present": true,
+      "candidate_binding": {
+        "path": "Plan/Instructions/QA/Evidence/Wave64/video_temporal_visual_review.json",
+        "sha256": "868aa354bee32234336d3cf63a18c6f7bc900fce109ad473e573a09a919a4df5",
+        "bytes": 8376
+      },
+      "contract_compatible": false,
+      "blocking_reasons": [
+        "shared_multimodal_lineage_missing",
+        "video_evidence_bounded_not_full_multimodal_release"
+      ]
+    },
+    "strict_audio_report_binding": {
+      "present": true,
+      "candidate_binding": {
+        "path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_STRICT_REVIEW_RECOVERED_READINESS_20260714T092355-0500.json",
+        "sha256": "16c71687e82bc626ce761ccfad3883c85e0b068c4982608dce316566af6b518e",
+        "bytes": 6369
+      },
+      "contract_compatible": false,
+      "blocking_reasons": [
+        "strict_report_schema_mismatch",
+        "shared_multimodal_lineage_missing",
+        "upstream_audio_row_blocked"
+      ]
+    },
+    "global_audio_report_binding": {
+      "present": true,
+      "candidate_binding": {
+        "path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_GLOBAL_REVIEW_RECOVERED_READINESS_20260714T105133-0500.json",
+        "sha256": "b65d3acdbb4fa5421af9f9449a054ac8a8fa95966dc63e021f161cc7484c6c48",
+        "bytes": 5935
+      },
+      "contract_compatible": false,
+      "blocking_reasons": [
+        "strict_report_schema_mismatch",
+        "shared_multimodal_lineage_missing",
+        "upstream_audio_row_blocked"
+      ]
+    },
+    "av_sync_report_binding": {
+      "present": true,
+      "candidate_binding": {
+        "path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_AV_SYNC_RECOVERED_READINESS_20260714T075606-0500.json",
+        "sha256": "83493ba02e1ff1a108e394aae0d2a40b15eb4121d6bf62b485360e6bda1a7fa0",
+        "bytes": 5724
+      },
+      "contract_compatible": false,
+      "blocking_reasons": [
+        "strict_report_schema_mismatch",
+        "shared_multimodal_lineage_missing",
+        "upstream_audio_row_blocked"
+      ]
+    },
+    "artifact_manifest_binding": {
+      "present": false,
+      "candidate_binding": null,
+      "contract_compatible": false,
+      "blocking_reasons": [
+        "exact_artifact_manifest_missing"
+      ]
+    },
+    "release_gate_decision_binding": {
+      "present": true,
+      "candidate_binding": {
+        "path": "Plan/Instructions/QA/Evidence/Wave64/release_done_certification.json",
+        "sha256": "cc7635bbf7ca597444f6509248b57521ef872aa231c18ef21e85aca06b32618f",
+        "bytes": 9000
+      },
+      "contract_compatible": false,
+      "blocking_reasons": [
+        "row033_release_id_missing",
+        "release_decision_not_owned_by_row033_artifact",
+        "release_evidence_is_full_project_blocked_audit_not_row033_gate"
+      ]
+    }
+  },
+  "mapping_decision": {
+    "present_candidate_count": 6,
+    "contract_compatible_binding_count": 0,
+    "shared_artifact_id_selected": false,
+    "shared_lineage_selected": false,
+    "artifact_manifest_release_id_match": false,
+    "eligible_for_strict_request": false,
+    "strict_producer_invoked": false,
+    "strict_evaluator_invoked": false,
+    "skip_reason": "Fail closed before request production: available image/video evidence has no shared Row033 lineage, recovered audio/sync records are readiness blockers rather than strict report schemas, no exact artifact manifest exists, and the release audit is not a matching Row033 release-gate object."
+  },
+  "authority_state": {
+    "approved_production_authority_object_count": 0,
+    "supporting_evidence_promoted_to_shared_bundle": false,
+    "bounded_video_pass_promoted_to_multimodal_release": false,
+    "blocked_audio_readiness_promoted_to_strict_reports": false,
+    "full_project_release_audit_promoted_to_row033_gate": false
+  },
+  "boundaries": {
+    "existing_evidence_reused": true,
+    "generation_executed": false,
+    "media_modified": false,
+    "lineage_or_release_identity_invented": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "mask_or_wave71_touched": false,
+    "jira_mutated": false
+  },
+  "result": "blocked_recovered_evidence_not_multimodal_scorecard_request_eligible",
+  "next_action": "Retain these records as hash-bound supporting evidence only. Do not form a strict Row033 request until seven distinct artifacts share one exact non-synthetic artifact/run/scene/shot/take lineage, strict audio schemas, matching manifest/release IDs, and an approved production authority object; proceed to Row034 without promoting Row033."
+}
