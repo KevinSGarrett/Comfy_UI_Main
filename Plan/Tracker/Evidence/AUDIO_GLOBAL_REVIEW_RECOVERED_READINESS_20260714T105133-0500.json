@@ -1,0 +1,129 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-GLOBAL-AUDIO-RECOVERED-READINESS-20260714T1051330500",
+  "timestamp": "2026-07-14T10:51:33-05:00",
+  "tracker_id": "TRK-W64-032",
+  "item_id": "ITEM-W64-032",
+  "status_decision": "Blocked_Global_Audio_Production_Review_Proof_Missing",
+  "source_bindings": {
+    "row031_recovered_readiness": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_STRICT_REVIEW_RECOVERED_READINESS_20260714T092355-0500.json",
+      "sha256": "16c71687e82bc626ce761ccfad3883c85e0b068c4982608dce316566af6b518e",
+      "bytes": 6369
+    },
+    "row032_current_evidence": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/global_audio_review_not_local_only.json",
+      "sha256": "e7159d65bf50c92bb8fd34cbb345648de53a6e38d0725b08c846881c17add904",
+      "bytes": 10891
+    },
+    "row032_item_report": {
+      "path": "Plan/Items/Reports/ITEM-W64-032_global_audio_review_not_local_only.json",
+      "sha256": "ae56a40839a7d6c15c8d72a2e52e825fe2989069a12e4545d2dfdda0d5277c38",
+      "bytes": 3947
+    },
+    "row032_gate_rules": {
+      "path": "Plan/10_REGISTRIES/wave64_global_audio_review_gate_rules.json",
+      "sha256": "958a74b23772f522172f2b161c77b6d0cec2095dc33a2d8ca3febf3783b185ca",
+      "bytes": 1356
+    },
+    "row032_request_producer": {
+      "path": "Plan/07_IMPLEMENTATION/scripts/produce_wave64_global_audio_review_request.py",
+      "sha256": "59541c0c674505a143b55ec5c97591c6af4413efe6cab2e9088655c03357dd5a",
+      "bytes": 15545
+    },
+    "row032_evaluator": {
+      "path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_global_audio_review.py",
+      "sha256": "1cff81e0654b1db565a3d9d1ad115dc81d568e212580c215acce2a2b9bd989a1",
+      "bytes": 73436
+    }
+  },
+  "recovered_mix_candidates": {
+    "procedural_diagnostic": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave42_legacy_audio_recovery_20260714T063840-0500/procedural_mix_diagnostic/wave42_release_scene_03_procedural_audio_mix_candidate.wav",
+      "sha256": "cbe1bb2d357193fd56212a6b520be300e326d267d6b06d3922307543ca0fa0dd",
+      "bytes": 441044,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "sample_rate_hz": 22050,
+      "frame_count": 220500,
+      "duration_seconds": 10.0,
+      "compression_type": "NONE",
+      "decode_probe_succeeded": true,
+      "authority_class": "diagnostic_full_mix_candidate",
+      "copied_not_generated": true,
+      "eligible_as_row032_mix_wav_binding_candidate": true,
+      "eligible_as_row031_strict_report": false,
+      "eligible_as_wave30_lineage": false,
+      "eligible_as_global_playback_authority": false
+    },
+    "returned_runtime_provisional": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave42_legacy_audio_recovery_20260714T063840-0500/returned_ec2_20260701T101322/final_audio_mix_provisional.wav",
+      "sha256": "65ded4d70ec8b68cc04672df16edb411f593ec8c527c3bd2987d5e0e44deaadb",
+      "bytes": 960044,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "sample_rate_hz": 48000,
+      "frame_count": 480000,
+      "duration_seconds": 10.0,
+      "compression_type": "NONE",
+      "decode_probe_succeeded": true,
+      "authority_class": "provisional_returned_runtime_mix",
+      "copied_not_generated": true,
+      "eligible_as_row032_mix_wav_binding_candidate": true,
+      "eligible_as_row031_strict_report": false,
+      "eligible_as_wave30_lineage": false,
+      "eligible_as_global_playback_authority": false
+    }
+  },
+  "mapping_decision": {
+    "reusable_mix_wav_candidate_count": 2,
+    "baseline_candidate_pair_selected": false,
+    "missing_required_bindings": [
+      "baseline_run_id",
+      "candidate_run_id",
+      "review_run_id",
+      "baseline_row031_strict_report_binding",
+      "candidate_row031_strict_report_binding",
+      "baseline_wave30_event_manifest_binding",
+      "candidate_wave30_event_manifest_binding",
+      "baseline_wave30_mix_manifest_binding",
+      "candidate_wave30_mix_manifest_binding",
+      "baseline_wave30_qa_report_binding",
+      "candidate_wave30_qa_report_binding",
+      "localized_change_declaration"
+    ],
+    "unresolved_comparison_semantics": [
+      "same_scene_baseline_candidate_identity",
+      "change_kind",
+      "audio_change_expected",
+      "target_audio_event_ids",
+      "allowed_change_windows",
+      "capture_mode"
+    ],
+    "eligible_for_strict_request": false,
+    "strict_producer_invoked": false,
+    "strict_evaluator_invoked": false,
+    "skip_reason": "Fail closed before request production: the recovered WAVs do not provide same-scene baseline/candidate identity, strict Row031 reports, Wave30 event/mix/QA lineage, or a truthful localized-change declaration."
+  },
+  "authority_state": {
+    "approved_production_baseline_count": 0,
+    "approved_production_bundle_count": 0,
+    "diagnostic_mix_promoted_to_baseline": false,
+    "provisional_mix_promoted_to_candidate": false,
+    "legacy_review_promoted_to_full_duration_playback": false,
+    "recovered_wav_pair_claimed_as_comparable_change_pair": false
+  },
+  "boundaries": {
+    "existing_audio_reused": true,
+    "generation_executed": false,
+    "audio_modified_or_remixed": false,
+    "comparison_identity_invented": false,
+    "legacy_provisional_result_promoted": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "mask_or_wave71_touched": false,
+    "jira_mutated": false
+  },
+  "result": "blocked_recovered_mixes_not_global_audio_review_request_eligible",
+  "next_action": "Retain both WAVs as hash-bound diagnostic lineage. Do not form a strict Row032 request until one same-scene baseline/candidate pair has exact Wave30 lineage, strict Row031 reports, localized-change semantics, full-duration playback, and approved production authorities; proceed to Row033 without promoting Row032."
+}
