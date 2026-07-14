@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-025-AUDIO-PIPELINE-BUILD-20260712T161737-0500",
-  "timestamp": "2026-07-14T06:16:22-05:00",
+  "timestamp": "2026-07-14T06:38:40-05:00",
   "item_id": "ITEM-W64-025",
   "tracker_id": "TRK-W64-025",
   "workstream": "audio_pipeline_build",
@@ -58,7 +58,21 @@
     "aws_runtime_prefix_inventory": "pass",
     "aws_prefixes_checked": 3,
     "aws_audio_object_count": 0,
-    "existing_video_only_mp4_count": 4
+    "existing_video_only_mp4_count": 4,
+    "legacy_audio_recovery": "pass",
+    "legacy_recovery_artifact_count": 30,
+    "legacy_recovery_tests_passed": 29,
+    "legacy_recovery_tests_failed": 0,
+    "legacy_recovery_semantic_review": "pass",
+    "legacy_recovery_semantic_review_confidence": "high",
+    "legacy_recovery_high_or_medium_findings": 0,
+    "legacy_recovery_low_findings_remediated": 1,
+    "legacy_recovery_post_review_tests_passed": 6,
+    "legacy_recovery_post_review_tests_failed": 0,
+    "recovered_diagnostic_audio_present": true,
+    "returned_ec2_runtime_packet_present": true,
+    "provisional_av_sync_review_present": true,
+    "final_multimodal_review": "present_rejected_for_final_release"
   },
   "acceptance_gates": {
     "audio_workflow_valid": true,
@@ -70,18 +84,22 @@
     "synthetic_deterministic_mix_verified": true,
     "genuine_audio_engine_runtime": false,
     "genuine_audio_review_record": false,
-    "final_audio_certification": false
+    "final_audio_certification": false,
+    "recovered_diagnostic_audio_present": true,
+    "returned_ec2_runtime_packet_present": true,
+    "provisional_av_sync_review_present": true,
+    "final_multimodal_review_passed": false
   },
   "blockers": [
     {
       "classification": "Blocked_Audio_Production_Runtime_Proof_Missing",
       "scope": "primary_row_blocker",
-      "reason": "Local authoritative roots and approved read-only S3 runtime prefixes contain no genuine audio candidate; the four existing WAN MP4s have video handlers and no audio handlers."
+      "reason": "Legacy diagnostic audio and the original returned-EC2 AV packet are now recovered and hash-verified, but SAPI/procedural candidates failed QA and the returned packet was rejected for final release; no approved production audio-engine proof bundle passes."
     },
     {
       "classification": "Blocked_Audio_Playback_Review_Missing",
       "scope": "audio_review",
-      "reason": "No genuine playback review proves speaker identity, voice consistency, intelligibility, foley/action alignment, ambience/dialogue balance, clipping safety, mix balance, and AV sync."
+      "reason": "A provisional automated AV-sync review exists, but the authoritative autonomous multimodal review rejected final release and does not prove production speaker identity, voice consistency, foley/action alignment, ambience/dialogue balance, clipping safety, or final mix quality."
     },
     {
       "classification": "Blocked_Audio_Certification_Loudness_Authority_Missing",
@@ -92,7 +110,7 @@
   "evidence": [
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/audio_pipeline_build.json",
-      "sha256": "6db56c42ecb1be887c626e0ed7a3530a753914ee3f9750840f8d1c8cda999677"
+      "sha256": "0f5519f2994d1ce1f49f4c5f302f9350ed6ec3e1285118be7d53bdc040bce0f5"
     },
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/audio_pipeline_build_test_log.json",
@@ -105,6 +123,18 @@
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_PIPELINE_AWS_RUNTIME_INVENTORY_20260714T061622-0500.json",
       "sha256": "b44ce145ba54ed3bedd642a2236c67b3e52a7cf69d19e71690eee73a8cebac0b"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_PIPELINE_LEGACY_RECOVERY_20260714T063840-0500.json",
+      "sha256": "f4a400c89c1fcd29eb3c698fb009e09c892eec5ddd0a0e2bbb9e35ed8f5faa69"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_PIPELINE_LEGACY_RECOVERY_TEST_LOG_20260714T063840-0500.json",
+      "sha256": "9362090d3a0880f87697628ae2481ccdcceceea8545d41d6c9a1393210e853b2"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_PIPELINE_LEGACY_RECOVERY_POST_REVIEW_TEST_20260714T065007-0500.json",
+      "sha256": "ed8c42419c22c8b15419a6098fbd759381abb89ec72be1c3c33f44d1ba5e138d"
     }
   ],
   "runtime": {
@@ -115,7 +145,11 @@
     "comfyui_started": false,
     "aws_contacted": true,
     "ec2_started": false,
-    "aws_read_only_inventory_executed": true
+    "aws_read_only_inventory_executed": true,
+    "recovered_runtime_packet_count": 1,
+    "recovery_generation_executed": false,
+    "recovery_aws_contacted": false,
+    "recovery_ec2_started": false
   },
-  "next_action": "Advance to TRK-W64-026 using existing fail-closed engine authority, then select the next concrete non-duplicate audio implementation task."
+  "next_action": "Feed the recovered packet through the existing strict Row025/027/028/030 producers and evaluators without regenerating media."
 }

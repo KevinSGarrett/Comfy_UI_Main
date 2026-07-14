@@ -1,0 +1,642 @@
+{
+  "audio_generation_permitted_now": true,
+  "audio_model_candidates": [
+    {
+      "folder": "audio_encoders",
+      "is_placeholder_inventory_marker": true,
+      "license_state": "pending_review",
+      "local_exists": "true",
+      "model_name": "put_audio_encoder_models_here",
+      "relative_path": "audio_encoders/put_audio_encoder_models_here",
+      "runtime_lane": "placeholder",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    }
+  ],
+  "boundary": "This probe treats private personal-use generation and internal owner/human/license/voice/source review as pre-authorized by the project owner. Diagnostic OS TTS evidence is not automatically final media evidence and does not prove ComfyUI runtime audio. Tracker rows should remain blocked only when real technical evidence is missing: playable generated output, runtime/provenance metadata, quality QA, AV sync, required model/tool/provider access, or secret-safe execution.",
+  "checks": [
+    {
+      "check": "voice_profiles_present",
+      "detail": "C:\\Comfy_UI\\Implementation\\audio\\voice_profiles.json",
+      "passed": true
+    },
+    {
+      "check": "speech_requests_present",
+      "detail": "C:\\Comfy_UI\\Implementation\\audio\\speech_generation_request_manifest.json",
+      "passed": true
+    },
+    {
+      "check": "private_personal_use_pre_authorized",
+      "detail": "Private personal-use generation is pre-authorized by the project owner. Internal owner, human-review, license-review, voice-review, and source-runtime gates must not block generation.",
+      "passed": true
+    },
+    {
+      "check": "license_review_not_a_generation_blocker",
+      "detail": "Internal license/source/voice/human runtime gates are pre-authorized for private personal-use generation.",
+      "passed": true
+    },
+    {
+      "check": "speech_requests_private_personal_use_pre_authorized",
+      "detail": "requests=2",
+      "passed": true
+    },
+    {
+      "check": "secret_values_not_printed",
+      "detail": "keys=1",
+      "passed": true
+    },
+    {
+      "check": "diagnostic_or_final_audio_path_classified",
+      "detail": "Private personal-use audio generation is pre-authorized. Run or continue controlled audio generation now; only technical blockers such as missing tools/models, failed generation, failed QA, missing provenance, or AV sync failure should block it.",
+      "passed": true
+    },
+    {
+      "check": "technical_audio_blockers_only",
+      "detail": "Audio may remain blocked only for missing tools/models/provider runtime, failed generation, failed QA, missing provenance, or failed AV sync.",
+      "passed": true
+    }
+  ],
+  "completion_claim_allowed": false,
+  "decision": "Private personal-use audio generation is pre-authorized. Run or continue controlled audio generation now; only technical blockers such as missing tools/models, failed generation, failed QA, missing provenance, or AV sync failure should block it.",
+  "diagnostic_audio_generation_permitted_now": true,
+  "final_audio_generation_permitted_now": true,
+  "generated_at_utc": "2026-07-02T03:49:34+00:00",
+  "inputs": {
+    "env_file": "C:\\Comfy_UI\\.env",
+    "latest_local_procedural_audio_mix_candidate": "C:\\Comfy_UI\\Implementation\\manifests\\local_procedural_audio_mix_candidate\\local_procedural_audio_mix_candidate_20260702_034918.json",
+    "latest_local_sapi_audio_candidate": "C:\\Comfy_UI\\Implementation\\manifests\\local_sapi_audio_candidate\\local_sapi_audio_candidate_20260702_034909.json",
+    "runtime_model_inventory": "C:\\Comfy_UI\\Implementation\\registries\\runtime_model_inventory_ec2_mirror_hashed_20260629_120908.csv",
+    "speech_generation_request_manifest": "C:\\Comfy_UI\\Implementation\\audio\\speech_generation_request_manifest.json",
+    "voice_profiles": "C:\\Comfy_UI\\Implementation\\audio\\voice_profiles.json"
+  },
+  "latest_local_procedural_audio_mix_candidate": {
+    "boundary": "This artifact is a real local/project-safe diagnostic full audio mix with generated original procedural ambience, SFX/foley, music, and private-use-preauthorized SAPI dialogue. It is not final-quality audio, not ComfyUI runtime evidence, and not sufficient for final tracker promotion without QA/provenance evidence.",
+    "checks": [
+      {
+        "check": "private_personal_use_pre_authorized",
+        "detail": "Private personal-use generation is pre-authorized by the project owner. Internal owner, human-review, license-review, voice-review, and source-runtime gates must not block generation.",
+        "passed": true
+      },
+      {
+        "check": "validated_sapi_dialogue_candidate_reused",
+        "detail": "C:\\Comfy_UI\\Implementation\\manifests\\local_sapi_audio_candidate\\local_sapi_audio_candidate_20260702_034909.json",
+        "passed": true
+      },
+      {
+        "check": "project_audio_cues_loaded",
+        "detail": "cue_rows=4",
+        "passed": true
+      },
+      {
+        "check": "all_required_mix_outputs_present",
+        "detail": "[]",
+        "passed": true
+      },
+      {
+        "check": "final_mix_wav_valid",
+        "detail": "C:\\Comfy_UI\\Generated_Outputs\\audio_candidates\\release_scene_03\\20260702_034918\\wave42_release_scene_03_procedural_audio_mix_candidate.wav",
+        "passed": true
+      },
+      {
+        "check": "audio_qa_honest_not_final_quality",
+        "detail": "diagnostic full mix only",
+        "passed": true
+      }
+    ],
+    "completion_claim_allowed": false,
+    "cue_generation": [
+      {
+        "cue_id": "SFX001",
+        "end_seconds": 2.8,
+        "generation": "procedural_original_noise_texture",
+        "kind": "sfx",
+        "start_seconds": 2.1
+      },
+      {
+        "cue_id": "SFX002",
+        "end_seconds": 6.7,
+        "generation": "procedural_original_noise_texture",
+        "kind": "sfx",
+        "start_seconds": 6.3
+      },
+      {
+        "cue_id": "FOL001",
+        "end_seconds": 2.9,
+        "generation": "procedural_original_fabric_rustle",
+        "kind": "foley",
+        "start_seconds": 2.0
+      },
+      {
+        "cue_id": "FOL002",
+        "end_seconds": 6.9,
+        "generation": "procedural_original_contact_clicks",
+        "kind": "foley",
+        "start_seconds": 6.2
+      }
+    ],
+    "final_mix": {
+      "bytes": 441044,
+      "channels": 1,
+      "duration_seconds": 10.0,
+      "exists": true,
+      "frames": 220500,
+      "nonzero_sample_ratio": 0.9979,
+      "path": "C:\\Comfy_UI\\Generated_Outputs\\audio_candidates\\release_scene_03\\20260702_034918\\wave42_release_scene_03_procedural_audio_mix_candidate.wav",
+      "peak": 30000,
+      "rms": 2336.403,
+      "sample_rate": 22050,
+      "sample_width_bytes": 2,
+      "sha256": "cbe1bb2d357193fd56212a6b520be300e326d267d6b06d3922307543ca0fa0dd"
+    },
+    "generated_at_utc": "2026-07-02T03:49:18+00:00",
+    "inputs": {
+      "ambience_room_tone_manifest": "C:\\Comfy_UI\\Implementation\\audio\\ambience_room_tone_manifest.json",
+      "audio_qa_rules": "C:\\Comfy_UI\\Implementation\\qa\\audio_qa_rules.json",
+      "ducking_rules": "C:\\Comfy_UI\\Implementation\\audio\\ducking_rules.json",
+      "foley_event_manifest": "C:\\Comfy_UI\\Implementation\\audio\\foley_event_manifest.json",
+      "local_sapi_audio_candidate_manifest": "C:\\Comfy_UI\\Implementation\\manifests\\local_sapi_audio_candidate\\local_sapi_audio_candidate_20260702_034909.json",
+      "local_sapi_dialogue_wav": "C:\\Comfy_UI\\Generated_Outputs\\audio_candidates\\release_scene_03\\20260702_034909\\wave42_release_scene_03_sapi_dialogue_candidate.wav",
+      "master_av_sync_timeline": "C:\\Comfy_UI\\Implementation\\audio\\master_av_sync_timeline.json",
+      "mix_layer_plan": "C:\\Comfy_UI\\Implementation\\audio\\mix_layer_plan.json",
+      "music_cue_manifest": "C:\\Comfy_UI\\Implementation\\audio\\music_cue_manifest.json",
+      "sfx_cue_manifest": "C:\\Comfy_UI\\Implementation\\audio\\sfx_cue_manifest.json"
+    },
+    "outputs": {
+      "ambience_stem_wav": "C:\\Comfy_UI\\Generated_Outputs\\audio_candidates\\release_scene_03\\20260702_034918\\wave42_release_scene_03_ambience_stem.wav",
+      "checks_csv": "C:\\Comfy_UI\\Implementation\\evidence\\local_procedural_audio_mix_candidate\\local_procedural_audio_mix_candidate_checks_20260702_034918.csv",
+      "cues_csv": "C:\\Comfy_UI\\Implementation\\evidence\\local_procedural_audio_mix_candidate\\local_procedural_audio_mix_candidate_cues_20260702_034918.csv",
+      "dialogue_stem_wav": "C:\\Comfy_UI\\Generated_Outputs\\audio_candidates\\release_scene_03\\20260702_034918\\wave42_release_scene_03_dialogue_stem.wav",
+      "final_mix_wav": "C:\\Comfy_UI\\Generated_Outputs\\audio_candidates\\release_scene_03\\20260702_034918\\wave42_release_scene_03_procedural_audio_mix_candidate.wav",
+      "manifest": "C:\\Comfy_UI\\Implementation\\manifests\\local_procedural_audio_mix_candidate\\local_procedural_audio_mix_candidate_20260702_034918.json",
+      "music_stem_wav": "C:\\Comfy_UI\\Generated_Outputs\\audio_candidates\\release_scene_03\\20260702_034918\\wave42_release_scene_03_music_stem.wav",
+      "output_dir": "C:\\Comfy_UI\\Generated_Outputs\\audio_candidates\\release_scene_03\\20260702_034918",
+      "report": "C:\\Comfy_UI\\Implementation\\docs\\LOCAL_PROCEDURAL_AUDIO_MIX_CANDIDATE_20260702_034918.md",
+      "sfx_foley_stem_wav": "C:\\Comfy_UI\\Generated_Outputs\\audio_candidates\\release_scene_03\\20260702_034918\\wave42_release_scene_03_sfx_foley_stem.wav",
+      "stems_csv": "C:\\Comfy_UI\\Implementation\\evidence\\local_procedural_audio_mix_candidate\\local_procedural_audio_mix_candidate_stems_20260702_034918.csv"
+    },
+    "private_personal_use_pre_authorization_applied": true,
+    "production_grade": false,
+    "qa": {
+      "classification": "diagnostic_full_mix_candidate",
+      "critical_failures": [
+        "dialogue_voice_is_generic_os_tts",
+        "not_comfyui_runtime_audio",
+        "procedural_sfx_music_are_diagnostic_not_final_design",
+        "av_sync_not_validated_against_real_video"
+      ],
+      "pass": false,
+      "rules": {
+        "audio_asset_qa": {
+          "critical_failures": [
+            "missing_rights_evidence",
+            "outside_scene_duration",
+            "missing_output_stem"
+          ],
+          "minimum_scores": {
+            "mix_score": 80,
+            "rights_score": 100,
+            "timing_score": 85
+          }
+        },
+        "sfx_music_qa": {
+          "critical_failures": [
+            "copyrighted_song_reference",
+            "unlicensed_sample_pack",
+            "music_missing_ducking"
+          ],
+          "minimum_scores": {
+            "mix_balance": 80,
+            "timing_match": 85
+          }
+        },
+        "version": "2026-06-28",
+        "voice_dialogue_qa": {
+          "critical_failures": [
+            "unapproved_voice_profile",
+            "missing_line_id",
+            "lip_sync_unmapped"
+          ],
+          "minimum_scores": {
+            "emotion_match": 80,
+            "speaker_match": 90,
+            "timing_match": 85
+          }
+        }
+      },
+      "scores": {
+        "mix_balance": 72,
+        "rights_score": 55,
+        "timing_match": 65
+      }
+    },
+    "quality_label": "diagnostic_full_mix_candidate",
+    "remaining_blockers": [
+      "Dialogue remains generic Windows SAPI TTS and fails production voice quality thresholds.",
+      "Final mix is locally procedural diagnostic audio, not ComfyUI/runtime audio generation evidence.",
+      "AV sync cannot be final-validated until the real generated video exists.",
+      "Hyper-realistic final media still requires EC2 ComfyUI image/video runtime evidence."
+    ],
+    "stems": [
+      {
+        "bytes": 441044,
+        "channels": 1,
+        "duration_seconds": 10.0,
+        "exists": true,
+        "frames": 220500,
+        "nonzero_sample_ratio": 0.4121,
+        "path": "C:\\Comfy_UI\\Generated_Outputs\\audio_candidates\\release_scene_03\\20260702_034918\\wave42_release_scene_03_dialogue_stem.wav",
+        "peak": 31326,
+        "rms": 2440.369,
+        "sample_rate": 22050,
+        "sample_width_bytes": 2,
+        "sha256": "61f5b11f8ef6cc30f4ed21a49baf76d7db7575eafc7e7cc1ae203f7ef0f17fc2",
+        "stem_id": "dialogue_stem"
+      },
+      {
+        "bytes": 441044,
+        "channels": 1,
+        "duration_seconds": 10.0,
+        "exists": true,
+        "frames": 220500,
+        "nonzero_sample_ratio": 0.1329,
+        "path": "C:\\Comfy_UI\\Generated_Outputs\\audio_candidates\\release_scene_03\\20260702_034918\\wave42_release_scene_03_sfx_foley_stem.wav",
+        "peak": 2812,
+        "rms": 111.936,
+        "sample_rate": 22050,
+        "sample_width_bytes": 2,
+        "sha256": "5e98e62b21dce499275bc185cda01bc237446114073386dd045f79f13e65a4c1",
+        "stem_id": "sfx_foley_stem"
+      },
+      {
+        "bytes": 441044,
+        "channels": 1,
+        "duration_seconds": 10.0,
+        "exists": true,
+        "frames": 220500,
+        "nonzero_sample_ratio": 0.9969,
+        "path": "C:\\Comfy_UI\\Generated_Outputs\\audio_candidates\\release_scene_03\\20260702_034918\\wave42_release_scene_03_ambience_stem.wav",
+        "peak": 276,
+        "rms": 103.401,
+        "sample_rate": 22050,
+        "sample_width_bytes": 2,
+        "sha256": "7cae8926bd2863915e6cbd0df98826367dde1b10f0d42c0e08662197ab17ddaf",
+        "stem_id": "ambience_stem"
+      },
+      {
+        "bytes": 441044,
+        "channels": 1,
+        "duration_seconds": 10.0,
+        "exists": true,
+        "frames": 220500,
+        "nonzero_sample_ratio": 0.9976,
+        "path": "C:\\Comfy_UI\\Generated_Outputs\\audio_candidates\\release_scene_03\\20260702_034918\\wave42_release_scene_03_music_stem.wav",
+        "peak": 2025,
+        "rms": 278.016,
+        "sample_rate": 22050,
+        "sample_width_bytes": 2,
+        "sha256": "d32d6b26015b7e07b325b34335c078aabed2a682f11cdc2c06450cc660d9d24b",
+        "stem_id": "music_stem"
+      }
+    ],
+    "summary": {
+      "critical_failure_count": 4,
+      "cue_count": 4,
+      "duration_seconds": 10.0,
+      "mix_balance": 72,
+      "qa_pass": false,
+      "remaining_blocker_count": 4,
+      "scene_id": "release_scene_03",
+      "speech_window_count": 2,
+      "stem_count": 4,
+      "timing_match": 65
+    },
+    "validated": true
+  },
+  "latest_local_sapi_audio_candidate": {
+    "boundary": "This artifact proves a real local/project-safe diagnostic dialogue audio candidate can be generated without treating internal owner/license/runtime gates as blockers. It is not final-quality audio, not ComfyUI runtime evidence, and not a tracker-promotion basis for final media rows without QA/provenance evidence.",
+    "checks": [
+      {
+        "check": "private_personal_use_pre_authorized",
+        "detail": "Private personal-use generation is pre-authorized by the project owner. Internal owner, human-review, license-review, voice-review, and source-runtime gates must not block generation.",
+        "passed": true
+      },
+      {
+        "check": "sapi_voices_available",
+        "detail": "voices=2",
+        "passed": true
+      },
+      {
+        "check": "all_dialogue_requests_rendered",
+        "detail": "2/2",
+        "passed": true
+      },
+      {
+        "check": "mixed_wav_written",
+        "detail": "C:\\Comfy_UI\\Generated_Outputs\\audio_candidates\\release_scene_03\\20260702_034909\\wave42_release_scene_03_sapi_dialogue_candidate.wav",
+        "passed": true
+      },
+      {
+        "check": "wav_metadata_valid",
+        "detail": "{\"sample_rate\": 22050, \"channels\": 1, \"duration_seconds\": 8.244}",
+        "passed": true
+      },
+      {
+        "check": "audio_qa_honest_not_final_quality",
+        "detail": "diagnostic candidate only",
+        "passed": true
+      }
+    ],
+    "completion_claim_allowed": false,
+    "generated_at_utc": "2026-07-02T03:49:09+00:00",
+    "inputs": {
+      "audio_qa_rules": "C:\\Comfy_UI\\Implementation\\qa\\audio_qa_rules.json",
+      "audio_rights_policy": "C:\\Comfy_UI\\Implementation\\audio\\audio_rights_policy.json",
+      "dialogue_line_manifest": "C:\\Comfy_UI\\Implementation\\audio\\dialogue_line_manifest.json",
+      "speech_generation_request_manifest": "C:\\Comfy_UI\\Implementation\\audio\\speech_generation_request_manifest.json",
+      "voice_profiles": "C:\\Comfy_UI\\Implementation\\audio\\voice_profiles.json"
+    },
+    "mixed_audio": {
+      "bytes": 363608,
+      "channels": 1,
+      "duration_seconds": 8.244,
+      "exists": true,
+      "frames": 181782,
+      "path": "C:\\Comfy_UI\\Generated_Outputs\\audio_candidates\\release_scene_03\\20260702_034909\\wave42_release_scene_03_sapi_dialogue_candidate.wav",
+      "sample_rate": 22050,
+      "sample_width_bytes": 2,
+      "sha256": "280d14fa93dca03e3ed393139d5826de30cee16cbc8fa547ae628fe96ae66cd7"
+    },
+    "outputs": {
+      "checks_csv": "C:\\Comfy_UI\\Implementation\\evidence\\local_sapi_audio_candidate\\local_sapi_audio_candidate_checks_20260702_034909.csv",
+      "commands_json": "C:\\Comfy_UI\\Implementation\\evidence\\local_sapi_audio_candidate\\local_sapi_audio_candidate_commands_20260702_034909.json",
+      "lines_csv": "C:\\Comfy_UI\\Implementation\\evidence\\local_sapi_audio_candidate\\local_sapi_audio_candidate_lines_20260702_034909.csv",
+      "manifest": "C:\\Comfy_UI\\Implementation\\manifests\\local_sapi_audio_candidate\\local_sapi_audio_candidate_20260702_034909.json",
+      "mixed_wav": "C:\\Comfy_UI\\Generated_Outputs\\audio_candidates\\release_scene_03\\20260702_034909\\wave42_release_scene_03_sapi_dialogue_candidate.wav",
+      "output_dir": "C:\\Comfy_UI\\Generated_Outputs\\audio_candidates\\release_scene_03\\20260702_034909",
+      "qa_csv": "C:\\Comfy_UI\\Implementation\\evidence\\local_sapi_audio_candidate\\local_sapi_audio_candidate_qa_20260702_034909.csv",
+      "report": "C:\\Comfy_UI\\Implementation\\docs\\LOCAL_SAPI_AUDIO_CANDIDATE_20260702_034909.md"
+    },
+    "private_personal_use_pre_authorization_applied": true,
+    "production_grade": false,
+    "qa": {
+      "classification": "diagnostic_candidate",
+      "line_scores": [
+        {
+          "actual_duration_seconds": 3.114,
+          "critical_failures": [
+            "generic_os_tts_voice_not_profile_matched",
+            "robotic_or_limited_emotional_delivery",
+            "not_comfyui_runtime_audio",
+            "third_party_os_voice_production_license_not_reviewed"
+          ],
+          "emotion_match": 40,
+          "expected_duration_seconds": 3.0,
+          "line_id": "L001",
+          "request_id": "SPREQ_L001",
+          "speaker_match": 55,
+          "timing_delta_seconds": 0.114,
+          "timing_match": 96
+        },
+        {
+          "actual_duration_seconds": 3.244,
+          "critical_failures": [
+            "generic_os_tts_voice_not_profile_matched",
+            "robotic_or_limited_emotional_delivery",
+            "not_comfyui_runtime_audio",
+            "third_party_os_voice_production_license_not_reviewed"
+          ],
+          "emotion_match": 40,
+          "expected_duration_seconds": 2.4,
+          "line_id": "L002",
+          "request_id": "SPREQ_L002",
+          "speaker_match": 55,
+          "timing_delta_seconds": 0.844,
+          "timing_match": 65
+        }
+      ],
+      "pass": false,
+      "rules": {
+        "critical_failures": [
+          "unapproved_voice_profile",
+          "missing_line_id",
+          "lip_sync_unmapped"
+        ],
+        "minimum_scores": {
+          "emotion_match": 80,
+          "speaker_match": 90,
+          "timing_match": 85
+        }
+      }
+    },
+    "quality_label": "diagnostic_candidate",
+    "remaining_blockers": [
+      "SAPI output is generic OS text-to-speech and does not satisfy Wave42 production voice quality.",
+      "Selected SAPI voices are not character-specific voice profiles and are not ComfyUI runtime audio generation.",
+      "AV sync cannot be final-validated until real generated video exists."
+    ],
+    "render_commands": [
+      {
+        "command": [
+          "powershell",
+          "-NoProfile",
+          "-ExecutionPolicy",
+          "Bypass",
+          "-File",
+          "C:\\Comfy_UI\\Generated_Outputs\\audio_candidates\\release_scene_03\\20260702_034909\\render_sapi_line.ps1",
+          "-VoiceName",
+          "Microsoft David Desktop",
+          "-TextPath",
+          "C:\\Comfy_UI\\Generated_Outputs\\audio_candidates\\release_scene_03\\20260702_034909\\L001_text.txt",
+          "-OutputPath",
+          "C:\\Comfy_UI\\Generated_Outputs\\audio_candidates\\release_scene_03\\20260702_034909\\L001_C01_sapi_dialogue.wav",
+          "-Rate",
+          "0"
+        ],
+        "line_id": "L001",
+        "returncode": 0,
+        "stderr_excerpt": "",
+        "stdout_excerpt": ""
+      },
+      {
+        "command": [
+          "powershell",
+          "-NoProfile",
+          "-ExecutionPolicy",
+          "Bypass",
+          "-File",
+          "C:\\Comfy_UI\\Generated_Outputs\\audio_candidates\\release_scene_03\\20260702_034909\\render_sapi_line.ps1",
+          "-VoiceName",
+          "Microsoft Zira Desktop",
+          "-TextPath",
+          "C:\\Comfy_UI\\Generated_Outputs\\audio_candidates\\release_scene_03\\20260702_034909\\L002_text.txt",
+          "-OutputPath",
+          "C:\\Comfy_UI\\Generated_Outputs\\audio_candidates\\release_scene_03\\20260702_034909\\L002_C02_sapi_dialogue.wav",
+          "-Rate",
+          "1"
+        ],
+        "line_id": "L002",
+        "returncode": 0,
+        "stderr_excerpt": "",
+        "stdout_excerpt": ""
+      }
+    ],
+    "rendered_lines": [
+      {
+        "bytes": 137374,
+        "channels": 1,
+        "character_id": "C01",
+        "duration_seconds": 3.114,
+        "emotion": "focused",
+        "end_seconds": 4.2,
+        "exists": true,
+        "frames": 68664,
+        "line_id": "L001",
+        "output_path": "C:\\Comfy_UI\\Generated_Outputs\\audio_candidates\\release_scene_03\\20260702_034909\\L001_C01_sapi_dialogue.wav",
+        "private_personal_use_pre_authorization_status": "pre_authorized_by_active_goal_objective",
+        "pacing": "medium",
+        "path": "C:\\Comfy_UI\\Generated_Outputs\\audio_candidates\\release_scene_03\\20260702_034909\\L001_C01_sapi_dialogue.wav",
+        "request_id": "SPREQ_L001",
+        "sample_rate": 22050,
+        "sample_width_bytes": 2,
+        "selected_sapi_voice": {
+          "age": "Adult",
+          "culture": "en-US",
+          "enabled": true,
+          "gender": "Male",
+          "name": "Microsoft David Desktop"
+        },
+        "sha256": "2c4188a284f1b19df16ddad759ddb96a2f9ca96f232f71d5097701136f477ed6",
+        "start_seconds": 1.2,
+        "text": "We hold the frame steady and move on the beat.",
+        "tone": "quiet_confidence",
+        "voice_profile_id": "voice_C01_placeholder",
+        "voice_profile_rights_status": "private_personal_use_pre_authorized"
+      },
+      {
+        "bytes": 143110,
+        "channels": 1,
+        "character_id": "C02",
+        "duration_seconds": 3.244,
+        "emotion": "assured",
+        "end_seconds": 7.4,
+        "exists": true,
+        "frames": 71532,
+        "line_id": "L002",
+        "output_path": "C:\\Comfy_UI\\Generated_Outputs\\audio_candidates\\release_scene_03\\20260702_034909\\L002_C02_sapi_dialogue.wav",
+        "private_personal_use_pre_authorization_status": "pre_authorized_by_active_goal_objective",
+        "pacing": "medium_fast",
+        "path": "C:\\Comfy_UI\\Generated_Outputs\\audio_candidates\\release_scene_03\\20260702_034909\\L002_C02_sapi_dialogue.wav",
+        "request_id": "SPREQ_L002",
+        "sample_rate": 22050,
+        "sample_width_bytes": 2,
+        "selected_sapi_voice": {
+          "age": "Adult",
+          "culture": "en-US",
+          "enabled": true,
+          "gender": "Female",
+          "name": "Microsoft Zira Desktop"
+        },
+        "sha256": "583a7ac689846b32634c6813cceeb86391009067a82cf303c77d9d814cc5044e",
+        "start_seconds": 5.0,
+        "text": "I have the mark. The handoff is clean.",
+        "tone": "clear_close_mic",
+        "voice_profile_id": "voice_C02_placeholder",
+        "voice_profile_rights_status": "private_personal_use_pre_authorized"
+      }
+    ],
+    "summary": {
+      "qa_pass": false,
+      "remaining_blocker_count": 3,
+      "rendered_line_count": 2,
+      "rights_policy_default_status": "private_personal_use_pre_authorized",
+      "sapi_voice_count": 2,
+      "scene_id": "release_scene_03"
+    },
+    "validated": true
+  },
+  "outputs": {
+    "checks_csv": "C:\\Comfy_UI\\Implementation\\evidence\\audio_generation_path_probe\\audio_generation_path_probe_checks_20260702_034932.csv",
+    "env_csv": "C:\\Comfy_UI\\Implementation\\evidence\\audio_generation_path_probe\\audio_generation_provider_secret_keys_20260702_034932.csv",
+    "manifest": "C:\\Comfy_UI\\Implementation\\manifests\\audio_generation_path_probe\\audio_generation_path_probe_20260702_034932.json",
+    "model_csv": "C:\\Comfy_UI\\Implementation\\evidence\\audio_generation_path_probe\\audio_generation_model_candidates_20260702_034932.csv",
+    "report": "C:\\Comfy_UI\\Implementation\\docs\\AUDIO_GENERATION_PATH_PROBE_20260702_034932.md",
+    "tool_csv": "C:\\Comfy_UI\\Implementation\\evidence\\audio_generation_path_probe\\audio_generation_tool_probe_20260702_034932.csv",
+    "voice_csv": "C:\\Comfy_UI\\Implementation\\evidence\\audio_generation_path_probe\\audio_generation_sapi_voices_20260702_034932.csv"
+  },
+  "private_personal_use_pre_authorization": "Private personal-use generation is pre-authorized by the project owner. Internal owner, human-review, license-review, voice-review, and source-runtime gates must not block generation.",
+  "private_personal_use_pre_authorized": true,
+  "provider_secret_keys": [
+    {
+      "key": "CIVITAI_TOKEN",
+      "value_present": true,
+      "value_printed": false
+    }
+  ],
+  "sapi_voices": [
+    {
+      "age": "Adult",
+      "culture": "en-US",
+      "enabled": true,
+      "gender": "Male",
+      "name": "Microsoft David Desktop"
+    },
+    {
+      "age": "Adult",
+      "culture": "en-US",
+      "enabled": true,
+      "gender": "Female",
+      "name": "Microsoft Zira Desktop"
+    }
+  ],
+  "summary": {
+    "approved_voice_profile_count": 2,
+    "audio_generation_permitted_now": true,
+    "audio_model_candidate_count": 1,
+    "concrete_approved_wave42_audio_path": true,
+    "diagnostic_audio_generation_permitted_now": true,
+    "diagnostic_procedural_mix_available": true,
+    "diagnostic_sapi_candidate_available": true,
+    "diagnostic_sapi_voice_count": 2,
+    "final_audio_generation_permitted_now": true,
+    "placeholder_audio_inventory_marker_count": 1,
+    "provider_secret_key_count": 1,
+    "real_audio_model_candidate_count": 0,
+    "speech_request_count": 2,
+    "speech_requests_legacy_review_pending": false,
+    "speech_requests_private_personal_use_pre_authorized": true,
+    "voice_profile_count": 2
+  },
+  "tools": [
+    {
+      "available": false,
+      "path": "",
+      "tool": "ffmpeg"
+    },
+    {
+      "available": false,
+      "path": "",
+      "tool": "ffprobe"
+    },
+    {
+      "available": false,
+      "path": "",
+      "tool": "sox"
+    },
+    {
+      "available": false,
+      "path": "",
+      "tool": "espeak"
+    },
+    {
+      "available": false,
+      "path": "",
+      "tool": "piper"
+    },
+    {
+      "available": true,
+      "path": "C:\\Users\\kevin\\AppData\\Local\\Programs\\Python\\Python311\\python.EXE",
+      "tool": "python"
+    }
+  ],
+  "validated": true
+}

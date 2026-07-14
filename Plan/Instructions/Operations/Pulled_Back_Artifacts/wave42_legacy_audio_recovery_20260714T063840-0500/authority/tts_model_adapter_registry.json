@@ -1,0 +1,70 @@
+{
+  "adapters": [
+    {
+      "adapter_id": "local_tts",
+      "boundary": "Local/provider-neutral route only; not proof of external provider TTS execution.",
+      "covers": [
+        "prompt_based_speech",
+        "dialogue_voice"
+      ],
+      "input_binding": "C:\\Comfy_UI\\Implementation\\audio\\speech_generation_request_manifest.json",
+      "output_binding": "C:\\Comfy_UI\\Implementation\\workflows\\api\\speech_output_manifest.bound.local.json",
+      "status": "configured_provider_neutral"
+    },
+    {
+      "adapter_id": "procedural_audio",
+      "boundary": "Diagnostic/provisional fallback only; not production speech quality.",
+      "covers": [
+        "speech_placeholder_timing",
+        "dialogue_timing_fixture"
+      ],
+      "input_binding": "C:\\Comfy_UI\\Implementation\\audio\\speech_generation_request_manifest.json",
+      "output_binding": "C:\\Comfy_UI\\Implementation\\workflows\\api\\speech_output_manifest.bound.local.json",
+      "status": "configured_diagnostic_fallback"
+    },
+    {
+      "adapter_id": "comfyui_audio_when_available",
+      "boundary": "Registry-visible deferred route; live ComfyUI audio generation remains blocked separately.",
+      "covers": [
+        "prompt_based_speech",
+        "dialogue_voice"
+      ],
+      "input_binding": "C:\\Comfy_UI\\Implementation\\workflows\\api\\SPEECH_GENERATION_ROUTER_REQUEST_API_TEMPLATE.bound.local.json",
+      "output_binding": "C:\\Comfy_UI\\Implementation\\workflows\\api\\SPEECH_ROUTER_DECISION_BINDING_API_TEMPLATE.bound.local.json",
+      "status": "declared_deferred_runtime_route"
+    },
+    {
+      "adapter_id": "manual_recording",
+      "boundary": "Fallback route only; does not prove recorded production speech.",
+      "covers": [
+        "dialogue_voice"
+      ],
+      "input_binding": "C:\\Comfy_UI\\Implementation\\audio\\voice_profile_registry.json",
+      "output_binding": "C:\\Comfy_UI\\Implementation\\workflows\\api\\VOICE_PROFILE_BINDING_API_TEMPLATE.bound.local.json",
+      "status": "configured_fallback"
+    }
+  ],
+  "boundary": "This registry proves the Wave 38 TTS adapter-registry deliverable exists and is usable by downstream local speech routing artifacts. It does not prove external/provider TTS execution, final production voice quality, live ComfyUI audio generation, G07 closure, or CAP_DIALOGUE_SPEECH.",
+  "coverage": {
+    "enabled_characters": [
+      "C01",
+      "C02"
+    ],
+    "route_preferences": [
+      "comfyui_audio_when_available",
+      "local_tts",
+      "manual_recording",
+      "procedural_audio"
+    ],
+    "speech_output_manifest_present": true,
+    "speech_request_present": true,
+    "speech_request_workflow_present": true,
+    "speech_router_binding_present": true,
+    "voice_binding_present": true,
+    "voice_profile_count": 2,
+    "voice_profiles_present": true,
+    "wave38_router_binding_present": true
+  },
+  "generated_at_utc": "2026-07-02T03:56:28+00:00",
+  "registry_id": "wave42_tts_model_adapter_registry"
+}
