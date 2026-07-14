@@ -1,3 +1,11 @@
+## Wave64 Row022 Wan Production Reference Ingest - 2026-07-14T05:28:00-05:00
+
+`TRK-W64-022` / `ITEM-W64-022` is `Blocked_Derived_Timeline_And_Target_Shot_Match_Proof_Missing_Production_Reference_Ingest_Pass`. The prior zero-input inventory is superseded by the existing changed-source Wan MP4 already stored under authoritative pulled-back artifacts. The selected source hash is exact; all 49 frames decode and extract at 480x640/24 fps, source and frame manifests verify, existing direct temporal QA supplies semantic frame review, and ten deterministic loop candidates produce a bounded loop-reference shot plan. No completed seed was rerun and no ComfyUI, AWS, EC2, mask promotion, Wave70 hard gate, Wave71+, or Jira action occurred.
+
+Remaining Row022 blockers: audio absence is still an explicit ingest declaration rather than independent stream proof; pose/depth timelines are not generated; mask/contact timelines remain behind trusted manual gold masks; and no target output has been generated from this reference for shot matching. Continue `TRK-W64-023` / `ITEM-W64-023` while preserving these exact Row022 blockers.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/VIDEO_REFERENCE_INPUT_WAN22_RECONCILIATION_20260714T052800-0500.json`.
+
 ## Wave64 Row021 Bounded Wan 2.2 Temporal QA Complete - 2026-07-14T05:14:04-05:00
 
 `TRK-W64-021` / `ITEM-W64-021` is `Completed_Bounded_Wan22_Temporal_QA_Pass_Fine_Finger_Toe_Certification_Excluded`. Four existing 49-frame Wan 2.2 clips across four seeds and two sources pass direct and technical review for bounded identity, face-at-resolution, gross anatomy/silhouette, gross hands/feet, floor contact, motion, flicker, background/camera, and terminal-frame continuity. Fine finger/toe certification is explicitly excluded for this full-body 480x640 envelope and remains a separate higher-resolution or cropped-region follow-up. No masks were required or consumed, no completed seed was rerun, and production video certification remains false.

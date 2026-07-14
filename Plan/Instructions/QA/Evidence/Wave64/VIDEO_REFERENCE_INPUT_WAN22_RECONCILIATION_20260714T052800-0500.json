@@ -1,0 +1,149 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-VIDEO-REFERENCE-INPUT-WAN22-RECONCILIATION-20260714T052800-0500",
+  "timestamp": "2026-07-14T05:28:00-05:00",
+  "tracker_id": "TRK-W64-022",
+  "item_id": "ITEM-W64-022",
+  "status_decision": "Blocked_Derived_Timeline_And_Target_Shot_Match_Proof_Missing_Production_Reference_Ingest_Pass",
+  "source_citation": "Plan/04_VIDEO_GIF_SYSTEM/WAVE26_REFERENCE_VIDEO_INPUT_PIPELINE.md",
+  "inputs": [
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/reconcile_wave64_video_reference_input_wan22.py",
+      "sha256": "6a5399eddebc7a3356f074abd8c6cde624cb64367655c4d74651e6cff9cfda07"
+    },
+    {
+      "path": "Plan/04_VIDEO_GIF_SYSTEM/WAVE26_REFERENCE_VIDEO_INPUT_PIPELINE.md",
+      "sha256": "0513eeae2773835d775eeeaa38d74084a7de5d0640544738a3f8cd4618c1cd21"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260714T041921-0500/images/12_wan22_ti2v5b_source_diversity_ref1_78b8_seed2271401_00001_.mp4",
+      "sha256": "5006e96e211538f3d2bb6795e93014d6642946583cc31aa635e171e13e1c80bf"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_WAN22_SOURCE_DIVERSITY_TARGET_RUNTIME_20260714T043510-0500.json",
+      "sha256": "edf43c02ea3673020f95fbc7e21804803b0b45c41664bfd8d39b2441b6d40ca0"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_SOURCE_DIVERSITY_TECHNICAL_QA_20260714T043510-0500.json",
+      "sha256": "5aa5074a4db4ceff606504abda67c15b4268634e3387160ce792bdee1eab7e20"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_SOURCE_DIVERSITY_VISUAL_QA_20260714T043510-0500.json",
+      "sha256": "48d0d422c8ca77a540d16aad63f1062fd70e4a2934ddebb4ee2f19b23aff0432"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/Reference_Video_Input/wan22_source_diversity_reference_video_manifest.json",
+      "sha256": "473c9531248ccf31b46c4e79e57f6cc8f5a10d5abc55a4184a89f5eddeb367f0"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/Reference_Video_Input/wan22_source_diversity_frame_manifest.jsonl",
+      "sha256": "fd9a33f19bb42190a7507f62a9899c808c7ad3ffcb5ba3960c193f692dc535a9"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/Reference_Video_Input/wan22_source_diversity_semantic_candidates.json",
+      "sha256": "c632ede3852eb551a184c37eaf7fc4d1312f62874e1475c0f9fe17849409c6a9"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/Reference_Video_Input/wan22_source_diversity_timeline_manifest.json",
+      "sha256": "c7e7b3d17b3b6a037dd14b5470508305e8993c58063ce3994d8c4f084ac13330"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/Reference_Video_Input/wan22_source_diversity_loop_shot_plan.json",
+      "sha256": "c9ca82efa9c524b944cfa7d5033bc435844a955ab69930220059edac741208b1"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_REFERENCE_INPUT_WAN22_TEST_LOG_20260714T052800-0500.json",
+      "sha256": "425cc7b80a78668a9a2db1116540bd06305005140f31a6c32174eb4633f7bc34"
+    }
+  ],
+  "production_reference": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260714T041921-0500/images/12_wan22_ti2v5b_source_diversity_ref1_78b8_seed2271401_00001_.mp4",
+    "sha256": "5006e96e211538f3d2bb6795e93014d6642946583cc31aa635e171e13e1c80bf",
+    "provenance": "existing_changed_source_wan22_target_runtime_output_reused_as_reference_input",
+    "runtime_proof": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_WAN22_SOURCE_DIVERSITY_TARGET_RUNTIME_20260714T043510-0500.json",
+    "technical_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_SOURCE_DIVERSITY_TECHNICAL_QA_20260714T043510-0500.json",
+    "direct_visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_SOURCE_DIVERSITY_VISUAL_QA_20260714T043510-0500.json"
+  },
+  "gate_results": {
+    "production_reference_video_supplied": true,
+    "production_reference_video_runtime_proof": true,
+    "reference_frame_extract": true,
+    "source_and_frame_hash_binding": true,
+    "orientation_noop_verified_for_selected_source": true,
+    "fps_noop_verified_for_selected_source": true,
+    "audio_presence_independently_verified": false,
+    "semantic_frame_qa": true,
+    "loop_candidate_shot_plan": true,
+    "pose_timeline_generated": false,
+    "depth_timeline_generated": false,
+    "mask_timeline_generated": false,
+    "contact_timeline_generated": false,
+    "target_shot_matching_performed": false,
+    "source_reference_visual_comparison": false,
+    "final_promotion_ready": false
+  },
+  "checks": {
+    "source_video_hash_exact": true,
+    "visual_provenance_chain_exact": true,
+    "production_runtime_proof_passed": true,
+    "technical_decode_passed": true,
+    "direct_visual_frame_qa_passed": true,
+    "ingest_succeeded": true,
+    "all_frames_extracted": true,
+    "frame_indices_and_timestamps_exact": true,
+    "all_frame_png_hashes_exact": true,
+    "manifest_hashes_exact": true,
+    "selected_source_shape_exact": true,
+    "orientation_noop_cross_checked": true,
+    "fps_noop_cross_checked": true,
+    "semantic_analysis_bound_to_manifests": true,
+    "semantic_candidate_analysis_completed": true,
+    "loop_candidates_present": true,
+    "single_shot_no_boundary_candidate": true,
+    "audio_independent_verification_missing": true,
+    "derived_timelines_not_claimed": true,
+    "target_shot_matching_not_claimed": true,
+    "promotion_remains_fail_closed": true
+  },
+  "check_summary": {
+    "checked": 21,
+    "passed": 21,
+    "failed": 0
+  },
+  "blockers": [
+    {
+      "classification": "Blocked_Audio_Stream_Independent_Verification_Missing",
+      "scope": "selected_reference_metadata",
+      "reason": "Audio absence is explicitly declared to ingest but no local ffprobe or equivalent independent stream proof is available."
+    },
+    {
+      "classification": "Blocked_Pose_Depth_Timeline_Proof_Missing",
+      "scope": "derived_pose_depth_timelines",
+      "reason": "No pose or depth timeline has been generated for the extracted reference frames."
+    },
+    {
+      "classification": "Blocked_Gold_Mask_Dependency_Missing",
+      "scope": "mask_and_contact_timelines_only",
+      "reason": "Trusted manual body masks are still unavailable, so mask/contact timeline authority is not claimed."
+    },
+    {
+      "classification": "Blocked_Target_Shot_Match_Proof_Missing",
+      "scope": "reference_to_target_output_comparison",
+      "reason": "A deterministic reference shot plan exists, but no target output has been generated from it for shot matching or visual comparison."
+    }
+  ],
+  "boundaries": {
+    "existing_generated_video_reused_as_reference": true,
+    "new_generation_executed": false,
+    "completed_seed_rerun": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "candidate_masks_consumed_as_truth": false,
+    "mask_promotion_claimed": false,
+    "production_reference_pipeline_certified": false,
+    "wave71_activation_claimed": false,
+    "jira_mutated": false
+  },
+  "result": "production_reference_ingest_and_loop_shot_plan_pass_derived_timelines_and_target_match_blocked",
+  "next_action": "Continue Row023 frame repair/inpainting while preserving Row022 derived-timeline and target-shot-match blockers."
+}
