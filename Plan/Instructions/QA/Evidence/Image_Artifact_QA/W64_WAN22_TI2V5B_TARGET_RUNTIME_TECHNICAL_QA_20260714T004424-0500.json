@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-WAN22-TI2V5B-TARGET-RUNTIME-TECHNICAL-QA-20260714T004424-0500",
+  "timestamp": "2026-07-14T00:44:24-05:00",
+  "lane_id": "wan_2_2_ti2v_5b_primary_lane",
+  "run_id": "aws_gpu_workflow_smoke_20260714T002123-0500",
+  "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_WAN22_TI2V5B_TARGET_RUNTIME_SMOKE_20260714T004424-0500.json",
+  "artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260714T002123-0500/images/12_wan22_ti2v5b_fullbody_seed2271301_00001_.mp4",
+    "size_bytes": 88902,
+    "sha256": "546da2e7d8ce3afaa02565913cef8008d3d45a2adb70d4449bab7f167c75b50d"
+  },
+  "decode": {
+    "tool": "FFmpeg 7.1",
+    "codec": "H.264 High",
+    "pixel_format": "yuv420p",
+    "scan": "progressive",
+    "width": 480,
+    "height": 640,
+    "frame_count": 49,
+    "unique_decoded_frame_count": 49,
+    "fps": 24,
+    "duration_seconds": 2.04,
+    "approximate_bitrate_kbps": 348,
+    "decode_exit_code": 0,
+    "all_frames_extracted": true
+  },
+  "temporal_detectors": {
+    "blackdetect_event_count": 0,
+    "freezedetect_event_count": 0,
+    "detector_exit_code": 0
+  },
+  "runtime_log_review": {
+    "prompt_node_error_count": 0,
+    "generation_completed": true,
+    "nonfatal_warnings": [
+      "Shared comfyui.db lock unavailable to the isolated server; database initialization was skipped while generation completed successfully.",
+      "ONNX Runtime could not inspect /sys/class/drm/card0; this did not prevent CUDA-backed generation."
+    ],
+    "blocking_runtime_error_count": 0
+  },
+  "frame_metrics": {
+    "adjacent_rgb_mae_normalized": {
+      "min": 0.001364076955645692,
+      "mean": 0.004638492432879467,
+      "max": 0.008727639329199698,
+      "p95": 0.00728996618121278
+    },
+    "border_adjacent_rgb_mae_normalized": {
+      "min": 0.0004239120611957475,
+      "mean": 0.0017920489167319793,
+      "max": 0.004579786225861194,
+      "p95": 0.00322902732035693
+    },
+    "first_last_rgb_mae_normalized": 0.037000936620375686,
+    "luminance_mean_0_255": {
+      "min": 156.03379821777344,
+      "mean": 156.63406372070312,
+      "max": 157.49832153320312
+    },
+    "luminance_std_0_255": {
+      "min": 43.27711486816406,
+      "mean": 44.780555725097656,
+      "max": 45.4573860168457
+    },
+    "gradient_sharpness_mean": {
+      "min": 1.4686064720153809,
+      "mean": 1.6269348786801707,
+      "max": 1.7176754474639893
+    }
+  },
+  "checks": {
+    "artifact_hash_matches_pullback_manifest": true,
+    "codec_and_container_decode": true,
+    "dimensions_exact": true,
+    "frame_count_exact": true,
+    "fps_exact": true,
+    "all_frames_unique": true,
+    "no_black_frame_events": true,
+    "no_freeze_events": true,
+    "luminance_stable": true,
+    "border_change_bounded": true,
+    "terminal_frame_decoded": true
+  },
+  "failed_checks": [],
+  "technical_pass": true,
+  "result": "pass_bounded_wan22_ti2v5b_target_runtime_technical_qa",
+  "boundaries": {
+    "visual_quality_reviewed_here": false,
+    "single_clip_only": true,
+    "production_video_lane_certification_claimed": false,
+    "mask_or_geometry_authority_claimed": false
+  },
+  "next_action": "Use the extracted 49-frame contact sheet and start/middle/end region crops for direct visual temporal review."
+}

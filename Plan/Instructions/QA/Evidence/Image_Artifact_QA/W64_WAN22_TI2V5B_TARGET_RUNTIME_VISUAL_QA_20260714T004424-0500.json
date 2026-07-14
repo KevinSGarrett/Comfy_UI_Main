@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-WAN22-TI2V5B-TARGET-RUNTIME-VISUAL-QA-20260714T004424-0500",
+  "timestamp": "2026-07-14T00:44:24-05:00",
+  "lane_id": "wan_2_2_ti2v_5b_primary_lane",
+  "run_id": "aws_gpu_workflow_smoke_20260714T002123-0500",
+  "artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260714T002123-0500/images/12_wan22_ti2v5b_fullbody_seed2271301_00001_.mp4",
+    "size_bytes": 88902,
+    "sha256": "546da2e7d8ce3afaa02565913cef8008d3d45a2adb70d4449bab7f167c75b50d"
+  },
+  "source_image": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v4_full_body_standing_seed711670301_20260711T035900-0500/images/normal_v4_fullbody_standing_711670301_00001_.png",
+    "sha256": "b01b694125e08027195baf3c5a4eeac472eba242bfb4bbe69473625844134fc1"
+  },
+  "technical_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_TI2V5B_TARGET_RUNTIME_TECHNICAL_QA_20260714T004424-0500.json",
+  "review_method": "direct_original_frame_review_plus_49_frame_contact_sheet_and_start_middle_end_region_crops",
+  "reviewed_frames": [1, 7, 13, 19, 25, 31, 37, 43, 49],
+  "review_assets": [
+    {
+      "path": "runtime_artifacts/wan22_media_qa/aws_gpu_workflow_smoke_20260714T002123-0500/contact_sheet.png",
+      "sha256": "352719088d05d1c4c3ea229b358bcbc5b696b9fc02ecf709d101cdf8afae3ddc",
+      "size_bytes": 479865
+    },
+    {
+      "path": "runtime_artifacts/wan22_media_qa/aws_gpu_workflow_smoke_20260714T002123-0500/start_mid_end_strip.png",
+      "sha256": "55e61a3505fa46450b6cd65925f48e44b9882e9a6e4c2e5d2e43506c7944f3b8",
+      "size_bytes": 180701
+    },
+    {
+      "path": "runtime_artifacts/wan22_media_qa/aws_gpu_workflow_smoke_20260714T002123-0500/face_start_mid_end.png",
+      "sha256": "5efd237e88834ad84d515b580dcb2389de8b335c1f4a69afba279b4afe42b368",
+      "size_bytes": 289483
+    },
+    {
+      "path": "runtime_artifacts/wan22_media_qa/aws_gpu_workflow_smoke_20260714T002123-0500/hands_torso_start_mid_end.png",
+      "sha256": "a229b0bd1cfa0418e705d376862eada83f1f402421fc75479a2d1fd13c876e4a",
+      "size_bytes": 250871
+    },
+    {
+      "path": "runtime_artifacts/wan22_media_qa/aws_gpu_workflow_smoke_20260714T002123-0500/feet_start_mid_end.png",
+      "sha256": "5587ccb76871683aca575e543b2a6af6fc5fd76ea56f378c857e505897c58c3f",
+      "size_bytes": 243910
+    }
+  ],
+  "checks": {
+    "source_identity_recognizable_through_terminal_frame": true,
+    "face_temporally_coherent": true,
+    "blink_and_head_motion_coherent": true,
+    "hands_remain_anatomically_stable": true,
+    "torso_and_clothing_remain_stable": true,
+    "legs_and_feet_remain_stable": true,
+    "background_continuity_passed": true,
+    "camera_jump_or_cut_absent": true,
+    "gross_body_warp_or_extra_limb_absent": true,
+    "terminal_frame_collapse_absent": true,
+    "motion_present_and_restrained": true,
+    "final_visual_pass": true
+  },
+  "findings": [
+    "The 49-frame clip preserves one recognizable adult subject, gray tank, black leggings, white shoes, full-body framing, and the neutral studio background.",
+    "Motion is intentionally restrained: a coherent blink, small head/gaze change, and slight weight/posture shift provide temporal movement without a camera cut or background jump.",
+    "Start, midpoint, and terminal crops show stable hands, torso, leg contours, shoes, hair, and clothing with no obvious extra limbs, gross warping, shoe sliding, or terminal corruption.",
+    "The face changes subtly with expression and head position but remains recognizably the same subject for this bounded smoke; broader identity robustness is not established."
+  ],
+  "failed_checks": [],
+  "visual_pass": true,
+  "result": "pass_bounded_single_clip_direct_temporal_review",
+  "status_decision": "Bounded_Target_Runtime_Video_Smoke_Validated",
+  "boundaries": {
+    "single_seed_single_source_single_profile": true,
+    "long_duration_quality_claimed": false,
+    "multiseed_robustness_claimed": false,
+    "production_video_lane_certification_claimed": false,
+    "gold_masks_consumed": false,
+    "mask_or_geometry_authority_claimed": false,
+    "wave71_activation_claimed": false,
+    "jira_mutated": false
+  },
+  "next_action": "Do not repeat this exact smoke. Treat the lane as bounded target-runtime validated and require a changed scope or explicit production robustness gate before further GPU work."
+}

@@ -1,0 +1,202 @@
+{
+  "meta": {
+    "12": {
+      "display_node": "12",
+      "node_id": "12",
+      "parent_node": null,
+      "real_node_id": "12"
+    }
+  },
+  "outputs": {
+    "12": {
+      "animated": [
+        true
+      ],
+      "images": [
+        {
+          "filename": "wan22_ti2v5b_fullbody_seed2271301_00001_.mp4",
+          "subfolder": "video",
+          "type": "output"
+        }
+      ]
+    }
+  },
+  "prompt": [
+    0,
+    "e730cbaa-e500-4d78-ab72-2b4edeaeda09",
+    {
+      "1": {
+        "class_type": "UNETLoader",
+        "inputs": {
+          "unet_name": "wan2.2_ti2v_5B_fp16.safetensors",
+          "weight_dtype": "default"
+        }
+      },
+      "10": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "9",
+            0
+          ],
+          "vae": [
+            "3",
+            0
+          ]
+        }
+      },
+      "11": {
+        "class_type": "CreateVideo",
+        "inputs": {
+          "bit_depth": 8,
+          "fps": 24.0,
+          "images": [
+            "10",
+            0
+          ]
+        }
+      },
+      "12": {
+        "class_type": "SaveVideo",
+        "inputs": {
+          "codec": "h264",
+          "filename_prefix": "video/wan22_ti2v5b_fullbody_seed2271301",
+          "format": "mp4",
+          "video": [
+            "11",
+            0
+          ]
+        }
+      },
+      "2": {
+        "class_type": "CLIPLoader",
+        "inputs": {
+          "clip_name": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+          "device": "default",
+          "type": "wan"
+        }
+      },
+      "3": {
+        "class_type": "VAELoader",
+        "inputs": {
+          "vae_name": "wan2.2_vae.safetensors"
+        }
+      },
+      "4": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "2",
+            0
+          ],
+          "text": "cinematic realistic full-body studio video of one fully clothed adult woman, preserve the exact face identity hairstyle clothing proportions and neutral gray studio, subtle natural breathing, one gentle blink, tiny ponytail and fabric movement, relaxed weight shift, locked camera, stable framing, realistic skin texture, physically coherent motion"
+        }
+      },
+      "5": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "2",
+            0
+          ],
+          "text": "camera movement, zoom, pan, cut, scene change, identity drift, face morphing, age change, hairstyle change, clothing change, background change, body warping, limb deformation, extra limbs, fused fingers, foot sliding, jitter, flicker, temporal inconsistency, oversmoothed skin, plastic skin, blur, low quality, watermark, text"
+        }
+      },
+      "6": {
+        "class_type": "ModelSamplingSD3",
+        "inputs": {
+          "model": [
+            "1",
+            0
+          ],
+          "shift": 8.0
+        }
+      },
+      "7": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "wan22_ti2v_fullbody_seed711670301.png"
+        }
+      },
+      "8": {
+        "class_type": "Wan22ImageToVideoLatent",
+        "inputs": {
+          "batch_size": 1,
+          "height": 640,
+          "length": 49,
+          "start_image": [
+            "7",
+            0
+          ],
+          "vae": [
+            "3",
+            0
+          ],
+          "width": 480
+        }
+      },
+      "9": {
+        "class_type": "KSampler",
+        "inputs": {
+          "cfg": 5.0,
+          "denoise": 1.0,
+          "latent_image": [
+            "8",
+            0
+          ],
+          "model": [
+            "6",
+            0
+          ],
+          "negative": [
+            "5",
+            0
+          ],
+          "positive": [
+            "4",
+            0
+          ],
+          "sampler_name": "uni_pc",
+          "scheduler": "simple",
+          "seed": 2271301,
+          "steps": 20
+        }
+      }
+    },
+    {
+      "client_id": "codex-root-run-package",
+      "create_time": 1784006762453
+    },
+    [
+      "12"
+    ]
+  ],
+  "status": {
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "e730cbaa-e500-4d78-ab72-2b4edeaeda09",
+          "timestamp": 1784006762453
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [],
+          "prompt_id": "e730cbaa-e500-4d78-ab72-2b4edeaeda09",
+          "timestamp": 1784006762464
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "e730cbaa-e500-4d78-ab72-2b4edeaeda09",
+          "timestamp": 1784006937088
+        }
+      ]
+    ],
+    "status_str": "success"
+  }
+}
