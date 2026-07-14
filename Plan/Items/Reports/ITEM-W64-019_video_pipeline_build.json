@@ -1,21 +1,23 @@
 {
   "schema_version": "1.1",
-  "timestamp": "2026-07-14T13:04:46-05:00",
+  "timestamp": "2026-07-14T13:18:12-05:00",
   "tracker_id": "TRK-W64-019",
   "item_id": "ITEM-W64-019",
-  "status": "Blocked_Keyframe_Repair_Loop_And_Production_Sequence_Proof_Missing",
+  "status": "Blocked_Keyframe_And_Repair_Proof_Missing_Bounded_Wan_Temporal_And_Loop_Pass",
   "row_complete": false,
   "acceptance_gates": {
     "video_workflow_valid": true,
     "keyframe_manifest": false,
     "frame_sequence_manifest": true,
-    "loop_export_gate": false,
+    "loop_export_gate": true,
     "artifact_evidence": true,
     "frame_repair_effectiveness": false,
-    "strict_frame_sequence_visual_review": false,
+    "strict_frame_sequence_visual_review": true,
     "bounded_primary_clip_runtime": true,
     "bounded_primary_clip_technical_qa": true,
-    "bounded_primary_clip_direct_temporal_review": true
+    "bounded_primary_clip_direct_temporal_review": true,
+    "bounded_multiclip_temporal_review": true,
+    "bounded_gif_loop_export_certification": true
   },
   "normalized_blockers": [
     {
@@ -27,24 +29,16 @@
       "resolution": "Produce and directly compare a repaired candidate for a real failed span."
     },
     {
-      "blocker_id": "FINAL_LOOP_EXPORT_VISUAL_QA_FAILED",
-      "resolution": "Produce a loop candidate without the recorded frames 5-7 popping and corruption."
-    },
-    {
-      "blocker_id": "PRODUCTION_SEQUENCE_REVIEW_NOT_PROVEN",
-      "resolution": "Run scope-matched multi-clip production review; do not generalize one bounded WAN clip."
-    },
-    {
       "blocker_id": "CONTACT_SOFT_BODY_VIDEO_SCOPE_BLOCKED_GOLD_MASKS",
       "resolution": "Keep contact and soft-body claims blocked until trusted body/contact masks are available."
     }
   ],
   "evidence": [
     "Plan/Instructions/QA/Evidence/Wave64/video_pipeline_build.json",
-    "Plan/Instructions/QA/Evidence/Wave64/VIDEO_PIPELINE_BUILD_WAN_RECONCILIATION_20260714T130446-0500.json",
-    "Plan/Tracker/Evidence/VIDEO_PIPELINE_BUILD_WAN_RECONCILIATION_20260714T130446-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/VIDEO_PIPELINE_BUILD_WAN_RECONCILIATION_20260714T131812-0500.json",
+    "Plan/Tracker/Evidence/VIDEO_PIPELINE_BUILD_WAN_RECONCILIATION_20260714T131812-0500.json",
     "Plan/Instructions/QA/Evidence/Wave64/video_pipeline_build_test_log.json",
     "Plan/Items/Reports/ITEM-W64-019_video_pipeline_build.json"
   ],
-  "next_action": "Implement a real keyframe manifest and select one changed production sequence that can exercise repair and loop acceptance without repeating the completed WAN smoke."
+  "next_action": "Bind a promoted, QA-approved still image into a real keyframe handoff manifest and exercise one genuine repair span without repeating completed WAN or loop proofs."
 }

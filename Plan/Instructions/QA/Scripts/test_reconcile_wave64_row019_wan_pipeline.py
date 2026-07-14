@@ -45,9 +45,9 @@ class Row019WanReconciliationTests(unittest.TestCase):
             self.assertFalse(result["row_complete"])
             self.assertTrue(result["acceptance_gates"]["bounded_primary_clip_direct_temporal_review"])
             self.assertFalse(result["acceptance_gates"]["keyframe_manifest"])
-            self.assertFalse(result["acceptance_gates"]["loop_export_gate"])
+            self.assertTrue(result["acceptance_gates"]["loop_export_gate"])
             self.assertFalse(result["acceptance_gates"]["frame_repair_effectiveness"])
-            self.assertFalse(result["acceptance_gates"]["strict_frame_sequence_visual_review"])
+            self.assertTrue(result["acceptance_gates"]["strict_frame_sequence_visual_review"])
 
     def test_rejects_runtime_certification_overclaim(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -105,11 +105,18 @@ class Row019WanReconciliationTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "repair unexpectedly proven"):
                 self.evaluate(root, sources)
 
-    def test_rejects_unsubstantiated_loop_pass(self) -> None:
+    def test_rejects_missing_bounded_loop_pass(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary); sources = self.fixture(root)
-            self.mutate(sources["loop"], lambda value: value["gate_results"].update({"loop_playback_visual_pass": True}))
-            with self.assertRaisesRegex(ValueError, "loop visual failure missing"):
+            self.mutate(sources["loop"], lambda value: value["gate_results"].update({"bounded_gif_export_certification": False}))
+            with self.assertRaisesRegex(ValueError, "bounded loop certification did not pass"):
+                self.evaluate(root, sources)
+
+    def test_rejects_promoted_shot_plan_overclaim(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary); sources = self.fixture(root)
+            self.mutate(sources["shot_plan"], lambda value: value.update({"promotion_ready": True}))
+            with self.assertRaisesRegex(ValueError, "shot plan promotion boundary missing"):
                 self.evaluate(root, sources)
 
     def test_preserves_failed_animatediff_attempt(self) -> None:
