@@ -20,7 +20,8 @@ $safetyGate = Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\EC2Ru
 $staticProof = Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Invoke-EC2LaneStaticProof.ps1"
 $smoke = Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Invoke-EC2WorkflowSmokeRun.ps1"
 $dispositionScript = Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Get-EC2RuntimeReadinessDisposition.ps1"
-foreach ($path in @($coordinator,$workOrderBuilder,$safetyGate,$staticProof,$smoke,$dispositionScript)) {
+$capacityBackoff = Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Set-EC2CapacityBackoffState.ps1"
+foreach ($path in @($coordinator,$workOrderBuilder,$safetyGate,$staticProof,$smoke,$dispositionScript,$capacityBackoff)) {
   if (!(Test-Path -LiteralPath $path -PathType Leaf)) { throw "Required batch runtime file is missing: $path" }
 }
 . $safetyGate
@@ -137,6 +138,7 @@ try {
   Add-Check "active_marker_lane_mismatch_fails" (![bool]$markerWrongLane.verified -and !$markerWrongLane.checks.lane_match) $true $markerWrongLane.verified
 
   $coordinatorSource = Get-Content -Raw -LiteralPath $coordinator
+  $capacityBackoffSource = Get-Content -Raw -LiteralPath $capacityBackoff
   $staticSource = Get-Content -Raw -LiteralPath $staticProof
   $smokeSource = Get-Content -Raw -LiteralPath $smoke
   Add-Check "coordinator_finally_stops_instance" ($coordinatorSource -match '(?s)finally\s*\{.*?aws ec2 stop-instances.*?Wait-InstanceState -DesiredState "stopped"') $true ($coordinatorSource -match 'aws ec2 stop-instances')
@@ -151,6 +153,8 @@ try {
   Add-Check "ebs_evidence_binds_stopped_batch_window" ($coordinatorSource -match 'EBS_FILESYSTEM_EVIDENCE\.json' -and $coordinatorSource -match 'final_state=\$record\.final_state' -and $coordinatorSource -match 'source_smoke_record_sha256') $true ($coordinatorSource -match 'EBS_FILESYSTEM_EVIDENCE\.json')
   Add-Check "work_order_state_machine_wired" (($coordinatorSource -match '"EXECUTING"') -and ($coordinatorSource -match '"COMPLETED"') -and ($coordinatorSource -match '"FAILED_CLOSED"') -and ($coordinatorSource -match '"READY_WORK_WAITING_FOR_EC2"')) $true "executing=$($coordinatorSource -match '"EXECUTING"'), completed=$($coordinatorSource -match '"COMPLETED"'), failed=$($coordinatorSource -match '"FAILED_CLOSED"')"
   Add-Check "capacity_backoff_binds_work_order_id" ($coordinatorSource -match 'RecordFailure[^\r\n]+RuntimeWorkOrderId \(\[string\]\$workOrder\.work_order_id\)') $true ($coordinatorSource -match 'RuntimeWorkOrderId \(\[string\]\$workOrder\.work_order_id\)')
+  $coordinatorClearReason = [regex]::Match($coordinatorSource, '-Action Clear[^\r\n]+-ClearReason\s+"([^"]+)"').Groups[1].Value
+  Add-Check "capacity_backoff_clear_reason_matches_helper_contract" (($coordinatorClearReason -ceq "ec2_start_succeeded") -and ($capacityBackoffSource -match '"ec2_start_succeeded"')) "ec2_start_succeeded" $coordinatorClearReason
 } finally {
   if (Test-Path -LiteralPath $tempRoot -PathType Container) { Remove-Item -LiteralPath $tempRoot -Recurse -Force }
 }

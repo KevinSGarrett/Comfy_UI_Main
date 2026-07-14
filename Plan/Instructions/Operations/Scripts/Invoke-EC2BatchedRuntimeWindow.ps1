@@ -304,7 +304,7 @@ try {
     throw "EC2 start failed with exit code $($record.start_exit_code)."
   }
   $record.ec2_started = $true
-  $record.capacity_backoff = & $capacityHelper -Action Clear -ProjectRoot $ProjectRoot -ClearReason "batched_ec2_start_succeeded" | ConvertFrom-Json
+  $record.capacity_backoff = & $capacityHelper -Action Clear -ProjectRoot $ProjectRoot -ClearReason "ec2_start_succeeded" | ConvertFrom-Json
   $null = Wait-InstanceState -DesiredState "running"
   $null = Wait-InstanceStatusOk
   $null = Wait-SsmOnline
