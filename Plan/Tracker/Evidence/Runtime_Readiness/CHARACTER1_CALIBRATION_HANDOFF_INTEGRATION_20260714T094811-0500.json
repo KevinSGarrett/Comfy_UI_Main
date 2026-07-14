@@ -1,0 +1,143 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "CHARACTER1-CALIBRATION-HANDOFF-INTEGRATION-20260714T0948110500",
+  "timestamp": "2026-07-14T09:48:11-05:00",
+  "result": "pass_with_calibration_target_blocker",
+  "classifications": [
+    "LOCAL_RUNTIME_HANDOFF_HASH_VERIFIED",
+    "ROOT_WORKFLOW_COPIES_BYTE_IDENTICAL",
+    "PASS_Y_GEOMETRY_CANDIDATE_RETAINED",
+    "PASS_Z_REGIONAL_TEXTURE_CANDIDATE_RETAINED",
+    "NO_DUPLICATE_GENERATION_REQUIRED",
+    "BLOCKED_INDEPENDENT_40_PERCENT_GEOMETRY_PROOF_MISSING",
+    "BLOCKED_GOLD_MASK_DEPENDENCY_MISSING"
+  ],
+  "package": {
+    "local_root": "ztest",
+    "tracked_as_repository_payload": false,
+    "package_summary_sha256": "B30A7CDD926CD8E7919C390EE6BA6A934AA2AAEAC1EE7C18A0EA11BBA27B4476",
+    "model_requirements_sha256": "1FB3EBABAF24AACF342A21EDFB6CD59CF731EE0B31B729B275411126753683FF",
+    "acceptance": "retained_calibration_not_final",
+    "counts": {
+      "workflow_json": 29,
+      "generated_images": 25,
+      "references": 67,
+      "diagnostics": 6,
+      "input_assets": 10,
+      "referenced_models": 23
+    },
+    "summary_validation_errors": [],
+    "manifest_verification": {
+      "path": "manifests/file_manifest.csv",
+      "sha256": "5EEC34F268840FFB567AC5918817D339E974E6E0AC9930A296B60016646668BB",
+      "declared_file_count": 158,
+      "expected_file_count": 158,
+      "failure_count": 0,
+      "failures": [],
+      "pass": true
+    }
+  },
+  "models": {
+    "recorded_at_package_creation": 23,
+    "expected_count": 23,
+    "missing_recorded_models": [],
+    "pass": true,
+    "note": "This verifies the package's recorded model inventory, not a fresh model rehash."
+  },
+  "workflows": [
+    {
+      "package_path": "workflows/regional_detail/character1_flux_fill_areola_reference/workflow.passY_expanded_geometry.api.json",
+      "project_path": "Workflows/regional_detail/character1_flux_fill_areola_reference/workflow.passY_expanded_geometry.api.json",
+      "package_sha256": "FC1F314704EBACEDC3E4A020C61DF9E4CB34B84B2A8280062263E76CB2C5BB64",
+      "project_sha256": "FC1F314704EBACEDC3E4A020C61DF9E4CB34B84B2A8280062263E76CB2C5BB64",
+      "byte_identical": true,
+      "package_graph_errors": [],
+      "project_graph_errors": [],
+      "pass": true
+    },
+    {
+      "package_path": "workflows/regional_detail/character1_flux_fill_areola_reference/workflow.passZ_expanded_texture_finish.api.json",
+      "project_path": "Workflows/regional_detail/character1_flux_fill_areola_reference/workflow.passZ_expanded_texture_finish.api.json",
+      "package_sha256": "8F749300AB926D75EF3B10924A1A03C6DEC72AC413125F6E3C93D22917749599",
+      "project_sha256": "8F749300AB926D75EF3B10924A1A03C6DEC72AC413125F6E3C93D22917749599",
+      "byte_identical": true,
+      "package_graph_errors": [],
+      "project_graph_errors": [],
+      "pass": true
+    }
+  ],
+  "retained_images": {
+    "dimensions": {
+      "width": 832,
+      "height": 1216
+    },
+    "pass_y": {
+      "path": "assets/outputs/flux_fill_calibration/passY_expanded_flux_fill_areola_00001_.png",
+      "sha256": "849AE7C230E501DC7D1A057CC35994C915E6A17A4545A92D72EA2268CBA3277E",
+      "bytes": 1084494
+    },
+    "pass_z": {
+      "path": "assets/outputs/flux_fill_calibration/passZ_expanded_reference_texture_finish_00001_.png",
+      "sha256": "12B3ED5DBF26E1A84BE32A6FF70AD4393F0E690C0655F463D34E5DEA86F152FA",
+      "bytes": 1086122
+    },
+    "pass_z_source": {
+      "path": "assets/inputs/character1_passY_expanded_fill_source.png",
+      "sha256": "849AE7C230E501DC7D1A057CC35994C915E6A17A4545A92D72EA2268CBA3277E",
+      "matches_pass_y_exactly": true
+    },
+    "target_mask": {
+      "path": "assets/inputs/character1_passO_areola_target_mask_v3.png",
+      "sha256": "A9B9D152A3D5113CFC54E927534BC64E7DC2F3DF8CFFE3F757244F342700E9F3",
+      "authority": "calibration_target_only_not_gold_standard"
+    },
+    "pass_z_regional_preservation": {
+      "outside_base_mask_exact_match_fraction": 0.98509879,
+      "outside_base_mask_mean_absolute_error_0_255": 0.046389943,
+      "inside_base_mask_mean_absolute_error_0_255": 6.84217846,
+      "outside_conservative_28px_guard_exact_match_fraction": 1.0,
+      "outside_conservative_28px_guard_mean_absolute_error_0_255": 0.0,
+      "note": "The workflow grows and feathers the base mask by 18 pixels, so a small nonzero difference immediately outside the unexpanded mask is expected. The square 28-pixel guard conservatively covers the 18-pixel growth plus 10-pixel feather support."
+    },
+    "pass": true
+  },
+  "runtime": {
+    "requested": true,
+    "reachable": true,
+    "comfyui_version": "0.27.0",
+    "device_count": 1,
+    "queue_running_count": 0,
+    "queue_pending_count": 0,
+    "required_node_class_count": 21,
+    "missing_node_classes": [],
+    "generation_submitted": false,
+    "pass": true
+  },
+  "calibration_acceptance": {
+    "projected_area_estimates": {
+      "authority": "handoff_visual_ellipse_estimate_not_trusted_segmentation",
+      "left_projected_ratio": 0.3,
+      "right_projected_ratio": 0.38,
+      "required_minimum_each": 0.4,
+      "left_meets_requirement": false,
+      "right_meets_requirement": false
+    },
+    "target_met": false,
+    "final_acceptance": false,
+    "mask_promotion_allowed": false,
+    "next_action": "Use final body geometry and independent per-breast trusted masks, target at least 40 percent on each side, then apply the retained Pass Y/Pass Z method."
+  },
+  "structural_validation_pass": true,
+  "process_exit_contract": {
+    "0": "structural validation and final calibration acceptance passed",
+    "1": "structural validation failed",
+    "2": "structural validation passed but final calibration acceptance is blocked",
+    "current_exit_code": 2
+  },
+  "boundaries": [
+    "No prompt was submitted and none of the 25 retained generations was rerun.",
+    "The ztest model weight and raw reference archive remain local-only and unstaged.",
+    "Calibration masks were not treated as gold-standard body masks.",
+    "No mask promotion, Wave70 hard-gate rerun, Wave71+ activation, Jira mutation, AWS action, or EC2 start occurred."
+  ]
+}
