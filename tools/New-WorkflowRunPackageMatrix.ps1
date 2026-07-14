@@ -101,6 +101,11 @@ function Get-StringSha256Lower {
   }
 }
 
+function Get-FileSha256Lower {
+  param([Parameter(Mandatory=$true)][string]$Path)
+  return (Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash.ToLowerInvariant()
+}
+
 function New-Check {
   param(
     [string]$Name,
@@ -168,6 +173,19 @@ $samples = @($matrix.samples)
 if ($samples.Count -eq 0) {
   throw "Matrix file contains no samples."
 }
+$requiresSourceBindings = $false
+if ($null -ne $matrix.PSObject.Properties["requires_source_bindings"]) {
+  $requiresSourceBindings = [bool]$matrix.requires_source_bindings
+}
+$excludedSourceScopePath = [string]$matrix.excluded_source_scope.path
+$excludedSourceScopeFull = $null
+if (![string]::IsNullOrWhiteSpace($excludedSourceScopePath)) {
+  $excludedSourceScopeFull = [System.IO.Path]::GetFullPath((Resolve-ProjectPath -Path $excludedSourceScopePath)).TrimEnd("\", "/")
+  $projectRootFull = [System.IO.Path]::GetFullPath($ProjectRoot).TrimEnd("\", "/")
+  if (!$excludedSourceScopeFull.StartsWith($projectRootFull + [System.IO.Path]::DirectorySeparatorChar, [System.StringComparison]::OrdinalIgnoreCase)) {
+    throw "Matrix excluded_source_scope must remain inside ProjectRoot: $excludedSourceScopePath"
+  }
+}
 
 $matrixDir = Join-Path $MatrixRoot (ConvertTo-SafeId -Value $RunIdPrefix)
 New-Item -ItemType Directory -Force -Path $matrixDir | Out-Null
@@ -190,6 +208,51 @@ foreach ($sample in $samples) {
   }
   if ([string]$profile.target_lane_id -ne $laneId) {
     throw "Profile $profileId target_lane_id '$($profile.target_lane_id)' does not match matrix lane '$laneId'."
+  }
+
+  $sourceBindingSupplied = ($null -ne $profile.PSObject.Properties["source_binding"])
+  if ($requiresSourceBindings -and !$sourceBindingSupplied) {
+    throw "Profile $profileId must define source_binding because the matrix requires exact source bindings."
+  }
+  $sourceBindingValid = !$requiresSourceBindings
+  $sourceProjectPath = $null
+  $sourceStagedFilename = $null
+  $sourceSizeBytes = $null
+  $sourceSha256 = $null
+  if ($sourceBindingSupplied) {
+    $binding = $profile.source_binding
+    $bindingProjectPath = [string]$binding.project_path
+    $sourceStagedFilename = [string]$binding.staged_filename
+    $expectedSourceSha256 = ([string]$binding.sha256).ToLowerInvariant()
+    $expectedSourceSizeBytes = [int64]$binding.size_bytes
+    if ([string]::IsNullOrWhiteSpace($bindingProjectPath) -or
+        [string]::IsNullOrWhiteSpace($sourceStagedFilename) -or
+        $expectedSourceSha256 -notmatch '^[a-f0-9]{64}$' -or
+        $expectedSourceSizeBytes -lt 1) {
+      throw "Profile $profileId source_binding must define project_path, staged_filename, 64-character sha256, and positive size_bytes."
+    }
+    $resolvedSourcePath = Resolve-ProjectPath -Path $bindingProjectPath
+    Assert-ProjectInputFile -Path $resolvedSourcePath
+    $resolvedSourceFull = [System.IO.Path]::GetFullPath($resolvedSourcePath)
+    if ($null -ne $excludedSourceScopeFull -and
+        ($resolvedSourceFull.Equals($excludedSourceScopeFull, [System.StringComparison]::OrdinalIgnoreCase) -or
+         $resolvedSourceFull.StartsWith($excludedSourceScopeFull + [System.IO.Path]::DirectorySeparatorChar, [System.StringComparison]::OrdinalIgnoreCase))) {
+      throw "Profile $profileId source_binding is inside excluded_source_scope '$excludedSourceScopePath': $bindingProjectPath"
+    }
+    $sourceProjectPath = Convert-ToRepoPath -Path $resolvedSourcePath
+    $sourceSizeBytes = [int64](Get-Item -LiteralPath $resolvedSourcePath).Length
+    $sourceSha256 = Get-FileSha256Lower -Path $resolvedSourcePath
+    $requestSourceImage = [string]$profile.request_patch_values.source_image
+    if ($sourceSizeBytes -ne $expectedSourceSizeBytes) {
+      throw "Profile $profileId source_binding size mismatch: expected $expectedSourceSizeBytes, observed $sourceSizeBytes."
+    }
+    if ($sourceSha256 -ne $expectedSourceSha256) {
+      throw "Profile $profileId source_binding SHA-256 mismatch: expected $expectedSourceSha256, observed $sourceSha256."
+    }
+    if ($requestSourceImage -ne $sourceStagedFilename) {
+      throw "Profile $profileId request source_image '$requestSourceImage' does not match source_binding staged_filename '$sourceStagedFilename'."
+    }
+    $sourceBindingValid = $true
   }
 
   $safeProfile = ConvertTo-SafeId -Value $profileId
@@ -219,6 +282,11 @@ foreach ($sample in $samples) {
 
   $manifestPath = Join-Path $PackageRoot "$runId\RUN_PACKAGE_MANIFEST.json"
   $manifest = Read-JsonFile -Path $manifestPath
+  $packageSourceBindingValid = [bool]$manifest.prompt_profile.source_binding.valid
+  $packageSourcePath = [string]$manifest.prompt_profile.source_binding.packaged
+  if ($sourceBindingSupplied -and (!$packageSourceBindingValid -or [string]::IsNullOrWhiteSpace($packageSourcePath))) {
+    throw "Package $runId did not preserve the validated source binding."
+  }
   $seed = [string]$profile.request_patch_values.seed
   $outputPrefix = [string]$profile.request_patch_values.save_prefix
   if ([string]::IsNullOrWhiteSpace($outputPrefix)) {
@@ -243,6 +311,16 @@ foreach ($sample in $samples) {
     sampler_settings = $profile.request_patch_values.sampler_settings
     video_latent = $profile.request_patch_values.video_latent
     source_image = $sourceImage
+    source_binding_supplied = $sourceBindingSupplied
+    source_binding_valid = $sourceBindingValid
+    source_project_path = $sourceProjectPath
+    source_staged_filename = $sourceStagedFilename
+    source_size_bytes = $sourceSizeBytes
+    source_sha256 = $sourceSha256
+    source_packaged_path = $packageSourcePath
+    source_package_binding_valid = $packageSourceBindingValid
+    excluded_source_scope_path = $excludedSourceScopePath
+    outside_excluded_source_scope = $true
     diffusion_model = [string]$profile.request_patch_values.diffusion_model
     text_encoder = [string]$profile.request_patch_values.text_encoder
     vae_model = [string]$profile.request_patch_values.vae_model
@@ -266,6 +344,16 @@ foreach ($sample in $samples) {
     seed = $seed
     output_prefix = $outputPrefix
     source_image = $sourceImage
+    source_binding_supplied = $sourceBindingSupplied
+    source_binding_valid = $sourceBindingValid
+    source_project_path = $sourceProjectPath
+    source_staged_filename = $sourceStagedFilename
+    source_size_bytes = $sourceSizeBytes
+    source_sha256 = $sourceSha256
+    source_packaged_path = $packageSourcePath
+    source_package_binding_valid = $packageSourceBindingValid
+    excluded_source_scope_path = $excludedSourceScopePath
+    outside_excluded_source_scope = $true
     video_length = $videoLength
     artifact_type = $artifactType
     expected_width = $expectedWidth
@@ -300,6 +388,8 @@ if ($requiresRouterGate) {
   $checks += New-Check -Name "all_route_gates_not_supplied_by_policy" -Passed (@($sampleRecords | Where-Object { $_["route_result"] -ne "not_supplied" }).Count -eq 0) -Observed @($sampleRecords | ForEach-Object { $_["route_result"] }) -Expected "all not_supplied"
 }
 $checks += New-Check -Name "all_prompt_profiles_applied" -Passed (@($sampleRecords | Where-Object { $_["prompt_profile_applied"] -ne $true }).Count -eq 0) -Observed @($sampleRecords | ForEach-Object { $_["prompt_profile_applied"] }) -Expected "all true"
+$checks += New-Check -Name "required_source_bindings_valid" -Passed (!$requiresSourceBindings -or @($sampleRecords | Where-Object { $_["source_binding_supplied"] -ne $true -or $_["source_binding_valid"] -ne $true -or $_["source_package_binding_valid"] -ne $true -or [string]::IsNullOrWhiteSpace([string]$_["source_packaged_path"]) }).Count -eq 0) -Observed @($sampleRecords | ForEach-Object { [ordered]@{ profile_id = $_["profile_id"]; supplied = $_["source_binding_supplied"]; valid = $_["source_binding_valid"]; package_valid = $_["source_package_binding_valid"]; packaged_path = $_["source_packaged_path"]; source_sha256 = $_["source_sha256"] } }) -Expected $(if ($requiresSourceBindings) { "all supplied, valid, and packaged" } else { "not required" })
+$checks += New-Check -Name "sources_outside_excluded_scope" -Passed (@($sampleRecords | Where-Object { $_["outside_excluded_source_scope"] -ne $true }).Count -eq 0) -Observed @($sampleRecords | ForEach-Object { [ordered]@{ profile_id = $_["profile_id"]; source = $_["source_project_path"]; excluded_scope = $_["excluded_source_scope_path"]; outside = $_["outside_excluded_source_scope"] } }) -Expected "all true"
 $checks += New-Check -Name "unique_seeds" -Passed (!$requiresUniqueSeeds -or $seeds.Keys.Count -eq $sampleRecords.Count) -Observed $seeds.Keys.Count -Expected $(if ($requiresUniqueSeeds) { $sampleRecords.Count } else { "not required" })
 $checks += New-Check -Name "unique_output_prefixes" -Passed (!$requiresUniqueOutputPrefixes -or $prefixes.Keys.Count -eq $sampleRecords.Count) -Observed $prefixes.Keys.Count -Expected $(if ($requiresUniqueOutputPrefixes) { $sampleRecords.Count } else { "not required" })
 $checks += New-Check -Name "unique_prompt_request_hashes" -Passed (!$requiresUniquePromptHashes -or $promptHashes.Keys.Count -eq $sampleRecords.Count) -Observed $promptHashes.Keys.Count -Expected $(if ($requiresUniquePromptHashes) { $sampleRecords.Count } else { "not required" })
@@ -317,6 +407,8 @@ $manifestRecord = [ordered]@{
   workflow_group = $workflowGroup
   route_request_file = $(if ([string]::IsNullOrWhiteSpace($routeRequestFile)) { $null } else { Convert-ToRepoPath -Path (Resolve-ProjectPath -Path $routeRequestFile) })
   requires_router_gate = $requiresRouterGate
+  requires_source_bindings = $requiresSourceBindings
+  excluded_source_scope_path = $excludedSourceScopePath
   run_id_prefix = $RunIdPrefix
   matrix_dir = Convert-ToRepoPath -Path $matrixDir
   package_root = Convert-ToRepoPath -Path $PackageRoot

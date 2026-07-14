@@ -92,6 +92,8 @@ $requiresUniquePromptHashes = $true
 if ($null -ne $matrix.PSObject.Properties["requires_unique_prompt_hashes"]) { $requiresUniquePromptHashes = [bool]$matrix.requires_unique_prompt_hashes }
 $requiresUniqueVariantSignatures = $true
 if ($null -ne $matrix.PSObject.Properties["requires_unique_variant_signatures"]) { $requiresUniqueVariantSignatures = [bool]$matrix.requires_unique_variant_signatures }
+$requiresSourceBindings = $false
+if ($null -ne $matrix.PSObject.Properties["requires_source_bindings"]) { $requiresSourceBindings = [bool]$matrix.requires_source_bindings }
 
 $tempRoot = Join-Path ([System.IO.Path]::GetTempPath()) "comfy_package_matrix_$stamp"
 $tempPackages = Join-Path $tempRoot "packages"
@@ -130,6 +132,8 @@ if ($requiresRouterGate) {
   $checks += New-Check -Name "all_sample_routes_not_supplied_by_policy" -Passed (@($samples | Where-Object { $_.route_result -ne "not_supplied" }).Count -eq 0) -Observed @($samples | Select-Object -ExpandProperty route_result) -Expected "all not_supplied"
 }
 $checks += New-Check -Name "all_prompt_profiles_applied" -Passed (@($samples | Where-Object { $_.prompt_profile_applied -ne $true }).Count -eq 0) -Observed @($samples | Select-Object -ExpandProperty prompt_profile_applied) -Expected "all true"
+$checks += New-Check -Name "required_source_bindings_valid" -Passed (!$requiresSourceBindings -or @($samples | Where-Object { $_.source_binding_supplied -ne $true -or $_.source_binding_valid -ne $true -or $_.source_package_binding_valid -ne $true -or [string]::IsNullOrWhiteSpace([string]$_.source_packaged_path) -or [string]$_.source_sha256 -notmatch '^[a-f0-9]{64}$' -or [string]$_.source_image -ne [string]$_.source_staged_filename }).Count -eq 0) -Observed @($samples | ForEach-Object { [ordered]@{ profile_id = $_.profile_id; supplied = $_.source_binding_supplied; valid = $_.source_binding_valid; package_valid = $_.source_package_binding_valid; packaged_path = $_.source_packaged_path; source_image = $_.source_image; staged_filename = $_.source_staged_filename; source_sha256 = $_.source_sha256 } }) -Expected $(if ($requiresSourceBindings) { "all exact source bindings valid and packaged" } else { "not required" })
+$checks += New-Check -Name "sources_outside_excluded_scope" -Passed (@($samples | Where-Object { $_.outside_excluded_source_scope -ne $true }).Count -eq 0) -Observed @($samples | ForEach-Object { [ordered]@{ profile_id = $_.profile_id; source = $_.source_project_path; excluded_scope = $_.excluded_source_scope_path; outside = $_.outside_excluded_source_scope } }) -Expected "all true"
 $checks += New-Check -Name "unique_seed_count" -Passed (!$requiresUniqueSeeds -or @($samples | Select-Object -ExpandProperty seed -Unique).Count -eq $samples.Count) -Observed @($samples | Select-Object -ExpandProperty seed -Unique).Count -Expected $(if ($requiresUniqueSeeds) { $samples.Count } else { "not required" })
 $checks += New-Check -Name "unique_output_prefix_count" -Passed (!$requiresUniqueOutputPrefixes -or @($samples | Select-Object -ExpandProperty output_prefix -Unique).Count -eq $samples.Count) -Observed @($samples | Select-Object -ExpandProperty output_prefix -Unique).Count -Expected $(if ($requiresUniqueOutputPrefixes) { $samples.Count } else { "not required" })
 $checks += New-Check -Name "unique_prompt_request_hash_count" -Passed (!$requiresUniquePromptHashes -or @($samples | Select-Object -ExpandProperty prompt_request_sha256 -Unique).Count -eq $samples.Count) -Observed @($samples | Select-Object -ExpandProperty prompt_request_sha256 -Unique).Count -Expected $(if ($requiresUniquePromptHashes) { $samples.Count } else { "not required" })
@@ -165,6 +169,16 @@ $record = [ordered]@{
       seed = [string]$_.seed
       output_prefix = [string]$_.output_prefix
       source_image = [string]$_.source_image
+      source_binding_supplied = [bool]$_.source_binding_supplied
+      source_binding_valid = [bool]$_.source_binding_valid
+      source_project_path = [string]$_.source_project_path
+      source_staged_filename = [string]$_.source_staged_filename
+      source_size_bytes = $_.source_size_bytes
+      source_sha256 = [string]$_.source_sha256
+      source_packaged_path = [string]$_.source_packaged_path
+      source_package_binding_valid = [bool]$_.source_package_binding_valid
+      excluded_source_scope_path = [string]$_.excluded_source_scope_path
+      outside_excluded_source_scope = [bool]$_.outside_excluded_source_scope
       video_length = [string]$_.video_length
       artifact_type = [string]$_.artifact_type
       expected_width = [string]$_.expected_width

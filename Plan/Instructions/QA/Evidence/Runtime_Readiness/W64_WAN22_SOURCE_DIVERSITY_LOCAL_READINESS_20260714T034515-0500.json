@@ -1,0 +1,116 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-WAN22-SOURCE-DIVERSITY-LOCAL-READINESS-20260714T034515-0500",
+  "timestamp": "2026-07-14T03:45:15-05:00",
+  "classification": "WAN22_CHANGED_SOURCE_LOCAL_READINESS_PASS",
+  "lane_id": "wan_2_2_ti2v_5b_primary_lane",
+  "source_git_head_before_checkpoint": "851d92117fa97902b7c1f95ba052340b62783dec",
+  "prerequisite": {
+    "classification": "WAN22_BOUNDED_THREE_SEED_ROBUSTNESS_PASS",
+    "evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_WAN22_SEED_ROBUSTNESS_TARGET_RUNTIME_20260714T030930-0500.json",
+    "completed_seeds": [2271301, 2271302, 2271303],
+    "rerun_allowed": false
+  },
+  "source_selection": {
+    "project_path": "Ref_Image_1/Full/78b8e4ca10fd769e0752bd21c3599339.jpg",
+    "staged_filename": "wan22_source_diversity_ref1_78b8e4ca.jpg",
+    "size_bytes": 350118,
+    "sha256": "e20a857f0ac23151ae1b8aa47fb4746c975e522a5598896f747ef08a50cc9336",
+    "source_width": 3000,
+    "source_height": 4000,
+    "direct_visual_review": {
+      "full_head_visible": true,
+      "both_hands_visible": true,
+      "both_feet_visible": true,
+      "full_body_inside_frame": true,
+      "single_adult_subject": true,
+      "wardrobe": "black_one_piece_bodysuit",
+      "background": "clean_white_studio",
+      "result": "pass_true_full_body_changed_source"
+    },
+    "material_change_from_completed_baseline": [
+      "different subject identity",
+      "long microbraids instead of ponytail",
+      "black one-piece wardrobe and bare feet instead of gray top, black leggings, and white shoes",
+      "white studio instead of neutral gray studio",
+      "3000x4000 JPEG source instead of 768x1024 PNG source"
+    ],
+    "excluded_partial_body_path": "Ref_Image_1/Full/New folder",
+    "excluded_partial_body_reason": "User identified this source as knee-up rather than full-body; it is not used for feet, toes, ankles, or lower-calf proof."
+  },
+  "unit": {
+    "profile": "PromptProfiles/video_generation/wan_2_2_ti2v_5b_primary_lane/fullbody_source_diversity_ref1_78b8_seed2271401.json",
+    "matrix": "PromptProfiles/video_generation/wan_2_2_ti2v_5b_source_diversity_readiness.matrix.json",
+    "seed": 2271401,
+    "width": 480,
+    "height": 640,
+    "frame_count": 49,
+    "fps": 24,
+    "prompt_request_sha256": "7d48f8859e7e0161c0bff82eaa13ae2ed2f8207567f422e67af387abacdadfe0",
+    "output_prefix": "video/wan22_ti2v5b_source_diversity_ref1_78b8_seed2271401"
+  },
+  "persistent_local_package": {
+    "matrix_manifest": "runtime_artifacts/run_package_matrices/wan22_source_diversity_local_20260714_v1/RUN_PACKAGE_MATRIX_MANIFEST.json",
+    "matrix_manifest_sha256": "28b2001144d002f62abf00060e333d435d32a64e7b7deba1d8ea84d8120d00ab",
+    "matrix_result": "pass_local_only",
+    "matrix_failure_count": 0,
+    "run_package_manifest": "runtime_artifacts/run_packages/wan22_source_diversity_local_20260714_v1_wan22_ti2v5b_fullbody_source_diversity_ref1_78b8_seed2271401/RUN_PACKAGE_MANIFEST.json",
+    "run_package_manifest_sha256": "73df7ced894eace8a14aaa5928b221238c707bd0659b2f557ed5e902f77f393b",
+    "packaged_source": "runtime_artifacts/run_packages/wan22_source_diversity_local_20260714_v1_wan22_ti2v5b_fullbody_source_diversity_ref1_78b8_seed2271401/inputs/wan22_source_diversity_ref1_78b8e4ca.jpg",
+    "packaged_source_hash_matches": true,
+    "prompt_source_filename_matches_packaged_source": true
+  },
+  "implementation": [
+    "tools/New-WorkflowRunPackage.ps1 validates and packages optional exact source bindings",
+    "tools/New-WorkflowRunPackageMatrix.ps1 requires, validates, records, and checks source bindings when matrix policy enables them",
+    "Plan/Instructions/QA/Scripts/Test-WorkflowRunPackageMatrix.ps1 verifies exact source binding and package propagation"
+  ],
+  "validation": {
+    "powershell_parse_errors": 0,
+    "matrix_validation_output": "runtime_artifacts/wan22_source_diversity/SOURCE_DIVERSITY_MATRIX_VALIDATION.json",
+    "matrix_validation_result": "pass_local_only",
+    "matrix_check_count": 13,
+    "matrix_failed_check_count": 0,
+    "source_binding_hash_mismatch_probe": "pass_expected_fail_closed",
+    "standalone_package_hash_mismatch_probe": "pass_expected_fail_closed_before_source_copy",
+    "excluded_source_scope_probe": "pass_expected_fail_closed_before_package",
+    "excluded_source_scope_probe_package_manifest_count": 0,
+    "seed_robustness_backward_compatibility_result": "pass_local_only",
+    "seed_robustness_backward_compatibility_failed_check_count": 0,
+    "source_binding_valid": true,
+    "source_binding_packaged": true,
+    "local_only": true,
+    "aws_contacted": false,
+    "github_api_contacted": false,
+    "civitai_contacted": false,
+    "comfyui_contacted": false,
+    "ec2_started": false,
+    "generation_executed": false
+  },
+  "checks": {
+    "completed_seeds_not_reused": true,
+    "source_outside_excluded_partial_folder": true,
+    "excluded_partial_folder_mechanically_enforced": true,
+    "source_is_true_full_body": true,
+    "source_hash_and_size_exact": true,
+    "source_copied_into_run_package": true,
+    "prompt_source_filename_matches": true,
+    "new_seed_and_output_prefix": true,
+    "matrix_and_package_pass_local_only": true,
+    "tampered_hash_fails_closed": true,
+    "ec2_remained_stopped": true
+  },
+  "failed_checks": [],
+  "result": "pass_wan22_changed_source_local_readiness",
+  "boundaries": {
+    "target_runtime_execution_completed": false,
+    "source_diversity_runtime_claimed": false,
+    "long_duration_quality_claimed": false,
+    "production_video_lane_certification_claimed": false,
+    "gold_masks_consumed": false,
+    "mask_or_geometry_authority_claimed": false,
+    "wave71_activation_claimed": false,
+    "jira_mutated": false
+  },
+  "next_action": "Checkpoint this exact local implementation through a protected codex branch and required PR. After main is exact-head green, rebuild the package and deploy bundle from that head before considering one guarded seed-2271401 target-runtime run."
+}

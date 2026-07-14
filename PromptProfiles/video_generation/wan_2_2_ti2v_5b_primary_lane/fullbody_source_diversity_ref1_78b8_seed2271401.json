@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "wan22_ti2v5b_fullbody_source_diversity_ref1_78b8_seed2271401",
+  "target_lane_id": "wan_2_2_ti2v_5b_primary_lane",
+  "purpose": "One local-only changed-source readiness unit using a true full-body user reference outside the excluded partial-body folder.",
+  "source_binding": {
+    "project_path": "Ref_Image_1/Full/78b8e4ca10fd769e0752bd21c3599339.jpg",
+    "staged_filename": "wan22_source_diversity_ref1_78b8e4ca.jpg",
+    "size_bytes": 350118,
+    "sha256": "e20a857f0ac23151ae1b8aa47fb4746c975e522a5598896f747ef08a50cc9336",
+    "source_width": 3000,
+    "source_height": 4000,
+    "full_body_review": "pass_head_hands_both_feet_visible",
+    "excluded_partial_body_folder": false
+  },
+  "request_patch_values": {
+    "positive_prompt": "cinematic realistic full-body studio video of one adult woman wearing a black one-piece bodysuit, preserve the exact face identity long microbraids wardrobe proportions bare feet and clean white studio, subtle natural breathing, one gentle blink, tiny braid and fabric movement, relaxed weight shift, locked camera, stable framing, realistic skin texture, physically coherent motion",
+    "negative_prompt": "camera movement, zoom, pan, cut, scene change, identity drift, face morphing, age change, hairstyle change, wardrobe change, background change, body warping, limb deformation, extra limbs, fused fingers, foot sliding, jitter, flicker, temporal inconsistency, oversmoothed skin, plastic skin, blur, low quality, watermark, text",
+    "seed": 2271401,
+    "sampler_settings": {
+      "steps": 20,
+      "cfg": 5,
+      "sampler_name": "uni_pc",
+      "scheduler": "simple",
+      "denoise": 1
+    },
+    "video_latent": {
+      "width": 480,
+      "height": 640,
+      "length": 49,
+      "batch_size": 1
+    },
+    "source_image": "wan22_source_diversity_ref1_78b8e4ca.jpg",
+    "output_video": {
+      "filename_prefix": "video/wan22_ti2v5b_source_diversity_ref1_78b8_seed2271401",
+      "format": "mp4",
+      "codec": "h264"
+    }
+  },
+  "expected_outputs": {
+    "artifact_type": "video",
+    "minimum_output_count": 1,
+    "output_prefix": "wan22_ti2v5b_source_diversity_ref1_78b8_seed2271401",
+    "frame_count": 49,
+    "fps": 24
+  },
+  "qa_focus": [
+    "changed-source face and microbraid retention",
+    "black one-piece wardrobe continuity",
+    "bare-foot contact and foot sliding",
+    "hand and limb continuity",
+    "white-background and camera stability",
+    "first and last frame composition consistency"
+  ],
+  "runtime_boundaries": {
+    "local_readiness_only": true,
+    "one_sample_only": true,
+    "ec2_start_allowed": false,
+    "generation_allowed": false,
+    "gold_masks_consumed": false,
+    "body_mask_or_geometry_authority_claimed": false,
+    "requires_direct_temporal_review_after_any_future_execution": true,
+    "production_video_lane_certification_claimed": false
+  }
+}
