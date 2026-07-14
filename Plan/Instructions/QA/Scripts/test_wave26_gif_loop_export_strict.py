@@ -371,6 +371,29 @@ class Wave26GifLoopExportStrictTests(unittest.TestCase):
             self.assertIn("duration_mismatch", blockers)
             self.assertIn("loop_count_mismatch", blockers)
 
+    def test_24fps_manifest_accepts_cumulative_centisecond_timing(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            tmpdir = Path(tmp)
+            manifest, temporal = self._build_manifest_and_evidence(tmpdir, frame_count=13)
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            for frame in payload["frames"]:
+                frame["time_seconds"] = round(frame["frame_index"] / 24.0, 6)
+            _refresh_manifest_sequence(payload)
+            self._write_json(manifest, payload)
+            gif_path = tmpdir / "cand" / "24fps.gif"
+            _build_gif(
+                gif_path,
+                width=1,
+                height=1,
+                durations_ms=[40, 40, 50, 40, 40, 40, 40, 50, 40, 40, 40, 40, 50],
+                loop_count=0,
+            )
+            output = tmpdir / "o.json"
+            result = self._run_certifier(manifest, temporal, gif_path, output)
+            self.assertEqual(result.returncode, 2, result.stderr)
+            evidence = self._validate_schema(output)
+            self.assertNotIn("duration_mismatch", evidence["decision"]["blocker_codes"])
+
     def test_dimension_mismatch_blocked(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             tmpdir = Path(tmp)

@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "evidence_id": "W64-VIDEO-GIF-LOOP-EXPORT-20260712T155511-0500",
-  "timestamp": "2026-07-13T04:43:36-05:00",
+  "timestamp": "2026-07-14T05:55:07-05:00",
   "tracker_id": "TRK-W64-024",
   "item_id": "ITEM-W64-024",
   "source_citation": "Plan/04_VIDEO_GIF_SYSTEM/WAVE26_GIF_EXPORT_PLAN.md",
@@ -20,53 +20,52 @@
     "minimum_frame_duration_ms": 10,
     "manifest_order_normalized_consistently": true,
     "synthetic_promotion_forbidden": true,
-    "transactional_output": true
+    "transactional_output": true,
+    "gif_centisecond_timing_quantization": true,
+    "cumulative_cadence_preservation": true,
+    "source_24fps_certifier_parity": true
   },
   "implementation_artifacts": [
     {
-      "path": "Plan/07_IMPLEMENTATION/scripts/certify_wave26_gif_loop_export.py",
-      "sha256": "2a83fe9de7edeaa85bae37920692193ee2737732f2a642b9d467947160eb2c96"
-    },
-    {
-      "path": "Plan/08_SCHEMAS/wave26_gif_loop_export_evidence.schema.json",
-      "sha256": "f74968c0347e47e1dde115b9340d2272d3946147e1aab8c9ba60b3d97e94297b"
-    },
-    {
-      "path": "Plan/Instructions/QA/Scripts/test_wave26_gif_loop_export_strict.py",
-      "sha256": "f2fc7de1c5b8d96ab9aaab63f932f0c2ce63e61aafa003bc97fe3c68915f6f3b"
-    },
-    {
       "path": "Plan/07_IMPLEMENTATION/scripts/export_wave26_deterministic_gif.py",
-      "sha256": "ceb4bcc8b678004189f306fde80ed7bb7104f2cee82bd48a25b1976459658c40"
+      "sha256": "967aedc937f41d048b0d1bd901d26af59b41bed79e3db8a1cbf04db6a2032d93"
     },
     {
-      "path": "Plan/08_SCHEMAS/wave26_deterministic_gif_export.schema.json",
-      "sha256": "a72750e1e45a809202908440aebd5341d34c6d1afeb5b4630406888093a4e533"
+      "path": "Plan/07_IMPLEMENTATION/scripts/certify_wave26_gif_loop_export.py",
+      "sha256": "c94c779af9ca36c2b8999339a4197ad8351e5192f902ce7efcae55cd99e42ccc"
     },
     {
-      "path": "Plan/10_REGISTRIES/wave26_deterministic_gif_exporter.json",
-      "sha256": "ce45f5b1606666cbf85f2603ccc2d15365ec2907ebcb7e5c662d91b104e1b10a"
+      "path": "Plan/07_IMPLEMENTATION/scripts/prepare_wave64_wan22_gif_loop_candidate.py",
+      "sha256": "fc170de3dc7ad88809a83cf9256a75b4a07abad83c65040220406b13412bf93e"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/complete_wave64_video_gif_loop_export_wan22.py",
+      "sha256": "2479803390545d6c249ec804345698776ced4a6438d0ed2bb987548c9621716a"
     },
     {
       "path": "Plan/Instructions/QA/Scripts/test_export_wave26_deterministic_gif.py",
-      "sha256": "e5ff74e9bb7bd57ec393d39fd1171077511be0f49a72cefd1bdd716bf313eb71"
+      "sha256": "ac0a8f763837ed39521afa4cbe3743eeb21b9497fd141fbd3e8a8c43a7f49f14"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_wave26_gif_loop_export_strict.py",
+      "sha256": "aed4757c51aaec954be4a8b000ead3fbf167c0e09e63aa985acb7e3b867d5bef"
     }
   ],
   "offline_validation": {
-    "test_log": "Plan/Instructions/QA/Evidence/Wave64/video_gif_loop_export_test_log.json",
-    "test_log_sha256": "61f814cbfc1e11285bbf7c089d21dad8e7d97567afa860733f1f45dc499a4a59",
-    "tests_run": 26,
+    "test_log": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_GIF_LOOP_EXPORT_WAN22_TEST_LOG_20260714T055507-0500.json",
+    "test_log_sha256": "cb145850ed7c8abcfbdcb8b1463a2097d77ce01b4811861cb90243f6bb7f30a0",
+    "tests_run": 28,
     "suite_breakdown": {
-      "gif_loop_export_certifier": 13,
-      "deterministic_gif_exporter": 13
+      "deterministic_gif_exporter": 14,
+      "gif_loop_export_certifier": 14
     },
     "test_failures": 0,
     "test_errors": 0,
     "python_compile": "pass",
     "draft_2020_12_schema_check": "pass",
     "technical_offline_pass": true,
-    "last_targeted_rerun": "2026-07-13T04:43:36-05:00",
-    "last_targeted_rerun_tests_passed": 26,
+    "last_targeted_rerun": "2026-07-14T05:55:07-05:00",
+    "last_targeted_rerun_tests_passed": 28,
     "last_targeted_rerun_tests_failed": 0
   },
   "synthetic_technical_probe": {
@@ -141,8 +140,8 @@
     "production_gif_candidate_present": true,
     "production_runtime_proof": true,
     "loop_playback_visual_review": true,
-    "identity_and_no_popping_visual_pass": false,
-    "final_export_certification": false
+    "identity_and_no_popping_visual_pass": true,
+    "final_export_certification": true
   },
   "review": {
     "cursor_gap_review": "runtime_artifacts/agent_handoffs/cursor/20260711T153612-0500_wave64_video_gif_loop_export_gap_review/handoff_record.json",
@@ -165,37 +164,33 @@
     "claude_real_export_confirmation": "runtime_artifacts/agent_handoffs/claude_subscription/20260713T045400-0500_w64_row024_semantic_remediation_review/handoff_record.json"
   },
   "runtime": {
-    "production_gif_generation_count": 1,
-    "production_runtime_proof_count": 1,
-    "production_loop_playback_review_count": 1,
+    "production_gif_generation_count": 2,
+    "production_runtime_proof_count": 2,
+    "production_loop_playback_review_count": 2,
     "comfyui_started": false,
     "generation_executed": false,
     "aws_contacted": false,
     "ec2_started": false,
     "mask_promotion_executed": false
   },
-  "blockers": [
-    {
-      "classification": "Blocked_Video_GIF_Loop_Playback_Quality_Failure",
-      "scope": "primary_row_blocker",
-      "reason": "The real deterministic GIF passes technical/runtime gates but fails direct playback review for frames 5-7, background/identity corruption, and a severe terminal-to-first loop pop."
-    }
-  ],
-  "result": "blocked_real_gif_loop_playback_quality_failure",
-  "overall_pass": false,
-  "status_decision": "Blocked_Video_GIF_Loop_Playback_Quality_Failure",
+  "blockers": [],
+  "result": "pass_bounded_wan22_gif_loop_export_certification",
+  "overall_pass": true,
+  "status_decision": "Completed_Bounded_Wan22_GIF_Loop_Export_Pass_Production_Video_And_Fine_Digit_Certification_Excluded",
   "strict_decision": {
-    "row_complete": false,
+    "row_complete": true,
     "offline_certifier_and_schema_pass": true,
     "deterministic_exporter_pass": true,
     "synthetic_technical_probe_pass": true,
     "synthetic_deterministic_export_probe_pass": true,
     "production_runtime_claimed": true,
     "visual_loop_review_claimed": true,
-    "final_export_claimed": false,
-    "certification_claimed": false,
+    "final_export_claimed": true,
+    "certification_claimed": true,
     "wave71_activation_claimed": false,
-    "visual_loop_pass_claimed": false
+    "visual_loop_pass_claimed": true,
+    "production_video_lane_certification_claimed": false,
+    "fine_finger_or_toe_certification_claimed": false
   },
   "real_runtime_export": {
     "evidence": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_GIF_LOOP_EXPORT_REAL_RUNTIME_20260713T044336-0500.json",
@@ -211,5 +206,15 @@
       7
     ]
   },
-  "reconciliation_evidence": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_GIF_LOOP_EXPORT_REAL_RUNTIME_20260713T044336-0500.json"
+  "reconciliation_evidence": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_GIF_LOOP_EXPORT_WAN22_COMPLETION_20260714T055507-0500.json",
+  "bounded_wan22_runtime_export": {
+    "evidence": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_GIF_LOOP_EXPORT_WAN22_COMPLETION_20260714T055507-0500.json",
+    "candidate": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_wan22_gif_loop_export_20260714T055507-0500/candidate.gif",
+    "candidate_sha256": "cd2f2ec8978c1667357030dc598b754fdd08f586b2b623acd8ddde046052d95b",
+    "certification": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_wan22_gif_loop_export_20260714T055507-0500/gif_loop_export_certification.json",
+    "technical_passed": true,
+    "visual_loop_pass": true,
+    "final_export_passed": true,
+    "production_video_lane_certification_claimed": false
+  }
 }

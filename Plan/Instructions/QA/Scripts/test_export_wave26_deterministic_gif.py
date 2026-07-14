@@ -47,7 +47,14 @@ class DeterministicGifExporterTests(unittest.TestCase):
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
-    def build_packet(self, frame_count: int = 4, *, alpha: bool = False, corrupt_frame: int | None = None) -> tuple[Path, Path]:
+    def build_packet(
+        self,
+        frame_count: int = 4,
+        *,
+        alpha: bool = False,
+        corrupt_frame: int | None = None,
+        frame_interval_seconds: float = 0.04,
+    ) -> tuple[Path, Path]:
         inputs: list[Path] = []
         first: np.ndarray | None = None
         for index in range(frame_count):
@@ -70,7 +77,8 @@ class DeterministicGifExporterTests(unittest.TestCase):
                     image[30:34, 45:49, :3] = 90
                 self.assertTrue(cv2.imwrite(str(path), image))
             record = {
-                "frame_index": index, "time_seconds": round(index * 0.04, 2),
+                "frame_index": index,
+                "time_seconds": round(index * frame_interval_seconds, 6),
                 "source_route": "unit", "engine_name": "unit", "shot_id": "shot",
                 "visible_characters": ["subject"], "camera_state": {"mode": "static"},
                 "qa_scores": {}, "repair_status": "none", "artifact_path": str(path), "artifact_sha256": sha256(path),
@@ -113,6 +121,38 @@ class DeterministicGifExporterTests(unittest.TestCase):
             self.assertEqual(gif.size, (96, 64))
             self.assertEqual(gif.info["loop"], 0)
             self.assertEqual([frame.info["duration"] for frame in frames], [40, 40, 40, 40])
+
+    def test_24fps_timing_is_centisecond_quantized_and_certifier_compatible(self) -> None:
+        manifest, evidence = self.build_packet(frame_count=13, frame_interval_seconds=1.0 / 24.0)
+        output = self.work / "export"
+        result = self.export(manifest, evidence, output)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        expected = [40, 40, 50, 40, 40, 40, 40, 50, 40, 40, 40, 40, 50]
+        with Image.open(output / "candidate.gif") as gif:
+            self.assertEqual(
+                [frame.info["duration"] for frame in ImageSequence.Iterator(gif)],
+                expected,
+            )
+        certification = self.work / "certification.json"
+        certified = self.run_cmd(
+            [
+                sys.executable,
+                str(CERTIFIER),
+                "--manifest",
+                str(manifest),
+                "--temporal-evidence",
+                str(evidence),
+                "--candidate-gif",
+                str(output / "candidate.gif"),
+                "--output",
+                str(certification),
+                "--root",
+                str(ROOT),
+            ]
+        )
+        self.assertEqual(certified.returncode, 2, certified.stderr)
+        payload = json.loads(certification.read_text())
+        self.assertNotIn("duration_mismatch", payload["decision"]["blocker_codes"])
 
     def test_export_manifest_is_schema_valid_and_claim_bounded(self) -> None:
         manifest, evidence = self.build_packet()

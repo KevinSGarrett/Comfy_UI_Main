@@ -107,6 +107,24 @@ def _sequence_sha(frames: list[dict[str, Any]]) -> str:
     return hashlib.sha256(json.dumps(payload, separators=(",", ":"), sort_keys=True).encode("utf-8")).hexdigest()
 
 
+def _quantize_gif_durations(durations: list[int], minimum_duration_ms: int) -> list[int]:
+    """Map millisecond timing to GIF centiseconds while preserving cumulative cadence."""
+    quantum_ms = 10
+    quantized: list[int] = []
+    source_cumulative = 0
+    encoded_cumulative = 0
+    for duration in durations:
+        source_cumulative += duration
+        target_cumulative = ((source_cumulative + (quantum_ms // 2)) // quantum_ms) * quantum_ms
+        encoded_duration = target_cumulative - encoded_cumulative
+        if encoded_duration < minimum_duration_ms:
+            encoded_duration = minimum_duration_ms
+            target_cumulative = encoded_cumulative + encoded_duration
+        quantized.append(encoded_duration)
+        encoded_cumulative = target_cumulative
+    return quantized
+
+
 def _load_frames(manifest: dict[str, Any], manifest_path: Path, minimum_duration_ms: int) -> tuple[list[Image.Image], list[int], int, int]:
     frames = sorted(manifest["frames"], key=lambda frame: frame["frame_index"])
     if [frame["frame_index"] for frame in frames] != list(range(len(frames))) or _sequence_sha(frames) != manifest["sequence_sha256"]:
@@ -149,7 +167,7 @@ def _load_frames(manifest: dict[str, Any], manifest_path: Path, minimum_duration
                 raise ValueError(f"manifest frame duration must be at least {minimum_duration_ms}ms for GIF timing")
             durations.append(duration)
         durations.append(durations[0])
-    return images, durations, width, height
+    return images, _quantize_gif_durations(durations, minimum_duration_ms), width, height
 
 
 def _global_palette(images: list[Image.Image], sample_edge: int, colors: int) -> Image.Image:
