@@ -9345,3 +9345,10 @@ The coordinator default is corrected to `render-outputs/batched-runtime`; local 
 Next action: continue the concrete non-mask runtime lane with `sdxl_realesrgan_upscale_polish_lane`. Reuse its already-staged model and existing source-selection evidence. Select only a source candidate that passes the fail-closed RealESRGAN export policy, then build current-head readiness before any bounded target-runtime action. Do not promote masks, rerun Wave70 hard gates, activate Wave71+, mutate Jira, or use stale EC2 planning state.
 
 Current evidence: `Plan/Instructions/QA/Evidence/Done_Certifications/W64_OPENPOSE_LANE_BOUNDED_TARGET_RUNTIME_FINAL_CERTIFICATION_61596842_20260713T200400-0500.json`; `Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_OPENPOSE_V6_TARGET_RUNTIME_RECOVERED_PULLBACK_61596842_20260713T200200-0500.json`; `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_OPENPOSE_V6_TARGET_RUNTIME_VISUAL_QA_61596842_20260713T200300-0500.json`.
+## RealESRGAN Normal Full-Body Target Preparation Ready - 2026-07-13T20:34:15-05:00
+
+The selected RealESRGAN lane now has a current-head local run package for the conditionally approved Normal full-body source. Source, profile, model, and prompt hashes are exact; static workflow validation passes with zero defects; the role-aware asset-transfer dry gate passes with zero failed checks. No prior generation was replayed and no live action is authorized.
+
+Next action: checkpoint the narrow role-selection helper and readiness evidence through a protected `codex/*` PR. After `main` is current, rebuild and validate the exact-head deploy bundle, recheck existing S3/EC2 model and input hashes without duplicate upload/install, and execute at most one guarded target-runtime unit only if every same-window safety gate passes. Preserve source-master retention and the manual mask/Wave71+/Jira/Flux boundaries.
+
+Evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_REALESRGAN_NORMAL_FULLBODY_TARGET_RUNTIME_LOCAL_PREP_2D1F5A8A_20260713T203415-0500.json`.

@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0",
+  "artifact_type": "realesrgan_normal_fullbody_target_runtime_local_preparation",
+  "created_at": "2026-07-13T20:34:15-05:00",
+  "source_git_head": "2d1f5a8abade108078ac2115b32881382c072065",
+  "lane_id": "sdxl_realesrgan_upscale_polish_lane",
+  "result": "pass_local_only_ready_for_guarded_checkpoint_then_live_asset_recheck",
+  "selected_candidate": {
+    "candidate_id": "normal_fullbody_seed711670301",
+    "profile": "PromptProfiles/base_generation/realesrgan_multisource_robustness/realesrgan_normal_fullbody_w70_v1.json",
+    "profile_sha256": "64cd31c83cf28f82cf21bf29fb1f30b4cec1e5c725f34adf8a7af92b6573260e",
+    "source_artifact": "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v4_full_body_standing_seed711670301_20260711T035900-0500/images/normal_v4_fullbody_standing_711670301_00001_.png",
+    "source_sha256": "b01b694125e08027195baf3c5a4eeac472eba242bfb4bbe69473625844134fc1",
+    "runtime_input_filename": "upscale_source_normal_fullbody_w70_v1.png",
+    "selection_disposition": "conditional_resolution_export_retain_source_master"
+  },
+  "model": {
+    "filename": "RealESRGAN_x4plus.pth",
+    "sha256": "4fa0d38905f75ac06eb49a7951b426670021be3018265fd191d2125df9d682f1"
+  },
+  "run_package": {
+    "path": "runtime_artifacts/run_packages/realesrgan_normal_fullbody_target_2d1f5a8a_20260713T203300-0500/RUN_PACKAGE_MANIFEST.json",
+    "sha256": "9b82901921f2ff7902e589732a1d313c580d657e297ff9d33672c67f70c77700",
+    "result": "pass_local_only",
+    "workflow_node_count": 4,
+    "static_defect_count": 0,
+    "prompt_request_sha256": "3cb289691d3c48995195065c19eb322fdd616fd93257033c8eb9fe9656aa4729"
+  },
+  "asset_transfer_dry_run": {
+    "path": "runtime_artifacts/realesrgan_target_runtime_prep/asset_transfer/bundle.json",
+    "sha256": "0e4c5ce2ed94ccafbed188f788feccfdec7800c26bbd23a164b6c1b5f91021e4",
+    "result": "pass_local_only_realesrgan_asset_transfer_dry_run_bundle_validated",
+    "input_role": "profile_scoped_fullbody_source_image",
+    "failed_check_count": 0,
+    "child_artifact_count": 4,
+    "execute_allowed_now": false
+  },
+  "implementation": {
+    "file": "Plan/Instructions/QA/Scripts/Test-RealesrganLaneAssetTransferDryRunBundle.ps1",
+    "sha256": "272bf62805e94a9ba8623b76708c1646d3afcd71848da1b1d144bd62a87b697a",
+    "change": "Select a named required-input role and verify its runtime filename while preserving the existing Canny default."
+  },
+  "safety": {
+    "local_only": true,
+    "aws_contacted_by_preparation": false,
+    "s3_contacted": false,
+    "ec2_started": false,
+    "generation_executed": false,
+    "prior_source_generation_repeated": false,
+    "prior_upscale_generation_repeated": false,
+    "masks_consumed_as_truth": false,
+    "masks_promoted": false,
+    "wave70_hard_gate_rerun": false,
+    "wave71_plus_activated": false,
+    "jira_mutated": false
+  },
+  "exact_blockers": [
+    "guarded_pr_checkpoint_required_before_live_runtime",
+    "current_head_deploy_bundle_build_and_validation_required",
+    "live_s3_model_and_input_presence_hash_recheck_required",
+    "same_window_emergency_stop_schedule_and_watchdog_required",
+    "bounded_target_runtime_output_pullback_and_visual_qa_missing"
+  ],
+  "next_action": "Checkpoint this narrow preparation change through a protected codex/* PR. After main is current, rebuild and validate the exact-head deploy bundle, recheck existing S3/EC2 assets without duplicate upload or install, then run at most one guarded RealESRGAN target-runtime unit if every live gate passes."
+}

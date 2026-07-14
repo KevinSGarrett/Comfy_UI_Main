@@ -12,6 +12,7 @@ param(
   [string]$LaneRuntimeRequirements = "Workflows\base_generation\sdxl_realesrgan_upscale_polish_lane\runtime_requirements.json",
   [string]$ModelProvisioningEvidence = "Plan\Instructions\QA\Evidence\Model_Registry\W69_LOCAL_REALESRGAN_UPSCALE_MODEL_PROVISIONING_20260707T110500-0500.json",
   [string]$ModelFile = "models\upscale_models\RealESRGAN_x4plus.pth",
+  [string]$InputRole = "source_image",
   [string]$InputAssetFile = "Plan\Instructions\Operations\Pulled_Back_Artifacts\canny_w69_eyeonly_seam_suppression_711570105_20260707T104736-0500\images\canny_w69_eyeonly_seam_suppression_711570105_00001_.png",
   [string]$ModelS3Uri = "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/RealESRGAN_x4plus.pth",
   [string]$InputS3Uri = "s3://comfy-ui-main-runtime-029530099913-us-east-1/model-cache/input-assets/upscale_polish_source_canny_w69.png",
@@ -105,9 +106,9 @@ $requirements = Get-Content -LiteralPath $requirementsPath -Raw | ConvertFrom-Js
 $provisioning = Get-Content -LiteralPath $provisioningPath -Raw | ConvertFrom-Json
 $laneId = [string]$requirements.lane_id
 $requiredModel = @($requirements.required_models | Where-Object { [string]$_.role -eq "upscale_model" } | Select-Object -First 1)
-$requiredInput = @($requirements.required_inputs | Where-Object { [string]$_.role -eq "source_image" } | Select-Object -First 1)
+$requiredInput = @($requirements.required_inputs | Where-Object { [string]$_.role -eq $InputRole } | Select-Object -First 1)
 if ($requiredModel.Count -ne 1 -or $requiredInput.Count -ne 1) {
-  throw "Runtime requirements must define one upscale_model and one source_image."
+  throw "Runtime requirements must define one upscale_model and one required input with role '$InputRole'."
 }
 $requiredModel = $requiredModel[0]
 $requiredInput = $requiredInput[0]
@@ -140,7 +141,8 @@ $markdownPath = Resolve-ProjectPath -Path $MarkdownOutFile
 $checks = [System.Collections.Generic.List[object]]::new()
 [void]$checks.Add((New-Check -Name "lane_is_realesrgan_upscale" -Passed ($laneId -eq "sdxl_realesrgan_upscale_polish_lane") -Observed $laneId -Expected "sdxl_realesrgan_upscale_polish_lane"))
 [void]$checks.Add((New-Check -Name "model_filename_matches_requirements" -Passed ((Split-Path -Leaf $modelPath) -eq [string]$requiredModel.filename) -Observed (Split-Path -Leaf $modelPath) -Expected ([string]$requiredModel.filename)))
-[void]$checks.Add((New-Check -Name "input_filename_matches_requirements" -Passed (([string]$requiredInput.filename) -eq "upscale_polish_source_canny_w69.png") -Observed ([string]$requiredInput.filename) -Expected "upscale_polish_source_canny_w69.png"))
+[void]$checks.Add((New-Check -Name "input_role_matches_requirements" -Passed (([string]$requiredInput.role) -eq $InputRole) -Observed ([string]$requiredInput.role) -Expected $InputRole))
+[void]$checks.Add((New-Check -Name "input_s3_filename_matches_requirements" -Passed (($InputS3Uri -split '/')[-1] -eq [string]$requiredInput.filename) -Observed (($InputS3Uri -split '/')[-1]) -Expected ([string]$requiredInput.filename)))
 [void]$checks.Add((New-Check -Name "model_hash_matches_requirements" -Passed ($observedModelHash -eq $expectedModelHash) -Observed $observedModelHash -Expected $expectedModelHash))
 [void]$checks.Add((New-Check -Name "input_hash_matches_requirements" -Passed ($observedInputHash -eq $expectedInputHash) -Observed $observedInputHash -Expected $expectedInputHash))
 [void]$checks.Add((New-Check -Name "provisioning_evidence_matches_model_hash" -Passed (([string]$provisioning.runtime_use.lane_id -eq $laneId) -and ([string]$provisioning.sha256).ToLowerInvariant() -eq $expectedModelHash) -Observed ([ordered]@{ lane_id = $provisioning.runtime_use.lane_id; sha256 = $provisioning.sha256 }) -Expected "matching lane and model SHA256"))
@@ -264,6 +266,7 @@ $record = [ordered]@{
   lane_runtime_requirements = ConvertTo-ProjectRelativePath -Path $requirementsPath
   model_provisioning_evidence = ConvertTo-ProjectRelativePath -Path $provisioningPath
   model_file = ConvertTo-ProjectRelativePath -Path $modelPath
+  input_role = $InputRole
   input_asset_file = ConvertTo-ProjectRelativePath -Path $inputPath
   model_s3_uri = $ModelS3Uri
   input_s3_uri = $InputS3Uri
