@@ -1,0 +1,17 @@
+{
+  "lane_id": "wan_2_2_ti2v_5b_primary_lane",
+  "module_id": "MOD-VIDEO-WAN22-TI2V-5B-PRIMARY",
+  "workflow_path": "Plan/07_IMPLEMENTATION/workflow_templates/video_generation/wan_2_2_ti2v_5b_primary_lane/workflow.api.json",
+  "patch_points": [
+    {"name": "positive_prompt", "required": true, "node_id": "4", "node_type": "CLIPTextEncode", "input": "text"},
+    {"name": "negative_prompt", "required": true, "node_id": "5", "node_type": "CLIPTextEncode", "input": "text"},
+    {"name": "seed", "required": true, "node_id": "9", "node_type": "KSampler", "input": "seed"},
+    {"name": "sampler_settings", "required": true, "node_id": "9", "node_type": "KSampler", "inputs": ["steps", "cfg", "sampler_name", "scheduler", "denoise"]},
+    {"name": "video_latent", "required": true, "node_id": "8", "node_type": "Wan22ImageToVideoLatent", "inputs": ["width", "height", "length", "batch_size"]},
+    {"name": "source_image", "required": true, "node_id": "7", "node_type": "LoadImage", "input": "image"},
+    {"name": "diffusion_model", "required": true, "node_id": "1", "node_type": "UNETLoader", "input": "unet_name"},
+    {"name": "text_encoder", "required": true, "node_id": "2", "node_type": "CLIPLoader", "input": "clip_name"},
+    {"name": "vae_model", "required": true, "node_id": "3", "node_type": "VAELoader", "input": "vae_name"},
+    {"name": "output_video", "required": true, "node_id": "12", "node_type": "SaveVideo", "inputs": ["filename_prefix", "format", "codec"]}
+  ]
+}

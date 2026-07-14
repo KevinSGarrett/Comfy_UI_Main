@@ -10,6 +10,7 @@ GitHub APIs, Civitai, ComfyUI, or start EC2.
 #>
 param(
   [string]$ProjectRoot = "C:\Comfy_UI_Main",
+  [ValidatePattern('^[a-z0-9_]+$')][string]$WorkflowGroup = "base_generation",
   [string]$LaneId = "",
   [string]$RunPackageManifestFile = "",
   [string]$OutDir = "",
@@ -179,7 +180,7 @@ if (!(Test-Path -LiteralPath $ProjectRoot)) {
 }
 $ProjectRoot = [System.IO.Path]::GetFullPath($ProjectRoot)
 
-$activeLanesPath = Join-Path $ProjectRoot "Workflows\base_generation\ACTIVE_LANES.json"
+$activeLanesPath = Join-Path $ProjectRoot "Workflows\$WorkflowGroup\ACTIVE_LANES.json"
 $activeLanes = Read-JsonFile -Path $activeLanesPath
 $orderedLanes = @($activeLanes.lanes | Sort-Object order)
 if ($orderedLanes.Count -eq 0) {
@@ -228,14 +229,14 @@ $records = New-Object System.Collections.ArrayList
 foreach ($requiredFile in @(
   "README.md",
   "PROJECT_ROOT_MANIFEST.json",
-  "Workflows/base_generation/ACTIVE_LANES.json",
-  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json"
+  "Workflows/$WorkflowGroup/ACTIVE_LANES.json",
+  "Plan/07_IMPLEMENTATION/workflow_templates/$WorkflowGroup/runtime_lane_queue.json"
 )) {
   Copy-BundleFile -SourcePath (Resolve-ProjectPath -Path $requiredFile) -ContentRoot $contentRoot -Records $records -Required
 }
 
-Copy-BundleDirectory -SourceDir (Resolve-ProjectPath -Path "Workflows/base_generation/$LaneId") -ContentRoot $contentRoot -Records $records -Required
-Copy-BundleDirectory -SourceDir (Resolve-ProjectPath -Path "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/$LaneId") -ContentRoot $contentRoot -Records $records -Required
+Copy-BundleDirectory -SourceDir (Resolve-ProjectPath -Path "Workflows/$WorkflowGroup/$LaneId") -ContentRoot $contentRoot -Records $records -Required
+Copy-BundleDirectory -SourceDir (Resolve-ProjectPath -Path "Plan/07_IMPLEMENTATION/workflow_templates/$WorkflowGroup/$LaneId") -ContentRoot $contentRoot -Records $records -Required
 Copy-BundleDirectory -SourceDir (Resolve-ProjectPath -Path "Plan/Registries/Models") -ContentRoot $contentRoot -Records $records
 Copy-BundleDirectory -SourceDir (Split-Path -Parent $RunPackageManifestFile) -ContentRoot $contentRoot -Records $records -Required
 Copy-BundleDirectory -SourceDir (Resolve-ProjectPath -Path "configs/ec2") -ContentRoot $contentRoot -Records $records
@@ -244,9 +245,9 @@ if ($runPackage.prompt_profile -and $runPackage.prompt_profile.path) {
   Copy-BundleFile -SourcePath (Resolve-ProjectPath -Path ([string]$runPackage.prompt_profile.path)) -ContentRoot $contentRoot -Records $records
 }
 
-$laneRuntimeRequirementsPath = Resolve-ProjectPath -Path "Workflows/base_generation/$LaneId/runtime_requirements.json"
+$laneRuntimeRequirementsPath = Resolve-ProjectPath -Path "Workflows/$WorkflowGroup/$LaneId/runtime_requirements.json"
 $laneRuntimeRequirements = Read-JsonFile -Path $laneRuntimeRequirementsPath
-$laneWorkflowPath = Resolve-ProjectPath -Path "Workflows/base_generation/$LaneId/workflow.api.json"
+$laneWorkflowPath = Resolve-ProjectPath -Path "Workflows/$WorkflowGroup/$LaneId/workflow.api.json"
 $laneWorkflow = Read-JsonFile -Path $laneWorkflowPath
 $workflowInputGraph = $laneWorkflow
 $workflowInputSource = "lane_workflow"
@@ -473,6 +474,7 @@ $manifest = [ordered]@{
   bundle_id = $BundleName
   created_at = (Get-Date).ToString("yyyy-MM-ddTHH:mm:sszzz")
   project_root = $ProjectRoot
+  workflow_group = $WorkflowGroup
   lane_id = $LaneId
   run_package_manifest = Convert-ToRepoPath -Path $RunPackageManifestFile
   source_git_head = $gitHead

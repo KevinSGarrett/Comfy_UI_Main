@@ -652,7 +652,15 @@ if ([string]::IsNullOrWhiteSpace($S3Prefix)) {
 }
 $S3Prefix = $S3Prefix.Trim("/")
 
-$laneDir = Join-Path $ProjectRoot "Plan\07_IMPLEMENTATION\workflow_templates\base_generation\$LaneId"
+$laneCandidates = @(
+  (Join-Path $ProjectRoot "Plan\07_IMPLEMENTATION\workflow_templates\base_generation\$LaneId"),
+  (Join-Path $ProjectRoot "Plan\07_IMPLEMENTATION\workflow_templates\video_generation\$LaneId")
+)
+$laneDir = @($laneCandidates | Where-Object { Test-Path -LiteralPath (Join-Path $_ "workflow.api.json") -PathType Leaf } | Select-Object -First 1)
+if ($laneDir.Count -eq 0) {
+  throw "Lane workflow directory not found for $LaneId. Candidates: $($laneCandidates -join '; ')"
+}
+$laneDir = [string]$laneDir[0]
 $workflowPath = Join-Path $laneDir "workflow.api.json"
 $patchPath = Join-Path $laneDir "patch_points.json"
 $runtimePath = Join-Path $laneDir "runtime_requirements.json"
@@ -1027,9 +1035,13 @@ def qa_required(kind):
     return kind in ["image", "video", "audio", "log", "report", "workflow", "json"]
 
 def stage_required_input_assets():
-    requirements_path = os.path.join(PROJECT, "Workflows", "base_generation", LANE_ID, "runtime_requirements.json")
-    if not os.path.isfile(requirements_path):
-        raise RuntimeError("lane runtime requirements missing: " + requirements_path)
+    requirements_candidates = [
+        os.path.join(PROJECT, "Workflows", "base_generation", LANE_ID, "runtime_requirements.json"),
+        os.path.join(PROJECT, "Workflows", "video_generation", LANE_ID, "runtime_requirements.json"),
+    ]
+    requirements_path = next((path for path in requirements_candidates if os.path.isfile(path)), None)
+    if not requirements_path:
+        raise RuntimeError("lane runtime requirements missing: " + "; ".join(requirements_candidates))
     with open(requirements_path, "r", encoding="utf-8") as f:
         requirements = json.load(f)
     bundle_manifest_path = os.path.join(PROJECT, "DEPLOY_BUNDLE_MANIFEST.json")

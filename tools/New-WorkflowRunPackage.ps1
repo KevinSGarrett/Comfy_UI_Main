@@ -11,6 +11,7 @@ start EC2.
 #>
 param(
   [string]$ProjectRoot = "C:\Comfy_UI_Main",
+  [ValidatePattern('^[a-z0-9_]+$')][string]$WorkflowGroup = "base_generation",
   [string]$LaneId = "",
   [string]$PromptProfileFile = "",
   [string]$RouteRequestFile = "",
@@ -203,7 +204,7 @@ if ([string]::IsNullOrWhiteSpace($PackageRoot)) {
   $PackageRoot = Join-Path $ProjectRoot "runtime_artifacts\run_packages"
 }
 
-$activeLanesPath = Join-Path $ProjectRoot "Workflows\base_generation\ACTIVE_LANES.json"
+$activeLanesPath = Join-Path $ProjectRoot "Workflows\$WorkflowGroup\ACTIVE_LANES.json"
 $activeLanes = Read-JsonFile -Path $activeLanesPath
 $orderedLanes = @($activeLanes.lanes | Sort-Object order)
 if ($orderedLanes.Count -eq 0) {
@@ -233,7 +234,7 @@ $laneFilesDir = Join-Path $packageDir "lane_files"
 New-Item -ItemType Directory -Force -Path $laneFilesDir | Out-Null
 
 $packagedFiles = New-Object System.Collections.ArrayList
-$laneDir = Join-Path $ProjectRoot "Workflows\base_generation\$LaneId"
+$laneDir = Join-Path $ProjectRoot "Workflows\$WorkflowGroup\$LaneId"
 $workflowPath = Join-Path $ProjectRoot ([string]$selectedLane.workflow).Replace("/", "\")
 $smokePath = Join-Path $ProjectRoot ([string]$selectedLane.smoke_request).Replace("/", "\")
 $runtimePath = Join-Path $ProjectRoot ([string]$selectedLane.runtime_requirements).Replace("/", "\")
@@ -350,6 +351,7 @@ $packageManifest = [ordered]@{
   run_id = $RunId
   created_at = (Get-Date).ToString("yyyy-MM-ddTHH:mm:sszzz")
   project_root = $ProjectRoot
+  workflow_group = $WorkflowGroup
   lane_id = $LaneId
   lane_order = [int]$selectedLane.order
   package_dir = Convert-ToRepoPath -Path $packageDir

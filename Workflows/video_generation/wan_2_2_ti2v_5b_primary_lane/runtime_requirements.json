@@ -1,0 +1,109 @@
+{
+  "schema_version": "1.0",
+  "lane_id": "wan_2_2_ti2v_5b_primary_lane",
+  "module_id": "MOD-VIDEO-WAN22-TI2V-5B-PRIMARY",
+  "engine_family": "Wan 2.2 TI2V 5B",
+  "workflow_path": "Plan/07_IMPLEMENTATION/workflow_templates/video_generation/wan_2_2_ti2v_5b_primary_lane/workflow.api.json",
+  "official_workflow_source": {
+    "repository": "Comfy-Org/workflow_templates",
+    "path": "templates/video_wan2_2_5B_ti2v.json",
+    "documentation": "https://docs.comfy.org/tutorials/video/wan/wan2_2",
+    "license": "MIT"
+  },
+  "model_source": {
+    "repository": "Comfy-Org/Wan_2.2_ComfyUI_Repackaged",
+    "revision": "fb1388adc906ab39ffc26ee40e96b22886b56bc4",
+    "license_id": "Apache-2.0",
+    "license_url": "https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/blob/fb1388adc906ab39ffc26ee40e96b22886b56bc4/LICENSE"
+  },
+  "required_nodes": [
+    "UNETLoader",
+    "CLIPLoader",
+    "VAELoader",
+    "CLIPTextEncode",
+    "ModelSamplingSD3",
+    "LoadImage",
+    "Wan22ImageToVideoLatent",
+    "KSampler",
+    "VAEDecode",
+    "CreateVideo",
+    "SaveVideo"
+  ],
+  "required_models": [
+    {
+      "role": "diffusion_model",
+      "model_type": "DiffusionModel",
+      "comfyui_model_subdir": "diffusion_models",
+      "filename": "wan2.2_ti2v_5B_fp16.safetensors",
+      "bytes": 9999658848,
+      "sha256": "456f901338bd9eadbded3828b819109a9b68e8a525ca5cf8d0049a69fcfeca1e",
+      "source_url": "https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/resolve/fb1388adc906ab39ffc26ee40e96b22886b56bc4/split_files/diffusion_models/wan2.2_ti2v_5B_fp16.safetensors",
+      "node_id": "1",
+      "node_class": "UNETLoader",
+      "input": "unet_name"
+    },
+    {
+      "role": "text_encoder",
+      "model_type": "TextEncoder",
+      "comfyui_model_subdir": "text_encoders",
+      "filename": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+      "bytes": 6735906897,
+      "sha256": "c3355d30191f1f066b26d93fba017ae9809dce6c627dda5f6a66eaa651204f68",
+      "source_url": "https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/resolve/fb1388adc906ab39ffc26ee40e96b22886b56bc4/split_files/text_encoders/umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+      "node_id": "2",
+      "node_class": "CLIPLoader",
+      "input": "clip_name"
+    },
+    {
+      "role": "vae",
+      "model_type": "VAE",
+      "comfyui_model_subdir": "vae",
+      "filename": "wan2.2_vae.safetensors",
+      "bytes": 1409400960,
+      "sha256": "e40321bd36b9709991dae2530eb4ac303dd168276980d3e9bc4b6e2b75fed156",
+      "source_url": "https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/resolve/fb1388adc906ab39ffc26ee40e96b22886b56bc4/split_files/vae/wan2.2_vae.safetensors",
+      "node_id": "3",
+      "node_class": "VAELoader",
+      "input": "vae_name"
+    }
+  ],
+  "required_input_assets": [
+    {
+      "role": "start_image",
+      "filename": "wan22_ti2v_fullbody_seed711670301.png",
+      "comfyui_input_subdir": "",
+      "node_id": "7",
+      "node_class": "LoadImage",
+      "input": "image",
+      "sha256": "b01b694125e08027195baf3c5a4eeac472eba242bfb4bbe69473625844134fc1",
+      "source_artifact": "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v4_full_body_standing_seed711670301_20260711T035900-0500/images/normal_v4_fullbody_standing_711670301_00001_.png",
+      "source_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_REALESRGAN_NORMAL_FULLBODY_TARGET_RUNTIME_CBD75EF8_20260713T211500-0500.json"
+    }
+  ],
+  "runtime_scope": {
+    "width": 480,
+    "height": 640,
+    "frame_count": 49,
+    "fps": 24,
+    "duration_seconds": 2.041667,
+    "batch_size": 1,
+    "steps": 20,
+    "target_instance_type": "g5.xlarge",
+    "target_gpu": "NVIDIA A10G 24GB",
+    "native_comfyui_nodes_only": true
+  },
+  "current_status": "workflow_implemented_runtime_assets_pending",
+  "known_blockers": [
+    "The three model assets are not present in local project or legacy model roots.",
+    "The least-privilege session role cannot list the historical model bucket and the break-glass login is expired, so no S3 duplicate inventory claim is made.",
+    "EC2 model presence must be checked before any download after the approved instance starts.",
+    "No genuine Wan clip or direct temporal QA exists yet."
+  ],
+  "boundaries": {
+    "gold_masks_consumed": false,
+    "mask_or_geometry_authority_claimed": false,
+    "production_video_lane_certification_claimed": false,
+    "wave71_activation_claimed": false,
+    "jira_mutated": false
+  }
+}

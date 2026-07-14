@@ -1,0 +1,22 @@
+{
+    "schema_version":  "1.0",
+    "updated_at":  "2026-07-13T22:55:00-05:00",
+    "source_queue":  "Plan/07_IMPLEMENTATION/workflow_templates/video_generation/runtime_lane_queue.json",
+    "lanes":  [
+                  {
+                      "order":  1,
+                      "lane_id":  "wan_2_2_ti2v_5b_primary_lane",
+                      "workflow":  "Workflows/video_generation/wan_2_2_ti2v_5b_primary_lane/workflow.api.json",
+                      "smoke_request":  "Workflows/video_generation/wan_2_2_ti2v_5b_primary_lane/smoke_test_request.json",
+                      "runtime_requirements":  "Workflows/video_generation/wan_2_2_ti2v_5b_primary_lane/runtime_requirements.json",
+                      "patch_points":  "Workflows/video_generation/wan_2_2_ti2v_5b_primary_lane/patch_points.json",
+                      "status":  "workflow_implemented_runtime_assets_pending",
+                      "next_gate":  "install_exact_hash_bound_assets_then_one_bounded_ec2_clip_with_temporal_qa"
+                  }
+              ],
+    "runtime_boundaries":  {
+                               "ec2_start_allowed_by_this_manifest":  false,
+                               "generation_allowed_by_this_manifest":  false,
+                               "reason":  "This manifest exposes local workflow files only; AWS auth and runtime proof gates remain mandatory."
+                           }
+}

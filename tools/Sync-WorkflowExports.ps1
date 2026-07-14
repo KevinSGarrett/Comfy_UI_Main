@@ -3,12 +3,13 @@
 Copies validated Plan workflow lane files into top-level Workflows.
 
 .DESCRIPTION
-Uses Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json
+Uses Plan/07_IMPLEMENTATION/workflow_templates/<group>/runtime_lane_queue.json
 as the source of truth. This gives the project root directly usable ComfyUI
 workflow files while preserving Plan as the authoritative implementation source.
 #>
 param(
   [string]$ProjectRoot = "",
+  [ValidatePattern('^[a-z0-9_]+$')][string]$WorkflowGroup = "base_generation",
   [string]$OutFile = ""
 )
 
@@ -58,9 +59,9 @@ function Write-JsonNoBom {
   [System.IO.File]::WriteAllText($Path, ($Value | ConvertTo-Json -Depth $Depth), $encoding)
 }
 
-$sourceBase = Join-Path $ProjectRoot "Plan\07_IMPLEMENTATION\workflow_templates\base_generation"
+$sourceBase = Join-Path $ProjectRoot "Plan\07_IMPLEMENTATION\workflow_templates\$WorkflowGroup"
 $queuePath = Join-Path $sourceBase "runtime_lane_queue.json"
-$destinationBase = Join-Path $ProjectRoot "Workflows\base_generation"
+$destinationBase = Join-Path $ProjectRoot "Workflows\$WorkflowGroup"
 $queue = Read-JsonFile -Path $queuePath
 
 New-Item -ItemType Directory -Force -Path $destinationBase | Out-Null
@@ -111,10 +112,10 @@ foreach ($lane in @($queue.lanes)) {
   [void]$laneExports.Add([ordered]@{
     order = [int]$lane.order
     lane_id = $laneId
-    workflow = "Workflows/base_generation/$laneId/workflow.api.json"
-    smoke_request = "Workflows/base_generation/$laneId/smoke_test_request.json"
-    runtime_requirements = "Workflows/base_generation/$laneId/runtime_requirements.json"
-    patch_points = "Workflows/base_generation/$laneId/patch_points.json"
+    workflow = "Workflows/$WorkflowGroup/$laneId/workflow.api.json"
+    smoke_request = "Workflows/$WorkflowGroup/$laneId/smoke_test_request.json"
+    runtime_requirements = "Workflows/$WorkflowGroup/$laneId/runtime_requirements.json"
+    patch_points = "Workflows/$WorkflowGroup/$laneId/patch_points.json"
     status = [string]$lane.status
     next_gate = [string]$lane.required_next_runtime_gate
   })
@@ -124,7 +125,7 @@ $activeLanesPath = Join-Path $destinationBase "ACTIVE_LANES.json"
 $activeLanes = [ordered]@{
   schema_version = "1.0"
   updated_at = [string]$queue.updated_at
-  source_queue = "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json"
+  source_queue = "Plan/07_IMPLEMENTATION/workflow_templates/$WorkflowGroup/runtime_lane_queue.json"
   lanes = @($laneExports)
   runtime_boundaries = [ordered]@{
     ec2_start_allowed_by_this_manifest = $false
@@ -143,6 +144,7 @@ $record = [ordered]@{
   evidence_id = "ROOT-WORKFLOW-EXPORT-SYNC-$((Get-Date).ToString('yyyyMMddTHHmmsszzz').Replace(':',''))"
   created_at = (Get-Date).ToString("yyyy-MM-ddTHH:mm:sszzz")
   project_root = $ProjectRoot
+  workflow_group = $WorkflowGroup
   queue = Convert-ToRepoPath -Path $queuePath
   destination = Convert-ToRepoPath -Path $destinationBase
   lane_count = @($laneExports).Count
