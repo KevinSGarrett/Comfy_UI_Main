@@ -14,6 +14,7 @@ $coveragePath = Join-Path $ProjectRoot "Plan\Instructions\QA\Evidence\Workflow_P
 $stamp = (Get-Date -Format "yyyyMMddTHHmmsszzz").Replace(":", "")
 $runRoot = Join-Path $ProjectRoot "runtime_artifacts\regression_temp\runtime_lane_queue_deferred_coverage_$stamp"
 $normalLaneId = "sdxl_realvisxl_controlnet_normal_lane"
+$openPoseLaneId = "sdxl_realvisxl_controlnet_openpose_lane"
 $fluxLaneId = "flux1_dev_primary_base"
 $deferredStatus = "existing_external_model_hash_verified_license_and_live_runtime_proof_pending"
 $enginePath = (Get-Process -Id $PID).Path
@@ -73,6 +74,16 @@ $cases = @(
     }
   },
   [ordered]@{
+    name = "openpose_pre_runtime_status_rejected_after_certification"
+    expected_result = "fail"
+    expected_failed_check = "lane_status_expected"
+    expected_deferred_output = $true
+    mutate = {
+      param($queue, $coverage)
+      ($queue.lanes | Where-Object { $_.lane_id -eq $openPoseLaneId }).status = "local_openpose_tablehands_fullbody_walking_and_two_character_contact_remediation_robustness_pass_with_notes_pending_target_runtime_and_final_certification"
+    }
+  },
+  [ordered]@{
     name = "deferred_lane_not_listed_rejected"
     expected_result = "fail"
     expected_failed_check = "coverage_queue_lane_results_pass"
@@ -123,7 +134,7 @@ $cases = @(
     expected_deferred_output = $true
     mutate = {
       param($queue, $coverage)
-      $otherLaneId = "sdxl_realvisxl_controlnet_openpose_lane"
+      $otherLaneId = $openPoseLaneId
       $queue.selection_policy.runtime_not_started_lane_ids = @($fluxLaneId, $otherLaneId)
       ($queue.lanes | Where-Object { $_.lane_id -eq $otherLaneId }).status = $deferredStatus
     }

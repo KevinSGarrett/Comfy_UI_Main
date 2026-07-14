@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-OPENPOSE-V6-TARGET-RUNTIME-VISUAL-QA-61596842-20260713T200300-0500",
+  "timestamp": "2026-07-13T20:03:00-05:00",
+  "lane_id": "sdxl_realvisxl_controlnet_openpose_lane",
+  "run_id": "aws_gpu_workflow_smoke_20260713T193658-0500",
+  "source_git_head": "61596842255d73adc05f54622f1a2716e5317f22",
+  "review_method": "Codex Desktop original-resolution visual inspection",
+  "result": "pass_runtime_smoke_visual_qa_with_footwear_color_note",
+  "failure_category": null,
+  "technical_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_OPENPOSE_V6_TARGET_RUNTIME_TECHNICAL_QA_61596842_20260713T200000-0500.json",
+  "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_OPENPOSE_V6_TARGET_RUNTIME_RECOVERED_PULLBACK_61596842_20260713T200200-0500.json",
+  "pullback_root": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260713T193658-0500",
+  "artifacts": [
+    {
+      "role": "generated_image",
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260713T193658-0500/images/9_op_fullbody_walk_v6_robust_711470303_00001_.png",
+      "sha256": "7e993f0b8a9fa2cb7d4ecd40e1c60a9a9ef6302728495e5eb8a67082529931be",
+      "size_bytes": 880327,
+      "width": 704,
+      "height": 1056,
+      "remote_manifest_match": true
+    },
+    {
+      "role": "openpose_control_map_diagnostic",
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260713T193658-0500/images/13_codex_sdxl_realvisxl_controlnet_openpose_control_map_diagnostic_00001_.png",
+      "sha256": "f9a074f7c986d7c9367b209c3c648e620756a2b001ec8c661714018cb0b8815f",
+      "size_bytes": 66998,
+      "width": 704,
+      "height": 1056,
+      "remote_manifest_match": true
+    }
+  ],
+  "visual_checks": {
+    "generated_image_nonblank": true,
+    "single_full_subject_visible": true,
+    "head_and_hair_not_cropped": true,
+    "both_shoes_visible_and_not_cropped": true,
+    "crossed_leg_walking_pose_coherent": true,
+    "pose_adheres_to_openpose_control": true,
+    "limb_count_and_body_proportions_coherent_for_smoke": true,
+    "hands_visible_and_plausible_at_whole_image_scale": true,
+    "face_skin_hair_and_clothing_realistic_for_smoke": true,
+    "object_or_body_collision_present": false,
+    "control_map_leakage_present": false,
+    "diagnostic_map_nonblank_and_full_body": true,
+    "major_visual_defect_count": 0,
+    "prompt_footwear_color_exact": false
+  },
+  "quality_note": "The image has black shoes with white soles rather than fully white footwear. This repeats the known seed-711470303 local prompt drift and is nonblocking for bounded pose/runtime certification, but strict footwear-color prompt compliance is not certified.",
+  "scope_boundary": [
+    "This is one target-runtime OpenPose sample for the exact seed, pose map, models, and settings recorded here.",
+    "Hands and shoes are assessed only at whole-image smoke scale; detailed fingers, feet, toes, contacts, and anatomical authority remain unproven.",
+    "No candidate mask was consumed as truth and no body or body-part mask was promoted.",
+    "Manual body gold masks remain unavailable; Wave70 hard gates and Wave71+ remain unchanged."
+  ],
+  "next_action": "Do not rerun this completed seed. Correct the batched artifact prefix for future lanes and advance to the deliberately selected RealESRGAN target-runtime task."
+}

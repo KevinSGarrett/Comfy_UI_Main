@@ -22,7 +22,7 @@ param(
   [string[]]$PreservedGitExcludePath = @(),
   [string]$OutDirectory = "",
   [string]$S3Bucket = "",
-  [string]$S3Prefix = "comfy-ui-main/batched-runtime",
+  [string]$S3Prefix = "render-outputs/batched-runtime",
   [int]$ComfyPort = 8192,
   [int]$UnitTimeoutSeconds = 900,
   [switch]$AllowWatchdogOsShutdownFallback,

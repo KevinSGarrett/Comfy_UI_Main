@@ -21,7 +21,8 @@ $staticProof = Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Invo
 $smoke = Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Invoke-EC2WorkflowSmokeRun.ps1"
 $dispositionScript = Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Get-EC2RuntimeReadinessDisposition.ps1"
 $capacityBackoff = Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Set-EC2CapacityBackoffState.ps1"
-foreach ($path in @($coordinator,$workOrderBuilder,$safetyGate,$staticProof,$smoke,$dispositionScript,$capacityBackoff)) {
+$s3Infrastructure = Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Initialize-S3RuntimeInfrastructure.ps1"
+foreach ($path in @($coordinator,$workOrderBuilder,$safetyGate,$staticProof,$smoke,$dispositionScript,$capacityBackoff,$s3Infrastructure)) {
   if (!(Test-Path -LiteralPath $path -PathType Leaf)) { throw "Required batch runtime file is missing: $path" }
 }
 . $safetyGate
@@ -139,6 +140,7 @@ try {
 
   $coordinatorSource = Get-Content -Raw -LiteralPath $coordinator
   $capacityBackoffSource = Get-Content -Raw -LiteralPath $capacityBackoff
+  $s3InfrastructureSource = Get-Content -Raw -LiteralPath $s3Infrastructure
   $staticSource = Get-Content -Raw -LiteralPath $staticProof
   $smokeSource = Get-Content -Raw -LiteralPath $smoke
   Add-Check "coordinator_finally_stops_instance" ($coordinatorSource -match '(?s)finally\s*\{.*?aws ec2 stop-instances.*?Wait-InstanceState -DesiredState "stopped"') $true ($coordinatorSource -match 'aws ec2 stop-instances')
@@ -155,6 +157,9 @@ try {
   Add-Check "capacity_backoff_binds_work_order_id" ($coordinatorSource -match 'RecordFailure[^\r\n]+RuntimeWorkOrderId \(\[string\]\$workOrder\.work_order_id\)') $true ($coordinatorSource -match 'RuntimeWorkOrderId \(\[string\]\$workOrder\.work_order_id\)')
   $coordinatorClearReason = [regex]::Match($coordinatorSource, '-Action Clear[^\r\n]+-ClearReason\s+"([^"]+)"').Groups[1].Value
   Add-Check "capacity_backoff_clear_reason_matches_helper_contract" (($coordinatorClearReason -ceq "ec2_start_succeeded") -and ($capacityBackoffSource -match '"ec2_start_succeeded"')) "ec2_start_succeeded" $coordinatorClearReason
+  $coordinatorS3Prefix = [regex]::Match($coordinatorSource, '\[string\]\$S3Prefix\s*=\s*"([^"]+)"').Groups[1].Value
+  $infrastructureArtifactPrefix = [regex]::Match($s3InfrastructureSource, '\[string\]\$ArtifactPrefix\s*=\s*"([^"]+)"').Groups[1].Value
+  Add-Check "batch_artifact_prefix_matches_runtime_s3_contract" (($coordinatorS3Prefix -ceq "$infrastructureArtifactPrefix/batched-runtime") -and ($infrastructureArtifactPrefix -ceq "render-outputs")) "render-outputs/batched-runtime" $coordinatorS3Prefix
 } finally {
   if (Test-Path -LiteralPath $tempRoot -PathType Container) { Remove-Item -LiteralPath $tempRoot -Recurse -Force }
 }
