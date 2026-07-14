@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "evidence_id": "W64-AUDIO-VOICE-DIALOGUE-20260712T165435-0500",
-  "timestamp": "2026-07-12T16:54:35-05:00",
+  "timestamp": "2026-07-14T07:03:04-05:00",
   "tracker_id": "TRK-W64-027",
   "item_id": "ITEM-W64-027",
   "source_citation": "Plan/05_AUDIO_SYSTEM/WAVE30_DIALOGUE_AND_VOICE_PROFILE_PLAN.md",
@@ -79,7 +79,10 @@
     "test_log": "Plan/Instructions/QA/Evidence/Wave64/audio_voice_dialogue_test_log.json",
     "test_log_sha256": "82aae5cc47d1c0e53c77f7b3e65f1551c3e35225f22c81c70e69243cc0945092",
     "tests_run": 39,
-    "suite_breakdown": {"voice_request_producer": 6, "existing_voice_dialogue_evaluator": 33},
+    "suite_breakdown": {
+      "voice_request_producer": 6,
+      "existing_voice_dialogue_evaluator": 33
+    },
     "test_failures": 0,
     "test_errors": 0,
     "test_skips": 0,
@@ -87,7 +90,14 @@
     "draft_2020_12_request_schema": "pass",
     "draft_2020_12_evidence_schema": "pass",
     "authority_registry_unchanged_by_tests": true,
-    "technical_offline_pass": true
+    "technical_offline_pass": true,
+    "recovered_sapi_validation": {
+      "test_log": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_VOICE_DIALOGUE_RECOVERED_SAPI_TEST_LOG_20260714T070919-0500.json",
+      "tests_run": 44,
+      "tests_passed": 44,
+      "tests_failed": 0,
+      "character_packets_evaluated": 2
+    }
   },
   "retained_probes": {
     "request_producer_probe": {
@@ -168,7 +178,11 @@
     "genuine_production_playback_review_present": false,
     "genuine_production_runtime_proof_present": false,
     "production_proof_bundle_allowlisted": false,
-    "row_complete": false
+    "row_complete": false,
+    "recovered_diagnostic_voice_audio_present": true,
+    "recovered_diagnostic_voice_audio_evaluated": true,
+    "recovered_voice_profile_ownership_passed": true,
+    "recovered_l002_timing_passed": false
   },
   "review": {
     "cursor_initial_implementation": {
@@ -194,7 +208,14 @@
     },
     "cursor_request_producer_gap_review": "runtime_artifacts/agent_handoffs/cursor/20260712T164533-0500_row027_voice_request_producer_gap/handoff_record.json",
     "claude_request_producer_review": "runtime_artifacts/agent_handoffs/claude_subscription/20260712T164935-0500_row027_voice_request_producer_final_review/handoff_record.json",
-    "claude_request_producer_medium_findings_remediated": 2
+    "claude_request_producer_medium_findings_remediated": 2,
+    "recovered_sapi_semantic_review": {
+      "path": "runtime_artifacts/agent_handoffs/claude_subscription/20260714T071159-0500_row027_recovered_sapi_evaluation_semantic_review/handoff_record.json",
+      "sha256": "6466066ad2b1764ef2829966ee666fd11a956788b18f554ea6c5be85e0fd7a48",
+      "status": "PASS",
+      "confidence": "high",
+      "high_or_medium_findings": 0
+    }
   },
   "runtime": {
     "production_voice_generation_count": 0,
@@ -205,13 +226,14 @@
     "generation_executed": false,
     "aws_contacted": false,
     "ec2_started": false,
-    "mask_promotion_executed": false
+    "mask_promotion_executed": false,
+    "diagnostic_voice_evaluation_count": 2
   },
   "blockers": [
     {
       "classification": "Blocked_Voice_Dialogue_Production_Proof_Missing",
       "scope": "primary_row_blocker",
-      "reason": "No genuine production voice audio with independently generated ASR, speaker, emotion, playback-review, and runtime proof set exists for this row."
+      "reason": "Recovered SAPI voice audio has now been evaluated: both character packets lack independent ASR, speaker, emotion, playback-review, runtime, and production-bundle proofs, and L002 additionally fails strict dialogue timing by 0.844 seconds."
     },
     {
       "classification": "Blocked_Voice_Production_Proof_Authority_Missing",
@@ -219,7 +241,7 @@
       "reason": "The canonical proof-bundle authority registry is intentionally empty, so no synthetic or locally authored packet can reach production PASS."
     }
   ],
-  "result": "blocked_voice_dialogue_production_proof_missing",
+  "result": "blocked_recovered_sapi_evaluated_missing_proofs_and_l002_timing_failure",
   "overall_pass": false,
   "status_decision": "Blocked_Voice_Dialogue_Production_Proof_Missing",
   "strict_decision": {
@@ -233,5 +255,17 @@
     "proof_bundle_approved": false,
     "certification_claimed": false,
     "wave71_activation_claimed": false
-  }
+  },
+  "recovered_sapi_evaluation": {
+    "evidence": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_VOICE_DIALOGUE_RECOVERED_SAPI_EVALUATION_20260714T070304-0500.json",
+    "runtime_root": "runtime_artifacts/wave64_voice_dialogue_continuity/recovered_sapi_20260714T070304-0500",
+    "source_manifest": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave42_legacy_audio_recovery_20260714T063840-0500/sapi_diagnostic/local_sapi_audio_candidate_20260702_034909.json",
+    "character_packet_count": 2,
+    "missing_proof_count_per_packet": 6,
+    "l001_overall_status": "BLOCKED",
+    "l002_overall_status": "FAIL",
+    "l002_duration_delta_seconds": 0.844082,
+    "production_eligible": false
+  },
+  "reconciliation_evidence": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_VOICE_DIALOGUE_RECOVERED_SAPI_EVALUATION_20260714T070304-0500.json"
 }
