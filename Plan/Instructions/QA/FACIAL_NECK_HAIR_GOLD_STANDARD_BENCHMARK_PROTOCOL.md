@@ -115,6 +115,24 @@ false-positive/gold `0.0020` and false-negative/gold `0.0518`. This accepts the
 skin composition as candidate route behavior only; the overall facial route
 remains blocked by other class failures and is not promoted or certified.
 
+### Controlled/Held-Out Class Stability
+
+Class-level stability requires the same class to pass identical aggregate
+thresholds on both the controlled IDs `0`, `1`, and `2` and the disjoint
+held-out IDs `6`, `7`, and `8`. A one-split pass is split-inconsistent and
+blocked. A class that is gold-empty across both splits is recorded separately
+as empty-only specificity evidence and is not a positive segmentation claim.
+If gold emptiness differs between the two splits, the class is presence-
+inconsistent and blocked even when both per-split gates pass.
+
+The hash-bound stability combiner is
+`Plan/07_IMPLEMENTATION/scripts/combine_wave70_facial_control_heldout_stability.py`.
+For the accepted skin-union route, `hair`, `l_lip`, and `skin` have nonempty
+cross-split candidate evidence; `eye_g` has empty-only specificity evidence.
+This decision is route-repair prioritization only. It does not authorize
+class deployment, mask promotion, whole-route certification, a Wave70 hard-gate
+rerun, or Wave71+ activation.
+
 ## CelebAMask-HQ Pairing
 
 - Originals: `C:\Comfy_UI_Main\MaskedWarehouse\CelebAMask-HQ\CelebA-HQ-img`
