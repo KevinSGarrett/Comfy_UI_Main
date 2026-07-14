@@ -1,0 +1,163 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "video_keyframe_context_contract.schema.json",
+  "title": "Video Keyframe Context Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "context_id",
+    "timestamp",
+    "source_artifact",
+    "component_artifacts",
+    "environment_profile",
+    "character_profile",
+    "camera_plan",
+    "pose_plan",
+    "gates",
+    "boundaries",
+    "source_bindings"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "context_id": { "type": "string", "minLength": 1 },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "source_artifact": { "$ref": "#/$defs/artifact" },
+    "component_artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["body_visibility_profile", "frame_composition_contract", "frame_composition_evidence"],
+      "properties": {
+        "body_visibility_profile": { "$ref": "#/$defs/binding" },
+        "frame_composition_contract": { "$ref": "#/$defs/binding" },
+        "frame_composition_evidence": { "$ref": "#/$defs/binding" }
+      }
+    },
+    "environment_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["environment_id", "version", "display_name", "environment_type", "status", "continuity_rules", "qa_requirements"],
+      "properties": {
+        "environment_id": { "type": "string", "minLength": 1 },
+        "version": { "type": "string", "minLength": 1 },
+        "display_name": { "type": "string", "minLength": 1 },
+        "environment_type": { "type": "string", "minLength": 1 },
+        "status": { "const": "candidate_anchor_single_image" },
+        "continuity_rules": {
+          "type": "object",
+          "additionalProperties": { "type": "string", "minLength": 1 },
+          "minProperties": 3
+        },
+        "qa_requirements": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 3,
+          "uniqueItems": true
+        }
+      }
+    },
+    "character_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["character_id", "status", "identity_anchor", "skeleton_evidence", "skeleton_evidence_status", "body_visibility_profile_id", "continuity_scope"],
+      "properties": {
+        "character_id": { "type": "string", "minLength": 1 },
+        "status": { "const": "candidate_identity_anchor_single_image" },
+        "identity_anchor": { "$ref": "#/$defs/artifact" },
+        "skeleton_evidence": { "$ref": "#/$defs/binding" },
+        "skeleton_evidence_status": { "enum": ["historical_hash_match", "advisory_current_file_historical_hash_mismatch"] },
+        "body_visibility_profile_id": { "type": "string", "minLength": 1 },
+        "continuity_scope": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["anchor_image_count", "multi_frame_identity_continuity_proven", "camera_environment_continuity_proven"],
+          "properties": {
+            "anchor_image_count": { "const": 1 },
+            "multi_frame_identity_continuity_proven": { "const": false },
+            "camera_environment_continuity_proven": { "const": false }
+          }
+        }
+      }
+    },
+    "camera_plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["camera_plan_id", "shot_size", "framing", "camera_motion", "continuity_proven"],
+      "properties": {
+        "camera_plan_id": { "type": "string", "minLength": 1 },
+        "shot_size": { "const": "full_body" },
+        "framing": { "type": "string", "minLength": 1 },
+        "camera_motion": { "const": "static_anchor" },
+        "continuity_proven": { "const": false }
+      }
+    },
+    "pose_plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pose_plan_id", "pose_class", "body_visibility_profile_id", "source_skeleton", "temporal_pose_continuity_proven"],
+      "properties": {
+        "pose_plan_id": { "type": "string", "minLength": 1 },
+        "pose_class": { "type": "string", "minLength": 1 },
+        "body_visibility_profile_id": { "type": "string", "minLength": 1 },
+        "source_skeleton": { "$ref": "#/$defs/binding" },
+        "temporal_pose_continuity_proven": { "const": false }
+      }
+    },
+    "gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["frame_contract_exported", "environment_profile_exists", "character_profile_exists", "identity_camera_environment_continuity_passed"],
+      "properties": {
+        "frame_contract_exported": { "const": true },
+        "environment_profile_exists": { "const": true },
+        "character_profile_exists": { "const": true },
+        "identity_camera_environment_continuity_passed": { "const": false }
+      }
+    },
+    "boundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["single_image_anchor_only", "historical_keypoint_hash_matches_current", "skeleton_geometry_authority_claimed", "new_generation_executed", "refine_qa_claimed", "promotion_claimed", "production_keyframe_claimed", "mask_authority_claimed"],
+      "properties": {
+        "single_image_anchor_only": { "const": true },
+        "historical_keypoint_hash_matches_current": { "type": "boolean" },
+        "skeleton_geometry_authority_claimed": { "const": false },
+        "new_generation_executed": { "const": false },
+        "refine_qa_claimed": { "const": false },
+        "promotion_claimed": { "const": false },
+        "production_keyframe_claimed": { "const": false },
+        "mask_authority_claimed": { "const": false }
+      }
+    },
+    "source_bindings": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/$defs/binding" },
+      "minProperties": 3
+    }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "bytes"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "bytes": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "bytes", "width", "height"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "bytes": { "type": "integer", "minimum": 1 },
+        "width": { "type": "integer", "minimum": 1 },
+        "height": { "type": "integer", "minimum": 1 }
+      }
+    }
+  }
+}

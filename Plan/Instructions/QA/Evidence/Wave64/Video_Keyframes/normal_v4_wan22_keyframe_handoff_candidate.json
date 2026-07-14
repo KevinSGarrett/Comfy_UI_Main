@@ -1,21 +1,25 @@
 {
   "schema_version": "1.0",
   "manifest_id": "normal_v4_wan22_keyframe_handoff_candidate",
-  "timestamp": "2026-07-14T13:38:24-05:00",
+  "timestamp": "2026-07-14T14:10:00-05:00",
   "tracker_id": "TRK-W64-019",
   "item_id": "ITEM-W64-019",
   "status": "blocked_candidate_hash_bound_not_promotion_eligible",
   "candidate": {
     "shot_id": "wan22_fullbody_standing_seed2271301_bounded_smoke_candidate",
-    "scene_id": "normal_v4_fullbody_standing_unbound_scene_candidate",
-    "environment_id": null,
-    "character_ids": [],
+    "scene_id": "normal_v4_fullbody_studio_anchor_scene",
+    "environment_id": "env_neutral_gray_studio_anchor_001",
+    "character_ids": [
+      "char_normal_v4_seed711670301_anchor"
+    ],
     "output_type": "video",
     "frame_rate_target": 24,
     "duration_seconds": 2.04,
-    "camera_plan_id": null,
-    "pose_plan_id": null,
-    "continuity_dependencies": [],
+    "camera_plan_id": "camera_normal_v4_fullbody_static_anchor_v1",
+    "pose_plan_id": "pose_normal_v4_asymmetric_standing_anchor_v1",
+    "continuity_dependencies": [
+      "normal_v4_single_image_keyframe_context_v1"
+    ],
     "qa_targets": [
       "identity_stability",
       "environment_stability",
@@ -75,10 +79,10 @@
       "character_count_body_visibility_passed": true,
       "identity_camera_environment_continuity_passed": false,
       "output_hash_recorded": true,
-      "frame_contract_exported": false,
+      "frame_contract_exported": true,
       "required_promoted_keyframes_exist": false,
-      "environment_profile_exists": false,
-      "character_profile_exists": false,
+      "environment_profile_exists": true,
+      "character_profile_exists": true,
       "engine_route_valid": true,
       "model_assets_registered": true,
       "output_path_defined": true,
@@ -88,10 +92,7 @@
     "failed_gates": [
       "refine_bridge_qa_passed",
       "identity_camera_environment_continuity_passed",
-      "frame_contract_exported",
       "required_promoted_keyframes_exist",
-      "environment_profile_exists",
-      "character_profile_exists",
       "promotion_allowed",
       "promoted_artifact"
     ],
@@ -114,14 +115,15 @@
       "exact still path and SHA256",
       "bounded local full-body image QA pass with notes",
       "exact still reused as input to one completed bounded WAN target-runtime smoke",
-      "WAN route and model assets proven for the bounded smoke contract"
+      "WAN route and model assets proven for the bounded smoke contract",
+      "single-image frame composition contract exported",
+      "single-image environment and character identity anchors registered"
     ],
     "excluded": [
       "promoted production keyframe",
       "refine bridge QA",
-      "registered character identity continuity",
-      "registered environment and camera continuity",
-      "exported frame composition contract",
+      "multi-frame character identity continuity",
+      "multi-frame environment and camera continuity",
       "production video lane certification",
       "body mask or geometry authority"
     ],
@@ -169,6 +171,11 @@
         "path": "Plan/Instructions/QA/Evidence/Wave64/Reference_Video_Input/wan22_source_diversity_loop_shot_plan.json",
         "sha256": "c9ca82efa9c524b944cfa7d5033bc435844a955ab69930220059edac741208b1",
         "bytes": 1320
+      },
+      "context": {
+        "path": "Plan/Instructions/QA/Evidence/Wave64/Video_Keyframes/normal_v4_keyframe_context_contract.json",
+        "sha256": "43612a534e6b7f6f8e7bdfdc1907ffc164669b802856af8f3965c1cfb3984649",
+        "bytes": 5275
       }
     },
     "policy_sources": [

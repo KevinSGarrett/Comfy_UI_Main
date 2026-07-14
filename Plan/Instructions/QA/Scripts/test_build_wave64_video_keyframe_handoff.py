@@ -38,6 +38,8 @@ class VideoKeyframeHandoffTests(unittest.TestCase):
                 value["inputs"]["control_map"]["path"] = "control.png"
             if name == "runtime":
                 value["input"]["path"] = "source.png"
+            if name == "context":
+                value["source_artifact"]["path"] = "source.png"
             write(target, value)
             paths[name] = target
         source_image = ROOT / "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v4_full_body_standing_seed711670301_20260711T035900-0500/images/normal_v4_fullbody_standing_711670301_00001_.png"
@@ -65,7 +67,7 @@ class VideoKeyframeHandoffTests(unittest.TestCase):
             self.assertEqual(candidate["candidate"]["frame_rate_target"], 24)
             self.assertEqual(candidate["candidate"]["duration_seconds"], 2.04)
             self.assertIn("technical", candidate["provenance"]["source_bindings"])
-            self.assertEqual(readiness["check_summary"], {"checked": 13, "passed": 13, "failed": 0})
+            self.assertEqual(readiness["check_summary"], {"checked": 16, "passed": 16, "failed": 0})
 
     def test_checked_out_candidate_bytes_match_canonical_binding(self) -> None:
         candidate_path = ROOT / MODULE.CANDIDATE
@@ -86,6 +88,9 @@ class VideoKeyframeHandoffTests(unittest.TestCase):
                 "engine_route_valid",
                 "model_assets_registered",
                 "output_path_defined",
+                "frame_contract_exported",
+                "environment_profile_exists",
+                "character_profile_exists",
             ):
                 self.assertTrue(gates[name], name)
 
@@ -95,7 +100,9 @@ class VideoKeyframeHandoffTests(unittest.TestCase):
             expected = [name for name in MODULE.GATE_KEYS if not candidate["eligibility"]["gates"][name]]
             self.assertEqual(candidate["eligibility"]["failed_gates"], expected)
             self.assertIn("refine_bridge_qa_passed", expected)
-            self.assertIn("frame_contract_exported", expected)
+            self.assertNotIn("frame_contract_exported", expected)
+            self.assertNotIn("environment_profile_exists", expected)
+            self.assertNotIn("character_profile_exists", expected)
             self.assertIn("promotion_allowed", expected)
 
     def test_source_image_hash_drift_is_rejected(self) -> None:
