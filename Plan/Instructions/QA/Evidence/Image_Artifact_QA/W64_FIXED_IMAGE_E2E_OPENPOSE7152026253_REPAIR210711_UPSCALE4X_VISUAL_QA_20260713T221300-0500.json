@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-FIXED-IMAGE-E2E-OPENPOSE7152026253-REPAIR210711-UPSCALE4X-VISUAL-QA-20260713T221300-0500",
+  "timestamp": "2026-07-13T22:13:00-05:00",
+  "lane_id": "sdxl_realesrgan_upscale_polish_lane",
+  "result": "retain_source_visual_regressions",
+  "review_complete": true,
+  "reviewer": "Codex Desktop autonomous release manager",
+  "source_image": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/fixed_image_e2e_openpose7152026253_repair210711_20260713T220400-0500/images/fixed_e2e_openpose7152026253_repair210711_source_preserved.png",
+    "sha256": "aadda3bb68761c0c9a62cfa6cdbb50d021f67400491d72750f18c013ef76890b"
+  },
+  "generated_image": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/fixed_image_e2e_openpose7152026253_repair210711_upscale4x_20260713T221100-0500/images/fixed_e2e_openpose7152026253_repair210711_upscale4x_00001_.png",
+    "sha256": "c0e8a9c8e983d324bb73b05fd4fa37568ffd45574ab428025827d96fe33d718f"
+  },
+  "visual_findings": [
+    "The exact two-person composition, identities, contact ownership, and crop are preserved.",
+    "Skin becomes visibly smoother and waxier, especially across both faces and the repaired upper hand.",
+    "The man's shirt gains grid-like and painterly texture artifacts that are not present at the same strength in the source.",
+    "The repaired contact hand loses natural microtexture and is not improved for hyperrealism by the 4x pass.",
+    "The result may carry more pixels, but it is not the preferred visual master."
+  ],
+  "disposition": "retain_source",
+  "preferred_over_source": false,
+  "blocking_regressions": [
+    "waxy_skin_amplification",
+    "dense_pattern_oversharpening"
+  ],
+  "advisories": [
+    "composition_and_contact_are_preserved",
+    "source_master_must_be_retained",
+    "local_runtime_only"
+  ],
+  "target_runtime_proven": false,
+  "final_lane_certification": false
+}

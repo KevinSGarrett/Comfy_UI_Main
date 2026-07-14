@@ -1,0 +1,562 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W70-REALESRGAN-SOURCE-SELECTION-EXPORT-GATE-20260713T221500-0500",
+  "timestamp": "2026-07-13T22:13:59-05:00",
+  "lane_id": "sdxl_realesrgan_upscale_polish_lane",
+  "result": "pass_realesrgan_export_selection_policy_enforced",
+  "pass": true,
+  "scope": "hash_bound_local_and_target_realesrgan_export_selection_policy_and_negative_fixture_validation",
+  "policy": {
+    "path": "Plan/10_REGISTRIES/realesrgan_export_selection_policy.json",
+    "sha256": "7aca7a634d282452a05472cd531100ede455e07292eded87da569c7fc6dc3844"
+  },
+  "candidate_registry": {
+    "path": "Plan/10_REGISTRIES/realesrgan_export_candidate_registry.json",
+    "sha256": "ab3d62e3c0827f0dc8c2785ecd10540685cb55fedc41db5ba047fe46b0ac1fa0"
+  },
+  "policy_errors": [],
+  "negative_fixture_tests": [
+    {
+      "fixture_id": "missing_evidence",
+      "expected": "hold_fail_closed_missing_or_invalid_evidence",
+      "actual": "hold_fail_closed_missing_or_invalid_evidence",
+      "pass": true
+    },
+    {
+      "fixture_id": "technical_failure",
+      "expected": "reject_upscale_technical_failure",
+      "actual": "reject_upscale_technical_failure",
+      "pass": true
+    },
+    {
+      "fixture_id": "missing_visual_review",
+      "expected": "hold_fail_closed_missing_or_invalid_evidence",
+      "actual": "hold_fail_closed_missing_or_invalid_evidence",
+      "pass": true
+    },
+    {
+      "fixture_id": "blocking_visual_regression",
+      "expected": "retain_source_reject_upscale_as_preferred",
+      "actual": "retain_source_reject_upscale_as_preferred",
+      "pass": true
+    },
+    {
+      "fixture_id": "explicit_retain_source",
+      "expected": "retain_source_reject_upscale_as_preferred",
+      "actual": "retain_source_reject_upscale_as_preferred",
+      "pass": true
+    },
+    {
+      "fixture_id": "conditional_resolution_export",
+      "expected": "conditional_resolution_export_retain_source_master",
+      "actual": "conditional_resolution_export_retain_source_master",
+      "pass": true
+    },
+    {
+      "fixture_id": "explicit_preference",
+      "expected": "prefer_upscale_export",
+      "actual": "prefer_upscale_export",
+      "pass": true
+    },
+    {
+      "fixture_id": "inconsistent_preference",
+      "expected": "hold_fail_closed_missing_or_invalid_evidence",
+      "actual": "hold_fail_closed_missing_or_invalid_evidence",
+      "pass": true
+    }
+  ],
+  "binding_fixture_tests": [
+    {
+      "fixture_id": "singleton_exact_fields",
+      "expected": true,
+      "actual": true,
+      "pass": true
+    },
+    {
+      "fixture_id": "singleton_hashes_only_in_unrelated_fields",
+      "expected": false,
+      "actual": false,
+      "pass": true
+    },
+    {
+      "fixture_id": "singleton_wrong_output_hash",
+      "expected": false,
+      "actual": false,
+      "pass": true
+    },
+    {
+      "fixture_id": "multisource_exact_sample",
+      "expected": true,
+      "actual": true,
+      "pass": true
+    },
+    {
+      "fixture_id": "multisource_hashes_on_wrong_sample",
+      "expected": false,
+      "actual": false,
+      "pass": true
+    },
+    {
+      "fixture_id": "multisource_duplicate_sample_id",
+      "expected": false,
+      "actual": false,
+      "pass": true
+    },
+    {
+      "fixture_id": "unknown_binding_schema",
+      "expected": false,
+      "actual": false,
+      "pass": true
+    }
+  ],
+  "target_runtime_fixture_tests": [
+    {
+      "fixture_id": "valid_target_binding",
+      "expected": true,
+      "actual": true,
+      "pass": true
+    },
+    {
+      "fixture_id": "unaccepted_runtime_result",
+      "expected": false,
+      "actual": false,
+      "pass": true
+    },
+    {
+      "fixture_id": "generation_not_executed",
+      "expected": false,
+      "actual": false,
+      "pass": true
+    },
+    {
+      "fixture_id": "wrong_work_order",
+      "expected": false,
+      "actual": false,
+      "pass": true
+    },
+    {
+      "fixture_id": "wrong_lane_id",
+      "expected": false,
+      "actual": false,
+      "pass": true
+    },
+    {
+      "fixture_id": "wrong_source_git_head",
+      "expected": false,
+      "actual": false,
+      "pass": true
+    },
+    {
+      "fixture_id": "wrong_binding_schema",
+      "expected": false,
+      "actual": false,
+      "pass": true
+    },
+    {
+      "fixture_id": "wrong_prompt_hash",
+      "expected": false,
+      "actual": false,
+      "pass": true
+    },
+    {
+      "fixture_id": "final_state_not_stopped",
+      "expected": false,
+      "actual": false,
+      "pass": true
+    },
+    {
+      "fixture_id": "active_marker_not_removed",
+      "expected": false,
+      "actual": false,
+      "pass": true
+    },
+    {
+      "fixture_id": "duplicate_matching_unit",
+      "expected": false,
+      "actual": false,
+      "pass": true
+    },
+    {
+      "fixture_id": "runtime_error_present",
+      "expected": false,
+      "actual": false,
+      "pass": true
+    }
+  ],
+  "candidates": [
+    {
+      "candidate_id": "canny_portrait_seed711570105",
+      "source_class": "canny_corrected_head_shoulders_portrait",
+      "runtime_scope": "local",
+      "source": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_eyeonly_seam_suppression_711570105_20260707T104736-0500/images/canny_w69_eyeonly_seam_suppression_711570105_00001_.png",
+        "sha256": "4119997a991d443c17e2a9b26fad775a179c5ee11d060c730eb64c81e50f728e",
+        "width": 768,
+        "height": 768
+      },
+      "output": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/upscale_polish_w69_canny_seed711570105_20260707T110600-0500/images/upscale_polish_w69_canny_seed711570105_00001_.png",
+        "sha256": "71205ac2e9811bf9d41939fc51fc0219de377bde16bcd6e5af264a23c635d5da",
+        "width": 3072,
+        "height": 3072
+      },
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W69_LOCAL_UPSCALE_POLISH_REALESRGAN_CANNY_SEED711570105_EXECUTE_20260707T111000-0500.json",
+      "runtime_evidence_binding": null,
+      "visual_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_UPSCALE_POLISH_REALESRGAN_CANNY_SEED711570105_VISUAL_QA_20260707T111500-0500.json",
+      "technical_pass": false,
+      "failed_technical_checks": [
+        "downsample_ssim_pass"
+      ],
+      "evidence_valid": true,
+      "metrics": {
+        "downsample_ssim": 0.9316499522393803,
+        "downsample_psnr_db": 34.734189860373824,
+        "downsample_mae": 2.930964231491089,
+        "mean_color_shift": 1.1631622314453125
+      },
+      "checks": {
+        "required_fields_present": true,
+        "source_class_registered": true,
+        "source_exists": true,
+        "output_exists": true,
+        "runtime_evidence_exists": true,
+        "visual_evidence_exists": true,
+        "source_sha256_matches": true,
+        "output_sha256_matches": true,
+        "exact_scale_dimensions": true,
+        "downsample_ssim_pass": false,
+        "downsample_psnr_pass": true,
+        "downsample_mae_pass": true,
+        "mean_color_shift_pass": true,
+        "runtime_scope_registered": true,
+        "runtime_result_accepted": true,
+        "generation_executed": true,
+        "request_hash_matched": true,
+        "server_stopped_and_port_closed": true,
+        "visual_evidence_bound_to_source_and_output": true
+      },
+      "visual_review_valid": true,
+      "quality_preferred": false,
+      "export_recommendation": "reject_upscale_technical_failure",
+      "local_export_allowed": false,
+      "source_master_retention_required": true,
+      "final_production_export_allowed": false,
+      "rejection_reasons": [
+        "technical_preservation_or_runtime_gate_failed"
+      ],
+      "advisories": [
+        "smooth_portrait_skin_is_preserved_not_reconstructed",
+        "some_hair_edges_remain_soft_or_painterly",
+        "scope_is_head_and_shoulders_only"
+      ],
+      "errors": []
+    },
+    {
+      "candidate_id": "normal_fullbody_seed711670301",
+      "source_class": "fullbody_portrait_normal_control_output",
+      "runtime_scope": "local",
+      "source": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v4_full_body_standing_seed711670301_20260711T035900-0500/images/normal_v4_fullbody_standing_711670301_00001_.png",
+        "sha256": "b01b694125e08027195baf3c5a4eeac472eba242bfb4bbe69473625844134fc1",
+        "width": 768,
+        "height": 1024
+      },
+      "output": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/realesrgan_normal_fullbody_w70_v1_20260711T040825-0500/images/realesrgan_normal_fullbody_w70_v1_00001_.png",
+        "sha256": "1724ed736087ee3394063de10f228db39a753c8bf71583a04c855bd544db682c",
+        "width": 3072,
+        "height": 4096
+      },
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_REALESRGAN_NORMAL_FULLBODY_RUNTIME_20260711T041500-0500.json",
+      "runtime_evidence_binding": null,
+      "visual_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_REALESRGAN_MULTISOURCE_ROBUSTNESS_QA_20260711T042000-0500.json",
+      "technical_pass": true,
+      "failed_technical_checks": [],
+      "evidence_valid": true,
+      "metrics": {
+        "downsample_ssim": 0.9816330744033922,
+        "downsample_psnr_db": 41.025828591820606,
+        "downsample_mae": 1.205689787864685,
+        "mean_color_shift": 0.2083333283662796
+      },
+      "checks": {
+        "required_fields_present": true,
+        "source_class_registered": true,
+        "source_exists": true,
+        "output_exists": true,
+        "runtime_evidence_exists": true,
+        "visual_evidence_exists": true,
+        "source_sha256_matches": true,
+        "output_sha256_matches": true,
+        "exact_scale_dimensions": true,
+        "downsample_ssim_pass": true,
+        "downsample_psnr_pass": true,
+        "downsample_mae_pass": true,
+        "mean_color_shift_pass": true,
+        "runtime_scope_registered": true,
+        "runtime_result_accepted": true,
+        "generation_executed": true,
+        "request_hash_matched": true,
+        "server_stopped_and_port_closed": true,
+        "visual_evidence_bound_to_source_and_output": true
+      },
+      "visual_review_valid": true,
+      "quality_preferred": false,
+      "export_recommendation": "conditional_resolution_export_retain_source_master",
+      "local_export_allowed": true,
+      "source_master_retention_required": true,
+      "final_production_export_allowed": false,
+      "rejection_reasons": [],
+      "advisories": [
+        "smooth_skin_and_clothing_surfaces_are_amplified",
+        "upscale_is_not_true_detail_reconstruction"
+      ],
+      "errors": []
+    },
+    {
+      "candidate_id": "two_character_contact_seed7152026252",
+      "source_class": "square_two_character_contact_output",
+      "runtime_scope": "local",
+      "source": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_two_character_hand_to_body_w69_seed7152026252_20260707T113434-0500/images/codex_realvisxl_two_character_hand_to_body_seed7152026252_00001_.png",
+        "sha256": "d6ef67713167d55696b1f07e86c88e9ee0a038f946be9cd8cc56810f724b81a7",
+        "width": 1024,
+        "height": 1024
+      },
+      "output": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/realesrgan_two_character_contact_w70_v1_20260711T040856-0500/images/realesrgan_twochar_contact_w70_v1_00001_.png",
+        "sha256": "88ffb99111f3187f76dbfe54d285c7a2a646d4ce5ac25255d154e242a647939e",
+        "width": 4096,
+        "height": 4096
+      },
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_REALESRGAN_TWO_CHARACTER_CONTACT_RUNTIME_20260711T041500-0500.json",
+      "runtime_evidence_binding": null,
+      "visual_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_REALESRGAN_MULTISOURCE_ROBUSTNESS_QA_20260711T042000-0500.json",
+      "technical_pass": true,
+      "failed_technical_checks": [],
+      "evidence_valid": true,
+      "metrics": {
+        "downsample_ssim": 0.953011062681217,
+        "downsample_psnr_db": 29.627742706452945,
+        "downsample_mae": 4.617269992828369,
+        "mean_color_shift": 2.634852170944214
+      },
+      "checks": {
+        "required_fields_present": true,
+        "source_class_registered": true,
+        "source_exists": true,
+        "output_exists": true,
+        "runtime_evidence_exists": true,
+        "visual_evidence_exists": true,
+        "source_sha256_matches": true,
+        "output_sha256_matches": true,
+        "exact_scale_dimensions": true,
+        "downsample_ssim_pass": true,
+        "downsample_psnr_pass": true,
+        "downsample_mae_pass": true,
+        "mean_color_shift_pass": true,
+        "runtime_scope_registered": true,
+        "runtime_result_accepted": true,
+        "generation_executed": true,
+        "request_hash_matched": true,
+        "server_stopped_and_port_closed": true,
+        "visual_evidence_bound_to_source_and_output": true
+      },
+      "visual_review_valid": true,
+      "quality_preferred": false,
+      "export_recommendation": "retain_source_reject_upscale_as_preferred",
+      "local_export_allowed": false,
+      "source_master_retention_required": true,
+      "final_production_export_allowed": false,
+      "rejection_reasons": [
+        "waxy_skin_amplification",
+        "dense_pattern_oversharpening"
+      ],
+      "advisories": [
+        "composition_and_contact_are_preserved",
+        "technical_4x_preservation_still_passes"
+      ],
+      "errors": []
+    },
+    {
+      "candidate_id": "normal_fullbody_seed711670301_target_cbd75ef8",
+      "source_class": "fullbody_portrait_normal_control_output",
+      "runtime_scope": "target",
+      "source": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v4_full_body_standing_seed711670301_20260711T035900-0500/images/normal_v4_fullbody_standing_711670301_00001_.png",
+        "sha256": "b01b694125e08027195baf3c5a4eeac472eba242bfb4bbe69473625844134fc1",
+        "width": 768,
+        "height": 1024
+      },
+      "output": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260713T210035-0500/images/4_realesrgan_normal_fullbody_w70_v1_00001_.png",
+        "sha256": "82380c991c35764a8c50c1740a52b9b835f59cbde94fa17aef0d56ee345b8bc3",
+        "width": 3072,
+        "height": 4096
+      },
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_REALESRGAN_NORMAL_FULLBODY_TARGET_RUNTIME_CBD75EF8_20260713T211500-0500.json",
+      "runtime_evidence_binding": {
+        "schema": "batched_target_runtime",
+        "work_order_id": "realesrgan-cbd75ef8-20260713T205800",
+        "unit_run_id": "realesrgan_normal_fullbody_target_cbd75ef8_20260713T204500-0500",
+        "prompt_sha256": "be9c3d273bf738e6ad94178922ffa73991d18430c323739916968e127eb7c4c5",
+        "source_git_head": "cbd75ef85aa40afb7a961baddbc62919d8818aeb",
+        "lane_id": "sdxl_realesrgan_upscale_polish_lane"
+      },
+      "visual_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_REALESRGAN_NORMAL_FULLBODY_TARGET_RUNTIME_VISUAL_QA_CBD75EF8_20260713T211500-0500.json",
+      "technical_pass": true,
+      "failed_technical_checks": [],
+      "evidence_valid": true,
+      "metrics": {
+        "downsample_ssim": 0.9816441287966292,
+        "downsample_psnr_db": 41.02168329744667,
+        "downsample_mae": 1.208293080329895,
+        "mean_color_shift": 0.2156117707490921
+      },
+      "checks": {
+        "required_fields_present": true,
+        "source_class_registered": true,
+        "source_exists": true,
+        "output_exists": true,
+        "runtime_evidence_exists": true,
+        "visual_evidence_exists": true,
+        "source_sha256_matches": true,
+        "output_sha256_matches": true,
+        "exact_scale_dimensions": true,
+        "downsample_ssim_pass": true,
+        "downsample_psnr_pass": true,
+        "downsample_mae_pass": true,
+        "mean_color_shift_pass": true,
+        "runtime_scope_registered": true,
+        "runtime_result_accepted": true,
+        "generation_executed": true,
+        "request_hash_matched": true,
+        "server_stopped_and_port_closed": true,
+        "target_runtime_binding_schema": true,
+        "target_work_order_id_matched": true,
+        "target_lane_id_matched": true,
+        "target_source_git_head_matched": true,
+        "target_unit_unique_and_passed": true,
+        "target_errors_empty": true,
+        "visual_evidence_bound_to_source_and_output": true
+      },
+      "visual_review_valid": true,
+      "quality_preferred": false,
+      "export_recommendation": "conditional_resolution_export_retain_source_master",
+      "local_export_allowed": true,
+      "source_master_retention_required": true,
+      "final_production_export_allowed": true,
+      "rejection_reasons": [],
+      "advisories": [
+        "smooth_skin_and_clothing_surfaces_are_amplified",
+        "upscale_is_not_true_detail_reconstruction",
+        "source_master_must_be_retained"
+      ],
+      "errors": []
+    },
+    {
+      "candidate_id": "fixed_e2e_openpose7152026253_repair210711_local",
+      "source_class": "square_two_character_contact_output",
+      "runtime_scope": "local",
+      "source": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/fixed_image_e2e_openpose7152026253_repair210711_20260713T220400-0500/images/fixed_e2e_openpose7152026253_repair210711_source_preserved.png",
+        "sha256": "aadda3bb68761c0c9a62cfa6cdbb50d021f67400491d72750f18c013ef76890b",
+        "width": 1024,
+        "height": 1024
+      },
+      "output": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/fixed_image_e2e_openpose7152026253_repair210711_upscale4x_20260713T221100-0500/images/fixed_e2e_openpose7152026253_repair210711_upscale4x_00001_.png",
+        "sha256": "c0e8a9c8e983d324bb73b05fd4fa37568ffd45574ab428025827d96fe33d718f",
+        "width": 4096,
+        "height": 4096
+      },
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_FIXED_IMAGE_E2E_OPENPOSE7152026253_REPAIR210711_UPSCALE4X_LOCAL_RUNTIME_20260713T221100-0500.json",
+      "runtime_evidence_binding": null,
+      "visual_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_FIXED_IMAGE_E2E_OPENPOSE7152026253_REPAIR210711_UPSCALE4X_VISUAL_QA_20260713T221300-0500.json",
+      "technical_pass": false,
+      "failed_technical_checks": [
+        "downsample_ssim_pass"
+      ],
+      "evidence_valid": true,
+      "metrics": {
+        "downsample_ssim": 0.9174418932672332,
+        "downsample_psnr_db": 31.804180638419876,
+        "downsample_mae": 3.9540154933929443,
+        "mean_color_shift": 1.8566793203353882
+      },
+      "checks": {
+        "required_fields_present": true,
+        "source_class_registered": true,
+        "source_exists": true,
+        "output_exists": true,
+        "runtime_evidence_exists": true,
+        "visual_evidence_exists": true,
+        "source_sha256_matches": true,
+        "output_sha256_matches": true,
+        "exact_scale_dimensions": true,
+        "downsample_ssim_pass": false,
+        "downsample_psnr_pass": true,
+        "downsample_mae_pass": true,
+        "mean_color_shift_pass": true,
+        "runtime_scope_registered": true,
+        "runtime_result_accepted": true,
+        "generation_executed": true,
+        "request_hash_matched": true,
+        "server_stopped_and_port_closed": true,
+        "visual_evidence_bound_to_source_and_output": true
+      },
+      "visual_review_valid": true,
+      "quality_preferred": false,
+      "export_recommendation": "reject_upscale_technical_failure",
+      "local_export_allowed": false,
+      "source_master_retention_required": true,
+      "final_production_export_allowed": false,
+      "rejection_reasons": [
+        "technical_preservation_or_runtime_gate_failed"
+      ],
+      "advisories": [
+        "composition_and_contact_are_preserved",
+        "source_master_must_be_retained",
+        "local_runtime_only"
+      ],
+      "errors": []
+    }
+  ],
+  "aggregate": {
+    "candidate_count": 5,
+    "technical_pass_count": 3,
+    "technical_reject_count": 2,
+    "evidence_valid_count": 5,
+    "conditional_resolution_export_count": 2,
+    "preferred_upscale_count": 0,
+    "retain_source_count": 1,
+    "final_production_export_allowed_count": 1,
+    "negative_fixture_pass_count": 8,
+    "negative_fixture_count": 8,
+    "binding_fixture_pass_count": 7,
+    "binding_fixture_count": 7,
+    "target_runtime_fixture_pass_count": 12,
+    "target_runtime_fixture_count": 12
+  },
+  "quality_decision": {
+    "universal_upscale_preference_claimed": false,
+    "source_master_retention_required": true,
+    "canny_upscale_rejected_by_strict_ssim": true,
+    "two_character_upscale_rejected_as_preferred": true,
+    "final_production_export_allowed": true,
+    "reason": "The hash-bound target-runtime Normal full-body output passes strict preservation for conditional resolution delivery with its source master retained. The older Canny upscale misses the strict SSIM threshold, and the two-character upscale remains rejected as preferred because skin and dense fabric regress."
+  },
+  "boundaries": {
+    "new_generation_executed": false,
+    "source_or_output_replayed": false,
+    "local_only": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "target_runtime_proven_by_this_gate": true,
+    "final_lane_certification": false,
+    "gold_masks_consumed": false,
+    "mask_promotion": false,
+    "wave70_hard_gate_rerun": false,
+    "wave71_activated": false
+  }
+}

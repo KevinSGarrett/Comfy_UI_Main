@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-07-13T21:00:00-05:00",
+  "updated_at": "2026-07-13T22:15:00-05:00",
   "authority": "Plan/Instructions/COMFYUI_DELIVERY_RECOVERY_AND_PORTFOLIO_CONTROL.md",
   "production_architecture": {
     "authoritative_surface": "separate_versioned_api_workflows",
@@ -40,11 +40,11 @@
       "technical_qa_passed": true,
       "direct_review_passed": false,
       "production_lane_certified": false,
-      "scope": "base smoke proven; broader two-character composition unresolved",
+      "scope": "base smoke proven; fixed two-character chain completed through OpenPose remediation, repair, and rejected upscale; Base ownership remains unresolved",
       "state": "runtime_proven_quality_blocked",
       "recovery_priority": 10,
-      "next_concrete_outcome": "Run a fixed multisample base benchmark and adopt only a scope-matched composition remediation that improves measured results.",
-      "evidence": ["Workflows/base_generation/ACTIVE_LANES.json", "Plan/Instructions/QA/Evidence/Wave64/REALVISXL_LANE_TERMINAL_STATE_20260712T092510-0500.json"]
+      "next_concrete_outcome": "Do not relabel OpenPose remediation as Base ownership; require scope-matched target proof only if Base-owned two-character composition is selected again.",
+      "evidence": ["Workflows/base_generation/ACTIVE_LANES.json", "Plan/Instructions/QA/Evidence/Wave64/REALVISXL_LANE_TERMINAL_STATE_20260712T092510-0500.json", "Plan/Instructions/QA/Evidence/Delivery_Recovery/W64_FIXED_IMAGE_E2E_BENCHMARK_OPENPOSE_CONTACT_20260713T221500-0500.json"]
     },
     {
       "modality": "image",
@@ -74,11 +74,11 @@
       "technical_qa_passed": true,
       "direct_review_passed": true,
       "production_lane_certified": false,
-      "scope": "one bounded target-runtime sample",
-      "state": "single_sample_only",
+      "scope": "one bounded target-runtime facial sample plus one completed local two-character contact repair chain",
+      "state": "bounded_mixed_scope_not_full_lane_certified",
       "recovery_priority": 12,
-      "next_concrete_outcome": "Run a fixed multisample face/hand/detail repair benchmark without using candidate masks as truth.",
-      "evidence": ["Workflows/base_generation/ACTIVE_LANES.json"]
+      "next_concrete_outcome": "Use the fixed contact repair result as a local benchmark only; require changed-scope target proof for any production repair route.",
+      "evidence": ["Workflows/base_generation/ACTIVE_LANES.json", "Plan/Instructions/QA/Evidence/Delivery_Recovery/W64_FIXED_IMAGE_E2E_BENCHMARK_OPENPOSE_CONTACT_20260713T221500-0500.json"]
     },
     {
       "modality": "image",
@@ -125,11 +125,11 @@
       "technical_qa_passed": true,
       "direct_review_passed": true,
       "production_lane_certified": false,
-      "scope": "bounded target-runtime recovery and review; source status files disagree",
-      "state": "bounded_scope_complete_registry_reconciliation_needed",
+      "scope": "bounded target-runtime recovery and review plus reused local composition-control benchmark source",
+      "state": "bounded_scope_complete",
       "recovery_priority": 34,
-      "next_concrete_outcome": "Reconcile ACTIVE_LANES with the existing target-runtime pullback once, then use the lane without rerunning proof.",
-      "evidence": ["Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_OPENPOSE_V6_TARGET_RUNTIME_RECOVERED_PULLBACK_61596842_20260713T200200-0500.json", "Workflows/base_generation/ACTIVE_LANES.json"]
+      "next_concrete_outcome": "No rerun unless the workflow, model, control input, seed, pose, or intended quality scope changes.",
+      "evidence": ["Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_OPENPOSE_V6_TARGET_RUNTIME_RECOVERED_PULLBACK_61596842_20260713T200200-0500.json", "Workflows/base_generation/ACTIVE_LANES.json", "Plan/Instructions/QA/Evidence/Delivery_Recovery/W64_FIXED_IMAGE_E2E_BENCHMARK_OPENPOSE_CONTACT_20260713T221500-0500.json"]
     },
     {
       "modality": "image",
@@ -154,16 +154,16 @@
       "classification": "required_support",
       "workflow_graph_complete": true,
       "local_runtime_proven": true,
-      "ec2_runtime_proven": false,
+      "ec2_runtime_proven": true,
       "genuine_artifact_present": true,
       "technical_qa_passed": true,
-      "direct_review_passed": false,
+      "direct_review_passed": true,
       "production_lane_certified": false,
-      "scope": "local source testing; main session owns current target-runtime unit",
-      "state": "target_runtime_in_progress_external_owner",
+      "scope": "one hash-bound Normal full-body target-runtime conditional export plus one fixed-chain local candidate rejected with source retained",
+      "state": "bounded_scope_complete",
       "recovery_priority": 11,
-      "next_concrete_outcome": "Let the main-owned target-runtime window finish, review its pulled-back outputs, and do not restage existing model/input/bundle objects.",
-      "evidence": ["Workflows/base_generation/ACTIVE_LANES.json", "Plan/Instructions/QA/Evidence/Runtime_Readiness/LOCAL_LEGACY_AWS_DUPLICATE_RECONCILIATION_20260711T065400-0500.json"]
+      "next_concrete_outcome": "Use the hash-bound target result only for conditional resolution delivery with its source master retained; do not rerun unless the candidate or acceptance scope changes.",
+      "evidence": ["Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_REALESRGAN_NORMAL_FULLBODY_TARGET_RUNTIME_CBD75EF8_20260713T211500-0500.json", "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_REALESRGAN_SOURCE_SELECTION_EXPORT_GATE_20260713T221500-0500.json", "Plan/Instructions/QA/Evidence/Delivery_Recovery/W64_FIXED_IMAGE_E2E_BENCHMARK_OPENPOSE_CONTACT_20260713T221500-0500.json", "Workflows/base_generation/ACTIVE_LANES.json"]
     },
     {
       "modality": "image",

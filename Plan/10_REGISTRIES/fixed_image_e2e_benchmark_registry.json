@@ -1,0 +1,122 @@
+{
+  "schema_version": "1.0",
+  "registry_id": "FIXED-IMAGE-E2E-BENCHMARK-OPENPOSE-CONTACT-V1",
+  "updated_at": "2026-07-13T22:15:00-05:00",
+  "purpose": "One honest, chained image benchmark using a completed composition-control artifact followed by new regional repair and conditional 4x export stages with measured deltas.",
+  "chain_sample_id": "openpose_contact_seed7152026253_repair210711_upscale4x",
+  "stage_order": [
+    "composition_control",
+    "regional_repair",
+    "conditional_upscale"
+  ],
+  "stages": [
+    {
+      "stage": "composition_control",
+      "lane_id": "sdxl_realvisxl_controlnet_openpose_lane",
+      "execution_policy": "reuse_hash_verified_completed_artifact_no_rerun",
+      "profile": "PromptProfiles/base_generation/realvisxl_multisample_certification/realvisxl_two_character_openpose_contact_robustness_seed7152026253.json",
+      "source_artifact": "Plan/Instructions/Operations/Pulled_Back_Artifacts/base_remediation_openpose_contact_seed7152026253_20260711T073400-0500/images/rvxl_twochar_openpose_contact_7152026253_00001_.png",
+      "source_sha256": "4b2bd7ace92c5a5f76565de736e18b70f0daf3909ad8793797ebfd2d5c5706b5",
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_BASE_REMEDIATION_OPENPOSE_CONTACT_SEED7152026253_20260711T073400-0500.json",
+      "visual_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_BASE_REMEDIATION_OPENPOSE_CONTACT_PAIR_VISUAL_DISPOSITION_20260711T073900-0500.json",
+      "status": "complete_bounded_local_artifact_reused"
+    },
+    {
+      "stage": "regional_repair",
+      "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+      "execution_policy": "new_scope_matched_local_generation_required",
+      "profile": "PromptProfiles/base_generation/image_e2e_benchmark/fixed_e2e_openpose7152026253_contact_repair_seed210711.json",
+      "source_input_name": "fixed_e2e_openpose_contact_seed7152026253_source.png",
+      "mask_input_name": "wave25_contact_edge_hand_to_body_seed7152026252_1024.png",
+      "mask_classification": "non_gold_operational_repair_region",
+      "raw_output": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/fixed_image_e2e_openpose7152026253_repair210711_20260713T220400-0500/images/fixed_e2e_openpose7152026253_repair210711_00001_.png",
+        "sha256": "fb936fba0a90f4631720e7cb209f25a0a72537b4b51bec70141f12ae660bab7c"
+      },
+      "accepted_output": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/fixed_image_e2e_openpose7152026253_repair210711_20260713T220400-0500/images/fixed_e2e_openpose7152026253_repair210711_source_preserved.png",
+        "sha256": "aadda3bb68761c0c9a62cfa6cdbb50d021f67400491d72750f18c013ef76890b"
+      },
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_FIXED_IMAGE_E2E_OPENPOSE7152026253_REPAIR210711_LOCAL_RUNTIME_20260713T220400-0500.json",
+      "technical_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_FIXED_IMAGE_E2E_OPENPOSE7152026253_REPAIR210711_TECHNICAL_QA_20260713T220800-0500.json",
+      "visual_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_FIXED_IMAGE_E2E_OPENPOSE7152026253_REPAIR210711_VISUAL_QA_20260713T221300-0500.json",
+      "status": "complete_local_bounded_repair_pass_with_notes"
+    },
+    {
+      "stage": "conditional_upscale",
+      "lane_id": "sdxl_realesrgan_upscale_polish_lane",
+      "execution_policy": "execute_only_after_hash_bound_repair_output_exists",
+      "profile": "PromptProfiles/base_generation/image_e2e_benchmark/fixed_e2e_openpose7152026253_repair210711_upscale_v1.json",
+      "source_input_name": "fixed_e2e_openpose7152026253_repair210711_00001_.png",
+      "output": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/fixed_image_e2e_openpose7152026253_repair210711_upscale4x_20260713T221100-0500/images/fixed_e2e_openpose7152026253_repair210711_upscale4x_00001_.png",
+        "sha256": "c0e8a9c8e983d324bb73b05fd4fa37568ffd45574ab428025827d96fe33d718f"
+      },
+      "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_FIXED_IMAGE_E2E_OPENPOSE7152026253_REPAIR210711_UPSCALE4X_LOCAL_RUNTIME_20260713T221100-0500.json",
+      "visual_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_FIXED_IMAGE_E2E_OPENPOSE7152026253_REPAIR210711_UPSCALE4X_VISUAL_QA_20260713T221300-0500.json",
+      "selection_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_REALESRGAN_SOURCE_SELECTION_EXPORT_GATE_20260713T221500-0500.json",
+      "status": "complete_local_output_rejected_source_retained"
+    }
+  ],
+  "measured_delta_contract": {
+    "repair": {
+      "source_and_output_dimensions_equal": true,
+      "mask_dimensions_equal_source": true,
+      "minimum_inside_mask_mae": 0.1,
+      "maximum_outside_mask_mae": 3.0,
+      "minimum_outside_mask_ssim": 0.985,
+      "minimum_whole_image_ssim": 0.95
+    },
+    "upscale": {
+      "required_scale_factor": 4,
+      "minimum_downsampled_ssim": 0.95,
+      "minimum_downsampled_psnr_db": 30.0,
+      "maximum_downsampled_mae": 4.0,
+      "maximum_mean_color_shift": 2.0,
+      "source_master_retention_required": true
+    }
+  },
+  "acceptance": {
+    "technical_metrics_required": true,
+    "whole_image_visual_review_required": true,
+    "repair_must_improve_target_region_without_material_outside_drift": true,
+    "upscale_selection_gate_must_complete_fail_closed": true,
+    "preferred_over_source_not_assumed": true,
+    "final_lane_certification_implied": false,
+    "body_hand_contact_geometry_certification_implied": false,
+    "mask_promotion_allowed": false,
+    "wave71_activation_allowed": false
+  },
+  "reuse_evidence": [
+    "Plan/Instructions/QA/Evidence/Done_Certifications/W70_BASE_REMEDIATION_OPENPOSE_CONTACT_PAIR_DONE_20260711T074300-0500.json",
+    "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/runtime_requirements.json",
+    "Plan/10_REGISTRIES/realesrgan_export_candidate_registry.json",
+    "Plan/Instructions/QA/Evidence/Done_Certifications/W70_REALESRGAN_SOURCE_SELECTION_EXPORT_GATE_DONE_20260713T212500-0500.json"
+  ],
+  "completion": {
+    "status": "complete_local_chain_upscale_rejected_source_retained",
+    "repair_metrics": {
+      "inside_mask_mae": 10.582646369934082,
+      "outside_mask_mae": 0.0,
+      "outside_mask_ssim": 1.0,
+      "whole_image_ssim": 0.9944930532904633
+    },
+    "upscale_metrics": {
+      "downsample_ssim": 0.9174418932672332,
+      "downsample_psnr_db": 31.804180638419876,
+      "downsample_mae": 3.9540154933929443,
+      "mean_color_shift": 1.8566793203353882
+    },
+    "upscale_recommendation": "reject_upscale_technical_failure",
+    "preferred_master": "regional_repair.accepted_output",
+    "target_runtime_proven_for_new_chain": false,
+    "final_lane_certification_implied": false
+  },
+  "delegation_record": {
+    "gate": "CURSOR_FIRST_REQUIRED",
+    "first_attempt": "wrapper_rejected_negative_execution_wording",
+    "narrow_retry": "completed_content_but_wrapper_output_contract_parse_failed",
+    "patch_map_attempt": "completed_content_but_concurrent_unrelated_character1_profile_drift_detected",
+    "codex_fallback": "compact_hash_bound_implementation_after_required_retry"
+  }
+}

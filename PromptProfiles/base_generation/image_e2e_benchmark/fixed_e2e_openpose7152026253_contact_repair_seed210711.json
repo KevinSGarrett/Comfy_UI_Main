@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "fixed_e2e_openpose7152026253_contact_repair_seed210711",
+  "target_lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+  "purpose": "Fixed image benchmark repair stage for the completed OpenPose two-character contact sample. The input mask is an operational repair region only and is not gold-standard truth.",
+  "request_patch_values": {
+    "positive_prompt": "photoreal studio portrait contact refinement, preserve the exact two adult identities, preserve woman on left and man on right, preserve clothing colors and neutral background, preserve both visible hands, refine only the woman's upper hand resting on the man's shoulder and sleeve, natural relaxed fingers, subtle sleeve compression, soft contact shadow, coherent fingernails, realistic skin and fabric texture, no global style drift",
+    "negative_prompt": "identity change, face change, hair change, clothing change, background change, pose change, hand morph, extra fingers, missing fingers, fused fingers, elongated fingers, claw hand, rubber hand, sleeve pull, gripping, grabbing, merged bodies, merged arms, duplicate hand, visible mask edge, overpainted shoulder, plastic skin, waxy skin, text, watermark",
+    "source_image": "fixed_e2e_openpose_contact_seed7152026253_source.png",
+    "mask_image": "wave25_contact_edge_hand_to_body_seed7152026252_1024.png",
+    "mask_channel": "red",
+    "seed": 210711,
+    "sampler_settings": {
+      "steps": 20,
+      "cfg": 4.4,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 0.16
+    },
+    "model_asset": "realvisxlV50_v50Bakedvae.safetensors",
+    "save_prefix": "fixed_e2e_openpose7152026253_repair210711"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "fixed_e2e_openpose7152026253_repair210711"
+  },
+  "input_bindings": {
+    "source_artifact": "Plan/Instructions/Operations/Pulled_Back_Artifacts/base_remediation_openpose_contact_seed7152026253_20260711T073400-0500/images/rvxl_twochar_openpose_contact_7152026253_00001_.png",
+    "source_sha256": "4b2bd7ace92c5a5f76565de736e18b70f0daf3909ad8793797ebfd2d5c5706b5",
+    "mask_runtime_path": "ComfyUI/input/wave25_contact_edge_hand_to_body_seed7152026252_1024.png",
+    "mask_classification": "non_gold_operational_repair_region",
+    "mask_alignment_review": "visual_alignment_pass_for_openpose_seed7152026253_upper_hand_contact_region"
+  },
+  "qa_focus": [
+    "identity and composition preservation",
+    "upper contact hand anatomy and sleeve pressure",
+    "lower visible hand remains unchanged",
+    "no body merge or hand duplication",
+    "outside-mask pixel and structure preservation",
+    "no visible mask edge"
+  ],
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "gold_mask_consumed": false,
+    "candidate_mask_consumed_as_truth": false,
+    "operational_mask_is_not_evaluation_truth": true,
+    "requires_whole_image_visual_qa": true,
+    "requires_target_runtime_reproof_before_certification": true,
+    "does_not_certify_body_hand_contact_geometry": true,
+    "does_not_promote_masks": true
+  }
+}

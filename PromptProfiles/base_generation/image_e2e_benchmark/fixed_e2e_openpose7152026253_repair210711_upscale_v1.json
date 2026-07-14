@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "fixed_e2e_openpose7152026253_repair210711_upscale_v1",
+  "target_lane_id": "sdxl_realesrgan_upscale_polish_lane",
+  "purpose": "Conditional 4x export stage for the fixed OpenPose-to-repair image benchmark. Source-master retention is mandatory.",
+  "request_patch_values": {
+    "source_image": "fixed_e2e_openpose7152026253_repair210711_00001_.png",
+    "upscale_model": "RealESRGAN_x4plus.pth",
+    "save_prefix": "fixed_e2e_openpose7152026253_repair210711_upscale4x"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "fixed_e2e_openpose7152026253_repair210711_upscale4x"
+  },
+  "qa_focus": [
+    "exact 4x dimensions",
+    "two-person composition preservation",
+    "both visible hands remain coherent",
+    "no waxy-skin amplification",
+    "fabric and hair edges avoid ringing",
+    "no material color shift",
+    "source master retained regardless of export disposition"
+  ],
+  "runtime_boundaries": {
+    "local_profile_only": true,
+    "requires_source_output_comparison": true,
+    "source_master_retention_required": true,
+    "conditional_resolution_export_only": true,
+    "preferred_over_source_not_assumed": true,
+    "requires_target_runtime_reproof_before_certification": true
+  }
+}
