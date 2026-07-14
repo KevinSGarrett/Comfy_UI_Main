@@ -1,3 +1,12 @@
+## Wan 2.2 Changed-Source Local Readiness Passed - 2026-07-14T03:45:15-05:00
+
+One genuinely changed full-body Wan source is now local-ready: `Ref_Image_1/Full/78b8e4ca10fd769e0752bd21c3599339.jpg`, SHA-256 `e20a857f0ac23151ae1b8aa47fb4746c975e522a5598896f747ef08a50cc9336`, 3000x4000, with head, both hands, and both feet visible. The known knee-up `Ref_Image_1/Full/New folder` source remains excluded. Seed 2271401 has a new prompt/profile and output prefix. Source binding now validates exact path, bytes, hash, and staged filename, and the run package carries the source in `inputs/`. All 13 local matrix checks pass; two tampered-hash probes and the excluded-folder probe fail closed before unsafe packaging. The prior seed-robustness matrix also remains 13/13 green. EC2 remains stopped and no generation occurred.
+
+Next action: checkpoint only this source-binding implementation, profile, matrix, queue, readiness evidence, and hydration through a protected `codex/*` PR. After exact-head `main` is green, rebuild the package and deploy bundle from that head before considering one guarded seed-2271401 runtime unit. Do not rerun seeds 2271301-2271303, use the excluded partial image, consume masks as truth, activate Wave71+, or claim source-diversity runtime success yet.
+
+Evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_WAN22_SOURCE_DIVERSITY_LOCAL_READINESS_20260714T034515-0500.json`.
+
+
 ## Wan 2.2 Three-Seed Robustness Passed - 2026-07-14T03:14:30-05:00
 
 Wan seeds 2271301, 2271302, and 2271303 now pass the same hash-bound source, prompt-family, 480x640, 49-frame, 24 fps contract. Both unseen seeds completed target-runtime generation, S3 sync, pullback hash verification, OpenCV technical QA, and direct Codex temporal review. The initial batch failed closed before submitting seed 2271303, the coordinator exclusion defect was fixed and merged through PR 20, and the one-unit retry completed without duplicate generation. EC2 is stopped, its runtime marker is closed, and the obsolete emergency schedule is deleted. The MP4-under-images classifier defect is fixed with all 62 operations scripts parsing and every local smoke passing.

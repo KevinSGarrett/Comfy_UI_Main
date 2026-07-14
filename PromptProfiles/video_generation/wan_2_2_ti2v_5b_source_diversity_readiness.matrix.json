@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "matrix_id": "wan22_ti2v5b_source_diversity_readiness_v1",
+  "workflow_group": "video_generation",
+  "lane_id": "wan_2_2_ti2v_5b_primary_lane",
+  "purpose": "Prepare exactly one hash-bound changed-source Wan 2.2 unit after the completed three-seed single-source robustness gate.",
+  "minimum_sample_count": 1,
+  "requires_router_gate": false,
+  "requires_source_bindings": true,
+  "requires_unique_seeds": true,
+  "requires_unique_output_prefixes": true,
+  "requires_unique_prompt_hashes": true,
+  "requires_unique_variant_signatures": true,
+  "local_only": true,
+  "ec2_start_allowed_by_matrix": false,
+  "generation_allowed_by_matrix": false,
+  "completed_prerequisite": {
+    "classification": "WAN22_BOUNDED_THREE_SEED_ROBUSTNESS_PASS",
+    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_WAN22_SEED_ROBUSTNESS_TARGET_RUNTIME_20260714T030930-0500.json",
+    "completed_seeds": [2271301, 2271302, 2271303],
+    "rerun_allowed": false
+  },
+  "excluded_source_scope": {
+    "path": "Ref_Image_1/Full/New folder",
+    "reason": "User identified this image as knee-up rather than full-body; it cannot prove feet, toes, ankles, or lower calves."
+  },
+  "certification_scope": [
+    "local request and exact changed-source binding readiness only",
+    "one new full-body source and one unseen seed",
+    "no target-runtime result until a later exact-head guarded window",
+    "no production video, body mask, geometry, or Wave71 certification"
+  ],
+  "samples": [
+    {
+      "profile_file": "PromptProfiles/video_generation/wan_2_2_ti2v_5b_primary_lane/fullbody_source_diversity_ref1_78b8_seed2271401.json",
+      "certification_focus": "first changed-source readiness unit after the completed three-seed single-source gate"
+    }
+  ],
+  "qa_protocols": [
+    "Plan/Instructions/QA/COMFYUI_WORKFLOW_TESTING_PROTOCOL.md",
+    "Plan/Instructions/QA/MODEL_LORA_CHECKPOINT_VALIDATION_PROTOCOL.md",
+    "Plan/10_REGISTRIES/wave27_video_route_selection_rules.json"
+  ],
+  "runtime_boundaries": {
+    "does_not_contact_aws": true,
+    "does_not_contact_github_api": true,
+    "does_not_contact_civitai": true,
+    "does_not_contact_comfyui": true,
+    "does_not_start_ec2": true,
+    "does_not_execute_generation": true,
+    "requires_exact_model_and_source_hash_proof_before_execution": true,
+    "requires_pullback_hashes_before_visual_qa": true,
+    "requires_direct_temporal_review_before_any_source_diversity_claim": true,
+    "production_video_lane_certification_claimed": false
+  },
+  "next_action": "Checkpoint this local-only readiness unit. Only after exact-head main and deploy-bundle gates pass may one changed-source target-runtime sample be considered; do not rerun seeds 2271301-2271303."
+}

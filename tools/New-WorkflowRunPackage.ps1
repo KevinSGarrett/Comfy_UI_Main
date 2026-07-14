@@ -253,6 +253,15 @@ $promptProfileRecord = [ordered]@{
   applied = $false
   path = $null
   profile_id = $null
+  source_binding = [ordered]@{
+    supplied = $false
+    valid = $false
+    source = $null
+    packaged = $null
+    staged_filename = $null
+    size_bytes = $null
+    sha256 = $null
+  }
   errors = @()
 }
 
@@ -271,6 +280,55 @@ if (![string]::IsNullOrWhiteSpace($PromptProfileFile)) {
       ![string]::IsNullOrWhiteSpace([string]$promptProfileHash["target_lane_id"]) -and
       [string]$promptProfileHash["target_lane_id"] -ne $LaneId) {
     throw "Prompt profile target_lane_id '$($promptProfileHash["target_lane_id"])' does not match lane '$LaneId'."
+  }
+
+  if (Test-MapKey -Map $promptProfileHash -Key "source_binding") {
+    $binding = $promptProfileHash["source_binding"]
+    $bindingProjectPath = [string]$binding["project_path"]
+    $stagedFilename = [string]$binding["staged_filename"]
+    $expectedSha256 = ([string]$binding["sha256"]).ToLowerInvariant()
+    $expectedSizeBytes = [int64]$binding["size_bytes"]
+    if ([string]::IsNullOrWhiteSpace($bindingProjectPath) -or
+        [string]::IsNullOrWhiteSpace($stagedFilename) -or
+        [System.IO.Path]::GetFileName($stagedFilename) -ne $stagedFilename -or
+        $expectedSha256 -notmatch '^[a-f0-9]{64}$' -or
+        $expectedSizeBytes -lt 1) {
+      throw "Prompt profile source_binding must define project_path, a filename-only staged_filename, 64-character sha256, and positive size_bytes."
+    }
+    $sourcePath = if ([System.IO.Path]::IsPathRooted($bindingProjectPath)) { $bindingProjectPath } else { Join-Path $ProjectRoot $bindingProjectPath }
+    $projectRootFull = [System.IO.Path]::GetFullPath($ProjectRoot).TrimEnd("\", "/")
+    $sourcePathFull = [System.IO.Path]::GetFullPath($sourcePath)
+    if (!$sourcePathFull.StartsWith($projectRootFull + [System.IO.Path]::DirectorySeparatorChar, [System.StringComparison]::OrdinalIgnoreCase)) {
+      throw "Prompt profile source_binding must remain inside ProjectRoot: $bindingProjectPath"
+    }
+    if (!(Test-Path -LiteralPath $sourcePathFull -PathType Leaf)) {
+      throw "Prompt profile source_binding file missing: $sourcePathFull"
+    }
+    $actualSizeBytes = [int64](Get-Item -LiteralPath $sourcePathFull).Length
+    $actualSha256 = (Get-FileHash -LiteralPath $sourcePathFull -Algorithm SHA256).Hash.ToLowerInvariant()
+    if ($actualSizeBytes -ne $expectedSizeBytes) {
+      throw "Prompt profile source_binding size mismatch: expected $expectedSizeBytes, observed $actualSizeBytes."
+    }
+    if ($actualSha256 -ne $expectedSha256) {
+      throw "Prompt profile source_binding SHA-256 mismatch: expected $expectedSha256, observed $actualSha256."
+    }
+    $requestSourceImage = [string]$promptProfileHash["request_patch_values"]["source_image"]
+    if ($requestSourceImage -ne $stagedFilename) {
+      throw "Prompt profile request source_image '$requestSourceImage' does not match source_binding staged_filename '$stagedFilename'."
+    }
+    $inputsDir = Join-Path $packageDir "inputs"
+    New-Item -ItemType Directory -Force -Path $inputsDir | Out-Null
+    $packagedSourcePath = Join-Path $inputsDir $stagedFilename
+    Copy-PackageFile -SourcePath $sourcePathFull -DestinationPath $packagedSourcePath -FileRecords $packagedFiles
+    $promptProfileRecord.source_binding = [ordered]@{
+      supplied = $true
+      valid = $true
+      source = Convert-ToRepoPath -Path $sourcePathFull
+      packaged = Convert-ToRepoPath -Path $packagedSourcePath
+      staged_filename = $stagedFilename
+      size_bytes = $actualSizeBytes
+      sha256 = $actualSha256
+    }
   }
 
   $smokeHash = ConvertTo-HashtableDeep -InputObject (Read-JsonFile -Path $packagedSmokePath)
