@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib.util
+import hashlib
 import json
 import shutil
 import tempfile
@@ -65,6 +66,13 @@ class VideoKeyframeHandoffTests(unittest.TestCase):
             self.assertEqual(candidate["candidate"]["duration_seconds"], 2.04)
             self.assertIn("technical", candidate["provenance"]["source_bindings"])
             self.assertEqual(readiness["check_summary"], {"checked": 13, "passed": 13, "failed": 0})
+
+    def test_checked_out_candidate_bytes_match_canonical_binding(self) -> None:
+        candidate_path = ROOT / MODULE.CANDIDATE
+        canonical = json.loads((ROOT / MODULE.CANONICAL).read_text(encoding="utf-8"))
+        binding = canonical["keyframe_candidate_state"]["candidate_manifest"]
+        self.assertEqual(candidate_path.stat().st_size, binding["bytes"])
+        self.assertEqual(hashlib.sha256(candidate_path.read_bytes()).hexdigest(), binding["sha256"])
 
     def test_exact_passing_candidate_gates_are_preserved(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -169,6 +177,8 @@ class VideoKeyframeHandoffTests(unittest.TestCase):
             self.assertFalse(integrated["acceptance_gates"]["frame_repair_effectiveness"])
             self.assertTrue(integrated["keyframe_candidate_state"]["candidate_hash_bound"])
             self.assertEqual(integrated["normalized_blockers"][0]["blocker_id"], "KEYFRAME_CANDIDATE_NOT_PROMOTION_ELIGIBLE")
+            reintegrated = MODULE.integrate_canonical(integrated, binding, MODULE.READINESS.as_posix(), readiness)
+            self.assertEqual(reintegrated, integrated)
 
     def test_note_and_evidence_append_are_idempotent(self) -> None:
         once = MODULE.normalize_note(f"old; {MODULE.NOTE}; {MODULE.NOTE}")

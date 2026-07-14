@@ -402,7 +402,8 @@ def integrate_canonical(canonical: dict[str, Any], candidate_binding: dict[str, 
         "failed_gates": readiness["eligibility"]["failed_gates"],
         "keyframe_manifest_gate": False,
     }
-    blockers = [item for item in result.get("normalized_blockers", []) if item.get("blocker_id") != "KEYFRAME_MANIFEST_INTEGRATION_MISSING"]
+    replaced = {"KEYFRAME_MANIFEST_INTEGRATION_MISSING", "KEYFRAME_CANDIDATE_NOT_PROMOTION_ELIGIBLE"}
+    blockers = [item for item in result.get("normalized_blockers", []) if item.get("blocker_id") not in replaced]
     blockers.insert(0, deepcopy(readiness["normalized_blockers"][0]))
     result["normalized_blockers"] = blockers
     result["next_action"] = readiness["next_action"]
