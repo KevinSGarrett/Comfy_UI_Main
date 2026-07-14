@@ -1,21 +1,20 @@
 {
-  "schema_version": "1.0",
-  "created_iso": "2026-07-13T09:51:51-05:00",
-  "tracker_id": "TRK-W64-042",
-  "item_id": "ITEM-W64-042",
-  "status": "Blocked_Live_TTL_Watchdog_Proof_Missing_AWS_Readiness_Verified",
-  "row_complete": false,
-  "blockers": [
-    "live_emergency_stop_schedule_missing",
-    "ssm_watchdog_proof_missing"
-  ],
+  "blockers": [],
+  "created_iso": "2026-07-14T11:42:09-05:00",
   "evidence": [
+    "Plan/Instructions/QA/Evidence/Wave64/EC2_TTL_WATCHDOG_COMPLETED_WINDOW_20260714T114209-0500.json",
+    "Plan/Tracker/Evidence/EC2_TTL_WATCHDOG_COMPLETED_WINDOW_20260714T114209-0500.json",
     "Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog.json",
-    "Plan/Instructions/QA/Evidence/Wave64/EC2_TTL_WATCHDOG_LIVE_READINESS_20260713T095151-0500.json",
-    "Plan/Tracker/Evidence/EC2_TTL_WATCHDOG_LIVE_READINESS_20260713T095151-0500.json",
-    "Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog_live_readiness_test_log.json",
-    "Plan/Items/Reports/ITEM-W64-042_ec2_ttl_watchdog.json",
-    "Plan/Instructions/QA/Evidence/Wave64/EC2_TTL_WATCHDOG_20260708T233454-0500.json"
+    "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_SMOKE_EMERGENCY_STOP_SCHEDULE_LIVE_2011CF98_20260713T150022-0500.json",
+    "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_SMOKE_INSTANCE_WATCHDOG_LIVE_2011CF98_20260713T150058-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_NORMAL_EC2_WORKFLOW_SMOKE_EXECUTION_2011CF98_20260713T150058-0500.json",
+    "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_NORMAL_EC2_RUNTIME_CLEANUP_2011CF98_20260713T151600-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_NORMAL_EC2_WORKFLOW_SMOKE_VISUAL_QA_2011CF98_20260713T151500-0500.json"
   ],
-  "next_action": "Keep EC2 stopped. Create the emergency-stop schedule and start the SSM watchdog only inside the next genuinely required bounded runtime window, then record final stopped-state proof."
+  "item_id": "ITEM-W64-042",
+  "next_action": "Preserve Row042 complete and continue duplicate-checking TRK-W64-043 / ITEM-W64-043 without rerunning this EC2 window.",
+  "row_complete": true,
+  "schema_version": "1.0",
+  "status": "Completed_Live_TTL_Watchdog_Proof_And_Final_Stop_Pass",
+  "tracker_id": "TRK-W64-042"
 }
