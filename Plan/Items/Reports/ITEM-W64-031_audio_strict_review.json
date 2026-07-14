@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "report_id": "ITEM-W64-031-AUDIO-STRICT-REVIEW-20260712T183149-0500",
-  "timestamp": "2026-07-12T18:31:49-05:00",
+  "report_id": "ITEM-W64-031-AUDIO-STRICT-REVIEW-20260714T092355-0500",
+  "timestamp": "2026-07-14T09:23:55-05:00",
   "item_id": "ITEM-W64-031",
   "tracker_id": "TRK-W64-031",
   "workstream": "audio_strict_review",
@@ -14,6 +14,7 @@
     "sync_evidence_ready": true,
     "promotion_decision_ready": true,
     "strict_audio_review_request_producer_ready": true,
+    "recovered_legacy_readiness_adapter_ready": true,
     "wave30_prompt_and_optional_review_lineage_ready": true,
     "supplied_row030_sync_bypass_closed": true,
     "producer_creates_no_review_or_authority_proof": true,
@@ -35,7 +36,11 @@
     "authority_registry_unchanged_by_tests": true,
     "remaining_high_findings": 0,
     "remaining_medium_findings": 0,
-    "review_scope_hash_mismatches": 0
+    "review_scope_hash_mismatches": 0,
+    "recovered_readiness_tests_passed": 6,
+    "combined_tests_passed": 68,
+    "recovered_mix_candidates_hash_verified_and_decoded": 2,
+    "claude_recovered_readiness_review": "PASS_high_confidence"
   },
   "acceptance_gates": {
     "audio_metadata_check_contract": true,
@@ -48,6 +53,7 @@
     "genuine_non_synthetic_prompt_alignment_present": false,
     "genuine_production_playback_review_present": false,
     "production_bundle_allowlisted": false,
+    "recovered_legacy_packet_strict_request_eligible": false,
     "final_strict_audio_certification_allowed": false
   },
   "blockers": [
@@ -63,11 +69,19 @@
   "evidence": [
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/audio_strict_review.json",
-      "sha256": "e51852171a8e3ed98f7c826d0edb505b6e402c83188cba1baabc98d37a2f541a"
+      "sha256": "6f2cdd2d07d5c8061dabada9a468e43f68d08e18a552ada5741e9c03aa053e23"
     },
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/audio_strict_review_test_log.json",
       "sha256": "fc4b75f29a40879ee4140d332f18a2ad9b501ecaf5b9366a3714d60385b73b10"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_STRICT_REVIEW_RECOVERED_READINESS_20260714T092355-0500.json",
+      "sha256": "99e712fc38fdc26d71d5f4fa9e1b92ac8955cee12d2207a1d6b4646fd33a0bee"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_STRICT_REVIEW_RECOVERED_READINESS_TEST_LOG_20260714T092355-0500.json",
+      "sha256": "bf93fe8746b9834a7b10c1fc7847f3307cc1f0849031abfada582b6feef70e90"
     },
     {
       "path": "runtime_artifacts/wave64_strict_audio_review/request_producer_probe_20260712T183149-0500/request.json",
