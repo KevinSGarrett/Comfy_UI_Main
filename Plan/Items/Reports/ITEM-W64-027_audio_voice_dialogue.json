@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-027-AUDIO-VOICE-DIALOGUE-20260712T165435-0500",
-  "timestamp": "2026-07-12T16:54:35-05:00",
+  "timestamp": "2026-07-14T07:03:04-05:00",
   "item_id": "ITEM-W64-027",
   "tracker_id": "TRK-W64-027",
   "workstream": "audio_voice_dialogue",
@@ -23,7 +23,10 @@
   },
   "validation": {
     "unit_tests_passed": 39,
-    "unit_test_suite_breakdown": {"voice_request_producer": 6, "existing_voice_dialogue_evaluator": 33},
+    "unit_test_suite_breakdown": {
+      "voice_request_producer": 6,
+      "existing_voice_dialogue_evaluator": 33
+    },
     "unit_test_failures": 0,
     "unit_test_skips": 0,
     "python_compile": "pass",
@@ -35,7 +38,19 @@
     "request_producer_line_count": 2,
     "request_producer_missing_proof_count": 6,
     "authority_registry_unchanged_by_tests": true,
-    "remaining_remediable_high_or_medium_findings": 0
+    "remaining_remediable_high_or_medium_findings": 0,
+    "recovered_sapi_packet_evaluation": "pass_fail_closed",
+    "recovered_character_packet_count": 2,
+    "recovered_missing_proof_count_per_packet": 6,
+    "recovered_l001_overall_status": "BLOCKED",
+    "recovered_l002_overall_status": "FAIL",
+    "recovered_l002_duration_delta_seconds": 0.844082,
+    "recovered_sapi_tests_passed": 44,
+    "recovered_sapi_tests_failed": 0,
+    "recovered_sapi_semantic_review": "PASS",
+    "recovered_sapi_semantic_review_confidence": "high",
+    "recovered_sapi_semantic_review_high_or_medium_findings": 0,
+    "recovered_sapi_semantic_review_record": "runtime_artifacts/agent_handoffs/claude_subscription/20260714T071159-0500_row027_recovered_sapi_evaluation_semantic_review/handoff_record.json"
   },
   "acceptance_gates": {
     "voice_profile_match_contract": true,
@@ -48,26 +63,40 @@
     "genuine_production_voice_audio_present": false,
     "genuine_production_proof_set_present": false,
     "production_proof_bundle_allowlisted": false,
-    "final_voice_continuity_certification_allowed": false
+    "final_voice_continuity_certification_allowed": false,
+    "recovered_diagnostic_voice_audio_present": true,
+    "recovered_diagnostic_voice_audio_evaluated": true,
+    "recovered_voice_profile_ownership_passed": true,
+    "recovered_l002_timing_passed": false
   },
   "blockers": [
     {
       "classification": "Blocked_Voice_Dialogue_Production_Proof_Missing",
-      "reason": "No genuine production voice audio with independent ASR, speaker, emotion, playback-review, and runtime proofs exists."
+      "scope": "primary_row_blocker",
+      "reason": "Recovered SAPI voice audio has now been evaluated: both character packets lack independent ASR, speaker, emotion, playback-review, runtime, and production-bundle proofs, and L002 additionally fails strict dialogue timing by 0.844 seconds."
     },
     {
       "classification": "Blocked_Voice_Production_Proof_Authority_Missing",
-      "reason": "The canonical production proof-bundle allowlist contains zero approved bundles."
+      "scope": "production_proof_authority",
+      "reason": "The canonical proof-bundle authority registry is intentionally empty, so no synthetic or locally authored packet can reach production PASS."
     }
   ],
   "evidence": [
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/audio_voice_dialogue.json",
-      "sha256": "d5ef11bfde7934f6354e96d7e59569c813abad526994738cae201bc5610d6b06"
+      "sha256": "df0fea1a12b022bbea563a29c54c6116c77bed3d0c28e4e38648b96fea36a4a9"
     },
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/audio_voice_dialogue_test_log.json",
       "sha256": "82aae5cc47d1c0e53c77f7b3e65f1551c3e35225f22c81c70e69243cc0945092"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_VOICE_DIALOGUE_RECOVERED_SAPI_EVALUATION_20260714T070304-0500.json",
+      "sha256": "ceec05e143396fc5c3a9d3f936a5b0ccb92d6931397283385b3fe623475894c0"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_VOICE_DIALOGUE_RECOVERED_SAPI_TEST_LOG_20260714T070919-0500.json",
+      "sha256": "0f2dba21242a03e2f2ef599ed5e1f68b648691210518be8e810e430813087c7a"
     }
   ],
   "runtime": {
@@ -77,7 +106,8 @@
     "approved_proof_bundle_count": 0,
     "comfyui_started": false,
     "aws_contacted": false,
-    "ec2_started": false
+    "ec2_started": false,
+    "diagnostic_voice_evaluation_count": 2
   },
-  "next_action": "Keep row 027 blocked without genuine production voice, ASR, speaker, emotion, playback, runtime, and allowlisted proof-bundle evidence. Continue TRK-W64-028 / ITEM-W64-028 with one duplicate-checked bounded Foley/force-event alignment implementation gap; do not fabricate contact, visual, audio, runtime, or playback proof."
+  "next_action": "Map the recovered procedural/returned-runtime foley and AV packet through the existing strict Row028 and Row030 evaluators without regenerating media."
 }
