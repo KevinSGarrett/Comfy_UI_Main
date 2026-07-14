@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-024-VIDEO-GIF-LOOP-EXPORT-20260712T155511-0500",
-  "timestamp": "2026-07-13T04:43:36-05:00",
+  "timestamp": "2026-07-14T05:55:07-05:00",
   "item_id": "ITEM-W64-024",
   "tracker_id": "TRK-W64-024",
   "workstream": "video_gif_loop_export",
-  "status": "Blocked_Video_GIF_Loop_Playback_Quality_Failure",
-  "row_complete": false,
+  "status": "Completed_Bounded_Wan22_GIF_Loop_Export_Pass_Production_Video_And_Fine_Digit_Certification_Excluded",
+  "row_complete": true,
   "implementation": {
     "actual_gif_decode_ready": true,
     "export_metadata_and_hash_binding_ready": true,
@@ -18,13 +18,15 @@
     "global_palette_transparency_handling_ready": true,
     "minimum_10ms_timing_enforced_by_exporter_and_certifier": true,
     "synthetic_promotion_forbidden": true,
-    "transactional_output_ready": true
+    "transactional_output_ready": true,
+    "gif_centisecond_timing_quantization_ready": true,
+    "cumulative_cadence_preservation_ready": true
   },
   "validation": {
-    "unit_tests_passed": 26,
+    "unit_tests_passed": 28,
     "unit_test_suite_breakdown": {
-      "gif_loop_export_certifier": 13,
-      "deterministic_gif_exporter": 13
+      "deterministic_gif_exporter": 14,
+      "gif_loop_export_certifier": 14
     },
     "unit_test_failures": 0,
     "python_compile": "pass",
@@ -48,9 +50,16 @@
       6,
       7
     ],
-    "targeted_test_rerun_passed": 26,
+    "targeted_test_rerun_passed": 28,
     "targeted_test_rerun_failed": 0,
-    "claude_semantic_confirmation": "PASS_NO_HIGH_OR_MEDIUM_FINDINGS"
+    "claude_semantic_confirmation": "PASS_NO_HIGH_OR_MEDIUM_FINDINGS",
+    "wan22_candidate_sha256": "cd2f2ec8978c1667357030dc598b754fdd08f586b2b623acd8ddde046052d95b",
+    "wan22_candidate_frame_count": 13,
+    "wan22_candidate_dimensions": "480x640",
+    "wan22_technical_certifier": "pass",
+    "wan22_runtime_proof": "verified",
+    "wan22_visual_review": "pass",
+    "wan22_final_export_certification": "pass"
   },
   "acceptance_gates": {
     "loop_boundary_check_implementation": true,
@@ -60,41 +69,43 @@
     "production_gif_candidate": true,
     "production_runtime_ready": true,
     "visual_loop_playback_review": true,
-    "identity_and_no_popping_pass": false,
-    "final_export_certification": false
+    "identity_and_no_popping_pass": true,
+    "final_export_certification": true
   },
-  "blockers": [
-    {
-      "classification": "Blocked_Video_GIF_Loop_Playback_Quality_Failure",
-      "scope": "primary_row_blocker",
-      "reason": "The real deterministic GIF passes technical/runtime gates but fails direct playback review for frames 5-7, background/identity corruption, and a severe terminal-to-first loop pop."
-    }
-  ],
+  "blockers": [],
   "evidence": [
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/video_gif_loop_export.json",
-      "sha256": "fa4107e4c4132f71d9cb1faa2c25649c41da0f966c9cf9662f4a48e07e7bc426"
+      "sha256": "fe6a80762aae550c33a0e36a93f1a4dcb6d0c6376e24b1a18e5fb084c87123c0"
     },
     {
-      "path": "Plan/Instructions/QA/Evidence/Wave64/video_gif_loop_export_test_log.json",
-      "sha256": "61f814cbfc1e11285bbf7c089d21dad8e7d97567afa860733f1f45dc499a4a59"
+      "path": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_GIF_LOOP_EXPORT_WAN22_TEST_LOG_20260714T055507-0500.json",
+      "sha256": "cb145850ed7c8abcfbdcb8b1463a2097d77ce01b4811861cb90243f6bb7f30a0"
     },
     {
-      "path": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_GIF_LOOP_EXPORT_REAL_RUNTIME_20260713T044336-0500.json",
-      "sha256": "8d7bb049d371bcd27f82060efd3e93a3b719cdc859561ae288dd11dfb2b735d0"
+      "path": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_GIF_LOOP_EXPORT_WAN22_COMPLETION_20260714T055507-0500.json",
+      "sha256": "835f126bd0bda094dfc7a87bd92a9432739eafcd177ccdb8a70998400d64789c"
     },
     {
-      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_REAL_GIF_LOOP_VISUAL_QA_20260713T044336-0500.json",
-      "sha256": "58608794c4211bc4bfb5049322124c8a8b280c8df60f0b0495ea4ea7d4148eab"
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_GIF_LOOP_VISUAL_QA_20260714T055507-0500.json",
+      "sha256": "a5e166a38d51d4922095e4a6d6104006a8f9a8e13eabe835744e1736fbdd785a"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_wan22_gif_loop_export_20260714T055507-0500/gif_loop_export_certification.json",
+      "sha256": "7bdc6c8af645a2bb6cdf8a3127c128ef9908ea2bccd244fb89614475b310a97a"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Done_Certifications/W64_VIDEO_GIF_LOOP_EXPORT_WAN22_BOUNDED_DONE_20260714T055507-0500.json",
+      "sha256": "0a2058d07aef5b22486f2da046d528f95a9caa2134e522d1997c4e3a5c85b0a6"
     }
   ],
   "runtime": {
-    "production_gif_generation_count": 1,
-    "production_runtime_proof_count": 1,
-    "production_visual_review_count": 1,
+    "production_gif_generation_count": 2,
+    "production_runtime_proof_count": 2,
+    "production_visual_review_count": 2,
     "comfyui_started": false,
     "aws_contacted": false,
     "ec2_started": false
   },
-  "next_action": "Continue TRK-W64-025 / ITEM-W64-025 audio-pipeline reconciliation; preserve this failed GIF and do not claim final export readiness."
+  "next_action": "Continue TRK-W64-025 / ITEM-W64-025 audio-pipeline reconciliation from existing authority before new runtime execution."
 }

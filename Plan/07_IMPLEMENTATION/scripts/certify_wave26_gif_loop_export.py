@@ -18,6 +18,7 @@ GIF_HEADERS = {b"GIF87a", b"GIF89a"}
 BLOCKED_EXIT_CODE = 2
 INVALID_EXIT_CODE = 1
 MIN_GIF_FRAME_DURATION_MS = 10
+GIF_DURATION_QUANTUM_MS = 10
 RUNTIME_PROOF_REQUIRED_KEYS = {
     "runtime_ready",
     "runtime_proof_present",
@@ -97,6 +98,25 @@ def _compute_manifest_sequence_sha256(frames: list[dict[str, Any]]) -> str:
             }
         )
     return _sha256_of_json_payload(payload)
+
+
+def _quantize_gif_durations(durations: list[int]) -> list[int]:
+    """Mirror exporter centisecond quantization for exact decoded timing parity."""
+    quantized: list[int] = []
+    source_cumulative = 0
+    encoded_cumulative = 0
+    for duration in durations:
+        source_cumulative += duration
+        target_cumulative = (
+            (source_cumulative + (GIF_DURATION_QUANTUM_MS // 2)) // GIF_DURATION_QUANTUM_MS
+        ) * GIF_DURATION_QUANTUM_MS
+        encoded_duration = target_cumulative - encoded_cumulative
+        if encoded_duration < MIN_GIF_FRAME_DURATION_MS:
+            encoded_duration = MIN_GIF_FRAME_DURATION_MS
+            target_cumulative = encoded_cumulative + encoded_duration
+        quantized.append(encoded_duration)
+        encoded_cumulative = target_cumulative
+    return quantized
 
 
 def _parse_png_dimensions(path: Path) -> tuple[int, int]:
@@ -206,6 +226,7 @@ def _normalize_manifest(manifest: dict[str, Any], manifest_path: Path) -> dict[s
         expected_durations_ms = [100]
     else:
         expected_durations_ms.append(expected_durations_ms[0])
+    expected_durations_ms = _quantize_gif_durations(expected_durations_ms)
 
     return {
         "frame_count": len(normalized_frames),
