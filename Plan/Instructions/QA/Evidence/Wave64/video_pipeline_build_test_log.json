@@ -1,94 +1,77 @@
 {
   "schema_version": "1.0",
-  "evidence_id": "W64-VIDEO-PIPELINE-BUILD-TEST-LOG-20260711T125400-0500",
-  "timestamp": "2026-07-12T14:00:00-05:00",
+  "timestamp": "2026-07-14T13:04:46-05:00",
   "tracker_id": "TRK-W64-019",
-  "item_id": "ITEM-W64-019",
-  "commands": [
+  "result": "pass_bounded_wan_row019_reconciliation",
+  "checks": [
     {
-      "command": "python -m unittest Plan.Instructions.QA.Scripts.test_wave27_video_pipeline_strict -v",
-      "result": "pass",
-      "exit_code": 0,
-      "tests_run": 16,
-      "failures": 0,
-      "errors": 0,
-      "elapsed_seconds": 24.974,
-      "transcript": "runtime_artifacts/wave64_video_pipeline_build/unit_tests_20260711T125400-0500.txt",
-      "transcript_sha256": "f151aed412762dfe4ea3d0b41292dcbea470d57523279eaa3817e1cc663d8c7f"
+      "name": "VPB-R01_prior_row019_contract_preserved",
+      "result": "pass"
     },
     {
-      "command": "Run-Wave27-VideoRoutingTemporalQAValidation.ps1 -Root C:\\Comfy_UI_Main\\Plan",
-      "result": "pass",
-      "exit_code": 0,
-      "transcript": "runtime_artifacts/wave64_video_pipeline_build/pack_wrapper_20260711T125226-0500.txt",
-      "transcript_sha256": "2de9ba82a2885cfb4bddfba4c09ba278eb0d704f1ad87bb17d4d157c3b3db3ff"
+      "name": "VPB-R02_wan_target_runtime_pass",
+      "result": "pass"
     },
     {
-      "command": "python Plan\\Instructions\\QA\\Scripts\\test_wave27_frame_repair_ledger_strict.py",
-      "result": "pass",
-      "exit_code": 0,
-      "tests_run": 15,
-      "failures": 0,
-      "errors": 0
+      "name": "VPB-R03_wan_artifact_hash_bound",
+      "result": "pass"
     },
     {
-      "command": "python Plan\\Instructions\\QA\\Scripts\\test_wave26_gif_loop_export_strict.py",
-      "result": "pass",
-      "exit_code": 0,
-      "tests_run": 12,
-      "failures": 0,
-      "errors": 0
+      "name": "VPB-R04_wan_49_unique_frames_decoded",
+      "result": "pass"
     },
     {
-      "command": "python Plan\\Instructions\\QA\\Scripts\\test_prepare_wave27_strict_visual_review_packet.py",
-      "result": "pass",
-      "exit_code": 0,
-      "tests_run": 16,
-      "failures": 0,
-      "errors": 0
+      "name": "VPB-R05_wan_technical_qa_pass",
+      "result": "pass"
     },
     {
-      "command": "python Plan\\07_IMPLEMENTATION\\scripts\\run_wave27_local_validation.py --root Plan",
-      "result": "pass",
-      "exit_code": 0,
-      "pack_integrity": "pass"
+      "name": "VPB-R06_wan_bounded_direct_temporal_review_pass",
+      "result": "pass"
+    },
+    {
+      "name": "VPB-R07_production_certification_not_claimed",
+      "result": "pass"
+    },
+    {
+      "name": "VPB-R07A_technical_certification_not_claimed",
+      "result": "pass"
+    },
+    {
+      "name": "VPB-R07B_visual_certification_duration_and_robustness_not_claimed",
+      "result": "pass"
+    },
+    {
+      "name": "VPB-R08_keyframe_manifest_remains_blocked",
+      "result": "pass"
+    },
+    {
+      "name": "VPB-R09_repair_effectiveness_remains_blocked",
+      "result": "pass"
+    },
+    {
+      "name": "VPB-R10_loop_export_remains_blocked",
+      "result": "pass"
+    },
+    {
+      "name": "VPB-R11_production_sequence_review_remains_blocked",
+      "result": "pass"
+    },
+    {
+      "name": "VPB-R12_failed_animatediff_fallback_preserved",
+      "result": "pass"
+    },
+    {
+      "name": "VPB-R13_instance_stopped",
+      "result": "pass"
+    },
+    {
+      "name": "VPB-R14_no_generation_or_cloud_action_in_reconciliation",
+      "result": "pass"
     }
   ],
-  "covered_files": [
-    "Plan/07_IMPLEMENTATION/scripts/compile_wave27_frame_manifest.py",
-    "Plan/07_IMPLEMENTATION/scripts/score_wave27_temporal_evidence.py",
-    "Plan/07_IMPLEMENTATION/scripts/run_wave27_local_validation.py",
-    "Plan/08_SCHEMAS/wave27_frame_manifest.schema.json",
-    "Plan/08_SCHEMAS/wave27_temporal_evidence.schema.json",
-    "Plan/Instructions/QA/Scripts/test_wave27_video_pipeline_strict.py",
-    "Plan/07_IMPLEMENTATION/scripts/plan_wave27_frame_repair_ledger.py",
-    "Plan/08_SCHEMAS/wave27_frame_repair_ledger.schema.json",
-    "Plan/Instructions/QA/Scripts/test_wave27_frame_repair_ledger_strict.py",
-    "Plan/07_IMPLEMENTATION/scripts/certify_wave26_gif_loop_export.py",
-    "Plan/08_SCHEMAS/wave26_gif_loop_export_evidence.schema.json",
-    "Plan/Instructions/QA/Scripts/test_wave26_gif_loop_export_strict.py",
-    "Plan/07_IMPLEMENTATION/scripts/prepare_wave27_strict_visual_review_packet.py",
-    "Plan/08_SCHEMAS/wave27_visual_review_packet.schema.json",
-    "Plan/Instructions/QA/Scripts/test_prepare_wave27_strict_visual_review_packet.py"
-  ],
-  "positive_contracts_covered": [
-    "repository-root and Plan-root pack-integrity compatibility",
-    "six-dimension registry-derived temporal scoring",
-    "deterministic ordered frame-sequence manifest and sequence hash",
-    "applied repair history may pass the offline decision gate",
-    "offline loop structure cannot claim final export readiness",
-    "frame-repair policy ledger remains distinct from runtime effectiveness",
-    "GIF loop certification parses real exports while remaining fail-closed without them",
-    "visual-review packet preparation remains distinct from final visual acceptance"
-  ],
-  "negative_contracts_covered": [
-    "duplicate or gapped frame indexes",
-    "empty, missing, overwritten, mutated, or hash-mismatched frame artifacts",
-    "frame-count, order, timestamp, and sequence-hash mismatch",
-    "non-finite JSON and malformed strict packets",
-    "unknown engine, loop profile, repair action, hard-failure taxonomy, or input field",
-    "mismatched repair action aliases",
-    "failed repair and hard-fail conditions",
-    "false structural gate or unsupported final export pass"
-  ]
+  "summary": {
+    "checked": 16,
+    "passed": 16,
+    "failed": 0
+  }
 }
