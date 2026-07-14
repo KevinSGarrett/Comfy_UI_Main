@@ -1,135 +1,50 @@
 {
-  "schema_version": "1.0",
-  "report_id": "ITEM-W64-019-VIDEO-PIPELINE-BUILD-20260711T125500-0500",
-  "timestamp": "2026-07-13T02:41:08-05:00",
-  "item_id": "ITEM-W64-019",
+  "schema_version": "1.1",
+  "timestamp": "2026-07-14T13:04:46-05:00",
   "tracker_id": "TRK-W64-019",
-  "workstream": "video_pipeline_build",
-  "status": "Blocked_Video_Visual_Temporal_Quality_Failure",
+  "item_id": "ITEM-W64-019",
+  "status": "Blocked_Keyframe_Repair_Loop_And_Production_Sequence_Proof_Missing",
   "row_complete": false,
-  "implementation": {
-    "existing_lane_extended_in_place": true,
-    "duplicate_framework_created": false,
-    "strict_sequence_manifest_compiler": true,
-    "registry_derived_temporal_scorer": true,
-    "artifact_hash_size_and_sequence_validation": true,
-    "frame_repair_policy_ledger": true,
-    "real_gif_export_certifier": true,
-    "strict_visual_review_packet_preparer": true,
-    "pack_integrity_compatibility_preserved": true,
-    "offline_final_export_claim_forbidden": true
-  },
-  "validation": {
-    "unit_tests_passed": 59,
-    "unit_test_failures": 0,
-    "python_compile": "pass",
-    "schema_json_parse": "pass",
-    "repository_root_pack_integrity": "pass",
-    "plan_root_pack_integrity": "pass",
-    "strict_valid_packet": "pass",
-    "strict_negative_contracts": "pass",
-    "claude_high_or_medium_findings": 0
-  },
   "acceptance_gates": {
     "video_workflow_valid": true,
     "keyframe_manifest": false,
     "frame_sequence_manifest": true,
-    "frame_sequence_manifest_structural_validator_ready": true,
     "loop_export_gate": false,
-    "loop_export_structural_gate_ready": true,
     "artifact_evidence": true,
     "frame_repair_effectiveness": false,
-    "frame_repair_policy_structural_gate_ready": true,
-    "visual_review_prerequisite_gate_ready": true,
-    "strict_frame_sequence_visual_review": false
+    "strict_frame_sequence_visual_review": false,
+    "bounded_primary_clip_runtime": true,
+    "bounded_primary_clip_technical_qa": true,
+    "bounded_primary_clip_direct_temporal_review": true
   },
-  "runtime": {
-    "generation_executed": true,
-    "generated_frame_count": 8,
-    "animated_webp_export_count": 1,
-    "final_gif_mp4_webm_export_count": 0,
-    "visual_review_executed": true,
-    "visual_review_pass": false,
-    "aws_contacted_for_existing_asset_discovery": true,
-    "ec2_started": false,
-    "comfyui_started_and_stopped": true,
-    "reason": "Existing Wave42 S3 assets produced one local AnimateDiff frame sequence and animated WebP. Technical runtime and manifest handoff pass, but frames 5-7 fail strict temporal visual quality."
-  },
-  "blockers": [
+  "normalized_blockers": [
     {
-      "classification": "Blocked_Video_Visual_Temporal_Quality_Failure",
-      "reason": "Frames 5-6 introduce abrupt background changes and frame 7 has severe saturated color and anatomy corruption; visual and temporal promotion fail."
+      "blocker_id": "KEYFRAME_MANIFEST_INTEGRATION_MISSING",
+      "resolution": "Bind a real shot/keyframe manifest to a selected production sequence."
     },
     {
-      "classification": "Blocked_Gold_Mask_Dependency_Missing",
-      "reason": "Trusted body/contact masks remain unavailable for contact and soft-body video proof; the non-contact fallback smoke does not clear that separate scope."
+      "blocker_id": "FRAME_REPAIR_EFFECTIVENESS_NOT_PROVEN",
+      "resolution": "Produce and directly compare a repaired candidate for a real failed span."
+    },
+    {
+      "blocker_id": "FINAL_LOOP_EXPORT_VISUAL_QA_FAILED",
+      "resolution": "Produce a loop candidate without the recorded frames 5-7 popping and corruption."
+    },
+    {
+      "blocker_id": "PRODUCTION_SEQUENCE_REVIEW_NOT_PROVEN",
+      "resolution": "Run scope-matched multi-clip production review; do not generalize one bounded WAN clip."
+    },
+    {
+      "blocker_id": "CONTACT_SOFT_BODY_VIDEO_SCOPE_BLOCKED_GOLD_MASKS",
+      "resolution": "Keep contact and soft-body claims blocked until trusted body/contact masks are available."
     }
   ],
   "evidence": [
-    {
-      "path": "Plan/Instructions/QA/Evidence/Wave64/video_pipeline_build.json",
-      "sha256": "01985d60e04da5ae4ed527f1579c271c79338f6ca494a7c2c43508cdc6037fc0"
-    },
-    {
-      "path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_LOCAL_ANIMATEDIFF_FALLBACK_EXECUTE_20260713T022708-0500.json",
-      "sha256": "4f8c0510ba55e68494832480eb61465a7c35b368cc0ef57bf81d9167f42d22ec"
-    },
-    {
-      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_LOCAL_ANIMATEDIFF_FALLBACK_TECHNICAL_QA_20260713T023200-0500.json",
-      "sha256": "0427bdcf2430e837aadf07fa890d9e56be1b73a2bd4d41028d78a70c4c1170c5"
-    },
-    {
-      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_LOCAL_ANIMATEDIFF_FALLBACK_VISUAL_QA_20260713T023500-0500.json",
-      "sha256": "fcbd6dad6fa6f7e2bdf6782a2f4f3ca7b899264bcf8da8487bbf2e0499995eb9"
-    },
-    {
-      "path": "Workflows/video_generation/animatediff_fallback_lane/workflow.api.json",
-      "sha256": "1294216852bb5ae239504c721f4fd15e4206ce389f25fde822dd5de3bd4b702d"
-    },
-    {
-      "path": "Workflows/video_generation/animatediff_fallback_lane/runtime_requirements.json",
-      "sha256": "60be8070de159f5d9f396d8e41c49a32a8580ad4343e1e132739ff341b969e60"
-    },
-    {
-      "path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_animatediff_webp_technical.py",
-      "sha256": "90505fa1b4f0cd2fdd723502adbca060955a58115bda2e2bc52a4c467de2d409"
-    },
-    {
-      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/wave64_animatediff_fallback_seed6401901_00001_.webp",
-      "sha256": "893a8b5efd7b29fd52d8eab1440ef8db933e277b1151014398fdec2851171b18"
-    },
-    {
-      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/contact_sheet.png",
-      "sha256": "01fe913c0365f1f907b6156af4a1e369f7ddfb2681740947b9b60e3fb8569a8e"
-    },
-    {
-      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/wave27_frame_manifest.json",
-      "sha256": "a931177be02855c56c7589d91384fa1e0bc14b0c3c13faa9b3c454aba506ef14"
-    }
+    "Plan/Instructions/QA/Evidence/Wave64/video_pipeline_build.json",
+    "Plan/Instructions/QA/Evidence/Wave64/VIDEO_PIPELINE_BUILD_WAN_RECONCILIATION_20260714T130446-0500.json",
+    "Plan/Tracker/Evidence/VIDEO_PIPELINE_BUILD_WAN_RECONCILIATION_20260714T130446-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/video_pipeline_build_test_log.json",
+    "Plan/Items/Reports/ITEM-W64-019_video_pipeline_build.json"
   ],
-  "review": {
-    "cursor_worker_first_used": true,
-    "cursor_write_scope_violation": false,
-    "claude_final_review": "pass",
-    "claude_expanded_surface_review": "pass",
-    "codex_final_tests_and_acceptance_review": "pass_offline_blocked_runtime"
-  },
-  "next_action": "Preserve this runtime proof. Do not seed-loop. Reopen the fallback only for a materially changed quality configuration; continue other non-mask video orchestration work meanwhile.",
-  "latest_runtime_attempt": {
-    "lane_id": "animatediff_fallback",
-    "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_LOCAL_ANIMATEDIFF_FALLBACK_EXECUTE_20260713T022708-0500.json",
-    "technical_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_LOCAL_ANIMATEDIFF_FALLBACK_TECHNICAL_QA_20260713T023200-0500.json",
-    "visual_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_LOCAL_ANIMATEDIFF_FALLBACK_VISUAL_QA_20260713T023500-0500.json",
-    "runtime_pass": true,
-    "technical_pass": true,
-    "visual_temporal_pass": false,
-    "generated_frame_count": 8,
-    "animated_export_count": 1,
-    "failed_frame_indexes": [
-      5,
-      6,
-      7
-    ],
-    "further_seed_loop_authorized": false
-  }
+  "next_action": "Implement a real keyframe manifest and select one changed production sequence that can exercise repair and loop acceptance without repeating the completed WAN smoke."
 }
