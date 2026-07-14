@@ -1,0 +1,131 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-AUDIO-PIPELINE-AWS-RUNTIME-INVENTORY-20260714T061622-0500",
+  "timestamp": "2026-07-14T06:16:22-05:00",
+  "tracker_id": "TRK-W64-025",
+  "item_id": "ITEM-W64-025",
+  "status_decision": "Blocked_Audio_Production_Runtime_Proof_Missing",
+  "aws_authority": {
+    "caller_arn": "arn:aws:sts::029530099913:assumed-role/ComfyUIMainSessionRole/comfy-ui-main-session",
+    "account": "029530099913",
+    "bucket": "comfy-ui-main-runtime-029530099913-us-east-1",
+    "prefixes": [
+      "render-outputs/",
+      "model-cache/",
+      "deploy-bundles/"
+    ],
+    "instance_id": "i-0560bf8d143f93bb1",
+    "instance_state": "stopped"
+  },
+  "prefix_summary": {
+    "render-outputs/": {
+      "object_count": 75,
+      "media_object_count": 4
+    },
+    "model-cache/": {
+      "object_count": 16,
+      "media_object_count": 0
+    },
+    "deploy-bundles/": {
+      "object_count": 578,
+      "media_object_count": 0
+    }
+  },
+  "standalone_audio_objects": [],
+  "media_objects": [
+    {
+      "s3_key": "render-outputs/aws_gpu_workflow_smoke_20260714T002123-0500/images/12_wan22_ti2v5b_fullbody_seed2271301_00001_.mp4",
+      "bytes": 88902,
+      "last_modified": "2026-07-14T05:29:00+00:00",
+      "extension": ".mp4",
+      "local_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260714T002123-0500/images/12_wan22_ti2v5b_fullbody_seed2271301_00001_.mp4",
+      "local_bytes": 88902,
+      "local_sha256": "546da2e7d8ce3afaa02565913cef8008d3d45a2adb70d4449bab7f167c75b50d",
+      "handler_types": [
+        "vide"
+      ],
+      "video_handler_present": true,
+      "audio_handler_present": false,
+      "s3_local_size_match": true
+    },
+    {
+      "s3_key": "render-outputs/aws_gpu_workflow_smoke_20260714T041921-0500/images/12_wan22_ti2v5b_source_diversity_ref1_78b8_seed2271401_00001_.mp4",
+      "bytes": 83544,
+      "last_modified": "2026-07-14T09:25:16+00:00",
+      "extension": ".mp4",
+      "local_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260714T041921-0500/images/12_wan22_ti2v5b_source_diversity_ref1_78b8_seed2271401_00001_.mp4",
+      "local_bytes": 83544,
+      "local_sha256": "5006e96e211538f3d2bb6795e93014d6642946583cc31aa635e171e13e1c80bf",
+      "handler_types": [
+        "vide"
+      ],
+      "video_handler_present": true,
+      "audio_handler_present": false,
+      "s3_local_size_match": true
+    },
+    {
+      "s3_key": "render-outputs/batched-runtime/wan22-seed-robustness-a395dd6c-20260714/unit-01/aws_gpu_workflow_smoke_20260714T021951-0500/images/12_wan22_ti2v5b_fullbody_seed2271302_00001_.mp4",
+      "bytes": 84911,
+      "last_modified": "2026-07-14T07:22:45+00:00",
+      "extension": ".mp4",
+      "local_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260714T021951-0500/images/12_wan22_ti2v5b_fullbody_seed2271302_00001_.mp4",
+      "local_bytes": 84911,
+      "local_sha256": "00bc9071669ebd0c594a7e20169de1c6d25d13becaa312cb1684a7942f721d51",
+      "handler_types": [
+        "vide"
+      ],
+      "video_handler_present": true,
+      "audio_handler_present": false,
+      "s3_local_size_match": true
+    },
+    {
+      "s3_key": "render-outputs/batched-runtime/wan22-seed2271303-cbb39a49-20260714/unit-01/aws_gpu_workflow_smoke_20260714T025652-0500/images/12_wan22_ti2v5b_fullbody_seed2271303_00001_.mp4",
+      "bytes": 83491,
+      "last_modified": "2026-07-14T07:59:36+00:00",
+      "extension": ".mp4",
+      "local_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260714T025652-0500/images/12_wan22_ti2v5b_fullbody_seed2271303_00001_.mp4",
+      "local_bytes": 83491,
+      "local_sha256": "c93e497b481cf3559c19e04818ca8d9a87424beb96eefa3fda92fc83430d62a5",
+      "handler_types": [
+        "vide"
+      ],
+      "video_handler_present": true,
+      "audio_handler_present": false,
+      "s3_local_size_match": true
+    }
+  ],
+  "checks": {
+    "least_privilege_role_exact": true,
+    "approved_instance_stopped": true,
+    "three_approved_prefixes_queried": true,
+    "standalone_audio_object_count_zero": true,
+    "existing_media_object_count_four": true,
+    "all_media_are_existing_wan_mp4": true,
+    "all_s3_media_pulled_back": true,
+    "all_s3_local_sizes_match": true,
+    "all_mp4_video_handlers_present": true,
+    "all_mp4_audio_handlers_absent": true
+  },
+  "check_summary": {
+    "checked": 10,
+    "passed": 10,
+    "failed": 0
+  },
+  "gate_results": {
+    "genuine_audio_candidate_present": false,
+    "genuine_audio_engine_runtime_proof": false,
+    "genuine_audio_playback_review": false,
+    "certification_loudness_authority": false,
+    "final_audio_certification": false
+  },
+  "boundaries": {
+    "read_only_aws_calls_only": true,
+    "ec2_started": false,
+    "generation_executed": false,
+    "completed_media_rerun": false,
+    "mask_or_wave71_touched": false,
+    "jira_mutated": false
+  },
+  "result": "blocked_no_genuine_audio_in_local_or_approved_aws_runtime_sources",
+  "next_action": "Advance to TRK-W64-026 using existing fail-closed engine authority, then select the next concrete non-duplicate audio implementation task."
+}
