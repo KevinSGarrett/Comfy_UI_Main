@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "fluid_state_continuity_sdxl_tears_masked_inpaint_state_v3",
+  "tracker_id": "TRK-W64-056",
+  "item_id": "ITEM-W64-056",
+  "system_id": "fluid_body_state_continuity",
+  "source_baseline": {
+    "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\wave64_fluid_state_continuity\\20260715T095821-0500\\baseline_dry_state\\baseline_dry_state.png",
+    "sha256": "acfc3598b059979a0c43af40a91e9305ffc86015af030f4543bb15c6798e881f",
+    "bytes": 1055507
+  },
+  "prior_results": {
+    "txt2img_state_sha256": "6c4520f96a6c13bb386ccdb4b8207c9436c0a32e08554434587a778a529deeef",
+    "txt2img_decision": "planned_tears_state_pass_continuity_fail",
+    "img2img_state_sha256": "5b92c2a02a78b3f11ed3d6fe0c37a5475b45dfda56c175b9dba2c7f8901027c3",
+    "img2img_decision": "continuity_pass_planned_tears_state_fail"
+  },
+  "checkpoint": {
+    "name": "RealVisXL_V5.0_fp16.safetensors",
+    "runtime_path": "C:\\Comfy_UI\\Runtime_Data\\models\\checkpoints\\RealVisXL_V5.0_fp16.safetensors",
+    "sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+    "bytes": 6938065488
+  },
+  "state_adapter": {
+    "name": "wave42\\sdxl\\skin_texture\\sdxl_skin_texture_Wet_Makeup__Runny_Mascara-000006.safetensors",
+    "runtime_path": "C:\\Comfy_UI\\Runtime_Data\\models\\loras\\wave42\\sdxl\\skin_texture\\sdxl_skin_texture_Wet_Makeup__Runny_Mascara-000006.safetensors",
+    "sha256": "3234f2819f7dfc73e14c88eb3633e1d9bf671d22d4d269648c4bebf453e3f198",
+    "bytes": 228459156
+  },
+  "mask_contract": {
+    "generator": "deterministic_normalized_bilateral_under_eye_feathered_mask",
+    "width": 768,
+    "height": 1024,
+    "left_path_points": [[0.39, 0.445], [0.39, 0.49], [0.405, 0.56]],
+    "right_path_points": [[0.61, 0.445], [0.61, 0.49], [0.595, 0.56]],
+    "line_width_pixels": 42,
+    "eye_ellipse_radius_pixels": [58, 25],
+    "gaussian_blur_radius_pixels": 14,
+    "edit_region_mask_is_not_geometry_or_segmentation_truth": true,
+    "mask_promotion_forbidden": true
+  },
+  "revision_contract": {
+    "route": "masked_inpaint_state_transition",
+    "authorized_candidate_count": 1,
+    "retry_allowed": false,
+    "seed": 6607051314,
+    "steps": 24,
+    "cfg": 5.0,
+    "sampler": "euler",
+    "scheduler": "normal",
+    "denoise": 0.65,
+    "grow_mask_by": 6,
+    "planned_state": "visible running mascara and bilateral tear tracks",
+    "protected_state": "all pixels outside the feathered edit region plus same face identity and composition"
+  },
+  "boundaries": {
+    "new_route_revision_not_candidate_retry": true,
+    "content_based_suppression": false,
+    "adult_or_nsfw_asset_visibility_restricted": false,
+    "edit_mask_consumed_as_truth": false,
+    "body_or_contact_mask_authority_claimed": false,
+    "production_promotion_from_technical_metrics": false,
+    "wave71_activation_authorized": false
+  }
+}

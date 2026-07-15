@@ -123,8 +123,9 @@
     },
     {
       "blockers": [
-        "model_or_runtime_capability_proof_missing",
-        "required_visual_evidence_missing"
+        "direct_runtime_review_executed_no_route_passed_state_and_continuity",
+        "identity_critical_eye_region_continuity_failure",
+        "production_robustness_multi_sample_missing"
       ],
       "mapping_state": "complete",
       "module_surfaces": [
@@ -151,8 +152,19 @@
           "before_after_shot_review"
         ]
       },
-      "runtime_promotion_state": "blocked_missing_direct_runtime_evidence",
-      "system_id": "fluid_body_state_continuity"
+      "runtime_promotion_state": "bounded_direct_runtime_review_fail_shot_continuity",
+      "system_id": "fluid_body_state_continuity",
+      "direct_proof_scope": {
+        "local_runtime_route_count": 3,
+        "local_generation_count": 4,
+        "candidate_retry_count": 0,
+        "before_after_visual_review_count": 3,
+        "planned_state_achieved_by_at_least_one_route": true,
+        "shot_continuity_achieved_by_at_least_one_route": true,
+        "single_route_achieved_state_and_continuity": false,
+        "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/FLUID_BODY_STATE_CONTINUITY_DIRECT_RUNTIME_REVIEW_20260715T100719-0500.json",
+        "evidence_sha256": "cccf2e6b3a7a5e4b19773bf070ce574cd1bf08db62cc9e93803508f0859a903e"
+      }
     },
     {
       "blockers": [
@@ -403,7 +415,7 @@
     "path": "Plan/10_REGISTRIES/advanced_additions_direct_proof_status.json",
     "sha256": "548465f0c4414ce488b23a4ba014136f9a6c775617ed5068a467c045a078be20"
   },
-  "evidence_id": "W64-ROW056-ADVANCED-ADDITIONS-DIRECT-PROOF-20260714T1205000500",
+  "evidence_id": "W64-ROW056-ADVANCED-ADDITIONS-FLUID-STATE-DIRECT-RUNTIME-20260715T1007190500",
   "evidence_paths": [
     "Plan/Instructions/QA/Evidence/Wave64/ADVANCED_ADDITIONS_DIRECT_PROOF_20260714T120500-0500.json",
     "Plan/Tracker/Evidence/ADVANCED_ADDITIONS_DIRECT_PROOF_20260714T120500-0500.json",
@@ -413,18 +425,22 @@
     "Plan/10_REGISTRIES/advanced_additions_integration_crosswalk.json",
     "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_WAN22_TI2V5B_TARGET_RUNTIME_SMOKE_20260714T004424-0500.json",
     "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_TI2V5B_TARGET_RUNTIME_TECHNICAL_QA_20260714T004424-0500.json",
-    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_TI2V5B_TARGET_RUNTIME_VISUAL_QA_20260714T004424-0500.json"
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_TI2V5B_TARGET_RUNTIME_VISUAL_QA_20260714T004424-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/FLUID_BODY_STATE_CONTINUITY_DIRECT_RUNTIME_REVIEW_20260715T100719-0500.json",
+    "Plan/Tracker/Evidence/FLUID_BODY_STATE_CONTINUITY_DIRECT_RUNTIME_REVIEW_20260715T100719-0500.json"
   ],
   "item_id": "ITEM-W64-056",
   "next_action": "Preserve the bounded micro-motion proof and obtain direct runtime/review proof for the six remaining advanced systems without treating candidate masks as truth.",
   "proof_summary": {
     "bounded_direct_runtime_proof_pass": 1,
     "bounded_pass_system": "micro_motion_layer",
-    "direct_runtime_proof_blocked": 6,
+    "direct_runtime_review_fail": 1,
+    "failed_system": "fluid_body_state_continuity",
+    "direct_runtime_proof_missing": 5,
     "production_certified": 0,
     "systems_total": 7
   },
-  "qa_decision": "micro_motion_bounded_runtime_proof_pass_six_systems_remain_fail_closed",
+  "qa_decision": "micro_motion_bounded_pass_fluid_state_runtime_review_fail_five_systems_missing",
   "reconciliation_execution_boundary": {
     "declared_actions_during_reconciliation": {
       "aws_contacted": false,
@@ -437,8 +453,9 @@
   },
   "remaining_blockers": {
     "fluid_body_state_continuity": [
-      "model_or_runtime_capability_proof_missing",
-      "required_visual_evidence_missing"
+      "direct_runtime_review_executed_no_route_passed_state_and_continuity",
+      "identity_critical_eye_region_continuity_failure",
+      "production_robustness_multi_sample_missing"
     ],
     "long_form_fatigue_variation": [
       "model_or_runtime_capability_proof_missing",
@@ -518,7 +535,12 @@
       "sha256": "ae50af479342b36dbdffded54c95ac49ebf9ac744e1eca2d07a09d4530eee259"
     }
   },
-  "status": "Blocked_Six_Advanced_Systems_Direct_Proof_Missing_One_Bounded_System_Pass",
-  "timestamp": "2026-07-14T12:05:00-05:00",
-  "tracker_id": "TRK-W64-056"
+  "status": "Blocked_Five_Advanced_Systems_Direct_Proof_Missing_Fluid_State_Continuity_Fail_One_Bounded_System_Pass",
+  "timestamp": "2026-07-15T10:07:19-05:00",
+  "tracker_id": "TRK-W64-056",
+  "fluid_state_direct_evidence": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/FLUID_BODY_STATE_CONTINUITY_DIRECT_RUNTIME_REVIEW_20260715T100719-0500.json",
+    "sha256": "cccf2e6b3a7a5e4b19773bf070ce574cd1bf08db62cc9e93803508f0859a903e",
+    "classification": "DIRECT_RUNTIME_REVIEW_EXECUTED_NO_ROUTE_PASSED_BOTH_STATE_AND_CONTINUITY"
+  }
 }

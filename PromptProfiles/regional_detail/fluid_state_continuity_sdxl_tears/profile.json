@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "fluid_state_continuity_sdxl_tears",
+  "tracker_id": "TRK-W64-056",
+  "item_id": "ITEM-W64-056",
+  "system_id": "fluid_body_state_continuity",
+  "engine": "SDXL RealVisXL",
+  "checkpoint": {
+    "name": "RealVisXL_V5.0_fp16.safetensors",
+    "runtime_path": "C:\\Comfy_UI\\Runtime_Data\\models\\checkpoints\\RealVisXL_V5.0_fp16.safetensors",
+    "sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+    "bytes": 6938065488
+  },
+  "state_adapter": {
+    "name": "wave42\\sdxl\\skin_texture\\sdxl_skin_texture_Wet_Makeup__Runny_Mascara-000006.safetensors",
+    "runtime_path": "C:\\Comfy_UI\\Runtime_Data\\models\\loras\\wave42\\sdxl\\skin_texture\\sdxl_skin_texture_Wet_Makeup__Runny_Mascara-000006.safetensors",
+    "sha256": "3234f2819f7dfc73e14c88eb3633e1d9bf671d22d4d269648c4bebf453e3f198",
+    "bytes": 228459156
+  },
+  "pair_contract": {
+    "roles": ["baseline_dry_state", "generated_tears_state"],
+    "authorized_generation_count": 2,
+    "same_seed": 2607051314,
+    "width": 768,
+    "height": 1024,
+    "steps": 20,
+    "cfg": 5.5,
+    "sampler": "euler",
+    "scheduler": "normal",
+    "retry_allowed": false,
+    "planned_state_transition": "intact dry mascara and cheeks to visible running mascara and bilateral tear tracks",
+    "required_review": [
+      "planned_generated_state_match",
+      "same_character_identity_continuity",
+      "camera_composition_continuity",
+      "wardrobe_background_lighting_continuity",
+      "no_unplanned_anatomy_or_global_artifact"
+    ]
+  },
+  "legacy_lineage": {
+    "workflow_path": "C:\\Comfy_UI\\Implementation\\workflows\\api\\fluid_lora_smoke_matrix\\wave42_sdxl_fluid_tears_smoke_20260705_131549.json",
+    "workflow_sha256": "18eb39b345eea9776a4b816f961c7a89c63dbc4a4763fc48ea1e53b536658a4c",
+    "preset_path": "C:\\Comfy_UI\\Implementation\\presets\\generation_preset_lab\\fluid_lora_smoke_matrix\\wave42_sdxl_fluid_tears_smoke_preset_20260705_131549.json",
+    "preset_sha256": "f4b3c6a757f07e01bc724c4eff217b5e7c82648c046ad10ce181aae1f1166de1",
+    "legacy_runtime_state": "dry_run_only_no_prompt_id_no_media",
+    "legacy_registry_claimed_sha256_drifted_from_current_bytes": true
+  },
+  "boundaries": {
+    "content_based_suppression": false,
+    "adult_or_nsfw_asset_visibility_restricted": false,
+    "mask_truth_required": false,
+    "production_promotion_from_technical_metrics": false,
+    "wave71_activation_authorized": false
+  }
+}

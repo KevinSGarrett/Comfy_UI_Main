@@ -1,0 +1,77 @@
+{
+  "_meta": {
+    "workflow_id": "fluid_state_continuity_sdxl_tears_state",
+    "role": "generated_tears_state",
+    "legacy_source_workflow": "C:\\Comfy_UI\\Implementation\\workflows\\api\\fluid_lora_smoke_matrix\\wave42_sdxl_fluid_tears_smoke_20260705_131549.json",
+    "legacy_source_sha256": "18eb39b345eea9776a4b816f961c7a89c63dbc4a4763fc48ea1e53b536658a4c",
+    "content_based_suppression": false,
+    "runtime_claim": "template_only"
+  },
+  "1": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "RealVisXL_V5.0_fp16.safetensors"
+    }
+  },
+  "2": {
+    "class_type": "LoraLoader",
+    "inputs": {
+      "model": ["1", 0],
+      "clip": ["1", 1],
+      "lora_name": "wave42\\sdxl\\skin_texture\\sdxl_skin_texture_Wet_Makeup__Runny_Mascara-000006.safetensors",
+      "strength_model": 0.25,
+      "strength_clip": 0.18
+    }
+  },
+  "3": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": ["2", 1],
+      "text": "hyperreal editorial close portrait of the same clearly adult woman, centered face, direct camera gaze, dark mascara visibly running, two realistic tear tracks continuing down both cheeks, damp lower eyelashes, natural detailed skin, dark hair, black crew-neck top, neutral studio background, soft photographic key light"
+    }
+  },
+  "4": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": ["2", 1],
+      "text": "low quality, blurry, plastic skin, cartoon, anime, CGI, distorted face, asymmetrical eyes, duplicate features, watermark, text, logo, scanlines, moire, vertical banding"
+    }
+  },
+  "5": {
+    "class_type": "EmptyLatentImage",
+    "inputs": {
+      "width": 768,
+      "height": 1024,
+      "batch_size": 1
+    }
+  },
+  "6": {
+    "class_type": "KSampler",
+    "inputs": {
+      "model": ["2", 0],
+      "positive": ["3", 0],
+      "negative": ["4", 0],
+      "latent_image": ["5", 0],
+      "seed": 2607051314,
+      "steps": 20,
+      "cfg": 5.5,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 1.0
+    }
+  },
+  "7": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": ["6", 0],
+      "vae": ["1", 2]
+    }
+  },
+  "8": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": ["7", 0],
+      "filename_prefix": "wave64_fluid_state_continuity/state"
+    }
+  }
+}
