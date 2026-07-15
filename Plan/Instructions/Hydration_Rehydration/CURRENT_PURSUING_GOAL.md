@@ -1,3 +1,11 @@
+## Wave64 CV3 Speaker Threshold Generalization Blocker - 2026-07-15T03:06:00-05:00
+
+Continue the minimum genuine audio-to-short-video delivery chain by validating speaker identity without self-authorizing it. The complete 46-pair CV3 continuation calibration failed one of four category-held-out folds: emotion nonmatching-pair false positives were `0.15417`, above the `0.10` ceiling. The LibriVox source-to-derived-stem similarity of `0.99327` is retained as an observation only because the threshold is not deployable.
+
+Preserve the rejected Parler candidates, empty production-authority registry, stopped EC2 posture, manual body-gold-mask boundary, Wave71+ gate, and Jira control-plane boundary. Next obtain a disjoint speaker-labeled validation set; do not lower the criterion or generate another voice take from this evidence.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/W64_CV3_SPEAKER_IDENTITY_CALIBRATION_BLOCKER_20260715T030600-0500.json`.
+
 ## Wave64 Model-Backed Playback Rejection - 2026-07-15T01:25:40-05:00
 
 Continue the full autonomous ComfyUI project goal from authoritative `C:\Comfy_UI_Main`. The current audio outcome is a validated playback-review-only producer plus two rejected dialogue candidates: the original fails exact content and unsupported style taxonomy; seed 64028 fails intelligibility at WER `0.70`. Rows025/027/031 remain blocked and incomplete, and production-review authority remains independent and empty.

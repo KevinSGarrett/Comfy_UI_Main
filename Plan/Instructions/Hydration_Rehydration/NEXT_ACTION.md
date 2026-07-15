@@ -1,3 +1,11 @@
+## Wave64 CV3 Speaker Threshold Generalization Blocker - 2026-07-15T03:06:00-05:00
+
+ERes2Net executed over all 46 paired English CV3 continuation references with four category-held-out folds. Rhyme, speed, and volume passed, but the emotion holdout false-positive rate was `0.15417` against the predeclared `0.10` maximum. The full-fit threshold is therefore not deployable. The existing public-domain LibriVox source and derived voice stem scored `0.99327`, but that score remains observational and does not prove identity preservation, bind a TTS reference speaker, or authorize production review.
+
+Next action: calibrate the speaker path against an independently speaker-labeled, disjoint validation set. Do not relax the false-positive gate, generate another dialogue take, register production authority, or promote Rows025/027/031 from this evidence.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/W64_CV3_SPEAKER_IDENTITY_CALIBRATION_BLOCKER_20260715T030600-0500.json`.
+
 ## Wave64 Model-Backed Playback Rejection - 2026-07-15T01:25:40-05:00
 
 The non-synthetic Whisper/DNSMOS/emotion2vec playback producer is now hash-bound and allowlisted for playback review only. It correctly emitted no strict proof for the original Parler candidate: the exact content review found `beat` rendered as `B`, while `focused` / `controlled` remains outside the calibrated style taxonomy. One separately seeded replacement was permitted by that rejection and executed locally, but Whisper returned `We hold the frames.` at WER `0.70`, so it is also rejected.

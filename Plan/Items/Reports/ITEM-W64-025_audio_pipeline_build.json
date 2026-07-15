@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-025-AUDIO-PIPELINE-BUILD-20260712T161737-0500",
-  "timestamp": "2026-07-15T01:25:40-05:00",
+  "timestamp": "2026-07-15T03:06:00-05:00",
   "item_id": "ITEM-W64-025",
   "tracker_id": "TRK-W64-025",
   "workstream": "audio_pipeline_build",
@@ -25,7 +25,8 @@
     "independent_whisper_asr_packager_ready": true,
     "cv3_eval_local_calibration_adapter_ready": true,
     "cv3_emotion2vec_calibration_adapter_ready": true,
-    "model_backed_playback_producer_ready": true
+    "model_backed_playback_producer_ready": true,
+    "cv3_speaker_identity_calibration_adapter_ready": true
   },
   "validation": {
     "unit_tests_passed": 21,
@@ -127,7 +128,16 @@
     "parler_replacement_speech_truncated": false,
     "parler_replacement_asr_transcript": "We hold the frames.",
     "parler_replacement_normalized_wer": 0.7,
-    "parler_replacement_intelligibility_pass": false
+    "parler_replacement_intelligibility_pass": false,
+    "cv3_speaker_continuation_pair_count": 46,
+    "cv3_speaker_nonmatching_pair_count": 510,
+    "cv3_speaker_full_fit_threshold": 0.41600924730300903,
+    "cv3_speaker_full_fit_true_positive_rate": 1.0,
+    "cv3_speaker_full_fit_false_positive_rate": 0.08823529411764706,
+    "cv3_speaker_category_held_out_validation_pass": false,
+    "cv3_speaker_emotion_holdout_false_positive_rate": 0.15416666666666667,
+    "licensed_human_voice_chain_speaker_similarity": 0.9932656288146973,
+    "licensed_human_voice_chain_identity_verified": false
   },
   "acceptance_gates": {
     "audio_workflow_valid": true,
@@ -162,7 +172,11 @@
     "replacement_candidate_intelligibility_verified": false,
     "independent_playback_review_pass": false,
     "production_review_authority_pass": false,
-    "final_voice_certification_allowed": false
+    "final_voice_certification_allowed": false,
+    "cv3_speaker_matched_pair_calibration_executed": true,
+    "cv3_speaker_threshold_generalization_pass": false,
+    "licensed_human_voice_chain_identity_similarity_observed": true,
+    "licensed_human_voice_chain_identity_verified": false
   },
   "blockers": [
     {
@@ -201,6 +215,10 @@
       "classification": "Blocked_Model_Backed_Playback_Content_And_Style_Authority",
       "scope": "dialogue_candidates",
       "reason": "The original candidate is technically clean but has a critical beat-to-B content mismatch and cannot emit a strict playback proof because focused/controlled is outside the calibrated style taxonomy. The single authorized seed-64028 replacement is also rejected because its independent Whisper WER is 0.70."
+    },
+    {
+      "classification": "Blocked_Voice_Speaker_Threshold_Generalization",
+      "reason": "ERes2Net executed over all 46 paired English CV3 continuation references. Three of four category-held-out folds passed, but the emotion holdout false-positive rate was 0.15417 against the predeclared 0.10 maximum. The observed full-fit threshold is therefore not deployable, and the 0.99327 LibriVox source-to-derived-stem similarity cannot be promoted to an identity-preservation PASS."
     }
   ],
   "evidence": [
@@ -243,6 +261,10 @@
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/W64_MODEL_BACKED_PLAYBACK_AND_REPLACEMENT_REJECTION_20260715T012540-0500.json",
       "sha256": "0bdc4a5fdb5ded97418fb5e739e72f6d5fc50b6ca6a2d33f5c39f1266a202236"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/W64_CV3_SPEAKER_IDENTITY_CALIBRATION_BLOCKER_20260715T030600-0500.json",
+      "sha256": "ea0c63de436bfebfc0fe5759a9fa15719702bdb83e4629ccc5238c89efe61916"
     }
   ],
   "runtime": {
@@ -262,7 +284,8 @@
     "recovery_aws_contacted": false,
     "recovery_ec2_started": false,
     "cv3_emotion_calibration_count": 1,
-    "parler_replacement_generation_count": 1
+    "parler_replacement_generation_count": 1,
+    "cv3_speaker_calibration_execution_count": 1
   },
-  "next_action": "Keep both dialogue candidates rejected. Calibrate a genuinely perceptual audio reviewer or bind an independent reference speaker plus a supported style taxonomy before another dialogue generation; do not use the playback producer as production-review authority."
+  "next_action": "Calibrate ERes2Net against an independently speaker-labeled, disjoint validation set before binding any TTS candidate to a reference speaker. Keep the 0.99327 LibriVox chain score observational; do not relax the held-out false-positive gate, register production authority, or generate another dialogue take from this evidence."
 }

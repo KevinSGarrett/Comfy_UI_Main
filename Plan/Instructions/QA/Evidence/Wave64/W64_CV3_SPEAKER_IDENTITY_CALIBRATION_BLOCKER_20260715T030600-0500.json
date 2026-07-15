@@ -1,0 +1,243 @@
+{
+  "schema_version": "1.0",
+  "artifact_type": "wave64_cv3_speaker_identity_calibration_blocker",
+  "execution_timestamp": "2026-07-15T03:02:16.412187-05:00",
+  "status": "BLOCKED_CV3_SPEAKER_THRESHOLD_GENERALIZATION",
+  "classification": "CV3_MATCHED_SPEAKER_EXECUTION_PASS_HELD_OUT_GENERALIZATION_BLOCKED",
+  "artifact_bindings": {
+    "runtime_calibration_manifest": {
+      "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\wave64_cv3_speaker_identity\\20260715T030600-0500\\calibration_manifest.json",
+      "sha256": "0dd33697af5b1ea6c6d1ebbc8a0cb61b15ad39a8f9025d64f269b26c49468d90",
+      "bytes": 58437
+    },
+    "durable_artifacts": {
+      "calibration_manifest": {
+        "path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\w64_cv3_speaker_identity_20260715T030600-0500\\calibration_manifest.json",
+        "sha256": "0dd33697af5b1ea6c6d1ebbc8a0cb61b15ad39a8f9025d64f269b26c49468d90",
+        "bytes": 58437
+      },
+      "reference_excerpt": {
+        "path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\w64_cv3_speaker_identity_20260715T030600-0500\\librivox_reference_excerpt.wav",
+        "sha256": "ac013d29e84309abd52c49720fe1a9caf2550fd83ce2f8e248be6e4329145f48",
+        "bytes": 123524
+      },
+      "derived_stem_active_excerpt": {
+        "path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\w64_cv3_speaker_identity_20260715T030600-0500\\derived_voice_stem_active_excerpt.wav",
+        "sha256": "c336f9b191e75e4f9306f7dbeb2e2c2e042d2465750c9bab22a526ffd18350dd",
+        "bytes": 268844
+      }
+    }
+  },
+  "implementation_binding": {
+    "path": "C:\\Comfy_UI_Main\\Plan\\07_IMPLEMENTATION\\scripts\\run_wave64_cv3_speaker_identity_calibration.py",
+    "sha256": "1efb201d31cf6b0d479fd4f92df699a3f9d9f34635f80a66ab781583a9dcdf05",
+    "bytes": 25200
+  },
+  "runtime_identity": {
+    "python": "3.11.9",
+    "torch": "2.11.0+cpu",
+    "torchaudio": "2.11.0+cpu",
+    "soundfile": "0.14.0",
+    "device": "cpu",
+    "cuda_available": false
+  },
+  "dataset": {
+    "pair_count": 46,
+    "category_counts": {
+      "emotion": 16,
+      "rhyme": 10,
+      "speed": 10,
+      "volume": 10
+    },
+    "source_hashes_verified": true
+  },
+  "calibration": {
+    "method": "leave_one_cv3_continuation_category_out_v1",
+    "cross_validation_pass": false,
+    "folds": [
+      {
+        "held_out_category": "emotion",
+        "training_positive_count": 30,
+        "training_nonmatching_count": 270,
+        "held_out_positive_count": 16,
+        "held_out_nonmatching_count": 240,
+        "training": {
+          "threshold": 0.411408931016922,
+          "true_positive": 30,
+          "false_negative": 0,
+          "false_positive": 9,
+          "true_negative": 261,
+          "true_positive_rate": 1.0,
+          "false_positive_rate": 0.03333333333333333,
+          "balanced_accuracy": 0.9833333333333334,
+          "training_constraints_pass": true
+        },
+        "held_out": {
+          "threshold": 0.411408931016922,
+          "true_positive": 16,
+          "false_negative": 0,
+          "false_positive": 37,
+          "true_negative": 203,
+          "true_positive_rate": 1.0,
+          "false_positive_rate": 0.15416666666666667,
+          "balanced_accuracy": 0.9229166666666666
+        },
+        "fold_pass": false
+      },
+      {
+        "held_out_category": "rhyme",
+        "training_positive_count": 36,
+        "training_nonmatching_count": 420,
+        "held_out_positive_count": 10,
+        "held_out_nonmatching_count": 90,
+        "training": {
+          "threshold": 0.41600924730300903,
+          "true_positive": 36,
+          "false_negative": 0,
+          "false_positive": 40,
+          "true_negative": 380,
+          "true_positive_rate": 1.0,
+          "false_positive_rate": 0.09523809523809523,
+          "balanced_accuracy": 0.9523809523809523,
+          "training_constraints_pass": true
+        },
+        "held_out": {
+          "threshold": 0.41600924730300903,
+          "true_positive": 10,
+          "false_negative": 0,
+          "false_positive": 5,
+          "true_negative": 85,
+          "true_positive_rate": 1.0,
+          "false_positive_rate": 0.05555555555555555,
+          "balanced_accuracy": 0.9722222222222222
+        },
+        "fold_pass": true
+      },
+      {
+        "held_out_category": "speed",
+        "training_positive_count": 36,
+        "training_nonmatching_count": 420,
+        "held_out_positive_count": 10,
+        "held_out_nonmatching_count": 90,
+        "training": {
+          "threshold": 0.4872763007879257,
+          "true_positive": 36,
+          "false_negative": 0,
+          "false_positive": 32,
+          "true_negative": 388,
+          "true_positive_rate": 1.0,
+          "false_positive_rate": 0.0761904761904762,
+          "balanced_accuracy": 0.9619047619047619,
+          "training_constraints_pass": true
+        },
+        "held_out": {
+          "threshold": 0.4872763007879257,
+          "true_positive": 9,
+          "false_negative": 1,
+          "false_positive": 2,
+          "true_negative": 88,
+          "true_positive_rate": 0.9,
+          "false_positive_rate": 0.022222222222222223,
+          "balanced_accuracy": 0.9388888888888889
+        },
+        "fold_pass": true
+      },
+      {
+        "held_out_category": "volume",
+        "training_positive_count": 36,
+        "training_nonmatching_count": 420,
+        "held_out_positive_count": 10,
+        "held_out_nonmatching_count": 90,
+        "training": {
+          "threshold": 0.48596976697444916,
+          "true_positive": 35,
+          "false_negative": 1,
+          "false_positive": 33,
+          "true_negative": 387,
+          "true_positive_rate": 0.9722222222222222,
+          "false_positive_rate": 0.07857142857142857,
+          "balanced_accuracy": 0.9468253968253968,
+          "training_constraints_pass": true
+        },
+        "held_out": {
+          "threshold": 0.48596976697444916,
+          "true_positive": 10,
+          "false_negative": 0,
+          "false_positive": 1,
+          "true_negative": 89,
+          "true_positive_rate": 1.0,
+          "false_positive_rate": 0.011111111111111112,
+          "balanced_accuracy": 0.9944444444444445
+        },
+        "fold_pass": true
+      }
+    ],
+    "full_fit": {
+      "threshold": 0.41600924730300903,
+      "true_positive": 46,
+      "false_negative": 0,
+      "false_positive": 45,
+      "true_negative": 465,
+      "true_positive_rate": 1.0,
+      "false_positive_rate": 0.08823529411764706,
+      "balanced_accuracy": 0.9558823529411764,
+      "training_constraints_pass": true,
+      "positive_count": 46,
+      "nonmatching_count": 510,
+      "deployment_threshold_allowed": false
+    },
+    "blocking_fold": {
+      "held_out_category": "emotion",
+      "true_positive_rate": 1.0,
+      "false_positive_rate": 0.15416666666666667,
+      "required_false_positive_rate_max": 0.1
+    }
+  },
+  "chain_specific_observation": {
+    "source_sha256": "9d8bc88e382c47b9493e3e881931692be893e69c602761072f9f80ae41ae7db0",
+    "derived_stem_sha256": "95222b1ff4525777bca777378b8355a4f9e3c1038e152008e7eba8ef8070d4f0",
+    "speaker_similarity": 0.9932656288146973,
+    "observed_full_fit_threshold": 0.41600924730300903,
+    "threshold_deployment_allowed": false,
+    "identity_preservation_verified": false,
+    "claim_scope": "public-domain source excerpt to its derived voice stem in this one delivery chain"
+  },
+  "acceptance": {
+    "speaker_model_execution_path_verified": true,
+    "cv3_matched_pair_execution_verified": true,
+    "chain_specific_similarity_observed": true,
+    "speaker_threshold_generalization_pass": false,
+    "chain_specific_identity_preservation_verified": false,
+    "parler_reference_speaker_identity_verified": false,
+    "emotion_or_style_verified": false,
+    "independent_playback_review_pass": false,
+    "production_review_authority_pass": false,
+    "authority_registry_mutation_allowed": false,
+    "row_complete": false,
+    "final_voice_certification_pass": false
+  },
+  "remaining_blockers": [
+    "the CV3 nonmatching pairs are not universal biometric different-speaker labels",
+    "the LibriVox check proves only source-to-derived-stem identity preservation for one chain",
+    "the Parler candidates remain rejected and have no independent reference-speaker binding",
+    "focused and controlled remain outside the calibrated emotion and style taxonomy",
+    "independent perceptual playback and production review authority remain absent"
+  ],
+  "affected_rows": [
+    "TRK-W64-025",
+    "TRK-W64-027",
+    "TRK-W64-031"
+  ],
+  "runtime_boundary": {
+    "candidate_regenerated": false,
+    "new_voice_generated": false,
+    "model_download_performed": false,
+    "ec2_started": false,
+    "s3_mutated": false,
+    "mask_truth_consumed": false,
+    "wave71_activated": false,
+    "jira_mutated": false,
+    "promotion_claimed": false
+  },
+  "row_complete": false
+}
