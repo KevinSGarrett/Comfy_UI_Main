@@ -2,7 +2,7 @@
 param()
 
 $ErrorActionPreference='Stop'
-$tempRoot=Join-Path $env:TEMP ('ai-worker-production-test-'+[guid]::NewGuid().ToString('N'))
+$tempRoot=Join-Path $env:TEMP ('awp-'+[guid]::NewGuid().ToString('N').Substring(0,8))
 $repo=Join-Path $tempRoot 'repo';$dispatcherRoot=Join-Path $tempRoot 'dispatcher';$fakeCursor=Join-Path $tempRoot 'fake-cursor.ps1';$fakeClaude=Join-Path $tempRoot 'fake-claude.ps1';$slowCursor=Join-Path $tempRoot 'slow-cursor.ps1';$checks=[ordered]@{}
 try{
   New-Item -ItemType Directory -Force -Path(Join-Path $repo 'tools')|Out-Null
