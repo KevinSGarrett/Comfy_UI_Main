@@ -1,3 +1,11 @@
+## Wave64 CosyVoice2 Instruct-Control Path Rejected - 2026-07-15T08:02:00-05:00
+
+Continue the minimum genuine audio-to-short-video chain from authoritative `C:\Comfy_UI_Main`. One hash-bound model-native CosyVoice2 instruct2 fast-control candidate executed with the independent reference, speed `1.2`, and no media post-processing. It failed both immutable content and timing: `7.32` seconds, WER `1.0`, unrelated speech, and predicted `happy` emotion. The one-candidate stop rule closes this exact control path.
+
+Pursuing goal: select a distinct dialogue engine or newly supported timing/style implementation that can meet exact content, `3.0`-second timing, reference-speaker identity, and the required style contract, then obtain independent playback and production-review authority. Keep Rows025/027/031, EC2, body-mask promotion, Wave71+, Jira mutation, and final certification fail-closed.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/W64_COSYVOICE2_INSTRUCT_CONTROL_REJECTION_20260715T074822-0500.json`.
+
 ## Wave64 CosyVoice2 Corrected-Reference Take Rejected - 2026-07-15T06:45:00-05:00
 
 Continue the minimum genuine audio-to-short-video chain from authoritative `C:\Comfy_UI_Main`. The corrected 5.0-second public-domain reference produced a clean, exact-content CosyVoice2 take at WER `0.0`, speaker similarity `0.66076`, and DNSMOS OVRL `3.17410`. The take is still negative evidence because its `4.84`-second duration fails the immutable `3.0`-second contract, the requested focused emotion is unsupported, controlled intensity is unmeasured, and no independent playback or production authority exists.

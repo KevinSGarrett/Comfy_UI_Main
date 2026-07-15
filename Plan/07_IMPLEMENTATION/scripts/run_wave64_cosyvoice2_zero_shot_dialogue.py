@@ -187,6 +187,20 @@ def validate_inputs(args: argparse.Namespace) -> tuple[Path, Path, Path, Path]:
         raise ValueError("invalid dialogue timing contract")
     if not 0.8 <= args.speed <= 1.2:
         raise ValueError("speed must remain within the predeclared 0.8 to 1.2 range")
+    if args.inference_mode not in {"zero_shot", "instruct2"}:
+        raise ValueError(f"unsupported inference mode: {args.inference_mode}")
+    if args.candidate_ordinal != 1:
+        raise ValueError("the instruct-control path authorizes exactly one candidate")
+    if args.inference_mode == "instruct2":
+        if not args.instruct_text.strip():
+            raise ValueError("instruct2 mode requires non-empty instruct text")
+        if not args.instruct_text.endswith("<|endofprompt|>"):
+            raise ValueError("instruct2 text must end with <|endofprompt|>")
+        instruct_hash = hashlib.sha256(args.instruct_text.encode("utf-8")).hexdigest()
+        if instruct_hash != args.instruct_text_sha256.lower():
+            raise ValueError("instruct2 text SHA-256 mismatch")
+    elif args.instruct_text or args.instruct_text_sha256:
+        raise ValueError("zero_shot mode must not carry instruct2 text or hash")
     return model_dir, source_dir, prompt_wav, output_dir
 
 
@@ -201,6 +215,27 @@ def activate_source_path(source_dir: Path) -> list[str]:
     sys.path[:] = [entry for entry in sys.path if entry not in source_paths]
     sys.path[0:0] = source_paths
     return source_paths
+
+
+def inference_results(engine, args: argparse.Namespace, prompt_wav: Path):
+    common = {
+        "stream": False,
+        "speed": args.speed,
+        "text_frontend": True,
+    }
+    if args.inference_mode == "instruct2":
+        return engine.inference_instruct2(
+            args.text,
+            args.instruct_text,
+            str(prompt_wav),
+            **common,
+        )
+    return engine.inference_zero_shot(
+        args.text,
+        args.prompt_transcript,
+        str(prompt_wav),
+        **common,
+    )
 
 
 def run(args: argparse.Namespace) -> dict:
@@ -241,14 +276,7 @@ def run(args: argparse.Namespace) -> dict:
             raise ValueError(f"unexpected CosyVoice2 sample rate: {engine.sample_rate}")
         chunks = []
         with torch.inference_mode():
-            for result in engine.inference_zero_shot(
-                args.text,
-                args.prompt_transcript,
-                str(prompt_wav),
-                stream=False,
-                speed=args.speed,
-                text_frontend=True,
-            ):
+            for result in inference_results(engine, args, prompt_wav):
                 speech = result.get("tts_speech")
                 if speech is None or speech.ndim != 2 or speech.shape[0] != 1:
                     raise ValueError("CosyVoice2 returned an invalid tts_speech tensor")
@@ -318,6 +346,10 @@ def run(args: argparse.Namespace) -> dict:
                 "runtime_packages": package_identity,
                 "runtime_executed": True,
                 "decode_succeeded": True,
+                "inference_mode": args.inference_mode,
+                "model_native_speed_control": True,
+                "post_generation_truncation_applied": False,
+                "post_generation_time_stretch_applied": False,
             },
             "dialogue": {
                 "character_id": args.character_id,
@@ -328,7 +360,11 @@ def run(args: argparse.Namespace) -> dict:
                 "expected_duration_seconds": expected_duration,
                 "style_emotion_required": args.style_emotion,
                 "style_intensity_required": args.style_intensity,
-                "style_instruction_applied": False,
+                "instruct_text": args.instruct_text or None,
+                "instruct_text_sha256": args.instruct_text_sha256.lower() or None,
+                "model_native_instruction_applied": args.inference_mode == "instruct2",
+                "style_instruction_applied": args.inference_mode == "instruct2",
+                "style_contract_verified": False,
                 "style_contract_substituted": False,
             },
             "output": {
@@ -359,6 +395,8 @@ def run(args: argparse.Namespace) -> dict:
                 "ec2_started": False,
                 "aws_mutated": False,
                 "final_voice_certification_claimed": False,
+                "authorized_candidate_ordinal": args.candidate_ordinal,
+                "maximum_candidates_for_control_path": 1,
             },
         }
         (temporary / "runtime_manifest.json").write_text(
@@ -390,6 +428,12 @@ def main() -> int:
     parser.add_argument("--contract-end", type=float, default=4.2)
     parser.add_argument("--max-duration-delta", type=float, default=0.35)
     parser.add_argument("--speed", type=float, default=1.0)
+    parser.add_argument(
+        "--inference-mode", choices=("zero_shot", "instruct2"), default="zero_shot"
+    )
+    parser.add_argument("--instruct-text", default="")
+    parser.add_argument("--instruct-text-sha256", default="")
+    parser.add_argument("--candidate-ordinal", type=int, default=1)
     parser.add_argument("--seed", type=int, default=64029)
     parser.add_argument("--reference-speaker-name", default="Chris Goringe")
     parser.add_argument(

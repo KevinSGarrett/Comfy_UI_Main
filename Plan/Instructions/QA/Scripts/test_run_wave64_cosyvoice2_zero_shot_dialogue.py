@@ -48,6 +48,10 @@ class RunWave64CosyVoice2ZeroShotDialogueTests(unittest.TestCase):
             contract_end=4.2,
             max_duration_delta=0.35,
             speed=1.0,
+            inference_mode="zero_shot",
+            instruct_text="",
+            instruct_text_sha256="",
+            candidate_ordinal=1,
         )
 
     def test_sha256_streams_exact_bytes(self):
@@ -102,6 +106,65 @@ class RunWave64CosyVoice2ZeroShotDialogueTests(unittest.TestCase):
             args.speed = 1.21
             with self.assertRaisesRegex(ValueError, "predeclared"):
                 MODULE.validate_inputs(args)
+
+    def test_validate_inputs_accepts_hash_bound_instruct2(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            args = self._args(Path(temporary))
+            args.inference_mode = "instruct2"
+            args.instruct_text = "Speak quickly.<|endofprompt|>"
+            args.instruct_text_sha256 = MODULE.hashlib.sha256(
+                args.instruct_text.encode("utf-8")
+            ).hexdigest()
+            MODULE.validate_inputs(args)
+
+    def test_validate_inputs_rejects_instruct2_hash_mismatch(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            args = self._args(Path(temporary))
+            args.inference_mode = "instruct2"
+            args.instruct_text = "Speak quickly.<|endofprompt|>"
+            args.instruct_text_sha256 = "0" * 64
+            with self.assertRaisesRegex(ValueError, "instruct2 text SHA-256 mismatch"):
+                MODULE.validate_inputs(args)
+
+    def test_validate_inputs_rejects_instruct2_without_end_marker(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            args = self._args(Path(temporary))
+            args.inference_mode = "instruct2"
+            args.instruct_text = "Speak quickly."
+            args.instruct_text_sha256 = MODULE.hashlib.sha256(
+                args.instruct_text.encode("utf-8")
+            ).hexdigest()
+            with self.assertRaisesRegex(ValueError, "end with"):
+                MODULE.validate_inputs(args)
+
+    def test_validate_inputs_enforces_one_candidate_stop_rule(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            args = self._args(Path(temporary))
+            args.candidate_ordinal = 2
+            with self.assertRaisesRegex(ValueError, "exactly one candidate"):
+                MODULE.validate_inputs(args)
+
+    def test_inference_results_dispatches_to_instruct2(self):
+        args = SimpleNamespace(
+            inference_mode="instruct2",
+            text="Line",
+            instruct_text="Fast.<|endofprompt|>",
+            prompt_transcript="Reference",
+            speed=1.2,
+        )
+        engine = mock.Mock()
+        engine.inference_instruct2.return_value = iter(())
+        prompt = Path("reference.wav")
+        list(MODULE.inference_results(engine, args, prompt))
+        engine.inference_instruct2.assert_called_once_with(
+            "Line",
+            "Fast.<|endofprompt|>",
+            str(prompt),
+            stream=False,
+            speed=1.2,
+            text_frontend=True,
+        )
+        engine.inference_zero_shot.assert_not_called()
 
     def test_activate_source_path_is_first_and_idempotent(self):
         with tempfile.TemporaryDirectory() as temporary:

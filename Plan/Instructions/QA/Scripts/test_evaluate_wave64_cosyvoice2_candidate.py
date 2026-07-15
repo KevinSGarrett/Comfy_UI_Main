@@ -28,6 +28,7 @@ class EvaluateWave64CosyVoice2CandidateTests(unittest.TestCase):
                 "style_emotion_required": "focused",
                 "style_intensity_required": "controlled",
             },
+            "runtime": {"inference_mode": "zero_shot"},
             "gates": {"independent_reference_speaker_bound": True},
             "boundaries": {"final_voice_certification_claimed": False},
         }
@@ -37,7 +38,73 @@ class EvaluateWave64CosyVoice2CandidateTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             candidate, reference, manifest = self._fixture(Path(temporary))
             result = MODULE.verify_candidate_lineage(manifest, candidate, MODULE.sha256(candidate))
-            self.assertEqual(result, (reference, "A real line.", "focused", "controlled"))
+            self.assertEqual(
+                result,
+                (reference, "A real line.", "focused", "controlled", "zero_shot"),
+            )
+
+    def test_candidate_lineage_accepts_strict_instruct_control(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            candidate, reference, manifest = self._fixture(Path(temporary))
+            instruction = "Speak quickly.<|endofprompt|>"
+            manifest["runtime"] = {
+                "inference_mode": "instruct2",
+                "model_native_speed_control": True,
+                "post_generation_truncation_applied": False,
+                "post_generation_time_stretch_applied": False,
+            }
+            manifest["dialogue"].update(
+                {
+                    "instruct_text": instruction,
+                    "instruct_text_sha256": MODULE.hashlib.sha256(
+                        instruction.encode("utf-8")
+                    ).hexdigest(),
+                    "model_native_instruction_applied": True,
+                }
+            )
+            manifest["boundaries"].update(
+                {
+                    "authorized_candidate_ordinal": 1,
+                    "maximum_candidates_for_control_path": 1,
+                }
+            )
+            result = MODULE.verify_candidate_lineage(
+                manifest, candidate, MODULE.sha256(candidate)
+            )
+            self.assertEqual(
+                result,
+                (reference, "A real line.", "focused", "controlled", "instruct2"),
+            )
+
+    def test_candidate_lineage_rejects_instruct_control_post_processing(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            candidate, _, manifest = self._fixture(Path(temporary))
+            instruction = "Speak quickly.<|endofprompt|>"
+            manifest["runtime"] = {
+                "inference_mode": "instruct2",
+                "model_native_speed_control": True,
+                "post_generation_truncation_applied": False,
+                "post_generation_time_stretch_applied": True,
+            }
+            manifest["dialogue"].update(
+                {
+                    "instruct_text": instruction,
+                    "instruct_text_sha256": MODULE.hashlib.sha256(
+                        instruction.encode("utf-8")
+                    ).hexdigest(),
+                    "model_native_instruction_applied": True,
+                }
+            )
+            manifest["boundaries"].update(
+                {
+                    "authorized_candidate_ordinal": 1,
+                    "maximum_candidates_for_control_path": 1,
+                }
+            )
+            with self.assertRaisesRegex(ValueError, "time stretching"):
+                MODULE.verify_candidate_lineage(
+                    manifest, candidate, MODULE.sha256(candidate)
+                )
 
     def test_candidate_lineage_rejects_candidate_hash_drift(self):
         with tempfile.TemporaryDirectory() as temporary:
@@ -151,8 +218,12 @@ class EvaluateWave64CosyVoice2CandidateTests(unittest.TestCase):
 
     def test_timing_blocker_uses_current_candidate_duration(self):
         self.assertEqual(
-            MODULE.timing_blocker(4.84, 3.0),
+            MODULE.timing_blocker(4.84, 3.0, "zero_shot"),
             "the 4.84-second zero-shot candidate exceeds the 3.0-second dialogue contract",
+        )
+        self.assertEqual(
+            MODULE.timing_blocker(7.32, 3.0, "instruct2"),
+            "the 7.32-second instruct-control candidate exceeds the 3.0-second dialogue contract",
         )
 
 
