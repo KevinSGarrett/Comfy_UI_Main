@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64_MMAUDIO_REVIEW_MUX_20260714T221311-0500",
+  "execution_timestamp": "2026-07-14T22:13:13-05:00",
+  "status": "PASS_TECHNICAL_MUX_PLAYBACK_REVIEW_BLOCKED",
+  "classification": "GENUINE_MMAUDIO_REVIEW_MUX_TECHNICAL_PASS",
+  "direct_qa_state": "PASS_TECHNICAL_AND_VISUAL_DECODE_REVIEW",
+  "direct_qa_passed": true,
+  "project_root": "C:\\Comfy_UI_Main",
+  "rows_advanced": [
+    "TRK-W64-028",
+    "TRK-W64-030"
+  ],
+  "source_bindings": {
+    "video": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260714T041921-0500/images/12_wan22_ti2v5b_source_diversity_ref1_78b8_seed2271401_00001_.mp4",
+      "sha256": "5006e96e211538f3d2bb6795e93014d6642946583cc31aa635e171e13e1c80bf",
+      "decoded_frames": 49,
+      "frame_rate": 24.0,
+      "duration_seconds": 2.0416666666666665,
+      "regenerated": false
+    },
+    "audio": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_mmaudio_wan_foley_20260714T211502-0500/w64_wan_seed2271401_foley_seed2273001_conformed_48k_mono.wav",
+      "sha256": "c63a789162e165c576f00baa03b238e74deb08b0da1a7a734e2ef07356441fab",
+      "decoded_samples": 97968,
+      "sample_rate_hz": 48000,
+      "channels": 1,
+      "duration_seconds": 2.041,
+      "regenerated": false
+    }
+  },
+  "implementation": {
+    "builder_path": "Plan/07_IMPLEMENTATION/scripts/build_wave64_mmaudio_review_mux.py",
+    "mux_engine": "PyAV 18.0.0",
+    "container": "matroska",
+    "video_mode": "packet_remux_without_regeneration",
+    "audio_mode": "pcm_s16le_packet_remux_without_regeneration",
+    "failed_first_attempt_published": false,
+    "bounded_probe_repair": "video duration falls back to decoded_frames/frame_rate when Matroska stream duration metadata is absent"
+  },
+  "outputs": {
+    "review_mux": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_mmaudio_review_mux_20260714T221311-0500/mmaudio_review_mux_video_copy_pcm48_mono.mkv",
+      "sha256": "5975bd79acbda03c15e20fb98e4c7c53c697235a0f24b157da8482293aa4ae37",
+      "bytes": 276951,
+      "video_stream_count": 1,
+      "audio_stream_count": 1,
+      "decoded_video_frames": 49,
+      "decoded_audio_samples": 97968,
+      "audio_sample_rate_hz": 48000,
+      "audio_channels": 1,
+      "duration_delta_seconds": 0.03417406143344692,
+      "duration_delta_allowed_seconds": 0.040955631399317405
+    },
+    "manifest": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_mmaudio_review_mux_20260714T221311-0500/review_mux_manifest.json",
+      "sha256": "4565997b4647fd1df734dc7147d19b05880aa0bc6365c23ae5b3b23142c56c88"
+    },
+    "contact_sheet": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_mmaudio_review_mux_20260714T221311-0500/mmaudio_review_mux_contact_sheet.png",
+      "sha256": "757513cb65bfe15532fd0042857a2257dcf6d4345ff4dcd07be5e13a326c73e2",
+      "decoded_frames_reviewed": [
+        0,
+        9,
+        19,
+        29,
+        39,
+        48
+      ],
+      "direct_visual_review": "PASS_STABLE_FULL_BODY_FRAMING_NO_BLANK_OR_CORRUPT_FRAMES"
+    }
+  },
+  "validation": {
+    "test_path": "Plan/Instructions/QA/Scripts/test_build_wave64_mmaudio_review_mux.py",
+    "unit_tests_passed": 11,
+    "unit_test_failures": 0,
+    "unit_test_errors": 0,
+    "exact_video_hash_pass": true,
+    "exact_audio_hash_pass": true,
+    "video_frame_count_preserved": true,
+    "audio_sample_count_preserved": true,
+    "audio_sample_rate_preserved": true,
+    "duration_alignment_pass": true,
+    "mux_decode_pass": true,
+    "visual_decode_review_pass": true,
+    "semantic_worker_review": "UNAVAILABLE_STALLED_TIMEOUT_NO_RESULT_NOT_COUNTED",
+    "deterministic_fallback_used": true
+  },
+  "acceptance": {
+    "hash_bound_review_mux_present": true,
+    "technical_mux_pass": true,
+    "visual_decode_review_pass": true,
+    "independent_perceptual_playback_review_present": false,
+    "contact_owner_alignment_present": false,
+    "production_audio_certification_allowed": false
+  },
+  "remaining_blockers": [
+    "independent perceptual playback review is not present",
+    "trusted contact-owner and Wave22 force alignment authority is not present",
+    "production audio certification authority is not present"
+  ],
+  "runtime_boundary": {
+    "source_video_regenerated": false,
+    "source_audio_regenerated": false,
+    "model_execution_performed": false,
+    "ec2_started": false,
+    "s3_mutated": false,
+    "mask_truth_consumed": false,
+    "wave71_activated": false,
+    "jira_mutated": false,
+    "promotion_claimed": false
+  },
+  "row_complete": false
+}
