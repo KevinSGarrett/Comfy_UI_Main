@@ -20,7 +20,7 @@ $checks.default_models_available = $null
 $checks.cursor_key_shape_equals = $null
 $checks.cursor_key_loads = $null
 $checks.wsl_key_bridge = $null
-$checks.agent_write_guard = $false
+$checks.guarded_agent_contract = $false
 $checks.broad_scope_guard = $false
 $checks.long_timeout_guard = $false
 $checks.read_only_script_execution_guard = $false
@@ -56,11 +56,11 @@ if ($checks.wrapper_exists) {
       $selfTest.checks.credential_root_is_primary_worktree -and
       $selfTest.checks.untrusted_credential_root_rejected
     )
-    $checks.concurrent_drift_contract = ($source -match 'CURSOR_CONCURRENT_WORKTREE_DRIFT_DETECTED' -and $source -match 'scope_mutation_paths')
-    $checks.agent_write_guard = ($source -match 'CURSOR_MUTATION_MODE_DISABLED')
+    $checks.concurrent_drift_contract = ($source -match 'Repository-visible state changed outside the hash-bound scope' -and $source -match 'scope_mutation_paths' -and $source -match 'warnings')
+    $checks.guarded_agent_contract = ($source -match 'CURSOR_AGENT_SCOPE_REQUIRED' -and $source -match 'CURSOR_AGENT_COMMANDS_REQUIRED' -and $source -match 'outside allowed write scope')
     $checks.broad_scope_guard = ($source -match 'Broad worker discovery requires')
     $checks.long_timeout_guard = ($source -match 'TimeoutSeconds above 600')
-    $checks.read_only_script_execution_guard = ($source -match 'may not execute project scripts')
+    $checks.read_only_script_execution_guard = ($source -match 'Test-RequestsProjectExecution' -and $selfTest.checks.negated_execution_not_rejected -and $selfTest.checks.explicit_execution_detected -and $selfTest.checks.polite_execution_detected)
     $checks.fast_model_guard = ($source -match 'Fast Cursor models are prohibited' -and $source -match 'Only plain gpt-5.3-codex is allowed')
   }
 }
@@ -76,7 +76,7 @@ if ($IncludeCredentialLoadProbe -and $checks.wrapper_exists -and $checks.wrapper
   $beforeProbeDirs = @(Get-ChildItem -LiteralPath $handoffRoot -Directory -ErrorAction SilentlyContinue | ForEach-Object { $_.FullName })
   $probeFailure = ""
   try {
-    & $wrapper -ProjectRoot $ProjectRoot -CredentialRoot $CredentialRoot -TaskName "credential_root_guard_probe" -Mode agent -WorkOrderText "Return a proposed summary only." | Out-Null
+    & $wrapper -ProjectRoot $ProjectRoot -CredentialRoot $CredentialRoot -TaskName "credential_root_guard_probe" -Mode agent -AllowPrimaryWorktree -WorkOrderText "Return a proposed summary only." | Out-Null
   } catch {
     $probeFailure = $_.Exception.Message
   }
@@ -91,10 +91,10 @@ if ($IncludeCredentialLoadProbe -and $checks.wrapper_exists -and $checks.wrapper
       $checks.credential_value_absent_from_record = (-not [string]::IsNullOrWhiteSpace($cursorKey) -and -not $probeRecordRaw.Contains($cursorKey))
       $checks.credential_probe_workspace_preserved = ([System.IO.Path]::GetFullPath([string]$probeRecord.project_root).TrimEnd('\') -eq [System.IO.Path]::GetFullPath($ProjectRoot).TrimEnd('\'))
       $checks.credential_load_probe_pass = (
-        $probeFailure -match '^CURSOR_MUTATION_MODE_DISABLED:' -and
+        $probeFailure -match '^CURSOR_AGENT_SCOPE_REQUIRED:' -and
         [bool]$probeRecord.cursor_credential_available -and
         [string]$probeRecord.credential_root_relation -eq "PRIMARY_WORKTREE_FOR_PROJECT" -and
-        [string]$probeRecord.classification -eq "CURSOR_MUTATION_MODE_DISABLED"
+        [string]$probeRecord.classification -eq "CURSOR_AGENT_SCOPE_REQUIRED"
       )
     } finally {
       $resolvedProbeRunDir = [System.IO.Path]::GetFullPath($probeRunDir)

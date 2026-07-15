@@ -61,7 +61,7 @@ Claude must also receive exact bounded work through its `-ScopePacketPath`; the 
 
 Do not perform Git or GitHub mutation, AWS/EC2/S3 mutation, Jira mutation, mask promotion, Wave70/Wave71 gate decisions, live ComfyUI generation, final visual QA, or Items/Tracker status mutation. Do not read or print secrets or `.env` values.
 
-The wrapper must use `claude.ai` first-party subscription auth, exact model IDs, no API/PAYG fallback, credential-scrubbed child execution, and unchanged repository fingerprints. Current `claude -p` usage draws from normal subscription limits because Anthropic's separate Agent SDK credit change is paused.
+The wrapper must use `claude.ai` first-party subscription auth, exact model IDs, no API/PAYG fallback, credential-scrubbed child execution, isolated registered worktrees, and unchanged hash-bound scope files. Unrelated worktree drift is warning evidence, not a false worker-mutation attribution. Current `claude -p` usage draws from normal subscription limits because Anthropic's separate Agent SDK credit change is paused.
 
 Git/GitHub mutation is always Codex-only. `KNOWN_SCOPE_GIT_FAST_PATH` applies only to deterministic safety checks around an exact current-task include list; uncertainty routes to worker analysis.
 
@@ -86,8 +86,10 @@ Use `tools/New-CodexDesktopUsageSnapshot.ps1`, `tools/Measure-AIWorkerCodexUsage
 
 Use `tools/Measure-CodexAutomationScheduleLoad.ps1` to measure scheduled invocation frequency; do not infer quota cost from frequency alone.
 
+The local subscription dispatcher is `tools/ai_worker_handoffs/dispatcher`. Route eligible work into that queue before substantive Codex reasoning. High confidence requires at least 25 substantive handoffs, 85% useful completion, 80% adopted output, 95% scope compliance, 90% routing of eligible work, two qualifying five-hour Codex-reduction periods, and two qualifying 24-hour/weekly-rate periods. Subscription usage alone is not proof of Codex reduction.
+
 ## Enforced Worker Runtime
 
 The canonical worker package is `tools/ai_worker_handoffs`. Claude substantive calls use exact `claude-sonnet-5` or `claude-opus-4-8` with first-party subscription OAuth, `--safe-mode`, `--tools Read,Glob,Grep`, strict MCP isolation, disabled slash-command skills, and Chrome disabled. Opus has an immutable global ceiling of two completed calls per local day and requires same-decision Sonnet status/confidence evidence matching the escalation trigger unless the explicit direct high-risk architecture exception applies.
 
-Cursor is plain `gpt-5.3-codex` only and is read-only ask/plan. Agent mode, writes, fast models, and forced commands are prohibited. Default wrapper verification is static; recurring monitors must not launch live probes.
+Cursor is plain `gpt-5.3-codex` only. Ask/plan are read-only. Guarded agent work is permitted only in an isolated registered worktree with exact allowed paths and exact declared tests or validators. Cursor never owns Git/GitHub/AWS/Jira/mask/Items/Tracker/final-authority mutations; Codex reviews and commits accepted work. Default wrapper verification is static; recurring monitors must not launch live probes.

@@ -53,9 +53,16 @@ if ($MaxTotalBytes -gt 524288 -and [string]::IsNullOrWhiteSpace($SizeBudgetExcep
   throw "MaxTotalBytes above 524288 requires SizeBudgetExceptionReason."
 }
 
-$claudeGates = @("CLAUDE_HEAVY_REVIEW_REQUIRED", "CLAUDE_SONNET_PRIMARY_REQUIRED", "CLAUDE_OPUS_ESCALATION_REQUIRED")
-if ($Gate -in $claudeGates -and $WorkerLane -ne "Claude") {
-  throw "Claude routing gates require WorkerLane=Claude."
+$gateLaneMap = @{
+  CURSOR_FIRST_REQUIRED = "Cursor"
+  CLAUDE_HEAVY_REVIEW_REQUIRED = "Claude"
+  CLAUDE_SONNET_PRIMARY_REQUIRED = "Claude"
+  CLAUDE_OPUS_ESCALATION_REQUIRED = "Claude"
+  GIT_GITHUB_WORKER_ANALYSIS_REQUIRED = "GitGitHub"
+}
+$expectedLane = [string]$gateLaneMap[$Gate]
+if ($WorkerLane -ne $expectedLane) {
+  throw "Routing gate $Gate requires WorkerLane=$expectedLane."
 }
 if ($Gate -eq "CLAUDE_OPUS_ESCALATION_REQUIRED" -and $MaxCandidates -gt 12) {
   throw "Opus scope packets may not exceed 12 candidates."

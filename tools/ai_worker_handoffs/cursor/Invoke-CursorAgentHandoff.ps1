@@ -27,6 +27,8 @@ param(
   ),
   [ValidateRange(30, 900)][int]$TimeoutSeconds = 600,
   [int]$StaleLockMinutes = 120,
+  [ValidateRange(0, 1800)][int]$LockWaitSeconds = 600,
+  [ValidateRange(1, 30)][int]$LockPollSeconds = 2,
   [ValidateRange(1, 60)][int]$InterruptedRecordGraceMinutes = 5,
   [string]$CursorModel = "",
   [string]$AskPlanDefaultModel = "gpt-5.3-codex",
@@ -37,8 +39,10 @@ param(
   [switch]$AllowWrites,
   [switch]$AllowReadOnlyCommandExecution,
   [string[]]$DeclaredReadOnlyCommands = @(),
+  [string[]]$DeclaredAgentCommands = @(),
   [switch]$AllowBroadDiscovery,
   [string]$BroadDiscoveryReason = "",
+  [switch]$AllowPrimaryWorktree,
   [switch]$ForceCursorCommands,
   [switch]$SelfTest
 )
@@ -164,7 +168,75 @@ function Resolve-CursorCredentialRoot {
     credential_root = $candidateRoot
     primary_worktree_root = $primaryRoot
     registered_worktree_count = $registeredRoots.Count
+    project_is_primary_worktree = $repoFull.Equals($primaryRoot, [System.StringComparison]::OrdinalIgnoreCase)
   }
+}
+
+function Enter-BoundedHandoffLock {
+  param(
+    [Parameter(Mandatory=$true)][string]$Path,
+    [Parameter(Mandatory=$true)][System.Collections.IDictionary]$Payload,
+    [int]$WaitSeconds,
+    [int]$PollSeconds,
+    [int]$StaleMinutes
+  )
+  $wait = [System.Diagnostics.Stopwatch]::StartNew()
+  $staleRemoved = $false
+  while ($true) {
+    if (Test-Path -LiteralPath $Path) {
+      $lockItem = Get-Item -LiteralPath $Path
+      $ownerAlive = $true
+      try {
+        $existing = Get-Content -LiteralPath $Path -Raw | ConvertFrom-Json -ErrorAction Stop
+        $ownerAlive = $null -ne (Get-Process -Id ([int]$existing.pid) -ErrorAction SilentlyContinue)
+      } catch { $ownerAlive = $false }
+      if (((Get-Date) - $lockItem.LastWriteTime).TotalMinutes -ge $StaleMinutes -or -not $ownerAlive) {
+        Remove-Item -LiteralPath $Path -Force -ErrorAction SilentlyContinue
+        $staleRemoved = $true
+      }
+    }
+    try {
+      $bytes = [System.Text.Encoding]::UTF8.GetBytes(($Payload | ConvertTo-Json -Compress))
+      $stream = [System.IO.File]::Open($Path, [System.IO.FileMode]::CreateNew, [System.IO.FileAccess]::Write, [System.IO.FileShare]::None)
+      try { $stream.Write($bytes, 0, $bytes.Length) } finally { $stream.Dispose() }
+      $wait.Stop()
+      return [pscustomobject]@{ acquired = $true; waited_ms = $wait.ElapsedMilliseconds; stale_lock_removed = $staleRemoved }
+    } catch [System.IO.IOException] {
+      if ($wait.Elapsed.TotalSeconds -ge $WaitSeconds) {
+        $wait.Stop()
+        throw "CURSOR_HANDOFF_LOCK_WAIT_TIMEOUT: Cursor lock remained busy for $WaitSeconds seconds."
+      }
+      Start-Sleep -Seconds $PollSeconds
+    }
+  }
+}
+
+function Normalize-WorkerStatus {
+  param([string]$Status)
+  $value = ([string]$Status).Trim().Trim('*').Trim().ToLowerInvariant() -replace '[\s-]+','_'
+  if ($value -match '^(pass|complete|completed|ready|success|ok|confirmed|verified)$') { return "pass" }
+  if ($value -match '^pass_with_(?:.*_)?findings?$') { return "pass_with_findings" }
+  if ($value -match '^(verified_)?blocked(_as_intended)?$') { return "blocked" }
+  if ($value -match '^(fail|failed|incomplete|error|unable|declined)$') { return "fail" }
+  return $value
+}
+
+function Normalize-WorkerConfidence {
+  param([string]$Confidence)
+  $value = ([string]$Confidence).Trim().Trim('*').Trim().ToLowerInvariant() -replace '[\s_]+','-'
+  if ($value -in @("medium-high","high-medium")) { return "medium" }
+  if ($value -in @("low-medium","medium-low")) { return "low" }
+  return $value
+}
+
+function Test-RequestsProjectExecution {
+  param([string]$Text)
+  foreach ($line in @(([string]$Text) -split "`r?`n")) {
+    $trimmed = $line.Trim()
+    if ($trimmed -match '(?i)\b(do not|must not|never|without|forbid(?:den)?|prohibit(?:ed)?|no)\b.{0,40}\b(run|execute|invoke|rerun)\b') { continue }
+    if ($trimmed -match '(?i)^(?:[-*]\s*)?(?:(?:please|you\s+(?:should|must|need\s+to)|the\s+worker\s+(?:should|must))\s+)?(run|rerun|execute|invoke)\b.{0,120}\b(script|test|tests|validator|generator|audit|\.py|\.ps1)\b') { return $true }
+  }
+  return $false
 }
 
 function Expand-DelimitedPathList {
@@ -343,12 +415,19 @@ function Read-ValidatedScopePacket {
   param(
     [Parameter(Mandatory=$true)][string]$PacketPath,
     [Parameter(Mandatory=$true)][string]$RepoRoot,
+    [Parameter(Mandatory=$true)][string[]]$PacketRoots,
     [Parameter(Mandatory=$true)][long]$ScopeByteLimit
   )
   $packetFull = [System.IO.Path]::GetFullPath($PacketPath)
   $repoFull = [System.IO.Path]::GetFullPath($RepoRoot).TrimEnd('\')
-  if (-not $packetFull.StartsWith($repoFull + '\', [System.StringComparison]::OrdinalIgnoreCase)) {
-    throw "Scope packet is outside repository root: $PacketPath"
+  $allowedPacketRoots = @($PacketRoots | ForEach-Object {
+    [System.IO.Path]::GetFullPath((Join-Path $_ "runtime_artifacts\agent_handoffs\scope_packets")).TrimEnd('\')
+  } | Select-Object -Unique)
+  $packetRootAllowed = @($allowedPacketRoots | Where-Object {
+    $packetFull.StartsWith($_ + '\', [System.StringComparison]::OrdinalIgnoreCase)
+  }).Count -gt 0
+  if (-not $packetRootAllowed) {
+    throw "Scope packet must be inside a trusted project or primary-worktree scope-packet directory: $PacketPath"
   }
   if (-not (Test-Path -LiteralPath $packetFull -PathType Leaf)) { throw "Scope packet missing: $packetFull" }
   $packet = Get-Content -LiteralPath $packetFull -Raw | ConvertFrom-Json -ErrorAction Stop
@@ -497,6 +576,13 @@ if ($SelfTest) {
     plain_status_parsed = ((Get-WorkerReportedStatus -Text "status: pass") -eq "pass")
     blocked_status_parsed = ((Get-WorkerReportedStatus -Text "- **status:** blocked") -eq "blocked")
     exact_confidence_parsed = ((Get-WorkerReportedConfidence -Text "confidence: medium") -eq "medium")
+    confirmed_status_normalized = ((Normalize-WorkerStatus -Status "confirmed") -eq "pass")
+    pass_with_findings_normalized = ((Normalize-WorkerStatus -Status "pass_with_medium_finding") -eq "pass_with_findings")
+    verified_blocked_normalized = ((Normalize-WorkerStatus -Status "verified_blocked_as_intended") -eq "blocked")
+    compound_confidence_normalized = ((Normalize-WorkerConfidence -Confidence "medium-high") -eq "medium")
+    negated_execution_not_rejected = (-not (Test-RequestsProjectExecution -Text "Do not execute project scripts or tests."))
+    explicit_execution_detected = (Test-RequestsProjectExecution -Text "Run the exact validator test.ps1.")
+    polite_execution_detected = (Test-RequestsProjectExecution -Text "Please run the exact tests.")
     credential_primary_worktree_resolved = ($null -ne $credentialResolution)
     credential_project_root_remains_requested = ($null -ne $credentialResolution -and $credentialResolution.project_root.Equals([System.IO.Path]::GetFullPath($ProjectRoot).TrimEnd('\'), [System.StringComparison]::OrdinalIgnoreCase))
     credential_root_is_primary_worktree = ($null -ne $credentialResolution -and $credentialResolution.credential_root.Equals($credentialResolution.primary_worktree_root, [System.StringComparison]::OrdinalIgnoreCase))
@@ -521,6 +607,8 @@ $externalRoot = "C:\Users\kevin\.codex\cursor_handoff"
 $lockPath = Join-Path $externalRoot "cursor_agent.lock"
 $handoffRoot = Join-Path $projectRootFull "runtime_artifacts\agent_handoffs\cursor"
 $AllowedPaths = @(Expand-DelimitedPathList -Values $AllowedPaths)
+$DeclaredReadOnlyCommands = @($DeclaredReadOnlyCommands | Where-Object { -not [string]::IsNullOrWhiteSpace($_) } | ForEach-Object { $_.Trim() } | Select-Object -Unique)
+$DeclaredAgentCommands = @($DeclaredAgentCommands | Where-Object { -not [string]::IsNullOrWhiteSpace($_) } | ForEach-Object { $_.Trim() } | Select-Object -Unique)
 $repairedInterruptedRecords = if (-not (Test-Path -LiteralPath $lockPath)) {
   @(Repair-AbandonedCursorRecords -HandoffRoot $handoffRoot -GraceMinutes $InterruptedRecordGraceMinutes)
 } else { @() }
@@ -542,6 +630,7 @@ $recordPath = Join-Path $runDir "handoff_record.json"
   allow_writes = [bool]$AllowWrites
   allow_read_only_command_execution = [bool]$AllowReadOnlyCommandExecution
   declared_read_only_commands = @($DeclaredReadOnlyCommands)
+  declared_agent_commands = @($DeclaredAgentCommands)
   allow_broad_discovery = [bool]$AllowBroadDiscovery
   broad_discovery_reason = $BroadDiscoveryReason
   max_scope_bytes = $MaxScopeBytes
@@ -557,30 +646,19 @@ $recordPath = Join-Path $runDir "handoff_record.json"
   cursor_agent_path = $CursorAgentPath
   timeout_seconds = $TimeoutSeconds
   stale_lock_minutes = $StaleLockMinutes
+  lock_wait_seconds = $LockWaitSeconds
+  lock_poll_seconds = $LockPollSeconds
   allowed_paths = @($AllowedPaths)
   forbidden_actions = @($ForbiddenActions)
   output_json_path = Join-Path $runDir "cursor_stdout.json"
   stderr_path = Join-Path $runDir "cursor_stderr.txt"
   work_order_path = Join-Path $runDir "work_order.md"
   issues = @()
+  warnings = @()
 }
 if ($repairedInterruptedRecords.Count -gt 0) {
   $record.repaired_interrupted_records = @($repairedInterruptedRecords)
   $record.issues += "Reconciled $($repairedInterruptedRecords.Count) abandoned Cursor handoff record(s)."
-}
-
-if (Test-Path -LiteralPath $lockPath) {
-  $lockItem = Get-Item -LiteralPath $lockPath
-  $lockAge = (Get-Date) - $lockItem.LastWriteTime
-  $lockOwnerAlive = $true
-  try {
-    $lockPayload = Get-Content -LiteralPath $lockPath -Raw | ConvertFrom-Json -ErrorAction Stop
-    $lockOwnerAlive = $null -ne (Get-Process -Id ([int]$lockPayload.pid) -ErrorAction SilentlyContinue)
-  } catch { $lockOwnerAlive = $false }
-  if ($lockAge.TotalMinutes -ge $StaleLockMinutes -or -not $lockOwnerAlive) {
-    $record.issues += "Removed stale Cursor handoff lock older than $StaleLockMinutes minutes: $lockPath"
-    Remove-Item -LiteralPath $lockPath -Force
-  }
 }
 
 try {
@@ -590,21 +668,16 @@ try {
     created_at = (Get-Date).ToString("o")
     run_dir = $runDir
   }
-  $lockJson = $lockPayload | ConvertTo-Json -Compress
-  $lockBytes = [System.Text.Encoding]::UTF8.GetBytes($lockJson)
-  $lockStream = [System.IO.File]::Open($lockPath, [System.IO.FileMode]::CreateNew, [System.IO.FileAccess]::Write, [System.IO.FileShare]::None)
-  try {
-    $lockStream.Write($lockBytes, 0, $lockBytes.Length)
-  } finally {
-    $lockStream.Dispose()
-  }
+  $lockResult = Enter-BoundedHandoffLock -Path $lockPath -Payload $lockPayload -WaitSeconds $LockWaitSeconds -PollSeconds $LockPollSeconds -StaleMinutes $StaleLockMinutes
+  $record.lock_waited_ms = $lockResult.waited_ms
+  $record.lock_stale_removed = $lockResult.stale_lock_removed
 } catch {
   $record.status = "BLOCKED"
-  $record.classification = "CURSOR_HANDOFF_LOCKED"
-  $record.issues += "Another Cursor handoff lock exists at $lockPath"
+  $record.classification = "CURSOR_HANDOFF_LOCK_WAIT_TIMEOUT"
+  $record.issues += $_.Exception.Message
   $record.finalized_at = (Get-Date).ToString("o")
   $record | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $recordPath -Encoding UTF8
-  throw "Cursor handoff lock exists: $lockPath"
+  throw
 }
 
 try {
@@ -615,6 +688,11 @@ try {
   $record.credential_root = $credentialRootFull
   $record.credential_root_relation = "PRIMARY_WORKTREE_FOR_PROJECT"
   $record.registered_worktree_count = $credentialResolution.registered_worktree_count
+  $record.project_is_primary_worktree = $credentialResolution.project_is_primary_worktree
+  $record.isolated_worktree_required = (-not $AllowPrimaryWorktree)
+  if ($credentialResolution.project_is_primary_worktree -and -not $AllowPrimaryWorktree) {
+    throw "CURSOR_ISOLATED_WORKTREE_REQUIRED: substantive Cursor handoffs must run in a registered linked worktree. Use -AllowPrimaryWorktree only for an explicit transport/health probe."
+  }
   $cursorKey = [Environment]::GetEnvironmentVariable("CURSOR_API_KEY", "Process")
   if ([string]::IsNullOrWhiteSpace($cursorKey)) {
     $envLoader = Join-Path $credentialRootFull "Plan\Instructions\Operations\Scripts\Load-ComfyEnv.ps1"
@@ -682,7 +760,7 @@ try {
 
   $scopePacket = $null
   if (-not [string]::IsNullOrWhiteSpace($ScopePacketPath)) {
-    $scopePacket = Read-ValidatedScopePacket -PacketPath $ScopePacketPath -RepoRoot $projectRootFull -ScopeByteLimit $MaxScopeBytes
+    $scopePacket = Read-ValidatedScopePacket -PacketPath $ScopePacketPath -RepoRoot $projectRootFull -PacketRoots @($projectRootFull,$credentialRootFull) -ScopeByteLimit $MaxScopeBytes
     $record.scope_packet_path = $scopePacket.full_path
     $record.scope_packet_candidate_count = $scopePacket.files.Count
     $record.scope_packet_total_bytes = $scopePacket.total_bytes
@@ -701,26 +779,28 @@ try {
   if ($TimeoutSeconds -gt 600 -and -not $AllowBroadDiscovery) {
     throw "TimeoutSeconds above 600 requires an explicit broad-discovery exception."
   }
-  if ($AllowReadOnlyCommandExecution -and $Mode -eq "agent") {
-    throw "-AllowReadOnlyCommandExecution is only valid with ask/plan mode."
-  }
+  if ($AllowReadOnlyCommandExecution -and $Mode -eq "agent") { throw "-AllowReadOnlyCommandExecution is only valid with ask/plan mode." }
   if ($DeclaredReadOnlyCommands.Count -gt 0 -and -not $AllowReadOnlyCommandExecution) {
     throw "-DeclaredReadOnlyCommands requires -AllowReadOnlyCommandExecution."
   }
   if ($AllowReadOnlyCommandExecution -and $DeclaredReadOnlyCommands.Count -eq 0) {
     throw "-AllowReadOnlyCommandExecution requires at least one exact -DeclaredReadOnlyCommands entry."
   }
-  $projectScriptPattern = '(?i)\b(run|rerun|execute|invoke)\b.{0,100}\b(script|test|tests|validator|generator|audit|\.py|\.ps1)\b'
-  if ($Mode -in @("ask", "plan") -and $sourceText -match $projectScriptPattern -and -not $AllowReadOnlyCommandExecution) {
+  if ($Mode -in @("ask", "plan") -and (Test-RequestsProjectExecution -Text $sourceText) -and -not $AllowReadOnlyCommandExecution) {
     throw "Ask/plan work orders may not execute project scripts, tests, validators, generators, or audits unless explicitly declared side-effect-free."
   }
-
-  if ($Mode -eq "agent" -or $AllowWrites) {
-    throw "CURSOR_MUTATION_MODE_DISABLED: delegated Cursor handoffs are read-only; return proposed patches for Codex to apply."
+  if ($DeclaredAgentCommands.Count -gt 0 -and $Mode -ne "agent") { throw "-DeclaredAgentCommands requires -Mode agent." }
+  if ($Mode -eq "agent") {
+    if (-not $AllowWrites -or $AllowedPaths.Count -eq 0) {
+      throw "CURSOR_AGENT_SCOPE_REQUIRED: agent mode requires -AllowWrites and at least one exact -AllowedPaths entry."
+    }
+    if ($DeclaredAgentCommands.Count -eq 0) {
+      throw "CURSOR_AGENT_COMMANDS_REQUIRED: agent mode requires at least one exact -DeclaredAgentCommands entry."
+    }
+  } elseif ($AllowWrites) {
+    throw "-AllowWrites is valid only with -Mode agent."
   }
-  if ($ForceCursorCommands) {
-    throw "CURSOR_FORCE_COMMANDS_DISABLED: --force is prohibited in delegated Cursor handoffs."
-  }
+  if ($ForceCursorCommands) { throw "CURSOR_FORCE_COMMANDS_DIRECT_OVERRIDE_FORBIDDEN: agent mode enables --force only through the guarded wrapper contract." }
   if ($AllowWrites) {
     foreach ($allowedPath in $AllowedPaths) {
       $combined = if ([System.IO.Path]::IsPathRooted($allowedPath)) { $allowedPath } else { Join-Path $projectRootFull $allowedPath }
@@ -737,7 +817,7 @@ try {
   $forbiddenText = ($ForbiddenActions | ForEach-Object { "- $_" }) -join "`n"
   $writePolicy = if ($AllowWrites) { "Writes are allowed only inside listed allowed paths and only if the work order explicitly asks for edits." } else { "Do not edit files. Return analysis, plan, or patch suggestions only." }
   $commandPolicy = if ($Mode -eq "agent") {
-    "Agent command execution is limited by the write scope and forbidden actions."
+    "Only these exact implementation/test commands may run; all other project commands are forbidden:`n" + (($DeclaredAgentCommands | ForEach-Object { "- $_" }) -join "`n")
   } elseif ($AllowReadOnlyCommandExecution) {
     "Only these exact commands are declared side-effect-free and may run:`n" + (($DeclaredReadOnlyCommands | ForEach-Object { "- $_" }) -join "`n")
   } else {
@@ -814,8 +894,9 @@ $sourceText
   $record.effective_cursor_model = $effectiveCursorModel
   $modelArgs = @()
   if (-not [string]::IsNullOrWhiteSpace($effectiveCursorModel)) { $modelArgs += @("--model", $effectiveCursorModel) }
-  $record.force_cursor_commands = $false
-  $forceArgs = @()
+  $record.force_cursor_commands = ($Mode -eq "agent")
+  $record.auto_force_cursor_commands = ($Mode -eq "agent")
+  $forceArgs = if ($Mode -eq "agent") { @("--force") } else { @() }
 
   $preHandoffSnapshot = Get-GitWorktreeSnapshot -RepoRoot $projectRootFull
   $record.pre_handoff_worktree_fingerprint = $preHandoffSnapshot.fingerprint
@@ -863,19 +944,23 @@ $sourceText
 
   $proc = New-Object System.Diagnostics.Process
   $proc.StartInfo = $psi
-  $sw = [System.Diagnostics.Stopwatch]::StartNew()
+  $workerStopwatch = [System.Diagnostics.Stopwatch]::StartNew()
   [void]$proc.Start()
   $stdoutTask = $proc.StandardOutput.ReadToEndAsync()
   $stderrTask = $proc.StandardError.ReadToEndAsync()
   if (-not $proc.WaitForExit($TimeoutSeconds * 1000)) {
     try { & taskkill.exe /PID $proc.Id /T /F | Out-Null } catch { try { $proc.Kill() } catch { } }
     try { [void]$proc.WaitForExit(5000) } catch { }
+    $workerStopwatch.Stop()
+    $record.duration_ms = $workerStopwatch.ElapsedMilliseconds
+    $record.timed_out = $true
+    $record.classification = "CURSOR_HANDOFF_TIMEOUT"
     throw "Cursor handoff timed out after $TimeoutSeconds seconds."
   }
   try { $proc.WaitForExit() } catch { }
   $stdout = $stdoutTask.Result
   $stderr = $stderrTask.Result
-  $sw.Stop()
+  $workerStopwatch.Stop()
 
   $stdoutRedacted = Redact-Text $stdout
   $stderrRedacted = Redact-Text $stderr
@@ -883,7 +968,7 @@ $sourceText
   Set-Content -LiteralPath $record.stderr_path -Value $stderrRedacted -Encoding UTF8
 
   $record.exit_code = $proc.ExitCode
-  $record.duration_ms = $sw.ElapsedMilliseconds
+  $record.duration_ms = $workerStopwatch.ElapsedMilliseconds
   $record.stdout_length = $stdoutRedacted.Length
   $record.stderr_length = $stderrRedacted.Length
   $record.status = if ($proc.ExitCode -eq 0) { "PASS" } else { "FAIL" }
@@ -904,9 +989,13 @@ $sourceText
     }
     $requiredLabels = @("status:", "summary:", "files inspected:", "blockers:", "confidence:", "recommended Codex follow-up:")
     $missingLabels = @($requiredLabels | Where-Object { $outputContractText -notmatch [regex]::Escape($_) })
-    $workerReportedStatus = Get-WorkerReportedStatus -Text $outputContractText
-    $workerReportedConfidence = Get-WorkerReportedConfidence -Text $outputContractText
+    $workerReportedStatusRaw = Get-WorkerReportedStatus -Text $outputContractText
+    $workerReportedConfidenceRaw = Get-WorkerReportedConfidence -Text $outputContractText
+    $workerReportedStatus = Normalize-WorkerStatus -Status $workerReportedStatusRaw
+    $workerReportedConfidence = Normalize-WorkerConfidence -Confidence $workerReportedConfidenceRaw
+    $record.worker_reported_status_raw = $workerReportedStatusRaw
     $record.worker_reported_status = $workerReportedStatus
+    $record.worker_reported_confidence_raw = $workerReportedConfidenceRaw
     $record.worker_reported_confidence = $workerReportedConfidence
     $promiseOnlyPattern = '(?i)\b(i.ll|i will|next i.ll|next i will)\b.*\b(inspect|read|extract|check)\b'
     $tailLength = [Math]::Min(700, $outputContractText.Length)
@@ -923,11 +1012,19 @@ $sourceText
       $record.status = "FAIL"
       $record.classification = "CURSOR_HANDOFF_INVALID_CONFIDENCE_LABEL"
       $record.issues += "Cursor confidence must be exactly low, medium, or high: $workerReportedConfidence"
-    } elseif ($workerReportedStatus -in @("blocked","fail","failed","incomplete","error","unable","declined")) {
+    } elseif ($workerReportedStatus -eq "fail") {
       $record.status = "FAIL"
       $record.classification = "CURSOR_HANDOFF_WORKER_REPORTED_BLOCKED"
       $record.issues += "Cursor reported a non-success status: $workerReportedStatus"
-    } elseif ($workerReportedStatus -notin @("pass","complete","completed","ready","success","ok")) {
+    } elseif ($workerReportedStatus -eq "blocked") {
+      $record.status = "PASS"
+      $record.classification = "CURSOR_HANDOFF_COMPLETED_BLOCKED"
+      $record.worker_outcome = "blocked"
+    } elseif ($workerReportedStatus -eq "pass_with_findings") {
+      $record.status = "PASS"
+      $record.classification = "CURSOR_HANDOFF_COMPLETED_WITH_FINDINGS"
+      $record.worker_outcome = "pass_with_findings"
+    } elseif ($workerReportedStatus -ne "pass") {
       $record.status = "FAIL"
       $record.classification = "CURSOR_HANDOFF_INVALID_STATUS_LABEL"
       $record.issues += "Cursor returned an unrecognized status label: $workerReportedStatus"
@@ -947,21 +1044,21 @@ $sourceText
   if ($null -ne $scopePacket) {
     foreach ($file in $scopePacket.files) {
       $relative = Normalize-GitRepoPath -Path ([string]$file.path)
-      $afterHash = (Get-FileHash -LiteralPath (Join-Path $projectRootFull $relative) -Algorithm SHA256).Hash.ToLowerInvariant()
+      $scopedPath = Join-Path $projectRootFull $relative
+      $afterHash = if (Test-Path -LiteralPath $scopedPath -PathType Leaf) { (Get-FileHash -LiteralPath $scopedPath -Algorithm SHA256).Hash.ToLowerInvariant() } else { "<missing>" }
       if ($scopeHashesBefore[$relative] -ne $afterHash) { $scopeMutationPaths += $relative }
     }
   }
   $record.scope_mutation_paths = @($scopeMutationPaths)
   $record.scope_files_unchanged = ($scopeMutationPaths.Count -eq 0)
   $record.concurrent_worktree_drift_detected = ($handoffChangedPaths.Count -gt 0 -and $scopeMutationPaths.Count -eq 0)
-  if ($scopeMutationPaths.Count -gt 0) {
+  $record.worktree_unchanged = ($handoffChangedPaths.Count -eq 0)
+  if (-not $AllowWrites -and $scopeMutationPaths.Count -gt 0) {
     $record.status = "FAIL"
     $record.classification = "CURSOR_HANDOFF_READ_ONLY_MUTATION_VIOLATION"
     $record.issues += ("A hash-bound scope file changed during the read-only Cursor handoff: " + ($scopeMutationPaths -join ", "))
   } elseif ($handoffChangedPaths.Count -gt 0) {
-    $record.status = "FAIL"
-    $record.classification = "CURSOR_CONCURRENT_WORKTREE_DRIFT_DETECTED"
-    $record.issues += ("Repository-visible state changed outside the hash-bound scope while Cursor ran; attribution is ambiguous: " + ($handoffChangedPaths -join ", "))
+    $record.warnings += ("Repository-visible state changed outside the hash-bound scope while Cursor ran: " + ($handoffChangedPaths -join ", "))
   }
   if ($AllowWrites) {
     $realChangedPaths = @($handoffChangedPaths | Where-Object { $_ -ne "<git-index-or-status-metadata>" })
@@ -978,6 +1075,8 @@ $sourceText
       $record.status = "FAIL"
       $record.classification = "CURSOR_HANDOFF_WRITE_SCOPE_VIOLATION"
       $record.issues += ("Cursor changed paths outside allowed write scope: " + ($outsideAllowedPaths -join ", "))
+    } elseif ($record.status -eq "PASS") {
+      $record.agent_changes_accepted_for_codex_review = $true
     }
   }
 } catch {
@@ -989,6 +1088,10 @@ $sourceText
   $record.issues += $message
   throw
 } finally {
+  if ($null -ne $workerStopwatch -and $workerStopwatch.IsRunning) {
+    $workerStopwatch.Stop()
+    $record.duration_ms = $workerStopwatch.ElapsedMilliseconds
+  }
   $record.finalized_at = (Get-Date).ToString("o")
   $record | ConvertTo-Json -Depth 12 | Set-Content -LiteralPath $recordPath -Encoding UTF8
   Remove-Item -LiteralPath $lockPath -Force -ErrorAction SilentlyContinue

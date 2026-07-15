@@ -6,7 +6,7 @@ if ([string]::IsNullOrWhiteSpace($PackageRoot)) {
   $PackageRoot = $PSScriptRoot
 }
 $PackageRoot = (Resolve-Path -LiteralPath $PackageRoot).Path
-$deployableRoots = @("claude", "cursor", "automations")
+$deployableRoots = @("claude", "cursor", "dispatcher", "automations")
 $files = @()
 foreach ($name in $deployableRoots) {
   $root = Join-Path $PackageRoot $name

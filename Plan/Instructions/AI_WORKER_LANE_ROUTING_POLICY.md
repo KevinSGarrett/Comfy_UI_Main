@@ -98,7 +98,7 @@ Codex owns:
 
 The versioned authority for worker wrappers, verifier scripts, policy mirrors, and automation templates is `tools/ai_worker_handoffs`. `worker_handoff_package_manifest.json` binds every deployable file by byte length and SHA-256. Use `Install-AIWorkerHandoffPackage.ps1` only after canonical validation and only when neither worker lock exists. Use `Test-AIWorkerHandoffPackageDrift.ps1` to detect live-versus-canonical drift; direct edits to live wrapper or automation files are temporary defects that must be reconciled back to the package.
 
-Cursor is read-only: ask/plan only, plain `gpt-5.3-codex`, no fast variant, no agent mode, no writes, and no `--force`. Scope packets must declare `Cursor` or `GitGitHub`, use the matching routing gate, and remain within the wrapper's aggregate byte budget. `status: blocked` is `CURSOR_HANDOFF_WORKER_REPORTED_BLOCKED`, not useful completion. A changed hash-bound scope is a mutation violation; unrelated worktree change with unchanged scope is `CURSOR_CONCURRENT_WORKTREE_DRIFT_DETECTED` and receives no useful credit without misattributing the edit.
+Cursor uses plain `gpt-5.3-codex` only; fast variants remain prohibited. Ask/plan are read-only. Guarded agent implementation is allowed only in a registered isolated worktree with exact allowed paths and exact declared tests/validators; Codex reviews the diff and retains all Git/GitHub/final authority. Scope packets must use the matching routing gate and aggregate byte budget. Completed blockers and findings receive useful diagnostic credit without being promoted as implementation success. A changed hash-bound scope fails read-only work; unrelated worktree change with unchanged scope is a warning.
 
 Claude receives only `Read,Glob,Grep` through `--tools` under `--safe-mode`, `--strict-mcp-config`, disabled slash-command skills, and `--no-chrome`. The child environment excludes AWS, GitHub, cloud, and API credentials while preserving first-party subscription OAuth. The Opus ceiling is an immutable global maximum of two completed calls per local day. Except for the explicit direct high-risk architecture exception, Opus requires a same-decision Sonnet record with exact normalized status, exact `low|medium|high` confidence, mutation-free bounded scope, and evidence satisfying the named escalation trigger.
 
@@ -228,6 +228,10 @@ Use one Sonnet confirmation after remediation at most. If a material problem rem
 Over a rolling 24-hour window, Claude should handle 60-70% of eligible non-authority semantic/synthesis work. In a four-hour window containing at least two eligible semantic tasks, at least one should use Sonnet. Mechanical tasks do not count toward this denominator. Opus has no minimum-use target.
 
 ## Mandatory Pre-Work Delegation Gate
+
+Worker routing occurs before substantive Codex reasoning. Cursor produces mechanical inventories, failure extraction, implementation drafts, and test drafts first. Sonnet 5 performs the first substantive architecture, contradiction, and risk synthesis. Codex consumes the compact worker result and performs final judgment, authority actions, and bounded validation; Sonnet must not be reserved principally as an after-the-fact confirmation once Codex has already done the eligible reasoning. Opus remains escalation-only and has no utilization target.
+
+Eligible work orders should be submitted to the local non-Codex dispatcher under `C:\Users\kevin\.codex\ai_worker_dispatcher`. The dispatcher pins the current commit, creates a registered isolated worktree, serializes each subscription lane through its bounded lock, and preserves a completed packet for Codex review. It does not stage, commit, push, merge, mutate AWS/Jira/masks/Items/Tracker, or grant final authority.
 
 Before Codex starts any broad scan, audit, helper draft, multi-file diagnosis, evidence extraction, strategy review, or Git/GitHub investigation above a tiny check, it must classify the work with exactly one gate:
 
