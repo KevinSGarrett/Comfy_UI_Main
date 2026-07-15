@@ -20,6 +20,8 @@ TRK = "TRK-W64-056"
 ITEM = "ITEM-W64-056"
 STATUS = "Blocked_Six_Advanced_Systems_Direct_Proof_Missing_One_Bounded_System_Pass"
 DECISION = "micro_motion_bounded_runtime_proof_pass_six_systems_remain_fail_closed"
+FLUID_STATUS = "Blocked_Five_Advanced_Systems_Direct_Proof_Missing_Fluid_State_Continuity_Fail_One_Bounded_System_Pass"
+FLUID_DECISION = "micro_motion_bounded_pass_fluid_state_runtime_review_fail_five_systems_missing"
 LEDGER_NOTE = (
     "Wave64 Row056 direct-proof reconciliation: existing WAN target-runtime clip, 49-frame technical QA, "
     "and direct visual QA establish one bounded micro-motion proof. Six systems remain fail-closed. "
@@ -40,6 +42,7 @@ DEFAULT_SOURCES = {
     "runtime": Path("Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_WAN22_TI2V5B_TARGET_RUNTIME_SMOKE_20260714T004424-0500.json"),
     "technical": Path("Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_TI2V5B_TARGET_RUNTIME_TECHNICAL_QA_20260714T004424-0500.json"),
     "visual": Path("Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_WAN22_TI2V5B_TARGET_RUNTIME_VISUAL_QA_20260714T004424-0500.json"),
+    "fluid": Path("Plan/Instructions/QA/Evidence/Wave64/FLUID_BODY_STATE_CONTINUITY_DIRECT_RUNTIME_REVIEW_20260715T100719-0500.json"),
 }
 RUNTIME_CHECKS = {
     "exact_model_sizes_and_sha256_verified_before_generation",
@@ -149,6 +152,7 @@ def build_evidence(root: Path, sources: dict[str, Path], timestamp: str) -> dict
     runtime = payloads["runtime"]
     technical = payloads["technical"]
     visual = payloads["visual"]
+    fluid = payloads.get("fluid")
 
     systems = crosswalk.get("advanced_systems")
     require(isinstance(systems, list) and len(systems) == 7, "crosswalk must contain exactly seven systems")
@@ -248,6 +252,63 @@ def build_evidence(root: Path, sources: dict[str, Path], timestamp: str) -> dict
             }
             record["blockers"] = ["production_robustness_multiseed_long_duration_certification_missing"]
 
+    fluid_direct = fluid is not None
+    if fluid_direct:
+        require(fluid.get("tracker_id") == TRK and fluid.get("item_id") == ITEM, "fluid row identity mismatch")
+        require(fluid.get("system_id") == "fluid_body_state_continuity", "fluid system identity mismatch")
+        require(
+            fluid.get("classification") == "DIRECT_RUNTIME_REVIEW_EXECUTED_NO_ROUTE_PASSED_BOTH_STATE_AND_CONTINUITY",
+            "fluid classification mismatch",
+        )
+        require(fluid.get("status") == "BLOCKED_FLUID_STATE_SHOT_CONTINUITY_IDENTITY_DRIFT", "fluid status mismatch")
+        fluid_runtime = fluid.get("runtime_chain", {})
+        require(fluid_runtime.get("local_runtime_generation_count") == 4, "fluid generation count mismatch")
+        require(fluid_runtime.get("route_count") == 3, "fluid route count mismatch")
+        require(fluid_runtime.get("candidate_retry_count") == 0, "fluid retry count mismatch")
+        fluid_gates = fluid.get("gates", {})
+        require(fluid_gates.get("model_or_runtime_capability_proof_present") is True, "fluid runtime proof missing")
+        require(fluid_gates.get("required_before_after_visual_evidence_present") is True, "fluid visual proof missing")
+        require(fluid_gates.get("planned_state_achieved_by_at_least_one_route") is True, "fluid state proof missing")
+        require(fluid_gates.get("shot_continuity_achieved_by_at_least_one_route") is True, "fluid continuity proof missing")
+        require(fluid_gates.get("single_route_achieved_state_and_continuity") is False, "fluid false promotion")
+        require(fluid_gates.get("bounded_direct_runtime_proof_pass") is False, "fluid bounded proof must remain false")
+        require(fluid_gates.get("production_certification_pass") is False, "fluid production claim")
+        require(fluid_gates.get("row_complete") is False, "fluid row completion claim")
+        fluid_boundaries = fluid.get("boundaries", {})
+        require(fluid_boundaries.get("edit_region_mask_is_not_geometry_or_segmentation_truth") is True, "fluid edit-mask boundary missing")
+        require(fluid_boundaries.get("mask_promotion") is False, "fluid mask promotion claim")
+        require(fluid_boundaries.get("content_based_suppression") is False, "fluid content suppression drift")
+        require(fluid_boundaries.get("adult_or_nsfw_asset_visibility_restricted") is False, "fluid asset visibility restricted")
+        reviews = fluid.get("direct_visual_reviews")
+        require(isinstance(reviews, list) and len(reviews) == 3, "fluid direct-review count mismatch")
+        review_decisions = {record.get("route"): record.get("decision") for record in reviews if isinstance(record, dict)}
+        require(
+            review_decisions
+            == {
+                "same_seed_txt2img_pair": "fail_shot_continuity",
+                "baseline_anchored_low_denoise_img2img": "fail_planned_state_missing",
+                "deterministic_under_eye_masked_inpaint": "fail_identity_critical_eye_region_drift",
+            },
+            "fluid direct-review decisions mismatch",
+        )
+        for record in status_records:
+            if record["system_id"] == "fluid_body_state_continuity":
+                record["runtime_promotion_state"] = "bounded_direct_runtime_review_fail_shot_continuity"
+                record["direct_proof_scope"] = {
+                    "local_runtime_route_count": 3,
+                    "local_generation_count": 4,
+                    "candidate_retry_count": 0,
+                    "before_after_visual_review_count": 3,
+                    "single_route_achieved_state_and_continuity": False,
+                    "evidence_path": bindings["fluid"]["path"],
+                    "evidence_sha256": bindings["fluid"]["sha256"],
+                }
+                record["blockers"] = [
+                    "direct_runtime_review_executed_no_route_passed_state_and_continuity",
+                    "identity_critical_eye_region_continuity_failure",
+                    "production_robustness_multi_sample_missing",
+                ]
+
     checks = [
         "seven_system_crosswalk_exact",
         "crosswalk_mapping_complete_and_fail_closed",
@@ -275,12 +336,41 @@ def build_evidence(root: Path, sources: dict[str, Path], timestamp: str) -> dict
         "visual_five_review_assets_hash_and_size_exact",
         "visual_claim_boundaries_preserved",
         "micro_motion_only_bounded_proof_assignment",
-        "six_other_systems_remain_fail_closed",
+        "fluid_direct_runtime_review_fail_closed" if fluid_direct else "six_other_systems_remain_fail_closed",
         "row_runtime_promotion_remains_blocked",
     ]
     proof_states = {record["system_id"]: record["runtime_promotion_state"] for record in status_records}
     require(proof_states[MICRO].startswith("bounded_direct_runtime_proof_pass"), "micro-motion bounded proof state missing")
-    require(all(proof_states[name].startswith("blocked") for name in SYSTEM_IDS - {MICRO}), "a non-micro system was improperly advanced")
+    if fluid_direct:
+        require(
+            proof_states["fluid_body_state_continuity"] == "bounded_direct_runtime_review_fail_shot_continuity",
+            "fluid direct-review failure state missing",
+        )
+        require(
+            all(proof_states[name].startswith("blocked") for name in SYSTEM_IDS - {MICRO, "fluid_body_state_continuity"}),
+            "an unproven advanced system was improperly advanced",
+        )
+    else:
+        require(all(proof_states[name].startswith("blocked") for name in SYSTEM_IDS - {MICRO}), "a non-micro system was improperly advanced")
+
+    current_status = FLUID_STATUS if fluid_direct else STATUS
+    current_decision = FLUID_DECISION if fluid_direct else DECISION
+    current_summary = {
+        "systems_total": 7,
+        "bounded_direct_runtime_proof_pass": 1,
+        "production_certified": 0,
+        "bounded_pass_system": MICRO,
+    }
+    if fluid_direct:
+        current_summary.update(
+            {
+                "direct_runtime_review_fail": 1,
+                "failed_system": "fluid_body_state_continuity",
+                "direct_runtime_proof_missing": 5,
+            }
+        )
+    else:
+        current_summary["direct_runtime_proof_blocked"] = 6
 
     stamp = timestamp.replace("-", "").replace(":", "")
     return {
@@ -289,24 +379,20 @@ def build_evidence(root: Path, sources: dict[str, Path], timestamp: str) -> dict
         "timestamp": timestamp,
         "tracker_id": TRK,
         "item_id": ITEM,
-        "status": STATUS,
+        "status": current_status,
         "row_complete": False,
-        "qa_decision": DECISION,
+        "qa_decision": current_decision,
         "source_bindings": bindings,
         "artifact_binding": artifact_binding,
         "review_asset_bindings": asset_bindings,
         "advanced_systems": status_records,
-        "proof_summary": {
-            "systems_total": 7,
-            "bounded_direct_runtime_proof_pass": 1,
-            "direct_runtime_proof_blocked": 6,
-            "production_certified": 0,
-            "bounded_pass_system": MICRO,
-        },
+        "proof_summary": current_summary,
         "remaining_blockers": {
             "physical_interaction_engine": by_id["physical_interaction_engine"]["blockers"],
             "skin_material_realism": by_id["skin_material_realism"]["blockers"],
-            "fluid_body_state_continuity": by_id["fluid_body_state_continuity"]["blockers"],
+            "fluid_body_state_continuity": next(
+                record["blockers"] for record in status_records if record["system_id"] == "fluid_body_state_continuity"
+            ),
             "pose_to_audio_force_model": by_id["pose_to_audio_force_model"]["blockers"],
             "long_form_fatigue_variation": by_id["long_form_fatigue_variation"]["blockers"],
             "room_acoustics_spatial_audio": by_id["room_acoustics_spatial_audio"]["blockers"],
@@ -333,7 +419,12 @@ def build_evidence(root: Path, sources: dict[str, Path], timestamp: str) -> dict
             "wave71_activation_authorized": False,
             "jira_mutated": False,
         },
-        "next_action": "Preserve the bounded micro-motion proof and obtain direct runtime/review proof for the six remaining advanced systems without treating candidate masks as truth.",
+        "next_action": (
+            "Preserve the micro-motion pass and all three fluid-state routes without rerun; obtain direct proof for "
+            "the five still-missing systems, and reopen fluid state only for a new identity-preserving regional-control artifact."
+            if fluid_direct
+            else "Preserve the bounded micro-motion proof and obtain direct runtime/review proof for the six remaining advanced systems without treating candidate masks as truth."
+        ),
     }
 
 
@@ -387,19 +478,33 @@ def update_csv(path: Path, key: str, identifier: str, changes: dict[str, str]) -
         writer.writerows(rows)
 
 
-def apply_ledgers(root: Path, evidence_path: str) -> None:
+def apply_ledgers(root: Path, evidence_path: str, evidence: dict[str, Any]) -> None:
+    status = evidence["status"]
+    decision = evidence["qa_decision"]
+    fluid_direct = evidence["proof_summary"].get("direct_runtime_review_fail") == 1
+    coverage = (
+        "row056_micro_motion_pass_fluid_state_review_fail_five_systems_missing"
+        if fluid_direct
+        else "row056_one_bounded_micro_motion_proof_six_systems_blocked"
+    )
+    note = (
+        "Wave64 Row056 fluid-state runtime review: three local routes and four generations produced direct review; "
+        "no route passed both planned state and identity continuity. Five systems remain missing."
+        if fluid_direct
+        else LEDGER_NOTE
+    )
     tracker = {
-        "Status": STATUS,
-        "Status_Decision": DECISION,
+        "Status": status,
+        "Status_Decision": decision,
         "Evidence_Path": evidence_path,
-        "Coverage_Audit_Status": "row056_one_bounded_micro_motion_proof_six_systems_blocked",
-        "Notes": LEDGER_NOTE,
+        "Coverage_Audit_Status": coverage,
+        "Notes": note,
     }
     item = {
-        "Status": STATUS,
+        "Status": status,
         "Evidence_Required": evidence_path,
-        "Coverage_Audit_Status": "row056_one_bounded_micro_motion_proof_six_systems_blocked",
-        "Notes": LEDGER_NOTE,
+        "Coverage_Audit_Status": coverage,
+        "Notes": note,
     }
     for path in (
         root / "Plan/Tracker/wave64_end_to_end_strict_ai_tracker.csv",
@@ -447,8 +552,8 @@ def main() -> int:
             "artifact_id": "advanced_additions_direct_proof_status",
             "timestamp": args.timestamp,
             "tracker_id": TRK,
-            "status": STATUS,
-            "qa_decision": DECISION,
+            "status": evidence["status"],
+            "qa_decision": evidence["qa_decision"],
             "proof_summary": evidence["proof_summary"],
             "advanced_systems": evidence["advanced_systems"],
             "runtime_promotion_state": "blocked",
@@ -466,9 +571,9 @@ def main() -> int:
                 "created_iso": args.timestamp,
                 "tracker_id": TRK,
                 "item_id": ITEM,
-                "status": STATUS,
+                "status": evidence["status"],
                 "row_complete": False,
-                "qa_decision": DECISION,
+                "qa_decision": evidence["qa_decision"],
                 "proof_summary": evidence["proof_summary"],
                 "remaining_blockers": evidence["remaining_blockers"],
                 "evidence": evidence["evidence_paths"],
@@ -483,15 +588,15 @@ def main() -> int:
                 "tracker_id": TRK,
                 "result": "pass_row056_bounded_direct_proof_reconciliation",
                 "unit_test_command": "python -m unittest Plan/Instructions/QA/Scripts/test_evaluate_wave64_advanced_additions_direct_proof.py -v",
-                "unit_tests": {"checked": 11, "passed": 11, "failed": 0},
+                "unit_tests": {"checked": 13, "passed": 13, "failed": 0},
                 "integration_checks": evidence["checks"],
                 "integration_summary": evidence["check_summary"],
                 "claim_boundary": evidence["claim_boundary"],
             },
         )
         if args.apply_ledger:
-            apply_ledgers(root, outputs[0].relative_to(root).as_posix())
-        print(json.dumps({"status": STATUS, "row_complete": False, "proof_summary": evidence["proof_summary"], "output": str(outputs[0])}))
+            apply_ledgers(root, outputs[0].relative_to(root).as_posix(), evidence)
+        print(json.dumps({"status": evidence["status"], "row_complete": False, "proof_summary": evidence["proof_summary"], "output": str(outputs[0])}))
         return 0
     except (OSError, ValueError, KeyError, TypeError, json.JSONDecodeError) as exc:
         print(json.dumps({"status": "failed_closed", "error": str(exc)}))

@@ -1,0 +1,81 @@
+{
+  "_meta": {
+    "workflow_id": "fluid_state_continuity_sdxl_tears_img2img_state_v2",
+    "role": "img2img_tears_state_v2",
+    "source_pair_failure": "txt2img state matched tears but failed identity, hair, and wardrobe continuity",
+    "content_based_suppression": false,
+    "runtime_claim": "template_only"
+  },
+  "1": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "RealVisXL_V5.0_fp16.safetensors"
+    }
+  },
+  "2": {
+    "class_type": "LoraLoader",
+    "inputs": {
+      "model": ["1", 0],
+      "clip": ["1", 1],
+      "lora_name": "wave42\\sdxl\\skin_texture\\sdxl_skin_texture_Wet_Makeup__Runny_Mascara-000006.safetensors",
+      "strength_model": 0.3,
+      "strength_clip": 0.2
+    }
+  },
+  "3": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": ["2", 1],
+      "text": "the exact same adult woman, same face identity, same centered direct gaze, same dark hair bun, same black V-neck top, same neutral studio background and soft key light, now with dark mascara visibly running and two realistic tear tracks down both cheeks, damp lower eyelashes, natural detailed skin"
+    }
+  },
+  "4": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": ["2", 1],
+      "text": "identity change, different person, hairstyle change, wardrobe change, camera change, background change, lighting change, low quality, blurry, plastic skin, cartoon, anime, CGI, distorted face, asymmetrical eyes, duplicate features, watermark, text, logo"
+    }
+  },
+  "5": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "wave64_fluid_state_baseline.png"
+    }
+  },
+  "6": {
+    "class_type": "VAEEncode",
+    "inputs": {
+      "pixels": ["5", 0],
+      "vae": ["1", 2]
+    }
+  },
+  "7": {
+    "class_type": "KSampler",
+    "inputs": {
+      "model": ["2", 0],
+      "positive": ["3", 0],
+      "negative": ["4", 0],
+      "latent_image": ["6", 0],
+      "seed": 5607051314,
+      "steps": 24,
+      "cfg": 5.0,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 0.3
+    }
+  },
+  "8": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": ["7", 0],
+      "vae": ["1", 2]
+    }
+  },
+  "9": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": ["8", 0],
+      "filename_prefix": "wave64_fluid_state_continuity/img2img_state_v2"
+    }
+  }
+}

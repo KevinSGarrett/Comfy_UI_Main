@@ -1,3 +1,11 @@
+## Wave64 Fluid-State Direct Runtime Review Failed - 2026-07-15T10:07:19-05:00
+
+`TRK-W64-056` / `ITEM-W64-056` now has genuine local direct runtime and visual-review evidence for `fluid_body_state_continuity`. Three architecture-distinct routes executed four total generations with zero retries: txt2img established tears but failed identity/hair/wardrobe continuity; low-denoise img2img preserved continuity but omitted tears; deterministic masked inpaint established bilateral tear cues but changed iris color and eye/brow identity detail. No route passed both planned state and shot continuity, so the system and Row056 remain blocked.
+
+Next action: preserve this chain without another seed/parameter loop. Continue a different exact implementation dependency or wait for the active audio-control/index side-task handoff; reopen fluid state only for a genuinely new identity-preserving regional-control artifact. Keep EC2 stopped and preserve gold-mask, Wave71+, Jira, and final-certification boundaries.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/FLUID_BODY_STATE_CONTINUITY_DIRECT_RUNTIME_REVIEW_20260715T100719-0500.json`.
+
 ## Wave64 CosyVoice2 Instruct-Control Path Rejected - 2026-07-15T08:02:00-05:00
 
 The single authorized model-native `inference_instruct2` candidate executed locally at speed `1.2` with a hash-bound fast, focused, controlled instruction and no post-generation truncation or time stretching. It is worse than the corrected zero-shot take: duration `7.32` seconds against the immutable `3.0`-second contract, unrelated ASR transcript `I'm not sure if I can get it.` at WER `1.0`, speaker similarity `0.34052`, DNSMOS OVRL `2.86294`, and predicted emotion `happy`. The candidate and complete evaluator packet are preserved as negative evidence. Rows025/027/031 remain blocked and incomplete.

@@ -1,0 +1,150 @@
+{
+  "schema_version": "1.0",
+  "run_id": "20260715T100719-0500",
+  "created_iso": "2026-07-15T10:07:19-05:00",
+  "tracker_id": "TRK-W64-056",
+  "item_id": "ITEM-W64-056",
+  "system_id": "fluid_body_state_continuity",
+  "status": "PASS_MASKED_INPAINT_TECHNICAL_PENDING_DIRECT_VISUAL_REVIEW",
+  "profile": {
+    "path": "C:\\Comfy_UI_Main\\PromptProfiles\\regional_detail\\fluid_state_continuity_sdxl_tears\\profile.masked_inpaint_state_v3.json",
+    "sha256": "3760a432f6c35d8c7b5eb8b680dc0d9c30e6af377baf16b20823ddd5c6b54c45",
+    "bytes": 2866
+  },
+  "workflow": {
+    "path": "C:\\Comfy_UI_Main\\Workflows\\regional_detail\\fluid_state_continuity_sdxl_tears\\workflow.masked_inpaint_state_v3.api.json",
+    "sha256": "394739775ece22e13859832e28a6a35ed4b565d1fa628012b92e525d85a8acf9",
+    "bytes": 2651
+  },
+  "source_baseline": {
+    "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\wave64_fluid_state_continuity\\20260715T095821-0500\\baseline_dry_state\\baseline_dry_state.png",
+    "sha256": "acfc3598b059979a0c43af40a91e9305ffc86015af030f4543bb15c6798e881f",
+    "bytes": 1055507
+  },
+  "prior_results": {
+    "txt2img_state_sha256": "6c4520f96a6c13bb386ccdb4b8207c9436c0a32e08554434587a778a529deeef",
+    "txt2img_decision": "planned_tears_state_pass_continuity_fail",
+    "img2img_state_sha256": "5b92c2a02a78b3f11ed3d6fe0c37a5475b45dfda56c175b9dba2c7f8901027c3",
+    "img2img_decision": "continuity_pass_planned_tears_state_fail"
+  },
+  "edit_region_mask": {
+    "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\wave64_fluid_state_masked_inpaint\\20260715T100719-0500\\under_eye_edit_region_mask.png",
+    "bytes": 17499,
+    "sha256": "27a2f999307a2be4785e86a5b987bfb650058f49983282fa5ac112de045182b5",
+    "width": 768,
+    "height": 1024,
+    "extrema": [
+      0,
+      248
+    ],
+    "nonzero_pixel_ratio": 0.07177607,
+    "edit_region_mask_is_not_geometry_or_segmentation_truth": true,
+    "mask_promotion_forbidden": true
+  },
+  "upload_responses": {
+    "baseline": {
+      "name": "wave64_fluid_state_baseline_acfc3598b059.png",
+      "subfolder": "",
+      "type": "input"
+    },
+    "mask": {
+      "name": "wave64_fluid_state_under_eye_mask_27a2f999307a.png",
+      "subfolder": "",
+      "type": "input"
+    }
+  },
+  "revision_contract": {
+    "route": "masked_inpaint_state_transition",
+    "authorized_candidate_count": 1,
+    "retry_allowed": false,
+    "seed": 6607051314,
+    "steps": 24,
+    "cfg": 5.0,
+    "sampler": "euler",
+    "scheduler": "normal",
+    "denoise": 0.65,
+    "grow_mask_by": 6,
+    "planned_state": "visible running mascara and bilateral tear tracks",
+    "protected_state": "all pixels outside the feathered edit region plus same face identity and composition"
+  },
+  "candidate": {
+    "prompt_id": "f42d9a01-e214-4604-b4c5-4a54b36c95e0",
+    "history_output": {
+      "node_id": "10",
+      "filename": "20260715T100719-0500_masked_inpaint_state_v3_00001_.png",
+      "subfolder": "wave64_fluid_state_continuity",
+      "type": "output"
+    },
+    "image": {
+      "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\wave64_fluid_state_masked_inpaint\\20260715T100719-0500\\masked_inpaint_tears_state_v3\\masked_inpaint_tears_state_v3.png",
+      "bytes": 1004462,
+      "sha256": "bb338a378c89d15eb000195d3e81f819283890736ac3cbeb55b57308deb8d74f",
+      "technical_qa": {
+        "png_opened": true,
+        "width": 768,
+        "height": 1024,
+        "mode": "RGB",
+        "channel_means": [
+          54.034996,
+          45.295312,
+          41.448575
+        ],
+        "channel_stddev": [
+          49.417929,
+          33.521106,
+          25.465157
+        ],
+        "nonblank_variance_pass": true
+      }
+    }
+  },
+  "technical_comparison": {
+    "same_dimensions": true,
+    "width": 768,
+    "height": 1024,
+    "changed_pixel_ratio": 0.82833354,
+    "normalized_mean_absolute_difference": 0.00782061,
+    "distinct_media_hashes": true,
+    "identity_continuity_pass": null,
+    "planned_state_match_pass": null,
+    "visual_review_status": "pending_direct_codex_review"
+  },
+  "runtime": {
+    "api_url": "http://127.0.0.1:8188",
+    "required_nodes_visible": true,
+    "model_visibility_pass": true,
+    "authorized_candidate_count": 1,
+    "actual_candidate_count": 1,
+    "retry_count": 0
+  },
+  "gates": {
+    "baseline_hash_binding_pass": true,
+    "model_hash_binding_pass": true,
+    "required_nodes_visible": true,
+    "edit_mask_generated_and_hash_bound": true,
+    "candidate_technical_pass": true,
+    "distinct_media_pass": true,
+    "planned_generated_state_match": null,
+    "shot_continuity_pass": null,
+    "direct_visual_review_pass": null,
+    "bounded_direct_runtime_proof_pass": false,
+    "production_certification_pass": false,
+    "row_complete": false
+  },
+  "boundaries": {
+    "local_comfyui_only": true,
+    "new_route_revision_not_candidate_retry": true,
+    "prior_candidates_preserved": true,
+    "ec2_started": false,
+    "aws_contacted": false,
+    "edit_region_mask_is_not_truth": true,
+    "body_or_contact_mask_authority_claimed": false,
+    "mask_promotion": false,
+    "content_based_suppression": false,
+    "adult_or_nsfw_asset_visibility_restricted": false,
+    "candidate_retry_count": 0,
+    "wave70_hard_gates_rerun": false,
+    "wave71_activated": false,
+    "jira_mutated": false
+  }
+}

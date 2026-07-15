@@ -1,0 +1,94 @@
+{
+  "_meta": {
+    "workflow_id": "fluid_state_continuity_sdxl_tears_masked_inpaint_state_v3",
+    "role": "masked_inpaint_tears_state_v3",
+    "source_failures": [
+      "txt2img_tears_pass_continuity_fail",
+      "low_denoise_img2img_continuity_pass_tears_fail"
+    ],
+    "edit_region_mask_is_not_truth": true,
+    "content_based_suppression": false,
+    "runtime_claim": "template_only"
+  },
+  "1": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "RealVisXL_V5.0_fp16.safetensors"
+    }
+  },
+  "2": {
+    "class_type": "LoraLoader",
+    "inputs": {
+      "model": ["1", 0],
+      "clip": ["1", 1],
+      "lora_name": "wave42\\sdxl\\skin_texture\\sdxl_skin_texture_Wet_Makeup__Runny_Mascara-000006.safetensors",
+      "strength_model": 0.45,
+      "strength_clip": 0.25
+    }
+  },
+  "3": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": ["2", 1],
+      "text": "the exact same adult woman and portrait, dark mascara visibly running from both lower eyelashes, two realistic wet tear tracks continuing down both cheeks, subtle damp skin immediately below both eyes, preserve the exact eyes face identity hair bun black V-neck top camera background and lighting"
+    }
+  },
+  "4": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": ["2", 1],
+      "text": "different person, identity change, eye shape change, hairstyle change, wardrobe change, camera change, background change, lighting change, bruises, wounds, blood, low quality, blurry, plastic skin, cartoon, anime, CGI, distorted face, watermark, text, logo"
+    }
+  },
+  "5": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "wave64_fluid_state_baseline.png"
+    }
+  },
+  "6": {
+    "class_type": "LoadImageMask",
+    "inputs": {
+      "image": "wave64_fluid_state_under_eye_mask.png",
+      "channel": "red"
+    }
+  },
+  "7": {
+    "class_type": "VAEEncodeForInpaint",
+    "inputs": {
+      "pixels": ["5", 0],
+      "vae": ["1", 2],
+      "mask": ["6", 0],
+      "grow_mask_by": 6
+    }
+  },
+  "8": {
+    "class_type": "KSampler",
+    "inputs": {
+      "model": ["2", 0],
+      "positive": ["3", 0],
+      "negative": ["4", 0],
+      "latent_image": ["7", 0],
+      "seed": 6607051314,
+      "steps": 24,
+      "cfg": 5.0,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 0.65
+    }
+  },
+  "9": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": ["8", 0],
+      "vae": ["1", 2]
+    }
+  },
+  "10": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": ["9", 0],
+      "filename_prefix": "wave64_fluid_state_continuity/masked_inpaint_state_v3"
+    }
+  }
+}

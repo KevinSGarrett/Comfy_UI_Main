@@ -131,6 +131,40 @@ class Row056DirectProofTests(unittest.TestCase):
         callback(payload)
         write_json(path, payload)
 
+    def add_fluid(self, root: Path, paths: dict[str, Path]) -> None:
+        fluid_path = root / "evidence/fluid.json"
+        fluid = {
+            "tracker_id": MODULE.TRK,
+            "item_id": MODULE.ITEM,
+            "system_id": "fluid_body_state_continuity",
+            "status": "BLOCKED_FLUID_STATE_SHOT_CONTINUITY_IDENTITY_DRIFT",
+            "classification": "DIRECT_RUNTIME_REVIEW_EXECUTED_NO_ROUTE_PASSED_BOTH_STATE_AND_CONTINUITY",
+            "runtime_chain": {"local_runtime_generation_count": 4, "route_count": 3, "candidate_retry_count": 0},
+            "gates": {
+                "model_or_runtime_capability_proof_present": True,
+                "required_before_after_visual_evidence_present": True,
+                "planned_state_achieved_by_at_least_one_route": True,
+                "shot_continuity_achieved_by_at_least_one_route": True,
+                "single_route_achieved_state_and_continuity": False,
+                "bounded_direct_runtime_proof_pass": False,
+                "production_certification_pass": False,
+                "row_complete": False,
+            },
+            "direct_visual_reviews": [
+                {"route": "same_seed_txt2img_pair", "decision": "fail_shot_continuity"},
+                {"route": "baseline_anchored_low_denoise_img2img", "decision": "fail_planned_state_missing"},
+                {"route": "deterministic_under_eye_masked_inpaint", "decision": "fail_identity_critical_eye_region_drift"},
+            ],
+            "boundaries": {
+                "edit_region_mask_is_not_geometry_or_segmentation_truth": True,
+                "mask_promotion": False,
+                "content_based_suppression": False,
+                "adult_or_nsfw_asset_visibility_restricted": False,
+            },
+        }
+        write_json(fluid_path, fluid)
+        paths["fluid"] = fluid_path
+
     def test_ledger_note_is_idempotent_and_cleans_legacy_fragments(self) -> None:
         legacy = (
             "existing note; Wave64 Row056 direct-proof reconciliation: existing WAN target-runtime clip, "
@@ -156,6 +190,29 @@ class Row056DirectProofTests(unittest.TestCase):
             self.assertTrue(states[MODULE.MICRO].startswith("bounded_direct_runtime_proof_pass"))
             self.assertTrue(all(states[name].startswith("blocked") for name in MODULE.SYSTEM_IDS - {MODULE.MICRO}))
             self.assertFalse(result["claim_boundary"]["production_video_lane_certification"])
+
+    def test_fluid_direct_review_replaces_one_missing_system_with_exact_failure(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            paths = self.build(root)
+            self.add_fluid(root, paths)
+            result = self.evaluate(root, paths)
+            self.assertEqual(result["status"], MODULE.FLUID_STATUS)
+            self.assertEqual(result["qa_decision"], MODULE.FLUID_DECISION)
+            self.assertEqual(result["proof_summary"]["direct_runtime_review_fail"], 1)
+            self.assertEqual(result["proof_summary"]["direct_runtime_proof_missing"], 5)
+            fluid = next(record for record in result["advanced_systems"] if record["system_id"] == "fluid_body_state_continuity")
+            self.assertEqual(fluid["runtime_promotion_state"], "bounded_direct_runtime_review_fail_shot_continuity")
+            self.assertEqual(fluid["direct_proof_scope"]["candidate_retry_count"], 0)
+
+    def test_fluid_direct_review_rejects_false_promotion(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            paths = self.build(root)
+            self.add_fluid(root, paths)
+            self.mutate(paths["fluid"], lambda payload: payload["gates"].update({"single_route_achieved_state_and_continuity": True}))
+            with self.assertRaisesRegex(ValueError, "fluid false promotion"):
+                self.evaluate(root, paths)
 
     def test_fails_on_artifact_record_mismatch(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
