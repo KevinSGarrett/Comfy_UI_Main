@@ -48,6 +48,33 @@ function Redact-Text {
   return $redacted
 }
 
+function Stop-WorkerProcessTreeBounded {
+  param(
+    [Parameter(Mandatory = $true)][System.Diagnostics.Process]$Process,
+    [int]$KillTimeoutMilliseconds = 10000
+  )
+  try { if ($Process.HasExited) { return } } catch { return }
+  $killer = New-Object System.Diagnostics.Process
+  try {
+    $killer.StartInfo = New-Object System.Diagnostics.ProcessStartInfo
+    $killer.StartInfo.FileName = "taskkill.exe"
+    $killer.StartInfo.Arguments = "/PID $($Process.Id) /T /F"
+    $killer.StartInfo.UseShellExecute = $false
+    $killer.StartInfo.CreateNoWindow = $true
+    [void]$killer.Start()
+    if (-not $killer.WaitForExit($KillTimeoutMilliseconds)) {
+      try { $killer.Kill() } catch { }
+    }
+  } catch {
+    try { $Process.Kill() } catch { }
+  } finally {
+    $killer.Dispose()
+  }
+  try {
+    if (-not $Process.WaitForExit(5000)) { $Process.Kill() }
+  } catch { }
+}
+
 function Quote-ProcessArgument {
   param([string]$Arg)
   if ($null -eq $Arg) { return '""' }
@@ -483,6 +510,7 @@ $scopePacket = $null
 $scopeHashesBefore = @{}
 $lockAcquired = $false
 $workerStopwatch = $null
+$workerTimedOut = $false
 
 if ([string]::IsNullOrWhiteSpace($ClaudeExe)) {
   $candidateRoot = Join-Path $env:APPDATA "Claude\claude-code"
@@ -738,8 +766,8 @@ $sourceText
   $stdoutTask = $proc.StandardOutput.ReadToEndAsync()
   $stderrTask = $proc.StandardError.ReadToEndAsync()
   if (-not $proc.WaitForExit($TimeoutSeconds * 1000)) {
-    try { & taskkill.exe /PID $proc.Id /T /F | Out-Null } catch { try { $proc.Kill() } catch { } }
-    try { [void]$proc.WaitForExit(5000) } catch { }
+    $workerTimedOut = $true
+    Stop-WorkerProcessTreeBounded -Process $proc
     $sw.Stop()
     $record.duration_ms = $sw.ElapsedMilliseconds
     $record.timeout_duration_ms = $sw.ElapsedMilliseconds
@@ -868,7 +896,7 @@ $sourceText
   $record.status = "FAIL"
   $message = Redact-Text $_.Exception.Message
   $classification = if ($message -match '^CLAUDE_[A-Z0-9_]+:') { ($message -split ':',2)[0] } else { "CLAUDE_SUBSCRIPTION_WRAPPER_FAILED" }
-  if ($null -ne $worktreeBefore) {
+  if ($null -ne $worktreeBefore -and -not $workerTimedOut) {
     try {
       $worktreeAfter = Get-WorktreeSnapshot -RepoRoot $projectRootFull
       $record.worktree_fingerprint_after = $worktreeAfter.fingerprint
@@ -894,6 +922,22 @@ $sourceText
         $record.warnings += "CLAUDE_CONCURRENT_WORKTREE_DRIFT_WARNING: repository-visible state changed outside the hash-bound scope before the handoff failed."
       }
     } catch { $record.issues += "Unable to capture the post-failure worktree fingerprint." }
+  } elseif ($workerTimedOut -and $null -ne $scopePacket) {
+    $scopeMutationPaths = @()
+    foreach ($file in $scopePacket.files) {
+      $relative = Normalize-RepoRelativePath -Path ([string]$file.path)
+      $afterHash = Get-FileSha256OrMissing -Path (Join-Path $projectRootFull $relative)
+      if ($scopeHashesBefore[$relative] -ne $afterHash) { $scopeMutationPaths += $relative }
+    }
+    $record.scope_mutation_paths = $scopeMutationPaths
+    $record.scope_files_unchanged = ($scopeMutationPaths.Count -eq 0)
+    $record.worktree_unchanged = $null
+    $record.concurrent_worktree_drift_detected = $false
+    $record.warnings += "Skipped the unbounded whole-worktree fingerprint after timeout; verified only the hash-bound scope."
+    if (-not $record.scope_files_unchanged) {
+      $classification = "CLAUDE_SUBSCRIPTION_READ_ONLY_MUTATION_VIOLATION"
+      $record.issues += "A hash-bound scope file changed before the timed-out handoff finalized."
+    }
   }
   $record.classification = $classification
   $record.issues += $message

@@ -81,6 +81,33 @@ function Redact-Text {
   return $redacted
 }
 
+function Stop-WorkerProcessTreeBounded {
+  param(
+    [Parameter(Mandatory = $true)][System.Diagnostics.Process]$Process,
+    [int]$KillTimeoutMilliseconds = 10000
+  )
+  try { if ($Process.HasExited) { return } } catch { return }
+  $killer = New-Object System.Diagnostics.Process
+  try {
+    $killer.StartInfo = New-Object System.Diagnostics.ProcessStartInfo
+    $killer.StartInfo.FileName = "taskkill.exe"
+    $killer.StartInfo.Arguments = "/PID $($Process.Id) /T /F"
+    $killer.StartInfo.UseShellExecute = $false
+    $killer.StartInfo.CreateNoWindow = $true
+    [void]$killer.Start()
+    if (-not $killer.WaitForExit($KillTimeoutMilliseconds)) {
+      try { $killer.Kill() } catch { }
+    }
+  } catch {
+    try { $Process.Kill() } catch { }
+  } finally {
+    $killer.Dispose()
+  }
+  try {
+    if (-not $Process.WaitForExit(5000)) { $Process.Kill() }
+  } catch { }
+}
+
 function Quote-ProcessArgument {
   param([string]$Arg)
   if ($null -eq $Arg) { return '""' }
@@ -106,8 +133,7 @@ function Invoke-WslCommandCapture {
   $stdoutTask = $proc.StandardOutput.ReadToEndAsync()
   $stderrTask = $proc.StandardError.ReadToEndAsync()
   if (-not $proc.WaitForExit($TimeoutMilliseconds)) {
-    try { & taskkill.exe /PID $proc.Id /T /F | Out-Null } catch { try { $proc.Kill() } catch { } }
-    try { [void]$proc.WaitForExit(5000) } catch { }
+    Stop-WorkerProcessTreeBounded -Process $proc
     return [pscustomobject]@{ exit_code = -1; stdout = ""; stderr = "WSL capability probe timed out after $TimeoutMilliseconds ms." }
   }
   try { $proc.WaitForExit() } catch { }
@@ -949,8 +975,7 @@ $sourceText
   $stdoutTask = $proc.StandardOutput.ReadToEndAsync()
   $stderrTask = $proc.StandardError.ReadToEndAsync()
   if (-not $proc.WaitForExit($TimeoutSeconds * 1000)) {
-    try { & taskkill.exe /PID $proc.Id /T /F | Out-Null } catch { try { $proc.Kill() } catch { } }
-    try { [void]$proc.WaitForExit(5000) } catch { }
+    Stop-WorkerProcessTreeBounded -Process $proc
     $workerStopwatch.Stop()
     $record.duration_ms = $workerStopwatch.ElapsedMilliseconds
     $record.timed_out = $true
