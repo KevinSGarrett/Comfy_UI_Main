@@ -15,17 +15,16 @@ Autonomously complete, test, review, document, track, and certify the ComfyUI hy
 
 ## Latest Stable Delivery
 
-- PR #53 merged the genuine Wave64 audio chain at `e9f1e55f1e3f684aba55d21cefd67d848e2ded1b`.
-- A hash-pinned Parler-TTS 0.2.2 local CUDA runtime generated a real dialogue candidate without modifying the ComfyUI core environment or starting EC2.
-- The selected three-second PCM16 WAV has SHA-256 `18b6d51cca9d9c5541bac621c09fd9059f521d8969ba5b25fa881c9284180c73` and passed technical audio, timing, independent Whisper ASR, and production-runtime checks.
-- The strict evaluator remains `BLOCKED` for independent playback, speaker continuity, emotional tone, and production-proof authority. No row completion or final certification is claimed.
+- PR #54 merged the hash-pinned Parler-TTS 0.2.2 local CUDA runtime and independent Whisper ASR proof. The selected PCM16 WAV SHA-256 is `18b6d51cca9d9c5541bac621c09fd9059f521d8969ba5b25fa881c9284180c73`.
+- PR #55 merged the Row030 frame-aligned mux repair. The current technical mux SHA-256 is `0c1153e675bd9209ce9c56d6c6694d9fb93118d69e3935fedcf77e626fed998a`; all 49 source-video frames and 32,640 source-audio samples are preserved, with mux, offset, and drift gates passing.
+- Rows025, 027, 028, and 030 remain blocked on their exact playback, speaker/emotion, contact-owner, runtime-authority, or production-bundle gates. No row completion or final certification is claimed.
 
 ## Current Work
 
-- Finish the protected PR for the Parler runtime, proof packet, tests, and minimal Rows025-027 evidence update.
-- The combined runner, packager, request-producer, and strict-evaluator regression set passes 56/56 tests; the exact mirrored evidence is `W64_PARLER_TTS_LOCAL_RUNTIME_ASR_20260714T191849-0500.json`.
-- Next, obtain independent full-duration playback plus speaker and emotion review against the selected media hash. Do not generate another take unless that review rejects this disclosed edge candidate; Whisper recognized the final word as `B` rather than `beat`.
-- Continue the genuine audio-to-short-video chain after review, batching compatible implementation and QA rows rather than creating evidence-only work units.
+- Checkpoint one genuine local MMAudio video-to-audio runtime without rerunning the completed source video or starting EC2.
+- Prompt `c90f0952-d9a8-49b1-b0ba-cbca3181bc55` completed successfully in 30.927 seconds with zero node errors. The raw FLAC SHA-256 is `15399b6a806bb3a3a04ca2b20c65245cd03fde5e5e5e66b45509fc4e03a4b2bb`.
+- The 48 kHz mono conformed derivative SHA-256 is `c63a789162e165c576f00baa03b238e74deb08b0da1a7a734e2ef07356441fab`; it is 2.041 seconds, `-21.05 LUFS`, and `-2.00 dBTP`.
+- Independent perceptual playback and trusted contact/force ownership remain absent. Preserve seed 2273001 without rerun; do not promote Row028 or Row030 from technical audio alone.
 
 ## Boundaries
 

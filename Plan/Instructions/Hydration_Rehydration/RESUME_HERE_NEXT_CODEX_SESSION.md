@@ -7,22 +7,24 @@ Use `C:\Comfy_UI_Main` as the authoritative project root. Preserve all unrelated
 ## Resume Order
 
 1. Read `CURRENT_SESSION_STATE.md` and the current delivery portfolio registry.
-2. Finish the protected Parler-TTS runtime-proof PR if it is not already merged; preserve every unrelated dirty or untracked path.
-3. Confirm the 56-test audio regression, exact evidence mirrors, delivery snapshot, hydration guard, and selected WAV SHA-256 `18b6d51cca9d9c5541bac621c09fd9059f521d8969ba5b25fa881c9284180c73`.
-4. Obtain independent playback, speaker-continuity, and emotional-tone review before any proof allowlist or final voice certification action. Do not generate another take unless playback rejects the current edge candidate.
-5. Continue the minimum viable genuine audio-to-short-video chain across compatible Wave64 Rows025-033.
+2. Confirm PR #54 and PR #55 are merged in `origin/main`; do not reopen the Parler runtime or 49-frame Row030 mux repair.
+3. Finish the protected checkpoint for the genuine MMAudio local runtime, conformed WAV, minimal workflow, compatibility patch, tests, and Rows026/028 evidence update.
+4. Preserve MMAudio seed 2273001. Obtain independent playback before any Row028 production or force-alignment claim; trusted contact-owner authority remains unavailable.
+5. Continue the minimum viable genuine audio-to-short-video chain across compatible Wave64 Rows025-033 without duplicating the completed Parler, genuine mix, Row030 mux, or MMAudio generation units.
 
 ## Stable State
 
 - PR #53 is merged at `e9f1e55f1e3f684aba55d21cefd67d848e2ded1b`.
+- PR #54 is merged with the Parler-TTS CUDA/ASR runtime proof.
+- PR #55 is merged at `471a47c1a51f01e965d4277d6da6f7893d1b4ab6` with the 49-frame Row030 mux repair.
 - Row064 is stopped at 50 exact links, 59 pending, zero approvals, 14 Wave71+ deferred, and 26 additive user-owned profiles unconsumed.
 - Do not launch another Row064 scan, linker pass, evidence-only PR, or duplicate profile generation.
 - Rows065-066 are complete.
-- Parler-TTS local generation and independent Whisper ASR are genuine pass-like runtime capabilities, but Rows025 and 027 remain blocked on subjective review and production-proof authority.
+- Parler-TTS and MMAudio are genuine local runtime capabilities. Rows025, 027, 028, and 030 remain blocked on their exact subjective review, contact/force, runtime-authority, or production-proof boundaries.
 
 ## Product Outcome
 
-Review the selected Parler voice candidate, then combine the accepted licensed voice with Foley/ambience, synchronize it to a short existing video, and produce the required mux and proof packets. Prefer one batch covering 3-5 compatible audio rows. Hydration, Tracker, Items, and evidence updates follow the runtime artifact and remain minimal.
+Review the selected Parler voice and MMAudio foley candidates, then use only accepted media in the next audio-to-video mix/mux proof. Prefer one batch covering 3-5 compatible audio rows. Hydration, Tracker, Items, and evidence updates follow the runtime artifact and remain minimal.
 
 ## Hard Boundaries
 

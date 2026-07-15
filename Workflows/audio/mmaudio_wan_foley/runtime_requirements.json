@@ -1,0 +1,148 @@
+{
+  "schema_version": "1.0",
+  "workflow_id": "w64_mmaudio_wan_foley_seed2273001",
+  "workflow_path": "Workflows/audio/mmaudio_wan_foley/workflow.api.json",
+  "source_template": {
+    "path": "F:\\Len_Transfer\\Audio_Downloads\\mmaudioBatch_v10\\MMAudioBatchPSv1.json",
+    "sha256": "6f2fdc29fddb372ec4e3bc058d1d08e71a01953ee82deb0caea4b4932b13ac43",
+    "node_count": 27,
+    "role": "wiring_reference_only"
+  },
+  "runtime": {
+    "comfyui_root": "C:\\Comfy_UI_Main\\ComfyUI",
+    "python": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Scripts\\python.exe",
+    "python_version": "3.11.9",
+    "pytorch_version": "2.11.0+cu128",
+    "device": "NVIDIA GeForce RTX 5060 Laptop GPU",
+    "vram_bytes": 8546484224,
+    "lowvram_required": true
+  },
+  "custom_nodes": [
+    {
+      "repository": "https://github.com/kijai/ComfyUI-MMAudio.git",
+      "commit": "841b307095f3cdc448d940a5787bc36706e49f1d",
+      "license": "MIT",
+      "path": "ComfyUI/custom_nodes/ComfyUI-MMAudio",
+      "local_patch": "Workflows/audio/mmaudio_wan_foley/patches/huggingface_hub_1_22_bigvgan.patch",
+      "local_patch_reason": "The pinned BigVGAN PyTorchModelHubMixin override requires proxies and resume_download arguments removed by the installed huggingface_hub 1.22 call surface. The keyword-only arguments now default to None and false.",
+      "upstream_source_semantics_changed": false
+    }
+  ],
+  "model_repository": {
+    "repository": "Kijai/MMAudio_safetensors",
+    "revision": "5984623e6b436818c6ff287ef6eec93e3e05aa3f",
+    "license": "mit",
+    "private": false,
+    "gated": false
+  },
+  "vocoder_repository": {
+    "repository": "nvidia/bigvgan_v2_44khz_128band_512x",
+    "revision": "95a9d1dcb12906c03edd938d77b9333d6ded7dfb",
+    "license": "mit",
+    "private": false,
+    "gated": false,
+    "generator_bytes": 489041291,
+    "generator_sha256": "d9fe7ec6bd0b44ed9d66973d5012d8181c1570b01e5c72df51973e241dccd357",
+    "discriminator_optimizer_bytes": 1525718216,
+    "discriminator_optimizer_sha256": "8e356f94202c588bc0ddac381be12ea822a68cb1cb26095de30831a59532de54",
+    "download_policy": "workflow-pinned node snapshot semantics; exclude filenames matching *3m*"
+  },
+  "models": [
+    {
+      "filename": "mmaudio_large_44k_v2_fp16.safetensors",
+      "bytes": 2061198424,
+      "sha256": "a61378951ba4e8bfde2e977c0ad8211a7e02e1e92fd6a5b1c258a6464c1d102f"
+    },
+    {
+      "filename": "mmaudio_vae_44k_fp16.safetensors",
+      "bytes": 610966060,
+      "sha256": "2598189f081bd10c86975106e5b6e2490168667429a75b52d77671283f245649"
+    },
+    {
+      "filename": "mmaudio_synchformer_fp16.safetensors",
+      "bytes": 474981098,
+      "sha256": "b8d05128c76da6ee88720a89d25a5f86c603589883d02b53f563c3c66afe3581"
+    },
+    {
+      "filename": "apple_DFN5B-CLIP-ViT-H-14-384_fp16.safetensors",
+      "bytes": 1973509450,
+      "sha256": "d8ad903a79adc2b29bacfeedabfa3d78b03d36d3b4dcb885c0649fe8c5d763cb"
+    }
+  ],
+  "model_substitution": {
+    "template_filename": "mmaudio_large_44k_nsfw_gold_8.5k_final_fp16.safetensors",
+    "runtime_filename": "mmaudio_large_44k_v2_fp16.safetensors",
+    "reason": "The template-specific payload is absent from both local roots, approved S3 prefixes, and the official Kijai model repository. The official hash-verified fp16 large 44 kHz v2 checkpoint is used explicitly instead.",
+    "silent_substitution": false,
+    "content_filter_added": false
+  },
+  "source_video": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260714T041921-0500/images/12_wan22_ti2v5b_source_diversity_ref1_78b8_seed2271401_00001_.mp4",
+    "sha256": "5006e96e211538f3d2bb6795e93014d6642946583cc31aa635e171e13e1c80bf",
+    "bytes": 83544,
+    "decoded_frames": 49,
+    "frame_rate": 24.0,
+    "input_path": "ComfyUI/input/mmaudio_inputs/w64_wan_seed2271401.mp4",
+    "input_materialization": "same-volume hardlink",
+    "regenerated": false
+  },
+  "execution": {
+    "duration_seconds": 2.041,
+    "steps": 20,
+    "cfg": 4.5,
+    "seed": 2273001,
+    "force_offload": true,
+    "output_prefix": "mmaudio/w64_wan_seed2271401_foley_seed2273001",
+    "execution_status": "PASS_TECHNICAL_RUNTIME_PLAYBACK_REVIEW_BLOCKED",
+    "resource_ownership_result": "The pre-existing FLUX job was allowed to finish before the idle local server was restarted. No queue item was interrupted or cleared.",
+    "attempts": [
+      {
+        "prompt_id": "0d4e3621-49d5-4887-8cef-a984a36b618a",
+        "status": "error_before_sampling",
+        "duration_seconds": 1.749,
+        "failure": "BigVGAN PyTorchModelHubMixin keyword compatibility"
+      },
+      {
+        "prompt_id": "c90f0952-d9a8-49b1-b0ba-cbca3181bc55",
+        "status": "success",
+        "duration_seconds": 30.927,
+        "node_errors": 0
+      }
+    ],
+    "retry_count": 1,
+    "seed_loop_performed": false,
+    "raw_output": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_mmaudio_wan_foley_20260714T211502-0500/w64_wan_seed2271401_foley_seed2273001.flac",
+      "sha256": "15399b6a806bb3a3a04ca2b20c65245cd03fde5e5e5e66b45509fc4e03a4b2bb",
+      "bytes": 90020,
+      "sample_rate_hz": 44100,
+      "channels": 1,
+      "sample_frames": 87040,
+      "duration_seconds": 1.9736961451247166,
+      "integrated_lufs": -47.48,
+      "true_peak_dbtp": -28.63
+    },
+    "conformed_output": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_mmaudio_wan_foley_20260714T211502-0500/w64_wan_seed2271401_foley_seed2273001_conformed_48k_mono.wav",
+      "sha256": "c63a789162e165c576f00baa03b238e74deb08b0da1a7a734e2ef07356441fab",
+      "bytes": 196014,
+      "sample_rate_hz": 48000,
+      "channels": 1,
+      "sample_frames": 97968,
+      "duration_seconds": 2.041,
+      "integrated_lufs": -21.05,
+      "true_peak_dbtp": -2.0
+    }
+  },
+  "boundaries": {
+    "aws_contacted_for_read_only_duplicate_inventory": true,
+    "ec2_started": false,
+    "existing_generation_rerun": false,
+    "mask_truth_consumed": false,
+    "wave71_activated": false,
+    "jira_mutated": false,
+    "production_audio_certification_claimed": false,
+    "independent_perceptual_playback_review_present": false,
+    "contact_owner_anchor_claimed": false
+  }
+}
