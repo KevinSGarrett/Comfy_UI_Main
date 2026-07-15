@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "wave64_dialogue_synthesis_plan.schema.json",
+  "title": "Wave64 Dialogue Synthesis Plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "plan_id", "created_at", "request", "line_id", "character_id",
+    "voice_profile_id", "normalization", "pronunciation", "performance", "duration",
+    "generation_executed", "spoken_content_trimmed", "production_ready", "content_based_suppression"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "plan_id": {"type": "string", "minLength": 1},
+    "created_at": {"type": "string", "minLength": 1},
+    "request": {"$ref": "#/$defs/path_hash"},
+    "line_id": {"type": "string", "minLength": 1},
+    "character_id": {"type": "string", "minLength": 1},
+    "voice_profile_id": {"type": "string", "minLength": 1},
+    "normalization": {
+      "type": "object",
+      "required": ["original_text", "original_sha256", "normalized_text", "normalized_sha256", "tokens", "token_sha256", "reversible"],
+      "properties": {
+        "original_text": {"type": "string", "minLength": 1},
+        "original_sha256": {"$ref": "#/$defs/hash"},
+        "normalized_text": {"type": "string", "minLength": 1},
+        "normalized_sha256": {"$ref": "#/$defs/hash"},
+        "tokens": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "token_sha256": {"$ref": "#/$defs/hash"},
+        "reversible": {"const": true}
+      }
+    },
+    "pronunciation": {
+      "type": "object",
+      "required": ["lexicon_id", "lexicon_sha256", "pronunciations", "unknown_tokens", "ambiguous_tokens", "pass", "blockers"],
+      "properties": {
+        "lexicon_id": {"type": "string", "minLength": 1},
+        "lexicon_sha256": {"$ref": "#/$defs/hash"},
+        "pronunciations": {"type": "array"},
+        "unknown_tokens": {"type": "array"},
+        "ambiguous_tokens": {"type": "array"},
+        "pass": {"type": "boolean"},
+        "blockers": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "performance": {
+      "type": "object",
+      "required": ["emotion_class", "delivery_style", "intensity", "pace_wpm", "emphasis", "articulation", "taxonomy_conflation", "unsupported_engine_controls", "engine_mapping_status", "pass"],
+      "properties": {
+        "emotion_class": {"type": "string", "minLength": 1},
+        "delivery_style": {"type": "string", "minLength": 1},
+        "intensity": {"type": "string", "minLength": 1},
+        "pace_wpm": {"type": "number", "exclusiveMinimum": 0},
+        "emphasis": {"type": "array"},
+        "articulation": {"type": "string", "minLength": 1},
+        "taxonomy_conflation": {"const": false},
+        "unsupported_engine_controls": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+        "engine_mapping_status": {"const": "structured_plan_compiled_adapter_mapping_pending"},
+        "pass": {"const": true}
+      }
+    },
+    "duration": {
+      "type": "object",
+      "required": ["estimated_seconds", "target_seconds", "decision", "spoken_content_trim_allowed", "pass", "blockers"],
+      "properties": {
+        "estimated_seconds": {"type": "number", "exclusiveMinimum": 0},
+        "target_seconds": {"type": "number", "exclusiveMinimum": 0},
+        "decision": {"type": "string", "minLength": 1},
+        "spoken_content_trim_allowed": {"const": false},
+        "pass": {"type": "boolean"},
+        "blockers": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "generation_executed": {"const": false},
+    "spoken_content_trimmed": {"const": false},
+    "production_ready": {"const": false},
+    "content_based_suppression": {"const": false}
+  },
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "path_hash": {
+      "type": "object",
+      "required": ["path", "sha256"],
+      "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/hash"}}
+    }
+  }
+}
