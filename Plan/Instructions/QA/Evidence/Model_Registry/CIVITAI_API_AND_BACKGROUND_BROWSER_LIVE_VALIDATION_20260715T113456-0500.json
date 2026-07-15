@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0",
+  "created_at": "2026-07-15T11:34:56-05:00",
+  "classification": "CIVITAI_API_AND_BACKGROUND_BROWSER_TRANSPORT_VALIDATED_WITH_SESSION_REAUTH_BOUNDARY",
+  "project_root": "C:/Comfy_UI_Main",
+  "summary": {
+    "preflight_pass": true,
+    "civitai_api_reachable": true,
+    "civitai_api_byte_download_hash_verified": true,
+    "background_browser_public_byte_download_hash_verified": true,
+    "background_browser_visible_window_created": false,
+    "creator_login_required_asset_downloaded": false,
+    "creator_login_required_classification": "BACKGROUND_BROWSER_SESSION_REAUTH_REQUIRED",
+    "browser_session_credential_present": false,
+    "content_based_suppression": false,
+    "secret_values_reported": false
+  },
+  "live_canaries": [
+    {
+      "transport": "civitai_api",
+      "model_id": "58726",
+      "model_version_id": "65027",
+      "file_id": "45631",
+      "filename": "an5.safetensors",
+      "bytes": 1614,
+      "sha256": "f57db3c4bb38ec84c9c559a3d95dc8317254f79b2b725684a0bfc853cb4417e8",
+      "expected_sha256_match": true,
+      "installed": false
+    },
+    {
+      "transport": "headless_chrome_dedicated_profile",
+      "model_id": "58726",
+      "model_version_id": "65027",
+      "file_id": "45631",
+      "filename": "an5.safetensors",
+      "bytes": 1614,
+      "sha256": "f57db3c4bb38ec84c9c559a3d95dc8317254f79b2b725684a0bfc853cb4417e8",
+      "expected_sha256_match": true,
+      "headless": true,
+      "visible_window_created": false,
+      "profile_path": "C:/Users/kevin/AppData/Local/ComfyUIMain/CivitaiHeadlessProfile",
+      "installed": false
+    },
+    {
+      "transport": "headless_chrome_dedicated_profile",
+      "model_id": "2398982",
+      "model_version_id": "2697348",
+      "file_id": "2583367",
+      "filename": "sdxl_maya_pyramid_object.safetensors",
+      "expected_sha256": "9a5fbce2dc91f445cbdc573bca2cb3b86331f48fd5769092fd6d24c37fc60f6b",
+      "classification": "BACKGROUND_BROWSER_SESSION_REAUTH_REQUIRED",
+      "headless": true,
+      "visible_fallback_opened": false,
+      "downloaded": false,
+      "blocker": "Civitai requires a logged-in browser session and verification; the dedicated profile has no CIVITAI_SESSION_COOKIE."
+    }
+  ],
+  "test_results": {
+    "command": "python -m unittest Plan.Instructions.QA.Scripts.test_manage_model_asset_acquisition Plan.Instructions.QA.Scripts.test_run_background_browser_asset_download -v",
+    "passed": 21,
+    "failed": 0
+  },
+  "implementation_hashes": {
+    "Plan/07_IMPLEMENTATION/scripts/manage_model_asset_acquisition.py": "dd2a4e5f84f280cf45472fc8021e6516e78458f853aedda11457e152436732df",
+    "Plan/07_IMPLEMENTATION/scripts/run_background_browser_asset_download.py": "7cd0b97418885abb406cdaf2a966ecc19de69e8846e0d28464d43d8aed77e92a",
+    "Plan/Instructions/QA/Scripts/test_manage_model_asset_acquisition.py": "dd03389676d2eb33fe9843a3c88df195c55cfef5d4773af45fbf3e7f3e9b1280",
+    "Plan/Instructions/QA/Scripts/test_run_background_browser_asset_download.py": "1a168ca3d501115ac9dcf3a458ae4514c3b95f765b2239538960460e80109f0d"
+  },
+  "operating_boundary": {
+    "api_downloadable_assets": "ready",
+    "public_background_browser_assets": "ready",
+    "creator_login_required_background_browser_assets": "ready_after_dedicated_session_secret_is_supplied_or_refreshed",
+    "visible_browser_automatic_fallback": "prohibited",
+    "normal_chrome_profile_cookie_extraction_or_remote_debugging": "prohibited",
+    "paid_private_early_access_or_license_bypass": "prohibited"
+  }
+}

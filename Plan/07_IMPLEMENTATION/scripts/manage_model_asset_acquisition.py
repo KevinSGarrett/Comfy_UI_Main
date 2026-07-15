@@ -10,6 +10,7 @@ import json
 import os
 import re
 import shutil
+import subprocess
 import sys
 import tempfile
 import urllib.error
@@ -420,6 +421,33 @@ def content_disposition_filename(headers: Message) -> str:
     return urllib.parse.unquote(match.group(1).strip()) if match else ""
 
 
+def ephemeral_token_url(url: str, token: str) -> str:
+    parsed = urllib.parse.urlsplit(url)
+    query = urllib.parse.parse_qsl(parsed.query, keep_blank_values=True)
+    query = [(key, value) for key, value in query if key.lower() != "token"]
+    query.append(("token", token))
+    return urllib.parse.urlunsplit((parsed.scheme, parsed.netloc, parsed.path, urllib.parse.urlencode(query), parsed.fragment))
+
+
+def stream_download_once(url: str, headers: dict[str, str], partial: Path, timeout: int) -> None:
+    existing = partial.stat().st_size if partial.exists() else 0
+    current_headers = dict(headers)
+    if existing:
+        current_headers["Range"] = f"bytes={existing}-"
+    request = urllib.request.Request(url, headers=current_headers)
+    with open_url(request, timeout=timeout) as response:
+        status = getattr(response, "status", 200)
+        content_type = str(response.headers.get("Content-Type", "")).lower()
+        if "text/html" in content_type:
+            raise AcquisitionError("BROWSER_DOWNLOAD_REQUIRED", "Download returned an HTML/login response")
+        mode = "ab" if existing and status == 206 else "wb"
+        reported_name = content_disposition_filename(response.headers)
+        if reported_name and Path(reported_name).suffix.lower() not in SAFE_EXTENSIONS:
+            raise AcquisitionError("UNSUPPORTED_OR_UNSAFE_FILE_TYPE", f"Unsafe source filename: {reported_name}")
+        with partial.open(mode) as handle:
+            shutil.copyfileobj(response, handle, length=1024 * 1024)
+
+
 def download_to_staging(root: Path, manifest: dict[str, Any]) -> Path:
     provider = manifest["provider"]
     url = str(manifest["source_metadata"]["download_url"])
@@ -433,24 +461,33 @@ def download_to_staging(root: Path, manifest: dict[str, Any]) -> Path:
         return reusable
     partial = staging / f"{final_name}.part"
     headers = request_headers(provider)
-    existing = partial.stat().st_size if partial.exists() else 0
-    if existing:
-        headers["Range"] = f"bytes={existing}-"
-    request = urllib.request.Request(url, headers=headers)
+    timeout = int(os.environ.get("CIVITAI_TIMEOUT_SECONDS", "120"))
+    attempts = [(url, headers, False)]
+    token = secret_for(provider)
+    if provider == "civitai" and token:
+        query_headers = {key: value for key, value in headers.items() if key.lower() != "authorization"}
+        attempts.append((ephemeral_token_url(url, token), query_headers, True))
+    last_error: Exception | None = None
     try:
-        with open_url(request, timeout=int(os.environ.get("CIVITAI_TIMEOUT_SECONDS", "120"))) as response:
-            status = getattr(response, "status", 200)
-            content_type = str(response.headers.get("Content-Type", "")).lower()
-            if "text/html" in content_type:
-                raise AcquisitionError("BROWSER_DOWNLOAD_REQUIRED", "API returned an HTML/login response")
-            mode = "ab" if existing and status == 206 else "wb"
-            if mode == "wb":
-                existing = 0
-            reported_name = content_disposition_filename(response.headers)
-            if reported_name and Path(reported_name).suffix.lower() not in SAFE_EXTENSIONS:
-                raise AcquisitionError("UNSUPPORTED_OR_UNSAFE_FILE_TYPE", f"Unsafe source filename: {reported_name}")
-            with partial.open(mode) as handle:
-                shutil.copyfileobj(response, handle, length=1024 * 1024)
+        for attempt_index, (attempt_url, attempt_headers, query_token_used) in enumerate(attempts):
+            try:
+                stream_download_once(attempt_url, attempt_headers, partial, timeout)
+                if query_token_used:
+                    manifest["ephemeral_token_query_retry_used"] = True
+                last_error = None
+                break
+            except urllib.error.HTTPError as exc:
+                last_error = exc
+                if attempt_index + 1 < len(attempts) and exc.code in {401, 403}:
+                    continue
+                raise
+            except AcquisitionError as exc:
+                last_error = exc
+                if attempt_index + 1 < len(attempts) and exc.classification == "BROWSER_DOWNLOAD_REQUIRED":
+                    continue
+                raise
+        if last_error is not None:
+            raise last_error
     except urllib.error.HTTPError as exc:
         classification = "BROWSER_DOWNLOAD_REQUIRED" if exc.code in {401, 403, 404} else "MODEL_DOWNLOAD_FAILED"
         raise AcquisitionError(classification, f"Download returned HTTP {exc.code}; partial bytes preserved") from exc
@@ -804,7 +841,7 @@ def browser_request(root: Path, manifest: dict[str, Any]) -> dict[str, Any]:
             "ingest_through_same_hash_and_registry_path": True,
         },
         "content_based_suppression": False,
-        "next_action": "Use the Chrome control tool to download the exact resolved file, then run ingest-browser with its local path.",
+        "next_action": "Run the dedicated background browser worker; use ingest-browser only for an explicitly authorized pre-existing download.",
     }
 
 
@@ -812,13 +849,20 @@ def preflight(root: Path, network: bool) -> dict[str, Any]:
     load_env(root)
     civitai_key = bool(secret_for("civitai"))
     hf_key = bool(secret_for("huggingface"))
+    download_allowed = os.environ.get("CIVITAI_DOWNLOAD_ALLOWED", "true").strip().lower() in {"1", "true", "yes", "on"}
+    skip_by_default = os.environ.get("CIVITAI_SKIP_DOWNLOADS_BY_DEFAULT", "false").strip().lower() in {"1", "true", "yes", "on"}
+    browser_worker = root / "Plan/07_IMPLEMENTATION/scripts/run_background_browser_asset_download.py"
     checks = {
         "project_root_exists": root.is_dir(),
         "control_registry_exists": (root / CONTROL_REGISTRY).is_file(),
         "model_registry_exists": (root / MODEL_REGISTRY).is_file(),
         "runtime_queue_exists": (root / RUNTIME_QUEUE).is_file(),
         "civitai_credential_present": civitai_key,
-        "browser_fallback_available": True,
+        "civitai_download_allowed": download_allowed,
+        "civitai_skip_downloads_by_default_disabled": not skip_by_default,
+        "background_browser_worker_present": browser_worker.is_file(),
+        "browser_session_credential_present": bool(os.environ.get("CIVITAI_SESSION_COOKIE", "").strip()),
+        "browser_fallback_available": browser_worker.is_file(),
         "content_based_suppression_disabled": True,
     }
     network_result: dict[str, Any] = {"attempted": False}
@@ -829,7 +873,16 @@ def preflight(root: Path, network: bool) -> dict[str, Any]:
             network_result.update({"passed": isinstance(payload.get("items"), list), "classification": "CIVITAI_API_REACHABLE"})
         except AcquisitionError as exc:
             network_result.update({"passed": False, "classification": exc.classification, "error": str(exc)})
-    required = ["project_root_exists", "control_registry_exists", "model_registry_exists", "runtime_queue_exists", "civitai_credential_present"]
+    required = [
+        "project_root_exists",
+        "control_registry_exists",
+        "model_registry_exists",
+        "runtime_queue_exists",
+        "civitai_credential_present",
+        "civitai_download_allowed",
+        "civitai_skip_downloads_by_default_disabled",
+        "background_browser_worker_present",
+    ]
     return {
         "schema_version": "1.0",
         "created_at": now_iso(),
@@ -851,6 +904,59 @@ def browser_download_roots(root: Path) -> list[Path]:
         if resolved not in unique:
             unique.append(resolved)
     return unique
+
+
+def run_background_browser_fallback(
+    root: Path,
+    manifest_path: Path,
+    wire: bool,
+    object_info_url: str,
+) -> dict[str, Any]:
+    worker = root / "Plan/07_IMPLEMENTATION/scripts/run_background_browser_asset_download.py"
+    if not worker.is_file():
+        raise AcquisitionError("BACKGROUND_BROWSER_WORKER_MISSING", f"Background browser worker not found: {worker}")
+    command = [
+        sys.executable,
+        str(worker),
+        "--project-root",
+        str(root),
+        "--manifest",
+        str(manifest_path),
+        "--install",
+        "--object-info-url",
+        object_info_url,
+    ]
+    if wire:
+        command.append("--wire")
+    timeout = int(os.environ.get("BACKGROUND_BROWSER_TIMEOUT_SECONDS", "180")) + 30
+    try:
+        completed = subprocess.run(
+            command,
+            cwd=root,
+            capture_output=True,
+            text=True,
+            timeout=timeout,
+            check=False,
+        )
+    except subprocess.TimeoutExpired as exc:
+        raise AcquisitionError(
+            "BACKGROUND_BROWSER_DOWNLOAD_TIMEOUT",
+            f"Background browser worker exceeded {timeout} seconds",
+        ) from exc
+    output = completed.stdout.strip()
+    try:
+        payload = json.loads(output)
+    except json.JSONDecodeError as exc:
+        raise AcquisitionError(
+            "BACKGROUND_BROWSER_OUTPUT_INVALID",
+            f"Background browser worker returned invalid output (exit {completed.returncode})",
+        ) from exc
+    if completed.returncode != 0:
+        raise AcquisitionError(
+            str(payload.get("classification", "BACKGROUND_BROWSER_DOWNLOAD_FAILED")),
+            redact(str(payload.get("error", "Background browser worker failed"))),
+        )
+    return payload
 
 
 def run() -> int:
@@ -915,7 +1021,20 @@ def run() -> int:
             return 0
         if args.command == "acquire":
             manifest["acquisition_method"] = "api"
-            candidate = download_to_staging(root, manifest)
+            try:
+                candidate = download_to_staging(root, manifest)
+            except AcquisitionError as exc:
+                fallback_allowed = bool(manifest.get("request", {}).get("policy", {}).get("allow_browser_fallback"))
+                if exc.classification != "BROWSER_DOWNLOAD_REQUIRED" or manifest.get("provider") != "civitai" or not fallback_allowed:
+                    raise
+                result = run_background_browser_fallback(
+                    root,
+                    project_path(root, args.manifest),
+                    args.wire,
+                    args.object_info_url,
+                )
+                print(json.dumps(result, indent=2))
+                return 0
             result = finalize(root, manifest, candidate, args.wire, args.object_info_url)
             print(json.dumps(result, indent=2))
             return 0
