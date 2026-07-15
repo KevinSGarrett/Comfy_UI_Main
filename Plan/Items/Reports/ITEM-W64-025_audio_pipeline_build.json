@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-025-AUDIO-PIPELINE-BUILD-20260712T161737-0500",
-  "timestamp": "2026-07-14T16:19:38-05:00",
+  "timestamp": "2026-07-14T19:18:49-05:00",
   "item_id": "ITEM-W64-025",
   "tracker_id": "TRK-W64-025",
   "workstream": "audio_pipeline_build",
@@ -19,7 +19,10 @@
     "deterministic_pcm_mix_builder_ready": true,
     "clipping_and_loudness_gate_cross_validation_ready": true,
     "technical_measurement_proxy_disclosure_ready": true,
-    "synthetic_promotion_forbidden": true
+    "synthetic_promotion_forbidden": true,
+    "isolated_parler_tts_cuda_runner_ready": true,
+    "parler_tts_timeline_conformance_ready": true,
+    "independent_whisper_asr_packager_ready": true
   },
   "validation": {
     "unit_tests_passed": 21,
@@ -79,7 +82,16 @@
     "genuine_mix_integrated_lufs": -17.99,
     "genuine_mix_true_peak_dbtp": -3.09,
     "genuine_mix_asr_transcript": "once upon a midnight",
-    "genuine_audio_chain_tests_passed": 11
+    "genuine_audio_chain_tests_passed": 11,
+    "parler_tts_runtime_executed": true,
+    "parler_tts_model_sha256": "bc430eb6752b96ffb3f67036d1a6e207fbd031575a775716ffa64ef1eeb03692",
+    "parler_tts_selected_audio_sha256": "18b6d51cca9d9c5541bac621c09fd9059f521d8969ba5b25fa881c9284180c73",
+    "parler_tts_strict_runtime_gate": "PASS",
+    "parler_tts_strict_timing_gate": "PASS",
+    "parler_tts_strict_intelligibility_gate": "PASS",
+    "parler_tts_normalized_wer": 0.1,
+    "parler_tts_new_tests_passed": 17,
+    "parler_tts_semantic_review": "PASS"
   },
   "acceptance_gates": {
     "audio_workflow_valid": true,
@@ -90,7 +102,9 @@
     "deterministic_mix_builder": true,
     "synthetic_deterministic_mix_verified": true,
     "genuine_audio_delivery_artifact_present": true,
-    "genuine_audio_engine_runtime": false,
+    "genuine_audio_engine_runtime": true,
+    "genuine_tts_engine_runtime": true,
+    "genuine_tts_independent_asr_passed": true,
     "bs1770_loudness_measurement_present": true,
     "strict_ffv1_pcm_mux_present": true,
     "genuine_audio_review_record": false,
@@ -104,7 +118,7 @@
     {
       "classification": "Blocked_Audio_Production_Runtime_Proof_Missing",
       "scope": "primary_row_blocker",
-      "reason": "A new genuine voice, real-foley, ambience, mix, and mux delivery artifact passes direct technical QA, but no approved Parler-TTS/CosyVoice2 production engine proof bundle passes yet."
+      "reason": "A real local Parler-TTS CUDA run now passes strict profile, timing, intelligibility, and production-runtime gates, but speaker, emotion, independent playback, and allowlisted proof-bundle authority remain missing."
     },
     {
       "classification": "Blocked_Audio_Playback_Review_Missing",
@@ -118,6 +132,10 @@
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/W64_GENUINE_AUDIO_DELIVERY_CHAIN_20260714T163400-0500.json",
       "classification": "GENUINE_AUDIO_DELIVERY_CHAIN_BUILT"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/W64_PARLER_TTS_LOCAL_RUNTIME_ASR_20260714T191849-0500.json",
+      "sha256": "fddd070b37ce16f80da97356d478a52ade1cc49e96e9b5d525b5dff480661d89"
     }
   ],
   "evidence": [
@@ -153,7 +171,9 @@
   "runtime": {
     "production_audio_generation_count": 1,
     "production_mixdown_count": 1,
-    "production_runtime_proof_count": 0,
+    "production_runtime_proof_count": 1,
+    "production_tts_generation_attempt_count": 3,
+    "production_tts_selected_candidate_count": 1,
     "production_audio_review_count": 0,
     "comfyui_started": false,
     "aws_contacted": true,
@@ -164,5 +184,5 @@
     "recovery_aws_contacted": false,
     "recovery_ec2_started": false
   },
-  "next_action": "Run one bounded Parler-TTS or CosyVoice2 dialogue WAV, then obtain independent perceptual playback review without regenerating the completed WAN video or this genuine mix packet."
+  "next_action": "Obtain independent playback, speaker, and emotion review for Parler media SHA-256 18b6d51cca9d9c5541bac621c09fd9059f521d8969ba5b25fa881c9284180c73; do not regenerate the completed TTS, WAN, or genuine mix artifacts unless that review rejects the disclosed final-word quality edge."
 }

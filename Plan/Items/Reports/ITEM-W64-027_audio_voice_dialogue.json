@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-027-AUDIO-VOICE-DIALOGUE-20260712T165435-0500",
-  "timestamp": "2026-07-14T16:19:38-05:00",
+  "timestamp": "2026-07-14T19:18:49-05:00",
   "item_id": "ITEM-W64-027",
   "tracker_id": "TRK-W64-027",
   "workstream": "audio_voice_dialogue",
@@ -19,7 +19,11 @@
     "synthetic_and_local_relabel_promotion_forbidden": true,
     "evaluator_request_producer_ready": true,
     "profile_contract_line_audio_binding_ready": true,
-    "optional_proof_discovery_ready": true
+    "optional_proof_discovery_ready": true,
+    "parler_tts_cuda_runner_ready": true,
+    "parler_tts_runtime_identity_verifier_ready": true,
+    "non_truncating_timeline_conformance_ready": true,
+    "independent_whisper_asr_ready": true
   },
   "validation": {
     "unit_tests_passed": 39,
@@ -55,7 +59,20 @@
     "licensed_voice_source_sha256": "9d8bc88e382c47b9493e3e881931692be893e69c602761072f9f80ae41ae7db0",
     "mixed_voice_stem_sha256": "95222b1ff4525777bca777378b8355a4f9e3c1038e152008e7eba8ef8070d4f0",
     "mixed_output_asr_transcript": "once upon a midnight",
-    "mixed_output_asr_exact_match": true
+    "mixed_output_asr_exact_match": true,
+    "parler_tts_runtime_executed": true,
+    "parler_tts_selected_audio_sha256": "18b6d51cca9d9c5541bac621c09fd9059f521d8969ba5b25fa881c9284180c73",
+    "parler_tts_selected_duration_seconds": 3.0,
+    "parler_tts_normalized_wer": 0.1,
+    "parler_tts_asr_transcript": "We hold the frame steady and move on the B.",
+    "parler_tts_strict_profile_gate": "PASS",
+    "parler_tts_strict_timing_gate": "PASS",
+    "parler_tts_strict_intelligibility_gate": "PASS",
+    "parler_tts_strict_runtime_gate": "PASS",
+    "parler_tts_strict_overall_gate": "BLOCKED",
+    "parler_tts_new_tests_passed": 17,
+    "parler_tts_semantic_review": "PASS",
+    "parler_tts_semantic_review_confidence": "high"
   },
   "acceptance_gates": {
     "voice_profile_match_contract": true,
@@ -66,7 +83,9 @@
     "audio_review_record_contract": true,
     "evaluator_request_producer": true,
     "genuine_human_voice_audio_present": true,
-    "genuine_production_tts_voice_audio_present": false,
+    "genuine_production_tts_voice_audio_present": true,
+    "genuine_production_tts_runtime_proof_present": true,
+    "genuine_production_tts_asr_passed": true,
     "genuine_production_voice_audio_present": false,
     "genuine_production_proof_set_present": false,
     "production_proof_bundle_allowlisted": false,
@@ -80,7 +99,7 @@
     {
       "classification": "Blocked_Voice_Dialogue_Production_Proof_Missing",
       "scope": "primary_row_blocker",
-      "reason": "A public-domain real-human voice excerpt now passes exact mixed-output ASR, but it is a licensed source excerpt rather than a Parler-TTS/CosyVoice2 character voice run and lacks speaker, emotion, continuity, playback-review, runtime, and production-bundle proofs."
+      "reason": "A hash-bound Parler-TTS character line now passes strict profile, timing, intelligibility, and production-runtime gates, but speaker, emotion, continuity, independent playback, and production-bundle authority proofs remain missing."
     },
     {
       "classification": "Blocked_Voice_Production_Proof_Authority_Missing",
@@ -90,6 +109,11 @@
     {
       "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_audio_chain_20260714T163400-0500/delivery_manifest.json",
       "sha256": "9eb91fb2c84105b470a27c939babd9ca8537045f3818f01f3187779e354c0a07"
+    },
+    {
+      "classification": "Blocked_Voice_Playback_Quality_Edge_Review_Missing",
+      "scope": "selected_parler_candidate",
+      "reason": "Whisper recognizes the final word as B rather than beat. WER 0.10 passes the numeric threshold, but independent playback must decide whether this edge candidate is acceptable before reference or certification use."
     }
   ],
   "evidence": [
@@ -108,12 +132,18 @@
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_VOICE_DIALOGUE_RECOVERED_SAPI_TEST_LOG_20260714T070919-0500.json",
       "sha256": "0f2dba21242a03e2f2ef599ed5e1f68b648691210518be8e810e430813087c7a"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/W64_PARLER_TTS_LOCAL_RUNTIME_ASR_20260714T191849-0500.json",
+      "sha256": "fddd070b37ce16f80da97356d478a52ade1cc49e96e9b5d525b5dff480661d89"
     }
   ],
   "runtime": {
-    "production_voice_generation_count": 0,
+    "production_voice_generation_count": 3,
+    "production_voice_selected_candidate_count": 1,
+    "production_runtime_proof_count": 1,
     "licensed_human_voice_mix_count": 1,
-    "production_voice_evaluation_count": 1,
+    "production_voice_evaluation_count": 2,
     "production_playback_review_count": 0,
     "approved_proof_bundle_count": 0,
     "comfyui_started": false,
@@ -121,5 +151,5 @@
     "ec2_started": false,
     "diagnostic_voice_evaluation_count": 2
   },
-  "next_action": "Run one bounded Parler-TTS or CosyVoice2 character dialogue WAV and bind speaker, emotion, continuity, runtime, and independent playback proofs; retain the public-domain excerpt as a verified source-path benchmark."
+  "next_action": "Obtain independent playback, speaker-identity, and focused-emotion review against exact media SHA-256 18b6d51cca9d9c5541bac621c09fd9059f521d8969ba5b25fa881c9284180c73 before any proof-bundle allowlist or final voice certification action; do not rerun generation unless that review rejects the disclosed final-word edge."
 }

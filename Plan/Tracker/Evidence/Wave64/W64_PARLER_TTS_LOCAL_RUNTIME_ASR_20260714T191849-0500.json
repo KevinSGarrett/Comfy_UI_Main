@@ -1,0 +1,189 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-PARLER-TTS-LOCAL-RUNTIME-ASR-20260714T191849-0500",
+  "timestamp": "2026-07-14T19:18:49.0504878-05:00",
+  "tracker_ids": [
+    "TRK-W64-025",
+    "TRK-W64-026",
+    "TRK-W64-027"
+  ],
+  "item_ids": [
+    "ITEM-W64-025",
+    "ITEM-W64-026",
+    "ITEM-W64-027"
+  ],
+  "classification": "PARLER_TTS_LOCAL_RUNTIME_AND_ASR_PASS_FINAL_CERTIFICATION_BLOCKED",
+  "result": "pass",
+  "generation_executed": true,
+  "execution_passed": true,
+  "direct_qa_passed": true,
+  "new_executable_capability": true,
+  "status_decision": {
+    "ITEM-W64-025": "Blocked_Audio_Production_Runtime_Proof_Missing",
+    "ITEM-W64-026": "external_asset_intake_engine_runtime_exercised",
+    "ITEM-W64-027": "Blocked_Voice_Dialogue_Production_Proof_Missing",
+    "row_completion_claimed": false,
+    "final_voice_certification_claimed": false
+  },
+  "engine": {
+    "name": "Parler-TTS",
+    "version": "0.2.2",
+    "source_url": "https://github.com/huggingface/parler-tts.git",
+    "commit": "d108732cd57788ec86bc857d99a6cabd66663d68",
+    "direct_url_sha256": "4f830e0efeba4ce6bee3f65c7d0b624cb6a848a465fc856631bf546e42c829f0",
+    "runtime_identity_verified": true,
+    "dependency_overlay": "runtime_artifacts/python_overlays/parler_tts_0_2_2",
+    "comfyui_core_environment_modified": false
+  },
+  "model": {
+    "model_id": "parler-tts/parler-tts-mini-v1",
+    "revision": "0392b9451a601e528fd863bbb0598431fee810d9",
+    "weight_sha256": "bc430eb6752b96ffb3f67036d1a6e207fbd031575a775716ffa64ef1eeb03692",
+    "weight_bytes": 3511490560,
+    "license": "Apache-2.0",
+    "local_files_only_for_inference": true
+  },
+  "runtime": {
+    "device": "NVIDIA GeForce RTX 5060 Laptop GPU",
+    "torch_version": "2.11.0+cu128",
+    "transformers_version": "4.46.1",
+    "dtype": "float16",
+    "attention_implementation": "eager",
+    "seed": 64027,
+    "ec2_started": false,
+    "aws_mutated": false
+  },
+  "attempts": [
+    {
+      "role": "negative_overlong_unmasked_decode",
+      "runtime_manifest": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_parler_tts_dialogue_20260714T184146-0500/runtime_manifest.json",
+      "runtime_manifest_sha256": "b11451ae7af1dd00d4e7a584bb0f5f1bfa767762df36c3746ac478240e527361",
+      "audio_sha256": "ed350ed7a01ae7a5bb2611cd89cfce7eb9044a948803fd34ac1fabf15df18714",
+      "duration_seconds": 29.849252,
+      "dialogue_timing_pass": false,
+      "promotion_allowed": false
+    },
+    {
+      "role": "negative_masked_truncated_decode",
+      "runtime_manifest": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_parler_tts_dialogue_masked_20260714T184605-0500/runtime_manifest.json",
+      "runtime_manifest_sha256": "9ee167adfab4bd6b9e770c1fa40a542be8ad13805921515d9bca3be1c7ddd767",
+      "audio_sha256": "d7014e5ca5545da0d0ba8301b8fd2dc5bb248467aadbabde1ecf261704bee4d5",
+      "duration_seconds": 3.262404,
+      "dialogue_timing_pass": true,
+      "asr_transcript": "We hold the f-",
+      "intelligibility_pass": false,
+      "promotion_allowed": false
+    },
+    {
+      "role": "selected_fast_runtime_candidate",
+      "runtime_manifest": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_parler_tts_dialogue_fast_20260714T185109-0500/runtime_manifest.json",
+      "runtime_manifest_sha256": "be881a69b83126518705e2ec4a9925bb4e6882915a69f4dd72dc23e9699bba38",
+      "raw_audio_sha256": "b1668e8f3fbf0b1c70dd3809400ecbdd59ddb868a6194987bff12216c46d2a6e",
+      "raw_duration_seconds": 2.623855,
+      "raw_timing_pass": false,
+      "speech_truncated_during_conformance": false,
+      "timeline_padding_seconds": 0.376145
+    }
+  ],
+  "selected_candidate": {
+    "packet_manifest": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_parler_tts_proof_20260714T185510-0500/packet_manifest.json",
+    "packet_manifest_sha256": "eba9fb4b97fd8f81e4867a30dc9ba220642c25e526c42f4aa8a1941b39605021",
+    "media_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_parler_tts_proof_20260714T185510-0500/L001_C01_parler_tts_conformed.wav",
+    "media_sha256": "18b6d51cca9d9c5541bac621c09fd9059f521d8969ba5b25fa881c9284180c73",
+    "media_bytes": 264644,
+    "sample_rate_hz": 44100,
+    "channels": 1,
+    "duration_seconds": 3.0,
+    "clipping_ratio": 0.0,
+    "silence_ratio": 0.126259,
+    "rms_ratio": 0.110835
+  },
+  "verified_media": {
+    "media_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_parler_tts_proof_20260714T185510-0500/L001_C01_parler_tts_conformed.wav",
+    "sha256": "18b6d51cca9d9c5541bac621c09fd9059f521d8969ba5b25fa881c9284180c73"
+  },
+  "independent_asr": {
+    "engine": "Transformers Whisper",
+    "model": "openai/whisper-tiny.en",
+    "revision": "87c7102498dcde7456f24cfd30239ca606ed9063",
+    "weight_sha256": "db59695928ded6043adaef491a53ef4e12da9611184d77c53baa691a60b958ad",
+    "attention_mask_used": true,
+    "expected_text": "We hold the frame steady and move on the beat.",
+    "transcript": "We hold the frame steady and move on the B.",
+    "normalized_wer": 0.1,
+    "maximum_normalized_wer": 0.2,
+    "pass": true,
+    "quality_edge_disclosed": "The final word is recognized as B rather than beat; this candidate is not a strong reference exemplar and remains pending independent playback review."
+  },
+  "strict_evaluation": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_parler_tts_proof_20260714T185510-0500/strict_evidence.json",
+    "sha256": "9cda3689d3baf6802a65902a4044a23d75ba89afc3f8dd2934878a76618c8339",
+    "producer_exit_code": 0,
+    "evaluator_exit_code": 2,
+    "overall_status": "BLOCKED",
+    "passes": [
+      "voice_profile_match",
+      "dialogue_timing",
+      "intelligibility_score",
+      "production_runtime_proof"
+    ],
+    "blocked": [
+      "voice_continuity",
+      "emotional_tone",
+      "audio_review_record",
+      "production_proof_authority"
+    ]
+  },
+    "validation": {
+        "new_unit_tests_passed": 17,
+        "new_unit_test_failures": 0,
+        "combined_audio_regression_tests_passed": 56,
+        "combined_audio_regression_test_failures": 0,
+        "python_compile": "pass",
+    "model_weight_hash_verified": true,
+    "engine_distribution_version_verified": true,
+    "engine_vcs_commit_verified": true,
+    "whisper_weight_hash_verified": true,
+    "source_audio_never_truncated": true,
+    "authority_registry_mutated": false
+  },
+  "semantic_review": {
+    "status": "PASS",
+    "classification": "CLAUDE_SONNET_HANDOFF_COMPLETED",
+    "confidence": "high",
+    "issues": [],
+    "record": "runtime_artifacts/agent_handoffs/claude_subscription/20260714T191600-0500_w64_parler_tts_identity_narrow_confirmation/handoff_record.json",
+    "record_sha256": "dcda03ae85e56fcfe24547515bdaffbd718ccea1edcaca2488598114dbef02aa"
+  },
+  "remaining_blockers": [
+    {
+      "classification": "Blocked_Voice_Speaker_Proof_Missing",
+      "reason": "No independent speaker-identity or cross-line continuity proof is bound to the selected hash."
+    },
+    {
+      "classification": "Blocked_Voice_Emotion_Proof_Missing",
+      "reason": "No independent focused-emotion and controlled-intensity proof is bound to the selected hash."
+    },
+    {
+      "classification": "Blocked_Audio_Playback_Review_Missing",
+      "reason": "No independent full-duration perceptual playback review exists; the disclosed final-word ASR substitution requires human listening before reference use."
+    },
+    {
+      "classification": "Blocked_Voice_Production_Proof_Authority_Missing",
+      "reason": "No complete proof bundle is allowlisted in the canonical authority registry."
+    }
+  ],
+  "boundaries": {
+    "independent_playback_review_claimed": false,
+    "speaker_identity_claimed": false,
+    "emotion_match_claimed": false,
+    "production_proof_bundle_claimed": false,
+    "final_voice_certification_claimed": false,
+    "mask_promotion_executed": false,
+    "wave70_hard_gate_rerun": false,
+    "wave71_activated": false,
+    "jira_mutated": false,
+    "ec2_started": false
+  },
+  "next_action": "Obtain independent playback, speaker, and emotion review against exact media SHA-256 18b6d51cca9d9c5541bac621c09fd9059f521d8969ba5b25fa881c9284180c73 before any proof-bundle allowlist or final voice certification action; do not generate another take unless that review rejects this edge candidate."
+}

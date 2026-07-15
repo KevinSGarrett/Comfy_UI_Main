@@ -15,21 +15,17 @@ Autonomously complete, test, review, document, track, and certify the ComfyUI hy
 
 ## Latest Stable Delivery
 
-- PR #51 merged at `6c58a3dd80edef2527cfb6f587685bfa50b06b50`.
-- Wave64 Row064 has 50 exact profile/runtime/visual-QA links, 59 pending, zero approvals, 14 Wave71+ profiles deferred, and 26 additive user-owned profiles unconsumed.
-- Row064 scanning is stopped. Four reusable SHA-join candidates and the rejected W61 no-hash boundary are preserved in the bounded Cursor handoff records.
+- PR #53 merged the genuine Wave64 audio chain at `e9f1e55f1e3f684aba55d21cefd67d848e2ded1b`.
+- A hash-pinned Parler-TTS 0.2.2 local CUDA runtime generated a real dialogue candidate without modifying the ComfyUI core environment or starting EC2.
+- The selected three-second PCM16 WAV has SHA-256 `18b6d51cca9d9c5541bac621c09fd9059f521d8969ba5b25fa881c9284180c73` and passed technical audio, timing, independent Whisper ASR, and production-runtime checks.
+- The strict evaluator remains `BLOCKED` for independent playback, speaker continuity, emotional tone, and production-proof authority. No row completion or final certification is claimed.
 
 ## Current Work
 
-One operational-controls batch is in progress:
-
-1. Delivery snapshots must treat media write times as observational.
-2. `DELIVERY_ADVANCING` requires an existing media path, exact SHA-256 match, recent execution timestamp, and passing execution or direct-QA evidence.
-3. Duplicate media hashes and checkout/recovery evidence do not count as new delivery.
-4. Hydration files are guarded for size, line length, UTF-8 validity, and mojibake.
-5. The oversized pre-repair hydration bytes are archived and hash-bound before compact replacement.
-
-After this batch, return directly to the genuine audio outcome across compatible Wave64 Rows025-033: one licensed voice/source, Foley/ambience stems, reviewed mix, sync proof, and short-video mux. Batch 3-5 compatible implementation/QA rows per PR.
+- Finish the protected PR for the Parler runtime, proof packet, tests, and minimal Rows025-027 evidence update.
+- The combined runner, packager, request-producer, and strict-evaluator regression set passes 56/56 tests; the exact mirrored evidence is `W64_PARLER_TTS_LOCAL_RUNTIME_ASR_20260714T191849-0500.json`.
+- Next, obtain independent full-duration playback plus speaker and emotion review against the selected media hash. Do not generate another take unless that review rejects this disclosed edge candidate; Whisper recognized the final word as `B` rather than `beat`.
+- Continue the genuine audio-to-short-video chain after review, batching compatible implementation and QA rows rather than creating evidence-only work units.
 
 ## Boundaries
 
