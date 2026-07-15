@@ -1,5 +1,6 @@
 import importlib.util
 import math
+import sys
 import tempfile
 import unittest
 import wave
@@ -102,6 +103,28 @@ class RunWave64CosyVoice2ZeroShotDialogueTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "predeclared"):
                 MODULE.validate_inputs(args)
 
+    def test_activate_source_path_is_first_and_idempotent(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            source = Path(temporary).resolve()
+            matcha = source / "third_party/Matcha-TTS"
+            matcha.mkdir(parents=True)
+            source_paths = [str(source), str(matcha)]
+            original = list(sys.path)
+            try:
+                sys.path.extend(source_paths + source_paths)
+                self.assertEqual(MODULE.activate_source_path(source), source_paths)
+                self.assertEqual(sys.path[:2], source_paths)
+                self.assertTrue(all(sys.path.count(path) == 1 for path in source_paths))
+                MODULE.activate_source_path(source)
+                self.assertTrue(all(sys.path.count(path) == 1 for path in source_paths))
+            finally:
+                sys.path[:] = original
+
+    def test_activate_source_path_rejects_missing_matcha_submodule(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            with self.assertRaisesRegex(ValueError, "Matcha-TTS"):
+                MODULE.activate_source_path(Path(temporary))
+
     def test_inspect_pcm_reports_signal_metrics(self):
         with tempfile.TemporaryDirectory() as temporary:
             path = Path(temporary) / "tone.wav"
@@ -120,8 +143,17 @@ class RunWave64CosyVoice2ZeroShotDialogueTests(unittest.TestCase):
                 handle.setsampwidth(2)
                 handle.setframerate(8000)
                 handle.writeframes(samples.tobytes())
-            with self.assertRaisesRegex(ValueError, "at least 16000"):
-                MODULE.load_wav_soundfile_compat(str(path), 16000)
+            decoder = SimpleNamespace(read=lambda *args, **kwargs: (None, 8000))
+            with mock.patch.dict(
+                sys.modules,
+                {
+                    "soundfile": decoder,
+                    "torch": SimpleNamespace(),
+                    "torchaudio": SimpleNamespace(),
+                },
+            ):
+                with self.assertRaisesRegex(ValueError, "at least 16000"):
+                    MODULE.load_wav_soundfile_compat(str(path), 16000)
 
     def test_hash_model_payloads_requires_every_declared_file(self):
         with tempfile.TemporaryDirectory() as temporary:

@@ -1,3 +1,11 @@
+## Wave64 CosyVoice2 Corrected-Reference Take Rejected - 2026-07-15T06:45:00-05:00
+
+Continue the minimum genuine audio-to-short-video chain from authoritative `C:\Comfy_UI_Main`. The corrected 5.0-second public-domain reference produced a clean, exact-content CosyVoice2 take at WER `0.0`, speaker similarity `0.66076`, and DNSMOS OVRL `3.17410`. The take is still negative evidence because its `4.84`-second duration fails the immutable `3.0`-second contract, the requested focused emotion is unsupported, controlled intensity is unmeasured, and no independent playback or production authority exists.
+
+Pursuing goal: select a dialogue engine or supported control path that can meet content, timing, reference-speaker, and supported-style requirements without mutating rejected media, then secure independent playback and production-review authority. Keep Rows025/027/031, EC2, body-mask promotion, Wave71+, Jira mutation, and final certification fail-closed.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/W64_COSYVOICE2_CORRECTED_REFERENCE_CANDIDATE_20260715T064000-0500.json`.
+
 ## Wave64 CosyVoice2 Reference-Bound Candidate Rejected - 2026-07-15T05:40:34-05:00
 
 Continue the minimum genuine audio-to-short-video delivery chain from authoritative `C:\Comfy_UI_Main`. CosyVoice2 now has a hash-bound runner whose PyTorch model stack executed on local CUDA while ONNX frontend components executed on CPU, plus a public-domain reference-speaker binding and calibrated WER, speaker, DNSMOS, and emotion evaluation. Its first immutable candidate is negative evidence, not a selected take: duration `8.8` seconds, WER `4.8`, repetitive non-dialogue content, unsupported `focused` emotion, and unmeasured `controlled` intensity. The speaker score passes, while DNSMOS clears only the worst-reference floor at the 50th percentile and does not certify quality.

@@ -91,6 +91,8 @@ def classify(gates: dict) -> str:
         return "FAIL_COSYVOICE2_DIALOGUE_INTELLIGIBILITY"
     if gates["candidate_reference_speaker_identity_pass"] is not True:
         return "FAIL_COSYVOICE2_REFERENCE_SPEAKER_IDENTITY"
+    if gates["candidate_dnsmos_worst_reference_floor_pass"] is not True:
+        return "FAIL_COSYVOICE2_DNSMOS_WORST_REFERENCE_FLOOR"
     return "PASS_COSYVOICE2_CONTENT_SPEAKER_TECHNICAL_STYLE_AUTHORITY_BLOCKED"
 
 
@@ -137,6 +139,13 @@ def build_metric_gates(
         "row_complete": False,
         "final_voice_certification_pass": False,
     }
+
+
+def timing_blocker(duration_seconds: float, expected_duration_seconds: float) -> str:
+    return (
+        f"the {duration_seconds}-second zero-shot candidate exceeds the "
+        f"{expected_duration_seconds}-second dialogue contract"
+    )
 
 
 def build(args: argparse.Namespace) -> dict:
@@ -221,6 +230,8 @@ def build(args: argparse.Namespace) -> dict:
         emotion_labels=labels,
     )
     classification = classify(gates)
+    duration_seconds = manifest["output"]["pcm"]["duration_seconds"]
+    expected_duration_seconds = manifest["dialogue"]["expected_duration_seconds"]
     return {
         "schema_version": "1.0",
         "artifact_type": "wave64_cosyvoice2_candidate_evaluation",
@@ -254,12 +265,12 @@ def build(args: argparse.Namespace) -> dict:
             "predicted_emotion": emotion_result,
             "target_emotion": target_emotion,
             "target_intensity": target_intensity,
-            "duration_seconds": manifest["output"]["pcm"]["duration_seconds"],
-            "expected_duration_seconds": manifest["dialogue"]["expected_duration_seconds"],
+            "duration_seconds": duration_seconds,
+            "expected_duration_seconds": expected_duration_seconds,
         },
         "gates": gates,
         "remaining_blockers": [
-            "the 8.8-second zero-shot candidate exceeds the 3.0-second dialogue contract",
+            timing_blocker(duration_seconds, expected_duration_seconds),
             "focused remains outside the calibrated emotion taxonomy",
             "controlled intensity is unmeasured because no calibrated intensity evaluator is registered",
             "independent playback and production-review authority remain absent",

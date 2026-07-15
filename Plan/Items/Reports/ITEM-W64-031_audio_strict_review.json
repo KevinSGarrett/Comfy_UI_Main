@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-031-AUDIO-STRICT-REVIEW-20260714T092355-0500",
-  "timestamp": "2026-07-15T05:40:34-05:00",
+  "timestamp": "2026-07-15T06:45:00-05:00",
   "item_id": "ITEM-W64-031",
   "tracker_id": "TRK-W64-031",
   "workstream": "audio_strict_review",
@@ -28,7 +28,10 @@
     "openslr31_speaker_identity_validation_adapter_ready": true,
     "cosyvoice2_zero_shot_cuda_runner_ready": true,
     "cosyvoice2_candidate_evaluator_ready": true,
-    "cosyvoice2_negative_evidence_packager_ready": true
+    "cosyvoice2_negative_evidence_packager_ready": true,
+    "cosyvoice2_validated_source_path_activation_ready": true,
+    "cosyvoice2_corrected_reference_packager_ready": true,
+    "cosyvoice2_corrected_reference_tracking_ready": true
   },
   "validation": {
     "unit_tests_passed": 62,
@@ -115,7 +118,19 @@
     "cosyvoice2_candidate_dnsmos_reference_percentile": 0.5,
     "cosyvoice2_candidate_emotion_label": "sad",
     "cosyvoice2_candidate_emotion_score": 0.6004744172096252,
-    "cosyvoice2_candidate_rejected": true
+    "cosyvoice2_candidate_rejected": true,
+    "cosyvoice2_corrected_reference_sha256": "f1e5f767d775c514cf94cdedfdf0010961102a3358e095812301e5da72e6d932",
+    "cosyvoice2_corrected_reference_duration_seconds": 5.0,
+    "cosyvoice2_corrected_candidate_sha256": "845b8971bd9ca8e3898e632cd02ad14f0eb0c1d2d6b1ec3cdd2e537fb94295ba",
+    "cosyvoice2_corrected_candidate_duration_seconds": 4.84,
+    "cosyvoice2_corrected_candidate_expected_duration_seconds": 3.0,
+    "cosyvoice2_corrected_candidate_asr_transcript": "We hold the frame steady and move on the beat.",
+    "cosyvoice2_corrected_candidate_normalized_wer": 0.0,
+    "cosyvoice2_corrected_candidate_speaker_similarity": 0.6607623100280762,
+    "cosyvoice2_corrected_candidate_dnsmos_ovrl": 3.174097435695213,
+    "cosyvoice2_corrected_candidate_dnsmos_reference_percentile": 0.75,
+    "cosyvoice2_corrected_candidate_emotion_label": "neutral",
+    "cosyvoice2_corrected_candidate_rejected": true
   },
   "acceptance_gates": {
     "audio_metadata_check_contract": true,
@@ -159,7 +174,13 @@
     "cosyvoice2_onnx_frontend_cuda_executed": false,
     "cosyvoice2_rejected_candidate_dnsmos_worst_reference_floor_pass": true,
     "cosyvoice2_rejected_candidate_dnsmos_quality_certification_pass": null,
-    "cosyvoice2_candidate_intensity_taxonomy_status": "unmeasured_no_calibrated_intensity_evaluator"
+    "cosyvoice2_candidate_intensity_taxonomy_status": "unmeasured_no_calibrated_intensity_evaluator",
+    "cosyvoice2_corrected_candidate_exact_content_pass": true,
+    "cosyvoice2_corrected_candidate_reference_speaker_score_pass": true,
+    "cosyvoice2_corrected_candidate_dnsmos_worst_reference_floor_pass": true,
+    "cosyvoice2_corrected_candidate_dnsmos_quality_certification_pass": null,
+    "cosyvoice2_corrected_candidate_dialogue_timing_pass": false,
+    "cosyvoice2_corrected_candidate_style_contract_pass": false
   },
   "blockers": [
     {
@@ -182,7 +203,7 @@
     {
       "classification": "Blocked_Production_Eligible_Voice_Candidate_Missing",
       "scope": "dialogue_candidate",
-      "reason": "The reference-bound CosyVoice2 candidate passes the calibrated speaker score and only the worst-reference DNSMOS floor, which is not quality certification. It is rejected for 8.8-second timing and WER 4.8 repetitive non-dialogue content; focused emotion is unsupported and controlled intensity is unmeasured. No production-eligible candidate currently combines content, timing, speaker, and style proof."
+      "reason": "The corrected-reference take now passes exact content and the chain-specific speaker score, but 4.84 seconds exceeds the immutable 3.0-second contract. Focused emotion is unsupported, controlled intensity is unmeasured, and no production-eligible candidate combines timing, content, speaker, style, playback, and authority proof."
     }
   ],
   "evidence": [
@@ -245,6 +266,10 @@
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/W64_COSYVOICE2_ZERO_SHOT_CANDIDATE_EVALUATION_20260715T052332-0500.json",
       "sha256": "8a595d6ffd232e1fac6d7700d9cf92b5c354b24fe1d1760aef0973416f73accc"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/W64_COSYVOICE2_CORRECTED_REFERENCE_CANDIDATE_20260715T064000-0500.json",
+      "sha256": "95e8cf23052028783f29503b760de9d419d33b0af7d04ece703f705543f5f12c"
     }
   ],
   "runtime": {
@@ -259,8 +284,8 @@
     "parler_replacement_generation_count": 1,
     "cv3_speaker_calibration_execution_count": 1,
     "openslr31_speaker_validation_execution_count": 1,
-    "cosyvoice2_zero_shot_generation_count": 1,
-    "cosyvoice2_candidate_evaluation_count": 1
+    "cosyvoice2_zero_shot_generation_count": 2,
+    "cosyvoice2_candidate_evaluation_count": 2
   },
-  "next_action": "Produce one new production-eligible reference-bound dialogue candidate that satisfies the exact 3.0-second content contract and a supported style taxonomy. Preserve all rejected Parler and CosyVoice2 takes; do not truncate, relabel, or promote the 8.8-second repetitive CosyVoice2 output. Then obtain independent playback and allowlisted production review."
+  "next_action": "Select a dialogue engine or supported control path that can satisfy the immutable 3.0-second contract without truncation or time-stretching while retaining exact content, reference-speaker identity, and a supported style taxonomy. Preserve all rejected Parler and CosyVoice2 takes."
 }

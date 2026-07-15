@@ -72,10 +72,23 @@ class EvaluateWave64CosyVoice2CandidateTests(unittest.TestCase):
             "dialogue_timing_pass": True,
             "candidate_asr_pass": True,
             "candidate_reference_speaker_identity_pass": True,
+            "candidate_dnsmos_worst_reference_floor_pass": True,
         }
         self.assertEqual(
             MODULE.classify(gates),
             "PASS_COSYVOICE2_CONTENT_SPEAKER_TECHNICAL_STYLE_AUTHORITY_BLOCKED",
+        )
+
+    def test_classification_rejects_dnsmos_floor_failure(self):
+        gates = {
+            "dialogue_timing_pass": True,
+            "candidate_asr_pass": True,
+            "candidate_reference_speaker_identity_pass": True,
+            "candidate_dnsmos_worst_reference_floor_pass": False,
+        }
+        self.assertEqual(
+            MODULE.classify(gates),
+            "FAIL_COSYVOICE2_DNSMOS_WORST_REFERENCE_FLOOR",
         )
 
     def test_load_json_rejects_hash_mismatch(self):
@@ -135,6 +148,12 @@ class EvaluateWave64CosyVoice2CandidateTests(unittest.TestCase):
         evidence["acceptance"]["speaker_disjoint_threshold_generalization_pass"] = False
         with self.assertRaisesRegex(ValueError, "not deployable"):
             MODULE.require_deployable_speaker_threshold(evidence)
+
+    def test_timing_blocker_uses_current_candidate_duration(self):
+        self.assertEqual(
+            MODULE.timing_blocker(4.84, 3.0),
+            "the 4.84-second zero-shot candidate exceeds the 3.0-second dialogue contract",
+        )
 
 
 if __name__ == "__main__":
