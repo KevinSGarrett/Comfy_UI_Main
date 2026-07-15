@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+import errno
 import importlib.util
 import io
 import json
@@ -151,6 +152,29 @@ class ModelAssetAcquisitionTests(unittest.TestCase):
         self.assertEqual(manifest["install"]["target_path"], "models/loras/test/test.safetensors")
         self.assertFalse(manifest["security"]["content_based_suppression"])
 
+    def test_registry_and_queue_preserve_logical_path_for_offloaded_destination(self) -> None:
+        manifest = self.resolved(b"offloaded-model")
+        destination = self.root.parent / "physical-offload" / "test.safetensors"
+        proof = {
+            "sha256": MODULE.hashlib.sha256(b"offloaded-model").hexdigest(),
+            "bytes": len(b"offloaded-model"),
+        }
+
+        record_id = MODULE.upsert_registry(self.root, manifest, destination, proof)
+        MODULE.upsert_runtime_queue(self.root, manifest, destination, record_id)
+
+        registry = MODULE.read_registry(self.root / MODULE.MODEL_REGISTRY)
+        self.assertEqual(registry[0]["local_path"], "models/loras/test/test.safetensors")
+        with (self.root / MODULE.RUNTIME_QUEUE).open("r", encoding="utf-8-sig", newline="") as handle:
+            queue = list(csv.DictReader(handle))
+        self.assertEqual(queue[0]["local_path"], "models/loras/test/test.safetensors")
+
+    def test_logical_install_path_rejects_parent_traversal(self) -> None:
+        manifest = self.resolved()
+        manifest["install"]["target_subdir"] = "../outside"
+        with self.assertRaisesRegex(MODULE.AcquisitionError, "logical models root"):
+            MODULE.logical_install_path(manifest)
+
     def test_civitai_discovery_preserves_nsfw_metadata_without_filtering(self) -> None:
         payload = {
             "items": [
@@ -217,6 +241,9 @@ class ModelAssetAcquisitionTests(unittest.TestCase):
         self.assertIn(value["source"]["revision"], manifest["source_metadata"]["download_url"])
         self.assertEqual(manifest["source_metadata"]["expected_sha256"], "a" * 64)
 
+    def test_text_tokenizer_assets_are_allowed(self) -> None:
+        self.assertIn(".txt", MODULE.SAFE_EXTENSIONS)
+
     def test_api_download_then_wire_register_and_queue_is_idempotent(self) -> None:
         payload = b"verified-model-payload"
         manifest = self.resolved(payload)
@@ -248,6 +275,46 @@ class ModelAssetAcquisitionTests(unittest.TestCase):
         with self.assertRaisesRegex(MODULE.AcquisitionError, "Expected SHA256"):
             MODULE.install_candidate(self.root, manifest, candidate)
         self.assertFalse((self.root / "models/loras/test/test.safetensors").exists())
+
+    def test_complete_staging_part_is_reused_without_network(self) -> None:
+        payload = b"complete-staging-payload"
+        manifest = self.resolved(payload)
+        partial = (
+            self.root
+            / "Models_Staging"
+            / manifest["provider"]
+            / "downloads"
+            / manifest["manifest_id"]
+            / f"{manifest['install']['local_filename']}.part"
+        )
+        partial.parent.mkdir(parents=True)
+        partial.write_bytes(payload)
+        with mock.patch.object(MODULE, "open_url") as network:
+            candidate = MODULE.download_to_staging(self.root, manifest)
+        network.assert_not_called()
+        self.assertEqual(partial, candidate)
+        self.assertEqual("resumed_complete_staging_file", manifest["acquisition_method"])
+
+    def test_cross_volume_install_copies_verifies_and_renames(self) -> None:
+        payload = b"cross-volume-payload"
+        manifest = self.resolved(payload)
+        candidate = self.root / "staging" / "test.safetensors"
+        candidate.parent.mkdir(parents=True)
+        candidate.write_bytes(payload)
+        original_replace = MODULE.os.replace
+
+        def replace_with_cross_volume(source, destination):
+            if Path(source) == candidate:
+                error = OSError(errno.EXDEV, "cross-device link")
+                error.winerror = 17
+                raise error
+            return original_replace(source, destination)
+
+        with mock.patch.object(MODULE.os, "replace", side_effect=replace_with_cross_volume):
+            destination, proof, _ = MODULE.install_candidate(self.root, manifest, candidate)
+        self.assertFalse(candidate.exists())
+        self.assertEqual(payload, destination.read_bytes())
+        self.assertEqual(MODULE.hashlib.sha256(payload).hexdigest(), proof["sha256"])
 
     def test_html_download_requires_browser(self) -> None:
         manifest = self.resolved(b"expected")
@@ -362,6 +429,40 @@ class ModelAssetAcquisitionTests(unittest.TestCase):
         self.assertTrue(result["duplicate_bytes_reused"])
         self.assertTrue(existing.is_file())
         self.assertEqual((self.root / "models/loras/test/test.safetensors").read_bytes(), payload)
+
+    def test_legacy_main_model_root_is_checked_before_network(self) -> None:
+        payload = b"legacy-main-model"
+        manifest = self.resolved(payload)
+        legacy = self.root / "legacy-models"
+        existing = legacy / "loras/test/test.safetensors"
+        existing.parent.mkdir(parents=True)
+        existing.write_bytes(payload)
+        with (
+            mock.patch.object(MODULE, "LEGACY_MODEL_ROOTS", (legacy,)),
+            mock.patch.object(MODULE, "open_url") as network,
+        ):
+            candidate = MODULE.download_to_staging(self.root, manifest)
+        network.assert_not_called()
+        self.assertEqual(existing.resolve(), candidate)
+
+    def test_exact_huggingface_snapshot_is_checked_before_network(self) -> None:
+        payload = b"cached-huggingface-file"
+        value = request("huggingface")
+        value["source"]["sha256"] = MODULE.hashlib.sha256(payload).hexdigest()
+        value["source"]["bytes"] = len(payload)
+        manifest = MODULE.resolve_request(self.root, value)
+        cache = self.root / "hf-cache"
+        repo_name = "models--" + value["source"]["repo_id"].replace("/", "--")
+        existing = cache / repo_name / "snapshots" / value["source"]["revision"] / value["source"]["filename"]
+        existing.parent.mkdir(parents=True)
+        existing.write_bytes(payload)
+        with (
+            mock.patch.object(MODULE, "HF_CACHE_ROOT", cache),
+            mock.patch.object(MODULE, "open_url") as network,
+        ):
+            candidate = MODULE.download_to_staging(self.root, manifest)
+        network.assert_not_called()
+        self.assertEqual(existing.resolve(), candidate)
 
     def test_concurrent_finalization_lock_fails_closed(self) -> None:
         lock = self.root / "runtime_artifacts/model_acquisition/model_registry_update.lock"

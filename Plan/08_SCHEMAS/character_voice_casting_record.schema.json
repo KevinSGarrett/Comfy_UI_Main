@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Character Voice Casting Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "casting_id",
+    "character_id",
+    "character_version",
+    "identity_policy",
+    "requirements",
+    "candidates",
+    "decision",
+    "authority",
+    "content_based_suppression"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "casting_id": { "type": "string", "minLength": 3 },
+    "character_id": { "type": "string", "minLength": 1 },
+    "character_version": { "type": "string", "minLength": 1 },
+    "identity_policy": {
+      "enum": ["licensed_reference_match", "designed_synthetic_voice", "consistent_synthetic_baseline", "pending_selection"]
+    },
+    "requirements": {
+      "type": "object",
+      "required": ["language", "timbre", "accent", "pitch", "pace_wpm", "delivery_style", "intensity", "continuity_lines"]
+    },
+    "candidates": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["candidate_id", "engine_asset_id", "rights_valid", "runtime_proven", "continuity_tested", "score", "disposition"],
+        "properties": {
+          "candidate_id": { "type": "string", "minLength": 1 },
+          "engine_asset_id": { "type": "string", "minLength": 1 },
+          "voice_reference_id": { "type": ["string", "null"] },
+          "rights_valid": { "type": "boolean" },
+          "runtime_proven": { "type": "boolean" },
+          "continuity_tested": { "type": "boolean" },
+          "score": { "type": "number", "minimum": 0, "maximum": 1 },
+          "disposition": { "enum": ["eligible", "provisional", "rejected", "blocked"] },
+          "blockers": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["selected_candidate_id", "selection_status", "explanation"],
+      "properties": {
+        "selected_candidate_id": { "type": ["string", "null"] },
+        "selection_status": { "enum": ["provisional", "selected_for_runtime_validation", "production_approved", "blocked"] },
+        "explanation": { "type": "string", "minLength": 1 }
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["playback_review_pass", "final_production_authority_pass", "production_authorized"],
+      "properties": {
+        "playback_review_pass": { "type": "boolean" },
+        "final_production_authority_pass": { "type": "boolean" },
+        "production_authorized": { "type": "boolean" }
+      }
+    },
+    "content_based_suppression": { "const": false }
+  }
+}

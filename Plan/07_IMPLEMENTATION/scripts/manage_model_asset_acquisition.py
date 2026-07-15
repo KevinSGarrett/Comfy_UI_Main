@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import errno
 import hashlib
 import json
 import os
@@ -32,9 +33,11 @@ SECRET_KEYS = ("CIVITAI_API_TOKEN", "CIVITAI_TOKEN", "CIVITAI_API_KEY", "HF_TOKE
 ALLOWED_LICENSE_STATES = {"verified_allowed", "public_permissive", "user_accepted", "source_terms_recorded"}
 SAFE_EXTENSIONS = {
     ".safetensors", ".ckpt", ".pt", ".pth", ".bin", ".gguf", ".onnx",
-    ".json", ".yaml", ".yml", ".png", ".jpg", ".jpeg", ".webp",
+    ".json", ".yaml", ".yml", ".txt", ".png", ".jpg", ".jpeg", ".webp",
     ".wav", ".flac", ".mp3", ".mp4", ".mkv", ".zip",
 }
+LEGACY_MODEL_ROOTS = (Path("C:/Comfy_UI/models"), Path("C:/Comfy_UI/Runtime_Data/models"))
+HF_CACHE_ROOT = Path.home() / ".cache" / "huggingface" / "hub"
 
 
 class AcquisitionError(RuntimeError):
@@ -177,6 +180,14 @@ def relative_or_absolute(root: Path, path: Path) -> str:
         return path.resolve().relative_to(root.resolve()).as_posix()
     except ValueError:
         return str(path.resolve())
+
+
+def logical_install_path(manifest: dict[str, Any]) -> str:
+    subdir = Path(str(manifest["install"]["target_subdir"]))
+    filename = Path(str(manifest["install"]["local_filename"]))
+    if subdir.is_absolute() or ".." in subdir.parts or filename.name != str(filename):
+        raise AcquisitionError("INVALID_INSTALL_PATH", "Install target must remain under the logical models root")
+    return (Path("models") / subdir / filename).as_posix()
 
 
 def require_request(request: dict[str, Any]) -> None:
@@ -384,7 +395,10 @@ def resolve_request(root: Path, request: dict[str, Any], metadata_override: Path
     local_name = str(request["asset"].get("filename") or Path(filename).name)
     if not local_name or Path(local_name).suffix.lower() not in SAFE_EXTENSIONS:
         raise AcquisitionError("UNSUPPORTED_OR_UNSAFE_FILE_TYPE", f"Unsupported asset filename: {local_name}")
-    target = root / "models" / str(request["asset"]["target_subdir"]) / local_name
+    target_subdir = Path(str(request["asset"]["target_subdir"]))
+    if target_subdir.is_absolute() or ".." in target_subdir.parts:
+        raise AcquisitionError("INVALID_INSTALL_PATH", "Model target_subdir must remain under the logical models root")
+    target = Path("models") / target_subdir / local_name
     return {
         "schema_version": "1.0",
         "manifest_id": f"ACQ-{request['request_id']}",
@@ -402,7 +416,7 @@ def resolve_request(root: Path, request: dict[str, Any], metadata_override: Path
             "metadata_snapshot": metadata,
         },
         "install": {
-            "target_path": relative_or_absolute(root, target),
+            "target_path": target.as_posix(),
             "target_subdir": str(request["asset"]["target_subdir"]),
             "local_filename": local_name,
         },
@@ -460,6 +474,13 @@ def download_to_staging(root: Path, manifest: dict[str, Any]) -> Path:
         manifest["acquisition_method"] = "local_exact_hash_reuse"
         return reusable
     partial = staging / f"{final_name}.part"
+    if partial.is_file():
+        expected_sha = str(manifest["source_metadata"].get("expected_sha256") or "").lower()
+        expected_bytes = manifest["source_metadata"].get("expected_bytes")
+        size_matches = expected_bytes is None or partial.stat().st_size == int(expected_bytes)
+        if expected_sha and size_matches and sha256_file(partial) == expected_sha:
+            manifest["acquisition_method"] = "resumed_complete_staging_file"
+            return partial
     headers = request_headers(provider)
     timeout = int(os.environ.get("CIVITAI_TIMEOUT_SECONDS", "120"))
     attempts = [(url, headers, False)]
@@ -524,8 +545,15 @@ def find_reusable_candidate(root: Path, manifest: dict[str, Any]) -> Path | None
     candidates = [
         project_path(root, manifest["install"]["target_path"]),
         root / "ComfyUI" / "models" / subdir / filename,
-        Path("C:/Comfy_UI/Runtime_Data/models") / subdir / filename,
     ]
+    candidates.extend(model_root / subdir / filename for model_root in LEGACY_MODEL_ROOTS)
+    identity = manifest.get("source_identity", {})
+    repo_id = str(identity.get("repo_id", "")).strip()
+    revision = str(identity.get("revision", "")).strip()
+    file_path = str(identity.get("file_path", "")).strip()
+    if repo_id and revision and file_path:
+        repo_cache_name = "models--" + repo_id.replace("/", "--")
+        candidates.append(HF_CACHE_ROOT / repo_cache_name / "snapshots" / revision / file_path)
     for record in read_registry(root / MODEL_REGISTRY):
         if str(record.get("sha256", "")).lower() != expected_sha:
             continue
@@ -574,7 +602,20 @@ def install_candidate(root: Path, manifest: dict[str, Any], candidate: Path) -> 
             except OSError:
                 shutil.copy2(candidate, destination)
         else:
-            os.replace(candidate, destination)
+            try:
+                os.replace(candidate, destination)
+            except OSError as exc:
+                if exc.errno != errno.EXDEV and getattr(exc, "winerror", None) != 17:
+                    raise
+                temporary = destination.with_name(f".{destination.name}.{os.getpid()}.part")
+                try:
+                    shutil.copy2(candidate, temporary)
+                    if temporary.stat().st_size != proof["bytes"] or sha256_file(temporary) != proof["sha256"]:
+                        raise AcquisitionError("CROSS_VOLUME_COPY_HASH_MISMATCH", f"Copied target failed verification: {temporary}")
+                    os.replace(temporary, destination)
+                    candidate.unlink()
+                finally:
+                    temporary.unlink(missing_ok=True)
         duplicate = bool(same_hash) or bool(manifest.get("reused_existing_path"))
     return destination, proof, duplicate
 
@@ -617,7 +658,7 @@ def upsert_registry(root: Path, manifest: dict[str, Any], destination: Path, pro
         "file_size_bytes": proof["bytes"],
         "sha256": proof["sha256"],
         "source_hashes": identity.get("source_hashes", {}),
-        "local_path": relative_or_absolute(root, destination),
+        "local_path": logical_install_path(manifest),
         "storage_location": "local",
         "workflow_lane": lane,
         "compatibility_status": "needs_runtime_validation",
@@ -675,7 +716,7 @@ def upsert_runtime_queue(root: Path, manifest: dict[str, Any], destination: Path
         "model_name": str(request["asset"]["model_name"]),
         "model_type": str(request["asset"]["model_type"]),
         "base_model": str(request["asset"]["base_model"]),
-        "local_path": relative_or_absolute(root, destination),
+        "local_path": logical_install_path(manifest),
         "workflow_lane": str(integration["workflow_lane"]),
         "test_workflow_path": str(integration.get("test_workflow_path", "")),
         "expected_result": str(integration.get("expected_runtime_result", "load_model_and_run_bounded_smoke_then_modality_qa")),
@@ -800,7 +841,7 @@ def finalize(root: Path, manifest: dict[str, Any], candidate: Path, wire: bool, 
         "provider": manifest["provider"],
         "acquisition_method": manifest.get("acquisition_method", "api"),
         "source_page_url": manifest["source_metadata"]["page_url"],
-        "destination_path": relative_or_absolute(root, destination),
+        "destination_path": logical_install_path(manifest),
         "sha256": proof["sha256"],
         "bytes": proof["bytes"],
         "duplicate_bytes_reused": duplicate,

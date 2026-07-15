@@ -1,0 +1,79 @@
+{
+  "artifact_type": "wave64_rows113_117_tracking_reconciliation",
+  "authority_evidence": {
+    "path": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/W64_HYPERREAL_SPEECH_ROWS113_117_AUTHORITY_20260715.json",
+    "sha256": "0b3f9ff8a8168574b1d081dd16c0b58f0db0697ba29e6b46ae7f4dc091ac8b0c"
+  },
+  "boundaries": {
+    "candidate_generated": false,
+    "content_based_suppression": false,
+    "production_authority_claimed": false,
+    "row116_promoted": false
+  },
+  "classification": "W64_ROWS113_117_ITEMS_TRACKER_RECONCILED",
+  "created_at": "2026-07-15T18:23:18-05:00",
+  "mirrors": [
+    {
+      "mirror": "Plan/Tracker/Evidence/Audio_Asset_Intake/W64_HYPERREAL_SPEECH_ROWS113_117_AUTHORITY_20260715.json",
+      "sha256": "0b3f9ff8a8168574b1d081dd16c0b58f0db0697ba29e6b46ae7f4dc091ac8b0c",
+      "source": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/W64_HYPERREAL_SPEECH_ROWS113_117_AUTHORITY_20260715.json"
+    },
+    {
+      "mirror": "Plan/Tracker/Evidence/Audio_Asset_Intake/W64_VOICE_REFERENCE_CARD_LIBRIVOX_CHRIS_GORINGE_20260715.json",
+      "sha256": "0b802837fc33abe3063bf3efaffdfc8db2237a667e9f394be7b8e0d05b634584",
+      "source": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/W64_VOICE_REFERENCE_CARD_LIBRIVOX_CHRIS_GORINGE_20260715.json"
+    },
+    {
+      "mirror": "Plan/Tracker/Evidence/Audio_Asset_Intake/W64_VOICE_REFERENCE_INTAKE_LIBRIVOX_CHRIS_GORINGE_20260715.json",
+      "sha256": "68e009b2178294ff9682a3d06a4b31b60b0b99296ba247a105c68406f0a013e7",
+      "source": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/W64_VOICE_REFERENCE_INTAKE_LIBRIVOX_CHRIS_GORINGE_20260715.json"
+    },
+    {
+      "mirror": "Plan/Tracker/Evidence/Audio_Asset_Intake/W64_QWEN3_TTS_VOICEDESIGN_LOADER_PROOF_20260715.json",
+      "sha256": "f78c52c6eed6f505920011ff1ade5578d5971f962f8fda1b241ab98321c93fa4",
+      "source": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/W64_QWEN3_TTS_VOICEDESIGN_LOADER_PROOF_20260715.json"
+    }
+  ],
+  "model_runtime_updates": {
+    "model_registry_records_updated": 11,
+    "runtime_queue_rows_updated": 11
+  },
+  "requirements_mirror_byte_identical": true,
+  "row_decisions": {
+    "TRK-W64-113": {
+      "blockers": [],
+      "classification": "Implemented_Authority_Control_Pass",
+      "pass_like": true
+    },
+    "TRK-W64-114": {
+      "blockers": [],
+      "classification": "Implemented_Immutable_Card_System_Pass_Character_Card_Pending",
+      "pass_like": true
+    },
+    "TRK-W64-115": {
+      "blockers": [],
+      "classification": "Implemented_Reference_Intake_QA_Pass",
+      "pass_like": true
+    },
+    "TRK-W64-116": {
+      "blockers": [
+        "exact model files and isolated loader proof are pending",
+        "no candidate audio or continuity comparison exists",
+        "independent playback and final-production authority are absent"
+      ],
+      "classification": "Implemented_Casting_Control_Blocked_Runtime_Continuity_And_Authority",
+      "pass_like": false
+    },
+    "TRK-W64-117": {
+      "blockers": [
+        "speech generation and audio decode are not yet executed",
+        "system sox executable is absent",
+        "Flash Attention is absent; eager PyTorch is slower",
+        "continuity, playback, and final-production authority are pending"
+      ],
+      "classification": "Implemented_Selected_Qwen3_TTS_Acquisition_And_Load_Pass_Generation_QA_Pending",
+      "pass_like": true
+    }
+  },
+  "schema_version": "1.0"
+}
