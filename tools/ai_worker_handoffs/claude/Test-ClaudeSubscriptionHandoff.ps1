@@ -23,6 +23,9 @@ $checks.opus_escalation_contract = $false
 $checks.tool_surface_isolation_contract = $false
 $checks.immutable_opus_ceiling_contract = $false
 $checks.confidence_and_trigger_contract = $false
+$checks.lock_queue_contract = $false
+$checks.isolated_worktree_contract = $false
+$checks.status_normalization_contract = $false
 $checks.sonnet_probe_pass = $null
 $checks.scope_packet_probe_pass = $null
 $checks.opus_live_probe_pass = $null
@@ -38,12 +41,15 @@ if ($checks.wrapper_exists) {
     $source = Get-Content -LiteralPath $wrapper -Raw
     $checks.exact_model_allowlist = ($source -match 'ValidateSet\("claude-sonnet-5","claude-opus-4-8"\)' -and $source -notmatch 'ValidateSet\("sonnet"')
     $checks.no_api_fallback_switch = ($source -notmatch 'AllowApiEnvironmentFallback')
-    $checks.worktree_fingerprint_contract = ($source -match 'worktree_fingerprint_before' -and $source -match 'CLAUDE_SUBSCRIPTION_READ_ONLY_MUTATION_VIOLATION' -and $source -match 'CLAUDE_CONCURRENT_WORKTREE_DRIFT_DETECTED' -and $source -match 'scope_files_unchanged')
+    $checks.worktree_fingerprint_contract = ($source -match 'worktree_fingerprint_before' -and $source -match 'CLAUDE_SUBSCRIPTION_READ_ONLY_MUTATION_VIOLATION' -and $source -match 'CLAUDE_CONCURRENT_WORKTREE_DRIFT_WARNING' -and $source -match 'scope_files_unchanged')
     $checks.credential_scrub_contract = ($source -match 'credential_environment_scrubbed' -and $source -match 'AWS_WEB_IDENTITY_TOKEN_FILE' -and $source -match 'GITHUB_ENTERPRISE_TOKEN' -and $source -match 'GIT_CONFIG_')
     $checks.opus_escalation_contract = ($source -match 'CLAUDE_OPUS_ESCALATION_NOT_JUSTIFIED' -and $source -match 'OpusDailyCeiling' -and $source -match 'ExpectedDecisionUnitId' -and $source -match 'claude_opus_global_usage_marker')
     $checks.tool_surface_isolation_contract = ($source -match '"--safe-mode"' -and $source -match '"--tools", "Read,Glob,Grep"' -and $source -match '"--strict-mcp-config"' -and $source -match '"--disable-slash-commands"' -and $source -match '"--no-chrome"' -and $source -notmatch '"--allowedTools"')
     $checks.immutable_opus_ceiling_contract = ($source -match '\$OpusDailyCeiling = 2' -and $source -notmatch '\[ValidateRange\(1,10\)\]\[int\]\$OpusDailyCeiling')
     $checks.confidence_and_trigger_contract = ($source -match 'worker_reported_confidence' -and $source -match 'Test-PriorSonnetEscalationTrigger' -and $source -match 'CLAUDE_SUBSCRIPTION_INVALID_CONFIDENCE_LABEL')
+    $checks.lock_queue_contract = ($source -match 'Enter-BoundedHandoffLock' -and $source -match 'lock_wait_duration_ms' -and $source -match 'CLAUDE_SUBSCRIPTION_LOCK_WAIT_TIMEOUT')
+    $checks.isolated_worktree_contract = ($source -match 'CLAUDE_ISOLATED_WORKTREE_REQUIRED' -and $source -match 'Get-RegisteredGitWorktreeRoots')
+    $checks.status_normalization_contract = ($selfTest.checks.confirmed_status_normalized -and $selfTest.checks.findings_status_normalized -and $selfTest.checks.verified_blocked_status_normalized -and $selfTest.checks.compound_confidence_normalized)
   }
 }
 
@@ -78,14 +84,14 @@ if ($IncludeLiveProbes -and $checks.wrapper_exists -and $checks.claude_exe_exist
   $packetTool = Join-Path $ProjectRoot "tools\New-AIWorkerScopePacket.ps1"
   if (Test-Path -LiteralPath $packetTool) {
     $packet = & $packetTool -ProjectRoot $ProjectRoot -TaskName "claude_scope_packet_probe" -Gate CLAUDE_SONNET_PRIMARY_REQUIRED -WorkerLane Claude -CandidatePaths @("CLAUDE.md") | ConvertFrom-Json
-    $scopeProbe = & $wrapper -ProjectRoot $ProjectRoot -TaskName "claude_scope_packet_probe" -TaskTier SonnetPrimary -ClaudeModel claude-sonnet-5 -Effort medium -TimeoutSeconds 180 -ScopePacketPath $packet.output_path -WorkOrderText "The wrapper has already verified the scoped file's byte length and SHA-256; do not recompute either. Inspect only CLAUDE.md semantically. Set status to pass and include CLAUDE_SCOPE_PACKET_READY only if that exact file is readable and its content is consistent with a read-only Claude routing contract; otherwise set status to blocked and report the exact issue. Return every required label."
+    $scopeProbe = & $wrapper -ProjectRoot $ProjectRoot -TaskName "claude_scope_packet_probe" -TaskTier SonnetPrimary -ClaudeModel claude-sonnet-5 -Effort medium -TimeoutSeconds 180 -ScopePacketPath $packet.output_path -AllowPrimaryWorktree -WorkOrderText "The wrapper has already verified the scoped file's byte length and SHA-256; do not recompute either. Inspect only CLAUDE.md semantically. Set status to pass and include CLAUDE_SCOPE_PACKET_READY only if that exact file is readable and its content is consistent with a read-only Claude routing contract; otherwise set status to blocked and report the exact issue. Return every required label."
     $scopeProbeObj = $scopeProbe | ConvertFrom-Json
     $checks.scope_packet_probe_pass = ($scopeProbeObj.status -eq "PASS" -and $scopeProbeObj.classification -eq "CLAUDE_SONNET_HANDOFF_COMPLETED" -and $scopeProbeObj.scope_packet_validated -eq $true -and $scopeProbeObj.worktree_unchanged -eq $true -and $scopeProbeObj.result_excerpt -match "CLAUDE_SCOPE_PACKET_READY")
     $checks.latest_scope_probe_record = Join-Path $scopeProbeObj.run_dir "handoff_record.json"
 
     if ($IncludeOpusProbe) {
       $opusPacket = & $packetTool -ProjectRoot $ProjectRoot -TaskName "claude_opus_scope_probe" -Gate CLAUDE_OPUS_ESCALATION_REQUIRED -WorkerLane Claude -CandidatePaths @("CLAUDE.md") | ConvertFrom-Json
-      $opusProbe = & $wrapper -ProjectRoot $ProjectRoot -TaskName "claude_opus_scope_probe" -TaskTier OpusEscalation -ClaudeModel claude-opus-4-8 -Effort high -TimeoutSeconds 300 -ScopePacketPath $opusPacket.output_path -DecisionUnitId "claude_opus_4_8_capability_probe" -EscalationReason DIRECT_HIGH_RISK_ARCHITECTURE_EXCEPTION -AllowDirectOpusArchitectureException -WorkOrderText "This is an explicit exact-model capability probe, not project certification. The wrapper has already verified the scoped file's byte length and SHA-256; do not recompute either. Inspect only CLAUDE.md semantically. Set status to pass and set escalation outcome to CLAUDE_OPUS_4_8_READY only if the file is readable and you can complete the required bounded labeled response; otherwise set status to blocked and explain honestly. Return every required label."
+      $opusProbe = & $wrapper -ProjectRoot $ProjectRoot -TaskName "claude_opus_scope_probe" -TaskTier OpusEscalation -ClaudeModel claude-opus-4-8 -Effort high -TimeoutSeconds 300 -ScopePacketPath $opusPacket.output_path -DecisionUnitId "claude_opus_4_8_capability_probe" -EscalationReason DIRECT_HIGH_RISK_ARCHITECTURE_EXCEPTION -AllowDirectOpusArchitectureException -AllowPrimaryWorktree -WorkOrderText "This is an explicit exact-model capability probe, not project certification. The wrapper has already verified the scoped file's byte length and SHA-256; do not recompute either. Inspect only CLAUDE.md semantically. Set status to pass and set escalation outcome to CLAUDE_OPUS_4_8_READY only if the file is readable and you can complete the required bounded labeled response; otherwise set status to blocked and explain honestly. Return every required label."
       $opusProbeObj = $opusProbe | ConvertFrom-Json
       $checks.opus_live_probe_pass = ($opusProbeObj.status -eq "PASS" -and $opusProbeObj.classification -eq "CLAUDE_OPUS_ESCALATION_COMPLETED" -and $opusProbeObj.requested_model -eq "claude-opus-4-8" -and $opusProbeObj.worktree_unchanged -eq $true -and $opusProbeObj.result_excerpt -match "CLAUDE_OPUS_4_8_READY")
       $checks.latest_opus_probe_record = Join-Path $opusProbeObj.run_dir "handoff_record.json"

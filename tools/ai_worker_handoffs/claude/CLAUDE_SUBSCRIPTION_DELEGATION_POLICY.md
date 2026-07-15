@@ -171,7 +171,7 @@ Wrapper task tiers:
 - `SonnetPrimary`: pinned Sonnet 5, medium/high/xhigh;
 - `OpusEscalation`: pinned Opus 4.8, high/xhigh, exact decision unit and escalation reason, hash-bound scope, a successful prior Sonnet record for that same decision unit unless the direct exception is explicitly approved.
 
-The wrapper must capture repository-visible state and hash-bound scope files before and after every live handoff. A changed hash-bound scope file is `CLAUDE_SUBSCRIPTION_READ_ONLY_MUTATION_VIOLATION`. A change outside the bounded scope is attribution-ambiguous in the continuously active shared worktree, so it is `CLAUDE_CONCURRENT_WORKTREE_DRIFT_DETECTED`. Both classifications fail closed and receive no useful credit; the latter must not falsely accuse the read-only worker of causing another session's edit.
+The wrapper must run substantive work in a registered isolated worktree and capture repository-visible state and hash-bound scope files before and after every live handoff. A changed hash-bound scope file is `CLAUDE_SUBSCRIPTION_READ_ONLY_MUTATION_VIOLATION`. A change outside the bounded scope with unchanged scoped hashes is `CLAUDE_CONCURRENT_WORKTREE_DRIFT_WARNING`; it is recorded but does not invalidate otherwise complete evidence. Lane locks queue for a bounded interval before returning `CLAUDE_SUBSCRIPTION_LOCK_WAIT_TIMEOUT`.
 
 ## Output Contract
 
@@ -190,7 +190,7 @@ Git/GitHub synthesis handoffs must also include `git_github_scope:`, `risks:`, `
 
 Promise-style output such as "I will inspect next" is not a completed handoff. Codex should retry with a narrower work order or route the task to Cursor.
 
-A zero process exit is not sufficient for useful credit. The wrapper must parse the labeled worker status. `status: blocked`, failed, incomplete, error, unable, or declined is `CLAUDE_SUBSCRIPTION_WORKER_REPORTED_BLOCKED`; an unrecognized status is `CLAUDE_SUBSCRIPTION_INVALID_STATUS_LABEL`. Only a recognized success status with the full output contract may receive a completed classification.
+A zero process exit is not sufficient for useful credit. The wrapper must parse and normalize the labeled worker status. `confirmed` normalizes to pass, `pass_with_findings` completes with findings, and `verified_blocked_as_intended` completes as an explicit blocked diagnosis. A genuine failure remains failed, and an unrecognized status is `CLAUDE_SUBSCRIPTION_INVALID_STATUS_LABEL`. Blocked diagnosis never implies implementation or certification success.
 
 The wrapper may store only a compact result excerpt in `handoff_record.json`, but output-contract validation must use the full captured Claude stdout. A handoff should not be marked incomplete merely because required labels appear after the compact excerpt cutoff.
 

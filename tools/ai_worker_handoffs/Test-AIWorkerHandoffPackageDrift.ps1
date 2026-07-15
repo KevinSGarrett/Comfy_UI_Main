@@ -16,6 +16,7 @@ function Get-Destination {
   $parts = $RelativePath.Replace("/", "\").Split("\")
   if ($parts[0] -eq "claude") { return Join-Path $CodexHome ("claude_subscription_handoff\" + ($parts[1..($parts.Count - 1)] -join "\")) }
   if ($parts[0] -eq "cursor") { return Join-Path $CodexHome ("cursor_handoff\" + ($parts[1..($parts.Count - 1)] -join "\")) }
+  if ($parts[0] -eq "dispatcher") { return Join-Path $CodexHome ("ai_worker_dispatcher\" + ($parts[1..($parts.Count - 1)] -join "\")) }
   if ($parts[0] -eq "automations") {
     $id = [IO.Path]::GetFileNameWithoutExtension($parts[-1])
     return Join-Path $CodexHome ("automations\$id\automation.toml")

@@ -15,6 +15,8 @@ param(
   [ValidateSet("plan","manual")][string]$PermissionMode = "plan",
   [ValidateRange(30,1800)][int]$TimeoutSeconds = 1200,
   [int]$StaleLockMinutes = 120,
+  [ValidateRange(0,1800)][int]$LockWaitSeconds = 600,
+  [ValidateRange(1,30)][int]$LockPollSeconds = 2,
   [string]$ClaudeExe = "",
   [switch]$AllowBroadDiscovery,
   [string]$BroadDiscoveryReason = "",
@@ -25,6 +27,7 @@ param(
   [ValidatePattern('^$|^[A-Za-z0-9][A-Za-z0-9_.-]{2,100}$')][string]$DecisionUnitId = "",
   [switch]$AllowDirectOpusArchitectureException,
   [switch]$AllowMaxEffort,
+  [switch]$AllowPrimaryWorktree,
   [switch]$SelfTest
 )
 
@@ -50,6 +53,78 @@ function Quote-ProcessArgument {
   if ($null -eq $Arg) { return '""' }
   if ($Arg -notmatch '[\s"]') { return $Arg }
   return '"' + ($Arg -replace '\\','\\' -replace '"','\"') + '"'
+}
+
+function Get-RegisteredGitWorktreeRoots {
+  param([Parameter(Mandatory=$true)][string]$RepoRoot)
+  $repoFull = [System.IO.Path]::GetFullPath($RepoRoot).TrimEnd('\')
+  $output = @(& git.exe -C $repoFull worktree list --porcelain 2>&1)
+  if ($LASTEXITCODE -ne 0) { throw "Unable to enumerate registered Git worktrees for ${repoFull}: $($output -join ' ')" }
+  $roots = @($output | ForEach-Object { [string]$_ } | Where-Object {
+    $_.StartsWith("worktree ", [System.StringComparison]::Ordinal)
+  } | ForEach-Object { [System.IO.Path]::GetFullPath($_.Substring(9)).TrimEnd('\') })
+  if ($roots.Count -lt 1) { throw "Git reported no registered worktrees for $repoFull" }
+  if (@($roots | Where-Object { $_.Equals($repoFull, [System.StringComparison]::OrdinalIgnoreCase) }).Count -ne 1) {
+    throw "Claude ProjectRoot is not a registered worktree: $repoFull"
+  }
+  return $roots
+}
+
+function Enter-BoundedHandoffLock {
+  param(
+    [Parameter(Mandatory=$true)][string]$Path,
+    [Parameter(Mandatory=$true)][System.Collections.IDictionary]$Payload,
+    [int]$WaitSeconds,
+    [int]$PollSeconds,
+    [int]$StaleMinutes
+  )
+  $wait = [System.Diagnostics.Stopwatch]::StartNew()
+  $staleRemoved = $false
+  while ($true) {
+    if (Test-Path -LiteralPath $Path) {
+      $item = Get-Item -LiteralPath $Path
+      $ownerAlive = $true
+      try {
+        $existing = Get-Content -LiteralPath $Path -Raw | ConvertFrom-Json -ErrorAction Stop
+        $ownerAlive = $null -ne (Get-Process -Id ([int]$existing.pid) -ErrorAction SilentlyContinue)
+      } catch { $ownerAlive = $false }
+      if (((Get-Date) - $item.LastWriteTime).TotalMinutes -ge $StaleMinutes -or -not $ownerAlive) {
+        Remove-Item -LiteralPath $Path -Force -ErrorAction SilentlyContinue
+        $staleRemoved = $true
+      }
+    }
+    try {
+      $bytes = [System.Text.Encoding]::UTF8.GetBytes(($Payload | ConvertTo-Json -Compress))
+      $stream = [System.IO.File]::Open($Path, [System.IO.FileMode]::CreateNew, [System.IO.FileAccess]::Write, [System.IO.FileShare]::None)
+      try { $stream.Write($bytes, 0, $bytes.Length) } finally { $stream.Dispose() }
+      $wait.Stop()
+      return [pscustomobject]@{ waited_ms = $wait.ElapsedMilliseconds; stale_lock_removed = $staleRemoved }
+    } catch [System.IO.IOException] {
+      if ($wait.Elapsed.TotalSeconds -ge $WaitSeconds) {
+        $wait.Stop()
+        throw "CLAUDE_SUBSCRIPTION_LOCK_WAIT_TIMEOUT: Claude lock remained busy for $WaitSeconds seconds."
+      }
+      Start-Sleep -Seconds $PollSeconds
+    }
+  }
+}
+
+function Normalize-WorkerStatus {
+  param([string]$Status)
+  $value = ([string]$Status).Trim().Trim('*').Trim().ToLowerInvariant() -replace '[\s-]+','_'
+  if ($value -match '^(pass|complete|completed|ready|success|ok|confirmed|verified)$') { return "pass" }
+  if ($value -match '^pass_with_(?:.*_)?findings?$') { return "pass_with_findings" }
+  if ($value -match '^(verified_)?blocked(_as_intended)?$') { return "blocked" }
+  if ($value -match '^(fail|failed|incomplete|error|unable|declined)$') { return "fail" }
+  return $value
+}
+
+function Normalize-WorkerConfidence {
+  param([string]$Confidence)
+  $value = ([string]$Confidence).Trim().Trim('*').Trim().ToLowerInvariant() -replace '[\s_]+','-'
+  if ($value -in @("medium-high","high-medium")) { return "medium" }
+  if ($value -in @("low-medium","medium-low")) { return "low" }
+  return $value
 }
 
 function Test-EnvPresent {
@@ -147,12 +222,17 @@ function Read-ValidatedScopePacket {
   param(
     [Parameter(Mandatory=$true)][string]$PacketPath,
     [Parameter(Mandatory=$true)][string]$RepoRoot,
+    [Parameter(Mandatory=$true)][string[]]$TrustedPacketRoots,
     [Parameter(Mandatory=$true)][long]$ScopeByteLimit
   )
   $packetFull = [System.IO.Path]::GetFullPath($PacketPath)
   $repoFull = [System.IO.Path]::GetFullPath($RepoRoot).TrimEnd('\')
-  if (-not $packetFull.StartsWith($repoFull + '\', [System.StringComparison]::OrdinalIgnoreCase)) {
-    throw "Scope packet is outside repository root: $PacketPath"
+  $trustedPacket = @($TrustedPacketRoots | Where-Object {
+    $trustedRoot = [System.IO.Path]::GetFullPath((Join-Path $_ "runtime_artifacts\agent_handoffs\scope_packets")).TrimEnd('\')
+    $packetFull.StartsWith($trustedRoot + '\', [System.StringComparison]::OrdinalIgnoreCase)
+  }).Count -gt 0
+  if (-not $trustedPacket) {
+    throw "Scope packet is outside registered trusted packet roots: $PacketPath"
   }
   if (-not (Test-Path -LiteralPath $packetFull -PathType Leaf)) { throw "Scope packet missing: $packetFull" }
   $packet = Get-Content -LiteralPath $packetFull -Raw | ConvertFrom-Json -ErrorAction Stop
@@ -191,11 +271,15 @@ function Read-ValidatedPriorSonnetRecord {
   param(
     [Parameter(Mandatory=$true)][string]$RecordPath,
     [Parameter(Mandatory=$true)][string]$RepoRoot,
+    [Parameter(Mandatory=$true)][string[]]$TrustedRecordRoots,
     [Parameter(Mandatory=$true)][string]$ExpectedDecisionUnitId
   )
   $recordFull = [System.IO.Path]::GetFullPath($RecordPath)
-  $allowedRoot = [System.IO.Path]::GetFullPath((Join-Path $RepoRoot "runtime_artifacts\agent_handoffs\claude_subscription")).TrimEnd('\')
-  if (-not $recordFull.StartsWith($allowedRoot + '\', [System.StringComparison]::OrdinalIgnoreCase)) {
+  $trustedRecord = @($TrustedRecordRoots | Where-Object {
+    $allowedRoot = [System.IO.Path]::GetFullPath((Join-Path $_ "runtime_artifacts\agent_handoffs\claude_subscription")).TrimEnd('\')
+    $recordFull.StartsWith($allowedRoot + '\', [System.StringComparison]::OrdinalIgnoreCase)
+  }).Count -gt 0
+  if (-not $trustedRecord) {
     throw "CLAUDE_OPUS_ESCALATION_NOT_JUSTIFIED: prior Sonnet record is outside the Claude handoff root."
   }
   if (-not (Test-Path -LiteralPath $recordFull -PathType Leaf)) {
@@ -203,19 +287,19 @@ function Read-ValidatedPriorSonnetRecord {
   }
   $prior = Get-Content -LiteralPath $recordFull -Raw | ConvertFrom-Json -ErrorAction Stop
   $classification = [string]$prior.classification
-  $validCompletedClassification = $classification -in @("CLAUDE_SONNET_HANDOFF_COMPLETED","CLAUDE_SUBSCRIPTION_HANDOFF_COMPLETED")
-  $validBlockedClassification = $classification -eq "CLAUDE_SUBSCRIPTION_WORKER_REPORTED_BLOCKED"
+  $validCompletedClassification = $classification -in @("CLAUDE_SONNET_HANDOFF_COMPLETED","CLAUDE_SUBSCRIPTION_HANDOFF_COMPLETED","CLAUDE_SUBSCRIPTION_HANDOFF_COMPLETED_WITH_FINDINGS")
+  $validBlockedClassification = $classification -in @("CLAUDE_SUBSCRIPTION_HANDOFF_COMPLETED_BLOCKED","CLAUDE_SUBSCRIPTION_WORKER_REPORTED_BLOCKED")
   if ((-not $validCompletedClassification -and -not $validBlockedClassification) -or [string]$prior.requested_model -ne "claude-sonnet-5") {
     throw "CLAUDE_OPUS_ESCALATION_NOT_JUSTIFIED: prior record is not a completed or worker-blocked pinned Sonnet 5 handoff."
   }
   if ($validCompletedClassification -and [string]$prior.status -ne "PASS") {
     throw "CLAUDE_OPUS_ESCALATION_NOT_JUSTIFIED: completed Sonnet evidence must have status PASS."
   }
-  if ($validBlockedClassification -and [string]$prior.status -ne "FAIL") {
-    throw "CLAUDE_OPUS_ESCALATION_NOT_JUSTIFIED: blocked Sonnet evidence must have status FAIL."
+  if ($validBlockedClassification -and [string]$prior.status -notin @("PASS","FAIL")) {
+    throw "CLAUDE_OPUS_ESCALATION_NOT_JUSTIFIED: blocked Sonnet evidence must be finalized."
   }
-  if ($prior.scope_packet_validated -ne $true -or $prior.scope_files_unchanged -ne $true -or $prior.worktree_unchanged -ne $true) {
-    throw "CLAUDE_OPUS_ESCALATION_NOT_JUSTIFIED: prior Sonnet evidence must be scope-validated and mutation-free."
+  if ($prior.scope_packet_validated -ne $true -or $prior.scope_files_unchanged -ne $true) {
+    throw "CLAUDE_OPUS_ESCALATION_NOT_JUSTIFIED: prior Sonnet evidence must be scope-validated with unchanged hash-bound files."
   }
   if ([string]$prior.decision_unit_id -ne $ExpectedDecisionUnitId) {
     throw "CLAUDE_OPUS_ESCALATION_NOT_JUSTIFIED: prior Sonnet decision unit does not match $ExpectedDecisionUnitId."
@@ -224,9 +308,9 @@ function Read-ValidatedPriorSonnetRecord {
   if ($finalized -lt [DateTimeOffset]::Now.AddDays(-7)) {
     throw "CLAUDE_OPUS_ESCALATION_NOT_JUSTIFIED: prior Sonnet record is older than seven days."
   }
-  $reportedStatus = ([string]$prior.worker_reported_status).Trim().ToLowerInvariant()
-  $reportedConfidence = ([string]$prior.worker_reported_confidence).Trim().ToLowerInvariant()
-  if ($reportedStatus -notin @("pass","complete","completed","ready","success","ok","blocked","fail","failed","incomplete","error","unable","declined")) {
+  $reportedStatus = Normalize-WorkerStatus -Status ([string]$prior.worker_reported_status)
+  $reportedConfidence = Normalize-WorkerConfidence -Confidence ([string]$prior.worker_reported_confidence)
+  if ($reportedStatus -notin @("pass","pass_with_findings","blocked","fail")) {
     throw "CLAUDE_OPUS_ESCALATION_NOT_JUSTIFIED: prior Sonnet status is missing or not normalized."
   }
   if ($reportedConfidence -notin @("low","medium","high")) {
@@ -318,6 +402,10 @@ if ($SelfTest) {
     markdown_status_parsed = ((Get-WorkerReportedStatus -Text "- **status:** pass") -eq "pass")
     blocked_status_parsed = ((Get-WorkerReportedStatus -Text "**status:** blocked") -eq "blocked")
     exact_confidence_parsed = ((Get-WorkerReportedConfidence -Text "- **confidence:** high") -eq "high")
+    confirmed_status_normalized = ((Normalize-WorkerStatus -Status "confirmed") -eq "pass")
+    findings_status_normalized = ((Normalize-WorkerStatus -Status "pass_with_findings") -eq "pass_with_findings")
+    verified_blocked_status_normalized = ((Normalize-WorkerStatus -Status "verified_blocked_as_intended") -eq "blocked")
+    compound_confidence_normalized = ((Normalize-WorkerConfidence -Confidence "medium-high") -eq "medium")
     opus_ceiling_immutable = ($OpusDailyCeiling -eq 2)
   }
   try { Normalize-RepoRelativePath -Path "C$([char]0xF03A)$([char]0xF05C)Comfy_UI_Main" | Out-Null } catch { $checks.malformed_path_rejected = $true }
@@ -333,6 +421,9 @@ if ($SelfTest) {
 }
 
 $projectRootFull = [System.IO.Path]::GetFullPath($ProjectRoot)
+$registeredWorktreeRoots = @(Get-RegisteredGitWorktreeRoots -RepoRoot $projectRootFull)
+$primaryWorktreeRoot = $registeredWorktreeRoots[0]
+$projectIsPrimaryWorktree = $projectRootFull.TrimEnd('\').Equals($primaryWorktreeRoot, [System.StringComparison]::OrdinalIgnoreCase)
 $defaultScopeByteLimit = 524288
 $externalRoot = "C:\Users\kevin\.codex\claude_subscription_handoff"
 $lockPath = Join-Path $externalRoot "claude_subscription.lock"
@@ -376,6 +467,12 @@ $record = [ordered]@{
   })
   timeout_seconds = $TimeoutSeconds
   stale_lock_minutes = $StaleLockMinutes
+  lock_wait_seconds = $LockWaitSeconds
+  lock_poll_seconds = $LockPollSeconds
+  registered_worktree_roots = $registeredWorktreeRoots
+  primary_worktree_root = $primaryWorktreeRoot
+  project_is_primary_worktree = $projectIsPrimaryWorktree
+  warnings = @()
   output_path = Join-Path $runDir "claude_stdout.txt"
   stderr_path = Join-Path $runDir "claude_stderr.txt"
   work_order_path = Join-Path $runDir "work_order.md"
@@ -384,6 +481,8 @@ $record = [ordered]@{
 $worktreeBefore = $null
 $scopePacket = $null
 $scopeHashesBefore = @{}
+$lockAcquired = $false
+$workerStopwatch = $null
 
 if ([string]::IsNullOrWhiteSpace($ClaudeExe)) {
   $candidateRoot = Join-Path $env:APPDATA "Claude\claude-code"
@@ -397,15 +496,6 @@ if ([string]::IsNullOrWhiteSpace($ClaudeExe)) {
 }
 $record.claude_exe = $ClaudeExe
 
-if (Test-Path -LiteralPath $lockPath) {
-  $lockItem = Get-Item -LiteralPath $lockPath
-  $lockAge = (Get-Date) - $lockItem.LastWriteTime
-  if ($lockAge.TotalMinutes -ge $StaleLockMinutes) {
-    $record.issues += "Removed stale Claude subscription handoff lock older than $StaleLockMinutes minutes: $lockPath"
-    Remove-Item -LiteralPath $lockPath -Force
-  }
-}
-
 try {
   $lockPayload = [ordered]@{
     pid = $PID
@@ -413,24 +503,23 @@ try {
     created_at = (Get-Date).ToString("o")
     run_dir = $runDir
   }
-  $lockJson = $lockPayload | ConvertTo-Json -Compress
-  $lockBytes = [System.Text.Encoding]::UTF8.GetBytes($lockJson)
-  $lockStream = [System.IO.File]::Open($lockPath, [System.IO.FileMode]::CreateNew, [System.IO.FileAccess]::Write, [System.IO.FileShare]::None)
-  try {
-    $lockStream.Write($lockBytes, 0, $lockBytes.Length)
-  } finally {
-    $lockStream.Dispose()
-  }
+  $lockResult = Enter-BoundedHandoffLock -Path $lockPath -Payload $lockPayload -WaitSeconds $LockWaitSeconds -PollSeconds $LockPollSeconds -StaleMinutes $StaleLockMinutes
+  $lockAcquired = $true
+  $record.lock_wait_duration_ms = $lockResult.waited_ms
+  $record.stale_lock_removed = $lockResult.stale_lock_removed
 } catch {
   $record.status = "BLOCKED"
-  $record.classification = "CLAUDE_SUBSCRIPTION_HANDOFF_LOCKED"
-  $record.issues += "Another Claude subscription handoff lock exists at $lockPath"
+  $record.classification = "CLAUDE_SUBSCRIPTION_LOCK_WAIT_TIMEOUT"
+  $record.issues += $_.Exception.Message
   $record.finalized_at = (Get-Date).ToString("o")
   $record | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $recordPath -Encoding UTF8
-  throw "Claude subscription handoff lock exists: $lockPath"
+  throw
 }
 
 try {
+  if ($projectIsPrimaryWorktree -and -not $AllowPrimaryWorktree -and $TaskTier -ne "HealthProbe") {
+    throw "CLAUDE_ISOLATED_WORKTREE_REQUIRED: substantive Claude handoffs must run in a registered isolated worktree."
+  }
   $blockedEnv = @("ANTHROPIC_API_KEY","ANTHROPIC_AUTH_TOKEN","ANTHROPIC_BASE_URL") | Where-Object { Test-EnvPresent $_ }
   if ($blockedEnv.Count -gt 0) {
     throw "CLAUDE_API_FALLBACK_BLOCKED: subscription handoff refused because API/provider environment variables are present: $($blockedEnv -join ', ')"
@@ -493,7 +582,7 @@ try {
 
   $scopePacket = $null
   if (-not [string]::IsNullOrWhiteSpace($ScopePacketPath)) {
-    $scopePacket = Read-ValidatedScopePacket -PacketPath $ScopePacketPath -RepoRoot $projectRootFull -ScopeByteLimit $MaxScopeBytes
+    $scopePacket = Read-ValidatedScopePacket -PacketPath $ScopePacketPath -RepoRoot $projectRootFull -TrustedPacketRoots $registeredWorktreeRoots -ScopeByteLimit $MaxScopeBytes
     $record.scope_packet_path = $scopePacket.full_path
     $record.scope_packet_candidate_count = $scopePacket.files.Count
     $record.scope_packet_total_bytes = $scopePacket.total_bytes
@@ -510,7 +599,7 @@ try {
       $record.escalation_link_validated = $true
       $record.escalation_source = "direct_high_risk_architecture_exception"
     } else {
-      $priorSonnet = Read-ValidatedPriorSonnetRecord -RecordPath $PriorSonnetRecordPath -RepoRoot $projectRootFull -ExpectedDecisionUnitId $DecisionUnitId
+      $priorSonnet = Read-ValidatedPriorSonnetRecord -RecordPath $PriorSonnetRecordPath -RepoRoot $projectRootFull -TrustedRecordRoots $registeredWorktreeRoots -ExpectedDecisionUnitId $DecisionUnitId
       $record.prior_sonnet_record_path = $priorSonnet.full_path
       $record.prior_sonnet_record_sha256 = $priorSonnet.sha256
       $record.prior_sonnet_task_name = $priorSonnet.record.task_name
@@ -644,13 +733,17 @@ $sourceText
   $proc = New-Object System.Diagnostics.Process
   $proc.StartInfo = $psi
   $sw = [System.Diagnostics.Stopwatch]::StartNew()
+  $workerStopwatch = $sw
   [void]$proc.Start()
   $stdoutTask = $proc.StandardOutput.ReadToEndAsync()
   $stderrTask = $proc.StandardError.ReadToEndAsync()
   if (-not $proc.WaitForExit($TimeoutSeconds * 1000)) {
     try { & taskkill.exe /PID $proc.Id /T /F | Out-Null } catch { try { $proc.Kill() } catch { } }
     try { [void]$proc.WaitForExit(5000) } catch { }
-    throw "Claude subscription handoff timed out after $TimeoutSeconds seconds."
+    $sw.Stop()
+    $record.duration_ms = $sw.ElapsedMilliseconds
+    $record.timeout_duration_ms = $sw.ElapsedMilliseconds
+    throw "CLAUDE_SUBSCRIPTION_TIMEOUT: Claude subscription handoff timed out after $($sw.ElapsedMilliseconds) ms (configured timeout $TimeoutSeconds seconds)."
   }
   try { $proc.WaitForExit() } catch { }
   $stdout = Redact-Text $stdoutTask.Result
@@ -703,9 +796,7 @@ $sourceText
     $record.classification = "CLAUDE_SUBSCRIPTION_READ_ONLY_MUTATION_VIOLATION"
     $record.issues += "A hash-bound scope file changed while the Claude handoff was active."
   } elseif (-not $record.worktree_unchanged) {
-    $record.status = "FAIL"
-    $record.classification = "CLAUDE_CONCURRENT_WORKTREE_DRIFT_DETECTED"
-    $record.issues += "Repository-visible state changed outside the hash-bound scope while the handoff was active; attribution is ambiguous, so the result is not accepted."
+    $record.warnings += "CLAUDE_CONCURRENT_WORKTREE_DRIFT_WARNING: repository-visible state changed outside the hash-bound scope; the hash-bound scope remained unchanged."
   }
 
   $requiredLabels = @("status:", "summary:", "files inspected:", "blockers:", "confidence:", "recommended Codex follow-up:")
@@ -713,31 +804,39 @@ $sourceText
   $outputContractText = $stdout.Trim()
   $missingLabels = @($requiredLabels | Where-Object { $outputContractText -notmatch [regex]::Escape($_) })
   $workerReportedStatus = Get-WorkerReportedStatus -Text $outputContractText
-  $workerReportedStatus = $workerReportedStatus.Trim().ToLowerInvariant()
+  $workerReportedStatus = Normalize-WorkerStatus -Status $workerReportedStatus
   $workerReportedConfidence = Get-WorkerReportedConfidence -Text $outputContractText
+  $workerReportedConfidence = Normalize-WorkerConfidence -Confidence $workerReportedConfidence
   $record.worker_reported_status = $workerReportedStatus
   $record.worker_reported_confidence = $workerReportedConfidence
   $promiseOnlyPattern = '(?i)\b(i.ll|i will|next i.ll|next i will)\b.*\b(inspect|read|extract|check)\b'
   $tailLength = [Math]::Min(700, $outputContractText.Length)
   $resultTail = if ($tailLength -gt 0) { $outputContractText.Substring($outputContractText.Length - $tailLength, $tailLength) } else { "" }
   $endsWithPromise = ($resultTail -match $promiseOnlyPattern -and $resultTail -notmatch 'recommended Codex follow-up:')
-  if (($missingLabels.Count -gt 0 -or $endsWithPromise -or [string]::IsNullOrWhiteSpace($workerReportedStatus) -or [string]::IsNullOrWhiteSpace($workerReportedConfidence)) -and $proc.ExitCode -eq 0 -and $record.worktree_unchanged) {
+  if (($missingLabels.Count -gt 0 -or $endsWithPromise -or [string]::IsNullOrWhiteSpace($workerReportedStatus) -or [string]::IsNullOrWhiteSpace($workerReportedConfidence)) -and $proc.ExitCode -eq 0 -and $record.scope_files_unchanged) {
     $record.status = "FAIL"
     $record.classification = "CLAUDE_SUBSCRIPTION_INCOMPLETE_OUTPUT_CONTRACT"
     if ($missingLabels.Count -gt 0) { $record.issues += ("Claude result missed output contract labels: " + ($missingLabels -join ", ")) }
     if ($endsWithPromise) { $record.issues += "Claude result looked like an unfinished promise, not a completed handoff." }
     if ([string]::IsNullOrWhiteSpace($workerReportedStatus)) { $record.issues += "Claude result did not contain a parseable status label." }
     if ([string]::IsNullOrWhiteSpace($workerReportedConfidence)) { $record.issues += "Claude result did not contain a parseable confidence label." }
-  } elseif ($proc.ExitCode -eq 0 -and $record.worktree_unchanged -and $record.scope_files_unchanged -and -not [string]::IsNullOrWhiteSpace($workerReportedStatus)) {
+  } elseif ($proc.ExitCode -eq 0 -and $record.scope_files_unchanged -and -not [string]::IsNullOrWhiteSpace($workerReportedStatus)) {
     if ($workerReportedConfidence -notin @("low","medium","high")) {
       $record.status = "FAIL"
       $record.classification = "CLAUDE_SUBSCRIPTION_INVALID_CONFIDENCE_LABEL"
       $record.issues += "Claude confidence must be exactly low, medium, or high: $workerReportedConfidence"
-    } elseif ($workerReportedStatus -in @("blocked","fail","failed","incomplete","error","unable","declined")) {
+    } elseif ($workerReportedStatus -eq "blocked") {
+      $record.status = "PASS"
+      $record.classification = "CLAUDE_SUBSCRIPTION_HANDOFF_COMPLETED_BLOCKED"
+      $record.warnings += "Claude completed the bounded analysis and reported an explicit blocker."
+    } elseif ($workerReportedStatus -eq "fail") {
       $record.status = "FAIL"
-      $record.classification = "CLAUDE_SUBSCRIPTION_WORKER_REPORTED_BLOCKED"
-      $record.issues += "Claude reported a non-success status: $workerReportedStatus"
-    } elseif ($workerReportedStatus -notin @("pass","complete","completed","ready","success","ok")) {
+      $record.classification = "CLAUDE_SUBSCRIPTION_WORKER_REPORTED_FAILURE"
+      $record.issues += "Claude reported failure."
+    } elseif ($workerReportedStatus -eq "pass_with_findings") {
+      $record.status = "PASS"
+      $record.classification = "CLAUDE_SUBSCRIPTION_HANDOFF_COMPLETED_WITH_FINDINGS"
+    } elseif ($workerReportedStatus -ne "pass") {
       $record.status = "FAIL"
       $record.classification = "CLAUDE_SUBSCRIPTION_INVALID_STATUS_LABEL"
       $record.issues += "Claude returned an unrecognized status label: $workerReportedStatus"
@@ -792,8 +891,7 @@ $sourceText
         $classification = "CLAUDE_SUBSCRIPTION_READ_ONLY_MUTATION_VIOLATION"
         $record.issues += "A hash-bound scope file changed before the handoff failed."
       } elseif (-not $record.worktree_unchanged) {
-        $classification = "CLAUDE_CONCURRENT_WORKTREE_DRIFT_DETECTED"
-        $record.issues += "Repository-visible state changed outside the hash-bound scope before the handoff failed; attribution is ambiguous."
+        $record.warnings += "CLAUDE_CONCURRENT_WORKTREE_DRIFT_WARNING: repository-visible state changed outside the hash-bound scope before the handoff failed."
       }
     } catch { $record.issues += "Unable to capture the post-failure worktree fingerprint." }
   }
@@ -801,9 +899,13 @@ $sourceText
   $record.issues += $message
   throw
 } finally {
+  if ($null -ne $workerStopwatch -and $workerStopwatch.IsRunning) {
+    $workerStopwatch.Stop()
+    $record.duration_ms = $workerStopwatch.ElapsedMilliseconds
+  }
   $record.finalized_at = (Get-Date).ToString("o")
   $record | ConvertTo-Json -Depth 12 | Set-Content -LiteralPath $recordPath -Encoding UTF8
-  Remove-Item -LiteralPath $lockPath -Force -ErrorAction SilentlyContinue
+  if ($lockAcquired) { Remove-Item -LiteralPath $lockPath -Force -ErrorAction SilentlyContinue }
 }
 
 $record | ConvertTo-Json -Depth 12

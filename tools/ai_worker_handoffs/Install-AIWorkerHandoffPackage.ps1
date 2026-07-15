@@ -17,7 +17,8 @@ if ($manifest.artifact_type -ne "ai_worker_handoff_canonical_package_manifest") 
 
 $lockPaths = @(
   (Join-Path $CodexHome "cursor_handoff\cursor_agent.lock"),
-  (Join-Path $CodexHome "claude_subscription_handoff\claude_subscription.lock")
+  (Join-Path $CodexHome "claude_subscription_handoff\claude_subscription.lock"),
+  (Join-Path $CodexHome "ai_worker_dispatcher\dispatcher.lock")
 )
 $activeLocks = @($lockPaths | Where-Object { Test-Path -LiteralPath $_ })
 if ($Apply -and $activeLocks.Count -gt 0) { throw "Worker package installation blocked by active lock(s): $($activeLocks -join ', ')" }
@@ -28,6 +29,7 @@ function Get-Destination {
   switch ($parts[0]) {
     "claude" { return Join-Path $CodexHome ("claude_subscription_handoff\" + ($parts[1..($parts.Count - 1)] -join "\")) }
     "cursor" { return Join-Path $CodexHome ("cursor_handoff\" + ($parts[1..($parts.Count - 1)] -join "\")) }
+    "dispatcher" { return Join-Path $CodexHome ("ai_worker_dispatcher\" + ($parts[1..($parts.Count - 1)] -join "\")) }
     "automations" {
       $id = [IO.Path]::GetFileNameWithoutExtension($parts[-1])
       return Join-Path $CodexHome ("automations\$id\automation.toml")
