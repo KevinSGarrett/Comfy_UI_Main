@@ -59,7 +59,11 @@ def build_request(args: argparse.Namespace) -> dict:
         "required_sections": DEFAULT_SECTIONS,
         "required_categories": DEFAULT_CATEGORIES,
         "minimum_score": 4.0,
-        "blinding": {"engine_identity_hidden_initial_pass": True},
+        "blinding": {
+            "engine_identity_hidden_initial_pass": getattr(
+                args, "engine_identity_hidden_initial_pass", True
+            )
+        },
     }
     schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
     errors = list(Draft202012Validator(schema).iter_errors(payload))
@@ -82,6 +86,11 @@ def main() -> int:
     parser.add_argument("--pace-wpm", type=float)
     parser.add_argument("--duration-target-seconds", type=float, required=True)
     parser.add_argument("--sync-required", action="store_true")
+    parser.add_argument(
+        "--engine-identity-hidden-initial-pass",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+    )
     parser.add_argument("--automated-evidence", action="append", default=[])
     parser.add_argument("--output", required=True)
     args = parser.parse_args()
