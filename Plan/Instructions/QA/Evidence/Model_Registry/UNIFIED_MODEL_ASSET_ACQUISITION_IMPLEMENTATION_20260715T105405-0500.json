@@ -1,0 +1,139 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "UNIFIED-MODEL-ASSET-ACQUISITION-IMPLEMENTATION-20260715T105405-0500",
+  "created_at": "2026-07-15T10:54:05-05:00",
+  "classification": "UNIFIED_MODEL_ASSET_ACQUISITION_IMPLEMENTED_AND_LIVE_PREFLIGHT_PASSED",
+  "project_root": "C:/Comfy_UI_Main",
+  "scope": {
+    "civitai_discovery": true,
+    "civitai_exact_version_and_file_resolution": true,
+    "civitai_api_download": true,
+    "huggingface_exact_revision_file_download": true,
+    "authenticated_browser_fallback_request_and_ingestion": true,
+    "existing_local_exact_hash_reuse": true,
+    "staged_resume_and_atomic_install": true,
+    "sha256_and_size_verification": true,
+    "model_registry_and_runtime_queue_upsert": true,
+    "workflow_and_runtime_requirements_wiring": true,
+    "local_object_info_visibility_check": true,
+    "content_based_suppression": false
+  },
+  "live_preflight": {
+    "classification": "MODEL_ACQUISITION_PREFLIGHT_PASS",
+    "civitai_credential_present": true,
+    "civitai_api_reachable": true,
+    "huggingface_credential_present": false,
+    "browser_fallback_available": true,
+    "secret_values_reported": false
+  },
+  "live_exact_civitai_resolution": {
+    "classification": "LIVE_EXACT_CIVITAI_RESOLUTION_PASS",
+    "model_id": "139562",
+    "model_version_id": "789646",
+    "file_id": "703211",
+    "filename": "realvisxlV50_v50Bakedvae.safetensors",
+    "sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+    "download_url_contains_token": false,
+    "download_executed": false
+  },
+  "live_discovery": {
+    "classification": "CIVITAI_DISCOVERY_CANDIDATES_RESOLVED",
+    "query": "hyperrealism skin detail",
+    "type": "LORA",
+    "base_model_filter": "SDXL",
+    "candidate_version_count": 4,
+    "selection_automated": false,
+    "content_based_suppression": false
+  },
+  "validation": {
+    "python_compile": "pass",
+    "unit_tests": {
+      "checked": 14,
+      "passed": 14,
+      "failed": 0
+    },
+    "json_schema": "valid_draft_2020_12",
+    "civitai_template_schema": "pass",
+    "huggingface_template_schema": "pass",
+    "comfyui_extra_model_paths_load": "pass",
+    "verified_path_categories": [
+      "checkpoints",
+      "loras",
+      "controlnet",
+      "vae",
+      "text_encoders",
+      "diffusion_models",
+      "upscale_models",
+      "audio_encoders",
+      "frame_interpolation",
+      "geometry_estimation",
+      "optical_flow",
+      "detection",
+      "mmaudio",
+      "ipadapter",
+      "animatediff_models"
+    ]
+  },
+  "artifact_bindings": [
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/manage_model_asset_acquisition.py",
+      "sha256": "4cf15a6c21998131367b6d25ecbe72a6903a824bfc300afebd3ca692ea81c1a1",
+      "bytes": 45271
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_manage_model_asset_acquisition.py",
+      "sha256": "4d9dd1599b5a6fae13e44a5c909afd383521b6c7ca19b9a89b4ecfb432618e3d",
+      "bytes": 15280
+    },
+    {
+      "path": "Plan/08_SCHEMAS/model_asset_acquisition_request.schema.json",
+      "sha256": "0930d961f447495935211a81f46e852f1bc775f3e1f352cfaa9a64630d8f1b98",
+      "bytes": 4290
+    },
+    {
+      "path": "Plan/10_REGISTRIES/model_acquisition_control_registry.json",
+      "sha256": "1e117d6ba4380bf21e3144614c87fdbfa78baed21b19ceb545cf1aaca00c8625",
+      "bytes": 3853
+    },
+    {
+      "path": "Plan/Instructions/Operations/UNIFIED_MODEL_ASSET_ACQUISITION_AND_WIRING_PROTOCOL.md",
+      "sha256": "0c7dc4dd285009ff063e0a3047de43f3dcdac20e19bf7697828d761cd89efbe5",
+      "bytes": 10718
+    },
+    {
+      "path": "Plan/Instructions/Hydration_Rehydration/MODEL_ASSET_ACQUISITION_MAIN_SESSION_HANDOFF.md",
+      "sha256": "0dd003cbbb3c892334aa83e3d7831665f3a6c68c53ac6a2aac8005697d8b957e",
+      "bytes": 1763
+    },
+    {
+      "path": "config/comfyui_extra_model_paths.yaml",
+      "sha256": "d3ded7598dc644f3e85e74d822230d65b17762636c9e9a8a1db6aff977d34c65",
+      "bytes": 793
+    }
+  ],
+  "security_and_access_boundaries": {
+    "secret_values_logged_or_serialized": false,
+    "authorization_forwarded_to_cross_domain_redirect": false,
+    "browser_cookies_exported": false,
+    "api_token_saved_in_url": false,
+    "paid_private_gated_or_early_access_bypass": false,
+    "adult_or_nsfw_metadata_used_as_filter": false
+  },
+  "execution_boundaries": {
+    "model_download_executed": false,
+    "comfyui_prompt_posted": false,
+    "generation_executed": false,
+    "ec2_started": false,
+    "s3_mutated": false,
+    "git_or_github_mutated": false,
+    "jira_mutated": false,
+    "mask_or_wave71_authority_changed": false
+  },
+  "documentation_sources": [
+    "https://developer.civitai.com/site/reference",
+    "https://github.com/civitai/civitai/wiki/REST-API-Reference",
+    "https://huggingface.co/docs/huggingface_hub/guides/download",
+    "https://huggingface.co/docs/huggingface_hub/guides/cli"
+  ],
+  "next_action": "Main session should inherit the handoff after its current stable checkpoint and use this controller for each concrete missing dependency as part of that lane's implementation batch."
+}

@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "request_id": "ACQ-REPLACE-ME",
+  "capability_need": "Describe the exact missing image, video, audio, control, preprocessing, or QA capability.",
+  "intended_use": "Describe how this exact file will be used in the declared workflow lane.",
+  "selection_rationale": "Record engine/base compatibility, loader, precision, VRAM, quality, and source/license reasons.",
+  "provider": "civitai",
+  "source": {
+    "model_id": "REPLACE",
+    "model_version_id": "REPLACE",
+    "file_id": "REPLACE"
+  },
+  "asset": {
+    "model_name": "REPLACE",
+    "model_type": "LORA",
+    "base_model": "sdxl",
+    "target_subdir": "loras/replace_lane",
+    "filename": "replace.safetensors",
+    "visual_impact": "",
+    "video_impact": "",
+    "audio_impact": ""
+  },
+  "integration": {
+    "workflow_lane": "replace_lane",
+    "compatible_engines": ["sdxl"],
+    "runtime_requirements_path": "Workflows/replace_lane/runtime_requirements.json",
+    "model_role": "detail_lora",
+    "test_workflow_path": "Workflows/replace_lane/workflow.api.json",
+    "expected_runtime_result": "load_model_and_run_bounded_smoke_then_modality_qa",
+    "priority": 100,
+    "required_nodes": ["LoraLoader"],
+    "workflow_bindings": [
+      {
+        "workflow_path": "Workflows/replace_lane/workflow.api.json",
+        "node_id": "2",
+        "input_name": "lora_name"
+      }
+    ]
+  },
+  "policy": {
+    "license_status": "source_terms_recorded",
+    "license_id": "REPLACE",
+    "license_url": "REPLACE",
+    "commercial_use_scope": "REPLACE",
+    "content_based_suppression": false,
+    "adult_or_nsfw_metadata_is_not_a_filter": true,
+    "allow_browser_fallback": true
+  }
+}

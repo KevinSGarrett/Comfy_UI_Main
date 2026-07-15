@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "w64_row023_animatediff_frame0002_wan22_rerun_seed2272301",
+  "target_lane_id": "wan_2_2_ti2v_5b_primary_lane",
+  "purpose": "One targeted whole-shot rerun of the failed Row023 AnimateDiff sequence using a passed-frame identity and environment anchor with the materially changed Wan 2.2 TI2V route.",
+  "source_binding": {
+    "project_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/extracted_frames/frame_0002.png",
+    "staged_filename": "wan22_row023_rerun_anchor_frame0002.png",
+    "size_bytes": 87511,
+    "sha256": "d6d5acd4579a34f0ebef9aa47a4d01e20e5bf83c3885c8e93f146eadeeb72665",
+    "source_width": 256,
+    "source_height": 320,
+    "selection_method": "minimum_mean_absolute_rgb_distance_medoid_across_passed_frames_0_through_4",
+    "selected_frame_index": 2,
+    "failed_frame_indexes_excluded": [5, 6, 7]
+  },
+  "request_patch_values": {
+    "positive_prompt": "cinematic realistic portrait video of exactly one fully clothed adult woman in a white collared blouse, preserve the exact face identity dark center-parted hair curled at the ends white collar black studio background symmetrical soft gray side lights and warm top highlight, subtle natural breathing, one gentle blink, tiny hair movement, locked camera, stable head-and-shoulders framing, physically coherent motion",
+    "negative_prompt": "camera movement, zoom, pan, cut, scene change, identity drift, face morphing, hairstyle change, clothing change, collar change, background change, lighting change, extra person, body warping, jitter, flicker, temporal inconsistency, terminal frame corruption, saturated blue or yellow collapse, blur, low quality, watermark, text",
+    "seed": 2272301,
+    "sampler_settings": {
+      "steps": 20,
+      "cfg": 5,
+      "sampler_name": "uni_pc",
+      "scheduler": "simple",
+      "denoise": 1
+    },
+    "video_latent": {
+      "width": 480,
+      "height": 640,
+      "length": 49,
+      "batch_size": 1
+    },
+    "source_image": "wan22_row023_rerun_anchor_frame0002.png",
+    "output_video": {
+      "filename_prefix": "video/w64_row023_wan22_rerun_seed2272301",
+      "format": "mp4",
+      "codec": "h264"
+    }
+  },
+  "expected_outputs": {
+    "artifact_type": "video",
+    "minimum_output_count": 1,
+    "output_prefix": "w64_row023_wan22_rerun_seed2272301",
+    "frame_count": 49,
+    "fps": 24
+  },
+  "qa_focus": [
+    "recognizable frame-2 face identity across all reviewed frames",
+    "dark center-parted curled-end hairstyle continuity",
+    "white collared blouse continuity without clipping collapse",
+    "black studio background with symmetric gray side lights and warm top highlight",
+    "locked head-and-shoulders portrait framing",
+    "subtle coherent motion without scene, exposure, or terminal-frame discontinuity"
+  ],
+  "runtime_boundaries": {
+    "local_readiness_only": true,
+    "targeted_rerun_shot": true,
+    "material_route_change_from_failed_animatediff": true,
+    "authorized_generation_count": 1,
+    "retry_allowed": false,
+    "ec2_start_allowed": false,
+    "generation_allowed": false,
+    "gold_masks_consumed": false,
+    "body_mask_or_geometry_authority_claimed": false,
+    "mask_promotion_allowed": false,
+    "content_based_suppression": false,
+    "adult_or_nsfw_asset_visibility_restricted": false,
+    "requires_direct_before_after_temporal_review_after_execution": true,
+    "production_video_lane_certification_claimed": false,
+    "wave71_activation_claimed": false,
+    "jira_mutated": false
+  }
+}

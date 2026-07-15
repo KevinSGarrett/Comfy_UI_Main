@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/model_asset_acquisition_request.schema.json",
+  "title": "Model Asset Acquisition Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "request_id",
+    "capability_need",
+    "intended_use",
+    "provider",
+    "source",
+    "asset",
+    "integration",
+    "policy"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "request_id": { "type": "string", "minLength": 3 },
+    "capability_need": { "type": "string", "minLength": 10 },
+    "intended_use": { "type": "string", "minLength": 10 },
+    "selection_rationale": { "type": "string" },
+    "provider": { "enum": ["civitai", "huggingface"] },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "model_id": { "type": ["string", "integer"] },
+        "model_version_id": { "type": ["string", "integer"] },
+        "file_id": { "type": ["string", "integer"] },
+        "filename": { "type": "string" },
+        "repo_id": { "type": "string" },
+        "revision": { "type": "string", "pattern": "^[a-fA-F0-9]{40,64}$" },
+        "sha256": { "type": "string", "pattern": "^$|^[a-fA-F0-9]{64}$" },
+        "bytes": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["model_name", "model_type", "base_model", "target_subdir"],
+      "properties": {
+        "model_name": { "type": "string", "minLength": 1 },
+        "model_type": { "type": "string", "minLength": 1 },
+        "base_model": { "type": "string", "minLength": 1 },
+        "target_subdir": { "type": "string", "minLength": 1 },
+        "filename": { "type": "string" },
+        "visual_impact": { "type": "string" },
+        "video_impact": { "type": "string" },
+        "audio_impact": { "type": "string" }
+      }
+    },
+    "integration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["workflow_lane", "compatible_engines"],
+      "properties": {
+        "workflow_lane": { "type": "string", "minLength": 1 },
+        "compatible_engines": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "runtime_requirements_path": { "type": "string" },
+        "model_role": { "type": "string" },
+        "test_workflow_path": { "type": "string" },
+        "expected_runtime_result": { "type": "string" },
+        "priority": { "type": "integer", "minimum": 1 },
+        "prompt_notes": { "type": "string" },
+        "negative_prompt_notes": { "type": "string" },
+        "required_nodes": { "type": "array", "items": { "type": "string" } },
+        "workflow_bindings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["workflow_path", "node_id", "input_name"],
+            "properties": {
+              "workflow_path": { "type": "string" },
+              "node_id": { "type": ["string", "integer"] },
+              "input_name": { "type": "string" },
+              "value": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["license_status", "content_based_suppression"],
+      "properties": {
+        "license_status": {
+          "enum": ["verified_allowed", "public_permissive", "user_accepted", "source_terms_recorded", "unknown_blocked"]
+        },
+        "license_id": { "type": "string" },
+        "license_url": { "type": "string" },
+        "commercial_use_scope": { "type": "string" },
+        "content_based_suppression": { "const": false },
+        "adult_or_nsfw_metadata_is_not_a_filter": { "const": true },
+        "allow_browser_fallback": { "type": "boolean" }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "provider": { "const": "civitai" } } },
+      "then": { "properties": { "source": { "required": ["model_version_id"] } } }
+    },
+    {
+      "if": { "properties": { "provider": { "const": "huggingface" } } },
+      "then": { "properties": { "source": { "required": ["repo_id", "revision", "filename", "sha256"] } } }
+    }
+  ]
+}

@@ -307,6 +307,20 @@ A Civitai acquisition task is complete only when:
 [ ] tracker updated
 ```
 
+## 14. Enforced acquisition controller and browser fallback
+
+This protocol is implemented by the active unified controller and must not be treated as documentation-only guidance:
+
+```text
+Plan/Instructions/Operations/UNIFIED_MODEL_ASSET_ACQUISITION_AND_WIRING_PROTOCOL.md
+Plan/07_IMPLEMENTATION/scripts/manage_model_asset_acquisition.py
+Plan/10_REGISTRIES/model_acquisition_control_registry.json
+```
+
+The main session must use that controller for exact Civitai version/file resolution, API acquisition, staged verification, placement, registry/queue updates, and declared workflow wiring. If API download returns an access/login response, it must create a browser request and use the signed-in Chrome session, then ingest the downloaded file through the same hash-bound controller path. Browser cookies and API tokens must never be exported or serialized.
+
+Adult or NSFW metadata must not suppress discovery, acquisition, placement, or runtime use. Technical compatibility and recorded license/access terms remain required.
+
 Reference sources checked for Wave 60 protocol drafting on 2026-07-06:
 - AWS CLI EC2 describe-instances command reference
 - AWS CLI EC2 start-instances / stop-instances command references

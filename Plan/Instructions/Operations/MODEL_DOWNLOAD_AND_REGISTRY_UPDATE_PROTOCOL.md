@@ -260,6 +260,17 @@ A model download/registry task is complete only when:
 [ ] hydration state updated
 ```
 
+## 13. Implementation-time acquisition rule
+
+The active implementation is:
+
+```text
+Plan/Instructions/Operations/UNIFIED_MODEL_ASSET_ACQUISITION_AND_WIRING_PROTOCOL.md
+Plan/07_IMPLEMENTATION/scripts/manage_model_asset_acquisition.py
+```
+
+When a concrete workflow lane needs an available asset, the main session must acquire and wire it in that lane's delivery batch rather than creating an end-of-project model-install backlog. The unified controller enforces staging, exact hash placement, idempotent registry/runtime-queue updates, declared workflow and runtime-requirements bindings, and local object-info visibility. Download-only, registry-only, and workflow-reference-only states are incomplete.
+
 Reference sources checked for Wave 60 protocol drafting on 2026-07-06:
 - AWS CLI EC2 describe-instances command reference
 - AWS CLI EC2 start-instances / stop-instances command references
