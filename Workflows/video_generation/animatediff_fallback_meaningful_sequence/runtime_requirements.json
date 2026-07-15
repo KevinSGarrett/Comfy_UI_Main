@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0",
+  "lane_id": "animatediff_fallback_meaningful_sequence",
+  "purpose": "One materially changed local 16-frame AnimateDiff fallback quality sequence after the primary Wan lane was selected. This is not a rerun of the archived eight-frame smoke.",
+  "prior_lineage": {
+    "workflow": "Workflows/video_generation/animatediff_fallback_lane/workflow.api.json",
+    "visual_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_LOCAL_ANIMATEDIFF_FALLBACK_VISUAL_QA_20260713T023500-0500.json",
+    "prior_result": "fail_visual_temporal_quality_terminal_frame_corruption",
+    "material_changes": [
+      "frame_count_8_to_16",
+      "resolution_256x320_to_384x512",
+      "context_length_8_to_16",
+      "steps_8_to_20",
+      "sampler_euler_normal_to_dpmpp_2m_sde_karras",
+      "prompt_changed_from_static_breathing_to_bounded_head_turn",
+      "technical_gate_adds_adjacent_and_terminal_discontinuity_limits"
+    ]
+  },
+  "assets": [
+    {
+      "role": "checkpoint",
+      "file_name": "realvisxlV50_v50Bakedvae.safetensors",
+      "sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+      "local_path": "C:/Comfy_UI_Main/models/checkpoints/realvisxlV50_v50Bakedvae.safetensors"
+    },
+    {
+      "role": "animatediff_motion_model",
+      "file_name": "mm_sdxl_v10_beta.ckpt",
+      "size_bytes": 950143538,
+      "sha256": "fa4950a062e892fca50d4c441fcd6130d1ad68a621a0404d155be17580072978",
+      "local_path": "C:/Comfy_UI_Main/ComfyUI/models/animatediff_models/mm_sdxl_v10_beta.ckpt"
+    }
+  ],
+  "custom_node": {
+    "name": "ComfyUI-AnimateDiff-Evolved",
+    "commit": "d8d163cd90b1111f6227495e3467633676fbb346",
+    "local_path": "C:/Comfy_UI_Main/ComfyUI/custom_nodes/ComfyUI-AnimateDiff-Evolved"
+  },
+  "sequence_scope": {
+    "width": 384,
+    "height": 512,
+    "frame_count": 16,
+    "fps": 8.0,
+    "duration_seconds": 2.0,
+    "seed": 7151601,
+    "steps": 20,
+    "cfg": 4.5,
+    "sampler_name": "dpmpp_2m_sde",
+    "scheduler": "karras",
+    "export_format": "animated_webp"
+  },
+  "technical_thresholds": {
+    "minimum_nonblank_frames": 16,
+    "minimum_moving_pair_count": 8,
+    "minimum_mean_adjacent_mad": 1.0,
+    "maximum_mean_adjacent_mad": 28.0,
+    "maximum_adjacent_mad": 45.0,
+    "maximum_terminal_to_median_mad_ratio": 2.5,
+    "maximum_frame_white_clip_ratio": 0.18,
+    "maximum_frame_black_clip_ratio": 0.35
+  },
+  "boundaries": {
+    "local_only": true,
+    "ec2_started": false,
+    "aws_mutation_allowed": false,
+    "single_generation_attempt": true,
+    "seed_loop_allowed": false,
+    "direct_visual_review_required": true,
+    "production_video_lane_certification_claimed": false,
+    "mask_or_geometry_authority_claimed": false,
+    "wave71_activation_claimed": false,
+    "jira_mutated": false
+  }
+}

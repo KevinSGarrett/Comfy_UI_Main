@@ -1,0 +1,152 @@
+{
+  "schema_name": "wave64_animatediff_meaningful_sequence_evidence",
+  "schema_version": "1.0",
+  "timestamp": "2026-07-15T14:00:07-05:00",
+  "tracker_id": "TRK-W64-019",
+  "item_id": "ITEM-W64-019",
+  "lane_id": "animatediff_fallback_meaningful_sequence",
+  "result": "blocked_automated_technical_quality_failure",
+  "prompt_id": "ca14da4d-74b6-459a-85d4-1afea7d81f9f",
+  "workflow": {
+    "path": "Workflows/video_generation/animatediff_fallback_meaningful_sequence/workflow.api.json",
+    "sha256": "892c437eb153f86d033bb4c791f123ede5b4ef5b0fe86ce917ba55d1255e1dcc"
+  },
+  "runtime_requirements": {
+    "path": "Workflows/video_generation/animatediff_fallback_meaningful_sequence/runtime_requirements.json",
+    "sha256": "2c2b7467d653a1420b13cfed4b3ee1e6c51ef374abb6908c05391fa64ec6a45f"
+  },
+  "asset_preflight": [
+    {
+      "role": "checkpoint",
+      "path": "C:\\Comfy_UI_Main\\models\\checkpoints\\realvisxlV50_v50Bakedvae.safetensors",
+      "exists": true,
+      "expected_sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+      "observed_sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+      "hash_match": true
+    },
+    {
+      "role": "animatediff_motion_model",
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\models\\animatediff_models\\mm_sdxl_v10_beta.ckpt",
+      "exists": true,
+      "expected_sha256": "fa4950a062e892fca50d4c441fcd6130d1ad68a621a0404d155be17580072978",
+      "observed_sha256": "fa4950a062e892fca50d4c441fcd6130d1ad68a621a0404d155be17580072978",
+      "hash_match": true
+    }
+  ],
+  "runtime": {
+    "url": "http://127.0.0.1:8188",
+    "queue_idle_before_submission": true,
+    "required_nodes_present": true,
+    "completed": true,
+    "status": {
+      "status_str": "success",
+      "completed": true,
+      "messages": [
+        [
+          "execution_start",
+          {
+            "prompt_id": "ca14da4d-74b6-459a-85d4-1afea7d81f9f",
+            "timestamp": 1784142065511
+          }
+        ],
+        [
+          "execution_cached",
+          {
+            "nodes": [],
+            "prompt_id": "ca14da4d-74b6-459a-85d4-1afea7d81f9f",
+            "timestamp": 1784142065576
+          }
+        ],
+        [
+          "execution_success",
+          {
+            "prompt_id": "ca14da4d-74b6-459a-85d4-1afea7d81f9f",
+            "timestamp": 1784142211509
+          }
+        ]
+      ]
+    }
+  },
+  "technical_evaluation": {
+    "artifact": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_meaningful_20260715T140007-0500/wave64_animatediff_meaningful_seed7151601_00001_.webp",
+      "sha256": "dc4c9dd48cdb8e3e2a5473ce75b7ab21f684731136a034ff73787fa1bdc2fccb",
+      "size_bytes": 2232
+    },
+    "decoded_sequence": {
+      "format": "WEBP",
+      "is_animated": false,
+      "frame_count": 1,
+      "width": 384,
+      "height": 512,
+      "durations_ms": [
+        0
+      ]
+    },
+    "frame_metrics": [
+      {
+        "stddev": 0.0,
+        "white_clip_ratio": 0.0,
+        "black_clip_ratio": 1.0,
+        "frame_index": 0,
+        "duration_ms": 0,
+        "sha256": "564048013891d3decc9a5ee322f8be095461b54645a24e9f422288fc2b11825e",
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_meaningful_20260715T140007-0500/frames/frame_0000.png"
+      }
+    ],
+    "adjacent_pair_mad": [],
+    "summary_metrics": {
+      "mean_adjacent_mad": 0.0,
+      "median_adjacent_mad": 0.0,
+      "maximum_adjacent_mad": 0.0,
+      "terminal_to_median_mad_ratio": 0.0,
+      "maximum_white_clip_ratio": 0.0,
+      "maximum_black_clip_ratio": 1.0
+    },
+    "contact_sheet": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_meaningful_20260715T140007-0500/contact_sheet.png",
+      "sha256": "a98d64931964f7a856757eaddccad56019d4d2ff59440973d8a184bed36881e9"
+    },
+    "checks": {
+      "artifact_is_animated_webp": false,
+      "frame_count_exact": false,
+      "dimensions_exact": true,
+      "timing_exact": false,
+      "all_frames_nonblank": false,
+      "motion_pair_count": false,
+      "mean_motion_in_range": false,
+      "no_adjacent_discontinuity": false,
+      "no_terminal_discontinuity": false,
+      "white_clip_within_limit": true,
+      "black_clip_within_limit": false
+    },
+    "failed_checks": [
+      "artifact_is_animated_webp",
+      "frame_count_exact",
+      "timing_exact",
+      "all_frames_nonblank",
+      "motion_pair_count",
+      "mean_motion_in_range",
+      "no_adjacent_discontinuity",
+      "no_terminal_discontinuity",
+      "black_clip_within_limit"
+    ],
+    "technical_pass": false
+  },
+  "boundaries": {
+    "local_only": true,
+    "ec2_started": false,
+    "aws_mutation_allowed": false,
+    "single_generation_attempt": true,
+    "seed_loop_allowed": false,
+    "direct_visual_review_required": true,
+    "production_video_lane_certification_claimed": false,
+    "mask_or_geometry_authority_claimed": false,
+    "wave71_activation_claimed": false,
+    "jira_mutated": false,
+    "generation_executed": true,
+    "direct_visual_review_completed": false,
+    "technical_pass_does_not_imply_visual_or_production_pass": true
+  },
+  "next_action": "Perform direct review of the animated WebP and all 16 contact-sheet frames. Preserve this single attempt regardless of result."
+}
