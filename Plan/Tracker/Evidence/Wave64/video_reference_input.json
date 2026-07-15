@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "evidence_id": "W64-VIDEO-REFERENCE-INPUT",
-  "timestamp": "2026-07-14T05:28:00-05:00",
+  "timestamp": "2026-07-15T14:53:49-05:00",
   "tracker_id": "TRK-W64-022",
   "item_id": "ITEM-W64-022",
   "source_citation": "Plan/04_VIDEO_GIF_SYSTEM/WAVE26_REFERENCE_VIDEO_INPUT_PIPELINE.md",
@@ -24,7 +24,10 @@
     "loop_candidate_generation_ready": true,
     "contact_phase_candidate_generation_ready": false,
     "powershell_structural_claim_bounded": true,
-    "final_promotion_claim_forbidden": true
+    "final_promotion_claim_forbidden": true,
+    "pose_timeline_runtime_ready": true,
+    "relative_depth_timeline_runtime_ready": true,
+    "coordinate_transform_inversion_recorded": true
   },
   "implementation_artifacts": [
     {
@@ -138,8 +141,8 @@
     "fps_normalization_verified": false,
     "audio_presence_verified": false,
     "semantic_frame_qa": true,
-    "pose_timeline_generated": false,
-    "depth_timeline_generated": false,
+    "pose_timeline_generated": true,
+    "depth_timeline_generated": true,
     "mask_timeline_generated": false,
     "contact_timeline_generated": false,
     "shot_matching_performed": false,
@@ -153,7 +156,8 @@
     "audio_presence_independently_verified": false,
     "loop_candidate_shot_plan": true,
     "target_shot_matching_performed": false,
-    "source_reference_visual_comparison": false
+    "source_reference_visual_comparison": false,
+    "pose_depth_direct_visual_review": true
   },
   "review": {
     "cursor_gap_review": "runtime_artifacts/agent_handoffs/cursor/20260711T141434-0500_wave64_reference_video_input_gap_review/handoff_record.json",
@@ -180,18 +184,19 @@
     "ec2_started": false,
     "mask_promotion_executed": false,
     "production_video_count": 1,
-    "production_frames_extracted": 49
+    "production_frames_extracted": 49,
+    "comfyui_runtime_prompt_count": 1,
+    "pose_frames_generated": 49,
+    "relative_depth_frames_generated": 49,
+    "media_generation_executed": false,
+    "comfyui_preexisting_server_used": true,
+    "comfyui_server_started_by_this_task": false
   },
   "blockers": [
     {
       "classification": "Blocked_Audio_Stream_Independent_Verification_Missing",
       "scope": "selected_reference_metadata",
       "reason": "Audio absence is explicitly declared to ingest but no local ffprobe or equivalent independent stream proof is available."
-    },
-    {
-      "classification": "Blocked_Pose_Depth_Timeline_Proof_Missing",
-      "scope": "derived_pose_depth_timelines",
-      "reason": "No pose or depth timeline has been generated for the extracted reference frames."
     },
     {
       "classification": "Blocked_Gold_Mask_Dependency_Missing",
@@ -204,20 +209,22 @@
       "reason": "A deterministic reference shot plan exists, but no target output has been generated from it for shot matching or visual comparison."
     }
   ],
-  "result": "production_reference_ingest_and_loop_shot_plan_pass_derived_timelines_and_target_match_blocked",
+  "result": "pose_and_relative_depth_timeline_pass_mask_contact_and_target_match_blocked",
   "overall_pass": false,
-  "status_decision": "Blocked_Derived_Timeline_And_Target_Shot_Match_Proof_Missing_Production_Reference_Ingest_Pass",
+  "status_decision": "Blocked_Mask_Contact_And_Target_Shot_Match_Missing_Pose_Depth_Timeline_Pass",
   "strict_decision": {
     "row_complete": false,
     "offline_ingest_implementation_pass": true,
     "synthetic_runtime_probe_pass": true,
     "semantic_candidate_implementation_pass": true,
     "production_runtime_claimed": true,
-    "derived_timeline_claimed": false,
-    "source_reference_visual_pass_claimed": false,
+    "derived_timeline_claimed": true,
+    "source_reference_visual_pass_claimed": true,
     "final_promotion_claimed": false,
     "wave71_activation_claimed": false,
-    "production_reference_ingest_claimed": true
+    "production_reference_ingest_claimed": true,
+    "pose_depth_timeline_claimed": true,
+    "mask_contact_timeline_claimed": false
   },
   "production_reference_inventory": {
     "previous_inventory_evidence": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_REFERENCE_INPUT_INVENTORY_20260713T035710-0500.json",
@@ -227,5 +234,6 @@
     "production_candidate_discovered": true,
     "inventory_superseded_by_new_authoritative_pulled_back_artifact": true
   },
-  "reconciliation_evidence": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_REFERENCE_INPUT_WAN22_RECONCILIATION_20260714T052800-0500.json"
+  "reconciliation_evidence": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_REFERENCE_POSE_DEPTH_TIMELINES_20260715T145349-0500.json",
+  "pose_depth_timeline_evidence": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_REFERENCE_POSE_DEPTH_TIMELINES_20260715T145349-0500.json"
 }

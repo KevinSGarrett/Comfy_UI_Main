@@ -1,0 +1,70 @@
+{
+  "schema_version": "wave64.reference_pose_depth_timeline_runtime_requirements.v1",
+  "lane_id": "wave64_row022_reference_pose_depth_timeline",
+  "source_scope": {
+    "source_video_id": "wan22_source_diversity_seed2271401_5006e96e211538f3",
+    "frame_count": 49,
+    "fps": 24.0,
+    "width": 480,
+    "height": 640
+  },
+  "workflow": {
+    "resolution": 640,
+    "dwpose_bbox_detector": "yolox_l.onnx",
+    "dwpose_pose_estimator": "dw-ll_ucoco_384_bs5.torchscript.pt",
+    "depth_checkpoint": "depth_anything_v2_vitl.pth",
+    "required_nodes": [
+      "LoadImage",
+      "ImageBatch",
+      "DWPreprocessor",
+      "SavePoseKpsAsJsonFile",
+      "DepthAnythingV2Preprocessor",
+      "SaveImage"
+    ]
+  },
+  "assets": [
+    {
+      "role": "depth_anything_v2_large",
+      "local_path": "C:/Comfy_UI_Main/ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/depth-anything/Depth-Anything-V2-Large/depth_anything_v2_vitl.pth",
+      "size_bytes": 1341395338,
+      "sha256": "a7ea19fa0ed99244e67b624c72b8580b7e9553043245905be58796a608eb9345"
+    },
+    {
+      "role": "dwpose_torchscript_batch5",
+      "local_path": "C:/Comfy_UI_Main/ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/hr16/DWPose-TorchScript-BatchSize5/dw-ll_ucoco_384_bs5.torchscript.pt",
+      "size_bytes": 135059124,
+      "sha256": "d86a0b2b59fddc0901a7076e9f59c9f8602602133ed72511c693fd11eea23d91"
+    },
+    {
+      "role": "dwpose_yolox_detector",
+      "local_path": "C:/Comfy_UI_Main/ComfyUI/custom_nodes/comfyui_controlnet_aux/ckpts/yzd-v/DWPose/yolox_l.onnx",
+      "size_bytes": 216746733,
+      "sha256": "7860ae79de6c89a3c1eb72ae9a2756c0ccfbe04b7791bb5880afabd97855a411"
+    }
+  ],
+  "custom_node_repository": {
+    "path": "C:/Comfy_UI_Main/ComfyUI/custom_nodes/comfyui_controlnet_aux",
+    "commit": "e8b689a513c3e6b63edc44066560ca5919c0576e"
+  },
+  "technical_thresholds": {
+    "minimum_body_keypoints_per_frame": 12,
+    "minimum_pose_nonblack_ratio": 0.0005,
+    "minimum_pose_stddev": 1.0,
+    "minimum_depth_stddev": 2.0,
+    "minimum_depth_dynamic_range": 20,
+    "minimum_unique_pose_hashes": 40,
+    "minimum_unique_depth_hashes": 40
+  },
+  "authority_boundaries": {
+    "pose_timeline_scope": "motion_reference_only",
+    "depth_timeline_scope": "relative_depth_reference_only",
+    "metric_depth_claimed": false,
+    "mask_timeline_claimed": false,
+    "contact_timeline_claimed": false,
+    "occlusion_ownership_claimed": false,
+    "target_output_shot_match_claimed": false,
+    "promotion_ready_claimed": false,
+    "candidate_masks_consumed_as_truth": false,
+    "wave71_activation_claimed": false
+  }
+}

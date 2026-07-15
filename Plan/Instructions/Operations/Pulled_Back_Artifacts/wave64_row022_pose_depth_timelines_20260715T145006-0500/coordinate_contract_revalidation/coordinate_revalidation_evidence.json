@@ -1,0 +1,121 @@
+{
+  "schema_name": "wave64_reference_pose_depth_timeline_coordinate_revalidation",
+  "schema_version": "1.0",
+  "timestamp": "2026-07-15T15:02:00-05:00",
+  "tracker_id": "TRK-W64-022",
+  "item_id": "ITEM-W64-022",
+  "result": "pass_pose_and_relative_depth_timelines_target_mask_contact_authority_blocked",
+  "prior_runtime_evidence": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_row022_pose_depth_timelines_20260715T145006-0500/runtime_technical_evidence.json",
+    "sha256": "0b71ef60249520e400b0928c24c574f9d37b782171416cea3efbe718f475afeb",
+    "prompt_id": "ab2d0a3c-894c-48c3-a50c-73970ac59f9a",
+    "result": "blocked_pose_or_relative_depth_technical_validation_failed",
+    "failed_checks": [
+      "pose_dimensions_exact",
+      "depth_dimensions_exact"
+    ]
+  },
+  "correction": {
+    "classification": "PREPROCESSOR_COORDINATE_CONTRACT_CORRECTED_NO_RUNTIME_RERUN",
+    "reason": "The initial evaluator incorrectly required source dimensions for deterministic short-edge-scaled render layers. DWPose keypoints already use source coordinates; pose/depth renders use an exact recorded inverse transform.",
+    "runtime_rerun": false,
+    "source_or_output_bytes_changed": false
+  },
+  "source_manifest": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/Reference_Video_Input/wan22_source_diversity_frame_manifest.jsonl",
+    "sha256": "6536f30497240c313f751528a1e946ecca2f3794923dd9ef52737e0a889bed23"
+  },
+  "runtime_requirements": {
+    "path": "Workflows/video_generation/reference_pose_depth_timeline/runtime_requirements.json",
+    "sha256": "0f639d92addf21e64bc8114f9c22c9fca0e0197d85a9567e06965b79ae461c76"
+  },
+  "technical_evaluation": {
+    "checks": {
+      "pose_output_count_exact": true,
+      "depth_output_count_exact": true,
+      "pose_keypoint_frame_count_exact": true,
+      "pose_preprocessor_dimensions_exact": true,
+      "depth_preprocessor_dimensions_exact": true,
+      "one_person_each_frame": true,
+      "body_keypoints_each_frame": true,
+      "pose_canvas_dimensions_exact": true,
+      "pose_render_nonblank": true,
+      "depth_render_nonblank": true,
+      "pose_hash_diversity": true,
+      "depth_hash_diversity": true,
+      "source_timestamps_monotonic": true
+    },
+    "failed_checks": [],
+    "technical_pass": true,
+    "coordinate_contract": {
+      "source_dimensions": [
+        480,
+        640
+      ],
+      "preprocessor_render_dimensions": [
+        640,
+        853
+      ],
+      "pose_keypoint_canvas_is_source_coordinates": true,
+      "render_to_source_transform": {
+        "mode": "deterministic_short_edge_scale_inverse",
+        "render_width": 640,
+        "render_height": 853,
+        "source_width": 480,
+        "source_height": 640,
+        "source_x_per_render_x": 0.75,
+        "source_y_per_render_y": 0.7502930832356389,
+        "padding_removed_by_preprocessor": true
+      }
+    },
+    "pose_timeline": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_row022_pose_depth_timelines_20260715T145006-0500/coordinate_contract_revalidation/pose_timeline.jsonl",
+      "sha256": "d44c5e093fc99afbb1c32e0d53772ffaa681d0ac921977597bd1ba9ea607a124"
+    },
+    "depth_timeline": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_row022_pose_depth_timelines_20260715T145006-0500/coordinate_contract_revalidation/depth_timeline.jsonl",
+      "sha256": "c58c2f20815ec6835043b9fa2974aa35064d036b1c7ca71f440f603ef4c38dde"
+    },
+    "pose_contact_sheet": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_row022_pose_depth_timelines_20260715T145006-0500/coordinate_contract_revalidation/pose_contact_sheet.png",
+      "sha256": "878a3443408c26e300a5bf7beb5360477492891e54ef66075b0be67286569fc0"
+    },
+    "depth_contact_sheet": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_row022_pose_depth_timelines_20260715T145006-0500/coordinate_contract_revalidation/depth_contact_sheet.png",
+      "sha256": "9619902ee4839596254ccd5bdcb818807740ea5806f87e17d8e88403a9f48bc1"
+    },
+    "pose_summary": {
+      "frame_count": 49,
+      "person_count_range": [
+        1,
+        1
+      ],
+      "minimum_body_keypoints": 18,
+      "frames_with_left_hand": 49,
+      "frames_with_right_hand": 49,
+      "frames_with_face": 49,
+      "unique_render_hashes": 49,
+      "mean_adjacent_render_mad": 0.7178729255202226
+    },
+    "depth_summary": {
+      "frame_count": 49,
+      "minimum_stddev": 42.75942380500273,
+      "minimum_dynamic_range": 251,
+      "unique_render_hashes": 49,
+      "mean_adjacent_render_mad": 2.0065099205622317,
+      "metric_depth_claimed": false
+    }
+  },
+  "authority_boundaries": {
+    "pose_timeline_scope": "motion_reference_only",
+    "depth_timeline_scope": "relative_depth_reference_only",
+    "metric_depth_claimed": false,
+    "mask_timeline_claimed": false,
+    "contact_timeline_claimed": false,
+    "occlusion_ownership_claimed": false,
+    "target_output_shot_match_claimed": false,
+    "promotion_ready_claimed": false,
+    "candidate_masks_consumed_as_truth": false,
+    "wave71_activation_claimed": false
+  }
+}
