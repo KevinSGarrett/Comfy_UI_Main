@@ -1,0 +1,236 @@
+{
+  "artifact_bindings": {
+    "final_mux_artifact": {
+      "bytes": 2073838,
+      "path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\w64_genuine_av_sync_frame_aligned_20260714T202000-0500\\strict_sync_mux_ffv1_pcm16_mono_frame_aligned.mkv",
+      "sha256": "0c1153e675bd9209ce9c56d6c6694d9fb93118d69e3935fedcf77e626fed998a"
+    },
+    "observed_anchor_measurement_proof": {
+      "path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\w64_genuine_av_sync_frame_aligned_packet_20260714T202400-0500\\anchor_measurement_proof.json",
+      "sha256": "a4ddc434be4067041f623579a84579c3493e89a9d9bfac8d4b96b01a1356b350"
+    },
+    "playback_proof": null,
+    "production_certification_bundle": null,
+    "runtime_proof": null,
+    "source_audio_mix_artifact": {
+      "bytes": 65358,
+      "path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\w64_genuine_audio_chain_20260714T163400-0500\\strict_sync_mix_mono_16k.wav",
+      "sha256": "e5965ebb9eb620513ad4d6d693b2c122d1038d3398e2139c518df0fc7131b1a3"
+    },
+    "source_video_artifact": {
+      "bytes": 2008133,
+      "path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\w64_genuine_audio_chain_20260714T163400-0500\\source_video_ffv1.mkv",
+      "sha256": "671c3b064effbc1081ffc11f22d910402bbd229eebb0d2bd49c8a2b280db27d5"
+    },
+    "wave30_event_manifest": {
+      "path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\w64_genuine_av_sync_frame_aligned_packet_20260714T202400-0500\\wave30_event_manifest.json",
+      "sha256": "4f7a7bf5fb45f794c43899926a053fa2f1a19d98e9f3dbfc6214d5296d5c55e5"
+    },
+    "wave30_mix_manifest": {
+      "path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\w64_genuine_av_sync_frame_aligned_packet_20260714T202400-0500\\wave30_mix_manifest.json",
+      "sha256": "739c6fc6dd211906db7e492d6a9d2cfd8ae208d9bc95e774433b78ad99712d73"
+    },
+    "wave64_gate_registry": {
+      "path": "C:\\Comfy_UI_Main\\Plan\\10_REGISTRIES\\wave64_av_sync_gate_rules.json",
+      "sha256": "edd5ee9e6f8ad4b025da9541557f8a73b14a5b7c90a0a26aea2b85d9c3a69479"
+    }
+  },
+  "blockers": [
+    "missing playback_proof_binding",
+    "missing runtime_proof_binding",
+    "observed_anchor_measurement_proof producer is not allowlisted",
+    "upstream gate blocked: av_review_record",
+    "upstream gate blocked: event_owner_alignment",
+    "upstream gate blocked: production_runtime_proof"
+  ],
+  "evidence_origin": "technical_capture",
+  "gates": {
+    "av_review_record": {
+      "artifact_bindings": [],
+      "blockers": [
+        "missing playback_proof_binding"
+      ],
+      "status": "BLOCKED"
+    },
+    "drift_check": {
+      "artifact_bindings": [
+        "671c3b064effbc1081ffc11f22d910402bbd229eebb0d2bd49c8a2b280db27d5",
+        "0c1153e675bd9209ce9c56d6c6694d9fb93118d69e3935fedcf77e626fed998a"
+      ],
+      "blockers": [],
+      "status": "PASS"
+    },
+    "event_owner_alignment": {
+      "artifact_bindings": [
+        "a4ddc434be4067041f623579a84579c3493e89a9d9bfac8d4b96b01a1356b350",
+        "4f7a7bf5fb45f794c43899926a053fa2f1a19d98e9f3dbfc6214d5296d5c55e5",
+        "739c6fc6dd211906db7e492d6a9d2cfd8ae208d9bc95e774433b78ad99712d73"
+      ],
+      "blockers": [
+        "observed_anchor_measurement_proof producer is not allowlisted"
+      ],
+      "status": "BLOCKED"
+    },
+    "mux_manifest": {
+      "artifact_bindings": [
+        "671c3b064effbc1081ffc11f22d910402bbd229eebb0d2bd49c8a2b280db27d5",
+        "e5965ebb9eb620513ad4d6d693b2c122d1038d3398e2139c518df0fc7131b1a3",
+        "0c1153e675bd9209ce9c56d6c6694d9fb93118d69e3935fedcf77e626fed998a"
+      ],
+      "blockers": [],
+      "status": "PASS"
+    },
+    "overall_pass": {
+      "artifact_bindings": [
+        "38f7da32f33c3e7d58ac908d6f2bfdb43689354dcb686734d933d0b640fdbe06"
+      ],
+      "blockers": [
+        "missing playback_proof_binding",
+        "missing runtime_proof_binding",
+        "observed_anchor_measurement_proof producer is not allowlisted",
+        "upstream gate blocked: av_review_record",
+        "upstream gate blocked: event_owner_alignment",
+        "upstream gate blocked: production_runtime_proof"
+      ],
+      "status": "BLOCKED"
+    },
+    "production_av_sync_authority": {
+      "artifact_bindings": [],
+      "blockers": [
+        "upstream gate blocked: event_owner_alignment",
+        "upstream gate blocked: av_review_record",
+        "upstream gate blocked: production_runtime_proof"
+      ],
+      "status": "BLOCKED"
+    },
+    "production_runtime_proof": {
+      "artifact_bindings": [],
+      "blockers": [
+        "missing runtime_proof_binding"
+      ],
+      "status": "BLOCKED"
+    },
+    "sync_offset_threshold": {
+      "artifact_bindings": [
+        "671c3b064effbc1081ffc11f22d910402bbd229eebb0d2bd49c8a2b280db27d5",
+        "e5965ebb9eb620513ad4d6d693b2c122d1038d3398e2139c518df0fc7131b1a3",
+        "0c1153e675bd9209ce9c56d6c6694d9fb93118d69e3935fedcf77e626fed998a"
+      ],
+      "blockers": [],
+      "status": "PASS"
+    }
+  },
+  "is_synthetic": false,
+  "metrics": {
+    "anchors": {
+      "duplicate_anchor_count": 0,
+      "extra_anchor_count": 0,
+      "measurement_producer": null,
+      "missing_anchor_count": 0,
+      "observed_anchor_count": 0,
+      "required_anchor_event_count": 0
+    },
+    "lineage": {
+      "audio_codec_match": true,
+      "audio_hash_match": true,
+      "audio_sample_count_match": true,
+      "stream_count_match": true,
+      "video_codec_match": true,
+      "video_frame_count_match": true,
+      "video_hash_match": true
+    },
+    "mux_audio_decode": {
+      "channel_layout": "mono",
+      "channels": 1,
+      "codec": "pcm_s16le",
+      "decoded_audio_hash": "2f3e101ec70d5ccb5c0474bad4ca6357c482145d93b3213c8340941b00370981",
+      "duration_seconds": 2.04,
+      "first_pts_seconds": 0.0,
+      "frame_pts_monotonic": true,
+      "last_pts_seconds": 1.984,
+      "missing_frame_pts_count": 0,
+      "missing_packet_pts_count": 0,
+      "packet_pts_monotonic": true,
+      "sample_count": 32640,
+      "sample_rate_hz": 16000,
+      "stream_count_audio": 1,
+      "time_base": 0.001
+    },
+    "mux_video_decode": {
+      "codec": "ffv1",
+      "container_format": "matroska,webm",
+      "decoded_video_hash": "11baa5489c91392f64113f62ebceb984af0a4781e997f6866a46adffda65daee",
+      "duration_seconds": 2.041,
+      "first_pts_seconds": 0.0,
+      "frame_count": 49,
+      "frame_pts_monotonic": true,
+      "frame_rate": 24.0,
+      "height": 640,
+      "last_pts_seconds": 2.0,
+      "missing_frame_pts_count": 0,
+      "missing_packet_pts_count": 0,
+      "packet_pts_monotonic": true,
+      "stream_count_audio": 1,
+      "stream_count_video": 1,
+      "time_base": 0.001,
+      "width": 480
+    },
+    "proofs": {
+      "playback_producer": null,
+      "runtime_producer": null
+    },
+    "source_audio_decode": {
+      "channel_layout": "mono",
+      "channels": 1,
+      "codec": "pcm_s16le",
+      "decoded_audio_hash": "2f3e101ec70d5ccb5c0474bad4ca6357c482145d93b3213c8340941b00370981",
+      "duration_seconds": 2.04,
+      "first_pts_seconds": 0.0,
+      "frame_pts_monotonic": true,
+      "last_pts_seconds": 2.039938,
+      "missing_frame_pts_count": 0,
+      "missing_packet_pts_count": 0,
+      "packet_pts_monotonic": true,
+      "sample_count": 32640,
+      "sample_rate_hz": 16000,
+      "stream_count_audio": 1,
+      "time_base": 6.25e-05
+    },
+    "source_video_decode": {
+      "codec": "ffv1",
+      "container_format": "matroska,webm",
+      "decoded_video_hash": "11baa5489c91392f64113f62ebceb984af0a4781e997f6866a46adffda65daee",
+      "duration_seconds": 2.041,
+      "first_pts_seconds": 0.0,
+      "frame_count": 49,
+      "frame_pts_monotonic": true,
+      "frame_rate": 24.0,
+      "height": 640,
+      "last_pts_seconds": 2.0,
+      "missing_frame_pts_count": 0,
+      "missing_packet_pts_count": 0,
+      "packet_pts_monotonic": true,
+      "stream_count_audio": 0,
+      "stream_count_video": 1,
+      "time_base": 0.001,
+      "width": 480
+    },
+    "sync": {
+      "audio_start_offset_seconds": 0.0,
+      "cumulative_endpoint_drift_seconds": -0.001,
+      "endpoint_delta_seconds": -0.001
+    }
+  },
+  "overall_pass": false,
+  "pyav_version": "18.0.0",
+  "report_version": 1,
+  "request_binding": {
+    "path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\w64_genuine_av_sync_frame_aligned_packet_20260714T202400-0500\\request.json",
+    "sha256": "38f7da32f33c3e7d58ac908d6f2bfdb43689354dcb686734d933d0b640fdbe06"
+  },
+  "run_id": "w64_genuine_audio_chain_20260714T163400-0500",
+  "scene_id": "wan22_source_diversity_fullbody",
+  "schema_name": "wave64_av_sync_certification_report",
+  "shot_id": "seed2271401",
+  "take_id": "take_audio_v2"
+}

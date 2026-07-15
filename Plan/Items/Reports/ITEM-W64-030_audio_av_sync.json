@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-030-AUDIO-AV-SYNC-20260712T175907-0500",
-  "timestamp": "2026-07-14T16:19:38-05:00",
+  "timestamp": "2026-07-14T20:38:28.3518157-05:00",
   "item_id": "ITEM-W64-030",
   "tracker_id": "TRK-W64-030",
   "workstream": "audio_av_sync",
@@ -18,7 +18,12 @@
     "optional_proof_role_and_hash_chain_validation_ready": true,
     "producer_creates_no_anchor_or_authority_proof": true,
     "canonical_root_and_transactional_output_ready": true,
-    "synthetic_and_relabel_promotion_forbidden": true
+    "synthetic_and_relabel_promotion_forbidden": true,
+    "genuine_delivery_manifest_input_builder_ready": true,
+    "explicit_final_mux_override_hash_binding_ready": true,
+    "frame_aligned_mux_repair_ready": true,
+    "ownerless_room_tone_event_emission_ready": true,
+    "untrusted_contact_anchor_emission_forbidden": true
   },
   "validation": {
     "unit_tests_passed": 41,
@@ -49,11 +54,31 @@
     "recovered_av_sync_semantic_review_high_or_medium_findings": 0,
     "recovered_av_sync_semantic_review_record": "runtime_artifacts/agent_handoffs/claude_subscription/20260714T080052-0500_row030_recovered_av_sync_readiness_semantic_review/handoff_record.json",
     "genuine_strict_mux_built": true,
-    "genuine_strict_mux_sha256": "a8f12ba653260f035a10556010e599e3915c14f57bdab01228672b5a46fed90a",
+    "genuine_strict_mux_sha256": "0c1153e675bd9209ce9c56d6c6694d9fb93118d69e3935fedcf77e626fed998a",
     "genuine_strict_profile_checks_passed": 5,
     "genuine_strict_profile_checks_failed": 0,
-    "genuine_strict_mux_video_frames": 48,
-    "genuine_strict_mux_audio_samples": 32640
+    "genuine_strict_mux_video_frames": 49,
+    "genuine_strict_mux_audio_samples": 32640,
+    "genuine_strict_mux_source_video_frames": 49,
+    "genuine_strict_mux_source_audio_samples": 32640,
+    "genuine_strict_mux_video_hash_match": true,
+    "genuine_strict_mux_audio_hash_match": true,
+    "genuine_sync_offset_seconds": 0.0,
+    "genuine_endpoint_drift_seconds": -0.001,
+    "genuine_strict_sync_offset_gate": "PASS",
+    "genuine_strict_drift_gate": "PASS",
+    "genuine_strict_mux_manifest_gate": "PASS",
+    "genuine_event_owner_alignment_gate": "BLOCKED",
+    "genuine_av_review_record_gate": "BLOCKED",
+    "genuine_production_runtime_gate": "BLOCKED",
+    "genuine_production_authority_gate": "BLOCKED",
+    "genuine_overall_certification_gate": "BLOCKED",
+    "row030_av_sync_regression_tests_passed": 52,
+    "row030_av_sync_regression_test_failures": 0,
+    "row030_av_sync_regression_test_errors": 0,
+    "frame_aligned_mux_semantic_review": "PASS",
+    "frame_aligned_mux_semantic_review_confidence": "high",
+    "frame_aligned_mux_semantic_review_record": "runtime_artifacts/agent_handoffs/claude_subscription/20260714T201509-0500_row030_frame_aligned_mux_semantic_review/handoff_record.json"
   },
   "acceptance_gates": {
     "sync_offset_threshold_contract": true,
@@ -71,10 +96,17 @@
     "legacy_provisional_report_present": true,
     "legacy_provisional_report_accepted_as_current_proof": false,
     "recovered_strict_mux_profile_passed": false,
-    "recovered_strict_packet_eligible": false
+    "recovered_strict_packet_eligible": false,
+    "frame_aligned_source_lineage_passed": true,
+    "sync_offset_threshold_passed": true,
+    "endpoint_drift_passed": true,
+    "mux_manifest_passed": true,
+    "trusted_contact_owner_anchor_present": false,
+    "certifying_contact_anchor_emitted": false
   },
   "blockers": [
-    {"classification": "Blocked_AV_Sync_Production_Proof_Missing", "reason": "A new genuine 2.04-second Matroska/FFV1/PCM strict mux passes all five stream-profile checks, but strict Wave30 identity, anchor measurement, independent playback, runtime, and production-bundle proof chains are still absent."},
+    {"classification": "Blocked_AV_Sync_Production_Proof_Missing", "reason": "The repaired genuine 2.041-second Matroska/FFV1/PCM mux now preserves all 49 source-video frames and all 32,640 source-audio samples; mux lineage, zero start offset, and -0.001 second endpoint drift pass, but independent playback and approved runtime proof remain absent."},
+    {"classification": "Blocked_AV_Sync_Contact_Owner_Authority_Missing", "reason": "No certifying clothing/contact anchor was emitted because the Wave30 event contract requires a trusted character or object owner and trusted body/contact ownership is not currently available. Frame 26 remains a non-certifying timeline marker only."},
     {"classification": "Blocked_AV_Sync_Production_Authority_Missing", "reason": "The canonical production certification bundle allowlist contains zero approved bundles."}
   ],
   "evidence": [
@@ -87,7 +119,15 @@
     {"path": "runtime_artifacts/wave64_av_sync_certification/20260711T210114-0500/windows_strict_tests.txt", "sha256": "07f2bd435d39bd1107344492ca7626a9e0dcb20954c683bcca3ebcfa6bd6bd07"},
     {"path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_AV_SYNC_RECOVERED_READINESS_20260714T075606-0500.json", "sha256": "11af937ba322f285d3aebdca6466afd20ade7056aad8f284dce781ab4e331d89"},
     {"path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_AV_SYNC_RECOVERED_READINESS_TEST_LOG_20260714T075606-0500.json", "sha256": "2020309a5fa617e69bb18ccbb9fb6d446618ef3ef2f84fa2cbe126e7993088c4"},
-    {"path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_audio_chain_20260714T163400-0500/delivery_manifest.json", "sha256": "9eb91fb2c84105b470a27c939babd9ca8537045f3818f01f3187779e354c0a07"}
+    {"path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_audio_chain_20260714T163400-0500/delivery_manifest.json", "sha256": "9eb91fb2c84105b470a27c939babd9ca8537045f3818f01f3187779e354c0a07"},
+    {"path": "Plan/07_IMPLEMENTATION/scripts/build_wave64_genuine_av_sync_inputs.py", "sha256": "c677bca52644a4d3e2295aeccf0cf079ab8d332bc5adabbc3a93f0df5845e5c6"},
+    {"path": "Plan/Instructions/QA/Scripts/test_build_wave64_genuine_av_sync_inputs.py", "sha256": "0626aee2b48b8012139487578885e6e1faece11f50742e87bfb63491f3c0ceb2"},
+    {"path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_av_sync_technical_packet_20260714T200810-0500/strict_evidence.json", "sha256": "f4484841e2358e66ae2a9a94a679b6accfa3116f29f3634d59ac282615625111"},
+    {"path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_av_sync_frame_aligned_20260714T202000-0500/strict_sync_mux_ffv1_pcm16_mono_frame_aligned.mkv", "sha256": "0c1153e675bd9209ce9c56d6c6694d9fb93118d69e3935fedcf77e626fed998a"},
+    {"path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_av_sync_frame_aligned_packet_20260714T202400-0500/build_manifest.json", "sha256": "46e379c053f1491d22d834bc6bf14ef8b2d0af88b5441f574bc0e44f2606c314"},
+    {"path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_av_sync_frame_aligned_packet_20260714T202400-0500/strict_evidence.json", "sha256": "672e9881182e1214237f2d0dba22adc550b15980bba4d83827a92b32780953f7"},
+    {"path": "Plan/Instructions/QA/Evidence/Wave64/W64_GENUINE_AV_SYNC_FRAME_ALIGNED_TECHNICAL_PROOF_20260714T203828-0500.json", "sha256": "cf94177f9da713b90370d9a29acfed39d56e3f968b7ae0e2a27436ea7ea4d063"},
+    {"path": "runtime_artifacts/agent_handoffs/claude_subscription/20260714T201509-0500_row030_frame_aligned_mux_semantic_review/handoff_record.json", "sha256": "6c7ffa64f0afa499a881672d5bec6db67779cc59b8b2aac250b35008fc66833f"}
   ],
   "runtime": {
     "production_av_sync_generation_count": 1,
@@ -97,7 +137,11 @@
     "comfyui_started": false,
     "aws_contacted": false,
     "ec2_started": false,
-    "recovered_mux_readiness_evaluation_count": 1
+    "recovered_mux_readiness_evaluation_count": 1,
+    "defect_discovery_strict_evaluation_count": 1,
+    "frame_aligned_strict_evaluation_count": 1,
+    "new_media_generation_performed": false,
+    "existing_source_video_regenerated": false
   },
-  "next_action": "Bind the completed strict mux to genuine Wave30 identity and anchor measurement proof, then obtain independent playback/runtime proof and approved bundle authority; do not remux unless direct QA finds a media defect."
+  "next_action": "Keep the 49-frame corrected mux as the current technical proof. Obtain independent perceptual playback and approved production-runtime proof, then add a trusted character/object contact-owner anchor when authoritative body/contact masks are ready; do not remux again unless the source media changes or direct QA finds another defect."
 }
