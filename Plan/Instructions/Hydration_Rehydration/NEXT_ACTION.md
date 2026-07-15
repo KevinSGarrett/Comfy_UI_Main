@@ -1,3 +1,11 @@
+## Wave64 OpenSLR31 Speaker Validation Pass - 2026-07-15T03:57:44-05:00
+
+The official CC BY 4.0 OpenSLR31 Mini LibriSpeech `dev-clean-2` archive is MD5/SHA256 verified and evaluated locally with the existing hash-bound ERes2Net path. Six spread-selected utterances from each of 26 numeric speaker IDs were split into disjoint 13-speaker calibration and 13-speaker validation partitions. The fixed threshold `0.334456` passed at calibration TPR/FPR `1.0/0.02208` and held-out TPR/FPR `0.99487/0.02564`. The existing public-domain source-to-derived-stem score `0.99327` now passes chain-specific identity preservation.
+
+Next action: bind an independent reference-speaker recording to a production-eligible dialogue candidate and a supported emotion/style taxonomy, then obtain independent playback and allowlisted production review. Preserve both rejected Parler candidates. This result does not verify either candidate's speaker identity, authorize production review, complete Rows025/027/031, or permit final voice certification.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/W64_OPENSLR31_SPEAKER_IDENTITY_VALIDATION_20260715T035744-0500.json`.
+
 ## Wave64 CV3 Speaker Threshold Generalization Blocker - 2026-07-15T03:06:00-05:00
 
 ERes2Net executed over all 46 paired English CV3 continuation references with four category-held-out folds. Rhyme, speed, and volume passed, but the emotion holdout false-positive rate was `0.15417` against the predeclared `0.10` maximum. The full-fit threshold is therefore not deployable. The existing public-domain LibriVox source and derived voice stem scored `0.99327`, but that score remains observational and does not prove identity preservation, bind a TTS reference speaker, or authorize production review.

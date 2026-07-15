@@ -1,0 +1,1318 @@
+{
+  "schema_version": "1.0",
+  "artifact_type": "wave64_openslr31_speaker_identity_validation",
+  "execution_timestamp": "2026-07-15T08:58:28.034916+00:00",
+  "status": "PASS_DISJOINT_SPEAKER_THRESHOLD_AND_CHAIN_IDENTITY_PRODUCTION_AUTHORITY_BLOCKED",
+  "classification": "OPENSLR31_SPEAKER_DISJOINT_THRESHOLD_VALIDATION",
+  "source_authority": {
+    "dataset": "OpenSLR31 Mini LibriSpeech dev-clean-2",
+    "resource_url": "https://www.openslr.org/31/",
+    "archive_url": "https://www.openslr.org/resources/31/dev-clean-2.tar.gz",
+    "license": "CC BY 4.0",
+    "resource_page": {
+      "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\openslr31_resource_page.html",
+      "sha256": "3da285125fce2c3a7131d45206ae86f7ed8fd47a4a5b3425f793c0c8ff11bb2f",
+      "bytes": 3376,
+      "url": "https://www.openslr.org/31/",
+      "required_declarations": [
+        "Mini LibriSpeech ASR corpus",
+        "CC BY 4.0",
+        "dev-clean-2.tar.gz"
+      ]
+    },
+    "archive_sha256": {
+      "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\dev-clean-2.tar.gz",
+      "sha256": "176ec501490eced2d6c1f89f4f0ddc7dfe799e649e5322f8ba49fe3ff50c8012",
+      "bytes": 126046265
+    },
+    "archive_md5": {
+      "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\dev-clean-2.tar.gz",
+      "md5": "6d7ab67ac6a1d2c993d050e16d61080d",
+      "bytes": 126046265
+    },
+    "dataset_inventory": {
+      "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\dataset_inventory.json",
+      "sha256": "363c871b263873e4efbbb9e8f60ed5ab0e506c572d4983e9b06e85727690f34d",
+      "bytes": 22370
+    },
+    "speaker_calibration_authority": {
+      "path": "C:\\Comfy_UI_Main\\Plan\\07_IMPLEMENTATION\\scripts\\run_wave64_cv3_speaker_identity_calibration.py",
+      "sha256": "05054695645ed51ee6aa04a43366057cd256101a80469eea0759b837f9edf05a",
+      "bytes": 25731
+    },
+    "base_adapter": {
+      "path": "C:\\Comfy_UI_Main\\Plan\\07_IMPLEMENTATION\\scripts\\run_wave64_cv3_eval_calibration.py",
+      "sha256": "f3810a26e129021c8179c982eb0901c5f8f3f07b6508ab4c56cace6bfb3862c8",
+      "bytes": 25021
+    },
+    "cv3_tooling_license": {
+      "path": "F:\\Len_Transfer\\Audio_Downloads\\CV3-Eval-main\\CV3-Eval-main\\LICENSE",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "bytes": 11357
+    },
+    "eres2net_checkpoint": {
+      "path": "F:\\Len_Transfer\\Audio_Downloads\\CV3-Eval-main\\CV3-Eval-main\\utils\\3D-Speaker\\pretrained\\speech_eres2net_sv_en_voxceleb_16k\\pretrained_eres2net.ckpt",
+      "sha256": "d8941f5952e31820173c8854562cb6d7897aaa58cd65c18f30d5a2e52d30847d",
+      "bytes": 26725867
+    }
+  },
+  "runtime_identity": {
+    "python": "3.11.9",
+    "torch": "2.11.0+cpu",
+    "torchaudio": "2.11.0+cpu",
+    "soundfile": "0.14.0",
+    "device": "cpu",
+    "cuda_available": false
+  },
+  "dataset": {
+    "speaker_count": 26,
+    "utterance_count": 1089,
+    "clips_per_speaker": 6,
+    "speaker_partition_rule": "numeric speaker IDs sorted ascending; zero-based even ordinals calibrate, odd ordinals validate",
+    "calibration_speaker_ids": [
+      "84",
+      "251",
+      "1272",
+      "1988",
+      "2035",
+      "2428",
+      "3000",
+      "3576",
+      "5338",
+      "5895",
+      "6295",
+      "7850",
+      "8297"
+    ],
+    "validation_speaker_ids": [
+      "174",
+      "777",
+      "1462",
+      "1993",
+      "2412",
+      "2803",
+      "3536",
+      "3752",
+      "5694",
+      "6241",
+      "6319",
+      "7976",
+      "8842"
+    ],
+    "speaker_overlap_count": 0,
+    "speakers": [
+      {
+        "speaker_id": "84",
+        "utterance_count": 36,
+        "selected": [
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\84\\121550\\84-121550-0000.flac",
+            "relative_path": "84/121550/84-121550-0000.flac",
+            "sha256": "dbd3048279d25cb4adaa25e246db50ffa01b7714e6f091691abe908027951daf",
+            "bytes": 162628
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\84\\121550\\84-121550-0007.flac",
+            "relative_path": "84/121550/84-121550-0007.flac",
+            "sha256": "61b29d3ed1713914e8926588b9d2a217eb00b6cca81a1e3007231dc016f076ba",
+            "bytes": 174520
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\84\\121550\\84-121550-0014.flac",
+            "relative_path": "84/121550/84-121550-0014.flac",
+            "sha256": "fd161e0dbcb6150ad7cedf26603d6dc9516b80ba6793674bd8a0e72957385154",
+            "bytes": 153137
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\84\\121550\\84-121550-0021.flac",
+            "relative_path": "84/121550/84-121550-0021.flac",
+            "sha256": "b9f03f77c05403f4b28562e6829c602e1fb4307f46b5fffe76e639888eaf01fc",
+            "bytes": 158593
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\84\\121550\\84-121550-0028.flac",
+            "relative_path": "84/121550/84-121550-0028.flac",
+            "sha256": "a5fd4e36a6d485af7acdfcedbf7d3f4813da15de709d5d21baf40d0671909466",
+            "bytes": 146470
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\84\\121550\\84-121550-0035.flac",
+            "relative_path": "84/121550/84-121550-0035.flac",
+            "sha256": "ed1f0f948cef36cf1edb5a3ec43d41c1db0c51c948dd863093bf02372044620a",
+            "bytes": 158170
+          }
+        ]
+      },
+      {
+        "speaker_id": "174",
+        "utterance_count": 23,
+        "selected": [
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\174\\168635\\174-168635-0000.flac",
+            "relative_path": "174/168635/174-168635-0000.flac",
+            "sha256": "dbb765967c6a51c8e794fb0098240b1e070c6b1bf0594b218570631604aab38f",
+            "bytes": 76950
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\174\\168635\\174-168635-0004.flac",
+            "relative_path": "174/168635/174-168635-0004.flac",
+            "sha256": "162547b61c075720bbfaac0d1cbfe941a06f37f6ad9305a433e40cb6872d6eac",
+            "bytes": 232298
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\174\\168635\\174-168635-0009.flac",
+            "relative_path": "174/168635/174-168635-0009.flac",
+            "sha256": "73c5a20297beff892149865d9c06b42c1df35e89250dd5c78d1319d32c9dcfc8",
+            "bytes": 55123
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\174\\168635\\174-168635-0013.flac",
+            "relative_path": "174/168635/174-168635-0013.flac",
+            "sha256": "68e79f27b3911ee168e80d120d16fc7b320e11ebf541f88b0a4d0ad3563c4198",
+            "bytes": 100132
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\174\\168635\\174-168635-0018.flac",
+            "relative_path": "174/168635/174-168635-0018.flac",
+            "sha256": "c0f033cdae4d5625d8966337ab3411511e18b160c99c3517db5d59d4b6a2a438",
+            "bytes": 451637
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\174\\168635\\174-168635-0022.flac",
+            "relative_path": "174/168635/174-168635-0022.flac",
+            "sha256": "9ed2d027acf86791758758d36facf5c700c485532765436df68b9219576a4c8a",
+            "bytes": 79606
+          }
+        ]
+      },
+      {
+        "speaker_id": "251",
+        "utterance_count": 48,
+        "selected": [
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\251\\118436\\251-118436-0000.flac",
+            "relative_path": "251/118436/251-118436-0000.flac",
+            "sha256": "8a8a2f34930ea37432f1cc1082061cd889eceed949b3c13a79cbdc10a96f99e0",
+            "bytes": 99741
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\251\\118436\\251-118436-0009.flac",
+            "relative_path": "251/118436/251-118436-0009.flac",
+            "sha256": "f1036184c17d337d2437d9ce6c6a5656862d12aff286376dc2e5791fbd5711bb",
+            "bytes": 152700
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\251\\118436\\251-118436-0019.flac",
+            "relative_path": "251/118436/251-118436-0019.flac",
+            "sha256": "02fec2d1e237d0ae5ee3c9f55089e8711a73fa29afb49504eff2b73206b5dcd1",
+            "bytes": 203859
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\251\\136532\\251-136532-0004.flac",
+            "relative_path": "251/136532/251-136532-0004.flac",
+            "sha256": "4abd24933e4f3c770c84aac015b5db129cb2ea3a46f67a600f3f49d3ce9a19b5",
+            "bytes": 438415
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\251\\136532\\251-136532-0014.flac",
+            "relative_path": "251/136532/251-136532-0014.flac",
+            "sha256": "b916afc78ffbe2963fab8193930eb866abce4b77718f404658b273a7e4db43d4",
+            "bytes": 42206
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\251\\136532\\251-136532-0023.flac",
+            "relative_path": "251/136532/251-136532-0023.flac",
+            "sha256": "c593f662329c974fde4090ce0b82c80ef75dbfc460a25bb05f97fea4a66250a5",
+            "bytes": 167790
+          }
+        ]
+      },
+      {
+        "speaker_id": "777",
+        "utterance_count": 82,
+        "selected": [
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\777\\126732\\777-126732-0000.flac",
+            "relative_path": "777/126732/777-126732-0000.flac",
+            "sha256": "6dfb2d28b03b4f6d0039a187545349cdec13afad0bf5ba734cc8e4c6c536ac4a",
+            "bytes": 51484
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\777\\126732\\777-126732-0016.flac",
+            "relative_path": "777/126732/777-126732-0016.flac",
+            "sha256": "31a37c357533c32748fee74a59dc49f297268243f25f95ca09cf935d48715605",
+            "bytes": 207831
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\777\\126732\\777-126732-0032.flac",
+            "relative_path": "777/126732/777-126732-0032.flac",
+            "sha256": "3988255836cf926c5fe92f16ae8a50d42b7eba4c6e75adda0561b93129297bfd",
+            "bytes": 95549
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\777\\126732\\777-126732-0049.flac",
+            "relative_path": "777/126732/777-126732-0049.flac",
+            "sha256": "cd33b59323d1cf021ed8480752ef7ad97f9e362d92531b908bd746674420f9eb",
+            "bytes": 38379
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\777\\126732\\777-126732-0065.flac",
+            "relative_path": "777/126732/777-126732-0065.flac",
+            "sha256": "cec5285ac3d74d15bf5bc1b455833a15753bd84505753225be4e480a58066988",
+            "bytes": 88777
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\777\\126732\\777-126732-0081.flac",
+            "relative_path": "777/126732/777-126732-0081.flac",
+            "sha256": "80e22d9e18af66dd827d0510b031de894ee77f11328a5608033cea7d648e8d8d",
+            "bytes": 28523
+          }
+        ]
+      },
+      {
+        "speaker_id": "1272",
+        "utterance_count": 58,
+        "selected": [
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\1272\\135031\\1272-135031-0000.flac",
+            "relative_path": "1272/135031/1272-135031-0000.flac",
+            "sha256": "26cbebbdd8954104c936dc38fbb8a80958f2169ada0fa6fe46a89cfa9e3d824c",
+            "bytes": 219564
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\1272\\135031\\1272-135031-0011.flac",
+            "relative_path": "1272/135031/1272-135031-0011.flac",
+            "sha256": "765c97d18eb1aa76ab4223359dd403ab8e606d9dc195c0b82f4b6b40b5b91a14",
+            "bytes": 68286
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\1272\\135031\\1272-135031-0023.flac",
+            "relative_path": "1272/135031/1272-135031-0023.flac",
+            "sha256": "9d37ebdf780a28eaeebaada1f12bc2b2a2fca2278c09a2652f5e5b7e9420aa04",
+            "bytes": 154022
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\1272\\141231\\1272-141231-0009.flac",
+            "relative_path": "1272/141231/1272-141231-0009.flac",
+            "sha256": "42cf54411f05e2cd4397d9e7cbfb566c204954e1d6dc3f892b57499433c8e7fd",
+            "bytes": 167134
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\1272\\141231\\1272-141231-0021.flac",
+            "relative_path": "1272/141231/1272-141231-0021.flac",
+            "sha256": "f40d906923ec180a258635ec7bf5bfdaeac2c1ee3bef24c32ef6361b420d6ea8",
+            "bytes": 92325
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\1272\\141231\\1272-141231-0032.flac",
+            "relative_path": "1272/141231/1272-141231-0032.flac",
+            "sha256": "57a830871a87def230b541a41898aca9ef444b2ae420cdc776a4e6debf74d50c",
+            "bytes": 93983
+          }
+        ]
+      },
+      {
+        "speaker_id": "1462",
+        "utterance_count": 66,
+        "selected": [
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\1462\\170142\\1462-170142-0000.flac",
+            "relative_path": "1462/170142/1462-170142-0000.flac",
+            "sha256": "08c17c6a59de702386a5c79b49b9d8f7fce1870b2d89b68607523f11d07b61ce",
+            "bytes": 89152
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\1462\\170142\\1462-170142-0013.flac",
+            "relative_path": "1462/170142/1462-170142-0013.flac",
+            "sha256": "c003e1edb1cd614256c708c3b59b526c60d0391d42bbd4c9703e4d42aee52371",
+            "bytes": 70850
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\1462\\170142\\1462-170142-0026.flac",
+            "relative_path": "1462/170142/1462-170142-0026.flac",
+            "sha256": "b07ae4ab500827e9adac27a66eb6f11e820be10d7378aa60b6d2436c5f5c70e1",
+            "bytes": 86146
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\1462\\170142\\1462-170142-0039.flac",
+            "relative_path": "1462/170142/1462-170142-0039.flac",
+            "sha256": "8642eed32038ac849dfb0b02b014262dbfa8248c87098ab148fd47223b240222",
+            "bytes": 87633
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\1462\\170145\\1462-170145-0009.flac",
+            "relative_path": "1462/170145/1462-170145-0009.flac",
+            "sha256": "aeff4ce5cb6409c28a091b4ba2b13d0aff07f624d3b82821816ff738deff262c",
+            "bytes": 49988
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\1462\\170145\\1462-170145-0022.flac",
+            "relative_path": "1462/170145/1462-170145-0022.flac",
+            "sha256": "bf0bf6ab07382edfa2086eb601723eda99efb7d971f0f1dd4d4c8076a63dabe5",
+            "bytes": 118272
+          }
+        ]
+      },
+      {
+        "speaker_id": "1988",
+        "utterance_count": 59,
+        "selected": [
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\1988\\147956\\1988-147956-0000.flac",
+            "relative_path": "1988/147956/1988-147956-0000.flac",
+            "sha256": "dd619997014d3a6d45b909f1295c847e81942193ef85c7366c2dade42244f102",
+            "bytes": 247072
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\1988\\147956\\1988-147956-0012.flac",
+            "relative_path": "1988/147956/1988-147956-0012.flac",
+            "sha256": "dbe57999419e19ab9c121ef09934a5d4df5cd9969da1e0025dbf51f6728af047",
+            "bytes": 83392
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\1988\\147956\\1988-147956-0023.flac",
+            "relative_path": "1988/147956/1988-147956-0023.flac",
+            "sha256": "f10e7bfb7af7e150d73be8bca62c04a4f5846a42ab5badc8edf753701cf3b4c0",
+            "bytes": 73984
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\1988\\24833\\1988-24833-0005.flac",
+            "relative_path": "1988/24833/1988-24833-0005.flac",
+            "sha256": "651202456648beb587a97e2754cdb74f1fc2cecbc01bec22dd5271cfa80d1650",
+            "bytes": 100769
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\1988\\24833\\1988-24833-0016.flac",
+            "relative_path": "1988/24833/1988-24833-0016.flac",
+            "sha256": "7846332d6862100b533cd0b45ea44b2c038c4313074bcd7b4fbff95ba0928aae",
+            "bytes": 50707
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\1988\\24833\\1988-24833-0028.flac",
+            "relative_path": "1988/24833/1988-24833-0028.flac",
+            "sha256": "c805ae2c0b90b30a987f84900dcdf288ed4a7246137e7a4d7c2cd152fb3e35ae",
+            "bytes": 49680
+          }
+        ]
+      },
+      {
+        "speaker_id": "1993",
+        "utterance_count": 11,
+        "selected": [
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\1993\\147964\\1993-147964-0000.flac",
+            "relative_path": "1993/147964/1993-147964-0000.flac",
+            "sha256": "b90879ba30dc9a4ed1fb9669a315a7eab8b7c2365afa44e3b9b92d0d925624d3",
+            "bytes": 174488
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\1993\\147964\\1993-147964-0002.flac",
+            "relative_path": "1993/147964/1993-147964-0002.flac",
+            "sha256": "f5b989660819a077a9766dfa4a446f5149e647d6ab91341b3af8f3d2614d0077",
+            "bytes": 133970
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\1993\\147964\\1993-147964-0004.flac",
+            "relative_path": "1993/147964/1993-147964-0004.flac",
+            "sha256": "f492ba2cbe5e08cca665e537d03233af8c522bcfb1448eee55ead1558d74e817",
+            "bytes": 155174
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\1993\\147964\\1993-147964-0006.flac",
+            "relative_path": "1993/147964/1993-147964-0006.flac",
+            "sha256": "aedb0db33276242e6062fa20ea14e9da73158753c021b6211f1ecb6dbedf4072",
+            "bytes": 75787
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\1993\\147964\\1993-147964-0008.flac",
+            "relative_path": "1993/147964/1993-147964-0008.flac",
+            "sha256": "f993dc296618f641bd277dda7891d9003148a1e5cd37a963a9ee5bd17391fcdb",
+            "bytes": 151436
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\1993\\147964\\1993-147964-0010.flac",
+            "relative_path": "1993/147964/1993-147964-0010.flac",
+            "sha256": "4208a5c9e51a02218b1d7b4c4ecaffdfa6b741119710723c48d16cb45a7eaae9",
+            "bytes": 418670
+          }
+        ]
+      },
+      {
+        "speaker_id": "2035",
+        "utterance_count": 77,
+        "selected": [
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\2035\\147960\\2035-147960-0000.flac",
+            "relative_path": "2035/147960/2035-147960-0000.flac",
+            "sha256": "0ee6731694bcc55349cf4f70123aaff81a7779c782c4a3ec4579b243b1552748",
+            "bytes": 175065
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\2035\\147960\\2035-147960-0015.flac",
+            "relative_path": "2035/147960/2035-147960-0015.flac",
+            "sha256": "c9e80b5cfd95b322b62058e667eef6f99af505109b5c87a7c6bad0d4e4ae9c44",
+            "bytes": 35672
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\2035\\147961\\2035-147961-0013.flac",
+            "relative_path": "2035/147961/2035-147961-0013.flac",
+            "sha256": "cc450c07b5244d3fa188ef108a0c00c456ad6319003ec025295a420d357e2142",
+            "bytes": 91096
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\2035\\147961\\2035-147961-0029.flac",
+            "relative_path": "2035/147961/2035-147961-0029.flac",
+            "sha256": "e5cf04ab2f42470b47c41c5ec3cb5b88f9c56460a4df237c0c87eee25ea68a7f",
+            "bytes": 74748
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\2035\\152373\\2035-152373-0003.flac",
+            "relative_path": "2035/152373/2035-152373-0003.flac",
+            "sha256": "4896823457efff07122314d35c23a583f11f1ff21e2841839bbc08495b03f353",
+            "bytes": 117925
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\2035\\152373\\2035-152373-0018.flac",
+            "relative_path": "2035/152373/2035-152373-0018.flac",
+            "sha256": "a7537becba8d528afad6d64efea48c5fe460987a2842039e99614595b6f47a37",
+            "bytes": 118598
+          }
+        ]
+      },
+      {
+        "speaker_id": "2412",
+        "utterance_count": 16,
+        "selected": [
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\2412\\153948\\2412-153948-0000.flac",
+            "relative_path": "2412/153948/2412-153948-0000.flac",
+            "sha256": "47ced4dfe4fc60d8335cd37fb80d632039731679004d6568bf7430f007630b3a",
+            "bytes": 204667
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\2412\\153948\\2412-153948-0003.flac",
+            "relative_path": "2412/153948/2412-153948-0003.flac",
+            "sha256": "ecdc1903dd77ffac9dc6f49103689b8fbc42639885c96ca68ac13dd18cbc57a6",
+            "bytes": 156629
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\2412\\153948\\2412-153948-0006.flac",
+            "relative_path": "2412/153948/2412-153948-0006.flac",
+            "sha256": "bfa89228bc8a89055e5f36c6927e71d4423e554306f2459943ede1bf3f64fe68",
+            "bytes": 283941
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\2412\\153948\\2412-153948-0009.flac",
+            "relative_path": "2412/153948/2412-153948-0009.flac",
+            "sha256": "2962bdcbb2c847e923e2577feb568179c90d24c462f8af55aa3d52ca9296a173",
+            "bytes": 112627
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\2412\\153948\\2412-153948-0012.flac",
+            "relative_path": "2412/153948/2412-153948-0012.flac",
+            "sha256": "52f74fb0bf8b70cd1fc34956a4420395bf6083f155037ad9755a01318d916bbe",
+            "bytes": 111835
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\2412\\153948\\2412-153948-0015.flac",
+            "relative_path": "2412/153948/2412-153948-0015.flac",
+            "sha256": "8383e6a427bb9ce96058afbdadf31aafd603b6701afff8d0bd7fd38e0252a0df",
+            "bytes": 64369
+          }
+        ]
+      },
+      {
+        "speaker_id": "2428",
+        "utterance_count": 43,
+        "selected": [
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\2428\\83699\\2428-83699-0000.flac",
+            "relative_path": "2428/83699/2428-83699-0000.flac",
+            "sha256": "dbdfe7afcc75aa9229e7f888a060a909931215062aa7a87a3c2adccb6af35d2a",
+            "bytes": 227664
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\2428\\83699\\2428-83699-0008.flac",
+            "relative_path": "2428/83699/2428-83699-0008.flac",
+            "sha256": "4c2a8346dad3f980fe1f524577746f162840b930cdbdc99bb1313bc4f529d0a2",
+            "bytes": 189570
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\2428\\83699\\2428-83699-0017.flac",
+            "relative_path": "2428/83699/2428-83699-0017.flac",
+            "sha256": "f5628e61dad27e33d72cd876cf7a08642ae262cff378529546890ee539f82a60",
+            "bytes": 229387
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\2428\\83699\\2428-83699-0025.flac",
+            "relative_path": "2428/83699/2428-83699-0025.flac",
+            "sha256": "a08ab046f9ba59f832edde8c1c3afdb9806d867db5458c61702710f9dbfddea0",
+            "bytes": 142782
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\2428\\83699\\2428-83699-0034.flac",
+            "relative_path": "2428/83699/2428-83699-0034.flac",
+            "sha256": "0ce92181de804a43d1a1e64a4b5b8cb7660729e295e4353a59819da5c209ea88",
+            "bytes": 138129
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\2428\\83699\\2428-83699-0042.flac",
+            "relative_path": "2428/83699/2428-83699-0042.flac",
+            "sha256": "4e3c9a19a50d4b937136638858fb81c64ca3f0634f162738fb15a818de650f91",
+            "bytes": 114691
+          }
+        ]
+      },
+      {
+        "speaker_id": "2803",
+        "utterance_count": 33,
+        "selected": [
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\2803\\154320\\2803-154320-0000.flac",
+            "relative_path": "2803/154320/2803-154320-0000.flac",
+            "sha256": "c03cf32b36cc772a1448763e7856e53dbfa6b1679c2f4aeba20dd55d85953075",
+            "bytes": 182563
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\2803\\154320\\2803-154320-0006.flac",
+            "relative_path": "2803/154320/2803-154320-0006.flac",
+            "sha256": "b9b0fad2b999ed8c303ae3978ac50a0259e18b170695a3cbfb79421425956424",
+            "bytes": 37646
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\2803\\154320\\2803-154320-0013.flac",
+            "relative_path": "2803/154320/2803-154320-0013.flac",
+            "sha256": "b86ecaad36dce9eb4802c019ae1d7f288488115ace879a3c35047f496d3bca06",
+            "bytes": 71905
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\2803\\161169\\2803-161169-0004.flac",
+            "relative_path": "2803/161169/2803-161169-0004.flac",
+            "sha256": "4d2f27c50c9da0c4cf95ba47d8d6e3304243499d86adf27b58fb8d5ceeb1e09f",
+            "bytes": 156661
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\2803\\161169\\2803-161169-0011.flac",
+            "relative_path": "2803/161169/2803-161169-0011.flac",
+            "sha256": "c8418e1cdb185dbf8f72403714795aa40c3f0654bbfb71f73427994b9cb8410c",
+            "bytes": 81237
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\2803\\161169\\2803-161169-0017.flac",
+            "relative_path": "2803/161169/2803-161169-0017.flac",
+            "sha256": "b230c84781514ac64d33526fdbdb87dc13036e19f9afc725de7064ccd20d9c13",
+            "bytes": 115486
+          }
+        ]
+      },
+      {
+        "speaker_id": "3000",
+        "utterance_count": 47,
+        "selected": [
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\3000\\15664\\3000-15664-0000.flac",
+            "relative_path": "3000/15664/3000-15664-0000.flac",
+            "sha256": "9eeff067c5e377fb25bae2ef4ddf19a36d9f6edab9b9fd39352039fe327b56f3",
+            "bytes": 57363
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\3000\\15664\\3000-15664-0009.flac",
+            "relative_path": "3000/15664/3000-15664-0009.flac",
+            "sha256": "d95244b54fdcd4e9a53578ec836efa072bb2210a6c6dee292c284dd8d38db22c",
+            "bytes": 137526
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\3000\\15664\\3000-15664-0018.flac",
+            "relative_path": "3000/15664/3000-15664-0018.flac",
+            "sha256": "6ba75686ba88d70e39c01375e945d974cc0b0e0083a6a0e5b2f2133d15f9e252",
+            "bytes": 93814
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\3000\\15664\\3000-15664-0028.flac",
+            "relative_path": "3000/15664/3000-15664-0028.flac",
+            "sha256": "0a313376c464eee48922a66f8c0d7a5edcc7ee4895c5b1894c60a758569558c3",
+            "bytes": 111825
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\3000\\15664\\3000-15664-0037.flac",
+            "relative_path": "3000/15664/3000-15664-0037.flac",
+            "sha256": "7a0b5ba822f546872faf2f2b240c5b77196187cf5e40167c92c3facce31664b4",
+            "bytes": 168350
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\3000\\15664\\3000-15664-0046.flac",
+            "relative_path": "3000/15664/3000-15664-0046.flac",
+            "sha256": "fb1de9d874d303c39bebec53cb6c3e423d649bc90341d7e82c751f2c10736e80",
+            "bytes": 90579
+          }
+        ]
+      },
+      {
+        "speaker_id": "3536",
+        "utterance_count": 31,
+        "selected": [
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\3536\\23268\\3536-23268-0000.flac",
+            "relative_path": "3536/23268/3536-23268-0000.flac",
+            "sha256": "1608b339566e5503b7da1907925d4f0ea08a2d1fe1ee41152060e7b5d09e5bbf",
+            "bytes": 393469
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\3536\\23268\\3536-23268-0006.flac",
+            "relative_path": "3536/23268/3536-23268-0006.flac",
+            "sha256": "a159d0029ade60848b19ad787982ae0815f4f55dd186ec3ae63f3c7912ff8db0",
+            "bytes": 101208
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\3536\\23268\\3536-23268-0012.flac",
+            "relative_path": "3536/23268/3536-23268-0012.flac",
+            "sha256": "2c1d4db59f24f56d7cfff2a31bb3676cfabbfe4118d6a1fd021a0024d86462ce",
+            "bytes": 140803
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\3536\\23268\\3536-23268-0018.flac",
+            "relative_path": "3536/23268/3536-23268-0018.flac",
+            "sha256": "c1bb18a90ef946d14d1a3acbb8bb2ab5d55a27ae1e6cb5c83c0570ebae6192d4",
+            "bytes": 148963
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\3536\\23268\\3536-23268-0024.flac",
+            "relative_path": "3536/23268/3536-23268-0024.flac",
+            "sha256": "b1d8b3a4805da4e042924608c2610da7659dbb818b03271ce21578873bc4827c",
+            "bytes": 120083
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\3536\\23268\\3536-23268-0030.flac",
+            "relative_path": "3536/23268/3536-23268-0030.flac",
+            "sha256": "86397f9b54d2f5aef7cb94b56f7fc4e6827b3b171a370316f2e62a8159906c33",
+            "bytes": 164282
+          }
+        ]
+      },
+      {
+        "speaker_id": "3576",
+        "utterance_count": 41,
+        "selected": [
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\3576\\138058\\3576-138058-0000.flac",
+            "relative_path": "3576/138058/3576-138058-0000.flac",
+            "sha256": "f4247837be6caf9dd06ba62280042a31b7ab98ee0646d68d94b85af0e31cd52f",
+            "bytes": 285286
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\3576\\138058\\3576-138058-0008.flac",
+            "relative_path": "3576/138058/3576-138058-0008.flac",
+            "sha256": "f5a477404728b51f8684ecf12c527ef3e471ca85a91d09e97e328f96f2e4e220",
+            "bytes": 83307
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\3576\\138058\\3576-138058-0016.flac",
+            "relative_path": "3576/138058/3576-138058-0016.flac",
+            "sha256": "10b8e2d3b663a360336f3c5a834cc829107c052c1a873c51e219b3e1bb3afa5d",
+            "bytes": 225980
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\3576\\138058\\3576-138058-0024.flac",
+            "relative_path": "3576/138058/3576-138058-0024.flac",
+            "sha256": "8326fbbe323e35706d431a017f1430547c7e10ef161f0759fb8cbca84171edab",
+            "bytes": 435133
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\3576\\138058\\3576-138058-0032.flac",
+            "relative_path": "3576/138058/3576-138058-0032.flac",
+            "sha256": "69954f515c5a73f6d0612f2c09486041f35845c815bb41d252630b3811cce3ba",
+            "bytes": 112340
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\3576\\138058\\3576-138058-0040.flac",
+            "relative_path": "3576/138058/3576-138058-0040.flac",
+            "sha256": "c951b715748a8fa6d3e291538b88c47506d8ed29481ad4f92a968d9684e244e2",
+            "bytes": 125448
+          }
+        ]
+      },
+      {
+        "speaker_id": "3752",
+        "utterance_count": 70,
+        "selected": [
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\3752\\4944\\3752-4944-0000.flac",
+            "relative_path": "3752/4944/3752-4944-0000.flac",
+            "sha256": "98bac3595753e97a2c8eebbdffebdb69d71a71f09cade3ba6dc412e6ed025b5c",
+            "bytes": 72756
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\3752\\4944\\3752-4944-0014.flac",
+            "relative_path": "3752/4944/3752-4944-0014.flac",
+            "sha256": "fa747ff874d967fd8921abe4ae1e44cfad330e7f9fcaa17cd551b32dde8a8e70",
+            "bytes": 45469
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\3752\\4944\\3752-4944-0028.flac",
+            "relative_path": "3752/4944/3752-4944-0028.flac",
+            "sha256": "c6f5372f9e97f2adfbae95d843db7838a129c70769d865a86fca4a33df93f7fa",
+            "bytes": 67399
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\3752\\4944\\3752-4944-0041.flac",
+            "relative_path": "3752/4944/3752-4944-0041.flac",
+            "sha256": "284451ebbc4de20241773ba946f8f1e2651a3b0d6946a842e3222b570db6d16e",
+            "bytes": 55285
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\3752\\4944\\3752-4944-0055.flac",
+            "relative_path": "3752/4944/3752-4944-0055.flac",
+            "sha256": "f435dfe5e7c76625f6f72bff82fe2f92f0fe294670ae9fe58bc3888e801893a8",
+            "bytes": 46573
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\3752\\4944\\3752-4944-0069.flac",
+            "relative_path": "3752/4944/3752-4944-0069.flac",
+            "sha256": "b13510751fd7dc49fbaa8d9b1f78eba844f4e4dbb8196b61a14e43102c95827c",
+            "bytes": 192259
+          }
+        ]
+      },
+      {
+        "speaker_id": "5338",
+        "utterance_count": 44,
+        "selected": [
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\5338\\24640\\5338-24640-0000.flac",
+            "relative_path": "5338/24640/5338-24640-0000.flac",
+            "sha256": "1e4b8e19baab4580b3aa9c360a92e028827ed7f4f0f6cf459e2d09bfc337b06e",
+            "bytes": 59010
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\5338\\24640\\5338-24640-0009.flac",
+            "relative_path": "5338/24640/5338-24640-0009.flac",
+            "sha256": "a63c1cc24564de43d956ccb3537ce94c2211a40d156eedbcab38e6f44e79d441",
+            "bytes": 220694
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\5338\\284437\\5338-284437-0007.flac",
+            "relative_path": "5338/284437/5338-284437-0007.flac",
+            "sha256": "37a842066f6384e3d70801afe9ca9581b55202e0383dc9a51d04323990f61af8",
+            "bytes": 73796
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\5338\\284437\\5338-284437-0016.flac",
+            "relative_path": "5338/284437/5338-284437-0016.flac",
+            "sha256": "d67ef52adc2c4758203255f1ee8def086ea8b5838b29e8d61c36a5c0c935e68f",
+            "bytes": 68538
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\5338\\284437\\5338-284437-0024.flac",
+            "relative_path": "5338/284437/5338-284437-0024.flac",
+            "sha256": "db0fdd9252ccb8c62078413adc32a810f97d221c798e2887f10fc0376dca0469",
+            "bytes": 120832
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\5338\\284437\\5338-284437-0033.flac",
+            "relative_path": "5338/284437/5338-284437-0033.flac",
+            "sha256": "6000aebe6d837607a4bf122e863eec5bdd47335b2c872016185300c4a446606f",
+            "bytes": 42727
+          }
+        ]
+      },
+      {
+        "speaker_id": "5694",
+        "utterance_count": 26,
+        "selected": [
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\5694\\64038\\5694-64038-0000.flac",
+            "relative_path": "5694/64038/5694-64038-0000.flac",
+            "sha256": "c0cf765503cfa888a759069ea8299a125972ddea709710835c5f4e2c44a6a188",
+            "bytes": 45824
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\5694\\64038\\5694-64038-0005.flac",
+            "relative_path": "5694/64038/5694-64038-0005.flac",
+            "sha256": "bfd5de92ed3b7143315fb653ea140a6ad5111222c80499bdda1d93f11e3013c6",
+            "bytes": 75277
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\5694\\64038\\5694-64038-0010.flac",
+            "relative_path": "5694/64038/5694-64038-0010.flac",
+            "sha256": "fc56d8277b53100e90758dc730315d5487cfc207b0070307bd5a2633bef4ec76",
+            "bytes": 171623
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\5694\\64038\\5694-64038-0015.flac",
+            "relative_path": "5694/64038/5694-64038-0015.flac",
+            "sha256": "82cb96b648ea31d700da838a9f875c0eac5341accac303627ba6db16bee24a98",
+            "bytes": 120597
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\5694\\64038\\5694-64038-0020.flac",
+            "relative_path": "5694/64038/5694-64038-0020.flac",
+            "sha256": "d5ed715e781d1f52f67a46687ff7fad4123d279cb32c98f1c50d03c3197e8d63",
+            "bytes": 83245
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\5694\\64038\\5694-64038-0025.flac",
+            "relative_path": "5694/64038/5694-64038-0025.flac",
+            "sha256": "f605b3a3959a4c50e7b300a3554873132078c7d9873fb1012bf6bd43c414bf24",
+            "bytes": 119346
+          }
+        ]
+      },
+      {
+        "speaker_id": "5895",
+        "utterance_count": 80,
+        "selected": [
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\5895\\34615\\5895-34615-0000.flac",
+            "relative_path": "5895/34615/5895-34615-0000.flac",
+            "sha256": "93f79b215d2362d4402b548c50e917634c17c1cecbf5a1470e464c504ce904e7",
+            "bytes": 65191
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\5895\\34615\\5895-34615-0016.flac",
+            "relative_path": "5895/34615/5895-34615-0016.flac",
+            "sha256": "919aac6b1e0a29a109af7f1a697232484725ff16a12a8497f321c6e14d600ad4",
+            "bytes": 275141
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\5895\\34622\\5895-34622-0010.flac",
+            "relative_path": "5895/34622/5895-34622-0010.flac",
+            "sha256": "8107ca67a87de1bee37ab50e11de12fa4c417f65a7a405c900d2ea73d6e2ac6d",
+            "bytes": 66938
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\5895\\34629\\5895-34629-0001.flac",
+            "relative_path": "5895/34629/5895-34629-0001.flac",
+            "sha256": "0fb82d9b895bd20a01a81bd6f8d373a656bb600acf7fd84e3a6b490c1ef9b4ff",
+            "bytes": 67996
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\5895\\34629\\5895-34629-0017.flac",
+            "relative_path": "5895/34629/5895-34629-0017.flac",
+            "sha256": "1febfdbe3430ce639ff83eea762fc3735c4f2635ee6873403908734ba4b5dc34",
+            "bytes": 91912
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\5895\\34629\\5895-34629-0033.flac",
+            "relative_path": "5895/34629/5895-34629-0033.flac",
+            "sha256": "48dff59fbf92956faadfe48533ced72560ddc52bcc62adfd8d4c5d0886114f38",
+            "bytes": 155294
+          }
+        ]
+      },
+      {
+        "speaker_id": "6241",
+        "utterance_count": 52,
+        "selected": [
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\6241\\61943\\6241-61943-0000.flac",
+            "relative_path": "6241/61943/6241-61943-0000.flac",
+            "sha256": "a87ff71b48e5c43b62c67615b42b5f0fb781decc85d5c890b3d8fa1219cb14e5",
+            "bytes": 139579
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\6241\\61943\\6241-61943-0010.flac",
+            "relative_path": "6241/61943/6241-61943-0010.flac",
+            "sha256": "0967ac6ea034bb3d6c9e42ff17386d99abc9dd651e1d1a4fb7778996f66e8cac",
+            "bytes": 95472
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\6241\\61943\\6241-61943-0020.flac",
+            "relative_path": "6241/61943/6241-61943-0020.flac",
+            "sha256": "fcda9432853ef8e67ff7c2f8401a0e0b380c6b337818cb39aa89aec0c6cecf36",
+            "bytes": 97418
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\6241\\61946\\6241-61946-0003.flac",
+            "relative_path": "6241/61946/6241-61946-0003.flac",
+            "sha256": "5f0e5467328d140c088bb606f1ba02a9cc750f82cbe6757321b1f3f49aa2b9bc",
+            "bytes": 165363
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\6241\\61946\\6241-61946-0013.flac",
+            "relative_path": "6241/61946/6241-61946-0013.flac",
+            "sha256": "5e8416ea29b89f2924b3c4ef635e4eb2c1067b6fdc4476e7eabc06031b244c03",
+            "bytes": 185319
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\6241\\61946\\6241-61946-0023.flac",
+            "relative_path": "6241/61946/6241-61946-0023.flac",
+            "sha256": "421515ea4a90535f056ec4c598cde957f0c33e97350b658dca67155e1499ded4",
+            "bytes": 133272
+          }
+        ]
+      },
+      {
+        "speaker_id": "6295",
+        "utterance_count": 41,
+        "selected": [
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\6295\\244435\\6295-244435-0000.flac",
+            "relative_path": "6295/244435/6295-244435-0000.flac",
+            "sha256": "584835bd337d293cc811f3d346c6d681716534634f36b477e8115bdb269ad177",
+            "bytes": 43421
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\6295\\244435\\6295-244435-0008.flac",
+            "relative_path": "6295/244435/6295-244435-0008.flac",
+            "sha256": "e1763ec55ec0df246e66a11ece395078f47aa276352bf1987e1713a3d964d676",
+            "bytes": 226883
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\6295\\244435\\6295-244435-0016.flac",
+            "relative_path": "6295/244435/6295-244435-0016.flac",
+            "sha256": "df2a142d3546f76bb2a86746eedb38662a941c7c161fe0d935e84bf6fe93220c",
+            "bytes": 214988
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\6295\\244435\\6295-244435-0024.flac",
+            "relative_path": "6295/244435/6295-244435-0024.flac",
+            "sha256": "d266b760bf18466512fcb3e2e251a7bad9129b8eb4ce4b7eef80dffb461e009e",
+            "bytes": 78312
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\6295\\244435\\6295-244435-0032.flac",
+            "relative_path": "6295/244435/6295-244435-0032.flac",
+            "sha256": "35a2ee6e87abbe586a253a190897bf9d609227e8d5eea574c9632688992c35ad",
+            "bytes": 78477
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\6295\\244435\\6295-244435-0040.flac",
+            "relative_path": "6295/244435/6295-244435-0040.flac",
+            "sha256": "20c4b4002deb436a6061c3f4a4528e3ce85ec6981cdf6b50a0ada5d6d41effc8",
+            "bytes": 69542
+          }
+        ]
+      },
+      {
+        "speaker_id": "6319",
+        "utterance_count": 13,
+        "selected": [
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\6319\\57405\\6319-57405-0000.flac",
+            "relative_path": "6319/57405/6319-57405-0000.flac",
+            "sha256": "9a9675d31b8efcc3377910fa1aa86ae9eda393cb3c05025fa1473c0ee5bf0f89",
+            "bytes": 147344
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\6319\\57405\\6319-57405-0002.flac",
+            "relative_path": "6319/57405/6319-57405-0002.flac",
+            "sha256": "a9e843e500247ea991a274f1da648506ecfe9e731e3d17a32448e2e1dadfaa91",
+            "bytes": 117231
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\6319\\57405\\6319-57405-0005.flac",
+            "relative_path": "6319/57405/6319-57405-0005.flac",
+            "sha256": "877eed9666b4fae87fd4c4147c35f426d4b41e5731e7b3dd4cce731233b7134f",
+            "bytes": 160103
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\6319\\57405\\6319-57405-0007.flac",
+            "relative_path": "6319/57405/6319-57405-0007.flac",
+            "sha256": "b837e1cedaec36b326c86ea791135f95fa1b5f18c3d1f5d92306b86610e0bfac",
+            "bytes": 68139
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\6319\\57405\\6319-57405-0010.flac",
+            "relative_path": "6319/57405/6319-57405-0010.flac",
+            "sha256": "a506c0ca6b98fb36163a980f428f2575e52ebd0b39ad9f64243e0592da33e84b",
+            "bytes": 61546
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\6319\\57405\\6319-57405-0012.flac",
+            "relative_path": "6319/57405/6319-57405-0012.flac",
+            "sha256": "1b4228ebf635afb33e2e7533442c977f3f8aa804c26af04a5319483c58028473",
+            "bytes": 159505
+          }
+        ]
+      },
+      {
+        "speaker_id": "7850",
+        "utterance_count": 42,
+        "selected": [
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\7850\\281318\\7850-281318-0000.flac",
+            "relative_path": "7850/281318/7850-281318-0000.flac",
+            "sha256": "11e4f4e9a147c84f9d6f2dcb7dcc2da9808178e021a72c5049ec340b6a76d2c5",
+            "bytes": 78366
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\7850\\281318\\7850-281318-0008.flac",
+            "relative_path": "7850/281318/7850-281318-0008.flac",
+            "sha256": "6c81e1bea01928b1cb6f17836e92c7b47fed3a09434581e9dbf51654268228f1",
+            "bytes": 122061
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\7850\\281318\\7850-281318-0016.flac",
+            "relative_path": "7850/281318/7850-281318-0016.flac",
+            "sha256": "8baca2344eac3ea020caf063bb47748cc3169a97d068ea355e0ac9af356aeb9b",
+            "bytes": 71013
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\7850\\286674\\7850-286674-0001.flac",
+            "relative_path": "7850/286674/7850-286674-0001.flac",
+            "sha256": "5bcc7ae14874513823e88fe6850246793383b75758a667ca65236a728305a6e4",
+            "bytes": 50476
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\7850\\286674\\7850-286674-0009.flac",
+            "relative_path": "7850/286674/7850-286674-0009.flac",
+            "sha256": "e6c8a698dd853027e25f21e0ae795c40f207c59f2dbe8b1959b0ac6cb7ff71fd",
+            "bytes": 131520
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\7850\\286674\\7850-286674-0017.flac",
+            "relative_path": "7850/286674/7850-286674-0017.flac",
+            "sha256": "7b58849e356717d308f0afadc9a798101b32f75ccf766a2ee5aaa07842e4e817",
+            "bytes": 47282
+          }
+        ]
+      },
+      {
+        "speaker_id": "7976",
+        "utterance_count": 22,
+        "selected": [
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\7976\\110523\\7976-110523-0000.flac",
+            "relative_path": "7976/110523/7976-110523-0000.flac",
+            "sha256": "34d01fbe28d340065726a8eec93dc4d2f6116847d0f041b52c92cd4d86f1a9ec",
+            "bytes": 265814
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\7976\\110523\\7976-110523-0004.flac",
+            "relative_path": "7976/110523/7976-110523-0004.flac",
+            "sha256": "3dcc844205c95a665dd97b0a9bd6ecd05d6d54732787559e032e37173f287637",
+            "bytes": 131612
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\7976\\110523\\7976-110523-0008.flac",
+            "relative_path": "7976/110523/7976-110523-0008.flac",
+            "sha256": "1c5d7203515c46605083ad39c050b6b717a685532877ca939b272b7aae48a62f",
+            "bytes": 151931
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\7976\\110523\\7976-110523-0013.flac",
+            "relative_path": "7976/110523/7976-110523-0013.flac",
+            "sha256": "50f578941e4d0ae883166d7a48e034128afef910d58d71906bdc7ff3ff6acd8a",
+            "bytes": 166276
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\7976\\110523\\7976-110523-0017.flac",
+            "relative_path": "7976/110523/7976-110523-0017.flac",
+            "sha256": "6f4d807a74740e3ca847ff3dd90923f8e95721ba777c4f53064c64d4da335ed0",
+            "bytes": 238573
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\7976\\110523\\7976-110523-0021.flac",
+            "relative_path": "7976/110523/7976-110523-0021.flac",
+            "sha256": "0b7ea09a53ab1a042cd1abd9638b21d38162b6013ac0656d170729ac2ac6f4a2",
+            "bytes": 98093
+          }
+        ]
+      },
+      {
+        "speaker_id": "8297",
+        "utterance_count": 14,
+        "selected": [
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\8297\\275156\\8297-275156-0000.flac",
+            "relative_path": "8297/275156/8297-275156-0000.flac",
+            "sha256": "739897cc382b4f6ab0e813607a44ee932fd7e6655d130c011028b7fb3c1e8c24",
+            "bytes": 56931
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\8297\\275156\\8297-275156-0003.flac",
+            "relative_path": "8297/275156/8297-275156-0003.flac",
+            "sha256": "423ca5da06bdc1c44768e1585f73c449eaaf6a3d2d6e943032c32ad06b2387b6",
+            "bytes": 200824
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\8297\\275156\\8297-275156-0005.flac",
+            "relative_path": "8297/275156/8297-275156-0005.flac",
+            "sha256": "6e17c3186f3c4aa7420d5d3f9853a70e7a7037f0f9c46476489fdbfd6d341e36",
+            "bytes": 254243
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\8297\\275156\\8297-275156-0008.flac",
+            "relative_path": "8297/275156/8297-275156-0008.flac",
+            "sha256": "e40e6493a2ca173e250c8835631f4b2519f8256fa5ef59896ff70a068154e026",
+            "bytes": 134044
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\8297\\275156\\8297-275156-0010.flac",
+            "relative_path": "8297/275156/8297-275156-0010.flac",
+            "sha256": "4fa5a40e6600a2a430e6acb8fbd5bb7de13a9c5e315b35d01c5a4562f02decf0",
+            "bytes": 238319
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\8297\\275156\\8297-275156-0013.flac",
+            "relative_path": "8297/275156/8297-275156-0013.flac",
+            "sha256": "981ca5b4d22a1cdd79e7282e1f80a0bf6b1b08392a8134fc9f19fd26ca08fb5c",
+            "bytes": 219522
+          }
+        ]
+      },
+      {
+        "speaker_id": "8842",
+        "utterance_count": 14,
+        "selected": [
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\8842\\304647\\8842-304647-0000.flac",
+            "relative_path": "8842/304647/8842-304647-0000.flac",
+            "sha256": "37757af3c90b911c76d143af4521f908839cda4a3b6a8786b5fb3a6d8cf9b2cc",
+            "bytes": 174052
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\8842\\304647\\8842-304647-0003.flac",
+            "relative_path": "8842/304647/8842-304647-0003.flac",
+            "sha256": "73ce814b5fbbd9c88b57f7f57728b42fe039f8f193a6a9344479e94bc22769e8",
+            "bytes": 147024
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\8842\\304647\\8842-304647-0005.flac",
+            "relative_path": "8842/304647/8842-304647-0005.flac",
+            "sha256": "721894b92bea3534fd55c8b9e41ec57318ffddd585413cb58b24035928e89907",
+            "bytes": 41646
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\8842\\304647\\8842-304647-0008.flac",
+            "relative_path": "8842/304647/8842-304647-0008.flac",
+            "sha256": "c5744668385d5c6af0be0ac52addd5906c7ddfc712cdd05685b3dd19b61ee386",
+            "bytes": 148320
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\8842\\304647\\8842-304647-0010.flac",
+            "relative_path": "8842/304647/8842-304647-0010.flac",
+            "sha256": "dc0dc92ccb63c144b1a86c9e97cfcc5396b655b908f259c616581ee7afa11004",
+            "bytes": 227377
+          },
+          {
+            "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_datasets\\openslr31\\extracted\\LibriSpeech\\dev-clean-2\\8842\\304647\\8842-304647-0013.flac",
+            "relative_path": "8842/304647/8842-304647-0013.flac",
+            "sha256": "f2d0a1c0234d5879bf5634340946bf3aaaaa915953c83246dad4c02fc62209d1",
+            "bytes": 167883
+          }
+        ]
+      }
+    ]
+  },
+  "pair_scoring": {
+    "calibration": {
+      "positive_count": 195,
+      "different_speaker_count": 2808,
+      "positive_min": 0.33452916145324707,
+      "positive_max": 0.9105525016784668,
+      "different_speaker_min": -0.17983263731002808,
+      "different_speaker_max": 0.5317322611808777
+    },
+    "validation": {
+      "positive_count": 195,
+      "different_speaker_count": 2808,
+      "positive_min": 0.14737433195114136,
+      "positive_max": 0.9319918155670166,
+      "different_speaker_min": -0.20215818285942078,
+      "different_speaker_max": 0.5925875902175903
+    },
+    "same_speaker_pairs_exhaustive_within_selected_clips": true,
+    "different_speaker_pairs_exhaustive_across_selected_clips": true
+  },
+  "threshold_validation": {
+    "method": "openslr31_numeric_speaker_id_disjoint_even_odd_partition_v1",
+    "positive_definition": "two distinct utterances under the same published numeric speaker directory",
+    "negative_definition": "utterances under different published numeric speaker directories",
+    "calibration_constraints": {
+      "true_positive_rate_min": 0.9,
+      "false_positive_rate_max": 0.1
+    },
+    "validation_constraints": {
+      "true_positive_rate_min": 0.8,
+      "false_positive_rate_max": 0.1
+    },
+    "threshold": 0.33445611596107483,
+    "calibration": {
+      "threshold": 0.33445611596107483,
+      "true_positive": 195,
+      "false_negative": 0,
+      "false_positive": 62,
+      "true_negative": 2746,
+      "true_positive_rate": 1.0,
+      "false_positive_rate": 0.02207977207977208,
+      "balanced_accuracy": 0.988960113960114,
+      "training_constraints_pass": true
+    },
+    "validation": {
+      "threshold": 0.33445611596107483,
+      "true_positive": 194,
+      "false_negative": 1,
+      "false_positive": 72,
+      "true_negative": 2736,
+      "true_positive_rate": 0.9948717948717949,
+      "false_positive_rate": 0.02564102564102564,
+      "balanced_accuracy": 0.9846153846153847
+    },
+    "speaker_disjoint_validation_pass": true,
+    "threshold_deployment_allowed_for_chain_specific_evaluation": true
+  },
+  "chain_specific_evaluation": {
+    "previous_calibration_manifest": {
+      "path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\w64_cv3_speaker_identity_20260715T030600-0500\\calibration_manifest.json",
+      "sha256": "0dd33697af5b1ea6c6d1ebbc8a0cb61b15ad39a8f9025d64f269b26c49468d90",
+      "bytes": 58437
+    },
+    "previous_chain_binding": {
+      "source": {
+        "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\genuine_audio_chain\\source\\librivox_the_raven_chris_goringe.ogg",
+        "sha256": "9d8bc88e382c47b9493e3e881931692be893e69c602761072f9f80ae41ae7db0",
+        "bytes": 9126407
+      },
+      "derived_stem": {
+        "path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\w64_genuine_audio_chain_20260714T163400-0500\\voice_dialogue_stem.wav",
+        "sha256": "95222b1ff4525777bca777378b8355a4f9e3c1038e152008e7eba8ef8070d4f0",
+        "bytes": 391758
+      },
+      "source_excerpt_start_seconds": 20.4,
+      "source_excerpt_end_seconds": 21.8,
+      "derived_stem_start_seconds": 0.22,
+      "duration_seconds": 1.4000000000000021
+    },
+    "speaker_similarity": 0.9932656288146973,
+    "validated_threshold": 0.33445611596107483,
+    "threshold_deployment_allowed": true,
+    "chain_specific_identity_preservation_pass": true,
+    "claim_scope": "the existing public-domain source excerpt and its derived voice stem only",
+    "independent_reference_for_parler_or_other_tts": false
+  },
+  "acceptance": {
+    "official_archive_hash_verified": true,
+    "official_resource_license_declaration_verified": true,
+    "numeric_speaker_labels_verified": true,
+    "speaker_disjoint_validation_pass": true,
+    "threshold_deployment_allowed_for_chain_specific_evaluation": true,
+    "chain_specific_identity_preservation_pass": true,
+    "universal_biometric_identity_claim_allowed": false,
+    "parler_candidate_reference_identity_claim_allowed": false,
+    "emotion_or_style_claim_allowed": false,
+    "independent_perceptual_playback_review_pass": false,
+    "production_review_authority_allowed": false,
+    "authority_registry_mutation_allowed": false,
+    "row_completion_allowed": false
+  },
+  "remaining_blockers": [
+    "the independently labeled threshold applies only to this ERes2Net evaluation configuration",
+    "the Parler candidates remain rejected and have no independent reference-speaker binding",
+    "focused and controlled remain outside the calibrated emotion and style taxonomy",
+    "independent perceptual playback and production review authority remain absent"
+  ],
+  "runtime_boundary": {
+    "candidate_regenerated": false,
+    "new_voice_generated": false,
+    "dataset_download_performed": true,
+    "model_download_performed": false,
+    "ec2_started": false,
+    "s3_mutated": false,
+    "mask_truth_consumed": false,
+    "wave71_activated": false,
+    "jira_mutated": false,
+    "promotion_claimed": false
+  },
+  "row_complete": false
+}
