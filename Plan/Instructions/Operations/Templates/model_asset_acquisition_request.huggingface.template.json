@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "request_id": "ACQ-REPLACE-ME",
+  "capability_need": "Describe the exact missing image, video, audio, control, preprocessing, or QA capability.",
+  "intended_use": "Describe how this exact file will be used in the declared workflow lane.",
+  "selection_rationale": "Record why the pinned official or creator repository file is the best compatible option.",
+  "provider": "huggingface",
+  "source": {
+    "repo_id": "owner/repository",
+    "revision": "0000000000000000000000000000000000000000",
+    "filename": "split_files/diffusion_models/replace.safetensors",
+    "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "bytes": 1
+  },
+  "asset": {
+    "model_name": "REPLACE",
+    "model_type": "DiffusionModel",
+    "base_model": "REPLACE",
+    "target_subdir": "diffusion_models/replace_lane",
+    "filename": "replace.safetensors",
+    "visual_impact": "",
+    "video_impact": "",
+    "audio_impact": ""
+  },
+  "integration": {
+    "workflow_lane": "replace_lane",
+    "compatible_engines": ["replace_engine"],
+    "runtime_requirements_path": "Workflows/replace_lane/runtime_requirements.json",
+    "model_role": "diffusion_model",
+    "test_workflow_path": "Workflows/replace_lane/workflow.api.json",
+    "expected_runtime_result": "load_model_and_run_bounded_smoke_then_modality_qa",
+    "priority": 100,
+    "required_nodes": ["UNETLoader"],
+    "workflow_bindings": [
+      {
+        "workflow_path": "Workflows/replace_lane/workflow.api.json",
+        "node_id": "1",
+        "input_name": "unet_name"
+      }
+    ]
+  },
+  "policy": {
+    "license_status": "verified_allowed",
+    "license_id": "REPLACE",
+    "license_url": "REPLACE",
+    "commercial_use_scope": "REPLACE",
+    "content_based_suppression": false,
+    "adult_or_nsfw_metadata_is_not_a_filter": true,
+    "allow_browser_fallback": true
+  }
+}

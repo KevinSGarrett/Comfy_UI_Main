@@ -49,7 +49,9 @@ AWS_INSTANCE_STATE_FAILURE
 AWS_SSM_FAILURE
 AWS_COST_RISK
 CIVITAI_API_FAILURE
+CIVITAI_BROWSER_DOWNLOAD_REQUIRED
 CIVITAI_MODEL_METADATA_MISSING
+HUGGINGFACE_ASSET_ACCESS_FAILURE
 MODEL_FILE_MISSING
 MODEL_COMPATIBILITY_FAILURE
 COMFYUI_NODE_MISSING
@@ -65,6 +67,8 @@ ITEM_LIST_CONFLICT
 HYDRATION_STALE
 UNKNOWN_BLOCKER
 ```
+
+For `CIVITAI_API_FAILURE`, `CIVITAI_BROWSER_DOWNLOAD_REQUIRED`, `HUGGINGFACE_ASSET_ACCESS_FAILURE`, or `MODEL_FILE_MISSING`, read `Plan/Instructions/Operations/UNIFIED_MODEL_ASSET_ACQUISITION_AND_WIRING_PROTOCOL.md`. Reuse an existing exact hash first. Otherwise resolve an exact source/version/file, attempt the API once with bounded retry behavior, then use the authenticated-browser request/ingestion path when access is browser-only. Do not repeat API probes after the browser-required classification, and do not defer an available dependency to project-end cleanup.
 
 ## 4. Decision tree: unclear task state
 

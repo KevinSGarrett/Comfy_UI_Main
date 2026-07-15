@@ -1,0 +1,170 @@
+{
+  "boundaries": {
+    "adult_or_nsfw_asset_visibility_restricted": false,
+    "aws_contacted_by_validator": false,
+    "content_based_suppression": false,
+    "ec2_started": false,
+    "generation_executed": false,
+    "gold_masks_consumed": false,
+    "jira_mutated": false,
+    "mask_or_geometry_authority_claimed": false,
+    "mask_promotion_claimed": false,
+    "production_video_lane_certification_claimed": false,
+    "wave71_activation_claimed": false
+  },
+  "check_summary": {
+    "checked": 15,
+    "failed": 0,
+    "passed": 15
+  },
+  "checks": [
+    {
+      "name": "row023_rerun_shot_route_exact",
+      "result": "pass"
+    },
+    {
+      "name": "failed_frames_5_6_7_excluded",
+      "result": "pass"
+    },
+    {
+      "name": "passed_frames_0_through_4_hash_bound",
+      "result": "pass"
+    },
+    {
+      "name": "frame_2_is_deterministic_passed_frame_medoid",
+      "result": "pass"
+    },
+    {
+      "name": "frame_2_source_hash_size_dimensions_exact",
+      "result": "pass"
+    },
+    {
+      "name": "wan_route_is_material_model_change",
+      "result": "pass"
+    },
+    {
+      "name": "seed_2272301_not_previously_completed",
+      "result": "pass"
+    },
+    {
+      "name": "source_binding_and_prompt_contract_exact",
+      "result": "pass"
+    },
+    {
+      "name": "one_generation_zero_retry_boundary_exact",
+      "result": "pass"
+    },
+    {
+      "name": "mask_wave71_jira_and_production_claims_false",
+      "result": "pass"
+    },
+    {
+      "name": "content_based_suppression_false",
+      "result": "pass"
+    },
+    {
+      "name": "wan_native_node_contract_complete",
+      "result": "pass"
+    },
+    {
+      "name": "run_package_local_only_pass",
+      "result": "pass"
+    },
+    {
+      "name": "run_package_source_and_prompt_hash_bound",
+      "result": "pass"
+    },
+    {
+      "name": "run_package_authorizes_no_ec2_or_generation",
+      "result": "pass"
+    }
+  ],
+  "classification": "ROW023_WAN_RERUN_RUN_PACKAGE_LOCAL_READINESS_PASS",
+  "evidence_id": "W64-ROW023-WAN-RERUN-LOCAL-READINESS-20260715T1049170500",
+  "item_id": "ITEM-W64-023",
+  "next_action": "Checkpoint this exact profile and validator through protected main, rebuild the run package and deploy bundle from the merge head, then require fresh AWS auth, emergency-stop, watchdog, static-model, bundle-hash, and dry-run gates before one target-runtime candidate.",
+  "prior_wan_runtime": {
+    "completed_seeds": [
+      2271301,
+      2271302,
+      2271303,
+      2271401
+    ],
+    "reason": "Existing Wan clips bind different source identities and environments; they cannot prove preservation of the failed AnimateDiff shot.",
+    "replacement_reuse_eligible": false
+  },
+  "profile": {
+    "bytes": 3579,
+    "completed_seed_count": 4,
+    "completed_seeds": [
+      2271301,
+      2271302,
+      2271303,
+      2271401
+    ],
+    "path": "PromptProfiles/video_generation/wan_2_2_ti2v_5b_primary_lane/row023_animatediff_frame0002_rerun_seed2272301.json",
+    "profile_id": "w64_row023_animatediff_frame0002_wan22_rerun_seed2272301",
+    "seed": 2272301,
+    "sha256": "bdc9858948977d87aaaf61d2820aa606342bff8f2af6fbc87e90797012ebc3d3"
+  },
+  "result": "pass_local_readiness_only",
+  "run_package": {
+    "bytes": 8893,
+    "packaged_source": {
+      "bytes": 87511,
+      "path": "runtime_artifacts/run_packages/w64_row023_wan22_rerun_seed2272301_local_v1/inputs/wan22_row023_rerun_anchor_frame0002.png",
+      "sha256": "d6d5acd4579a34f0ebef9aa47a4d01e20e5bf83c3885c8e93f146eadeeb72665"
+    },
+    "path": "runtime_artifacts/run_packages/w64_row023_wan22_rerun_seed2272301_local_v1/RUN_PACKAGE_MANIFEST.json",
+    "prompt_request": {
+      "bytes": 8213,
+      "path": "runtime_artifacts/run_packages/w64_row023_wan22_rerun_seed2272301_local_v1/prompt_request.json",
+      "sha256": "99932b8c143eb0516a82919bd3e3d994e9c0f5938340506a4c8d929042a6b791"
+    },
+    "run_id": "w64_row023_wan22_rerun_seed2272301_local_v1",
+    "sha256": "69eafbfd0c464faac01defc66dcffa83e1c8ff8595a655573f8b61083bdbc103"
+  },
+  "runtime_gate": {
+    "authorized_future_candidate_count_after_all_external_gates": 1,
+    "ec2_start_authorized_by_this_evidence": false,
+    "generation_authorized_by_this_evidence": false,
+    "local_comfyui_required_nodes_present": true,
+    "local_wan_model_payloads_present": false,
+    "retry_allowed": false,
+    "target_runtime_required": true
+  },
+  "schema_version": "1.0",
+  "source_sequence": {
+    "failed_frame_indexes": [
+      5,
+      6,
+      7
+    ],
+    "mean_absolute_rgb_distance_scores": {
+      "0": 10.608131,
+      "1": 7.435065,
+      "2": 6.801141,
+      "3": 7.530638,
+      "4": 8.681324
+    },
+    "passed_frame_indexes": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_frame_index": 2,
+    "selection_method": "minimum_mean_absolute_rgb_distance_medoid_across_passed_frames",
+    "source": {
+      "bytes": 87511,
+      "height": 320,
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/extracted_frames/frame_0002.png",
+      "sha256": "d6d5acd4579a34f0ebef9aa47a4d01e20e5bf83c3885c8e93f146eadeeb72665",
+      "width": 256
+    }
+  },
+  "status": "ready_local_only_runtime_not_authorized",
+  "timestamp": "20260715T104917-0500",
+  "tracker_id": "TRK-W64-023"
+}

@@ -78,6 +78,8 @@ EBS volume size:
 6. **Do not drift from the selected wave or active task.** Any expansion must be logged as a dependency, blocker, or follow-up item.
 7. **Do not loop on the same failed fix.** After repeated failure, classify the failure, change strategy, isolate a smaller test, or reroute to a dependent task that can progress.
 8. **Do not ask the user to perform routine project work.** If blocked, create a blocker record, gather evidence, attempt safe autonomous recovery, and continue with the next unblocked task.
+9. **Acquire and wire dependencies during implementation.** For each concrete image, video, audio, control, preprocessing, or QA lane, use `Plan/Instructions/Operations/UNIFIED_MODEL_ASSET_ACQUISITION_AND_WIRING_PROTOCOL.md` to reuse or acquire exact model/resource bytes, place them correctly, register them, wire declared workflows, and queue runtime/QA proof in the same delivery batch.
+10. **Use authenticated browser fallback when the API cannot deliver an authorized asset.** Create a hash-bound browser request, use the signed-in Chrome session without exporting cookies or secrets, and ingest the resulting file through the same controller. Do not leave browser-only assets as manual end-of-project work.
 9. **Do not expose or commit secrets.** `.env`, tokens, private keys, credentials, API keys, and account credentials must never be committed or copied into reports.
 10. **Do not start the EC2 GPU instance unless the selected task requires GPU/runtime proof.** Return it to the expected stopped idle state after GPU work.
 11. **Use the Items list and Tracker continuously.** They control what exists, what is active, what is blocked, what is verified, and what remains.

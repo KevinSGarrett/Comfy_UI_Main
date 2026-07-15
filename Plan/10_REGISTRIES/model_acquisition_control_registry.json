@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0",
+  "registry_id": "unified_model_asset_acquisition_control",
+  "status": "active",
+  "authority": {
+    "project_root": "C:/Comfy_UI_Main",
+    "controller": "Plan/07_IMPLEMENTATION/scripts/manage_model_asset_acquisition.py",
+    "request_schema": "Plan/08_SCHEMAS/model_asset_acquisition_request.schema.json",
+    "model_registry": "Plan/Registries/Models/model_registry.jsonl",
+    "runtime_queue": "Plan/Registries/Models/model_runtime_validation_queue.csv",
+    "runtime_records": "runtime_artifacts/model_acquisition/records",
+    "browser_inbox": "runtime_artifacts/model_acquisition/browser_inbox"
+  },
+  "source_priority": [
+    "reuse_exact_hash_already_present_locally_or_in_the_authoritative_registry",
+    "official_or_creator_published_huggingface_revision",
+    "exact_civitai_model_version_and_file",
+    "authenticated_browser_download_when_api_is_blocked"
+  ],
+  "providers": {
+    "civitai": {
+      "credential_keys": ["CIVITAI_API_TOKEN", "CIVITAI_TOKEN", "CIVITAI_API_KEY"],
+      "metadata_endpoint": "https://civitai.com/api/v1/model-versions/{modelVersionId}",
+      "download_endpoint": "https://civitai.com/api/download/models/{modelVersionId}",
+      "browser_fallback": true
+    },
+    "huggingface": {
+      "credential_keys": ["HF_TOKEN", "HUGGING_FACE_HUB_TOKEN"],
+      "exact_revision_required": true,
+      "browser_fallback": true
+    }
+  },
+  "placement_map": {
+    "Checkpoint": "checkpoints",
+    "LORA": "loras",
+    "ControlNet": "controlnet",
+    "VAE": "vae",
+    "TextEncoder": "text_encoders",
+    "CLIP": "clip",
+    "CLIPVision": "clip_vision",
+    "DiffusionModel": "diffusion_models",
+    "UNET": "unet",
+    "UpscaleModel": "upscale_models",
+    "LatentUpscaleModel": "latent_upscale_models",
+    "Embedding": "embeddings",
+    "Hypernetwork": "hypernetworks",
+    "StyleModel": "style_models",
+    "IPAdapter": "ipadapter",
+    "PhotoMaker": "photomaker",
+    "ModelPatch": "model_patches",
+    "MotionModel": "animatediff_models",
+    "AudioEncoder": "audio_encoders",
+    "BackgroundRemoval": "background_removal",
+    "MMAudio": "mmaudio",
+    "FrameInterpolation": "frame_interpolation",
+    "GeometryEstimation": "geometry_estimation",
+    "OpticalFlow": "optical_flow",
+    "Detection": "detection"
+  },
+  "required_chain": [
+    "capability_need_recorded",
+    "exact_source_version_and_file_resolved",
+    "license_and_access_state_recorded",
+    "duplicate_hash_checked",
+    "download_staged_and_resumable",
+    "sha256_and_size_verified",
+    "asset_moved_atomically_to_declared_comfyui_folder",
+    "model_registry_upserted_idempotently",
+    "runtime_validation_queue_upserted_idempotently",
+    "runtime_requirements_and_workflow_bindings_updated",
+    "local_object_info_visibility_checked",
+    "bounded_runtime_smoke_and_modality_qa_completed"
+  ],
+  "browser_fallback_contract": {
+    "use_signed_in_browser_session": true,
+    "browser_cookie_export_prohibited": true,
+    "api_token_paste_into_page_prohibited": true,
+    "download_must_match_resolved_file": true,
+    "browser_file_must_pass_same_hash_install_registry_and_wiring_path": true
+  },
+  "selection_policy": {
+    "download_everything_speculatively": false,
+    "download_when_a_concrete_lane_or_capability_need_exists": true,
+    "prefer_exact_revisions_and_safetensors_when_available": true,
+    "unknown_engine_compatibility_blocks_runtime_use": true,
+    "content_based_suppression": false,
+    "adult_or_nsfw_labels_are_metadata_not_filters": true,
+    "paid_early_access_private_or_gated_access_must_not_be_bypassed": true
+  },
+  "done_gate": {
+    "download_only_is_complete": false,
+    "registry_only_is_complete": false,
+    "workflow_reference_only_is_complete": false,
+    "runtime_and_modality_qa_required": true,
+    "production_promotion_requires_separate_evidence": true
+  }
+}
