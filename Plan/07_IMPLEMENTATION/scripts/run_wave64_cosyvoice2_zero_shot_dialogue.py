@@ -11,6 +11,7 @@ import os
 import random
 import shutil
 import subprocess
+import sys
 import tempfile
 import time
 import wave
@@ -189,11 +190,25 @@ def validate_inputs(args: argparse.Namespace) -> tuple[Path, Path, Path, Path]:
     return model_dir, source_dir, prompt_wav, output_dir
 
 
+def activate_source_path(source_dir: Path) -> list[str]:
+    source_paths = [
+        str(source_dir.resolve()),
+        str((source_dir / "third_party/Matcha-TTS").resolve()),
+    ]
+    missing = [path for path in source_paths if not Path(path).is_dir()]
+    if missing:
+        raise ValueError(f"validated CosyVoice source path is missing: {missing[0]}")
+    sys.path[:] = [entry for entry in sys.path if entry not in source_paths]
+    sys.path[0:0] = source_paths
+    return source_paths
+
+
 def run(args: argparse.Namespace) -> dict:
     model_dir, source_dir, prompt_wav, output_dir = validate_inputs(args)
     source_identity = verify_source_identity(source_dir)
     model_payloads = hash_model_payloads(model_dir)
     package_identity = runtime_package_identity()
+    activate_source_path(source_dir)
     output_dir.parent.mkdir(parents=True, exist_ok=True)
     temporary = Path(tempfile.mkdtemp(prefix=f".{output_dir.name}.tmp-", dir=output_dir.parent))
     try:

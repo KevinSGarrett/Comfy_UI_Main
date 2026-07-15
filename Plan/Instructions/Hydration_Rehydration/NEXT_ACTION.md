@@ -1,3 +1,11 @@
+## Wave64 CosyVoice2 Corrected-Reference Take Rejected - 2026-07-15T06:45:00-05:00
+
+A 5.0-second hash-bound public-domain Chris Goringe reference eliminated the first CosyVoice2 take's repetitive collapse. The one authorized corrected take is exact at WER `0.0`, passes the chain-specific speaker score (`0.66076 >= 0.33446`), and has DNSMOS OVRL `3.17410` at the 75th reference percentile. It remains rejected because `4.84` seconds exceeds the immutable `3.0`-second contract. `Focused` emotion is unsupported, `controlled` intensity is unmeasured, and playback/production authority remains absent. Rows025/027/031 remain blocked and incomplete.
+
+Next action: select a dialogue engine or supported control path that can satisfy the `3.0`-second contract without truncation or time-stretching while retaining exact content, reference-speaker identity, and a supported style taxonomy. Preserve all rejected Parler and CosyVoice2 takes. Keep EC2 stopped and preserve mask, Wave71+, Jira, and final-certification boundaries.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/W64_COSYVOICE2_CORRECTED_REFERENCE_CANDIDATE_20260715T064000-0500.json`.
+
 ## Wave64 CosyVoice2 Reference-Bound Candidate Rejected - 2026-07-15T05:40:34-05:00
 
 The CosyVoice2 PyTorch model stack ran on local CUDA from exact local model/source payloads; its ONNX tokenizer and campplus frontend ran on CPU. The immutable candidate binds the public-domain Chris Goringe reference and passes the calibrated chain-specific speaker score (`0.39928 >= 0.33446`). DNSMOS OVRL `2.88459` clears only the worst-reference floor at the 50th percentile and is not quality certification. The candidate is rejected: it is `8.8` seconds against the `3.0`-second contract, Whisper detects repetitive non-dialogue content at WER `4.8`, `focused` is outside the calibrated emotion taxonomy, and `controlled` intensity is explicitly unmeasured. Rows025/027/031 remain blocked and incomplete.
