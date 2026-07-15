@@ -1,0 +1,162 @@
+{
+  "schema_version": "1.0",
+  "artifact_type": "wave64_openslr31_speaker_identity_validation_evidence",
+  "execution_timestamp": "2026-07-15T04:01:26.592529-05:00",
+  "status": "PASS_CHAIN_SPECIFIC_SPEAKER_IDENTITY_PRODUCTION_AUTHORITY_BLOCKED",
+  "classification": "OPENSLR31_DISJOINT_SPEAKER_THRESHOLD_AND_CHAIN_SPECIFIC_IDENTITY_PASS_PRODUCTION_AUTHORITY_BLOCKED",
+  "artifact_bindings": {
+    "runtime_validation_manifest": {
+      "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\wave64_openslr31_speaker_identity\\20260715T035744-0500\\openslr31_speaker_identity_validation_manifest.json",
+      "sha256": "24666924428f8b23c3db4c15597713590171133c1f91288bc69925b41772a092",
+      "bytes": 70131
+    },
+    "durable_artifacts": {
+      "validation_manifest": {
+        "path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\w64_openslr31_speaker_identity_20260715T035744-0500\\openslr31_speaker_identity_validation_manifest.json",
+        "sha256": "24666924428f8b23c3db4c15597713590171133c1f91288bc69925b41772a092",
+        "bytes": 70131
+      },
+      "dataset_inventory": {
+        "path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\w64_openslr31_speaker_identity_20260715T035744-0500\\dataset_inventory.json",
+        "sha256": "363c871b263873e4efbbb9e8f60ed5ab0e506c572d4983e9b06e85727690f34d",
+        "bytes": 22370
+      },
+      "resource_page": {
+        "path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\w64_openslr31_speaker_identity_20260715T035744-0500\\openslr31_resource_page.html",
+        "sha256": "3da285125fce2c3a7131d45206ae86f7ed8fd47a4a5b3425f793c0c8ff11bb2f",
+        "bytes": 3376
+      }
+    }
+  },
+  "implementation_binding": {
+    "path": "C:\\Comfy_UI_Main\\Plan\\07_IMPLEMENTATION\\scripts\\run_wave64_openslr31_speaker_identity_validation.py",
+    "sha256": "7eff346864dae0836eec5d9bd29e68496dbaeadbcaba2f16576abeae86c36470",
+    "bytes": 22604
+  },
+  "source_authority": {
+    "dataset": "OpenSLR31 Mini LibriSpeech dev-clean-2",
+    "resource_url": "https://www.openslr.org/31/",
+    "archive_url": "https://www.openslr.org/resources/31/dev-clean-2.tar.gz",
+    "license": "CC BY 4.0",
+    "archive_sha256": "176ec501490eced2d6c1f89f4f0ddc7dfe799e649e5322f8ba49fe3ff50c8012",
+    "archive_md5": "6d7ab67ac6a1d2c993d050e16d61080d",
+    "archive_copied_to_repository": false
+  },
+  "runtime_identity": {
+    "python": "3.11.9",
+    "torch": "2.11.0+cpu",
+    "torchaudio": "2.11.0+cpu",
+    "soundfile": "0.14.0",
+    "device": "cpu",
+    "cuda_available": false
+  },
+  "dataset": {
+    "speaker_count": 26,
+    "utterance_count": 1089,
+    "clips_per_speaker": 6,
+    "calibration_speaker_count": 13,
+    "validation_speaker_count": 13,
+    "speaker_overlap_count": 0
+  },
+  "pair_scoring": {
+    "calibration": {
+      "positive_count": 195,
+      "different_speaker_count": 2808,
+      "positive_min": 0.33452916145324707,
+      "positive_max": 0.9105525016784668,
+      "different_speaker_min": -0.17983263731002808,
+      "different_speaker_max": 0.5317322611808777
+    },
+    "validation": {
+      "positive_count": 195,
+      "different_speaker_count": 2808,
+      "positive_min": 0.14737433195114136,
+      "positive_max": 0.9319918155670166,
+      "different_speaker_min": -0.20215818285942078,
+      "different_speaker_max": 0.5925875902175903
+    },
+    "same_speaker_pairs_exhaustive_within_selected_clips": true,
+    "different_speaker_pairs_exhaustive_across_selected_clips": true
+  },
+  "threshold_validation": {
+    "method": "openslr31_numeric_speaker_id_disjoint_even_odd_partition_v1",
+    "positive_definition": "two distinct utterances under the same published numeric speaker directory",
+    "negative_definition": "utterances under different published numeric speaker directories",
+    "calibration_constraints": {
+      "true_positive_rate_min": 0.9,
+      "false_positive_rate_max": 0.1
+    },
+    "validation_constraints": {
+      "true_positive_rate_min": 0.8,
+      "false_positive_rate_max": 0.1
+    },
+    "threshold": 0.33445611596107483,
+    "calibration": {
+      "threshold": 0.33445611596107483,
+      "true_positive": 195,
+      "false_negative": 0,
+      "false_positive": 62,
+      "true_negative": 2746,
+      "true_positive_rate": 1.0,
+      "false_positive_rate": 0.02207977207977208,
+      "balanced_accuracy": 0.988960113960114,
+      "training_constraints_pass": true
+    },
+    "validation": {
+      "threshold": 0.33445611596107483,
+      "true_positive": 194,
+      "false_negative": 1,
+      "false_positive": 72,
+      "true_negative": 2736,
+      "true_positive_rate": 0.9948717948717949,
+      "false_positive_rate": 0.02564102564102564,
+      "balanced_accuracy": 0.9846153846153847
+    },
+    "speaker_disjoint_validation_pass": true,
+    "threshold_deployment_allowed_for_chain_specific_evaluation": true
+  },
+  "chain_specific_result": {
+    "speaker_similarity": 0.9932656288146973,
+    "validated_threshold": 0.33445611596107483,
+    "identity_preservation_verified": true,
+    "claim_scope": "the existing public-domain source excerpt and its derived voice stem only",
+    "parler_or_other_tts_reference_identity_verified": false
+  },
+  "acceptance": {
+    "speaker_model_execution_path_verified": true,
+    "independent_numeric_speaker_labels_verified": true,
+    "speaker_disjoint_threshold_generalization_pass": true,
+    "chain_specific_identity_preservation_verified": true,
+    "parler_reference_speaker_identity_verified": false,
+    "emotion_or_style_verified": false,
+    "independent_playback_review_pass": false,
+    "production_review_authority_pass": false,
+    "authority_registry_mutation_allowed": false,
+    "row_complete": false,
+    "final_voice_certification_pass": false
+  },
+  "remaining_blockers": [
+    "the independently labeled threshold applies only to this ERes2Net evaluation configuration",
+    "the Parler candidates remain rejected and have no independent reference-speaker binding",
+    "focused and controlled remain outside the calibrated emotion and style taxonomy",
+    "independent perceptual playback and production review authority remain absent"
+  ],
+  "affected_rows": [
+    "TRK-W64-025",
+    "TRK-W64-027",
+    "TRK-W64-031"
+  ],
+  "runtime_boundary": {
+    "candidate_regenerated": false,
+    "new_voice_generated": false,
+    "dataset_download_performed": true,
+    "model_download_performed": false,
+    "ec2_started": false,
+    "s3_mutated": false,
+    "mask_truth_consumed": false,
+    "wave71_activated": false,
+    "jira_mutated": false,
+    "promotion_claimed": false
+  },
+  "row_complete": false
+}

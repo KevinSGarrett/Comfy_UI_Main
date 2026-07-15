@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-031-AUDIO-STRICT-REVIEW-20260714T092355-0500",
-  "timestamp": "2026-07-15T03:06:00-05:00",
+  "timestamp": "2026-07-15T03:57:44-05:00",
   "item_id": "ITEM-W64-031",
   "tracker_id": "TRK-W64-031",
   "workstream": "audio_strict_review",
@@ -24,7 +24,8 @@
     "cv3_eval_local_calibration_adapter_ready": true,
     "cv3_emotion2vec_calibration_adapter_ready": true,
     "model_backed_playback_producer_ready": true,
-    "cv3_speaker_identity_calibration_adapter_ready": true
+    "cv3_speaker_identity_calibration_adapter_ready": true,
+    "openslr31_speaker_identity_validation_adapter_ready": true
   },
   "validation": {
     "unit_tests_passed": 62,
@@ -83,7 +84,22 @@
     "cv3_speaker_category_held_out_validation_pass": false,
     "cv3_speaker_emotion_holdout_false_positive_rate": 0.15416666666666667,
     "licensed_human_voice_chain_speaker_similarity": 0.9932656288146973,
-    "licensed_human_voice_chain_identity_verified": false
+    "licensed_human_voice_chain_identity_verified": true,
+    "openslr31_speaker_count": 26,
+    "openslr31_utterance_count": 1089,
+    "openslr31_calibration_speaker_count": 13,
+    "openslr31_validation_speaker_count": 13,
+    "openslr31_speaker_overlap_count": 0,
+    "openslr31_calibration_positive_pair_count": 195,
+    "openslr31_calibration_different_speaker_pair_count": 2808,
+    "openslr31_validation_positive_pair_count": 195,
+    "openslr31_validation_different_speaker_pair_count": 2808,
+    "openslr31_validated_speaker_threshold": 0.33445611596107483,
+    "openslr31_calibration_true_positive_rate": 1.0,
+    "openslr31_calibration_false_positive_rate": 0.02207977207977208,
+    "openslr31_validation_true_positive_rate": 0.9948717948717949,
+    "openslr31_validation_false_positive_rate": 0.02564102564102564,
+    "openslr31_speaker_disjoint_validation_pass": true
   },
   "acceptance_gates": {
     "audio_metadata_check_contract": true,
@@ -114,8 +130,10 @@
     "cv3_speaker_matched_pair_calibration_executed": true,
     "cv3_speaker_threshold_generalization_pass": false,
     "licensed_human_voice_chain_identity_similarity_observed": true,
-    "licensed_human_voice_chain_identity_verified": false,
-    "candidate_reference_speaker_identity_verified": false
+    "licensed_human_voice_chain_identity_verified": true,
+    "candidate_reference_speaker_identity_verified": false,
+    "openslr31_speaker_disjoint_validation_pass": true,
+    "speaker_threshold_deployment_allowed_for_chain_specific_evaluation": true
   },
   "blockers": [
     {
@@ -138,10 +156,6 @@
       "classification": "Blocked_Model_Backed_Playback_Content_And_Style_Authority",
       "scope": "dialogue_candidates",
       "reason": "The original candidate is technically clean but has a critical beat-to-B content mismatch and cannot emit a strict playback proof because focused/controlled is outside the calibrated style taxonomy. The single authorized seed-64028 replacement is also rejected because its independent Whisper WER is 0.70."
-    },
-    {
-      "classification": "Blocked_Voice_Speaker_Threshold_Generalization",
-      "reason": "ERes2Net executed over all 46 paired English CV3 continuation references. Three of four category-held-out folds passed, but the emotion holdout false-positive rate was 0.15417 against the predeclared 0.10 maximum. The observed full-fit threshold is therefore not deployable, and the 0.99327 LibriVox source-to-derived-stem similarity cannot be promoted to an identity-preservation PASS."
     }
   ],
   "evidence": [
@@ -196,6 +210,10 @@
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/W64_CV3_SPEAKER_IDENTITY_CALIBRATION_BLOCKER_20260715T030600-0500.json",
       "sha256": "ea0c63de436bfebfc0fe5759a9fa15719702bdb83e4629ccc5238c89efe61916"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/W64_OPENSLR31_SPEAKER_IDENTITY_VALIDATION_20260715T035744-0500.json",
+      "sha256": "b4164e44f2e3f3ea693fd2434316b48af96b81e9d71b44460a16b7be1ac3c986"
     }
   ],
   "runtime": {
@@ -208,7 +226,8 @@
     "ec2_started": false,
     "cv3_emotion_calibration_count": 1,
     "parler_replacement_generation_count": 1,
-    "cv3_speaker_calibration_execution_count": 1
+    "cv3_speaker_calibration_execution_count": 1,
+    "openslr31_speaker_validation_execution_count": 1
   },
-  "next_action": "Calibrate ERes2Net against an independently speaker-labeled, disjoint validation set before binding any TTS candidate to a reference speaker. Keep the 0.99327 LibriVox chain score observational; do not relax the held-out false-positive gate, register production authority, or generate another dialogue take from this evidence."
+  "next_action": "Bind an independent reference-speaker recording to a production-eligible dialogue candidate and a supported emotion/style taxonomy, then obtain independent playback and allowlisted production review. Preserve both rejected Parler candidates and do not treat this chain-specific source-to-stem identity pass as TTS speaker identity or final voice certification."
 }
