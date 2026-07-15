@@ -47,7 +47,12 @@ class Row019WanReconciliationTests(unittest.TestCase):
             self.assertFalse(result["acceptance_gates"]["keyframe_manifest"])
             self.assertTrue(result["acceptance_gates"]["loop_export_gate"])
             self.assertFalse(result["acceptance_gates"]["frame_repair_effectiveness"])
+            self.assertTrue(result["acceptance_gates"]["repaired_candidate_present"])
+            self.assertTrue(result["acceptance_gates"]["repair_runtime_proof"])
+            self.assertTrue(result["acceptance_gates"]["before_after_visual_review"])
+            self.assertFalse(result["acceptance_gates"]["repair_visual_acceptance"])
             self.assertTrue(result["acceptance_gates"]["strict_frame_sequence_visual_review"])
+            self.assertFalse(result["repair_state"]["attempt_evidence"]["retry_allowed"])
 
     def test_rejects_runtime_certification_overclaim(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -105,6 +110,48 @@ class Row019WanReconciliationTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "repair unexpectedly proven"):
                 self.evaluate(root, sources)
 
+    def test_rejects_repair_attempt_visual_pass_overclaim(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary); sources = self.fixture(root)
+            self.mutate(sources["repair_attempt"], lambda value: value["direct_visual_qa"].update({"direct_visual_acceptance_pass": True}))
+            with self.assertRaisesRegex(ValueError, "visual failure proof missing"):
+                self.evaluate(root, sources)
+
+    def test_rejects_repair_attempt_retry_authorization(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary); sources = self.fixture(root)
+            self.mutate(sources["repair_attempt"], lambda value: value["execution_accounting"].update({"retry_allowed": True}))
+            with self.assertRaisesRegex(ValueError, "incorrectly allows retry"):
+                self.evaluate(root, sources)
+
+    def test_rejects_repair_attempt_acceptance_overclaim(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary); sources = self.fixture(root)
+            self.mutate(sources["repair_attempt"], lambda value: value["acceptance_gates"].update({"final_temporal_acceptance": True, "final_promotion": True}))
+            with self.assertRaisesRegex(ValueError, "overclaims acceptance"):
+                self.evaluate(root, sources)
+
+    def test_rejects_multiple_repair_generations(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary); sources = self.fixture(root)
+            self.mutate(sources["repair_attempt"], lambda value: value["execution_accounting"].update({"completed_generation_count": 2}))
+            with self.assertRaisesRegex(ValueError, "execution count mismatch"):
+                self.evaluate(root, sources)
+
+    def test_rejects_identity_environment_preservation_overclaim(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary); sources = self.fixture(root)
+            self.mutate(sources["repair_attempt"], lambda value: value["acceptance_gates"].update({"identity_environment_visual_preservation": True}))
+            with self.assertRaisesRegex(ValueError, "visual preservation unexpectedly passed"):
+                self.evaluate(root, sources)
+
+    def test_rejects_unbound_repair_candidate(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary); sources = self.fixture(root)
+            self.mutate(sources["repair_attempt"], lambda value: value["candidate"].update({"sha256": ""}))
+            with self.assertRaisesRegex(ValueError, "not hash-bound"):
+                self.evaluate(root, sources)
+
     def test_rejects_missing_bounded_loop_pass(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary); sources = self.fixture(root)
@@ -129,7 +176,7 @@ class Row019WanReconciliationTests(unittest.TestCase):
     def test_note_normalization_is_idempotent(self) -> None:
         once = MODULE.normalize_note(f"old; {MODULE.NOTE}; {MODULE.NOTE}")
         self.assertEqual(MODULE.normalize_note(once), once)
-        self.assertEqual(once.count("Wave64 Row019 WAN reconciliation:"), 1)
+        self.assertEqual(once.count("Wave64 Row019 repair-attempt integration:"), 1)
 
 
 if __name__ == "__main__": unittest.main()

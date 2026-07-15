@@ -17,8 +17,8 @@ from zoneinfo import ZoneInfo
 ROOT = Path("C:/Comfy_UI_Main")
 TRK = "TRK-W64-019"
 ITEM = "ITEM-W64-019"
-STATUS = "Blocked_Keyframe_And_Repair_Proof_Missing_Bounded_Wan_Temporal_And_Loop_Pass"
-DECISION = "wan_bounded_runtime_multiclip_temporal_and_loop_export_pass_keyframe_and_repair_fail_closed"
+STATUS = "Blocked_Keyframe_And_Repair_Visual_Acceptance_Missing_Bounded_Wan_Pass"
+DECISION = "wan_bounded_runtime_and_repair_attempt_proven_repair_visual_acceptance_and_keyframe_fail_closed"
 CANONICAL = Path("Plan/Instructions/QA/Evidence/Wave64/video_pipeline_build.json")
 SOURCES = {
     "prior": Path("Plan/Instructions/QA/Evidence/Wave64/VIDEO_PIPELINE_BUILD_RUNTIME_RECONCILIATION_20260713T024108-0500.json"),
@@ -28,14 +28,15 @@ SOURCES = {
     "temporal": Path("Plan/Instructions/QA/Evidence/Wave64/VIDEO_TEMPORAL_VISUAL_REVIEW_WAN22_COMPLETION_20260714T051404-0500.json"),
     "shot_plan": Path("Plan/Instructions/QA/Evidence/Wave64/Reference_Video_Input/wan22_source_diversity_loop_shot_plan.json"),
     "repair": Path("Plan/Instructions/QA/Evidence/Wave64/VIDEO_FRAME_REPAIR_REAL_SEQUENCE_ROUTING_20260713T042629-0500.json"),
+    "repair_attempt": Path("Plan/Instructions/QA/Evidence/Wave64/W64_ROW023_WAN_RERUN_RUNTIME_VISUAL_QA_20260715T121119-0500.json"),
     "loop": Path("Plan/Instructions/QA/Evidence/Wave64/VIDEO_GIF_LOOP_EXPORT_WAN22_COMPLETION_20260714T055507-0500.json"),
     "portfolio": Path("Plan/10_REGISTRIES/comfyui_delivery_portfolio_registry.json"),
 }
 NOTE = (
-    "Wave64 Row019 WAN reconciliation: one hash-bound 49-frame primary clip passed target runtime, technical QA, "
-    "and bounded direct temporal review. Keyframe manifest integration, effective repair, clean loop export, and "
-    "bounded multi-clip temporal review and loop export pass. Keyframe eligibility and effective repair remain "
-    "fail-closed, and the failed AnimateDiff fallback remains historical evidence."
+    "Wave64 Row019 repair-attempt integration: the one authorized Row023 Wan repair candidate is hash-bound and "
+    "passes runtime and technical QA, but fails direct visual acceptance for identity and environment drift. "
+    "Repair effectiveness, keyframe eligibility, final temporal acceptance, and production certification remain "
+    "fail-closed, and no retry is authorized."
 )
 
 
@@ -76,7 +77,8 @@ def append_many(current: str, values: list[str]) -> str:
 
 
 def normalize_note(current: str) -> str:
-    entries = [entry.strip() for entry in (current or "").split(";") if entry.strip() and not entry.strip().startswith("Wave64 Row019 WAN reconciliation:")]
+    prefixes = ("Wave64 Row019 WAN reconciliation:", "Wave64 Row019 repair-attempt integration:")
+    entries = [entry.strip() for entry in (current or "").split(";") if entry.strip() and not entry.strip().startswith(prefixes)]
     entries.append(NOTE)
     return "; ".join(entries)
 
@@ -84,7 +86,7 @@ def normalize_note(current: str) -> str:
 def replace_coverage(current: str) -> str:
     stale = {"video_visual_temporal_quality_failure", "animatediff_visual_temporal_failure_active"}
     entries = [entry.strip() for entry in (current or "").split(";") if entry.strip() and entry.strip() not in stale]
-    for value in ("wan_primary_bounded_runtime_pass", "wan_196_frame_multiclip_temporal_pass", "wan_bounded_loop_export_pass", "keyframe_and_repair_gates_fail_closed"):
+    for value in ("wan_primary_bounded_runtime_pass", "wan_196_frame_multiclip_temporal_pass", "wan_bounded_loop_export_pass", "row023_repair_attempt_runtime_technical_pass", "row023_repair_visual_acceptance_failed", "keyframe_and_repair_gates_fail_closed"):
         if value not in entries:
             entries.append(value)
     return "; ".join(entries)
@@ -96,7 +98,8 @@ def build(root: Path, source_paths: dict[str, Path], timestamp: str) -> dict[str
     data = {name: load(path) for name, path in paths.items()}
     prior, runtime, technical, visual = data["prior"], data["runtime"], data["technical"], data["visual"]
     temporal, shot_plan = data["temporal"], data["shot_plan"]
-    repair, loop, portfolio = data["repair"], data["loop"], data["portfolio"]
+    repair, repair_attempt = data["repair"], data["repair_attempt"]
+    loop, portfolio = data["loop"], data["portfolio"]
 
     require(prior.get("tracker_id") == TRK and prior.get("item_id") == ITEM, "prior Row019 identity mismatch")
     prior_gates = prior.get("acceptance_gates", {})
@@ -154,6 +157,25 @@ def build(root: Path, source_paths: dict[str, Path], timestamp: str) -> dict[str
     require(repair.get("tracker_id") == "TRK-W64-023", "repair evidence identity mismatch")
     require(repair_gates.get("repaired_candidate_present") is False and repair_gates.get("frame_repair_effectiveness", False) is False, "repair unexpectedly proven")
     require(repair_gates.get("final_temporal_acceptance") is False, "repair final acceptance unexpectedly true")
+
+    require(repair_attempt.get("tracker_id") == "TRK-W64-023" and repair_attempt.get("item_id") == "ITEM-W64-023", "repair attempt identity mismatch")
+    require(repair_attempt.get("status_decision") == "Blocked_Video_Frame_Repair_Rerun_Candidate_Visual_QA_Failed", "repair attempt status mismatch")
+    accounting = repair_attempt.get("execution_accounting", {})
+    require(accounting.get("authorized_candidate_count") == 1 and accounting.get("completed_generation_count") == 1, "repair attempt execution count mismatch")
+    require(accounting.get("retry_allowed") is False, "repair attempt incorrectly allows retry")
+    candidate = repair_attempt.get("candidate", {})
+    require(bool(candidate.get("path")) and len(candidate.get("sha256", "")) == 64, "repair candidate is not hash-bound")
+    require(candidate.get("remote_manifest_hash_match") is True and candidate.get("s3_pullback_pass") is True, "repair candidate pullback proof missing")
+    attempt_technical = repair_attempt.get("technical_qa", {})
+    require(attempt_technical.get("technical_pass") is True and attempt_technical.get("decoded_frame_count") == 49, "repair candidate technical proof missing")
+    attempt_visual = repair_attempt.get("direct_visual_qa", {})
+    require(attempt_visual.get("reviewed_frame_count") == 49 and attempt_visual.get("direct_visual_acceptance_pass") is False, "repair visual failure proof missing")
+    attempt_gates = repair_attempt.get("acceptance_gates", {})
+    require(attempt_gates.get("real_rerun_candidate_present") is True, "repair candidate presence gate missing")
+    require(attempt_gates.get("runtime_repair_proof") is True and attempt_gates.get("before_after_visual_review") is True, "repair runtime or comparison proof missing")
+    require(attempt_gates.get("identity_environment_visual_preservation") is False, "repair visual preservation unexpectedly passed")
+    require(attempt_gates.get("final_temporal_acceptance") is False and attempt_gates.get("final_promotion") is False, "repair attempt overclaims acceptance")
+    require(repair_attempt.get("boundaries", {}).get("ec2_final_state") == "stopped", "repair attempt EC2 final state is not stopped")
     loop_gates = loop.get("gate_results", {})
     require(loop.get("tracker_id") == "TRK-W64-024", "loop evidence identity mismatch")
     require(loop.get("result") == "pass_bounded_wan22_gif_loop_export_certification", "bounded WAN loop completion missing")
@@ -168,18 +190,22 @@ def build(root: Path, source_paths: dict[str, Path], timestamp: str) -> dict[str
     require(portfolio_row.get("production_lane_certified") is False, "portfolio overclaims WAN certification")
 
     gates = {
-        "video_workflow_valid": True,
-        "keyframe_manifest": False,
-        "frame_sequence_manifest": True,
-        "loop_export_gate": True,
-        "artifact_evidence": True,
+        "video_workflow_valid": prior_gates["video_workflow_valid"],
+        "keyframe_manifest": shot_plan["promotion_ready"],
+        "frame_sequence_manifest": prior_gates["frame_sequence_manifest"],
+        "loop_export_gate": loop_gates["bounded_gif_export_certification"],
+        "artifact_evidence": runtime["runtime_result"]["pullback_hashes_verified"],
         "frame_repair_effectiveness": False,
-        "strict_frame_sequence_visual_review": True,
-        "bounded_primary_clip_runtime": True,
-        "bounded_primary_clip_technical_qa": True,
-        "bounded_primary_clip_direct_temporal_review": True,
-        "bounded_multiclip_temporal_review": True,
-        "bounded_gif_loop_export_certification": True,
+        "repaired_candidate_present": attempt_gates["real_rerun_candidate_present"],
+        "repair_runtime_proof": attempt_gates["runtime_repair_proof"],
+        "before_after_visual_review": attempt_gates["before_after_visual_review"],
+        "repair_visual_acceptance": attempt_visual["direct_visual_acceptance_pass"],
+        "strict_frame_sequence_visual_review": temporal_gates["bounded_temporal_visual_pass"],
+        "bounded_primary_clip_runtime": rr["generation_executed"],
+        "bounded_primary_clip_technical_qa": technical["technical_pass"],
+        "bounded_primary_clip_direct_temporal_review": visual["visual_pass"],
+        "bounded_multiclip_temporal_review": temporal_gates["bounded_temporal_visual_pass"],
+        "bounded_gif_loop_export_certification": loop_gates["bounded_gif_export_certification"],
     }
     checks = {
         "VPB-R01_prior_row019_contract_preserved": True,
@@ -193,6 +219,9 @@ def build(root: Path, source_paths: dict[str, Path], timestamp: str) -> dict[str
         "VPB-R07B_visual_certification_duration_and_robustness_not_claimed": not any((visual_boundaries["production_video_lane_certification_claimed"], visual_boundaries["long_duration_quality_claimed"], visual_boundaries["multiseed_robustness_claimed"])),
         "VPB-R08_keyframe_manifest_remains_blocked": gates["keyframe_manifest"] is False,
         "VPB-R09_repair_effectiveness_remains_blocked": gates["frame_repair_effectiveness"] is False,
+        "VPB-R09A_repair_candidate_and_runtime_proof_present": gates["repaired_candidate_present"] is True and gates["repair_runtime_proof"] is True,
+        "VPB-R09B_repair_visual_failure_preserved": gates["before_after_visual_review"] is True and gates["repair_visual_acceptance"] is False,
+        "VPB-R09C_repair_retry_prohibited": accounting["retry_allowed"] is False,
         "VPB-R10_bounded_loop_export_pass": gates["loop_export_gate"] is True,
         "VPB-R11_bounded_multiclip_sequence_review_pass": gates["strict_frame_sequence_visual_review"] is True,
         "VPB-R12_failed_animatediff_fallback_preserved": prior["latest_runtime_attempt"]["visual_temporal_pass"] is False,
@@ -203,7 +232,7 @@ def build(root: Path, source_paths: dict[str, Path], timestamp: str) -> dict[str
 
     blockers = [
         {"blocker_id": "KEYFRAME_MANIFEST_INTEGRATION_MISSING", "resolution": "Bind a real shot/keyframe manifest to a selected production sequence."},
-        {"blocker_id": "FRAME_REPAIR_EFFECTIVENESS_NOT_PROVEN", "resolution": "Produce and directly compare a repaired candidate for a real failed span."},
+        {"blocker_id": "FRAME_REPAIR_VISUAL_ACCEPTANCE_FAILED", "resolution": "Preserve the immutable failed Row023 candidate. Do not retry it; a materially new repair method and separately authorized scope would be required."},
         {"blocker_id": "CONTACT_SOFT_BODY_VIDEO_SCOPE_BLOCKED_GOLD_MASKS", "resolution": "Keep contact and soft-body claims blocked until trusted body/contact masks are available."},
     ]
     bindings = {name: bind(path, root) for name, path in paths.items()}
@@ -230,14 +259,26 @@ def build(root: Path, source_paths: dict[str, Path], timestamp: str) -> dict[str
         "historical_fallback_attempt": deepcopy(prior["latest_runtime_attempt"]),
         "bounded_temporal_review": {"clip_count": 4, "total_decoded_frames": 196, "pass": True, "production_lane_certified": False},
         "keyframe_candidate_state": {"shot_plan_id": shot_plan["shot_plan_id"], "candidate_only": True, "promotion_ready": False, "keyframe_manifest_gate": False},
-        "repair_state": {"status_decision": repair.get("status_decision"), "gate_results": repair_gates},
+        "repair_state": {
+            "routing_evidence": {"status_decision": repair.get("status_decision"), "gate_results": repair_gates},
+            "attempt_evidence": {
+                "status_decision": repair_attempt["status_decision"],
+                "candidate": candidate,
+                "technical_qa": attempt_technical,
+                "direct_visual_qa": attempt_visual,
+                "gate_results": attempt_gates,
+                "retry_allowed": False,
+            },
+            "repair_effectiveness": False,
+            "final_temporal_acceptance": False,
+        },
         "loop_export_state": {"status_decision": loop.get("status_decision"), "gate_results": loop_gates, "negative_evidence_preserved": loop.get("negative_evidence_preserved")},
         "normalized_blockers": blockers,
         "checks": [{"name": name, "result": "pass"} for name in checks],
         "check_summary": {"checked": len(checks), "passed": len(checks), "failed": 0},
         "source_bindings": bindings,
         "safety_boundary": {"generation_executed_in_reconciliation": False, "aws_contacted_in_reconciliation": False, "ec2_started": False, "mask_or_wave71_or_jira_touched": False, "full_video_certification_claimed": False},
-        "next_action": "Bind a promoted, QA-approved still image into a real keyframe handoff manifest and exercise one genuine repair span without repeating completed WAN or loop proofs.",
+        "next_action": "Preserve the immutable failed Row023 repair candidate. Clear upstream Row016 image-promotion authority and bind a promoted, QA-approved still into the keyframe handoff without repeating completed WAN, repair, temporal, or loop proofs.",
     }
 
 
