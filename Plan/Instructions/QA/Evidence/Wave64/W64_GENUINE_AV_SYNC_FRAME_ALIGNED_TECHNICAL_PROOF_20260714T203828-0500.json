@@ -1,0 +1,121 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64_GENUINE_AV_SYNC_FRAME_ALIGNED_TECHNICAL_PROOF_20260714T203828-0500",
+  "execution_timestamp": "2026-07-14T20:38:28.3518157-05:00",
+  "status": "PASS_TECHNICAL_REPAIR_AUTHORITY_BLOCKED",
+  "classification": "GENUINE_AV_SYNC_FRAME_ALIGNED_TECHNICAL_PROOF_PASS_AUTHORITY_BLOCKED",
+  "direct_qa_state": "PASS_TECHNICAL_REVIEW",
+  "direct_qa_passed": true,
+  "overall_certification_passed": false,
+  "project_root": "C:\\Comfy_UI_Main",
+  "item_id": "ITEM-W64-030",
+  "tracker_id": "TRK-W64-030",
+  "repair_reason": "Strict direct QA found that the prior -shortest mux retained only 48 of the source video's 49 decoded frames.",
+  "repair_lineage": {
+    "defective_packet_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_av_sync_technical_packet_20260714T200810-0500/strict_evidence.json",
+    "defective_packet_sha256": "f4484841e2358e66ae2a9a94a679b6accfa3116f29f3634d59ac282615625111",
+    "defective_mux_sha256": "a8f12ba653260f035a10556010e599e3915c14f57bdab01228672b5a46fed90a",
+    "defective_mux_video_frames": 48,
+    "defect_gate": "mux_manifest",
+    "defect_gate_status": "FAIL",
+    "corrected_packet_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_av_sync_frame_aligned_packet_20260714T202400-0500/strict_evidence.json",
+    "corrected_packet_sha256": "672e9881182e1214237f2d0dba22adc550b15980bba4d83827a92b32780953f7",
+    "corrected_build_manifest_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_av_sync_frame_aligned_packet_20260714T202400-0500/build_manifest.json",
+    "corrected_build_manifest_sha256": "46e379c053f1491d22d834bc6bf14ef8b2d0af88b5441f574bc0e44f2606c314",
+    "corrected_mux_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_av_sync_frame_aligned_20260714T202000-0500/strict_sync_mux_ffv1_pcm16_mono_frame_aligned.mkv",
+    "corrected_mux_sha256": "0c1153e675bd9209ce9c56d6c6694d9fb93118d69e3935fedcf77e626fed998a",
+    "corrected_mux_bytes": 2073838,
+    "corrected_mux_video_frames": 49,
+    "corrected_mux_audio_samples": 32640,
+    "source_video_frames": 49,
+    "source_audio_samples": 32640,
+    "source_video_decoded_hash_match": true,
+    "source_audio_decoded_hash_match": true,
+    "supersedes_defective_mux_for_row030_technical_proof": true,
+    "defective_mux_preserved_as_negative_evidence": true
+  },
+  "strict_gate_results": {
+    "sync_offset_threshold": "PASS",
+    "drift_check": "PASS",
+    "mux_manifest": "PASS",
+    "event_owner_alignment": "BLOCKED",
+    "av_review_record": "BLOCKED",
+    "production_runtime_proof": "BLOCKED",
+    "production_av_sync_authority": "BLOCKED",
+    "overall_pass": "BLOCKED"
+  },
+  "strict_measurements": {
+    "audio_start_offset_seconds": 0.0,
+    "cumulative_endpoint_drift_seconds": -0.001,
+    "video_frame_count": 49,
+    "audio_sample_count": 32640,
+    "video_frame_count_match": true,
+    "audio_sample_count_match": true,
+    "video_hash_match": true,
+    "audio_hash_match": true,
+    "stream_count_match": true,
+    "required_anchor_event_count": 0,
+    "observed_anchor_count": 0,
+    "missing_anchor_count": 0
+  },
+  "contact_anchor_boundary": {
+    "trusted_contact_owner_available": false,
+    "certifying_contact_anchor_emitted": false,
+    "frame_26_is_non_certifying_timeline_marker_only": true,
+    "candidate_or_manual_body_masks_consumed_as_truth": false,
+    "reason": "The current Wave30 clothing-foley schema requires a character or object owner, and trusted body/contact ownership is not available. The builder therefore emits no certifying anchor rather than fabricating ownership."
+  },
+  "implementation": {
+    "builder_path": "Plan/07_IMPLEMENTATION/scripts/build_wave64_genuine_av_sync_inputs.py",
+    "builder_sha256": "c677bca52644a4d3e2295aeccf0cf079ab8d332bc5adabbc3a93f0df5845e5c6",
+    "test_path": "Plan/Instructions/QA/Scripts/test_build_wave64_genuine_av_sync_inputs.py",
+    "test_sha256": "0626aee2b48b8012139487578885e6e1faece11f50742e87bfb63491f3c0ceb2",
+    "explicit_final_mux_override_hash_bound": true,
+    "delivery_manifest_hash_and_byte_verification": true,
+    "synthetic_or_promotion_claim_rejected": true,
+    "transactional_output_clobber_rejected": true
+  },
+  "validation": {
+    "python_runtime": "Python 3.11 with PyAV 18.0.0",
+    "unit_test_command": "py -3.11 -m unittest discover -s Plan/Instructions/QA/Scripts -p test_*av_sync*.py -v",
+    "unit_tests_passed": 52,
+    "unit_test_failures": 0,
+    "unit_test_errors": 0,
+    "semantic_review_status": "PASS",
+    "semantic_review_classification": "CLAUDE_SONNET_HANDOFF_COMPLETED",
+    "semantic_review_confidence": "high",
+    "semantic_review_path": "runtime_artifacts/agent_handoffs/claude_subscription/20260714T201509-0500_row030_frame_aligned_mux_semantic_review/handoff_record.json",
+    "semantic_review_sha256": "6c7ffa64f0afa499a881672d5bec6db67779cc59b8b2aac250b35008fc66833f",
+    "semantic_review_scope_unchanged": true
+  },
+  "verified_media": [
+    {
+      "role": "frame_aligned_strict_av_sync_mux_technical_repair",
+      "media_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_av_sync_frame_aligned_20260714T202000-0500/strict_sync_mux_ffv1_pcm16_mono_frame_aligned.mkv",
+      "sha256": "0c1153e675bd9209ce9c56d6c6694d9fb93118d69e3935fedcf77e626fed998a",
+      "bytes": 2073838,
+      "execution_timestamp": "2026-07-14T20:20:00-05:00",
+      "direct_qa_state": "PASS_TECHNICAL_REVIEW",
+      "production_certification_state": "BLOCKED"
+    }
+  ],
+  "remaining_blockers": [
+    "trusted contact-owner anchor authority is unavailable",
+    "independent perceptual playback proof is missing",
+    "approved production runtime proof is missing",
+    "the production certification bundle allowlist has no approved Row030 bundle"
+  ],
+  "runtime_boundary": {
+    "new_media_generation_performed": false,
+    "existing_source_video_regenerated": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "comfyui_started": false,
+    "jira_mutated": false,
+    "wave71_activated": false,
+    "mask_promotion_claimed": false
+  },
+  "delivery_claimed": false,
+  "promotion_claimed": false,
+  "row_complete": false
+}
