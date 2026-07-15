@@ -48,8 +48,13 @@ Start-Sleep -Seconds 5
 
   $implementation=&$new -ProjectRoot $repo -DispatcherRoot $dispatcherRoot -TaskName cursor_implementation -WorkerLane Cursor -Operation implementation -WorkOrderText 'Edit exact scope; host runs validators.' -CandidatePaths sample.txt -AllowedPaths sample.txt -DeclaredCommands 'Write-Output validator-pass' -QualityProfile fast_low_risk -RiskClass low|ConvertFrom-Json
   $run=&$dispatch -DispatcherRoot $dispatcherRoot -Lane Cursor -Once -CursorWrapperPath $fakeCursor -ClaudeWrapperPath $fakeClaude|ConvertFrom-Json
-  if(-not$run.lanes[0].results[0].dispatch_record_path){throw "Implementation dispatch did not complete: $($run|ConvertTo-Json -Depth 12 -Compress)"}
-  $record=Get-Content $run.lanes[0].results[0].dispatch_record_path -Raw|ConvertFrom-Json;$reviewPath=[string]$run.lanes[0].results[0].review_packet_path
+  $implementationResult=$run.lanes[0].results[0]
+  $expectedRecordPath=Join-Path $dispatcherRoot "completed\$($implementation.request_id)\dispatch_record.json"
+  if($implementationResult.status-ne'PASS'-or$implementationResult.classification-ne'AI_WORKER_DISPATCH_COMPLETED_AWAITING_CODEX'-or-not(Test-Path -LiteralPath $expectedRecordPath)){
+    $failureRecord=if($implementationResult.dispatch_record_path-and(Test-Path -LiteralPath $implementationResult.dispatch_record_path)){Get-Content -LiteralPath $implementationResult.dispatch_record_path -Raw}else{'NO_DISPATCH_RECORD'}
+    throw "Implementation dispatch did not complete: run=$($run|ConvertTo-Json -Depth 12 -Compress) record=$failureRecord"
+  }
+  $record=Get-Content $expectedRecordPath -Raw|ConvertFrom-Json;$reviewPath=[string]$implementationResult.review_packet_path
   $checks.implementation_review_packet=($record.status-eq'PASS'-and$record.host_validation_status-eq'PASS'-and(Test-Path $reviewPath)-and$record.worktree_retained_for_codex_review)
   $adoption=&$adopt -DispatcherRoot $dispatcherRoot -RequestId $implementation.request_id -AdoptionStatus ADOPTED -AdoptionPercent 100 -ReviewNote 'Accepted fixture.' -AdoptedPaths sample.txt -CleanupWorktree|ConvertFrom-Json
   $checks.signed_adoption_and_cleanup=($adoption.adoption_status-eq'ADOPTED'-and-not(Test-Path $record.isolated_worktree_path))
