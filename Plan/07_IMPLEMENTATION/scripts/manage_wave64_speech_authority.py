@@ -61,6 +61,11 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
+def sha256_text_file_lf(path: Path) -> str:
+    text = path.read_text(encoding="utf-8-sig").replace("\r\n", "\n").replace("\r", "\n")
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
 def resolve_path(root: Path, value: str | Path) -> Path:
     path = Path(value)
     return path.resolve() if path.is_absolute() else (root / path).resolve()
@@ -353,7 +358,7 @@ def validate_selected_adapter(root: Path) -> tuple[bool, list[str]]:
     proof = adapter.get("load_proof", {})
     proof_path = resolve_path(root, proof.get("path", ""))
     require(proof_path.is_file(), "selected adapter load proof is missing")
-    require(sha256_file(proof_path) == proof.get("sha256"), "selected adapter load proof hash mismatch")
+    require(sha256_text_file_lf(proof_path) == proof.get("sha256"), "selected adapter load proof hash mismatch")
     return True, list(adapter.get("known_blockers", []))
 
 
@@ -368,7 +373,7 @@ def validate_batch(root: Path, intake_record: Path | None = None) -> dict[str, A
         card_path = resolve_path(root, entry["card_path"])
         card = load_json(card_path)
         validate_reference_card(card, root)
-        require(sha256_file(card_path) == entry["card_sha256"], "registered card JSON hash mismatch")
+        require(sha256_text_file_lf(card_path) == entry["card_sha256"], "registered card JSON hash mismatch")
     casting = load_json(root / CASTING_REGISTRY)
     records = casting.get("records", [])
     require(isinstance(records, list) and records, "casting registry is empty")

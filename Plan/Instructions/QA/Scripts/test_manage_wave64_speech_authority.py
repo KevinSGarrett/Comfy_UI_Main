@@ -41,6 +41,15 @@ def write_tone(path: Path, seconds: float = 2.0, sample_rate: int = 16000) -> No
 
 
 class SpeechAuthorityTests(unittest.TestCase):
+    def test_json_authority_hash_is_stable_across_line_endings(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            left = root / "left.json"
+            right = root / "right.json"
+            left.write_bytes(b'{\n  "pass": true\n}\n')
+            right.write_bytes(b'{\r\n  "pass": true\r\n}\r\n')
+            self.assertEqual(MODULE.sha256_text_file_lf(left), MODULE.sha256_text_file_lf(right))
+
     def test_authority_registry_rejects_false_completion_drift(self) -> None:
         value = {
             "row_scope": [f"TRK-W64-{number:03d}" for number in range(113, 118)],

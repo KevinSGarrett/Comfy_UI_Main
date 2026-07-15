@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "wave64_speech_engine_tournament_record.schema.json",
+  "title": "Wave64 Speech Engine Tournament Record",
+  "type": "object",
+  "required": ["hard_gate_weights", "required_benchmark_dimensions", "entries", "eligible_engine_count", "winner", "universal_engine_assumed", "comparative_tournament_pass", "blockers"],
+  "properties": {
+    "hard_gate_weights": {"type": "object"},
+    "required_benchmark_dimensions": {"type": "array", "minItems": 8, "uniqueItems": true, "items": {"type": "string"}},
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["adapter_id", "engine_family", "checks", "score", "runtime_benchmark_eligible", "benchmark_dimensions", "missing_runtime_dimensions", "production_ready"],
+        "properties": {
+          "adapter_id": {"type": "string", "minLength": 1},
+          "engine_family": {"type": "string", "minLength": 1},
+          "checks": {"type": "object"},
+          "score": {"type": "number", "minimum": 0, "maximum": 100},
+          "runtime_benchmark_eligible": {"type": "boolean"},
+          "benchmark_dimensions": {"type": "object", "minProperties": 8},
+          "missing_runtime_dimensions": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+          "production_ready": {"const": false}
+        }
+      }
+    },
+    "eligible_engine_count": {"type": "integer", "minimum": 0},
+    "winner": {"type": ["string", "null"]},
+    "universal_engine_assumed": {"const": false},
+    "comparative_tournament_pass": {"type": "boolean"},
+    "blockers": {"type": "array", "items": {"type": "string"}}
+  }
+}
