@@ -143,6 +143,7 @@ try {
 
   $tests = @(
     (New-Test "watchdog_outer_payload_is_posix_sh_compatible" ($watchdogExecutorText -match '(?s)\$remoteScript = @"\r?\n# AWS-RunShellScript executes this outer payload with /bin/sh\.\r?\nset -eu\r?\n.*?#!/usr/bin/env bash\r?\nset -euo pipefail') "posix outer payload and Bash inner watchdog" "outer payload uses set -eu; inner Bash script may use pipefail"),
+    (New-Test "watchdog_normalizes_ssm_script_line_endings" ($watchdogExecutorText.Contains('$remoteScript = $remoteScript.Replace("`r`n", "`n")')) "CRLF normalized to LF" "POSIX watchdog payload reaches SSM with LF line endings"),
     (New-Test "watchdog_os_shutdown_fallback_is_explicit" ($helperText -match 'if \(\$AllowOsShutdownFallback\) \{ \$arguments \+= "-AllowOsShutdownFallback" \}') "explicit helper forwarding" "fallback flag forwarded only when explicitly selected"),
     (New-Test "static_executor_exposes_watchdog_fallback_switch" ($staticExecutorText -match '\[switch\]\$AllowWatchdogOsShutdownFallback' -and $staticExecutorText -match '-AllowOsShutdownFallback:\$AllowWatchdogOsShutdownFallback') "explicit static-proof switch" "static proof forwards explicit fallback choice"),
     (New-Test "smoke_executor_exposes_watchdog_fallback_switch" ($smokeExecutorText -match '\[switch\]\$AllowWatchdogOsShutdownFallback' -and $smokeExecutorText -match '-AllowOsShutdownFallback:\$AllowWatchdogOsShutdownFallback') "explicit smoke-run switch" "smoke run forwards explicit fallback choice"),

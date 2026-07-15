@@ -74,6 +74,7 @@ watchdog_pid=`$!
 echo `$watchdog_pid >/tmp/codex_ec2_stop_watchdog.pid
 echo "WATCHDOG_PID=`$watchdog_pid"
 "@
+$remoteScript = $remoteScript.Replace("`r`n", "`n")
 
 $record = [ordered]@{
   schema_version = "1.0"
