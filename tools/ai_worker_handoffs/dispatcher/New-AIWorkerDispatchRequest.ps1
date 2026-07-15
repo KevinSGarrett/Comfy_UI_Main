@@ -57,7 +57,7 @@ $indexPath=Join-Path ([IO.Path]::GetFullPath($DispatcherRoot)) "idempotency\$ide
 if((Test-Path $indexPath)-and-not$ForceDuplicate){
   try{$existing=Read-AIWorkerSignedJson -Path $indexPath -DispatcherRoot $DispatcherRoot;if($existing.state-in@('QUEUED','RUNNING','COMPLETED_AWAITING_CODEX')){[ordered]@{status='DEDUPLICATED';classification='AI_WORKER_DUPLICATE_SUPPRESSED';request_id=$existing.request_id;idempotency_key=$idempotency;request_path=$existing.request_path}|ConvertTo-Json -Depth 5;return}}catch{}
 }
-$now=[DateTimeOffset]::Now;$stamp=$now.ToString('yyyyMMddTHHmmssfffzzz')-replace':',''
+$now=[DateTimeOffset]::Now;$stamp=$now.UtcDateTime.ToString('yyyyMMddTHHmmssfffZ')
 $requestId=('p{0:D3}_{1}_{2}_{3}'-f(100-$Priority),$stamp,$TaskName,[guid]::NewGuid().ToString('N').Substring(0,8))
 $queueRoot=Join-Path ([IO.Path]::GetFullPath($DispatcherRoot)) "queue\$WorkerLane";New-Item -ItemType Directory -Force -Path $queueRoot|Out-Null
 $path=Join-Path $queueRoot "$requestId.json"

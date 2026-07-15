@@ -34,9 +34,12 @@ Start-Sleep -Seconds 5
 [ordered]@{status='PASS';classification='SHOULD_HAVE_TIMED_OUT'}|ConvertTo-Json
 '@|Set-Content $slowCursor -Encoding UTF8
   Import-Module(Join-Path $PSScriptRoot 'AIWorkerDispatcher.Common.psm1')-Force -DisableNameChecking
+  $legacyUtcOffsetId='request_20260715T000000000+0000_example'
+  $checks.utc_offset_request_id_preserved=((Get-AIWorkerSafeId $legacyUtcOffsetId)-eq$legacyUtcOffsetId)
   $new=Join-Path $PSScriptRoot 'New-AIWorkerDispatchRequest.ps1';$dispatch=Join-Path $PSScriptRoot 'Invoke-AIWorkerDispatcher.ps1';$control=Join-Path $PSScriptRoot 'Set-AIWorkerDispatchControl.ps1';$adopt=Join-Path $PSScriptRoot 'Set-AIWorkerDispatchAdoption.ps1';$broker=Join-Path $PSScriptRoot 'Invoke-AIWorkerCommandBroker.ps1'
 
   $cursor=&$new -ProjectRoot $repo -DispatcherRoot $dispatcherRoot -TaskName cursor_read -WorkerLane Cursor -Operation read_only -WorkOrderText 'Inspect exact scope.' -CandidatePaths sample.txt|ConvertFrom-Json
+  $checks.timezone_neutral_request_id=($cursor.request_id-match'T\d{9}Z_'-and$cursor.request_id-notmatch'\+')
   $run=&$dispatch -DispatcherRoot $dispatcherRoot -Lane Cursor -Once -CursorWrapperPath $fakeCursor -ClaudeWrapperPath $fakeClaude|ConvertFrom-Json
   $checks.cursor_lane_pass=($run.processed-eq1-and(Test-Path(Join-Path $dispatcherRoot "completed\$($cursor.request_id)\dispatch_record.json")))
   if(-not$checks.cursor_lane_pass){throw "Cursor read fixture failed: $($run|ConvertTo-Json -Depth 12 -Compress)"}
