@@ -1,3 +1,11 @@
+## Wave64 CosyVoice2 Reference-Bound Candidate Rejected - 2026-07-15T05:40:34-05:00
+
+Continue the minimum genuine audio-to-short-video delivery chain from authoritative `C:\Comfy_UI_Main`. CosyVoice2 now has a hash-bound runner whose PyTorch model stack executed on local CUDA while ONNX frontend components executed on CPU, plus a public-domain reference-speaker binding and calibrated WER, speaker, DNSMOS, and emotion evaluation. Its first immutable candidate is negative evidence, not a selected take: duration `8.8` seconds, WER `4.8`, repetitive non-dialogue content, unsupported `focused` emotion, and unmeasured `controlled` intensity. The speaker score passes, while DNSMOS clears only the worst-reference floor at the 50th percentile and does not certify quality.
+
+Pursuing goal: produce one production-eligible reference-bound dialogue candidate that passes exact content, `3.0`-second timing, speaker identity, and a supported style contract, then secure independent playback and production-review authority. Preserve all rejected takes and keep Rows025/027/031, EC2, body-mask promotion, Wave71+, Jira mutation, and final certification fail-closed.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/W64_COSYVOICE2_ZERO_SHOT_CANDIDATE_EVALUATION_20260715T052332-0500.json`.
+
 ## Wave64 OpenSLR31 Speaker Validation Pass - 2026-07-15T03:57:44-05:00
 
 Continue the minimum genuine audio-to-short-video delivery chain from the independently labeled OpenSLR31 threshold pass. The previous CV3 nonmatching-label weakness is superseded for this ERes2Net configuration: 26 real speaker IDs, zero speaker overlap, held-out TPR `0.99487`, held-out FPR `0.02564`, and chain-specific source-to-derived-stem identity preservation pass at score `0.99327` against threshold `0.334456`.
