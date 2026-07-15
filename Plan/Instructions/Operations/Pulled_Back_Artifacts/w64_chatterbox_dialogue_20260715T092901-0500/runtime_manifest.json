@@ -1,0 +1,192 @@
+{
+  "schema_version": "1.0",
+  "run_id": "20260715T092901-0500",
+  "generated_at": "2026-07-15T09:29:39.548690-05:00",
+  "engine": "ChatterboxTTS",
+  "engine_source": {
+    "package": "chatterbox-tts",
+    "package_version": "0.1.7",
+    "source_url": "https://github.com/resemble-ai/chatterbox",
+    "license": "MIT"
+  },
+  "implementation": {
+    "runner_path": "C:\\Comfy_UI_Main\\Plan\\07_IMPLEMENTATION\\scripts\\run_wave64_chatterbox_dialogue.py",
+    "runner_sha256": "0653b7c570fe37e39fce600769164d4b714cc46e1905ff8e284203cb034aa5a1",
+    "control_contract": {
+      "text": "We hold the frame steady and move on the beat.",
+      "reference_sha256": "f1e5f767d775c514cf94cdedfdf0010961102a3358e095812301e5da72e6d932",
+      "reference_transcript": "Once upon a midnight dreary, while I pondered, weak and weary.",
+      "expected_duration_seconds": 3.0,
+      "max_duration_delta_seconds": 0.35,
+      "style_emotion": "focused",
+      "style_intensity": "controlled",
+      "seed": 64032,
+      "candidate_ordinal": 1,
+      "exaggeration": 0.6,
+      "cfg_weight": 0.3,
+      "temperature": 0.8,
+      "repetition_penalty": 1.2,
+      "min_p": 0.05,
+      "top_p": 1.0,
+      "post_generation_truncation_allowed": false,
+      "post_generation_time_stretch_allowed": false,
+      "same_control_path_retry_allowed": false
+    },
+    "control_contract_sha256": "fdb59d03446f8b2f78cf19cd771e4d8b6f5236b763ed6a2ed78936cc7208e644"
+  },
+  "model": {
+    "model_id": "ResembleAI/chatterbox",
+    "revision": "5bb1f6ee58e50c3b8d408bc82a6d3740c2db6e18",
+    "model_dir": "C:\\Comfy_UI_Main\\runtime_artifacts\\model_cache\\chatterbox\\5bb1f6ee58e50c3b8d408bc82a6d3740c2db6e18",
+    "license": "MIT",
+    "local_files_only": true,
+    "payloads": [
+      {
+        "path": "ve.safetensors",
+        "bytes": 5695784,
+        "sha256": "f0921cab452fa278bc25cd23ffd59d36f816d7dc5181dd1bef9751a7fb61f63c"
+      },
+      {
+        "path": "t3_cfg.safetensors",
+        "bytes": 2129653744,
+        "sha256": "914cb1696f47527fe8852ca8f1fe1fa63cb34f76f9c715e84e067b744dd0da81"
+      },
+      {
+        "path": "s3gen.safetensors",
+        "bytes": 1056484620,
+        "sha256": "2b78103c654207393955e4900aac14a12de8ef25f4b09424f1ef91941f161d4e"
+      },
+      {
+        "path": "tokenizer.json",
+        "bytes": 25470,
+        "sha256": "d71e3a44eabb1784df9a68e9f95b251ecbf1a7af6a9f50835856b2ca9d8c14a5"
+      },
+      {
+        "path": "conds.pt",
+        "bytes": 107374,
+        "sha256": "6552d70568833628ba019c6b03459e77fe71ca197d5c560cef9411bee9d87f4e"
+      }
+    ]
+  },
+  "reference_speaker": {
+    "path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\w64_cosyvoice2_instruct_control_20260715T074822-0500\\librivox_reference_5.0s.wav",
+    "sha256": "f1e5f767d775c514cf94cdedfdf0010961102a3358e095812301e5da72e6d932",
+    "bytes": 441044,
+    "expected_transcript": "Once upon a midnight dreary, while I pondered, weak and weary.",
+    "pcm": {
+      "sample_rate_hz": 44100,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frame_count": 220500,
+      "duration_seconds": 5.0,
+      "peak_dbfs": -8.1539,
+      "rms_dbfs": -26.7542,
+      "clipping_ratio": 0.0,
+      "silence_ratio": 0.04955556
+    },
+    "source_page": "https://commons.wikimedia.org/wiki/File:LibriVox_-_The_Raven_-_Chris_Goringe.ogg",
+    "license": "Public Domain Mark 1.0",
+    "license_reference": "https://librivox.org/pages/public-domain/",
+    "speaker_name": "Chris Goringe",
+    "binding_method": "zero_shot_reference_audio"
+  },
+  "runtime": {
+    "device": "NVIDIA GeForce RTX 5060 Laptop GPU",
+    "cuda_architecture": "sm_120",
+    "seed": 64032,
+    "inference_seconds": 24.7186,
+    "peak_cuda_memory_bytes": 3316227072,
+    "runtime_packages": {
+      "chatterbox-tts": "0.1.7",
+      "diffusers": "0.29.0",
+      "librosa": "0.11.0",
+      "numpy": "1.26.4",
+      "resemble-perth": "1.0.1",
+      "s3tokenizer": "0.3.0",
+      "safetensors": "0.5.3",
+      "soundfile": "0.14.0",
+      "torch": "2.11.0+cu128",
+      "torchaudio": "2.11.0+cu128",
+      "transformers": "5.2.0"
+    },
+    "torch_pin_compatibility_override": {
+      "package_declared": "2.6.0+cu124",
+      "installed": "2.11.0+cu128",
+      "reason": "package pin lacks RTX 5060 sm_120 kernels",
+      "cuda_tensor_probe_pass": true
+    },
+    "runtime_executed": true,
+    "decode_succeeded": true,
+    "post_generation_truncation_applied": false,
+    "post_generation_time_stretch_applied": false
+  },
+  "native_controls": {
+    "exaggeration": 0.6,
+    "cfg_weight": 0.3,
+    "temperature": 0.8,
+    "repetition_penalty": 1.2,
+    "min_p": 0.05,
+    "top_p": 1.0,
+    "controls_predeclared_before_generation": true,
+    "controls_tuned_against_candidate_result": false,
+    "style_contract_verified": false,
+    "control_interpretation": "bounded native pacing and expression controls; not a calibrated focused/controlled taxonomy"
+  },
+  "dialogue": {
+    "character_id": "C01",
+    "line_id": "L001",
+    "text": "We hold the frame steady and move on the beat.",
+    "contract_start_seconds": 1.2,
+    "contract_end_seconds": 4.2,
+    "expected_duration_seconds": 3.0,
+    "style_emotion_required": "focused",
+    "style_intensity_required": "controlled",
+    "style_contract_verified": false,
+    "style_contract_substituted": false
+  },
+  "output": {
+    "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\wave64_chatterbox_dialogue\\20260715T092901-0500\\L001_C01_chatterbox.wav",
+    "sha256": "cde61c59adace5b0674ee05268f56a091b0921b196bc7ad54ad0a06fc17a5b96",
+    "bytes": 188204,
+    "pcm": {
+      "sample_rate_hz": 24000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frame_count": 94080,
+      "duration_seconds": 3.92,
+      "peak_dbfs": -10.0734,
+      "rms_dbfs": -27.0262,
+      "clipping_ratio": 0.0,
+      "silence_ratio": 0.08198342
+    },
+    "perth_watermark_score": 1.0,
+    "perth_watermark_detected": true
+  },
+  "gates": {
+    "model_payload_hash_binding_pass": true,
+    "package_identity_pass": true,
+    "cuda_architecture_probe_pass": true,
+    "independent_reference_speaker_bound": true,
+    "technical_audio_pass": true,
+    "dialogue_timing_pass": false,
+    "duration_delta_seconds": 0.92,
+    "asr_pass": null,
+    "speaker_identity_pass": null,
+    "emotion_pass": null,
+    "style_intensity_pass": null,
+    "independent_playback_review_pass": null,
+    "production_proof_authority_pass": false
+  },
+  "boundaries": {
+    "candidate_media_mutated": false,
+    "watermark_removed": false,
+    "network_used_for_inference": false,
+    "comfyui_core_environment_modified": false,
+    "ec2_started": false,
+    "aws_mutated": false,
+    "final_voice_certification_claimed": false,
+    "authorized_candidate_ordinal": 1,
+    "maximum_candidates_for_control_path": 1,
+    "same_control_path_retry_allowed": false
+  }
+}
