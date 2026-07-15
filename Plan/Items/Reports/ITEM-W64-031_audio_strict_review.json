@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-031-AUDIO-STRICT-REVIEW-20260714T092355-0500",
-  "timestamp": "2026-07-15T00:11:13-05:00",
+  "timestamp": "2026-07-15T01:25:40-05:00",
   "item_id": "ITEM-W64-031",
   "tracker_id": "TRK-W64-031",
   "workstream": "audio_strict_review",
@@ -22,7 +22,8 @@
     "canonical_root_and_transactional_output_ready": true,
     "synthetic_and_relabel_promotion_forbidden": true,
     "cv3_eval_local_calibration_adapter_ready": true,
-    "cv3_emotion2vec_calibration_adapter_ready": true
+    "cv3_emotion2vec_calibration_adapter_ready": true,
+    "model_backed_playback_producer_ready": true
   },
   "validation": {
     "unit_tests_passed": 62,
@@ -59,7 +60,20 @@
     "parler_tts_cv3_emotion_score": 0.9999967813491821,
     "parler_tts_target_emotion": "focused",
     "parler_tts_target_intensity": "controlled",
-    "parler_tts_emotion_taxonomy_supported": false
+    "parler_tts_emotion_taxonomy_supported": false,
+    "model_backed_playback_combined_tests_passed": 117,
+    "model_backed_playback_combined_test_failures": 0,
+    "model_backed_playback_original_status": "ABSTAINED_UNSUPPORTED_REQUIRED_CATEGORY",
+    "model_backed_playback_original_exact_content_pass": false,
+    "model_backed_playback_original_dnsmos_cleanliness_score": 4.293041,
+    "model_backed_playback_original_technical_consistency_score": 5.0,
+    "model_backed_playback_original_proof_emitted": false,
+    "parler_replacement_seed": 64028,
+    "parler_replacement_runtime_executed": true,
+    "parler_replacement_speech_truncated": false,
+    "parler_replacement_asr_transcript": "We hold the frames.",
+    "parler_replacement_normalized_wer": 0.7,
+    "parler_replacement_intelligibility_pass": false
   },
   "acceptance_gates": {
     "audio_metadata_check_contract": true,
@@ -79,7 +93,14 @@
     "recovered_legacy_packet_strict_request_eligible": false,
     "final_strict_audio_certification_allowed": false,
     "cv3_emotion_model_execution_path_verified": true,
-    "candidate_emotion_verified": false
+    "candidate_emotion_verified": false,
+    "non_synthetic_playback_producer_allowlisted": true,
+    "candidate_model_backed_playback_proof_present": false,
+    "candidate_exact_content_verified": false,
+    "replacement_candidate_intelligibility_verified": false,
+    "independent_playback_review_pass": false,
+    "production_review_authority_pass": false,
+    "final_voice_certification_allowed": false
   },
   "blockers": [
     {
@@ -97,6 +118,11 @@
     {
       "classification": "Blocked_Voice_Emotion_Taxonomy_Authority_Missing",
       "reason": "The exact licensed emotion2vec_plus_large payload executed over all 300 paired CV3 emotion references and scored the candidate neutral at 0.99999678, but the contract target focused/controlled is outside the model and CV3 taxonomies. No registered threshold or approved mapping authorizes emotion PASS."
+    },
+    {
+      "classification": "Blocked_Model_Backed_Playback_Content_And_Style_Authority",
+      "scope": "dialogue_candidates",
+      "reason": "The original candidate is technically clean but has a critical beat-to-B content mismatch and cannot emit a strict playback proof because focused/controlled is outside the calibrated style taxonomy. The single authorized seed-64028 replacement is also rejected because its independent Whisper WER is 0.70."
     }
   ],
   "evidence": [
@@ -143,6 +169,10 @@
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/W64_CV3_EMOTION2VEC_LOCAL_CALIBRATION_20260715T001113-0500.json",
       "sha256": "d2be31070c286c7c3998ca9f39bda3c2778f2c3422ad904aa531f356d3a76f44"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/W64_MODEL_BACKED_PLAYBACK_AND_REPLACEMENT_REJECTION_20260715T012540-0500.json",
+      "sha256": "0bdc4a5fdb5ded97418fb5e739e72f6d5fc50b6ca6a2d33f5c39f1266a202236"
     }
   ],
   "runtime": {
@@ -153,7 +183,8 @@
     "comfyui_started": false,
     "aws_contacted": false,
     "ec2_started": false,
-    "cv3_emotion_calibration_count": 1
+    "cv3_emotion_calibration_count": 1,
+    "parler_replacement_generation_count": 1
   },
-  "next_action": "Obtain independent playback and a bound reference-speaker recording for the immutable Parler candidate. If machine-verifiable emotion proof is required, define and calibrate an explicit supported contract taxonomy; do not relabel neutral as focused or controlled, and do not rerun completed generation unless playback rejects the take."
+  "next_action": "Keep both dialogue candidates rejected. Calibrate a genuinely perceptual audio reviewer or bind an independent reference speaker plus a supported style taxonomy before another dialogue generation; do not use the playback producer as production-review authority."
 }

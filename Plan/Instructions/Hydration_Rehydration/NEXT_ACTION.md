@@ -1,3 +1,11 @@
+## Wave64 Model-Backed Playback Rejection - 2026-07-15T01:25:40-05:00
+
+The non-synthetic Whisper/DNSMOS/emotion2vec playback producer is now hash-bound and allowlisted for playback review only. It correctly emitted no strict proof for the original Parler candidate: the exact content review found `beat` rendered as `B`, while `focused` / `controlled` remains outside the calibrated style taxonomy. One separately seeded replacement was permitted by that rejection and executed locally, but Whisper returned `We hold the frames.` at WER `0.70`, so it is also rejected.
+
+Next action: preserve both rejected candidates and advance a genuinely perceptual audio-review calibration or bind an independent reference-speaker recording plus supported style taxonomy. Do not generate another dialogue take from this evidence, do not add the playback producer to production-review authority, and do not promote Rows025/027/031 or final certification.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/W64_MODEL_BACKED_PLAYBACK_AND_REPLACEMENT_REJECTION_20260715T012540-0500.json`.
+
 ## Wave64 Row027 Recovered SAPI Voice Evaluation - 2026-07-14T07:03:04-05:00
 
 `TRK-W64-027` / `ITEM-W64-027` remains `Blocked_Voice_Dialogue_Production_Proof_Missing`, now with the recovered SAPI lines evaluated by the existing strict producer/evaluator. The two character-owned packets use the original text and timing windows, an explicit unverified intensity sentinel, and no fabricated proof files. `L001` is `BLOCKED` on the six missing proof classes; `L002` is `FAIL` because its actual 3.244-second audio exceeds the original 2.4-second window by 0.844 seconds, in addition to the missing proofs.
