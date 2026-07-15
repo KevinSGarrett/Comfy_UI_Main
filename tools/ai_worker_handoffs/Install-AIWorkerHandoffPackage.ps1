@@ -42,6 +42,22 @@ function Get-Destination {
   }
 }
 
+function Get-AutomationSemanticHash {
+  param([Parameter(Mandatory = $true)][string]$Path)
+  $semanticLines = @(
+    Get-Content -LiteralPath $Path |
+      Where-Object { $_ -notmatch '^\s*(created_at|updated_at)\s*=' } |
+      ForEach-Object { $_.TrimEnd() }
+  )
+  $sha = [Security.Cryptography.SHA256]::Create()
+  try {
+    $bytes = [Text.Encoding]::UTF8.GetBytes(($semanticLines -join "`n") + "`n")
+    return ([BitConverter]::ToString($sha.ComputeHash($bytes))).Replace('-', '').ToLowerInvariant()
+  } finally {
+    $sha.Dispose()
+  }
+}
+
 $stamp = Get-Date -Format "yyyyMMddTHHmmsszzz"
 $stamp = $stamp.Replace(":", "")
 $backupRoot = Join-Path $CodexHome "ai_worker_handoff_package_backups\$stamp"
@@ -53,7 +69,16 @@ foreach ($entry in $manifest.files) {
   if ($sourceHash -ne ([string]$entry.sha256).ToLowerInvariant()) { throw "Canonical source hash mismatch: $($entry.relative_path)" }
   $destination = Get-Destination -RelativePath ([string]$entry.relative_path)
   $beforeHash = if (Test-Path -LiteralPath $destination -PathType Leaf) { (Get-FileHash -LiteralPath $destination -Algorithm SHA256).Hash.ToLowerInvariant() } else { "MISSING" }
-  $changed = $beforeHash -ne $sourceHash
+  $isAutomation = [string]$entry.relative_path -like "automations/*"
+  if ($isAutomation -and [string]::IsNullOrWhiteSpace([string]$entry.semantic_sha256)) {
+    throw "Automation semantic hash missing from manifest: $($entry.relative_path)"
+  }
+  $beforeMatches = if ($isAutomation -and $beforeHash -ne "MISSING") {
+    (Get-AutomationSemanticHash -Path $destination) -eq ([string]$entry.semantic_sha256).ToLowerInvariant()
+  } else {
+    $beforeHash -eq $sourceHash
+  }
+  $changed = -not $beforeMatches
   if ($Apply -and $changed) {
     $backup = Join-Path $backupRoot ([string]$entry.relative_path).Replace("/", "\")
     if (Test-Path -LiteralPath $destination -PathType Leaf) {
@@ -64,8 +89,43 @@ foreach ($entry in $manifest.files) {
     Copy-Item -LiteralPath $source -Destination $destination -Force
   }
   $afterHash = if ($Apply) { (Get-FileHash -LiteralPath $destination -Algorithm SHA256).Hash.ToLowerInvariant() } else { $beforeHash }
-  if ($Apply -and $afterHash -ne $sourceHash) { throw "Installed file hash mismatch: $destination" }
-  $results += [ordered]@{ relative_path = $entry.relative_path; destination = $destination; changed = $changed; before_sha256 = $beforeHash; canonical_sha256 = $sourceHash; after_sha256 = $afterHash }
+  $afterMatches = if ($isAutomation -and $Apply) {
+    (Get-AutomationSemanticHash -Path $destination) -eq ([string]$entry.semantic_sha256).ToLowerInvariant()
+  } else {
+    $afterHash -eq $sourceHash
+  }
+  if ($Apply -and -not $afterMatches) { throw "Installed file verification failed: $destination" }
+  $results += [ordered]@{
+    relative_path = $entry.relative_path
+    destination = $destination
+    comparison_mode = $(if ($isAutomation) { "semantic_ignore_app_metadata_timestamps" } else { "exact_sha256" })
+    changed = $changed
+    before_sha256 = $beforeHash
+    canonical_sha256 = $sourceHash
+    after_sha256 = $afterHash
+  }
+}
+
+$snapshotDestination = Join-Path $CodexHome "ai_worker_dispatcher\canonical_package_manifest.json"
+$snapshotBeforeHash = if (Test-Path -LiteralPath $snapshotDestination -PathType Leaf) {
+  (Get-FileHash -LiteralPath $snapshotDestination -Algorithm SHA256).Hash.ToLowerInvariant()
+} else { "MISSING" }
+$snapshotCanonicalHash = (Get-FileHash -LiteralPath $manifestPath -Algorithm SHA256).Hash.ToLowerInvariant()
+$snapshotChanged = $snapshotBeforeHash -ne $snapshotCanonicalHash
+if ($Apply -and $snapshotChanged) {
+  if (Test-Path -LiteralPath $snapshotDestination -PathType Leaf) {
+    $snapshotBackup = Join-Path $backupRoot "dispatcher\canonical_package_manifest.json"
+    New-Item -ItemType Directory -Force -Path (Split-Path -Parent $snapshotBackup) | Out-Null
+    Copy-Item -LiteralPath $snapshotDestination -Destination $snapshotBackup -Force
+  }
+  New-Item -ItemType Directory -Force -Path (Split-Path -Parent $snapshotDestination) | Out-Null
+  Copy-Item -LiteralPath $manifestPath -Destination $snapshotDestination -Force
+}
+$snapshotAfterHash = if ($Apply) {
+  (Get-FileHash -LiteralPath $snapshotDestination -Algorithm SHA256).Hash.ToLowerInvariant()
+} else { $snapshotBeforeHash }
+if ($Apply -and $snapshotAfterHash -ne $snapshotCanonicalHash) {
+  throw "Installed canonical package manifest verification failed: $snapshotDestination"
 }
 
 [ordered]@{
@@ -74,6 +134,8 @@ foreach ($entry in $manifest.files) {
   applied = [bool]$Apply
   active_locks = $activeLocks
   changed_file_count = @($results | Where-Object { $_.changed }).Count
+  manifest_snapshot_changed = $snapshotChanged
+  manifest_snapshot_path = $snapshotDestination
   backup_root = $(if ($Apply) { $backupRoot } else { $null })
   files = $results
 } | ConvertTo-Json -Depth 8

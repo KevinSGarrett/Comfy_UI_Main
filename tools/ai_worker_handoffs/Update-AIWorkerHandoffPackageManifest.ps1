@@ -7,17 +7,38 @@ if ([string]::IsNullOrWhiteSpace($PackageRoot)) {
 }
 $PackageRoot = (Resolve-Path -LiteralPath $PackageRoot).Path
 $deployableRoots = @("claude", "cursor", "dispatcher", "automations")
+
+function Get-AutomationSemanticHash {
+  param([Parameter(Mandatory = $true)][string]$Path)
+  $semanticLines = @(
+    Get-Content -LiteralPath $Path |
+      Where-Object { $_ -notmatch '^\s*(created_at|updated_at)\s*=' } |
+      ForEach-Object { $_.TrimEnd() }
+  )
+  $sha = [Security.Cryptography.SHA256]::Create()
+  try {
+    $bytes = [Text.Encoding]::UTF8.GetBytes(($semanticLines -join "`n") + "`n")
+    return ([BitConverter]::ToString($sha.ComputeHash($bytes))).Replace('-', '').ToLowerInvariant()
+  } finally {
+    $sha.Dispose()
+  }
+}
+
 $files = @()
 foreach ($name in $deployableRoots) {
   $root = Join-Path $PackageRoot $name
   if (!(Test-Path -LiteralPath $root -PathType Container)) { throw "Canonical package directory missing: $root" }
   foreach ($item in Get-ChildItem -LiteralPath $root -File -Recurse | Sort-Object FullName) {
     $relative = $item.FullName.Substring($PackageRoot.Length).TrimStart("\").Replace("\", "/")
-    $files += [ordered]@{
+    $record = [ordered]@{
       relative_path = $relative
       bytes = $item.Length
       sha256 = (Get-FileHash -LiteralPath $item.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
     }
+    if ($relative -like "automations/*") {
+      $record["semantic_sha256"] = Get-AutomationSemanticHash -Path $item.FullName
+    }
+    $files += $record
   }
 }
 
