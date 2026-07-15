@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-028-AUDIO-FOLEY-FORCE-20260712T171200-0500",
-  "timestamp": "2026-07-14T21:15:02-05:00",
+  "timestamp": "2026-07-14T22:13:13-05:00",
   "item_id": "ITEM-W64-028",
   "tracker_id": "TRK-W64-028",
   "workstream": "audio_foley_force",
@@ -22,7 +22,8 @@
     "mmaudio_video_conditioned_workflow_ready": true,
     "mmaudio_official_model_hash_binding_ready": true,
     "mmaudio_bigvgan_huggingface_compatibility_patch_ready": true,
-    "mmaudio_loudness_conformance_ready": true
+    "mmaudio_loudness_conformance_ready": true,
+    "mmaudio_hash_bound_review_mux_ready": true
   },
   "validation": {
     "unit_tests_passed": 54,
@@ -67,7 +68,15 @@
     "mmaudio_runtime_packet_test_failures": 0,
     "combined_foley_regression_tests_passed": 65,
     "combined_foley_regression_test_failures": 0,
-    "mmaudio_semantic_worker_review": "UNAVAILABLE_TIMEOUT_NO_RESULT_NOT_COUNTED"
+    "mmaudio_semantic_worker_review": "UNAVAILABLE_TIMEOUT_NO_RESULT_NOT_COUNTED",
+    "mmaudio_review_mux_status": "PASS_TECHNICAL_MUX_PLAYBACK_REVIEW_BLOCKED",
+    "mmaudio_review_mux_sha256": "5975bd79acbda03c15e20fb98e4c7c53c697235a0f24b157da8482293aa4ae37",
+    "mmaudio_review_mux_decoded_video_frames": 49,
+    "mmaudio_review_mux_decoded_audio_samples": 97968,
+    "mmaudio_review_mux_duration_delta_seconds": 0.03417406143344692,
+    "mmaudio_review_mux_contact_sheet_review": "PASS_STABLE_FULL_BODY_FRAMING_NO_BLANK_OR_CORRUPT_FRAMES",
+    "mmaudio_review_mux_tests_passed": 11,
+    "mmaudio_review_mux_semantic_worker_review": "UNAVAILABLE_STALLED_TIMEOUT_NO_RESULT_NOT_COUNTED"
   },
   "acceptance_gates": {
     "event_binding_check_contract": true,
@@ -82,6 +91,8 @@
     "genuine_mmaudio_local_runtime_proof_present": true,
     "genuine_mmaudio_audio_decode_and_non_silence_passed": true,
     "genuine_mmaudio_conformed_loudness_true_peak_passed": true,
+    "genuine_mmaudio_hash_bound_review_mux_present": true,
+    "genuine_mmaudio_visual_decode_review_passed": true,
     "genuine_mmaudio_independent_playback_review_present": false,
     "genuine_production_av_review_present": false,
     "manual_body_contact_gold_mask_authority_present": false,
@@ -147,6 +158,22 @@
     {
       "path": "Plan/Instructions/QA/Scripts/test_wave64_mmaudio_wan_foley_runtime_packet.py",
       "sha256": "c7bb559582906056f36e640db4ed6b8f3495407cd55fa89af346a0611412e917"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/W64_MMAUDIO_REVIEW_MUX_20260714T221311-0500.json",
+      "sha256": "839af5ebd64d071dfcfc11de920ab1b3e1f405819e431392e409ce40b5a7f4a4"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_mmaudio_review_mux_20260714T221311-0500/review_mux_manifest.json",
+      "sha256": "4565997b4647fd1df734dc7147d19b05880aa0bc6365c23ae5b3b23142c56c88"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/build_wave64_mmaudio_review_mux.py",
+      "sha256": "b3ae76fa928c2411776f93c708eda9e3a2518ae76d04e60e3dd2c4ba90926dac"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_build_wave64_mmaudio_review_mux.py",
+      "sha256": "ea9b2c470151722e5e57f390bd40e209728662c48208e4da053bbfeab950bc58"
     }
   ],
   "runtime": {
@@ -161,7 +188,9 @@
     "genuine_mmaudio_local_generation_count": 1,
     "genuine_mmaudio_retry_count": 1,
     "s3_mutation_count": 0,
-    "existing_video_regeneration_count": 0
+    "existing_video_regeneration_count": 0,
+    "mmaudio_review_mux_build_count": 1,
+    "mmaudio_review_mux_visual_decode_review_count": 1
   },
   "next_action": "Preserve the successful seed-2273001 MMAudio output without rerunning it. Obtain independent perceptual playback review, then bind the conformed foley to trusted visual-contact, Wave22 force, Wave30 event, and owner authority only when those exact sources are available; do not invent contact ownership from candidate masks."
 }
