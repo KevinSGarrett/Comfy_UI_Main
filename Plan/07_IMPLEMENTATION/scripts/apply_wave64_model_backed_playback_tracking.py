@@ -71,12 +71,13 @@ NEXT_ACTION = (
 )
 
 
-def sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
+def canonical_json_sha256(path: Path) -> str:
+    try:
+        text = path.read_text(encoding="utf-8")
+    except UnicodeDecodeError as exc:
+        raise ValueError(f"evidence is not UTF-8 JSON text: {path}") from exc
+    canonical = text.replace("\r\n", "\n")
+    return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
 
 
 def append_unique(current: str, value: str, separator: str) -> str:
@@ -90,7 +91,7 @@ def verify_evidence() -> dict:
     qa_path = ROOT / EVIDENCE_REL
     tracker_path = ROOT / "Plan/Tracker/Evidence/Wave64" / qa_path.name
     for path in (qa_path, tracker_path):
-        if not path.is_file() or sha256(path) != EVIDENCE_SHA256:
+        if not path.is_file() or canonical_json_sha256(path) != EVIDENCE_SHA256:
             raise ValueError(f"model-backed playback evidence hash mismatch: {path}")
         payload = json.loads(path.read_text(encoding="utf-8"))
         gates = payload.get("gates", {})

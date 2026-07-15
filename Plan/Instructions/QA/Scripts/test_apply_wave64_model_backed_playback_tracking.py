@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib.util
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -32,6 +33,18 @@ class ModelBackedPlaybackTrackingTests(unittest.TestCase):
     def test_evidence_mirrors_are_exact_and_fail_closed(self) -> None:
         result = MODULE.verify_evidence()
         self.assertEqual(result["sha256"], MODULE.EVIDENCE_SHA256)
+
+    def test_canonical_json_hash_is_line_ending_independent(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            lf = root / "lf.json"
+            crlf = root / "crlf.json"
+            lf.write_bytes(b'{\n  "status": "BLOCKED"\n}\n')
+            crlf.write_bytes(b'{\r\n  "status": "BLOCKED"\r\n}\r\n')
+            self.assertEqual(
+                MODULE.canonical_json_sha256(lf),
+                MODULE.canonical_json_sha256(crlf),
+            )
 
     def test_each_row_remains_blocked_and_incomplete(self) -> None:
         for row in MODULE.ROW_SPECS:
