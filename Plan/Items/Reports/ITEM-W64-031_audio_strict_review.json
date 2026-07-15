@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-031-AUDIO-STRICT-REVIEW-20260714T092355-0500",
-  "timestamp": "2026-07-14T09:23:55-05:00",
+  "timestamp": "2026-07-14T23:32:04-05:00",
   "item_id": "ITEM-W64-031",
   "tracker_id": "TRK-W64-031",
   "workstream": "audio_strict_review",
@@ -20,7 +20,8 @@
     "producer_creates_no_review_or_authority_proof": true,
     "canonical_wave30_integration_ready": true,
     "canonical_root_and_transactional_output_ready": true,
-    "synthetic_and_relabel_promotion_forbidden": true
+    "synthetic_and_relabel_promotion_forbidden": true,
+    "cv3_eval_local_calibration_adapter_ready": true
   },
   "validation": {
     "unit_tests_passed": 62,
@@ -40,7 +41,15 @@
     "recovered_readiness_tests_passed": 6,
     "combined_tests_passed": 68,
     "recovered_mix_candidates_hash_verified_and_decoded": 2,
-    "claude_recovered_readiness_review": "PASS_high_confidence"
+    "claude_recovered_readiness_review": "PASS_high_confidence",
+    "cv3_eval_adapter_tests_passed": 11,
+    "cv3_eval_adapter_test_failures": 0,
+    "cv3_eval_local_calibration": "PASS_PARTIAL_METRIC_CALIBRATION_EMOTION_AND_PLAYBACK_AUTHORITY_BLOCKED",
+    "cv3_reference_sample_count": 8,
+    "candidate_cv3_normalized_wer": 0.1,
+    "candidate_cv3_dnsmos_ovrl": 3.058596703101282,
+    "candidate_cv3_dnsmos_reference_percentile": 0.75,
+    "cv3_speaker_cross_file_margin": 0.8455755710601807
   },
   "acceptance_gates": {
     "audio_metadata_check_contract": true,
@@ -49,6 +58,10 @@
     "sync_evidence_contract": true,
     "promotion_decision_contract": true,
     "audio_playback_and_spectrogram_review_contract": true,
+    "cv3_metric_calibration_present": true,
+    "cv3_candidate_quality_metrics_present": true,
+    "cv3_candidate_speaker_identity_present": false,
+    "cv3_candidate_emotion_score_present": false,
     "genuine_production_audio_present": false,
     "genuine_non_synthetic_prompt_alignment_present": false,
     "genuine_production_playback_review_present": false,
@@ -64,6 +77,14 @@
     {
       "classification": "Blocked_Strict_Audio_Production_Authority_Missing",
       "reason": "The canonical registry has no approved production review authority and no allowlisted production review bundle."
+    },
+    {
+      "classification": "Blocked_Voice_Speaker_Reference_Missing",
+      "reason": "The calibrated ERes2Net path cannot score candidate identity without an independently bound reference-speaker recording."
+    },
+    {
+      "classification": "Blocked_Voice_Emotion_Model_Payload_Missing",
+      "reason": "The CV3 emotion2vec_plus_large model.pt payload is absent, so emotion scoring remains unavailable."
     }
   ],
   "evidence": [
@@ -102,15 +123,20 @@
     {
       "path": "runtime_artifacts/wave64_strict_audio_review/20260711T221501-0500/windows_strict_tests.txt",
       "sha256": "01a21e02cc1a719c17060bcbfbdf6f6d77dd0e58050016d76b7882b51bbf28d2"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/W64_CV3_EVAL_LOCAL_CALIBRATION_20260714T233144-0500.json",
+      "sha256": "4ea6604d2336357cf67ee70ed133b2300d1b8b47ba6d4e48f6d42ab821cc66f0"
     }
   ],
   "runtime": {
     "production_audio_generation_count": 0,
     "production_audio_review_count": 0,
+    "cv3_local_metric_calibration_count": 1,
     "approved_production_bundle_count": 0,
     "comfyui_started": false,
     "aws_contacted": false,
     "ec2_started": false
   },
-  "next_action": "Proceed with TRK-W64-032 / ITEM-W64-032 by duplicate-checking the global whole-audio review lane from Plan/Instructions/QA/AUDIO_GENERATION_REVIEW_PROTOCOL.md while keeping row031 blocked until genuine production audio, independent non-synthetic prompt and playback proof, and an allowlisted production review bundle exist."
+  "next_action": "Obtain independent full-duration playback and prompt-alignment proof for the selected Parler candidate, bind a reference-speaker recording, restore the exact emotion model payload, and keep row031 blocked until the production review bundle is allowlisted."
 }

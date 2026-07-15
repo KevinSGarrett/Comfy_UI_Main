@@ -1,3 +1,23 @@
+## Wave64 Row027 Recovered SAPI Voice Evaluation - 2026-07-14T07:03:04-05:00
+
+`TRK-W64-027` / `ITEM-W64-027` remains `Blocked_Voice_Dialogue_Production_Proof_Missing`, now with the recovered SAPI lines evaluated by the existing strict producer/evaluator. The two character-owned packets use the original text and timing windows, an explicit unverified intensity sentinel, and no fabricated proof files. `L001` is `BLOCKED` on the six missing proof classes; `L002` is `FAIL` because its actual 3.244-second audio exceeds the original 2.4-second window by 0.844 seconds, in addition to the missing proofs.
+
+This clears only the missing-input ambiguity. Production voice quality, ASR, speaker identity, emotion/intensity, playback review, runtime proof, and allowlisted bundle authority remain absent. No generation, AWS, EC2, masks, Wave71+, or Jira action occurred.
+
+Next action: map the recovered procedural/returned-runtime foley and AV packet through the existing strict Row028 and Row030 evaluators without regenerating media.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/AUDIO_VOICE_DIALOGUE_RECOVERED_SAPI_EVALUATION_20260714T070304-0500.json`.
+
+## Wave64 Row025 Legacy Audio Authority Recovery - 2026-07-14T06:38:40-05:00
+
+`TRK-W64-025` / `ITEM-W64-025` remains `Blocked_Audio_Production_Runtime_Proof_Missing`, but its earlier inventory conclusion is corrected. Existing diagnostic SAPI dialogue, procedural stems/mix, and the original returned-EC2 audio/video packet were hash-verified in `C:\Comfy_UI` and copied into the authoritative project without regeneration. The returned packet proves runtime provenance and a provisional AV-sync pass; its autonomous multimodal review explicitly rejected final release, and all audio remains diagnostic or provisional.
+
+Production audio-engine quality/provenance, strict playback acceptance, BS.1770/true-peak authority, final certification, masks, Wave71+, and Jira remain unclaimed. EC2 stayed stopped and AWS was not contacted during this recovery.
+
+Next action: feed the recovered packet through the existing strict Row025/027/028/030 evaluators so missing-input gates become exact quality/authority failures without recreating media.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/AUDIO_PIPELINE_LEGACY_RECOVERY_20260714T063840-0500.json`.
+
 ## Wave64 Row025 AWS Audio Reconciliation - 2026-07-14T06:16:22-05:00
 
 `TRK-W64-025` / `ITEM-W64-025` remains `Blocked_Audio_Production_Runtime_Proof_Missing` after the bounded AWS reconciliation. The authenticated least-privilege project role queried only the configured `render-outputs/`, `model-cache/`, and `deploy-bundles/` prefixes. No standalone audio object exists. The only four media objects are the already pulled-back WAN MP4s; each local hash-bound counterpart contains a video handler and no audio handler. The approved EC2 instance remained stopped, and no generation or completed runtime proof was rerun.
@@ -17,6 +37,14 @@ This is bounded GIF export certification only. It does not certify the productio
 Next action: continue `TRK-W64-025` / `ITEM-W64-025` audio-pipeline reconciliation from existing local authority before considering any new runtime execution.
 
 Evidence: `Plan/Instructions/QA/Evidence/Wave64/VIDEO_GIF_LOOP_EXPORT_WAN22_COMPLETION_20260714T055507-0500.json`.
+
+## Wave64 Row019 AnimateDiff Fallback Runtime - 2026-07-13T02:41:08-05:00
+
+`TRK-W64-019` / `ITEM-W64-019` is `Blocked_Video_Visual_Temporal_Quality_Failure`. Existing Wave42 AnimateDiff assets were found in S3 and reused: the motion model hash, custom-node commit, live object-info surface, local eight-frame runtime, animated WebP export, technical evaluator, and Wave27 frame manifest all pass. Direct review fails frames 5-7 for background discontinuity and terminal-frame color/anatomy corruption, so no visual, temporal, target-runtime, or production-lane certification is claimed. No EC2 start, masks, Wave71+, FLUX, or Jira action occurred.
+
+Next action: preserve this proof and continue the next concrete non-mask video orchestration task without seed-looping Row019.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/video_pipeline_build.json`; `Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_LOCAL_ANIMATEDIFF_FALLBACK_EXECUTE_20260713T022708-0500.json`; `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_LOCAL_ANIMATEDIFF_FALLBACK_TECHNICAL_QA_20260713T023200-0500.json`; `Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_LOCAL_ANIMATEDIFF_FALLBACK_VISUAL_QA_20260713T023500-0500.json`.
 
 ## Wave64 Row022 Wan Production Reference Ingest - 2026-07-14T05:28:00-05:00
 
@@ -7339,3 +7367,12 @@ Do not rerun prior local candidates, claim universal upscale improvement, discar
 ## RealESRGAN Bounded Target Runtime Complete - 2026-07-13T21:25:00-05:00
 
 RealESRGAN target-runtime proof is complete for the exact hash-bound Normal full-body candidate. The selector permits conditional resolution delivery only, retains the source master, and makes no universal hyperrealism, body-mask, geometry, or anatomy claim. Do not replay this completed proof. Continue concrete non-mask project work while Flux remains license-gated and manual body gold masks remain unavailable.
+## Wave64 CV3-Eval Hash-Bound Calibration - 2026-07-14T23:32:04-05:00
+
+`TRK-W64-025` / `ITEM-W64-025`, `TRK-W64-027` / `ITEM-W64-027`, and `TRK-W64-031` / `ITEM-W64-031` remain blocked under their existing production-proof and strict-review classifications. A local CV3-Eval adapter now hash-binds the Apache-2.0 source, DNSMOS ONNX models, ERes2Net checkpoint and source files, Whisper weight/cache revision, eight calibration clips and maps, the immutable Parler packet, its dialogue contract, and candidate SHA-256 `18b6d51cca9d9c5541bac621c09fd9059f521d8969ba5b25fa881c9284180c73`. Fifteen combined calibration/tracking regressions pass.
+
+The candidate WER is `0.10` against the `0.20` threshold. DNSMOS OVRL is `3.058596703101282`, at the empirical 75th percentile of the eight local reference clips. ERes2Net execution, normalization, and cross-file scoring sanity pass, but the calibration subset carries no speaker-identity labels; no candidate identity claim is allowed. The emotion model payload, independent playback, production authority, row completion, and certification remain false. No audio/video regeneration, ComfyUI queue use, AWS, EC2, S3, masks, Wave71+, or Jira action occurred.
+
+Pursuing goal: checkpoint this three-row CV3 implementation/evidence batch through the protected PR flow. Then perform one bounded exact-license emotion-model intake and evaluator calibration; if no licensable payload is available locally or from the authoritative upstream, create one separate same-profile Parler continuity line without regenerating L001 and keep playback/authority gates fail-closed.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/W64_CV3_EVAL_LOCAL_CALIBRATION_20260714T233144-0500.json`.
