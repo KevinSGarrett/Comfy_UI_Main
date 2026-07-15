@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "registry_id": "wave64_character_voice_casting",
+  "casting_schema": "Plan/08_SCHEMAS/character_voice_casting_record.schema.json",
+  "records": [
+    {
+      "schema_version": "1.0",
+      "casting_id": "CAST-C01-V1-QWEN3-VOICE-DESIGN",
+      "character_id": "C01",
+      "character_version": "1",
+      "identity_policy": "designed_synthetic_voice",
+      "requirements": {
+        "language": "en",
+        "timbre": "character-specific designed synthetic voice; independent playback pending",
+        "accent": "American English target; engine and playback validation pending",
+        "pitch": "pending measured candidate",
+        "pace_wpm": { "minimum": 195, "maximum": 205 },
+        "delivery_style": "focused",
+        "intensity": "controlled",
+        "continuity_lines": ["L001"]
+      },
+      "candidates": [
+        {
+          "candidate_id": "C01-QWEN3-TTS-1.7B-VOICE-DESIGN-PROVISIONAL",
+          "engine_asset_id": "qwen3_tts_1_7b_voicedesign",
+          "voice_reference_id": null,
+          "rights_valid": true,
+          "runtime_proven": false,
+          "continuity_tested": false,
+          "score": 0.8,
+          "disposition": "provisional",
+          "blockers": [
+            "exact model files and isolated loader proof are pending",
+            "no candidate audio or continuity comparison exists",
+            "independent playback and final-production authority are absent"
+          ]
+        }
+      ],
+      "decision": {
+        "selected_candidate_id": "C01-QWEN3-TTS-1.7B-VOICE-DESIGN-PROVISIONAL",
+        "selection_status": "selected_for_runtime_validation",
+        "explanation": "Qwen3-TTS VoiceDesign is the first new Apache-2.0 designed-voice lane and does not rerun the immutable rejected Parler, CosyVoice2, or Chatterbox candidates."
+      },
+      "authority": {
+        "playback_review_pass": false,
+        "final_production_authority_pass": false,
+        "production_authorized": false
+      },
+      "content_based_suppression": false
+    }
+  ],
+  "content_based_suppression": false
+}

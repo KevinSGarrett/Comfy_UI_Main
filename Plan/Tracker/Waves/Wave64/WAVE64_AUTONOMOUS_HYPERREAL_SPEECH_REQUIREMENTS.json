@@ -6,7 +6,7 @@
     "last": 148,
     "count": 36
   },
-  "status": "Planned_Autonomous_Implementation_Required",
+  "status": "Implementation_Active_Rows113_115_117_PassLike_Row116_Blocked",
   "content_based_suppression": false,
   "requirements": [
     {
@@ -16,7 +16,7 @@
       "workstream": "speech_program_authority",
       "title": "Hyperreal speech authority and no-false-completion control",
       "category": "control",
-      "status": "Planned_Autonomous_Implementation_Required",
+      "status": "Implemented_Authority_Control_Pass",
       "implementation_action": "Define execution authority, boundaries, dependencies, classifications, and evidence rules for Rows113-148.",
       "acceptance": "Authority registry and validator reject completion without runtime and certification evidence.",
       "mandatory_evidence": [
@@ -36,7 +36,9 @@
         "full_project_complete_without_row148"
       ],
       "asset_catalog": "Plan/10_REGISTRIES/wave64_hyperreal_audio_model_asset_acquisition_catalog.json",
-      "required_asset_ids": []
+      "required_asset_ids": [],
+      "decision_evidence": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/W64_HYPERREAL_SPEECH_ROWS113_117_AUTHORITY_20260715.json",
+      "remaining_blockers": []
     },
     {
       "row_number": 114,
@@ -45,7 +47,7 @@
       "workstream": "voice_reference_cards",
       "title": "Immutable character voice-reference card system",
       "category": "authority",
-      "status": "Planned_Autonomous_Implementation_Required",
+      "status": "Implemented_Immutable_Card_System_Pass_Character_Card_Pending",
       "implementation_action": "Implement per-character versioned voice cards with hashes, rights, transcript, traits, embeddings, continuity lines, approved engines, and revocation.",
       "acceptance": "Cards validate, bind exact references, separate authority from synthesis, and fail closed on missing rights or hashes.",
       "mandatory_evidence": [
@@ -65,7 +67,9 @@
         "full_project_complete_without_row148"
       ],
       "asset_catalog": "Plan/10_REGISTRIES/wave64_hyperreal_audio_model_asset_acquisition_catalog.json",
-      "required_asset_ids": []
+      "required_asset_ids": [],
+      "decision_evidence": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/W64_HYPERREAL_SPEECH_ROWS113_117_AUTHORITY_20260715.json",
+      "remaining_blockers": []
     },
     {
       "row_number": 115,
@@ -74,7 +78,7 @@
       "workstream": "voice_reference_intake_qa",
       "title": "Voice-reference intake, segmentation, and quality QA",
       "category": "authority",
-      "status": "Planned_Autonomous_Implementation_Required",
+      "status": "Implemented_Reference_Intake_QA_Pass",
       "implementation_action": "Decode, segment, transcribe, score, and curate reference speech without modifying source bytes.",
       "acceptance": "Reference segments have sample bounds, transcript, quality metrics, contamination flags, and deterministic selection evidence.",
       "mandatory_evidence": [
@@ -94,7 +98,9 @@
         "full_project_complete_without_row148"
       ],
       "asset_catalog": "Plan/10_REGISTRIES/wave64_hyperreal_audio_model_asset_acquisition_catalog.json",
-      "required_asset_ids": []
+      "required_asset_ids": [],
+      "decision_evidence": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/W64_HYPERREAL_SPEECH_ROWS113_117_AUTHORITY_20260715.json",
+      "remaining_blockers": []
     },
     {
       "row_number": 116,
@@ -103,7 +109,7 @@
       "workstream": "autonomous_character_voice_casting",
       "title": "Autonomous character voice casting and identity policy",
       "category": "authority",
-      "status": "Planned_Autonomous_Implementation_Required",
+      "status": "Implemented_Casting_Control_Blocked_Runtime_Continuity_And_Authority",
       "implementation_action": "Rank licensed references or designed synthetic voices against character requirements across male and female targets.",
       "acceptance": "Casting record is explainable, hash-bound, rights-valid, continuity-tested, and production authority remains explicit.",
       "mandatory_evidence": [
@@ -123,7 +129,13 @@
         "full_project_complete_without_row148"
       ],
       "asset_catalog": "Plan/10_REGISTRIES/wave64_hyperreal_audio_model_asset_acquisition_catalog.json",
-      "required_asset_ids": []
+      "required_asset_ids": [],
+      "decision_evidence": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/W64_HYPERREAL_SPEECH_ROWS113_117_AUTHORITY_20260715.json",
+      "remaining_blockers": [
+        "exact model files and isolated loader proof are pending",
+        "no candidate audio or continuity comparison exists",
+        "independent playback and final-production authority are absent"
+      ]
     },
     {
       "row_number": 117,
@@ -132,7 +144,7 @@
       "workstream": "speech_engine_acquisition_registry",
       "title": "Provider-resolved speech/audio acquisition, adapter, and license registry",
       "category": "models",
-      "status": "Planned_Autonomous_Implementation_Required",
+      "status": "Implemented_Selected_Qwen3_TTS_Acquisition_And_Load_Pass_Generation_QA_Pending",
       "implementation_action": "Execute the provider-resolved catalog for exact Qwen3-TTS, Fun-CosyVoice3, Chatterbox V3/Turbo, Fish Audio S2, synchronization, Foley, and evaluator assets using reuse-first isolated adapters.",
       "acceptance": "Every selected asset binds an official immutable revision or exact Civitai version/file, hashes, license/access, environment, loader proof, row dependency, and fail-closed availability.",
       "mandatory_evidence": [
@@ -197,6 +209,13 @@
         "civitai_voxcpm2_clone_design_workflow",
         "civitai_csm_workflow",
         "civitai_megatts3_clone_workflow"
+      ],
+      "decision_evidence": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/W64_HYPERREAL_SPEECH_ROWS113_117_AUTHORITY_20260715.json",
+      "remaining_blockers": [
+        "speech generation and audio decode are not yet executed",
+        "system sox executable is absent",
+        "Flash Attention is absent; eager PyTorch is slower",
+        "continuity, playback, and final-production authority are pending"
       ]
     },
     {

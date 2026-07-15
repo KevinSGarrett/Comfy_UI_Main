@@ -1,0 +1,54 @@
+{
+  "artifact_type": "wave64_rows113_117_authority_validation",
+  "boundaries": {
+    "content_based_suppression": false,
+    "download_claimed_as_ready": false,
+    "planning_claimed_as_runtime": false,
+    "production_voice_authority_claimed": false,
+    "rejected_candidate_rerun": false
+  },
+  "classification": "W64_ROWS113_117_IMPLEMENTATION_PARTIAL_FAIL_CLOSED",
+  "created_at": "2026-07-15T18:23:17-05:00",
+  "intake_record": {
+    "intake_pass": true,
+    "path": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/W64_VOICE_REFERENCE_INTAKE_LIBRIVOX_CHRIS_GORINGE_20260715.json",
+    "sha256": "68e009b2178294ff9682a3d06a4b31b60b0b99296ba247a105c68406f0a013e7"
+  },
+  "row_decisions": {
+    "TRK-W64-113": {
+      "blockers": [],
+      "classification": "Implemented_Authority_Control_Pass",
+      "pass_like": true
+    },
+    "TRK-W64-114": {
+      "blockers": [],
+      "classification": "Implemented_Immutable_Card_System_Pass_Character_Card_Pending",
+      "pass_like": true
+    },
+    "TRK-W64-115": {
+      "blockers": [],
+      "classification": "Implemented_Reference_Intake_QA_Pass",
+      "pass_like": true
+    },
+    "TRK-W64-116": {
+      "blockers": [
+        "exact model files and isolated loader proof are pending",
+        "no candidate audio or continuity comparison exists",
+        "independent playback and final-production authority are absent"
+      ],
+      "classification": "Implemented_Casting_Control_Blocked_Runtime_Continuity_And_Authority",
+      "pass_like": false
+    },
+    "TRK-W64-117": {
+      "blockers": [
+        "speech generation and audio decode are not yet executed",
+        "system sox executable is absent",
+        "Flash Attention is absent; eager PyTorch is slower",
+        "continuity, playback, and final-production authority are pending"
+      ],
+      "classification": "Implemented_Selected_Qwen3_TTS_Acquisition_And_Load_Pass_Generation_QA_Pending",
+      "pass_like": true
+    }
+  },
+  "schema_version": "1.0"
+}
