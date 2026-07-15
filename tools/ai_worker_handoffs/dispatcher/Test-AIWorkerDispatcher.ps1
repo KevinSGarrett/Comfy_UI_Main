@@ -13,20 +13,23 @@ try{
   &git.exe -C $repo init|Out-Null;&git.exe -C $repo config user.email 'dispatcher-test@example.invalid';&git.exe -C $repo config user.name 'Dispatcher Test';&git.exe -C $repo add .;&git.exe -C $repo commit -m fixture|Out-Null
   &(Join-Path $PSScriptRoot 'Initialize-AIWorkerDispatcherSecurity.ps1') -DispatcherRoot $dispatcherRoot -Apply|Out-Null
   @'
-param($ProjectRoot,$CredentialRoot,$TaskName,$Mode,$ScopePacketPath,$TimeoutSeconds,$WorkOrderText,[switch]$AllowWrites,[string[]]$AllowedPaths,[string[]]$DeclaredAgentCommands)
+param($ProjectRoot,$CredentialRoot,$TaskName,$Mode,$ScopePacketPath,$TimeoutSeconds,$WorkOrderText,$DispatcherRequestId,[switch]$AllowWrites,[string[]]$AllowedPaths,[string[]]$DeclaredAgentCommands)
+if([string]::IsNullOrWhiteSpace($DispatcherRequestId)){throw 'Dispatcher request identity missing for Cursor fixture.'}
 $run=Join-Path $ProjectRoot 'runtime_artifacts\agent_handoffs\cursor\fake';New-Item -ItemType Directory -Force -Path $run|Out-Null
 if($AllowWrites){Set-Content -LiteralPath(Join-Path $ProjectRoot $AllowedPaths[0]) -Value 'worker draft' -Encoding ASCII}
 $record=[ordered]@{status='PASS';classification='CURSOR_HANDOFF_COMPLETED';summary='Bounded Cursor result.';recommended_codex_follow_up='Review compact diff.';scope_files_unchanged=(-not$AllowWrites);scope_mutation_paths=$(if($AllowWrites){@($AllowedPaths[0])}else{@()});outside_allowed_paths=@();issues=@()}
 $record|ConvertTo-Json -Depth 5|Set-Content(Join-Path $run 'handoff_record.json') -Encoding UTF8;$record|ConvertTo-Json -Depth 5
 '@|Set-Content $fakeCursor -Encoding UTF8
   @'
-param($ProjectRoot,$TaskName,$TaskTier,$ClaudeModel,$Effort,$ScopePacketPath,$TimeoutSeconds,$WorkOrderText,$DecisionUnitId,$EscalationReason,$PriorSonnetRecordPath)
+param($ProjectRoot,$TaskName,$TaskTier,$ClaudeModel,$Effort,$ScopePacketPath,$TimeoutSeconds,$WorkOrderText,$DispatcherRequestId,$DecisionUnitId,$EscalationReason,$PriorSonnetRecordPath)
+if([string]::IsNullOrWhiteSpace($DispatcherRequestId)){throw 'Dispatcher request identity missing for Claude fixture.'}
 $run=Join-Path $ProjectRoot 'runtime_artifacts\agent_handoffs\claude_subscription\fake';New-Item -ItemType Directory -Force -Path $run|Out-Null
 $record=[ordered]@{status='PASS';classification='CLAUDE_SONNET_HANDOFF_COMPLETED';summary='Bounded Sonnet result.';recommended_codex_follow_up='Use architecture contract.';scope_files_unchanged=$true;scope_mutation_paths=@();issues=@()}
 $record|ConvertTo-Json -Depth 5|Set-Content(Join-Path $run 'handoff_record.json') -Encoding UTF8;$record|ConvertTo-Json -Depth 5
 '@|Set-Content $fakeClaude -Encoding UTF8
   @'
-param($ProjectRoot,$CredentialRoot,$TaskName,$Mode,$ScopePacketPath,$TimeoutSeconds,$WorkOrderText,[switch]$AllowWrites,[string[]]$AllowedPaths,[string[]]$DeclaredAgentCommands)
+param($ProjectRoot,$CredentialRoot,$TaskName,$Mode,$ScopePacketPath,$TimeoutSeconds,$WorkOrderText,$DispatcherRequestId,[switch]$AllowWrites,[string[]]$AllowedPaths,[string[]]$DeclaredAgentCommands)
+if([string]::IsNullOrWhiteSpace($DispatcherRequestId)){throw 'Dispatcher request identity missing for timeout fixture.'}
 Start-Sleep -Seconds 5
 [ordered]@{status='PASS';classification='SHOULD_HAVE_TIMED_OUT'}|ConvertTo-Json
 '@|Set-Content $slowCursor -Encoding UTF8
@@ -87,7 +90,7 @@ Start-Sleep -Seconds 5
   $watch=[Diagnostics.Stopwatch]::StartNew();$timeoutRun=&$dispatch -DispatcherRoot $dispatcherRoot -Lane Cursor -Once -CursorWrapperPath $slowCursor -ClaudeWrapperPath $fakeClaude -HardTimeoutGraceSeconds 1|ConvertFrom-Json;$watch.Stop()
   $checks.wrapper_hard_timeout=($watch.Elapsed.TotalSeconds-lt10-and$timeoutRun.lanes[0].results[0].classification-eq'AI_WORKER_RETRY_BUDGET_EXHAUSTED')
 
-  $pipeline=&(Join-Path $PSScriptRoot 'New-AIWorkerDevelopmentPipeline.ps1') -ProjectRoot $repo -DispatcherRoot $dispatcherRoot -TaskName assured_change -WorkType implementation -Objective 'Implement with architecture and residual-risk review.' -CandidatePaths sample.txt -AllowedPaths sample.txt -ValidatorCommands @('Write-Output validator-one','Write-Output validator-two','Write-Output validator-three') -QualityProfile high_assurance -RiskClass high -RouteNow|ConvertFrom-Json
+  $pipeline=&(Join-Path $PSScriptRoot 'New-AIWorkerDevelopmentPipeline.ps1') -ProjectRoot $repo -DispatcherRoot $dispatcherRoot -TaskName assured_change -WorkType implementation -Objective 'Implement with architecture and residual-risk review.' -CandidatePaths sample.txt -AllowedPaths sample.txt -ValidatorCommands @('Write-Output validator-one','Write-Output validator-two','Write-Output validator-three') -QualityProfile high_assurance -RiskClass high|ConvertFrom-Json
   $checks.high_assurance_dependency_graph=($pipeline.routing.results[0].request_ids.Count-eq3-and@(Get-ChildItem(Join-Path $dispatcherRoot 'queue\Claude') -Filter *.json).Count-eq2-and@(Get-ChildItem(Join-Path $dispatcherRoot 'queue\Cursor') -Filter *.json).Count-eq1)
 
   $failed=@($checks.GetEnumerator()|Where-Object{-not$_.Value}|ForEach-Object{$_.Key})

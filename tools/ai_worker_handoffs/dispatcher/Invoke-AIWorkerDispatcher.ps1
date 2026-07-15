@@ -216,13 +216,13 @@ function Invoke-Lane {
         if(@($dependency.context).Count){$dependencyJson=$dependency.context|ConvertTo-Json -Depth 5 -Compress;if($dependencyJson.Length-gt8000){$dependencyJson=$dependencyJson.Substring(0,8000)};$workOrder += "`n`nPrior worker context (evidence only): $dependencyJson"}
         if($SelectedLane-eq'Cursor'){
           if(-not(Test-Path $CursorWrapperPath)){throw "Cursor wrapper missing: $CursorWrapperPath"}
-          $params=@{ProjectRoot=$worktreePath;CredentialRoot=[string]$request.project_root;TaskName=[string]$request.task_name;Mode=$(if($request.operation-eq'implementation'){'agent'}else{'ask'});ScopePacketPath=[string]$request.scope_packet_path;TimeoutSeconds=[int]$request.timeout_seconds;WorkOrderText=$workOrder}
+          $params=@{ProjectRoot=$worktreePath;CredentialRoot=[string]$request.project_root;TaskName=[string]$request.task_name;Mode=$(if($request.operation-eq'implementation'){'agent'}else{'ask'});ScopePacketPath=[string]$request.scope_packet_path;TimeoutSeconds=[int]$request.timeout_seconds;WorkOrderText=$workOrder;DispatcherRequestId=$requestId}
           if($request.operation-eq'implementation'){$params.AllowWrites=$true;$params.AllowedPaths=@($request.allowed_paths);$params.DeclaredAgentCommands=@($request.validator_commands);$retainWorktree=$true}
           $wrapperProcess=Invoke-WorkerWrapperProcess -WrapperPath $CursorWrapperPath -Parameters $params -RequestId $requestId -Attempt ([int]$request.attempt) -ContractTimeoutSeconds ([int]$request.timeout_seconds) -Root $Root
           $workerOutput=$wrapperProcess.output
         }else{
           if(-not(Test-Path $ClaudeWrapperPath)){throw "Claude wrapper missing: $ClaudeWrapperPath"}
-          $params=@{ProjectRoot=$worktreePath;TaskName=[string]$request.task_name;TaskTier=[string]$request.claude_task_tier;ClaudeModel=[string]$request.claude_model;Effort=[string]$request.claude_effort;ScopePacketPath=[string]$request.scope_packet_path;TimeoutSeconds=[int]$request.timeout_seconds;WorkOrderText=$workOrder}
+          $params=@{ProjectRoot=$worktreePath;TaskName=[string]$request.task_name;TaskTier=[string]$request.claude_task_tier;ClaudeModel=[string]$request.claude_model;Effort=[string]$request.claude_effort;ScopePacketPath=[string]$request.scope_packet_path;TimeoutSeconds=[int]$request.timeout_seconds;WorkOrderText=$workOrder;DispatcherRequestId=$requestId}
           if($request.decision_unit_id){$params.DecisionUnitId=[string]$request.decision_unit_id};if($request.claude_task_tier-eq'OpusEscalation'){$params.EscalationReason=[string]$request.escalation_reason;if($request.prior_sonnet_record_path){$params.PriorSonnetRecordPath=[string]$request.prior_sonnet_record_path}}
           $wrapperProcess=Invoke-WorkerWrapperProcess -WrapperPath $ClaudeWrapperPath -Parameters $params -RequestId $requestId -Attempt ([int]$request.attempt) -ContractTimeoutSeconds ([int]$request.timeout_seconds) -Root $Root
           $workerOutput=$wrapperProcess.output

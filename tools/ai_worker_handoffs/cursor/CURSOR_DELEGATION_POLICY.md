@@ -60,6 +60,8 @@ Use the wrapper:
 
 `C:\Users\kevin\.codex\cursor_handoff\Invoke-CursorAgentHandoff.ps1`
 
+Production Cursor work must be admitted through `tools\ai_worker_handoffs\dispatcher\New-AIWorkerDevelopmentPipeline.ps1`; the dispatcher supplies the signed request identity to this wrapper. An unledgered direct production call returns `AI_WORKER_DIRECT_WRAPPER_BYPASS_BLOCKED`. `-AllowDirectDiagnostic` is limited to explicit transport, credential, or capability diagnostics and does not count as production delegation.
+
 For a registered linked worktree, keep `-ProjectRoot` pointed at that isolated worktree. The wrapper resolves Cursor authentication independently from the repository's Git-reported primary worktree, or validates an explicit `-CredentialRoot` against that same primary root. It must never copy `.env` into a linked worktree or change Cursor's workspace to Main merely to obtain authentication. Handoff records may contain the trusted credential-root path and loader SHA-256, but never the credential value.
 
 The wrapper launches Cursor with the WSL form of the requested project root, not the handoff-record or credential directory. Work orders identify both Windows and WSL roots and require WSL filesystem commands to use the WSL root. Creating a Windows drive-name path inside the repository is a malformed-path failure.
