@@ -1,0 +1,153 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-ROW023-WAN-RERUN-RUNTIME-VISUAL-QA-20260715T121119-0500",
+  "timestamp": "2026-07-15T12:11:19-05:00",
+  "tracker_id": "TRK-W64-023",
+  "item_id": "ITEM-W64-023",
+  "workstream": "video_frame_repair",
+  "status_decision": "Blocked_Video_Frame_Repair_Rerun_Candidate_Visual_QA_Failed",
+  "source_anchor": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/extracted_frames/frame_0002.png",
+    "sha256": "d6d5acd4579a34f0ebef9aa47a4d01e20e5bf83c3885c8e93f146eadeeb72665",
+    "selection": "deterministic RGB medoid of passed AnimateDiff frames 0-4"
+  },
+  "execution_accounting": {
+    "authorized_candidate_count": 1,
+    "completed_generation_count": 1,
+    "retry_allowed": false,
+    "pre_prompt_fail_closed_windows": [
+      {
+        "runtime_window_id": "rw-row023-wan-rerun-20260715T112312",
+        "failure_category": "instance_stop_watchdog_not_verified",
+        "prompt_id": null,
+        "generation_executed": false,
+        "record": {
+          "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260715T115203-0500/runtime_controls/pre_prompt_fail_closed/watchdog_crlf_window_20260715T112312.json",
+          "sha256": "4a6fc50d194ada6a3175fcd6bfea4740213995ce31933978d12f9497f2bd0b6a"
+        }
+      },
+      {
+        "runtime_window_id": "rw-row023-wan-rerun-20260715T113831",
+        "failure_category": "workflow_smoke_generation_incomplete",
+        "prompt_id": null,
+        "generation_executed": false,
+        "exact_blocker": "Deploy bundle source head d8fcf690 did not match protected main 90369bcc after the watchdog fix merged.",
+        "record": {
+          "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260715T115203-0500/runtime_controls/pre_prompt_fail_closed/bundle_head_mismatch_window_20260715T113831.json",
+          "sha256": "fb51183e18e8d0082ab8bb60fa0c36e52777b4db09190c8007d8541dec5713b0"
+        }
+      }
+    ],
+    "completed_runtime": {
+      "runtime_window_id": "rw-row023-wan-rerun-20260715T115125",
+      "prompt_id": "327cb0c8-53d5-4958-9025-8ab5d3feb636",
+      "seed": 2272301,
+      "result": "workflow_smoke_generation_complete",
+      "deploy_bundle_sha256": "93ae126d86c95129fd65c8b537c21c2af469fa0c5270992c9f65150e4806fca0",
+      "source_git_head": "90369bccec9eb95d0d63650cc88a9234bd7c8647",
+      "smoke_record": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260715T115203-0500/runtime_controls/EC2_WORKFLOW_SMOKE.json",
+        "sha256": "3f48a9912d2f9a195545b511406476e475f8d5eb47b11244c1c478e6c877704a"
+      },
+      "watchdog_record": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260715T115203-0500/runtime_controls/WATCHDOG.json",
+        "sha256": "900e40cea3bd36fd6ffead1ec6c10642e3464826825718031566cfbff016d916"
+      },
+      "emergency_stop_record": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260715T115203-0500/runtime_controls/EMERGENCY_STOP_SCHEDULE.json",
+        "sha256": "79820e0d53358995b9d92e8e3ae00c0224a0a54347367c117062eda4fcd8ccff"
+      },
+      "post_run_cleanup": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260715T115203-0500/runtime_controls/POST_RUN_CLEANUP.json",
+        "sha256": "18bcbfe2f56d51873d7e595144146a77ed54a4fc23ec0a6d026041e5ef1f9a77",
+        "instance_state": "stopped",
+        "active_marker_present": false,
+        "emergency_schedule_deleted": true
+      }
+    }
+  },
+  "candidate": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260715T115203-0500/images/12_w64_row023_wan22_rerun_seed2272301_00001_.mp4",
+    "sha256": "29823555e23ac47d58fd83740952817c0b6ddf379523dc3b61f6e8088d34949a",
+    "size_bytes": 58081,
+    "remote_manifest_hash_match": true,
+    "s3_pullback_pass": true
+  },
+  "technical_qa": {
+    "record": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260715T115203-0500/qa/technical_qa.json",
+      "sha256": "dc8b2852765f17996d8514c14c506c3b55e187e6af66ec9cc6bc7263c7e45edd"
+    },
+    "codec": "h264",
+    "pixel_format": "yuv420p",
+    "resolution": "480x640",
+    "fps": 24.0,
+    "duration_seconds": 2.0416666666666665,
+    "declared_frame_count": 49,
+    "decoded_frame_count": 49,
+    "full_decode_pass": true,
+    "timestamps_monotonic": true,
+    "terminal_frame_decodes": true,
+    "technical_pass": true
+  },
+  "direct_visual_qa": {
+    "record": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260715T115203-0500/qa/direct_visual_qa.json",
+      "sha256": "f49bc80795b8ac75c6edd6b54b554c35eec0e2671743a970c8f272ce66a22764"
+    },
+    "review_authority": "Codex Desktop direct visual QA",
+    "reviewed_frame_count": 49,
+    "passed_gate_count": 8,
+    "failed_gate_count": 2,
+    "passed": [
+      "dark center-parted curled-end hair continuity",
+      "white collared blouse continuity",
+      "black studio background continuity",
+      "warm top highlight continuity",
+      "locked head-and-shoulders framing",
+      "subtle coherent motion",
+      "exposure continuity",
+      "terminal frame integrity"
+    ],
+    "failed": [
+      "Exact recognizable anchor identity: subtle face-shape and feature-placement drift remains through middle and terminal frames.",
+      "Symmetric gray side lights: the lights drift visibly to violet-blue during the shot."
+    ],
+    "direct_visual_acceptance_pass": false
+  },
+  "acceptance_gates": {
+    "real_rerun_candidate_present": true,
+    "runtime_repair_proof": true,
+    "before_after_visual_review": true,
+    "all_frames_directly_reviewed": true,
+    "technical_acceptance": true,
+    "identity_environment_visual_preservation": false,
+    "final_temporal_acceptance": false,
+    "final_promotion": false,
+    "row_complete": false
+  },
+  "blockers": [
+    {
+      "classification": "Blocked_Video_Frame_Repair_Rerun_Candidate_Visual_QA_Failed",
+      "scope": "primary_row_blocker",
+      "reason": "The one authorized Wan rerun candidate passes runtime and technical QA but fails strict direct visual acceptance because facial identity drifts subtly and the symmetric gray side lights become violet-blue."
+    },
+    {
+      "classification": "Blocked_Gold_Mask_Dependency_Missing",
+      "scope": "contact_and_deformation_repair_subgates_only",
+      "reason": "Body/contact deformation claims remain outside this portrait rerun and cannot consume candidate masks as trusted truth while manual body gold masks remain unavailable."
+    }
+  ],
+  "boundaries": {
+    "second_candidate_generated": false,
+    "candidate_masks_consumed_as_truth": false,
+    "mask_promotion_claimed": false,
+    "wave70_hard_gate_rerun": false,
+    "wave71_activation_claimed": false,
+    "jira_mutated": false,
+    "ec2_final_state": "stopped"
+  },
+  "result": "blocked_after_runtime_technical_pass_and_direct_visual_failure",
+  "overall_pass": false,
+  "next_action": "Preserve the immutable Row023 candidate and fail-closed visual result. Do not rerun Row023; continue the next concrete non-mask project task without promoting this shot."
+}

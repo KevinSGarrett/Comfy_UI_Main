@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "evidence_id": "W64-VIDEO-FRAME-REPAIR",
-  "timestamp": "2026-07-13T04:26:29-05:00",
+  "timestamp": "2026-07-15T12:11:19-05:00",
   "tracker_id": "TRK-W64-023",
   "item_id": "ITEM-W64-023",
   "source_citation": "Plan/04_VIDEO_GIF_SYSTEM/WAVE27_FRAME_REPAIR_PIPELINE.md",
@@ -24,7 +24,8 @@
     "passing_frames_byte_preserved": true,
     "grayscale_bgr_bgra_channel_preservation": true,
     "identity_rerun_contact_and_deformation_actions_fail_closed": true,
-    "visual_runtime_and_final_claims_forbidden": true
+    "visual_runtime_and_final_claims_forbidden": false,
+    "one_shot_wan_rerun_runtime_completed": true
   },
   "implementation_artifacts": [
     {
@@ -125,10 +126,10 @@
     "passed_frame_preservation_verifier": true,
     "short_span_candidate_executor_ready": true,
     "synthetic_decodable_candidate_verified": true,
-    "real_repaired_candidate_frames_present": false,
-    "before_after_frame_repair_review": false,
+    "real_repaired_candidate_frames_present": true,
+    "before_after_frame_repair_review": true,
     "identity_environment_visual_preservation": false,
-    "runtime_repair_proof": false,
+    "runtime_repair_proof": true,
     "final_temporal_acceptance": false,
     "final_promotion": false,
     "real_defect_report_present": true,
@@ -155,43 +156,41 @@
     "claude_real_sequence_routing_review": "runtime_artifacts/agent_handoffs/claude_subscription/20260713T043239-0500_w64_row023_semantic_final_review/handoff_record.json"
   },
   "runtime": {
-    "repair_executed": false,
-    "candidate_frames_generated": false,
-    "comfyui_started": false,
-    "generation_executed": false,
-    "aws_contacted": false,
-    "ec2_started": false,
-    "mask_promotion_executed": false
+    "repair_executed": true,
+    "candidate_frames_generated": true,
+    "comfyui_started": true,
+    "generation_executed": true,
+    "aws_contacted": true,
+    "ec2_started": true,
+    "mask_promotion_executed": false,
+    "candidate_frame_count": 49,
+    "ec2_final_state": "stopped",
+    "generation_retry_allowed": false
   },
   "blockers": [
     {
-      "classification": "Blocked_Video_Frame_Repair_Rerun_Shot_Required",
+      "classification": "Blocked_Video_Frame_Repair_Rerun_Candidate_Visual_QA_Failed",
       "scope": "primary_row_blocker",
-      "reason": "The real frames 5-7 span contains persistent shot instability and frame-7 identity drift, so policy requires rerunning the shot; the isolated-flicker executor is ineligible and failed closed."
-    },
-    {
-      "classification": "Blocked_Video_Frame_Repair_Visual_Proof_Missing",
-      "scope": "before_after_and_preservation_review",
-      "reason": "No truthful repaired candidate exists, so no before/after visual preservation review can run."
+      "reason": "The one authorized Wan rerun candidate passes runtime and technical QA but fails strict direct visual acceptance because facial identity drifts subtly and the symmetric gray side lights become violet-blue."
     },
     {
       "classification": "Blocked_Gold_Mask_Dependency_Missing",
       "scope": "contact_and_deformation_repair_subgates_only",
-      "reason": "Contact/deformation repair cannot use candidate masks as truth while manual body gold masks remain unavailable."
+      "reason": "Body/contact deformation claims remain outside this portrait rerun and cannot consume candidate masks as trusted truth while manual body gold masks remain unavailable."
     }
   ],
-  "result": "blocked_real_sequence_requires_rerun_shot",
+  "result": "blocked_after_runtime_technical_pass_and_direct_visual_failure",
   "overall_pass": false,
-  "status_decision": "Blocked_Video_Frame_Repair_Rerun_Shot_Required",
+  "status_decision": "Blocked_Video_Frame_Repair_Rerun_Candidate_Visual_QA_Failed",
   "strict_decision": {
     "row_complete": false,
     "offline_planner_verifier_pass": true,
     "planning_probe_pass": true,
     "synthetic_candidate_execution_and_verification_pass": true,
-    "repair_execution_claimed": false,
-    "candidate_verification_claimed": false,
+    "repair_execution_claimed": true,
+    "candidate_verification_claimed": true,
     "visual_preservation_claimed": false,
-    "runtime_repair_claimed": false,
+    "runtime_repair_claimed": true,
     "final_promotion_claimed": false,
     "wave71_activation_claimed": false,
     "real_defect_localization_claimed": true,
@@ -210,5 +209,16 @@
     "executor_fail_closed_exit_code": 2,
     "executor_output_published": false
   },
-  "reconciliation_evidence": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_FRAME_REPAIR_REAL_SEQUENCE_ROUTING_20260713T042629-0500.json"
+  "reconciliation_evidence": "Plan/Instructions/QA/Evidence/Wave64/W64_ROW023_WAN_RERUN_RUNTIME_VISUAL_QA_20260715T121119-0500.json",
+  "wan_rerun_runtime_visual_qa": {
+    "evidence": "Plan/Instructions/QA/Evidence/Wave64/W64_ROW023_WAN_RERUN_RUNTIME_VISUAL_QA_20260715T121119-0500.json",
+    "evidence_sha256": "643cfa34c46d5228e40617b2ffd4ba13cf1ec37f5e6c14e5a4999d6c653ce937",
+    "prompt_id": "327cb0c8-53d5-4958-9025-8ab5d3feb636",
+    "candidate_sha256": "29823555e23ac47d58fd83740952817c0b6ddf379523dc3b61f6e8088d34949a",
+    "technical_pass": true,
+    "direct_visual_acceptance_pass": false,
+    "completed_generation_count": 1,
+    "retry_allowed": false,
+    "ec2_final_state": "stopped"
+  }
 }

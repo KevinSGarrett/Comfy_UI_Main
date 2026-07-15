@@ -1,0 +1,224 @@
+{
+  "checked_input_count": 38,
+  "error_count": 0,
+  "errors": [],
+  "node_count": 12,
+  "nodes": [
+    {
+      "class_type": "UNETLoader",
+      "errors": [],
+      "hidden_input_names": [],
+      "input_names": [
+        "unet_name",
+        "weight_dtype"
+      ],
+      "node_id": "1",
+      "optional_input_names": [],
+      "required_input_names": [
+        "unet_name",
+        "weight_dtype"
+      ]
+    },
+    {
+      "class_type": "CLIPLoader",
+      "errors": [],
+      "hidden_input_names": [],
+      "input_names": [
+        "clip_name",
+        "device",
+        "type"
+      ],
+      "node_id": "2",
+      "optional_input_names": [
+        "device"
+      ],
+      "required_input_names": [
+        "clip_name",
+        "type"
+      ]
+    },
+    {
+      "class_type": "VAELoader",
+      "errors": [],
+      "hidden_input_names": [],
+      "input_names": [
+        "vae_name"
+      ],
+      "node_id": "3",
+      "optional_input_names": [],
+      "required_input_names": [
+        "vae_name"
+      ]
+    },
+    {
+      "class_type": "CLIPTextEncode",
+      "errors": [],
+      "hidden_input_names": [],
+      "input_names": [
+        "clip",
+        "text"
+      ],
+      "node_id": "4",
+      "optional_input_names": [],
+      "required_input_names": [
+        "clip",
+        "text"
+      ]
+    },
+    {
+      "class_type": "CLIPTextEncode",
+      "errors": [],
+      "hidden_input_names": [],
+      "input_names": [
+        "clip",
+        "text"
+      ],
+      "node_id": "5",
+      "optional_input_names": [],
+      "required_input_names": [
+        "clip",
+        "text"
+      ]
+    },
+    {
+      "class_type": "ModelSamplingSD3",
+      "errors": [],
+      "hidden_input_names": [],
+      "input_names": [
+        "model",
+        "shift"
+      ],
+      "node_id": "6",
+      "optional_input_names": [],
+      "required_input_names": [
+        "model",
+        "shift"
+      ]
+    },
+    {
+      "class_type": "LoadImage",
+      "errors": [],
+      "hidden_input_names": [],
+      "input_names": [
+        "image"
+      ],
+      "node_id": "7",
+      "optional_input_names": [],
+      "required_input_names": [
+        "image"
+      ]
+    },
+    {
+      "class_type": "Wan22ImageToVideoLatent",
+      "errors": [],
+      "hidden_input_names": [],
+      "input_names": [
+        "batch_size",
+        "height",
+        "length",
+        "start_image",
+        "vae",
+        "width"
+      ],
+      "node_id": "8",
+      "optional_input_names": [
+        "start_image"
+      ],
+      "required_input_names": [
+        "batch_size",
+        "height",
+        "length",
+        "vae",
+        "width"
+      ]
+    },
+    {
+      "class_type": "KSampler",
+      "errors": [],
+      "hidden_input_names": [],
+      "input_names": [
+        "cfg",
+        "denoise",
+        "latent_image",
+        "model",
+        "negative",
+        "positive",
+        "sampler_name",
+        "scheduler",
+        "seed",
+        "steps"
+      ],
+      "node_id": "9",
+      "optional_input_names": [],
+      "required_input_names": [
+        "cfg",
+        "denoise",
+        "latent_image",
+        "model",
+        "negative",
+        "positive",
+        "sampler_name",
+        "scheduler",
+        "seed",
+        "steps"
+      ]
+    },
+    {
+      "class_type": "VAEDecode",
+      "errors": [],
+      "hidden_input_names": [],
+      "input_names": [
+        "samples",
+        "vae"
+      ],
+      "node_id": "10",
+      "optional_input_names": [],
+      "required_input_names": [
+        "samples",
+        "vae"
+      ]
+    },
+    {
+      "class_type": "CreateVideo",
+      "errors": [],
+      "hidden_input_names": [],
+      "input_names": [
+        "bit_depth",
+        "fps",
+        "images"
+      ],
+      "node_id": "11",
+      "optional_input_names": [
+        "audio",
+        "bit_depth"
+      ],
+      "required_input_names": [
+        "fps",
+        "images"
+      ]
+    },
+    {
+      "class_type": "SaveVideo",
+      "errors": [],
+      "hidden_input_names": [
+        "extra_pnginfo",
+        "prompt"
+      ],
+      "input_names": [
+        "codec",
+        "filename_prefix",
+        "format",
+        "video"
+      ],
+      "node_id": "12",
+      "optional_input_names": [],
+      "required_input_names": [
+        "codec",
+        "filename_prefix",
+        "format",
+        "video"
+      ]
+    }
+  ],
+  "status": "pass"
+}
