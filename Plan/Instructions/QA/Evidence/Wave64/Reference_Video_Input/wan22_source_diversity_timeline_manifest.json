@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "timeline_id": "wan22_source_diversity_seed2271401_reference_timeline",
-  "timestamp": "2026-07-14T05:28:00-05:00",
+  "timestamp": "2026-07-15T14:53:49-05:00",
   "source_video": {
     "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260714T041921-0500/images/12_wan22_ti2v5b_source_diversity_ref1_78b8_seed2271401_00001_.mp4",
     "sha256": "5006e96e211538f3d2bb6795e93014d6642946583cc31aa635e171e13e1c80bf"
@@ -24,12 +24,30 @@
   },
   "derived_timelines": {
     "pose": {
-      "status": "blocked_not_generated",
-      "authority_claimed": false
+      "status": "pass_motion_reference_only",
+      "authority_claimed": true,
+      "timeline_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_row022_pose_depth_timelines_20260715T145006-0500/coordinate_contract_revalidation/pose_timeline.jsonl",
+      "timeline_sha256": "d44c5e093fc99afbb1c32e0d53772ffaa681d0ac921977597bd1ba9ea607a124",
+      "coordinate_space": "source_480x640",
+      "frame_count": 49
     },
     "depth": {
-      "status": "blocked_not_generated",
-      "authority_claimed": false
+      "status": "pass_relative_depth_reference_only",
+      "authority_claimed": true,
+      "timeline_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_row022_pose_depth_timelines_20260715T145006-0500/coordinate_contract_revalidation/depth_timeline.jsonl",
+      "timeline_sha256": "c58c2f20815ec6835043b9fa2974aa35064d036b1c7ca71f440f603ef4c38dde",
+      "metric_depth_claimed": false,
+      "render_to_source_transform": {
+        "mode": "deterministic_short_edge_scale_inverse",
+        "render_width": 640,
+        "render_height": 853,
+        "source_width": 480,
+        "source_height": 640,
+        "source_x_per_render_x": 0.75,
+        "source_y_per_render_y": 0.7502930832356389,
+        "padding_removed_by_preprocessor": true
+      },
+      "frame_count": 49
     },
     "mask": {
       "status": "blocked_trusted_manual_gold_masks_missing",
@@ -40,5 +58,15 @@
       "authority_claimed": false
     }
   },
-  "promotion_ready": false
+  "promotion_ready": false,
+  "runtime_proof": {
+    "prompt_id": "ab2d0a3c-894c-48c3-a50c-73970ac59f9a",
+    "prior_runtime_evidence": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_row022_pose_depth_timelines_20260715T145006-0500/runtime_technical_evidence.json",
+    "prior_runtime_evidence_sha256": "0b71ef60249520e400b0928c24c574f9d37b782171416cea3efbe718f475afeb",
+    "coordinate_revalidation": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_row022_pose_depth_timelines_20260715T145006-0500/coordinate_contract_revalidation/coordinate_revalidation_evidence.json",
+    "coordinate_revalidation_sha256": "c522beb61e2b751cab3b18229d1c0e2a9557c0064bce34af2b2b52067b90abd7",
+    "direct_visual_qa": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_REFERENCE_POSE_DEPTH_VISUAL_QA_20260715T145349-0500.json",
+    "direct_visual_qa_sha256": "625bb608649ff7b494514e3525684eb99600d6ff686856bdee14129696ed805d",
+    "runtime_rerun_for_coordinate_correction": false
+  }
 }

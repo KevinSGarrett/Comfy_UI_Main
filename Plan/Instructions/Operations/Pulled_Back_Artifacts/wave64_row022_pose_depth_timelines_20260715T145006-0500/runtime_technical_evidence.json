@@ -1,0 +1,171 @@
+{
+  "schema_name": "wave64_reference_pose_depth_timeline_runtime_evidence",
+  "schema_version": "1.0",
+  "timestamp": "2026-07-15T14:50:06-05:00",
+  "tracker_id": "TRK-W64-022",
+  "item_id": "ITEM-W64-022",
+  "result": "blocked_pose_or_relative_depth_technical_validation_failed",
+  "prompt_id": "ab2d0a3c-894c-48c3-a50c-73970ac59f9a",
+  "source_manifest": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/Reference_Video_Input/wan22_source_diversity_frame_manifest.jsonl",
+    "sha256": "6536f30497240c313f751528a1e946ecca2f3794923dd9ef52737e0a889bed23"
+  },
+  "source_frame_count": 49,
+  "workflow": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_row022_pose_depth_timelines_20260715T145006-0500/workflow.api.json",
+    "sha256": "ceffbb6f60a503705c36f9a3a5fa74ab0093bd638ee518718c2f021014a0e729"
+  },
+  "runtime_requirements": {
+    "path": "Workflows/video_generation/reference_pose_depth_timeline/runtime_requirements.json",
+    "sha256": "0f639d92addf21e64bc8114f9c22c9fca0e0197d85a9567e06965b79ae461c76"
+  },
+  "asset_preflight": [
+    {
+      "role": "depth_anything_v2_large",
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\ckpts\\depth-anything\\Depth-Anything-V2-Large\\depth_anything_v2_vitl.pth",
+      "exists": true,
+      "expected_sha256": "a7ea19fa0ed99244e67b624c72b8580b7e9553043245905be58796a608eb9345",
+      "observed_sha256": "a7ea19fa0ed99244e67b624c72b8580b7e9553043245905be58796a608eb9345",
+      "expected_size_bytes": 1341395338,
+      "observed_size_bytes": 1341395338,
+      "pass": true
+    },
+    {
+      "role": "dwpose_torchscript_batch5",
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\ckpts\\hr16\\DWPose-TorchScript-BatchSize5\\dw-ll_ucoco_384_bs5.torchscript.pt",
+      "exists": true,
+      "expected_sha256": "d86a0b2b59fddc0901a7076e9f59c9f8602602133ed72511c693fd11eea23d91",
+      "observed_sha256": "d86a0b2b59fddc0901a7076e9f59c9f8602602133ed72511c693fd11eea23d91",
+      "expected_size_bytes": 135059124,
+      "observed_size_bytes": 135059124,
+      "pass": true
+    },
+    {
+      "role": "dwpose_yolox_detector",
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux\\ckpts\\yzd-v\\DWPose\\yolox_l.onnx",
+      "exists": true,
+      "expected_sha256": "7860ae79de6c89a3c1eb72ae9a2756c0ccfbe04b7791bb5880afabd97855a411",
+      "observed_sha256": "7860ae79de6c89a3c1eb72ae9a2756c0ccfbe04b7791bb5880afabd97855a411",
+      "expected_size_bytes": 216746733,
+      "observed_size_bytes": 216746733,
+      "pass": true
+    },
+    {
+      "role": "controlnet_aux_repository_commit",
+      "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\comfyui_controlnet_aux",
+      "expected_commit": "e8b689a513c3e6b63edc44066560ca5919c0576e",
+      "observed_commit": "e8b689a513c3e6b63edc44066560ca5919c0576e",
+      "pass": true
+    }
+  ],
+  "runtime": {
+    "url": "http://127.0.0.1:8188",
+    "queue_idle_before_submission": true,
+    "required_nodes_present": true,
+    "completed": true,
+    "status": {
+      "status_str": "success",
+      "completed": true,
+      "messages": [
+        [
+          "execution_start",
+          {
+            "prompt_id": "ab2d0a3c-894c-48c3-a50c-73970ac59f9a",
+            "timestamp": 1784145009847
+          }
+        ],
+        [
+          "execution_cached",
+          {
+            "nodes": [],
+            "prompt_id": "ab2d0a3c-894c-48c3-a50c-73970ac59f9a",
+            "timestamp": 1784145010113
+          }
+        ],
+        [
+          "execution_success",
+          {
+            "prompt_id": "ab2d0a3c-894c-48c3-a50c-73970ac59f9a",
+            "timestamp": 1784145070905
+          }
+        ]
+      ]
+    }
+  },
+  "pose_keypoints": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_row022_pose_depth_timelines_20260715T145006-0500/pose_keypoints.json",
+    "sha256": "a215d93c509ce7e8f5f37d69f219083cbc01f6f6b5cbacaad43aab1fbcc5d67e"
+  },
+  "technical_evaluation": {
+    "checks": {
+      "pose_output_count_exact": true,
+      "depth_output_count_exact": true,
+      "pose_keypoint_frame_count_exact": true,
+      "pose_dimensions_exact": false,
+      "depth_dimensions_exact": false,
+      "one_person_each_frame": true,
+      "body_keypoints_each_frame": true,
+      "pose_canvas_dimensions_exact": true,
+      "pose_render_nonblank": true,
+      "depth_render_nonblank": true,
+      "pose_hash_diversity": true,
+      "depth_hash_diversity": true,
+      "source_timestamps_monotonic": true
+    },
+    "failed_checks": [
+      "pose_dimensions_exact",
+      "depth_dimensions_exact"
+    ],
+    "technical_pass": false,
+    "pose_timeline": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_row022_pose_depth_timelines_20260715T145006-0500/pose_timeline.jsonl",
+      "sha256": "df6b2f3abe06461e78d39fc0adbfbd5c116395301652710eaf15db44c7591883"
+    },
+    "depth_timeline": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_row022_pose_depth_timelines_20260715T145006-0500/depth_timeline.jsonl",
+      "sha256": "5389e8e17ce5f11ec0bc0b55cc31664705025176205b913de2eb6d29ea7be1f7"
+    },
+    "pose_contact_sheet": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_row022_pose_depth_timelines_20260715T145006-0500/pose_contact_sheet.png",
+      "sha256": "878a3443408c26e300a5bf7beb5360477492891e54ef66075b0be67286569fc0"
+    },
+    "depth_contact_sheet": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_row022_pose_depth_timelines_20260715T145006-0500/depth_contact_sheet.png",
+      "sha256": "9619902ee4839596254ccd5bdcb818807740ea5806f87e17d8e88403a9f48bc1"
+    },
+    "pose_summary": {
+      "frame_count": 49,
+      "person_count_range": [
+        1,
+        1
+      ],
+      "minimum_body_keypoints": 18,
+      "frames_with_left_hand": 49,
+      "frames_with_right_hand": 49,
+      "frames_with_face": 49,
+      "unique_render_hashes": 49,
+      "mean_adjacent_render_mad": 0.7178729255202226
+    },
+    "depth_summary": {
+      "frame_count": 49,
+      "minimum_stddev": 42.75942380500273,
+      "minimum_dynamic_range": 251,
+      "unique_render_hashes": 49,
+      "mean_adjacent_render_mad": 2.0065099205622317,
+      "metric_depth_claimed": false
+    }
+  },
+  "authority_boundaries": {
+    "pose_timeline_scope": "motion_reference_only",
+    "depth_timeline_scope": "relative_depth_reference_only",
+    "metric_depth_claimed": false,
+    "mask_timeline_claimed": false,
+    "contact_timeline_claimed": false,
+    "occlusion_ownership_claimed": false,
+    "target_output_shot_match_claimed": false,
+    "promotion_ready_claimed": false,
+    "candidate_masks_consumed_as_truth": false,
+    "wave71_activation_claimed": false
+  },
+  "next_action": "Perform direct visual review of both 49-frame contact sheets, then reconcile Row022 without clearing mask/contact or target-shot-match blockers."
+}
