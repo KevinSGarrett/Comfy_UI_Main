@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/ai_worker_qualification_measurement.schema.json",
+  "title": "AI Worker Qualification Measurement",
+  "type": "object",
+  "required": ["schema_version", "artifact_type", "status", "population", "performance", "quality", "checks", "direct_measurement_required"],
+  "properties": {
+    "schema_version": {"const": 2},
+    "artifact_type": {"const": "ai_worker_qualification_measurement"},
+    "status": {"enum": ["QUALIFIED", "NOT_YET_QUALIFIED"]},
+    "population": {"type": "object"},
+    "performance": {"type": "object"},
+    "quality": {"type": "object"},
+    "checks": {"type": "object"},
+    "direct_measurement_required": {"const": true}
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/ai_worker_codex_review_packet.schema.json",
+  "title": "AI Worker Codex Review Packet",
+  "type": "object",
+  "required": ["schema_version", "artifact_type", "request_id", "quality_profile", "risk_class", "worker_status", "changed_paths", "diff_sha256", "validator_status", "codex_review_required"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "artifact_type": {"const": "ai_worker_codex_review_packet"},
+    "request_id": {"type": "string", "pattern": "^[A-Za-z0-9_.-]{3,180}$"},
+    "quality_profile": {"enum": ["fast_low_risk", "balanced_default", "high_assurance"]},
+    "risk_class": {"enum": ["low", "medium", "high", "critical"]},
+    "worker_status": {"const": "PASS"},
+    "changed_paths": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "outside_allowed_paths": {"type": "array", "maxItems": 0},
+    "diff_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "diff_excerpt": {"type": "string", "maxLength": 20100},
+    "validator_status": {"enum": ["PASS", "NOT_APPLICABLE"]},
+    "codex_review_required": {"const": true}
+  },
+  "additionalProperties": true
+}

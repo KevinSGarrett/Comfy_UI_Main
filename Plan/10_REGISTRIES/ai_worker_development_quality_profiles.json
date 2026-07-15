@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "artifact_type": "ai_worker_development_quality_profile_registry",
+  "status": "active",
+  "profiles": {
+    "fast_low_risk": {
+      "risk_classes": ["low"],
+      "cursor_first": true,
+      "sonnet_architecture_first": false,
+      "sonnet_post_review": false,
+      "minimum_validators": 1,
+      "required_acceptance_fields": ["behavior", "tests", "scope"],
+      "max_cursor_attempts": 2,
+      "target_cycle_minutes": 20
+    },
+    "balanced_default": {
+      "risk_classes": ["low", "medium"],
+      "cursor_first": true,
+      "sonnet_architecture_first": "semantic_or_cross_module_only",
+      "sonnet_post_review": "material_semantic_risk_only",
+      "minimum_validators": 2,
+      "required_acceptance_fields": ["behavior", "tests", "scope", "regressions", "evidence"],
+      "max_cursor_attempts": 2,
+      "target_cycle_minutes": 45
+    },
+    "high_assurance": {
+      "risk_classes": ["high", "critical"],
+      "cursor_first": false,
+      "sonnet_architecture_first": true,
+      "sonnet_post_review": true,
+      "minimum_validators": 3,
+      "required_acceptance_fields": ["behavior", "tests", "scope", "regressions", "evidence", "rollback", "performance", "security"],
+      "max_cursor_attempts": 1,
+      "target_cycle_minutes": 90
+    }
+  },
+  "lane_capabilities": {
+    "Cursor": ["inventory", "failure_extraction", "implementation_draft", "test_draft", "mechanical_refactor", "validator_triage"],
+    "Sonnet": ["architecture", "semantic_specification", "contradiction_analysis", "risk_analysis", "test_strategy", "high_risk_review"],
+    "Opus": ["bounded_escalation_only"],
+    "Codex": ["task_selection", "visual_qa", "final_acceptance", "git_github_mutation", "aws_mutation", "jira_mutation", "mask_authority", "items_tracker_status"]
+  },
+  "quality_dimensions": ["correctness", "regression_safety", "maintainability", "performance", "security", "evidence_integrity", "user_experience", "runtime_fidelity"]
+}

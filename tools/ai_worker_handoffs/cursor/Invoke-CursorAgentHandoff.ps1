@@ -817,7 +817,7 @@ try {
   $forbiddenText = ($ForbiddenActions | ForEach-Object { "- $_" }) -join "`n"
   $writePolicy = if ($AllowWrites) { "Writes are allowed only inside listed allowed paths and only if the work order explicitly asks for edits." } else { "Do not edit files. Return analysis, plan, or patch suggestions only." }
   $commandPolicy = if ($Mode -eq "agent") {
-    "Only these exact implementation/test commands may run; all other project commands are forbidden:`n" + (($DeclaredAgentCommands | ForEach-Object { "- $_" }) -join "`n")
+    "Do not execute project scripts, tests, validators, generators, package managers, or audits. The host command broker runs these exact validators after your edit and records their results:`n" + (($DeclaredAgentCommands | ForEach-Object { "- $_" }) -join "`n")
   } elseif ($AllowReadOnlyCommandExecution) {
     "Only these exact commands are declared side-effect-free and may run:`n" + (($DeclaredReadOnlyCommands | ForEach-Object { "- $_" }) -join "`n")
   } else {

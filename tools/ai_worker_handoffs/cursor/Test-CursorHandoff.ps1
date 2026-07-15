@@ -35,6 +35,14 @@ $checks.credential_value_absent_from_record = $null
 $checks.credential_probe_workspace_preserved = $null
 $checks.probe_pass = $null
 
+function Invoke-BoundedWslProbe {
+  param([string]$Distribution,[string]$LinuxArguments,[int]$TimeoutSeconds=20)
+  $psi=New-Object Diagnostics.ProcessStartInfo;$psi.FileName=(Get-Command wsl.exe -ErrorAction Stop).Source;$psi.Arguments="-d $Distribution --exec $LinuxArguments";$psi.UseShellExecute=$false;$psi.CreateNoWindow=$true;$psi.RedirectStandardOutput=$true;$psi.RedirectStandardError=$true
+  $process=New-Object Diagnostics.Process;$process.StartInfo=$psi;[void]$process.Start();$stdoutTask=$process.StandardOutput.ReadToEndAsync();$stderrTask=$process.StandardError.ReadToEndAsync();$timedOut=-not$process.WaitForExit($TimeoutSeconds*1000)
+  if($timedOut){try{&taskkill.exe /PID $process.Id /T /F|Out-Null}catch{};try{[void]$process.WaitForExit(5000)}catch{}}else{$process.WaitForExit()}
+  return [pscustomobject]@{exit_code=$(if($timedOut){-1}else{$process.ExitCode});timed_out=$timedOut;stdout=$stdoutTask.Result;stderr=$stderrTask.Result}
+}
+
 if ($checks.wrapper_exists) {
   $tokens = $null
   $parseErrors = $null
@@ -65,10 +73,10 @@ if ($checks.wrapper_exists) {
   }
 }
 
-$agentVersion = wsl.exe -d $WslDistribution -- bash -lc "$cursorAgentPath --version 2>/dev/null || true"
-$checks.cursor_agent_installed = -not [string]::IsNullOrWhiteSpace(($agentVersion | Out-String).Trim())
-$gitLfsVersion = wsl.exe -d $WslDistribution -- git lfs version 2>&1
-$checks.git_lfs_available = ($LASTEXITCODE -eq 0 -and (($gitLfsVersion | Out-String).Trim() -match '(?i)^git-lfs/'))
+$agentProbe=Invoke-BoundedWslProbe -Distribution $WslDistribution -LinuxArguments "$cursorAgentPath --version"
+$checks.cursor_agent_installed = (-not$agentProbe.timed_out-and$agentProbe.exit_code-eq0-and-not[string]::IsNullOrWhiteSpace([string]$agentProbe.stdout))
+$gitLfsProbe=Invoke-BoundedWslProbe -Distribution $WslDistribution -LinuxArguments 'git lfs version'
+$checks.git_lfs_available = (-not$gitLfsProbe.timed_out-and$gitLfsProbe.exit_code-eq0-and([string]$gitLfsProbe.stdout).Trim()-match'(?i)^git-lfs/')
 $checks.git_lfs_preflight_pass = $checks.git_lfs_available
 
 if ($IncludeCredentialLoadProbe -and $checks.wrapper_exists -and $checks.wrapper_self_test) {
@@ -156,7 +164,7 @@ $result = [ordered]@{
   credential_load_probe_requested = [bool]$IncludeCredentialLoadProbe
   live_probe_requested = [bool]$IncludeLiveProbe
   checks = $checks
-  cursor_agent_version = (($agentVersion | Out-String).Trim())
-  git_lfs_version = (($gitLfsVersion | Out-String).Trim())
+  cursor_agent_version = ([string]$agentProbe.stdout).Trim()
+  git_lfs_version = ([string]$gitLfsProbe.stdout).Trim()
 }
 $result | ConvertTo-Json -Depth 8

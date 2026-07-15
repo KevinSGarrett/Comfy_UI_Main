@@ -18,7 +18,11 @@ if ($manifest.artifact_type -ne "ai_worker_handoff_canonical_package_manifest") 
 $lockPaths = @(
   (Join-Path $CodexHome "cursor_handoff\cursor_agent.lock"),
   (Join-Path $CodexHome "claude_subscription_handoff\claude_subscription.lock"),
-  (Join-Path $CodexHome "ai_worker_dispatcher\dispatcher.lock")
+  (Join-Path $CodexHome "ai_worker_dispatcher\dispatcher.lock"),
+  (Join-Path $CodexHome "ai_worker_dispatcher\admission.lock"),
+  (Join-Path $CodexHome "ai_worker_dispatcher\locks\cursor.lock"),
+  (Join-Path $CodexHome "ai_worker_dispatcher\locks\claude.lock"),
+  (Join-Path $CodexHome "ai_worker_dispatcher\locks\lifecycle.lock")
 )
 $activeLocks = @($lockPaths | Where-Object { Test-Path -LiteralPath $_ })
 if ($Apply -and $activeLocks.Count -gt 0) { throw "Worker package installation blocked by active lock(s): $($activeLocks -join ', ')" }

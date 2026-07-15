@@ -54,6 +54,8 @@ Cursor CLI should handle:
 
 ## Required Handoff Pattern
 
+Production work should enter through the signed dispatcher intent/admission path. Cursor and Claude have independent lane services; a long Cursor edit must not block Sonnet work for another decision unit. Dispatch requests include idempotency, TTL, priority, retry, dependency, cancellation, supersession, and stale-scope controls.
+
 Use the wrapper:
 
 `C:\Users\kevin\.codex\cursor_handoff\Invoke-CursorAgentHandoff.ps1`
@@ -85,6 +87,8 @@ Default automation and main-session read-only behavior should prefer `ask`; use 
 Scheduled automations should not use `agent` mode during normal audits. Use read-only `ask` first, then let Codex decide whether `plan` or a narrow manual write handoff is worth the risk.
 
 For narrow `agent` write handoffs, `Invoke-CursorAgentHandoff.ps1` auto-enables Cursor `--force` only after `-AllowWrites` and explicit `-AllowedPaths` are supplied. The wrapper records `auto_force_cursor_commands=true`, snapshots Git status before/after the handoff, and fails the handoff as `CURSOR_HANDOFF_WRITE_SCOPE_VIOLATION` if any newly changed path falls outside the allowed path list. Codex must inspect the handoff record and final diff before accepting the worker output.
+
+In dispatcher agent mode, declared commands are host validators, not Cursor execution permission. Cursor must not run project scripts, tests, generators, audits, package managers, or validators. The dispatcher invokes the credential-scrubbed command broker after the edit and includes exact results in the Codex review packet.
 
 ## Model Policy
 

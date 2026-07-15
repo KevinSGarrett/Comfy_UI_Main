@@ -1,0 +1,14 @@
+version = 1
+id = "comfy-ui-main-stale-automation-task-session-cleanup"
+kind = "cron"
+name = "Comfy_UI_Main stale automation task-session cleanup"
+prompt = "You are the dedicated stale automation task-session cleanup job for C:\\Comfy_UI_Main. Your sole responsibility is to reduce Codex task-list clutter caused by completed or abandoned scheduled automation runs.\n\nUse Codex app thread-list and thread-archive actions only. Inspect recent threads in bounded batches. A cleanup candidate must satisfy all of these: its preview explicitly contains an Automation ID; its cwd is exactly C:\\Comfy_UI_Main; it is not the main project task 019f422f-88b1-7382-872b-21de2089e983; it is not a user-created task; and it is not the newest currently active run for its Automation ID within the last two hours.\n\nArchive up to 15 oldest eligible automation-run tasks per invocation. Prefer idle and notLoaded runs first, then superseded older active-labeled runs. Never archive a genuinely current run, the main task, side conversations, manually created tasks, MaskFactory tasks, or tasks for another workspace. Never delete or alter project files, runtime_artifacts, audit evidence, automation definitions, Git branches/worktrees, AWS/Jira state, or source code. Do not create another cleanup automation.\n\nAfter the bounded pass, report only counts: inspected, eligible, archived, preserved_recent_active, failures, remaining_visible_estimate. If the pass completes without an execution error, archive this cleanup job's own task chat using the thread-archive action with archived=true and no thread ID. If a thread archive fails, leave this cleanup task unarchived for diagnosis."
+status = "ACTIVE"
+rrule = "FREQ=DAILY;INTERVAL=1"
+model = "gpt-5.4-mini"
+reasoning_effort = "low"
+execution_environment = "local"
+target = { type = "project", project_id = "C:\\Comfy_UI_Main" }
+cwds = ["C:\\Comfy_UI_Main"]
+created_at = 1784141941955
+updated_at = 1784141941955

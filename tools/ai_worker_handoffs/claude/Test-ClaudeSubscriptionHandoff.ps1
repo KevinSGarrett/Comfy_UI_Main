@@ -30,14 +30,24 @@ $checks.sonnet_probe_pass = $null
 $checks.scope_packet_probe_pass = $null
 $checks.opus_live_probe_pass = $null
 
+function Invoke-BoundedProcess {
+  param([string]$FilePath,[string]$Arguments,[int]$TimeoutSeconds=20)
+  $psi=New-Object Diagnostics.ProcessStartInfo;$psi.FileName=$FilePath;$psi.Arguments=$Arguments;$psi.UseShellExecute=$false;$psi.CreateNoWindow=$true;$psi.RedirectStandardOutput=$true;$psi.RedirectStandardError=$true
+  $process=New-Object Diagnostics.Process;$process.StartInfo=$psi;[void]$process.Start();$stdoutTask=$process.StandardOutput.ReadToEndAsync();$stderrTask=$process.StandardError.ReadToEndAsync();$timedOut=-not$process.WaitForExit($TimeoutSeconds*1000)
+  if($timedOut){try{&taskkill.exe /PID $process.Id /T /F|Out-Null}catch{};try{[void]$process.WaitForExit(5000)}catch{}}else{$process.WaitForExit()}
+  return [pscustomobject]@{exit_code=$(if($timedOut){-1}else{$process.ExitCode});timed_out=$timedOut;stdout=$stdoutTask.Result;stderr=$stderrTask.Result}
+}
+
 if ($checks.wrapper_exists) {
   $tokens = $null
   $parseErrors = $null
   [System.Management.Automation.Language.Parser]::ParseFile($wrapper, [ref]$tokens, [ref]$parseErrors) | Out-Null
   $checks.wrapper_parses = ($parseErrors.Count -eq 0)
   if ($checks.wrapper_parses) {
-    $selfTest = & $wrapper -TaskName "claude_wrapper_self_test" -SelfTest | ConvertFrom-Json
+    $selfTestProbe=Invoke-BoundedProcess -FilePath (Get-Command powershell.exe -ErrorAction Stop).Source -Arguments "-NoLogo -NoProfile -NonInteractive -File `"$wrapper`" -ProjectRoot `"$ProjectRoot`" -TaskName claude_wrapper_self_test -SelfTest" -TimeoutSeconds 20
+    $selfTest=if(-not$selfTestProbe.timed_out-and$selfTestProbe.exit_code-eq0){([string]$selfTestProbe.stdout)|ConvertFrom-Json}else{[pscustomobject]@{status='FAIL';checks=[pscustomobject]@{}}}
     $checks.wrapper_self_test = ($selfTest.status -eq "PASS")
+    $checks.wrapper_self_test_completed_in_time=(-not[bool]$selfTestProbe.timed_out)
     $source = Get-Content -LiteralPath $wrapper -Raw
     $checks.exact_model_allowlist = ($source -match 'ValidateSet\("claude-sonnet-5","claude-opus-4-8"\)' -and $source -notmatch 'ValidateSet\("sonnet"')
     $checks.no_api_fallback_switch = ($source -notmatch 'AllowApiEnvironmentFallback')
@@ -70,9 +80,9 @@ foreach ($name in @("ANTHROPIC_API_KEY","ANTHROPIC_AUTH_TOKEN","ANTHROPIC_BASE_U
 }
 
 if ($checks.claude_exe_exists) {
-  $auth = (& $claudeExe auth status) | ConvertFrom-Json
-  $checks.subscription_auth = ($auth.loggedIn -eq $true -and $auth.authMethod -eq "claude.ai" -and $auth.apiProvider -eq "firstParty")
-  $checks.subscription_type = $auth.subscriptionType
+  $authProbe=Invoke-BoundedProcess -FilePath $claudeExe -Arguments 'auth status' -TimeoutSeconds 20
+  if(-not$authProbe.timed_out-and$authProbe.exit_code-eq0){$auth=([string]$authProbe.stdout)|ConvertFrom-Json;$checks.subscription_auth=($auth.loggedIn-eq$true-and$auth.authMethod-eq'claude.ai'-and$auth.apiProvider-eq'firstParty');$checks.subscription_type=$auth.subscriptionType}
+  $checks.auth_probe_completed_in_time=(-not[bool]$authProbe.timed_out)
 }
 
 if ($IncludeLiveProbes -and $checks.wrapper_exists -and $checks.claude_exe_exists -and $checks.subscription_auth -and $checks.api_env_absent) {

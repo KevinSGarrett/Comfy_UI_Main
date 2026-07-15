@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/ai_worker_dispatch_request.schema.json",
+  "title": "AI Worker Dispatch Request",
+  "type": "object",
+  "required": ["schema_version", "artifact_type", "request_id", "idempotency_key", "worker_lane", "operation", "base_commit", "scope_packet_path", "priority", "expires_at", "max_attempts", "risk_class", "quality_profile", "acceptance_contract"],
+  "properties": {
+    "schema_version": {"const": 2},
+    "artifact_type": {"const": "ai_worker_dispatch_request"},
+    "request_id": {"type": "string", "pattern": "^[A-Za-z0-9_.-]{3,180}$"},
+    "idempotency_key": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "worker_lane": {"enum": ["Cursor", "Claude"]},
+    "operation": {"enum": ["read_only", "implementation"]},
+    "priority": {"type": "integer", "minimum": 0, "maximum": 100},
+    "max_attempts": {"type": "integer", "minimum": 1, "maximum": 3},
+    "attempt": {"type": "integer", "minimum": 1, "maximum": 3},
+    "risk_class": {"enum": ["low", "medium", "high", "critical"]},
+    "quality_profile": {"enum": ["fast_low_risk", "balanced_default", "high_assurance"]},
+    "acceptance_contract": {"type": "object", "minProperties": 1}
+  },
+  "additionalProperties": true
+}
