@@ -1,0 +1,101 @@
+{
+  "schema_name": "wave64_animatediff_meaningful_sequence_visual_qa",
+  "schema_version": "1.0",
+  "timestamp": "2026-07-15T14:00:07-05:00",
+  "tracker_id": "TRK-W64-019",
+  "item_id": "ITEM-W64-019",
+  "lane_id": "animatediff_fallback_meaningful_sequence",
+  "review_scope": {
+    "original_artifact_reviewed": true,
+    "contact_sheet_reviewed": true,
+    "decoded_frame_count": 1,
+    "expected_frame_count": 16,
+    "resolution": {
+      "width": 384,
+      "height": 512
+    }
+  },
+  "source_bindings": {
+    "workflow": {
+      "path": "Workflows/video_generation/animatediff_fallback_meaningful_sequence/workflow.api.json",
+      "sha256": "892c437eb153f86d033bb4c791f123ede5b4ef5b0fe86ce917ba55d1255e1dcc"
+    },
+    "runtime_requirements": {
+      "path": "Workflows/video_generation/animatediff_fallback_meaningful_sequence/runtime_requirements.json",
+      "sha256": "2c2b7467d653a1420b13cfed4b3ee1e6c51ef374abb6908c05391fa64ec6a45f"
+    },
+    "runtime_technical_evidence": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_meaningful_20260715T140007-0500/runtime_technical_evidence.json",
+      "sha256": "942f8e1ca4bacc496875d9cfaa569d074e2fdc6748b2f4f617391e592adcd679"
+    },
+    "artifact": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_meaningful_20260715T140007-0500/wave64_animatediff_meaningful_seed7151601_00001_.webp",
+      "sha256": "dc4c9dd48cdb8e3e2a5473ce75b7ab21f684731136a034ff73787fa1bdc2fccb",
+      "size_bytes": 2232
+    },
+    "contact_sheet": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_meaningful_20260715T140007-0500/contact_sheet.png",
+      "sha256": "a98d64931964f7a856757eaddccad56019d4d2ff59440973d8a184bed36881e9"
+    },
+    "history": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_meaningful_20260715T140007-0500/history.json",
+      "sha256": "4310a4871972b98b12fe560aa8c8049ae856e3a179f5349f60b62385ca5387b9",
+      "prompt_id": "ca14da4d-74b6-459a-85d4-1afea7d81f9f"
+    }
+  },
+  "material_change_contract": {
+    "prior_seed_reused": false,
+    "frame_count_increased": true,
+    "resolution_increased": true,
+    "context_length_increased": true,
+    "sampling_budget_increased": true,
+    "sampler_and_scheduler_changed": true,
+    "motion_objective_changed": true,
+    "quality_thresholds_added": true,
+    "seed_loop_performed": false
+  },
+  "runtime_observations": {
+    "execution_status": "success",
+    "node_errors": [],
+    "output_metadata_marked_animated": true,
+    "decoded_is_animated": false,
+    "decoded_frame_count": 1,
+    "decoded_frame_black_clip_ratio": 1.0,
+    "artifact_sha256_verified": true
+  },
+  "direct_visual_checks": {
+    "artifact_contains_visible_subject": false,
+    "artifact_contains_expected_scene": false,
+    "all_expected_frames_present": false,
+    "motion_present": false,
+    "identity_review_possible": false,
+    "background_continuity_review_possible": false,
+    "exposure_acceptable": false,
+    "terminal_frame_integrity_review_possible": false,
+    "visual_temporal_pass": false
+  },
+  "findings": [
+    "ComfyUI completed the exact submitted graph without a reported node error and returned one output marked animated.",
+    "The hash-bound WebP decodes as one 384 by 512 frame rather than the required 16 frames.",
+    "The decoded frame and contact sheet are uniformly black, with black_clip_ratio 1.0 and no visible subject, scene, or motion.",
+    "The output cannot support identity, background, exposure, motion, or terminal-frame acceptance and is not promotable.",
+    "This materially changed attempt is preserved. No retry, seed loop, production promotion, or certification claim is authorized from it."
+  ],
+  "result": "fail_visual_black_single_frame_output",
+  "status_decision": "Blocked_AnimateDiff_Meaningful_Sequence_Black_Output",
+  "row_status_changed": false,
+  "row_status_preserved": "Blocked_Keyframe_And_Repair_Visual_Acceptance_Missing_Bounded_Wan_Pass",
+  "boundaries": {
+    "single_generation_attempt_preserved": true,
+    "rerun_performed": false,
+    "seed_loop_performed": false,
+    "selected_wan_primary_invalidated": false,
+    "animatediff_production_promotion_claimed": false,
+    "ec2_started": false,
+    "aws_mutated": false,
+    "mask_or_geometry_authority_claimed": false,
+    "wave71_activated": false,
+    "jira_mutated": false
+  },
+  "next_action": "Do not rerun this candidate. Keep AnimateDiff fallback promotion blocked and continue the next concrete non-mask project task using the already selected Wan primary lane where video execution is required."
+}

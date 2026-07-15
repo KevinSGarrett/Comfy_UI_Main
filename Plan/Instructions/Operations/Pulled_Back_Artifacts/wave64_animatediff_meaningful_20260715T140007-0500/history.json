@@ -1,0 +1,196 @@
+{
+  "ca14da4d-74b6-459a-85d4-1afea7d81f9f": {
+    "prompt": [
+      4,
+      "ca14da4d-74b6-459a-85d4-1afea7d81f9f",
+      {
+        "1": {
+          "class_type": "CheckpointLoaderSimple",
+          "inputs": {
+            "ckpt_name": "realvisxlV50_v50Bakedvae.safetensors"
+          }
+        },
+        "3": {
+          "class_type": "CLIPTextEncode",
+          "inputs": {
+            "clip": [
+              "1",
+              1
+            ],
+            "text": "cinematic realistic medium studio shot of exactly one fully clothed adult woman in a matte charcoal blazer against a seamless neutral gray backdrop, slowly turning her head from a slight left angle toward the camera, one natural blink, subtle shoulder movement, stable identity, stable face, locked tripod camera, consistent softbox lighting, natural skin texture, detailed eyes, restrained motion"
+          }
+        },
+        "4": {
+          "class_type": "CLIPTextEncode",
+          "inputs": {
+            "clip": [
+              "1",
+              1
+            ],
+            "text": "flicker, jitter, camera movement, scene change, background change, lighting change, exposure shift, terminal corruption, color collapse, warped face, identity drift, duplicate person, extra person, distorted anatomy, extra limbs, clipped highlights, crushed blacks, low quality, blurry, watermark, text"
+          }
+        },
+        "5": {
+          "class_type": "ADE_LoadAnimateDiffModel",
+          "inputs": {
+            "model_name": "mm_sdxl_v10_beta.ckpt"
+          }
+        },
+        "6": {
+          "class_type": "ADE_ApplyAnimateDiffModelSimple",
+          "inputs": {
+            "motion_model": [
+              "5",
+              0
+            ]
+          }
+        },
+        "7": {
+          "class_type": "ADE_StandardUniformContextOptions",
+          "inputs": {
+            "context_length": 16,
+            "context_stride": 1,
+            "context_overlap": 4
+          }
+        },
+        "8": {
+          "class_type": "ADE_UseEvolvedSampling",
+          "inputs": {
+            "model": [
+              "1",
+              0
+            ],
+            "beta_schedule": "linear (AnimateDiff-SDXL)",
+            "m_models": [
+              "6",
+              0
+            ],
+            "context_options": [
+              "7",
+              0
+            ]
+          }
+        },
+        "9": {
+          "class_type": "EmptyLatentImage",
+          "inputs": {
+            "width": 384,
+            "height": 512,
+            "batch_size": 16
+          }
+        },
+        "10": {
+          "class_type": "KSampler",
+          "inputs": {
+            "model": [
+              "8",
+              0
+            ],
+            "positive": [
+              "3",
+              0
+            ],
+            "negative": [
+              "4",
+              0
+            ],
+            "latent_image": [
+              "9",
+              0
+            ],
+            "seed": 7151601,
+            "steps": 20,
+            "cfg": 4.5,
+            "sampler_name": "dpmpp_2m_sde",
+            "scheduler": "karras",
+            "denoise": 1.0
+          }
+        },
+        "11": {
+          "class_type": "VAEDecode",
+          "inputs": {
+            "samples": [
+              "10",
+              0
+            ],
+            "vae": [
+              "1",
+              2
+            ]
+          }
+        },
+        "12": {
+          "class_type": "SaveAnimatedWEBP",
+          "inputs": {
+            "images": [
+              "11",
+              0
+            ],
+            "filename_prefix": "wave64_animatediff_meaningful_seed7151601",
+            "fps": 8.0,
+            "lossless": true,
+            "quality": 90,
+            "method": "default"
+          }
+        }
+      },
+      {
+        "client_id": "wave64-animatediff-meaningful-sequence",
+        "create_time": 1784142065466
+      },
+      [
+        "12"
+      ]
+    ],
+    "outputs": {
+      "12": {
+        "images": [
+          {
+            "filename": "wave64_animatediff_meaningful_seed7151601_00001_.webp",
+            "subfolder": "",
+            "type": "output"
+          }
+        ],
+        "animated": [
+          true
+        ]
+      }
+    },
+    "status": {
+      "status_str": "success",
+      "completed": true,
+      "messages": [
+        [
+          "execution_start",
+          {
+            "prompt_id": "ca14da4d-74b6-459a-85d4-1afea7d81f9f",
+            "timestamp": 1784142065511
+          }
+        ],
+        [
+          "execution_cached",
+          {
+            "nodes": [],
+            "prompt_id": "ca14da4d-74b6-459a-85d4-1afea7d81f9f",
+            "timestamp": 1784142065576
+          }
+        ],
+        [
+          "execution_success",
+          {
+            "prompt_id": "ca14da4d-74b6-459a-85d4-1afea7d81f9f",
+            "timestamp": 1784142211509
+          }
+        ]
+      ]
+    },
+    "meta": {
+      "12": {
+        "node_id": "12",
+        "display_node": "12",
+        "parent_node": null,
+        "real_node_id": "12"
+      }
+    }
+  }
+}
