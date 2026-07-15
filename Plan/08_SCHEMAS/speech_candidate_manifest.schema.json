@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Speech Candidate Manifest",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "candidate_id",
+    "request_sha256",
+    "character_id",
+    "voice_reference_ids",
+    "engine_adapter_id",
+    "model_revision",
+    "seed",
+    "output",
+    "runtime",
+    "disposition"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "candidate_id": {
+      "type": "string"
+    },
+    "request_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{64}$"
+    },
+    "character_id": {
+      "type": "string"
+    },
+    "voice_reference_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "engine_adapter_id": {
+      "type": "string"
+    },
+    "model_revision": {
+      "type": "string"
+    },
+    "seed": {
+      "type": "integer"
+    },
+    "output": {
+      "type": "object",
+      "required": [
+        "path",
+        "sha256",
+        "bytes",
+        "duration_seconds",
+        "sample_rate_hz",
+        "channels"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{64}$"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "runtime": {
+      "type": "object"
+    },
+    "disposition": {
+      "enum": [
+        "candidate",
+        "rejected",
+        "eligible_for_playback",
+        "promoted",
+        "revoked"
+      ]
+    }
+  },
+  "additionalProperties": true
+}
