@@ -1,3 +1,11 @@
+## Wave64 CosyVoice2 Reference-Bound Candidate Rejected - 2026-07-15T05:40:34-05:00
+
+The CosyVoice2 PyTorch model stack ran on local CUDA from exact local model/source payloads; its ONNX tokenizer and campplus frontend ran on CPU. The immutable candidate binds the public-domain Chris Goringe reference and passes the calibrated chain-specific speaker score (`0.39928 >= 0.33446`). DNSMOS OVRL `2.88459` clears only the worst-reference floor at the 50th percentile and is not quality certification. The candidate is rejected: it is `8.8` seconds against the `3.0`-second contract, Whisper detects repetitive non-dialogue content at WER `4.8`, `focused` is outside the calibrated emotion taxonomy, and `controlled` intensity is explicitly unmeasured. Rows025/027/031 remain blocked and incomplete.
+
+Next action: produce one new production-eligible reference-bound dialogue candidate that satisfies exact text, timing, and a supported style taxonomy. Preserve all rejected Parler and CosyVoice2 takes; do not truncate, relabel, or promote the rejected output. Then obtain independent playback and allowlisted production review. Keep EC2 stopped and preserve mask, Wave71+, Jira, and final-certification boundaries.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/W64_COSYVOICE2_ZERO_SHOT_CANDIDATE_EVALUATION_20260715T052332-0500.json`.
+
 ## Wave64 OpenSLR31 Speaker Validation Pass - 2026-07-15T03:57:44-05:00
 
 The official CC BY 4.0 OpenSLR31 Mini LibriSpeech `dev-clean-2` archive is MD5/SHA256 verified and evaluated locally with the existing hash-bound ERes2Net path. Six spread-selected utterances from each of 26 numeric speaker IDs were split into disjoint 13-speaker calibration and 13-speaker validation partitions. The fixed threshold `0.334456` passed at calibration TPR/FPR `1.0/0.02208` and held-out TPR/FPR `0.99487/0.02564`. The existing public-domain source-to-derived-stem score `0.99327` now passes chain-specific identity preservation.

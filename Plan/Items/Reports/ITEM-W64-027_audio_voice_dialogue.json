@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-027-AUDIO-VOICE-DIALOGUE-20260712T165435-0500",
-  "timestamp": "2026-07-15T03:57:44-05:00",
+  "timestamp": "2026-07-15T05:40:34-05:00",
   "item_id": "ITEM-W64-027",
   "tracker_id": "TRK-W64-027",
   "workstream": "audio_voice_dialogue",
@@ -28,7 +28,10 @@
     "cv3_emotion2vec_calibration_adapter_ready": true,
     "model_backed_playback_producer_ready": true,
     "cv3_speaker_identity_calibration_adapter_ready": true,
-    "openslr31_speaker_identity_validation_adapter_ready": true
+    "openslr31_speaker_identity_validation_adapter_ready": true,
+    "cosyvoice2_zero_shot_cuda_runner_ready": true,
+    "cosyvoice2_candidate_evaluator_ready": true,
+    "cosyvoice2_negative_evidence_packager_ready": true
   },
   "validation": {
     "unit_tests_passed": 39,
@@ -132,7 +135,20 @@
     "openslr31_calibration_false_positive_rate": 0.02207977207977208,
     "openslr31_validation_true_positive_rate": 0.9948717948717949,
     "openslr31_validation_false_positive_rate": 0.02564102564102564,
-    "openslr31_speaker_disjoint_validation_pass": true
+    "openslr31_speaker_disjoint_validation_pass": true,
+    "cosyvoice2_runtime_executed": true,
+    "cosyvoice2_candidate_sha256": "13dbaefb9080fe0a6a8d6445f3daf568b6cb2a59df7e324cb3a99427d377ff47",
+    "cosyvoice2_candidate_duration_seconds": 8.8,
+    "cosyvoice2_expected_duration_seconds": 3.0,
+    "cosyvoice2_candidate_asr_transcript": "Oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh, oh,",
+    "cosyvoice2_candidate_normalized_wer": 4.8,
+    "cosyvoice2_candidate_speaker_similarity": 0.3992827236652374,
+    "cosyvoice2_validated_speaker_threshold": 0.33445611596107483,
+    "cosyvoice2_candidate_dnsmos_ovrl": 2.884593350272355,
+    "cosyvoice2_candidate_dnsmos_reference_percentile": 0.5,
+    "cosyvoice2_candidate_emotion_label": "sad",
+    "cosyvoice2_candidate_emotion_score": 0.6004744172096252,
+    "cosyvoice2_candidate_rejected": true
   },
   "acceptance_gates": {
     "voice_profile_match_contract": true,
@@ -173,7 +189,17 @@
     "licensed_human_voice_chain_identity_similarity_observed": true,
     "licensed_human_voice_chain_identity_verified": true,
     "openslr31_speaker_disjoint_validation_pass": true,
-    "speaker_threshold_deployment_allowed_for_chain_specific_evaluation": true
+    "speaker_threshold_deployment_allowed_for_chain_specific_evaluation": true,
+    "cosyvoice2_independent_reference_speaker_bound": true,
+    "cosyvoice2_rejected_candidate_reference_speaker_score_pass": true,
+    "cosyvoice2_candidate_intelligibility_pass": false,
+    "cosyvoice2_candidate_dialogue_timing_pass": false,
+    "cosyvoice2_candidate_style_contract_pass": false,
+    "cosyvoice2_pytorch_model_stack_cuda_executed": true,
+    "cosyvoice2_onnx_frontend_cuda_executed": false,
+    "cosyvoice2_rejected_candidate_dnsmos_worst_reference_floor_pass": true,
+    "cosyvoice2_rejected_candidate_dnsmos_quality_certification_pass": null,
+    "cosyvoice2_candidate_intensity_taxonomy_status": "unmeasured_no_calibrated_intensity_evaluator"
   },
   "blockers": [
     {
@@ -196,14 +222,14 @@
       "reason": "The original candidate is technically clean but has a critical beat-to-B content mismatch and cannot emit a strict playback proof because focused/controlled is outside the calibrated style taxonomy. The single authorized seed-64028 replacement is also rejected because its independent Whisper WER is 0.70."
     },
     {
-      "classification": "Blocked_Voice_Speaker_Reference_Missing",
-      "scope": "speaker_identity",
-      "reason": "The ERes2Net execution, normalization, and cross-file scoring path is verified, but the calibration subset has no speaker-identity labels and no independent reference-speaker recording is bound to this candidate."
-    },
-    {
       "classification": "Blocked_Voice_Emotion_Taxonomy_Authority_Missing",
       "scope": "emotion",
       "reason": "The exact licensed emotion2vec_plus_large payload executed over all 300 paired CV3 emotion references and scored the candidate neutral at 0.99999678, but the contract target focused/controlled is outside the model and CV3 taxonomies. No registered threshold or approved mapping authorizes emotion PASS."
+    },
+    {
+      "classification": "Blocked_Production_Eligible_Voice_Candidate_Missing",
+      "scope": "dialogue_candidate",
+      "reason": "The reference-bound CosyVoice2 candidate passes the calibrated speaker score and only the worst-reference DNSMOS floor, which is not quality certification. It is rejected for 8.8-second timing and WER 4.8 repetitive non-dialogue content; focused emotion is unsupported and controlled intensity is unmeasured. No production-eligible candidate currently combines content, timing, speaker, and style proof."
     }
   ],
   "evidence": [
@@ -246,6 +272,10 @@
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/W64_OPENSLR31_SPEAKER_IDENTITY_VALIDATION_20260715T035744-0500.json",
       "sha256": "b4164e44f2e3f3ea693fd2434316b48af96b81e9d71b44460a16b7be1ac3c986"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/W64_COSYVOICE2_ZERO_SHOT_CANDIDATE_EVALUATION_20260715T052332-0500.json",
+      "sha256": "8a595d6ffd232e1fac6d7700d9cf92b5c354b24fe1d1760aef0973416f73accc"
     }
   ],
   "runtime": {
@@ -264,7 +294,9 @@
     "cv3_emotion_calibration_count": 1,
     "parler_replacement_generation_count": 1,
     "cv3_speaker_calibration_execution_count": 1,
-    "openslr31_speaker_validation_execution_count": 1
+    "openslr31_speaker_validation_execution_count": 1,
+    "cosyvoice2_zero_shot_generation_count": 1,
+    "cosyvoice2_candidate_evaluation_count": 1
   },
-  "next_action": "Bind an independent reference-speaker recording to a production-eligible dialogue candidate and a supported emotion/style taxonomy, then obtain independent playback and allowlisted production review. Preserve both rejected Parler candidates and do not treat this chain-specific source-to-stem identity pass as TTS speaker identity or final voice certification."
+  "next_action": "Produce one new production-eligible reference-bound dialogue candidate that satisfies the exact 3.0-second content contract and a supported style taxonomy. Preserve all rejected Parler and CosyVoice2 takes; do not truncate, relabel, or promote the 8.8-second repetitive CosyVoice2 output. Then obtain independent playback and allowlisted production review."
 }
