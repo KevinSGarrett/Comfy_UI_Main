@@ -1,9 +1,9 @@
 {
   "schema_version": "1.1",
-  "timestamp": "2026-07-14T13:18:12-05:00",
+  "timestamp": "2026-07-15T12:31:49-05:00",
   "tracker_id": "TRK-W64-019",
   "item_id": "ITEM-W64-019",
-  "status": "Blocked_Keyframe_And_Repair_Proof_Missing_Bounded_Wan_Temporal_And_Loop_Pass",
+  "status": "Blocked_Keyframe_And_Repair_Visual_Acceptance_Missing_Bounded_Wan_Pass",
   "row_complete": false,
   "acceptance_gates": {
     "video_workflow_valid": true,
@@ -12,6 +12,10 @@
     "loop_export_gate": true,
     "artifact_evidence": true,
     "frame_repair_effectiveness": false,
+    "repaired_candidate_present": true,
+    "repair_runtime_proof": true,
+    "before_after_visual_review": true,
+    "repair_visual_acceptance": false,
     "strict_frame_sequence_visual_review": true,
     "bounded_primary_clip_runtime": true,
     "bounded_primary_clip_technical_qa": true,
@@ -21,19 +25,12 @@
   },
   "normalized_blockers": [
     {
-      "blocker_id": "KEYFRAME_CANDIDATE_NOT_PROMOTION_ELIGIBLE",
-      "failed_gates": [
-        "refine_bridge_qa_passed",
-        "identity_camera_environment_continuity_passed",
-        "required_promoted_keyframes_exist",
-        "promotion_allowed",
-        "promoted_artifact"
-      ],
-      "resolution": "Provide scope-matched refine QA, multi-frame identity/camera/environment continuity, upstream Row016 quality authority, and explicit image-promotion proof before setting keyframe_manifest true."
+      "blocker_id": "KEYFRAME_MANIFEST_INTEGRATION_MISSING",
+      "resolution": "Bind a real shot/keyframe manifest to a selected production sequence."
     },
     {
-      "blocker_id": "FRAME_REPAIR_EFFECTIVENESS_NOT_PROVEN",
-      "resolution": "Produce and directly compare a repaired candidate for a real failed span."
+      "blocker_id": "FRAME_REPAIR_VISUAL_ACCEPTANCE_FAILED",
+      "resolution": "Preserve the immutable failed Row023 candidate. Do not retry it; a materially new repair method and separately authorized scope would be required."
     },
     {
       "blocker_id": "CONTACT_SOFT_BODY_VIDEO_SCOPE_BLOCKED_GOLD_MASKS",
@@ -42,19 +39,10 @@
   ],
   "evidence": [
     "Plan/Instructions/QA/Evidence/Wave64/video_pipeline_build.json",
-    "Plan/Instructions/QA/Evidence/Wave64/VIDEO_PIPELINE_BUILD_WAN_RECONCILIATION_20260714T131812-0500.json",
-    "Plan/Tracker/Evidence/VIDEO_PIPELINE_BUILD_WAN_RECONCILIATION_20260714T131812-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/VIDEO_PIPELINE_BUILD_WAN_RECONCILIATION_20260715T123149-0500.json",
+    "Plan/Tracker/Evidence/VIDEO_PIPELINE_BUILD_WAN_RECONCILIATION_20260715T123149-0500.json",
     "Plan/Instructions/QA/Evidence/Wave64/video_pipeline_build_test_log.json",
-    "Plan/Items/Reports/ITEM-W64-019_video_pipeline_build.json",
-    "Plan/Instructions/QA/Evidence/Wave64/Video_Keyframes/normal_v4_wan22_keyframe_handoff_candidate.json",
-    "Plan/Instructions/QA/Evidence/Wave64/video_keyframe_handoff_readiness.json",
-    "Plan/Instructions/QA/Evidence/Wave64/VIDEO_KEYFRAME_HANDOFF_READINESS_20260714T133824-0500.json",
-    "Plan/Tracker/Evidence/VIDEO_KEYFRAME_HANDOFF_READINESS_20260714T133824-0500.json",
-    "Plan/Instructions/QA/Evidence/Wave64/video_keyframe_handoff_readiness_test_log.json",
-    "Plan/08_SCHEMAS/video_keyframe_handoff.schema.json",
-    "Plan/07_IMPLEMENTATION/scripts/build_wave64_video_keyframe_handoff.py",
-    "Plan/Instructions/QA/Evidence/Wave64/VIDEO_KEYFRAME_HANDOFF_READINESS_20260714T141000-0500.json",
-    "Plan/Tracker/Evidence/VIDEO_KEYFRAME_HANDOFF_READINESS_20260714T141000-0500.json"
+    "Plan/Items/Reports/ITEM-W64-019_video_pipeline_build.json"
   ],
-  "next_action": "Obtain scope-matched refine and multi-frame continuity proof, then clear upstream Row016 image-promotion authority before exercising one genuine repair span; do not rerun completed WAN, temporal, or loop proofs."
+  "next_action": "Preserve the immutable failed Row023 repair candidate. Clear upstream Row016 image-promotion authority and bind a promoted, QA-approved still into the keyframe handoff without repeating completed WAN, repair, temporal, or loop proofs."
 }
