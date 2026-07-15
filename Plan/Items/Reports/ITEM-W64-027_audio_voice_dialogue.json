@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-027-AUDIO-VOICE-DIALOGUE-20260712T165435-0500",
-  "timestamp": "2026-07-14T19:18:49-05:00",
+  "timestamp": "2026-07-14T23:32:04-05:00",
   "item_id": "ITEM-W64-027",
   "tracker_id": "TRK-W64-027",
   "workstream": "audio_voice_dialogue",
@@ -23,7 +23,8 @@
     "parler_tts_cuda_runner_ready": true,
     "parler_tts_runtime_identity_verifier_ready": true,
     "non_truncating_timeline_conformance_ready": true,
-    "independent_whisper_asr_ready": true
+    "independent_whisper_asr_ready": true,
+    "cv3_eval_local_calibration_adapter_ready": true
   },
   "validation": {
     "unit_tests_passed": 39,
@@ -72,7 +73,16 @@
     "parler_tts_strict_overall_gate": "BLOCKED",
     "parler_tts_new_tests_passed": 17,
     "parler_tts_semantic_review": "PASS",
-    "parler_tts_semantic_review_confidence": "high"
+    "parler_tts_semantic_review_confidence": "high",
+    "cv3_eval_adapter_tests_passed": 11,
+    "cv3_eval_adapter_test_failures": 0,
+    "cv3_eval_local_calibration": "PASS_PARTIAL_METRIC_CALIBRATION_EMOTION_AND_PLAYBACK_AUTHORITY_BLOCKED",
+    "cv3_reference_sample_count": 8,
+    "cv3_speaker_same_file_cosine_min": 0.9999998807907104,
+    "cv3_speaker_cross_file_cosine_max": 0.15442430973052979,
+    "cv3_speaker_cross_file_margin": 0.8455755710601807,
+    "parler_tts_cv3_dnsmos_ovrl": 3.058596703101282,
+    "parler_tts_cv3_dnsmos_reference_percentile": 0.75
   },
   "acceptance_gates": {
     "voice_profile_match_contract": true,
@@ -86,6 +96,11 @@
     "genuine_production_tts_voice_audio_present": true,
     "genuine_production_tts_runtime_proof_present": true,
     "genuine_production_tts_asr_passed": true,
+    "cv3_eval_wer_path_calibrated": true,
+    "cv3_eval_dnsmos_path_calibrated": true,
+    "cv3_eval_speaker_execution_path_verified": true,
+    "candidate_reference_speaker_identity_verified": false,
+    "candidate_emotion_verified": false,
     "genuine_production_voice_audio_present": false,
     "genuine_production_proof_set_present": false,
     "production_proof_bundle_allowlisted": false,
@@ -99,7 +114,7 @@
     {
       "classification": "Blocked_Voice_Dialogue_Production_Proof_Missing",
       "scope": "primary_row_blocker",
-      "reason": "A hash-bound Parler-TTS character line now passes strict profile, timing, intelligibility, and production-runtime gates, but speaker, emotion, continuity, independent playback, and production-bundle authority proofs remain missing."
+      "reason": "A hash-bound Parler-TTS character line now passes strict profile, timing, intelligibility, production-runtime, CV3 WER, and CV3 DNSMOS gates, but candidate speaker identity, emotion, continuity, independent playback, and production-bundle authority proofs remain missing."
     },
     {
       "classification": "Blocked_Voice_Production_Proof_Authority_Missing",
@@ -114,6 +129,16 @@
       "classification": "Blocked_Voice_Playback_Quality_Edge_Review_Missing",
       "scope": "selected_parler_candidate",
       "reason": "Whisper recognizes the final word as B rather than beat. WER 0.10 passes the numeric threshold, but independent playback must decide whether this edge candidate is acceptable before reference or certification use."
+    },
+    {
+      "classification": "Blocked_Voice_Speaker_Reference_Missing",
+      "scope": "speaker_identity",
+      "reason": "The ERes2Net execution, normalization, and cross-file scoring path is verified, but the calibration subset has no speaker-identity labels and no independent reference-speaker recording is bound to this candidate."
+    },
+    {
+      "classification": "Blocked_Voice_Emotion_Model_Payload_Missing",
+      "scope": "emotion",
+      "reason": "CV3-Eval does not contain the required emotion2vec_plus_large model.pt payload, so focused-emotion scoring remains fail-closed."
     }
   ],
   "evidence": [
@@ -136,6 +161,10 @@
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/W64_PARLER_TTS_LOCAL_RUNTIME_ASR_20260714T191849-0500.json",
       "sha256": "fddd070b37ce16f80da97356d478a52ade1cc49e96e9b5d525b5dff480661d89"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/W64_CV3_EVAL_LOCAL_CALIBRATION_20260714T233144-0500.json",
+      "sha256": "4ea6604d2336357cf67ee70ed133b2300d1b8b47ba6d4e48f6d42ab821cc66f0"
     }
   ],
   "runtime": {
@@ -144,6 +173,7 @@
     "production_runtime_proof_count": 1,
     "licensed_human_voice_mix_count": 1,
     "production_voice_evaluation_count": 2,
+    "cv3_local_metric_calibration_count": 1,
     "production_playback_review_count": 0,
     "approved_proof_bundle_count": 0,
     "comfyui_started": false,
@@ -151,5 +181,5 @@
     "ec2_started": false,
     "diagnostic_voice_evaluation_count": 2
   },
-  "next_action": "Obtain independent playback, speaker-identity, and focused-emotion review against exact media SHA-256 18b6d51cca9d9c5541bac621c09fd9059f521d8969ba5b25fa881c9284180c73 before any proof-bundle allowlist or final voice certification action; do not rerun generation unless that review rejects the disclosed final-word edge."
+  "next_action": "Bind an independent reference-speaker recording, restore an exact licensed emotion model payload, and obtain independent playback against media SHA-256 18b6d51cca9d9c5541bac621c09fd9059f521d8969ba5b25fa881c9284180c73 before proof-bundle allowlisting or final voice certification; do not rerun generation unless playback rejects the disclosed final-word edge."
 }
