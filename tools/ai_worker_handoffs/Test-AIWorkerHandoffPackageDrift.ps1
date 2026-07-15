@@ -24,12 +24,41 @@ function Get-Destination {
   throw "Unsupported package path: $RelativePath"
 }
 
+function Get-AutomationSemanticHash {
+  param([Parameter(Mandatory = $true)][string]$Path)
+  $semanticLines = @(
+    Get-Content -LiteralPath $Path |
+      Where-Object { $_ -notmatch '^\s*(created_at|updated_at)\s*=' } |
+      ForEach-Object { $_.TrimEnd() }
+  )
+  $text = ($semanticLines -join "`n") + "`n"
+  $sha = [Security.Cryptography.SHA256]::Create()
+  try {
+    return ([BitConverter]::ToString($sha.ComputeHash([Text.Encoding]::UTF8.GetBytes($text)))).Replace('-', '').ToLowerInvariant()
+  } finally {
+    $sha.Dispose()
+  }
+}
+
 $files = @($manifest.files | ForEach-Object {
   $source = Join-Path $PackageRoot ([string]$_.relative_path).Replace("/", "\")
   $destination = Get-Destination -RelativePath ([string]$_.relative_path)
   $canonicalHash = (Get-FileHash -LiteralPath $source -Algorithm SHA256).Hash.ToLowerInvariant()
   $liveHash = if (Test-Path -LiteralPath $destination -PathType Leaf) { (Get-FileHash -LiteralPath $destination -Algorithm SHA256).Hash.ToLowerInvariant() } else { "MISSING" }
-  [ordered]@{ relative_path = $_.relative_path; destination = $destination; manifest_hash_valid = ($canonicalHash -eq ([string]$_.sha256).ToLowerInvariant()); live_matches_canonical = ($liveHash -eq $canonicalHash); canonical_sha256 = $canonicalHash; live_sha256 = $liveHash }
+  $isAutomation = [string]$_.relative_path -like 'automations/*'
+  $semanticMatch = $false
+  if ($isAutomation -and $liveHash -ne 'MISSING') {
+    $semanticMatch = (Get-AutomationSemanticHash -Path $source) -eq (Get-AutomationSemanticHash -Path $destination)
+  }
+  [ordered]@{
+    relative_path = $_.relative_path
+    destination = $destination
+    comparison_mode = $(if ($isAutomation) { 'semantic_ignore_app_metadata_timestamps' } else { 'exact_sha256' })
+    manifest_hash_valid = ($canonicalHash -eq ([string]$_.sha256).ToLowerInvariant())
+    live_matches_canonical = $(if ($isAutomation) { $semanticMatch } else { $liveHash -eq $canonicalHash })
+    canonical_sha256 = $canonicalHash
+    live_sha256 = $liveHash
+  }
 })
 
 $automationFiles = @($manifest.files | Where-Object { [string]$_.relative_path -like "automations/*" })
