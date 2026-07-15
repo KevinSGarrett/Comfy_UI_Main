@@ -1,5 +1,5 @@
 {
-  "parser_version": "wave64_strict_audio_review_v1",
+  "parser_version": "wave64_strict_audio_review_v2",
   "wer_thresholds": {
     "speech": 0.2,
     "mixed": 0.25
@@ -62,8 +62,16 @@
       "synthetic_only": false
     }
   ],
+  "human_playback_review_authorities": [
+    {
+      "reviewer_id": "project_owner_audio_reviewer_v1",
+      "authority_id": "wave64_project_owner_playback_authority_v1",
+      "role": "playback_reviewer"
+    }
+  ],
   "production_review_authorities": [
   ],
+  "human_production_review_authorities": [],
   "required_playback_sections": [
     "beginning",
     "middle",
@@ -78,6 +86,25 @@
     "stylistic_fit",
     "technical_consistency",
     "content_correctness"
+  ],
+  "human_review_minimum_score": 4.0,
+  "human_required_playback_categories": [
+    "exact_spoken_content",
+    "intelligibility",
+    "character_voice_match",
+    "voice_continuity",
+    "delivery_style",
+    "intensity",
+    "pacing_timing",
+    "pronunciation",
+    "naturalness",
+    "technical_cleanliness",
+    "mix_balance",
+    "av_sync"
+  ],
+  "human_not_applicable_categories": [
+    "mix_balance",
+    "av_sync"
   ],
   "blocking_defect_codes": [
     "UNINTELLIGIBLE_SPEECH",

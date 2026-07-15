@@ -573,6 +573,11 @@ def evaluate(root: Path, request_path: Path, output_path: Path) -> int:
 
     expected_lines: dict[str, dict[str, Any]] = {}
     all_line_ids: list[str] = []
+    dialogue_contract_version = dialogue_contract.get("dialogue_contract_version", 1)
+    if not isinstance(dialogue_contract_version, int) or isinstance(dialogue_contract_version, bool):
+        raise InvalidInputError("dialogue_contract_version must be integer")
+    if dialogue_contract_version not in {1, 2}:
+        raise InvalidInputError("dialogue_contract_version must be 1 or 2")
     for idx, line in enumerate(contract_lines):
         if not isinstance(line, dict):
             raise InvalidInputError(f"dialogue_contract.lines[{idx}] must be an object")
@@ -588,6 +593,18 @@ def evaluate(root: Path, request_path: Path, output_path: Path) -> int:
             "sync_required",
             "output_file",
         }
+        if dialogue_contract_version == 2:
+            expected_keys.remove("emotion")
+            expected_keys.update(
+                {
+                    "emotion_class",
+                    "delivery_style",
+                    "pace_wpm",
+                    "emphasis",
+                    "articulation",
+                    "duration_target_seconds",
+                }
+            )
         _expect_exact_keys(line, expected_keys, f"dialogue_contract.lines[{idx}]")
         line_id = _expect_non_empty_string(line["line_id"], f"dialogue_contract.lines[{idx}].line_id")
         if line_id in expected_lines:
@@ -596,6 +613,21 @@ def evaluate(root: Path, request_path: Path, output_path: Path) -> int:
         end_time = _expect_finite_number(line["end_time"], f"dialogue_contract.lines[{idx}].end_time")
         if end_time <= start_time:
             raise InvalidInputError(f"dialogue_contract.lines[{idx}] end_time must be > start_time")
+        if dialogue_contract_version == 2:
+            emotion_class = line["emotion_class"]
+            if emotion_class is not None:
+                _expect_non_empty_string(emotion_class, f"dialogue_contract.lines[{idx}].emotion_class")
+            _expect_non_empty_string(line["delivery_style"], f"dialogue_contract.lines[{idx}].delivery_style")
+            _expect_non_empty_string(line["intensity"], f"dialogue_contract.lines[{idx}].intensity")
+            _expect_non_empty_string(line["emphasis"], f"dialogue_contract.lines[{idx}].emphasis")
+            _expect_non_empty_string(line["articulation"], f"dialogue_contract.lines[{idx}].articulation")
+            pace_wpm = _expect_finite_number(line["pace_wpm"], f"dialogue_contract.lines[{idx}].pace_wpm")
+            duration_target = _expect_finite_number(
+                line["duration_target_seconds"],
+                f"dialogue_contract.lines[{idx}].duration_target_seconds",
+            )
+            if pace_wpm <= 0 or duration_target <= 0:
+                raise InvalidInputError(f"dialogue_contract.lines[{idx}] pace and duration target must be positive")
         expected_lines[line_id] = line
         all_line_ids.append(line_id)
 
@@ -842,7 +874,12 @@ def evaluate(root: Path, request_path: Path, output_path: Path) -> int:
     )
 
     emotion_blockers: list[str] = []
-    if proof_bindings["emotion_proof"] is None:
+    emotion_targets_required = dialogue_contract_version == 1 or any(
+        line.get("emotion_class") not in {None, "unspecified"} for line in expected_lines.values()
+    )
+    if proof_bindings["emotion_proof"] is None and not emotion_targets_required:
+        emotion_status = PASS
+    elif proof_bindings["emotion_proof"] is None:
         emotion_status = BLOCKED
         emotion_blockers.append("missing emotion_proof")
     else:
@@ -871,15 +908,22 @@ def evaluate(root: Path, request_path: Path, output_path: Path) -> int:
             seen.add(line_id)
             if entry["audio_sha256"] != line_bindings[line_id].sha256:
                 raise InvalidInputError(f"emotion_proof audio hash mismatch for line {line_id}")
-            if _expect_non_empty_string(entry["predicted_emotion"], "predicted_emotion") != expected_lines[line_id]["emotion"]:
-                emotion_blockers.append(f"emotion label mismatch for line {line_id}")
-            if _expect_non_empty_string(entry["predicted_intensity"], "predicted_intensity") != expected_lines[line_id]["intensity"]:
-                emotion_blockers.append(f"intensity label mismatch for line {line_id}")
+            predicted_emotion = _expect_non_empty_string(entry["predicted_emotion"], "predicted_emotion")
+            _expect_non_empty_string(entry["predicted_intensity"], "predicted_intensity")
+            if dialogue_contract_version == 1:
+                if predicted_emotion != expected_lines[line_id]["emotion"]:
+                    emotion_blockers.append(f"emotion label mismatch for line {line_id}")
+                if entry["predicted_intensity"] != expected_lines[line_id]["intensity"]:
+                    emotion_blockers.append(f"intensity label mismatch for line {line_id}")
+            else:
+                expected_emotion = expected_lines[line_id]["emotion_class"]
+                if expected_emotion not in {None, "unspecified"} and predicted_emotion != expected_emotion:
+                    emotion_blockers.append(f"emotion label mismatch for line {line_id}")
             confidence = _expect_ratio_0_1(entry["emotion_confidence"], "emotion_confidence")
             intensity_score = _expect_ratio_0_1(entry["intensity_score"], "intensity_score")
-            if confidence < thresholds["min_emotion_confidence"]:
+            if (dialogue_contract_version == 1 or expected_lines[line_id].get("emotion_class") not in {None, "unspecified"}) and confidence < thresholds["min_emotion_confidence"]:
                 emotion_blockers.append(f"emotion confidence below threshold for line {line_id}")
-            if intensity_score < thresholds["min_intensity_score"]:
+            if dialogue_contract_version == 1 and intensity_score < thresholds["min_intensity_score"]:
                 emotion_blockers.append(f"intensity score below threshold for line {line_id}")
         for missing_line in sorted(line_id_set - seen):
             emotion_blockers.append(f"emotion_proof missing line {missing_line}")

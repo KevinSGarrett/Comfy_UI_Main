@@ -42,7 +42,9 @@ Codex must review:
 - content correctness
 - sync quality if applicable
 
-0–5 scale per category.
+0-5 scale per category. Production playback review uses the minimum scores and authority rules in `HUMAN_AUDIO_PLAYBACK_REVIEW_PROTOCOL.md` and the strict audio authority registry.
+
+`emotion_class`, `delivery_style`, and `intensity` are separate fields. A delivery style such as `focused` or an intensity such as `controlled` must not be forced into an emotion-model taxonomy.
 
 ## Blocking defects
 

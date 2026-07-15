@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0",
+  "artifact_type": "wave64_audio_human_qa_voice_contract_implementation",
+  "timestamp": "2026-07-15T10:27:30.0899161-05:00",
+  "status": "PASS_CONTROL_IMPLEMENTATION_PRODUCTION_EVIDENCE_PENDING",
+  "classification": "AUDIO_HUMAN_QA_VOICE_CONTRACT_IMPLEMENTATION_COMPLETE",
+  "implementation": {
+    "human_review_request_schema": "Plan/08_SCHEMAS/wave64_human_audio_review_request.schema.json",
+    "human_review_record_schema": "Plan/08_SCHEMAS/wave64_human_audio_review_record.schema.json",
+    "human_playback_proof_schema": "Plan/08_SCHEMAS/wave64_human_playback_review_proof.schema.json",
+    "human_production_bundle_schema": "Plan/08_SCHEMAS/wave64_human_production_review_bundle.schema.json",
+    "request_producer": "Plan/07_IMPLEMENTATION/scripts/prepare_wave64_human_audio_review.py",
+    "record_validator": "Plan/07_IMPLEMENTATION/scripts/validate_wave64_human_audio_review.py",
+    "strict_evaluator": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_strict_audio_artifact_review.py",
+    "voice_continuity_evaluator": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave30_voice_dialogue_continuity.py",
+    "protocol": "Plan/Instructions/QA/HUMAN_AUDIO_PLAYBACK_REVIEW_PROTOCOL.md",
+    "voice_profile_registry": "Plan/10_REGISTRIES/wave30_voice_profile_registry.json",
+    "reference_speaker_registry": "Plan/10_REGISTRIES/wave30_reference_speaker_registry.json"
+  },
+  "authority": {
+    "authority_type_human_supported": true,
+    "fake_model_metadata_for_humans_forbidden": true,
+    "playback_reviewer_allowlisted": "project_owner_audio_reviewer_v1",
+    "playback_authority_id": "wave64_project_owner_playback_authority_v1",
+    "human_final_production_authority_supported": true,
+    "human_final_production_authority_allowlist_count": 0,
+    "playback_and_final_authority_roles_disjoint": true,
+    "playback_review_alone_promotes_production": false
+  },
+  "voice_contract": {
+    "dialogue_contract_version": 2,
+    "separate_fields": [
+      "emotion_class",
+      "delivery_style",
+      "intensity",
+      "pace_wpm",
+      "emphasis",
+      "articulation",
+      "duration_target_seconds"
+    ],
+    "focused_treated_as": "delivery_style",
+    "controlled_treated_as": "intensity",
+    "forced_emotion2vec_mapping": false,
+    "c01_identity_policy": "pending_selection",
+    "c01_production_authorized": false
+  },
+  "review_policy": {
+    "automated_gates_required_before_human_review": true,
+    "default_minimum_score": 4.0,
+    "high_or_critical_defects_block": true,
+    "short_clip_not_applicable_sections_supported": true,
+    "artifact_request_and_record_hash_binding_required": true,
+    "human_role": "irreducible listening judgment only"
+  },
+  "validation": {
+    "voice_contract_human_qa_index_tests_passed": 41,
+    "strict_audio_compatibility_tests_passed": 53,
+    "tracking_reconciliation_tests_passed": 2,
+    "total_tests_passed": 96,
+    "test_failures": 0,
+    "python_compile": "PASS",
+    "human_review_artifact_tamper_rejected": true,
+    "human_review_low_score_pass_rejected": true,
+    "distinct_final_authority_bundle_supported": true,
+    "legacy_model_proof_compatibility_preserved": true
+  },
+  "latest_dialogue_candidate": {
+    "evidence": "Plan/Instructions/QA/Evidence/Wave64/W64_CHATTERBOX_DIALOGUE_REJECTION_20260715T092901-0500.json",
+    "evidence_sha256": "fa524a959e5d28b37709f22eb96768e4ca02816babd3a327bc47576dc39cc4c0",
+    "classification": "CHATTERBOX_DIALOGUE_REJECTED_NO_RETRY",
+    "production_eligible": false,
+    "human_review_requested": false,
+    "reason": "The 3.92-second candidate exceeds the 3.0-second contract and therefore does not enter human approval."
+  },
+  "remaining_blockers": [
+    "C01 identity policy and canonical licensed reference or synthetic baseline remain unselected",
+    "no production-eligible dialogue candidate currently exists",
+    "no hash-bound passing human playback record exists for an eligible candidate",
+    "no distinct human or model final production authority is allowlisted"
+  ],
+  "affected_items": ["ITEM-W64-025", "ITEM-W64-027", "ITEM-W64-031"],
+  "affected_trackers": ["TRK-W64-025", "TRK-W64-027", "TRK-W64-031"],
+  "row_completion_claimed": false,
+  "production_promotion_claimed": false
+}

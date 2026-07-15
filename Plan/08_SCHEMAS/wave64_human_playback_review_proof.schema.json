@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/wave64_human_playback_review_proof.schema.json",
+  "title": "Wave64 Human Playback Review Proof",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_name", "proof_version", "proof_kind", "authority_type", "reviewer_id", "authority_id", "role", "synthetic_only", "audio_sha256", "request_sha256", "record_sha256", "is_synthetic", "production_evidence", "self_authorized", "independence_attestation", "playback_conditions", "sections_reviewed", "not_applicable_sections", "category_scores", "not_applicable_categories", "observed_transcript", "defects", "decision"],
+  "properties": {
+    "schema_name": {"const": "wave64_human_playback_review_proof"},
+    "proof_version": {"const": 1},
+    "proof_kind": {"const": "playback_review"},
+    "authority_type": {"const": "human"},
+    "reviewer_id": {"type": "string", "minLength": 1},
+    "authority_id": {"type": "string", "minLength": 1},
+    "role": {"const": "playback_reviewer"},
+    "synthetic_only": {"const": false},
+    "audio_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "request_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "record_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "is_synthetic": {"const": false},
+    "production_evidence": {"const": true},
+    "self_authorized": {"const": false},
+    "independence_attestation": {"type": "object"},
+    "playback_conditions": {"type": "object"},
+    "sections_reviewed": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "not_applicable_sections": {"type": "object", "additionalProperties": {"type": "string", "minLength": 1}},
+    "category_scores": {"type": "object", "additionalProperties": {"type": "number", "minimum": 0, "maximum": 5}},
+    "not_applicable_categories": {"type": "object", "additionalProperties": {"type": "string", "minLength": 1}},
+    "observed_transcript": {"type": "string"},
+    "defects": {"type": "array", "items": {"type": "object"}},
+    "decision": {"type": "string", "enum": ["PASS", "PASS_WITH_ISSUES", "FAIL"]}
+  }
+}

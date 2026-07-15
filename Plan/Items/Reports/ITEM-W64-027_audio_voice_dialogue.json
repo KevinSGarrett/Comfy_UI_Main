@@ -1,11 +1,11 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-027-AUDIO-VOICE-DIALOGUE-20260712T165435-0500",
-  "timestamp": "2026-07-15T08:02:00-05:00",
+  "timestamp": "2026-07-15T10:27:30.0899161-05:00",
   "item_id": "ITEM-W64-027",
   "tracker_id": "TRK-W64-027",
   "workstream": "audio_voice_dialogue",
-  "status": "Blocked_Voice_Dialogue_Production_Proof_Missing",
+  "status": "Blocked_Production_Eligible_Voice_Candidate_Missing",
   "row_complete": false,
   "implementation": {
     "pcm_voice_artifact_decode_ready": true,
@@ -38,7 +38,12 @@
     "cosyvoice2_instruct_control_runner_ready": true,
     "cosyvoice2_instruct_control_lineage_verifier_ready": true,
     "cosyvoice2_instruct_control_packager_ready": true,
-    "cosyvoice2_instruct_control_tracking_ready": true
+    "cosyvoice2_instruct_control_tracking_ready": true,
+    "full_audio_pack_functional_index_ready": true,
+    "human_playback_review_authority_path_ready": true,
+    "human_final_production_authority_path_ready": true,
+    "dialogue_contract_v2_style_intensity_separation_ready": true,
+    "reference_speaker_registry_ready": true
   },
   "validation": {
     "unit_tests_passed": 39,
@@ -178,7 +183,15 @@
     "cosyvoice2_instruct_candidate_dnsmos_reference_percentile": 0.5,
     "cosyvoice2_instruct_candidate_emotion_label": "happy",
     "cosyvoice2_instruct_candidate_rejected": true,
-    "cosyvoice2_instruct_same_control_retry_authorized": false
+    "cosyvoice2_instruct_same_control_retry_authorized": false,
+    "functional_audio_index_file_count": 39771,
+    "functional_audio_index_unique_sha256_count": 29862,
+    "functional_audio_index_sha256": "7301243a364025dbd23907aee20ee8593d5897caa83d38391026ad42da6d17ec",
+    "audio_control_side_task_tests_passed": 96,
+    "chatterbox_candidate_sha256": "cde61c59adace5b0674ee05268f56a091b0921b196bc7ad54ad0a06fc17a5b96",
+    "chatterbox_candidate_duration_seconds": 3.92,
+    "chatterbox_expected_duration_seconds": 3.0,
+    "chatterbox_candidate_rejected": true
   },
   "acceptance_gates": {
     "voice_profile_match_contract": true,
@@ -241,13 +254,19 @@
     "cosyvoice2_instruct_candidate_dnsmos_worst_reference_floor_pass": true,
     "cosyvoice2_instruct_candidate_dnsmos_quality_certification_pass": null,
     "cosyvoice2_instruct_candidate_dialogue_timing_pass": false,
-    "cosyvoice2_instruct_candidate_style_contract_pass": false
+    "cosyvoice2_instruct_candidate_style_contract_pass": false,
+    "full_audio_pack_functional_index_ready": true,
+    "content_based_audio_suppression_absent": true,
+    "human_playback_review_schema_ready": true,
+    "human_final_authority_schema_ready": true,
+    "production_eligible_dialogue_candidate_present": false,
+    "row_complete": false
   },
   "blockers": [
     {
-      "classification": "Blocked_Voice_Dialogue_Production_Proof_Missing",
+      "classification": "Blocked_Production_Eligible_Voice_Candidate_Missing",
       "scope": "primary_row_blocker",
-      "reason": "A hash-bound Parler-TTS character line now passes strict profile, timing, intelligibility, production-runtime, CV3 WER, and CV3 DNSMOS gates, but candidate speaker identity, emotion, continuity, independent playback, and production-bundle authority proofs remain missing."
+      "reason": "No production-eligible C01 dialogue candidate exists; C01 identity policy and canonical reference or synthetic baseline also remain pending."
     },
     {
       "classification": "Blocked_Voice_Production_Proof_Authority_Missing",
@@ -326,6 +345,18 @@
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/W64_COSYVOICE2_INSTRUCT_CONTROL_REJECTION_20260715T074822-0500.json",
       "sha256": "e736b31cc47108d050a0126e6d29af72680df1561a6789f0f7748a64296e2c2a"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/AUDIO_PACK_FUNCTIONAL_INDEX_20260715T151915Z.json",
+      "sha256": "0f91c4627ea139bccddc600332742e4552b8f2a8bd916e269f9df119871b61b8"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/W64_AUDIO_HUMAN_QA_VOICE_CONTRACT_20260715T102730-0500.json",
+      "sha256": "f107919fab6f03e52b4ca0bc8c7518bbf0fb97f7a941f7869ff482f8f8177800"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/W64_CHATTERBOX_DIALOGUE_REJECTION_20260715T092901-0500.json",
+      "sha256": "fa524a959e5d28b37709f22eb96768e4ca02816babd3a327bc47576dc39cc4c0"
     }
   ],
   "runtime": {
@@ -349,5 +380,5 @@
     "cosyvoice2_candidate_evaluation_count": 3,
     "cosyvoice2_instruct_control_generation_count": 1
   },
-  "next_action": "Select a distinct dialogue engine or newly supported timing/style implementation artifact. Do not retry the rejected CosyVoice2 instruct2 fast-control path, truncate or time-stretch its output, or reuse any rejected Parler/CosyVoice2 candidate as production proof."
+  "next_action": "Keep rejected candidates immutable. Select or design C01's canonical voice identity, preflight line duration, then generate a predeclared bounded audition batch through a distinct eligible engine/configuration. Send only an automated-gate-passing candidate to the hash-bound human playback workflow."
 }

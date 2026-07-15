@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/wave64_human_production_review_bundle.schema.json",
+  "title": "Wave64 Human Production Review Bundle",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_name", "bundle_version", "proof_kind", "authority_type", "reviewer_id", "authority_id", "role", "is_synthetic", "production_evidence", "artifact_sha256", "prompt_alignment_proof_sha256", "playback_proof_sha256", "independence_attestation", "decision", "revoked"],
+  "properties": {
+    "schema_name": {"const": "wave64_human_production_review_bundle"},
+    "bundle_version": {"const": 1},
+    "proof_kind": {"const": "production_review"},
+    "authority_type": {"const": "human"},
+    "reviewer_id": {"type": "string", "minLength": 1},
+    "authority_id": {"type": "string", "minLength": 1},
+    "role": {"const": "final_production_authority"},
+    "is_synthetic": {"const": false},
+    "production_evidence": {"const": true},
+    "artifact_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "prompt_alignment_proof_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "playback_proof_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "independence_attestation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["not_generator", "not_prompt_alignment_authority", "not_playback_reviewer", "no_conflict", "reviewed_exact_hashes"],
+      "properties": {
+        "not_generator": {"const": true},
+        "not_prompt_alignment_authority": {"const": true},
+        "not_playback_reviewer": {"const": true},
+        "no_conflict": {"const": true},
+        "reviewed_exact_hashes": {"const": true}
+      }
+    },
+    "decision": {"const": "PASS"},
+    "revoked": {"const": false}
+  }
+}
