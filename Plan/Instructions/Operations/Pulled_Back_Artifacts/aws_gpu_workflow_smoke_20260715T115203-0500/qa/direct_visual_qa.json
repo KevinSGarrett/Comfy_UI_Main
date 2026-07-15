@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-ROW023-WAN-RERUN-DIRECT-VISUAL-QA-20260715T121119-0500",
+  "timestamp": "2026-07-15T12:11:19-05:00",
+  "review_authority": "Codex Desktop direct visual QA",
+  "tracker_id": "TRK-W64-023",
+  "item_id": "ITEM-W64-023",
+  "source_anchor": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_animatediff_fallback_20260713T022708-0500/extracted_frames/frame_0002.png",
+    "sha256": "d6d5acd4579a34f0ebef9aa47a4d01e20e5bf83c3885c8e93f146eadeeb72665"
+  },
+  "candidate": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260715T115203-0500/images/12_w64_row023_wan22_rerun_seed2272301_00001_.mp4",
+    "sha256": "29823555e23ac47d58fd83740952817c0b6ddf379523dc3b61f6e8088d34949a",
+    "prompt_id": "327cb0c8-53d5-4958-9025-8ab5d3feb636",
+    "seed": 2272301
+  },
+  "review_inputs": [
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260715T115203-0500/qa/all_49_frames_contact_sheet.png",
+      "sha256": "197e031f72c6cbf8f9fc75d0e35ff1f3562831bd0ca539d8e89e5a1e444c450e"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260715T115203-0500/qa/contact_sheet.png",
+      "sha256": "cff491e8aa20f20357062fd88afd0f0d599e016498d9cff9ebec7eb7d2cd6865"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260715T115203-0500/qa/top_hair_lights_start_mid_end.png",
+      "sha256": "ca9e44c42b887e3377ed2f6678ce3ccaeba3678007e532f56ee0889a2e311640"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260715T115203-0500/qa/face_start_mid_end.png",
+      "sha256": "1d3e018fc40523724fe1c0b60bc49505382db5c0b68cf778bb1863acf5a743eb"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260715T115203-0500/qa/collar_background_start_mid_end.png",
+      "sha256": "9dd7d6859b4ca2d4f5ca4ba14198ab4a4d8793def8872e5df20d01a0f31008d8"
+    }
+  ],
+  "review_scope": {
+    "reviewed_frame_indexes": "0-48 inclusive",
+    "reviewed_frame_count": 49,
+    "start_middle_end_crops_reviewed": true,
+    "terminal_frame_reviewed": true
+  },
+  "gates": {
+    "recognizable_anchor_identity": {
+      "pass": false,
+      "observation": "The subject remains broadly recognizable, but facial shape and feature placement change subtly from the anchor through the middle and terminal frames."
+    },
+    "dark_center_parted_curled_end_hair": {
+      "pass": true,
+      "observation": "The dark center part and curled ends remain present across all 49 reviewed frames."
+    },
+    "white_collared_blouse_continuity": {
+      "pass": true,
+      "observation": "The white collared blouse and neckline remain coherent without a terminal collapse."
+    },
+    "black_studio_background": {
+      "pass": true,
+      "observation": "The black studio field remains locked and does not change scenes."
+    },
+    "symmetric_gray_side_lights": {
+      "pass": false,
+      "observation": "The initially gray side lights become visibly violet-blue during the shot, violating the requested gray-light and no-lighting-change constraints."
+    },
+    "warm_top_highlight": {
+      "pass": true,
+      "observation": "The warm top highlight remains present throughout the shot."
+    },
+    "locked_head_and_shoulders_framing": {
+      "pass": true,
+      "observation": "The camera and head-and-shoulders composition remain locked."
+    },
+    "subtle_coherent_motion": {
+      "pass": true,
+      "observation": "Motion is minimal and temporally coherent, with no cut, camera move, or major body deformation."
+    },
+    "exposure_continuity": {
+      "pass": true,
+      "observation": "The already bright facial and blouse exposure remains materially stable rather than collapsing or flickering."
+    },
+    "terminal_frame_integrity": {
+      "pass": true,
+      "observation": "Frame 48 decodes and remains coherent with no terminal corruption."
+    }
+  },
+  "passed_gate_count": 8,
+  "failed_gate_count": 2,
+  "direct_visual_acceptance_pass": false,
+  "classification": "Blocked_Video_Frame_Repair_Rerun_Candidate_Visual_QA_Failed",
+  "generation_retry_allowed": false,
+  "result": "fail_closed_identity_and_side_light_drift",
+  "next_action": "Preserve this one-shot Wan candidate and its technical pass as immutable evidence. Do not generate another Row023 retry; keep final temporal acceptance and production promotion blocked."
+}

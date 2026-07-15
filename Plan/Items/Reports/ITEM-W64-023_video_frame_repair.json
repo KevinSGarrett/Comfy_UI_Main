@@ -1,11 +1,11 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-023-VIDEO-FRAME-REPAIR-20260711T152500-0500",
-  "timestamp": "2026-07-13T04:26:29-05:00",
+  "timestamp": "2026-07-15T12:11:19-05:00",
   "item_id": "ITEM-W64-023",
   "tracker_id": "TRK-W64-023",
   "workstream": "video_frame_repair",
-  "status": "Blocked_Video_Frame_Repair_Rerun_Shot_Required",
+  "status": "Blocked_Video_Frame_Repair_Rerun_Candidate_Visual_QA_Failed",
   "row_complete": false,
   "implementation": {
     "frame_level_defect_planner_ready": true,
@@ -55,7 +55,13 @@
     "isolated_flicker_executor": "blocked_expected_exit_2_no_output",
     "targeted_test_rerun_passed": 29,
     "targeted_test_rerun_failed": 0,
-    "claude_semantic_review": "PASS_NO_HIGH_OR_MEDIUM_FINDINGS"
+    "claude_semantic_review": "PASS_NO_HIGH_OR_MEDIUM_FINDINGS",
+    "wan_rerun_runtime": "workflow_smoke_generation_complete",
+    "wan_rerun_prompt_id": "327cb0c8-53d5-4958-9025-8ab5d3feb636",
+    "wan_rerun_candidate_sha256": "29823555e23ac47d58fd83740952817c0b6ddf379523dc3b61f6e8088d34949a",
+    "wan_rerun_technical_qa": "pass_49_of_49_frames",
+    "wan_rerun_direct_visual_qa": "fail_closed_identity_and_side_light_drift",
+    "generation_retry_allowed": false
   },
   "acceptance_gates": {
     "defect_localization": true,
@@ -64,53 +70,56 @@
     "preserve_passed_frames_verifier": true,
     "short_span_candidate_executor": true,
     "synthetic_decodable_candidate_verified": true,
-    "real_repaired_candidate": false,
-    "before_after_visual_review": false,
-    "runtime_repair_proof": false,
+    "real_repaired_candidate": true,
+    "before_after_visual_review": true,
+    "runtime_repair_proof": true,
     "final_temporal_acceptance": false,
     "real_defect_localization": true,
-    "real_repair_ledger": true
+    "real_repair_ledger": true,
+    "identity_environment_visual_preservation": false
   },
   "blockers": [
     {
-      "classification": "Blocked_Video_Frame_Repair_Rerun_Shot_Required",
+      "classification": "Blocked_Video_Frame_Repair_Rerun_Candidate_Visual_QA_Failed",
       "scope": "primary_row_blocker",
-      "reason": "The real frames 5-7 span contains persistent shot instability and frame-7 identity drift, so policy requires rerunning the shot; the isolated-flicker executor is ineligible and failed closed."
-    },
-    {
-      "classification": "Blocked_Video_Frame_Repair_Visual_Proof_Missing",
-      "scope": "before_after_and_preservation_review",
-      "reason": "No truthful repaired candidate exists, so no before/after visual preservation review can run."
+      "reason": "The one authorized Wan rerun candidate passes runtime and technical QA but fails strict direct visual acceptance because facial identity drifts subtly and the symmetric gray side lights become violet-blue."
     },
     {
       "classification": "Blocked_Gold_Mask_Dependency_Missing",
       "scope": "contact_and_deformation_repair_subgates_only",
-      "reason": "Contact/deformation repair cannot use candidate masks as truth while manual body gold masks remain unavailable."
+      "reason": "Body/contact deformation claims remain outside this portrait rerun and cannot consume candidate masks as trusted truth while manual body gold masks remain unavailable."
     }
   ],
   "evidence": [
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/video_frame_repair.json",
-      "sha256": "6286d3bb9df31d05bf69af1c27e3e1135a437f5914c9b3d5918da885c0a0a027"
+      "sha256": "c7b74f376cfaf4fae93dd5ddc8671b7b2cf3bb0efdc1b2dd16ec1ac309c857c2"
     },
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/video_frame_repair_test_log.json",
-      "sha256": "99bc4bf82a6251c077ada062db52021afd394ebc4e5e4a801f727203fef919dd"
+      "sha256": "6a427ac601458802a06866eeaf29df35a14eeda0cb3b187d165d705d68b42019"
     },
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_FRAME_REPAIR_REAL_SEQUENCE_ROUTING_20260713T042629-0500.json",
       "sha256": "a3ee46bcd13a26180e1fdfb35635ed0c23c62d7d4a282b858156c31156b31c2d"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/W64_ROW023_WAN_RERUN_RUNTIME_VISUAL_QA_20260715T121119-0500.json",
+      "sha256": "643cfa34c46d5228e40617b2ffd4ba13cf1ec37f5e6c14e5a4999d6c653ce937"
     }
   ],
   "runtime": {
-    "repair_execution_count": 0,
-    "candidate_frame_count": 0,
+    "repair_execution_count": 1,
+    "candidate_frame_count": 49,
     "synthetic_candidate_execution_count": 1,
     "synthetic_candidate_frame_count": 6,
-    "visual_review_count": 0,
-    "comfyui_started": false,
-    "aws_contacted": false,
-    "ec2_started": false
+    "visual_review_count": 1,
+    "comfyui_started": true,
+    "aws_contacted": true,
+    "ec2_started": true,
+    "ec2_final_state": "stopped",
+    "completed_generation_count": 1,
+    "generation_retry_allowed": false
   },
-  "next_action": "Continue TRK-W64-024 / ITEM-W64-024 GIF loop/export reconciliation; preserve this failed sequence and do not treat it as promotable."
+  "next_action": "Preserve the immutable Row023 candidate and fail-closed visual result. Do not rerun Row023; continue the next concrete non-mask project task without promoting this shot."
 }
