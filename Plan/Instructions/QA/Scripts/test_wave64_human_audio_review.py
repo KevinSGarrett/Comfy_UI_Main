@@ -145,6 +145,32 @@ class Wave64HumanAudioReviewTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "byte mismatch"):
                 VALIDATE.validate_review(request_path, record_path)
 
+    def test_request_producer_can_honestly_disable_engine_blinding(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            base = Path(temporary)
+            artifact = base / "kokoro_candidate.wav"
+            evidence = base / "kokoro_evaluation.json"
+            _write_wav(artifact)
+            evidence.write_text('{"status":"PASS"}\n', encoding="utf-8")
+            args = argparse.Namespace(
+                artifact=str(artifact),
+                media_type="audio",
+                review_id="review_unblinded",
+                expected_transcript="Hold the line.",
+                character_id="C01",
+                voice_profile_id="voice_C01_pending_authority",
+                emotion_class=None,
+                delivery_style="focused",
+                intensity="controlled",
+                pace_wpm=150.0,
+                duration_target_seconds=3.0,
+                sync_required=False,
+                automated_evidence=[str(evidence)],
+                engine_identity_hidden_initial_pass=False,
+            )
+            request = PREPARE.build_request(args)
+            self.assertFalse(request["blinding"]["engine_identity_hidden_initial_pass"])
+
     def test_distinct_human_final_authority_bundle_is_supported(self):
         with tempfile.TemporaryDirectory() as temporary:
             base = Path(temporary)

@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-026-AUDIO-ENGINE-ROUTING-20260712T163916-0500",
-  "timestamp": "2026-07-15T10:27:30.0899161-05:00",
+  "timestamp": "2026-07-15T13:43:36-05:00",
   "item_id": "ITEM-W64-026",
   "tracker_id": "TRK-W64-026",
   "workstream": "audio_engine_routing",
@@ -77,7 +77,17 @@
     "production_eligible_dialogue_candidate_present": false,
     "independent_playback_review_pass": false,
     "production_review_authority_pass": false,
-    "row_complete": false
+    "row_complete": false,
+    "kokoro_three_speed_audition_generated": true,
+    "kokoro_exact_content_asr_pass": true,
+    "kokoro_exact_dialogue_timing_pass": true,
+    "kokoro_dnsmos_calibrated_floor_pass": true,
+    "kokoro_synthetic_voice_continuity_pass": true,
+    "kokoro_automated_candidate_eligibility_pass": true,
+    "kokoro_human_playback_request_ready": true,
+    "candidate_exact_content_verified": true,
+    "automated_eligible_dialogue_candidate_present": true,
+    "final_voice_certification_allowed": false
   },
   "blockers": [
     {
@@ -90,8 +100,9 @@
       "reason": "LTX-2 is only a planned AV candidate, no approved production-audio status exists, and no separate audio engine is registered."
     },
     {
-      "classification": "Blocked_Audio_Engine_Proof_Artifacts_Missing",
-      "reason": "No genuine capability, license, installed asset, runtime, and QA proof set exists for a production route."
+      "classification": "Blocked_Audio_Engine_Authority_Not_Approved",
+      "scope": "production_route",
+      "reason": "Kokoro has bounded local runtime and automated candidate proof, but production engine authority remains unapproved pending playback and final review."
     }
   ],
   "evidence": [
@@ -106,6 +117,10 @@
     {
       "path": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/AUDIO_PACK_FUNCTIONAL_INDEX_20260715T151915Z.json",
       "sha256": "0f91c4627ea139bccddc600332742e4552b8f2a8bd916e269f9df119871b61b8"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/W64_KOKORO_C01_AUTOMATED_ELIGIBILITY_20260715T131034-0500.json",
+      "sha256": "f7bb114b4a031e6fc85a045b50701ad520bd8ee8f7aceaf85f5c5012dc937077"
     }
   ],
   "runtime": {
@@ -114,7 +129,16 @@
     "genuine_proof_set_count": 0,
     "comfyui_started": false,
     "aws_contacted": false,
-    "ec2_started": false
+    "ec2_started": false,
+    "kokoro_c01_audition": {
+      "engine": "hexgrad/Kokoro-82M",
+      "revision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "voice": "af_heart",
+      "selected_sha256": "a212653c029f5677b97bba8c769186fc11d29b561b4ca19a2344ff294a5fdd56",
+      "automated_eligibility_pass": true,
+      "human_playback_review_pass": false,
+      "production_authority_pass": false
+    }
   },
-  "next_action": "Keep rejected candidates immutable. Select or design C01's canonical voice identity, preflight line duration, then generate a predeclared bounded audition batch through a distinct eligible engine/configuration. Send only an automated-gate-passing candidate to the hash-bound human playback workflow."
+  "next_action": "Collect one independent human playback record against the prepared exact-hash Kokoro request, validate it through the canonical human playback validator, and only then consider the separate final-production authority gate. Do not regenerate or alter the three audition candidates."
 }

@@ -42,14 +42,14 @@
       "voice_profile_id": "voice_C01_pending_authority",
       "character_id": "C01",
       "language": "en",
-      "identity_policy": "pending_selection",
+      "identity_policy": "designed_synthetic_voice",
       "reference_ids": [],
-      "timbre": "pending_character_voice_casting",
-      "accent": "pending_character_voice_casting",
-      "pitch": "pending_character_voice_casting",
+      "timbre": "af_heart_designed_synthetic_baseline_pending_human_review",
+      "accent": "American English (engine-declared; human review pending)",
+      "pitch": "pending_human_playback_review",
       "pace_wpm_range": {
-        "minimum": 120,
-        "maximum": 180
+        "minimum": 195,
+        "maximum": 205
       },
       "delivery_styles": [
         "focused"
@@ -59,12 +59,40 @@
         "controlled"
       ],
       "pronunciation_dictionary": {},
-      "continuity_lines": [],
-      "engine_configuration": null,
+      "continuity_lines": [
+        {
+          "line_id": "L001",
+          "transcript": "We hold the frame steady and move on the beat.",
+          "selected_audio_sha256": "a212653c029f5677b97bba8c769186fc11d29b561b4ca19a2344ff294a5fdd56"
+        }
+      ],
+      "engine_configuration": {
+        "engine": "kokoro",
+        "package_version": "0.9.4",
+        "model_id": "hexgrad/Kokoro-82M",
+        "model_revision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+        "model_sha256": "496dba118d1a58f5f3db2efc88dbdc216e0483fc89fe6e47ee1f2c53f18ad1e4",
+        "config_sha256": "5abb01e2403b072bf03d04fde160443e209d7a0dad49a423be15196b9b43c17f",
+        "voice": "af_heart",
+        "voice_sha256": "0ab5709b8ffab19bfd849cd11d98f75b60af7733253ad0d67b12382a102cb4ff",
+        "language_code": "a",
+        "speed": 1.0,
+        "sample_rate_hz": 24000,
+        "seed": 64033
+      },
       "sync_default": true,
       "qa_policy": "strict_character_voice",
       "production_authorized": false,
-      "blocker": "character voice identity policy and approved reference or synthetic baseline are not yet selected"
+      "blocker": "automated eligibility passed; independent human playback and distinct final-production authority remain required",
+      "license": {
+        "model": "Apache-2.0",
+        "source": "hexgrad/Kokoro-82M",
+        "revision": "f3ff3571791e39611d31c381e3a41a3af07b4987"
+      },
+      "audition_evidence": {
+        "path": "Plan/Instructions/QA/Evidence/Wave64/W64_KOKORO_C01_AUTOMATED_ELIGIBILITY_20260715T131034-0500.json",
+        "sha256": "f7bb114b4a031e6fc85a045b50701ad520bd8ee8f7aceaf85f5c5012dc937077"
+      }
     }
   ]
 }

@@ -1,11 +1,11 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-025-AUDIO-PIPELINE-BUILD-20260712T161737-0500",
-  "timestamp": "2026-07-15T10:27:30.0899161-05:00",
+  "timestamp": "2026-07-15T13:43:36-05:00",
   "item_id": "ITEM-W64-025",
   "tracker_id": "TRK-W64-025",
   "workstream": "audio_pipeline_build",
-  "status": "Blocked_Production_Eligible_Audio_Candidate_Missing",
+  "status": "Blocked_Audio_Playback_Review_Missing",
   "row_complete": false,
   "implementation": {
     "wave30_event_compiler_hardened": true,
@@ -243,7 +243,7 @@
     "cv3_candidate_emotion_score_present": true,
     "non_synthetic_playback_producer_allowlisted": true,
     "candidate_model_backed_playback_proof_present": false,
-    "candidate_exact_content_verified": false,
+    "candidate_exact_content_verified": true,
     "replacement_candidate_intelligibility_verified": false,
     "independent_playback_review_pass": false,
     "production_review_authority_pass": false,
@@ -281,23 +281,21 @@
     "human_playback_review_schema_ready": true,
     "human_final_authority_schema_ready": true,
     "production_eligible_dialogue_candidate_present": false,
-    "row_complete": false
+    "row_complete": false,
+    "kokoro_three_speed_audition_generated": true,
+    "kokoro_exact_content_asr_pass": true,
+    "kokoro_exact_dialogue_timing_pass": true,
+    "kokoro_dnsmos_calibrated_floor_pass": true,
+    "kokoro_synthetic_voice_continuity_pass": true,
+    "kokoro_automated_candidate_eligibility_pass": true,
+    "kokoro_human_playback_request_ready": true,
+    "automated_eligible_dialogue_candidate_present": true
   },
   "blockers": [
-    {
-      "classification": "Blocked_Production_Eligible_Audio_Candidate_Missing",
-      "scope": "primary_row_blocker",
-      "reason": "Runtime execution exists for Parler, CosyVoice2, Chatterbox, and MMAudio, but every current dialogue candidate is rejected and no production-eligible complete audio chain is approved."
-    },
     {
       "classification": "Blocked_Audio_Playback_Review_Missing",
       "scope": "audio_review",
       "reason": "The new mix passes hash, ASR, decode, loudness, true-peak, waveform, spectrogram, and strict mux checks, but independent perceptual playback review is still absent."
-    },
-    {
-      "classification": "Blocked_Voice_Emotion_Taxonomy_Authority_Missing",
-      "scope": "emotion",
-      "reason": "The exact licensed emotion2vec_plus_large payload executed over all 300 paired CV3 emotion references and scored the candidate neutral at 0.99999678, but the contract target focused/controlled is outside the model and CV3 taxonomies. No registered threshold or approved mapping authorizes emotion PASS."
     },
     {
       "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_audio_chain_20260714T163400-0500/delivery_manifest.json",
@@ -312,14 +310,14 @@
       "sha256": "fddd070b37ce16f80da97356d478a52ade1cc49e96e9b5d525b5dff480661d89"
     },
     {
-      "classification": "Blocked_Model_Backed_Playback_Content_And_Style_Authority",
-      "scope": "dialogue_candidates",
-      "reason": "The original candidate is technically clean but has a critical beat-to-B content mismatch and cannot emit a strict playback proof because focused/controlled is outside the calibrated style taxonomy. The single authorized seed-64028 replacement is also rejected because its independent Whisper WER is 0.70."
+      "classification": "Blocked_Human_Audio_Playback_Review_Missing",
+      "scope": "kokoro_selected_candidate",
+      "reason": "The selected Kokoro hash passed automated gates and has a prepared request, but no independent human playback record or validated proof exists."
     },
     {
-      "classification": "Blocked_Production_Eligible_Voice_Candidate_Missing",
-      "scope": "dialogue_candidate",
-      "reason": "No production-eligible dialogue candidate exists. The best corrected zero-shot take retains exact content but lasts 4.84 seconds; the single model-native instruct2 fast-control take lasts 7.32 seconds and changes the line at WER 1.0. Focused emotion remains unsupported, controlled intensity unmeasured, and playback/production authority absent."
+      "classification": "Blocked_Audio_Production_Review_Authority_Missing",
+      "scope": "final_production_authority",
+      "reason": "A distinct allowlisted final-production authority and review bundle remain absent."
     }
   ],
   "evidence": [
@@ -394,6 +392,10 @@
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/W64_CHATTERBOX_DIALOGUE_REJECTION_20260715T092901-0500.json",
       "sha256": "fa524a959e5d28b37709f22eb96768e4ca02816babd3a327bc47576dc39cc4c0"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/W64_KOKORO_C01_AUTOMATED_ELIGIBILITY_20260715T131034-0500.json",
+      "sha256": "f7bb114b4a031e6fc85a045b50701ad520bd8ee8f7aceaf85f5c5012dc937077"
     }
   ],
   "runtime": {
@@ -418,7 +420,16 @@
     "openslr31_speaker_validation_execution_count": 1,
     "cosyvoice2_zero_shot_generation_count": 2,
     "cosyvoice2_candidate_evaluation_count": 3,
-    "cosyvoice2_instruct_control_generation_count": 1
+    "cosyvoice2_instruct_control_generation_count": 1,
+    "kokoro_c01_audition": {
+      "engine": "hexgrad/Kokoro-82M",
+      "revision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "voice": "af_heart",
+      "selected_sha256": "a212653c029f5677b97bba8c769186fc11d29b561b4ca19a2344ff294a5fdd56",
+      "automated_eligibility_pass": true,
+      "human_playback_review_pass": false,
+      "production_authority_pass": false
+    }
   },
-  "next_action": "Keep rejected candidates immutable. Select or design C01's canonical voice identity, preflight line duration, then generate a predeclared bounded audition batch through a distinct eligible engine/configuration. Send only an automated-gate-passing candidate to the hash-bound human playback workflow."
+  "next_action": "Collect one independent human playback record against the prepared exact-hash Kokoro request, validate it through the canonical human playback validator, and only then consider the separate final-production authority gate. Do not regenerate or alter the three audition candidates."
 }
