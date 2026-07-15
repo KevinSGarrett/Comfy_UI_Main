@@ -1,3 +1,11 @@
+## Wave64 Model-Backed Playback Rejection - 2026-07-15T01:25:40-05:00
+
+Continue the full autonomous ComfyUI project goal from authoritative `C:\Comfy_UI_Main`. The current audio outcome is a validated playback-review-only producer plus two rejected dialogue candidates: the original fails exact content and unsupported style taxonomy; seed 64028 fails intelligibility at WER `0.70`. Rows025/027/031 remain blocked and incomplete, and production-review authority remains independent and empty.
+
+Pursuing goal: move to a genuinely perceptual audio-review calibration or an independently bound reference-speaker/style contract without regenerating either rejected dialogue candidate. Keep EC2 stopped and preserve all mask, Wave71+, Jira, and production-certification boundaries.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/W64_MODEL_BACKED_PLAYBACK_AND_REPLACEMENT_REJECTION_20260715T012540-0500.json`.
+
 ## Wave64 Row027 Recovered SAPI Voice Evaluation - 2026-07-14T07:03:04-05:00
 
 `TRK-W64-027` / `ITEM-W64-027` remains `Blocked_Voice_Dialogue_Production_Proof_Missing`, now with the recovered SAPI lines evaluated by the existing strict producer/evaluator. The two character-owned packets use the original text and timing windows, an explicit unverified intensity sentinel, and no fabricated proof files. `L001` is `BLOCKED` on the six missing proof classes; `L002` is `FAIL` because its actual 3.244-second audio exceeds the original 2.4-second window by 0.844 seconds, in addition to the missing proofs.

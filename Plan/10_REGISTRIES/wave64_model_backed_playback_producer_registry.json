@@ -1,0 +1,77 @@
+{
+  "schema_name": "wave64_model_backed_playback_producer_registry",
+  "schema_version": 1,
+  "producer_identity": {
+    "proof_kind": "playback_review",
+    "producer_id": "wave64_cv3_model_backed_playback_producer",
+    "engine": "whisper_dnsmos_emotion2vec_composite",
+    "model": "cv3_playback_reviewer_bundle",
+    "model_version": "1.0.0",
+    "model_sha256": "7214ba35afbdece3ae29e44a49a2847e56a6249c9a295d18488be7b2f1c07df3",
+    "authority_id": "wave64_cv3_playback_authority_v1",
+    "synthetic_only": false
+  },
+  "model_bundle_hash_algorithm": "sha256_utf8_sorted_key_equals_sha256_lines_v1",
+  "model_components": {
+    "dnsmos_model_v8": {
+      "path": "F:/Len_Transfer/Audio_Downloads/CV3-Eval-main/CV3-Eval-main/utils/DNSMOS/DNSMOS/model_v8.onnx",
+      "sha256": "9246480c58567bc6affd4200938e77eef49468c8bc7ed3776d109c07456f6e91"
+    },
+    "dnsmos_sig_bak_ovr": {
+      "path": "F:/Len_Transfer/Audio_Downloads/CV3-Eval-main/CV3-Eval-main/utils/DNSMOS/DNSMOS/sig_bak_ovr.onnx",
+      "sha256": "269fbebdb513aa23cddfbb593542ecc540284a91849ac50516870e1ac78f6edd"
+    },
+    "emotion2vec_plus_large": {
+      "path": "C:/Comfy_UI_Main/runtime_artifacts/model_cache/emotion2vec_plus_large/modelscope-v2.0.5-plus-tokenfix-767b2e00/model.pt",
+      "sha256": "be501a01f26fcdc7663a062dff86af839afbaef7c4de32f5e42d7e1ad2784da4",
+      "revision": "v2.0.5"
+    },
+    "whisper_tiny_en": {
+      "path": "C:/Comfy_UI_Main/runtime_artifacts/model_cache/whisper-tiny-en-87c71024/model.safetensors",
+      "sha256": "db59695928ded6043adaef491a53ef4e12da9611184d77c53baa691a60b958ad",
+      "revision": "87c7102498dcde7456f24cfd30239ca606ed9063"
+    }
+  },
+  "supporting_bindings": {
+    "dnsmos_source": {
+      "path": "F:/Len_Transfer/Audio_Downloads/CV3-Eval-main/CV3-Eval-main/utils/DNSMOS/dnsmos_local.py",
+      "sha256": "dd4108728ab3280fdc0404b4d4aef79ca22cd4ac6ef75660e7a727eda438a8f7"
+    },
+    "whisper_metadata": {
+      "path": "C:/Comfy_UI_Main/runtime_artifacts/model_cache/whisper-tiny-en-87c71024/.cache/huggingface/download/model.safetensors.metadata",
+      "sha256": "480214b4a170f7203e2c7bbc7a22feec2b3027efd1112acb09b69de137f6bead"
+    }
+  },
+  "calibration_evidence": {
+    "cv3_eval": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/W64_CV3_EVAL_LOCAL_CALIBRATION_20260714T233144-0500.json",
+      "sha256": "4ea6604d2336357cf67ee70ed133b2300d1b8b47ba6d4e48f6d42ab821cc66f0"
+    },
+    "cv3_emotion": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/W64_CV3_EMOTION2VEC_LOCAL_CALIBRATION_20260715T001113-0500.json",
+      "sha256": "c11b0c23748a9487fb839a6474c82f156efd6ecc2a01f43fc017455cbad704f4"
+    }
+  },
+  "authority_registry_path": "Plan/10_REGISTRIES/wave64_strict_audio_review_authority_registry.json",
+  "calibrated_emotion_labels": [
+    "angry",
+    "happy",
+    "sad"
+  ],
+  "calibrated_intensity_labels": [],
+  "thresholds": {
+    "wer_pass_max": 0.2,
+    "exact_content_required": true,
+    "clipped_sample_ratio_block_min": 0.001,
+    "silence_ratio_block_min": 0.65,
+    "dnsmos_ovrl_reference_min": 1.909670827038737,
+    "dnsmos_ovrl_reference_median": 2.8429279921605914,
+    "dnsmos_ovrl_reference_max": 3.2477967080559877
+  },
+  "authority_boundary": {
+    "playback_review_only": true,
+    "production_review_authority": false,
+    "production_review_bundle_authority": false,
+    "proof_abstains_when_any_required_category_is_unsupported": true
+  }
+}

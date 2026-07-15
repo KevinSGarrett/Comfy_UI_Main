@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.0",
+  "artifact_type": "wave64_model_backed_playback_and_replacement_evidence",
+  "execution_timestamp": "2026-07-15T01:48:27-05:00",
+  "status": "BLOCKED",
+  "classification": "MODEL_BACKED_PLAYBACK_ABSTENTION_AND_REPLACEMENT_INTELLIGIBILITY_REJECTION",
+  "tracker_ids": [
+    "TRK-W64-025",
+    "TRK-W64-027",
+    "TRK-W64-031"
+  ],
+  "item_ids": [
+    "ITEM-W64-025",
+    "ITEM-W64-027",
+    "ITEM-W64-031"
+  ],
+  "artifact_bindings": {
+    "original_playback_execution": {
+      "path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\w64_model_backed_playback_20260715T012540-0500\\original_model_backed_playback_execution.json",
+      "sha256": "5b33c806c7fc3a590ab6bb8807068361dd948e55490299f9b1bf0d152085aeea",
+      "bytes": 7169
+    },
+    "replacement_runtime_manifest": {
+      "path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\w64_model_backed_playback_20260715T012540-0500\\replacement_runtime_manifest.json",
+      "sha256": "b026d18eea45f22ea892d934e95e149dec4a98f8d7ed7a7341648e72d37d53b3",
+      "bytes": 3077
+    },
+    "replacement_raw_wav": {
+      "path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\w64_model_backed_playback_20260715T012540-0500\\L001_C01_parler_tts_seed64028.wav",
+      "sha256": "b9ed1868276811ceb64b6654a2bd81455b490d021ed36c5b21cfd0f31aadfc96",
+      "bytes": 261164
+    },
+    "replacement_proof_packet_manifest.json": {
+      "path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\w64_model_backed_playback_20260715T012540-0500\\replacement_packet_manifest.json",
+      "sha256": "09991404dfe87b1e57ec49633da41166ec754112652571d00a13fc7006875ebd",
+      "bytes": 2695
+    },
+    "replacement_proof_dialogue_contract.json": {
+      "path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\w64_model_backed_playback_20260715T012540-0500\\replacement_dialogue_contract.json",
+      "sha256": "ee6e3105b0e38059783f6cd6f390cfa6de9026235ee67923b639edcfa9808dff",
+      "bytes": 611
+    },
+    "replacement_proof_voice_profile.json": {
+      "path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\w64_model_backed_playback_20260715T012540-0500\\replacement_voice_profile.json",
+      "sha256": "0f1496587288058a71b95a58ed3c92b4c33b1e6b194f98eb9acfac1b714c423f",
+      "bytes": 795
+    },
+    "replacement_proof_L001_C01_parler_tts_conformed.wav": {
+      "path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\w64_model_backed_playback_20260715T012540-0500\\replacement_L001_C01_parler_tts_conformed.wav",
+      "sha256": "abd4769425b495c8e0870b688bbb7e56799c3ac3d62b83482d06ddeeffa1d586",
+      "bytes": 264644
+    }
+  },
+  "original_candidate": {
+    "sha256": "18b6d51cca9d9c5541bac621c09fd9059f521d8969ba5b25fa881c9284180c73",
+    "model_backed_playback_status": "BLOCKED",
+    "proof_emitted": false,
+    "normalized_wer": 0.1,
+    "content_defects": [
+      {
+        "code": "CRITICAL_CONTENT_MISMATCH",
+        "severity": "critical",
+        "description": "Expected normalized tokens ['we', 'hold', 'the', 'frame', 'steady', 'and', 'move', 'on', 'the', 'beat']; observed ['we', 'hold', 'the', 'frame', 'steady', 'and', 'move', 'on', 'the', 'b']."
+      }
+    ],
+    "unsupported_required_categories": [
+      "stylistic_fit.target_emotion",
+      "stylistic_fit.target_intensity"
+    ],
+    "technical_scores": {
+      "intelligibility": 4.0,
+      "cleanliness": 4.293041,
+      "stylistic_fit": null,
+      "technical_consistency": 5.0,
+      "content_correctness": 0.0
+    }
+  },
+  "replacement_candidate": {
+    "seed": 64028,
+    "raw_sha256": "b9ed1868276811ceb64b6654a2bd81455b490d021ed36c5b21cfd0f31aadfc96",
+    "conformed_sha256": "abd4769425b495c8e0870b688bbb7e56799c3ac3d62b83482d06ddeeffa1d586",
+    "speech_truncated": false,
+    "asr_transcript": "We hold the frames.",
+    "normalized_wer": 0.7,
+    "wer_threshold": 0.2,
+    "intelligibility_pass": false,
+    "rejected": true
+  },
+  "gates": {
+    "producer_model_and_calibration_hash_binding_pass": true,
+    "original_decode_and_technical_measurement_pass": true,
+    "original_exact_content_pass": false,
+    "original_stylistic_taxonomy_supported": false,
+    "original_playback_proof_emitted": false,
+    "replacement_runtime_execution_pass": true,
+    "replacement_zero_truncation_pass": true,
+    "replacement_intelligibility_pass": false,
+    "independent_playback_review_pass": false,
+    "production_review_authority_pass": false,
+    "row_complete": false,
+    "certification_pass": false
+  },
+  "authority_boundary": {
+    "playback_producer_allowlisted": true,
+    "production_review_authorities_mutated": false,
+    "production_review_bundle_allowlist_mutated": false,
+    "no_candidate_promoted": true,
+    "no_additional_generation_authorized_by_this_evidence": true
+  },
+  "next_action": "Keep both candidates rejected. Advance a genuinely perceptual audio-model calibration or bind an independent reference speaker and supported style taxonomy before generating another dialogue take."
+}
