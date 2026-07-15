@@ -20,6 +20,8 @@ Review budget: Cursor extraction when needed, one Sonnet semantic pass, Codex re
 
 ## Pre-Work Gate
 
+Create a signed development intent before substantive work with `tools/ai_worker_handoffs/dispatcher/New-AIWorkerDevelopmentPipeline.ps1`. The admission ledger is the automatic routing denominator; do not bypass it by beginning eligible reasoning directly in Codex. Independent Cursor and Claude scheduled lanes consume admitted work concurrently.
+
 Classify eligible work before broad analysis:
 
 - `CODEX_ONLY_AUTHORITY`: live/runtime, visual QA, project-state mutation, or final acceptance.
@@ -30,6 +32,8 @@ Classify eligible work before broad analysis:
 - `DETERMINISTIC_FAST_PATH`: one genuinely tiny or exact deterministic check.
 
 Use `.claude/skills/route-ai-worker-work/SKILL.md` for the routing workflow.
+
+Quality profiles are executable contracts. `high_assurance` uses one Sonnet architecture/risk preflight, Cursor implementation with host-run validators, and one Sonnet residual-risk review of the hash-bound diff before Codex acceptance. Opus remains escalation-only and is never added merely to increase subscription utilization.
 
 ## Scope First
 

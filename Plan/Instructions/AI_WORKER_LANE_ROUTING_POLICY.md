@@ -229,9 +229,15 @@ Over a rolling 24-hour window, Claude should handle 60-70% of eligible non-autho
 
 ## Mandatory Pre-Work Delegation Gate
 
+Production routing is enforced through signed task intents, not memory alone. Before a substantive unit, call `tools/ai_worker_handoffs/dispatcher/New-AIWorkerDevelopmentPipeline.ps1` or `New-AIWorkerTaskIntent.ps1`. The local admission service records every eligible, deterministic, and Codex-only decision, then creates bounded lane requests automatically. A Codex-only event without a concrete authority reason fails qualification.
+
+Use `fast_low_risk`, `balanced_default`, or `high_assurance` from `Plan/10_REGISTRIES/ai_worker_development_quality_profiles.json`. High assurance is a dependency graph: Sonnet architecture/risk contract first, Cursor implementation second, host validators third, one Sonnet residual-risk review fourth, and Codex final acceptance last. Cursor and Claude run on separate local lane services, so unrelated work can proceed concurrently.
+
 Worker routing occurs before substantive Codex reasoning. Cursor produces mechanical inventories, failure extraction, implementation drafts, and test drafts first. Sonnet 5 performs the first substantive architecture, contradiction, and risk synthesis. Codex consumes the compact worker result and performs final judgment, authority actions, and bounded validation; Sonnet must not be reserved principally as an after-the-fact confirmation once Codex has already done the eligible reasoning. Opus remains escalation-only and has no utilization target.
 
 Eligible work orders should be submitted to the local non-Codex dispatcher under `C:\Users\kevin\.codex\ai_worker_dispatcher`. The dispatcher pins the current commit, creates a registered isolated worktree, serializes each subscription lane through its bounded lock, and preserves a completed packet for Codex review. It does not stage, commit, push, merge, mutate AWS/Jira/masks/Items/Tracker, or grant final authority.
+
+Cursor implementation validators are host-owned. Cursor may edit only exact allowed paths and must not execute project tests, generators, package managers, or validators. The credential-scrubbed command broker runs allowlisted validators after the worker exits. Every completed unit returns a signed compact packet containing changed paths, diff stat/hash/excerpt, validation results, dependencies, acceptance contract, risk, and recommended Codex action.
 
 Before Codex starts any broad scan, audit, helper draft, multi-file diagnosis, evidence extraction, strategy review, or Git/GitHub investigation above a tiny check, it must classify the work with exactly one gate:
 

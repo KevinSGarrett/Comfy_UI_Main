@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/ai_worker_task_intent.schema.json",
+  "title": "AI Worker Task Intent",
+  "type": "object",
+  "required": ["schema_version", "artifact_type", "intent_id", "task_name", "work_type", "authority_class", "risk_class", "quality_profile", "candidate_paths", "acceptance_contract"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "artifact_type": {"const": "ai_worker_task_intent"},
+    "intent_id": {"type": "string", "pattern": "^[A-Za-z0-9_.-]{3,180}$"},
+    "task_name": {"type": "string", "minLength": 3, "maxLength": 120},
+    "work_type": {"enum": ["mechanical", "implementation", "semantic", "architecture", "test_strategy", "git_github_analysis", "deterministic", "final_authority"]},
+    "authority_class": {"enum": ["worker_eligible", "codex_only"]},
+    "risk_class": {"enum": ["low", "medium", "high", "critical"]},
+    "quality_profile": {"enum": ["fast_low_risk", "balanced_default", "high_assurance"]},
+    "candidate_paths": {"type": "array", "minItems": 1, "maxItems": 20, "items": {"type": "string"}, "uniqueItems": true},
+    "allowed_paths": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "validator_commands": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "acceptance_contract": {"type": "object", "minProperties": 1},
+    "estimated_codex_minutes": {"type": "number", "minimum": 0},
+    "priority": {"type": "integer", "minimum": 0, "maximum": 100}
+  },
+  "additionalProperties": true
+}
