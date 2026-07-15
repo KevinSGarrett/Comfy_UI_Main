@@ -58,7 +58,9 @@ Use the wrapper:
 
 `C:\Users\kevin\.codex\cursor_handoff\Invoke-CursorAgentHandoff.ps1`
 
-The wrapper launches Cursor with WSL workspace `/mnt/c/Comfy_UI_Main`, not the handoff-record directory. Work orders identify both Windows and WSL roots and require WSL filesystem commands to use the WSL root. Creating a Windows drive-name path inside the repository is a malformed-path failure.
+For a registered linked worktree, keep `-ProjectRoot` pointed at that isolated worktree. The wrapper resolves Cursor authentication independently from the repository's Git-reported primary worktree, or validates an explicit `-CredentialRoot` against that same primary root. It must never copy `.env` into a linked worktree or change Cursor's workspace to Main merely to obtain authentication. Handoff records may contain the trusted credential-root path and loader SHA-256, but never the credential value.
+
+The wrapper launches Cursor with the WSL form of the requested project root, not the handoff-record or credential directory. Work orders identify both Windows and WSL roots and require WSL filesystem commands to use the WSL root. Creating a Windows drive-name path inside the repository is a malformed-path failure.
 
 The wrapper pins the Cursor worker to WSL distribution `Ubuntu-22.04`. Git/LFS work must use `-RequireGitLfs`; the wrapper preflights `git lfs version` and records the native or fallback route before Cursor starts. Use `-GitLfsEvidencePath` only with evidence created by `C:\Comfy_UI_Main\tools\Export-GitLfsReadOnlyEvidence.ps1`.
 

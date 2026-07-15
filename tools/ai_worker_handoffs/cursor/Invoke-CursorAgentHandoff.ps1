@@ -5,6 +5,7 @@ Runs a bounded Cursor CLI handoff for Comfy_UI_Main without exposing secrets.
 [CmdletBinding(PositionalBinding=$false)]
 param(
   [string]$ProjectRoot = "C:\Comfy_UI_Main",
+  [string]$CredentialRoot = "",
   [Parameter(Mandatory=$true)][string]$TaskName,
   [ValidateSet("ask","plan","agent")][string]$Mode = "ask",
   [string]$WorkOrderText = "",
@@ -110,6 +111,59 @@ function Invoke-WslCommandCapture {
     exit_code = $proc.ExitCode
     stdout = $stdoutTask.Result
     stderr = $stderrTask.Result
+  }
+}
+
+function Get-RegisteredGitWorktreeRoots {
+  param([Parameter(Mandatory=$true)][string]$RepoRoot)
+  $repoFull = [System.IO.Path]::GetFullPath($RepoRoot).TrimEnd('\')
+  $output = @(& git.exe -C $repoFull worktree list --porcelain 2>&1)
+  if ($LASTEXITCODE -ne 0) {
+    throw "Unable to enumerate registered Git worktrees for ${repoFull}: $($output -join ' ')"
+  }
+  $roots = @(
+    $output |
+      ForEach-Object { [string]$_ } |
+      Where-Object { $_.StartsWith("worktree ", [System.StringComparison]::Ordinal) } |
+      ForEach-Object { [System.IO.Path]::GetFullPath($_.Substring(9)).TrimEnd('\') }
+  )
+  if ($roots.Count -lt 1) { throw "Git reported no registered worktrees for $repoFull" }
+  return $roots
+}
+
+function Resolve-CursorCredentialRoot {
+  param(
+    [Parameter(Mandatory=$true)][string]$RepoRoot,
+    [string]$RequestedCredentialRoot = ""
+  )
+  $repoFull = [System.IO.Path]::GetFullPath($RepoRoot).TrimEnd('\')
+  $registeredRoots = @(Get-RegisteredGitWorktreeRoots -RepoRoot $repoFull)
+  $projectRegistered = @($registeredRoots | Where-Object {
+    $_.Equals($repoFull, [System.StringComparison]::OrdinalIgnoreCase)
+  }).Count -eq 1
+  if (-not $projectRegistered) {
+    throw "Cursor ProjectRoot is not a registered worktree of the repository: $repoFull"
+  }
+
+  # Git lists the primary worktree first. Credentials remain anchored there while
+  # Cursor's filesystem workspace stays on the requested registered worktree.
+  $primaryRoot = $registeredRoots[0]
+  $candidateRoot = if ([string]::IsNullOrWhiteSpace($RequestedCredentialRoot)) {
+    $primaryRoot
+  } else {
+    [System.IO.Path]::GetFullPath($RequestedCredentialRoot).TrimEnd('\')
+  }
+  if (-not $candidateRoot.Equals($primaryRoot, [System.StringComparison]::OrdinalIgnoreCase)) {
+    throw "CredentialRoot must be the repository primary worktree '$primaryRoot'; received '$candidateRoot'."
+  }
+  if (-not (Test-Path -LiteralPath $candidateRoot -PathType Container)) {
+    throw "Trusted primary credential root is missing: $candidateRoot"
+  }
+  return [pscustomobject]@{
+    project_root = $repoFull
+    credential_root = $candidateRoot
+    primary_worktree_root = $primaryRoot
+    registered_worktree_count = $registeredRoots.Count
   }
 }
 
@@ -416,6 +470,22 @@ if ($SelfTest) {
   $sample = " M file one.txt$([char]0)?? new.txt$([char]0)R  renamed.txt$([char]0)old.txt$([char]0)"
   $parsed = ConvertFrom-GitPorcelainZBytes -Bytes ([System.Text.Encoding]::UTF8.GetBytes($sample))
   $expanded = @(Expand-DelimitedPathList -Values @("alpha.ps1,beta.ps1|gamma.ps1"))
+  $credentialResolution = $null
+  $credentialResolutionError = ""
+  try {
+    $credentialResolution = Resolve-CursorCredentialRoot -RepoRoot $ProjectRoot -RequestedCredentialRoot $CredentialRoot
+  } catch {
+    $credentialResolutionError = $_.Exception.Message
+  }
+  $untrustedCredentialRootRejected = $false
+  if ($null -ne $credentialResolution) {
+    try {
+      $invalidCredentialRoot = Join-Path $credentialResolution.credential_root ".cursor-untrusted-credential-root-probe"
+      $null = Resolve-CursorCredentialRoot -RepoRoot $ProjectRoot -RequestedCredentialRoot $invalidCredentialRoot
+    } catch {
+      $untrustedCredentialRootRejected = $_.Exception.Message -match '^CredentialRoot must be the repository primary worktree'
+    }
+  }
   $checks = [ordered]@{
     delimited_paths_normalized = ($expanded.Count -eq 3)
     nul_git_paths_preserved = ($parsed.Contains("file one.txt") -and $parsed.Contains("new.txt") -and $parsed.Contains("renamed.txt"))
@@ -427,11 +497,21 @@ if ($SelfTest) {
     plain_status_parsed = ((Get-WorkerReportedStatus -Text "status: pass") -eq "pass")
     blocked_status_parsed = ((Get-WorkerReportedStatus -Text "- **status:** blocked") -eq "blocked")
     exact_confidence_parsed = ((Get-WorkerReportedConfidence -Text "confidence: medium") -eq "medium")
+    credential_primary_worktree_resolved = ($null -ne $credentialResolution)
+    credential_project_root_remains_requested = ($null -ne $credentialResolution -and $credentialResolution.project_root.Equals([System.IO.Path]::GetFullPath($ProjectRoot).TrimEnd('\'), [System.StringComparison]::OrdinalIgnoreCase))
+    credential_root_is_primary_worktree = ($null -ne $credentialResolution -and $credentialResolution.credential_root.Equals($credentialResolution.primary_worktree_root, [System.StringComparison]::OrdinalIgnoreCase))
+    untrusted_credential_root_rejected = $untrustedCredentialRootRejected
   }
   $beforeTest = [pscustomobject]@{ status_hash = "same"; signatures = [ordered]@{ "dirty.txt" = "file:1:aaa" } }
   $afterTest = [pscustomobject]@{ status_hash = "same"; signatures = [ordered]@{ "dirty.txt" = "file:1:bbb" } }
   $checks.dirty_file_content_change_detected = (@(Compare-GitWorktreeSnapshots -Before $beforeTest -After $afterTest) -contains "dirty.txt")
-  [ordered]@{ status = $(if (($checks.Values | Where-Object { -not $_ }).Count -eq 0) { "PASS" } else { "FAIL" }); checks = $checks } |
+  [ordered]@{
+    status = $(if (($checks.Values | Where-Object { -not $_ }).Count -eq 0) { "PASS" } else { "FAIL" })
+    project_root = [System.IO.Path]::GetFullPath($ProjectRoot).TrimEnd('\')
+    credential_root = $(if ($null -ne $credentialResolution) { $credentialResolution.credential_root } else { $null })
+    credential_resolution_error = $credentialResolutionError
+    checks = $checks
+  } |
     ConvertTo-Json -Depth 6
   return
 }
@@ -470,6 +550,7 @@ $recordPath = Join-Path $runDir "handoff_record.json"
   require_output_contract = $true
   started_at = (Get-Date).ToString("o")
   project_root = $projectRootFull
+  requested_credential_root = $CredentialRoot
   run_dir = $runDir
   status = "IN_PROGRESS"
   classification = "CURSOR_HANDOFF_IN_PROGRESS"
@@ -529,10 +610,29 @@ try {
 try {
   $allowedFullPaths = @()
   $allowedRepoRelativePaths = @()
-  $envLoader = Join-Path $projectRootFull "Plan\Instructions\Operations\Scripts\Load-ComfyEnv.ps1"
-  if (Test-Path -LiteralPath $envLoader) { . $envLoader -ProjectRoot $projectRootFull -Quiet }
+  $credentialResolution = Resolve-CursorCredentialRoot -RepoRoot $projectRootFull -RequestedCredentialRoot $CredentialRoot
+  $credentialRootFull = $credentialResolution.credential_root
+  $record.credential_root = $credentialRootFull
+  $record.credential_root_relation = "PRIMARY_WORKTREE_FOR_PROJECT"
+  $record.registered_worktree_count = $credentialResolution.registered_worktree_count
   $cursorKey = [Environment]::GetEnvironmentVariable("CURSOR_API_KEY", "Process")
-  if ([string]::IsNullOrWhiteSpace($cursorKey)) { throw "CURSOR_API_KEY is not loaded. Confirm C:\Comfy_UI_Main\.env uses CURSOR_API_KEY=..." }
+  if ([string]::IsNullOrWhiteSpace($cursorKey)) {
+    $envLoader = Join-Path $credentialRootFull "Plan\Instructions\Operations\Scripts\Load-ComfyEnv.ps1"
+    if (-not (Test-Path -LiteralPath $envLoader -PathType Leaf)) {
+      throw "Trusted Cursor credential loader is missing: $envLoader"
+    }
+    $record.credential_loader_path = $envLoader
+    $record.credential_loader_sha256 = (Get-FileHash -LiteralPath $envLoader -Algorithm SHA256).Hash.ToLowerInvariant()
+    . $envLoader -ProjectRoot $credentialRootFull -Quiet
+    $cursorKey = [Environment]::GetEnvironmentVariable("CURSOR_API_KEY", "Process")
+    $record.cursor_credential_source = "PRIMARY_WORKTREE_ENV_LOADER"
+  } else {
+    $record.cursor_credential_source = "PROCESS_ENVIRONMENT"
+  }
+  if ([string]::IsNullOrWhiteSpace($cursorKey)) {
+    throw "CURSOR_API_KEY is not loaded from the process environment or trusted primary worktree '$credentialRootFull'."
+  }
+  $record.cursor_credential_available = $true
 
   $sourceText = ""
   if (-not [string]::IsNullOrWhiteSpace($WorkOrderPath)) { $sourceText = Get-Content -LiteralPath $WorkOrderPath -Raw }
