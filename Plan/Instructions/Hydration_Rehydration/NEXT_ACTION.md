@@ -9476,3 +9476,10 @@ The candidate WER is `0.10` against the `0.20` threshold. DNSMOS OVRL is `3.0585
 Next action: checkpoint this three-row CV3 implementation/evidence batch through the protected PR flow. Then perform one bounded exact-license emotion-model intake and evaluator calibration; if no licensable payload is available locally or from the authoritative upstream, create one separate same-profile Parler continuity line without regenerating L001 and keep playback/authority gates fail-closed.
 
 Evidence: `Plan/Instructions/QA/Evidence/Wave64/W64_CV3_EVAL_LOCAL_CALIBRATION_20260714T233144-0500.json`.
+## Wave64 CV3 emotion2vec full calibration - 2026-07-15T00:11:13-05:00
+
+`TRK-W64-025` / `ITEM-W64-025`, `TRK-W64-027` / `ITEM-W64-027`, and `TRK-W64-031` / `ITEM-W64-031` retain their existing blocked production-proof classifications. The exact Apache-2.0 ModelScope `iic/emotion2vec_plus_large` checkpoint is revision/hash bound and executed over all 300 paired CV3 emotion references: accuracy `0.7233333333333334`, macro F1 `0.7967110893382565`. The immutable Parler candidate scored `neutral` at `0.9999967813491821`.
+
+Candidate emotion remains unverified. The dialogue contract requests `focused` / `controlled`, which is outside the model's nine-class emotion taxonomy and CV3's high/low intensity taxonomy; no mapping or production threshold was inferred. Independent playback, reference-speaker identity, production authority, row completion, and certification remain blocked. No media regeneration, AWS, EC2, S3, mask, Wave71+, or Jira action occurred.
+
+Next action: merge this implementation/evidence batch through protected CI, then advance the next non-duplicative audio product outcome. Do not relabel `neutral` as `focused` or `controlled`, and do not rerun completed Parler generation unless independent playback rejects the immutable take.

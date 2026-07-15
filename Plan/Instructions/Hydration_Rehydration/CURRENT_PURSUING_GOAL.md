@@ -7376,3 +7376,8 @@ The candidate WER is `0.10` against the `0.20` threshold. DNSMOS OVRL is `3.0585
 Pursuing goal: checkpoint this three-row CV3 implementation/evidence batch through the protected PR flow. Then perform one bounded exact-license emotion-model intake and evaluator calibration; if no licensable payload is available locally or from the authoritative upstream, create one separate same-profile Parler continuity line without regenerating L001 and keep playback/authority gates fail-closed.
 
 Evidence: `Plan/Instructions/QA/Evidence/Wave64/W64_CV3_EVAL_LOCAL_CALIBRATION_20260714T233144-0500.json`.
+## Wave64 CV3 emotion2vec full calibration - 2026-07-15T00:11:13-05:00
+
+Continue the full autonomous ComfyUI project goal from authoritative `C:\Comfy_UI_Main`. The exact licensed emotion2vec+ large execution path and complete 300-reference CV3 calibration now pass as an implemented capability, while Rows025/027/031 correctly remain blocked on candidate emotion taxonomy, independent playback, reference-speaker identity, production authority, and final certification.
+
+Preserve candidate SHA-256 `18b6d51cca9d9c5541bac621c09fd9059f521d8969ba5b25fa881c9284180c73`. Its observed `neutral` score does not satisfy the unsupported `focused` / `controlled` contract and must not be promoted through an inferred mapping. Merge the bounded calibration batch through protected CI, then continue a genuine non-duplicative audio/runtime outcome without reopening completed generation, AWS/EC2 work, masks, Wave71+, or Jira.

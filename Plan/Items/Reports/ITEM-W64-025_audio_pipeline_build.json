@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-025-AUDIO-PIPELINE-BUILD-20260712T161737-0500",
-  "timestamp": "2026-07-14T23:32:04-05:00",
+  "timestamp": "2026-07-15T00:11:13-05:00",
   "item_id": "ITEM-W64-025",
   "tracker_id": "TRK-W64-025",
   "workstream": "audio_pipeline_build",
@@ -23,7 +23,8 @@
     "isolated_parler_tts_cuda_runner_ready": true,
     "parler_tts_timeline_conformance_ready": true,
     "independent_whisper_asr_packager_ready": true,
-    "cv3_eval_local_calibration_adapter_ready": true
+    "cv3_eval_local_calibration_adapter_ready": true,
+    "cv3_emotion2vec_calibration_adapter_ready": true
   },
   "validation": {
     "unit_tests_passed": 21,
@@ -103,7 +104,16 @@
     "cv3_speaker_cross_file_margin": 0.8455755710601807,
     "parler_tts_cv3_normalized_wer": 0.1,
     "parler_tts_cv3_dnsmos_ovrl": 3.058596703101282,
-    "parler_tts_cv3_dnsmos_reference_percentile": 0.75
+    "parler_tts_cv3_dnsmos_reference_percentile": 0.75,
+    "cv3_emotion2vec_model_intake": "exact_license_revision_and_hash_pass",
+    "cv3_emotion_reference_sample_count": 300,
+    "cv3_emotion_accuracy": 0.7233333333333334,
+    "cv3_emotion_macro_f1": 0.7967110893382565,
+    "parler_tts_cv3_emotion_label": "neutral",
+    "parler_tts_cv3_emotion_score": 0.9999967813491821,
+    "parler_tts_target_emotion": "focused",
+    "parler_tts_target_intensity": "controlled",
+    "parler_tts_emotion_taxonomy_supported": false
   },
   "acceptance_gates": {
     "audio_workflow_valid": true,
@@ -129,7 +139,9 @@
     "recovered_diagnostic_audio_present": true,
     "returned_ec2_runtime_packet_present": true,
     "provisional_av_sync_review_present": true,
-    "final_multimodal_review_passed": false
+    "final_multimodal_review_passed": false,
+    "cv3_emotion_model_execution_path_verified": true,
+    "cv3_candidate_emotion_score_present": true
   },
   "blockers": [
     {
@@ -148,9 +160,9 @@
       "reason": "The ERes2Net execution, normalization, and cross-file scoring path is verified, but the calibration subset has no speaker-identity labels and no independent reference-speaker recording is bound to the selected Parler candidate."
     },
     {
-      "classification": "Blocked_Voice_Emotion_Model_Payload_Missing",
+      "classification": "Blocked_Voice_Emotion_Taxonomy_Authority_Missing",
       "scope": "emotion",
-      "reason": "CV3-Eval does not contain the required emotion2vec_plus_large model.pt payload, so emotion scoring was not executed or claimed."
+      "reason": "The exact licensed emotion2vec_plus_large payload executed over all 300 paired CV3 emotion references and scored the candidate neutral at 0.99999678, but the contract target focused/controlled is outside the model and CV3 taxonomies. No registered threshold or approved mapping authorizes emotion PASS."
     },
     {
       "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_audio_chain_20260714T163400-0500/delivery_manifest.json",
@@ -197,6 +209,10 @@
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/W64_CV3_EVAL_LOCAL_CALIBRATION_20260714T233144-0500.json",
       "sha256": "4ea6604d2336357cf67ee70ed133b2300d1b8b47ba6d4e48f6d42ab821cc66f0"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/W64_CV3_EMOTION2VEC_LOCAL_CALIBRATION_20260715T001113-0500.json",
+      "sha256": "d2be31070c286c7c3998ca9f39bda3c2778f2c3422ad904aa531f356d3a76f44"
     }
   ],
   "runtime": {
@@ -214,7 +230,8 @@
     "recovered_runtime_packet_count": 1,
     "recovery_generation_executed": false,
     "recovery_aws_contacted": false,
-    "recovery_ec2_started": false
+    "recovery_ec2_started": false,
+    "cv3_emotion_calibration_count": 1
   },
-  "next_action": "Bind an independent reference-speaker recording, restore an exact licensed emotion model payload, and obtain independent playback for Parler media SHA-256 18b6d51cca9d9c5541bac621c09fd9059f521d8969ba5b25fa881c9284180c73; do not regenerate completed TTS, WAN, or mix artifacts unless playback rejects the disclosed final-word quality edge."
+  "next_action": "Obtain independent playback and a bound reference-speaker recording for the immutable Parler candidate. If machine-verifiable emotion proof is required, define and calibrate an explicit supported contract taxonomy; do not relabel neutral as focused or controlled, and do not rerun completed generation unless playback rejects the take."
 }
