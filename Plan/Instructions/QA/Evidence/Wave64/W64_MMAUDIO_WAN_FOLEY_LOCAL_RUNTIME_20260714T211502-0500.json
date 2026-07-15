@@ -1,0 +1,155 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64_MMAUDIO_WAN_FOLEY_LOCAL_RUNTIME_20260714T211502-0500",
+  "execution_timestamp": "2026-07-14T21:15:02-05:00",
+  "status": "PASS_TECHNICAL_RUNTIME_PLAYBACK_REVIEW_BLOCKED",
+  "classification": "GENUINE_MMAUDIO_VIDEO_TO_AUDIO_LOCAL_RUNTIME_PASS",
+  "direct_qa_state": "PASS_TECHNICAL_REVIEW",
+  "direct_qa_passed": true,
+  "project_root": "C:\\Comfy_UI_Main",
+  "rows_advanced": [
+    "TRK-W64-026",
+    "TRK-W64-028"
+  ],
+  "rows_informed_without_gate_change": [
+    "TRK-W64-030"
+  ],
+  "runtime_manifest": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_mmaudio_wan_foley_20260714T211502-0500/runtime_manifest.json",
+    "sha256": "c694ef687d8be18875ba8d975730b2e81579a779b7b620b3947629e2ee560139"
+  },
+  "runtime_result": {
+    "comfyui_version": "0.27.0",
+    "device": "NVIDIA GeForce RTX 5060 Laptop GPU",
+    "prompt_id": "c90f0952-d9a8-49b1-b0ba-cbca3181bc55",
+    "status": "success",
+    "completed": true,
+    "node_errors": 0,
+    "execution_duration_seconds": 30.927,
+    "source_video_regenerated": false,
+    "seed_loop_performed": false
+  },
+  "workflow": {
+    "path": "Workflows/audio/mmaudio_wan_foley/workflow.api.json",
+    "sha256": "92e068160c52373e1a761156cd2fa82f96e8d65cc380a1a41bf5848647660b79",
+    "runtime_requirements_path": "Workflows/audio/mmaudio_wan_foley/runtime_requirements.json",
+    "runtime_requirements_sha256": "8fe19a8429a3ebd38dac96f0b2896cf79f7330b29302fc44d349494e95213c67",
+    "compatibility_patch_path": "Workflows/audio/mmaudio_wan_foley/patches/huggingface_hub_1_22_bigvgan.patch",
+    "compatibility_patch_sha256": "ed9db886c57eccb9ed17f4264bfabe1436d307560e2d14367fe0d380765291c2",
+    "required_node_classes_registered": 6
+  },
+  "source_video": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260714T041921-0500/images/12_wan22_ti2v5b_source_diversity_ref1_78b8_seed2271401_00001_.mp4",
+    "sha256": "5006e96e211538f3d2bb6795e93014d6642946583cc31aa635e171e13e1c80bf",
+    "bytes": 83544,
+    "decoded_frames": 49,
+    "frame_rate": 24.0,
+    "duration_seconds": 2.041,
+    "input_materialization": "same-volume hardlink"
+  },
+  "model_authority": {
+    "custom_node_commit": "841b307095f3cdc448d940a5787bc36706e49f1d",
+    "custom_node_license": "MIT",
+    "model_repository_revision": "5984623e6b436818c6ff287ef6eec93e3e05aa3f",
+    "model_repository_license": "mit",
+    "vocoder_repository_revision": "95a9d1dcb12906c03edd938d77b9333d6ded7dfb",
+    "vocoder_repository_license": "mit",
+    "model_files_hash_verified": 4,
+    "template_specific_checkpoint_available": false,
+    "official_checkpoint_substitution_explicit": true,
+    "content_filter_added": false
+  },
+  "duplicate_reconciliation": {
+    "local_roots_checked": 2,
+    "approved_s3_prefixes_checked": 3,
+    "approved_s3_objects_scanned": 1153,
+    "matching_existing_mmaudio_assets": 0,
+    "aws_identity": "ComfyUIMainSessionRole",
+    "s3_mutated": false,
+    "ec2_started": false
+  },
+  "bounded_repair": {
+    "initial_prompt_id": "0d4e3621-49d5-4887-8cef-a984a36b618a",
+    "initial_failure": "BigVGAN PyTorchModelHubMixin keyword compatibility",
+    "failed_before_sampling": true,
+    "failure_record_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_mmaudio_wan_foley_20260714T211502-0500/history_failed_prepatch.json",
+    "failure_record_sha256": "f5f18d467bd5cea19568342d7b3ed6f2b4e71c0587cf994ffb2763c551e134c2",
+    "retry_count": 1,
+    "retry_status": "success",
+    "generation_semantics_changed": false
+  },
+  "outputs": {
+    "raw_mmaudio_flac": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_mmaudio_wan_foley_20260714T211502-0500/w64_wan_seed2271401_foley_seed2273001.flac",
+      "sha256": "15399b6a806bb3a3a04ca2b20c65245cd03fde5e5e5e66b45509fc4e03a4b2bb",
+      "bytes": 90020,
+      "sample_rate_hz": 44100,
+      "channels": 1,
+      "sample_frames": 87040,
+      "duration_seconds": 1.9736961451247166,
+      "nonfinite_count": 0,
+      "near_silence_fraction": 0.015877757352941176,
+      "integrated_lufs": -47.48,
+      "true_peak_dbtp": -28.63,
+      "mix_ready": false
+    },
+    "conformed_pcm_wav": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_mmaudio_wan_foley_20260714T211502-0500/w64_wan_seed2271401_foley_seed2273001_conformed_48k_mono.wav",
+      "sha256": "c63a789162e165c576f00baa03b238e74deb08b0da1a7a734e2ef07356441fab",
+      "bytes": 196014,
+      "sample_rate_hz": 48000,
+      "channels": 1,
+      "sample_frames": 97968,
+      "duration_seconds": 2.041,
+      "integrated_lufs": -21.05,
+      "true_peak_dbtp": -2.0,
+      "wave30_loudness_limits_pass": true
+    },
+    "waveform_spectrogram_panel": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_mmaudio_wan_foley_20260714T211502-0500/mmaudio_foley_waveform_spectrogram.png",
+      "sha256": "1556b8e0caa36f4825e4860dac911ff3bb1eece95470bd3591748e4a1b6232c8",
+      "bytes": 285075,
+      "direct_technical_review": "PASS_NONBLANK_NONCLIPPED_TRANSIENT_AUDIO"
+    }
+  },
+  "validation": {
+    "test_path": "Plan/Instructions/QA/Scripts/test_wave64_mmaudio_wan_foley_runtime_packet.py",
+    "test_sha256": "c7bb559582906056f36e640db4ed6b8f3495407cd55fa89af346a0611412e917",
+    "unit_tests_passed": 5,
+    "unit_test_failures": 0,
+    "unit_test_errors": 0,
+    "combined_foley_regression_tests_passed": 65,
+    "combined_foley_regression_failures": 0,
+    "combined_foley_regression_errors": 0,
+    "semantic_worker_review": "UNAVAILABLE_TIMEOUT_NO_RESULT",
+    "semantic_worker_result_counted": false,
+    "deterministic_fallback_used": true
+  },
+  "acceptance": {
+    "genuine_video_conditioned_audio_runtime_pass": true,
+    "exact_model_hashes_pass": true,
+    "source_video_hash_pass": true,
+    "comfyui_history_success_pass": true,
+    "audio_decode_pass": true,
+    "non_silence_pass": true,
+    "conformed_loudness_true_peak_pass": true,
+    "independent_perceptual_playback_review_present": false,
+    "contact_owner_alignment_present": false,
+    "production_audio_certification_allowed": false
+  },
+  "remaining_blockers": [
+    "independent perceptual playback review is not present",
+    "trusted contact-owner and Wave22 force alignment authority is not present",
+    "production audio certification authority is not present"
+  ],
+  "runtime_boundary": {
+    "existing_generation_rerun": false,
+    "ec2_started": false,
+    "s3_mutated": false,
+    "mask_truth_consumed": false,
+    "wave71_activated": false,
+    "jira_mutated": false,
+    "promotion_claimed": false
+  },
+  "row_complete": false
+}

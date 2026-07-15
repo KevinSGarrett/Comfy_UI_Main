@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-028-AUDIO-FOLEY-FORCE-20260712T171200-0500",
-  "timestamp": "2026-07-14T07:33:13-05:00",
+  "timestamp": "2026-07-14T21:15:02-05:00",
   "item_id": "ITEM-W64-028",
   "tracker_id": "TRK-W64-028",
   "workstream": "audio_foley_force",
@@ -18,7 +18,11 @@
     "immutable_production_alignment_bundle_allowlist_ready": true,
     "synthetic_and_local_relabel_promotion_forbidden": true,
     "evaluator_request_producer_ready": true,
-    "required_manifest_and_optional_proof_binding_ready": true
+    "required_manifest_and_optional_proof_binding_ready": true,
+    "mmaudio_video_conditioned_workflow_ready": true,
+    "mmaudio_official_model_hash_binding_ready": true,
+    "mmaudio_bigvgan_huggingface_compatibility_patch_ready": true,
+    "mmaudio_loudness_conformance_ready": true
   },
   "validation": {
     "unit_tests_passed": 54,
@@ -47,7 +51,23 @@
     "recovered_foley_semantic_review": "PASS",
     "recovered_foley_semantic_review_confidence": "high",
     "recovered_foley_semantic_review_high_or_medium_findings": 0,
-    "recovered_foley_semantic_review_record": "runtime_artifacts/agent_handoffs/claude_subscription/20260714T073926-0500_row028_recovered_foley_readiness_semantic_review/handoff_record.json"
+    "recovered_foley_semantic_review_record": "runtime_artifacts/agent_handoffs/claude_subscription/20260714T073926-0500_row028_recovered_foley_readiness_semantic_review/handoff_record.json",
+    "mmaudio_runtime_status": "PASS_TECHNICAL_RUNTIME_PLAYBACK_REVIEW_BLOCKED",
+    "mmaudio_prompt_id": "c90f0952-d9a8-49b1-b0ba-cbca3181bc55",
+    "mmaudio_runtime_duration_seconds": 30.927,
+    "mmaudio_node_errors": 0,
+    "mmaudio_raw_output_sha256": "15399b6a806bb3a3a04ca2b20c65245cd03fde5e5e5e66b45509fc4e03a4b2bb",
+    "mmaudio_raw_integrated_lufs": -47.48,
+    "mmaudio_raw_true_peak_dbtp": -28.63,
+    "mmaudio_conformed_output_sha256": "c63a789162e165c576f00baa03b238e74deb08b0da1a7a734e2ef07356441fab",
+    "mmaudio_conformed_duration_seconds": 2.041,
+    "mmaudio_conformed_integrated_lufs": -21.05,
+    "mmaudio_conformed_true_peak_dbtp": -2.0,
+    "mmaudio_runtime_packet_tests_passed": 5,
+    "mmaudio_runtime_packet_test_failures": 0,
+    "combined_foley_regression_tests_passed": 65,
+    "combined_foley_regression_test_failures": 0,
+    "mmaudio_semantic_worker_review": "UNAVAILABLE_TIMEOUT_NO_RESULT_NOT_COUNTED"
   },
   "acceptance_gates": {
     "event_binding_check_contract": true,
@@ -58,6 +78,11 @@
     "evaluator_request_producer": true,
     "genuine_production_foley_audio_present": false,
     "genuine_production_runtime_proof_present": false,
+    "genuine_mmaudio_video_conditioned_audio_present": true,
+    "genuine_mmaudio_local_runtime_proof_present": true,
+    "genuine_mmaudio_audio_decode_and_non_silence_passed": true,
+    "genuine_mmaudio_conformed_loudness_true_peak_passed": true,
+    "genuine_mmaudio_independent_playback_review_present": false,
     "genuine_production_av_review_present": false,
     "manual_body_contact_gold_mask_authority_present": false,
     "production_alignment_bundle_allowlisted": false,
@@ -71,7 +96,7 @@
     {
       "classification": "Blocked_Foley_Force_Production_Proof_Missing",
       "scope": "primary_row_blocker",
-      "reason": "Two existing Foley WAV candidates and four exact legacy event/timeline sources are now recovered and hash-verified, but no strict request can be formed without inventing visual-contact, Wave22 force, Wave30 event-linkage, run, shot, or take bindings."
+      "reason": "One genuine 49-frame-video-conditioned MMAudio local runtime now succeeds and emits hash-bound non-silent foley, plus a 48 kHz conformed derivative that passes Wave30 loudness limits. A strict force-alignment request still cannot be formed without inventing visual-contact, Wave22 force, Wave30 event-linkage, run, shot, take, or trusted owner bindings, and independent perceptual playback review is absent."
     },
     {
       "classification": "Blocked_Gold_Mask_Dependency_Missing",
@@ -106,6 +131,22 @@
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_FOLEY_FORCE_RECOVERED_PACKET_READINESS_TEST_LOG_20260714T073313-0500.json",
       "sha256": "537edb221214c12d625ba92556443b1f86c22fe701f1d8a44b06ab7d89fbfb5e"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/W64_MMAUDIO_WAN_FOLEY_LOCAL_RUNTIME_20260714T211502-0500.json",
+      "sha256": "56ff2140a2c5546e91004ae01a30212784585e3bb5bf5f6d4a8559ab9e5cd060"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_mmaudio_wan_foley_20260714T211502-0500/runtime_manifest.json",
+      "sha256": "c694ef687d8be18875ba8d975730b2e81579a779b7b620b3947629e2ee560139"
+    },
+    {
+      "path": "Workflows/audio/mmaudio_wan_foley/workflow.api.json",
+      "sha256": "92e068160c52373e1a761156cd2fa82f96e8d65cc380a1a41bf5848647660b79"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_wave64_mmaudio_wan_foley_runtime_packet.py",
+      "sha256": "c7bb559582906056f36e640db4ed6b8f3495407cd55fa89af346a0611412e917"
     }
   ],
   "runtime": {
@@ -113,10 +154,14 @@
     "production_foley_evaluation_count": 0,
     "production_av_review_count": 0,
     "approved_alignment_bundle_count": 0,
-    "comfyui_started": false,
-    "aws_contacted": false,
+    "comfyui_started": true,
+    "aws_contacted": true,
     "ec2_started": false,
-    "diagnostic_foley_readiness_candidate_count": 2
+    "diagnostic_foley_readiness_candidate_count": 2,
+    "genuine_mmaudio_local_generation_count": 1,
+    "genuine_mmaudio_retry_count": 1,
+    "s3_mutation_count": 0,
+    "existing_video_regeneration_count": 0
   },
-  "next_action": "Use the recovered returned-EC2 mux and provisional A/V report for Row030 readiness reconciliation without inventing Row028 visual-contact or force authority."
+  "next_action": "Preserve the successful seed-2273001 MMAudio output without rerunning it. Obtain independent perceptual playback review, then bind the conformed foley to trusted visual-contact, Wave22 force, Wave30 event, and owner authority only when those exact sources are available; do not invent contact ownership from candidate masks."
 }

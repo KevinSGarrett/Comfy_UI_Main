@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "record_type": "captured_live_comfyui_failure_summary",
+  "capture_boundary": "The live history payload was observed and recorded before the compatibility-patch restart; this summary is not represented as the raw endpoint response.",
+  "prompt_id": "0d4e3621-49d5-4887-8cef-a984a36b618a",
+  "status": "error",
+  "completed": false,
+  "node_id": "4",
+  "node_type": "MMAudioFeatureUtilsLoader",
+  "exception_type": "TypeError",
+  "exception_message": "BigVGAN._from_pretrained() missing 2 required keyword-only arguments: 'proxies' and 'resume_download'",
+  "failed_before_sampling": true,
+  "execution_duration_seconds": 1.749,
+  "remediation": {
+    "patch_path": "Workflows/audio/mmaudio_wan_foley/patches/huggingface_hub_1_22_bigvgan.patch",
+    "scope": "Default the obsolete keyword-only Hugging Face Hub compatibility arguments without changing model or generation semantics.",
+    "retry_limit": 1
+  }
+}

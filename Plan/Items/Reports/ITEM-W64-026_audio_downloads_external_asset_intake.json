@@ -3,9 +3,9 @@
   "report_id": "ITEM-W64-026-AUDIO-DOWNLOADS-EXTERNAL-ASSET-INTAKE-20260714",
   "item_id": "ITEM-W64-026",
   "tracker_id": "TRK-W64-026",
-  "timestamp": "2026-07-14T19:18:49-05:00",
+  "timestamp": "2026-07-14T21:15:02-05:00",
   "report_type": "supplemental_external_asset_intake",
-  "result": "assets_discovered_classified_crosswalked_and_parler_runtime_exercised",
+  "result": "assets_discovered_classified_crosswalked_parler_and_mmaudio_runtimes_exercised",
   "source_root": "F:\\Len_Transfer\\Audio_Downloads",
   "inventory": {
     "files": 41071,
@@ -25,7 +25,7 @@
   "corrected_non_audio_asset": "cassan",
   "content_based_suppression_added": false,
   "existing_item_status_changed": false,
-  "status_note": "Discovery, the real CC0 foley route, and one hash-bound Parler-TTS CUDA runtime are exercised. Final engine authority remains blocked on speaker, emotion, independent playback, and allowlisted proof-bundle evidence.",
+  "status_note": "Discovery, the real CC0 foley route, one hash-bound Parler-TTS CUDA runtime, and one genuine video-conditioned MMAudio local runtime are exercised. Final engine authority remains blocked on independent playback and allowlisted proof-bundle evidence; speaker and emotion proof also remain open for the dialogue lane.",
   "execution": {
     "non_git_index_path": "runtime_artifacts/audio_asset_indexes/open_nsfw_sfx_20260714T162800-0500/audio_asset_index.jsonl",
     "non_git_index_sha256": "a7df1ca2a2685974dc7f5e9e8091bde4299fa6937c94c2a3e5e14ddc98dfcc99",
@@ -42,11 +42,22 @@
     "selected_tts_model_sha256": "bc430eb6752b96ffb3f67036d1a6e207fbd031575a775716ffa64ef1eeb03692",
     "selected_tts_audio_sha256": "18b6d51cca9d9c5541bac621c09fd9059f521d8969ba5b25fa881c9284180c73",
     "selected_tts_runtime_executed": true,
-    "selected_tts_final_certification": false
+    "selected_tts_final_certification": false,
+    "selected_video_to_audio_engine": "mmaudio_batch_workflow_minimalized",
+    "selected_mmaudio_custom_node_commit": "841b307095f3cdc448d940a5787bc36706e49f1d",
+    "selected_mmaudio_model_revision": "5984623e6b436818c6ff287ef6eec93e3e05aa3f",
+    "selected_mmaudio_model_sha256": "a61378951ba4e8bfde2e977c0ad8211a7e02e1e92fd6a5b1c258a6464c1d102f",
+    "selected_mmaudio_audio_sha256": "15399b6a806bb3a3a04ca2b20c65245cd03fde5e5e5e66b45509fc4e03a4b2bb",
+    "selected_mmaudio_conformed_audio_sha256": "c63a789162e165c576f00baa03b238e74deb08b0da1a7a734e2ef07356441fab",
+    "selected_mmaudio_runtime_executed": true,
+    "selected_mmaudio_independent_playback_review": false,
+    "selected_mmaudio_final_certification": false,
+    "template_specific_checkpoint_substituted_explicitly": true
   },
   "registry": "Plan/10_REGISTRIES/audio_downloads_external_asset_intake_registry.json",
   "protocol": "Plan/Instructions/QA/AUDIO_EXTERNAL_ASSET_INTAKE_PROTOCOL.md",
   "evidence": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/AUDIO_DOWNLOADS_EXTERNAL_ASSET_INTAKE_20260714T160325-0500.json",
   "runtime_evidence": "Plan/Instructions/QA/Evidence/Wave64/W64_PARLER_TTS_LOCAL_RUNTIME_ASR_20260714T191849-0500.json",
-  "recommended_next_task": "Review the exact Parler candidate for playback, speaker identity, and focused emotion before any proof-bundle authority action; retain every other discovered audio asset as visible and routable."
+  "mmaudio_runtime_evidence": "Plan/Instructions/QA/Evidence/Wave64/W64_MMAUDIO_WAN_FOLEY_LOCAL_RUNTIME_20260714T211502-0500.json",
+  "recommended_next_task": "Review the exact Parler dialogue and MMAudio foley candidates through independent playback before any proof-bundle authority action; retain every other discovered audio asset as visible and routable."
 }
