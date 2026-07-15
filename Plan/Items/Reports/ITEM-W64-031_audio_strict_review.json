@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-031-AUDIO-STRICT-REVIEW-20260714T092355-0500",
-  "timestamp": "2026-07-15T06:45:00-05:00",
+  "timestamp": "2026-07-15T08:02:00-05:00",
   "item_id": "ITEM-W64-031",
   "tracker_id": "TRK-W64-031",
   "workstream": "audio_strict_review",
@@ -31,7 +31,11 @@
     "cosyvoice2_negative_evidence_packager_ready": true,
     "cosyvoice2_validated_source_path_activation_ready": true,
     "cosyvoice2_corrected_reference_packager_ready": true,
-    "cosyvoice2_corrected_reference_tracking_ready": true
+    "cosyvoice2_corrected_reference_tracking_ready": true,
+    "cosyvoice2_instruct_control_runner_ready": true,
+    "cosyvoice2_instruct_control_lineage_verifier_ready": true,
+    "cosyvoice2_instruct_control_packager_ready": true,
+    "cosyvoice2_instruct_control_tracking_ready": true
   },
   "validation": {
     "unit_tests_passed": 62,
@@ -130,7 +134,18 @@
     "cosyvoice2_corrected_candidate_dnsmos_ovrl": 3.174097435695213,
     "cosyvoice2_corrected_candidate_dnsmos_reference_percentile": 0.75,
     "cosyvoice2_corrected_candidate_emotion_label": "neutral",
-    "cosyvoice2_corrected_candidate_rejected": true
+    "cosyvoice2_corrected_candidate_rejected": true,
+    "cosyvoice2_instruct_candidate_sha256": "87db819128b524c4ff3b14e80445785aed2b5aa43665ed65c0686dccae27fb39",
+    "cosyvoice2_instruct_candidate_duration_seconds": 7.32,
+    "cosyvoice2_instruct_candidate_expected_duration_seconds": 3.0,
+    "cosyvoice2_instruct_candidate_asr_transcript": "I'm not sure if I can get it.",
+    "cosyvoice2_instruct_candidate_normalized_wer": 1.0,
+    "cosyvoice2_instruct_candidate_speaker_similarity": 0.34052106738090515,
+    "cosyvoice2_instruct_candidate_dnsmos_ovrl": 2.8629396650581356,
+    "cosyvoice2_instruct_candidate_dnsmos_reference_percentile": 0.5,
+    "cosyvoice2_instruct_candidate_emotion_label": "happy",
+    "cosyvoice2_instruct_candidate_rejected": true,
+    "cosyvoice2_instruct_same_control_retry_authorized": false
   },
   "acceptance_gates": {
     "audio_metadata_check_contract": true,
@@ -180,7 +195,13 @@
     "cosyvoice2_corrected_candidate_dnsmos_worst_reference_floor_pass": true,
     "cosyvoice2_corrected_candidate_dnsmos_quality_certification_pass": null,
     "cosyvoice2_corrected_candidate_dialogue_timing_pass": false,
-    "cosyvoice2_corrected_candidate_style_contract_pass": false
+    "cosyvoice2_corrected_candidate_style_contract_pass": false,
+    "cosyvoice2_instruct_candidate_exact_content_pass": false,
+    "cosyvoice2_instruct_candidate_reference_speaker_score_pass": true,
+    "cosyvoice2_instruct_candidate_dnsmos_worst_reference_floor_pass": true,
+    "cosyvoice2_instruct_candidate_dnsmos_quality_certification_pass": null,
+    "cosyvoice2_instruct_candidate_dialogue_timing_pass": false,
+    "cosyvoice2_instruct_candidate_style_contract_pass": false
   },
   "blockers": [
     {
@@ -203,7 +224,7 @@
     {
       "classification": "Blocked_Production_Eligible_Voice_Candidate_Missing",
       "scope": "dialogue_candidate",
-      "reason": "The corrected-reference take now passes exact content and the chain-specific speaker score, but 4.84 seconds exceeds the immutable 3.0-second contract. Focused emotion is unsupported, controlled intensity is unmeasured, and no production-eligible candidate combines timing, content, speaker, style, playback, and authority proof."
+      "reason": "No production-eligible dialogue candidate exists. The best corrected zero-shot take retains exact content but lasts 4.84 seconds; the single model-native instruct2 fast-control take lasts 7.32 seconds and changes the line at WER 1.0. Focused emotion remains unsupported, controlled intensity unmeasured, and playback/production authority absent."
     }
   ],
   "evidence": [
@@ -270,6 +291,10 @@
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/W64_COSYVOICE2_CORRECTED_REFERENCE_CANDIDATE_20260715T064000-0500.json",
       "sha256": "95e8cf23052028783f29503b760de9d419d33b0af7d04ece703f705543f5f12c"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/W64_COSYVOICE2_INSTRUCT_CONTROL_REJECTION_20260715T074822-0500.json",
+      "sha256": "e736b31cc47108d050a0126e6d29af72680df1561a6789f0f7748a64296e2c2a"
     }
   ],
   "runtime": {
@@ -285,7 +310,8 @@
     "cv3_speaker_calibration_execution_count": 1,
     "openslr31_speaker_validation_execution_count": 1,
     "cosyvoice2_zero_shot_generation_count": 2,
-    "cosyvoice2_candidate_evaluation_count": 2
+    "cosyvoice2_candidate_evaluation_count": 3,
+    "cosyvoice2_instruct_control_generation_count": 1
   },
-  "next_action": "Select a dialogue engine or supported control path that can satisfy the immutable 3.0-second contract without truncation or time-stretching while retaining exact content, reference-speaker identity, and a supported style taxonomy. Preserve all rejected Parler and CosyVoice2 takes."
+  "next_action": "Select a distinct dialogue engine or newly supported timing/style implementation artifact. Do not retry the rejected CosyVoice2 instruct2 fast-control path, truncate or time-stretch its output, or reuse any rejected Parler/CosyVoice2 candidate as production proof."
 }

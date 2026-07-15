@@ -1,3 +1,11 @@
+## Wave64 CosyVoice2 Instruct-Control Path Rejected - 2026-07-15T08:02:00-05:00
+
+The single authorized model-native `inference_instruct2` candidate executed locally at speed `1.2` with a hash-bound fast, focused, controlled instruction and no post-generation truncation or time stretching. It is worse than the corrected zero-shot take: duration `7.32` seconds against the immutable `3.0`-second contract, unrelated ASR transcript `I'm not sure if I can get it.` at WER `1.0`, speaker similarity `0.34052`, DNSMOS OVRL `2.86294`, and predicted emotion `happy`. The candidate and complete evaluator packet are preserved as negative evidence. Rows025/027/031 remain blocked and incomplete.
+
+Next action: select a distinct dialogue engine or a newly implemented timing/style control artifact. Do not retry this CosyVoice2 instruct-control path, truncate or time-stretch rejected media, or treat any rejected Parler/CosyVoice2 take as production proof. Keep EC2 stopped and preserve mask, Wave71+, Jira, and final-certification boundaries.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/W64_COSYVOICE2_INSTRUCT_CONTROL_REJECTION_20260715T074822-0500.json`.
+
 ## Wave64 CosyVoice2 Corrected-Reference Take Rejected - 2026-07-15T06:45:00-05:00
 
 A 5.0-second hash-bound public-domain Chris Goringe reference eliminated the first CosyVoice2 take's repetitive collapse. The one authorized corrected take is exact at WER `0.0`, passes the chain-specific speaker score (`0.66076 >= 0.33446`), and has DNSMOS OVRL `3.17410` at the 75th reference percentile. It remains rejected because `4.84` seconds exceeds the immutable `3.0`-second contract. `Focused` emotion is unsupported, `controlled` intensity is unmeasured, and playback/production authority remains absent. Rows025/027/031 remain blocked and incomplete.

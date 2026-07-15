@@ -54,15 +54,19 @@ def verify_candidate_lineage(
     manifest: dict,
     candidate: Path,
     candidate_sha256: str,
-) -> tuple[Path, str, str, str]:
+) -> tuple[Path, str, str, str, str]:
     if manifest.get("engine") != "CosyVoice2":
         raise ValueError("runtime manifest engine is not CosyVoice2")
     output = manifest.get("output")
     reference = manifest.get("reference_speaker")
     dialogue = manifest.get("dialogue")
+    runtime = manifest.get("runtime")
     gates = manifest.get("gates")
     boundaries = manifest.get("boundaries")
-    if not all(isinstance(value, dict) for value in (output, reference, dialogue, gates, boundaries)):
+    if not all(
+        isinstance(value, dict)
+        for value in (output, reference, dialogue, runtime, gates, boundaries)
+    ):
         raise ValueError("runtime manifest is structurally incomplete")
     if Path(str(output.get("path", ""))).resolve() != candidate.resolve():
         raise ValueError("runtime manifest does not bind the candidate path")
@@ -81,7 +85,27 @@ def verify_candidate_lineage(
     intensity = str(dialogue.get("style_intensity_required", "")).strip().lower()
     if not text or not emotion or not intensity:
         raise ValueError("runtime manifest dialogue contract is incomplete")
-    return reference_path, text, emotion, intensity
+    inference_mode = str(runtime.get("inference_mode", "zero_shot")).strip()
+    if inference_mode not in {"zero_shot", "instruct2"}:
+        raise ValueError(f"runtime manifest inference mode is unsupported: {inference_mode}")
+    if inference_mode == "instruct2":
+        instruct_text = str(dialogue.get("instruct_text", ""))
+        instruct_hash = str(dialogue.get("instruct_text_sha256", "")).lower()
+        if hashlib.sha256(instruct_text.encode("utf-8")).hexdigest() != instruct_hash:
+            raise ValueError("runtime manifest instruct2 text binding is invalid")
+        if dialogue.get("model_native_instruction_applied") is not True:
+            raise ValueError("runtime manifest does not assert model-native instruction control")
+        if runtime.get("model_native_speed_control") is not True:
+            raise ValueError("runtime manifest does not assert model-native speed control")
+        if runtime.get("post_generation_truncation_applied") is not False:
+            raise ValueError("runtime manifest permits post-generation truncation")
+        if runtime.get("post_generation_time_stretch_applied") is not False:
+            raise ValueError("runtime manifest permits post-generation time stretching")
+        if boundaries.get("authorized_candidate_ordinal") != 1:
+            raise ValueError("runtime manifest candidate ordinal is not authorized")
+        if boundaries.get("maximum_candidates_for_control_path") != 1:
+            raise ValueError("runtime manifest does not enforce the one-candidate stop rule")
+    return reference_path, text, emotion, intensity, inference_mode
 
 
 def classify(gates: dict) -> str:
@@ -141,9 +165,14 @@ def build_metric_gates(
     }
 
 
-def timing_blocker(duration_seconds: float, expected_duration_seconds: float) -> str:
+def timing_blocker(
+    duration_seconds: float,
+    expected_duration_seconds: float,
+    inference_mode: str,
+) -> str:
+    label = "instruct-control" if inference_mode == "instruct2" else "zero-shot"
     return (
-        f"the {duration_seconds}-second zero-shot candidate exceeds the "
+        f"the {duration_seconds}-second {label} candidate exceeds the "
         f"{expected_duration_seconds}-second dialogue contract"
     )
 
@@ -154,9 +183,13 @@ def build(args: argparse.Namespace) -> dict:
     manifest_binding, manifest = load_json(
         Path(args.candidate_manifest), args.expected_candidate_manifest_sha256, "CosyVoice2 runtime manifest"
     )
-    reference_path, expected_text, target_emotion, target_intensity = verify_candidate_lineage(
-        manifest, candidate, candidate_binding["sha256"]
-    )
+    (
+        reference_path,
+        expected_text,
+        target_emotion,
+        target_intensity,
+        inference_mode,
+    ) = verify_candidate_lineage(manifest, candidate, candidate_binding["sha256"])
     cv3_binding, cv3_evidence = load_json(
         Path(args.cv3_evidence), args.expected_cv3_evidence_sha256, "CV3 calibration evidence"
     )
@@ -265,12 +298,13 @@ def build(args: argparse.Namespace) -> dict:
             "predicted_emotion": emotion_result,
             "target_emotion": target_emotion,
             "target_intensity": target_intensity,
+            "inference_mode": inference_mode,
             "duration_seconds": duration_seconds,
             "expected_duration_seconds": expected_duration_seconds,
         },
         "gates": gates,
         "remaining_blockers": [
-            timing_blocker(duration_seconds, expected_duration_seconds),
+            timing_blocker(duration_seconds, expected_duration_seconds, inference_mode),
             "focused remains outside the calibrated emotion taxonomy",
             "controlled intensity is unmeasured because no calibrated intensity evaluator is registered",
             "independent playback and production-review authority remain absent",
