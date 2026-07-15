@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Speech Evaluation Record",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "candidate_id",
+    "artifact_sha256",
+    "evaluator_versions",
+    "content",
+    "identity",
+    "performance",
+    "technical",
+    "timing",
+    "hard_gates",
+    "decision"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "candidate_id": {
+      "type": "string"
+    },
+    "artifact_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{64}$"
+    },
+    "evaluator_versions": {
+      "type": "object",
+      "minProperties": 1
+    },
+    "content": {
+      "type": "object"
+    },
+    "identity": {
+      "type": "object"
+    },
+    "performance": {
+      "type": "object"
+    },
+    "technical": {
+      "type": "object"
+    },
+    "timing": {
+      "type": "object"
+    },
+    "hard_gates": {
+      "type": "object"
+    },
+    "decision": {
+      "enum": [
+        "reject",
+        "blocked",
+        "eligible_for_playback",
+        "pass_bounded"
+      ]
+    }
+  },
+  "additionalProperties": true
+}

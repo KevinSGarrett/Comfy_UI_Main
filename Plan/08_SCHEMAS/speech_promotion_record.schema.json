@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Speech Promotion Record",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "promotion_id",
+    "candidate_id",
+    "artifact_sha256",
+    "character_version",
+    "authority_bindings",
+    "evaluation_bindings",
+    "review_bindings",
+    "rollback",
+    "decision"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "promotion_id": {
+      "type": "string"
+    },
+    "candidate_id": {
+      "type": "string"
+    },
+    "artifact_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{64}$"
+    },
+    "character_version": {
+      "type": "string"
+    },
+    "authority_bindings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object"
+      }
+    },
+    "evaluation_bindings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object"
+      }
+    },
+    "review_bindings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object"
+      }
+    },
+    "rollback": {
+      "type": "object"
+    },
+    "decision": {
+      "enum": [
+        "promoted",
+        "revoked",
+        "rolled_back"
+      ]
+    }
+  },
+  "additionalProperties": true
+}

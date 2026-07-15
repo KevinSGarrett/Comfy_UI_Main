@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Speech Alignment Manifest",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "candidate_id",
+    "artifact_sha256",
+    "sample_rate_hz",
+    "transcript",
+    "words",
+    "phonemes",
+    "coverage",
+    "monotonic",
+    "pass"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "candidate_id": {
+      "type": "string"
+    },
+    "artifact_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{64}$"
+    },
+    "sample_rate_hz": {
+      "type": "integer"
+    },
+    "transcript": {
+      "type": "string"
+    },
+    "words": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/interval"
+      }
+    },
+    "phonemes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/interval"
+      }
+    },
+    "coverage": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "monotonic": {
+      "type": "boolean"
+    },
+    "pass": {
+      "type": "boolean"
+    }
+  },
+  "$defs": {
+    "interval": {
+      "type": "object",
+      "required": [
+        "label",
+        "start_sample",
+        "end_sample",
+        "confidence"
+      ],
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "start_sample": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "end_sample": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    }
+  },
+  "additionalProperties": true
+}

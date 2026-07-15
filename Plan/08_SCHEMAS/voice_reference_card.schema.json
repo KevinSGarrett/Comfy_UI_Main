@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Voice Reference Card",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "voice_reference_id",
+    "character_id",
+    "character_version",
+    "identity_policy",
+    "production_authorized",
+    "source",
+    "rights",
+    "transcript",
+    "voice_traits",
+    "quality",
+    "content_based_suppression"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "voice_reference_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "character_id": {
+      "type": "string"
+    },
+    "character_version": {
+      "type": "string"
+    },
+    "identity_policy": {
+      "enum": [
+        "licensed_reference_match",
+        "designed_synthetic_voice",
+        "consistent_synthetic_baseline",
+        "pending_selection"
+      ]
+    },
+    "production_authorized": {
+      "type": "boolean"
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "path",
+        "sha256",
+        "bytes",
+        "duration_seconds",
+        "sample_rate_hz",
+        "channels"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{64}$"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "duration_seconds": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "sample_rate_hz": {
+          "type": "integer",
+          "minimum": 8000
+        },
+        "channels": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "rights": {
+      "type": "object",
+      "required": [
+        "license",
+        "provenance",
+        "derivative_use_allowed"
+      ],
+      "properties": {
+        "license": {
+          "type": "string"
+        },
+        "provenance": {
+          "type": "string"
+        },
+        "derivative_use_allowed": {
+          "type": "boolean"
+        },
+        "attribution": {
+          "type": "string"
+        }
+      }
+    },
+    "transcript": {
+      "type": "object",
+      "required": [
+        "text",
+        "language"
+      ],
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "language": {
+          "type": "string"
+        }
+      }
+    },
+    "voice_traits": {
+      "type": "object"
+    },
+    "quality": {
+      "type": "object"
+    },
+    "approved_engine_configurations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "content_based_suppression": {
+      "const": false
+    },
+    "revoked": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": true
+}
