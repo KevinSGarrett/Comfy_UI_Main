@@ -110,7 +110,7 @@ function Enter-AIWorkerFileLock {
 
 function Get-AIWorkerSafeId {
   param([Parameter(Mandatory=$true)][string]$Value)
-  $safe=($Value -replace '[^A-Za-z0-9_.-]+','_').Trim('_')
+  $safe=($Value -replace '[^A-Za-z0-9_.+-]+','_').Trim('_')
   if ([string]::IsNullOrWhiteSpace($safe)) { throw 'Identifier normalized to empty.' }
   if ($safe.Length -gt 120) { $safe=$safe.Substring(0,120) }
   return $safe

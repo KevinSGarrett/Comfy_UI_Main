@@ -40,12 +40,23 @@ function Get-AutomationSemanticHash {
   }
 }
 
+function Get-PortableAutomationHash {
+  param([Parameter(Mandatory = $true)][string]$Path)
+  $text = [IO.File]::ReadAllText($Path).Replace("`r`n", "`n").Replace("`r", "`n")
+  $sha = [Security.Cryptography.SHA256]::Create()
+  try {
+    return ([BitConverter]::ToString($sha.ComputeHash([Text.Encoding]::UTF8.GetBytes($text)))).Replace('-', '').ToLowerInvariant()
+  } finally {
+    $sha.Dispose()
+  }
+}
+
 $files = @($manifest.files | ForEach-Object {
   $source = Join-Path $PackageRoot ([string]$_.relative_path).Replace("/", "\")
   $destination = Get-Destination -RelativePath ([string]$_.relative_path)
-  $canonicalHash = (Get-FileHash -LiteralPath $source -Algorithm SHA256).Hash.ToLowerInvariant()
-  $liveHash = if (Test-Path -LiteralPath $destination -PathType Leaf) { (Get-FileHash -LiteralPath $destination -Algorithm SHA256).Hash.ToLowerInvariant() } else { "MISSING" }
   $isAutomation = [string]$_.relative_path -like 'automations/*'
+  $canonicalHash = if ($isAutomation) { Get-PortableAutomationHash -Path $source } else { (Get-FileHash -LiteralPath $source -Algorithm SHA256).Hash.ToLowerInvariant() }
+  $liveHash = if (Test-Path -LiteralPath $destination -PathType Leaf) { (Get-FileHash -LiteralPath $destination -Algorithm SHA256).Hash.ToLowerInvariant() } else { "MISSING" }
   $semanticMatch = $false
   if ($isAutomation -and $liveHash -ne 'MISSING') {
     $semanticMatch = (Get-AutomationSemanticHash -Path $source) -eq (Get-AutomationSemanticHash -Path $destination)

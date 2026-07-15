@@ -44,11 +44,25 @@ param(
   [string]$BroadDiscoveryReason = "",
   [switch]$AllowPrimaryWorktree,
   [switch]$ForceCursorCommands,
+  [string]$DispatcherRequestId = "",
+  [switch]$AllowDirectDiagnostic,
   [switch]$SelfTest
 )
 
 $ErrorActionPreference = "Stop"
 $CursorAgentPath = "/home/kevin/.local/bin/cursor-agent"
+
+if (-not $SelfTest -and [string]::IsNullOrWhiteSpace($DispatcherRequestId) -and -not $AllowDirectDiagnostic) {
+  [ordered]@{
+    status = "BLOCKED"
+    classification = "AI_WORKER_DIRECT_WRAPPER_BYPASS_BLOCKED"
+    worker_lane = "Cursor"
+    task_name = $TaskName
+    issues = @("Production Cursor work must enter through New-AIWorkerDevelopmentPipeline.ps1 so admission, completion, and adoption are signed and measured.")
+    required_entrypoint = "tools/ai_worker_handoffs/dispatcher/New-AIWorkerDevelopmentPipeline.ps1"
+  } | ConvertTo-Json -Depth 6
+  return
+}
 
 try {
   Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
@@ -677,6 +691,7 @@ $recordPath = Join-Path $runDir "handoff_record.json"
   $record = [ordered]@{
   schema_version = 2
   task_name = $TaskName
+  dispatcher_request_id = $DispatcherRequestId
   mode = $Mode
   requested_cursor_model = $CursorModel
   wsl_distribution = $WslDistribution

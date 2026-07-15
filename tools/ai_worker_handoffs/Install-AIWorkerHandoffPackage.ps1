@@ -58,6 +58,17 @@ function Get-AutomationSemanticHash {
   }
 }
 
+function Get-PortableAutomationHash {
+  param([Parameter(Mandatory = $true)][string]$Path)
+  $text = [IO.File]::ReadAllText($Path).Replace("`r`n", "`n").Replace("`r", "`n")
+  $sha = [Security.Cryptography.SHA256]::Create()
+  try {
+    return ([BitConverter]::ToString($sha.ComputeHash([Text.Encoding]::UTF8.GetBytes($text)))).Replace('-', '').ToLowerInvariant()
+  } finally {
+    $sha.Dispose()
+  }
+}
+
 $stamp = Get-Date -Format "yyyyMMddTHHmmsszzz"
 $stamp = $stamp.Replace(":", "")
 $backupRoot = Join-Path $CodexHome "ai_worker_handoff_package_backups\$stamp"
@@ -65,11 +76,11 @@ $results = @()
 foreach ($entry in $manifest.files) {
   $source = Join-Path $PackageRoot ([string]$entry.relative_path).Replace("/", "\")
   if (!(Test-Path -LiteralPath $source -PathType Leaf)) { throw "Canonical source missing: $source" }
-  $sourceHash = (Get-FileHash -LiteralPath $source -Algorithm SHA256).Hash.ToLowerInvariant()
+  $isAutomation = [string]$entry.relative_path -like "automations/*"
+  $sourceHash = if ($isAutomation) { Get-PortableAutomationHash -Path $source } else { (Get-FileHash -LiteralPath $source -Algorithm SHA256).Hash.ToLowerInvariant() }
   if ($sourceHash -ne ([string]$entry.sha256).ToLowerInvariant()) { throw "Canonical source hash mismatch: $($entry.relative_path)" }
   $destination = Get-Destination -RelativePath ([string]$entry.relative_path)
   $beforeHash = if (Test-Path -LiteralPath $destination -PathType Leaf) { (Get-FileHash -LiteralPath $destination -Algorithm SHA256).Hash.ToLowerInvariant() } else { "MISSING" }
-  $isAutomation = [string]$entry.relative_path -like "automations/*"
   if ($isAutomation -and [string]::IsNullOrWhiteSpace([string]$entry.semantic_sha256)) {
     throw "Automation semantic hash missing from manifest: $($entry.relative_path)"
   }

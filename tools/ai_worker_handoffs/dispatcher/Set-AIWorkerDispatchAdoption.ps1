@@ -16,7 +16,11 @@ Import-Module (Join-Path $PSScriptRoot 'AIWorkerDispatcher.Common.psm1') -Force 
 $root = [IO.Path]::GetFullPath($DispatcherRoot).TrimEnd('\')
 $id = Get-AIWorkerSafeId $RequestId
 $recordPath = Join-Path $root "completed\$id\dispatch_record.json"
-if (-not (Test-Path -LiteralPath $recordPath -PathType Leaf)) { throw "Completed dispatch record missing: $recordPath" }
+if (-not [IO.File]::Exists($recordPath)) {
+  $recordRoot = Split-Path -Parent $recordPath
+  $present = if ([IO.Directory]::Exists($recordRoot)) { @([IO.Directory]::EnumerateFileSystemEntries($recordRoot) | ForEach-Object { [IO.Path]::GetFileName($_) }) } else { @() }
+  throw "Completed dispatch record missing: $recordPath; parent_exists=$([IO.Directory]::Exists($recordRoot)); parent_entries=$($present -join ',')"
+}
 $record = Read-AIWorkerSignedJson -Path $recordPath -DispatcherRoot $root
 if ([string]$record.artifact_type -ne 'ai_worker_dispatch_record' -or [string]$record.status -ne 'PASS') { throw 'Only successful completed dispatches may receive adoption review.' }
 if ($AdoptionPercent -eq 0) { $AdoptionPercent = switch ($AdoptionStatus) { 'ADOPTED' { 100 } 'PARTIALLY_ADOPTED' { 50 } default { 0 } } }

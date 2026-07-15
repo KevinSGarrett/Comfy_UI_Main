@@ -91,6 +91,8 @@ For Git LFS, Claude consumes compact evidence extracted by native Cursor Git LFS
 
 Production semantic work enters through signed task intents and the automatic admission ledger. The Claude lane is independent from Cursor, so Sonnet architecture and risk work can run while Cursor handles a different bounded implementation. High-assurance units receive at most one Sonnet preflight and one post-implementation residual-risk review; the latter consumes the signed Cursor diff excerpt and host-validator result through dependency context.
 
+The dispatcher supplies a signed request identity to the Claude wrapper. Unledgered direct Sonnet or Opus production calls return `AI_WORKER_DIRECT_WRAPPER_BYPASS_BLOCKED`. `-AllowDirectDiagnostic` is reserved for explicit transport or capability diagnostics and does not count toward production adoption or qualification.
+
 Before Codex performs high-effort synthesis, contradiction review, strategy review, or architecture/routing critique, it must classify the task with one of:
 
 - `CODEX_ONLY_AUTHORITY`

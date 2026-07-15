@@ -5,6 +5,15 @@ $ErrorActionPreference = 'Stop'
 $temp = Join-Path $env:TEMP ('ai-worker-drift-' + [guid]::NewGuid().ToString('N'))
 $package = (Resolve-Path $PSScriptRoot).Path
 try {
+  $portablePackage = Join-Path $temp 'portable-package'
+  $portableHome = Join-Path $temp 'portable-home'
+  New-Item -ItemType Directory -Force -Path $portablePackage | Out-Null
+  Copy-Item -Path (Join-Path $package '*') -Destination $portablePackage -Recurse -Force
+  $portableAutomation = Join-Path $portablePackage 'automations\comfy-ui-main-automation-fleet-health-supervisor-2.toml'
+  $portableText = [IO.File]::ReadAllText($portableAutomation).Replace("`r`n", "`n").Replace("`r", "`n").Replace("`n", "`r`n")
+  [IO.File]::WriteAllText($portableAutomation, $portableText, (New-Object Text.UTF8Encoding($false)))
+  $portableInstall = & (Join-Path $portablePackage 'Install-AIWorkerHandoffPackage.ps1') -PackageRoot $portablePackage -CodexHome $portableHome -Apply | ConvertFrom-Json
+
   $install = & (Join-Path $package 'Install-AIWorkerHandoffPackage.ps1') -PackageRoot $package -CodexHome $temp -Apply | ConvertFrom-Json
   $id = 'comfy-ui-main-ec2-cost-safety-sentinel-2'
   $path = Join-Path $temp "automations\$id\automation.toml"
@@ -23,6 +32,7 @@ try {
   $semanticResult = & $installedVerifier -ManifestPath $installedManifest -CodexHome $temp | ConvertFrom-Json
 
   $checks = [ordered]@{
+    automation_line_endings_portable = ($portableInstall.status -eq 'PASS')
     package_installed = ($install.status -eq 'PASS')
     canonical_manifest_snapshot_installed = (Test-Path -LiteralPath $installedManifest -PathType Leaf)
     reinstall_accepted_semantic_automation_match = ($reinstall.status -eq 'PASS' -and $metadataPreserved)

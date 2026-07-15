@@ -28,11 +28,25 @@ param(
   [switch]$AllowDirectOpusArchitectureException,
   [switch]$AllowMaxEffort,
   [switch]$AllowPrimaryWorktree,
+  [string]$DispatcherRequestId = "",
+  [switch]$AllowDirectDiagnostic,
   [switch]$SelfTest
 )
 
 $ErrorActionPreference = "Stop"
 $OpusDailyCeiling = 2
+
+if (-not $SelfTest -and $TaskTier -ne "HealthProbe" -and [string]::IsNullOrWhiteSpace($DispatcherRequestId) -and -not $AllowDirectDiagnostic) {
+  [ordered]@{
+    status = "BLOCKED"
+    classification = "AI_WORKER_DIRECT_WRAPPER_BYPASS_BLOCKED"
+    worker_lane = "Claude"
+    task_name = $TaskName
+    issues = @("Production Claude work must enter through New-AIWorkerDevelopmentPipeline.ps1 so admission, completion, and adoption are signed and measured.")
+    required_entrypoint = "tools/ai_worker_handoffs/dispatcher/New-AIWorkerDevelopmentPipeline.ps1"
+  } | ConvertTo-Json -Depth 6
+  return
+}
 
 function Redact-Text {
   param([string]$Text)
@@ -468,6 +482,7 @@ $recordPath = Join-Path $runDir "handoff_record.json"
 $record = [ordered]@{
   schema_version = 2
   task_name = $TaskName
+  dispatcher_request_id = $DispatcherRequestId
   lane = "claude_subscription"
   task_tier = $TaskTier
   decision_unit_id = $DecisionUnitId
