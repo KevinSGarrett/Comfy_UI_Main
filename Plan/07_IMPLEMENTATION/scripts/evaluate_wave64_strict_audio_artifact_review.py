@@ -17,6 +17,8 @@ PROJECT_ROOT = Path(__file__).resolve().parents[3]
 REQUEST_SCHEMA_PATH = PROJECT_ROOT / "Plan/08_SCHEMAS/wave64_strict_audio_review_request.schema.json"
 REPORT_SCHEMA_PATH = PROJECT_ROOT / "Plan/08_SCHEMAS/wave64_strict_audio_review_report.schema.json"
 REGISTRY_PATH = PROJECT_ROOT / "Plan/10_REGISTRIES/wave64_strict_audio_review_authority_registry.json"
+HUMAN_PLAYBACK_SCHEMA_PATH = PROJECT_ROOT / "Plan/08_SCHEMAS/wave64_human_playback_review_proof.schema.json"
+HUMAN_PRODUCTION_SCHEMA_PATH = PROJECT_ROOT / "Plan/08_SCHEMAS/wave64_human_production_review_bundle.schema.json"
 W30_EVENT_SCHEMA_PATH = PROJECT_ROOT / "Plan/08_SCHEMAS/wave30_audio_event_manifest.schema.json"
 W30_MIX_SCHEMA_PATH = PROJECT_ROOT / "Plan/08_SCHEMAS/wave30_audio_mix_manifest.schema.json"
 W30_REPORT_SCHEMA_PATH = PROJECT_ROOT / "Plan/08_SCHEMAS/wave30_audio_qa_report.schema.json"
@@ -278,6 +280,15 @@ def _normalize_identity_record(
 
 
 def _identity_key(record: dict[str, Any]) -> tuple[str, str, str, str, str, str]:
+    if record.get("authority_type") == "human":
+        return (
+            "human",
+            record["reviewer_id"],
+            record["authority_id"],
+            record["role"],
+            "",
+            "",
+        )
     return (
         record["producer_id"],
         record["engine"],
@@ -286,6 +297,112 @@ def _identity_key(record: dict[str, Any]) -> tuple[str, str, str, str, str, str]
         record["model_sha256"],
         record["authority_id"],
     )
+
+
+def _human_playback_identity(payload: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "proof_kind": "playback_review",
+        "authority_type": "human",
+        "reviewer_id": _expect_string(payload.get("reviewer_id"), "playback_proof.reviewer_id"),
+        "authority_id": _expect_string(payload.get("authority_id"), "playback_proof.authority_id"),
+        "role": _expect_string(payload.get("role"), "playback_proof.role"),
+        "synthetic_only": False,
+    }
+
+
+def _evaluate_human_playback_review(
+    payload: dict[str, Any],
+    registry: dict[str, Any],
+    *,
+    mix_wav_sha256: str,
+    request_is_synthetic: bool,
+    blockers: list[str],
+) -> tuple[str, dict[str, Any] | None, bool]:
+    identity: dict[str, Any] | None = None
+    try:
+        schema = _load_json_strict(HUMAN_PLAYBACK_SCHEMA_PATH)
+        _validate_with_schema(payload, schema, "human playback proof")
+        identity = _human_playback_identity(payload)
+        allowlist_identity = {
+            "reviewer_id": identity["reviewer_id"],
+            "authority_id": identity["authority_id"],
+            "role": identity["role"],
+        }
+        if allowlist_identity not in registry.get("human_playback_review_authorities", []):
+            blockers.append("human playback reviewer is not approved for strict authority")
+            return BLOCKED, identity, False
+        if request_is_synthetic:
+            blockers.append("human production playback proof cannot authorize a synthetic request")
+            return BLOCKED, identity, False
+        if payload.get("audio_sha256") != mix_wav_sha256:
+            raise ValueError("human playback proof audio_sha256 mismatch")
+        if payload.get("self_authorized") is not False:
+            raise ValueError("human playback proof must not be self-authorized")
+        if payload.get("production_evidence") is not True or payload.get("is_synthetic") is not False:
+            raise ValueError("human playback proof must be non-synthetic production evidence")
+        attestation = payload.get("independence_attestation")
+        if not isinstance(attestation, dict) or any(
+            attestation.get(key) is not True for key in ("not_generator", "no_conflict", "reviewed_exact_hash")
+        ):
+            raise ValueError("human playback independence attestation is incomplete")
+        conditions = payload.get("playback_conditions")
+        if not isinstance(conditions, dict) or conditions.get("full_playback_count", 0) < 1:
+            raise ValueError("human playback conditions are incomplete")
+
+        reviewed = set(payload.get("sections_reviewed", []))
+        not_applicable = payload.get("not_applicable_sections", {})
+        if not isinstance(not_applicable, dict):
+            raise ValueError("human playback not_applicable_sections must be object")
+        required_sections = set(registry.get("required_playback_sections", []))
+        if required_sections - reviewed - set(not_applicable):
+            raise ValueError("human playback proof missing required review sections")
+        if {"beginning", "middle", "end"} & set(not_applicable):
+            raise ValueError("beginning, middle, and end cannot be not-applicable")
+
+        scores = payload.get("category_scores")
+        not_applicable_categories = payload.get("not_applicable_categories")
+        if not isinstance(scores, dict) or not isinstance(not_applicable_categories, dict):
+            raise ValueError("human playback category results are malformed")
+        required_categories = set(registry.get("human_required_playback_categories", []))
+        if required_categories - set(scores) - set(not_applicable_categories):
+            raise ValueError("human playback proof missing required category scores")
+        allowed_na = set(registry.get("human_not_applicable_categories", []))
+        if set(not_applicable_categories) - allowed_na:
+            raise ValueError("human playback proof uses unsupported not-applicable category")
+        minimum = registry.get("human_review_minimum_score")
+        if not isinstance(minimum, (int, float)) or isinstance(minimum, bool):
+            raise ValueError("human review minimum score is invalid")
+        for category, score in scores.items():
+            if category not in required_categories:
+                raise ValueError(f"unexpected human playback category: {category}")
+            if not isinstance(score, (int, float)) or isinstance(score, bool) or not math.isfinite(float(score)):
+                raise ValueError(f"human playback score is invalid: {category}")
+            if float(score) < float(minimum):
+                blockers.append(f"human playback score below threshold: {category}")
+                return BLOCKED, identity, False
+
+        blocking_severities = {
+            str(value).lower() for value in registry.get("blocking_defect_severities", [])
+        }
+        blocking_codes = {
+            str(value).lower() for value in registry.get("blocking_defect_codes", [])
+        }
+        blocking_found = any(
+            str(item.get("severity", "")).lower() in blocking_severities
+            or str(item.get("code", "")).lower() in blocking_codes
+            for item in payload.get("defects", [])
+            if isinstance(item, dict)
+        )
+        if blocking_found:
+            blockers.append("human playback proof contains blocking defects")
+            return BLOCKED, identity, True
+        if payload.get("decision") != "PASS":
+            blockers.append("human playback proof decision is not PASS")
+            return BLOCKED, identity, False
+        return PASS, identity, False
+    except ValueError as exc:
+        blockers.append(str(exc))
+        return FAIL, identity, False
 
 
 def _extract_identity_from_proof(
@@ -514,6 +631,14 @@ def _evaluate_playback_review(
         payload = _load_json_strict(Path(playback_binding["path"]))
         if not isinstance(payload, dict):
             raise ValueError("playback proof must be a JSON object")
+        if payload.get("schema_name") == "wave64_human_playback_review_proof":
+            return _evaluate_human_playback_review(
+                payload,
+                registry,
+                mix_wav_sha256=mix_wav_sha256,
+                request_is_synthetic=request_is_synthetic,
+                blockers=blockers,
+            )
         _expect_exact_object_keys(
             payload,
             {
@@ -725,6 +850,43 @@ def _evaluate_promotion(
         bundle = _load_json_strict(Path(production_bundle_binding["path"]))
         if not isinstance(bundle, dict):
             raise ValueError("production review bundle must be a JSON object")
+        if bundle.get("schema_name") == "wave64_human_production_review_bundle":
+            schema = _load_json_strict(HUMAN_PRODUCTION_SCHEMA_PATH)
+            _validate_with_schema(bundle, schema, "human production review bundle")
+            producer_identity = {
+                "proof_kind": "production_review",
+                "authority_type": "human",
+                "reviewer_id": _expect_string(bundle.get("reviewer_id"), "production_review_bundle.reviewer_id"),
+                "authority_id": _expect_string(bundle.get("authority_id"), "production_review_bundle.authority_id"),
+                "role": _expect_string(bundle.get("role"), "production_review_bundle.role"),
+                "synthetic_only": False,
+            }
+            allowed_identity = {
+                "reviewer_id": producer_identity["reviewer_id"],
+                "authority_id": producer_identity["authority_id"],
+                "role": producer_identity["role"],
+            }
+            if allowed_identity not in registry.get("human_production_review_authorities", []):
+                blockers.append("human production authority is not allowlisted")
+                return BLOCKED, producer_identity
+            if producer_identity["authority_id"] in {
+                prompt_producer["authority_id"],
+                playback_producer["authority_id"],
+            }:
+                blockers.append("human production authority must be independent")
+                return BLOCKED, producer_identity
+            if bundle.get("artifact_sha256") != request_payload["mix_wav_binding"]["sha256"]:
+                raise ValueError("human production bundle artifact_sha256 mismatch")
+            if bundle.get("prompt_alignment_proof_sha256") != request_payload["prompt_alignment_proof_binding"]["sha256"]:
+                raise ValueError("human production bundle prompt proof hash mismatch")
+            playback_binding = request_payload.get("playback_proof_binding")
+            if not isinstance(playback_binding, dict) or bundle.get("playback_proof_sha256") != playback_binding.get("sha256"):
+                raise ValueError("human production bundle playback proof hash mismatch")
+            allowlist = set(registry.get("production_review_bundle_allowlist", []))
+            if production_bundle_binding["sha256"] not in allowlist:
+                blockers.append("human production bundle hash is not allowlisted")
+                return BLOCKED, producer_identity
+            return PASS, producer_identity
         _expect_exact_object_keys(
             bundle,
             {
@@ -915,9 +1077,14 @@ def _ensure_registry_disjoint(registry: dict[str, Any]) -> None:
         "required_upstream_production_hard_gates",
         "prompt_alignment_allowlist",
         "playback_review_allowlist",
+        "human_playback_review_authorities",
         "production_review_authorities",
+        "human_production_review_authorities",
         "required_playback_sections",
         "required_playback_categories",
+        "human_review_minimum_score",
+        "human_required_playback_categories",
+        "human_not_applicable_categories",
         "blocking_defect_codes",
         "blocking_defect_severities",
         "production_review_bundle_allowlist",

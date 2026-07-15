@@ -539,6 +539,56 @@ class Wave30VoiceDialogueContinuityStrictTests(unittest.TestCase):
         evidence = self._assert_evidence_schema(output_path)
         self.assertEqual(evidence["gates"]["emotional_tone"]["status"], "FAIL")
 
+    def test_v2_contract_separates_delivery_style_and_intensity_from_emotion(self) -> None:
+        case = self._build_case(synthetic=False)
+        contract = json.loads(case["paths"]["contract"].read_text(encoding="utf-8"))
+        contract["dialogue_contract_version"] = 2
+        for line in contract["lines"]:
+            line.pop("emotion")
+            line.update(
+                {
+                    "emotion_class": None,
+                    "delivery_style": "focused",
+                    "intensity": "controlled",
+                    "pace_wpm": 150.0,
+                    "emphasis": "natural_phrase_emphasis",
+                    "articulation": "clear",
+                    "duration_target_seconds": line["end_time"] - line["start_time"],
+                }
+            )
+        _write_json(case["paths"]["contract"], contract)
+        contract_sha = _sha256(case["paths"]["contract"])
+        case["request"]["dialogue_contract_binding"]["sha256"] = contract_sha
+        for key in ("asr", "speaker", "emotion", "playback", "runtime"):
+            payload = json.loads(case["paths"][key].read_text(encoding="utf-8"))
+            payload["dialogue_contract_sha256"] = contract_sha
+            if key == "emotion":
+                for result in payload["line_results"]:
+                    result["predicted_emotion"] = "neutral"
+                    result["predicted_intensity"] = "high"
+            _write_json(case["paths"][key], payload)
+            binding_key = "playback_review_proof" if key == "playback" else f"{key}_proof"
+            if key == "runtime":
+                binding_key = "production_runtime_proof"
+            self._refresh_proof_binding(case["request"], binding_key, case["paths"][key])
+        bundle = json.loads(case["paths"]["bundle"].read_text(encoding="utf-8"))
+        bundle["dialogue_contract_sha256"] = contract_sha
+        for field, key in (
+            ("asr_proof_sha256", "asr"),
+            ("speaker_proof_sha256", "speaker"),
+            ("emotion_proof_sha256", "emotion"),
+            ("playback_review_proof_sha256", "playback"),
+            ("production_runtime_proof_sha256", "runtime"),
+        ):
+            bundle[field] = _sha256(case["paths"][key])
+        _write_json(case["paths"]["bundle"], bundle)
+        self._refresh_proof_binding(case["request"], "production_proof_bundle_binding", case["paths"]["bundle"])
+        result, output_path = self._eval_case(case["request"])
+        self.assertEqual(result.returncode, 2, msg=result.stdout + result.stderr)
+        evidence = self._assert_evidence_schema(output_path)
+        self.assertEqual(evidence["gates"]["emotional_tone"]["status"], "PASS")
+        self.assertEqual(evidence["gates"]["production_proof_authority"]["status"], "BLOCKED")
+
     def test_missing_playback_blocks(self) -> None:
         case = self._build_case(synthetic=False)
         case["request"]["proof_bindings"]["playback_review_proof"] = None

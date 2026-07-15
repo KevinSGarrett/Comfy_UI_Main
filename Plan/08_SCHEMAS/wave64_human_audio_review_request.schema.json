@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/wave64_human_audio_review_request.schema.json",
+  "title": "Wave64 Human Audio Review Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_name", "request_version", "review_id", "artifact_binding", "expected", "automated_evidence_bindings", "required_sections", "required_categories", "minimum_score", "blinding"],
+  "properties": {
+    "schema_name": {"const": "wave64_human_audio_review_request"},
+    "request_version": {"const": 1},
+    "review_id": {"type": "string", "minLength": 1},
+    "artifact_binding": {"$ref": "#/$defs/mediaBinding"},
+    "expected": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["transcript", "character_id", "voice_profile_id", "emotion_class", "delivery_style", "intensity", "pace_wpm", "duration_target_seconds", "sync_required"],
+      "properties": {
+        "transcript": {"type": "string"},
+        "character_id": {"type": "string", "minLength": 1},
+        "voice_profile_id": {"type": "string", "minLength": 1},
+        "emotion_class": {"type": ["string", "null"]},
+        "delivery_style": {"type": "string", "minLength": 1},
+        "intensity": {"type": "string", "minLength": 1},
+        "pace_wpm": {"type": ["number", "null"], "exclusiveMinimum": 0},
+        "duration_target_seconds": {"type": "number", "exclusiveMinimum": 0},
+        "sync_required": {"type": "boolean"}
+      }
+    },
+    "automated_evidence_bindings": {"type": "array", "items": {"$ref": "#/$defs/binding"}},
+    "required_sections": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1, "uniqueItems": true},
+    "required_categories": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1, "uniqueItems": true},
+    "minimum_score": {"type": "number", "minimum": 0, "maximum": 5},
+    "blinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["engine_identity_hidden_initial_pass"],
+      "properties": {"engine_identity_hidden_initial_pass": {"type": "boolean"}}
+    }
+  },
+  "$defs": {
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "bytes"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "bytes": {"type": "integer", "minimum": 1}
+      }
+    },
+    "mediaBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "bytes", "media_type"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "bytes": {"type": "integer", "minimum": 1},
+        "media_type": {"type": "string", "enum": ["audio", "audio_video"]}
+      }
+    }
+  }
+}

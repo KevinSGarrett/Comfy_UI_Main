@@ -298,9 +298,32 @@
           "$ref": "#/$defs/identityRecord"
         },
         {
+          "$ref": "#/$defs/humanIdentityRecord"
+        },
+        {
           "type": "null"
         }
       ]
+    },
+    "humanIdentityRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "proof_kind",
+        "authority_type",
+        "reviewer_id",
+        "authority_id",
+        "role",
+        "synthetic_only"
+      ],
+      "properties": {
+        "proof_kind": {"type": "string", "enum": ["playback_review", "production_review"]},
+        "authority_type": {"const": "human"},
+        "reviewer_id": {"type": "string", "minLength": 1},
+        "authority_id": {"type": "string", "minLength": 1},
+        "role": {"type": "string", "enum": ["playback_reviewer", "final_production_authority"]},
+        "synthetic_only": {"const": false}
+      }
     }
   }
 }

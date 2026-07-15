@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-026-AUDIO-ENGINE-ROUTING-20260712T163916-0500",
-  "timestamp": "2026-07-12T16:39:16-05:00",
+  "timestamp": "2026-07-15T10:27:30.0899161-05:00",
   "item_id": "ITEM-W64-026",
   "tracker_id": "TRK-W64-026",
   "workstream": "audio_engine_routing",
@@ -19,7 +19,12 @@
     "wave30_event_manifest_route_bridge_ready": true,
     "per_event_request_and_decision_orchestration_ready": true,
     "aggregate_fail_closed_route_plan_ready": true,
-    "transactional_output_ready": true
+    "transactional_output_ready": true,
+    "full_audio_pack_functional_index_ready": true,
+    "human_playback_review_authority_path_ready": true,
+    "human_final_production_authority_path_ready": true,
+    "dialogue_contract_v2_style_intensity_separation_ready": true,
+    "reference_speaker_registry_ready": true
   },
   "validation": {
     "unit_tests_passed": 20,
@@ -32,7 +37,9 @@
     "python_compile": "pass",
     "schema_check": "pass",
     "synthetic_route_probe": "expected_exit_2",
-    "evaluated_candidates": ["ltx2_audio_video"],
+    "evaluated_candidates": [
+      "ltx2_audio_video"
+    ],
     "selected_engine_id": null,
     "block_final_av_promotion": true,
     "synthetic_bridge_event_count": 3,
@@ -42,7 +49,15 @@
     "claude_high_findings_remediated": 3,
     "claude_medium_findings_remediated": 2,
     "claude_bridge_medium_findings_remediated": 1,
-    "remaining_remediable_high_or_medium_findings": 0
+    "remaining_remediable_high_or_medium_findings": 0,
+    "functional_audio_index_file_count": 39771,
+    "functional_audio_index_unique_sha256_count": 29862,
+    "functional_audio_index_sha256": "7301243a364025dbd23907aee20ee8593d5897caa83d38391026ad42da6d17ec",
+    "audio_control_side_task_tests_passed": 96,
+    "chatterbox_candidate_sha256": "cde61c59adace5b0674ee05268f56a091b0921b196bc7ad54ad0a06fc17a5b96",
+    "chatterbox_candidate_duration_seconds": 3.92,
+    "chatterbox_expected_duration_seconds": 3.0,
+    "chatterbox_candidate_rejected": true
   },
   "acceptance_gates": {
     "audio_engine_compatibility": true,
@@ -54,9 +69,22 @@
     "current_engine_authority_approved": false,
     "genuine_proof_set_present": false,
     "production_route_selected": false,
-    "final_av_promotion_allowed": false
+    "final_av_promotion_allowed": false,
+    "full_audio_pack_functional_index_ready": true,
+    "content_based_audio_suppression_absent": true,
+    "human_playback_review_schema_ready": true,
+    "human_final_authority_schema_ready": true,
+    "production_eligible_dialogue_candidate_present": false,
+    "independent_playback_review_pass": false,
+    "production_review_authority_pass": false,
+    "row_complete": false
   },
   "blockers": [
+    {
+      "classification": "Blocked_Audio_Engine_Authority_Not_Approved",
+      "scope": "primary_row_blocker",
+      "reason": "Audio assets and several real engine runtimes exist, but the production engine selection and authority decision remain unapproved."
+    },
     {
       "classification": "Blocked_Audio_Engine_Authority_Not_Approved",
       "reason": "LTX-2 is only a planned AV candidate, no approved production-audio status exists, and no separate audio engine is registered."
@@ -74,6 +102,10 @@
     {
       "path": "Plan/Instructions/QA/Evidence/Wave64/audio_engine_routing_test_log.json",
       "sha256": "d0fa08d1dde8cdf9e2bd006d425b607f6ee6e4649406b673a37579ba953f2ac9"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/AUDIO_PACK_FUNCTIONAL_INDEX_20260715T151915Z.json",
+      "sha256": "0f91c4627ea139bccddc600332742e4552b8f2a8bd916e269f9df119871b61b8"
     }
   ],
   "runtime": {
@@ -84,5 +116,5 @@
     "aws_contacted": false,
     "ec2_started": false
   },
-  "next_action": "Keep row 026 blocked without approved engine authority, genuine license/asset/runtime/QA proof, production selection, or AV promotion claims. Continue TRK-W64-027 / ITEM-W64-027 by duplicate-checking the existing dialogue/voice continuity lane and selecting one bounded offline review implementation gap; do not fabricate voice or playback evidence."
+  "next_action": "Keep rejected candidates immutable. Select or design C01's canonical voice identity, preflight line duration, then generate a predeclared bounded audition batch through a distinct eligible engine/configuration. Send only an automated-gate-passing candidate to the hash-bound human playback workflow."
 }

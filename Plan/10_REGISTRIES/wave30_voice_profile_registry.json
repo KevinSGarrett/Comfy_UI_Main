@@ -1,12 +1,27 @@
 {
+  "registry_version": 2,
+  "identity_policy_values": [
+    "licensed_reference_match",
+    "designed_synthetic_voice",
+    "consistent_synthetic_baseline",
+    "pending_selection"
+  ],
   "profile_fields": [
     "voice_profile_id",
     "character_id",
     "language",
+    "identity_policy",
+    "reference_ids",
+    "timbre",
     "accent",
-    "tone",
+    "pitch",
+    "pace_wpm_range",
+    "delivery_styles",
     "emotion_range",
     "intensity_range",
+    "pronunciation_dictionary",
+    "continuity_lines",
+    "engine_configuration",
     "sync_default",
     "qa_policy"
   ],
@@ -20,6 +35,36 @@
       "voice_profile_id": "narration_default",
       "sync_default": false,
       "qa_policy": "narration_clarity"
+    }
+  ],
+  "character_profiles": [
+    {
+      "voice_profile_id": "voice_C01_pending_authority",
+      "character_id": "C01",
+      "language": "en",
+      "identity_policy": "pending_selection",
+      "reference_ids": [],
+      "timbre": "pending_character_voice_casting",
+      "accent": "pending_character_voice_casting",
+      "pitch": "pending_character_voice_casting",
+      "pace_wpm_range": {
+        "minimum": 120,
+        "maximum": 180
+      },
+      "delivery_styles": [
+        "focused"
+      ],
+      "emotion_range": [],
+      "intensity_range": [
+        "controlled"
+      ],
+      "pronunciation_dictionary": {},
+      "continuity_lines": [],
+      "engine_configuration": null,
+      "sync_default": true,
+      "qa_policy": "strict_character_voice",
+      "production_authorized": false,
+      "blocker": "character voice identity policy and approved reference or synthetic baseline are not yet selected"
     }
   ]
 }
