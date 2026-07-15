@@ -84,7 +84,7 @@ if ($IncludeCredentialLoadProbe -and $checks.wrapper_exists -and $checks.wrapper
   $beforeProbeDirs = @(Get-ChildItem -LiteralPath $handoffRoot -Directory -ErrorAction SilentlyContinue | ForEach-Object { $_.FullName })
   $probeFailure = ""
   try {
-    & $wrapper -ProjectRoot $ProjectRoot -CredentialRoot $CredentialRoot -TaskName "credential_root_guard_probe" -Mode agent -AllowPrimaryWorktree -WorkOrderText "Return a proposed summary only." | Out-Null
+    & $wrapper -ProjectRoot $ProjectRoot -CredentialRoot $CredentialRoot -TaskName "credential_root_guard_probe" -Mode agent -AllowPrimaryWorktree -AllowDirectDiagnostic -WorkOrderText "Return a proposed summary only." | Out-Null
   } catch {
     $probeFailure = $_.Exception.Message
   }
@@ -152,7 +152,7 @@ if ($IncludeLiveProbe -and $checks.wrapper_exists -and $checks.wrapper_self_test
       }
     }
     if ($checks.cursor_key_loads -and $checks.wsl_key_bridge) {
-    $probe = & $wrapper -ProjectRoot $ProjectRoot -CredentialRoot $CredentialRoot -TaskName "wrapper_transport_probe" -Mode ask -WslDistribution $WslDistribution -RequireGitLfs -TimeoutSeconds 120 -WorkOrderText "This is a transport-only probe. Do not inspect project files. Return exactly: status: pass; summary: CURSOR_HANDOFF_WRAPPER_READY; files inspected: none; blockers: none; confidence: high; recommended Codex follow-up: none."
+  $probe = & $wrapper -ProjectRoot $ProjectRoot -CredentialRoot $CredentialRoot -TaskName "wrapper_transport_probe" -Mode ask -WslDistribution $WslDistribution -RequireGitLfs -TimeoutSeconds 120 -AllowDirectDiagnostic -WorkOrderText "This is a transport-only probe. Do not inspect project files. Return exactly: status: pass; summary: CURSOR_HANDOFF_WRAPPER_READY; files inspected: none; blockers: none; confidence: high; recommended Codex follow-up: none."
     $probeObj = $probe | ConvertFrom-Json
     $checks.probe_pass = ($probeObj.status -eq "PASS" -and $probeObj.classification -eq "CURSOR_HANDOFF_COMPLETED" -and $probeObj.worker_reported_status -eq "pass" -and $probeObj.cursor_result_excerpt -match "CURSOR_HANDOFF_WRAPPER_READY")
     $checks.latest_probe_record = Join-Path $probeObj.run_dir "handoff_record.json"

@@ -9,9 +9,12 @@ $monitor = Get-Content -Raw -LiteralPath $monitorPath
 $checks = [ordered]@{
   installer_allows_battery_start = ($installer -match '-AllowStartIfOnBatteries')
   installer_continues_on_battery = ($installer -match '-DontStopIfGoingOnBatteries')
+  installer_hides_console_windows = ($installer -match '-WindowStyle Hidden')
   monitor_reports_battery_start_contract = ($monitor -match 'allows_battery_start')
   monitor_reports_battery_continuation_contract = ($monitor -match 'continues_on_battery')
+  monitor_reports_hidden_window_contract = ($monitor -match 'window_hidden')
   monitor_fails_closed_on_power_drift = ($monitor -match 'Scheduled task is not battery-resilient')
+  monitor_fails_closed_on_visible_console = ($monitor -match 'Scheduled task can open a visible console window')
 }
 $failed = @($checks.GetEnumerator() | Where-Object { -not $_.Value } | ForEach-Object { $_.Key })
 [ordered]@{

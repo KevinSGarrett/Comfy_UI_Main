@@ -14,15 +14,18 @@ param(
   [ValidateRange(0,100)][int]$Priority=50,
   [ValidateRange(0,600)][double]$EstimatedCodexMinutes=5,
   [string]$CodexAuthorityReason='',
-  [switch]$RouteNow
+  [switch]$RouteNow,
+  [switch]$DeferRouting
 )
 
 $ErrorActionPreference='Stop'
+if($RouteNow-and$DeferRouting){throw 'RouteNow and DeferRouting are mutually exclusive.'}
 $authority=if($WorkType-eq'final_authority'){'codex_only'}else{'worker_eligible'}
 $semanticPreflight=($WorkType-eq'implementation'-and($QualityProfile-eq'high_assurance'-or$RiskClass-in@('high','critical')))
 $attempts=if($QualityProfile-eq'high_assurance'){1}else{2}
 $intentParams=@{ProjectRoot=$ProjectRoot;DispatcherRoot=$DispatcherRoot;TaskName=$TaskName;WorkType=$WorkType;AuthorityClass=$authority;RiskClass=$RiskClass;QualityProfile=$QualityProfile;Objective=$Objective;CandidatePaths=$CandidatePaths;AllowedPaths=$AllowedPaths;ValidatorCommands=$ValidatorCommands;AcceptanceContract=$AcceptanceContract;Priority=$Priority;EstimatedCodexMinutes=$EstimatedCodexMinutes;CodexAuthorityReason=$CodexAuthorityReason;SemanticPreflightRequired=$semanticPreflight;MaxAttempts=$attempts}
 $intent=&(Join-Path $PSScriptRoot 'New-AIWorkerTaskIntent.ps1') @intentParams|ConvertFrom-Json
 $routing=$null
-if($RouteNow){$routing=&(Join-Path $PSScriptRoot 'Invoke-AIWorkerAdmissionRouter.ps1') -DispatcherRoot $DispatcherRoot -MaxIntents 1|ConvertFrom-Json}
-[ordered]@{status='PASS';classification=$(if($RouteNow){'AI_WORKER_DEVELOPMENT_PIPELINE_ROUTED'}else{'AI_WORKER_DEVELOPMENT_PIPELINE_ADMITTED'});intent=$intent;routing=$routing;codex_final_authority_required=$true}|ConvertTo-Json -Depth 15
+$routeImmediately=-not$DeferRouting
+if($routeImmediately){$routing=&(Join-Path $PSScriptRoot 'Invoke-AIWorkerAdmissionRouter.ps1') -DispatcherRoot $DispatcherRoot -MaxIntents 1|ConvertFrom-Json}
+[ordered]@{status='PASS';classification=$(if($routeImmediately){'AI_WORKER_DEVELOPMENT_PIPELINE_ROUTED'}else{'AI_WORKER_DEVELOPMENT_PIPELINE_ADMITTED_DEFERRED'});intent=$intent;routing=$routing;codex_final_authority_required=$true}|ConvertTo-Json -Depth 15

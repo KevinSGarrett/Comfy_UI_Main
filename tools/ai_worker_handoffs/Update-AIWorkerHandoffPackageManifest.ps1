@@ -8,6 +8,22 @@ if ([string]::IsNullOrWhiteSpace($PackageRoot)) {
 $PackageRoot = (Resolve-Path -LiteralPath $PackageRoot).Path
 $deployableRoots = @("claude", "cursor", "dispatcher", "automations")
 
+function Get-PortableAutomationBytes {
+  param([Parameter(Mandatory = $true)][string]$Path)
+  $text = [IO.File]::ReadAllText($Path).Replace("`r`n", "`n").Replace("`r", "`n")
+  return [Text.Encoding]::UTF8.GetBytes($text)
+}
+
+function Get-Sha256Bytes {
+  param([Parameter(Mandatory = $true)][byte[]]$Bytes)
+  $sha = [Security.Cryptography.SHA256]::Create()
+  try {
+    return ([BitConverter]::ToString($sha.ComputeHash($Bytes))).Replace('-', '').ToLowerInvariant()
+  } finally {
+    $sha.Dispose()
+  }
+}
+
 function Get-AutomationSemanticHash {
   param([Parameter(Mandatory = $true)][string]$Path)
   $semanticLines = @(
@@ -30,12 +46,14 @@ foreach ($name in $deployableRoots) {
   if (!(Test-Path -LiteralPath $root -PathType Container)) { throw "Canonical package directory missing: $root" }
   foreach ($item in Get-ChildItem -LiteralPath $root -File -Recurse | Sort-Object FullName) {
     $relative = $item.FullName.Substring($PackageRoot.Length).TrimStart("\").Replace("\", "/")
+    $isAutomation = $relative -like "automations/*"
+    $portableBytes = if ($isAutomation) { Get-PortableAutomationBytes -Path $item.FullName } else { $null }
     $record = [ordered]@{
       relative_path = $relative
-      bytes = $item.Length
-      sha256 = (Get-FileHash -LiteralPath $item.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+      bytes = $(if ($isAutomation) { $portableBytes.Length } else { $item.Length })
+      sha256 = $(if ($isAutomation) { Get-Sha256Bytes -Bytes $portableBytes } else { (Get-FileHash -LiteralPath $item.FullName -Algorithm SHA256).Hash.ToLowerInvariant() })
     }
-    if ($relative -like "automations/*") {
+    if ($isAutomation) {
       $record["semantic_sha256"] = Get-AutomationSemanticHash -Path $item.FullName
     }
     $files += $record

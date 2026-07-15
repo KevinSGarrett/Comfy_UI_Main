@@ -95,6 +95,27 @@ jobs:
           powershell -NoProfile -ExecutionPolicy Bypass -File "$env:GITHUB_WORKSPACE\tools\Test-ComfyUIDeliveryRecoveryControls.ps1" -ProjectRoot "$env:GITHUB_WORKSPACE" -OutFile "$env:GITHUB_WORKSPACE\ci_artifacts\workflow_prerequisite_matching\delivery_recovery_controls.json"
           powershell -NoProfile -ExecutionPolicy Bypass -File "$env:GITHUB_WORKSPACE\tools\Test-ComfyUIHydrationIntegrityGuard.Tests.ps1" -ProjectRoot "$env:GITHUB_WORKSPACE" -OutFile "$env:GITHUB_WORKSPACE\ci_artifacts\workflow_prerequisite_matching\hydration_integrity_guard_tests.json"
 
+      - name: AI worker admission and dispatcher regressions
+        if: ${{ matrix.lane_id == 'sdxl_low_risk_fallback_lane' }}
+        shell: pwsh
+        run: |
+          $package = Join-Path $env:GITHUB_WORKSPACE "tools\ai_worker_handoffs"
+          & (Join-Path $package "Test-AIWorkerAdmissionBridgeContract.ps1")
+          & (Join-Path $package "dispatcher\Test-AIWorkerDispatcher.ps1")
+          & (Join-Path $package "dispatcher\Test-AIWorkerQualification.ps1")
+          & (Join-Path $package "Test-AIWorkerDirectWrapperTimeoutContract.ps1")
+          & (Join-Path $package "Test-AIWorkerHandoffPackageDriftRegression.ps1")
+          & (Join-Path $package "Test-AIWorkerScheduledTaskPowerContract.ps1")
+          & (Join-Path $package "Test-CursorWslBootstrapContract.ps1")
+          $parseFailures = @()
+          foreach ($file in Get-ChildItem -LiteralPath $package -Recurse -File -Filter "*.ps1") {
+            $tokens = $null
+            $errors = $null
+            [void][Management.Automation.Language.Parser]::ParseFile($file.FullName, [ref]$tokens, [ref]$errors)
+            if ($errors.Count) { $parseFailures += "$($file.FullName): $($errors.Message -join '; ')" }
+          }
+          if ($parseFailures.Count) { throw "AI worker PowerShell parse failures: $($parseFailures -join ' | ')" }
+
       - name: EC2 batched runtime coordinator regression
         shell: pwsh
         run: |

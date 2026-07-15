@@ -20,7 +20,7 @@ Review budget: Cursor extraction when needed, one Sonnet semantic pass, Codex re
 
 ## Pre-Work Gate
 
-Create a signed development intent before substantive work with `tools/ai_worker_handoffs/dispatcher/New-AIWorkerDevelopmentPipeline.ps1`. The admission ledger is the automatic routing denominator; do not bypass it by beginning eligible reasoning directly in Codex. Independent Cursor and Claude scheduled lanes consume admitted work concurrently.
+Create a signed development intent before substantive work with `tools/ai_worker_handoffs/dispatcher/New-AIWorkerDevelopmentPipeline.ps1`. The pipeline routes immediately by default. The admission ledger is the automatic routing denominator; do not bypass it by beginning eligible reasoning directly in Codex. Independent Cursor and Claude scheduled lanes consume admitted work concurrently. Direct production wrapper calls fail closed; `-AllowDirectDiagnostic` is reserved for explicit wrapper/capability diagnostics and does not count as production delegation.
 
 Classify eligible work before broad analysis:
 
