@@ -58,6 +58,7 @@ The controller loads credentials from process environment or `C:\Comfy_UI_Main\.
 CIVITAI_API_TOKEN
 CIVITAI_TOKEN
 CIVITAI_API_KEY
+CIVITAI_SESSION_COOKIE
 HF_TOKEN
 HUGGING_FACE_HUB_TOKEN
 ```
@@ -66,7 +67,7 @@ Rules:
 
 - Never print, log, serialize, or commit secret values.
 - Never place a Civitai token in a saved URL. The controller may use one redacted, in-memory token-query retry after a Bearer-header `401/403`; that URL must never be serialized, logged, or placed in browser history.
-- Never export browser cookies.
+- Never extract or export cookies from a normal Chrome profile. `CIVITAI_SESSION_COOKIE` is an optional user-supplied secret for creator-login-required downloads and must never be printed, logged, or committed.
 - Never paste an API token into a web page.
 - Do not copy `.env` into deploy bundles, evidence, or handoff packets.
 
@@ -152,9 +153,9 @@ The API path:
 - checks local `/object_info` visibility without posting a prompt;
 - leaves runtime and QA status queued.
 
-If Civitai returns `401`, `403`, `404`, or an HTML/login page, classification is `BROWSER_DOWNLOAD_REQUIRED`. Do not keep retrying the API in a loop.
+If Civitai returns `401`, `403`, `404`, or an HTML/login page, `acquire` automatically invokes the dedicated invisible browser worker when `allow_browser_fallback` is true. It does not keep retrying the API or open a visible browser. A direct `BROWSER_DOWNLOAD_REQUIRED` result remains possible when browser fallback is disabled by the request.
 
-## Authenticated browser fallback
+## Background browser fallback
 
 Create a browser request:
 
@@ -166,14 +167,20 @@ python Plan/07_IMPLEMENTATION/scripts/manage_model_asset_acquisition.py `
   --out runtime_artifacts/model_acquisition/browser_requests/<request>.json
 ```
 
-Then the main session must:
+Run the dedicated background worker first:
 
-1. Use the Codex Chrome control tool with the existing signed-in browser profile.
-2. Navigate to the exact `page_url` in the browser request.
-3. Select the already resolved model version and file; do not substitute a different file.
-4. Complete any access/license acknowledgement that the account is authorized to complete.
-5. Download to either `C:\Users\kevin\Downloads` or `runtime_artifacts\model_acquisition\browser_inbox`.
-6. Ingest the downloaded file through the controller:
+```powershell
+python Plan/07_IMPLEMENTATION/scripts/run_background_browser_asset_download.py `
+  --project-root C:\Comfy_UI_Main `
+  --manifest runtime_artifacts/model_acquisition/manifests/<request>.json `
+  --install --wire
+```
+
+The worker uses a persistent Chrome profile under `%LOCALAPPDATA%\ComfyUIMain`, launches Chrome headless, and never creates a visible browser window. It may inject `CIVITAI_SESSION_COOKIE` from `.env` into that isolated profile without printing or serializing the value. Browser bytes receive the same hash, placement, duplicate, registry, queue, workflow, and `/object_info` checks as API bytes.
+
+If Civitai presents login or anti-automation verification, the worker returns `BACKGROUND_BROWSER_SESSION_REAUTH_REQUIRED`, closes Chrome, and does not open a visible fallback. Do not loop. Chrome 136+ intentionally prevents automation from reusing the default profile's encrypted session through remote debugging, so copying or debugging the normal profile is prohibited. Supply or refresh the dedicated browser session secret once, then rerun the same request. Paid, private, early-access, membership, and license-acceptance barriers remain exact blockers.
+
+For a file already downloaded through an explicitly authorized interactive browser action, ingest it through the same controller:
 
 ```powershell
 python Plan/07_IMPLEMENTATION/scripts/manage_model_asset_acquisition.py `
@@ -184,7 +191,7 @@ python Plan/07_IMPLEMENTATION/scripts/manage_model_asset_acquisition.py `
   --wire
 ```
 
-Browser bytes receive the same hash, placement, duplicate, registry, queue, workflow, and `/object_info` checks as API bytes. The browser path is not a weaker manual-import lane.
+The browser path is not a weaker manual-import lane. It must match the resolved file identity and source SHA-256 exactly.
 
 ## Hugging Face behavior
 

@@ -1,10 +1,11 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "registry_id": "unified_model_asset_acquisition_control",
   "status": "active",
   "authority": {
     "project_root": "C:/Comfy_UI_Main",
     "controller": "Plan/07_IMPLEMENTATION/scripts/manage_model_asset_acquisition.py",
+    "background_browser_worker": "Plan/07_IMPLEMENTATION/scripts/run_background_browser_asset_download.py",
     "request_schema": "Plan/08_SCHEMAS/model_asset_acquisition_request.schema.json",
     "model_registry": "Plan/Registries/Models/model_registry.jsonl",
     "runtime_queue": "Plan/Registries/Models/model_runtime_validation_queue.csv",
@@ -20,6 +21,7 @@
   "providers": {
     "civitai": {
       "credential_keys": ["CIVITAI_API_TOKEN", "CIVITAI_TOKEN", "CIVITAI_API_KEY"],
+      "optional_background_browser_session_key": "CIVITAI_SESSION_COOKIE",
       "metadata_endpoint": "https://civitai.com/api/v1/model-versions/{modelVersionId}",
       "download_endpoint": "https://civitai.com/api/download/models/{modelVersionId}",
       "browser_fallback": true
@@ -72,7 +74,12 @@
     "bounded_runtime_smoke_and_modality_qa_completed"
   ],
   "browser_fallback_contract": {
-    "use_signed_in_browser_session": true,
+    "headless_background_only_by_default": true,
+    "visible_browser_automatic_fallback_prohibited": true,
+    "dedicated_persistent_profile_required": true,
+    "normal_chrome_profile_copy_or_debug_prohibited": true,
+    "optional_session_cookie_loaded_from_environment_only": true,
+    "login_or_verification_classification": "BACKGROUND_BROWSER_SESSION_REAUTH_REQUIRED",
     "browser_cookie_export_prohibited": true,
     "api_token_paste_into_page_prohibited": true,
     "download_must_match_resolved_file": true,

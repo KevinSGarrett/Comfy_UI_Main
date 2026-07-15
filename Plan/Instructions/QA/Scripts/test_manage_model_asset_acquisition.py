@@ -7,6 +7,8 @@ import json
 import os
 import tempfile
 import unittest
+import urllib.error
+from contextlib import redirect_stdout
 from email.message import Message
 from pathlib import Path
 from unittest import mock
@@ -253,6 +255,97 @@ class ModelAssetAcquisitionTests(unittest.TestCase):
             with self.assertRaises(MODULE.AcquisitionError) as caught:
                 MODULE.download_to_staging(self.root, manifest)
         self.assertEqual(caught.exception.classification, "BROWSER_DOWNLOAD_REQUIRED")
+
+    def test_acquire_automatically_routes_api_auth_failure_to_background_browser(self) -> None:
+        manifest = self.resolved(b"browser-fallback")
+        manifest_path = self.root / "manifest.json"
+        manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+        browser_result = {
+            "classification": "BACKGROUND_BROWSER_DOWNLOAD_INSTALLED_REGISTERED_AND_QUEUED",
+            "secret_values_reported": False,
+        }
+        argv = [
+            "manage_model_asset_acquisition.py",
+            "--project-root",
+            str(self.root),
+            "acquire",
+            "--manifest",
+            str(manifest_path),
+            "--wire",
+        ]
+        with (
+            mock.patch.object(MODULE.sys, "argv", argv),
+            mock.patch.object(
+                MODULE,
+                "download_to_staging",
+                side_effect=MODULE.AcquisitionError("BROWSER_DOWNLOAD_REQUIRED", "login required"),
+            ),
+            mock.patch.object(MODULE, "run_background_browser_fallback", return_value=browser_result) as fallback,
+            redirect_stdout(io.StringIO()),
+        ):
+            return_code = MODULE.run()
+        self.assertEqual(return_code, 0)
+        fallback.assert_called_once_with(
+            self.root.resolve(),
+            manifest_path.resolve(),
+            True,
+            MODULE.DEFAULT_OBJECT_INFO,
+        )
+
+    def test_background_browser_subprocess_command_never_contains_secret(self) -> None:
+        worker = self.root / "Plan/07_IMPLEMENTATION/scripts/run_background_browser_asset_download.py"
+        worker.parent.mkdir(parents=True)
+        worker.write_text("# worker\n", encoding="utf-8")
+        manifest_path = self.root / "manifest.json"
+        manifest_path.write_text("{}\n", encoding="utf-8")
+        completed = mock.Mock(
+            returncode=0,
+            stdout=json.dumps({"classification": "BACKGROUND_BROWSER_DOWNLOAD_HASH_VERIFIED"}),
+            stderr="",
+        )
+        with (
+            mock.patch.dict(os.environ, {"CIVITAI_API_KEY": "secret-api-value", "CIVITAI_SESSION_COOKIE": "secret-session-value"}),
+            mock.patch.object(MODULE.subprocess, "run", return_value=completed) as launched,
+        ):
+            result = MODULE.run_background_browser_fallback(
+                self.root,
+                manifest_path,
+                True,
+                MODULE.DEFAULT_OBJECT_INFO,
+            )
+        command = launched.call_args.args[0]
+        serialized_command = json.dumps(command)
+        self.assertNotIn("secret-api-value", serialized_command)
+        self.assertNotIn("secret-session-value", serialized_command)
+        self.assertIn("--install", command)
+        self.assertIn("--wire", command)
+        self.assertEqual(result["classification"], "BACKGROUND_BROWSER_DOWNLOAD_HASH_VERIFIED")
+
+    def test_civitai_401_retries_once_with_ephemeral_query_token(self) -> None:
+        payload = b"query-token-download"
+        manifest = self.resolved(payload)
+        old = os.environ.get("CIVITAI_API_KEY")
+        os.environ["CIVITAI_API_KEY"] = "secret-query-token"
+        unauthorized = urllib.error.HTTPError(
+            manifest["source_metadata"]["download_url"],
+            401,
+            "Unauthorized",
+            Message(),
+            None,
+        )
+        try:
+            with mock.patch.object(MODULE, "open_url", side_effect=[unauthorized, FakeResponse(payload)]) as opened:
+                candidate = MODULE.download_to_staging(self.root, manifest)
+            self.assertEqual(candidate.read_bytes(), payload)
+            self.assertTrue(manifest["ephemeral_token_query_retry_used"])
+            second_request = opened.call_args_list[1].args[0]
+            self.assertIn("token=secret-query-token", second_request.full_url)
+            self.assertNotIn("secret-query-token", json.dumps(manifest))
+        finally:
+            if old is None:
+                os.environ.pop("CIVITAI_API_KEY", None)
+            else:
+                os.environ["CIVITAI_API_KEY"] = old
 
     def test_existing_exact_hash_is_reused_before_network_and_preserved(self) -> None:
         payload = b"already-present-model"
