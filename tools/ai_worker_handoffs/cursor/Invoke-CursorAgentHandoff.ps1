@@ -144,6 +144,35 @@ function Invoke-WslCommandCapture {
   }
 }
 
+function Invoke-WslBootstrapWithRetry {
+  param(
+    [Parameter(Mandatory = $true)][string]$Distribution,
+    [ValidateRange(1,5)][int]$MaxAttempts = 3
+  )
+  $attempts = @()
+  for ($attempt = 1; $attempt -le $MaxAttempts; $attempt++) {
+    $probe = Invoke-WslCommandCapture -Distribution $Distribution -Command @("sh", "-lc", "true") -TimeoutMilliseconds 15000
+    $probeText = (Redact-Text ((@($probe.stdout, $probe.stderr) -join "`n").Trim()))
+    $transientCreateFailure = $probeText -match '(?i)(CreateInstance|E_FAIL|Wsl/Service)'
+    $attempts += [ordered]@{
+      attempt = $attempt
+      exit_code = [int]$probe.exit_code
+      transient_create_failure = $transientCreateFailure
+      message = $probeText
+    }
+    if ($probe.exit_code -eq 0) {
+      return [pscustomobject]@{ status = "PASS"; attempts = $attempts; last_message = $probeText }
+    }
+    if (-not $transientCreateFailure -or $attempt -eq $MaxAttempts) { break }
+    Start-Sleep -Seconds ([math]::Pow(2, $attempt))
+  }
+  return [pscustomobject]@{
+    status = "FAIL"
+    attempts = $attempts
+    last_message = $(if ($attempts.Count) { [string]$attempts[-1].message } else { "WSL bootstrap produced no result." })
+  }
+}
+
 function Get-RegisteredGitWorktreeRoots {
   param([Parameter(Mandatory=$true)][string]$RepoRoot)
   $repoFull = [System.IO.Path]::GetFullPath($RepoRoot).TrimEnd('\')
@@ -747,6 +776,14 @@ try {
   if ([string]::IsNullOrWhiteSpace($sourceText)) { throw "Provide -WorkOrderText or -WorkOrderPath." }
   if ($MaxScopeBytes -gt 524288 -and [string]::IsNullOrWhiteSpace($ScopeByteBudgetReason)) {
     throw "A scope budget above 524288 bytes requires -ScopeByteBudgetReason."
+  }
+
+  $wslBootstrap = Invoke-WslBootstrapWithRetry -Distribution $WslDistribution -MaxAttempts 3
+  $record.wsl_bootstrap_status = $wslBootstrap.status
+  $record.wsl_bootstrap_attempt_count = @($wslBootstrap.attempts).Count
+  $record.wsl_bootstrap_attempts = $wslBootstrap.attempts
+  if ($wslBootstrap.status -ne "PASS") {
+    throw "CURSOR_WSL_BOOTSTRAP_FAILED: $($wslBootstrap.last_message)"
   }
 
   $gitLfsTask = Test-GitLfsTask -Name $TaskName -Text $sourceText -ExplicitRequirement ([bool]$RequireGitLfs) -EvidencePath $GitLfsEvidencePath
