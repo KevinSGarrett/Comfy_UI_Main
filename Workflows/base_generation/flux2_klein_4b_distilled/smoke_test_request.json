@@ -1,0 +1,29 @@
+{
+  "lane_id": "flux2_klein_4b_distilled",
+  "capability": "text_to_image",
+  "workflow_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux2_klein_4b_distilled/workflow.api.json",
+  "specialized_workflow_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux2_klein_4b_distilled/text_to_image.api.json",
+  "workflow_path_policy": "canonical_alias_byte_identical_to_specialized_text_to_image_workflow",
+  "execution_target": "local_windows_comfyui_api",
+  "api_endpoint": "/prompt",
+  "execution_allowed": false,
+  "execution_allowed_after": [
+    "all three model files match exact bytes and SHA256",
+    "object_info exposes every required node and all three model filenames",
+    "ComfyUI has been restarted after model installation",
+    "the exact request is hash-recorded before submission"
+  ],
+  "request_patch_values": {
+    "positive_prompt": "editorial product photograph of a vintage crimson leather travel bag on a brushed stainless steel table, visible fine leather grain and stitching, soft morning window light, realistic reflections, neutral concrete studio wall, crisp focus, balanced composition",
+    "seed": 7162602,
+    "resolution": {"width": 512, "height": 512, "batch_size": 1},
+    "sampler_settings": {"steps": 4, "cfg": 1.0, "sampler_name": "euler"},
+    "save_prefix": "flux2_klein_4b_distilled/flux2_klein_t2i_bag_seed7162602"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "flux2_klein_4b_distilled/flux2_klein_t2i_bag_seed7162602"
+  },
+  "promotion_policy": "This request proves only bounded text-to-image execution; single-reference edit and production promotion retain their separate evidence gates."
+}

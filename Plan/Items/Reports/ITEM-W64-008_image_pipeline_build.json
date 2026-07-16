@@ -1,21 +1,22 @@
 {
   "schema_version": "1.0",
-  "created_iso": "2026-07-12T10:57:51-05:00",
+  "created_iso": "2026-07-16T13:37:38-05:00",
   "tracker_id": "TRK-W64-008",
   "item_id": "ITEM-W64-008",
-  "status": "Blocked_End_To_End_Image_Promotion_Planner_And_Local_Stages_Pass",
+  "status": "Blocked_End_To_End_Image_Promotion_FLUX2_Klein_Local_T2I_Edit_Pass",
   "stage_states": [
     {
       "stage": "base_generation",
       "lane_ids": [
         "sdxl_low_risk_fallback_lane",
         "sdxl_realvisxl_base_lane",
-        "flux1_dev_primary_base"
+        "flux1_dev_primary_base",
+        "flux2_klein_4b_distilled"
       ],
-      "status": "partial_mixed_scope",
+      "status": "partial_with_flux2_klein_bounded_local_t2i_and_edit_pass",
       "blockers": [
         "base_broader_composition_certification",
-        "flux_license_install_runtime"
+        "flux2_dev_runtime_and_broad_robustness"
       ]
     },
     {
@@ -100,10 +101,10 @@
   },
   "blockers": [
     "complete same-scope base-to-final runtime chain missing",
-    "current image artifact manifest is local and superseded with no run manifest or promoted outputs",
+    "current image artifact manifest remains unpromoted for end-to-end production",
     "trusted mask/body/hand/contact authority remains blocked",
-    "Flux license/install/hash/runtime proof remains blocked",
-    "final promotion is denied pending target-runtime and certification proof"
+    "FLUX.2 Dev and broad Klein robustness remain unproven",
+    "final promotion remains denied pending end-to-end certification proof"
   ],
   "project_completion": {
     "level": "BELOW_LEVEL_7",
@@ -115,7 +116,9 @@
     "Plan/Instructions/QA/Evidence/Wave64/IMAGE_PIPELINE_BUILD_20260712T105751-0500.json",
     "Plan/Tracker/Evidence/IMAGE_PIPELINE_BUILD_20260712T105751-0500.json",
     "Plan/Instructions/QA/Evidence/Wave64/image_pipeline_build_test_log.json",
-    "Plan/Items/Reports/ITEM-W64-008_image_pipeline_build.json"
+    "Plan/Items/Reports/ITEM-W64-008_image_pipeline_build.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_FLUX2_KLEIN_4B_DISTILLED_LOCAL_RUNTIME_20260716T133738-0500/evidence.json",
+    "Plan/Instructions/QA/Evidence/Engine_Router/W64_FLUX2_KLEIN_CAPABILITY_RECONCILIATION_20260716T133738-0500.json"
   ],
-  "next_action": "Proceed to TRK-W64-009 / ITEM-W64-009 for safe local work; do not generate, consume candidate masks as truth, or promote without a selected materially scoped runtime chain and all gates."
+  "next_action": "Use the bounded FLUX.2 Klein local T2I/edit lane where appropriate while keeping full image promotion fail-closed; next modernize the exact higher-quality FLUX.2 Dev target-runtime lane without treating its non-commercial license as a disqualifier."
 }

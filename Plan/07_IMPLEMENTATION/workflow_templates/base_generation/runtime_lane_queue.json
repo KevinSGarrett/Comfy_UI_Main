@@ -1,6 +1,6 @@
 {
     "schema_version":  "1.0",
-    "updated_at":  "2026-07-13T21:25:00-05:00",
+    "updated_at":  "2026-07-16T13:37:38-05:00",
     "artifact_id":  "TRK-W61-006",
     "purpose":  "Local queue for base-generation lane runtime proof order before EC2 execution resumes.",
     "local_only":  true,
@@ -16,7 +16,8 @@
                                                                 "sdxl_realvisxl_controlnet_normal_lane",
                                                                 "sdxl_realvisxl_controlnet_openpose_lane",
                                                                 "sdxl_realvisxl_inpaint_detail_lane",
-                                                                "sdxl_realesrgan_upscale_polish_lane"
+                                                                "sdxl_realesrgan_upscale_polish_lane",
+                                                                "flux2_klein_4b_distilled"
                                                             ],
                              "completed_runtime_lane_ids_scope":  "Local package/runtime progression is complete for these lanes. This field does not by itself mean target-runtime proof or final lane certification.",
                              "target_runtime_proof_present_lane_ids":  [
@@ -44,7 +45,7 @@
                              "runtime_not_started_lane_ids":  [
                                                                     "flux1_dev_primary_base"
                                                                 ],
-                             "proof_scope_note":  "Always read each lane status, promotion rule, proof evidence, and required next runtime gate. Base proof is for an older generic scope; Inpaint, Normal, OpenPose, and RealESRGAN certifications are bounded single-sample target-runtime decisions. RealESRGAN allows conditional resolution export only with the source master retained.",
+                             "proof_scope_note":  "Existing lane proof boundaries remain unchanged. FLUX.2 Klein adds one bounded local four-step 512x512 product T2I and one single-reference recolor; it is not target-runtime or production certification and does not prove FLUX.2 Dev.",
                              "do_not_promote_later_lanes_before_first_lane_runtime_proof":  true,
                              "later_lane_promotion_allowed_after_first_lane_runtime_proof":  true,
                              "requires_aws_auth_gate_before_ec2":  true,
@@ -596,6 +597,30 @@
                                                "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_FLUX1_DEV_EXISTING_EXTERNAL_MODEL_PREFLIGHT_20260713T010244-0500.json",
                                                "Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_LOCAL_COMFYUI_DEV_PREFLIGHT_EXTERNAL_PATH_REGRESSION_20260713T010142-0500.json"
                                            ]
+                  },
+                  {
+                      "order":  11,
+                      "lane_id":  "flux2_klein_4b_distilled",
+                      "role":  "bounded_local_flux2_text_to_image_and_single_reference_edit",
+                      "workflow_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux2_klein_4b_distilled/workflow.api.json",
+                      "text_to_image_workflow_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux2_klein_4b_distilled/text_to_image.api.json",
+                      "edit_workflow_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux2_klein_4b_distilled/single_reference_edit.api.json",
+                      "smoke_request_catalog_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux2_klein_4b_distilled/smoke_test_requests.json",
+                      "readme_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux2_klein_4b_distilled/README.md",
+                      "requirements_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux2_klein_4b_distilled/runtime_requirements.json",
+                      "status":  "local_bounded_t2i_and_edit_runtime_validated_with_notes",
+                      "required_next_runtime_gate":  "changed_prompt_subject_seed_resolution_or_broader_production_scope_only",
+                      "promotion_rule":  "Permit only the two hash-bound bounded capabilities; do not promote as the production default or infer FLUX.2 Dev proof.",
+                      "proof_evidence":  [
+                                               "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W64_FLUX2_KLEIN_4B_DISTILLED_STATIC_VALIDATION_20260716T142938-0500.json",
+                                               "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_FLUX2_KLEIN_4B_DISTILLED_LOCAL_RUNTIME_20260716T133738-0500/evidence.json",
+                                             "Plan/Instructions/QA/Evidence/Engine_Router/W64_FLUX2_KLEIN_CAPABILITY_RECONCILIATION_20260716T133738-0500.json"
+                                         ],
+                      "local_pre_ec2_evidence":  [
+                                                       "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W64_FLUX2_KLEIN_4B_DISTILLED_STATIC_VALIDATION_20260716T142938-0500.json",
+                                                       "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_FLUX2_KLEIN_4B_DISTILLED_LOCAL_RUNTIME_20260716T133738-0500/evidence.json",
+                                                     "Plan/Instructions/QA/Evidence/Engine_Router/W64_FLUX2_KLEIN_CAPABILITY_RECONCILIATION_20260716T133738-0500.json"
+                                                 ]
                   }
               ],
     "runtime_boundary":  {
@@ -617,5 +642,5 @@
                          "Does not replace deeper multi-sample or final portfolio image-quality certification.",
                          "The RealESRGAN upscale/polish lane has bounded target-runtime proof for one hash-bound Normal full-body source. Its conditional resolution export does not establish broader source-class robustness, preferred hyperrealism quality, body-mask or geometry authority, or universal certification."
                      ],
-    "next_action":  "Continue local-first on the next concrete non-mask, non-Flux orchestration/runtime task. Do not rerun the completed hash-bound RealESRGAN target sample. Keep Flux license-gated; do not start EC2, rerun Wave65, promote masks, or activate Wave71+."
+    "next_action":  "Use the proven bounded FLUX.2 Klein local T2I/edit capabilities without rerunning their exact inputs. Keep production/default routing and FLUX.2 Dev target-runtime proof fail-closed; do not start EC2, promote masks, activate Wave71+, or mutate Jira from this queue."
 }

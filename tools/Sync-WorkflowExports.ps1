@@ -75,12 +75,19 @@ $requiredLaneFiles = @(
   "runtime_requirements.json",
   "patch_points.json"
 )
+$optionalLaneFiles = @(
+  [pscustomobject]@{ queue_property = "text_to_image_workflow_path"; active_property = "text_to_image_workflow" },
+  [pscustomobject]@{ queue_property = "edit_workflow_path"; active_property = "edit_workflow" },
+  [pscustomobject]@{ queue_property = "smoke_request_catalog_path"; active_property = "smoke_request_catalog" },
+  [pscustomobject]@{ queue_property = "readme_path"; active_property = "" }
+)
 
 foreach ($lane in @($queue.lanes)) {
   $laneId = [string]$lane.lane_id
   $sourceLaneDir = Join-Path $sourceBase $laneId
   $destinationLaneDir = Join-Path $destinationBase $laneId
   New-Item -ItemType Directory -Force -Path $destinationLaneDir | Out-Null
+  $optionalActivePaths = [ordered]@{}
 
   foreach ($fileName in $requiredLaneFiles) {
     $sourcePath = Join-Path $sourceLaneDir $fileName
@@ -109,7 +116,40 @@ foreach ($lane in @($queue.lanes)) {
     })
   }
 
-  [void]$laneExports.Add([ordered]@{
+  foreach ($optional in $optionalLaneFiles) {
+    $property = $lane.PSObject.Properties[$optional.queue_property]
+    if ($null -eq $property -or [string]::IsNullOrWhiteSpace([string]$property.Value)) {
+      continue
+    }
+    $sourcePath = Join-Path $ProjectRoot ([string]$property.Value)
+    $fileName = [System.IO.Path]::GetFileName($sourcePath)
+    $destinationPath = Join-Path $destinationLaneDir $fileName
+    if (!(Test-Path -LiteralPath $sourcePath -PathType Leaf)) {
+      [void]$errors.Add([ordered]@{
+        lane_id = $laneId
+        file = $fileName
+        error = "missing_optional_source_file"
+        path = Convert-ToRepoPath -Path $sourcePath
+      })
+      continue
+    }
+    Copy-Item -LiteralPath $sourcePath -Destination $destinationPath -Force
+    $sourceHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $sourcePath).Hash.ToLowerInvariant()
+    $destinationHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $destinationPath).Hash.ToLowerInvariant()
+    [void]$copiedFiles.Add([ordered]@{
+      lane_id = $laneId
+      file = $fileName
+      source = Convert-ToRepoPath -Path $sourcePath
+      destination = Convert-ToRepoPath -Path $destinationPath
+      sha256 = $destinationHash
+      hash_match = ($sourceHash -eq $destinationHash)
+    })
+    if (![string]::IsNullOrWhiteSpace([string]$optional.active_property)) {
+      $optionalActivePaths[$optional.active_property] = Convert-ToRepoPath -Path $destinationPath
+    }
+  }
+
+  $laneExport = [ordered]@{
     order = [int]$lane.order
     lane_id = $laneId
     workflow = "Workflows/$WorkflowGroup/$laneId/workflow.api.json"
@@ -118,7 +158,11 @@ foreach ($lane in @($queue.lanes)) {
     patch_points = "Workflows/$WorkflowGroup/$laneId/patch_points.json"
     status = [string]$lane.status
     next_gate = [string]$lane.required_next_runtime_gate
-  })
+  }
+  foreach ($entry in $optionalActivePaths.GetEnumerator()) {
+    $laneExport[$entry.Key] = $entry.Value
+  }
+  [void]$laneExports.Add($laneExport)
 }
 
 $activeLanesPath = Join-Path $destinationBase "ACTIVE_LANES.json"

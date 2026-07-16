@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "FLUX2-KLEIN-REVIEW-GATE-20260716T141603-0500",
+  "created_at": "2026-07-16T14:16:03-05:00",
+  "classification": "AI_WORKER_REVIEW_UNAVAILABLE_PRIMARY_WORKTREE_RESTRICTION_CODEX_FALLBACK_COMPLETED",
+  "commit_reviewed": "d189fa7510702a4ee87768dd4941a0c0213a787d",
+  "worker_attempts": [
+    {
+      "intent_id": "intent_20260716T185841210Z_flux2_klein_bounded_implementation_review_325e1994",
+      "result": "admission_blocked",
+      "reason": "Scope has staged drift; no worker launched."
+    },
+    {
+      "request_id": "p010_20260716T190000196Z_flux2_klein_commit_integrity_review_1391c4d6",
+      "result": "dead_letter",
+      "classification": "AI_WORKER_RETRY_BUDGET_EXHAUSTED",
+      "reason": "Dispatch project_root must be the registered primary worktree; no worker launched."
+    }
+  ],
+  "worker_output_adopted": false,
+  "codex_bounded_fallback_review": {
+    "status": "PASS_WITH_REMEDIATION",
+    "issues_found_and_fixed": [
+      "History output filenames, node IDs, subfolders, and output types were not explicitly bound to claimed artifact files.",
+      "Matched A/B evidence required the same seed but did not explicitly require identical prompt text.",
+      "An existing same-ID lane manifest was accepted without verifying its workflow and requirements paths."
+    ],
+    "post_fix_checks": {
+      "focused_regressions_passed": 42,
+      "runtime_proof_checks_passed": 35,
+      "runtime_proof_checks_failed": 0,
+      "workflow_model_registry_lane_count": 11,
+      "workflow_model_registry_failures": 0
+    }
+  },
+  "boundaries": {
+    "worker_review_claimed": false,
+    "codex_final_authority_retained": true,
+    "git_or_github_mutated_by_worker": false,
+    "aws_ec2_s3_mutated": false,
+    "mask_or_wave71_authority_claimed": false,
+    "jira_mutated": false
+  },
+  "result": "PASS"
+}

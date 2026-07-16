@@ -1,3 +1,13 @@
+## Next Action - FLUX.2 Klein Proven; Resolve FLUX.2 Dev Target Runtime - 2026-07-16
+
+FLUX.2 Klein 4B distilled is now a bounded local-first lane. Its exact three-file stack is hash-registered and visible to ComfyUI; separate four-step 512x512 text-to-image and single-reference-edit graphs ran on the local 8 GB GPU; 27/27 proof checks, direct visual QA, a matched-seed FLUX.1/RealVisXL comparison, the fail-closed capability router, and the 11-lane model-registry coverage gate pass. Do not rerun the exact product prompt, seeds, or recolor input.
+
+Next concrete image outcome: resolve the exact official FLUX.2 Dev precision and a sufficient target runtime, then acquire and execute only that required immutable stack. The project is non-commercial and non-distributed, so the FLUX non-commercial license is an allowed-use boundary, not a variant disqualifier. Keep Dev eligible as the higher-quality lane; do not claim it fits the local 8 GB GPU or the stopped A10G until exact model-memory and loader proof supports that runtime.
+
+Evidence: `Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_FLUX2_KLEIN_4B_DISTILLED_LOCAL_RUNTIME_20260716T133738-0500/evidence.json` and `Plan/Instructions/QA/Evidence/Engine_Router/W64_FLUX2_KLEIN_CAPABILITY_RECONCILIATION_20260716T133738-0500.json`.
+
+Keep production/default routing, broad Klein robustness, FLUX.2 Dev runtime, masks, Wave71+, Jira, and full-project certification fail-closed. Keep EC2 stopped until one exact compatible Dev target is selected.
+
 ## Next Action - FLUX.2 Bounded Image Modernization - 2026-07-16
 
 Execute through the separate versioned workflow contract in `Plan/02_TARGET_ARCHITECTURE/MODULAR_CHARACTER_TO_MULTIMODAL_MEDIA_ORCHESTRATION_ARCHITECTURE.md`; do not expand the monolithic Main Flow as the production implementation.

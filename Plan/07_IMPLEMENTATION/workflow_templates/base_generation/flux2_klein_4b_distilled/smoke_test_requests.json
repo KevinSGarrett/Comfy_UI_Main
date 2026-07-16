@@ -1,0 +1,17 @@
+{
+  "lane_id": "flux2_klein_4b_distilled",
+  "execution_target": "local_windows_comfyui_api",
+  "api_endpoint": "/prompt",
+  "execution_allowed": false,
+  "execution_allowed_after": [
+    "all three model files match exact bytes and SHA256",
+    "object_info exposes every required node and all three model filenames",
+    "ComfyUI has been restarted after model installation",
+    "each exact request is hash-recorded before submission"
+  ],
+  "requests": [
+    {"capability": "text_to_image", "workflow": "text_to_image.api.json", "seed": 7162602, "expected_output_prefix": "flux2_klein_4b_distilled/flux2_klein_t2i_bag_seed7162602"},
+    {"capability": "single_reference_edit", "workflow": "single_reference_edit.api.json", "seed": 7162603, "source_image": "flux2_klein_edit_source.png", "expected_output_prefix": "flux2_klein_4b_distilled/flux2_klein_edit_blue_bag_seed7162603"}
+  ],
+  "promotion_policy": "Both runtime outputs and their independent direct visual reviews are required; one passing capability cannot promote the other."
+}

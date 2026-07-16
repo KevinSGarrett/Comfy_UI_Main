@@ -1,3 +1,11 @@
+## Current Pursuing Goal - FLUX.2 Dev After Bounded Klein Pass - 2026-07-16
+
+The first honest FLUX.2 delivery is complete at bounded local scope: Klein 4B distilled has immutable assets, separate T2I/edit graphs, active-lane registration, genuine local outputs, direct visual QA, matched-seed FLUX.1/RealVisXL comparison, and fail-closed capability routing. The local-first lane is usable for its proven scope but is not the production default and does not establish broad prompt, subject, seed, resolution, identity, or production robustness.
+
+Continue the full project goal by selecting and proving the exact higher-quality FLUX.2 Dev stack on sufficient hardware. Non-commercial licensing does not block this non-commercial, non-distributed project. Determine the exact official precision, bytes, hashes, loader contract, and measured memory envelope first; reuse exact local/S3/legacy bytes if present; start EC2 only if the selected stack actually fits the approved target; otherwise record the exact hardware requirement and choose the authorized viable runtime rather than weakening the model choice.
+
+Preserve separate versioned workflows and decoded-image bridges. Do not mix FLUX.1/SDXL model objects into FLUX.2, rerun the completed Klein samples, promote production/default routing, consume candidate masks as truth, activate Wave71+, or switch to Jira bookkeeping.
+
 ## Current Pursuing Goal - FLUX.2 Image Modernization - 2026-07-16
 
 The audio/video groundwork through protected PR #100 has materially advanced, so FLUX.2 is now the next bounded image-modernization delivery. Extensive FLUX.2 planning exists, but no complete workflow, registered model stack, genuine generation, reference/edit proof, or visual A/B QA exists yet.

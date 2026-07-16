@@ -1,6 +1,6 @@
 {
     "schema_version":  "1.0",
-    "updated_at":  "2026-07-13T22:00:00-05:00",
+    "updated_at":  "2026-07-16T13:37:38-05:00",
     "source_queue":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
     "lanes":  [
                   {
@@ -40,7 +40,7 @@
                       "smoke_request":  "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/smoke_test_request.json",
                       "runtime_requirements":  "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/runtime_requirements.json",
                       "patch_points":  "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/patch_points.json",
-                      "status":  "target_runtime_nomouth_v4_single_sample_plus_local_fixed_e2e_contact_repair_pass_with_notes_full_lane_not_certified",
+                      "status":  "target_runtime_inpaint_nomouth_v4_single_sample_smoke_certified_with_notes_full_lane_not_certified",
                       "next_gate":  "materially_scoped_multisample_target_runtime_robustness_or_changed_variant_reproof_only_if_intentionally_selected"
                   },
                   {
@@ -70,8 +70,8 @@
                       "smoke_request":  "Workflows/base_generation/sdxl_realvisxl_controlnet_openpose_lane/smoke_test_request.json",
                       "runtime_requirements":  "Workflows/base_generation/sdxl_realvisxl_controlnet_openpose_lane/runtime_requirements.json",
                       "patch_points":  "Workflows/base_generation/sdxl_realvisxl_controlnet_openpose_lane/patch_points.json",
-                      "status":  "bounded_openpose_v6_target_runtime_recovered_and_final_certified_with_notes",
-                      "next_gate":  "changed_workflow_model_control_input_seed_pose_or_broader_quality_scope_only_if_intentionally_selected"
+                      "status":  "bounded_target_runtime_openpose_v6_seed711470303_final_certification_complete_with_footwear_note",
+                      "next_gate":  "changed_seed_pose_control_image_workflow_model_or_broader_quality_scope_only_if_intentionally_selected"
                   },
                   {
                       "order":  8,
@@ -90,8 +90,8 @@
                       "smoke_request":  "Workflows/base_generation/sdxl_realesrgan_upscale_polish_lane/smoke_test_request.json",
                       "runtime_requirements":  "Workflows/base_generation/sdxl_realesrgan_upscale_polish_lane/runtime_requirements.json",
                       "patch_points":  "Workflows/base_generation/sdxl_realesrgan_upscale_polish_lane/patch_points.json",
-                      "status":  "bounded_target_runtime_conditional_export_complete_plus_fixed_e2e_local_candidate_rejected_source_retained",
-                      "next_gate":  "changed_candidate_or_acceptance_scope_only_do_not_rerun_completed_target_or_fixed_e2e_samples"
+                      "status":  "bounded_target_runtime_conditional_resolution_export_complete_source_master_retained",
+                      "next_gate":  "none_for_completed_hash_bound_target_candidate_do_not_rerun"
                   },
                   {
                       "order":  10,
@@ -102,6 +102,19 @@
                       "patch_points":  "Workflows/base_generation/flux1_dev_primary_base/patch_points.json",
                       "status":  "existing_external_model_hash_verified_license_and_live_runtime_proof_pending",
                       "next_gate":  "document_noncommercial_use_rights_then_run_bounded_local_model_listing_and_load_proof_without_duplicate_install"
+                  },
+                  {
+                      "order":  11,
+                      "lane_id":  "flux2_klein_4b_distilled",
+                      "workflow":  "Workflows/base_generation/flux2_klein_4b_distilled/workflow.api.json",
+                      "smoke_request":  "Workflows/base_generation/flux2_klein_4b_distilled/smoke_test_request.json",
+                      "runtime_requirements":  "Workflows/base_generation/flux2_klein_4b_distilled/runtime_requirements.json",
+                      "patch_points":  "Workflows/base_generation/flux2_klein_4b_distilled/patch_points.json",
+                      "status":  "local_bounded_t2i_and_edit_runtime_validated_with_notes",
+                      "next_gate":  "changed_prompt_subject_seed_resolution_or_broader_production_scope_only",
+                      "text_to_image_workflow":  "Workflows/base_generation/flux2_klein_4b_distilled/text_to_image.api.json",
+                      "edit_workflow":  "Workflows/base_generation/flux2_klein_4b_distilled/single_reference_edit.api.json",
+                      "smoke_request_catalog":  "Workflows/base_generation/flux2_klein_4b_distilled/smoke_test_requests.json"
                   }
               ],
     "runtime_boundaries":  {
