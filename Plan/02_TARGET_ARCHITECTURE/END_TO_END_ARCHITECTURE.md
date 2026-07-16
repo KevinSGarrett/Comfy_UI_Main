@@ -4,6 +4,10 @@
 
 Build multiple connected workflows/modules, not one giant flow.
 
+The complete character-to-image-to-video-to-audio composition contract is defined in:
+
+`Plan/02_TARGET_ARCHITECTURE/MODULAR_CHARACTER_TO_MULTIMODAL_MEDIA_ORCHESTRATION_ARCHITECTURE.md`
+
 ```text
 User / App Mode controls
   ↓
