@@ -1,9 +1,12 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-07-16T10:46:00-05:00",
+  "updated_at": "2026-07-16T11:58:00-05:00",
   "authority": "Plan/Instructions/COMFYUI_DELIVERY_RECOVERY_AND_PORTFOLIO_CONTROL.md",
   "production_architecture": {
     "authoritative_surface": "separate_versioned_api_workflows",
+    "orchestration_contract": "Plan/02_TARGET_ARCHITECTURE/MODULAR_CHARACTER_TO_MULTIMODAL_MEDIA_ORCHESTRATION_ARCHITECTURE.md",
+    "orchestration_authority": "external_autonomous_controller",
+    "workflow_composition": "hash_bound_character_scene_shot_pass_and_artifact_packages",
     "main_flow_status": "reference_and_ui_compatibility_surface_not_current_production_graph",
     "main_flow_snapshot": "Plan/12_SOURCE_SUMMARIES/source_snapshots/WAVE42_MAIN_FLOW_20260702.runtime_bound_snapshot.json",
     "main_flow_snapshot_nodes": 356,
@@ -13,7 +16,7 @@
   "stagnation_supervisor_windows": 2,
   "selection_controls": {
     "authority": "Plan/Instructions/PERSONAL_CALIBRATION_ASSET_BOUNDARY_AND_ROW_SELECTION_PROTOCOL.md",
-    "protected_main_checkpoint": "840078ef76d99af39f1303e1c6a90bdd4ecf617e",
+    "protected_main_checkpoint": "04b08014bc352eb320268845b88c4cac9db2c786",
     "speech_control_expansion": "paused_until_new_runtime_dependency_eligible_candidate_or_machine_verifiable_acceptance_input",
     "personal_asset_classification": "personal_calibration_noncanonical",
     "generic_row_proof_from_personal_or_untracked_assets_allowed": false,
@@ -218,7 +221,7 @@
     {
       "modality": "image",
       "lane_id": "flux2_dev",
-      "classification": "deferred",
+      "classification": "required_production_modernization",
       "workflow_graph_complete": false,
       "local_runtime_proven": false,
       "ec2_runtime_proven": false,
@@ -226,11 +229,11 @@
       "technical_qa_passed": false,
       "direct_review_passed": false,
       "production_lane_certified": false,
-      "scope": "scaffold only",
-      "state": "deferred_until_core_portfolio_delivers",
-      "recovery_priority": 80,
-      "next_concrete_outcome": "Remain deferred until required image, video, and audio deliverables are operating.",
-      "evidence": ["Workflows/base_generation"]
+      "scope": "next bounded image modernization: exact FLUX.2 Dev/Klein asset resolution, dedicated text-to-image and reference/edit workflows, router fallback, genuine runtime proof, and A/B QA",
+      "state": "next_bounded_modernization_assets_workflows_and_runtime_missing",
+      "recovery_priority": 9,
+      "next_concrete_outcome": "Resolve exact official FLUX.2 Dev/Klein variants and licenses; acquire and hash-register the matching diffusion model, text encoder, and VAE; build dedicated text-to-image and reference/edit API workflows; wire fail-closed routing; run local or EC2 smoke proof; and perform visual A/B QA against FLUX.1 and RealVisXL.",
+      "evidence": ["Plan/10_REGISTRIES/wave06_flux2_integration_requirements.json", "Plan/10_REGISTRIES/wave15_flux2_readiness_requirements.json", "Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_FLUX2_DEV_LOCAL_READINESS_20260710T161430-0500.json"]
     },
     {
       "modality": "image",

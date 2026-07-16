@@ -1,3 +1,16 @@
+## Next Action - FLUX.2 Bounded Image Modernization - 2026-07-16
+
+Execute through the separate versioned workflow contract in `Plan/02_TARGET_ARCHITECTURE/MODULAR_CHARACTER_TO_MULTIMODAL_MEDIA_ORCHESTRATION_ARCHITECTURE.md`; do not expand the monolithic Main Flow as the production implementation.
+
+1. Resolve exact official FLUX.2 Dev and Klein variants, license/access terms, versions, filenames, sources, sizes, and hashes.
+2. Reuse exact existing bytes first; otherwise acquire and register the selected diffusion model, matching text encoder, and FLUX.2 VAE through the unified acquisition protocol.
+3. Build dedicated versioned text-to-image and reference/edit API workflows with runtime requirements, smoke requests, and fail-closed engine-router fallback.
+4. Run local object-info and loader proof, then one genuine text-to-image and one genuine reference/edit smoke locally or on gated EC2.
+5. Perform direct visual A/B QA against scope-matched FLUX.1 and RealVisXL baselines. Record exact pass or blocker without weakening thresholds.
+6. Modernize compatible downstream passes only through decoded-image bridges. Never attach FLUX.1/SDXL checkpoints, encoders, VAEs, ControlNets, or LoRAs directly to FLUX.2 without explicit compatibility proof.
+
+This is the next concrete delivery, not a registry-only refresh. FLUX.2 remains unproven until genuine workflow, runtime, artifact, and QA evidence exists.
+
 ## Next Action - Post-PR100 Bounded Delivery Selection - 2026-07-16
 
 1. Keep protected-main Row010 at `Blocked_Identity_Reference_Proof_Missing_Separation_And_Merge_Rejection_Pass`; do not checkpoint the local Character1 comparison as generic Row010 authority.
