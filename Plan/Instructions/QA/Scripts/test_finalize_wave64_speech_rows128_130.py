@@ -19,6 +19,21 @@ class SpeechAcousticsFinalizerTests(unittest.TestCase):
         self.assertEqual({"128", "129", "130"}, set(MODULE.ROW_STATUS))
         self.assertTrue(all(value.startswith("Blocked_") for value in MODULE.ROW_STATUS.values()))
 
+    def test_evaluation_rows_reject_false_promotion(self) -> None:
+        rows = {
+            "128": {"automated_runtime_pass": False, "production_character_identity_authority_pass": False, "row_complete": False},
+            "129": {"automated_runtime_pass": True, "row_complete": False},
+            "130": {"automated_runtime_pass": True, "row_complete": False},
+        }
+        MODULE.validate_evaluation_rows(rows)
+        rows["128"]["production_character_identity_authority_pass"] = True
+        with self.assertRaises(MODULE.FinalizationError):
+            MODULE.validate_evaluation_rows(rows)
+        rows["128"]["production_character_identity_authority_pass"] = False
+        rows["130"]["automated_runtime_pass"] = False
+        with self.assertRaises(MODULE.FinalizationError):
+            MODULE.validate_evaluation_rows(rows)
+
     def test_csv_update_is_idempotent_and_preserves_other_rows(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             path = Path(temporary) / "rows.csv"

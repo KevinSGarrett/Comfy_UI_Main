@@ -114,6 +114,17 @@ def update_rows(path: Path, id_column: str, prefix: str, evidence_root: str) -> 
     os.replace(temporary, path)
 
 
+def validate_evaluation_rows(rows: dict[str, Any]) -> None:
+    if rows.get("128", {}).get("production_character_identity_authority_pass") is not False:
+        raise FinalizationError("Row128 production-character authority is not fail-closed")
+    if rows.get("128", {}).get("automated_runtime_pass") is not False:
+        raise FinalizationError("Row128 incorrectly claims an automated runtime pass")
+    if rows.get("129", {}).get("automated_runtime_pass") is not True or rows.get("130", {}).get("automated_runtime_pass") is not True:
+        raise FinalizationError("Rows129-130 automated runtime gates did not pass")
+    if any(rows.get(number, {}).get("row_complete") is not False for number in ROW_STATUS):
+        raise FinalizationError("a row incorrectly claims completion")
+
+
 def build(root: Path, runtime_dir: Path, durable_dir_name: str) -> dict[str, Any]:
     manifest_path = runtime_dir / "wave64_speech_rows128_130_runtime_manifest.json"
     evaluation_path = runtime_dir / "wave64_speech_rows128_130_evaluation.json"
@@ -122,12 +133,7 @@ def build(root: Path, runtime_dir: Path, durable_dir_name: str) -> dict[str, Any
     if evaluation.get("classification") != EXPECTED_CLASSIFICATION:
         raise FinalizationError("evaluation classification is not the expected partial pass")
     rows = evaluation.get("rows", {})
-    if rows.get("128", {}).get("production_character_identity_authority_pass") is not False:
-        raise FinalizationError("Row128 production-character authority is not fail-closed")
-    if rows.get("129", {}).get("automated_runtime_pass") is not True or rows.get("130", {}).get("automated_runtime_pass") is not True:
-        raise FinalizationError("Rows129-130 automated runtime gates did not pass")
-    if any(rows.get(number, {}).get("row_complete") is not False for number in ROW_STATUS):
-        raise FinalizationError("a row incorrectly claims completion")
+    validate_evaluation_rows(rows)
 
     runtime_names = (
         "indexed_nonverbal_voice_candidate.wav",

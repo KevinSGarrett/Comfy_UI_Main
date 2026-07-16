@@ -116,6 +116,8 @@ def verify_manifest(manifest: dict[str, Any]) -> dict[str, Path]:
 
 
 def classify(rows: dict[str, dict[str, Any]]) -> str:
+    if rows["128"].get("automated_runtime_pass") is not False or rows["128"].get("production_character_identity_authority_pass") is not False or rows["128"].get("row_complete") is not False:
+        return "FAIL_WAVE64_NONVERBAL_FALSE_AUTHORITY_STATE"
     if not rows["129"]["automated_runtime_pass"]:
         return "FAIL_WAVE64_SPEECH_VIRTUAL_MICROPHONE_QA"
     if not rows["130"]["automated_runtime_pass"]:
@@ -165,15 +167,18 @@ def evaluate(args: argparse.Namespace) -> dict[str, Any]:
     duration_preserved = mic_technical["samples"] == dry_technical["samples"] and restored_technical["samples"] == dry_technical["samples"]
     rows = {
         "128": {
-            "runtime_candidate_pass": nonverbal_technical["finite"] and nonverbal_technical["clipping_ratio"] == 0.0,
+            "runtime_execution_pass": nonverbal_technical["finite"] and nonverbal_technical["clipping_ratio"] == 0.0,
             "event_metadata_pass": record.get("event_type") in {"breath", "voice_reaction"} and record.get("role") == "voice",
-            "rights_metadata_pass": bool(record.get("license_classification")) and bool(record.get("attribution")),
+            "rights_metadata_present": bool(record.get("license_classification")) and bool(record.get("attribution")),
+            "production_license_eligibility_pass": False,
             "chain_specific_identity_similarity": round(similarity["nonverbal_to_dry"], 9),
             "chain_specific_identity_threshold": threshold,
             "chain_specific_identity_metric_pass": similarity["nonverbal_to_dry"] >= threshold,
+            "nonverbal_identity_metric_calibrated_for_this_comparison": False,
             "production_character_identity_authority_pass": False,
             "independent_playback_review_pass": False,
-            "automated_runtime_pass": True,
+            "automated_candidate_packaging_pass": nonverbal_technical["finite"] and nonverbal_technical["clipping_ratio"] == 0.0 and record.get("event_type") in {"breath", "voice_reaction"} and record.get("role") == "voice" and bool(record.get("license_classification")) and bool(record.get("attribution")),
+            "automated_runtime_pass": False,
             "row_complete": False,
         },
         "129": {
@@ -224,7 +229,7 @@ def evaluate(args: argparse.Namespace) -> dict[str, Any]:
         "dry_baseline": {"asr_transcript": transcripts["dry"], "normalized_wer": round(wer["dry"], 6)},
         "rows": rows,
         "remaining_blockers": {
-            "128": ["indexed source has no locked production-character ownership", "nonverbal semantic and full-play listening review remain pending"],
+            "128": ["indexed source has no locked production-character ownership or production-license eligibility decision", "the calibrated speech identity threshold is diagnostic only and is not validated for nonverbal-to-spoken comparison", "nonverbal semantic and full-play listening review remain pending"],
             "129": ["independent full-play listening and final production recording-chain approval remain pending"],
             "130": ["independent before/after listening and final production restoration approval remain pending"],
         },
