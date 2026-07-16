@@ -68,6 +68,22 @@ class SpeechMixReviewFinalizerTests(unittest.TestCase):
         with self.assertRaises(MODULE.FinalizationError):
             MODULE.validate_packet(manifest, report, request)
 
+    def test_validate_packet_rejects_fabricated_human_authority(self) -> None:
+        for field in ("human_review_record_present", "human_playback_proof_present"):
+            with self.subTest(field=field):
+                manifest, report, request = valid_packet()
+                manifest["row143"][field] = True
+                with self.assertRaisesRegex(MODULE.FinalizationError, "human review authority"):
+                    MODULE.validate_packet(manifest, report, request)
+
+    def test_validate_packet_rejects_review_request_identity_mismatch(self) -> None:
+        for field, value in (("schema_name", "wrong_schema"), ("review_id", "wrong_review")):
+            with self.subTest(field=field):
+                manifest, report, request = valid_packet()
+                request[field] = value
+                with self.assertRaisesRegex(MODULE.FinalizationError, r"request(?: schema)? identity"):
+                    MODULE.validate_packet(manifest, report, request)
+
     def test_validate_packet_requires_room_failure_and_blocked_playback(self) -> None:
         manifest, report, request = valid_packet()
         report["gates"]["room_reverb_check"]["status"] = "PASS"
