@@ -1,0 +1,175 @@
+{
+  "schema_version": "1.0",
+  "artifact_type": "wave64_speech_rows128_130_evaluation",
+  "execution_timestamp": "2026-07-15T22:00:18-05:00",
+  "status": "PASS_WAVE64_ROWS129_130_AUTOMATED_QA_ROW128_IDENTITY_AUTHORITY_BLOCKED",
+  "classification": "PASS_WAVE64_ROWS129_130_AUTOMATED_QA_ROW128_IDENTITY_AUTHORITY_BLOCKED",
+  "bindings": {
+    "manifest": {
+      "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\wave64_speech_acoustics\\20260715T215239-0500_rows128_130_final\\wave64_speech_rows128_130_runtime_manifest.json",
+      "sha256": "56115dad1f13ccd0a8868ccafd2c4f419390ec27c2d9c6a9bede0ae176ec04df",
+      "bytes": 5951
+    },
+    "cv3_adapter": {
+      "path": "C:\\Comfy_UI_Main\\Plan\\07_IMPLEMENTATION\\scripts\\run_wave64_cv3_eval_calibration.py",
+      "sha256": "f3810a26e129021c8179c982eb0901c5f8f3f07b6508ab4c56cace6bfb3862c8",
+      "bytes": 25021
+    },
+    "speaker_threshold_evidence": {
+      "path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Wave64\\W64_OPENSLR31_SPEAKER_IDENTITY_VALIDATION_20260715T035744-0500.json",
+      "sha256": "cdd7f0c8a0af54ec82c307cc4cea1492976ae1fbbded8712822d4329103ca0a9",
+      "bytes": 6802
+    }
+  },
+  "technical_audio": {
+    "dry": {
+      "sample_rate_hz": 24000,
+      "samples": 76801,
+      "channels": 1,
+      "duration_seconds": 3.200041667,
+      "peak_absolute": 0.37109375,
+      "rms": 0.062000144,
+      "clipping_ratio": 0.0,
+      "silence_ratio": 0.006848869,
+      "finite": true
+    },
+    "nonverbal_source": {
+      "sample_rate_hz": 44100,
+      "samples": 44656,
+      "channels": 2,
+      "duration_seconds": 1.01260771,
+      "peak_absolute": 0.091033936,
+      "rms": 0.009414976,
+      "clipping_ratio": 0.0,
+      "silence_ratio": 0.119110534,
+      "finite": true
+    },
+    "nonverbal_candidate": {
+      "sample_rate_hz": 24000,
+      "samples": 24303,
+      "channels": 1,
+      "duration_seconds": 1.012625,
+      "peak_absolute": 0.090423584,
+      "rms": 0.009422769,
+      "clipping_ratio": 0.0,
+      "silence_ratio": 0.121713369,
+      "finite": true
+    },
+    "virtual_microphone_candidate": {
+      "sample_rate_hz": 24000,
+      "samples": 76801,
+      "channels": 1,
+      "duration_seconds": 3.200041667,
+      "peak_absolute": 0.291473389,
+      "rms": 0.078182198,
+      "clipping_ratio": 0.0,
+      "silence_ratio": 0.00588534,
+      "finite": true
+    },
+    "restored_candidate": {
+      "sample_rate_hz": 24000,
+      "samples": 76801,
+      "channels": 1,
+      "duration_seconds": 3.200041667,
+      "peak_absolute": 0.302246094,
+      "rms": 0.07728748,
+      "clipping_ratio": 0.0,
+      "silence_ratio": 0.005976485,
+      "finite": true
+    }
+  },
+  "dry_baseline": {
+    "asr_transcript": "We hold the frame steady and move on the beat.",
+    "normalized_wer": 0.0
+  },
+  "rows": {
+    "128": {
+      "runtime_execution_pass": true,
+      "event_metadata_pass": true,
+      "rights_metadata_present": true,
+      "production_license_eligibility_pass": false,
+      "chain_specific_identity_similarity": -0.050129935,
+      "chain_specific_identity_threshold": 0.33445611596107483,
+      "chain_specific_identity_metric_pass": false,
+      "nonverbal_identity_metric_calibrated_for_this_comparison": false,
+      "production_character_identity_authority_pass": false,
+      "independent_playback_review_pass": false,
+      "automated_candidate_packaging_pass": true,
+      "automated_runtime_pass": false,
+      "row_complete": false
+    },
+    "129": {
+      "technical_audio_pass": true,
+      "duration_and_sample_count_preserved": true,
+      "asr_transcript": "We hold the frame steady and move on the beat.",
+      "normalized_wer": 0.0,
+      "intelligibility_pass": true,
+      "speaker_similarity_to_dry": 0.980696082,
+      "speaker_similarity_threshold": 0.33445611596107483,
+      "identity_preservation_pass": true,
+      "rms_delta_db": 2.014304,
+      "dry_source_and_recipe_retained": true,
+      "independent_playback_review_pass": false,
+      "final_production_authority_pass": false,
+      "automated_runtime_pass": true,
+      "row_complete": false
+    },
+    "130": {
+      "technical_audio_pass": true,
+      "duration_and_sample_count_preserved": true,
+      "asr_transcript": "We hold the frame steady and move on the beat.",
+      "normalized_wer": 0.0,
+      "phoneme_content_proxy_pass": true,
+      "speaker_similarity_to_dry": 0.980192423,
+      "speaker_similarity_threshold": 0.33445611596107483,
+      "identity_preservation_pass": true,
+      "rms_delta_db_from_virtual_microphone": -0.099975,
+      "bounded_level_change_pass": true,
+      "bounded_repair_sample_ratio_pass": true,
+      "repair_recipe": {
+        "recipe_id": "wave64_bounded_speech_restoration_v1",
+        "dc_removed": true,
+        "declick_detector": "isolated_five_sample_median_residual_v1",
+        "declick_threshold_floor": 0.2,
+        "declick_threshold_median_plus_mad": 60.0,
+        "declick_samples_repaired": 0,
+        "declick_repair_sample_ratio": 0.0,
+        "declick_max_repair_sample_ratio": 0.001,
+        "deplosive_high_pass_hz": 62.0,
+        "deess_crossover_hz": 5500.0,
+        "pre_deess_high_band_rms_ratio": 0.077707667,
+        "deess_mix": 0.0,
+        "peak_ceiling": 0.95,
+        "limiter_linear_gain": 1.0,
+        "source_and_intermediate_retained": true
+      },
+      "source_and_intermediate_retained": true,
+      "independent_playback_review_pass": false,
+      "final_production_authority_pass": false,
+      "automated_runtime_pass": true,
+      "row_complete": false
+    }
+  },
+  "remaining_blockers": {
+    "128": [
+      "indexed source has no locked production-character ownership or production-license eligibility decision",
+      "the calibrated speech identity threshold is diagnostic only and is not validated for nonverbal-to-spoken comparison",
+      "nonverbal semantic and full-play listening review remain pending"
+    ],
+    "129": [
+      "independent full-play listening and final production recording-chain approval remain pending"
+    ],
+    "130": [
+      "independent before/after listening and final production restoration approval remain pending"
+    ]
+  },
+  "boundaries": {
+    "source_media_modified": false,
+    "rejected_speech_candidate_rerun": false,
+    "subjective_review_fabricated": false,
+    "production_promotion_claimed": false,
+    "content_based_suppression": false,
+    "aws_or_ec2_used": false,
+    "mask_or_wave71_touched": false
+  }
+}
