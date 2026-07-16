@@ -1,3 +1,11 @@
+## Current Pursuing Goal - FLUX.2 Image Modernization - 2026-07-16
+
+The audio/video groundwork through protected PR #100 has materially advanced, so FLUX.2 is now the next bounded image-modernization delivery. Extensive FLUX.2 planning exists, but no complete workflow, registered model stack, genuine generation, reference/edit proof, or visual A/B QA exists yet.
+
+Implement the first honest FLUX.2 delivery as one bounded sequence: resolve exact official Dev/Klein variants and license/access terms; reuse or acquire and SHA-256-register the matching diffusion model, text encoder, and VAE; build dedicated text-to-image and reference/edit API workflows; wire the engine router with fail-closed fallback; run local or gated EC2 object-info/loader/smoke proofs; and perform direct visual A/B QA against FLUX.1 and RealVisXL. Do not promote FLUX.2 from planning until these gates pass.
+
+Use `Plan/02_TARGET_ARCHITECTURE/MODULAR_CHARACTER_TO_MULTIMODAL_MEDIA_ORCHESTRATION_ARCHITECTURE.md`: separate versioned character, image, video, audio, and AV workflows are composed by the external autonomous controller through hash-bound Character, Scene, Shot, Pass, and Artifact packages. Do not build one giant production graph and do not reuse FLUX.1/SDXL model objects or LoRAs inside FLUX.2 without exact compatibility proof.
+
 ## Current Pursuing Goal - Post-PR100 Delivery Steering - 2026-07-16
 
 Continue from protected PR #100 with one concrete image, video, or cross-modal ComfyUI implementation outcome. The genuine audio and speech runtime chain now includes voice, Foley, ambience, spatial mixing, Qwen candidates, and a technically valid 49-frame stereo AV mux; it remains fail-closed on independent playback and production authority. Pause broad speech-control expansion unless a new runtime dependency, eligible candidate, or machine-verifiable acceptance input exists.
