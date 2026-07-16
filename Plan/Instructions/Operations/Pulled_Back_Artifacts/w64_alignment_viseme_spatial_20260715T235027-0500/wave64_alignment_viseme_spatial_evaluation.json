@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.0",
+  "artifact_type": "wave64_alignment_viseme_spatial_evaluation",
+  "execution_timestamp": "2026-07-15T23:54:48-05:00",
+  "status": "PASS_ROWS135_136_138_BOUNDED_AUTOMATED_RUNTIME_PRODUCTION_AUTHORITY_BLOCKED",
+  "classification": "PASS_ROWS135_136_138_BOUNDED_AUTOMATED_RUNTIME_PRODUCTION_AUTHORITY_BLOCKED",
+  "bindings": {
+    "manifest": {
+      "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\wave64_alignment_viseme_spatial\\20260715T235027-0500_rows135_136_138_runtime\\wave64_alignment_viseme_spatial_runtime_manifest.json",
+      "sha256": "dab1569c4168ec397a9fd4e0f4474cb9994e144a09e4644dee786f3cfb8bb1db",
+      "bytes": 5003
+    },
+    "runner": {
+      "path": "C:\\Comfy_UI_Main\\Plan\\07_IMPLEMENTATION\\scripts\\run_wave64_alignment_viseme_spatial.py",
+      "sha256": "64d9537d3e67a1ac71d4446d180671ac4b8a74e1763d55d1e03c4c569932cfdd",
+      "bytes": 18257
+    },
+    "cv3_adapter": {
+      "path": "C:\\Comfy_UI_Main\\Plan\\07_IMPLEMENTATION\\scripts\\run_wave64_cv3_eval_calibration.py",
+      "sha256": "f3810a26e129021c8179c982eb0901c5f8f3f07b6508ab4c56cace6bfb3862c8",
+      "bytes": 25021
+    },
+    "speaker_threshold_evidence": {
+      "path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Wave64\\W64_OPENSLR31_SPEAKER_IDENTITY_VALIDATION_20260715T035744-0500.json",
+      "sha256": "cdd7f0c8a0af54ec82c307cc4cea1492976ae1fbbded8712822d4329103ca0a9",
+      "bytes": 6802
+    },
+    "source_audio": {
+      "path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\w64_qwen3_tts_base_icl_clone_20260715T195516-0500\\qwen3_tts_base_icl_clone_seed12401.wav",
+      "sha256": "ff8325a1c2f8613d599af69284f5c4693d996a581230ccbbbb1aeba7affa9815",
+      "bytes": 153646
+    },
+    "spatial_audio": {
+      "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\wave64_alignment_viseme_spatial\\20260715T235027-0500_rows135_136_138_runtime\\row138_l01_spatial_scene_pcm24_stereo.wav",
+      "sha256": "a85e855969e49c59007fd9c77d33dd76cb269096ec11d2ff1ae56d3a5c959555",
+      "bytes": 460850
+    }
+  },
+  "metrics": {
+    "expected_transcript": "We hold the frame steady and move on the beat.",
+    "observed_transcript": "We hold the frame steady and move on the beat.",
+    "normalized_wer": 0.0,
+    "max_wer": 0.2,
+    "dry_to_spatial_speaker_similarity": 0.992878497,
+    "speaker_similarity_threshold": 0.334456116,
+    "duration_delta_seconds": 0.0,
+    "spatial_audio": {
+      "sample_rate_hz": 24000,
+      "samples_per_channel": 76801,
+      "channels": 2,
+      "duration_seconds": 3.200041667,
+      "peak_absolute": 0.229682565,
+      "clipping_ratio": 0.0,
+      "first_half_left_rms": 0.034717723,
+      "first_half_right_rms": 0.01806008,
+      "second_half_left_rms": 0.01390819,
+      "second_half_right_rms": 0.024044089,
+      "trajectory_channel_motion_pass": true
+    }
+  },
+  "gates": {
+    "runtime_manifest_lineage_pass": true,
+    "source_nonmutation_pass": true,
+    "word_grapheme_alignment_runtime_pass": true,
+    "phoneme_authority_pass": false,
+    "viseme_fixture_runtime_pass": true,
+    "viseme_production_input_pass": false,
+    "spatial_decode_pass": true,
+    "spatial_duration_pass": true,
+    "spatial_channel_motion_pass": true,
+    "spatial_clipping_pass": true,
+    "spatial_intelligibility_pass": true,
+    "spatial_speaker_identity_pass": true,
+    "independent_playback_review_pass": false,
+    "production_scene_authority_pass": false
+  },
+  "row_results": {
+    "135": {
+      "status": "Blocked_Mandated_Alignment_Assets_And_True_Phoneme_Authority_Pending",
+      "automated_word_grapheme_runtime_pass": true,
+      "row_complete": false
+    },
+    "136": {
+      "status": "Blocked_Production_Phoneme_Alignment_Input_Pending_Compiler_Runtime_Pass",
+      "automated_fixture_runtime_pass": true,
+      "row_complete": false
+    },
+    "138": {
+      "status": "Blocked_Independent_Spatial_Playback_And_Production_Scene_Authority_Pending",
+      "automated_spatial_runtime_pass": true,
+      "row_complete": false
+    }
+  },
+  "boundaries": {
+    "true_phoneme_authority_complete": false,
+    "mandated_row135_asset_set_complete": false,
+    "independent_playback_review_complete": false,
+    "production_scene_authority_complete": false,
+    "production_ready": false,
+    "content_based_suppression": false
+  }
+}
