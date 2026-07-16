@@ -5,7 +5,7 @@ $root=[IO.Path]::GetFullPath($DispatcherRoot);foreach($d in @('intake','admissio
 $lock=Join-Path $root 'admission.lock';if(-not(Enter-AIWorkerFileLock -Path $lock)){[ordered]@{status='IDLE';classification='AI_WORKER_ADMISSION_ALREADY_RUNNING';processed=0}|ConvertTo-Json;return}
 $results=@();try{
  foreach($file in @(Get-ChildItem (Join-Path $root 'intake') -Filter *.json -File|Sort-Object Name|Select-Object -First $MaxIntents)){
-  $intent=$null;$decision=$null
+  $intent=$null;$decision=$null;$route=$null
   try{
    $intent=Read-AIWorkerSignedJson -Path $file.FullName -DispatcherRoot $root
    if($intent.artifact_type-ne'ai_worker_task_intent'-or$intent.status-ne'READY'){throw 'Invalid intent contract.'}
@@ -31,7 +31,13 @@ $results=@();try{
    $event=Join-Path $root "admission\events\$($intent.intent_id).json";Write-AIWorkerSignedJson -Path $event -Value $decision -DispatcherRoot $root|Out-Null
    Move-Item $file.FullName (Join-Path $root "admission\processed\$($file.Name)") -Force;Move-Item ($file.FullName+'.sig') (Join-Path $root "admission\processed\$($file.Name).sig") -Force
    $results+=[ordered]@{intent_id=$intent.intent_id;status='PASS';route=$route;request_ids=$decision.request_ids}
-  }catch{$dest=Join-Path $root "admission\failed\$($file.Name)";Move-Item $file.FullName $dest -Force;if(Test-Path($file.FullName+'.sig')){Move-Item($file.FullName+'.sig')($dest+'.sig')-Force};$results+=[ordered]@{intent_id=$(if($intent){$intent.intent_id}else{$file.BaseName});status='FAIL';issue=$_.Exception.Message}}
+  }catch{
+   $issue=$_.Exception.Message;$dest=Join-Path $root "admission\failed\$($file.Name)";Move-Item $file.FullName $dest -Force;if(Test-Path($file.FullName+'.sig')){Move-Item($file.FullName+'.sig')($dest+'.sig')-Force}
+   $failureId=Get-AIWorkerSafeId $(if($intent){[string]$intent.intent_id}else{$file.BaseName})
+   $failure=[ordered]@{schema_version=1;artifact_type='ai_worker_admission_decision';status='FAILED';finalized_at=(Get-Date).ToString('o');intent_id=$failureId;task_name=$(if($intent){[string]$intent.task_name}else{''});route=$(if($route){$route}else{'ADMISSION_FAILED'});eligible_for_worker=$false;issue=$issue;failed_intent_path=$dest}
+   $event=Join-Path $root "admission\events\$failureId.json";Write-AIWorkerSignedJson -Path $event -Value $failure -DispatcherRoot $root|Out-Null
+   $results+=[ordered]@{intent_id=$failureId;status='FAIL';issue=$issue;failure_event_path=$event}
+  }
  }
 }finally{Remove-Item $lock -Force -ErrorAction SilentlyContinue}
 [ordered]@{status=$(if(@($results|Where-Object{$_.status-eq'FAIL'}).Count){'FAIL'}else{'PASS'});classification='AI_WORKER_ADMISSION_ROUTED';processed=$results.Count;results=$results}|ConvertTo-Json -Depth 8
