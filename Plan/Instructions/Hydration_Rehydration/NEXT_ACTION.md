@@ -1,3 +1,13 @@
+## Next Action - Post-PR100 Bounded Delivery Selection - 2026-07-16
+
+1. Keep protected-main Row010 at `Blocked_Identity_Reference_Proof_Missing_Separation_And_Merge_Rejection_Pass`; do not checkpoint the local Character1 comparison as generic Row010 authority.
+2. Preserve all Character1 and `ztest` source bytes. Treat derived comparison crops only as `personal_calibration_noncanonical` negative evidence.
+3. Apply `Plan/Instructions/PERSONAL_CALIBRATION_ASSET_BOUNDARY_AND_ROW_SELECTION_PROTOCOL.md` and choose the highest-priority eligible image, video, or cross-modal implementation outcome.
+4. Pause broad speech-control expansion. Resume it only for a new runtime dependency, eligible candidate, or machine-verifiable acceptance input.
+5. Deliver the selected runtime or implementation artifact first, then make only the minimal associated Items/Tracker/evidence update in a protected PR.
+
+Do not regenerate manifests, coverage, evidence indexes, or hydration history. Do not reopen completed/no-rerun proofs, human-only blockers without new input, gold-mask-dependent work, separately owned tasks, or generic rows that rely on personal/local-only assets.
+
 ## Wave64 Fluid-State Direct Runtime Review Failed - 2026-07-15T10:07:19-05:00
 
 `TRK-W64-056` / `ITEM-W64-056` now has genuine local direct runtime and visual-review evidence for `fluid_body_state_continuity`. Three architecture-distinct routes executed four total generations with zero retries: txt2img established tears but failed identity/hair/wardrobe continuity; low-denoise img2img preserved continuity but omitted tears; deterministic masked inpaint established bilateral tear cues but changed iris color and eye/brow identity detail. No route passed both planned state and shot continuity, so the system and Row056 remain blocked.

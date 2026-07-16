@@ -1,3 +1,13 @@
+## Current Pursuing Goal - Post-PR100 Delivery Steering - 2026-07-16
+
+Continue from protected PR #100 with one concrete image, video, or cross-modal ComfyUI implementation outcome. The genuine audio and speech runtime chain now includes voice, Foley, ambience, spatial mixing, Qwen candidates, and a technically valid 49-frame stereo AV mux; it remains fail-closed on independent playback and production authority. Pause broad speech-control expansion unless a new runtime dependency, eligible candidate, or machine-verifiable acceptance input exists.
+
+Before selecting work, apply `Plan/Instructions/PERSONAL_CALIBRATION_ASSET_BOUNDARY_AND_ROW_SELECTION_PROTOCOL.md`. Reject completed/no-rerun rows, human-only blockers without new input, unavailable gold-mask dependencies, separately owned work, and generic proof that depends on personal or untracked assets.
+
+Do not merge the local Character1-based Row010 packet as generic authority. Protected-main Row010 remains blocked because no portable multi-character `character_id` to independent-reference to per-character-crop chain exists. Preserve Character1 workflows, images, profiles, models, `ztest`, and comparison crops as `personal_calibration_noncanonical` without deleting or modifying them.
+
+Do not perform a broad Items, Tracker, manifest, evidence-index, coverage, or hydration refresh. Tracking follows the next implementation artifact.
+
 ## Wave64 Fluid-State Direct Runtime Review Failed - 2026-07-15T10:07:19-05:00
 
 `TRK-W64-056` / `ITEM-W64-056` now has genuine local direct runtime and visual-review evidence for `fluid_body_state_continuity`. Three architecture-distinct routes executed four total generations with zero retries: txt2img established tears but failed identity/hair/wardrobe continuity; low-denoise img2img preserved continuity but omitted tears; deterministic masked inpaint established bilateral tear cues but changed iris color and eye/brow identity detail. No route passed both planned state and shot continuity, so the system and Row056 remain blocked.
