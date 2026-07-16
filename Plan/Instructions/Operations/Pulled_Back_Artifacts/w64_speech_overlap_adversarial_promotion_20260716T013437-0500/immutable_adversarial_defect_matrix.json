@@ -1,0 +1,116 @@
+{
+  "artifact_type": "wave64_speech_immutable_adversarial_defect_matrix",
+  "candidate_media_mutated": false,
+  "cases": [
+    {
+      "candidate_sha256": "a212653c029f5677b97bba8c769186fc11d29b561b4ca19a2344ff294a5fdd56",
+      "detected_defects": [
+        "missing_human_playback_review",
+        "missing_production_authority"
+      ],
+      "detection_pass": true,
+      "documented_classification": "PASS_AUTOMATED_CANDIDATE_ELIGIBLE_HUMAN_PLAYBACK_REQUIRED",
+      "expected_defects": [
+        "missing_human_playback_review",
+        "missing_production_authority"
+      ],
+      "fixture_id": "kokoro_automated_positive_control"
+    },
+    {
+      "candidate_sha256": "ff8325a1c2f8613d599af69284f5c4693d996a581230ccbbbb1aeba7affa9815",
+      "detected_defects": [
+        "missing_independent_playback",
+        "missing_production_reference_authority",
+        "raw_dialogue_timing_fail"
+      ],
+      "detection_pass": true,
+      "documented_classification": "PASS_QWEN3_CLONE_CHAIN_SPECIFIC_IDENTITY_PRODUCTION_AUTHORITY_BLOCKED",
+      "expected_defects": [
+        "raw_dialogue_timing_fail",
+        "missing_independent_playback",
+        "missing_production_reference_authority"
+      ],
+      "fixture_id": "qwen_raw_timing_and_authority_negative_control"
+    },
+    {
+      "candidate_sha256": "845b8971bd9ca8e3898e632cd02ad14f0eb0c1d2d6b1ec3cdd2e537fb94295ba",
+      "detected_defects": [
+        "dialogue_timing_fail",
+        "missing_independent_playback",
+        "missing_production_authority",
+        "unmeasured_intensity",
+        "unsupported_emotion_taxonomy"
+      ],
+      "detection_pass": true,
+      "documented_classification": "FAIL_COSYVOICE2_DIALOGUE_TIMING",
+      "expected_classification": "FAIL_COSYVOICE2_DIALOGUE_TIMING",
+      "expected_defects": [
+        "dialogue_timing_fail",
+        "unsupported_emotion_taxonomy",
+        "unmeasured_intensity",
+        "missing_independent_playback",
+        "missing_production_authority"
+      ],
+      "fixture_id": "cosyvoice2_timing_taxonomy_authority_negative_control"
+    },
+    {
+      "candidate_sha256": "cde61c59adace5b0674ee05268f56a091b0921b196bc7ad54ad0a06fc17a5b96",
+      "detected_defects": [
+        "dialogue_timing_fail",
+        "missing_independent_playback",
+        "missing_production_authority",
+        "unmeasured_intensity",
+        "unsupported_emotion_taxonomy"
+      ],
+      "detection_pass": true,
+      "documented_classification": "FAIL_CHATTERBOX_DIALOGUE_TIMING",
+      "expected_classification": "FAIL_CHATTERBOX_DIALOGUE_TIMING",
+      "expected_defects": [
+        "dialogue_timing_fail",
+        "unsupported_emotion_taxonomy",
+        "unmeasured_intensity",
+        "missing_independent_playback",
+        "missing_production_authority"
+      ],
+      "fixture_id": "chatterbox_timing_taxonomy_authority_negative_control"
+    },
+    {
+      "candidate_sha256": "18b6d51cca9d9c5541bac621c09fd9059f521d8969ba5b25fa881c9284180c73",
+      "detected_defects": [
+        "missing emotion_proof",
+        "missing playback_review_proof",
+        "missing production_proof_bundle_binding",
+        "missing speaker_proof"
+      ],
+      "detection_pass": true,
+      "documented_classification": "overall_pass_false",
+      "expected_defects": [
+        "missing emotion_proof",
+        "missing playback_review_proof",
+        "missing production_proof_bundle_binding",
+        "missing speaker_proof"
+      ],
+      "fixture_id": "parler_evidence_completeness_negative_control"
+    }
+  ],
+  "coverage": {
+    "authority": true,
+    "control_taxonomy": true,
+    "difficult_text": false,
+    "evidence_completeness": true,
+    "hallucination": false,
+    "identity_drift": false,
+    "multilingual": false,
+    "noise": false,
+    "repetition": false,
+    "reverb": false,
+    "timing": true,
+    "truncation_defect": false
+  },
+  "full_required_category_coverage_pass": false,
+  "known_fixture_detection_pass": true,
+  "known_fixture_detection_rate": 1.0,
+  "rejected_candidates_regenerated": false,
+  "row_complete": false,
+  "schema_version": "1.0"
+}
