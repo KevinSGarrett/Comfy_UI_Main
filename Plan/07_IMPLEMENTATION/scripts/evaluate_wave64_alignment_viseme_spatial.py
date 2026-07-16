@@ -87,7 +87,14 @@ def verify_runtime_manifest(manifest: dict[str, Any]) -> dict[str, Path]:
         raise EvaluationError("source identity or transcript is invalid")
     if source.get("source_unchanged_after_runtime") is not True:
         raise EvaluationError("source non-mutation proof is absent")
-    required_false = ("mms_grapheme_is_phoneme_authority", "fixture_is_production_alignment", "automated_metrics_are_human_playback", "production_ready")
+    required_false = (
+        "mms_grapheme_is_phoneme_authority",
+        "fixture_is_production_alignment",
+        "automated_metrics_are_human_playback",
+        "production_ready",
+        "aws_or_ec2_used",
+        "mask_or_wave71_touched",
+    )
     if any(boundaries.get(key) is not False for key in required_false):
         raise EvaluationError("runtime manifest contains a false authority claim")
     if row135.get("word_alignment_pass") is not True or row135.get("phoneme_alignment_pass") is not False:
