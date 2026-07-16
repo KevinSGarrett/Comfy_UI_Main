@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.0",
+  "artifact_type": "wave64_qwen3_tts_base_icl_clone_evaluation",
+  "execution_timestamp": "2026-07-15T20:12:20-05:00",
+  "status": "PASS_QWEN3_CLONE_CHAIN_SPECIFIC_IDENTITY_PRODUCTION_AUTHORITY_BLOCKED",
+  "classification": "PASS_QWEN3_CLONE_CHAIN_SPECIFIC_IDENTITY_PRODUCTION_AUTHORITY_BLOCKED",
+  "bindings": {
+    "candidate": {
+      "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\wave64_qwen3_tts_voice_clone\\20260715T195516-0500_seed12401\\qwen3_tts_base_icl_clone_seed12401.wav",
+      "sha256": "ff8325a1c2f8613d599af69284f5c4693d996a581230ccbbbb1aeba7affa9815",
+      "bytes": 153646
+    },
+    "candidate_manifest": {
+      "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\wave64_qwen3_tts_voice_clone\\20260715T195516-0500_seed12401\\qwen3_tts_base_icl_clone_seed12401.manifest.json",
+      "sha256": "09e5009d73efa9b45418473c3c06a02f5f61deea1cd66bdc16fd17bd19415671",
+      "bytes": 4558
+    },
+    "runner": {
+      "path": "C:\\Comfy_UI_Main\\Plan\\07_IMPLEMENTATION\\scripts\\run_wave64_qwen3_tts_voice_clone.py",
+      "sha256": "0db52d3b386f8f1e6b2000750e30e22093a27ad6bfb0d0fe2447ec07314a7063",
+      "bytes": 10433
+    },
+    "cv3_adapter": {
+      "path": "C:\\Comfy_UI_Main\\Plan\\07_IMPLEMENTATION\\scripts\\run_wave64_cv3_eval_calibration.py",
+      "sha256": "f3810a26e129021c8179c982eb0901c5f8f3f07b6508ab4c56cace6bfb3862c8",
+      "bytes": 25021
+    },
+    "speaker_threshold_evidence": {
+      "path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Wave64\\W64_OPENSLR31_SPEAKER_IDENTITY_VALIDATION_20260715T035744-0500.json",
+      "sha256": "cdd7f0c8a0af54ec82c307cc4cea1492976ae1fbbded8712822d4329103ca0a9",
+      "bytes": 6802
+    }
+  },
+  "candidate": {
+    "candidate_id": "W64-QWEN3-BASE-ICL-CLONE-SEED-12401",
+    "expected_text": "We hold the frame steady and move on the beat.",
+    "asr_transcript": "We hold the frame steady and move on the beat.",
+    "normalized_wer": 0.0,
+    "speaker_similarity": 0.764496803,
+    "speaker_similarity_threshold": 0.33445611596107483,
+    "technical_audio": {
+      "sample_rate_hz": 24000,
+      "samples": 76801,
+      "channels": 1,
+      "duration_seconds": 3.200041667,
+      "peak_absolute": 0.37109375,
+      "rms": 0.062000144,
+      "clipping_ratio": 0.0,
+      "silence_ratio": 0.006848869,
+      "finite": true
+    },
+    "target_duration_seconds": 3.0,
+    "duration_tolerance_seconds": 0.08,
+    "duration_delta_seconds": 0.200041667,
+    "prosody": {
+      "method": "librosa_yin_rms_pause_v1",
+      "duration_seconds": 3.200042,
+      "word_count": 10,
+      "pace_wpm_raw_duration": 187.498,
+      "articulation_rate_wpm_active_audio": 211.463,
+      "pitch_median_hz": 166.243,
+      "pitch_p10_hz": 125.674,
+      "pitch_p90_hz": 193.767,
+      "voiced_frame_ratio": 0.840532,
+      "pause_count_ge_120ms": 2,
+      "pause_seconds_total": 0.362667,
+      "longest_pause_seconds": 0.202667,
+      "delivery_style_inferred": false,
+      "intensity_class_inferred": false,
+      "emotion_class_inferred": false
+    },
+    "media_mutated": false
+  },
+  "gates": {
+    "technical_audio_pass": true,
+    "candidate_asr_pass": true,
+    "chain_specific_speaker_identity_pass": true,
+    "raw_dialogue_timing_pass": false,
+    "prosody_measurement_complete": true,
+    "emotion_class_pass": null,
+    "delivery_style_pass": null,
+    "intensity_pass": null,
+    "independent_playback_review_pass": false,
+    "production_reference_authority_pass": false,
+    "final_voice_certification_pass": false,
+    "row_complete": false
+  },
+  "remaining_blockers": [
+    "the public-domain reference is approved for chain-specific evaluation but is not a locked production character identity authority",
+    "focused delivery style and controlled intensity remain separate unmeasured controls and are not emotion2vec aliases",
+    "independent full-play listening review and final production authority remain pending",
+    "raw candidate duration is outside the 3.000 second plus-or-minus 0.080 second timing gate"
+  ],
+  "boundaries": {
+    "candidate_regenerated": false,
+    "candidate_media_mutated": false,
+    "subjective_review_fabricated": false,
+    "production_promotion_claimed": false,
+    "content_based_suppression": false,
+    "aws_or_ec2_used": false,
+    "mask_or_wave71_touched": false
+  }
+}
