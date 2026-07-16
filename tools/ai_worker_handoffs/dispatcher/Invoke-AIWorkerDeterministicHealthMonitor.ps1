@@ -2,7 +2,8 @@
 param(
   [string]$ProjectRoot='C:\Comfy_UI_Main',
   [string]$DispatcherRoot='C:\Users\kevin\.codex\ai_worker_dispatcher',
-  [ValidateRange(5,1440)][int]$QueueAgeAlertMinutes=30
+  [ValidateRange(5,1440)][int]$QueueAgeAlertMinutes=30,
+  [ValidateRange(1,168)][int]$FailureLookbackHours=24
 )
 
 $ErrorActionPreference='Stop'
@@ -16,6 +17,11 @@ foreach($lane in @('Cursor','Claude')){
     if($age-ge$QueueAgeAlertMinutes){$issues+="Stale $lane queue request $($file.BaseName): $age minutes"}
   }
 }
+$failureCutoff=(Get-Date).AddHours(-$FailureLookbackHours)
+$admissionFailures=@(Get-ChildItem -LiteralPath(Join-Path $root 'admission\failed') -Filter *.json -File -ErrorAction SilentlyContinue|Where-Object{$_.LastWriteTime-ge$failureCutoff})
+$deadLetters=@(Get-ChildItem -LiteralPath(Join-Path $root 'dead_letter') -Filter dispatch_record.json -File -Recurse -ErrorAction SilentlyContinue|Where-Object{$_.LastWriteTime-ge$failureCutoff})
+if($admissionFailures.Count){$issues+="Recent worker admission failures: $($admissionFailures.Count)"}
+if($deadLetters.Count){$issues+="Recent worker dispatch dead letters: $($deadLetters.Count)"}
 $tasks=@()
 foreach($name in @('ComfyUIMain AI Worker Admission Router','ComfyUIMain AI Worker Cursor Lane','ComfyUIMain AI Worker Claude Lane','ComfyUIMain AI Worker Worktree Lifecycle')){
   $task=Get-ScheduledTask -TaskName $name -ErrorAction SilentlyContinue;$info=if($task){Get-ScheduledTaskInfo -TaskName $name -ErrorAction SilentlyContinue}else{$null}
@@ -27,7 +33,7 @@ $packageDrift=$null
 try{$packageDrift=&(Join-Path $PSScriptRoot 'Test-AIWorkerHandoffPackageDrift.ps1') -ManifestPath (Join-Path $PSScriptRoot 'canonical_package_manifest.json') -CodexHome (Split-Path -Parent $root)|ConvertFrom-Json;if($packageDrift.status-ne'PASS'){$issues+='Canonical/live worker package drift detected.'}}catch{$issues+="Package drift check failed: $($_.Exception.Message)"}
 $qualification=$null
 try{$qualification=&(Join-Path $PSScriptRoot 'Measure-AIWorkerQualification.ps1') -DispatcherRoot $root -LookbackHours 168|ConvertFrom-Json}catch{$warnings+="Qualification snapshot failed: $($_.Exception.Message)"}
-$record=[ordered]@{schema_version=1;artifact_type='ai_worker_deterministic_health_monitor';status=$(if($issues.Count){'ACTION_REQUIRED'}else{'PASS'});classification=$(if($issues.Count){'AI_WORKER_HEALTH_EXCEPTION_REQUIRES_CODEX'}else{'AI_WORKER_HEALTHY_NO_CODEX_WAKE'});finalized_at=(Get-Date).ToString('o');queue=$queue;scheduled_tasks=$tasks;package_drift_status=$(if($packageDrift){$packageDrift.status}else{'UNKNOWN'});qualification_status=$(if($qualification){$qualification.status}else{'UNKNOWN'});issues=$issues;warnings=$warnings;worker_launched=$false;codex_wake_requested=($issues.Count-gt0)}
+$record=[ordered]@{schema_version=1;artifact_type='ai_worker_deterministic_health_monitor';status=$(if($issues.Count){'ACTION_REQUIRED'}else{'PASS'});classification=$(if($issues.Count){'AI_WORKER_HEALTH_EXCEPTION_REQUIRES_CODEX'}else{'AI_WORKER_HEALTHY_NO_CODEX_WAKE'});finalized_at=(Get-Date).ToString('o');queue=$queue;admission_failure_count=$admissionFailures.Count;admission_failure_paths=@($admissionFailures.FullName);dead_letter_count=$deadLetters.Count;dead_letter_paths=@($deadLetters.FullName);failure_lookback_hours=$FailureLookbackHours;scheduled_tasks=$tasks;package_drift_status=$(if($packageDrift){$packageDrift.status}else{'UNKNOWN'});qualification_status=$(if($qualification){$qualification.status}else{'UNKNOWN'});issues=$issues;warnings=$warnings;worker_launched=$false;codex_wake_requested=($issues.Count-gt0)}
 $stamp=Get-Date -Format 'yyyyMMddTHHmmssfffzzz';$stamp=$stamp-replace':','';$path=Join-Path $root "monitoring\health_$stamp.json";Write-AIWorkerSignedJson -Path $path -Value $record -DispatcherRoot $root|Out-Null;Write-AIWorkerSignedJson -Path(Join-Path $root 'monitoring\health_latest.json') -Value $record -DispatcherRoot $root|Out-Null
 $alertPath=Join-Path $root 'alerts\AI_WORKER_HEALTH_ACTION_REQUIRED.json'
 if($issues.Count){Write-AIWorkerSignedJson -Path $alertPath -Value $record -DispatcherRoot $root|Out-Null}else{Remove-Item $alertPath,($alertPath+'.sig') -Force -ErrorAction SilentlyContinue}
