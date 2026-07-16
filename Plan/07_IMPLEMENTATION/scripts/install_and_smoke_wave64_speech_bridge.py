@@ -79,10 +79,10 @@ def snapshot_tree(path: Path) -> dict[str, tuple[int, int]]:
     }
 
 
-def sample_request() -> dict[str, Any]:
+def sample_request(request_id: str = "w64_row145_146_live_smoke_001") -> dict[str, Any]:
     return {
         "schema_version": "1.0",
-        "request_id": "w64_row145_146_live_smoke_001",
+        "request_id": request_id,
         "engine": {
             "family": "qwen3_tts_base_icl_diagnostic",
             "revision_sha256": "38fc7fc51c5e776e840414b6fd443962e9411b9654888fd7913e4da643cb857c",
@@ -128,7 +128,7 @@ def extract_result(history: dict[str, Any], prompt_id: str) -> dict[str, Any]:
     return value
 
 
-def smoke(root: Path, api_url: str, output: Path) -> dict[str, Any]:
+def smoke(root: Path, api_url: str, output: Path, request_id: str) -> dict[str, Any]:
     base = api_url.rstrip("/")
     queue = http_json("GET", f"{base}/queue")
     if queue.get("queue_running") or queue.get("queue_pending"):
@@ -139,7 +139,7 @@ def smoke(root: Path, api_url: str, output: Path) -> dict[str, Any]:
     candidate_root = root / "runtime_artifacts/audio_speech_candidates"
     promoted_root = root / "runtime_artifacts/audio_speech_promoted"
     before = {"candidates": snapshot_tree(candidate_root), "promoted": snapshot_tree(promoted_root)}
-    request_value = sample_request()
+    request_value = sample_request(request_id)
     graph = {
         "prompt": {
             "1": {
@@ -199,6 +199,7 @@ def main() -> int:
     parser.add_argument("--project-root", type=Path, default=Path(__file__).resolve().parents[3])
     parser.add_argument("--api-url", default="http://127.0.0.1:8188")
     parser.add_argument("--output", type=Path)
+    parser.add_argument("--request-id", default="w64_row145_146_live_smoke_001")
     parser.add_argument("--install-only", action="store_true")
     parser.add_argument("--smoke-only", action="store_true")
     args = parser.parse_args()
@@ -210,7 +211,7 @@ def main() -> int:
             if args.output is None:
                 raise SmokeError("--output is required for smoke execution")
             output = args.output.resolve() if args.output.is_absolute() else (root / args.output).resolve()
-            smoked = smoke(root, args.api_url, output)
+            smoked = smoke(root, args.api_url, output, args.request_id)
         result = {"classification": "W64_SPEECH_BRIDGE_INSTALL_SMOKE_PASS", "installed": installed, "smoke": smoked}
     except Exception as exc:
         print(json.dumps({"classification": "W64_SPEECH_BRIDGE_INSTALL_SMOKE_FAILED", "error": str(exc)}, indent=2))

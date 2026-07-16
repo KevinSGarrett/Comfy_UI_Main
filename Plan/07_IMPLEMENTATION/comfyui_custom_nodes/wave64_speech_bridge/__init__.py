@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import os
 import re
 import tempfile
@@ -37,7 +38,7 @@ def project_root() -> Path:
 
 
 def canonical_json(value: Any) -> str:
-    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
+    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True, allow_nan=False)
 
 
 def sha256_bytes(value: bytes) -> str:
@@ -58,6 +59,26 @@ def _require_sha256(value: Any, field: str) -> str:
     return value
 
 
+def _require_json_value(value: Any, field: str) -> None:
+    if value is None or isinstance(value, (bool, int, str)):
+        return
+    if isinstance(value, float):
+        if not math.isfinite(value):
+            raise SpeechBridgeError(f"INVALID_BRIDGE_REQUEST:{field}:nonfinite_number")
+        return
+    if isinstance(value, list):
+        for index, item in enumerate(value):
+            _require_json_value(item, f"{field}[{index}]")
+        return
+    if isinstance(value, dict):
+        for key, item in value.items():
+            if not isinstance(key, str):
+                raise SpeechBridgeError(f"INVALID_BRIDGE_REQUEST:{field}:nonstring_key")
+            _require_json_value(item, f"{field}.{key}")
+        return
+    raise SpeechBridgeError(f"INVALID_BRIDGE_REQUEST:{field}:non_json_value")
+
+
 def validate_request(value: Any) -> dict[str, Any]:
     if not isinstance(value, dict):
         raise SpeechBridgeError("INVALID_BRIDGE_REQUEST:root_must_be_object")
@@ -74,7 +95,7 @@ def validate_request(value: Any) -> dict[str, Any]:
     engine = value["engine"]
     if not isinstance(engine, dict) or set(engine) != {"family", "revision_sha256", "model_asset_sha256"}:
         raise SpeechBridgeError("INVALID_BRIDGE_REQUEST:engine")
-    if not isinstance(engine["family"], str) or not engine["family"].strip():
+    if not isinstance(engine["family"], str) or not engine["family"].strip() or len(engine["family"]) > 128:
         raise SpeechBridgeError("INVALID_BRIDGE_REQUEST:engine.family")
     _require_sha256(engine["revision_sha256"], "engine.revision_sha256")
     assets = engine["model_asset_sha256"]
@@ -96,8 +117,11 @@ def validate_request(value: Any) -> dict[str, Any]:
         raise SpeechBridgeError("INVALID_BRIDGE_REQUEST:seed")
     if not isinstance(value["sampling_params"], dict):
         raise SpeechBridgeError("INVALID_BRIDGE_REQUEST:sampling_params")
+    _require_json_value(value["sampling_params"], "sampling_params")
     transforms = value["preprocessing_transform_ids"]
-    if not isinstance(transforms, list) or any(not isinstance(item, str) or not item for item in transforms):
+    if not isinstance(transforms, list) or any(
+        not isinstance(item, str) or not item or len(item) > 256 for item in transforms
+    ):
         raise SpeechBridgeError("INVALID_BRIDGE_REQUEST:preprocessing_transform_ids")
     if len(set(transforms)) != len(transforms):
         raise SpeechBridgeError("INVALID_BRIDGE_REQUEST:duplicate_preprocessing_transform_ids")

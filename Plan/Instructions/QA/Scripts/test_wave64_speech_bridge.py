@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import math
 import tempfile
 import unittest
 from pathlib import Path
@@ -56,6 +57,22 @@ class Wave64SpeechBridgeTests(unittest.TestCase):
         with self.assertRaisesRegex(BRIDGE.SpeechBridgeError, "expected_lowercase_sha256"):
             BRIDGE.validate_request(value)
 
+    def test_manual_validator_matches_schema_length_limits(self) -> None:
+        value = request()
+        value["engine"]["family"] = "x" * 129
+        with self.assertRaisesRegex(BRIDGE.SpeechBridgeError, "engine.family"):
+            BRIDGE.validate_request(value)
+        value = request()
+        value["preprocessing_transform_ids"] = ["x" * 257]
+        with self.assertRaisesRegex(BRIDGE.SpeechBridgeError, "preprocessing_transform_ids"):
+            BRIDGE.validate_request(value)
+
+    def test_nonfinite_sampling_parameter_is_rejected(self) -> None:
+        value = request()
+        value["sampling_params"]["temperature"] = math.nan
+        with self.assertRaisesRegex(BRIDGE.SpeechBridgeError, "nonfinite_number"):
+            BRIDGE.validate_request(value)
+
     def test_dry_run_writes_control_evidence_without_media_or_promotion(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
@@ -79,6 +96,35 @@ class Wave64SpeechBridgeTests(unittest.TestCase):
                     with BRIDGE.cache_lock(root, key):
                         pass
             self.assertFalse((root / "locks" / f"{key}.lock").exists())
+
+    def test_all_authority_blocker_branches(self) -> None:
+        cases = {
+            "reference": "BLOCKED_REFERENCE_RIGHTS_OR_PROVENANCE",
+            "engine": "BLOCKED_ENGINE_MODEL_OR_RUNTIME_MISSING",
+            "license": "BLOCKED_ASSET_LICENSE_OR_GATED_ACCESS",
+            "assets": "BLOCKED_ASSET_EXACT_SOURCE_OR_HASH_UNRESOLVED",
+        }
+        for case, expected in cases.items():
+            with self.subTest(case=case):
+                value = request()
+                value["authority"]["voice_authority_valid"] = True
+                value["authority"]["production_authorized"] = True
+                if case == "reference":
+                    value["reference_bindings"][0]["rights_valid"] = False
+                elif case == "engine":
+                    value["authority"]["engine_runtime_valid"] = False
+                elif case == "license":
+                    value["authority"]["asset_license_valid"] = False
+                else:
+                    value["authority"]["exact_assets_resolved"] = False
+                self.assertIn(expected, BRIDGE.authority_blockers(value))
+
+    def test_immutable_result_conflict_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "result.json"
+            BRIDGE.write_json_atomic(path, {"value": 1}, immutable=True)
+            with self.assertRaisesRegex(BRIDGE.SpeechBridgeError, "IMMUTABLE_BRIDGE_RESULT_CONFLICT"):
+                BRIDGE.write_json_atomic(path, {"value": 2}, immutable=True)
 
     def test_non_dry_run_dispatch_is_not_implemented_or_promoted(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

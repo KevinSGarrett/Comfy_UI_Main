@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import csv
 import importlib.util
+import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -88,6 +89,24 @@ class Wave64SpeechBridgeFinalizerTests(unittest.TestCase):
             target.write_text("target", encoding="utf-8")
             with self.assertRaisesRegex(MODULE.FinalizationError, "hash conflict"):
                 MODULE.copy_exact(source, target)
+
+    def test_validate_smoke_rejects_residual_cache_lock(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            result_path = root / "runtime_artifacts/audio_speech_bridge/results/request/result.json"
+            telemetry_path = root / "runtime_artifacts/audio_speech_cache/telemetry/run.json"
+            result_path.parent.mkdir(parents=True)
+            telemetry_path.parent.mkdir(parents=True)
+            result_path.write_text(json.dumps({"result": "blocked"}), encoding="utf-8")
+            telemetry_path.write_text(json.dumps({"telemetry": "local"}), encoding="utf-8")
+            value = valid_smoke()
+            value["result"]["result_binding"] = MODULE.binding(result_path)
+            value["result"]["telemetry_binding"] = MODULE.binding(telemetry_path)
+            lock = root / "runtime_artifacts/audio_speech_cache/locks" / f"{'a' * 64}.lock"
+            lock.parent.mkdir(parents=True)
+            lock.write_text("held", encoding="utf-8")
+            with self.assertRaisesRegex(MODULE.FinalizationError, "lock was not released"):
+                MODULE.validate_smoke(value)
 
 
 if __name__ == "__main__":
