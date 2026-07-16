@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "workflow_lane": "wave64_speech_bridge_dry_run",
+  "execution_target": "local ComfyUI API",
+  "api_endpoint": "/prompt",
+  "required_node_classes": [
+    "Wave64SpeechBridge"
+  ],
+  "canonical_node_source": "Plan/07_IMPLEMENTATION/comfyui_custom_nodes/wave64_speech_bridge/__init__.py",
+  "installed_node_target": "ComfyUI/custom_nodes/wave64_speech_bridge/__init__.py",
+  "request_schema": "Plan/08_SCHEMAS/wave64_speech_bridge_request.schema.json",
+  "execution_contract": {
+    "dry_run_required": true,
+    "engine_dispatch_allowed": false,
+    "media_output_allowed": false,
+    "candidate_write_allowed": false,
+    "promotion_allowed": false
+  },
+  "completion_boundary": "Live object_info and /prompt smoke prove only bounded orchestration, cache-key, lock, telemetry, and structured blocker behavior. Production engine dispatch, media generation, voice authority, cache-hit replay, and promotion remain separate gates."
+}

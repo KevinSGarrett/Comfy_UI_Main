@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/wave64_speech_bridge_request.schema.json",
+  "title": "Wave64 Speech Bridge Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "request_id",
+    "engine",
+    "line_contract_sha256",
+    "reference_bindings",
+    "seed",
+    "sampling_params",
+    "preprocessing_transform_ids",
+    "authority",
+    "dry_run"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "request_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{2,127}$"},
+    "engine": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["family", "revision_sha256", "model_asset_sha256"],
+      "properties": {
+        "family": {"type": "string", "minLength": 1, "maxLength": 128},
+        "revision_sha256": {"$ref": "#/$defs/sha256"},
+        "model_asset_sha256": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/sha256"}
+        }
+      }
+    },
+    "line_contract_sha256": {"$ref": "#/$defs/sha256"},
+    "reference_bindings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["sha256", "rights_valid", "provenance_valid"],
+        "properties": {
+          "sha256": {"$ref": "#/$defs/sha256"},
+          "rights_valid": {"type": "boolean"},
+          "provenance_valid": {"type": "boolean"}
+        }
+      }
+    },
+    "seed": {"type": "integer", "minimum": 0, "maximum": 18446744073709551615},
+    "sampling_params": {"type": "object"},
+    "preprocessing_transform_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1, "maxLength": 256}
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "voice_authority_valid",
+        "engine_runtime_valid",
+        "asset_license_valid",
+        "exact_assets_resolved",
+        "production_authorized"
+      ],
+      "properties": {
+        "voice_authority_valid": {"type": "boolean"},
+        "engine_runtime_valid": {"type": "boolean"},
+        "asset_license_valid": {"type": "boolean"},
+        "exact_assets_resolved": {"type": "boolean"},
+        "production_authorized": {"type": "boolean"}
+      }
+    },
+    "dry_run": {"type": "boolean"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}
