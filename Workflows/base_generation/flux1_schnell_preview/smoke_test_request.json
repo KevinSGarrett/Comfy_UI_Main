@@ -1,0 +1,55 @@
+{
+  "lane_id": "flux1_schnell_preview",
+  "workflow_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux1_schnell_preview/workflow.api.json",
+  "workflow_path_policy": "canonical_plan_authority_with_byte_identical_runtime_mirror",
+  "execution_target": "local_windows_comfyui_api",
+  "api_endpoint": "/prompt",
+  "execution_allowed": false,
+  "execution_allowed_after": [
+    "checkpoint file exists and observed SHA256 and byte count match runtime requirements",
+    "object_info confirms every required node class and checkpoint visibility",
+    "the exact prompt request is recorded before submission",
+    "bounded output technical and direct visual QA are required after execution"
+  ],
+  "request_patch_values": {
+    "positive_prompt": {
+      "clip_l": "editorial product photograph of a vintage crimson leather travel bag on a brushed stainless steel table, visible fine leather grain and stitching, soft morning window light, realistic reflections, neutral concrete studio wall, crisp focus, balanced composition",
+      "t5xxl": "editorial product photograph of a vintage crimson leather travel bag on a brushed stainless steel table, visible fine leather grain and stitching, soft morning window light, realistic reflections, neutral concrete studio wall, crisp focus, balanced composition"
+    },
+    "negative_prompt": {
+      "clip_l": "cartoon, illustration, plastic, blurry, low resolution, distorted geometry, duplicate objects, watermark, text",
+      "t5xxl": "cartoon, illustration, plastic, blurry, low resolution, distorted geometry, duplicate objects, watermark, text"
+    },
+    "seed": 7162601,
+    "sampler_settings": {
+      "steps": 4,
+      "cfg": 1.0,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1.0
+    },
+    "flux_sampling_settings": {
+      "max_shift": 1.15,
+      "base_shift": 0.5,
+      "width": 512,
+      "height": 512
+    },
+    "latent_resolution": {
+      "width": 512,
+      "height": 512,
+      "batch_size": 1
+    },
+    "model_asset": "flux1-schnell-fp8.safetensors",
+    "save_prefix": "flux1_schnell_preview/flux1_schnell_materials_seed7162601"
+  },
+  "expected_outputs": {
+    "artifact_type": "image",
+    "minimum_output_count": 1,
+    "output_prefix": "flux1_schnell_preview/flux1_schnell_materials_seed7162601"
+  },
+  "qa_protocols": [
+    "Plan/Instructions/QA/COMFYUI_WORKFLOW_TESTING_PROTOCOL.md",
+    "Plan/Instructions/QA/MODEL_LORA_CHECKPOINT_VALIDATION_PROTOCOL.md",
+    "Plan/Instructions/QA/IMAGE_GENERATION_VISUAL_REVIEW_PROTOCOL.md"
+  ]
+}

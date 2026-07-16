@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-07-16T10:46:00-05:00",
+  "updated_at": "2026-07-16T12:01:00-05:00",
   "authority": "Plan/Instructions/COMFYUI_DELIVERY_RECOVERY_AND_PORTFOLIO_CONTROL.md",
   "production_architecture": {
     "authoritative_surface": "separate_versioned_api_workflows",
@@ -202,18 +202,22 @@
       "modality": "image",
       "lane_id": "flux1_schnell_preview",
       "classification": "experimental",
-      "workflow_graph_complete": false,
-      "local_runtime_proven": false,
+      "workflow_graph_complete": true,
+      "local_runtime_proven": true,
       "ec2_runtime_proven": false,
-      "genuine_artifact_present": false,
-      "technical_qa_passed": false,
-      "direct_review_passed": false,
+      "genuine_artifact_present": true,
+      "technical_qa_passed": true,
+      "direct_review_passed": true,
       "production_lane_certified": false,
-      "scope": "README/examples scaffold",
-      "state": "product_decision_required",
+      "scope": "generic four-step 512x512 local fast-preview lane with exact model, runtime-history, technical-QA, and direct-visual-QA proof",
+      "state": "bounded_scope_complete_fast_preview_only",
       "recovery_priority": 61,
-      "next_concrete_outcome": "Decide whether a fast preview lane is required; implement only if it serves an explicit product role.",
-      "evidence": ["Workflows/base_generation"]
+      "next_concrete_outcome": "Use the proven generic preview for rapid composition and material checks; do not rerun the exact prompt/seed or treat it as the FLUX.1 dev production base lane.",
+      "evidence": [
+        "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux1_schnell_preview/runtime_requirements.json",
+        "Plan/Instructions/QA/Evidence/Workflow_Runtime/FLUX1_SCHNELL_FAST_PREVIEW_LOCAL_RUNTIME_20260716T115409-0500/evidence.json",
+        "Plan/Instructions/QA/Evidence/Image_Artifact_QA/FLUX1_SCHNELL_FAST_PREVIEW_VISUAL_QA_20260716T115409-0500.json"
+      ]
     },
     {
       "modality": "image",

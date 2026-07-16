@@ -1,0 +1,73 @@
+{
+  "1": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "flux1-schnell-fp8.safetensors"
+    }
+  },
+  "2": {
+    "class_type": "ModelSamplingFlux",
+    "inputs": {
+      "model": ["1", 0],
+      "max_shift": 1.15,
+      "base_shift": 0.5,
+      "width": 512,
+      "height": 512
+    }
+  },
+  "3": {
+    "class_type": "CLIPTextEncodeFlux",
+    "inputs": {
+      "clip": ["1", 1],
+      "clip_l": "editorial product photograph of a vintage crimson leather travel bag on a brushed stainless steel table, visible fine leather grain and stitching, soft morning window light, realistic reflections, neutral concrete studio wall, crisp focus, balanced composition",
+      "t5xxl": "editorial product photograph of a vintage crimson leather travel bag on a brushed stainless steel table, visible fine leather grain and stitching, soft morning window light, realistic reflections, neutral concrete studio wall, crisp focus, balanced composition",
+      "guidance": 3.5
+    }
+  },
+  "4": {
+    "class_type": "CLIPTextEncodeFlux",
+    "inputs": {
+      "clip": ["1", 1],
+      "clip_l": "cartoon, illustration, plastic, blurry, low resolution, distorted geometry, duplicate objects, watermark, text",
+      "t5xxl": "cartoon, illustration, plastic, blurry, low resolution, distorted geometry, duplicate objects, watermark, text",
+      "guidance": 3.5
+    }
+  },
+  "5": {
+    "class_type": "EmptySD3LatentImage",
+    "inputs": {
+      "width": 512,
+      "height": 512,
+      "batch_size": 1
+    }
+  },
+  "6": {
+    "class_type": "KSampler",
+    "inputs": {
+      "seed": 7162601,
+      "steps": 4,
+      "cfg": 1.0,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1.0,
+      "model": ["2", 0],
+      "positive": ["3", 0],
+      "negative": ["4", 0],
+      "latent_image": ["5", 0]
+    }
+  },
+  "7": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": ["6", 0],
+      "vae": ["1", 2]
+    }
+  },
+  "8": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "filename_prefix": "flux1_schnell_preview/flux1_schnell_materials_seed7162601",
+      "images": ["7", 0]
+    }
+  }
+}
