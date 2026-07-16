@@ -1,0 +1,93 @@
+{
+  "artifact_type": "wave64_genuine_audio_review_mux_frame_preservation_correction",
+  "boundaries": {
+    "aws_or_ec2_used": false,
+    "contact_owner_alignment_present": false,
+    "independent_perceptual_playback_review_present": false,
+    "jira_mutated": false,
+    "mask_or_wave71_touched": false,
+    "production_audio_certification_allowed": false,
+    "promotion_claimed": false,
+    "room_geometry_authority_present": false
+  },
+  "classification": "W64_GENUINE_AUDIO_REVIEW_MUX_49_FRAME_TECHNICAL_PASS",
+  "correction": {
+    "allowed_delta_seconds": 0.041666666666666664,
+    "contact_sheet": {
+      "bytes": 209498,
+      "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\wave64_genuine_audio_mux_correction\\20260716T023716-0500_rows029_030_056\\corrected_mux_contact_sheet.png",
+      "reviewed_frame_indices": [
+        0,
+        9,
+        19,
+        29,
+        39,
+        48
+      ],
+      "sha256": "70a5c6209a94d21199ecb4996934fdbaa473035743c1ea49dfa21d31fdf59391"
+    },
+    "corrected_mux": {
+      "audio_channels": 2,
+      "audio_duration_seconds": 2.041,
+      "audio_sample_rate_hz": 48000,
+      "authoritative_source_frame_rate": 24.0,
+      "bytes": 472910,
+      "container_reported_average_frame_rate": 24.416666666666668,
+      "decoded_audio_frames": 97968,
+      "decoded_video_frames": 49,
+      "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\wave64_genuine_audio_mux_correction\\20260716T023716-0500_rows029_030_056\\review_mux_video_copy_pcm48_stereo_49f.mkv",
+      "sha256": "d0206de8bfee06f5298fa201c5006c6d4c36c689c978bf04e6d59fdbdd462f11",
+      "video_duration_seconds": 2.0416666666666665
+    },
+    "duration_delta_seconds": 0.0006666666666665932,
+    "method": "append_48_zero_pcm_frames_then_packet_remux_video_without_regeneration",
+    "padded_audio": {
+      "bytes": 391916,
+      "channels": 2,
+      "padding_frames": 48,
+      "padding_seconds": 0.001,
+      "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\wave64_genuine_audio_mux_correction\\20260716T023716-0500_rows029_030_056\\final_mix_stereo_48k_pad48.wav",
+      "sample_rate_hz": 48000,
+      "sha256": "9686f3cfbeaff38257e5036a4f3f8de90a618feb665867ff6fc955ea0bab3edc",
+      "source_frames": 97920,
+      "target_frames": 97968
+    }
+  },
+  "execution_timestamp": "2026-07-16T07:37:17.738544+00:00",
+  "gates": {
+    "corrected_audio_48k_stereo_pass": true,
+    "corrected_audio_97968_frames_pass": true,
+    "corrected_video_49_frames_pass": true,
+    "duration_alignment_pass": true,
+    "original_48_frame_defect_reproduced": true,
+    "padding_exactly_48_stereo_frames_pass": true,
+    "source_hashes_pass": true,
+    "source_mix_mutated": false,
+    "source_video_regenerated": false
+  },
+  "original_defect": {
+    "cause": "shortest_mux_terminated_at_2.040_second_audio_before_49th_video_frame",
+    "decoded_audio_frames": 97920,
+    "decoded_video_frames": 48,
+    "expected_video_frames": 49
+  },
+  "row_complete": false,
+  "schema_version": "1.0",
+  "source_bindings": {
+    "mix": {
+      "bytes": 391758,
+      "path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\w64_genuine_audio_chain_20260714T163400-0500\\final_mix_stereo_48k.wav",
+      "sha256": "5a07f0a654499266509453421c3efdc1b2e4ce83b8706e0138ebc4b1d3ad924a"
+    },
+    "original_defective_mux": {
+      "bytes": 2359402,
+      "path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\w64_genuine_audio_chain_20260714T163400-0500\\review_mux_ffv1_pcm48_stereo.mkv",
+      "sha256": "03b5b55f871d7460c37e97bacd53968d183b0e1adc3022fb2daffc5e056a9b7d"
+    },
+    "video": {
+      "bytes": 83544,
+      "path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\aws_gpu_workflow_smoke_20260714T041921-0500\\images\\12_wan22_ti2v5b_source_diversity_ref1_78b8_seed2271401_00001_.mp4",
+      "sha256": "5006e96e211538f3d2bb6795e93014d6642946583cc31aa635e171e13e1c80bf"
+    }
+  }
+}

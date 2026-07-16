@@ -127,6 +127,17 @@
         "identity_critical_eye_region_continuity_failure",
         "production_robustness_multi_sample_missing"
       ],
+      "direct_proof_scope": {
+        "before_after_visual_review_count": 3,
+        "candidate_retry_count": 0,
+        "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/FLUID_BODY_STATE_CONTINUITY_DIRECT_RUNTIME_REVIEW_20260715T100719-0500.json",
+        "evidence_sha256": "cccf2e6b3a7a5e4b19773bf070ce574cd1bf08db62cc9e93803508f0859a903e",
+        "local_generation_count": 4,
+        "local_runtime_route_count": 3,
+        "planned_state_achieved_by_at_least_one_route": true,
+        "shot_continuity_achieved_by_at_least_one_route": true,
+        "single_route_achieved_state_and_continuity": false
+      },
       "mapping_state": "complete",
       "module_surfaces": [
         "scene_state_ledger",
@@ -153,18 +164,7 @@
         ]
       },
       "runtime_promotion_state": "bounded_direct_runtime_review_fail_shot_continuity",
-      "system_id": "fluid_body_state_continuity",
-      "direct_proof_scope": {
-        "local_runtime_route_count": 3,
-        "local_generation_count": 4,
-        "candidate_retry_count": 0,
-        "before_after_visual_review_count": 3,
-        "planned_state_achieved_by_at_least_one_route": true,
-        "shot_continuity_achieved_by_at_least_one_route": true,
-        "single_route_achieved_state_and_continuity": false,
-        "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/FLUID_BODY_STATE_CONTINUITY_DIRECT_RUNTIME_REVIEW_20260715T100719-0500.json",
-        "evidence_sha256": "cccf2e6b3a7a5e4b19773bf070ce574cd1bf08db62cc9e93803508f0859a903e"
-      }
+      "system_id": "fluid_body_state_continuity"
     },
     {
       "blockers": [
@@ -241,10 +241,23 @@
     },
     {
       "blockers": [
-        "model_or_runtime_capability_proof_missing",
-        "required_visual_evidence_missing",
-        "required_audio_evidence_missing"
+        "camera_pan_and_source_listener_geometry_authority_missing",
+        "measured_room_rt60_and_environment_reverb_authority_missing",
+        "distance_cue_and_contact_owner_alignment_missing",
+        "independent_perceptual_playback_and_production_authority_missing"
       ],
+      "direct_proof_scope": {
+        "corrected_audio_channels": 2,
+        "corrected_audio_frames": 97968,
+        "corrected_audio_sample_rate_hz": 48000,
+        "corrected_review_mux_frames": 49,
+        "direct_visual_decode_review": "PASS_SIX_FRAME_STABLE_SOURCE_VIDEO_DECODE",
+        "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/W64_ROOM_SPATIAL_FULL_MIX_RUNTIME_20260716T023716-0500.json",
+        "evidence_sha256": "5d2baaabd7a50042d62755e0289441a3137e2bfa792fd442971a1259d50321fd",
+        "genuine_full_mix_verified": true,
+        "linear_loudness_mix_reconstruction_rmse": 0.0003581011817457209,
+        "original_review_mux_frames": 48
+      },
       "mapping_state": "complete",
       "module_surfaces": [
         "room_acoustics_profile",
@@ -273,7 +286,7 @@
           "camera_environment_review"
         ]
       },
-      "runtime_promotion_state": "blocked_missing_direct_runtime_evidence",
+      "runtime_promotion_state": "bounded_technical_runtime_partial_authority_blocked",
       "system_id": "room_acoustics_spatial_audio"
     }
   ],
@@ -429,18 +442,25 @@
     "Plan/Instructions/QA/Evidence/Wave64/FLUID_BODY_STATE_CONTINUITY_DIRECT_RUNTIME_REVIEW_20260715T100719-0500.json",
     "Plan/Tracker/Evidence/FLUID_BODY_STATE_CONTINUITY_DIRECT_RUNTIME_REVIEW_20260715T100719-0500.json"
   ],
+  "fluid_state_direct_evidence": {
+    "classification": "DIRECT_RUNTIME_REVIEW_EXECUTED_NO_ROUTE_PASSED_BOTH_STATE_AND_CONTINUITY",
+    "path": "Plan/Instructions/QA/Evidence/Wave64/FLUID_BODY_STATE_CONTINUITY_DIRECT_RUNTIME_REVIEW_20260715T100719-0500.json",
+    "sha256": "cccf2e6b3a7a5e4b19773bf070ce574cd1bf08db62cc9e93803508f0859a903e"
+  },
   "item_id": "ITEM-W64-056",
   "next_action": "Preserve the bounded micro-motion proof and obtain direct runtime/review proof for the six remaining advanced systems without treating candidate masks as truth.",
   "proof_summary": {
     "bounded_direct_runtime_proof_pass": 1,
     "bounded_pass_system": "micro_motion_layer",
+    "bounded_technical_runtime_partial": 1,
+    "direct_runtime_proof_missing": 4,
     "direct_runtime_review_fail": 1,
     "failed_system": "fluid_body_state_continuity",
-    "direct_runtime_proof_missing": 5,
+    "partial_system": "room_acoustics_spatial_audio",
     "production_certified": 0,
     "systems_total": 7
   },
-  "qa_decision": "micro_motion_bounded_pass_fluid_state_runtime_review_fail_five_systems_missing",
+  "qa_decision": "one_bounded_pass_one_room_spatial_technical_partial_one_fluid_fail_four_missing",
   "reconciliation_execution_boundary": {
     "declared_actions_during_reconciliation": {
       "aws_contacted": false,
@@ -535,12 +555,7 @@
       "sha256": "ae50af479342b36dbdffded54c95ac49ebf9ac744e1eca2d07a09d4530eee259"
     }
   },
-  "status": "Blocked_Five_Advanced_Systems_Direct_Proof_Missing_Fluid_State_Continuity_Fail_One_Bounded_System_Pass",
+  "status": "Blocked_Four_Advanced_Systems_Direct_Proof_Missing_Room_Spatial_Technical_Partial_Fluid_Fail_One_Bounded_Pass",
   "timestamp": "2026-07-15T10:07:19-05:00",
-  "tracker_id": "TRK-W64-056",
-  "fluid_state_direct_evidence": {
-    "path": "Plan/Instructions/QA/Evidence/Wave64/FLUID_BODY_STATE_CONTINUITY_DIRECT_RUNTIME_REVIEW_20260715T100719-0500.json",
-    "sha256": "cccf2e6b3a7a5e4b19773bf070ce574cd1bf08db62cc9e93803508f0859a903e",
-    "classification": "DIRECT_RUNTIME_REVIEW_EXECUTED_NO_ROUTE_PASSED_BOTH_STATE_AND_CONTINUITY"
-  }
+  "tracker_id": "TRK-W64-056"
 }
