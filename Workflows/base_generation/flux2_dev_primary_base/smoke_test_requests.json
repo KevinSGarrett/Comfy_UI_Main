@@ -1,0 +1,11 @@
+{
+  "lane_id": "flux2_dev_primary_base",
+  "execution_target": "approved_instance_i-0560bf8d143f93bb1_after_g5_4xlarge_resize_and_live_gates",
+  "api_endpoint": "/prompt",
+  "execution_allowed": false,
+  "requests": [
+    {"capability": "text_to_image", "workflow": "text_to_image.api.json", "seed": 7261601, "expected_output_prefix": "flux2_dev_primary_base/flux2_dev_t2i_seed7261601"},
+    {"capability": "single_reference_edit", "workflow": "single_reference_edit.api.json", "seed": 7261602, "source_image": "flux2_dev_reference_source.png", "expected_output_prefix": "flux2_dev_primary_base/flux2_dev_edit_seed7261602"}
+  ],
+  "promotion_policy": "Both capabilities require separate runtime and direct visual QA; one passing capability cannot promote the other or the production route."
+}

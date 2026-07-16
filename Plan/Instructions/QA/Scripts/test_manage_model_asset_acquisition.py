@@ -258,6 +258,8 @@ class ModelAssetAcquisitionTests(unittest.TestCase):
         self.assertEqual(workflow["2"]["inputs"]["lora_name"], "test.safetensors")
         requirements = json.loads((self.root / "Workflows/test/runtime_requirements.json").read_text(encoding="utf-8"))
         self.assertEqual(requirements["required_models"][0]["sha256"], MODULE.hashlib.sha256(payload).hexdigest())
+        self.assertEqual(requirements["required_models"][0]["hash_status"], "local_sha256_verified")
+        self.assertEqual(requirements["required_models"][0]["path_status"], "local_model_present")
 
         second = self.root / "second.safetensors"
         second.write_bytes(payload)

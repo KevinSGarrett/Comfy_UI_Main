@@ -1,0 +1,78 @@
+{
+    "evidence_id":  "LOCAL-COMFY-WORKFLOW-STATIC-20260716T145309-0500",
+    "timestamp":  "2026-07-16T14:53:09-05:00",
+    "lane_dir":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux2_dev_primary_base",
+    "workflow_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux2_dev_primary_base/workflow.api.json",
+    "lane_id":  "flux2_dev_primary_base",
+    "qa_status":  "pass",
+    "node_count":  13,
+    "link_count":  12,
+    "class_counts":  {
+                         "CLIPTextEncode":  1,
+                         "UNETLoader":  1,
+                         "VAEDecode":  1,
+                         "KSamplerSelect":  1,
+                         "RandomNoise":  1,
+                         "SamplerCustomAdvanced":  1,
+                         "FluxGuidance":  1,
+                         "SaveImage":  1,
+                         "Flux2Scheduler":  1,
+                         "VAELoader":  1,
+                         "EmptyFlux2LatentImage":  1,
+                         "CLIPLoader":  1,
+                         "BasicGuider":  1
+                     },
+    "checkpoint_nodes":  [
+
+                         ],
+    "model_reference_checks":  [
+                                   {
+                                       "role":  "diffusion_model",
+                                       "filename":  "flux2_dev_fp8mixed.safetensors",
+                                       "node_id":  "1",
+                                       "node_class":  "UNETLoader",
+                                       "input":  "unet_name",
+                                       "observed":  [
+                                                        "1.unet_name=flux2_dev_fp8mixed.safetensors"
+                                                    ],
+                                       "matched":  true
+                                   },
+                                   {
+                                       "role":  "text_encoder",
+                                       "filename":  "mistral_3_small_flux2_bf16.safetensors",
+                                       "node_id":  "2",
+                                       "node_class":  "CLIPLoader",
+                                       "input":  "clip_name",
+                                       "observed":  [
+                                                        "2.clip_name=mistral_3_small_flux2_bf16.safetensors"
+                                                    ],
+                                       "matched":  true
+                                   },
+                                   {
+                                       "role":  "vae",
+                                       "filename":  "flux2-vae.safetensors",
+                                       "node_id":  "3",
+                                       "node_class":  "VAELoader",
+                                       "input":  "vae_name",
+                                       "observed":  [
+                                                        "3.vae_name=flux2-vae.safetensors"
+                                                    ],
+                                       "matched":  true
+                                   }
+                               ],
+    "defects":  [
+
+                ],
+    "warnings":  [
+
+                 ],
+    "runtime_gates_not_proven_by_static_validation":  [
+                                                          "ComfyUI object_info node compatibility",
+                                                          "model path resolution",
+                                                          "model sha256/hash proof",
+                                                          "model load validation",
+                                                          "runtime execution output",
+                                                          "generated artifact QA"
+                                                      ],
+    "next_action":  "Refresh AWS auth, run EC2 static proof for object_info/path/hash, then run bounded smoke execution."
+}
