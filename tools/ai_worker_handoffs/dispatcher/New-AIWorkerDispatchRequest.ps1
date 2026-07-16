@@ -28,9 +28,9 @@ $allowed=@($AllowedPaths|ForEach-Object{Normalize-AIWorkerRelativePath $_}|Sort-
 $commands=@($DeclaredCommands|Where-Object{-not[string]::IsNullOrWhiteSpace($_)}|ForEach-Object{$_.Trim()}|Sort-Object -Unique)
 if ($candidates.Count -lt 1) { throw 'At least one candidate path is required.' }
 foreach($path in $candidates){
+  $tracked=@(& git.exe -C $project ls-files -- $path);if($LASTEXITCODE-ne0-or$tracked.Count-lt1){throw "Scope is not tracked: $path"}
   & git.exe -C $project diff --quiet -- $path;if($LASTEXITCODE-ne 0){throw "Scope must match HEAD: $path"}
   & git.exe -C $project diff --cached --quiet -- $path;if($LASTEXITCODE-ne 0){throw "Scope has staged drift: $path"}
-  & git.exe -C $project ls-files --error-unmatch -- $path 2>$null|Out-Null;if($LASTEXITCODE-ne 0){throw "Scope is not tracked: $path"}
 }
 $profilePath=Join-Path $project 'Plan\10_REGISTRIES\ai_worker_development_quality_profiles.json'
 $profile=$null
