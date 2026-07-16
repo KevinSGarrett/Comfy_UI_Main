@@ -296,7 +296,8 @@ foreach ($laneId in $activeLaneIds) {
   if ($null -ne $workflowLane -and (Has-Property -Object $workflowLane -Name "local_pre_ec2_evidence")) {
     $workflowLaneLocalEvidence = @($workflowLane.local_pre_ec2_evidence | ForEach-Object { [string]$_ } | Where-Object { ![string]::IsNullOrWhiteSpace($_) })
   }
-  $laneExplicitlyBlocked = $workflowLaneStatus -match "^blocked|asset_authority_recorded_blocked|pending_install_and_runtime_proof"
+  $laneAssetsAcquiredPendingRuntime = $workflowLaneStatus -eq "official_stack_acquired_hash_verified_object_info_visible_blocked_target_runtime_proof"
+  $laneExplicitlyBlocked = $laneAssetsAcquiredPendingRuntime -or $workflowLaneStatus -match "^blocked|asset_authority_recorded_blocked|pending_install_and_runtime_proof"
   $lanePartialTargetRuntime = $workflowLaneStatus -match "single_sample_smoke_certified.*full_lane_not_certified"
   $laneRuntimeProven = (
     -not $laneExplicitlyBlocked -and -not $lanePartialTargetRuntime -and (
@@ -313,7 +314,7 @@ foreach ($laneId in $activeLaneIds) {
   $laneModelRuntimeProven = $laneRuntimeProven -or $laneBoundedModelRuntimeProven
   $laneLocalPreEc2Validated = (
     -not $laneModelRuntimeProven -and
-    ($workflowLaneStatus -match "local_") -and
+    (($workflowLaneStatus -match "local_") -or $laneAssetsAcquiredPendingRuntime) -and
     @($workflowLaneLocalEvidence).Count -gt 0
   )
   $requirementsPath = Join-Path $workflowTemplateRoot ("{0}\runtime_requirements.json" -f $laneId)

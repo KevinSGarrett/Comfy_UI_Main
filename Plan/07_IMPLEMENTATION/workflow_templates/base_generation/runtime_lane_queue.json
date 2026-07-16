@@ -6,7 +6,7 @@
     "local_only":  true,
     "selection_policy":  {
                              "first_runtime_lane_id":  "sdxl_low_risk_fallback_lane",
-                            "current_runtime_lane_id":  "sdxl_realesrgan_upscale_polish_lane",
+                             "current_runtime_lane_id":  "flux2_dev_primary_base",
                              "completed_runtime_lane_ids":  [
                                                                 "sdxl_low_risk_fallback_lane",
                                                                 "sdxl_realvisxl_base_lane",
@@ -45,7 +45,7 @@
                              "runtime_not_started_lane_ids":  [
                                                                     "flux1_dev_primary_base"
                                                                 ],
-                             "proof_scope_note":  "Existing lane proof boundaries remain unchanged. FLUX.2 Klein adds one bounded local four-step 512x512 product T2I and one single-reference recolor; it is not target-runtime or production certification and does not prove FLUX.2 Dev.",
+                             "proof_scope_note":  "Existing lane proof boundaries remain unchanged. FLUX.2 Klein retains its bounded local proof. FLUX.2 Dev now has official asset identity, static workflow, and a selected g5.4xlarge target only; acquisition, resize, object-info, generation, QA, and promotion remain blocked.",
                              "do_not_promote_later_lanes_before_first_lane_runtime_proof":  true,
                              "later_lane_promotion_allowed_after_first_lane_runtime_proof":  true,
                              "requires_aws_auth_gate_before_ec2":  true,
@@ -621,6 +621,30 @@
                                                        "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_FLUX2_KLEIN_4B_DISTILLED_LOCAL_RUNTIME_20260716T133738-0500/evidence.json",
                                                      "Plan/Instructions/QA/Evidence/Engine_Router/W64_FLUX2_KLEIN_CAPABILITY_RECONCILIATION_20260716T133738-0500.json"
                                                  ]
+                  },
+                  {
+                      "order":  12,
+                      "lane_id":  "flux2_dev_primary_base",
+                      "role":  "higher_quality_flux2_text_to_image_and_single_reference_edit_target",
+                      "workflow_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux2_dev_primary_base/workflow.api.json",
+                      "text_to_image_workflow_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux2_dev_primary_base/text_to_image.api.json",
+                      "edit_workflow_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux2_dev_primary_base/single_reference_edit.api.json",
+                      "smoke_request_catalog_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux2_dev_primary_base/smoke_test_requests.json",
+                      "readme_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux2_dev_primary_base/README.md",
+                      "requirements_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux2_dev_primary_base/runtime_requirements.json",
+                      "status":  "official_stack_acquired_hash_verified_object_info_visible_blocked_target_runtime_proof",
+                      "required_next_runtime_gate":  "guarded_checkpoint_then_publish_exact_stack_to_s3_and_authorize_stopped_g5_4xlarge_resize_for_bounded_target_runtime_proof",
+                      "promotion_rule":  "Do not execute or promote from official metadata, static workflow validation, or target selection alone. Exact acquisition, authorized stopped-state resize, object-info, model load, output, direct visual QA, comparative QA, final stop, and certification remain separate gates.",
+                      "proof_evidence":  [
+                                               "Plan/Instructions/QA/Evidence/Runtime_Readiness/FLUX2_DEV_OFFICIAL_STACK_AND_RUNTIME_SELECTION_20260716T145045-0500.json",
+                                               "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W64_FLUX2_DEV_OFFICIAL_WORKFLOW_STATIC_VALIDATION_20260716T145258-0500.json",
+                                               "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_FLUX2_DEV_OFFICIAL_STACK_ACQUISITION_20260716T175113-0500.json"
+                                           ],
+                      "local_pre_ec2_evidence":  [
+                                                       "Plan/Instructions/QA/Evidence/Runtime_Readiness/FLUX2_DEV_OFFICIAL_STACK_AND_RUNTIME_SELECTION_20260716T145045-0500.json",
+                                                       "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W64_FLUX2_DEV_OFFICIAL_WORKFLOW_STATIC_VALIDATION_20260716T145258-0500.json",
+                                                       "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_FLUX2_DEV_OFFICIAL_STACK_ACQUISITION_20260716T175113-0500.json"
+                                                   ]
                   }
               ],
     "runtime_boundary":  {
@@ -642,5 +666,5 @@
                          "Does not replace deeper multi-sample or final portfolio image-quality certification.",
                          "The RealESRGAN upscale/polish lane has bounded target-runtime proof for one hash-bound Normal full-body source. Its conditional resolution export does not establish broader source-class robustness, preferred hyperrealism quality, body-mask or geometry authority, or universal certification."
                      ],
-    "next_action":  "Use the proven bounded FLUX.2 Klein local T2I/edit capabilities without rerunning their exact inputs. Keep production/default routing and FLUX.2 Dev target-runtime proof fail-closed; do not start EC2, promote masks, activate Wave71+, or mutate Jira from this queue."
+    "next_action":  "Acquire and hash-verify the exact official FLUX.2 Dev diffusion model and Mistral encoder, reusing the existing VAE. Keep EC2 stopped until an audited g5.4xlarge resize and all live runtime gates are ready; do not promote masks, activate Wave71+, or mutate Jira from this queue."
 }

@@ -1,0 +1,26 @@
+{
+  "lane_id": "flux2_dev_primary_base",
+  "workflows": {
+    "text_to_image": {
+      "path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux2_dev_primary_base/text_to_image.api.json",
+      "patch_points": [
+        {"name": "positive_prompt", "node_id": "4", "input": "text"},
+        {"name": "guidance", "node_id": "5", "input": "guidance"},
+        {"name": "seed", "node_id": "8", "input": "noise_seed"},
+        {"name": "resolution", "node_ids": ["7", "9"], "inputs": ["width", "height"]},
+        {"name": "save_prefix", "node_id": "13", "input": "filename_prefix"}
+      ]
+    },
+    "single_reference_edit": {
+      "path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux2_dev_primary_base/single_reference_edit.api.json",
+      "patch_points": [
+        {"name": "source_image", "node_id": "4", "input": "image"},
+        {"name": "source_megapixels", "node_id": "5", "input": "megapixels"},
+        {"name": "edit_prompt", "node_id": "7", "input": "text"},
+        {"name": "guidance", "node_id": "8", "input": "guidance"},
+        {"name": "seed", "node_id": "12", "input": "noise_seed"},
+        {"name": "save_prefix", "node_id": "18", "input": "filename_prefix"}
+      ]
+    }
+  }
+}

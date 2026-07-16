@@ -1,0 +1,116 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64_FLUX2_DEV_OFFICIAL_STACK_ACQUISITION_20260716T175113-0500",
+  "created_at": "2026-07-16T17:51:13-05:00",
+  "lane_id": "flux2_dev_primary_base",
+  "classification": "OFFICIAL_STACK_ACQUIRED_HASH_VERIFIED_OBJECT_INFO_VISIBLE_BLOCKED_TARGET_RUNTIME_PROOF",
+  "source": {
+    "repository": "Comfy-Org/flux2-dev",
+    "revision": "03d6521e6f6a47396b3f951cbea50f7e6c2f482e",
+    "immutable_revision_used": true
+  },
+  "license_boundary": {
+    "license_id": "flux-non-commercial-license",
+    "project_use": "non-commercial and non-distributed",
+    "allowed": true,
+    "commercial_eligibility_used_as_selection_gate": false
+  },
+  "assets": [
+    {
+      "role": "diffusion_model",
+      "filename": "flux2_dev_fp8mixed.safetensors",
+      "bytes": 35455599592,
+      "sha256": "863a82e4ff950a42a6b0e80bea824828f129eb1a8fbbdbd9e8cb29859127b486",
+      "acquisition_method": "huggingface_api_range_resumed",
+      "authoritative_path": "C:/Comfy_UI_Main/models/diffusion_models/flux2_dev_fp8mixed.safetensors",
+      "source_hash_verified": true,
+      "destination_hash_verified": true,
+      "object_info_visible": true,
+      "runtime_validation_status": "queued"
+    },
+    {
+      "role": "text_encoder",
+      "filename": "mistral_3_small_flux2_bf16.safetensors",
+      "bytes": 35584897447,
+      "sha256": "7d79902f60b1aeb3a6de2cfad02f4367b5e300a1387de3d03ac717cfa3df117c",
+      "acquisition_method": "huggingface_api_range_resumed",
+      "authoritative_path": "C:/Comfy_UI_Main/models/text_encoders/mistral_3_small_flux2_bf16.safetensors",
+      "source_hash_verified": true,
+      "destination_hash_verified": true,
+      "object_info_visible": true,
+      "runtime_validation_status": "queued"
+    },
+    {
+      "role": "vae",
+      "filename": "flux2-vae.safetensors",
+      "bytes": 336213556,
+      "sha256": "d64f3a68e1cc4f9f4e29b6e0da38a0204fe9a49f2d4053f0ec1fa1ca02f9c4b5",
+      "acquisition_method": "local_exact_hash_reuse",
+      "authoritative_path": "C:/Comfy_UI_Main/models/vae/flux2-vae.safetensors",
+      "source_hash_verified": true,
+      "destination_hash_verified": true,
+      "object_info_visible": true,
+      "runtime_validation_status": "queued"
+    }
+  ],
+  "acquisition_control": {
+    "controller": "Plan/07_IMPLEMENTATION/scripts/manage_model_asset_acquisition.py",
+    "registry_rows_written": 3,
+    "runtime_queue_rows_written": 3,
+    "canonical_hash_status": "local_sha256_verified",
+    "canonical_path_status": "local_model_present",
+    "content_based_suppression": false,
+    "production_ready": false
+  },
+  "offload_volume_incident": {
+    "classification": "TRANSIENT_EXTERNAL_OFFLOAD_VOLUME_UNAVAILABLE_RECOVERED",
+    "trigger_observed": "Windows low-power transition followed by Disk event IDs 11, 51, and 153",
+    "volume": "F:",
+    "authoritative_models_junction": "C:/Comfy_UI_Main/models",
+    "device_rescan_attempt": "access_denied_non_elevated_no_approval_prompt",
+    "volume_recovered": true,
+    "new_disk_errors_during_guarded_encoder_placement": 0,
+    "sleep_prevention_used_for_encoder_placement": true,
+    "required_runtime_guard": "Verify F volume and all three exact paths before publish, deploy, or execution."
+  },
+  "validation": {
+    "focused_acquisition_and_browser_tests": {
+      "passed": 30,
+      "failed": 0
+    },
+    "workflow_export_sync": {
+      "lane_count": 12,
+      "copied_file_count": 56,
+      "errors": 0,
+      "result": "pass"
+    },
+    "model_registry_coverage_ci_contract": {
+      "result": "pass_local_only",
+      "failed_check_count": 0,
+      "dev_lane_result": "pass",
+      "missing_local_binary_evidence_substitution_enabled": true
+    },
+    "authored_lane_coverage": {
+      "result": "pass_local_only",
+      "failed_lane_count": 0,
+      "dev_lane_result": "pass"
+    },
+    "runtime_lane_queue": {
+      "result": "pass_local_only",
+      "failed_check_count": 0,
+      "current_runtime_lane_id": "flux2_dev_primary_base"
+    }
+  },
+  "runtime_boundary": {
+    "local_object_info_contacted": true,
+    "model_load_executed": false,
+    "generation_executed": false,
+    "direct_visual_qa_executed": false,
+    "ec2_started": false,
+    "s3_mutated": false,
+    "production_ready": false,
+    "selected_target": "i-0560bf8d143f93bb1 resized while stopped from g5.xlarge to g5.4xlarge",
+    "target_runtime_proof": "pending"
+  },
+  "next_action": "Create a guarded protected checkpoint, then publish the exact stack with hashes and authorize the stopped approved instance resize before bounded target-runtime load and output proof."
+}

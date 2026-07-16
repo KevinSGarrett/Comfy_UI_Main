@@ -775,8 +775,8 @@ def wire_workflows(root: Path, manifest: dict[str, Any], destination: Path, proo
             "filename": destination.name,
             "bytes": proof["bytes"],
             "sha256": proof["sha256"],
-            "hash_status": "verified_local_acquisition",
-            "path_status": "verified_local_acquisition_pending_runtime",
+            "hash_status": "local_sha256_verified",
+            "path_status": "local_model_present",
             "source_url": manifest["source_metadata"]["page_url"],
         }
         matches = [index for index, item in enumerate(required_models) if isinstance(item, dict) and item.get("role") == role]

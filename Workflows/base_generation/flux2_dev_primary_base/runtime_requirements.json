@@ -1,0 +1,160 @@
+{
+  "capabilities": [
+    "text_to_image",
+    "single_reference_edit"
+  ],
+  "current_status": "official_stack_acquired_hash_verified_object_info_visible_blocked_target_runtime_proof",
+  "direct_visual_qa_required": true,
+  "engine_family": "flux2",
+  "known_blockers": [
+    "The exact three-file stack is acquired, hash-verified, placed under the authoritative F-backed Main model path, and visible in local object_info; target-runtime load and output proof have not run.",
+    "The F offload volume transiently disappeared after a low-power transition and disk-controller errors, then recovered; verify volume presence before deploy or runtime execution.",
+    "The least-privilege session role cannot resize the stopped approved instance; an audited root-breakglass resize or equivalent authorized control-plane change is required.",
+    "The selected g5.4xlarge target is a capacity hypothesis until object-info, model-load, peak-memory, generation, and final stopped-state proof pass.",
+    "No FLUX.2 Dev output or direct visual QA exists."
+  ],
+  "lane_id": "flux2_dev_primary_base",
+  "license_boundary": {
+    "allowed_use_recorded": true,
+    "commercial_eligibility_used_as_selection_gate": false,
+    "license_id": "flux-non-commercial-license",
+    "project_use": "non-commercial and non-distributed"
+  },
+  "model_hash_required": true,
+  "object_info_required": true,
+  "production_ready": false,
+  "promotion_allowed_without_evidence": false,
+  "required_comfyui_version": "0.27.0",
+  "required_models": [
+    {
+      "bytes": 35455599592,
+      "comfyui_model_subdir": "diffusion_models",
+      "filename": "flux2_dev_fp8mixed.safetensors",
+      "hash_status": "local_sha256_verified",
+      "input": "unet_name",
+      "model_type": "DiffusionModel",
+      "node_class": "UNETLoader",
+      "node_id": "1",
+      "path_status": "local_model_present",
+      "role": "diffusion_model",
+      "sha256": "863a82e4ff950a42a6b0e80bea824828f129eb1a8fbbdbd9e8cb29859127b486",
+      "source_url": "https://huggingface.co/Comfy-Org/flux2-dev/blob/03d6521e6f6a47396b3f951cbea50f7e6c2f482e/split_files/diffusion_models/flux2_dev_fp8mixed.safetensors"
+    },
+    {
+      "bytes": 35584897447,
+      "comfyui_model_subdir": "text_encoders",
+      "filename": "mistral_3_small_flux2_bf16.safetensors",
+      "hash_status": "local_sha256_verified",
+      "input": "clip_name",
+      "model_type": "TextEncoder",
+      "node_class": "CLIPLoader",
+      "node_id": "2",
+      "path_status": "local_model_present",
+      "role": "text_encoder",
+      "sha256": "7d79902f60b1aeb3a6de2cfad02f4367b5e300a1387de3d03ac717cfa3df117c",
+      "source_url": "https://huggingface.co/Comfy-Org/flux2-dev/blob/03d6521e6f6a47396b3f951cbea50f7e6c2f482e/split_files/text_encoders/mistral_3_small_flux2_bf16.safetensors"
+    },
+    {
+      "bytes": 336213556,
+      "comfyui_model_subdir": "vae",
+      "filename": "flux2-vae.safetensors",
+      "hash_status": "local_sha256_verified",
+      "input": "vae_name",
+      "model_type": "VAE",
+      "node_class": "VAELoader",
+      "node_id": "3",
+      "path_status": "local_model_present",
+      "role": "vae",
+      "sha256": "d64f3a68e1cc4f9f4e29b6e0da38a0204fe9a49f2d4053f0ec1fa1ca02f9c4b5",
+      "source_url": "https://huggingface.co/Comfy-Org/flux2-dev/blob/03d6521e6f6a47396b3f951cbea50f7e6c2f482e/split_files/vae/flux2-vae.safetensors"
+    }
+  ],
+  "required_nodes": [
+    "UNETLoader",
+    "CLIPLoader",
+    "VAELoader",
+    "CLIPTextEncode",
+    "FluxGuidance",
+    "BasicGuider",
+    "EmptyFlux2LatentImage",
+    "RandomNoise",
+    "Flux2Scheduler",
+    "KSamplerSelect",
+    "SamplerCustomAdvanced",
+    "VAEDecode",
+    "SaveImage"
+  ],
+  "required_nodes_by_capability": {
+    "single_reference_edit": [
+      "UNETLoader",
+      "CLIPLoader",
+      "VAELoader",
+      "LoadImage",
+      "ImageScaleToTotalPixels",
+      "VAEEncode",
+      "CLIPTextEncode",
+      "FluxGuidance",
+      "ReferenceLatent",
+      "GetImageSize",
+      "EmptyFlux2LatentImage",
+      "RandomNoise",
+      "Flux2Scheduler",
+      "KSamplerSelect",
+      "BasicGuider",
+      "SamplerCustomAdvanced",
+      "VAEDecode",
+      "SaveImage"
+    ],
+    "text_to_image": [
+      "UNETLoader",
+      "CLIPLoader",
+      "VAELoader",
+      "CLIPTextEncode",
+      "FluxGuidance",
+      "BasicGuider",
+      "EmptyFlux2LatentImage",
+      "RandomNoise",
+      "Flux2Scheduler",
+      "KSamplerSelect",
+      "SamplerCustomAdvanced",
+      "VAEDecode",
+      "SaveImage"
+    ]
+  },
+  "runtime_output_required": true,
+  "runtime_selection": {
+    "approved_instance_current": {
+      "gpu": "NVIDIA A10G",
+      "gpu_memory_gb": 24,
+      "host_memory_gib": 16,
+      "instance_id": "i-0560bf8d143f93bb1",
+      "instance_type": "g5.xlarge",
+      "reason": "16 GiB host RAM is insufficient for the 66.475 GiB official stack and offload overhead",
+      "selected": false,
+      "state": "stopped"
+    },
+    "local_gpu": {
+      "device": "RTX 5060 Laptop GPU",
+      "reason": "official Dev weights exceed the local memory envelope",
+      "selected": false,
+      "vram_gb": 8
+    },
+    "selected_target": {
+      "gpu": "NVIDIA A10G",
+      "gpu_memory_gb": 24,
+      "host_memory_gib": 64,
+      "instance_id": "i-0560bf8d143f93bb1",
+      "instance_type": "g5.4xlarge",
+      "selection_status": "selected_pending_authorized_resize_and_measured_load_proof",
+      "state_required_before_resize": "stopped"
+    }
+  },
+  "selection_evidence": "Plan/Instructions/QA/Evidence/Runtime_Readiness/FLUX2_DEV_OFFICIAL_STACK_AND_RUNTIME_SELECTION_20260716T145045-0500.json",
+  "static_validation_evidence": "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W64_FLUX2_DEV_OFFICIAL_WORKFLOW_STATIC_VALIDATION_20260716T145258-0500.json",
+  "variant": "FLUX.2 Dev official ComfyUI FP8-mixed diffusion plus BF16 Mistral encoder",
+  "workflow_paths": {
+    "canonical": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux2_dev_primary_base/workflow.api.json",
+    "single_reference_edit": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux2_dev_primary_base/single_reference_edit.api.json",
+    "text_to_image": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux2_dev_primary_base/text_to_image.api.json"
+  }
+}

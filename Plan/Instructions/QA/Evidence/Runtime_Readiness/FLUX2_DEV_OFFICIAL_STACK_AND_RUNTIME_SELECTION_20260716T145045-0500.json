@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "artifact_type": "flux2_dev_official_stack_and_runtime_selection",
+  "created_at": "2026-07-16T14:50:45-05:00",
+  "lane_id": "flux2_dev_primary_base",
+  "result": "selected_pending_acquisition_authorized_resize_and_measured_runtime_proof",
+  "classification": "FLUX2_DEV_OFFICIAL_FP8MIXED_G5_4XLARGE_TARGET_SELECTED",
+  "official_stack": {
+    "repository": "Comfy-Org/flux2-dev",
+    "revision": "03d6521e6f6a47396b3f951cbea50f7e6c2f482e",
+    "files": [
+      {"role": "diffusion_model", "path": "split_files/diffusion_models/flux2_dev_fp8mixed.safetensors", "bytes": 35455599592, "sha256": "863a82e4ff950a42a6b0e80bea824828f129eb1a8fbbdbd9e8cb29859127b486"},
+      {"role": "text_encoder", "path": "split_files/text_encoders/mistral_3_small_flux2_bf16.safetensors", "bytes": 35584897447, "sha256": "7d79902f60b1aeb3a6de2cfad02f4367b5e300a1387de3d03ac717cfa3df117c"},
+      {"role": "vae", "path": "split_files/vae/flux2-vae.safetensors", "bytes": 336213556, "sha256": "d64f3a68e1cc4f9f4e29b6e0da38a0204fe9a49f2d4053f0ec1fa1ca02f9c4b5"}
+    ],
+    "total_bytes": 71376710595,
+    "new_bytes_after_vae_reuse": 71040497039,
+    "official_comfyui_blueprints": ["C:/Comfy_UI_Main/ComfyUI/blueprints/Text to Image (Flux.2 Dev).json", "C:/Comfy_UI_Main/ComfyUI/blueprints/Image Edit (Flux.2 Dev).json"]
+  },
+  "reuse_audit": {
+    "searched_roots": ["C:/Comfy_UI_Main/models", "C:/Comfy_UI/models", "C:/Comfy_UI_Main/ComfyUI/models", "C:/Comfy_UI/ComfyUI/models"],
+    "diffusion_model_found": false,
+    "text_encoder_found": false,
+    "vae_exact_hash_reuse_found": true,
+    "s3_bucket": "comfy-ui-main-runtime-029530099913-us-east-1",
+    "s3_prefixes_checked": ["model-cache/", "models/flux2/", "model-cache/flux2/"],
+    "s3_dev_match_count": 0,
+    "ec2_filesystem_scan_skipped": "Instance remains stopped; prior local-source-of-truth evidence shows the EC2 workspace predates this Dev selection and is not planning authority. No start is justified for duplicate discovery."
+  },
+  "runtime_audit": {
+    "local": {"gpu": "RTX 5060 Laptop GPU", "gpu_memory_gb": 8, "selected": false},
+    "approved_instance": {"instance_id": "i-0560bf8d143f93bb1", "state": "stopped", "instance_type": "g5.xlarge", "gpu": "NVIDIA A10G", "gpu_memory_gb": 24, "host_memory_gib": 16, "root_volume_id": "vol-0eb9b2c6d3d2706d6", "root_volume_size_gib": 1024, "selected_as_current_shape": false},
+    "selected_target": {"instance_id": "i-0560bf8d143f93bb1", "required_instance_type": "g5.4xlarge", "gpu": "NVIDIA A10G", "gpu_memory_gb": 24, "host_memory_gib": 64, "selection_basis": "same approved GPU and storage with sufficient combined GPU plus host memory for the official FP8-mixed/BF16 stack hypothesis"},
+    "least_privilege_resize_dry_run": "denied_ec2_ModifyInstanceAttribute",
+    "required_resize_authority": "audited comfy-ui-root-breakglass or equivalent authorized control-plane change while stopped",
+    "measured_runtime_proof": false
+  },
+  "license_boundary": {"license_id": "flux-non-commercial-license", "project_use": "non-commercial and non-distributed", "license_is_disqualifier": false},
+  "sources": [
+    "https://docs.comfy.org/tutorials/flux/flux-2-dev",
+    "https://huggingface.co/api/models/Comfy-Org/flux2-dev?blobs=true",
+    "https://huggingface.co/black-forest-labs/FLUX.2-dev",
+    "https://huggingface.co/blog/flux-2",
+    "https://aws.amazon.com/ec2/instance-types/g5/"
+  ],
+  "boundaries": {"ec2_started": false, "instance_resized": false, "s3_mutated": false, "models_downloaded": false, "generation_executed": false, "production_promoted": false, "masks_promoted": false, "wave71_activated": false, "jira_mutated": false},
+  "next_action": "Acquire the exact missing diffusion and text-encoder files with staged hash verification, wire the blocked Dev lane, then use audited resize authority while the approved instance is stopped before any target-runtime proof."
+}

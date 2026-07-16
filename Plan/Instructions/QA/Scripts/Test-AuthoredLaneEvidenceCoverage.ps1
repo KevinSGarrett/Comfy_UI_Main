@@ -474,7 +474,8 @@ function Test-BlockedLaneAuthorityEvidence {
 
   $allowedStatuses = @(
     "asset_authority_recorded_blocked_local_install_and_runtime_proof",
-    "existing_external_model_hash_verified_license_and_live_runtime_proof_pending"
+    "existing_external_model_hash_verified_license_and_live_runtime_proof_pending",
+    "official_stack_acquired_hash_verified_object_info_visible_blocked_target_runtime_proof"
   )
   if ($null -eq $QueueLane) {
     return New-MissingCheck -Name "blocked_lane_authority" -Expected "queue row with an exact fail-closed status and existing lane-matched proof evidence"

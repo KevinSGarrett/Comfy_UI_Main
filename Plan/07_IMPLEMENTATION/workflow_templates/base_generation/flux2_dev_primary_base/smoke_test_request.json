@@ -1,0 +1,26 @@
+{
+  "lane_id": "flux2_dev_primary_base",
+  "capability": "text_to_image",
+  "workflow_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux2_dev_primary_base/workflow.api.json",
+  "specialized_workflow_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux2_dev_primary_base/text_to_image.api.json",
+  "workflow_path_policy": "canonical_alias_byte_identical_to_specialized_text_to_image_workflow",
+  "execution_target": "approved_instance_i-0560bf8d143f93bb1_after_g5_4xlarge_resize_and_live_gates",
+  "api_endpoint": "/prompt",
+  "execution_allowed": false,
+  "execution_allowed_after": [
+    "the two missing official model files and reused VAE match exact bytes and SHA256",
+    "the stopped approved instance is authorized and verified as g5.4xlarge with 64 GiB host RAM",
+    "object_info exposes all required nodes and all three model filenames",
+    "the exact deploy bundle, input, and request hashes are recorded",
+    "the EC2 runtime marker, watchdog, and final-stop gates pass"
+  ],
+  "request_patch_values": {
+    "positive_prompt": "hyperreal full-body editorial photograph of one adult subject standing beside a weathered walnut workbench in a daylight studio, natural anatomy and posture, realistic hands, detailed eyes and hair, visible skin microtexture, tailored charcoal clothing with fine fabric weave, brushed steel tools and clear glass objects, physically coherent reflections and contact shadows, 50mm lens, balanced composition, crisp focus",
+    "seed": 7261601,
+    "resolution": {"width": 1024, "height": 1024, "batch_size": 1},
+    "sampler_settings": {"steps": 20, "guidance": 4.0, "sampler_name": "euler"},
+    "save_prefix": "flux2_dev_primary_base/flux2_dev_t2i_seed7261601"
+  },
+  "expected_outputs": {"artifact_type": "image", "minimum_output_count": 1, "output_prefix": "flux2_dev_primary_base/flux2_dev_t2i_seed7261601"},
+  "promotion_policy": "This request can prove one bounded Dev text-to-image execution only; reference editing, comparative quality, robustness, and production promotion remain separate gates."
+}
