@@ -36,7 +36,22 @@ Start-Sleep -Seconds 5
   Import-Module(Join-Path $PSScriptRoot 'AIWorkerDispatcher.Common.psm1')-Force -DisableNameChecking
   $legacyUtcOffsetId='request_20260715T000000000+0000_example'
   $checks.utc_offset_request_id_preserved=((Get-AIWorkerSafeId $legacyUtcOffsetId)-eq$legacyUtcOffsetId)
-  $new=Join-Path $PSScriptRoot 'New-AIWorkerDispatchRequest.ps1';$dispatch=Join-Path $PSScriptRoot 'Invoke-AIWorkerDispatcher.ps1';$control=Join-Path $PSScriptRoot 'Set-AIWorkerDispatchControl.ps1';$adopt=Join-Path $PSScriptRoot 'Set-AIWorkerDispatchAdoption.ps1';$broker=Join-Path $PSScriptRoot 'Invoke-AIWorkerCommandBroker.ps1'
+  $new=Join-Path $PSScriptRoot 'New-AIWorkerDispatchRequest.ps1';$dispatch=Join-Path $PSScriptRoot 'Invoke-AIWorkerDispatcher.ps1';$control=Join-Path $PSScriptRoot 'Set-AIWorkerDispatchControl.ps1';$adopt=Join-Path $PSScriptRoot 'Set-AIWorkerDispatchAdoption.ps1';$broker=Join-Path $PSScriptRoot 'Invoke-AIWorkerCommandBroker.ps1';$pipelineTool=Join-Path $PSScriptRoot 'New-AIWorkerDevelopmentPipeline.ps1';$intentTool=Join-Path $PSScriptRoot 'New-AIWorkerTaskIntent.ps1';$router=Join-Path $PSScriptRoot 'Invoke-AIWorkerAdmissionRouter.ps1'
+
+  $absolutePipeline=&$pipelineTool -ProjectRoot $repo -DispatcherRoot $dispatcherRoot -TaskName absolute_scope -WorkType mechanical -Objective 'Normalize an in-project absolute path.' -CandidatePaths (Join-Path $repo 'sample.txt')|ConvertFrom-Json
+  $checks.absolute_in_project_scope_normalized=($absolutePipeline.intent.candidate_paths.Count-eq1-and$absolutePipeline.intent.candidate_paths[0]-eq'sample.txt'-and$absolutePipeline.routing.results[0].status-eq'PASS')
+  $absoluteRun=&$dispatch -DispatcherRoot $dispatcherRoot -Lane Cursor -Once -CursorWrapperPath $fakeCursor -ClaudeWrapperPath $fakeClaude|ConvertFrom-Json
+  $checks.absolute_scope_dispatched=($absoluteRun.processed-eq1)
+  $outsideRejected=$false
+  try{&$intentTool -ProjectRoot $repo -DispatcherRoot $dispatcherRoot -TaskName outside_scope -WorkType mechanical -Objective 'Reject an external path.' -CandidatePaths (Join-Path $tempRoot 'outside.txt')|Out-Null}catch{$outsideRejected=$_.Exception.Message-match'outside ProjectRoot'}
+  $checks.absolute_external_scope_rejected=$outsideRejected
+
+  $invalidIntent=&$intentTool -ProjectRoot $repo -DispatcherRoot $dispatcherRoot -TaskName invalid_scope -WorkType mechanical -Objective 'Reject an untracked scope with durable evidence.' -CandidatePaths missing.txt|ConvertFrom-Json
+  $invalidRoute=&$router -DispatcherRoot $dispatcherRoot -MaxIntents 1|ConvertFrom-Json
+  $failureEventPath=Join-Path $dispatcherRoot "admission\events\$($invalidIntent.intent_id).json"
+  $failureEvent=Read-AIWorkerSignedJson -Path $failureEventPath -DispatcherRoot $dispatcherRoot
+  $checks.signed_admission_failure_record=($invalidRoute.status-eq'FAIL'-and$failureEvent.status-eq'FAILED'-and$failureEvent.issue-match'Scope is not tracked')
+  if(-not$checks.signed_admission_failure_record){throw "Signed admission failure fixture mismatch: route=$($invalidRoute|ConvertTo-Json -Depth 8 -Compress) event=$($failureEvent|ConvertTo-Json -Depth 8 -Compress)"}
 
   $cursor=&$new -ProjectRoot $repo -DispatcherRoot $dispatcherRoot -TaskName cursor_read -WorkerLane Cursor -Operation read_only -WorkOrderText 'Inspect exact scope.' -CandidatePaths sample.txt|ConvertFrom-Json
   $checks.timezone_neutral_request_id=($cursor.request_id-match'T\d{9}Z_'-and$cursor.request_id-notmatch'\+')
@@ -48,6 +63,14 @@ Start-Sleep -Seconds 5
   $run=&$dispatch -DispatcherRoot $dispatcherRoot -Lane Claude -Once -CursorWrapperPath $fakeCursor -ClaudeWrapperPath $fakeClaude|ConvertFrom-Json
   $checks.claude_lane_pass=($run.processed-eq1-and(Test-Path(Join-Path $dispatcherRoot "completed\$($claude.request_id)\dispatch_record.json")))
   if(-not$checks.claude_lane_pass){throw "Claude read fixture failed: $($run|ConvertTo-Json -Depth 12 -Compress)"}
+
+  $longTask='long_'+('x'*70)
+  $longRequest=&$new -ProjectRoot $repo -DispatcherRoot $dispatcherRoot -TaskName $longTask -WorkerLane Claude -Operation read_only -WorkOrderText 'Verify bounded Windows path length.' -CandidatePaths sample.txt|ConvertFrom-Json
+  $longRun=&$dispatch -DispatcherRoot $dispatcherRoot -Lane Claude -Once -CursorWrapperPath $fakeCursor -ClaudeWrapperPath $fakeClaude|ConvertFrom-Json
+  $longRecord=Get-Content -LiteralPath(Join-Path $dispatcherRoot "completed\$($longRequest.request_id)\dispatch_record.json") -Raw|ConvertFrom-Json
+  $productionBase='C:\Users\kevin\.codex\ai_worker_dispatcher\worktrees\'+(Split-Path -Leaf $longRecord.isolated_worktree_path)
+  $productionRecord=Join-Path $productionBase ("runtime_artifacts\agent_handoffs\claude_subscription\20260715T000000-0500_$longTask\handoff_record.json")
+  $checks.short_hash_worktree_path=($longRun.processed-eq1-and(Split-Path -Leaf $longRecord.isolated_worktree_path)-match'^w_[0-9a-f]{16}$'-and$productionRecord.Length-lt260)
 
   $implementation=&$new -ProjectRoot $repo -DispatcherRoot $dispatcherRoot -TaskName cursor_implementation -WorkerLane Cursor -Operation implementation -WorkOrderText 'Edit exact scope; host runs validators.' -CandidatePaths sample.txt -AllowedPaths sample.txt -DeclaredCommands 'Write-Output validator-pass' -QualityProfile fast_low_risk -RiskClass low|ConvertFrom-Json
   $run=&$dispatch -DispatcherRoot $dispatcherRoot -Lane Cursor -Once -CursorWrapperPath $fakeCursor -ClaudeWrapperPath $fakeClaude|ConvertFrom-Json
@@ -98,11 +121,11 @@ Start-Sleep -Seconds 5
   $watch=[Diagnostics.Stopwatch]::StartNew();$timeoutRun=&$dispatch -DispatcherRoot $dispatcherRoot -Lane Cursor -Once -CursorWrapperPath $slowCursor -ClaudeWrapperPath $fakeClaude -HardTimeoutGraceSeconds 1|ConvertFrom-Json;$watch.Stop()
   $checks.wrapper_hard_timeout=($watch.Elapsed.TotalSeconds-lt10-and$timeoutRun.lanes[0].results[0].classification-eq'AI_WORKER_RETRY_BUDGET_EXHAUSTED')
 
-  $pipeline=&(Join-Path $PSScriptRoot 'New-AIWorkerDevelopmentPipeline.ps1') -ProjectRoot $repo -DispatcherRoot $dispatcherRoot -TaskName assured_change -WorkType implementation -Objective 'Implement with architecture and residual-risk review.' -CandidatePaths sample.txt -AllowedPaths sample.txt -ValidatorCommands @('Write-Output validator-one','Write-Output validator-two','Write-Output validator-three') -QualityProfile high_assurance -RiskClass high|ConvertFrom-Json
-  $checks.high_assurance_dependency_graph=($pipeline.routing.results[0].request_ids.Count-eq3-and@(Get-ChildItem(Join-Path $dispatcherRoot 'queue\Claude') -Filter *.json).Count-eq2-and@(Get-ChildItem(Join-Path $dispatcherRoot 'queue\Cursor') -Filter *.json).Count-eq1)
+  $assuredPipeline=&$pipelineTool -ProjectRoot $repo -DispatcherRoot $dispatcherRoot -TaskName assured_change -WorkType implementation -Objective 'Implement with architecture and residual-risk review.' -CandidatePaths sample.txt -AllowedPaths sample.txt -ValidatorCommands @('Write-Output validator-one','Write-Output validator-two','Write-Output validator-three') -QualityProfile high_assurance -RiskClass high|ConvertFrom-Json
+  $checks.high_assurance_dependency_graph=($assuredPipeline.routing.results[0].request_ids.Count-eq3-and@(Get-ChildItem(Join-Path $dispatcherRoot 'queue\Claude') -Filter *.json).Count-eq2-and@(Get-ChildItem(Join-Path $dispatcherRoot 'queue\Cursor') -Filter *.json).Count-eq1)
 
   $failed=@($checks.GetEnumerator()|Where-Object{-not$_.Value}|ForEach-Object{$_.Key})
-  [ordered]@{status=$(if($failed.Count){'FAIL'}else{'PASS'});classification='AI_WORKER_PRODUCTIONIZATION_REGRESSION';checks=$checks;failed=$failed;pipeline_diagnostic=$(if($failed-contains'high_assurance_dependency_graph'){$pipeline}else{$null})}|ConvertTo-Json -Depth 12
+  [ordered]@{status=$(if($failed.Count){'FAIL'}else{'PASS'});classification='AI_WORKER_PRODUCTIONIZATION_REGRESSION';checks=$checks;failed=$failed;pipeline_diagnostic=$(if($failed-contains'high_assurance_dependency_graph'){$assuredPipeline}else{$null})}|ConvertTo-Json -Depth 12
   if($failed.Count){exit 1}
 }finally{
   if(Test-Path $repo){$repoFull=[IO.Path]::GetFullPath($repo).TrimEnd('\');&git.exe -C $repo worktree list --porcelain 2>$null|Where-Object{$_-like'worktree *'}|ForEach-Object{$path=[IO.Path]::GetFullPath($_.Substring(9)).TrimEnd('\');if(-not$path.Equals($repoFull,[StringComparison]::OrdinalIgnoreCase)-and(Test-Path $path)){&git.exe -C $repo worktree remove --force $path 2>$null|Out-Null}}}

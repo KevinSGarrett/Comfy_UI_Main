@@ -198,7 +198,8 @@ function Invoke-Lane {
       if (-not $dependency.ready -and -not $dependency.terminal) { continue }
       $runningPath = Join-Path $Root "running\$SelectedLane\$requestId.json"
       Move-SignedRecord -Source $file.FullName -Destination $runningPath
-      $worktreePath = Assert-UnderRoot -Path (Join-Path $Root "worktrees\$requestId") -Root $Root
+      $worktreeKey='w_'+(Get-Sha256Text -Text $requestId).Substring(0,16)
+      $worktreePath = Assert-UnderRoot -Path (Join-Path $Root "worktrees\$worktreeKey") -Root $Root
       $worktreeCreated = $false;$retainWorktree=$false;$artifacts=@();$warnings=@();$additional=[ordered]@{}
       try {
         Assert-DispatchRequest -Request $request -RequestId $requestId -ExpectedLane $SelectedLane
