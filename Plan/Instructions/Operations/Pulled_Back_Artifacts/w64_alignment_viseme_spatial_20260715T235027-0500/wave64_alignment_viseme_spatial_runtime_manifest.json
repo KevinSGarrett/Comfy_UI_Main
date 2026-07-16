@@ -1,0 +1,142 @@
+{
+  "schema_version": "1.0",
+  "artifact_type": "wave64_alignment_viseme_spatial_runtime_manifest",
+  "created_at": "2026-07-15T23:50:35-05:00",
+  "classification": "W64_ROWS135_136_138_BOUNDED_RUNTIME_PASS_PRODUCTION_AUTHORITY_BLOCKED",
+  "source": {
+    "path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\w64_qwen3_tts_base_icl_clone_20260715T195516-0500\\qwen3_tts_base_icl_clone_seed12401.wav",
+    "sha256": "ff8325a1c2f8613d599af69284f5c4693d996a581230ccbbbb1aeba7affa9815",
+    "bytes": 153646,
+    "transcript": "We hold the frame steady and move on the beat.",
+    "source_unchanged_after_runtime": true
+  },
+  "dependencies": {
+    "torch": "2.11.0+cu128",
+    "torchaudio": "2.11.0+cu128",
+    "mms_fa": {
+      "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\model_cache\\torchaudio_mms_fa_cc_by_nc_4_0\\model.pt",
+      "sha256": "20ef12963ab4924bef49ac4fc7f58ad5da2ee43b2c11bc8c853c9b90ecdbc680",
+      "bytes": 1262047414,
+      "official_url": "https://dl.fbaipublicfiles.com/mms/torchaudio/ctc_alignment_mling_uroman/model.pt",
+      "license": "CC-BY-NC-4.0"
+    }
+  },
+  "row135": {
+    "status": "Blocked_Mandated_Alignment_Assets_And_True_Phoneme_Authority_Pending",
+    "runtime_classification": "MMS_FA_L01_WORD_GRAPHEME_RUNTIME_PASS",
+    "alignment": {
+      "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\wave64_alignment_viseme_spatial\\20260715T235027-0500_rows135_136_138_runtime\\row135_mms_fa_word_grapheme_alignment.json",
+      "sha256": "aa4f67bf968bf8af1f9fe5964ef06e16b626aca866bc57871c64323f604abe56",
+      "bytes": 3337
+    },
+    "word_alignment_pass": true,
+    "phoneme_alignment_pass": false,
+    "row_complete": false,
+    "required_assets_still_unproven": [
+      "whisper_large_v3_turbo",
+      "pyannote_diarization_community_1",
+      "latentsync_1_6"
+    ]
+  },
+  "row136": {
+    "status": "Blocked_Production_Phoneme_Alignment_Input_Pending_Compiler_Runtime_Pass",
+    "runtime_classification": "VISEME_COARTICULATION_FIXTURE_RUNTIME_PASS",
+    "fixture": {
+      "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\wave64_alignment_viseme_spatial\\20260715T235027-0500_rows135_136_138_runtime\\row136_viseme_coarticulation_fixture.json",
+      "sha256": "50f44dfff88f733459ff0829dc354f65520c0dbd38deb4cd3879b6d340153ee6",
+      "bytes": 4903
+    },
+    "fixture_runtime_pass": true,
+    "production_input_pass": false,
+    "row_complete": false
+  },
+  "row138": {
+    "status": "Blocked_Independent_Spatial_Playback_And_Production_Scene_Authority_Pending",
+    "runtime_classification": "DETERMINISTIC_SPATIAL_SCENE_RENDER_AUTOMATED_QA_PENDING",
+    "output": {
+      "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\wave64_alignment_viseme_spatial\\20260715T235027-0500_rows135_136_138_runtime\\row138_l01_spatial_scene_pcm24_stereo.wav",
+      "sha256": "a85e855969e49c59007fd9c77d33dd76cb269096ec11d2ff1ae56d3a5c959555",
+      "bytes": 460850,
+      "sample_rate_hz": 24000,
+      "channels": 2,
+      "samples_per_channel": 76801,
+      "subtype": "PCM_24"
+    },
+    "renderer": {
+      "renderer": "wave64_deterministic_stereo_scene_v1",
+      "trajectory": {
+        "start": {
+          "pan": -0.65,
+          "distance_m": 1.1,
+          "elevation_m": 1.45
+        },
+        "mid": {
+          "pan": 0.0,
+          "distance_m": 2.5,
+          "elevation_m": 1.45
+        },
+        "end": {
+          "pan": 0.65,
+          "distance_m": 1.1,
+          "elevation_m": 1.45
+        }
+      },
+      "distance_model": "inverse_distance_clamped_at_1m",
+      "occlusion": {
+        "enabled": true,
+        "lowpass_hz": 4200.0,
+        "order": 3
+      },
+      "elevation": {
+        "enabled": true,
+        "presence_highpass_hz": 1800.0
+      },
+      "early_reflections": [
+        {
+          "delay_ms": 17.0,
+          "gain": 0.12
+        },
+        {
+          "delay_ms": 31.0,
+          "gain": 0.08
+        },
+        {
+          "delay_ms": 47.0,
+          "gain": 0.05
+        }
+      ],
+      "reverb_tail": [
+        {
+          "delay_ms": 73.0,
+          "gain": 0.035
+        },
+        {
+          "delay_ms": 113.0,
+          "gain": 0.025
+        },
+        {
+          "delay_ms": 167.0,
+          "gain": 0.018
+        }
+      ],
+      "microphone_perspective": "occluded_room_listener_v1",
+      "normalization_gain": 1.0
+    },
+    "source_unchanged": true,
+    "deterministic_configuration_sha256": "6f01ca27769c61900c4d0026eb85b2268ccbdf4f5db9007959688232bbd5bac8",
+    "intelligibility_evaluation_pass": null,
+    "speaker_identity_evaluation_pass": null,
+    "independent_playback_review_pass": false,
+    "production_scene_authority_pass": false,
+    "row_complete": false
+  },
+  "boundaries": {
+    "mms_grapheme_is_phoneme_authority": false,
+    "fixture_is_production_alignment": false,
+    "automated_metrics_are_human_playback": false,
+    "production_ready": false,
+    "content_based_suppression": false,
+    "aws_or_ec2_used": false,
+    "mask_or_wave71_touched": false
+  }
+}
