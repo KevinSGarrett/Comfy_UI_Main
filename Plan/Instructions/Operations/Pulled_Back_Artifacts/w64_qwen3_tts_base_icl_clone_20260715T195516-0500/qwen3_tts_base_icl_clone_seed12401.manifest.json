@@ -1,0 +1,136 @@
+{
+  "schema_version": "1.0",
+  "artifact_type": "wave64_qwen3_tts_base_icl_voice_clone_candidate_manifest",
+  "created_at": "2026-07-15T20:10:58-05:00",
+  "classification": "QWEN3_TTS_BASE_ICL_CLONE_GENERATED_AUTOMATED_QA_PENDING",
+  "candidate_id": "W64-QWEN3-BASE-ICL-CLONE-SEED-12401",
+  "engine": {
+    "repository": "Qwen/Qwen3-TTS-12Hz-1.7B-Base",
+    "revision": "fd4b254389122332181a7c3db7f27e918eec64e3",
+    "license": "Apache-2.0",
+    "model_files": [
+      {
+        "path": "config.json",
+        "bytes": 4494,
+        "sha256": "b4f01752d15a488abde3e1ab44723ae4f4b9e68a4037257b098b3737893cc1f9"
+      },
+      {
+        "path": "generation_config.json",
+        "bytes": 245,
+        "sha256": "f1b90b4513f3b34c62851049e2492d7b4c5940daf1276f89c82b8ef04127f3aa"
+      },
+      {
+        "path": "merges.txt",
+        "bytes": 1671839,
+        "sha256": "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3"
+      },
+      {
+        "path": "model.safetensors",
+        "bytes": 3857413744,
+        "sha256": "38fc7fc51c5e776e840414b6fd443962e9411b9654888fd7913e4da643cb857c"
+      },
+      {
+        "path": "preprocessor_config.json",
+        "bytes": 127,
+        "sha256": "efdde1022ea9d76928bf7a9cd53139138f5ba2e466e837f08f6105ab1af1c119"
+      },
+      {
+        "path": "speech_tokenizer/config.json",
+        "bytes": 2336,
+        "sha256": "ee65bb901c876664ab8707c487157aa1a6ee57c65969b28fb5ec9dc211e68167"
+      },
+      {
+        "path": "speech_tokenizer/configuration.json",
+        "bytes": 76,
+        "sha256": "6bc26d64eb5024b4d1dab5a52371958b429256d6c9d59787f1f5294a54e0cebd"
+      },
+      {
+        "path": "speech_tokenizer/model.safetensors",
+        "bytes": 682293092,
+        "sha256": "836b7b357f5ea43e889936a3709af68dfe3751881acefe4ecf0dbd30ba571258"
+      },
+      {
+        "path": "speech_tokenizer/preprocessor_config.json",
+        "bytes": 234,
+        "sha256": "fcb3805e597e786d4067706e602f6688524640f8d3396790e2e09b5942fcbdfb"
+      },
+      {
+        "path": "tokenizer_config.json",
+        "bytes": 7344,
+        "sha256": "dc3c31c3bdaedd5016382bb3cbe07323026775ad51f5a4fb564505992ae4a670"
+      },
+      {
+        "path": "vocab.json",
+        "bytes": 2776833,
+        "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+      }
+    ],
+    "packages": {
+      "qwen-tts": "0.1.1",
+      "transformers": "4.57.3",
+      "accelerate": "1.12.0",
+      "huggingface-hub": "0.36.2",
+      "sox": "1.5.0"
+    },
+    "runtime_packages": {
+      "torch": "2.11.0+cu128",
+      "torchaudio": "2.11.0+cu128"
+    },
+    "device": "NVIDIA GeForce RTX 5060 Laptop GPU",
+    "dtype": "bfloat16",
+    "attention": "eager"
+  },
+  "request": {
+    "text": "We hold the frame steady and move on the beat.",
+    "language": "English",
+    "seed": 12401,
+    "clone_mode": "icl",
+    "x_vector_only_mode": false,
+    "non_streaming_mode": false,
+    "generation_parameters": {
+      "do_sample": true,
+      "top_k": 50,
+      "top_p": 1.0,
+      "temperature": 0.9,
+      "repetition_penalty": 1.05,
+      "subtalker_dosample": true,
+      "subtalker_top_k": 50,
+      "subtalker_top_p": 1.0,
+      "subtalker_temperature": 0.9,
+      "max_new_tokens": 512
+    }
+  },
+  "reference": {
+    "path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\w64_chatterbox_dialogue_20260715T092901-0500\\librivox_reference_5.0s.wav",
+    "bytes": 441044,
+    "sha256": "f1e5f767d775c514cf94cdedfdf0010961102a3358e095812301e5da72e6d932",
+    "transcript": "Once upon a midnight dreary, while I pondered, weak and weary.",
+    "source": "Chris Goringe / LibriVox",
+    "rights": "Public Domain Mark 1.0",
+    "production_authorized": false
+  },
+  "output": {
+    "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\wave64_qwen3_tts_voice_clone\\20260715T195516-0500_seed12401\\qwen3_tts_base_icl_clone_seed12401.wav",
+    "sha256": "ff8325a1c2f8613d599af69284f5c4693d996a581230ccbbbb1aeba7affa9815",
+    "bytes": 153646,
+    "sample_rate_hz": 24000,
+    "samples": 76801,
+    "duration_seconds": 3.200041667,
+    "channels": 1,
+    "subtype": "PCM_16"
+  },
+  "runtime": {
+    "load_seconds": 631.965,
+    "generation_seconds": 47.082,
+    "total_seconds": 679.047
+  },
+  "boundaries": {
+    "automated_qa_complete": false,
+    "speaker_identity_measured": false,
+    "independent_playback_review_complete": false,
+    "production_ready": false,
+    "reference_authorized_for_production": false,
+    "candidate_regenerated": false,
+    "content_based_suppression": false
+  }
+}
