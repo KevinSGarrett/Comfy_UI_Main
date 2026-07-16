@@ -1,0 +1,265 @@
+{
+  "artifact_bindings": {
+    "ambience_bed": {
+      "bytes": 307250,
+      "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\wave64_speech_mix_review\\20260716T002641-0500_rows139_141_143_runtime\\ambience_bed_pcm24_stereo_16k.wav",
+      "sha256": "4b30e0429bf156bced4d389b0db81525b61f9db7f0cdd37d49abdfecabbe18e1"
+    },
+    "ambience_current_segment": {
+      "bytes": 307250,
+      "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\wave64_speech_mix_review\\20260716T002641-0500_rows139_141_143_runtime\\current_ambience_pcm24_stereo_16k.wav",
+      "sha256": "4c9ab884d92828ad971e1d15b02c10a85d2f276e799973094394b21eb3c20cb9"
+    },
+    "ambience_previous_segment": {
+      "bytes": 307250,
+      "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\wave64_speech_mix_review\\20260716T002641-0500_rows139_141_143_runtime\\previous_ambience_pcm24_stereo_16k.wav",
+      "sha256": "2ee71ab0737c22275f7db1d5c49ffb4fdcf03cb79ffd139ea04e827452d74faa"
+    },
+    "dry_dialogue": {
+      "bytes": 307250,
+      "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\wave64_speech_mix_review\\20260716T002641-0500_rows139_141_143_runtime\\dry_dialogue_pcm24_stereo_16k.wav",
+      "sha256": "fe1fd416efa20f50f36680654ccdafc5e53b36e4ca1337982d5ef57bcc5e5a56"
+    },
+    "final_mix": {
+      "bytes": 307250,
+      "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\wave64_speech_mix_review\\20260716T002641-0500_rows139_141_143_runtime\\final_mix_pcm24_stereo_16k.wav",
+      "sha256": "3661803c15b5c9fcc8d3b63cd4ab25286a094ae54673d913206e21a01dd05dc7"
+    },
+    "playback_proof": null,
+    "production_authority_bundle": null,
+    "runtime_proof": null,
+    "spatial_dialogue": {
+      "bytes": 307250,
+      "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\wave64_speech_mix_review\\20260716T002641-0500_rows139_141_143_runtime\\spatial_dialogue_pcm24_stereo_16k.wav",
+      "sha256": "684c8a6fd4d6bceff7142ad701846ffad9cb1dd8c5b8bb0810f457ae5c20249c"
+    },
+    "wave31_room_acoustics": {
+      "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\wave64_speech_mix_review\\20260716T002641-0500_rows139_141_143_runtime\\wave31_room_acoustics_manifest.json",
+      "sha256": "d7dd87fd2d59f67187cdd41ae3638fcfb31c43f367c7413a1950422a4c356756"
+    },
+    "wave31_spatial_mix": {
+      "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\wave64_speech_mix_review\\20260716T002641-0500_rows139_141_143_runtime\\wave31_spatial_audio_mix_manifest.json",
+      "sha256": "3d923807e02fb4eb08d0022b4da076f65e45af250a03d2d7ed93d086d25d56fe"
+    },
+    "wave64_gate_registry": {
+      "path": "C:\\Comfy_UI_Main\\Plan\\10_REGISTRIES\\wave64_spatial_room_gate_rules.json",
+      "sha256": "11300c817a4bd2b86ecdb6e83cb588a4a61365d511dec559dbfdecb89f30a8ef"
+    }
+  },
+  "blockers": [
+    "measured RT60 is outside allowed range",
+    "measured reverb tail is outside allowed range",
+    "missing playback_proof_binding",
+    "missing runtime_proof_binding",
+    "synthetic input cannot satisfy production runtime proof gate",
+    "synthetic input cannot satisfy production spatial-room authority"
+  ],
+  "evidence_origin": "synthetic_fixture",
+  "gates": {
+    "ambience_continuity": {
+      "artifact_bindings": [
+        "2ee71ab0737c22275f7db1d5c49ffb4fdcf03cb79ffd139ea04e827452d74faa",
+        "4c9ab884d92828ad971e1d15b02c10a85d2f276e799973094394b21eb3c20cb9"
+      ],
+      "blockers": [],
+      "status": "PASS"
+    },
+    "mix_balance_review": {
+      "artifact_bindings": [
+        "fe1fd416efa20f50f36680654ccdafc5e53b36e4ca1337982d5ef57bcc5e5a56",
+        "684c8a6fd4d6bceff7142ad701846ffad9cb1dd8c5b8bb0810f457ae5c20249c",
+        "4b30e0429bf156bced4d389b0db81525b61f9db7f0cdd37d49abdfecabbe18e1",
+        "3661803c15b5c9fcc8d3b63cd4ab25286a094ae54673d913206e21a01dd05dc7"
+      ],
+      "blockers": [],
+      "status": "PASS"
+    },
+    "overall_pass": {
+      "artifact_bindings": [
+        "431b36edd00ef1764eeb0051ae05f380261e823da7ea6c641a16225709f857f7"
+      ],
+      "blockers": [
+        "measured RT60 is outside allowed range",
+        "measured reverb tail is outside allowed range",
+        "missing playback_proof_binding",
+        "missing runtime_proof_binding",
+        "synthetic input cannot satisfy production runtime proof gate",
+        "synthetic input cannot satisfy production spatial-room authority"
+      ],
+      "status": "FAIL"
+    },
+    "production_runtime_proof": {
+      "artifact_bindings": [],
+      "blockers": [
+        "missing runtime_proof_binding",
+        "synthetic input cannot satisfy production runtime proof gate"
+      ],
+      "status": "BLOCKED"
+    },
+    "production_spatial_room_authority": {
+      "artifact_bindings": [],
+      "blockers": [
+        "synthetic input cannot satisfy production spatial-room authority"
+      ],
+      "status": "BLOCKED"
+    },
+    "room_reverb_check": {
+      "artifact_bindings": [
+        "d7dd87fd2d59f67187cdd41ae3638fcfb31c43f367c7413a1950422a4c356756",
+        "3d923807e02fb4eb08d0022b4da076f65e45af250a03d2d7ed93d086d25d56fe",
+        "684c8a6fd4d6bceff7142ad701846ffad9cb1dd8c5b8bb0810f457ae5c20249c"
+      ],
+      "blockers": [
+        "measured RT60 is outside allowed range",
+        "measured reverb tail is outside allowed range"
+      ],
+      "status": "FAIL"
+    },
+    "spatial_audio_playback_review": {
+      "artifact_bindings": [],
+      "blockers": [
+        "missing playback_proof_binding"
+      ],
+      "status": "BLOCKED"
+    },
+    "spatial_position_check": {
+      "artifact_bindings": [
+        "fe1fd416efa20f50f36680654ccdafc5e53b36e4ca1337982d5ef57bcc5e5a56",
+        "684c8a6fd4d6bceff7142ad701846ffad9cb1dd8c5b8bb0810f457ae5c20249c"
+      ],
+      "blockers": [],
+      "status": "PASS"
+    }
+  },
+  "is_synthetic": true,
+  "metrics": {
+    "ambience_metrics": {
+      "drift_ratio": 0.01005,
+      "hard_cut_contract": null,
+      "hard_cut_used": false
+    },
+    "audio_files": {
+      "ambience_bed": {
+        "channels": 2,
+        "clipping_ratio": 0.0,
+        "duration_seconds": 3.200063,
+        "frame_count": 51201,
+        "overall_rms_ratio": 0.0022,
+        "peak_ratio": 0.009637,
+        "reverb_tail_seconds": 0.02,
+        "rt60_seconds": 0.0,
+        "sample_rate_hz": 16000,
+        "sample_width_bytes": 3,
+        "stereo_pan": 0.001749
+      },
+      "ambience_current_segment": {
+        "channels": 2,
+        "clipping_ratio": 0.0,
+        "duration_seconds": 3.200063,
+        "frame_count": 51201,
+        "overall_rms_ratio": 0.002211,
+        "peak_ratio": 0.009685,
+        "reverb_tail_seconds": 0.02,
+        "rt60_seconds": 0.0,
+        "sample_rate_hz": 16000,
+        "sample_width_bytes": 3,
+        "stereo_pan": 0.001749
+      },
+      "ambience_previous_segment": {
+        "channels": 2,
+        "clipping_ratio": 0.0,
+        "duration_seconds": 3.200063,
+        "frame_count": 51201,
+        "overall_rms_ratio": 0.002189,
+        "peak_ratio": 0.009589,
+        "reverb_tail_seconds": 0.02,
+        "rt60_seconds": 0.0,
+        "sample_rate_hz": 16000,
+        "sample_width_bytes": 3,
+        "stereo_pan": 0.001749
+      },
+      "dry_dialogue": {
+        "channels": 2,
+        "clipping_ratio": 0.0,
+        "duration_seconds": 3.200063,
+        "frame_count": 51201,
+        "overall_rms_ratio": 0.061997,
+        "peak_ratio": 0.365944,
+        "reverb_tail_seconds": 2.74,
+        "rt60_seconds": 2.72,
+        "sample_rate_hz": 16000,
+        "sample_width_bytes": 3,
+        "stereo_pan": 0.0
+      },
+      "final_mix": {
+        "channels": 2,
+        "clipping_ratio": 0.0,
+        "duration_seconds": 3.200063,
+        "frame_count": 51201,
+        "overall_rms_ratio": 0.024102,
+        "peak_ratio": 0.23061,
+        "reverb_tail_seconds": 2.78,
+        "rt60_seconds": 2.76,
+        "sample_rate_hz": 16000,
+        "sample_width_bytes": 3,
+        "stereo_pan": -0.108632
+      },
+      "spatial_dialogue": {
+        "channels": 2,
+        "clipping_ratio": 0.0,
+        "duration_seconds": 3.200063,
+        "frame_count": 51201,
+        "overall_rms_ratio": 0.024006,
+        "peak_ratio": 0.228578,
+        "reverb_tail_seconds": 2.78,
+        "rt60_seconds": 2.76,
+        "sample_rate_hz": 16000,
+        "sample_width_bytes": 3,
+        "stereo_pan": -0.108698
+      }
+    },
+    "mix_metrics": {
+      "channel_match": true,
+      "dialogue_to_ambience_db": 20.757942,
+      "duration_delta_seconds": 0.0,
+      "final_mix_clipping_ratio": 0.0,
+      "final_mix_distinct_path_from_stems": true,
+      "final_mix_distinct_sha_from_stems": true,
+      "final_mix_energy_ratio": 0.999809,
+      "normalized_reconstruction_residual_ratio": 4e-06,
+      "sample_rate_match": true,
+      "sample_width_match": true,
+      "stereo_balance_delta": 0.005206,
+      "used_sample_reconstruction": true
+    },
+    "proof_metrics": {
+      "playback_producer_authority": null,
+      "runtime_producer_authority": null
+    },
+    "room_metrics": {
+      "measured_reverb_tail_seconds": 2.78,
+      "measured_rt60_seconds": 2.76,
+      "reverb_profile": "short_warm_room",
+      "room_profile_id": "small_soft_room"
+    },
+    "spatial_metrics": {
+      "attenuation_ratio": 0.387212,
+      "camera_listener_distance_meters": 0.2,
+      "expected_pan": -0.109005,
+      "observed_pan": -0.108698,
+      "pan_error": 0.000307,
+      "source_listener_distance_meters": 0.999958
+    }
+  },
+  "overall_pass": false,
+  "report_version": 1,
+  "request_binding": {
+    "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\wave64_speech_mix_review\\20260716T002641-0500_rows139_141_143_runtime\\row139_spatial_room_evidence_bundle.json",
+    "sha256": "431b36edd00ef1764eeb0051ae05f380261e823da7ea6c641a16225709f857f7"
+  },
+  "run_id": "w64_rows139_141_143_l01_mix_001",
+  "scene_id": "scene_l01_diagnostic",
+  "schema_name": "wave64_spatial_room_evaluator_report",
+  "shot_id": "shot_l01_spatial",
+  "take_id": "take_seed12401_mix001"
+}
