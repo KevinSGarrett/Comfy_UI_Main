@@ -1,90 +1,139 @@
 {
-  "schema_version": "1.0",
-  "report_id": "ITEM-W64-029-AUDIO-SPATIAL-ROOM-20260714T082800-0500",
-  "timestamp": "2026-07-14T16:19:38-05:00",
-  "item_id": "ITEM-W64-029",
-  "tracker_id": "TRK-W64-029",
-  "workstream": "audio_spatial_room",
-  "status": "Blocked_Spatial_Room_Production_Proof_Missing",
-  "row_complete": false,
-  "implementation": {
-    "spatial_position_and_camera_pan_evaluator_ready": true,
-    "room_reverb_rt60_and_tail_evaluator_ready": true,
-    "ambience_continuity_and_cut_authority_ready": true,
-    "mix_balance_and_stem_reconstruction_ready": true,
-    "playback_runtime_and_production_authority_ready": true,
-    "evidence_bundle_producer_ready": true,
-    "recovered_legacy_readiness_adapter_ready": true,
-    "canonical_threshold_and_exact_hash_binding_ready": true,
-    "manifest_identity_and_no_clobber_output_ready": true,
-    "producer_creates_no_authority_proof": true,
-    "canonical_root_and_transactional_output_ready": true,
-    "synthetic_and_relabel_promotion_forbidden": true
-  },
-  "validation": {
-    "unit_tests_passed": 55,
-    "unit_test_failures": 0,
-    "unit_test_errors": 0,
-    "unit_test_skips": 0,
-    "python_compile": "pass",
-    "bundle_schema_check": "pass",
-    "report_schema_check": "pass",
-    "synthetic_technical_probe": "expected_exit_2",
-    "adversarial_relabel_probe": "expected_exit_2",
-    "authority_registry_unchanged_by_tests": true,
-    "remaining_remediable_high_or_medium_findings": 0,
-    "recovered_readiness_tests_passed": 6,
-    "combined_tests_passed": 61,
-    "recovered_wavs_hash_verified_and_decoded": 9,
-    "recovered_wavs_matching_strict_profile": 0,
-    "claude_recovered_readiness_review": "PASS_high_confidence",
-    "genuine_stereo_room_mix_created": true,
-    "genuine_stereo_room_mix_sha256": "5a07f0a654499266509453421c3efdc1b2e4ce83b8706e0138ebc4b1d3ad924a",
-    "room_mix_sample_rate_hz": 48000,
-    "room_mix_channels": 2,
-    "real_foley_and_original_ambience_present": true
-  },
   "acceptance_gates": {
-    "spatial_position_check_contract": true,
-    "room_reverb_check_contract": true,
     "ambience_continuity_contract": true,
-    "mix_balance_review_contract": true,
-    "spatial_audio_playback_review_contract": true,
-    "genuine_room_mix_candidate_present": true,
-    "genuine_production_spatial_audio_present": false,
+    "final_spatial_room_certification_allowed": false,
     "genuine_production_playback_review_present": false,
     "genuine_production_runtime_proof_present": false,
+    "genuine_production_spatial_audio_present": false,
+    "genuine_room_mix_candidate_present": true,
+    "mix_balance_review_contract": true,
     "production_bundle_allowlisted": false,
     "recovered_legacy_packet_strict_bundle_eligible": false,
-    "final_spatial_room_certification_allowed": false
+    "room_reverb_check_contract": true,
+    "spatial_audio_playback_review_contract": true,
+    "spatial_position_check_contract": true
   },
   "blockers": [
-    {"classification": "Blocked_Spatial_Room_Production_Proof_Missing", "reason": "A genuine stereo room mix with real foley and original ambience now exists, but strict source geometry, room-acoustics, spatial-dialogue, playback-review, runtime, and production authority bindings are still absent."},
-    {"classification": "Blocked_Spatial_Room_Production_Authority_Missing", "reason": "The canonical production bundle allowlist contains zero approved bundles."},
-    {"classification": "Blocked_Recovered_Spatial_Profile_Mismatch", "reason": "All nine recovered WAVs decode, but all are mono at either 22050 Hz or 48000 Hz rather than the required 16000 Hz stereo profile."},
-    {"classification": "Blocked_Recovered_Spatial_Bindings_Missing", "reason": "The recovered packet has no trustworthy geometry, Wave31 spatial/room, spatial-dialogue, continuity, playback, runtime, or production authority bindings."}
+    {
+      "classification": "Blocked_Spatial_Room_Production_Proof_Missing",
+      "reason": "A genuine stereo room mix with real foley and original ambience now exists, but strict source geometry, room-acoustics, spatial-dialogue, playback-review, runtime, and production authority bindings are still absent."
+    },
+    {
+      "classification": "Blocked_Spatial_Room_Production_Authority_Missing",
+      "reason": "The canonical production bundle allowlist contains zero approved bundles."
+    },
+    {
+      "classification": "Blocked_Recovered_Spatial_Profile_Mismatch",
+      "reason": "All nine recovered WAVs decode, but all are mono at either 22050 Hz or 48000 Hz rather than the required 16000 Hz stereo profile."
+    },
+    {
+      "classification": "Blocked_Recovered_Spatial_Bindings_Missing",
+      "reason": "The recovered packet has no trustworthy geometry, Wave31 spatial/room, spatial-dialogue, continuity, playback, runtime, or production authority bindings."
+    }
   ],
   "evidence": [
-    {"path": "Plan/Instructions/QA/Evidence/Wave64/audio_spatial_room.json", "sha256": "7bcb12e4867debdda04500fadc121c5e9c4780c5e1b9c6aefb5d053077d71c8e"},
-    {"path": "Plan/Instructions/QA/Evidence/Wave64/audio_spatial_room_test_log.json", "sha256": "a7a5a0ad8f709dacee1e18f54febb4581b148c38475373b3cdc695ddcf25a34c"},
-    {"path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_SPATIAL_ROOM_RECOVERED_READINESS_20260714T082800-0500.json", "sha256": "4e30eb10a484f4c7b591723ff2998174fe5c097f6e14ab7e78225005c2db8bdd"},
-    {"path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_SPATIAL_ROOM_RECOVERED_READINESS_TEST_LOG_20260714T082800-0500.json", "sha256": "f6530bda9cc24493c1edc8ae5f3c1a43fba8ed678d9e2bd3873def0661c93265"},
-    {"path": "runtime_artifacts/wave64_spatial_room_evidence/request_producer_probe_20260712T173525-0500/request.json", "sha256": "90c7a86169ac87ba31396872849750559d755e847e736c3249bbbf92ff4e6165"},
-    {"path": "runtime_artifacts/wave64_spatial_room_evidence/request_producer_probe_20260712T173525-0500/report.json", "sha256": "9e81aa6dc7c9fb2ef009ad78377cac16a649daef68e01b09dbe4033ee6e6eae7"},
-    {"path": "runtime_artifacts/wave64_spatial_room_evidence/request_producer_probe_20260712T173525-0500/windows_tests.txt", "sha256": "49c6f503b6f261e01b0c40d373dbb2225806c68cee381113f1eccddb3b2de657"},
-    {"path": "runtime_artifacts/wave64_spatial_room_evidence/20260711T200153-0500/probe_summary.json", "sha256": "f1d3f597754ef42c2748ed0f7bde2df3f06e668f7e42654ee5ca4201ae392c58"},
-    {"path": "runtime_artifacts/wave64_spatial_room_evidence/20260711T200153-0500/windows_strict_tests.txt", "sha256": "a2d28058d84f04ffec08a714753bd7f25d42f0b181bf84351476495b56976aa0"},
-    {"path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_audio_chain_20260714T163400-0500/delivery_manifest.json", "sha256": "9eb91fb2c84105b470a27c939babd9ca8537045f3818f01f3187779e354c0a07"}
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/audio_spatial_room.json",
+      "sha256": "7bcb12e4867debdda04500fadc121c5e9c4780c5e1b9c6aefb5d053077d71c8e"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/audio_spatial_room_test_log.json",
+      "sha256": "a7a5a0ad8f709dacee1e18f54febb4581b148c38475373b3cdc695ddcf25a34c"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_SPATIAL_ROOM_RECOVERED_READINESS_20260714T082800-0500.json",
+      "sha256": "4e30eb10a484f4c7b591723ff2998174fe5c097f6e14ab7e78225005c2db8bdd"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_SPATIAL_ROOM_RECOVERED_READINESS_TEST_LOG_20260714T082800-0500.json",
+      "sha256": "f6530bda9cc24493c1edc8ae5f3c1a43fba8ed678d9e2bd3873def0661c93265"
+    },
+    {
+      "path": "runtime_artifacts/wave64_spatial_room_evidence/request_producer_probe_20260712T173525-0500/request.json",
+      "sha256": "90c7a86169ac87ba31396872849750559d755e847e736c3249bbbf92ff4e6165"
+    },
+    {
+      "path": "runtime_artifacts/wave64_spatial_room_evidence/request_producer_probe_20260712T173525-0500/report.json",
+      "sha256": "9e81aa6dc7c9fb2ef009ad78377cac16a649daef68e01b09dbe4033ee6e6eae7"
+    },
+    {
+      "path": "runtime_artifacts/wave64_spatial_room_evidence/request_producer_probe_20260712T173525-0500/windows_tests.txt",
+      "sha256": "49c6f503b6f261e01b0c40d373dbb2225806c68cee381113f1eccddb3b2de657"
+    },
+    {
+      "path": "runtime_artifacts/wave64_spatial_room_evidence/20260711T200153-0500/probe_summary.json",
+      "sha256": "f1d3f597754ef42c2748ed0f7bde2df3f06e668f7e42654ee5ca4201ae392c58"
+    },
+    {
+      "path": "runtime_artifacts/wave64_spatial_room_evidence/20260711T200153-0500/windows_strict_tests.txt",
+      "sha256": "a2d28058d84f04ffec08a714753bd7f25d42f0b181bf84351476495b56976aa0"
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_audio_chain_20260714T163400-0500/delivery_manifest.json",
+      "sha256": "9eb91fb2c84105b470a27c939babd9ca8537045f3818f01f3187779e354c0a07"
+    }
   ],
-  "runtime": {
-    "genuine_room_mix_generation_count": 1,
-    "production_spatial_audio_generation_count": 0,
-    "production_spatial_audio_evaluation_count": 0,
-    "production_playback_review_count": 0,
-    "approved_production_bundle_count": 0,
-    "comfyui_started": false,
-    "aws_contacted": false,
-    "ec2_started": false
+  "implementation": {
+    "ambience_continuity_and_cut_authority_ready": true,
+    "canonical_root_and_transactional_output_ready": true,
+    "canonical_threshold_and_exact_hash_binding_ready": true,
+    "evidence_bundle_producer_ready": true,
+    "manifest_identity_and_no_clobber_output_ready": true,
+    "mix_balance_and_stem_reconstruction_ready": true,
+    "playback_runtime_and_production_authority_ready": true,
+    "producer_creates_no_authority_proof": true,
+    "recovered_legacy_readiness_adapter_ready": true,
+    "room_reverb_rt60_and_tail_evaluator_ready": true,
+    "spatial_position_and_camera_pan_evaluator_ready": true,
+    "synthetic_and_relabel_promotion_forbidden": true
   },
-  "next_action": "Bind the genuine room mix to strict geometry and room-acoustics measurements, then obtain independent playback, runtime, and allowlisted production proof; do not rebuild the completed mix unless review identifies an audio defect."
+  "item_id": "ITEM-W64-029",
+  "latest_runtime_proof": {
+    "classification": "W64_ROWS029_030_056_FULL_MIX_TECHNICAL_RUNTIME_PASS_AUTHORITY_BLOCKED",
+    "pass_like": false,
+    "path": "Plan/Instructions/QA/Evidence/Wave64/W64_ROOM_SPATIAL_FULL_MIX_RUNTIME_20260716T023716-0500.json",
+    "sha256": "cdca17c40d4a777e609afb98cd244a012c21114ef8674bfb4090c7382bceae21",
+    "technical_runtime_pass": true
+  },
+  "next_action": "Use the corrected hash-bound mux for independent full-duration playback and obtain measured geometry/room authority; do not rebuild the verified mix or claim production certification from technical evidence.",
+  "report_id": "ITEM-W64-029-AUDIO-SPATIAL-ROOM-20260714T082800-0500",
+  "row_complete": false,
+  "runtime": {
+    "approved_production_bundle_count": 0,
+    "aws_contacted": false,
+    "comfyui_started": false,
+    "ec2_started": false,
+    "genuine_room_mix_generation_count": 1,
+    "production_playback_review_count": 0,
+    "production_spatial_audio_evaluation_count": 0,
+    "production_spatial_audio_generation_count": 0
+  },
+  "schema_version": "1.0",
+  "status": "Blocked_Geometry_Room_Measurement_Playback_And_Production_Authority_Pending_Technical_Full_Mix_Runtime_Pass",
+  "timestamp": "2026-07-14T16:19:38-05:00",
+  "tracker_id": "TRK-W64-029",
+  "validation": {
+    "adversarial_relabel_probe": "expected_exit_2",
+    "authority_registry_unchanged_by_tests": true,
+    "bundle_schema_check": "pass",
+    "claude_recovered_readiness_review": "PASS_high_confidence",
+    "combined_tests_passed": 61,
+    "genuine_stereo_room_mix_created": true,
+    "genuine_stereo_room_mix_sha256": "5a07f0a654499266509453421c3efdc1b2e4ce83b8706e0138ebc4b1d3ad924a",
+    "python_compile": "pass",
+    "real_foley_and_original_ambience_present": true,
+    "recovered_readiness_tests_passed": 6,
+    "recovered_wavs_hash_verified_and_decoded": 9,
+    "recovered_wavs_matching_strict_profile": 0,
+    "remaining_remediable_high_or_medium_findings": 0,
+    "report_schema_check": "pass",
+    "room_mix_channels": 2,
+    "room_mix_sample_rate_hz": 48000,
+    "synthetic_technical_probe": "expected_exit_2",
+    "unit_test_errors": 0,
+    "unit_test_failures": 0,
+    "unit_test_skips": 0,
+    "unit_tests_passed": 55
+  },
+  "workstream": "audio_spatial_room"
 }
