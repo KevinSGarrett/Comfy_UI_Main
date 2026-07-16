@@ -1,0 +1,306 @@
+{
+  "schema_version": "1.0",
+  "runtime_classification": "W64_ROWS145_146_LIVE_COMFYUI_BRIDGE_SMOKE_PASS_PRODUCTION_BLOCKED",
+  "live_smoke": {
+    "api_url": "http://127.0.0.1:8188",
+    "artifact_type": "wave64_speech_bridge_live_headless_smoke",
+    "boundaries": {
+      "aws_or_ec2_used": false,
+      "candidate_media_written": false,
+      "content_based_suppression": false,
+      "mask_or_wave71_touched": false,
+      "media_generated": false,
+      "production_authority_claimed": false,
+      "promotion_attempted": false
+    },
+    "classification": "W64_ROWS145_146_LIVE_COMFYUI_BRIDGE_SMOKE_PASS_PRODUCTION_BLOCKED",
+    "media_tree_unchanged": true,
+    "node_object_info": {
+      "category": "Wave64/Speech",
+      "description": "",
+      "display_name": "Wave64 Speech Bridge (Dry Run)",
+      "has_intermediate_output": false,
+      "input": {
+        "required": {
+          "dry_run": [
+            "BOOLEAN",
+            {
+              "default": true
+            }
+          ],
+          "request_json": [
+            "STRING",
+            {
+              "default": "{}",
+              "multiline": true
+            }
+          ]
+        }
+      },
+      "input_order": {
+        "required": [
+          "request_json",
+          "dry_run"
+        ]
+      },
+      "is_input_list": false,
+      "name": "Wave64SpeechBridge",
+      "output": [
+        "STRING",
+        "STRING",
+        "STRING"
+      ],
+      "output_is_list": [
+        false,
+        false,
+        false
+      ],
+      "output_name": [
+        "result_json",
+        "status",
+        "cache_key"
+      ],
+      "output_node": true,
+      "python_module": "custom_nodes.wave64_speech_bridge",
+      "search_aliases": []
+    },
+    "prompt_id": "e82f64ad-32ef-48e6-8ef1-3b4d0c6bd12a",
+    "queue_idle_before": true,
+    "request": {
+      "authority": {
+        "asset_license_valid": true,
+        "engine_runtime_valid": true,
+        "exact_assets_resolved": true,
+        "production_authorized": false,
+        "voice_authority_valid": false
+      },
+      "dry_run": true,
+      "engine": {
+        "family": "qwen3_tts_base_icl_diagnostic",
+        "model_asset_sha256": [
+          "836b7b357f5ea43e889936a3709af68dfe3751881acefe4ecf0dbd30ba571258"
+        ],
+        "revision_sha256": "38fc7fc51c5e776e840414b6fd443962e9411b9654888fd7913e4da643cb857c"
+      },
+      "line_contract_sha256": "aa4f67bf968bf8af1f9fe5964ef06e16b626aca866bc57871c64323f604abe56",
+      "preprocessing_transform_ids": [
+        "none"
+      ],
+      "reference_bindings": [
+        {
+          "provenance_valid": true,
+          "rights_valid": true,
+          "sha256": "f1e5f767d775c514cf94cdedfdf0010961102a3358e095812301e5da72e6d932"
+        }
+      ],
+      "request_id": "w64_row145_146_live_smoke_001",
+      "sampling_params": {
+        "temperature": 0.9,
+        "top_k": 50,
+        "top_p": 1.0
+      },
+      "schema_version": "1.0",
+      "seed": 12401
+    },
+    "result": {
+      "blockers": [
+        "BLOCKED_VOICE_AUTHORITY_MISSING",
+        "BLOCKED_PRODUCTION_CERTIFICATION_INCOMPLETE"
+      ],
+      "boundaries": {
+        "aws_or_ec2_used": false,
+        "candidate_media_written": false,
+        "content_based_suppression": false,
+        "dry_run": true,
+        "engine_subprocess_called": false,
+        "mask_or_wave71_touched": false,
+        "media_generated": false,
+        "production_authority_claimed": false,
+        "promotion_attempted": false
+      },
+      "cache_key": "2468bcbf3f1c1a2f0e3514278ee1e9fbfb06d1a42d294762715babe0360b243b",
+      "cache_key_payload": {
+        "engine_family": "qwen3_tts_base_icl_diagnostic",
+        "engine_revision_hash": "38fc7fc51c5e776e840414b6fd443962e9411b9654888fd7913e4da643cb857c",
+        "line_contract_hash": "aa4f67bf968bf8af1f9fe5964ef06e16b626aca866bc57871c64323f604abe56",
+        "model_asset_hashes": [
+          "836b7b357f5ea43e889936a3709af68dfe3751881acefe4ecf0dbd30ba571258"
+        ],
+        "preprocessing_transform_ids": [
+          "none"
+        ],
+        "reference_hashes": [
+          "f1e5f767d775c514cf94cdedfdf0010961102a3358e095812301e5da72e6d932"
+        ],
+        "sampling_params": {
+          "temperature": 0.9,
+          "top_k": 50,
+          "top_p": 1.0
+        },
+        "seed": 12401
+      },
+      "classification": "W64_SPEECH_BRIDGE_DRY_RUN_VALIDATED_AUTHORITY_BLOCKED",
+      "request_id": "w64_row145_146_live_smoke_001",
+      "result_binding": {
+        "bytes": 1551,
+        "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_speech_bridge\\results\\w64_row145_146_live_smoke_001\\result.json",
+        "sha256": "b6dadf12f0d67290c2b14330f0522119dee1333a8472af7622482b43076bd2de"
+      },
+      "schema_version": "1.0",
+      "state_history": [
+        "REQUESTED",
+        "SCHEMA_VALIDATED",
+        "CACHE_KEY_COMPUTED",
+        "AUTHORITY_CHECKED",
+        "ROUTED_TO_DRY_RUN_NO_ENGINE_DISPATCH",
+        "RESULT_HASH_BOUND"
+      ],
+      "status": "BLOCKED",
+      "telemetry_binding": {
+        "bytes": 465,
+        "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_speech_cache\\telemetry\\w64_row145_146_live_smoke_001.861aedd8a2464c7293689a74bab196f5.json",
+        "sha256": "77d1a355edf8b34f578cd88644698511004f526502d156ad29ceff4cf59bd612"
+      }
+    },
+    "schema_version": "1.0"
+  },
+  "runtime_artifacts": {
+    "wave64_speech_bridge_live_smoke.json": {
+      "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\wave64_speech_bridge\\20260716T005615-0500_rows145_146_live\\wave64_speech_bridge_live_smoke.json",
+      "sha256": "60dfa8563bb2b1e1a558242aec04e6fffe581969d8e66a48d76eb71e7b5cf682",
+      "bytes": 4862
+    },
+    "wave64_speech_bridge_result.json": {
+      "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_speech_bridge\\results\\w64_row145_146_live_smoke_001\\result.json",
+      "sha256": "b6dadf12f0d67290c2b14330f0522119dee1333a8472af7622482b43076bd2de",
+      "bytes": 1551
+    },
+    "wave64_speech_bridge_telemetry.json": {
+      "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_speech_cache\\telemetry\\w64_row145_146_live_smoke_001.861aedd8a2464c7293689a74bab196f5.json",
+      "sha256": "77d1a355edf8b34f578cd88644698511004f526502d156ad29ceff4cf59bd612",
+      "bytes": 465
+    }
+  },
+  "durable_artifacts": {
+    "wave64_speech_bridge_live_smoke.json": {
+      "path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\w64_speech_bridge_20260716T005615-0500\\wave64_speech_bridge_live_smoke.json",
+      "sha256": "60dfa8563bb2b1e1a558242aec04e6fffe581969d8e66a48d76eb71e7b5cf682",
+      "bytes": 4862
+    },
+    "wave64_speech_bridge_result.json": {
+      "path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\w64_speech_bridge_20260716T005615-0500\\wave64_speech_bridge_result.json",
+      "sha256": "b6dadf12f0d67290c2b14330f0522119dee1333a8472af7622482b43076bd2de",
+      "bytes": 1551
+    },
+    "wave64_speech_bridge_telemetry.json": {
+      "path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\w64_speech_bridge_20260716T005615-0500\\wave64_speech_bridge_telemetry.json",
+      "sha256": "77d1a355edf8b34f578cd88644698511004f526502d156ad29ceff4cf59bd612",
+      "bytes": 465
+    }
+  },
+  "implementation": {
+    "request_schema": {
+      "path": "C:\\Comfy_UI_Main\\Plan\\08_SCHEMAS\\wave64_speech_bridge_request.schema.json",
+      "sha256": "9e441798851180e269b9006e1130a527b7ac79fe682e62497bc3c857b66a0260",
+      "bytes": 2557
+    },
+    "bridge_node": {
+      "path": "C:\\Comfy_UI_Main\\Plan\\07_IMPLEMENTATION\\comfyui_custom_nodes\\wave64_speech_bridge\\__init__.py",
+      "sha256": "30ff7ecbf3dd95129e69a28c30e7cba7e6eb9287f0dad4ceaf958dd4b736664b",
+      "bytes": 12567
+    },
+    "cache_manager": {
+      "path": "C:\\Comfy_UI_Main\\Plan\\07_IMPLEMENTATION\\scripts\\manage_wave64_speech_runtime_cache_cost.py",
+      "sha256": "80e46a59cdca358b43884d24d7108a1af12ff6baaf2b2751f5bd780cce2dff00",
+      "bytes": 3126
+    },
+    "installer_smoke": {
+      "path": "C:\\Comfy_UI_Main\\Plan\\07_IMPLEMENTATION\\scripts\\install_and_smoke_wave64_speech_bridge.py",
+      "sha256": "e117e1611705586d0076504bf4539cb65e337b92645b958e232fbaee60956b70",
+      "bytes": 9593
+    },
+    "finalizer": {
+      "path": "C:\\Comfy_UI_Main\\Plan\\07_IMPLEMENTATION\\scripts\\finalize_wave64_speech_rows145_146.py",
+      "sha256": "189e716c8515136088078054ab575e0017b9cdf156769a2f0f484d4dd17d2a27",
+      "bytes": 14600
+    },
+    "tests": {
+      "path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Scripts\\test_wave64_speech_bridge.py",
+      "sha256": "89fdf4f03ff87a6a243eb74593632b5c7621eb8d7d48f318596ff919c86c80d4",
+      "bytes": 6140
+    },
+    "finalizer_tests": {
+      "path": "C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Scripts\\test_finalize_wave64_speech_rows145_146.py",
+      "sha256": "748577097e844bd548608b8b7f9f2d3bca44bb8c1de778bae7d576e9f7683716",
+      "bytes": 4385
+    },
+    "workflow": {
+      "path": "C:\\Comfy_UI_Main\\Workflows\\audio_generation\\wave64_speech_bridge_dry_run\\workflow.api.json",
+      "sha256": "3d7d1780b0e3f2fe1bd567f7bd09a61bc980ba7c05fb18f9da5a89abd39fcc84",
+      "bytes": 1057
+    },
+    "runtime_requirements": {
+      "path": "C:\\Comfy_UI_Main\\Workflows\\audio_generation\\wave64_speech_bridge_dry_run\\runtime_requirements.json",
+      "sha256": "9ebcf941cd34ee1bad3f5633c3935caa897b27e4b3fb73391b2e235d69dcef99",
+      "bytes": 962
+    },
+    "smoke_contract": {
+      "path": "C:\\Comfy_UI_Main\\Workflows\\audio_generation\\wave64_speech_bridge_dry_run\\smoke_test_request.json",
+      "sha256": "21770814925087e6252fe3ce8d71d04d1b1f935b1eea6c8aeb1ddf2c994b767b",
+      "bytes": 626
+    }
+  },
+  "installed_node": {
+    "path": "C:\\Comfy_UI_Main\\ComfyUI\\custom_nodes\\wave64_speech_bridge\\__init__.py",
+    "sha256": "30ff7ecbf3dd95129e69a28c30e7cba7e6eb9287f0dad4ceaf958dd4b736664b",
+    "bytes": 12567
+  },
+  "cache_cost_report": {
+    "classification": "W64_SPEECH_RUNTIME_CACHE_COST_REPORT",
+    "telemetry_record_count": 1,
+    "cache_hit_count": 0,
+    "cache_hit_rate": 0.0,
+    "total_wall_clock_seconds": 0.0227777,
+    "estimated_cost_usd": null,
+    "boundaries": {
+      "local_control_plane_only": true,
+      "fabricated_dollar_cost": false,
+      "production_runtime_authority": false
+    }
+  },
+  "boundaries": {
+    "aws_or_ec2_used": false,
+    "candidate_media_written": false,
+    "content_based_suppression": false,
+    "mask_or_wave71_touched": false,
+    "media_generated": false,
+    "production_authority_claimed": false,
+    "promotion_attempted": false,
+    "bridge_is_dry_run_only": true,
+    "row144_promotion_touched": false,
+    "row_complete_claimed": false,
+    "pass_like_claimed": false
+  },
+  "artifact_type": "wave64_autonomous_hyperreal_speech_row145_evidence",
+  "row": {
+    "item_id": "ITEM-W64-145",
+    "tracker_id": "TRK-W64-145",
+    "implemented_capability": "live dependency-light ComfyUI output node with schema validation, structured authority blocking, tracked API workflow, and no-media /prompt proof",
+    "status": "Blocked_Production_Engine_Dispatch_And_Voice_Authority_Pending_Live_Bridge_Smoke_Pass",
+    "automated_gates": {
+      "installed_hash_matches_canonical": true,
+      "live_object_info_pass": true,
+      "live_prompt_execution_pass": true,
+      "structured_authority_blocker_pass": true,
+      "no_media_or_promotion_pass": true,
+      "production_engine_dispatch_pass": false,
+      "production_voice_authority_pass": false
+    },
+    "blockers": [
+      "production voice authority is missing",
+      "the bridge version is dry-run only and does not dispatch a production engine"
+    ],
+    "pass_like": false
+  },
+  "row_complete": false
+}

@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0",
+  "workflow_lane": "wave64_speech_bridge_dry_run",
+  "api_endpoint": "/prompt",
+  "preconditions": [
+    "ComfyUI queue is idle",
+    "object_info exposes Wave64SpeechBridge",
+    "installed node SHA-256 matches canonical source"
+  ],
+  "acceptance": [
+    "prompt completes successfully",
+    "result classification is W64_SPEECH_BRIDGE_DRY_RUN_VALIDATED_AUTHORITY_BLOCKED",
+    "voice and production authority blockers remain present",
+    "no image or audio output is emitted",
+    "candidate and promoted media trees remain unchanged",
+    "cache key and local telemetry are hash-bound"
+  ]
+}
