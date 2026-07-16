@@ -57,6 +57,8 @@ class Wave64AlignmentVisemeSpatialEvaluatorTests(unittest.TestCase):
                 "fixture_is_production_alignment": False,
                 "automated_metrics_are_human_playback": False,
                 "production_ready": False,
+                "aws_or_ec2_used": False,
+                "mask_or_wave71_touched": False,
             },
         }
         for key in base["boundaries"]:
