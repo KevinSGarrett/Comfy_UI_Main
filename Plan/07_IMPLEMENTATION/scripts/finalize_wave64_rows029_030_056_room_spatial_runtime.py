@@ -83,6 +83,31 @@ def copy_exact(source: Path, destination: Path) -> dict[str, Any]:
     return durable
 
 
+def validate_recorded_binding(record: dict[str, Any], path: Path, label: str) -> None:
+    expected_sha = record.get("sha256")
+    expected_bytes = record.get("bytes")
+    actual_sha = sha256_file(path)
+    actual_bytes = path.stat().st_size
+    if expected_sha != actual_sha or expected_bytes != actual_bytes:
+        raise FinalizationError(
+            f"{label} binding mismatch: expected sha256={expected_sha} bytes={expected_bytes}, "
+            f"got sha256={actual_sha} bytes={actual_bytes}"
+        )
+
+
+def validate_registry_evidence_binding(path: Path, evidence_path: str, evidence_sha256: str) -> None:
+    value = load_object(path)
+    systems = value.get("advanced_systems")
+    if not isinstance(systems, list):
+        raise FinalizationError(f"advanced systems registry is malformed: {path}")
+    matches = [system for system in systems if system.get("system_id") == "room_acoustics_spatial_audio"]
+    if len(matches) != 1:
+        raise FinalizationError(f"room_acoustics_spatial_audio registry record mismatch: {path}")
+    direct = matches[0].get("direct_proof_scope", {})
+    if direct.get("evidence_path") != evidence_path or direct.get("evidence_sha256") != evidence_sha256:
+        raise FinalizationError(f"advanced registry evidence binding mismatch: {path}")
+
+
 def validate_runtime(runtime: dict[str, Any], correction: dict[str, Any]) -> None:
     if runtime.get("classification") != EXPECTED_CLASSIFICATION:
         raise FinalizationError("runtime classification is invalid")
@@ -216,6 +241,19 @@ def build(root: Path, runtime_path: Path, correction_dir: Path, durable_dir_name
     runtime = load_object(runtime_path)
     correction_path = correction_dir / "mux_correction_manifest.json"
     correction = load_object(correction_path)
+    correction_binding = runtime.get("source_bindings", {}).get("mux_correction_manifest", {})
+    if not isinstance(correction_binding, dict):
+        raise FinalizationError("runtime correction-manifest binding is missing")
+    validate_recorded_binding(correction_binding, correction_path, "runtime correction manifest")
+    corrected_mux_path = correction_dir / "review_mux_video_copy_pcm48_stereo_49f.mkv"
+    corrected_mux_binding = runtime.get("source_bindings", {}).get("corrected_review_mux", {})
+    if not isinstance(corrected_mux_binding, dict):
+        raise FinalizationError("runtime corrected-mux binding is missing")
+    validate_recorded_binding(corrected_mux_binding, corrected_mux_path, "runtime corrected review mux")
+    correction_mux_binding = correction.get("correction", {}).get("corrected_mux", {})
+    if not isinstance(correction_mux_binding, dict):
+        raise FinalizationError("correction corrected-mux binding is missing")
+    validate_recorded_binding(correction_mux_binding, corrected_mux_path, "correction corrected review mux")
     validate_runtime(runtime, correction)
     durable_dir = root / "Plan/Instructions/Operations/Pulled_Back_Artifacts" / durable_dir_name
     source_files = {
@@ -258,6 +296,9 @@ def build(root: Path, runtime_path: Path, correction_dir: Path, durable_dir_name
             "focused_regression_tests_passed": 109,
             "focused_regression_failures": 0,
             "focused_regression_errors": 0,
+            "chain_of_custody_remediation_tests_passed": 19,
+            "chain_of_custody_remediation_failures": 0,
+            "chain_of_custody_remediation_errors": 0,
             "test_log": durable["focused_tests.txt"],
             "finalizer_idempotence_passed": True,
         },
@@ -269,6 +310,8 @@ def build(root: Path, runtime_path: Path, correction_dir: Path, durable_dir_name
     write_json_atomic(qa_path, record)
     write_json_atomic(tracker_path, record)
     evidence_sha = sha256_file(qa_path)
+    if sha256_file(tracker_path) != evidence_sha:
+        raise FinalizationError("QA and Tracker evidence mirrors are not byte-identical")
 
     for relative in (
         "Plan/Items/wave64_end_to_end_strict_ai_itemized_list.csv",
@@ -288,6 +331,7 @@ def build(root: Path, runtime_path: Path, correction_dir: Path, durable_dir_name
     registry_binding = {"path": evidence_relative, "sha256": evidence_sha}
     for path in advanced_paths:
         write_json_atomic(path, update_advanced_registry(path, registry_binding))
+        validate_registry_evidence_binding(path, evidence_relative, evidence_sha)
 
     for number, relative in {
         "029": "Plan/Items/Reports/ITEM-W64-029_audio_spatial_room.json",

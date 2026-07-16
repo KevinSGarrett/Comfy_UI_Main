@@ -78,6 +78,27 @@ class FinalizeRows029030056Tests(unittest.TestCase):
             with self.assertRaises(MODULE.FinalizationError):
                 MODULE.copy_exact(source, destination)
 
+    def test_recorded_binding_rejects_stale_hash(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "artifact.json"
+            path.write_bytes(b"{}\n")
+            with self.assertRaisesRegex(MODULE.FinalizationError, "binding mismatch"):
+                MODULE.validate_recorded_binding(
+                    {"sha256": "0" * 64, "bytes": path.stat().st_size}, path, "fixture"
+                )
+
+    def test_registry_binding_rejects_stale_evidence_hash(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "registry.json"
+            MODULE.write_json_atomic(path, {
+                "advanced_systems": [{
+                    "system_id": "room_acoustics_spatial_audio",
+                    "direct_proof_scope": {"evidence_path": "evidence.json", "evidence_sha256": "a" * 64},
+                }],
+            })
+            with self.assertRaisesRegex(MODULE.FinalizationError, "evidence binding mismatch"):
+                MODULE.validate_registry_evidence_binding(path, "evidence.json", "b" * 64)
+
 
 if __name__ == "__main__":
     unittest.main()

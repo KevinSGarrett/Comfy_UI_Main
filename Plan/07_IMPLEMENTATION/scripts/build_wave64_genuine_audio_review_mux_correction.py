@@ -53,6 +53,15 @@ def binding(path: Path, expected_sha256: str | None = None) -> dict[str, Any]:
     return {"path": str(path), "sha256": actual, "bytes": path.stat().st_size}
 
 
+def write_json_lf(path: Path, value: dict[str, Any]) -> None:
+    content = json.dumps(value, indent=2, ensure_ascii=True, sort_keys=True) + "\n"
+    with path.open("w", encoding="utf-8", newline="\n") as handle:
+        handle.write(content)
+    payload = path.read_bytes()
+    if b"\r" in payload or not payload.endswith(b"\n"):
+        raise MuxCorrectionError(f"JSON output is not canonical LF UTF-8: {path}")
+
+
 def write_padded_pcm16_stereo(source: Path, destination: Path) -> dict[str, Any]:
     with wave.open(str(source), "rb") as handle:
         profile = (handle.getnchannels(), handle.getsampwidth(), handle.getframerate(), handle.getcomptype())
@@ -249,14 +258,12 @@ def build(args: argparse.Namespace) -> dict[str, Any]:
             "row_complete": False,
         }
         manifest_path = temporary / "mux_correction_manifest.json"
-        manifest_path.write_text(json.dumps(manifest, indent=2, ensure_ascii=True, sort_keys=True) + "\n", encoding="utf-8")
+        write_json_lf(manifest_path, manifest)
         os.replace(temporary, output_dir)
         manifest["correction"]["padded_audio"]["path"] = str(output_dir / padded_audio.name)
         manifest["correction"]["corrected_mux"]["path"] = str(output_dir / corrected_mux.name)
         manifest["correction"]["contact_sheet"]["path"] = str(output_dir / contact_sheet.name)
-        (output_dir / manifest_path.name).write_text(
-            json.dumps(manifest, indent=2, ensure_ascii=True, sort_keys=True) + "\n", encoding="utf-8"
-        )
+        write_json_lf(output_dir / manifest_path.name, manifest)
         return manifest
     except Exception:
         shutil.rmtree(temporary, ignore_errors=True)

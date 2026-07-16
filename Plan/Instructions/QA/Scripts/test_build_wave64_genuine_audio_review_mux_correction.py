@@ -61,6 +61,14 @@ class GenuineAudioReviewMuxCorrectionTests(unittest.TestCase):
         with self.assertRaises(MODULE.MuxCorrectionError):
             MODULE.authoritative_video_duration(49, 0.0)
 
+    def test_json_writer_is_exact_lf_on_windows(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "manifest.json"
+            MODULE.write_json_lf(path, {"value": "line"})
+            payload = path.read_bytes()
+            self.assertNotIn(b"\r", payload)
+            self.assertTrue(payload.endswith(b"\n"))
+
 
 if __name__ == "__main__":
     unittest.main()
