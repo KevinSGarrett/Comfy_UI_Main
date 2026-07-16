@@ -68,6 +68,18 @@ function Has-Property {
   return $null -ne ($Object.PSObject.Properties[$Name])
 }
 
+function Test-StrictBooleanProperty {
+  param(
+    [object]$Object,
+    [string]$Name,
+    [bool]$Expected
+  )
+
+  if (!(Has-Property -Object $Object -Name $Name)) { return $false }
+  $value = $Object.PSObject.Properties[$Name].Value
+  return ($value -is [bool] -and $value -eq $Expected)
+}
+
 function Read-JsonFile {
   param([Parameter(Mandatory=$true)][string]$Path)
 
@@ -359,8 +371,57 @@ function Test-LocalRuntimeVisualQaEvidence {
   param(
     [string]$LaneId,
     [string]$RuntimeDirectory,
-    [string]$ImageQaDirectory
+    [string]$ImageQaDirectory,
+    [object]$QueueLane
   )
+
+  $proofPaths = $(if ($null -ne $QueueLane -and (Has-Property -Object $QueueLane -Name "proof_evidence")) { @($QueueLane.proof_evidence | ForEach-Object { [string]$_ }) } else { @() })
+  foreach ($proofPath in $proofPaths) {
+    $resolvedProofPath = Resolve-ProjectPath -Path $proofPath
+    if (!(Test-Path -LiteralPath $resolvedProofPath -PathType Leaf)) { continue }
+    try {
+      $payload = Read-JsonFile -Path $resolvedProofPath
+      if (!(Test-JsonMatchesLane -Payload $payload -ExpectedLaneId $LaneId)) { continue }
+      $reviews = $(if (Has-Property -Object $payload -Name "visual_reviews") { @($payload.visual_reviews.PSObject.Properties | ForEach-Object { $_.Value }) } else { @() })
+      $runtimeOutputs = $(if ((Has-Property -Object $payload -Name "runtime") -and (Has-Property -Object $payload.runtime -Name "outputs")) { @($payload.runtime.outputs.PSObject.Properties | ForEach-Object { @($_.Value) }) } else { @() })
+      $runtimePromptIds = $(if ((Has-Property -Object $payload -Name "runtime") -and (Has-Property -Object $payload.runtime -Name "prompt_ids")) { @($payload.runtime.prompt_ids.PSObject.Properties) } else { @() })
+      $canonicalRuntimePassed = (
+        (Has-Property -Object $payload -Name "result") -and [string]$payload.result -like "pass*" -and
+        (Has-Property -Object $payload -Name "boundaries") -and
+        (Test-StrictBooleanProperty -Object $payload.boundaries -Name "local_8gb_runtime_proven" -Expected $true) -and
+        (Test-StrictBooleanProperty -Object $payload.boundaries -Name "ec2_started" -Expected $false) -and
+        (Test-StrictBooleanProperty -Object $payload.boundaries -Name "aws_or_s3_mutated" -Expected $false) -and
+        $runtimePromptIds.Count -gt 0 -and $runtimeOutputs.Count -gt 0
+      )
+      $canonicalVisualQaPassed = (
+        $reviews.Count -gt 0 -and
+        @($reviews | Where-Object { !(Test-StrictBooleanProperty -Object $_ -Name "visual_pass" -Expected $true) }).Count -eq 0 -and
+        (Has-Property -Object $payload -Name "check_summary") -and
+        (Has-Property -Object $payload.check_summary -Name "failed") -and [int]$payload.check_summary.failed -eq 0
+      )
+      if ($canonicalRuntimePassed -and $canonicalVisualQaPassed) {
+        $relativeProofPath = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $resolvedProofPath
+        return [ordered]@{
+          name = "local_runtime_visual_qa"
+          path = $relativeProofPath
+          found = $true
+          passed = $true
+          expected = "lane-matched local runtime generation pass plus local visual QA pass"
+          observed = "hash_bound_combined_runtime_visual_qa"
+          details = [ordered]@{
+            runtime_evidence = $relativeProofPath
+            image_qa_evidence = $relativeProofPath
+            prompt_count = $runtimePromptIds.Count
+            output_group_count = $runtimeOutputs.Count
+            visual_review_count = $reviews.Count
+            claim_boundary = "Local runtime and visual QA evidence only; not target-runtime EC2 proof, final certification, gold body-mask proof, or Wave71 activation."
+          }
+        }
+      }
+    } catch {
+      continue
+    }
+  }
 
   $runtimeMatch = Find-LatestEvidence -Directories @($RuntimeDirectory) -ExpectedLaneId $LaneId -Predicate {
     param($payload)
@@ -522,8 +583,8 @@ if (Test-Path -LiteralPath $baseGenerationRoot) {
     $workflowSmokeDryRunCheck = Test-WorkflowSmokeDryRunEvidence -LaneId $laneId -Directories @($workflowStaticDir, $workflowRuntimeDir)
     $laneReadinessCheck = Test-LaneReadinessEvidence -LaneId $laneId -Directories @($runtimeReadinessDir)
     $localPackageSmokeCheck = Test-LocalPackageSmokeMatrixEvidence -LaneId $laneId -MatrixMatch $localPackageSmokeMatrix
-    $localRuntimeVisualQaCheck = Test-LocalRuntimeVisualQaEvidence -LaneId $laneId -RuntimeDirectory $workflowRuntimeDir -ImageQaDirectory $imageQaDir
     $queueLane = @($queueLanes | Where-Object { [string]$_.lane_id -eq $laneId } | Select-Object -First 1)
+    $localRuntimeVisualQaCheck = Test-LocalRuntimeVisualQaEvidence -LaneId $laneId -RuntimeDirectory $workflowRuntimeDir -ImageQaDirectory $imageQaDir -QueueLane $(if ($queueLane.Count -gt 0) { $queueLane[0] } else { $null })
     $blockedLaneAuthorityCheck = Test-BlockedLaneAuthorityEvidence -LaneId $laneId -QueueLane $(if ($queueLane.Count -gt 0) { $queueLane[0] } else { $null })
     $checks = @(
       $workflowStaticCheck,

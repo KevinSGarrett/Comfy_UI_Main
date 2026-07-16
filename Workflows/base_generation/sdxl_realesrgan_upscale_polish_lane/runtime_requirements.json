@@ -18,8 +18,8 @@
                                 "node_class":  "UpscaleModelLoader",
                                 "input":  "model_name",
                                 "sha256":  "4fa0d38905f75ac06eb49a7951b426670021be3018265fd191d2125df9d682f1",
-                                "hash_status":  "local_sha256_verified",
-                                "path_status":  "local_model_present"
+                                "hash_status":  "verified_ec2_static_and_target_runtime",
+                                "path_status":  "verified_ec2_static_and_target_runtime"
                             }
                         ],
     "required_inputs":  [
@@ -57,21 +57,22 @@
                                   "policy":  "Plan/10_REGISTRIES/realesrgan_export_selection_policy.json",
                                   "candidate_registry":  "Plan/10_REGISTRIES/realesrgan_export_candidate_registry.json",
                                   "evaluator":  "Plan/07_IMPLEMENTATION/scripts/evaluate_realesrgan_export_selection.py",
-                                  "qa_evidence":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_REALESRGAN_SOURCE_SELECTION_EXPORT_GATE_20260711T044500-0500.json",
+                                  "qa_evidence":  "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_REALESRGAN_SOURCE_SELECTION_EXPORT_GATE_20260713T212500-0500.json",
                                   "future_candidates_must_pass_gate":  true,
                                   "source_master_retention_required":  true,
-                                  "final_production_export_allowed":  false,
+                                  "final_production_export_allowed":  true,
                                   "current_decisions":  {
                                                             "canny_portrait_seed711570105":  "reject_upscale_technical_failure",
                                                             "normal_fullbody_seed711670301":  "conditional_resolution_export_retain_source_master",
-                                                            "two_character_contact_seed7152026252":  "retain_source_reject_upscale_as_preferred"
+                                                            "two_character_contact_seed7152026252":  "retain_source_reject_upscale_as_preferred",
+                                                            "normal_fullbody_seed711670301_target_cbd75ef8":  "conditional_resolution_export_retain_source_master"
                                                         }
                               },
-    "current_status":  "local_realesrgan_source_selection_policy_enforced_one_conditional_two_rejected_pending_target_runtime_and_final_certification",
+    "current_status":  "bounded_target_runtime_conditional_resolution_export_complete_source_master_retained",
     "known_blockers":  [
                            "No current sample is explicitly preferred over its source for hyperrealism quality; source masters must be retained.",
                            "The older Canny portrait misses the strict 0.95 SSIM threshold, and the two-character output is rejected as preferred because of waxy skin and dense-fabric over-sharpening.",
-                           "Target-runtime proof and final lane review remain separate from the completed local source-selection gate."
+                           "The completed target candidate is conditional-resolution-only and must not be described as a preferred hyperrealism improvement."
                        ],
     "evidence_paths":  [
                            "Plan/Instructions/QA/Evidence/Model_Registry/W69_LOCAL_REALESRGAN_UPSCALE_MODEL_PROVISIONING_20260707T110500-0500.json",
@@ -90,7 +91,11 @@
                            "Plan/10_REGISTRIES/realesrgan_export_selection_policy.json",
                            "Plan/10_REGISTRIES/realesrgan_export_candidate_registry.json",
                            "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_REALESRGAN_SOURCE_SELECTION_EXPORT_GATE_20260711T044500-0500.json",
-                           "Plan/Instructions/QA/Evidence/Done_Certifications/W70_REALESRGAN_SOURCE_SELECTION_EXPORT_GATE_DONE_20260711T044500-0500.json"
+                           "Plan/Instructions/QA/Evidence/Done_Certifications/W70_REALESRGAN_SOURCE_SELECTION_EXPORT_GATE_DONE_20260711T044500-0500.json",
+                           "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_REALESRGAN_NORMAL_FULLBODY_TARGET_RUNTIME_CBD75EF8_20260713T211500-0500.json",
+                           "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_REALESRGAN_NORMAL_FULLBODY_TARGET_RUNTIME_VISUAL_QA_CBD75EF8_20260713T211500-0500.json",
+                           "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_REALESRGAN_SOURCE_SELECTION_EXPORT_GATE_20260713T212500-0500.json",
+                           "Plan/Instructions/QA/Evidence/Done_Certifications/W70_REALESRGAN_SOURCE_SELECTION_EXPORT_GATE_DONE_20260713T212500-0500.json"
                        ],
-    "status_notes":  "The fail-closed source-selection gate evaluated all three hash-bound local samples and passed all eight decision fixtures plus seven strict evidence-binding fixtures. Normal full-body is allowed only for conditional resolution export with its source master retained. The older Canny portrait is rejected by SSIM 0.93165 below the strict 0.95 threshold. The two-character upscale passes technical preservation but is rejected as preferred because skin becomes waxier and patterned fabric is over-sharpened. No final production export is allowed without target-runtime proof and final lane review."
+    "status_notes":  "The fail-closed selector evaluated four hash-bound candidates and passed eight decision, seven visual-binding, and six target-runtime tamper fixtures. The target-runtime Normal full-body result passes exact 4x preservation and is allowed only for conditional resolution delivery with its source master retained. No candidate is preferred over its source for hyperrealism quality."
 }

@@ -39,8 +39,8 @@
       "input": "ckpt_name",
       "local_hash_status": "verified_local",
       "local_path_status": "present_local_ignored_model_path",
-      "hash_status": "pending_ec2_static_match",
-      "path_status": "pending_ec2_static_match"
+      "hash_status": "verified_ec2_static_and_target_runtime",
+      "path_status": "verified_ec2_static_and_target_runtime"
     },
     {
       "role": "controlnet",
@@ -60,8 +60,8 @@
       "input": "control_net_name",
       "local_hash_status": "verified_local",
       "local_path_status": "present_local_ignored_model_path",
-      "hash_status": "pending_ec2_static_match",
-      "path_status": "pending_ec2_static_match"
+      "hash_status": "verified_ec2_static_and_target_runtime",
+      "path_status": "verified_ec2_static_and_target_runtime"
     }
   ],
   "required_input_assets": [
@@ -102,12 +102,11 @@
   "runtime_output_required": true,
   "qa_report_required": true,
   "promotion_allowed_without_evidence": false,
-  "current_status": "local_openpose_tablehands_and_fullbody_walking_multiseed_robustness_pass_with_notes_pending_target_runtime_and_final_certification",
+  "current_status": "bounded_target_runtime_openpose_v6_seed711470303_final_certification_complete_with_footwear_note",
   "known_blockers": [
-    "Target-runtime EC2 proof is still separate from this local proof.",
-    "OpenPose table-hands and full-body walking local multisample robustness pass with notes; target-runtime proof and final lane review remain incomplete.",
+    "Target-runtime certification is bounded to the exact OpenPose v6 full-body walking seed 711470303 configuration.",
     "OpenPose body topology ends at ankle landmarks, so detailed foot/toe control remains unproven; whole-image hands are coherent but detailed finger geometry is not authority.",
-    "One full-body seed generated black sneakers instead of the requested white sneakers."
+    "Seed 711470303 generated black shoes with white soles instead of fully white footwear."
   ],
   "evidence_paths": [
     "Plan/Instructions/QA/Evidence/Runtime_Readiness/W69_LOCAL_OBJECT_INFO_CONTROL_PREPROCESSORS_AFTER_AUX_INSTALL_20260707T052500-0500.json",
@@ -154,7 +153,10 @@
     "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_OPENPOSE_V6_FULL_BODY_ROBUSTNESS_SEED711470302_20260711T044500-0500.json",
     "Plan/Instructions/QA/Evidence/Workflow_Runtime/W70_LOCAL_OPENPOSE_V6_FULL_BODY_ROBUSTNESS_SEED711470303_20260711T044500-0500.json",
     "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_OPENPOSE_V6_FULL_BODY_MULTISEED_ROBUSTNESS_QA_20260711T045000-0500.json",
-    "Plan/Instructions/QA/Evidence/Done_Certifications/W70_OPENPOSE_V6_FULL_BODY_MULTISEED_ROBUSTNESS_DONE_20260711T045000-0500.json"
+    "Plan/Instructions/QA/Evidence/Done_Certifications/W70_OPENPOSE_V6_FULL_BODY_MULTISEED_ROBUSTNESS_DONE_20260711T045000-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_OPENPOSE_V6_TARGET_RUNTIME_RECOVERED_PULLBACK_61596842_20260713T200200-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W64_OPENPOSE_V6_TARGET_RUNTIME_VISUAL_QA_61596842_20260713T200300-0500.json",
+    "Plan/Instructions/QA/Evidence/Done_Certifications/W64_OPENPOSE_LANE_BOUNDED_TARGET_RUNTIME_FINAL_CERTIFICATION_61596842_20260713T200400-0500.json"
   ],
-  "status_notes": "OpenPose V4/V5 tabletop-hands robustness remains passed with notes. V6 adds three-seed true full-body walking robustness from a hash-recorded DWPose map: runtime and pose scope pass 3/3, all samples retain 18 common landmarks, crossed-leg topology, visible hands/shoes, coherent limbs, and no control-map leakage. Seed 711470303 drifted to black sneakers. Detailed finger/foot geometry, target-runtime proof, and final lane certification remain separate."
+  "status_notes": "OpenPose V4/V5 tabletop-hands and V6 three-seed local robustness remain passed with notes. The exact V6 full-body walking seed 711470303 configuration now also has bounded target-runtime static, model-hash, input-hash, generation, recovered-pullback, visual-QA, and final-certification evidence. The footwear-color drift and detailed finger/foot geometry exclusions remain."
 }
