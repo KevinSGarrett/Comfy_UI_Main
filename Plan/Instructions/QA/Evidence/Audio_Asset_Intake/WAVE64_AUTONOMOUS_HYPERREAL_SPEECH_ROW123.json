@@ -1,0 +1,144 @@
+{
+  "schema_version": "1.0",
+  "artifact_type": "wave64_bounded_multi_engine_dialogue_candidate_set",
+  "created_at": "2026-07-15T19:32:33-05:00",
+  "tracker_id": "TRK-W64-123",
+  "item_id": "ITEM-W64-123",
+  "classification": "W64_ROW123_BOUNDED_MULTI_ENGINE_CANDIDATE_SET_COMPLETE",
+  "status": "Completed_Bounded_Multi_Engine_Candidate_Set_Immutable_Downstream_QA_Pending",
+  "candidate_count": 4,
+  "engine_family_count": 4,
+  "candidates": [
+    {
+      "engine_family": "parler_tts",
+      "evidence": {
+        "path": "Plan/Instructions/QA/Evidence/Wave64/W64_PARLER_TTS_LOCAL_RUNTIME_ASR_20260714T191849-0500.json",
+        "sha256": "fddd070b37ce16f80da97356d478a52ade1cc49e96e9b5d525b5dff480661d89",
+        "bytes": 8315
+      },
+      "outcome": "PARLER_TTS_LOCAL_RUNTIME_AND_ASR_PASS_FINAL_CERTIFICATION_BLOCKED",
+      "immutable": true,
+      "hash_bound": true,
+      "retry_authorized": false
+    },
+    {
+      "engine_family": "cosyvoice2",
+      "evidence": {
+        "path": "Plan/Instructions/QA/Evidence/Wave64/W64_COSYVOICE2_CORRECTED_REFERENCE_CANDIDATE_20260715T064000-0500.json",
+        "sha256": "3da1dcab69ac28204d575e5389c50bb8f976bf9f819ba9da089781fd5941795a",
+        "bytes": 8250
+      },
+      "outcome": "COSYVOICE2_CONTENT_SPEAKER_METRICS_PASS_TIMING_AND_STYLE_BLOCKED",
+      "immutable": true,
+      "hash_bound": true,
+      "retry_authorized": false
+    },
+    {
+      "engine_family": "chatterbox",
+      "evidence": {
+        "path": "Plan/Instructions/QA/Evidence/Wave64/W64_CHATTERBOX_DIALOGUE_REJECTION_20260715T092901-0500.json",
+        "sha256": "fa524a959e5d28b37709f22eb96768e4ca02816babd3a327bc47576dc39cc4c0",
+        "bytes": 8142
+      },
+      "outcome": "CHATTERBOX_DIALOGUE_REJECTED_NO_RETRY",
+      "immutable": true,
+      "hash_bound": true,
+      "retry_authorized": false
+    },
+    {
+      "engine_family": "qwen3_tts",
+      "candidate_manifest": {
+        "path": "runtime_artifacts/wave64_qwen3_tts_candidate/20260715T190042-0500_seed12345/qwen3_tts_voicedesign_seed12345.manifest.json",
+        "sha256": "7b4599ab4153793a4d570fa5f02c813ba63dc137dcac8c0fc247ef2d6e779426",
+        "bytes": 4726
+      },
+      "evaluation": {
+        "path": "runtime_artifacts/wave64_qwen3_tts_candidate/20260715T192754-0500_seed12345_evaluation.json",
+        "sha256": "e23cf9999fea7b78ae2a23424f7bce30d507ab42e2b9018bfc5c5887d8a7e206",
+        "bytes": 4606
+      },
+      "candidate_audio": {
+        "path": "C:\\Comfy_UI_Main\\runtime_artifacts\\wave64_qwen3_tts_candidate\\20260715T190042-0500_seed12345\\qwen3_tts_voicedesign_seed12345.wav",
+        "sha256": "8e09cb229d5fb5b9e04b9977500747925f96eab584cfa97cb9b22e25fd8c8819",
+        "bytes": 138284
+      },
+      "outcome": "FAIL_QWEN3_TTS_DIALOGUE_TIMING",
+      "immutable": true,
+      "hash_bound": true,
+      "retry_authorized": false
+    }
+  ],
+  "implementation": {
+    "runner": {
+      "path": "Plan/07_IMPLEMENTATION/scripts/run_wave64_qwen3_tts_candidate.py",
+      "sha256": "1e4d297018168f8f04badaf5db36d1e8848f79d58c8df1241b7a6af1058b06e5",
+      "bytes": 10162
+    },
+    "evaluator": {
+      "path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_qwen3_tts_candidate.py",
+      "sha256": "1cd2b43ef96aa673858e7c42ccc303a4f5e4ae028c507b56fc0a2ab403742780",
+      "bytes": 13782
+    },
+    "tracking_adapter": {
+      "path": "C:\\Comfy_UI_Main\\Plan\\07_IMPLEMENTATION\\scripts\\apply_wave64_row123_candidate_set_tracking.py",
+      "sha256": "533de46b14238a33ee875142278a8f13ad85d656318e7cd4d2e1b4e4f7b28ab8",
+      "bytes": 15766
+    }
+  },
+  "verification": {
+    "pytest_passed": 26,
+    "pytest_failed": 0,
+    "test_files": [
+      {
+        "path": "Plan/Instructions/QA/Scripts/test_run_wave64_qwen3_tts_candidate.py",
+        "sha256": "dfc3a94269dd803ab31a44237944014b69f968a1a8496c8fbfa73a455dac1251",
+        "bytes": 1848
+      },
+      {
+        "path": "Plan/Instructions/QA/Scripts/test_evaluate_wave64_qwen3_tts_candidate.py",
+        "sha256": "1a17c28e76c19b95f05550c35a90346a4cfd92a351f3afce9e61787d9d06628c",
+        "bytes": 3699
+      },
+      {
+        "path": "Plan/Instructions/QA/Scripts/test_apply_wave64_row123_candidate_set_tracking.py",
+        "sha256": "6a1b589476207d630f77f34c1a6572ebf2f079e7ff2427d161b31a806efeb509",
+        "bytes": 1533
+      }
+    ],
+    "evidence_mirror_byte_identical": true,
+    "items_tracker_requirements_byte_identical": true
+  },
+  "qwen_automated_qa": {
+    "technical_audio_pass": true,
+    "normalized_wer": 0.0,
+    "asr_transcript": "We hold the frame steady and move on the beat.",
+    "timing_pass": false,
+    "duration_seconds": 2.88,
+    "target_duration_seconds": 3.0,
+    "tolerance_seconds": 0.08,
+    "exact_blocker": "raw duration is 2.880 seconds, 0.120 seconds short of the 3.000-second target and outside the 0.080-second native-timing tolerance"
+  },
+  "acceptance": {
+    "multi_engine_set_present": true,
+    "reproducible_hash_bound": true,
+    "count_limited": true,
+    "rejected_evidence_overwritten": false,
+    "row123_generation_complete": true,
+    "downstream_qa_or_promotion_complete": false
+  },
+  "remaining_downstream_blockers": [
+    "the Qwen candidate fails native timing and is not eligible for playback review",
+    "speaker identity, emotion, delivery style, intensity, playback, and production authority remain unresolved",
+    "candidate-set completion does not complete Rows124-148 or final speech certification"
+  ],
+  "boundaries": {
+    "candidate_regenerated": false,
+    "candidate_media_mutated": false,
+    "rejected_candidate_rerun": false,
+    "human_or_model_playback_fabricated": false,
+    "production_promotion_claimed": false,
+    "content_based_suppression": false,
+    "aws_or_ec2_used": false,
+    "mask_or_wave71_touched": false
+  }
+}
