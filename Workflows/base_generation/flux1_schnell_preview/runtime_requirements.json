@@ -1,0 +1,65 @@
+{
+  "lane_id": "flux1_schnell_preview",
+  "engine_family": "flux1_schnell",
+  "workflow_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux1_schnell_preview/workflow.api.json",
+  "workflow_path_policy": "canonical_plan_authority_with_byte_identical_runtime_mirror",
+  "required_nodes": [
+    "CheckpointLoaderSimple",
+    "ModelSamplingFlux",
+    "CLIPTextEncodeFlux",
+    "EmptySD3LatentImage",
+    "KSampler",
+    "VAEDecode",
+    "SaveImage"
+  ],
+  "required_models": [
+    {
+      "role": "checkpoint",
+      "node_id": "1",
+      "node_class": "CheckpointLoaderSimple",
+      "input": "ckpt_name",
+      "comfyui_model_subdir": "checkpoints",
+      "filename": "flux1-schnell-fp8.safetensors",
+      "sha256": "ead426278b49030e9da5df862994f25ce94ab2ee4df38b556ddddb3db093bf72",
+      "bytes": 17236328572,
+      "source_status": "existing_legacy_model_cache_reused_without_network_transfer",
+      "hash_status": "observed_external_local_sha256_verified",
+      "path_status": "present_via_live_comfyui_model_path"
+    }
+  ],
+  "object_info_required": true,
+  "model_hash_required": true,
+  "asset_authority_complete": true,
+  "runtime_output_required": true,
+  "qa_report_required": true,
+  "promotion_allowed_without_evidence": false,
+  "local_runtime_envelope": {
+    "width": 512,
+    "height": 512,
+    "steps": 4,
+    "batch_size": 1,
+    "cfg": 1.0,
+    "sampler_name": "euler",
+    "scheduler": "simple"
+  },
+  "licensed_source": {
+    "provider": "Black Forest Labs",
+    "repository": "black-forest-labs/FLUX.1-schnell",
+    "license_id": "Apache-2.0",
+    "model_card_url": "https://huggingface.co/black-forest-labs/FLUX.1-schnell",
+    "license_url": "https://github.com/black-forest-labs/flux/blob/main/model_licenses/LICENSE-FLUX1-schnell",
+    "license_boundary": "Schnell is permissively licensed under Apache-2.0; this record does not change third-party prompt, asset, or output rights."
+  },
+  "historical_lineage": {
+    "registry_path": "Plan/10_REGISTRIES/main_flow_wave04_runtime_lanes.json",
+    "historical_lane_id": "true_flux_schnell_reference_smoke",
+    "historical_status": "deconstruct_only_not_promoted",
+    "reuse_decision": "retain the proven four-step topology while adding current hash-bound local runtime and QA proof"
+  },
+  "current_status": "bounded_local_runtime_and_visual_qa_proven_not_production_certified",
+  "known_boundaries": [
+    "One 512x512 product-material preview does not establish broad prompt, subject, seed, or resolution robustness.",
+    "This lane is a fast preview route, not the FLUX.1 dev production base lane.",
+    "No personal calibration, mask, geometry, Wave71, Jira, AWS, or EC2 authority is implied."
+  ]
+}
