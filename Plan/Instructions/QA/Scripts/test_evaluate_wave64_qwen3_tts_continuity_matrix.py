@@ -3,6 +3,7 @@ from __future__ import annotations
 import importlib.util
 import unittest
 from pathlib import Path
+from unittest import mock
 
 
 SCRIPT = Path(__file__).parents[3] / "07_IMPLEMENTATION" / "scripts" / "evaluate_wave64_qwen3_tts_continuity_matrix.py"
@@ -13,6 +14,39 @@ SPEC.loader.exec_module(MODULE)
 
 
 class QwenContinuityEvaluatorTests(unittest.TestCase):
+    @staticmethod
+    def valid_manifest() -> dict:
+        baseline = {
+            "line_id": "L01", "scene_id": "SCENE-A", "language": "English", "language_role": "english",
+            "text": "baseline", "path": "baseline.wav", "sha256": MODULE.EXPECTED_BASELINE_SHA256, "bytes": 1,
+            "microphone_chain_id": "dry", "room_profile_id": "dry",
+        }
+        new_lines = []
+        for index in range(2, 11):
+            scene = "SCENE-A" if index <= 3 else "SCENE-B" if index <= 5 else "SCENE-C"
+            new_lines.append({
+                "line_id": f"L{index:02d}", "scene_id": scene, "language": "English", "language_role": "english",
+                "text": f"line {index}", "microphone_chain_id": "dry", "room_profile_id": "dry",
+                "output": {"path": f"line{index}.wav", "sha256": "a" * 64, "bytes": 1},
+            })
+        return {
+            "classification": MODULE.EXPECTED_CLASSIFICATION,
+            "reference": {"path": "reference.wav", "sha256": MODULE.EXPECTED_REFERENCE_SHA256, "production_authorized": False},
+            "baseline": baseline,
+            "new_lines": new_lines,
+            "matrix_contract": {
+                "calibration_line_ids": ["L01", "L02", "L03", "L04", "L08"],
+                "held_out_line_ids": ["L05", "L06", "L07", "L09", "L10"],
+            },
+            "boundaries": {
+                "production_character_authority": False,
+                "multilingual_content_qa_complete": False,
+                "accent_qa_complete": False,
+                "independent_playback_review_complete": False,
+                "production_ready": False,
+            },
+        }
+
     def test_partitions_are_disjoint_and_cover_all_lines(self) -> None:
         self.assertFalse(MODULE.CALIBRATION_IDS & MODULE.HELD_OUT_IDS)
         self.assertEqual({f"L{index:02d}" for index in range(1, 11)}, MODULE.CALIBRATION_IDS | MODULE.HELD_OUT_IDS)
@@ -37,6 +71,19 @@ class QwenContinuityEvaluatorTests(unittest.TestCase):
         self.assertIn('"certified_character_authority_pass": False', source)
         self.assertIn('"multilingual_content_qa_pass": False', source)
         self.assertIn('"production_promotion_claimed": False', source)
+
+    def test_verify_manifest_rejects_authority_tampering(self) -> None:
+        manifest = self.valid_manifest()
+        with mock.patch.object(MODULE, "bind", return_value={"path": "reference.wav", "sha256": MODULE.EXPECTED_REFERENCE_SHA256, "bytes": 1}):
+            _, records = MODULE.verify_manifest(manifest)
+            self.assertEqual(10, len(records))
+            manifest["reference"]["production_authorized"] = True
+            with self.assertRaises(MODULE.EvaluationError):
+                MODULE.verify_manifest(manifest)
+            manifest["reference"]["production_authorized"] = False
+            manifest["boundaries"]["production_ready"] = True
+            with self.assertRaises(MODULE.EvaluationError):
+                MODULE.verify_manifest(manifest)
 
 
 if __name__ == "__main__":
