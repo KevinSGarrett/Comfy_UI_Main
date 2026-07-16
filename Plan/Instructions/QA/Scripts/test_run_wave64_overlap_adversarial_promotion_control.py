@@ -63,6 +63,13 @@ class Wave64OverlapAdversarialPromotionControlTests(unittest.TestCase):
         self.assertFalse(matrix["coverage"]["multilingual"])
         self.assertFalse(matrix["candidate_media_mutated"])
 
+        records["cosyvoice2"]["classification"] = "CORRUPTED_CLASSIFICATION"
+        corrupted = MODULE.evaluate_defect_matrix(records, bindings)
+        self.assertFalse(corrupted["known_fixture_detection_pass"])
+        cosy_case = next(case for case in corrupted["cases"] if case["fixture_id"].startswith("cosyvoice2_"))
+        self.assertFalse(cosy_case["classification_match_pass"])
+        self.assertTrue(cosy_case["defect_set_match_pass"])
+
     def test_blocked_candidate_request_cannot_promote(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

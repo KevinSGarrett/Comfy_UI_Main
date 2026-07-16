@@ -168,6 +168,7 @@ def evaluate_defect_matrix(records: dict[str, dict[str, Any]], bindings: dict[st
             "fixture_id": "kokoro_automated_positive_control",
             "candidate_sha256": bindings["kokoro_wav"]["sha256"],
             "documented_classification": kokoro.get("status"),
+            "expected_classification": "PASS_AUTOMATED_CANDIDATE_ELIGIBLE_HUMAN_PLAYBACK_REQUIRED",
             "expected_defects": ["missing_human_playback_review", "missing_production_authority"],
             "detected_defects": sorted([
                 *(["missing_human_playback_review"] if kokoro.get("acceptance", {}).get("human_playback_review_pass") is False else []),
@@ -178,6 +179,7 @@ def evaluate_defect_matrix(records: dict[str, dict[str, Any]], bindings: dict[st
             "fixture_id": "qwen_raw_timing_and_authority_negative_control",
             "candidate_sha256": bindings["qwen_wav"]["sha256"],
             "documented_classification": qwen.get("classification"),
+            "expected_classification": "PASS_QWEN3_CLONE_CHAIN_SPECIFIC_IDENTITY_PRODUCTION_AUTHORITY_BLOCKED",
             "expected_defects": ["raw_dialogue_timing_fail", "missing_independent_playback", "missing_production_reference_authority"],
             "detected_defects": sorted([
                 *(["raw_dialogue_timing_fail"] if qwen.get("gates", {}).get("raw_dialogue_timing_pass") is False else []),
@@ -210,11 +212,14 @@ def evaluate_defect_matrix(records: dict[str, dict[str, Any]], bindings: dict[st
         "fixture_id": "parler_evidence_completeness_negative_control",
         "candidate_sha256": bindings["parler_wav"]["sha256"],
         "documented_classification": "overall_pass_false",
+        "expected_classification": "overall_pass_false",
         "expected_defects": expected_parler,
         "detected_defects": sorted(set(parler.get("blockers", [])) & set(expected_parler)),
     })
     for case in cases:
-        case["detection_pass"] = set(case["expected_defects"]) == set(case["detected_defects"])
+        case["classification_match_pass"] = case["documented_classification"] == case["expected_classification"]
+        case["defect_set_match_pass"] = set(case["expected_defects"]) == set(case["detected_defects"])
+        case["detection_pass"] = case["classification_match_pass"] and case["defect_set_match_pass"]
     coverage = {
         "timing": True,
         "authority": True,
