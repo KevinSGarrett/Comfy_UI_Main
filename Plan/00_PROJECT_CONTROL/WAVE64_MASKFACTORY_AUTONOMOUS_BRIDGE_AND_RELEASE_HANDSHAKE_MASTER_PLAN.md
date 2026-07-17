@@ -333,6 +333,22 @@ They are not a runtime release: the signed production release remains
 `unpublished_unadopted`, and Main must still verify and adopt that future runtime
 release before production consumption.
 
+The producer commit above remains the immutable packet identity. MaskingUltimate
+PR #2 now has non-rewriting integration head
+`e6d6c6bdf00a0702d274455fbf07ded2b3a838b3`, whose parents are the producer
+packet and corrected base `85d4c19b7974c1b64f48176d91211defbaba35a0`. Integration reconciliation
+manifest SHA-256
+`c948da1595f6c29ead2aeda950ac778717c6557f2ed5f6c4b0664e5052f3eb52`
+accounts for all six base-owned supersessions and two reconciliation-protocol
+updates while proving all 12 wire schemas unchanged. The integration head is PR
+ancestry, not a replacement producer identity or runtime authority.
+PR validation head `6361df208e01d183083ee6c113e016467a486706` adds the explicit
+hermetic-GitHub versus governed-asset-complete test partition and extends the
+signed currency-review chain for the changed `pyproject.toml` input. The
+partition, review-chain artifacts, and manifest builder are sealed as eight
+post-integration validation paths. They do not alter the immutable producer
+packet or any of the 12 wire contracts.
+
 ## Model-library activation deferral
 
 The existing Rows223-260 model-intelligence package remains the sole owner of the
