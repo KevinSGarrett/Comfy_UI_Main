@@ -1,0 +1,212 @@
+{
+  "schema_version": "1.0",
+  "artifact_type": "flux2_repair_packet_sdxl_inpaint_binding",
+  "binding_id": "W64_FLUX2_DEV_SEED7261704_SDXL_INPAINT_BINDING_20260717T074200-0500",
+  "classification": "SDXL_REALVISXL_STRUCTURAL_REMOVAL_PILOT_STATIC_PASS_EXECUTION_BLOCKED",
+  "result": "unproven_structural_profile_static_binding_pass_runtime_not_executed",
+  "source_repair_packet": {
+    "path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_FLUX2_DEV_SEED7261704_LOCALIZED_REPAIR_PACKET_20260717T073000-0500/repair_packet.json",
+    "sha256": "822a1141c7c59329f93dc9c07acc7d281c287ce65deb338bfac13045c05a70f8"
+  },
+  "lane": {
+    "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+    "workflow_path": "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/workflow.api.json",
+    "workflow_sha256": "6b00b77b316c5cad003679fc5d0c3b547458594403a332f2d10e0b6262cc3c5a",
+    "patch_points_path": "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/patch_points.json",
+    "patch_points_sha256": "d80f40a8a997b648ef616a9f2a20d07f084b865a990498d95b8139eec4514256",
+    "runtime_requirements_path": "Workflows/base_generation/sdxl_realvisxl_inpaint_detail_lane/runtime_requirements.json",
+    "runtime_requirements_sha256": "82217cd6bfcba32c58139e4841e7fa6de8d74fda4bd61c9e0fb6cf0f5d0c0e7a",
+    "checkpoint": {
+      "role": "checkpoint",
+      "model_type": "Checkpoint",
+      "comfyui_model_subdir": "checkpoints",
+      "filename": "realvisxlV50_v50Bakedvae.safetensors",
+      "source_model": "RealVisXL V5.0",
+      "source_model_id": "civitai:139562",
+      "source_version_hint": "v5.0 baked VAE",
+      "sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+      "hash_status": "pending_ec2_static_match",
+      "path_status": "pending_ec2_static_match",
+      "local_hash_status": "verified_local",
+      "local_path_status": "verified_local",
+      "local_evidence_path": "Plan/Instructions/QA/Evidence/Runtime_Readiness/W69_LOCAL_OBJECT_INFO_INPAINT_DETAIL_NOMOUTH_V4_20260707T045500-0500.json"
+    },
+    "existing_face_texture_certification_inherited": false,
+    "existing_body_hand_contact_authority_inherited": false
+  },
+  "structural_repair_profile": {
+    "path": "Plan/10_REGISTRIES/flux2_seed7261704_structural_repair_profile.json",
+    "sha256": "71fce4371293056485912edfe5717c6305897c82c28007123591ceff3bf367b2",
+    "status": "planned_one_attempt_unproven",
+    "calibration_status": "unproven_structural_removal_pilot",
+    "attempt_budget": 1,
+    "measured_delta_contract": {
+      "source_and_output_dimensions_equal": true,
+      "mask_dimensions_equal_source": true,
+      "minimum_inside_mask_mae": 0.1,
+      "maximum_outside_mask_mae": 3.0,
+      "minimum_outside_mask_ssim": 0.985,
+      "minimum_whole_image_ssim": 0.95
+    }
+  },
+  "input_provisioning": [
+    {
+      "role": "source_image",
+      "source_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260717T063237-0500/images/13_adult_woman_portrait_seed7261704_00001_.png",
+      "source_sha256": "1e9eaffd576b521e96118204aaef4ac67f1eef54e4d8f7fc46b57931c792d1f6",
+      "comfyui_input_name": "flux2_seed7261704_source.png"
+    },
+    {
+      "role": "operational_repair_mask",
+      "source_path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_FLUX2_DEV_SEED7261704_LOCALIZED_REPAIR_PACKET_20260717T073000-0500/operational_repair_mask.png",
+      "source_sha256": "e7e2aeb5ab4a15e11c40244cb91c5559c2aff01aa0443b4c2c87127f9f56a57d",
+      "comfyui_input_name": "flux2_seed7261704_operational_repair_mask.png",
+      "classification": "non_gold_operational_repair_region",
+      "consumed_as_evaluation_truth": false,
+      "channel_verification": {
+        "source_mode": "L",
+        "selected_channel": "red",
+        "grayscale_to_red_equivalent_after_rgb_conversion": true,
+        "mask_nonempty": true,
+        "dimensions_match_source": true
+      }
+    }
+  ],
+  "prompt_request": {
+    "path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_FLUX2_DEV_SEED7261704_SDXL_INPAINT_BINDING_20260717T074200-0500/prompt_request.json",
+    "sha256": "4c1d924483d3f6a342e3a494da0637849d5b585cdc42843c8712df64ab4f0e2d",
+    "patch_count": 13,
+    "applied_patches": [
+      {
+        "name": "positive_prompt",
+        "node_id": "8",
+        "input": "text",
+        "before": "subtle photoreal skin texture refinement, preserve exact identity, preserve original eye color gaze and lip color, natural skin pores, consistent portrait lighting, no global style drift",
+        "after": "photoreal ceramics studio workbench with no person or limb in the masked region, remove the detached extra hand and partial forearm, reconstruct the unobstructed workbench edge and studio background, preserve the adult woman's exact identity pose clasped hands blue work jacket charcoal trousers feet lighting camera and full composition"
+      },
+      {
+        "name": "negative_prompt",
+        "node_id": "9",
+        "input": "text",
+        "before": "blank face, gray mask, identity change, eye color change, lip color change, gaze drift, face shape drift, plastic skin, waxy skin, over-smoothed face, distorted eyes, crossed eyes, extra teeth, deformed mouth, new jewelry, new clothing, background change, watermark, text",
+        "after": "extra hand, extra arm, detached limb, duplicate limb, floating fingers, person in masked region, identity change, pose change, clasped hand change, jacket change, trouser change, face change, background drift, malformed anatomy, seam, blur, watermark, text"
+      },
+      {
+        "name": "source_image",
+        "node_id": "5",
+        "input": "image",
+        "before": "sdxl_inpaint_detail_source_canny_v1.png",
+        "after": "flux2_seed7261704_source.png"
+      },
+      {
+        "name": "mask_image",
+        "node_id": "6",
+        "input": "image",
+        "before": "sdxl_inpaint_detail_micro_nomouth_v4.png",
+        "after": "flux2_seed7261704_operational_repair_mask.png"
+      },
+      {
+        "name": "mask_channel",
+        "node_id": "6",
+        "input": "channel",
+        "before": "red",
+        "after": "red"
+      },
+      {
+        "name": "seed",
+        "node_id": "3",
+        "input": "seed",
+        "before": 210422,
+        "after": 7261704
+      },
+      {
+        "name": "sampler_settings",
+        "node_id": "3",
+        "input": "steps",
+        "before": 20,
+        "after": 20
+      },
+      {
+        "name": "sampler_settings",
+        "node_id": "3",
+        "input": "cfg",
+        "before": 5,
+        "after": 5.0
+      },
+      {
+        "name": "sampler_settings",
+        "node_id": "3",
+        "input": "sampler_name",
+        "before": "euler",
+        "after": "euler"
+      },
+      {
+        "name": "sampler_settings",
+        "node_id": "3",
+        "input": "scheduler",
+        "before": "normal",
+        "after": "normal"
+      },
+      {
+        "name": "sampler_settings",
+        "node_id": "3",
+        "input": "denoise",
+        "before": 0.24,
+        "after": 0.38
+      },
+      {
+        "name": "model_asset",
+        "node_id": "4",
+        "input": "ckpt_name",
+        "before": "realvisxlV50_v50Bakedvae.safetensors",
+        "after": "realvisxlV50_v50Bakedvae.safetensors"
+      },
+      {
+        "name": "save_prefix",
+        "node_id": "11",
+        "input": "filename_prefix",
+        "before": "codex_sdxl_realvisxl_inpaint_detail_micro_nomouth_v4",
+        "after": "flux2_seed7261704_sdxl_realvisxl_localized_repair"
+      }
+    ]
+  },
+  "sampler_settings": {
+    "steps": 20,
+    "cfg": 5.0,
+    "sampler_name": "euler",
+    "scheduler": "normal",
+    "denoise": 0.38
+  },
+  "topology_checks": {
+    "source_is_composite_destination": true,
+    "decoded_candidate_is_composite_source": true,
+    "feathered_mask_drives_composite": true,
+    "feathered_mask_drives_latent_noise": true,
+    "feather_pixels_remain_certified_value": true,
+    "diagnostic_mask_preview_present": true
+  },
+  "runtime": {
+    "execution_allowed": false,
+    "comfyui_contacted": false,
+    "ec2_started": false,
+    "generation_executed": false,
+    "candidate_count_allowed": 1,
+    "source_preserving_composite_required": true,
+    "direct_whole_image_visual_qa_required": true
+  },
+  "exact_blockers": [
+    "The source image and operational mask have not been provisioned to an active ComfyUI input directory for this binding.",
+    "The exact RealVisXL checkpoint hash and required node surface have not been reverified inside a new guarded runtime window.",
+    "The selected structural-removal denoise is an unproven one-attempt pilot and inherits no face, body, hand, or contact certification.",
+    "No repair candidate, source-preserving composite, or direct whole-image visual QA exists for this binding."
+  ],
+  "boundaries": {
+    "cross_engine_transfer": "decoded_source_image_and_operational_mask_only",
+    "cross_family_latent_transfer_allowed": false,
+    "gold_mask_used": false,
+    "operational_mask_promotable": false,
+    "seed_loop_allowed": false,
+    "production_promotion_allowed": false
+  },
+  "next_action": "Package this exact prompt plus the two hash-bound inputs for one guarded target-runtime candidate, then run the canonical source-preserving compositor and direct whole-image visual QA."
+}

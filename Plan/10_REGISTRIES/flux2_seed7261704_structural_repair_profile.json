@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "flux2_seed7261704_sdxl_realvisxl_structural_removal_pilot_v1",
+  "status": "planned_one_attempt_unproven",
+  "purpose": "One bounded SDXL/RealVisXL pilot to remove the detached extra hand and forearm from the rejected FLUX.2 Dev seed 7261704 image while preserving the accepted source outside a non-gold operational repair region.",
+  "source_repair_packet": {
+    "path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_FLUX2_DEV_SEED7261704_LOCALIZED_REPAIR_PACKET_20260717T073000-0500/repair_packet.json",
+    "sha256": "822a1141c7c59329f93dc9c07acc7d281c287ce65deb338bfac13045c05a70f8"
+  },
+  "lane": {
+    "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+    "checkpoint_filename": "realvisxlV50_v50Bakedvae.safetensors",
+    "checkpoint_sha256": "6a35a7855770ae9820a3c931d4964c3817b6d9e3c6f9c4dabb5b3a94e5643b80",
+    "topology_reuse_only": true,
+    "existing_face_texture_certification_inherited": false,
+    "existing_body_hand_contact_authority_inherited": false
+  },
+  "repair_hypothesis": {
+    "defect_code": "DETACHED_EXTRA_HAND_AND_FOREARM",
+    "causal_class": "localized_generation_anatomy",
+    "expected_effect": "Replace only the detached extra anatomy with a coherent unobstructed ceramics-studio workbench and background while preserving the subject and whole composition.",
+    "attempt_budget": 1,
+    "seed_loop_allowed": false,
+    "selected_seed": 7261704,
+    "sampler_settings": {
+      "steps": 20,
+      "cfg": 5.0,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise_bounds": {"minimum": 0.15, "maximum": 0.45},
+      "selected_denoise": 0.38,
+      "calibration_status": "unproven_structural_removal_pilot"
+    }
+  },
+  "measured_delta_contract": {
+    "repair": {
+      "source_and_output_dimensions_equal": true,
+      "mask_dimensions_equal_source": true,
+      "minimum_inside_mask_mae": 0.1,
+      "maximum_outside_mask_mae": 3.0,
+      "minimum_outside_mask_ssim": 0.985,
+      "minimum_whole_image_ssim": 0.95
+    },
+    "interpretation": "These thresholds measure change and containment only. They cannot prove anatomy removal, background reconstruction, identity preservation, or visual acceptance."
+  },
+  "required_post_generation_gates": [
+    "source_preserving_composite_technical_pass",
+    "detached_extra_anatomy_absent",
+    "subject_identity_pose_and_real_hands_preserved",
+    "workbench_and_background_continuity_pass",
+    "whole_image_unrelated_defect_scan_pass"
+  ],
+  "runtime": {
+    "execution_allowed": false,
+    "blockers": [
+      "new_binding_input_provisioning_not_verified",
+      "new_runtime_object_info_and_checkpoint_hash_not_reverified",
+      "structural_removal_candidate_not_generated",
+      "source_preserving_composite_not_run",
+      "direct_whole_image_visual_qa_not_run"
+    ]
+  },
+  "boundaries": {
+    "cross_engine_transfer": "decoded_source_image_and_operational_mask_only",
+    "cross_family_latent_transfer_allowed": false,
+    "gold_mask_used": false,
+    "operational_mask_consumed_as_truth": false,
+    "mask_promotion_allowed": false,
+    "body_hand_contact_geometry_certified": false,
+    "production_promotion_allowed": false
+  }
+}
