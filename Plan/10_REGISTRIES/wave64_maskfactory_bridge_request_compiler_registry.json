@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "wave64_maskfactory_bridge_request_compiler_registry_v1",
+  "updated_at": "2026-07-17T13:51:46-05:00",
+  "authoritative_project_root": "C:\\Comfy_UI_Main",
+  "row_binding": {
+    "item_id": "ITEM-W64-325",
+    "tracker_id": "TRK-W64-325",
+    "title": "Strict v2 Bridge Request Compiler",
+    "implementation_slice_status": "pass_static_compiler_runtime_not_executed",
+    "row_completion_claimed": false
+  },
+  "authority_pins": {
+    "main_pr133_head": "a54a7ed2bad472f77168e190b9881b4f7e7cc589",
+    "maskfactory_pr2_head": "6361df208e01d183083ee6c113e016467a486706",
+    "immutable_producer_commit": "938b46949e277d92f26d9411fd5710005c506677",
+    "reconciliation_seal": "c948da1595f6c29ead2aeda950ac778717c6557f2ed5f6c4b0664e5052f3eb52",
+    "frozen_v1_contract_count": 12,
+    "main_pr133_adoption_status": "PARTIALLY_ADOPTED_DO_NOT_MERGE"
+  },
+  "implementation": {
+    "script": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_maskfactory_bridge_request.py",
+    "test": "Plan/Instructions/QA/Scripts/test_compile_wave64_maskfactory_bridge_request.py",
+    "frozen_request_schema": {
+      "path": "Plan/08_SCHEMAS/maskfactory_bridge_request_v2.schema.json",
+      "sha256": "318e6bec14a0e4ac83dc282f7346f35b8e0dd368d71a519807fc83b2da33f3cb"
+    },
+    "frozen_common_schema": {
+      "path": "Plan/08_SCHEMAS/wave64_maskfactory_bridge_common_v2.schema.json",
+      "sha256": "13a5eb713890c0d6569ee71ece9a1c14b03efcdad3676aeef79158edf1c74ea5"
+    },
+    "executable_mapping": {
+      "path": "Plan/10_REGISTRIES/wave64_maskfactory_producer_wire_to_main_port_mapping_v2.json",
+      "sha256": "8959105d6221b5b24a33c6c92c5bdba91f56cd6c17320d9810f34255c210a81e"
+    },
+    "release_verifier": {
+      "path": "Plan/07_IMPLEMENTATION/scripts/verify_wave64_maskfactory_release_adoption.py",
+      "sha256": "f337c0e023c744f00dab2139795d3f2e5c38f488980321c1f8d08390615b0acf"
+    }
+  },
+  "compiler_owned_behavior": [
+    "derive_stable_request_and_idempotency_ids_from_the_closed_logical_effect",
+    "reject_unknown_compile_input_and_request_body_fields",
+    "validate_the_frozen_v2_request_schema_and_inherited_semantic_invariants",
+    "verify_every_immutable_reference_against_exact_local_bytes",
+    "require_exact_release_relative_producer_contract_bindings_from_the_executable_mapping",
+    "bind_non_fixture_requests_to_the_current_non_expired_active_release_pin",
+    "validate_principal_role_access_mode_intended_use_and_authorization_window",
+    "reserve_a_principal_scoped_nonce_atomically_and_reject_replay",
+    "reject_target_protected_owner_or_region_identity_ambiguity",
+    "reject_input_output_hash_collision_except_the_exact_mode_a_package_selector",
+    "emit_static_compilation_receipts_without_authorizing_submission_or_promotion"
+  ],
+  "fail_closed_classifications": [
+    "MASKFACTORY_REQUEST_COMPILATION_REJECTED",
+    "MFB_INPUT_OUTPUT_IDENTITY_COLLISION",
+    "Blocked_MaskFactory_Runtime_Release_Unpublished"
+  ],
+  "boundaries": {
+    "producer_runtime_release_published": false,
+    "producer_runtime_called": false,
+    "mode_a_package_consumed": false,
+    "mode_b_service_called": false,
+    "production_submission_authorized": false,
+    "runtime_completion_claimed": false,
+    "model_library_activation_allowed": false,
+    "mask_promotion_allowed": false,
+    "wave71_activation_allowed": false
+  },
+  "next_dependency": {
+    "row": 326,
+    "title": "Mode A Read-Only Package Adapter",
+    "external_gate": "adopted_maskfactory_release_with_mode_a_capability",
+    "current_state": "blocked_until_published_verified_release"
+  }
+}
