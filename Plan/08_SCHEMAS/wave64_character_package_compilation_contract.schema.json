@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/wave64-character-package-compilation-contract/1.0.0",
+  "title": "Wave64 Character Package Compilation Contract",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "compilation_id",
+    "status",
+    "character_package",
+    "reference_intake",
+    "character_states",
+    "scene_package",
+    "shot_pose_package",
+    "pass_specification",
+    "scope_binding",
+    "artifact_manifests",
+    "no_hidden_state",
+    "runtime_completion_claimed",
+    "production_promotion_allowed",
+    "content_based_suppression"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "compilation_id": { "type": "string", "minLength": 1 },
+    "status": { "const": "contract_fixture_not_runtime_evidence" },
+    "character_package": { "type": "object" },
+    "reference_intake": {
+      "type": "object",
+      "required": [
+        "reference_pack_id",
+        "character_id",
+        "character_revision",
+        "accepted_assets",
+        "rejected_assets",
+        "view_coverage",
+        "coverage_gaps",
+        "conflicts",
+        "voice_reference_bindings"
+      ],
+      "properties": {
+        "reference_pack_id": { "type": "string", "minLength": 1 },
+        "character_id": { "type": "string", "minLength": 1 },
+        "character_revision": { "type": "string", "minLength": 1 },
+        "accepted_assets": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/ReferenceAsset" } },
+        "rejected_assets": { "type": "array", "items": { "$ref": "#/$defs/RejectedReferenceAsset" } },
+        "view_coverage": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+        "coverage_gaps": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+        "conflicts": { "type": "array", "items": { "$ref": "#/$defs/ReferenceConflict" } },
+        "voice_reference_bindings": { "type": "array", "items": { "$ref": "#/$defs/VoiceReferenceBinding" } }
+      },
+      "additionalProperties": false
+    },
+    "character_states": {
+      "type": "array",
+      "minItems": 8,
+      "items": { "$ref": "#/$defs/CharacterState" }
+    },
+    "scene_package": { "type": "object" },
+    "shot_pose_package": { "type": "object" },
+    "pass_specification": { "type": "object" },
+    "scope_binding": {
+      "type": "object",
+      "required": ["scene_id", "shot_id", "take_id", "pass_specification_id", "target_owner_instance_ids"],
+      "properties": {
+        "scene_id": { "type": "string", "minLength": 1 },
+        "shot_id": { "type": "string", "minLength": 1 },
+        "take_id": { "type": "string", "minLength": 1 },
+        "pass_specification_id": { "type": "string", "minLength": 1 },
+        "target_owner_instance_ids": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 }, "uniqueItems": true }
+      },
+      "additionalProperties": false
+    },
+    "artifact_manifests": { "type": "array", "minItems": 1, "items": { "type": "object" } },
+    "no_hidden_state": { "const": true },
+    "runtime_completion_claimed": { "const": false },
+    "production_promotion_allowed": { "const": false },
+    "content_based_suppression": { "const": false }
+  },
+  "$defs": {
+    "Sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "ReferenceAssetCore": {
+      "type": "object",
+      "required": ["artifact_id", "sha256", "bytes", "media_type", "view_tags"],
+      "properties": {
+        "artifact_id": { "type": "string", "minLength": 1 },
+        "sha256": { "$ref": "#/$defs/Sha256" },
+        "bytes": { "type": "integer", "minimum": 1 },
+        "media_type": { "type": "string", "minLength": 1 },
+        "view_tags": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 }, "uniqueItems": true }
+      }
+    },
+    "ReferenceAsset": {
+      "allOf": [
+        { "$ref": "#/$defs/ReferenceAssetCore" },
+        {
+          "type": "object",
+          "required": ["quality_grade", "authority"],
+          "properties": {
+            "quality_grade": { "enum": ["accepted_primary", "accepted_supporting"] },
+            "authority": { "enum": ["approved_reference", "accepted_voice_reference"] }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "RejectedReferenceAsset": {
+      "allOf": [
+        { "$ref": "#/$defs/ReferenceAssetCore" },
+        {
+          "type": "object",
+          "required": ["quality_grade", "authority", "rejection_reasons"],
+          "properties": {
+            "quality_grade": { "const": "rejected" },
+            "authority": { "const": "rejected_reference" },
+            "rejection_reasons": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 }, "uniqueItems": true }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "ReferenceConflict": {
+      "type": "object",
+      "required": ["conflict_id", "artifact_ids", "resolution_status"],
+      "properties": {
+        "conflict_id": { "type": "string", "minLength": 1 },
+        "artifact_ids": { "type": "array", "minItems": 2, "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+        "resolution_status": { "enum": ["resolved", "open_blocking"] },
+        "resolution_evidence_id": { "type": ["string", "null"] }
+      },
+      "additionalProperties": false
+    },
+    "VoiceReferenceBinding": {
+      "type": "object",
+      "required": ["voice_binding_id", "artifact_ids", "authority"],
+      "properties": {
+        "voice_binding_id": { "type": "string", "minLength": 1 },
+        "artifact_ids": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+        "authority": { "enum": ["candidate", "accepted", "revoked"] }
+      },
+      "additionalProperties": false
+    },
+    "CharacterState": {
+      "type": "object",
+      "required": ["state_id", "state_type", "revision", "owner_character_id", "payload", "payload_sha256", "reference_artifact_ids", "authority"],
+      "properties": {
+        "state_id": { "type": "string", "minLength": 1 },
+        "state_type": { "enum": ["morphology", "surface", "hair", "makeup", "wardrobe", "accessory", "material", "voice"] },
+        "revision": { "type": "string", "minLength": 1 },
+        "owner_character_id": { "type": "string", "minLength": 1 },
+        "payload": { "type": "object" },
+        "payload_sha256": { "$ref": "#/$defs/Sha256" },
+        "reference_artifact_ids": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+        "authority": { "enum": ["draft", "candidate", "accepted", "revoked"] }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

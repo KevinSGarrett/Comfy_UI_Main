@@ -1,0 +1,309 @@
+{
+  "schema_version": "1.0.0",
+  "compilation_id": "w64-character-package-compile-fixture-001",
+  "status": "contract_fixture_not_runtime_evidence",
+  "character_package": {
+    "schema_version": "1.0.0",
+    "character_package_id": "charpkg_c01_r001",
+    "character_id": "char_c01",
+    "character_revision": "r001",
+    "parent_revision": null,
+    "status": "candidate",
+    "identity_core": {
+      "description": "Synthetic identity authority used only to exercise the package compiler.",
+      "approved_reference_artifact_ids": ["ref_c01_face_front", "ref_c01_body_front"],
+      "distinguishing_traits": ["identity_fixture_trait"]
+    },
+    "body_morphology": {
+      "description": "Synthetic morphology fixture.",
+      "proportion_constraints": {"identity_preservation_required": true},
+      "view_reference_artifact_ids": ["ref_c01_body_front"],
+      "protected_traits": ["face", "body_proportions"]
+    },
+    "surface_profile": {
+      "skin": {
+        "profile_schema_id": "surface_skin_v1",
+        "profile_revision": "r001",
+        "payload_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "payload": {}
+      },
+      "hair": {
+        "profile_schema_id": "surface_hair_v1",
+        "profile_revision": "r001",
+        "payload_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "payload": {}
+      }
+    },
+    "wardrobe_states": [
+      {
+        "wardrobe_state_id": "wardrobe_c01_base_r001",
+        "garments": [
+          {
+            "asset_state_id": "garment_c01_base_r001",
+            "asset_type": "garment",
+            "owner_character_id": "char_c01",
+            "profile": {
+              "profile_schema_id": "garment_profile_v1",
+              "profile_revision": "r001",
+              "payload_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "payload": {}
+            },
+            "reference_artifact_ids": ["ref_c01_wardrobe_front"]
+          }
+        ],
+        "accessories": [],
+        "reference_artifact_ids": ["ref_c01_wardrobe_front"]
+      }
+    ],
+    "voice_bindings": [
+      {
+        "voice_binding_id": "voice_c01_candidate_r001",
+        "language": "en-US",
+        "authority": "candidate",
+        "reference_artifact_ids": ["ref_c01_voice_neutral"],
+        "pronunciation_profile_id": null
+      }
+    ],
+    "engine_bindings": [
+      {
+        "engine_family": "synthetic_contract_fixture",
+        "binding_id": "engine_binding_c01_fixture_r001",
+        "status": "candidate",
+        "artifact_hashes": ["1111111111111111111111111111111111111111111111111111111111111111"],
+        "capability_scope": ["schema_validation_only"],
+        "certificate_ids": []
+      }
+    ],
+    "qa_profile": {
+      "qa_goal_ids": ["qa_identity_contract_integrity"],
+      "benchmark_evidence_ids": [],
+      "known_failure_artifact_ids": []
+    },
+    "created_at": "2026-07-17T00:00:00-05:00",
+    "created_by": "Codex Desktop synthetic contract fixture",
+    "revocation": null,
+    "content_based_suppression": false
+  },
+  "reference_intake": {
+    "reference_pack_id": "refpack_c01_r001",
+    "character_id": "char_c01",
+    "character_revision": "r001",
+    "accepted_assets": [
+      {
+        "artifact_id": "ref_c01_face_front",
+        "sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+        "bytes": 1024,
+        "media_type": "image/png",
+        "view_tags": ["face", "front"],
+        "quality_grade": "accepted_primary",
+        "authority": "approved_reference"
+      },
+      {
+        "artifact_id": "ref_c01_body_front",
+        "sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+        "bytes": 2048,
+        "media_type": "image/png",
+        "view_tags": ["body", "front", "full_body"],
+        "quality_grade": "accepted_primary",
+        "authority": "approved_reference"
+      },
+      {
+        "artifact_id": "ref_c01_wardrobe_front",
+        "sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+        "bytes": 1536,
+        "media_type": "image/png",
+        "view_tags": ["front", "wardrobe"],
+        "quality_grade": "accepted_supporting",
+        "authority": "approved_reference"
+      },
+      {
+        "artifact_id": "ref_c01_voice_neutral",
+        "sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+        "bytes": 4096,
+        "media_type": "audio/wav",
+        "view_tags": ["neutral_delivery", "voice"],
+        "quality_grade": "accepted_primary",
+        "authority": "accepted_voice_reference"
+      }
+    ],
+    "rejected_assets": [
+      {
+        "artifact_id": "ref_c01_blurred_rejected",
+        "sha256": "6666666666666666666666666666666666666666666666666666666666666666",
+        "bytes": 512,
+        "media_type": "image/jpeg",
+        "view_tags": ["face", "three_quarter"],
+        "quality_grade": "rejected",
+        "authority": "rejected_reference",
+        "rejection_reasons": ["motion_blur"]
+      }
+    ],
+    "view_coverage": ["body_front", "face_front", "voice_neutral", "wardrobe_front"],
+    "coverage_gaps": ["body_back", "body_side"],
+    "conflicts": [
+      {
+        "conflict_id": "conflict_c01_blur_001",
+        "artifact_ids": ["ref_c01_face_front", "ref_c01_blurred_rejected"],
+        "resolution_status": "resolved",
+        "resolution_evidence_id": "evidence_ref_intake_c01_001"
+      }
+    ],
+    "voice_reference_bindings": [
+      {
+        "voice_binding_id": "voice_c01_candidate_r001",
+        "artifact_ids": ["ref_c01_voice_neutral"],
+        "authority": "candidate"
+      }
+    ]
+  },
+  "character_states": [
+    {"state_id":"state_c01_morphology_r001","state_type":"morphology","revision":"r001","owner_character_id":"char_c01","payload":{},"payload_sha256":"44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a","reference_artifact_ids":["ref_c01_body_front"],"authority":"candidate"},
+    {"state_id":"state_c01_surface_r001","state_type":"surface","revision":"r001","owner_character_id":"char_c01","payload":{},"payload_sha256":"44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a","reference_artifact_ids":["ref_c01_face_front"],"authority":"candidate"},
+    {"state_id":"state_c01_hair_r001","state_type":"hair","revision":"r001","owner_character_id":"char_c01","payload":{},"payload_sha256":"44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a","reference_artifact_ids":["ref_c01_face_front"],"authority":"candidate"},
+    {"state_id":"state_c01_makeup_r001","state_type":"makeup","revision":"r001","owner_character_id":"char_c01","payload":{},"payload_sha256":"44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a","reference_artifact_ids":["ref_c01_face_front"],"authority":"candidate"},
+    {"state_id":"state_c01_wardrobe_r001","state_type":"wardrobe","revision":"r001","owner_character_id":"char_c01","payload":{},"payload_sha256":"44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a","reference_artifact_ids":["ref_c01_wardrobe_front"],"authority":"candidate"},
+    {"state_id":"state_c01_accessory_r001","state_type":"accessory","revision":"r001","owner_character_id":"char_c01","payload":{},"payload_sha256":"44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a","reference_artifact_ids":[],"authority":"candidate"},
+    {"state_id":"state_c01_material_r001","state_type":"material","revision":"r001","owner_character_id":"char_c01","payload":{},"payload_sha256":"44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a","reference_artifact_ids":["ref_c01_wardrobe_front"],"authority":"candidate"},
+    {"state_id":"state_c01_voice_r001","state_type":"voice","revision":"r001","owner_character_id":"char_c01","payload":{},"payload_sha256":"44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a","reference_artifact_ids":["ref_c01_voice_neutral"],"authority":"candidate"}
+  ],
+  "scene_package": {
+    "schema_version": "1.0.0",
+    "scene_package_id": "scenepkg_scene001_r001",
+    "scene_id": "scene001",
+    "revision": "r001",
+    "parent_revision": null,
+    "creative_intent": "Synthetic single-character compilation fixture.",
+    "participants": [
+      {
+        "character_instance_id": "charinst_c01_scene001_01",
+        "character_id": "char_c01",
+        "character_revision": "r001",
+        "role": "primary",
+        "wardrobe_state_id": "wardrobe_c01_base_r001",
+        "voice_binding_id": "voice_c01_candidate_r001"
+      }
+    ],
+    "environment": {
+      "environment_id": "env_contract_fixture_001",
+      "environment_revision": "r001",
+      "environment_sha256": "7777777777777777777777777777777777777777777777777777777777777777"
+    },
+    "props": [],
+    "action_intent": [],
+    "dialogue": [],
+    "output_intents": [{"modality":"image","deliverable":"synthetic_contract_fixture","quality_tier":"contract_only","count":1}],
+    "continuity": {"continuity_state_id":"continuity_scene001_r001","prior_scene_artifact_ids":[],"locked_facts":["character_identity"]},
+    "created_at": "2026-07-17T00:00:00-05:00",
+    "content_based_suppression": false
+  },
+  "shot_pose_package": {
+    "schema_version": "1.0.0",
+    "shot_pose_package_id": "shotpose_scene001_shot001_take001_r001",
+    "revision": "r001",
+    "package_sha256": "8888888888888888888888888888888888888888888888888888888888888888",
+    "scene_id": "scene001",
+    "shot_id": "shot001",
+    "take_id": "take001",
+    "media_clock_span_id": "clockspan_scene001_shot001_take001",
+    "skeleton_taxonomy_id": "skeleton_taxonomy_fixture_v1",
+    "source_authority": "machine_draft",
+    "timebase": {"numerator":24,"denominator":1,"start_frame":0,"end_frame":0},
+    "duration_seconds": 0.0416666667,
+    "camera": {"projection":"perspective","framing":"full_body","lens_mm":50,"pose":{"position":[0,1.5,4],"look_at":[0,1.2,0],"up":[0,1,0]},"depth_of_field":{"focus_m":4,"aperture_f":5.6}},
+    "output_frame": {"width":1024,"height":1024,"safe_margin_normalized":0.04},
+    "instances": [
+      {
+        "character_instance_id":"charinst_c01_scene001_01",
+        "character_id":"char_c01",
+        "character_revision":"r001",
+        "person_index":0,
+        "mask_provider_person_index":0,
+        "render_order":0,
+        "skeleton":{"skeleton_id":"skel_c01_fixture_001","taxonomy_id":"skeleton_taxonomy_fixture_v1","skeleton_sha256":"9999999999999999999999999999999999999999999999999999999999999999","source_authority":"machine_draft"},
+        "bbox_normalized":[0.2,0.05,0.6,0.9],
+        "depth_layer":1,
+        "visibility":{"visible_fraction":1.0},
+        "occluded_by_instance_ids":[],
+        "region_ownership":{"whole_body":"charinst_c01_scene001_01"},
+        "protected_regions":["face","body"],
+        "keyframes":[]
+      }
+    ],
+    "contacts": [],
+    "events": [],
+    "coordinate_spaces": [{"id":"scene001_full_frame","width":1024,"height":1024,"coordinate_space_sha256":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}],
+    "qa_goal_ids": ["qa_identity_contract_integrity"],
+    "created_at": "2026-07-17T00:00:00-05:00"
+  },
+  "pass_specification": {
+    "schema_version":"1.0.0",
+    "record_type":"multimodal_pass_specification",
+    "pass_specification_id":"pass_scene001_identity_fixture_r001",
+    "revision":"r001",
+    "status":"contract_fixture",
+    "created_at":"2026-07-17T00:00:00-05:00",
+    "job_ref":{"schema_id":"autonomous_multimodal_job_v1","record_type":"autonomous_multimodal_job","record_id":"job_scene001_fixture_001","revision":"r001","sha256":"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb","bytes":100,"path_or_uri":"cas://sha256/bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"},
+    "dag_id":"dag_scene001_fixture_001",
+    "pass_intent":"validate_character_package_compilation",
+    "modality":"analysis",
+    "dependency_pass_ids":[],
+    "input_artifact_refs":[],
+    "selection_context_ref":{"schema_id":"model_selection_context_v1","record_type":"model_selection_context","record_id":"selection_context_fixture_001","revision":"r001","sha256":"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc","bytes":100,"path_or_uri":"cas://sha256/cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"},
+    "selection_request_ref":{"schema_id":"contextual_model_selection_request_v1","record_type":"contextual_model_selection_request","record_id":"selection_request_fixture_001","revision":"r001","sha256":"dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd","bytes":100,"path_or_uri":"cas://sha256/dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"},
+    "target_contract_sha256":"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "protected_contract_sha256":"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "mask_binding_ids":[],
+    "qa_gate_ids":["qa_character_package_compilation"],
+    "resource_class_id":"cpu_contract_validation",
+    "max_attempts":1,
+    "accepted_parent_immutable":true,
+    "contains_execution_attempt":false,
+    "contains_promotion_decision":false,
+    "provenance":{"producer":"Codex Desktop synthetic contract fixture","source_refs":["ITEM-W64-154","ITEM-W64-155","ITEM-W64-156","ITEM-W64-157","ITEM-W64-158"]}
+  },
+  "scope_binding": {
+    "scene_id":"scene001",
+    "shot_id":"shot001",
+    "take_id":"take001",
+    "pass_specification_id":"pass_scene001_identity_fixture_r001",
+    "target_owner_instance_ids":["charinst_c01_scene001_01"]
+  },
+  "artifact_manifests": [
+    {
+      "schema_version":"1.0.0",
+      "artifact_manifest_id":"artifact_manifest_scene001_fixture_r001",
+      "revision":"r001",
+      "artifact_id":"artifact_scene001_compilation_receipt_001",
+      "scene_id":"scene001",
+      "shot_id":"shot001",
+      "take_id":"take001",
+      "job_id":"job_scene001_fixture_001",
+      "run_id":"run_scene001_fixture_001",
+      "pass_id":"pass_scene001_identity_fixture_r001",
+      "attempt_id":"attempt_scene001_fixture_001",
+      "artifact_type":"contract_compilation_receipt",
+      "modality":"report",
+      "lifecycle_state":"candidate",
+      "parent_artifact_ids":[],
+      "source_package_ids":["charpkg_c01_r001","scenepkg_scene001_r001","shotpose_scene001_shot001_take001_r001"],
+      "route_decision_id":"route_contract_fixture_001",
+      "execution_stack_id":"stack_cpu_contract_validation_r001",
+      "bridge_contract_ids":[],
+      "files":[{"path_or_uri":"cas://sha256/0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef","sha256":"0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef","bytes":128,"media_type":"application/json"}],
+      "technical_metadata":{},
+      "generation_provenance":{"workflow_ui_sha256":null,"workflow_api_sha256":"1111111111111111111111111111111111111111111111111111111111111111","component_hashes":{"compiler":"2222222222222222222222222222222222222222222222222222222222222222"},"prompt_sha256":null,"configuration_sha256":"3333333333333333333333333333333333333333333333333333333333333333","seed":null,"scheduler":null,"sampler":null,"runtime_lock_id":"runtime_lock_contract_fixture_001"},
+      "ownership_scope":[{"selector_type":"whole_artifact","owner":{"owner_type":"character_instance","owner_id":"charinst_c01_scene001_01"},"selector":{}}],
+      "execution_binding":{"executor":"local_python_contract_validator","job_or_prompt_id":"compile_fixture_001","history_or_log_refs":[],"output_bindings":[]},
+      "qa_evidence_ids":[],
+      "qa_decision":"block",
+      "promotion_state":"not_eligible",
+      "immutability_policy":"content_addressed_accepted_artifacts_are_immutable",
+      "created_at":"2026-07-17T00:00:00-05:00",
+      "provenance":{"producer":"Codex Desktop synthetic contract fixture","source_refs":["ITEM-W64-156"],"registry_snapshot_ids":["wave64_character_package_compilation_fixture"],"canonicalization":"rfc8785_jcs"}
+    }
+  ],
+  "no_hidden_state": true,
+  "runtime_completion_claimed": false,
+  "production_promotion_allowed": false,
+  "content_based_suppression": false
+}
