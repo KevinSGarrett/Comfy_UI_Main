@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ComfyUI Production Console</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#workspace">Skip to workspace</a>
+  <div class="shell">
+    <aside class="rail" aria-label="Primary navigation">
+      <div class="brand"><span class="brand-mark">CU</span><span>Production Console</span></div>
+      <nav id="nav"></nav>
+      <div class="rail-footer"><span class="status-dot"></span><span>Controller local</span><strong id="connectionLabel">Ready</strong></div>
+    </aside>
+    <main id="workspace" tabindex="-1">
+      <header class="topbar">
+        <div><p class="eyebrow">Project / Sequence 04</p><h1 id="pageTitle">Runs</h1></div>
+        <div class="top-actions">
+          <div class="segmented" aria-label="Operator mode" id="modeControl">
+            <button data-mode="guided">Guided</button><button class="active" data-mode="director">Director</button><button data-mode="expert">Expert</button><button data-mode="diagnostic">Diagnostic</button>
+          </div>
+          <button class="secondary" id="reconnectButton">Reconnect</button>
+          <button class="primary" id="newJobButton">New job</button>
+        </div>
+      </header>
+      <section class="state-banner hidden" id="stateBanner" role="status"></section>
+      <section class="metrics" aria-label="Run summary">
+        <div><span>Active runs</span><strong>1</strong><small>2 queued</small></div>
+        <div><span>Blocking gates</span><strong class="danger">2</strong><small>mask, release</small></div>
+        <div><span>Artifacts accepted</span><strong>18</strong><small>3 candidates</small></div>
+        <div><span>Worker capacity</span><strong>76%</strong><small>18.2 GB free</small></div>
+      </section>
+      <section class="tabs" aria-label="Workspace views">
+        <button class="active" data-tab="live">Live run</button><button data-tab="builder">Builder</button><button data-tab="qa">QA & compare</button><button data-tab="lineage">Replay & lineage</button>
+      </section>
+      <section id="livePanel" class="panel tab-panel">
+        <div class="section-heading"><div><h2>Run W64-SEQ04-0087</h2><p>Two-character image to AV review package</p></div><div class="run-actions"><button class="secondary" id="replayButton">Replay projection</button><button class="danger-button" id="cancelButton">Cancel attempt</button></div></div>
+        <div class="run-grid">
+          <div class="dag" aria-label="Pass DAG">
+            <h3>Pass DAG</h3>
+            <ol id="dagList">
+              <li class="pass"><span>01</span><div><strong>Character package</strong><small>Accepted revision r014</small></div><b>Pass</b></li>
+              <li class="pass"><span>02</span><div><strong>Scene and camera</strong><small>Ownership map bound</small></div><b>Pass</b></li>
+              <li class="running"><span>03</span><div><strong>Regional image repair</strong><small>Attempt 2 / 3 · 01:42</small></div><b>Running</b></li>
+              <li><span>04</span><div><strong>Video motion</strong><small>Waiting on accepted parent</small></div><b>Queued</b></li>
+              <li><span>05</span><div><strong>Audio and AV assembly</strong><small>Dependencies incomplete</small></div><b>Held</b></li>
+            </ol>
+          </div>
+          <div class="inspection">
+            <h3>Current attempt</h3>
+            <dl><div><dt>Route</dt><dd>Regional repair / image</dd></div><div><dt>Worker</dt><dd>Local GPU worker 01</dd></div><div><dt>Budget</dt><dd>2 of 3 attempts</dd></div><div><dt>Freshness</dt><dd><span class="pill good">Current</span></dd></div></dl>
+            <h3>Blocking authority</h3>
+            <ul class="issues"><li><span class="issue-icon">!</span><div><strong>Body mask certificate missing</strong><small>Draft mask may guide a candidate but cannot promote it.</small></div></li><li><span class="issue-icon">!</span><div><strong>Release certificate unavailable</strong><small>Rows 213-220 are not complete.</small></div></li></ul>
+          </div>
+        </div>
+        <div class="event-table"><div class="table-head"><span>Time</span><span>Event</span><span>Authority</span><span>State</span></div><div><span>04:28:16</span><span>Attempt heartbeat</span><span>Runtime receipt</span><span class="pill good">Recorded</span></div><div><span>04:27:52</span><span>Repair attempt started</span><span>Controller command</span><span class="pill info">Active</span></div><div><span>04:27:31</span><span>Parent artifact accepted</span><span>QA projection</span><span class="pill">Bounded</span></div></div>
+      </section>
+      <section id="builderPanel" class="panel tab-panel hidden">
+        <div class="section-heading"><div><h2>Generation builder</h2><p>Draft request · never direct to ComfyUI</p></div><span class="pill">Unsubmitted</span></div>
+        <form id="jobForm" novalidate>
+          <div class="form-grid"><label>Character package<select id="character" required><option value="">Select package</option><option value="c01-r014">C01 / revision 14</option><option value="c02-r006">C02 / revision 6</option></select></label><label>Scene revision<select id="scene" required><option value="">Select scene</option><option value="scene04-r009">Sequence 04 / scene 09</option></select></label><label>Output media<select id="media"><option value="image">Image</option><option value="video">Video</option><option value="av">Audio + video</option></select></label><label>Quality target<select id="quality"><option value="review">Review</option><option value="high">High</option><option value="certification">Certification candidate</option></select></label><label>Camera preset<select id="camera"><option value="medium">Medium full</option><option value="full">Full body</option><option value="close">Close portrait</option></select></label><label>Attempt budget<input id="budget" type="number" min="1" max="3" value="2"></label></div>
+          <fieldset><legend>Constraints</legend><label class="check"><input type="checkbox" id="identityLock" checked> Lock character identity</label><label class="check"><input type="checkbox" id="ownershipLock" checked> Enforce contact ownership</label><label class="check"><input type="checkbox" id="protectAccepted" checked> Protect accepted regions</label></fieldset>
+          <div id="formError" class="form-error" role="alert"></div>
+          <div class="builder-actions"><button type="button" class="secondary" id="previewButton">Preview DAG</button><button type="submit" class="primary">Queue controller request</button></div>
+        </form>
+        <div class="preview" id="dagPreview"><h3>Expected DAG</h3><p>Select a character and scene to validate dependencies.</p></div>
+      </section>
+      <section id="qaPanel" class="panel tab-panel hidden"><div class="section-heading"><div><h2>QA and compare</h2><p>Target, protected, and whole-artifact gates</p></div><span class="pill danger-pill">Promotion blocked</span></div><div class="qa-grid"><div><span>Identity</span><strong>Pass</strong></div><div><span>Anatomy</span><strong>Pending</strong></div><div><span>Ownership</span><strong>Pass</strong></div><div><span>Mask authority</span><strong>Blocked</strong></div><div><span>Temporal</span><strong>Not applicable</strong></div><div><span>Provenance</span><strong>Pass</strong></div></div></section>
+      <section id="lineagePanel" class="panel tab-panel hidden"><div class="section-heading"><div><h2>Replay and lineage</h2><p>Immutable controller events</p></div><button class="secondary">Export audit packet</button></div><div class="lineage"><span>Request r003</span><i></i><span>DAG release r011</span><i></i><span>Attempt 2</span><i></i><span>Candidate a018</span><i></i><span>QA blocked</span></div></section>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
