@@ -1,0 +1,154 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-application-navigation-manifest/1.0.0",
+  "title": "Hyperreal Operator Application Navigation Manifest",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "application_navigation_manifest_id",
+    "revision",
+    "status",
+    "created_at",
+    "routes",
+    "route_ids_unique",
+    "all_controls_bound",
+    "default_route_id",
+    "mode_visibility_policy_id",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_application_navigation_manifest"
+    },
+    "application_navigation_manifest_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "routes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "route_id",
+          "label",
+          "surface",
+          "parent_route_id",
+          "required_role_ids",
+          "query_ids",
+          "command_ids",
+          "empty_state_id",
+          "error_state_ids",
+          "responsive"
+        ],
+        "properties": {
+          "route_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "surface": {
+            "enum": [
+              "controller_console",
+              "comfyui_app_mode",
+              "comfyui_frontend_extension"
+            ]
+          },
+          "parent_route_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "required_role_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "query_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "command_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "empty_state_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "error_state_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "responsive": {
+            "const": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "route_ids_unique": {
+      "const": true
+    },
+    "all_controls_bound": {
+      "const": true
+    },
+    "default_route_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mode_visibility_policy_id": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "additionalProperties": false
+}

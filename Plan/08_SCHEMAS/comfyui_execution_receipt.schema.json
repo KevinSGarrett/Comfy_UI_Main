@@ -1,0 +1,188 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/comfyui-execution-receipt/1.0.0",
+  "title": "Wave64 ComfyUI Execution Receipt",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "execution_receipt_id",
+    "revision",
+    "status",
+    "created_at",
+    "submission_envelope_ref",
+    "runtime_lock_ref",
+    "prompt_id",
+    "http_status",
+    "queue_number",
+    "node_errors_sha256",
+    "websocket_event_digest_sha256",
+    "websocket_terminal_type",
+    "history_or_job_snapshot_sha256",
+    "output_locator_refs",
+    "terminal_classification",
+    "reconciliation_state",
+    "error_codes",
+    "secrets_captured",
+    "no_silent_substitution",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "comfyui_execution_receipt"
+    },
+    "execution_receipt_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "submission_envelope_ref": {
+      "allOf": [
+        {
+          "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/ImmutableRecordRef"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "record_type": {
+              "const": "comfyui_submission_envelope"
+            }
+          },
+          "required": [
+            "record_type"
+          ]
+        }
+      ]
+    },
+    "runtime_lock_ref": {
+      "allOf": [
+        {
+          "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/ImmutableRecordRef"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "record_type": {
+              "const": "comfyui_runtime_lock"
+            }
+          },
+          "required": [
+            "record_type"
+          ]
+        }
+      ]
+    },
+    "prompt_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "http_status": {
+      "type": "integer",
+      "minimum": 100,
+      "maximum": 599
+    },
+    "queue_number": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "node_errors_sha256": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "websocket_event_digest_sha256": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "websocket_terminal_type": {
+      "enum": [
+        "execution_success",
+        "execution_error",
+        "execution_interrupted",
+        "not_observed"
+      ]
+    },
+    "history_or_job_snapshot_sha256": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "output_locator_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+      }
+    },
+    "terminal_classification": {
+      "enum": [
+        "accepted",
+        "failed",
+        "interrupted",
+        "cancelled",
+        "timed_out",
+        "server_restart_unknown",
+        "duplicate_ambiguous",
+        "orphaned"
+      ]
+    },
+    "reconciliation_state": {
+      "enum": [
+        "unreconciled",
+        "reconciled",
+        "ambiguous_fail_closed"
+      ]
+    },
+    "error_codes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "secrets_captured": {
+      "const": false
+    },
+    "no_silent_substitution": {
+      "const": true
+    }
+  },
+  "additionalProperties": false
+}

@@ -108,6 +108,14 @@ wave86_expanded_physics_deformation_final_certification_gates_itemized_list.csv
 wave87_ec2_simulation_farm_worker_runtime_artifact_orchestration_itemized_list.csv
 ```
 
+## Wave64 Model Intelligence Sidecar
+
+Rows221-260 are stored in Waves/Wave64/WAVE64_AUTONOMOUS_MODEL_INTELLIGENCE_ITEM_ROWS.csv. They extend the per-pass router and self-hosted LLM/VLM rows with source admission, exact bundles, empirical model QA, contextual selection, per-use reports, evidence learning, drift, operations, and release. Rows221-222 permit static control planning only. Rows223-260 remain execution-deferred until the complete intended model-download scope is frozen, every expected binary is deterministically inventoried or explicitly quarantined/excluded, and the main task acknowledges activation. Passing those prerequisites opens only the `staging` phase; qualification, shadow selection, and production selection each require a separate evidence-backed phase-transition decision and may not be transitively unlocked. Wave30 records remain discovery metadata until exact-bundle runtime and scoped-certificate gates also pass.
+
+## Wave64 Hyperreal Video, Audio/AV, and Operator App Sidecar
+
+Rows261-320 are stored in `Waves/Wave64/WAVE64_HYPERREAL_VIDEO_AUDIO_APP_THIRD_PASS_ITEM_ROWS.csv`. They deepen the existing video, audio, speech, AV, autonomous-controller, and App Mode parents with canonical clocks, cinematic and per-instance temporal state, exact per-pass/per-event routing, physical motion and acoustics, localized video/audio/AV repair, calibrated realism gates, and a production controller-console application. The application architecture is hybrid: standalone durable controller console, small workflow-specific ComfyUI App Mode launchers, and an optional frontend extension. Every row remains `Planned_Autonomous_Implementation_Required`; planning or synthetic fixtures never imply a model, media runtime, application, or release is complete.
+
 ## Citation Rule
 
 Every strict item must include source citation file, full path, section, line start, line end, excerpt, and source key back to:
@@ -121,6 +129,8 @@ C:\Comfy_UI_Main\Plan
 Every item is designed for Codex Desktop autonomous implementation with no human work dependency.
 Before selecting or repeating runtime/EC2 work, Items routing must follow `C:\Comfy_UI_Main\Plan\Instructions\LOCAL_SOURCE_OF_TRUTH_AND_EC2_STALE_WORKSPACE_PROTOCOL.md`. Local `C:\Comfy_UI_Main` is authoritative; EC2 `/home/ubuntu/Comfy_UI_Main` is runtime/cache state only. Do not use stale EC2 queue state to reopen completed low-risk fallback, RealVisXL base, Canny baseline/v4, prior RealVisXL certification sample, or 2026-07-09 local package smoke/visual QA work. Selected inpaint deploy-bundle rebuild, S3 publish proof, EC2 install/hash proof, target-runtime proof, and final certification remain valid future work only when selected and gated from local evidence.
 For Wave 64, localized work cannot pass localized-only review. Every generated image, video, GIF, or audio artifact must receive whole-artifact review in addition to any target-region review.
+Wave64 Rows149-220 are reserved in `Waves\Wave64\WAVE64_ULTIMATE_MULTIMODAL_WORKFLOW_ITEM_ROWS.csv` for the additive character-to-image/video/audio/AV program. They extend Rows001-148 and remain `Planned_Autonomous_Implementation_Required` until row-specific implementation and evidence pass.
+Wave64 Rows261-320 are reserved in `Waves\Wave64\WAVE64_HYPERREAL_VIDEO_AUDIO_APP_THIRD_PASS_ITEM_ROWS.csv`. They do not change Rows001-260 statuses. Contract and synthetic controller work may proceed while bulk model-library execution remains deferred, but any real engine use still requires an exact qualified bundle, workflow release, runtime lock, and scoped evidence.
 For Wave 65, every current Plan file must have direct Items/Tracker source coverage. Rerun `Plan\Items\Scripts\generate_wave65_plan_source_coverage.py` after any Plan file is added or renamed.
 For Jira, Items rows are the local autonomous execution ledger and must not be bulk-mirrored into Jira Stories, Tasks, or Sub-tasks. CU Jira is a control-plane board only; read `C:\Comfy_UI_Main\Plan\Instructions\JIRA_CONTROL_PLANE_AND_AI_EXECUTION_LEDGER_POLICY.md` before any Jira-related automation.
 For Wave 70, taxonomy/list coverage is not completion evidence. Each Mask Factory row remains incomplete until its mask contract, generated mask/map, preview overlay, protected-neighbor checks, routing proof, generated output, whole-artifact QA, and target-runtime evidence pass.

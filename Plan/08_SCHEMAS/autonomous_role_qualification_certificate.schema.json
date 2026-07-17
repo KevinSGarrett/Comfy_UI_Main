@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/autonomous-role-qualification-certificate/1.0.0",
+  "title": "Wave64 Autonomous Role Qualification Certificate",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "role_qualification_certificate_id",
+    "revision",
+    "status",
+    "created_at",
+    "autonomous_stack_ref",
+    "role_id",
+    "benchmark_suite_ids",
+    "structured_output_validity",
+    "grounding_and_citation",
+    "uncertainty_and_abstention",
+    "tool_safety",
+    "quality_metrics",
+    "authority",
+    "valid_from",
+    "valid_until",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "autonomous_role_qualification_certificate"
+    },
+    "role_qualification_certificate_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "autonomous_stack_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+    },
+    "role_id": {
+      "type": "string"
+    },
+    "benchmark_suite_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "structured_output_validity": {
+      "type": "object"
+    },
+    "grounding_and_citation": {
+      "type": "object"
+    },
+    "uncertainty_and_abstention": {
+      "type": "object"
+    },
+    "tool_safety": {
+      "type": "object"
+    },
+    "quality_metrics": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/MetricObservation"
+      }
+    },
+    "authority": {
+      "enum": [
+        "shadow_only",
+        "qualified_for_role"
+      ]
+    },
+    "valid_from": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "valid_until": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "revocation_event_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

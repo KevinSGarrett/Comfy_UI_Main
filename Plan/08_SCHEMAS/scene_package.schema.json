@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/scene-package/1.0.0",
+  "title": "Wave64 Scene Package",
+  "type": "object",
+  "$defs": {
+    "ControlledIntent": {
+      "type": "object",
+      "required": ["intent_schema_id", "intent_revision", "payload_sha256", "payload"],
+      "properties": {
+        "intent_schema_id": { "type": "string", "minLength": 1 },
+        "intent_revision": { "type": "string", "minLength": 1 },
+        "payload_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "payload": { "type": "object" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": ["schema_version", "scene_package_id", "scene_id", "revision", "participants", "environment", "output_intents", "continuity", "created_at"],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "scene_package_id": { "type": "string", "minLength": 1 },
+    "scene_id": { "type": "string", "minLength": 1 },
+    "revision": { "type": "string", "minLength": 1 },
+    "parent_revision": { "type": ["string", "null"] },
+    "creative_intent": { "type": "string" },
+    "participants": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["character_instance_id", "character_id", "character_revision", "role", "wardrobe_state_id"],
+        "properties": {
+          "character_instance_id": { "type": "string", "minLength": 1 },
+          "character_id": { "type": "string", "minLength": 1 },
+          "character_revision": { "type": "string", "minLength": 1 },
+          "role": { "type": "string" },
+          "wardrobe_state_id": { "type": "string" },
+          "voice_binding_id": { "type": ["string", "null"] }
+        },
+        "additionalProperties": false
+      },
+      "uniqueItems": true
+    },
+    "environment": {
+      "type": "object",
+      "required": ["environment_id", "environment_revision", "environment_sha256"],
+      "properties": {
+        "environment_id": { "type": "string", "minLength": 1 },
+        "environment_revision": { "type": "string", "minLength": 1 },
+        "environment_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      },
+      "additionalProperties": false
+    },
+    "props": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["object_instance_id", "asset_id", "asset_revision", "asset_sha256", "owner_instance_id"],
+        "properties": {
+          "object_instance_id": { "type": "string", "minLength": 1 },
+          "asset_id": { "type": "string", "minLength": 1 },
+          "asset_revision": { "type": "string", "minLength": 1 },
+          "asset_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+          "owner_instance_id": { "type": ["string", "null"] }
+        },
+        "additionalProperties": false
+      }
+    },
+    "lighting_intent": { "$ref": "#/$defs/ControlledIntent" },
+    "action_intent": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["action_id", "participant_instance_ids", "media_clock_span_id", "intent"],
+        "properties": {
+          "action_id": { "type": "string", "minLength": 1 },
+          "participant_instance_ids": { "type": "array", "items": { "type": "string" }, "minItems": 1, "uniqueItems": true },
+          "media_clock_span_id": { "type": "string", "minLength": 1 },
+          "intent": { "$ref": "#/$defs/ControlledIntent" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "dialogue": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["dialogue_event_id", "speaker_instance_id", "text_or_script_ref", "media_clock_span_id"],
+        "properties": {
+          "dialogue_event_id": { "type": "string", "minLength": 1 },
+          "speaker_instance_id": { "type": "string", "minLength": 1 },
+          "text_or_script_ref": { "type": "string", "minLength": 1 },
+          "media_clock_span_id": { "type": "string", "minLength": 1 }
+        },
+        "additionalProperties": false
+      }
+    },
+    "audio_expectations": { "$ref": "#/$defs/ControlledIntent" },
+    "output_intents": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["modality", "deliverable"],
+        "properties": {
+          "modality": { "enum": ["image", "video", "audio", "av"] },
+          "deliverable": { "type": "string" },
+          "quality_tier": { "type": "string" },
+          "count": { "type": "integer", "minimum": 1 }
+        },
+        "additionalProperties": false
+      }
+    },
+    "continuity": {
+      "type": "object",
+      "required": ["continuity_state_id"],
+      "properties": {
+        "continuity_state_id": { "type": "string" },
+        "prior_scene_artifact_ids": { "type": "array", "items": { "type": "string" } },
+        "locked_facts": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "content_based_suppression": { "const": false }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,298 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/contextual-model-selection-decision/1.0.0",
+  "title": "Wave64 Contextual Model Selection Decision",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "selection_decision_id",
+    "revision",
+    "status",
+    "created_at",
+    "selection_request_ref",
+    "decision",
+    "evaluated_candidates",
+    "pareto_frontier_bundle_ids",
+    "selected_bundle_id",
+    "selected_execution_bundle_ref",
+    "ranking_policy_id",
+    "feature_snapshot_sha256",
+    "selection_reasons",
+    "uncertainty",
+    "fallback_bundle_ids",
+    "assignment_probability",
+    "assignment_policy_id",
+    "holdout_partition_id",
+    "learning_use_allowed",
+    "no_silent_substitution",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "contextual_model_selection_decision"
+    },
+    "selection_decision_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "selection_request_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+    },
+    "decision": {
+      "enum": [
+        "selected",
+        "abstained",
+        "blocked",
+        "qualification_enqueued"
+      ]
+    },
+    "evaluated_candidates": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "execution_bundle_id",
+          "eligible",
+          "eligibility_reasons",
+          "certificate_ids",
+          "metric_vector",
+          "quality_lcb",
+          "risk_ucb",
+          "utility",
+          "uncertainty"
+        ],
+        "properties": {
+          "execution_bundle_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "eligible": {
+            "type": "boolean"
+          },
+          "eligibility_reasons": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "certificate_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "metric_vector": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number"
+            }
+          },
+          "quality_lcb": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "risk_ucb": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "utility": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "uncertainty": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0,
+            "maximum": 1
+          },
+          "evidence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "pareto_frontier_bundle_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "selected_bundle_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "selected_execution_bundle_ref": {
+      "oneOf": [
+        {
+          "allOf": [
+            {
+              "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/ImmutableRecordRef"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "record_type": {
+                  "const": "model_execution_bundle"
+                }
+              },
+              "required": [
+                "record_type"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "challenger_bundle_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "ranking_policy_id": {
+      "type": "string"
+    },
+    "feature_snapshot_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "selection_reasons": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "uncertainty": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "fallback_bundle_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "assignment_probability": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "exclusiveMinimum": 0,
+      "maximum": 1
+    },
+    "assignment_policy_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "holdout_partition_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "learning_use_allowed": {
+      "type": "boolean"
+    },
+    "no_silent_substitution": {
+      "const": true
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "decision": {
+            "const": "selected"
+          }
+        },
+        "required": [
+          "decision"
+        ]
+      },
+      "then": {
+        "properties": {
+          "selected_bundle_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "selected_execution_bundle_ref": {
+            "allOf": [
+              {
+                "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/ImmutableRecordRef"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "record_type": {
+                    "const": "model_execution_bundle"
+                  }
+                },
+                "required": [
+                  "record_type"
+                ]
+              }
+            ]
+          },
+          "pareto_frontier_bundle_ids": {
+            "minItems": 1
+          },
+          "selection_reasons": {
+            "minItems": 1
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "selected_bundle_id": {
+            "const": null
+          },
+          "selected_execution_bundle_ref": {
+            "const": null
+          }
+        }
+      }
+    }
+  ]
+}

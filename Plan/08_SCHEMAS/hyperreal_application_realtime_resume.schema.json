@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-application-realtime-resume/1.0.0",
+  "title": "Hyperreal Application Realtime Resume and Gap-Recovery Request",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "application_realtime_resume_id",
+    "revision",
+    "status",
+    "created_at",
+    "subscription_id",
+    "actor_id",
+    "last_applied_event_sequence",
+    "resume_cursor",
+    "requested_projection_ids",
+    "gap_policy",
+    "maximum_replay_events",
+    "raw_runtime_access_requested",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_application_realtime_resume"
+    },
+    "application_realtime_resume_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "subscription_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "actor_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "last_applied_event_sequence": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "resume_cursor": {
+      "type": "string",
+      "minLength": 1
+    },
+    "requested_projection_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "gap_policy": {
+      "enum": [
+        "replay_events",
+        "refresh_projections",
+        "authoritative_snapshot"
+      ]
+    },
+    "maximum_replay_events": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100000
+    },
+    "raw_runtime_access_requested": {
+      "const": false
+    }
+  },
+  "additionalProperties": false
+}

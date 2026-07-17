@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/workflow-release-manifest/1.0.0",
+  "title": "Wave64 Workflow Release Manifest",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "workflow_release_id",
+    "revision",
+    "status",
+    "created_at",
+    "workflow_module_id",
+    "original_ui_schema_version",
+    "original_ui_sha256",
+    "canonical_v1_ui_sha256",
+    "migration_tool_revision",
+    "semantic_equivalence_evidence_ids",
+    "api_graph_sha256",
+    "flattened_api_graph_sha256",
+    "top_level_meta_removed",
+    "allowlisted_patch_map_sha256",
+    "required_node_signature_sha256s",
+    "input_bindings",
+    "output_bindings",
+    "project_subgraph_source_sha256s",
+    "app_mode_config_sha256",
+    "minimum_frontend_version",
+    "compatible_runtime_lock_ids",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "workflow_release_manifest"
+    },
+    "workflow_release_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "workflow_module_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "original_ui_schema_version": {
+      "enum": [
+        "0.4",
+        "1.0"
+      ]
+    },
+    "original_ui_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "canonical_v1_ui_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "migration_tool_revision": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "semantic_equivalence_evidence_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "api_graph_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "flattened_api_graph_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "top_level_meta_removed": {
+      "const": true
+    },
+    "allowlisted_patch_map_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "required_node_signature_sha256s": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{64}$"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "input_bindings": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "minItems": 1
+    },
+    "output_bindings": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "minItems": 1
+    },
+    "project_subgraph_source_sha256s": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{64}$"
+      },
+      "uniqueItems": true
+    },
+    "app_mode_config_sha256": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "minimum_frontend_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "compatible_runtime_lock_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,50 @@
+{
+  "example_id": "wave64_audio_stems_and_av_job",
+  "status": "contract_fixture_not_runtime_evidence",
+  "job": {
+    "schema_version": "1.0.0",
+    "autonomous_multimodal_job_id": "job_scene021_av_001",
+    "revision": "r001",
+    "request_id": "request_scene021_av_001",
+    "idempotency_key": "idem_scene021_av_001",
+    "job_state": "validated",
+    "requested_outputs": [
+      {"output_id": "output_video", "modality": "video", "required": true, "acceptance_contract_id": "accept_video_final"},
+      {"output_id": "output_speech_stem", "modality": "audio", "required": true, "acceptance_contract_id": "accept_speech"},
+      {"output_id": "output_foley_stem", "modality": "audio", "required": true, "acceptance_contract_id": "accept_foley"},
+      {"output_id": "output_av_master", "modality": "av", "required": true, "acceptance_contract_id": "accept_av_master"}
+    ],
+    "character_package_ids": ["charpkg_aria_r003", "charpkg_bryn_r005"],
+    "scene_package_ids": ["scenepkg_scene021_r002"],
+    "shot_take_index": [{"scene_id": "scene021", "shot_id": "shot002", "take_id": "take001", "scene_package_id": "scenepkg_scene021_r002", "shot_pose_package_id": "shotpose_scene021_shot002_take001_r001", "dag_id": "dag_scene021_av_001", "status": "ready"}],
+    "pass_dag_ids": ["dag_scene021_av_001"],
+    "orchestration_policy": {
+      "planner_role_id": "planner_role_shadow_v1",
+      "validator_policy_id": "validator_policy_wave64_v1",
+      "router_policy_id": "router_policy_wave64_v1",
+      "promotion_policy_id": "promotion_policy_wave64_v1",
+      "no_silent_substitution": {"component_substitution": "forbidden", "stack_substitution": "explicit_new_route_decision_only", "engine_family_change": "explicit_bridge_or_new_route_only", "queue_pressure_quality_downgrade": "forbidden", "missing_asset_behavior": "block_or_hash_verified_acquisition"}
+    },
+    "resource_budget": {"allowed_execution_targets": ["local_dev", "ec2_certified_gpu"], "max_vram_mib": 24576, "max_ram_mib": 65536, "max_disk_mib": 131072, "wall_timeout_seconds": 14400, "queue_timeout_seconds": 1800, "concurrency": 2, "cost_ceiling": 25.0, "cache_policy": "prefer_resident"},
+    "retry_budget": {"max_attempts": 20, "max_reroutes": 8, "retryable_failure_classes": ["target_quality_failure", "transient_runtime_failure", "sync_failure"], "accepted_parent_immutable": true, "smallest_scope_retry": true, "hypothesis_change_required": true, "stop_conditions": ["budget_exhausted", "unresolved_authority"]},
+    "qa_policy": {"gate_ids": ["qa_video", "qa_speech", "qa_foley", "qa_mix", "qa_sync", "qa_full_playback"], "target_gate_ids": ["qa_speech", "qa_foley", "qa_sync"], "protected_gate_ids": ["qa_accepted_video_unchanged", "qa_unreplaced_stems_unchanged"], "whole_artifact_gate_ids": ["qa_full_playback"], "thresholds": {"duration_difference_frames_max": 1}, "required_evidence_types": ["frame_timeline", "stem_manifests", "waveforms", "full_playback"], "blocking": true, "promotion_required": true},
+    "mask_authority_policy": {"allowed_truth_tiers": ["gold", "approved_package", "certified_machine"], "mode_b_promotion_forbidden": true, "writes_gold": false},
+    "event_stream_head": {"event_id": null, "sequence_number": 0, "sha256": null},
+    "lease_and_cancellation": {"lease_owner": null, "lease_expires_at": null, "cancellation_requested": false},
+    "accepted_artifact_ids": [],
+    "terminal_output_ids": [],
+    "blockers": [],
+    "completion_contract": {"all_required_outputs_accepted": false, "all_required_passes_resolved": false, "all_blocking_qa_passed": false, "no_required_blockers": true},
+    "created_at": "2026-07-16T22:05:00-05:00",
+    "provenance": {"producer": "job_compiler_fixture", "source_refs": ["request_scene021_av_001"], "registry_snapshot_ids": ["registry_snapshot_wave64_example_av_001"], "canonicalization": "rfc8785_jcs"}
+  },
+  "stem_policy": {
+    "speech": "independently routed and replaceable",
+    "nonverbal_vocalization": "independently routed and replaceable",
+    "foley": "independently routed and replaceable",
+    "ambience": "independently routed and replaceable",
+    "music": "independently routed and replaceable",
+    "mix": "consumes only accepted stems",
+    "av_assembly": "consumes accepted video and accepted mix; validates frame/sample/PTS alignment and full playback"
+  }
+}

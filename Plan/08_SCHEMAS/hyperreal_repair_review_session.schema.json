@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-repair-review-session/1.0.0",
+  "title": "Hyperreal Repair Review Session",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "repair_review_session_id",
+    "revision",
+    "status",
+    "created_at",
+    "scope",
+    "qa_evaluation_refs",
+    "accepted_parent_refs",
+    "repair_plan_ref",
+    "before_after_session_ref",
+    "protected_region_overlays",
+    "boundary_handle_preview_refs",
+    "hypothesis_explanation_ref",
+    "allowed_commands",
+    "promotion_authority",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_repair_review_session"
+    },
+    "repair_review_session_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "scope": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ExecutionScope"
+    },
+    "qa_evaluation_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+      },
+      "minItems": 1
+    },
+    "accepted_parent_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+      },
+      "minItems": 1
+    },
+    "repair_plan_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "before_after_session_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "protected_region_overlays": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+      },
+      "minItems": 1
+    },
+    "boundary_handle_preview_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+      },
+      "minItems": 1
+    },
+    "hypothesis_explanation_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "allowed_commands": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "approve_candidate",
+          "reject_candidate",
+          "request_repair"
+        ]
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "promotion_authority": {
+      "const": false
+    }
+  },
+  "additionalProperties": false
+}

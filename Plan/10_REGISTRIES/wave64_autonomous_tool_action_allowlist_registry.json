@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "wave64_autonomous_tool_action_allowlist_v1",
+  "updated_at": "2026-07-16T19:30:00-05:00",
+  "status": "frozen_planning_allowlist_runtime_gateway_not_implemented",
+  "default_decision": "deny",
+  "actions": [
+    {
+      "action": "retrieve_registry_records",
+      "effect": "read_only",
+      "allowed_roles": [
+        "planner",
+        "prompt_composer",
+        "retrieval_analyst",
+        "router_advisor",
+        "defect_classifier",
+        "vlm_critic",
+        "audio_critic",
+        "report_writer",
+        "summarizer",
+        "drift_triage"
+      ]
+    },
+    {
+      "action": "read_artifact_metadata",
+      "effect": "read_only",
+      "allowed_roles": [
+        "planner",
+        "defect_classifier",
+        "vlm_critic",
+        "audio_critic",
+        "report_writer"
+      ]
+    },
+    {
+      "action": "submit_structured_proposal",
+      "effect": "proposal_only",
+      "allowed_roles": [
+        "planner",
+        "prompt_composer",
+        "router_advisor",
+        "defect_classifier",
+        "drift_triage"
+      ]
+    },
+    {
+      "action": "emit_reviewer_observation",
+      "effect": "candidate_evidence_only",
+      "allowed_roles": [
+        "vlm_critic",
+        "audio_critic"
+      ]
+    },
+    {
+      "action": "emit_cited_summary",
+      "effect": "navigation_only",
+      "allowed_roles": [
+        "report_writer",
+        "summarizer"
+      ]
+    }
+  ],
+  "universally_forbidden": [
+    "arbitrary_filesystem_path",
+    "credential_read",
+    "shell_execution",
+    "network_target_not_allowlisted",
+    "registry_mutation",
+    "certificate_issue",
+    "artifact_promotion",
+    "policy_weight_mutation",
+    "hard_compatibility_override",
+    "model_library_phase_activation"
+  ],
+  "request_authorization_receipt_split_required": true,
+  "argument_and_result_schema_hash_required": true
+}

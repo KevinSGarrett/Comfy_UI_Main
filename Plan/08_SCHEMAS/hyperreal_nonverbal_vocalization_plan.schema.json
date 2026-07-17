@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-nonverbal-vocalization-plan/1.0.0",
+  "title": "Hyperreal Nonverbal Vocalization Plan",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "nonverbal_vocalization_plan_id",
+    "revision",
+    "status",
+    "created_at",
+    "scope",
+    "character_instance_id",
+    "voice_package_ref",
+    "events",
+    "identity_certificate_ref",
+    "overlap_policy_id",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_nonverbal_vocalization_plan"
+    },
+    "nonverbal_vocalization_plan_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "scope": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ExecutionScope"
+    },
+    "character_instance_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "voice_package_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "event_id",
+          "kind",
+          "span",
+          "intensity",
+          "visual_driver_ref",
+          "continuity_state_ref"
+        ],
+        "properties": {
+          "event_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "enum": [
+              "breath",
+              "effort",
+              "laugh",
+              "cry",
+              "gasp",
+              "sigh",
+              "cough",
+              "vocal_reaction"
+            ]
+          },
+          "span": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/MediaSpan"
+          },
+          "intensity": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "visual_driver_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          },
+          "continuity_state_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "identity_certificate_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "overlap_policy_id": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "additionalProperties": false
+}

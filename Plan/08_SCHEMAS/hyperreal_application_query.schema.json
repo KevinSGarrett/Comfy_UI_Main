@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-application-query/1.0.0",
+  "title": "Hyperreal Operator Application Query",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "application_query_id",
+    "revision",
+    "status",
+    "created_at",
+    "actor_id",
+    "role_id",
+    "query",
+    "filter_schema_id",
+    "filters_sha256",
+    "cursor",
+    "page_size",
+    "consistency",
+    "raw_paths_or_credentials_requested",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_application_query"
+    },
+    "application_query_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "actor_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "role_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "query": {
+      "enum": [
+        "project_summary",
+        "character_library",
+        "scene_graph",
+        "shot_timeline",
+        "run_dag",
+        "attempt_detail",
+        "artifact_lineage",
+        "qa_report",
+        "candidate_comparison",
+        "repair_history",
+        "model_explanation",
+        "runtime_workers",
+        "queue_projection",
+        "incident_detail",
+        "audit_history"
+      ]
+    },
+    "filter_schema_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "filters_sha256": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Sha256"
+    },
+    "cursor": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "page_size": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 500
+    },
+    "consistency": {
+      "enum": [
+        "eventual_projection",
+        "read_your_writes",
+        "authoritative_snapshot"
+      ]
+    },
+    "raw_paths_or_credentials_requested": {
+      "const": false
+    }
+  },
+  "additionalProperties": false
+}

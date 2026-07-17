@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-voice-performance-spec/1.0.0",
+  "title": "Hyperreal Character Voice Performance Specification",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "voice_performance_spec_id",
+    "revision",
+    "status",
+    "created_at",
+    "scope",
+    "character_instance_id",
+    "voice_package_ref",
+    "text_normalization_ref",
+    "pronunciation_lexicon_ref",
+    "language",
+    "utterance_text_sha256",
+    "span",
+    "emotion_curve_ref",
+    "prosody_curve_ref",
+    "breath_plan_ref",
+    "phoneme_alignment_required",
+    "dry_voice_required",
+    "identity_certificate_ref",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_voice_performance_spec"
+    },
+    "voice_performance_spec_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "scope": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ExecutionScope"
+    },
+    "character_instance_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "voice_package_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "text_normalization_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "pronunciation_lexicon_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "language": {
+      "type": "string",
+      "minLength": 1
+    },
+    "utterance_text_sha256": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Sha256"
+    },
+    "span": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/MediaSpan"
+    },
+    "emotion_curve_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "prosody_curve_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "breath_plan_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "phoneme_alignment_required": {
+      "const": true
+    },
+    "dry_voice_required": {
+      "const": true
+    },
+    "identity_certificate_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    }
+  },
+  "additionalProperties": false
+}

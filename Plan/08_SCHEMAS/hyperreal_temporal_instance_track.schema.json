@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-temporal-instance-track/1.0.0",
+  "title": "Hyperreal Per-Character Temporal Instance Track",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "temporal_instance_track_id",
+    "revision",
+    "status",
+    "created_at",
+    "scope",
+    "character_instance_id",
+    "character_package_ref",
+    "provider_person_index",
+    "render_order",
+    "samples",
+    "frame_coverage_complete",
+    "owner_never_changes",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_temporal_instance_track"
+    },
+    "temporal_instance_track_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "scope": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ExecutionScope"
+    },
+    "character_instance_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "character_package_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "provider_person_index": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "render_order": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "samples": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "frame_index",
+          "pts",
+          "bbox_xywh",
+          "silhouette_mask_ref",
+          "pose_ref",
+          "depth_ref",
+          "visibility",
+          "occluded_by_owner_ids",
+          "identity_observation_ref",
+          "wardrobe_state_ref",
+          "surface_state_ref",
+          "contact_event_ids"
+        ],
+        "properties": {
+          "frame_index": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "pts": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "bbox_xywh": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 4
+          },
+          "silhouette_mask_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          },
+          "pose_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          },
+          "depth_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          },
+          "visibility": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "occluded_by_owner_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "identity_observation_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          },
+          "wardrobe_state_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          },
+          "surface_state_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          },
+          "contact_event_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "frame_coverage_complete": {
+      "const": true
+    },
+    "owner_never_changes": {
+      "const": true
+    }
+  },
+  "additionalProperties": false
+}

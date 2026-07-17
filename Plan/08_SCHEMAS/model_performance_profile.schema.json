@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/model-performance-profile/1.0.0",
+  "title": "Wave64 Contextual Model Performance Profile",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "performance_profile_id",
+    "revision",
+    "status",
+    "created_at",
+    "execution_bundle_ref",
+    "capability_scope",
+    "evidence_snapshot_id",
+    "sample_counts",
+    "metric_distributions",
+    "confidence_bounds",
+    "parameter_response_envelope",
+    "recommended_uses",
+    "known_failures",
+    "excluded_contexts",
+    "certificate_ids",
+    "fresh_until",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "model_performance_profile"
+    },
+    "performance_profile_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "execution_bundle_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+    },
+    "capability_scope": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/CapabilityScope"
+    },
+    "evidence_snapshot_id": {
+      "type": "string"
+    },
+    "sample_counts": {
+      "type": "object"
+    },
+    "metric_distributions": {
+      "type": "object"
+    },
+    "confidence_bounds": {
+      "type": "object"
+    },
+    "parameter_response_envelope": {
+      "type": "object"
+    },
+    "recommended_uses": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "known_failures": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "excluded_contexts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "certificate_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "fresh_until": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}

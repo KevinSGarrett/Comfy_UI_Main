@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/model-use-observation/1.0.0",
+  "title": "Wave64 Per-Use Model Observation",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "use_observation_id",
+    "revision",
+    "status",
+    "created_at",
+    "job_id",
+    "run_id",
+    "pass_id",
+    "attempt_id",
+    "selection_decision_ref",
+    "selection_context_ref",
+    "execution_bundle_ref",
+    "input_artifact_ids",
+    "output_artifact_ids",
+    "metrics",
+    "failure_codes",
+    "resource_telemetry",
+    "qa_disposition",
+    "learning_eligibility",
+    "learning_exclusion_reasons",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "model_use_observation"
+    },
+    "use_observation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "job_id": {
+      "type": "string"
+    },
+    "run_id": {
+      "type": "string"
+    },
+    "pass_id": {
+      "type": "string"
+    },
+    "attempt_id": {
+      "type": "string"
+    },
+    "selection_decision_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+    },
+    "selection_context_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+    },
+    "execution_bundle_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+    },
+    "input_artifact_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "output_artifact_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "metrics": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/MetricObservation"
+      }
+    },
+    "review_observation_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "failure_codes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "resource_telemetry": {
+      "type": "object"
+    },
+    "qa_disposition": {
+      "enum": [
+        "accepted",
+        "repair",
+        "reroute",
+        "rejected",
+        "blocked",
+        "cancelled"
+      ]
+    },
+    "learning_eligibility": {
+      "enum": [
+        "eligible_stack_level",
+        "eligible_component_attribution",
+        "ineligible",
+        "pending"
+      ]
+    },
+    "learning_exclusion_reasons": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

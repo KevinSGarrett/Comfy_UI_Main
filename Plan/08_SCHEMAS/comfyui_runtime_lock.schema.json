@@ -1,0 +1,231 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/comfyui-runtime-lock/1.0.0",
+  "title": "Wave64 ComfyUI Runtime Lock",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "runtime_lock_id",
+    "revision",
+    "status",
+    "created_at",
+    "runtime_id",
+    "core_version",
+    "core_commit",
+    "core_dirty",
+    "core_diff_sha256",
+    "frontend_version",
+    "python_version",
+    "torch_version",
+    "cuda_version",
+    "startup_argv_sha256",
+    "environment_lock_sha256",
+    "custom_nodes",
+    "object_info_sha256",
+    "feature_probes",
+    "folder_root_ids",
+    "compatible_workflow_release_ids",
+    "captured_at",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "comfyui_runtime_lock"
+    },
+    "runtime_lock_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "runtime_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "core_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "core_commit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "core_dirty": {
+      "type": "boolean"
+    },
+    "core_diff_sha256": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "frontend_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "python_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "torch_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "cuda_version": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "startup_argv_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "environment_lock_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "custom_nodes": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "required": [
+          "node_pack_id",
+          "origin",
+          "commit",
+          "dirty",
+          "diff_sha256",
+          "requirements_sha256",
+          "import_status",
+          "node_signature_sha256"
+        ],
+        "properties": {
+          "node_pack_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "origin": {
+            "type": "string",
+            "minLength": 1
+          },
+          "commit": {
+            "type": "string",
+            "minLength": 1
+          },
+          "dirty": {
+            "type": "boolean"
+          },
+          "diff_sha256": {
+            "oneOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "requirements_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "import_status": {
+            "enum": [
+              "passed",
+              "failed"
+            ]
+          },
+          "node_signature_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "object_info_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "feature_probes": {
+      "type": "object",
+      "required": [
+        "prompt",
+        "websocket",
+        "history",
+        "queue",
+        "interrupt",
+        "jobs",
+        "targeted_cancel"
+      ],
+      "properties": {
+        "prompt": {
+          "type": "boolean"
+        },
+        "websocket": {
+          "type": "boolean"
+        },
+        "history": {
+          "type": "boolean"
+        },
+        "queue": {
+          "type": "boolean"
+        },
+        "interrupt": {
+          "type": "boolean"
+        },
+        "jobs": {
+          "type": "boolean"
+        },
+        "targeted_cancel": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "folder_root_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "compatible_workflow_release_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "captured_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}

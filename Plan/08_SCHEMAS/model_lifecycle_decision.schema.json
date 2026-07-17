@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/model-lifecycle-decision/1.0.0",
+  "title": "Wave64 Model Lifecycle Decision",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "lifecycle_decision_id",
+    "revision",
+    "status",
+    "created_at",
+    "subject_ref",
+    "axis",
+    "from_state",
+    "to_state",
+    "decision_authority",
+    "reason_codes",
+    "evidence",
+    "affected_certificate_ids",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "model_lifecycle_decision"
+    },
+    "lifecycle_decision_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "subject_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+    },
+    "axis": {
+      "enum": [
+        "identity",
+        "binary_integrity",
+        "classification",
+        "availability",
+        "runtime",
+        "capability_authority",
+        "evidence"
+      ]
+    },
+    "from_state": {
+      "type": "string"
+    },
+    "to_state": {
+      "type": "string"
+    },
+    "decision_authority": {
+      "enum": [
+        "deterministic_policy",
+        "authorized_operator",
+        "release_authority"
+      ]
+    },
+    "reason_codes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/EvidenceRef"
+      }
+    },
+    "affected_certificate_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "rollback_ref": {
+      "oneOf": [
+        {
+          "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "additionalProperties": false
+}

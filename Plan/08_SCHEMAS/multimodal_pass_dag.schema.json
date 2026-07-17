@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/multimodal-pass-dag/1.0.0",
+  "title": "Wave64 Multimodal Pass DAG",
+  "type": "object",
+  "required": ["schema_version", "multimodal_pass_dag_id", "revision", "job_id", "run_id", "scene_id", "shot_id", "take_id", "dag_status", "pass_nodes", "edges", "root_pass_ids", "terminal_pass_ids", "required_output_slots", "resource_schedule", "global_retry_budget", "global_qa_contract", "failure_propagation", "promotion_rules", "compiled_plan_sha256", "provenance"],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "multimodal_pass_dag_id": { "type": "string", "minLength": 1 },
+    "revision": { "type": "string" },
+    "job_id": { "type": "string" },
+    "run_id": { "type": "string" },
+    "scene_id": { "type": "string" },
+    "shot_id": { "type": "string" },
+    "take_id": { "type": "string" },
+    "dag_status": { "enum": ["proposed", "validated", "ready", "running", "blocked", "failed", "completed", "cancelled"] },
+    "pass_nodes": { "type": "array", "items": { "type": "object", "required": ["pass_id", "specialist_pass_contract_id", "required"], "properties": { "pass_id":{"type":"string"}, "specialist_pass_contract_id":{"type":"string"}, "required":{"type":"boolean"} }, "additionalProperties":false }, "minItems":1 },
+    "edges": { "type": "array", "items": { "type": "object", "required": ["edge_id", "source_pass_id", "source_output_slot", "target_pass_id", "target_input_slot", "dependency_type", "artifact_contract", "acceptance_required"], "properties": { "edge_id":{"type":"string"}, "source_pass_id":{"type":"string"}, "source_output_slot":{"type":"string"}, "target_pass_id":{"type":"string"}, "target_input_slot":{"type":"string"}, "dependency_type":{"enum":["data","control","qa","promotion","temporal","audio_sync","join"]}, "artifact_contract":{"type":"string"}, "bridge_contract_id":{"type":["string","null"]}, "acceptance_required":{"type":"boolean"} }, "additionalProperties":false } },
+    "root_pass_ids": { "type": "array", "items": { "type": "string" }, "minItems":1, "uniqueItems":true },
+    "terminal_pass_ids": { "type": "array", "items": { "type": "string" }, "minItems":1, "uniqueItems":true },
+    "required_output_slots": { "type": "array", "items": { "type": "string" }, "minItems":1, "uniqueItems":true },
+    "resource_schedule": {
+      "type": "object",
+      "required": ["scheduler_policy_id", "strategy", "runtime_lease_required", "fencing_token_required", "max_parallel_passes", "runtime_class_ids", "per_pass_constraints"],
+      "properties": {
+        "scheduler_policy_id": { "type": "string", "minLength": 1 },
+        "strategy": { "enum": ["quality_priority", "balanced", "latency_bounded", "qualification_batch"] },
+        "runtime_lease_required": { "const": true },
+        "fencing_token_required": { "const": true },
+        "max_parallel_passes": { "type": "integer", "minimum": 1 },
+        "runtime_class_ids": { "type": "array", "items": { "type": "string" }, "minItems": 1, "uniqueItems": true },
+        "per_pass_constraints": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["pass_id", "runtime_class_ids", "max_queue_seconds", "max_wall_seconds"],
+            "properties": {
+              "pass_id": { "type": "string", "minLength": 1 },
+              "runtime_class_ids": { "type": "array", "items": { "type": "string" }, "minItems": 1, "uniqueItems": true },
+              "max_queue_seconds": { "type": "integer", "minimum": 1 },
+              "max_wall_seconds": { "type": "integer", "minimum": 1 }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "global_retry_budget": { "type": "object", "required": ["max_attempts", "max_reroutes"], "properties": { "max_attempts":{"type":"integer","minimum":1}, "max_reroutes":{"type":"integer","minimum":0} }, "additionalProperties":false },
+    "global_qa_contract": { "$ref": "https://comfy-ui-main.local/schemas/multimodal-contract-common/1.0.0#/$defs/QAContract" },
+    "failure_propagation": {
+      "type": "object",
+      "required": ["required_pass_failure", "optional_pass_failure", "upstream_invalidation", "join_failure", "ambiguous_attempt", "silent_skip_allowed"],
+      "properties": {
+        "required_pass_failure": { "enum": ["block_dag", "bounded_repair_then_block", "explicit_reroute_then_block"] },
+        "optional_pass_failure": { "enum": ["record_and_continue", "bounded_repair_then_continue", "block_dag"] },
+        "upstream_invalidation": { "enum": ["invalidate_descendants", "revalidate_descendants", "block_for_replan"] },
+        "join_failure": { "enum": ["block_join_and_descendants", "rebuild_missing_branch"] },
+        "ambiguous_attempt": { "const": "block_no_failover_or_promotion" },
+        "silent_skip_allowed": { "const": false }
+      },
+      "additionalProperties": false
+    },
+    "promotion_rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["output_slot", "qa_gate_ids", "policy_id", "exactly_once"],
+        "properties": {
+          "output_slot": { "type": "string", "minLength": 1 },
+          "qa_gate_ids": { "type": "array", "items": { "type": "string" }, "minItems": 1, "uniqueItems": true },
+          "policy_id": { "type": "string", "minLength": 1 },
+          "exactly_once": { "const": true }
+        },
+        "additionalProperties": false
+      }
+    },
+    "compiled_plan_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "provenance": { "$ref": "https://comfy-ui-main.local/schemas/multimodal-contract-common/1.0.0#/$defs/Provenance" }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-application-command-authorization/1.0.0",
+  "title": "Hyperreal Application Command Authorization",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "application_command_authorization_id",
+    "revision",
+    "status",
+    "created_at",
+    "command_ref",
+    "actor_id",
+    "role_ref",
+    "policy_revision_ref",
+    "target_scope_refs",
+    "decision",
+    "reason_codes",
+    "confirmation_token_hash",
+    "expires_at",
+    "credential_access_granted",
+    "direct_runtime_authority_granted",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_application_command_authorization"
+    },
+    "application_command_authorization_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "command_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "actor_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "role_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "policy_revision_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "target_scope_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+      },
+      "minItems": 1
+    },
+    "decision": {
+      "enum": [
+        "allow",
+        "deny",
+        "require_confirmation",
+        "require_additional_evidence"
+      ]
+    },
+    "reason_codes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "confirmation_token_hash": {
+      "oneOf": [
+        {
+          "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Sha256"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "credential_access_granted": {
+      "const": false
+    },
+    "direct_runtime_authority_granted": {
+      "const": false
+    }
+  },
+  "additionalProperties": false
+}

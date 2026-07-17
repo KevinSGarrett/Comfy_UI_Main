@@ -1,0 +1,47 @@
+{
+  "example_id": "wave64_two_character_ownership_and_mask_binding",
+  "status": "contract_fixture_not_runtime_evidence",
+  "shot_pose_package": {
+    "schema_version": "1.0.0",
+    "shot_pose_package_id": "shotpose_scene021_shot002_take001_r001",
+    "revision": "r001",
+    "package_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "scene_id": "scene021",
+    "shot_id": "shot002",
+    "take_id": "take001",
+    "media_clock_span_id": "clockspan_scene021_shot002_take001",
+    "skeleton_taxonomy_id": "skeleton_taxonomy_coco_wholebody_v1",
+    "source_authority": "approved_package",
+    "timebase": {"numerator": 24, "denominator": 1, "start_frame": 0, "end_frame": 71},
+    "duration_seconds": 3.0,
+    "camera": {"projection": "perspective", "framing": "medium_two_shot", "lens_mm": 50, "pose": {"position": [0, 1.6, 4.0], "look_at": [0, 1.4, 0], "up": [0, 1, 0]}, "depth_of_field": {"focus_m": 4.0, "aperture_f": 4.0}},
+    "output_frame": {"width": 1920, "height": 1080, "safe_margin_normalized": 0.04},
+    "instances": [
+      {"character_instance_id": "charinst_aria_01", "character_id": "char_aria", "character_revision": "r003", "person_index": 0, "mask_provider_person_index": 0, "render_order": 0, "skeleton": {"skeleton_id": "skel_aria_001", "taxonomy_id": "skeleton_taxonomy_coco_wholebody_v1", "skeleton_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "source_authority": "approved_package"}, "bbox_normalized": [0.08, 0.1, 0.42, 0.88], "silhouette_artifact_id": "silhouette_aria", "depth_layer": 1, "visibility": {"visible_fraction": 0.94}, "occluded_by_instance_ids": [], "region_ownership": {"left_hand": "charinst_aria_01", "right_hand": "charinst_aria_01"}, "protected_regions": ["face", "hair", "torso"], "keyframes": []},
+      {"character_instance_id": "charinst_bryn_01", "character_id": "char_bryn", "character_revision": "r005", "person_index": 1, "mask_provider_person_index": 1, "render_order": 1, "skeleton": {"skeleton_id": "skel_bryn_001", "taxonomy_id": "skeleton_taxonomy_coco_wholebody_v1", "skeleton_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "source_authority": "approved_package"}, "bbox_normalized": [0.5, 0.08, 0.42, 0.9], "silhouette_artifact_id": "silhouette_bryn", "depth_layer": 2, "visibility": {"visible_fraction": 0.91}, "occluded_by_instance_ids": ["charinst_aria_01"], "region_ownership": {"left_hand": "charinst_bryn_01", "right_hand": "charinst_bryn_01"}, "protected_regions": ["face", "hair", "torso"], "keyframes": []}
+    ],
+    "contacts": [{"contact_id": "contact_handshake_001", "kind": "person_person", "participants": [{"owner_instance_id": "charinst_aria_01", "region_or_object_id": "right_hand"}, {"owner_instance_id": "charinst_bryn_01", "region_or_object_id": "right_hand"}], "media_clock_span_id": "clockspan_handshake_scene021", "ownership_resolved": true, "constraints": {"reciprocal": true, "shared_contact_mask_required": true, "contact_owner_resolved": true}}],
+    "events": [{"event_id": "evt_hand_contact", "event_type": "hand_contact", "pts": 24, "owner_instance_id": "charinst_aria_01", "payload_schema_id": "contact_event_v1", "payload_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}],
+    "coordinate_spaces": [{"id": "scene021_full_frame", "width": 1920, "height": 1080, "coordinate_space_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"}],
+    "qa_goal_ids": ["qa_exact_person_count", "qa_identity_separation", "qa_contact", "qa_cross_owner_bleed"],
+    "created_at": "2026-07-16T21:55:00-05:00"
+  },
+  "mask_bindings": [
+    {
+      "schema_version": "1.0.0", "binding_id": "maskbind_scene021_aria", "scene_id": "scene021", "shot_id": "shot002", "take_id": "take001", "character_id": "char_aria", "character_revision": "r003", "character_instance_id": "charinst_aria_01", "access_mode": "mode_a_package_read",
+      "authority": {"truth_tier": "approved_package", "certificate_id": "maskcert_aria_scene021", "promotion_scope": ["edit_target", "protected_region"], "expires_at": null},
+      "image": {"image_id": "scene021_source", "sha256": "1111111111111111111111111111111111111111111111111111111111111111", "width": 1920, "height": 1080, "coordinate_space": "scene021_full_frame"},
+      "person_index": 0, "package": {"package_id": "maskpkg_scene021", "revision": "r002", "ontology_version": "1.x", "provider": "MaskFactory"},
+      "masks": [{"mask_id": "mask_aria_person", "mask_type": "person_instance", "artifact_id": "mask_artifact_aria_person", "sha256": "2222222222222222222222222222222222222222222222222222222222222222", "source_coordinate_space": "scene021_full_frame", "confidence": null}],
+      "transform_chain": [{"operation": "identity", "source_space": "scene021_full_frame", "target_space": "scene021_full_frame", "parameters": {}, "parameters_sha256": "4444444444444444444444444444444444444444444444444444444444444444", "roundtrip_validated": true}], "writes_gold": false, "can_satisfy_promotion_gate": true, "valid_from": null, "validated_at": "2026-07-16T21:55:01-05:00"
+    },
+    {
+      "schema_version": "1.0.0", "binding_id": "maskbind_scene021_bryn", "scene_id": "scene021", "shot_id": "shot002", "take_id": "take001", "character_id": "char_bryn", "character_revision": "r005", "character_instance_id": "charinst_bryn_01", "access_mode": "mode_a_package_read",
+      "authority": {"truth_tier": "approved_package", "certificate_id": "maskcert_bryn_scene021", "promotion_scope": ["edit_target", "protected_region"], "expires_at": null},
+      "image": {"image_id": "scene021_source", "sha256": "1111111111111111111111111111111111111111111111111111111111111111", "width": 1920, "height": 1080, "coordinate_space": "scene021_full_frame"},
+      "person_index": 1, "package": {"package_id": "maskpkg_scene021", "revision": "r002", "ontology_version": "1.x", "provider": "MaskFactory"},
+      "masks": [{"mask_id": "mask_bryn_person", "mask_type": "person_instance", "artifact_id": "mask_artifact_bryn_person", "sha256": "3333333333333333333333333333333333333333333333333333333333333333", "source_coordinate_space": "scene021_full_frame", "confidence": null}],
+      "transform_chain": [{"operation": "identity", "source_space": "scene021_full_frame", "target_space": "scene021_full_frame", "parameters": {}, "parameters_sha256": "5555555555555555555555555555555555555555555555555555555555555555", "roundtrip_validated": true}], "writes_gold": false, "can_satisfy_promotion_gate": true, "valid_from": null, "validated_at": "2026-07-16T21:55:01-05:00"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/engine-execution-stack-card/1.0.0",
+  "title": "Wave64 Engine Execution Stack Card",
+  "type": "object",
+  "required": ["schema_version", "execution_stack_id", "capability_card_id", "engine_family", "model", "workflow", "conditioning_stack", "sampler_stack", "runtime_profile", "component_hashes", "authority_status", "updated_at"],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "execution_stack_id": { "type": "string", "minLength": 1 },
+    "capability_card_id": { "type": "string", "minLength": 1 },
+    "engine_family": { "type": "string", "minLength": 1 },
+    "model": { "type": "object", "required": ["model_id", "revision", "sha256"], "properties": { "model_id":{"type":"string"}, "revision":{"type":"string"}, "sha256":{"type":["string","null"], "pattern":"^[A-Fa-f0-9]{64}$"} }, "additionalProperties": false },
+    "workflow": { "type": "object", "required": ["workflow_module_id", "revision", "api_graph_sha256", "api_compatible"], "properties": { "workflow_module_id":{"type":"string"}, "revision":{"type":"string"}, "api_graph_sha256":{"type":["string","null"], "pattern":"^[A-Fa-f0-9]{64}$"}, "api_compatible":{"type":"boolean"}, "custom_node_lock_id":{"type":["string","null"]} }, "additionalProperties": false },
+    "conditioning_stack": { "type": "object", "required": ["vae", "text_encoders", "adapters", "controls"], "properties": { "vae":{"type":"object"}, "text_encoders":{"type":"array","items":{"type":"object"}}, "adapters":{"type":"array","items":{"type":"object"}}, "controls":{"type":"array","items":{"type":"object"}} }, "additionalProperties": false },
+    "sampler_stack": { "type": "object", "required": ["scheduler", "sampler"], "properties": { "scheduler":{"type":"string"}, "sampler":{"type":"string"}, "default_parameters":{"type":"object", "additionalProperties":true} }, "additionalProperties": false },
+    "runtime_profile": { "type": "object", "required": ["runtime_profile_id", "executor_type", "precision", "offload_policy", "hardware_envelope_id"], "properties": { "runtime_profile_id":{"type":"string"}, "executor_type":{"type":"string"}, "precision":{"type":"string"}, "offload_policy":{"type":"string"}, "hardware_envelope_id":{"type":"string"}, "container_or_environment_hash":{"type":["string","null"]} }, "additionalProperties": false },
+    "component_hashes": { "type": "object", "minProperties": 1, "additionalProperties": { "type": ["string", "null"] } },
+    "benchmark_certificate_ids": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "authority_status": { "enum": ["planned", "candidate", "certified", "suspended", "revoked"] },
+    "updated_at": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": false
+}

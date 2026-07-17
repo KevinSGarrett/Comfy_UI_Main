@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/model-library-source-snapshot/1.0.0",
+  "title": "Wave64 Model Library Source Snapshot",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "source_snapshot_id",
+    "revision",
+    "status",
+    "created_at",
+    "source_name",
+    "content_based_suppression",
+    "parts",
+    "logical_archive",
+    "patch_archive",
+    "inventory",
+    "known_source_issues",
+    "authority",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "model_library_source_snapshot"
+    },
+    "source_snapshot_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "source_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "content_based_suppression": {
+      "const": false
+    },
+    "parts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "part",
+          "name",
+          "bytes",
+          "sha256"
+        ],
+        "properties": {
+          "part": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "name": {
+            "type": "string"
+          },
+          "bytes": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "logical_archive": {
+      "type": "object"
+    },
+    "patch_archive": {
+      "type": "object"
+    },
+    "inventory": {
+      "type": "object"
+    },
+    "engine_counts": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "known_source_issues": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "authority": {
+      "type": "object",
+      "required": [
+        "maximum",
+        "runtime_selection_allowed",
+        "promotion_allowed",
+        "requires_independent_hash_scan_install_load_benchmark_certificate",
+        "activation_gate_id",
+        "complete_model_download_declared",
+        "complete_binary_inventory_verified",
+        "main_task_activation_acknowledged",
+        "bulk_ingestion_or_qualification_allowed"
+      ],
+      "properties": {
+        "maximum": {
+          "const": "discovery_metadata"
+        },
+        "runtime_selection_allowed": {
+          "const": false
+        },
+        "promotion_allowed": {
+          "const": false
+        },
+        "requires_independent_hash_scan_install_load_benchmark_certificate": {
+          "const": true
+        },
+        "activation_gate_id": {
+          "const": "wave64_model_library_download_readiness_gate_v1"
+        },
+        "complete_model_download_declared": {
+          "const": false
+        },
+        "complete_binary_inventory_verified": {
+          "const": false
+        },
+        "main_task_activation_acknowledged": {
+          "const": false
+        },
+        "bulk_ingestion_or_qualification_allowed": {
+          "const": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

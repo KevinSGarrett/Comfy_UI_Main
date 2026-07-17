@@ -28,6 +28,9 @@ The project has multiple overlapping wave namespaces. They are not one simple li
 
 3. Strict AI and source-coverage tracker waves
    - Wave64 is the current strict AI operational coverage layer.
+   - Wave64 uses non-overlapping sidecars: Rows001-066 canonical, Rows067-112 autonomous sound intelligence, Rows113-148 hyperreal speech, Rows149-220 the ultimate modular character-to-multimodal workflow program, and Rows221-260 the autonomous Model Intelligence and Qualification child program.
+   - Rows149-220 are additive planning and implementation obligations. They do not overwrite prior rows and do not claim runtime completion merely because their planning package validates.
+   - Rows221-260 extend Rows165-172 and Rows201-204 with source admission, exact model bundles, empirical qualification, contextual ranking, per-use reports, evidence learning, autonomous-role contracts, drift, and release. Wave30 metadata is discovery-only, and Rows223-260 are execution-deferred until the complete intended model download, deterministic inventory verification, and main-task acknowledgement gate passes. That acknowledgement can open `active_staging_only`; qualification, shadow selection, and production selection each require a separate append-only phase transition and evidence set.
    - Wave65 is the current exhaustive Plan source coverage layer.
    - These are controls and coverage obligations, not proof that every cited evidence label is next implementation work.
 
@@ -73,11 +76,14 @@ Stale Items/Tracker package manifests are actionable ledger gaps when their row 
 
 ## Current Sequence Guard
 
-As of 2026-07-08T15:51:59-05:00:
+As of 2026-07-16T20:30:00-05:00:
 
 - Do not treat `W68_*` files as the project starting point.
 - Do not advance into Wave71+ physics/deformation implementation unless activation-gate evidence proves activation.
 - Continue current non-deferred operational work, especially unresolved Wave70 rows and Wave64/Wave65 control obligations.
+- Preserve the intentional Wave64 Rows221-260 Model Intelligence files and integrate them through main task 019f422f-88b1-7382-872b-21de2089e983. The current gate is `deferred_waiting_for_complete_model_download`; do not begin staging or model-dependent execution until the frozen expected scope, completion manifest, reconciled inventory, and main-task acknowledgement exist. The initial acknowledgement opens staging only. This gate does not block the separately governed FLUX.2 proof lane or MaskFactory task, and Wave30 selector scores, copy-ready labels, planning schemas, or static tests never become model/runtime certification.
+- Preserve the intentional Wave64 Rows149-220 files and integrate them through main task `019f422f-88b1-7382-872b-21de2089e983`; do not clean or delete them as incidental dirty/untracked work.
+- Preserve the intentional Wave64 Rows261-320 Hyperreal Video, Audio/AV, and Operator Application third-pass files and integrate them through main task `019f422f-88b1-7382-872b-21de2089e983`. Their planning-contract coverage does not prove a video/audio engine, end-to-end AV runtime, controller console, App Mode launcher, frontend extension, or release. The bulk model-library deferral blocks only model-library phases and real executions that need unqualified bundles; it does not block strict contracts, synthetic controller fixtures, or the read-only application shell.
 - Wave70 numbered rows stop at `0178`, but Wave70 is not exhausted while non-blocked, not-complete Wave70 rows or unresolved authority/gate rows remain.
 
 ## Manual Gold Mask Dependency Rule

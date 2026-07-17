@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "model_execution_bundle",
+  "execution_bundle_id": "bundle_sdxl_skin_specialist_example_v1",
+  "revision": "1",
+  "status": "candidate_example_not_runtime_authority",
+  "created_at": "2026-07-16T19:30:00-05:00",
+  "engine_family": "sdxl",
+  "base_model": {
+    "record_type": "model_asset_intelligence_card",
+    "record_id": "base_sdxl_example",
+    "revision": "1",
+    "sha256": null,
+    "path_or_uri": null
+  },
+  "components": [
+    {
+      "slot": "skin_detail",
+      "record_ref": {
+        "record_type": "model_asset_intelligence_card",
+        "record_id": "lora_skin_example",
+        "revision": "1",
+        "sha256": null,
+        "path_or_uri": null
+      },
+      "order": 0,
+      "parameters": {
+        "weight": 0.45
+      },
+      "target_instance_ids": [
+        "character_instance_01"
+      ],
+      "target_regions": [
+        "skin"
+      ]
+    }
+  ],
+  "workflow_ref": {
+    "record_type": "workflow_module",
+    "record_id": "regional_inpaint_example",
+    "revision": "1",
+    "sha256": null,
+    "path_or_uri": null
+  },
+  "runtime_ref": {
+    "record_type": "runtime_profile",
+    "record_id": "local_8gib_example",
+    "revision": "1",
+    "sha256": null,
+    "path_or_uri": null
+  },
+  "prompt_profile_ref": null,
+  "bundle_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "compatibility_edge_ids": [
+    "compat_example_1"
+  ],
+  "certificate_ids": [],
+  "mask_and_control_capabilities": {
+    "supported_access_modes": [
+      "mode_a_package_read"
+    ],
+    "supported_truth_tiers": [
+      "approved_package"
+    ],
+    "supported_control_types": [
+      "regional_inpaint_mask",
+      "protected_mask"
+    ],
+    "supports_per_instance_ownership": true,
+    "supports_protected_mask": true,
+    "supports_transform_chain": true,
+    "mode_b_authority_ceiling": "machine_draft",
+    "writes_gold": false
+  },
+  "no_silent_substitution": true,
+  "provenance": {
+    "producer": "wave64_autonomous_model_intelligence_package_builder",
+    "source_refs": [
+      "wave30_source_snapshot",
+      "wave64_model_intelligence_master_plan"
+    ],
+    "evidence_refs": [],
+    "registry_snapshot_ids": []
+  }
+}

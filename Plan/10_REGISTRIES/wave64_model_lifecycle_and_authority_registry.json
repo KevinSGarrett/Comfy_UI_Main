@@ -1,0 +1,113 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "wave64_model_lifecycle_and_authority_v1",
+  "updated_at": "2026-07-16T19:30:00-05:00",
+  "status": "planned_runtime_deferred_by_model_library_activation_gate",
+  "activation_gate_id": "wave64_model_library_download_readiness_gate_v1",
+  "activation_gate_state": "deferred_waiting_for_complete_model_download",
+  "runtime_work_authorized": false,
+  "content_based_suppression": false,
+  "authority_planes": [
+    {
+      "plane": "discovery",
+      "facts": [
+        "source claims",
+        "taxonomy",
+        "tags",
+        "triggers",
+        "selector priors"
+      ],
+      "maximum_action": "candidate_retrieval_and_qualification_priority"
+    },
+    {
+      "plane": "operational",
+      "facts": [
+        "hash",
+        "binary inspection",
+        "installation",
+        "loader",
+        "runtime",
+        "bundle"
+      ],
+      "maximum_action": "qualification_execution_only_after_activation_gate_pass"
+    },
+    {
+      "plane": "empirical",
+      "facts": [
+        "benchmarks",
+        "observations",
+        "profiles",
+        "certificates",
+        "drift"
+      ],
+      "maximum_action": "scope_bounded_production_selection_when_certified"
+    }
+  ],
+  "lifecycle_axes": {
+    "identity": [
+      "discovered",
+      "canonicalized",
+      "hash_verified",
+      "duplicate_alias"
+    ],
+    "binary_integrity": [
+      "unscanned",
+      "passed",
+      "quarantined",
+      "failed"
+    ],
+    "classification": [
+      "unclassified",
+      "proposed",
+      "reviewed",
+      "frozen"
+    ],
+    "availability": [
+      "remote_only",
+      "cache_pending",
+      "installed_quarantine",
+      "installed_verified",
+      "missing"
+    ],
+    "runtime": [
+      "untested",
+      "static_passed",
+      "load_smoke_passed",
+      "functional_smoke_passed",
+      "failed",
+      "suspended"
+    ],
+    "capability_authority": [
+      "research_candidate",
+      "benchmark_candidate",
+      "provisional",
+      "shadow_challenger",
+      "production_eligible",
+      "suspended",
+      "revoked",
+      "superseded"
+    ],
+    "evidence": [
+      "current",
+      "stale",
+      "contradicted",
+      "revoked"
+    ]
+  },
+  "transition_authorities": {
+    "source_admission": "deterministic_intake_policy",
+    "installation": "asset_admission_service",
+    "runtime_state": "runtime_evidence_policy",
+    "certificate": "certificate_policy_service",
+    "suspension_revocation": "deterministic_policy_or_release_authority",
+    "artifact_promotion": "existing_multimodal_promotion_policy"
+  },
+  "llm_vlm_authority": {
+    "may_propose": true,
+    "may_observe": true,
+    "may_certify": false,
+    "may_promote": false,
+    "may_mutate_registry": false,
+    "may_use_arbitrary_tools": false
+  }
+}

@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/autonomous-model-role-card/1.0.0",
+  "title": "Wave64 Autonomous Model Role Card",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "autonomous_role_id",
+    "revision",
+    "status",
+    "created_at",
+    "role",
+    "allowed_input_record_types",
+    "allowed_output_record_types",
+    "allowed_tool_actions",
+    "prohibited_authorities",
+    "context_budget",
+    "model_requirements",
+    "escalation_conditions",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "autonomous_model_role_card"
+    },
+    "autonomous_role_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "role": {
+      "enum": [
+        "planner",
+        "prompt_composer",
+        "retrieval_analyst",
+        "router_advisor",
+        "defect_classifier",
+        "vlm_critic",
+        "audio_critic",
+        "report_writer",
+        "summarizer",
+        "drift_triage"
+      ]
+    },
+    "allowed_input_record_types": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "allowed_output_record_types": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "allowed_tool_actions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "prohibited_authorities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "context_budget": {
+      "type": "object"
+    },
+    "model_requirements": {
+      "type": "object"
+    },
+    "escalation_conditions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

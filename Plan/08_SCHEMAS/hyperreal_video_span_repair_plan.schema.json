@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-video-span-repair-plan/1.0.0",
+  "title": "Hyperreal Video Local Span Repair Plan",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "video_span_repair_plan_id",
+    "revision",
+    "status",
+    "created_at",
+    "scope",
+    "accepted_parent_ref",
+    "qa_evaluation_ref",
+    "repairs",
+    "accepted_parent_immutable",
+    "smallest_failed_scope_only",
+    "full_clip_rerender",
+    "max_attempts",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_video_span_repair_plan"
+    },
+    "video_span_repair_plan_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "scope": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ExecutionScope"
+    },
+    "accepted_parent_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "qa_evaluation_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "repairs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "defect_ids",
+          "target_span",
+          "decode_handle_frames_before",
+          "decode_handle_frames_after",
+          "write_mask_refs",
+          "protected_mask_refs",
+          "boundary_keyframe_refs",
+          "repair_method",
+          "hypothesis_ref"
+        ],
+        "properties": {
+          "defect_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "target_span": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/MediaSpan"
+          },
+          "decode_handle_frames_before": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "decode_handle_frames_after": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "write_mask_refs": {
+            "type": "array",
+            "items": {
+              "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+            },
+            "minItems": 1
+          },
+          "protected_mask_refs": {
+            "type": "array",
+            "items": {
+              "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+            },
+            "minItems": 1
+          },
+          "boundary_keyframe_refs": {
+            "type": "array",
+            "items": {
+              "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+            },
+            "minItems": 1
+          },
+          "repair_method": {
+            "enum": [
+              "regenerate_span",
+              "inpaint_frames",
+              "flow_guided_refine",
+              "interpolate",
+              "reroute_engine",
+              "color_temporal_blend"
+            ]
+          },
+          "hypothesis_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "accepted_parent_immutable": {
+      "const": true
+    },
+    "smallest_failed_scope_only": {
+      "const": true
+    },
+    "full_clip_rerender": {
+      "const": false
+    },
+    "max_attempts": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/multimodal-artifact-manifest/1.0.0",
+  "title": "Wave64 Multimodal Artifact Manifest",
+  "type": "object",
+  "required": ["schema_version", "artifact_manifest_id", "revision", "artifact_id", "scene_id", "shot_id", "take_id", "job_id", "run_id", "pass_id", "attempt_id", "artifact_type", "modality", "lifecycle_state", "parent_artifact_ids", "source_package_ids", "route_decision_id", "execution_stack_id", "files", "technical_metadata", "generation_provenance", "ownership_scope", "execution_binding", "qa_evidence_ids", "qa_decision", "promotion_state", "immutability_policy", "created_at", "provenance"],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "artifact_manifest_id": { "type": "string" },
+    "revision": { "type": "string" },
+    "artifact_id": { "type": "string" },
+    "scene_id": { "type": "string" },
+    "shot_id": { "type": "string" },
+    "take_id": { "type": "string" },
+    "job_id": { "type": "string" },
+    "run_id": { "type": "string" },
+    "pass_id": { "type": "string" },
+    "attempt_id": { "type": "string" },
+    "artifact_type": { "type": "string", "minLength": 1 },
+    "modality": { "enum": ["image", "video", "audio", "av", "mask", "control", "timeline", "manifest", "report"] },
+    "lifecycle_state": { "enum": ["candidate", "validated", "accepted_parent", "promotion_candidate", "promoted", "rejected", "blocked", "rolled_back"] },
+    "parent_artifact_ids": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "source_package_ids": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "route_decision_id": { "type": "string" },
+    "execution_stack_id": { "type": "string" },
+    "bridge_contract_ids": { "type": "array", "items": { "type": "string" } },
+    "files": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["path_or_uri", "sha256", "bytes", "media_type"],
+        "properties": {
+          "path_or_uri": { "type": "string" },
+          "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+          "bytes": { "type": "integer", "minimum": 1 },
+          "media_type": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "technical_metadata": {
+      "type": "object",
+      "properties": {
+        "width": { "type": "integer", "minimum": 1 },
+        "height": { "type": "integer", "minimum": 1 },
+        "color_space": { "type": "string" },
+        "bit_depth": { "type": "integer", "minimum": 1 },
+        "fps": { "type": "number", "exclusiveMinimum": 0 },
+        "frame_count": { "type": "integer", "minimum": 1 },
+        "duration_seconds": { "type": "number", "minimum": 0 },
+        "sample_rate": { "type": "integer", "minimum": 1 },
+        "channels": { "type": "integer", "minimum": 1 },
+        "sample_count": { "type": "integer", "minimum": 1 },
+        "codec": { "type": "string" },
+        "loudness_lufs": { "type": "number" },
+        "synchronization": { "type": "object", "additionalProperties": true }
+      },
+      "additionalProperties": false
+    },
+    "generation_provenance": {
+      "type": "object",
+      "required": ["workflow_ui_sha256", "workflow_api_sha256", "component_hashes", "configuration_sha256", "seed", "scheduler", "sampler", "runtime_lock_id"],
+      "properties": {
+        "workflow_ui_sha256": { "type": ["string", "null"], "pattern": "^[0-9a-f]{64}$" },
+        "workflow_api_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "component_hashes": { "type": "object", "additionalProperties": { "type": "string", "pattern": "^[0-9a-f]{64}$" } },
+        "prompt_sha256": { "type": ["string", "null"], "pattern": "^[0-9a-f]{64}$" },
+        "configuration_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "seed": { "type": ["integer", "null"] },
+        "scheduler": { "type": ["string", "null"] },
+        "sampler": { "type": ["string", "null"] },
+        "runtime_lock_id": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "ownership_scope": { "type": "array", "items": { "$ref": "https://comfy-ui-main.local/schemas/multimodal-contract-common/1.0.0#/$defs/TargetSelector" } },
+    "execution_binding": {
+      "type": "object",
+      "required": ["executor", "job_or_prompt_id", "history_or_log_refs", "output_bindings"],
+      "properties": {
+        "executor": { "type": "string" },
+        "job_or_prompt_id": { "type": "string" },
+        "history_or_log_refs": { "type": "array", "items": { "type": "string" } },
+        "output_bindings": { "type": "array", "items": { "type": "object" } }
+      },
+      "additionalProperties": false
+    },
+    "qa_evidence_ids": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "qa_decision": { "enum": ["accept", "targeted_repair", "reroute", "fallback", "reject", "block", "promote"] },
+    "promotion_state": { "enum": ["not_eligible", "candidate", "accepted_parent", "promoted", "rejected", "revoked"] },
+    "immutability_policy": { "const": "content_addressed_accepted_artifacts_are_immutable" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "provenance": { "$ref": "https://comfy-ui-main.local/schemas/multimodal-contract-common/1.0.0#/$defs/Provenance" }
+  },
+  "additionalProperties": false
+}

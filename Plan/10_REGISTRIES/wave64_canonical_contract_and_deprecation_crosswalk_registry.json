@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "wave64_canonical_contract_and_deprecation_crosswalk_v1",
+  "updated_at": "2026-07-16T19:30:00-05:00",
+  "status": "canonical_reference_frozen_remaining_record_migrations_planned",
+  "canonical_immutable_reference": {
+    "schema_id": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/ImmutableRecordRef",
+    "required_fields": [
+      "schema_id",
+      "record_type",
+      "record_id",
+      "revision",
+      "sha256",
+      "bytes",
+      "path_or_uri"
+    ],
+    "authority_use": "required_for_execution_certificate_qa_and_promotion"
+  },
+  "legacy_reference_crosswalk": [
+    {
+      "source": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef",
+      "disposition": "retained_for_discovery_and_unresolved_planning_refs_only",
+      "authority_ceiling": "discovery_or_candidate",
+      "migration_target": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    {
+      "source": "https://comfy-ui-main.local/schemas/multimodal-contract-common/1.0.0#/$defs/RecordRef",
+      "disposition": "field_compatible_canonical_alias_pending_schema_id_unification",
+      "authority_ceiling": "immutable_when_fully_populated",
+      "migration_target": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/ImmutableRecordRef"
+    }
+  ],
+  "selectable_unit": {
+    "canonical_record_type": "model_execution_bundle",
+    "deprecated_overlaps": [
+      "engine_execution_stack_card_as_direct_selection_unit"
+    ],
+    "rule": "engine stack cards describe capabilities; only an exact hash-bound model_execution_bundle is selectable"
+  },
+  "decision_crosswalk": {
+    "contextual_model_selection_decision": "canonical exact-bundle eligibility and ranking decision",
+    "multimodal_pass_route_decision": "orchestration route that must reference the canonical contextual selection decision",
+    "self_declared_eligible_flag_is_authority": false
+  },
+  "remaining_migrations": [
+    "update_rows149_220_route_schema_to_require_contextual_selection_decision_ref",
+    "replace_selected_stack_template_with_selected_model_execution_bundle_ref",
+    "separate_pass_attempt_qa_and_promotion_records",
+    "migrate_all_authority_bearing_open_payloads_to_typed_refs"
+  ]
+}

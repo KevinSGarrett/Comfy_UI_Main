@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/mask-factory-binding/1.0.0",
+  "title": "Wave64 MaskFactory Binding",
+  "type": "object",
+  "required": ["schema_version", "binding_id", "scene_id", "shot_id", "take_id", "character_id", "character_revision", "character_instance_id", "access_mode", "authority", "image", "person_index", "package", "masks", "transform_chain", "writes_gold", "can_satisfy_promotion_gate", "validated_at"],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "binding_id": { "type": "string", "minLength": 1 },
+    "scene_id": { "type": "string" },
+    "shot_id": { "type": "string" },
+    "take_id": { "type": "string" },
+    "character_id": { "type": "string" },
+    "character_revision": { "type": "string" },
+    "character_instance_id": { "type": "string" },
+    "access_mode": { "enum": ["mode_a_package_read", "mode_b_live_predict", "mode_b_live_refine"] },
+    "authority": {
+      "type": "object",
+      "required": ["truth_tier", "certificate_id", "promotion_scope", "expires_at"],
+      "properties": {
+        "truth_tier": { "enum": ["gold", "approved_package", "certified_machine", "machine_draft", "manual_draft", "rejected"] },
+        "certificate_id": { "type": ["string", "null"] },
+        "promotion_scope": { "type": "array", "items": { "type": "string" } },
+        "expires_at": { "type": ["string", "null"], "format": "date-time" }
+      },
+      "additionalProperties": false
+    },
+    "image": {
+      "type": "object",
+      "required": ["image_id", "sha256", "width", "height", "coordinate_space"],
+      "properties": {
+        "image_id": { "type": "string" },
+        "sha256": { "type": "string", "pattern": "^[A-Fa-f0-9]{64}$" },
+        "width": { "type": "integer", "minimum": 1 },
+        "height": { "type": "integer", "minimum": 1 },
+        "coordinate_space": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "person_index": { "type": "integer", "minimum": 0 },
+    "package": {
+      "type": "object",
+      "required": ["package_id", "revision", "ontology_version", "provider"],
+      "properties": {
+        "package_id": { "type": "string" },
+        "revision": { "type": "string" },
+        "ontology_version": { "type": "string" },
+        "provider": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "masks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["mask_id", "mask_type", "artifact_id", "sha256", "source_coordinate_space"],
+        "properties": {
+          "mask_id": { "type": "string" },
+          "mask_type": { "type": "string" },
+          "artifact_id": { "type": "string" },
+          "sha256": { "type": "string", "pattern": "^[A-Fa-f0-9]{64}$" },
+          "source_coordinate_space": { "type": "string" },
+          "confidence": { "type": ["number", "null"], "minimum": 0, "maximum": 1 }
+        },
+        "additionalProperties": false
+      }
+    },
+    "transform_chain": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["operation", "source_space", "target_space", "parameters", "parameters_sha256", "roundtrip_validated"],
+        "properties": {
+          "operation": { "enum": ["identity", "crop", "resize", "pad", "rotate", "flip", "project"] },
+          "source_space": { "type": "string" },
+          "target_space": { "type": "string" },
+          "parameters": { "type": "object", "additionalProperties": true },
+          "parameters_sha256": { "type": "string", "pattern": "^[A-Fa-f0-9]{64}$" },
+          "roundtrip_validated": { "const": true }
+        },
+        "additionalProperties": false
+      }
+    },
+    "writes_gold": { "const": false },
+    "can_satisfy_promotion_gate": { "type": "boolean" },
+    "valid_from": { "type": ["string", "null"], "format": "date-time" },
+    "validated_at": { "type": "string", "format": "date-time" }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "access_mode": { "enum": ["mode_b_live_predict", "mode_b_live_refine"] } },
+        "required": ["access_mode"]
+      },
+      "then": {
+        "properties": {
+          "authority": {
+            "properties": {
+              "truth_tier": { "const": "machine_draft" }
+            }
+          },
+          "can_satisfy_promotion_gate": { "const": false }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "can_satisfy_promotion_gate": { "const": true } },
+        "required": ["can_satisfy_promotion_gate"]
+      },
+      "then": {
+        "properties": {
+          "access_mode": { "const": "mode_a_package_read" },
+          "authority": {
+            "properties": {
+              "truth_tier": { "enum": ["gold", "approved_package", "certified_machine"] },
+              "certificate_id": { "type": "string", "minLength": 1 },
+              "promotion_scope": { "minItems": 1 }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "additionalProperties": false
+}

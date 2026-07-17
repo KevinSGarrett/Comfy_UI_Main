@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-video-resource-chunk-plan/1.0.0",
+  "title": "Hyperreal Video Chunk, Resource, Residency, and Recovery Plan",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "video_resource_chunk_plan_id",
+    "revision",
+    "status",
+    "created_at",
+    "scope",
+    "route_decision_ref",
+    "chunks",
+    "model_residency_policy_id",
+    "lease_policy_id",
+    "recovery_policy_id",
+    "overlap_reintegration_policy_id",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_video_resource_chunk_plan"
+    },
+    "video_resource_chunk_plan_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "scope": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ExecutionScope"
+    },
+    "route_decision_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "chunks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "chunk_id",
+          "target_span",
+          "handle_frames_before",
+          "handle_frames_after",
+          "bundle_ref",
+          "workflow_release_ref",
+          "runtime_lock_ref",
+          "max_vram_mib",
+          "max_ram_mib",
+          "max_disk_mib",
+          "timeout_seconds",
+          "safe_preemption",
+          "checkpoint_policy_id"
+        ],
+        "properties": {
+          "chunk_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "target_span": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/MediaSpan"
+          },
+          "handle_frames_before": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "handle_frames_after": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "bundle_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          },
+          "workflow_release_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          },
+          "runtime_lock_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          },
+          "max_vram_mib": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "max_ram_mib": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "max_disk_mib": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "safe_preemption": {
+            "type": "boolean"
+          },
+          "checkpoint_policy_id": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "model_residency_policy_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "lease_policy_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "recovery_policy_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "overlap_reintegration_policy_id": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "additionalProperties": false
+}

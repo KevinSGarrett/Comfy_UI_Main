@@ -1,0 +1,219 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/model-selection-context/1.0.0",
+  "title": "Wave64 Model Selection Context",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "selection_context_id",
+    "revision",
+    "status",
+    "created_at",
+    "job_id",
+    "run_id",
+    "pass_id",
+    "scene_id",
+    "shot_id",
+    "take_id",
+    "character_revision_ids",
+    "character_instance_ids",
+    "capability_scope",
+    "target_contract",
+    "protected_contract",
+    "control_and_mask_requirements",
+    "quality_cost_runtime_policy_id",
+    "context_sha256",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "model_selection_context"
+    },
+    "selection_context_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "job_id": {
+      "type": "string"
+    },
+    "run_id": {
+      "type": "string"
+    },
+    "pass_id": {
+      "type": "string"
+    },
+    "scene_id": {
+      "type": "string"
+    },
+    "shot_id": {
+      "type": "string"
+    },
+    "take_id": {
+      "type": "string"
+    },
+    "character_revision_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "character_instance_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "capability_scope": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/CapabilityScope"
+    },
+    "defect_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "target_contract": {
+      "type": "object",
+      "required": [
+        "owner_instance_ids",
+        "target_types",
+        "target_regions",
+        "target_mask_binding_ids",
+        "coordinate_space",
+        "allow_change_outside_target"
+      ],
+      "properties": {
+        "owner_instance_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "target_types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "target_regions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "target_mask_binding_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "coordinate_space": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "allow_change_outside_target": {
+          "const": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "protected_contract": {
+      "type": "object",
+      "required": [
+        "protected_instance_ids",
+        "protected_regions",
+        "protected_mask_binding_ids",
+        "preserve_identity",
+        "preserve_morphology",
+        "preserve_pose",
+        "preserve_camera",
+        "preserve_background",
+        "outside_target_metric_ids"
+      ],
+      "properties": {
+        "protected_instance_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "protected_regions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "protected_mask_binding_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "preserve_identity": {
+          "type": "boolean"
+        },
+        "preserve_morphology": {
+          "type": "boolean"
+        },
+        "preserve_pose": {
+          "type": "boolean"
+        },
+        "preserve_camera": {
+          "type": "boolean"
+        },
+        "preserve_background": {
+          "type": "boolean"
+        },
+        "outside_target_metric_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "control_and_mask_requirements": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/ControlAndMaskRequirements"
+    },
+    "quality_cost_runtime_policy_id": {
+      "type": "string"
+    },
+    "context_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "additionalProperties": false
+}

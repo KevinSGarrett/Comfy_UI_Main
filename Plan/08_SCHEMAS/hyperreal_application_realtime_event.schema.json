@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-application-realtime-event/1.0.0",
+  "title": "Hyperreal Application Realtime Event and Gap-Recovery Envelope",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "application_realtime_event_id",
+    "revision",
+    "status",
+    "created_at",
+    "subscription_id",
+    "connection_epoch",
+    "event_sequence",
+    "previous_event_sequence",
+    "event_type",
+    "aggregate_ref",
+    "payload_schema_id",
+    "payload_sha256",
+    "payload_ref",
+    "resume_cursor",
+    "gap_detected",
+    "authoritative_for_transition",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_application_realtime_event"
+    },
+    "application_realtime_event_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "subscription_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "connection_epoch": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "event_sequence": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "previous_event_sequence": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "event_type": {
+      "enum": [
+        "projection_changed",
+        "command_status",
+        "run_progress",
+        "attempt_progress",
+        "artifact_registered",
+        "qa_changed",
+        "incident_changed",
+        "heartbeat",
+        "gap_detected",
+        "resume_required"
+      ]
+    },
+    "aggregate_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "payload_schema_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "payload_sha256": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Sha256"
+    },
+    "payload_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "resume_cursor": {
+      "type": "string",
+      "minLength": 1
+    },
+    "gap_detected": {
+      "type": "boolean"
+    },
+    "authoritative_for_transition": {
+      "const": false
+    }
+  },
+  "additionalProperties": false
+}

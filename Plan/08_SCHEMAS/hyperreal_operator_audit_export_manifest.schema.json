@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-operator-audit-export-manifest/1.0.0",
+  "title": "Hyperreal Operator Audit Export Manifest",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "operator_audit_export_manifest_id",
+    "revision",
+    "status",
+    "created_at",
+    "requester_id",
+    "scope_refs",
+    "start_event_sequence",
+    "end_event_sequence",
+    "included_record_types",
+    "redaction_policy_id",
+    "credential_material_included",
+    "raw_absolute_paths_included",
+    "export_artifact",
+    "export_sha256",
+    "completeness_evidence_ref",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_operator_audit_export_manifest"
+    },
+    "operator_audit_export_manifest_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "requester_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scope_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+      },
+      "minItems": 1
+    },
+    "start_event_sequence": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "end_event_sequence": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "included_record_types": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "redaction_policy_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "credential_material_included": {
+      "const": false
+    },
+    "raw_absolute_paths_included": {
+      "const": false
+    },
+    "export_artifact": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ArtifactRef"
+    },
+    "export_sha256": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Sha256"
+    },
+    "completeness_evidence_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    }
+  },
+  "additionalProperties": false
+}

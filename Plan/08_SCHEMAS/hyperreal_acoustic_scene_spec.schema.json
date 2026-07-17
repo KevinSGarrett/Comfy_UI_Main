@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-acoustic-scene-spec/1.0.0",
+  "title": "Hyperreal Acoustic Scene Specification",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "acoustic_scene_spec_id",
+    "revision",
+    "status",
+    "created_at",
+    "scope",
+    "geometry_ref",
+    "room_profile_id",
+    "listener_track_ref",
+    "source_track_refs",
+    "impulse_response_refs",
+    "speed_of_sound_mps",
+    "early_reflection_policy_id",
+    "late_reverb_policy_id",
+    "occlusion_policy_id",
+    "distance_attenuation_policy_id",
+    "dry_stems_preserved",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_acoustic_scene_spec"
+    },
+    "acoustic_scene_spec_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "scope": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ExecutionScope"
+    },
+    "geometry_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "room_profile_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "listener_track_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "source_track_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+      },
+      "minItems": 1
+    },
+    "impulse_response_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+      },
+      "minItems": 1
+    },
+    "speed_of_sound_mps": {
+      "type": "number",
+      "minimum": 300,
+      "maximum": 380
+    },
+    "early_reflection_policy_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "late_reverb_policy_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "occlusion_policy_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "distance_attenuation_policy_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "dry_stems_preserved": {
+      "const": true
+    }
+  },
+  "additionalProperties": false
+}

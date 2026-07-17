@@ -1,0 +1,171 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-model-explanation-projection/1.0.0",
+  "title": "Hyperreal Model Selection Explanation Projection",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "model_explanation_projection_id",
+    "revision",
+    "status",
+    "created_at",
+    "selection_decision_ref",
+    "selected_bundle_ref",
+    "pass_intent",
+    "eligible_count",
+    "filtered_reasons",
+    "rank_features",
+    "uncertainty",
+    "plain_language_summary",
+    "operator_preference_policy",
+    "preference_scope_ref",
+    "authoritative_for_selection",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_model_explanation_projection"
+    },
+    "model_explanation_projection_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "selection_decision_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "selected_bundle_ref": {
+      "oneOf": [
+        {
+          "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "pass_intent": {
+      "type": "string",
+      "minLength": 1
+    },
+    "eligible_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "filtered_reasons": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "bundle_ref",
+          "reason_codes"
+        ],
+        "properties": {
+          "bundle_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          },
+          "reason_codes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "rank_features": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "feature_id",
+          "normalized_value",
+          "weight",
+          "contribution",
+          "evidence_ref"
+        ],
+        "properties": {
+          "feature_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "normalized_value": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "weight": {
+            "type": "number"
+          },
+          "contribution": {
+            "type": "number"
+          },
+          "evidence_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "uncertainty": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "plain_language_summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "operator_preference_policy": {
+      "enum": [
+        "none",
+        "eligible_candidate_preference_only",
+        "diagnostic_forced_nonpromotable"
+      ]
+    },
+    "preference_scope_ref": {
+      "oneOf": [
+        {
+          "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "authoritative_for_selection": {
+      "const": false
+    }
+  },
+  "additionalProperties": false
+}

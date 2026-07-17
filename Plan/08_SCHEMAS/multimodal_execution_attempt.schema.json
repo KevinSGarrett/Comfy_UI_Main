@@ -1,0 +1,205 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/multimodal-execution-attempt/1.0.0",
+  "title": "Wave64 Canonical Multimodal Execution Attempt",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "execution_attempt_id",
+    "revision",
+    "status",
+    "created_at",
+    "pass_specification_ref",
+    "selection_decision_ref",
+    "execution_bundle_ref",
+    "attempt_number",
+    "repair_hypothesis_ref",
+    "submission_envelope_ref",
+    "runtime_worker_lease_ref",
+    "fencing_token",
+    "attempt_state",
+    "execution_receipt_refs",
+    "output_artifact_refs",
+    "promotion_authority",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "multimodal_execution_attempt"
+    },
+    "execution_attempt_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "pass_specification_ref": {
+      "allOf": [
+        {
+          "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/ImmutableRecordRef"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "record_type": {
+              "const": "multimodal_pass_specification"
+            }
+          },
+          "required": [
+            "record_type"
+          ]
+        }
+      ]
+    },
+    "selection_decision_ref": {
+      "allOf": [
+        {
+          "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/ImmutableRecordRef"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "record_type": {
+              "const": "contextual_model_selection_decision"
+            }
+          },
+          "required": [
+            "record_type"
+          ]
+        }
+      ]
+    },
+    "execution_bundle_ref": {
+      "allOf": [
+        {
+          "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/ImmutableRecordRef"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "record_type": {
+              "const": "model_execution_bundle"
+            }
+          },
+          "required": [
+            "record_type"
+          ]
+        }
+      ]
+    },
+    "attempt_number": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "repair_hypothesis_ref": {
+      "oneOf": [
+        {
+          "allOf": [
+            {
+              "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/ImmutableRecordRef"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "record_type": {
+                  "const": "failure_diagnosis_and_repair_hypothesis"
+                }
+              },
+              "required": [
+                "record_type"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "submission_envelope_ref": {
+      "allOf": [
+        {
+          "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/ImmutableRecordRef"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "record_type": {
+              "const": "comfyui_submission_envelope"
+            }
+          },
+          "required": [
+            "record_type"
+          ]
+        }
+      ]
+    },
+    "runtime_worker_lease_ref": {
+      "allOf": [
+        {
+          "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/ImmutableRecordRef"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "record_type": {
+              "const": "runtime_worker_lease"
+            }
+          },
+          "required": [
+            "record_type"
+          ]
+        }
+      ]
+    },
+    "fencing_token": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "attempt_state": {
+      "enum": [
+        "created",
+        "outbox_pending",
+        "submitted",
+        "running",
+        "terminal",
+        "ambiguous",
+        "reconciled",
+        "cancelled"
+      ]
+    },
+    "execution_receipt_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+      }
+    },
+    "output_artifact_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/ImmutableRecordRef"
+      }
+    },
+    "promotion_authority": {
+      "const": "none"
+    }
+  },
+  "additionalProperties": false
+}

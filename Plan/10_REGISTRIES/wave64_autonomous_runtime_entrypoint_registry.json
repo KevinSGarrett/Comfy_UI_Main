@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "wave64_autonomous_runtime_entrypoint_registry_v1",
+  "updated_at": "2026-07-16T19:30:00-05:00",
+  "status": "production_entrypoint_not_implemented_legacy_scaffold_blocked",
+  "entrypoints": [
+    {
+      "entrypoint_id": "legacy_wave14_orchestrator_plan_compiler",
+      "path": "Plan/07_IMPLEMENTATION/scripts/compile_orchestrator_run_plan.py",
+      "authority": "legacy_planning_scaffold_non_authoritative",
+      "allowed_modes": [
+        "dry_run_plan_only",
+        "legacy_planning_scaffold"
+      ],
+      "production_invocation_allowed": false,
+      "app_mode_invocation_allowed": false,
+      "known_limitations": [
+        "static_pass_list",
+        "hardcoded_sdxl_specialists",
+        "no_durable_event_store",
+        "no_outbox_or_fencing",
+        "no_exact_bundle_certificate_resolution"
+      ]
+    },
+    {
+      "entrypoint_id": "wave64_durable_autonomous_controller",
+      "path": null,
+      "authority": "planned_unimplemented",
+      "allowed_modes": [],
+      "production_invocation_allowed": false,
+      "app_mode_invocation_allowed": false,
+      "required_before_registration": [
+        "event_store",
+        "transactional_outbox",
+        "cas",
+        "runtime_lease_fencing",
+        "comfyui_adapter",
+        "reconciliation",
+        "typed_qa",
+        "exactly_once_promotion"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-mix-master-recipe/1.0.0",
+  "title": "Hyperreal Mix and Master Recipe",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "mix_master_recipe_id",
+    "revision",
+    "status",
+    "created_at",
+    "scope",
+    "stem_manifest_ref",
+    "spatial_object_manifest_ref",
+    "bus_graph_ref",
+    "automation_ref",
+    "dialogue_priority_policy_id",
+    "loudness_profile_id",
+    "target_lufs",
+    "true_peak_ceiling_dbtp",
+    "minimum_headroom_db",
+    "sample_rate_hz",
+    "dither_policy_id",
+    "dry_stems_preserved",
+    "render_deterministic",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_mix_master_recipe"
+    },
+    "mix_master_recipe_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "scope": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ExecutionScope"
+    },
+    "stem_manifest_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "spatial_object_manifest_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "bus_graph_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "automation_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "dialogue_priority_policy_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "loudness_profile_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target_lufs": {
+      "type": "number",
+      "minimum": -40,
+      "maximum": -5
+    },
+    "true_peak_ceiling_dbtp": {
+      "type": "number",
+      "minimum": -12,
+      "maximum": 0
+    },
+    "minimum_headroom_db": {
+      "type": "number",
+      "minimum": 0
+    },
+    "sample_rate_hz": {
+      "type": "integer",
+      "enum": [
+        48000,
+        96000
+      ]
+    },
+    "dither_policy_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "dry_stems_preserved": {
+      "const": true
+    },
+    "render_deterministic": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": false
+}

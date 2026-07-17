@@ -1,0 +1,186 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-multi-character-editor-projection/1.0.0",
+  "title": "Hyperreal Multi-Character Spatial Ownership Editor Projection",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "multi_character_editor_projection_id",
+    "revision",
+    "status",
+    "created_at",
+    "scope",
+    "instance_cards",
+    "contact_graph_ref",
+    "mode_a_mask_refs",
+    "mode_b_draft_mask_refs",
+    "transform_roundtrip_refs",
+    "validation_issue_refs",
+    "projection_only",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_multi_character_editor_projection"
+    },
+    "multi_character_editor_projection_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "scope": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ExecutionScope"
+    },
+    "instance_cards": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "character_instance_id",
+          "character_package_ref",
+          "stable_color_token",
+          "stable_pattern_token",
+          "bbox_xywh_normalized",
+          "skeleton_ref",
+          "depth_order",
+          "render_order",
+          "provider_person_index",
+          "visibility",
+          "wardrobe_ref",
+          "voice_ref",
+          "target_mask_refs",
+          "protected_mask_refs"
+        ],
+        "properties": {
+          "character_instance_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "character_package_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          },
+          "stable_color_token": {
+            "type": "string",
+            "minLength": 1
+          },
+          "stable_pattern_token": {
+            "type": "string",
+            "minLength": 1
+          },
+          "bbox_xywh_normalized": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "minItems": 4
+          },
+          "skeleton_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          },
+          "depth_order": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "render_order": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "provider_person_index": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "visibility": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "wardrobe_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          },
+          "voice_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          },
+          "target_mask_refs": {
+            "type": "array",
+            "items": {
+              "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+            },
+            "minItems": 0
+          },
+          "protected_mask_refs": {
+            "type": "array",
+            "items": {
+              "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+            },
+            "minItems": 0
+          }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "contact_graph_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "mode_a_mask_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+      },
+      "minItems": 0
+    },
+    "mode_b_draft_mask_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+      },
+      "minItems": 0
+    },
+    "transform_roundtrip_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+      },
+      "minItems": 0
+    },
+    "validation_issue_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+      },
+      "minItems": 0
+    },
+    "projection_only": {
+      "const": true
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "model_library_activation_gate",
+  "activation_gate_id": "wave64_model_library_download_readiness_gate_v1",
+  "revision": "1",
+  "status": "deferred_prerequisites_not_satisfied",
+  "created_at": "2026-07-16T19:30:00-05:00",
+  "main_task_id": "019f422f-88b1-7382-872b-21de2089e983",
+  "gate_state": "deferred_waiting_for_complete_model_download",
+  "authorized_phase": "none",
+  "activation_scope": {
+    "source_snapshot_id": "source_wave30_final_production_cumulative_20260716",
+    "catalog_artifact_rows": 7282,
+    "scope_authority": "pending_main_task_download_completion_declaration",
+    "all_intended_model_binaries_required": true,
+    "scope_manifest_ref": null,
+    "gate_applies_only_to_package_id": "wave64_autonomous_model_intelligence_rows221_260",
+    "does_not_block_independently_governed_lanes": true,
+    "independently_governed_lane_ids": [
+      "main_task_flux2_dev_proof_lane",
+      "maskfactory_task_019f4cfc-60c3-7500-8626-261dcf70db5d"
+    ]
+  },
+  "prerequisites": {
+    "download_completion_declared": false,
+    "download_completion_declaration_ref": null,
+    "download_manifest_ref": null,
+    "inventory_verification_ref": null,
+    "expected_in_scope_assets": null,
+    "verified_in_scope_assets": null,
+    "missing_in_scope_assets": null,
+    "hash_pending_assets": null,
+    "quarantined_assets": null,
+    "failed_assets": null,
+    "unresolved_assets": null,
+    "all_intended_assets_accounted_for": false,
+    "main_task_acknowledgement_ref": null,
+    "main_task_acknowledged": false,
+    "all_prerequisites_satisfied": false
+  },
+  "pre_activation_allowed_actions": [
+    "preserve_and_review_planning_package",
+    "validate_generated_schemas_registries_items_trackers_and_tests",
+    "retain_existing_read_only_wave30_archive_integrity_audit",
+    "observe_download_progress_read_only_when_explicitly_requested",
+    "prepare_expected_download_scope_without_operational_ingestion",
+    "communicate_deferred_gate_state_to_main_task"
+  ],
+  "blocked_actions": [
+    "authoritative_wave30_staging_import",
+    "operational_model_registry_mutation",
+    "program_initiated_model_download_copy_or_install",
+    "comfyui_loader_exposure_or_model_execution_for_this_program",
+    "execution_bundle_solver_runtime_use",
+    "model_qualification_sweep_benchmark_or_pilot",
+    "model_performance_profile_or_certificate_generation",
+    "autonomous_model_router_or_rag_activation",
+    "model_intelligence_app_mode_runtime_activation",
+    "production_selection_promotion_or_release"
+  ],
+  "phase_permissions": {
+    "source_staging_import": false,
+    "operational_registry_mutation": false,
+    "execution_bundle_compilation": false,
+    "qualification_execution": false,
+    "benchmark_execution": false,
+    "profile_and_certificate_issuance": false,
+    "shadow_selection": false,
+    "production_selection": false,
+    "app_mode_runtime": false,
+    "autonomous_role_shadow_eligibility": false,
+    "autonomous_role_production_eligibility": false
+  },
+  "fail_closed_reason_codes": [
+    "DEFERRED_WAITING_EXPECTED_DOWNLOAD_SCOPE",
+    "DEFERRED_WAITING_COMPLETE_MODEL_DOWNLOAD",
+    "DEFERRED_WAITING_INVENTORY_VERIFICATION",
+    "DEFERRED_WAITING_MAIN_TASK_ACKNOWLEDGEMENT",
+    "DEFERRED_PREREQUISITE_EVIDENCE_CONFLICT"
+  ],
+  "activation_authority": "deterministic_inventory_verifier_plus_main_task_acknowledgement_after_user_download_complete_signal",
+  "activation_decision_ref": null,
+  "runtime_execution_allowed": false,
+  "last_evaluated_at": "2026-07-16T19:30:00-05:00",
+  "provenance": {
+    "producer": "wave64_autonomous_model_intelligence_package_builder",
+    "source_refs": [
+      "user_deferred_until_all_models_downloaded",
+      "wave30_source_snapshot_metadata_only_model_binary_count_zero",
+      "main_task_019f422f-88b1-7382-872b-21de2089e983"
+    ],
+    "evidence_refs": [],
+    "registry_snapshot_ids": []
+  }
+}

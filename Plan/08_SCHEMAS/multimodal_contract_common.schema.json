@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/multimodal-contract-common/1.0.0",
+  "title": "Wave64 Multimodal Contract Common Definitions",
+  "$defs": {
+    "Sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "RecordRef": {
+      "type": "object",
+      "required": ["record_type", "record_id", "revision", "schema_id", "path_or_uri", "sha256", "bytes"],
+      "properties": {
+        "record_type": { "type": "string", "minLength": 1 },
+        "record_id": { "type": "string", "minLength": 1 },
+        "revision": { "type": "string", "minLength": 1 },
+        "schema_id": { "type": "string", "minLength": 1 },
+        "path_or_uri": { "type": "string", "minLength": 1 },
+        "sha256": { "$ref": "#/$defs/Sha256" },
+        "bytes": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "ExecutionScope": {
+      "type": "object",
+      "required": ["scene_id", "shot_id", "take_id"],
+      "properties": {
+        "scene_id": { "type": "string", "minLength": 1 },
+        "shot_id": { "type": "string", "minLength": 1 },
+        "take_id": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "OwnerRef": {
+      "type": "object",
+      "required": ["owner_type", "owner_id"],
+      "properties": {
+        "owner_type": { "enum": ["character_instance", "object_instance", "environment", "audio_bus", "global"] },
+        "owner_id": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "TargetSelector": {
+      "type": "object",
+      "required": ["selector_type", "owner", "selector"],
+      "properties": {
+        "selector_type": { "enum": ["whole_artifact", "body_region", "mask", "bbox", "frame_span", "time_span", "audio_stem", "event"] },
+        "owner": { "$ref": "#/$defs/OwnerRef" },
+        "selector": { "type": "object", "additionalProperties": true }
+      },
+      "additionalProperties": false
+    },
+    "SpatialTransform": {
+      "type": "object",
+      "required": ["source_space", "target_space", "source_dimensions", "target_dimensions", "operations", "interpolation", "transform_sha256"],
+      "properties": {
+        "source_space": { "type": "string" },
+        "target_space": { "type": "string" },
+        "source_dimensions": { "type": "array", "items": { "type": "integer", "minimum": 1 }, "minItems": 2, "maxItems": 4 },
+        "target_dimensions": { "type": "array", "items": { "type": "integer", "minimum": 1 }, "minItems": 2, "maxItems": 4 },
+        "operations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["operation", "parameters", "parameters_sha256", "invertible", "roundtrip_evidence_id"],
+            "properties": {
+              "operation": { "enum": ["identity", "crop", "pad", "resize", "rotate", "flip", "project", "crop_and_pad", "color_convert", "alpha_convert", "audio_resample", "timebase_convert"] },
+              "parameters": { "type": "object" },
+              "parameters_sha256": { "$ref": "#/$defs/Sha256" },
+              "invertible": { "type": "boolean" },
+              "roundtrip_evidence_id": { "type": ["string", "null"] }
+            },
+            "additionalProperties": false
+          }
+        },
+        "interpolation": { "type": "string" },
+        "transform_sha256": { "$ref": "#/$defs/Sha256" }
+      },
+      "additionalProperties": false
+    },
+    "ResourceContract": {
+      "type": "object",
+      "required": ["allowed_execution_targets", "max_vram_mib", "max_ram_mib", "max_disk_mib", "wall_timeout_seconds", "queue_timeout_seconds", "concurrency", "cache_policy"],
+      "properties": {
+        "allowed_execution_targets": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "max_vram_mib": { "type": "integer", "minimum": 0 },
+        "max_ram_mib": { "type": "integer", "minimum": 1 },
+        "max_disk_mib": { "type": "integer", "minimum": 1 },
+        "wall_timeout_seconds": { "type": "integer", "minimum": 1 },
+        "queue_timeout_seconds": { "type": "integer", "minimum": 1 },
+        "concurrency": { "type": "integer", "minimum": 1 },
+        "cost_ceiling": { "type": ["number", "null"], "minimum": 0 },
+        "cache_policy": { "enum": ["prefer_resident", "allow_load", "force_reload_diagnostic", "no_cache"] }
+      },
+      "additionalProperties": false
+    },
+    "RetryContract": {
+      "type": "object",
+      "required": ["max_attempts", "max_reroutes", "retryable_failure_classes", "accepted_parent_immutable", "smallest_scope_retry", "hypothesis_change_required"],
+      "properties": {
+        "max_attempts": { "type": "integer", "minimum": 1 },
+        "max_reroutes": { "type": "integer", "minimum": 0 },
+        "retryable_failure_classes": { "type": "array", "items": { "type": "string" } },
+        "accepted_parent_immutable": { "const": true },
+        "smallest_scope_retry": { "const": true },
+        "hypothesis_change_required": { "const": true },
+        "stop_conditions": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    },
+    "QAContract": {
+      "type": "object",
+      "required": ["gate_ids", "target_gate_ids", "protected_gate_ids", "whole_artifact_gate_ids", "blocking", "promotion_required"],
+      "properties": {
+        "gate_ids": { "type": "array", "items": { "type": "string" }, "minItems": 1, "uniqueItems": true },
+        "target_gate_ids": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+        "protected_gate_ids": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+        "whole_artifact_gate_ids": { "type": "array", "items": { "type": "string" }, "minItems": 1, "uniqueItems": true },
+        "thresholds": { "type": "object", "additionalProperties": { "type": ["number", "string", "boolean"] } },
+        "required_evidence_types": { "type": "array", "items": { "type": "string" } },
+        "blocking": { "type": "boolean" },
+        "promotion_required": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "NoSilentSubstitutionContract": {
+      "type": "object",
+      "required": ["component_substitution", "stack_substitution", "engine_family_change", "queue_pressure_quality_downgrade", "missing_asset_behavior"],
+      "properties": {
+        "component_substitution": { "const": "forbidden" },
+        "stack_substitution": { "const": "explicit_new_route_decision_only" },
+        "engine_family_change": { "const": "explicit_bridge_or_new_route_only" },
+        "queue_pressure_quality_downgrade": { "const": "forbidden" },
+        "missing_asset_behavior": { "const": "block_or_hash_verified_acquisition" }
+      },
+      "additionalProperties": false
+    },
+    "Hypothesis": {
+      "type": "object",
+      "required": ["hypothesis_id", "prior_failure_ids", "changed_variables", "expected_effect", "retry_class"],
+      "properties": {
+        "hypothesis_id": { "type": "string", "minLength": 1 },
+        "prior_failure_ids": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "changed_variables": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "expected_effect": { "type": "string", "minLength": 1 },
+        "retry_class": { "enum": ["quality_repair", "ownership_repair", "transform_repair", "resource_recovery", "service_recovery", "reroute", "upstream_replan", "stochastic_robustness_test"] }
+      },
+      "additionalProperties": false
+    },
+    "Provenance": {
+      "type": "object",
+      "required": ["producer", "source_refs", "registry_snapshot_ids", "canonicalization"],
+      "properties": {
+        "producer": { "type": "string", "minLength": 1 },
+        "source_refs": { "type": "array", "items": { "type": "string" } },
+        "registry_snapshot_ids": { "type": "array", "items": { "type": "string" } },
+        "canonicalization": { "enum": ["rfc8785_jcs", "raw_file_bytes", "none"] }
+      },
+      "additionalProperties": false
+    }
+  }
+}

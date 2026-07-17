@@ -1,0 +1,125 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "wave64_model_qualification_and_qa_v1",
+  "updated_at": "2026-07-16T19:30:00-05:00",
+  "status": "planned_unimplemented_deferred_until_model_library_activation",
+  "activation_gate_id": "wave64_model_library_download_readiness_gate_v1",
+  "pre_l0_activation_gate": {
+    "required": true,
+    "current_state": "deferred_waiting_for_complete_model_download",
+    "qualification_execution_allowed": false,
+    "catalog_dry_run_ingestion_allowed": false,
+    "required_evidence": [
+      "expected_download_scope_manifest",
+      "model_download_completion_manifest",
+      "model_binary_inventory_verification_report",
+      "main_task_activation_acknowledgement"
+    ]
+  },
+  "qualification_stages": [
+    {
+      "stage": "L0",
+      "name": "catalog_qa",
+      "authority_gained": "discovery_only"
+    },
+    {
+      "stage": "L1",
+      "name": "binary_qa",
+      "authority_gained": "integrity_only"
+    },
+    {
+      "stage": "L2",
+      "name": "load_smoke",
+      "authority_gained": "runtime_load_evidence"
+    },
+    {
+      "stage": "L3",
+      "name": "functional_ab",
+      "authority_gained": "functional_candidate"
+    },
+    {
+      "stage": "L4",
+      "name": "bucket_benchmark",
+      "authority_gained": "certificate_candidate"
+    },
+    {
+      "stage": "L5",
+      "name": "bundle_interaction",
+      "authority_gained": "bundle_certificate_candidate"
+    },
+    {
+      "stage": "L6",
+      "name": "cross_engine_bridge",
+      "authority_gained": "pair_certificate_candidate"
+    },
+    {
+      "stage": "L7",
+      "name": "shadow_routing",
+      "authority_gained": "shadow_evidence"
+    },
+    {
+      "stage": "L8",
+      "name": "production_eligibility",
+      "authority_gained": "bucket_only_authority"
+    }
+  ],
+  "gate_ids": [
+    "MI-QA-01_SOURCE_ARCHIVE",
+    "MI-QA-02_IDENTITY_BINARY",
+    "MI-QA-03_COMPATIBILITY",
+    "MI-QA-04_RUNTIME_RESOURCE",
+    "MI-QA-05_TARGET_EFFECT",
+    "MI-QA-06_PROTECTED_PRESERVATION",
+    "MI-QA-07_REGIONAL_MASK",
+    "MI-QA-08_TEMPORAL_AUDIO",
+    "MI-QA-09_ATTRIBUTION",
+    "MI-QA-10_EVIDENCE_STATISTICS",
+    "MI-QA-11_SELECTION_REPLAY",
+    "MI-QA-12_AUTONOMOUS_ROLE",
+    "MI-QA-13_LIFECYCLE_CERTIFICATE",
+    "MI-QA-14_RECOVERY_SECURITY"
+  ],
+  "initial_sample_floors": {
+    "load_smoke": {
+      "bounded_outputs": 1,
+      "clean_reloads": 1
+    },
+    "functional_candidate": {
+      "matched_seeds": 3,
+      "initial_strength_points": 4
+    },
+    "provisional_bucket": {
+      "paired_outputs": 20,
+      "distinct_cases": 5
+    },
+    "production_certificate": {
+      "paired_outputs": 50,
+      "distinct_cases": 10
+    },
+    "bridge_certificate": {
+      "paired_outputs": 10,
+      "target_classes": 3
+    },
+    "shadow_challenger": {
+      "shadow_comparisons": 10
+    }
+  },
+  "evidence_authority_order": [
+    "source_claim",
+    "discovery_metadata",
+    "static_measurement",
+    "runtime_observation",
+    "qualification_measurement",
+    "adjudicated_review",
+    "scoped_certificate"
+  ],
+  "promotion_prohibitions": [
+    "metadata_only",
+    "one_attractive_sample",
+    "load_smoke_only",
+    "family_summary_transferred_to_artifact",
+    "certificate_transferred_to_other_hash_or_bundle",
+    "uncalibrated_critic_only",
+    "self_promotion_by_generator_or_reviewer"
+  ]
+}

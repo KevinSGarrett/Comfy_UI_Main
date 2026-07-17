@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-respiratory-performance-timeline/1.0.0",
+  "title": "Hyperreal Respiratory Performance Timeline",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "respiratory_performance_timeline_id",
+    "revision",
+    "status",
+    "created_at",
+    "scope",
+    "character_instance_id",
+    "canonical_clock",
+    "continuity_state_ref",
+    "events",
+    "phase_continuity_validated",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_respiratory_performance_timeline"
+    },
+    "respiratory_performance_timeline_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "scope": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ExecutionScope"
+    },
+    "character_instance_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "canonical_clock": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/MediaSpan"
+    },
+    "continuity_state_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "respiratory_event_id",
+          "phase",
+          "span",
+          "intensity",
+          "rate_bpm",
+          "visual_chest_motion_ref",
+          "voice_event_ref",
+          "fatigue_state_ref",
+          "airflow_curve_ref"
+        ],
+        "properties": {
+          "respiratory_event_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "phase": {
+            "enum": [
+              "inhale",
+              "hold",
+              "exhale",
+              "recovery",
+              "effort",
+              "speech_breath"
+            ]
+          },
+          "span": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/MediaSpan"
+          },
+          "intensity": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "rate_bpm": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 120
+          },
+          "visual_chest_motion_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          },
+          "voice_event_ref": {
+            "oneOf": [
+              {
+                "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "fatigue_state_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          },
+          "airflow_curve_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "phase_continuity_validated": {
+      "const": true
+    }
+  },
+  "additionalProperties": false
+}

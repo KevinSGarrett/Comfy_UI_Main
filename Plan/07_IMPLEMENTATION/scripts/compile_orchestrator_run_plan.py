@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+"""Legacy Wave14 planning scaffold; never a Wave64 production entrypoint.
+
+This compiler remains available only for historical dry-run plan validation.
+The future durable event-driven controller must use the Wave64 canonical pass,
+bundle, submission, receipt, reconciliation, QA, and promotion contracts.
+"""
 from __future__ import annotations
 import argparse, datetime as dt, hashlib, json
 from pathlib import Path
@@ -26,6 +32,9 @@ def evidence_for(req,pid,stage):
         elif v: items.append(v)
     return items
 def compile_plan(req):
+    execution_mode=req.get("execution_mode","dry_run_plan_only")
+    if execution_mode not in {"dry_run_plan_only","legacy_planning_scaffold"}:
+        raise ValueError("LEGACY_ORCHESTRATOR_COMPILER_PRODUCTION_INVOCATION_BLOCKED")
     now=dt.datetime.now(dt.timezone.utc).strftime("%Y%m%d_%H%M%S")
     rid=req.get("request_id",f"request_{now}")
     run=req.get("run_id",f"run_{now}_{hashlib.sha256(rid.encode()).hexdigest()[:8]}")
@@ -48,7 +57,7 @@ def compile_plan(req):
         "run_id":run,
         "status":"compiled",
         "dry_run_first":bool(req.get("dry_run_only",True)),
-        "execution_mode":req.get("execution_mode","dry_run_plan_only"),
+        "execution_mode":execution_mode,
         "source_request_id":rid,
         "workflow_source":req.get("workflow_source","Wave42_Runtime_Bound__UI__WAVE42_MAIN_FLOW_20260702.json"),
         "created_at":dt.datetime.now(dt.timezone.utc).isoformat(),

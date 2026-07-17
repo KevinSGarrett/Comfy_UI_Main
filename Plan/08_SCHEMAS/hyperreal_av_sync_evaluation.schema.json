@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-av-sync-evaluation/1.0.0",
+  "title": "Hyperreal Audio Video Synchronization Evaluation",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "av_sync_evaluation_id",
+    "revision",
+    "status",
+    "created_at",
+    "scope",
+    "video_ref",
+    "audio_ref",
+    "canonical_clock",
+    "event_results",
+    "sample_count_expected",
+    "sample_count_observed",
+    "frame_count_expected",
+    "frame_count_observed",
+    "container_timestamps_monotonic",
+    "decision",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_av_sync_evaluation"
+    },
+    "av_sync_evaluation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "scope": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ExecutionScope"
+    },
+    "video_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "audio_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "canonical_clock": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/MediaSpan"
+    },
+    "event_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "event_id",
+          "event_class",
+          "expected_pts",
+          "observed_pts",
+          "offset_ms",
+          "tolerance_ms",
+          "drift_ms_per_minute",
+          "passed",
+          "evidence_ref"
+        ],
+        "properties": {
+          "event_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "event_class": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expected_pts": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "observed_pts": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "offset_ms": {
+            "type": "number"
+          },
+          "tolerance_ms": {
+            "type": "number",
+            "minimum": 0
+          },
+          "drift_ms_per_minute": {
+            "type": "number"
+          },
+          "passed": {
+            "type": "boolean"
+          },
+          "evidence_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "sample_count_expected": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "sample_count_observed": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "frame_count_expected": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "frame_count_observed": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "container_timestamps_monotonic": {
+      "type": "boolean"
+    },
+    "decision": {
+      "enum": [
+        "accept",
+        "local_repair",
+        "reject"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-application-control-definition/1.0.0",
+  "title": "Hyperreal Application Control Definition",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "application_control_definition_id",
+    "revision",
+    "status",
+    "created_at",
+    "control_id",
+    "label",
+    "description",
+    "control_type",
+    "value_schema_id",
+    "default_value_ref",
+    "validation_policy_id",
+    "visibility_modes",
+    "required_role_ids",
+    "sensitive",
+    "raw_path",
+    "accessibility_label",
+    "help_topic_id",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_application_control_definition"
+    },
+    "application_control_definition_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "control_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "label": {
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "control_type": {
+      "enum": [
+        "text",
+        "number",
+        "select",
+        "multiselect",
+        "toggle",
+        "asset_picker",
+        "character_picker",
+        "timeline",
+        "range",
+        "button",
+        "command_menu",
+        "read_only_metric",
+        "media_viewer"
+      ]
+    },
+    "value_schema_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "default_value_ref": {
+      "oneOf": [
+        {
+          "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "validation_policy_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "visibility_modes": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "guided",
+          "director",
+          "expert",
+          "diagnostic"
+        ]
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "required_role_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "sensitive": {
+      "const": false
+    },
+    "raw_path": {
+      "const": false
+    },
+    "accessibility_label": {
+      "type": "string",
+      "minLength": 1
+    },
+    "help_topic_id": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/model-download-completion-manifest/1.0.0",
+  "title": "Wave64 Model Download Completion Manifest",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "download_completion_manifest_id",
+    "revision",
+    "status",
+    "created_at",
+    "main_task_id",
+    "expected_download_scope_ref",
+    "scope_sha256",
+    "declared_downloaded_binary_count",
+    "download_root_inventory_sha256",
+    "download_complete_declared",
+    "declaration_actor",
+    "binary_inventory_verified",
+    "qualification_authority_granted",
+    "production_authority_granted",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "model_download_completion_manifest"
+    },
+    "download_completion_manifest_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "main_task_id": {
+      "const": "019f422f-88b1-7382-872b-21de2089e983"
+    },
+    "expected_download_scope_ref": {
+      "allOf": [
+        {
+          "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "record_type": {
+              "const": "model_library_expected_download_scope"
+            }
+          },
+          "required": [
+            "record_type"
+          ]
+        }
+      ]
+    },
+    "scope_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "declared_downloaded_binary_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "download_root_inventory_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "download_complete_declared": {
+      "const": true
+    },
+    "declaration_actor": {
+      "enum": [
+        "user",
+        "main_task_authorized_controller"
+      ]
+    },
+    "binary_inventory_verified": {
+      "const": false
+    },
+    "qualification_authority_granted": {
+      "const": false
+    },
+    "production_authority_granted": {
+      "const": false
+    }
+  },
+  "additionalProperties": false
+}

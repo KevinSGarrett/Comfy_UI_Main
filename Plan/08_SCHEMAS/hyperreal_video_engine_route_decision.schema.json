@@ -1,0 +1,203 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-video-engine-route-decision/1.0.0",
+  "title": "Hyperreal Video Engine Route Decision",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "video_engine_route_decision_id",
+    "revision",
+    "status",
+    "created_at",
+    "scope",
+    "pass_intent",
+    "context_ref",
+    "evaluated_candidates",
+    "selected_bundle_ref",
+    "decision",
+    "ranking_policy_id",
+    "registry_snapshot_id",
+    "assignment_probability",
+    "production_execution_allowed",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_video_engine_route_decision"
+    },
+    "video_engine_route_decision_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "scope": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ExecutionScope"
+    },
+    "pass_intent": {
+      "enum": [
+        "keyframe_to_video",
+        "image_to_video",
+        "text_to_video",
+        "reference_video_guided",
+        "interpolation",
+        "extension",
+        "localized_span_repair",
+        "temporal_refine",
+        "upscale"
+      ]
+    },
+    "context_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "evaluated_candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "bundle_ref",
+          "eligible",
+          "hard_filter_reasons",
+          "rank_score",
+          "confidence_low",
+          "certificate_ref",
+          "pareto_frontier"
+        ],
+        "properties": {
+          "bundle_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          },
+          "eligible": {
+            "type": "boolean"
+          },
+          "hard_filter_reasons": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "rank_score": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0,
+            "maximum": 1
+          },
+          "confidence_low": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0,
+            "maximum": 1
+          },
+          "certificate_ref": {
+            "oneOf": [
+              {
+                "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "pareto_frontier": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "selected_bundle_ref": {
+      "oneOf": [
+        {
+          "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "decision": {
+      "enum": [
+        "selected",
+        "branch_compare",
+        "abstain",
+        "blocked"
+      ]
+    },
+    "ranking_policy_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "registry_snapshot_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "assignment_probability": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "exclusiveMinimum": 0,
+      "maximum": 1
+    },
+    "production_execution_allowed": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "production_execution_allowed": {
+            "const": true
+          }
+        },
+        "required": [
+          "production_execution_allowed"
+        ]
+      },
+      "then": {
+        "properties": {
+          "decision": {
+            "const": "selected"
+          },
+          "selected_bundle_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          }
+        }
+      }
+    }
+  ]
+}

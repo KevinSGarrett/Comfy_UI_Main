@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0.0",
+  "updated_at": "2026-07-16T20:30:00-05:00",
+  "runtime_completion_claimed": false,
+  "registry_id": "wave64_audio_delivery_and_clock_profile_registry_v1",
+  "profiles": [
+    {
+      "profile_id": "canonical_analysis",
+      "sample_rate_hz": 48000,
+      "processing_format": "float32_or_float64",
+      "container_required": false
+    },
+    {
+      "profile_id": "lossless_review_evidence",
+      "sample_rate_hz": 48000,
+      "processing_format": "pcm24_or_float32",
+      "container_required": true
+    },
+    {
+      "profile_id": "delivery",
+      "sample_rate_hz": 48000,
+      "processing_format": "profile_bound",
+      "container_required": true
+    }
+  ],
+  "supports": [
+    "rational_video_timebase",
+    "vfr_segment_map",
+    "frame_pts_duration",
+    "sample_clock",
+    "encoder_priming_padding",
+    "retime_edit_list",
+    "cut_epochs",
+    "piecewise_drift"
+  ],
+  "legacy_16khz_mono_fixture_is_universal_authority": false
+}

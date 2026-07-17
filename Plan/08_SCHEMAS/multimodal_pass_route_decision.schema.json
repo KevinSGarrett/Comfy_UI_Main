@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/multimodal-pass-route-decision/1.0.0",
+  "title": "Wave64 Multimodal Pass Route Decision",
+  "type": "object",
+  "required": ["schema_version", "route_decision_id", "revision", "route_request_id", "request_constraints_sha256", "decision_status", "registry_snapshot_ids", "evaluated_candidates", "ranked_eligible_stack_ids", "selected_execution_stack_id", "selection_reasons", "fallback_sequence", "prohibited_substitutions", "qa_requirement_ids", "decided_at", "provenance"],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "route_decision_id": { "type": "string", "minLength": 1 },
+    "revision": { "type": "string", "minLength": 1 },
+    "route_request_id": { "type": "string", "minLength": 1 },
+    "request_constraints_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "decision_status": { "enum": ["selected", "blocked_no_eligible_stack", "blocked_missing_asset", "blocked_missing_authority", "blocked_resource_limit", "cancelled"] },
+    "registry_snapshot_ids": { "type": "array", "items": { "type": "string" }, "minItems": 1, "uniqueItems": true },
+    "evaluated_candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["execution_stack_id", "eligible", "eligibility_reasons", "rank_score", "rank_components", "benchmark_bucket_id"],
+        "properties": {
+          "execution_stack_id": { "type": "string" },
+          "eligible": { "type": "boolean" },
+          "eligibility_reasons": { "type": "array", "items": { "type": "string" } },
+          "rank_score": { "type": ["number", "null"] },
+          "rank_components": { "type": "object", "additionalProperties": { "type": "number" } },
+          "benchmark_bucket_id": { "type": ["string", "null"] }
+        },
+        "additionalProperties": false
+      }
+    },
+    "ranked_eligible_stack_ids": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "selected_execution_stack_id": { "type": ["string", "null"] },
+    "selection_reasons": { "type": "array", "items": { "type": "string" } },
+    "blockers": { "type": "array", "items": { "type": "object", "required": ["blocker_type", "details"], "properties": { "blocker_type":{"type":"string"}, "details":{"type":"string"}, "missing_evidence_ids":{"type":"array","items":{"type":"string"}} }, "additionalProperties":false } },
+    "resource_allocation": { "type": ["object", "null"], "additionalProperties": true },
+    "bridge_contract_ids": { "type": "array", "items": { "type": "string" } },
+    "fallback_sequence": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "prohibited_substitutions": {
+      "$ref": "https://comfy-ui-main.local/schemas/multimodal-contract-common/1.0.0#/$defs/NoSilentSubstitutionContract"
+    },
+    "qa_requirement_ids": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "decision_fresh_until": { "type": ["string", "null"], "format": "date-time" },
+    "supersedes_decision_id": { "type": ["string", "null"] },
+    "decided_at": { "type": "string", "format": "date-time" },
+    "provenance": { "$ref": "https://comfy-ui-main.local/schemas/multimodal-contract-common/1.0.0#/$defs/Provenance" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "decision_status": { "const": "selected" } }, "required": ["decision_status"] },
+      "then": { "properties": { "selected_execution_stack_id": { "type": "string", "minLength": 1 }, "blockers": { "maxItems": 0 } } },
+      "else": { "properties": { "selected_execution_stack_id": { "type": "null" } } }
+    }
+  ],
+  "additionalProperties": false
+}

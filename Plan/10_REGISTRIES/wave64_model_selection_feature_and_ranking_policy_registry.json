@@ -1,0 +1,206 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "wave64_model_selection_feature_and_ranking_policy_v1",
+  "updated_at": "2026-07-16T19:30:00-05:00",
+  "status": "planned_unimplemented_deferred_until_model_library_activation",
+  "activation_gate_id": "wave64_model_library_download_readiness_gate_v1",
+  "runtime_ranking_authorized": false,
+  "source_metadata_role": "discovery_and_qualification_priority_only",
+  "hard_filter_order": [
+    "lifecycle_and_binary_integrity",
+    "installation_and_loader_availability",
+    "engine_architecture_and_component_compatibility",
+    "pass_intent_target_control_and_mask_support",
+    "character_instance_and_protected_scope",
+    "current_capability_certificate_scope",
+    "runtime_resource_cost_and_health",
+    "evidence_freshness_and_prohibited_bundle_rules"
+  ],
+  "ranking_features": [
+    {
+      "feature": "target_effect_quality_lcb",
+      "direction": "higher"
+    },
+    {
+      "feature": "identity_morphology_preservation_lcb",
+      "direction": "higher"
+    },
+    {
+      "feature": "pose_ownership_preservation_lcb",
+      "direction": "higher"
+    },
+    {
+      "feature": "regional_and_mask_quality_lcb",
+      "direction": "higher"
+    },
+    {
+      "feature": "temporal_or_audio_quality_lcb",
+      "direction": "higher"
+    },
+    {
+      "feature": "serious_failure_rate_ucb",
+      "direction": "lower"
+    },
+    {
+      "feature": "protected_drift_ucb",
+      "direction": "lower"
+    },
+    {
+      "feature": "oom_crash_instability_ucb",
+      "direction": "lower"
+    },
+    {
+      "feature": "latency_memory_storage_transfer_cost",
+      "direction": "lower"
+    },
+    {
+      "feature": "bridge_scope_distance_staleness_penalty",
+      "direction": "lower"
+    },
+    {
+      "feature": "cache_and_batching_affinity",
+      "direction": "higher"
+    }
+  ],
+  "formula": {
+    "quality": "weighted_lower_confidence_bound_of_applicable_benefit_and_preservation_metrics",
+    "risk": "weighted_upper_confidence_bound_of_serious_failure_and_regression_metrics",
+    "utility": "quality_minus_risk_minus_resource_bridge_staleness_and_scope_distance_plus_cache_affinity",
+    "composite_applied_after": "pareto_frontier"
+  },
+  "numeric_policy": {
+    "policy_revision": "wave64_contextual_ranker_numeric_v1",
+    "authority": "frozen_initial_policy_requires_versioned_recalibration_evidence",
+    "feature_normalization": {
+      "range": [
+        0.0,
+        1.0
+      ],
+      "direction_normalized_to": "higher_is_better",
+      "method": "certificate_bucket_empirical_cdf_with_frozen_bounds",
+      "out_of_range_policy": "clip_and_record_drift_event"
+    },
+    "quality_feature_weights": {
+      "target_effect_quality_lcb": 0.35,
+      "identity_morphology_preservation_lcb": 0.25,
+      "pose_ownership_preservation_lcb": 0.15,
+      "regional_and_mask_quality_lcb": 0.15,
+      "temporal_or_audio_quality_lcb": 0.1
+    },
+    "risk_feature_weights": {
+      "serious_failure_rate_ucb": 0.55,
+      "protected_drift_ucb": 0.3,
+      "oom_crash_instability_ucb": 0.15
+    },
+    "penalty_feature_weights": {
+      "latency_memory_storage_transfer_cost": 0.5,
+      "bridge_scope_distance_staleness_penalty": 0.5
+    },
+    "utility_component_weights": {
+      "quality": 0.65,
+      "risk_penalty": 0.25,
+      "resource_bridge_penalty": 0.1,
+      "cache_affinity_bonus_cap": 0.02
+    },
+    "pass_class_applicability": {
+      "base_image": [
+        "target_effect_quality_lcb",
+        "identity_morphology_preservation_lcb",
+        "pose_ownership_preservation_lcb",
+        "regional_and_mask_quality_lcb"
+      ],
+      "regional_detail": [
+        "target_effect_quality_lcb",
+        "identity_morphology_preservation_lcb",
+        "pose_ownership_preservation_lcb",
+        "regional_and_mask_quality_lcb"
+      ],
+      "video": [
+        "target_effect_quality_lcb",
+        "identity_morphology_preservation_lcb",
+        "pose_ownership_preservation_lcb",
+        "temporal_or_audio_quality_lcb"
+      ],
+      "audio": [
+        "target_effect_quality_lcb",
+        "temporal_or_audio_quality_lcb"
+      ],
+      "av": [
+        "target_effect_quality_lcb",
+        "identity_morphology_preservation_lcb",
+        "temporal_or_audio_quality_lcb"
+      ]
+    },
+    "missing_data_rules": {
+      "mandatory_feature": "candidate_ineligible",
+      "optional_nonapplicable_feature": "omit_and_renormalize_with_recorded_denominator",
+      "metadata_prior": "qualification_priority_only_never_imputed_as_production_metric",
+      "stale_certificate": "candidate_ineligible",
+      "critic_only_unvalidated_metric": "exclude_from_hard_gate_and_rank"
+    },
+    "confidence_methods": {
+      "continuous_quality_lcb": "one_sided_95_percent_stratified_bootstrap",
+      "binary_failure_ucb": "one_sided_95_percent_wilson",
+      "sparse_bucket_policy": "fall_back_to_parent_bucket_for_priority_only_and_abstain_in_production"
+    },
+    "production_thresholds": {
+      "quality_lcb_minimum": 0.8,
+      "serious_failure_rate_ucb_maximum": 0.1,
+      "character_identity_preservation_lcb_minimum": 0.92,
+      "protected_drift_ucb_maximum": 0.05,
+      "selection_uncertainty_maximum": 0.2,
+      "certificate_freshness_required": true
+    },
+    "branch_and_abstention": {
+      "near_tie_utility_margin": 0.02,
+      "maximum_bounded_candidate_branches": 2,
+      "branching_allowed_modes": [
+        "qualification_exploration",
+        "shadow_challenger"
+      ],
+      "production_near_tie_policy": "select_certified_champion_or_abstain_by_policy",
+      "no_eligible_candidate_policy": "abstain_or_explicit_certified_fallback"
+    },
+    "selection_bias_controls": {
+      "record_propensity_or_assignment_probability": true,
+      "shadow_assignment_record_required": true,
+      "holdout_partition_id_required": true,
+      "production_observation_may_directly_rewrite_ranker": false
+    }
+  },
+  "cold_start": {
+    "metadata_priors_production_quality_authority": false,
+    "allowed_modes": [
+      "qualification_exploration",
+      "shadow_challenger"
+    ],
+    "production_required_pass": "certified_champion_or_explicit_fallback_or_abstain"
+  },
+  "exploration": {
+    "methods_allowed": [
+      "expected_information_value",
+      "contextual_thompson_sampling",
+      "uncertainty_ucb"
+    ],
+    "authority": "shadow_or_qualification_only",
+    "accepted_parent_mutation": false,
+    "single_success_promotion": false
+  },
+  "tie_break_order": [
+    "stronger_scope_match",
+    "stronger_lower_confidence_quality",
+    "lower_upper_confidence_serious_risk",
+    "larger_current_sample",
+    "fresher_evidence",
+    "lower_bridge_and_resource_cost",
+    "stable_bundle_id"
+  ],
+  "replay_requirements": [
+    "selection_context_hash",
+    "registry_snapshot_ids",
+    "certificate_snapshot_ids",
+    "feature_snapshot_hash",
+    "ranking_policy_id",
+    "normalization_and_weight_policy_id"
+  ]
+}

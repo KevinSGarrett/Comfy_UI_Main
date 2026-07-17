@@ -1,0 +1,154 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-audio-av-promotion-certificate/1.0.0",
+  "title": "Hyperreal Audio and AV Promotion Certificate",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "audio_av_promotion_certificate_id",
+    "revision",
+    "status",
+    "created_at",
+    "artifact_refs",
+    "scope",
+    "approved_span",
+    "audio_qa_refs",
+    "av_sync_ref",
+    "mix_recipe_ref",
+    "listening_review_ref",
+    "allowed_uses",
+    "expires_at",
+    "revocation_policy_id",
+    "runtime_release_decision_ref",
+    "runtime_completion_claimed",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_audio_av_promotion_certificate"
+    },
+    "audio_av_promotion_certificate_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "artifact_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+      },
+      "minItems": 1
+    },
+    "scope": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ExecutionScope"
+    },
+    "approved_span": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/MediaSpan"
+    },
+    "audio_qa_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+      },
+      "minItems": 1
+    },
+    "av_sync_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "mix_recipe_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "listening_review_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "allowed_uses": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "preview",
+          "intermediate_parent",
+          "final_audio",
+          "review_mux",
+          "av_master"
+        ]
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "expires_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "revocation_policy_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "runtime_release_decision_ref": {
+      "oneOf": [
+        {
+          "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "runtime_completion_claimed": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "runtime_completion_claimed": {
+            "const": true
+          }
+        },
+        "required": [
+          "runtime_completion_claimed"
+        ]
+      },
+      "then": {
+        "properties": {
+          "status": {
+            "const": "certified"
+          },
+          "runtime_release_decision_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          }
+        }
+      }
+    }
+  ]
+}

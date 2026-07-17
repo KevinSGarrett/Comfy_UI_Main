@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/comfyui-submission-envelope/1.0.0",
+  "title": "Wave64 ComfyUI Submission Envelope",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "submission_envelope_id",
+    "revision",
+    "status",
+    "created_at",
+    "attempt_id",
+    "run_id",
+    "pass_id",
+    "runtime_lock_ref",
+    "workflow_release_ref",
+    "prompt_id",
+    "client_id",
+    "idempotency_key",
+    "api_graph_sha256",
+    "request_body_sha256",
+    "partial_target_node_ids",
+    "allowlisted_extra_data_keys",
+    "output_namespace",
+    "timeout_seconds",
+    "deadline",
+    "cancellation_token_id",
+    "outbox_sequence",
+    "no_duplicate_submission_authority",
+    "credentials_embedded",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "comfyui_submission_envelope"
+    },
+    "submission_envelope_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "attempt_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pass_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "runtime_lock_ref": {
+      "allOf": [
+        {
+          "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/ImmutableRecordRef"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "record_type": {
+              "const": "comfyui_runtime_lock"
+            }
+          },
+          "required": [
+            "record_type"
+          ]
+        }
+      ]
+    },
+    "workflow_release_ref": {
+      "allOf": [
+        {
+          "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/ImmutableRecordRef"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "record_type": {
+              "const": "workflow_release_manifest"
+            }
+          },
+          "required": [
+            "record_type"
+          ]
+        }
+      ]
+    },
+    "prompt_id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "client_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "idempotency_key": {
+      "type": "string",
+      "minLength": 1
+    },
+    "api_graph_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "request_body_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "partial_target_node_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "allowlisted_extra_data_keys": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "output_namespace": {
+      "type": "string",
+      "minLength": 1
+    },
+    "timeout_seconds": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "deadline": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "cancellation_token_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "outbox_sequence": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "no_duplicate_submission_authority": {
+      "const": true
+    },
+    "credentials_embedded": {
+      "const": false
+    }
+  },
+  "additionalProperties": false
+}

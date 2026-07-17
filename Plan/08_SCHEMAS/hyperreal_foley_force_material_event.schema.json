@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-foley-force-material-event/1.0.0",
+  "title": "Hyperreal Foley Force and Material Event",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "foley_force_material_event_id",
+    "revision",
+    "status",
+    "created_at",
+    "scope",
+    "event_id",
+    "span",
+    "source_owner",
+    "target_owner",
+    "contact_ref",
+    "force_profile_ref",
+    "source_material_id",
+    "target_material_id",
+    "surface_state_refs",
+    "gesture_or_motion_ref",
+    "required_layers",
+    "source_route_decision_ref",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_foley_force_material_event"
+    },
+    "foley_force_material_event_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "scope": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ExecutionScope"
+    },
+    "event_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "span": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/MediaSpan"
+    },
+    "source_owner": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/OwnerRef"
+    },
+    "target_owner": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/OwnerRef"
+    },
+    "contact_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "force_profile_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "source_material_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target_material_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "surface_state_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+      },
+      "minItems": 1
+    },
+    "gesture_or_motion_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "required_layers": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "transient",
+          "body",
+          "resonance",
+          "debris",
+          "tail",
+          "cloth",
+          "friction"
+        ]
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "source_route_decision_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "wave64_autonomous_model_role_registry_v1",
+  "updated_at": "2026-07-16T19:30:00-05:00",
+  "status": "roles_defined_stacks_unselected_unqualified_and_activation_deferred",
+  "activation_gate_id": "wave64_model_library_download_readiness_gate_v1",
+  "runtime_role_activation_allowed": false,
+  "roles": [
+    {
+      "role": "planner",
+      "outputs": [
+        "planner_proposal"
+      ],
+      "may_execute": false,
+      "may_promote": false
+    },
+    {
+      "role": "prompt_composer",
+      "outputs": [
+        "prompt_package"
+      ],
+      "may_execute": false,
+      "may_promote": false
+    },
+    {
+      "role": "retrieval_analyst",
+      "outputs": [
+        "retrieval_evidence_bundle"
+      ],
+      "may_execute": false,
+      "may_promote": false
+    },
+    {
+      "role": "router_advisor",
+      "outputs": [
+        "candidate_explanation"
+      ],
+      "may_execute": false,
+      "may_promote": false
+    },
+    {
+      "role": "defect_classifier",
+      "outputs": [
+        "defect_observation",
+        "repair_hypothesis"
+      ],
+      "may_execute": false,
+      "may_promote": false
+    },
+    {
+      "role": "vlm_critic",
+      "outputs": [
+        "reviewer_observation"
+      ],
+      "may_execute": false,
+      "may_promote": false
+    },
+    {
+      "role": "audio_critic",
+      "outputs": [
+        "reviewer_observation"
+      ],
+      "may_execute": false,
+      "may_promote": false
+    },
+    {
+      "role": "report_writer",
+      "outputs": [
+        "cited_generated_summary"
+      ],
+      "may_execute": false,
+      "may_promote": false
+    },
+    {
+      "role": "summarizer",
+      "outputs": [
+        "context_compaction_summary"
+      ],
+      "may_execute": false,
+      "may_promote": false
+    },
+    {
+      "role": "drift_triage",
+      "outputs": [
+        "drift_scope_proposal"
+      ],
+      "may_execute": false,
+      "may_promote": false
+    }
+  ],
+  "exact_stack_fields": [
+    "model_id",
+    "model_revision",
+    "model_sha256",
+    "runtime",
+    "runtime_revision",
+    "quantization",
+    "chat_template_id",
+    "structured_output_parser_id",
+    "context_limit",
+    "batching_policy",
+    "hardware_envelope_id",
+    "role_qualification_certificate_ids"
+  ],
+  "qualification_floors": {
+    "planner_held_out_requests": 100,
+    "reviewer_adjudicated_panels": 200,
+    "tool_gateway_adversarial_cases": 100,
+    "complete_shadow_jobs": 30
+  }
+}

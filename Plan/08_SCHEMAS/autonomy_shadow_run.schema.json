@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/autonomy-shadow-run/1.0.0",
+  "title": "Wave64 Autonomy Shadow Run",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "shadow_run_id",
+    "revision",
+    "status",
+    "created_at",
+    "job_id",
+    "production_decision_refs",
+    "shadow_proposal_refs",
+    "decision_differences",
+    "shadow_execution_allowed",
+    "shadow_artifact_ids",
+    "qa_comparison",
+    "regret_and_risk",
+    "activation_effect",
+    "production_state_mutated",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "autonomy_shadow_run"
+    },
+    "shadow_run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "job_id": {
+      "type": "string"
+    },
+    "production_decision_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+      }
+    },
+    "shadow_proposal_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+      }
+    },
+    "decision_differences": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "shadow_execution_allowed": {
+      "type": "boolean"
+    },
+    "shadow_artifact_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "qa_comparison": {
+      "type": "object"
+    },
+    "regret_and_risk": {
+      "type": "object"
+    },
+    "activation_effect": {
+      "enum": [
+        "none",
+        "supports_activation",
+        "blocks_activation",
+        "requires_more_evidence"
+      ]
+    },
+    "production_state_mutated": {
+      "const": false
+    }
+  },
+  "additionalProperties": false
+}

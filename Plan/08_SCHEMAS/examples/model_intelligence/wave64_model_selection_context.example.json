@@ -1,0 +1,121 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "model_selection_context",
+  "selection_context_id": "context_character01_skin_repair_v1",
+  "revision": "1",
+  "status": "compiled_example",
+  "created_at": "2026-07-16T19:30:00-05:00",
+  "job_id": "job_example_001",
+  "run_id": "run_example_001",
+  "pass_id": "pass_skin_repair",
+  "scene_id": "scene_example",
+  "shot_id": "shot_example",
+  "take_id": "take_01",
+  "character_revision_ids": [
+    "character_revision_001"
+  ],
+  "character_instance_ids": [
+    "character_instance_01"
+  ],
+  "capability_scope": {
+    "modality": "image",
+    "pass_intent": "skin_detail",
+    "target_types": [
+      "skin_texture"
+    ],
+    "engine_family": "sdxl",
+    "base_model_ids": [
+      "base_sdxl_example"
+    ],
+    "character_count_min": 1,
+    "character_count_max": 1,
+    "mask_authority_tiers": [
+      "mode_a_approved"
+    ],
+    "resolution_or_duration_bucket": "1024_crop",
+    "hardware_envelope_id": "local_8gib_example"
+  },
+  "defect_ids": [
+    "skin_texture_too_smooth"
+  ],
+  "target_contract": {
+    "owner_instance_ids": [
+      "character_instance_01"
+    ],
+    "target_types": [
+      "skin_texture"
+    ],
+    "target_regions": [
+      "skin"
+    ],
+    "target_mask_binding_ids": [
+      "mask_binding_skin_example_v1"
+    ],
+    "coordinate_space": "parent_image_pixels",
+    "allow_change_outside_target": false
+  },
+  "protected_contract": {
+    "protected_instance_ids": [
+      "character_instance_01"
+    ],
+    "protected_regions": [
+      "face",
+      "hair",
+      "wardrobe",
+      "background"
+    ],
+    "protected_mask_binding_ids": [
+      "mask_binding_protected_example_v1"
+    ],
+    "preserve_identity": true,
+    "preserve_morphology": true,
+    "preserve_pose": true,
+    "preserve_camera": true,
+    "preserve_background": true,
+    "outside_target_metric_ids": [
+      "identity_drift",
+      "pose_drift",
+      "outside_mask_change"
+    ]
+  },
+  "control_and_mask_requirements": {
+    "mask_applicability": "required",
+    "mask_binding_ids": [
+      "mask_binding_skin_example_v1",
+      "mask_binding_protected_example_v1"
+    ],
+    "required_access_modes": [
+      "mode_a_package_read"
+    ],
+    "required_truth_tiers": [
+      "approved_package"
+    ],
+    "required_control_types": [
+      "regional_inpaint_mask",
+      "protected_mask"
+    ],
+    "ownership_required": true,
+    "person_index_required": true,
+    "ontology_version": "maskfactory_ontology_example_v1",
+    "source_coordinate_space": "parent_image_pixels",
+    "target_coordinate_space": "regional_crop_pixels",
+    "transform_validation_required": true,
+    "certificate_required": true,
+    "source_image_hash_match_required": true,
+    "mode_b_outputs_are_draft_only": true,
+    "authority_upgrade_allowed": false,
+    "writes_gold": false,
+    "promotion_gate_policy": "requires_separately_validated_mode_a_binding"
+  },
+  "quality_cost_runtime_policy_id": "quality_priority_local_v1",
+  "context_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "provenance": {
+    "producer": "wave64_autonomous_model_intelligence_package_builder",
+    "source_refs": [
+      "wave30_source_snapshot",
+      "wave64_model_intelligence_master_plan"
+    ],
+    "evidence_refs": [],
+    "registry_snapshot_ids": []
+  }
+}

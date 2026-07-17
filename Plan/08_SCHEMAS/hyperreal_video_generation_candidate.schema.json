@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-video-generation-candidate/1.0.0",
+  "title": "Hyperreal Video Generation Candidate",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "video_generation_candidate_id",
+    "revision",
+    "status",
+    "created_at",
+    "scope",
+    "route_decision_ref",
+    "attempt_ref",
+    "parent_artifact_refs",
+    "output_artifact",
+    "frame_manifest_ref",
+    "generation_parameter_ref",
+    "seed",
+    "accepted_parent_immutable",
+    "candidate_only",
+    "promotable",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_video_generation_candidate"
+    },
+    "video_generation_candidate_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "scope": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ExecutionScope"
+    },
+    "route_decision_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "attempt_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "parent_artifact_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+      },
+      "minItems": 1
+    },
+    "output_artifact": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ArtifactRef"
+    },
+    "frame_manifest_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "generation_parameter_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "accepted_parent_immutable": {
+      "const": true
+    },
+    "candidate_only": {
+      "type": "boolean"
+    },
+    "promotable": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/model-library-phase-transition-decision/1.0.0",
+  "title": "Wave64 Model Library Phase Transition Decision",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "phase_transition_decision_id",
+    "revision",
+    "status",
+    "created_at",
+    "main_task_id",
+    "activation_gate_id",
+    "event_sequence",
+    "previous_transition_sha256",
+    "from_gate_state",
+    "to_gate_state",
+    "from_phase",
+    "to_phase",
+    "decision",
+    "prerequisite_refs",
+    "permissions_sha256",
+    "decision_authority",
+    "reason_codes",
+    "implicit_phase_cascade",
+    "other_runtime_lanes_affected",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "model_library_phase_transition_decision"
+    },
+    "phase_transition_decision_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "main_task_id": {
+      "const": "019f422f-88b1-7382-872b-21de2089e983"
+    },
+    "activation_gate_id": {
+      "const": "wave64_model_library_download_readiness_gate_v1"
+    },
+    "event_sequence": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "previous_transition_sha256": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "from_gate_state": {
+      "type": "string",
+      "minLength": 1
+    },
+    "to_gate_state": {
+      "type": "string",
+      "minLength": 1
+    },
+    "from_phase": {
+      "enum": [
+        "none",
+        "staging",
+        "qualification",
+        "shadow_selection",
+        "production_selection"
+      ]
+    },
+    "to_phase": {
+      "enum": [
+        "none",
+        "staging",
+        "qualification",
+        "shadow_selection",
+        "production_selection"
+      ]
+    },
+    "decision": {
+      "enum": [
+        "authorized",
+        "denied",
+        "suspended"
+      ]
+    },
+    "prerequisite_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+      },
+      "minItems": 1
+    },
+    "permissions_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "decision_authority": {
+      "enum": [
+        "deterministic_phase_policy",
+        "main_task_release_authority"
+      ]
+    },
+    "reason_codes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "implicit_phase_cascade": {
+      "const": false
+    },
+    "other_runtime_lanes_affected": {
+      "const": false
+    }
+  },
+  "additionalProperties": false
+}

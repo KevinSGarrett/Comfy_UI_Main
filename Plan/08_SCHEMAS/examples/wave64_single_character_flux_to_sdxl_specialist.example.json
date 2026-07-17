@@ -1,0 +1,151 @@
+{
+  "example_id": "wave64_single_character_flux_to_sdxl_hand_specialist",
+  "status": "contract_fixture_not_runtime_evidence",
+  "narrative": "An accepted FLUX-family base crosses as a decoded image into an exact SDXL specialist stack for one owned hand region. FLUX and SDXL weights, latent spaces, encoders, VAEs, and adapters remain engine-local.",
+  "route_request": {
+    "schema_version": "1.0.0",
+    "route_request_id": "route_req_scene014_shot003_take001_hand",
+    "run_id": "run_scene014_take001",
+    "pass_id": "pass_hand_repair_002",
+    "modality": "image",
+    "pass_intent": "anatomy_detail",
+    "accepted_parent_artifact_ids": ["artifact_flux_base_scene014_shot003_take001"],
+    "target_scope": {
+      "character_instance_ids": ["charinst_aria_01"],
+      "regions_or_spans": [{"region": "left_hand"}],
+      "mask_binding_ids": ["maskbind_scene014_shot003_take001_aria_left_hand"]
+    },
+    "protected_scope": {
+      "character_instance_ids": ["charinst_aria_01"],
+      "regions_or_spans": [{"region": "face"}, {"region": "torso"}, {"region": "hair"}, {"region": "wardrobe"}],
+      "mask_binding_ids": []
+    },
+    "required_capabilities": ["regional_inpaint", "anatomy_detail", "identity_preservation", "protected_region_preservation"],
+    "input_contract": ["decoded_image", "masked_crop", "target_mask", "protected_masks"],
+    "output_contract": ["decoded_masked_crop", "composite_candidate"],
+    "control_requirements": ["mask", "reference_identity"],
+    "character_binding_requirements": [{"character_instance_id": "charinst_aria_01", "engine_family": "sdxl", "binding_required": true}],
+    "mask_authority_requirements": ["approved_package_or_stronger"],
+    "budgets": {"quality_tier": "hero", "max_attempts": 3, "max_runtime_seconds": 900, "max_peak_vram_mib": 12288, "max_cost": null},
+    "engine_policy": {"mode": "auto", "preferred_stack_ids": []},
+    "registry_snapshot_id": "registry_snapshot_wave64_example_001",
+    "requested_at": "2026-07-16T21:50:00-05:00"
+  },
+  "route_decision": {
+    "schema_version": "1.0.0",
+    "route_decision_id": "route_decision_scene014_hand_001",
+    "revision": "r001",
+    "route_request_id": "route_req_scene014_shot003_take001_hand",
+    "request_constraints_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "decision_status": "blocked_missing_authority",
+    "registry_snapshot_ids": ["registry_snapshot_wave64_example_001"],
+    "evaluated_candidates": [
+      {
+        "execution_stack_id": "stack_template_sdxl_regional_specialist_v1",
+        "eligible": false,
+        "eligibility_reasons": ["stack_authority_planned_not_certified", "missing_scoped_certificate"],
+        "rank_score": null,
+        "rank_components": {},
+        "benchmark_bucket_id": null
+      },
+      {
+        "execution_stack_id": "stack_unverified_similarly_named_hand_model",
+        "eligible": false,
+        "eligibility_reasons": ["missing_exact_model_hash", "missing_scoped_certificate"],
+        "rank_score": null,
+        "rank_components": {},
+        "benchmark_bucket_id": null
+      }
+    ],
+    "ranked_eligible_stack_ids": [],
+    "selected_execution_stack_id": null,
+    "selection_reasons": ["no currently certified exact execution bundle exists"],
+    "blockers": [
+      {
+        "blocker_type": "planned_stack_is_not_runtime_authority",
+        "details": "The registry stack is planning-only and has no scoped certificate.",
+        "missing_evidence_ids": ["exact_bundle_hash", "scoped_capability_certificate"]
+      }
+    ],
+    "resource_allocation": {"execution_target": "gpu_envelope_example_12g"},
+    "bridge_contract_ids": ["bridge_flux2_to_sdxl_scene014_hand_001"],
+    "fallback_sequence": [],
+    "prohibited_substitutions": {
+      "component_substitution": "forbidden",
+      "stack_substitution": "explicit_new_route_decision_only",
+      "engine_family_change": "explicit_bridge_or_new_route_only",
+      "queue_pressure_quality_downgrade": "forbidden",
+      "missing_asset_behavior": "block_or_hash_verified_acquisition"
+    },
+    "qa_requirement_ids": ["qa_target_hand", "qa_protected_regions", "qa_identity", "qa_seam", "qa_whole_frame"],
+    "decision_fresh_until": null,
+    "supersedes_decision_id": null,
+    "decided_at": "2026-07-16T21:50:01-05:00",
+    "provenance": {"producer": "deterministic_router_fixture", "source_refs": ["route_req_scene014_shot003_take001_hand"], "registry_snapshot_ids": ["registry_snapshot_wave64_example_001"], "canonicalization": "rfc8785_jcs"}
+  },
+  "bridge_contract": {
+    "schema_version": "1.0.0",
+    "bridge_contract_id": "bridge_flux2_to_sdxl_scene014_hand_001",
+    "revision": "r001",
+    "scene_id": "scene014",
+    "shot_id": "shot003",
+    "take_id": "take001",
+    "source_pass_id": "pass_base_001",
+    "target_pass_id": "pass_hand_repair_002",
+    "source_execution_stack_id": "stack_template_flux2_dev_global_v1",
+    "target_execution_stack_id": "stack_template_sdxl_regional_specialist_v1",
+    "source_artifact_id": "artifact_flux_base_scene014_shot003_take001",
+    "transfer_objects": [
+      {"transfer_type": "decoded_image", "artifact_id": "artifact_flux_base_scene014_shot003_take001", "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "media_metadata": {"metadata_schema_id": "image_metadata_v1", "metadata_sha256": "abababababababababababababababababababababababababababababababab", "payload": {"width": 2048, "height": 2048, "color_space": "srgb", "bit_depth": 16}}},
+      {"transfer_type": "alpha_mask", "artifact_id": "mask_aria_left_hand", "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "media_metadata": {"metadata_schema_id": "mask_metadata_v1", "metadata_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "payload": {"width": 2048, "height": 2048}}}
+    ],
+    "decode_contract": {"decoder_id": "flux2_vae_exact_hash_fixture", "color_or_sample_space": "linear_rgb_then_srgb_export", "bit_depth_or_sample_format": "16_bit_integer", "alpha_mode": "straight"},
+    "transform_chain": [
+      {"source_space": "scene014_full_frame", "target_space": "aria_left_hand_crop_1024", "source_dimensions": [2048, 2048], "target_dimensions": [1024, 1024], "operations": [{"operation": "crop_and_pad", "parameters": {"bbox": [720, 880, 480, 480]}, "parameters_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", "invertible": true, "roundtrip_evidence_id": "evidence_flux2_sdxl_crop_roundtrip_001"}], "interpolation": "lanczos_image_nearest_mask", "transform_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}
+    ],
+    "target_import_contract": {"importer_id": "sdxl_inpaint_importer_v1", "input_kind": "sdxl_inpaint", "target_color_or_sample_space": "srgb", "orientation_policy": "preserve_exif_normalized_top_left", "alpha_policy": "straight_alpha", "mask_semantics": "white_is_writable", "silent_resize": false, "reintegration_policy_id": "masked_crop_roundtrip_reintegration_v1"},
+    "ownership_propagation": [{"source_owner_id": "charinst_aria_01", "target_owner_id": "charinst_aria_01", "selectors": ["left_hand"]}],
+    "compatibility_certificate_id": "cert_bridge_decoded_flux2_sdxl_image_v1",
+    "pre_bridge_qa_ids": ["qa_source_hash", "qa_source_decode", "qa_source_mask_alignment"],
+    "post_bridge_qa_ids": ["qa_crop_transform_roundtrip", "qa_color_roundtrip", "qa_owner_preserved"],
+    "forbidden_transfer_objects": ["cross_family_latent", "cross_family_embedding", "lora_weight", "vae_weight", "text_encoder_weight", "controlnet_weight", "adapter_weight"],
+    "bridge_status": "validated",
+    "execution_allowed": false,
+    "provenance": {"producer": "bridge_compiler_fixture", "source_refs": ["artifact_flux_base_scene014_shot003_take001"], "registry_snapshot_ids": ["registry_snapshot_wave64_example_001"], "canonicalization": "rfc8785_jcs"}
+  },
+  "specialist_pass": {
+    "schema_version": "1.0.0",
+    "specialist_pass_id": "pass_hand_repair_002",
+    "revision": "r001",
+    "job_id": "job_scene014",
+    "run_id": "run_scene014_take001",
+    "dag_id": "dag_scene014_shot003_take001",
+    "scene_id": "scene014",
+    "shot_id": "shot003",
+    "take_id": "take001",
+    "compilation_status": "blocked_no_certified_bundle",
+    "sequence_role": "intermediate",
+    "pass_class": "specialist",
+    "pass_intent": "anatomy_detail",
+    "modality": "image",
+    "required": true,
+    "parent_artifact_ids": ["artifact_flux_base_scene014_shot003_take001"],
+    "route_request_id": "route_req_scene014_shot003_take001_hand",
+    "route_decision_id": "route_decision_scene014_hand_001",
+    "selected_execution_stack_id": null,
+    "target_contract": [{"selector_type": "body_region", "owner": {"owner_type": "character_instance", "owner_id": "charinst_aria_01"}, "selector": {"region": "left_hand", "mask_id": "mask_aria_left_hand"}}],
+    "protected_contract": [{"selector_type": "body_region", "owner": {"owner_type": "character_instance", "owner_id": "charinst_aria_01"}, "selector": {"regions": ["face", "torso", "hair", "wardrobe"]}}],
+    "mask_factory_binding_id": "maskbind_scene014_shot003_take001_aria_left_hand",
+    "cross_engine_bridge_ids": ["bridge_flux2_to_sdxl_scene014_hand_001"],
+    "workflow_patch_contract": {"allowlisted_patch_keys": ["input_image", "target_mask", "positive_prompt", "negative_prompt", "seed", "denoise"], "patch_values_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"},
+    "generation_parameters": {"seed": 14003, "denoise": 0.23, "crop_context": 0.35},
+    "resource_contract": {"allowed_execution_targets": ["gpu_envelope_example_12g"], "max_vram_mib": 12288, "max_ram_mib": 32768, "max_disk_mib": 8192, "wall_timeout_seconds": 900, "queue_timeout_seconds": 300, "concurrency": 1, "cost_ceiling": null, "cache_policy": "prefer_resident"},
+    "retry_contract": {"max_attempts": 3, "max_reroutes": 1, "retryable_failure_classes": ["target_quality_failure", "seam_failure", "transient_runtime_failure"], "accepted_parent_immutable": true, "smallest_scope_retry": true, "hypothesis_change_required": true, "stop_conditions": ["whole_frame_regression", "budget_exhausted"]},
+    "attempt_plan": [],
+    "qa_contract": {"gate_ids": ["qa_target_hand", "qa_protected_regions", "qa_identity", "qa_seam", "qa_whole_frame"], "target_gate_ids": ["qa_target_hand"], "protected_gate_ids": ["qa_protected_regions", "qa_identity"], "whole_artifact_gate_ids": ["qa_whole_frame"], "thresholds": {}, "required_evidence_types": ["target_crop", "difference_map", "whole_frame"], "blocking": true, "promotion_required": true},
+    "output_slots": [{"slot_id": "specialist_composite_candidate", "artifact_type": "image", "required": true}],
+    "promotion_policy": "not_promotable",
+    "failure_policy": {"allowed_actions": ["reroute", "block", "reject"], "default_action": "block"},
+    "provenance": {"producer": "pass_compiler_fixture", "source_refs": ["route_decision_scene014_hand_001"], "registry_snapshot_ids": ["registry_snapshot_wave64_example_001"], "canonicalization": "rfc8785_jcs"}
+  }
+}

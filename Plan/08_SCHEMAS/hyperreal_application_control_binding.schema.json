@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-application-control-binding/1.0.0",
+  "title": "Hyperreal Application Control-to-Domain Command/Query Binding",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "application_control_binding_id",
+    "revision",
+    "status",
+    "created_at",
+    "control_ref",
+    "route_id",
+    "domain_field_schema_id",
+    "read_query_id",
+    "write_command_id",
+    "parameter_mapping_ref",
+    "compatibility_gate_ids",
+    "authority_policy_id",
+    "surface",
+    "binding_test_ref",
+    "dead_control",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_application_control_binding"
+    },
+    "application_control_binding_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "control_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "route_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "domain_field_schema_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "read_query_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "write_command_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "parameter_mapping_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "compatibility_gate_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "authority_policy_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "surface": {
+      "enum": [
+        "controller_console",
+        "comfyui_app_mode",
+        "comfyui_frontend_extension"
+      ]
+    },
+    "binding_test_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "dead_control": {
+      "const": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,198 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/model-execution-bundle/1.0.0",
+  "title": "Wave64 Exact Model Execution Bundle",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "execution_bundle_id",
+    "revision",
+    "status",
+    "created_at",
+    "engine_family",
+    "base_model",
+    "components",
+    "workflow_ref",
+    "runtime_ref",
+    "bundle_sha256",
+    "compatibility_edge_ids",
+    "certificate_ids",
+    "mask_and_control_capabilities",
+    "no_silent_substitution",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "model_execution_bundle"
+    },
+    "execution_bundle_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "engine_family": {
+      "type": "string",
+      "minLength": 1
+    },
+    "base_model": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+    },
+    "components": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "slot",
+          "record_ref",
+          "order",
+          "parameters"
+        ],
+        "properties": {
+          "slot": {
+            "type": "string"
+          },
+          "record_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+          },
+          "order": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "parameters": {
+            "type": "object"
+          },
+          "target_instance_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "target_regions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "workflow_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+    },
+    "runtime_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+    },
+    "prompt_profile_ref": {
+      "oneOf": [
+        {
+          "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "bundle_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "compatibility_edge_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "certificate_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "mask_and_control_capabilities": {
+      "type": "object",
+      "required": [
+        "supported_access_modes",
+        "supported_truth_tiers",
+        "supported_control_types",
+        "supports_per_instance_ownership",
+        "supports_protected_mask",
+        "supports_transform_chain",
+        "mode_b_authority_ceiling",
+        "writes_gold"
+      ],
+      "properties": {
+        "supported_access_modes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "mode_a_package_read",
+              "mode_b_live_predict",
+              "mode_b_live_refine"
+            ]
+          }
+        },
+        "supported_truth_tiers": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "gold",
+              "approved_package",
+              "certified_machine",
+              "machine_draft",
+              "manual_draft"
+            ]
+          }
+        },
+        "supported_control_types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "supports_per_instance_ownership": {
+          "type": "boolean"
+        },
+        "supports_protected_mask": {
+          "type": "boolean"
+        },
+        "supports_transform_chain": {
+          "type": "boolean"
+        },
+        "mode_b_authority_ceiling": {
+          "const": "machine_draft"
+        },
+        "writes_gold": {
+          "const": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "no_silent_substitution": {
+      "const": true
+    }
+  },
+  "additionalProperties": false
+}

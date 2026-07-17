@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/multimodal-pass-route-request/1.0.0",
+  "title": "Wave64 Multimodal Pass Route Request",
+  "type": "object",
+  "required": ["schema_version", "route_request_id", "run_id", "pass_id", "modality", "pass_intent", "accepted_parent_artifact_ids", "target_scope", "protected_scope", "required_capabilities", "input_contract", "output_contract", "budgets", "registry_snapshot_id", "requested_at"],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "route_request_id": { "type": "string", "minLength": 1 },
+    "run_id": { "type": "string", "minLength": 1 },
+    "pass_id": { "type": "string", "minLength": 1 },
+    "modality": { "enum": ["image", "video", "audio", "av"] },
+    "pass_intent": { "type": "string", "minLength": 1 },
+    "accepted_parent_artifact_ids": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "target_scope": { "type": "object", "required": ["character_instance_ids", "regions_or_spans"], "properties": { "character_instance_ids":{"type":"array","items":{"type":"string"},"uniqueItems":true}, "regions_or_spans":{"type":"array","items":{"type":"object"}}, "mask_binding_ids":{"type":"array","items":{"type":"string"},"uniqueItems":true} }, "additionalProperties": false },
+    "protected_scope": { "type": "object", "required": ["character_instance_ids", "regions_or_spans"], "properties": { "character_instance_ids":{"type":"array","items":{"type":"string"},"uniqueItems":true}, "regions_or_spans":{"type":"array","items":{"type":"object"}}, "mask_binding_ids":{"type":"array","items":{"type":"string"},"uniqueItems":true} }, "additionalProperties": false },
+    "required_capabilities": { "type": "array", "items": { "type": "string" }, "minItems": 1, "uniqueItems": true },
+    "input_contract": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "output_contract": { "type": "array", "items": { "type": "string" }, "minItems": 1, "uniqueItems": true },
+    "control_requirements": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "character_binding_requirements": { "type": "array", "items": { "type": "object" } },
+    "mask_authority_requirements": { "type": "array", "items": { "type": "string" } },
+    "budgets": { "type": "object", "required": ["quality_tier", "max_attempts", "max_runtime_seconds", "max_peak_vram_mib"], "properties": { "quality_tier":{"type":"string"}, "max_attempts":{"type":"integer","minimum":1}, "max_runtime_seconds":{"type":"number","exclusiveMinimum":0}, "max_peak_vram_mib":{"type":"integer","minimum":1}, "max_cost":{"type":["number","null"],"minimum":0} }, "additionalProperties": false },
+    "engine_policy": { "type": "object", "properties": { "mode":{"enum":["auto","prefer","force_diagnostic"]}, "preferred_stack_ids":{"type":"array","items":{"type":"string"}} }, "required":["mode"], "additionalProperties":false },
+    "registry_snapshot_id": { "type": "string", "minLength": 1 },
+    "requested_at": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": false
+}

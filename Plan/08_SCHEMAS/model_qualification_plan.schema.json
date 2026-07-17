@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/model-qualification-plan/1.0.0",
+  "title": "Wave64 Model Qualification Plan",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "qualification_plan_id",
+    "revision",
+    "status",
+    "created_at",
+    "target_bundle_ref",
+    "current_authority",
+    "requested_authority",
+    "stages",
+    "benchmark_suite_ids",
+    "resource_budget",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "model_qualification_plan"
+    },
+    "qualification_plan_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "target_bundle_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+    },
+    "current_authority": {
+      "type": "string"
+    },
+    "requested_authority": {
+      "type": "string"
+    },
+    "stages": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "stage_id",
+          "stage_type",
+          "entry_gates",
+          "exit_gates",
+          "stop_conditions"
+        ],
+        "properties": {
+          "stage_id": {
+            "type": "string"
+          },
+          "stage_type": {
+            "enum": [
+              "catalog_qa",
+              "binary_qa",
+              "load_smoke",
+              "functional_ab",
+              "bucket_benchmark",
+              "bundle_interaction",
+              "cross_engine_bridge",
+              "shadow_routing"
+            ]
+          },
+          "entry_gates": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "exit_gates": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "stop_conditions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "benchmark_suite_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "resource_budget": {
+      "type": "object"
+    },
+    "priority_evidence": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": false
+}

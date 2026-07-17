@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/autonomous-context-memory-manifest/1.0.0",
+  "title": "Wave64 Autonomous Context Memory Manifest",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "context_memory_manifest_id",
+    "revision",
+    "status",
+    "created_at",
+    "role_id",
+    "context_limit",
+    "token_budget",
+    "included_record_refs",
+    "excluded_record_refs",
+    "compaction_summaries",
+    "conflict_ids",
+    "missing_evidence",
+    "context_sha256",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "autonomous_context_memory_manifest"
+    },
+    "context_memory_manifest_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "role_id": {
+      "type": "string"
+    },
+    "context_limit": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "token_budget": {
+      "type": "object"
+    },
+    "included_record_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+      }
+    },
+    "excluded_record_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+      }
+    },
+    "compaction_summaries": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "conflict_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "missing_evidence": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "context_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "additionalProperties": false
+}
