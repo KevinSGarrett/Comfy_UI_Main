@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0",
+  "artifact_type": "flux2_dev_broader_qualification_runtime_and_visual_qa",
+  "evidence_id": "W64_FLUX2_DEV_BROADER_QUALIFICATION_20260717T070415-0500",
+  "created_at": "2026-07-17T07:04:15-05:00",
+  "lane_id": "flux2_dev_primary_base",
+  "result": "runtime_pass_visual_qa_pass_with_findings_production_not_certified",
+  "classification": "FLUX2_DEV_BROADER_QUALIFICATION_4_OF_5_VISUAL_PASS_LIKE",
+  "source_git_head": "57630f6ad788272f85fd535fd30465a7c15e5ca4",
+  "source_git_matches_origin_main": true,
+  "instance": {
+    "instance_id": "i-0560bf8d143f93bb1",
+    "instance_type": "g5.2xlarge",
+    "gpu": "NVIDIA A10G",
+    "final_state": "stopped"
+  },
+  "deploy_bundle": {
+    "s3_uri": "s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/flux2-dev/57630f6ad788272f85fd535fd30465a7c15e5ca4/flux2_dev_qualification_head57630f6/flux2_dev_qualification_head57630f6.zip",
+    "sha256": "9c27a850e7bfdd87f100fb3680e47798ed77ebfa5eac5d8fdf2a1fa550712ea2",
+    "redownload_hash_match": true,
+    "manifest_evidence": "DEPLOY_BUNDLE_MANIFEST.json",
+    "publish_evidence": "S3_PUBLISH_EXECUTE.json"
+  },
+  "runtime": {
+    "work_order_id": "flux2-dev-qualification-r003",
+    "runtime_window_id": "rw-batch-flux2-dev-qualification-r003",
+    "one_ec2_start": true,
+    "static_proof_pass": true,
+    "watchdog_verified": true,
+    "unit_count": 5,
+    "unit_pass_count": 5,
+    "pullback_count": 5,
+    "generation_executed": true,
+    "final_instance_state": "stopped",
+    "aggregate_evidence": "BATCH_RUNTIME_EXECUTION.json",
+    "aggregate_evidence_sha256": "0691b3b50d92ba1b57e2ea023a72024cd8f99a1158e785d4e7f6e26b6c2da9d9",
+    "static_proof_evidence": "EC2_STATIC_PROOF.json",
+    "static_proof_evidence_sha256": "955cfdb57bed1ab191ff5fd47715319cc2265df70b5cc2c090008202e4bc3fe7",
+    "watchdog_evidence": "INSTANCE_WATCHDOG.json",
+    "watchdog_evidence_sha256": "78448fa416f4c5a39e494beba0f563bc24c2fc0871a5cc9f4e50a7505ec37b50"
+  },
+  "visual_qa": {
+    "reviewer_authority": "codex_direct_visual_qa",
+    "whole_image_review_required": true,
+    "reviewed_count": 5,
+    "pass_like_count": 4,
+    "fail_count": 1,
+    "production_promotion_allowed": false,
+    "samples": [
+      {
+        "run_id": "adult_woman_portrait_seed7261701",
+        "seed": 7261701,
+        "artifact": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260717T055631-0500/images/13_adult_woman_portrait_seed7261701_00001_.png",
+        "sha256": "e3f78e264e0ffe9fb91865ca97ea9205a8b0011239d4c445942e8c6338c07afb",
+        "result": "pass_with_notes",
+        "findings": ["Coherent full-body ceramic-studio composition, identity, clothing, hands, and visible feet.", "Crossed bare feet show minor toe simplification but no extra limb or detached anatomy."]
+      },
+      {
+        "run_id": "adult_man_landscape_seed7261702",
+        "seed": 7261702,
+        "artifact": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260717T060727-0500/images/13_adult_man_landscape_seed7261702_00001_.png",
+        "sha256": "eca7a2a5cfeeae1d80f4cd850fb8b4a50a792f2363516bf72877a76f2d1630ce",
+        "result": "pass_with_notes",
+        "findings": ["Coherent adult-man workshop portrait with plausible hands, tools, eyewear, lighting, and surface reflections.", "No whole-image anatomy defect requiring rejection was observed."]
+      },
+      {
+        "run_id": "two_adults_wide_seed7261703",
+        "seed": 7261703,
+        "artifact": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260717T061946-0500/images/13_two_adults_wide_seed7261703_00001_.png",
+        "sha256": "3101afa54deacb106c768f9a8e089334a092e1896605c226d2eb13e5a3a09e8c",
+        "result": "pass_with_notes",
+        "findings": ["Both adult subjects are distinct and compositionally coherent with plausible interaction, hands, pen, documents, furniture, and lighting.", "Minor hand and document simplification does not cross the rejection threshold."]
+      },
+      {
+        "run_id": "adult_woman_portrait_seed7261704",
+        "seed": 7261704,
+        "artifact": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260717T063237-0500/images/13_adult_woman_portrait_seed7261704_00001_.png",
+        "sha256": "1e9eaffd576b521e96118204aaef4ac67f1eef54e4d8f7fc46b57931c792d1f6",
+        "result": "fail_whole_image_anatomy",
+        "findings": ["A detached extra hand and partial forearm emerge from the left workbench while the subject already has both hands clasped in front.", "The extra-limb defect is unambiguous and blocks visual qualification for this sample."]
+      },
+      {
+        "run_id": "reference_environment_edit_seed7261705",
+        "seed": 7261705,
+        "artifact": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260717T064442-0500/images/18_reference_environment_edit_seed7261705_00001_.png",
+        "sha256": "5a2ecf0f0fb607c14e4b569cf32feab6efcd14312029f7dc86fa6109e94d67be",
+        "result": "pass_localized_edit",
+        "source_reference": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260716T212349-0500/images/13_flux2_dev_t2i_seed7261601_00001_.png",
+        "source_reference_sha256": "de29b6203ad915c336cc7b8f08c49e05f8cfcef67efa738db41563e31feafa14",
+        "findings": ["Subject identity, anatomy, pose, camera, charcoal suit, tools, glass objects, lighting direction, and composition are preserved.", "The weathered walnut workbench is changed to pale Carrara-style marble with coherent veining and reflections."]
+      }
+    ]
+  },
+  "boundaries": {
+    "gold_masks_consumed": false,
+    "masks_promoted": false,
+    "wave70_hard_gates_rerun": false,
+    "wave71_plus_activated": false,
+    "jira_mutated": false,
+    "production_ready": false,
+    "production_default_routing_allowed": false,
+    "cross_engine_comparative_qa_complete": false
+  },
+  "exact_blockers": [
+    "Seed 7261704 failed whole-image anatomy because of a detached extra hand/forearm.",
+    "Cross-engine same-prompt comparison against the selected FLUX.1 and SDXL baselines is not yet complete.",
+    "Four pass-like samples do not satisfy final production-default routing or full project certification."
+  ],
+  "next_action": "Route the failed anatomy sample through one bounded localized repair/diagnosis path without seed-loop regeneration, then complete hash-bound same-prompt FLUX.1 and SDXL comparative QA before any production-default decision."
+}
