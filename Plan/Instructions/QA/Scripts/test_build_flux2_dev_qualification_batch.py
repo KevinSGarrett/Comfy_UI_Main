@@ -53,6 +53,16 @@ def test_manifests_bind_prompt_and_source_workflow_hashes(batch_dir):
     index = built(batch_dir)
     for unit in index["units"]:
         manifest = json.loads((batch_dir / unit["case_id"] / "RUN_PACKAGE_MANIFEST.json").read_text())
-        assert manifest["prompt_request"]["sha256"] == unit["prompt_sha256"] == manifest["generated_files"][0]["sha256"]
+        generated = {Path(row["path"]).name: row for row in manifest["generated_files"]}
+        assert manifest["prompt_request"]["sha256"] == unit["prompt_sha256"] == generated["prompt_request.json"]["sha256"]
         assert manifest["source_workflow"]["sha256"] == index["source_workflows"][manifest["source_workflow"]["path"]]
         assert not manifest["aws_contacted"] and not manifest["ec2_started"] and not manifest["generation_executed"] and not manifest["requires_gold_masks"]
+        assert not manifest["github_api_contacted"] and not manifest["civitai_contacted"] and not manifest["comfyui_contacted"]
+        assert set(generated) == {"static_validation.json", "smoke_dry_run.json", "prompt_request.json"}
+        assert len(manifest["packaged_files"]) == 4 and all(row["source_hash_match"] for row in manifest["packaged_files"])
+        static = json.loads((batch_dir / unit["case_id"] / "static_validation.json").read_text(encoding="utf-8"))
+        dry_run = json.loads((batch_dir / unit["case_id"] / "smoke_dry_run.json").read_text(encoding="utf-8"))
+        assert static["qa_status"] == "pass" and static["defects"] == []
+        assert dry_run["request_body_path"] == manifest["generated_files"][2]["path"]
+        assert not manifest["runtime_boundaries"]["ec2_start_allowed_by_package"]
+        assert not manifest["runtime_boundaries"]["generation_allowed_by_package"]

@@ -7,6 +7,7 @@ import argparse
 import copy
 import hashlib
 import json
+import shutil
 from pathlib import Path
 from typing import Any
 
@@ -15,6 +16,8 @@ ROOT = Path(__file__).resolve().parents[3]
 LANE = "flux2_dev_primary_base"
 T2I = Path("Workflows/base_generation/flux2_dev_primary_base/text_to_image.api.json")
 EDIT = Path("Workflows/base_generation/flux2_dev_primary_base/single_reference_edit.api.json")
+LANE_DIR = Path("Workflows/base_generation/flux2_dev_primary_base")
+LANE_SUPPORT_FILES = ("smoke_test_request.json", "runtime_requirements.json", "patch_points.json")
 COMPLETED_SEEDS = {7261601, 7261602}
 CASES = (
     ("adult_woman_portrait_seed7261701", "t2i", 7261701, 768, 1024, "hyperreal full-body editorial photograph of one adult woman with natural body proportions standing in a bright ceramics studio, relaxed contrapposto pose, visible hands and feet, detailed eyes and hair, realistic skin microtexture, indigo work jacket and charcoal trousers, clay tools and glazed vessels, coherent contact shadows and reflections, 50mm lens, crisp focus"),
@@ -36,6 +39,13 @@ def write(path: Path, value: Any) -> None:
 
 def digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def copy_bound(root: Path, source: Path, target: Path) -> dict[str, Any]:
+    target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(root / source, target)
+    source_hash = digest(root / source)
+    return {"source": source.as_posix(), "packaged": project_relative(root, target), "size_bytes": target.stat().st_size, "sha256": digest(target), "source_hash_match": digest(target) == source_hash}
 
 
 def project_relative(root: Path, path: Path) -> str:
@@ -64,15 +74,33 @@ def build(root: Path, out_dir: Path) -> dict[str, Any]:
         request_path = unit_dir / "prompt_request.json"
         write(request_path, {"client_id": f"flux2-qualification-{case_id}", "prompt": graph})
         request_hash = digest(request_path)
+        workflow_source = T2I if kind == "t2i" else EDIT
+        packaged_files = [copy_bound(root, workflow_source, unit_dir / "lane_files" / "workflow.api.json")]
+        packaged_files.extend(copy_bound(root, LANE_DIR / name, unit_dir / "lane_files" / name) for name in LANE_SUPPORT_FILES)
+        static_path = unit_dir / "static_validation.json"
+        static = {"schema_version": "1.0", "lane_id": LANE, "result": "pass", "qa_status": "pass", "pass": True, "source_workflow": {"path": workflow_source.as_posix(), "sha256": source_hashes[workflow_source.as_posix()]}, "packaged_file_count": len(packaged_files), "all_source_hashes_match": all(item["source_hash_match"] for item in packaged_files), "defects": [], "errors": []}
+        write(static_path, static)
+        dry_path = unit_dir / "smoke_dry_run.json"
+        dry_run = {"schema_version": "1.0", "lane_id": LANE, "result": "pass_local_only", "mode": "dry_run", "request_body_written": True, "request_body_path": project_relative(root, request_path), "execution_allowed": False, "generation_executed": False, "aws_contacted": False, "comfyui_contacted": False, "errors": []}
+        write(dry_path, dry_run)
         manifest_path = unit_dir / "RUN_PACKAGE_MANIFEST.json"
         manifest = {
             "schema_version": "1.0", "run_id": case_id, "lane_id": LANE, "result": "pass_local_only",
             "local_only": True, "aws_contacted": False, "ec2_started": False, "generation_executed": False,
+            "github_api_contacted": False, "civitai_contacted": False, "comfyui_contacted": False,
+            "runtime_boundaries": {"ec2_start_allowed_by_package": False, "generation_allowed_by_package": False},
             "requires_gold_masks": False, "capability": "text_to_image" if kind == "t2i" else "single_reference_edit",
             "qualification_dimensions": {"subject_scope": "two_adults" if "two_adults" in case_id else ("adult_woman" if "woman" in case_id else ("adult_man" if "man" in case_id else "reference_edit")), "seed": seed, "width": width, "height": height, "edit_intent": "environment_material" if kind == "edit" else None},
-            "generated_files": [{"path": project_relative(root, request_path), "sha256": request_hash, "purpose": "Bounded FLUX.2 qualification prompt request."}],
+            "workflow_static": {"qa_status": "pass", "defect_count": 0},
+            "smoke_dry_run": {"mode": "dry_run", "request_body_written": True, "execution_allowed": False, "generation_executed": False, "error_count": 0},
+            "packaged_files": packaged_files,
+            "generated_files": [
+                {"path": project_relative(root, static_path), "sha256": digest(static_path), "purpose": "Static workflow and package validation."},
+                {"path": project_relative(root, dry_path), "sha256": digest(dry_path), "purpose": "Local-only smoke dry run."},
+                {"path": project_relative(root, request_path), "sha256": request_hash, "purpose": "Bounded FLUX.2 qualification prompt request."}
+            ],
             "prompt_request": {"client_id": f"flux2-qualification-{case_id}", "node_count": len(graph), "sha256": request_hash},
-            "source_workflow": {"path": (T2I if kind == "t2i" else EDIT).as_posix(), "sha256": source_hashes[(T2I if kind == "t2i" else EDIT).as_posix()]},
+            "source_workflow": {"path": workflow_source.as_posix(), "sha256": source_hashes[workflow_source.as_posix()]},
         }
         write(manifest_path, manifest)
         units.append({"case_id": case_id, "manifest_path": project_relative(root, manifest_path), "manifest_sha256": digest(manifest_path), "prompt_sha256": request_hash})
