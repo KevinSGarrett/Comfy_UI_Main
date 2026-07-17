@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "wave64_maskfactory_authority_certificate_promotion_invalidation_evidence",
+  "evidence_id": "W64_MASKFACTORY_AUTHORITY_CERTIFICATE_PROMOTION_INVALIDATION_20260717T145154-0500",
+  "created_at": "2026-07-17T14:51:54-05:00",
+  "classification": "PASS_IMPLEMENTATION_AND_FIXTURE_VALIDATION_PRODUCTION_RUNTIME_BLOCKED",
+  "rows": [
+    "ITEM-W64-329",
+    "ITEM-W64-330",
+    "ITEM-W64-331",
+    "ITEM-W64-332"
+  ],
+  "implementation": {
+    "path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_maskfactory_authority.py",
+    "sha256": "e81cfd65d877071bbcc6f689702ca369acc65253069aa5f009c0c7f2b35fb29b",
+    "bytes": 18397
+  },
+  "test_artifact": {
+    "path": "Plan/Instructions/QA/Scripts/test_evaluate_wave64_maskfactory_authority.py",
+    "sha256": "4a3706f8f3b260717967f2f510aae7af2cb7942589f7845733eb90da00bc6080",
+    "bytes": 10129
+  },
+  "verification": {
+    "targeted_tests": {
+      "command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_evaluate_wave64_maskfactory_authority.py",
+      "passed": 21,
+      "failed": 0
+    },
+    "compatible_maskfactory_tests": {
+      "command": "python -m pytest -q <all maskfactory QA test modules>",
+      "passed": 273,
+      "failed": 0
+    },
+    "ruff": "pass",
+    "py_compile": "pass"
+  },
+  "verified_behavior": [
+    "Authority state, issuer kind, claim class, and access mode remain exact frozen vocabularies.",
+    "Access mode, authority state, legacy strings, live QA controls, and optional accuracy profiles cannot independently authorize promotion.",
+    "Operational certificates never become training gold or independent accuracy truth.",
+    "Production certificate verification requires non-fixture context and the frozen semantic-core trust checks.",
+    "Promotion decisions recompute every unique signed policy criterion and derive criterion status from observations.",
+    "Fixture decisions remain diagnostic_only and cannot become eligible for production use.",
+    "Invalidations bind exact target, hash, scope, predecessor authority, and predecessor certificate state.",
+    "Invalidation writes a tombstone, is idempotent on replay, cannot elevate authority, and preserves unrelated targets and branches."
+  ],
+  "open_blockers": [
+    "published_and_adopted_maskfactory_release_missing",
+    "active_atomic_release_pin_missing",
+    "trusted_production_signer_and_current_revocation_index_missing",
+    "nonfixture_operational_certificate_missing",
+    "genuine_runtime_policy_criterion_evidence_missing",
+    "production_invalidation_recovery_runtime_proof_missing"
+  ],
+  "truth": {
+    "fixture_or_static_validation_only": true,
+    "runtime_completion_claimed": false,
+    "production_authority_enabled": false,
+    "rows_marked_complete": false,
+    "mask_authority_promoted": false,
+    "wave71_activated": false,
+    "model_library_activated": false
+  }
+}
