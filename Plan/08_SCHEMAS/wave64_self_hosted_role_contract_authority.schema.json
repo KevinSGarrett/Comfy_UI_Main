@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/wave64-self-hosted-role-contract-authority/1.0.0",
+  "title": "Wave64 Rows201-204 Self-Hosted Role Contract Authority",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "authority_id", "rows_covered", "source_authorities", "roles", "retrieval_contract", "proposal_contract", "qualification_gate", "model_serving_active", "role_activation_allowed", "production_selection_allowed", "boundaries"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"}, "authority_id": {"const": "wave64_self_hosted_role_contract_authority_rows201_204_r001"},
+    "rows_covered": {"const": [201, 202, 203, 204]},
+    "source_authorities": {"type": "array", "minItems": 6, "maxItems": 6, "items": {"$ref": "#/$defs/file_ref"}},
+    "roles": {"type": "array", "minItems": 8, "maxItems": 8, "items": {"$ref": "#/$defs/role"}},
+    "retrieval_contract": {
+      "type": "object", "additionalProperties": false,
+      "required": ["source_classes", "required_citation_fields", "stale_evidence_action", "conflicting_evidence_action", "missing_evidence_action", "out_of_scope_action", "retrieval_bundle_ref", "runtime_active"],
+      "properties": {
+        "source_classes": {"type": "array", "minItems": 8, "maxItems": 8, "uniqueItems": true, "items": {"enum": ["schemas", "packages", "capabilities", "workflows", "benchmarks", "failures", "evidence", "event_state"]}},
+        "required_citation_fields": {"const": ["immutable_id", "revision", "sha256"]},
+        "stale_evidence_action": {"const": "surface_and_abstain"}, "conflicting_evidence_action": {"const": "surface_and_escalate"},
+        "missing_evidence_action": {"const": "surface_and_abstain"}, "out_of_scope_action": {"const": "reject"},
+        "retrieval_bundle_ref": {"type": "null"}, "runtime_active": {"const": false}
+      }
+    },
+    "proposal_contract": {
+      "type": "object", "additionalProperties": false,
+      "required": ["required_fields", "unsupported_id_action", "authority_bypass_action", "uncertainty_actions", "execution_authority", "promotion_authority", "fixture_decision"],
+      "properties": {
+        "required_fields": {"type": "array", "minItems": 10, "maxItems": 10, "uniqueItems": true, "items": {"enum": ["plans", "prompts", "routes", "diagnoses", "hypotheses", "confidence", "evidence_refs", "alternatives", "uncertainty", "abstention"]}},
+        "unsupported_id_action": {"const": "reject"}, "authority_bypass_action": {"const": "reject"},
+        "uncertainty_actions": {"const": ["abstain", "escalate"]}, "execution_authority": {"const": false},
+        "promotion_authority": {"const": false}, "fixture_decision": {"const": "abstain_missing_qualified_stack"}
+      }
+    },
+    "qualification_gate": {
+      "type": "object", "additionalProperties": false,
+      "required": ["gate_state", "required_stack_fields", "qualified_stack_refs", "shadow_mode_allowed", "production_mode_allowed", "silent_model_change_allowed", "health_probe_run", "benchmark_run", "blocker_codes"],
+      "properties": {
+        "gate_state": {"const": "deferred_waiting_for_complete_model_download"},
+        "required_stack_fields": {"type": "array", "minItems": 6, "maxItems": 6, "uniqueItems": true, "items": {"enum": ["model", "runtime", "template", "parser", "quantization", "context"]}},
+        "qualified_stack_refs": {"const": []}, "shadow_mode_allowed": {"const": false}, "production_mode_allowed": {"const": false},
+        "silent_model_change_allowed": {"const": false}, "health_probe_run": {"const": false}, "benchmark_run": {"const": false},
+        "blocker_codes": {"type": "array", "minItems": 4, "uniqueItems": true, "items": {"type": "string"}}
+      }
+    },
+    "model_serving_active": {"const": false}, "role_activation_allowed": {"const": false}, "production_selection_allowed": {"const": false},
+    "boundaries": {
+      "type": "object", "additionalProperties": false,
+      "required": ["model_downloaded", "model_loaded", "qualification_executed", "shadow_role_activated", "production_role_activated", "direct_execution_granted", "promotion_authority_granted", "item_tracker_status_changed"],
+      "properties": {
+        "model_downloaded": {"const": false}, "model_loaded": {"const": false}, "qualification_executed": {"const": false},
+        "shadow_role_activated": {"const": false}, "production_role_activated": {"const": false},
+        "direct_execution_granted": {"const": false}, "promotion_authority_granted": {"const": false},
+        "item_tracker_status_changed": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "file_ref": {"type": "object", "additionalProperties": false, "required": ["name", "path", "sha256"], "properties": {"name": {"enum": ["role_card_schema", "retrieval_bundle_schema", "planner_proposal_schema", "reviewer_observation_schema", "role_activation_schema", "model_library_activation_gate"]}, "path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha256"}}},
+    "role": {
+      "type": "object", "additionalProperties": false,
+      "required": ["role_id", "allowed_inputs", "allowed_outputs", "context_sources", "model_requirements", "escalation_conditions", "uncertainty_policy", "stack_ref", "activated", "direct_execution_authority", "promotion_authority"],
+      "properties": {
+        "role_id": {"enum": ["planner", "prompt_composer", "router_advisor", "defect_classifier", "vlm_critic", "audio_critic", "retrieval", "summarizer"]},
+        "allowed_inputs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+        "allowed_outputs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+        "context_sources": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+        "model_requirements": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "string"}},
+        "escalation_conditions": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "string"}},
+        "uncertainty_policy": {"const": "abstain_or_escalate"}, "stack_ref": {"type": "null"}, "activated": {"const": false},
+        "direct_execution_authority": {"const": false}, "promotion_authority": {"const": false}
+      }
+    }
+  }
+}
