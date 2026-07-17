@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0.0",
+  "authority_id": "wave64_durable_controller_runtime_slice_rows197_200_r001",
+  "rows_covered": [197, 198, 199, 200],
+  "source_authorities": [
+    {"name": "controller_contract_registry", "path": "Plan/10_REGISTRIES/wave64_controller_contract_authority_registry.json", "sha256": "5f88d3797ff40ca5aa01f37bdf02456d2cf5c8a4ee0f963bf8243527644f0db7"},
+    {"name": "aggregate_transition_registry", "path": "Plan/10_REGISTRIES/wave64_autonomous_aggregate_state_transition_registry.json", "sha256": "50caa6f4807b2fcb1a8e5e56f21ad64f4a706c82923557d4eccdca37d71e4c8f"},
+    {"name": "transition_definition_schema", "path": "Plan/08_SCHEMAS/orchestrator_state_transition_definition.schema.json", "sha256": "d23117be2f97e455ee0c30638444baa9453bd1f9fb8228daad4c6ade23f4c3a2"},
+    {"name": "worker_lease_schema", "path": "Plan/08_SCHEMAS/runtime_worker_lease.schema.json", "sha256": "303583724e37457e9785d10a59e99b5aa39331e1107c8fa41f019ec588dcad21"},
+    {"name": "reconciliation_report_schema", "path": "Plan/08_SCHEMAS/runtime_reconciliation_report.schema.json", "sha256": "c75bcafd2bd5a6819951043691c26d6180908dc52c5c2c90df1a7193fa122f9c"},
+    {"name": "submission_envelope_schema", "path": "Plan/08_SCHEMAS/comfyui_submission_envelope.schema.json", "sha256": "ae7dcdd0bbd9d4e060a663273c8a824287ffed4f341cc6ad0e59fc4af6e07706"},
+    {"name": "execution_receipt_schema", "path": "Plan/08_SCHEMAS/comfyui_execution_receipt.schema.json", "sha256": "51f5d9cc740156e0f71013c710392a1f34e6ffbc835858b8b6ab886d40f58e0f"}
+  ],
+  "service_separation": [
+    {"service_id": "planner", "owns_records": ["plan_proposal"], "forbidden_actions": ["validate", "execute", "promote"]},
+    {"service_id": "validator", "owns_records": ["validation_decision"], "forbidden_actions": ["route", "execute", "promote"]},
+    {"service_id": "router", "owns_records": ["route_decision"], "forbidden_actions": ["validate", "execute", "promote"]},
+    {"service_id": "scheduler", "owns_records": ["schedule_decision", "retry_hypothesis"], "forbidden_actions": ["execute", "qa", "promote"]},
+    {"service_id": "executor", "owns_records": ["submission_envelope", "execution_receipt"], "forbidden_actions": ["qa", "promote"]},
+    {"service_id": "qa_observer", "owns_records": ["qa_observation"], "forbidden_actions": ["execute", "policy_decide", "promote"]},
+    {"service_id": "policy", "owns_records": ["qa_policy_decision", "runtime_authorization"], "forbidden_actions": ["execute", "observe", "promote"]},
+    {"service_id": "promoter", "owns_records": ["promotion_transaction"], "forbidden_actions": ["plan", "execute", "qa_observe"]}
+  ],
+  "event_store_policy": {
+    "backend": "sqlite", "append_only": true, "hash_chained": true,
+    "optimistic_aggregate_version": true, "transactional_outbox": true,
+    "idempotent_submission": true, "idempotent_promotion": true,
+    "replay_required": true, "terminal_state_loss_allowed": false
+  },
+  "scheduler_policy": {
+    "dependency_ready_only": true, "accepted_parents_immutable": true,
+    "successful_branch_rerun_allowed": false, "material_hypothesis_required": true,
+    "seed_loop_allowed": false, "lease_fencing_required": true
+  },
+  "recovery_policy": {
+    "classifications": ["ambiguous_submission", "missing_output", "orphan_output", "stale_lease", "duplicate_delivery", "conflicting_artifact"],
+    "queue_history_is_authority": false, "event_store_is_authority": true,
+    "ambiguous_cross_host_failover_allowed": false, "partial_write_promotable": false,
+    "conflict_resolution": "fail_closed_typed_blocker", "complete_regression_after_repair": true
+  },
+  "local_synthetic_runtime_allowed": true,
+  "production_runtime_allowed": false,
+  "production_promotion_allowed": false,
+  "boundaries": {
+    "comfyui_queue_mutated": false, "aws_mutated": false, "media_generated": false,
+    "maskfactory_authority_changed": false, "production_promotion_created": false,
+    "item_tracker_status_changed": false
+  }
+}

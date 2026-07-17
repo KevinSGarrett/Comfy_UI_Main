@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/wave64-durable-controller-runtime-slice/1.0.0",
+  "title": "Wave64 Rows197-200 Durable Controller Runtime Slice",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "authority_id", "rows_covered", "source_authorities", "service_separation", "event_store_policy", "scheduler_policy", "recovery_policy", "local_synthetic_runtime_allowed", "production_runtime_allowed", "production_promotion_allowed", "boundaries"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "authority_id": {"const": "wave64_durable_controller_runtime_slice_rows197_200_r001"},
+    "rows_covered": {"const": [197, 198, 199, 200]},
+    "source_authorities": {"type": "array", "minItems": 7, "maxItems": 7, "items": {"$ref": "#/$defs/file_ref"}},
+    "service_separation": {"type": "array", "minItems": 8, "maxItems": 8, "items": {"$ref": "#/$defs/service"}},
+    "event_store_policy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["backend", "append_only", "hash_chained", "optimistic_aggregate_version", "transactional_outbox", "idempotent_submission", "idempotent_promotion", "replay_required", "terminal_state_loss_allowed"],
+      "properties": {
+        "backend": {"const": "sqlite"}, "append_only": {"const": true}, "hash_chained": {"const": true},
+        "optimistic_aggregate_version": {"const": true}, "transactional_outbox": {"const": true},
+        "idempotent_submission": {"const": true}, "idempotent_promotion": {"const": true},
+        "replay_required": {"const": true}, "terminal_state_loss_allowed": {"const": false}
+      }
+    },
+    "scheduler_policy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["dependency_ready_only", "accepted_parents_immutable", "successful_branch_rerun_allowed", "material_hypothesis_required", "seed_loop_allowed", "lease_fencing_required"],
+      "properties": {
+        "dependency_ready_only": {"const": true}, "accepted_parents_immutable": {"const": true},
+        "successful_branch_rerun_allowed": {"const": false}, "material_hypothesis_required": {"const": true},
+        "seed_loop_allowed": {"const": false}, "lease_fencing_required": {"const": true}
+      }
+    },
+    "recovery_policy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["classifications", "queue_history_is_authority", "event_store_is_authority", "ambiguous_cross_host_failover_allowed", "partial_write_promotable", "conflict_resolution", "complete_regression_after_repair"],
+      "properties": {
+        "classifications": {"type": "array", "minItems": 6, "maxItems": 6, "uniqueItems": true, "items": {"enum": ["ambiguous_submission", "missing_output", "orphan_output", "stale_lease", "duplicate_delivery", "conflicting_artifact"]}},
+        "queue_history_is_authority": {"const": false}, "event_store_is_authority": {"const": true},
+        "ambiguous_cross_host_failover_allowed": {"const": false}, "partial_write_promotable": {"const": false},
+        "conflict_resolution": {"const": "fail_closed_typed_blocker"}, "complete_regression_after_repair": {"const": true}
+      }
+    },
+    "local_synthetic_runtime_allowed": {"const": true}, "production_runtime_allowed": {"const": false},
+    "production_promotion_allowed": {"const": false},
+    "boundaries": {
+      "type": "object", "additionalProperties": false,
+      "required": ["comfyui_queue_mutated", "aws_mutated", "media_generated", "maskfactory_authority_changed", "production_promotion_created", "item_tracker_status_changed"],
+      "properties": {
+        "comfyui_queue_mutated": {"const": false}, "aws_mutated": {"const": false}, "media_generated": {"const": false},
+        "maskfactory_authority_changed": {"const": false}, "production_promotion_created": {"const": false},
+        "item_tracker_status_changed": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "file_ref": {
+      "type": "object", "additionalProperties": false, "required": ["name", "path", "sha256"],
+      "properties": {
+        "name": {"enum": ["controller_contract_registry", "aggregate_transition_registry", "transition_definition_schema", "worker_lease_schema", "reconciliation_report_schema", "submission_envelope_schema", "execution_receipt_schema"]},
+        "path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "service": {
+      "type": "object", "additionalProperties": false, "required": ["service_id", "owns_records", "forbidden_actions"],
+      "properties": {
+        "service_id": {"enum": ["planner", "validator", "router", "scheduler", "executor", "qa_observer", "policy", "promoter"]},
+        "owns_records": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "forbidden_actions": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    }
+  }
+}
