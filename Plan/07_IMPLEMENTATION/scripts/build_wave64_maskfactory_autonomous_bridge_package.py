@@ -3345,6 +3345,7 @@ def build_registries(schemas: dict[str, dict[str, Any]] | None = None) -> dict[s
                 "planning_manifest_entries": 113, "wire_schema_count": 12,
                 "immutable_producer_packet_commit": "938b46949e277d92f26d9411fd5710005c506677",
                 "integration_head": "e6d6c6bdf00a0702d274455fbf07ded2b3a838b3",
+                "current_pr_validation_head": "30008808957f484b0989329843d72e1c22d044da",
                 "integration_base_commit": "85d4c19b7974c1b64f48176d91211defbaba35a0",
                 "integration_strategy": "non_rewriting_merge_commit",
                 "integration_reconciliation_manifest": "Plan/Instructions/11_AUTONOMOUS_CORE_BRIDGE_INTEGRATION_RECONCILIATION_MANIFEST.json",

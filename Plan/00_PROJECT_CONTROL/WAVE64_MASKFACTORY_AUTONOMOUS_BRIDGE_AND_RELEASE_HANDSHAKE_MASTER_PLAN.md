@@ -342,6 +342,10 @@ manifest SHA-256
 accounts for all six base-owned supersessions and two reconciliation-protocol
 updates while proving all 12 wire schemas unchanged. The integration head is PR
 ancestry, not a replacement producer identity or runtime authority.
+PR validation head `30008808957f484b0989329843d72e1c22d044da` adds only the
+fresh signed currency-review chain entry required after base-source hashes
+changed; it does not alter the producer packet, reconciliation seal, or wire
+contracts.
 
 ## Model-library activation deferral
 

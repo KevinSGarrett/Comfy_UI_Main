@@ -170,6 +170,11 @@ That manifest accounts for six base-owned byte supersessions and two
 integration-protocol updates with zero unaccounted drift and 12/12 unchanged
 wire contracts. Keep the producer packet commit as Main's design-time source
 pin; use the integration head only to review PR ancestry and mergeability.
+The current PR validation head is
+`30008808957f484b0989329843d72e1c22d044da`; its only additional change is a
+fresh signed currency-review chain entry bound to the merged base inputs. It
+does not replace either the immutable packet commit or the two-parent
+integration commit.
 
 The 7,282-record model-library workflow remains
 `deferred_waiting_for_complete_model_download`. Do not ingest, pilot-qualify,
