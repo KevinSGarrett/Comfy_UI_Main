@@ -1,0 +1,141 @@
+{
+  "cache_is_content_addressed": true,
+  "circuit_breaker_scope": "exact_route",
+  "execution_lifecycle": {
+    "allowed_transitions": [
+      [
+        "compiled",
+        "admitted"
+      ],
+      [
+        "admitted",
+        "submitted"
+      ],
+      [
+        "submitted",
+        "accepted"
+      ],
+      [
+        "accepted",
+        "running"
+      ],
+      [
+        "submitted",
+        "succeeded"
+      ],
+      [
+        "submitted",
+        "failed"
+      ],
+      [
+        "submitted",
+        "cancelled"
+      ],
+      [
+        "submitted",
+        "outcome_unknown"
+      ],
+      [
+        "accepted",
+        "succeeded"
+      ],
+      [
+        "accepted",
+        "failed"
+      ],
+      [
+        "accepted",
+        "cancelled"
+      ],
+      [
+        "accepted",
+        "outcome_unknown"
+      ],
+      [
+        "running",
+        "succeeded"
+      ],
+      [
+        "running",
+        "failed"
+      ],
+      [
+        "running",
+        "cancelled"
+      ],
+      [
+        "running",
+        "outcome_unknown"
+      ],
+      [
+        "outcome_unknown",
+        "running"
+      ],
+      [
+        "outcome_unknown",
+        "completed_pending_receipt"
+      ],
+      [
+        "outcome_unknown",
+        "failed"
+      ],
+      [
+        "outcome_unknown",
+        "reconciled_not_found"
+      ],
+      [
+        "completed_pending_receipt",
+        "succeeded"
+      ],
+      [
+        "reconciled_not_found",
+        "submitted"
+      ]
+    ],
+    "backward_or_unlisted_transition_action": "reject_and_record_incident",
+    "not_found_safe_to_submit_authorizes_exactly_one_resubmission": true,
+    "outcome_unknown_is_terminal": false,
+    "reconciliation_must_bind_original_request_hash_idempotency_key_structured_remote_outcome_and_signed_evidence": true,
+    "reconciliation_outcomes": [
+      "found_running",
+      "found_completed_pending_receipt",
+      "found_failed",
+      "not_found_safe_to_submit"
+    ],
+    "resubmit_from_outcome_unknown_allowed": false,
+    "running_and_completed_pending_receipt_are_not_collapsed_to_terminal_states": true,
+    "states": [
+      "compiled",
+      "admitted",
+      "submitted",
+      "accepted",
+      "running",
+      "completed_pending_receipt",
+      "succeeded",
+      "failed",
+      "cancelled",
+      "outcome_unknown",
+      "reconciled_not_found"
+    ],
+    "terminal_states": [
+      "succeeded",
+      "failed",
+      "cancelled"
+    ]
+  },
+  "hard_filters_before_ranking": true,
+  "invalidation_tombstone_before_delete": true,
+  "journal_fork_deletion_reorder_or_reseal_action": "reject_and_quarantine",
+  "newer_draft_overwrites_stronger_authority": false,
+  "protected_region_default": "protected_wins",
+  "quality_retry_requires_new_hypothesis": true,
+  "registry_id": "wave64_maskfactory_bridge_arbitration_cache_recovery_policy_v2",
+  "restart_replays_tombstones_before_cache": true,
+  "runtime_completion_claimed": false,
+  "schema_version": "2.0.0",
+  "signed_checkpoint_head_required": true,
+  "transport_retry_reuses_idempotency_key": true,
+  "unknown_submission_requires_reconciliation": true,
+  "unrelated_dag_branches_continue": true,
+  "updated_at": "2026-07-17T02:20:00-05:00"
+}

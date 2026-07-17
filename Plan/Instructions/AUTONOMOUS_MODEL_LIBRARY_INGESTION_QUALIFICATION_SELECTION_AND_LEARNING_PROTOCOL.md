@@ -25,14 +25,16 @@ and communicating the deferred state.
 
 Activation requires all of the following, bound to immutable revisions:
 
-1. user or main-task declaration that the complete intended model library has
-   finished downloading;
-2. expected-download scope manifest resolving catalog aliases, revisions,
-   duplicates, and modalities into the intended binary set;
+1. expected-download scope manifest, frozen before the completion signal,
+   resolving catalog aliases, revisions, duplicates, and modalities into the
+   intended binary set;
+2. user or main-task declaration that the complete frozen-scope model library
+   has finished downloading;
 3. download-completion manifest with stable locations, bytes, hashes, and zero
    temporary or incomplete transfer files;
-4. deterministic inventory verification with zero missing, hash-pending,
-   corrupt, quarantined, failed, or unresolved in-scope assets; and
+4. deterministic inventory verification where
+   `verified + quarantined + failed == expected`, missing/hash-pending/unresolved
+   counts are zero, and quarantined/failed assets are runtime-ineligible; and
 5. acknowledgement by main task 019f422f-88b1-7382-872b-21de2089e983 that
    binds the exact package, source, download, inventory, and preservation
    evidence and authorizes a named phase.

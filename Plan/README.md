@@ -23,9 +23,16 @@ These waves focus entirely on making the system highly organized across:
 - QA proof folders
 - release/handoff folders
 
-## Gold mask dependency boundary
+## Autonomous core and independent-anchor mask boundary
 
-Manual gold-standard body masks are a scoped dependency gate, not a global project freeze. Mask-dependent promotion, geometry authority, certification, and Wave71+ activation must stay fail-closed with `Blocked_Gold_Mask_Dependency_Missing` until the exact masks pass intake and strict gates. Unrelated organization, workflow wiring, evidence/logging, automation, validation scaffolding, and non-mask asset work may continue without consuming candidate masks as truth.
+Manual/human-anchor masks are optional and gate only
+`independent_real_accuracy` claims or rows that explicitly select that profile.
+They are not a global or `core_autonomous_runtime` dependency. An active,
+unexpired, unrevoked exact-output `maskfactory_autonomous` certificate may
+satisfy core mask authority when every release, source/output, owner, transform,
+QA, scope, signature, and revocation binding passes. Use
+`Blocked_Independent_Anchor_Dependency_Missing` only for the optional claim.
+Candidate, draft, or unbound masks remain non-authoritative.
 
 Policy source:
 

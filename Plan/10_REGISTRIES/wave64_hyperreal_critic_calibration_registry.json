@@ -25,5 +25,31 @@
     "domain_slice_reporting",
     "drift_monitoring"
   ],
+  "authority_profiles": {
+    "core_autonomous_runtime": {
+      "comparison_mode": "autonomous_blinded_critic_evaluation",
+      "required_critic_classes": [
+        "deterministic_metric",
+        "vision_geometry",
+        "identity",
+        "temporal",
+        "physics",
+        "audio_signal",
+        "speech",
+        "spatial_audio",
+        "av_sync",
+        "vlm"
+      ],
+      "requires_qualified_calibrated_critics": true,
+      "requires_signed_deterministic_policy_decision": true,
+      "human_blind_review_required": false,
+      "human_absence_can_block_or_revoke_core": false
+    },
+    "independent_perceptual_calibration": {
+      "critic_class": "human_blind_review",
+      "required_for_core_release": false,
+      "result_authority": "optional_calibration_evidence_only"
+    }
+  },
   "llm_or_vlm_self_promotion": false
 }

@@ -1,0 +1,85 @@
+{
+  "access_mode": "mode_b_live_predict",
+  "blockers": [],
+  "certificate_signature_trust": null,
+  "certificate_temporal_evaluation": null,
+  "consumer_policy_ref": {
+    "record_id": "promotion_policy_fixture_001",
+    "record_type": "maskfactory_promotion_gate_policy_v2",
+    "revision": "r001",
+    "sha256": "7ac66053b56f44093d49860c7029d6e5801997763d31a2313ba26f50a760ccc3"
+  },
+  "consumer_policy_sha256": "7ac66053b56f44093d49860c7029d6e5801997763d31a2313ba26f50a760ccc3",
+  "created_at": "2026-07-17T02:20:00-05:00",
+  "criterion_evaluations": [
+    {
+      "comparator": "lte",
+      "criterion_id": "transform_roundtrip",
+      "evidence_ref": {
+        "record_id": "transform_report_fixture_001",
+        "record_type": "transform_report",
+        "revision": "r001",
+        "sha256": "5555555555555555555555555555555555555555555555555555555555555555"
+      },
+      "observed": 0.0,
+      "status": "pass",
+      "threshold": 0.5
+    },
+    {
+      "comparator": "eq",
+      "criterion_id": "protected_region",
+      "evidence_ref": {
+        "record_id": "protected_region_report_fixture_001",
+        "record_type": "protected_region_report",
+        "revision": "r001",
+        "sha256": "6666666666666666666666666666666666666666666666666666666666666666"
+      },
+      "observed": 0,
+      "status": "pass",
+      "threshold": 0
+    }
+  ],
+  "crosswalk_rule_id": "authority_draft_preview_allowed_by_exact_policy",
+  "decision": "diagnostic_only",
+  "decision_at": "2026-07-17T02:20:00-05:00",
+  "decision_evidence_refs": [
+    {
+      "record_id": "decision_evidence_fixture_001",
+      "record_type": "authority_decision_evidence",
+      "revision": "r001",
+      "sha256": "5555555555555555555555555555555555555555555555555555555555555555"
+    }
+  ],
+  "eligible_for_intended_use": false,
+  "fixture_only": true,
+  "genuine_runtime_evidence_refs": [],
+  "intended_use": "preview",
+  "maskfactory_authority_decision_v2_id": "maskfactory_authority_decision_v2_fixture_001",
+  "observed_authority": {
+    "authority_state": "draft",
+    "certificate_ref": null,
+    "certificate_scope": [],
+    "claim_class": "machine_candidate",
+    "issuer_kind": "maskfactory_autonomous",
+    "revocation_checked_at": "2026-07-17T02:20:00-05:00",
+    "verified_at": "2026-07-17T02:20:00-05:00"
+  },
+  "record_type": "maskfactory_authority_decision_v2",
+  "required_authority_state": "draft",
+  "required_certificate_scope": [],
+  "required_claim_classes": [
+    "machine_candidate"
+  ],
+  "required_issuer_kinds": [
+    "maskfactory_autonomous"
+  ],
+  "result_ref": {
+    "record_id": "result_fixture_001",
+    "record_type": "maskfactory_bridge_result_v2",
+    "revision": "r001",
+    "sha256": "6666666666666666666666666666666666666666666666666666666666666666"
+  },
+  "revision": "r001",
+  "runtime_completion_claimed": false,
+  "schema_version": "2.0.0"
+}

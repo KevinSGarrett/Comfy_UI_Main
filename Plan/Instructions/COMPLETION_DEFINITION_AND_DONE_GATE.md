@@ -108,7 +108,7 @@ Is the result reflected accurately in the delivery portfolio without overstating
 
 If any applicable answer is no, the item is not complete.
 
-### 3.1 Gold-standard mask dependency gate
+### 3.1 Core autonomous versus independent-anchor mask dependency gate
 
 Gold-standard mask work follows:
 
@@ -116,9 +116,44 @@ Gold-standard mask work follows:
 Plan/Instructions/QA/GOLD_STANDARD_MASK_DEPENDENCY_GATE_PROTOCOL.md
 ```
 
-Missing or not-yet-validated manual gold masks block only the rows, gates, artifacts, and certification claims that depend on those masks. Use `Blocked_Gold_Mask_Dependency_Missing` for mask-dependent work that cannot honestly pass yet.
+For `core_autonomous_runtime`, missing manual/human-anchor masks are not a
+blocker. Core mask authority may be satisfied by an active, unexpired,
+unrevoked, exact-output certificate issued by `maskfactory_autonomous` when its
+release, capability, access mode, execution stack, source/output hashes, owner,
+transform, QA, scope, signature, and revocation evidence pass.
 
-Unrelated workflow structure, orchestration, evidence/logging, automation, tracker hygiene, dataset organization, validation scaffolding, and non-mask asset work may continue when it does not consume candidate masks as truth and does not claim mask promotion, geometry authority, or certification readiness.
+Missing human anchors block only `independent_real_accuracy` or a row whose
+acceptance contract explicitly requires an independent human-labelled claim.
+Use `Blocked_Independent_Anchor_Dependency_Missing` for that exact optional
+scope. Legacy `Blocked_Gold_Mask_Dependency_Missing` statuses migrate to the new
+blocker only for optional independent-anchor claims; otherwise re-evaluate the
+row against the autonomous core authority path.
+
+Candidate, draft, or unbound masks remain non-authoritative. They cannot support
+false core certification or independent-accuracy claims. Unrelated work and
+eligible exact-certificate core mask, geometry, bridge, and downstream work may
+continue while optional independent anchors are absent.
+
+### 3.2 Core autonomous versus independent perceptual calibration gate
+
+For `core_autonomous_runtime`, image, video, audio, AV, model-ranking, and
+LLM/VLM qualification reviews use versioned deterministic validators, exact
+metrics, qualified calibrated autonomous critics, abstention/disagreement rules,
+and a signed policy decision. These runtime-proof and whole-artifact QA
+requirements remain mandatory; the rule removes only an implicit human-work
+dependency.
+
+Blind human visual comparison, listening panels, and human/operator adjudication
+belong to the optional `independent_perceptual_calibration` profile unless the
+user explicitly requests and separately authorizes an override. Missing optional
+human perceptual evidence cannot block, revoke, downgrade, or redefine core
+completion. A user override is never implicit and cannot waive a never-waivable
+core integrity, ownership, safety, provenance, or hard-QA failure.
+
+Rows157, 167, 172, 190, 192, 204, 209, and 211 use this interpretation. Their
+runtime-proof requirements remain true; their review methods are autonomous for
+core and human review is optional calibration evidence only. Rows261-320 use the
+same autonomous-policy-first release rule.
 
 ## 4. Documentation-only done gate
 

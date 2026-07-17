@@ -1,0 +1,241 @@
+{
+  "$id": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/maskfactory_bridge_request_v2.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "accepted_claim_classes": {
+      "items": {
+        "enum": [
+          "invalid",
+          "machine_candidate",
+          "qa_passed_machine_candidate",
+          "operationally_certified_artifact",
+          "independent_real_accuracy_anchor",
+          "training_gold"
+        ]
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "accepted_issuer_kinds": {
+      "items": {
+        "enum": [
+          "maskfactory_autonomous",
+          "human_anchor_optional",
+          "none"
+        ]
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "access_mode": {
+      "enum": [
+        "mode_a_package_read",
+        "mode_b_live_predict",
+        "mode_b_live_refine"
+      ]
+    },
+    "attempt_number": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "correlation_id": {
+      "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/id"
+    },
+    "created_at": {
+      "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/timestamp"
+    },
+    "deadline_at": {
+      "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/timestamp"
+    },
+    "expected_contract_bindings": {
+      "items": {
+        "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/contract_binding"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "fixture_only": {
+      "type": "boolean"
+    },
+    "hypothesis": {
+      "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/hypothesis_binding"
+    },
+    "idempotency_key": {
+      "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/id"
+    },
+    "intended_use": {
+      "enum": [
+        "diagnostic",
+        "preview",
+        "repair",
+        "promotion_bound"
+      ]
+    },
+    "mask_intents": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "intent_id": {
+            "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/id"
+          },
+          "label": {
+            "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/id"
+          },
+          "mask_type": {
+            "enum": [
+              "binary",
+              "soft",
+              "label_map",
+              "instance"
+            ]
+          },
+          "purpose": {
+            "enum": [
+              "target_edit",
+              "protect",
+              "identity_isolation",
+              "pose_control",
+              "video_tracking",
+              "qa"
+            ]
+          }
+        },
+        "required": [
+          "intent_id",
+          "label",
+          "purpose",
+          "mask_type"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "maskfactory_bridge_request_v2_id": {
+      "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/id"
+    },
+    "media_scope": {
+      "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/media_scope"
+    },
+    "minimum_authority_state": {
+      "enum": [
+        "invalid",
+        "hypothesis",
+        "draft",
+        "qa_passed_noncertified",
+        "certified"
+      ]
+    },
+    "owner_bindings": {
+      "items": {
+        "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/owner_binding"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "production_promotion_requested": {
+      "type": "boolean"
+    },
+    "protected_region_bindings": {
+      "items": {
+        "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/input_region_binding"
+      },
+      "type": "array"
+    },
+    "record_type": {
+      "const": "maskfactory_bridge_request_v2"
+    },
+    "release_snapshot_ref": {
+      "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/immutable_ref"
+    },
+    "required_certificate_scope": {
+      "items": {
+        "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/id"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "resource_envelope": {
+      "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/resource_envelope"
+    },
+    "retry_class": {
+      "enum": [
+        "none",
+        "transport_only",
+        "bounded_quality_repair"
+      ]
+    },
+    "revision": {
+      "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/id"
+    },
+    "roundtrip_tolerance_pixels": {
+      "minimum": 0,
+      "type": "number"
+    },
+    "runtime_completion_claimed": {
+      "const": false
+    },
+    "scene_owner_roster": {
+      "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/scene_owner_roster"
+    },
+    "schema_version": {
+      "const": "2.0.0"
+    },
+    "scope": {
+      "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/scope"
+    },
+    "source_artifact": {
+      "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/source_artifact"
+    },
+    "target_region_bindings": {
+      "items": {
+        "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/input_region_binding"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "transform_chain": {
+      "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/transform_chain"
+    }
+  },
+  "required": [
+    "schema_version",
+    "record_type",
+    "maskfactory_bridge_request_v2_id",
+    "revision",
+    "created_at",
+    "fixture_only",
+    "runtime_completion_claimed",
+    "correlation_id",
+    "idempotency_key",
+    "scope",
+    "attempt_number",
+    "hypothesis",
+    "access_mode",
+    "source_artifact",
+    "media_scope",
+    "owner_bindings",
+    "scene_owner_roster",
+    "target_region_bindings",
+    "protected_region_bindings",
+    "mask_intents",
+    "transform_chain",
+    "roundtrip_tolerance_pixels",
+    "release_snapshot_ref",
+    "expected_contract_bindings",
+    "minimum_authority_state",
+    "accepted_issuer_kinds",
+    "accepted_claim_classes",
+    "required_certificate_scope",
+    "intended_use",
+    "deadline_at",
+    "retry_class",
+    "resource_envelope",
+    "production_promotion_requested"
+  ],
+  "title": "maskfactory_bridge_request_v2",
+  "type": "object"
+}

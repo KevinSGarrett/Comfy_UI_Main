@@ -116,6 +116,10 @@ Rows221-260 are stored in Waves/Wave64/WAVE64_AUTONOMOUS_MODEL_INTELLIGENCE_ITEM
 
 Rows261-320 are stored in `Waves/Wave64/WAVE64_HYPERREAL_VIDEO_AUDIO_APP_THIRD_PASS_ITEM_ROWS.csv`. They deepen the existing video, audio, speech, AV, autonomous-controller, and App Mode parents with canonical clocks, cinematic and per-instance temporal state, exact per-pass/per-event routing, physical motion and acoustics, localized video/audio/AV repair, calibrated realism gates, and a production controller-console application. The application architecture is hybrid: standalone durable controller console, small workflow-specific ComfyUI App Mode launchers, and an optional frontend extension. Every row remains `Planned_Autonomous_Implementation_Required`; planning or synthetic fixtures never imply a model, media runtime, application, or release is complete.
 
+## Wave64 MaskFactory Autonomous Bridge Sidecar
+
+Rows321-348 are stored in `Waves/Wave64/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_ITEM_ROWS.csv` with requirements in `WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_REQUIREMENTS.json`. They are the additive immutable-release, dual-mode adapter, autonomous authority, ownership/transform, resilience, cross-repository handshake, App projection, integrated-proof, and release obligations for `core_autonomous_runtime`. They do not renumber or mutate prior rows. Human-anchor and DAZ-scale maturity belong to optional completion profiles and cannot block this autonomous core path. Planning artifacts remain non-runtime evidence.
+
 ## Citation Rule
 
 Every strict item must include source citation file, full path, section, line start, line end, excerpt, and source key back to:

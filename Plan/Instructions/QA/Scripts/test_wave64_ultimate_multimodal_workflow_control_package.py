@@ -85,6 +85,36 @@ class Wave64ControlPackageTests(unittest.TestCase):
             self.assertEqual(len(problems), 1)
             self.assertTrue(any("mismatch" in problem for problem in problems))
 
+    def test_core_perceptual_reviews_are_autonomous_and_human_review_is_optional(self) -> None:
+        payload = json.loads(BUILDER.requirements_bytes().decode("utf-8"))
+        policy = payload["perceptual_review_profile_policy"]
+        core = policy["core_autonomous_runtime"]
+        optional = policy["independent_perceptual_calibration"]
+        self.assertFalse(core["human_visual_listening_or_operator_approval_required"])
+        self.assertFalse(core["human_absence_can_block_or_revoke_core"])
+        self.assertTrue(core["runtime_proof_requirements_preserved"])
+        self.assertFalse(optional["required_for_core_release"])
+        affected = {157, 167, 172, 190, 192, 204, 209, 211}
+        records = {entry["row_number"]: entry for entry in payload["requirements"]}
+        for row_number in affected:
+            record = records[row_number]
+            self.assertTrue(record["runtime_proof_required"])
+            self.assertIn("core_autonomous_runtime", record["review_method"])
+            self.assertIn("independent_perceptual_calibration", record["review_method"])
+        stale = [
+            "face/body view grid and voice-reference listening review",
+            "blinded side-by-side media review for rank calibration",
+            "mandatory blinded cross-engine comparison",
+            "isolated-stem and complete-mix listening review",
+            "mandatory full-duration listening review",
+            "blind held-out multimodal evaluation",
+            "visual and audio metric adjudication sets",
+            "blinded multimodal adjudication",
+        ]
+        rendered = json.dumps(payload)
+        for phrase in stale:
+            self.assertNotIn(phrase, rendered)
+
 
 if __name__ == "__main__":
     unittest.main()

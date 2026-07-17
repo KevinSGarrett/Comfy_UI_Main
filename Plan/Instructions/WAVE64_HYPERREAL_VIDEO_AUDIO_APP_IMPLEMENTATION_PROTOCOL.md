@@ -7,8 +7,13 @@
 3. registry and policy snapshots;
 4. qualified exact model/workflow/runtime bundles;
 5. controller command, event, attempt, artifact, QA, and promotion records;
-6. calibrated critic observations;
-7. operator decisions where policy requires them.
+6. calibrated autonomous critic observations;
+7. signed deterministic autonomous policy decisions.
+
+Human visual/listening adjudication is optional
+`independent_perceptual_calibration` evidence. An operator/user override exists
+only when explicitly requested, separately recorded, and authorized by policy;
+it is not a default core dependency and cannot waive a never-waivable failure.
 
 An LLM, VLM, UI projection, ComfyUI history entry, preview, or filename cannot
 replace these authorities.

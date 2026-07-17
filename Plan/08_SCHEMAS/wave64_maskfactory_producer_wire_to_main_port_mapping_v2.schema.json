@@ -1,0 +1,561 @@
+{
+  "$id": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_producer_wire_to_main_port_mapping_v2.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "main_schema_authority": {
+      "const": "internal_normalized_port_and_import_validation_only"
+    },
+    "mapping_schema_binding": {
+      "additionalProperties": false,
+      "properties": {
+        "contract_name": {
+          "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/id"
+        },
+        "contract_role": {
+          "enum": [
+            "producer_wire_v1",
+            "main_internal_v2"
+          ]
+        },
+        "schema_id": {
+          "format": "uri",
+          "type": "string"
+        },
+        "schema_sha256": {
+          "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/sha256"
+        },
+        "schema_source": {
+          "minLength": 3,
+          "type": "string"
+        },
+        "schema_version": {
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "contract_name",
+        "contract_role",
+        "schema_source",
+        "schema_id",
+        "schema_version",
+        "schema_sha256"
+      ],
+      "type": "object"
+    },
+    "mappings": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "covered_main_top_level_paths": {
+            "items": {
+              "pattern": "^\\$\\.",
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "covered_producer_top_level_paths": {
+            "items": {
+              "pattern": "^\\$\\.",
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "direction": {
+            "enum": [
+              "maskfactory_to_main",
+              "main_to_maskfactory"
+            ]
+          },
+          "exact_producer_binding_required": {
+            "const": true
+          },
+          "field_rules": {
+            "items": {
+              "additionalProperties": false,
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "disposition": {
+                        "const": "drop"
+                      }
+                    },
+                    "required": [
+                      "disposition"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "source_path": {
+                        "type": "string"
+                      },
+                      "target_path": {
+                        "type": "null"
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "disposition": {
+                        "enum": [
+                          "default",
+                          "recompute"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "disposition"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "target_path": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "disposition": {
+                        "const": "map"
+                      }
+                    },
+                    "required": [
+                      "disposition"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "source_path": {
+                        "type": "string"
+                      },
+                      "target_path": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              ],
+              "properties": {
+                "authority": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "may_elevate_authority": {
+                      "const": false
+                    },
+                    "source_authority": {
+                      "enum": [
+                        "producer_wire_factual",
+                        "main_internal_factual",
+                        "main_policy_derived",
+                        "none"
+                      ]
+                    },
+                    "target_authority": {
+                      "enum": [
+                        "producer_wire_factual",
+                        "main_internal_factual",
+                        "main_policy_derived",
+                        "none"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "source_authority",
+                    "target_authority",
+                    "may_elevate_authority"
+                  ],
+                  "type": "object"
+                },
+                "direction": {
+                  "enum": [
+                    "maskfactory_to_main",
+                    "main_to_maskfactory"
+                  ]
+                },
+                "disposition": {
+                  "enum": [
+                    "map",
+                    "drop",
+                    "default",
+                    "recompute",
+                    "reject"
+                  ]
+                },
+                "field_rule_id": {
+                  "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/id"
+                },
+                "reason": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "source_path": {
+                  "oneOf": [
+                    {
+                      "pattern": "^\\$",
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "source_required": {
+                  "type": "boolean"
+                },
+                "target_path": {
+                  "oneOf": [
+                    {
+                      "pattern": "^\\$",
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "target_required": {
+                  "type": "boolean"
+                },
+                "transform": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "enum_conversion": {
+                      "additionalProperties": {
+                        "type": [
+                          "string",
+                          "number",
+                          "integer",
+                          "boolean",
+                          "null"
+                        ]
+                      },
+                      "type": "object"
+                    },
+                    "operation": {
+                      "enum": [
+                        "identity",
+                        "const",
+                        "rename",
+                        "object_projection",
+                        "array_projection",
+                        "enum_map",
+                        "normalize_ref",
+                        "normalize_authority",
+                        "normalize_lineage",
+                        "normalize_blocker",
+                        "normalize_event",
+                        "normalize_transform_chain",
+                        "hash_bind",
+                        "context_lookup",
+                        "policy_recompute",
+                        "preserve_validated_raw_envelope",
+                        "drop_after_validation"
+                      ]
+                    },
+                    "parameters": {
+                      "additionalProperties": true,
+                      "type": "object"
+                    },
+                    "unmapped_enum_action": {
+                      "const": "reject"
+                    },
+                    "version": {
+                      "const": "1.0.0"
+                    }
+                  },
+                  "required": [
+                    "operation",
+                    "version",
+                    "enum_conversion",
+                    "parameters",
+                    "unmapped_enum_action"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "field_rule_id",
+                "direction",
+                "source_path",
+                "target_path",
+                "source_required",
+                "target_required",
+                "disposition",
+                "transform",
+                "authority",
+                "reason"
+              ],
+              "type": "object"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "main_binding": {
+            "additionalProperties": false,
+            "properties": {
+              "contract_name": {
+                "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/id"
+              },
+              "contract_role": {
+                "enum": [
+                  "producer_wire_v1",
+                  "main_internal_v2"
+                ]
+              },
+              "schema_id": {
+                "format": "uri",
+                "type": "string"
+              },
+              "schema_sha256": {
+                "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/sha256"
+              },
+              "schema_source": {
+                "minLength": 3,
+                "type": "string"
+              },
+              "schema_version": {
+                "pattern": "^\\d+\\.\\d+\\.\\d+$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "contract_name",
+              "contract_role",
+              "schema_source",
+              "schema_id",
+              "schema_version",
+              "schema_sha256"
+            ],
+            "type": "object"
+          },
+          "main_contract_name": {
+            "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/id"
+          },
+          "main_required_paths": {
+            "items": {
+              "pattern": "^\\$\\.",
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "mapping_rule_id": {
+            "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/id"
+          },
+          "producer_binding": {
+            "additionalProperties": false,
+            "properties": {
+              "contract_name": {
+                "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/id"
+              },
+              "contract_role": {
+                "enum": [
+                  "producer_wire_v1",
+                  "main_internal_v2"
+                ]
+              },
+              "schema_id": {
+                "format": "uri",
+                "type": "string"
+              },
+              "schema_sha256": {
+                "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/sha256"
+              },
+              "schema_source": {
+                "minLength": 3,
+                "type": "string"
+              },
+              "schema_version": {
+                "pattern": "^\\d+\\.\\d+\\.\\d+$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "contract_name",
+              "contract_role",
+              "schema_source",
+              "schema_id",
+              "schema_version",
+              "schema_sha256"
+            ],
+            "type": "object"
+          },
+          "producer_contract_name": {
+            "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/id"
+          },
+          "producer_required_paths": {
+            "items": {
+              "pattern": "^\\$\\.",
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "recursive_subtree_policy": {
+            "const": "validate_against_exact_bound_schema_then_execute_named_transform"
+          },
+          "source_contract_role": {
+            "enum": [
+              "producer_wire_v1",
+              "main_internal_v2"
+            ]
+          },
+          "target_contract_role": {
+            "enum": [
+              "producer_wire_v1",
+              "main_internal_v2"
+            ]
+          },
+          "unknown_source_field_action": {
+            "const": "reject"
+          },
+          "unknown_target_field_action": {
+            "const": "reject"
+          },
+          "unmapped_required_field_action": {
+            "const": "block_dependent_pass"
+          }
+        },
+        "required": [
+          "mapping_rule_id",
+          "direction",
+          "producer_contract_name",
+          "main_contract_name",
+          "source_contract_role",
+          "target_contract_role",
+          "producer_binding",
+          "main_binding",
+          "exact_producer_binding_required",
+          "field_rules",
+          "covered_producer_top_level_paths",
+          "producer_required_paths",
+          "covered_main_top_level_paths",
+          "main_required_paths",
+          "unknown_source_field_action",
+          "unknown_target_field_action",
+          "unmapped_required_field_action",
+          "recursive_subtree_policy"
+        ],
+        "type": "object"
+      },
+      "minItems": 12,
+      "type": "array"
+    },
+    "path_language": {
+      "const": "rfc9535_jsonpath"
+    },
+    "producer_schema_authority": {
+      "const": "exact_schema_name_version_hash_imported_from_adopted_maskfactory_release"
+    },
+    "producer_use_eligibility_policy": {
+      "additionalProperties": false,
+      "properties": {
+        "main_recompute_contract_binding": {
+          "additionalProperties": false,
+          "properties": {
+            "contract_name": {
+              "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/id"
+            },
+            "contract_role": {
+              "enum": [
+                "producer_wire_v1",
+                "main_internal_v2"
+              ]
+            },
+            "schema_id": {
+              "format": "uri",
+              "type": "string"
+            },
+            "schema_sha256": {
+              "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/sha256"
+            },
+            "schema_source": {
+              "minLength": 3,
+              "type": "string"
+            },
+            "schema_version": {
+              "pattern": "^\\d+\\.\\d+\\.\\d+$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "contract_name",
+            "contract_role",
+            "schema_source",
+            "schema_id",
+            "schema_version",
+            "schema_sha256"
+          ],
+          "type": "object"
+        },
+        "main_target_path": {
+          "const": "$.eligible_for_intended_use"
+        },
+        "normalization_action": {
+          "const": "drop_after_validation"
+        },
+        "producer_value_authoritative_for_main_use": {
+          "const": false
+        },
+        "recompute_rule": {
+          "const": "evaluate_exact_signed_pinned_main_policy_unique_criteria_claim_class_trusted_signer_decision_timestamp_certificate_expiry_current_revocation_index_and_nonfixture_evidence"
+        },
+        "source_path": {
+          "const": "$.use_eligibility"
+        }
+      },
+      "required": [
+        "source_path",
+        "producer_value_authoritative_for_main_use",
+        "normalization_action",
+        "main_recompute_contract_binding",
+        "main_target_path",
+        "recompute_rule"
+      ],
+      "type": "object"
+    },
+    "registry_id": {
+      "const": "wave64_maskfactory_producer_wire_to_main_port_mapping_v2"
+    },
+    "runtime_completion_claimed": {
+      "const": false
+    },
+    "schema_version": {
+      "const": "2.0.0"
+    },
+    "unknown_or_missing_mapping_action": {
+      "const": "block_dependent_pass"
+    },
+    "updated_at": {
+      "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/timestamp"
+    }
+  },
+  "required": [
+    "schema_version",
+    "registry_id",
+    "updated_at",
+    "mapping_schema_binding",
+    "producer_schema_authority",
+    "main_schema_authority",
+    "path_language",
+    "unknown_or_missing_mapping_action",
+    "producer_use_eligibility_policy",
+    "mappings",
+    "runtime_completion_claimed"
+  ],
+  "title": "wave64_maskfactory_producer_wire_to_main_port_mapping_v2",
+  "type": "object"
+}

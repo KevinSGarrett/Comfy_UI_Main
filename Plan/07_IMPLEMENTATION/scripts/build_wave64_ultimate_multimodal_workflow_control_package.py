@@ -12,7 +12,6 @@ import csv
 import hashlib
 import io
 import json
-import re
 from dataclasses import dataclass
 from pathlib import Path, PureWindowsPath
 from typing import Iterable
@@ -145,7 +144,7 @@ add4("W64-MCM-PKG", "canonical_ids_and_packages", "contracts", "Canonical produc
 ])
 
 add4("W64-MCM-CHAR", "character_factory", "character_system", "Character Package Revision", [
-    (157, "Character Reference Intake and Identity Core", "Build reference intake, view coverage, quality grading, identity traits, proportions, marks, and voice-reference binding.", "Accepted/rejected references, coverage gaps, conflicts, hashes, and authority are explicit.", [10, 44, 114, 115, 116, 117, 154], True, "face/body view grid and voice-reference listening review"),
+    (157, "Character Reference Intake and Identity Core", "Build reference intake, view coverage, quality grading, identity traits, proportions, marks, and voice-reference binding.", "Accepted/rejected references, coverage gaps, conflicts, hashes, and authority are explicit.", [10, 44, 114, 115, 116, 117, 154], True, "core_autonomous_runtime face/body validators plus qualified voice-reference similarity and intelligibility critics; human listening is optional independent_perceptual_calibration"),
     (158, "Modular Character State System", "Separate morphology, skin/surface, hair, makeup, wardrobe, accessory, material, and voice states from immutable identity.", "States are independently versioned, ownership-tagged, composable, and identity-preserving.", [10, 13, 14, 15, 114, 125, 157], True, "before/after state panels and relevant voice playback"),
     (159, "Engine-Specific Character Adapter Builder", "Publish FLUX-family, SDXL-family, edit, video, and audio adapter cards for one Character Package revision.", "Each adapter declares exact engine family, triggers, limits, hashes, calibration evidence, and prohibited pairings.", [9, 20, 26, 44, 117, 118, 157, 158], True, "cross-engine identity and voice-similarity review"),
     (160, "Character Revision Certification and Publication", "Certify and publish immutable Character Package revisions for solo and multi-character consumption.", "Identity, morphology, views, states, voice, adapters, and separation pass; failures remain staged and revocable.", [16, 17, 18, 35, 59, 131, 132, 157, 158, 159], True, "full character contact sheet, separation panel, and voice-continuity review"),
@@ -161,7 +160,7 @@ add4("W64-MCM-SHOT", "shot_pose_and_multi_character_ownership", "scene_and_pose"
 add4("W64-MCM-ROUTE", "per_pass_engine_model_routing", "engine_model_routing", "Per-pass engine/model specialization", [
     (165, "Unified Per-Pass Capability Registry", "Register exact engine/model/adapter capabilities by modality, intent, region, controls, references, edit mode, resolution, hardware, and evidence.", "A one-engine specialist is discoverable only for its certified pass scope and never becomes a universal default.", [9, 20, 26, 44, 54, 99, 118, 159], True, "capability calibration artifact review"),
     (166, "Hard Compatibility and Constraint Solver", "Reject engine, model, VAE, encoder, latent, adapter, control, node, workflow, license, hardware, authority, and package incompatibilities before ranking.", "No incompatible stack reaches execution; every rejection returns typed unmet constraints and missing evidence.", [36, 44, 46, 51, 54, 65, 66, 165], True, "referenced capability-evidence review"),
-    (167, "Contextual Candidate Ranking and LLM Proposal", "Rank only eligible stacks by matching quality, preservation, stability, failure rate, runtime, memory, cost, and cache evidence.", "Ranking inputs are replayable and explainable; an LLM proposal cannot bypass compatibility or promotion gates.", [35, 63, 64, 81, 82, 83, 118, 123, 165, 166], True, "blinded side-by-side media review for rank calibration"),
+    (167, "Contextual Candidate Ranking and LLM Proposal", "Rank only eligible stacks by matching quality, preservation, stability, failure rate, runtime, memory, cost, and cache evidence.", "Ranking inputs are replayable and explainable; an LLM proposal cannot bypass compatibility or promotion gates.", [35, 63, 64, 81, 82, 83, 118, 123, 165, 166], True, "core_autonomous_runtime deterministic blinded candidate IDs plus qualified calibrated critic ranking; human side-by-side review is optional independent_perceptual_calibration"),
     (168, "Fallback, Abstention, and Route Decision Record", "Define explicit fallback, abstention, material-hypothesis retry, supersession, and immutable route-decision provenance.", "No eligible stack yields a typed blocker; every reroute explains the prior failure and no silent substitution or seed loop occurs.", [49, 59, 63, 66, 83, 165, 166, 167], True, "fallback media review only when certifying fallback quality"),
 ])
 
@@ -169,7 +168,7 @@ add4("W64-MCM-BRIDGE", "first_pass_and_cross_engine_bridging", "engine_bridges",
     (169, "First-Pass Intent Classifier and Engine Selector", "Classify composition, identity, pose, edit, character-count, motion, downstream specialist, quality, and resource needs before base routing.", "The first pass is objective-driven and declares downstream bridge needs; FLUX is a candidate rather than a hardcoded answer.", [8, 9, 10, 11, 19, 20, 155, 161, 165, 166, 167, 168], True, "base composition and identity comparison panels"),
     (170, "Canonical Decoded Artifact Bridge", "Standardize decoded image/frame/audio transfer, color/sample space, alpha, dimensions, coordinates, timebase, masks, crops, transforms, and hashes.", "Cross-engine round trips preserve coordinates, timing, color, ownership, and lineage; latent transfer blocks absent exact certification.", [9, 20, 36, 43, 51, 156, 169], True, "image difference maps and audio alignment/null checks"),
     (171, "Cross-Engine Conditioning Translator", "Translate prompts, references, pose, depth, masks, controls, denoise, scheduler, and adapter semantics into engine-native contracts.", "Raw settings are never copied blindly and every translation is versioned and testable.", [9, 20, 44, 54, 64, 165, 166, 167, 168, 169, 170], True, "engine-pair conditioning fidelity review"),
-    (172, "First-Pass-to-Specialist Bridge Qualification", "Benchmark and certify base/specialist engine pairings inside exact capability and resource buckets.", "A pairing promotes only when identity, geometry, regional fidelity, seams, preservation, and whole-artifact regression pass.", [16, 17, 18, 21, 33, 34, 37, 38, 169, 170, 171], True, "mandatory blinded cross-engine comparison"),
+    (172, "First-Pass-to-Specialist Bridge Qualification", "Benchmark and certify base/specialist engine pairings inside exact capability and resource buckets.", "A pairing promotes only when identity, geometry, regional fidelity, seams, preservation, and whole-artifact regression pass.", [16, 17, 18, 21, 33, 34, 37, 38, 169, 170, 171], True, "core_autonomous_runtime deterministic cross-engine metrics plus qualified calibrated critics over blinded engine IDs; human comparison is optional independent_perceptual_calibration"),
 ])
 
 add4("W64-MCM-REGION", "specialist_regional_passes", "specialist_passes", "Image multipass order", [
@@ -202,9 +201,9 @@ add4("W64-MCM-VIDEO", "modular_video_production", "video_pipeline", "Video, audi
 
 add4("W64-MCM-AUDIO", "audio_workflow_integration", "audio_pipeline", "Video, audio, and AV", [
     (189, "Shot-to-Audio Intent and Event Binding", "Bind shot events, character voices, dialogue, contacts, environment, distance, room, and timing to existing sound and speech authorities.", "Rows067-148 are reused without duplicating their indexing, generation, voice, alignment, or certification scope.", [25, 26, 27, 28, 29, 30, 31, 32, 67, 112, 113, 148, 155, 161, 162, 163], True, "timeline and event/dialogue ownership review"),
-    (190, "Modular Audio Workflow Adapter Library", "Compose speech, nonverbal vocalization, Foley, ambience, music, room, spatial, enhancement, and mix adapters under one contract.", "Every adapter declares exact package versions, stack requirements, stems, timebase, provenance, and QA gates.", [25, 26, 27, 28, 29, 30, 31, 32, 93, 108, 123, 146, 165, 166, 167, 168, 169, 170, 171, 172, 189], True, "isolated-stem and complete-mix listening review"),
+    (190, "Modular Audio Workflow Adapter Library", "Compose speech, nonverbal vocalization, Foley, ambience, music, room, spatial, enhancement, and mix adapters under one contract.", "Every adapter declares exact package versions, stack requirements, stems, timebase, provenance, and QA gates.", [25, 26, 27, 28, 29, 30, 31, 32, 93, 108, 123, 146, 165, 166, 167, 168, 169, 170, 171, 172, 189], True, "core_autonomous_runtime isolated-stem and complete-mix signal validators plus qualified audio critics; human listening is optional independent_perceptual_calibration"),
     (191, "Audio Execution, Alignment, and Lineage Pipeline", "Execute bounded candidates, align events and speech, render space/room, mix buses, and preserve sample-level lineage.", "Every sample span is attributable to event/source/character/attempt/transform/mix decisions and failed stems are independently replaceable.", [97, 102, 103, 104, 105, 106, 135, 136, 137, 138, 139, 140, 156, 189, 190], True, "headphone/speaker playback and waveform review"),
-    (192, "Audio Package Promotion and Revocation Gate", "Apply identity, prosody, timing, acoustics, defect, full-audio, continuity, provenance, promotion, and revocation gates.", "Only complete synchronized packages promote and local stem gains cannot hide global audio regression.", [27, 28, 29, 30, 31, 32, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 131, 148, 176, 189, 190, 191], True, "mandatory full-duration listening review"),
+    (192, "Audio Package Promotion and Revocation Gate", "Apply identity, prosody, timing, acoustics, defect, full-audio, continuity, provenance, promotion, and revocation gates.", "Only complete synchronized packages promote and local stem gains cannot hide global audio regression.", [27, 28, 29, 30, 31, 32, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 131, 148, 176, 189, 190, 191], True, "core_autonomous_runtime full-duration deterministic audio QA plus qualified calibrated critics and signed policy; human listening is optional independent_perceptual_calibration"),
 ])
 
 add4("W64-MCM-AV", "audiovisual_assembly", "av_pipeline", "Video, audio, and AV", [
@@ -225,7 +224,7 @@ add4("W64-MCM-LLM", "self_hosted_llm_vlm_control", "autonomous_reasoning", "Self
     (201, "Self-Hosted Model Role and Authority Decomposition", "Separate planner, prompt composer, router advisor, defect classifier, VLM critic, audio critic, retrieval, and summarizer roles.", "Every role has bounded contracts, context, model requirements, escalation, uncertainty, and no promotion authority.", [150, 165, 166, 167, 168, 175, 197], True, "critic output review against known media cases"),
     (202, "Registry-Grounded Retrieval and Tool Context", "Build retrieval over schemas, packages, capabilities, workflows, benchmarks, failures, evidence, and current event state.", "Responses cite immutable IDs and surface stale, conflicting, missing, or out-of-scope evidence rather than inventing it.", [44, 51, 54, 62, 153, 154, 155, 156, 165, 198, 201], True, "cited calibration-media review"),
     (203, "Structured Proposal, Uncertainty, and Validation Contract", "Require schema-valid plans, prompts, routes, diagnoses, hypotheses, confidence, evidence references, and alternatives.", "Unsupported IDs and authority bypasses reject deterministically; uncertainty may abstain or escalate without executing.", [166, 167, 168, 175, 197, 201, 202], True, "adjudicated image/video/audio proposal comparison"),
-    (204, "Self-Hosted LLM/VLM Serving and Qualification", "Define exact model/runtime/template/parser/quantization/context stacks, health, versioning, batching, failover, shadow mode, and benchmarks.", "Only role- and bucket-qualified versions activate and model changes cannot silently alter accepted decisions.", [37, 44, 54, 63, 165, 201, 202, 203], True, "blind held-out multimodal evaluation"),
+    (204, "Self-Hosted LLM/VLM Serving and Qualification", "Define exact model/runtime/template/parser/quantization/context stacks, health, versioning, batching, failover, shadow mode, and benchmarks.", "Only role- and bucket-qualified versions activate and model changes cannot silently alter accepted decisions.", [37, 44, 54, 63, 165, 201, 202, 203], True, "core_autonomous_runtime held-out deterministic benchmarks and qualified independent model critics over blinded identities; human adjudication is optional independent_perceptual_calibration"),
 ])
 
 add4("W64-MCM-RUNTIME", "runtime_resources_and_cache", "runtime_control", "Control plane", [
@@ -236,9 +235,9 @@ add4("W64-MCM-RUNTIME", "runtime_resources_and_cache", "runtime_control", "Contr
 ])
 
 add4("W64-MCM-QA", "qa_benchmarks_and_release_readiness", "qa_and_benchmarks", "Implementation order and acceptance", [
-    (209, "Modular Multimodal Scorecard", "Define separate identity, morphology, pose, framing, ownership, mask, anatomy, realism, temporal, speech, audio, sync, provenance, and runtime gates.", "Metrics have applicability, calibrated thresholds, method, authority, evidence, and severity without one subjective realism scalar.", [16, 17, 18, 21, 30, 31, 32, 33, 34, 35, 103, 106, 131, 141, 160, 196, 208], True, "visual and audio metric adjudication sets"),
+    (209, "Modular Multimodal Scorecard", "Define separate identity, morphology, pose, framing, ownership, mask, anatomy, realism, temporal, speech, audio, sync, provenance, and runtime gates.", "Metrics have applicability, calibrated thresholds, method, authority, evidence, and severity without one subjective realism scalar.", [16, 17, 18, 21, 30, 31, 32, 33, 34, 35, 103, 106, 131, 141, 160, 196, 208], True, "core_autonomous_runtime deterministic visual/audio adjudication sets plus qualified calibrated critics; human calibration is optional independent_perceptual_calibration"),
     (210, "Character-to-AV Benchmark Corpus", "Build immutable positive, negative, adversarial, ownership, outage, recovery, cross-engine, specialist, video, audio, and AV fixtures.", "The held-out corpus spans solo/multi-character and failure buckets with exact expected outcomes and revisions.", [109, 147, 160, 172, 180, 183, 196, 204, 209], True, "independent labeling and full playback review"),
-    (211, "Calibrated QA Ensemble and Promotion Gate", "Combine deterministic validators, scoped metrics, critics, and review packets without letting weak signals override hard failures.", "False accept/reject rates, abstention, disagreement, target/protected/whole-artifact gates, and promotion rules are explicit.", [150, 184, 188, 192, 196, 203, 209, 210], True, "blinded multimodal adjudication"),
+    (211, "Calibrated QA Ensemble and Promotion Gate", "Combine deterministic validators, scoped metrics, critics, and review packets without letting weak signals override hard failures.", "False accept/reject rates, abstention, disagreement, target/protected/whole-artifact gates, and promotion rules are explicit.", [150, 184, 188, 192, 196, 203, 209, 210], True, "core_autonomous_runtime blinded-ID deterministic evidence plus qualified calibrated multimodal critic adjudication and signed policy; human adjudication is optional independent_perceptual_calibration"),
     (212, "Cross-Wave Regression and Release Readiness Suite", "Verify Rows149-220 preserve Rows001-148 authority, evidence, security, runtime, audio, QA, and completion controls.", "Static and selected end-to-end suites pass with residual risk, scope, certificates, blockers, and no false completion recorded.", [50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 66, 112, 148, 151, 209, 210, 211], True, "representative image, video, audio, and AV regression review"),
 ])
 
@@ -389,6 +388,24 @@ def requirements_bytes() -> bytes:
         "status": STATUS, "planning_complete": True, "runtime_complete": False,
         "content_based_suppression": False,
         "completion_rule": "Planning never counts as implementation, runtime, artifact, engine, model, workflow, mask, QA, promotion, or release completion.",
+        "perceptual_review_profile_policy": {
+            "core_autonomous_runtime": {
+                "review_authority": "deterministic_validators_plus_qualified_calibrated_autonomous_critics_plus_signed_policy",
+                "human_visual_listening_or_operator_approval_required": False,
+                "human_absence_can_block_or_revoke_core": False,
+                "runtime_proof_requirements_preserved": True,
+            },
+            "independent_perceptual_calibration": {
+                "required_for_core_release": False,
+                "human_blind_visual_listening_or_adjudication_allowed": True,
+                "authority": "optional_calibration_evidence_only",
+            },
+            "explicit_user_override": {
+                "default_or_implicit": False,
+                "must_be_separately_recorded_and_policy_authorized": True,
+                "can_waive_never_waivable_core_failure": False,
+            },
+        },
         "workstreams": [{"workstream": key, "first": min(nums), "last": max(nums), "count": len(nums)} for key, nums in workstreams.items()],
         "requirements": requirements,
     }
@@ -401,6 +418,10 @@ def validate_rows() -> None:
         raise ValueError("Rows must be exactly contiguous 149-220")
     if len({row.title for row in ROWS}) != 72:
         raise ValueError("Row titles must be unique")
+    perceptual_rows = {157, 167, 172, 190, 192, 204, 209, 211}
+    for row in ROWS:
+        if row.number in perceptual_rows and ("core_autonomous_runtime" not in row.review or "independent_perceptual_calibration" not in row.review):
+            raise ValueError(f"Row{row.number} perceptual review is not autonomous-core and optional-human profile scoped")
     by_workstream: dict[str, int] = {}
     for row in ROWS:
         by_workstream[row.workstream] = by_workstream.get(row.workstream, 0) + 1
@@ -434,6 +455,8 @@ def build_outputs(root: Path) -> dict[Path, bytes]:
             "rows_are_contiguous": True, "rows_are_unique": True,
             "four_rows_per_workstream": True, "new_dependencies_are_acyclic": True,
             "items_and_tracker_requirement_json_are_byte_identical": True,
+            "core_perceptual_review_is_autonomous_policy_and_qualified_critics": True,
+            "human_perceptual_review_is_optional_profile_only": True,
             "rows001_148_modified": False, "runtime_completion_claimed": False,
         },
     }

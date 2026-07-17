@@ -271,6 +271,11 @@ def test_role_registry_has_no_execution_or_promotion_authority():
     assert roles["qualification_floors"]["planner_held_out_requests"] >= 100
     assert roles["qualification_floors"]["reviewer_adjudicated_panels"] >= 200
     assert roles["qualification_floors"]["complete_shadow_jobs"] >= 30
+    reference = roles["reviewer_reference_authority"]
+    assert reference["core_profile"] == "autonomous_adjudicated_reference_panels"
+    assert "known_defect_transform" in reference["panel_components"]
+    assert reference["human_profile"] == "independent_perceptual_calibration"
+    assert reference["human_required_for_core"] is False
 
 
 def test_qa_registry_requires_progressive_empirical_authority():
@@ -287,6 +292,18 @@ def test_qa_registry_requires_progressive_empirical_authority():
     assert qa["initial_sample_floors"]["production_certificate"]["paired_outputs"] >= 50
     assert "metadata_only" in qa["promotion_prohibitions"]
     assert "self_promotion_by_generator_or_reviewer" in qa["promotion_prohibitions"]
+    reference = qa["autonomous_adjudicated_reference_panel_policy"]
+    assert reference["required_for_core_qualification"] is True
+    assert {
+        "deterministic_source_fixture",
+        "known_defect_transform",
+        "frozen_expected_outcome_and_tolerance",
+        "qualified_multi_critic_disagreement_and_abstention_policy",
+        "independent_deterministic_policy_decision",
+    } <= set(reference["required_components"])
+    assert reference["generator_reviewer_planner_self_promotion_allowed"] is False
+    assert reference["human_adjudication_required_for_core"] is False
+    assert reference["human_absence_can_block_or_revoke_core"] is False
 
 
 def test_decision_example_excludes_metadata_only_candidate():
@@ -488,6 +505,18 @@ def test_inventory_arithmetic_allows_accounted_quarantine_but_not_unresolved():
     assert builder.validate_inventory_report_semantics(bad)
     bad = dict(report, unresolved_binary_count=1)
     assert builder.validate_inventory_report_semantics(bad)
+
+
+def test_generated_activation_docs_freeze_scope_first_and_account_for_quarantine():
+    builder = load_builder()
+    rendered = "\n".join(content.decode("utf-8") for content in builder.build_docs().values())
+    assert "frozen before the completion signal" in rendered
+    assert "verified + quarantined + failed == expected" in rendered
+    assert "runtime exclusion of quarantined/failed" in rendered
+    assert "zero missing/hash-pending/corrupt/quarantined/failed/unresolved" not in rendered
+    assert "any in-scope model is missing, hash-pending, corrupt, quarantined, failed" not in rendered
+    assert "autonomous adjudicated reference panels" in rendered
+    assert "optional `independent_perceptual_calibration`" in rendered
 
 
 def test_selection_semantics_require_eligible_certified_hash_bound_pareto_bundle():

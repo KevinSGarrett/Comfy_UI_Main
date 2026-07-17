@@ -38,5 +38,8 @@ benchmark.
 
 No aggregate average can hide a blocking failure. Promotion requires current
 exact-bundle/runtime/workflow certificates, target/protected/whole-artifact QA,
-continuity and clock consistency, calibrated critics, and required human or
-policy approval. Static planning tests never satisfy runtime release.
+continuity and clock consistency, qualified calibrated autonomous critics, and
+the signed deterministic autonomous policy decision. Blind human/listening or
+operator approval is optional `independent_perceptual_calibration` evidence or a
+separately recorded explicit user override; its absence cannot block or revoke
+`core_autonomous_runtime`. Static planning tests never satisfy runtime release.

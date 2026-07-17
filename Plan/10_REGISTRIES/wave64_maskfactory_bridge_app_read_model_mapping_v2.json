@@ -1,0 +1,205 @@
+{
+  "all_pages_read_only": true,
+  "app_can_commit_promotion": false,
+  "app_can_mutate_producer_truth": false,
+  "app_or_conversation_summary_can_establish_project_truth": false,
+  "controller_gateway_is_only_write_authority": true,
+  "fixture_can_project_runtime_ready": false,
+  "llm_vlm_can_bypass_schema_validator_or_signed_policy": false,
+  "pages": [
+    {
+      "display_name": "Home / Readiness",
+      "field_paths": [
+        "$.release_snapshot_ref",
+        "$.adoption_receipt_ref",
+        "$.bridge_release_certificate_ref",
+        "$.active_pin_status",
+        "$.profile_readiness",
+        "$.row218_status",
+        "$.rows321_347_status",
+        "$.row348_release_status",
+        "$.signing_trust_status",
+        "$.journal_integrity_status",
+        "$.journal_pin",
+        "$.page_readiness",
+        "$.core_blockers",
+        "$.optional_profile_blockers"
+      ],
+      "page_id": "home_readiness",
+      "purpose": "Show truthful current readiness, exact blockers, optional-profile separation, and runtime-evidence provenance.",
+      "read_models": [
+        "maskfactory_bridge_readiness_projection_v2",
+        "maskfactory_health_capability_snapshot_v2",
+        "maskfactory_bridge_release_certificate_v2"
+      ]
+    },
+    {
+      "display_name": "Projects / Revisions",
+      "field_paths": [
+        "$.release_id",
+        "$.snapshot_sha256",
+        "$.producer_source",
+        "$.contract_bindings",
+        "$.signature_trust",
+        "$.decision",
+        "$.checks",
+        "$.trusted_signing_key_registry_ref",
+        "$.journal_pin",
+        "$.revalidation_triggers",
+        "$.affected_refs"
+      ],
+      "page_id": "projects_revisions",
+      "purpose": "Show exact producer release pins, Main adoption decisions, revision lineage, and invalidation state.",
+      "read_models": [
+        "maskfactory_release_snapshot_v2",
+        "maskfactory_adoption_receipt_v2",
+        "maskfactory_invalidation_event_v2"
+      ]
+    },
+    {
+      "display_name": "Scene Builder / Pose & Masks",
+      "field_paths": [
+        "$.scope",
+        "$.media_scope",
+        "$.source_artifact",
+        "$.scene_owner_roster",
+        "$.owner_bindings",
+        "$.target_region_bindings",
+        "$.protected_region_bindings",
+        "$.mask_intents",
+        "$.transform_chain",
+        "$.input_region_lineage",
+        "$.masks",
+        "$.authority",
+        "$.eligible_for_intended_use",
+        "$.blockers"
+      ],
+      "page_id": "scene_builder_pose_masks",
+      "purpose": "Show exact target identity, cross-character/prop/environment protected ownership, still/frame/span scope, typed transforms, separate input ROI/output lineage, and policy-scoped eligibility.",
+      "read_models": [
+        "maskfactory_bridge_request_v2",
+        "maskfactory_bridge_result_v2",
+        "maskfactory_authority_decision_v2"
+      ]
+    },
+    {
+      "display_name": "Runs / DAG",
+      "field_paths": [
+        "$.stream_id",
+        "$.sequence",
+        "$.correlation_id",
+        "$.causation_id",
+        "$.event_type",
+        "$.aggregate_ref",
+        "$.payload_ref",
+        "$.scope",
+        "$.attempt_number",
+        "$.hypothesis",
+        "$.execution_observation",
+        "$.media_scope",
+        "$.status",
+        "$.cache_state",
+        "$.decision",
+        "$.blockers"
+      ],
+      "page_id": "runs_dag",
+      "purpose": "Project exact project/run/job/pass/attempt/hypothesis, selected route and alternatives, timing/resources, media scope, validation, authority, cache, and dependent-pass state into the durable DAG.",
+      "read_models": [
+        "maskfactory_bridge_event_v2",
+        "maskfactory_bridge_request_v2",
+        "maskfactory_bridge_result_v2",
+        "maskfactory_authority_decision_v2"
+      ]
+    },
+    {
+      "display_name": "Queue / Workers",
+      "field_paths": [
+        "$.service_status",
+        "$.routes",
+        "$.observed_at",
+        "$.expires_at",
+        "$.event_type",
+        "$.idempotency_key",
+        "$.correlation_id",
+        "$.resource_envelope",
+        "$.deadline_at",
+        "$.execution_observation.queue_ms",
+        "$.execution_observation.runtime_ms",
+        "$.execution_observation.peak_vram_mb",
+        "$.execution_observation.peak_ram_mb",
+        "$.execution_observation.deadline_met",
+        "$.execution_observation.resource_envelope_met"
+      ],
+      "page_id": "queue_workers",
+      "purpose": "Show route freshness, worker eligibility, exact queue/runtime/resource facts, deadline/envelope enforcement, retries, and circuit state without direct service control.",
+      "read_models": [
+        "maskfactory_health_capability_snapshot_v2",
+        "maskfactory_bridge_event_v2",
+        "maskfactory_bridge_request_v2",
+        "maskfactory_bridge_result_v2"
+      ]
+    },
+    {
+      "display_name": "Recovery",
+      "field_paths": [
+        "$.reason",
+        "$.affected_refs",
+        "$.required_action",
+        "$.tombstone_sha256",
+        "$.signature_trust",
+        "$.stream_id",
+        "$.sequence",
+        "$.previous_event_sha256",
+        "$.event_sha256",
+        "$.journal_pin",
+        "$.cache_state",
+        "$.blockers"
+      ],
+      "page_id": "recovery",
+      "purpose": "Show trusted signed checkpoint/head replay, fork/deletion/reorder/reseal rejection, invalidation tombstones, reconciliation, cache safety, repair, rollback, and resume state.",
+      "read_models": [
+        "maskfactory_invalidation_event_v2",
+        "maskfactory_bridge_event_v2",
+        "maskfactory_bridge_result_v2"
+      ]
+    },
+    {
+      "display_name": "QA",
+      "field_paths": [
+        "$.qa_record_refs",
+        "$.authority.authority_state",
+        "$.authority.claim_class",
+        "$.criterion_evaluations",
+        "$.eligible_for_intended_use",
+        "$.decision_at",
+        "$.certificate_temporal_evaluation",
+        "$.certificate_signature_trust",
+        "$.policy_sha256",
+        "$.signature_trust",
+        "$.criteria",
+        "$.genuine_runtime_evidence_refs",
+        "$.certificate_scope",
+        "$.media_scope",
+        "$.blockers"
+      ],
+      "page_id": "qa",
+      "purpose": "Show factual QA separately from exact-use authority, accuracy/training claims, signed policy criteria, current certificate/revocation/signer validity, media scope, and genuine runtime evidence.",
+      "read_models": [
+        "maskfactory_bridge_result_v2",
+        "maskfactory_authority_decision_v2",
+        "maskfactory_promotion_gate_policy_v2",
+        "maskfactory_operational_certificate_v2"
+      ]
+    }
+  ],
+  "readiness_projection_contract": {
+    "name": "maskfactory_bridge_readiness_projection_v2",
+    "schema_id": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/maskfactory_bridge_readiness_projection_v2.schema.json",
+    "schema_sha256": "83085766b7c937fb0088e1bfe3afcc1261a38cfab79ce160853bf5dec1a34f47",
+    "schema_version": "2.0.0"
+  },
+  "registry_id": "wave64_maskfactory_bridge_app_read_model_mapping_v2",
+  "runtime_completion_claimed": false,
+  "schema_version": "2.0.0",
+  "updated_at": "2026-07-17T02:20:00-05:00"
+}

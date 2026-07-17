@@ -29,17 +29,20 @@ bundle-solver runtime use, qualification, benchmark, pilot, selector/RAG
 activation, App Mode runtime integration, certificate generation, or
 production routing is authorized.
 
-Before any of that work begins, the main task must receive the user's explicit
-download-complete signal and the control plane must bind:
+Before the user sends the explicit download-complete signal, the main task must
+freeze an expected-download scope manifest defining every intended model binary.
+The scope cannot move merely to make completion pass. After that signal, the
+control plane must bind:
 
-1. an expected-download scope manifest defining every intended model binary;
+1. the already-frozen expected-download scope manifest;
 2. a download-completion manifest with immutable paths or URIs, bytes, and
    hashes and no incomplete transfer files;
-3. a deterministic binary-inventory verification report reconciling the
-   intended scope with zero missing, hash-pending, corrupt, or unresolved
-   assets; and
+3. a deterministic binary-inventory verification report in which
+   `verified + quarantined + failed == expected`, missing/hash-pending/unresolved
+   counts are zero, and every quarantined or failed binary is runtime-ineligible;
+   and
 4. a main-task activation acknowledgement binding the exact package, source,
-   download, inventory, and preservation evidence.
+   scope, download, inventory, and preservation evidence.
 
 The 7,282 catalog rows are not automatically 7,282 distinct binary downloads;
 aliases, revisions, duplicate hashes, and modalities must be reconciled in the
@@ -363,29 +366,32 @@ certificate.
 2. Freeze schemas, authority tiers, lifecycle axes, IDs, and source crosswalk.
 3. Keep all model-library execution deferred while the intended model binaries
    are still being downloaded.
-4. After the user reports completion to the main task, freeze the exact
-   expected-download scope and download-completion manifest.
-5. Run deterministic inventory reconciliation over the completed download and
-   require zero missing, hash-pending, corrupt, incomplete-transfer, or
-   unresolved in-scope assets.
-6. Require the main task to acknowledge the verified evidence and explicitly
+4. Freeze the exact expected-download scope before the user's completion
+   signal; do not shrink or redefine the scope to manufacture completion.
+5. After the user reports completion to the main task, bind the
+   download-completion manifest to that frozen scope.
+6. Run deterministic inventory reconciliation over the completed download;
+   require `verified + quarantined + failed == expected`, zero missing,
+   hash-pending, incomplete-transfer, or unresolved assets, and runtime
+   exclusion of every quarantined or failed binary.
+7. Require the main task to acknowledge the verified evidence and explicitly
    activate staged ingestion. This acknowledgement does not grant model
    capability or production authority.
-7. Run the full Wave30 staging import and contradiction report.
-8. Build hash, dedupe, static inspection, installation, and compatibility
+8. Run the full Wave30 staging import and contradiction report.
+9. Build hash, dedupe, static inspection, installation, and compatibility
    services.
-9. Build the exact execution-bundle compiler and solver.
-10. Build isolated smoke, A/B, sweep, comparison, and benchmark execution.
-11. Build evidence aggregation, profiles, reports, certificates, drift, and
+10. Build the exact execution-bundle compiler and solver.
+11. Build isolated smoke, A/B, sweep, comparison, and benchmark execution.
+12. Build evidence aggregation, profiles, reports, certificates, drift, and
    rollback.
-12. Build hard-filtered contextual ranking and bounded exploration.
-13. Build cited RAG, structured proposals, tool gateway, and role qualification.
-14. Qualify the 187 copy-ready pilot plus representative high-value installed
+13. Build hard-filtered contextual ranking and bounded exploration.
+14. Build cited RAG, structured proposals, tool gateway, and role qualification.
+15. Qualify the 187 copy-ready pilot plus representative high-value installed
     candidates without treating copy-ready as runtime-ready.
-15. Run held-out and shadow selection across image, video, audio, and AV.
-16. Integrate Model Explorer and route explanation into the operator app.
-17. Expand the long tail by demand, coverage, risk, and information value.
-18. Complete release, recovery, security, rollback, and final main-task
+16. Run held-out and shadow selection across image, video, audio, and AV.
+17. Integrate Model Explorer and route explanation into the operator app.
+18. Expand the long tail by demand, coverage, risk, and information value.
+19. Complete release, recovery, security, rollback, and final main-task
     adoption. Final release adoption is separate from the earlier bounded
     activation acknowledgement.
 
@@ -646,8 +652,8 @@ must also remain traceable to the exact source and package revisions.
 ### Row251 - Critic Calibration, Disagreement, Bias, and Adjudication Control
 
 - Workstream: `W64-MI-QA`; phase: `MI-07`; domain: `model_qa`.
-- Action: Measure false accept/reject rates, region and modality coverage, reviewer-version effects, uncertainty calibration, disagreement, and escalation against held-out adjudicated cases.
-- Acceptance: Reviewer observations remain candidate evidence until calibration and policy authorize their exact use; disagreement is retained rather than averaged away.
+- Action: Measure false accept/reject rates, region and modality coverage, reviewer-version effects, uncertainty calibration, disagreement, and escalation against autonomously adjudicated held-out cases.
+- Acceptance: Core panels bind deterministic fixtures, known-defect transforms, frozen expected outcomes, and qualified multi-critic policy; human adjudication is optional independent calibration only.
 - Dependencies: Row060, Row063, Row203, Row204, Row209, Row210, Row211, Row245, Row248, Row249
 - Runtime truth: `deferred_prerequisites_not_satisfied`; activation gate required: `true`.
 

@@ -1,0 +1,57 @@
+{
+  "canonical_payload_security_policy": {
+    "duplicate_object_keys": "reject",
+    "exact_profile_name_version_hash_from_adopted_release_required": true,
+    "nonfinite_numbers": "reject",
+    "payload_hash_and_signature_exclusions_must_match_bound_profile": true,
+    "signature_domain_separation_required": true,
+    "unknown_or_ambiguous_canonicalization_action": "reject_before_hash_or_signature_verification",
+    "wire_encoding": "utf-8"
+  },
+  "dirty_worktree_consumption_allowed": false,
+  "installed_node_pack_implies_compatibility": false,
+  "mutable_latest_allowed": false,
+  "partial_adoption_production_allowed": false,
+  "registry_id": "wave64_maskfactory_bridge_compatibility_policy_v2",
+  "request_authentication_and_replay_policy": {
+    "authenticated_principal_required_for_production": true,
+    "authorization_bound_to_exact_route_and_capability": true,
+    "nonce_required_for_production": true,
+    "nonce_reuse_action": "reject_and_audit",
+    "nonce_uniqueness_scope": "trusted_principal_plus_route_plus_release",
+    "request_payload_hash_bound_to_idempotency_key": true,
+    "timestamp_window_and_clock_skew_source": "exact_adopted_producer_security_profile",
+    "unknown_outcome_must_reconcile_before_resubmit": true
+  },
+  "required_exact_checks": [
+    "release_snapshot_sha256",
+    "wire_schema_name",
+    "schema_source",
+    "schema_id",
+    "schema_version",
+    "schema_sha256",
+    "semantic_invariant_profile_hash",
+    "api_openapi_hash",
+    "package_format_hash",
+    "ontology_hash",
+    "node_pack_hash",
+    "certificate_format_hash",
+    "trusted_signing_key_registry_hash",
+    "release_signature_trust",
+    "journal_checkpoint_head_hash"
+  ],
+  "runtime_completion_claimed": false,
+  "safe_release_import_policy": {
+    "absolute_parent_traversal_drive_unc_and_device_paths": "reject",
+    "atomic_activation_after_full_verification_only": true,
+    "case_collision_and_duplicate_member_names": "reject",
+    "declared_size_and_expansion_limits_required": true,
+    "extract_to_isolated_staging_required": true,
+    "manifest_before_extract_required": true,
+    "post_extract_manifest_hash_verification_required": true,
+    "symlink_hardlink_reparse_escape": "reject"
+  },
+  "schema_version": "2.0.0",
+  "semantic_version_overrides_hash_mismatch": false,
+  "updated_at": "2026-07-17T02:20:00-05:00"
+}

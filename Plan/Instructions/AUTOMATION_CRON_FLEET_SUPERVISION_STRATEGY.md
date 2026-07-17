@@ -317,7 +317,16 @@ Cursor read-only delegation should use ask mode first and must not be counted if
 
 Jira remains a control-plane board only. Do not bulk-create or recreate Jira Stories, Tasks, or Sub-tasks from the local ledger.
 
-Manual gold masks remain a dependency boundary. Do not promote masks, consume candidate masks as truth, rerun Wave70 hard gates, or activate Wave71+ unless the user has explicitly declared the required gold masks ready and the relevant gates pass.
+Manual/human-anchor gold masks are a dependency only when the explicitly selected
+completion profile is `independent_real_accuracy`. Their absence must not block
+`core_autonomous_runtime`, ordinary Wave70 autonomous work, or downstream work
+whose exact intended-use policy accepts an active `maskfactory_autonomous`
+certificate. For core, do not promote a mask until the autonomous certificate,
+lineage, revocation, deterministic QA, and Main policy gates pass. If the optional
+independent-real-accuracy claim is selected, do not issue that separate claim until
+its declared human-anchor evidence and profile-specific gates pass. Wave71+
+activation follows its own exact dependency records; it must not inherit a global
+manual-gold prerequisite from this paragraph.
 
 ## Canonical Worker Package And Monitor Boundary
 

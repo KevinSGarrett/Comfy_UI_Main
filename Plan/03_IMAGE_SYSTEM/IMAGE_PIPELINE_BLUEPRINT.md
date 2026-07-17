@@ -92,7 +92,7 @@ The contract separates four gates:
 ## Current implementation boundary
 
 - Base, control, inpaint/detail, and upscale workflow modules exist, but their runtime and QA scopes differ by lane.
-- Mask, body-shape, hand/contact, and deformation passes remain blocked wherever trusted manual gold-mask or geometry authority is required.
+- Mask, body-shape, hand/contact, and deformation passes remain blocked wherever exact mask/geometry authority is absent. Core authority may come from an active unrevoked exact-output `maskfactory_autonomous` certificate; manual/human anchors are optional and block only explicitly selected independent-accuracy claims.
 - Flux remains blocked on license acceptance, installation, hash verification, and runtime proof.
 - The existing evidence-bound orchestrator plan is local and dry-run-first; it proves planning and evidence linkage, not a completed production render chain.
 - The current promotion manifest is superseded and local-only, has no run manifest or promoted outputs, and correctly blocks final promotion.

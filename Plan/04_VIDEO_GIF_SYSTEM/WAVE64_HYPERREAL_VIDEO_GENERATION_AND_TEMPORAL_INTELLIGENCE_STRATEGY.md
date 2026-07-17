@@ -61,7 +61,10 @@ protected by default.
 ## QA scorecard
 
 Use deterministic geometry/signal metrics, specialist identity and temporal
-models, calibrated VLM review, and blind human comparison. Report per-character,
+models, and qualified calibrated autonomous VLM/critic review for the
+`core_autonomous_runtime` decision. Human-blinded comparison belongs only to the
+optional `independent_perceptual_calibration` profile or a separately recorded
+explicit user override; its absence cannot block or revoke core. Report per-character,
 per-region, per-span, per-shot, and project aggregates. Required slices include
 camera motion, occlusion, low light, fast motion, dialogue, hands, contact,
 multi-character crossings, hair/fabric, reflections, and long-form cuts.

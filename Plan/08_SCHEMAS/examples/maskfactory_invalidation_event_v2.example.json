@@ -1,0 +1,153 @@
+{
+  "affected_refs": [
+    {
+      "record_id": "certificate_fixture_001",
+      "record_type": "maskfactory_operational_certificate_v2",
+      "revision": "r001",
+      "sha256": "8888888888888888888888888888888888888888888888888888888888888888"
+    }
+  ],
+  "causation_id": null,
+  "correlation_id": "invalidation_correlation_fixture_001",
+  "created_at": "2026-07-17T02:20:00-05:00",
+  "dependent_pass_only_by_default": true,
+  "effective_at": "2026-07-17T02:20:00-05:00",
+  "event_id": "invalidation_event_fixture_001",
+  "fixture_only": true,
+  "idempotency_key": "invalidation_idempotency_fixture_001",
+  "invalidation_event_sha256": "1a78dbd8204282cef71a96a27054601f5893f201fe8fd25464e6ac5cc8ccb5c2",
+  "invalidation_hash_profile": "main_domain_separated_sorted_utf8_json_v2_excluding_invalidation_hash_normalization_signature_and_trust_records",
+  "main_enforcement_actions": [
+    "block_and_revalidate"
+  ],
+  "maskfactory_invalidation_event_v2_id": "maskfactory_invalidation_event_v2_fixture_001",
+  "normalization_signature": "fixture-invalidation-normalization-signature",
+  "normalization_signature_domain": "comfy_ui_main.maskfactory_invalidation_event.v2",
+  "occurred_at": "2026-07-17T02:20:00-05:00",
+  "producer_evidence_sha256": "8888888888888888888888888888888888888888888888888888888888888888",
+  "producer_identity": "maskfactory",
+  "producer_invalidation_policy_ref": {
+    "record_id": "maskfactory_invalidation_reason_policy_v1",
+    "record_type": "maskfactory_invalidation_reason_policy",
+    "revision": "1.0.0",
+    "sha256": "0dc09f41f46f9f364fb72ee092a9c808887d5bf95d2827d7990329b81cb1a0b3"
+  },
+  "producer_invalidation_policy_sha256": "0dc09f41f46f9f364fb72ee092a9c808887d5bf95d2827d7990329b81cb1a0b3",
+  "producer_payload_preserved_losslessly": true,
+  "producer_payload_ref": {
+    "record_id": "producer_invalidation_fixture_001",
+    "record_type": "mask_authority_invalidation_event",
+    "revision": "r001",
+    "sha256": "9999999999999999999999999999999999999999999999999999999999999999"
+  },
+  "producer_payload_sha256": "9999999999999999999999999999999999999999999999999999999999999999",
+  "producer_signature": "fixture-producer-invalidation-signature",
+  "producer_signature_domain": "maskfactory.sha256_digest_bytes.v1",
+  "producer_signature_trust": {
+    "embedded_public_key_is_trust_anchor": false,
+    "embedded_public_key_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "key_status": "fixture_untrusted",
+    "signature_algorithm": "fixture_local_hash_attestation",
+    "signature_verified": true,
+    "signer_role": "maskfactory_invalidation_signer",
+    "signing_key_id": "maskfactory_fixture_signer",
+    "trust_anchor_matched": false,
+    "trust_anchor_source": "main_out_of_band_trusted_key_registry",
+    "trust_result": "fixture_only_untrusted",
+    "trusted_key_entry_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "trusted_key_registry_ref": {
+      "record_id": "main_maskfactory_trust_registry_fixture",
+      "record_type": "trusted_signing_key_registry",
+      "revision": "r001",
+      "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    "verification_evidence_ref": {
+      "record_id": "signature_verification_maskfactory_fixture_signer",
+      "record_type": "signature_verification_evidence",
+      "revision": "r001",
+      "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+    },
+    "verified_at": "2026-07-17T02:20:00-05:00"
+  },
+  "reason": "certificate_revoked",
+  "record_type": "maskfactory_invalidation_event_v2",
+  "required_actions": [
+    {
+      "action": "block_dependent_pass",
+      "action_id": "action_block_fixture_001",
+      "deadline_at": "2026-07-17T02:20:00-05:00",
+      "transition_ids": [
+        "transition_fixture_001"
+      ],
+      "verification_evidence_required": true,
+      "verification_policy_sha256": "7777777777777777777777777777777777777777777777777777777777777777"
+    },
+    {
+      "action": "revalidate_adoption",
+      "action_id": "action_revalidate_fixture_001",
+      "deadline_at": "2026-07-17T02:20:00-05:00",
+      "transition_ids": [
+        "transition_fixture_001"
+      ],
+      "verification_evidence_required": true,
+      "verification_policy_sha256": "7777777777777777777777777777777777777777777777777777777777777777"
+    }
+  ],
+  "revision": "r001",
+  "rollback_binding": null,
+  "runtime_completion_claimed": false,
+  "schema_version": "2.0.0",
+  "sequence": 1,
+  "severity": "blocking",
+  "signature_trust": {
+    "embedded_public_key_is_trust_anchor": false,
+    "embedded_public_key_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "key_status": "fixture_untrusted",
+    "signature_algorithm": "fixture_local_hash_attestation",
+    "signature_verified": true,
+    "signer_role": "main_normalization_signer",
+    "signing_key_id": "maskfactory_fixture_signer",
+    "trust_anchor_matched": false,
+    "trust_anchor_source": "main_out_of_band_trusted_key_registry",
+    "trust_result": "fixture_only_untrusted",
+    "trusted_key_entry_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "trusted_key_registry_ref": {
+      "record_id": "main_maskfactory_trust_registry_fixture",
+      "record_type": "trusted_signing_key_registry",
+      "revision": "r001",
+      "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    "verification_evidence_ref": {
+      "record_id": "signature_verification_maskfactory_fixture_signer",
+      "record_type": "signature_verification_evidence",
+      "revision": "r001",
+      "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+    },
+    "verified_at": "2026-07-17T02:20:00-05:00"
+  },
+  "stream_id": "maskfactory_invalidation_fixture_stream",
+  "supersedes_invalidation_ref": null,
+  "superseding_binding": null,
+  "target_transitions": [
+    {
+      "main_target_ref": {
+        "record_id": "certificate_fixture_001",
+        "record_type": "maskfactory_operational_certificate_v2",
+        "revision": "r001",
+        "sha256": "8888888888888888888888888888888888888888888888888888888888888888"
+      },
+      "new_authority_state": "invalid",
+      "new_certificate_status": "revoked",
+      "previous_authority_state": "certified",
+      "previous_certificate_status": "active",
+      "reason_code": "certificate_revoked",
+      "scope_sha256": "6666666666666666666666666666666666666666666666666666666666666666",
+      "target_id": "certificate_fixture_001",
+      "target_kind": "certificate",
+      "target_sha256": "8888888888888888888888888888888888888888888888888888888888888888",
+      "transition_id": "transition_fixture_001",
+      "unrelated_scope_preserved": true
+    }
+  ],
+  "tombstone_sha256": "9999999999999999999999999999999999999999999999999999999999999999"
+}

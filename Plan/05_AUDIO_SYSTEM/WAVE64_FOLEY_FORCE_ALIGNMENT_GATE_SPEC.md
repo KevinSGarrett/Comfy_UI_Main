@@ -145,6 +145,15 @@ No `PASS` gate may contain blockers.
 
 Gold-mask handling is evaluated from `visual_contact_manifest.contact_authority` rather than owner-ID substring inference.
 
+For this gate, `gold_mask` means an authority-qualified exact mask, not
+necessarily a human/manual annotation. For `core_autonomous_runtime`, a mask
+qualifies when it comes from an adopted MaskFactory release or exact output and
+has an active, unrevoked, scope/source/output/owner/transform/lineage-matching
+`maskfactory_autonomous` certificate plus the required deterministic QA and Main
+policy decision. A `human_anchor_optional` mask may satisfy a separately
+selected `independent_real_accuracy` profile, but its absence cannot block the
+core Foley path.
+
 - If `authority_scope` includes body/contact and `gold_mask_dependency_status` is `missing`, both `av_event_alignment_review` and `production_alignment_authority` are `BLOCKED` with `Blocked_Gold_Mask_Authority_Missing`.
 - `production_trust_claim` is self-reported and never sufficient for production authority. An exact allowlisted, non-revoked bundle remains mandatory.
 - `production_alignment_authority` cannot pass when any event binding, frame alignment, presence, false-event, A/V review, or runtime prerequisite is failed or blocked.
