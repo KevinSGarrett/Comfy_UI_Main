@@ -1,0 +1,282 @@
+{
+  "invalidation_reasons": {
+    "api_contract_changed": {
+      "required_actions": [
+        "refresh_contract",
+        "revalidate_adoption"
+      ],
+      "target_kinds": [
+        "api_contract"
+      ]
+    },
+    "artifact_hash_drift": {
+      "required_actions": [
+        "quarantine_artifact",
+        "revalidate_adoption"
+      ],
+      "target_kinds": [
+        "artifact"
+      ]
+    },
+    "artifact_invalidated": {
+      "required_actions": [
+        "revalidate_adoption",
+        "tombstone_cached_artifact"
+      ],
+      "target_kinds": [
+        "artifact"
+      ]
+    },
+    "capability_policy_changed": {
+      "required_actions": [
+        "refresh_capability_snapshot",
+        "revalidate_adoption"
+      ],
+      "target_kinds": [
+        "capability_snapshot",
+        "policy"
+      ]
+    },
+    "capability_snapshot_changed": {
+      "required_actions": [
+        "refresh_capability_snapshot",
+        "revalidate_adoption"
+      ],
+      "target_kinds": [
+        "capability_snapshot"
+      ]
+    },
+    "certificate_expired": {
+      "required_actions": [
+        "block_dependent_pass",
+        "revalidate_adoption"
+      ],
+      "target_kinds": [
+        "certificate"
+      ]
+    },
+    "certificate_revoked": {
+      "required_actions": [
+        "block_dependent_pass",
+        "revalidate_adoption"
+      ],
+      "target_kinds": [
+        "certificate"
+      ]
+    },
+    "consumer_adoption_key_revoked": {
+      "required_actions": [
+        "revalidate_adoption",
+        "rotate_trust_anchor"
+      ],
+      "target_kinds": [
+        "signing_key"
+      ]
+    },
+    "consumer_adoption_key_rotated": {
+      "required_actions": [
+        "revalidate_adoption",
+        "rotate_trust_anchor"
+      ],
+      "target_kinds": [
+        "signing_key"
+      ]
+    },
+    "consumer_requirements_changed": {
+      "required_actions": [
+        "refresh_consumer_requirements",
+        "revalidate_adoption"
+      ],
+      "target_kinds": [
+        "consumer_requirements"
+      ]
+    },
+    "node_pack_changed": {
+      "required_actions": [
+        "reinstall_node_pack",
+        "revalidate_adoption"
+      ],
+      "target_kinds": [
+        "node_pack"
+      ]
+    },
+    "ontology_changed": {
+      "required_actions": [
+        "refresh_contract",
+        "revalidate_adoption"
+      ],
+      "target_kinds": [
+        "ontology"
+      ]
+    },
+    "package_format_changed": {
+      "required_actions": [
+        "refresh_contract",
+        "revalidate_adoption"
+      ],
+      "target_kinds": [
+        "package_format"
+      ]
+    },
+    "package_invalidated": {
+      "required_actions": [
+        "invalidate_cache",
+        "revalidate_adoption"
+      ],
+      "target_kinds": [
+        "package"
+      ]
+    },
+    "producer_signing_key_revoked": {
+      "required_actions": [
+        "revalidate_adoption",
+        "rotate_trust_anchor"
+      ],
+      "target_kinds": [
+        "signing_key"
+      ]
+    },
+    "producer_signing_key_rotated": {
+      "required_actions": [
+        "revalidate_adoption",
+        "rotate_trust_anchor"
+      ],
+      "target_kinds": [
+        "signing_key"
+      ]
+    },
+    "provider_stack_changed": {
+      "required_actions": [
+        "reroute_to_eligible_authority",
+        "revalidate_adoption"
+      ],
+      "target_kinds": [
+        "execution_fingerprint",
+        "provider_stack"
+      ]
+    },
+    "qa_regression": {
+      "required_actions": [
+        "block_dependent_pass",
+        "quarantine_artifact"
+      ],
+      "target_kinds": [
+        "artifact",
+        "certificate",
+        "provider_stack"
+      ]
+    },
+    "release_revoked": {
+      "required_actions": [
+        "revalidate_adoption",
+        "rollback_release"
+      ],
+      "target_kinds": [
+        "release"
+      ]
+    },
+    "release_superseded": {
+      "required_actions": [
+        "refresh_release",
+        "revalidate_adoption"
+      ],
+      "target_kinds": [
+        "release"
+      ]
+    },
+    "revocation_checkpoint_stale": {
+      "required_actions": [
+        "refresh_revocation_checkpoint",
+        "revalidate_adoption"
+      ],
+      "target_kinds": [
+        "journal_checkpoint"
+      ]
+    },
+    "semantic_invariant_profile_changed": {
+      "required_actions": [
+        "refresh_contract",
+        "revalidate_adoption"
+      ],
+      "target_kinds": [
+        "semantic_profile"
+      ]
+    },
+    "signed_journal_fork_detected": {
+      "required_actions": [
+        "reject_forked_journal",
+        "revalidate_adoption"
+      ],
+      "target_kinds": [
+        "journal_checkpoint"
+      ]
+    },
+    "signed_journal_stale": {
+      "required_actions": [
+        "replay_signed_journal",
+        "revalidate_adoption"
+      ],
+      "target_kinds": [
+        "journal_checkpoint"
+      ]
+    },
+    "trust_policy_changed": {
+      "required_actions": [
+        "revalidate_adoption",
+        "rotate_trust_anchor"
+      ],
+      "target_kinds": [
+        "policy",
+        "trust_policy"
+      ]
+    },
+    "validity_expired": {
+      "required_actions": [
+        "expire_adoption",
+        "revalidate_adoption"
+      ],
+      "target_kinds": [
+        "adoption_receipt"
+      ]
+    },
+    "wire_schema_changed": {
+      "required_actions": [
+        "refresh_contract",
+        "revalidate_adoption"
+      ],
+      "target_kinds": [
+        "wire_schema"
+      ]
+    }
+  },
+  "policy_version": "1.0.0",
+  "revalidation_triggers": [
+    "api_contract_changed",
+    "artifact_hash_drift",
+    "artifact_invalidated",
+    "capability_policy_changed",
+    "capability_snapshot_changed",
+    "certificate_expired",
+    "certificate_revoked",
+    "consumer_adoption_key_revoked",
+    "consumer_adoption_key_rotated",
+    "consumer_requirements_changed",
+    "node_pack_changed",
+    "ontology_changed",
+    "package_format_changed",
+    "package_invalidated",
+    "producer_signing_key_revoked",
+    "producer_signing_key_rotated",
+    "provider_stack_changed",
+    "qa_regression",
+    "release_revoked",
+    "release_superseded",
+    "revocation_checkpoint_stale",
+    "semantic_invariant_profile_changed",
+    "signed_journal_fork_detected",
+    "signed_journal_stale",
+    "trust_policy_changed",
+    "validity_expired",
+    "wire_schema_changed"
+  ]
+}

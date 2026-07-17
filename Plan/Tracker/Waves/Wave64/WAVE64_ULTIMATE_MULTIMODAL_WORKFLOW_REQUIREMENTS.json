@@ -12,6 +12,24 @@
   "runtime_complete": false,
   "content_based_suppression": false,
   "completion_rule": "Planning never counts as implementation, runtime, artifact, engine, model, workflow, mask, QA, promotion, or release completion.",
+  "perceptual_review_profile_policy": {
+    "core_autonomous_runtime": {
+      "review_authority": "deterministic_validators_plus_qualified_calibrated_autonomous_critics_plus_signed_policy",
+      "human_visual_listening_or_operator_approval_required": false,
+      "human_absence_can_block_or_revoke_core": false,
+      "runtime_proof_requirements_preserved": true
+    },
+    "independent_perceptual_calibration": {
+      "required_for_core_release": false,
+      "human_blind_visual_listening_or_adjudication_allowed": true,
+      "authority": "optional_calibration_evidence_only"
+    },
+    "explicit_user_override": {
+      "default_or_implicit": false,
+      "must_be_separately_recorded_and_policy_authorized": true,
+      "can_waive_never_waivable_core_failure": false
+    }
+  },
   "workstreams": [
     {
       "workstream": "W64-MCM-GOV",
@@ -386,7 +404,7 @@
         "ITEM-W64-154"
       ],
       "runtime_proof_required": true,
-      "review_method": "face/body view grid and voice-reference listening review",
+      "review_method": "core_autonomous_runtime face/body validators plus qualified voice-reference similarity and intelligibility critics; human listening is optional independent_perceptual_calibration",
       "mandatory_evidence": [
         "implementation_hashes",
         "tests",
@@ -711,7 +729,7 @@
         "ITEM-W64-166"
       ],
       "runtime_proof_required": true,
-      "review_method": "blinded side-by-side media review for rank calibration",
+      "review_method": "core_autonomous_runtime deterministic blinded candidate IDs plus qualified calibrated critic ranking; human side-by-side review is optional independent_perceptual_calibration",
       "mandatory_evidence": [
         "implementation_hashes",
         "tests",
@@ -875,7 +893,7 @@
         "ITEM-W64-171"
       ],
       "runtime_proof_required": true,
-      "review_method": "mandatory blinded cross-engine comparison",
+      "review_method": "core_autonomous_runtime deterministic cross-engine metrics plus qualified calibrated critics over blinded engine IDs; human comparison is optional independent_perceptual_calibration",
       "mandatory_evidence": [
         "implementation_hashes",
         "tests",
@@ -1515,7 +1533,7 @@
         "ITEM-W64-189"
       ],
       "runtime_proof_required": true,
-      "review_method": "isolated-stem and complete-mix listening review",
+      "review_method": "core_autonomous_runtime isolated-stem and complete-mix signal validators plus qualified audio critics; human listening is optional independent_perceptual_calibration",
       "mandatory_evidence": [
         "implementation_hashes",
         "tests",
@@ -1598,7 +1616,7 @@
         "ITEM-W64-191"
       ],
       "runtime_proof_required": true,
-      "review_method": "mandatory full-duration listening review",
+      "review_method": "core_autonomous_runtime full-duration deterministic audio QA plus qualified calibrated critics and signed policy; human listening is optional independent_perceptual_calibration",
       "mandatory_evidence": [
         "implementation_hashes",
         "tests",
@@ -1999,7 +2017,7 @@
         "ITEM-W64-203"
       ],
       "runtime_proof_required": true,
-      "review_method": "blind held-out multimodal evaluation",
+      "review_method": "core_autonomous_runtime held-out deterministic benchmarks and qualified independent model critics over blinded identities; human adjudication is optional independent_perceptual_calibration",
       "mandatory_evidence": [
         "implementation_hashes",
         "tests",
@@ -2172,7 +2190,7 @@
         "ITEM-W64-208"
       ],
       "runtime_proof_required": true,
-      "review_method": "visual and audio metric adjudication sets",
+      "review_method": "core_autonomous_runtime deterministic visual/audio adjudication sets plus qualified calibrated critics; human calibration is optional independent_perceptual_calibration",
       "mandatory_evidence": [
         "implementation_hashes",
         "tests",
@@ -2235,7 +2253,7 @@
         "ITEM-W64-210"
       ],
       "runtime_proof_required": true,
-      "review_method": "blinded multimodal adjudication",
+      "review_method": "core_autonomous_runtime blinded-ID deterministic evidence plus qualified calibrated multimodal critic adjudication and signed policy; human adjudication is optional independent_perceptual_calibration",
       "mandatory_evidence": [
         "implementation_hashes",
         "tests",

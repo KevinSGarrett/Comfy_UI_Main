@@ -1,3 +1,13 @@
+## Current Mask Authority Supersession - 2026-07-17
+
+Do not interpret historical manual body-gold language below as a global blocker
+for `core_autonomous_runtime`. Core may use an active, unexpired, unrevoked
+exact-output `maskfactory_autonomous` certificate through the adopted v2 bridge.
+Human anchors and `Blocked_Independent_Anchor_Dependency_Missing` apply only to
+optional `independent_real_accuracy` claims or rows explicitly requiring that
+profile. Candidate/draft masks remain non-authoritative, and no independent
+accuracy claim may be made without its selected evidence.
+
 ## Next Action - FLUX.2 Klein Proven; Resolve FLUX.2 Dev Target Runtime - 2026-07-16
 
 FLUX.2 Klein 4B distilled is now a bounded local-first lane. Its exact three-file stack is hash-registered and visible to ComfyUI; separate four-step 512x512 text-to-image and single-reference-edit graphs ran on the local 8 GB GPU; 27/27 proof checks, direct visual QA, a matched-seed FLUX.1/RealVisXL comparison, the fail-closed capability router, and the 11-lane model-registry coverage gate pass. Do not rerun the exact product prompt, seeds, or recolor input.

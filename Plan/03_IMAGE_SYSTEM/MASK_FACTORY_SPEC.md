@@ -72,6 +72,9 @@ For body-shape edits:
 
 Schema validity and bounded local inpaint/contact-mask behavior are supporting
 evidence, not trusted spatial truth. Body, body-part, hand, and contact authority
-must remain blocked until evaluator-only manual gold masks are available and pass
-the dependency gate. Candidate or guarded masks must not be promoted, consumed as
-truth, or used to activate later waves.
+must remain blocked until an active exact-output MaskFactory certificate passes
+the adopted release, source/output, owner, transform, QA, scope, signature, and
+revocation gates. For core, the issuer may be `maskfactory_autonomous`;
+human-anchor masks are optional and gate only `independent_real_accuracy`.
+Candidate, draft, guarded, expired, revoked, or unbound masks must not be
+promoted, consumed as truth, or used to activate later waves.

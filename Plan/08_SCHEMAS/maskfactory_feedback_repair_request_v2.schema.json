@@ -1,0 +1,102 @@
+{
+  "$id": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/maskfactory_feedback_repair_request_v2.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "affected_mask_refs": {
+      "items": {
+        "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/immutable_ref"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "authority_change_requested": {
+      "const": false
+    },
+    "created_at": {
+      "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/timestamp"
+    },
+    "defect_codes": {
+      "items": {
+        "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/id"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "direct_gold_mutation_requested": {
+      "const": false
+    },
+    "fixture_only": {
+      "type": "boolean"
+    },
+    "hypothesis_id": {
+      "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/id"
+    },
+    "localized_region_ref": {
+      "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/immutable_ref"
+    },
+    "maskfactory_feedback_repair_request_v2_id": {
+      "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/id"
+    },
+    "qa_evidence_refs": {
+      "items": {
+        "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/immutable_ref"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "record_type": {
+      "const": "maskfactory_feedback_repair_request_v2"
+    },
+    "requested_action": {
+      "enum": [
+        "review",
+        "re_predict",
+        "refine",
+        "requalify_route",
+        "issue_invalidation"
+      ]
+    },
+    "response_expected_via_release_or_event": {
+      "const": true
+    },
+    "revision": {
+      "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/id"
+    },
+    "runtime_completion_claimed": {
+      "const": false
+    },
+    "schema_version": {
+      "const": "2.0.0"
+    },
+    "source_artifact": {
+      "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/source_artifact"
+    },
+    "source_result_ref": {
+      "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/immutable_ref"
+    }
+  },
+  "required": [
+    "schema_version",
+    "record_type",
+    "maskfactory_feedback_repair_request_v2_id",
+    "revision",
+    "created_at",
+    "fixture_only",
+    "runtime_completion_claimed",
+    "source_result_ref",
+    "source_artifact",
+    "affected_mask_refs",
+    "defect_codes",
+    "localized_region_ref",
+    "qa_evidence_refs",
+    "requested_action",
+    "hypothesis_id",
+    "direct_gold_mutation_requested",
+    "authority_change_requested",
+    "response_expected_via_release_or_event"
+  ],
+  "title": "maskfactory_feedback_repair_request_v2",
+  "type": "object"
+}

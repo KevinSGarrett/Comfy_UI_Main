@@ -1,0 +1,81 @@
+{
+  "allowed_claim_classes": [
+    "machine_candidate",
+    "qa_passed_machine_candidate",
+    "operationally_certified_artifact"
+  ],
+  "allowed_issuer_kinds": [
+    "maskfactory_autonomous",
+    "human_anchor_optional"
+  ],
+  "completion_profile": "core_autonomous_runtime",
+  "created_at": "2026-07-17T02:20:00-05:00",
+  "embedded_public_key_may_establish_trust": false,
+  "fixture_only": true,
+  "human_anchor_required_for_core": false,
+  "maskfactory_consumer_requirements_v2_id": "maskfactory_consumer_requirements_v2_fixture_001",
+  "maximum_latency_ms": 30000,
+  "maximum_person_count": 4,
+  "minimum_authority_state": "draft",
+  "record_type": "maskfactory_consumer_requirements_v2",
+  "required_certificate_scope": [
+    "mask_target_edit"
+  ],
+  "required_contract_bindings": [
+    {
+      "schema_id": "https://maskfactory.local/schemas/mask_acquisition_request.schema.json",
+      "schema_sha256": "2160fd336a8ab25c25dd86babe418c7f2cf072a341c7e7bd94c00743e9103f72",
+      "schema_source": "maskfactory_release://contracts/mask_acquisition_request.schema.json",
+      "schema_version": "1.0.0",
+      "wire_schema_name": "mask_acquisition_request"
+    },
+    {
+      "schema_id": "https://maskfactory.local/schemas/mask_acquisition_receipt.schema.json",
+      "schema_sha256": "2a16bf9fe3f9e46e14c02a1cee287f09a821eca20023124d852a4aaf5dc5f18d",
+      "schema_source": "maskfactory_release://contracts/mask_acquisition_receipt.schema.json",
+      "schema_version": "1.0.0",
+      "wire_schema_name": "mask_acquisition_receipt"
+    },
+    {
+      "schema_id": "https://maskfactory.local/schemas/operational_autonomy_certificate.schema.json",
+      "schema_sha256": "9846b5afb7898a0af6f9b8f7169fe1eb5cc71ded1a3c0c37b28ed281d849bee8",
+      "schema_source": "maskfactory_release://contracts/operational_autonomy_certificate.schema.json",
+      "schema_version": "1.0.0",
+      "wire_schema_name": "operational_autonomy_certificate"
+    }
+  ],
+  "required_labels": [
+    "person",
+    "hand",
+    "face",
+    "hair",
+    "clothing"
+  ],
+  "required_signature_algorithm": "ed25519",
+  "required_signing_key_ids": [
+    "maskfactory_production_signer_001"
+  ],
+  "required_transform_operations": [
+    "identity",
+    "crop",
+    "resize",
+    "pad",
+    "horizontal_flip",
+    "project"
+  ],
+  "revision": "r001",
+  "runtime_completion_claimed": false,
+  "scale_daz_required_for_core": false,
+  "schema_version": "2.0.0",
+  "supported_access_modes": [
+    "mode_a_package_read",
+    "mode_b_live_predict",
+    "mode_b_live_refine"
+  ],
+  "trusted_signing_key_registry_ref": {
+    "record_id": "main_maskfactory_trust_registry_fixture",
+    "record_type": "trusted_signing_key_registry",
+    "revision": "r001",
+    "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  }
+}

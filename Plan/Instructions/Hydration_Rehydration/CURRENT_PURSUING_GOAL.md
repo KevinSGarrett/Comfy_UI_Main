@@ -1,3 +1,14 @@
+## Current Mask Authority Supersession - 2026-07-17
+
+Historical manual body-gold instructions below are not current global
+`core_autonomous_runtime` blockers. Core may use an active, unexpired,
+unrevoked exact-output `maskfactory_autonomous` certificate through the adopted
+v2 bridge. Human anchors and
+`Blocked_Independent_Anchor_Dependency_Missing` apply only to optional
+`independent_real_accuracy` claims or rows explicitly selecting that profile.
+Candidate/draft masks remain non-authoritative; no false independent claim or
+automatic Wave71+ activation follows.
+
 ## Current Pursuing Goal - FLUX.2 Dev After Bounded Klein Pass - 2026-07-16
 
 The first honest FLUX.2 delivery is complete at bounded local scope: Klein 4B distilled has immutable assets, separate T2I/edit graphs, active-lane registration, genuine local outputs, direct visual QA, matched-seed FLUX.1/RealVisXL comparison, and fail-closed capability routing. The local-first lane is usable for its proven scope but is not the production default and does not establish broad prompt, subject, seed, resolution, identity, or production robustness.
@@ -7463,3 +7474,29 @@ Evidence: `Plan/Instructions/QA/Evidence/Wave64/W64_CV3_EVAL_LOCAL_CALIBRATION_2
 Continue the full autonomous ComfyUI project goal from authoritative `C:\Comfy_UI_Main`. The exact licensed emotion2vec+ large execution path and complete 300-reference CV3 calibration now pass as an implemented capability, while Rows025/027/031 correctly remain blocked on candidate emotion taxonomy, independent playback, reference-speaker identity, production authority, and final certification.
 
 Preserve candidate SHA-256 `18b6d51cca9d9c5541bac621c09fd9059f521d8969ba5b25fa881c9284180c73`. Its observed `neutral` score does not satisfy the unsupported `focused` / `controlled` contract and must not be promoted through an inferred mapping. Merge the bounded calibration batch through protected CI, then continue a genuine non-duplicative audio/runtime outcome without reopening completed generation, AWS/EC2 work, masks, Wave71+, or Jira.
+
+## Current Mask Authority and Bridge Supersession - 2026-07-17T05:15:00-05:00
+
+For all work after this entry, historical statements that manual or human body
+gold masks globally block the autonomous ComfyUI core are superseded. They remain
+historical evidence and may still govern the optional
+`independent_real_accuracy` profile when that profile is explicitly selected,
+but they are not a dependency for `core_autonomous_runtime`.
+
+Core mask authority must use the autonomous MaskFactory path defined by
+Rows321-348 and the exact signed bridge contracts. A mask may support a core
+dependent pass only after the actual non-fixture MaskFactory release and Main
+adoption are active, its exact artifact has the required current operational
+certificate/claim/scope, the signed journal and revocation state are current,
+and deterministic Main policy admits that exact intended use. Candidate,
+fixture, stale, revoked, ownership-ambiguous, transform-mismatched, or
+uncertified masks remain blocked. No human anchor is required for this core path.
+
+Do not interpret this supersession as runtime completion or automatic promotion.
+Rows321-348 remain planned autonomous implementation work, producer schema pins
+remain provisional until the final frozen MaskFactory release packet, and all
+historical mask-dependent rows must be re-evaluated against the new exact
+authority contract rather than silently marked complete. Preserve and formally
+adopt the package identified by
+`Plan/Instructions/Hydration_Rehydration/MASKFACTORY_AUTONOMOUS_BRIDGE_MAIN_SESSION_HANDOFF.md`;
+do not delete it as dirty or unrelated work.

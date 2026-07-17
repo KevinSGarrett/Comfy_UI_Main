@@ -35,7 +35,15 @@ A mask type is not complete until all of the following are true:
 
 Follow `Plan/Instructions/QA/MASK_PROMOTION_HARD_GATE_PROTOCOL.md` before any mask promotion. The validator is intentionally fail-closed: if the source/overlay/boundary evidence, protected-neighbor proof, user-dispute status, reference matrix, or target-runtime proof is missing or ambiguous, the mask remains blocked or needs-revision.
 
-Follow `Plan/Instructions/QA/GOLD_STANDARD_MASK_DEPENDENCY_GATE_PROTOCOL.md` when manual gold-standard masks are still being created or have not yet passed intake. Rows that depend on those masks must stay `Blocked_Gold_Mask_Dependency_Missing`. This blocks only mask-dependent promotion, authority, certification, and Wave71+ activation claims; it does not block unrelated workflow structure, orchestration, evidence/logging, automation, dataset organization, validation scaffolding, or non-mask asset work.
+Follow `Plan/Instructions/QA/GOLD_STANDARD_MASK_DEPENDENCY_GATE_PROTOCOL.md`
+only when an optional `independent_real_accuracy` claim explicitly requires
+human anchors; use `Blocked_Independent_Anchor_Dependency_Missing` for that
+scope. Core promotion/geometry/certification may instead use an active,
+unexpired, unrevoked exact-output `maskfactory_autonomous` certificate whose
+adopted release, capability, access mode, execution stack, source/output, owner,
+transform, QA, scope, signature, and revocation bindings pass. Candidate/draft
+masks remain non-authoritative, and neither path promotes downstream artifacts
+without their own gates.
 
 Follow `Plan/Instructions/QA/MODEL_BACKED_GEOMETRY_AUTHORITY_PROTOCOL.md` before geometry or semantic mask alignment. Fine anatomy must be derived from source-specific landmark, parsing, promptable segmentation, visibility/occlusion, and consensus evidence. Canny/Haar/rectangle panels are diagnostic only.
 

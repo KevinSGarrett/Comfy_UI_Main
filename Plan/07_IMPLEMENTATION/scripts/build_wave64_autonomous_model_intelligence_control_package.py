@@ -13,7 +13,7 @@ import csv
 import hashlib
 import io
 import json
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from pathlib import Path, PureWindowsPath
 from typing import Any
 
@@ -267,7 +267,7 @@ ROWS: list[PlanRow] = [
             "Deterministic, Perceptual, VLM, Audio-Critic, and Playback QA Ensemble",
             "Evaluate technical validity, effect accuracy, target fidelity, identity, anatomy, preservation, mask leakage, temporal behavior, audio quality, sync, resource stability, and lineage.",
             "Hard facts remain deterministic, critics emit scoped observations with uncertainty, and no single scalar or reviewer overrides a hard failure.",
-            (16, 17, 18, 21, 30, 32, 33, 34, 60, 103, 106, 131, 141, 209, 211, 233, 234, 241, 245), True, "adjudicated image, video, audio, and AV panels"),
+            (16, 17, 18, 21, 30, 32, 33, 34, 60, 103, 106, 131, 141, 209, 211, 233, 234, 241, 245), True, "autonomously adjudicated image, video, audio, and AV reference panels"),
     PlanRow(250, "W64-MI-QA", "MI-07", "model_qa", "attribution",
             "Baseline, Counterfactual, Ablation, and Stack Attribution Protocol",
             "Compare no-adapter baselines, matched seeds, component ablations, alternative bundles, strength curves, and protected outputs to isolate actual model contribution.",
@@ -275,9 +275,9 @@ ROWS: list[PlanRow] = [
             (63, 167, 172, 176, 209, 211, 231, 233, 234, 235, 241, 249), True, "paired comparison, ablation, and confound tests"),
     PlanRow(251, "W64-MI-QA", "MI-07", "model_qa", "calibration",
             "Critic Calibration, Disagreement, Bias, and Adjudication Control",
-            "Measure false accept/reject rates, region and modality coverage, reviewer-version effects, uncertainty calibration, disagreement, and escalation against held-out adjudicated cases.",
-            "Reviewer observations remain candidate evidence until calibration and policy authorize their exact use; disagreement is retained rather than averaged away.",
-            (60, 63, 203, 204, 209, 210, 211, 245, 248, 249), True, "blinded held-out calibration and disagreement tests"),
+            "Measure false accept/reject rates, region and modality coverage, reviewer-version effects, uncertainty calibration, disagreement, and escalation against autonomously adjudicated held-out cases.",
+            "Core panels bind deterministic fixtures, known-defect transforms, frozen expected outcomes, and qualified multi-critic policy; human adjudication is optional independent calibration only.",
+            (60, 63, 203, 204, 209, 210, 211, 245, 248, 249), True, "autonomous blinded held-out calibration and disagreement tests"),
     PlanRow(252, "W64-MI-QA", "MI-07", "model_qa", "decision_audit",
             "Selection Decision Audit, Model Report, and Promotion Gate",
             "Package candidate exclusions, rank features, uncertainty, selected bundle, execution, QA, comparison, observation, performance delta, certificate, and policy outcome.",
@@ -620,7 +620,8 @@ def build_schemas() -> dict[str, dict[str, Any]]:
                     "authority": {
                         "enum": [
                             "deterministic", "calibrated_metric", "vlm_observation",
-                            "audio_critic_observation", "human_adjudication",
+                            "audio_critic_observation", "autonomous_adjudicated_panel",
+                            "human_adjudication",
                         ]
                     },
                     "confidence": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
@@ -3312,17 +3313,20 @@ bundle-solver runtime use, qualification, benchmark, pilot, selector/RAG
 activation, App Mode runtime integration, certificate generation, or
 production routing is authorized.
 
-Before any of that work begins, the main task must receive the user's explicit
-download-complete signal and the control plane must bind:
+Before the user sends the explicit download-complete signal, the main task must
+freeze an expected-download scope manifest defining every intended model binary.
+The scope cannot move merely to make completion pass. After that signal, the
+control plane must bind:
 
-1. an expected-download scope manifest defining every intended model binary;
+1. the already-frozen expected-download scope manifest;
 2. a download-completion manifest with immutable paths or URIs, bytes, and
    hashes and no incomplete transfer files;
-3. a deterministic binary-inventory verification report reconciling the
-   intended scope with zero missing, hash-pending, corrupt, or unresolved
-   assets; and
+3. a deterministic binary-inventory verification report in which
+   `verified + quarantined + failed == expected`, missing/hash-pending/unresolved
+   counts are zero, and every quarantined or failed binary is runtime-ineligible;
+   and
 4. a main-task activation acknowledgement binding the exact package, source,
-   download, inventory, and preservation evidence.
+   scope, download, inventory, and preservation evidence.
 
 The 7,282 catalog rows are not automatically 7,282 distinct binary downloads;
 aliases, revisions, duplicate hashes, and modalities must be reconciled in the
@@ -3646,29 +3650,32 @@ certificate.
 2. Freeze schemas, authority tiers, lifecycle axes, IDs, and source crosswalk.
 3. Keep all model-library execution deferred while the intended model binaries
    are still being downloaded.
-4. After the user reports completion to the main task, freeze the exact
-   expected-download scope and download-completion manifest.
-5. Run deterministic inventory reconciliation over the completed download and
-   require zero missing, hash-pending, corrupt, incomplete-transfer, or
-   unresolved in-scope assets.
-6. Require the main task to acknowledge the verified evidence and explicitly
+4. Freeze the exact expected-download scope before the user's completion
+   signal; do not shrink or redefine the scope to manufacture completion.
+5. After the user reports completion to the main task, bind the
+   download-completion manifest to that frozen scope.
+6. Run deterministic inventory reconciliation over the completed download;
+   require `verified + quarantined + failed == expected`, zero missing,
+   hash-pending, incomplete-transfer, or unresolved assets, and runtime
+   exclusion of every quarantined or failed binary.
+7. Require the main task to acknowledge the verified evidence and explicitly
    activate staged ingestion. This acknowledgement does not grant model
    capability or production authority.
-7. Run the full Wave30 staging import and contradiction report.
-8. Build hash, dedupe, static inspection, installation, and compatibility
+8. Run the full Wave30 staging import and contradiction report.
+9. Build hash, dedupe, static inspection, installation, and compatibility
    services.
-9. Build the exact execution-bundle compiler and solver.
-10. Build isolated smoke, A/B, sweep, comparison, and benchmark execution.
-11. Build evidence aggregation, profiles, reports, certificates, drift, and
+10. Build the exact execution-bundle compiler and solver.
+11. Build isolated smoke, A/B, sweep, comparison, and benchmark execution.
+12. Build evidence aggregation, profiles, reports, certificates, drift, and
    rollback.
-12. Build hard-filtered contextual ranking and bounded exploration.
-13. Build cited RAG, structured proposals, tool gateway, and role qualification.
-14. Qualify the 187 copy-ready pilot plus representative high-value installed
+13. Build hard-filtered contextual ranking and bounded exploration.
+14. Build cited RAG, structured proposals, tool gateway, and role qualification.
+15. Qualify the 187 copy-ready pilot plus representative high-value installed
     candidates without treating copy-ready as runtime-ready.
-15. Run held-out and shadow selection across image, video, audio, and AV.
-16. Integrate Model Explorer and route explanation into the operator app.
-17. Expand the long tail by demand, coverage, risk, and information value.
-18. Complete release, recovery, security, rollback, and final main-task
+16. Run held-out and shadow selection across image, video, audio, and AV.
+17. Integrate Model Explorer and route explanation into the operator app.
+18. Expand the long tail by demand, coverage, risk, and information value.
+19. Complete release, recovery, security, rollback, and final main-task
     adoption. Final release adoption is separate from the earlier bounded
     activation acknowledgement.
 
@@ -4098,14 +4105,16 @@ and communicating the deferred state.
 
 Activation requires all of the following, bound to immutable revisions:
 
-1. user or main-task declaration that the complete intended model library has
-   finished downloading;
-2. expected-download scope manifest resolving catalog aliases, revisions,
-   duplicates, and modalities into the intended binary set;
+1. expected-download scope manifest, frozen before the completion signal,
+   resolving catalog aliases, revisions, duplicates, and modalities into the
+   intended binary set;
+2. user or main-task declaration that the complete frozen-scope model library
+   has finished downloading;
 3. download-completion manifest with stable locations, bytes, hashes, and zero
    temporary or incomplete transfer files;
-4. deterministic inventory verification with zero missing, hash-pending,
-   corrupt, quarantined, failed, or unresolved in-scope assets; and
+4. deterministic inventory verification where
+   `verified + quarantined + failed == expected`, missing/hash-pending/unresolved
+   counts are zero, and quarantined/failed assets are runtime-ineligible; and
 5. acknowledgement by main task 019f422f-88b1-7382-872b-21de2089e983 that
    binds the exact package, source, download, inventory, and preservation
    evidence and authorizes a named phase.
@@ -4473,11 +4482,13 @@ package defines the second and prevents the first from being mistaken for it.
 
 ### MI-QA-00 Model-library download readiness and activation
 
-Before L0 or the 7,282-row dry-run import, validate the expected-download scope,
+Before L0 or the 7,282-row dry-run import, validate that the expected-download
+scope was frozen before the user's completion signal, then validate the
 download-completion manifest, stable binary locations, bytes and hashes,
-absence of incomplete transfers, deterministic inventory reconciliation, zero
-missing/hash-pending/corrupt/quarantined/failed/unresolved in-scope assets, and
-main-task acknowledgement of the exact evidence. The current gate is deferred
+absence of incomplete transfers, deterministic inventory reconciliation,
+`verified + quarantined + failed == expected`, zero
+missing/hash-pending/unresolved assets, runtime exclusion of quarantined/failed
+assets, and main-task acknowledgement of the exact evidence. The current gate is deferred
 and `runtime_execution_allowed` is false. Archive integrity, metadata, planning
 tests, copy-ready labels, and unrelated installed models cannot pass this gate.
 
@@ -4637,7 +4648,7 @@ or certificate scope. Floors never transfer to another hash or bundle.
 - Foley: at least 30 held-out events;
 - AV: at least 12 complete clips;
 - planner: at least 100 held-out requests;
-- reviewer: at least 200 adjudicated panels;
+- reviewer: at least 200 autonomously adjudicated reference panels;
 - tool gateway: at least 100 adversarial authorization, path, and injection
   cases;
 - autonomy: at least 30 complete shadow jobs before activation.
@@ -4692,6 +4703,15 @@ For every VLM, video, or audio reviewer stack:
 - retain abstention and disagreement;
 - revoke or narrow authority on drift.
 
+Core qualification uses autonomous adjudicated reference panels. Each panel
+binds deterministic source fixtures, known-defect transforms, frozen expected
+outcomes and tolerances, blind candidate labels, exact critic-stack revisions,
+and a qualified multi-critic disagreement/abstention policy. A separate
+deterministic policy service resolves the panel; no evaluated generator,
+reviewer, planner, LLM, or VLM may approve itself. Human adjudication is allowed
+only under the optional `independent_perceptual_calibration` profile and its
+absence cannot block or revoke core autonomous qualification.
+
 Critic observations never override deterministic facts.
 
 ## Promotion transaction
@@ -4728,9 +4748,10 @@ Rows221-260 cannot be called complete while any of these remain:
 - complete intended model download has not been declared to the main task;
 - expected-download scope manifest is absent, stale, or unresolved;
 - download-completion manifest is absent or contains incomplete transfers;
-- deterministic binary inventory does not reconcile every in-scope asset;
-- any in-scope model is missing, hash-pending, corrupt, quarantined, failed, or
-  unresolved;
+- deterministic binary inventory does not satisfy
+  `verified + quarantined + failed == expected`;
+- any in-scope model is missing, hash-pending, or unresolved, or any quarantined
+  or failed model remains runtime-eligible;
 - main task 019f422f-88b1-7382-872b-21de2089e983 has not acknowledged the exact
   download, inventory, package, source, and preservation evidence and activated
   the required phase;
@@ -5632,6 +5653,22 @@ def build_registries(schemas: dict[str, dict[str, Any]]) -> dict[str, Any]:
             "uncalibrated_critic_only",
             "self_promotion_by_generator_or_reviewer",
         ],
+        "autonomous_adjudicated_reference_panel_policy": {
+            "required_for_core_qualification": True,
+            "required_components": [
+                "deterministic_source_fixture",
+                "known_defect_transform",
+                "frozen_expected_outcome_and_tolerance",
+                "blind_candidate_labels",
+                "exact_critic_stack_revisions",
+                "qualified_multi_critic_disagreement_and_abstention_policy",
+                "independent_deterministic_policy_decision",
+            ],
+            "generator_reviewer_planner_self_promotion_allowed": False,
+            "human_adjudication_profile": "independent_perceptual_calibration",
+            "human_adjudication_required_for_core": False,
+            "human_absence_can_block_or_revoke_core": False,
+        },
     }
     roles = {
         "schema_version": SCHEMA_VERSION,
@@ -5664,6 +5701,17 @@ def build_registries(schemas: dict[str, dict[str, Any]]) -> dict[str, Any]:
             "reviewer_adjudicated_panels": 200,
             "tool_gateway_adversarial_cases": 100,
             "complete_shadow_jobs": 30,
+        },
+        "reviewer_reference_authority": {
+            "core_profile": "autonomous_adjudicated_reference_panels",
+            "panel_components": [
+                "deterministic_source_fixture",
+                "known_defect_transform",
+                "frozen_expected_outcome_and_tolerance",
+                "qualified_multi_critic_policy",
+            ],
+            "human_profile": "independent_perceptual_calibration",
+            "human_required_for_core": False,
         },
     }
     role_activation = {

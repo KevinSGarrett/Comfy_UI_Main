@@ -67,7 +67,11 @@ Required dimensions:
 6. primary, micro, secondary, contact, compression, rebound, and settling motion;
 7. multi-character ownership, occlusion, separation, and contact reciprocity;
 8. environment, prop, wardrobe, fatigue, wetness, damage, and long-form state;
-9. calibrated perceptual realism and independent blind preference.
+9. calibrated perceptual realism under autonomous blinded critic evaluation.
+
+Human blind visual or listening comparison belongs only to the optional
+`independent_perceptual_calibration` profile. Its absence cannot block or revoke
+the `core_autonomous_runtime` decision.
 
 Texture detail must follow the represented surface. Screen-space noise that
 looks like pores in one frame and slides in the next is a defect, not detail.

@@ -86,7 +86,7 @@ As of 2026-07-16T20:30:00-05:00:
 - Preserve the intentional Wave64 Rows261-320 Hyperreal Video, Audio/AV, and Operator Application third-pass files and integrate them through main task `019f422f-88b1-7382-872b-21de2089e983`. Their planning-contract coverage does not prove a video/audio engine, end-to-end AV runtime, controller console, App Mode launcher, frontend extension, or release. The bulk model-library deferral blocks only model-library phases and real executions that need unqualified bundles; it does not block strict contracts, synthetic controller fixtures, or the read-only application shell.
 - Wave70 numbered rows stop at `0178`, but Wave70 is not exhausted while non-blocked, not-complete Wave70 rows or unresolved authority/gate rows remain.
 
-## Manual Gold Mask Dependency Rule
+## Independent Anchor Mask Dependency Rule
 
 Manual gold-standard mask creation follows:
 
@@ -94,6 +94,8 @@ Manual gold-standard mask creation follows:
 C:\Comfy_UI_Main\Plan\Instructions\QA\GOLD_STANDARD_MASK_DEPENDENCY_GATE_PROTOCOL.md
 ```
 
-Wave70 rows that require trusted manual gold masks must fail closed with `Blocked_Gold_Mask_Dependency_Missing` until the exact masks pass intake, QA, geometry, and promotion evidence. This does not freeze unrelated Wave70 control, organization, manifest, automation, workflow-structure, evidence, validation-scaffold, or non-mask work.
+This is not a global dependency. For `core_autonomous_runtime`, exact active, unrevoked, trust-anchored `maskfactory_autonomous` authority may satisfy the mask gate when its source/output/owner/media/transform/route/policy scope matches. Human-labelled anchors are optional and apply only to an explicitly selected `independent_real_accuracy` policy that requires them. Such a row fails closed with `Blocked_Independent_Anchor_Dependency_Missing` until the exact anchors pass intake, QA, geometry, and evidence gates; this must not block autonomous core work or unrelated Wave70 control, organization, manifest, automation, workflow-structure, evidence, validation-scaffold, or non-mask work.
 
 Candidate, rejected, source-test, or guarded in-progress mask folders must not be consumed as gold-standard evidence, must not trigger mask promotion, and must not activate Wave71+.
+
+Wave64 Rows321-348 are reserved for the additive MaskFactory Autonomous Bridge and Release Handshake program. Preserve their generated Items, Tracker, schemas, registries, examples, QA coverage, and hydration handoff for main task `019f422f-88b1-7382-872b-21de2089e983`. Planning and fixture evidence remain non-runtime; Row348 cannot release until Row218 and Rows321-347 have genuine runtime proof.

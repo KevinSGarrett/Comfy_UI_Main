@@ -1,0 +1,145 @@
+{
+  "$id": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/maskfactory_health_capability_snapshot_v2.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "api_contract": {
+      "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/contract_binding"
+    },
+    "created_at": {
+      "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/timestamp"
+    },
+    "current_mode_b_default_authority_state": {
+      "const": "draft"
+    },
+    "expires_at": {
+      "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/timestamp"
+    },
+    "fixture_only": {
+      "type": "boolean"
+    },
+    "maskfactory_health_capability_snapshot_v2_id": {
+      "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/id"
+    },
+    "observed_at": {
+      "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/timestamp"
+    },
+    "record_type": {
+      "const": "maskfactory_health_capability_snapshot_v2"
+    },
+    "release_snapshot_ref": {
+      "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/immutable_ref"
+    },
+    "revision": {
+      "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/id"
+    },
+    "routes": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "access_mode": {
+            "enum": [
+              "mode_a_package_read",
+              "mode_b_live_predict",
+              "mode_b_live_refine"
+            ]
+          },
+          "default_authority_state": {
+            "enum": [
+              "invalid",
+              "hypothesis",
+              "draft",
+              "qa_passed_noncertified",
+              "certified"
+            ]
+          },
+          "execution_stack_ref": {
+            "oneOf": [
+              {
+                "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/immutable_ref"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "maximum_authority_state": {
+            "enum": [
+              "invalid",
+              "hypothesis",
+              "draft",
+              "qa_passed_noncertified",
+              "certified"
+            ]
+          },
+          "operational_certificate_required_above_default": {
+            "const": true
+          },
+          "route_id": {
+            "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/id"
+          },
+          "status": {
+            "enum": [
+              "available",
+              "degraded",
+              "unavailable",
+              "unqualified"
+            ]
+          },
+          "supported_labels": {
+            "items": {
+              "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/id"
+            },
+            "type": "array",
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "route_id",
+          "access_mode",
+          "status",
+          "default_authority_state",
+          "maximum_authority_state",
+          "operational_certificate_required_above_default",
+          "supported_labels",
+          "execution_stack_ref"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "runtime_completion_claimed": {
+      "const": false
+    },
+    "schema_version": {
+      "const": "2.0.0"
+    },
+    "service_status": {
+      "enum": [
+        "healthy",
+        "degraded",
+        "offline",
+        "unknown"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "record_type",
+    "maskfactory_health_capability_snapshot_v2_id",
+    "revision",
+    "created_at",
+    "fixture_only",
+    "runtime_completion_claimed",
+    "release_snapshot_ref",
+    "service_status",
+    "observed_at",
+    "expires_at",
+    "api_contract",
+    "routes",
+    "current_mode_b_default_authority_state"
+  ],
+  "title": "maskfactory_health_capability_snapshot_v2",
+  "type": "object"
+}

@@ -174,9 +174,16 @@ Therefore:
 - a facial route still cannot be promoted until its exact benchmark intake,
   leakage controls, metric thresholds, failure review, and promotion evidence
   pass;
-- the manual body/body-part dependency remains active and unchanged;
+- manual body/body-part gold remains an optional dependency for the separately
+  selected `independent_real_accuracy` profile; it is not a blocker for
+  `core_autonomous_runtime`;
 - no result from these face datasets authorizes body geometry authority,
-  contact authority, Wave71+ activation, or full Mask Factory certification.
+  contact authority, Wave71+ activation, or a broader claim than its exact
+  certificate scope; and
+- an exact active `maskfactory_autonomous` certificate with matching source,
+  output, owner, transform, lineage, QA, policy, expiry, and revocation evidence
+  may support the core profile without a human anchor. It does not establish the
+  optional independent-real-accuracy claim.
 
 ## Dataset Rights
 

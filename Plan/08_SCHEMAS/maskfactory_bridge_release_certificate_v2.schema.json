@@ -1,0 +1,811 @@
+{
+  "$id": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/maskfactory_bridge_release_certificate_v2.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "fixture_only": {
+            "const": true
+          }
+        },
+        "required": [
+          "fixture_only"
+        ]
+      },
+      "then": {
+        "properties": {
+          "genuine_runtime_evidence_refs": {
+            "maxItems": 0
+          },
+          "release_allowed": {
+            "const": false
+          },
+          "release_context": {
+            "const": "fixture_validation"
+          },
+          "runtime_completion_claimed": {
+            "const": false
+          },
+          "status": {
+            "const": "blocked"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "release_allowed": {
+            "const": true
+          }
+        },
+        "required": [
+          "release_allowed"
+        ]
+      },
+      "then": {
+        "properties": {
+          "checks": {
+            "items": {
+              "properties": {
+                "derived_pass": {
+                  "const": true
+                },
+                "genuine_runtime_evidence_refs": {
+                  "minItems": 1
+                },
+                "signature_trust": {
+                  "properties": {
+                    "trust_result": {
+                      "const": "trusted"
+                    }
+                  }
+                },
+                "status": {
+                  "const": "pass"
+                }
+              }
+            }
+          },
+          "fixture_only": {
+            "const": false
+          },
+          "genuine_runtime_evidence_refs": {
+            "minItems": 1
+          },
+          "journal_checkpoint_checks_passed": {
+            "const": true
+          },
+          "journal_pin": {
+            "properties": {
+              "checkpoint_signature_trust": {
+                "properties": {
+                  "trust_result": {
+                    "const": "trusted"
+                  }
+                }
+              }
+            }
+          },
+          "release_context": {
+            "const": "production_runtime"
+          },
+          "release_signature_trust": {
+            "properties": {
+              "trust_result": {
+                "const": "trusted"
+              }
+            }
+          },
+          "row218_runtime_passed": {
+            "const": true
+          },
+          "rows321_347_runtime_passed": {
+            "const": true
+          },
+          "runtime_completion_claimed": {
+            "const": true
+          },
+          "status": {
+            "const": "released"
+          },
+          "trusted_signing_identity_checks_passed": {
+            "const": true
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "released"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "release_allowed": {
+            "const": true
+          }
+        }
+      }
+    }
+  ],
+  "properties": {
+    "adoption_receipt_ref": {
+      "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/immutable_ref"
+    },
+    "checks": {
+      "allOf": [
+        {
+          "contains": {
+            "properties": {
+              "gate_id": {
+                "const": "row218_runtime"
+              }
+            },
+            "required": [
+              "gate_id"
+            ]
+          },
+          "maxContains": 1,
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "gate_id": {
+                "const": "row321_runtime"
+              }
+            },
+            "required": [
+              "gate_id"
+            ]
+          },
+          "maxContains": 1,
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "gate_id": {
+                "const": "row322_runtime"
+              }
+            },
+            "required": [
+              "gate_id"
+            ]
+          },
+          "maxContains": 1,
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "gate_id": {
+                "const": "row323_runtime"
+              }
+            },
+            "required": [
+              "gate_id"
+            ]
+          },
+          "maxContains": 1,
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "gate_id": {
+                "const": "row324_runtime"
+              }
+            },
+            "required": [
+              "gate_id"
+            ]
+          },
+          "maxContains": 1,
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "gate_id": {
+                "const": "row325_runtime"
+              }
+            },
+            "required": [
+              "gate_id"
+            ]
+          },
+          "maxContains": 1,
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "gate_id": {
+                "const": "row326_runtime"
+              }
+            },
+            "required": [
+              "gate_id"
+            ]
+          },
+          "maxContains": 1,
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "gate_id": {
+                "const": "row327_runtime"
+              }
+            },
+            "required": [
+              "gate_id"
+            ]
+          },
+          "maxContains": 1,
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "gate_id": {
+                "const": "row328_runtime"
+              }
+            },
+            "required": [
+              "gate_id"
+            ]
+          },
+          "maxContains": 1,
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "gate_id": {
+                "const": "row329_runtime"
+              }
+            },
+            "required": [
+              "gate_id"
+            ]
+          },
+          "maxContains": 1,
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "gate_id": {
+                "const": "row330_runtime"
+              }
+            },
+            "required": [
+              "gate_id"
+            ]
+          },
+          "maxContains": 1,
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "gate_id": {
+                "const": "row331_runtime"
+              }
+            },
+            "required": [
+              "gate_id"
+            ]
+          },
+          "maxContains": 1,
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "gate_id": {
+                "const": "row332_runtime"
+              }
+            },
+            "required": [
+              "gate_id"
+            ]
+          },
+          "maxContains": 1,
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "gate_id": {
+                "const": "row333_runtime"
+              }
+            },
+            "required": [
+              "gate_id"
+            ]
+          },
+          "maxContains": 1,
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "gate_id": {
+                "const": "row334_runtime"
+              }
+            },
+            "required": [
+              "gate_id"
+            ]
+          },
+          "maxContains": 1,
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "gate_id": {
+                "const": "row335_runtime"
+              }
+            },
+            "required": [
+              "gate_id"
+            ]
+          },
+          "maxContains": 1,
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "gate_id": {
+                "const": "row336_runtime"
+              }
+            },
+            "required": [
+              "gate_id"
+            ]
+          },
+          "maxContains": 1,
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "gate_id": {
+                "const": "row337_runtime"
+              }
+            },
+            "required": [
+              "gate_id"
+            ]
+          },
+          "maxContains": 1,
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "gate_id": {
+                "const": "row338_runtime"
+              }
+            },
+            "required": [
+              "gate_id"
+            ]
+          },
+          "maxContains": 1,
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "gate_id": {
+                "const": "row339_runtime"
+              }
+            },
+            "required": [
+              "gate_id"
+            ]
+          },
+          "maxContains": 1,
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "gate_id": {
+                "const": "row340_runtime"
+              }
+            },
+            "required": [
+              "gate_id"
+            ]
+          },
+          "maxContains": 1,
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "gate_id": {
+                "const": "row341_runtime"
+              }
+            },
+            "required": [
+              "gate_id"
+            ]
+          },
+          "maxContains": 1,
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "gate_id": {
+                "const": "row342_runtime"
+              }
+            },
+            "required": [
+              "gate_id"
+            ]
+          },
+          "maxContains": 1,
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "gate_id": {
+                "const": "row343_runtime"
+              }
+            },
+            "required": [
+              "gate_id"
+            ]
+          },
+          "maxContains": 1,
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "gate_id": {
+                "const": "row344_runtime"
+              }
+            },
+            "required": [
+              "gate_id"
+            ]
+          },
+          "maxContains": 1,
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "gate_id": {
+                "const": "row345_runtime"
+              }
+            },
+            "required": [
+              "gate_id"
+            ]
+          },
+          "maxContains": 1,
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "gate_id": {
+                "const": "row346_runtime"
+              }
+            },
+            "required": [
+              "gate_id"
+            ]
+          },
+          "maxContains": 1,
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "gate_id": {
+                "const": "row347_runtime"
+              }
+            },
+            "required": [
+              "gate_id"
+            ]
+          },
+          "maxContains": 1,
+          "minContains": 1
+        }
+      ],
+      "items": {
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "status": {
+                  "const": "pass"
+                }
+              },
+              "required": [
+                "status"
+              ]
+            },
+            "then": {
+              "properties": {
+                "derived_pass": {
+                  "const": true
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "status": {
+                  "enum": [
+                    "fail",
+                    "blocked"
+                  ]
+                }
+              },
+              "required": [
+                "status"
+              ]
+            },
+            "then": {
+              "properties": {
+                "derived_pass": {
+                  "const": false
+                }
+              }
+            }
+          }
+        ],
+        "properties": {
+          "derived_pass": {
+            "type": "boolean"
+          },
+          "evaluated_at": {
+            "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/timestamp"
+          },
+          "evaluator_manifest_ref": {
+            "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/immutable_ref"
+          },
+          "evidence_refs": {
+            "items": {
+              "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/immutable_ref"
+            },
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "gate_hash_profile": {
+            "const": "main_domain_separated_sorted_utf8_json_v2_excluding_gate_hash_signature_and_signature_trust"
+          },
+          "gate_id": {
+            "enum": [
+              "row218_runtime",
+              "row321_runtime",
+              "row322_runtime",
+              "row323_runtime",
+              "row324_runtime",
+              "row325_runtime",
+              "row326_runtime",
+              "row327_runtime",
+              "row328_runtime",
+              "row329_runtime",
+              "row330_runtime",
+              "row331_runtime",
+              "row332_runtime",
+              "row333_runtime",
+              "row334_runtime",
+              "row335_runtime",
+              "row336_runtime",
+              "row337_runtime",
+              "row338_runtime",
+              "row339_runtime",
+              "row340_runtime",
+              "row341_runtime",
+              "row342_runtime",
+              "row343_runtime",
+              "row344_runtime",
+              "row345_runtime",
+              "row346_runtime",
+              "row347_runtime"
+            ]
+          },
+          "gate_report_ref": {
+            "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/immutable_ref"
+          },
+          "gate_report_sha256": {
+            "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/sha256"
+          },
+          "gate_report_signature": {
+            "minLength": 16,
+            "type": "string"
+          },
+          "genuine_runtime_evidence_refs": {
+            "items": {
+              "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/immutable_ref"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "signature_domain": {
+            "const": "comfy_ui_main.maskfactory_bridge_release_gate_report.v2"
+          },
+          "signature_trust": {
+            "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/signing_trust_verification"
+          },
+          "status": {
+            "enum": [
+              "pass",
+              "fail",
+              "blocked"
+            ]
+          },
+          "subject_ref": {
+            "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/immutable_ref"
+          }
+        },
+        "required": [
+          "gate_id",
+          "status",
+          "derived_pass",
+          "subject_ref",
+          "gate_report_ref",
+          "gate_report_sha256",
+          "evaluator_manifest_ref",
+          "gate_hash_profile",
+          "signature_domain",
+          "gate_report_signature",
+          "evidence_refs",
+          "genuine_runtime_evidence_refs",
+          "evaluated_at",
+          "signature_trust"
+        ],
+        "type": "object"
+      },
+      "maxItems": 28,
+      "minItems": 28,
+      "type": "array"
+    },
+    "completion_profile": {
+      "const": "core_autonomous_runtime"
+    },
+    "created_at": {
+      "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/timestamp"
+    },
+    "fixture_only": {
+      "type": "boolean"
+    },
+    "genuine_runtime_evidence_refs": {
+      "items": {
+        "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/immutable_ref"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "independent_real_accuracy_required": {
+      "const": false
+    },
+    "journal_checkpoint_checks_passed": {
+      "type": "boolean"
+    },
+    "journal_pin": {
+      "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/journal_pin"
+    },
+    "maskfactory_bridge_release_certificate_v2_id": {
+      "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/id"
+    },
+    "record_type": {
+      "const": "maskfactory_bridge_release_certificate_v2"
+    },
+    "release_allowed": {
+      "type": "boolean"
+    },
+    "release_certificate_sha256": {
+      "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/sha256"
+    },
+    "release_context": {
+      "enum": [
+        "fixture_validation",
+        "production_runtime"
+      ]
+    },
+    "release_hash_profile": {
+      "const": "main_domain_separated_sorted_utf8_json_v2_excluding_release_certificate_hash_signature_and_signature_trust"
+    },
+    "release_signature": {
+      "minLength": 16,
+      "type": "string"
+    },
+    "release_signature_domain": {
+      "const": "comfy_ui_main.maskfactory_bridge_release_certificate.v2"
+    },
+    "release_signature_trust": {
+      "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/signing_trust_verification"
+    },
+    "release_snapshot_ref": {
+      "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/immutable_ref"
+    },
+    "revision": {
+      "$ref": "https://schemas.local/comfy-ui-main/wave64/maskfactory-bridge/v2/wave64_maskfactory_bridge_common_v2.schema.json#/$defs/id"
+    },
+    "row218_runtime_passed": {
+      "type": "boolean"
+    },
+    "rows321_347_runtime_passed": {
+      "type": "boolean"
+    },
+    "runtime_completion_claimed": {
+      "type": "boolean"
+    },
+    "scale_daz_maturity_required": {
+      "const": false
+    },
+    "schema_version": {
+      "const": "2.0.0"
+    },
+    "status": {
+      "enum": [
+        "released",
+        "blocked"
+      ]
+    },
+    "trusted_signing_identity_checks_passed": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_version",
+    "record_type",
+    "maskfactory_bridge_release_certificate_v2_id",
+    "revision",
+    "created_at",
+    "fixture_only",
+    "runtime_completion_claimed",
+    "completion_profile",
+    "release_context",
+    "status",
+    "release_snapshot_ref",
+    "adoption_receipt_ref",
+    "row218_runtime_passed",
+    "rows321_347_runtime_passed",
+    "trusted_signing_identity_checks_passed",
+    "journal_checkpoint_checks_passed",
+    "journal_pin",
+    "checks",
+    "genuine_runtime_evidence_refs",
+    "release_allowed",
+    "release_hash_profile",
+    "release_certificate_sha256",
+    "release_signature_domain",
+    "release_signature",
+    "release_signature_trust",
+    "independent_real_accuracy_required",
+    "scale_daz_maturity_required"
+  ],
+  "title": "maskfactory_bridge_release_certificate_v2",
+  "type": "object"
+}

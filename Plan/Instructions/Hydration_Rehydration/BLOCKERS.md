@@ -1,3 +1,14 @@
+## Current Mask Authority Supersession - 2026-07-17
+
+Historical entries below that say to preserve a manual body-gold boundary or use
+`Blocked_Gold_Mask_Dependency_Missing` are not current global core authority.
+For `core_autonomous_runtime`, an active, unexpired, unrevoked exact-output
+certificate issued by `maskfactory_autonomous` may satisfy mask authority. Human
+anchors gate only optional `independent_real_accuracy` claims or rows that
+explicitly select that profile; use
+`Blocked_Independent_Anchor_Dependency_Missing` for that exact scope. Candidate,
+draft, unbound, or self-reported masks remain non-authoritative. Re-evaluate any active legacy blocker under the v2 bridge policy before routing work.
+
 ## Normal Target-Runtime Smoke Completed - 2026-07-13T15:15:00-05:00
 
 The exact-head Normal lane bundle from `2011cf98969515e0962033cb1094aa77a1444912` completed one bounded EC2 target-runtime smoke. The required full-body input was staged with SHA-256 `ff7695e83c73dc53025a7ab960a11d6e46299dcde546d26a5d46bce8637dc6fd`; live `/object_info` validation passed 12 nodes and 36 inputs with zero errors; ComfyUI returned prompt `9c0dc78a-7b1c-427e-b8e3-a63e7f18c373`; two 768x1024 images were pulled back; visual smoke QA passed. The approved instance is independently verified `stopped`, and the unused emergency schedule was deleted.

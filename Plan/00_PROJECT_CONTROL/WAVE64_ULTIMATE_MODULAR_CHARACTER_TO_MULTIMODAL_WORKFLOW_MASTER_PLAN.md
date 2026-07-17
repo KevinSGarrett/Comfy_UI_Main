@@ -270,6 +270,7 @@ Each phase requires contracts, implementation hashes, tests, real runtime output
 
 ## References and external dependency
 
+- Additive Rows321-348 MaskFactory bridge and release handshake: `Plan/00_PROJECT_CONTROL/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_AND_RELEASE_HANDSHAKE_MASTER_PLAN.md`. This v2 package freezes access/authority independence, exact operational certificates, immutable producer releases, Main adoption receipts, and core-autonomy completion profiles without changing Rows177-180 or Row218.
 - Existing local architecture: `Plan/02_TARGET_ARCHITECTURE/MODULAR_CHARACTER_TO_MULTIMODAL_MEDIA_ORCHESTRATION_ARCHITECTURE.md`
 - Existing App Mode design: `Plan/02_TARGET_ARCHITECTURE/APP_MODE_ORCHESTRATOR_DESIGN.md`
 - Existing workflow decision: `Plan/02_TARGET_ARCHITECTURE/WORKFLOW_MODULE_DECISION.md`

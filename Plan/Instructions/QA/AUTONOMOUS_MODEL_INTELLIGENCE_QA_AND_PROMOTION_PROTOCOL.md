@@ -14,11 +14,13 @@ package defines the second and prevents the first from being mistaken for it.
 
 ### MI-QA-00 Model-library download readiness and activation
 
-Before L0 or the 7,282-row dry-run import, validate the expected-download scope,
+Before L0 or the 7,282-row dry-run import, validate that the expected-download
+scope was frozen before the user's completion signal, then validate the
 download-completion manifest, stable binary locations, bytes and hashes,
-absence of incomplete transfers, deterministic inventory reconciliation, zero
-missing/hash-pending/corrupt/quarantined/failed/unresolved in-scope assets, and
-main-task acknowledgement of the exact evidence. The current gate is deferred
+absence of incomplete transfers, deterministic inventory reconciliation,
+`verified + quarantined + failed == expected`, zero
+missing/hash-pending/unresolved assets, runtime exclusion of quarantined/failed
+assets, and main-task acknowledgement of the exact evidence. The current gate is deferred
 and `runtime_execution_allowed` is false. Archive integrity, metadata, planning
 tests, copy-ready labels, and unrelated installed models cannot pass this gate.
 
@@ -178,7 +180,7 @@ or certificate scope. Floors never transfer to another hash or bundle.
 - Foley: at least 30 held-out events;
 - AV: at least 12 complete clips;
 - planner: at least 100 held-out requests;
-- reviewer: at least 200 adjudicated panels;
+- reviewer: at least 200 autonomously adjudicated reference panels;
 - tool gateway: at least 100 adversarial authorization, path, and injection
   cases;
 - autonomy: at least 30 complete shadow jobs before activation.
@@ -233,6 +235,15 @@ For every VLM, video, or audio reviewer stack:
 - retain abstention and disagreement;
 - revoke or narrow authority on drift.
 
+Core qualification uses autonomous adjudicated reference panels. Each panel
+binds deterministic source fixtures, known-defect transforms, frozen expected
+outcomes and tolerances, blind candidate labels, exact critic-stack revisions,
+and a qualified multi-critic disagreement/abstention policy. A separate
+deterministic policy service resolves the panel; no evaluated generator,
+reviewer, planner, LLM, or VLM may approve itself. Human adjudication is allowed
+only under the optional `independent_perceptual_calibration` profile and its
+absence cannot block or revoke core autonomous qualification.
+
 Critic observations never override deterministic facts.
 
 ## Promotion transaction
@@ -269,9 +280,10 @@ Rows221-260 cannot be called complete while any of these remain:
 - complete intended model download has not been declared to the main task;
 - expected-download scope manifest is absent, stale, or unresolved;
 - download-completion manifest is absent or contains incomplete transfers;
-- deterministic binary inventory does not reconcile every in-scope asset;
-- any in-scope model is missing, hash-pending, corrupt, quarantined, failed, or
-  unresolved;
+- deterministic binary inventory does not satisfy
+  `verified + quarantined + failed == expected`;
+- any in-scope model is missing, hash-pending, or unresolved, or any quarantined
+  or failed model remains runtime-eligible;
 - main task 019f422f-88b1-7382-872b-21de2089e983 has not acknowledged the exact
   download, inventory, package, source, and preservation evidence and activated
   the required phase;

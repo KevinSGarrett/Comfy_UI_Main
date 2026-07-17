@@ -1,0 +1,1135 @@
+{
+  "final_external_dependency": 218,
+  "optional_profiles_not_blocking": [
+    "independent_real_accuracy",
+    "scale_daz_maturity"
+  ],
+  "package_id": "wave64_maskfactory_autonomous_bridge_rows321_348",
+  "parent_rows": [
+    177,
+    178,
+    179,
+    180
+  ],
+  "planning_complete": true,
+  "required_completion_profile": "core_autonomous_runtime",
+  "requirements": [
+    {
+      "acceptance": "A canonical trust-anchored snapshot rejects mutable worktree authority, embedded/self-signed key substitution, missing hashes, unmanifested artifacts, archive/path escape, and ambiguous contract identity.",
+      "completion_profile": "core_autonomous_runtime",
+      "dependencies": [
+        "ITEM-W64-177",
+        "ITEM-W64-178",
+        "ITEM-W64-179",
+        "ITEM-W64-180"
+      ],
+      "domain": "maskfactory_autonomous_bridge",
+      "external_gates": [],
+      "implementation_action": "Define the v2 producer snapshot binding clean source, exact wire contracts, canonical encoding/domain separation, API, package, ontology, node pack, wheel, capabilities, certificates, revocation index, signed journal bootstrap/checkpoint, and artifacts by hash.",
+      "item_id": "ITEM-W64-321",
+      "optional_profiles_not_blocking": [
+        "independent_real_accuracy",
+        "scale_daz_maturity"
+      ],
+      "phase": "contract",
+      "required_artifacts": [
+        "implementation_hashes",
+        "tests",
+        "qa_record",
+        "pass_or_exact_blocker"
+      ],
+      "row_number": 321,
+      "runtime_completion_claimed": false,
+      "runtime_proof_required": true,
+      "source_citations": [
+        "Plan/00_PROJECT_CONTROL/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_AND_RELEASE_HANDSHAKE_MASTER_PLAN.md",
+        "Plan/02_TARGET_ARCHITECTURE/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_ARCHITECTURE.md",
+        "Plan/Instructions/WAVE64_MASKFACTORY_BRIDGE_IMPLEMENTATION_AND_OPERATION_PROTOCOL.md",
+        "Plan/Instructions/QA/WAVE64_MASKFACTORY_BRIDGE_QA_AND_PROMOTION_PROTOCOL.md"
+      ],
+      "status": "Planned_Autonomous_Implementation_Required",
+      "title": "MaskFactory Immutable Integration Release Snapshot",
+      "tracker_id": "TRK-W64-321",
+      "workstream": "release_snapshot_and_pinning",
+      "workstream_id": "MFB-01"
+    },
+    {
+      "acceptance": "Only a fully verified named release signed by an allowed active key and bound to the current revocation index/journal head can become the active Main producer pin; prior non-revoked pins remain recoverable.",
+      "completion_profile": "core_autonomous_runtime",
+      "dependencies": [
+        "ITEM-W64-321"
+      ],
+      "domain": "maskfactory_autonomous_bridge",
+      "external_gates": [
+        "maskfactory_release_snapshot_available"
+      ],
+      "implementation_action": "Implement isolated import, safe archive extraction, content hashing, out-of-band trusted-key verification, canonical payload/signature verification, clean-source verification, atomic pinning, checkpoint validation, and rollback metadata.",
+      "item_id": "ITEM-W64-322",
+      "optional_profiles_not_blocking": [
+        "independent_real_accuracy",
+        "scale_daz_maturity"
+      ],
+      "phase": "implementation",
+      "required_artifacts": [
+        "implementation_hashes",
+        "tests",
+        "qa_record",
+        "pass_or_exact_blocker"
+      ],
+      "row_number": 322,
+      "runtime_completion_claimed": false,
+      "runtime_proof_required": true,
+      "source_citations": [
+        "Plan/00_PROJECT_CONTROL/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_AND_RELEASE_HANDSHAKE_MASTER_PLAN.md",
+        "Plan/02_TARGET_ARCHITECTURE/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_ARCHITECTURE.md",
+        "Plan/Instructions/WAVE64_MASKFACTORY_BRIDGE_IMPLEMENTATION_AND_OPERATION_PROTOCOL.md",
+        "Plan/Instructions/QA/WAVE64_MASKFACTORY_BRIDGE_QA_AND_PROMOTION_PROTOCOL.md"
+      ],
+      "status": "Planned_Autonomous_Implementation_Required",
+      "title": "Main Exact Release Pin and Integrity Verifier",
+      "tracker_id": "TRK-W64-322",
+      "workstream": "release_snapshot_and_pinning",
+      "workstream_id": "MFB-01"
+    },
+    {
+      "acceptance": "Same-name, semver-compatible-but-hash-different, required-field, enum, or invariant drift fails closed with a typed blocker before normalization or execution.",
+      "completion_profile": "core_autonomous_runtime",
+      "dependencies": [
+        "ITEM-W64-321",
+        "ITEM-W64-322"
+      ],
+      "domain": "maskfactory_autonomous_bridge",
+      "external_gates": [],
+      "implementation_action": "Compare schema source, schema ID, semantic version, content hash, required fields, semantic invariants, executable field mapping, API/OpenAPI, package, ontology, node-pack, wheel, certificate format, canonicalization profile, and journal format.",
+      "item_id": "ITEM-W64-323",
+      "optional_profiles_not_blocking": [
+        "independent_real_accuracy",
+        "scale_daz_maturity"
+      ],
+      "phase": "validation",
+      "required_artifacts": [
+        "implementation_hashes",
+        "tests",
+        "qa_record",
+        "pass_or_exact_blocker"
+      ],
+      "row_number": 323,
+      "runtime_completion_claimed": false,
+      "runtime_proof_required": true,
+      "source_citations": [
+        "Plan/00_PROJECT_CONTROL/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_AND_RELEASE_HANDSHAKE_MASTER_PLAN.md",
+        "Plan/02_TARGET_ARCHITECTURE/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_ARCHITECTURE.md",
+        "Plan/Instructions/WAVE64_MASKFACTORY_BRIDGE_IMPLEMENTATION_AND_OPERATION_PROTOCOL.md",
+        "Plan/Instructions/QA/WAVE64_MASKFACTORY_BRIDGE_QA_AND_PROMOTION_PROTOCOL.md"
+      ],
+      "status": "Planned_Autonomous_Implementation_Required",
+      "title": "Schema Source Version Hash and Semantic Drift Gate",
+      "tracker_id": "TRK-W64-323",
+      "workstream": "release_snapshot_and_pinning",
+      "workstream_id": "MFB-01"
+    },
+    {
+      "acceptance": "A revoked, expired, superseded, forked, or invalidated scope cannot be resurrected by cache, rollback, restart, timestamp manipulation, embedded keys, or journal resealing.",
+      "completion_profile": "core_autonomous_runtime",
+      "dependencies": [
+        "ITEM-W64-321",
+        "ITEM-W64-322",
+        "ITEM-W64-323"
+      ],
+      "domain": "maskfactory_autonomous_bridge",
+      "external_gates": [],
+      "implementation_action": "Process supersession, signing-key state, certificate validity, revocation-index freshness, and per-scope invalidation before authorizing a new pin; retain immutable signed adoption and checkpoint evidence.",
+      "item_id": "ITEM-W64-324",
+      "optional_profiles_not_blocking": [
+        "independent_real_accuracy",
+        "scale_daz_maturity"
+      ],
+      "phase": "release",
+      "required_artifacts": [
+        "implementation_hashes",
+        "tests",
+        "qa_record",
+        "pass_or_exact_blocker"
+      ],
+      "row_number": 324,
+      "runtime_completion_claimed": false,
+      "runtime_proof_required": true,
+      "source_citations": [
+        "Plan/00_PROJECT_CONTROL/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_AND_RELEASE_HANDSHAKE_MASTER_PLAN.md",
+        "Plan/02_TARGET_ARCHITECTURE/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_ARCHITECTURE.md",
+        "Plan/Instructions/WAVE64_MASKFACTORY_BRIDGE_IMPLEMENTATION_AND_OPERATION_PROTOCOL.md",
+        "Plan/Instructions/QA/WAVE64_MASKFACTORY_BRIDGE_QA_AND_PROMOTION_PROTOCOL.md"
+      ],
+      "status": "Planned_Autonomous_Implementation_Required",
+      "title": "Release Supersession Revocation and Adoption Boundary",
+      "tracker_id": "TRK-W64-324",
+      "workstream": "release_snapshot_and_pinning",
+      "workstream_id": "MFB-01"
+    },
+    {
+      "acceptance": "Unknown fields, replayed authorization, target/protected ambiguity, output-as-input collisions, and invented references fail; access mode remains independent from minimum authority and accepted issuers.",
+      "completion_profile": "core_autonomous_runtime",
+      "dependencies": [
+        "ITEM-W64-177",
+        "ITEM-W64-178",
+        "ITEM-W64-179",
+        "ITEM-W64-180",
+        "ITEM-W64-324"
+      ],
+      "domain": "maskfactory_autonomous_bridge",
+      "external_gates": [],
+      "implementation_action": "Compile project/run/job/pass/attempt/hypothesis, idempotency/nonce, exact still-frame-or-span media scope, source, declared scene roster, one target, protected character/prop/environment regions, separate input ROI hashes, intent, executable transform, compatibility, accepted claim class, resource/deadline, authority, and policy fields from immutable pass records.",
+      "item_id": "ITEM-W64-325",
+      "optional_profiles_not_blocking": [
+        "independent_real_accuracy",
+        "scale_daz_maturity"
+      ],
+      "phase": "contract",
+      "required_artifacts": [
+        "implementation_hashes",
+        "tests",
+        "qa_record",
+        "pass_or_exact_blocker"
+      ],
+      "row_number": 325,
+      "runtime_completion_claimed": false,
+      "runtime_proof_required": true,
+      "source_citations": [
+        "Plan/00_PROJECT_CONTROL/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_AND_RELEASE_HANDSHAKE_MASTER_PLAN.md",
+        "Plan/02_TARGET_ARCHITECTURE/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_ARCHITECTURE.md",
+        "Plan/Instructions/WAVE64_MASKFACTORY_BRIDGE_IMPLEMENTATION_AND_OPERATION_PROTOCOL.md",
+        "Plan/Instructions/QA/WAVE64_MASKFACTORY_BRIDGE_QA_AND_PROMOTION_PROTOCOL.md"
+      ],
+      "status": "Planned_Autonomous_Implementation_Required",
+      "title": "Strict v2 Bridge Request Compiler",
+      "tracker_id": "TRK-W64-325",
+      "workstream": "adapter_dual_mode_contract",
+      "workstream_id": "MFB-02"
+    },
+    {
+      "acceptance": "Mode A never implies certified and Main performs no producer mutation.",
+      "completion_profile": "core_autonomous_runtime",
+      "dependencies": [
+        "ITEM-W64-325"
+      ],
+      "domain": "maskfactory_autonomous_bridge",
+      "external_gates": [
+        "adopted_maskfactory_release_with_mode_a_capability"
+      ],
+      "implementation_action": "Resolve packages only through the active pin and verify artifact, source, owner, ontology, transform, authority, and certificate bindings.",
+      "item_id": "ITEM-W64-326",
+      "optional_profiles_not_blocking": [
+        "independent_real_accuracy",
+        "scale_daz_maturity"
+      ],
+      "phase": "implementation",
+      "required_artifacts": [
+        "implementation_hashes",
+        "tests",
+        "qa_record",
+        "pass_or_exact_blocker"
+      ],
+      "row_number": 326,
+      "runtime_completion_claimed": false,
+      "runtime_proof_required": true,
+      "source_citations": [
+        "Plan/00_PROJECT_CONTROL/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_AND_RELEASE_HANDSHAKE_MASTER_PLAN.md",
+        "Plan/02_TARGET_ARCHITECTURE/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_ARCHITECTURE.md",
+        "Plan/Instructions/WAVE64_MASKFACTORY_BRIDGE_IMPLEMENTATION_AND_OPERATION_PROTOCOL.md",
+        "Plan/Instructions/QA/WAVE64_MASKFACTORY_BRIDGE_QA_AND_PROMOTION_PROTOCOL.md"
+      ],
+      "status": "Planned_Autonomous_Implementation_Required",
+      "title": "Mode A Read-Only Package Adapter",
+      "tracker_id": "TRK-W64-326",
+      "workstream": "adapter_dual_mode_contract",
+      "workstream_id": "MFB-02"
+    },
+    {
+      "acceptance": "Mode B defaults to draft; a network ambiguity becomes outcome_unknown, never an assumed failure or success, and one result may be stronger only through an active exact serving-route/output operational certificate.",
+      "completion_profile": "core_autonomous_runtime",
+      "dependencies": [
+        "ITEM-W64-325",
+        "ITEM-W64-326"
+      ],
+      "domain": "maskfactory_autonomous_bridge",
+      "external_gates": [
+        "compatible_maskfactory_service_or_synthetic_fixture"
+      ],
+      "implementation_action": "Implement authenticated health, bounded nonce/deadline/idempotency admission, explicit admitted/submitted/accepted/running/succeeded/failed/cancelled/outcome_unknown lifecycle, predict/refine, reconciliation before resubmission, response validation, route/runtime lineage, and typed failure behavior.",
+      "item_id": "ITEM-W64-327",
+      "optional_profiles_not_blocking": [
+        "independent_real_accuracy",
+        "scale_daz_maturity"
+      ],
+      "phase": "implementation",
+      "required_artifacts": [
+        "implementation_hashes",
+        "tests",
+        "qa_record",
+        "pass_or_exact_blocker"
+      ],
+      "row_number": 327,
+      "runtime_completion_claimed": false,
+      "runtime_proof_required": true,
+      "source_citations": [
+        "Plan/00_PROJECT_CONTROL/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_AND_RELEASE_HANDSHAKE_MASTER_PLAN.md",
+        "Plan/02_TARGET_ARCHITECTURE/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_ARCHITECTURE.md",
+        "Plan/Instructions/WAVE64_MASKFACTORY_BRIDGE_IMPLEMENTATION_AND_OPERATION_PROTOCOL.md",
+        "Plan/Instructions/QA/WAVE64_MASKFACTORY_BRIDGE_QA_AND_PROMOTION_PROTOCOL.md"
+      ],
+      "status": "Planned_Autonomous_Implementation_Required",
+      "title": "Mode B Live Predict and Refine Adapter",
+      "tracker_id": "TRK-W64-327",
+      "workstream": "adapter_dual_mode_contract",
+      "workstream_id": "MFB-02"
+    },
+    {
+      "acceptance": "Normalization records factual execution without granting authority; a newer draft cannot overwrite stronger valid authority, close candidates branch only within budget, and ambiguity abstains.",
+      "completion_profile": "core_autonomous_runtime",
+      "dependencies": [
+        "ITEM-W64-325",
+        "ITEM-W64-326",
+        "ITEM-W64-327"
+      ],
+      "domain": "maskfactory_autonomous_bridge",
+      "external_gates": [],
+      "implementation_action": "Normalize both modes while retaining exact input ROI versus generated-output identity, source/media scope, package/service, route and eligible alternatives, runtime kind/digest, timing/resources, hypothesis, owner, transform, authority/claim class, certificate, QA, cache, and blocker lineage.",
+      "item_id": "ITEM-W64-328",
+      "optional_profiles_not_blocking": [
+        "independent_real_accuracy",
+        "scale_daz_maturity"
+      ],
+      "phase": "validation",
+      "required_artifacts": [
+        "implementation_hashes",
+        "tests",
+        "qa_record",
+        "pass_or_exact_blocker"
+      ],
+      "row_number": 328,
+      "runtime_completion_claimed": false,
+      "runtime_proof_required": true,
+      "source_citations": [
+        "Plan/00_PROJECT_CONTROL/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_AND_RELEASE_HANDSHAKE_MASTER_PLAN.md",
+        "Plan/02_TARGET_ARCHITECTURE/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_ARCHITECTURE.md",
+        "Plan/Instructions/WAVE64_MASKFACTORY_BRIDGE_IMPLEMENTATION_AND_OPERATION_PROTOCOL.md",
+        "Plan/Instructions/QA/WAVE64_MASKFACTORY_BRIDGE_QA_AND_PROMOTION_PROTOCOL.md"
+      ],
+      "status": "Planned_Autonomous_Implementation_Required",
+      "title": "Normalized Result and Deterministic Arbitration",
+      "tracker_id": "TRK-W64-328",
+      "workstream": "adapter_dual_mode_contract",
+      "workstream_id": "MFB-02"
+    },
+    {
+      "acceptance": "Unknown values fail; operationally_certified_artifact can support only its exact permitted use and never becomes independent accuracy or training gold; legacy/UI/LLM summaries are non-authoritative.",
+      "completion_profile": "core_autonomous_runtime",
+      "dependencies": [
+        "ITEM-W64-177",
+        "ITEM-W64-178",
+        "ITEM-W64-179",
+        "ITEM-W64-180",
+        "ITEM-W64-328"
+      ],
+      "domain": "maskfactory_autonomous_bridge",
+      "external_gates": [],
+      "implementation_action": "Implement exact authority_state, issuer_kind, and claim_class vocabulary with access-mode-independent intended-use policy; migrate the legacy live QA strictness dial/string promotion gates to pinned structured v2 policy.",
+      "item_id": "ITEM-W64-329",
+      "optional_profiles_not_blocking": [
+        "independent_real_accuracy",
+        "scale_daz_maturity"
+      ],
+      "phase": "contract",
+      "required_artifacts": [
+        "implementation_hashes",
+        "tests",
+        "qa_record",
+        "pass_or_exact_blocker"
+      ],
+      "row_number": 329,
+      "runtime_completion_claimed": false,
+      "runtime_proof_required": true,
+      "source_citations": [
+        "Plan/00_PROJECT_CONTROL/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_AND_RELEASE_HANDSHAKE_MASTER_PLAN.md",
+        "Plan/02_TARGET_ARCHITECTURE/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_ARCHITECTURE.md",
+        "Plan/Instructions/WAVE64_MASKFACTORY_BRIDGE_IMPLEMENTATION_AND_OPERATION_PROTOCOL.md",
+        "Plan/Instructions/QA/WAVE64_MASKFACTORY_BRIDGE_QA_AND_PROMOTION_PROTOCOL.md"
+      ],
+      "status": "Planned_Autonomous_Implementation_Required",
+      "title": "Frozen Authority Issuer Claim-Class and Legacy Migration Crosswalk",
+      "tracker_id": "TRK-W64-329",
+      "workstream": "authority_certificate_promotion",
+      "workstream_id": "MFB-03"
+    },
+    {
+      "acceptance": "Neither Mode A nor Mode B receives authority outside the exact active certificate scope, and embedded/self-signed keys or fixture evidence cannot establish production trust.",
+      "completion_profile": "core_autonomous_runtime",
+      "dependencies": [
+        "ITEM-W64-329"
+      ],
+      "domain": "maskfactory_autonomous_bridge",
+      "external_gates": [
+        "certificate_trust_root_or_synthetic_fixture"
+      ],
+      "implementation_action": "Verify out-of-band trusted signer, signature algorithm, release, capability, access mode, exact execution stack/runtime provenance, source media/frame/output, owner, transform, QA, policy, scope, issuer, issuance/expiry at decision time, and current revocation index.",
+      "item_id": "ITEM-W64-330",
+      "optional_profiles_not_blocking": [
+        "independent_real_accuracy",
+        "scale_daz_maturity"
+      ],
+      "phase": "implementation",
+      "required_artifacts": [
+        "implementation_hashes",
+        "tests",
+        "qa_record",
+        "pass_or_exact_blocker"
+      ],
+      "row_number": 330,
+      "runtime_completion_claimed": false,
+      "runtime_proof_required": true,
+      "source_citations": [
+        "Plan/00_PROJECT_CONTROL/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_AND_RELEASE_HANDSHAKE_MASTER_PLAN.md",
+        "Plan/02_TARGET_ARCHITECTURE/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_ARCHITECTURE.md",
+        "Plan/Instructions/WAVE64_MASKFACTORY_BRIDGE_IMPLEMENTATION_AND_OPERATION_PROTOCOL.md",
+        "Plan/Instructions/QA/WAVE64_MASKFACTORY_BRIDGE_QA_AND_PROMOTION_PROTOCOL.md"
+      ],
+      "status": "Planned_Autonomous_Implementation_Required",
+      "title": "Exact Trust-Anchored Operational Certificate Verifier",
+      "tracker_id": "TRK-W64-330",
+      "workstream": "authority_certificate_promotion",
+      "workstream_id": "MFB-03"
+    },
+    {
+      "acceptance": "Producer use_eligibility, QA success, certificate presence, or LLM/VLM opinion is never sufficient by itself; every exact policy criterion and Main QA must pass without blockers.",
+      "completion_profile": "core_autonomous_runtime",
+      "dependencies": [
+        "ITEM-W64-329",
+        "ITEM-W64-330"
+      ],
+      "domain": "maskfactory_autonomous_bridge",
+      "external_gates": [],
+      "implementation_action": "Recompute use eligibility from the exact signed pinned Main policy using a complete unique criterion vector, declared comparator/threshold, analyzer and evidence hashes, claim class, signer trust, decision timestamp, certificate temporal evaluation, current revocation index, and genuine runtime evidence.",
+      "item_id": "ITEM-W64-331",
+      "optional_profiles_not_blocking": [
+        "independent_real_accuracy",
+        "scale_daz_maturity"
+      ],
+      "phase": "validation",
+      "required_artifacts": [
+        "implementation_hashes",
+        "tests",
+        "qa_record",
+        "pass_or_exact_blocker"
+      ],
+      "row_number": 331,
+      "runtime_completion_claimed": false,
+      "runtime_proof_required": true,
+      "source_citations": [
+        "Plan/00_PROJECT_CONTROL/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_AND_RELEASE_HANDSHAKE_MASTER_PLAN.md",
+        "Plan/02_TARGET_ARCHITECTURE/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_ARCHITECTURE.md",
+        "Plan/Instructions/WAVE64_MASKFACTORY_BRIDGE_IMPLEMENTATION_AND_OPERATION_PROTOCOL.md",
+        "Plan/Instructions/QA/WAVE64_MASKFACTORY_BRIDGE_QA_AND_PROMOTION_PROTOCOL.md"
+      ],
+      "status": "Planned_Autonomous_Implementation_Required",
+      "title": "Structured Mask Authority and Downstream Promotion Gate",
+      "tracker_id": "TRK-W64-331",
+      "workstream": "authority_certificate_promotion",
+      "workstream_id": "MFB-03"
+    },
+    {
+      "acceptance": "Only affected target masks/caches/dependents fail closed while unrelated targets and DAG branches continue; tombstoned authority cannot resurrect.",
+      "completion_profile": "core_autonomous_runtime",
+      "dependencies": [
+        "ITEM-W64-329",
+        "ITEM-W64-330",
+        "ITEM-W64-331"
+      ],
+      "domain": "maskfactory_autonomous_bridge",
+      "external_gates": [],
+      "implementation_action": "Apply signer revocation, certificate expiry/revocation, regression, per-target scope/hash drift, media-frame drift, and policy/revocation-index change as durable signed invalidations and re-evaluate dependents.",
+      "item_id": "ITEM-W64-332",
+      "optional_profiles_not_blocking": [
+        "independent_real_accuracy",
+        "scale_daz_maturity"
+      ],
+      "phase": "release",
+      "required_artifacts": [
+        "implementation_hashes",
+        "tests",
+        "qa_record",
+        "pass_or_exact_blocker"
+      ],
+      "row_number": 332,
+      "runtime_completion_claimed": false,
+      "runtime_proof_required": true,
+      "source_citations": [
+        "Plan/00_PROJECT_CONTROL/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_AND_RELEASE_HANDSHAKE_MASTER_PLAN.md",
+        "Plan/02_TARGET_ARCHITECTURE/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_ARCHITECTURE.md",
+        "Plan/Instructions/WAVE64_MASKFACTORY_BRIDGE_IMPLEMENTATION_AND_OPERATION_PROTOCOL.md",
+        "Plan/Instructions/QA/WAVE64_MASKFACTORY_BRIDGE_QA_AND_PROMOTION_PROTOCOL.md"
+      ],
+      "status": "Planned_Autonomous_Implementation_Required",
+      "title": "Certificate Revocation Demotion and Per-Target Invalidation",
+      "tracker_id": "TRK-W64-332",
+      "workstream": "authority_certificate_promotion",
+      "workstream_id": "MFB-03"
+    },
+    {
+      "acceptance": "Duplicate, swapped, absent, cross-character, prop, environment, or ambiguous assignments block the affected pass and cannot be promotion-authoritative.",
+      "completion_profile": "core_autonomous_runtime",
+      "dependencies": [
+        "ITEM-W64-177",
+        "ITEM-W64-178",
+        "ITEM-W64-179",
+        "ITEM-W64-180",
+        "ITEM-W64-332"
+      ],
+      "domain": "maskfactory_autonomous_bridge",
+      "external_gates": [],
+      "implementation_action": "Bind the exact target character plus every visible/protected character, prop, and environment instance to the declared scene roster, provider indices where applicable, references, visibility, occlusion, target masks, and protected input regions.",
+      "item_id": "ITEM-W64-333",
+      "optional_profiles_not_blocking": [
+        "independent_real_accuracy",
+        "scale_daz_maturity"
+      ],
+      "phase": "contract",
+      "required_artifacts": [
+        "implementation_hashes",
+        "tests",
+        "qa_record",
+        "pass_or_exact_blocker"
+      ],
+      "row_number": 333,
+      "runtime_completion_claimed": false,
+      "runtime_proof_required": true,
+      "source_citations": [
+        "Plan/00_PROJECT_CONTROL/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_AND_RELEASE_HANDSHAKE_MASTER_PLAN.md",
+        "Plan/02_TARGET_ARCHITECTURE/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_ARCHITECTURE.md",
+        "Plan/Instructions/WAVE64_MASKFACTORY_BRIDGE_IMPLEMENTATION_AND_OPERATION_PROTOCOL.md",
+        "Plan/Instructions/QA/WAVE64_MASKFACTORY_BRIDGE_QA_AND_PROMOTION_PROTOCOL.md"
+      ],
+      "status": "Planned_Autonomous_Implementation_Required",
+      "title": "Multi-Entity Scene Roster Owner and Provider Index Binding",
+      "tracker_id": "TRK-W64-333",
+      "workstream": "ownership_transform_derivation_repair",
+      "workstream_id": "MFB-04"
+    },
+    {
+      "acceptance": "Step continuity, sentinel points, bounds, and masks roundtrip within policy; non-invertible operations, wrong side labels, or image/mask transform divergence fail.",
+      "completion_profile": "core_autonomous_runtime",
+      "dependencies": [
+        "ITEM-W64-333"
+      ],
+      "domain": "maskfactory_autonomous_bridge",
+      "external_gates": [],
+      "implementation_action": "Record and execute typed ordered crop, resize, pad, flip, projection, inverse, interpolation, rounding, source/output dimensions, character-perspective side swaps, per-step hashes, canonical chain hash, and tolerance.",
+      "item_id": "ITEM-W64-334",
+      "optional_profiles_not_blocking": [
+        "independent_real_accuracy",
+        "scale_daz_maturity"
+      ],
+      "phase": "implementation",
+      "required_artifacts": [
+        "implementation_hashes",
+        "tests",
+        "qa_record",
+        "pass_or_exact_blocker"
+      ],
+      "row_number": 334,
+      "runtime_completion_claimed": false,
+      "runtime_proof_required": true,
+      "source_citations": [
+        "Plan/00_PROJECT_CONTROL/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_AND_RELEASE_HANDSHAKE_MASTER_PLAN.md",
+        "Plan/02_TARGET_ARCHITECTURE/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_ARCHITECTURE.md",
+        "Plan/Instructions/WAVE64_MASKFACTORY_BRIDGE_IMPLEMENTATION_AND_OPERATION_PROTOCOL.md",
+        "Plan/Instructions/QA/WAVE64_MASKFACTORY_BRIDGE_QA_AND_PROMOTION_PROTOCOL.md"
+      ],
+      "status": "Planned_Autonomous_Implementation_Required",
+      "title": "Executable Coordinate Transform and Roundtrip Validator",
+      "tracker_id": "TRK-W64-334",
+      "workstream": "ownership_transform_derivation_repair",
+      "workstream_id": "MFB-04"
+    },
+    {
+      "acceptance": "Only an exact Mode A package selector may intentionally reference the same immutable package mask; protected-region policy is explicit and each derived output is capped at the weakest parent authority/claim scope.",
+      "completion_profile": "core_autonomous_runtime",
+      "dependencies": [
+        "ITEM-W64-333",
+        "ITEM-W64-334"
+      ],
+      "domain": "maskfactory_autonomous_bridge",
+      "external_gates": [],
+      "implementation_action": "Keep input ROI/protected constraint artifacts distinct from generated masks, validate ownership/overlap, and record boolean, morphological, feather, crop, and projection derivations with exact parent hashes and parent authority records.",
+      "item_id": "ITEM-W64-335",
+      "optional_profiles_not_blocking": [
+        "independent_real_accuracy",
+        "scale_daz_maturity"
+      ],
+      "phase": "validation",
+      "required_artifacts": [
+        "implementation_hashes",
+        "tests",
+        "qa_record",
+        "pass_or_exact_blocker"
+      ],
+      "row_number": 335,
+      "runtime_completion_claimed": false,
+      "runtime_proof_required": true,
+      "source_citations": [
+        "Plan/00_PROJECT_CONTROL/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_AND_RELEASE_HANDSHAKE_MASTER_PLAN.md",
+        "Plan/02_TARGET_ARCHITECTURE/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_ARCHITECTURE.md",
+        "Plan/Instructions/WAVE64_MASKFACTORY_BRIDGE_IMPLEMENTATION_AND_OPERATION_PROTOCOL.md",
+        "Plan/Instructions/QA/WAVE64_MASKFACTORY_BRIDGE_QA_AND_PROMOTION_PROTOCOL.md"
+      ],
+      "status": "Planned_Autonomous_Implementation_Required",
+      "title": "Target Protected Input and Derived Output Lineage Gate",
+      "tracker_id": "TRK-W64-335",
+      "workstream": "ownership_transform_derivation_repair",
+      "workstream_id": "MFB-04"
+    },
+    {
+      "acceptance": "Repair changes only the failed scope and passes regional plus whole-artifact regression or abstains.",
+      "completion_profile": "core_autonomous_runtime",
+      "dependencies": [
+        "ITEM-W64-333",
+        "ITEM-W64-334",
+        "ITEM-W64-335"
+      ],
+      "domain": "maskfactory_autonomous_bridge",
+      "external_gates": [],
+      "implementation_action": "Localize provider disagreement, preserve accepted parents, require a new hypothesis, and bound candidate, attempt, time, and compute budgets.",
+      "item_id": "ITEM-W64-336",
+      "optional_profiles_not_blocking": [
+        "independent_real_accuracy",
+        "scale_daz_maturity"
+      ],
+      "phase": "release",
+      "required_artifacts": [
+        "implementation_hashes",
+        "tests",
+        "qa_record",
+        "pass_or_exact_blocker"
+      ],
+      "row_number": 336,
+      "runtime_completion_claimed": false,
+      "runtime_proof_required": true,
+      "source_citations": [
+        "Plan/00_PROJECT_CONTROL/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_AND_RELEASE_HANDSHAKE_MASTER_PLAN.md",
+        "Plan/02_TARGET_ARCHITECTURE/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_ARCHITECTURE.md",
+        "Plan/Instructions/WAVE64_MASKFACTORY_BRIDGE_IMPLEMENTATION_AND_OPERATION_PROTOCOL.md",
+        "Plan/Instructions/QA/WAVE64_MASKFACTORY_BRIDGE_QA_AND_PROMOTION_PROTOCOL.md"
+      ],
+      "status": "Planned_Autonomous_Implementation_Required",
+      "title": "Disagreement Arbitration and Localized Mask Repair",
+      "tracker_id": "TRK-W64-336",
+      "workstream": "ownership_transform_derivation_repair",
+      "workstream_id": "MFB-04"
+    },
+    {
+      "acceptance": "Stale health never authorizes execution, container routes require image digests, native/venv routes require environment/lock hashes, and current Mode B default authority is draft.",
+      "completion_profile": "core_autonomous_runtime",
+      "dependencies": [
+        "ITEM-W64-177",
+        "ITEM-W64-178",
+        "ITEM-W64-179",
+        "ITEM-W64-180",
+        "ITEM-W64-336"
+      ],
+      "domain": "maskfactory_autonomous_bridge",
+      "external_gates": [],
+      "implementation_action": "Publish freshness-bound service, authenticated endpoint, model-route, authority ceiling, native/venv or container runtime provenance, resource envelope, and compatibility observations.",
+      "item_id": "ITEM-W64-337",
+      "optional_profiles_not_blocking": [
+        "independent_real_accuracy",
+        "scale_daz_maturity"
+      ],
+      "phase": "contract",
+      "required_artifacts": [
+        "implementation_hashes",
+        "tests",
+        "qa_record",
+        "pass_or_exact_blocker"
+      ],
+      "row_number": 337,
+      "runtime_completion_claimed": false,
+      "runtime_proof_required": true,
+      "source_citations": [
+        "Plan/00_PROJECT_CONTROL/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_AND_RELEASE_HANDSHAKE_MASTER_PLAN.md",
+        "Plan/02_TARGET_ARCHITECTURE/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_ARCHITECTURE.md",
+        "Plan/Instructions/WAVE64_MASKFACTORY_BRIDGE_IMPLEMENTATION_AND_OPERATION_PROTOCOL.md",
+        "Plan/Instructions/QA/WAVE64_MASKFACTORY_BRIDGE_QA_AND_PROMOTION_PROTOCOL.md"
+      ],
+      "status": "Planned_Autonomous_Implementation_Required",
+      "title": "Health Capability Route and Runtime Snapshot",
+      "tracker_id": "TRK-W64-337",
+      "workstream": "resilience_cache_event_recovery",
+      "workstream_id": "MFB-05"
+    },
+    {
+      "acceptance": "Confirmed effects are not duplicated, impossible/backward transitions fail, quality retries require a new hypothesis, and breakers are exact-route scoped and deadline bounded.",
+      "completion_profile": "core_autonomous_runtime",
+      "dependencies": [
+        "ITEM-W64-337"
+      ],
+      "domain": "maskfactory_autonomous_bridge",
+      "external_gates": [],
+      "implementation_action": "Separate transport retry from quality repair, bind retries to request payload/idempotency/nonce/deadline, persist explicit execution state transitions, and reconcile outcome_unknown before resubmission.",
+      "item_id": "ITEM-W64-338",
+      "optional_profiles_not_blocking": [
+        "independent_real_accuracy",
+        "scale_daz_maturity"
+      ],
+      "phase": "implementation",
+      "required_artifacts": [
+        "implementation_hashes",
+        "tests",
+        "qa_record",
+        "pass_or_exact_blocker"
+      ],
+      "row_number": 338,
+      "runtime_completion_claimed": false,
+      "runtime_proof_required": true,
+      "source_citations": [
+        "Plan/00_PROJECT_CONTROL/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_AND_RELEASE_HANDSHAKE_MASTER_PLAN.md",
+        "Plan/02_TARGET_ARCHITECTURE/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_ARCHITECTURE.md",
+        "Plan/Instructions/WAVE64_MASKFACTORY_BRIDGE_IMPLEMENTATION_AND_OPERATION_PROTOCOL.md",
+        "Plan/Instructions/QA/WAVE64_MASKFACTORY_BRIDGE_QA_AND_PROMOTION_PROTOCOL.md"
+      ],
+      "status": "Planned_Autonomous_Implementation_Required",
+      "title": "Lifecycle Idempotency Retry Deadline and Circuit Breaker",
+      "tracker_id": "TRK-W64-338",
+      "workstream": "resilience_cache_event_recovery",
+      "workstream_id": "MFB-05"
+    },
+    {
+      "acceptance": "Stale, revoked, wrong-frame, or wrong-owner entries cannot resurrect after restart; forensic retention and fixture entries cannot satisfy active production routes.",
+      "completion_profile": "core_autonomous_runtime",
+      "dependencies": [
+        "ITEM-W64-337",
+        "ITEM-W64-338"
+      ],
+      "domain": "maskfactory_autonomous_bridge",
+      "external_gates": [],
+      "implementation_action": "Key cache by release/contracts/source/media/owner/input regions/intent/transform/route/runtime/model/authority/claim/policy and persist signed per-target invalidation tombstones.",
+      "item_id": "ITEM-W64-339",
+      "optional_profiles_not_blocking": [
+        "independent_real_accuracy",
+        "scale_daz_maturity"
+      ],
+      "phase": "validation",
+      "required_artifacts": [
+        "implementation_hashes",
+        "tests",
+        "qa_record",
+        "pass_or_exact_blocker"
+      ],
+      "row_number": 339,
+      "runtime_completion_claimed": false,
+      "runtime_proof_required": true,
+      "source_citations": [
+        "Plan/00_PROJECT_CONTROL/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_AND_RELEASE_HANDSHAKE_MASTER_PLAN.md",
+        "Plan/02_TARGET_ARCHITECTURE/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_ARCHITECTURE.md",
+        "Plan/Instructions/WAVE64_MASKFACTORY_BRIDGE_IMPLEMENTATION_AND_OPERATION_PROTOCOL.md",
+        "Plan/Instructions/QA/WAVE64_MASKFACTORY_BRIDGE_QA_AND_PROMOTION_PROTOCOL.md"
+      ],
+      "status": "Planned_Autonomous_Implementation_Required",
+      "title": "Content-Addressed Cache and Per-Scope Invalidation Tombstones",
+      "tracker_id": "TRK-W64-339",
+      "workstream": "resilience_cache_event_recovery",
+      "workstream_id": "MFB-05"
+    },
+    {
+      "acceptance": "Replay verifies sequence/hash/signature/checkpoint continuity, rejects fork/deletion/reorder/reseal/substituted-key history, reconstructs projections, and resumes only safe work without repeating confirmed external effects.",
+      "completion_profile": "core_autonomous_runtime",
+      "dependencies": [
+        "ITEM-W64-337",
+        "ITEM-W64-338",
+        "ITEM-W64-339"
+      ],
+      "domain": "maskfactory_autonomous_bridge",
+      "external_gates": [],
+      "implementation_action": "Persist canonical domain-separated admitted, submitted, accepted, running, outcome_unknown, received, validated, authority, cache, invalidation, repair, incident, and promotion-decision events with causation, previous hashes, signed bootstrap/checkpoints, and trusted head pins.",
+      "item_id": "ITEM-W64-340",
+      "optional_profiles_not_blocking": [
+        "independent_real_accuracy",
+        "scale_daz_maturity"
+      ],
+      "phase": "release",
+      "required_artifacts": [
+        "implementation_hashes",
+        "tests",
+        "qa_record",
+        "pass_or_exact_blocker"
+      ],
+      "row_number": 340,
+      "runtime_completion_claimed": false,
+      "runtime_proof_required": true,
+      "source_citations": [
+        "Plan/00_PROJECT_CONTROL/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_AND_RELEASE_HANDSHAKE_MASTER_PLAN.md",
+        "Plan/02_TARGET_ARCHITECTURE/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_ARCHITECTURE.md",
+        "Plan/Instructions/WAVE64_MASKFACTORY_BRIDGE_IMPLEMENTATION_AND_OPERATION_PROTOCOL.md",
+        "Plan/Instructions/QA/WAVE64_MASKFACTORY_BRIDGE_QA_AND_PROMOTION_PROTOCOL.md"
+      ],
+      "status": "Planned_Autonomous_Implementation_Required",
+      "title": "Signed Append-Only Bridge Event Journal Checkpoints and Recovery",
+      "tracker_id": "TRK-W64-340",
+      "workstream": "resilience_cache_event_recovery",
+      "workstream_id": "MFB-05"
+    },
+    {
+      "acceptance": "Core requirements explicitly set human anchors and scale/DAZ maturity as optional; embedded keys, conversational memory, and producer use_eligibility have no Main authority.",
+      "completion_profile": "core_autonomous_runtime",
+      "dependencies": [
+        "ITEM-W64-177",
+        "ITEM-W64-178",
+        "ITEM-W64-179",
+        "ITEM-W64-180",
+        "ITEM-W64-340"
+      ],
+      "domain": "maskfactory_autonomous_bridge",
+      "external_gates": [],
+      "implementation_action": "Declare exact wire schema name/version/hash, canonicalization/domain profile, trusted-key registry and allowed key IDs/algorithms, auth/nonce/replay policy, API/package/ontology compatibility, labels, person counts, transforms, media scope, access modes, issuer/certificate/claim scope, runtime provenance, latency/resources, and completion profile.",
+      "item_id": "ITEM-W64-341",
+      "optional_profiles_not_blocking": [
+        "independent_real_accuracy",
+        "scale_daz_maturity"
+      ],
+      "phase": "contract",
+      "required_artifacts": [
+        "implementation_hashes",
+        "tests",
+        "qa_record",
+        "pass_or_exact_blocker"
+      ],
+      "row_number": 341,
+      "runtime_completion_claimed": false,
+      "runtime_proof_required": true,
+      "source_citations": [
+        "Plan/00_PROJECT_CONTROL/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_AND_RELEASE_HANDSHAKE_MASTER_PLAN.md",
+        "Plan/02_TARGET_ARCHITECTURE/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_ARCHITECTURE.md",
+        "Plan/Instructions/WAVE64_MASKFACTORY_BRIDGE_IMPLEMENTATION_AND_OPERATION_PROTOCOL.md",
+        "Plan/Instructions/QA/WAVE64_MASKFACTORY_BRIDGE_QA_AND_PROMOTION_PROTOCOL.md"
+      ],
+      "status": "Planned_Autonomous_Implementation_Required",
+      "title": "Main Consumer Requirements and Trust Manifest",
+      "tracker_id": "TRK-W64-341",
+      "workstream": "cross_repository_session_handshake",
+      "workstream_id": "MFB-06"
+    },
+    {
+      "acceptance": "Partial adoption authorizes only enumerated diagnostic/shadow capabilities and never broad production use; every required signature must resolve to an active out-of-band trusted key.",
+      "completion_profile": "core_autonomous_runtime",
+      "dependencies": [
+        "ITEM-W64-341"
+      ],
+      "domain": "maskfactory_autonomous_bridge",
+      "external_gates": [
+        "maskfactory_release_snapshot_available"
+      ],
+      "implementation_action": "Record adopted, partially adopted, or rejected status with exact pin, signed trust result, current revocation index, journal checkpoint/head pin, checks, mismatches, capability scope, and revalidation triggers.",
+      "item_id": "ITEM-W64-342",
+      "optional_profiles_not_blocking": [
+        "independent_real_accuracy",
+        "scale_daz_maturity"
+      ],
+      "phase": "implementation",
+      "required_artifacts": [
+        "implementation_hashes",
+        "tests",
+        "qa_record",
+        "pass_or_exact_blocker"
+      ],
+      "row_number": 342,
+      "runtime_completion_claimed": false,
+      "runtime_proof_required": true,
+      "source_citations": [
+        "Plan/00_PROJECT_CONTROL/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_AND_RELEASE_HANDSHAKE_MASTER_PLAN.md",
+        "Plan/02_TARGET_ARCHITECTURE/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_ARCHITECTURE.md",
+        "Plan/Instructions/WAVE64_MASKFACTORY_BRIDGE_IMPLEMENTATION_AND_OPERATION_PROTOCOL.md",
+        "Plan/Instructions/QA/WAVE64_MASKFACTORY_BRIDGE_QA_AND_PROMOTION_PROTOCOL.md"
+      ],
+      "status": "Planned_Autonomous_Implementation_Required",
+      "title": "Producer Consumer Adoption Receipt",
+      "tracker_id": "TRK-W64-342",
+      "workstream": "cross_repository_session_handshake",
+      "workstream_id": "MFB-06"
+    },
+    {
+      "acceptance": "Any schema, semantic, trust, ontology, route, authority, lifecycle, or certificate drift fails before runtime activation.",
+      "completion_profile": "core_autonomous_runtime",
+      "dependencies": [
+        "ITEM-W64-341",
+        "ITEM-W64-342"
+      ],
+      "domain": "maskfactory_autonomous_bridge",
+      "external_gates": [],
+      "implementation_action": "Run producer fixtures and Main positive/negative/adversarial fixtures against the same immutable release and consumer manifest, including canonicalization, signer substitution, nonce replay, path/archive safety, media/ownership/transform drift, certificate time/revocation, journal forks, and mapping completeness.",
+      "item_id": "ITEM-W64-343",
+      "optional_profiles_not_blocking": [
+        "independent_real_accuracy",
+        "scale_daz_maturity"
+      ],
+      "phase": "validation",
+      "required_artifacts": [
+        "implementation_hashes",
+        "tests",
+        "qa_record",
+        "pass_or_exact_blocker"
+      ],
+      "row_number": 343,
+      "runtime_completion_claimed": false,
+      "runtime_proof_required": true,
+      "source_citations": [
+        "Plan/00_PROJECT_CONTROL/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_AND_RELEASE_HANDSHAKE_MASTER_PLAN.md",
+        "Plan/02_TARGET_ARCHITECTURE/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_ARCHITECTURE.md",
+        "Plan/Instructions/WAVE64_MASKFACTORY_BRIDGE_IMPLEMENTATION_AND_OPERATION_PROTOCOL.md",
+        "Plan/Instructions/QA/WAVE64_MASKFACTORY_BRIDGE_QA_AND_PROMOTION_PROTOCOL.md"
+      ],
+      "status": "Planned_Autonomous_Implementation_Required",
+      "title": "Bidirectional Compatibility Contract and Adversarial CI",
+      "tracker_id": "TRK-W64-343",
+      "workstream": "cross_repository_session_handshake",
+      "workstream_id": "MFB-06"
+    },
+    {
+      "acceptance": "Main requests no gold mutation or authority change; producer response appears only through its own later event/release.",
+      "completion_profile": "core_autonomous_runtime",
+      "dependencies": [
+        "ITEM-W64-341",
+        "ITEM-W64-342",
+        "ITEM-W64-343"
+      ],
+      "domain": "maskfactory_autonomous_bridge",
+      "external_gates": [],
+      "implementation_action": "Return source/result hashes, localized defect, QA evidence, and requested producer action through an append-only request.",
+      "item_id": "ITEM-W64-344",
+      "optional_profiles_not_blocking": [
+        "independent_real_accuracy",
+        "scale_daz_maturity"
+      ],
+      "phase": "release",
+      "required_artifacts": [
+        "implementation_hashes",
+        "tests",
+        "qa_record",
+        "pass_or_exact_blocker"
+      ],
+      "row_number": 344,
+      "runtime_completion_claimed": false,
+      "runtime_proof_required": true,
+      "source_citations": [
+        "Plan/00_PROJECT_CONTROL/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_AND_RELEASE_HANDSHAKE_MASTER_PLAN.md",
+        "Plan/02_TARGET_ARCHITECTURE/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_ARCHITECTURE.md",
+        "Plan/Instructions/WAVE64_MASKFACTORY_BRIDGE_IMPLEMENTATION_AND_OPERATION_PROTOCOL.md",
+        "Plan/Instructions/QA/WAVE64_MASKFACTORY_BRIDGE_QA_AND_PROMOTION_PROTOCOL.md"
+      ],
+      "status": "Planned_Autonomous_Implementation_Required",
+      "title": "Typed Feedback Repair Request Without Truth Mutation",
+      "tracker_id": "TRK-W64-344",
+      "workstream": "cross_repository_session_handshake",
+      "workstream_id": "MFB-06"
+    },
+    {
+      "acceptance": "Positive and adversarial fixtures prove Mode A/Mode B authority independence, exact-certificate live eligibility, fixture/runtime separation, and rejection of embedded-key, producer eligibility, conversational summary, live QA-dial, or string-only promotion authority.",
+      "completion_profile": "core_autonomous_runtime",
+      "dependencies": [
+        "ITEM-W64-177",
+        "ITEM-W64-178",
+        "ITEM-W64-179",
+        "ITEM-W64-180",
+        "ITEM-W64-344"
+      ],
+      "domain": "maskfactory_autonomous_bridge",
+      "external_gates": [],
+      "implementation_action": "Validate every schema/example, canonical/security invariant, executable producer mapping, trust anchor, signature/time/revocation rule, journal/state-machine rule, dependency, ownership/media/transform/lineage rule, authority/claim rule, structured promotion criterion, legacy migration, completion profile, mirror, and preservation hash.",
+      "item_id": "ITEM-W64-345",
+      "optional_profiles_not_blocking": [
+        "independent_real_accuracy",
+        "scale_daz_maturity"
+      ],
+      "phase": "contract",
+      "required_artifacts": [
+        "implementation_hashes",
+        "tests",
+        "qa_record",
+        "pass_or_exact_blocker"
+      ],
+      "row_number": 345,
+      "runtime_completion_claimed": false,
+      "runtime_proof_required": true,
+      "source_citations": [
+        "Plan/00_PROJECT_CONTROL/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_AND_RELEASE_HANDSHAKE_MASTER_PLAN.md",
+        "Plan/02_TARGET_ARCHITECTURE/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_ARCHITECTURE.md",
+        "Plan/Instructions/WAVE64_MASKFACTORY_BRIDGE_IMPLEMENTATION_AND_OPERATION_PROTOCOL.md",
+        "Plan/Instructions/QA/WAVE64_MASKFACTORY_BRIDGE_QA_AND_PROMOTION_PROTOCOL.md"
+      ],
+      "status": "Planned_Autonomous_Implementation_Required",
+      "title": "Strict v2 Fixture Semantic Security and Legacy Migration Validator Suite",
+      "tracker_id": "TRK-W64-345",
+      "workstream": "assurance_app_vertical_release",
+      "workstream_id": "MFB-07"
+    },
+    {
+      "acceptance": "Every named page consumes only its registered read models and evidence lineage; Browser, App Mode, LLM, and VLM cannot bypass the adapter, mutate producer truth, commit promotion, or infer runtime readiness from fixtures.",
+      "completion_profile": "core_autonomous_runtime",
+      "dependencies": [
+        "ITEM-W64-345"
+      ],
+      "domain": "maskfactory_autonomous_bridge",
+      "external_gates": [],
+      "implementation_action": "Implement the explicit read-model map for Home/readiness, Projects/revisions, Scene Builder Pose & Masks, Runs/DAG, Queue/Workers, Recovery, and QA, including the strict readiness-projection v2 contract.",
+      "item_id": "ITEM-W64-346",
+      "optional_profiles_not_blocking": [
+        "independent_real_accuracy",
+        "scale_daz_maturity"
+      ],
+      "phase": "implementation",
+      "required_artifacts": [
+        "implementation_hashes",
+        "tests",
+        "qa_record",
+        "pass_or_exact_blocker"
+      ],
+      "row_number": 346,
+      "runtime_completion_claimed": false,
+      "runtime_proof_required": true,
+      "source_citations": [
+        "Plan/00_PROJECT_CONTROL/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_AND_RELEASE_HANDSHAKE_MASTER_PLAN.md",
+        "Plan/02_TARGET_ARCHITECTURE/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_ARCHITECTURE.md",
+        "Plan/Instructions/WAVE64_MASKFACTORY_BRIDGE_IMPLEMENTATION_AND_OPERATION_PROTOCOL.md",
+        "Plan/Instructions/QA/WAVE64_MASKFACTORY_BRIDGE_QA_AND_PROMOTION_PROTOCOL.md"
+      ],
+      "status": "Planned_Autonomous_Implementation_Required",
+      "title": "Bridge Observability Incident and App Projection",
+      "tracker_id": "TRK-W64-346",
+      "workstream": "assurance_app_vertical_release",
+      "workstream_id": "MFB-07"
+    },
+    {
+      "acceptance": "Every core gate produces trust- and hash-bound genuine runtime evidence; wrong-owner/frame/key/revocation/transform injections fail closed, unrelated branches continue, and an injected child failure preserves its accepted parent.",
+      "completion_profile": "core_autonomous_runtime",
+      "dependencies": [
+        "ITEM-W64-345",
+        "ITEM-W64-346"
+      ],
+      "domain": "maskfactory_autonomous_bridge",
+      "external_gates": [
+        "runtime_maskfactory_release_and_main_adapter_available"
+      ],
+      "implementation_action": "Run single-person Mode A, two-person plus prop/environment ownership/protection, still/frame/span scope, Mode B draft and exact certified output, outage/outcome_unknown reconciliation, per-target invalidation, signed-journal restart, and downstream edit proofs.",
+      "item_id": "ITEM-W64-347",
+      "optional_profiles_not_blocking": [
+        "independent_real_accuracy",
+        "scale_daz_maturity"
+      ],
+      "phase": "validation",
+      "required_artifacts": [
+        "implementation_hashes",
+        "tests",
+        "qa_record",
+        "pass_or_exact_blocker"
+      ],
+      "row_number": 347,
+      "runtime_completion_claimed": false,
+      "runtime_proof_required": true,
+      "source_citations": [
+        "Plan/00_PROJECT_CONTROL/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_AND_RELEASE_HANDSHAKE_MASTER_PLAN.md",
+        "Plan/02_TARGET_ARCHITECTURE/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_ARCHITECTURE.md",
+        "Plan/Instructions/WAVE64_MASKFACTORY_BRIDGE_IMPLEMENTATION_AND_OPERATION_PROTOCOL.md",
+        "Plan/Instructions/QA/WAVE64_MASKFACTORY_BRIDGE_QA_AND_PROMOTION_PROTOCOL.md"
+      ],
+      "status": "Planned_Autonomous_Implementation_Required",
+      "title": "Single and Multi-Character Integrated Bridge Proof",
+      "tracker_id": "TRK-W64-347",
+      "workstream": "assurance_app_vertical_release",
+      "workstream_id": "MFB-07"
+    },
+    {
+      "acceptance": "Row218 and every core bridge gate pass; optional independent accuracy and scale/DAZ maturity are reported separately and do not block core.",
+      "completion_profile": "core_autonomous_runtime",
+      "dependencies": [
+        "ITEM-W64-345",
+        "ITEM-W64-346",
+        "ITEM-W64-347",
+        "ITEM-W64-218"
+      ],
+      "domain": "maskfactory_autonomous_bridge",
+      "external_gates": [
+        "ITEM-W64-218_runtime_evidence"
+      ],
+      "implementation_action": "Issue the core_autonomous_runtime bridge release only after Rows321-347 and the existing Character-to-Image vertical slice pass.",
+      "item_id": "ITEM-W64-348",
+      "optional_profiles_not_blocking": [
+        "independent_real_accuracy",
+        "scale_daz_maturity"
+      ],
+      "phase": "release",
+      "required_artifacts": [
+        "implementation_hashes",
+        "tests",
+        "qa_record",
+        "pass_or_exact_blocker"
+      ],
+      "row_number": 348,
+      "runtime_completion_claimed": false,
+      "runtime_proof_required": true,
+      "source_citations": [
+        "Plan/00_PROJECT_CONTROL/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_AND_RELEASE_HANDSHAKE_MASTER_PLAN.md",
+        "Plan/02_TARGET_ARCHITECTURE/WAVE64_MASKFACTORY_AUTONOMOUS_BRIDGE_ARCHITECTURE.md",
+        "Plan/Instructions/WAVE64_MASKFACTORY_BRIDGE_IMPLEMENTATION_AND_OPERATION_PROTOCOL.md",
+        "Plan/Instructions/QA/WAVE64_MASKFACTORY_BRIDGE_QA_AND_PROMOTION_PROTOCOL.md"
+      ],
+      "status": "Planned_Autonomous_Implementation_Required",
+      "title": "Core Autonomous MaskFactory Bridge Release",
+      "tracker_id": "TRK-W64-348",
+      "workstream": "assurance_app_vertical_release",
+      "workstream_id": "MFB-07"
+    }
+  ],
+  "row_range": [
+    321,
+    348
+  ],
+  "runtime_complete": false,
+  "runtime_completion_claimed": false,
+  "schema_version": "1.0.0",
+  "status": "Planned_Autonomous_Implementation_Required",
+  "updated_at": "2026-07-17T02:20:00-05:00",
+  "workstreams": [
+    {
+      "id": "MFB-01",
+      "objective": "Publish, verify, pin, and invalidate immutable MaskFactory integration releases.",
+      "slug": "release_snapshot_and_pinning"
+    },
+    {
+      "id": "MFB-02",
+      "objective": "Implement strict request/result ports for package and live-service access without authority inference.",
+      "slug": "adapter_dual_mode_contract"
+    },
+    {
+      "id": "MFB-03",
+      "objective": "Verify the frozen authority crosswalk, operational certificates, promotion gates, and revocation.",
+      "slug": "authority_certificate_promotion"
+    },
+    {
+      "id": "MFB-04",
+      "objective": "Preserve multi-character ownership, geometry, derived-mask lineage, protected regions, and bounded repair.",
+      "slug": "ownership_transform_derivation_repair"
+    },
+    {
+      "id": "MFB-05",
+      "objective": "Provide health, idempotency, circuit breaking, cache invalidation, event replay, and recovery.",
+      "slug": "resilience_cache_event_recovery"
+    },
+    {
+      "id": "MFB-06",
+      "objective": "Exchange consumer requirements, adoption receipts, compatibility evidence, and non-mutating feedback.",
+      "slug": "cross_repository_session_handshake"
+    },
+    {
+      "id": "MFB-07",
+      "objective": "Prove contracts, faults, observability, App projections, integrated execution, and core release.",
+      "slug": "assurance_app_vertical_release"
+    }
+  ]
+}

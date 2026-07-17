@@ -107,6 +107,52 @@ def test_rows_never_claim_runtime_completion(builder):
         assert row["runtime_completion_claimed"] is False
 
 
+def test_core_perceptual_release_is_autonomous_policy_first(builder):
+    rows = builder.build_rows()
+    assert all(
+        "autonomous_policy_perceptual_release_gate_with_optional_explicit_human_override"
+        in row["external_gates"]
+        for row in rows
+    )
+    registries = builder.build_registries()
+    package = registries["wave64_hyperreal_video_audio_app_work_package_registry.json"]
+    policy = package["perceptual_review_profile_policy"]
+    assert policy["core_autonomous_runtime"]["human_visual_listening_or_operator_approval_required"] is False
+    assert policy["core_autonomous_runtime"]["human_absence_can_block_or_revoke_core"] is False
+    assert policy["independent_perceptual_calibration"]["required_for_core_release"] is False
+    assert policy["explicit_user_override"]["default_or_implicit"] is False
+    critic = registries["wave64_hyperreal_critic_calibration_registry.json"]
+    core_critic = critic["authority_profiles"]["core_autonomous_runtime"]
+    assert core_critic["comparison_mode"] == "autonomous_blinded_critic_evaluation"
+    assert core_critic["human_blind_review_required"] is False
+    assert core_critic["human_absence_can_block_or_revoke_core"] is False
+    independent = critic["authority_profiles"]["independent_perceptual_calibration"]
+    assert independent["critic_class"] == "human_blind_review"
+    assert independent["required_for_core_release"] is False
+    docs = "\n".join(builder.docs().values())
+    for stale in [
+        "models, calibrated VLM review, and blind human comparison",
+        "operator decisions where policy requires them",
+        "required human or\npolicy approval",
+    ]:
+        assert stale not in docs
+    assert "signed deterministic autonomous policy decision" in docs
+    assert "optional `independent_perceptual_calibration`" in docs
+    assert "independent blind preference" not in docs
+    assert "autonomous blinded critic evaluation" in docs
+
+
+def test_scene_builder_and_mask_views_preserve_autonomy_and_authority_separation(builder):
+    docs = "\n".join(builder.docs().values())
+    assert "Interactive operator review is optional" in docs
+    assert "without a human dependency" in docs
+    assert "access mode and authority are independent" in docs
+    assert "Neither mode grants promotion authority" in docs
+    assert "current exact-output operational certificate" in docs
+    assert "structured changes that the operator reviews" not in docs
+    assert "approved\nMode A authority" not in docs
+
+
 def test_item_and_tracker_csv_mirrors_cover_rows():
     item_path = ROOT / "Plan/Items/Waves/Wave64/WAVE64_HYPERREAL_VIDEO_AUDIO_APP_THIRD_PASS_ITEM_ROWS.csv"
     tracker_path = ROOT / "Plan/Tracker/Waves/Wave64/WAVE64_HYPERREAL_VIDEO_AUDIO_APP_THIRD_PASS_TRACKER_ROWS.csv"

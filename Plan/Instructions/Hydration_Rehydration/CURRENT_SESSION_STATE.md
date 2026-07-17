@@ -36,7 +36,13 @@ Implement the first genuine FLUX.2 image-modernization delivery without recreati
 ## Boundaries
 
 - Do not broadly regenerate Items, Tracker, manifests, evidence indexes, hydration history, or Wave64 coverage.
-- Manual body gold masks are not ready. Do not promote candidate masks, rerun Wave70 hard gates, or activate Wave71+.
+- Manual/human-anchor body masks are not yet available for the optional
+  `independent_real_accuracy` profile. This does not block autonomous core
+  bridge/Wave70 work or a core pass backed by an adopted, active, unrevoked,
+  exact-output `maskfactory_autonomous` certificate with matching scope, source,
+  output, owner, transform, lineage, QA, and Main policy evidence. Do not claim
+  the optional independent-real-accuracy profile without its anchor evidence.
+  Waves71+ remain separately deferred until their own activation gates pass.
 - Do not switch to Jira bookkeeping or reopen completed/no-rerun proofs.
 - EC2 remains stopped unless a newly selected runtime task requires it.
 - Rows025-033, Row056, and blocked speech rows retain their current fail-closed authority states.

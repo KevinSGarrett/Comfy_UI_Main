@@ -1,0 +1,99 @@
+{
+  "completion_profile": "core_autonomous_runtime",
+  "created_at": "2026-07-17T02:20:00-05:00",
+  "criteria": [
+    {
+      "analyzer_manifest_ref": {
+        "record_id": "transform_analyzer_fixture_001",
+        "record_type": "analyzer_manifest",
+        "revision": "r001",
+        "sha256": "5555555555555555555555555555555555555555555555555555555555555555"
+      },
+      "blocking": true,
+      "comparator": "lte",
+      "criterion_id": "transform_roundtrip",
+      "dimension": "roundtrip_error_pixels",
+      "evidence_type": "deterministic_transform_report",
+      "threshold": 0.5
+    },
+    {
+      "analyzer_manifest_ref": {
+        "record_id": "protected_analyzer_fixture_001",
+        "record_type": "analyzer_manifest",
+        "revision": "r001",
+        "sha256": "6666666666666666666666666666666666666666666666666666666666666666"
+      },
+      "blocking": true,
+      "comparator": "eq",
+      "criterion_id": "protected_region",
+      "dimension": "protected_region_leak",
+      "evidence_type": "protected_region_report",
+      "threshold": 0
+    }
+  ],
+  "evidence_manifest_refs": [
+    {
+      "record_id": "evidence_manifest_fixture_001",
+      "record_type": "evidence_manifest",
+      "revision": "r001",
+      "sha256": "7777777777777777777777777777777777777777777777777777777777777777"
+    }
+  ],
+  "fixture_only": true,
+  "genuine_runtime_evidence_refs": [],
+  "legacy_string_gate_authoritative": false,
+  "live_qa_strictness_control_authoritative": false,
+  "maskfactory_promotion_gate_policy_v2_id": "promotion_policy_fixture_001",
+  "optional_independent_accuracy_can_mutate_core_decision": false,
+  "policy_artifact_ref": {
+    "record_id": "promotion_policy_fixture_001",
+    "record_type": "maskfactory_promotion_gate_policy_v2",
+    "revision": "r001",
+    "sha256": "7ac66053b56f44093d49860c7029d6e5801997763d31a2313ba26f50a760ccc3"
+  },
+  "policy_context": "fixture_validation",
+  "policy_hash_profile": "main_domain_separated_sorted_utf8_json_v2_excluding_policy_hash_signature_signature_trust_and_artifact_ref_hash",
+  "policy_sha256": "7ac66053b56f44093d49860c7029d6e5801997763d31a2313ba26f50a760ccc3",
+  "policy_version": "2.0.0",
+  "record_type": "maskfactory_promotion_gate_policy_v2",
+  "revision": "r001",
+  "revocation_manifest_refs": [
+    {
+      "record_id": "revocation_manifest_fixture_001",
+      "record_type": "revocation_manifest",
+      "revision": "r001",
+      "sha256": "8888888888888888888888888888888888888888888888888888888888888888"
+    }
+  ],
+  "runtime_completion_claimed": false,
+  "runtime_policy_mutable_from_app": false,
+  "schema_version": "2.0.0",
+  "signature": "fixture-promotion-policy-signature-not-runtime-authority",
+  "signature_domain": "comfy_ui_main.maskfactory_promotion_gate_policy.v2",
+  "signature_trust": {
+    "embedded_public_key_is_trust_anchor": false,
+    "embedded_public_key_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "key_status": "fixture_untrusted",
+    "signature_algorithm": "fixture_local_hash_attestation",
+    "signature_verified": true,
+    "signer_role": "main_promotion_policy_signer",
+    "signing_key_id": "maskfactory_fixture_signer",
+    "trust_anchor_matched": false,
+    "trust_anchor_source": "main_out_of_band_trusted_key_registry",
+    "trust_result": "fixture_only_untrusted",
+    "trusted_key_entry_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "trusted_key_registry_ref": {
+      "record_id": "main_maskfactory_trust_registry_fixture",
+      "record_type": "trusted_signing_key_registry",
+      "revision": "r001",
+      "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    "verification_evidence_ref": {
+      "record_id": "signature_verification_maskfactory_fixture_signer",
+      "record_type": "signature_verification_evidence",
+      "revision": "r001",
+      "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+    },
+    "verified_at": "2026-07-17T02:20:00-05:00"
+  }
+}

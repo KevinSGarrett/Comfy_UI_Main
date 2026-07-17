@@ -182,7 +182,7 @@ def build_rows() -> list[dict[str, Any]]:
                     "exact_model_bundle_certificate_when_execution_is_requested",
                     "durable_controller_and_comfyui_runtime_release_when_execution_is_requested",
                     "maskfactory_certificate_for_mask_authority_when_required",
-                    "human_or_policy_release_gate_for_perceptual_promotion",
+                    "autonomous_policy_perceptual_release_gate_with_optional_explicit_human_override",
                 ],
                 "status": STATUS,
                 "runtime_completion_claimed": False,
@@ -893,6 +893,21 @@ def build_registries() -> dict[str, dict[str, Any]]:
             **common, "registry_id": "wave64_hyperreal_critic_calibration_registry_v1",
             "critic_classes": ["deterministic_metric", "vision_geometry", "identity", "temporal", "physics", "audio_signal", "speech", "spatial_audio", "av_sync", "vlm", "human_blind_review"],
             "requirements": ["versioned_dataset", "held_out_partition", "confidence_intervals", "false_accept_rate", "false_reject_rate", "domain_slice_reporting", "drift_monitoring"],
+            "authority_profiles": {
+                "core_autonomous_runtime": {
+                    "comparison_mode": "autonomous_blinded_critic_evaluation",
+                    "required_critic_classes": ["deterministic_metric", "vision_geometry", "identity", "temporal", "physics", "audio_signal", "speech", "spatial_audio", "av_sync", "vlm"],
+                    "requires_qualified_calibrated_critics": True,
+                    "requires_signed_deterministic_policy_decision": True,
+                    "human_blind_review_required": False,
+                    "human_absence_can_block_or_revoke_core": False,
+                },
+                "independent_perceptual_calibration": {
+                    "critic_class": "human_blind_review",
+                    "required_for_core_release": False,
+                    "result_authority": "optional_calibration_evidence_only",
+                },
+            },
             "llm_or_vlm_self_promotion": False,
         },
         "wave64_operator_application_information_architecture_registry.json": {
@@ -1013,7 +1028,24 @@ def build_registries() -> dict[str, dict[str, Any]]:
             **common, "registry_id": "wave64_hyperreal_video_audio_app_work_package_registry_v1", "package_id": PACKAGE_ID,
             "row_range": [261, 320], "workstreams": [{"id": wid, "slug": slug, "objective": objective} for wid, slug, objective in WORKSTREAMS],
             "implementation_order": [wid for wid, _, _ in WORKSTREAMS],
-            "full_release_external_gates": ["Rows149_220_multimodal_runtime", "Row260_model_intelligence_production_release", "MaskFactory_current_certificate", "human_or_policy_perceptual_release"],
+            "full_release_external_gates": ["Rows149_220_multimodal_runtime", "Row260_model_intelligence_production_release", "MaskFactory_current_certificate", "autonomous_policy_perceptual_release_with_optional_explicit_human_override"],
+            "perceptual_review_profile_policy": {
+                "core_autonomous_runtime": {
+                    "required_authority": "signed_deterministic_policy_plus_qualified_calibrated_autonomous_critics",
+                    "human_visual_listening_or_operator_approval_required": False,
+                    "human_absence_can_block_or_revoke_core": False,
+                },
+                "independent_perceptual_calibration": {
+                    "required_for_core_release": False,
+                    "human_blind_visual_or_listening_review_allowed": True,
+                    "result_authority": "optional_calibration_evidence_only",
+                },
+                "explicit_user_override": {
+                    "allowed_only_when_separately_recorded_and_policy_authorized": True,
+                    "default_or_implicit": False,
+                    "can_replace_failed_never_waivable_core_gate": False,
+                },
+            },
         },
     }
 
@@ -1089,7 +1121,11 @@ Required dimensions:
 6. primary, micro, secondary, contact, compression, rebound, and settling motion;
 7. multi-character ownership, occlusion, separation, and contact reciprocity;
 8. environment, prop, wardrobe, fatigue, wetness, damage, and long-form state;
-9. calibrated perceptual realism and independent blind preference.
+9. calibrated perceptual realism under autonomous blinded critic evaluation.
+
+Human blind visual or listening comparison belongs only to the optional
+`independent_perceptual_calibration` profile. Its absence cannot block or revoke
+the `core_autonomous_runtime` decision.
 
 Texture detail must follow the represented surface. Screen-space noise that
 looks like pores in one frame and slides in the next is a defect, not detail.
@@ -1568,7 +1604,10 @@ protected by default.
 ## QA scorecard
 
 Use deterministic geometry/signal metrics, specialist identity and temporal
-models, calibrated VLM review, and blind human comparison. Report per-character,
+models, and qualified calibrated autonomous VLM/critic review for the
+`core_autonomous_runtime` decision. Human-blinded comparison belongs only to the
+optional `independent_perceptual_calibration` profile or a separately recorded
+explicit user override; its absence cannot block or revoke core. Report per-character,
 per-region, per-span, per-shot, and project aggregates. Required slices include
 camera motion, occlusion, low light, fast motion, dialogue, hands, contact,
 multi-character crossings, hair/fabric, reflections, and long-form cuts.
@@ -1684,8 +1723,10 @@ merge character authority.
 
 Environment, lighting, props, surfaces, characters, ownership, spatial layout,
 actions, dialogue, audio expectations, and continuity parents. Provide schema
-forms plus an evidence-aware natural-language assistant; the assistant proposes
-structured changes that the operator reviews.
+forms plus an evidence-aware natural-language assistant. The assistant proposes
+structured changes. Interactive operator review is optional; autonomous mode
+may execute only after schema/semantic validation and deterministic policy
+authorization, without a human dependency.
 
 ### Shot Timeline
 
@@ -1699,8 +1740,11 @@ and read-only artifact overlays.
 
 Per-character skeleton/depth/silhouette, provider person index, render order,
 contacts, target/protected masks, ontology, transforms, truth tier, certificate,
-and round-trip visualization. Mode B drafts are visibly distinct from approved
-Mode A authority.
+and round-trip visualization. Mode A package reads and Mode B prediction/refine
+drafts are visibly distinct, but access mode and authority are independent.
+Neither mode grants promotion authority; every production use requires a
+current exact-output operational certificate whose scope matches the artifact,
+person instance, ontology, transforms, issuer, workflow, model, and runtime.
 
 ### Image, Video, Audio, and AV workspaces
 
@@ -1820,8 +1864,13 @@ extension for diagnostic/deep-link integration.
 3. registry and policy snapshots;
 4. qualified exact model/workflow/runtime bundles;
 5. controller command, event, attempt, artifact, QA, and promotion records;
-6. calibrated critic observations;
-7. operator decisions where policy requires them.
+6. calibrated autonomous critic observations;
+7. signed deterministic autonomous policy decisions.
+
+Human visual/listening adjudication is optional
+`independent_perceptual_calibration` evidence. An operator/user override exists
+only when explicitly requested, separately recorded, and authorized by policy;
+it is not a default core dependency and cannot waive a never-waivable failure.
 
 An LLM, VLM, UI projection, ComfyUI history entry, preview, or filename cannot
 replace these authorities.
@@ -1907,8 +1956,11 @@ benchmark.
 
 No aggregate average can hide a blocking failure. Promotion requires current
 exact-bundle/runtime/workflow certificates, target/protected/whole-artifact QA,
-continuity and clock consistency, calibrated critics, and required human or
-policy approval. Static planning tests never satisfy runtime release.
+continuity and clock consistency, qualified calibrated autonomous critics, and
+the signed deterministic autonomous policy decision. Blind human/listening or
+operator approval is optional `independent_perceptual_calibration` evidence or a
+separately recorded explicit user override; its absence cannot block or revoke
+`core_autonomous_runtime`. Static planning tests never satisfy runtime release.
 '''
 
     handoff = r'''
@@ -1950,7 +2002,9 @@ or staging. The package currently claims planning-contract coverage only.
 
 
 def build_examples() -> dict[str, dict[str, Any]]:
-    h = lambda ch: ch * 64
+    def h(ch: str) -> str:
+        return ch * 64
+
     provenance = {"producer": "wave64_third_pass_fixture_builder", "producer_version": "1.0.0", "source_refs": [], "registry_snapshot_ids": ["wave64_hvaa_fixture_snapshot_v1"], "canonicalization": "rfc8785_jcs"}
     scope = {"project_id": "project_hvaa_demo", "scene_id": "scene_001", "shot_id": "shot_001", "take_id": "take_001"}
     span = {"clock_id": "clock_24fps_48khz", "timebase": {"numerator": 1, "denominator": 24000, "drop_frame": False}, "start_pts": 0, "end_pts_exclusive": 48000, "start_frame": 0, "end_frame_exclusive": 48, "start_sample": 0, "end_sample_exclusive": 96000, "rounding_policy": "exact_only"}
@@ -2120,6 +2174,17 @@ def semantic_validate(rows: list[dict[str, Any]], registries: dict[str, dict[str
         raise ValueError(f"Row320 is missing transitive dependencies: {sorted(item_ids - seen)}")
     if any(registry.get("runtime_completion_claimed") for registry in registries.values()):
         raise ValueError("registry claims runtime completion")
+    expected_perceptual_gate = "autonomous_policy_perceptual_release_gate_with_optional_explicit_human_override"
+    if any(expected_perceptual_gate not in row["external_gates"] for row in rows):
+        raise ValueError("a third-pass row retained an implicit human perceptual release dependency")
+    package_policy = registries["wave64_hyperreal_video_audio_app_work_package_registry.json"]["perceptual_review_profile_policy"]
+    core_policy = package_policy["core_autonomous_runtime"]
+    if core_policy["human_visual_listening_or_operator_approval_required"] or core_policy["human_absence_can_block_or_revoke_core"] or package_policy["independent_perceptual_calibration"]["required_for_core_release"]:
+        raise ValueError("perceptual review profiles can incorrectly make human review a core dependency")
+    rendered_docs = "\n".join(docs().values())
+    for stale in ["models, calibrated VLM review, and blind human comparison", "operator decisions where policy requires them", "required human or\npolicy approval"]:
+        if stale in rendered_docs:
+            raise ValueError(f"stale implicit-human core wording returned: {stale}")
     route = examples["wave64_hyperreal_video_blocked_route.example.json"]
     validate_video_route_record(route)
     if route["production_execution_allowed"] or route["selected_bundle_ref"] is not None:
@@ -2154,6 +2219,7 @@ def desired_outputs(project_root: Path) -> dict[str, bytes]:
     requirements = {
         "schema_version": "1.0.0", "package_id": PACKAGE_ID, "updated_at": UPDATED_AT,
         "row_range": [261, 320], "status": STATUS, "runtime_completion_claimed": False,
+        "perceptual_review_profile_policy": registries["wave64_hyperreal_video_audio_app_work_package_registry.json"]["perceptual_review_profile_policy"],
         "workstreams": [{"id": wid, "slug": slug, "objective": objective} for wid, slug, objective in WORKSTREAMS],
         "rows": rows,
     }
@@ -2173,6 +2239,8 @@ def desired_outputs(project_root: Path) -> dict[str, bytes]:
         "row320_transitively_depends_on_rows261_319": True, "runtime_completion_claimed": False,
         "runtime_execution_allowed": False, "production_application_built": False,
         "model_or_engine_qualification_performed": False,
+        "core_perceptual_release_is_autonomous_policy_first": True,
+        "human_perceptual_review_is_optional_profile_only": True,
     }
     coverage_bytes = canonical_json(coverage)
     outputs["Plan/Instructions/QA/Evidence/Wave64/WAVE64_HYPERREAL_VIDEO_AUDIO_APP_THIRD_PASS_PLANNING_COVERAGE.json"] = coverage_bytes

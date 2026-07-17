@@ -32,8 +32,10 @@ merge character authority.
 
 Environment, lighting, props, surfaces, characters, ownership, spatial layout,
 actions, dialogue, audio expectations, and continuity parents. Provide schema
-forms plus an evidence-aware natural-language assistant; the assistant proposes
-structured changes that the operator reviews.
+forms plus an evidence-aware natural-language assistant. The assistant proposes
+structured changes. Interactive operator review is optional; autonomous mode
+may execute only after schema/semantic validation and deterministic policy
+authorization, without a human dependency.
 
 ### Shot Timeline
 
@@ -47,8 +49,11 @@ and read-only artifact overlays.
 
 Per-character skeleton/depth/silhouette, provider person index, render order,
 contacts, target/protected masks, ontology, transforms, truth tier, certificate,
-and round-trip visualization. Mode B drafts are visibly distinct from approved
-Mode A authority.
+and round-trip visualization. Mode A package reads and Mode B prediction/refine
+drafts are visibly distinct, but access mode and authority are independent.
+Neither mode grants promotion authority; every production use requires a
+current exact-output operational certificate whose scope matches the artifact,
+person instance, ontology, transforms, issuer, workflow, model, and runtime.
 
 ### Image, Video, Audio, and AV workspaces
 
