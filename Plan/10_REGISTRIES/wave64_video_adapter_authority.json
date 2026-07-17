@@ -1,0 +1,125 @@
+{
+  "schema_version": "1.0.0",
+  "authority_id": "wave64_video_adapter_authority_rows185_188_r001",
+  "rows_covered": [185, 186, 187, 188],
+  "source_authorities": [
+    {"name": "image_dag_evidence", "path": "Plan/Instructions/QA/Evidence/Wave64/W64_IMAGE_DAG_AUTHORITY_SLICE_20260717T024200-0500.json", "sha256": "0439ab76c0044b26579ad61029cea3c8fffa3f15f11168d4fb2cf90f7149b809"},
+    {"name": "keyframe_authority_schema", "path": "Plan/08_SCHEMAS/hyperreal_video_keyframe_authority.schema.json", "sha256": "1bbbb46e921ea81047ae9f2ddfb667f2aee206fadb8a5c1b773cd25597ddc069"},
+    {"name": "video_engine_route_schema", "path": "Plan/08_SCHEMAS/hyperreal_video_engine_route_decision.schema.json", "sha256": "ea18cd4009ffd48bd69e2f359c86608263978c4be165e7b42a8094c449a83722"},
+    {"name": "decoded_video_bridge_schema", "path": "Plan/08_SCHEMAS/hyperreal_decoded_video_bridge_qualification.schema.json", "sha256": "5acf70e2cfd091ff5b48254886e1676a33a18b6519283bf36e7e1914035a0d0d"},
+    {"name": "video_span_repair_schema", "path": "Plan/08_SCHEMAS/hyperreal_video_span_repair_plan.schema.json", "sha256": "d34fac8d7fc00db1bd4e41ee9b70351cfa6270455593585f85c0a57c94833368"},
+    {"name": "video_temporal_qa_schema", "path": "Plan/08_SCHEMAS/hyperreal_video_temporal_qa_evaluation.schema.json", "sha256": "0a8c6c82af76a3b96503e65b40930b99148584d1b8c134c1d27c97fa01251f6c"}
+  ],
+  "keyframe_adapter": {
+    "adapter_id": "approved_keyframe_to_video_request_adapter_r001",
+    "status": "blocked_no_approved_keyframe",
+    "required_input_contracts": ["accepted_image", "character_instances", "camera", "pose", "depth", "contact", "timing", "mask_bindings"],
+    "source_image_artifact_ref": null,
+    "keyframe_certificate_ref": null,
+    "shot_instance_authority_preserved": true,
+    "incompatible_keyframe_rejected": true,
+    "request_emitted": false,
+    "execution_allowed": false,
+    "decision": "reject",
+    "blocker_codes": ["APPROVED_KEYFRAME_ARTIFACT_MISSING", "KEYFRAME_CERTIFICATE_MISSING", "SHOT_INSTANCE_BINDINGS_UNAVAILABLE"]
+  },
+  "segment_route_plan": {
+    "route_plan_id": "video_segment_route_fixture_r001",
+    "segments": [
+      {
+        "segment_id": "segment_000_047", "start_frame": 0, "end_frame": 47,
+        "overlap_previous_frames": 0, "overlap_next_frames": 8,
+        "pass_intent": "keyframe_to_video",
+        "temporal_constraints": ["identity_continuity", "camera_motion_continuity", "rational_24fps_clock", "contact_ownership"],
+        "resource_envelope": {"runtime_class": "comfyui_gpu_video_worker", "max_wall_seconds": 3600, "max_peak_vram_mib": 24576, "max_attempts": 2},
+        "evaluated_candidates": [
+          {"bundle_id": "stack_template_wan22_video_v1", "eligible": false, "hard_filter_reasons": ["planned_stack_not_certified", "workflow_release_missing", "runtime_lock_missing"], "certificate_ref": null, "rank_score": null}
+        ],
+        "selected_bundle_ref": null, "route_decision": "blocked", "production_execution_allowed": false,
+        "blocker_codes": ["NO_CERTIFIED_EXACT_VIDEO_BUNDLE", "APPROVED_KEYFRAME_MISSING"]
+      },
+      {
+        "segment_id": "segment_040_071", "start_frame": 40, "end_frame": 71,
+        "overlap_previous_frames": 8, "overlap_next_frames": 0,
+        "pass_intent": "keyframe_to_video",
+        "temporal_constraints": ["identity_continuity", "camera_motion_continuity", "rational_24fps_clock", "transition_overlap_reconnection"],
+        "resource_envelope": {"runtime_class": "comfyui_gpu_video_worker", "max_wall_seconds": 3600, "max_peak_vram_mib": 24576, "max_attempts": 2},
+        "evaluated_candidates": [
+          {"bundle_id": "stack_template_wan22_video_v1", "eligible": false, "hard_filter_reasons": ["planned_stack_not_certified", "workflow_release_missing", "runtime_lock_missing"], "certificate_ref": null, "rank_score": null}
+        ],
+        "selected_bundle_ref": null, "route_decision": "blocked", "production_execution_allowed": false,
+        "blocker_codes": ["NO_CERTIFIED_EXACT_VIDEO_BUNDLE", "APPROVED_BOUNDARY_KEYFRAME_MISSING"]
+      }
+    ],
+    "transition_contract": {"start_frame": 40, "end_frame": 47, "identity_continuity_required": true, "timing_continuity_required": true, "temporal_qa_required": true},
+    "fallback_policy": "explicit_new_route_decision_or_block",
+    "silent_substitution_allowed": false
+  },
+  "decoded_handoff": {
+    "handoff_id": "decoded_video_bridge_fixture_r001",
+    "status": "blocked_uncertified",
+    "transfer_type": "decoded_frames_only",
+    "latent_transfer_allowed": false,
+    "source_bundle_ref": null,
+    "target_bundle_ref": null,
+    "pixel_format_contract": "rgb24_or_declared_lossless_intermediate",
+    "color_space_contract": "explicit_source_and_target_color_space",
+    "timebase_contract": "rational_24_1_preserve_pts",
+    "roundtrip_status": "not_run",
+    "certificate_ref": null,
+    "execution_allowed": false,
+    "blocker_codes": ["SOURCE_BUNDLE_UNSELECTED", "TARGET_BUNDLE_UNSELECTED", "DECODED_BRIDGE_CERTIFICATE_MISSING", "ROUNDTRIP_QA_NOT_RUN"]
+  },
+  "span_repair_plan": {
+    "repair_plan_id": "video_span_repair_frames_024_047_fixture_r001",
+    "status": "blocked_missing_authority",
+    "target_span": {"start_frame": 24, "end_frame": 47},
+    "immutable_accepted_spans": [{"start_frame": 0, "end_frame": 23}, {"start_frame": 48, "end_frame": 71}],
+    "accepted_spans_immutable": true,
+    "smallest_failed_scope_only": true,
+    "full_clip_rerender": false,
+    "decode_handle_frames_before": 8,
+    "decode_handle_frames_after": 8,
+    "write_mask_refs": [],
+    "protected_mask_refs": [],
+    "boundary_keyframe_refs": [],
+    "boundary_reconnection_status": "not_run",
+    "max_attempts": 2,
+    "repair_executed": false,
+    "candidate_span_ref": null,
+    "blocker_codes": ["FAILED_SPAN_QA_EVIDENCE_MISSING", "TRUSTED_WRITE_MASK_MISSING", "PROTECTED_MASKS_MISSING", "BOUNDARY_KEYFRAMES_MISSING", "CERTIFIED_REPAIR_BUNDLE_MISSING"]
+  },
+  "temporal_promotion_gate": {
+    "gate_id": "video_temporal_promotion_fixture_r001",
+    "expected_clock": {"frame_count": 72, "fps_numerator": 24, "fps_denominator": 1, "duration_seconds": 3.0},
+    "checks": [
+      {"check_id": "frame_count", "status": "not_run", "evidence_refs": []},
+      {"check_id": "duration", "status": "not_run", "evidence_refs": []},
+      {"check_id": "fps", "status": "not_run", "evidence_refs": []},
+      {"check_id": "loop_export", "status": "not_run", "evidence_refs": []},
+      {"check_id": "lineage", "status": "not_run", "evidence_refs": []},
+      {"check_id": "playback", "status": "not_run", "evidence_refs": []},
+      {"check_id": "temporal_scorecard", "status": "not_run", "evidence_refs": []}
+    ],
+    "candidate_video_ref": null,
+    "promotion_transaction_ref": null,
+    "accepted_spans_retained": true,
+    "decision": "blocked",
+    "promotion_allowed": false,
+    "blocker_codes": ["CANDIDATE_VIDEO_MISSING", "FRAME_CLOCK_NOT_VERIFIED", "PLAYBACK_NOT_REVIEWED", "TEMPORAL_SCORECARD_NOT_RUN", "LINEAGE_NOT_BOUND", "PROMOTION_POLICY_NOT_EVALUATED"]
+  },
+  "runtime_execution_allowed": false,
+  "promotion_allowed": false,
+  "content_based_suppression": false,
+  "boundaries": {
+    "approved_keyframe_claimed": false,
+    "video_bundle_selected": false,
+    "decoded_bridge_certified": false,
+    "runtime_execution_claimed": false,
+    "candidate_video_created": false,
+    "temporal_qa_claimed": false,
+    "accepted_span_mutated": false,
+    "promotion_transaction_created": false,
+    "item_tracker_status_changed": false
+  }
+}
