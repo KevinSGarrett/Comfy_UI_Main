@@ -151,6 +151,14 @@ try {
   Add-Check "static_child_preflight_throws_to_coordinator" ($staticSource -match 'if \(\$CallerManagedRuntimeWindow\) \{ throw "Caller-managed EC2 static proof was blocked before execution') $true ($staticSource -match 'Caller-managed EC2 static proof was blocked before execution')
   Add-Check "smoke_child_preflight_throws_to_coordinator" ($smokeSource -match 'if \(\$CallerManagedRuntimeWindow\) \{ throw "Caller-managed EC2 workflow smoke was blocked before execution') $true ($smokeSource -match 'Caller-managed EC2 workflow smoke was blocked before execution')
   Add-Check "identity_helper_isolated_from_parent_host" ($coordinatorSource -match '& powershell[^\r\n]+\$identityScript') $true ($coordinatorSource -match '& powershell[^\r\n]+\$identityScript')
+  $instanceTypePropagated = (
+    $coordinatorSource -match '\[string\]\$ExpectedInstanceType\s*=\s*"g5\.xlarge"' -and
+    $coordinatorSource -match '-ExpectedType\s+\$ExpectedInstanceType' -and
+    $coordinatorSource -match 'ExpectedInstanceType=\$ExpectedInstanceType' -and
+    $staticSource -match '\[string\]\$ExpectedInstanceType\s*=\s*"g5\.xlarge"' -and
+    $staticSource -match '-ExpectedType\s+\$ExpectedInstanceType'
+  )
+  Add-Check "approved_instance_type_is_explicitly_propagated" $instanceTypePropagated $true $instanceTypePropagated
   Add-Check "post_stop_ebs_gate_wired" ($coordinatorSource -match 'Test-EC2EbsRightSizingReadiness\.ps1') $true ($coordinatorSource -match 'Test-EC2EbsRightSizingReadiness\.ps1')
   Add-Check "ebs_evidence_binds_stopped_batch_window" ($coordinatorSource -match 'EBS_FILESYSTEM_EVIDENCE\.json' -and $coordinatorSource -match 'final_state=\$record\.final_state' -and $coordinatorSource -match 'source_smoke_record_sha256') $true ($coordinatorSource -match 'EBS_FILESYSTEM_EVIDENCE\.json')
   Add-Check "work_order_state_machine_wired" (($coordinatorSource -match '"EXECUTING"') -and ($coordinatorSource -match '"COMPLETED"') -and ($coordinatorSource -match '"FAILED_CLOSED"') -and ($coordinatorSource -match '"READY_WORK_WAITING_FOR_EC2"')) $true "executing=$($coordinatorSource -match '"EXECUTING"'), completed=$($coordinatorSource -match '"COMPLETED"'), failed=$($coordinatorSource -match '"FAILED_CLOSED"')"

@@ -13,6 +13,7 @@ param(
   [string]$ProjectRoot = "C:\Comfy_UI_Main",
   [Parameter(Mandatory=$true)][string]$WorkOrderFile,
   [string]$InstanceId = "i-0560bf8d143f93bb1",
+  [string]$ExpectedInstanceType = "g5.xlarge",
   [string]$Region = "us-east-1",
   [string]$AuthGateFile = "",
   [string]$ReadinessFile = "",
@@ -223,6 +224,7 @@ $record = [ordered]@{
   unit_count = $validatedUnits.Count
   runtime_window_id = $RuntimeWindowId
   instance_id = $InstanceId
+  expected_instance_type = $ExpectedInstanceType
   region = $Region
   deploy_bundle_s3_uri = $deployBundleS3Uri
   deploy_bundle_sha256 = $deployBundleSha256
@@ -276,7 +278,7 @@ Write-JsonAtomic -Value $workOrder -Path $WorkOrderFile
 try {
   $record.aws_contacted = $true
   $identityScript = Join-Path $PSScriptRoot "Test-AwsComfyGpuIdentity.ps1"
-  $identityOutput = @(& powershell -NoProfile -ExecutionPolicy Bypass -File $identityScript -ProjectRoot $ProjectRoot -InstanceId $InstanceId -ExpectedAccount "029530099913" -Json 2>&1)
+  $identityOutput = @(& powershell -NoProfile -ExecutionPolicy Bypass -File $identityScript -ProjectRoot $ProjectRoot -InstanceId $InstanceId -ExpectedAccount "029530099913" -ExpectedType $ExpectedInstanceType -Json 2>&1)
   $identityExitCode = $LASTEXITCODE
   $identityText = (($identityOutput | ForEach-Object { [string]$_ }) -join [Environment]::NewLine).Trim()
   try { $record.identity_gate = $identityText | ConvertFrom-Json } catch { throw "AWS/EC2 identity check returned invalid JSON." }
@@ -313,7 +315,7 @@ try {
   $record.watchdog = Invoke-VerifiedInstanceWatchdog -WatchdogScriptPath (Join-Path $PSScriptRoot "Start-EC2InstanceStopWatchdog.ps1") -InstanceId $InstanceId -Region $Region -RuntimeWindowId $RuntimeWindowId -OutFile $WatchdogEvidenceOutFile -StopAfterMinutes $maxRuntimeMinutes -TrackerId "TRK-W64-BATCH" -ItemId "ITEM-W64-BATCH" -AllowOsShutdownFallback:$AllowWatchdogOsShutdownFallback
 
   $staticParams = @{
-    ProjectRoot=$ProjectRoot; InstanceId=$InstanceId; Region=$Region; LaneId=$laneId; AuthGateFile=$AuthGateFile; ReadinessFile=$ReadinessFile
+    ProjectRoot=$ProjectRoot; InstanceId=$InstanceId; ExpectedInstanceType=$ExpectedInstanceType; Region=$Region; LaneId=$laneId; AuthGateFile=$AuthGateFile; ReadinessFile=$ReadinessFile
     RuntimeWindowId=$RuntimeWindowId; EmergencyStopEvidencePath=$EmergencyStopEvidencePath; WatchdogEvidenceOutFile=$WatchdogEvidenceOutFile
     PreservedGitExcludePath=$PreservedGitExcludePath; OutFile=$staticProofFile; DeployBundleS3Uri=$deployBundleS3Uri; DeployBundleSha256=$deployBundleSha256
     MaxEc2RuntimeMinutes=$maxRuntimeMinutes; CallerManagedRuntimeWindow=$true; Execute=$true

@@ -11,6 +11,7 @@ stops the instance and verifies it is stopped. It performs no generation.
 param(
   [string]$ProjectRoot = "C:\Comfy_UI_Main",
   [string]$InstanceId = "i-0560bf8d143f93bb1",
+  [string]$ExpectedInstanceType = "g5.xlarge",
   [string]$Region = "us-east-1",
   [string]$LaneId = "sdxl_low_risk_fallback_lane",
   [string]$RemoteProjectRoot = "/home/ubuntu/Comfy_UI_Main",
@@ -357,7 +358,7 @@ if ([string]::IsNullOrWhiteSpace($OutFile)) {
 }
 
 $identityScript = Join-Path $ProjectRoot "Plan\Instructions\Operations\Scripts\Test-AwsComfyGpuIdentity.ps1"
-& $identityScript -ProjectRoot $ProjectRoot -InstanceId $InstanceId -ExpectedAccount "029530099913"
+& $identityScript -ProjectRoot $ProjectRoot -InstanceId $InstanceId -ExpectedAccount "029530099913" -ExpectedType $ExpectedInstanceType
 if ($LASTEXITCODE -ne 0) { throw "AWS/EC2 identity check failed. EC2 lane static proof aborted." }
 
 $startTime = (Get-Date).ToString("yyyy-MM-ddTHH:mm:sszzz")
