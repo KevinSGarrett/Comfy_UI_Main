@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "wave64_maskfactory_bridge_adapter_registry",
+  "updated_at": "2026-07-17T14:28:18-05:00",
+  "implementation": {
+    "path": "Plan/07_IMPLEMENTATION/scripts/execute_wave64_maskfactory_bridge_adapter.py",
+    "sha256": "88d0fdf3edca8ca42ac7908a9c463685117ed7660c8c7997eae78e9cff5d6c37",
+    "bytes": 25962
+  },
+  "tests": {
+    "path": "Plan/Instructions/QA/Scripts/test_execute_wave64_maskfactory_bridge_adapter.py",
+    "sha256": "2918dbea89b73c21b70e0fc9bb141496c0c66f0fcab53d1130a09a2d046aef7f",
+    "bytes": 16348,
+    "targeted_passed": 28,
+    "compatible_maskfactory_passed": 252
+  },
+  "implemented_rows": [
+    "ITEM-W64-326",
+    "ITEM-W64-327",
+    "ITEM-W64-328"
+  ],
+  "capabilities": {
+    "mode_a_fixture_package_read": {
+      "available": true,
+      "read_only": true,
+      "verified_bindings": [
+        "release_snapshot",
+        "artifact_bytes",
+        "source_artifact",
+        "media_scope",
+        "owner",
+        "ontology_label",
+        "transform_chain",
+        "authority",
+        "certificate_absence"
+      ]
+    },
+    "mode_b_synthetic_fixture": {
+      "available": true,
+      "default_authority_state": "draft",
+      "lifecycle_persisted": true,
+      "atomic_write_lock": true,
+      "outcome_unknown_requires_reconciliation": true,
+      "not_found_resubmission_authorization_uses": 1
+    },
+    "normalized_result": {
+      "frozen_schema": "maskfactory_bridge_result_v2.schema.json",
+      "semantic_core_validation": true,
+      "authority_elevation_allowed": false,
+      "input_output_identity_preserved": true
+    },
+    "deterministic_arbitration": {
+      "strongest_valid_authority_wins": true,
+      "newer_draft_overwrites_stronger_authority": false,
+      "equal_authority_without_budget": "abstain",
+      "scope_ambiguity": "abstain"
+    }
+  },
+  "production": {
+    "enabled": false,
+    "runtime_completion_claimed": false,
+    "release_or_certification_claimed": false,
+    "required_before_enablement": [
+      "adopted_published_maskfactory_release",
+      "active_atomic_release_pin",
+      "trusted_producer_signatures",
+      "compatible_mode_a_package_or_mode_b_service",
+      "exact_operational_certificates_for_any_authority_above_default",
+      "genuine_runtime_and_qa_evidence"
+    ]
+  }
+}
