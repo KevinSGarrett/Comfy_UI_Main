@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.0.0",
+  "authority_id": "wave64_regional_repair_authority_rows174_176_r001",
+  "rows_covered": [174, 175, 176],
+  "source_bridge_evidence": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/W64_BRIDGE_SPECIALIST_AUTHORITY_SLICE_20260717T014116-0500.json",
+    "sha256": "be073b1ec643304cd91bc2f16f99b8d38fcbd87e77a496c2309a1bc1185b279e"
+  },
+  "accepted_parent": {
+    "artifact_id": "artifact_scene001_accepted_parent_fixture_001",
+    "artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "immutable": true
+  },
+  "regional_edit_contract": {
+    "contract_id": "regional_edit_hands_feet_fixture_r001",
+    "status": "blocked_missing_trusted_mask",
+    "execution_allowed": false,
+    "parent_artifact_id": "artifact_scene001_accepted_parent_fixture_001",
+    "target": {
+      "owner_id": "charinst_c01_scene001_01",
+      "person_index": 0,
+      "region": "hands_feet",
+      "coordinate_space": "source_pixels",
+      "mask_binding_id": null
+    },
+    "protected_scopes": ["background", "non_target_body", "other_identity_regions"],
+    "crop": {"padding_px": 64, "feather_px": 24, "bounds_policy": "clamp_to_parent"},
+    "resolution": {"width": 1024, "height": 1024, "resize_policy": "preserve_aspect_pad_only"},
+    "denoise_bounds": {"minimum": 0.15, "maximum": 0.45, "selected": null},
+    "transform": {
+      "transform_id": "identity_source_to_regional_fixture_r001",
+      "parameters": {"scale_x": 1.0, "scale_y": 1.0, "translate_x": 0, "translate_y": 0},
+      "parameters_sha256": "bd2588ec9522ab6bcd2dd99ed22fb640c202e32b9a6927cfeab20e464b72695e",
+      "invertible": true,
+      "roundtrip_evidence_id": "identity_transform_roundtrip_fixture_001"
+    },
+    "recomposition": {
+      "method": "new_candidate_over_immutable_parent",
+      "parent_mutation_allowed": false,
+      "candidate_output_required": true
+    },
+    "mask_authority": {
+      "required_access_mode": "mode_a_package_read",
+      "allowed_truth_tiers": ["approved_package", "certified_machine"],
+      "certificate_required": true,
+      "mode_b_draft_only": true,
+      "writes_gold": false
+    },
+    "blocker_codes": ["TRUSTED_MASK_BINDING_MISSING", "MASK_CERTIFICATE_MISSING", "CANDIDATE_ARTIFACT_NOT_GENERATED"]
+  },
+  "prior_failed_attempt": {
+    "attempt_id": "attempt_regional_fixture_000",
+    "defect_codes": ["MASK_AUTHORITY_MISSING"],
+    "changed_variables": ["seed"],
+    "result": "failed"
+  },
+  "repair_hypothesis": {
+    "schema_version": "1.0.0",
+    "record_type": "failure_diagnosis_and_repair_hypothesis",
+    "repair_hypothesis_id": "repair_hypothesis_mask_authority_fixture_r001",
+    "revision": "r001",
+    "status": "blocked_pending_trusted_mask_binding",
+    "created_at": "2026-07-17T02:00:00-05:00",
+    "failed_attempt_refs": [{"record_type": "regional_attempt", "record_id": "attempt_regional_fixture_000", "revision": "r000", "sha256": null, "path_or_uri": null}],
+    "defect_codes": ["MASK_AUTHORITY_MISSING"],
+    "failed_gate_ids": ["qa_target_region", "qa_protected_regions", "qa_whole_artifact_regression"],
+    "causal_class": "mask",
+    "localized_scope_sha256": "aab38dae6905308042a8f57fd1773c84301617aabccd90d4c2520062a09f308c",
+    "changed_variables": ["mask_authority_binding"],
+    "expected_effect": "Bind one certificate-authorized Mode A target mask without mutating the accepted parent.",
+    "new_selection_request_ref": null,
+    "remaining_attempt_budget": 1,
+    "hypothesis_authority": "planner_candidate",
+    "accepted_parent_mutation_allowed": false,
+    "promotion_authority": "none",
+    "provenance": {
+      "producer": "validate_wave64_regional_repair_authority.py",
+      "source_refs": ["regional_edit_hands_feet_fixture_r001", "attempt_regional_fixture_000"],
+      "evidence_refs": ["W64_BRIDGE_SPECIALIST_AUTHORITY_SLICE_20260717T014116-0500"]
+    }
+  },
+  "reintegration_gate": {
+    "gate_id": "regional_reintegration_fixture_r001",
+    "status": "blocked_no_candidate_artifact",
+    "baseline_artifact_id": "artifact_scene001_accepted_parent_fixture_001",
+    "candidate_artifact_id": null,
+    "accepted_parent_retained": true,
+    "required_gates": [
+      "target_region", "protected_regions", "boundary_seams", "color", "grain",
+      "sharpness", "geometry", "identity", "ownership", "temporal_continuity",
+      "audio_continuity", "unrelated_defect_scan", "whole_artifact_regression"
+    ],
+    "gate_results": [
+      {"gate": "target_region", "status": "not_run", "evidence_ids": []},
+      {"gate": "protected_regions", "status": "not_run", "evidence_ids": []},
+      {"gate": "boundary_seams", "status": "not_run", "evidence_ids": []},
+      {"gate": "color", "status": "not_run", "evidence_ids": []},
+      {"gate": "grain", "status": "not_run", "evidence_ids": []},
+      {"gate": "sharpness", "status": "not_run", "evidence_ids": []},
+      {"gate": "geometry", "status": "not_run", "evidence_ids": []},
+      {"gate": "identity", "status": "not_run", "evidence_ids": []},
+      {"gate": "ownership", "status": "not_run", "evidence_ids": []},
+      {"gate": "temporal_continuity", "status": "not_run", "evidence_ids": []},
+      {"gate": "audio_continuity", "status": "not_run", "evidence_ids": []},
+      {"gate": "unrelated_defect_scan", "status": "not_run", "evidence_ids": []},
+      {"gate": "whole_artifact_regression", "status": "not_run", "evidence_ids": []}
+    ],
+    "promotion_transaction_id": null,
+    "decision": "blocked",
+    "blocker_codes": ["CANDIDATE_ARTIFACT_MISSING", "REGRESSION_GATES_NOT_RUN", "PROMOTION_POLICY_NOT_EVALUATED"]
+  },
+  "runtime_execution_allowed": false,
+  "promotion_allowed": false,
+  "content_based_suppression": false
+}
