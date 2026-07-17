@@ -165,16 +165,21 @@ producer packet. Its integration head is
 `e6d6c6bdf00a0702d274455fbf07ded2b3a838b3` (parents `938b469...` and
 `85d4c19...`), and
 `11_AUTONOMOUS_CORE_BRIDGE_INTEGRATION_RECONCILIATION_MANIFEST.json` has
-SHA-256 `d382e55b6c78deed983a9b56672349f1915fa60a4acd0328f831c2bc84acba77`.
+SHA-256 `c948da1595f6c29ead2aeda950ac778717c6557f2ed5f6c4b0664e5052f3eb52`.
 That manifest accounts for six base-owned byte supersessions and two
 integration-protocol updates with zero unaccounted drift and 12/12 unchanged
 wire contracts. Keep the producer packet commit as Main's design-time source
 pin; use the integration head only to review PR ancestry and mergeability.
 The current PR validation head is
-`30008808957f484b0989329843d72e1c22d044da`; its only additional change is a
-fresh signed currency-review chain entry bound to the merged base inputs. It
-does not replace either the immutable packet commit or the two-parent
-integration commit.
+`6361df208e01d183083ee6c113e016467a486706`. It adds the explicit hermetic
+GitHub versus governed-asset-complete test partition and extends the signed
+currency-review chain for the changed `pyproject.toml` input. The final local
+evidence is 2,867 passed / 1 skipped in the hermetic lane, 280/280 passed in
+the governed-asset lane, and 3,147 passed / 1 skipped in the unfiltered
+asset-complete suite. The reconciliation manifest seals eight
+post-integration validation paths and still proves 12/12 wire contracts
+unchanged. This head does not replace either the immutable packet commit or
+the two-parent integration commit.
 
 The 7,282-record model-library workflow remains
 `deferred_waiting_for_complete_model_download`. Do not ingest, pilot-qualify,
