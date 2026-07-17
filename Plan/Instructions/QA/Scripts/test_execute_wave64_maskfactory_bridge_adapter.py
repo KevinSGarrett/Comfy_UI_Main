@@ -90,6 +90,23 @@ def health_fixture(adapter, request):
     return health
 
 
+def not_found_evidence_fixture(adapter, request):
+    return {
+        "schema_version": "1.0.0",
+        "record_type": "maskfactory_fixture_not_found_reconciliation_evidence",
+        "fixture_only": True,
+        "request_payload_sha256": adapter.sha256_bytes(adapter.canonical_json(request)),
+        "idempotency_key": request["idempotency_key"],
+        "outcome": "not_found_safe_to_submit",
+        "remote_status": "not_found",
+        "resubmission_authorized": True,
+        "evidence_ref": adapter.CORE.ref("reconciliation_evidence", "signed_not_found_001", "9"),
+        "signature_trust": adapter.CORE.fixture_signing_trust(
+            trusted=False, signer_role="maskfactory_reconciliation_signer"
+        ),
+    }
+
+
 def test_mode_a_reads_exact_package_without_mutating_source(adapter, tmp_path):
     request = request_fixture(adapter, mode="mode_a_package_read")
     artifact = artifact_fixture(adapter, request)
@@ -214,12 +231,44 @@ def test_signed_not_found_evidence_authorizes_exactly_one_resubmission(adapter, 
         request, health_fixture(adapter, request), [artifact], lifecycle,
         transport_outcome="ambiguous", allow_fixture=True,
     )
-    evidence = adapter.CORE.ref("reconciliation_evidence", "signed_not_found_001", "9")
+    evidence = not_found_evidence_fixture(adapter, request)
     state = adapter.reconcile_not_found_for_resubmission(lifecycle, request, evidence)
     assert state["state"] == "submitted"
     assert state["resubmission_authorization_consumed"] is True
     with pytest.raises(ValueError):
-        adapter.advance_lifecycle(lifecycle, request, "submitted", evidence_ref=evidence)
+        adapter.advance_lifecycle(lifecycle, request, "submitted", evidence_ref=evidence["evidence_ref"])
+
+
+@pytest.mark.parametrize("mutation", ["request", "idempotency", "outcome", "signature"])
+def test_reconciliation_evidence_is_exactly_bound_and_explicitly_nonproduction(adapter, tmp_path, mutation):
+    request = request_fixture(adapter)
+    artifact = artifact_fixture(adapter, request)
+    lifecycle = tmp_path / "lifecycle.json"
+    adapter.execute_mode_b_fixture(
+        request, health_fixture(adapter, request), [artifact], lifecycle,
+        transport_outcome="ambiguous", allow_fixture=True,
+    )
+    evidence = not_found_evidence_fixture(adapter, request)
+    if mutation == "request":
+        evidence["request_payload_sha256"] = "0" * 64
+    elif mutation == "idempotency":
+        evidence["idempotency_key"] = "different_idempotency"
+    elif mutation == "outcome":
+        evidence["outcome"] = "found_running"
+    else:
+        evidence["signature_trust"]["signature_verified"] = False
+    with pytest.raises(ValueError, match="evidence|reconciliation"):
+        adapter.reconcile_not_found_for_resubmission(lifecycle, request, evidence)
+
+
+def test_lifecycle_write_lock_fails_closed(adapter, tmp_path):
+    request = request_fixture(adapter)
+    lifecycle = tmp_path / "lifecycle.json"
+    lock = lifecycle.with_suffix(".json.lock")
+    lock.write_text("held", encoding="utf-8")
+    with pytest.raises(ValueError, match="locked"):
+        adapter.advance_lifecycle(lifecycle, request, "admitted")
+    assert lock.read_text(encoding="utf-8") == "held"
 
 
 @pytest.mark.parametrize("mutation", ["stale", "release", "route", "authority"])

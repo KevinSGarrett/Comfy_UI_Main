@@ -329,12 +329,30 @@ def _lifecycle_policy() -> dict[str, Any]:
 
 def _write_atomic(path: Path, value: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
+    lock = path.with_suffix(path.suffix + ".lock")
+    lock_fd: int | None = None
     temp = path.with_name(f".{path.name}.{os.getpid()}.tmp")
-    with temp.open("xb") as output:
-        output.write(canonical_json(value))
-        output.flush()
-        os.fsync(output.fileno())
-    os.replace(temp, path)
+    try:
+        lock_fd = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+        with temp.open("xb") as output:
+            output.write(canonical_json(value))
+            output.flush()
+            os.fsync(output.fileno())
+        os.replace(temp, path)
+    except FileExistsError as exc:
+        raise ValueError("lifecycle state is locked by another adapter operation") from exc
+    finally:
+        if lock_fd is not None:
+            os.close(lock_fd)
+        try:
+            temp.unlink()
+        except FileNotFoundError:
+            pass
+        if lock_fd is not None:
+            try:
+                lock.unlink()
+            except FileNotFoundError:
+                pass
 
 
 def load_lifecycle(path: Path, request: dict[str, Any]) -> dict[str, Any]:
@@ -381,6 +399,36 @@ def advance_lifecycle(path: Path, request: dict[str, Any], to_state: str, *, evi
     state["state"] = to_state
     _write_atomic(path, state)
     return state
+
+
+def _validate_fixture_not_found_evidence(request: dict[str, Any], evidence: dict[str, Any]) -> dict[str, Any]:
+    _exact_object(
+        evidence,
+        {
+            "schema_version", "record_type", "fixture_only", "request_payload_sha256", "idempotency_key",
+            "outcome", "remote_status", "resubmission_authorized", "evidence_ref", "signature_trust",
+        },
+        "not-found reconciliation evidence",
+    )
+    if evidence["schema_version"] != "1.0.0" or evidence["record_type"] != "maskfactory_fixture_not_found_reconciliation_evidence":
+        raise ValueError("not-found reconciliation evidence type or version is unsupported")
+    if evidence["fixture_only"] is not True:
+        raise ValueError("fixture reconciliation cannot accept production evidence")
+    if evidence["request_payload_sha256"] != sha256_bytes(canonical_json(request)) or evidence["idempotency_key"] != request["idempotency_key"]:
+        raise ValueError("not-found reconciliation evidence is bound to a different request or idempotency key")
+    if evidence["outcome"] != "not_found_safe_to_submit" or evidence["remote_status"] != "not_found" or evidence["resubmission_authorized"] is not True:
+        raise ValueError("reconciliation evidence does not authorize exact safe resubmission")
+    trust = evidence["signature_trust"]
+    if (
+        trust.get("signature_verified") is not True
+        or trust.get("signer_role") != "maskfactory_reconciliation_signer"
+        or trust.get("trust_result") != "fixture_only_untrusted"
+    ):
+        raise ValueError("fixture reconciliation evidence lacks its explicit non-production signature verification")
+    ref = evidence["evidence_ref"]
+    if set(ref) != {"record_type", "record_id", "revision", "sha256"}:
+        raise ValueError("reconciliation evidence ref is not immutable")
+    return ref
 
 
 def execute_mode_b_fixture(
@@ -441,8 +489,9 @@ def execute_mode_b_fixture(
 
 
 def reconcile_not_found_for_resubmission(
-    lifecycle_path: Path, request: dict[str, Any], evidence_ref: dict[str, Any]
+    lifecycle_path: Path, request: dict[str, Any], evidence: dict[str, Any]
 ) -> dict[str, Any]:
+    evidence_ref = _validate_fixture_not_found_evidence(request, evidence)
     state = advance_lifecycle(lifecycle_path, request, "reconciled_not_found", evidence_ref=evidence_ref)
     return advance_lifecycle(lifecycle_path, request, "submitted", evidence_ref=state["resubmission_authorization_ref"])
 
