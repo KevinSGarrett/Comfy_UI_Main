@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.0.0",
+  "authority_id": "wave64_audio_adapter_lineage_authority_rows189_192_r001",
+  "rows_covered": [189, 190, 191, 192],
+  "source_authorities": [
+    {"name": "functional_audio_index_registry", "path": "Plan/10_REGISTRIES/audio_downloads_external_asset_intake_registry.json", "sha256": "6e80695ef85d2708309c3ebe60f494eb679b34456bcd5b36c75931212d18e408"},
+    {"name": "audio_event_graph_schema", "path": "Plan/08_SCHEMAS/hyperreal_audio_event_graph.schema.json", "sha256": "4d7f0848ece99a988346a69530c4a84fbd1ff077d9de8c5601c3dfa3e2a4b426"},
+    {"name": "audio_stem_manifest_schema", "path": "Plan/08_SCHEMAS/hyperreal_audio_stem_manifest.schema.json", "sha256": "ebe29336e5b8c6bb21122a003d1e84ed663c6b17657a5cceadb96642d5c43287"},
+    {"name": "audio_mix_manifest_schema", "path": "Plan/08_SCHEMAS/wave30_audio_mix_manifest.schema.json", "sha256": "f65e654415296763a6425048847e98274bb91b048c6899694dead559cfde4de6"},
+    {"name": "human_playback_proof_schema", "path": "Plan/08_SCHEMAS/wave64_human_playback_review_proof.schema.json", "sha256": "c05bdb34cd680703979f349511bfa78ed9a8f529cfacc04964c933e6f0d90692"},
+    {"name": "room_spatial_runtime_evidence", "path": "Plan/Instructions/QA/Evidence/Wave64/W64_ROOM_SPATIAL_FULL_MIX_RUNTIME_20260716T023716-0500.json", "sha256": "5d2baaabd7a50042d62755e0289441a3137e2bfa792fd442971a1259d50321fd"},
+    {"name": "mmaudio_mux_evidence", "path": "Plan/Instructions/QA/Evidence/Wave64/W64_MMAUDIO_REVIEW_MUX_20260714T221311-0500.json", "sha256": "2f0e80255e63b2edf4877a67ef405a8343a18ec460ade0abac006c6d14c46885"},
+    {"name": "speech_control_evidence", "path": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/WAVE64_AUTONOMOUS_HYPERREAL_SPEECH_ROW147.json", "sha256": "156d327e0e6e4a9c21e41cf91ebaa35e4a58a4c1196be3f75b7fcddf3bb15345"}
+  ],
+  "shot_audio_intent_binding": {
+    "binding_id": "shot_audio_intent_binding_fixture_r001",
+    "status": "blocked_missing_shot_authority_bindings",
+    "bindings": [
+      {"intent_type": "voice_binding", "status": "unbound", "authority_ref": null},
+      {"intent_type": "dialogue", "status": "unbound", "authority_ref": null},
+      {"intent_type": "nonverbal_vocalization", "status": "unbound", "authority_ref": null},
+      {"intent_type": "contact_force", "status": "unbound", "authority_ref": null},
+      {"intent_type": "environment", "status": "unbound", "authority_ref": null},
+      {"intent_type": "distance", "status": "unbound", "authority_ref": null},
+      {"intent_type": "room", "status": "unbound", "authority_ref": null},
+      {"intent_type": "timing", "status": "unbound", "authority_ref": null},
+      {"intent_type": "character_owner", "status": "unbound", "authority_ref": null}
+    ],
+    "rows_067_148_reused": true,
+    "duplicate_generation_allowed": false,
+    "event_graph_emitted": false,
+    "execution_allowed": false,
+    "blocker_codes": ["SHOT_EVENT_GRAPH_MISSING", "PRODUCTION_VOICE_BINDINGS_MISSING", "CONTACT_ROOM_DISTANCE_AUTHORITY_MISSING", "ACCEPTED_VIDEO_TIMELINE_MISSING"]
+  },
+  "adapter_library": [
+    {"adapter_id": "speech", "package_contract_version": "1.0.0", "status": "blocked_missing_exact_stack_or_input", "stack_requirements": ["certified_speech_engine_bundle", "voice_reference_authority"], "selected_stack_ref": null, "workflow_release_ref": null, "input_contracts": ["dialogue_contract", "voice_binding", "timing_contract"], "output_stem_id": "stem_speech", "timebase": {"sample_rate_hz": 48000, "frame_rate_numerator": 24, "frame_rate_denominator": 1, "sample_origin": 0, "frame_origin": 0}, "provenance_fields": ["event_ref", "source_ref", "character_ref", "attempt_ref", "transform_ref", "mix_decision_ref"], "qa_gate_ids": ["identity", "prosody", "timing"], "execution_allowed": false},
+    {"adapter_id": "nonverbal_vocalization", "package_contract_version": "1.0.0", "status": "blocked_missing_exact_stack_or_input", "stack_requirements": ["certified_nonverbal_engine_bundle", "voice_reference_authority"], "selected_stack_ref": null, "workflow_release_ref": null, "input_contracts": ["nonverbal_event", "voice_binding", "timing_contract"], "output_stem_id": "stem_nonverbal", "timebase": {"sample_rate_hz": 48000, "frame_rate_numerator": 24, "frame_rate_denominator": 1, "sample_origin": 0, "frame_origin": 0}, "provenance_fields": ["event_ref", "source_ref", "character_ref", "attempt_ref", "transform_ref", "mix_decision_ref"], "qa_gate_ids": ["identity", "prosody", "continuity"], "execution_allowed": false},
+    {"adapter_id": "foley", "package_contract_version": "1.0.0", "status": "blocked_missing_exact_stack_or_input", "stack_requirements": ["functional_index_hash_match", "event_material_force_route"], "selected_stack_ref": null, "workflow_release_ref": null, "input_contracts": ["contact_force_event", "material_pair", "character_owner"], "output_stem_id": "stem_foley", "timebase": {"sample_rate_hz": 48000, "frame_rate_numerator": 24, "frame_rate_denominator": 1, "sample_origin": 0, "frame_origin": 0}, "provenance_fields": ["event_ref", "source_ref", "character_ref", "attempt_ref", "transform_ref", "mix_decision_ref"], "qa_gate_ids": ["timing", "event_coverage", "ownership"], "execution_allowed": false},
+    {"adapter_id": "ambience", "package_contract_version": "1.0.0", "status": "blocked_missing_exact_stack_or_input", "stack_requirements": ["functional_index_hash_match", "environment_route"], "selected_stack_ref": null, "workflow_release_ref": null, "input_contracts": ["environment_contract", "duration_contract"], "output_stem_id": "stem_ambience", "timebase": {"sample_rate_hz": 48000, "frame_rate_numerator": 24, "frame_rate_denominator": 1, "sample_origin": 0, "frame_origin": 0}, "provenance_fields": ["event_ref", "source_ref", "character_ref", "attempt_ref", "transform_ref", "mix_decision_ref"], "qa_gate_ids": ["continuity", "full_audio"], "execution_allowed": false},
+    {"adapter_id": "music", "package_contract_version": "1.0.0", "status": "blocked_missing_exact_stack_or_input", "stack_requirements": ["licensed_music_source", "music_timing_route"], "selected_stack_ref": null, "workflow_release_ref": null, "input_contracts": ["music_intent", "duration_contract"], "output_stem_id": "stem_music", "timebase": {"sample_rate_hz": 48000, "frame_rate_numerator": 24, "frame_rate_denominator": 1, "sample_origin": 0, "frame_origin": 0}, "provenance_fields": ["event_ref", "source_ref", "character_ref", "attempt_ref", "transform_ref", "mix_decision_ref"], "qa_gate_ids": ["timing", "mix_balance"], "execution_allowed": false},
+    {"adapter_id": "room", "package_contract_version": "1.0.0", "status": "blocked_missing_exact_stack_or_input", "stack_requirements": ["measured_room_profile", "certified_convolution_or_room_renderer"], "selected_stack_ref": null, "workflow_release_ref": null, "input_contracts": ["dry_stems", "room_contract"], "output_stem_id": "stem_room", "timebase": {"sample_rate_hz": 48000, "frame_rate_numerator": 24, "frame_rate_denominator": 1, "sample_origin": 0, "frame_origin": 0}, "provenance_fields": ["event_ref", "source_ref", "character_ref", "attempt_ref", "transform_ref", "mix_decision_ref"], "qa_gate_ids": ["acoustics", "continuity"], "execution_allowed": false},
+    {"adapter_id": "spatial", "package_contract_version": "1.0.0", "status": "blocked_missing_exact_stack_or_input", "stack_requirements": ["source_listener_geometry", "certified_spatial_renderer"], "selected_stack_ref": null, "workflow_release_ref": null, "input_contracts": ["room_stems", "distance_tracks", "listener_camera"], "output_stem_id": "stem_spatial", "timebase": {"sample_rate_hz": 48000, "frame_rate_numerator": 24, "frame_rate_denominator": 1, "sample_origin": 0, "frame_origin": 0}, "provenance_fields": ["event_ref", "source_ref", "character_ref", "attempt_ref", "transform_ref", "mix_decision_ref"], "qa_gate_ids": ["acoustics", "synchronization"], "execution_allowed": false},
+    {"adapter_id": "enhancement", "package_contract_version": "1.0.0", "status": "blocked_missing_exact_stack_or_input", "stack_requirements": ["certified_enhancement_recipe", "protected_stem_policy"], "selected_stack_ref": null, "workflow_release_ref": null, "input_contracts": ["accepted_stems", "defect_report"], "output_stem_id": "stem_enhanced", "timebase": {"sample_rate_hz": 48000, "frame_rate_numerator": 24, "frame_rate_denominator": 1, "sample_origin": 0, "frame_origin": 0}, "provenance_fields": ["event_ref", "source_ref", "character_ref", "attempt_ref", "transform_ref", "mix_decision_ref"], "qa_gate_ids": ["defect_scan", "protected_stems"], "execution_allowed": false},
+    {"adapter_id": "mix", "package_contract_version": "1.0.0", "status": "blocked_missing_exact_stack_or_input", "stack_requirements": ["all_required_stems_accepted", "certified_mix_recipe"], "selected_stack_ref": null, "workflow_release_ref": null, "input_contracts": ["accepted_stem_manifests", "mix_decisions", "canonical_timebase"], "output_stem_id": "stem_master", "timebase": {"sample_rate_hz": 48000, "frame_rate_numerator": 24, "frame_rate_denominator": 1, "sample_origin": 0, "frame_origin": 0}, "provenance_fields": ["event_ref", "source_ref", "character_ref", "attempt_ref", "transform_ref", "mix_decision_ref"], "qa_gate_ids": ["full_audio", "synchronization", "full_duration_playback"], "execution_allowed": false}
+  ],
+  "sample_lineage_pipeline": {
+    "pipeline_id": "audio_sample_lineage_pipeline_fixture_r001",
+    "status": "blocked_no_complete_sample_manifest",
+    "canonical_timebase": {"sample_rate_hz": 48000, "frame_rate_numerator": 24, "frame_rate_denominator": 1, "sample_origin": 0, "frame_origin": 0},
+    "required_lineage_fields": ["event_ref", "source_ref", "character_ref", "attempt_ref", "transform_ref", "mix_decision_ref"],
+    "sample_span_manifest_ref": null,
+    "execution_receipt_ref": null,
+    "stem_replacement_policy": [
+      {"stem_id": "stem_speech", "independently_replaceable": true, "unaffected_stems_immutable": true, "replacement_requires_new_lineage": true},
+      {"stem_id": "stem_nonverbal", "independently_replaceable": true, "unaffected_stems_immutable": true, "replacement_requires_new_lineage": true},
+      {"stem_id": "stem_foley", "independently_replaceable": true, "unaffected_stems_immutable": true, "replacement_requires_new_lineage": true},
+      {"stem_id": "stem_ambience", "independently_replaceable": true, "unaffected_stems_immutable": true, "replacement_requires_new_lineage": true},
+      {"stem_id": "stem_music", "independently_replaceable": true, "unaffected_stems_immutable": true, "replacement_requires_new_lineage": true},
+      {"stem_id": "stem_room", "independently_replaceable": true, "unaffected_stems_immutable": true, "replacement_requires_new_lineage": true},
+      {"stem_id": "stem_spatial", "independently_replaceable": true, "unaffected_stems_immutable": true, "replacement_requires_new_lineage": true},
+      {"stem_id": "stem_enhanced", "independently_replaceable": true, "unaffected_stems_immutable": true, "replacement_requires_new_lineage": true},
+      {"stem_id": "stem_master", "independently_replaceable": true, "unaffected_stems_immutable": true, "replacement_requires_new_lineage": true}
+    ],
+    "execution_allowed": false,
+    "blocker_codes": ["COMPLETE_EVENT_GRAPH_MISSING", "PRODUCTION_SOURCE_ROUTES_MISSING", "SAMPLE_SPAN_LINEAGE_MISSING", "MIX_DECISION_LEDGER_MISSING", "EXECUTION_RECEIPT_MISSING"]
+  },
+  "promotion_revocation_gate": {
+    "gate_id": "audio_package_promotion_revocation_fixture_r001",
+    "gate_results": [
+      {"gate_id": "identity", "status": "not_run", "evidence_refs": []}, {"gate_id": "prosody", "status": "not_run", "evidence_refs": []},
+      {"gate_id": "timing", "status": "not_run", "evidence_refs": []}, {"gate_id": "acoustics", "status": "not_run", "evidence_refs": []},
+      {"gate_id": "defect_scan", "status": "not_run", "evidence_refs": []}, {"gate_id": "full_audio", "status": "not_run", "evidence_refs": []},
+      {"gate_id": "continuity", "status": "not_run", "evidence_refs": []}, {"gate_id": "provenance", "status": "not_run", "evidence_refs": []},
+      {"gate_id": "stem_isolation", "status": "not_run", "evidence_refs": []}, {"gate_id": "full_duration_playback", "status": "not_run", "evidence_refs": []},
+      {"gate_id": "synchronization", "status": "not_run", "evidence_refs": []}, {"gate_id": "revocation", "status": "not_run", "evidence_refs": []}
+    ],
+    "audio_package_ref": null, "promotion_transaction_ref": null, "complete_synchronized_package": false,
+    "local_stem_gain_requires_global_regression_pass": true, "revocation_ready": true,
+    "decision": "blocked", "promotion_allowed": false,
+    "blocker_codes": ["COMPLETE_SYNCHRONIZED_PACKAGE_MISSING", "PRODUCTION_IDENTITY_QA_MISSING", "ROOM_ACOUSTIC_AUTHORITY_MISSING", "FULL_DURATION_PLAYBACK_MISSING", "SAMPLE_LINEAGE_INCOMPLETE", "GLOBAL_AUDIO_REGRESSION_NOT_RUN", "PROMOTION_POLICY_NOT_EVALUATED"]
+  },
+  "runtime_execution_allowed": false,
+  "promotion_allowed": false,
+  "content_based_suppression": false,
+  "boundaries": {"audio_media_regenerated": false, "functional_index_rebuilt": false, "subjective_review_fabricated": false, "production_identity_claimed": false, "room_geometry_claimed": false, "runtime_execution_claimed": false, "complete_audio_package_claimed": false, "promotion_transaction_created": false, "item_tracker_status_changed": false}
+}

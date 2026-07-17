@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/wave64-audio-adapter-lineage-authority/1.0.0",
+  "title": "Wave64 Rows189-192 Audio Adapter and Lineage Authority",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "authority_id", "rows_covered", "source_authorities", "shot_audio_intent_binding", "adapter_library", "sample_lineage_pipeline", "promotion_revocation_gate", "runtime_execution_allowed", "promotion_allowed", "content_based_suppression", "boundaries"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "authority_id": {"type": "string", "minLength": 1},
+    "rows_covered": {"const": [189, 190, 191, 192]},
+    "source_authorities": {"type": "array", "minItems": 8, "maxItems": 8, "items": {"$ref": "#/$defs/file_ref"}},
+    "shot_audio_intent_binding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["binding_id", "status", "bindings", "rows_067_148_reused", "duplicate_generation_allowed", "event_graph_emitted", "execution_allowed", "blocker_codes"],
+      "properties": {
+        "binding_id": {"type": "string", "minLength": 1},
+        "status": {"const": "blocked_missing_shot_authority_bindings"},
+        "bindings": {"type": "array", "minItems": 9, "maxItems": 9, "items": {"$ref": "#/$defs/intent_binding"}},
+        "rows_067_148_reused": {"const": true},
+        "duplicate_generation_allowed": {"const": false},
+        "event_graph_emitted": {"const": false},
+        "execution_allowed": {"const": false},
+        "blocker_codes": {"type": "array", "minItems": 3, "uniqueItems": true, "items": {"type": "string"}}
+      }
+    },
+    "adapter_library": {"type": "array", "minItems": 9, "maxItems": 9, "items": {"$ref": "#/$defs/adapter"}},
+    "sample_lineage_pipeline": {
+      "type": "object", "additionalProperties": false,
+      "required": ["pipeline_id", "status", "canonical_timebase", "required_lineage_fields", "sample_span_manifest_ref", "execution_receipt_ref", "stem_replacement_policy", "execution_allowed", "blocker_codes"],
+      "properties": {
+        "pipeline_id": {"type": "string", "minLength": 1},
+        "status": {"const": "blocked_no_complete_sample_manifest"},
+        "canonical_timebase": {"$ref": "#/$defs/timebase"},
+        "required_lineage_fields": {"type": "array", "minItems": 6, "maxItems": 6, "uniqueItems": true, "items": {"enum": ["event_ref", "source_ref", "character_ref", "attempt_ref", "transform_ref", "mix_decision_ref"]}},
+        "sample_span_manifest_ref": {"type": "null"},
+        "execution_receipt_ref": {"type": "null"},
+        "stem_replacement_policy": {"type": "array", "minItems": 9, "maxItems": 9, "items": {"$ref": "#/$defs/replacement"}},
+        "execution_allowed": {"const": false},
+        "blocker_codes": {"type": "array", "minItems": 4, "uniqueItems": true, "items": {"type": "string"}}
+      }
+    },
+    "promotion_revocation_gate": {
+      "type": "object", "additionalProperties": false,
+      "required": ["gate_id", "gate_results", "audio_package_ref", "promotion_transaction_ref", "complete_synchronized_package", "local_stem_gain_requires_global_regression_pass", "revocation_ready", "decision", "promotion_allowed", "blocker_codes"],
+      "properties": {
+        "gate_id": {"type": "string", "minLength": 1},
+        "gate_results": {"type": "array", "minItems": 12, "maxItems": 12, "items": {"$ref": "#/$defs/gate_result"}},
+        "audio_package_ref": {"type": "null"},
+        "promotion_transaction_ref": {"type": "null"},
+        "complete_synchronized_package": {"const": false},
+        "local_stem_gain_requires_global_regression_pass": {"const": true},
+        "revocation_ready": {"const": true},
+        "decision": {"const": "blocked"},
+        "promotion_allowed": {"const": false},
+        "blocker_codes": {"type": "array", "minItems": 6, "uniqueItems": true, "items": {"type": "string"}}
+      }
+    },
+    "runtime_execution_allowed": {"const": false},
+    "promotion_allowed": {"const": false},
+    "content_based_suppression": {"const": false},
+    "boundaries": {
+      "type": "object", "additionalProperties": false,
+      "required": ["audio_media_regenerated", "functional_index_rebuilt", "subjective_review_fabricated", "production_identity_claimed", "room_geometry_claimed", "runtime_execution_claimed", "complete_audio_package_claimed", "promotion_transaction_created", "item_tracker_status_changed"],
+      "properties": {
+        "audio_media_regenerated": {"const": false}, "functional_index_rebuilt": {"const": false},
+        "subjective_review_fabricated": {"const": false}, "production_identity_claimed": {"const": false},
+        "room_geometry_claimed": {"const": false}, "runtime_execution_claimed": {"const": false},
+        "complete_audio_package_claimed": {"const": false}, "promotion_transaction_created": {"const": false},
+        "item_tracker_status_changed": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "file_ref": {
+      "type": "object", "additionalProperties": false, "required": ["name", "path", "sha256"],
+      "properties": {
+        "name": {"enum": ["functional_audio_index_registry", "audio_event_graph_schema", "audio_stem_manifest_schema", "audio_mix_manifest_schema", "human_playback_proof_schema", "room_spatial_runtime_evidence", "mmaudio_mux_evidence", "speech_control_evidence"]},
+        "path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "intent_binding": {
+      "type": "object", "additionalProperties": false, "required": ["intent_type", "status", "authority_ref"],
+      "properties": {
+        "intent_type": {"enum": ["voice_binding", "dialogue", "nonverbal_vocalization", "contact_force", "environment", "distance", "room", "timing", "character_owner"]},
+        "status": {"const": "unbound"}, "authority_ref": {"type": "null"}
+      }
+    },
+    "timebase": {
+      "type": "object", "additionalProperties": false,
+      "required": ["sample_rate_hz", "frame_rate_numerator", "frame_rate_denominator", "sample_origin", "frame_origin"],
+      "properties": {
+        "sample_rate_hz": {"const": 48000}, "frame_rate_numerator": {"const": 24}, "frame_rate_denominator": {"const": 1},
+        "sample_origin": {"const": 0}, "frame_origin": {"const": 0}
+      }
+    },
+    "adapter": {
+      "type": "object", "additionalProperties": false,
+      "required": ["adapter_id", "package_contract_version", "status", "stack_requirements", "selected_stack_ref", "workflow_release_ref", "input_contracts", "output_stem_id", "timebase", "provenance_fields", "qa_gate_ids", "execution_allowed"],
+      "properties": {
+        "adapter_id": {"enum": ["speech", "nonverbal_vocalization", "foley", "ambience", "music", "room", "spatial", "enhancement", "mix"]},
+        "package_contract_version": {"const": "1.0.0"},
+        "status": {"const": "blocked_missing_exact_stack_or_input"},
+        "stack_requirements": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "string"}},
+        "selected_stack_ref": {"type": "null"}, "workflow_release_ref": {"type": "null"},
+        "input_contracts": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+        "output_stem_id": {"type": "string", "minLength": 1}, "timebase": {"$ref": "#/$defs/timebase"},
+        "provenance_fields": {"type": "array", "minItems": 6, "uniqueItems": true, "items": {"type": "string"}},
+        "qa_gate_ids": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "string"}},
+        "execution_allowed": {"const": false}
+      }
+    },
+    "replacement": {
+      "type": "object", "additionalProperties": false, "required": ["stem_id", "independently_replaceable", "unaffected_stems_immutable", "replacement_requires_new_lineage"],
+      "properties": {
+        "stem_id": {"type": "string", "minLength": 1}, "independently_replaceable": {"const": true},
+        "unaffected_stems_immutable": {"const": true}, "replacement_requires_new_lineage": {"const": true}
+      }
+    },
+    "gate_result": {
+      "type": "object", "additionalProperties": false, "required": ["gate_id", "status", "evidence_refs"],
+      "properties": {
+        "gate_id": {"enum": ["identity", "prosody", "timing", "acoustics", "defect_scan", "full_audio", "continuity", "provenance", "stem_isolation", "full_duration_playback", "synchronization", "revocation"]},
+        "status": {"const": "not_run"}, "evidence_refs": {"const": []}
+      }
+    }
+  }
+}
