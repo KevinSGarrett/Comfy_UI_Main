@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0.0",
+  "authority_id": "w64-character-publish-interaction-authority-fixture-001",
+  "status": "synthetic_contract_fixture_not_runtime_evidence",
+  "source_compilation_contract": {
+    "path": "Plan/10_REGISTRIES/wave64_character_package_compilation_fixture.json",
+    "sha256": "414060ff73c5c12120a3f102ececcfeed4e176a69f974669abd09794b7cf6191"
+  },
+  "adapter_cards": [
+    {"adapter_id":"adapter_c01_flux_staged_r001","character_id":"char_c01","character_revision":"r001","adapter_role":"flux_family","engine_family":"flux","modality":"image","trigger_tokens":["char_c01"],"limits":{"max_character_instances":1,"supported_target_regions":["whole_character"],"unsupported_operations":["cross_engine_weight_reuse"]},"component_hashes":{"adapter":"1111111111111111111111111111111111111111111111111111111111111111"},"configuration_sha256":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","calibration_status":"not_run","calibration_evidence_ids":["blocker://runtime_calibration_not_run/flux"],"prohibited_pairings":["sdxl_checkpoint"],"status":"staged_only","certificate_ids":[]},
+    {"adapter_id":"adapter_c01_sdxl_staged_r001","character_id":"char_c01","character_revision":"r001","adapter_role":"sdxl_family","engine_family":"sdxl","modality":"image","trigger_tokens":["char_c01"],"limits":{"max_character_instances":1,"supported_target_regions":["whole_character"],"unsupported_operations":["cross_engine_weight_reuse"]},"component_hashes":{"adapter":"2222222222222222222222222222222222222222222222222222222222222222"},"configuration_sha256":"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb","calibration_status":"not_run","calibration_evidence_ids":["blocker://runtime_calibration_not_run/sdxl"],"prohibited_pairings":["flux_checkpoint"],"status":"staged_only","certificate_ids":[]},
+    {"adapter_id":"adapter_c01_edit_staged_r001","character_id":"char_c01","character_revision":"r001","adapter_role":"image_edit","engine_family":"flux_edit","modality":"image","trigger_tokens":["char_c01"],"limits":{"max_character_instances":1,"supported_target_regions":["bounded_mask_region"],"unsupported_operations":["unowned_region_edit"]},"component_hashes":{"adapter":"3333333333333333333333333333333333333333333333333333333333333333"},"configuration_sha256":"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc","calibration_status":"not_run","calibration_evidence_ids":["blocker://runtime_calibration_not_run/edit"],"prohibited_pairings":["uncertified_mask_binding"],"status":"staged_only","certificate_ids":[]},
+    {"adapter_id":"adapter_c01_video_staged_r001","character_id":"char_c01","character_revision":"r001","adapter_role":"video","engine_family":"wan","modality":"video","trigger_tokens":["char_c01"],"limits":{"max_character_instances":1,"supported_target_regions":["whole_character_timeline"],"unsupported_operations":["cross_family_latent_transfer"]},"component_hashes":{"adapter":"4444444444444444444444444444444444444444444444444444444444444444"},"configuration_sha256":"dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd","calibration_status":"not_run","calibration_evidence_ids":["blocker://runtime_calibration_not_run/video"],"prohibited_pairings":["unqualified_video_base"],"status":"staged_only","certificate_ids":[]},
+    {"adapter_id":"adapter_c01_audio_staged_r001","character_id":"char_c01","character_revision":"r001","adapter_role":"audio","engine_family":"speech_engine","modality":"audio","trigger_tokens":["voice_c01_candidate_r001"],"limits":{"max_character_instances":1,"supported_target_regions":["dialogue_stem"],"unsupported_operations":["unowned_dialogue"]},"component_hashes":{"adapter":"5555555555555555555555555555555555555555555555555555555555555555"},"configuration_sha256":"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee","calibration_status":"blocked","calibration_evidence_ids":["blocker://independent_voice_authority_missing/c01"],"prohibited_pairings":["different_character_voice_reference"],"status":"staged_only","certificate_ids":[]}
+  ],
+  "publication_gate": {
+    "character_id": "char_c01",
+    "character_revision": "r001",
+    "immutable_revision_sha256": "becc5c8441cd249e4ef8f5ac4dd00fc926f1149654a6ce6fb94e1591f7e766ec",
+    "required_domains": ["identity","morphology","view_coverage","state_integrity","voice","adapter_compatibility","multi_character_separation"],
+    "domain_results": [
+      {"domain":"identity","status":"not_run","evidence_ids":[]},
+      {"domain":"morphology","status":"not_run","evidence_ids":[]},
+      {"domain":"view_coverage","status":"blocked","evidence_ids":["blocker://reference_coverage_gaps/body_back_body_side"]},
+      {"domain":"state_integrity","status":"blocked","evidence_ids":["blocker://runtime_state_continuity_proof_missing/c01","evidence://w64_character_package_compilation_slice"]},
+      {"domain":"voice","status":"blocked","evidence_ids":["blocker://independent_voice_authority_missing/c01"]},
+      {"domain":"adapter_compatibility","status":"not_run","evidence_ids":[]},
+      {"domain":"multi_character_separation","status":"not_run","evidence_ids":[]}
+    ],
+    "decision": "staged_blocked",
+    "publication_allowed": false,
+    "revocable": true,
+    "blocker_codes": ["BLOCKED_CHARACTER_RUNTIME_CALIBRATION_MISSING","BLOCKED_CHARACTER_PERCEPTUAL_CERTIFICATION_MISSING","BLOCKED_CHARACTER_STATE_RUNTIME_PROOF_MISSING"]
+  },
+  "scene_compilation": {
+    "compiler_id": "scene_to_shot_pose_fixture_compiler_v1",
+    "scene_id": "scene001",
+    "shot_id": "shot001",
+    "take_id": "take001",
+    "camera": {"projection":"perspective","lens_mm":50,"framing":"full_body"},
+    "timebase": {"fps_numerator":24,"fps_denominator":1,"start_frame":0,"end_frame":47},
+    "safe_margin_normalized": 0.04,
+    "output_modalities": ["image","mask","video","audio","av"],
+    "instances": [
+      {
+        "character_instance_id":"charinst_c01_scene001_01",
+        "character_id":"char_c01",
+        "character_revision":"r001",
+        "depth_layer":1,
+        "visible_fraction":1.0,
+        "protected_regions":["face","body"],
+        "owned_regions":["whole_body","left_hand","right_hand","feet","voice"],
+        "resources":[
+          {"resource_type":"skeleton","resource_id":"skel_c01_fixture_001","owner_instance_id":"charinst_c01_scene001_01","authority":"contract_fixture","writes_gold":false,"promotion_allowed":false},
+          {"resource_type":"silhouette","resource_id":"silhouette_c01_machine_draft_001","owner_instance_id":"charinst_c01_scene001_01","authority":"machine_draft","writes_gold":false,"promotion_allowed":false},
+          {"resource_type":"mask","resource_id":"mask_c01_machine_draft_001","owner_instance_id":"charinst_c01_scene001_01","authority":"machine_draft","writes_gold":false,"promotion_allowed":false},
+          {"resource_type":"wardrobe","resource_id":"wardrobe_c01_base_r001","owner_instance_id":"charinst_c01_scene001_01","authority":"approved_package","writes_gold":false,"promotion_allowed":false},
+          {"resource_type":"voice","resource_id":"voice_c01_candidate_r001","owner_instance_id":"charinst_c01_scene001_01","authority":"contract_fixture","writes_gold":false,"promotion_allowed":false},
+          {"resource_type":"edit","resource_id":"edit_target_c01_whole_body_001","owner_instance_id":"charinst_c01_scene001_01","authority":"contract_fixture","writes_gold":false,"promotion_allowed":false},
+          {"resource_type":"control","resource_id":"control_pose_c01_001","owner_instance_id":"charinst_c01_scene001_01","authority":"contract_fixture","writes_gold":false,"promotion_allowed":false},
+          {"resource_type":"artifact","resource_id":"artifact_c01_candidate_001","owner_instance_id":"charinst_c01_scene001_01","authority":"contract_fixture","writes_gold":false,"promotion_allowed":false},
+          {"resource_type":"dialogue","resource_id":"dialogue_c01_001","owner_instance_id":"charinst_c01_scene001_01","authority":"contract_fixture","writes_gold":false,"promotion_allowed":false},
+          {"resource_type":"prop","resource_id":"support_surface_scene001","owner_instance_id":"charinst_c01_scene001_01","authority":"contract_fixture","writes_gold":false,"promotion_allowed":false}
+        ]
+      }
+    ],
+    "expected_audio_events": [{"event_id":"dialogue_c01_001","owner_instance_id":"charinst_c01_scene001_01","start_frame":8,"end_frame":31}],
+    "contains_hidden_state": false
+  },
+  "interaction_plan": {
+    "interaction_plan_id": "interaction_scene001_shot001_take001_fixture_r001",
+    "scene_id": "scene001",
+    "shot_id": "shot001",
+    "take_id": "take001",
+    "contacts": [
+      {
+        "contact_id":"contact_c01_support_001",
+        "kind":"body_support",
+        "participants":[
+          {"owner_instance_id":"charinst_c01_scene001_01","region_id":"feet","visibility_fraction":1.0},
+          {"owner_instance_id":"charinst_c01_scene001_01","region_id":"support_surface_scene001","visibility_fraction":0.8}
+        ],
+        "start_frame":0,
+        "end_frame":47,
+        "force_class":"moderate",
+        "ownership_resolved":true,
+        "depth_relation":"feet_in_front_of_support_surface",
+        "occlusion_fraction":0.05,
+        "collision_policy":"support_contact",
+        "expected_deformations":[{"owner_instance_id":"charinst_c01_scene001_01","region_id":"feet","deformation_type":"bounded_support_compression"}],
+        "source_authority":"machine_draft",
+        "production_eligible":false
+      }
+    ]
+  },
+  "runtime_completion_claimed": false,
+  "production_publication_allowed": false,
+  "model_execution_activated": false,
+  "content_based_suppression": false
+}
