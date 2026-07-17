@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/wave64-av-assembly-authority/1.0.0",
+  "title": "Wave64 Rows193-196 AV Assembly Authority",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "authority_id", "rows_covered", "source_authorities", "canonical_av_clock", "mux_assembly_contract", "localized_sync_repair", "certification_package", "runtime_execution_allowed", "promotion_allowed", "boundaries"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "authority_id": {"type": "string", "minLength": 1},
+    "rows_covered": {"const": [193, 194, 195, 196]},
+    "source_authorities": {"type": "array", "minItems": 8, "maxItems": 8, "items": {"$ref": "#/$defs/file_ref"}},
+    "canonical_av_clock": {
+      "type": "object", "additionalProperties": false,
+      "required": ["clock_id", "status", "sample_rate_hz", "frame_rate_numerator", "frame_rate_denominator", "samples_per_frame", "sample_origin", "frame_origin", "monotonic", "cumulative_drift_allowed", "rounding_policy", "required_timeline_fields", "timeline_manifest_ref", "execution_receipt_ref", "blocker_codes"],
+      "properties": {
+        "clock_id": {"type": "string", "minLength": 1}, "status": {"const": "contract_only_unbound"},
+        "sample_rate_hz": {"const": 48000}, "frame_rate_numerator": {"const": 24}, "frame_rate_denominator": {"const": 1},
+        "samples_per_frame": {"const": 2000}, "sample_origin": {"const": 0}, "frame_origin": {"const": 0},
+        "monotonic": {"const": true}, "cumulative_drift_allowed": {"const": false}, "rounding_policy": {"const": "exact_integer_only"},
+        "required_timeline_fields": {"type": "array", "minItems": 6, "maxItems": 6, "uniqueItems": true, "items": {"enum": ["cuts", "dialogue", "events", "offsets", "handles", "ownership"]}},
+        "timeline_manifest_ref": {"type": "null"}, "execution_receipt_ref": {"type": "null"},
+        "blocker_codes": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "string"}}
+      }
+    },
+    "mux_assembly_contract": {
+      "type": "object", "additionalProperties": false,
+      "required": ["assembly_id", "status", "accepted_inputs_only", "accepted_video_ref", "accepted_audio_ref", "retained_components", "unapproved_substitution_allowed", "assembly_executed", "output_artifact_ref", "reconciliation_checks", "blocker_codes"],
+      "properties": {
+        "assembly_id": {"type": "string", "minLength": 1}, "status": {"const": "blocked_missing_accepted_inputs"},
+        "accepted_inputs_only": {"const": true}, "accepted_video_ref": {"type": "null"}, "accepted_audio_ref": {"type": "null"},
+        "retained_components": {"type": "array", "minItems": 8, "maxItems": 8, "uniqueItems": true, "items": {"enum": ["video", "audio_master", "individual_stems", "captions", "metadata", "codecs", "hashes", "source_lineage"]}},
+        "unapproved_substitution_allowed": {"const": false}, "assembly_executed": {"const": false}, "output_artifact_ref": {"type": "null"},
+        "reconciliation_checks": {"type": "array", "minItems": 5, "maxItems": 5, "items": {"$ref": "#/$defs/check"}},
+        "blocker_codes": {"type": "array", "minItems": 3, "uniqueItems": true, "items": {"type": "string"}}
+      }
+    },
+    "localized_sync_repair": {
+      "type": "object", "additionalProperties": false,
+      "required": ["plan_id", "status", "defect_classes", "target_span", "target_stem_ref", "accepted_parents_immutable", "smallest_authoritative_scope_only", "full_regeneration_allowed", "repair_executed", "candidate_artifact_ref", "complete_av_regression_required", "complete_av_regression_status", "blocker_codes"],
+      "properties": {
+        "plan_id": {"type": "string", "minLength": 1}, "status": {"const": "contract_only_no_diagnosed_defect"},
+        "defect_classes": {"type": "array", "minItems": 6, "maxItems": 6, "uniqueItems": true, "items": {"enum": ["lip_sync", "event_sync", "cumulative_drift", "constant_offset", "source_timing", "mux_timing"]}},
+        "target_span": {"type": "null"}, "target_stem_ref": {"type": "null"},
+        "accepted_parents_immutable": {"const": true}, "smallest_authoritative_scope_only": {"const": true},
+        "full_regeneration_allowed": {"const": false}, "repair_executed": {"const": false}, "candidate_artifact_ref": {"type": "null"},
+        "complete_av_regression_required": {"const": true}, "complete_av_regression_status": {"const": "not_run"},
+        "blocker_codes": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "string"}}
+      }
+    },
+    "certification_package": {
+      "type": "object", "additionalProperties": false,
+      "required": ["package_id", "status", "required_contents", "package_ref", "gate_results", "independent_review_required", "rollback_ready", "revocation_ready", "certification_decision", "promotion_transaction_ref", "blocker_codes"],
+      "properties": {
+        "package_id": {"type": "string", "minLength": 1}, "status": {"const": "blocked_missing_certification_inputs"},
+        "required_contents": {"type": "array", "minItems": 11, "maxItems": 11, "uniqueItems": true, "items": {"enum": ["video", "audio", "stems", "timeline", "captions", "hashes", "qa", "playback", "decisions", "rollback", "revocation"]}},
+        "package_ref": {"type": "null"}, "gate_results": {"type": "array", "minItems": 6, "maxItems": 6, "items": {"$ref": "#/$defs/gate"}},
+        "independent_review_required": {"const": true}, "rollback_ready": {"const": true}, "revocation_ready": {"const": true},
+        "certification_decision": {"const": "blocked"}, "promotion_transaction_ref": {"type": "null"},
+        "blocker_codes": {"type": "array", "minItems": 4, "uniqueItems": true, "items": {"type": "string"}}
+      }
+    },
+    "runtime_execution_allowed": {"const": false}, "promotion_allowed": {"const": false},
+    "boundaries": {
+      "type": "object", "additionalProperties": false,
+      "required": ["media_remuxed", "media_regenerated", "accepted_inputs_claimed", "runtime_execution_claimed", "subjective_review_fabricated", "production_certification_claimed", "promotion_transaction_created", "item_tracker_status_changed"],
+      "properties": {
+        "media_remuxed": {"const": false}, "media_regenerated": {"const": false}, "accepted_inputs_claimed": {"const": false},
+        "runtime_execution_claimed": {"const": false}, "subjective_review_fabricated": {"const": false},
+        "production_certification_claimed": {"const": false}, "promotion_transaction_created": {"const": false},
+        "item_tracker_status_changed": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "file_ref": {
+      "type": "object", "additionalProperties": false, "required": ["name", "path", "sha256"],
+      "properties": {
+        "name": {"enum": ["video_adapter_evidence", "audio_adapter_evidence", "room_spatial_runtime_evidence", "mmaudio_mux_evidence", "av_sync_evaluation_schema", "av_local_repair_schema", "av_promotion_certificate_schema", "av_sync_gate_registry"]},
+        "path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "check": {
+      "type": "object", "additionalProperties": false, "required": ["check_id", "status", "evidence_refs"],
+      "properties": {"check_id": {"enum": ["stream_set", "durations", "artifact_hashes", "manifest_bindings", "codec_metadata"]}, "status": {"const": "not_run"}, "evidence_refs": {"const": []}}
+    },
+    "gate": {
+      "type": "object", "additionalProperties": false, "required": ["gate_id", "status", "evidence_refs"],
+      "properties": {"gate_id": {"enum": ["sync", "identity", "continuity", "technical", "provenance", "full_playback"]}, "status": {"const": "not_run"}, "evidence_refs": {"const": []}}
+    }
+  }
+}

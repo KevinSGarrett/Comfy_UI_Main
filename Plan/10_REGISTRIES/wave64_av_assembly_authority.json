@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0.0",
+  "authority_id": "wave64_av_assembly_authority_rows193_196_r001",
+  "rows_covered": [193, 194, 195, 196],
+  "source_authorities": [
+    {"name": "video_adapter_evidence", "path": "Plan/Instructions/QA/Evidence/Wave64/W64_VIDEO_ADAPTER_AUTHORITY_SLICE_20260717T025835-0500.json", "sha256": "264a0c98273c1725b703f0050c2c844d833cd16ea098ed13ae6ea665a9eb9592"},
+    {"name": "audio_adapter_evidence", "path": "Plan/Instructions/QA/Evidence/Wave64/W64_AUDIO_ADAPTER_LINEAGE_AUTHORITY_SLICE_20260717T031114-0500.json", "sha256": "52fad3c823229070f650708a6d2f4046312d01a1d4e314a938d747824a6061a1"},
+    {"name": "room_spatial_runtime_evidence", "path": "Plan/Instructions/QA/Evidence/Wave64/W64_ROOM_SPATIAL_FULL_MIX_RUNTIME_20260716T023716-0500.json", "sha256": "5d2baaabd7a50042d62755e0289441a3137e2bfa792fd442971a1259d50321fd"},
+    {"name": "mmaudio_mux_evidence", "path": "Plan/Instructions/QA/Evidence/Wave64/W64_MMAUDIO_REVIEW_MUX_20260714T221311-0500.json", "sha256": "2f0e80255e63b2edf4877a67ef405a8343a18ec460ade0abac006c6d14c46885"},
+    {"name": "av_sync_evaluation_schema", "path": "Plan/08_SCHEMAS/hyperreal_av_sync_evaluation.schema.json", "sha256": "e480db2082ec86d54c5568b0f18f5e9a8d992b90cce0ec9e53ee7c53dd7c7732"},
+    {"name": "av_local_repair_schema", "path": "Plan/08_SCHEMAS/hyperreal_av_local_repair_plan.schema.json", "sha256": "9591c2b657eeadfeb73f1aba3a368b722106db221e566cd36f425401cfb31ecf"},
+    {"name": "av_promotion_certificate_schema", "path": "Plan/08_SCHEMAS/hyperreal_audio_av_promotion_certificate.schema.json", "sha256": "7ca0adb5e77df902fc4792a9724c94c8d2a67c701fca19cb415becd058e4f0e7"},
+    {"name": "av_sync_gate_registry", "path": "Plan/10_REGISTRIES/wave64_av_sync_gate_rules.json", "sha256": "c0ea4c84f5cfc0ee21a832dd17f87ffe16f1e89889931b6af85d4b1d718927b3"}
+  ],
+  "canonical_av_clock": {
+    "clock_id": "wave64_canonical_av_clock_r001", "status": "contract_only_unbound",
+    "sample_rate_hz": 48000, "frame_rate_numerator": 24, "frame_rate_denominator": 1,
+    "samples_per_frame": 2000, "sample_origin": 0, "frame_origin": 0,
+    "monotonic": true, "cumulative_drift_allowed": false, "rounding_policy": "exact_integer_only",
+    "required_timeline_fields": ["cuts", "dialogue", "events", "offsets", "handles", "ownership"],
+    "timeline_manifest_ref": null, "execution_receipt_ref": null,
+    "blocker_codes": ["ACCEPTED_VIDEO_TIMELINE_MISSING", "ACCEPTED_AUDIO_SAMPLE_MANIFEST_MISSING"]
+  },
+  "mux_assembly_contract": {
+    "assembly_id": "wave64_av_mux_assembly_fixture_r001", "status": "blocked_missing_accepted_inputs",
+    "accepted_inputs_only": true, "accepted_video_ref": null, "accepted_audio_ref": null,
+    "retained_components": ["video", "audio_master", "individual_stems", "captions", "metadata", "codecs", "hashes", "source_lineage"],
+    "unapproved_substitution_allowed": false, "assembly_executed": false, "output_artifact_ref": null,
+    "reconciliation_checks": [
+      {"check_id": "stream_set", "status": "not_run", "evidence_refs": []},
+      {"check_id": "durations", "status": "not_run", "evidence_refs": []},
+      {"check_id": "artifact_hashes", "status": "not_run", "evidence_refs": []},
+      {"check_id": "manifest_bindings", "status": "not_run", "evidence_refs": []},
+      {"check_id": "codec_metadata", "status": "not_run", "evidence_refs": []}
+    ],
+    "blocker_codes": ["ACCEPTED_VIDEO_ARTIFACT_MISSING", "ACCEPTED_AUDIO_PACKAGE_MISSING", "ASSEMBLY_RUNTIME_NOT_EXECUTED"]
+  },
+  "localized_sync_repair": {
+    "plan_id": "wave64_localized_av_sync_repair_fixture_r001", "status": "contract_only_no_diagnosed_defect",
+    "defect_classes": ["lip_sync", "event_sync", "cumulative_drift", "constant_offset", "source_timing", "mux_timing"],
+    "target_span": null, "target_stem_ref": null, "accepted_parents_immutable": true,
+    "smallest_authoritative_scope_only": true, "full_regeneration_allowed": false,
+    "repair_executed": false, "candidate_artifact_ref": null,
+    "complete_av_regression_required": true, "complete_av_regression_status": "not_run",
+    "blocker_codes": ["SYNC_DIAGNOSIS_MISSING", "ACCEPTED_PARENT_ARTIFACTS_MISSING"]
+  },
+  "certification_package": {
+    "package_id": "wave64_final_av_certification_fixture_r001", "status": "blocked_missing_certification_inputs",
+    "required_contents": ["video", "audio", "stems", "timeline", "captions", "hashes", "qa", "playback", "decisions", "rollback", "revocation"],
+    "package_ref": null,
+    "gate_results": [
+      {"gate_id": "sync", "status": "not_run", "evidence_refs": []},
+      {"gate_id": "identity", "status": "not_run", "evidence_refs": []},
+      {"gate_id": "continuity", "status": "not_run", "evidence_refs": []},
+      {"gate_id": "technical", "status": "not_run", "evidence_refs": []},
+      {"gate_id": "provenance", "status": "not_run", "evidence_refs": []},
+      {"gate_id": "full_playback", "status": "not_run", "evidence_refs": []}
+    ],
+    "independent_review_required": true, "rollback_ready": true, "revocation_ready": true,
+    "certification_decision": "blocked", "promotion_transaction_ref": null,
+    "blocker_codes": ["ASSEMBLED_AV_ARTIFACT_MISSING", "INDEPENDENT_SYNC_REVIEW_MISSING", "FULL_DURATION_PLAYBACK_MISSING", "PRODUCTION_AUTHORITY_MISSING"]
+  },
+  "runtime_execution_allowed": false,
+  "promotion_allowed": false,
+  "boundaries": {
+    "media_remuxed": false, "media_regenerated": false, "accepted_inputs_claimed": false,
+    "runtime_execution_claimed": false, "subjective_review_fabricated": false,
+    "production_certification_claimed": false, "promotion_transaction_created": false,
+    "item_tracker_status_changed": false
+  }
+}
