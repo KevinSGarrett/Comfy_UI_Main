@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.0.0",
+  "authority_id": "wave64_maskfactory_adapter_authority_rows177_180_r001",
+  "rows_covered": [177, 178, 179, 180],
+  "source_regional_evidence": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/W64_REGIONAL_REPAIR_AUTHORITY_SLICE_20260717T021240-0500.json",
+    "sha256": "9512f03210c9225287c375149821cda614af1a3b7ff525a2cff9eb3cf22fab62"
+  },
+  "binding_schema": {
+    "path": "Plan/08_SCHEMAS/mask_factory_binding.schema.json",
+    "sha256": "ca7cb47b66753035c84edf33beec33d310a0a1f492d891f9b45bec072aeeed92"
+  },
+  "mode_a_binding": {
+    "schema_version": "1.0.0",
+    "binding_id": "mask_binding_mode_a_fixture_r001",
+    "scene_id": "scene001", "shot_id": "shot001", "take_id": "take001",
+    "character_id": "C01", "character_revision": "r001", "character_instance_id": "charinst_c01_scene001_01",
+    "access_mode": "mode_a_package_read",
+    "authority": {"truth_tier": "approved_package", "certificate_id": null, "promotion_scope": [], "expires_at": null},
+    "image": {"image_id": "artifact_scene001_accepted_parent_fixture_001", "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "width": 1024, "height": 1024, "coordinate_space": "source_pixels"},
+    "person_index": 0,
+    "package": {"package_id": "maskfactory_package_fixture_001", "revision": "r001", "ontology_version": "body_v1", "provider": "maskfactory_fixture"},
+    "masks": [{"mask_id": "mask_hands_feet_mode_a_fixture_001", "mask_type": "hands_feet", "artifact_id": "artifact_mask_mode_a_fixture_001", "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "source_coordinate_space": "source_pixels", "confidence": null}],
+    "transform_chain": [{"operation": "identity", "source_space": "source_pixels", "target_space": "source_pixels", "parameters": {"scale_x": 1.0, "scale_y": 1.0, "translate_x": 0, "translate_y": 0}, "parameters_sha256": "bd2588ec9522ab6bcd2dd99ed22fb640c202e32b9a6927cfeab20e464b72695e", "roundtrip_validated": true}],
+    "writes_gold": false, "can_satisfy_promotion_gate": false, "valid_from": null,
+    "validated_at": "2026-07-17T02:20:00-05:00"
+  },
+  "mode_b_binding": {
+    "schema_version": "1.0.0",
+    "binding_id": "mask_binding_mode_b_fixture_r001",
+    "scene_id": "scene001", "shot_id": "shot001", "take_id": "take001",
+    "character_id": "C01", "character_revision": "r001", "character_instance_id": "charinst_c01_scene001_01",
+    "access_mode": "mode_b_live_predict",
+    "authority": {"truth_tier": "machine_draft", "certificate_id": null, "promotion_scope": [], "expires_at": null},
+    "image": {"image_id": "artifact_scene001_accepted_parent_fixture_001", "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "width": 1024, "height": 1024, "coordinate_space": "source_pixels"},
+    "person_index": 0,
+    "package": {"package_id": "maskfactory_live_route_fixture_001", "revision": "r001", "ontology_version": "body_v1", "provider": "maskfactory_live_fixture"},
+    "masks": [{"mask_id": "mask_hands_feet_mode_b_fixture_001", "mask_type": "hands_feet", "artifact_id": "artifact_mask_mode_b_fixture_001", "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "source_coordinate_space": "source_pixels", "confidence": 0.62}],
+    "transform_chain": [{"operation": "identity", "source_space": "source_pixels", "target_space": "source_pixels", "parameters": {"scale_x": 1.0, "scale_y": 1.0, "translate_x": 0, "translate_y": 0}, "parameters_sha256": "bd2588ec9522ab6bcd2dd99ed22fb640c202e32b9a6927cfeab20e464b72695e", "roundtrip_validated": true}],
+    "writes_gold": false, "can_satisfy_promotion_gate": false, "valid_from": null,
+    "validated_at": "2026-07-17T02:20:00-05:00"
+  },
+  "mode_b_client": {
+    "client_id": "maskfactory_mode_b_client_contract_r001",
+    "health_status": "offline_not_probed",
+    "supported_operations": ["predict", "refine"],
+    "timeout_seconds": 30,
+    "transport_retry_budget": 1,
+    "quality_retry_budget": 0,
+    "champion_model_id": null,
+    "service_route_id": null,
+    "request_submitted": false,
+    "silent_fallback_allowed": false,
+    "execution_allowed": false,
+    "provenance_fields": ["request_id", "route_id", "model_id", "model_revision", "input_sha256", "output_sha256", "observed_at"],
+    "blocker_codes": ["MASKFACTORY_SERVICE_OFFLINE_NOT_PROBED", "MODE_B_ROUTE_UNCERTIFIED"]
+  },
+  "normalized_bindings": [
+    {
+      "normalized_id": "normalized_mode_a_fixture_001", "source_binding_id": "mask_binding_mode_a_fixture_r001",
+      "access_mode": "mode_a_package_read", "owner_id": "charinst_c01_scene001_01", "person_index": 0,
+      "ontology_version": "body_v1", "image_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "transform_chain_sha256": "56c3d67b24d14c542fb18d149c5dba136bc0b4b08295283046db9d815a1d190f",
+      "truth_tier": "approved_package", "provider": "maskfactory_fixture", "certificate_id": null,
+      "mask_ids": ["mask_hands_feet_mode_a_fixture_001"], "derived": false, "promotion_ready": false
+    },
+    {
+      "normalized_id": "normalized_mode_b_fixture_001", "source_binding_id": "mask_binding_mode_b_fixture_r001",
+      "access_mode": "mode_b_live_predict", "owner_id": "charinst_c01_scene001_01", "person_index": 0,
+      "ontology_version": "body_v1", "image_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "transform_chain_sha256": "56c3d67b24d14c542fb18d149c5dba136bc0b4b08295283046db9d815a1d190f",
+      "truth_tier": "machine_draft", "provider": "maskfactory_live_fixture", "certificate_id": null,
+      "mask_ids": ["mask_hands_feet_mode_b_fixture_001"], "derived": false, "promotion_ready": false
+    }
+  ],
+  "arbitration": {
+    "policy_id": "mask_authority_strength_then_freshness_r001",
+    "candidate_ids": ["normalized_mode_a_fixture_001", "normalized_mode_b_fixture_001"],
+    "selected_normalized_id": "normalized_mode_a_fixture_001",
+    "weaker_overwrite_allowed": false,
+    "decision": "retain_stronger_nonpromotion_candidate",
+    "promotion_ready": false
+  },
+  "derivation": {
+    "derivation_id": "derived_union_fixture_001", "operation": "union",
+    "parent_normalized_ids": ["normalized_mode_a_fixture_001", "normalized_mode_b_fixture_001"],
+    "parent_mask_sha256s": ["bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"],
+    "output_mask_id": "mask_hands_feet_union_derived_fixture_001", "output_truth_tier": "machine_draft",
+    "authority_inflation_allowed": false, "promotion_ready": false
+  },
+  "availability_gate": {
+    "gate_id": "mask_availability_regional_hands_feet_fixture_r001",
+    "dependent_pass_id": "specialist_pass_hands_feet_fixture_r001",
+    "decision": "blocked", "execution_allowed": false, "promotion_allowed": false,
+    "accepted_parent_retained": true, "unrelated_dag_branches_allowed": true,
+    "blocker_matrix": [
+      {"condition": "service_offline", "blocker_code": "MASKFACTORY_SERVICE_OFFLINE", "dependent_pass_blocked": true, "unrelated_branches_continue": true},
+      {"condition": "unknown_taxonomy", "blocker_code": "MASKFACTORY_UNKNOWN_TAXONOMY", "dependent_pass_blocked": true, "unrelated_branches_continue": true},
+      {"condition": "ambiguous_owner", "blocker_code": "MASKFACTORY_AMBIGUOUS_OWNER", "dependent_pass_blocked": true, "unrelated_branches_continue": true},
+      {"condition": "stale_certificate", "blocker_code": "MASKFACTORY_STALE_CERTIFICATE", "dependent_pass_blocked": true, "unrelated_branches_continue": true},
+      {"condition": "transform_mismatch", "blocker_code": "MASKFACTORY_TRANSFORM_MISMATCH", "dependent_pass_blocked": true, "unrelated_branches_continue": true}
+    ]
+  },
+  "runtime_execution_allowed": false,
+  "promotion_allowed": false,
+  "writes_gold": false,
+  "content_based_suppression": false
+}

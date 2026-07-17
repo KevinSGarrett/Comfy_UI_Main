@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/wave64-maskfactory-adapter-authority/1.0.0",
+  "title": "Wave64 Rows177-180 MaskFactory Adapter Authority",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "authority_id", "rows_covered", "source_regional_evidence",
+    "binding_schema", "mode_a_binding", "mode_b_binding", "mode_b_client",
+    "normalized_bindings", "arbitration", "derivation", "availability_gate",
+    "runtime_execution_allowed", "promotion_allowed", "writes_gold",
+    "content_based_suppression"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "authority_id": {"type": "string", "minLength": 1},
+    "rows_covered": {"const": [177, 178, 179, 180]},
+    "source_regional_evidence": {"$ref": "#/$defs/file_ref"},
+    "binding_schema": {"$ref": "#/$defs/file_ref"},
+    "mode_a_binding": {"type": "object"},
+    "mode_b_binding": {"type": "object"},
+    "mode_b_client": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "client_id", "health_status", "supported_operations", "timeout_seconds",
+        "transport_retry_budget", "quality_retry_budget", "champion_model_id",
+        "service_route_id", "request_submitted", "silent_fallback_allowed",
+        "execution_allowed", "provenance_fields", "blocker_codes"
+      ],
+      "properties": {
+        "client_id": {"type": "string", "minLength": 1},
+        "health_status": {"const": "offline_not_probed"},
+        "supported_operations": {"const": ["predict", "refine"]},
+        "timeout_seconds": {"type": "integer", "minimum": 1, "maximum": 300},
+        "transport_retry_budget": {"type": "integer", "minimum": 0, "maximum": 2},
+        "quality_retry_budget": {"const": 0},
+        "champion_model_id": {"type": "null"},
+        "service_route_id": {"type": "null"},
+        "request_submitted": {"const": false},
+        "silent_fallback_allowed": {"const": false},
+        "execution_allowed": {"const": false},
+        "provenance_fields": {
+          "const": ["request_id", "route_id", "model_id", "model_revision", "input_sha256", "output_sha256", "observed_at"]
+        },
+        "blocker_codes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "normalized_bindings": {
+      "type": "array", "minItems": 2, "maxItems": 2,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": [
+          "normalized_id", "source_binding_id", "access_mode", "owner_id", "person_index",
+          "ontology_version", "image_sha256", "transform_chain_sha256", "truth_tier",
+          "provider", "certificate_id", "mask_ids", "derived", "promotion_ready"
+        ],
+        "properties": {
+          "normalized_id": {"type": "string", "minLength": 1},
+          "source_binding_id": {"type": "string", "minLength": 1},
+          "access_mode": {"enum": ["mode_a_package_read", "mode_b_live_predict", "mode_b_live_refine"]},
+          "owner_id": {"type": "string", "minLength": 1},
+          "person_index": {"type": "integer", "minimum": 0},
+          "ontology_version": {"type": "string", "minLength": 1},
+          "image_sha256": {"$ref": "#/$defs/sha256"},
+          "transform_chain_sha256": {"$ref": "#/$defs/sha256"},
+          "truth_tier": {"enum": ["gold", "approved_package", "certified_machine", "machine_draft", "manual_draft", "rejected"]},
+          "provider": {"type": "string", "minLength": 1},
+          "certificate_id": {"type": ["string", "null"]},
+          "mask_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+          "derived": {"type": "boolean"},
+          "promotion_ready": {"const": false}
+        }
+      }
+    },
+    "arbitration": {
+      "type": "object", "additionalProperties": false,
+      "required": ["policy_id", "candidate_ids", "selected_normalized_id", "weaker_overwrite_allowed", "decision", "promotion_ready"],
+      "properties": {
+        "policy_id": {"type": "string", "minLength": 1},
+        "candidate_ids": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "selected_normalized_id": {"type": "string", "minLength": 1},
+        "weaker_overwrite_allowed": {"const": false},
+        "decision": {"const": "retain_stronger_nonpromotion_candidate"},
+        "promotion_ready": {"const": false}
+      }
+    },
+    "derivation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["derivation_id", "operation", "parent_normalized_ids", "parent_mask_sha256s", "output_mask_id", "output_truth_tier", "authority_inflation_allowed", "promotion_ready"],
+      "properties": {
+        "derivation_id": {"type": "string", "minLength": 1},
+        "operation": {"enum": ["union", "intersection", "refinement", "morphology", "feather", "projection"]},
+        "parent_normalized_ids": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "parent_mask_sha256s": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"$ref": "#/$defs/sha256"}},
+        "output_mask_id": {"type": "string", "minLength": 1},
+        "output_truth_tier": {"const": "machine_draft"},
+        "authority_inflation_allowed": {"const": false},
+        "promotion_ready": {"const": false}
+      }
+    },
+    "availability_gate": {
+      "type": "object", "additionalProperties": false,
+      "required": ["gate_id", "dependent_pass_id", "decision", "execution_allowed", "promotion_allowed", "accepted_parent_retained", "unrelated_dag_branches_allowed", "blocker_matrix"],
+      "properties": {
+        "gate_id": {"type": "string", "minLength": 1},
+        "dependent_pass_id": {"type": "string", "minLength": 1},
+        "decision": {"const": "blocked"},
+        "execution_allowed": {"const": false},
+        "promotion_allowed": {"const": false},
+        "accepted_parent_retained": {"const": true},
+        "unrelated_dag_branches_allowed": {"const": true},
+        "blocker_matrix": {
+          "type": "array", "minItems": 5, "maxItems": 5,
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["condition", "blocker_code", "dependent_pass_blocked", "unrelated_branches_continue"],
+            "properties": {
+              "condition": {"type": "string", "minLength": 1},
+              "blocker_code": {"type": "string", "minLength": 1},
+              "dependent_pass_blocked": {"const": true},
+              "unrelated_branches_continue": {"const": true}
+            }
+          }
+        }
+      }
+    },
+    "runtime_execution_allowed": {"const": false},
+    "promotion_allowed": {"const": false},
+    "writes_gold": {"const": false},
+    "content_based_suppression": {"const": false}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "file_ref": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha256"}}
+    }
+  }
+}
