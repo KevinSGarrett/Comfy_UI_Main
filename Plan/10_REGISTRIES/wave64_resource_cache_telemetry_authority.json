@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0.0", "authority_id": "wave64_resource_cache_telemetry_authority_rows205_208_r001", "rows_covered": [205, 206, 207, 208],
+  "source_authorities": [
+    {"name": "worker_lease_schema", "path": "Plan/08_SCHEMAS/runtime_worker_lease.schema.json", "sha256": "303583724e37457e9785d10a59e99b5aa39331e1107c8fa41f019ec588dcad21"},
+    {"name": "model_execution_bundle_schema", "path": "Plan/08_SCHEMAS/model_execution_bundle.schema.json", "sha256": "02beb06ac3180c06e831158379e3636ae0c589b95cfd9de9079d9b7c5cce4732"},
+    {"name": "runtime_lock_schema", "path": "Plan/08_SCHEMAS/comfyui_runtime_lock.schema.json", "sha256": "07b9e058f91a7e58ccda8fea65e0187377dc49c2fbfb70e9513d5bf128d046a6"},
+    {"name": "artifact_locator_schema", "path": "Plan/08_SCHEMAS/comfyui_artifact_locator.schema.json", "sha256": "678d2627498bd80acc47506a7333c3898316cf83b1f20d3d49f4425c96f2322a"},
+    {"name": "artifact_manifest_schema", "path": "Plan/08_SCHEMAS/multimodal_artifact_manifest.schema.json", "sha256": "65eaf4b32baaa506d8455863135570fe008ed58241aec6b0f14afe3aea37cc5d"},
+    {"name": "local_runtime_contract", "path": "Plan/10_REGISTRIES/local_first_runtime_validation_contract.json", "sha256": "2d24b5bd0779d9dfaf88d8a4385a52d062d5d90339853ab10b457d2b80793be8"},
+    {"name": "model_cache_contract", "path": "Plan/10_REGISTRIES/model_asset_storage_cache_contract.json", "sha256": "69649fb58a387151733740e37a4d9b0c11901c0482768b3a64556cf370049ea1"},
+    {"name": "durable_controller_registry", "path": "Plan/10_REGISTRIES/wave64_durable_controller_runtime_slice.json", "sha256": "f0e01eff92614317fd20b26d99bb63c8e8822def615c4fe32de3664009745133"}
+  ],
+  "capability_profile_contract": {"required_fact_classes": ["engine_builds", "nodes", "models", "codecs", "services", "precision", "hardware", "resources", "limits", "measurements"], "profile_id": "synthetic_local_envelope_r001", "certified": true, "measurements_current": true, "assumed_availability_allowed": false},
+  "resource_scheduler_policy": {"certified_envelope_required": true, "lease_required": true, "vram_admission_required": true, "incompatible_coresidency_rejected": true, "audio_isolation_required": true, "priority_aging_required": true, "cancellation_required": true, "max_oom_retries": 1, "material_hypothesis_required_after_oom": true},
+  "cache_policy": {"key_components": ["package", "input", "transform", "stack", "workflow", "runtime", "configuration"], "unsafe_states": ["stale", "revoked", "corrupt", "stochastic_mismatch", "semantic_incompatible"], "payload_hash_required": true, "lineage_required": true, "deterministic_replay_only": true},
+  "telemetry_degraded_mode_policy": {"required_metrics": ["latency", "utilization", "memory", "cache", "retries", "cost", "quality", "queue_depth", "service_health", "capacity"], "allowed_degraded_actions": ["reduce_concurrency", "evict_optional_models", "defer_low_priority", "block_unhealthy_service"], "quality_gates_mutable": false, "authority_gates_mutable": false, "decision_record_required": true},
+  "local_synthetic_runtime_allowed": true, "production_runtime_allowed": false,
+  "boundaries": {"model_loaded": false, "gpu_allocated": false, "comfyui_submitted": false, "cache_reused_in_production": false, "quality_gate_lowered": false, "authority_gate_lowered": false, "aws_mutated": false, "item_tracker_status_changed": false}
+}

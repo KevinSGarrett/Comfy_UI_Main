@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0.0",
+  "evidence_type": "wave64_resource_cache_telemetry_slice",
+  "status": "PASS",
+  "classification": "WAVE64_RESOURCE_CACHE_TELEMETRY_SLICE_PASS",
+  "rows_covered": [
+    205,
+    206,
+    207,
+    208
+  ],
+  "capability_fact_count": 10,
+  "admission_decision": {
+    "decision": "admit",
+    "reason": "CERTIFIED_RESOURCE_ENVELOPE_PASS",
+    "effective_priority": 54
+  },
+  "oversized_rejection": {
+    "decision": "reject",
+    "reason": "VRAM_MB_ENVELOPE_EXCEEDED"
+  },
+  "coresidency_rejection": {
+    "decision": "reject",
+    "reason": "INCOMPATIBLE_CORESIDENCY"
+  },
+  "oom_loop_rejection": {
+    "decision": "reject",
+    "reason": "OOM_RETRY_LOOP_PREVENTED"
+  },
+  "cache_hit": {
+    "decision": "hit",
+    "reason": "HASH_AND_LINEAGE_PASS"
+  },
+  "unsafe_cache_rejections": {
+    "revoked": "reject",
+    "stale": "reject",
+    "semantic_incompatible": "reject",
+    "corrupt": "reject",
+    "stochastic_mismatch": "reject"
+  },
+  "telemetry_metric_count": 10,
+  "degraded_decision": {
+    "decision_id": "degraded_fixture_r001",
+    "actions": [
+      "block_unhealthy_service",
+      "defer_low_priority",
+      "evict_optional_models",
+      "reduce_concurrency"
+    ],
+    "quality_gates_unchanged": true,
+    "authority_gates_unchanged": true,
+    "recorded": true
+  },
+  "production_runtime_allowed": false,
+  "gpu_allocated": false,
+  "comfyui_submitted": false,
+  "aws_mutated": false,
+  "authority": {
+    "registry_path": "Plan/10_REGISTRIES/wave64_resource_cache_telemetry_authority.json",
+    "registry_sha256": "420a24dc3904fdab92ef394e61ba016b96edd4a93cbe27f69571cc7cdd7c096b",
+    "schema_path": "Plan/08_SCHEMAS/wave64_resource_cache_telemetry_authority.schema.json",
+    "schema_sha256": "86a0cbd24f49459395f3828252d517f41f675a1234b58e3b01b721308cba0b6a",
+    "runner_path": "Plan/07_IMPLEMENTATION/scripts/run_wave64_resource_cache_telemetry_slice.py",
+    "runner_sha256": "059f954ce2452b7f8539e1647852540adc6a3e09698a3c20bba0742397cafdcc"
+  },
+  "worker_dispatch": {
+    "intent_id": "intent_20260717T090457547Z_wave64_rows205_208_resource_cache_telemetry_architecture_21bea1bc",
+    "result": "AI_WORKER_RETRY_BUDGET_EXHAUSTED_REGISTERED_PRIMARY_WORKTREE_REQUIRED",
+    "fallback": "bounded_codex_runtime_implementation_and_deterministic_validation"
+  },
+  "boundaries": {
+    "model_loaded": false,
+    "gpu_allocated": false,
+    "comfyui_submitted": false,
+    "cache_reused_in_production": false,
+    "quality_gate_lowered": false,
+    "authority_gate_lowered": false,
+    "aws_mutated": false,
+    "item_tracker_status_changed": false
+  }
+}
