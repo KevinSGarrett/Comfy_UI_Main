@@ -15,6 +15,8 @@ param(
   [string]$LaneId = "",
   [string]$PromptProfileFile = "",
   [string]$RouteRequestFile = "",
+  [ValidateSet("default", "text_to_image", "single_reference_edit")]
+  [string]$WorkflowCapability = "default",
   [string]$PackageRoot = "",
   [string]$RunId = "",
   [string]$ClientId = "codex-root-run-package",
@@ -235,7 +237,16 @@ New-Item -ItemType Directory -Force -Path $laneFilesDir | Out-Null
 
 $packagedFiles = New-Object System.Collections.ArrayList
 $laneDir = Join-Path $ProjectRoot "Workflows\$WorkflowGroup\$LaneId"
-$workflowPath = Join-Path $ProjectRoot ([string]$selectedLane.workflow).Replace("/", "\")
+$workflowProperty = switch ($WorkflowCapability) {
+  "text_to_image" { "text_to_image_workflow" }
+  "single_reference_edit" { "edit_workflow" }
+  default { "workflow" }
+}
+if (!(Test-MapKey -Map $selectedLane -Key $workflowProperty) -or [string]::IsNullOrWhiteSpace([string]$selectedLane.$workflowProperty)) {
+  throw "Lane '$LaneId' does not declare workflow property '$workflowProperty' for capability '$WorkflowCapability'."
+}
+$selectedWorkflowRepoPath = [string]$selectedLane.$workflowProperty
+$workflowPath = Join-Path $ProjectRoot $selectedWorkflowRepoPath.Replace("/", "\")
 $smokePath = Join-Path $ProjectRoot ([string]$selectedLane.smoke_request).Replace("/", "\")
 $runtimePath = Join-Path $ProjectRoot ([string]$selectedLane.runtime_requirements).Replace("/", "\")
 $patchPath = Join-Path $ProjectRoot ([string]$selectedLane.patch_points).Replace("/", "\")
@@ -247,6 +258,25 @@ Copy-PackageFile -SourcePath $patchPath -DestinationPath (Join-Path $laneFilesDi
 Copy-PackageFile -SourcePath $activeLanesPath -DestinationPath (Join-Path $packageDir "ACTIVE_LANES.snapshot.json") -FileRecords $packagedFiles
 
 $packagedSmokePath = Join-Path $laneFilesDir "smoke_test_request.json"
+if ($WorkflowCapability -ne "default") {
+  $capabilitySmokeHash = ConvertTo-HashtableDeep -InputObject (Read-JsonFile -Path $packagedSmokePath)
+  $capabilitySmokeHash["capability"] = $WorkflowCapability
+  $capabilitySmokeHash["workflow_path"] = $selectedWorkflowRepoPath
+  $capabilitySmokeHash["specialized_workflow_path"] = $selectedWorkflowRepoPath
+  $capabilitySmokeHash["workflow_path_policy"] = "explicit_run_package_capability_selection"
+  $capabilitySmokeHash["request_patch_values"] = [ordered]@{}
+  $capabilitySmokeHash["expected_outputs"] = [ordered]@{}
+  Write-JsonNoBom -Value $capabilitySmokeHash -Path $packagedSmokePath -Depth 20
+  $capabilitySmokeFileHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $packagedSmokePath).Hash.ToLowerInvariant()
+  $packagedSmokeRepoPath = Convert-ToRepoPath -Path $packagedSmokePath
+  foreach ($fileRecord in @($packagedFiles)) {
+    if ([string]$fileRecord["packaged"] -eq $packagedSmokeRepoPath) {
+      $fileRecord["sha256"] = $capabilitySmokeFileHash
+      $fileRecord["source_hash_match"] = $false
+      $fileRecord["capability_modified"] = $true
+    }
+  }
+}
 $promptProfile = $null
 $promptProfileRecord = [ordered]@{
   supplied = $false
@@ -411,6 +441,8 @@ $packageManifest = [ordered]@{
   project_root = $ProjectRoot
   workflow_group = $WorkflowGroup
   lane_id = $LaneId
+  workflow_capability = $WorkflowCapability
+  selected_workflow = $selectedWorkflowRepoPath
   lane_order = [int]$selectedLane.order
   package_dir = Convert-ToRepoPath -Path $packageDir
   active_lanes_manifest = Convert-ToRepoPath -Path $activeLanesPath
