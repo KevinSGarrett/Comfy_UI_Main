@@ -1,0 +1,249 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/wave64-video-adapter-authority/1.0.0",
+  "title": "Wave64 Rows185-188 Video Adapter Authority",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "authority_id", "rows_covered", "source_authorities",
+    "keyframe_adapter", "segment_route_plan", "decoded_handoff",
+    "span_repair_plan", "temporal_promotion_gate", "runtime_execution_allowed",
+    "promotion_allowed", "content_based_suppression", "boundaries"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "authority_id": {"type": "string", "minLength": 1},
+    "rows_covered": {"const": [185, 186, 187, 188]},
+    "source_authorities": {
+      "type": "array", "minItems": 6, "maxItems": 6,
+      "items": {"$ref": "#/$defs/file_ref"}
+    },
+    "keyframe_adapter": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "adapter_id", "status", "required_input_contracts", "source_image_artifact_ref",
+        "keyframe_certificate_ref", "shot_instance_authority_preserved",
+        "incompatible_keyframe_rejected", "request_emitted", "execution_allowed",
+        "decision", "blocker_codes"
+      ],
+      "properties": {
+        "adapter_id": {"type": "string", "minLength": 1},
+        "status": {"const": "blocked_no_approved_keyframe"},
+        "required_input_contracts": {
+          "type": "array", "minItems": 8, "maxItems": 8, "uniqueItems": true,
+          "items": {"enum": ["accepted_image", "character_instances", "camera", "pose", "depth", "contact", "timing", "mask_bindings"]}
+        },
+        "source_image_artifact_ref": {"type": "null"},
+        "keyframe_certificate_ref": {"type": "null"},
+        "shot_instance_authority_preserved": {"const": true},
+        "incompatible_keyframe_rejected": {"const": true},
+        "request_emitted": {"const": false},
+        "execution_allowed": {"const": false},
+        "decision": {"const": "reject"},
+        "blocker_codes": {"type": "array", "minItems": 3, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "segment_route_plan": {
+      "type": "object", "additionalProperties": false,
+      "required": ["route_plan_id", "segments", "transition_contract", "fallback_policy", "silent_substitution_allowed"],
+      "properties": {
+        "route_plan_id": {"type": "string", "minLength": 1},
+        "segments": {
+          "type": "array", "minItems": 2, "maxItems": 2,
+          "items": {"$ref": "#/$defs/segment"}
+        },
+        "transition_contract": {
+          "type": "object", "additionalProperties": false,
+          "required": ["start_frame", "end_frame", "identity_continuity_required", "timing_continuity_required", "temporal_qa_required"],
+          "properties": {
+            "start_frame": {"const": 40},
+            "end_frame": {"const": 47},
+            "identity_continuity_required": {"const": true},
+            "timing_continuity_required": {"const": true},
+            "temporal_qa_required": {"const": true}
+          }
+        },
+        "fallback_policy": {"const": "explicit_new_route_decision_or_block"},
+        "silent_substitution_allowed": {"const": false}
+      }
+    },
+    "decoded_handoff": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "handoff_id", "status", "transfer_type", "latent_transfer_allowed",
+        "source_bundle_ref", "target_bundle_ref", "pixel_format_contract",
+        "color_space_contract", "timebase_contract", "roundtrip_status",
+        "certificate_ref", "execution_allowed", "blocker_codes"
+      ],
+      "properties": {
+        "handoff_id": {"type": "string", "minLength": 1},
+        "status": {"const": "blocked_uncertified"},
+        "transfer_type": {"const": "decoded_frames_only"},
+        "latent_transfer_allowed": {"const": false},
+        "source_bundle_ref": {"type": "null"},
+        "target_bundle_ref": {"type": "null"},
+        "pixel_format_contract": {"type": "string", "minLength": 1},
+        "color_space_contract": {"type": "string", "minLength": 1},
+        "timebase_contract": {"type": "string", "minLength": 1},
+        "roundtrip_status": {"const": "not_run"},
+        "certificate_ref": {"type": "null"},
+        "execution_allowed": {"const": false},
+        "blocker_codes": {"type": "array", "minItems": 3, "uniqueItems": true, "items": {"type": "string"}}
+      }
+    },
+    "span_repair_plan": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "repair_plan_id", "status", "target_span", "immutable_accepted_spans",
+        "accepted_spans_immutable", "smallest_failed_scope_only", "full_clip_rerender",
+        "decode_handle_frames_before", "decode_handle_frames_after", "write_mask_refs",
+        "protected_mask_refs", "boundary_keyframe_refs", "boundary_reconnection_status",
+        "max_attempts", "repair_executed", "candidate_span_ref", "blocker_codes"
+      ],
+      "properties": {
+        "repair_plan_id": {"type": "string", "minLength": 1},
+        "status": {"const": "blocked_missing_authority"},
+        "target_span": {"$ref": "#/$defs/span"},
+        "immutable_accepted_spans": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"$ref": "#/$defs/span"}},
+        "accepted_spans_immutable": {"const": true},
+        "smallest_failed_scope_only": {"const": true},
+        "full_clip_rerender": {"const": false},
+        "decode_handle_frames_before": {"type": "integer", "minimum": 1, "maximum": 24},
+        "decode_handle_frames_after": {"type": "integer", "minimum": 1, "maximum": 24},
+        "write_mask_refs": {"const": []},
+        "protected_mask_refs": {"const": []},
+        "boundary_keyframe_refs": {"const": []},
+        "boundary_reconnection_status": {"const": "not_run"},
+        "max_attempts": {"type": "integer", "minimum": 1, "maximum": 2},
+        "repair_executed": {"const": false},
+        "candidate_span_ref": {"type": "null"},
+        "blocker_codes": {"type": "array", "minItems": 4, "uniqueItems": true, "items": {"type": "string"}}
+      }
+    },
+    "temporal_promotion_gate": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "gate_id", "expected_clock", "checks", "candidate_video_ref",
+        "promotion_transaction_ref", "accepted_spans_retained", "decision",
+        "promotion_allowed", "blocker_codes"
+      ],
+      "properties": {
+        "gate_id": {"type": "string", "minLength": 1},
+        "expected_clock": {
+          "type": "object", "additionalProperties": false,
+          "required": ["frame_count", "fps_numerator", "fps_denominator", "duration_seconds"],
+          "properties": {
+            "frame_count": {"const": 72},
+            "fps_numerator": {"const": 24},
+            "fps_denominator": {"const": 1},
+            "duration_seconds": {"const": 3.0}
+          }
+        },
+        "checks": {
+          "type": "array", "minItems": 7, "maxItems": 7,
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["check_id", "status", "evidence_refs"],
+            "properties": {
+              "check_id": {"enum": ["frame_count", "duration", "fps", "loop_export", "lineage", "playback", "temporal_scorecard"]},
+              "status": {"const": "not_run"},
+              "evidence_refs": {"const": []}
+            }
+          }
+        },
+        "candidate_video_ref": {"type": "null"},
+        "promotion_transaction_ref": {"type": "null"},
+        "accepted_spans_retained": {"const": true},
+        "decision": {"const": "blocked"},
+        "promotion_allowed": {"const": false},
+        "blocker_codes": {"type": "array", "minItems": 5, "uniqueItems": true, "items": {"type": "string"}}
+      }
+    },
+    "runtime_execution_allowed": {"const": false},
+    "promotion_allowed": {"const": false},
+    "content_based_suppression": {"const": false},
+    "boundaries": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "approved_keyframe_claimed", "video_bundle_selected", "decoded_bridge_certified",
+        "runtime_execution_claimed", "candidate_video_created", "temporal_qa_claimed",
+        "accepted_span_mutated", "promotion_transaction_created", "item_tracker_status_changed"
+      ],
+      "properties": {
+        "approved_keyframe_claimed": {"const": false},
+        "video_bundle_selected": {"const": false},
+        "decoded_bridge_certified": {"const": false},
+        "runtime_execution_claimed": {"const": false},
+        "candidate_video_created": {"const": false},
+        "temporal_qa_claimed": {"const": false},
+        "accepted_span_mutated": {"const": false},
+        "promotion_transaction_created": {"const": false},
+        "item_tracker_status_changed": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "file_ref": {
+      "type": "object", "additionalProperties": false,
+      "required": ["name", "path", "sha256"],
+      "properties": {
+        "name": {"enum": ["image_dag_evidence", "keyframe_authority_schema", "video_engine_route_schema", "decoded_video_bridge_schema", "video_span_repair_schema", "video_temporal_qa_schema"]},
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "span": {
+      "type": "object", "additionalProperties": false,
+      "required": ["start_frame", "end_frame"],
+      "properties": {
+        "start_frame": {"type": "integer", "minimum": 0, "maximum": 71},
+        "end_frame": {"type": "integer", "minimum": 0, "maximum": 71}
+      }
+    },
+    "candidate": {
+      "type": "object", "additionalProperties": false,
+      "required": ["bundle_id", "eligible", "hard_filter_reasons", "certificate_ref", "rank_score"],
+      "properties": {
+        "bundle_id": {"type": "string", "minLength": 1},
+        "eligible": {"const": false},
+        "hard_filter_reasons": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+        "certificate_ref": {"type": "null"},
+        "rank_score": {"type": "null"}
+      }
+    },
+    "segment": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "segment_id", "start_frame", "end_frame", "overlap_previous_frames",
+        "overlap_next_frames", "pass_intent", "temporal_constraints",
+        "resource_envelope", "evaluated_candidates", "selected_bundle_ref",
+        "route_decision", "production_execution_allowed", "blocker_codes"
+      ],
+      "properties": {
+        "segment_id": {"type": "string", "minLength": 1},
+        "start_frame": {"type": "integer", "minimum": 0, "maximum": 71},
+        "end_frame": {"type": "integer", "minimum": 0, "maximum": 71},
+        "overlap_previous_frames": {"type": "integer", "minimum": 0, "maximum": 24},
+        "overlap_next_frames": {"type": "integer", "minimum": 0, "maximum": 24},
+        "pass_intent": {"enum": ["keyframe_to_video", "localized_span_repair"]},
+        "temporal_constraints": {"type": "array", "minItems": 3, "uniqueItems": true, "items": {"type": "string"}},
+        "resource_envelope": {
+          "type": "object", "additionalProperties": false,
+          "required": ["runtime_class", "max_wall_seconds", "max_peak_vram_mib", "max_attempts"],
+          "properties": {
+            "runtime_class": {"const": "comfyui_gpu_video_worker"},
+            "max_wall_seconds": {"type": "integer", "minimum": 1},
+            "max_peak_vram_mib": {"type": "integer", "minimum": 1},
+            "max_attempts": {"type": "integer", "minimum": 1, "maximum": 2}
+          }
+        },
+        "evaluated_candidates": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/candidate"}},
+        "selected_bundle_ref": {"type": "null"},
+        "route_decision": {"const": "blocked"},
+        "production_execution_allowed": {"const": false},
+        "blocker_codes": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "string"}}
+      }
+    }
+  }
+}
