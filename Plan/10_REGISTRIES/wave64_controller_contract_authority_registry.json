@@ -1,0 +1,209 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "wave64_controller_contract_authority_registry_v1",
+  "revision": "1",
+  "status": "synthetic_contract_enforcement_active",
+  "rows_covered": [149, 150, 151, 152, 153],
+  "runtime_scope": "synthetic_contract_validation_only",
+  "component_responsibilities": [
+    {
+      "component_id": "governance_authority",
+      "responsibility": "Own the additive program charter, namespace reservation, bounded exceptions, and supersession policy.",
+      "owns_record_types": ["program_charter", "namespace_reservation", "exception_record"],
+      "forbidden_authorities": ["execution_submission", "qa_gate_decision", "promotion_decision"]
+    },
+    {
+      "component_id": "contract_registry",
+      "responsibility": "Admit immutable schema and contract revisions and preserve their supersession lineage.",
+      "owns_record_types": ["schema_revision", "contract_revision"],
+      "forbidden_authorities": ["execution_submission", "qa_gate_decision", "promotion_decision"]
+    },
+    {
+      "component_id": "durable_controller",
+      "responsibility": "Apply authorized state transitions and persist append-only events and replayable projections.",
+      "owns_record_types": ["orchestrator_event", "state_transition", "run_projection"],
+      "forbidden_authorities": ["qa_gate_decision", "promotion_decision", "certificate_issuance"]
+    },
+    {
+      "component_id": "runtime_authorization_policy",
+      "responsibility": "Authorize an exact idempotent submission only after contract and dependency gates pass.",
+      "owns_record_types": ["execution_authorization"],
+      "forbidden_authorities": ["qa_gate_decision", "promotion_decision"]
+    },
+    {
+      "component_id": "independent_qa_policy",
+      "responsibility": "Evaluate declared deterministic and independent review gates without executing or promoting candidates.",
+      "owns_record_types": ["qa_decision"],
+      "forbidden_authorities": ["execution_submission", "promotion_decision"]
+    },
+    {
+      "component_id": "promotion_transaction_policy",
+      "responsibility": "Commit or reject an exactly-once promotion transaction from current authorized evidence.",
+      "owns_record_types": ["promotion_decision"],
+      "forbidden_authorities": ["execution_submission", "qa_measurement"]
+    }
+  ],
+  "decision_authority_matrix": [
+    {
+      "decision_type": "contract_revision_admission",
+      "final_authority": "contract_registry",
+      "proposal_roles": ["planner", "operator", "llm_advisor"],
+      "required_evidence": ["schema_validation", "compatibility_report", "revision_hash"],
+      "llm_vlm_final_authority_allowed": false
+    },
+    {
+      "decision_type": "state_transition_acceptance",
+      "final_authority": "durable_controller",
+      "proposal_roles": ["runtime_adapter", "operator", "llm_advisor"],
+      "required_evidence": ["transition_definition", "aggregate_version", "event_hash"],
+      "llm_vlm_final_authority_allowed": false
+    },
+    {
+      "decision_type": "execution_submission_authorization",
+      "final_authority": "runtime_authorization_policy",
+      "proposal_roles": ["planner", "scheduler", "operator"],
+      "required_evidence": ["validated_contract", "dependency_state", "runtime_lock", "idempotency_key"],
+      "llm_vlm_final_authority_allowed": false
+    },
+    {
+      "decision_type": "qa_gate_decision",
+      "final_authority": "independent_qa_policy",
+      "proposal_roles": ["deterministic_evaluator", "model_reviewer", "human_reviewer"],
+      "required_evidence": ["artifact_hash", "gate_results", "review_authority"],
+      "llm_vlm_final_authority_allowed": false
+    },
+    {
+      "decision_type": "promotion_decision",
+      "final_authority": "promotion_transaction_policy",
+      "proposal_roles": ["qa_aggregator", "operator", "llm_advisor"],
+      "required_evidence": ["current_parent_hash", "passing_qa_decision", "lineage_manifest", "rollback_pointer"],
+      "llm_vlm_final_authority_allowed": false
+    },
+    {
+      "decision_type": "exception_admission",
+      "final_authority": "governance_authority",
+      "proposal_roles": ["operator", "controller_diagnostics"],
+      "required_evidence": ["bounded_scope", "expiry", "rollback_revision", "evidence_refs"],
+      "llm_vlm_final_authority_allowed": false
+    }
+  ],
+  "namespace_reservations": [
+    {
+      "package_id": "wave64_ultimate_multimodal_workflow_rows149_220",
+      "first_row": 149,
+      "last_row": 220,
+      "item_csv": "Plan/Items/Waves/Wave64/WAVE64_ULTIMATE_MULTIMODAL_WORKFLOW_ITEM_ROWS.csv",
+      "tracker_csv": "Plan/Tracker/Waves/Wave64/WAVE64_ULTIMATE_MULTIMODAL_WORKFLOW_TRACKER_ROWS.csv",
+      "item_id_field": "Item_ID",
+      "tracker_id_field": "Tracker_ID",
+      "item_id_pattern": "^ITEM-W64-(?P<row>[0-9]{3})$",
+      "tracker_id_pattern": "^TRK-W64-(?P<row>[0-9]{3})$"
+    },
+    {
+      "package_id": "wave64_autonomous_model_intelligence_rows221_260",
+      "first_row": 221,
+      "last_row": 260,
+      "item_csv": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_MODEL_INTELLIGENCE_ITEM_ROWS.csv",
+      "tracker_csv": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_MODEL_INTELLIGENCE_TRACKER_ROWS.csv",
+      "item_id_field": "Item_ID",
+      "tracker_id_field": "Tracker_ID",
+      "item_id_pattern": "^W64-MI-(?P<row>[0-9]{3})$",
+      "tracker_id_pattern": "^W64-MI-TRK-(?P<row>[0-9]{3})$"
+    },
+    {
+      "package_id": "wave64_hyperreal_video_audio_app_third_pass_rows261_320",
+      "first_row": 261,
+      "last_row": 320,
+      "item_csv": "Plan/Items/Waves/Wave64/WAVE64_HYPERREAL_VIDEO_AUDIO_APP_THIRD_PASS_ITEM_ROWS.csv",
+      "tracker_csv": "Plan/Tracker/Waves/Wave64/WAVE64_HYPERREAL_VIDEO_AUDIO_APP_THIRD_PASS_TRACKER_ROWS.csv",
+      "item_id_field": "item_id",
+      "tracker_id_field": "tracker_id",
+      "item_id_pattern": "^ITEM-W64-(?P<row>[0-9]{3})$",
+      "tracker_id_pattern": "^TRK-W64-(?P<row>[0-9]{3})$"
+    }
+  ],
+  "revision_policy": {
+    "append_only": true,
+    "immutable_revision_ids": true,
+    "evidence_required": true,
+    "rollback_required": true,
+    "in_place_mutation_allowed": false,
+    "exception_scope_must_be_bounded": true,
+    "exception_expiry_required": true
+  },
+  "revision_history_fixture": [
+    {
+      "record_id": "controller_contract_fixture",
+      "revision_id": "controller-contract-r001",
+      "parent_revision_id": null,
+      "supersedes_revision_id": null,
+      "status": "superseded",
+      "payload_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "evidence_refs": ["evidence://controller-contract/r001"]
+    },
+    {
+      "record_id": "controller_contract_fixture",
+      "revision_id": "controller-contract-r002",
+      "parent_revision_id": "controller-contract-r001",
+      "supersedes_revision_id": "controller-contract-r001",
+      "status": "active",
+      "payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "evidence_refs": ["evidence://controller-contract/r002"]
+    }
+  ],
+  "exception_fixture": [
+    {
+      "exception_id": "controller-contract-exception-001",
+      "applies_to_revision_id": "controller-contract-r002",
+      "bounded_scope": "synthetic_fixture_transition_only",
+      "authority": "governance_authority",
+      "evidence_refs": ["evidence://controller-contract/exception-001"],
+      "created_at": "2026-07-16T23:45:00-05:00",
+      "expires_at": "2026-07-17T23:45:00-05:00",
+      "rollback_revision_id": "controller-contract-r001",
+      "waives_rules": []
+    }
+  ],
+  "id_namespaces": [
+    {"entity_type": "character_definition", "prefix": "char_", "pattern": "^char_[a-z0-9_]+$", "reusable_definition": true, "scope": "global"},
+    {"entity_type": "character_revision", "prefix": "charrev_", "pattern": "^charrev_[a-z0-9_]+$", "reusable_definition": true, "scope": "global"},
+    {"entity_type": "scene", "prefix": "scene_", "pattern": "^scene_[a-z0-9_]+$", "reusable_definition": false, "scope": "project"},
+    {"entity_type": "shot", "prefix": "shot_", "pattern": "^shot_[a-z0-9_]+$", "reusable_definition": false, "scope": "scene"},
+    {"entity_type": "take", "prefix": "take_", "pattern": "^take_[a-z0-9_]+$", "reusable_definition": false, "scope": "shot"},
+    {"entity_type": "character_instance", "prefix": "charinst_", "pattern": "^charinst_[a-z0-9_]+$", "reusable_definition": false, "scope": "take"}
+  ],
+  "relationship_rules": [
+    {"source_type": "character_revision", "target_type": "character_definition", "relation": "revision_of", "required": true},
+    {"source_type": "scene", "target_type": "character_definition", "relation": "uses_character_definition", "required": true},
+    {"source_type": "shot", "target_type": "scene", "relation": "belongs_to_scene", "required": true},
+    {"source_type": "take", "target_type": "shot", "relation": "belongs_to_shot", "required": true},
+    {"source_type": "character_instance", "target_type": "character_revision", "relation": "instance_of_revision", "required": true},
+    {"source_type": "character_instance", "target_type": "take", "relation": "scoped_to_take", "required": true}
+  ],
+  "synthetic_entity_graph": {
+    "entities": [
+      {"entity_type": "character_definition", "entity_id": "char_c01", "revision": "1", "reusable_definition": true, "scope": "global", "fingerprint_sha256": "1111111111111111111111111111111111111111111111111111111111111111"},
+      {"entity_type": "character_revision", "entity_id": "charrev_c01_r001", "revision": "1", "reusable_definition": true, "scope": "global", "fingerprint_sha256": "2222222222222222222222222222222222222222222222222222222222222222"},
+      {"entity_type": "scene", "entity_id": "scene_s001", "revision": "1", "reusable_definition": false, "scope": "project", "fingerprint_sha256": "3333333333333333333333333333333333333333333333333333333333333333"},
+      {"entity_type": "shot", "entity_id": "shot_s001_sh001", "revision": "1", "reusable_definition": false, "scope": "scene", "fingerprint_sha256": "4444444444444444444444444444444444444444444444444444444444444444"},
+      {"entity_type": "take", "entity_id": "take_s001_sh001_t001", "revision": "1", "reusable_definition": false, "scope": "shot", "fingerprint_sha256": "5555555555555555555555555555555555555555555555555555555555555555"},
+      {"entity_type": "character_instance", "entity_id": "charinst_s001_sh001_c01_a", "revision": "1", "reusable_definition": false, "scope": "take", "fingerprint_sha256": "6666666666666666666666666666666666666666666666666666666666666666"}
+    ],
+    "relations": [
+      {"source_id": "charrev_c01_r001", "target_id": "char_c01", "relation": "revision_of"},
+      {"source_id": "scene_s001", "target_id": "char_c01", "relation": "uses_character_definition"},
+      {"source_id": "shot_s001_sh001", "target_id": "scene_s001", "relation": "belongs_to_scene"},
+      {"source_id": "take_s001_sh001_t001", "target_id": "shot_s001_sh001", "relation": "belongs_to_shot"},
+      {"source_id": "charinst_s001_sh001_c01_a", "target_id": "charrev_c01_r001", "relation": "instance_of_revision"},
+      {"source_id": "charinst_s001_sh001_c01_a", "target_id": "take_s001_sh001_t001", "relation": "scoped_to_take"}
+    ]
+  },
+  "never_waivable_rules": [
+    "llm_vlm_cannot_certify_or_promote",
+    "promotion_requires_current_independent_qa",
+    "accepted_parent_is_immutable",
+    "namespace_collision_is_fatal"
+  ],
+  "content_based_suppression": false,
+  "runtime_completion_claimed": false
+}
