@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/wave64-fail-closed-route-solver-fixture/1.0.0",
+  "title": "Wave64 Fail-Closed Route Solver Fixture",
+  "type": "object",
+  "required": [
+    "schema_version", "fixture_id", "status", "source_registries", "route_request", "hard_constraints",
+    "conformance_gate", "ranking_policy", "fallback_policy", "decision_metadata",
+    "runtime_execution_allowed", "production_selection_allowed", "content_based_suppression"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "fixture_id": { "type": "string", "minLength": 1 },
+    "status": { "const": "dry_solver_fixture_not_runtime_execution" },
+    "source_registries": {
+      "type": "object",
+      "required": ["activation_gate", "capability_registry"],
+      "properties": {
+        "activation_gate": { "$ref": "#/$defs/ImmutableFileRef" },
+        "capability_registry": { "$ref": "#/$defs/ImmutableFileRef" }
+      },
+      "additionalProperties": false
+    },
+    "route_request": { "type": "object" },
+    "hard_constraints": {
+      "type": "object",
+      "required": [
+        "allowed_engine_families", "required_vae_family", "required_text_encoder_family",
+        "required_adapter_family", "required_control_family", "required_workflow_module_id",
+        "required_custom_node_lock_id", "required_license_use_record_id",
+        "required_hardware_envelope_id", "required_authority_status",
+        "required_package_contracts", "cross_family_latent_policy"
+      ],
+      "properties": {
+        "allowed_engine_families": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+        "required_vae_family": { "type": "string", "minLength": 1 },
+        "required_text_encoder_family": { "type": "string", "minLength": 1 },
+        "required_adapter_family": { "type": "string", "minLength": 1 },
+        "required_control_family": { "type": "string", "minLength": 1 },
+        "required_workflow_module_id": { "type": "string", "minLength": 1 },
+        "required_custom_node_lock_id": { "type": "string", "minLength": 1 },
+        "required_license_use_record_id": { "type": "string", "minLength": 1 },
+        "required_hardware_envelope_id": { "type": "string", "minLength": 1 },
+        "required_authority_status": { "const": "certified" },
+        "required_package_contracts": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+        "cross_family_latent_policy": { "const": "forbidden_decoded_artifacts_only" }
+      },
+      "additionalProperties": false
+    },
+    "conformance_gate": {
+      "type": "object",
+      "required": ["gate_id", "runtime_output_present", "required_checks", "promotion_allowed", "repair_scope"],
+      "properties": {
+        "gate_id": { "type": "string", "minLength": 1 },
+        "runtime_output_present": { "const": false },
+        "required_checks": {
+          "type": "array",
+          "minItems": 5,
+          "items": { "enum": ["pose", "framing", "ownership", "contact", "protected_region"] },
+          "uniqueItems": true
+        },
+        "promotion_allowed": { "const": false },
+        "repair_scope": { "const": "none_without_runtime_output" }
+      },
+      "additionalProperties": false
+    },
+    "ranking_policy": {
+      "type": "object",
+      "required": ["policy_id", "hard_filter_before_ranking", "ineligible_candidates_receive_scores", "llm_can_bypass_hard_filters", "weights"],
+      "properties": {
+        "policy_id": { "type": "string", "minLength": 1 },
+        "hard_filter_before_ranking": { "const": true },
+        "ineligible_candidates_receive_scores": { "const": false },
+        "llm_can_bypass_hard_filters": { "const": false },
+        "weights": {
+          "type": "object",
+          "required": ["quality", "preservation", "stability", "failure_rate", "runtime", "memory", "cost", "cache"],
+          "additionalProperties": { "type": "number", "minimum": 0 }
+        }
+      },
+      "additionalProperties": false
+    },
+    "fallback_policy": {
+      "type": "object",
+      "required": ["abstain_when_no_eligible_stack", "silent_substitution_allowed", "seed_only_retry_allowed", "material_hypothesis_required", "preserve_accepted_parent"],
+      "properties": {
+        "abstain_when_no_eligible_stack": { "const": true },
+        "silent_substitution_allowed": { "const": false },
+        "seed_only_retry_allowed": { "const": false },
+        "material_hypothesis_required": { "const": true },
+        "preserve_accepted_parent": { "const": true }
+      },
+      "additionalProperties": false
+    },
+    "decision_metadata": {
+      "type": "object",
+      "required": ["route_decision_id", "revision", "decided_at"],
+      "properties": {
+        "route_decision_id": { "type": "string", "minLength": 1 },
+        "revision": { "type": "string", "minLength": 1 },
+        "decided_at": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": false
+    },
+    "runtime_execution_allowed": { "const": false },
+    "production_selection_allowed": { "const": false },
+    "content_based_suppression": { "const": false }
+  },
+  "$defs": {
+    "Sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "ImmutableFileRef": {
+      "type": "object",
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "$ref": "#/$defs/Sha256" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

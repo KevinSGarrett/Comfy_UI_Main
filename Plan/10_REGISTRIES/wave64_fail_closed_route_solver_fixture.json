@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0.0",
+  "fixture_id": "wave64_fail_closed_route_solver_fixture_v1",
+  "status": "dry_solver_fixture_not_runtime_execution",
+  "source_registries": {
+    "activation_gate": {
+      "path": "Plan/10_REGISTRIES/wave64_model_library_activation_gate_registry.json",
+      "sha256": "b4a13573bc2488e9dd2d380f9fa32b7e343598e9a1ab0b9511f813fd56c75edb"
+    },
+    "capability_registry": {
+      "path": "Plan/10_REGISTRIES/wave64_multimodal_engine_model_capability_registry.json",
+      "sha256": "66e789e4c3dff2aa2a3ad80f6e83315c6dd4c41a3a60db9dcf43add578689aa2"
+    }
+  },
+  "route_request": {
+    "schema_version": "1.0.0",
+    "route_request_id": "route_request_scene001_base_generation_fixture_r001",
+    "run_id": "run_scene001_route_fixture_001",
+    "pass_id": "pass_scene001_base_generation_fixture_001",
+    "modality": "image",
+    "pass_intent": "base_generation",
+    "accepted_parent_artifact_ids": ["artifact_scene001_accepted_parent_fixture_001"],
+    "target_scope": {
+      "character_instance_ids": ["charinst_c01_scene001_01"],
+      "regions_or_spans": [{"selector_type":"whole_artifact"}],
+      "mask_binding_ids": []
+    },
+    "protected_scope": {
+      "character_instance_ids": ["charinst_c01_scene001_01"],
+      "regions_or_spans": [{"region":"face"},{"region":"body"}],
+      "mask_binding_ids": []
+    },
+    "required_capabilities": ["character_package","decoded_image","shot_pose_package","text"],
+    "input_contract": ["text","shot_pose_package","character_package"],
+    "output_contract": ["decoded_image"],
+    "control_requirements": [],
+    "character_binding_requirements": [{"character_instance_id":"charinst_c01_scene001_01","character_revision":"r001"}],
+    "mask_authority_requirements": [],
+    "budgets": {"quality_tier":"hyperreal_candidate","max_attempts":1,"max_runtime_seconds":600,"max_peak_vram_mib":24576,"max_cost":null},
+    "engine_policy": {"mode":"auto","preferred_stack_ids":[]},
+    "registry_snapshot_id": "wave64_multimodal_engine_model_capability_registry",
+    "requested_at": "2026-07-17T01:20:00-05:00"
+  },
+  "hard_constraints": {
+    "allowed_engine_families": ["flux2"],
+    "required_vae_family": "flux2_exact_only",
+    "required_text_encoder_family": "flux2_exact_only",
+    "required_adapter_family": "flux2_exact_only",
+    "required_control_family": "flux2_certified_only",
+    "required_workflow_module_id": "workflow_flux2_dev_global_image_tbd",
+    "required_custom_node_lock_id": "custom_node_lock_flux2_fixture_v1",
+    "required_license_use_record_id": "license_use_flux2_noncommercial_fixture_v1",
+    "required_hardware_envelope_id": "hardware_24gb_local_v1",
+    "required_authority_status": "certified",
+    "required_package_contracts": ["character_package","shot_pose_package"],
+    "cross_family_latent_policy": "forbidden_decoded_artifacts_only"
+  },
+  "conformance_gate": {
+    "gate_id": "pose_ownership_conformance_gate_fixture_v1",
+    "runtime_output_present": false,
+    "required_checks": ["pose","framing","ownership","contact","protected_region"],
+    "promotion_allowed": false,
+    "repair_scope": "none_without_runtime_output"
+  },
+  "ranking_policy": {
+    "policy_id": "wave64_hard_filter_then_rank_fixture_v1",
+    "hard_filter_before_ranking": true,
+    "ineligible_candidates_receive_scores": false,
+    "llm_can_bypass_hard_filters": false,
+    "weights": {"quality":1.0,"preservation":1.0,"stability":1.0,"failure_rate":1.0,"runtime":0.5,"memory":0.5,"cost":0.25,"cache":0.25}
+  },
+  "fallback_policy": {
+    "abstain_when_no_eligible_stack": true,
+    "silent_substitution_allowed": false,
+    "seed_only_retry_allowed": false,
+    "material_hypothesis_required": true,
+    "preserve_accepted_parent": true
+  },
+  "decision_metadata": {
+    "route_decision_id": "route_decision_scene001_blocked_fixture_r001",
+    "revision": "r001",
+    "decided_at": "2026-07-17T01:20:01-05:00"
+  },
+  "runtime_execution_allowed": false,
+  "production_selection_allowed": false,
+  "content_based_suppression": false
+}
