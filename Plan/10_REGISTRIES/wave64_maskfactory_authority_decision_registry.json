@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "wave64_maskfactory_authority_decision_registry",
+  "updated_at": "2026-07-17T14:51:54-05:00",
+  "implementation": {
+    "path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_maskfactory_authority.py",
+    "sha256": "e81cfd65d877071bbcc6f689702ca369acc65253069aa5f009c0c7f2b35fb29b",
+    "bytes": 18397
+  },
+  "tests": {
+    "path": "Plan/Instructions/QA/Scripts/test_evaluate_wave64_maskfactory_authority.py",
+    "sha256": "4a3706f8f3b260717967f2f510aae7af2cb7942589f7845733eb90da00bc6080",
+    "bytes": 10129,
+    "targeted_passed": 21,
+    "compatible_maskfactory_passed": 273
+  },
+  "implemented_rows": [
+    "ITEM-W64-329",
+    "ITEM-W64-330",
+    "ITEM-W64-331",
+    "ITEM-W64-332"
+  ],
+  "frozen_inputs": [
+    {
+      "path": "Plan/10_REGISTRIES/wave64_maskfactory_bridge_authority_crosswalk_v2.json",
+      "sha256": "a2d46a211157387c2576037d1ced45428a80bac879ec7949cd0d0758e3134db9"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave64_maskfactory_bridge_legacy_migration_crosswalk_v2.json",
+      "sha256": "62c603218d46379898c7207149081c7804d6c3503e2b8aed14b0f97003ef02d3"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/maskfactory_operational_certificate_v2.schema.json",
+      "sha256": "ada873f80f0025c68a71a9bf2c593db2863b5e9edabb63ff174363bc5426a399"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/maskfactory_authority_decision_v2.schema.json",
+      "sha256": "aff8d3b512d0dc5af16d8bdb4cf69564a64f550ce869f400246776abdb28b066"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/maskfactory_invalidation_event_v2.schema.json",
+      "sha256": "43c61404154b15e8fa75d1ef3653dd26fa4a0477a72f255195492f4ced960869"
+    }
+  ],
+  "capabilities": {
+    "authority_crosswalk": {
+      "closed_vocabulary": true,
+      "access_mode_implies_authority": false,
+      "authority_state_alone_promotes": false,
+      "legacy_string_or_live_dial_authority": false,
+      "human_anchor_required_for_core": false
+    },
+    "certificate_verifier": {
+      "schema_and_semantic_core_validation": true,
+      "trusted_runtime_context_required_for_production": true,
+      "fixture_certificate_can_establish_production_trust": false,
+      "certificate_presence_must_match_certified_state": true
+    },
+    "promotion_decision": {
+      "signed_policy_recomputed": true,
+      "complete_unique_criterion_vector_required": true,
+      "criterion_status_caller_controlled": false,
+      "genuine_runtime_evidence_required": true,
+      "fixture_promotion_allowed": false
+    },
+    "invalidation": {
+      "exact_target_hash_and_scope_bound": true,
+      "predecessor_state_bound": true,
+      "authority_elevation_allowed": false,
+      "tombstone_written": true,
+      "replay_idempotent": true,
+      "unrelated_targets_preserved": true
+    }
+  },
+  "production": {
+    "enabled": false,
+    "runtime_completion_claimed": false,
+    "rows_marked_complete": false,
+    "required_before_enablement": [
+      "published_and_adopted_maskfactory_release",
+      "active_atomic_release_pin",
+      "trusted_signer_and_current_revocation_index",
+      "nonfixture_production_operational_certificate",
+      "genuine_runtime_evidence_for_every_signed_policy_criterion",
+      "production_invalidation_and_recovery_runtime_proof"
+    ]
+  }
+}
