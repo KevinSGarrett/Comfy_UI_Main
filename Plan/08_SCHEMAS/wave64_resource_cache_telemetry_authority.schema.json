@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/wave64-resource-cache-telemetry-authority/1.0.0",
+  "title": "Wave64 Rows205-208 Resource Cache and Telemetry Authority",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "authority_id", "rows_covered", "source_authorities", "capability_profile_contract", "resource_scheduler_policy", "cache_policy", "telemetry_degraded_mode_policy", "local_synthetic_runtime_allowed", "production_runtime_allowed", "boundaries"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"}, "authority_id": {"const": "wave64_resource_cache_telemetry_authority_rows205_208_r001"},
+    "rows_covered": {"const": [205, 206, 207, 208]},
+    "source_authorities": {"type": "array", "minItems": 8, "maxItems": 8, "items": {"$ref": "#/$defs/file_ref"}},
+    "capability_profile_contract": {
+      "type": "object", "additionalProperties": false,
+      "required": ["required_fact_classes", "profile_id", "certified", "measurements_current", "assumed_availability_allowed"],
+      "properties": {
+        "required_fact_classes": {"type": "array", "minItems": 10, "maxItems": 10, "uniqueItems": true, "items": {"enum": ["engine_builds", "nodes", "models", "codecs", "services", "precision", "hardware", "resources", "limits", "measurements"]}},
+        "profile_id": {"const": "synthetic_local_envelope_r001"}, "certified": {"const": true},
+        "measurements_current": {"const": true}, "assumed_availability_allowed": {"const": false}
+      }
+    },
+    "resource_scheduler_policy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["certified_envelope_required", "lease_required", "vram_admission_required", "incompatible_coresidency_rejected", "audio_isolation_required", "priority_aging_required", "cancellation_required", "max_oom_retries", "material_hypothesis_required_after_oom"],
+      "properties": {
+        "certified_envelope_required": {"const": true}, "lease_required": {"const": true}, "vram_admission_required": {"const": true},
+        "incompatible_coresidency_rejected": {"const": true}, "audio_isolation_required": {"const": true},
+        "priority_aging_required": {"const": true}, "cancellation_required": {"const": true},
+        "max_oom_retries": {"const": 1}, "material_hypothesis_required_after_oom": {"const": true}
+      }
+    },
+    "cache_policy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["key_components", "unsafe_states", "payload_hash_required", "lineage_required", "deterministic_replay_only"],
+      "properties": {
+        "key_components": {"type": "array", "minItems": 7, "maxItems": 7, "uniqueItems": true, "items": {"enum": ["package", "input", "transform", "stack", "workflow", "runtime", "configuration"]}},
+        "unsafe_states": {"type": "array", "minItems": 5, "maxItems": 5, "uniqueItems": true, "items": {"enum": ["stale", "revoked", "corrupt", "stochastic_mismatch", "semantic_incompatible"]}},
+        "payload_hash_required": {"const": true}, "lineage_required": {"const": true}, "deterministic_replay_only": {"const": true}
+      }
+    },
+    "telemetry_degraded_mode_policy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["required_metrics", "allowed_degraded_actions", "quality_gates_mutable", "authority_gates_mutable", "decision_record_required"],
+      "properties": {
+        "required_metrics": {"type": "array", "minItems": 10, "maxItems": 10, "uniqueItems": true, "items": {"enum": ["latency", "utilization", "memory", "cache", "retries", "cost", "quality", "queue_depth", "service_health", "capacity"]}},
+        "allowed_degraded_actions": {"type": "array", "minItems": 4, "maxItems": 4, "uniqueItems": true, "items": {"enum": ["reduce_concurrency", "evict_optional_models", "defer_low_priority", "block_unhealthy_service"]}},
+        "quality_gates_mutable": {"const": false}, "authority_gates_mutable": {"const": false}, "decision_record_required": {"const": true}
+      }
+    },
+    "local_synthetic_runtime_allowed": {"const": true}, "production_runtime_allowed": {"const": false},
+    "boundaries": {"type": "object", "additionalProperties": false, "required": ["model_loaded", "gpu_allocated", "comfyui_submitted", "cache_reused_in_production", "quality_gate_lowered", "authority_gate_lowered", "aws_mutated", "item_tracker_status_changed"], "properties": {"model_loaded": {"const": false}, "gpu_allocated": {"const": false}, "comfyui_submitted": {"const": false}, "cache_reused_in_production": {"const": false}, "quality_gate_lowered": {"const": false}, "authority_gate_lowered": {"const": false}, "aws_mutated": {"const": false}, "item_tracker_status_changed": {"const": false}}}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "file_ref": {"type": "object", "additionalProperties": false, "required": ["name", "path", "sha256"], "properties": {"name": {"enum": ["worker_lease_schema", "model_execution_bundle_schema", "runtime_lock_schema", "artifact_locator_schema", "artifact_manifest_schema", "local_runtime_contract", "model_cache_contract", "durable_controller_registry"]}, "path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha256"}}}
+  }
+}
