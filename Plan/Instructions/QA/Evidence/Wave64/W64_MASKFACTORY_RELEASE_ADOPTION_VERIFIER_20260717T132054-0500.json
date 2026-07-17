@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "wave64_maskfactory_release_adoption_verifier_evidence",
+  "evidence_id": "W64_MASKFACTORY_RELEASE_ADOPTION_VERIFIER_20260717T132054-0500",
+  "generated_at": "2026-07-17T13:20:54.7748663-05:00",
+  "classification": "W64_MASKFACTORY_RELEASE_ADOPTION_VERIFIER_IMPLEMENTED_RELEASE_UNPUBLISHED",
+  "status": "PASS_WITH_EXTERNAL_BLOCKER",
+  "authoritative_project_root": "C:/Comfy_UI_Main",
+  "implementation_worktree": "C:/CUI_W64_261",
+  "source_branch": "codex/w64-maskfactory-row321-release-verifier",
+  "source_base_commit": "4f66f5df579dfdfd0e85bc4d30f958cc5c1a874d",
+  "adopted_design_pins": {
+    "main_pr_133_head": "a54a7ed2bad472f77168e190b9881b4f7e7cc589",
+    "maskfactory_pr_2_validation_head": "6361df208e01d183083ee6c113e016467a486706",
+    "immutable_producer_commit": "938b46949e277d92f26d9411fd5710005c506677",
+    "non_rewriting_integration_merge": "e6d6c6bdf00a0702d274455fbf07ded2b3a838b3",
+    "corrected_producer_base": "85d4c19b7974c1b64f48176d91211defbaba35a0",
+    "planning_preservation_seal": "13fda3eab823e4a544f171c5570ceed99e77cd246ccbc13e686879616682bde2",
+    "integration_reconciliation_seal": "c948da1595f6c29ead2aeda950ac778717c6557f2ed5f6c4b0664e5052f3eb52",
+    "frozen_wire_contract_count": 12,
+    "frozen_wire_contracts_unchanged": true,
+    "pins_are_design_time_not_runtime_authority": true
+  },
+  "pr_133_review": {
+    "adoption_status": "PARTIALLY_ADOPTED",
+    "merge_authorized": false,
+    "merge_performed": false,
+    "head_preserved": true,
+    "fresh_checkout_regression_result": {
+      "passed": 237,
+      "failed": 25,
+      "expected_total": 262
+    },
+    "merge_blocker": "Fresh-checkout byte normalization and stale authority/preservation hashes must be corrected before PR #133 can be fully adopted or merged.",
+    "review_comment": "https://github.com/KevinSGarrett/Comfy_UI_Main/pull/133#issuecomment-5006217268"
+  },
+  "implementation_artifacts": [
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/verify_wave64_maskfactory_release_adoption.py",
+      "bytes": 17592,
+      "sha256": "f337c0e023c744f00dab2139795d3f2e5c38f488980321c1f8d08390615b0acf"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_verify_wave64_maskfactory_release_adoption.py",
+      "bytes": 7534,
+      "sha256": "218815d6836d336b2d9bf286ca47987a2a76661ddf08aac829835993635c2306"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave64_maskfactory_release_adoption_verifier_registry.json",
+      "bytes": 2503,
+      "sha256": "2fac4c18cb7660e37e2ec231a082d2891d20a2398ae49a9b7ba2d4306b46741a"
+    }
+  ],
+  "implemented_controls": [
+    "safe_zip_path_symlink_encryption_size_ratio_and_case_collision_rejection",
+    "strict_duplicate_key_unicode_collision_and_nonfinite_json_rejection",
+    "bundle_root_containment_and_hash_bound_artifact_loading",
+    "schema_validation_against_frozen_main_contracts",
+    "ed25519_out_of_band_trust_verification_via_adopted_semantic_core",
+    "trusted_clock_revocation_journal_and_fixture_firewall_verification",
+    "atomic_idempotent_active_pin_write",
+    "previous_pin_history_preservation",
+    "rollback_requires_fresh_revocation_revalidation"
+  ],
+  "verification": {
+    "ruff": "PASS",
+    "python_compile": "PASS",
+    "focused_pytest": {
+      "status": "PASS",
+      "passed": 199,
+      "failed": 0,
+      "command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_verify_wave64_maskfactory_release_adoption.py Plan/Instructions/QA/Scripts/test_wave64_maskfactory_autonomous_bridge_package.py Plan/Instructions/QA/Scripts/test_validate_wave64_maskfactory_adapter_authority.py"
+    },
+    "git_diff_check": "PASS"
+  },
+  "current_runtime_observation": {
+    "path": "runtime_artifacts/maskfactory_bridge/row321_324_release_adoption_verifier/unpublished_blocker.json",
+    "bytes": 722,
+    "sha256": "a32cfa30e465b89e8e681d1d201b40df26592afd3a6a7222aa1b0eec573ed314",
+    "classification": "Blocked_MaskFactory_Runtime_Release_Unpublished",
+    "release_snapshot_available": false,
+    "runtime_release_published": false,
+    "runtime_release_adopted": false,
+    "production_consumption_allowed": false,
+    "active_pin_write_allowed": false
+  },
+  "row_state": {
+    "ITEM-W64-321": "Planned_Autonomous_Implementation_Required",
+    "ITEM-W64-322": "Planned_Autonomous_Implementation_Required",
+    "ITEM-W64-323": "Planned_Autonomous_Implementation_Required",
+    "ITEM-W64-324": "Planned_Autonomous_Implementation_Required",
+    "row_completion_claimed": false
+  },
+  "open_requirements": [
+    "MaskFactory must publish a genuine immutable v2-compatible signed runtime release.",
+    "Main must verify a real independently resolved production verification context and write an active pin.",
+    "Supersession, revocation, rollback, and restart recovery require genuine non-fixture runtime proof.",
+    "PR #133 fresh-checkout integrity blockers require correction before merge."
+  ],
+  "boundaries": {
+    "ec2_started": false,
+    "s3_mutated": false,
+    "comfyui_generation_run": false,
+    "mask_promotion_performed": false,
+    "wave71_activated": false,
+    "jira_mutated": false,
+    "model_library_activation_changed": false,
+    "runtime_completion_claimed": false,
+    "production_release_claimed": false
+  }
+}
