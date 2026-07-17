@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/model-comparison-experiment/1.0.0",
+  "title": "Wave64 Model Comparison Experiment",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "comparison_experiment_id",
+    "revision",
+    "status",
+    "created_at",
+    "comparison_type",
+    "candidate_bundle_refs",
+    "baseline_bundle_ref",
+    "controlled_variables",
+    "changed_variables",
+    "randomization_and_blinding",
+    "confounders",
+    "result_refs",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "model_comparison_experiment"
+    },
+    "comparison_experiment_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "comparison_type": {
+      "enum": [
+        "baseline_ab",
+        "matched_candidate",
+        "component_ablation",
+        "strength_curve",
+        "bridge_pair"
+      ]
+    },
+    "candidate_bundle_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+      },
+      "minItems": 1
+    },
+    "baseline_bundle_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+    },
+    "controlled_variables": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "changed_variables": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "randomization_and_blinding": {
+      "type": "object"
+    },
+    "confounders": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "result_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+      }
+    },
+    "attribution_confidence": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 1
+    }
+  },
+  "additionalProperties": false
+}

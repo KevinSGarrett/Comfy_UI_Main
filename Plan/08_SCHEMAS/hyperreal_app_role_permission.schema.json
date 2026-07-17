@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-app-role-permission/1.0.0",
+  "title": "Hyperreal Operator Application Role Permission",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "app_role_permission_id",
+    "revision",
+    "status",
+    "created_at",
+    "role_id",
+    "permissions",
+    "command_ids",
+    "query_ids",
+    "credential_access",
+    "direct_database_write",
+    "direct_comfyui_queue_write",
+    "policy_ref",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_app_role_permission"
+    },
+    "app_role_permission_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "role_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "permissions": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "read_projects",
+          "edit_drafts",
+          "compile_runs",
+          "start_preview",
+          "request_final_render",
+          "cancel_attempt",
+          "review_qa",
+          "request_repair",
+          "approve_candidate",
+          "request_promotion",
+          "request_revocation",
+          "manage_models",
+          "manage_runtime",
+          "manage_policy",
+          "view_diagnostics"
+        ]
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "command_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "query_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "credential_access": {
+      "const": false
+    },
+    "direct_database_write": {
+      "const": false
+    },
+    "direct_comfyui_queue_write": {
+      "const": false
+    },
+    "policy_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    }
+  },
+  "additionalProperties": false
+}

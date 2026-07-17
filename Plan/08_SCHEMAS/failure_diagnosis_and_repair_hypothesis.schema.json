@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/failure-diagnosis-and-repair-hypothesis/1.0.0",
+  "title": "Wave64 Failure Diagnosis and Repair Hypothesis",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "repair_hypothesis_id",
+    "revision",
+    "status",
+    "created_at",
+    "failed_attempt_refs",
+    "defect_codes",
+    "failed_gate_ids",
+    "causal_class",
+    "localized_scope_sha256",
+    "changed_variables",
+    "expected_effect",
+    "new_selection_request_ref",
+    "remaining_attempt_budget",
+    "hypothesis_authority",
+    "accepted_parent_mutation_allowed",
+    "promotion_authority",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "failure_diagnosis_and_repair_hypothesis"
+    },
+    "repair_hypothesis_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "failed_attempt_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+      },
+      "minItems": 1
+    },
+    "defect_codes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "failed_gate_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "causal_class": {
+      "enum": [
+        "prompt",
+        "model_bundle",
+        "mask",
+        "ownership",
+        "transform",
+        "workflow",
+        "runtime",
+        "resource",
+        "upstream_plan",
+        "unknown"
+      ]
+    },
+    "localized_scope_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "changed_variables": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "expected_effect": {
+      "type": "string",
+      "minLength": 1
+    },
+    "new_selection_request_ref": {
+      "oneOf": [
+        {
+          "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "remaining_attempt_budget": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "hypothesis_authority": {
+      "enum": [
+        "planner_candidate",
+        "deterministically_validated",
+        "adjudicated"
+      ]
+    },
+    "accepted_parent_mutation_allowed": {
+      "const": false
+    },
+    "promotion_authority": {
+      "const": "none"
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/model-asset-intelligence-card/1.0.0",
+  "title": "Wave64 Model Asset Intelligence Card",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "model_asset_card_id",
+    "revision",
+    "status",
+    "created_at",
+    "asset_identity",
+    "source_claims",
+    "engine_family_claims",
+    "capability_hypotheses",
+    "availability",
+    "lifecycle_axes",
+    "evidence_authority_ceiling",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "model_asset_intelligence_card"
+    },
+    "model_asset_card_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "asset_identity": {
+      "type": "object",
+      "required": [
+        "asset_id",
+        "family_id",
+        "asset_type",
+        "revision_id",
+        "sha256"
+      ],
+      "properties": {
+        "asset_id": {
+          "type": "string"
+        },
+        "family_id": {
+          "type": "string"
+        },
+        "asset_type": {
+          "type": "string"
+        },
+        "revision_id": {
+          "type": "string"
+        },
+        "sha256": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "aliases": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "duplicate_group_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "supersedes_asset_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "source_claims": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/EvidenceRef"
+      }
+    },
+    "engine_family_claims": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "capability_hypotheses": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "trigger_and_parameter_priors": {
+      "type": "object"
+    },
+    "availability": {
+      "type": "object"
+    },
+    "lifecycle_axes": {
+      "type": "object"
+    },
+    "evidence_authority_ceiling": {
+      "enum": [
+        "discovery_metadata",
+        "static_verified",
+        "runtime_observed",
+        "qualification_candidate",
+        "scoped_certified"
+      ]
+    },
+    "known_conflicts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

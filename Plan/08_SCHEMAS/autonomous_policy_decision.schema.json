@@ -1,0 +1,172 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/autonomous-policy-decision/1.0.0",
+  "title": "Wave64 Autonomous Policy Decision",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "policy_decision_id",
+    "revision",
+    "status",
+    "created_at",
+    "subject_refs",
+    "policy_id",
+    "gate_results",
+    "decision",
+    "decision_authority",
+    "reason_codes",
+    "evidence_ids",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "autonomous_policy_decision"
+    },
+    "policy_decision_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "subject_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+      },
+      "minItems": 1
+    },
+    "policy_id": {
+      "type": "string"
+    },
+    "gate_results": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "gate_id",
+          "result",
+          "evidence_ids"
+        ],
+        "properties": {
+          "gate_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "result": {
+            "enum": [
+              "pass",
+              "fail",
+              "blocked",
+              "not_applicable"
+            ]
+          },
+          "evidence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "decision": {
+      "enum": [
+        "validate",
+        "reject_proposal",
+        "allow_execution",
+        "deny_execution",
+        "accept_observation",
+        "exclude_from_learning",
+        "certify",
+        "suspend",
+        "revoke",
+        "promote_artifact",
+        "reject_artifact"
+      ]
+    },
+    "decision_authority": {
+      "enum": [
+        "deterministic_policy",
+        "authorized_operator",
+        "release_authority"
+      ]
+    },
+    "reason_codes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "evidence_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "decision": {
+            "enum": [
+              "allow_execution",
+              "certify",
+              "promote_artifact"
+            ]
+          }
+        },
+        "required": [
+          "decision"
+        ]
+      },
+      "then": {
+        "properties": {
+          "gate_results": {
+            "minItems": 1,
+            "not": {
+              "contains": {
+                "type": "object",
+                "properties": {
+                  "result": {
+                    "enum": [
+                      "fail",
+                      "blocked"
+                    ]
+                  }
+                },
+                "required": [
+                  "result"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

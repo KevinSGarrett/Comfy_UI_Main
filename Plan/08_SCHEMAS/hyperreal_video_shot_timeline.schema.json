@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-video-shot-timeline/1.0.0",
+  "title": "Hyperreal Video Shot Timeline",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "video_shot_timeline_id",
+    "revision",
+    "status",
+    "created_at",
+    "scope",
+    "canonical_clock",
+    "segments",
+    "segment_order_sha256",
+    "overlap_policy",
+    "coverage_complete",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_video_shot_timeline"
+    },
+    "video_shot_timeline_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "scope": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ExecutionScope"
+    },
+    "canonical_clock": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/MediaSpan"
+    },
+    "segments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "segment_id",
+          "span",
+          "camera_state_ref",
+          "pose_state_refs",
+          "mask_binding_refs",
+          "keyframe_refs",
+          "action_beat_ids",
+          "audio_event_ids",
+          "continuity_parent_segment_id",
+          "cut_kind"
+        ],
+        "properties": {
+          "segment_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "span": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/MediaSpan"
+          },
+          "camera_state_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          },
+          "pose_state_refs": {
+            "type": "array",
+            "items": {
+              "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+            },
+            "minItems": 1
+          },
+          "mask_binding_refs": {
+            "type": "array",
+            "items": {
+              "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+            },
+            "minItems": 1
+          },
+          "keyframe_refs": {
+            "type": "array",
+            "items": {
+              "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+            },
+            "minItems": 1
+          },
+          "action_beat_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "audio_event_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "continuity_parent_segment_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "cut_kind": {
+            "enum": [
+              "hard_cut",
+              "match_cut",
+              "dissolve",
+              "continuous"
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "segment_order_sha256": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Sha256"
+    },
+    "overlap_policy": {
+      "enum": [
+        "forbid",
+        "transition_only"
+      ]
+    },
+    "coverage_complete": {
+      "const": true
+    }
+  },
+  "additionalProperties": false
+}

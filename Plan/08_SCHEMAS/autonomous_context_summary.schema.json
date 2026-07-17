@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/autonomous-context-summary/1.0.0",
+  "title": "Wave64 Autonomous Context Summary",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "context_summary_id",
+    "revision",
+    "status",
+    "created_at",
+    "source_record_refs",
+    "summary_schema_id",
+    "summary_sha256",
+    "citation_ids",
+    "missing_evidence",
+    "conflict_ids",
+    "authority_ceiling",
+    "creates_new_evidence",
+    "may_satisfy_certificate_or_promotion_gate",
+    "untrusted_content_sanitization_passed",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "autonomous_context_summary"
+    },
+    "context_summary_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "source_record_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+      },
+      "minItems": 1
+    },
+    "summary_schema_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "summary_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "citation_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "missing_evidence": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "conflict_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "authority_ceiling": {
+      "const": "navigation_and_context_compaction_only"
+    },
+    "creates_new_evidence": {
+      "const": false
+    },
+    "may_satisfy_certificate_or_promotion_gate": {
+      "const": false
+    },
+    "untrusted_content_sanitization_passed": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": false
+}

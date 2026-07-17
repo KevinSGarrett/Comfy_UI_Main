@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-contact-acoustic-phase-plan/1.0.0",
+  "title": "Hyperreal Contact Acoustic Phase Plan",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "contact_acoustic_phase_plan_id",
+    "revision",
+    "status",
+    "created_at",
+    "scope",
+    "foley_event_ref",
+    "phases",
+    "phase_order_validated",
+    "visual_contact_bound",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_contact_acoustic_phase_plan"
+    },
+    "contact_acoustic_phase_plan_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "scope": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ExecutionScope"
+    },
+    "foley_event_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "phases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "phase_id",
+          "phase",
+          "span",
+          "force_curve_ref",
+          "source_layer_refs",
+          "gain_envelope_ref",
+          "spectral_profile_ref",
+          "position_track_ref"
+        ],
+        "properties": {
+          "phase_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "phase": {
+            "enum": [
+              "pre_contact",
+              "attack",
+              "compression",
+              "friction",
+              "body_resonance",
+              "release",
+              "tail",
+              "debris"
+            ]
+          },
+          "span": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/MediaSpan"
+          },
+          "force_curve_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          },
+          "source_layer_refs": {
+            "type": "array",
+            "items": {
+              "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+            },
+            "minItems": 1
+          },
+          "gain_envelope_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          },
+          "spectral_profile_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          },
+          "position_track_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "phase_order_validated": {
+      "const": true
+    },
+    "visual_contact_bound": {
+      "const": true
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "contextual_model_selection_decision",
+  "selection_decision_id": "selection_decision_skin_repair_v1",
+  "revision": "1",
+  "status": "selected_example",
+  "created_at": "2026-07-16T19:30:00-05:00",
+  "selection_request_ref": {
+    "record_type": "contextual_model_selection_request",
+    "record_id": "selection_request_skin_repair_v1",
+    "revision": "1",
+    "sha256": null,
+    "path_or_uri": null
+  },
+  "decision": "selected",
+  "evaluated_candidates": [
+    {
+      "execution_bundle_id": "bundle_certified_sdxl_skin_v1",
+      "eligible": true,
+      "eligibility_reasons": [
+        "all_hard_constraints_pass"
+      ],
+      "certificate_ids": [
+        "cert_skin_sdxl_v1"
+      ],
+      "metric_vector": {
+        "target_effect": 0.88,
+        "identity_preservation": 0.96
+      },
+      "quality_lcb": 0.82,
+      "risk_ucb": 0.08,
+      "utility": 0.74,
+      "uncertainty": 0.12,
+      "evidence_ids": [
+        "profile_skin_sdxl_v1"
+      ]
+    },
+    {
+      "execution_bundle_id": "bundle_wave30_metadata_only_candidate",
+      "eligible": false,
+      "eligibility_reasons": [
+        "binary_missing",
+        "runtime_unproven",
+        "certificate_missing"
+      ],
+      "certificate_ids": [],
+      "metric_vector": {},
+      "quality_lcb": null,
+      "risk_ucb": null,
+      "utility": null,
+      "uncertainty": null,
+      "evidence_ids": [
+        "source_claim_wave30_example"
+      ]
+    }
+  ],
+  "pareto_frontier_bundle_ids": [
+    "bundle_certified_sdxl_skin_v1"
+  ],
+  "selected_bundle_id": "bundle_certified_sdxl_skin_v1",
+  "selected_execution_bundle_ref": {
+    "schema_id": "https://comfy-ui-main.local/schemas/model-execution-bundle/1.0.0",
+    "record_type": "model_execution_bundle",
+    "record_id": "bundle_certified_sdxl_skin_v1",
+    "revision": "1",
+    "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "bytes": 1,
+    "path_or_uri": "registry://model_execution_bundle/bundle_certified_sdxl_skin_v1/1"
+  },
+  "challenger_bundle_id": null,
+  "ranking_policy_id": "wave64_model_selection_feature_and_ranking_policy_v1",
+  "feature_snapshot_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "selection_reasons": [
+    "scope_match",
+    "strongest_quality_lcb",
+    "current_certificate"
+  ],
+  "uncertainty": 0.12,
+  "fallback_bundle_ids": [],
+  "assignment_probability": 1.0,
+  "assignment_policy_id": "wave64_contextual_ranker_numeric_v1",
+  "holdout_partition_id": "qualification_holdout_example_v1",
+  "learning_use_allowed": true,
+  "no_silent_substitution": true,
+  "provenance": {
+    "producer": "wave64_autonomous_model_intelligence_package_builder",
+    "source_refs": [
+      "wave30_source_snapshot",
+      "wave64_model_intelligence_master_plan"
+    ],
+    "evidence_refs": [],
+    "registry_snapshot_ids": []
+  }
+}

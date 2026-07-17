@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/runtime-worker-lease/1.0.0",
+  "title": "Wave64 Runtime Worker Lease",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "runtime_worker_lease_id",
+    "revision",
+    "status",
+    "created_at",
+    "runtime_id",
+    "runtime_lock_ref",
+    "workload_classes",
+    "capacity",
+    "lease_owner_id",
+    "fencing_token",
+    "heartbeat_at",
+    "expires_at",
+    "cancel_capability",
+    "degraded_state",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "runtime_worker_lease"
+    },
+    "runtime_worker_lease_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "runtime_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "runtime_lock_ref": {
+      "allOf": [
+        {
+          "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/ImmutableRecordRef"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "record_type": {
+              "const": "comfyui_runtime_lock"
+            }
+          },
+          "required": [
+            "record_type"
+          ]
+        }
+      ]
+    },
+    "workload_classes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "capacity": {
+      "type": "object",
+      "required": [
+        "max_concurrency",
+        "max_queue_depth",
+        "vram_mib"
+      ],
+      "properties": {
+        "max_concurrency": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "max_queue_depth": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "vram_mib": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "lease_owner_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "fencing_token": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "heartbeat_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "cancel_capability": {
+      "enum": [
+        "targeted_jobs",
+        "queue_delete",
+        "global_interrupt",
+        "none"
+      ]
+    },
+    "degraded_state": {
+      "enum": [
+        "healthy",
+        "degraded",
+        "draining",
+        "unavailable"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/operator-intent-command/1.0.0",
+  "title": "Wave64 Operator Intent Command",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "operator_command_id",
+    "revision",
+    "status",
+    "created_at",
+    "actor_id",
+    "command",
+    "target_refs",
+    "parameter_schema_id",
+    "parameters_sha256",
+    "expected_aggregate_version",
+    "idempotency_key",
+    "authorization_policy_id",
+    "raw_path_or_credentials_present",
+    "direct_runtime_mutation",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "operator_intent_command"
+    },
+    "operator_command_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "actor_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "command": {
+      "enum": [
+        "create_job",
+        "approve_policy_revision",
+        "cancel_attempt",
+        "request_repair",
+        "suspend_bundle",
+        "revoke_certificate",
+        "acknowledge_model_library_staging",
+        "request_phase_transition"
+      ]
+    },
+    "target_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+      },
+      "minItems": 1
+    },
+    "parameter_schema_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "parameters_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "expected_aggregate_version": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "idempotency_key": {
+      "type": "string",
+      "minLength": 1
+    },
+    "authorization_policy_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "raw_path_or_credentials_present": {
+      "const": false
+    },
+    "direct_runtime_mutation": {
+      "const": false
+    }
+  },
+  "additionalProperties": false
+}

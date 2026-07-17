@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-audio-span-repair-plan/1.0.0",
+  "title": "Hyperreal Local Audio Stem and Event Repair Plan",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "audio_span_repair_plan_id",
+    "revision",
+    "status",
+    "created_at",
+    "scope",
+    "audio_qa_ref",
+    "accepted_audio_parent_ref",
+    "repairs",
+    "accepted_parent_immutable",
+    "smallest_failed_scope_only",
+    "full_mix_regeneration",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_audio_span_repair_plan"
+    },
+    "audio_span_repair_plan_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "scope": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ExecutionScope"
+    },
+    "audio_qa_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "accepted_audio_parent_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "repairs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "defect_ids",
+          "event_ids",
+          "target_span",
+          "stem_ids",
+          "method",
+          "handle_samples_before",
+          "handle_samples_after",
+          "protected_stem_ids",
+          "hypothesis_ref"
+        ],
+        "properties": {
+          "defect_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "event_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "target_span": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/MediaSpan"
+          },
+          "stem_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "method": {
+            "enum": [
+              "replace_source",
+              "regenerate_event",
+              "edit_transient",
+              "bounded_time_stretch",
+              "gain_automation",
+              "spectral_repair",
+              "declick",
+              "crossfade",
+              "rerender_acoustics",
+              "remix_only"
+            ]
+          },
+          "handle_samples_before": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "handle_samples_after": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "protected_stem_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "hypothesis_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "accepted_parent_immutable": {
+      "const": true
+    },
+    "smallest_failed_scope_only": {
+      "const": true
+    },
+    "full_mix_regeneration": {
+      "const": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,324 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0",
+  "title": "Wave64 Hyperreal Media and Operator Application Common Definitions",
+  "$defs": {
+    "Sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "ImmutableRecordRef": {
+      "type": "object",
+      "required": [
+        "schema_id",
+        "record_type",
+        "record_id",
+        "revision",
+        "sha256",
+        "bytes",
+        "path_or_uri"
+      ],
+      "properties": {
+        "schema_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "record_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "record_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/Sha256"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "path_or_uri": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "Provenance": {
+      "type": "object",
+      "required": [
+        "producer",
+        "producer_version",
+        "source_refs",
+        "registry_snapshot_ids",
+        "canonicalization"
+      ],
+      "properties": {
+        "producer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "producer_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ImmutableRecordRef"
+          }
+        },
+        "registry_snapshot_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "canonicalization": {
+          "const": "rfc8785_jcs"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ExecutionScope": {
+      "type": "object",
+      "required": [
+        "project_id",
+        "scene_id",
+        "shot_id",
+        "take_id"
+      ],
+      "properties": {
+        "project_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scene_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "shot_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "take_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "OwnerRef": {
+      "type": "object",
+      "required": [
+        "owner_type",
+        "owner_id"
+      ],
+      "properties": {
+        "owner_type": {
+          "enum": [
+            "character_instance",
+            "object_instance",
+            "environment",
+            "camera",
+            "audio_bus",
+            "global"
+          ]
+        },
+        "owner_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "RationalTimebase": {
+      "type": "object",
+      "required": [
+        "numerator",
+        "denominator",
+        "drop_frame"
+      ],
+      "properties": {
+        "numerator": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "denominator": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "drop_frame": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "MediaSpan": {
+      "type": "object",
+      "required": [
+        "clock_id",
+        "timebase",
+        "start_pts",
+        "end_pts_exclusive",
+        "start_frame",
+        "end_frame_exclusive",
+        "start_sample",
+        "end_sample_exclusive",
+        "rounding_policy"
+      ],
+      "properties": {
+        "clock_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "timebase": {
+          "$ref": "#/$defs/RationalTimebase"
+        },
+        "start_pts": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "end_pts_exclusive": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "start_frame": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "end_frame_exclusive": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "start_sample": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "end_sample_exclusive": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "rounding_policy": {
+          "enum": [
+            "exact_only",
+            "floor_start_ceil_end",
+            "nearest_ties_to_even"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "MetricResult": {
+      "type": "object",
+      "required": [
+        "metric_id",
+        "metric_revision",
+        "value",
+        "unit",
+        "threshold",
+        "direction",
+        "passed",
+        "confidence_low",
+        "confidence_high",
+        "evidence_ref"
+      ],
+      "properties": {
+        "metric_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "metric_revision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": "number"
+        },
+        "unit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "threshold": {
+          "type": "number"
+        },
+        "direction": {
+          "enum": [
+            "min",
+            "max",
+            "range"
+          ]
+        },
+        "passed": {
+          "type": "boolean"
+        },
+        "confidence_low": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "confidence_high": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "evidence_ref": {
+          "$ref": "#/$defs/ImmutableRecordRef"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ArtifactRef": {
+      "type": "object",
+      "required": [
+        "artifact_id",
+        "media_type",
+        "sha256",
+        "bytes",
+        "safe_relative_locator"
+      ],
+      "properties": {
+        "artifact_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "media_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/Sha256"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "safe_relative_locator": {
+          "type": "string",
+          "pattern": "^(?![A-Za-z]:)(?!/)(?!.*\\.\\.).+$"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "example_id": "wave64_video_segment_route_and_span_repair",
+  "status": "contract_fixture_not_runtime_evidence",
+  "route_request": {
+    "schema_version": "1.0.0",
+    "route_request_id": "route_req_scene021_video_span_024_047",
+    "run_id": "run_scene021_video_001",
+    "pass_id": "pass_video_span_repair_004",
+    "modality": "video",
+    "pass_intent": "span_repair",
+    "accepted_parent_artifact_ids": ["artifact_video_scene021_accepted_spans"],
+    "target_scope": {"character_instance_ids": ["charinst_aria_01", "charinst_bryn_01"], "regions_or_spans": [{"start_frame": 24, "end_frame": 47}], "mask_binding_ids": []},
+    "protected_scope": {"character_instance_ids": ["charinst_aria_01", "charinst_bryn_01"], "regions_or_spans": [{"start_frame": 0, "end_frame": 23}, {"start_frame": 48, "end_frame": 71}], "mask_binding_ids": []},
+    "required_capabilities": ["video_span_repair", "identity_preservation", "boundary_reconnection", "camera_motion_preservation"],
+    "input_contract": ["accepted_frame_sequence", "shot_pose_package", "boundary_handles"],
+    "output_contract": ["repaired_frame_span", "span_manifest"],
+    "control_requirements": ["pose_keyframes", "depth_order", "contact_timeline"],
+    "character_binding_requirements": [{"character_instance_id": "charinst_aria_01"}, {"character_instance_id": "charinst_bryn_01"}],
+    "mask_authority_requirements": [],
+    "budgets": {"quality_tier": "final", "max_attempts": 2, "max_runtime_seconds": 3600, "max_peak_vram_mib": 24576, "max_cost": 10.0},
+    "engine_policy": {"mode": "auto", "preferred_stack_ids": []},
+    "registry_snapshot_id": "registry_snapshot_wave64_example_video_001",
+    "requested_at": "2026-07-16T22:00:00-05:00"
+  },
+  "route_decision": {
+    "schema_version": "1.0.0",
+    "route_decision_id": "route_decision_scene021_video_span_001",
+    "revision": "r001",
+    "route_request_id": "route_req_scene021_video_span_024_047",
+    "request_constraints_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+    "decision_status": "blocked_missing_authority",
+    "registry_snapshot_ids": ["registry_snapshot_wave64_example_video_001"],
+    "evaluated_candidates": [
+      {"execution_stack_id": "stack_template_wan22_video_v1", "eligible": false, "eligibility_reasons": ["stack_authority_planned_not_certified", "missing_scoped_certificate"], "rank_score": null, "rank_components": {}, "benchmark_bucket_id": null},
+      {"execution_stack_id": "stack_local_uncertified_video", "eligible": false, "eligibility_reasons": ["runtime_unproven", "resource_envelope_insufficient"], "rank_score": null, "rank_components": {}, "benchmark_bucket_id": null}
+    ],
+    "ranked_eligible_stack_ids": [],
+    "selected_execution_stack_id": null,
+    "selection_reasons": ["no currently certified exact video execution bundle exists"],
+    "blockers": [{"blocker_type": "planned_stack_is_not_runtime_authority", "details": "The WAN stack remains a planning template without a scoped runtime certificate.", "missing_evidence_ids": ["exact_bundle_hash", "scoped_capability_certificate"]}],
+    "resource_allocation": {"execution_target": "ec2_gpu_24g_example", "gpu_leases": 1},
+    "bridge_contract_ids": [],
+    "fallback_sequence": [],
+    "prohibited_substitutions": {"component_substitution": "forbidden", "stack_substitution": "explicit_new_route_decision_only", "engine_family_change": "explicit_bridge_or_new_route_only", "queue_pressure_quality_downgrade": "forbidden", "missing_asset_behavior": "block_or_hash_verified_acquisition"},
+    "qa_requirement_ids": ["qa_repaired_span", "qa_boundary_handles", "qa_identity", "qa_contact", "qa_unaffected_frames", "qa_whole_clip"],
+    "decision_fresh_until": null,
+    "supersedes_decision_id": null,
+    "decided_at": "2026-07-16T22:00:01-05:00",
+    "provenance": {"producer": "deterministic_router_fixture", "source_refs": ["route_req_scene021_video_span_024_047"], "registry_snapshot_ids": ["registry_snapshot_wave64_example_video_001"], "canonicalization": "rfc8785_jcs"}
+  }
+}

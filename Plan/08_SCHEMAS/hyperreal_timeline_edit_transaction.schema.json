@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-timeline-edit-transaction/1.0.0",
+  "title": "Hyperreal Operator Timeline Edit Request",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "timeline_edit_transaction_id",
+    "revision",
+    "status",
+    "created_at",
+    "project_ref",
+    "actor_id",
+    "base_timeline_ref",
+    "expected_revision",
+    "operations",
+    "conflict_policy",
+    "idempotency_key",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_timeline_edit_transaction"
+    },
+    "timeline_edit_transaction_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "project_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "actor_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "base_timeline_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "expected_revision": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "operations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "operation_id",
+          "operation",
+          "track_id",
+          "target_ids",
+          "span",
+          "payload_schema_id",
+          "payload_sha256"
+        ],
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "operation": {
+            "enum": [
+              "insert",
+              "move",
+              "trim",
+              "split",
+              "merge",
+              "bind",
+              "unbind",
+              "replace",
+              "annotate"
+            ]
+          },
+          "track_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "target_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "span": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/MediaSpan"
+          },
+          "payload_schema_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "payload_sha256": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Sha256"
+          }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "conflict_policy": {
+      "enum": [
+        "reject",
+        "rebase_preview",
+        "manual_merge"
+      ]
+    },
+    "idempotency_key": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "additionalProperties": false
+}

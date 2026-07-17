@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-application-feature-flag-snapshot/1.0.0",
+  "title": "Hyperreal Application Feature Flag Snapshot",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "application_feature_flag_snapshot_id",
+    "revision",
+    "status",
+    "created_at",
+    "application_version",
+    "actor_role_ids",
+    "flags",
+    "flag_ids_unique",
+    "policy_ref",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_application_feature_flag_snapshot"
+    },
+    "application_feature_flag_snapshot_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "application_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "actor_role_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "flags": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "flag_id",
+          "enabled",
+          "release_tier",
+          "reason_code",
+          "expires_at"
+        ],
+        "properties": {
+          "flag_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "release_tier": {
+            "enum": [
+              "controller_core",
+              "controller_plus_app_mode",
+              "full_hybrid"
+            ]
+          },
+          "reason_code": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expires_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "flag_ids_unique": {
+      "const": true
+    },
+    "policy_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,193 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-audio-event-graph/1.0.0",
+  "title": "Hyperreal Audio Event Graph",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "audio_event_graph_id",
+    "revision",
+    "status",
+    "created_at",
+    "scope",
+    "canonical_clock",
+    "events",
+    "edges",
+    "acyclic_causal_edges",
+    "all_required_visual_events_bound",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_audio_event_graph"
+    },
+    "audio_event_graph_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "scope": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ExecutionScope"
+    },
+    "canonical_clock": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/MediaSpan"
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "event_id",
+          "event_class",
+          "owner",
+          "span",
+          "visual_source_ref",
+          "force_event_ref",
+          "material_pair_id",
+          "position_track_ref",
+          "priority",
+          "required"
+        ],
+        "properties": {
+          "event_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "event_class": {
+            "enum": [
+              "dialogue",
+              "breath",
+              "nonverbal_voice",
+              "body_foley",
+              "fabric_foley",
+              "prop_foley",
+              "impact",
+              "ambience",
+              "room_tone",
+              "music",
+              "designed_sfx"
+            ]
+          },
+          "owner": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/OwnerRef"
+          },
+          "span": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/MediaSpan"
+          },
+          "visual_source_ref": {
+            "oneOf": [
+              {
+                "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "force_event_ref": {
+            "oneOf": [
+              {
+                "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "material_pair_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "position_track_ref": {
+            "oneOf": [
+              {
+                "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "priority": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "required": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "source_event_id",
+          "target_event_id",
+          "relation"
+        ],
+        "properties": {
+          "source_event_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "target_event_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "relation": {
+            "enum": [
+              "precedes",
+              "causes",
+              "ducks",
+              "masks",
+              "layers_with",
+              "excludes",
+              "syncs_to"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "acyclic_causal_edges": {
+      "const": true
+    },
+    "all_required_visual_events_bound": {
+      "const": true
+    }
+  },
+  "additionalProperties": false
+}

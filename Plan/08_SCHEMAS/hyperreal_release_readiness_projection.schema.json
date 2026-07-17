@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-release-readiness-projection/1.0.0",
+  "title": "Hyperreal Release Readiness Projection",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "release_readiness_projection_id",
+    "revision",
+    "status",
+    "created_at",
+    "candidate_refs",
+    "gate_results",
+    "all_blocking_gates_pass",
+    "promotion_request_eligible",
+    "actual_promotion_state",
+    "projection_only",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_release_readiness_projection"
+    },
+    "release_readiness_projection_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "candidate_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+      },
+      "minItems": 1
+    },
+    "gate_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "gate_id",
+          "gate_revision",
+          "state",
+          "blocking",
+          "evidence_refs",
+          "reason_codes"
+        ],
+        "properties": {
+          "gate_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "gate_revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "state": {
+            "enum": [
+              "pass",
+              "fail",
+              "blocked",
+              "not_run",
+              "expired"
+            ]
+          },
+          "blocking": {
+            "type": "boolean"
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+            },
+            "minItems": 0
+          },
+          "reason_codes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "all_blocking_gates_pass": {
+      "type": "boolean"
+    },
+    "promotion_request_eligible": {
+      "type": "boolean"
+    },
+    "actual_promotion_state": {
+      "enum": [
+        "not_requested",
+        "requested",
+        "approved",
+        "rejected",
+        "revoked"
+      ]
+    },
+    "projection_only": {
+      "const": true
+    }
+  },
+  "additionalProperties": false
+}

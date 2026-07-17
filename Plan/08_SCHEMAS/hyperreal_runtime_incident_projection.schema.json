@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-runtime-incident-projection/1.0.0",
+  "title": "Hyperreal Runtime Incident Projection",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "runtime_incident_projection_id",
+    "revision",
+    "status",
+    "created_at",
+    "incident_ref",
+    "severity",
+    "state",
+    "affected_refs",
+    "worker_lease_refs",
+    "last_known_receipt_refs",
+    "safe_operator_commands",
+    "automatic_actions",
+    "data_loss_risk",
+    "promotion_blocked",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_runtime_incident_projection"
+    },
+    "runtime_incident_projection_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "incident_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "severity": {
+      "enum": [
+        "info",
+        "warning",
+        "error",
+        "critical"
+      ]
+    },
+    "state": {
+      "enum": [
+        "detected",
+        "contained",
+        "reconciling",
+        "waiting_external",
+        "resolved",
+        "closed"
+      ]
+    },
+    "affected_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+      },
+      "minItems": 1
+    },
+    "worker_lease_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+      },
+      "minItems": 0
+    },
+    "last_known_receipt_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+      },
+      "minItems": 0
+    },
+    "safe_operator_commands": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "automatic_actions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "data_loss_risk": {
+      "enum": [
+        "none",
+        "unknown",
+        "possible",
+        "confirmed"
+      ]
+    },
+    "promotion_blocked": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "state": {
+            "enum": [
+              "detected",
+              "contained",
+              "reconciling",
+              "waiting_external"
+            ]
+          }
+        },
+        "required": [
+          "state"
+        ]
+      },
+      "then": {
+        "properties": {
+          "promotion_blocked": {
+            "const": true
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/autonomous-tool-execution-receipt/1.0.0",
+  "title": "Wave64 Autonomous Tool Execution Receipt",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "tool_execution_receipt_id",
+    "revision",
+    "status",
+    "created_at",
+    "tool_authorization_ref",
+    "executor_id",
+    "result_state",
+    "result_schema_id",
+    "result_sha256",
+    "output_record_refs",
+    "evidence_ids",
+    "error_codes",
+    "secrets_captured",
+    "registry_mutated",
+    "promotion_committed",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "autonomous_tool_execution_receipt"
+    },
+    "tool_execution_receipt_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "tool_authorization_ref": {
+      "allOf": [
+        {
+          "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/ImmutableRecordRef"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "record_type": {
+              "const": "autonomous_tool_authorization"
+            }
+          },
+          "required": [
+            "record_type"
+          ]
+        }
+      ]
+    },
+    "executor_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "result_state": {
+      "enum": [
+        "succeeded",
+        "failed",
+        "cancelled"
+      ]
+    },
+    "result_schema_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "result_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "output_record_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+      }
+    },
+    "evidence_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "error_codes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "secrets_captured": {
+      "const": false
+    },
+    "registry_mutated": {
+      "const": false
+    },
+    "promotion_committed": {
+      "const": false
+    }
+  },
+  "additionalProperties": false
+}

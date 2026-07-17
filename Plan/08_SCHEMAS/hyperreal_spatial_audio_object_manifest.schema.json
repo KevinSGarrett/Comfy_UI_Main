@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-spatial-audio-object-manifest/1.0.0",
+  "title": "Hyperreal Spatial Audio Object Manifest",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "spatial_audio_object_manifest_id",
+    "revision",
+    "status",
+    "created_at",
+    "scope",
+    "canonical_clock",
+    "acoustic_scene_ref",
+    "objects",
+    "listener_render_profile_id",
+    "sample_rate_hz",
+    "object_ids_unique",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_spatial_audio_object_manifest"
+    },
+    "spatial_audio_object_manifest_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "scope": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ExecutionScope"
+    },
+    "canonical_clock": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/MediaSpan"
+    },
+    "acoustic_scene_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "objects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "audio_object_id",
+          "owner",
+          "stem_ref",
+          "position_track_ref",
+          "directivity_profile_id",
+          "distance_curve_ref",
+          "occlusion_curve_ref",
+          "gain_automation_ref",
+          "bus_id",
+          "channel_layout"
+        ],
+        "properties": {
+          "audio_object_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "owner": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/OwnerRef"
+          },
+          "stem_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          },
+          "position_track_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          },
+          "directivity_profile_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "distance_curve_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          },
+          "occlusion_curve_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          },
+          "gain_automation_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          },
+          "bus_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "channel_layout": {
+            "enum": [
+              "mono_object",
+              "stereo_bed",
+              "ambisonic_bed"
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "listener_render_profile_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sample_rate_hz": {
+      "type": "integer",
+      "enum": [
+        48000,
+        96000
+      ]
+    },
+    "object_ids_unique": {
+      "const": true
+    }
+  },
+  "additionalProperties": false
+}

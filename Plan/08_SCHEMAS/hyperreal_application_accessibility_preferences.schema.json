@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-application-accessibility-preferences/1.0.0",
+  "title": "Hyperreal Application Accessibility Preferences",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "application_accessibility_preferences_id",
+    "revision",
+    "status",
+    "created_at",
+    "actor_id",
+    "reduced_motion",
+    "high_contrast",
+    "font_scale_percent",
+    "captions_default",
+    "transcripts_default",
+    "non_color_status_patterns",
+    "waveform_alternative",
+    "timeline_alternative",
+    "keyboard_shortcut_profile_id",
+    "screen_reader_live_updates",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_application_accessibility_preferences"
+    },
+    "application_accessibility_preferences_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "actor_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reduced_motion": {
+      "type": "boolean"
+    },
+    "high_contrast": {
+      "type": "boolean"
+    },
+    "font_scale_percent": {
+      "type": "integer",
+      "minimum": 100,
+      "maximum": 300
+    },
+    "captions_default": {
+      "type": "boolean"
+    },
+    "transcripts_default": {
+      "type": "boolean"
+    },
+    "non_color_status_patterns": {
+      "const": true
+    },
+    "waveform_alternative": {
+      "enum": [
+        "table",
+        "summary",
+        "both"
+      ]
+    },
+    "timeline_alternative": {
+      "enum": [
+        "table",
+        "list",
+        "both"
+      ]
+    },
+    "keyboard_shortcut_profile_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "screen_reader_live_updates": {
+      "enum": [
+        "off",
+        "important",
+        "all"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

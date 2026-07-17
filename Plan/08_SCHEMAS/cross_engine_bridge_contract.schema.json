@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/cross-engine-bridge-contract/1.0.0",
+  "title": "Wave64 Cross-Engine Bridge Contract",
+  "type": "object",
+  "required": ["schema_version", "bridge_contract_id", "revision", "scene_id", "shot_id", "take_id", "source_pass_id", "target_pass_id", "source_execution_stack_id", "target_execution_stack_id", "source_artifact_id", "transfer_objects", "decode_contract", "transform_chain", "target_import_contract", "ownership_propagation", "compatibility_certificate_id", "pre_bridge_qa_ids", "post_bridge_qa_ids", "forbidden_transfer_objects", "bridge_status", "execution_allowed", "provenance"],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "bridge_contract_id": { "type": "string", "minLength": 1 },
+    "revision": { "type": "string", "minLength": 1 },
+    "scene_id": { "type": "string" },
+    "shot_id": { "type": "string" },
+    "take_id": { "type": "string" },
+    "source_pass_id": { "type": "string" },
+    "target_pass_id": { "type": "string" },
+    "source_execution_stack_id": { "type": "string" },
+    "target_execution_stack_id": { "type": "string" },
+    "source_artifact_id": { "type": "string" },
+    "transfer_objects": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["transfer_type", "artifact_id", "sha256"],
+        "properties": {
+          "transfer_type": { "enum": ["decoded_image", "masked_crop", "alpha_mask", "control_map", "depth_map", "normal_map", "keyframe_set", "frame_sequence", "audio_stem", "event_timeline", "subtitle_timeline", "metadata_manifest"] },
+          "artifact_id": { "type": "string" },
+          "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+          "media_metadata": {
+            "type": "object",
+            "required": ["metadata_schema_id", "metadata_sha256", "payload"],
+            "properties": {
+              "metadata_schema_id": { "type": "string", "minLength": 1 },
+              "metadata_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+              "payload": { "type": "object" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "decode_contract": { "type": "object", "required": ["decoder_id", "color_or_sample_space", "bit_depth_or_sample_format"], "properties": { "decoder_id":{"type":"string"}, "color_or_sample_space":{"type":"string"}, "bit_depth_or_sample_format":{"type":"string"}, "alpha_mode":{"type":["string","null"]} }, "additionalProperties":false },
+    "transform_chain": { "type": "array", "items": { "$ref": "https://comfy-ui-main.local/schemas/multimodal-contract-common/1.0.0#/$defs/SpatialTransform" } },
+    "target_import_contract": {
+      "type": "object",
+      "required": ["importer_id", "input_kind", "target_color_or_sample_space", "orientation_policy", "alpha_policy", "mask_semantics", "silent_resize", "reintegration_policy_id"],
+      "properties": {
+        "importer_id": { "type": "string", "minLength": 1 },
+        "input_kind": { "type": "string", "minLength": 1 },
+        "target_color_or_sample_space": { "type": "string", "minLength": 1 },
+        "orientation_policy": { "type": "string", "minLength": 1 },
+        "alpha_policy": { "type": "string", "minLength": 1 },
+        "mask_semantics": { "type": "string", "minLength": 1 },
+        "silent_resize": { "const": false },
+        "reintegration_policy_id": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "ownership_propagation": { "type": "array", "items": { "type": "object", "required": ["source_owner_id", "target_owner_id", "selectors"], "properties": { "source_owner_id":{"type":"string"}, "target_owner_id":{"type":"string"}, "selectors":{"type":"array","items":{"type":"string"}} }, "additionalProperties":false } },
+    "compatibility_certificate_id": { "type": ["string", "null"] },
+    "pre_bridge_qa_ids": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "post_bridge_qa_ids": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "forbidden_transfer_objects": { "type": "array", "items": { "enum": ["cross_family_latent", "cross_family_embedding", "lora_weight", "vae_weight", "text_encoder_weight", "controlnet_weight", "adapter_weight"] }, "minItems": 7, "uniqueItems": true },
+    "bridge_status": { "enum": ["planned", "validated", "certified", "blocked", "revoked"] },
+    "execution_allowed": { "type": "boolean" },
+    "provenance": { "$ref": "https://comfy-ui-main.local/schemas/multimodal-contract-common/1.0.0#/$defs/Provenance" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "bridge_status": { "const": "certified" } }, "required": ["bridge_status"] },
+      "then": {
+        "properties": {
+          "compatibility_certificate_id": { "type": "string", "minLength": 1 },
+          "execution_allowed": { "const": true }
+        }
+      },
+      "else": { "properties": { "execution_allowed": { "const": false } } }
+    }
+  ],
+  "additionalProperties": false
+}

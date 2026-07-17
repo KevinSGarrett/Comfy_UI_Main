@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-video-benchmark-result/1.0.0",
+  "title": "Hyperreal Video Benchmark Result",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "video_benchmark_result_id",
+    "revision",
+    "status",
+    "created_at",
+    "bundle_ref",
+    "suite_id",
+    "suite_revision",
+    "partition_id",
+    "holdout",
+    "sample_count",
+    "metric_results",
+    "failure_distribution_ref",
+    "runtime_profile_ref",
+    "selection_probability_recorded",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_video_benchmark_result"
+    },
+    "video_benchmark_result_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "bundle_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "suite_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "suite_revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "partition_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "holdout": {
+      "type": "boolean"
+    },
+    "sample_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "metric_results": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/MetricResult"
+      },
+      "minItems": 1
+    },
+    "failure_distribution_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "runtime_profile_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "selection_probability_recorded": {
+      "const": true
+    }
+  },
+  "additionalProperties": false
+}

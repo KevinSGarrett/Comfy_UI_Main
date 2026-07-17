@@ -1,0 +1,225 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/model-capability-certificate/1.0.0",
+  "title": "Wave64 Model Capability Certificate",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "capability_certificate_id",
+    "revision",
+    "status",
+    "created_at",
+    "execution_bundle_ref",
+    "capability_scope",
+    "benchmark_result_refs",
+    "sample_counts",
+    "confidence_bounds",
+    "parameter_envelope",
+    "hard_gate_status",
+    "authority",
+    "valid_from",
+    "valid_until",
+    "exclusions",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "model_capability_certificate"
+    },
+    "capability_certificate_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "execution_bundle_ref": {
+      "allOf": [
+        {
+          "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/ImmutableRecordRef"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "record_type": {
+              "const": "model_execution_bundle"
+            }
+          },
+          "required": [
+            "record_type"
+          ]
+        }
+      ]
+    },
+    "capability_scope": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/CapabilityScope"
+    },
+    "benchmark_result_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+      },
+      "minItems": 1
+    },
+    "sample_counts": {
+      "type": "object",
+      "required": [
+        "paired_outputs",
+        "distinct_cases",
+        "distinct_seeds"
+      ],
+      "properties": {
+        "paired_outputs": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "distinct_cases": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "distinct_seeds": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "confidence_bounds": {
+      "type": "object",
+      "required": [
+        "quality_lcb",
+        "serious_failure_rate_ucb",
+        "confidence_level"
+      ],
+      "properties": {
+        "quality_lcb": {
+          "type": "number"
+        },
+        "serious_failure_rate_ucb": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "confidence_level": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "exclusiveMaximum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "parameter_envelope": {
+      "type": "object",
+      "required": [
+        "parameter_schema_id",
+        "minimums",
+        "maximums",
+        "tested_values_sha256"
+      ],
+      "properties": {
+        "parameter_schema_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "minimums": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number"
+          }
+        },
+        "maximums": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number"
+          }
+        },
+        "tested_values_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "hard_gate_status": {
+      "enum": [
+        "pass",
+        "fail"
+      ]
+    },
+    "authority": {
+      "enum": [
+        "provisional_candidate",
+        "shadow_challenger",
+        "production_eligible"
+      ]
+    },
+    "valid_from": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "valid_until": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "exclusions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "revocation_event_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "authority": {
+            "const": "production_eligible"
+          }
+        },
+        "required": [
+          "authority"
+        ]
+      },
+      "then": {
+        "properties": {
+          "hard_gate_status": {
+            "const": "pass"
+          },
+          "sample_counts": {
+            "properties": {
+              "paired_outputs": {
+                "minimum": 50
+              },
+              "distinct_cases": {
+                "minimum": 10
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

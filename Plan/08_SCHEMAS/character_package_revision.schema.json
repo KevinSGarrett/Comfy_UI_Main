@@ -1,0 +1,203 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/character-package-revision/1.0.0",
+  "title": "Wave64 Character Package Revision",
+  "type": "object",
+  "$defs": {
+    "ControlledProfile": {
+      "type": "object",
+      "required": ["profile_schema_id", "profile_revision", "payload_sha256", "payload"],
+      "properties": {
+        "profile_schema_id": { "type": "string", "minLength": 1 },
+        "profile_revision": { "type": "string", "minLength": 1 },
+        "payload_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "payload": { "type": "object" }
+      },
+      "additionalProperties": false
+    },
+    "ControlledAssetDescriptor": {
+      "type": "object",
+      "required": ["asset_state_id", "asset_type", "owner_character_id", "profile", "reference_artifact_ids"],
+      "properties": {
+        "asset_state_id": { "type": "string", "minLength": 1 },
+        "asset_type": { "type": "string", "minLength": 1 },
+        "owner_character_id": { "type": "string", "minLength": 1 },
+        "profile": { "$ref": "#/$defs/ControlledProfile" },
+        "reference_artifact_ids": { "type": "array", "items": { "type": "string" }, "uniqueItems": true }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema_version",
+    "character_package_id",
+    "character_id",
+    "character_revision",
+    "status",
+    "identity_core",
+    "body_morphology",
+    "surface_profile",
+    "wardrobe_states",
+    "engine_bindings",
+    "qa_profile",
+    "created_at",
+    "content_based_suppression"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "character_package_id": { "type": "string", "minLength": 1 },
+    "character_id": { "type": "string", "minLength": 1 },
+    "character_revision": { "type": "string", "minLength": 1 },
+    "parent_revision": { "type": ["string", "null"] },
+    "status": {
+      "enum": ["draft", "candidate", "accepted", "revoked"]
+    },
+    "identity_core": {
+      "type": "object",
+      "required": ["description", "approved_reference_artifact_ids", "distinguishing_traits"],
+      "properties": {
+        "description": { "type": "string", "minLength": 1 },
+        "approved_reference_artifact_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "distinguishing_traits": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "identity_embedding_artifact_ids": {
+          "type": "array",
+          "items": { "type": "string" },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "body_morphology": {
+      "type": "object",
+      "required": ["description", "proportion_constraints", "view_reference_artifact_ids"],
+      "properties": {
+        "description": { "type": "string" },
+        "proportion_constraints": { "type": "object", "additionalProperties": { "type": ["number", "string", "boolean"] } },
+        "view_reference_artifact_ids": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+        "protected_traits": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    },
+    "surface_profile": {
+      "type": "object",
+      "required": ["skin", "hair"],
+      "properties": {
+        "skin": { "$ref": "#/$defs/ControlledProfile" },
+        "hair": { "$ref": "#/$defs/ControlledProfile" },
+        "makeup": { "$ref": "#/$defs/ControlledProfile" },
+        "marks_and_imperfections": { "type": "array", "items": { "$ref": "#/$defs/ControlledAssetDescriptor" } }
+      },
+      "additionalProperties": false
+    },
+    "wardrobe_states": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["wardrobe_state_id", "garments"],
+        "properties": {
+          "wardrobe_state_id": { "type": "string", "minLength": 1 },
+          "garments": { "type": "array", "items": { "$ref": "#/$defs/ControlledAssetDescriptor" } },
+          "accessories": { "type": "array", "items": { "$ref": "#/$defs/ControlledAssetDescriptor" } },
+          "reference_artifact_ids": { "type": "array", "items": { "type": "string" } }
+        },
+        "additionalProperties": false
+      }
+    },
+    "voice_bindings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["voice_binding_id", "language", "authority"],
+        "properties": {
+          "voice_binding_id": { "type": "string" },
+          "language": { "type": "string" },
+          "authority": { "enum": ["draft", "candidate", "accepted", "revoked"] },
+          "reference_artifact_ids": { "type": "array", "items": { "type": "string" } },
+          "pronunciation_profile_id": { "type": ["string", "null"] }
+        },
+        "additionalProperties": false
+      }
+    },
+    "engine_bindings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["engine_family", "binding_id", "status", "artifact_hashes"],
+        "properties": {
+          "engine_family": { "type": "string" },
+          "binding_id": { "type": "string" },
+          "status": { "enum": ["draft", "candidate", "accepted", "revoked"] },
+          "artifact_hashes": { "type": "array", "items": { "type": "string", "pattern": "^[0-9a-f]{64}$" }, "uniqueItems": true },
+          "capability_scope": { "type": "array", "items": { "type": "string" } },
+          "certificate_ids": { "type": "array", "items": { "type": "string" }, "uniqueItems": true }
+        },
+        "additionalProperties": false
+      }
+    },
+    "qa_profile": {
+      "type": "object",
+      "required": ["qa_goal_ids", "benchmark_evidence_ids"],
+      "properties": {
+        "qa_goal_ids": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+        "benchmark_evidence_ids": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+        "known_failure_artifact_ids": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    },
+    "rights_and_use": { "$ref": "#/$defs/ControlledProfile" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "created_by": { "type": "string" },
+    "revocation": {
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "required": ["revocation_event_id", "reason_codes", "revoked_at", "replacement_revision"],
+          "properties": {
+            "revocation_event_id": { "type": "string", "minLength": 1 },
+            "reason_codes": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+            "revoked_at": { "type": "string", "format": "date-time" },
+            "replacement_revision": { "type": ["string", "null"] }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "content_based_suppression": { "const": false }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "accepted" } }, "required": ["status"] },
+      "then": {
+        "properties": {
+          "identity_core": { "properties": { "approved_reference_artifact_ids": { "minItems": 1 } } },
+          "body_morphology": { "properties": { "view_reference_artifact_ids": { "minItems": 1 } } },
+          "engine_bindings": {
+            "minItems": 1,
+            "items": {
+              "properties": {
+                "status": { "const": "accepted" },
+                "artifact_hashes": { "minItems": 1 },
+                "certificate_ids": { "minItems": 1 }
+              }
+            }
+          },
+          "qa_profile": {
+            "properties": {
+              "qa_goal_ids": { "minItems": 1 },
+              "benchmark_evidence_ids": { "minItems": 1 }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "additionalProperties": false
+}

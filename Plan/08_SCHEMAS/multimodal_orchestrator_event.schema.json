@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/multimodal-orchestrator-event/1.0.0",
+  "title": "Wave64 Multimodal Orchestrator Event",
+  "type": "object",
+  "required": ["schema_version", "orchestrator_event_id", "event_version", "sequence_number", "aggregate_type", "aggregate_id", "scope", "event_type", "occurred_at", "actor_type", "correlation_id", "causation_event_id", "idempotency_key", "previous_event_sha256", "state_transition", "payload_type", "payload_schema_id", "payload_schema_revision", "payload", "payload_sha256", "payload_validation_passed", "evidence_ids"],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "orchestrator_event_id": { "type": "string" },
+    "event_version": { "type": "integer", "minimum": 1 },
+    "sequence_number": { "type": "integer", "minimum": 1 },
+    "aggregate_type": { "enum": ["job", "run", "dag", "pass", "attempt", "artifact", "qa_decision", "promotion"] },
+    "aggregate_id": { "type": "string" },
+    "scope": { "type": "object", "required": ["scope_level"], "properties": { "scope_level":{"enum":["job","scene","shot","take"]}, "scene_id":{"type":["string","null"]}, "shot_id":{"type":["string","null"]}, "take_id":{"type":["string","null"]} }, "additionalProperties":false },
+    "event_type": { "enum": ["job_created", "plan_proposed", "plan_validated", "plan_rejected", "route_requested", "route_selected", "route_blocked", "pass_ready", "pass_submitted", "pass_started", "pass_heartbeat", "pass_succeeded", "pass_failed", "pass_timed_out", "pass_cancelled", "artifact_recorded", "qa_started", "qa_accepted", "qa_rejected", "repair_requested", "reroute_requested", "fallback_authorized", "artifact_promoted", "artifact_rolled_back", "job_blocked", "job_completed", "job_failed", "job_cancelled"] },
+    "occurred_at": { "type": "string", "format": "date-time" },
+    "actor_type": { "enum": ["operator", "planner", "validator", "policy_engine", "router", "scheduler", "comfyui_adapter", "maskfactory_adapter", "media_adapter", "deterministic_qa", "vlm_reviewer", "reconciler"] },
+    "correlation_id": { "type": "string" },
+    "causation_event_id": { "type": ["string", "null"] },
+    "idempotency_key": { "type": "string" },
+    "previous_event_sha256": { "type": ["string", "null"], "pattern": "^[0-9a-f]{64}$" },
+    "state_transition": { "type": "object", "required": ["from", "to"], "properties": { "from":{"type":["string","null"]}, "to":{"type":"string"} }, "additionalProperties":false },
+    "payload_type": { "type": "string" },
+    "payload_schema_id": { "type": "string", "minLength": 1 },
+    "payload_schema_revision": { "type": "string", "minLength": 1 },
+    "payload": { "type": "object", "additionalProperties": true },
+    "payload_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "payload_validation_passed": { "const": true },
+    "evidence_ids": { "type": "array", "items": { "type": "string" } }
+  },
+  "additionalProperties": false
+}

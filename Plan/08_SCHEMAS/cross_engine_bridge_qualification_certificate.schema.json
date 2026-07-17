@@ -1,0 +1,175 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/cross-engine-bridge-qualification-certificate/1.0.0",
+  "title": "Wave64 Cross-Engine Bridge Qualification Certificate",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "bridge_qualification_certificate_id",
+    "revision",
+    "status",
+    "created_at",
+    "source_bundle_ref",
+    "target_bundle_ref",
+    "workflow_release_ref",
+    "transfer_types",
+    "color_space_policy_id",
+    "alpha_policy_id",
+    "orientation_policy_id",
+    "transform_roundtrip_evidence_ids",
+    "reintegration_and_seam_evidence_ids",
+    "protected_preservation_metrics",
+    "hard_gate_status",
+    "authority",
+    "valid_until",
+    "revocation_event_id",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "cross_engine_bridge_qualification_certificate"
+    },
+    "bridge_qualification_certificate_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "source_bundle_ref": {
+      "allOf": [
+        {
+          "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/ImmutableRecordRef"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "record_type": {
+              "const": "model_execution_bundle"
+            }
+          },
+          "required": [
+            "record_type"
+          ]
+        }
+      ]
+    },
+    "target_bundle_ref": {
+      "allOf": [
+        {
+          "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/ImmutableRecordRef"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "record_type": {
+              "const": "model_execution_bundle"
+            }
+          },
+          "required": [
+            "record_type"
+          ]
+        }
+      ]
+    },
+    "workflow_release_ref": {
+      "allOf": [
+        {
+          "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/ImmutableRecordRef"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "record_type": {
+              "const": "workflow_release_manifest"
+            }
+          },
+          "required": [
+            "record_type"
+          ]
+        }
+      ]
+    },
+    "transfer_types": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "color_space_policy_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "alpha_policy_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "orientation_policy_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "transform_roundtrip_evidence_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "reintegration_and_seam_evidence_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "protected_preservation_metrics": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/MetricObservation"
+      },
+      "minItems": 1
+    },
+    "hard_gate_status": {
+      "enum": [
+        "pass",
+        "fail"
+      ]
+    },
+    "authority": {
+      "enum": [
+        "qualification_only",
+        "shadow_eligible",
+        "production_eligible"
+      ]
+    },
+    "valid_until": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "revocation_event_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

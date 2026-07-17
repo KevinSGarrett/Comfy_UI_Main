@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-video-project-spec/1.0.0",
+  "title": "Hyperreal Video Project Specification",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "video_project_spec_id",
+    "revision",
+    "status",
+    "created_at",
+    "project_id",
+    "canonical_clock",
+    "deliverable_kind",
+    "width",
+    "height",
+    "pixel_aspect_ratio",
+    "frame_rate",
+    "duration_pts",
+    "color_pipeline_id",
+    "camera_model_id",
+    "character_package_refs",
+    "scene_package_ref",
+    "shot_refs",
+    "qa_profile_id",
+    "audio_required",
+    "runtime_execution_allowed",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_video_project_spec"
+    },
+    "video_project_spec_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "project_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "canonical_clock": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/MediaSpan"
+    },
+    "deliverable_kind": {
+      "enum": [
+        "clip",
+        "shot_sequence",
+        "loop",
+        "long_form",
+        "av_master"
+      ]
+    },
+    "width": {
+      "type": "integer",
+      "minimum": 256
+    },
+    "height": {
+      "type": "integer",
+      "minimum": 256
+    },
+    "pixel_aspect_ratio": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "frame_rate": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "duration_pts": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "color_pipeline_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "camera_model_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "character_package_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+      },
+      "minItems": 1
+    },
+    "scene_package_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "shot_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+      },
+      "minItems": 1
+    },
+    "qa_profile_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "audio_required": {
+      "type": "boolean"
+    },
+    "runtime_execution_allowed": {
+      "const": false
+    }
+  },
+  "additionalProperties": false
+}

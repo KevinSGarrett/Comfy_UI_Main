@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "wave64_operator_surface_to_controller_binding_v1",
+  "updated_at": "2026-07-16T19:30:00-05:00",
+  "status": "planned_no_production_surface_implemented",
+  "app_mode_boundary": "thin_workflow_launcher_and_result_surface",
+  "controller_console_boundary": "durable_jobs_dag_queue_qa_repair_lineage_models_and_recovery",
+  "bindings": [
+    {
+      "surface": "app_mode",
+      "control": "workflow_inputs",
+      "command": "create_job",
+      "direct_comfyui_mutation": false
+    },
+    {
+      "surface": "app_mode",
+      "control": "run",
+      "command": "create_job",
+      "direct_comfyui_mutation": false
+    },
+    {
+      "surface": "controller_console",
+      "control": "cancel_attempt",
+      "command": "cancel_attempt",
+      "direct_comfyui_mutation": false
+    },
+    {
+      "surface": "controller_console",
+      "control": "request_repair",
+      "command": "request_repair",
+      "direct_comfyui_mutation": false
+    },
+    {
+      "surface": "controller_console",
+      "control": "suspend_bundle",
+      "command": "suspend_bundle",
+      "direct_comfyui_mutation": false
+    },
+    {
+      "surface": "controller_console",
+      "control": "revoke_certificate",
+      "command": "revoke_certificate",
+      "direct_comfyui_mutation": false
+    },
+    {
+      "surface": "controller_console",
+      "control": "acknowledge_staging",
+      "command": "acknowledge_model_library_staging",
+      "direct_comfyui_mutation": false
+    },
+    {
+      "surface": "controller_console",
+      "control": "request_phase_transition",
+      "command": "request_phase_transition",
+      "direct_comfyui_mutation": false
+    }
+  ],
+  "hidden_fields": [
+    "raw_node_ids",
+    "absolute_paths",
+    "credentials",
+    "fencing_tokens"
+  ],
+  "dead_control_test_required": true,
+  "reconnect_and_stale_state_test_required": true
+}

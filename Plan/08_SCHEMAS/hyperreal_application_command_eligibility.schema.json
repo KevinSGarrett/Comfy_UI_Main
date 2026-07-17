@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-application-command-eligibility/1.0.0",
+  "title": "Hyperreal Application Command Eligibility Projection",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "application_command_eligibility_id",
+    "revision",
+    "status",
+    "created_at",
+    "actor_id",
+    "role_refs",
+    "aggregate_ref",
+    "aggregate_version",
+    "command_states",
+    "projection_event_sequence",
+    "freshness_state",
+    "authoritative_authorization",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_application_command_eligibility"
+    },
+    "application_command_eligibility_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "actor_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "role_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+      },
+      "minItems": 1
+    },
+    "aggregate_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "aggregate_version": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "command_states": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "command_id",
+          "eligible",
+          "disabled_reason_codes",
+          "confirmation_level",
+          "prerequisite_refs"
+        ],
+        "properties": {
+          "command_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "eligible": {
+            "type": "boolean"
+          },
+          "disabled_reason_codes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "confirmation_level": {
+            "enum": [
+              "none",
+              "confirm",
+              "type_to_confirm"
+            ]
+          },
+          "prerequisite_refs": {
+            "type": "array",
+            "items": {
+              "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+            },
+            "minItems": 0
+          }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "projection_event_sequence": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "freshness_state": {
+      "enum": [
+        "live",
+        "catching_up",
+        "stale",
+        "reconciling",
+        "offline"
+      ]
+    },
+    "authoritative_authorization": {
+      "const": false
+    }
+  },
+  "additionalProperties": false
+}

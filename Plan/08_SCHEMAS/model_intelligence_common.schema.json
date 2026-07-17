@@ -1,0 +1,498 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0",
+  "title": "Wave64 Model Intelligence Common Definitions",
+  "$defs": {
+    "Sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "RecordRef": {
+      "type": "object",
+      "required": [
+        "record_type",
+        "record_id",
+        "revision"
+      ],
+      "properties": {
+        "record_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "record_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "path_or_uri": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "ImmutableRecordRef": {
+      "type": "object",
+      "required": [
+        "schema_id",
+        "record_type",
+        "record_id",
+        "revision",
+        "sha256",
+        "bytes",
+        "path_or_uri"
+      ],
+      "properties": {
+        "schema_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "record_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "record_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "path_or_uri": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "EvidenceRef": {
+      "type": "object",
+      "required": [
+        "evidence_id",
+        "authority_tier"
+      ],
+      "properties": {
+        "evidence_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "authority_tier": {
+          "enum": [
+            "source_claim",
+            "discovery_metadata",
+            "static_measurement",
+            "runtime_observation",
+            "qualification_measurement",
+            "adjudicated_review",
+            "scoped_certificate"
+          ]
+        },
+        "sha256": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "observed_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "fresh_until": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false
+    },
+    "CapabilityScope": {
+      "type": "object",
+      "required": [
+        "modality",
+        "pass_intent",
+        "target_types",
+        "engine_family",
+        "character_count_min",
+        "character_count_max"
+      ],
+      "properties": {
+        "modality": {
+          "enum": [
+            "image",
+            "video",
+            "audio",
+            "av",
+            "analysis"
+          ]
+        },
+        "pass_intent": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "engine_family": {
+          "type": "string",
+          "minLength": 1
+        },
+        "base_model_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "character_count_min": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "character_count_max": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "mask_authority_tiers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "resolution_or_duration_bucket": {
+          "type": "string"
+        },
+        "hardware_envelope_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "MetricObservation": {
+      "type": "object",
+      "required": [
+        "metric_id",
+        "value",
+        "direction",
+        "authority"
+      ],
+      "properties": {
+        "metric_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": "number"
+        },
+        "unit": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "direction": {
+          "enum": [
+            "higher_is_better",
+            "lower_is_better",
+            "target_range"
+          ]
+        },
+        "authority": {
+          "enum": [
+            "deterministic",
+            "calibrated_metric",
+            "vlm_observation",
+            "audio_critic_observation",
+            "human_adjudication"
+          ]
+        },
+        "confidence": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1
+        },
+        "evidence_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "ControlAndMaskRequirements": {
+      "type": "object",
+      "required": [
+        "mask_applicability",
+        "mask_binding_ids",
+        "required_access_modes",
+        "required_truth_tiers",
+        "required_control_types",
+        "ownership_required",
+        "person_index_required",
+        "ontology_version",
+        "source_coordinate_space",
+        "target_coordinate_space",
+        "transform_validation_required",
+        "certificate_required",
+        "source_image_hash_match_required",
+        "mode_b_outputs_are_draft_only",
+        "authority_upgrade_allowed",
+        "writes_gold",
+        "promotion_gate_policy"
+      ],
+      "properties": {
+        "mask_applicability": {
+          "enum": [
+            "required",
+            "optional",
+            "not_applicable"
+          ]
+        },
+        "mask_binding_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "required_access_modes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "mode_a_package_read",
+              "mode_b_live_predict",
+              "mode_b_live_refine"
+            ]
+          }
+        },
+        "required_truth_tiers": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "gold",
+              "approved_package",
+              "certified_machine",
+              "machine_draft",
+              "manual_draft",
+              "rejected"
+            ]
+          }
+        },
+        "required_control_types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "ownership_required": {
+          "type": "boolean"
+        },
+        "person_index_required": {
+          "type": "boolean"
+        },
+        "ontology_version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_coordinate_space": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "target_coordinate_space": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "transform_validation_required": {
+          "type": "boolean"
+        },
+        "certificate_required": {
+          "type": "boolean"
+        },
+        "source_image_hash_match_required": {
+          "type": "boolean"
+        },
+        "mode_b_outputs_are_draft_only": {
+          "const": true
+        },
+        "authority_upgrade_allowed": {
+          "const": false
+        },
+        "writes_gold": {
+          "const": false
+        },
+        "promotion_gate_policy": {
+          "enum": [
+            "prohibited",
+            "requires_separately_validated_mode_a_binding"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "mask_applicability": {
+                "const": "required"
+              }
+            },
+            "required": [
+              "mask_applicability"
+            ]
+          },
+          "then": {
+            "properties": {
+              "mask_binding_ids": {
+                "minItems": 1
+              },
+              "required_access_modes": {
+                "minItems": 1
+              },
+              "required_truth_tiers": {
+                "minItems": 1
+              },
+              "ownership_required": {
+                "const": true
+              },
+              "person_index_required": {
+                "const": true
+              },
+              "transform_validation_required": {
+                "const": true
+              },
+              "certificate_required": {
+                "const": true
+              },
+              "source_image_hash_match_required": {
+                "const": true
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "mask_applicability": {
+                "const": "not_applicable"
+              }
+            },
+            "required": [
+              "mask_applicability"
+            ]
+          },
+          "then": {
+            "properties": {
+              "mask_binding_ids": {
+                "maxItems": 0
+              },
+              "required_access_modes": {
+                "maxItems": 0
+              },
+              "required_truth_tiers": {
+                "maxItems": 0
+              },
+              "certificate_required": {
+                "const": false
+              },
+              "promotion_gate_policy": {
+                "const": "prohibited"
+              }
+            }
+          }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "Provenance": {
+      "type": "object",
+      "required": [
+        "producer",
+        "source_refs"
+      ],
+      "properties": {
+        "producer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "registry_snapshot_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

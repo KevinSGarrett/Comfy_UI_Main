@@ -108,6 +108,14 @@ wave86_expanded_physics_deformation_final_certification_gates_tracker.csv
 wave87_ec2_simulation_farm_worker_runtime_artifact_orchestration_tracker.csv
 ```
 
+## Wave64 Model Intelligence Sidecar
+
+Rows221-260 are stored in Waves/Wave64/WAVE64_AUTONOMOUS_MODEL_INTELLIGENCE_TRACKER_ROWS.csv. They are additive model-ingestion, qualification, contextual-selection, observation, reporting, learning, autonomous-role, and release obligations. Rows223-260 carry a fail-closed phase ladder: `none -> staging -> qualification -> shadow_selection -> production_selection`. Complete intended-download accounting, deterministic binary inventory, and main-task acknowledgement permit staging only. Every later phase needs its own signed transition decision and prerequisite evidence; metadata-only records can never become operational candidates or production routes.
+
+## Wave64 Hyperreal Video, Audio/AV, and Operator App Sidecar
+
+Rows261-320 are stored in `Waves/Wave64/WAVE64_HYPERREAL_VIDEO_AUDIO_APP_THIRD_PASS_TRACKER_ROWS.csv`. They contain fifteen four-row workstreams for strict contracts, policies, bounded implementation slices, and assurance. Video, audio, AV, application, and release states remain independently fail-closed. App projections, App Mode outputs, LLM/VLM observations, previews, aggregate averages, and legacy Wave27-34 scorers cannot promote artifacts.
+
 ## Citation Rule
 
 Every strict tracker row must include source citation file, full path, section, line start, line end, excerpt, and source key back to:
@@ -122,6 +130,8 @@ Codex Desktop must treat `Human_Input_Allowed=FALSE` and `Human_Work_Allowed=FAL
 If blocked, it must create blocker evidence and continue with safe autonomous rerouting.
 Before selecting or repeating runtime/EC2 work, Tracker routing must follow `C:\Comfy_UI_Main\Plan\Instructions\LOCAL_SOURCE_OF_TRUTH_AND_EC2_STALE_WORKSPACE_PROTOCOL.md`. Local `C:\Comfy_UI_Main` is authoritative; EC2 `/home/ubuntu/Comfy_UI_Main` is runtime/cache state only. Do not use stale EC2 queue state to reopen completed low-risk fallback, RealVisXL base, Canny baseline/v4, prior RealVisXL certification sample, or 2026-07-09 local package smoke/visual QA work. Selected inpaint deploy-bundle rebuild, S3 publish proof, EC2 install/hash proof, target-runtime proof, and final certification remain valid future work only when selected and gated from local evidence.
 For Wave 64, localized work cannot pass localized-only review. The tracker requires whole-artifact visual/audio review so defects outside the target edit region still block promotion.
+Wave64 Rows149-220 are reserved in `Waves\Wave64\WAVE64_ULTIMATE_MULTIMODAL_WORKFLOW_TRACKER_ROWS.csv`. They are additive planning/implementation obligations and must not be merged over, renumbered into, or used to change the statuses of Rows001-148.
+Wave64 Rows261-320 are reserved in `Waves\Wave64\WAVE64_HYPERREAL_VIDEO_AUDIO_APP_THIRD_PASS_TRACKER_ROWS.csv`. Preserve their exact IDs and do not use their planning coverage to advance runtime, model, UI, or release states.
 For Wave 65, every current Plan file must have direct Items/Tracker source coverage. Rerun `Plan\Items\Scripts\generate_wave65_plan_source_coverage.py` after any Plan file is added or renamed.
 For Jira, Tracker rows are the local autonomous execution ledger and must not be bulk-mirrored into Jira Stories, Tasks, or Sub-tasks. CU Jira is a control-plane board only; read `C:\Comfy_UI_Main\Plan\Instructions\JIRA_CONTROL_PLANE_AND_AI_EXECUTION_LEDGER_POLICY.md` before any Jira-related automation.
 For Wave 70, tracker rows are required work, not completion proof. A Mask Factory row can move forward only with contract, mask/map, preview overlay, protected-neighbor checks, routing proof, generated output, strict whole-artifact QA, and target-runtime evidence.

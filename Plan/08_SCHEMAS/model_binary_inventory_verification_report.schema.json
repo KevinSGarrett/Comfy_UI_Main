@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/model-binary-inventory-verification-report/1.0.0",
+  "title": "Wave64 Model Binary Inventory Verification Report",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "binary_inventory_verification_report_id",
+    "revision",
+    "status",
+    "created_at",
+    "expected_download_scope_ref",
+    "download_completion_manifest_ref",
+    "scope_sha256",
+    "expected_binary_count",
+    "accounted_binary_count",
+    "hash_verified_binary_count",
+    "quarantined_binary_count",
+    "failed_binary_count",
+    "missing_binary_count",
+    "hash_pending_binary_count",
+    "unresolved_binary_count",
+    "all_intended_assets_accounted_for",
+    "quarantined_and_failed_excluded_from_runtime",
+    "inventory_sha256",
+    "verification_tool_revision",
+    "verification_passed",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "model_binary_inventory_verification_report"
+    },
+    "binary_inventory_verification_report_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "expected_download_scope_ref": {
+      "allOf": [
+        {
+          "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "record_type": {
+              "const": "model_library_expected_download_scope"
+            }
+          },
+          "required": [
+            "record_type"
+          ]
+        }
+      ]
+    },
+    "download_completion_manifest_ref": {
+      "allOf": [
+        {
+          "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "record_type": {
+              "const": "model_download_completion_manifest"
+            }
+          },
+          "required": [
+            "record_type"
+          ]
+        }
+      ]
+    },
+    "scope_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "expected_binary_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "accounted_binary_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "hash_verified_binary_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "quarantined_binary_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "failed_binary_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "missing_binary_count": {
+      "const": 0
+    },
+    "hash_pending_binary_count": {
+      "const": 0
+    },
+    "unresolved_binary_count": {
+      "const": 0
+    },
+    "all_intended_assets_accounted_for": {
+      "const": true
+    },
+    "quarantined_and_failed_excluded_from_runtime": {
+      "const": true
+    },
+    "inventory_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "verification_tool_revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "verification_passed": {
+      "const": true
+    }
+  },
+  "additionalProperties": false
+}

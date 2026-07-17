@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/autonomous-prompt-package/1.0.0",
+  "title": "Wave64 Autonomous Prompt Package",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "prompt_package_id",
+    "revision",
+    "status",
+    "created_at",
+    "selection_context_ref",
+    "engine_family",
+    "workflow_module_id",
+    "intent_summary",
+    "positive_conditioning",
+    "negative_conditioning",
+    "trigger_bindings",
+    "adapter_bindings",
+    "protected_constraints",
+    "translation_policy_id",
+    "prompt_sha256",
+    "evidence_ids",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "autonomous_prompt_package"
+    },
+    "prompt_package_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "selection_context_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+    },
+    "engine_family": {
+      "type": "string"
+    },
+    "workflow_module_id": {
+      "type": "string"
+    },
+    "intent_summary": {
+      "type": "string"
+    },
+    "positive_conditioning": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "negative_conditioning": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "trigger_bindings": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "adapter_bindings": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "protected_constraints": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "translation_policy_id": {
+      "type": "string"
+    },
+    "prompt_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "evidence_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

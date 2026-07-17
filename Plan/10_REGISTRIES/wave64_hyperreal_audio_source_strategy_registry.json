@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0.0",
+  "updated_at": "2026-07-16T20:30:00-05:00",
+  "runtime_completion_claimed": false,
+  "registry_id": "wave64_hyperreal_audio_source_strategy_registry_v1",
+  "origin_classes": [
+    "field_recording",
+    "studio_foley_recording",
+    "voice_performance_recording",
+    "procedural_render",
+    "neural_text_conditioned",
+    "neural_audio_conditioned",
+    "neural_video_conditioned",
+    "hybrid_composite"
+  ],
+  "realization_actions": [
+    "retrieve_reuse",
+    "record_new",
+    "generate_new",
+    "synthesize_procedural",
+    "assemble_layers"
+  ],
+  "derivation_states": [
+    "raw",
+    "segmented",
+    "prepared",
+    "transformed",
+    "layered",
+    "spatially_rendered",
+    "mastered"
+  ],
+  "best_fit_examples": [
+    {
+      "event": "known_short_transient",
+      "preferred": [
+        "retrieve_reuse",
+        "studio_foley_recording"
+      ]
+    },
+    {
+      "event": "parameterized_repetition",
+      "preferred": [
+        "synthesize_procedural",
+        "assemble_layers"
+      ]
+    },
+    {
+      "event": "novel_long_semantic_ambience",
+      "preferred": [
+        "generate_new",
+        "assemble_layers"
+      ]
+    },
+    {
+      "event": "hero_multiphase_contact",
+      "preferred": [
+        "assemble_layers",
+        "record_new"
+      ]
+    }
+  ],
+  "rule": "route_per_event_not_per_project; generated_is_not_assumed_superior"
+}

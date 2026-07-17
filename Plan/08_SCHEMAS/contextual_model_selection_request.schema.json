@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/contextual-model-selection-request/1.0.0",
+  "title": "Wave64 Contextual Model Selection Request",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "selection_request_id",
+    "revision",
+    "status",
+    "created_at",
+    "selection_context_ref",
+    "registry_snapshot_ids",
+    "required_certificate_authority",
+    "exploration_policy",
+    "fallback_policy",
+    "candidate_limit",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "contextual_model_selection_request"
+    },
+    "selection_request_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "selection_context_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+    },
+    "registry_snapshot_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "required_certificate_authority": {
+      "type": "string"
+    },
+    "preferred_bundle_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "prohibited_bundle_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "exploration_policy": {
+      "enum": [
+        "production_exploit_only",
+        "shadow_challenger_allowed",
+        "qualification_exploration"
+      ]
+    },
+    "fallback_policy": {
+      "type": "string"
+    },
+    "candidate_limit": {
+      "type": "integer",
+      "minimum": 1
+    }
+  },
+  "additionalProperties": false
+}

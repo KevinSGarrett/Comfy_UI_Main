@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0.0",
+  "updated_at": "2026-07-16T20:30:00-05:00",
+  "runtime_completion_claimed": false,
+  "registry_id": "wave64_operator_role_capability_registry_v1",
+  "disclosure_modes_are_not_roles": true,
+  "roles": [
+    {
+      "role_id": "viewer",
+      "capabilities": [
+        "read_projects",
+        "read_runs",
+        "read_qa",
+        "read_models"
+      ]
+    },
+    {
+      "role_id": "creator_operator",
+      "capabilities": [
+        "edit_drafts",
+        "publish_domain_revision",
+        "compile_runs",
+        "start_preview",
+        "request_final_render",
+        "cancel_attempt",
+        "request_repair"
+      ]
+    },
+    {
+      "role_id": "reviewer",
+      "capabilities": [
+        "read_qa",
+        "annotate_review",
+        "approve_candidate",
+        "reject_candidate",
+        "request_repair"
+      ]
+    },
+    {
+      "role_id": "release_requester",
+      "capabilities": [
+        "request_promotion",
+        "request_revocation",
+        "read_release_readiness"
+      ]
+    },
+    {
+      "role_id": "runtime_operator",
+      "capabilities": [
+        "read_runtime",
+        "request_reconciliation",
+        "drain_worker",
+        "request_health_probe"
+      ]
+    },
+    {
+      "role_id": "model_curator",
+      "capabilities": [
+        "read_models",
+        "request_model_staging",
+        "request_model_qualification",
+        "request_model_suspension"
+      ]
+    },
+    {
+      "role_id": "policy_administrator",
+      "capabilities": [
+        "propose_policy_revision",
+        "request_phase_transition",
+        "manage_role_assignments"
+      ]
+    },
+    {
+      "role_id": "developer_diagnostic",
+      "capabilities": [
+        "view_diagnostics",
+        "open_native_graph",
+        "run_nonpromotable_diagnostic"
+      ]
+    }
+  ],
+  "browser_certificate_issue": false,
+  "browser_promotion_commit": false,
+  "mode_change_grants_capability": false
+}

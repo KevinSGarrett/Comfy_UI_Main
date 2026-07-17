@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-video-motion-physics-plan/1.0.0",
+  "title": "Hyperreal Video Motion and Physics Plan",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "video_motion_physics_plan_id",
+    "revision",
+    "status",
+    "created_at",
+    "scope",
+    "channels",
+    "contact_graph_ref",
+    "material_profile_refs",
+    "gravity_vector",
+    "unit_system",
+    "solver_or_generator_policy_id",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_video_motion_physics_plan"
+    },
+    "video_motion_physics_plan_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "scope": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ExecutionScope"
+    },
+    "channels": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "channel_id",
+          "motion_class",
+          "owner",
+          "span",
+          "driver",
+          "amplitude_limit",
+          "frequency_limit_hz",
+          "phase_relation_ids",
+          "conservation_or_constraint_ids",
+          "parameter_payload_ref"
+        ],
+        "properties": {
+          "channel_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "motion_class": {
+            "enum": [
+              "primary",
+              "micro",
+              "secondary",
+              "contact",
+              "camera",
+              "stabilization"
+            ]
+          },
+          "owner": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/OwnerRef"
+          },
+          "span": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/MediaSpan"
+          },
+          "driver": {
+            "enum": [
+              "keyframe",
+              "pose",
+              "depth",
+              "flow",
+              "physics",
+              "reference_video",
+              "procedural",
+              "model_generated"
+            ]
+          },
+          "amplitude_limit": {
+            "type": "number",
+            "minimum": 0
+          },
+          "frequency_limit_hz": {
+            "type": "number",
+            "minimum": 0
+          },
+          "phase_relation_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "conservation_or_constraint_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "parameter_payload_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "contact_graph_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "material_profile_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+      },
+      "minItems": 1
+    },
+    "gravity_vector": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "minItems": 3
+    },
+    "unit_system": {
+      "const": "si"
+    },
+    "solver_or_generator_policy_id": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "additionalProperties": false
+}

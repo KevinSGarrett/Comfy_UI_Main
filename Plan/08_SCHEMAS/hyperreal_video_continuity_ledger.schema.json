@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-video-continuity-ledger/1.0.0",
+  "title": "Hyperreal Video Continuity Ledger",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "video_continuity_ledger_id",
+    "revision",
+    "status",
+    "created_at",
+    "project_id",
+    "parent_revision_ref",
+    "domains",
+    "conflicts",
+    "all_conflicts_resolved",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_video_continuity_ledger"
+    },
+    "video_continuity_ledger_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "project_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "parent_revision_ref": {
+      "oneOf": [
+        {
+          "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "domains": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "domain",
+          "owner",
+          "state_ref",
+          "effective_span",
+          "change_reason",
+          "persistence"
+        ],
+        "properties": {
+          "domain": {
+            "enum": [
+              "identity",
+              "anatomy",
+              "skin",
+              "hair",
+              "wardrobe",
+              "prop",
+              "environment",
+              "lighting",
+              "camera",
+              "pose",
+              "contact",
+              "fatigue",
+              "breathing",
+              "damage",
+              "wetness",
+              "makeup"
+            ]
+          },
+          "owner": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/OwnerRef"
+          },
+          "state_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          },
+          "effective_span": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/MediaSpan"
+          },
+          "change_reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "persistence": {
+            "enum": [
+              "frame",
+              "shot",
+              "scene",
+              "sequence",
+              "project"
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "conflicts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "conflict_id",
+          "state_ref_a",
+          "state_ref_b",
+          "resolution"
+        ],
+        "properties": {
+          "conflict_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "state_ref_a": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          },
+          "state_ref_b": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          },
+          "resolution": {
+            "enum": [
+              "unresolved",
+              "a_wins",
+              "b_wins",
+              "new_revision"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "all_conflicts_resolved": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": false
+}

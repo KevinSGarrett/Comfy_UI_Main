@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "hyperreal_av_local_repair_plan",
+  "av_local_repair_plan_id": "av_repair_demo_001",
+  "revision": "r001",
+  "status": "planned",
+  "created_at": "2026-07-16T20:30:00-05:00",
+  "scope": {
+    "project_id": "project_hvaa_demo",
+    "scene_id": "scene_001",
+    "shot_id": "shot_001",
+    "take_id": "take_001"
+  },
+  "sync_evaluation_ref": {
+    "schema_id": "https://comfy-ui-main.local/schemas/hyperreal-av-sync-evaluation/1.0.0",
+    "record_type": "hyperreal_av_sync_evaluation",
+    "record_id": "sync_demo_001",
+    "revision": "r001",
+    "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "bytes": 1024,
+    "path_or_uri": "artifacts/hyperreal_av_sync_evaluation/sync_demo_001.json"
+  },
+  "accepted_video_parent_ref": {
+    "schema_id": "https://comfy-ui-main.local/schemas/video-artifact/1.0.0",
+    "record_type": "video_artifact",
+    "record_id": "video_parent_demo",
+    "revision": "r001",
+    "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "bytes": 1024,
+    "path_or_uri": "artifacts/video_artifact/video_parent_demo.json"
+  },
+  "accepted_audio_parent_ref": {
+    "schema_id": "https://comfy-ui-main.local/schemas/audio-artifact/1.0.0",
+    "record_type": "audio_artifact",
+    "record_id": "audio_parent_demo",
+    "revision": "r001",
+    "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "bytes": 1024,
+    "path_or_uri": "artifacts/audio_artifact/audio_parent_demo.json"
+  },
+  "repairs": [
+    {
+      "event_ids": [
+        "evt_dialogue_001"
+      ],
+      "target_span": {
+        "clock_id": "clock_24fps_48khz",
+        "timebase": {
+          "numerator": 1,
+          "denominator": 24000,
+          "drop_frame": false
+        },
+        "start_pts": 0,
+        "end_pts_exclusive": 48000,
+        "start_frame": 0,
+        "end_frame_exclusive": 48,
+        "start_sample": 0,
+        "end_sample_exclusive": 96000,
+        "rounding_policy": "exact_only"
+      },
+      "method": "shift_event",
+      "maximum_time_stretch_ratio": 1.0,
+      "handle_samples_before": 480,
+      "handle_samples_after": 480,
+      "hypothesis_ref": {
+        "schema_id": "https://comfy-ui-main.local/schemas/failure-diagnosis-and-repair-hypothesis/1.0.0",
+        "record_type": "failure_diagnosis_and_repair_hypothesis",
+        "record_id": "hyp_sync_demo",
+        "revision": "r001",
+        "sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "bytes": 1024,
+        "path_or_uri": "artifacts/failure_diagnosis_and_repair_hypothesis/hyp_sync_demo.json"
+      }
+    }
+  ],
+  "accepted_parents_immutable": true,
+  "smallest_failed_scope_only": true,
+  "full_av_rerender": false,
+  "provenance": {
+    "producer": "wave64_third_pass_fixture_builder",
+    "producer_version": "1.0.0",
+    "source_refs": [],
+    "registry_snapshot_ids": [
+      "wave64_hvaa_fixture_snapshot_v1"
+    ],
+    "canonicalization": "rfc8785_jcs"
+  }
+}

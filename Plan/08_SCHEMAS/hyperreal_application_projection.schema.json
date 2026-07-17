@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-application-projection/1.0.0",
+  "title": "Hyperreal Operator Application Projection",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "application_projection_id",
+    "revision",
+    "status",
+    "created_at",
+    "projection_type",
+    "aggregate_ref",
+    "aggregate_version",
+    "event_sequence",
+    "generated_at",
+    "freshness_state",
+    "payload_schema_id",
+    "payload_sha256",
+    "source_event_refs",
+    "authoritative_for_promotion",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_application_projection"
+    },
+    "application_projection_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "projection_type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "aggregate_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "aggregate_version": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "event_sequence": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "freshness_state": {
+      "enum": [
+        "live",
+        "catching_up",
+        "stale",
+        "reconciling",
+        "offline"
+      ]
+    },
+    "payload_schema_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "payload_sha256": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Sha256"
+    },
+    "source_event_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+      },
+      "minItems": 1
+    },
+    "authoritative_for_promotion": {
+      "const": false
+    }
+  },
+  "additionalProperties": false
+}

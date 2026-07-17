@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-application-notification/1.0.0",
+  "title": "Hyperreal Application Notification",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "application_notification_id",
+    "revision",
+    "status",
+    "created_at",
+    "actor_id",
+    "notification_class",
+    "severity",
+    "title",
+    "summary",
+    "target_ref",
+    "deep_link_route_id",
+    "correlation_id",
+    "deduplication_key",
+    "requires_acknowledgement",
+    "secret_or_raw_path_present",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_application_notification"
+    },
+    "application_notification_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "actor_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "notification_class": {
+      "enum": [
+        "command_result",
+        "review_required",
+        "dependency_blocked",
+        "run_terminal",
+        "incident",
+        "certificate_expiry",
+        "projection_stale",
+        "storage_threshold"
+      ]
+    },
+    "severity": {
+      "enum": [
+        "info",
+        "success",
+        "warning",
+        "error",
+        "critical"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "deep_link_route_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "deduplication_key": {
+      "type": "string",
+      "minLength": 1
+    },
+    "requires_acknowledgement": {
+      "type": "boolean"
+    },
+    "secret_or_raw_path_present": {
+      "const": false
+    }
+  },
+  "additionalProperties": false
+}

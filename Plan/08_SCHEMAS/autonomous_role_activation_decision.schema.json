@@ -1,0 +1,216 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/autonomous-role-activation-decision/1.0.0",
+  "title": "Wave64 Autonomous Role Activation Decision",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "role_activation_decision_id",
+    "revision",
+    "status",
+    "created_at",
+    "role_card_ref",
+    "autonomous_stack_ref",
+    "role_qualification_certificate_refs",
+    "shadow_evidence_refs",
+    "activation_state",
+    "allowed_operating_modes",
+    "tool_authorization_policy_id",
+    "model_library_phase_transition_ref",
+    "registry_snapshot_ids",
+    "decision_authority",
+    "valid_until",
+    "direct_execution_authority",
+    "registry_mutation_authority",
+    "certificate_authority",
+    "artifact_promotion_authority",
+    "reason_codes",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "autonomous_role_activation_decision"
+    },
+    "role_activation_decision_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "role_card_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+    },
+    "autonomous_stack_ref": {
+      "oneOf": [
+        {
+          "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "role_qualification_certificate_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+      }
+    },
+    "shadow_evidence_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+      }
+    },
+    "activation_state": {
+      "enum": [
+        "inactive_unselected",
+        "inactive_unqualified",
+        "qualified_inactive",
+        "shadow_active",
+        "production_active",
+        "suspended",
+        "revoked"
+      ]
+    },
+    "allowed_operating_modes": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "offline",
+          "shadow",
+          "production"
+        ]
+      }
+    },
+    "tool_authorization_policy_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "model_library_phase_transition_ref": {
+      "oneOf": [
+        {
+          "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "registry_snapshot_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "decision_authority": {
+      "enum": [
+        "deterministic_role_activation_policy",
+        "release_authority"
+      ]
+    },
+    "valid_until": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "direct_execution_authority": {
+      "const": false
+    },
+    "registry_mutation_authority": {
+      "const": false
+    },
+    "certificate_authority": {
+      "const": false
+    },
+    "artifact_promotion_authority": {
+      "const": false
+    },
+    "reason_codes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "activation_state": {
+            "enum": [
+              "shadow_active",
+              "production_active"
+            ]
+          }
+        },
+        "required": [
+          "activation_state"
+        ]
+      },
+      "then": {
+        "properties": {
+          "autonomous_stack_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+          },
+          "role_qualification_certificate_refs": {
+            "minItems": 1
+          },
+          "model_library_phase_transition_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+          },
+          "registry_snapshot_ids": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "activation_state": {
+            "const": "production_active"
+          }
+        },
+        "required": [
+          "activation_state"
+        ]
+      },
+      "then": {
+        "properties": {
+          "allowed_operating_modes": {
+            "contains": {
+              "const": "production"
+            }
+          },
+          "shadow_evidence_refs": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ]
+}

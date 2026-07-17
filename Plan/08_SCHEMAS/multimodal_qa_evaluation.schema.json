@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/multimodal-qa-evaluation/1.0.0",
+  "title": "Wave64 Canonical Multimodal QA Evaluation",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "qa_evaluation_id",
+    "revision",
+    "status",
+    "created_at",
+    "execution_attempt_ref",
+    "artifact_refs",
+    "deterministic_gate_results",
+    "critic_observation_refs",
+    "target_scope_passed",
+    "protected_scope_passed",
+    "whole_artifact_passed",
+    "decision",
+    "decision_authority",
+    "promotion_authority",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "multimodal_qa_evaluation"
+    },
+    "qa_evaluation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "execution_attempt_ref": {
+      "allOf": [
+        {
+          "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/ImmutableRecordRef"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "record_type": {
+              "const": "multimodal_execution_attempt"
+            }
+          },
+          "required": [
+            "record_type"
+          ]
+        }
+      ]
+    },
+    "artifact_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/ImmutableRecordRef"
+      },
+      "minItems": 1
+    },
+    "deterministic_gate_results": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "gate_id",
+          "result",
+          "evidence_ids"
+        ],
+        "properties": {
+          "gate_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "result": {
+            "enum": [
+              "pass",
+              "fail",
+              "blocked"
+            ]
+          },
+          "evidence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "critic_observation_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+      }
+    },
+    "target_scope_passed": {
+      "type": "boolean"
+    },
+    "protected_scope_passed": {
+      "type": "boolean"
+    },
+    "whole_artifact_passed": {
+      "type": "boolean"
+    },
+    "decision": {
+      "enum": [
+        "pass",
+        "repair",
+        "reroute",
+        "reject",
+        "block"
+      ]
+    },
+    "decision_authority": {
+      "enum": [
+        "deterministic_qa_policy",
+        "authorized_adjudication"
+      ]
+    },
+    "promotion_authority": {
+      "const": "none"
+    }
+  },
+  "additionalProperties": false
+}

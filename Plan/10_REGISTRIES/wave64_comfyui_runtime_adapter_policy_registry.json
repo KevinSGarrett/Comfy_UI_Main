@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "wave64_comfyui_runtime_adapter_policy_v1",
+  "updated_at": "2026-07-16T19:30:00-05:00",
+  "status": "contract_frozen_implementation_not_started",
+  "runtime_completion_claimed": false,
+  "durable_authority": "external_event_store_outbox_and_content_addressed_artifact_store",
+  "comfyui_queue_history_authority": "volatile_observation_only",
+  "websocket_authority": "advisory_live_observation_then_history_or_jobs_reconciliation",
+  "submission_policy": {
+    "connect_websocket_before_post": true,
+    "client_supplied_prompt_uuid": true,
+    "database_unique_idempotency_key": true,
+    "transactional_outbox_required": true,
+    "runtime_lease_fencing_required": true,
+    "duplicate_prompt_id_assumed_rejected_by_comfyui": false,
+    "ambiguous_cross_host_failover_allowed": false
+  },
+  "feature_probe_order": [
+    "/object_info",
+    "/system_stats",
+    "/prompt",
+    "/ws",
+    "/api/jobs/{id}",
+    "/history/{id}",
+    "/queue",
+    "/interrupt"
+  ],
+  "cancel_policy": [
+    "prefer_idempotent_targeted_job_cancel_when_feature_probe_passes",
+    "fallback_to_queue_delete_only_for_known_pending_prompt",
+    "global_interrupt_requires_single_owned_running_prompt_and_policy_authority"
+  ],
+  "required_contract_record_types": [
+    "comfyui_runtime_lock",
+    "workflow_release_manifest",
+    "comfyui_submission_envelope",
+    "comfyui_execution_receipt",
+    "comfyui_artifact_locator",
+    "runtime_reconciliation_report",
+    "runtime_worker_lease",
+    "orchestrator_event_payload_envelope",
+    "orchestrator_state_transition_definition"
+  ],
+  "official_sources": [
+    "https://docs.comfy.org/development/comfyui-server/comms_routes",
+    "https://docs.comfy.org/development/comfyui-server/comms_messages",
+    "https://github.com/comfyanonymous/ComfyUI/blob/master/script_examples/websockets_api_example.py",
+    "https://docs.comfy.org/specs/workflow_json",
+    "https://docs.comfy.org/interface/app-mode",
+    "https://docs.comfy.org/interface/features/subgraph"
+  ],
+  "app_boundary": {
+    "app_mode_role": "thin_workflow_launcher_and_result_surface",
+    "controller_console_role": "separate_durable_multimodule_dag_qa_recovery_surface"
+  }
+}

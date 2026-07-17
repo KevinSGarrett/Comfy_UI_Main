@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/autonomous-model-execution-stack/1.0.0",
+  "title": "Wave64 Autonomous Model Execution Stack",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "autonomous_stack_id",
+    "revision",
+    "status",
+    "created_at",
+    "autonomous_role_id",
+    "model_id",
+    "model_revision",
+    "model_sha256",
+    "runtime",
+    "runtime_revision",
+    "quantization",
+    "chat_template_id",
+    "structured_output_parser_id",
+    "context_limit",
+    "batching_policy",
+    "hardware_envelope_id",
+    "qualification_certificate_ids",
+    "fallback_stack_ids",
+    "selection_state",
+    "activation_decision_ref",
+    "direct_execution_authority",
+    "registry_mutation_authority",
+    "certificate_or_promotion_authority",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "autonomous_model_execution_stack"
+    },
+    "autonomous_stack_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "autonomous_role_id": {
+      "type": "string"
+    },
+    "model_id": {
+      "type": "string"
+    },
+    "model_revision": {
+      "type": "string"
+    },
+    "model_sha256": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "runtime": {
+      "type": "string"
+    },
+    "runtime_revision": {
+      "type": "string"
+    },
+    "quantization": {
+      "type": "string"
+    },
+    "chat_template_id": {
+      "type": "string"
+    },
+    "structured_output_parser_id": {
+      "type": "string"
+    },
+    "context_limit": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "batching_policy": {
+      "type": "object"
+    },
+    "hardware_envelope_id": {
+      "type": "string"
+    },
+    "qualification_certificate_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "fallback_stack_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "selection_state": {
+      "enum": [
+        "unselected",
+        "candidate",
+        "qualified_inactive",
+        "shadow_active",
+        "production_active",
+        "suspended",
+        "revoked"
+      ]
+    },
+    "activation_decision_ref": {
+      "oneOf": [
+        {
+          "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "direct_execution_authority": {
+      "const": false
+    },
+    "registry_mutation_authority": {
+      "const": false
+    },
+    "certificate_or_promotion_authority": {
+      "const": false
+    }
+  },
+  "additionalProperties": false
+}

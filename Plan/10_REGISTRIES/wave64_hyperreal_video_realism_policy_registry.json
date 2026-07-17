@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0.0",
+  "updated_at": "2026-07-16T20:30:00-05:00",
+  "runtime_completion_claimed": false,
+  "registry_id": "wave64_hyperreal_video_realism_policy_registry_v1",
+  "dimensions": [
+    {
+      "id": "identity_temporal_stability",
+      "blocking": true,
+      "metrics": [
+        "view_conditioned_identity_similarity",
+        "track_identity_switch_rate"
+      ]
+    },
+    {
+      "id": "anatomy_pose_dynamics",
+      "blocking": true,
+      "metrics": [
+        "landmark_error",
+        "joint_acceleration_outlier_rate",
+        "hand_anatomy_failure_rate"
+      ]
+    },
+    {
+      "id": "surface_texture_lock",
+      "blocking": true,
+      "metrics": [
+        "surface_warp_residual",
+        "pore_hair_detail_flicker",
+        "material_phase_slip"
+      ]
+    },
+    {
+      "id": "camera_optics",
+      "blocking": true,
+      "metrics": [
+        "camera_path_jerk",
+        "rolling_shutter_consistency",
+        "motion_blur_exposure_consistency",
+        "focus_breathing_discontinuity"
+      ]
+    },
+    {
+      "id": "lighting_color_exposure",
+      "blocking": true,
+      "metrics": [
+        "luminance_flicker_spectrum",
+        "white_balance_delta",
+        "color_transform_roundtrip_error"
+      ]
+    },
+    {
+      "id": "motion_physics_contact",
+      "blocking": true,
+      "metrics": [
+        "optical_flow_residual",
+        "contact_slip",
+        "penetration_rate",
+        "secondary_motion_phase_error"
+      ]
+    },
+    {
+      "id": "composition_ownership",
+      "blocking": true,
+      "metrics": [
+        "instance_merge_rate",
+        "occlusion_order_error",
+        "frame_boundary_violation"
+      ]
+    },
+    {
+      "id": "long_form_continuity",
+      "blocking": true,
+      "metrics": [
+        "state_ledger_conflict_rate",
+        "wardrobe_prop_drift",
+        "shot_boundary_discontinuity"
+      ]
+    },
+    {
+      "id": "perceptual_realism",
+      "blocking": true,
+      "metrics": [
+        "calibrated_vlm_realism",
+        "blind_human_preference",
+        "artifact_detection_rate"
+      ]
+    }
+  ],
+  "rule": "no_weighted_average_may_hide_a_blocking_dimension_failure"
+}

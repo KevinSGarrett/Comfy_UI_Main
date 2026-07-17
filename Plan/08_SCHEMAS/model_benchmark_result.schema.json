@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/model-benchmark-result/1.0.0",
+  "title": "Wave64 Model Benchmark Result",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "benchmark_result_id",
+    "revision",
+    "status",
+    "created_at",
+    "qualification_plan_ref",
+    "benchmark_suite_ref",
+    "execution_bundle_ref",
+    "case_results",
+    "aggregate_metrics",
+    "hard_gate_results",
+    "resource_telemetry",
+    "learning_eligibility",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "model_benchmark_result"
+    },
+    "benchmark_result_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "qualification_plan_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+    },
+    "benchmark_suite_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+    },
+    "execution_bundle_ref": {
+      "allOf": [
+        {
+          "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/ImmutableRecordRef"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "record_type": {
+              "const": "model_execution_bundle"
+            }
+          },
+          "required": [
+            "record_type"
+          ]
+        }
+      ]
+    },
+    "case_results": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "minItems": 1
+    },
+    "aggregate_metrics": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/MetricObservation"
+      }
+    },
+    "hard_gate_results": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "failure_taxonomy": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "resource_telemetry": {
+      "type": "object"
+    },
+    "output_artifact_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "learning_eligibility": {
+      "enum": [
+        "eligible",
+        "ineligible",
+        "pending_adjudication"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

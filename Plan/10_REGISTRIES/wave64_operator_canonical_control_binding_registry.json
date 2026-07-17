@@ -1,0 +1,224 @@
+{
+  "schema_version": "1.0.0",
+  "updated_at": "2026-07-16T20:30:00-05:00",
+  "runtime_completion_claimed": false,
+  "registry_id": "wave64_operator_canonical_control_binding_registry_v1",
+  "controls": [
+    {
+      "control_id": "project.intent",
+      "route": "projects",
+      "read_query": "project_summary",
+      "write_command": "save_draft",
+      "modes": [
+        "guided",
+        "director",
+        "expert",
+        "diagnostic"
+      ]
+    },
+    {
+      "control_id": "project.output_kind",
+      "route": "projects",
+      "read_query": "project_summary",
+      "write_command": "save_draft",
+      "modes": [
+        "guided",
+        "director",
+        "expert",
+        "diagnostic"
+      ]
+    },
+    {
+      "control_id": "character.instances",
+      "route": "character_library",
+      "read_query": "character_library",
+      "write_command": "save_draft",
+      "modes": [
+        "guided",
+        "director",
+        "expert",
+        "diagnostic"
+      ]
+    },
+    {
+      "control_id": "scene.environment_lighting",
+      "route": "scene_builder",
+      "read_query": "scene_graph",
+      "write_command": "save_draft",
+      "modes": [
+        "guided",
+        "director",
+        "expert",
+        "diagnostic"
+      ]
+    },
+    {
+      "control_id": "shot.camera",
+      "route": "shot_timeline",
+      "read_query": "shot_timeline",
+      "write_command": "save_draft",
+      "modes": [
+        "director",
+        "expert",
+        "diagnostic"
+      ]
+    },
+    {
+      "control_id": "shot.pose_action",
+      "route": "shot_timeline",
+      "read_query": "shot_timeline",
+      "write_command": "save_draft",
+      "modes": [
+        "guided",
+        "director",
+        "expert",
+        "diagnostic"
+      ]
+    },
+    {
+      "control_id": "mask.authority",
+      "route": "pose_and_masks",
+      "read_query": "artifact_lineage",
+      "write_command": "request_repair",
+      "modes": [
+        "director",
+        "expert",
+        "diagnostic"
+      ]
+    },
+    {
+      "control_id": "image.route_preference",
+      "route": "image_workspace",
+      "read_query": "model_explanation",
+      "write_command": "save_draft",
+      "modes": [
+        "expert",
+        "diagnostic"
+      ]
+    },
+    {
+      "control_id": "video.route_preference",
+      "route": "video_workspace",
+      "read_query": "model_explanation",
+      "write_command": "save_draft",
+      "modes": [
+        "expert",
+        "diagnostic"
+      ]
+    },
+    {
+      "control_id": "audio.route_preference",
+      "route": "audio_workspace",
+      "read_query": "model_explanation",
+      "write_command": "save_draft",
+      "modes": [
+        "expert",
+        "diagnostic"
+      ]
+    },
+    {
+      "control_id": "timeline.edit",
+      "route": "shot_timeline",
+      "read_query": "shot_timeline",
+      "write_command": "save_draft",
+      "modes": [
+        "director",
+        "expert",
+        "diagnostic"
+      ]
+    },
+    {
+      "control_id": "run.preview",
+      "route": "runs",
+      "read_query": "run_dag",
+      "write_command": "start_preview",
+      "modes": [
+        "guided",
+        "director",
+        "expert",
+        "diagnostic"
+      ]
+    },
+    {
+      "control_id": "run.final_request",
+      "route": "runs",
+      "read_query": "run_dag",
+      "write_command": "request_final_render",
+      "modes": [
+        "director",
+        "expert",
+        "diagnostic"
+      ]
+    },
+    {
+      "control_id": "run.cancel",
+      "route": "runs",
+      "read_query": "attempt_detail",
+      "write_command": "cancel_attempt",
+      "modes": [
+        "guided",
+        "director",
+        "expert",
+        "diagnostic"
+      ]
+    },
+    {
+      "control_id": "qa.compare",
+      "route": "qa_and_compare",
+      "read_query": "candidate_comparison",
+      "write_command": "approve_candidate",
+      "modes": [
+        "guided",
+        "director",
+        "expert",
+        "diagnostic"
+      ]
+    },
+    {
+      "control_id": "qa.repair",
+      "route": "qa_and_compare",
+      "read_query": "repair_history",
+      "write_command": "request_repair",
+      "modes": [
+        "guided",
+        "director",
+        "expert",
+        "diagnostic"
+      ]
+    },
+    {
+      "control_id": "release.promotion_request",
+      "route": "releases",
+      "read_query": "qa_report",
+      "write_command": "request_promotion",
+      "modes": [
+        "director",
+        "expert",
+        "diagnostic"
+      ]
+    },
+    {
+      "control_id": "runtime.reconcile",
+      "route": "runtime_and_workers",
+      "read_query": "incident_detail",
+      "write_command": "retry_reconciliation",
+      "modes": [
+        "expert",
+        "diagnostic"
+      ]
+    },
+    {
+      "control_id": "models.phase_request",
+      "route": "models_and_capabilities",
+      "read_query": "model_explanation",
+      "write_command": "request_model_phase_transition",
+      "modes": [
+        "expert",
+        "diagnostic"
+      ]
+    }
+  ],
+  "dead_controls": 0,
+  "raw_path_controls": 0,
+  "direct_comfyui_command_controls": 0
+}

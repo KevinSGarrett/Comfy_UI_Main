@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-viseme-alignment/1.0.0",
+  "title": "Hyperreal Phoneme, Viseme, and Mouth-Ownership Alignment",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "viseme_alignment_id",
+    "revision",
+    "status",
+    "created_at",
+    "scope",
+    "character_instance_id",
+    "voice_performance_ref",
+    "phoneme_alignment_ref",
+    "mouth_mask_ref",
+    "entries",
+    "speaker_owner_verified",
+    "mouth_owner_verified",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_viseme_alignment"
+    },
+    "viseme_alignment_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "scope": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ExecutionScope"
+    },
+    "character_instance_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "voice_performance_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "phoneme_alignment_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "mouth_mask_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "phoneme",
+          "viseme_id",
+          "span",
+          "confidence",
+          "coarticulation_left",
+          "coarticulation_right",
+          "observed_offset_ms",
+          "correction_required"
+        ],
+        "properties": {
+          "phoneme": {
+            "type": "string",
+            "minLength": 1
+          },
+          "viseme_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "span": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/MediaSpan"
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "coarticulation_left": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "coarticulation_right": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "observed_offset_ms": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "correction_required": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "speaker_owner_verified": {
+      "const": true
+    },
+    "mouth_owner_verified": {
+      "const": true
+    }
+  },
+  "additionalProperties": false
+}

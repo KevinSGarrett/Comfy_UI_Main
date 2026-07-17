@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "model_use_observation",
+  "use_observation_id": "observation_skin_repair_example_v1",
+  "revision": "1",
+  "status": "terminal_accepted_example",
+  "created_at": "2026-07-16T19:30:00-05:00",
+  "job_id": "job_example_001",
+  "run_id": "run_example_001",
+  "pass_id": "pass_skin_repair",
+  "attempt_id": "attempt_01",
+  "selection_decision_ref": {
+    "record_type": "contextual_model_selection_decision",
+    "record_id": "selection_decision_skin_repair_v1",
+    "revision": "1",
+    "sha256": null,
+    "path_or_uri": null
+  },
+  "selection_context_ref": {
+    "record_type": "model_selection_context",
+    "record_id": "context_character01_skin_repair_v1",
+    "revision": "1",
+    "sha256": null,
+    "path_or_uri": null
+  },
+  "execution_bundle_ref": {
+    "record_type": "model_execution_bundle",
+    "record_id": "bundle_certified_sdxl_skin_v1",
+    "revision": "1",
+    "sha256": null,
+    "path_or_uri": null
+  },
+  "input_artifact_ids": [
+    "artifact_parent_example"
+  ],
+  "output_artifact_ids": [
+    "artifact_child_example"
+  ],
+  "metrics": [
+    {
+      "metric_id": "target_effect_accuracy",
+      "value": 0.91,
+      "unit": "normalized",
+      "direction": "higher_is_better",
+      "authority": "calibrated_metric",
+      "confidence": 0.9,
+      "evidence_ids": [
+        "artifact_child_example"
+      ]
+    }
+  ],
+  "review_observation_ids": [
+    "review_obs_example"
+  ],
+  "failure_codes": [],
+  "resource_telemetry": {
+    "peak_vram_mib": 6480,
+    "runtime_seconds": 18.2
+  },
+  "qa_disposition": "accepted",
+  "learning_eligibility": "eligible_stack_level",
+  "learning_exclusion_reasons": [
+    "component_level_attribution_not_claimed"
+  ],
+  "provenance": {
+    "producer": "wave64_autonomous_model_intelligence_package_builder",
+    "source_refs": [
+      "wave30_source_snapshot",
+      "wave64_model_intelligence_master_plan"
+    ],
+    "evidence_refs": [],
+    "registry_snapshot_ids": []
+  }
+}

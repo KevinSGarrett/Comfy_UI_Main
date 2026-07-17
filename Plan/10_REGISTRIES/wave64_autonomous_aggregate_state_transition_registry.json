@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "wave64_autonomous_aggregate_state_transition_registry_v1",
+  "updated_at": "2026-07-16T19:30:00-05:00",
+  "status": "canonical_transition_baseline_frozen_runtime_enforcement_not_started",
+  "event_payloads_must_validate": true,
+  "optimistic_aggregate_version_required": true,
+  "append_only_hash_chain_required": true,
+  "aggregate_states": {
+    "job": [
+      "requested",
+      "planned",
+      "running",
+      "blocked",
+      "completed",
+      "cancelled"
+    ],
+    "dag": [
+      "compiled",
+      "running",
+      "blocked",
+      "completed",
+      "cancelled"
+    ],
+    "pass": [
+      "specified",
+      "routed",
+      "ready",
+      "running",
+      "qa_pending",
+      "accepted",
+      "repair",
+      "blocked",
+      "cancelled"
+    ],
+    "attempt": [
+      "created",
+      "outbox_pending",
+      "submitted",
+      "running",
+      "terminal",
+      "ambiguous",
+      "reconciled"
+    ],
+    "artifact": [
+      "registered",
+      "verified",
+      "qa_pending",
+      "accepted_parent",
+      "rejected",
+      "revoked"
+    ],
+    "qa": [
+      "requested",
+      "evaluating",
+      "pass",
+      "fail",
+      "blocked",
+      "superseded"
+    ],
+    "promotion": [
+      "requested",
+      "validated",
+      "committed",
+      "rejected",
+      "revoked"
+    ],
+    "lease": [
+      "offered",
+      "active",
+      "expired",
+      "fenced",
+      "released"
+    ],
+    "model_lifecycle": [
+      "discovered",
+      "staged",
+      "verified",
+      "qualified",
+      "shadow",
+      "production",
+      "suspended",
+      "revoked"
+    ],
+    "role_activation": [
+      "inactive",
+      "qualified_inactive",
+      "shadow_active",
+      "production_active",
+      "suspended",
+      "revoked"
+    ]
+  },
+  "never_waivable_rules": [
+    "planned_or_unqualified_execution_bundle_cannot_be_selected",
+    "stale_or_revoked_certificate_cannot_authorize_execution",
+    "attempt_requires_current_fencing_token",
+    "ambiguous_submission_cannot_fail_over_or_promote",
+    "qa_failure_cannot_transition_to_promoted",
+    "promotion_transaction_is_exactly_once",
+    "llm_vlm_cannot_certify_or_promote",
+    "mode_b_mask_cannot_satisfy_promotion_gate"
+  ]
+}

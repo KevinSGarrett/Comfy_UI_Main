@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/main-task-model-library-activation-acknowledgement/1.0.0",
+  "title": "Wave64 Main-Task Model Library Activation Acknowledgement",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "main_task_activation_acknowledgement_id",
+    "revision",
+    "status",
+    "created_at",
+    "main_task_id",
+    "expected_download_scope_ref",
+    "download_completion_manifest_ref",
+    "binary_inventory_verification_report_ref",
+    "preservation_manifest_ref",
+    "acknowledged_phase",
+    "scope_sha256",
+    "acknowledgement_authority",
+    "no_implicit_later_phase_authority",
+    "other_runtime_lanes_affected",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "main_task_model_library_activation_acknowledgement"
+    },
+    "main_task_activation_acknowledgement_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "main_task_id": {
+      "const": "019f422f-88b1-7382-872b-21de2089e983"
+    },
+    "expected_download_scope_ref": {
+      "allOf": [
+        {
+          "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "record_type": {
+              "const": "model_library_expected_download_scope"
+            }
+          },
+          "required": [
+            "record_type"
+          ]
+        }
+      ]
+    },
+    "download_completion_manifest_ref": {
+      "allOf": [
+        {
+          "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "record_type": {
+              "const": "model_download_completion_manifest"
+            }
+          },
+          "required": [
+            "record_type"
+          ]
+        }
+      ]
+    },
+    "binary_inventory_verification_report_ref": {
+      "allOf": [
+        {
+          "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "record_type": {
+              "const": "model_binary_inventory_verification_report"
+            }
+          },
+          "required": [
+            "record_type"
+          ]
+        }
+      ]
+    },
+    "preservation_manifest_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+    },
+    "acknowledged_phase": {
+      "const": "staging"
+    },
+    "scope_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "acknowledgement_authority": {
+      "const": "main_task_release_authority"
+    },
+    "no_implicit_later_phase_authority": {
+      "const": true
+    },
+    "other_runtime_lanes_affected": {
+      "const": false
+    }
+  },
+  "additionalProperties": false
+}

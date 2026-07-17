@@ -1,0 +1,186 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-cinematic-state-timeline/1.0.0",
+  "title": "Hyperreal Cinematic Camera, Exposure, Lighting, and Color Timeline",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "cinematic_state_timeline_id",
+    "revision",
+    "status",
+    "created_at",
+    "scope",
+    "canonical_clock",
+    "sensor_profile_id",
+    "color_pipeline_id",
+    "input_color_space",
+    "working_color_space",
+    "display_transform_id",
+    "tone_map_id",
+    "grain_policy_id",
+    "samples",
+    "pts_strictly_increasing",
+    "unplanned_discontinuities_allowed",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_cinematic_state_timeline"
+    },
+    "cinematic_state_timeline_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "scope": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ExecutionScope"
+    },
+    "canonical_clock": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/MediaSpan"
+    },
+    "sensor_profile_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "color_pipeline_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "input_color_space": {
+      "type": "string",
+      "minLength": 1
+    },
+    "working_color_space": {
+      "type": "string",
+      "minLength": 1
+    },
+    "display_transform_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tone_map_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "grain_policy_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "samples": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "pts",
+          "camera_position_xyz_m",
+          "camera_rotation_xyzw",
+          "focal_length_mm",
+          "focus_distance_m",
+          "aperture_f",
+          "shutter_angle_deg",
+          "iso",
+          "white_balance_k",
+          "exposure_compensation_ev",
+          "rolling_shutter_ms",
+          "lens_distortion_profile_id",
+          "lighting_state_ref"
+        ],
+        "properties": {
+          "pts": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "camera_position_xyz_m": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 3
+          },
+          "camera_rotation_xyzw": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 4
+          },
+          "focal_length_mm": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "focus_distance_m": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "aperture_f": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "shutter_angle_deg": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 360
+          },
+          "iso": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "white_balance_k": {
+            "type": "number",
+            "minimum": 1000,
+            "maximum": 20000
+          },
+          "exposure_compensation_ev": {
+            "type": "number"
+          },
+          "rolling_shutter_ms": {
+            "type": "number",
+            "minimum": 0
+          },
+          "lens_distortion_profile_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "lighting_state_ref": {
+            "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+          }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 2
+    },
+    "pts_strictly_increasing": {
+      "const": true
+    },
+    "unplanned_discontinuities_allowed": {
+      "const": false
+    }
+  },
+  "additionalProperties": false
+}

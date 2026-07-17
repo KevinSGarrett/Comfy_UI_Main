@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/specialist-pass-contract/1.0.0",
+  "title": "Wave64 Base and Specialist Pass Contract",
+  "type": "object",
+  "required": ["schema_version", "specialist_pass_id", "revision", "job_id", "run_id", "dag_id", "scene_id", "shot_id", "take_id", "compilation_status", "sequence_role", "pass_class", "pass_intent", "modality", "required", "parent_artifact_ids", "route_request_id", "route_decision_id", "selected_execution_stack_id", "target_contract", "protected_contract", "workflow_patch_contract", "generation_parameters", "resource_contract", "retry_contract", "attempt_plan", "qa_contract", "output_slots", "promotion_policy", "failure_policy", "provenance"],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "specialist_pass_id": { "type": "string", "minLength": 1 },
+    "revision": { "type": "string", "minLength": 1 },
+    "job_id": { "type": "string" },
+    "run_id": { "type": "string" },
+    "dag_id": { "type": "string" },
+    "scene_id": { "type": "string" },
+    "shot_id": { "type": "string" },
+    "take_id": { "type": "string" },
+    "compilation_status": { "enum": ["routed", "blocked_no_certified_bundle"] },
+    "sequence_role": { "enum": ["first_pass", "intermediate", "terminal", "side_branch", "join"] },
+    "pass_class": { "enum": ["base", "conditioning", "specialist", "refine", "temporal", "audio", "assembly", "qa"] },
+    "pass_intent": { "type": "string", "minLength": 1 },
+    "modality": { "enum": ["image", "video", "audio", "av"] },
+    "required": { "type": "boolean" },
+    "parent_artifact_ids": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "route_request_id": { "type": "string" },
+    "route_decision_id": { "type": "string" },
+    "selected_execution_stack_id": { "type": ["string", "null"] },
+    "target_contract": { "type": "array", "items": { "$ref": "https://comfy-ui-main.local/schemas/multimodal-contract-common/1.0.0#/$defs/TargetSelector" }, "minItems": 1 },
+    "protected_contract": { "type": "array", "items": { "$ref": "https://comfy-ui-main.local/schemas/multimodal-contract-common/1.0.0#/$defs/TargetSelector" } },
+    "mask_factory_binding_id": { "type": ["string", "null"] },
+    "cross_engine_bridge_ids": { "type": "array", "items": { "type": "string" } },
+    "workflow_patch_contract": { "type": "object", "required": ["allowlisted_patch_keys", "patch_values_sha256"], "properties": { "allowlisted_patch_keys":{"type":"array","items":{"type":"string"}}, "patch_values_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"} }, "additionalProperties":false },
+    "generation_parameters": { "type": "object", "additionalProperties": true },
+    "resource_contract": { "$ref": "https://comfy-ui-main.local/schemas/multimodal-contract-common/1.0.0#/$defs/ResourceContract" },
+    "retry_contract": { "$ref": "https://comfy-ui-main.local/schemas/multimodal-contract-common/1.0.0#/$defs/RetryContract" },
+    "attempt_plan": { "type": "array", "items": { "type": "object", "required": ["attempt_number", "hypothesis"], "properties": { "attempt_number":{"type":"integer","minimum":1}, "hypothesis":{"oneOf":[{"type":"null"},{"$ref":"https://comfy-ui-main.local/schemas/multimodal-contract-common/1.0.0#/$defs/Hypothesis"}]} }, "additionalProperties":false } },
+    "qa_contract": { "$ref": "https://comfy-ui-main.local/schemas/multimodal-contract-common/1.0.0#/$defs/QAContract" },
+    "output_slots": { "type": "array", "items": { "type": "object", "required": ["slot_id", "artifact_type", "required"], "properties": { "slot_id":{"type":"string"}, "artifact_type":{"type":"string"}, "required":{"type":"boolean"} }, "additionalProperties":false }, "minItems":1 },
+    "promotion_policy": { "enum": ["not_promotable", "accepted_parent", "promotion_candidate", "terminal_release_candidate"] },
+    "failure_policy": { "type": "object", "required": ["allowed_actions", "default_action"], "properties": { "allowed_actions":{"type":"array","items":{"enum":["targeted_retry","reroute","explicit_fallback","block","reject"]}}, "default_action":{"enum":["targeted_retry","reroute","explicit_fallback","block","reject"]} }, "additionalProperties":false },
+    "provenance": { "$ref": "https://comfy-ui-main.local/schemas/multimodal-contract-common/1.0.0#/$defs/Provenance" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "sequence_role": { "const": "first_pass" } }, "required": ["sequence_role"] },
+      "then": { "properties": { "parent_artifact_ids": { "maxItems": 0 } } },
+      "else": { "properties": { "parent_artifact_ids": { "minItems": 1 } } }
+    },
+    {
+      "if": { "properties": { "compilation_status": { "const": "routed" } }, "required": ["compilation_status"] },
+      "then": { "properties": { "selected_execution_stack_id": { "type": "string", "minLength": 1 } } },
+      "else": {
+        "properties": {
+          "selected_execution_stack_id": { "const": null },
+          "attempt_plan": { "maxItems": 0 },
+          "promotion_policy": { "const": "not_promotable" }
+        }
+      }
+    }
+  ],
+  "additionalProperties": false
+}

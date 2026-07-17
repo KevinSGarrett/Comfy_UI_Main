@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-application-command/1.0.0",
+  "title": "Hyperreal Operator Application Command",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "application_command_id",
+    "revision",
+    "status",
+    "created_at",
+    "actor_id",
+    "role_id",
+    "command",
+    "target_refs",
+    "parameter_schema_id",
+    "parameters_sha256",
+    "expected_aggregate_version",
+    "idempotency_key",
+    "authorization_ref",
+    "confirmation_level",
+    "offline_created",
+    "raw_path_or_credentials_present",
+    "direct_comfyui_mutation",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_application_command"
+    },
+    "application_command_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "actor_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "role_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "command": {
+      "enum": [
+        "create_project",
+        "save_draft",
+        "publish_character_revision",
+        "publish_scene_revision",
+        "publish_shot_revision",
+        "compile_run",
+        "start_preview",
+        "request_final_render",
+        "cancel_attempt",
+        "request_repair",
+        "approve_candidate",
+        "reject_candidate",
+        "request_promotion",
+        "request_revocation",
+        "retry_reconciliation",
+        "request_model_phase_transition"
+      ]
+    },
+    "target_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+      },
+      "minItems": 1
+    },
+    "parameter_schema_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "parameters_sha256": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Sha256"
+    },
+    "expected_aggregate_version": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "idempotency_key": {
+      "type": "string",
+      "minLength": 1
+    },
+    "authorization_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "confirmation_level": {
+      "enum": [
+        "none",
+        "confirm",
+        "type_to_confirm"
+      ]
+    },
+    "offline_created": {
+      "type": "boolean"
+    },
+    "raw_path_or_credentials_present": {
+      "const": false
+    },
+    "direct_comfyui_mutation": {
+      "const": false
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "offline_created": {
+            "const": true
+          }
+        },
+        "required": [
+          "offline_created"
+        ]
+      },
+      "then": {
+        "properties": {
+          "command": {
+            "enum": [
+              "create_project",
+              "save_draft"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hyperreal-comfyui-app-launcher-manifest/1.0.0",
+  "title": "Hyperreal ComfyUI App Mode Launcher Manifest",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "comfyui_app_launcher_manifest_id",
+    "revision",
+    "status",
+    "created_at",
+    "launcher_id",
+    "purpose",
+    "canonical_ui_workflow_ref",
+    "flattened_api_workflow_ref",
+    "workflow_release_ref",
+    "compatible_runtime_lock_refs",
+    "controller_command_id",
+    "input_bindings_ref",
+    "output_bindings_ref",
+    "launch_authorization_schema_id",
+    "result_receipt_schema_id",
+    "authority_ceiling",
+    "cancellation_policy_id",
+    "minimum_frontend_version",
+    "minimum_core_version",
+    "runtime_test_refs",
+    "accessibility_test_refs",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "hyperreal_comfyui_app_launcher_manifest"
+    },
+    "comfyui_app_launcher_manifest_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "validated",
+        "certified",
+        "accepted",
+        "rejected",
+        "blocked",
+        "revoked"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/Provenance"
+    },
+    "launcher_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "purpose": {
+      "enum": [
+        "character_calibration",
+        "mask_inspection",
+        "image_preview",
+        "video_span_preview",
+        "voice_preview",
+        "audio_event_preview"
+      ]
+    },
+    "canonical_ui_workflow_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "flattened_api_workflow_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "workflow_release_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "compatible_runtime_lock_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+      },
+      "minItems": 1
+    },
+    "controller_command_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "input_bindings_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "output_bindings_ref": {
+      "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+    },
+    "launch_authorization_schema_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "result_receipt_schema_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "authority_ceiling": {
+      "const": "unpromoted_candidate_generation_only"
+    },
+    "cancellation_policy_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "minimum_frontend_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "minimum_core_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "runtime_test_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+      },
+      "minItems": 1
+    },
+    "accessibility_test_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://comfy-ui-main.local/schemas/hyperreal-media-common/1.0.0#/$defs/ImmutableRecordRef"
+      },
+      "minItems": 1
+    }
+  },
+  "additionalProperties": false
+}
