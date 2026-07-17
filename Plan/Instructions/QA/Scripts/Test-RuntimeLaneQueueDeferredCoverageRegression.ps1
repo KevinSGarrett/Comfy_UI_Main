@@ -168,6 +168,14 @@ foreach ($case in $cases) {
   $null = New-Item -ItemType Directory -Force -Path $caseRoot
   $queue = Read-JsonClone -Path $queuePath
   $coverage = Read-JsonClone -Path $coveragePath
+  # Keep this regression bound to the immutable coverage fixture instead of
+  # inheriting unrelated lanes added to the live queue after the fixture date.
+  $fixtureLaneIds = @($coverage.lane_results | ForEach-Object { [string]$_.lane_id })
+  $queue.lanes = @($queue.lanes | Where-Object { $fixtureLaneIds -contains [string]$_.lane_id })
+  $queue.selection_policy.completed_runtime_lane_ids = @(
+    $queue.selection_policy.completed_runtime_lane_ids |
+      Where-Object { $fixtureLaneIds -contains [string]$_ }
+  )
   $queue.selection_policy.current_runtime_lane_id = $normalLaneId
   $queue.selection_policy.runtime_not_started_lane_ids = @($fluxLaneId)
   ($queue.lanes | Where-Object { $_.lane_id -eq $fluxLaneId }).status = $deferredStatus
