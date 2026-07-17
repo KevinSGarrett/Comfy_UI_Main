@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/wave64-scorecard-benchmark-release-authority/1.0.0",
+  "title": "Wave64 Rows209-212 Scorecard Benchmark and Release Authority",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "authority_id", "rows_covered", "source_authorities", "scorecard_contract", "benchmark_contract", "calibration_policy", "release_policy", "local_synthetic_runtime_allowed", "production_release_allowed", "boundaries"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "authority_id": {"const": "wave64_scorecard_benchmark_release_authority_rows209_212_r001"},
+    "rows_covered": {"const": [209, 210, 211, 212]},
+    "source_authorities": {"type": "array", "minItems": 6, "maxItems": 6, "items": {"$ref": "#/$defs/file_ref"}},
+    "scorecard_contract": {
+      "type": "object", "additionalProperties": false,
+      "required": ["required_gate_ids", "required_scopes", "single_subjective_scalar_allowed", "applicability_required", "method_required", "authority_required", "evidence_required", "severity_required", "gates"],
+      "properties": {
+        "required_gate_ids": {"$ref": "#/$defs/gate_ids"},
+        "required_scopes": {"$ref": "#/$defs/scopes"},
+        "single_subjective_scalar_allowed": {"const": false},
+        "applicability_required": {"const": true}, "method_required": {"const": true}, "authority_required": {"const": true}, "evidence_required": {"const": true}, "severity_required": {"const": true},
+        "gates": {"type": "array", "minItems": 14, "maxItems": 14, "items": {"$ref": "#/$defs/gate"}}
+      }
+    },
+    "benchmark_contract": {
+      "type": "object", "additionalProperties": false,
+      "required": ["required_buckets", "required_cohorts", "held_out_required", "immutable_revision_required", "expected_outcome_required", "fixtures"],
+      "properties": {
+        "required_buckets": {"$ref": "#/$defs/buckets"},
+        "required_cohorts": {"type": "array", "minItems": 3, "maxItems": 3, "uniqueItems": true, "items": {"enum": ["solo", "multi_character", "mixed"]}},
+        "held_out_required": {"const": true}, "immutable_revision_required": {"const": true}, "expected_outcome_required": {"const": true},
+        "fixtures": {"type": "array", "minItems": 11, "maxItems": 11, "items": {"$ref": "#/$defs/fixture"}}
+      }
+    },
+    "calibration_policy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["required_signal_types", "max_false_accept_rate", "max_false_reject_rate", "max_abstention_rate", "disagreement_action", "weak_signal_can_override_hard_failure", "all_scopes_required", "promotion_must_be_explicit"],
+      "properties": {
+        "required_signal_types": {"type": "array", "minItems": 4, "maxItems": 4, "uniqueItems": true, "items": {"enum": ["deterministic_validator", "scoped_metric", "critic", "review_packet"]}},
+        "max_false_accept_rate": {"type": "number", "minimum": 0, "maximum": 1}, "max_false_reject_rate": {"type": "number", "minimum": 0, "maximum": 1}, "max_abstention_rate": {"type": "number", "minimum": 0, "maximum": 1},
+        "disagreement_action": {"const": "abstain"}, "weak_signal_can_override_hard_failure": {"const": false}, "all_scopes_required": {"const": true}, "promotion_must_be_explicit": {"const": true}
+      }
+    },
+    "release_policy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["required_row_start", "required_row_end", "currently_unfinished_rows", "required_certificates", "residual_risk_required", "scope_required", "blockers_required", "no_false_completion_required"],
+      "properties": {
+        "required_row_start": {"const": 149}, "required_row_end": {"const": 220},
+        "currently_unfinished_rows": {"const": [213, 214, 215, 216, 217, 218, 219, 220]},
+        "required_certificates": {"type": "array", "minItems": 4, "maxItems": 4, "uniqueItems": true, "items": {"enum": ["runtime", "quality", "promotion", "release"]}},
+        "residual_risk_required": {"const": true}, "scope_required": {"const": true}, "blockers_required": {"const": true}, "no_false_completion_required": {"const": true}
+      }
+    },
+    "local_synthetic_runtime_allowed": {"const": true}, "production_release_allowed": {"const": false},
+    "boundaries": {"type": "object", "additionalProperties": false, "required": ["model_loaded", "gpu_allocated", "comfyui_submitted", "production_artifact_created", "promotion_requested", "certificate_issued", "wave_completion_claimed", "aws_mutated", "item_tracker_status_changed"], "properties": {"model_loaded": {"const": false}, "gpu_allocated": {"const": false}, "comfyui_submitted": {"const": false}, "production_artifact_created": {"const": false}, "promotion_requested": {"const": false}, "certificate_issued": {"const": false}, "wave_completion_claimed": {"const": false}, "aws_mutated": {"const": false}, "item_tracker_status_changed": {"const": false}}}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "file_ref": {"type": "object", "additionalProperties": false, "required": ["name", "path", "sha256"], "properties": {"name": {"enum": ["scorecard_rules", "fixed_image_benchmark", "comparison_schema", "release_projection_schema", "review_scorecard", "resource_cache_authority"]}, "path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha256"}}},
+    "gate_ids": {"type": "array", "minItems": 14, "maxItems": 14, "uniqueItems": true, "items": {"enum": ["identity", "morphology", "pose", "framing", "ownership", "mask", "anatomy", "realism", "temporal", "speech", "audio", "sync", "provenance", "runtime"]}},
+    "scopes": {"type": "array", "minItems": 3, "maxItems": 3, "uniqueItems": true, "items": {"enum": ["target", "protected", "whole"]}},
+    "buckets": {"type": "array", "minItems": 11, "maxItems": 11, "uniqueItems": true, "items": {"enum": ["positive", "negative", "adversarial", "ownership", "outage", "recovery", "cross_engine", "specialist", "video", "audio", "av"]}},
+    "gate": {"type": "object", "additionalProperties": false, "required": ["gate_id", "applicability_rule", "threshold", "method", "authority", "evidence_type", "severity", "hard_gate"], "properties": {"gate_id": {"type": "string"}, "applicability_rule": {"type": "string", "minLength": 1}, "threshold": {"type": "object", "additionalProperties": false, "required": ["operator", "value"], "properties": {"operator": {"enum": ["boolean_true", "gte"]}, "value": {"type": ["boolean", "number"]}}}, "method": {"type": "string", "minLength": 1}, "authority": {"type": "string", "minLength": 1}, "evidence_type": {"type": "string", "minLength": 1}, "severity": {"enum": ["blocking", "major"]}, "hard_gate": {"type": "boolean"}}},
+    "fixture": {"type": "object", "additionalProperties": false, "required": ["fixture_id", "bucket", "cohort", "held_out", "expected_decision", "revision", "payload_sha256"], "properties": {"fixture_id": {"type": "string", "minLength": 1}, "bucket": {"type": "string"}, "cohort": {"enum": ["solo", "multi_character", "mixed"]}, "held_out": {"const": true}, "expected_decision": {"enum": ["allow", "block", "abstain"]}, "revision": {"const": 1}, "payload_sha256": {"$ref": "#/$defs/sha256"}}}
+  }
+}

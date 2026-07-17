@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0.0",
+  "authority_id": "wave64_scorecard_benchmark_release_authority_rows209_212_r001",
+  "rows_covered": [209, 210, 211, 212],
+  "source_authorities": [
+    {"name": "scorecard_rules", "path": "Plan/10_REGISTRIES/wave64_multimodal_scorecard_rules.json", "sha256": "3338153868418d8847d1bf19bd1ffe9b994bea89f4a1231e6be6ffab850272bf"},
+    {"name": "fixed_image_benchmark", "path": "Plan/10_REGISTRIES/fixed_image_e2e_benchmark_registry.json", "sha256": "69ed120b55594e1b093451ff335d8911645f7e4cc0a41b504d41fb9f745969f2"},
+    {"name": "comparison_schema", "path": "Plan/08_SCHEMAS/hyperreal_artifact_comparison_session.schema.json", "sha256": "4e81c40c8baadc9cdd32e42e491f6a36ce8788388cf751143ad1ee00a3a1c73b"},
+    {"name": "release_projection_schema", "path": "Plan/08_SCHEMAS/hyperreal_release_readiness_projection.schema.json", "sha256": "23214a138a6a1bc4869e9799583ecc44961800c333f3a45ff9625abc90d38fb1"},
+    {"name": "review_scorecard", "path": "Plan/Instructions/QA/MULTIMODAL_ARTIFACT_REVIEW_SCORECARD.md", "sha256": "34cb84d4e48280cab9d5b59601ddb0afa1972725019f0ef58e935b56c57d77ae"},
+    {"name": "resource_cache_authority", "path": "Plan/10_REGISTRIES/wave64_resource_cache_telemetry_authority.json", "sha256": "420a24dc3904fdab92ef394e61ba016b96edd4a93cbe27f69571cc7cdd7c096b"}
+  ],
+  "scorecard_contract": {
+    "required_gate_ids": ["identity", "morphology", "pose", "framing", "ownership", "mask", "anatomy", "realism", "temporal", "speech", "audio", "sync", "provenance", "runtime"],
+    "required_scopes": ["target", "protected", "whole"],
+    "single_subjective_scalar_allowed": false,
+    "applicability_required": true,
+    "method_required": true,
+    "authority_required": true,
+    "evidence_required": true,
+    "severity_required": true,
+    "gates": [
+      {"gate_id": "identity", "applicability_rule": "character_identity_is_in_scope", "threshold": {"operator": "gte", "value": 0.90}, "method": "identity_embedding_and_reference_review", "authority": "identity_qa_authority", "evidence_type": "hash_bound_identity_report", "severity": "blocking", "hard_gate": true},
+      {"gate_id": "morphology", "applicability_rule": "body_or_face_morphology_is_visible", "threshold": {"operator": "boolean_true", "value": true}, "method": "reference_geometry_comparison", "authority": "geometry_qa_authority", "evidence_type": "morphology_report", "severity": "blocking", "hard_gate": true},
+      {"gate_id": "pose", "applicability_rule": "pose_contract_is_declared", "threshold": {"operator": "gte", "value": 0.90}, "method": "keypoint_and_pose_contract_comparison", "authority": "pose_qa_authority", "evidence_type": "pose_report", "severity": "blocking", "hard_gate": true},
+      {"gate_id": "framing", "applicability_rule": "camera_or_crop_contract_is_declared", "threshold": {"operator": "boolean_true", "value": true}, "method": "camera_crop_boundary_validator", "authority": "camera_qa_authority", "evidence_type": "framing_report", "severity": "major", "hard_gate": false},
+      {"gate_id": "ownership", "applicability_rule": "one_or_more_owned_targets_exist", "threshold": {"operator": "boolean_true", "value": true}, "method": "target_contact_and_event_owner_validation", "authority": "ownership_qa_authority", "evidence_type": "ownership_report", "severity": "blocking", "hard_gate": true},
+      {"gate_id": "mask", "applicability_rule": "mask_or_region_control_is_consumed", "threshold": {"operator": "boolean_true", "value": true}, "method": "mask_truth_tier_certificate_and_transform_validation", "authority": "maskfactory_adapter_authority", "evidence_type": "mask_certificate_report", "severity": "blocking", "hard_gate": true},
+      {"gate_id": "anatomy", "applicability_rule": "human_or_animal_anatomy_is_visible", "threshold": {"operator": "boolean_true", "value": true}, "method": "anatomy_validator_and_review", "authority": "anatomy_qa_authority", "evidence_type": "anatomy_report", "severity": "blocking", "hard_gate": true},
+      {"gate_id": "realism", "applicability_rule": "hyperreal_output_is_requested", "threshold": {"operator": "gte", "value": 0.85}, "method": "calibrated_multimetric_and_review_ensemble", "authority": "visual_qa_authority", "evidence_type": "realism_component_report", "severity": "major", "hard_gate": false},
+      {"gate_id": "temporal", "applicability_rule": "artifact_contains_multiple_frames", "threshold": {"operator": "boolean_true", "value": true}, "method": "worst_frame_motion_flicker_and_continuity_validation", "authority": "temporal_qa_authority", "evidence_type": "temporal_report", "severity": "blocking", "hard_gate": true},
+      {"gate_id": "speech", "applicability_rule": "artifact_contains_speech", "threshold": {"operator": "boolean_true", "value": true}, "method": "asr_voice_identity_delivery_and_playback_validation", "authority": "speech_qa_authority", "evidence_type": "speech_report", "severity": "blocking", "hard_gate": true},
+      {"gate_id": "audio", "applicability_rule": "artifact_contains_audio", "threshold": {"operator": "boolean_true", "value": true}, "method": "technical_event_spatial_and_full_playback_validation", "authority": "audio_qa_authority", "evidence_type": "audio_report", "severity": "blocking", "hard_gate": true},
+      {"gate_id": "sync", "applicability_rule": "artifact_contains_synchronized_modalities", "threshold": {"operator": "boolean_true", "value": true}, "method": "rational_clock_event_owner_and_drift_validation", "authority": "av_sync_qa_authority", "evidence_type": "sync_report", "severity": "blocking", "hard_gate": true},
+      {"gate_id": "provenance", "applicability_rule": "always", "threshold": {"operator": "boolean_true", "value": true}, "method": "immutable_lineage_hash_and_authority_validation", "authority": "provenance_authority", "evidence_type": "lineage_report", "severity": "blocking", "hard_gate": true},
+      {"gate_id": "runtime", "applicability_rule": "always", "threshold": {"operator": "boolean_true", "value": true}, "method": "runtime_receipt_lock_and_artifact_hash_validation", "authority": "runtime_authority", "evidence_type": "runtime_report", "severity": "blocking", "hard_gate": true}
+    ]
+  },
+  "benchmark_contract": {
+    "required_buckets": ["positive", "negative", "adversarial", "ownership", "outage", "recovery", "cross_engine", "specialist", "video", "audio", "av"],
+    "required_cohorts": ["solo", "multi_character", "mixed"],
+    "held_out_required": true,
+    "immutable_revision_required": true,
+    "expected_outcome_required": true,
+    "fixtures": [
+      {"fixture_id": "w64_benchmark_01_positive_r001", "bucket": "positive", "cohort": "solo", "held_out": true, "expected_decision": "allow", "revision": 1, "payload_sha256": "8f99d2d22233e895730f06ad8854cdb41fc5b5e5d7c5faf09c187a7e5b1498c6"},
+      {"fixture_id": "w64_benchmark_02_negative_r001", "bucket": "negative", "cohort": "solo", "held_out": true, "expected_decision": "block", "revision": 1, "payload_sha256": "10abdcc24090ec66af6ef72f61d68dd0a0496b851e908689a2517a62edd0f6a8"},
+      {"fixture_id": "w64_benchmark_03_adversarial_r001", "bucket": "adversarial", "cohort": "mixed", "held_out": true, "expected_decision": "block", "revision": 1, "payload_sha256": "cfa57a514e52f33519f57d35ce790b0146b92c0d207325fb6eeb3fde025df1ca"},
+      {"fixture_id": "w64_benchmark_04_ownership_r001", "bucket": "ownership", "cohort": "multi_character", "held_out": true, "expected_decision": "block", "revision": 1, "payload_sha256": "d151c23f50e8791c51104e6f3963540974cbbad2f8509021060828c6ab6d7e78"},
+      {"fixture_id": "w64_benchmark_05_outage_r001", "bucket": "outage", "cohort": "mixed", "held_out": true, "expected_decision": "block", "revision": 1, "payload_sha256": "d38db219878249460a7df5ee514165aa0faf11ac9f1c89a60576ebd093e07524"},
+      {"fixture_id": "w64_benchmark_06_recovery_r001", "bucket": "recovery", "cohort": "solo", "held_out": true, "expected_decision": "allow", "revision": 1, "payload_sha256": "8600779ebb52eb5b184c68d94370297579403bd46b7d6b54a278e1fea7ca2735"},
+      {"fixture_id": "w64_benchmark_07_cross_engine_r001", "bucket": "cross_engine", "cohort": "multi_character", "held_out": true, "expected_decision": "block", "revision": 1, "payload_sha256": "e345af128bd28fd811e9e1221ddd234f6a63d0b185aeda19c55311d3558eb685"},
+      {"fixture_id": "w64_benchmark_08_specialist_r001", "bucket": "specialist", "cohort": "mixed", "held_out": true, "expected_decision": "allow", "revision": 1, "payload_sha256": "afd2fee95992a313ecf512c57b10c8b610ce3dd62ff3a3ccd708e5545f16d22a"},
+      {"fixture_id": "w64_benchmark_09_video_r001", "bucket": "video", "cohort": "mixed", "held_out": true, "expected_decision": "abstain", "revision": 1, "payload_sha256": "ef65903b697ce882d92088a6eb7311ca3b63da9da44b691a639bc019779c5874"},
+      {"fixture_id": "w64_benchmark_10_audio_r001", "bucket": "audio", "cohort": "mixed", "held_out": true, "expected_decision": "abstain", "revision": 1, "payload_sha256": "d3ef05ecc2c554df7115da949fdaa931363f794a0fb81aae3435e7d8d01e825c"},
+      {"fixture_id": "w64_benchmark_11_av_r001", "bucket": "av", "cohort": "multi_character", "held_out": true, "expected_decision": "abstain", "revision": 1, "payload_sha256": "da38b2706bfca2913b00e7287c9ba713f75fce1870f035a018b84ae509f176f7"}
+    ]
+  },
+  "calibration_policy": {"required_signal_types": ["deterministic_validator", "scoped_metric", "critic", "review_packet"], "max_false_accept_rate": 0.02, "max_false_reject_rate": 0.10, "max_abstention_rate": 0.25, "disagreement_action": "abstain", "weak_signal_can_override_hard_failure": false, "all_scopes_required": true, "promotion_must_be_explicit": true},
+  "release_policy": {"required_row_start": 149, "required_row_end": 220, "currently_unfinished_rows": [213, 214, 215, 216, 217, 218, 219, 220], "required_certificates": ["runtime", "quality", "promotion", "release"], "residual_risk_required": true, "scope_required": true, "blockers_required": true, "no_false_completion_required": true},
+  "local_synthetic_runtime_allowed": true,
+  "production_release_allowed": false,
+  "boundaries": {"model_loaded": false, "gpu_allocated": false, "comfyui_submitted": false, "production_artifact_created": false, "promotion_requested": false, "certificate_issued": false, "wave_completion_claimed": false, "aws_mutated": false, "item_tracker_status_changed": false}
+}
