@@ -418,6 +418,64 @@ function Test-LocalRuntimeVisualQaEvidence {
           }
         }
       }
+
+      $targetCapabilities = $(if (Has-Property -Object $payload -Name "capabilities") { @($payload.capabilities.PSObject.Properties | ForEach-Object { $_.Value }) } else { @() })
+      $targetArtifactChecks = @()
+      foreach ($capability in $targetCapabilities) {
+        $artifactPath = $(if (Has-Property -Object $capability -Name "artifact_path") { [string]$capability.artifact_path } else { "" })
+        $artifactSha256 = $(if (Has-Property -Object $capability -Name "artifact_sha256") { [string]$capability.artifact_sha256 } else { "" })
+        $artifactBytes = $(if (Has-Property -Object $capability -Name "artifact_bytes") { [long]$capability.artifact_bytes } else { 0 })
+        $resolvedArtifactPath = $(if ([string]::IsNullOrWhiteSpace($artifactPath)) { "" } else { Resolve-ProjectPath -Path $artifactPath })
+        $artifactExists = (![string]::IsNullOrWhiteSpace($resolvedArtifactPath) -and (Test-Path -LiteralPath $resolvedArtifactPath -PathType Leaf))
+        $actualSha256 = $(if ($artifactExists) { (Get-FileHash -LiteralPath $resolvedArtifactPath -Algorithm SHA256).Hash.ToLowerInvariant() } else { "" })
+        $actualBytes = $(if ($artifactExists) { (Get-Item -LiteralPath $resolvedArtifactPath).Length } else { 0 })
+        $targetArtifactChecks += (
+          $artifactExists -and
+          ![string]::IsNullOrWhiteSpace($artifactSha256) -and
+          $actualSha256 -eq $artifactSha256.ToLowerInvariant() -and
+          $artifactBytes -gt 0 -and
+          $actualBytes -eq $artifactBytes
+        )
+      }
+      $targetRuntimePassed = (
+        (Has-Property -Object $payload -Name "result") -and [string]$payload.result -like "pass_bounded_target_runtime*" -and
+        (Has-Property -Object $payload -Name "runtime") -and
+        (Has-Property -Object $payload.runtime -Name "batch_result") -and [string]$payload.runtime.batch_result -eq "batch_runtime_generation_and_pullback_complete" -and
+        (Has-Property -Object $payload.runtime -Name "final_instance_state") -and [string]$payload.runtime.final_instance_state -eq "stopped" -and
+        (Test-StrictBooleanProperty -Object $payload.runtime -Name "active_runtime_marker_removed" -Expected $true) -and
+        (Test-StrictBooleanProperty -Object $payload.runtime -Name "emergency_stop_schedule_deleted_after_stop" -Expected $true) -and
+        (Has-Property -Object $payload -Name "boundaries") -and
+        (Test-StrictBooleanProperty -Object $payload.boundaries -Name "ec2_final_state_stopped" -Expected $true) -and
+        (Test-StrictBooleanProperty -Object $payload.boundaries -Name "production_ready" -Expected $false) -and
+        $targetCapabilities.Count -gt 0 -and
+        @($targetCapabilities | Where-Object { !(Test-StrictBooleanProperty -Object $_ -Name "runtime_pass" -Expected $true) }).Count -eq 0 -and
+        $targetArtifactChecks.Count -eq $targetCapabilities.Count -and
+        @($targetArtifactChecks | Where-Object { -not $_ }).Count -eq 0
+      )
+      $targetVisualQaPassed = (
+        (Has-Property -Object $payload -Name "visual_review") -and
+        (Test-StrictBooleanProperty -Object $payload.visual_review -Name "visual_pass" -Expected $true) -and
+        @($targetCapabilities | Where-Object { !(Test-StrictBooleanProperty -Object $_ -Name "direct_visual_qa_pass" -Expected $true) }).Count -eq 0
+      )
+      if ($targetRuntimePassed -and $targetVisualQaPassed) {
+        $relativeProofPath = ConvertTo-ProjectRelativePath -BasePath $ProjectRoot -TargetPath $resolvedProofPath
+        return [ordered]@{
+          name = "local_runtime_visual_qa"
+          path = $relativeProofPath
+          found = $true
+          passed = $true
+          expected = "lane-matched runtime generation pass plus direct visual QA pass"
+          observed = "hash_bound_target_runtime_visual_qa"
+          details = [ordered]@{
+            runtime_evidence = $relativeProofPath
+            image_qa_evidence = $relativeProofPath
+            capability_count = $targetCapabilities.Count
+            artifact_hash_check_count = @($targetArtifactChecks).Count
+            final_instance_state = [string]$payload.runtime.final_instance_state
+            claim_boundary = "Bounded target-runtime and direct visual QA evidence only; not production-default promotion, broad robustness certification, gold body-mask proof, or Wave71 activation."
+          }
+        }
+      }
     } catch {
       continue
     }

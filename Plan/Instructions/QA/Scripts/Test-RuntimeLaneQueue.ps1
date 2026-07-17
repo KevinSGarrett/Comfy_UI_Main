@@ -217,6 +217,7 @@ $exactAllowedCompletedStatusByLaneId = [ordered]@{
   "sdxl_realvisxl_controlnet_normal_lane" = "bounded_normal_v4_fullbody_seed711670303_target_runtime_certified_with_notes"
   "sdxl_realesrgan_upscale_polish_lane" = "bounded_target_runtime_conditional_resolution_export_complete_source_master_retained"
   "flux2_klein_4b_distilled" = "local_bounded_t2i_and_edit_runtime_validated_with_notes"
+  "flux2_dev_primary_base" = "bounded_target_runtime_t2i_edit_pass_visual_qa_complete_production_not_certified"
 }
 $allowedPendingStatuses = @(
   "queued",

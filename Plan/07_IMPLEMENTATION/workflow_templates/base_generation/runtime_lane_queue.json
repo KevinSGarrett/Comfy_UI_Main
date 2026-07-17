@@ -1,6 +1,6 @@
 {
     "schema_version":  "1.0",
-    "updated_at":  "2026-07-16T13:37:38-05:00",
+    "updated_at":  "2026-07-16T22:38:20-05:00",
     "artifact_id":  "TRK-W61-006",
     "purpose":  "Local queue for base-generation lane runtime proof order before EC2 execution resumes.",
     "local_only":  true,
@@ -17,7 +17,8 @@
                                                                 "sdxl_realvisxl_controlnet_openpose_lane",
                                                                 "sdxl_realvisxl_inpaint_detail_lane",
                                                                 "sdxl_realesrgan_upscale_polish_lane",
-                                                                "flux2_klein_4b_distilled"
+                                                                "flux2_klein_4b_distilled",
+                                                                "flux2_dev_primary_base"
                                                             ],
                              "completed_runtime_lane_ids_scope":  "Local package/runtime progression is complete for these lanes. This field does not by itself mean target-runtime proof or final lane certification.",
                              "target_runtime_proof_present_lane_ids":  [
@@ -29,7 +30,8 @@
                                                                             "sdxl_realvisxl_controlnet_lineart_lane",
                                                                             "sdxl_realvisxl_controlnet_normal_lane",
                                                                             "sdxl_realvisxl_controlnet_openpose_lane",
-                                                                            "sdxl_realesrgan_upscale_polish_lane"
+                                                                            "sdxl_realesrgan_upscale_polish_lane",
+                                                                            "flux2_dev_primary_base"
                                                                         ],
                              "bounded_certification_present_lane_ids":  [
                                                                               "sdxl_low_risk_fallback_lane",
@@ -45,7 +47,7 @@
                              "runtime_not_started_lane_ids":  [
                                                                     "flux1_dev_primary_base"
                                                                 ],
-                             "proof_scope_note":  "Existing lane proof boundaries remain unchanged. FLUX.2 Klein retains its bounded local proof. FLUX.2 Dev now has official asset identity, static workflow, and a selected g5.4xlarge target only; acquisition, resize, object-info, generation, QA, and promotion remain blocked.",
+                             "proof_scope_note":  "Existing lane proof boundaries remain unchanged. FLUX.2 Klein retains its bounded local proof. FLUX.2 Dev now has exact target-runtime model/node proof plus one 1024x1024 T2I and one single-reference clothing-color edit with direct visual QA on stopped g5.2xlarge; broader robustness and production promotion remain blocked.",
                              "do_not_promote_later_lanes_before_first_lane_runtime_proof":  true,
                              "later_lane_promotion_allowed_after_first_lane_runtime_proof":  true,
                              "requires_aws_auth_gate_before_ec2":  true,
@@ -632,13 +634,14 @@
                       "smoke_request_catalog_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux2_dev_primary_base/smoke_test_requests.json",
                       "readme_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux2_dev_primary_base/README.md",
                       "requirements_path":  "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/flux2_dev_primary_base/runtime_requirements.json",
-                      "status":  "official_stack_acquired_hash_verified_object_info_visible_blocked_target_runtime_proof",
-                      "required_next_runtime_gate":  "guarded_checkpoint_then_publish_exact_stack_to_s3_and_authorize_stopped_g5_4xlarge_resize_for_bounded_target_runtime_proof",
+                      "status":  "bounded_target_runtime_t2i_edit_pass_visual_qa_complete_production_not_certified",
+                      "required_next_runtime_gate":  "broader_multisubject_multiseed_resolution_edit_and_comparative_qa_before_production_default",
                       "promotion_rule":  "Do not execute or promote from official metadata, static workflow validation, or target selection alone. Exact acquisition, authorized stopped-state resize, object-info, model load, output, direct visual QA, comparative QA, final stop, and certification remain separate gates.",
                       "proof_evidence":  [
                                                "Plan/Instructions/QA/Evidence/Runtime_Readiness/FLUX2_DEV_OFFICIAL_STACK_AND_RUNTIME_SELECTION_20260716T145045-0500.json",
                                                "Plan/Instructions/QA/Evidence/Workflow_Static_Validation/W64_FLUX2_DEV_OFFICIAL_WORKFLOW_STATIC_VALIDATION_20260716T145258-0500.json",
-                                               "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_FLUX2_DEV_OFFICIAL_STACK_ACQUISITION_20260716T175113-0500.json"
+                                               "Plan/Instructions/QA/Evidence/Runtime_Readiness/W64_FLUX2_DEV_OFFICIAL_STACK_ACQUISITION_20260716T175113-0500.json",
+                                               "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_FLUX2_DEV_TARGET_RUNTIME_20260716T223820-0500/evidence.json"
                                            ],
                       "local_pre_ec2_evidence":  [
                                                        "Plan/Instructions/QA/Evidence/Runtime_Readiness/FLUX2_DEV_OFFICIAL_STACK_AND_RUNTIME_SELECTION_20260716T145045-0500.json",

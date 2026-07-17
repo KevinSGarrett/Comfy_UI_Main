@@ -1,0 +1,292 @@
+{
+  "checked_input_count": 39,
+  "error_count": 0,
+  "errors": [],
+  "node_count": 18,
+  "nodes": [
+    {
+      "class_type": "UNETLoader",
+      "errors": [],
+      "hidden_input_names": [],
+      "input_names": [
+        "unet_name",
+        "weight_dtype"
+      ],
+      "node_id": "1",
+      "optional_input_names": [],
+      "required_input_names": [
+        "unet_name",
+        "weight_dtype"
+      ]
+    },
+    {
+      "class_type": "GetImageSize",
+      "errors": [],
+      "hidden_input_names": [
+        "unique_id"
+      ],
+      "input_names": [
+        "image"
+      ],
+      "node_id": "10",
+      "optional_input_names": [],
+      "required_input_names": [
+        "image"
+      ]
+    },
+    {
+      "class_type": "EmptyFlux2LatentImage",
+      "errors": [],
+      "hidden_input_names": [],
+      "input_names": [
+        "batch_size",
+        "height",
+        "width"
+      ],
+      "node_id": "11",
+      "optional_input_names": [],
+      "required_input_names": [
+        "batch_size",
+        "height",
+        "width"
+      ]
+    },
+    {
+      "class_type": "RandomNoise",
+      "errors": [],
+      "hidden_input_names": [],
+      "input_names": [
+        "noise_seed"
+      ],
+      "node_id": "12",
+      "optional_input_names": [],
+      "required_input_names": [
+        "noise_seed"
+      ]
+    },
+    {
+      "class_type": "Flux2Scheduler",
+      "errors": [],
+      "hidden_input_names": [],
+      "input_names": [
+        "height",
+        "steps",
+        "width"
+      ],
+      "node_id": "13",
+      "optional_input_names": [],
+      "required_input_names": [
+        "height",
+        "steps",
+        "width"
+      ]
+    },
+    {
+      "class_type": "KSamplerSelect",
+      "errors": [],
+      "hidden_input_names": [],
+      "input_names": [
+        "sampler_name"
+      ],
+      "node_id": "14",
+      "optional_input_names": [],
+      "required_input_names": [
+        "sampler_name"
+      ]
+    },
+    {
+      "class_type": "BasicGuider",
+      "errors": [],
+      "hidden_input_names": [],
+      "input_names": [
+        "conditioning",
+        "model"
+      ],
+      "node_id": "15",
+      "optional_input_names": [],
+      "required_input_names": [
+        "conditioning",
+        "model"
+      ]
+    },
+    {
+      "class_type": "SamplerCustomAdvanced",
+      "errors": [],
+      "hidden_input_names": [],
+      "input_names": [
+        "guider",
+        "latent_image",
+        "noise",
+        "sampler",
+        "sigmas"
+      ],
+      "node_id": "16",
+      "optional_input_names": [],
+      "required_input_names": [
+        "guider",
+        "latent_image",
+        "noise",
+        "sampler",
+        "sigmas"
+      ]
+    },
+    {
+      "class_type": "VAEDecode",
+      "errors": [],
+      "hidden_input_names": [],
+      "input_names": [
+        "samples",
+        "vae"
+      ],
+      "node_id": "17",
+      "optional_input_names": [],
+      "required_input_names": [
+        "samples",
+        "vae"
+      ]
+    },
+    {
+      "class_type": "SaveImage",
+      "errors": [],
+      "hidden_input_names": [
+        "extra_pnginfo",
+        "prompt"
+      ],
+      "input_names": [
+        "filename_prefix",
+        "images"
+      ],
+      "node_id": "18",
+      "optional_input_names": [],
+      "required_input_names": [
+        "filename_prefix",
+        "images"
+      ]
+    },
+    {
+      "class_type": "CLIPLoader",
+      "errors": [],
+      "hidden_input_names": [],
+      "input_names": [
+        "clip_name",
+        "device",
+        "type"
+      ],
+      "node_id": "2",
+      "optional_input_names": [
+        "device"
+      ],
+      "required_input_names": [
+        "clip_name",
+        "type"
+      ]
+    },
+    {
+      "class_type": "VAELoader",
+      "errors": [],
+      "hidden_input_names": [],
+      "input_names": [
+        "vae_name"
+      ],
+      "node_id": "3",
+      "optional_input_names": [],
+      "required_input_names": [
+        "vae_name"
+      ]
+    },
+    {
+      "class_type": "LoadImage",
+      "errors": [],
+      "hidden_input_names": [],
+      "input_names": [
+        "image"
+      ],
+      "node_id": "4",
+      "optional_input_names": [],
+      "required_input_names": [
+        "image"
+      ]
+    },
+    {
+      "class_type": "ImageScaleToTotalPixels",
+      "errors": [],
+      "hidden_input_names": [],
+      "input_names": [
+        "image",
+        "megapixels",
+        "resolution_steps",
+        "upscale_method"
+      ],
+      "node_id": "5",
+      "optional_input_names": [],
+      "required_input_names": [
+        "image",
+        "megapixels",
+        "resolution_steps",
+        "upscale_method"
+      ]
+    },
+    {
+      "class_type": "VAEEncode",
+      "errors": [],
+      "hidden_input_names": [],
+      "input_names": [
+        "pixels",
+        "vae"
+      ],
+      "node_id": "6",
+      "optional_input_names": [],
+      "required_input_names": [
+        "pixels",
+        "vae"
+      ]
+    },
+    {
+      "class_type": "CLIPTextEncode",
+      "errors": [],
+      "hidden_input_names": [],
+      "input_names": [
+        "clip",
+        "text"
+      ],
+      "node_id": "7",
+      "optional_input_names": [],
+      "required_input_names": [
+        "clip",
+        "text"
+      ]
+    },
+    {
+      "class_type": "FluxGuidance",
+      "errors": [],
+      "hidden_input_names": [],
+      "input_names": [
+        "conditioning",
+        "guidance"
+      ],
+      "node_id": "8",
+      "optional_input_names": [],
+      "required_input_names": [
+        "conditioning",
+        "guidance"
+      ]
+    },
+    {
+      "class_type": "ReferenceLatent",
+      "errors": [],
+      "hidden_input_names": [],
+      "input_names": [
+        "conditioning",
+        "latent"
+      ],
+      "node_id": "9",
+      "optional_input_names": [
+        "latent"
+      ],
+      "required_input_names": [
+        "conditioning"
+      ]
+    }
+  ],
+  "status": "pass"
+}

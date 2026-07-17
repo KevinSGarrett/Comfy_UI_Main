@@ -3,7 +3,7 @@
   "created_iso": "2026-07-16T13:37:38-05:00",
   "tracker_id": "TRK-W64-008",
   "item_id": "ITEM-W64-008",
-  "status": "Blocked_End_To_End_Image_Promotion_FLUX2_Klein_Local_T2I_Edit_Pass",
+  "status": "Blocked_End_To_End_Image_Promotion_FLUX2_Dev_Target_Runtime_T2I_Edit_Pass",
   "stage_states": [
     {
       "stage": "base_generation",
@@ -11,12 +11,13 @@
         "sdxl_low_risk_fallback_lane",
         "sdxl_realvisxl_base_lane",
         "flux1_dev_primary_base",
-        "flux2_klein_4b_distilled"
+        "flux2_klein_4b_distilled",
+        "flux2_dev_primary_base"
       ],
-      "status": "partial_with_flux2_klein_bounded_local_t2i_and_edit_pass",
+      "status": "partial_with_flux2_klein_local_and_flux2_dev_target_runtime_bounded_t2i_edit_passes",
       "blockers": [
         "base_broader_composition_certification",
-        "flux2_dev_runtime_and_broad_robustness"
+        "flux2_dev_broad_prompt_seed_subject_resolution_and_edit_robustness"
       ]
     },
     {
@@ -103,7 +104,7 @@
     "complete same-scope base-to-final runtime chain missing",
     "current image artifact manifest remains unpromoted for end-to-end production",
     "trusted mask/body/hand/contact authority remains blocked",
-    "FLUX.2 Dev and broad Klein robustness remain unproven",
+    "FLUX.2 Dev target-runtime T2I/edit proof is bounded; broader Dev and Klein robustness remain unproven",
     "final promotion remains denied pending end-to-end certification proof"
   ],
   "project_completion": {
@@ -118,7 +119,8 @@
     "Plan/Instructions/QA/Evidence/Wave64/image_pipeline_build_test_log.json",
     "Plan/Items/Reports/ITEM-W64-008_image_pipeline_build.json",
     "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_FLUX2_KLEIN_4B_DISTILLED_LOCAL_RUNTIME_20260716T133738-0500/evidence.json",
-    "Plan/Instructions/QA/Evidence/Engine_Router/W64_FLUX2_KLEIN_CAPABILITY_RECONCILIATION_20260716T133738-0500.json"
+    "Plan/Instructions/QA/Evidence/Engine_Router/W64_FLUX2_KLEIN_CAPABILITY_RECONCILIATION_20260716T133738-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_FLUX2_DEV_TARGET_RUNTIME_20260716T223820-0500/evidence.json"
   ],
-  "next_action": "Use the bounded FLUX.2 Klein local T2I/edit lane where appropriate while keeping full image promotion fail-closed; next modernize the exact higher-quality FLUX.2 Dev target-runtime lane without treating its non-commercial license as a disqualifier."
+  "next_action": "Use the bounded FLUX.2 Dev target-runtime and Klein local T2I/edit capabilities where appropriate while keeping full image promotion fail-closed; require broader robustness and comparative QA before any production-default route."
 }

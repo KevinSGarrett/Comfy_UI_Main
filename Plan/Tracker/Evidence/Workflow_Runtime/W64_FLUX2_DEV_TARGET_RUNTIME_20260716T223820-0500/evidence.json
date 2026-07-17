@@ -1,0 +1,126 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-FLUX2-DEV-TARGET-RUNTIME-20260716T223820-0500",
+  "created_at": "2026-07-16T22:38:20-05:00",
+  "lane_id": "flux2_dev_primary_base",
+  "result": "pass_bounded_target_runtime_flux2_dev_t2i_and_single_reference_edit",
+  "classification": "bounded_target_runtime_flux2_dev_t2i_and_reference_edit_pass",
+  "source_revision": "03d6521e6f6a47396b3f951cbea50f7e6c2f482e",
+  "runtime": {
+    "instance_id": "i-0560bf8d143f93bb1",
+    "instance_type": "g5.2xlarge",
+    "gpu": "NVIDIA A10G",
+    "gpu_memory_gb": 24,
+    "host_memory_gib": 32,
+    "source_git_head": "97f823e28c1594afe317d9efe06b6dbb98e1b505",
+    "deploy_bundle_s3_uri": "s3://comfy-ui-main-runtime-029530099913-us-east-1/deploy-bundles/flux2-dev/97f823e28c1594afe317d9efe06b6dbb98e1b505/flux2_dev_edit_seed7261602_target_runtime_r1/flux2_dev_edit_seed7261602_target_runtime_r1.zip",
+    "deploy_bundle_sha256": "463b99cf3a1bd568091fc2f195880aef77c07578fd71e07ce7fe6047e7110af0",
+    "batch_result": "batch_runtime_generation_and_pullback_complete",
+    "batch_evidence": "runtime_artifacts/flux2_dev_target_runtime/edit_batch_r2/BATCH_RUNTIME_EXECUTION.json",
+    "static_proof": "runtime_artifacts/flux2_dev_target_runtime/edit_batch_r2/EC2_STATIC_PROOF.json",
+    "static_proof_sha256": "6d6f51f902561aef852312d15d28946c28a26cbc09edc31f172cf57e364e2e89",
+    "prompt_id": "53e433e3-afc3-42c8-94d8-9d3fd76e743a",
+    "prompt_schema_status": "pass",
+    "prompt_schema_node_count": 18,
+    "prompt_schema_checked_input_count": 39,
+    "final_instance_state": "stopped",
+    "active_runtime_marker_removed": true,
+    "emergency_stop_schedule_deleted_after_stop": true
+  },
+  "model_assets": [
+    {
+      "role": "diffusion_model",
+      "filename": "flux2_dev_fp8mixed.safetensors",
+      "bytes": 35455599592,
+      "sha256": "863a82e4ff950a42a6b0e80bea824828f129eb1a8fbbdbd9e8cb29859127b486",
+      "target_runtime_hash_verified": true
+    },
+    {
+      "role": "text_encoder",
+      "filename": "mistral_3_small_flux2_bf16.safetensors",
+      "bytes": 35584897447,
+      "sha256": "7d79902f60b1aeb3a6de2cfad02f4367b5e300a1387de3d03ac717cfa3df117c",
+      "target_runtime_hash_verified": true
+    },
+    {
+      "role": "vae",
+      "filename": "flux2-vae.safetensors",
+      "bytes": 336213556,
+      "sha256": "d64f3a68e1cc4f9f4e29b6e0da38a0204fe9a49f2d4053f0ec1fa1ca02f9c4b5",
+      "target_runtime_hash_verified": true
+    }
+  ],
+  "capabilities": {
+    "text_to_image": {
+      "runtime_pass": true,
+      "direct_visual_qa_pass": true,
+      "workflow": "Workflows/base_generation/flux2_dev_primary_base/text_to_image.api.json",
+      "seed": 7261601,
+      "artifact_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260716T212349-0500/images/13_flux2_dev_t2i_seed7261601_00001_.png",
+      "artifact_bytes": 1563890,
+      "artifact_sha256": "de29b6203ad915c336cc7b8f08c49e05f8cfcef67efa738db41563e31feafa14"
+    },
+    "single_reference_edit": {
+      "runtime_pass": true,
+      "direct_visual_qa_pass": true,
+      "workflow": "Workflows/base_generation/flux2_dev_primary_base/single_reference_edit.api.json",
+      "workflow_sha256": "e92af90aa49adb1d7c5a0022500dae99dba37649836c84ca5438726fd258ac39",
+      "seed": 7261602,
+      "source_artifact_sha256": "de29b6203ad915c336cc7b8f08c49e05f8cfcef67efa738db41563e31feafa14",
+      "artifact_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260716T222042-0500/images/18_flux2_dev_edit_seed7261602_00001_.png",
+      "artifact_bytes": 1533153,
+      "artifact_sha256": "2f4fe65fa0ddbb32f060d46cc8f4414ed10a34e4f653f9726cc6d297efd435fa",
+      "pullback_record_sha256": "d17283576d4c7170cced22f2f5ae767b08c03afe400a6e8929a548f42a66fda6"
+    }
+  },
+  "visual_review": {
+    "reviewer": "Codex Desktop direct visual review",
+    "visual_pass": true,
+    "requested_change_present": true,
+    "requested_change": "Tailored charcoal suit changed to saturated deep cobalt blue while preserving its cut and visible fabric texture.",
+    "preservation_checks": {
+      "subject_identity_face_and_hair_preserved": true,
+      "anatomy_pose_and_hands_preserved": true,
+      "camera_framing_and_composition_preserved": true,
+      "shirt_and_non_target_clothing_details_preserved": true,
+      "workbench_tools_and_glassware_preserved": true,
+      "lighting_and_background_preserved": true,
+      "no_obvious_render_corruption": true,
+      "no_unrequested_object_added": true,
+      "no_unwanted_text_or_watermark": true
+    },
+    "pixel_delta_metrics": {
+      "dimensions": [1024, 1024],
+      "whole_mean_abs_rgb_delta": 9.308693,
+      "outfit_bbox": [150, 230, 570, 1024],
+      "outfit_bbox_mean_abs_rgb_delta": 23.903178,
+      "outside_outfit_bbox_mean_abs_rgb_delta": 2.502658,
+      "target_change_concentration_ratio": 9.551117,
+      "face_hair_mean_abs_rgb_delta": 2.887992,
+      "workbench_objects_mean_abs_rgb_delta": 3.717995,
+      "upper_right_background_mean_abs_rgb_delta": 1.744247
+    },
+    "scope_note": "This proves one 1024x1024 T2I sample and one single-reference clothing-color edit. It does not establish broad subject, prompt, seed, resolution, identity, or production-route robustness."
+  },
+  "corrected_attempt": {
+    "r1_result": "batch_runtime_failed_closed",
+    "r1_generation_executed": false,
+    "r1_final_instance_state": "stopped",
+    "r1_failure": "The least-privilege instance role could not call EC2 StopInstances and the already validated OS-shutdown watchdog fallback switch was omitted.",
+    "r2_correction": "Reran the unchanged hash-bound package with AllowWatchdogOsShutdownFallback; watchdog capability verified as os_shutdown_direct_verified.",
+    "media_regenerated_after_success": false
+  },
+  "boundaries": {
+    "production_ready": false,
+    "production_default_promoted": false,
+    "broad_robustness_claimed": false,
+    "full_image_pipeline_promotion_claimed": false,
+    "masks_consumed_as_truth": false,
+    "mask_promotion_or_wave70_hard_gate_rerun": false,
+    "wave71_plus_activated": false,
+    "jira_mutated": false,
+    "completed_runtime_work_recreated": false,
+    "ec2_final_state_stopped": true
+  },
+  "next_gate": "Broader multi-subject, multi-seed, resolution, editing, and comparative QA is required before FLUX.2 Dev can become a production-default image route."
+}

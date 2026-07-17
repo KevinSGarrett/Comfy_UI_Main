@@ -3,15 +3,19 @@
   "created_iso": "2026-07-16T13:37:38-05:00",
   "tracker_id": "TRK-W64-009",
   "item_id": "ITEM-W64-009",
-  "status": "Completed_Local_Router_FLUX2_Klein_Bounded_Capabilities_Selectable_Production_Not_Certified",
+  "status": "Completed_Router_FLUX2_Dev_And_Klein_Bounded_Capabilities_Selectable_Production_Not_Certified",
   "current_route_state": {
-    "active_lane_count": 11,
-    "runtime_queue_lane_count": 11,
+    "active_lane_count": 12,
+    "runtime_queue_lane_count": 12,
     "selected_lane_count": 0,
     "decision_count": 3,
     "all_decisions_fail_closed": true,
-    "bounded_capability_selected_lane_count": 1,
+    "bounded_capability_selected_lane_count": 2,
     "flux2_klein_capabilities": [
+      "text_to_image",
+      "single_reference_edit"
+    ],
+    "flux2_dev_capabilities": [
       "text_to_image",
       "single_reference_edit"
     ]
@@ -19,7 +23,8 @@
   "blockers": [
     "production image routing remains fail-closed without full lane certification",
     "FLUX.2 Klein proof is bounded to one T2I and one single-reference edit scope",
-    "FLUX.2 Dev target-runtime and final production comparison remain unproven"
+    "FLUX.2 Dev proof is bounded to one target-runtime T2I and one single-reference edit scope",
+    "FLUX.2 Dev broader robustness and final production comparison remain unproven"
   ],
   "project_completion": {
     "level": "BELOW_LEVEL_7",
@@ -38,8 +43,9 @@
     "Plan/Instructions/QA/Evidence/Engine_Router/W64_IMAGE_ENGINE_ROUTER_MATRIX_FORBIDDEN_DECISION_20260712T112314-0500.json",
     "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_FLUX2_KLEIN_4B_DISTILLED_LOCAL_RUNTIME_20260716T133738-0500/evidence.json",
     "Plan/Instructions/QA/Evidence/Engine_Router/W64_FLUX2_KLEIN_CAPABILITY_RECONCILIATION_20260716T133738-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_FLUX2_DEV_TARGET_RUNTIME_20260716T223820-0500/evidence.json",
     "Plan/07_IMPLEMENTATION/scripts/resolve_flux2_image_route.py",
     "Plan/Instructions/QA/Scripts/test_resolve_flux2_image_route.py"
   ],
-  "next_action": "Permit only hash-bound FLUX.2 Klein T2I/edit capability records through the bounded router; keep production/default routing blocked until materially broader certification evidence exists."
+  "next_action": "Permit only hash-bound FLUX.2 Dev target-runtime and Klein local T2I/edit capability records through the bounded router; keep production/default routing blocked until materially broader certification evidence exists."
 }
