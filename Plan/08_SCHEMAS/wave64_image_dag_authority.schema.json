@@ -1,0 +1,219 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/wave64-image-dag-authority/1.0.0",
+  "title": "Wave64 Rows181-184 Image DAG Authority",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "authority_id", "rows_covered", "source_authorities",
+    "module_library", "compile_requests", "compiled_dags", "vertical_slices",
+    "reproducibility_promotion_gate", "runtime_execution_allowed",
+    "promotion_allowed", "content_based_suppression", "boundaries"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "authority_id": {"type": "string", "minLength": 1},
+    "rows_covered": {"const": [181, 182, 183, 184]},
+    "source_authorities": {
+      "type": "array", "minItems": 8, "maxItems": 8,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["name", "path", "sha256"],
+        "properties": {
+          "name": {"enum": [
+            "maskfactory_adapter_evidence", "workflow_module_contract_schema",
+            "multimodal_pass_dag_schema", "multimodal_contract_common_schema",
+            "workflow_release_manifest_schema", "comfyui_execution_receipt_schema",
+            "multimodal_artifact_manifest_schema", "artifact_promotion_transaction_schema"
+          ]},
+          "path": {"type": "string", "minLength": 1},
+          "sha256": {"$ref": "#/$defs/sha256"}
+        }
+      }
+    },
+    "module_library": {
+      "type": "array", "minItems": 8, "maxItems": 8,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": [
+          "module_id", "module_version", "api_contract_version", "status",
+          "workflow_release_id", "api_compatible", "stable_patch_points",
+          "fixed_character_names", "hidden_paths", "orchestration_decisions",
+          "module_contract"
+        ],
+        "properties": {
+          "module_id": {"enum": ["composition", "identity", "pose_depth", "realism", "regional_repair", "material", "upscale", "export"]},
+          "module_version": {"const": "0.1.0-contract-only"},
+          "api_contract_version": {"const": "1.0.0"},
+          "status": {"const": "blocked_no_workflow_release"},
+          "workflow_release_id": {"type": "null"},
+          "api_compatible": {"const": true},
+          "stable_patch_points": {
+            "type": "array", "minItems": 1, "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          },
+          "fixed_character_names": {"const": []},
+          "hidden_paths": {"const": []},
+          "orchestration_decisions": {"const": []},
+          "module_contract": {"type": "object"}
+        }
+      }
+    },
+    "compile_requests": {
+      "type": "array", "minItems": 2, "maxItems": 2,
+      "items": {"$ref": "#/$defs/compile_request"}
+    },
+    "compiled_dags": {
+      "type": "array", "minItems": 2, "maxItems": 2,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["slice_id", "dag", "intent_coverage"],
+        "properties": {
+          "slice_id": {"enum": ["single_character", "two_character_contact"]},
+          "dag": {"type": "object"},
+          "intent_coverage": {
+            "type": "array", "minItems": 8,
+            "items": {
+              "type": "object", "additionalProperties": false,
+              "required": ["intent", "pass_id"],
+              "properties": {
+                "intent": {"enum": ["composition", "identity", "pose_depth", "ownership_contact", "realism", "regional_repair", "material", "upscale", "export"]},
+                "pass_id": {"type": "string", "minLength": 1}
+              }
+            }
+          }
+        }
+      }
+    },
+    "vertical_slices": {
+      "type": "array", "minItems": 2, "maxItems": 2,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": [
+          "slice_id", "character_count", "status", "runtime_execution_allowed",
+          "accepted_parent_retained", "resumable", "failed_region_only_rerun",
+          "execution_receipt_refs", "candidate_artifact_ref", "blocker_codes"
+        ],
+        "properties": {
+          "slice_id": {"enum": ["single_character", "two_character_contact"]},
+          "character_count": {"type": "integer", "minimum": 1, "maximum": 2},
+          "status": {"const": "blocked_missing_prerequisites"},
+          "runtime_execution_allowed": {"const": false},
+          "accepted_parent_retained": {"const": true},
+          "resumable": {"const": true},
+          "failed_region_only_rerun": {"const": true},
+          "execution_receipt_refs": {"const": []},
+          "candidate_artifact_ref": {"type": "null"},
+          "blocker_codes": {
+            "type": "array", "minItems": 3, "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          }
+        }
+      }
+    },
+    "reproducibility_promotion_gate": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "gate_id", "lineage_bindings", "qa_results", "candidate_artifact_manifest_ref",
+        "promotion_transaction_ref", "accepted_parent_retained", "decision",
+        "promotion_allowed", "blocker_codes"
+      ],
+      "properties": {
+        "gate_id": {"type": "string", "minLength": 1},
+        "lineage_bindings": {
+          "type": "array", "minItems": 11, "maxItems": 11,
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["binding_type", "status", "reference"],
+            "properties": {
+              "binding_type": {"enum": ["packages", "prompts", "seeds", "models", "workflows", "masks", "transforms", "attempts", "runtime", "scorecards", "revocation"]},
+              "status": {"const": "unavailable"},
+              "reference": {"type": "null"}
+            }
+          }
+        },
+        "qa_results": {
+          "type": "array", "minItems": 3, "maxItems": 3,
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["scope", "status", "evidence_ids"],
+            "properties": {
+              "scope": {"enum": ["target", "protected", "whole_frame"]},
+              "status": {"const": "not_run"},
+              "evidence_ids": {"const": []}
+            }
+          }
+        },
+        "candidate_artifact_manifest_ref": {"type": "null"},
+        "promotion_transaction_ref": {"type": "null"},
+        "accepted_parent_retained": {"const": true},
+        "decision": {"const": "blocked"},
+        "promotion_allowed": {"const": false},
+        "blocker_codes": {"type": "array", "minItems": 4, "uniqueItems": true, "items": {"type": "string"}}
+      }
+    },
+    "runtime_execution_allowed": {"const": false},
+    "promotion_allowed": {"const": false},
+    "content_based_suppression": {"const": false},
+    "boundaries": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "workflow_release_claimed", "runtime_lock_claimed", "execution_receipt_created",
+        "candidate_artifact_created", "visual_qa_claimed", "accepted_parent_mutated",
+        "promotion_transaction_created", "item_tracker_status_changed"
+      ],
+      "properties": {
+        "workflow_release_claimed": {"const": false},
+        "runtime_lock_claimed": {"const": false},
+        "execution_receipt_created": {"const": false},
+        "candidate_artifact_created": {"const": false},
+        "visual_qa_claimed": {"const": false},
+        "accepted_parent_mutated": {"const": false},
+        "promotion_transaction_created": {"const": false},
+        "item_tracker_status_changed": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "compile_request": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "compile_request_id", "slice_id", "character_count", "scene_id", "shot_id",
+        "take_id", "needed_pass_intents", "accepted_parent", "retry_budget",
+        "write_policy", "protection_policy"
+      ],
+      "properties": {
+        "compile_request_id": {"type": "string", "minLength": 1},
+        "slice_id": {"enum": ["single_character", "two_character_contact"]},
+        "character_count": {"type": "integer", "minimum": 1, "maximum": 2},
+        "scene_id": {"type": "string", "minLength": 1},
+        "shot_id": {"type": "string", "minLength": 1},
+        "take_id": {"type": "string", "minLength": 1},
+        "needed_pass_intents": {
+          "type": "array", "minItems": 8, "uniqueItems": true,
+          "items": {"enum": ["composition", "identity", "pose_depth", "ownership_contact", "realism", "regional_repair", "material", "upscale", "export"]}
+        },
+        "accepted_parent": {
+          "type": "object", "additionalProperties": false,
+          "required": ["artifact_id", "sha256", "immutable"],
+          "properties": {
+            "artifact_id": {"type": "string", "minLength": 1},
+            "sha256": {"$ref": "#/$defs/sha256"},
+            "immutable": {"const": true}
+          }
+        },
+        "retry_budget": {
+          "type": "object", "additionalProperties": false,
+          "required": ["max_attempts", "max_reroutes"],
+          "properties": {
+            "max_attempts": {"type": "integer", "minimum": 1, "maximum": 3},
+            "max_reroutes": {"type": "integer", "minimum": 0, "maximum": 2}
+          }
+        },
+        "write_policy": {"const": "new_content_addressed_candidates_only"},
+        "protection_policy": {"const": "target_plus_protected_plus_whole_frame"}
+      }
+    }
+  }
+}

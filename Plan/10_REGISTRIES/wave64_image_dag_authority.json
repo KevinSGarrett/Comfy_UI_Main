@@ -1,0 +1,1166 @@
+{
+  "schema_version": "1.0.0",
+  "authority_id": "wave64_image_dag_authority_rows181_184_r001",
+  "rows_covered": [
+    181,
+    182,
+    183,
+    184
+  ],
+  "source_authorities": [
+    {
+      "name": "maskfactory_adapter_evidence",
+      "path": "Plan/Instructions/QA/Evidence/Wave64/W64_MASKFACTORY_ADAPTER_AUTHORITY_SLICE_20260717T022630-0500.json",
+      "sha256": "71f9356a96b574d3a56278668a526da5f34f642e35631893c0c348a32b26631c"
+    },
+    {
+      "name": "workflow_module_contract_schema",
+      "path": "Plan/08_SCHEMAS/workflow_module_contract.schema.json",
+      "sha256": "ac210772e68e485e052028a8671a5bb8e66bf9f259a011eae52903515a6ff079"
+    },
+    {
+      "name": "multimodal_pass_dag_schema",
+      "path": "Plan/08_SCHEMAS/multimodal_pass_dag.schema.json",
+      "sha256": "76a21664181ce9661c828a099a7fa2f1eb1a45c5f313d9af043f57176f0b83e3"
+    },
+    {
+      "name": "multimodal_contract_common_schema",
+      "path": "Plan/08_SCHEMAS/multimodal_contract_common.schema.json",
+      "sha256": "293417899335bb8cb9b7fa0d32f05264a15c80ff55cf7991df2222b2b53f89cf"
+    },
+    {
+      "name": "workflow_release_manifest_schema",
+      "path": "Plan/08_SCHEMAS/workflow_release_manifest.schema.json",
+      "sha256": "787ab3cc404faf0b89dcff97dc49a47860e913bbad97410f6b36fdf74a195760"
+    },
+    {
+      "name": "comfyui_execution_receipt_schema",
+      "path": "Plan/08_SCHEMAS/comfyui_execution_receipt.schema.json",
+      "sha256": "51f5d9cc740156e0f71013c710392a1f34e6ffbc835858b8b6ab886d40f58e0f"
+    },
+    {
+      "name": "multimodal_artifact_manifest_schema",
+      "path": "Plan/08_SCHEMAS/multimodal_artifact_manifest.schema.json",
+      "sha256": "65eaf4b32baaa506d8455863135570fe008ed58241aec6b0f14afe3aea37cc5d"
+    },
+    {
+      "name": "artifact_promotion_transaction_schema",
+      "path": "Plan/08_SCHEMAS/artifact_promotion_transaction.schema.json",
+      "sha256": "2af64a65067bc8444c9e0e3089a4da4ee633221d5e31184de66d304b630f2889"
+    }
+  ],
+  "module_library": [
+    {
+      "module_id": "composition",
+      "module_version": "0.1.0-contract-only",
+      "api_contract_version": "1.0.0",
+      "status": "blocked_no_workflow_release",
+      "workflow_release_id": null,
+      "api_compatible": true,
+      "stable_patch_points": [
+        "character_package_ref",
+        "shot_pose_package_ref",
+        "seed",
+        "output_prefix"
+      ],
+      "fixed_character_names": [],
+      "hidden_paths": [],
+      "orchestration_decisions": [],
+      "module_contract": {
+        "module_id": "composition",
+        "module_name": "Image Composition Base",
+        "status": "contract_only_no_release",
+        "purpose": "Create the environment, camera, count, and composition candidate.",
+        "primary_inputs": [
+          "image_compile_contract"
+        ],
+        "primary_outputs": [
+          "composition_candidate"
+        ],
+        "qa_required_before_promotion": [
+          "composition",
+          "count",
+          "camera"
+        ],
+        "owner_wave": 64
+      }
+    },
+    {
+      "module_id": "identity",
+      "module_version": "0.1.0-contract-only",
+      "api_contract_version": "1.0.0",
+      "status": "blocked_no_workflow_release",
+      "workflow_release_id": null,
+      "api_compatible": true,
+      "stable_patch_points": [
+        "character_instance_refs",
+        "identity_binding_refs",
+        "input_artifact_ref"
+      ],
+      "fixed_character_names": [],
+      "hidden_paths": [],
+      "orchestration_decisions": [],
+      "module_contract": {
+        "module_id": "identity",
+        "module_name": "Per-Character Identity Binding",
+        "status": "contract_only_no_release",
+        "purpose": "Bind exact character instances without changing orchestration authority.",
+        "primary_inputs": [
+          "composition_candidate"
+        ],
+        "primary_outputs": [
+          "identity_candidate"
+        ],
+        "qa_required_before_promotion": [
+          "identity",
+          "character_count",
+          "ownership"
+        ],
+        "owner_wave": 64
+      }
+    },
+    {
+      "module_id": "pose_depth",
+      "module_version": "0.1.0-contract-only",
+      "api_contract_version": "1.0.0",
+      "status": "blocked_no_workflow_release",
+      "workflow_release_id": null,
+      "api_compatible": true,
+      "stable_patch_points": [
+        "pose_contract_ref",
+        "depth_contract_ref",
+        "ownership_contact_ref"
+      ],
+      "fixed_character_names": [],
+      "hidden_paths": [],
+      "orchestration_decisions": [],
+      "module_contract": {
+        "module_id": "pose_depth",
+        "module_name": "Pose Depth Ownership and Contact",
+        "status": "contract_only_no_release",
+        "purpose": "Enforce pose, depth, count, ownership, support, and contact contracts.",
+        "primary_inputs": [
+          "identity_candidate"
+        ],
+        "primary_outputs": [
+          "pose_depth_candidate"
+        ],
+        "qa_required_before_promotion": [
+          "pose",
+          "depth",
+          "ownership",
+          "contact"
+        ],
+        "owner_wave": 64
+      }
+    },
+    {
+      "module_id": "realism",
+      "module_version": "0.1.0-contract-only",
+      "api_contract_version": "1.0.0",
+      "status": "blocked_no_workflow_release",
+      "workflow_release_id": null,
+      "api_compatible": true,
+      "stable_patch_points": [
+        "realism_profile_ref",
+        "lighting_contract_ref",
+        "input_artifact_ref"
+      ],
+      "fixed_character_names": [],
+      "hidden_paths": [],
+      "orchestration_decisions": [],
+      "module_contract": {
+        "module_id": "realism",
+        "module_name": "Image Realism and Coherence",
+        "status": "contract_only_no_release",
+        "purpose": "Apply bounded anatomy, silhouette, lighting, shadow, and coherence refinement.",
+        "primary_inputs": [
+          "pose_depth_candidate"
+        ],
+        "primary_outputs": [
+          "realism_candidate"
+        ],
+        "qa_required_before_promotion": [
+          "anatomy",
+          "geometry",
+          "lighting",
+          "coherence"
+        ],
+        "owner_wave": 64
+      }
+    },
+    {
+      "module_id": "regional_repair",
+      "module_version": "0.1.0-contract-only",
+      "api_contract_version": "1.0.0",
+      "status": "blocked_no_workflow_release",
+      "workflow_release_id": null,
+      "api_compatible": true,
+      "stable_patch_points": [
+        "regional_edit_contract_ref",
+        "trusted_mask_binding_ref",
+        "repair_hypothesis_ref"
+      ],
+      "fixed_character_names": [],
+      "hidden_paths": [],
+      "orchestration_decisions": [],
+      "module_contract": {
+        "module_id": "regional_repair",
+        "module_name": "Scoped Regional Repair",
+        "status": "contract_only_no_release",
+        "purpose": "Create a new localized repair candidate over an immutable accepted parent.",
+        "primary_inputs": [
+          "realism_candidate"
+        ],
+        "primary_outputs": [
+          "regional_repair_candidate"
+        ],
+        "qa_required_before_promotion": [
+          "target",
+          "protected",
+          "whole_frame"
+        ],
+        "owner_wave": 64
+      }
+    },
+    {
+      "module_id": "material",
+      "module_version": "0.1.0-contract-only",
+      "api_contract_version": "1.0.0",
+      "status": "blocked_no_workflow_release",
+      "workflow_release_id": null,
+      "api_compatible": true,
+      "stable_patch_points": [
+        "material_profile_refs",
+        "surface_scope_refs",
+        "input_artifact_ref"
+      ],
+      "fixed_character_names": [],
+      "hidden_paths": [],
+      "orchestration_decisions": [],
+      "module_contract": {
+        "module_id": "material",
+        "module_name": "Material and Surface Detail",
+        "status": "contract_only_no_release",
+        "purpose": "Refine skin, hair, fabric, accessories, and material surfaces by scope.",
+        "primary_inputs": [
+          "regional_repair_candidate"
+        ],
+        "primary_outputs": [
+          "material_candidate"
+        ],
+        "qa_required_before_promotion": [
+          "skin",
+          "hair",
+          "fabric",
+          "surface_continuity"
+        ],
+        "owner_wave": 64
+      }
+    },
+    {
+      "module_id": "upscale",
+      "module_version": "0.1.0-contract-only",
+      "api_contract_version": "1.0.0",
+      "status": "blocked_no_workflow_release",
+      "workflow_release_id": null,
+      "api_compatible": true,
+      "stable_patch_points": [
+        "scale_factor",
+        "upscaler_bundle_ref",
+        "input_artifact_ref"
+      ],
+      "fixed_character_names": [],
+      "hidden_paths": [],
+      "orchestration_decisions": [],
+      "module_contract": {
+        "module_id": "upscale",
+        "module_name": "Image Upscale",
+        "status": "contract_only_no_release",
+        "purpose": "Upscale a QA-eligible image candidate without changing semantic ownership.",
+        "primary_inputs": [
+          "material_candidate"
+        ],
+        "primary_outputs": [
+          "upscale_candidate"
+        ],
+        "qa_required_before_promotion": [
+          "detail_retention",
+          "artifact_scan",
+          "identity"
+        ],
+        "owner_wave": 64
+      }
+    },
+    {
+      "module_id": "export",
+      "module_version": "0.1.0-contract-only",
+      "api_contract_version": "1.0.0",
+      "status": "blocked_no_workflow_release",
+      "workflow_release_id": null,
+      "api_compatible": true,
+      "stable_patch_points": [
+        "output_format",
+        "output_prefix",
+        "artifact_manifest_ref"
+      ],
+      "fixed_character_names": [],
+      "hidden_paths": [],
+      "orchestration_decisions": [],
+      "module_contract": {
+        "module_id": "export",
+        "module_name": "Image Export and Certification Candidate",
+        "status": "contract_only_no_release",
+        "purpose": "Emit a content-addressed candidate and lineage manifest for independent QA.",
+        "primary_inputs": [
+          "upscale_candidate"
+        ],
+        "primary_outputs": [
+          "image_export_candidate"
+        ],
+        "qa_required_before_promotion": [
+          "target",
+          "protected",
+          "whole_frame",
+          "lineage"
+        ],
+        "owner_wave": 64
+      }
+    }
+  ],
+  "compile_requests": [
+    {
+      "compile_request_id": "compile_image_single_character_fixture_r001",
+      "slice_id": "single_character",
+      "character_count": 1,
+      "scene_id": "scene001",
+      "shot_id": "shot001_single",
+      "take_id": "take001",
+      "needed_pass_intents": [
+        "composition",
+        "identity",
+        "pose_depth",
+        "realism",
+        "regional_repair",
+        "material",
+        "upscale",
+        "export"
+      ],
+      "accepted_parent": {
+        "artifact_id": "artifact_scene001_accepted_parent_fixture_001",
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "immutable": true
+      },
+      "retry_budget": {
+        "max_attempts": 2,
+        "max_reroutes": 1
+      },
+      "write_policy": "new_content_addressed_candidates_only",
+      "protection_policy": "target_plus_protected_plus_whole_frame"
+    },
+    {
+      "compile_request_id": "compile_image_two_character_contact_fixture_r001",
+      "slice_id": "two_character_contact",
+      "character_count": 2,
+      "scene_id": "scene001",
+      "shot_id": "shot002_contact",
+      "take_id": "take001",
+      "needed_pass_intents": [
+        "composition",
+        "identity",
+        "pose_depth",
+        "ownership_contact",
+        "realism",
+        "regional_repair",
+        "material",
+        "upscale",
+        "export"
+      ],
+      "accepted_parent": {
+        "artifact_id": "artifact_scene001_two_character_accepted_parent_fixture_001",
+        "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "immutable": true
+      },
+      "retry_budget": {
+        "max_attempts": 2,
+        "max_reroutes": 1
+      },
+      "write_policy": "new_content_addressed_candidates_only",
+      "protection_policy": "target_plus_protected_plus_whole_frame"
+    }
+  ],
+  "compiled_dags": [
+    {
+      "slice_id": "single_character",
+      "dag": {
+        "schema_version": "1.0.0",
+        "multimodal_pass_dag_id": "image_dag_single_character_r001",
+        "revision": "r001",
+        "job_id": "job_single_character_blocked_fixture",
+        "run_id": "run_single_character_not_submitted",
+        "scene_id": "scene001",
+        "shot_id": "shot001_single",
+        "take_id": "take001",
+        "dag_status": "blocked",
+        "pass_nodes": [
+          {
+            "pass_id": "single_character__composition",
+            "specialist_pass_contract_id": "composition",
+            "required": true
+          },
+          {
+            "pass_id": "single_character__identity",
+            "specialist_pass_contract_id": "identity",
+            "required": true
+          },
+          {
+            "pass_id": "single_character__pose_depth",
+            "specialist_pass_contract_id": "pose_depth",
+            "required": true
+          },
+          {
+            "pass_id": "single_character__realism",
+            "specialist_pass_contract_id": "realism",
+            "required": true
+          },
+          {
+            "pass_id": "single_character__regional_repair",
+            "specialist_pass_contract_id": "regional_repair",
+            "required": true
+          },
+          {
+            "pass_id": "single_character__material",
+            "specialist_pass_contract_id": "material",
+            "required": true
+          },
+          {
+            "pass_id": "single_character__upscale",
+            "specialist_pass_contract_id": "upscale",
+            "required": true
+          },
+          {
+            "pass_id": "single_character__export",
+            "specialist_pass_contract_id": "export",
+            "required": true
+          }
+        ],
+        "edges": [
+          {
+            "edge_id": "single_character__edge_01",
+            "source_pass_id": "single_character__composition",
+            "source_output_slot": "composition_candidate",
+            "target_pass_id": "single_character__identity",
+            "target_input_slot": "composition_candidate",
+            "dependency_type": "data",
+            "artifact_contract": "immutable_image_candidate_or_control_manifest",
+            "bridge_contract_id": null,
+            "acceptance_required": false
+          },
+          {
+            "edge_id": "single_character__edge_02",
+            "source_pass_id": "single_character__identity",
+            "source_output_slot": "identity_candidate",
+            "target_pass_id": "single_character__pose_depth",
+            "target_input_slot": "identity_candidate",
+            "dependency_type": "data",
+            "artifact_contract": "immutable_image_candidate_or_control_manifest",
+            "bridge_contract_id": null,
+            "acceptance_required": false
+          },
+          {
+            "edge_id": "single_character__edge_03",
+            "source_pass_id": "single_character__pose_depth",
+            "source_output_slot": "pose_depth_candidate",
+            "target_pass_id": "single_character__realism",
+            "target_input_slot": "pose_depth_candidate",
+            "dependency_type": "data",
+            "artifact_contract": "immutable_image_candidate_or_control_manifest",
+            "bridge_contract_id": null,
+            "acceptance_required": false
+          },
+          {
+            "edge_id": "single_character__edge_04",
+            "source_pass_id": "single_character__realism",
+            "source_output_slot": "realism_candidate",
+            "target_pass_id": "single_character__regional_repair",
+            "target_input_slot": "realism_candidate",
+            "dependency_type": "data",
+            "artifact_contract": "immutable_image_candidate_or_control_manifest",
+            "bridge_contract_id": null,
+            "acceptance_required": true
+          },
+          {
+            "edge_id": "single_character__edge_05",
+            "source_pass_id": "single_character__regional_repair",
+            "source_output_slot": "regional_repair_candidate",
+            "target_pass_id": "single_character__material",
+            "target_input_slot": "regional_repair_candidate",
+            "dependency_type": "data",
+            "artifact_contract": "immutable_image_candidate_or_control_manifest",
+            "bridge_contract_id": null,
+            "acceptance_required": false
+          },
+          {
+            "edge_id": "single_character__edge_06",
+            "source_pass_id": "single_character__material",
+            "source_output_slot": "material_candidate",
+            "target_pass_id": "single_character__upscale",
+            "target_input_slot": "material_candidate",
+            "dependency_type": "data",
+            "artifact_contract": "immutable_image_candidate_or_control_manifest",
+            "bridge_contract_id": null,
+            "acceptance_required": false
+          },
+          {
+            "edge_id": "single_character__edge_07",
+            "source_pass_id": "single_character__upscale",
+            "source_output_slot": "upscale_candidate",
+            "target_pass_id": "single_character__export",
+            "target_input_slot": "upscale_candidate",
+            "dependency_type": "qa",
+            "artifact_contract": "immutable_image_candidate_or_control_manifest",
+            "bridge_contract_id": null,
+            "acceptance_required": true
+          }
+        ],
+        "root_pass_ids": [
+          "single_character__composition"
+        ],
+        "terminal_pass_ids": [
+          "single_character__export"
+        ],
+        "required_output_slots": [
+          "image_export_candidate"
+        ],
+        "resource_schedule": {
+          "scheduler_policy_id": "wave64_image_quality_priority_r001",
+          "strategy": "quality_priority",
+          "runtime_lease_required": true,
+          "fencing_token_required": true,
+          "max_parallel_passes": 1,
+          "runtime_class_ids": [
+            "comfyui_gpu_image_worker"
+          ],
+          "per_pass_constraints": [
+            {
+              "pass_id": "single_character__composition",
+              "runtime_class_ids": [
+                "comfyui_gpu_image_worker"
+              ],
+              "max_queue_seconds": 900,
+              "max_wall_seconds": 1800
+            },
+            {
+              "pass_id": "single_character__identity",
+              "runtime_class_ids": [
+                "comfyui_gpu_image_worker"
+              ],
+              "max_queue_seconds": 900,
+              "max_wall_seconds": 1800
+            },
+            {
+              "pass_id": "single_character__pose_depth",
+              "runtime_class_ids": [
+                "comfyui_gpu_image_worker"
+              ],
+              "max_queue_seconds": 900,
+              "max_wall_seconds": 1800
+            },
+            {
+              "pass_id": "single_character__realism",
+              "runtime_class_ids": [
+                "comfyui_gpu_image_worker"
+              ],
+              "max_queue_seconds": 900,
+              "max_wall_seconds": 1800
+            },
+            {
+              "pass_id": "single_character__regional_repair",
+              "runtime_class_ids": [
+                "comfyui_gpu_image_worker"
+              ],
+              "max_queue_seconds": 900,
+              "max_wall_seconds": 1800
+            },
+            {
+              "pass_id": "single_character__material",
+              "runtime_class_ids": [
+                "comfyui_gpu_image_worker"
+              ],
+              "max_queue_seconds": 900,
+              "max_wall_seconds": 1800
+            },
+            {
+              "pass_id": "single_character__upscale",
+              "runtime_class_ids": [
+                "comfyui_gpu_image_worker"
+              ],
+              "max_queue_seconds": 900,
+              "max_wall_seconds": 1800
+            },
+            {
+              "pass_id": "single_character__export",
+              "runtime_class_ids": [
+                "comfyui_gpu_image_worker"
+              ],
+              "max_queue_seconds": 900,
+              "max_wall_seconds": 1800
+            }
+          ]
+        },
+        "global_retry_budget": {
+          "max_attempts": 2,
+          "max_reroutes": 1
+        },
+        "global_qa_contract": {
+          "gate_ids": [
+            "qa_target",
+            "qa_protected",
+            "qa_whole_frame"
+          ],
+          "target_gate_ids": [
+            "qa_target"
+          ],
+          "protected_gate_ids": [
+            "qa_protected"
+          ],
+          "whole_artifact_gate_ids": [
+            "qa_whole_frame"
+          ],
+          "thresholds": {},
+          "required_evidence_types": [
+            "execution_receipt",
+            "artifact_manifest",
+            "independent_visual_qa"
+          ],
+          "blocking": true,
+          "promotion_required": true
+        },
+        "failure_propagation": {
+          "required_pass_failure": "bounded_repair_then_block",
+          "optional_pass_failure": "record_and_continue",
+          "upstream_invalidation": "revalidate_descendants",
+          "join_failure": "block_join_and_descendants",
+          "ambiguous_attempt": "block_no_failover_or_promotion",
+          "silent_skip_allowed": false
+        },
+        "promotion_rules": [
+          {
+            "output_slot": "image_export_candidate",
+            "qa_gate_ids": [
+              "qa_target",
+              "qa_protected",
+              "qa_whole_frame"
+            ],
+            "policy_id": "wave64_image_artifact_promotion_r001",
+            "exactly_once": true
+          }
+        ],
+        "compiled_plan_sha256": "0772cd2a31dfd333542afb9555cea987236058c09a6f4db8639b968dfe5365b8",
+        "provenance": {
+          "producer": "compile_wave64_image_dag_authority.py",
+          "source_refs": [
+            "compile_image_single_character_fixture_r001",
+            "artifact_scene001_accepted_parent_fixture_001"
+          ],
+          "registry_snapshot_ids": [
+            "wave64_image_dag_authority_rows181_184_r001"
+          ],
+          "canonicalization": "rfc8785_jcs"
+        }
+      },
+      "intent_coverage": [
+        {
+          "intent": "composition",
+          "pass_id": "single_character__composition"
+        },
+        {
+          "intent": "identity",
+          "pass_id": "single_character__identity"
+        },
+        {
+          "intent": "pose_depth",
+          "pass_id": "single_character__pose_depth"
+        },
+        {
+          "intent": "realism",
+          "pass_id": "single_character__realism"
+        },
+        {
+          "intent": "regional_repair",
+          "pass_id": "single_character__regional_repair"
+        },
+        {
+          "intent": "material",
+          "pass_id": "single_character__material"
+        },
+        {
+          "intent": "upscale",
+          "pass_id": "single_character__upscale"
+        },
+        {
+          "intent": "export",
+          "pass_id": "single_character__export"
+        }
+      ]
+    },
+    {
+      "slice_id": "two_character_contact",
+      "dag": {
+        "schema_version": "1.0.0",
+        "multimodal_pass_dag_id": "image_dag_two_character_contact_r001",
+        "revision": "r001",
+        "job_id": "job_two_character_contact_blocked_fixture",
+        "run_id": "run_two_character_contact_not_submitted",
+        "scene_id": "scene001",
+        "shot_id": "shot002_contact",
+        "take_id": "take001",
+        "dag_status": "blocked",
+        "pass_nodes": [
+          {
+            "pass_id": "two_character_contact__composition",
+            "specialist_pass_contract_id": "composition",
+            "required": true
+          },
+          {
+            "pass_id": "two_character_contact__identity",
+            "specialist_pass_contract_id": "identity",
+            "required": true
+          },
+          {
+            "pass_id": "two_character_contact__pose_depth",
+            "specialist_pass_contract_id": "pose_depth",
+            "required": true
+          },
+          {
+            "pass_id": "two_character_contact__realism",
+            "specialist_pass_contract_id": "realism",
+            "required": true
+          },
+          {
+            "pass_id": "two_character_contact__regional_repair",
+            "specialist_pass_contract_id": "regional_repair",
+            "required": true
+          },
+          {
+            "pass_id": "two_character_contact__material",
+            "specialist_pass_contract_id": "material",
+            "required": true
+          },
+          {
+            "pass_id": "two_character_contact__upscale",
+            "specialist_pass_contract_id": "upscale",
+            "required": true
+          },
+          {
+            "pass_id": "two_character_contact__export",
+            "specialist_pass_contract_id": "export",
+            "required": true
+          }
+        ],
+        "edges": [
+          {
+            "edge_id": "two_character_contact__edge_01",
+            "source_pass_id": "two_character_contact__composition",
+            "source_output_slot": "composition_candidate",
+            "target_pass_id": "two_character_contact__identity",
+            "target_input_slot": "composition_candidate",
+            "dependency_type": "data",
+            "artifact_contract": "immutable_image_candidate_or_control_manifest",
+            "bridge_contract_id": null,
+            "acceptance_required": false
+          },
+          {
+            "edge_id": "two_character_contact__edge_02",
+            "source_pass_id": "two_character_contact__identity",
+            "source_output_slot": "identity_candidate",
+            "target_pass_id": "two_character_contact__pose_depth",
+            "target_input_slot": "identity_candidate",
+            "dependency_type": "data",
+            "artifact_contract": "immutable_image_candidate_or_control_manifest",
+            "bridge_contract_id": null,
+            "acceptance_required": false
+          },
+          {
+            "edge_id": "two_character_contact__edge_03",
+            "source_pass_id": "two_character_contact__pose_depth",
+            "source_output_slot": "pose_depth_candidate",
+            "target_pass_id": "two_character_contact__realism",
+            "target_input_slot": "pose_depth_candidate",
+            "dependency_type": "data",
+            "artifact_contract": "immutable_image_candidate_or_control_manifest",
+            "bridge_contract_id": null,
+            "acceptance_required": false
+          },
+          {
+            "edge_id": "two_character_contact__edge_04",
+            "source_pass_id": "two_character_contact__realism",
+            "source_output_slot": "realism_candidate",
+            "target_pass_id": "two_character_contact__regional_repair",
+            "target_input_slot": "realism_candidate",
+            "dependency_type": "data",
+            "artifact_contract": "immutable_image_candidate_or_control_manifest",
+            "bridge_contract_id": null,
+            "acceptance_required": true
+          },
+          {
+            "edge_id": "two_character_contact__edge_05",
+            "source_pass_id": "two_character_contact__regional_repair",
+            "source_output_slot": "regional_repair_candidate",
+            "target_pass_id": "two_character_contact__material",
+            "target_input_slot": "regional_repair_candidate",
+            "dependency_type": "data",
+            "artifact_contract": "immutable_image_candidate_or_control_manifest",
+            "bridge_contract_id": null,
+            "acceptance_required": false
+          },
+          {
+            "edge_id": "two_character_contact__edge_06",
+            "source_pass_id": "two_character_contact__material",
+            "source_output_slot": "material_candidate",
+            "target_pass_id": "two_character_contact__upscale",
+            "target_input_slot": "material_candidate",
+            "dependency_type": "data",
+            "artifact_contract": "immutable_image_candidate_or_control_manifest",
+            "bridge_contract_id": null,
+            "acceptance_required": false
+          },
+          {
+            "edge_id": "two_character_contact__edge_07",
+            "source_pass_id": "two_character_contact__upscale",
+            "source_output_slot": "upscale_candidate",
+            "target_pass_id": "two_character_contact__export",
+            "target_input_slot": "upscale_candidate",
+            "dependency_type": "qa",
+            "artifact_contract": "immutable_image_candidate_or_control_manifest",
+            "bridge_contract_id": null,
+            "acceptance_required": true
+          }
+        ],
+        "root_pass_ids": [
+          "two_character_contact__composition"
+        ],
+        "terminal_pass_ids": [
+          "two_character_contact__export"
+        ],
+        "required_output_slots": [
+          "image_export_candidate"
+        ],
+        "resource_schedule": {
+          "scheduler_policy_id": "wave64_image_quality_priority_r001",
+          "strategy": "quality_priority",
+          "runtime_lease_required": true,
+          "fencing_token_required": true,
+          "max_parallel_passes": 1,
+          "runtime_class_ids": [
+            "comfyui_gpu_image_worker"
+          ],
+          "per_pass_constraints": [
+            {
+              "pass_id": "two_character_contact__composition",
+              "runtime_class_ids": [
+                "comfyui_gpu_image_worker"
+              ],
+              "max_queue_seconds": 900,
+              "max_wall_seconds": 1800
+            },
+            {
+              "pass_id": "two_character_contact__identity",
+              "runtime_class_ids": [
+                "comfyui_gpu_image_worker"
+              ],
+              "max_queue_seconds": 900,
+              "max_wall_seconds": 1800
+            },
+            {
+              "pass_id": "two_character_contact__pose_depth",
+              "runtime_class_ids": [
+                "comfyui_gpu_image_worker"
+              ],
+              "max_queue_seconds": 900,
+              "max_wall_seconds": 1800
+            },
+            {
+              "pass_id": "two_character_contact__realism",
+              "runtime_class_ids": [
+                "comfyui_gpu_image_worker"
+              ],
+              "max_queue_seconds": 900,
+              "max_wall_seconds": 1800
+            },
+            {
+              "pass_id": "two_character_contact__regional_repair",
+              "runtime_class_ids": [
+                "comfyui_gpu_image_worker"
+              ],
+              "max_queue_seconds": 900,
+              "max_wall_seconds": 1800
+            },
+            {
+              "pass_id": "two_character_contact__material",
+              "runtime_class_ids": [
+                "comfyui_gpu_image_worker"
+              ],
+              "max_queue_seconds": 900,
+              "max_wall_seconds": 1800
+            },
+            {
+              "pass_id": "two_character_contact__upscale",
+              "runtime_class_ids": [
+                "comfyui_gpu_image_worker"
+              ],
+              "max_queue_seconds": 900,
+              "max_wall_seconds": 1800
+            },
+            {
+              "pass_id": "two_character_contact__export",
+              "runtime_class_ids": [
+                "comfyui_gpu_image_worker"
+              ],
+              "max_queue_seconds": 900,
+              "max_wall_seconds": 1800
+            }
+          ]
+        },
+        "global_retry_budget": {
+          "max_attempts": 2,
+          "max_reroutes": 1
+        },
+        "global_qa_contract": {
+          "gate_ids": [
+            "qa_target",
+            "qa_protected",
+            "qa_whole_frame"
+          ],
+          "target_gate_ids": [
+            "qa_target"
+          ],
+          "protected_gate_ids": [
+            "qa_protected"
+          ],
+          "whole_artifact_gate_ids": [
+            "qa_whole_frame"
+          ],
+          "thresholds": {},
+          "required_evidence_types": [
+            "execution_receipt",
+            "artifact_manifest",
+            "independent_visual_qa"
+          ],
+          "blocking": true,
+          "promotion_required": true
+        },
+        "failure_propagation": {
+          "required_pass_failure": "bounded_repair_then_block",
+          "optional_pass_failure": "record_and_continue",
+          "upstream_invalidation": "revalidate_descendants",
+          "join_failure": "block_join_and_descendants",
+          "ambiguous_attempt": "block_no_failover_or_promotion",
+          "silent_skip_allowed": false
+        },
+        "promotion_rules": [
+          {
+            "output_slot": "image_export_candidate",
+            "qa_gate_ids": [
+              "qa_target",
+              "qa_protected",
+              "qa_whole_frame"
+            ],
+            "policy_id": "wave64_image_artifact_promotion_r001",
+            "exactly_once": true
+          }
+        ],
+        "compiled_plan_sha256": "69c8d614ab461c5fe9d934b5a124892fbddf66bee05f620c70802ee28266dccf",
+        "provenance": {
+          "producer": "compile_wave64_image_dag_authority.py",
+          "source_refs": [
+            "compile_image_two_character_contact_fixture_r001",
+            "artifact_scene001_two_character_accepted_parent_fixture_001"
+          ],
+          "registry_snapshot_ids": [
+            "wave64_image_dag_authority_rows181_184_r001"
+          ],
+          "canonicalization": "rfc8785_jcs"
+        }
+      },
+      "intent_coverage": [
+        {
+          "intent": "composition",
+          "pass_id": "two_character_contact__composition"
+        },
+        {
+          "intent": "identity",
+          "pass_id": "two_character_contact__identity"
+        },
+        {
+          "intent": "pose_depth",
+          "pass_id": "two_character_contact__pose_depth"
+        },
+        {
+          "intent": "ownership_contact",
+          "pass_id": "two_character_contact__pose_depth"
+        },
+        {
+          "intent": "realism",
+          "pass_id": "two_character_contact__realism"
+        },
+        {
+          "intent": "regional_repair",
+          "pass_id": "two_character_contact__regional_repair"
+        },
+        {
+          "intent": "material",
+          "pass_id": "two_character_contact__material"
+        },
+        {
+          "intent": "upscale",
+          "pass_id": "two_character_contact__upscale"
+        },
+        {
+          "intent": "export",
+          "pass_id": "two_character_contact__export"
+        }
+      ]
+    }
+  ],
+  "vertical_slices": [
+    {
+      "slice_id": "single_character",
+      "character_count": 1,
+      "status": "blocked_missing_prerequisites",
+      "runtime_execution_allowed": false,
+      "accepted_parent_retained": true,
+      "resumable": true,
+      "failed_region_only_rerun": true,
+      "execution_receipt_refs": [],
+      "candidate_artifact_ref": null,
+      "blocker_codes": [
+        "WORKFLOW_RELEASES_MISSING",
+        "CERTIFIED_EXECUTION_STACK_MISSING",
+        "TRUSTED_MASK_CERTIFICATE_MISSING",
+        "RUNTIME_LOCK_MISSING"
+      ]
+    },
+    {
+      "slice_id": "two_character_contact",
+      "character_count": 2,
+      "status": "blocked_missing_prerequisites",
+      "runtime_execution_allowed": false,
+      "accepted_parent_retained": true,
+      "resumable": true,
+      "failed_region_only_rerun": true,
+      "execution_receipt_refs": [],
+      "candidate_artifact_ref": null,
+      "blocker_codes": [
+        "WORKFLOW_RELEASES_MISSING",
+        "CERTIFIED_EXECUTION_STACK_MISSING",
+        "TRUSTED_MASK_CERTIFICATE_MISSING",
+        "OWNERSHIP_CONTACT_AUTHORITY_MISSING",
+        "RUNTIME_LOCK_MISSING"
+      ]
+    }
+  ],
+  "reproducibility_promotion_gate": {
+    "gate_id": "wave64_image_reproducibility_promotion_fixture_r001",
+    "lineage_bindings": [
+      {
+        "binding_type": "packages",
+        "status": "unavailable",
+        "reference": null
+      },
+      {
+        "binding_type": "prompts",
+        "status": "unavailable",
+        "reference": null
+      },
+      {
+        "binding_type": "seeds",
+        "status": "unavailable",
+        "reference": null
+      },
+      {
+        "binding_type": "models",
+        "status": "unavailable",
+        "reference": null
+      },
+      {
+        "binding_type": "workflows",
+        "status": "unavailable",
+        "reference": null
+      },
+      {
+        "binding_type": "masks",
+        "status": "unavailable",
+        "reference": null
+      },
+      {
+        "binding_type": "transforms",
+        "status": "unavailable",
+        "reference": null
+      },
+      {
+        "binding_type": "attempts",
+        "status": "unavailable",
+        "reference": null
+      },
+      {
+        "binding_type": "runtime",
+        "status": "unavailable",
+        "reference": null
+      },
+      {
+        "binding_type": "scorecards",
+        "status": "unavailable",
+        "reference": null
+      },
+      {
+        "binding_type": "revocation",
+        "status": "unavailable",
+        "reference": null
+      }
+    ],
+    "qa_results": [
+      {
+        "scope": "target",
+        "status": "not_run",
+        "evidence_ids": []
+      },
+      {
+        "scope": "protected",
+        "status": "not_run",
+        "evidence_ids": []
+      },
+      {
+        "scope": "whole_frame",
+        "status": "not_run",
+        "evidence_ids": []
+      }
+    ],
+    "candidate_artifact_manifest_ref": null,
+    "promotion_transaction_ref": null,
+    "accepted_parent_retained": true,
+    "decision": "blocked",
+    "promotion_allowed": false,
+    "blocker_codes": [
+      "LINEAGE_BINDINGS_UNAVAILABLE",
+      "CANDIDATE_ARTIFACT_MISSING",
+      "TARGET_QA_NOT_RUN",
+      "PROTECTED_QA_NOT_RUN",
+      "WHOLE_FRAME_QA_NOT_RUN",
+      "PROMOTION_POLICY_NOT_EVALUATED"
+    ]
+  },
+  "runtime_execution_allowed": false,
+  "promotion_allowed": false,
+  "content_based_suppression": false,
+  "boundaries": {
+    "workflow_release_claimed": false,
+    "runtime_lock_claimed": false,
+    "execution_receipt_created": false,
+    "candidate_artifact_created": false,
+    "visual_qa_claimed": false,
+    "accepted_parent_mutated": false,
+    "promotion_transaction_created": false,
+    "item_tracker_status_changed": false
+  }
+}
