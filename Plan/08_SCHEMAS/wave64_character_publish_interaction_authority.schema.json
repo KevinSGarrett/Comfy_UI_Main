@@ -1,0 +1,251 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/wave64-character-publish-interaction-authority/1.0.0",
+  "title": "Wave64 Character Publish and Interaction Authority",
+  "type": "object",
+  "required": [
+    "schema_version", "authority_id", "status", "source_compilation_contract",
+    "adapter_cards", "publication_gate", "scene_compilation", "interaction_plan",
+    "runtime_completion_claimed", "production_publication_allowed",
+    "model_execution_activated", "content_based_suppression"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "authority_id": { "type": "string", "minLength": 1 },
+    "status": { "const": "synthetic_contract_fixture_not_runtime_evidence" },
+    "source_compilation_contract": { "$ref": "#/$defs/ImmutableFileRef" },
+    "adapter_cards": { "type": "array", "minItems": 5, "items": { "$ref": "#/$defs/AdapterCard" } },
+    "publication_gate": { "$ref": "#/$defs/PublicationGate" },
+    "scene_compilation": { "$ref": "#/$defs/SceneCompilation" },
+    "interaction_plan": { "$ref": "#/$defs/InteractionPlan" },
+    "runtime_completion_claimed": { "const": false },
+    "production_publication_allowed": { "const": false },
+    "model_execution_activated": { "const": false },
+    "content_based_suppression": { "const": false }
+  },
+  "$defs": {
+    "Sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "ImmutableFileRef": {
+      "type": "object",
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "$ref": "#/$defs/Sha256" }
+      },
+      "additionalProperties": false
+    },
+    "AdapterCard": {
+      "type": "object",
+      "required": [
+        "adapter_id", "character_id", "character_revision", "adapter_role", "engine_family",
+        "modality", "trigger_tokens", "limits", "component_hashes", "configuration_sha256",
+        "calibration_status", "calibration_evidence_ids", "prohibited_pairings", "status",
+        "certificate_ids"
+      ],
+      "properties": {
+        "adapter_id": { "type": "string", "minLength": 1 },
+        "character_id": { "type": "string", "minLength": 1 },
+        "character_revision": { "type": "string", "minLength": 1 },
+        "adapter_role": { "enum": ["flux_family", "sdxl_family", "image_edit", "video", "audio"] },
+        "engine_family": { "type": "string", "minLength": 1 },
+        "modality": { "enum": ["image", "video", "audio"] },
+        "trigger_tokens": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+        "limits": {
+          "type": "object",
+          "required": ["max_character_instances", "supported_target_regions", "unsupported_operations"],
+          "properties": {
+            "max_character_instances": { "type": "integer", "minimum": 1 },
+            "supported_target_regions": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+            "unsupported_operations": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true }
+          },
+          "additionalProperties": false
+        },
+        "component_hashes": { "type": "object", "minProperties": 1, "additionalProperties": { "$ref": "#/$defs/Sha256" } },
+        "configuration_sha256": { "$ref": "#/$defs/Sha256" },
+        "calibration_status": { "enum": ["blocked", "not_run", "passed"] },
+        "calibration_evidence_ids": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+        "prohibited_pairings": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+        "status": { "const": "staged_only" },
+        "certificate_ids": { "type": "array", "maxItems": 0 }
+      },
+      "additionalProperties": false
+    },
+    "PublicationGate": {
+      "type": "object",
+      "required": [
+        "character_id", "character_revision", "immutable_revision_sha256", "required_domains",
+        "domain_results", "decision", "publication_allowed", "revocable", "blocker_codes"
+      ],
+      "properties": {
+        "character_id": { "type": "string", "minLength": 1 },
+        "character_revision": { "type": "string", "minLength": 1 },
+        "immutable_revision_sha256": { "$ref": "#/$defs/Sha256" },
+        "required_domains": { "type": "array", "minItems": 7, "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+        "domain_results": {
+          "type": "array",
+          "minItems": 7,
+          "items": {
+            "type": "object",
+            "required": ["domain", "status", "evidence_ids"],
+            "properties": {
+              "domain": { "type": "string", "minLength": 1 },
+              "status": { "enum": ["pass", "blocked", "not_run"] },
+              "evidence_ids": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true }
+            },
+            "additionalProperties": false
+          }
+        },
+        "decision": { "const": "staged_blocked" },
+        "publication_allowed": { "const": false },
+        "revocable": { "const": true },
+        "blocker_codes": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 }, "uniqueItems": true }
+      },
+      "additionalProperties": false
+    },
+    "OwnedResource": {
+      "type": "object",
+      "required": ["resource_type", "resource_id", "owner_instance_id"],
+      "properties": {
+        "resource_type": { "enum": ["edit", "mask", "prop", "dialogue", "control", "artifact", "wardrobe", "voice", "skeleton", "silhouette"] },
+        "resource_id": { "type": "string", "minLength": 1 },
+        "owner_instance_id": { "type": "string", "minLength": 1 },
+        "authority": { "enum": ["approved_package", "machine_draft", "contract_fixture"] },
+        "writes_gold": { "const": false },
+        "promotion_allowed": { "const": false }
+      },
+      "additionalProperties": false
+    },
+    "SceneInstance": {
+      "type": "object",
+      "required": [
+        "character_instance_id", "character_id", "character_revision", "depth_layer",
+        "visible_fraction", "protected_regions", "owned_regions", "resources"
+      ],
+      "properties": {
+        "character_instance_id": { "type": "string", "minLength": 1 },
+        "character_id": { "type": "string", "minLength": 1 },
+        "character_revision": { "type": "string", "minLength": 1 },
+        "depth_layer": { "type": "integer" },
+        "visible_fraction": { "type": "number", "minimum": 0, "maximum": 1 },
+        "protected_regions": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+        "owned_regions": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+        "resources": { "type": "array", "minItems": 5, "items": { "$ref": "#/$defs/OwnedResource" } }
+      },
+      "additionalProperties": false
+    },
+    "SceneCompilation": {
+      "type": "object",
+      "required": [
+        "compiler_id", "scene_id", "shot_id", "take_id", "camera", "timebase",
+        "safe_margin_normalized", "output_modalities", "instances", "expected_audio_events",
+        "contains_hidden_state"
+      ],
+      "properties": {
+        "compiler_id": { "type": "string", "minLength": 1 },
+        "scene_id": { "type": "string", "minLength": 1 },
+        "shot_id": { "type": "string", "minLength": 1 },
+        "take_id": { "type": "string", "minLength": 1 },
+        "camera": {
+          "type": "object",
+          "required": ["projection", "lens_mm", "framing"],
+          "properties": {
+            "projection": { "enum": ["perspective", "orthographic", "panoramic"] },
+            "lens_mm": { "type": "number", "exclusiveMinimum": 0 },
+            "framing": { "type": "string", "minLength": 1 }
+          },
+          "additionalProperties": false
+        },
+        "timebase": {
+          "type": "object",
+          "required": ["fps_numerator", "fps_denominator", "start_frame", "end_frame"],
+          "properties": {
+            "fps_numerator": { "type": "integer", "minimum": 1 },
+            "fps_denominator": { "type": "integer", "minimum": 1 },
+            "start_frame": { "type": "integer", "minimum": 0 },
+            "end_frame": { "type": "integer", "minimum": 0 }
+          },
+          "additionalProperties": false
+        },
+        "safe_margin_normalized": { "type": "number", "minimum": 0, "maximum": 0.5 },
+        "output_modalities": { "type": "array", "minItems": 5, "items": { "enum": ["image", "mask", "video", "audio", "av"] }, "uniqueItems": true },
+        "instances": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/SceneInstance" } },
+        "expected_audio_events": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["event_id", "owner_instance_id", "start_frame", "end_frame"],
+            "properties": {
+              "event_id": { "type": "string", "minLength": 1 },
+              "owner_instance_id": { "type": "string", "minLength": 1 },
+              "start_frame": { "type": "integer", "minimum": 0 },
+              "end_frame": { "type": "integer", "minimum": 0 }
+            },
+            "additionalProperties": false
+          }
+        },
+        "contains_hidden_state": { "const": false }
+      },
+      "additionalProperties": false
+    },
+    "ContactParticipant": {
+      "type": "object",
+      "required": ["owner_instance_id", "region_id", "visibility_fraction"],
+      "properties": {
+        "owner_instance_id": { "type": "string", "minLength": 1 },
+        "region_id": { "type": "string", "minLength": 1 },
+        "visibility_fraction": { "type": "number", "minimum": 0, "maximum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "Contact": {
+      "type": "object",
+      "required": [
+        "contact_id", "kind", "participants", "start_frame", "end_frame", "force_class",
+        "ownership_resolved", "depth_relation", "occlusion_fraction", "collision_policy",
+        "expected_deformations", "source_authority", "production_eligible"
+      ],
+      "properties": {
+        "contact_id": { "type": "string", "minLength": 1 },
+        "kind": { "enum": ["person_person", "person_object", "body_support", "wardrobe_body", "person_environment"] },
+        "participants": { "type": "array", "minItems": 2, "items": { "$ref": "#/$defs/ContactParticipant" } },
+        "start_frame": { "type": "integer", "minimum": 0 },
+        "end_frame": { "type": "integer", "minimum": 0 },
+        "force_class": { "enum": ["none", "light", "moderate", "strong", "impact"] },
+        "ownership_resolved": { "const": true },
+        "depth_relation": { "type": "string", "minLength": 1 },
+        "occlusion_fraction": { "type": "number", "minimum": 0, "maximum": 1 },
+        "collision_policy": { "enum": ["prevent_interpenetration", "allow_declared_soft_deformation", "support_contact"] },
+        "expected_deformations": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["owner_instance_id", "region_id", "deformation_type"],
+            "properties": {
+              "owner_instance_id": { "type": "string", "minLength": 1 },
+              "region_id": { "type": "string", "minLength": 1 },
+              "deformation_type": { "type": "string", "minLength": 1 }
+            },
+            "additionalProperties": false
+          }
+        },
+        "source_authority": { "const": "machine_draft" },
+        "production_eligible": { "const": false }
+      },
+      "additionalProperties": false
+    },
+    "InteractionPlan": {
+      "type": "object",
+      "required": ["interaction_plan_id", "scene_id", "shot_id", "take_id", "contacts"],
+      "properties": {
+        "interaction_plan_id": { "type": "string", "minLength": 1 },
+        "scene_id": { "type": "string", "minLength": 1 },
+        "shot_id": { "type": "string", "minLength": 1 },
+        "take_id": { "type": "string", "minLength": 1 },
+        "contacts": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/Contact" } }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
