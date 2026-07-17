@@ -160,6 +160,17 @@ runtime adoption pin: the signed runtime release is still
 `unpublished_unadopted`, so implementation must verify and adopt the future
 production release before enabling production consumption.
 
+PR #2 is reconciled to its corrected base without rewriting the immutable
+producer packet. Its integration head is
+`e6d6c6bdf00a0702d274455fbf07ded2b3a838b3` (parents `938b469...` and
+`85d4c19...`), and
+`11_AUTONOMOUS_CORE_BRIDGE_INTEGRATION_RECONCILIATION_MANIFEST.json` has
+SHA-256 `d382e55b6c78deed983a9b56672349f1915fa60a4acd0328f831c2bc84acba77`.
+That manifest accounts for six base-owned byte supersessions and two
+integration-protocol updates with zero unaccounted drift and 12/12 unchanged
+wire contracts. Keep the producer packet commit as Main's design-time source
+pin; use the integration head only to review PR ancestry and mergeability.
+
 The 7,282-record model-library workflow remains
 `deferred_waiting_for_complete_model_download`. Do not ingest, pilot-qualify,
 activate the bundle solver/benchmark runner, or connect model routes to the

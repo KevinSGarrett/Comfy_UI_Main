@@ -935,7 +935,16 @@ def test_contract_catalog_distinguishes_producer_wire_from_main_internal(builder
         "repository": "KevinSGarrett/MaskingUltimate", "branch": "codex/mask-autonomy-bridge-plan",
         "commit": "938b469", "pull_request": "https://github.com/KevinSGarrett/MaskingUltimate/pull/2",
         "planning_preservation_manifest_sha256": "13fda3eab823e4a544f171c5570ceed99e77cd246ccbc13e686879616682bde2",
-        "planning_manifest_entries": 113, "wire_schema_count": 12, "planning_bindings_finalized": True,
+        "planning_manifest_entries": 113, "wire_schema_count": 12,
+        "immutable_producer_packet_commit": "938b46949e277d92f26d9411fd5710005c506677",
+        "integration_head": "e6d6c6bdf00a0702d274455fbf07ded2b3a838b3",
+        "integration_base_commit": "85d4c19b7974c1b64f48176d91211defbaba35a0",
+        "integration_strategy": "non_rewriting_merge_commit",
+        "integration_reconciliation_manifest": "Plan/Instructions/11_AUTONOMOUS_CORE_BRIDGE_INTEGRATION_RECONCILIATION_MANIFEST.json",
+        "integration_reconciliation_manifest_sha256": "d382e55b6c78deed983a9b56672349f1915fa60a4acd0328f831c2bc84acba77",
+        "base_owned_supersession_count": 6, "integration_protocol_update_count": 2,
+        "unaccounted_integration_drift_count": 0, "wire_schemas_unchanged_after_integration": True,
+        "planning_bindings_finalized": True,
         "runtime_release_state": "unpublished_unadopted", "runtime_release_is_required_before_production_adoption": True,
     }
     deferral = catalog["model_library_dependency_deferral"]

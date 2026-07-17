@@ -333,6 +333,16 @@ They are not a runtime release: the signed production release remains
 `unpublished_unadopted`, and Main must still verify and adopt that future runtime
 release before production consumption.
 
+The producer commit above remains the immutable packet identity. MaskingUltimate
+PR #2 now has non-rewriting integration head
+`e6d6c6bdf00a0702d274455fbf07ded2b3a838b3`, whose parents are the producer
+packet and corrected base `85d4c19b7974c1b64f48176d91211defbaba35a0`. Integration reconciliation
+manifest SHA-256
+`d382e55b6c78deed983a9b56672349f1915fa60a4acd0328f831c2bc84acba77`
+accounts for all six base-owned supersessions and two reconciliation-protocol
+updates while proving all 12 wire schemas unchanged. The integration head is PR
+ancestry, not a replacement producer identity or runtime authority.
+
 ## Model-library activation deferral
 
 The existing Rows223-260 model-intelligence package remains the sole owner of the
