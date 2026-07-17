@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0.0",
+  "authority_id": "wave64_bridge_specialist_authority_fixture_v1",
+  "status": "blocked_contract_fixture_not_runtime_evidence",
+  "source_route_evidence": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/W64_FAIL_CLOSED_ROUTE_SOLVER_SLICE_20260717T012605-0500.json",
+    "sha256": "5ff9282259ab9bea8a681c8baf4587f2f74b4a4fb9091414b3e446e2541cf18b"
+  },
+  "intent_classification": {
+    "classification_id": "first_pass_intent_scene001_fixture_v1",
+    "objective_dimensions": ["composition","identity","pose","edit","character_count","motion","downstream_specialists","quality","resources"],
+    "candidate_stack_ids": ["stack_template_flux2_dev_global_v1","stack_template_sdxl_regional_specialist_v1","stack_template_wan22_video_v1","stack_template_qwen3_tts_v1"],
+    "selected_first_pass_stack_id": null,
+    "downstream_bridge_needs": ["decoded_image","masked_crop","alpha_mask","control_map","metadata_manifest"],
+    "quality_tier": "hyperreal_candidate",
+    "resource_class": "local_or_approved_gpu_after_route_selection",
+    "decision_status": "blocked_no_eligible_stack"
+  },
+  "decoded_bridge_contract": {
+    "schema_version":"1.0.0",
+    "bridge_contract_id":"bridge_scene001_flux_to_sdxl_fixture_r001",
+    "revision":"r001",
+    "scene_id":"scene001",
+    "shot_id":"shot001",
+    "take_id":"take001",
+    "source_pass_id":"pass_scene001_base_generation_fixture_001",
+    "target_pass_id":"pass_scene001_face_eyes_specialist_fixture_001",
+    "source_execution_stack_id":"stack_template_flux2_dev_global_v1",
+    "target_execution_stack_id":"stack_template_sdxl_regional_specialist_v1",
+    "source_artifact_id":"artifact_scene001_accepted_parent_fixture_001",
+    "transfer_objects":[
+      {"transfer_type":"decoded_image","artifact_id":"artifact_scene001_decoded_image_fixture_001","sha256":"1111111111111111111111111111111111111111111111111111111111111111","media_metadata":{"metadata_schema_id":"decoded_image_metadata_v1","metadata_sha256":"44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a","payload":{}}},
+      {"transfer_type":"metadata_manifest","artifact_id":"artifact_scene001_metadata_fixture_001","sha256":"2222222222222222222222222222222222222222222222222222222222222222","media_metadata":{"metadata_schema_id":"ownership_lineage_metadata_v1","metadata_sha256":"44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a","payload":{}}}
+    ],
+    "decode_contract":{"decoder_id":"decoded_image_bridge_decoder_v1","color_or_sample_space":"sRGB","bit_depth_or_sample_format":"8bit_unorm","alpha_mode":"straight"},
+    "transform_chain":[{"source_space":"scene001_full_frame","target_space":"scene001_full_frame","source_dimensions":[1024,1024],"target_dimensions":[1024,1024],"operations":[{"operation":"identity","parameters":{},"parameters_sha256":"44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a","invertible":true,"roundtrip_evidence_id":"evidence_transform_identity_roundtrip_fixture_001"}],"interpolation":"none","transform_sha256":"3333333333333333333333333333333333333333333333333333333333333333"}],
+    "target_import_contract":{"importer_id":"sdxl_decoded_image_importer_v1","input_kind":"decoded_image","target_color_or_sample_space":"sRGB","orientation_policy":"preserve_exif_normalized_orientation","alpha_policy":"preserve_straight_alpha","mask_semantics":"white_target_black_protected","silent_resize":false,"reintegration_policy_id":"masked_crop_reintegration_v1"},
+    "ownership_propagation":[{"source_owner_id":"charinst_c01_scene001_01","target_owner_id":"charinst_c01_scene001_01","selectors":["whole_artifact","face","body"]}],
+    "compatibility_certificate_id":null,
+    "pre_bridge_qa_ids":["qa_source_hash_dimensions_color_ownership"],
+    "post_bridge_qa_ids":["qa_transform_roundtrip_seam_preservation"],
+    "forbidden_transfer_objects":["cross_family_latent","cross_family_embedding","lora_weight","vae_weight","text_encoder_weight","controlnet_weight","adapter_weight"],
+    "bridge_status":"blocked",
+    "execution_allowed":false,
+    "provenance":{"producer":"wave64_bridge_specialist_authority_fixture","source_refs":["W64_FAIL_CLOSED_ROUTE_SOLVER_SLICE_20260717T012605-0500"],"registry_snapshot_ids":["wave64_multimodal_engine_model_capability_registry"],"canonicalization":"rfc8785_jcs"}
+  },
+  "conditioning_translations": [
+    {"translation_id":"translation_prompt_sdxl_r001","semantic":"prompt","source_contract":"canonical_prompt_contract_v1","target_engine_family":"sdxl","translator_revision":"r001","configuration_sha256":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","translation_method":"engine_native_prompt_compilation","raw_value_copy_allowed":false,"status":"planned_blocked_no_certified_bridge"},
+    {"translation_id":"translation_reference_sdxl_r001","semantic":"reference","source_contract":"character_reference_contract_v1","target_engine_family":"sdxl","translator_revision":"r001","configuration_sha256":"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb","translation_method":"engine_native_reference_binding","raw_value_copy_allowed":false,"status":"planned_blocked_no_certified_bridge"},
+    {"translation_id":"translation_pose_sdxl_r001","semantic":"pose","source_contract":"shot_pose_package_v1","target_engine_family":"sdxl","translator_revision":"r001","configuration_sha256":"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc","translation_method":"coordinate_bound_control_translation","raw_value_copy_allowed":false,"status":"planned_blocked_no_certified_bridge"},
+    {"translation_id":"translation_depth_sdxl_r001","semantic":"depth","source_contract":"depth_control_contract_v1","target_engine_family":"sdxl","translator_revision":"r001","configuration_sha256":"dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd","translation_method":"normalized_depth_control_translation","raw_value_copy_allowed":false,"status":"planned_blocked_no_certified_bridge"},
+    {"translation_id":"translation_mask_sdxl_r001","semantic":"mask","source_contract":"maskfactory_binding_contract_v1","target_engine_family":"sdxl","translator_revision":"r001","configuration_sha256":"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee","translation_method":"authority_preserving_mask_translation","raw_value_copy_allowed":false,"status":"planned_blocked_no_certified_bridge"},
+    {"translation_id":"translation_control_sdxl_r001","semantic":"control","source_contract":"canonical_control_contract_v1","target_engine_family":"sdxl","translator_revision":"r001","configuration_sha256":"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff","translation_method":"engine_native_control_binding","raw_value_copy_allowed":false,"status":"planned_blocked_no_certified_bridge"},
+    {"translation_id":"translation_denoise_sdxl_r001","semantic":"denoise","source_contract":"canonical_edit_strength_v1","target_engine_family":"sdxl","translator_revision":"r001","configuration_sha256":"0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef","translation_method":"calibrated_engine_native_strength_mapping","raw_value_copy_allowed":false,"status":"planned_blocked_no_certified_bridge"},
+    {"translation_id":"translation_scheduler_sdxl_r001","semantic":"scheduler","source_contract":"canonical_sampling_intent_v1","target_engine_family":"sdxl","translator_revision":"r001","configuration_sha256":"123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0","translation_method":"certified_scheduler_profile_lookup","raw_value_copy_allowed":false,"status":"planned_blocked_no_certified_bridge"},
+    {"translation_id":"translation_adapter_sdxl_r001","semantic":"adapter","source_contract":"character_adapter_binding_v1","target_engine_family":"sdxl","translator_revision":"r001","configuration_sha256":"23456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef01","translation_method":"exact_engine_adapter_resolution","raw_value_copy_allowed":false,"status":"planned_blocked_no_certified_bridge"}
+  ],
+  "qualification_gate": {
+    "qualification_id":"qualification_flux_to_sdxl_scene001_fixture_v1",
+    "required_metrics":["identity","geometry","regional_fidelity","seams","preservation","whole_artifact_regression"],
+    "metric_results":[
+      {"metric":"identity","status":"not_run","evidence_ids":[]},
+      {"metric":"geometry","status":"not_run","evidence_ids":[]},
+      {"metric":"regional_fidelity","status":"not_run","evidence_ids":[]},
+      {"metric":"seams","status":"not_run","evidence_ids":[]},
+      {"metric":"preservation","status":"not_run","evidence_ids":[]},
+      {"metric":"whole_artifact_regression","status":"not_run","evidence_ids":[]}
+    ],
+    "decision":"blocked",
+    "certificate_id":null,
+    "execution_allowed":false,
+    "blocker_codes":["BLOCKED_SOURCE_STACK_NOT_SELECTED","BLOCKED_TARGET_STACK_NOT_CERTIFIED","BLOCKED_BRIDGE_QUALIFICATION_NOT_RUN"]
+  },
+  "specialist_catalog": [
+    {"catalog_entry_id":"specialist_face_eyes_v1","pass_intent":"face_eyes","capability_tags":["face","eyes","regional_fidelity"],"eligible_exact_stack_ids":[],"inputs":["decoded_image","target_mask"],"outputs":["decoded_masked_crop"],"preservation_risks":["identity_drift"],"qa_gate_ids":["qa_face_identity_preservation"],"status":"blocked_no_certified_bundle"},
+    {"catalog_entry_id":"specialist_hands_feet_v1","pass_intent":"hands_feet","capability_tags":["hands","feet","anatomy"],"eligible_exact_stack_ids":[],"inputs":["decoded_image","target_mask"],"outputs":["decoded_masked_crop"],"preservation_risks":["pose_drift"],"qa_gate_ids":["qa_extremity_geometry"],"status":"blocked_no_certified_bundle"},
+    {"catalog_entry_id":"specialist_anatomy_v1","pass_intent":"anatomy","capability_tags":["body","geometry"],"eligible_exact_stack_ids":[],"inputs":["decoded_image","target_mask"],"outputs":["decoded_masked_crop"],"preservation_risks":["identity_and_pose_drift"],"qa_gate_ids":["qa_anatomy_geometry"],"status":"blocked_no_certified_bundle"},
+    {"catalog_entry_id":"specialist_skin_v1","pass_intent":"skin","capability_tags":["skin","surface"],"eligible_exact_stack_ids":[],"inputs":["decoded_image","target_mask"],"outputs":["decoded_masked_crop"],"preservation_risks":["texture_discontinuity"],"qa_gate_ids":["qa_skin_surface"],"status":"blocked_no_certified_bundle"},
+    {"catalog_entry_id":"specialist_hair_v1","pass_intent":"hair","capability_tags":["hair","strand_detail"],"eligible_exact_stack_ids":[],"inputs":["decoded_image","target_mask"],"outputs":["decoded_masked_crop"],"preservation_risks":["silhouette_drift"],"qa_gate_ids":["qa_hair_boundary"],"status":"blocked_no_certified_bundle"},
+    {"catalog_entry_id":"specialist_fabric_v1","pass_intent":"fabric","capability_tags":["fabric","material"],"eligible_exact_stack_ids":[],"inputs":["decoded_image","target_mask"],"outputs":["decoded_masked_crop"],"preservation_risks":["wardrobe_drift"],"qa_gate_ids":["qa_fabric_material"],"status":"blocked_no_certified_bundle"},
+    {"catalog_entry_id":"specialist_accessories_v1","pass_intent":"accessories","capability_tags":["accessory","object"],"eligible_exact_stack_ids":[],"inputs":["decoded_image","target_mask"],"outputs":["decoded_masked_crop"],"preservation_risks":["ownership_leakage"],"qa_gate_ids":["qa_accessory_ownership"],"status":"blocked_no_certified_bundle"},
+    {"catalog_entry_id":"specialist_materials_v1","pass_intent":"materials","capability_tags":["material","surface"],"eligible_exact_stack_ids":[],"inputs":["decoded_image","target_mask"],"outputs":["decoded_masked_crop"],"preservation_risks":["material_mismatch"],"qa_gate_ids":["qa_material_consistency"],"status":"blocked_no_certified_bundle"},
+    {"catalog_entry_id":"specialist_contact_v1","pass_intent":"contact","capability_tags":["contact","ownership"],"eligible_exact_stack_ids":[],"inputs":["decoded_image","target_mask","contact_plan"],"outputs":["decoded_masked_crop"],"preservation_risks":["contact_seam"],"qa_gate_ids":["qa_contact_ownership"],"status":"blocked_no_certified_bundle"},
+    {"catalog_entry_id":"specialist_pressure_v1","pass_intent":"pressure","capability_tags":["pressure","force"],"eligible_exact_stack_ids":[],"inputs":["decoded_image","target_mask","contact_plan"],"outputs":["decoded_masked_crop"],"preservation_risks":["force_mismatch"],"qa_gate_ids":["qa_pressure_force"],"status":"blocked_no_certified_bundle"},
+    {"catalog_entry_id":"specialist_deformation_v1","pass_intent":"deformation","capability_tags":["deformation","soft_body"],"eligible_exact_stack_ids":[],"inputs":["decoded_image","target_mask","contact_plan"],"outputs":["decoded_masked_crop"],"preservation_risks":["whole_artifact_regression"],"qa_gate_ids":["qa_deformation_preservation"],"status":"blocked_no_certified_bundle"}
+  ],
+  "accepted_parent_artifact_id":"artifact_scene001_accepted_parent_fixture_001",
+  "runtime_execution_allowed":false,
+  "production_bridge_certified":false,
+  "content_based_suppression":false
+}
