@@ -1,0 +1,192 @@
+{
+  "meta": {
+    "13": {
+      "display_node": "13",
+      "node_id": "13",
+      "parent_node": null,
+      "real_node_id": "13"
+    }
+  },
+  "outputs": {
+    "13": {
+      "images": [
+        {
+          "filename": "two_adults_wide_seed7261703_00001_.png",
+          "subfolder": "flux2_dev_qualification",
+          "type": "output"
+        }
+      ]
+    }
+  },
+  "prompt": [
+    0,
+    "4808f219-c13c-48de-9efd-b86df701b980",
+    {
+      "1": {
+        "class_type": "UNETLoader",
+        "inputs": {
+          "unet_name": "flux2_dev_fp8mixed.safetensors",
+          "weight_dtype": "default"
+        }
+      },
+      "10": {
+        "class_type": "KSamplerSelect",
+        "inputs": {
+          "sampler_name": "euler"
+        }
+      },
+      "11": {
+        "class_type": "SamplerCustomAdvanced",
+        "inputs": {
+          "guider": [
+            "6",
+            0
+          ],
+          "latent_image": [
+            "7",
+            0
+          ],
+          "noise": [
+            "8",
+            0
+          ],
+          "sampler": [
+            "10",
+            0
+          ],
+          "sigmas": [
+            "9",
+            0
+          ]
+        }
+      },
+      "12": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "11",
+            0
+          ],
+          "vae": [
+            "3",
+            0
+          ]
+        }
+      },
+      "13": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "filename_prefix": "flux2_dev_qualification/two_adults_wide_seed7261703",
+          "images": [
+            "12",
+            0
+          ]
+        }
+      },
+      "2": {
+        "class_type": "CLIPLoader",
+        "inputs": {
+          "clip_name": "mistral_3_small_flux2_bf16.safetensors",
+          "device": "default",
+          "type": "flux2"
+        }
+      },
+      "3": {
+        "class_type": "VAELoader",
+        "inputs": {
+          "vae_name": "flux2-vae.safetensors"
+        }
+      },
+      "4": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "2",
+            0
+          ],
+          "text": "hyperreal wide editorial photograph of two distinct adult subjects, one woman and one man, collaborating across a walnut design table in a daylight architecture studio, both faces and hands clearly visible, distinct identity and wardrobe, natural anatomy, unambiguous object ownership, realistic skin hair fabric paper glass and wood, coherent contact shadows, 35mm lens, balanced composition"
+        }
+      },
+      "5": {
+        "class_type": "FluxGuidance",
+        "inputs": {
+          "conditioning": [
+            "4",
+            0
+          ],
+          "guidance": 4.0
+        }
+      },
+      "6": {
+        "class_type": "BasicGuider",
+        "inputs": {
+          "conditioning": [
+            "5",
+            0
+          ],
+          "model": [
+            "1",
+            0
+          ]
+        }
+      },
+      "7": {
+        "class_type": "EmptyFlux2LatentImage",
+        "inputs": {
+          "batch_size": 1,
+          "height": 832,
+          "width": 1216
+        }
+      },
+      "8": {
+        "class_type": "RandomNoise",
+        "inputs": {
+          "noise_seed": 7261703
+        }
+      },
+      "9": {
+        "class_type": "Flux2Scheduler",
+        "inputs": {
+          "height": 832,
+          "steps": 20,
+          "width": 1216
+        }
+      }
+    },
+    {
+      "client_id": "flux2-qualification-two_adults_wide_seed7261703",
+      "create_time": 1784287239674
+    },
+    [
+      "13"
+    ]
+  ],
+  "status": {
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "4808f219-c13c-48de-9efd-b86df701b980",
+          "timestamp": 1784287239675
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [],
+          "prompt_id": "4808f219-c13c-48de-9efd-b86df701b980",
+          "timestamp": 1784287239677
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "4808f219-c13c-48de-9efd-b86df701b980",
+          "timestamp": 1784287909349
+        }
+      ]
+    ],
+    "status_str": "success"
+  }
+}
