@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0.0",
+  "evidence_type": "wave64_scorecard_benchmark_release_slice",
+  "status": "PASS",
+  "classification": "WAVE64_SCORECARD_BENCHMARK_RELEASE_SLICE_PASS",
+  "rows_covered": [
+    209,
+    210,
+    211,
+    212
+  ],
+  "gate_count": 14,
+  "benchmark_fixture_count": 11,
+  "positive_decision": {
+    "decision": "allow",
+    "reason": "ALL_APPLICABLE_GATES_SCOPES_AND_SIGNALS_PASS",
+    "hard_failures": [],
+    "soft_failures": [],
+    "disagreement": false
+  },
+  "hard_failure_decision": {
+    "decision": "block",
+    "reason": "HARD_GATE_FAILURE",
+    "hard_failures": [
+      "anatomy"
+    ],
+    "soft_failures": [],
+    "disagreement": false
+  },
+  "disagreement_decision": {
+    "decision": "abstain",
+    "reason": "ENSEMBLE_DISAGREEMENT",
+    "hard_failures": [],
+    "soft_failures": [],
+    "disagreement": true
+  },
+  "release_readiness": {
+    "status": "blocked",
+    "all_blocking_gates_pass": false,
+    "promotion_request_eligible": false,
+    "actual_promotion_state": "not_requested",
+    "projection_only": true,
+    "missing_rows": [
+      213,
+      214,
+      215,
+      216,
+      217,
+      218,
+      219,
+      220
+    ],
+    "missing_certificates": [
+      "promotion",
+      "quality",
+      "release",
+      "runtime"
+    ],
+    "blockers": [
+      "required_rows_incomplete",
+      "required_certificates_missing"
+    ],
+    "residual_risk": [
+      "runtime_and_release_authority_incomplete"
+    ],
+    "scope": {
+      "row_start": 149,
+      "row_end": 220
+    },
+    "certificate_issued": false
+  },
+  "production_release_allowed": false,
+  "gpu_allocated": false,
+  "comfyui_submitted": false,
+  "aws_mutated": false,
+  "authority": {
+    "registry_path": "Plan/10_REGISTRIES/wave64_scorecard_benchmark_release_authority.json",
+    "registry_sha256": "3fa62360bbbd37198ed58babe2b2344b760c33e987e91606541b2029e661ab60",
+    "schema_path": "Plan/08_SCHEMAS/wave64_scorecard_benchmark_release_authority.schema.json",
+    "schema_sha256": "a5f53d7bfd4f5acd8afd3e98044ae0b3d5a3a3627342d7e5bd437ef3a5e1e477",
+    "runner_path": "Plan/07_IMPLEMENTATION/scripts/run_wave64_scorecard_benchmark_release_slice.py",
+    "runner_sha256": "1191d3a8282e4a6974d4164de5106c0912fedd986a278f68e3038d5353ff88c4"
+  },
+  "worker_dispatch": {
+    "intent_id": "intent_20260717T091423218Z_wave64_rows209_212_scorecard_benchmark_release_architecture_c12d53d2",
+    "request_id": "p050_20260717T091431635Z_wave64_rows209_212_scorecard_benchmark_release_architecture_270f62a4",
+    "result": "AI_WORKER_RETRY_BUDGET_EXHAUSTED_REGISTERED_PRIMARY_WORKTREE_REQUIRED",
+    "fallback": "bounded_codex_runtime_implementation_and_deterministic_validation"
+  },
+  "boundaries": {
+    "model_loaded": false,
+    "gpu_allocated": false,
+    "comfyui_submitted": false,
+    "production_artifact_created": false,
+    "promotion_requested": false,
+    "certificate_issued": false,
+    "wave_completion_claimed": false,
+    "aws_mutated": false,
+    "item_tracker_status_changed": false
+  }
+}
