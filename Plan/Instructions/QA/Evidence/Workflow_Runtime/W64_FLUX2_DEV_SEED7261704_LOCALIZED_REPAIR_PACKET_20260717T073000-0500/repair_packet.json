@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.0",
+  "artifact_type": "flux2_localized_anatomy_repair_packet",
+  "packet_id": "W64_FLUX2_DEV_SEED7261704_LOCALIZED_REPAIR_PACKET_20260717T073000-0500",
+  "classification": "LOCALIZED_ANATOMY_REPAIR_PACKET_READY_GENERATION_NOT_EXECUTED",
+  "result": "diagnosis_and_operational_mask_pass_runtime_repair_not_run",
+  "source": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260717T063237-0500/images/13_adult_woman_portrait_seed7261704_00001_.png",
+    "sha256": "1e9eaffd576b521e96118204aaef4ac67f1eef54e4d8f7fc46b57931c792d1f6",
+    "width": 768,
+    "height": 1024
+  },
+  "prompt_request": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260717T063237-0500/workflows/prompt_request.json",
+    "sha256": "a5b5cf1f22fc56136078291cee2a46e6ba8d241376b1503e10d4433f095fcfbc",
+    "seed": 7261704
+  },
+  "qualification_evidence": {
+    "path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_FLUX2_DEV_BROADER_QUALIFICATION_20260717T070415-0500/evidence.json",
+    "sha256": "c1576d91350a307906d0b782b00a9bbf9615ef0d1a5387a1ecff8955e352d0ba",
+    "sample_result": "fail_whole_image_anatomy"
+  },
+  "defect": {
+    "region_id": "extraneous_left_workbench_hand_forearm",
+    "description": "Detached extra hand and partial forearm emerge from the left workbench while the subject already has both hands clasped.",
+    "bbox_xywh": [
+      215,
+      475,
+      72,
+      100
+    ],
+    "polygon_xy": [
+      [
+        226,
+        482
+      ],
+      [
+        258,
+        485
+      ],
+      [
+        275,
+        505
+      ],
+      [
+        274,
+        548
+      ],
+      [
+        264,
+        561
+      ],
+      [
+        240,
+        566
+      ],
+      [
+        224,
+        551
+      ],
+      [
+        217,
+        523
+      ]
+    ],
+    "context_crop_xywh": [
+      119,
+      379,
+      264,
+      292
+    ]
+  },
+  "operational_mask": {
+    "path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_FLUX2_DEV_SEED7261704_LOCALIZED_REPAIR_PACKET_20260717T073000-0500/operational_repair_mask.png",
+    "sha256": "e7e2aeb5ab4a15e11c40244cb91c5559c2aff01aa0443b4c2c87127f9f56a57d",
+    "classification": "non_gold_operational_repair_region",
+    "consumed_as_evaluation_truth": false,
+    "mask_promotion_allowed": false
+  },
+  "hard_anatomy_contract": {
+    "request_path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_FLUX2_DEV_SEED7261704_LOCALIZED_REPAIR_PACKET_20260717T073000-0500/hard_anatomy_repair_request.json",
+    "request_sha256": "6e5c16a7bcbc59b95d5b5a26f11c7d74b03fc33ad79d946d547f7c6ec61d77ae",
+    "contract_path": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_FLUX2_DEV_SEED7261704_LOCALIZED_REPAIR_PACKET_20260717T073000-0500/hard_anatomy_repair_contract.json",
+    "contract_sha256": "0721b89c399d264067b58058cddd4685a84256af807ca92663bdc36e53672ee4",
+    "canonical_validator_result": "PASS",
+    "promotion_allowed": false
+  },
+  "runtime": {
+    "generation_executed": false,
+    "repair_candidate_generated": false,
+    "source_preserving_composite_executed": false,
+    "post_repair_visual_qa_complete": false,
+    "runtime_execution_allowed": false
+  },
+  "exact_blockers": [
+    "An exact inpaint/edit workflow and model bundle are not bound to this packet.",
+    "No localized repair candidate has been generated.",
+    "No source-preserving composite or post-repair whole-image visual QA has run."
+  ],
+  "boundaries": {
+    "gold_mask_used": false,
+    "candidate_mask_used_as_truth": false,
+    "production_promotion_allowed": false,
+    "seed_loop_allowed": false,
+    "ec2_started": false
+  },
+  "next_action": "Bind one exact certified or qualification-eligible inpaint/edit workflow to the hash-locked source and operational mask, run one candidate, composite it with the source-preserving repair path, and perform direct whole-image visual QA."
+}

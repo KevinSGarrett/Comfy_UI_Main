@@ -1,0 +1,137 @@
+{
+  "source_image_id": "adult_woman_portrait_seed7261704",
+  "character_id": "qualification_single_adult_woman",
+  "repair_regions": [
+    "extraneous_left_workbench_hand_forearm"
+  ],
+  "crop_plans": [
+    {
+      "crop_id": "crop_extraneous_left_workbench_hand_forearm",
+      "region_id": "extraneous_left_workbench_hand_forearm",
+      "bbox_xywh": [
+        215,
+        475,
+        72,
+        100
+      ],
+      "polygon_xy": [
+        [
+          226,
+          482
+        ],
+        [
+          258,
+          485
+        ],
+        [
+          275,
+          505
+        ],
+        [
+          274,
+          548
+        ],
+        [
+          264,
+          561
+        ],
+        [
+          240,
+          566
+        ],
+        [
+          224,
+          551
+        ],
+        [
+          217,
+          523
+        ]
+      ],
+      "context_crop_xywh": [
+        119,
+        379,
+        264,
+        292
+      ],
+      "context_margin_px": 96,
+      "mask_classification": "non_gold_operational_repair_region"
+    }
+  ],
+  "qa_goals": [
+    "remove_detached_extra_anatomy",
+    "restore_background_surface_continuity",
+    "preserve_subject_identity_pose_and_existing_anatomy",
+    "pass_whole_image_visual_review"
+  ],
+  "global_preservation_goals": [
+    "identity",
+    "pose",
+    "body_proportions",
+    "frame_integrity",
+    "contact_continuity",
+    "ceramics_studio_composition"
+  ],
+  "anatomy_scorecard": {
+    "status": "fail",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_FLUX2_DEV_BROADER_QUALIFICATION_20260717T070415-0500/evidence.json"
+    ],
+    "blockers": [
+      "detached_extra_hand_and_forearm"
+    ],
+    "local_score": 0.0,
+    "global_score": 0.0,
+    "regional_checks": [
+      {
+        "region_id": "extraneous_left_workbench_hand_forearm",
+        "status": "fail",
+        "description": "Detached extra hand and partial forearm emerge from the left workbench while the subject already has both hands clasped."
+      }
+    ]
+  },
+  "hands_feet_check": {
+    "status": "fail",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_FLUX2_DEV_BROADER_QUALIFICATION_20260717T070415-0500/evidence.json"
+    ],
+    "blockers": [
+      "extra_hand_count_and_ownership_failure"
+    ],
+    "hands": {
+      "status": "fail",
+      "inspectable": true
+    },
+    "feet": {
+      "status": "pass",
+      "inspectable": true
+    }
+  },
+  "face_teeth_eye_check": {
+    "status": "pass",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_FLUX2_DEV_BROADER_QUALIFICATION_20260717T070415-0500/evidence.json"
+    ],
+    "blockers": [],
+    "face": {
+      "status": "pass",
+      "inspectable": true
+    },
+    "eyes": {
+      "status": "pass",
+      "inspectable": true
+    },
+    "teeth": {
+      "status": "not_applicable",
+      "inspectable": false
+    }
+  },
+  "hard_reject_on_deformation": {
+    "enabled": true,
+    "triggered": true,
+    "reasons": [
+      "detached_extra_hand_and_forearm"
+    ],
+    "promotion_allowed": false
+  }
+}
