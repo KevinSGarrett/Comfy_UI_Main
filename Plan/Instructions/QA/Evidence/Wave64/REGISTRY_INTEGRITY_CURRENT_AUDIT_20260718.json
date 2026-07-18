@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0",
+  "artifact_type": "wave64_registry_integrity_current_audit",
+  "status": "HOLD_PENDING_BOUNDED_VALIDATOR_CORRECTION",
+  "classification": "ROW054_CURRENT_CORPUS_PARSES_FALSE_POSITIVE_VALIDATOR_FINDINGS_REMAIN",
+  "created_at": "2026-07-18T18:41:30-05:00",
+  "tracker_id": "TRK-W64-054",
+  "item_id": "ITEM-W64-054",
+  "source_commit": "9fdb8d18ce4b5a23f5f828c980d1561a9b504ae0",
+  "validator": {
+    "path": "Plan/07_IMPLEMENTATION/scripts/run_wave64_registry_integrity_checks.py",
+    "sha256": "dce6d288d8cbc2033576dbac6a4e5890941555a318f30f3819b7b0da2bc2ee90"
+  },
+  "raw_report": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/REGISTRY_INTEGRITY_CHECKS_20260718T183854-0500.json",
+    "sha256": "21efce21c309627f0c078abc254d5e1847049683c66bba3900c381728842df55",
+    "structured_pass": false
+  },
+  "counts": {
+    "files": 464,
+    "json_files": 441,
+    "json_parsed": 441,
+    "json_parse_errors": 0,
+    "csv_files": 23,
+    "csv_parse_errors": 0,
+    "other_files": 0,
+    "plan_path_references": 732,
+    "missing_plan_references_reported": 1,
+    "duplicate_id_findings_reported": 3,
+    "stale_status_findings": 0
+  },
+  "finding_classification": [
+    {
+      "finding": "missing_plan_reference",
+      "source": "Plan/10_REGISTRIES/wave64_ultimate_multimodal_workflow_work_package_registry.json",
+      "reported_reference": "Plan/13_COMFYUI_INTEGRATION.md",
+      "actual_source_value": "C:/Comfy_UI_Main_Masking/Plan/13_COMFYUI_INTEGRATION.md",
+      "classification": "VALIDATOR_FALSE_POSITIVE_EXTERNAL_REPOSITORY_SUBSTRING",
+      "reason": "The relative Plan-path expression matched a substring inside the separately rooted MaskFactory repository path."
+    },
+    {
+      "finding": "duplicate_item_id_and_tracker_id",
+      "source": "Plan/10_REGISTRIES/blueprint_projectplan_current_traceability.json",
+      "container": "$.requirement_links",
+      "reported_values": [
+        "ITEM-W64-058",
+        "TRK-W64-058"
+      ],
+      "classification": "VALIDATOR_FALSE_POSITIVE_CONTEXTUAL_FOREIGN_IDENTITIES",
+      "reason": "The repeated row-scope item and tracker identities accompany distinct trace_id values trace_001 through trace_011."
+    },
+    {
+      "finding": "duplicate_lane_id",
+      "source": "Plan/10_REGISTRIES/realesrgan_export_candidate_registry.json",
+      "container": "$.candidates",
+      "reported_value": "sdxl_realesrgan_upscale_polish_lane",
+      "classification": "VALIDATOR_FALSE_POSITIVE_CONTEXTUAL_FOREIGN_IDENTITY",
+      "reason": "Multiple distinct candidate_id records intentionally share one parent lane identity."
+    }
+  ],
+  "required_validator_behavior": {
+    "path_boundary": "Accept standalone Plan-relative paths and exact C:/Comfy_UI_Main/Plan paths; reject substring extraction from other repository roots.",
+    "identity_boundary": "Treat contextual item_id, tracker_id, and lane_id as foreign identities only when another explicit row identity is present; retain duplicate failure when the contextual key is the sole identity.",
+    "fail_closed": true
+  },
+  "signed_worker_request": {
+    "request_id": "p010_20260718T234056362Z_row054_registry_validator_false_positive_correction_v2_cc84a06d",
+    "state_at_audit": "QUEUED",
+    "scheduled_lane_wake_attempted": true,
+    "scheduled_lane_wake_result": "FAILED_TASK_DISABLED",
+    "provider_execution_claimed": false
+  },
+  "runtime_boundary": {
+    "runtime_required": false,
+    "ec2_contacted": false,
+    "docker_contacted": false,
+    "wsl_contacted": false,
+    "comfyui_contacted": false,
+    "provider_or_wrapper_called_by_codex": false,
+    "registry_data_changed": false,
+    "tracker_status_changed": false
+  },
+  "decision": "Do not preserve the prior Row054 PASS as current truth until the bounded validator correction is independently accepted and the live 464-file-or-newer corpus passes.",
+  "next_action": "Accept or reject the retained Cursor patch, rerun the corrected validator against the live corpus including untracked registry records, then record current Row054 evidence and tracker state."
+}
