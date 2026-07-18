@@ -1,3 +1,20 @@
+## Immediate Next Action - Wave64 Script Validation - 2026-07-18T18:21:52-05:00
+
+Worked script parser row `TRK-W64-052` / `ITEM-W64-052`.
+
+Result: `script_validation_current_plan_parser_only_no_bytecode_pass`. Parser-only validation AST-compiled `835` Python files and parsed `181` PowerShell files with zero parser errors. The exact Plan bytecode inventory remained `886 -> 886` with zero changed artifacts, and the focused regression passed `10/10`. No project helper bodies were executed.
+
+Runtime boundary: no EC2, AWS, generation, ComfyUI contact, hard-gate rerun, mask truth, candidate-mask promotion, or Wave71+ activation occurred.
+
+Evidence:
+- `Plan/Instructions/QA/Evidence/Wave64/script_validation.json`
+- `Plan/Instructions/QA/Evidence/Wave64/SCRIPT_VALIDATION_20260718T182152-0500.json`
+- `Plan/Tracker/Evidence/SCRIPT_VALIDATION_20260718T182152-0500.json`
+- `Plan/Instructions/QA/Evidence/Wave64/SCRIPT_VALIDATION_CHECKS_20260718T182133-0500.json`
+
+Next exact local action: advance to `TRK-W64-053` / `ITEM-W64-053`.
+
+
 ## Wave64 Row051 Current Schema And Structured-Data Validation - 2026-07-18T17:33:16-05:00
 
 `TRK-W64-051` / `ITEM-W64-051` is `Completed_Current_Plan_JSON_CSV_Schema_Validation_Pass`. The exhaustive local gate now passes the live Plan corpus: 6,199 JSON files, 217 CSVs, and 477 schemas with zero parse errors, CSV header gaps, schema errors, structural gaps, or duplicate schema names. The only initial failures were three valid Draft 2020-12 shared-definition modules using non-empty `$defs`; the validator now recognizes that exact schema role without weakening instance-root checks. Focused regression passes `11/11`, including empty, malformed, metadata-only, ordinary-object, top-level-`$ref`, legacy-descriptor, and shared-definition cases. This completes Row051 schema/structured-data QA only; it does not certify runtime, visuals, workers, the full project, or product release. No WSL, Docker, AWS, EC2, provider, wrapper, or task wake occurred.

@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "SCRIPT_VALIDATION_CHECKS_20260718T181532-0500",
+  "created_iso": "2026-07-18T18:15:32-05:00",
+  "project_root": "C:\\Comfy_UI_Main",
+  "plan_root": "C:\\Comfy_UI_Main\\Plan",
+  "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+  "scope": {
+    "python_glob": "Plan/**/*.py",
+    "powershell_glob": "Plan/**/*.{ps1,psm1,psd1}",
+    "excluded_parts": [
+      ".git",
+      ".venv",
+      "__pycache__",
+      "node_modules",
+      "venv"
+    ],
+    "helpers_executed": false,
+    "parser_only": true,
+    "python_parser_method": "compile_ast_only_with_tokenize_open",
+    "python_bytecode_written": false,
+    "ec2_contacted": false,
+    "aws_contacted": false,
+    "comfyui_contacted": false,
+    "runtime_mutation": false
+  },
+  "parser_check": {
+    "pass": true,
+    "python": {
+      "file_count": 835,
+      "parse_error_count": 0,
+      "errors": [],
+      "parser_method": "compile_ast_only_with_tokenize_open",
+      "bytecode_inventory": {
+        "before_count": 886,
+        "after_count": 886,
+        "changed_count": 0,
+        "changed_paths": [],
+        "unchanged": true
+      }
+    },
+    "powershell": {
+      "file_count": 181,
+      "parse_error_count": 0,
+      "errors": [],
+      "process": {
+        "exit_code": 0,
+        "stdout_tail": "{\n    \"file_count\":  181,\n    \"parse_error_count\":  0,\n    \"errors\":  [\n\n               ]\n}\n",
+        "stderr_tail": "",
+        "parser_evidence": "Plan/Instructions/QA/Evidence/Wave64/SCRIPT_VALIDATION_POWERSHELL_PARSE_20260718T181532-0500.json"
+      }
+    }
+  },
+  "local_smoke": {
+    "pass": true,
+    "method": "Parser-only smoke: Python compile(..., PyCF_ONLY_AST) and PowerShell Language.Parser.ParseFile completed without executing project helper bodies or writing Python bytecode."
+  },
+  "no_live_side_effect_default": {
+    "pass": true,
+    "no_ec2": true,
+    "no_aws": true,
+    "no_comfyui": true,
+    "no_helper_execution": true,
+    "no_python_bytecode_write": true
+  },
+  "evidence_output_json": {
+    "pass": true,
+    "path": "Plan/Instructions/QA/Evidence/Wave64/SCRIPT_VALIDATION_CHECKS_20260718T181532-0500.json"
+  },
+  "structured_report": {
+    "pass": true
+  }
+}

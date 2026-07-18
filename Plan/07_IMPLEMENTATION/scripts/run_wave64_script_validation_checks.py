@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+import ast
+import hashlib
 import json
-import py_compile
 import subprocess
 import sys
 import tempfile
+import tokenize
 from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -34,6 +36,13 @@ def rel(path: Path) -> str:
     return path.resolve().relative_to(PROJECT_ROOT.resolve()).as_posix()
 
 
+def display_path(path: Path) -> str:
+    try:
+        return rel(path)
+    except ValueError:
+        return str(path.resolve())
+
+
 def in_scope(path: Path) -> bool:
     return not any(part in EXCLUDED_PARTS for part in path.parts)
 
@@ -46,17 +55,61 @@ def list_files(extensions: set[str]) -> list[Path]:
     )
 
 
-def validate_python(files: list[Path]) -> dict[str, object]:
+def bytecode_inventory(root: Path) -> dict[str, dict[str, int | str]]:
+    inventory: dict[str, dict[str, int | str]] = {}
+    for path in sorted(root.rglob("*")):
+        if not path.is_file():
+            continue
+        if path.suffix.lower() not in {".pyc", ".pyo"} and "__pycache__" not in path.parts:
+            continue
+        stat = path.stat()
+        inventory[path.resolve().relative_to(root.resolve()).as_posix()] = {
+            "bytes": stat.st_size,
+            "mtime_ns": stat.st_mtime_ns,
+            "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+        }
+    return inventory
+
+
+def parse_python_file(path: Path) -> None:
+    with tokenize.open(path) as handle:
+        source = handle.read()
+    compile(
+        source,
+        str(path),
+        "exec",
+        flags=ast.PyCF_ONLY_AST,
+        dont_inherit=True,
+    )
+
+
+def validate_python(files: list[Path], bytecode_root: Path = PLAN_ROOT) -> dict[str, object]:
+    bytecode_before = bytecode_inventory(bytecode_root)
     errors = []
     for path in files:
         try:
-            py_compile.compile(str(path), doraise=True)
+            parse_python_file(path)
         except Exception as exc:
-            errors.append({"path": rel(path), "error": f"{type(exc).__name__}: {exc}"})
+            errors.append({"path": display_path(path), "error": f"{type(exc).__name__}: {exc}"})
+    bytecode_after = bytecode_inventory(bytecode_root)
+    bytecode_paths = sorted(set(bytecode_before) | set(bytecode_after))
+    bytecode_changes = [
+        path
+        for path in bytecode_paths
+        if bytecode_before.get(path) != bytecode_after.get(path)
+    ]
     return {
         "file_count": len(files),
         "parse_error_count": len(errors),
         "errors": errors[:100],
+        "parser_method": "compile_ast_only_with_tokenize_open",
+        "bytecode_inventory": {
+            "before_count": len(bytecode_before),
+            "after_count": len(bytecode_after),
+            "changed_count": len(bytecode_changes),
+            "changed_paths": bytecode_changes[:100],
+            "unchanged": not bytecode_changes,
+        },
     }
 
 
@@ -143,7 +196,11 @@ def main() -> int:
     ps_files = list_files({".ps1", ".psm1", ".psd1"})
     python_result = validate_python(py_files)
     powershell_result = validate_powershell()
-    parser_pass = python_result["parse_error_count"] == 0 and powershell_result["parse_error_count"] == 0
+    parser_pass = (
+        python_result["parse_error_count"] == 0
+        and python_result["bytecode_inventory"]["unchanged"] is True
+        and powershell_result["parse_error_count"] == 0
+    )
 
     payload = {
         "schema_version": "1.0",
@@ -158,6 +215,8 @@ def main() -> int:
             "excluded_parts": sorted(EXCLUDED_PARTS),
             "helpers_executed": False,
             "parser_only": True,
+            "python_parser_method": python_result["parser_method"],
+            "python_bytecode_written": not python_result["bytecode_inventory"]["unchanged"],
             "ec2_contacted": False,
             "aws_contacted": False,
             "comfyui_contacted": False,
@@ -169,15 +228,16 @@ def main() -> int:
             "powershell": powershell_result,
         },
         "local_smoke": {
-            "pass": True,
-            "method": "Parser-only smoke: Python py_compile and PowerShell Language.Parser.ParseFile completed without executing project helper bodies.",
+            "pass": parser_pass,
+            "method": "Parser-only smoke: Python compile(..., PyCF_ONLY_AST) and PowerShell Language.Parser.ParseFile completed without executing project helper bodies or writing Python bytecode.",
         },
         "no_live_side_effect_default": {
-            "pass": True,
+            "pass": python_result["bytecode_inventory"]["unchanged"] is True,
             "no_ec2": True,
             "no_aws": True,
             "no_comfyui": True,
             "no_helper_execution": True,
+            "no_python_bytecode_write": python_result["bytecode_inventory"]["unchanged"],
         },
         "evidence_output_json": {
             "pass": True,
@@ -194,6 +254,7 @@ def main() -> int:
         "pass": parser_pass,
         "python_files": python_result["file_count"],
         "python_parse_errors": python_result["parse_error_count"],
+        "python_bytecode_changes": python_result["bytecode_inventory"]["changed_count"],
         "powershell_files": powershell_result["file_count"],
         "powershell_parse_errors": powershell_result["parse_error_count"],
     }, indent=2))

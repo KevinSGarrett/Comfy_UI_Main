@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
 from datetime import datetime
 from pathlib import Path
@@ -32,10 +33,18 @@ SOURCE_STATE = HYDRATION_DIR / "CURRENT_SESSION_STATE.md"
 SOURCE_RESUME = HYDRATION_DIR / "RESUME_HERE_NEXT_CODEX_SESSION.md"
 SOURCE_INDEX = HYDRATION_DIR / "QA_EVIDENCE_INDEX.md"
 SOURCE_DECISIONS = HYDRATION_DIR / "RECENT_DECISIONS.md"
+SOURCE_BLOCKERS = HYDRATION_DIR / "BLOCKERS.md"
+SOURCE_KNOWN_ISSUES = HYDRATION_DIR / "KNOWN_ISSUES.md"
 
 EVIDENCE = QA_DIR / "script_validation.json"
 STAMPED_EVIDENCE = QA_DIR / f"SCRIPT_VALIDATION_{STAMP}.json"
 TRACKER_EVIDENCE = TRACKER_EVIDENCE_DIR / f"SCRIPT_VALIDATION_{STAMP}.json"
+CURRENT_EVIDENCE = QA_DIR / "SCRIPT_VALIDATION_CURRENT_REVALIDATION_20260718.json"
+TRACKER_CURRENT_EVIDENCE = TRACKER_EVIDENCE_DIR / "SCRIPT_VALIDATION_CURRENT_REVALIDATION_20260718.json"
+TEST_LOG = QA_DIR / "script_validation_current_test_log.json"
+DONE_CERT = PLAN_ROOT / "Instructions/QA/Evidence/Done_Certifications/ROW052_SCRIPT_VALIDATION_DONE_20260718.json"
+ITEM_REPORT = PLAN_ROOT / "Items/Reports/ITEM-W64-052_script_validation.json"
+TEST_SCRIPT = PLAN_ROOT / "Instructions/QA/Scripts/test_wave64_script_validation_checks.py"
 
 TRACKER_FILES = [
     PLAN_ROOT / "Tracker/wave64_end_to_end_strict_ai_tracker.csv",
@@ -58,6 +67,10 @@ def read_json(path: Path) -> dict[str, object]:
 def write_json(path: Path, payload: object) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+
+
+def sha256_file(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def latest(pattern: str) -> Path:
@@ -96,23 +109,33 @@ def update_csv(path: Path, key: str, key_value: str, updates: dict[str, list[str
     return count
 
 
-def prepend(path: Path, block: str) -> None:
+def prepend(path: Path, block: str, replace_heading_prefix: str | None = None) -> None:
     existing = path.read_text(encoding="utf-8-sig") if path.exists() else ""
+    if replace_heading_prefix and existing.startswith(replace_heading_prefix):
+        next_heading = existing.find("\n## ", len(replace_heading_prefix))
+        existing = existing[next_heading + 1 :] if next_heading >= 0 else ""
     path.write_text(block.lstrip() + "\n\n" + existing.lstrip(), encoding="utf-8")
 
 
 def append_proof_log(payload: dict[str, object]) -> None:
     proof_path = HYDRATION_DIR / "PROOF_OF_MOVEMENT_LOG.csv"
+    if proof_path.exists():
+        with proof_path.open("r", encoding="utf-8-sig", newline="") as f:
+            if any(
+                len(row) > 6 and row[2] == TRACKER_ID and row[6] == payload["qa_decision"]
+                for row in csv.reader(f)
+            ):
+                return
     line = [
         ISO_TS,
         "64",
         TRACKER_ID,
-        "Recorded parser-only Python and PowerShell script validation.",
+        "Recorded parser-only Python and PowerShell validation with an exact no-bytecode-write invariant.",
         "; ".join(payload["evidence_paths"]),
-        "parser check; local smoke; no live side effect default; evidence output json",
+        "AST parser check; PowerShell parser check; 10-case focused regression; no bytecode drift; evidence output json",
         payload["qa_decision"],
         rel(EVIDENCE),
-        f"Advance to {NEXT_TRACKER_ID}/{NEXT_ITEM_ID}.",
+        f"Advance to {NEXT_TRACKER_ID}/{NEXT_ITEM_ID}; retain runtime and worker boundaries.",
     ]
     with proof_path.open("a", encoding="utf-8", newline="") as f:
         writer = csv.writer(f, lineterminator="\n")
@@ -123,20 +146,44 @@ def main() -> None:
     check_path = latest("SCRIPT_VALIDATION_CHECKS_*.json")
     checks = read_json(check_path)
     previous = read_json(QA_DIR / "schema_validation.json")
+    focused = read_json(TEST_LOG)
     parser = checks["parser_check"]
     py = parser["python"]
     ps = parser["powershell"]
+    bytecode = py["bytecode_inventory"]
 
     check_results = {
-        "previous_row_passed": previous.get("qa_decision") == "schema_validation_passed_plan_json_csv_schema_assets",
-        "parser_check": parser["pass"] is True and py["parse_error_count"] == 0 and ps["parse_error_count"] == 0,
+        "previous_row_passed": previous.get("qa_decision") in {
+            "schema_validation_passed_plan_json_csv_schema_assets",
+            "schema_validation_current_plan_json_csv_schema_assets_pass",
+        },
+        "parser_check": (
+            parser["pass"] is True
+            and py["parse_error_count"] == 0
+            and ps["parse_error_count"] == 0
+            and py.get("parser_method") == "compile_ast_only_with_tokenize_open"
+        ),
+        "python_bytecode_inventory_unchanged": (
+            bytecode["unchanged"] is True
+            and bytecode["changed_count"] == 0
+            and bytecode["before_count"] == bytecode["after_count"]
+        ),
+        "focused_no_bytecode_regression": (
+            focused.get("status") == "PASS"
+            and focused.get("classification") == "ROW052_PARSER_ONLY_NO_BYTECODE_REGRESSION_PASS"
+            and focused.get("case_count") == 10
+            and focused.get("failure_count") == 0
+        ),
         "local_smoke": checks["local_smoke"]["pass"] is True,
-        "no_live_side_effect_default": checks["no_live_side_effect_default"]["pass"] is True,
+        "no_live_side_effect_default": (
+            checks["no_live_side_effect_default"]["pass"] is True
+            and checks["no_live_side_effect_default"].get("no_python_bytecode_write") is True
+        ),
         "evidence_output_json": checks["evidence_output_json"]["pass"] is True,
         "script_root_exists": SOURCE_SCRIPT_ROOT.exists(),
     }
     errors = [name for name, passed in check_results.items() if not passed]
-    qa_decision = "script_validation_passed_parser_only_no_live_side_effects" if not errors else "blocked_script_validation_gap"
+    qa_decision = "script_validation_current_plan_parser_only_no_bytecode_pass" if not errors else "blocked_script_validation_gap"
 
     payload: dict[str, object] = {
         "schema_version": "1.0",
@@ -152,9 +199,15 @@ def main() -> None:
         "counts": {
             "python_files": py["file_count"],
             "python_parse_errors": py["parse_error_count"],
+            "python_bytecode_artifacts_before": bytecode["before_count"],
+            "python_bytecode_artifacts_after": bytecode["after_count"],
+            "python_bytecode_artifacts_changed": bytecode["changed_count"],
             "powershell_files": ps["file_count"],
             "powershell_parse_errors": ps["parse_error_count"],
+            "focused_regression_cases": focused["case_count"],
+            "focused_regression_failures": focused["failure_count"],
         },
+        "python_parser_method": py["parser_method"],
         "runtime_boundary": {
             "ec2_started": False,
             "aws_contacted": False,
@@ -172,33 +225,41 @@ def main() -> None:
         "errors": errors,
         "qa_decision": qa_decision,
         "next_step": f"Advance to {NEXT_TRACKER_ID}/{NEXT_ITEM_ID}.",
+        "boundary": "Row052 local parser and helper-smoke validation only; no helper execution, runtime, worker, visual, media, AWS, EC2, or release certification.",
     }
     ps_parser_evidence = ps.get("process", {}).get("parser_evidence")
     payload["evidence_paths"] = [
         rel(EVIDENCE),
         rel(STAMPED_EVIDENCE),
         rel(TRACKER_EVIDENCE),
+        rel(CURRENT_EVIDENCE),
+        rel(TRACKER_CURRENT_EVIDENCE),
+        rel(TEST_LOG),
+        rel(DONE_CERT),
+        rel(ITEM_REPORT),
         rel(check_path),
         rel(CHECK_SCRIPT),
+        rel(TEST_SCRIPT),
         rel(SOURCE_SCRIPT_ROOT),
     ]
     if isinstance(ps_parser_evidence, str) and ps_parser_evidence.startswith("Plan/"):
         payload["evidence_paths"].append(ps_parser_evidence)
 
-    write_json(EVIDENCE, payload)
-    write_json(STAMPED_EVIDENCE, payload)
-    write_json(TRACKER_EVIDENCE, payload)
+    for path in [EVIDENCE, STAMPED_EVIDENCE, TRACKER_EVIDENCE, CURRENT_EVIDENCE, TRACKER_CURRENT_EVIDENCE]:
+        write_json(path, payload)
 
     note = (
         f"Wave64 script validation {STAMP}: python_files={py['file_count']} python_errors={py['parse_error_count']} "
-        f"powershell_files={ps['file_count']} powershell_errors={ps['parse_error_count']} decision={qa_decision}."
+        f"bytecode_changed={bytecode['changed_count']} powershell_files={ps['file_count']} "
+        f"powershell_errors={ps['parse_error_count']} focused=10/10 decision={qa_decision}."
     )
     additions = [
         "wave64_script_validation_checked",
         qa_decision,
         "parser_check_passed",
-        "local_smoke_passed_parser_only",
-        "no_live_side_effect_default_passed",
+        "local_smoke_passed_ast_only",
+        "python_bytecode_inventory_unchanged",
+        "focused_no_bytecode_regression_10_of_10",
         "evidence_output_json_passed",
     ]
     tracker_updates = {}
@@ -234,7 +295,7 @@ def main() -> None:
 
 Worked script parser row `{TRACKER_ID}` / `{ITEM_ID}`.
 
-Result: `{qa_decision}`. Parser-only validation compiled `{py['file_count']}` Python files and parsed `{ps['file_count']}` PowerShell files with zero parser errors. No project helper bodies were executed.
+Result: `{qa_decision}`. Parser-only validation AST-compiled `{py['file_count']}` Python files and parsed `{ps['file_count']}` PowerShell files with zero parser errors. The exact Plan bytecode inventory remained `{bytecode['before_count']} -> {bytecode['after_count']}` with zero changed artifacts, and the focused regression passed `10/10`. No project helper bodies were executed.
 
 Runtime boundary: no EC2, AWS, generation, ComfyUI contact, hard-gate rerun, mask truth, candidate-mask promotion, or Wave71+ activation occurred.
 
@@ -246,13 +307,13 @@ Evidence:
 
 Next exact local action: advance to `{NEXT_TRACKER_ID}` / `{NEXT_ITEM_ID}`.
 """
-    for path in [SOURCE_NEXT, SOURCE_GOAL, SOURCE_STATE, SOURCE_RESUME]:
-        prepend(path, block)
+    for path in [SOURCE_NEXT, SOURCE_GOAL, SOURCE_STATE, SOURCE_RESUME, SOURCE_BLOCKERS, SOURCE_KNOWN_ISSUES]:
+        prepend(path, block, "## Immediate Next Action - Wave64 Script Validation -")
 
     index_block = f"""
 ## Wave64 Script Validation - {ISO_TS}
 
-Script parser validation passed with local-only Python `py_compile` and PowerShell parser checks. Helper bodies were not executed.
+Script parser validation passed with local-only Python AST compilation and PowerShell parser checks. Helper bodies were not executed, and all pre-existing Plan bytecode artifacts remained byte-for-byte and timestamp stable.
 
 Evidence:
 - `Plan/Instructions/QA/Evidence/Wave64/script_validation.json`
@@ -260,20 +321,65 @@ Evidence:
 - `Plan/Tracker/Evidence/SCRIPT_VALIDATION_{STAMP}.json`
 - `{rel(check_path)}`
 """
-    prepend(SOURCE_INDEX, index_block)
+    prepend(SOURCE_INDEX, index_block, "## Wave64 Script Validation -")
 
     decision_block = f"""
 ## Wave64 Script Parser Boundary Decision - {ISO_TS}
 
 Decision: script-validation rows may use parser-only local smoke checks without executing helper bodies. Live helper execution remains gated by each helper's own runtime, AWS, EC2, ComfyUI, secret, and cost-control preconditions.
+
+Python parser authority uses `compile(..., PyCF_ONLY_AST)` with PEP 263 decoding. `py_compile` is prohibited for this parser-only evidence because it may write `__pycache__` artifacts.
 """
-    prepend(SOURCE_DECISIONS, decision_block)
+    prepend(SOURCE_DECISIONS, decision_block, "## Wave64 Script Parser Boundary Decision -")
 
     append_proof_log(payload)
     payload["csv_updates"] = {"tracker": tracker_updates, "items": item_updates}
-    write_json(EVIDENCE, payload)
-    write_json(STAMPED_EVIDENCE, payload)
-    write_json(TRACKER_EVIDENCE, payload)
+    for path in [EVIDENCE, STAMPED_EVIDENCE, TRACKER_EVIDENCE, CURRENT_EVIDENCE, TRACKER_CURRENT_EVIDENCE]:
+        write_json(path, payload)
+
+    evidence_sha = sha256_file(CURRENT_EVIDENCE)
+    tracker_evidence_sha = sha256_file(TRACKER_CURRENT_EVIDENCE)
+    done_cert = {
+        "schema_version": "1.0",
+        "artifact_type": "wave64_done_certification",
+        "created_iso": ISO_TS,
+        "tracker_id": TRACKER_ID,
+        "item_id": ITEM_ID,
+        "status": "PASS" if not errors else "FAIL",
+        "qa_decision": qa_decision,
+        "implementation": {
+            "validator_path": rel(CHECK_SCRIPT),
+            "validator_sha256": sha256_file(CHECK_SCRIPT),
+            "test_path": rel(TEST_SCRIPT),
+            "test_sha256": sha256_file(TEST_SCRIPT),
+        },
+        "validation": payload["counts"],
+        "canonical_evidence": {"path": rel(CURRENT_EVIDENCE), "sha256": evidence_sha},
+        "tracker_evidence": {"path": rel(TRACKER_CURRENT_EVIDENCE), "sha256": tracker_evidence_sha},
+        "boundary": payload["boundary"],
+        "next_step": payload["next_step"],
+    }
+    write_json(DONE_CERT, done_cert)
+    item_report = {
+        "schema_version": "1.0",
+        "artifact_type": "wave64_item_completion_report",
+        "created_iso": ISO_TS,
+        "tracker_id": TRACKER_ID,
+        "item_id": ITEM_ID,
+        "status": "Completed_Current_Plan_Parser_Only_No_Bytecode_Pass" if not errors else "Blocked_Current_Plan_Script_Validation_Gap",
+        "qa_decision": qa_decision,
+        "acceptance_criteria": {
+            "python_ast_parse": py["parse_error_count"] == 0,
+            "powershell_parse": ps["parse_error_count"] == 0,
+            "focused_regression": focused["failure_count"] == 0,
+            "bytecode_inventory_unchanged": bytecode["unchanged"] is True,
+            "no_live_side_effect_default": check_results["no_live_side_effect_default"],
+        },
+        "evidence_paths": payload["evidence_paths"],
+        "boundary": payload["boundary"],
+        "next_action": payload["next_step"],
+    }
+    write_json(ITEM_REPORT, item_report)
 
     print(json.dumps({
         "qa_decision": qa_decision,

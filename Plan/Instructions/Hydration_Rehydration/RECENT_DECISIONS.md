@@ -1,3 +1,10 @@
+## Wave64 Script Parser Boundary Decision - 2026-07-18T18:21:52-05:00
+
+Decision: script-validation rows may use parser-only local smoke checks without executing helper bodies. Live helper execution remains gated by each helper's own runtime, AWS, EC2, ComfyUI, secret, and cost-control preconditions.
+
+Python parser authority uses `compile(..., PyCF_ONLY_AST)` with PEP 263 decoding. `py_compile` is prohibited for this parser-only evidence because it may write `__pycache__` artifacts.
+
+
 ## Wave64 Row051 Current Schema And Structured-Data Validation - 2026-07-18T17:33:16-05:00
 
 `TRK-W64-051` / `ITEM-W64-051` is `Completed_Current_Plan_JSON_CSV_Schema_Validation_Pass`. The exhaustive local gate now passes the live Plan corpus: 6,199 JSON files, 217 CSVs, and 477 schemas with zero parse errors, CSV header gaps, schema errors, structural gaps, or duplicate schema names. The only initial failures were three valid Draft 2020-12 shared-definition modules using non-empty `$defs`; the validator now recognizes that exact schema role without weakening instance-root checks. Focused regression passes `11/11`, including empty, malformed, metadata-only, ordinary-object, top-level-`$ref`, legacy-descriptor, and shared-definition cases. This completes Row051 schema/structured-data QA only; it does not certify runtime, visuals, workers, the full project, or product release. No WSL, Docker, AWS, EC2, provider, wrapper, or task wake occurred.
