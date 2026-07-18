@@ -1,3 +1,51 @@
+## Wave64 Row051 Current Schema And Structured-Data Validation - 2026-07-18T17:33:16-05:00
+
+`TRK-W64-051` / `ITEM-W64-051` is `Completed_Current_Plan_JSON_CSV_Schema_Validation_Pass`. The exhaustive local gate now passes the live Plan corpus: 6,199 JSON files, 217 CSVs, and 477 schemas with zero parse errors, CSV header gaps, schema errors, structural gaps, or duplicate schema names. The only initial failures were three valid Draft 2020-12 shared-definition modules using non-empty `$defs`; the validator now recognizes that exact schema role without weakening instance-root checks. Focused regression passes `11/11`, including empty, malformed, metadata-only, ordinary-object, top-level-`$ref`, legacy-descriptor, and shared-definition cases. This completes Row051 schema/structured-data QA only; it does not certify runtime, visuals, workers, the full project, or product release. No WSL, Docker, AWS, EC2, provider, wrapper, or task wake occurred.
+
+Next safe action: advance to the next highest-priority tracker-backed local QA or implementation item outside the four frozen deferred Cursor scopes.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/SCHEMA_VALIDATION_CURRENT_REVALIDATION_20260718.json`; `Plan/Tracker/Evidence/SCHEMA_VALIDATION_CURRENT_REVALIDATION_20260718.json`; `Plan/Instructions/QA/Evidence/Done_Certifications/ROW051_SCHEMA_VALIDATION_DONE_20260718.json`.
+
+## Wave64 Row050 Current Items/Tracker Coverage Revalidation - 2026-07-18T17:02:39-05:00
+
+`TRK-W64-050` / `ITEM-W64-050` is `Completed_Current_Items_Tracker_End_To_End_Coverage_Pass`. The current 66-row strict-AI master tracker/items pair and 72-row additive multimodal pair pass exact ID, required-field, pair-binding, mirror, and official package-validator checks (`12/12`). Rows `067-148` are an intentional reserved range, not missing coverage. Official validators ran on isolated copies and returned promotion `pass` with zero missing source keys or errors; the 66-row Wave64 mirrors are byte-exact to their masters. This closes Row050 bookkeeping only, not runtime, worker-plane, full-project, or product-release certification. No AWS, EC2, generation, worker, provider, or task wake occurred.
+
+Next safe action: continue the highest-priority local implementation or QA item outside the four frozen deferred Cursor path sets; rerun coverage only after an authoritative collection or source inventory changes.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/ITEMS_TRACKER_COVERAGE_CURRENT_REVALIDATION_20260718T170239-0500.json`; `Plan/Tracker/Evidence/ITEMS_TRACKER_COVERAGE_CURRENT_REVALIDATION_20260718T170239-0500.json`; `Plan/Instructions/QA/Evidence/Done_Certifications/ROW050_ITEMS_TRACKER_COVERAGE_DONE_20260718T170239-0500.json`.
+
+## Wave64 Row018 Bounded RealVisXL Multi-Sample Certification - 2026-07-18T16:49:25-05:00
+
+`TRK-W64-018` / `ITEM-W64-018` is `Completed_Bounded_RealVisXL_Target_Runtime_MultiSample_Portfolio_Certification_Pass`. The retained EC2 RealVisXL matrix is one exact lane-scoped set with three distinct KSampler seeds, three prompt profiles, three technical passes, three target-runtime proofs, and three direct visual passes with only nonblocking notes. Normalized scores are 4.55, 4.40, and 4.50 out of 5 (mean 4.4833; minimum 4.40), with zero blocking-defect samples. This completes Row018 only for the exact bounded RealVisXL base-lane matrix; it does not certify the whole image project, cross-prompt identity continuity, universal hand/body/contact quality, Mask Factory, or Wave71+. No generation, AWS, EC2, worker, promotion, or product release occurred.
+
+Next safe local action: continue the highest-priority project or QA item outside the four frozen deferred Cursor path sets.
+
+Evidence: `Plan/Instructions/QA/Evidence/Image_Artifact_QA/ROW018_REALVISXL_TARGET_RUNTIME_MULTI_SAMPLE_CERTIFICATION_20260718T164925-0500.json`; `Plan/Instructions/QA/Evidence/Wave64/ROW018_BOUNDED_REALVISXL_MULTI_SAMPLE_CERTIFICATION_20260718T164925-0500.json`; `Plan/Tracker/Evidence/ROW018_BOUNDED_REALVISXL_MULTI_SAMPLE_CERTIFICATION_20260718T164925-0500.json`.
+
+## Wave64 Row017 Global Whole-Image Review For Localized Changes - 2026-07-12T13:37:49-05:00
+
+`TRK-W64-017` / `ITEM-W64-017` is `Blocked_Canonical_Global_Review_Records_Missing_For_Historical_Localized_Changes`. The visual protocol now requires canonical pre-edit whole-frame, target-region, non-target-region, six-category coverage, post-edit whole-frame, and automatic global-defect rejection evidence. A target-only pass cannot override damage elsewhere. Nine regressions pass and the split-state audit passes 20/20 checks. Existing inpaint, Canny, contact, cheek-skin, and RealVisXL records provide useful bounded whole-image support but use ad hoc fields and retain visibility, placement, runtime, or certification boundaries; they are not rewritten into false Row017 passes. No generation, AWS, EC2, image/mask promotion, hard-gate rerun, Jira, or Wave71+ action occurred.
+
+Next safe local action in strict sequence: `TRK-W64-018 / ITEM-W64-018`.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/global_visual_review_not_local_only.json`; `Plan/Instructions/QA/Evidence/Wave64/GLOBAL_VISUAL_REVIEW_NOT_LOCAL_ONLY_20260712T133749-0500.json`; `Plan/Tracker/Evidence/GLOBAL_VISUAL_REVIEW_NOT_LOCAL_ONLY_20260712T133749-0500.json`.
+
+## FLUX.2 Dev Acceptance And Runtime Gates - 2026-07-18T15:58:54-05:00
+
+The initial four selected local FLUX.2 assets are source-hash verified, and the disabled env/engine/manifest static contract is prepared with `6/6` fail-closed readiness regressions. The local Klein Qwen encoder is now also source-hash verified at `6c671498...`, but its Comfy-Org redistribution repository publishes no model card or license metadata. No authoritative FLUX.2 Dev acceptance record exists: the only acceptance-shaped project file is an unaccepted FLUX.1 template whose notice explicitly prohibits automation from inferring legal acceptance. Object-info, workflow, generation, reference/edit, and visual A/B proof remain absent. Keep runtime and promotion disabled. The signed FLUX2 readiness worker unit `a1561172` is deferred and frozen pending WSL preflight; do not duplicate it in Codex.
+
+Evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_FLUX2_LICENSE_ACCEPTANCE_AUTHORITY_BLOCKER_20260718T155221-0500.json`; `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_FLUX2_KLEIN_QWEN_TEXT_ENCODER_IDENTITY_20260718T160717-0500.json`; `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_FLUX2_STATIC_IDENTITY_CONTRACT_PREPARED_RUNTIME_HELD_20260718T155854-0500.json`.
+
+## Wave07 Aggregate Validator Scope And BOM Contract - 2026-07-18T15:44:04-05:00
+
+The required Wave07 package is not the source of the current local-validation failure: all 13 required JSON inputs are BOM-free, and the isolated compile, validate, and score commands pass at `110/110`. The aggregate validator recursively parses every JSON beneath `Plan` with the strict `utf-8` decoder, so 613 unrelated BOM-bearing QA, tracker, operations, index, imported, and model-registry records prevent the Wave07 commands from running. Keep the current aggregate result blocked until package scope and BOM-aware strict decoding are regression-tested; do not normalize unrelated evidence files or rewrite Wave07 product logic.
+
+Evidence: `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W64_WAVE07_PRODUCT_PATH_ISOLATED_PASS_BOM_SCOPE_DIAGNOSIS_20260718T154404-0500.json`.
+
+## Retained Cursor Technical Acceptance And Formal Integration Hold - 2026-07-18
+
+Independent host validation technically accepted the exact Row064 patch (`19/19`) and model-acquisition timeout patch (`28/28`) at 100%, while rejecting the speech patch (`2` failed, `7` passed) and W64-MI patch (`17` failed, `13` passed). The two green patches remain unintegrated because dead-letter recovery currently forces `acceptance_decision=REJECTED` even for `PARTIALLY_ADOPTED` at 100%. Preserve every retained worktree, CAS object, and signed validation/adoption record. Coordination owns the adoption-control correction; Codex must not repeat these audits or reimplement any of the four patches.
+
 ## Wave64 Row042 EC2 TTL Watchdog Live Readiness - 2026-07-13T09:51:51-05:00
 
 `TRK-W64-042` / `ITEM-W64-042` is `Blocked_Live_TTL_Watchdog_Proof_Missing_AWS_Readiness_Verified`. The stale expired-session blocker is cleared: current read-only AWS proof verifies authentication, the scheduler role, and the approved instance in stopped state. All 25 reconciliation checks pass. Current blockers are recorded fail-closed: live_emergency_stop_schedule_missing, ssm_watchdog_proof_missing. EC2 was not started by this reconciliation; any missing controls must be installed only inside the next genuinely required bounded runtime window.
@@ -625,3 +673,18 @@ Rows035, Row037, Row038, and Row039 were duplicate-checked and remain completed 
 Next safe local action: duplicate-check `TRK-W64-041` / `ITEM-W64-041` against current S3 deploy-bundle/model-cache readiness evidence; do not republish completed bundles unless exact current proof is missing.
 
 Evidence: `Plan/Instructions/QA/Evidence/Wave64/github_actions_ci_package.json`; `Plan/Instructions/QA/Evidence/Wave64/GITHUB_ACTIONS_CI_PACKAGE_SUPERSESSION_20260712T202727-0500.json`; `Plan/Items/Reports/ITEM-W64-040_github_actions_ci_package.json`.
+
+## FLUX2 Embedded Configuration Divergence - 2026-07-18T16:12:53-05:00
+
+`ComfyUI/extra_model_paths.yaml` does not expose the Main text-encoder and diffusion-model roles needed by the five-file FLUX2 set. The authoritative smoke helper instead defaults to `config/comfyui_extra_model_paths.yaml`, which does expose those roles and resolves every file. Treat the embedded YAML as a non-authoritative example unless it is deliberately synchronized later.
+
+## Delivery Recovery Control Residual - 2026-07-18T16:19:18-05:00
+
+The focused delivery-recovery control test exposed and resolved an invalid FLUX2 portfolio classification. Its only remaining failure is `automation_missing_delivery_policy:comfy-ui-main-stale-automation-task-session-cleanup.toml`, an unrelated worker-control automation file owned by the preserved coordination recovery boundary. Do not modify that automation locally; recheck after the coordination-owned source is accepted.
+
+## ISSUE-W64-ROW017-HISTORICAL-NORMALIZATION-001 - 2026-07-18T16:30:08-05:00
+
+Row017's contract and validator are sound, but historical visual-QA evidence is heterogeneous. A first bounded normalization emitted six valid canonical reviews from five localized source records: four PASS and two REJECT. One matrix certification was correctly classified as non-localized and excluded. Additional legacy records still need classification and, where applicable, canonical overlay evidence. Do not rewrite legacy decisions, infer source pairs, or treat this issue as a global product-work hold.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/ROW017_CANONICAL_GLOBAL_REVIEW_NORMALIZATION_20260718T163008-0500.json`.
+ ## Wave64 Row050 Current Items/Tracker Coverage Revalidation - 2026-07-18T17:02:39-05:00

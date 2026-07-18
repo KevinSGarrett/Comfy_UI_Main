@@ -1,13 +1,14 @@
 {
   "schema_version": "1.0",
-  "evidence_id": "SCHEMA_VALIDATION_CURRENT_STATE_20260718T173316-0500",
   "created_iso": "2026-07-18T17:33:16-05:00",
   "tracker_id": "TRK-W64-051",
   "item_id": "ITEM-W64-051",
   "status": "Completed_Current_Plan_JSON_CSV_Schema_Validation_Pass",
   "row_complete": true,
   "qa_decision": "schema_validation_current_plan_json_csv_schema_assets_pass",
-  "current_counts": {
+  "certified_scope": "Current local Plan JSON, CSV, and Plan/08_SCHEMAS structural validation, including valid shared-definition modules.",
+  "full_project_certification": false,
+  "machine_gates": {
     "json_files": 6199,
     "json_parse_errors": 0,
     "csv_files": 217,
@@ -16,22 +17,17 @@
     "schema_files": 477,
     "schema_errors": 0,
     "schema_required_field_gaps": 0,
-    "duplicate_schema_names": 0
+    "duplicate_schema_names": 0,
+    "focused_regressions": "11/11",
+    "py_compile": "pass"
   },
-  "focused_regression": {"passed": 11, "failed": 0},
-  "evidence_paths": [
+  "evidence": [
     "Plan/Instructions/QA/Evidence/Wave64/SCHEMA_VALIDATION_CURRENT_REVALIDATION_20260718.json",
     "Plan/Tracker/Evidence/SCHEMA_VALIDATION_CURRENT_REVALIDATION_20260718.json",
+    "Plan/Instructions/QA/Evidence/Wave64/schema_validation.json",
     "Plan/Instructions/QA/Evidence/Wave64/schema_validation_current_test_log.json",
-    "Plan/Instructions/QA/Evidence/Done_Certifications/ROW051_SCHEMA_VALIDATION_DONE_20260718.json",
     "Plan/Items/Reports/ITEM-W64-051_schema_validation.json"
   ],
-  "runtime_boundary": {
-    "runtime_validation": false,
-    "ec2_started": false,
-    "worker_invoked": false,
-    "provider_invoked": false,
-    "full_project_certification": false
-  },
-  "next_step": "Advance to the next highest-priority safe tracker-backed item outside the four frozen deferred Cursor scopes."
+  "explicit_exclusions": ["runtime_validation", "visual_or_audio_qa", "worker_plane_qualification", "full_project_certification", "product_release"],
+  "next_action": "Advance to the next highest-priority safe tracker-backed item outside the four frozen deferred Cursor scopes."
 }

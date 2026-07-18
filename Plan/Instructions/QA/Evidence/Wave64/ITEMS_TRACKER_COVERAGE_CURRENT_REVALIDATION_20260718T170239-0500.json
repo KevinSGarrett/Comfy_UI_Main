@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ITEMS_TRACKER_COVERAGE_CURRENT_REVALIDATION_20260718T170239-0500",
+  "created_iso": "2026-07-18T17:02:39-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-050",
+  "item_id": "ITEM-W64-050",
+  "status": "Completed_Current_Items_Tracker_End_To_End_Coverage_Pass",
+  "row_complete": true,
+  "qa_decision": "items_tracker_current_master_and_wave64_additive_coverage_pass",
+  "official_isolated_validators": {
+    "tracker": {
+      "script": "Plan/Tracker/Scripts/validate_tracker_package.py",
+      "script_sha256": "1a9582b7aabcc9c73159ef3a5f3ac1bed90962046c83d9cee1cec7304a8d346a",
+      "exit_code": 0,
+      "stdout_bytes": 389,
+      "stdout_sha256": "d0cd94c7917777a95a999972cc64054fc4c40fb144645ca5f7cae5819f2fb508",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "row_count": 54694,
+      "ultra_source_keys_covered": 5059,
+      "missing_ultra_source_keys": 0,
+      "bad_human_flag_rows": 0,
+      "bad_citation_rows": 0,
+      "bad_line_rows": 0,
+      "error_count": 0,
+      "promotion_decision": "pass"
+    },
+    "items": {
+      "script": "Plan/Items/Scripts/validate_items_package.py",
+      "script_sha256": "dd80af4abdec04d40506e909c67f7c94ff56f8e2abf894387393217aa3292e99",
+      "exit_code": 0,
+      "stdout_bytes": 387,
+      "stdout_sha256": "c7df37d5832604526066d5efd8ce292c098f16c1c46331a24345c61b7fe40ce2",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "row_count": 54646,
+      "ultra_source_keys_covered": 5059,
+      "missing_ultra_source_keys": 0,
+      "bad_human_flag_rows": 0,
+      "bad_citation_rows": 0,
+      "bad_line_rows": 0,
+      "error_count": 0,
+      "promotion_decision": "pass"
+    },
+    "execution_boundary": "validators ran against isolated temporary copies; generated reports did not rewrite the live repository"
+  },
+  "authoritative_collections": {
+    "master_tracker": {"path": "Plan/Tracker/wave64_end_to_end_strict_ai_tracker.csv", "sha256": "690ddb509c6e5802b51437f6538f7415a21fae96f8b9d80a84a4d3d15d1cb02b", "bytes": 318503, "row_count": 66, "id_range": "TRK-W64-001..TRK-W64-066"},
+    "master_items": {"path": "Plan/Items/wave64_end_to_end_strict_ai_itemized_list.csv", "sha256": "0cd1a1ef23aabe65a0efcf0af02b9c5734fdb11a515bef3b5037573d85fc7726", "bytes": 256797, "row_count": 66, "id_range": "ITEM-W64-001..ITEM-W64-066"},
+    "master_tracker_mirror": {"path": "Plan/Tracker/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_TRACKER_ROWS.csv", "sha256": "690ddb509c6e5802b51437f6538f7415a21fae96f8b9d80a84a4d3d15d1cb02b", "bytes": 318503, "row_count": 66, "byte_equal_to_master": true},
+    "master_items_mirror": {"path": "Plan/Items/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_ITEM_ROWS.csv", "sha256": "0cd1a1ef23aabe65a0efcf0af02b9c5734fdb11a515bef3b5037573d85fc7726", "bytes": 256797, "row_count": 66, "byte_equal_to_master": true},
+    "additive_tracker": {"path": "Plan/Tracker/Waves/Wave64/WAVE64_ULTIMATE_MULTIMODAL_WORKFLOW_TRACKER_ROWS.csv", "sha256": "9b7ded37ca3d3f32d066a8b095380f122ea2accabdfe7c29d862ffcf18b03759", "bytes": 224615, "row_count": 72, "id_range": "TRK-W64-149..TRK-W64-220"},
+    "additive_items": {"path": "Plan/Items/Waves/Wave64/WAVE64_ULTIMATE_MULTIMODAL_WORKFLOW_ITEM_ROWS.csv", "sha256": "dacdbf091331c9a8bfef9a0ab425c949c11ce04226fdb1e603d8a995dc854228", "bytes": 170413, "row_count": 72, "id_range": "ITEM-W64-149..ITEM-W64-220"}
+  },
+  "numbering_boundary": {
+    "reserved_gap": "067-148",
+    "gap_is_missing_coverage": false,
+    "reason": "The legacy strict-AI collection ends at 066 and the separately governed modular workflow expansion begins at 149."
+  },
+  "checks": [
+    {"name": "ITC-C01_tracker_official_validator_pass", "result": "pass"},
+    {"name": "ITC-C02_items_official_validator_pass", "result": "pass"},
+    {"name": "ITC-C03_master_exact_ids_001_066", "result": "pass"},
+    {"name": "ITC-C04_additive_exact_ids_149_220", "result": "pass"},
+    {"name": "ITC-C05_master_required_fields", "result": "pass"},
+    {"name": "ITC-C06_additive_required_fields", "result": "pass"},
+    {"name": "ITC-C07_master_tracker_item_pair_bindings", "result": "pass"},
+    {"name": "ITC-C08_additive_tracker_item_pair_bindings", "result": "pass"},
+    {"name": "ITC-C09_tracker_wave64_mirror_byte_exact", "result": "pass"},
+    {"name": "ITC-C10_items_wave64_mirror_byte_exact", "result": "pass"},
+    {"name": "ITC-C11_reserved_numbering_gap_explicit", "result": "pass"},
+    {"name": "ITC-C12_no_runtime_or_worker_action", "result": "pass"}
+  ],
+  "check_summary": {"checked": 12, "passed": 12, "failed": 0},
+  "required_field_sets": {
+    "tracker": ["Workstream", "Status", "Source_Path", "Citation_File", "Citation_Section", "Source_Key", "Source_Item_ID", "Coverage_Level"],
+    "items": ["Item_Domain", "Status", "Citation_File", "Citation_Section", "Source_Key", "Coverage_Level"]
+  },
+  "pair_binding_fields": ["Source_Item_ID/Item_ID", "Status", "Source_Key", "Citation_File", "Coverage_Level"],
+  "safety_boundary": {
+    "ec2_started": false,
+    "aws_contacted": false,
+    "generation_executed": false,
+    "worker_invoked": false,
+    "provider_invoked": false,
+    "product_release_claimed": false
+  },
+  "result": "pass_current_items_tracker_end_to_end_coverage",
+  "next_action": "Continue the highest-priority safe implementation or QA item; rerun coverage only after an authoritative collection or source inventory changes."
+}

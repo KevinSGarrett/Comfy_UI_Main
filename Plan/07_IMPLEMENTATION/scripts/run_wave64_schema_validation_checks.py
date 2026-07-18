@@ -98,6 +98,8 @@ def validate_schema_file(path: Path, payload: object) -> dict[str, object]:
         "declared_schema": None,
         "has_type_or_anyof": False,
         "has_properties_or_items": False,
+        "has_nonempty_defs": False,
+        "schema_role": "instance_root",
         "has_legacy_required_fields": is_legacy_descriptor,
         "required_is_array_if_present": True,
         "error": None,
@@ -110,6 +112,9 @@ def validate_schema_file(path: Path, payload: object) -> dict[str, object]:
     result["declared_schema"] = payload.get("$schema")
     result["has_type_or_anyof"] = any(key in payload for key in ["type", "anyOf", "oneOf", "allOf", "$ref"])
     result["has_properties_or_items"] = any(key in payload for key in ["properties", "items", "anyOf", "oneOf", "allOf", "$ref"])
+    result["has_nonempty_defs"] = isinstance(payload.get("$defs"), dict) and bool(payload["$defs"])
+    if result["has_nonempty_defs"] and not result["has_type_or_anyof"] and not result["has_properties_or_items"]:
+        result["schema_role"] = "shared_definition_module"
     result["required_is_array_if_present"] = "required" not in payload or isinstance(payload.get("required"), list)
     if is_legacy_descriptor:
         result["schema_checked"] = True
@@ -128,6 +133,16 @@ def validate_schema_file(path: Path, payload: object) -> dict[str, object]:
         result["schema_checked"] = True
         result["error"] = f"{type(exc).__name__}: {exc}"
     return result
+
+
+def has_required_schema_structure(result: dict[str, object]) -> bool:
+    if result.get("schema_form") != "json_schema":
+        return bool(result.get("schema_valid"))
+    if not result.get("schema_valid") or not result.get("required_is_array_if_present"):
+        return False
+    if result.get("schema_role") == "shared_definition_module":
+        return bool(result.get("has_nonempty_defs"))
+    return bool(result.get("has_type_or_anyof") and result.get("has_properties_or_items"))
 
 
 def main() -> int:
@@ -166,11 +181,7 @@ def main() -> int:
         row
         for row in schema_results
         if row.get("schema_form") == "json_schema"
-        and (
-            not row.get("has_type_or_anyof")
-            or not row.get("required_is_array_if_present")
-            or not row.get("has_properties_or_items")
-        )
+        and not has_required_schema_structure(row)
     ]
 
     duplicate_schema_names = []

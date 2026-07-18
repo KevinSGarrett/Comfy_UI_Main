@@ -1,3 +1,43 @@
+## Wave64 Row051 Current Schema And Structured-Data Validation - 2026-07-18T17:33:16-05:00
+
+`TRK-W64-051` / `ITEM-W64-051` is `Completed_Current_Plan_JSON_CSV_Schema_Validation_Pass`. The exhaustive local gate now passes the live Plan corpus: 6,199 JSON files, 217 CSVs, and 477 schemas with zero parse errors, CSV header gaps, schema errors, structural gaps, or duplicate schema names. The only initial failures were three valid Draft 2020-12 shared-definition modules using non-empty `$defs`; the validator now recognizes that exact schema role without weakening instance-root checks. Focused regression passes `11/11`, including empty, malformed, metadata-only, ordinary-object, top-level-`$ref`, legacy-descriptor, and shared-definition cases. This completes Row051 schema/structured-data QA only; it does not certify runtime, visuals, workers, the full project, or product release. No WSL, Docker, AWS, EC2, provider, wrapper, or task wake occurred.
+
+Next safe action: advance to the next highest-priority tracker-backed local QA or implementation item outside the four frozen deferred Cursor scopes.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/SCHEMA_VALIDATION_CURRENT_REVALIDATION_20260718.json`; `Plan/Tracker/Evidence/SCHEMA_VALIDATION_CURRENT_REVALIDATION_20260718.json`; `Plan/Instructions/QA/Evidence/Done_Certifications/ROW051_SCHEMA_VALIDATION_DONE_20260718.json`.
+
+## Wave64 Row050 Current Items/Tracker Coverage Revalidation - 2026-07-18T17:02:39-05:00
+
+`TRK-W64-050` / `ITEM-W64-050` is `Completed_Current_Items_Tracker_End_To_End_Coverage_Pass`. The current 66-row strict-AI master tracker/items pair and 72-row additive multimodal pair pass exact ID, required-field, pair-binding, mirror, and official package-validator checks (`12/12`). Rows `067-148` are an intentional reserved range, not missing coverage. Official validators ran on isolated copies and returned promotion `pass` with zero missing source keys or errors; the 66-row Wave64 mirrors are byte-exact to their masters. This closes Row050 bookkeeping only, not runtime, worker-plane, full-project, or product-release certification. No AWS, EC2, generation, worker, provider, or task wake occurred.
+
+Next safe action: continue the highest-priority local implementation or QA item outside the four frozen deferred Cursor path sets; rerun coverage only after an authoritative collection or source inventory changes.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/ITEMS_TRACKER_COVERAGE_CURRENT_REVALIDATION_20260718T170239-0500.json`; `Plan/Tracker/Evidence/ITEMS_TRACKER_COVERAGE_CURRENT_REVALIDATION_20260718T170239-0500.json`; `Plan/Instructions/QA/Evidence/Done_Certifications/ROW050_ITEMS_TRACKER_COVERAGE_DONE_20260718T170239-0500.json`.
+
+## Wave64 Row018 Bounded RealVisXL Multi-Sample Certification - 2026-07-18T16:49:25-05:00
+
+`TRK-W64-018` / `ITEM-W64-018` is `Completed_Bounded_RealVisXL_Target_Runtime_MultiSample_Portfolio_Certification_Pass`. The retained EC2 RealVisXL matrix is one exact lane-scoped set with three distinct KSampler seeds, three prompt profiles, three technical passes, three target-runtime proofs, and three direct visual passes with only nonblocking notes. Normalized scores are 4.55, 4.40, and 4.50 out of 5 (mean 4.4833; minimum 4.40), with zero blocking-defect samples. This completes Row018 only for the exact bounded RealVisXL base-lane matrix; it does not certify the whole image project, cross-prompt identity continuity, universal hand/body/contact quality, Mask Factory, or Wave71+. No generation, AWS, EC2, worker, promotion, or product release occurred.
+
+Next safe local action: continue the highest-priority project or QA item outside the four frozen deferred Cursor path sets.
+
+Evidence: `Plan/Instructions/QA/Evidence/Image_Artifact_QA/ROW018_REALVISXL_TARGET_RUNTIME_MULTI_SAMPLE_CERTIFICATION_20260718T164925-0500.json`; `Plan/Instructions/QA/Evidence/Wave64/ROW018_BOUNDED_REALVISXL_MULTI_SAMPLE_CERTIFICATION_20260718T164925-0500.json`; `Plan/Tracker/Evidence/ROW018_BOUNDED_REALVISXL_MULTI_SAMPLE_CERTIFICATION_20260718T164925-0500.json`.
+
+## Wave64 Row017 Global Whole-Image Review For Localized Changes - 2026-07-12T13:37:49-05:00
+
+`TRK-W64-017` / `ITEM-W64-017` is `Blocked_Canonical_Global_Review_Records_Missing_For_Historical_Localized_Changes`. The visual protocol now requires canonical pre-edit whole-frame, target-region, non-target-region, six-category coverage, post-edit whole-frame, and automatic global-defect rejection evidence. A target-only pass cannot override damage elsewhere. Nine regressions pass and the split-state audit passes 20/20 checks. Existing inpaint, Canny, contact, cheek-skin, and RealVisXL records provide useful bounded whole-image support but use ad hoc fields and retain visibility, placement, runtime, or certification boundaries; they are not rewritten into false Row017 passes. No generation, AWS, EC2, image/mask promotion, hard-gate rerun, Jira, or Wave71+ action occurred.
+
+Next safe local action in strict sequence: `TRK-W64-018 / ITEM-W64-018`.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/global_visual_review_not_local_only.json`; `Plan/Instructions/QA/Evidence/Wave64/GLOBAL_VISUAL_REVIEW_NOT_LOCAL_ONLY_20260712T133749-0500.json`; `Plan/Tracker/Evidence/GLOBAL_VISUAL_REVIEW_NOT_LOCAL_ONLY_20260712T133749-0500.json`.
+
+## FLUX.2 Runtime Readiness After Exact Local Asset Match - 2026-07-18T15:29:27-05:00
+
+The selected local FLUX.2 Klein preview, Klein Qwen text encoder, and Dev diffusion/text-encoder/VAE files have valid safetensors headers and exact SHA-256 matches to primary Black Forest Labs or Comfy-Org distributions. Acquisition is no longer a blocker for these five files. Exact disabled environment values, Dev/Klein engine metadata, and the Dev asset manifest are source-bound, with focused readiness regression passing `6/6`. FLUX.2 remains blocked on explicit named project acceptance/compliance authority for the Dev non-commercial terms, explicit redistribution-license metadata for the Comfy-Org Klein encoder, ComfyUI object-info/loader compatibility, dedicated text-to-image and reference/edit workflows, genuine generation, and visual A/B QA. No runtime or promotion flag is authorized.
+
+Next safe action: obtain the named Dev terms decision, preserve the completed static identity contract, then run object-info and loader gates before any generation. Do not duplicate the signed deferred FLUX2 readiness worker unit `a1561172`.
+
+Evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_FLUX2_LOCAL_ASSET_IDENTITY_CANDIDATES_20260718T152927-0500.json`; `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_FLUX2_LICENSE_ACCEPTANCE_AUTHORITY_BLOCKER_20260718T155221-0500.json`; `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_FLUX2_KLEIN_QWEN_TEXT_ENCODER_IDENTITY_20260718T160717-0500.json`; `Plan/Instructions/QA/Evidence/Operations_Static_Validation/W66_FLUX2_STATIC_IDENTITY_CONTRACT_PREPARED_RUNTIME_HELD_20260718T155854-0500.json`.
+
 ## Normal Target-Runtime Smoke Completed - 2026-07-13T15:15:00-05:00
 
 The exact-head Normal lane bundle from `2011cf98969515e0962033cb1094aa77a1444912` completed one bounded EC2 target-runtime smoke. The required full-body input was staged with SHA-256 `ff7695e83c73dc53025a7ab960a11d6e46299dcde546d26a5d46bce8637dc6fd`; live `/object_info` validation passed 12 nodes and 36 inputs with zero errors; ComfyUI returned prompt `9c0dc78a-7b1c-427e-b8e3-a63e7f18c373`; two 768x1024 images were pulled back; visual smoke QA passed. The approved instance is independently verified `stopped`, and the unused emergency schedule was deleted.
@@ -1724,3 +1764,14 @@ Rows035, Row037, Row038, and Row039 were duplicate-checked and remain completed 
 Next safe local action: duplicate-check `TRK-W64-041` / `ITEM-W64-041` against current S3 deploy-bundle/model-cache readiness evidence; do not republish completed bundles unless exact current proof is missing.
 
 Evidence: `Plan/Instructions/QA/Evidence/Wave64/github_actions_ci_package.json`; `Plan/Instructions/QA/Evidence/Wave64/GITHUB_ACTIONS_CI_PACKAGE_SUPERSESSION_20260712T202727-0500.json`; `Plan/Items/Reports/ITEM-W64-040_github_actions_ci_package.json`.
+
+## FLUX2 Runtime Promotion Boundary - 2026-07-18T16:12:53-05:00
+
+All five exact assets resolve through the canonical ComfyUI extra-model-path configuration, so file placement is not a blocker. Promotion remains blocked by explicit Dev license acceptance, Klein text-encoder redistribution license authority, deferred readiness correction acceptance, object-info/payload-load proof, generated artifacts, and visual QA.
+
+## Wave64 Row017 Historical Normalization Remainder - 2026-07-18T16:30:08-05:00
+
+`TRK-W64-017` / `ITEM-W64-017` remains blocked, but the blocker is narrower and quantified. Six canonical artifact reviews now cover five localized legacy source records, while one non-localized RealVisXL matrix record is explicitly excluded. The remaining historical localized review population still lacks complete canonical pre/post, target, non-target, six-category, and global-rejection evidence. This blocker is row-local and must not pause unrelated project throughput.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/ROW017_CANONICAL_GLOBAL_REVIEW_NORMALIZATION_20260718T163008-0500.json`.
+ ## Wave64 Row050 Current Items/Tracker Coverage Revalidation - 2026-07-18T17:02:39-05:00

@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "SCHEMA_VALIDATION_CURRENT_REVALIDATION_20260718T173316-0500",
+  "created_iso": "2026-07-18T17:33:16-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-051",
+  "item_id": "ITEM-W64-051",
+  "status": "Completed_Current_Plan_JSON_CSV_Schema_Validation_Pass",
+  "row_complete": true,
+  "qa_decision": "schema_validation_current_plan_json_csv_schema_assets_pass",
+  "signed_intent": {
+    "intent_id": "intent_20260718T222845173Z_row051_schema_defs_module_validation_64e1781f",
+    "authority_class": "codex_only",
+    "routing": "deferred",
+    "worker_wake_count": 0
+  },
+  "initial_fail_closed_observation": {
+    "structured_pass": false,
+    "raw_result_sha256": "a2c0e3b9e89e94a35ec5e1bc769889b2b7ea615132260a859a85a1cee24c24ac",
+    "raw_result_bytes": 5292,
+    "json_files": 6194,
+    "csv_files": 217,
+    "schema_files": 477,
+    "schema_errors": 0,
+    "schema_required_field_gaps": 3,
+    "diagnosis": "The validator treated valid Draft 2020-12 shared-definition modules containing only non-empty $defs as incomplete instance-root schemas."
+  },
+  "correction": {
+    "validator_path": "Plan/07_IMPLEMENTATION/scripts/run_wave64_schema_validation_checks.py",
+    "validator_sha256": "d763ce7892565aae66290fdcd39ae6c826b4bc7ff7a020473dc85ecaaf0c1a60",
+    "validator_bytes": 9770,
+    "behavior": "A shared-definition module is accepted only when $defs is a non-empty object and no top-level instance shape is declared. Empty or malformed $defs and metadata-only schemas remain rejected; ordinary instance-root requirements are unchanged.",
+    "whitelist_used": false,
+    "schema_bytes_changed": false
+  },
+  "focused_regression": {
+    "script": "Plan/Instructions/QA/Scripts/test_wave64_schema_validation_checks.py",
+    "script_sha256": "d8237cfe6f695c967d7bb5ee424cd749eebb23deefae6e3d0d3548059e9084d3",
+    "script_bytes": 3621,
+    "exit_code": 0,
+    "case_count": 11,
+    "failure_count": 0,
+    "stdout_bytes": 1727,
+    "stdout_sha256": "a10460b8e9bb4827cd4dfa26687eeccd0968cff9093823d198d06d26e1068296",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "full_corpus_validation": {
+    "structured_pass": true,
+    "raw_result_sha256": "b472243207e174ef14b8a99fe4af8a056769544dbcfeecbc1f36fed37708029e",
+    "raw_result_bytes": 3785,
+    "json_files": 6199,
+    "json_parse_errors": 0,
+    "csv_files": 217,
+    "csv_parse_errors": 0,
+    "csv_header_gaps": 0,
+    "schema_files": 477,
+    "schema_errors": 0,
+    "schema_required_field_gaps": 0,
+    "duplicate_schema_names": 0,
+    "jsonschema_available": true,
+    "python": "3.11.9"
+  },
+  "shared_definition_modules": [
+    {"path": "Plan/08_SCHEMAS/hyperreal_media_common.schema.json", "sha256": "0ec788c7de9912d46179cc826686a9f1544f5dbcfd3bde1a69d9fd683b8db632", "bytes": 7017, "schema_role": "shared_definition_module"},
+    {"path": "Plan/08_SCHEMAS/model_intelligence_common.schema.json", "sha256": "6a2823e22d6fe62bb4ccae81d6e83cd3e85eb2bbbe110c5a261fd770b4d67e45", "bytes": 11441, "schema_role": "shared_definition_module"},
+    {"path": "Plan/08_SCHEMAS/multimodal_contract_common.schema.json", "sha256": "293417899335bb8cb9b7fa0d32f05264a15c80ff55cf7991df2222b2b53f89cf", "bytes": 8104, "schema_role": "shared_definition_module"}
+  ],
+  "authoritative_rows": {
+    "tracker_path": "Plan/Tracker/wave64_end_to_end_strict_ai_tracker.csv",
+    "tracker_sha256": "837331524ac0efcb2ed581ef3b0a1e392a227108f0d5d8996da79399edc2285b",
+    "tracker_mirror_path": "Plan/Tracker/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_TRACKER_ROWS.csv",
+    "tracker_mirror_byte_equal": true,
+    "items_path": "Plan/Items/wave64_end_to_end_strict_ai_itemized_list.csv",
+    "items_sha256": "30be8b90de462174e7b018ec0ae2006fe7ee6c8c806bb885d6ddeb658b649be4",
+    "items_mirror_path": "Plan/Items/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_ITEM_ROWS.csv",
+    "items_mirror_byte_equal": true
+  },
+  "scope_boundary": {
+    "runtime_validation": false,
+    "visual_qa": false,
+    "ec2_started": false,
+    "aws_contacted": false,
+    "worker_invoked": false,
+    "provider_invoked": false,
+    "deferred_cursor_scopes_touched": false,
+    "full_project_certification": false,
+    "product_release": false
+  },
+  "next_action": "Advance to the next highest-priority safe tracker-backed item outside the four frozen deferred Cursor scopes."
+}

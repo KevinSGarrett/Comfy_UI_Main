@@ -1,3 +1,59 @@
+## Wave64 Row051 Current Schema And Structured-Data Validation - 2026-07-18T17:33:16-05:00
+
+`TRK-W64-051` / `ITEM-W64-051` is `Completed_Current_Plan_JSON_CSV_Schema_Validation_Pass`. The exhaustive local gate now passes the live Plan corpus: 6,199 JSON files, 217 CSVs, and 477 schemas with zero parse errors, CSV header gaps, schema errors, structural gaps, or duplicate schema names. The only initial failures were three valid Draft 2020-12 shared-definition modules using non-empty `$defs`; the validator now recognizes that exact schema role without weakening instance-root checks. Focused regression passes `11/11`, including empty, malformed, metadata-only, ordinary-object, top-level-`$ref`, legacy-descriptor, and shared-definition cases. This completes Row051 schema/structured-data QA only; it does not certify runtime, visuals, workers, the full project, or product release. No WSL, Docker, AWS, EC2, provider, wrapper, or task wake occurred.
+
+Next safe action: advance to the next highest-priority tracker-backed local QA or implementation item outside the four frozen deferred Cursor scopes.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/SCHEMA_VALIDATION_CURRENT_REVALIDATION_20260718.json`; `Plan/Tracker/Evidence/SCHEMA_VALIDATION_CURRENT_REVALIDATION_20260718.json`; `Plan/Instructions/QA/Evidence/Done_Certifications/ROW051_SCHEMA_VALIDATION_DONE_20260718.json`.
+
+## Wave64 Row050 Current Items/Tracker Coverage Revalidation - 2026-07-18T17:02:39-05:00
+
+`TRK-W64-050` / `ITEM-W64-050` is `Completed_Current_Items_Tracker_End_To_End_Coverage_Pass`. The current 66-row strict-AI master tracker/items pair and 72-row additive multimodal pair pass exact ID, required-field, pair-binding, mirror, and official package-validator checks (`12/12`). Rows `067-148` are an intentional reserved range, not missing coverage. Official validators ran on isolated copies and returned promotion `pass` with zero missing source keys or errors; the 66-row Wave64 mirrors are byte-exact to their masters. This closes Row050 bookkeeping only, not runtime, worker-plane, full-project, or product-release certification. No AWS, EC2, generation, worker, provider, or task wake occurred.
+
+Next safe action: continue the highest-priority local implementation or QA item outside the four frozen deferred Cursor path sets; rerun coverage only after an authoritative collection or source inventory changes.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/ITEMS_TRACKER_COVERAGE_CURRENT_REVALIDATION_20260718T170239-0500.json`; `Plan/Tracker/Evidence/ITEMS_TRACKER_COVERAGE_CURRENT_REVALIDATION_20260718T170239-0500.json`; `Plan/Instructions/QA/Evidence/Done_Certifications/ROW050_ITEMS_TRACKER_COVERAGE_DONE_20260718T170239-0500.json`.
+
+## Wave64 Row018 Bounded RealVisXL Multi-Sample Certification - 2026-07-18T16:49:25-05:00
+
+`TRK-W64-018` / `ITEM-W64-018` is `Completed_Bounded_RealVisXL_Target_Runtime_MultiSample_Portfolio_Certification_Pass`. The retained EC2 RealVisXL matrix is one exact lane-scoped set with three distinct KSampler seeds, three prompt profiles, three technical passes, three target-runtime proofs, and three direct visual passes with only nonblocking notes. Normalized scores are 4.55, 4.40, and 4.50 out of 5 (mean 4.4833; minimum 4.40), with zero blocking-defect samples. This completes Row018 only for the exact bounded RealVisXL base-lane matrix; it does not certify the whole image project, cross-prompt identity continuity, universal hand/body/contact quality, Mask Factory, or Wave71+. No generation, AWS, EC2, worker, promotion, or product release occurred.
+
+Next safe local action: continue the highest-priority project or QA item outside the four frozen deferred Cursor path sets.
+
+Evidence: `Plan/Instructions/QA/Evidence/Image_Artifact_QA/ROW018_REALVISXL_TARGET_RUNTIME_MULTI_SAMPLE_CERTIFICATION_20260718T164925-0500.json`; `Plan/Instructions/QA/Evidence/Wave64/ROW018_BOUNDED_REALVISXL_MULTI_SAMPLE_CERTIFICATION_20260718T164925-0500.json`; `Plan/Tracker/Evidence/ROW018_BOUNDED_REALVISXL_MULTI_SAMPLE_CERTIFICATION_20260718T164925-0500.json`.
+
+## Wave64 Row017 Global Whole-Image Review For Localized Changes - 2026-07-12T13:37:49-05:00
+
+`TRK-W64-017` / `ITEM-W64-017` is `Blocked_Canonical_Global_Review_Records_Missing_For_Historical_Localized_Changes`. The visual protocol now requires canonical pre-edit whole-frame, target-region, non-target-region, six-category coverage, post-edit whole-frame, and automatic global-defect rejection evidence. A target-only pass cannot override damage elsewhere. Nine regressions pass and the split-state audit passes 20/20 checks. Existing inpaint, Canny, contact, cheek-skin, and RealVisXL records provide useful bounded whole-image support but use ad hoc fields and retain visibility, placement, runtime, or certification boundaries; they are not rewritten into false Row017 passes. No generation, AWS, EC2, image/mask promotion, hard-gate rerun, Jira, or Wave71+ action occurred.
+
+Next safe local action in strict sequence: `TRK-W64-018 / ITEM-W64-018`.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/global_visual_review_not_local_only.json`; `Plan/Instructions/QA/Evidence/Wave64/GLOBAL_VISUAL_REVIEW_NOT_LOCAL_ONLY_20260712T133749-0500.json`; `Plan/Tracker/Evidence/GLOBAL_VISUAL_REVIEW_NOT_LOCAL_ONLY_20260712T133749-0500.json`.
+
+## Current Pursuing Goal - FLUX.2 Image Modernization - 2026-07-16
+
+The audio/video groundwork through protected PR #100 has materially advanced, so FLUX.2 is now the next bounded image-modernization delivery. Extensive FLUX.2 planning exists, but no complete workflow, registered model stack, genuine generation, reference/edit proof, or visual A/B QA exists yet.
+
+As of 2026-07-18, the selected local Klein preview, Klein Qwen text encoder, and Dev diffusion/text-encoder/VAE files have valid safetensors headers and exact hashes matching their primary published distributions. The disabled environment template, Dev/Klein engine metadata, and local Dev asset manifest bind the initial four identities, and focused fail-closed readiness regression passes `6/6`. The Klein Qwen encoder identity is separately proven at SHA-256 `6c671498...`, while its Comfy-Org redistribution repository lacks explicit license metadata. This closes byte identity preparation but does not establish named project acceptance of the Dev access terms, Klein redistribution license authority, object-info compatibility, runtime execution, or visual promotion. Continue from `W66_FLUX2_STATIC_IDENTITY_CONTRACT_PREPARED_RUNTIME_HELD_20260718T155854-0500.json` and `W66_FLUX2_KLEIN_QWEN_TEXT_ENCODER_IDENTITY_20260718T160717-0500.json`; do not hash, download, or restage the same files again.
+
+Implement the first honest FLUX.2 delivery as one bounded sequence: resolve exact official Dev/Klein variants and license/access terms; reuse or acquire and SHA-256-register the matching diffusion model, text encoder, and VAE; build dedicated text-to-image and reference/edit API workflows; wire the engine router with fail-closed fallback; run local or gated EC2 object-info/loader/smoke proofs; and perform direct visual A/B QA against FLUX.1 and RealVisXL. Do not promote FLUX.2 from planning until these gates pass.
+
+Use `Plan/02_TARGET_ARCHITECTURE/MODULAR_CHARACTER_TO_MULTIMODAL_MEDIA_ORCHESTRATION_ARCHITECTURE.md`: separate versioned character, image, video, audio, and AV workflows are composed by the external autonomous controller through hash-bound Character, Scene, Shot, Pass, and Artifact packages. Do not build one giant production graph and do not reuse FLUX.1/SDXL model objects or LoRAs inside FLUX.2 without exact compatibility proof.
+
+## Current Pursuing Goal - Post-PR100 Delivery Steering - 2026-07-16
+
+Continue from protected PR #100 with one concrete image, video, or cross-modal ComfyUI implementation outcome. The genuine audio and speech runtime chain now includes voice, Foley, ambience, spatial mixing, Qwen candidates, and a technically valid 49-frame stereo AV mux; it remains fail-closed on independent playback and production authority. Pause broad speech-control expansion unless a new runtime dependency, eligible candidate, or machine-verifiable acceptance input exists.
+
+Before selecting work, apply `Plan/Instructions/PERSONAL_CALIBRATION_ASSET_BOUNDARY_AND_ROW_SELECTION_PROTOCOL.md`. Reject completed/no-rerun rows, human-only blockers without new input, unavailable gold-mask dependencies, separately owned work, and generic proof that depends on personal or untracked assets.
+
+Do not merge the local Character1-based Row010 packet as generic authority. Protected-main Row010 remains blocked because no portable multi-character `character_id` to independent-reference to per-character-crop chain exists. Preserve Character1 workflows, images, profiles, models, `ztest`, and comparison crops as `personal_calibration_noncanonical` without deleting or modifying them.
+
+Do not perform a broad Items, Tracker, manifest, evidence-index, coverage, or hydration refresh. Tracking follows the next implementation artifact.
+
+Retained Cursor outputs are independently decided and remain coordination-owned: Row064 and model-acquisition timeout are technically accepted but not integrated because of the adoption-record defect; speech and W64-MI are rejected. Preserve every retained worktree and validation artifact and do not reproduce those audits or implementations in Codex.
+
+The signed deferred Cursor units for speech `7d071ac7`, W64-MI `d1be22b8`, Wave07 scope `0fa6610e`, and FLUX2 readiness `a1561172` are frozen and wake-held pending WSL exact-shim preflight. Do not duplicate their implementation scope in Codex; continue acceptance, QA, and project-state work outside those paths.
+
 ## Wave64 Fluid-State Direct Runtime Review Failed - 2026-07-15T10:07:19-05:00
 
 `TRK-W64-056` / `ITEM-W64-056` now has genuine local direct runtime and visual-review evidence for `fluid_body_state_continuity`. Three architecture-distinct routes executed four total generations with zero retries: txt2img established tears but failed identity/hair/wardrobe continuity; low-denoise img2img preserved continuity but omitted tears; deterministic masked inpaint established bilateral tear cues but changed iris color and eye/brow identity detail. No route passed both planned state and shot continuity, so the system and Row056 remain blocked.
@@ -7432,8 +7488,21 @@ The candidate WER is `0.10` against the `0.20` threshold. DNSMOS OVRL is `3.0585
 Pursuing goal: checkpoint this three-row CV3 implementation/evidence batch through the protected PR flow. Then perform one bounded exact-license emotion-model intake and evaluator calibration; if no licensable payload is available locally or from the authoritative upstream, create one separate same-profile Parler continuity line without regenerating L001 and keep playback/authority gates fail-closed.
 
 Evidence: `Plan/Instructions/QA/Evidence/Wave64/W64_CV3_EVAL_LOCAL_CALIBRATION_20260714T233144-0500.json`.
+
+## FLUX2 Path Resolution - 2026-07-18T16:12:53-05:00
+
+All five exact FLUX2 assets resolve through ComfyUI's native `folder_paths` API after loading the canonical `config/comfyui_extra_model_paths.yaml`. Do not copy these large files into `ComfyUI/models`. Keep runtime promotion held for the deferred FLUX2 readiness correction, explicit license authority, object-info/load proof, generated artifacts, and A/B visual QA.
+
+Evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/W66_FLUX2_COMFYUI_EXTRA_MODEL_PATH_RESOLUTION_20260718T161253-0500.json`.
 ## Wave64 CV3 emotion2vec full calibration - 2026-07-15T00:11:13-05:00
 
 Continue the full autonomous ComfyUI project goal from authoritative `C:\Comfy_UI_Main`. The exact licensed emotion2vec+ large execution path and complete 300-reference CV3 calibration now pass as an implemented capability, while Rows025/027/031 correctly remain blocked on candidate emotion taxonomy, independent playback, reference-speaker identity, production authority, and final certification.
 
 Preserve candidate SHA-256 `18b6d51cca9d9c5541bac621c09fd9059f521d8969ba5b25fa881c9284180c73`. Its observed `neutral` score does not satisfy the unsupported `focused` / `controlled` contract and must not be promoted through an inferred mapping. Merge the bounded calibration batch through protected CI, then continue a genuine non-duplicative audio/runtime outcome without reopening completed generation, AWS/EC2 work, masks, Wave71+, or Jira.
+
+## Row017 Global Review Normalization Progress - 2026-07-18T16:30:08-05:00
+
+Continue the full autonomous project without waiting on worker-runtime recovery. Row017 now has six canonical overlay reviews across five localized legacy records, with four PASS and two REJECT decisions; one non-localized matrix record is explicitly excluded. Preserve the blocked row status and normalize additional true localized pre/post pairs only in bounded Codex-owned QA turns. Do not let this historical backlog, or the four deferred Cursor units, become the global product critical path.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/ROW017_CANONICAL_GLOBAL_REVIEW_NORMALIZATION_20260718T163008-0500.json`.
+ ## Wave64 Row050 Current Items/Tracker Coverage Revalidation - 2026-07-18T17:02:39-05:00

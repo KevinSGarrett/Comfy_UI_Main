@@ -1,35 +1,61 @@
+## Wave64 Row051 Current Schema And Structured-Data Validation - 2026-07-18T17:33:16-05:00
+
+`TRK-W64-051` / `ITEM-W64-051` is `Completed_Current_Plan_JSON_CSV_Schema_Validation_Pass`. The exhaustive local gate now passes the live Plan corpus: 6,199 JSON files, 217 CSVs, and 477 schemas with zero parse errors, CSV header gaps, schema errors, structural gaps, or duplicate schema names. The only initial failures were three valid Draft 2020-12 shared-definition modules using non-empty `$defs`; the validator now recognizes that exact schema role without weakening instance-root checks. Focused regression passes `11/11`, including empty, malformed, metadata-only, ordinary-object, top-level-`$ref`, legacy-descriptor, and shared-definition cases. This completes Row051 schema/structured-data QA only; it does not certify runtime, visuals, workers, the full project, or product release. No WSL, Docker, AWS, EC2, provider, wrapper, or task wake occurred.
+
+Next safe action: advance to the next highest-priority tracker-backed local QA or implementation item outside the four frozen deferred Cursor scopes.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/SCHEMA_VALIDATION_CURRENT_REVALIDATION_20260718.json`; `Plan/Tracker/Evidence/SCHEMA_VALIDATION_CURRENT_REVALIDATION_20260718.json`; `Plan/Instructions/QA/Evidence/Done_Certifications/ROW051_SCHEMA_VALIDATION_DONE_20260718.json`.
+
+## Wave64 Row050 Current Items/Tracker Coverage Revalidation - 2026-07-18T17:02:39-05:00
+
+`TRK-W64-050` / `ITEM-W64-050` is `Completed_Current_Items_Tracker_End_To_End_Coverage_Pass`. The current 66-row strict-AI master tracker/items pair and 72-row additive multimodal pair pass exact ID, required-field, pair-binding, mirror, and official package-validator checks (`12/12`). Rows `067-148` are an intentional reserved range, not missing coverage. Official validators ran on isolated copies and returned promotion `pass` with zero missing source keys or errors; the 66-row Wave64 mirrors are byte-exact to their masters. This closes Row050 bookkeeping only, not runtime, worker-plane, full-project, or product-release certification. No AWS, EC2, generation, worker, provider, or task wake occurred.
+
+Next safe action: continue the highest-priority local implementation or QA item outside the four frozen deferred Cursor path sets; rerun coverage only after an authoritative collection or source inventory changes.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/ITEMS_TRACKER_COVERAGE_CURRENT_REVALIDATION_20260718T170239-0500.json`; `Plan/Tracker/Evidence/ITEMS_TRACKER_COVERAGE_CURRENT_REVALIDATION_20260718T170239-0500.json`; `Plan/Instructions/QA/Evidence/Done_Certifications/ROW050_ITEMS_TRACKER_COVERAGE_DONE_20260718T170239-0500.json`.
+
+## Wave64 Row018 Bounded RealVisXL Multi-Sample Certification - 2026-07-18T16:49:25-05:00
+
+`TRK-W64-018` / `ITEM-W64-018` is `Completed_Bounded_RealVisXL_Target_Runtime_MultiSample_Portfolio_Certification_Pass`. The retained EC2 RealVisXL matrix is one exact lane-scoped set with three distinct KSampler seeds, three prompt profiles, three technical passes, three target-runtime proofs, and three direct visual passes with only nonblocking notes. Normalized scores are 4.55, 4.40, and 4.50 out of 5 (mean 4.4833; minimum 4.40), with zero blocking-defect samples. This completes Row018 only for the exact bounded RealVisXL base-lane matrix; it does not certify the whole image project, cross-prompt identity continuity, universal hand/body/contact quality, Mask Factory, or Wave71+. No generation, AWS, EC2, worker, promotion, or product release occurred.
+
+Next safe local action: continue the highest-priority project or QA item outside the four frozen deferred Cursor path sets.
+
+Evidence: `Plan/Instructions/QA/Evidence/Image_Artifact_QA/ROW018_REALVISXL_TARGET_RUNTIME_MULTI_SAMPLE_CERTIFICATION_20260718T164925-0500.json`; `Plan/Instructions/QA/Evidence/Wave64/ROW018_BOUNDED_REALVISXL_MULTI_SAMPLE_CERTIFICATION_20260718T164925-0500.json`; `Plan/Tracker/Evidence/ROW018_BOUNDED_REALVISXL_MULTI_SAMPLE_CERTIFICATION_20260718T164925-0500.json`.
+
+## Wave64 Row017 Global Whole-Image Review For Localized Changes - 2026-07-12T13:37:49-05:00
+
+`TRK-W64-017` / `ITEM-W64-017` is `Blocked_Canonical_Global_Review_Records_Missing_For_Historical_Localized_Changes`. The visual protocol now requires canonical pre-edit whole-frame, target-region, non-target-region, six-category coverage, post-edit whole-frame, and automatic global-defect rejection evidence. A target-only pass cannot override damage elsewhere. Nine regressions pass and the split-state audit passes 20/20 checks. Existing inpaint, Canny, contact, cheek-skin, and RealVisXL records provide useful bounded whole-image support but use ad hoc fields and retain visibility, placement, runtime, or certification boundaries; they are not rewritten into false Row017 passes. No generation, AWS, EC2, image/mask promotion, hard-gate rerun, Jira, or Wave71+ action occurred.
+
+Next safe local action in strict sequence: `TRK-W64-018 / ITEM-W64-018`.
+
+Evidence: `Plan/Instructions/QA/Evidence/Wave64/global_visual_review_not_local_only.json`; `Plan/Instructions/QA/Evidence/Wave64/GLOBAL_VISUAL_REVIEW_NOT_LOCAL_ONLY_20260712T133749-0500.json`; `Plan/Tracker/Evidence/GLOBAL_VISUAL_REVIEW_NOT_LOCAL_ONLY_20260712T133749-0500.json`.
+
 # Resume Here Next Codex Session
 
-Updated: 2026-07-14 America/Chicago
+Updated: 2026-07-16 America/Chicago
 
-Use `C:\Comfy_UI_Main` as the authoritative project root. Preserve all unrelated dirty and untracked paths. Do not use stale EC2 workspace state or legacy `C:\Comfy_UI` as planning authority.
+Use `C:\Comfy_UI_Main` and protected `origin/main` including the post-PR100 steering correction as authority. Preserve all unrelated dirty and untracked paths. Do not use stale EC2 or legacy `C:\Comfy_UI` state as planning authority.
 
 ## Resume Order
 
-1. Read `CURRENT_SESSION_STATE.md` and the current delivery portfolio registry.
-2. Confirm PR #54 and PR #55 are merged in `origin/main`; do not reopen the Parler runtime or 49-frame Row030 mux repair.
-3. Finish the protected checkpoint for the genuine MMAudio local runtime, conformed WAV, minimal workflow, compatibility patch, tests, and Rows026/028 evidence update.
-4. Preserve MMAudio seed 2273001. Obtain independent playback before any Row028 production or force-alignment claim; trusted contact-owner authority remains unavailable.
-5. Continue the minimum viable genuine audio-to-short-video chain across compatible Wave64 Rows025-033 without duplicating the completed Parler, genuine mix, Row030 mux, or MMAudio generation units.
+1. Read `CURRENT_SESSION_STATE.md`, the delivery portfolio registry, and `PERSONAL_CALIBRATION_ASSET_BOUNDARY_AND_ROW_SELECTION_PROTOCOL.md`.
+2. Read `MODULAR_CHARACTER_TO_MULTIMODAL_MEDIA_ORCHESTRATION_ARCHITECTURE.md`; keep character, image, video, audio, and AV as separate versioned workflows composed by the external controller.
+3. Begin the FLUX.2 bounded modernization: exact official asset/license resolution, hash reuse/acquisition, model registry and runtime queue wiring, dedicated text-to-image/reference-edit workflows, and fail-closed router integration.
+4. Run genuine object-info, loader, generation, reference/edit, and visual A/B proof before changing any FLUX.2 runtime or promotion flag.
+5. Confirm generic Row010 remains blocked and do not checkpoint personal Character1 material as generic authority.
 
 ## Stable State
 
-- PR #53 is merged at `e9f1e55f1e3f684aba55d21cefd67d848e2ded1b`.
-- PR #54 is merged with the Parler-TTS CUDA/ASR runtime proof.
-- PR #55 is merged at `471a47c1a51f01e965d4277d6da6f7893d1b4ab6` with the 49-frame Row030 mux repair.
-- Row064 is stopped at 50 exact links, 59 pending, zero approvals, 14 Wave71+ deferred, and 26 additive user-owned profiles unconsumed.
-- Do not launch another Row064 scan, linker pass, evidence-only PR, or duplicate profile generation.
-- Rows065-066 are complete.
-- Parler-TTS and MMAudio are genuine local runtime capabilities. Rows025, 027, 028, and 030 remain blocked on their exact subjective review, contact/force, runtime-authority, or production-proof boundaries.
-
-## Product Outcome
-
-Review the selected Parler voice and MMAudio foley candidates, then use only accepted media in the next audio-to-video mix/mux proof. Prefer one batch covering 3-5 compatible audio rows. Hydration, Tracker, Items, and evidence updates follow the runtime artifact and remain minimal.
+- PR #100 is merged at `840078ef76d99af39f1303e1c6a90bdd4ecf617e`.
+- Genuine voice, Foley, ambience, spatial-mix, Qwen speech, and AV mux artifacts exist.
+- The corrected review mux preserves 49 video frames and 97,968 audio frames per channel at 48 kHz and passes technical timing/conformance checks.
+- Audio and speech remain uncertified where independent playback, character voice authority, room/geometry truth, contact ownership, or production authority is absent.
+- Broad speech-control expansion is paused unless a new runtime dependency, eligible candidate, or machine-verifiable acceptance input exists.
 
 ## Hard Boundaries
 
+- No broad Items/Tracker/manifest/coverage refresh and no evidence-only PR.
 - No mask promotion, Wave70 hard-gate rerun, Wave71+ activation, or Jira mutation.
-- No direct push to `main`.
-- No duplicate local, S3, or EC2 runtime work.
-- Keep EC2 stopped until a selected runtime unit genuinely needs it.
-- Do not stage the user-owned PromptProfiles, Workflows, model review data, `ztest`, mask evidence, manifests, or other unrelated dirty paths.
+- No duplicate local, S3, or EC2 runtime work; keep EC2 stopped until a selected unit genuinely requires it.
+- Do not stage, delete, move, or modify user-owned Character1 PromptProfiles, Workflows, models, images, `ztest`, or unrelated dirty paths.
+ ## Wave64 Row050 Current Items/Tracker Coverage Revalidation - 2026-07-18T17:02:39-05:00
