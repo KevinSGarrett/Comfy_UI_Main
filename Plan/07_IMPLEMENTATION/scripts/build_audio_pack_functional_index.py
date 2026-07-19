@@ -11,6 +11,7 @@ be accepted as dependency authority only.
 from __future__ import annotations
 
 import argparse
+import gc
 import hashlib
 import json
 import os
@@ -55,8 +56,13 @@ def _io_path(path: Path) -> Path:
 
 def _sha256(path: Path) -> str:
     digest = hashlib.sha256()
+    # Keep the read window modest so long full-library reconciles stay memory-stable.
+    chunk_size = 1024 * 1024
     with _io_path(path).open("rb") as handle:
-        for chunk in iter(lambda: handle.read(4 * 1024 * 1024), b""):
+        while True:
+            chunk = handle.read(chunk_size)
+            if not chunk:
+                break
             digest.update(chunk)
     return digest.hexdigest()
 
@@ -659,19 +665,76 @@ def _select_reconcile_sample(
     return selected
 
 
+def _count_retained_index_records(index_path: Path) -> int:
+    return sum(1 for _ in iter_retained_index_records(index_path))
+
+
+def _append_mismatch(
+    mismatches: list[dict[str, Any]],
+    *,
+    mismatch_total: int,
+    entry: dict[str, Any],
+) -> int:
+    if len(mismatches) < 32:
+        mismatches.append(entry)
+    return mismatch_total + 1
+
+
+def load_byte_hash_progress(progress_path: Path | None) -> dict[str, Any] | None:
+    """Load a prior full-library byte-hash progress checkpoint when present."""
+    if progress_path is None:
+        return None
+    path = progress_path.resolve()
+    if not path.is_file():
+        return None
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    if not isinstance(payload, dict):
+        return None
+    checked = int(payload.get("checked_count") or 0)
+    if checked < 1:
+        return None
+    return payload
+
+
 def reconcile_retained_index_byte_hashes(
     source_root: Path,
     retained_index_path: Path,
     *,
     sample_limit: int | None = BYTE_HASH_SAMPLE_DEFAULT,
+    progress_every: int = 500,
+    progress_path: Path | None = None,
+    resume_checked_count: int = 0,
+    resume_match_count: int = 0,
+    resume_mismatch_count: int = 0,
+    resume_missing_count: int = 0,
+    resume_from_progress: bool = False,
 ) -> dict[str, Any]:
     """Compare retained JSONL sha256/bytes against live source files.
 
-    sample_limit=None checks every retained record (full-library gate).
+    sample_limit=None checks every retained record (full-library gate) via a
+    streaming pass that avoids materializing the full JSONL in memory.
     A finite sample advances scaffolding only and must not claim completion.
+    When resume_from_progress is true and progress_path exists, resume counts
+    are seeded from that checkpoint (full-library mode only).
     """
     source_root = source_root.resolve()
     retained_index_path = retained_index_path.resolve()
+    started_at = datetime.now(timezone.utc).isoformat()
+    wall_started = datetime.now(timezone.utc)
+    if (
+        resume_from_progress
+        and sample_limit is None
+        and resume_checked_count <= 0
+    ):
+        checkpoint = load_byte_hash_progress(progress_path)
+        if checkpoint is not None:
+            resume_checked_count = int(checkpoint.get("checked_count") or 0)
+            resume_match_count = int(checkpoint.get("match_count") or 0)
+            resume_mismatch_count = int(checkpoint.get("mismatch_count") or 0)
+            resume_missing_count = int(checkpoint.get("missing_count") or 0)
     if not retained_index_path.is_file():
         return {
             "mode": "absent_retained_index",
@@ -701,101 +764,311 @@ def reconcile_retained_index_byte_hashes(
             "status": "SOURCE_ROOT_ABSENT",
         }
 
-    records = list(iter_retained_index_records(retained_index_path))
-    selected = _select_reconcile_sample(records, sample_limit=sample_limit)
     # A finite sample_limit never grants full-library completion, even if the
     # retained corpus is smaller than the requested sample.
     scaffold_only = sample_limit is not None
     mismatches: list[dict[str, Any]] = []
-    match_count = 0
-    missing_count = 0
-    mismatch_count = 0
+    match_count = max(0, int(resume_match_count)) if not scaffold_only else 0
+    missing_count = max(0, int(resume_missing_count)) if not scaffold_only else 0
+    mismatch_count = max(0, int(resume_mismatch_count)) if not scaffold_only else 0
     extension_checked: Counter[str] = Counter()
+    skip_count = max(0, int(resume_checked_count)) if not scaffold_only else 0
+    checked_idx = 0
 
-    for record in selected:
+    if scaffold_only:
+        records = list(iter_retained_index_records(retained_index_path))
+        retained_record_count = len(records)
+        selected = _select_reconcile_sample(records, sample_limit=sample_limit)
+        total = len(selected)
+        selected_iter: Iterator[dict[str, Any]] = iter(selected)
+    else:
+        retained_record_count = _count_retained_index_records(retained_index_path)
+        selected_iter = iter_retained_index_records(retained_index_path)
+        total = retained_record_count
+        if skip_count > retained_record_count:
+            raise ValueError(
+                f"resume_checked_count {skip_count} exceeds retained_record_count {retained_record_count}"
+            )
+
+    for record in selected_iter:
+        checked_idx += 1
+        if not scaffold_only and checked_idx <= skip_count:
+            # Prior checkpoint already verified these records; keep streaming past them.
+            continue
         relative = str(record.get("relative_path") or "")
         expected_sha = str(record.get("sha256") or "")
         expected_bytes = record.get("bytes")
         extension = str(record.get("extension") or Path(relative).suffix or "unknown")
         extension_checked[extension] += 1
         live_path = source_root / relative
-        if not live_path.is_file():
+        # Windows MAX_PATH can make Path.is_file() false while the asset exists;
+        # always probe through the long-path-aware helper used by hashing/stat.
+        if not _io_path(live_path).is_file():
             missing_count += 1
-            mismatch_count += 1
-            mismatches.append(
-                {
+            mismatch_count = _append_mismatch(
+                mismatches,
+                mismatch_total=mismatch_count,
+                entry={
                     "relative_path": relative,
                     "code": "LIVE_SOURCE_MISSING",
                     "expected_sha256": expected_sha,
                     "expected_bytes": expected_bytes,
-                }
+                },
             )
-            continue
-        try:
-            live_stat = _io_path(live_path).stat()
-            live_sha = _sha256(live_path)
-        except OSError as exc:
-            mismatch_count += 1
-            mismatches.append(
-                {
-                    "relative_path": relative,
-                    "code": "LIVE_SOURCE_UNREADABLE",
-                    "detail": f"{type(exc).__name__}:{exc}",
-                    "expected_sha256": expected_sha,
-                    "expected_bytes": expected_bytes,
-                }
-            )
-            continue
-        if live_stat.st_size != expected_bytes or live_sha != expected_sha:
-            mismatch_count += 1
-            mismatches.append(
-                {
-                    "relative_path": relative,
-                    "code": "BYTE_HASH_MISMATCH",
-                    "expected_sha256": expected_sha,
-                    "expected_bytes": expected_bytes,
-                    "observed_sha256": live_sha,
-                    "observed_bytes": live_stat.st_size,
-                }
-            )
-            continue
-        match_count += 1
+        else:
+            try:
+                live_stat = _io_path(live_path).stat()
+                try:
+                    live_sha = _sha256(live_path)
+                except MemoryError:
+                    gc.collect()
+                    live_sha = _sha256(live_path)
+            except MemoryError as exc:
+                mismatch_count = _append_mismatch(
+                    mismatches,
+                    mismatch_total=mismatch_count,
+                    entry={
+                        "relative_path": relative,
+                        "code": "LIVE_SOURCE_MEMORY_ERROR",
+                        "detail": f"{type(exc).__name__}:{exc}",
+                        "expected_sha256": expected_sha,
+                        "expected_bytes": expected_bytes,
+                    },
+                )
+            except OSError as exc:
+                mismatch_count = _append_mismatch(
+                    mismatches,
+                    mismatch_total=mismatch_count,
+                    entry={
+                        "relative_path": relative,
+                        "code": "LIVE_SOURCE_UNREADABLE",
+                        "detail": f"{type(exc).__name__}:{exc}",
+                        "expected_sha256": expected_sha,
+                        "expected_bytes": expected_bytes,
+                    },
+                )
+            else:
+                if live_stat.st_size != expected_bytes or live_sha != expected_sha:
+                    mismatch_count = _append_mismatch(
+                        mismatches,
+                        mismatch_total=mismatch_count,
+                        entry={
+                            "relative_path": relative,
+                            "code": "BYTE_HASH_MISMATCH",
+                            "expected_sha256": expected_sha,
+                            "expected_bytes": expected_bytes,
+                            "observed_sha256": live_sha,
+                            "observed_bytes": live_stat.st_size,
+                        },
+                    )
+                else:
+                    match_count += 1
+        if (
+            progress_every > 0
+            and (checked_idx % progress_every == 0 or checked_idx == total)
+        ):
+            elapsed = (datetime.now(timezone.utc) - wall_started).total_seconds()
+            progress = {
+                "checked_count": checked_idx,
+                "total": total,
+                "match_count": match_count,
+                "mismatch_count": mismatch_count,
+                "missing_count": missing_count,
+                "elapsed_seconds": round(elapsed, 3),
+                "sample_limit": sample_limit,
+                "resumed_from_checked_count": skip_count,
+            }
+            print(json.dumps({"byte_hash_reconcile_progress": progress}, sort_keys=True), flush=True)
+            if progress_path is not None:
+                progress_path.parent.mkdir(parents=True, exist_ok=True)
+                progress_path.write_text(
+                    json.dumps(progress, ensure_ascii=True, indent=2, sort_keys=True) + "\n",
+                    encoding="utf-8",
+                )
+            gc.collect()
 
     complete = (
         sample_limit is None
         and mismatch_count == 0
-        and len(selected) == len(records)
-        and len(records) > 0
+        and checked_idx == retained_record_count
+        and retained_record_count > 0
+        and match_count == retained_record_count
     )
     if complete:
         status = "FULL_LIBRARY_BYTE_HASH_RECONCILED"
-    elif scaffold_only and mismatch_count == 0 and match_count == len(selected) and selected:
+    elif scaffold_only and mismatch_count == 0 and match_count == checked_idx and checked_idx > 0:
         status = "SCAFFOLD_SAMPLE_BYTE_HASH_RECONCILED"
     elif mismatch_count:
         status = "BYTE_HASH_RECONCILIATION_MISMATCHES_PRESENT"
     else:
         status = "BYTE_HASH_RECONCILIATION_INCOMPLETE"
 
+    elapsed_seconds = (datetime.now(timezone.utc) - wall_started).total_seconds()
     return {
         "mode": "sample" if scaffold_only else "full_library",
         "retained_index_path": str(retained_index_path),
         "retained_index_sha256": _sha256(retained_index_path),
         "retained_index_bytes": retained_index_path.stat().st_size,
         "source_root": str(source_root),
-        "retained_record_count": len(records),
+        "retained_record_count": retained_record_count,
         "sample_limit": sample_limit,
-        "checked_count": len(selected),
+        "checked_count": checked_idx,
         "match_count": match_count,
         "mismatch_count": mismatch_count,
         "missing_count": missing_count,
+        "resumed_from_checked_count": skip_count,
         "extension_checked_counts": dict(sorted(extension_checked.items())),
         "mismatches": mismatches[:32],
-        "mismatch_truncated": max(0, len(mismatches) - 32),
+        "mismatch_truncated": max(0, mismatch_count - len(mismatches)),
         "complete": complete,
         "scaffold_only": scaffold_only,
+        "started_at": started_at,
+        "finished_at": datetime.now(timezone.utc).isoformat(),
+        "elapsed_seconds": round(elapsed_seconds, 3),
         "does_not_grant_row069_acceptance": True,
         "status": status,
     }
+
+
+def execute_isolated_full_library_copy_then_resume(
+    retained_dir: Path,
+    source_root: Path,
+    *,
+    replay_workdir: Path | None = None,
+    keep_replay_workdir: bool = False,
+) -> dict[str, Any]:
+    """Copy retained artifacts into an isolated workdir and resume without mutating retained.
+
+    Acceptance remains fail-closed unless index/state hashes stay stable, failure
+    manifest is present after resume, inventory fingerprint is unchanged across the
+    resume, and indexed+blockers equals discovered.
+    """
+    retained_dir = retained_dir.resolve()
+    source_root = source_root.resolve()
+    if not retained_dir.is_dir():
+        raise ValueError(f"retained directory missing: {retained_dir}")
+    if not source_root.is_dir():
+        raise ValueError(f"source root missing: {source_root}")
+
+    index_path = retained_dir / "audio_pack_functional_index.jsonl"
+    summary_path = retained_dir / "index_summary.json"
+    state_path = retained_dir / "functional_index_state.sqlite3"
+    for required in (index_path, summary_path, state_path):
+        if not required.is_file():
+            raise ValueError(f"required retained artifact missing: {required}")
+
+    retained_before = {
+        "index": _sha256(index_path),
+        "summary": _sha256(summary_path),
+        "state_database": _sha256(state_path),
+        "failure_manifest": (
+            _sha256(retained_dir / "failure_manifest.json")
+            if (retained_dir / "failure_manifest.json").is_file()
+            else None
+        ),
+    }
+    fingerprint_before = build_source_inventory_fingerprint(source_root)
+
+    temporary_parent = None
+    if replay_workdir is None:
+        temporary_parent = tempfile.TemporaryDirectory(prefix="row069_full_resume_")
+        replay_workdir = Path(temporary_parent.name) / "replay"
+    else:
+        replay_workdir = replay_workdir.resolve()
+        if replay_workdir.exists():
+            raise ValueError(f"replay workdir already exists: {replay_workdir}")
+
+    try:
+        shutil.copytree(retained_dir, replay_workdir)
+        before_hashes = {
+            "index": _sha256(replay_workdir / "audio_pack_functional_index.jsonl"),
+            "summary": _sha256(replay_workdir / "index_summary.json"),
+            "state_database": _sha256(replay_workdir / "functional_index_state.sqlite3"),
+            "failure_manifest": (
+                _sha256(replay_workdir / "failure_manifest.json")
+                if (replay_workdir / "failure_manifest.json").is_file()
+                else None
+            ),
+        }
+        if before_hashes["index"] != retained_before["index"]:
+            raise RuntimeError("copy did not preserve retained index sha256")
+        if before_hashes["state_database"] != retained_before["state_database"]:
+            raise RuntimeError("copy did not preserve retained state-database sha256")
+
+        resumed = build_index(source_root, replay_workdir, resume=True)
+        after_hashes = {
+            "index": resumed["index"]["sha256"],
+            "summary": _sha256(replay_workdir / "index_summary.json"),
+            "state_database": _sha256(replay_workdir / "functional_index_state.sqlite3"),
+            "failure_manifest": resumed["failure_manifest"]["sha256"],
+        }
+        fingerprint_after = resumed["source_inventory_fingerprint"]["after"]
+        failure_manifest_present = (replay_workdir / "failure_manifest.json").is_file()
+        index_stable = before_hashes["index"] == after_hashes["index"]
+        state_stable = before_hashes["state_database"] == after_hashes["state_database"]
+        # Retained production layout may lack failure_manifest; once emitted on
+        # resume, bind its hash. If it already existed, require byte stability.
+        if before_hashes["failure_manifest"] is None:
+            failure_ok = failure_manifest_present and bool(after_hashes["failure_manifest"])
+            failure_stable_or_emitted = failure_ok
+            failure_mode = "emitted_on_resume"
+        else:
+            failure_stable_or_emitted = (
+                before_hashes["failure_manifest"] == after_hashes["failure_manifest"]
+            )
+            failure_mode = "stable_existing"
+        inventory_unchanged = (
+            fingerprint_before["fingerprint_sha256"]
+            == fingerprint_after["fingerprint_sha256"]
+        )
+        reconcile_ok = bool(resumed.get("indexed_plus_blockers_equals_discovered"))
+        retained_unmutated = (
+            _sha256(index_path) == retained_before["index"]
+            and _sha256(state_path) == retained_before["state_database"]
+            and _sha256(summary_path) == retained_before["summary"]
+        )
+        complete = bool(
+            index_stable
+            and state_stable
+            and failure_stable_or_emitted
+            and inventory_unchanged
+            and reconcile_ok
+            and retained_unmutated
+        )
+        return {
+            "authority": "isolated_full_library_copy_then_resume",
+            "retained_dir": str(retained_dir),
+            "source_root": str(source_root),
+            "replay_workdir": str(replay_workdir),
+            "retained_before_hashes": retained_before,
+            "before_hashes": before_hashes,
+            "after_hashes": after_hashes,
+            "index_sha256_stable": index_stable,
+            "state_database_sha256_stable": state_stable,
+            "failure_manifest_mode": failure_mode,
+            "failure_manifest_ok": failure_stable_or_emitted,
+            "failure_manifest_present_after_resume": failure_manifest_present,
+            "inventory_fingerprint_before": fingerprint_before["fingerprint_sha256"],
+            "inventory_fingerprint_after": fingerprint_after["fingerprint_sha256"],
+            "inventory_fingerprint_unchanged": inventory_unchanged,
+            "indexed_count": resumed.get("indexed_count"),
+            "exact_blocker_count": resumed.get("exact_blocker_count"),
+            "discovered_audio_count": resumed.get("audio_file_count"),
+            "indexed_plus_blockers_equals_discovered": reconcile_ok,
+            "retained_paths_unmutated": retained_unmutated,
+            "full_library_resume_executed": True,
+            "full_library_resume_replay_complete": complete,
+            "keep_replay_workdir": keep_replay_workdir,
+            "does_not_grant_row069_acceptance": True,
+            "status": (
+                "FULL_LIBRARY_COPY_THEN_RESUME_STABLE"
+                if complete
+                else "FULL_LIBRARY_COPY_THEN_RESUME_UNSTABLE"
+            ),
+        }
+    finally:
+        if temporary_parent is not None and not keep_replay_workdir:
+            temporary_parent.cleanup()
 
 
 def build_resume_replay_scaffold(
@@ -803,12 +1076,15 @@ def build_resume_replay_scaffold(
     *,
     source_root: Path | None = None,
     prove_fixture: bool = True,
+    full_library_proof: dict[str, Any] | None = None,
+    execute_full_library: bool = False,
+    replay_workdir: Path | None = None,
 ) -> dict[str, Any]:
-    """Inspect retained artifacts and prove resume hash stability on a fixture only.
+    """Inspect retained artifacts and prove resume hash stability.
 
-    Full-library resume replay against the retained 39771-record runtime directory
-    remains intentionally unexecuted here so this slice cannot falsely claim
-    library acceptance.
+    By default only a synthetic fixture copy-then-resume is executed. Pass
+    execute_full_library=True (or an externally captured full_library_proof) to
+    attach the production isolated resume result without mutating retained paths.
     """
     retained_dir = retained_dir.resolve()
     index_path = retained_dir / "audio_pack_functional_index.jsonl"
@@ -922,6 +1198,22 @@ def build_resume_replay_scaffold(
                 "does_not_grant_row069_acceptance": True,
             }
 
+    if full_library_proof is None and execute_full_library:
+        if source_root is None:
+            raise ValueError("source_root is required when execute_full_library=True")
+        full_library_proof = execute_isolated_full_library_copy_then_resume(
+            retained_dir,
+            source_root,
+            replay_workdir=replay_workdir,
+            keep_replay_workdir=replay_workdir is not None,
+        )
+
+    full_library_executed = bool(
+        full_library_proof and full_library_proof.get("full_library_resume_executed")
+    )
+    full_library_complete = bool(
+        full_library_proof and full_library_proof.get("full_library_resume_replay_complete")
+    )
     full_library_ready = bool(
         artifacts["index"]["exists"]
         and artifacts["summary"]["exists"]
@@ -930,6 +1222,14 @@ def build_resume_replay_scaffold(
         and state_count_matches
         and (fixture_proof is None or fixture_proof.get("index_sha256_stable"))
     )
+    if full_library_complete:
+        status = "FULL_LIBRARY_RESUME_REPLAY_COMPLETE"
+    elif full_library_executed:
+        status = "FULL_LIBRARY_RESUME_REPLAY_EXECUTED_UNSTABLE"
+    elif full_library_ready:
+        status = "RESUME_REPLAY_SCAFFOLD_READY_FULL_LIBRARY_ABSENT"
+    else:
+        status = "RESUME_REPLAY_SCAFFOLD_INCOMPLETE"
     return {
         "retained_dir": str(retained_dir),
         "source_root": str(source_root.resolve()) if source_root else None,
@@ -941,15 +1241,12 @@ def build_resume_replay_scaffold(
         "state_count_matches_summary": state_count_matches,
         "failure_manifest_present_on_retained": artifacts["failure_manifest"]["exists"],
         "fixture_copy_resume_proof": fixture_proof,
-        "full_library_resume_executed": False,
-        "full_library_resume_replay_complete": False,
+        "full_library_copy_then_resume_proof": full_library_proof,
+        "full_library_resume_executed": full_library_executed,
+        "full_library_resume_replay_complete": full_library_complete,
         "scaffold_ready_for_full_library_execution": full_library_ready,
         "does_not_grant_row069_acceptance": True,
-        "status": (
-            "RESUME_REPLAY_SCAFFOLD_READY_FULL_LIBRARY_ABSENT"
-            if full_library_ready
-            else "RESUME_REPLAY_SCAFFOLD_INCOMPLETE"
-        ),
+        "status": status,
         "required_full_library_proof": [
             "copy retained index/summary/state into an isolated replay workdir",
             "run build_index(source_root, replay_workdir, resume=True) without mutating retained paths",
@@ -1008,21 +1305,37 @@ def build_authority_packet(
     source_root: Path | None = None,
     retained_dir: Path | None = None,
     byte_hash_sample_limit: int | None = BYTE_HASH_SAMPLE_DEFAULT,
+    execute_full_library_resume: bool = False,
+    resume_replay_workdir: Path | None = None,
+    byte_hash_progress_path: Path | None = None,
+    byte_hash_precomputed_result: dict[str, Any] | None = None,
+    resume_byte_hash_from_progress: bool = False,
+    full_library_resume_proof: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     root = root.resolve()
     dependency = evaluate_dependency_holds(root)
     source = source_root or DEFAULT_SOURCE_ROOT
     retained = _resolve_under_root(root, retained_dir or DEFAULT_RETAINED_INDEX_DIR)
     source_observation = observe_source_inventory(source)
-    byte_hash_reconcile = reconcile_retained_index_byte_hashes(
-        source,
-        retained / "audio_pack_functional_index.jsonl",
-        sample_limit=byte_hash_sample_limit,
-    )
+    if byte_hash_precomputed_result is not None:
+        byte_hash_reconcile = dict(byte_hash_precomputed_result)
+        byte_hash_reconcile["does_not_grant_row069_acceptance"] = True
+        byte_hash_reconcile["precomputed_result_reused"] = True
+    else:
+        byte_hash_reconcile = reconcile_retained_index_byte_hashes(
+            source,
+            retained / "audio_pack_functional_index.jsonl",
+            sample_limit=byte_hash_sample_limit,
+            progress_path=byte_hash_progress_path,
+            resume_from_progress=resume_byte_hash_from_progress,
+        )
     resume_scaffold = build_resume_replay_scaffold(
         retained,
         source_root=source,
         prove_fixture=True,
+        full_library_proof=full_library_resume_proof,
+        execute_full_library=execute_full_library_resume,
+        replay_workdir=resume_replay_workdir,
     )
 
     with tempfile.TemporaryDirectory(prefix="row069_authority_") as temporary:
@@ -1098,14 +1411,27 @@ def build_authority_packet(
     if not current_count_matches:
         blocker_codes.append("CURRENT_EXTERNAL_INVENTORY_NOT_RECONCILED")
     if not byte_hash_reconcile.get("complete"):
-        if byte_hash_reconcile.get("status") == "SCAFFOLD_SAMPLE_BYTE_HASH_RECONCILED":
+        reconcile_status = str(byte_hash_reconcile.get("status") or "")
+        if reconcile_status == "SCAFFOLD_SAMPLE_BYTE_HASH_RECONCILED":
             blocker_codes.append("RETAINED_INDEX_BYTE_HASH_RECONCILIATION_SAMPLE_ONLY")
+        elif reconcile_status == "BYTE_HASH_RECONCILIATION_MISMATCHES_PRESENT":
+            blocker_codes.append("RETAINED_INDEX_BYTE_HASH_RECONCILIATION_MISMATCHES_PRESENT")
+        elif (
+            byte_hash_reconcile.get("mode") == "full_library"
+            and int(byte_hash_reconcile.get("checked_count") or 0)
+            == int(byte_hash_reconcile.get("retained_record_count") or -1)
+            and int(byte_hash_reconcile.get("checked_count") or 0) > 0
+        ):
+            blocker_codes.append("RETAINED_INDEX_BYTE_HASH_RECONCILIATION_INCOMPLETE_OR_UNSTABLE")
         else:
             blocker_codes.append("RETAINED_INDEX_BYTE_HASH_RECONCILIATION_ABSENT")
     if source_observation.get("inventory_fingerprint_sha256") is None:
         blocker_codes.append("SOURCE_INVENTORY_FINGERPRINT_UNAVAILABLE")
     if not resume_scaffold.get("full_library_resume_replay_complete"):
-        blocker_codes.append("FULL_LIBRARY_RESUME_REPLAY_ABSENT")
+        if resume_scaffold.get("full_library_resume_executed"):
+            blocker_codes.append("FULL_LIBRARY_RESUME_REPLAY_UNSTABLE")
+        else:
+            blocker_codes.append("FULL_LIBRARY_RESUME_REPLAY_ABSENT")
     blocker_codes.append("ROW069_LIBRARY_RUNTIME_AUTHORITY_NOT_GRANTED")
 
     # Deduplicate while preserving order.
@@ -1116,16 +1442,49 @@ def build_authority_packet(
             seen.add(code)
             ordered_codes.append(code)
 
-    if dependency["all_satisfied"] and byte_hash_reconcile.get("status") == "SCAFFOLD_SAMPLE_BYTE_HASH_RECONCILED":
+    if (
+        dependency["all_satisfied"]
+        and byte_hash_reconcile.get("complete")
+        and resume_scaffold.get("full_library_resume_replay_complete")
+    ):
+        status = "HOLD_BYTE_HASH_AND_RESUME_PROOFS_PRESENT_LIBRARY_AUTHORITY_STILL_HELD"
+    elif dependency["all_satisfied"] and byte_hash_reconcile.get("complete"):
+        status = "HOLD_FULL_BYTE_HASH_RECONCILED_RESUME_REPLAY_INCOMPLETE"
+    elif (
+        dependency["all_satisfied"]
+        and byte_hash_reconcile.get("status") == "BYTE_HASH_RECONCILIATION_MISMATCHES_PRESENT"
+    ):
+        status = "HOLD_FULL_BYTE_HASH_RUNTIME_MISMATCHES_RESUME_ABSENT_LIBRARY_AUTHORITY_HELD"
+    elif (
+        dependency["all_satisfied"]
+        and byte_hash_reconcile.get("status") == "SCAFFOLD_SAMPLE_BYTE_HASH_RECONCILED"
+    ):
         status = "HOLD_ROW068_UNLOCKED_BYTE_HASH_SAMPLE_AND_RESUME_SCAFFOLD_LIBRARY_AUTHORITY_INCOMPLETE"
     else:
         status = "HOLD_FAIL_CLOSED_INDEX_CONTRACT_ADVANCED_LIBRARY_AUTHORITY_INCOMPLETE"
 
-    safe_next = (
-        "Execute full retained-index byte-hash reconciliation (sample_limit=None) against the "
-        "live inventory fingerprint, then run isolated full-library copy-then-resume replay "
-        "with stable index/state/failure-manifest hashes before granting Row069 library acceptance."
-    )
+    if byte_hash_reconcile.get("status") == "BYTE_HASH_RECONCILIATION_MISMATCHES_PRESENT":
+        safe_next = (
+            "Resolve the exact live-source missing/mismatch paths recorded in byte_hash_reconciliation, "
+            "re-run full retained-index byte-hash reconciliation to complete=true, then execute isolated "
+            "full-library copy-then-resume replay before granting Row069 library acceptance."
+        )
+    elif not byte_hash_reconcile.get("complete"):
+        safe_next = (
+            "Execute full retained-index byte-hash reconciliation (sample_limit=None) against the "
+            "live inventory fingerprint, then run isolated full-library copy-then-resume replay "
+            "with stable index/state/failure-manifest hashes before granting Row069 library acceptance."
+        )
+    elif not resume_scaffold.get("full_library_resume_replay_complete"):
+        safe_next = (
+            "Run isolated full-library copy-then-resume replay with stable index/state/"
+            "failure-manifest hashes, then reassess Row069 library acceptance fail-closed."
+        )
+    else:
+        safe_next = (
+            "Byte-hash and resume proofs are present; perform final Row069 acceptance adjudication "
+            "only if every validation method is satisfied and no residual blockers remain."
+        )
     if unsatisfied:
         safe_next = (
             "Accept remaining prerequisite dependency authority, then "
@@ -1176,6 +1535,9 @@ def build_authority_packet(
             "state_record_count": resume_scaffold.get("state_record_count"),
             "retained_summary_indexed_count": resume_scaffold.get("retained_summary_indexed_count"),
             "fixture_copy_resume_proof": resume_scaffold.get("fixture_copy_resume_proof"),
+            "full_library_copy_then_resume_proof": resume_scaffold.get(
+                "full_library_copy_then_resume_proof"
+            ),
             "required_full_library_proof": resume_scaffold.get("required_full_library_proof"),
             "does_not_grant_row069_acceptance": True,
         },
@@ -1234,6 +1596,31 @@ def main(argv: list[str] | None = None) -> int:
         default=BYTE_HASH_SAMPLE_DEFAULT,
         help="Finite sample for byte-hash scaffolding; use 0 to request full-library reconcile.",
     )
+    parser.add_argument(
+        "--execute-full-library-resume",
+        action="store_true",
+        help="Run isolated retained copy-then-resume against the live source (does not mutate retained).",
+    )
+    parser.add_argument(
+        "--resume-replay-workdir",
+        default="",
+        help="Optional persistent isolated replay workdir for full-library resume proof.",
+    )
+    parser.add_argument(
+        "--byte-hash-progress-path",
+        default="",
+        help="Optional JSON progress file updated during long byte-hash reconciles.",
+    )
+    parser.add_argument(
+        "--resume-byte-hash-from-progress",
+        action="store_true",
+        help="When emitting authority with full-library reconcile, resume from --byte-hash-progress-path.",
+    )
+    parser.add_argument(
+        "--byte-hash-result-path",
+        default="",
+        help="Reuse a completed byte-hash reconcile JSON instead of re-hashing the library.",
+    )
     parser.add_argument("--output", default=str(DEFAULT_EVIDENCE))
     args = parser.parse_args(argv)
     root = Path(args.root).resolve()
@@ -1241,11 +1628,30 @@ def main(argv: list[str] | None = None) -> int:
     if args.emit_authority:
         source_root = Path(args.source_root) if args.source_root else DEFAULT_SOURCE_ROOT
         sample_limit = None if args.byte_hash_sample_limit == 0 else args.byte_hash_sample_limit
+        progress_path = Path(args.byte_hash_progress_path) if args.byte_hash_progress_path else None
+        if progress_path is not None and not progress_path.is_absolute():
+            progress_path = root / progress_path
+        replay_workdir = Path(args.resume_replay_workdir) if args.resume_replay_workdir else None
+        if replay_workdir is not None and not replay_workdir.is_absolute():
+            replay_workdir = root / replay_workdir
+        precomputed: dict[str, Any] | None = None
+        if args.byte_hash_result_path:
+            result_path = Path(args.byte_hash_result_path)
+            if not result_path.is_absolute():
+                result_path = root / result_path
+            precomputed = json.loads(result_path.read_text(encoding="utf-8"))
+            if not isinstance(precomputed, dict):
+                raise SystemExit("byte-hash result path must contain a JSON object")
         payload = build_authority_packet(
             root,
             source_root=source_root,
             retained_dir=Path(args.retained_dir),
             byte_hash_sample_limit=sample_limit,
+            execute_full_library_resume=args.execute_full_library_resume,
+            resume_replay_workdir=replay_workdir,
+            byte_hash_progress_path=progress_path,
+            byte_hash_precomputed_result=precomputed,
+            resume_byte_hash_from_progress=args.resume_byte_hash_from_progress,
         )
         if payload["decision"]["status"] != "blocked":
             raise SystemExit("authority emission must remain fail-closed until acceptance gates pass")
@@ -1266,7 +1672,11 @@ def main(argv: list[str] | None = None) -> int:
                     "library_authority": payload["library_authority"],
                     "dependency_all_satisfied": payload["dependency_authority"]["all_satisfied"],
                     "byte_hash_status": payload["byte_hash_reconciliation"]["status"],
+                    "byte_hash_complete": payload["byte_hash_reconciliation"]["complete"],
                     "resume_scaffold_status": payload["resume_replay_scaffold"]["status"],
+                    "full_library_resume_complete": payload["resume_replay_scaffold"][
+                        "full_library_resume_replay_complete"
+                    ],
                 },
                 sort_keys=True,
             )

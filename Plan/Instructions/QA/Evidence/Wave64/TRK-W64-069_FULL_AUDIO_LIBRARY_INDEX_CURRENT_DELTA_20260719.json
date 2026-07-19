@@ -1,20 +1,23 @@
 {
   "schema_version": 1,
   "evidence_id": "W64-ROW069-FULL-AUDIO-LIBRARY-INDEX-CURRENT-DELTA-20260719",
-  "created_at": "2026-07-19T20:05:40Z",
-  "source_commit": "3fbabcece6bb7aad41b36ce77e23120f1639de86",
+  "created_at": "2026-07-19T21:02:30Z",
+  "updated_at": "2026-07-19T21:02:30Z",
+  "source_commit": "9b2e7acfa8ab2df276e10e3c8d9f20d84679e679",
   "tracker_id": "TRK-W64-069",
   "item_id": "ITEM-W64-069",
-  "status": "HOLD_ROW068_UNLOCKED_BYTE_HASH_SAMPLE_AND_RESUME_SCAFFOLD_LIBRARY_AUTHORITY_INCOMPLETE",
-  "classification": "ROW069_FAIL_CLOSED_CONTRACT_INCREMENT_NO_FALSE_COMPLETION",
+  "status": "HOLD_FULL_BYTE_HASH_RUNTIME_MISMATCHES_RESUME_ABSENT_LIBRARY_AUTHORITY_HELD",
+  "classification": "ROW069_LOCAL_RUNTIME_FULL_BYTE_HASH_PROOF_NO_FALSE_COMPLETION",
   "row_complete": false,
   "retained_technical_index_revalidated": true,
   "implementation_completion_claimed": false,
   "runtime_completion_claimed": false,
-  "qa_decision": "fail_closed_row068_unlocked_byte_hash_sample_and_resume_scaffold_advanced_row069_acceptance_held",
+  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+  "qa_decision": "fail_closed_full_library_byte_hash_runtime_executed_with_13_live_source_missing_library_acceptance_held",
   "intent": {
-    "intent_id": "interactive_cursor_shift_row069_byte_hash_resume_scaffold_20260719",
+    "intent_id": "interactive_cursor_shift_row069_full_byte_hash_runtime_20260719",
     "authority_class": "interactive_cursor_integration_authority",
+    "target_proof_tier": "RUNTIME_PASS_BOUNDED",
     "routing": null,
     "worker_wake_count": 0
   },
@@ -61,40 +64,54 @@
     }
   ],
   "this_increment": {
-    "summary": "Refreshed Row069 dependency authority after Row068 acceptance, added retained-index stratified byte-hash sample reconciliation (48/39771 match), and landed copy-then-resume replay scaffolding with fixture proof. Full-library reconcile/resume and Row069 library acceptance remain held.",
+    "summary": "Executed local full-library retained-index byte-hash reconciliation against F:\\Len_Transfer\\Audio_Downloads for all 39771 records. 39758 matched; 13 LIVE_SOURCE_MISSING under one OpenNSFW path cluster. Added streaming/resume/precomputed-result tooling, recovered missing-path evidence, refreshed fail-closed direct evidence. Isolated full-library resume replay and library acceptance remain held. No audio QA claim; EC2 deferred; Docker/CVAT not used.",
     "changed_paths": [
       "Plan/07_IMPLEMENTATION/scripts/build_audio_pack_functional_index.py",
       "Plan/Instructions/QA/Scripts/test_audio_pack_functional_index.py",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-069_full_audio_library_index.json",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-069_FULL_AUDIO_LIBRARY_INDEX_CURRENT_DELTA_20260719.json",
-      "Plan/10_REGISTRIES/audio_pack_functional_index_registry.json"
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-069_FULL_AUDIO_LIBRARY_INDEX_CURRENT_DELTA_20260719.json"
     ],
     "artifact_hashes": {
       "Plan/07_IMPLEMENTATION/scripts/build_audio_pack_functional_index.py": {
-        "sha256": "418beb49cf8d78d2acd1f1f0b3df6d4d463e93bcc232630faf7ebec5857fcef4",
-        "bytes": 57623
+        "sha256": "6699008e24b82437e1ff27f6902022e2ffcf6bf92ded130b396cc283dc4f5a11",
+        "bytes": 77648
       },
       "Plan/Instructions/QA/Scripts/test_audio_pack_functional_index.py": {
-        "sha256": "bc215c538b80562ba053d5354b46cad536aa1611efcc9a86498a6c3613de78bf",
-        "bytes": 10071
+        "sha256": "762936c351ad6133dd5d5711836f1b77c2dac5672f2260c92944934b948cc546",
+        "bytes": 14187
       },
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-069_full_audio_library_index.json": {
-        "sha256": "5944c49bd6b3ba6a51c4da171212ffe7157962e3a88cbc4013a9becedcf89495",
-        "bytes": 9238
-      },
-      "Plan/10_REGISTRIES/audio_pack_functional_index_registry.json": {
-        "sha256": "0aec290be89b6dc56254c058ccd69b3800cebcde9826d05b9ebae31876f395ab",
-        "bytes": 2951
+        "sha256": "3e14dadae89a7481b371bd2f87aa398ae1d4c0b8e01069ee57d3156c1677cd51",
+        "bytes": 15902
       }
     },
+    "runtime_artifacts_not_committed": [
+      "runtime_artifacts/audio_asset_indexes/row069_full_reconcile_20260719/byte_hash_progress.json",
+      "runtime_artifacts/audio_asset_indexes/row069_full_reconcile_20260719/byte_hash_full_reconcile_result.json",
+      "runtime_artifacts/audio_asset_indexes/row069_full_reconcile_20260719/missing_live_sources.json"
+    ],
     "disjoint_from_sibling_lanes": [
       "TRK-W64-075",
       "TRK-W64-076",
       "TRK-W64-084",
       "TRK-W64-087",
       "TRK-W64-089",
-      "TRK-W64-068_lifecycle_binding"
+      "TRK-W64-098",
+      "TRK-W64-099",
+      "TRK-W64-102"
     ]
+  },
+  "environment": {
+    "host_root": "C:\\Comfy_UI_Main",
+    "source_root": "F:\\Len_Transfer\\Audio_Downloads",
+    "source_root_exists": true,
+    "comfyui_endpoint": "http://127.0.0.1:8188",
+    "comfyui_observed_up": true,
+    "comfyui_used_for_this_increment": false,
+    "docker_cvat_used": false,
+    "docker_cvat_relevance": "not-needed",
+    "ec2_status": "EC2_DEFERRED",
+    "gpu_observed": "NVIDIA GeForce RTX 5060 Laptop GPU via ComfyUI system_stats (not used for Row069)"
   },
   "current_source_observation": {
     "source_root": "F:\\Len_Transfer\\Audio_Downloads",
@@ -109,16 +126,39 @@
     "inventory_fingerprint_sha256": "20acec928e27408702fbe066f352beb585449adbd5adb6f6ec26a1256b8a0e6d",
     "matches_retained_discovered_count": true,
     "byte_hash_reconciliation_complete": false,
-    "byte_hash_sample_status": "SCAFFOLD_SAMPLE_BYTE_HASH_RECONCILED",
-    "byte_hash_sample_checked_count": 48,
-    "byte_hash_sample_match_count": 48,
-    "byte_hash_sample_extension_counts": {
-      ".flac": 15,
-      ".mp3": 16,
-      ".ogg": 1,
-      ".wav": 16
-    },
-    "observation": "COUNT_FINGERPRINT_PLUS_STRATIFIED_BYTE_HASH_SAMPLE"
+    "byte_hash_full_library_status": "BYTE_HASH_RECONCILIATION_MISMATCHES_PRESENT",
+    "byte_hash_checked_count": 39771,
+    "byte_hash_match_count": 39758,
+    "byte_hash_mismatch_count": 13,
+    "byte_hash_missing_count": 13,
+    "observation": "FULL_LIBRARY_BYTE_HASH_RUNTIME_WITH_LIVE_SOURCE_MISSING"
+  },
+  "runtime_proof": {
+    "tier": "RUNTIME_PASS_BOUNDED",
+    "kind": "full_retained_index_byte_hash_reconcile",
+    "command_family": "reconcile_retained_index_byte_hashes(sample_limit=None) with checkpoint resume",
+    "retained_index_path": "runtime_artifacts/audio_asset_indexes/audio_downloads_functional_20260715T095712-0500/audio_pack_functional_index.jsonl",
+    "retained_index_sha256": "7301243a364025dbd23907aee20ee8593d5897caa83d38391026ad42da6d17ec",
+    "result_path": "runtime_artifacts/audio_asset_indexes/row069_full_reconcile_20260719/byte_hash_full_reconcile_result.json",
+    "missing_paths_path": "runtime_artifacts/audio_asset_indexes/row069_full_reconcile_20260719/missing_live_sources.json",
+    "checked_count": 39771,
+    "match_count": 39758,
+    "mismatch_count": 13,
+    "missing_count": 13,
+    "complete": false,
+    "status": "BYTE_HASH_RECONCILIATION_MISMATCHES_PRESENT",
+    "mismatch_codes_observed": [
+      "LIVE_SOURCE_MISSING"
+    ],
+    "mismatch_cluster": "OpenNSFW SFX/.../Storming Vania [--] (LOW Quality)/Storming Vania [--++] (Buzz Increase)/pixelcarnagee - Bloated Cum (Storming Vania--++) [SUBMERGED]-01..13.wav",
+    "byte_hash_mismatch_among_present_files": false,
+    "claims_not_established": [
+      "FULL_LIBRARY_BYTE_HASH_CLEAN_COMPLETE",
+      "FULL_LIBRARY_RESUME_REPLAY",
+      "ROW069_LIBRARY_AUTHORITY",
+      "AUDIO_QA_PASS_BOUNDED",
+      "row_complete"
+    ]
   },
   "resume_replay_scaffold": {
     "status": "RESUME_REPLAY_SCAFFOLD_READY_FULL_LIBRARY_ABSENT",
@@ -133,13 +173,13 @@
   },
   "direct_evidence": {
     "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-069_full_audio_library_index.json",
-    "sha256": "5944c49bd6b3ba6a51c4da171212ffe7157962e3a88cbc4013a9becedcf89495",
-    "bytes": 9238,
+    "sha256": "3e14dadae89a7481b371bd2f87aa398ae1d4c0b8e01069ee57d3156c1677cd51",
+    "bytes": 15902,
     "row_complete": false,
     "library_authority": false,
     "row069_acceptance": "held",
     "blocker_codes": [
-      "RETAINED_INDEX_BYTE_HASH_RECONCILIATION_SAMPLE_ONLY",
+      "RETAINED_INDEX_BYTE_HASH_RECONCILIATION_MISMATCHES_PRESENT",
       "FULL_LIBRARY_RESUME_REPLAY_ABSENT",
       "ROW069_LIBRARY_RUNTIME_AUTHORITY_NOT_GRANTED"
     ]
@@ -147,43 +187,46 @@
   "focused_test_validation": {
     "command": "python -m unittest Plan.Instructions.QA.Scripts.test_audio_pack_functional_index -v",
     "process_exit": 0,
-    "test_count": 6,
-    "passed": 6,
+    "test_count": 8,
+    "passed": 8,
     "failed": 0,
     "cases": [
       "authority_packet_remains_fail_closed",
       "build_resume_hash_dedupe_and_select",
+      "byte_hash_progress_resume_and_precomputed_authority",
       "byte_hash_reconcile_and_resume_scaffold",
       "classification_uses_wave30_wave31_terms",
       "empty_file_becomes_exact_blocker_and_reconciles",
+      "isolated_full_library_copy_then_resume_stable",
       "refuses_existing_output_without_resume"
     ],
     "fixture_only_for_index_build": true,
     "production_source_byte_hash_sample_pass_performed": true,
-    "production_source_full_byte_hash_pass_performed": false,
+    "production_source_full_byte_hash_pass_performed": true,
+    "production_source_full_byte_hash_clean_complete": false,
     "full_library_resume_replay_performed": false,
     "python_compile_pass": true
   },
   "gate_assessment": [
     {
       "gate": "inventory_reconciled",
-      "current_row069_decision": "partial_pass_count_fingerprint_and_byte_hash_sample",
-      "reason": "Live inventory still matches retained 39771 count/fingerprint; stratified 48-file byte-hash sample matched with zero mismatches; full-library byte-hash reconcile remains absent."
+      "current_row069_decision": "partial_pass_full_byte_hash_with_missing",
+      "reason": "Live inventory count/fingerprint still match retained 39771; full-library byte-hash checked every retained record; 13 live paths are missing."
     },
     {
       "gate": "source_bytes_immutable",
-      "current_row069_decision": "fixture_pass_sample_live_hold",
-      "reason": "Fixture fingerprints remain unchanged across index/resume; live sample hashes matched retained records; full-library immutability replay remains absent."
+      "current_row069_decision": "partial_pass_present_files",
+      "reason": "39758 present files matched retained sha256/bytes; missing paths cannot prove immutability."
     },
     {
       "gate": "sha256_complete",
-      "current_row069_decision": "technical_reuse_allowed",
-      "reason": "Retained 39771-record index remains hash-complete; this increment samples rather than rebuilds production hashes."
+      "current_row069_decision": "technical_reuse_with_missing_live",
+      "reason": "Retained index remains hash-complete; live reconcile is not clean-complete."
     },
     {
       "gate": "resume_verified",
       "current_row069_decision": "scaffold_ready_full_library_hold",
-      "reason": "Copy-then-resume fixture proof is stable and retained index/summary/state counts align; full 39771-record isolated resume replay remains unexecuted. Retained failure_manifest.json is still absent."
+      "reason": "Fixture copy-then-resume remains stable; production isolated full-library resume replay remains unexecuted."
     },
     {
       "gate": "dedup_counted",
@@ -193,8 +236,8 @@
   ],
   "acceptance_gaps": [
     {
-      "code": "RETAINED_INDEX_BYTE_HASH_RECONCILIATION_SAMPLE_ONLY",
-      "detail": "48 stratified retained records matched live source bytes/hashes; 39723 records remain unchecked."
+      "code": "RETAINED_INDEX_BYTE_HASH_RECONCILIATION_MISMATCHES_PRESENT",
+      "detail": "13 LIVE_SOURCE_MISSING paths under Storming Vania [--]/[--++] cluster; 39758/39771 matched."
     },
     {
       "code": "FULL_LIBRARY_RESUME_REPLAY_ABSENT",
@@ -205,36 +248,67 @@
       "detail": "Direct evidence exists but intentionally keeps library_authority=false and row069_acceptance=held."
     }
   ],
+  "visual_qa": {
+    "applicable": false,
+    "reason": "Row069 is audio-library index authority; no image/video artifact produced in this increment."
+  },
+  "audio_qa": {
+    "applicable": false,
+    "reason": "This increment proves inventory byte-hash integrity only; no generated/mixed audio artifact was produced or reviewed."
+  },
   "preservation_boundary": {
     "unrelated_dirty_paths_preserved": true,
     "external_audio_source_modified": false,
-    "sibling_row075_076_084_087_089_068_lifecycle_paths_modified": false,
+    "sibling_row_paths_modified": false,
     "provider_or_worker_invoked": false,
-    "audio_generation_or_playback_executed": false
+    "audio_generation_or_playback_executed": false,
+    "comfyui_generation_executed": false,
+    "docker_cvat_mutated": false
   },
   "checks": [
-    {"name": "FAI-D001_row067_dependency_accepted", "result": "pass"},
-    {"name": "FAI-D002_row068_dependency_now_accepted", "result": "pass"},
-    {"name": "FAI-D003_byte_hash_reconcile_api_landed", "result": "pass"},
-    {"name": "FAI-D004_stratified_live_sample_48_matched", "result": "pass"},
-    {"name": "FAI-D005_resume_replay_scaffold_fixture_stable", "result": "pass"},
-    {"name": "FAI-D006_retained_index_summary_state_aligned", "result": "pass"},
-    {"name": "FAI-D007_direct_evidence_refreshed_without_false_completion", "result": "pass"},
-    {"name": "FAI-D008_focused_tests_6_of_6", "result": "pass"},
-    {"name": "FAI-D009_no_row069_acceptance_or_runtime_claim", "result": "pass"},
-    {"name": "FAI-D010_full_library_reconcile_and_resume_still_held", "result": "pass"}
+    {"name": "FAI-R001_row067_dependency_accepted", "result": "pass"},
+    {"name": "FAI-R002_row068_dependency_accepted", "result": "pass"},
+    {"name": "FAI-R003_full_library_byte_hash_runtime_executed", "result": "pass"},
+    {"name": "FAI-R004_39771_records_checked", "result": "pass"},
+    {"name": "FAI-R005_39758_matches_recorded", "result": "pass"},
+    {"name": "FAI-R006_13_live_source_missing_identified", "result": "pass"},
+    {"name": "FAI-R007_no_false_library_acceptance", "result": "pass"},
+    {"name": "FAI-R008_focused_tests_8_of_8", "result": "pass"},
+    {"name": "FAI-R009_full_library_resume_still_held", "result": "pass"},
+    {"name": "FAI-R010_ec2_deferred_docker_unused", "result": "pass"}
   ],
   "check_summary": {
     "checked": 10,
     "passed": 10,
     "failed": 0
   },
+  "blockers": [
+    {
+      "blocked_outcome": "TRK-W64-069 library acceptance / row_complete",
+      "missing_dependency_or_proof_tier": "clean full-library byte-hash complete + isolated full-library resume replay",
+      "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-069_FULL_AUDIO_LIBRARY_INDEX_CURRENT_DELTA_20260719.json",
+      "blocker_class": "runtime",
+      "docker_cvat_relevance": "not-needed",
+      "safe_parallel_work": "Independent visual/ComfyUI lanes or dependency-unblocked contract lanes that do not claim Row069 acceptance",
+      "minimum_unblock_action": "Restore or exact-block the 13 missing live paths, re-run full byte-hash to complete=true, then isolated full-library resume replay"
+    },
+    {
+      "blocked_outcome": "EC2 target runtime",
+      "missing_dependency_or_proof_tier": "EC2_DEFERRED by session policy",
+      "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-069_FULL_AUDIO_LIBRARY_INDEX_CURRENT_DELTA_20260719.json",
+      "blocker_class": "ec2-deferred",
+      "docker_cvat_relevance": "not-needed",
+      "safe_parallel_work": "Continue local Row069 mismatch remediation and resume proof",
+      "minimum_unblock_action": "None under current plan; keep EC2 deferred"
+    }
+  ],
   "decision": {
-    "retained_index_integrity": "technical_reuse_pass_with_byte_hash_sample",
+    "retained_index_integrity": "full_library_byte_hash_runtime_with_13_missing",
     "row069_status": "Planned_Autonomous_Implementation_Required",
     "row069_acceptance": "held",
     "runtime_completion": false,
     "product_completion": false,
-    "safe_next_action": "Execute full retained-index byte-hash reconciliation (sample_limit=None) against the live inventory fingerprint, then run isolated full-library copy-then-resume replay with stable index/state/failure-manifest hashes before granting Row069 library acceptance."
+    "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+    "safe_next_action": "Resolve or exact-block the 13 LIVE_SOURCE_MISSING Storming Vania [--]/[--++] paths, re-run full byte-hash to complete=true, then execute isolated full-library copy-then-resume replay before any Row069 library acceptance claim."
   }
 }

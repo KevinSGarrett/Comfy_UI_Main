@@ -197,6 +197,91 @@ class AudioPackFunctionalIndexTests(unittest.TestCase):
             self.assertTrue(scaffold["fixture_copy_resume_proof"]["failure_manifest_sha256_stable"])
             self.assertEqual(scaffold["status"], "RESUME_REPLAY_SCAFFOLD_READY_FULL_LIBRARY_ABSENT")
 
+    def test_isolated_full_library_copy_then_resume_stable(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            base = Path(temporary)
+            source = base / "source"
+            retained = base / "retained"
+            replay = base / "replay"
+            source.mkdir()
+            _wav(source / "a.wav", 0.1)
+            _wav(source / "b.wav", 0.12)
+            INDEXER.build_index(source, retained)
+            # Mirror retained production layout: failure_manifest may be absent.
+            (retained / "failure_manifest.json").unlink(missing_ok=True)
+            retained_index_sha = INDEXER._sha256(retained / "audio_pack_functional_index.jsonl")
+            retained_state_sha = INDEXER._sha256(retained / "functional_index_state.sqlite3")
+            proof = INDEXER.execute_isolated_full_library_copy_then_resume(
+                retained,
+                source,
+                replay_workdir=replay,
+                keep_replay_workdir=True,
+            )
+            self.assertTrue(proof["full_library_resume_executed"])
+            self.assertTrue(proof["full_library_resume_replay_complete"])
+            self.assertTrue(proof["index_sha256_stable"])
+            self.assertTrue(proof["state_database_sha256_stable"])
+            self.assertTrue(proof["failure_manifest_ok"])
+            self.assertEqual(proof["failure_manifest_mode"], "emitted_on_resume")
+            self.assertTrue(proof["retained_paths_unmutated"])
+            self.assertEqual(
+                INDEXER._sha256(retained / "audio_pack_functional_index.jsonl"),
+                retained_index_sha,
+            )
+            self.assertEqual(
+                INDEXER._sha256(retained / "functional_index_state.sqlite3"),
+                retained_state_sha,
+            )
+            scaffold = INDEXER.build_resume_replay_scaffold(
+                retained,
+                source_root=source,
+                prove_fixture=False,
+                full_library_proof=proof,
+            )
+            self.assertTrue(scaffold["full_library_resume_replay_complete"])
+            self.assertEqual(scaffold["status"], "FULL_LIBRARY_RESUME_REPLAY_COMPLETE")
+
+    def test_byte_hash_progress_resume_and_precomputed_authority(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            base = Path(temporary)
+            source = base / "source"
+            retained = base / "retained"
+            source.mkdir()
+            _wav(source / "a.wav", 0.1)
+            _wav(source / "b.wav", 0.12)
+            INDEXER.build_index(source, retained)
+            progress = base / "progress.json"
+            first = INDEXER.reconcile_retained_index_byte_hashes(
+                source,
+                retained / "audio_pack_functional_index.jsonl",
+                sample_limit=None,
+                progress_every=1,
+                progress_path=progress,
+            )
+            self.assertTrue(first["complete"])
+            self.assertTrue(progress.is_file())
+            resumed = INDEXER.reconcile_retained_index_byte_hashes(
+                source,
+                retained / "audio_pack_functional_index.jsonl",
+                sample_limit=None,
+                progress_path=progress,
+                resume_from_progress=True,
+            )
+            self.assertTrue(resumed["complete"])
+            self.assertEqual(resumed["resumed_from_checked_count"], first["checked_count"])
+            self.assertEqual(resumed["match_count"], first["match_count"])
+            packet = INDEXER.build_authority_packet(
+                ROOT,
+                source_root=source,
+                retained_dir=retained,
+                byte_hash_sample_limit=None,
+                byte_hash_precomputed_result=first,
+            )
+            self.assertTrue(packet["byte_hash_reconciliation"]["precomputed_result_reused"])
+            self.assertTrue(packet["byte_hash_reconciliation"]["complete"])
+            self.assertFalse(packet["library_authority"])
+            self.assertFalse(packet["row_complete"])
+
 
 if __name__ == "__main__":
     unittest.main()
