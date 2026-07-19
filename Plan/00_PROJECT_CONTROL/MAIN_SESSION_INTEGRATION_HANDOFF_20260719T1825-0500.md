@@ -12,8 +12,9 @@
 ## Commits Pushed This Pass
 
 1. `17ce3e97` Prove Row017 MF70 eyebrows local visual climb.
+2. `a3acccaa` Stamp Row017 eyebrows handoff with primary commit id.
 
-Pushed tip verified on origin: `17ce3e97` (handoff tip stamp follows)
+Pushed tip verified on origin: `a3acccaa`
 
 ## Row-Scoped Increment Executed
 
