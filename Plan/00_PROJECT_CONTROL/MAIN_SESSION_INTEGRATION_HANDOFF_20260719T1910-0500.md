@@ -12,9 +12,9 @@
 ## Commits Pushed This Pass
 
 1. `80d57969` Prove Row017 MF70 jawline/chin local visual climb.
-2. Tip alignment commit(s) stamp this handoff to origin HEAD after push/verify.
+2. `1892d005` Stamp Row017 jawline/chin handoff with primary commit id.
 
-Pushed tip verified on origin: `PENDING_TIP`
+Pushed tip verified on origin: `1892d005`
 
 ## Row-Scoped Increment Executed
 
