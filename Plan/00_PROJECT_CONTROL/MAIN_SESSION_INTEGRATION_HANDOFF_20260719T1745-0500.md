@@ -14,9 +14,9 @@
 2. `2e2be4e7` Stamp Row017 eyelashes handoff with primary commit id.
 3. `097efc23` Finalize Row017 eyelashes handoff tip to origin HEAD.
 4. `15e3f58b` Refresh Row017 eyelashes handoff with pushed tip IDs.
-5. `6a9a8a42` Align Row017 eyelashes handoff tip to origin HEAD.
+5. `e79d0b6e` Align Row017 eyelashes handoff tip to origin HEAD.
 
-Pushed tip verified on origin: `6a9a8a42`
+Pushed tip verified on origin: `e79d0b6e`
 
 ## Row-Scoped Increment Executed
 
@@ -45,8 +45,8 @@ Pushed tip verified on origin: `6a9a8a42`
 
 ## Validators Run
 
-- `python Plan/07_IMPLEMENTATION/scripts/validate_global_whole_image_visual_review.py --input <3 canonical reviews>` ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ **PASS** each
-- `python -m unittest Plan.Instructions.QA.Scripts.test_global_whole_image_visual_review -v` ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ **9 passed**
+- `python Plan/07_IMPLEMENTATION/scripts/validate_global_whole_image_visual_review.py --input <3 canonical reviews>` -> **PASS** each
+- `python -m unittest Plan.Instructions.QA.Scripts.test_global_whole_image_visual_review -v` -> **9 passed**
 - ComfyUI: live local runtime used (`system_stats` / `/free` / `/upload/image` / `/prompt` / `/history` / `/view`)
 - Docker/CVAT: unused (not-needed)
 - EC2: `EC2_DEFERRED`
@@ -72,7 +72,6 @@ Pushed tip verified on origin: `6a9a8a42`
 
 ## Exact Next Action
 
-1. Continue Row017 historical localized canonicalization with additional local artifacts / runtime candidates away from Row069ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“071 (e.g. pupils_iris_sclera, skin_tone_continuity, or a fresh eyelids runtime climb).
+1. Continue Row017 historical localized canonicalization with additional local artifacts / runtime candidates away from Row069-071 (e.g. pupils_iris_sclera, skin_tone_continuity, or a fresh eyelids runtime climb).
 2. Or climb another tracker-authorized independent local visual/audio proof lane with existing artifacts/workflows.
 3. Do not treat Docker/CVAT uptime as ComfyUI proof; keep EC2 deferred.
-
