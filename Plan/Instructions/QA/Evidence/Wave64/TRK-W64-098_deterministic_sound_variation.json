@@ -1,0 +1,969 @@
+{
+  "adversarial_schema_probe": {
+    "case_count": 7,
+    "cases": [
+      {
+        "error": "schema_validation_failed:validation.anchor_preservation_pass:True was expected",
+        "false_open": false,
+        "name": "pass_with_all_variation_gates_false",
+        "schema_accepted": false,
+        "strict_expected_accepted": false
+      },
+      {
+        "error": "schema_validation_failed:validation.canonical_pcm_dedup_pass:False was expected",
+        "false_open": false,
+        "name": "canonical_pcm_duplicate_but_pass",
+        "schema_accepted": false,
+        "strict_expected_accepted": false
+      },
+      {
+        "error": "schema_validation_failed:source.original_mutated:False was expected",
+        "false_open": false,
+        "name": "original_mutated_but_pass",
+        "schema_accepted": false,
+        "strict_expected_accepted": false
+      },
+      {
+        "error": "invalid_license_cannot_pass",
+        "false_open": false,
+        "name": "missing_rights_decision_but_pass",
+        "schema_accepted": false,
+        "strict_expected_accepted": false
+      },
+      {
+        "error": "schema_validation_failed:decision.product_completion:False was expected",
+        "false_open": false,
+        "name": "production_authority_true_on_synthetic",
+        "schema_accepted": false,
+        "strict_expected_accepted": false
+      },
+      {
+        "error": "schema_validation_failed:variant.semantic_similarity:'high' is not of type 'number'",
+        "false_open": false,
+        "name": "semantic_similarity_wrong_type",
+        "schema_accepted": false,
+        "strict_expected_accepted": false
+      },
+      {
+        "error": "schema_validation_failed:validation:'canonical_pcm_dedup_pass' is a required property",
+        "false_open": false,
+        "name": "missing_transform_bounds_and_dedup_proof",
+        "schema_accepted": false,
+        "strict_expected_accepted": false
+      }
+    ],
+    "false_open_count": 0,
+    "validator": "jsonschema.Draft202012Validator"
+  },
+  "blocker_codes": [
+    "BOUNDED_TRANSFORM_ENGINE_ABSENT",
+    "CANONICAL_PCM_DEDUP_INDEX_ABSENT",
+    "DETERMINISTIC_VARIATION_RUNTIME_ABSENT",
+    "GENUINE_ROW098_RUNTIME_PROOF_ABSENT",
+    "INDEPENDENT_VARIATION_AUDIO_REVIEW_ABSENT",
+    "ROW068_ROW071_ROW072_ROW073_ROW079_ROW093_DEPENDENCIES_NOT_ACCEPTED",
+    "ROW071_DEPENDENCY_NOT_ACCEPTED",
+    "ROW072_DEPENDENCY_NOT_ACCEPTED",
+    "ROW073_DEPENDENCY_NOT_ACCEPTED",
+    "ROW079_DEPENDENCY_NOT_ACCEPTED",
+    "ROW093_DEPENDENCY_NOT_ACCEPTED",
+    "SEMANTIC_SIMILARITY_RUNTIME_PROOF_ABSENT"
+  ],
+  "compiler_revision": "wave64_row098_deterministic_sound_variation_compiler_v0.1.0",
+  "decision": {
+    "product_completion": false,
+    "row098_acceptance": "held",
+    "runtime_completion": false,
+    "safe_next_action": "Accept Rows071, 072, 073, 079, and 093 (Row068 already accepted); bind rights-cleared source PCM with onset/usable-bounds and taxonomy identity into a bounded deterministic transform engine; enforce semantic similarity bounds, canonical-PCM dedup, and original immutability; preserve hash-bound transform recipes; validate synthetic truth and genuine library fixtures; perform independent variation audio review; then replace this hold packet with production Row098 evidence.",
+    "status": "blocked"
+  },
+  "dependency_admissions": {
+    "TRK-W64-068": {
+      "blocker_codes": [],
+      "bytes": 4104,
+      "dependency_satisfied": true,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+      "row_complete": true,
+      "sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+      "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+      "tracker_id": "TRK-W64-068"
+    },
+    "TRK-W64-071": {
+      "blocker_codes": [
+        "ROW071_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "bytes": 7370,
+      "dependency_satisfied": false,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-071_WAVEFORM_FEATURE_EXTRACTION_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "sha256": "4118ecf426dc54242b049e15e27981097a29044d954bd21992dce85aca432def",
+      "status": "HOLD_ROW070_CANONICAL_DECODE_AND_FULL_LIBRARY_FEATURE_RUNTIME_ABSENT",
+      "tracker_id": "TRK-W64-071"
+    },
+    "TRK-W64-072": {
+      "blocker_codes": [
+        "ROW072_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "bytes": 12124,
+      "dependency_satisfied": false,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ONSET_TRANSIENT_ANCHOR_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "sha256": "f0d647f5f623e7b8bbeb4ef1270732ba8116972dcecd620592c12dabbde0477a",
+      "status": "HOLD_DEPENDENCIES_LIBRARY_RUNTIME_AND_BENCHMARK_STRATA_ABSENT",
+      "tracker_id": "TRK-W64-072"
+    },
+    "TRK-W64-073": {
+      "blocker_codes": [
+        "ROW073_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "bytes": 9007,
+      "dependency_satisfied": false,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "sha256": "9c8b2d4b1871d61276bae4d5f6ca85a437f99b7ca3cc4d1a7a7fe1371b6146ff",
+      "status": "HOLD_ROW071_ROW072_DEPENDENCIES_AND_FULL_LIBRARY_BOUNDS_RUNTIME_ABSENT",
+      "tracker_id": "TRK-W64-073"
+    },
+    "TRK-W64-079": {
+      "blocker_codes": [
+        "ROW079_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "bytes": 10464,
+      "dependency_satisfied": false,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-079_FINE_GRAINED_FOLEY_TAXONOMY_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "sha256": "503f2ced0c92c492774ae482dcd18a4f5f623f162e93ddeb9b8b62480f6f32b8",
+      "status": "HOLD_ROW074_ROW076_ROW078_DEPENDENCIES_AND_FULL_LIBRARY_TAXONOMY_RUNTIME_ABSENT",
+      "tracker_id": "TRK-W64-079"
+    },
+    "TRK-W64-093": {
+      "blocker_codes": [
+        "ROW093_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "bytes": 13813,
+      "dependency_satisfied": false,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-093_CANONICAL_CLIP_PREPARATION_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "sha256": "3f11d692b8f79751cdd19e57e746187c44c23b3ee1bd3bf46796b789e5740c66",
+      "status": "HOLD_FIVE_DEPENDENCIES_PRODUCTION_CLIP_PREPARER_RUNTIME_AND_AUDIO_QA_ABSENT",
+      "tracker_id": "TRK-W64-093"
+    }
+  },
+  "evidence_id": "TRK-W64-098_deterministic_sound_variation",
+  "fixture_calibration": {
+    "authority": "synthetic_non_production",
+    "determinism_identical_bytes": true,
+    "determinism_note": "Fixture manifests prove fail-closed micro/structural variation, canonical-PCM dedup, semantic bounds, original immutability, license provenance, transform bounds, and combined gate-failure contracts; they do not accept Row098 production completion or emit real transformed audio.",
+    "fixture_count": 8,
+    "records": [
+      {
+        "clip_preparation_authority_sha256": "6d6f69e1e16a02e0c127d67e88bd7517bdb2d8193c24ae385e2151ea54f71b9a",
+        "compiler_revision": "wave64_row098_deterministic_sound_variation_compiler_v0.1.0",
+        "decision": {
+          "blocker_codes": [
+            "SYNTHETIC_FIXTURE_ONLY",
+            "PRODUCTION_VARIATION_RUNTIME_ABSENT"
+          ],
+          "product_completion": false,
+          "promotion_eligible": false,
+          "reason": "Synthetic micro-variation fixture passes bounded transform and identity gates without production authority.",
+          "row098_acceptance": "fixture_only",
+          "runtime_completion": false,
+          "status": "fixture_only"
+        },
+        "foley_taxonomy_authority_sha256": "f1039b5fa27f33f73559cd056cdac94cc22a59f3595d2ac2fee9c2dcb2683c9e",
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-098",
+        "onset_anchor_authority_sha256": "42bcd0070f879435fc720eed6d29fe26654e138cbcadef0472e2d215d2a74683",
+        "production_authority": false,
+        "registry_revision": "wave64_row098_deterministic_sound_variation_registry_v0.1.0",
+        "rights_authority_sha256": "701776a9d48037bf77fcf3820d7c36f3321ca3f109eac0b871e4f412165f244e",
+        "schema_version": "1.0.0",
+        "source": {
+          "asset_id": "fixture:source:micro_variation_pass",
+          "canonical_pcm_sha256": "e82036b9bdea82fb8259b27a5abafedbde9f46f8697a8fa41b78cd38e8c0708d",
+          "event_family": "footstep_hard_surface",
+          "event_id": "evt_fixture_footstep_01",
+          "license_class": "cc0",
+          "onset_anchor_ms": 42.0,
+          "original_mutated": false,
+          "rights_decision_sha256": "0ab77a9eb897784900a169caec4e6239615a156d1718886209fc9453fb7d4cfb",
+          "source_path": "fixtures/row098/source/micro_variation_pass.wav"
+        },
+        "tracker_id": "TRK-W64-098",
+        "transforms": [
+          {
+            "deterministic": true,
+            "kind": "pitch",
+            "parameters": {
+              "semitones": 0.35
+            },
+            "seed": "micro_variation_pass:pitch"
+          },
+          {
+            "deterministic": true,
+            "kind": "envelope",
+            "parameters": {
+              "attack_ms": 2.0,
+              "release_ms": 18.0
+            },
+            "seed": "micro_variation_pass:envelope"
+          },
+          {
+            "deterministic": true,
+            "kind": "microtiming",
+            "parameters": {
+              "offset_ms": -3.5
+            },
+            "seed": "micro_variation_pass:microtiming"
+          },
+          {
+            "deterministic": true,
+            "kind": "stereo_perspective",
+            "parameters": {
+              "width_delta": 0.05
+            },
+            "seed": "micro_variation_pass:stereo"
+          }
+        ],
+        "usable_bounds_authority_sha256": "def540252ee2f655a199f0f8011ee74d1722c5dee571414887c2ad8a3a74e310",
+        "validation": {
+          "anchor_preservation_pass": true,
+          "canonical_pcm_dedup_pass": true,
+          "decision": "pass",
+          "event_identity_pass": true,
+          "license_provenance_pass": true,
+          "original_immutability_pass": true,
+          "semantic_similarity": 0.91,
+          "semantic_similarity_pass": true,
+          "transform_bounds_pass": true
+        },
+        "variant": {
+          "asset_id": "fixture:variant:micro_variation_pass",
+          "canonical_pcm_duplicate": false,
+          "canonical_pcm_sha256": "8b324d1a082b23de0a25259f2b1cee81d235743ec592281c4bd8c7d0d0fff3fd",
+          "channels": 2,
+          "duration_seconds": 0.86,
+          "license_class": "cc0",
+          "onset_anchor_ms": 42.0,
+          "path": "fixtures/row098/variant/micro_variation_pass.wav",
+          "rights_decision_sha256": "9d965c84700f6d40459cc789013ec3f9181431c4442a780108f0b9a53edef7ef",
+          "sample_rate_hz": 48000,
+          "semantic_similarity": 0.91,
+          "sha256": "c155160b78aa0ac219285748cdb677c722f0a428481e30abfa3b004e1a5fb82a",
+          "transform_recipe_sha256": "e4086668bb58f56918e66dc8ff5c36aaf7f186a5b9d190fddd82eef9c73fccbf"
+        },
+        "variation_id": "fixture:micro_variation_pass",
+        "variation_tier": "micro_variation",
+        "waveform_feature_authority_sha256": "5376e9635b73ea8d0183d0b1ecb38e8ed9ac9a75612882ac276e34f75d4c7e03"
+      },
+      {
+        "clip_preparation_authority_sha256": "6d6f69e1e16a02e0c127d67e88bd7517bdb2d8193c24ae385e2151ea54f71b9a",
+        "compiler_revision": "wave64_row098_deterministic_sound_variation_compiler_v0.1.0",
+        "decision": {
+          "blocker_codes": [
+            "SYNTHETIC_FIXTURE_ONLY",
+            "PRODUCTION_VARIATION_RUNTIME_ABSENT"
+          ],
+          "product_completion": false,
+          "promotion_eligible": false,
+          "reason": "Synthetic structural-variation fixture preserves event identity and provenance without production authority.",
+          "row098_acceptance": "fixture_only",
+          "runtime_completion": false,
+          "status": "fixture_only"
+        },
+        "foley_taxonomy_authority_sha256": "f1039b5fa27f33f73559cd056cdac94cc22a59f3595d2ac2fee9c2dcb2683c9e",
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-098",
+        "onset_anchor_authority_sha256": "42bcd0070f879435fc720eed6d29fe26654e138cbcadef0472e2d215d2a74683",
+        "production_authority": false,
+        "registry_revision": "wave64_row098_deterministic_sound_variation_registry_v0.1.0",
+        "rights_authority_sha256": "701776a9d48037bf77fcf3820d7c36f3321ca3f109eac0b871e4f412165f244e",
+        "schema_version": "1.0.0",
+        "source": {
+          "asset_id": "fixture:source:structural_variation_pass",
+          "canonical_pcm_sha256": "77e56334546d105d1407bc7859775cd1c17a71c8dbf7be6d90229b085fc337f7",
+          "event_family": "footstep_hard_surface",
+          "event_id": "evt_fixture_footstep_01",
+          "license_class": "cc_by",
+          "onset_anchor_ms": 42.0,
+          "original_mutated": false,
+          "rights_decision_sha256": "b4df439ed607ce6a176f8c27a2688fbd4ccc1d1a7b1933781f88daa4d467daa7",
+          "source_path": "fixtures/row098/source/structural_variation_pass.wav"
+        },
+        "tracker_id": "TRK-W64-098",
+        "transforms": [
+          {
+            "deterministic": true,
+            "kind": "layering",
+            "parameters": {
+              "gain_db": -6.0,
+              "layer_role": "settle"
+            },
+            "seed": "structural_variation_pass:layering"
+          },
+          {
+            "deterministic": true,
+            "kind": "eq",
+            "parameters": {
+              "highshelf_db": -1.5,
+              "lowshelf_db": 0.8
+            },
+            "seed": "structural_variation_pass:eq"
+          },
+          {
+            "deterministic": true,
+            "kind": "transient_shaping",
+            "parameters": {
+              "attack_gain_db": 1.2
+            },
+            "seed": "structural_variation_pass:transient"
+          },
+          {
+            "deterministic": true,
+            "kind": "duration",
+            "parameters": {
+              "scale": 1.04
+            },
+            "seed": "structural_variation_pass:duration"
+          }
+        ],
+        "usable_bounds_authority_sha256": "def540252ee2f655a199f0f8011ee74d1722c5dee571414887c2ad8a3a74e310",
+        "validation": {
+          "anchor_preservation_pass": true,
+          "canonical_pcm_dedup_pass": true,
+          "decision": "pass",
+          "event_identity_pass": true,
+          "license_provenance_pass": true,
+          "original_immutability_pass": true,
+          "semantic_similarity": 0.86,
+          "semantic_similarity_pass": true,
+          "transform_bounds_pass": true
+        },
+        "variant": {
+          "asset_id": "fixture:variant:structural_variation_pass",
+          "canonical_pcm_duplicate": false,
+          "canonical_pcm_sha256": "560d5d1fcf31e9cb6da231191b52f41f1ae3b787b217e614055ce6b53f8257bf",
+          "channels": 2,
+          "duration_seconds": 0.86,
+          "license_class": "cc_by",
+          "onset_anchor_ms": 42.0,
+          "path": "fixtures/row098/variant/structural_variation_pass.wav",
+          "rights_decision_sha256": "41d378375476dac8108869afee21b351ce8a0bd085ade93705814988009b52f4",
+          "sample_rate_hz": 48000,
+          "semantic_similarity": 0.86,
+          "sha256": "a8f594f25bee10c0d37f148debc5c1c98bc2a593c87116fc542e3269fb4e5321",
+          "transform_recipe_sha256": "7f5d1696af4bb650289c53cf3651da70e7b068c5ade62b299d65c5bb57383f39"
+        },
+        "variation_id": "fixture:structural_variation_pass",
+        "variation_tier": "structural_variation",
+        "waveform_feature_authority_sha256": "5376e9635b73ea8d0183d0b1ecb38e8ed9ac9a75612882ac276e34f75d4c7e03"
+      },
+      {
+        "clip_preparation_authority_sha256": "6d6f69e1e16a02e0c127d67e88bd7517bdb2d8193c24ae385e2151ea54f71b9a",
+        "compiler_revision": "wave64_row098_deterministic_sound_variation_compiler_v0.1.0",
+        "decision": {
+          "blocker_codes": [
+            "SYNTHETIC_FIXTURE_ONLY",
+            "PRODUCTION_VARIATION_RUNTIME_ABSENT",
+            "CANONICAL_PCM_DUPLICATE"
+          ],
+          "product_completion": false,
+          "promotion_eligible": false,
+          "reason": "Variant canonical PCM matches the source; exact duplicates are rejected.",
+          "row098_acceptance": "held",
+          "runtime_completion": false,
+          "status": "blocked"
+        },
+        "foley_taxonomy_authority_sha256": "f1039b5fa27f33f73559cd056cdac94cc22a59f3595d2ac2fee9c2dcb2683c9e",
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-098",
+        "onset_anchor_authority_sha256": "42bcd0070f879435fc720eed6d29fe26654e138cbcadef0472e2d215d2a74683",
+        "production_authority": false,
+        "registry_revision": "wave64_row098_deterministic_sound_variation_registry_v0.1.0",
+        "rights_authority_sha256": "701776a9d48037bf77fcf3820d7c36f3321ca3f109eac0b871e4f412165f244e",
+        "schema_version": "1.0.0",
+        "source": {
+          "asset_id": "fixture:source:reject_canonical_pcm_duplicate",
+          "canonical_pcm_sha256": "43e6b212f442ee694958719a7155195747f836d80e60a973e8b5ceff3088fd19",
+          "event_family": "footstep_hard_surface",
+          "event_id": "evt_fixture_footstep_01",
+          "license_class": "cc0",
+          "onset_anchor_ms": 42.0,
+          "original_mutated": false,
+          "rights_decision_sha256": "1f8b31d769b8a91c6a6ad0bfde1df3c94b424db4f4e78b3ed70e473937291c5d",
+          "source_path": "fixtures/row098/source/reject_canonical_pcm_duplicate.wav"
+        },
+        "tracker_id": "TRK-W64-098",
+        "transforms": [
+          {
+            "deterministic": true,
+            "kind": "pitch",
+            "parameters": {
+              "semitones": 0.35
+            },
+            "seed": "reject_canonical_pcm_duplicate:pitch"
+          },
+          {
+            "deterministic": true,
+            "kind": "envelope",
+            "parameters": {
+              "attack_ms": 2.0,
+              "release_ms": 18.0
+            },
+            "seed": "reject_canonical_pcm_duplicate:envelope"
+          },
+          {
+            "deterministic": true,
+            "kind": "microtiming",
+            "parameters": {
+              "offset_ms": -3.5
+            },
+            "seed": "reject_canonical_pcm_duplicate:microtiming"
+          },
+          {
+            "deterministic": true,
+            "kind": "stereo_perspective",
+            "parameters": {
+              "width_delta": 0.05
+            },
+            "seed": "reject_canonical_pcm_duplicate:stereo"
+          }
+        ],
+        "usable_bounds_authority_sha256": "def540252ee2f655a199f0f8011ee74d1722c5dee571414887c2ad8a3a74e310",
+        "validation": {
+          "anchor_preservation_pass": true,
+          "canonical_pcm_dedup_pass": false,
+          "decision": "blocked",
+          "event_identity_pass": true,
+          "license_provenance_pass": true,
+          "original_immutability_pass": true,
+          "semantic_similarity": 0.999,
+          "semantic_similarity_pass": false,
+          "transform_bounds_pass": true
+        },
+        "variant": {
+          "asset_id": "fixture:variant:reject_canonical_pcm_duplicate",
+          "canonical_pcm_duplicate": true,
+          "canonical_pcm_sha256": "43e6b212f442ee694958719a7155195747f836d80e60a973e8b5ceff3088fd19",
+          "channels": 2,
+          "duration_seconds": 0.86,
+          "license_class": "cc0",
+          "onset_anchor_ms": 42.0,
+          "path": "fixtures/row098/variant/reject_canonical_pcm_duplicate.wav",
+          "rights_decision_sha256": "1bcc0b4cf78418e51e660f90c0edae21bcca27e01d026211ccf6e7c867db6a80",
+          "sample_rate_hz": 48000,
+          "semantic_similarity": 0.999,
+          "sha256": "76ab8764bc4e82712bda5253dea1c5407127ca9406fcc39193c758dfce152ed9",
+          "transform_recipe_sha256": "44cdaa9e458b314ef8d561221b41a8428f8cddaf8c3584e666f5de18433f95e6"
+        },
+        "variation_id": "fixture:reject_canonical_pcm_duplicate",
+        "variation_tier": "micro_variation",
+        "waveform_feature_authority_sha256": "5376e9635b73ea8d0183d0b1ecb38e8ed9ac9a75612882ac276e34f75d4c7e03"
+      },
+      {
+        "clip_preparation_authority_sha256": "6d6f69e1e16a02e0c127d67e88bd7517bdb2d8193c24ae385e2151ea54f71b9a",
+        "compiler_revision": "wave64_row098_deterministic_sound_variation_compiler_v0.1.0",
+        "decision": {
+          "blocker_codes": [
+            "SYNTHETIC_FIXTURE_ONLY",
+            "PRODUCTION_VARIATION_RUNTIME_ABSENT",
+            "SEMANTIC_SIMILARITY_OUT_OF_BOUNDS",
+            "EVENT_IDENTITY_LOST"
+          ],
+          "product_completion": false,
+          "promotion_eligible": false,
+          "reason": "Semantic similarity 0.41 is below the minimum 0.82.",
+          "row098_acceptance": "held",
+          "runtime_completion": false,
+          "status": "blocked"
+        },
+        "foley_taxonomy_authority_sha256": "f1039b5fa27f33f73559cd056cdac94cc22a59f3595d2ac2fee9c2dcb2683c9e",
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-098",
+        "onset_anchor_authority_sha256": "42bcd0070f879435fc720eed6d29fe26654e138cbcadef0472e2d215d2a74683",
+        "production_authority": false,
+        "registry_revision": "wave64_row098_deterministic_sound_variation_registry_v0.1.0",
+        "rights_authority_sha256": "701776a9d48037bf77fcf3820d7c36f3321ca3f109eac0b871e4f412165f244e",
+        "schema_version": "1.0.0",
+        "source": {
+          "asset_id": "fixture:source:reject_semantic_similarity_fail",
+          "canonical_pcm_sha256": "283dd7d0969bbfc57ae537933bf3541aaa0c4516081fa1fdb6f57a082e2bf8da",
+          "event_family": "footstep_hard_surface",
+          "event_id": "evt_fixture_footstep_01",
+          "license_class": "cc0",
+          "onset_anchor_ms": 42.0,
+          "original_mutated": false,
+          "rights_decision_sha256": "b0f90b6db5159fe8b39fb7c1e64b58ebeb6627d47798e1201ccad1093cd32d45",
+          "source_path": "fixtures/row098/source/reject_semantic_similarity_fail.wav"
+        },
+        "tracker_id": "TRK-W64-098",
+        "transforms": [
+          {
+            "deterministic": true,
+            "kind": "layering",
+            "parameters": {
+              "gain_db": -6.0,
+              "layer_role": "settle"
+            },
+            "seed": "reject_semantic_similarity_fail:layering"
+          },
+          {
+            "deterministic": true,
+            "kind": "eq",
+            "parameters": {
+              "highshelf_db": -1.5,
+              "lowshelf_db": 0.8
+            },
+            "seed": "reject_semantic_similarity_fail:eq"
+          },
+          {
+            "deterministic": true,
+            "kind": "transient_shaping",
+            "parameters": {
+              "attack_gain_db": 1.2
+            },
+            "seed": "reject_semantic_similarity_fail:transient"
+          },
+          {
+            "deterministic": true,
+            "kind": "duration",
+            "parameters": {
+              "scale": 1.04
+            },
+            "seed": "reject_semantic_similarity_fail:duration"
+          }
+        ],
+        "usable_bounds_authority_sha256": "def540252ee2f655a199f0f8011ee74d1722c5dee571414887c2ad8a3a74e310",
+        "validation": {
+          "anchor_preservation_pass": true,
+          "canonical_pcm_dedup_pass": true,
+          "decision": "blocked",
+          "event_identity_pass": false,
+          "license_provenance_pass": true,
+          "original_immutability_pass": true,
+          "semantic_similarity": 0.41,
+          "semantic_similarity_pass": false,
+          "transform_bounds_pass": true
+        },
+        "variant": {
+          "asset_id": "fixture:variant:reject_semantic_similarity_fail",
+          "canonical_pcm_duplicate": false,
+          "canonical_pcm_sha256": "0ad16ae958b7578512d739690212067c5b49a97ff1afcf302a79c90e2374cd11",
+          "channels": 2,
+          "duration_seconds": 0.86,
+          "license_class": "cc0",
+          "onset_anchor_ms": 42.0,
+          "path": "fixtures/row098/variant/reject_semantic_similarity_fail.wav",
+          "rights_decision_sha256": "14f3fec798f0ac1f1a59c422133c56652151d0ecbf8b8ec06d68ceeca5c8e8bf",
+          "sample_rate_hz": 48000,
+          "semantic_similarity": 0.41,
+          "sha256": "55ece38d4e96e1aef36618a1ad5c5b46ad4c5db74f4148dc89b8d14d92e443f9",
+          "transform_recipe_sha256": "4ea9dd0b1b41115abe375a4178c864c352a456bffd732b5e907a6269e252fd6e"
+        },
+        "variation_id": "fixture:reject_semantic_similarity_fail",
+        "variation_tier": "structural_variation",
+        "waveform_feature_authority_sha256": "5376e9635b73ea8d0183d0b1ecb38e8ed9ac9a75612882ac276e34f75d4c7e03"
+      },
+      {
+        "clip_preparation_authority_sha256": "6d6f69e1e16a02e0c127d67e88bd7517bdb2d8193c24ae385e2151ea54f71b9a",
+        "compiler_revision": "wave64_row098_deterministic_sound_variation_compiler_v0.1.0",
+        "decision": {
+          "blocker_codes": [
+            "SYNTHETIC_FIXTURE_ONLY",
+            "PRODUCTION_VARIATION_RUNTIME_ABSENT",
+            "ORIGINAL_SOURCE_MUTATED"
+          ],
+          "product_completion": false,
+          "promotion_eligible": false,
+          "reason": "Variation must never mutate the original source PCM.",
+          "row098_acceptance": "held",
+          "runtime_completion": false,
+          "status": "blocked"
+        },
+        "foley_taxonomy_authority_sha256": "f1039b5fa27f33f73559cd056cdac94cc22a59f3595d2ac2fee9c2dcb2683c9e",
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-098",
+        "onset_anchor_authority_sha256": "42bcd0070f879435fc720eed6d29fe26654e138cbcadef0472e2d215d2a74683",
+        "production_authority": false,
+        "registry_revision": "wave64_row098_deterministic_sound_variation_registry_v0.1.0",
+        "rights_authority_sha256": "701776a9d48037bf77fcf3820d7c36f3321ca3f109eac0b871e4f412165f244e",
+        "schema_version": "1.0.0",
+        "source": {
+          "asset_id": "fixture:source:reject_original_mutation",
+          "canonical_pcm_sha256": "f01ef29879150e5e03e29f651faffbd4c04a4a61729911d9bc271a26afaf85af",
+          "event_family": "footstep_hard_surface",
+          "event_id": "evt_fixture_footstep_01",
+          "license_class": "cc0",
+          "onset_anchor_ms": 42.0,
+          "original_mutated": true,
+          "rights_decision_sha256": "6810cccd4620d54d6aa4695d620602506a1c4526353be106457f833bec9e8613",
+          "source_path": "fixtures/row098/source/reject_original_mutation.wav"
+        },
+        "tracker_id": "TRK-W64-098",
+        "transforms": [
+          {
+            "deterministic": true,
+            "kind": "pitch",
+            "parameters": {
+              "semitones": 0.35
+            },
+            "seed": "reject_original_mutation:pitch"
+          },
+          {
+            "deterministic": true,
+            "kind": "envelope",
+            "parameters": {
+              "attack_ms": 2.0,
+              "release_ms": 18.0
+            },
+            "seed": "reject_original_mutation:envelope"
+          },
+          {
+            "deterministic": true,
+            "kind": "microtiming",
+            "parameters": {
+              "offset_ms": -3.5
+            },
+            "seed": "reject_original_mutation:microtiming"
+          },
+          {
+            "deterministic": true,
+            "kind": "stereo_perspective",
+            "parameters": {
+              "width_delta": 0.05
+            },
+            "seed": "reject_original_mutation:stereo"
+          }
+        ],
+        "usable_bounds_authority_sha256": "def540252ee2f655a199f0f8011ee74d1722c5dee571414887c2ad8a3a74e310",
+        "validation": {
+          "anchor_preservation_pass": true,
+          "canonical_pcm_dedup_pass": true,
+          "decision": "blocked",
+          "event_identity_pass": true,
+          "license_provenance_pass": true,
+          "original_immutability_pass": false,
+          "semantic_similarity": 0.9,
+          "semantic_similarity_pass": true,
+          "transform_bounds_pass": true
+        },
+        "variant": {
+          "asset_id": "fixture:variant:reject_original_mutation",
+          "canonical_pcm_duplicate": false,
+          "canonical_pcm_sha256": "5b0174d2b0869541569d0e5ec7f2f4f0ffad93ba83377a92bc2924ef4acca6a9",
+          "channels": 2,
+          "duration_seconds": 0.86,
+          "license_class": "cc0",
+          "onset_anchor_ms": 42.0,
+          "path": "fixtures/row098/variant/reject_original_mutation.wav",
+          "rights_decision_sha256": "84451c934d3fcb3580e07c34015c6a71b189f8e4b4d213188743c4bd2f50eee4",
+          "sample_rate_hz": 48000,
+          "semantic_similarity": 0.9,
+          "sha256": "788adafe566b99dadeb346b666da1dd1218d4a003368a9bae8a98634505729d3",
+          "transform_recipe_sha256": "84f1c9b0552fb0bcf7e9960314f65adec5d297ee154b4492117d5528486c4b89"
+        },
+        "variation_id": "fixture:reject_original_mutation",
+        "variation_tier": "micro_variation",
+        "waveform_feature_authority_sha256": "5376e9635b73ea8d0183d0b1ecb38e8ed9ac9a75612882ac276e34f75d4c7e03"
+      },
+      {
+        "clip_preparation_authority_sha256": "6d6f69e1e16a02e0c127d67e88bd7517bdb2d8193c24ae385e2151ea54f71b9a",
+        "compiler_revision": "wave64_row098_deterministic_sound_variation_compiler_v0.1.0",
+        "decision": {
+          "blocker_codes": [
+            "SYNTHETIC_FIXTURE_ONLY",
+            "PRODUCTION_VARIATION_RUNTIME_ABSENT",
+            "LICENSE_PROVENANCE_MISSING",
+            "UNKNOWN_OR_DENIED_RIGHTS"
+          ],
+          "product_completion": false,
+          "promotion_eligible": false,
+          "reason": "Missing or unknown license provenance blocks variation.",
+          "row098_acceptance": "held",
+          "runtime_completion": false,
+          "status": "blocked"
+        },
+        "foley_taxonomy_authority_sha256": "f1039b5fa27f33f73559cd056cdac94cc22a59f3595d2ac2fee9c2dcb2683c9e",
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-098",
+        "onset_anchor_authority_sha256": "42bcd0070f879435fc720eed6d29fe26654e138cbcadef0472e2d215d2a74683",
+        "production_authority": false,
+        "registry_revision": "wave64_row098_deterministic_sound_variation_registry_v0.1.0",
+        "rights_authority_sha256": "701776a9d48037bf77fcf3820d7c36f3321ca3f109eac0b871e4f412165f244e",
+        "schema_version": "1.0.0",
+        "source": {
+          "asset_id": "fixture:source:reject_license_provenance_missing",
+          "canonical_pcm_sha256": "c0be364e34ee6a5178a466a482bd4e2a997c26a4901730c81561635a78f607bb",
+          "event_family": "footstep_hard_surface",
+          "event_id": "evt_fixture_footstep_01",
+          "license_class": "unknown",
+          "onset_anchor_ms": 42.0,
+          "original_mutated": false,
+          "rights_decision_sha256": null,
+          "source_path": "fixtures/row098/source/reject_license_provenance_missing.wav"
+        },
+        "tracker_id": "TRK-W64-098",
+        "transforms": [
+          {
+            "deterministic": true,
+            "kind": "pitch",
+            "parameters": {
+              "semitones": 0.35
+            },
+            "seed": "reject_license_provenance_missing:pitch"
+          },
+          {
+            "deterministic": true,
+            "kind": "envelope",
+            "parameters": {
+              "attack_ms": 2.0,
+              "release_ms": 18.0
+            },
+            "seed": "reject_license_provenance_missing:envelope"
+          },
+          {
+            "deterministic": true,
+            "kind": "microtiming",
+            "parameters": {
+              "offset_ms": -3.5
+            },
+            "seed": "reject_license_provenance_missing:microtiming"
+          },
+          {
+            "deterministic": true,
+            "kind": "stereo_perspective",
+            "parameters": {
+              "width_delta": 0.05
+            },
+            "seed": "reject_license_provenance_missing:stereo"
+          }
+        ],
+        "usable_bounds_authority_sha256": "def540252ee2f655a199f0f8011ee74d1722c5dee571414887c2ad8a3a74e310",
+        "validation": {
+          "anchor_preservation_pass": true,
+          "canonical_pcm_dedup_pass": true,
+          "decision": "blocked",
+          "event_identity_pass": true,
+          "license_provenance_pass": false,
+          "original_immutability_pass": true,
+          "semantic_similarity": 0.9,
+          "semantic_similarity_pass": true,
+          "transform_bounds_pass": true
+        },
+        "variant": {
+          "asset_id": "fixture:variant:reject_license_provenance_missing",
+          "canonical_pcm_duplicate": false,
+          "canonical_pcm_sha256": "c72d591a4ad542d3d29c20d741b36c0c4f2147b775524fd8697a3db05de5c830",
+          "channels": 2,
+          "duration_seconds": 0.86,
+          "license_class": "unknown",
+          "onset_anchor_ms": 42.0,
+          "path": "fixtures/row098/variant/reject_license_provenance_missing.wav",
+          "rights_decision_sha256": null,
+          "sample_rate_hz": 48000,
+          "semantic_similarity": 0.9,
+          "sha256": "ede966851f5c8f00adeaaa85b01680cb4b6868ba979aaa2ec70e756693515734",
+          "transform_recipe_sha256": "cb40d498b018cd8ef4b7d36fc785f77e7395412cd84b18ce766fe52bad52e59f"
+        },
+        "variation_id": "fixture:reject_license_provenance_missing",
+        "variation_tier": "micro_variation",
+        "waveform_feature_authority_sha256": "5376e9635b73ea8d0183d0b1ecb38e8ed9ac9a75612882ac276e34f75d4c7e03"
+      },
+      {
+        "clip_preparation_authority_sha256": "6d6f69e1e16a02e0c127d67e88bd7517bdb2d8193c24ae385e2151ea54f71b9a",
+        "compiler_revision": "wave64_row098_deterministic_sound_variation_compiler_v0.1.0",
+        "decision": {
+          "blocker_codes": [
+            "SYNTHETIC_FIXTURE_ONLY",
+            "PRODUCTION_VARIATION_RUNTIME_ABSENT",
+            "TRANSFORM_BOUNDS_EXCEEDED"
+          ],
+          "product_completion": false,
+          "promotion_eligible": false,
+          "reason": "Pitch semitone magnitude exceeds 2.0.",
+          "row098_acceptance": "held",
+          "runtime_completion": false,
+          "status": "blocked"
+        },
+        "foley_taxonomy_authority_sha256": "f1039b5fa27f33f73559cd056cdac94cc22a59f3595d2ac2fee9c2dcb2683c9e",
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-098",
+        "onset_anchor_authority_sha256": "42bcd0070f879435fc720eed6d29fe26654e138cbcadef0472e2d215d2a74683",
+        "production_authority": false,
+        "registry_revision": "wave64_row098_deterministic_sound_variation_registry_v0.1.0",
+        "rights_authority_sha256": "701776a9d48037bf77fcf3820d7c36f3321ca3f109eac0b871e4f412165f244e",
+        "schema_version": "1.0.0",
+        "source": {
+          "asset_id": "fixture:source:reject_transform_bounds_exceeded",
+          "canonical_pcm_sha256": "6c7d6364a73cce58ffc1e56fbb6b60d487b17ca0434308389e5e2aefe2cccaf4",
+          "event_family": "footstep_hard_surface",
+          "event_id": "evt_fixture_footstep_01",
+          "license_class": "cc0",
+          "onset_anchor_ms": 42.0,
+          "original_mutated": false,
+          "rights_decision_sha256": "18f92529cb5b9764af948d569dab528ffa338d30a7520ae5d32aea5d9a896c68",
+          "source_path": "fixtures/row098/source/reject_transform_bounds_exceeded.wav"
+        },
+        "tracker_id": "TRK-W64-098",
+        "transforms": [
+          {
+            "deterministic": true,
+            "kind": "pitch",
+            "parameters": {
+              "semitones": 5.0
+            },
+            "seed": "reject_transform_bounds_exceeded:pitch_oob"
+          }
+        ],
+        "usable_bounds_authority_sha256": "def540252ee2f655a199f0f8011ee74d1722c5dee571414887c2ad8a3a74e310",
+        "validation": {
+          "anchor_preservation_pass": true,
+          "canonical_pcm_dedup_pass": true,
+          "decision": "blocked",
+          "event_identity_pass": true,
+          "license_provenance_pass": true,
+          "original_immutability_pass": true,
+          "semantic_similarity": 0.7,
+          "semantic_similarity_pass": true,
+          "transform_bounds_pass": false
+        },
+        "variant": {
+          "asset_id": "fixture:variant:reject_transform_bounds_exceeded",
+          "canonical_pcm_duplicate": false,
+          "canonical_pcm_sha256": "67b5d6e078c424c34b052d6d4df66ad5410eeb2ba1dbef35b4329bcaf69085f1",
+          "channels": 2,
+          "duration_seconds": 0.86,
+          "license_class": "cc0",
+          "onset_anchor_ms": 42.0,
+          "path": "fixtures/row098/variant/reject_transform_bounds_exceeded.wav",
+          "rights_decision_sha256": "e546cfac6b87578592d638c1917dd91a98ff42cb607105d7dcee420b8768c30e",
+          "sample_rate_hz": 48000,
+          "semantic_similarity": 0.7,
+          "sha256": "85232a4024f84ea96c9eb5b5a7f5cc339f7d10944ca8b94cab5526e08707bb65",
+          "transform_recipe_sha256": "757abeff8b2357108048ede9f28629bff97c85b0e1778772d93051c179b72a8d"
+        },
+        "variation_id": "fixture:reject_transform_bounds_exceeded",
+        "variation_tier": "micro_variation",
+        "waveform_feature_authority_sha256": "5376e9635b73ea8d0183d0b1ecb38e8ed9ac9a75612882ac276e34f75d4c7e03"
+      },
+      {
+        "clip_preparation_authority_sha256": "6d6f69e1e16a02e0c127d67e88bd7517bdb2d8193c24ae385e2151ea54f71b9a",
+        "compiler_revision": "wave64_row098_deterministic_sound_variation_compiler_v0.1.0",
+        "decision": {
+          "blocker_codes": [
+            "SYNTHETIC_FIXTURE_ONLY",
+            "PRODUCTION_VARIATION_RUNTIME_ABSENT",
+            "EVENT_IDENTITY_LOST",
+            "SEMANTIC_SIMILARITY_OUT_OF_BOUNDS",
+            "CANONICAL_PCM_DUPLICATE",
+            "LICENSE_PROVENANCE_MISSING",
+            "ORIGINAL_SOURCE_MUTATED",
+            "TRANSFORM_BOUNDS_EXCEEDED",
+            "ANCHOR_PRESERVATION_FAILED"
+          ],
+          "product_completion": false,
+          "promotion_eligible": false,
+          "reason": "Combined gate failures remain blocked under fail-closed variation policy.",
+          "row098_acceptance": "held",
+          "runtime_completion": false,
+          "status": "blocked"
+        },
+        "foley_taxonomy_authority_sha256": "f1039b5fa27f33f73559cd056cdac94cc22a59f3595d2ac2fee9c2dcb2683c9e",
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-098",
+        "onset_anchor_authority_sha256": "42bcd0070f879435fc720eed6d29fe26654e138cbcadef0472e2d215d2a74683",
+        "production_authority": false,
+        "registry_revision": "wave64_row098_deterministic_sound_variation_registry_v0.1.0",
+        "rights_authority_sha256": "701776a9d48037bf77fcf3820d7c36f3321ca3f109eac0b871e4f412165f244e",
+        "schema_version": "1.0.0",
+        "source": {
+          "asset_id": "fixture:source:gate_failure_blocked",
+          "canonical_pcm_sha256": "d768497f80a4e0154246eaad7d1cbf5c4ab97a2945f05fbe033e4fb987756ff8",
+          "event_family": "footstep_hard_surface",
+          "event_id": "evt_fixture_footstep_01",
+          "license_class": "denied",
+          "onset_anchor_ms": 120.0,
+          "original_mutated": true,
+          "rights_decision_sha256": "d372af6cb87e68dada18a718bcc5ff64993cc9ead4c7d1801e329281a718700c",
+          "source_path": "fixtures/row098/source/gate_failure_blocked.wav"
+        },
+        "tracker_id": "TRK-W64-098",
+        "transforms": [
+          {
+            "deterministic": true,
+            "kind": "pitch",
+            "parameters": {
+              "semitones": 5.0
+            },
+            "seed": "gate_failure_blocked:pitch_oob"
+          }
+        ],
+        "usable_bounds_authority_sha256": "def540252ee2f655a199f0f8011ee74d1722c5dee571414887c2ad8a3a74e310",
+        "validation": {
+          "anchor_preservation_pass": false,
+          "canonical_pcm_dedup_pass": false,
+          "decision": "blocked",
+          "event_identity_pass": false,
+          "license_provenance_pass": false,
+          "original_immutability_pass": false,
+          "semantic_similarity": 0.2,
+          "semantic_similarity_pass": false,
+          "transform_bounds_pass": false
+        },
+        "variant": {
+          "asset_id": "fixture:variant:gate_failure_blocked",
+          "canonical_pcm_duplicate": true,
+          "canonical_pcm_sha256": "d768497f80a4e0154246eaad7d1cbf5c4ab97a2945f05fbe033e4fb987756ff8",
+          "channels": 2,
+          "duration_seconds": 0.86,
+          "license_class": "denied",
+          "onset_anchor_ms": 180.0,
+          "path": "fixtures/row098/variant/gate_failure_blocked.wav",
+          "rights_decision_sha256": "f3fc4816e787bbe4897edeaba86e144b42c761ee509e8e86bf25032cc62977bf",
+          "sample_rate_hz": 48000,
+          "semantic_similarity": 0.2,
+          "sha256": "16e37a315c6feb7c57daaae52d79a6d45f59c495b020ede2e2a31ff7557e60c9",
+          "transform_recipe_sha256": "cb82a37c76ac49996b961cb7675707d343f0ac41a7518533d9abcf1d2bb3ac0a"
+        },
+        "variation_id": "fixture:gate_failure_blocked",
+        "variation_tier": "structural_variation",
+        "waveform_feature_authority_sha256": "5376e9635b73ea8d0183d0b1ecb38e8ed9ac9a75612882ac276e34f75d4c7e03"
+      }
+    ]
+  },
+  "implementation_completion_claimed": false,
+  "item_id": "ITEM-W64-098",
+  "planning_schema_boundary": {
+    "architecture_variation_model_does_not_grant_row098": true,
+    "planning_schema_remains_non_authority": true,
+    "strict_contract_closes_seven_false_open_cases": true,
+    "strict_contract_schema_path": "Plan/08_SCHEMAS/wave64_row098_deterministic_sound_variation_manifest.schema.json"
+  },
+  "production_authority": false,
+  "registry_revision": "wave64_row098_deterministic_sound_variation_registry_v0.1.0",
+  "required_gates": [
+    "event_identity",
+    "semantic_similarity",
+    "canonical_pcm_dedup",
+    "license_provenance",
+    "original_immutability",
+    "transform_bounds",
+    "anchor_preservation"
+  ],
+  "row_complete": false,
+  "runtime_completion_claimed": false,
+  "schema_version": "1.0.0",
+  "status": "HOLD_ROW068_ROW071_ROW072_ROW073_ROW079_ROW093_DEPENDENCIES_DETERMINISTIC_VARIATION_RUNTIME_AND_AUDIO_QA_ABSENT",
+  "strict_schema": {
+    "path": "Plan/08_SCHEMAS/wave64_row098_deterministic_sound_variation_manifest.schema.json",
+    "sha256": "89ede9fd732ea54cae4969edeb333e5d803345904ebddb4db7108d1719a04bee"
+  },
+  "tracker_id": "TRK-W64-098",
+  "variation_registry": {
+    "authority": "planning_freeze_not_production_variation_acceptance",
+    "path": "Plan/10_REGISTRIES/wave64_row098_deterministic_sound_variation_registry.json",
+    "registry_revision": "wave64_row098_deterministic_sound_variation_registry_v0.1.0",
+    "sha256": "27ebf6c0fcca23c7624a2722572ec0003d285f4f98799326428afd3f33de6d1a"
+  }
+}

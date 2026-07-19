@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "wave64_row098_deterministic_sound_variation_registry",
+  "registry_revision": "wave64_row098_deterministic_sound_variation_registry_v0.1.0",
+  "compiler_revision": "wave64_row098_deterministic_sound_variation_compiler_v0.1.0",
+  "tracker_id": "TRK-W64-098",
+  "authority": "planning_freeze_not_production_variation_acceptance",
+  "notes": [
+    "Frozen Row098 fail-closed deterministic sound-variation contract for synthetic micro/structural fixtures, dedup, provenance, and original-immutability gates.",
+    "Production variation authority remains blocked until Rows068, 071, 072, 073, 079, and 093 are accepted and genuine transform runtime plus semantic/audio QA pass.",
+    "Transforms never mutate source PCM; every variant is a new staged asset with full source/transform/rights provenance."
+  ],
+  "dependency_prerequisites": [
+    "TRK-W64-068",
+    "TRK-W64-071",
+    "TRK-W64-072",
+    "TRK-W64-073",
+    "TRK-W64-079",
+    "TRK-W64-093"
+  ],
+  "required_gates": [
+    "event_identity",
+    "semantic_similarity",
+    "canonical_pcm_dedup",
+    "license_provenance",
+    "original_immutability",
+    "transform_bounds",
+    "anchor_preservation"
+  ],
+  "allowed_variation_tiers": [
+    "micro_variation",
+    "structural_variation"
+  ],
+  "allowed_transform_kinds": [
+    "pitch",
+    "duration",
+    "envelope",
+    "eq",
+    "transient_shaping",
+    "convolution",
+    "layering",
+    "microtiming",
+    "stereo_perspective",
+    "physical_synthesis"
+  ],
+  "fixture_variation_contract": {
+    "sample_rate_hz": 48000,
+    "channels": 2,
+    "semantic_similarity_min": 0.82,
+    "semantic_similarity_max": 0.995,
+    "pitch_semitone_abs_max": 2.0,
+    "duration_scale_min": 0.9,
+    "duration_scale_max": 1.1,
+    "microtiming_ms_abs_max": 12.0,
+    "gain_db_abs_max": 3.0,
+    "stereo_width_delta_abs_max": 0.15,
+    "canonical_pcm_duplicate_hamming_max": 0
+  },
+  "fail_closed": {
+    "production_requires_dependencies": true,
+    "canonical_pcm_duplicate_cannot_pass": true,
+    "semantic_similarity_out_of_bounds_cannot_pass": true,
+    "original_mutation_cannot_pass": true,
+    "missing_license_provenance_cannot_pass": true,
+    "transform_bounds_exceeded_cannot_pass": true,
+    "pass_requires_all_variation_gates": true,
+    "synthetic_cannot_grant_production_authority": true,
+    "self_declared_certification_rejected": true
+  }
+}

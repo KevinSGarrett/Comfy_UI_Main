@@ -1,0 +1,397 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/wave64_row098_deterministic_sound_variation_manifest.schema.json",
+  "title": "Wave64 Row098 Fail-Closed Deterministic Sound Variation Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "tracker_id",
+    "item_id",
+    "compiler_revision",
+    "registry_revision",
+    "variation_id",
+    "rights_authority_sha256",
+    "waveform_feature_authority_sha256",
+    "onset_anchor_authority_sha256",
+    "usable_bounds_authority_sha256",
+    "foley_taxonomy_authority_sha256",
+    "clip_preparation_authority_sha256",
+    "source",
+    "variation_tier",
+    "transforms",
+    "variant",
+    "validation",
+    "is_synthetic",
+    "production_authority",
+    "decision"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "tracker_id": { "type": "string", "const": "TRK-W64-098" },
+    "item_id": { "type": "string", "const": "ITEM-W64-098" },
+    "compiler_revision": {
+      "type": "string",
+      "const": "wave64_row098_deterministic_sound_variation_compiler_v0.1.0"
+    },
+    "registry_revision": {
+      "type": "string",
+      "const": "wave64_row098_deterministic_sound_variation_registry_v0.1.0"
+    },
+    "variation_id": { "type": "string", "minLength": 1 },
+    "rights_authority_sha256": { "$ref": "#/$defs/sha256" },
+    "waveform_feature_authority_sha256": { "$ref": "#/$defs/sha256" },
+    "onset_anchor_authority_sha256": { "$ref": "#/$defs/sha256" },
+    "usable_bounds_authority_sha256": { "$ref": "#/$defs/sha256" },
+    "foley_taxonomy_authority_sha256": { "$ref": "#/$defs/sha256" },
+    "clip_preparation_authority_sha256": { "$ref": "#/$defs/sha256" },
+    "source": { "$ref": "#/$defs/source" },
+    "variation_tier": {
+      "type": "string",
+      "enum": ["micro_variation", "structural_variation"]
+    },
+    "transforms": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/transform" }
+    },
+    "variant": { "$ref": "#/$defs/variant" },
+    "validation": { "$ref": "#/$defs/validation" },
+    "is_synthetic": { "type": "boolean" },
+    "production_authority": { "type": "boolean" },
+    "decision": { "$ref": "#/$defs/top_decision" }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "validation": {
+            "properties": { "decision": { "const": "pass" } },
+            "required": ["decision"]
+          }
+        },
+        "required": ["validation"]
+      },
+      "then": {
+        "properties": {
+          "validation": {
+            "properties": {
+              "event_identity_pass": { "const": true },
+              "semantic_similarity_pass": { "const": true },
+              "canonical_pcm_dedup_pass": { "const": true },
+              "license_provenance_pass": { "const": true },
+              "original_immutability_pass": { "const": true },
+              "transform_bounds_pass": { "const": true },
+              "anchor_preservation_pass": { "const": true }
+            },
+            "required": [
+              "event_identity_pass",
+              "semantic_similarity_pass",
+              "canonical_pcm_dedup_pass",
+              "license_provenance_pass",
+              "original_immutability_pass",
+              "transform_bounds_pass",
+              "anchor_preservation_pass"
+            ]
+          },
+          "source": {
+            "properties": {
+              "original_mutated": { "const": false }
+            },
+            "required": ["original_mutated"]
+          },
+          "variant": {
+            "properties": {
+              "canonical_pcm_duplicate": { "const": false }
+            },
+            "required": ["canonical_pcm_duplicate"]
+          },
+          "production_authority": { "const": false }
+        },
+        "required": ["source", "variant", "validation", "production_authority"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "production_authority": { "const": true }
+        },
+        "required": ["production_authority"]
+      },
+      "then": {
+        "properties": {
+          "is_synthetic": { "const": false },
+          "decision": {
+            "properties": {
+              "status": { "const": "accepted" },
+              "row098_acceptance": { "const": "accepted" },
+              "product_completion": { "const": true },
+              "runtime_completion": { "const": true }
+            },
+            "required": [
+              "status",
+              "row098_acceptance",
+              "product_completion",
+              "runtime_completion"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "is_synthetic": { "const": true }
+        },
+        "required": ["is_synthetic"]
+      },
+      "then": {
+        "properties": {
+          "production_authority": { "const": false },
+          "decision": {
+            "properties": {
+              "product_completion": { "const": false },
+              "runtime_completion": { "const": false },
+              "row098_acceptance": { "enum": ["held", "fixture_only"] },
+              "promotion_eligible": { "const": false }
+            },
+            "required": [
+              "product_completion",
+              "runtime_completion",
+              "row098_acceptance",
+              "promotion_eligible"
+            ]
+          }
+        },
+        "required": ["production_authority", "decision"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "variant": {
+            "properties": { "canonical_pcm_duplicate": { "const": true } },
+            "required": ["canonical_pcm_duplicate"]
+          }
+        },
+        "required": ["variant"]
+      },
+      "then": {
+        "properties": {
+          "validation": {
+            "properties": {
+              "decision": { "const": "blocked" },
+              "canonical_pcm_dedup_pass": { "const": false }
+            },
+            "required": ["decision", "canonical_pcm_dedup_pass"]
+          }
+        },
+        "required": ["validation"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "source": {
+            "properties": { "original_mutated": { "const": true } },
+            "required": ["original_mutated"]
+          }
+        },
+        "required": ["source"]
+      },
+      "then": {
+        "properties": {
+          "validation": {
+            "properties": {
+              "decision": { "const": "blocked" },
+              "original_immutability_pass": { "const": false }
+            },
+            "required": ["decision", "original_immutability_pass"]
+          }
+        },
+        "required": ["validation"]
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "asset_id",
+        "event_family",
+        "event_id",
+        "canonical_pcm_sha256",
+        "source_path",
+        "license_class",
+        "rights_decision_sha256",
+        "onset_anchor_ms",
+        "original_mutated"
+      ],
+      "properties": {
+        "asset_id": { "type": "string", "minLength": 1 },
+        "event_family": { "type": "string", "minLength": 1 },
+        "event_id": { "type": "string", "minLength": 1 },
+        "canonical_pcm_sha256": { "$ref": "#/$defs/sha256" },
+        "source_path": { "type": "string", "minLength": 1 },
+        "license_class": {
+          "type": "string",
+          "enum": [
+            "cc0",
+            "cc_by",
+            "royalty_free_cleared",
+            "restricted_nc",
+            "denied",
+            "unknown"
+          ]
+        },
+        "rights_decision_sha256": {
+          "type": ["string", "null"],
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "onset_anchor_ms": { "type": "number" },
+        "original_mutated": { "type": "boolean" }
+      }
+    },
+    "transform": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "parameters", "seed", "deterministic"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "pitch",
+            "duration",
+            "envelope",
+            "eq",
+            "transient_shaping",
+            "convolution",
+            "layering",
+            "microtiming",
+            "stereo_perspective",
+            "physical_synthesis"
+          ]
+        },
+        "parameters": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": true
+        },
+        "seed": { "type": "string", "minLength": 1 },
+        "deterministic": { "type": "boolean", "const": true }
+      }
+    },
+    "variant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "asset_id",
+        "path",
+        "sha256",
+        "canonical_pcm_sha256",
+        "sample_rate_hz",
+        "channels",
+        "duration_seconds",
+        "semantic_similarity",
+        "canonical_pcm_duplicate",
+        "license_class",
+        "rights_decision_sha256",
+        "transform_recipe_sha256",
+        "onset_anchor_ms"
+      ],
+      "properties": {
+        "asset_id": { "type": "string", "minLength": 1 },
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "canonical_pcm_sha256": { "$ref": "#/$defs/sha256" },
+        "sample_rate_hz": { "type": "integer", "const": 48000 },
+        "channels": { "type": "integer", "const": 2 },
+        "duration_seconds": { "type": "number", "exclusiveMinimum": 0 },
+        "semantic_similarity": { "type": "number", "minimum": 0, "maximum": 1 },
+        "canonical_pcm_duplicate": { "type": "boolean" },
+        "license_class": {
+          "type": "string",
+          "enum": [
+            "cc0",
+            "cc_by",
+            "royalty_free_cleared",
+            "restricted_nc",
+            "denied",
+            "unknown"
+          ]
+        },
+        "rights_decision_sha256": {
+          "type": ["string", "null"],
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "transform_recipe_sha256": { "$ref": "#/$defs/sha256" },
+        "onset_anchor_ms": { "type": "number" }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_identity_pass",
+        "semantic_similarity_pass",
+        "canonical_pcm_dedup_pass",
+        "license_provenance_pass",
+        "original_immutability_pass",
+        "transform_bounds_pass",
+        "anchor_preservation_pass",
+        "semantic_similarity",
+        "decision"
+      ],
+      "properties": {
+        "event_identity_pass": { "type": "boolean" },
+        "semantic_similarity_pass": { "type": "boolean" },
+        "canonical_pcm_dedup_pass": { "type": "boolean" },
+        "license_provenance_pass": { "type": "boolean" },
+        "original_immutability_pass": { "type": "boolean" },
+        "transform_bounds_pass": { "type": "boolean" },
+        "anchor_preservation_pass": { "type": "boolean" },
+        "semantic_similarity": { "type": "number", "minimum": 0, "maximum": 1 },
+        "decision": {
+          "type": "string",
+          "enum": ["pass", "blocked"]
+        }
+      }
+    },
+    "top_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "row098_acceptance",
+        "product_completion",
+        "runtime_completion",
+        "promotion_eligible",
+        "blocker_codes",
+        "reason"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["accepted", "blocked", "fixture_only"]
+        },
+        "row098_acceptance": {
+          "type": "string",
+          "enum": ["accepted", "held", "fixture_only"]
+        },
+        "product_completion": { "type": "boolean" },
+        "runtime_completion": { "type": "boolean" },
+        "promotion_eligible": { "type": "boolean" },
+        "blocker_codes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "reason": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}
