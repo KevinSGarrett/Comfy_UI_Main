@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ROW017-LOCAL-RUNTIME-HISTORICAL-CANONICALIZATION-CLIMB-20260719T171611-0500",
+  "created_at": "2026-07-19T17:24:04-05:00",
+  "tracker_id": "TRK-W64-017",
+  "item_id": "ITEM-W64-017",
+  "decision": "Climbed Row017 with an independent local ComfyUI MF70 mouth_lips runtime + direct whole-frame visual QA (canonical pass), emitted pass reviews for historical teeth_mouth_area_v2 and mouth_lips_v4, and retained a truthful reject for eyes_full_v3b eyelid/aperture softening. This does not complete historical normalization.",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+  "row_complete": false,
+  "local_only": true,
+  "ec2": "EC2_DEFERRED",
+  "docker_cvat": "not-needed",
+  "writable_scope_disjoint_from_row069_070_071": true,
+  "runtime": {
+    "prompt_id": "fa9cc680-78be-4f7c-a27b-0ddd06787b10",
+    "seed": 7718294401,
+    "region": "mouth_lips",
+    "output_sha256": "1013db3b3ab0e55b4fb881b6901f68972aa144f1c2a45f96003748fdc1d470ac",
+    "receipt": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_mouth_lips_20260719T171611-0500\\LOCAL_RUNTIME_RECEIPT.json"
+  },
+  "canonical_reviews": [
+    {
+      "decision": "pass",
+      "path": "Plan\\Instructions\\QA\\Evidence\\Image_Artifact_QA\\Row017_Canonical_Global_Reviews\\ROW017_LOCAL_MF70_MOUTH_LIPS_20260719T171611-0500_GLOBAL_REVIEW.json"
+    },
+    {
+      "decision": "pass",
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_W70_TEETH_MOUTH_AREA_V2_GLOBAL_REVIEW_20260719.json"
+    },
+    {
+      "decision": "pass",
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_W70_MOUTH_LIPS_V4_GLOBAL_REVIEW_20260719.json"
+    },
+    {
+      "decision": "reject",
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_W70_EYES_FULL_V3B_GLOBAL_REVIEW_20260719.json"
+    }
+  ],
+  "visual_qa": "Plan\\Instructions\\QA\\Evidence\\Image_Artifact_QA\\ROW017_LOCAL_MF70_MOUTH_LIPS_VISUAL_QA_20260719T171611-0500.json",
+  "runtime_evidence": "Plan\\Instructions\\QA\\Evidence\\Workflow_Runtime\\W64_LOCAL_COMFYUI_ROW017_MF70_MOUTH_LIPS_EXECUTE_20260719T171611-0500.json",
+  "prior_fluid_reject_retained": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_LOCAL_FLUID_MASKED_INPAINT_20260719T165215-0500_GLOBAL_REVIEW.json",
+  "eyes_full_v3b_reject_retained": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_W70_EYES_FULL_V3B_GLOBAL_REVIEW_20260719.json",
+  "remaining_blocker": "Row017 cannot complete until remaining historical localized visual-review records are classified into canonical pre/post, target, non-target, six-category, and global-rejection evidence, and future localized candidates continue to clear whole-frame rejection gates.",
+  "next_action": "Continue bounded Row017 historical localized canonicalization with additional local artifacts/runtime candidates, or climb another tracker-authorized local visual/audio lane away from Row069-071."
+}
