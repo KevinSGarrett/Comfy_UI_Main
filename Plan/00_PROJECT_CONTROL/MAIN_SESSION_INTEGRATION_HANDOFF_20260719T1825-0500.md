@@ -14,8 +14,9 @@
 1. `17ce3e97` Prove Row017 MF70 eyebrows local visual climb.
 2. `a3acccaa` Stamp Row017 eyebrows handoff with primary commit id.
 3. `9c24f2dc` Align Row017 eyebrows handoff tip to origin HEAD.
+4. `44b03006` Finalize Row017 eyebrows handoff tip to origin HEAD.
 
-Pushed tip verified on origin: `9c24f2dc`
+Pushed tip verified on origin: `44b03006`
 
 ## Row-Scoped Increment Executed
 
