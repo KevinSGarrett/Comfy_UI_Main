@@ -1,0 +1,566 @@
+{
+  "schema_version": 1,
+  "evidence_id": "W64-ROW081-EXPLAINABLE-AUDIO-CANDIDATE-SCORING-CURRENT-DELTA-20260719",
+  "created_at": "2026-07-19T04:07:25.4128731Z",
+  "source_commit": "6d5ba82d69e27e11a76334c0f7a60bafce7fc682",
+  "prior_row_commit": "6d5ba82d69e27e11a76334c0f7a60bafce7fc682",
+  "prior_row_commit_is_current_head": true,
+  "tracker_id": "TRK-W64-081",
+  "item_id": "ITEM-W64-081",
+  "status": "HOLD_DEPENDENCIES_SCORER_POLICY_SEMANTIC_INVARIANTS_AND_RUNTIME_RECEIPTS_ABSENT",
+  "classification": "ROW081_CURRENT_DELTA_DRAFT_RECEIPT_AND_GENERIC_RANKING_POLICY_SHAPES_ONLY_NO_FALSE_COMPLETION",
+  "row_complete": false,
+  "implementation_completion_claimed": false,
+  "runtime_completion_claimed": false,
+  "qa_decision": "hold_with_bounded_reuse_of_draft_score_receipt_and_generic_model_ranking_policy_shapes_only",
+  "intent": {
+    "intent_id": "intent_20260719T040610823Z_row081_explainable_audio_candidate_scoring_current_delta_d3a55c5c",
+    "authority_class": "codex_only",
+    "routing": null,
+    "worker_wake_count": 0
+  },
+  "row081_contract": {
+    "status": "Planned_Autonomous_Implementation_Required",
+    "priority": "P0",
+    "risk": "CRITICAL",
+    "dependency_prerequisites": [
+      "TRK-W64-068",
+      "TRK-W64-072",
+      "TRK-W64-076",
+      "TRK-W64-079",
+      "TRK-W64-080"
+    ],
+    "validation_methods": [
+      "hard_filters",
+      "component_scores",
+      "weights_versioned",
+      "tie_break",
+      "decision_explanation"
+    ],
+    "output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-081_explainable_candidate_ranking.json",
+    "output_artifact_exists": false,
+    "completion_criteria": "Every hard exclusion, score component, weight, penalty, tie-break, and final decision is recorded.",
+    "required_score_dimensions": [
+      "event_fit",
+      "source_target_fit",
+      "material_fit",
+      "body_part_fit",
+      "footwear_fit",
+      "force_fit",
+      "timing_fit",
+      "duration_fit",
+      "onset_fit",
+      "acoustic_fit",
+      "quality_fit",
+      "rights_eligibility",
+      "continuity_fit",
+      "cost"
+    ],
+    "required_receipt_fields": [
+      "query_and_candidate_set_identity",
+      "policy_and_weight_revision",
+      "hard_filter_inputs_and_results",
+      "raw_component_values",
+      "normalization_method_and_bounds",
+      "normalized_component_values",
+      "per_component_weights",
+      "weighted_contributions",
+      "penalties_and_reasons",
+      "total_score",
+      "rank",
+      "tie_break_inputs_and_outcome",
+      "eligibility",
+      "confidence",
+      "abstention_or_selection_reason",
+      "final_decision"
+    ],
+    "required_behavior": [
+      "hard exclusions run before weighted ranking",
+      "missing mandatory fields make a candidate ineligible rather than imputing success",
+      "all numeric normalization weights contributions and penalties are replayable",
+      "ties resolve through one frozen total order",
+      "the selected candidate exists in the scored set and is eligible",
+      "no eligible candidate produces explicit abstention or certified fallback",
+      "identical inputs policy and candidate set produce identical receipts"
+    ],
+    "runtime_proof_required": true,
+    "ec2_allowed": false,
+    "ec2_used_for_this_audit": false,
+    "final_render_gate": "BLOCKED_UNTIL_EXACT_ROW_IMPLEMENTATION_RUNTIME_QA_AND_AUTHORITY_PASS"
+  },
+  "tracker_item_requirements_parity": {
+    "tracker_path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_TRACKER_ROWS.csv",
+    "tracker_sha256": "a698034d4d61788a9c630434f7aac75e3f7b1bf656319cfe43a5b2ce26d625de",
+    "tracker_bytes": 159309,
+    "item_path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ITEM_ROWS.csv",
+    "item_sha256": "f4a401d828aff69dbe7e005d6592a2af86edc936a0e6c1bae2f764345a9b8489",
+    "item_bytes": 111386,
+    "requirements_tracker_path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
+    "requirements_item_path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
+    "requirements_sha256": "077eaf1dfc1cb0d990660b2d9ec7073bc2b4acc1be47a94e9a0ea65eb1924acc",
+    "requirements_bytes": 48422,
+    "requirements_copies_byte_identical": true,
+    "tracker_item_title_match": true,
+    "tracker_item_status_match": true,
+    "tracker_item_acceptance_match": true,
+    "tracker_item_gate_match": true,
+    "tracker_item_dependency_match": true,
+    "git_state": "untracked_preserved_unaccepted"
+  },
+  "source_authority": [
+    {
+      "path": "Plan/00_PROJECT_CONTROL/WAVE64_AUTONOMOUS_VIDEO_TO_AUDIO_AND_SOUND_GENERATION_MASTER_PLAN.md",
+      "sha256": "6f1b5059b686a81d866f61f3bada74ca673a43db2423241d500b024ecb6a1a67",
+      "bytes": 25625,
+      "citation": "Row081 Weighted candidate scoring and explanation, lines 189-193",
+      "git_state": "untracked_preserved_unaccepted"
+    },
+    {
+      "path": "Plan/02_TARGET_ARCHITECTURE/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ARCHITECTURE.md",
+      "sha256": "3aef5be8b48808a69fe70c4b61bb4de6f7e1086c670c1ce9c817ebb4a1f6ae9b",
+      "bytes": 7078,
+      "git_state": "untracked_preserved_unaccepted"
+    },
+    {
+      "path": "Plan/05_AUDIO_SYSTEM/WAVE64_AUTONOMOUS_SOUND_LIBRARY_GENERATION_AND_QA_PLAN.md",
+      "sha256": "63bea08b4e2209100cc875b60bfad7b2d2e2b0636c5643aaa4410e6f1b1fce1c",
+      "bytes": 5362,
+      "git_state": "untracked_preserved_unaccepted"
+    },
+    {
+      "path": "Plan/Instructions/QA/AUTONOMOUS_VIDEO_TO_AUDIO_AND_GENERATED_SOUND_QA_PROTOCOL.md",
+      "sha256": "ed5773fd5f83ac5c71e31983eab9fb8d0362f2544518c37b41f7c51b95c82181",
+      "bytes": 3801,
+      "git_state": "untracked_preserved_unaccepted"
+    }
+  ],
+  "dependency_authority": [
+    {
+      "tracker_id": "TRK-W64-068",
+      "evidence_commit": "097eddde38b3ff4cda0c652dea396a4a58022e49",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+      "current_delta_sha256": "77bf51ffa832ffa55782249f17f7ae5f7d4b463af43512f517962d3ab5805f80",
+      "current_delta_bytes": 14467,
+      "current_delta_status": "HOLD_STATIC_RIGHTS_CONTRACT_PARTIAL_DIRECT_AUTHORITY_AND_LIFECYCLE_ENFORCEMENT_ABSENT",
+      "row_complete": false,
+      "dependency_satisfied": false,
+      "reason": "Rights must be a hard exclusion rather than a soft score; Row068 lacks accepted direct rights authority and lifecycle enforcement."
+    },
+    {
+      "tracker_id": "TRK-W64-072",
+      "evidence_commit": "f3598905c6f2b2e1dfa64aa053074e7bd320392f",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ONSET_TRANSIENT_ANCHOR_CURRENT_DELTA_20260719.json",
+      "current_delta_sha256": "c116e844619e320341e4dd1707b8c0711288784984f858bc17585b3a2b694778",
+      "current_delta_bytes": 18358,
+      "current_delta_status": "HOLD_DEPENDENCIES_DETECTOR_THRESHOLD_REGISTRY_AND_BENCHMARK_AUTHORITY_ABSENT",
+      "row_complete": false,
+      "dependency_satisfied": false,
+      "reason": "Timing onset and transient fit cannot be normalized or weighted until Row072 has accepted detector, threshold, benchmark, and anchor authority."
+    },
+    {
+      "tracker_id": "TRK-W64-076",
+      "evidence_commit": "2a26113966b86885b641a10ce16718f08cc70730",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_REVERB_DRYNESS_CURRENT_DELTA_20260719.json",
+      "current_delta_sha256": "b4ff1e1cf02feedbe507c8c018af5844d5991f5c02f40c8768bc74771b6e894c",
+      "current_delta_bytes": 23561,
+      "current_delta_status": "HOLD_DEPENDENCIES_ASSET_ACOUSTIC_ESTIMATOR_CALIBRATION_AND_DOUBLE_REVERB_AUTHORITY_ABSENT",
+      "row_complete": false,
+      "dependency_satisfied": false,
+      "reason": "Acoustic and room-fit scoring requires accepted source-asset acoustic evidence and calibration from Row076."
+    },
+    {
+      "tracker_id": "TRK-W64-079",
+      "evidence_commit": "f839f4398d48b433910d5a714fd4ff9f4260985e",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-079_FINE_GRAINED_FOLEY_TAXONOMY_CURRENT_DELTA_20260719.json",
+      "current_delta_sha256": "ab53e52795ab3adf22af30e2075bd32fa242ebab48a0f658222153e7d3af5d95",
+      "current_delta_bytes": 22883,
+      "current_delta_status": "HOLD_DEPENDENCIES_EXACT_FOLEY_TAXONOMY_PROMOTION_GUARD_AND_FULL_LIBRARY_ENRICHMENT_ABSENT",
+      "row_complete": false,
+      "dependency_satisfied": false,
+      "reason": "Event source target material body footwear and force components cannot be authoritative until Row079 provides complete versioned fields and unknown compatibility blockers."
+    },
+    {
+      "tracker_id": "TRK-W64-080",
+      "evidence_commit": "6d5ba82d69e27e11a76334c0f7a60bafce7fc682",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-080_HYBRID_AUDIO_RETRIEVAL_INDEX_CURRENT_DELTA_20260719.json",
+      "current_delta_sha256": "8b64f8c2a8c4e307cf2286dae59b191db39e84492eeb1dc644170948665ea1c2",
+      "current_delta_bytes": 27625,
+      "current_delta_status": "HOLD_DEPENDENCIES_HYBRID_QUERY_ENGINE_VECTOR_LEXICAL_CANONICAL_DEDUP_AND_GENERATION_ISOLATION_ABSENT",
+      "row_complete": false,
+      "dependency_satisfied": false,
+      "reason": "Scoring requires an immutable canonical candidate set and query identity; Row080 currently provides only a hash-bound inventory and deterministic structured selector."
+    }
+  ],
+  "candidate_score_schema_assessment": {
+    "path": "Plan/08_SCHEMAS/audio_candidate_score_record.schema.json",
+    "sha256": "778bf0e64ec56a62b0e33dfc7cedb2724b4d3a56ddb41c01ab3a1a578ae6356e",
+    "bytes": 2114,
+    "git_state": "untracked_preserved_unaccepted",
+    "meta_schema_valid": true,
+    "required_top_level_fields": [
+      "schema_version",
+      "event_id",
+      "query_hash",
+      "index_revision",
+      "policy_revision",
+      "candidates",
+      "decision"
+    ],
+    "required_candidate_fields": [
+      "candidate_id",
+      "asset_sha256",
+      "eligible",
+      "hard_exclusions",
+      "components",
+      "total_score",
+      "rank"
+    ],
+    "required_decision_fields": [
+      "route",
+      "selected_candidate_id",
+      "confidence",
+      "reason"
+    ],
+    "useful_shape": [
+      "query and index references",
+      "candidate asset identity",
+      "eligibility and hard exclusions",
+      "component map",
+      "total score and rank",
+      "optional penalties and explanation",
+      "selection abstention route confidence and reason"
+    ],
+    "missing_or_underconstrained_row081_authority": [
+      "policy and index revisions are non-empty strings rather than content hashes",
+      "required component names are not frozen",
+      "component raw values normalization bounds normalized values weights and contributions are not separated",
+      "components may be empty",
+      "penalties are optional and unversioned",
+      "explanations are optional",
+      "total scores are unbounded and not recomputed by schema",
+      "rank uniqueness contiguity and score-order consistency are not enforced",
+      "tie-break inputs order and outcome are absent",
+      "eligible may be true while hard exclusions are non-empty",
+      "selected candidate membership and eligibility are not enforced",
+      "duplicate candidate or asset identities are not rejected",
+      "missing mandatory input feature behavior is not represented",
+      "confidence calibration identity is absent",
+      "determinism and replay hashes are absent"
+    ],
+    "decision": "useful_draft_receipt_shape_but_not_a_fail_closed_replayable_row081_contract"
+  },
+  "adversarial_schema_probe": {
+    "probe_executed": true,
+    "production_scoring_invoked": false,
+    "contradictory_record_error_count": 0,
+    "contradictory_record_accepted": true,
+    "accepted_contradictions": [
+      "eligible_candidate_has_hard_exclusion",
+      "empty_component_maps",
+      "penalties_absent",
+      "explanations_absent",
+      "duplicate_rank",
+      "tie_break_absent",
+      "decision_selects_nonexistent_candidate",
+      "index_and_policy_revision_not_hash_bound"
+    ],
+    "interpretation": "Syntactic schema validity is proven, but semantic fail-closed behavior is disproven for the current draft. A scorer and explicit semantic validator must reject these contradictions."
+  },
+  "generic_model_ranking_policy_boundary": {
+    "path": "Plan/10_REGISTRIES/wave64_model_selection_feature_and_ranking_policy_registry.json",
+    "sha256": "543fe15ddd7618657e99b3ab2f9725f267f5190f912d665d385597f0804c577f",
+    "bytes": 6908,
+    "git_state": "untracked_preserved_unaccepted",
+    "status": "planned_unimplemented_deferred_until_model_library_activation",
+    "runtime_ranking_authorized": false,
+    "source_metadata_role": "discovery_and_qualification_priority_only",
+    "reusable_policy_shapes": [
+      "ordered hard filters",
+      "higher or lower feature direction",
+      "frozen normalization range and method",
+      "versioned quality risk penalty and utility weights",
+      "mandatory missing feature makes candidate ineligible",
+      "optional nonapplicable feature renormalization with recorded denominator",
+      "confidence-bound methods",
+      "production thresholds",
+      "near-tie abstention",
+      "deterministic tie-break order",
+      "selection replay hashes"
+    ],
+    "numeric_policy_revision": "wave64_contextual_ranker_numeric_v1",
+    "audio_applicable_features": [
+      "target_effect_quality_lcb",
+      "temporal_or_audio_quality_lcb"
+    ],
+    "missing_row081_asset_dimensions": [
+      "event",
+      "source_target",
+      "material",
+      "body_part",
+      "footwear",
+      "force",
+      "timing",
+      "duration",
+      "onset",
+      "acoustics",
+      "rights",
+      "continuity",
+      "asset_cost"
+    ],
+    "decision": "strong_generic_policy_pattern_not_implemented_or_row081_audio_asset_scoring_authority"
+  },
+  "adjacent_audio_route_schema_boundary": {
+    "path": "Plan/08_SCHEMAS/hyperreal_audio_source_route_decision.schema.json",
+    "sha256": "4bc71cc67eebb83f5a7b382792abfd3c263a1eace4eef1299ba6120232200234",
+    "bytes": 4761,
+    "git_state": "untracked_preserved_unaccepted",
+    "candidate_fields_reusable": [
+      "eligible",
+      "hard_filter_reasons",
+      "rank_score",
+      "certificate_ref",
+      "license_scope_verified",
+      "identity_or_material_match"
+    ],
+    "decision_enum_includes": [
+      "selected",
+      "layered_hybrid",
+      "branch_compare",
+      "abstain",
+      "blocked"
+    ],
+    "requires_ranking_policy_id": true,
+    "requires_production_execution_allowed": true,
+    "records_component_normalization_weights_penalties_or_tie_break": false,
+    "decision": "source_route_shape_not_row081_explainable_asset_score_receipt"
+  },
+  "audio_orchestration_schema_boundary": {
+    "path": "Plan/08_SCHEMAS/audio_orchestration_run.schema.json",
+    "sha256": "072e9a22ad6d8db4937933b2a9bbbe07443c37719a6135b66ecd77d6448323d0",
+    "bytes": 2331,
+    "git_state": "untracked_preserved_unaccepted",
+    "requires_request_and_policy_revision": true,
+    "requires_stages_outputs_and_decision": true,
+    "requires_candidate_score_receipt_reference": false,
+    "requires_row081_policy_or_result_hash": false,
+    "decision": "orchestration_shape_does_not_bind_row081_scoring_authority"
+  },
+  "repository_implementation_search": {
+    "row081_scorer_found": false,
+    "row081_weight_policy_found": false,
+    "row081_semantic_validator_found": false,
+    "row081_missing_field_fail_closed_found": false,
+    "row081_tie_break_implementation_found": false,
+    "row081_replay_or_determinism_test_found": false,
+    "row081_runtime_receipt_found": false,
+    "row081_direct_qa_test_found": false,
+    "direct_row081_planning_references": [
+      "Plan/07_IMPLEMENTATION/scripts/build_wave64_autonomous_sound_intelligence_control_package.py",
+      "Plan/10_REGISTRIES/wave64_autonomous_sound_intelligence_work_package_registry.json",
+      "Plan/08_SCHEMAS/audio_candidate_score_record.schema.json"
+    ],
+    "unrelated_or_adjacent_matches_excluded": [
+      "generic contextual model-selection ranking policy",
+      "audio engine source routing schema and synthetic blocked engine decision",
+      "speech voice casting and tournament ranking",
+      "video frame repair scoring",
+      "third-party machine-learning ranking modules"
+    ],
+    "interpretation": "No executable asset scorer, direct test, or Row081 runtime receipt exists."
+  },
+  "scoring_acceptance_assessment": {
+    "draft_receipt_schema_present": true,
+    "generic_versioned_ranking_policy_pattern_present": true,
+    "direct_row081_scorer_present": false,
+    "row081_weight_policy_present": false,
+    "all_required_component_inputs_available": false,
+    "hard_exclusions_fail_closed": false,
+    "raw_normalized_weighted_components_recorded": false,
+    "penalties_required_and_recorded": false,
+    "deterministic_tie_break_recorded": false,
+    "selected_candidate_membership_and_eligibility_enforced": false,
+    "missing_mandatory_fields_fail_closed": false,
+    "abstention_calibrated": false,
+    "complete_runtime_receipt_present": false,
+    "replay_determinism_proven": false,
+    "decision": "schema_and_policy_patterns_only_no_scoring_authority"
+  },
+  "planning_only_coverage": {
+    "builder_path": "Plan/07_IMPLEMENTATION/scripts/build_wave64_autonomous_sound_intelligence_control_package.py",
+    "builder_sha256": "62441dab915e5d277963aa58f579ee8a9190a4f3d58fcceab2b252426524f593",
+    "builder_bytes": 37998,
+    "builder_git_state": "untracked_preserved_unaccepted",
+    "registry_path": "Plan/10_REGISTRIES/wave64_autonomous_sound_intelligence_work_package_registry.json",
+    "registry_sha256": "d4ba802a94920e462fed578790e0508f140d5d7b0cf64736dcc86f47fb0e709e",
+    "registry_bytes": 13741,
+    "registry_git_state": "untracked_preserved_unaccepted",
+    "row081_registry_status": "Planned_Autonomous_Implementation_Required",
+    "direct_implementation_or_runtime_evidence_emitted": false,
+    "decision": "planning_coverage_only"
+  },
+  "acceptance_gaps": [
+    "accepted Row068 machine-readable rights and lifecycle exclusion authority",
+    "accepted Row072 timing onset and transient evidence with calibration",
+    "accepted Row076 acoustic and room-fit evidence",
+    "accepted Row079 complete compatible semantic taxonomy",
+    "accepted Row080 immutable canonical candidate set and query receipt",
+    "one content-addressed Row081 scoring policy with every hard filter component normalization weight penalty threshold and tie-break",
+    "canonical input schema binding query event candidate set dependencies policy and evidence snapshots",
+    "exact required component list matching all fourteen tracker dimensions",
+    "per-component raw input source unit bounds normalization normalized value weight and contribution",
+    "typed hard exclusion codes evaluated before ranking",
+    "semantic invariant that exclusions and eligibility cannot contradict",
+    "required penalties with source reason scale cap and contribution",
+    "bounded finite total score recomputed from components and penalties",
+    "unique contiguous ranks consistent with score and frozen tie-break order",
+    "selected candidate membership eligibility and rank-one consistency",
+    "missing mandatory field candidate-ineligible and no-eligible-candidate abstention",
+    "calibrated confidence and abstention thresholds",
+    "full explanation covering every exclusion contribution penalty tie-break and decision",
+    "same-input replay and process-independent determinism proof",
+    "adversarial missing null NaN infinity duplicate candidate duplicate rank contradictory eligibility nonexistent selection and tie tests",
+    "immutable held-out ranking calibration and explanation-fidelity evidence",
+    "tracker-declared direct runtime QA and evidence artifact"
+  ],
+  "downstream_holds": [
+    {
+      "tracker_id": "TRK-W64-082",
+      "task_name": "Audio repetition, diversity, continuity, and recent-use control",
+      "reason": "Continuity and diversity adjustments require a replayable base Row081 score before policy penalties can be layered without hiding the original decision."
+    },
+    {
+      "tracker_id": "TRK-W64-083",
+      "task_name": "Retrieval confidence, abstention, and generated-fallback calibration",
+      "reason": "Confidence and abstention calibration require accepted Row081 component scores, exclusions, candidate ranks, and decisions."
+    },
+    {
+      "tracker_id": "TRK-W64-094",
+      "task_name": "Layer construction and deterministic composite Foley synthesis",
+      "reason": "Composite layer selection depends on explainable eligible candidate ranking."
+    },
+    {
+      "tracker_id": "TRK-W64-112",
+      "task_name": "Autonomous sound intelligence production acceptance and full-system certification",
+      "reason": "Full-system certification explicitly requires Row081 completion."
+    }
+  ],
+  "checks": [
+    {
+      "name": "tracker_item_contract_parity",
+      "status": "PASS"
+    },
+    {
+      "name": "direct_row081_output_absent",
+      "status": "PASS"
+    },
+    {
+      "name": "row068_dependency_complete",
+      "status": "FAIL"
+    },
+    {
+      "name": "row072_dependency_complete",
+      "status": "FAIL"
+    },
+    {
+      "name": "row076_dependency_complete",
+      "status": "FAIL"
+    },
+    {
+      "name": "row079_dependency_complete",
+      "status": "FAIL"
+    },
+    {
+      "name": "row080_dependency_complete",
+      "status": "FAIL"
+    },
+    {
+      "name": "candidate_score_schema_meta_valid",
+      "status": "PASS"
+    },
+    {
+      "name": "candidate_score_schema_has_basic_receipt_shape",
+      "status": "PASS"
+    },
+    {
+      "name": "contradictory_score_record_rejected",
+      "status": "FAIL"
+    },
+    {
+      "name": "every_component_and_normalization_required",
+      "status": "FAIL"
+    },
+    {
+      "name": "weights_versioned_and_hash_bound",
+      "status": "FAIL"
+    },
+    {
+      "name": "penalties_required_and_replayable",
+      "status": "FAIL"
+    },
+    {
+      "name": "tie_break_inputs_and_outcome_recorded",
+      "status": "FAIL"
+    },
+    {
+      "name": "hard_exclusion_and_eligibility_consistent",
+      "status": "FAIL"
+    },
+    {
+      "name": "selected_candidate_membership_and_eligibility_enforced",
+      "status": "FAIL"
+    },
+    {
+      "name": "adjacent_generic_ranking_policy_shape_present",
+      "status": "PASS"
+    },
+    {
+      "name": "direct_scorer_tests_and_runtime_receipts_present",
+      "status": "FAIL"
+    },
+    {
+      "name": "ec2_or_production_runtime_mutated_by_this_audit",
+      "status": "PASS",
+      "observed": false
+    },
+    {
+      "name": "row081_completion_claim_safe",
+      "status": "FAIL"
+    }
+  ],
+  "test_and_runtime_boundary": {
+    "schema_meta_validation_executed": true,
+    "adversarial_schema_probe_executed": true,
+    "production_candidate_scoring_invoked": false,
+    "source_tests_executed": false,
+    "reason_source_tests_not_executed": "No direct Row081 scorer or test exists. The executable local probe validated the draft schema and demonstrated its semantic fail-open gap without scoring production candidates.",
+    "ec2_invoked": false,
+    "docker_invoked": false,
+    "wsl_invoked": false,
+    "provider_calls": 0,
+    "wrapper_calls": 0,
+    "scheduled_task_wakes": 0
+  },
+  "scheduler_and_worker_containment": {
+    "codex_automations_modified": false,
+    "windows_worker_tasks_modified": false,
+    "mask_maintenance_tasks_modified": false,
+    "ec2_read_only_safety_monitor_modified": false,
+    "worker_control_paths_modified": false,
+    "queued_or_running_worker_scope_duplicated": false,
+    "containment_note": "The scheduled-task incident containment state remains untouched. All paused automations and disabled worker or Mask tasks remain outside this evidence-only Codex final-authority audit."
+  },
+  "preservation_boundary": {
+    "only_new_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-081_EXPLAINABLE_AUDIO_CANDIDATE_SCORING_CURRENT_DELTA_20260719.json",
+    "queued_worker_scopes_preserved": true,
+    "flux2_dirty_paths_preserved": true,
+    "portfolio_reconciliation_paths_preserved": true,
+    "worker_control_snapshots_preserved": true,
+    "unrelated_dirty_and_untracked_paths_preserved": true,
+    "retained_audio_indexes_preserved": true
+  },
+  "hold_decision": {
+    "decision": "HOLD_ROW081_NO_FALSE_COMPLETION",
+    "reason": "All five dependencies remain incomplete. The project has a syntactically valid draft score-receipt schema and a strong adjacent generic ranking-policy design, but no Row081 scorer, asset-specific policy, semantic validator, direct test, or runtime receipt exists. The current schema accepts contradictory eligibility, empty components, omitted penalties and explanations, duplicate ranks, unbound revisions, and selection of a nonexistent candidate.",
+    "safe_next_action": "After Rows068, 072, 076, 079, and 080 are accepted, freeze one content-addressed Row081 policy covering all required asset dimensions; bind the immutable query and canonical candidate set; execute typed rights and compatibility hard filters first; record raw inputs, normalization, normalized values, weights, contributions, penalties, totals, unique ranks, and deterministic tie-breaks; enforce semantic invariants for eligibility, exclusions, rank order, selected-candidate membership, and missing mandatory evidence; calibrate confidence and abstention; emit a complete content-addressed receipt and explanation; validate replay across processes plus adversarial contradictions, missing values, non-finite numbers, duplicates, ties, and no-eligible-candidate cases; qualify on immutable held-out ranking data; and emit the tracker-declared runtime artifact. EC2 is not allowed for Row081. Continue independent Codex PM/QA work meanwhile."
+  }
+}
