@@ -53,8 +53,22 @@ if ($classification -eq "READY_WORK_WAITING_FOR_EC2" -and (Test-Path -LiteralPat
 }
 
 if ($IncludeAwsState) {
-  $instanceState = (aws ec2 describe-instances --instance-ids $InstanceId --region $Region --query "Reservations[0].Instances[0].State.Name" --output text).Trim()
-  if ($LASTEXITCODE -ne 0) { throw "Unable to read the approved EC2 instance state." }
+  $previousAwsMaxAttempts = $env:AWS_MAX_ATTEMPTS
+  try {
+    # This script runs from a frequent safety-monitor task. Bound AWS network
+    # retries so a transient endpoint failure cannot occupy the scheduler for
+    # most of the 15-minute interval or overlap worker/WSL recovery activity.
+    $env:AWS_MAX_ATTEMPTS = "1"
+    $instanceState = (& aws ec2 describe-instances --instance-ids $InstanceId --region $Region --query "Reservations[0].Instances[0].State.Name" --output text --cli-connect-timeout 5 --cli-read-timeout 20 --no-cli-pager).Trim()
+    $awsExitCode = $LASTEXITCODE
+  } finally {
+    if ($null -eq $previousAwsMaxAttempts) {
+      Remove-Item Env:AWS_MAX_ATTEMPTS -ErrorAction SilentlyContinue
+    } else {
+      $env:AWS_MAX_ATTEMPTS = $previousAwsMaxAttempts
+    }
+  }
+  if ($awsExitCode -ne 0) { throw "Unable to read the approved EC2 instance state." }
   if ($instanceState -eq "running") {
     if (Test-Path -LiteralPath $activeMarker -PathType Leaf) {
       $classification = "GPU_RUNTIME_WINDOW_ACTIVE"
