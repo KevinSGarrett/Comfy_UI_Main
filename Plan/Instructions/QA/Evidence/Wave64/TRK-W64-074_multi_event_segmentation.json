@@ -1,0 +1,450 @@
+{
+  "blocker_codes": [
+    "ROW072_DEPENDENCY_NOT_ACCEPTED",
+    "ROW073_DEPENDENCY_NOT_ACCEPTED",
+    "ROW072_AND_ROW073_DEPENDENCIES_NOT_ACCEPTED",
+    "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT",
+    "EVENT_COUNT_CALIBRATION_STRATA_ABSENT"
+  ],
+  "boundary_convention": {
+    "exclusive_end": true,
+    "inclusive_start": true,
+    "sample_unit": "pcm_frame_index"
+  },
+  "decision": {
+    "product_completion": false,
+    "row074_acceptance": "held",
+    "runtime_completion": false,
+    "safe_next_action": "Accept Row072 onset/transient anchors and Row073 usable-bounds/decay authority, reconcile every accepted input to single-event or multi-event PASS or an exact blocker with parent-hash and bit-exact reconstruction proofs, and replace this hold packet with full-library runtime evidence.",
+    "status": "blocked"
+  },
+  "evidence_id": "TRK-W64-074_multi_event_segmentation",
+  "fixture_calibration": {
+    "authority": "synthetic_non_library",
+    "determinism_note": "Fixture records prove event-count, overlap-policy, parent lineage, and bit-exact virtual-clip reconstruction identity only; they do not accept Row074 library completion.",
+    "fixture_count": 6,
+    "records": [
+      {
+        "asset_id": "fixture:silence",
+        "boundary_convention": {
+          "exclusive_end": true,
+          "inclusive_start": true,
+          "sample_unit": "pcm_frame_index"
+        },
+        "canonical_pcm_sha256": "e2cc2a1fa6131cf4d86faa3baf78851f35a36853e2467c257b3df9d89e85cce5",
+        "channels": 2,
+        "decision": {
+          "bit_exact_reconstruction_ok": true,
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED"
+          ],
+          "library_authority": false,
+          "source_bytes_unchanged": true,
+          "status": "blocked"
+        },
+        "event_count": 0,
+        "frame_count": 9600,
+        "item_id": "ITEM-W64-074",
+        "overlap_policy": {
+          "layered_overlap_present": false,
+          "mode": "non_overlapping",
+          "ordinary_non_overlapping": true
+        },
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "segmentation_pipeline_revision": "wave64_row074_multi_event_segmentation_v0.1.0",
+        "segments": [],
+        "source_after_sha256": "7e3be6c02caabf4e9e3de9a545655e78e48c32d9046ad8b2cd31b81755095262",
+        "source_before_sha256": "7e3be6c02caabf4e9e3de9a545655e78e48c32d9046ad8b2cd31b81755095262",
+        "source_sha256": "7e3be6c02caabf4e9e3de9a545655e78e48c32d9046ad8b2cd31b81755095262",
+        "thresholds": {
+          "channel_policy": "max_abs_mono",
+          "energy_threshold_dbfs": -40.0,
+          "layered_overlap_requires_layer_id": true,
+          "min_event_duration_ms": 5.0,
+          "min_event_gap_ms": 20.0,
+          "ordinary_segments_non_overlapping": true,
+          "source_mutation_allowed": false
+        },
+        "tracker_id": "TRK-W64-074"
+      },
+      {
+        "asset_id": "fixture:single_impact",
+        "boundary_convention": {
+          "exclusive_end": true,
+          "inclusive_start": true,
+          "sample_unit": "pcm_frame_index"
+        },
+        "canonical_pcm_sha256": "a8adb63fa72a67ebdde678fa063c0a8f9e8c8d65d793ffe450d20b7aaf43e5c2",
+        "channels": 2,
+        "decision": {
+          "bit_exact_reconstruction_ok": true,
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED"
+          ],
+          "library_authority": false,
+          "source_bytes_unchanged": true,
+          "status": "blocked"
+        },
+        "event_count": 1,
+        "frame_count": 9600,
+        "item_id": "ITEM-W64-074",
+        "overlap_policy": {
+          "layered_overlap_present": false,
+          "mode": "non_overlapping",
+          "ordinary_non_overlapping": true
+        },
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "segmentation_pipeline_revision": "wave64_row074_multi_event_segmentation_v0.1.0",
+        "segments": [
+          {
+            "confidence": 0.9,
+            "end_sample": 1647,
+            "event_family": "impact",
+            "layer_id": null,
+            "overlap_mode": "none",
+            "parent_canonical_pcm_sha256": "a8adb63fa72a67ebdde678fa063c0a8f9e8c8d65d793ffe450d20b7aaf43e5c2",
+            "segment_id": "seg_001",
+            "start_sample": 1104,
+            "virtual_clip_sha256": "53141397c7a7ffae063b152650b6384999e3ef99dbf6ec9f3ea09f861485ff8d"
+          }
+        ],
+        "source_after_sha256": "a63b68388853647acb44aa8dc83c04e7ce4ec08511136c3affbc5490ab1822aa",
+        "source_before_sha256": "a63b68388853647acb44aa8dc83c04e7ce4ec08511136c3affbc5490ab1822aa",
+        "source_sha256": "a63b68388853647acb44aa8dc83c04e7ce4ec08511136c3affbc5490ab1822aa",
+        "thresholds": {
+          "channel_policy": "max_abs_mono",
+          "energy_threshold_dbfs": -40.0,
+          "layered_overlap_requires_layer_id": true,
+          "min_event_duration_ms": 5.0,
+          "min_event_gap_ms": 20.0,
+          "ordinary_segments_non_overlapping": true,
+          "source_mutation_allowed": false
+        },
+        "tracker_id": "TRK-W64-074"
+      },
+      {
+        "asset_id": "fixture:two_footsteps",
+        "boundary_convention": {
+          "exclusive_end": true,
+          "inclusive_start": true,
+          "sample_unit": "pcm_frame_index"
+        },
+        "canonical_pcm_sha256": "c8ab04cbb2ee18015c7a2d716f2fbd62bbbdc8cefb22edf3865bd869429ddb85",
+        "channels": 2,
+        "decision": {
+          "bit_exact_reconstruction_ok": true,
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED"
+          ],
+          "library_authority": false,
+          "source_bytes_unchanged": true,
+          "status": "blocked"
+        },
+        "event_count": 2,
+        "frame_count": 9600,
+        "item_id": "ITEM-W64-074",
+        "overlap_policy": {
+          "layered_overlap_present": false,
+          "mode": "non_overlapping",
+          "ordinary_non_overlapping": true
+        },
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "segmentation_pipeline_revision": "wave64_row074_multi_event_segmentation_v0.1.0",
+        "segments": [
+          {
+            "confidence": 0.9,
+            "end_sample": 1257,
+            "event_family": "footstep",
+            "layer_id": null,
+            "overlap_mode": "none",
+            "parent_canonical_pcm_sha256": "c8ab04cbb2ee18015c7a2d716f2fbd62bbbdc8cefb22edf3865bd869429ddb85",
+            "segment_id": "seg_001",
+            "start_sample": 704,
+            "virtual_clip_sha256": "fc9e35e832a7d202c3c7be23304f34d42943622d3a5bcf4d2fa319bf4bce197e"
+          },
+          {
+            "confidence": 0.9,
+            "end_sample": 4649,
+            "event_family": "footstep",
+            "layer_id": null,
+            "overlap_mode": "none",
+            "parent_canonical_pcm_sha256": "c8ab04cbb2ee18015c7a2d716f2fbd62bbbdc8cefb22edf3865bd869429ddb85",
+            "segment_id": "seg_002",
+            "start_sample": 4104,
+            "virtual_clip_sha256": "8c8d7275c519300af79f209e1ed5caa44b1558f552346380eeceb9c65ca82afb"
+          }
+        ],
+        "source_after_sha256": "7fc3208c989d0ae2ba0029a47474bcb60f4396749d0019f24a9ff96ab2d44fc7",
+        "source_before_sha256": "7fc3208c989d0ae2ba0029a47474bcb60f4396749d0019f24a9ff96ab2d44fc7",
+        "source_sha256": "7fc3208c989d0ae2ba0029a47474bcb60f4396749d0019f24a9ff96ab2d44fc7",
+        "thresholds": {
+          "channel_policy": "max_abs_mono",
+          "energy_threshold_dbfs": -40.0,
+          "layered_overlap_requires_layer_id": true,
+          "min_event_duration_ms": 5.0,
+          "min_event_gap_ms": 20.0,
+          "ordinary_segments_non_overlapping": true,
+          "source_mutation_allowed": false
+        },
+        "tracker_id": "TRK-W64-074"
+      },
+      {
+        "asset_id": "fixture:three_impacts",
+        "boundary_convention": {
+          "exclusive_end": true,
+          "inclusive_start": true,
+          "sample_unit": "pcm_frame_index"
+        },
+        "canonical_pcm_sha256": "3d1b6519de1ca917e10f879aaa29cf11167c26af4ef297f589cce0ff0d4edd56",
+        "channels": 2,
+        "decision": {
+          "bit_exact_reconstruction_ok": true,
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED"
+          ],
+          "library_authority": false,
+          "source_bytes_unchanged": true,
+          "status": "blocked"
+        },
+        "event_count": 3,
+        "frame_count": 9600,
+        "item_id": "ITEM-W64-074",
+        "overlap_policy": {
+          "layered_overlap_present": false,
+          "mode": "non_overlapping",
+          "ordinary_non_overlapping": true
+        },
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "segmentation_pipeline_revision": "wave64_row074_multi_event_segmentation_v0.1.0",
+        "segments": [
+          {
+            "confidence": 0.9,
+            "end_sample": 1294,
+            "event_family": "impact",
+            "layer_id": null,
+            "overlap_mode": "none",
+            "parent_canonical_pcm_sha256": "3d1b6519de1ca917e10f879aaa29cf11167c26af4ef297f589cce0ff0d4edd56",
+            "segment_id": "seg_001",
+            "start_sample": 804,
+            "virtual_clip_sha256": "567e4a03f5e33d573fcdf5f0f6e71fcd02bbf69550cb5f383426bccb24aa8ae0"
+          },
+          {
+            "confidence": 0.9,
+            "end_sample": 3994,
+            "event_family": "impact",
+            "layer_id": null,
+            "overlap_mode": "none",
+            "parent_canonical_pcm_sha256": "3d1b6519de1ca917e10f879aaa29cf11167c26af4ef297f589cce0ff0d4edd56",
+            "segment_id": "seg_002",
+            "start_sample": 3504,
+            "virtual_clip_sha256": "567e4a03f5e33d573fcdf5f0f6e71fcd02bbf69550cb5f383426bccb24aa8ae0"
+          },
+          {
+            "confidence": 0.9,
+            "end_sample": 6794,
+            "event_family": "impact",
+            "layer_id": null,
+            "overlap_mode": "none",
+            "parent_canonical_pcm_sha256": "3d1b6519de1ca917e10f879aaa29cf11167c26af4ef297f589cce0ff0d4edd56",
+            "segment_id": "seg_003",
+            "start_sample": 6304,
+            "virtual_clip_sha256": "567e4a03f5e33d573fcdf5f0f6e71fcd02bbf69550cb5f383426bccb24aa8ae0"
+          }
+        ],
+        "source_after_sha256": "5e8ecef0693bc6b90c7f74d8fc09631fee3e332d8bc8c9c944112649a175312d",
+        "source_before_sha256": "5e8ecef0693bc6b90c7f74d8fc09631fee3e332d8bc8c9c944112649a175312d",
+        "source_sha256": "5e8ecef0693bc6b90c7f74d8fc09631fee3e332d8bc8c9c944112649a175312d",
+        "thresholds": {
+          "channel_policy": "max_abs_mono",
+          "energy_threshold_dbfs": -40.0,
+          "layered_overlap_requires_layer_id": true,
+          "min_event_duration_ms": 5.0,
+          "min_event_gap_ms": 20.0,
+          "ordinary_segments_non_overlapping": true,
+          "source_mutation_allowed": false
+        },
+        "tracker_id": "TRK-W64-074"
+      },
+      {
+        "asset_id": "fixture:breath_pair",
+        "boundary_convention": {
+          "exclusive_end": true,
+          "inclusive_start": true,
+          "sample_unit": "pcm_frame_index"
+        },
+        "canonical_pcm_sha256": "fdb5010f8e20961325ccecc09117443941cb10826c04cc7f75bb231668fef474",
+        "channels": 2,
+        "decision": {
+          "bit_exact_reconstruction_ok": true,
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED"
+          ],
+          "library_authority": false,
+          "source_bytes_unchanged": true,
+          "status": "blocked"
+        },
+        "event_count": 2,
+        "frame_count": 9600,
+        "item_id": "ITEM-W64-074",
+        "overlap_policy": {
+          "layered_overlap_present": false,
+          "mode": "non_overlapping",
+          "ordinary_non_overlapping": true
+        },
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "segmentation_pipeline_revision": "wave64_row074_multi_event_segmentation_v0.1.0",
+        "segments": [
+          {
+            "confidence": 0.9,
+            "end_sample": 2295,
+            "event_family": "breath",
+            "layer_id": null,
+            "overlap_mode": "none",
+            "parent_canonical_pcm_sha256": "fdb5010f8e20961325ccecc09117443941cb10826c04cc7f75bb231668fef474",
+            "segment_id": "seg_001",
+            "start_sample": 906,
+            "virtual_clip_sha256": "0a5390ada08ac57d28b9c0e3f5adcef6b969fb16df4685d37e0aa36152ecebc6"
+          },
+          {
+            "confidence": 0.9,
+            "end_sample": 6896,
+            "event_family": "breath",
+            "layer_id": null,
+            "overlap_mode": "none",
+            "parent_canonical_pcm_sha256": "fdb5010f8e20961325ccecc09117443941cb10826c04cc7f75bb231668fef474",
+            "segment_id": "seg_002",
+            "start_sample": 5107,
+            "virtual_clip_sha256": "3482ade83779ff5500af9c61493755eff18025055afa1f51289a1579860690ff"
+          }
+        ],
+        "source_after_sha256": "6ee3682b8fbf5ce7b4c97b3010620c6378c9f15197c74bc10888bc66972bfd80",
+        "source_before_sha256": "6ee3682b8fbf5ce7b4c97b3010620c6378c9f15197c74bc10888bc66972bfd80",
+        "source_sha256": "6ee3682b8fbf5ce7b4c97b3010620c6378c9f15197c74bc10888bc66972bfd80",
+        "thresholds": {
+          "channel_policy": "max_abs_mono",
+          "energy_threshold_dbfs": -40.0,
+          "layered_overlap_requires_layer_id": true,
+          "min_event_duration_ms": 5.0,
+          "min_event_gap_ms": 20.0,
+          "ordinary_segments_non_overlapping": true,
+          "source_mutation_allowed": false
+        },
+        "tracker_id": "TRK-W64-074"
+      },
+      {
+        "asset_id": "fixture:layered_overlap",
+        "boundary_convention": {
+          "exclusive_end": true,
+          "inclusive_start": true,
+          "sample_unit": "pcm_frame_index"
+        },
+        "canonical_pcm_sha256": "e3ea8ee524c64a386ef1c7c03c33d58e6a8da2c2feb8118600cdb8f1c16f8348",
+        "channels": 2,
+        "decision": {
+          "bit_exact_reconstruction_ok": true,
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED"
+          ],
+          "library_authority": false,
+          "source_bytes_unchanged": true,
+          "status": "blocked"
+        },
+        "event_count": 2,
+        "frame_count": 9600,
+        "item_id": "ITEM-W64-074",
+        "overlap_policy": {
+          "layered_overlap_present": true,
+          "mode": "explicit_layered",
+          "ordinary_non_overlapping": false
+        },
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "segmentation_pipeline_revision": "wave64_row074_multi_event_segmentation_v0.1.0",
+        "segments": [
+          {
+            "confidence": 0.82,
+            "end_sample": 3200,
+            "event_family": "impact",
+            "layer_id": "layer_a",
+            "overlap_mode": "layered",
+            "parent_canonical_pcm_sha256": "e3ea8ee524c64a386ef1c7c03c33d58e6a8da2c2feb8118600cdb8f1c16f8348",
+            "segment_id": "seg_001",
+            "start_sample": 1500,
+            "virtual_clip_sha256": "12197b7b309b7c6e80e47f28ffffb0b633b197a61f41688e87ed6df80f2697f1"
+          },
+          {
+            "confidence": 0.82,
+            "end_sample": 3900,
+            "event_family": "impact",
+            "layer_id": "layer_b",
+            "overlap_mode": "layered",
+            "parent_canonical_pcm_sha256": "e3ea8ee524c64a386ef1c7c03c33d58e6a8da2c2feb8118600cdb8f1c16f8348",
+            "segment_id": "seg_002",
+            "start_sample": 2100,
+            "virtual_clip_sha256": "1420df868331f50910ad6d096ea560bf7830056c667d7e89b2ab1d6c3ac85b99"
+          }
+        ],
+        "source_after_sha256": "596366b09b84e2cc4720a52f0d88e37639961fe6dc0bb74b06bbc75537e89bbc",
+        "source_before_sha256": "596366b09b84e2cc4720a52f0d88e37639961fe6dc0bb74b06bbc75537e89bbc",
+        "source_sha256": "596366b09b84e2cc4720a52f0d88e37639961fe6dc0bb74b06bbc75537e89bbc",
+        "thresholds": {
+          "channel_policy": "max_abs_mono",
+          "energy_threshold_dbfs": -40.0,
+          "layered_overlap_requires_layer_id": true,
+          "min_event_duration_ms": 5.0,
+          "min_event_gap_ms": 20.0,
+          "ordinary_segments_non_overlapping": true,
+          "source_mutation_allowed": false
+        },
+        "tracker_id": "TRK-W64-074"
+      }
+    ]
+  },
+  "implementation_completion_claimed": false,
+  "item_id": "ITEM-W64-074",
+  "library_authority": false,
+  "row072_admission": {
+    "blocker_codes": [
+      "ROW072_DEPENDENCY_NOT_ACCEPTED"
+    ],
+    "bytes": 12124,
+    "dependency_satisfied": false,
+    "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ONSET_TRANSIENT_ANCHOR_CURRENT_DELTA_20260719.json",
+    "row_complete": false,
+    "sha256": "f0d647f5f623e7b8bbeb4ef1270732ba8116972dcecd620592c12dabbde0477a",
+    "status": "HOLD_DEPENDENCIES_LIBRARY_RUNTIME_AND_BENCHMARK_STRATA_ABSENT",
+    "tracker_id": "TRK-W64-072"
+  },
+  "row073_admission": {
+    "blocker_codes": [
+      "ROW073_DEPENDENCY_NOT_ACCEPTED"
+    ],
+    "bytes": 9007,
+    "dependency_satisfied": false,
+    "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_CURRENT_DELTA_20260719.json",
+    "row_complete": false,
+    "sha256": "9c8b2d4b1871d61276bae4d5f6ca85a437f99b7ca3cc4d1a7a7fe1371b6146ff",
+    "status": "HOLD_ROW071_ROW072_DEPENDENCIES_AND_FULL_LIBRARY_BOUNDS_RUNTIME_ABSENT",
+    "tracker_id": "TRK-W64-073"
+  },
+  "row_complete": false,
+  "runtime_completion_claimed": false,
+  "schema_version": "1.0.0",
+  "segmentation_pipeline_revision": "wave64_row074_multi_event_segmentation_v0.1.0",
+  "status": "HOLD_ROW072_ROW073_DEPENDENCIES_AND_FULL_LIBRARY_SEGMENT_RUNTIME_ABSENT",
+  "thresholds": {
+    "channel_policy": "max_abs_mono",
+    "energy_threshold_dbfs": -40.0,
+    "layered_overlap_requires_layer_id": true,
+    "min_event_duration_ms": 5.0,
+    "min_event_gap_ms": 20.0,
+    "ordinary_segments_non_overlapping": true,
+    "source_mutation_allowed": false
+  },
+  "tracker_id": "TRK-W64-074"
+}

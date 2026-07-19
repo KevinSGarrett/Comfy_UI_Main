@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/multi_event_segmentation_record.schema.json",
+  "title": "Wave64 Row074 Multi-Event Segmentation Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "tracker_id",
+    "item_id",
+    "segmentation_pipeline_revision",
+    "asset_id",
+    "source_sha256",
+    "canonical_pcm_sha256",
+    "source_before_sha256",
+    "source_after_sha256",
+    "sample_rate_hz",
+    "channels",
+    "frame_count",
+    "boundary_convention",
+    "thresholds",
+    "event_count",
+    "segments",
+    "overlap_policy",
+    "decision"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "tracker_id": { "type": "string", "const": "TRK-W64-074" },
+    "item_id": { "type": "string", "const": "ITEM-W64-074" },
+    "segmentation_pipeline_revision": {
+      "type": "string",
+      "const": "wave64_row074_multi_event_segmentation_v0.1.0"
+    },
+    "asset_id": { "type": "string", "minLength": 1 },
+    "source_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "canonical_pcm_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "source_before_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "source_after_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "sample_rate_hz": { "type": "integer", "minimum": 1 },
+    "channels": { "type": "integer", "minimum": 1 },
+    "frame_count": { "type": "integer", "minimum": 1 },
+    "boundary_convention": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["inclusive_start", "exclusive_end", "sample_unit"],
+      "properties": {
+        "inclusive_start": { "type": "boolean", "const": true },
+        "exclusive_end": { "type": "boolean", "const": true },
+        "sample_unit": { "type": "string", "const": "pcm_frame_index" }
+      }
+    },
+    "thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "energy_threshold_dbfs",
+        "min_event_gap_ms",
+        "min_event_duration_ms",
+        "channel_policy",
+        "ordinary_segments_non_overlapping",
+        "layered_overlap_requires_layer_id",
+        "source_mutation_allowed"
+      ],
+      "properties": {
+        "energy_threshold_dbfs": { "type": "number" },
+        "min_event_gap_ms": { "type": "number", "minimum": 0 },
+        "min_event_duration_ms": { "type": "number", "minimum": 0 },
+        "channel_policy": { "type": "string", "const": "max_abs_mono" },
+        "ordinary_segments_non_overlapping": { "type": "boolean", "const": true },
+        "layered_overlap_requires_layer_id": { "type": "boolean", "const": true },
+        "source_mutation_allowed": { "type": "boolean", "const": false }
+      }
+    },
+    "event_count": { "type": "integer", "minimum": 0 },
+    "segments": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/virtual_segment" }
+    },
+    "overlap_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "ordinary_non_overlapping", "layered_overlap_present"],
+      "properties": {
+        "mode": { "enum": ["non_overlapping", "explicit_layered"] },
+        "ordinary_non_overlapping": { "type": "boolean" },
+        "layered_overlap_present": { "type": "boolean" }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "blocker_codes",
+        "library_authority",
+        "source_bytes_unchanged",
+        "bit_exact_reconstruction_ok"
+      ],
+      "properties": {
+        "status": { "enum": ["pass", "blocked"] },
+        "blocker_codes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "library_authority": { "type": "boolean" },
+        "source_bytes_unchanged": { "type": "boolean" },
+        "bit_exact_reconstruction_ok": { "type": "boolean" }
+      }
+    }
+  },
+  "$defs": {
+    "virtual_segment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "segment_id",
+        "event_family",
+        "start_sample",
+        "end_sample",
+        "parent_canonical_pcm_sha256",
+        "virtual_clip_sha256",
+        "confidence",
+        "overlap_mode",
+        "layer_id"
+      ],
+      "properties": {
+        "segment_id": { "type": "string", "minLength": 1 },
+        "event_family": {
+          "enum": ["footstep", "impact", "breath", "repeated", "silence_gap", "ambiguous", "other"]
+        },
+        "start_sample": { "type": "integer", "minimum": 0 },
+        "end_sample": { "type": "integer", "minimum": 1 },
+        "parent_canonical_pcm_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "virtual_clip_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "overlap_mode": { "enum": ["none", "layered"] },
+        "layer_id": {
+          "anyOf": [
+            { "type": "null" },
+            { "type": "string", "minLength": 1 }
+          ]
+        }
+      }
+    }
+  }
+}

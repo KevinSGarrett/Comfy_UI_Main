@@ -2,22 +2,22 @@
   "schema_version": 1,
   "evidence_id": "W64-ROW074-MULTI-EVENT-SEGMENTATION-CURRENT-DELTA-20260719",
   "created_at": "2026-07-19T03:19:23.1173944Z",
-  "source_commit": "40602714ec13aecd6606d3cc61d588bfd60431f0",
-  "prior_row_commit": "40602714ec13aecd6606d3cc61d588bfd60431f0",
-  "prior_row_commit_is_current_head": true,
+  "updated_at": "2026-07-19T19:49:24Z",
+  "source_commit": "b074c694518b7ebe78a1e7292db28427d7f75ca7",
+  "prior_row_commit": "791f961fc2085e148aa7dd349f41c106a06a9f53",
+  "prior_row_commit_is_current_head": false,
   "tracker_id": "TRK-W64-074",
   "item_id": "ITEM-W64-074",
-  "status": "HOLD_DEPENDENCIES_SEGMENTER_VIRTUAL_CLIP_CONTRACT_AND_CALIBRATION_ABSENT",
-  "classification": "ROW074_CURRENT_DELTA_PARTIAL_SEGMENT_AND_LINEAGE_SHAPES_ONLY_NO_FALSE_COMPLETION",
+  "status": "HOLD_ROW072_ROW073_DEPENDENCIES_AND_FULL_LIBRARY_SEGMENT_RUNTIME_ABSENT",
+  "classification": "ROW074_FAIL_CLOSED_CONTRACT_SLICE_NO_FALSE_COMPLETION",
   "row_complete": false,
   "implementation_completion_claimed": false,
   "runtime_completion_claimed": false,
-  "qa_decision": "hold_with_partial_segment_event_and_preparation_shapes_reusable_only",
-  "intent": {
-    "intent_id": "intent_20260719T031758250Z_row074_multi_event_segmentation_current_delta_a8adfe67",
-    "authority_class": "codex_only",
-    "routing": null,
-    "worker_wake_count": 0
+  "qa_decision": "hold_with_fail_closed_virtual_clip_contract_and_synthetic_fixture_calibration_only",
+  "increment": {
+    "kind": "fail_closed_contract_and_segmenter_slice",
+    "segmentation_pipeline_revision": "wave64_row074_multi_event_segmentation_v0.1.0",
+    "summary": "Freeze Row074 boundary convention, energy/gap thresholds, overlap policy, parent-hash lineage, and bit-exact virtual-clip reconstruction; emit schema-validated synthetic fixture calibration for silence/single/multi-event/layered cases; fail closed for library authority until Row072 and Row073 acceptance exists."
   },
   "row074_contract": {
     "status": "Planned_Autonomous_Implementation_Required",
@@ -34,7 +34,8 @@
       "overlap_policy"
     ],
     "output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_multi_event_segmentation.json",
-    "output_artifact_exists": false,
+    "output_artifact_exists": true,
+    "output_artifact_authority": "fail_closed_hold_packet_not_library_acceptance",
     "completion_criteria": "Every virtual segment is reproducible from parent hash and sample bounds with calibrated event-count accuracy.",
     "required_behavior": [
       "detect multiple events inside one recording",
@@ -49,264 +50,102 @@
       "reproduce each segment bit-exactly from parent bytes plus boundaries",
       "calibrate event-count accuracy"
     ],
+    "frozen_thresholds": {
+      "energy_threshold_dbfs": -40.0,
+      "min_event_gap_ms": 20.0,
+      "min_event_duration_ms": 5.0,
+      "channel_policy": "max_abs_mono",
+      "ordinary_segments_non_overlapping": true,
+      "layered_overlap_requires_layer_id": true,
+      "source_mutation_allowed": false
+    },
+    "boundary_convention": {
+      "inclusive_start": true,
+      "exclusive_end": true,
+      "sample_unit": "pcm_frame_index"
+    },
     "runtime_proof_required": true,
     "ec2_allowed": false,
     "final_render_gate": "BLOCKED_UNTIL_EXACT_ROW_IMPLEMENTATION_RUNTIME_QA_AND_AUTHORITY_PASS"
   },
-  "tracker_item_requirements_parity": {
-    "tracker_path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_TRACKER_ROWS.csv",
-    "tracker_sha256": "a698034d4d61788a9c630434f7aac75e3f7b1bf656319cfe43a5b2ce26d625de",
-    "tracker_bytes": 159309,
-    "item_path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ITEM_ROWS.csv",
-    "item_sha256": "f4a401d828aff69dbe7e005d6592a2af86edc936a0e6c1bae2f764345a9b8489",
-    "item_bytes": 111386,
-    "requirements_tracker_path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
-    "requirements_item_path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
-    "requirements_sha256": "077eaf1dfc1cb0d990660b2d9ec7073bc2b4acc1be47a94e9a0ea65eb1924acc",
-    "requirements_bytes": 48422,
-    "requirements_copies_byte_identical": true,
-    "tracker_item_title_match": true,
-    "tracker_item_status_match": true,
-    "tracker_item_acceptance_match": true,
-    "tracker_item_gate_match": true,
-    "tracker_item_dependency_match": true,
-    "git_state": "untracked_preserved_unaccepted"
+  "implemented_slice": {
+    "segmenter_path": "Plan/07_IMPLEMENTATION/scripts/segment_wave64_multi_event_audio.py",
+    "segmenter_sha256": "ef72e64cb0e0c1e68117250d55c2f3591fbfdbd20d42f0507d14bbee646fa346",
+    "segmenter_bytes": 24003,
+    "schema_path": "Plan/08_SCHEMAS/multi_event_segmentation_record.schema.json",
+    "schema_sha256": "cb996083cf3f76471d75b3aba7c81cbd4a60beda1ed41cd642ff555d043e9d14",
+    "schema_bytes": 5325,
+    "test_path": "Plan/Instructions/QA/Scripts/test_segment_wave64_multi_event_audio.py",
+    "test_sha256": "d39ef8ae8d86a2d8cf544a3978ffe6e97763d2f0a9690941bf167272aff1550b",
+    "test_bytes": 6401,
+    "direct_evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_multi_event_segmentation.json",
+    "direct_evidence_sha256": "4af87e65ad6edb492df35ca94576a999e497c421b577f2f1647a86f8116b10ef",
+    "direct_evidence_bytes": 18495,
+    "capabilities_now_present": [
+      "frozen_segmentation_pipeline_revision",
+      "frozen_energy_gap_duration_and_non_mutation_thresholds",
+      "inclusive_start_exclusive_end_pcm_frame_boundary_convention",
+      "schema_validated_multi_event_virtual_segment_records",
+      "row072_and_row073_admission_fail_closed_gates",
+      "synthetic_fixture_determinism_for_silence_single_multi_breath_and_layered_overlap",
+      "bit_exact_virtual_clip_reconstruction_from_parent_pcm_plus_bounds",
+      "ordinary_non_overlap_and_explicit_layered_overlap_policy_enforcement",
+      "library_mode_hold_packet_without_false_completion"
+    ],
+    "explicitly_not_claimed": [
+      "full_library_multi_event_segmentation_records",
+      "accepted_row072_onset_transient_authority",
+      "accepted_row073_usable_bounds_decay_authority",
+      "representative_library_event_count_calibration_strata",
+      "row074_product_completion",
+      "row074_runtime_completion",
+      "downstream_row079_row082_row093_row112_unblocking"
+    ]
   },
   "dependency_authority": [
     {
       "tracker_id": "TRK-W64-072",
-      "commit": "f3598905c6f2b2e1dfa64aa053074e7bd320392f",
       "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ONSET_TRANSIENT_ANCHOR_CURRENT_DELTA_20260719.json",
-      "current_delta_sha256": "c116e844619e320341e4dd1707b8c0711288784984f858bc17585b3a2b694778",
-      "current_delta_bytes": 18358,
-      "current_delta_status": "HOLD_DEPENDENCIES_DETECTOR_THRESHOLD_REGISTRY_AND_BENCHMARK_AUTHORITY_ABSENT",
+      "current_delta_sha256": "f0d647f5f623e7b8bbeb4ef1270732ba8116972dcecd620592c12dabbde0477a",
+      "current_delta_bytes": 12124,
+      "current_delta_status": "HOLD_DEPENDENCIES_LIBRARY_RUNTIME_AND_BENCHMARK_STRATA_ABSENT",
       "row_complete": false,
       "dependency_satisfied": false,
-      "reason": "Multi-event boundaries require accepted onset, peak, offset, confidence, and ambiguity authority."
+      "reason": "Multi-event boundaries still require accepted onset, peak, offset, confidence, and ambiguity authority for library admission."
     },
     {
       "tracker_id": "TRK-W64-073",
-      "commit": "40602714ec13aecd6606d3cc61d588bfd60431f0",
       "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_CURRENT_DELTA_20260719.json",
-      "current_delta_sha256": "0224de679cff05151f05e5311508fa53ada4c9f50c127e25126c633a2fb6442b",
-      "current_delta_bytes": 18625,
-      "current_delta_status": "HOLD_DEPENDENCIES_WAVEFORM_ANALYZER_SCHEMA_AND_FULL_LIBRARY_PROOF_ABSENT",
+      "current_delta_sha256": "9c8b2d4b1871d61276bae4d5f6ca85a437f99b7ca3cc4d1a7a7fe1371b6146ff",
+      "current_delta_bytes": 9007,
+      "current_delta_status": "HOLD_ROW071_ROW072_DEPENDENCIES_AND_FULL_LIBRARY_BOUNDS_RUNTIME_ABSENT",
       "row_complete": false,
       "dependency_satisfied": false,
-      "reason": "Segment bounds must preserve measured usable starts, offsets, and natural tails; Row073 currently has no accepted analyzer or records."
+      "reason": "Segment bounds must preserve measured usable starts, offsets, and natural tails; Row073 remains unaccepted for library authority."
     }
   ],
-  "retained_index_input_boundary": {
-    "path": "runtime_artifacts/audio_asset_indexes/audio_downloads_functional_20260715T095712-0500/audio_pack_functional_index.jsonl",
-    "sha256": "7301243a364025dbd23907aee20ee8593d5897caa83d38391026ad42da6d17ec",
-    "bytes": 38266398,
-    "record_count": 39771,
-    "read_only_scan_performed": true,
-    "source_audio_opened_or_decoded": false,
-    "row074_field_presence_counts": {
-      "segments": 0,
-      "segment_id": 0,
-      "start_sample": 0,
-      "end_sample": 0,
-      "parent_sha256": 0,
-      "parent_audio_sha256": 0,
-      "source_sha256": 0,
-      "overlap_policy": 0,
-      "layer_id": 0,
-      "segment_confidence": 0,
-      "event_count": 0,
-      "virtual_clip_id": 0,
-      "virtual_clip_sha256": 0,
-      "canonical_pcm_sha256": 0
-    },
-    "single_event_type_per_record_counts": {
-      "action_sfx": 3487,
-      "ambience": 6,
-      "body_foley": 18343,
-      "breath": 155,
-      "clothing_foley": 3254,
-      "evaluation_reference": 7822,
-      "furniture_foley": 618,
-      "impact": 316,
-      "music": 19,
-      "prop_foley": 515,
-      "transition_sfx": 8,
-      "unclassified": 4262,
-      "voice_reaction": 966
-    },
-    "event_type_count_reconciles_to_records": true,
-    "single_event_type_is_not_detected_event_count": true,
-    "row074_segment_records_present": false,
-    "scope": "Existing retained JSONL bytes only. No external source inventory, audio decode, feature extraction, boundary analysis, segmentation, virtual-clip extraction, index rebuild, or runtime mutation was performed."
+  "focused_validators": {
+    "command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_segment_wave64_multi_event_audio.py",
+    "exit_code": 0,
+    "passed": 11,
+    "failed": 0
   },
-  "planned_primary_segment_schema": {
-    "path": "Plan/08_SCHEMAS/audio_asset_intelligence_record.schema.json",
-    "sha256": "42b7aec3b9595c153de3482290d1dfe715a082d4d5f85823f4afa6a162e0cc1f",
-    "bytes": 4323,
-    "git_state": "untracked_preserved_unaccepted",
-    "segment_required_fields": [
-      "segment_id",
-      "start_sample",
-      "end_sample",
-      "confidence"
-    ],
-    "segments_array_min_items_declared": false,
-    "empty_segments_array_schema_valid": true,
-    "end_sample_must_be_greater_than_start_sample": false,
-    "boundary_end_inclusive_or_exclusive_declared": false,
-    "missing_row074_authority_fields": [
-      "parent_audio_sha256",
-      "parent_canonical_pcm_sha256",
-      "virtual_clip_id",
-      "virtual_clip_sha256",
-      "event_class",
-      "event_ordinal",
-      "overlap_policy",
-      "layer_id",
-      "bit_exact_reconstruction_method",
-      "detector_revision_and_parameters",
-      "event_count_truth_and_error",
-      "source_immutability_binding"
-    ],
-    "decision": "partial_segment_shape_reusable_not_accepted_as_row074_contract"
-  },
-  "downstream_clip_preparation_schema": {
-    "path": "Plan/08_SCHEMAS/audio_clip_preparation_manifest.schema.json",
-    "sha256": "66ba39c12ab9e5b07054d3b6fbbd31be8d29c2c6a2cbc91d981e9dea2b92217a",
-    "bytes": 2672,
-    "git_state": "untracked_preserved_unaccepted",
-    "reusable_fields": [
-      "source.sha256",
-      "source.canonical_pcm_sha256",
-      "source.segment_start_sample",
-      "source.segment_end_sample",
-      "target.sha256",
-      "target.canonical_pcm_sha256",
-      "transforms.operation",
-      "transforms.parameters",
-      "transforms.implementation_revision",
-      "anchor source and target samples",
-      "tail preservation fields"
-    ],
-    "row074_limit": "This Row093-oriented preparation shape assumes a selected source segment and materialized target. It does not detect multiple events, bind overlap/layers/confidence/event-count calibration, freeze inclusive-versus-exclusive boundaries, or prove a virtual segment directly from parent bytes.",
-    "decision": "lineage_and_transform_shape_reusable_not_segmentation_authority"
-  },
-  "authored_event_manifest_boundary": {
-    "path": "Plan/08_SCHEMAS/wave30_audio_event_manifest.schema.json",
-    "sha256": "d614c9961d8a0710844f363cf9b59ccf404e28b11ba3e39ecd698abc51dea133",
-    "bytes": 9668,
-    "git_state": "tracked_clean",
-    "reusable_fields": [
-      "audio_event_count",
-      "audio_event_id",
-      "event_type",
-      "sync_class",
-      "start_seconds",
-      "end_seconds",
-      "expected_video_frame_range",
-      "layer",
-      "artifact hash and PCM metadata"
-    ],
-    "row074_limit": "The manifest describes authored timeline events and separate event artifacts. It does not detect events inside one parent recording, bind parent sample ranges, or reconstruct virtual clips from one source.",
-    "decision": "event_taxonomy_timeline_and_layer_shape_reusable_not_row074_detector_evidence"
-  },
-  "planning_only_coverage": {
-    "builder_path": "Plan/07_IMPLEMENTATION/scripts/build_wave64_autonomous_sound_intelligence_control_package.py",
-    "builder_sha256": "62441dab915e5d277963aa58f579ee8a9190a4f3d58fcceab2b252426524f593",
-    "builder_bytes": 37998,
-    "builder_git_state": "untracked_preserved_unaccepted",
-    "registry_path": "Plan/10_REGISTRIES/wave64_autonomous_sound_intelligence_work_package_registry.json",
-    "registry_sha256": "d4ba802a94920e462fed578790e0508f140d5d7b0cf64736dcc86f47fb0e709e",
-    "registry_bytes": 13741,
-    "registry_git_state": "untracked_preserved_unaccepted",
-    "registry_row_status": "Planned_Autonomous_Implementation_Required",
-    "package_test_path": "Plan/Instructions/QA/Scripts/test_wave64_autonomous_sound_intelligence_control_package.py",
-    "package_test_sha256": "37e2f85f1e6bd18b7ae952c524d7e36d5244d6cedd769ef9841953c7213e158f",
-    "package_test_bytes": 2056,
-    "package_test_git_state": "untracked_preserved_unaccepted",
-    "row074_behavior_hits_in_package_test": 0,
-    "decision": "planning_coverage_only_not_segmenter_or_runtime_evidence"
-  },
-  "repository_segmenter_scan": {
-    "scope": [
-      "Plan/07_IMPLEMENTATION/scripts",
-      "Plan/Instructions/QA/Scripts",
-      "Plan/08_SCHEMAS",
-      "Plan/10_REGISTRIES"
-    ],
-    "dedicated_audio_multi_event_segmenter_found": false,
-    "dedicated_row074_test_found": false,
-    "matching_audio_segmenter_or_virtual_clip_filename_count": 0,
-    "exact_term_hit_counts": {
-      "virtual_clip": 0,
-      "parent_audio_sha256": 0,
-      "segment_confidence": 0,
-      "multi_event_segmentation": 2,
-      "overlap_policy": 10
-    },
-    "multi_event_segmentation_hits_are_planning_only": true,
-    "overlap_policy_hits_are_row074_planning_or_unrelated_video_voice_geometry_contracts": true,
-    "implementation_status": "absent"
-  },
-  "gate_assessment": [
-    {
-      "gate": "event_count",
-      "reusable_evidence": "authored_event_manifest_shape_only",
-      "current_row074_decision": "hold",
-      "reason": "No detector or truth set measures event-count precision/recall or under/over-segmentation across multi-event recordings."
-    },
-    {
-      "gate": "segment_bounds",
-      "reusable_evidence": "generic_sample_bound_shapes_only",
-      "current_row074_decision": "hold",
-      "reason": "Schemas can carry sample bounds, but no accepted detector, boundary convention, ordering/nonempty constraints, or measured boundary error exists."
-    },
-    {
-      "gate": "parent_lineage",
-      "reusable_evidence": "downstream_preparation_shape_only",
-      "current_row074_decision": "hold",
-      "reason": "The preparation schema binds source and target hashes after selection; no Row074 virtual-clip record binds detected segment identity and bit-exact parent reconstruction."
-    },
-    {
-      "gate": "overlap_policy",
-      "reusable_evidence": "unrelated_authored_timeline_layer_concepts_only",
-      "current_row074_decision": "hold",
-      "reason": "No audio-source segmentation contract requires non-overlap, explicit layered overlap, layer identity, or rejection of accidental overlap."
-    }
-  ],
   "acceptance_gaps": [
     {
       "code": "ROW072_AND_ROW073_DEPENDENCIES_NOT_ACCEPTED",
-      "detail": "Both direct prerequisites remain row_complete=false, so accepted event anchors and usable natural-tail bounds are unavailable."
+      "detail": "Both direct prerequisites remain row_complete=false, so accepted event anchors and usable natural-tail bounds are unavailable for library authority."
     },
     {
-      "code": "ROW074_DIRECT_EVIDENCE_ABSENT",
-      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_multi_event_segmentation.json",
-      "detail": "The tracker-declared direct Row074 evidence artifact does not exist."
+      "code": "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT",
+      "detail": "No runtime reconciles every accepted Row072/Row073 input to single-event or multi-event PASS or an exact blocker with output and calibration hashes."
     },
     {
-      "code": "MULTI_EVENT_SEGMENTER_IMPLEMENTATION_ABSENT",
-      "detail": "No implementation consumes canonical PCM and accepted anchor/bound records to detect and classify multiple events inside one recording."
+      "code": "EVENT_COUNT_CALIBRATION_STRATA_ABSENT",
+      "detail": "Synthetic fixtures prove method identity, overlap policy, and bit-exact reconstruction only; library event-count precision/recall strata remain unreconciled."
     },
     {
-      "code": "VIRTUAL_CLIP_CONTRACT_INCOMPLETE",
-      "detail": "No accepted record combines parent hashes, exact sample-bound convention, event/layer identity, confidence, overlap policy, and bit-exact reconstruction identity."
-    },
-    {
-      "code": "EVENT_COUNT_AND_BOUNDARY_CALIBRATION_FIXTURES_ABSENT",
-      "detail": "No truth set covers isolated/repeated footsteps, close impacts, breaths, layered overlap, silence gaps, reverb tails, noise, missed events, false splits, or boundary error."
-    },
-    {
-      "code": "OVERLAP_AND_LAYER_FAIL_CLOSED_TESTS_ABSENT",
-      "detail": "No tests reject accidental overlapping segments, missing layer identity, inverted/empty ranges, duplicate IDs, gaps caused by false splits, or out-of-parent bounds."
-    },
-    {
-      "code": "BIT_EXACT_PARENT_RECONSTRUCTION_PROOF_ABSENT",
-      "detail": "No fixture or runtime evidence reconstructs virtual PCM bytes from parent canonical PCM plus sample bounds and compares the resulting hash."
-    },
-    {
-      "code": "FULL_LIBRARY_SEGMENT_RUNTIME_AND_BLOCKER_MANIFEST_ABSENT",
-      "detail": "All 39,771 retained records lack segment data, and no runtime packet reconciles accepted inputs into single-event, multi-event segment PASS, or exact blockers with output and calibration hashes."
+      "code": "FULL_LIBRARY_PARENT_RECONSTRUCTION_PROOF_ABSENT",
+      "detail": "Fixture parent-hash and virtual-clip reconstruction proofs do not substitute for retained-library canonical PCM reconciliation."
     }
   ],
   "direct_downstream_hold": {
@@ -317,66 +156,45 @@
       "TRK-W64-093",
       "TRK-W64-112"
     ],
-    "reason": "Each row directly declares TRK-W64-074 as a prerequisite; generic segment shapes, authored event manifests, and downstream preparation shapes cannot substitute for accepted detected virtual-clip authority."
-  },
-  "scheduler_and_worker_containment": {
-    "controls_modified": false,
-    "codex_automations_enabled_or_resumed": false,
-    "windows_worker_tasks_enabled_or_started": false,
-    "mask_maintenance_tasks_enabled_or_started": false,
-    "worker_lanes_polled_or_woken": false,
-    "ec2_read_only_monitor_modified": false,
-    "boundary_source": "Root-recovery containment update supplied to this task; this QA turn performed no scheduler, task, provider, Docker, WSL, EC2, or audio runtime action."
+    "reason": "Each row directly declares TRK-W64-074 as a prerequisite; synthetic fixture calibration and fail-closed hold packets cannot substitute for accepted detected virtual-clip authority."
   },
   "preservation_boundary": {
-    "queued_worker_scopes_modified": false,
-    "flux2_dirty_paths_modified": false,
-    "portfolio_reconciliation_paths_modified": false,
-    "worker_control_snapshots_modified": false,
-    "sound_planning_source_package_modified": false,
-    "row069_index_artifacts_modified": false,
-    "row072_or_row073_evidence_modified": false,
-    "planned_audio_schemas_modified": false,
-    "external_audio_source_modified": false,
-    "provider_or_worker_invoked": false,
-    "audio_decode_feature_extraction_segmentation_generation_or_playback_executed": false,
-    "only_new_project_output": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_MULTI_EVENT_SEGMENTATION_CURRENT_DELTA_20260719.json"
+    "row067_owned_paths_modified": false,
+    "row069_owned_paths_modified": false,
+    "row072_owned_paths_modified": false,
+    "row073_owned_paths_modified": false,
+    "row085_owned_paths_modified": false,
+    "unrelated_dirty_paths_modified": false,
+    "only_row074_writable_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/segment_wave64_multi_event_audio.py",
+      "Plan/08_SCHEMAS/multi_event_segmentation_record.schema.json",
+      "Plan/Instructions/QA/Scripts/test_segment_wave64_multi_event_audio.py",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_multi_event_segmentation.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_MULTI_EVENT_SEGMENTATION_CURRENT_DELTA_20260719.json"
+    ]
   },
   "checks": [
-    {"name": "MES-D001_row073_commit_is_current_head", "result": "pass"},
-    {"name": "MES-D002_tracker_item_row074_contract_parity", "result": "pass"},
-    {"name": "MES-D003_requirements_copies_byte_identical", "result": "pass"},
-    {"name": "MES-D004_row072_and_row073_dependency_holds_detected", "result": "pass"},
-    {"name": "MES-D005_row074_direct_evidence_absence_detected", "result": "pass"},
-    {"name": "MES-D006_retained_index_hash_and_39771_count_bound", "result": "pass"},
-    {"name": "MES-D007_zero_retained_segment_records_detected", "result": "pass"},
-    {"name": "MES-D008_single_event_type_not_overclaimed_as_event_count", "result": "pass"},
-    {"name": "MES-D009_primary_segment_schema_partial_shape_identified", "result": "pass"},
-    {"name": "MES-D010_downstream_clip_lineage_shape_identified", "result": "pass"},
-    {"name": "MES-D011_authored_wave30_events_not_overclaimed_as_detection", "result": "pass"},
-    {"name": "MES-D012_virtual_clip_contract_gaps_detected", "result": "pass"},
-    {"name": "MES-D013_dedicated_segmenter_absence_detected", "result": "pass"},
-    {"name": "MES-D014_dedicated_segmenter_test_absence_detected", "result": "pass"},
-    {"name": "MES-D015_bit_exact_parent_reconstruction_proof_absence_detected", "result": "pass"},
-    {"name": "MES-D016_full_library_runtime_manifest_absence_detected", "result": "pass"},
-    {"name": "MES-D017_four_direct_downstream_rows_held", "result": "pass"},
-    {"name": "MES-D018_no_false_completion_or_runtime_claim", "result": "pass"},
-    {"name": "MES-D019_no_audio_runtime_or_external_source_scan", "result": "pass"},
-    {"name": "MES-D020_disjoint_preservation_and_no_wake_boundary", "result": "pass"}
+    {"name": "MES-I001_segmentation_pipeline_revision_frozen", "result": "pass"},
+    {"name": "MES-I002_schema_requires_bounds_lineage_overlap_and_virtual_clip_hash", "result": "pass"},
+    {"name": "MES-I003_row072_and_row073_admission_fails_closed", "result": "pass"},
+    {"name": "MES-I004_library_mode_hold_packet_emitted", "result": "pass"},
+    {"name": "MES-I005_fixture_records_deterministic_schema_valid_and_bit_exact", "result": "pass"},
+    {"name": "MES-I006_overlap_policy_rejects_accidental_and_unlayered_overlap", "result": "pass"},
+    {"name": "MES-I007_focused_pytest_11_passed", "result": "pass"},
+    {"name": "MES-I008_no_false_completion_claimed", "result": "pass"},
+    {"name": "MES-I009_disjoint_from_row067_row069_row072_row085_owned_paths", "result": "pass"}
   ],
   "check_summary": {
-    "checked": 20,
-    "passed": 20,
+    "checked": 9,
+    "passed": 9,
     "failed": 0
   },
   "decision": {
-    "generic_segment_shape": "technical_shape_reuse_allowed",
-    "downstream_clip_preparation_shape": "lineage_and_transform_reuse_allowed",
-    "authored_event_manifest_shape": "taxonomy_timeline_and_layer_reuse_allowed",
+    "fail_closed_contract_slice": "accepted_as_bounded_increment",
     "row074_status": "Planned_Autonomous_Implementation_Required",
     "row074_acceptance": "held",
     "runtime_completion": false,
     "product_completion": false,
-    "safe_next_action": "After Rows072-073 are accepted, route a bounded Row074 implementation that freezes boundary convention, event/layer identity, overlap policy, confidence, detector revision, parent hashes, and bit-exact reconstruction semantics; detects multi-event recordings from canonical PCM; validates event-count and sample-bound truth fixtures including layered overlap and ambiguous events; rejects invalid, overlapping, duplicate, or out-of-parent segments; proves virtual PCM reconstruction hashes from parent bytes plus boundaries; reconciles every accepted input to single-event, multi-event PASS, or an exact blocker; and emits the tracker-declared direct evidence. Reuse the generic segment, preparation-lineage, and authored-event taxonomy shapes where appropriate without treating them as detector proof. Continue independent Codex PM/QA work meanwhile."
+    "safe_next_action": "Accept or complete Rows072-073 next; then extend Row074 library mode to consume accepted anchor/bounds records, reconcile full-library single-event/multi-event PASS or exact blockers with parent-hash and bit-exact reconstruction proofs, and only then mark Row074 complete for Row079/Row082/Row093/Row112 consumers."
   }
 }
