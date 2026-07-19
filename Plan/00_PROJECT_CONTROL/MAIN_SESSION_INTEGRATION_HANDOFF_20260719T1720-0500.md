@@ -13,8 +13,9 @@
 1. `9e071920` Prove Row017 MF70 under-eye local visual climb.
 2. `649bc727` Stamp Row017 under-eye handoff with pushed commit parity.
 3. `0cf4a27c` Refresh Row017 under-eye handoff with dual pushed commit IDs.
+4. `5189e0d9` Align Row017 under-eye handoff tip to origin HEAD.
 
-Pushed tip verified on origin: `0cf4a27cc491f4e0bfba52c5eb59d38438cbfdf3`
+Pushed tip verified on origin: `5189e0d98520ffe1726cf6f571a210890dfdd431`
 
 ## Row-Scoped Increment Executed
 
