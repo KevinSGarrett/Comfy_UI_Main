@@ -11,9 +11,9 @@
 ## Commits Pushed This Pass
 
 1. `376e07bc` Prove Row017 MF70 eyelashes local visual climb.
-2. *(optional tip-parity refresh if required)*
+2. `2e2be4e7` Stamp Row017 eyelashes handoff with primary commit id.
 
-Pushed tip verified on origin: `376e07bc` (pre-push local; refreshed after origin verify)
+Pushed tip verified on origin: `2e2be4e7`
 
 ## Row-Scoped Increment Executed
 
