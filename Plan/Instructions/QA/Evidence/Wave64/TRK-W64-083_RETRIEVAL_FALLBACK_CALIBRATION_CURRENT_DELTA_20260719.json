@@ -1,0 +1,399 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-083_RETRIEVAL_FALLBACK_CALIBRATION_CURRENT_DELTA_20260719",
+  "created_at": "2026-07-19T04:30:34.7718011Z",
+  "source_commit": "5b4f3351e98f9051e460378c6d3459caa2fdb83b",
+  "prior_row_commit": "5b4f3351e98f9051e460378c6d3459caa2fdb83b",
+  "prior_row_commit_is_current_head": true,
+  "tracker_id": "TRK-W64-083",
+  "item_id": "ITEM-W64-083",
+  "status": "HOLD_DEPENDENCIES_AUDIO_SOURCE_CALIBRATION_POLICY_HELD_OUT_METRICS_THRESHOLDS_AND_RUNTIME_PROOF_ABSENT",
+  "classification": "ROW083_CURRENT_DELTA_PLANNING_AND_GENERIC_POLICY_PATTERNS_ONLY_NO_AUDIO_RETRIEVAL_CALIBRATION_AUTHORITY_NO_FALSE_COMPLETION",
+  "row_complete": false,
+  "implementation_completion_claimed": false,
+  "runtime_completion_claimed": false,
+  "qa_decision": "HOLD",
+  "intent": {
+    "intent_id": "intent_20260719T042738372Z_row083_retrieval_fallback_calibration_current_delta_82d4748b",
+    "classification": "AI_WORKER_DEVELOPMENT_PIPELINE_ADMITTED_DEFERRED",
+    "work_type": "final_authority",
+    "authority_class": "codex_only",
+    "routing": null,
+    "dispatch_wake_count": 0,
+    "candidate_paths": [
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-083_RETRIEVAL_FALLBACK_CALIBRATION_CURRENT_DELTA_20260719.json"
+    ],
+    "allowed_paths": [
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-083_RETRIEVAL_FALLBACK_CALIBRATION_CURRENT_DELTA_20260719.json"
+    ]
+  },
+  "row083_contract": {
+    "title": "Retrieval confidence, abstention, and generated-fallback calibration",
+    "phase": "retrieval_intelligence",
+    "priority": "P0",
+    "risk": "CRITICAL",
+    "status": "Planned_Autonomous_Implementation_Required",
+    "completion_criteria": "Held-out event-family precision and false-match metrics govern exact, approximate, generated, and abstain routes.",
+    "dependencies": [
+      "TRK-W64-081",
+      "TRK-W64-082"
+    ],
+    "required_gates": [
+      "confidence_calibration",
+      "precision_recall",
+      "false_match_rate",
+      "fallback_threshold",
+      "abstention"
+    ],
+    "required_routes": [
+      "exact_retrieval",
+      "approximate_retrieval",
+      "layered_synthesis",
+      "generated_fallback",
+      "abstain",
+      "review_escalation"
+    ],
+    "required_fail_closed_behavior": "Low confidence cannot silently choose a sound.",
+    "test_required": true,
+    "runtime_proof_required": true,
+    "ec2_allowed": false,
+    "tracker_output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-083_retrieval_fallback_calibration.json",
+    "tracker_output_artifact_exists": false,
+    "current_delta_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-083_RETRIEVAL_FALLBACK_CALIBRATION_CURRENT_DELTA_20260719.json"
+  },
+  "tracker_item_requirements_parity": {
+    "tracker_path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_TRACKER_ROWS.csv",
+    "tracker_sha256": "a698034d4d61788a9c630434f7aac75e3f7b1bf656319cfe43a5b2ce26d625de",
+    "tracker_bytes": 159309,
+    "item_rows_path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ITEM_ROWS.csv",
+    "item_rows_sha256": "f4a401d828aff69dbe7e005d6592a2af86edc936a0e6c1bae2f764345a9b8489",
+    "item_rows_bytes": 111386,
+    "requirements_item_path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
+    "requirements_tracker_path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
+    "requirements_sha256": "077eaf1dfc1cb0d990660b2d9ec7073bc2b4acc1be47a94e9a0ea65eb1924acc",
+    "requirements_bytes": 48422,
+    "requirements_copies_equal": true,
+    "tracker_item_id_match": true,
+    "tracker_title_match": true,
+    "tracker_status_match": true,
+    "tracker_dependency_order_match": true,
+    "tracker_gate_order_match": true,
+    "tracker_runtime_requirement_match": true,
+    "tracker_ec2_prohibition_match": true
+  },
+  "source_authority": [
+    {
+      "path": "Plan/00_PROJECT_CONTROL/WAVE64_AUTONOMOUS_VIDEO_TO_AUDIO_AND_SOUND_GENERATION_MASTER_PLAN.md",
+      "sha256": "6f1b5059b686a81d866f61f3bada74ca673a43db2423241d500b024ecb6a1a67",
+      "bytes": 25625,
+      "git_state": "untracked_preserved",
+      "authority": "Row083 route calibration and held-out metric acceptance"
+    },
+    {
+      "path": "Plan/02_TARGET_ARCHITECTURE/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ARCHITECTURE.md",
+      "sha256": "3aef5be8b48808a69fe70c4b61bb4de6f7e1086c670c1ce9c817ebb4a1f6ae9b",
+      "bytes": 7078,
+      "git_state": "untracked_preserved",
+      "authority": "confidence-aware ranking, fallback, held-out calibration, and variation routes"
+    },
+    {
+      "path": "Plan/05_AUDIO_SYSTEM/WAVE64_AUTONOMOUS_SOUND_LIBRARY_GENERATION_AND_QA_PLAN.md",
+      "sha256": "63bea08b4e2209100cc875b60bfad7b2d2e2b0636c5643aaa4410e6f1b1fce1c",
+      "bytes": 5362,
+      "git_state": "untracked_preserved",
+      "authority": "multi-signal generated-sound QA and held-out evaluation boundary"
+    },
+    {
+      "path": "Plan/Instructions/QA/AUTONOMOUS_VIDEO_TO_AUDIO_AND_GENERATED_SOUND_QA_PROTOCOL.md",
+      "sha256": "ed5773fd5f83ac5c71e31983eab9fb8d0362f2544518c37b41f7c51b95c82181",
+      "bytes": 3801,
+      "git_state": "untracked_preserved",
+      "authority": "semantic ensemble, confidence reduction, fallback, abstention, and partition isolation"
+    }
+  ],
+  "dependency_authority": [
+    {
+      "tracker_id": "TRK-W64-081",
+      "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-081_EXPLAINABLE_AUDIO_CANDIDATE_SCORING_CURRENT_DELTA_20260719.json",
+      "evidence_sha256": "40f80989c81ddfb4faee167a2119b4b0e8caf19a575aed2ef8b417ad4a1dfc00",
+      "evidence_bytes": 25902,
+      "evidence_commit": "80593e630ccf8759a1f55de47ac8d08d11411450",
+      "current_delta_status": "HOLD_DEPENDENCIES_SCORER_POLICY_SEMANTIC_INVARIANTS_AND_RUNTIME_RECEIPTS_ABSENT",
+      "row_complete": false,
+      "dependency_satisfied": false,
+      "row083_effect": "No authoritative score or confidence input exists to calibrate."
+    },
+    {
+      "tracker_id": "TRK-W64-082",
+      "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-082_REPETITION_DIVERSITY_CONTINUITY_CURRENT_DELTA_20260719.json",
+      "evidence_sha256": "98fe57d5c119fafd0cab610b80258b87e8782896fc39b9d3a1dc0b9fe47acf5c",
+      "evidence_bytes": 21120,
+      "evidence_commit": "5b4f3351e98f9051e460378c6d3459caa2fdb83b",
+      "current_delta_status": "HOLD_DEPENDENCIES_SELECTION_HISTORY_POLICY_SEMANTIC_INVARIANTS_AND_REPEATED_EVENT_RUNTIME_PROOF_ABSENT",
+      "row_complete": false,
+      "dependency_satisfied": false,
+      "row083_effect": "Fallback decisions cannot account for authoritative repetition and continuity state."
+    }
+  ],
+  "planning_coverage": {
+    "master_plan_declares_all_six_routes": true,
+    "master_plan_requires_event_family_metrics": true,
+    "master_plan_prohibits_silent_low_confidence_selection": true,
+    "architecture_routes_insufficient_confidence_to_layered_or_generated_fallback": true,
+    "architecture_requires_event_family_weights_calibrated_on_held_out_fixtures": true,
+    "architecture_declares_new_event_generation_below_library_threshold": true,
+    "qa_protocol_requires_semantic_signal_ensemble": true,
+    "qa_protocol_requires_disagreement_to_lower_confidence_fallback_or_abstention": true,
+    "qa_protocol_keeps_train_calibration_and_final_test_partitions_separate": true,
+    "decision": "USEFUL_PLANNING_SHAPE_ONLY"
+  },
+  "generic_model_ranking_policy_boundary": {
+    "path": "Plan/10_REGISTRIES/wave64_model_selection_feature_and_ranking_policy_registry.json",
+    "sha256": "543fe15ddd7618657e99b3ab2f9725f267f5190f912d665d385597f0804c577f",
+    "bytes": 6908,
+    "git_state": "untracked_preserved",
+    "registry_id": "wave64_model_selection_feature_and_ranking_policy_v1",
+    "status": "planned_unimplemented_deferred_until_model_library_activation",
+    "runtime_ranking_authorized": false,
+    "source_metadata_role": "discovery_and_qualification_priority_only",
+    "numeric_policy_revision": "wave64_contextual_ranker_numeric_v1",
+    "useful_statistical_patterns": [
+      "one-sided 95 percent stratified-bootstrap lower confidence bounds",
+      "one-sided 95 percent Wilson upper confidence bounds",
+      "sparse production buckets abstain",
+      "quality and serious-failure thresholds",
+      "near-tie abstention",
+      "no-eligible-candidate abstention or certified fallback",
+      "holdout partition id required",
+      "replay requirements"
+    ],
+    "row083_non_authority_reasons": [
+      "The registry governs model and bundle selection rather than audio-source retrieval routes.",
+      "It has no per-audio-event-family precision, recall, or false-match table.",
+      "It does not distinguish exact versus approximate audio retrieval.",
+      "It is explicitly not runtime-authorized."
+    ],
+    "decision": "REUSABLE_PATTERN_NOT_ROW083_AUTHORITY"
+  },
+  "work_package_registry_boundary": {
+    "path": "Plan/10_REGISTRIES/wave64_autonomous_sound_intelligence_work_package_registry.json",
+    "sha256": "d4ba802a94920e462fed578790e0508f140d5d7b0cf64736dcc86f47fb0e709e",
+    "bytes": 13741,
+    "git_state": "untracked_preserved",
+    "row083_entry": {
+      "item_id": "ITEM-W64-083",
+      "phase": "retrieval_intelligence",
+      "slug": "retrieval_fallback_calibration",
+      "status": "Planned_Autonomous_Implementation_Required",
+      "tracker_id": "TRK-W64-083"
+    },
+    "executable_policy_present": false,
+    "decision": "PLANNING_REGISTRY_ONLY"
+  },
+  "audio_candidate_score_schema_boundary": {
+    "path": "Plan/08_SCHEMAS/audio_candidate_score_record.schema.json",
+    "sha256": "778bf0e64ec56a62b0e33dfc7cedb2724b4d3a56ddb41c01ab3a1a578ae6356e",
+    "bytes": 2114,
+    "git_state": "untracked_preserved",
+    "decision_fields": [
+      "route",
+      "selected_candidate_id",
+      "confidence",
+      "reason"
+    ],
+    "confidence_range_only": true,
+    "calibration_revision_present": false,
+    "event_family_present": false,
+    "metric_table_ref_present": false,
+    "threshold_table_ref_present": false,
+    "precision_present": false,
+    "recall_present": false,
+    "false_match_rate_present": false,
+    "support_count_present": false,
+    "confidence_interval_present": false,
+    "review_escalation_route_present": false,
+    "selected_candidate_route_semantics_enforced": false,
+    "decision": "CONFIDENCE_VALUE_IS_UNCALIBRATED_AND_SEMANTICALLY_UNBOUND"
+  },
+  "adversarial_schema_probe": {
+    "command_family": "python jsonschema Draft202012Validator",
+    "production_routing_invoked": false,
+    "probe_status": "PASS",
+    "low_confidence_library_empty_candidate_record_accepted": true,
+    "low_confidence_library_error_count": 0,
+    "high_confidence_abstain_with_selected_id_accepted": true,
+    "high_confidence_abstain_error_count": 0,
+    "calibration_binding_fields_rejected": true,
+    "calibration_binding_error_count": 1,
+    "calibration_binding_error": "Additional properties are not allowed ('calibration_revision', 'event_family_metrics_sha256' were unexpected)",
+    "interpretation": "The current receipt can validate confidence 0 for a library selection with no candidates and confidence 1 for abstention that still names a selected candidate. Its closed schema cannot bind the calibration revision or event-family metric table needed to interpret either number."
+  },
+  "adjacent_route_schema_boundary": [
+    {
+      "path": "Plan/08_SCHEMAS/hyperreal_audio_source_route_decision.schema.json",
+      "sha256": "4bc71cc67eebb83f5a7b382792abfd3c263a1eace4eef1299ba6120232200234",
+      "bytes": 4761,
+      "useful_shape": "Records candidate eligibility, rank score, decision, policy id, assignment probability, and production permission.",
+      "route_enum": [
+        "selected",
+        "layered_hybrid",
+        "branch_compare",
+        "abstain",
+        "blocked"
+      ],
+      "row083_gap": "No calibration metric table, event-family threshold binding, exact-versus-approximate route, generated fallback route, or review-escalation route."
+    },
+    {
+      "path": "Plan/08_SCHEMAS/audio_orchestration_run.schema.json",
+      "sha256": "072e9a22ad6d8db4937933b2a9bbbe07443c37719a6135b66ecd77d6448323d0",
+      "bytes": 2331,
+      "useful_shape": "Records stage status and final pass, blocked, failed, or abstained classification.",
+      "row083_gap": "No Row083 calibration-policy, metric-table, or threshold-decision receipt reference."
+    }
+  ],
+  "wave06_engine_router_boundary": {
+    "policy_path": "Plan/10_REGISTRIES/wave06_audio_event_route_bridge_policy.json",
+    "policy_sha256": "6f5ab712626415bd379374620c3ef20d3ebd138da02128bd7345e110aed870f9",
+    "schema_path": "Plan/08_SCHEMAS/wave06_audio_engine_route_decision.schema.json",
+    "schema_sha256": "9611038c07fa9a0a354e1c5bf3c9898df771d43e2622fbb41e7595f2e8f51a0b",
+    "implementation_path": "Plan/07_IMPLEMENTATION/scripts/route_wave06_audio_engine.py",
+    "implementation_sha256": "2d3023fac1b5addbe93af7f8373205b0e52905cd5b341c7c4a066d296b319a85",
+    "test_path": "Plan/Instructions/QA/Scripts/test_wave06_audio_engine_router_strict.py",
+    "test_sha256": "e30274c6834cc31a2a75ea328b6f376d4a3ff8fd75899f1c746562edcc4b3644",
+    "role": "Wave06 engine-route compatibility authority",
+    "row083_non_authority_reason": "These files route event manifests to engine classes. They do not calibrate exact or approximate source retrieval confidence from held-out event-family false-match metrics."
+  },
+  "repository_implementation_search": {
+    "searched_roots": [
+      "Plan/02_TARGET_ARCHITECTURE",
+      "Plan/05_AUDIO_SYSTEM",
+      "Plan/07_IMPLEMENTATION",
+      "Plan/08_SCHEMAS",
+      "Plan/09_EXAMPLES",
+      "Plan/10_REGISTRIES",
+      "Plan/Instructions/QA/Scripts",
+      "Plan/Instructions/QA/Evidence/Wave64"
+    ],
+    "planning_and_prior_row_evidence_excluded_for_direct_implementation_search": true,
+    "direct_row083_implementation_file_count": 0,
+    "direct_row083_test_file_count": 0,
+    "direct_audio_calibration_evidence_count": 0,
+    "direct_held_out_event_family_metric_table_count": 0,
+    "direct_runtime_receipt_count": 0,
+    "expected_tracker_artifact_exists": false,
+    "decision": "NO_ROW083_AUDIO_SOURCE_CALIBRATION_IMPLEMENTATION_TEST_METRICS_OR_RUNTIME_AUTHORITY_FOUND"
+  },
+  "required_calibration_contract_missing": [
+    "immutable held-out corpus and train, calibration, and final-test partition hashes",
+    "event-family labels, negative sets, open-set unknowns, and exact versus approximate relevance judgments",
+    "score and feature policy revisions used to produce raw confidence",
+    "calibration method and parameters mapping raw confidence to observed probability",
+    "per-event-family support counts and minimum-support rules",
+    "precision, recall, false-match rate, false-negative rate, and applicable confidence intervals",
+    "threshold objective and constrained optimization rule for each route boundary",
+    "exact-to-approximate, approximate-to-layered, layered-to-generated, generated-to-abstain, and review-escalation thresholds",
+    "sparse-bucket parent fallback and production abstention semantics",
+    "route precedence and mutually exclusive decision invariants",
+    "selected-candidate membership and route compatibility rules",
+    "low-confidence and no-candidate fail-closed behavior",
+    "semantic-signal disagreement handling and uncertainty aggregation",
+    "out-of-distribution and unexpected-class rejection",
+    "metric drift monitoring and threshold invalidation rules",
+    "complete content-addressed decision receipt binding metrics, thresholds, candidates, route, and explanation",
+    "deterministic cross-process replay and tamper tests"
+  ],
+  "acceptance_matrix_required": [
+    "high-confidence exact retrieval selects only a proven exact candidate",
+    "below-exact threshold cannot claim exact retrieval",
+    "approximate retrieval is labeled and bounded rather than silently exact",
+    "layered synthesis requires its calibrated route interval and compatible layers",
+    "generated fallback is used only under its calibrated conditions",
+    "low confidence routes to abstention or review rather than silent selection",
+    "no candidates cannot produce a library selection",
+    "abstention cannot retain a selected candidate",
+    "review escalation is explicit and durable",
+    "sparse event families fail closed according to policy",
+    "false-match constraint remains satisfied on immutable final test data",
+    "precision and recall are reported per event family with support and intervals",
+    "threshold-boundary equality has a deterministic route",
+    "NaN, infinity, missing confidence, missing metric table, and stale policy are rejected",
+    "tampered calibration or threshold evidence is rejected",
+    "identical immutable inputs replay the same route and explanation"
+  ],
+  "downstream_holds": [
+    {
+      "tracker_id": "TRK-W64-084",
+      "reason": "Active sound-library growth cannot safely promote retrieved or generated assets without calibrated source-route authority."
+    },
+    {
+      "tracker_id": "TRK-W64-094",
+      "reason": "Layered Foley synthesis depends on calibrated fallback and abstention decisions."
+    },
+    {
+      "tracker_id": "TRK-W64-112",
+      "reason": "Full-system certification requires Row083 and every other prerequisite row to pass."
+    }
+  ],
+  "checks": [
+    {"check_id": "ROW083-001", "name": "tracker_item_requirements_parity", "status": "PASS"},
+    {"check_id": "ROW083-002", "name": "dependency_audit_complete", "status": "PASS"},
+    {"check_id": "ROW083-003", "name": "architecture_declares_confidence_aware_routes", "status": "PASS"},
+    {"check_id": "ROW083-004", "name": "qa_protocol_declares_semantic_ensemble_and_partition_isolation", "status": "PASS"},
+    {"check_id": "ROW083-005", "name": "generic_statistical_policy_pattern_present", "status": "PASS"},
+    {"check_id": "ROW083-006", "name": "adversarial_schema_probe_executed", "status": "PASS"},
+    {"check_id": "ROW083-007", "name": "codex_only_scope_and_zero_wake_boundary", "status": "PASS"},
+    {"check_id": "ROW083-008", "name": "dependency_row081_complete", "status": "FAIL"},
+    {"check_id": "ROW083-009", "name": "dependency_row082_complete", "status": "FAIL"},
+    {"check_id": "ROW083-010", "name": "audio_source_calibration_policy_present", "status": "FAIL"},
+    {"check_id": "ROW083-011", "name": "held_out_event_family_corpus_present", "status": "FAIL"},
+    {"check_id": "ROW083-012", "name": "event_family_precision_recall_metrics_present", "status": "FAIL"},
+    {"check_id": "ROW083-013", "name": "false_match_rates_and_intervals_present", "status": "FAIL"},
+    {"check_id": "ROW083-014", "name": "route_thresholds_implemented_and_versioned", "status": "FAIL"},
+    {"check_id": "ROW083-015", "name": "abstention_semantics_enforced", "status": "FAIL"},
+    {"check_id": "ROW083-016", "name": "review_escalation_route_enforced", "status": "FAIL"},
+    {"check_id": "ROW083-017", "name": "receipt_binds_calibration_metrics_and_thresholds", "status": "FAIL"},
+    {"check_id": "ROW083-018", "name": "direct_row083_implementation_and_tests_present", "status": "FAIL"},
+    {"check_id": "ROW083-019", "name": "held_out_runtime_proof_present", "status": "FAIL"},
+    {"check_id": "ROW083-020", "name": "tracker_declared_output_artifact_present", "status": "FAIL"}
+  ],
+  "test_and_runtime_boundary": {
+    "schema_meta_validation_executed": true,
+    "adversarial_schema_probe_executed": true,
+    "production_routing_invoked": false,
+    "source_tests_executed": false,
+    "reason_source_tests_not_executed": "No Row083 audio-source calibration implementation or direct tests exist. Adjacent Wave06 engine routing and generic model ranking cannot prove the Row083 contract.",
+    "held_out_runtime_benchmark_executed": false,
+    "ec2_invoked": false,
+    "docker_invoked": false,
+    "wsl_invoked": false,
+    "provider_calls": 0,
+    "wrapper_calls": 0,
+    "scheduled_task_wakes": 0
+  },
+  "scheduler_and_worker_containment": {
+    "codex_automations_modified": false,
+    "windows_worker_tasks_modified": false,
+    "mask_maintenance_tasks_modified": false,
+    "ec2_read_only_safety_monitor_modified": false,
+    "worker_control_paths_modified": false,
+    "queued_or_running_worker_scope_duplicated": false,
+    "containment_note": "The signed intent was deferred with no routing or wake. Existing paused automations, disabled worker tasks, disabled Mask maintenance tasks, worker snapshots, FLUX2 paths, portfolio paths, and unrelated dirty files were not modified."
+  },
+  "preservation_boundary": {
+    "allowed_write_paths": [
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-083_RETRIEVAL_FALLBACK_CALIBRATION_CURRENT_DELTA_20260719.json"
+    ],
+    "actual_write_paths": [
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-083_RETRIEVAL_FALLBACK_CALIBRATION_CURRENT_DELTA_20260719.json"
+    ],
+    "unrelated_dirty_paths_preserved": true,
+    "worker_artifacts_preserved": true,
+    "flux2_dirty_paths_preserved": true,
+    "portfolio_reconciliation_paths_preserved": true
+  },
+  "hold_decision": {
+    "decision": "HOLD_ROW083_NO_FALSE_COMPLETION",
+    "reason": "Both dependencies remain incomplete. Planning sources describe confidence-aware fallback and abstention, and an adjacent generic model-ranking registry demonstrates useful statistical patterns, but no runtime-authorized audio-source calibration policy, held-out event-family corpus, precision/recall or false-match metrics, route thresholds, semantic validator, direct tests, or runtime receipt exists. The current score schema accepts contradictory low-confidence selection and high-confidence abstention while rejecting explicit calibration bindings.",
+    "safe_next_action": "After Rows081 and 082 are accepted, freeze one audio-source calibration contract over immutable train, calibration, and final-test partitions. Record event-family support, precision, recall, false-match and false-negative rates, confidence intervals, raw-score calibration, sparse-bucket behavior, and versioned thresholds for exact, approximate, layered, generated, abstain, and review routes. Enforce mutually exclusive route semantics and selected-candidate invariants; fail closed on missing, stale, non-finite, sparse, or tampered evidence; emit a content-addressed decision receipt; and run held-out, adversarial, boundary, replay, and drift tests. EC2 is not allowed for Row083. Continue independent Codex PM/QA work meanwhile."
+  }
+}
