@@ -1,0 +1,1247 @@
+{
+  "blocker_codes": [
+    "TRK_W64_079_DEPENDENCY_NOT_ACCEPTED",
+    "TRK_W64_083_DEPENDENCY_NOT_ACCEPTED",
+    "TRK_W64_091_DEPENDENCY_NOT_ACCEPTED",
+    "ROW099_DEPENDENCIES_NOT_ACCEPTED",
+    "DEDICATED_LIBRARY_NEURAL_TEXT_TO_AUDIO_RUNTIME_ABSENT",
+    "PRODUCTION_ENGINE_MODEL_CONFIG_RIGHTS_BINDING_ABSENT",
+    "GENUINE_AUDIO_QA_AND_RUNTIME_PROOF_ABSENT"
+  ],
+  "decision": {
+    "product_completion": false,
+    "row099_acceptance": "held",
+    "runtime_completion": false,
+    "safe_next_action": "Accept Rows068, 079, 083, and 091; bind production engine/model/config with rights provenance; route structured prompts to seeded candidate batches; pass duration/semantic/technical/uniqueness gates; keep candidates promotion-forbidden; pass waveform/spectrogram review; then replace this hold packet.",
+    "status": "blocked"
+  },
+  "dependency_admissions": {
+    "TRK-W64-068": {
+      "blocker_codes": [],
+      "bytes": 4104,
+      "dependency_satisfied": true,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+      "row_complete": true,
+      "sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+      "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+      "tracker_id": "TRK-W64-068"
+    },
+    "TRK-W64-079": {
+      "blocker_codes": [
+        "TRK_W64_079_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "bytes": 10464,
+      "dependency_satisfied": false,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-079_FINE_GRAINED_FOLEY_TAXONOMY_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "sha256": "503f2ced0c92c492774ae482dcd18a4f5f623f162e93ddeb9b8b62480f6f32b8",
+      "status": "HOLD_ROW074_ROW076_ROW078_DEPENDENCIES_AND_FULL_LIBRARY_TAXONOMY_RUNTIME_ABSENT",
+      "tracker_id": "TRK-W64-079"
+    },
+    "TRK-W64-083": {
+      "blocker_codes": [
+        "TRK_W64_083_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "bytes": 11448,
+      "dependency_satisfied": false,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-083_RETRIEVAL_FALLBACK_CALIBRATION_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "sha256": "aa01f744028a788ea3a3b125a9af529f24e3b0080120dcf2e397be6516fa825f",
+      "status": "HOLD_DEPENDENCIES_AND_LIBRARY_CALIBRATION_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+      "tracker_id": "TRK-W64-083"
+    },
+    "TRK-W64-091": {
+      "blocker_codes": [
+        "TRK_W64_091_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "bytes": 23572,
+      "dependency_satisfied": false,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "sha256": "055e73b6d64bc3bcf2184fe8de9b5360e63a014e39643fad37ff8249225a75a5",
+      "status": "HOLD_DEPENDENCIES_RUNTIME_AND_COMBINED_REVIEW_ABSENT_WITH_FIXTURE_DECISION_PHASE_PACKETS_PRESENT",
+      "tracker_id": "TRK-W64-091"
+    }
+  },
+  "engine_revision": "wave64_row099_neural_text_to_audio_engine_v0.1.0",
+  "evidence_id": "TRK-W64-099_neural_text_to_audio",
+  "fixture_calibration": {
+    "authority": "synthetic_non_library",
+    "determinism_note": "Fixture records prove structured-prompt, engine-authority, seeded-batch, rights, and candidate-only gates with reconstructable batch hashes; they do not accept Row099 library completion or substitute for genuine audio QA.",
+    "fixture_count": 7,
+    "records": [
+      {
+        "candidates": [
+          {
+            "admitted": true,
+            "candidate_id": "cand_seed_11",
+            "duration_ms": 240,
+            "pcm_sha256": "8c376c55de8c2d28566a5974b43cbab976f7bb79bd9b8a2c6a7023d96f9c72bc",
+            "promotion_allowed": false,
+            "rights_decision": "allow",
+            "seed": 11,
+            "semantic_similarity": 0.78,
+            "technical_score": 0.88
+          },
+          {
+            "admitted": true,
+            "candidate_id": "cand_seed_22",
+            "duration_ms": 240,
+            "pcm_sha256": "e24c6e46a9d220bd9f84ee27bf74c1df716715844ee3c01a948ebff42e547717",
+            "promotion_allowed": false,
+            "rights_decision": "allow",
+            "seed": 22,
+            "semantic_similarity": 0.81,
+            "technical_score": 0.88
+          },
+          {
+            "admitted": true,
+            "candidate_id": "cand_seed_33",
+            "duration_ms": 240,
+            "pcm_sha256": "c1bc79b1daaef805ae871b6da77462b1adc9d8c0da3ed762dcb6a8cb3622508c",
+            "promotion_allowed": false,
+            "rights_decision": "allow",
+            "seed": 33,
+            "semantic_similarity": 0.74,
+            "technical_score": 0.91
+          }
+        ],
+        "decision": {
+          "blocker_codes": [],
+          "product_completion": false,
+          "reason": "all_required_gates_passed_for_synthetic_or_fixture_candidate_batch",
+          "route": "candidate_batch",
+          "row099_acceptance": "fixture_only",
+          "status": "candidates_ready"
+        },
+        "dependency_admissions": {
+          "TRK-W64-068": {
+            "blocker_codes": [],
+            "bytes": 4104,
+            "dependency_satisfied": true,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+            "row_complete": true,
+            "sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+            "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+            "tracker_id": "TRK-W64-068"
+          },
+          "TRK-W64-079": {
+            "blocker_codes": [
+              "TRK_W64_079_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 10464,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-079_FINE_GRAINED_FOLEY_TAXONOMY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "503f2ced0c92c492774ae482dcd18a4f5f623f162e93ddeb9b8b62480f6f32b8",
+            "status": "HOLD_ROW074_ROW076_ROW078_DEPENDENCIES_AND_FULL_LIBRARY_TAXONOMY_RUNTIME_ABSENT",
+            "tracker_id": "TRK-W64-079"
+          },
+          "TRK-W64-083": {
+            "blocker_codes": [
+              "TRK_W64_083_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11448,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-083_RETRIEVAL_FALLBACK_CALIBRATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "aa01f744028a788ea3a3b125a9af529f24e3b0080120dcf2e397be6516fa825f",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_CALIBRATION_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-083"
+          },
+          "TRK-W64-091": {
+            "blocker_codes": [
+              "TRK_W64_091_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 23572,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "055e73b6d64bc3bcf2184fe8de9b5360e63a014e39643fad37ff8249225a75a5",
+            "status": "HOLD_DEPENDENCIES_RUNTIME_AND_COMBINED_REVIEW_ABSENT_WITH_FIXTURE_DECISION_PHASE_PACKETS_PRESENT",
+            "tracker_id": "TRK-W64-091"
+          }
+        },
+        "engine": {
+          "config_id": "wave64_fixture_tta_config_v1",
+          "derivative_rights": "allowed_with_attribution",
+          "engine_id": "wave64_fixture_tta_engine_v1",
+          "license_class": "commercial_ok_attribution_required",
+          "model_id": "wave64_fixture_tta_model_v1",
+          "output_use_class": "candidate_foley_sfx_only",
+          "registered": true
+        },
+        "engine_revision": "wave64_row099_neural_text_to_audio_engine_v0.1.0",
+        "event_id": "evt_footstep_wood_01",
+        "exclusions": [],
+        "gate_results": {
+          "candidate_only": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "engine_authority": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "rights": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "seeded_batch": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "structured_prompt": {
+            "reason_codes": [],
+            "status": "pass"
+          }
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-099",
+        "library_authority": false,
+        "policy_revision": "wave64_row099_neural_text_to_audio_v0.1.0",
+        "policy_sha256": "5cea5b2769d338f23f86cc6d181518d236538fe8f27fc90f6b60cc16024d15de",
+        "receipt_sha256": "4ffcfb1e46b5d669f3d0b18d39b26dff044e570624c59f31e953d32d9c5022a3",
+        "record_type": "neural_text_to_audio_route_receipt",
+        "required_gates": [
+          "structured_prompt",
+          "engine_authority",
+          "seeded_batch",
+          "rights",
+          "candidate_only"
+        ],
+        "route_id": "route_eligible_batch",
+        "schema_version": "1.0.0",
+        "seeded_batch": {
+          "admitted_candidate_ids": [
+            "cand_seed_11",
+            "cand_seed_22",
+            "cand_seed_33"
+          ],
+          "batch_sha256": "d159a6be76e1e4e3cba4ed5aa3067f50de6964cef7d74f8645012875515fcb36",
+          "reconstructable": true,
+          "seed_count": 3,
+          "seeds": [
+            11,
+            22,
+            33
+          ]
+        },
+        "structured_prompt": {
+          "contact_pair": "shoe_floor",
+          "duration_ms": 240,
+          "event_family": "footstep",
+          "force_class": "medium",
+          "material_class": "wood",
+          "prompt_sha256": "d91973d32797e280bd76e68220d302e7ab6fade59e01dc98527cb4fe3897b4e1",
+          "rights_decision": "allow",
+          "semantic_target": "dry_wood_heel_strike"
+        },
+        "tracker_id": "TRK-W64-099"
+      },
+      {
+        "candidates": [],
+        "decision": {
+          "blocker_codes": [
+            "INSUFFICIENT_ADMITTED_CANDIDATES",
+            "MISSING_STRUCTURED_PROMPT",
+            "NO_ADMITTED_CANDIDATES",
+            "PROMPT_RIGHTS_DENIED"
+          ],
+          "product_completion": false,
+          "reason": "fail_closed_neural_text_to_audio_prompt_engine_rights_or_candidate_blocker",
+          "route": "blocked",
+          "row099_acceptance": "held",
+          "status": "blocked"
+        },
+        "dependency_admissions": {
+          "TRK-W64-068": {
+            "blocker_codes": [],
+            "bytes": 4104,
+            "dependency_satisfied": true,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+            "row_complete": true,
+            "sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+            "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+            "tracker_id": "TRK-W64-068"
+          },
+          "TRK-W64-079": {
+            "blocker_codes": [
+              "TRK_W64_079_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 10464,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-079_FINE_GRAINED_FOLEY_TAXONOMY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "503f2ced0c92c492774ae482dcd18a4f5f623f162e93ddeb9b8b62480f6f32b8",
+            "status": "HOLD_ROW074_ROW076_ROW078_DEPENDENCIES_AND_FULL_LIBRARY_TAXONOMY_RUNTIME_ABSENT",
+            "tracker_id": "TRK-W64-079"
+          },
+          "TRK-W64-083": {
+            "blocker_codes": [
+              "TRK_W64_083_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11448,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-083_RETRIEVAL_FALLBACK_CALIBRATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "aa01f744028a788ea3a3b125a9af529f24e3b0080120dcf2e397be6516fa825f",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_CALIBRATION_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-083"
+          },
+          "TRK-W64-091": {
+            "blocker_codes": [
+              "TRK_W64_091_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 23572,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "055e73b6d64bc3bcf2184fe8de9b5360e63a014e39643fad37ff8249225a75a5",
+            "status": "HOLD_DEPENDENCIES_RUNTIME_AND_COMBINED_REVIEW_ABSENT_WITH_FIXTURE_DECISION_PHASE_PACKETS_PRESENT",
+            "tracker_id": "TRK-W64-091"
+          }
+        },
+        "engine": {
+          "config_id": "wave64_fixture_tta_config_v1",
+          "derivative_rights": "allowed_with_attribution",
+          "engine_id": "wave64_fixture_tta_engine_v1",
+          "license_class": "commercial_ok_attribution_required",
+          "model_id": "wave64_fixture_tta_model_v1",
+          "output_use_class": "candidate_foley_sfx_only",
+          "registered": true
+        },
+        "engine_revision": "wave64_row099_neural_text_to_audio_engine_v0.1.0",
+        "event_id": "evt_missing_prompt",
+        "exclusions": [],
+        "gate_results": {
+          "candidate_only": {
+            "reason_codes": [
+              "NO_ADMITTED_CANDIDATES"
+            ],
+            "status": "fail"
+          },
+          "engine_authority": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "rights": {
+            "reason_codes": [
+              "PROMPT_RIGHTS_DENIED"
+            ],
+            "status": "fail"
+          },
+          "seeded_batch": {
+            "reason_codes": [
+              "INSUFFICIENT_ADMITTED_CANDIDATES"
+            ],
+            "status": "fail"
+          },
+          "structured_prompt": {
+            "reason_codes": [
+              "MISSING_STRUCTURED_PROMPT"
+            ],
+            "status": "fail"
+          }
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-099",
+        "library_authority": false,
+        "policy_revision": "wave64_row099_neural_text_to_audio_v0.1.0",
+        "policy_sha256": "5cea5b2769d338f23f86cc6d181518d236538fe8f27fc90f6b60cc16024d15de",
+        "receipt_sha256": "ab74a62a6dc5c64082b2dcfdffb072caeac19895cc0b42836cd94359fe6c71b9",
+        "record_type": "neural_text_to_audio_route_receipt",
+        "required_gates": [
+          "structured_prompt",
+          "engine_authority",
+          "seeded_batch",
+          "rights",
+          "candidate_only"
+        ],
+        "route_id": "route_missing_prompt",
+        "schema_version": "1.0.0",
+        "seeded_batch": {
+          "admitted_candidate_ids": [],
+          "batch_sha256": null,
+          "reconstructable": false,
+          "seed_count": 2,
+          "seeds": [
+            1,
+            2
+          ]
+        },
+        "structured_prompt": {
+          "contact_pair": "unknown",
+          "duration_ms": 1,
+          "event_family": "unknown",
+          "force_class": "unknown",
+          "material_class": "unknown",
+          "prompt_sha256": "7488b95e467ca9df9d425d78fb13dfb632d3537f7563d2814d34fc124aff6300",
+          "rights_decision": "unknown",
+          "semantic_target": "unknown"
+        },
+        "tracker_id": "TRK-W64-099"
+      },
+      {
+        "candidates": [],
+        "decision": {
+          "blocker_codes": [
+            "NO_ADMITTED_CANDIDATES",
+            "SEEDED_BATCH_ENGINE_UNAVAILABLE",
+            "UNREGISTERED_ENGINE"
+          ],
+          "product_completion": false,
+          "reason": "fail_closed_neural_text_to_audio_prompt_engine_rights_or_candidate_blocker",
+          "route": "blocked",
+          "row099_acceptance": "held",
+          "status": "blocked"
+        },
+        "dependency_admissions": {
+          "TRK-W64-068": {
+            "blocker_codes": [],
+            "bytes": 4104,
+            "dependency_satisfied": true,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+            "row_complete": true,
+            "sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+            "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+            "tracker_id": "TRK-W64-068"
+          },
+          "TRK-W64-079": {
+            "blocker_codes": [
+              "TRK_W64_079_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 10464,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-079_FINE_GRAINED_FOLEY_TAXONOMY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "503f2ced0c92c492774ae482dcd18a4f5f623f162e93ddeb9b8b62480f6f32b8",
+            "status": "HOLD_ROW074_ROW076_ROW078_DEPENDENCIES_AND_FULL_LIBRARY_TAXONOMY_RUNTIME_ABSENT",
+            "tracker_id": "TRK-W64-079"
+          },
+          "TRK-W64-083": {
+            "blocker_codes": [
+              "TRK_W64_083_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11448,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-083_RETRIEVAL_FALLBACK_CALIBRATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "aa01f744028a788ea3a3b125a9af529f24e3b0080120dcf2e397be6516fa825f",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_CALIBRATION_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-083"
+          },
+          "TRK-W64-091": {
+            "blocker_codes": [
+              "TRK_W64_091_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 23572,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "055e73b6d64bc3bcf2184fe8de9b5360e63a014e39643fad37ff8249225a75a5",
+            "status": "HOLD_DEPENDENCIES_RUNTIME_AND_COMBINED_REVIEW_ABSENT_WITH_FIXTURE_DECISION_PHASE_PACKETS_PRESENT",
+            "tracker_id": "TRK-W64-091"
+          }
+        },
+        "engine": {
+          "config_id": "wave64_fixture_tta_config_v1",
+          "derivative_rights": "allowed_with_attribution",
+          "engine_id": "unknown_external_tta",
+          "license_class": "commercial_ok_attribution_required",
+          "model_id": "wave64_fixture_tta_model_v1",
+          "output_use_class": "candidate_foley_sfx_only",
+          "registered": false
+        },
+        "engine_revision": "wave64_row099_neural_text_to_audio_engine_v0.1.0",
+        "event_id": "evt_unregistered",
+        "exclusions": [],
+        "gate_results": {
+          "candidate_only": {
+            "reason_codes": [
+              "NO_ADMITTED_CANDIDATES"
+            ],
+            "status": "fail"
+          },
+          "engine_authority": {
+            "reason_codes": [
+              "UNREGISTERED_ENGINE"
+            ],
+            "status": "fail"
+          },
+          "rights": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "seeded_batch": {
+            "reason_codes": [
+              "SEEDED_BATCH_ENGINE_UNAVAILABLE"
+            ],
+            "status": "fail"
+          },
+          "structured_prompt": {
+            "reason_codes": [],
+            "status": "pass"
+          }
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-099",
+        "library_authority": false,
+        "policy_revision": "wave64_row099_neural_text_to_audio_v0.1.0",
+        "policy_sha256": "5cea5b2769d338f23f86cc6d181518d236538fe8f27fc90f6b60cc16024d15de",
+        "receipt_sha256": "dbbc902d7ffef288461424ae481a6b3d697725073a4d24e239984ae12cc4b123",
+        "record_type": "neural_text_to_audio_route_receipt",
+        "required_gates": [
+          "structured_prompt",
+          "engine_authority",
+          "seeded_batch",
+          "rights",
+          "candidate_only"
+        ],
+        "route_id": "route_unregistered_engine",
+        "schema_version": "1.0.0",
+        "seeded_batch": {
+          "admitted_candidate_ids": [],
+          "batch_sha256": null,
+          "reconstructable": false,
+          "seed_count": 2,
+          "seeds": [
+            7,
+            8
+          ]
+        },
+        "structured_prompt": {
+          "contact_pair": "shoe_floor",
+          "duration_ms": 240,
+          "event_family": "footstep",
+          "force_class": "medium",
+          "material_class": "wood",
+          "prompt_sha256": "d91973d32797e280bd76e68220d302e7ab6fade59e01dc98527cb4fe3897b4e1",
+          "rights_decision": "allow",
+          "semantic_target": "dry_wood_heel_strike"
+        },
+        "tracker_id": "TRK-W64-099"
+      },
+      {
+        "candidates": [
+          {
+            "admitted": false,
+            "candidate_id": "cand_seed_3",
+            "duration_ms": 240,
+            "pcm_sha256": "2873407ce5590ed726138c1303ed2eb9f76cd935f3357880bdaae59041c2f156",
+            "promotion_allowed": false,
+            "rights_decision": "deny",
+            "seed": 3,
+            "semantic_similarity": 0.78,
+            "technical_score": 0.88
+          },
+          {
+            "admitted": false,
+            "candidate_id": "cand_seed_4",
+            "duration_ms": 240,
+            "pcm_sha256": "0881a974b1e31f00cc70e8cd6bfea6afc67dd033fc6ad8903a7c91db706055f6",
+            "promotion_allowed": false,
+            "rights_decision": "deny",
+            "seed": 4,
+            "semantic_similarity": 0.78,
+            "technical_score": 0.88
+          }
+        ],
+        "decision": {
+          "blocker_codes": [
+            "CANDIDATE_RIGHTS_DENIED",
+            "INSUFFICIENT_ADMITTED_CANDIDATES",
+            "NO_ADMITTED_CANDIDATES",
+            "PROMPT_RIGHTS_DENIED"
+          ],
+          "product_completion": false,
+          "reason": "fail_closed_neural_text_to_audio_prompt_engine_rights_or_candidate_blocker",
+          "route": "blocked",
+          "row099_acceptance": "held",
+          "status": "blocked"
+        },
+        "dependency_admissions": {
+          "TRK-W64-068": {
+            "blocker_codes": [],
+            "bytes": 4104,
+            "dependency_satisfied": true,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+            "row_complete": true,
+            "sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+            "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+            "tracker_id": "TRK-W64-068"
+          },
+          "TRK-W64-079": {
+            "blocker_codes": [
+              "TRK_W64_079_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 10464,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-079_FINE_GRAINED_FOLEY_TAXONOMY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "503f2ced0c92c492774ae482dcd18a4f5f623f162e93ddeb9b8b62480f6f32b8",
+            "status": "HOLD_ROW074_ROW076_ROW078_DEPENDENCIES_AND_FULL_LIBRARY_TAXONOMY_RUNTIME_ABSENT",
+            "tracker_id": "TRK-W64-079"
+          },
+          "TRK-W64-083": {
+            "blocker_codes": [
+              "TRK_W64_083_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11448,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-083_RETRIEVAL_FALLBACK_CALIBRATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "aa01f744028a788ea3a3b125a9af529f24e3b0080120dcf2e397be6516fa825f",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_CALIBRATION_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-083"
+          },
+          "TRK-W64-091": {
+            "blocker_codes": [
+              "TRK_W64_091_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 23572,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "055e73b6d64bc3bcf2184fe8de9b5360e63a014e39643fad37ff8249225a75a5",
+            "status": "HOLD_DEPENDENCIES_RUNTIME_AND_COMBINED_REVIEW_ABSENT_WITH_FIXTURE_DECISION_PHASE_PACKETS_PRESENT",
+            "tracker_id": "TRK-W64-091"
+          }
+        },
+        "engine": {
+          "config_id": "wave64_fixture_tta_config_v1",
+          "derivative_rights": "allowed_with_attribution",
+          "engine_id": "wave64_fixture_tta_engine_v1",
+          "license_class": "commercial_ok_attribution_required",
+          "model_id": "wave64_fixture_tta_model_v1",
+          "output_use_class": "candidate_foley_sfx_only",
+          "registered": true
+        },
+        "engine_revision": "wave64_row099_neural_text_to_audio_engine_v0.1.0",
+        "event_id": "evt_rights_denied",
+        "exclusions": [
+          {
+            "candidate_id": "cand_seed_3",
+            "reason_codes": [
+              "CANDIDATE_RIGHTS_DENIED"
+            ]
+          },
+          {
+            "candidate_id": "cand_seed_4",
+            "reason_codes": [
+              "CANDIDATE_RIGHTS_DENIED"
+            ]
+          }
+        ],
+        "gate_results": {
+          "candidate_only": {
+            "reason_codes": [
+              "NO_ADMITTED_CANDIDATES"
+            ],
+            "status": "fail"
+          },
+          "engine_authority": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "rights": {
+            "reason_codes": [
+              "CANDIDATE_RIGHTS_DENIED",
+              "PROMPT_RIGHTS_DENIED"
+            ],
+            "status": "fail"
+          },
+          "seeded_batch": {
+            "reason_codes": [
+              "INSUFFICIENT_ADMITTED_CANDIDATES"
+            ],
+            "status": "fail"
+          },
+          "structured_prompt": {
+            "reason_codes": [],
+            "status": "pass"
+          }
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-099",
+        "library_authority": false,
+        "policy_revision": "wave64_row099_neural_text_to_audio_v0.1.0",
+        "policy_sha256": "5cea5b2769d338f23f86cc6d181518d236538fe8f27fc90f6b60cc16024d15de",
+        "receipt_sha256": "937d682929a5dae022c750072cf257cccd9212ccaa9cedbc06323020749892d1",
+        "record_type": "neural_text_to_audio_route_receipt",
+        "required_gates": [
+          "structured_prompt",
+          "engine_authority",
+          "seeded_batch",
+          "rights",
+          "candidate_only"
+        ],
+        "route_id": "route_rights_denied",
+        "schema_version": "1.0.0",
+        "seeded_batch": {
+          "admitted_candidate_ids": [],
+          "batch_sha256": null,
+          "reconstructable": false,
+          "seed_count": 2,
+          "seeds": [
+            3,
+            4
+          ]
+        },
+        "structured_prompt": {
+          "contact_pair": "shoe_floor",
+          "duration_ms": 240,
+          "event_family": "footstep",
+          "force_class": "medium",
+          "material_class": "wood",
+          "prompt_sha256": "b9d60ae027c8ade44ce05bdca77649e9e7cbf5f9924cd57eb3baa46fd73b6aec",
+          "rights_decision": "deny",
+          "semantic_target": "dry_wood_heel_strike"
+        },
+        "tracker_id": "TRK-W64-099"
+      },
+      {
+        "candidates": [
+          {
+            "admitted": false,
+            "candidate_id": "cand_seed_5",
+            "duration_ms": 9000,
+            "pcm_sha256": "b7264a7929f38a37488655a30cd11884e90da532e352e31e5799d9f6e3595344",
+            "promotion_allowed": false,
+            "rights_decision": "allow",
+            "seed": 5,
+            "semantic_similarity": 0.78,
+            "technical_score": 0.88
+          },
+          {
+            "admitted": false,
+            "candidate_id": "cand_seed_6",
+            "duration_ms": 9000,
+            "pcm_sha256": "b34dea3217c4d1658d33f48c99e153a1f8c34e3d184bb21d341dd3f5fc2d10ad",
+            "promotion_allowed": false,
+            "rights_decision": "allow",
+            "seed": 6,
+            "semantic_similarity": 0.78,
+            "technical_score": 0.88
+          }
+        ],
+        "decision": {
+          "blocker_codes": [
+            "DURATION_OUT_OF_ENGINE_BAND",
+            "DURATION_TOLERANCE_EXCEEDED",
+            "INSUFFICIENT_ADMITTED_CANDIDATES",
+            "NO_ADMITTED_CANDIDATES"
+          ],
+          "product_completion": false,
+          "reason": "fail_closed_neural_text_to_audio_prompt_engine_rights_or_candidate_blocker",
+          "route": "blocked",
+          "row099_acceptance": "held",
+          "status": "blocked"
+        },
+        "dependency_admissions": {
+          "TRK-W64-068": {
+            "blocker_codes": [],
+            "bytes": 4104,
+            "dependency_satisfied": true,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+            "row_complete": true,
+            "sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+            "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+            "tracker_id": "TRK-W64-068"
+          },
+          "TRK-W64-079": {
+            "blocker_codes": [
+              "TRK_W64_079_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 10464,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-079_FINE_GRAINED_FOLEY_TAXONOMY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "503f2ced0c92c492774ae482dcd18a4f5f623f162e93ddeb9b8b62480f6f32b8",
+            "status": "HOLD_ROW074_ROW076_ROW078_DEPENDENCIES_AND_FULL_LIBRARY_TAXONOMY_RUNTIME_ABSENT",
+            "tracker_id": "TRK-W64-079"
+          },
+          "TRK-W64-083": {
+            "blocker_codes": [
+              "TRK_W64_083_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11448,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-083_RETRIEVAL_FALLBACK_CALIBRATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "aa01f744028a788ea3a3b125a9af529f24e3b0080120dcf2e397be6516fa825f",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_CALIBRATION_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-083"
+          },
+          "TRK-W64-091": {
+            "blocker_codes": [
+              "TRK_W64_091_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 23572,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "055e73b6d64bc3bcf2184fe8de9b5360e63a014e39643fad37ff8249225a75a5",
+            "status": "HOLD_DEPENDENCIES_RUNTIME_AND_COMBINED_REVIEW_ABSENT_WITH_FIXTURE_DECISION_PHASE_PACKETS_PRESENT",
+            "tracker_id": "TRK-W64-091"
+          }
+        },
+        "engine": {
+          "config_id": "wave64_fixture_tta_config_v1",
+          "derivative_rights": "allowed_with_attribution",
+          "engine_id": "wave64_fixture_tta_engine_v1",
+          "license_class": "commercial_ok_attribution_required",
+          "model_id": "wave64_fixture_tta_model_v1",
+          "output_use_class": "candidate_foley_sfx_only",
+          "registered": true
+        },
+        "engine_revision": "wave64_row099_neural_text_to_audio_engine_v0.1.0",
+        "event_id": "evt_duration_fail",
+        "exclusions": [
+          {
+            "candidate_id": "cand_seed_5",
+            "reason_codes": [
+              "DURATION_OUT_OF_ENGINE_BAND",
+              "DURATION_TOLERANCE_EXCEEDED"
+            ]
+          },
+          {
+            "candidate_id": "cand_seed_6",
+            "reason_codes": [
+              "DURATION_OUT_OF_ENGINE_BAND",
+              "DURATION_TOLERANCE_EXCEEDED"
+            ]
+          }
+        ],
+        "gate_results": {
+          "candidate_only": {
+            "reason_codes": [
+              "NO_ADMITTED_CANDIDATES"
+            ],
+            "status": "fail"
+          },
+          "engine_authority": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "rights": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "seeded_batch": {
+            "reason_codes": [
+              "INSUFFICIENT_ADMITTED_CANDIDATES"
+            ],
+            "status": "fail"
+          },
+          "structured_prompt": {
+            "reason_codes": [],
+            "status": "pass"
+          }
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-099",
+        "library_authority": false,
+        "policy_revision": "wave64_row099_neural_text_to_audio_v0.1.0",
+        "policy_sha256": "5cea5b2769d338f23f86cc6d181518d236538fe8f27fc90f6b60cc16024d15de",
+        "receipt_sha256": "eb0eef59dba7bbcf550d5d6072528ec0fd2aac996f0618de1a678ee7c904554a",
+        "record_type": "neural_text_to_audio_route_receipt",
+        "required_gates": [
+          "structured_prompt",
+          "engine_authority",
+          "seeded_batch",
+          "rights",
+          "candidate_only"
+        ],
+        "route_id": "route_duration_fail",
+        "schema_version": "1.0.0",
+        "seeded_batch": {
+          "admitted_candidate_ids": [],
+          "batch_sha256": null,
+          "reconstructable": false,
+          "seed_count": 2,
+          "seeds": [
+            5,
+            6
+          ]
+        },
+        "structured_prompt": {
+          "contact_pair": "shoe_floor",
+          "duration_ms": 240,
+          "event_family": "footstep",
+          "force_class": "medium",
+          "material_class": "wood",
+          "prompt_sha256": "d91973d32797e280bd76e68220d302e7ab6fade59e01dc98527cb4fe3897b4e1",
+          "rights_decision": "allow",
+          "semantic_target": "dry_wood_heel_strike"
+        },
+        "tracker_id": "TRK-W64-099"
+      },
+      {
+        "candidates": [
+          {
+            "admitted": false,
+            "candidate_id": "cand_seed_9",
+            "duration_ms": 240,
+            "pcm_sha256": "cc3a7466aae59b03be52d400a2df110fbc0f63850c1d20af4e321991478bd86f",
+            "promotion_allowed": false,
+            "rights_decision": "allow",
+            "seed": 9,
+            "semantic_similarity": 0.12,
+            "technical_score": 0.88
+          },
+          {
+            "admitted": false,
+            "candidate_id": "cand_seed_10",
+            "duration_ms": 240,
+            "pcm_sha256": "cfd3ff602f8800f3033f31f62dc34fdee03ec8d31ded6bce106d7dc40f1e647f",
+            "promotion_allowed": false,
+            "rights_decision": "allow",
+            "seed": 10,
+            "semantic_similarity": 0.15,
+            "technical_score": 0.88
+          }
+        ],
+        "decision": {
+          "blocker_codes": [
+            "INSUFFICIENT_ADMITTED_CANDIDATES",
+            "NO_ADMITTED_CANDIDATES",
+            "SEMANTIC_OUT_OF_BAND"
+          ],
+          "product_completion": false,
+          "reason": "fail_closed_neural_text_to_audio_prompt_engine_rights_or_candidate_blocker",
+          "route": "blocked",
+          "row099_acceptance": "held",
+          "status": "blocked"
+        },
+        "dependency_admissions": {
+          "TRK-W64-068": {
+            "blocker_codes": [],
+            "bytes": 4104,
+            "dependency_satisfied": true,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+            "row_complete": true,
+            "sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+            "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+            "tracker_id": "TRK-W64-068"
+          },
+          "TRK-W64-079": {
+            "blocker_codes": [
+              "TRK_W64_079_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 10464,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-079_FINE_GRAINED_FOLEY_TAXONOMY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "503f2ced0c92c492774ae482dcd18a4f5f623f162e93ddeb9b8b62480f6f32b8",
+            "status": "HOLD_ROW074_ROW076_ROW078_DEPENDENCIES_AND_FULL_LIBRARY_TAXONOMY_RUNTIME_ABSENT",
+            "tracker_id": "TRK-W64-079"
+          },
+          "TRK-W64-083": {
+            "blocker_codes": [
+              "TRK_W64_083_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11448,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-083_RETRIEVAL_FALLBACK_CALIBRATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "aa01f744028a788ea3a3b125a9af529f24e3b0080120dcf2e397be6516fa825f",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_CALIBRATION_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-083"
+          },
+          "TRK-W64-091": {
+            "blocker_codes": [
+              "TRK_W64_091_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 23572,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "055e73b6d64bc3bcf2184fe8de9b5360e63a014e39643fad37ff8249225a75a5",
+            "status": "HOLD_DEPENDENCIES_RUNTIME_AND_COMBINED_REVIEW_ABSENT_WITH_FIXTURE_DECISION_PHASE_PACKETS_PRESENT",
+            "tracker_id": "TRK-W64-091"
+          }
+        },
+        "engine": {
+          "config_id": "wave64_fixture_tta_config_v1",
+          "derivative_rights": "allowed_with_attribution",
+          "engine_id": "wave64_fixture_tta_engine_v1",
+          "license_class": "commercial_ok_attribution_required",
+          "model_id": "wave64_fixture_tta_model_v1",
+          "output_use_class": "candidate_foley_sfx_only",
+          "registered": true
+        },
+        "engine_revision": "wave64_row099_neural_text_to_audio_engine_v0.1.0",
+        "event_id": "evt_semantic_fail",
+        "exclusions": [
+          {
+            "candidate_id": "cand_seed_9",
+            "reason_codes": [
+              "SEMANTIC_OUT_OF_BAND"
+            ]
+          },
+          {
+            "candidate_id": "cand_seed_10",
+            "reason_codes": [
+              "SEMANTIC_OUT_OF_BAND"
+            ]
+          }
+        ],
+        "gate_results": {
+          "candidate_only": {
+            "reason_codes": [
+              "NO_ADMITTED_CANDIDATES"
+            ],
+            "status": "fail"
+          },
+          "engine_authority": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "rights": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "seeded_batch": {
+            "reason_codes": [
+              "INSUFFICIENT_ADMITTED_CANDIDATES"
+            ],
+            "status": "fail"
+          },
+          "structured_prompt": {
+            "reason_codes": [],
+            "status": "pass"
+          }
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-099",
+        "library_authority": false,
+        "policy_revision": "wave64_row099_neural_text_to_audio_v0.1.0",
+        "policy_sha256": "5cea5b2769d338f23f86cc6d181518d236538fe8f27fc90f6b60cc16024d15de",
+        "receipt_sha256": "98b62d943a0c72026c8ae3e4cbc371ec47d7ee089e81171d898111a4f41b62f0",
+        "record_type": "neural_text_to_audio_route_receipt",
+        "required_gates": [
+          "structured_prompt",
+          "engine_authority",
+          "seeded_batch",
+          "rights",
+          "candidate_only"
+        ],
+        "route_id": "route_semantic_fail",
+        "schema_version": "1.0.0",
+        "seeded_batch": {
+          "admitted_candidate_ids": [],
+          "batch_sha256": null,
+          "reconstructable": false,
+          "seed_count": 2,
+          "seeds": [
+            9,
+            10
+          ]
+        },
+        "structured_prompt": {
+          "contact_pair": "shoe_floor",
+          "duration_ms": 240,
+          "event_family": "footstep",
+          "force_class": "medium",
+          "material_class": "wood",
+          "prompt_sha256": "d91973d32797e280bd76e68220d302e7ab6fade59e01dc98527cb4fe3897b4e1",
+          "rights_decision": "allow",
+          "semantic_target": "dry_wood_heel_strike"
+        },
+        "tracker_id": "TRK-W64-099"
+      },
+      {
+        "candidates": [
+          {
+            "admitted": true,
+            "candidate_id": "cand_seed_12",
+            "duration_ms": 240,
+            "pcm_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "promotion_allowed": false,
+            "rights_decision": "allow",
+            "seed": 12,
+            "semantic_similarity": 0.78,
+            "technical_score": 0.88
+          },
+          {
+            "admitted": false,
+            "candidate_id": "cand_seed_13",
+            "duration_ms": 240,
+            "pcm_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "promotion_allowed": false,
+            "rights_decision": "allow",
+            "seed": 13,
+            "semantic_similarity": 0.78,
+            "technical_score": 0.88
+          }
+        ],
+        "decision": {
+          "blocker_codes": [
+            "INSUFFICIENT_ADMITTED_CANDIDATES",
+            "PCM_DUPLICATE"
+          ],
+          "product_completion": false,
+          "reason": "fail_closed_neural_text_to_audio_prompt_engine_rights_or_candidate_blocker",
+          "route": "blocked",
+          "row099_acceptance": "held",
+          "status": "blocked"
+        },
+        "dependency_admissions": {
+          "TRK-W64-068": {
+            "blocker_codes": [],
+            "bytes": 4104,
+            "dependency_satisfied": true,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+            "row_complete": true,
+            "sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+            "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+            "tracker_id": "TRK-W64-068"
+          },
+          "TRK-W64-079": {
+            "blocker_codes": [
+              "TRK_W64_079_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 10464,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-079_FINE_GRAINED_FOLEY_TAXONOMY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "503f2ced0c92c492774ae482dcd18a4f5f623f162e93ddeb9b8b62480f6f32b8",
+            "status": "HOLD_ROW074_ROW076_ROW078_DEPENDENCIES_AND_FULL_LIBRARY_TAXONOMY_RUNTIME_ABSENT",
+            "tracker_id": "TRK-W64-079"
+          },
+          "TRK-W64-083": {
+            "blocker_codes": [
+              "TRK_W64_083_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11448,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-083_RETRIEVAL_FALLBACK_CALIBRATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "aa01f744028a788ea3a3b125a9af529f24e3b0080120dcf2e397be6516fa825f",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_CALIBRATION_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-083"
+          },
+          "TRK-W64-091": {
+            "blocker_codes": [
+              "TRK_W64_091_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 23572,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "055e73b6d64bc3bcf2184fe8de9b5360e63a014e39643fad37ff8249225a75a5",
+            "status": "HOLD_DEPENDENCIES_RUNTIME_AND_COMBINED_REVIEW_ABSENT_WITH_FIXTURE_DECISION_PHASE_PACKETS_PRESENT",
+            "tracker_id": "TRK-W64-091"
+          }
+        },
+        "engine": {
+          "config_id": "wave64_fixture_tta_config_v1",
+          "derivative_rights": "allowed_with_attribution",
+          "engine_id": "wave64_fixture_tta_engine_v1",
+          "license_class": "commercial_ok_attribution_required",
+          "model_id": "wave64_fixture_tta_model_v1",
+          "output_use_class": "candidate_foley_sfx_only",
+          "registered": true
+        },
+        "engine_revision": "wave64_row099_neural_text_to_audio_engine_v0.1.0",
+        "event_id": "evt_unique_fail",
+        "exclusions": [
+          {
+            "candidate_id": "cand_seed_13",
+            "reason_codes": [
+              "PCM_DUPLICATE"
+            ]
+          }
+        ],
+        "gate_results": {
+          "candidate_only": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "engine_authority": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "rights": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "seeded_batch": {
+            "reason_codes": [
+              "INSUFFICIENT_ADMITTED_CANDIDATES"
+            ],
+            "status": "fail"
+          },
+          "structured_prompt": {
+            "reason_codes": [],
+            "status": "pass"
+          }
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-099",
+        "library_authority": false,
+        "policy_revision": "wave64_row099_neural_text_to_audio_v0.1.0",
+        "policy_sha256": "5cea5b2769d338f23f86cc6d181518d236538fe8f27fc90f6b60cc16024d15de",
+        "receipt_sha256": "9437c0b7ca62c0ba1ffbd0fef8781139c14b2e71131ea8f12066be3f6648289b",
+        "record_type": "neural_text_to_audio_route_receipt",
+        "required_gates": [
+          "structured_prompt",
+          "engine_authority",
+          "seeded_batch",
+          "rights",
+          "candidate_only"
+        ],
+        "route_id": "route_unique_fail",
+        "schema_version": "1.0.0",
+        "seeded_batch": {
+          "admitted_candidate_ids": [],
+          "batch_sha256": null,
+          "reconstructable": false,
+          "seed_count": 2,
+          "seeds": [
+            12,
+            13
+          ]
+        },
+        "structured_prompt": {
+          "contact_pair": "shoe_floor",
+          "duration_ms": 240,
+          "event_family": "footstep",
+          "force_class": "medium",
+          "material_class": "wood",
+          "prompt_sha256": "d91973d32797e280bd76e68220d302e7ab6fade59e01dc98527cb4fe3897b4e1",
+          "rights_decision": "allow",
+          "semantic_target": "dry_wood_heel_strike"
+        },
+        "tracker_id": "TRK-W64-099"
+      }
+    ]
+  },
+  "implementation_completion_claimed": false,
+  "item_id": "ITEM-W64-099",
+  "library_authority": false,
+  "policy_registry": {
+    "authority": "planning_freeze_not_library_acceptance",
+    "path": "Plan/10_REGISTRIES/wave64_row099_neural_text_to_audio_registry.json",
+    "revision": "wave64_row099_neural_text_to_audio_v0.1.0",
+    "sha256": "5cea5b2769d338f23f86cc6d181518d236538fe8f27fc90f6b60cc16024d15de"
+  },
+  "policy_revision": "wave64_row099_neural_text_to_audio_v0.1.0",
+  "required_gates": [
+    "structured_prompt",
+    "engine_authority",
+    "seeded_batch",
+    "rights",
+    "candidate_only"
+  ],
+  "row_complete": false,
+  "runtime_completion_claimed": false,
+  "schema": {
+    "path": "Plan/08_SCHEMAS/neural_text_to_audio_route_receipt.schema.json",
+    "sha256": "ced61fbdfea58ce8705a903ea837e89332f1abc958340d880ee03cb4311af2ba"
+  },
+  "schema_version": "1.0.0",
+  "status": "HOLD_DEPENDENCIES_AND_LIBRARY_NEURAL_TEXT_TO_AUDIO_RUNTIME_ABSENT",
+  "tracker_id": "TRK-W64-099"
+}

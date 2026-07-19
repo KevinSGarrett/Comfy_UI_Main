@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "evidence_id": "W64-ROW099-NEURAL-TEXT-TO-AUDIO-CURRENT-DELTA-20260719",
+  "created_at": "2026-07-19T20:40:00Z",
+  "updated_at": "2026-07-19T20:40:00Z",
+  "source_commit": "1c66552e03a349649ed343345c92de1c96a79859",
+  "prior_audit_commit": "8309874c08760753a8ca660ebc500d09cf421afc",
+  "tracker_id": "TRK-W64-099",
+  "item_id": "ITEM-W64-099",
+  "status": "HOLD_DEPENDENCIES_AND_LIBRARY_NEURAL_TEXT_TO_AUDIO_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+  "classification": "ROW099_FAIL_CLOSED_CONTRACT_SLICE_NO_FALSE_COMPLETION",
+  "row_complete": false,
+  "implementation_completion_claimed": false,
+  "runtime_completion_claimed": false,
+  "qa_decision": "hold_with_fail_closed_neural_text_to_audio_contract_and_synthetic_fixture_calibration_only",
+  "intent": {
+    "intent_id": "interactive_cursor_shift_row099_contract_slice_20260719",
+    "classification": "INTERACTIVE_CURSOR_SHIFT_AUTHORITY",
+    "work_type": "final_authority",
+    "authority_class": "interactive_cursor_integration",
+    "routing": null,
+    "dispatch_wake_count": 0,
+    "allowed_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_neural_text_to_audio.py",
+      "Plan/08_SCHEMAS/neural_text_to_audio_route_receipt.schema.json",
+      "Plan/10_REGISTRIES/wave64_row099_neural_text_to_audio_registry.json",
+      "Plan/Instructions/QA/Scripts/test_row099_neural_text_to_audio.py",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-099_neural_text_to_audio.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-099_NEURAL_TEXT_TO_AUDIO_CURRENT_DELTA_20260719.json"
+    ]
+  },
+  "increment": {
+    "kind": "fail_closed_contract_compiler_and_schema_slice",
+    "engine_revision": "wave64_row099_neural_text_to_audio_engine_v0.1.0",
+    "policy_revision": "wave64_row099_neural_text_to_audio_v0.1.0",
+    "summary": "Freeze Row099 structured-prompt, engine-authority, seeded-batch, rights, and candidate-only gates with mutually exclusive candidate_batch/blocked routes; emit schema-validated synthetic fixture calibration; fail closed for library neural text-to-audio authority until Rows068/079/083/091 are accepted (068 currently accepted; 079/083/091 remain held).",
+    "note": "Dedicated neural text-to-audio route schema is introduced without mutating sibling-owned Row069/Row085/Row096/Row103/Row084/Row098 paths."
+  },
+  "row099_contract": {
+    "status": "Planned_Autonomous_Implementation_Required",
+    "priority": "P0",
+    "risk": "CRITICAL",
+    "dependency_prerequisites": [
+      "TRK-W64-068",
+      "TRK-W64-079",
+      "TRK-W64-083",
+      "TRK-W64-091"
+    ],
+    "validation_methods": [
+      "structured_prompt",
+      "engine_authority",
+      "seeded_batch",
+      "rights",
+      "candidate_only"
+    ],
+    "output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-099_neural_text_to_audio.json",
+    "output_artifact_exists": true,
+    "output_artifact_authority": "fail_closed_hold_packet_not_library_acceptance"
+  },
+  "decision": {
+    "status": "blocked",
+    "row099_acceptance": "held",
+    "product_completion": false,
+    "runtime_completion": false
+  },
+  "hold_decision": {
+    "decision": "HOLD_UNTIL_DEPENDENCIES_RUNTIME_AND_AUDIO_QA",
+    "reason": "Fail-closed contract slice landed; library neural text-to-audio runtime and remaining dependency acceptance are absent."
+  }
+}

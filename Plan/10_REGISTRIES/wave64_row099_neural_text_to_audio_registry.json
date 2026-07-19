@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "wave64_row099_neural_text_to_audio_registry",
+  "revision": "wave64_row099_neural_text_to_audio_v0.1.0",
+  "tracker_id": "TRK-W64-099",
+  "authority": "planning_freeze_not_library_acceptance",
+  "notes": [
+    "Frozen neural text-to-audio router policy for Row099 synthetic fixture calibration and fail-closed library hold.",
+    "Routes structured event prompts to registered engines only; emits seeded candidate batches with exact engine/model/config/rights provenance.",
+    "Candidates never promote; library authority stays false until Rows068/079/083/091 are accepted and dedicated generation runtime is proven."
+  ],
+  "required_gates": [
+    "structured_prompt",
+    "engine_authority",
+    "seeded_batch",
+    "rights",
+    "candidate_only"
+  ],
+  "registered_engines": [
+    {
+      "engine_id": "wave64_fixture_tta_engine_v1",
+      "model_id": "wave64_fixture_tta_model_v1",
+      "config_id": "wave64_fixture_tta_config_v1",
+      "license_class": "commercial_ok_attribution_required",
+      "output_use_class": "candidate_foley_sfx_only",
+      "derivative_rights": "allowed_with_attribution",
+      "max_duration_ms": 4000,
+      "min_duration_ms": 80,
+      "min_seed_count": 2,
+      "max_seed_count": 8
+    }
+  ],
+  "quality_thresholds": {
+    "min_semantic_similarity": 0.62,
+    "max_semantic_similarity": 0.98,
+    "min_technical_score": 0.7,
+    "uniqueness_pcm_collision_forbidden": true,
+    "duration_tolerance_ms": 40
+  },
+  "fail_closed": {
+    "library_authority_requires_dependencies": true,
+    "unregistered_engine_rejected": true,
+    "missing_structured_prompt_rejected": true,
+    "rights_failure_rejected": true,
+    "duration_out_of_band_rejected": true,
+    "semantic_out_of_band_rejected": true,
+    "technical_score_below_floor_rejected": true,
+    "pcm_duplicate_rejected": true,
+    "candidate_promotion_forbidden": true,
+    "seeded_batch_must_recompute": true
+  },
+  "dependency_prerequisites": [
+    "TRK-W64-068",
+    "TRK-W64-079",
+    "TRK-W64-083",
+    "TRK-W64-091"
+  ]
+}
