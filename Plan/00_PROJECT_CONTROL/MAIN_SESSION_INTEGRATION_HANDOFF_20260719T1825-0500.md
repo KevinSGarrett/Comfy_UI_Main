@@ -15,8 +15,9 @@
 2. `a3acccaa` Stamp Row017 eyebrows handoff with primary commit id.
 3. `9c24f2dc` Align Row017 eyebrows handoff tip to origin HEAD.
 4. `44b03006` Finalize Row017 eyebrows handoff tip to origin HEAD.
+5. `051e0ed0` Refresh Row017 eyebrows handoff with pushed tip IDs.
 
-Pushed tip verified on origin: `44b03006`
+Pushed tip verified on origin: `051e0ed0`
 
 ## Row-Scoped Increment Executed
 
