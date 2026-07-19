@@ -18,8 +18,9 @@
 5. `16e7559c` Align Row017 skin_tone_continuity handoff tip to origin HEAD.
 6. `afe36528` Refresh Row017 skin_tone_continuity handoff tip IDs to origin HEAD.
 7. `975c5448` Align Row017 skin_tone_continuity handoff tip IDs to origin HEAD.
+8. `60ab72ad` Align Row017 skin_tone_continuity handoff tip to origin HEAD.
 
-Pushed tip verified on origin: `975c5448`
+Pushed tip verified on origin: `60ab72ad`
 
 ## Row-Scoped Increment Executed
 
