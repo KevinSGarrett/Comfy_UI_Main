@@ -1,0 +1,114 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "wave64_row078_audio_tag_caption_ensemble_registry",
+  "taxonomy_revision": "wave64_row078_audio_tag_caption_taxonomy_v0.1.0",
+  "ensemble_policy_revision": "wave64_row078_ensemble_policy_v0.1.0",
+  "compiler_revision": "wave64_row078_audio_tag_caption_ensemble_compiler_v0.1.0",
+  "tracker_id": "TRK-W64-078",
+  "authority": "planning_freeze_not_library_acceptance",
+  "notes": [
+    "Frozen Row078 taxonomy and ensemble policy for synthetic fixture calibration and fail-closed admission.",
+    "Independent signal families remain separately attributable; disagreements are preserved, never silently averaged.",
+    "Unknown, ambiguous, missing, or out-of-taxonomy outcomes abstain or block. Captions are advisory and cannot overwrite source metadata.",
+    "This registry does not accept full-library ensemble runtime or substitute for Rows071/075/077 authority."
+  ],
+  "required_signal_families": [
+    "path_and_source_metadata",
+    "deterministic_acoustic_features",
+    "semantic_embeddings",
+    "audio_tagging_models"
+  ],
+  "required_tag_fields": [
+    "event_family",
+    "material",
+    "intensity_band",
+    "attack_characteristic",
+    "room_environment"
+  ],
+  "unknown_sentinel": "unknown",
+  "out_of_taxonomy_sentinel": "out_of_taxonomy",
+  "taxonomy": {
+    "event_family": {
+      "allowed_values": [
+        "footstep",
+        "impact",
+        "friction",
+        "cloth",
+        "body_contact",
+        "prop_handling",
+        "debris",
+        "unknown"
+      ]
+    },
+    "material": {
+      "allowed_values": [
+        "hardwood",
+        "concrete",
+        "carpet",
+        "tile",
+        "metal",
+        "skin",
+        "fabric",
+        "unspecified",
+        "unknown"
+      ]
+    },
+    "intensity_band": {
+      "allowed_values": [
+        "soft",
+        "light",
+        "medium",
+        "hard",
+        "unknown"
+      ]
+    },
+    "attack_characteristic": {
+      "allowed_values": [
+        "transient",
+        "soft_onset",
+        "sustained",
+        "unknown"
+      ]
+    },
+    "room_environment": {
+      "allowed_values": [
+        "dry_close",
+        "small_room",
+        "medium_room",
+        "large_room",
+        "outdoor",
+        "unspecified",
+        "unknown"
+      ]
+    }
+  },
+  "source_metadata_field_map": {
+    "event_type": "event_family",
+    "material": "material",
+    "intensity_band": "intensity_band",
+    "attack_characteristic": "attack_characteristic",
+    "room_environment_suitability": "room_environment"
+  },
+  "ensemble_policy": {
+    "policy_id": "preserve_conflicts_and_fail_closed_on_unknown",
+    "minimum_accepted_signal_families": 4,
+    "agreement_requires_identical_known_value": true,
+    "preserve_all_disagreements": true,
+    "unknown_or_out_of_taxonomy_blocks_resolution": true,
+    "missing_signal_family_blocks_library_authority": true,
+    "caption_authority": "advisory_derived_not_source_authority",
+    "caption_may_overwrite_source_metadata": false,
+    "silent_average_forbidden": true,
+    "tie_break_order": [
+      "path_and_source_metadata",
+      "deterministic_acoustic_features",
+      "semantic_embeddings",
+      "audio_tagging_models"
+    ]
+  },
+  "dependency_prerequisites": [
+    "TRK-W64-071",
+    "TRK-W64-075",
+    "TRK-W64-077"
+  ]
+}

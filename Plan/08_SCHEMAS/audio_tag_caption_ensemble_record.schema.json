@@ -1,0 +1,315 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/audio_tag_caption_ensemble_record.schema.json",
+  "title": "Wave64 Row078 Audio Tag Caption Ensemble Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "tracker_id",
+    "item_id",
+    "compiler_revision",
+    "taxonomy_revision",
+    "ensemble_policy_revision",
+    "asset_id",
+    "source_sha256",
+    "source_metadata_snapshot_sha256",
+    "source_metadata_snapshot",
+    "independent_source_observations",
+    "structured_tags",
+    "technical_caption",
+    "source_disagreements",
+    "unknown_and_out_of_taxonomy",
+    "ensemble_resolution",
+    "caption_non_overwrite_proof",
+    "decision"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "tracker_id": { "type": "string", "const": "TRK-W64-078" },
+    "item_id": { "type": "string", "const": "ITEM-W64-078" },
+    "compiler_revision": {
+      "type": "string",
+      "const": "wave64_row078_audio_tag_caption_ensemble_compiler_v0.1.0"
+    },
+    "taxonomy_revision": {
+      "type": "string",
+      "const": "wave64_row078_audio_tag_caption_taxonomy_v0.1.0"
+    },
+    "ensemble_policy_revision": {
+      "type": "string",
+      "const": "wave64_row078_ensemble_policy_v0.1.0"
+    },
+    "asset_id": { "type": "string", "minLength": 1 },
+    "source_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "source_metadata_snapshot_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "source_metadata_snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_type",
+        "material",
+        "role",
+        "intensity_band",
+        "duration_band",
+        "attack_characteristic",
+        "sync_class",
+        "room_environment_suitability"
+      ],
+      "properties": {
+        "event_type": { "type": "string", "minLength": 1 },
+        "material": { "type": "string", "minLength": 1 },
+        "role": { "type": "string", "minLength": 1 },
+        "intensity_band": { "type": "string", "minLength": 1 },
+        "duration_band": { "type": "string", "minLength": 1 },
+        "attack_characteristic": { "type": "string", "minLength": 1 },
+        "sync_class": { "type": "string", "minLength": 1 },
+        "room_environment_suitability": { "type": "string", "minLength": 1 }
+      }
+    },
+    "independent_source_observations": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/source_observation" }
+    },
+    "structured_tags": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_family",
+        "material",
+        "intensity_band",
+        "attack_characteristic",
+        "room_environment"
+      ],
+      "properties": {
+        "event_family": { "$ref": "#/$defs/ensemble_tag" },
+        "material": { "$ref": "#/$defs/ensemble_tag" },
+        "intensity_band": { "$ref": "#/$defs/ensemble_tag" },
+        "attack_characteristic": { "$ref": "#/$defs/ensemble_tag" },
+        "room_environment": { "$ref": "#/$defs/ensemble_tag" }
+      }
+    },
+    "technical_caption": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "text",
+        "authority",
+        "caption_identity",
+        "entailed_source_fields",
+        "overwrites_source_metadata"
+      ],
+      "properties": {
+        "text": { "type": "string", "minLength": 1 },
+        "authority": {
+          "type": "string",
+          "const": "advisory_derived_not_source_authority"
+        },
+        "caption_identity": { "type": "string", "minLength": 1 },
+        "entailed_source_fields": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "overwrites_source_metadata": { "type": "boolean", "const": false }
+      }
+    },
+    "source_disagreements": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/disagreement" }
+    },
+    "unknown_and_out_of_taxonomy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "unknown_fields",
+        "out_of_taxonomy_fields",
+        "ambiguous_fields",
+        "missing_signal_families"
+      ],
+      "properties": {
+        "unknown_fields": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "out_of_taxonomy_fields": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "ambiguous_fields": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "missing_signal_families": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "ensemble_resolution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "policy",
+        "accepted_signal_families",
+        "abstention_reason",
+        "conflict_preservation"
+      ],
+      "properties": {
+        "status": {
+          "enum": ["resolved", "abstain", "blocked"]
+        },
+        "policy": {
+          "type": "string",
+          "const": "preserve_conflicts_and_fail_closed_on_unknown"
+        },
+        "accepted_signal_families": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "abstention_reason": {
+          "type": ["string", "null"]
+        },
+        "conflict_preservation": { "type": "boolean", "const": true }
+      }
+    },
+    "caption_non_overwrite_proof": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_metadata_snapshot_sha256",
+        "post_caption_source_metadata_snapshot_sha256",
+        "source_bytes_unchanged",
+        "caption_mutated_source_metadata"
+      ],
+      "properties": {
+        "source_metadata_snapshot_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "post_caption_source_metadata_snapshot_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "source_bytes_unchanged": { "type": "boolean", "const": true },
+        "caption_mutated_source_metadata": { "type": "boolean", "const": false }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "blocker_codes",
+        "library_authority",
+        "promotion_eligible",
+        "advisory_only",
+        "source_bytes_unchanged"
+      ],
+      "properties": {
+        "status": { "enum": ["pass", "blocked"] },
+        "blocker_codes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "library_authority": { "type": "boolean" },
+        "promotion_eligible": { "type": "boolean" },
+        "advisory_only": { "type": "boolean", "const": true },
+        "source_bytes_unchanged": { "type": "boolean", "const": true }
+      }
+    }
+  },
+  "$defs": {
+    "signal_family": {
+      "enum": [
+        "path_and_source_metadata",
+        "deterministic_acoustic_features",
+        "semantic_embeddings",
+        "audio_tagging_models"
+      ]
+    },
+    "source_observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "signal_family",
+        "pipeline_or_model_identity",
+        "labels",
+        "confidence",
+        "evidence_sha256",
+        "timestamp_utc"
+      ],
+      "properties": {
+        "signal_family": { "$ref": "#/$defs/signal_family" },
+        "pipeline_or_model_identity": { "type": "string", "minLength": 1 },
+        "labels": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "event_family",
+            "material",
+            "intensity_band",
+            "attack_characteristic",
+            "room_environment"
+          ],
+          "properties": {
+            "event_family": { "type": "string", "minLength": 1 },
+            "material": { "type": "string", "minLength": 1 },
+            "intensity_band": { "type": "string", "minLength": 1 },
+            "attack_characteristic": { "type": "string", "minLength": 1 },
+            "room_environment": { "type": "string", "minLength": 1 }
+          }
+        },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "evidence_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "timestamp_utc": { "type": "string", "minLength": 1 }
+      }
+    },
+    "ensemble_tag": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "classification",
+        "supporting_signal_families",
+        "per_source_confidence"
+      ],
+      "properties": {
+        "value": { "type": "string", "minLength": 1 },
+        "classification": {
+          "enum": ["known", "unknown", "ambiguous", "out_of_taxonomy", "abstain"]
+        },
+        "supporting_signal_families": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/signal_family" }
+        },
+        "per_source_confidence": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        }
+      }
+    },
+    "disagreement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["field", "values_by_signal_family", "preserved"],
+      "properties": {
+        "field": { "type": "string", "minLength": 1 },
+        "values_by_signal_family": {
+          "type": "object",
+          "minProperties": 2,
+          "additionalProperties": { "type": "string", "minLength": 1 }
+        },
+        "preserved": { "type": "boolean", "const": true }
+      }
+    }
+  }
+}
