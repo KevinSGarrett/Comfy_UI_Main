@@ -11,10 +11,9 @@
 
 ## Commits Pushed This Pass
 
-1. `PRIMARY_COMMIT` Prove Row017 MF70 nose local visual climb.
-2. Tip-alignment handoff commits as needed after push.
+1. `080f10f7` Prove Row017 MF70 nose local visual climb.
 
-Pushed tip verified on origin: `TIP_COMMIT`
+Pushed tip verified on origin: `080f10f7`
 
 ## Row-Scoped Increment Executed
 
