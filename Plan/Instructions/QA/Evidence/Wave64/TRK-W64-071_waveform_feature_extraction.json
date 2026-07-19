@@ -4,11 +4,25 @@
     "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT",
     "BS1770_LOUDNESS_AUTHORITY_NOT_WIRED"
   ],
+  "bounded_decoded_pcm_runtime": {
+    "audio_qa_hold": 0,
+    "audio_qa_pass": 3,
+    "authority": "bounded_non_library_technical_audio_qa",
+    "feature_records": 3,
+    "library_authority": false,
+    "note": "Technical audio QA over bounded decoded PCM (loudness/true-peak proxies, clipping, spectral centroid, decode integrity). Not full semantic/AV protocol acceptance.",
+    "proof_tier": "AUDIO_QA_PASS_BOUNDED",
+    "qa_scope": "technical_waveform_checks_on_row070_decode_pass_pcm",
+    "summary_bytes": 10271,
+    "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_071_BOUNDED_LIVE_PCM_RUNTIME_SUMMARY_20260719.json",
+    "summary_sha256": "9839d1dc7f9d68d64f2368eefef5197ff037fd196ace56a5f2d99b525d85314f"
+  },
   "decision": {
+    "bounded_runtime": "AUDIO_QA_PASS_BOUNDED",
     "product_completion": false,
     "row071_acceptance": "held",
     "runtime_completion": false,
-    "safe_next_action": "Accept Row070 canonical PCM authority, wire BS.1770 loudness/true-peak library methods, reconcile every accepted decode record to feature PASS or an exact blocker, and replace this hold packet with full-library runtime evidence.",
+    "safe_next_action": "Bounded technical audio QA passed on Row070 decode-pass PCM. Accept Row070 library PCM authority, wire BS.1770 loudness/true-peak, reconcile full-library PASS/blocker counts, then reassess Row071 acceptance.",
     "status": "blocked"
   },
   "evidence_id": "TRK-W64-071_waveform_feature_extraction",
@@ -525,6 +539,7 @@
       }
     ]
   },
+  "highest_proof_tier_achieved": "AUDIO_QA_PASS_BOUNDED",
   "implementation_completion_claimed": false,
   "item_id": "ITEM-W64-071",
   "library_authority": false,
@@ -614,16 +629,18 @@
     "blocker_codes": [
       "ROW070_DEPENDENCY_NOT_ACCEPTED"
     ],
-    "bytes": 14013,
+    "bytes": 8988,
     "dependency_satisfied": false,
     "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_CANONICAL_AUDIO_DECODE_CURRENT_DELTA_20260719.json",
     "row_complete": false,
-    "sha256": "b08ed6005bf18da6f4f26efc1b2b2c1d629842d3a4fc10920e3ef323eac5d562",
-    "status": "HOLD_CONTAINER_METADATA_REUSABLE_CANONICAL_DECODE_IMPLEMENTATION_AND_AUTHORITY_ABSENT"
+    "sha256": "f298c52203b46a1e9c9b7e181e73dc9780f33daaf4f33c98070f3671e7b667da",
+    "status": "HOLD_LIBRARY_AUTHORITY_WITH_BOUNDED_LIVE_PCM_RUNTIME_PASS"
   },
   "row_complete": false,
   "runtime_completion_claimed": false,
   "schema_version": "1.0.0",
-  "status": "HOLD_ROW070_CANONICAL_DECODE_AND_FULL_LIBRARY_FEATURE_RUNTIME_ABSENT",
-  "tracker_id": "TRK-W64-071"
+  "source_commit": "4e1012e6aa08ee2c74bcc0bf04eb52d5d08c1472",
+  "status": "HOLD_LIBRARY_AUTHORITY_WITH_BOUNDED_DECODED_PCM_AUDIO_QA_PASS",
+  "tracker_id": "TRK-W64-071",
+  "updated_at": "2026-07-19T21:14:30Z"
 }

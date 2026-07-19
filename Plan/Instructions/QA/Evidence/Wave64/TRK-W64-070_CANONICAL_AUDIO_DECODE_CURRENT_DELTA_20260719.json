@@ -1,38 +1,174 @@
 {
-  "schema_version": "1.0.0",
-  "evidence_id": "W64-ROW070-CANONICAL-AUDIO-DECODE-CURRENT-DELTA-20260719",
-  "created_at": "2026-07-19T02:58:15.9558249Z",
-  "updated_at": "2026-07-19T19:40:00Z",
-  "source_commit": "363672902238846e6a3837ab2372452b3f00584c",
-  "prior_audit_commit": "9a8e45d3",
-  "tracker_id": "TRK-W64-070",
-  "item_id": "ITEM-W64-070",
-  "classification": "ROW070_CODEX_FINAL_AUTHORITY_STRICT_DECODE_CONTRACT_INCREMENT",
-  "status": "HOLD_ROW069_DEPENDENCY_AND_FULL_LIBRARY_DECODE_RUNTIME_ABSENT",
-  "row_complete": false,
-  "implementation_completion_claimed": false,
-  "runtime_completion_claimed": false,
+  "acceptance_gaps": [
+    {
+      "code": "ROW069_DEPENDENCY_NOT_ACCEPTED",
+      "detail": "Prerequisite Row069 index authority remains row_complete=false."
+    },
+    {
+      "code": "FULL_LIBRARY_RUNTIME_RECORD_ABSENT",
+      "detail": "No manifest reconciles all accepted Row069 records into decode PASS plus exact-blocker counts."
+    },
+    {
+      "code": "SOURCE_IMMUTABILITY_FULL_LIBRARY_FINGERPRINT_ABSENT",
+      "detail": "Bounded immutability proven; full-library source fingerprint around a decode run is not."
+    },
+    {
+      "code": "NON_WAV_CODEC_COVERAGE_ABSENT",
+      "detail": "This slice supports PCM WAV via stdlib wave only; mp3/flac/other containers remain exact blockers."
+    }
+  ],
+  "bounded_live_pcm_runtime": {
+    "authority": "bounded_non_library",
+    "decode_non_pass": 0,
+    "decode_pass": 3,
+    "library_authority": false,
+    "proof_tier": "RUNTIME_PASS_BOUNDED",
+    "sources_attempted": 3,
+    "summary_bytes": 10271,
+    "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_071_BOUNDED_LIVE_PCM_RUNTIME_SUMMARY_20260719.json",
+    "summary_sha256": "9839d1dc7f9d68d64f2368eefef5197ff037fd196ace56a5f2d99b525d85314f"
+  },
   "canonical_decode_implemented": true,
   "canonical_decode_library_authority": false,
-  "qa_decision": "HOLD_WITH_BOUNDED_STRICT_DECODE_CONTRACT_CLOSED_NO_FALSE_COMPLETION",
-  "increment": {
-    "title": "Fail-closed Row070 canonical PCM decode contract",
-    "summary": "Froze the canonical f32le PCM hash contract, added a dedicated decode-record schema with typed blockers, landed a stdlib PCM-WAV fixture decoder with deterministic hashes, and emitted tracker-declared hold evidence. Full-library decode authority remains blocked on Row069 acceptance and library reconcile runtime.",
-    "changed_paths": [
-      "Plan/08_SCHEMAS/canonical_audio_decode_record.schema.json",
-      "Plan/07_IMPLEMENTATION/scripts/decode_wave64_canonical_audio.py",
-      "Plan/Instructions/QA/Scripts/test_decode_wave64_canonical_audio.py",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_canonical_audio_decode.json",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_CANONICAL_AUDIO_DECODE_CURRENT_DELTA_20260719.json"
-    ],
-    "fixture_wav_note": "row070_tone_ramp.wav is deterministically synthesized by decode_wave64_canonical_audio.py when absent; *.wav remains gitignored and is not part of this commit include list."
+  "canonical_pcm_contract": {
+    "channel_order_policy": "preserve_source_order",
+    "endianness": "little",
+    "hash_domain": "raw_interleaved_f32le_bytes",
+    "interleaving": "frame_interleaved",
+    "normalization_policy": "none_full_scale_integer_to_float",
+    "sample_format": "ieee_float32",
+    "sample_rate_policy": "preserve_source_rate",
+    "trim_policy": "no_trim"
   },
+  "check_summary": {
+    "checked": 5,
+    "failed": 0,
+    "passed": 5
+  },
+  "checks": [
+    {
+      "name": "CAD-R001_bounded_live_pcm_decode_pass",
+      "result": "pass"
+    },
+    {
+      "name": "CAD-R002_source_immutable_on_live_decode",
+      "result": "pass"
+    },
+    {
+      "name": "CAD-R003_no_library_authority_claim",
+      "result": "pass"
+    },
+    {
+      "name": "CAD-R004_no_row_complete_claim",
+      "result": "pass"
+    },
+    {
+      "name": "CAD-R005_disjoint_from_row069_indexer_paths",
+      "result": "pass"
+    }
+  ],
+  "classification": "ROW070_BOUNDED_LIVE_PCM_RUNTIME_PROOF_NO_FALSE_COMPLETION",
+  "closed_gaps_this_increment": [
+    "CANONICAL_DECODER_BOUNDED_LIVE_PCM_RUNTIME_ABSENT"
+  ],
+  "created_at": "2026-07-19T02:58:15.9558249Z",
+  "decision": {
+    "bounded_live_pcm_runtime": "RUNTIME_PASS_BOUNDED",
+    "canonical_decode_library_authority": "absent",
+    "canonical_pcm_contract": "frozen_v0.1.0",
+    "fixture_decode_authority": "partial_pass_non_library",
+    "product_completion": false,
+    "row070_acceptance": "held",
+    "row070_status": "Planned_Autonomous_Implementation_Required",
+    "runtime_completion": false,
+    "safe_next_action": "Bounded live PCM decode runtime is proven for a fixture+speech+foley sample. Accept or advance Row069 index authority, then extend Row070 library mode across the accepted index, decode or exact-block every asset beyond PCM WAV, and only then consider Row070 acceptance."
+  },
+  "dependency_authority": {
+    "blocker_codes": [
+      "ROW069_DEPENDENCY_NOT_ACCEPTED"
+    ],
+    "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-069_FULL_AUDIO_LIBRARY_INDEX_CURRENT_DELTA_20260719.json",
+    "dependency_satisfied": false,
+    "reason": "Row069 remains held; library decode admission fails closed. Bounded live PCM runtime does not satisfy Row069 acceptance.",
+    "row_complete": false,
+    "tracker_id": "TRK-W64-069"
+  },
+  "evidence_id": "W64-ROW070-CANONICAL-AUDIO-DECODE-CURRENT-DELTA-20260719",
+  "gate_assessment": [
+    {
+      "current_evidence": "bounded_live_pcm_and_fixture_pass",
+      "decision": "partial_pass_hold_library",
+      "gate": "decode_integrity",
+      "reason": "Fixture plus live speech/foley PCM WAV decode to canonical hashes; full-library coverage absent."
+    },
+    {
+      "current_evidence": "bounded_live_pcm_hashes_present",
+      "decision": "partial_pass_hold_library",
+      "gate": "canonical_pcm_hash",
+      "reason": "Bounded runtime records emit frozen f32le canonical PCM hashes; accepted-index reconcile counts remain absent."
+    },
+    {
+      "current_evidence": "bounded_records_include_required_fields",
+      "decision": "partial_pass_hold_library",
+      "gate": "metadata_complete",
+      "reason": "Bounded decode records include codec/duration/rate/channels/bit_depth/layout/status/pcm hash."
+    },
+    {
+      "current_evidence": "bounded_before_after_hash_check",
+      "decision": "partial_pass_hold_library",
+      "gate": "source_immutable",
+      "reason": "Bounded live sources remained immutable around decode; full-library fingerprint manifest remains absent."
+    }
+  ],
+  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+  "implementation_artifacts": {
+    "bounded_runtime_summary_bytes": 10271,
+    "bounded_runtime_summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_071_BOUNDED_LIVE_PCM_RUNTIME_SUMMARY_20260719.json",
+    "bounded_runtime_summary_sha256": "9839d1dc7f9d68d64f2368eefef5197ff037fd196ace56a5f2d99b525d85314f",
+    "decoder_bytes": 26661,
+    "decoder_path": "Plan/07_IMPLEMENTATION/scripts/decode_wave64_canonical_audio.py",
+    "decoder_sha256": "f8dbd954eb019c2cd0473fceaebfa1d9313c6558492a33d6de537eec2eeb2c2f",
+    "direct_evidence_bytes": 7671,
+    "direct_evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_canonical_audio_decode.json",
+    "direct_evidence_sha256": "b1e02a4caed872f2dee27c5bac7ac3f776d34d9fdacacad13df33d5f43149414",
+    "fixture_wav_bytes": 1068,
+    "fixture_wav_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row070_canonical_decode/row070_tone_ramp.wav",
+    "fixture_wav_sha256": "ee2b1b1339c7bf4fe85595701db1ee1ad6264f530e8446a9db12a1d4232b0c8b",
+    "schema_bytes": 4808,
+    "schema_path": "Plan/08_SCHEMAS/canonical_audio_decode_record.schema.json",
+    "schema_sha256": "b9425c73920433b10862bb950973d4a0256b62a4361b54cd15156b5563eca537",
+    "test_bytes": 6262,
+    "test_path": "Plan/Instructions/QA/Scripts/test_decode_wave64_canonical_audio.py",
+    "test_sha256": "d9ee99456a45bcf39247a68d83b1e49abbd5cf54f76d420ccd531a5389fc4882"
+  },
+  "implementation_completion_claimed": false,
+  "increment": {
+    "changed_paths": [
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_canonical_audio_decode.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_CANONICAL_AUDIO_DECODE_CURRENT_DELTA_20260719.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_071_BOUNDED_LIVE_PCM_RUNTIME_SUMMARY_20260719.json"
+    ],
+    "summary": "Climbed Row070 from fixture/static decode into RUNTIME_PASS_BOUNDED by decoding available live PCM WAV assets (plus fixture) with deterministic canonical PCM hashes and source immutability, without claiming library authority or row completion.",
+    "title": "Bounded live PCM decode runtime for Row070"
+  },
+  "item_id": "ITEM-W64-070",
+  "preservation_boundary": {
+    "external_audio_source_modified": false,
+    "only_owned_paths_written": true,
+    "row069_paths_modified": false,
+    "row071_paths_modified": true,
+    "unrelated_dirty_paths_staged": false
+  },
+  "prior_audit_commit": "36367290",
+  "qa_decision": "HOLD_WITH_BOUNDED_LIVE_PCM_RUNTIME_PASS_NO_FALSE_COMPLETION",
+  "row_complete": false,
   "row_contract": {
-    "title": "Canonical audio decode and technical metadata",
-    "priority": "P1",
-    "risk_level": "HIGH",
-    "dependencies": ["TRK-W64-069"],
     "completion_criteria": "Every supported asset has deterministic decode metadata and a canonical PCM hash or an exact fail-closed decode blocker.",
+    "dependencies": [
+      "TRK-W64-069"
+    ],
+    "ec2_allowed": false,
+    "priority": "P1",
     "required_gates": [
       "decode_integrity",
       "canonical_pcm_hash",
@@ -49,144 +185,25 @@
       "decode_status",
       "canonical_pcm_sha256"
     ],
-    "test_required": true,
-    "runtime_proof_required": true,
-    "ec2_allowed": false,
     "required_output": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_canonical_audio_decode.json",
     "required_output_exists": true,
-    "required_output_is_completion_claim": false
+    "required_output_is_completion_claim": false,
+    "risk_level": "HIGH",
+    "runtime_proof_required": true,
+    "test_required": true,
+    "title": "Canonical audio decode and technical metadata"
   },
-  "canonical_pcm_contract": {
-    "sample_format": "ieee_float32",
-    "endianness": "little",
-    "interleaving": "frame_interleaved",
-    "channel_order_policy": "preserve_source_order",
-    "sample_rate_policy": "preserve_source_rate",
-    "trim_policy": "no_trim",
-    "normalization_policy": "none_full_scale_integer_to_float",
-    "hash_domain": "raw_interleaved_f32le_bytes",
-    "decoder_revision": "wave64_row070_canonical_pcm_v0.1.0"
-  },
-  "implementation_artifacts": {
-    "schema_path": "Plan/08_SCHEMAS/canonical_audio_decode_record.schema.json",
-    "schema_sha256": "b9425c73920433b10862bb950973d4a0256b62a4361b54cd15156b5563eca537",
-    "schema_bytes": 4808,
-    "decoder_path": "Plan/07_IMPLEMENTATION/scripts/decode_wave64_canonical_audio.py",
-    "decoder_sha256": "f8dbd954eb019c2cd0473fceaebfa1d9313c6558492a33d6de537eec2eeb2c2f",
-    "decoder_bytes": 26661,
-    "test_path": "Plan/Instructions/QA/Scripts/test_decode_wave64_canonical_audio.py",
-    "test_sha256": "d9ee99456a45bcf39247a68d83b1e49abbd5cf54f76d420ccd531a5389fc4882",
-    "test_bytes": 6262,
-    "fixture_wav_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row070_canonical_decode/row070_tone_ramp.wav",
-    "fixture_wav_sha256": "ee2b1b1339c7bf4fe85595701db1ee1ad6264f530e8446a9db12a1d4232b0c8b",
-    "fixture_wav_bytes": 1068,
-    "direct_evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_canonical_audio_decode.json",
-    "direct_evidence_sha256": "3636416f97aa57c47bb11ceddf1b33f6482b3ab526a9de5d8319d39e75d38c3f",
-    "direct_evidence_bytes": 7017
-  },
-  "dependency_authority": {
-    "tracker_id": "TRK-W64-069",
-    "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-069_FULL_AUDIO_LIBRARY_INDEX_CURRENT_DELTA_20260719.json",
-    "current_delta_sha256": "29031dcc7e2f41dc91203526da9cfe9df6cc790d019b2218b2045b4fdfc3dec7",
-    "current_delta_bytes": 17488,
-    "row_complete": false,
-    "dependency_satisfied": false,
-    "reason": "Row069 remains planned/held; library decode admission fails closed with ROW069_DEPENDENCY_NOT_ACCEPTED."
-  },
-  "gate_assessment": [
-    {
-      "gate": "decode_integrity",
-      "current_evidence": "fixture_pcm_wav_pass_plus_corrupt_unsupported_fail_closed",
-      "decision": "partial_pass_hold_library",
-      "reason": "Deterministic PCM WAV fixture decode and corrupt/unsupported blockers exist; full-library coverage does not."
-    },
-    {
-      "gate": "canonical_pcm_hash",
-      "current_evidence": "fixture_canonical_pcm_sha256_present",
-      "decision": "partial_pass_hold_library",
-      "reason": "Fixture records emit frozen f32le canonical PCM hashes; accepted-index reconcile counts remain absent."
-    },
-    {
-      "gate": "metadata_complete",
-      "current_evidence": "schema_requires_all_row070_fields",
-      "decision": "partial_pass_hold_library",
-      "reason": "Dedicated schema requires codec, duration, sample_rate, channels, bit_depth, channel_layout, decode_status, and canonical_pcm_sha256 or typed blocker."
-    },
-    {
-      "gate": "source_immutable",
-      "current_evidence": "fixture_before_after_hash_check",
-      "decision": "partial_pass_hold_library",
-      "reason": "Decoder opens sources read-only and records source_immutable for fixture paths; full-library before/after fingerprint manifest remains absent."
-    }
-  ],
-  "acceptance_gaps": [
-    {
-      "code": "ROW069_DEPENDENCY_NOT_ACCEPTED",
-      "detail": "Prerequisite Row069 index authority remains row_complete=false."
-    },
-    {
-      "code": "CANONICAL_DECODER_LIBRARY_RUNTIME_ABSENT",
-      "detail": "Library mode enumerates no accepted index and does not decode the retained 39771-record corpus."
-    },
-    {
-      "code": "FULL_LIBRARY_RUNTIME_RECORD_ABSENT",
-      "detail": "No manifest reconciles all accepted Row069 records into decode PASS plus exact-blocker counts with output and failure-manifest hashes."
-    },
-    {
-      "code": "SOURCE_IMMUTABILITY_FULL_LIBRARY_FINGERPRINT_ABSENT",
-      "detail": "Fixture immutability is proven; full-library source fingerprint around a decode run is not."
-    },
-    {
-      "code": "NON_WAV_CODEC_COVERAGE_ABSENT",
-      "detail": "This slice supports PCM WAV via stdlib wave only; mp3/flac/other containers remain exact blockers pending an expanded decoder."
-    }
-  ],
-  "closed_gaps_this_increment": [
-    "CANONICAL_PCM_NORMALIZATION_CONTRACT_ABSENT",
-    "REQUIRED_METADATA_SCHEMA_INCOMPLETE",
-    "ROW070_DIRECT_EVIDENCE_ABSENT",
-    "DETERMINISM_AND_FAILURE_FIXTURES_ABSENT",
-    "CANONICAL_DECODER_IMPLEMENTATION_ABSENT_FOR_FIXTURE_SLICE"
-  ],
+  "runtime_completion_claimed": false,
+  "schema_version": "1.0.0",
+  "source_commit": "4e1012e6aa08ee2c74bcc0bf04eb52d5d08c1472",
+  "status": "HOLD_LIBRARY_AUTHORITY_WITH_BOUNDED_LIVE_PCM_RUNTIME_PASS",
+  "tracker_id": "TRK-W64-070",
+  "updated_at": "2026-07-19T21:15:33Z",
   "validators": {
+    "combined_host_run": "python -m pytest Plan/Instructions/QA/Scripts/test_decode_wave64_canonical_audio.py Plan/Instructions/QA/Scripts/test_extract_wave64_waveform_features.py -q -> 16 passed",
     "command": "python -m pytest Plan/Instructions/QA/Scripts/test_decode_wave64_canonical_audio.py -q",
-    "result": "pass",
+    "failed": 0,
     "passed": 9,
-    "failed": 0
-  },
-  "preservation_boundary": {
-    "row071_paths_modified": false,
-    "row084_paths_modified": false,
-    "row090_paths_modified": false,
-    "unrelated_dirty_paths_staged": false,
-    "external_audio_source_modified": false,
-    "provider_or_worker_invoked": false,
-    "only_row070_owned_paths_written": true
-  },
-  "checks": [
-    {"name": "CAD-I001_schema_requires_row070_metadata_and_typed_blocker", "result": "pass"},
-    {"name": "CAD-I002_canonical_pcm_contract_frozen", "result": "pass"},
-    {"name": "CAD-I003_fixture_wav_decode_deterministic", "result": "pass"},
-    {"name": "CAD-I004_unsupported_and_corrupt_fail_closed", "result": "pass"},
-    {"name": "CAD-I005_source_immutable_on_fixture_decode", "result": "pass"},
-    {"name": "CAD-I006_library_mode_fail_closed_without_row069", "result": "pass"},
-    {"name": "CAD-I007_direct_evidence_hold_packet_emitted", "result": "pass"},
-    {"name": "CAD-I008_no_row_complete_or_runtime_completion_claim", "result": "pass"},
-    {"name": "CAD-I009_disjoint_from_row071_row084_row090_paths", "result": "pass"}
-  ],
-  "check_summary": {
-    "checked": 9,
-    "passed": 9,
-    "failed": 0
-  },
-  "decision": {
-    "canonical_pcm_contract": "frozen_v0.1.0",
-    "fixture_decode_authority": "partial_pass_non_library",
-    "canonical_decode_library_authority": "absent",
-    "row070_status": "Planned_Autonomous_Implementation_Required",
-    "row070_acceptance": "held",
-    "runtime_completion": false,
-    "product_completion": false,
-    "safe_next_action": "Accept or advance Row069 index authority, then extend Row070 library mode to enumerate accepted index records, decode or exact-block every asset beyond PCM WAV, reconcile PASS/blocker counts with manifest hashes, and only then consider Row070 acceptance."
+    "result": "pass"
   }
 }
