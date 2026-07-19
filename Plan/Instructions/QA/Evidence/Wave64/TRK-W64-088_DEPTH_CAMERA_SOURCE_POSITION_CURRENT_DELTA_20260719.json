@@ -1,0 +1,508 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-088_DEPTH_CAMERA_SOURCE_POSITION_CURRENT_DELTA_20260719",
+  "created_at": "2026-07-19T05:22:24.9711618Z",
+  "source_commit": "a3efff94b477b3b93b920548c38f0474eff790ee",
+  "prior_row_commit": "a3efff94b477b3b93b920548c38f0474eff790ee",
+  "prior_row_commit_is_current_head": true,
+  "tracker_id": "TRK-W64-088",
+  "item_id": "ITEM-W64-088",
+  "status": "HOLD_DEPENDENCIES_DIRECT_DEPTH_CAMERA_LISTENER_SOURCE_ESTIMATION_CALIBRATION_UNCERTAINTY_AND_VISUAL_RUNTIME_AUTHORITY_ABSENT",
+  "classification": "ROW088_CURRENT_DELTA_RELATIVE_DEPTH_AND_CALLER_SUPPLIED_SPATIAL_VALIDATION_PARTIAL_AUTHORITY_ONLY_NO_FALSE_COMPLETION",
+  "row_complete": false,
+  "implementation_completion_claimed": false,
+  "runtime_completion_claimed": false,
+  "qa_decision": "HOLD",
+  "intent": {
+    "intent_id": "intent_20260719T051212279Z_row088_depth_camera_source_position_current_delta_d2e0f10f",
+    "classification": "AI_WORKER_DEVELOPMENT_PIPELINE_ADMITTED_DEFERRED",
+    "work_type": "final_authority",
+    "authority_class": "codex_only",
+    "routing": null,
+    "dispatch_wake_count": 0,
+    "candidate_paths": [
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_DEPTH_CAMERA_SOURCE_POSITION_CURRENT_DELTA_20260719.json"
+    ],
+    "allowed_paths": [
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_DEPTH_CAMERA_SOURCE_POSITION_CURRENT_DELTA_20260719.json"
+    ]
+  },
+  "row088_contract": {
+    "title": "Depth, camera, listener, and acoustic source-position estimation",
+    "phase": "visual_event_intelligence",
+    "priority": "P1",
+    "risk": "HIGH",
+    "status": "Planned_Autonomous_Implementation_Required",
+    "completion_criteria": "Spatial coordinates bind to exact take/camera and preserve relative-depth uncertainty where metric depth is unavailable.",
+    "dependencies": [
+      "TRK-W64-084",
+      "TRK-W64-085"
+    ],
+    "required_gates": [
+      "depth",
+      "camera_binding",
+      "source_position",
+      "listener_position",
+      "uncertainty"
+    ],
+    "required_outputs": [
+      "relative depth",
+      "metric depth only where supported",
+      "source-camera distance",
+      "screen azimuth",
+      "screen elevation",
+      "listener position",
+      "occlusion",
+      "uncertainty"
+    ],
+    "required_acceptance": [
+      "spatial coordinates bind to the exact take and camera",
+      "uncalibrated monocular depth remains labeled relative",
+      "metric claims require calibration authority",
+      "combined frame, contact, and audio review"
+    ],
+    "test_required": true,
+    "runtime_proof_required": true,
+    "visual_review_required": true,
+    "visual_review_method": "combined_frame_contact_audio_review",
+    "preview_required": true,
+    "ec2_allowed": true,
+    "tracker_output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_depth_camera_source_position.json",
+    "tracker_output_artifact_exists": false,
+    "current_delta_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_DEPTH_CAMERA_SOURCE_POSITION_CURRENT_DELTA_20260719.json"
+  },
+  "tracker_item_requirements_parity": {
+    "tracker_csv": {
+      "path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_TRACKER_ROWS.csv",
+      "sha256": "a698034d4d61788a9c630434f7aac75e3f7b1bf656319cfe43a5b2ce26d625de",
+      "bytes": 159309,
+      "matching_row_count": 1
+    },
+    "item_csv": {
+      "path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ITEM_ROWS.csv",
+      "sha256": "f4a401d828aff69dbe7e005d6592a2af86edc936a0e6c1bae2f764345a9b8489",
+      "bytes": 111386,
+      "matching_item_count": 1
+    },
+    "tracker_requirements": {
+      "path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
+      "sha256": "077eaf1dfc1cb0d990660b2d9ec7073bc2b4acc1be47a94e9a0ea65eb1924acc",
+      "bytes": 48422
+    },
+    "item_requirements": {
+      "path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
+      "sha256": "077eaf1dfc1cb0d990660b2d9ec7073bc2b4acc1be47a94e9a0ea65eb1924acc",
+      "bytes": 48422
+    },
+    "requirements_copies_byte_identical": true,
+    "title_status_priority_risk_acceptance_and_citation_aligned": true,
+    "planning_coverage_is_not_runtime_completion": true
+  },
+  "source_authority": {
+    "master_plan": {
+      "path": "Plan/00_PROJECT_CONTROL/WAVE64_AUTONOMOUS_VIDEO_TO_AUDIO_AND_SOUND_GENERATION_MASTER_PLAN.md",
+      "sha256": "6f1b5059b686a81d866f61f3bada74ca673a43db2423241d500b024ecb6a1a67",
+      "bytes": 25625,
+      "line_start": 231,
+      "line_end": 236
+    },
+    "target_architecture": {
+      "path": "Plan/02_TARGET_ARCHITECTURE/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ARCHITECTURE.md",
+      "sha256": "3aef5be8b48808a69fe70c4b61bb4de6f7e1086c670c1ce9c817ebb4a1f6ae9b",
+      "bytes": 7078
+    },
+    "audio_plan": {
+      "path": "Plan/05_AUDIO_SYSTEM/WAVE64_AUTONOMOUS_SOUND_LIBRARY_GENERATION_AND_QA_PLAN.md",
+      "sha256": "63bea08b4e2209100cc875b60bfad7b2d2e2b0636c5643aaa4410e6f1b1fce1c",
+      "bytes": 5362
+    },
+    "qa_protocol": {
+      "path": "Plan/Instructions/QA/AUTONOMOUS_VIDEO_TO_AUDIO_AND_GENERATED_SOUND_QA_PROTOCOL.md",
+      "sha256": "ed5773fd5f83ac5c71e31983eab9fb8d0362f2544518c37b41f7c51b95c82181",
+      "bytes": 3801
+    },
+    "planning_builder": {
+      "path": "Plan/07_IMPLEMENTATION/scripts/build_wave64_autonomous_sound_intelligence_control_package.py",
+      "sha256": "62441dab915e5d277963aa58f579ee8a9190a4f3d58fcceab2b252426524f593",
+      "bytes": 37998
+    },
+    "planning_registry": {
+      "path": "Plan/10_REGISTRIES/wave64_autonomous_sound_intelligence_work_package_registry.json",
+      "sha256": "d4ba802a94920e462fed578790e0508f140d5d7b0cf64736dcc86f47fb0e709e",
+      "bytes": 13741,
+      "row_status": "Planned_Autonomous_Implementation_Required"
+    }
+  },
+  "dependency_authority": [
+    {
+      "tracker_id": "TRK-W64-084",
+      "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json",
+      "evidence_sha256": "397480d385ab8dc88d696eee4c6c8feeb548b682f568cce82afc1e7b38e97dd1",
+      "evidence_bytes": 23248,
+      "evidence_commit": "c76466d5e2f68211162e27747d6898a86f4af5ac",
+      "current_delta_status": "HOLD_DEPENDENCY_CANONICAL_TIMELINE_IMPLEMENTATION_VFR_CUT_ROUNDTRIP_TOLERANCE_MUX_REPLAY_AND_VISUAL_RUNTIME_PROOF_ABSENT",
+      "row_complete": false,
+      "dependency_satisfied": false,
+      "row088_effect": "Exact take, frame, PTS, duration, cut, and camera bindings cannot be certified without accepted canonical timeline authority."
+    },
+    {
+      "tracker_id": "TRK-W64-085",
+      "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719.json",
+      "evidence_sha256": "720b87bf6007e3ab7970ae91cd94a6086d740ed2c4eed652f4e18554835a56fd",
+      "evidence_bytes": 23535,
+      "evidence_commit": "0299e2f9707592c5ce1c2cecd8d03e877c8c24cd",
+      "current_delta_status": "HOLD_DEPENDENCY_PERSISTENT_TRACKING_IMPLEMENTATION_OWNERSHIP_METRICS_OCCLUSION_REAPPEARANCE_AND_VISUAL_RUNTIME_PROOF_ABSENT",
+      "row_complete": false,
+      "dependency_satisfied": false,
+      "row088_effect": "Acoustic source coordinates and occlusion require accepted persistent actor, object, and region ownership."
+    }
+  ],
+  "relative_depth_partial_authority": {
+    "implementation": {
+      "path": "Plan/07_IMPLEMENTATION/scripts/run_wave64_reference_pose_depth_timelines.py",
+      "sha256": "5174fcc519a09ae6fd6e28ee84e03ffbe9d5580d988ab23b09dbbed67f3f28ef",
+      "bytes": 28133,
+      "scope": "Row022 pose and relative-depth timeline generation and validation",
+      "metric_depth_claimed": false
+    },
+    "test": {
+      "path": "Plan/Instructions/QA/Scripts/test_run_wave64_reference_pose_depth_timelines.py",
+      "sha256": "7e31ba70ccf81251978551e89806caaff321c20ecf360f249933b25b577dd001",
+      "bytes": 10545,
+      "test_count": 10
+    },
+    "original_runtime": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_row022_pose_depth_timelines_20260715T145006-0500/runtime_technical_evidence.json",
+      "sha256": "0b71ef60249520e400b0928c24c574f9d37b782171416cea3efbe718f475afeb",
+      "bytes": 7109,
+      "frame_count": 49,
+      "runtime_completed": true,
+      "result": "blocked_pose_or_relative_depth_technical_validation_failed",
+      "failed_checks": [
+        "pose_dimensions_exact",
+        "depth_dimensions_exact"
+      ]
+    },
+    "coordinate_contract_revalidation": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_row022_pose_depth_timelines_20260715T145006-0500/coordinate_contract_revalidation/coordinate_revalidation_evidence.json",
+      "sha256": "c522beb61e2b751cab3b18229d1c0e2a9557c0064bce34af2b2b52067b90abd7",
+      "bytes": 5264,
+      "result": "pass_pose_and_relative_depth_timelines_target_mask_contact_authority_blocked"
+    },
+    "completion_record": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_REFERENCE_POSE_DEPTH_TIMELINES_20260715T145349-0500.json",
+      "sha256": "2de6cf039ca7ec542402ee8137a1f2603a4c256a4f642f415ef02becca52a81b",
+      "bytes": 6912,
+      "result": "pose_and_relative_depth_timeline_pass_mask_contact_and_target_match_blocked",
+      "row_complete": false
+    },
+    "visual_review": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_REFERENCE_POSE_DEPTH_VISUAL_QA_20260715T145349-0500.json",
+      "sha256": "378990ab8c7a0fc87da9635eabb635482a79ef24ba31e5c5cc3176ac7af8e6a8",
+      "bytes": 2427,
+      "result": "pass_motion_pose_and_relative_depth_reference_only"
+    },
+    "authority_boundaries": {
+      "depth_timeline_scope": "relative_depth_reference_only",
+      "metric_depth_claimed": false,
+      "mask_timeline_claimed": false,
+      "contact_timeline_claimed": false,
+      "occlusion_ownership_claimed": false,
+      "target_output_shot_match_claimed": false,
+      "row088_completion_claimed": false
+    }
+  },
+  "spatial_bundle_and_evaluator_partial_authority": {
+    "producer": {
+      "path": "Plan/07_IMPLEMENTATION/scripts/produce_wave64_spatial_room_evidence_bundle.py",
+      "sha256": "1725c4e24e27da8d7ee1c657be90de63a40c3cb5e4fa3127c745b8ca72d7cafc",
+      "bytes": 11172,
+      "coordinate_input_authority": "caller_supplied_cli_vectors",
+      "depth_or_position_estimation_performed": false
+    },
+    "evaluator": {
+      "path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_spatial_room_evidence.py",
+      "sha256": "515c181072e93bbe553a47061b29b22a4206f74a4338ed1a75cb3db8269c3733",
+      "bytes": 92833,
+      "capability": "validates supplied positions, camera orientation, pan, attenuation, room, mix, runtime, playback, and production-authority evidence",
+      "depth_or_position_estimation_performed": false
+    },
+    "schema": {
+      "path": "Plan/08_SCHEMAS/wave64_spatial_room_evidence_bundle.schema.json",
+      "sha256": "58d50edaecd665a49058ab1c8327fef1791109a37094b1a859438b0cddbe4200",
+      "bytes": 7672,
+      "role": "strict downstream bundle for supplied positions and proof bindings; not a Row088 estimator contract"
+    },
+    "camera_distance_rules": {
+      "path": "Plan/10_REGISTRIES/wave31_camera_distance_panning_rules.json",
+      "sha256": "b413f624b39701787570ce68c7a3b1441a5e5e1486da7db94a7155855a9eaadc",
+      "bytes": 522,
+      "rule_count": 5,
+      "rule_nature": "declarative relative camera-center panning and near/far behavior"
+    },
+    "producer_test": {
+      "path": "Plan/Instructions/QA/Scripts/test_produce_wave64_spatial_room_evidence_bundle.py",
+      "sha256": "da608b66a3b494a380621e20a23b3f58a75221858cc2335e10ef145da433ab42",
+      "bytes": 12371,
+      "test_count": 9
+    },
+    "evaluator_test": {
+      "path": "Plan/Instructions/QA/Scripts/test_wave64_spatial_room_evaluator_strict.py",
+      "sha256": "e9fe09daa8e40c22ed3ce7a110be30445ae2bbde2edd7db7dd10bd60c366ae99",
+      "bytes": 52270,
+      "test_count": 46
+    },
+    "retained_bundle": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_speech_mix_review_20260716T002641-0500/row139_spatial_room_evidence_bundle.json",
+      "sha256": "431b36edd00ef1764eeb0051ae05f380261e823da7ea6c641a16225709f857f7",
+      "bytes": 3841,
+      "scene_id": "scene_l01_diagnostic",
+      "shot_id": "shot_l01_spatial",
+      "take_id": "take_seed12401_mix001",
+      "is_synthetic": true,
+      "evidence_origin": "synthetic_fixture",
+      "listener_position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "camera_position": {
+        "x": 0.2,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "source_position": {
+        "x": -0.109,
+        "y": 0.994,
+        "z": 0.0
+      },
+      "playback_proof_binding": null,
+      "runtime_proof_binding": null,
+      "production_authority_bundle_binding": null
+    },
+    "retained_evaluator_report": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_speech_mix_review_20260716T002641-0500/row141_spatial_room_evaluator_report.json",
+      "sha256": "a25a231fa6d09c995344090c0ab7ac0b3777b13a6e25d9b6070e1c25b9c1004e",
+      "bytes": 10135,
+      "overall_pass": false,
+      "spatial_position_check": "PASS",
+      "room_reverb_check": "FAIL",
+      "playback_review": "BLOCKED",
+      "production_runtime_proof": "BLOCKED",
+      "production_spatial_room_authority": "BLOCKED",
+      "blockers": [
+        "measured RT60 is outside allowed range",
+        "measured reverb tail is outside allowed range",
+        "missing playback_proof_binding",
+        "missing runtime_proof_binding",
+        "synthetic input cannot satisfy production runtime proof gate",
+        "synthetic input cannot satisfy production spatial-room authority"
+      ]
+    },
+    "downstream_runtime_record": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/W64_ROOM_SPATIAL_FULL_MIX_RUNTIME_20260716T023716-0500.json",
+      "sha256": "5d2baaabd7a50042d62755e0289441a3137e2bfa792fd442971a1259d50321fd",
+      "bytes": 19615,
+      "classification": "W64_ROWS029_030_056_FULL_MIX_TECHNICAL_RUNTIME_PASS_AUTHORITY_BLOCKED",
+      "row_complete": false,
+      "row088_authority_claimed": false
+    }
+  },
+  "spatial_schema_probe": {
+    "wave31_camera_state_schema": {
+      "path": "Plan/08_SCHEMAS/wave31_camera_spatial_state.schema.json",
+      "sha256": "d55793ae9d92fb31a62bc470f0d24722eb0cb11c75b69c37bcd585f88ef18cd9",
+      "bytes": 243,
+      "draft_2020_12_schema_uri_present": false,
+      "standard_object_type_present": false,
+      "standard_required_keyword_present": false,
+      "custom_required_fields_count": 8,
+      "empty_payload_validation_error_count": 0,
+      "arbitrary_required_field_values_validation_error_count": 0,
+      "empty_payload_accepted_by_jsonschema": true,
+      "arbitrary_required_field_values_accepted_by_jsonschema": true
+    },
+    "wave64_spatial_bundle_schema": {
+      "path": "Plan/08_SCHEMAS/wave64_spatial_room_evidence_bundle.schema.json",
+      "sha256": "58d50edaecd665a49058ab1c8327fef1791109a37094b1a859438b0cddbe4200",
+      "bytes": 7672,
+      "retained_bundle_validation_error_count": 0,
+      "unqualified_coordinate_1e300_validation_error_count": 0,
+      "relative_depth_uncertainty_field_error_count": 1,
+      "camera_calibration_ref_field_error_count": 1,
+      "source_estimation_provenance_field_error_count": 1,
+      "coordinate_space_and_units_field_error_count": 1,
+      "occlusion_state_field_error_count": 1,
+      "interpretation": "The strict downstream bundle validates supplied vectors and proof bindings but neither bounds coordinate magnitude nor represents Row088 calibration, units, uncertainty, occlusion, or estimation provenance."
+    },
+    "hyperreal_spatial_audio_object_manifest": {
+      "path": "Plan/08_SCHEMAS/hyperreal_spatial_audio_object_manifest.schema.json",
+      "sha256": "26bbb6bae38701ec50e5b7763c822dcc0eebee73b6c1976d3b7a592e2ce3ebbd",
+      "bytes": 3873,
+      "role": "downstream object render manifest using distance and occlusion curve references",
+      "direct_row088_estimator_contract": false
+    },
+    "hyperreal_acoustic_scene_spec": {
+      "path": "Plan/08_SCHEMAS/hyperreal_acoustic_scene_spec.schema.json",
+      "sha256": "e3bb40fc6e1bccb3f92452f162e7cdaa7cee896674d568609eff134ac3877ac7",
+      "bytes": 2850,
+      "role": "downstream scene configuration referencing listener and source tracks",
+      "direct_row088_estimator_contract": false
+    }
+  },
+  "focused_test_result": {
+    "command": "python -m pytest Plan/Instructions/QA/Scripts/test_run_wave64_reference_pose_depth_timelines.py Plan/Instructions/QA/Scripts/test_produce_wave64_spatial_room_evidence_bundle.py Plan/Instructions/QA/Scripts/test_wave64_spatial_room_evaluator_strict.py --junitxml=C:\\Users\\kevin\\AppData\\Local\\Temp\\row088_pytest_capture2.xml -q",
+    "process_exit": 0,
+    "tests": 65,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "junit_time_seconds": 132.039,
+    "junit_capture_sha256": "517095d2bd532c5ec5968282f2497c8c0ca0bbc5a3beae610116dec11b3cb1ee",
+    "junit_capture_bytes": 13372,
+    "junit_capture_scope": "local diagnostic capture outside project evidence; implementation and test source hashes above are the durable authority",
+    "active_matching_pytest_process_count_after_capture": 0
+  },
+  "repository_implementation_search": {
+    "direct_row088_exact_hits": [
+      "Plan/07_IMPLEMENTATION/scripts/build_wave64_autonomous_sound_intelligence_control_package.py",
+      "Plan/10_REGISTRIES/wave64_autonomous_sound_intelligence_work_package_registry.json"
+    ],
+    "direct_row088_exact_hit_count": 2,
+    "direct_row088_production_estimator_file_count": 0,
+    "direct_row088_executable_test_file_count": 0,
+    "direct_row088_runtime_record_count": 0,
+    "direct_metric_depth_calibration_file_count": 0,
+    "direct_camera_take_pose_binding_file_count": 0,
+    "direct_listener_estimation_file_count": 0,
+    "direct_source_position_estimation_file_count": 0,
+    "tracker_declared_output_artifact_exists": false,
+    "decision": "STRONG_ADJACENT_RELATIVE_DEPTH_AND_SUPPLIED_POSITION_VALIDATION_PRESENT_DIRECT_ROW088_ESTIMATION_AUTHORITY_ABSENT"
+  },
+  "required_depth_camera_source_contract_missing": [
+    "canonical timeline and exact take binding accepted from Row084",
+    "persistent source ownership and occlusion authority accepted from Row085",
+    "camera identity and shot/take binding",
+    "camera intrinsics and distortion model where metric claims are made",
+    "camera extrinsics or explicit world-to-camera transform",
+    "coordinate-frame identity and handedness",
+    "position and distance units",
+    "monocular relative-depth normalization and scale policy",
+    "metric-depth calibration source and validity range",
+    "listener-position derivation and confidence",
+    "source-position derivation from tracked owner/region evidence",
+    "source-camera and source-listener distance derivation",
+    "screen azimuth and elevation derivation",
+    "occlusion state, visibility, and ownership",
+    "per-frame or per-span uncertainty and confidence",
+    "unsupported and abstention states",
+    "calibrated static and moving trajectory fixtures",
+    "camera pan, tilt, zoom, rotation, cut, and parallax fixtures",
+    "low-texture, blur, partial-view, crossing-source, occlusion, and reappearance fixtures",
+    "tamper, replay, coordinate-frame mismatch, and take mismatch rejection",
+    "genuine runtime record over an exact production take",
+    "combined frame, contact, and audio review",
+    "tracker-declared Row088 evidence artifact"
+  ],
+  "acceptance_matrix_required": [
+    "known relative-depth ordering with no metric claim",
+    "calibrated metric-depth fixtures with bounded scale error",
+    "camera intrinsics and extrinsics mismatch rejection",
+    "exact shot/take/camera mismatch rejection",
+    "static and moving listener trajectories",
+    "static and moving acoustic sources",
+    "screen-left/right azimuth and above/below elevation",
+    "camera pan, tilt, zoom, roll, cut, and parallax",
+    "multi-actor and multi-source ownership",
+    "source occlusion, reappearance, and offscreen continuity",
+    "uncertainty growth under blur, low texture, partial view, and monocular ambiguity",
+    "abstention when metric depth or ownership is unsupported",
+    "coordinate-space, handedness, origin, and unit round trip",
+    "deterministic replay and source hash tamper rejection",
+    "combined frame/contact/audio visual and playback review"
+  ],
+  "checks": [
+    {"id": "ROW088-001", "status": "PASS", "name": "source_authority_hash_bound"},
+    {"id": "ROW088-002", "status": "PASS", "name": "tracker_item_contract_aligned"},
+    {"id": "ROW088-003", "status": "PASS", "name": "requirements_copies_byte_identical"},
+    {"id": "ROW088-004", "status": "PASS", "name": "signed_codex_only_intent_deferred_without_wake"},
+    {"id": "ROW088-005", "status": "PASS", "name": "dependency_evidence_hash_bound_and_fail_closed"},
+    {"id": "ROW088-006", "status": "PASS", "name": "relative_depth_implementation_reusable_partial_authority"},
+    {"id": "ROW088-007", "status": "PASS", "name": "relative_depth_49_frame_revalidation_pass_with_boundaries"},
+    {"id": "ROW088-008", "status": "PASS", "name": "relative_depth_visual_review_partial_authority"},
+    {"id": "ROW088-009", "status": "PASS", "name": "spatial_bundle_producer_strict_binding_partial_authority"},
+    {"id": "ROW088-010", "status": "PASS", "name": "spatial_evaluator_fail_closed_gate_partial_authority"},
+    {"id": "ROW088-011", "status": "PASS", "name": "focused_local_test_matrix_65_of_65"},
+    {"id": "ROW088-012", "status": "PASS", "name": "synthetic_bundle_identity_explicit"},
+    {"id": "ROW088-013", "status": "PASS", "name": "retained_evaluator_withholds_runtime_and_production_authority"},
+    {"id": "ROW088-014", "status": "PASS", "name": "schema_gap_probes_executable_and_deterministic"},
+    {"id": "ROW088-015", "status": "FAIL", "name": "dependency_row084_complete"},
+    {"id": "ROW088-016", "status": "FAIL", "name": "dependency_row085_complete"},
+    {"id": "ROW088-017", "status": "FAIL", "name": "direct_row088_production_estimator_present"},
+    {"id": "ROW088-018", "status": "FAIL", "name": "direct_row088_executable_tests_present"},
+    {"id": "ROW088-019", "status": "FAIL", "name": "direct_row088_runtime_record_present"},
+    {"id": "ROW088-020", "status": "FAIL", "name": "tracker_declared_output_present"},
+    {"id": "ROW088-021", "status": "FAIL", "name": "metric_depth_calibration_and_scale_authority"},
+    {"id": "ROW088-022", "status": "FAIL", "name": "exact_camera_take_pose_and_calibration_binding"},
+    {"id": "ROW088-023", "status": "FAIL", "name": "listener_position_estimation_authority"},
+    {"id": "ROW088-024", "status": "FAIL", "name": "tracked_source_position_estimation_authority"},
+    {"id": "ROW088-025", "status": "FAIL", "name": "screen_azimuth_and_elevation_estimation"},
+    {"id": "ROW088-026", "status": "FAIL", "name": "occlusion_estimation_and_ownership"},
+    {"id": "ROW088-027", "status": "FAIL", "name": "uncertainty_confidence_and_abstention_contract"},
+    {"id": "ROW088-028", "status": "FAIL", "name": "wave31_camera_state_machine_valid_json_schema"},
+    {"id": "ROW088-029", "status": "FAIL", "name": "spatial_bundle_represents_calibration_units_uncertainty_and_provenance"},
+    {"id": "ROW088-030", "status": "FAIL", "name": "genuine_non_synthetic_spatial_runtime_authority"},
+    {"id": "ROW088-031", "status": "FAIL", "name": "combined_frame_contact_audio_review"},
+    {"id": "ROW088-032", "status": "FAIL", "name": "calibrated_trajectory_benchmark_matrix"},
+    {"id": "ROW088-033", "status": "FAIL", "name": "row088_end_to_end_completion"}
+  ],
+  "test_and_runtime_boundary": {
+    "schema_probes_executed": true,
+    "focused_tests_executed": true,
+    "focused_tests_passed": 65,
+    "focused_tests_failed": 0,
+    "focused_tests_errors": 0,
+    "focused_tests_skipped": 0,
+    "existing_relative_depth_runtime_evidence_reused": true,
+    "existing_synthetic_spatial_runtime_evidence_reused": true,
+    "production_row088_estimation_invoked": false,
+    "new_media_decode_or_depth_inference_invoked": false,
+    "direct_row088_calibration_benchmark_executed": false,
+    "direct_row088_visual_or_playback_review_executed": false,
+    "ec2_allowed": true,
+    "ec2_invoked": false,
+    "ec2_not_invoked_reason": "Two prerequisite rows and the direct estimator, camera calibration, coordinate-space, uncertainty, occlusion, benchmark, and evidence contracts already fail locally; GPU runtime cannot establish absent authority.",
+    "docker_invoked": false,
+    "wsl_invoked": false,
+    "provider_calls": 0,
+    "wrapper_calls": 0,
+    "scheduled_task_wakes": 0
+  },
+  "scheduler_and_worker_containment": {
+    "codex_automations_modified": false,
+    "windows_worker_tasks_modified": false,
+    "mask_maintenance_tasks_modified": false,
+    "ec2_read_only_safety_monitor_modified": false,
+    "worker_control_paths_modified": false,
+    "queued_or_running_worker_scope_duplicated": false,
+    "containment_note": "The signed final-authority intent was deferred with no routing or wake. Existing paused automations, disabled worker tasks, disabled Mask maintenance tasks, worker snapshots, FLUX2 paths, portfolio paths, and unrelated dirty files were not modified."
+  },
+  "preservation_boundary": {
+    "allowed_write_paths": [
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_DEPTH_CAMERA_SOURCE_POSITION_CURRENT_DELTA_20260719.json"
+    ],
+    "actual_write_paths": [
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_DEPTH_CAMERA_SOURCE_POSITION_CURRENT_DELTA_20260719.json"
+    ],
+    "unrelated_dirty_paths_preserved": true,
+    "worker_artifacts_preserved": true,
+    "flux2_dirty_paths_preserved": true,
+    "portfolio_reconciliation_paths_preserved": true,
+    "mask_factory_paths_preserved": true
+  },
+  "hold_decision": {
+    "decision": "HOLD_ROW088_NO_FALSE_COMPLETION",
+    "reason": "Rows084 and 085 remain incomplete. The repository has a tested 49-frame relative-depth reference timeline, partial visual QA, a strict spatial evidence producer and evaluator, 65 passing focused tests, and a retained synthetic position fixture that correctly remains blocked from production authority. It has no direct Row088 estimator, metric calibration, exact camera/take pose contract, listener or tracked-source derivation, azimuth/elevation or occlusion inference, uncertainty and abstention contract, calibrated trajectory matrix, genuine runtime receipt, combined frame/contact/audio review, or tracker output. The legacy Wave31 camera state file is not a valid constraining JSON Schema, while the downstream spatial bundle cannot represent Row088 calibration, coordinate-space, uncertainty, occlusion, or estimator provenance.",
+    "safe_next_action": "After Rows084 and 085 are accepted, freeze a Row088 measurement contract binding exact shot/take/camera and canonical time, owner tracks, camera intrinsics/extrinsics, coordinate frames and units, relative-versus-metric depth authority, listener/source trajectories, azimuth/elevation, occlusion, uncertainty, abstention, provenance, metrics, thresholds, and hashes. Implement deterministic estimation and calibration adapters, validate static and moving cameras/listeners/sources plus ambiguity and tamper cases, then run genuine combined frame/contact/audio review before emitting the tracker-declared artifact. Continue independent Codex PM/QA work meanwhile."
+  }
+}
