@@ -1,0 +1,578 @@
+#!/usr/bin/env python3
+"""Fail-closed Row084 canonical video timeline compiler.
+
+Compiles fixture or decoded-frame metadata into a content-addressed timeline
+receipt. Production completion remains blocked unless dependency, benchmark,
+mux-replay, and visual-review authorities are all satisfied.
+"""
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import math
+import tempfile
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any
+
+
+ALLOWED_TOP_LEVEL_FIELDS = {
+    "schema_version",
+    "timeline_id",
+    "revision",
+    "source_binding",
+    "clock_span",
+    "frame_rate_mode",
+    "frame_table",
+    "vfr_segments",
+    "cut_epochs",
+    "missing_frames",
+    "camera_motion_policy",
+    "tolerances",
+    "dependency_authority",
+    "runtime_authority",
+    "provenance",
+}
+
+ALLOWED_CLOCK_SPAN_FIELDS = {
+    "clock_id",
+    "timebase_numerator",
+    "timebase_denominator",
+    "start_pts",
+    "end_pts_exclusive",
+    "start_frame",
+    "end_frame_exclusive",
+    "start_sample",
+    "end_sample_exclusive",
+    "frame_rate_numerator",
+    "frame_rate_denominator",
+    "sample_rate_hz",
+    "rounding_policy",
+}
+
+ALLOWED_FRAME_FIELDS = {
+    "frame_index",
+    "source_pts",
+    "duration_pts",
+}
+
+ALLOWED_ROUNDING = {"floor_start_ceil_end", "nearest_ties_to_even", "exact_only"}
+ALLOWED_FRAME_RATE_MODES = {"fixed", "fractional", "vfr"}
+ALLOWED_CAMERA_MOTION = {
+    "not_evaluated",
+    "distinguish_from_cuts",
+    "blocked_until_calibrated",
+}
+ALLOWED_MISSING_POLICIES = {"preserve_gap", "interpolate", "block", "explicit_gap"}
+ALLOWED_CUT_KINDS = {"hard", "match", "dissolve", "unknown"}
+SUPPORTED_SAMPLE_RATES = {48000}
+SHA256_HEX_CHARS = set("0123456789abcdef")
+
+DEFAULT_TOLERANCES = {
+    "max_frame_residual": 0.0,
+    "max_sample_residual": 1.0,
+    "max_seconds_residual": 1.0 / 48000.0,
+}
+
+
+def _assert_keys_exact(obj: dict[str, Any], allowed: set[str], label: str) -> None:
+    unknown = sorted(set(obj.keys()) - allowed)
+    if unknown:
+        raise ValueError(f"{label} has unknown fields: {', '.join(unknown)}")
+
+
+def _expect_non_empty_string(value: Any, label: str) -> str:
+    if not isinstance(value, str) or not value.strip():
+        raise ValueError(f"{label} must be a non-empty string")
+    return value.strip()
+
+
+def _expect_boolean(value: Any, label: str) -> bool:
+    if not isinstance(value, bool):
+        raise ValueError(f"{label} must be a boolean")
+    return value
+
+
+def _expect_non_negative_int(value: Any, label: str) -> int:
+    if not isinstance(value, int) or isinstance(value, bool) or value < 0:
+        raise ValueError(f"{label} must be a non-negative integer")
+    return int(value)
+
+
+def _expect_positive_int(value: Any, label: str) -> int:
+    if not isinstance(value, int) or isinstance(value, bool) or value <= 0:
+        raise ValueError(f"{label} must be a positive integer")
+    return int(value)
+
+
+def _expect_number(value: Any, label: str) -> float:
+    if not isinstance(value, (int, float)) or isinstance(value, bool):
+        raise ValueError(f"{label} must be numeric")
+    as_float = float(value)
+    if not math.isfinite(as_float):
+        raise ValueError(f"{label} must be finite")
+    return as_float
+
+
+def _expect_sha256(value: Any, label: str) -> str:
+    text = _expect_non_empty_string(value, label)
+    if len(text) != 64 or any(ch not in SHA256_HEX_CHARS for ch in text):
+        raise ValueError(f"{label} must be a lowercase 64-char sha256")
+    return text
+
+
+def _write_json_atomic(path: Path, payload: dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=path.parent, delete=False) as handle:
+        tmp_path = Path(handle.name)
+        handle.write(json.dumps(payload, indent=2, sort_keys=True) + "\n")
+    try:
+        tmp_path.replace(path)
+    finally:
+        if tmp_path.exists():
+            tmp_path.unlink(missing_ok=True)
+
+
+def _canonical_sha256(payload: dict[str, Any]) -> str:
+    encoded = json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
+
+
+def seconds_from_frame(frame_index: int, fps_num: int, fps_den: int) -> float:
+    return (frame_index * fps_den) / float(fps_num)
+
+
+def sample_from_seconds(seconds: float, sample_rate_hz: int, rounding_policy: str) -> int:
+    scaled = seconds * sample_rate_hz
+    if rounding_policy == "exact_only":
+        if abs(scaled - round(scaled)) > 1e-9:
+            raise ValueError("exact_only rounding rejected non-integral sample conversion")
+        return int(round(scaled))
+    if rounding_policy == "nearest_ties_to_even":
+        return int(round(scaled))
+    if rounding_policy == "floor_start_ceil_end":
+        return int(math.floor(scaled))
+    raise ValueError(f"unsupported rounding_policy: {rounding_policy}")
+
+
+def frame_from_seconds(seconds: float, fps_num: int, fps_den: int, rounding_policy: str) -> int:
+    scaled = seconds * fps_num / float(fps_den)
+    if rounding_policy == "exact_only":
+        if abs(scaled - round(scaled)) > 1e-9:
+            raise ValueError("exact_only rounding rejected non-integral frame conversion")
+        return int(round(scaled))
+    if rounding_policy == "nearest_ties_to_even":
+        return int(round(scaled))
+    if rounding_policy == "floor_start_ceil_end":
+        return int(math.floor(scaled + 1e-12))
+    raise ValueError(f"unsupported rounding_policy: {rounding_policy}")
+
+
+def validate_clock_span_invariants(span: dict[str, Any], label: str = "clock_span") -> dict[str, Any]:
+    _assert_keys_exact(span, ALLOWED_CLOCK_SPAN_FIELDS, label)
+    validated = {
+        "clock_id": _expect_non_empty_string(span.get("clock_id"), f"{label}.clock_id"),
+        "timebase_numerator": _expect_positive_int(span.get("timebase_numerator"), f"{label}.timebase_numerator"),
+        "timebase_denominator": _expect_positive_int(
+            span.get("timebase_denominator"), f"{label}.timebase_denominator"
+        ),
+        "start_pts": _expect_non_negative_int(span.get("start_pts"), f"{label}.start_pts"),
+        "end_pts_exclusive": _expect_positive_int(span.get("end_pts_exclusive"), f"{label}.end_pts_exclusive"),
+        "start_frame": _expect_non_negative_int(span.get("start_frame"), f"{label}.start_frame"),
+        "end_frame_exclusive": _expect_positive_int(
+            span.get("end_frame_exclusive"), f"{label}.end_frame_exclusive"
+        ),
+        "start_sample": _expect_non_negative_int(span.get("start_sample"), f"{label}.start_sample"),
+        "end_sample_exclusive": _expect_positive_int(
+            span.get("end_sample_exclusive"), f"{label}.end_sample_exclusive"
+        ),
+        "frame_rate_numerator": _expect_positive_int(
+            span.get("frame_rate_numerator"), f"{label}.frame_rate_numerator"
+        ),
+        "frame_rate_denominator": _expect_positive_int(
+            span.get("frame_rate_denominator"), f"{label}.frame_rate_denominator"
+        ),
+        "sample_rate_hz": _expect_positive_int(span.get("sample_rate_hz"), f"{label}.sample_rate_hz"),
+        "rounding_policy": _expect_non_empty_string(span.get("rounding_policy"), f"{label}.rounding_policy"),
+    }
+    if validated["start_pts"] >= validated["end_pts_exclusive"]:
+        raise ValueError(f"{label}: start_pts must precede end_pts_exclusive")
+    if validated["start_frame"] >= validated["end_frame_exclusive"]:
+        raise ValueError(f"{label}: start_frame must precede end_frame_exclusive")
+    if validated["start_sample"] >= validated["end_sample_exclusive"]:
+        raise ValueError(f"{label}: start_sample must precede end_sample_exclusive")
+    if validated["rounding_policy"] not in ALLOWED_ROUNDING:
+        raise ValueError(f"{label}.rounding_policy must be one of {sorted(ALLOWED_ROUNDING)}")
+    if validated["sample_rate_hz"] not in SUPPORTED_SAMPLE_RATES:
+        raise ValueError(
+            f"{label}.sample_rate_hz unsupported; allowed={sorted(SUPPORTED_SAMPLE_RATES)}"
+        )
+    return validated
+
+
+def _validate_source_binding(raw: Any) -> dict[str, Any]:
+    if not isinstance(raw, dict):
+        raise ValueError("source_binding must be an object")
+    allowed = {"video_sha256", "stream_index", "container_sha256"}
+    _assert_keys_exact(raw, allowed, "source_binding")
+    container = raw.get("container_sha256")
+    return {
+        "video_sha256": _expect_sha256(raw.get("video_sha256"), "source_binding.video_sha256"),
+        "stream_index": _expect_non_negative_int(raw.get("stream_index"), "source_binding.stream_index"),
+        "container_sha256": None
+        if container is None
+        else _expect_sha256(container, "source_binding.container_sha256"),
+    }
+
+
+def _validate_tolerances(raw: Any) -> dict[str, float]:
+    if raw is None:
+        return dict(DEFAULT_TOLERANCES)
+    if not isinstance(raw, dict):
+        raise ValueError("tolerances must be an object")
+    allowed = {"max_frame_residual", "max_sample_residual", "max_seconds_residual"}
+    _assert_keys_exact(raw, allowed, "tolerances")
+    return {
+        "max_frame_residual": _expect_number(raw.get("max_frame_residual"), "tolerances.max_frame_residual"),
+        "max_sample_residual": _expect_number(raw.get("max_sample_residual"), "tolerances.max_sample_residual"),
+        "max_seconds_residual": _expect_number(
+            raw.get("max_seconds_residual"), "tolerances.max_seconds_residual"
+        ),
+    }
+
+
+def _validate_frame_table(raw: Any, clock_span: dict[str, Any]) -> list[dict[str, Any]]:
+    if not isinstance(raw, list) or not raw:
+        raise ValueError("frame_table must be a non-empty list")
+    frames: list[dict[str, Any]] = []
+    previous_pts: int | None = None
+    previous_index: int | None = None
+    for idx, entry in enumerate(raw):
+        if not isinstance(entry, dict):
+            raise ValueError(f"frame_table[{idx}] must be an object")
+        _assert_keys_exact(entry, ALLOWED_FRAME_FIELDS, f"frame_table[{idx}]")
+        frame_index = _expect_non_negative_int(entry.get("frame_index"), f"frame_table[{idx}].frame_index")
+        source_pts = _expect_non_negative_int(entry.get("source_pts"), f"frame_table[{idx}].source_pts")
+        duration_pts = _expect_positive_int(entry.get("duration_pts"), f"frame_table[{idx}].duration_pts")
+        if previous_index is not None and frame_index != previous_index + 1:
+            raise ValueError(f"frame_table[{idx}].frame_index must be contiguous")
+        if previous_pts is not None and source_pts < previous_pts:
+            raise ValueError(f"frame_table[{idx}].source_pts must be monotonic non-decreasing")
+        if frame_index < clock_span["start_frame"] or frame_index >= clock_span["end_frame_exclusive"]:
+            raise ValueError(f"frame_table[{idx}].frame_index outside clock_span frame bounds")
+        frames.append(
+            {
+                "frame_index": frame_index,
+                "source_pts": source_pts,
+                "duration_pts": duration_pts,
+            }
+        )
+        previous_index = frame_index
+        previous_pts = source_pts
+    if frames[0]["frame_index"] != clock_span["start_frame"]:
+        raise ValueError("frame_table must begin at clock_span.start_frame")
+    if frames[-1]["frame_index"] != clock_span["end_frame_exclusive"] - 1:
+        raise ValueError("frame_table must end at clock_span.end_frame_exclusive - 1")
+    return frames
+
+
+def _validate_vfr_segments(raw: Any, frame_rate_mode: str, clock_span: dict[str, Any]) -> list[dict[str, Any]]:
+    if raw is None:
+        raw = []
+    if not isinstance(raw, list):
+        raise ValueError("vfr_segments must be a list")
+    if frame_rate_mode == "vfr" and not raw:
+        raise ValueError("vfr frame_rate_mode requires a non-empty vfr_segments map")
+    if frame_rate_mode != "vfr" and raw:
+        raise ValueError("vfr_segments must be empty unless frame_rate_mode is vfr")
+    segments: list[dict[str, Any]] = []
+    previous_end: int | None = None
+    for idx, entry in enumerate(raw):
+        if not isinstance(entry, dict):
+            raise ValueError(f"vfr_segments[{idx}] must be an object")
+        allowed = {
+            "segment_id",
+            "start_frame",
+            "end_frame_exclusive",
+            "timebase_numerator",
+            "timebase_denominator",
+        }
+        _assert_keys_exact(entry, allowed, f"vfr_segments[{idx}]")
+        start_frame = _expect_non_negative_int(entry.get("start_frame"), f"vfr_segments[{idx}].start_frame")
+        end_frame = _expect_positive_int(
+            entry.get("end_frame_exclusive"), f"vfr_segments[{idx}].end_frame_exclusive"
+        )
+        if start_frame >= end_frame:
+            raise ValueError(f"vfr_segments[{idx}] start_frame must precede end_frame_exclusive")
+        if previous_end is not None and start_frame < previous_end:
+            raise ValueError(f"vfr_segments[{idx}] overlaps prior segment")
+        if previous_end is not None and start_frame > previous_end:
+            raise ValueError(f"vfr_segments[{idx}] leaves an unmapped frame gap")
+        segments.append(
+            {
+                "segment_id": _expect_non_empty_string(entry.get("segment_id"), f"vfr_segments[{idx}].segment_id"),
+                "start_frame": start_frame,
+                "end_frame_exclusive": end_frame,
+                "timebase_numerator": _expect_positive_int(
+                    entry.get("timebase_numerator"), f"vfr_segments[{idx}].timebase_numerator"
+                ),
+                "timebase_denominator": _expect_positive_int(
+                    entry.get("timebase_denominator"), f"vfr_segments[{idx}].timebase_denominator"
+                ),
+            }
+        )
+        previous_end = end_frame
+    if segments:
+        if segments[0]["start_frame"] != clock_span["start_frame"]:
+            raise ValueError("vfr_segments must begin at clock_span.start_frame")
+        if segments[-1]["end_frame_exclusive"] != clock_span["end_frame_exclusive"]:
+            raise ValueError("vfr_segments must end at clock_span.end_frame_exclusive")
+    return segments
+
+
+def _validate_cut_epochs(raw: Any, clock_span: dict[str, Any]) -> list[dict[str, Any]]:
+    if raw is None:
+        raw = []
+    if not isinstance(raw, list):
+        raise ValueError("cut_epochs must be a list")
+    cuts: list[dict[str, Any]] = []
+    for idx, entry in enumerate(raw):
+        if not isinstance(entry, dict):
+            raise ValueError(f"cut_epochs[{idx}] must be an object")
+        allowed = {"cut_id", "frame_index", "cut_kind", "algorithm_id", "confidence"}
+        _assert_keys_exact(entry, allowed, f"cut_epochs[{idx}]")
+        frame_index = _expect_non_negative_int(entry.get("frame_index"), f"cut_epochs[{idx}].frame_index")
+        if frame_index < clock_span["start_frame"] or frame_index >= clock_span["end_frame_exclusive"]:
+            raise ValueError(f"cut_epochs[{idx}].frame_index outside clock_span bounds")
+        cut_kind = _expect_non_empty_string(entry.get("cut_kind"), f"cut_epochs[{idx}].cut_kind")
+        if cut_kind not in ALLOWED_CUT_KINDS:
+            raise ValueError(f"cut_epochs[{idx}].cut_kind must be one of {sorted(ALLOWED_CUT_KINDS)}")
+        confidence = _expect_number(entry.get("confidence"), f"cut_epochs[{idx}].confidence")
+        if confidence < 0 or confidence > 1:
+            raise ValueError(f"cut_epochs[{idx}].confidence must be within [0, 1]")
+        cuts.append(
+            {
+                "cut_id": _expect_non_empty_string(entry.get("cut_id"), f"cut_epochs[{idx}].cut_id"),
+                "frame_index": frame_index,
+                "cut_kind": cut_kind,
+                "algorithm_id": _expect_non_empty_string(
+                    entry.get("algorithm_id"), f"cut_epochs[{idx}].algorithm_id"
+                ),
+                "confidence": confidence,
+            }
+        )
+    return cuts
+
+
+def _validate_missing_frames(raw: Any, clock_span: dict[str, Any]) -> list[dict[str, Any]]:
+    if raw is None:
+        raw = []
+    if not isinstance(raw, list):
+        raise ValueError("missing_frames must be a list")
+    missing: list[dict[str, Any]] = []
+    for idx, entry in enumerate(raw):
+        if not isinstance(entry, dict):
+            raise ValueError(f"missing_frames[{idx}] must be an object")
+        _assert_keys_exact(entry, {"frame_index", "policy"}, f"missing_frames[{idx}]")
+        frame_index = _expect_non_negative_int(entry.get("frame_index"), f"missing_frames[{idx}].frame_index")
+        if frame_index < clock_span["start_frame"] or frame_index >= clock_span["end_frame_exclusive"]:
+            raise ValueError(f"missing_frames[{idx}].frame_index outside clock_span bounds")
+        policy = _expect_non_empty_string(entry.get("policy"), f"missing_frames[{idx}].policy")
+        if policy not in ALLOWED_MISSING_POLICIES:
+            raise ValueError(
+                f"missing_frames[{idx}].policy must be one of {sorted(ALLOWED_MISSING_POLICIES)}"
+            )
+        missing.append({"frame_index": frame_index, "policy": policy})
+    return missing
+
+
+def _build_normalized_frames(
+    frames: list[dict[str, Any]],
+    clock_span: dict[str, Any],
+    tolerances: dict[str, float],
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    fps_num = clock_span["frame_rate_numerator"]
+    fps_den = clock_span["frame_rate_denominator"]
+    sample_rate = clock_span["sample_rate_hz"]
+    rounding = clock_span["rounding_policy"]
+    normalized: list[dict[str, Any]] = []
+    max_frame_residual = 0.0
+    max_sample_residual = 0.0
+    max_seconds_residual = 0.0
+    for entry in frames:
+        frame_index = entry["frame_index"]
+        seconds = seconds_from_frame(frame_index, fps_num, fps_den)
+        sample = sample_from_seconds(seconds, sample_rate, rounding)
+        roundtrip_seconds = sample / float(sample_rate)
+        roundtrip_frame = frame_from_seconds(roundtrip_seconds, fps_num, fps_den, rounding)
+        frame_residual = abs(roundtrip_frame - frame_index)
+        sample_residual = abs(sample - round(seconds * sample_rate))
+        seconds_residual = abs(roundtrip_seconds - seconds)
+        max_frame_residual = max(max_frame_residual, float(frame_residual))
+        max_sample_residual = max(max_sample_residual, float(sample_residual))
+        max_seconds_residual = max(max_seconds_residual, float(seconds_residual))
+        if frame_residual > tolerances["max_frame_residual"]:
+            raise ValueError(
+                f"frame {frame_index} round-trip frame residual {frame_residual} exceeds tolerance"
+            )
+        if sample_residual > tolerances["max_sample_residual"]:
+            raise ValueError(
+                f"frame {frame_index} round-trip sample residual {sample_residual} exceeds tolerance"
+            )
+        if seconds_residual > tolerances["max_seconds_residual"]:
+            raise ValueError(
+                f"frame {frame_index} round-trip seconds residual {seconds_residual} exceeds tolerance"
+            )
+        normalized.append(
+            {
+                "frame_index": frame_index,
+                "source_pts": entry["source_pts"],
+                "duration_pts": entry["duration_pts"],
+                "normalized_seconds": round(seconds, 12),
+                "normalized_sample": sample,
+            }
+        )
+    evidence = {
+        "checked_frame_count": len(normalized),
+        "max_observed_frame_residual": max_frame_residual,
+        "max_observed_sample_residual": max_sample_residual,
+        "max_observed_seconds_residual": max_seconds_residual,
+        "within_tolerance": True,
+    }
+    return normalized, evidence
+
+
+def compile_timeline(payload: dict[str, Any]) -> dict[str, Any]:
+    _assert_keys_exact(payload, ALLOWED_TOP_LEVEL_FIELDS, "input")
+    schema_version = _expect_non_empty_string(payload.get("schema_version"), "schema_version")
+    if schema_version != "1.0.0":
+        raise ValueError("schema_version must equal 1.0.0")
+
+    frame_rate_mode = _expect_non_empty_string(payload.get("frame_rate_mode"), "frame_rate_mode")
+    if frame_rate_mode not in ALLOWED_FRAME_RATE_MODES:
+        raise ValueError(f"frame_rate_mode must be one of {sorted(ALLOWED_FRAME_RATE_MODES)}")
+
+    camera_motion_policy = _expect_non_empty_string(
+        payload.get("camera_motion_policy"), "camera_motion_policy"
+    )
+    if camera_motion_policy not in ALLOWED_CAMERA_MOTION:
+        raise ValueError(f"camera_motion_policy must be one of {sorted(ALLOWED_CAMERA_MOTION)}")
+
+    clock_span = validate_clock_span_invariants(payload.get("clock_span") or {})
+    source_binding = _validate_source_binding(payload.get("source_binding"))
+    tolerances = _validate_tolerances(payload.get("tolerances"))
+    frames = _validate_frame_table(payload.get("frame_table"), clock_span)
+    vfr_segments = _validate_vfr_segments(payload.get("vfr_segments"), frame_rate_mode, clock_span)
+    cut_epochs = _validate_cut_epochs(payload.get("cut_epochs"), clock_span)
+    missing_frames = _validate_missing_frames(payload.get("missing_frames"), clock_span)
+
+    dependency_raw = payload.get("dependency_authority")
+    if not isinstance(dependency_raw, dict):
+        raise ValueError("dependency_authority must be an object")
+    _assert_keys_exact(dependency_raw, {"row067_complete"}, "dependency_authority")
+    row067_complete = _expect_boolean(dependency_raw.get("row067_complete"), "dependency_authority.row067_complete")
+
+    runtime_raw = payload.get("runtime_authority")
+    if not isinstance(runtime_raw, dict):
+        raise ValueError("runtime_authority must be an object")
+    runtime_allowed = {
+        "mux_replay_proof_present",
+        "combined_visual_review_present",
+        "fixed_vfr_benchmark_pass",
+    }
+    _assert_keys_exact(runtime_raw, runtime_allowed, "runtime_authority")
+    mux_replay = _expect_boolean(
+        runtime_raw.get("mux_replay_proof_present"), "runtime_authority.mux_replay_proof_present"
+    )
+    visual_review = _expect_boolean(
+        runtime_raw.get("combined_visual_review_present"),
+        "runtime_authority.combined_visual_review_present",
+    )
+    benchmark_pass = _expect_boolean(
+        runtime_raw.get("fixed_vfr_benchmark_pass"), "runtime_authority.fixed_vfr_benchmark_pass"
+    )
+
+    normalized_frames, roundtrip_evidence = _build_normalized_frames(frames, clock_span, tolerances)
+
+    dependency_ready = row067_complete
+    runtime_ready = mux_replay and visual_review and benchmark_pass
+    production_completion_allowed = bool(dependency_ready and runtime_ready and roundtrip_evidence["within_tolerance"])
+    if production_completion_allowed:
+        # Still fail closed in this increment: no direct Row084 tracker receipt path yet.
+        production_completion_allowed = False
+
+    if not dependency_ready:
+        authority_ceiling = "candidate"
+        status = "candidate_hold"
+    elif not runtime_ready:
+        authority_ceiling = "technical"
+        status = "technical_partial"
+    else:
+        authority_ceiling = "technical"
+        status = "technical_partial"
+
+    provenance = payload.get("provenance")
+    if provenance is None:
+        provenance = {
+            "compiler": "compile_wave64_canonical_video_timeline.py",
+            "compiler_revision": "row084_fail_closed_v1",
+        }
+    if not isinstance(provenance, dict):
+        raise ValueError("provenance must be an object")
+
+    receipt_body = {
+        "schema_version": "1.0.0",
+        "record_type": "canonical_video_timeline",
+        "timeline_id": _expect_non_empty_string(payload.get("timeline_id"), "timeline_id"),
+        "revision": _expect_non_empty_string(payload.get("revision"), "revision"),
+        "status": status,
+        "created_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
+        "source_binding": source_binding,
+        "clock_span": clock_span,
+        "frame_rate_mode": frame_rate_mode,
+        "frame_table": normalized_frames,
+        "vfr_segments": vfr_segments,
+        "cut_epochs": cut_epochs,
+        "missing_frames": missing_frames,
+        "camera_motion_policy": camera_motion_policy,
+        "tolerances": tolerances,
+        "roundtrip_evidence": roundtrip_evidence,
+        "dependency_authority": {"row067_complete": row067_complete},
+        "runtime_authority": {
+            "mux_replay_proof_present": mux_replay,
+            "combined_visual_review_present": visual_review,
+            "fixed_vfr_benchmark_pass": benchmark_pass,
+        },
+        "authority_ceiling": authority_ceiling,
+        "production_completion_allowed": production_completion_allowed,
+        "row_complete": False,
+        "provenance": provenance,
+    }
+    timeline_sha256 = _canonical_sha256(receipt_body)
+    receipt_body["timeline_sha256"] = timeline_sha256
+    return receipt_body
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description="Compile a fail-closed Row084 canonical video timeline receipt.")
+    parser.add_argument("--input", required=True, help="Path to timeline input packet JSON")
+    parser.add_argument("--output", required=True, help="Path to write compiled timeline receipt JSON")
+    args = parser.parse_args(argv)
+
+    input_path = Path(args.input)
+    output_path = Path(args.output)
+    payload = json.loads(input_path.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise SystemExit("input packet must be a JSON object")
+    try:
+        receipt = compile_timeline(payload)
+    except ValueError as exc:
+        raise SystemExit(f"ROW084_FAIL_CLOSED: {exc}") from exc
+    _write_json_atomic(output_path, receipt)
+    print(json.dumps({"status": "ok", "timeline_sha256": receipt["timeline_sha256"], "row_complete": False}))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

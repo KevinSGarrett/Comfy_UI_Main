@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/canonical-media-clock-span/1.0.0",
+  "title": "Wave64 Canonical Media Clock Span",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_type",
+    "media_clock_span_id",
+    "revision",
+    "status",
+    "created_at",
+    "clock_id",
+    "timebase_numerator",
+    "timebase_denominator",
+    "start_pts",
+    "end_pts_exclusive",
+    "start_frame",
+    "end_frame_exclusive",
+    "start_sample",
+    "end_sample_exclusive",
+    "frame_rate",
+    "sample_rate_hz",
+    "rounding_policy",
+    "source_clock_ref",
+    "span_sha256",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "canonical_media_clock_span"
+    },
+    "media_clock_span_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/Provenance"
+    },
+    "clock_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "timebase_numerator": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "timebase_denominator": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "start_pts": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "end_pts_exclusive": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "start_frame": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "end_frame_exclusive": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "start_sample": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "end_sample_exclusive": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "frame_rate": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "sample_rate_hz": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "rounding_policy": {
+      "enum": [
+        "floor_start_ceil_end",
+        "nearest_ties_to_even",
+        "exact_only"
+      ]
+    },
+    "source_clock_ref": {
+      "oneOf": [
+        {
+          "$ref": "https://comfy-ui-main.local/schemas/model-intelligence-common/1.0.0#/$defs/RecordRef"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "span_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "additionalProperties": false
+}

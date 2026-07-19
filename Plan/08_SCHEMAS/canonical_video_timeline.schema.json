@@ -1,0 +1,250 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/canonical-video-timeline/1.0.0",
+  "title": "Wave64 Canonical Video Timeline",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_type",
+    "timeline_id",
+    "revision",
+    "status",
+    "created_at",
+    "source_binding",
+    "clock_span",
+    "frame_rate_mode",
+    "frame_table",
+    "vfr_segments",
+    "cut_epochs",
+    "missing_frames",
+    "camera_motion_policy",
+    "tolerances",
+    "roundtrip_evidence",
+    "dependency_authority",
+    "runtime_authority",
+    "authority_ceiling",
+    "production_completion_allowed",
+    "row_complete",
+    "timeline_sha256",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "record_type": { "const": "canonical_video_timeline" },
+    "timeline_id": { "type": "string", "minLength": 1 },
+    "revision": { "type": "string", "minLength": 1 },
+    "status": {
+      "enum": [
+        "candidate_hold",
+        "technical_partial",
+        "blocked",
+        "accepted"
+      ]
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "source_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["video_sha256", "stream_index", "container_sha256"],
+      "properties": {
+        "video_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "stream_index": { "type": "integer", "minimum": 0 },
+        "container_sha256": {
+          "oneOf": [
+            { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+            { "type": "null" }
+          ]
+        }
+      }
+    },
+    "clock_span": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "clock_id",
+        "timebase_numerator",
+        "timebase_denominator",
+        "start_pts",
+        "end_pts_exclusive",
+        "start_frame",
+        "end_frame_exclusive",
+        "start_sample",
+        "end_sample_exclusive",
+        "frame_rate_numerator",
+        "frame_rate_denominator",
+        "sample_rate_hz",
+        "rounding_policy"
+      ],
+      "properties": {
+        "clock_id": { "type": "string", "minLength": 1 },
+        "timebase_numerator": { "type": "integer", "minimum": 1 },
+        "timebase_denominator": { "type": "integer", "minimum": 1 },
+        "start_pts": { "type": "integer", "minimum": 0 },
+        "end_pts_exclusive": { "type": "integer", "minimum": 1 },
+        "start_frame": { "type": "integer", "minimum": 0 },
+        "end_frame_exclusive": { "type": "integer", "minimum": 1 },
+        "start_sample": { "type": "integer", "minimum": 0 },
+        "end_sample_exclusive": { "type": "integer", "minimum": 1 },
+        "frame_rate_numerator": { "type": "integer", "minimum": 1 },
+        "frame_rate_denominator": { "type": "integer", "minimum": 1 },
+        "sample_rate_hz": { "type": "integer", "minimum": 1 },
+        "rounding_policy": {
+          "enum": ["floor_start_ceil_end", "nearest_ties_to_even", "exact_only"]
+        }
+      }
+    },
+    "frame_rate_mode": { "enum": ["fixed", "fractional", "vfr"] },
+    "frame_table": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "frame_index",
+          "source_pts",
+          "duration_pts",
+          "normalized_seconds",
+          "normalized_sample"
+        ],
+        "properties": {
+          "frame_index": { "type": "integer", "minimum": 0 },
+          "source_pts": { "type": "integer", "minimum": 0 },
+          "duration_pts": { "type": "integer", "minimum": 1 },
+          "normalized_seconds": { "type": "number", "minimum": 0 },
+          "normalized_sample": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
+    "vfr_segments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "segment_id",
+          "start_frame",
+          "end_frame_exclusive",
+          "timebase_numerator",
+          "timebase_denominator"
+        ],
+        "properties": {
+          "segment_id": { "type": "string", "minLength": 1 },
+          "start_frame": { "type": "integer", "minimum": 0 },
+          "end_frame_exclusive": { "type": "integer", "minimum": 1 },
+          "timebase_numerator": { "type": "integer", "minimum": 1 },
+          "timebase_denominator": { "type": "integer", "minimum": 1 }
+        }
+      }
+    },
+    "cut_epochs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "cut_id",
+          "frame_index",
+          "cut_kind",
+          "algorithm_id",
+          "confidence"
+        ],
+        "properties": {
+          "cut_id": { "type": "string", "minLength": 1 },
+          "frame_index": { "type": "integer", "minimum": 0 },
+          "cut_kind": {
+            "enum": ["hard", "match", "dissolve", "unknown"]
+          },
+          "algorithm_id": { "type": "string", "minLength": 1 },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+        }
+      }
+    },
+    "missing_frames": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["frame_index", "policy"],
+        "properties": {
+          "frame_index": { "type": "integer", "minimum": 0 },
+          "policy": {
+            "enum": ["preserve_gap", "interpolate", "block", "explicit_gap"]
+          }
+        }
+      }
+    },
+    "camera_motion_policy": {
+      "enum": [
+        "not_evaluated",
+        "distinguish_from_cuts",
+        "blocked_until_calibrated"
+      ]
+    },
+    "tolerances": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_frame_residual",
+        "max_sample_residual",
+        "max_seconds_residual"
+      ],
+      "properties": {
+        "max_frame_residual": { "type": "number", "minimum": 0 },
+        "max_sample_residual": { "type": "number", "minimum": 0 },
+        "max_seconds_residual": { "type": "number", "minimum": 0 }
+      }
+    },
+    "roundtrip_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "checked_frame_count",
+        "max_observed_frame_residual",
+        "max_observed_sample_residual",
+        "max_observed_seconds_residual",
+        "within_tolerance"
+      ],
+      "properties": {
+        "checked_frame_count": { "type": "integer", "minimum": 1 },
+        "max_observed_frame_residual": { "type": "number", "minimum": 0 },
+        "max_observed_sample_residual": { "type": "number", "minimum": 0 },
+        "max_observed_seconds_residual": { "type": "number", "minimum": 0 },
+        "within_tolerance": { "type": "boolean" }
+      }
+    },
+    "dependency_authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["row067_complete"],
+      "properties": {
+        "row067_complete": { "type": "boolean" }
+      }
+    },
+    "runtime_authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mux_replay_proof_present",
+        "combined_visual_review_present",
+        "fixed_vfr_benchmark_pass"
+      ],
+      "properties": {
+        "mux_replay_proof_present": { "type": "boolean" },
+        "combined_visual_review_present": { "type": "boolean" },
+        "fixed_vfr_benchmark_pass": { "type": "boolean" }
+      }
+    },
+    "authority_ceiling": {
+      "enum": ["candidate", "technical", "certification"]
+    },
+    "production_completion_allowed": { "type": "boolean" },
+    "row_complete": { "type": "boolean" },
+    "timeline_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

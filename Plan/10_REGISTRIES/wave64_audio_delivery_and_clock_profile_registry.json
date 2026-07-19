@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0.0",
+  "updated_at": "2026-07-16T20:30:00-05:00",
+  "runtime_completion_claimed": false,
+  "registry_id": "wave64_audio_delivery_and_clock_profile_registry_v1",
+  "profiles": [
+    {
+      "profile_id": "canonical_analysis",
+      "sample_rate_hz": 48000,
+      "processing_format": "float32_or_float64",
+      "container_required": false
+    },
+    {
+      "profile_id": "lossless_review_evidence",
+      "sample_rate_hz": 48000,
+      "processing_format": "pcm24_or_float32",
+      "container_required": true
+    },
+    {
+      "profile_id": "delivery",
+      "sample_rate_hz": 48000,
+      "processing_format": "profile_bound",
+      "container_required": true
+    }
+  ],
+  "supports": [
+    "rational_video_timebase",
+    "vfr_segment_map",
+    "frame_pts_duration",
+    "sample_clock",
+    "encoder_priming_padding",
+    "retime_edit_list",
+    "cut_epochs",
+    "piecewise_drift"
+  ],
+  "row084_roundtrip_tolerances": {
+    "status": "declarative_partial_not_runtime_authority",
+    "supported_sample_rate_hz": [48000],
+    "max_frame_residual": 0.0,
+    "max_sample_residual": 1.0,
+    "max_seconds_residual": 2.0833333333333333e-05,
+    "notes": [
+      "Bound to compile_wave64_canonical_video_timeline.py defaults.",
+      "Does not grant Row084 completion, mux replay, or visual-review authority."
+    ]
+  },
+  "legacy_16khz_mono_fixture_is_universal_authority": false
+}
