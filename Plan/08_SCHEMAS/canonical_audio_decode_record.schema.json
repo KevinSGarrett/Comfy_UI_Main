@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/canonical_audio_decode_record.schema.json",
+  "title": "Wave64 Row070 Canonical Audio Decode Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "tracker_id",
+    "item_id",
+    "decoder_revision",
+    "asset_id",
+    "source_path",
+    "source_sha256",
+    "source_bytes",
+    "codec",
+    "duration_seconds",
+    "sample_rate_hz",
+    "channels",
+    "bit_depth",
+    "channel_layout",
+    "decode_status",
+    "canonical_pcm_sha256",
+    "canonical_pcm_contract",
+    "frame_count",
+    "source_immutable",
+    "decision"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "tracker_id": { "type": "string", "const": "TRK-W64-070" },
+    "item_id": { "type": "string", "const": "ITEM-W64-070" },
+    "decoder_revision": {
+      "type": "string",
+      "const": "wave64_row070_canonical_pcm_v0.1.0"
+    },
+    "asset_id": { "type": "string", "minLength": 1 },
+    "source_path": { "type": "string", "minLength": 1 },
+    "source_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "source_bytes": { "type": "integer", "minimum": 0 },
+    "codec": { "type": "string", "minLength": 1 },
+    "duration_seconds": { "type": "number", "minimum": 0 },
+    "sample_rate_hz": { "type": "integer", "minimum": 1 },
+    "channels": { "type": "integer", "minimum": 1, "maximum": 32 },
+    "bit_depth": { "type": "integer", "minimum": 1 },
+    "channel_layout": { "type": "string", "minLength": 1 },
+    "decode_status": { "enum": ["pass", "blocked", "failed"] },
+    "canonical_pcm_sha256": {
+      "oneOf": [
+        { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        { "type": "null" }
+      ]
+    },
+    "canonical_pcm_contract": { "$ref": "#/$defs/canonical_pcm_contract" },
+    "frame_count": { "type": "integer", "minimum": 0 },
+    "source_immutable": { "type": "boolean" },
+    "blocker": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["code", "detail"],
+      "properties": {
+        "code": { "type": "string", "minLength": 1 },
+        "detail": { "type": "string", "minLength": 1 }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "blocker_codes", "library_authority"],
+      "properties": {
+        "status": { "enum": ["pass", "blocked", "failed"] },
+        "blocker_codes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "library_authority": { "type": "boolean" }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "decode_status": { "const": "pass" } },
+        "required": ["decode_status"]
+      },
+      "then": {
+        "required": ["canonical_pcm_sha256"],
+        "properties": {
+          "canonical_pcm_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "frame_count": { "type": "integer", "minimum": 1 },
+          "blocker": { "type": "null" },
+          "source_immutable": { "const": true }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "decode_status": { "enum": ["blocked", "failed"] } },
+        "required": ["decode_status"]
+      },
+      "then": {
+        "required": ["blocker"],
+        "properties": {
+          "blocker": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["code", "detail"],
+            "properties": {
+              "code": { "type": "string", "minLength": 1 },
+              "detail": { "type": "string", "minLength": 1 }
+            }
+          },
+          "canonical_pcm_sha256": { "type": "null" }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "canonical_pcm_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sample_format",
+        "endianness",
+        "interleaving",
+        "channel_order_policy",
+        "sample_rate_policy",
+        "trim_policy",
+        "normalization_policy",
+        "hash_domain"
+      ],
+      "properties": {
+        "sample_format": { "const": "ieee_float32" },
+        "endianness": { "const": "little" },
+        "interleaving": { "const": "frame_interleaved" },
+        "channel_order_policy": { "const": "preserve_source_order" },
+        "sample_rate_policy": { "const": "preserve_source_rate" },
+        "trim_policy": { "const": "no_trim" },
+        "normalization_policy": { "const": "none_full_scale_integer_to_float" },
+        "hash_domain": { "const": "raw_interleaved_f32le_bytes" }
+      }
+    }
+  }
+}
