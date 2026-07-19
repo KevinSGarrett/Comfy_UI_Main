@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://comfy-ui-main.local/schemas/canonical-video-timeline-mux-prep-receipt/1.0.0",
+  "$id": "https://comfy-ui-main.local/schemas/canonical-video-timeline-mux-prep-receipt/1.1.0",
   "title": "Wave64 Canonical Video Timeline Mux-Prep Receipt",
   "type": "object",
   "additionalProperties": false,
@@ -13,6 +13,7 @@
     "status",
     "created_at",
     "mux_prep",
+    "dry_run_mux_plan_sha256",
     "authority",
     "production_completion_allowed",
     "row_complete",
@@ -40,6 +41,8 @@
         "cut_epoch_count",
         "audio_stream_binding",
         "container_binding",
+        "stream_identities_bound",
+        "timeline_plan_sha256",
         "mux_command_planned",
         "mux_command_executed"
       ],
@@ -51,12 +54,15 @@
         "frame_rate_mode": { "enum": ["fixed", "fractional", "vfr"] },
         "vfr_segment_count": { "type": "integer", "minimum": 0 },
         "cut_epoch_count": { "type": "integer", "minimum": 0 },
-        "audio_stream_binding": { "type": ["string", "null"] },
-        "container_binding": { "type": ["string", "null"] },
+        "audio_stream_binding": { "type": ["string", "null"], "minLength": 1 },
+        "container_binding": { "type": ["string", "null"], "minLength": 1 },
+        "stream_identities_bound": { "type": "boolean" },
+        "timeline_plan_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
         "mux_command_planned": { "type": "boolean" },
-        "mux_command_executed": { "type": "boolean" }
+        "mux_command_executed": { "const": false }
       }
     },
+    "dry_run_mux_plan_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
     "authority": {
       "type": "object",
       "additionalProperties": false,
@@ -65,14 +71,18 @@
         "mux_replay_executed",
         "mux_replay_proof_present",
         "mux_authority_granted",
-        "upstream_mux_replay_claim_ignored"
+        "upstream_mux_replay_claim_ignored",
+        "dry_run_plan_only",
+        "stream_identities_bound"
       ],
       "properties": {
         "scaffold_only": { "const": true },
         "mux_replay_executed": { "const": false },
         "mux_replay_proof_present": { "const": false },
         "mux_authority_granted": { "const": false },
-        "upstream_mux_replay_claim_ignored": { "type": "boolean" }
+        "upstream_mux_replay_claim_ignored": { "type": "boolean" },
+        "dry_run_plan_only": { "const": true },
+        "stream_identities_bound": { "type": "boolean" }
       }
     },
     "production_completion_allowed": { "const": false },

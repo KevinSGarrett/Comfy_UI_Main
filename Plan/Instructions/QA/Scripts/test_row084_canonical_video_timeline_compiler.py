@@ -19,6 +19,9 @@ MUX_PREP_SCHEMA = ROOT / "Plan/08_SCHEMAS/canonical_video_timeline_mux_prep_rece
 HELD_OUT_MATRIX_SCHEMA = (
     ROOT / "Plan/08_SCHEMAS/canonical_video_timeline_held_out_roundtrip_matrix.schema.json"
 )
+HELD_OUT_MUX_DRY_RUN_SCHEMA = (
+    ROOT / "Plan/08_SCHEMAS/canonical_video_timeline_held_out_mux_dry_run_matrix.schema.json"
+)
 
 
 def _write_json(path: Path, payload: dict) -> None:
@@ -32,6 +35,9 @@ def _fixed_packet(
     fps_den: int = 1,
     timeline_id: str = "row084_fixed_fixture",
     video_sha256: str | None = None,
+    container_sha256: str | None = None,
+    audio_stream_sha256: str | None = None,
+    audio_stream_index: int | None = None,
     dependency_complete: bool = False,
     provenance_fixture: str = "row084_unit",
 ) -> dict:
@@ -53,7 +59,9 @@ def _fixed_packet(
         "source_binding": {
             "video_sha256": video_sha256 or ("a" * 64),
             "stream_index": 0,
-            "container_sha256": None,
+            "container_sha256": container_sha256,
+            "audio_stream_sha256": audio_stream_sha256,
+            "audio_stream_index": audio_stream_index,
         },
         "clock_span": {
             "clock_id": "clock_fixed",
@@ -95,6 +103,9 @@ def _vfr_cut_packet(
     *,
     timeline_id: str = "row084_vfr_cut_fixture",
     video_sha256: str | None = None,
+    container_sha256: str | None = None,
+    audio_stream_sha256: str | None = None,
+    audio_stream_index: int | None = None,
     provenance_fixture: str = "row084_vfr_cut_unit",
 ) -> dict:
     """Two contiguous VFR segments (24fps then 30fps) with a mid-timeline hard cut ledger."""
@@ -137,7 +148,9 @@ def _vfr_cut_packet(
         "source_binding": {
             "video_sha256": video_sha256 or ("b" * 64),
             "stream_index": 0,
-            "container_sha256": None,
+            "container_sha256": container_sha256,
+            "audio_stream_sha256": audio_stream_sha256,
+            "audio_stream_index": audio_stream_index,
         },
         "clock_span": {
             "clock_id": "clock_vfr_fixture",
@@ -183,12 +196,38 @@ def _vfr_cut_packet(
     }
 
 
-def _held_out_matrix_packet() -> dict:
+def _held_out_matrix_packet(*, with_stream_identities: bool = False) -> dict:
     """Held-out partition matrix: fixed, fractional, and VFR cases with distinct bindings."""
+    if with_stream_identities:
+        fixed_kwargs = {
+            "container_sha256": "1" * 64,
+            "audio_stream_sha256": "2" * 64,
+            "audio_stream_index": 1,
+        }
+        fractional_kwargs = {
+            "container_sha256": "3" * 64,
+            "audio_stream_sha256": "4" * 64,
+            "audio_stream_index": 1,
+        }
+        vfr_kwargs = {
+            "container_sha256": "5" * 64,
+            "audio_stream_sha256": "6" * 64,
+            "audio_stream_index": 1,
+        }
+        matrix_id = "row084_held_out_mux_dry_run_matrix_v1"
+        revision = "m002"
+        provenance_fixture = "row084_held_out_mux_dry_run_matrix"
+    else:
+        fixed_kwargs = {}
+        fractional_kwargs = {}
+        vfr_kwargs = {}
+        matrix_id = "row084_held_out_fixed_vfr_roundtrip_matrix_v1"
+        revision = "m001"
+        provenance_fixture = "row084_held_out_matrix"
     return {
         "schema_version": "1.0.0",
-        "matrix_id": "row084_held_out_fixed_vfr_roundtrip_matrix_v1",
-        "revision": "m001",
+        "matrix_id": matrix_id,
+        "revision": revision,
         "cases": [
             {
                 "case_id": "held_out_fixed_24",
@@ -201,6 +240,7 @@ def _held_out_matrix_packet() -> dict:
                     video_sha256="c" * 64,
                     dependency_complete=True,
                     provenance_fixture="row084_held_out_fixed_24",
+                    **fixed_kwargs,
                 ),
             },
             {
@@ -214,6 +254,7 @@ def _held_out_matrix_packet() -> dict:
                     video_sha256="d" * 64,
                     dependency_complete=True,
                     provenance_fixture="row084_held_out_fractional_ntsc",
+                    **fractional_kwargs,
                 ),
             },
             {
@@ -223,10 +264,11 @@ def _held_out_matrix_packet() -> dict:
                     timeline_id="row084_held_out_vfr_24_30",
                     video_sha256="e" * 64,
                     provenance_fixture="row084_held_out_vfr_24_30",
+                    **vfr_kwargs,
                 ),
             },
         ],
-        "provenance": {"fixture": "row084_held_out_matrix"},
+        "provenance": {"fixture": provenance_fixture},
     }
 
 
@@ -236,6 +278,9 @@ class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
         self.mux_prep_validator = Draft202012Validator(json.loads(MUX_PREP_SCHEMA.read_text(encoding="utf-8")))
         self.matrix_validator = Draft202012Validator(
             json.loads(HELD_OUT_MATRIX_SCHEMA.read_text(encoding="utf-8"))
+        )
+        self.mux_dry_run_validator = Draft202012Validator(
+            json.loads(HELD_OUT_MUX_DRY_RUN_SCHEMA.read_text(encoding="utf-8"))
         )
         self.clock_span_schema = json.loads(CLOCK_SPAN_SCHEMA.read_text(encoding="utf-8"))
 
@@ -426,10 +471,44 @@ class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
         self.assertFalse(receipt["authority"]["mux_replay_proof_present"])
         self.assertFalse(receipt["authority"]["mux_authority_granted"])
         self.assertTrue(receipt["authority"]["upstream_mux_replay_claim_ignored"])
+        self.assertTrue(receipt["authority"]["dry_run_plan_only"])
+        self.assertFalse(receipt["authority"]["stream_identities_bound"])
         self.assertFalse(receipt["mux_prep"]["mux_command_executed"])
+        self.assertFalse(receipt["mux_prep"]["mux_command_planned"])
         self.assertIsNone(receipt["mux_prep"]["audio_stream_binding"])
+        self.assertIsNone(receipt["mux_prep"]["container_binding"])
         self.assertEqual(receipt["mux_prep"]["planned_frame_count"], 24)
         self.assertEqual(len(receipt["mux_prep_sha256"]), 64)
+        self.assertEqual(len(receipt["dry_run_mux_plan_sha256"]), 64)
+
+    def test_mux_prep_binds_audio_and_container_stream_identities(self) -> None:
+        packet = _fixed_packet(
+            dependency_complete=True,
+            container_sha256="f" * 64,
+            audio_stream_sha256="e" * 64,
+            audio_stream_index=1,
+        )
+        _, receipt = self._run_compile(packet, expect_ok=True, mode="mux-prep")
+        assert receipt is not None
+        self.mux_prep_validator.validate(receipt)
+        self.assertTrue(receipt["mux_prep"]["stream_identities_bound"])
+        self.assertTrue(receipt["mux_prep"]["mux_command_planned"])
+        self.assertFalse(receipt["mux_prep"]["mux_command_executed"])
+        self.assertEqual(
+            receipt["mux_prep"]["audio_stream_binding"],
+            f"audio_stream_sha256:{'e' * 64};audio_stream_index:1",
+        )
+        self.assertEqual(
+            receipt["mux_prep"]["container_binding"],
+            f"container_sha256:{'f' * 64}",
+        )
+        self.assertTrue(receipt["authority"]["stream_identities_bound"])
+        self.assertFalse(receipt["authority"]["mux_authority_granted"])
+        self.assertFalse(receipt["row_complete"])
+        # Deterministic dry-run digest across rebuilds (excludes created_at).
+        _, receipt_b = self._run_compile(packet, expect_ok=True, mode="mux-prep")
+        assert receipt_b is not None
+        self.assertEqual(receipt["dry_run_mux_plan_sha256"], receipt_b["dry_run_mux_plan_sha256"])
 
     def test_held_out_fixed_vfr_roundtrip_matrix_compiles_without_benchmark_authority(self) -> None:
         packet = _held_out_matrix_packet()
@@ -467,6 +546,45 @@ class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
         packet["cases"][0]["partition"] = "calibration"
         completed, _ = self._run_compile(packet, expect_ok=False, mode="held-out-matrix")
         self.assertIn("partition must equal held_out", completed.stderr + completed.stdout)
+
+    def test_held_out_mux_dry_run_binds_stream_identities_and_hashes(self) -> None:
+        packet = _held_out_matrix_packet(with_stream_identities=True)
+        _, receipt = self._run_compile(packet, expect_ok=True, mode="held-out-mux-dry-run")
+        assert receipt is not None
+        self.mux_dry_run_validator.validate(receipt)
+        self.assertEqual(
+            receipt["record_type"], "canonical_video_timeline_held_out_mux_dry_run_matrix"
+        )
+        self.assertEqual(receipt["status"], "fixture_mux_dry_run_partial")
+        self.assertFalse(receipt["row_complete"])
+        self.assertFalse(receipt["production_completion_allowed"])
+        self.assertTrue(receipt["summary"]["stream_identities_bound"])
+        self.assertTrue(receipt["summary"]["dry_run_mux_hash_check_passed"])
+        self.assertFalse(receipt["summary"]["mux_replay_included"])
+        self.assertFalse(receipt["summary"]["visual_review_authority_granted"])
+        self.assertFalse(receipt["authority"]["mux_replay_proof_present"])
+        self.assertFalse(receipt["authority"]["combined_visual_review_present"])
+        self.assertTrue(receipt["authority"]["dry_run_plan_only"])
+        self.assertEqual(receipt["summary"]["case_count"], 3)
+        digests = {case["dry_run_mux_plan_sha256"] for case in receipt["cases"]}
+        self.assertEqual(len(digests), 3)
+        self.assertTrue(all(case["stream_identities_bound"] for case in receipt["cases"]))
+        self.assertTrue(all(case["mux_command_planned"] for case in receipt["cases"]))
+        self.assertTrue(all(case["mux_command_executed"] is False for case in receipt["cases"]))
+        self.assertTrue(all(case["dry_run_hash_deterministic"] for case in receipt["cases"]))
+        self.assertTrue(all(case["row_complete"] is False for case in receipt["cases"]))
+        # Rebuild proves deterministic per-case dry-run digests.
+        _, receipt_b = self._run_compile(packet, expect_ok=True, mode="held-out-mux-dry-run")
+        assert receipt_b is not None
+        by_id_a = {case["case_id"]: case["dry_run_mux_plan_sha256"] for case in receipt["cases"]}
+        by_id_b = {case["case_id"]: case["dry_run_mux_plan_sha256"] for case in receipt_b["cases"]}
+        self.assertEqual(by_id_a, by_id_b)
+
+    def test_held_out_mux_dry_run_rejects_missing_stream_identities(self) -> None:
+        packet = _held_out_matrix_packet(with_stream_identities=False)
+        completed, _ = self._run_compile(packet, expect_ok=False, mode="held-out-mux-dry-run")
+        combined = completed.stderr + completed.stdout
+        self.assertIn("mux dry-run requires source_binding.audio_stream_sha256", combined)
 
 
 if __name__ == "__main__":

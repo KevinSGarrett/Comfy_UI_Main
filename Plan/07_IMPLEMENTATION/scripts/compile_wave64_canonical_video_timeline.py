@@ -17,7 +17,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-COMPILER_REVISION = "row084_mux_prep_held_out_matrix_v3"
+COMPILER_REVISION = "row084_mux_prep_stream_identity_dry_run_v4"
 
 
 ALLOWED_TOP_LEVEL_FIELDS = {
@@ -279,16 +279,85 @@ def validate_clock_span_invariants(span: dict[str, Any], label: str = "clock_spa
 def _validate_source_binding(raw: Any) -> dict[str, Any]:
     if not isinstance(raw, dict):
         raise ValueError("source_binding must be an object")
-    allowed = {"video_sha256", "stream_index", "container_sha256"}
+    allowed = {
+        "video_sha256",
+        "stream_index",
+        "container_sha256",
+        "audio_stream_sha256",
+        "audio_stream_index",
+    }
     _assert_keys_exact(raw, allowed, "source_binding")
     container = raw.get("container_sha256")
-    return {
+    audio_stream = raw.get("audio_stream_sha256")
+    audio_stream_index = raw.get("audio_stream_index")
+    binding = {
         "video_sha256": _expect_sha256(raw.get("video_sha256"), "source_binding.video_sha256"),
         "stream_index": _expect_non_negative_int(raw.get("stream_index"), "source_binding.stream_index"),
         "container_sha256": None
         if container is None
         else _expect_sha256(container, "source_binding.container_sha256"),
+        "audio_stream_sha256": None
+        if audio_stream is None
+        else _expect_sha256(audio_stream, "source_binding.audio_stream_sha256"),
+        "audio_stream_index": None
+        if audio_stream_index is None
+        else _expect_non_negative_int(audio_stream_index, "source_binding.audio_stream_index"),
     }
+    if binding["audio_stream_sha256"] is None and binding["audio_stream_index"] is not None:
+        raise ValueError(
+            "source_binding.audio_stream_index requires source_binding.audio_stream_sha256"
+        )
+    return binding
+
+
+def _format_audio_stream_binding(source_binding: dict[str, Any]) -> str | None:
+    audio_sha = source_binding.get("audio_stream_sha256")
+    if audio_sha is None:
+        return None
+    audio_index = source_binding.get("audio_stream_index")
+    if audio_index is None:
+        return f"audio_stream_sha256:{audio_sha}"
+    return f"audio_stream_sha256:{audio_sha};audio_stream_index:{int(audio_index)}"
+
+
+def _format_container_binding(source_binding: dict[str, Any]) -> str | None:
+    container_sha = source_binding.get("container_sha256")
+    if container_sha is None:
+        return None
+    return f"container_sha256:{container_sha}"
+
+
+def _stable_timeline_plan_sha256(timeline_receipt: dict[str, Any]) -> str:
+    """Hash timeline receipt content excluding wall-clock and self-digest fields."""
+    if not isinstance(timeline_receipt, dict):
+        raise ValueError("timeline_receipt must be an object")
+    stable = {
+        key: value
+        for key, value in timeline_receipt.items()
+        if key not in {"created_at", "timeline_sha256"}
+    }
+    return _canonical_sha256(stable)
+
+
+def _dry_run_mux_plan_sha256(
+    *,
+    timeline_id: str,
+    timeline_plan_sha256: str,
+    revision: str,
+    mux_prep: dict[str, Any],
+) -> str:
+    """Content-addressed dry-run mux plan digest (excludes created_at / wall-clock)."""
+    return _canonical_sha256(
+        {
+            "record_type": "canonical_video_timeline_mux_prep_dry_run_plan",
+            "timeline_id": timeline_id,
+            "timeline_plan_sha256": timeline_plan_sha256,
+            "revision": revision,
+            "mux_prep": mux_prep,
+            "mux_command_executed": False,
+            "mux_replay_executed": False,
+        }
+    )
 
 
 def _validate_tolerances(raw: Any) -> dict[str, float]:
@@ -663,6 +732,7 @@ def build_mux_prep_scaffold(timeline_receipt: dict[str, Any]) -> dict[str, Any]:
         raise ValueError("timeline_receipt.record_type must equal canonical_video_timeline")
     timeline_id = _expect_non_empty_string(timeline_receipt.get("timeline_id"), "timeline_id")
     timeline_sha256 = _expect_sha256(timeline_receipt.get("timeline_sha256"), "timeline_sha256")
+    revision = _expect_non_empty_string(timeline_receipt.get("revision"), "revision")
     clock_span = timeline_receipt.get("clock_span")
     if not isinstance(clock_span, dict):
         raise ValueError("timeline_receipt.clock_span must be an object")
@@ -678,48 +748,77 @@ def build_mux_prep_scaffold(timeline_receipt: dict[str, Any]) -> dict[str, Any]:
     runtime_authority = timeline_receipt.get("runtime_authority")
     if not isinstance(runtime_authority, dict):
         raise ValueError("timeline_receipt.runtime_authority must be an object")
+    source_binding = timeline_receipt.get("source_binding")
+    if not isinstance(source_binding, dict):
+        raise ValueError("timeline_receipt.source_binding must be an object")
 
     # Scaffold remains fail-closed even if an upstream packet falsely claims mux proof.
     mux_replay_claimed = _expect_boolean(
         runtime_authority.get("mux_replay_proof_present"),
         "runtime_authority.mux_replay_proof_present",
     )
+    audio_stream_binding = _format_audio_stream_binding(source_binding)
+    container_binding = _format_container_binding(source_binding)
+    stream_identities_bound = audio_stream_binding is not None and container_binding is not None
+    timeline_plan_sha256 = _stable_timeline_plan_sha256(timeline_receipt)
+    mux_prep = {
+        "planned_sample_rate_hz": _expect_positive_int(
+            clock_span.get("sample_rate_hz"), "clock_span.sample_rate_hz"
+        ),
+        "planned_frame_count": len(frame_table),
+        "planned_start_sample": _expect_non_negative_int(
+            clock_span.get("start_sample"), "clock_span.start_sample"
+        ),
+        "planned_end_sample_exclusive": _expect_positive_int(
+            clock_span.get("end_sample_exclusive"), "clock_span.end_sample_exclusive"
+        ),
+        "frame_rate_mode": _expect_non_empty_string(
+            timeline_receipt.get("frame_rate_mode"), "frame_rate_mode"
+        ),
+        "vfr_segment_count": len(vfr_segments),
+        "cut_epoch_count": len(cut_epochs),
+        "audio_stream_binding": audio_stream_binding,
+        "container_binding": container_binding,
+        "stream_identities_bound": stream_identities_bound,
+        "timeline_plan_sha256": timeline_plan_sha256,
+        "mux_command_planned": stream_identities_bound,
+        "mux_command_executed": False,
+    }
+    dry_run_mux_plan_sha256 = _dry_run_mux_plan_sha256(
+        timeline_id=timeline_id,
+        timeline_plan_sha256=timeline_plan_sha256,
+        revision=revision,
+        mux_prep=mux_prep,
+    )
+    # Determinism gate: recompute must match without wall-clock inputs.
+    recomputed = _dry_run_mux_plan_sha256(
+        timeline_id=timeline_id,
+        timeline_plan_sha256=timeline_plan_sha256,
+        revision=revision,
+        mux_prep=mux_prep,
+    )
+    if dry_run_mux_plan_sha256 != recomputed:
+        raise ValueError("dry_run_mux_plan_sha256 recomputation mismatch")
+
     created_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
     body = {
         "schema_version": "1.0.0",
         "record_type": "canonical_video_timeline_mux_prep_receipt",
         "timeline_id": timeline_id,
         "timeline_sha256": timeline_sha256,
-        "revision": _expect_non_empty_string(timeline_receipt.get("revision"), "revision"),
+        "revision": revision,
         "status": "scaffold_hold",
         "created_at": created_at,
-        "mux_prep": {
-            "planned_sample_rate_hz": _expect_positive_int(
-                clock_span.get("sample_rate_hz"), "clock_span.sample_rate_hz"
-            ),
-            "planned_frame_count": len(frame_table),
-            "planned_start_sample": _expect_non_negative_int(
-                clock_span.get("start_sample"), "clock_span.start_sample"
-            ),
-            "planned_end_sample_exclusive": _expect_positive_int(
-                clock_span.get("end_sample_exclusive"), "clock_span.end_sample_exclusive"
-            ),
-            "frame_rate_mode": _expect_non_empty_string(
-                timeline_receipt.get("frame_rate_mode"), "frame_rate_mode"
-            ),
-            "vfr_segment_count": len(vfr_segments),
-            "cut_epoch_count": len(cut_epochs),
-            "audio_stream_binding": None,
-            "container_binding": None,
-            "mux_command_planned": False,
-            "mux_command_executed": False,
-        },
+        "mux_prep": mux_prep,
+        "dry_run_mux_plan_sha256": dry_run_mux_plan_sha256,
         "authority": {
             "scaffold_only": True,
             "mux_replay_executed": False,
             "mux_replay_proof_present": False,
             "mux_authority_granted": False,
             "upstream_mux_replay_claim_ignored": mux_replay_claimed,
+            "dry_run_plan_only": True,
+            "stream_identities_bound": stream_identities_bound,
         },
         "production_completion_allowed": False,
         "row_complete": False,
@@ -840,13 +939,159 @@ def compile_held_out_roundtrip_matrix(payload: dict[str, Any]) -> dict[str, Any]
     return body
 
 
+def compile_held_out_mux_dry_run_matrix(payload: dict[str, Any]) -> dict[str, Any]:
+    """Compile held-out matrix with stream-bound mux-prep dry-run hash checks.
+
+    Requires audio/container stream identities on every case. Proves deterministic
+    dry-run mux plan digests only. Never executes mux, never grants mux-replay or
+    visual-review authority, and never sets row_complete.
+    """
+    if not isinstance(payload, dict):
+        raise ValueError("held-out mux dry-run payload must be an object")
+    allowed = {"schema_version", "matrix_id", "revision", "cases", "provenance"}
+    _assert_keys_exact(payload, allowed, "held_out_mux_dry_run_matrix")
+    schema_version = _expect_non_empty_string(payload.get("schema_version"), "schema_version")
+    if schema_version != "1.0.0":
+        raise ValueError("schema_version must equal 1.0.0")
+    matrix_id = _expect_non_empty_string(payload.get("matrix_id"), "matrix_id")
+    revision = _expect_non_empty_string(payload.get("revision"), "revision")
+    cases_raw = payload.get("cases")
+    if not isinstance(cases_raw, list) or len(cases_raw) < 2:
+        raise ValueError("cases must be a list with at least two held-out fixtures")
+
+    seen_case_ids: set[str] = set()
+    seen_modes: set[str] = set()
+    case_results: list[dict[str, Any]] = []
+    for idx, entry in enumerate(cases_raw):
+        if not isinstance(entry, dict):
+            raise ValueError(f"cases[{idx}] must be an object")
+        _assert_keys_exact(entry, {"case_id", "partition", "timeline_packet"}, f"cases[{idx}]")
+        case_id = _expect_non_empty_string(entry.get("case_id"), f"cases[{idx}].case_id")
+        if case_id in seen_case_ids:
+            raise ValueError(f"cases[{idx}].case_id duplicates a prior case_id")
+        seen_case_ids.add(case_id)
+        partition = _expect_non_empty_string(entry.get("partition"), f"cases[{idx}].partition")
+        if partition != "held_out":
+            raise ValueError(f"cases[{idx}].partition must equal held_out")
+        packet = entry.get("timeline_packet")
+        if not isinstance(packet, dict):
+            raise ValueError(f"cases[{idx}].timeline_packet must be an object")
+
+        source_binding = packet.get("source_binding")
+        if not isinstance(source_binding, dict):
+            raise ValueError(f"cases[{idx}].timeline_packet.source_binding must be an object")
+        if source_binding.get("audio_stream_sha256") is None:
+            raise ValueError(
+                f"cases[{idx}] mux dry-run requires source_binding.audio_stream_sha256"
+            )
+        if source_binding.get("container_sha256") is None:
+            raise ValueError(
+                f"cases[{idx}] mux dry-run requires source_binding.container_sha256"
+            )
+
+        timeline_receipt = compile_timeline(packet)
+        mux_prep_a = build_mux_prep_scaffold(timeline_receipt)
+        mux_prep_b = build_mux_prep_scaffold(timeline_receipt)
+        digest_a = mux_prep_a["dry_run_mux_plan_sha256"]
+        digest_b = mux_prep_b["dry_run_mux_plan_sha256"]
+        if digest_a != digest_b:
+            raise ValueError(
+                f"cases[{idx}] dry_run_mux_plan_sha256 not deterministic across rebuilds"
+            )
+        if not mux_prep_a["mux_prep"]["stream_identities_bound"]:
+            raise ValueError(f"cases[{idx}] stream identities must be bound for mux dry-run")
+        if not mux_prep_a["mux_prep"]["mux_command_planned"]:
+            raise ValueError(f"cases[{idx}] mux_command_planned must be true for mux dry-run")
+        if mux_prep_a["mux_prep"]["mux_command_executed"]:
+            raise ValueError(f"cases[{idx}] mux_command_executed must remain false")
+
+        mode = timeline_receipt["frame_rate_mode"]
+        seen_modes.add(mode)
+        evidence = timeline_receipt["roundtrip_evidence"]
+        case_results.append(
+            {
+                "case_id": case_id,
+                "partition": partition,
+                "timeline_id": timeline_receipt["timeline_id"],
+                "timeline_sha256": timeline_receipt["timeline_sha256"],
+                "frame_rate_mode": mode,
+                "checked_frame_count": evidence["checked_frame_count"],
+                "within_tolerance": evidence["within_tolerance"],
+                "audio_stream_binding": mux_prep_a["mux_prep"]["audio_stream_binding"],
+                "container_binding": mux_prep_a["mux_prep"]["container_binding"],
+                "stream_identities_bound": True,
+                "mux_command_planned": True,
+                "mux_command_executed": False,
+                "dry_run_mux_plan_sha256": digest_a,
+                "dry_run_hash_deterministic": True,
+                "row_complete": False,
+            }
+        )
+
+    if "fixed" not in seen_modes and "fractional" not in seen_modes:
+        raise ValueError("held-out mux dry-run matrix requires at least one fixed or fractional case")
+    if "vfr" not in seen_modes:
+        raise ValueError("held-out mux dry-run matrix requires at least one vfr case")
+
+    all_within = all(case["within_tolerance"] for case in case_results)
+    all_deterministic = all(case["dry_run_hash_deterministic"] for case in case_results)
+    created_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    provenance = payload.get("provenance")
+    if provenance is None:
+        provenance = {
+            "compiler": "compile_wave64_canonical_video_timeline.py",
+            "compiler_revision": COMPILER_REVISION,
+        }
+    if not isinstance(provenance, dict):
+        raise ValueError("provenance must be an object")
+
+    body = {
+        "schema_version": "1.0.0",
+        "record_type": "canonical_video_timeline_held_out_mux_dry_run_matrix",
+        "matrix_id": matrix_id,
+        "revision": revision,
+        "status": "fixture_mux_dry_run_partial" if all_within and all_deterministic else "blocked",
+        "created_at": created_at,
+        "cases": case_results,
+        "summary": {
+            "case_count": len(case_results),
+            "passed_count": sum(1 for case in case_results if case["within_tolerance"]),
+            "failed_count": sum(1 for case in case_results if not case["within_tolerance"]),
+            "all_within_tolerance": all_within,
+            "modes_covered": sorted(seen_modes),
+            "stream_identities_bound": True,
+            "dry_run_mux_hash_check_passed": all_deterministic,
+            "mux_replay_included": False,
+            "runtime_media_decode_invoked": False,
+            "benchmark_authority_granted": False,
+            "visual_review_authority_granted": False,
+        },
+        "authority": {
+            "fixture_matrix_only": True,
+            "dry_run_plan_only": True,
+            "fixed_vfr_benchmark_pass": False,
+            "mux_replay_proof_present": False,
+            "combined_visual_review_present": False,
+        },
+        "production_completion_allowed": False,
+        "row_complete": False,
+        "provenance": provenance,
+    }
+    body["matrix_sha256"] = _canonical_sha256(body)
+    return body
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Compile a fail-closed Row084 canonical video timeline receipt.")
-    parser.add_argument("--input", required=True, help="Path to timeline, mux-prep, or held-out matrix input JSON")
+    parser.add_argument(
+        "--input",
+        required=True,
+        help="Path to timeline, mux-prep, held-out matrix, or held-out mux dry-run input JSON",
+    )
     parser.add_argument("--output", required=True, help="Path to write compiled receipt JSON")
     parser.add_argument(
         "--mode",
-        choices=("timeline", "mux-prep", "held-out-matrix"),
+        choices=("timeline", "mux-prep", "held-out-matrix", "held-out-mux-dry-run"),
         default="timeline",
         help="Compilation mode (default: timeline)",
     )
@@ -869,8 +1114,11 @@ def main(argv: list[str] | None = None) -> int:
                 timeline_receipt = compile_timeline(payload)
             receipt = build_mux_prep_scaffold(timeline_receipt)
             digest_key = "mux_prep_sha256"
-        else:
+        elif args.mode == "held-out-matrix":
             receipt = compile_held_out_roundtrip_matrix(payload)
+            digest_key = "matrix_sha256"
+        else:
+            receipt = compile_held_out_mux_dry_run_matrix(payload)
             digest_key = "matrix_sha256"
     except ValueError as exc:
         raise SystemExit(f"ROW084_FAIL_CLOSED: {exc}") from exc

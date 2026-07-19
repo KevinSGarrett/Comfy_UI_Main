@@ -46,13 +46,31 @@
     "source_binding": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["video_sha256", "stream_index", "container_sha256"],
+      "required": [
+        "video_sha256",
+        "stream_index",
+        "container_sha256",
+        "audio_stream_sha256",
+        "audio_stream_index"
+      ],
       "properties": {
         "video_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
         "stream_index": { "type": "integer", "minimum": 0 },
         "container_sha256": {
           "oneOf": [
             { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+            { "type": "null" }
+          ]
+        },
+        "audio_stream_sha256": {
+          "oneOf": [
+            { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+            { "type": "null" }
+          ]
+        },
+        "audio_stream_index": {
+          "oneOf": [
+            { "type": "integer", "minimum": 0 },
             { "type": "null" }
           ]
         }
