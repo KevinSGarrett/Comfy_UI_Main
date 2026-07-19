@@ -4,7 +4,7 @@
 
 - Active integration platform: top-level interactive Cursor session with bounded Git/GitHub authority.
 - Branch: `codex/workflow_plan_update_improvements`
-- HEAD before this acceptance commit: `d205c9522662944d3f9ec283540df7c4f505cede` (includes proof commit `4e1012e6`; remote parity verified).
+- HEAD: `3b834cde2e1f4749b303762fc72d2aca39024eaf` (acceptance commit; parent `d205c952` includes proof commit `4e1012e6`; remote parity verified).
 - Upstream: `origin/codex/workflow_plan_update_improvements`
 - Policy pivot obeyed: local runtime proof ladder; EC2 deferred; Docker/CVAT annotation-only and unused this pass.
 - Sibling lanes observed and left untouched: Row070/071 bounded live PCM runtime evidence already present and still fail-closed on `ROW069_DEPENDENCY_NOT_ACCEPTED`.
