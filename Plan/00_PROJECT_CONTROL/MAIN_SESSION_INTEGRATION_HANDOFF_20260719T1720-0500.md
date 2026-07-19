@@ -10,10 +10,11 @@
 
 ## Commits Pushed This Pass
 
-1. 9e071920 Prove Row017 MF70 under-eye local visual climb.
-2. 649bc727 Stamp Row017 under-eye handoff with pushed commit parity.
+1. `9e071920` Prove Row017 MF70 under-eye local visual climb.
+2. `649bc727` Stamp Row017 under-eye handoff with pushed commit parity.
+3. `0cf4a27c` Refresh Row017 under-eye handoff with dual pushed commit IDs.
 
-Pushed tip verified on origin: 649bc727d3b7ae047f4974b68b178a31d7549cd8
+Pushed tip verified on origin: `0cf4a27cc491f4e0bfba52c5eb59d38438cbfdf3`
 
 ## Row-Scoped Increment Executed
 
