@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "wave64_row100_reference_audio_variation_policy_registry",
+  "revision": "wave64_row100_reference_audio_variation_policy_v0.1.0",
+  "tracker_id": "TRK-W64-100",
+  "authority": "planning_freeze_not_library_acceptance",
+  "notes": [
+    "Frozen reference-conditioned audio-to-audio variation policy for Row100 synthetic fixture calibration and fail-closed library hold.",
+    "Derivative rights, conditioning strength, structure preservation, requested variation, and unexpected-class rejection are independent gates.",
+    "Identity drift, unwanted speech/music, and timing loss reject candidates; fixture calibration does not grant production variation authority.",
+    "This registry does not accept library completion or substitute for Rows068/072/073/083/098/099 authority."
+  ],
+  "required_gates": [
+    "source_rights",
+    "conditioning_strength",
+    "structure_preservation",
+    "variation_measure",
+    "unexpected_class_reject"
+  ],
+  "signal_families": [
+    "derivative_rights",
+    "conditioning_strength",
+    "structural_similarity",
+    "variation_distance",
+    "onset_timing",
+    "endpoint_timing",
+    "identity_drift",
+    "unwanted_speech",
+    "unwanted_music",
+    "operation_mode"
+  ],
+  "thresholds": {
+    "min_conditioning_strength": 0.15,
+    "max_conditioning_strength": 0.85,
+    "min_structural_similarity": 0.72,
+    "max_identity_drift": 0.28,
+    "min_variation_distance": 0.08,
+    "max_variation_distance": 0.55,
+    "max_onset_offset_ms": 12.0,
+    "max_endpoint_drift_ms": 24.0
+  },
+  "allowed_operations": [
+    "variation",
+    "inpainting",
+    "continuation",
+    "style_transfer"
+  ],
+  "fail_closed": {
+    "library_authority_requires_dependencies": true,
+    "missing_derivative_rights_rejected": true,
+    "conditioning_out_of_bounds_rejected": true,
+    "structure_not_preserved_rejected": true,
+    "variation_too_weak_rejected": true,
+    "variation_too_strong_rejected": true,
+    "identity_drift_rejected": true,
+    "timing_loss_rejected": true,
+    "unwanted_speech_rejected": true,
+    "unwanted_music_rejected": true,
+    "unknown_operation_rejected": true
+  },
+  "dependency_prerequisites": [
+    "TRK-W64-068",
+    "TRK-W64-072",
+    "TRK-W64-073",
+    "TRK-W64-083",
+    "TRK-W64-098",
+    "TRK-W64-099"
+  ]
+}

@@ -1,0 +1,1501 @@
+{
+  "blocker_codes": [
+    "TRK_W64_072_DEPENDENCY_NOT_ACCEPTED",
+    "TRK_W64_073_DEPENDENCY_NOT_ACCEPTED",
+    "TRK_W64_083_DEPENDENCY_NOT_ACCEPTED",
+    "TRK_W64_098_DEPENDENCY_NOT_ACCEPTED",
+    "TRK_W64_099_DEPENDENCY_NOT_ACCEPTED",
+    "ROW100_DEPENDENCIES_NOT_ACCEPTED",
+    "REFERENCE_CONDITIONED_VARIATION_RUNTIME_ABSENT",
+    "GENUINE_AUDIO_TO_AUDIO_VARIATION_PROOF_ABSENT",
+    "ROW098_SOUND_VARIATION_ENGINE_AUTHORITY_ABSENT",
+    "ROW099_NEURAL_TEXT_TO_AUDIO_ROUTER_AUTHORITY_ABSENT"
+  ],
+  "decision": {
+    "product_completion": false,
+    "row100_acceptance": "held",
+    "runtime_completion": false,
+    "safe_next_action": "Accept Rows068, 072, 073, 083, 098, and 099; bind a reference-conditioned audio-to-audio variation runtime with measured structure/variation/timing gates; reject identity drift and unwanted speech/music; execute genuine waveform/spectrogram review; then replace this hold packet.",
+    "status": "blocked"
+  },
+  "dependency_admissions": {
+    "TRK-W64-068": {
+      "blocker_codes": [],
+      "bytes": 4104,
+      "dependency_satisfied": true,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+      "row_complete": true,
+      "sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+      "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+      "tracker_id": "TRK-W64-068"
+    },
+    "TRK-W64-072": {
+      "blocker_codes": [
+        "TRK_W64_072_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "bytes": 12124,
+      "dependency_satisfied": false,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ONSET_TRANSIENT_ANCHOR_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "sha256": "f0d647f5f623e7b8bbeb4ef1270732ba8116972dcecd620592c12dabbde0477a",
+      "status": "HOLD_DEPENDENCIES_LIBRARY_RUNTIME_AND_BENCHMARK_STRATA_ABSENT",
+      "tracker_id": "TRK-W64-072"
+    },
+    "TRK-W64-073": {
+      "blocker_codes": [
+        "TRK_W64_073_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "bytes": 9007,
+      "dependency_satisfied": false,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "sha256": "9c8b2d4b1871d61276bae4d5f6ca85a437f99b7ca3cc4d1a7a7fe1371b6146ff",
+      "status": "HOLD_ROW071_ROW072_DEPENDENCIES_AND_FULL_LIBRARY_BOUNDS_RUNTIME_ABSENT",
+      "tracker_id": "TRK-W64-073"
+    },
+    "TRK-W64-083": {
+      "blocker_codes": [
+        "TRK_W64_083_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "bytes": 11448,
+      "dependency_satisfied": false,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-083_RETRIEVAL_FALLBACK_CALIBRATION_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "sha256": "aa01f744028a788ea3a3b125a9af529f24e3b0080120dcf2e397be6516fa825f",
+      "status": "HOLD_DEPENDENCIES_AND_LIBRARY_CALIBRATION_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+      "tracker_id": "TRK-W64-083"
+    },
+    "TRK-W64-098": {
+      "blocker_codes": [
+        "TRK_W64_098_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "bytes": 8805,
+      "dependency_satisfied": false,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-098_DETERMINISTIC_SOUND_VARIATION_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "sha256": "ff54ee3a83e140dda79d5c21f64de70fddf4e783fe9be281d459c08cce2a11b5",
+      "status": "HOLD_DEPENDENCIES_AND_DETERMINISTIC_VARIATION_RUNTIME_AUTHORITY_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE",
+      "tracker_id": "TRK-W64-098"
+    },
+    "TRK-W64-099": {
+      "blocker_codes": [
+        "TRK_W64_099_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "bytes": 3426,
+      "dependency_satisfied": false,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-099_NEURAL_TEXT_TO_AUDIO_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "sha256": "a33304a765b31b99a558152453eb721ca6a048e9af6c03bef33aede578e11052",
+      "status": "HOLD_DEPENDENCIES_AND_LIBRARY_NEURAL_TEXT_TO_AUDIO_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+      "tracker_id": "TRK-W64-099"
+    }
+  },
+  "evaluator_revision": "wave64_row100_reference_audio_variation_evaluator_v0.1.0",
+  "evidence_id": "TRK-W64-100_reference_audio_variation",
+  "fixture_calibration": {
+    "authority": "synthetic_non_library",
+    "determinism_note": "Fixture records prove derivative-rights, conditioning-strength, structure/timing preservation, variation bounds, and unwanted speech/music rejection; they do not accept Row100 library completion or substitute for Rows068/072/073/083/098/099 authority.",
+    "fixture_count": 9,
+    "records": [
+      {
+        "candidate_id": "cand_clean_reference_variation_accept",
+        "candidate_pcm_sha256": "800721dbef9cb3b38796e58a3324582a134e57c889a650d7c653320fd4ed4b4c",
+        "decision": {
+          "blocker_codes": [],
+          "explanation": [
+            "route=accept_candidate",
+            "status=pass",
+            "reason=all_required_gates_passed_fixture_only",
+            "operation=variation",
+            "blockers=['none']",
+            "source_bytes_remain_immutable",
+            "library_authority=false",
+            "fixture_calibration_does_not_grant_production_variation_authority"
+          ],
+          "product_completion": false,
+          "reason": "all_required_gates_passed_fixture_only",
+          "route": "accept_candidate",
+          "row100_acceptance": "fixture_only",
+          "status": "pass"
+        },
+        "dependency_admissions": {
+          "TRK-W64-068": {
+            "blocker_codes": [],
+            "bytes": 4104,
+            "dependency_satisfied": true,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+            "row_complete": true,
+            "sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+            "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+            "tracker_id": "TRK-W64-068"
+          },
+          "TRK-W64-072": {
+            "blocker_codes": [
+              "TRK_W64_072_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 12124,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ONSET_TRANSIENT_ANCHOR_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "f0d647f5f623e7b8bbeb4ef1270732ba8116972dcecd620592c12dabbde0477a",
+            "status": "HOLD_DEPENDENCIES_LIBRARY_RUNTIME_AND_BENCHMARK_STRATA_ABSENT",
+            "tracker_id": "TRK-W64-072"
+          },
+          "TRK-W64-073": {
+            "blocker_codes": [
+              "TRK_W64_073_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 9007,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "9c8b2d4b1871d61276bae4d5f6ca85a437f99b7ca3cc4d1a7a7fe1371b6146ff",
+            "status": "HOLD_ROW071_ROW072_DEPENDENCIES_AND_FULL_LIBRARY_BOUNDS_RUNTIME_ABSENT",
+            "tracker_id": "TRK-W64-073"
+          },
+          "TRK-W64-083": {
+            "blocker_codes": [
+              "TRK_W64_083_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11448,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-083_RETRIEVAL_FALLBACK_CALIBRATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "aa01f744028a788ea3a3b125a9af529f24e3b0080120dcf2e397be6516fa825f",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_CALIBRATION_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-083"
+          },
+          "TRK-W64-098": {
+            "blocker_codes": [
+              "TRK_W64_098_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 8805,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-098_DETERMINISTIC_SOUND_VARIATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "ff54ee3a83e140dda79d5c21f64de70fddf4e783fe9be281d459c08cce2a11b5",
+            "status": "HOLD_DEPENDENCIES_AND_DETERMINISTIC_VARIATION_RUNTIME_AUTHORITY_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE",
+            "tracker_id": "TRK-W64-098"
+          },
+          "TRK-W64-099": {
+            "blocker_codes": [
+              "TRK_W64_099_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 3426,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-099_NEURAL_TEXT_TO_AUDIO_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "a33304a765b31b99a558152453eb721ca6a048e9af6c03bef33aede578e11052",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_NEURAL_TEXT_TO_AUDIO_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-099"
+          }
+        },
+        "evaluator_revision": "wave64_row100_reference_audio_variation_evaluator_v0.1.0",
+        "event_id": "evt_clean_reference_variation_accept",
+        "gate_results": {
+          "conditioning_strength": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "source_rights": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "structure_preservation": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "unexpected_class_reject": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "variation_measure": {
+            "reason_codes": [],
+            "status": "pass"
+          }
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-100",
+        "library_authority": false,
+        "operation": "variation",
+        "policy_revision": "wave64_row100_reference_audio_variation_policy_v0.1.0",
+        "policy_sha256": "75d2ab08ad43d950cd7c2742827c186311dd745e420d656b7135f38a334307d5",
+        "receipt_sha256": "34aced4d57d5d67d386477013a1ffcd693720e76811361c50f42be139516843f",
+        "record_type": "reference_audio_variation_evaluation",
+        "required_gates": [
+          "source_rights",
+          "conditioning_strength",
+          "structure_preservation",
+          "variation_measure",
+          "unexpected_class_reject"
+        ],
+        "schema_version": "1.0.0",
+        "signals": {
+          "conditioning_strength": 0.45,
+          "derivative_rights_pass": true,
+          "endpoint_drift_ms": 5.0,
+          "identity_drift": 0.14,
+          "onset_offset_ms": 3.0,
+          "source_bytes_immutable": true,
+          "structural_similarity": 0.86,
+          "unwanted_music": false,
+          "unwanted_speech": false,
+          "variation_distance": 0.22
+        },
+        "source_pcm_sha256": "1ba633e270eb1e3161fab1fe1d6d12c17f85d0b53844f5f6e24a782f32fc5df1",
+        "tracker_id": "TRK-W64-100"
+      },
+      {
+        "candidate_id": "cand_derivative_rights_rejected",
+        "candidate_pcm_sha256": "99018792c0d8dd3f9acba75b711eaf3da7af1faba35eebd52ec58e36c3053b8d",
+        "decision": {
+          "blocker_codes": [
+            "DERIVATIVE_RIGHTS_DENIED"
+          ],
+          "explanation": [
+            "route=reject_candidate",
+            "status=fail",
+            "reason=reference_variation_gate_failure",
+            "operation=inpainting",
+            "blockers=['DERIVATIVE_RIGHTS_DENIED']",
+            "source_bytes_remain_immutable",
+            "library_authority=false",
+            "fixture_calibration_does_not_grant_production_variation_authority"
+          ],
+          "product_completion": false,
+          "reason": "reference_variation_gate_failure",
+          "route": "reject_candidate",
+          "row100_acceptance": "fixture_only",
+          "status": "fail"
+        },
+        "dependency_admissions": {
+          "TRK-W64-068": {
+            "blocker_codes": [],
+            "bytes": 4104,
+            "dependency_satisfied": true,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+            "row_complete": true,
+            "sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+            "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+            "tracker_id": "TRK-W64-068"
+          },
+          "TRK-W64-072": {
+            "blocker_codes": [
+              "TRK_W64_072_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 12124,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ONSET_TRANSIENT_ANCHOR_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "f0d647f5f623e7b8bbeb4ef1270732ba8116972dcecd620592c12dabbde0477a",
+            "status": "HOLD_DEPENDENCIES_LIBRARY_RUNTIME_AND_BENCHMARK_STRATA_ABSENT",
+            "tracker_id": "TRK-W64-072"
+          },
+          "TRK-W64-073": {
+            "blocker_codes": [
+              "TRK_W64_073_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 9007,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "9c8b2d4b1871d61276bae4d5f6ca85a437f99b7ca3cc4d1a7a7fe1371b6146ff",
+            "status": "HOLD_ROW071_ROW072_DEPENDENCIES_AND_FULL_LIBRARY_BOUNDS_RUNTIME_ABSENT",
+            "tracker_id": "TRK-W64-073"
+          },
+          "TRK-W64-083": {
+            "blocker_codes": [
+              "TRK_W64_083_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11448,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-083_RETRIEVAL_FALLBACK_CALIBRATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "aa01f744028a788ea3a3b125a9af529f24e3b0080120dcf2e397be6516fa825f",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_CALIBRATION_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-083"
+          },
+          "TRK-W64-098": {
+            "blocker_codes": [
+              "TRK_W64_098_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 8805,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-098_DETERMINISTIC_SOUND_VARIATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "ff54ee3a83e140dda79d5c21f64de70fddf4e783fe9be281d459c08cce2a11b5",
+            "status": "HOLD_DEPENDENCIES_AND_DETERMINISTIC_VARIATION_RUNTIME_AUTHORITY_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE",
+            "tracker_id": "TRK-W64-098"
+          },
+          "TRK-W64-099": {
+            "blocker_codes": [
+              "TRK_W64_099_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 3426,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-099_NEURAL_TEXT_TO_AUDIO_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "a33304a765b31b99a558152453eb721ca6a048e9af6c03bef33aede578e11052",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_NEURAL_TEXT_TO_AUDIO_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-099"
+          }
+        },
+        "evaluator_revision": "wave64_row100_reference_audio_variation_evaluator_v0.1.0",
+        "event_id": "evt_derivative_rights_rejected",
+        "gate_results": {
+          "conditioning_strength": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "source_rights": {
+            "reason_codes": [
+              "DERIVATIVE_RIGHTS_DENIED"
+            ],
+            "status": "fail"
+          },
+          "structure_preservation": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "unexpected_class_reject": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "variation_measure": {
+            "reason_codes": [],
+            "status": "pass"
+          }
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-100",
+        "library_authority": false,
+        "operation": "inpainting",
+        "policy_revision": "wave64_row100_reference_audio_variation_policy_v0.1.0",
+        "policy_sha256": "75d2ab08ad43d950cd7c2742827c186311dd745e420d656b7135f38a334307d5",
+        "receipt_sha256": "52402a1f8a822b79db93c52733ca953ab14f7cb659ec7c22d5ccd89aaa8b3806",
+        "record_type": "reference_audio_variation_evaluation",
+        "required_gates": [
+          "source_rights",
+          "conditioning_strength",
+          "structure_preservation",
+          "variation_measure",
+          "unexpected_class_reject"
+        ],
+        "schema_version": "1.0.0",
+        "signals": {
+          "conditioning_strength": 0.45,
+          "derivative_rights_pass": false,
+          "endpoint_drift_ms": 5.0,
+          "identity_drift": 0.14,
+          "onset_offset_ms": 3.0,
+          "source_bytes_immutable": true,
+          "structural_similarity": 0.86,
+          "unwanted_music": false,
+          "unwanted_speech": false,
+          "variation_distance": 0.22
+        },
+        "source_pcm_sha256": "680b5f9fb978005365561f978b6e6e8e6f648921d2bd98cfb45c6d40b3e1f647",
+        "tracker_id": "TRK-W64-100"
+      },
+      {
+        "candidate_id": "cand_conditioning_strength_out_of_bounds_rejected",
+        "candidate_pcm_sha256": "844a2e6380c31a944fcfd019116ccd4a1c61108791a690e0c8c559e6a05fdc47",
+        "decision": {
+          "blocker_codes": [
+            "CONDITIONING_STRENGTH_TOO_HIGH"
+          ],
+          "explanation": [
+            "route=reject_candidate",
+            "status=fail",
+            "reason=reference_variation_gate_failure",
+            "operation=style_transfer",
+            "blockers=['CONDITIONING_STRENGTH_TOO_HIGH']",
+            "source_bytes_remain_immutable",
+            "library_authority=false",
+            "fixture_calibration_does_not_grant_production_variation_authority"
+          ],
+          "product_completion": false,
+          "reason": "reference_variation_gate_failure",
+          "route": "reject_candidate",
+          "row100_acceptance": "fixture_only",
+          "status": "fail"
+        },
+        "dependency_admissions": {
+          "TRK-W64-068": {
+            "blocker_codes": [],
+            "bytes": 4104,
+            "dependency_satisfied": true,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+            "row_complete": true,
+            "sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+            "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+            "tracker_id": "TRK-W64-068"
+          },
+          "TRK-W64-072": {
+            "blocker_codes": [
+              "TRK_W64_072_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 12124,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ONSET_TRANSIENT_ANCHOR_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "f0d647f5f623e7b8bbeb4ef1270732ba8116972dcecd620592c12dabbde0477a",
+            "status": "HOLD_DEPENDENCIES_LIBRARY_RUNTIME_AND_BENCHMARK_STRATA_ABSENT",
+            "tracker_id": "TRK-W64-072"
+          },
+          "TRK-W64-073": {
+            "blocker_codes": [
+              "TRK_W64_073_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 9007,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "9c8b2d4b1871d61276bae4d5f6ca85a437f99b7ca3cc4d1a7a7fe1371b6146ff",
+            "status": "HOLD_ROW071_ROW072_DEPENDENCIES_AND_FULL_LIBRARY_BOUNDS_RUNTIME_ABSENT",
+            "tracker_id": "TRK-W64-073"
+          },
+          "TRK-W64-083": {
+            "blocker_codes": [
+              "TRK_W64_083_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11448,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-083_RETRIEVAL_FALLBACK_CALIBRATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "aa01f744028a788ea3a3b125a9af529f24e3b0080120dcf2e397be6516fa825f",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_CALIBRATION_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-083"
+          },
+          "TRK-W64-098": {
+            "blocker_codes": [
+              "TRK_W64_098_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 8805,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-098_DETERMINISTIC_SOUND_VARIATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "ff54ee3a83e140dda79d5c21f64de70fddf4e783fe9be281d459c08cce2a11b5",
+            "status": "HOLD_DEPENDENCIES_AND_DETERMINISTIC_VARIATION_RUNTIME_AUTHORITY_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE",
+            "tracker_id": "TRK-W64-098"
+          },
+          "TRK-W64-099": {
+            "blocker_codes": [
+              "TRK_W64_099_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 3426,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-099_NEURAL_TEXT_TO_AUDIO_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "a33304a765b31b99a558152453eb721ca6a048e9af6c03bef33aede578e11052",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_NEURAL_TEXT_TO_AUDIO_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-099"
+          }
+        },
+        "evaluator_revision": "wave64_row100_reference_audio_variation_evaluator_v0.1.0",
+        "event_id": "evt_conditioning_strength_out_of_bounds_rejected",
+        "gate_results": {
+          "conditioning_strength": {
+            "reason_codes": [
+              "CONDITIONING_STRENGTH_TOO_HIGH"
+            ],
+            "status": "fail"
+          },
+          "source_rights": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "structure_preservation": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "unexpected_class_reject": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "variation_measure": {
+            "reason_codes": [],
+            "status": "pass"
+          }
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-100",
+        "library_authority": false,
+        "operation": "style_transfer",
+        "policy_revision": "wave64_row100_reference_audio_variation_policy_v0.1.0",
+        "policy_sha256": "75d2ab08ad43d950cd7c2742827c186311dd745e420d656b7135f38a334307d5",
+        "receipt_sha256": "ed84eb2f41b13f6d4d55a4572d1ed645cbc6131d1d5116d2b788e781e1969ef0",
+        "record_type": "reference_audio_variation_evaluation",
+        "required_gates": [
+          "source_rights",
+          "conditioning_strength",
+          "structure_preservation",
+          "variation_measure",
+          "unexpected_class_reject"
+        ],
+        "schema_version": "1.0.0",
+        "signals": {
+          "conditioning_strength": 0.97,
+          "derivative_rights_pass": true,
+          "endpoint_drift_ms": 5.0,
+          "identity_drift": 0.14,
+          "onset_offset_ms": 3.0,
+          "source_bytes_immutable": true,
+          "structural_similarity": 0.86,
+          "unwanted_music": false,
+          "unwanted_speech": false,
+          "variation_distance": 0.22
+        },
+        "source_pcm_sha256": "2408c4b3c4a09bdd85aff927c9cdaccffde3021c52005b2a2c7c344a157801fc",
+        "tracker_id": "TRK-W64-100"
+      },
+      {
+        "candidate_id": "cand_structure_not_preserved_rejected",
+        "candidate_pcm_sha256": "49399e3d8e73bcb655096eec8e7293ba81a246672d6c8e17a679161d73725bec",
+        "decision": {
+          "blocker_codes": [
+            "IDENTITY_DRIFT_EXCEEDED",
+            "STRUCTURE_NOT_PRESERVED"
+          ],
+          "explanation": [
+            "route=reject_candidate",
+            "status=fail",
+            "reason=reference_variation_gate_failure",
+            "operation=continuation",
+            "blockers=['IDENTITY_DRIFT_EXCEEDED', 'STRUCTURE_NOT_PRESERVED']",
+            "source_bytes_remain_immutable",
+            "library_authority=false",
+            "fixture_calibration_does_not_grant_production_variation_authority"
+          ],
+          "product_completion": false,
+          "reason": "reference_variation_gate_failure",
+          "route": "reject_candidate",
+          "row100_acceptance": "fixture_only",
+          "status": "fail"
+        },
+        "dependency_admissions": {
+          "TRK-W64-068": {
+            "blocker_codes": [],
+            "bytes": 4104,
+            "dependency_satisfied": true,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+            "row_complete": true,
+            "sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+            "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+            "tracker_id": "TRK-W64-068"
+          },
+          "TRK-W64-072": {
+            "blocker_codes": [
+              "TRK_W64_072_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 12124,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ONSET_TRANSIENT_ANCHOR_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "f0d647f5f623e7b8bbeb4ef1270732ba8116972dcecd620592c12dabbde0477a",
+            "status": "HOLD_DEPENDENCIES_LIBRARY_RUNTIME_AND_BENCHMARK_STRATA_ABSENT",
+            "tracker_id": "TRK-W64-072"
+          },
+          "TRK-W64-073": {
+            "blocker_codes": [
+              "TRK_W64_073_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 9007,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "9c8b2d4b1871d61276bae4d5f6ca85a437f99b7ca3cc4d1a7a7fe1371b6146ff",
+            "status": "HOLD_ROW071_ROW072_DEPENDENCIES_AND_FULL_LIBRARY_BOUNDS_RUNTIME_ABSENT",
+            "tracker_id": "TRK-W64-073"
+          },
+          "TRK-W64-083": {
+            "blocker_codes": [
+              "TRK_W64_083_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11448,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-083_RETRIEVAL_FALLBACK_CALIBRATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "aa01f744028a788ea3a3b125a9af529f24e3b0080120dcf2e397be6516fa825f",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_CALIBRATION_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-083"
+          },
+          "TRK-W64-098": {
+            "blocker_codes": [
+              "TRK_W64_098_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 8805,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-098_DETERMINISTIC_SOUND_VARIATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "ff54ee3a83e140dda79d5c21f64de70fddf4e783fe9be281d459c08cce2a11b5",
+            "status": "HOLD_DEPENDENCIES_AND_DETERMINISTIC_VARIATION_RUNTIME_AUTHORITY_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE",
+            "tracker_id": "TRK-W64-098"
+          },
+          "TRK-W64-099": {
+            "blocker_codes": [
+              "TRK_W64_099_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 3426,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-099_NEURAL_TEXT_TO_AUDIO_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "a33304a765b31b99a558152453eb721ca6a048e9af6c03bef33aede578e11052",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_NEURAL_TEXT_TO_AUDIO_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-099"
+          }
+        },
+        "evaluator_revision": "wave64_row100_reference_audio_variation_evaluator_v0.1.0",
+        "event_id": "evt_structure_not_preserved_rejected",
+        "gate_results": {
+          "conditioning_strength": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "source_rights": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "structure_preservation": {
+            "reason_codes": [
+              "IDENTITY_DRIFT_EXCEEDED",
+              "STRUCTURE_NOT_PRESERVED"
+            ],
+            "status": "fail"
+          },
+          "unexpected_class_reject": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "variation_measure": {
+            "reason_codes": [],
+            "status": "pass"
+          }
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-100",
+        "library_authority": false,
+        "operation": "continuation",
+        "policy_revision": "wave64_row100_reference_audio_variation_policy_v0.1.0",
+        "policy_sha256": "75d2ab08ad43d950cd7c2742827c186311dd745e420d656b7135f38a334307d5",
+        "receipt_sha256": "591010fd0c3fcb3b203744e8655fae42a5d17ea2eaa1279fb57a6efc678a7b19",
+        "record_type": "reference_audio_variation_evaluation",
+        "required_gates": [
+          "source_rights",
+          "conditioning_strength",
+          "structure_preservation",
+          "variation_measure",
+          "unexpected_class_reject"
+        ],
+        "schema_version": "1.0.0",
+        "signals": {
+          "conditioning_strength": 0.45,
+          "derivative_rights_pass": true,
+          "endpoint_drift_ms": 5.0,
+          "identity_drift": 0.52,
+          "onset_offset_ms": 3.0,
+          "source_bytes_immutable": true,
+          "structural_similarity": 0.41,
+          "unwanted_music": false,
+          "unwanted_speech": false,
+          "variation_distance": 0.22
+        },
+        "source_pcm_sha256": "bcaae873440d2860a00d3b12f2aec3e2ff30d0b559be65b0c22d0b9d26f47264",
+        "tracker_id": "TRK-W64-100"
+      },
+      {
+        "candidate_id": "cand_variation_too_weak_rejected",
+        "candidate_pcm_sha256": "a087ad681a1bdbc7ed3e660aa285c1af83356b34eda88d8450e7b9d0466c3d34",
+        "decision": {
+          "blocker_codes": [
+            "VARIATION_TOO_WEAK"
+          ],
+          "explanation": [
+            "route=reject_candidate",
+            "status=fail",
+            "reason=reference_variation_gate_failure",
+            "operation=variation",
+            "blockers=['VARIATION_TOO_WEAK']",
+            "source_bytes_remain_immutable",
+            "library_authority=false",
+            "fixture_calibration_does_not_grant_production_variation_authority"
+          ],
+          "product_completion": false,
+          "reason": "reference_variation_gate_failure",
+          "route": "reject_candidate",
+          "row100_acceptance": "fixture_only",
+          "status": "fail"
+        },
+        "dependency_admissions": {
+          "TRK-W64-068": {
+            "blocker_codes": [],
+            "bytes": 4104,
+            "dependency_satisfied": true,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+            "row_complete": true,
+            "sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+            "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+            "tracker_id": "TRK-W64-068"
+          },
+          "TRK-W64-072": {
+            "blocker_codes": [
+              "TRK_W64_072_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 12124,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ONSET_TRANSIENT_ANCHOR_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "f0d647f5f623e7b8bbeb4ef1270732ba8116972dcecd620592c12dabbde0477a",
+            "status": "HOLD_DEPENDENCIES_LIBRARY_RUNTIME_AND_BENCHMARK_STRATA_ABSENT",
+            "tracker_id": "TRK-W64-072"
+          },
+          "TRK-W64-073": {
+            "blocker_codes": [
+              "TRK_W64_073_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 9007,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "9c8b2d4b1871d61276bae4d5f6ca85a437f99b7ca3cc4d1a7a7fe1371b6146ff",
+            "status": "HOLD_ROW071_ROW072_DEPENDENCIES_AND_FULL_LIBRARY_BOUNDS_RUNTIME_ABSENT",
+            "tracker_id": "TRK-W64-073"
+          },
+          "TRK-W64-083": {
+            "blocker_codes": [
+              "TRK_W64_083_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11448,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-083_RETRIEVAL_FALLBACK_CALIBRATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "aa01f744028a788ea3a3b125a9af529f24e3b0080120dcf2e397be6516fa825f",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_CALIBRATION_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-083"
+          },
+          "TRK-W64-098": {
+            "blocker_codes": [
+              "TRK_W64_098_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 8805,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-098_DETERMINISTIC_SOUND_VARIATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "ff54ee3a83e140dda79d5c21f64de70fddf4e783fe9be281d459c08cce2a11b5",
+            "status": "HOLD_DEPENDENCIES_AND_DETERMINISTIC_VARIATION_RUNTIME_AUTHORITY_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE",
+            "tracker_id": "TRK-W64-098"
+          },
+          "TRK-W64-099": {
+            "blocker_codes": [
+              "TRK_W64_099_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 3426,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-099_NEURAL_TEXT_TO_AUDIO_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "a33304a765b31b99a558152453eb721ca6a048e9af6c03bef33aede578e11052",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_NEURAL_TEXT_TO_AUDIO_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-099"
+          }
+        },
+        "evaluator_revision": "wave64_row100_reference_audio_variation_evaluator_v0.1.0",
+        "event_id": "evt_variation_too_weak_rejected",
+        "gate_results": {
+          "conditioning_strength": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "source_rights": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "structure_preservation": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "unexpected_class_reject": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "variation_measure": {
+            "reason_codes": [
+              "VARIATION_TOO_WEAK"
+            ],
+            "status": "fail"
+          }
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-100",
+        "library_authority": false,
+        "operation": "variation",
+        "policy_revision": "wave64_row100_reference_audio_variation_policy_v0.1.0",
+        "policy_sha256": "75d2ab08ad43d950cd7c2742827c186311dd745e420d656b7135f38a334307d5",
+        "receipt_sha256": "374e44e1eb8f22856fce0990d47245325e068928de5831e9a4ce6c7faaca2776",
+        "record_type": "reference_audio_variation_evaluation",
+        "required_gates": [
+          "source_rights",
+          "conditioning_strength",
+          "structure_preservation",
+          "variation_measure",
+          "unexpected_class_reject"
+        ],
+        "schema_version": "1.0.0",
+        "signals": {
+          "conditioning_strength": 0.45,
+          "derivative_rights_pass": true,
+          "endpoint_drift_ms": 5.0,
+          "identity_drift": 0.01,
+          "onset_offset_ms": 3.0,
+          "source_bytes_immutable": true,
+          "structural_similarity": 0.99,
+          "unwanted_music": false,
+          "unwanted_speech": false,
+          "variation_distance": 0.02
+        },
+        "source_pcm_sha256": "0d71cbb9a29d4a369ded3a0ac7efeb0bfd9bca9e7839f486c42a659227ed67f9",
+        "tracker_id": "TRK-W64-100"
+      },
+      {
+        "candidate_id": "cand_variation_too_strong_identity_drift_rejected",
+        "candidate_pcm_sha256": "274ccfbe907258b5f75fd0fc9c07a335ae4ecfb1e7971dff163278a4cdb02b5a",
+        "decision": {
+          "blocker_codes": [
+            "IDENTITY_DRIFT_EXCEEDED",
+            "STRUCTURE_NOT_PRESERVED",
+            "VARIATION_TOO_STRONG"
+          ],
+          "explanation": [
+            "route=reject_candidate",
+            "status=fail",
+            "reason=reference_variation_gate_failure",
+            "operation=variation",
+            "blockers=['IDENTITY_DRIFT_EXCEEDED', 'STRUCTURE_NOT_PRESERVED', 'VARIATION_TOO_STRONG']",
+            "source_bytes_remain_immutable",
+            "library_authority=false",
+            "fixture_calibration_does_not_grant_production_variation_authority"
+          ],
+          "product_completion": false,
+          "reason": "reference_variation_gate_failure",
+          "route": "reject_candidate",
+          "row100_acceptance": "fixture_only",
+          "status": "fail"
+        },
+        "dependency_admissions": {
+          "TRK-W64-068": {
+            "blocker_codes": [],
+            "bytes": 4104,
+            "dependency_satisfied": true,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+            "row_complete": true,
+            "sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+            "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+            "tracker_id": "TRK-W64-068"
+          },
+          "TRK-W64-072": {
+            "blocker_codes": [
+              "TRK_W64_072_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 12124,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ONSET_TRANSIENT_ANCHOR_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "f0d647f5f623e7b8bbeb4ef1270732ba8116972dcecd620592c12dabbde0477a",
+            "status": "HOLD_DEPENDENCIES_LIBRARY_RUNTIME_AND_BENCHMARK_STRATA_ABSENT",
+            "tracker_id": "TRK-W64-072"
+          },
+          "TRK-W64-073": {
+            "blocker_codes": [
+              "TRK_W64_073_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 9007,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "9c8b2d4b1871d61276bae4d5f6ca85a437f99b7ca3cc4d1a7a7fe1371b6146ff",
+            "status": "HOLD_ROW071_ROW072_DEPENDENCIES_AND_FULL_LIBRARY_BOUNDS_RUNTIME_ABSENT",
+            "tracker_id": "TRK-W64-073"
+          },
+          "TRK-W64-083": {
+            "blocker_codes": [
+              "TRK_W64_083_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11448,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-083_RETRIEVAL_FALLBACK_CALIBRATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "aa01f744028a788ea3a3b125a9af529f24e3b0080120dcf2e397be6516fa825f",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_CALIBRATION_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-083"
+          },
+          "TRK-W64-098": {
+            "blocker_codes": [
+              "TRK_W64_098_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 8805,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-098_DETERMINISTIC_SOUND_VARIATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "ff54ee3a83e140dda79d5c21f64de70fddf4e783fe9be281d459c08cce2a11b5",
+            "status": "HOLD_DEPENDENCIES_AND_DETERMINISTIC_VARIATION_RUNTIME_AUTHORITY_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE",
+            "tracker_id": "TRK-W64-098"
+          },
+          "TRK-W64-099": {
+            "blocker_codes": [
+              "TRK_W64_099_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 3426,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-099_NEURAL_TEXT_TO_AUDIO_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "a33304a765b31b99a558152453eb721ca6a048e9af6c03bef33aede578e11052",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_NEURAL_TEXT_TO_AUDIO_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-099"
+          }
+        },
+        "evaluator_revision": "wave64_row100_reference_audio_variation_evaluator_v0.1.0",
+        "event_id": "evt_variation_too_strong_identity_drift_rejected",
+        "gate_results": {
+          "conditioning_strength": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "source_rights": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "structure_preservation": {
+            "reason_codes": [
+              "IDENTITY_DRIFT_EXCEEDED",
+              "STRUCTURE_NOT_PRESERVED"
+            ],
+            "status": "fail"
+          },
+          "unexpected_class_reject": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "variation_measure": {
+            "reason_codes": [
+              "VARIATION_TOO_STRONG"
+            ],
+            "status": "fail"
+          }
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-100",
+        "library_authority": false,
+        "operation": "variation",
+        "policy_revision": "wave64_row100_reference_audio_variation_policy_v0.1.0",
+        "policy_sha256": "75d2ab08ad43d950cd7c2742827c186311dd745e420d656b7135f38a334307d5",
+        "receipt_sha256": "0398945f69cad8b53e969ede1703c5c78aeb942ecd75f6867befcafb8f41c3cb",
+        "record_type": "reference_audio_variation_evaluation",
+        "required_gates": [
+          "source_rights",
+          "conditioning_strength",
+          "structure_preservation",
+          "variation_measure",
+          "unexpected_class_reject"
+        ],
+        "schema_version": "1.0.0",
+        "signals": {
+          "conditioning_strength": 0.45,
+          "derivative_rights_pass": true,
+          "endpoint_drift_ms": 5.0,
+          "identity_drift": 0.61,
+          "onset_offset_ms": 3.0,
+          "source_bytes_immutable": true,
+          "structural_similarity": 0.48,
+          "unwanted_music": false,
+          "unwanted_speech": false,
+          "variation_distance": 0.78
+        },
+        "source_pcm_sha256": "a99e985363d925528783f21ec03607c54885a497b84699903c9fe09b78591a0c",
+        "tracker_id": "TRK-W64-100"
+      },
+      {
+        "candidate_id": "cand_timing_loss_rejected",
+        "candidate_pcm_sha256": "f2c2dbbd32c2e9d9e218a1ea31bb3e610ea88f38ec3448ee250bf034d1103d70",
+        "decision": {
+          "blocker_codes": [
+            "ENDPOINT_TIMING_LOSS",
+            "ONSET_TIMING_LOSS"
+          ],
+          "explanation": [
+            "route=reject_candidate",
+            "status=fail",
+            "reason=reference_variation_gate_failure",
+            "operation=variation",
+            "blockers=['ENDPOINT_TIMING_LOSS', 'ONSET_TIMING_LOSS']",
+            "source_bytes_remain_immutable",
+            "library_authority=false",
+            "fixture_calibration_does_not_grant_production_variation_authority"
+          ],
+          "product_completion": false,
+          "reason": "reference_variation_gate_failure",
+          "route": "reject_candidate",
+          "row100_acceptance": "fixture_only",
+          "status": "fail"
+        },
+        "dependency_admissions": {
+          "TRK-W64-068": {
+            "blocker_codes": [],
+            "bytes": 4104,
+            "dependency_satisfied": true,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+            "row_complete": true,
+            "sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+            "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+            "tracker_id": "TRK-W64-068"
+          },
+          "TRK-W64-072": {
+            "blocker_codes": [
+              "TRK_W64_072_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 12124,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ONSET_TRANSIENT_ANCHOR_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "f0d647f5f623e7b8bbeb4ef1270732ba8116972dcecd620592c12dabbde0477a",
+            "status": "HOLD_DEPENDENCIES_LIBRARY_RUNTIME_AND_BENCHMARK_STRATA_ABSENT",
+            "tracker_id": "TRK-W64-072"
+          },
+          "TRK-W64-073": {
+            "blocker_codes": [
+              "TRK_W64_073_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 9007,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "9c8b2d4b1871d61276bae4d5f6ca85a437f99b7ca3cc4d1a7a7fe1371b6146ff",
+            "status": "HOLD_ROW071_ROW072_DEPENDENCIES_AND_FULL_LIBRARY_BOUNDS_RUNTIME_ABSENT",
+            "tracker_id": "TRK-W64-073"
+          },
+          "TRK-W64-083": {
+            "blocker_codes": [
+              "TRK_W64_083_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11448,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-083_RETRIEVAL_FALLBACK_CALIBRATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "aa01f744028a788ea3a3b125a9af529f24e3b0080120dcf2e397be6516fa825f",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_CALIBRATION_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-083"
+          },
+          "TRK-W64-098": {
+            "blocker_codes": [
+              "TRK_W64_098_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 8805,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-098_DETERMINISTIC_SOUND_VARIATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "ff54ee3a83e140dda79d5c21f64de70fddf4e783fe9be281d459c08cce2a11b5",
+            "status": "HOLD_DEPENDENCIES_AND_DETERMINISTIC_VARIATION_RUNTIME_AUTHORITY_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE",
+            "tracker_id": "TRK-W64-098"
+          },
+          "TRK-W64-099": {
+            "blocker_codes": [
+              "TRK_W64_099_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 3426,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-099_NEURAL_TEXT_TO_AUDIO_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "a33304a765b31b99a558152453eb721ca6a048e9af6c03bef33aede578e11052",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_NEURAL_TEXT_TO_AUDIO_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-099"
+          }
+        },
+        "evaluator_revision": "wave64_row100_reference_audio_variation_evaluator_v0.1.0",
+        "event_id": "evt_timing_loss_rejected",
+        "gate_results": {
+          "conditioning_strength": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "source_rights": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "structure_preservation": {
+            "reason_codes": [
+              "ENDPOINT_TIMING_LOSS",
+              "ONSET_TIMING_LOSS"
+            ],
+            "status": "fail"
+          },
+          "unexpected_class_reject": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "variation_measure": {
+            "reason_codes": [],
+            "status": "pass"
+          }
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-100",
+        "library_authority": false,
+        "operation": "variation",
+        "policy_revision": "wave64_row100_reference_audio_variation_policy_v0.1.0",
+        "policy_sha256": "75d2ab08ad43d950cd7c2742827c186311dd745e420d656b7135f38a334307d5",
+        "receipt_sha256": "ad3843f72b9f3502af38a04e05c62eb4389c93470a81f972f43c358738cc9df1",
+        "record_type": "reference_audio_variation_evaluation",
+        "required_gates": [
+          "source_rights",
+          "conditioning_strength",
+          "structure_preservation",
+          "variation_measure",
+          "unexpected_class_reject"
+        ],
+        "schema_version": "1.0.0",
+        "signals": {
+          "conditioning_strength": 0.45,
+          "derivative_rights_pass": true,
+          "endpoint_drift_ms": 42.0,
+          "identity_drift": 0.14,
+          "onset_offset_ms": 30.0,
+          "source_bytes_immutable": true,
+          "structural_similarity": 0.86,
+          "unwanted_music": false,
+          "unwanted_speech": false,
+          "variation_distance": 0.22
+        },
+        "source_pcm_sha256": "8c3fffb11c73788cbb6a00636740dfd1ce3de49ae3a4b293f3cf4e496abf8c39",
+        "tracker_id": "TRK-W64-100"
+      },
+      {
+        "candidate_id": "cand_unwanted_speech_rejected",
+        "candidate_pcm_sha256": "e1d482268b9b5a394076f2986f912e7d8c6d346fff24525ded77f67b35293fab",
+        "decision": {
+          "blocker_codes": [
+            "UNWANTED_SPEECH"
+          ],
+          "explanation": [
+            "route=reject_candidate",
+            "status=fail",
+            "reason=reference_variation_gate_failure",
+            "operation=variation",
+            "blockers=['UNWANTED_SPEECH']",
+            "source_bytes_remain_immutable",
+            "library_authority=false",
+            "fixture_calibration_does_not_grant_production_variation_authority"
+          ],
+          "product_completion": false,
+          "reason": "reference_variation_gate_failure",
+          "route": "reject_candidate",
+          "row100_acceptance": "fixture_only",
+          "status": "fail"
+        },
+        "dependency_admissions": {
+          "TRK-W64-068": {
+            "blocker_codes": [],
+            "bytes": 4104,
+            "dependency_satisfied": true,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+            "row_complete": true,
+            "sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+            "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+            "tracker_id": "TRK-W64-068"
+          },
+          "TRK-W64-072": {
+            "blocker_codes": [
+              "TRK_W64_072_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 12124,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ONSET_TRANSIENT_ANCHOR_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "f0d647f5f623e7b8bbeb4ef1270732ba8116972dcecd620592c12dabbde0477a",
+            "status": "HOLD_DEPENDENCIES_LIBRARY_RUNTIME_AND_BENCHMARK_STRATA_ABSENT",
+            "tracker_id": "TRK-W64-072"
+          },
+          "TRK-W64-073": {
+            "blocker_codes": [
+              "TRK_W64_073_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 9007,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "9c8b2d4b1871d61276bae4d5f6ca85a437f99b7ca3cc4d1a7a7fe1371b6146ff",
+            "status": "HOLD_ROW071_ROW072_DEPENDENCIES_AND_FULL_LIBRARY_BOUNDS_RUNTIME_ABSENT",
+            "tracker_id": "TRK-W64-073"
+          },
+          "TRK-W64-083": {
+            "blocker_codes": [
+              "TRK_W64_083_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11448,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-083_RETRIEVAL_FALLBACK_CALIBRATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "aa01f744028a788ea3a3b125a9af529f24e3b0080120dcf2e397be6516fa825f",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_CALIBRATION_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-083"
+          },
+          "TRK-W64-098": {
+            "blocker_codes": [
+              "TRK_W64_098_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 8805,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-098_DETERMINISTIC_SOUND_VARIATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "ff54ee3a83e140dda79d5c21f64de70fddf4e783fe9be281d459c08cce2a11b5",
+            "status": "HOLD_DEPENDENCIES_AND_DETERMINISTIC_VARIATION_RUNTIME_AUTHORITY_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE",
+            "tracker_id": "TRK-W64-098"
+          },
+          "TRK-W64-099": {
+            "blocker_codes": [
+              "TRK_W64_099_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 3426,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-099_NEURAL_TEXT_TO_AUDIO_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "a33304a765b31b99a558152453eb721ca6a048e9af6c03bef33aede578e11052",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_NEURAL_TEXT_TO_AUDIO_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-099"
+          }
+        },
+        "evaluator_revision": "wave64_row100_reference_audio_variation_evaluator_v0.1.0",
+        "event_id": "evt_unwanted_speech_rejected",
+        "gate_results": {
+          "conditioning_strength": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "source_rights": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "structure_preservation": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "unexpected_class_reject": {
+            "reason_codes": [
+              "UNWANTED_SPEECH"
+            ],
+            "status": "fail"
+          },
+          "variation_measure": {
+            "reason_codes": [],
+            "status": "pass"
+          }
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-100",
+        "library_authority": false,
+        "operation": "variation",
+        "policy_revision": "wave64_row100_reference_audio_variation_policy_v0.1.0",
+        "policy_sha256": "75d2ab08ad43d950cd7c2742827c186311dd745e420d656b7135f38a334307d5",
+        "receipt_sha256": "a0ddcb4b2488f31f957d66946c9500145f47befb153166fa9883406a534156d2",
+        "record_type": "reference_audio_variation_evaluation",
+        "required_gates": [
+          "source_rights",
+          "conditioning_strength",
+          "structure_preservation",
+          "variation_measure",
+          "unexpected_class_reject"
+        ],
+        "schema_version": "1.0.0",
+        "signals": {
+          "conditioning_strength": 0.45,
+          "derivative_rights_pass": true,
+          "endpoint_drift_ms": 5.0,
+          "identity_drift": 0.14,
+          "onset_offset_ms": 3.0,
+          "source_bytes_immutable": true,
+          "structural_similarity": 0.86,
+          "unwanted_music": false,
+          "unwanted_speech": true,
+          "variation_distance": 0.22
+        },
+        "source_pcm_sha256": "d037e607f7f0af0f2c888a609a16c08e04b81344313c84113adc57a17ed41f9a",
+        "tracker_id": "TRK-W64-100"
+      },
+      {
+        "candidate_id": "cand_unwanted_music_rejected",
+        "candidate_pcm_sha256": "9893b520b6a477f277c97c3f5e960a053c9fa049d41603f1663b474f39969c24",
+        "decision": {
+          "blocker_codes": [
+            "UNWANTED_MUSIC"
+          ],
+          "explanation": [
+            "route=reject_candidate",
+            "status=fail",
+            "reason=reference_variation_gate_failure",
+            "operation=variation",
+            "blockers=['UNWANTED_MUSIC']",
+            "source_bytes_remain_immutable",
+            "library_authority=false",
+            "fixture_calibration_does_not_grant_production_variation_authority"
+          ],
+          "product_completion": false,
+          "reason": "reference_variation_gate_failure",
+          "route": "reject_candidate",
+          "row100_acceptance": "fixture_only",
+          "status": "fail"
+        },
+        "dependency_admissions": {
+          "TRK-W64-068": {
+            "blocker_codes": [],
+            "bytes": 4104,
+            "dependency_satisfied": true,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+            "row_complete": true,
+            "sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+            "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+            "tracker_id": "TRK-W64-068"
+          },
+          "TRK-W64-072": {
+            "blocker_codes": [
+              "TRK_W64_072_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 12124,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ONSET_TRANSIENT_ANCHOR_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "f0d647f5f623e7b8bbeb4ef1270732ba8116972dcecd620592c12dabbde0477a",
+            "status": "HOLD_DEPENDENCIES_LIBRARY_RUNTIME_AND_BENCHMARK_STRATA_ABSENT",
+            "tracker_id": "TRK-W64-072"
+          },
+          "TRK-W64-073": {
+            "blocker_codes": [
+              "TRK_W64_073_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 9007,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "9c8b2d4b1871d61276bae4d5f6ca85a437f99b7ca3cc4d1a7a7fe1371b6146ff",
+            "status": "HOLD_ROW071_ROW072_DEPENDENCIES_AND_FULL_LIBRARY_BOUNDS_RUNTIME_ABSENT",
+            "tracker_id": "TRK-W64-073"
+          },
+          "TRK-W64-083": {
+            "blocker_codes": [
+              "TRK_W64_083_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11448,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-083_RETRIEVAL_FALLBACK_CALIBRATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "aa01f744028a788ea3a3b125a9af529f24e3b0080120dcf2e397be6516fa825f",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_CALIBRATION_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-083"
+          },
+          "TRK-W64-098": {
+            "blocker_codes": [
+              "TRK_W64_098_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 8805,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-098_DETERMINISTIC_SOUND_VARIATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "ff54ee3a83e140dda79d5c21f64de70fddf4e783fe9be281d459c08cce2a11b5",
+            "status": "HOLD_DEPENDENCIES_AND_DETERMINISTIC_VARIATION_RUNTIME_AUTHORITY_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE",
+            "tracker_id": "TRK-W64-098"
+          },
+          "TRK-W64-099": {
+            "blocker_codes": [
+              "TRK_W64_099_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 3426,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-099_NEURAL_TEXT_TO_AUDIO_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "a33304a765b31b99a558152453eb721ca6a048e9af6c03bef33aede578e11052",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_NEURAL_TEXT_TO_AUDIO_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-099"
+          }
+        },
+        "evaluator_revision": "wave64_row100_reference_audio_variation_evaluator_v0.1.0",
+        "event_id": "evt_unwanted_music_rejected",
+        "gate_results": {
+          "conditioning_strength": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "source_rights": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "structure_preservation": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "unexpected_class_reject": {
+            "reason_codes": [
+              "UNWANTED_MUSIC"
+            ],
+            "status": "fail"
+          },
+          "variation_measure": {
+            "reason_codes": [],
+            "status": "pass"
+          }
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-100",
+        "library_authority": false,
+        "operation": "variation",
+        "policy_revision": "wave64_row100_reference_audio_variation_policy_v0.1.0",
+        "policy_sha256": "75d2ab08ad43d950cd7c2742827c186311dd745e420d656b7135f38a334307d5",
+        "receipt_sha256": "5874a9b0e2b20e2e5d2a25e9aff854532d7f71ac204845c5fb5263c36db28ff5",
+        "record_type": "reference_audio_variation_evaluation",
+        "required_gates": [
+          "source_rights",
+          "conditioning_strength",
+          "structure_preservation",
+          "variation_measure",
+          "unexpected_class_reject"
+        ],
+        "schema_version": "1.0.0",
+        "signals": {
+          "conditioning_strength": 0.45,
+          "derivative_rights_pass": true,
+          "endpoint_drift_ms": 5.0,
+          "identity_drift": 0.14,
+          "onset_offset_ms": 3.0,
+          "source_bytes_immutable": true,
+          "structural_similarity": 0.86,
+          "unwanted_music": true,
+          "unwanted_speech": false,
+          "variation_distance": 0.22
+        },
+        "source_pcm_sha256": "a34edc12356dd5f6fd3ab2b55efe5f2725f8ac7c080ca3af521002c60b3d72fb",
+        "tracker_id": "TRK-W64-100"
+      }
+    ]
+  },
+  "implementation_completion_claimed": false,
+  "item_id": "ITEM-W64-100",
+  "library_authority": false,
+  "policy_registry": {
+    "authority": "planning_freeze_not_library_acceptance",
+    "path": "Plan/10_REGISTRIES/wave64_row100_reference_audio_variation_policy_registry.json",
+    "revision": "wave64_row100_reference_audio_variation_policy_v0.1.0",
+    "sha256": "75d2ab08ad43d950cd7c2742827c186311dd745e420d656b7135f38a334307d5"
+  },
+  "policy_revision": "wave64_row100_reference_audio_variation_policy_v0.1.0",
+  "required_gates": [
+    "source_rights",
+    "conditioning_strength",
+    "structure_preservation",
+    "variation_measure",
+    "unexpected_class_reject"
+  ],
+  "row_complete": false,
+  "runtime_completion_claimed": false,
+  "schema": {
+    "path": "Plan/08_SCHEMAS/reference_audio_variation_evaluation.schema.json",
+    "sha256": "5f959aa67f5c29f07836c1454851723316d65c12a8388ee5f3ff9d191d632499"
+  },
+  "schema_version": "1.0.0",
+  "status": "HOLD_DEPENDENCIES_AND_REFERENCE_AUDIO_VARIATION_RUNTIME_ABSENT",
+  "tracker_id": "TRK-W64-100"
+}

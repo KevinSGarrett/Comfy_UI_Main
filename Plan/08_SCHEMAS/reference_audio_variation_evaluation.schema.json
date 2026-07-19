@@ -1,0 +1,216 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/reference_audio_variation_evaluation.schema.json",
+  "title": "Wave64 Row100 Reference Audio Variation Evaluation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "tracker_id",
+    "item_id",
+    "record_type",
+    "evaluator_revision",
+    "policy_revision",
+    "policy_sha256",
+    "candidate_id",
+    "source_pcm_sha256",
+    "candidate_pcm_sha256",
+    "event_id",
+    "operation",
+    "is_synthetic",
+    "library_authority",
+    "dependency_admissions",
+    "required_gates",
+    "gate_results",
+    "signals",
+    "decision",
+    "receipt_sha256"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "tracker_id": { "type": "string", "const": "TRK-W64-100" },
+    "item_id": { "type": "string", "const": "ITEM-W64-100" },
+    "record_type": {
+      "type": "string",
+      "const": "reference_audio_variation_evaluation"
+    },
+    "evaluator_revision": {
+      "type": "string",
+      "const": "wave64_row100_reference_audio_variation_evaluator_v0.1.0"
+    },
+    "policy_revision": {
+      "type": "string",
+      "const": "wave64_row100_reference_audio_variation_policy_v0.1.0"
+    },
+    "policy_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "candidate_id": { "type": "string", "minLength": 1 },
+    "source_pcm_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "candidate_pcm_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "event_id": { "type": "string", "minLength": 1 },
+    "operation": {
+      "type": "string",
+      "enum": ["variation", "inpainting", "continuation", "style_transfer"]
+    },
+    "is_synthetic": { "type": "boolean" },
+    "library_authority": { "type": "boolean", "const": false },
+    "dependency_admissions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "TRK-W64-068",
+        "TRK-W64-072",
+        "TRK-W64-073",
+        "TRK-W64-083",
+        "TRK-W64-098",
+        "TRK-W64-099"
+      ],
+      "properties": {
+        "TRK-W64-068": { "$ref": "#/$defs/dependency_admission" },
+        "TRK-W64-072": { "$ref": "#/$defs/dependency_admission" },
+        "TRK-W64-073": { "$ref": "#/$defs/dependency_admission" },
+        "TRK-W64-083": { "$ref": "#/$defs/dependency_admission" },
+        "TRK-W64-098": { "$ref": "#/$defs/dependency_admission" },
+        "TRK-W64-099": { "$ref": "#/$defs/dependency_admission" }
+      }
+    },
+    "required_gates": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "type": "string",
+        "enum": [
+          "source_rights",
+          "conditioning_strength",
+          "structure_preservation",
+          "variation_measure",
+          "unexpected_class_reject"
+        ]
+      }
+    },
+    "gate_results": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_rights",
+        "conditioning_strength",
+        "structure_preservation",
+        "variation_measure",
+        "unexpected_class_reject"
+      ],
+      "properties": {
+        "source_rights": { "$ref": "#/$defs/gate_result" },
+        "conditioning_strength": { "$ref": "#/$defs/gate_result" },
+        "structure_preservation": { "$ref": "#/$defs/gate_result" },
+        "variation_measure": { "$ref": "#/$defs/gate_result" },
+        "unexpected_class_reject": { "$ref": "#/$defs/gate_result" }
+      }
+    },
+    "signals": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "derivative_rights_pass",
+        "conditioning_strength",
+        "structural_similarity",
+        "variation_distance",
+        "identity_drift",
+        "onset_offset_ms",
+        "endpoint_drift_ms",
+        "unwanted_speech",
+        "unwanted_music",
+        "source_bytes_immutable"
+      ],
+      "properties": {
+        "derivative_rights_pass": { "type": "boolean" },
+        "conditioning_strength": { "type": "number", "minimum": 0, "maximum": 1 },
+        "structural_similarity": { "type": "number", "minimum": 0, "maximum": 1 },
+        "variation_distance": { "type": "number", "minimum": 0, "maximum": 1 },
+        "identity_drift": { "type": "number", "minimum": 0, "maximum": 1 },
+        "onset_offset_ms": { "type": "number" },
+        "endpoint_drift_ms": { "type": "number" },
+        "unwanted_speech": { "type": "boolean" },
+        "unwanted_music": { "type": "boolean" },
+        "source_bytes_immutable": { "type": "boolean" }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "route",
+        "status",
+        "reason",
+        "blocker_codes",
+        "explanation",
+        "product_completion",
+        "row100_acceptance"
+      ],
+      "properties": {
+        "route": {
+          "type": "string",
+          "enum": ["accept_candidate", "reject_candidate", "blocked"]
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pass", "fail", "blocked"]
+        },
+        "reason": { "type": "string", "minLength": 1 },
+        "blocker_codes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "explanation": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "product_completion": { "type": "boolean", "const": false },
+        "row100_acceptance": {
+          "type": "string",
+          "enum": ["fixture_only", "held"]
+        }
+      }
+    },
+    "receipt_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  },
+  "$defs": {
+    "dependency_admission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tracker_id",
+        "dependency_satisfied",
+        "blocker_codes",
+        "row_complete",
+        "status",
+        "path"
+      ],
+      "properties": {
+        "tracker_id": { "type": "string", "minLength": 1 },
+        "dependency_satisfied": { "type": "boolean" },
+        "blocker_codes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "row_complete": { "type": "boolean" },
+        "status": { "type": "string" },
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "bytes": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "gate_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "reason_codes"],
+      "properties": {
+        "status": { "type": "string", "enum": ["pass", "fail"] },
+        "reason_codes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}

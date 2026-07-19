@@ -1,0 +1,240 @@
+{
+  "schema_version": 1,
+  "evidence_id": "W64-ROW100-REFERENCE-AUDIO-VARIATION-CURRENT-DELTA-20260719",
+  "created_at": "2026-07-19T20:44:00Z",
+  "updated_at": "2026-07-19T20:44:00Z",
+  "source_commit": "5db320e0f4e2e292342be42399032b602fabee3c",
+  "prior_audit_commit": "5db320e0f4e2e292342be42399032b602fabee3c",
+  "tracker_id": "TRK-W64-100",
+  "item_id": "ITEM-W64-100",
+  "status": "HOLD_DEPENDENCIES_AND_REFERENCE_AUDIO_VARIATION_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+  "classification": "ROW100_FAIL_CLOSED_CONTRACT_SLICE_NO_FALSE_COMPLETION",
+  "row_complete": false,
+  "implementation_completion_claimed": false,
+  "runtime_completion_claimed": false,
+  "qa_decision": "hold_with_fail_closed_reference_audio_variation_contract_and_synthetic_fixture_calibration_only",
+  "intent": {
+    "intent_id": "interactive_cursor_shift_row100_contract_slice_20260719",
+    "classification": "INTERACTIVE_CURSOR_SHIFT_AUTHORITY",
+    "work_type": "final_authority",
+    "authority_class": "interactive_cursor_integration",
+    "routing": null,
+    "dispatch_wake_count": 0,
+    "allowed_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_reference_audio_variation.py",
+      "Plan/08_SCHEMAS/reference_audio_variation_evaluation.schema.json",
+      "Plan/10_REGISTRIES/wave64_row100_reference_audio_variation_policy_registry.json",
+      "Plan/Instructions/QA/Scripts/test_row100_reference_audio_variation.py",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-100_reference_audio_variation.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-100_REFERENCE_AUDIO_VARIATION_CURRENT_DELTA_20260719.json"
+    ]
+  },
+  "increment": {
+    "kind": "fail_closed_contract_evaluator_and_schema_slice",
+    "evaluator_revision": "wave64_row100_reference_audio_variation_evaluator_v0.1.0",
+    "policy_revision": "wave64_row100_reference_audio_variation_policy_v0.1.0",
+    "summary": "Freeze Row100 reference-conditioned audio-to-audio variation gates for derivative rights, conditioning strength, structure/timing preservation, variation bounds, and unwanted speech/music rejection; emit schema-validated synthetic fixture calibration; fail closed for library variation until Rows068/072/073/083/098/099 are accepted.",
+    "note": "Dedicated reference-audio variation schema is introduced without mutating sibling-owned Row069/084/085/098/099/103 paths."
+  },
+  "row100_contract": {
+    "status": "Planned_Autonomous_Implementation_Required",
+    "priority": "P0",
+    "risk": "CRITICAL",
+    "dependency_prerequisites": [
+      "TRK-W64-068",
+      "TRK-W64-072",
+      "TRK-W64-073",
+      "TRK-W64-083",
+      "TRK-W64-098",
+      "TRK-W64-099"
+    ],
+    "validation_methods": [
+      "source_rights",
+      "conditioning_strength",
+      "structure_preservation",
+      "variation_measure",
+      "unexpected_class_reject"
+    ],
+    "output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-100_reference_audio_variation.json",
+    "output_artifact_exists": true,
+    "output_artifact_authority": "fail_closed_hold_packet_not_library_acceptance",
+    "completion_criteria": "Derivative rights, structural similarity, requested variation, timing, and unwanted-content rejection all pass.",
+    "runtime_proof_required": true,
+    "ec2_allowed": true,
+    "final_render_gate": "BLOCKED_UNTIL_EXACT_ROW_IMPLEMENTATION_RUNTIME_QA_AND_AUTHORITY_PASS"
+  },
+  "implemented_slice": {
+    "evaluator_path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_reference_audio_variation.py",
+    "evaluator_sha256": "76f8b154f6d75e22e5e7751fc3f4a8cb224d758f96e6d99ff911f4dddac6372d",
+    "evaluator_bytes": 23017,
+    "schema_path": "Plan/08_SCHEMAS/reference_audio_variation_evaluation.schema.json",
+    "schema_sha256": "5f959aa67f5c29f07836c1454851723316d65c12a8388ee5f3ff9d191d632499",
+    "schema_bytes": 7099,
+    "policy_path": "Plan/10_REGISTRIES/wave64_row100_reference_audio_variation_policy_registry.json",
+    "policy_sha256": "75d2ab08ad43d950cd7c2742827c186311dd745e420d656b7135f38a334307d5",
+    "policy_bytes": 2388,
+    "test_path": "Plan/Instructions/QA/Scripts/test_row100_reference_audio_variation.py",
+    "test_sha256": "fc67fe6293f0d8d55b5b2f5c01c88e4cd0c6a27f02b20c95223c5d67ac7ddc2c",
+    "test_bytes": 6997,
+    "direct_evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-100_reference_audio_variation.json",
+    "direct_evidence_sha256": "211a577c117a19f97875fb98ae2f081b74680b71c549229008204612d3065703",
+    "direct_evidence_bytes": 66537,
+    "capabilities_now_present": [
+      "frozen_evaluator_and_policy_revisions",
+      "five_required_reference_variation_gates_with_fail_closed_results",
+      "derivative_rights_and_source_immutability_enforced",
+      "conditioning_strength_bounds_enforced",
+      "structure_timing_identity_drift_rejection_fixtures",
+      "variation_too_weak_and_too_strong_rejection_fixtures",
+      "unwanted_speech_and_music_rejection_fixtures",
+      "schema_validated_fixture_receipts_with_library_authority_false",
+      "library_mode_hold_packet_without_false_completion",
+      "row098_and_row099_held_deltas_recognized_as_hard_blockers"
+    ],
+    "explicitly_not_claimed": [
+      "accepted_row072_onset_anchor_authority",
+      "accepted_row073_bounds_decay_authority",
+      "accepted_row083_retrieval_calibration_authority",
+      "accepted_row098_deterministic_variation_engine_authority",
+      "accepted_row099_neural_text_to_audio_router_authority",
+      "genuine_audio_to_audio_variation_runtime",
+      "row100_product_completion",
+      "row100_runtime_completion",
+      "downstream_row101_row102_row112_unblocking"
+    ]
+  },
+  "dependency_authority": [
+    {
+      "tracker_id": "TRK-W64-068",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+      "current_delta_sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+      "current_delta_bytes": 4104,
+      "dependency_satisfied": true,
+      "row_complete": true,
+      "reason": "Rights/provenance decision authority is accepted; remaining Row100 prerequisites remain held."
+    },
+    {
+      "tracker_id": "TRK-W64-072",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ONSET_TRANSIENT_ANCHOR_CURRENT_DELTA_20260719.json",
+      "current_delta_sha256": "f0d647f5f623e7b8bbeb4ef1270732ba8116972dcecd620592c12dabbde0477a",
+      "current_delta_bytes": 12124,
+      "dependency_satisfied": false,
+      "row_complete": false,
+      "reason": "Onset/transient anchor authority remains held; timing preservation cannot claim production calibration."
+    },
+    {
+      "tracker_id": "TRK-W64-073",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_CURRENT_DELTA_20260719.json",
+      "current_delta_sha256": "9c8b2d4b1871d61276bae4d5f6ca85a437f99b7ca3cc4d1a7a7fe1371b6146ff",
+      "current_delta_bytes": 9007,
+      "dependency_satisfied": false,
+      "row_complete": false,
+      "reason": "Usable-bounds/decay authority remains held; continuation/inpainting bounds cannot claim production judgment."
+    },
+    {
+      "tracker_id": "TRK-W64-083",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-083_RETRIEVAL_FALLBACK_CALIBRATION_CURRENT_DELTA_20260719.json",
+      "current_delta_sha256": "aa01f744028a788ea3a3b125a9af529f24e3b0080120dcf2e397be6516fa825f",
+      "current_delta_bytes": 11448,
+      "dependency_satisfied": false,
+      "row_complete": false,
+      "reason": "Retrieval fallback calibration remains held; seed/reference selection context is incomplete."
+    },
+    {
+      "tracker_id": "TRK-W64-098",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-098_DETERMINISTIC_SOUND_VARIATION_CURRENT_DELTA_20260719.json",
+      "current_delta_sha256": "ff54ee3a83e140dda79d5c21f64de70fddf4e783fe9be281d459c08cce2a11b5",
+      "current_delta_bytes": 8805,
+      "dependency_satisfied": false,
+      "row_complete": false,
+      "reason": "Deterministic sound variation engine remains held; reference-conditioned variation cannot claim upstream variation authority."
+    },
+    {
+      "tracker_id": "TRK-W64-099",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-099_NEURAL_TEXT_TO_AUDIO_CURRENT_DELTA_20260719.json",
+      "current_delta_sha256": "a33304a765b31b99a558152453eb721ca6a048e9af6c03bef33aede578e11052",
+      "current_delta_bytes": 3426,
+      "dependency_satisfied": false,
+      "row_complete": false,
+      "reason": "Neural text-to-audio router remains held; generated-seed routes cannot claim accepted engine authority."
+    }
+  ],
+  "focused_validators": {
+    "command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_row100_reference_audio_variation.py",
+    "exit_code": 0,
+    "passed": 13,
+    "failed": 0
+  },
+  "acceptance_gaps": [
+    {
+      "code": "ROW100_DEPENDENCIES_NOT_ACCEPTED",
+      "detail": "Rows072/073/083/098/099 remain held (Row068 accepted), so library reference-audio variation authority stays blocked."
+    },
+    {
+      "code": "REFERENCE_CONDITIONED_VARIATION_RUNTIME_ABSENT",
+      "detail": "No production runtime binds accepted rights/onset/bounds/variation/router evidence into audio-to-audio variation receipts."
+    },
+    {
+      "code": "GENUINE_AUDIO_TO_AUDIO_VARIATION_PROOF_ABSENT",
+      "detail": "Waveform/spectrogram genuine audio-to-audio variation QA and runtime proof are not claimed by this contract slice."
+    },
+    {
+      "code": "ROW098_SOUND_VARIATION_ENGINE_AUTHORITY_ABSENT",
+      "detail": "Deterministic variation engine authority remains held and cannot seed production reference-conditioned variation."
+    },
+    {
+      "code": "ROW099_NEURAL_TEXT_TO_AUDIO_ROUTER_AUTHORITY_ABSENT",
+      "detail": "Neural text-to-audio router authority remains held and cannot authorize generated seed routes."
+    }
+  ],
+  "direct_downstream_hold": {
+    "count": 3,
+    "tracker_ids": [
+      "TRK-W64-101",
+      "TRK-W64-102",
+      "TRK-W64-112"
+    ],
+    "reason": "Video-conditioned Foley, generated-asset provenance, and full-system certification require accepted reference-audio variation authority, not synthetic fixture calibration alone."
+  },
+  "preservation_boundary": {
+    "row069_paths_modified": false,
+    "row084_cut_detector_paths_modified": false,
+    "row085_synthetic_ledger_paths_modified": false,
+    "row098_paths_modified": false,
+    "row099_paths_modified": false,
+    "row103_paths_modified": false,
+    "unrelated_dirty_paths_modified": false,
+    "only_row100_writable_paths_this_increment": [
+      "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_reference_audio_variation.py",
+      "Plan/08_SCHEMAS/reference_audio_variation_evaluation.schema.json",
+      "Plan/10_REGISTRIES/wave64_row100_reference_audio_variation_policy_registry.json",
+      "Plan/Instructions/QA/Scripts/test_row100_reference_audio_variation.py",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-100_reference_audio_variation.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-100_REFERENCE_AUDIO_VARIATION_CURRENT_DELTA_20260719.json"
+    ]
+  },
+  "checks": [
+    {"name": "RAV-I001_evaluator_and_policy_revisions_frozen", "result": "pass"},
+    {"name": "RAV-I002_schema_requires_five_gates_and_source_candidate_pcm", "result": "pass"},
+    {"name": "RAV-I003_dependencies_068_072_073_083_098_099_fail_closed", "result": "pass"},
+    {"name": "RAV-I004_library_mode_hold_packet_emitted", "result": "pass"},
+    {"name": "RAV-I005_fixture_records_deterministic_schema_valid", "result": "pass"},
+    {"name": "RAV-I006_rights_conditioning_structure_variation_unexpected_rejection_enforced", "result": "pass"},
+    {"name": "RAV-I007_timing_loss_and_identity_drift_rejected", "result": "pass"},
+    {"name": "RAV-I008_focused_pytest_13_passed", "result": "pass"},
+    {"name": "RAV-I009_no_false_completion_claimed", "result": "pass"},
+    {"name": "RAV-I010_disjoint_from_row069_row084_row085_row098_row099_row103", "result": "pass"}
+  ],
+  "check_summary": {
+    "checked": 10,
+    "passed": 10,
+    "failed": 0
+  },
+  "decision": {
+    "status": "blocked",
+    "row100_acceptance": "held",
+    "product_completion": false,
+    "runtime_completion": false,
+    "safe_next_action": "Keep Row100 held with this fail-closed contract slice; prefer accepting Rows072/073/083/098/099 before claiming reference-conditioned audio-to-audio variation completion, or continue with the next independent disjoint contract row."
+  }
+}
