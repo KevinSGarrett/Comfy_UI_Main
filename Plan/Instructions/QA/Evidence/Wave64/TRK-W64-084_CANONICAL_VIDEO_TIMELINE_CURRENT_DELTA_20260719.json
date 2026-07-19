@@ -1,30 +1,31 @@
 {
   "schema_version": "1.0",
   "evidence_id": "TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719",
-  "created_at": "2026-07-19T20:18:00Z",
-  "source_commit": "ea9be3f7fb1e8a8aa85ffd5bd23feda5f9347e28",
-  "prior_evidence_commit": "1c2fe6fa",
+  "created_at": "2026-07-19T20:23:00Z",
+  "source_commit": "57a23aa407ce37d88e0fa5d7561e29f464157c46",
+  "prior_evidence_commit": "02b1aba9",
   "prior_row_commit_is_current_head": false,
   "tracker_id": "TRK-W64-084",
   "item_id": "ITEM-W64-084",
-  "status": "HOLD_RUNTIME_MUX_REPLAY_BENCHMARK_CUT_DETECTOR_CAMERA_VISUAL_PROOF_ABSENT_PLANNED_MUX_ENVELOPE_PARTIAL",
-  "classification": "ROW084_FAIL_CLOSED_PLANNED_MUX_COMMAND_ENVELOPE_AND_HELD_OUT_ENVELOPE_HASH_NO_FALSE_COMPLETION",
+  "status": "HOLD_RUNTIME_MUX_REPLAY_BENCHMARK_CUT_DETECTOR_CAMERA_VISUAL_PROOF_ABSENT_MISSING_FRAME_POLICY_MATRIX_PARTIAL",
+  "classification": "ROW084_FAIL_CLOSED_MISSING_FRAME_POLICY_MATRIX_PRESERVE_EXPLICIT_GAP_NO_FALSE_COMPLETION",
   "row_complete": false,
   "implementation_completion_claimed": false,
   "runtime_completion_claimed": false,
   "qa_decision": "HOLD",
   "increment": {
-    "kind": "fail_closed_fixture_backed_planned_mux_command_envelope_and_held_out_envelope_hash_stability",
-    "summary": "Attached a fixture-backed planned mux command envelope (dry-run / non-executed) to stream-bound mux-prep receipts, content-addressed as planned_mux_command_envelope_sha256, and proved envelope hash stability across the held-out dry-run matrix without granting mux replay, visual review, or row_complete.",
+    "kind": "fail_closed_fixture_backed_missing_frame_policy_matrix_preserve_gap_explicit_gap",
+    "summary": "Added a fixture-backed missing-frame policy matrix covering preserve_gap and explicit_gap, with fail-closed reject paths for block/interpolate/duplicate/out-of-bounds/policy-mismatch and incomplete matrix coverage. Does not grant missing-frame runtime completion, mux replay, visual review, or row_complete.",
     "production_media_decode_invoked": false,
     "tracker_output_artifact_emitted": false,
     "mux_replay_executed": false,
     "mux_command_executed": false,
     "visual_review_authority_claimed": false,
+    "missing_frame_policy_runtime_complete": false,
     "row067_binding_commit": "b074c694518b7ebe78a1e7292db28427d7f75ca7"
   },
   "intent": {
-    "intent_id": "interactive_cursor_shift_row084_planned_mux_command_envelope_20260719",
+    "intent_id": "interactive_cursor_shift_row084_missing_frame_policy_matrix_20260719",
     "classification": "INTERACTIVE_PLATFORM_SHIFT_AUTHORITY",
     "work_type": "final_authority",
     "authority_class": "interactive_cursor",
@@ -32,15 +33,13 @@
     "dispatch_wake_count": 0,
     "candidate_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-      "Plan/08_SCHEMAS/canonical_video_timeline_mux_prep_receipt.schema.json",
-      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_mux_dry_run_matrix.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline_missing_frame_policy_matrix.schema.json",
       "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
     ],
     "allowed_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-      "Plan/08_SCHEMAS/canonical_video_timeline_mux_prep_receipt.schema.json",
-      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_mux_dry_run_matrix.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline_missing_frame_policy_matrix.schema.json",
       "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
     ]
@@ -76,28 +75,25 @@
     "row_complete": true,
     "row067_complete": true,
     "dependency_satisfied": true,
-    "row084_effect": "Dependency remains unlocked. Planned mux command envelope (dry-run only) and held-out envelope hash checks do not grant mux replay, runtime benchmark, cut-detector, camera-motion, visual review, or tracker runtime artifact authority."
+    "row084_effect": "Dependency remains unlocked. Fixture-backed missing-frame policy matrix (preserve_gap / explicit_gap) does not grant missing-frame runtime completion, mux replay, runtime benchmark, cut-detector, camera-motion, visual review, or tracker runtime artifact authority."
   },
   "implementation_slice": {
     "compiler_path": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-    "compiler_sha256": "049f6e96193c1b97091859ddc027738c6061a6c911a1eb32b0deece1edb4c829",
-    "compiler_bytes": 57304,
-    "compiler_revision": "row084_planned_mux_command_envelope_v5",
+    "compiler_sha256": "41fef492c50a24880407eb1a3aa76b8b991b61acdf715276cafdb7b6a9133ec5",
+    "compiler_bytes": 65389,
+    "compiler_revision": "row084_missing_frame_policy_matrix_v6",
     "timeline_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline.schema.json",
     "timeline_schema_sha256": "48052223b8d1025fcc982eedc95d6f722d4ed4947dcdca6eeb6b5a3f1f8b853f",
     "timeline_schema_bytes": 8892,
+    "missing_frame_policy_matrix_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_missing_frame_policy_matrix.schema.json",
+    "missing_frame_policy_matrix_schema_sha256": "e3ef4db58768d52c0b4070846b40910cee7c6e6105fbe0927f55bc68168bad98",
+    "missing_frame_policy_matrix_schema_bytes": 4840,
     "mux_prep_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_mux_prep_receipt.schema.json",
-    "mux_prep_schema_sha256": "af6348da4c1e2b6e209b1b7742ec1a7de0c24ad9d0dfe982a0121435391bedb7",
-    "mux_prep_schema_bytes": 7355,
     "held_out_matrix_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_held_out_roundtrip_matrix.schema.json",
-    "held_out_matrix_schema_sha256": "03a162e2ec0654b74bf93919ae161cc5cc51abb0816e1e470d73f9c9955db081",
-    "held_out_matrix_schema_bytes": 4422,
     "held_out_mux_dry_run_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_held_out_mux_dry_run_matrix.schema.json",
-    "held_out_mux_dry_run_schema_sha256": "b6f75365951872b44bc1c9ce8796aaf6d5813d1b7a0c793838ce5b5c5f3d7afe",
-    "held_out_mux_dry_run_schema_bytes": 5419,
     "test_path": "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
-    "test_sha256": "5710e38a66106a1393806d3a614e95478c5e292061d362c0dc037c2a72eff0c5",
-    "test_bytes": 29639,
+    "test_sha256": "5d4c63c96aeaa5129ebeb0e2539282066c0c481d7c1bcdf3909b52ded6f5e42b",
+    "test_bytes": 36484,
     "proven_capabilities": [
       "fail-closed reversed PTS/frame/sample span rejection",
       "required non-null frame and sample rates on clock-span schema",
@@ -126,12 +122,17 @@
       "fixture-backed planned mux command envelope attached only when stream identities are bound",
       "planned mux command envelope remains dry_run_non_executed / planned_only with execution_guards false",
       "deterministic planned_mux_command_envelope_sha256 across rebuilds",
-      "held-out dry-run matrix asserts per-case envelope hash stability"
+      "held-out dry-run matrix asserts per-case envelope hash stability",
+      "fixture-backed missing-frame policy matrix covering preserve_gap and explicit_gap",
+      "fail-closed reject for block and interpolate missing-frame policies until runtime completion",
+      "fail-closed reject for duplicate and out-of-bounds missing-frame indices",
+      "missing-frame policy matrix rejects incomplete policy coverage and expected_policy mismatch"
     ],
     "still_absent": [
       "video decode integration",
       "cut detector algorithm beyond cut_epoch ledger acceptance",
       "camera-motion normalization",
+      "missing-frame policy runtime completion (interpolate/block + media-backed gaps)",
       "held-out fixed+VFR runtime media benchmark with mux replay",
       "combined frame/contact/audio visual review",
       "tracker-declared runtime output artifact",
@@ -142,11 +143,11 @@
   "focused_local_test_result": {
     "py_compile": "PASS",
     "strict_command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
-    "strict_result": "20 passed",
+    "strict_result": "27 passed",
     "strict_exit_code": 0,
-    "total_focused_passed": 20,
+    "total_focused_passed": 27,
     "total_focused_failed": 0,
-    "scope_interpretation": "Focused tests prove planned mux command envelope attachment plus held-out envelope/dry-run hash determinism only. They do not grant Row084 completion, runtime held-out media benchmark, mux replay, or visual review authority."
+    "scope_interpretation": "Focused tests prove fixture-backed preserve_gap/explicit_gap missing-frame policy matrix plus fail-closed reject paths only. They do not grant Row084 completion, missing-frame runtime completion, runtime held-out media benchmark, mux replay, or visual review authority."
   },
   "checks": [
     {"check_id": "ROW084-001", "name": "tracker_item_requirements_parity", "status": "PASS"},
@@ -177,12 +178,14 @@
     {"check_id": "ROW084-026", "name": "mux_prep_audio_container_stream_identity_binding_pass", "status": "PASS"},
     {"check_id": "ROW084-027", "name": "held_out_mux_dry_run_deterministic_hash_check_pass", "status": "PASS"},
     {"check_id": "ROW084-028", "name": "planned_mux_command_envelope_bound_when_stream_identities_present", "status": "PASS"},
-    {"check_id": "ROW084-029", "name": "held_out_planned_mux_envelope_hash_stability_pass", "status": "PASS"}
+    {"check_id": "ROW084-029", "name": "held_out_planned_mux_envelope_hash_stability_pass", "status": "PASS"},
+    {"check_id": "ROW084-030", "name": "fixture_missing_frame_policy_matrix_preserve_explicit_gap_pass", "status": "PASS"},
+    {"check_id": "ROW084-031", "name": "missing_frame_fail_closed_reject_paths_pass", "status": "PASS"}
   ],
   "test_and_runtime_boundary": {
     "schema_meta_validation_executed": true,
     "focused_source_tests_executed": true,
-    "focused_source_tests_passed": 20,
+    "focused_source_tests_passed": 27,
     "focused_source_tests_failed": 0,
     "production_timeline_compilation_invoked": false,
     "new_media_decode_or_mux_invoked": false,
@@ -190,7 +193,9 @@
     "mux_dry_run_plan_only": true,
     "planned_mux_command_envelope_only": true,
     "held_out_fixture_matrix_only": true,
+    "missing_frame_policy_fixture_matrix_only": true,
     "direct_row084_runtime_benchmark_executed": false,
+    "missing_frame_policy_runtime_complete": false,
     "visual_review_executed": false,
     "ec2_invoked": false,
     "docker_invoked": false,
@@ -202,31 +207,30 @@
   "sibling_lane_boundary": {
     "excluded_sibling_rows": [
       "TRK-W64-069",
-      "TRK-W64-078",
-      "TRK-W64-080",
+      "TRK-W64-077",
       "TRK-W64-082",
+      "TRK-W64-083",
       "TRK-W64-089",
       "TRK-W64-091"
     ],
     "excluded_path_globs": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_visual_material_recognition.py",
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_visual_audio_event_manifest.py",
-      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_audio_tag_caption_ensemble.py",
-      "Plan/07_IMPLEMENTATION/scripts/query_wave64_hybrid_audio_retrieval_index.py",
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_semantic_audio_embeddings.py",
       "Plan/07_IMPLEMENTATION/scripts/select_wave64_audio_repetition_diversity.py",
       "Plan/07_IMPLEMENTATION/scripts/build_audio_pack_functional_index.py",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-069_*",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-078_*",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-080_*",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-077_*",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-082_*",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-083_*",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-089_*",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_*",
       "Plan/Instructions/QA/Evidence/Wave64/fixtures/row089/**",
       "Plan/Instructions/QA/Evidence/Wave64/fixtures/row091/**",
       "Plan/Instructions/QA/Scripts/test_row069_*",
-      "Plan/Instructions/QA/Scripts/test_row078_*",
-      "Plan/Instructions/QA/Scripts/test_row080_*",
+      "Plan/Instructions/QA/Scripts/test_row077_*",
       "Plan/Instructions/QA/Scripts/test_row082_*",
+      "Plan/Instructions/QA/Scripts/test_row083_*",
       "Plan/Instructions/QA/Scripts/test_row089_*",
       "Plan/Instructions/QA/Scripts/test_row091_*"
     ],
@@ -235,15 +239,13 @@
   "preservation_boundary": {
     "allowed_write_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-      "Plan/08_SCHEMAS/canonical_video_timeline_mux_prep_receipt.schema.json",
-      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_mux_dry_run_matrix.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline_missing_frame_policy_matrix.schema.json",
       "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
     ],
     "actual_write_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-      "Plan/08_SCHEMAS/canonical_video_timeline_mux_prep_receipt.schema.json",
-      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_mux_dry_run_matrix.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline_missing_frame_policy_matrix.schema.json",
       "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
     ],
@@ -253,7 +255,7 @@
   },
   "hold_decision": {
     "decision": "HOLD_ROW084_NO_FALSE_COMPLETION",
-    "reason": "Planned mux command envelope and held-out envelope hash stability are present and locally proven (ROW084-028/029 PASS; 20 focused tests). Runtime held-out media benchmark with mux replay (ROW084-018/019), cut-detection algorithm, camera-motion normalization, combined visual review, and the tracker-declared runtime artifact remain absent. The compiler never sets row_complete or production_completion_allowed true in this increment.",
-    "safe_next_action": "Keep Row084 on hold for runtime completion. Next useful Row084 write: add a fixture-backed missing-frame policy matrix (preserve_gap / explicit_gap) with fail-closed reject paths, still without claiming visual-review authority, mux replay, or row_complete."
+    "reason": "Fixture-backed missing-frame policy matrix for preserve_gap/explicit_gap is present and locally proven (ROW084-030/031 PASS; 27 focused tests). Missing-frame runtime completion (ROW084-015), runtime held-out media benchmark with mux replay (ROW084-018/019), cut-detection algorithm, camera-motion normalization, combined visual review, and the tracker-declared runtime artifact remain absent. The compiler never sets row_complete or production_completion_allowed true in this increment.",
+    "safe_next_action": "Keep Row084 on hold for runtime completion. Next useful Row084 write: add a fixture-backed camera-motion policy distinction matrix (not_evaluated / blocked_until_calibrated / distinguish_from_cuts) with fail-closed reject paths, still without claiming visual-review authority, mux replay, or row_complete."
   }
 }

@@ -2,9 +2,10 @@
 """Fail-closed Row084 canonical video timeline compiler.
 
 Compiles fixture or decoded-frame metadata into a content-addressed timeline
-receipt, plus mux-prep scaffold and held-out fixed/VFR round-trip matrix
-helpers. Production completion remains blocked unless dependency, benchmark,
-mux-replay, and visual-review authorities are all satisfied.
+receipt, plus mux-prep scaffold, held-out fixed/VFR round-trip matrix helpers,
+and a fixture-backed missing-frame policy matrix (preserve_gap / explicit_gap).
+Production completion remains blocked unless dependency, benchmark, mux-replay,
+and visual-review authorities are all satisfied.
 """
 from __future__ import annotations
 
@@ -17,7 +18,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-COMPILER_REVISION = "row084_planned_mux_command_envelope_v5"
+COMPILER_REVISION = "row084_missing_frame_policy_matrix_v6"
+MATRIX_AUTHORIZED_MISSING_POLICIES = frozenset({"preserve_gap", "explicit_gap"})
+RUNTIME_BLOCKED_MISSING_POLICIES = frozenset({"interpolate", "block"})
 
 
 ALLOWED_TOP_LEVEL_FIELDS = {
@@ -578,6 +581,7 @@ def _validate_missing_frames(raw: Any, clock_span: dict[str, Any]) -> list[dict[
     if not isinstance(raw, list):
         raise ValueError("missing_frames must be a list")
     missing: list[dict[str, Any]] = []
+    seen_indices: set[int] = set()
     for idx, entry in enumerate(raw):
         if not isinstance(entry, dict):
             raise ValueError(f"missing_frames[{idx}] must be an object")
@@ -585,12 +589,21 @@ def _validate_missing_frames(raw: Any, clock_span: dict[str, Any]) -> list[dict[
         frame_index = _expect_non_negative_int(entry.get("frame_index"), f"missing_frames[{idx}].frame_index")
         if frame_index < clock_span["start_frame"] or frame_index >= clock_span["end_frame_exclusive"]:
             raise ValueError(f"missing_frames[{idx}].frame_index outside clock_span bounds")
+        if frame_index in seen_indices:
+            raise ValueError(f"missing_frames[{idx}].frame_index duplicates a prior missing frame")
+        seen_indices.add(frame_index)
         policy = _expect_non_empty_string(entry.get("policy"), f"missing_frames[{idx}].policy")
         if policy not in ALLOWED_MISSING_POLICIES:
             raise ValueError(
                 f"missing_frames[{idx}].policy must be one of {sorted(ALLOWED_MISSING_POLICIES)}"
             )
+        if policy in RUNTIME_BLOCKED_MISSING_POLICIES:
+            raise ValueError(
+                f"missing_frames[{idx}].policy {policy} is fail-closed until missing-frame "
+                "runtime completion (authorized fixture policies: preserve_gap, explicit_gap)"
+            )
         missing.append({"frame_index": frame_index, "policy": policy})
+    missing.sort(key=lambda item: item["frame_index"])
     return missing
 
 
@@ -1193,17 +1206,174 @@ def compile_held_out_mux_dry_run_matrix(payload: dict[str, Any]) -> dict[str, An
     return body
 
 
+def compile_missing_frame_policy_matrix(payload: dict[str, Any]) -> dict[str, Any]:
+    """Compile a fixture-backed preserve_gap / explicit_gap missing-frame policy matrix.
+
+    Proves fail-closed acceptance of the two authorized fixture policies only.
+    Does not grant missing-frame runtime completion, mux replay, visual review,
+    or row_complete.
+    """
+    if not isinstance(payload, dict):
+        raise ValueError("missing-frame policy matrix payload must be an object")
+    allowed = {"schema_version", "matrix_id", "revision", "cases", "provenance"}
+    _assert_keys_exact(payload, allowed, "missing_frame_policy_matrix")
+    schema_version = _expect_non_empty_string(payload.get("schema_version"), "schema_version")
+    if schema_version != "1.0.0":
+        raise ValueError("schema_version must equal 1.0.0")
+    matrix_id = _expect_non_empty_string(payload.get("matrix_id"), "matrix_id")
+    revision = _expect_non_empty_string(payload.get("revision"), "revision")
+    cases_raw = payload.get("cases")
+    if not isinstance(cases_raw, list) or len(cases_raw) < 2:
+        raise ValueError("cases must be a list with at least two missing-frame policy fixtures")
+
+    seen_case_ids: set[str] = set()
+    seen_policies: set[str] = set()
+    case_results: list[dict[str, Any]] = []
+    for idx, entry in enumerate(cases_raw):
+        if not isinstance(entry, dict):
+            raise ValueError(f"cases[{idx}] must be an object")
+        _assert_keys_exact(
+            entry,
+            {"case_id", "expected_policy", "timeline_packet"},
+            f"cases[{idx}]",
+        )
+        case_id = _expect_non_empty_string(entry.get("case_id"), f"cases[{idx}].case_id")
+        if case_id in seen_case_ids:
+            raise ValueError(f"cases[{idx}].case_id duplicates a prior case_id")
+        seen_case_ids.add(case_id)
+        expected_policy = _expect_non_empty_string(
+            entry.get("expected_policy"), f"cases[{idx}].expected_policy"
+        )
+        if expected_policy not in MATRIX_AUTHORIZED_MISSING_POLICIES:
+            raise ValueError(
+                f"cases[{idx}].expected_policy must be one of "
+                f"{sorted(MATRIX_AUTHORIZED_MISSING_POLICIES)}"
+            )
+        packet = entry.get("timeline_packet")
+        if not isinstance(packet, dict):
+            raise ValueError(f"cases[{idx}].timeline_packet must be an object")
+        declared = packet.get("missing_frames")
+        if not isinstance(declared, list) or not declared:
+            raise ValueError(f"cases[{idx}].timeline_packet.missing_frames must be a non-empty list")
+        for miss_idx, miss in enumerate(declared):
+            if not isinstance(miss, dict):
+                raise ValueError(
+                    f"cases[{idx}].timeline_packet.missing_frames[{miss_idx}] must be an object"
+                )
+            policy = miss.get("policy")
+            if policy != expected_policy:
+                raise ValueError(
+                    f"cases[{idx}].timeline_packet.missing_frames[{miss_idx}].policy "
+                    f"must equal expected_policy {expected_policy}"
+                )
+
+        receipt = compile_timeline(packet)
+        applied = receipt.get("missing_frames")
+        if not isinstance(applied, list) or not applied:
+            raise ValueError(f"cases[{idx}] compiled receipt missing_frames must be non-empty")
+        applied_policies = {item["policy"] for item in applied if isinstance(item, dict)}
+        if applied_policies != {expected_policy}:
+            raise ValueError(
+                f"cases[{idx}] compiled missing_frames policies {sorted(applied_policies)} "
+                f"must equal {{{expected_policy}}}"
+            )
+        seen_policies.add(expected_policy)
+        case_results.append(
+            {
+                "case_id": case_id,
+                "expected_policy": expected_policy,
+                "timeline_id": receipt["timeline_id"],
+                "timeline_sha256": receipt["timeline_sha256"],
+                "frame_rate_mode": receipt["frame_rate_mode"],
+                "missing_frame_count": len(applied),
+                "applied_policies": sorted(applied_policies),
+                "policy_applied": True,
+                "within_tolerance": receipt["roundtrip_evidence"]["within_tolerance"],
+                "runtime_policy_complete": False,
+                "row_complete": False,
+            }
+        )
+
+    if "preserve_gap" not in seen_policies:
+        raise ValueError("missing-frame policy matrix requires at least one preserve_gap case")
+    if "explicit_gap" not in seen_policies:
+        raise ValueError("missing-frame policy matrix requires at least one explicit_gap case")
+
+    all_within = all(case["within_tolerance"] for case in case_results)
+    all_applied = all(case["policy_applied"] for case in case_results)
+    created_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    provenance = payload.get("provenance")
+    if provenance is None:
+        provenance = {
+            "compiler": "compile_wave64_canonical_video_timeline.py",
+            "compiler_revision": COMPILER_REVISION,
+        }
+    if not isinstance(provenance, dict):
+        raise ValueError("provenance must be an object")
+
+    body = {
+        "schema_version": "1.0.0",
+        "record_type": "canonical_video_timeline_missing_frame_policy_matrix",
+        "matrix_id": matrix_id,
+        "revision": revision,
+        "status": "fixture_missing_frame_policy_partial" if all_within and all_applied else "blocked",
+        "created_at": created_at,
+        "cases": case_results,
+        "summary": {
+            "case_count": len(case_results),
+            "passed_count": sum(
+                1 for case in case_results if case["within_tolerance"] and case["policy_applied"]
+            ),
+            "failed_count": sum(
+                1
+                for case in case_results
+                if not (case["within_tolerance"] and case["policy_applied"])
+            ),
+            "all_within_tolerance": all_within,
+            "policies_covered": sorted(seen_policies),
+            "preserve_gap_covered": "preserve_gap" in seen_policies,
+            "explicit_gap_covered": "explicit_gap" in seen_policies,
+            "runtime_policy_complete": False,
+            "mux_replay_included": False,
+            "runtime_media_decode_invoked": False,
+            "benchmark_authority_granted": False,
+            "visual_review_authority_granted": False,
+        },
+        "authority": {
+            "fixture_matrix_only": True,
+            "missing_frame_policy_runtime_complete": False,
+            "fixed_vfr_benchmark_pass": False,
+            "mux_replay_proof_present": False,
+            "combined_visual_review_present": False,
+        },
+        "production_completion_allowed": False,
+        "row_complete": False,
+        "provenance": provenance,
+    }
+    body["matrix_sha256"] = _canonical_sha256(body)
+    return body
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Compile a fail-closed Row084 canonical video timeline receipt.")
     parser.add_argument(
         "--input",
         required=True,
-        help="Path to timeline, mux-prep, held-out matrix, or held-out mux dry-run input JSON",
+        help=(
+            "Path to timeline, mux-prep, held-out matrix, held-out mux dry-run, "
+            "or missing-frame policy matrix input JSON"
+        ),
     )
     parser.add_argument("--output", required=True, help="Path to write compiled receipt JSON")
     parser.add_argument(
         "--mode",
-        choices=("timeline", "mux-prep", "held-out-matrix", "held-out-mux-dry-run"),
+        choices=(
+            "timeline",
+            "mux-prep",
+            "held-out-matrix",
+            "held-out-mux-dry-run",
+            "missing-frame-policy-matrix",
+        ),
         default="timeline",
         help="Compilation mode (default: timeline)",
     )
@@ -1229,8 +1399,11 @@ def main(argv: list[str] | None = None) -> int:
         elif args.mode == "held-out-matrix":
             receipt = compile_held_out_roundtrip_matrix(payload)
             digest_key = "matrix_sha256"
-        else:
+        elif args.mode == "held-out-mux-dry-run":
             receipt = compile_held_out_mux_dry_run_matrix(payload)
+            digest_key = "matrix_sha256"
+        else:
+            receipt = compile_missing_frame_policy_matrix(payload)
             digest_key = "matrix_sha256"
     except ValueError as exc:
         raise SystemExit(f"ROW084_FAIL_CLOSED: {exc}") from exc

@@ -22,6 +22,9 @@ HELD_OUT_MATRIX_SCHEMA = (
 HELD_OUT_MUX_DRY_RUN_SCHEMA = (
     ROOT / "Plan/08_SCHEMAS/canonical_video_timeline_held_out_mux_dry_run_matrix.schema.json"
 )
+MISSING_FRAME_POLICY_MATRIX_SCHEMA = (
+    ROOT / "Plan/08_SCHEMAS/canonical_video_timeline_missing_frame_policy_matrix.schema.json"
+)
 
 
 def _write_json(path: Path, payload: dict) -> None:
@@ -272,6 +275,47 @@ def _held_out_matrix_packet(*, with_stream_identities: bool = False) -> dict:
     }
 
 
+def _missing_frame_policy_matrix_packet() -> dict:
+    """Fixture matrix covering preserve_gap and explicit_gap with authorized policies only."""
+    preserve_packet = _fixed_packet(
+        frame_count=12,
+        timeline_id="row084_missing_preserve_gap",
+        video_sha256="1" * 64,
+        dependency_complete=True,
+        provenance_fixture="row084_missing_preserve_gap",
+    )
+    preserve_packet["missing_frames"] = [{"frame_index": 3, "policy": "preserve_gap"}]
+    explicit_packet = _fixed_packet(
+        frame_count=12,
+        timeline_id="row084_missing_explicit_gap",
+        video_sha256="2" * 64,
+        dependency_complete=True,
+        provenance_fixture="row084_missing_explicit_gap",
+    )
+    explicit_packet["missing_frames"] = [
+        {"frame_index": 4, "policy": "explicit_gap"},
+        {"frame_index": 7, "policy": "explicit_gap"},
+    ]
+    return {
+        "schema_version": "1.0.0",
+        "matrix_id": "row084_missing_frame_policy_matrix_v1",
+        "revision": "r001",
+        "cases": [
+            {
+                "case_id": "preserve_gap_fixed",
+                "expected_policy": "preserve_gap",
+                "timeline_packet": preserve_packet,
+            },
+            {
+                "case_id": "explicit_gap_fixed",
+                "expected_policy": "explicit_gap",
+                "timeline_packet": explicit_packet,
+            },
+        ],
+        "provenance": {"fixture": "row084_missing_frame_policy_matrix"},
+    }
+
+
 class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
     def setUp(self) -> None:
         self.timeline_validator = Draft202012Validator(json.loads(TIMELINE_SCHEMA.read_text(encoding="utf-8")))
@@ -281,6 +325,9 @@ class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
         )
         self.mux_dry_run_validator = Draft202012Validator(
             json.loads(HELD_OUT_MUX_DRY_RUN_SCHEMA.read_text(encoding="utf-8"))
+        )
+        self.missing_frame_policy_validator = Draft202012Validator(
+            json.loads(MISSING_FRAME_POLICY_MATRIX_SCHEMA.read_text(encoding="utf-8"))
         )
         self.clock_span_schema = json.loads(CLOCK_SPAN_SCHEMA.read_text(encoding="utf-8"))
 
@@ -643,6 +690,92 @@ class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
         self.assertFalse(receipt["authority"]["planned_mux_command_envelope_bound"])
         self.assertFalse(receipt["row_complete"])
         self.assertFalse(receipt["production_completion_allowed"])
+
+    def test_missing_frame_policy_matrix_covers_preserve_and_explicit_gap(self) -> None:
+        packet = _missing_frame_policy_matrix_packet()
+        _, receipt = self._run_compile(packet, expect_ok=True, mode="missing-frame-policy-matrix")
+        assert receipt is not None
+        self.missing_frame_policy_validator.validate(receipt)
+        self.assertEqual(
+            receipt["record_type"], "canonical_video_timeline_missing_frame_policy_matrix"
+        )
+        self.assertEqual(receipt["status"], "fixture_missing_frame_policy_partial")
+        self.assertFalse(receipt["row_complete"])
+        self.assertFalse(receipt["production_completion_allowed"])
+        self.assertFalse(receipt["summary"]["runtime_policy_complete"])
+        self.assertTrue(receipt["summary"]["preserve_gap_covered"])
+        self.assertTrue(receipt["summary"]["explicit_gap_covered"])
+        self.assertEqual(set(receipt["summary"]["policies_covered"]), {"preserve_gap", "explicit_gap"})
+        self.assertFalse(receipt["authority"]["missing_frame_policy_runtime_complete"])
+        self.assertFalse(receipt["authority"]["mux_replay_proof_present"])
+        self.assertEqual(receipt["summary"]["case_count"], 2)
+        self.assertEqual(receipt["summary"]["passed_count"], 2)
+        by_id = {case["case_id"]: case for case in receipt["cases"]}
+        self.assertEqual(by_id["preserve_gap_fixed"]["expected_policy"], "preserve_gap")
+        self.assertEqual(by_id["explicit_gap_fixed"]["expected_policy"], "explicit_gap")
+        self.assertEqual(by_id["preserve_gap_fixed"]["missing_frame_count"], 1)
+        self.assertEqual(by_id["explicit_gap_fixed"]["missing_frame_count"], 2)
+        self.assertTrue(all(case["policy_applied"] for case in receipt["cases"]))
+        self.assertTrue(all(case["runtime_policy_complete"] is False for case in receipt["cases"]))
+        self.assertTrue(all(case["row_complete"] is False for case in receipt["cases"]))
+
+    def test_missing_frame_policy_matrix_requires_both_authorized_policies(self) -> None:
+        packet = _missing_frame_policy_matrix_packet()
+        # Two cases, but both preserve_gap — explicit_gap coverage must fail closed.
+        packet["cases"][1]["case_id"] = "preserve_gap_fixed_b"
+        packet["cases"][1]["expected_policy"] = "preserve_gap"
+        packet["cases"][1]["timeline_packet"] = _fixed_packet(
+            frame_count=12,
+            timeline_id="row084_missing_preserve_gap_b",
+            video_sha256="3" * 64,
+            dependency_complete=True,
+            provenance_fixture="row084_missing_preserve_gap_b",
+        )
+        packet["cases"][1]["timeline_packet"]["missing_frames"] = [
+            {"frame_index": 5, "policy": "preserve_gap"}
+        ]
+        completed, _ = self._run_compile(
+            packet, expect_ok=False, mode="missing-frame-policy-matrix"
+        )
+        self.assertIn(
+            "requires at least one explicit_gap case",
+            completed.stderr + completed.stdout,
+        )
+
+    def test_missing_frame_policy_matrix_rejects_policy_mismatch(self) -> None:
+        packet = _missing_frame_policy_matrix_packet()
+        packet["cases"][0]["timeline_packet"]["missing_frames"][0]["policy"] = "explicit_gap"
+        completed, _ = self._run_compile(
+            packet, expect_ok=False, mode="missing-frame-policy-matrix"
+        )
+        self.assertIn("must equal expected_policy preserve_gap", completed.stderr + completed.stdout)
+
+    def test_missing_frames_block_policy_is_fail_closed(self) -> None:
+        packet = _fixed_packet(dependency_complete=True)
+        packet["missing_frames"] = [{"frame_index": 2, "policy": "block"}]
+        completed, _ = self._run_compile(packet, expect_ok=False)
+        self.assertIn("fail-closed until missing-frame runtime completion", completed.stderr + completed.stdout)
+
+    def test_missing_frames_interpolate_policy_is_fail_closed(self) -> None:
+        packet = _fixed_packet(dependency_complete=True)
+        packet["missing_frames"] = [{"frame_index": 2, "policy": "interpolate"}]
+        completed, _ = self._run_compile(packet, expect_ok=False)
+        self.assertIn("fail-closed until missing-frame runtime completion", completed.stderr + completed.stdout)
+
+    def test_missing_frames_duplicate_index_is_rejected(self) -> None:
+        packet = _fixed_packet(dependency_complete=True)
+        packet["missing_frames"] = [
+            {"frame_index": 2, "policy": "preserve_gap"},
+            {"frame_index": 2, "policy": "preserve_gap"},
+        ]
+        completed, _ = self._run_compile(packet, expect_ok=False)
+        self.assertIn("duplicates a prior missing frame", completed.stderr + completed.stdout)
+
+    def test_missing_frames_out_of_bounds_is_rejected(self) -> None:
+        packet = _fixed_packet(frame_count=8, dependency_complete=True)
+        packet["missing_frames"] = [{"frame_index": 8, "policy": "explicit_gap"}]
+        completed, _ = self._run_compile(packet, expect_ok=False)
+        self.assertIn("outside clock_span bounds", completed.stderr + completed.stdout)
 
 
 if __name__ == "__main__":
