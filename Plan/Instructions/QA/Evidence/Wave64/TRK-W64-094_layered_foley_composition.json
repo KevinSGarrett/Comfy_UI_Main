@@ -1,0 +1,1245 @@
+{
+  "allowed_layer_roles": [
+    "transient",
+    "body",
+    "clothing",
+    "object",
+    "settle",
+    "debris",
+    "room"
+  ],
+  "blocker_codes": [
+    "TRK_W64_079_DEPENDENCY_NOT_ACCEPTED",
+    "TRK_W64_081_DEPENDENCY_NOT_ACCEPTED",
+    "TRK_W64_091_DEPENDENCY_NOT_ACCEPTED",
+    "TRK_W64_093_DEPENDENCY_NOT_ACCEPTED",
+    "ROW094_DEPENDENCIES_NOT_ACCEPTED",
+    "DEDICATED_LIBRARY_LAYER_COMPOSER_RUNTIME_ABSENT",
+    "PRODUCTION_EVENT_MANIFEST_BINDING_ABSENT",
+    "GENUINE_AUDIO_QA_AND_RUNTIME_PROOF_ABSENT"
+  ],
+  "decision": {
+    "product_completion": false,
+    "row094_acceptance": "held",
+    "runtime_completion": false,
+    "safe_next_action": "Accept Rows079, 081, 091, and 093 with Row068 already accepted; bind a production event manifest and accepted clip derivatives; execute the layered composer with rights/acoustic gates; recompute stem lineage and composite hashes; pass waveform/spectrogram audio review; then replace this hold packet.",
+    "status": "blocked"
+  },
+  "dependency_admissions": {
+    "TRK-W64-068": {
+      "blocker_codes": [],
+      "bytes": 4104,
+      "dependency_satisfied": true,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+      "row_complete": true,
+      "sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+      "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+      "tracker_id": "TRK-W64-068"
+    },
+    "TRK-W64-079": {
+      "blocker_codes": [
+        "TRK_W64_079_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "bytes": 10464,
+      "dependency_satisfied": false,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-079_FINE_GRAINED_FOLEY_TAXONOMY_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "sha256": "503f2ced0c92c492774ae482dcd18a4f5f623f162e93ddeb9b8b62480f6f32b8",
+      "status": "HOLD_ROW074_ROW076_ROW078_DEPENDENCIES_AND_FULL_LIBRARY_TAXONOMY_RUNTIME_ABSENT",
+      "tracker_id": "TRK-W64-079"
+    },
+    "TRK-W64-081": {
+      "blocker_codes": [
+        "TRK_W64_081_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "bytes": 11848,
+      "dependency_satisfied": false,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-081_EXPLAINABLE_AUDIO_CANDIDATE_SCORING_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "sha256": "2a102cafe40232d7c044ba0c4e30e83cc0082800a203b5e939393d6e8096fab1",
+      "status": "HOLD_DEPENDENCIES_AND_LIBRARY_SCORING_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+      "tracker_id": "TRK-W64-081"
+    },
+    "TRK-W64-091": {
+      "blocker_codes": [
+        "TRK_W64_091_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "bytes": 23572,
+      "dependency_satisfied": false,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "sha256": "055e73b6d64bc3bcf2184fe8de9b5360e63a014e39643fad37ff8249225a75a5",
+      "status": "HOLD_DEPENDENCIES_RUNTIME_AND_COMBINED_REVIEW_ABSENT_WITH_FIXTURE_DECISION_PHASE_PACKETS_PRESENT",
+      "tracker_id": "TRK-W64-091"
+    },
+    "TRK-W64-093": {
+      "blocker_codes": [
+        "TRK_W64_093_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "bytes": 13813,
+      "dependency_satisfied": false,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-093_CANONICAL_CLIP_PREPARATION_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "sha256": "3f11d692b8f79751cdd19e57e746187c44c23b3ee1bd3bf46796b789e5740c66",
+      "status": "HOLD_FIVE_DEPENDENCIES_PRODUCTION_CLIP_PREPARER_RUNTIME_AND_AUDIO_QA_ABSENT",
+      "tracker_id": "TRK-W64-093"
+    }
+  },
+  "engine_revision": "wave64_row094_layered_foley_composition_engine_v0.1.0",
+  "evidence_id": "TRK-W64-094_layered_foley_composition",
+  "fixture_calibration": {
+    "authority": "synthetic_non_library",
+    "determinism_note": "Fixture records prove layer justification, license/acoustic compatibility, stem lineage recomputation, and composite hash stability; they do not accept Row094 library completion or substitute for genuine audio QA.",
+    "fixture_count": 5,
+    "records": [
+      {
+        "composite": {
+          "composite_hash": "9922963a83dff9735a563e484e4b7ab3af6c360b563bb842b87172a118d2c3fd",
+          "environment_sha256": "55130b7ccfc0ccb1f7cec9e0ac3499de8b7c00026b7f8822a83ae0070678c4f3",
+          "output_pcm_sha256": "09f5f0293d70fe585b00de58d958058f263a3fb06a3e67c99bc5d0bbd35fbe28",
+          "reconstructable": true
+        },
+        "decision": {
+          "blocker_codes": [],
+          "product_completion": false,
+          "reason": "all_required_gates_passed_for_synthetic_or_fixture_composition",
+          "route": "compose",
+          "row094_acceptance": "fixture_only",
+          "status": "composed"
+        },
+        "dependency_admissions": {
+          "TRK-W64-068": {
+            "blocker_codes": [],
+            "bytes": 4104,
+            "dependency_satisfied": true,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+            "row_complete": true,
+            "sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+            "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+            "tracker_id": "TRK-W64-068"
+          },
+          "TRK-W64-079": {
+            "blocker_codes": [
+              "TRK_W64_079_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 10464,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-079_FINE_GRAINED_FOLEY_TAXONOMY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "503f2ced0c92c492774ae482dcd18a4f5f623f162e93ddeb9b8b62480f6f32b8",
+            "status": "HOLD_ROW074_ROW076_ROW078_DEPENDENCIES_AND_FULL_LIBRARY_TAXONOMY_RUNTIME_ABSENT",
+            "tracker_id": "TRK-W64-079"
+          },
+          "TRK-W64-081": {
+            "blocker_codes": [
+              "TRK_W64_081_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11848,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-081_EXPLAINABLE_AUDIO_CANDIDATE_SCORING_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "2a102cafe40232d7c044ba0c4e30e83cc0082800a203b5e939393d6e8096fab1",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_SCORING_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-081"
+          },
+          "TRK-W64-091": {
+            "blocker_codes": [
+              "TRK_W64_091_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 23572,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "055e73b6d64bc3bcf2184fe8de9b5360e63a014e39643fad37ff8249225a75a5",
+            "status": "HOLD_DEPENDENCIES_RUNTIME_AND_COMBINED_REVIEW_ABSENT_WITH_FIXTURE_DECISION_PHASE_PACKETS_PRESENT",
+            "tracker_id": "TRK-W64-091"
+          },
+          "TRK-W64-093": {
+            "blocker_codes": [
+              "TRK_W64_093_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 13813,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-093_CANONICAL_CLIP_PREPARATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "3f11d692b8f79751cdd19e57e746187c44c23b3ee1bd3bf46796b789e5740c66",
+            "status": "HOLD_FIVE_DEPENDENCIES_PRODUCTION_CLIP_PREPARER_RUNTIME_AND_AUDIO_QA_ABSENT",
+            "tracker_id": "TRK-W64-093"
+          }
+        },
+        "engine_revision": "wave64_row094_layered_foley_composition_engine_v0.1.0",
+        "event_id": "evt_compatible_layers",
+        "event_manifest_sha256": "767b79a5d07f3c132adf11f1a6879932ef51a291d7caf707bd7f796437aeec3e",
+        "exclusions": [],
+        "expected_layers": [
+          "transient",
+          "body",
+          "settle"
+        ],
+        "gate_results": {
+          "acoustic_compatibility": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "composite_hash": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "layer_justification": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "license_compatibility": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "stem_lineage": {
+            "reason_codes": [],
+            "status": "pass"
+          }
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-094",
+        "layers": [
+          {
+            "acoustic": {
+              "channels": 2,
+              "dry_wet_state": "dry",
+              "microphone_class": "cardioid_close",
+              "perspective": "mid",
+              "room_id": "room_studio_a",
+              "sample_rate_hz": 48000
+            },
+            "admitted": true,
+            "asset_id": "fixture:transient",
+            "justified": true,
+            "layer_role": "transient",
+            "license_classification": "cc0",
+            "recipe": {
+              "attack_ms": 2.0,
+              "fade_in_samples": 0,
+              "fade_out_samples": 64,
+              "gain_db": -1.5,
+              "hold_ms": 40.0,
+              "onset_sample_offset": 0,
+              "release_ms": 80.0
+            },
+            "recipe_sha256": "058851641d9b2a12c9b05955ea1a7854e5dfb9bb5a4b8c7bd5f3b7e85d19cafd",
+            "rights_decision_sha256": "d817cd288207ba901ae119ee72d6ebf63fe01349369438230a55625a1d2db9d0",
+            "rights_status": "accepted",
+            "score_evidence_sha256": "69d98557efb9d4f826457ca82169dd13048d4e2532a2d56b28e362d94d3c09ff",
+            "source_pcm_sha256": "920d44829e9e48d23748ece56a1bf88b88eacc3b7166723c7bd48258483bf843",
+            "stem_pcm_sha256": "e17a9b004b683a56a947551a26fa1aef8a7b442894f4cea5b03d29a6059cf519",
+            "taxonomy_class": "foley.transient.contact"
+          },
+          {
+            "acoustic": {
+              "channels": 2,
+              "dry_wet_state": "dry",
+              "microphone_class": "cardioid_close",
+              "perspective": "mid",
+              "room_id": "room_studio_a",
+              "sample_rate_hz": 48000
+            },
+            "admitted": true,
+            "asset_id": "fixture:body",
+            "justified": true,
+            "layer_role": "body",
+            "license_classification": "cc0",
+            "recipe": {
+              "attack_ms": 2.0,
+              "fade_in_samples": 0,
+              "fade_out_samples": 64,
+              "gain_db": -3.0,
+              "hold_ms": 40.0,
+              "onset_sample_offset": 16,
+              "release_ms": 80.0
+            },
+            "recipe_sha256": "10eb008d3028a43035f3e5e2a7adafd0540e0f254ef0c1566d4f74d05474a645",
+            "rights_decision_sha256": "74e8342c227ac079d3406f854a7121377001ba685e22d17d9572c7f3cc514d06",
+            "rights_status": "accepted",
+            "score_evidence_sha256": "9fd1bfeb8338451d7d50aa4cee4c5a30d732634bc20763f5057958897aab33e9",
+            "source_pcm_sha256": "b6ca744ba63e03aba5aa88888b8d846a715942423f1285392aca71938b9aafed",
+            "stem_pcm_sha256": "3ddb17045cac30bf1049df8ec2a4c9f5175cf4d7b97ae1af1a9be4785198a408",
+            "taxonomy_class": "foley.body.contact"
+          },
+          {
+            "acoustic": {
+              "channels": 2,
+              "dry_wet_state": "dry",
+              "microphone_class": "cardioid_close",
+              "perspective": "mid",
+              "room_id": "room_studio_a",
+              "sample_rate_hz": 48000
+            },
+            "admitted": true,
+            "asset_id": "fixture:settle",
+            "justified": true,
+            "layer_role": "settle",
+            "license_classification": "cc0",
+            "recipe": {
+              "attack_ms": 2.0,
+              "fade_in_samples": 0,
+              "fade_out_samples": 64,
+              "gain_db": -6.0,
+              "hold_ms": 40.0,
+              "onset_sample_offset": 64,
+              "release_ms": 80.0
+            },
+            "recipe_sha256": "d53cc4ef236722d087c2863514ec8046dacd0a845d04beb1471d344b87185c76",
+            "rights_decision_sha256": "3107bde70abcc809ac62ffccc124d17b1232350849764af84175593cf0f6f390",
+            "rights_status": "accepted",
+            "score_evidence_sha256": "b9116b37f4d11c8f43f509b265f6ceb484bbcae7956e533ad817c6320095bd5d",
+            "source_pcm_sha256": "c620f8312175ded5783156d69beb0687f56b3129a739416785e1e162e2f06c87",
+            "stem_pcm_sha256": "856461632aff2d2d6886d26605d35626a2f45de49833a9f09234a0072143013e",
+            "taxonomy_class": "foley.settle.contact"
+          }
+        ],
+        "library_authority": false,
+        "mix_recipe": {
+          "channels": 2,
+          "headroom_db": -1.0,
+          "ordered_layer_roles": [
+            "transient",
+            "body",
+            "settle"
+          ],
+          "recipe_sha256": "a1a655fc89130a035bb97dd85673fb70b48820e14bd1c56cc8221005f6fa471b",
+          "sample_rate_hz": 48000
+        },
+        "policy_revision": "wave64_row094_layered_foley_composition_v0.1.0",
+        "policy_sha256": "7c31951ffefd8c950c0178e40c5b9a8db5100daa5e78fc513b3594043e021fc5",
+        "receipt_sha256": "33dd4c1d9de645b2f58c7b70c06004c54f8f3b93ae8c740ec2f69fe29107330b",
+        "record_type": "layered_foley_composition_receipt",
+        "required_gates": [
+          "layer_justification",
+          "license_compatibility",
+          "acoustic_compatibility",
+          "stem_lineage",
+          "composite_hash"
+        ],
+        "schema_version": "1.0.0",
+        "tracker_id": "TRK-W64-094"
+      },
+      {
+        "composite": {
+          "composite_hash": null,
+          "environment_sha256": "55130b7ccfc0ccb1f7cec9e0ac3499de8b7c00026b7f8822a83ae0070678c4f3",
+          "output_pcm_sha256": null,
+          "reconstructable": false
+        },
+        "decision": {
+          "blocker_codes": [
+            "LICENSE_INCOMPATIBLE"
+          ],
+          "product_completion": false,
+          "reason": "fail_closed_layer_compatibility_or_justification_blocker",
+          "route": "blocked",
+          "row094_acceptance": "held",
+          "status": "blocked"
+        },
+        "dependency_admissions": {
+          "TRK-W64-068": {
+            "blocker_codes": [],
+            "bytes": 4104,
+            "dependency_satisfied": true,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+            "row_complete": true,
+            "sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+            "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+            "tracker_id": "TRK-W64-068"
+          },
+          "TRK-W64-079": {
+            "blocker_codes": [
+              "TRK_W64_079_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 10464,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-079_FINE_GRAINED_FOLEY_TAXONOMY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "503f2ced0c92c492774ae482dcd18a4f5f623f162e93ddeb9b8b62480f6f32b8",
+            "status": "HOLD_ROW074_ROW076_ROW078_DEPENDENCIES_AND_FULL_LIBRARY_TAXONOMY_RUNTIME_ABSENT",
+            "tracker_id": "TRK-W64-079"
+          },
+          "TRK-W64-081": {
+            "blocker_codes": [
+              "TRK_W64_081_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11848,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-081_EXPLAINABLE_AUDIO_CANDIDATE_SCORING_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "2a102cafe40232d7c044ba0c4e30e83cc0082800a203b5e939393d6e8096fab1",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_SCORING_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-081"
+          },
+          "TRK-W64-091": {
+            "blocker_codes": [
+              "TRK_W64_091_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 23572,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "055e73b6d64bc3bcf2184fe8de9b5360e63a014e39643fad37ff8249225a75a5",
+            "status": "HOLD_DEPENDENCIES_RUNTIME_AND_COMBINED_REVIEW_ABSENT_WITH_FIXTURE_DECISION_PHASE_PACKETS_PRESENT",
+            "tracker_id": "TRK-W64-091"
+          },
+          "TRK-W64-093": {
+            "blocker_codes": [
+              "TRK_W64_093_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 13813,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-093_CANONICAL_CLIP_PREPARATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "3f11d692b8f79751cdd19e57e746187c44c23b3ee1bd3bf46796b789e5740c66",
+            "status": "HOLD_FIVE_DEPENDENCIES_PRODUCTION_CLIP_PREPARER_RUNTIME_AND_AUDIO_QA_ABSENT",
+            "tracker_id": "TRK-W64-093"
+          }
+        },
+        "engine_revision": "wave64_row094_layered_foley_composition_engine_v0.1.0",
+        "event_id": "evt_license_incompatible",
+        "event_manifest_sha256": "4889be45d2d60fc3aea3fcb354016e7988d583e732f012ef766955b67987cdad",
+        "exclusions": [
+          {
+            "layer_role": "transient",
+            "reason_codes": [
+              "LICENSE_INCOMPATIBLE"
+            ]
+          },
+          {
+            "layer_role": "body",
+            "reason_codes": [
+              "LICENSE_INCOMPATIBLE"
+            ]
+          }
+        ],
+        "expected_layers": [
+          "transient",
+          "body"
+        ],
+        "gate_results": {
+          "acoustic_compatibility": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "composite_hash": {
+            "reason_codes": [
+              "COMPOSITION_BLOCKED"
+            ],
+            "status": "skipped"
+          },
+          "layer_justification": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "license_compatibility": {
+            "reason_codes": [
+              "LICENSE_INCOMPATIBLE"
+            ],
+            "status": "fail"
+          },
+          "stem_lineage": {
+            "reason_codes": [
+              "COMPOSITION_BLOCKED"
+            ],
+            "status": "skipped"
+          }
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-094",
+        "layers": [
+          {
+            "acoustic": {
+              "channels": 2,
+              "dry_wet_state": "dry",
+              "microphone_class": "cardioid_close",
+              "perspective": "mid",
+              "room_id": "room_studio_a",
+              "sample_rate_hz": 48000
+            },
+            "admitted": false,
+            "asset_id": "fixture:transient",
+            "justified": true,
+            "layer_role": "transient",
+            "license_classification": "cc0",
+            "recipe": {
+              "attack_ms": 2.0,
+              "fade_in_samples": 0,
+              "fade_out_samples": 64,
+              "gain_db": -3.0,
+              "hold_ms": 40.0,
+              "onset_sample_offset": 0,
+              "release_ms": 80.0
+            },
+            "recipe_sha256": "e4e3f1c493e0d4cac1600bfe7f866c56c314ba750e13b61bd2610926e51b03e1",
+            "rights_decision_sha256": "d817cd288207ba901ae119ee72d6ebf63fe01349369438230a55625a1d2db9d0",
+            "rights_status": "accepted",
+            "score_evidence_sha256": "69d98557efb9d4f826457ca82169dd13048d4e2532a2d56b28e362d94d3c09ff",
+            "source_pcm_sha256": "920d44829e9e48d23748ece56a1bf88b88eacc3b7166723c7bd48258483bf843",
+            "stem_pcm_sha256": "901c6b5b21125018af6f337a8b00f895bc68c751dd91411ec297b51fd627d908",
+            "taxonomy_class": "foley.transient.contact"
+          },
+          {
+            "acoustic": {
+              "channels": 2,
+              "dry_wet_state": "dry",
+              "microphone_class": "cardioid_close",
+              "perspective": "mid",
+              "room_id": "room_studio_a",
+              "sample_rate_hz": 48000
+            },
+            "admitted": false,
+            "asset_id": "fixture:body",
+            "justified": true,
+            "layer_role": "body",
+            "license_classification": "restricted_nc",
+            "recipe": {
+              "attack_ms": 2.0,
+              "fade_in_samples": 0,
+              "fade_out_samples": 64,
+              "gain_db": -3.0,
+              "hold_ms": 40.0,
+              "onset_sample_offset": 16,
+              "release_ms": 80.0
+            },
+            "recipe_sha256": "10eb008d3028a43035f3e5e2a7adafd0540e0f254ef0c1566d4f74d05474a645",
+            "rights_decision_sha256": "20ddc7b6191064c31234bddd0eb87403af5ae750e7cfd7dc39ec670bd3d9dbc1",
+            "rights_status": "accepted",
+            "score_evidence_sha256": "9fd1bfeb8338451d7d50aa4cee4c5a30d732634bc20763f5057958897aab33e9",
+            "source_pcm_sha256": "b6ca744ba63e03aba5aa88888b8d846a715942423f1285392aca71938b9aafed",
+            "stem_pcm_sha256": "3ddb17045cac30bf1049df8ec2a4c9f5175cf4d7b97ae1af1a9be4785198a408",
+            "taxonomy_class": "foley.body.contact"
+          }
+        ],
+        "library_authority": false,
+        "mix_recipe": {
+          "channels": 2,
+          "headroom_db": -1.0,
+          "ordered_layer_roles": [
+            "transient",
+            "body"
+          ],
+          "recipe_sha256": "513afb7e09c2289752afeb43c4323f911000e911b43fd086788469c491125f47",
+          "sample_rate_hz": 48000
+        },
+        "policy_revision": "wave64_row094_layered_foley_composition_v0.1.0",
+        "policy_sha256": "7c31951ffefd8c950c0178e40c5b9a8db5100daa5e78fc513b3594043e021fc5",
+        "receipt_sha256": "3b6820f44236a84820486f8b0a1ce5daaae34152c689d5627aa4ad517e80ff45",
+        "record_type": "layered_foley_composition_receipt",
+        "required_gates": [
+          "layer_justification",
+          "license_compatibility",
+          "acoustic_compatibility",
+          "stem_lineage",
+          "composite_hash"
+        ],
+        "schema_version": "1.0.0",
+        "tracker_id": "TRK-W64-094"
+      },
+      {
+        "composite": {
+          "composite_hash": null,
+          "environment_sha256": "55130b7ccfc0ccb1f7cec9e0ac3499de8b7c00026b7f8822a83ae0070678c4f3",
+          "output_pcm_sha256": null,
+          "reconstructable": false
+        },
+        "decision": {
+          "blocker_codes": [
+            "ACOUSTIC_INCOMPATIBLE",
+            "PERSPECTIVE_MISMATCH"
+          ],
+          "product_completion": false,
+          "reason": "fail_closed_layer_compatibility_or_justification_blocker",
+          "route": "blocked",
+          "row094_acceptance": "held",
+          "status": "blocked"
+        },
+        "dependency_admissions": {
+          "TRK-W64-068": {
+            "blocker_codes": [],
+            "bytes": 4104,
+            "dependency_satisfied": true,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+            "row_complete": true,
+            "sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+            "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+            "tracker_id": "TRK-W64-068"
+          },
+          "TRK-W64-079": {
+            "blocker_codes": [
+              "TRK_W64_079_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 10464,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-079_FINE_GRAINED_FOLEY_TAXONOMY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "503f2ced0c92c492774ae482dcd18a4f5f623f162e93ddeb9b8b62480f6f32b8",
+            "status": "HOLD_ROW074_ROW076_ROW078_DEPENDENCIES_AND_FULL_LIBRARY_TAXONOMY_RUNTIME_ABSENT",
+            "tracker_id": "TRK-W64-079"
+          },
+          "TRK-W64-081": {
+            "blocker_codes": [
+              "TRK_W64_081_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11848,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-081_EXPLAINABLE_AUDIO_CANDIDATE_SCORING_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "2a102cafe40232d7c044ba0c4e30e83cc0082800a203b5e939393d6e8096fab1",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_SCORING_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-081"
+          },
+          "TRK-W64-091": {
+            "blocker_codes": [
+              "TRK_W64_091_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 23572,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "055e73b6d64bc3bcf2184fe8de9b5360e63a014e39643fad37ff8249225a75a5",
+            "status": "HOLD_DEPENDENCIES_RUNTIME_AND_COMBINED_REVIEW_ABSENT_WITH_FIXTURE_DECISION_PHASE_PACKETS_PRESENT",
+            "tracker_id": "TRK-W64-091"
+          },
+          "TRK-W64-093": {
+            "blocker_codes": [
+              "TRK_W64_093_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 13813,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-093_CANONICAL_CLIP_PREPARATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "3f11d692b8f79751cdd19e57e746187c44c23b3ee1bd3bf46796b789e5740c66",
+            "status": "HOLD_FIVE_DEPENDENCIES_PRODUCTION_CLIP_PREPARER_RUNTIME_AND_AUDIO_QA_ABSENT",
+            "tracker_id": "TRK-W64-093"
+          }
+        },
+        "engine_revision": "wave64_row094_layered_foley_composition_engine_v0.1.0",
+        "event_id": "evt_acoustic_mismatch",
+        "event_manifest_sha256": "585cc4a1ff680d41dbc7be5cc23d397327304b1d4572bf6da363183619dd559d",
+        "exclusions": [
+          {
+            "layer_role": "transient",
+            "reason_codes": [
+              "ACOUSTIC_INCOMPATIBLE",
+              "PERSPECTIVE_MISMATCH"
+            ]
+          },
+          {
+            "layer_role": "body",
+            "reason_codes": [
+              "ACOUSTIC_INCOMPATIBLE",
+              "PERSPECTIVE_MISMATCH"
+            ]
+          }
+        ],
+        "expected_layers": [
+          "transient",
+          "body"
+        ],
+        "gate_results": {
+          "acoustic_compatibility": {
+            "reason_codes": [
+              "ACOUSTIC_INCOMPATIBLE",
+              "PERSPECTIVE_MISMATCH"
+            ],
+            "status": "fail"
+          },
+          "composite_hash": {
+            "reason_codes": [
+              "COMPOSITION_BLOCKED"
+            ],
+            "status": "skipped"
+          },
+          "layer_justification": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "license_compatibility": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "stem_lineage": {
+            "reason_codes": [
+              "COMPOSITION_BLOCKED"
+            ],
+            "status": "skipped"
+          }
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-094",
+        "layers": [
+          {
+            "acoustic": {
+              "channels": 2,
+              "dry_wet_state": "dry",
+              "microphone_class": "cardioid_close",
+              "perspective": "close",
+              "room_id": "room_studio_a",
+              "sample_rate_hz": 48000
+            },
+            "admitted": false,
+            "asset_id": "fixture:transient",
+            "justified": true,
+            "layer_role": "transient",
+            "license_classification": "cc0",
+            "recipe": {
+              "attack_ms": 2.0,
+              "fade_in_samples": 0,
+              "fade_out_samples": 64,
+              "gain_db": -3.0,
+              "hold_ms": 40.0,
+              "onset_sample_offset": 0,
+              "release_ms": 80.0
+            },
+            "recipe_sha256": "e4e3f1c493e0d4cac1600bfe7f866c56c314ba750e13b61bd2610926e51b03e1",
+            "rights_decision_sha256": "d817cd288207ba901ae119ee72d6ebf63fe01349369438230a55625a1d2db9d0",
+            "rights_status": "accepted",
+            "score_evidence_sha256": "69d98557efb9d4f826457ca82169dd13048d4e2532a2d56b28e362d94d3c09ff",
+            "source_pcm_sha256": "920d44829e9e48d23748ece56a1bf88b88eacc3b7166723c7bd48258483bf843",
+            "stem_pcm_sha256": "901c6b5b21125018af6f337a8b00f895bc68c751dd91411ec297b51fd627d908",
+            "taxonomy_class": "foley.transient.contact"
+          },
+          {
+            "acoustic": {
+              "channels": 2,
+              "dry_wet_state": "dry",
+              "microphone_class": "cardioid_close",
+              "perspective": "far",
+              "room_id": "room_studio_a",
+              "sample_rate_hz": 48000
+            },
+            "admitted": false,
+            "asset_id": "fixture:body",
+            "justified": true,
+            "layer_role": "body",
+            "license_classification": "cc0",
+            "recipe": {
+              "attack_ms": 2.0,
+              "fade_in_samples": 0,
+              "fade_out_samples": 64,
+              "gain_db": -3.0,
+              "hold_ms": 40.0,
+              "onset_sample_offset": 16,
+              "release_ms": 80.0
+            },
+            "recipe_sha256": "10eb008d3028a43035f3e5e2a7adafd0540e0f254ef0c1566d4f74d05474a645",
+            "rights_decision_sha256": "74e8342c227ac079d3406f854a7121377001ba685e22d17d9572c7f3cc514d06",
+            "rights_status": "accepted",
+            "score_evidence_sha256": "9fd1bfeb8338451d7d50aa4cee4c5a30d732634bc20763f5057958897aab33e9",
+            "source_pcm_sha256": "b6ca744ba63e03aba5aa88888b8d846a715942423f1285392aca71938b9aafed",
+            "stem_pcm_sha256": "3ddb17045cac30bf1049df8ec2a4c9f5175cf4d7b97ae1af1a9be4785198a408",
+            "taxonomy_class": "foley.body.contact"
+          }
+        ],
+        "library_authority": false,
+        "mix_recipe": {
+          "channels": 2,
+          "headroom_db": -1.0,
+          "ordered_layer_roles": [
+            "transient",
+            "body"
+          ],
+          "recipe_sha256": "513afb7e09c2289752afeb43c4323f911000e911b43fd086788469c491125f47",
+          "sample_rate_hz": 48000
+        },
+        "policy_revision": "wave64_row094_layered_foley_composition_v0.1.0",
+        "policy_sha256": "7c31951ffefd8c950c0178e40c5b9a8db5100daa5e78fc513b3594043e021fc5",
+        "receipt_sha256": "555554e0c801d730fc40d791e389022c1026e1d2ba094cc0beb8e73a995452a1",
+        "record_type": "layered_foley_composition_receipt",
+        "required_gates": [
+          "layer_justification",
+          "license_compatibility",
+          "acoustic_compatibility",
+          "stem_lineage",
+          "composite_hash"
+        ],
+        "schema_version": "1.0.0",
+        "tracker_id": "TRK-W64-094"
+      },
+      {
+        "composite": {
+          "composite_hash": null,
+          "environment_sha256": "55130b7ccfc0ccb1f7cec9e0ac3499de8b7c00026b7f8822a83ae0070678c4f3",
+          "output_pcm_sha256": null,
+          "reconstructable": false
+        },
+        "decision": {
+          "blocker_codes": [
+            "DUPLICATE_LAYER_ROLE"
+          ],
+          "product_completion": false,
+          "reason": "fail_closed_layer_compatibility_or_justification_blocker",
+          "route": "blocked",
+          "row094_acceptance": "held",
+          "status": "blocked"
+        },
+        "dependency_admissions": {
+          "TRK-W64-068": {
+            "blocker_codes": [],
+            "bytes": 4104,
+            "dependency_satisfied": true,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+            "row_complete": true,
+            "sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+            "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+            "tracker_id": "TRK-W64-068"
+          },
+          "TRK-W64-079": {
+            "blocker_codes": [
+              "TRK_W64_079_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 10464,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-079_FINE_GRAINED_FOLEY_TAXONOMY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "503f2ced0c92c492774ae482dcd18a4f5f623f162e93ddeb9b8b62480f6f32b8",
+            "status": "HOLD_ROW074_ROW076_ROW078_DEPENDENCIES_AND_FULL_LIBRARY_TAXONOMY_RUNTIME_ABSENT",
+            "tracker_id": "TRK-W64-079"
+          },
+          "TRK-W64-081": {
+            "blocker_codes": [
+              "TRK_W64_081_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11848,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-081_EXPLAINABLE_AUDIO_CANDIDATE_SCORING_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "2a102cafe40232d7c044ba0c4e30e83cc0082800a203b5e939393d6e8096fab1",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_SCORING_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-081"
+          },
+          "TRK-W64-091": {
+            "blocker_codes": [
+              "TRK_W64_091_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 23572,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "055e73b6d64bc3bcf2184fe8de9b5360e63a014e39643fad37ff8249225a75a5",
+            "status": "HOLD_DEPENDENCIES_RUNTIME_AND_COMBINED_REVIEW_ABSENT_WITH_FIXTURE_DECISION_PHASE_PACKETS_PRESENT",
+            "tracker_id": "TRK-W64-091"
+          },
+          "TRK-W64-093": {
+            "blocker_codes": [
+              "TRK_W64_093_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 13813,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-093_CANONICAL_CLIP_PREPARATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "3f11d692b8f79751cdd19e57e746187c44c23b3ee1bd3bf46796b789e5740c66",
+            "status": "HOLD_FIVE_DEPENDENCIES_PRODUCTION_CLIP_PREPARER_RUNTIME_AND_AUDIO_QA_ABSENT",
+            "tracker_id": "TRK-W64-093"
+          }
+        },
+        "engine_revision": "wave64_row094_layered_foley_composition_engine_v0.1.0",
+        "event_id": "evt_duplicate_role",
+        "event_manifest_sha256": "f774a15a7c0f29802c79887116837ca49f0f9c234b59ee6dbf31f52aeca46c19",
+        "exclusions": [
+          {
+            "layer_role": "transient",
+            "reason_codes": [
+              "DUPLICATE_LAYER_ROLE"
+            ]
+          }
+        ],
+        "expected_layers": [
+          "transient",
+          "body"
+        ],
+        "gate_results": {
+          "acoustic_compatibility": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "composite_hash": {
+            "reason_codes": [
+              "COMPOSITION_BLOCKED"
+            ],
+            "status": "skipped"
+          },
+          "layer_justification": {
+            "reason_codes": [
+              "DUPLICATE_LAYER_ROLE"
+            ],
+            "status": "fail"
+          },
+          "license_compatibility": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "stem_lineage": {
+            "reason_codes": [
+              "COMPOSITION_BLOCKED"
+            ],
+            "status": "skipped"
+          }
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-094",
+        "layers": [
+          {
+            "acoustic": {
+              "channels": 2,
+              "dry_wet_state": "dry",
+              "microphone_class": "cardioid_close",
+              "perspective": "mid",
+              "room_id": "room_studio_a",
+              "sample_rate_hz": 48000
+            },
+            "admitted": false,
+            "asset_id": "fixture:transient",
+            "justified": true,
+            "layer_role": "transient",
+            "license_classification": "cc0",
+            "recipe": {
+              "attack_ms": 2.0,
+              "fade_in_samples": 0,
+              "fade_out_samples": 64,
+              "gain_db": -3.0,
+              "hold_ms": 40.0,
+              "onset_sample_offset": 0,
+              "release_ms": 80.0
+            },
+            "recipe_sha256": "e4e3f1c493e0d4cac1600bfe7f866c56c314ba750e13b61bd2610926e51b03e1",
+            "rights_decision_sha256": "d817cd288207ba901ae119ee72d6ebf63fe01349369438230a55625a1d2db9d0",
+            "rights_status": "accepted",
+            "score_evidence_sha256": "69d98557efb9d4f826457ca82169dd13048d4e2532a2d56b28e362d94d3c09ff",
+            "source_pcm_sha256": "920d44829e9e48d23748ece56a1bf88b88eacc3b7166723c7bd48258483bf843",
+            "stem_pcm_sha256": "901c6b5b21125018af6f337a8b00f895bc68c751dd91411ec297b51fd627d908",
+            "taxonomy_class": "foley.transient.contact"
+          },
+          {
+            "acoustic": {
+              "channels": 2,
+              "dry_wet_state": "dry",
+              "microphone_class": "cardioid_close",
+              "perspective": "mid",
+              "room_id": "room_studio_a",
+              "sample_rate_hz": 48000
+            },
+            "admitted": false,
+            "asset_id": "fixture:transient",
+            "justified": true,
+            "layer_role": "transient",
+            "license_classification": "cc0",
+            "recipe": {
+              "attack_ms": 2.0,
+              "fade_in_samples": 0,
+              "fade_out_samples": 64,
+              "gain_db": -9.0,
+              "hold_ms": 40.0,
+              "onset_sample_offset": 0,
+              "release_ms": 80.0
+            },
+            "recipe_sha256": "53ebd5fa14e41a35ba6cd5075075384cc1401ae942761e0df0a751da59b31916",
+            "rights_decision_sha256": "d817cd288207ba901ae119ee72d6ebf63fe01349369438230a55625a1d2db9d0",
+            "rights_status": "accepted",
+            "score_evidence_sha256": "69d98557efb9d4f826457ca82169dd13048d4e2532a2d56b28e362d94d3c09ff",
+            "source_pcm_sha256": "920d44829e9e48d23748ece56a1bf88b88eacc3b7166723c7bd48258483bf843",
+            "stem_pcm_sha256": "b36cf25ba2857122c30294f13ba7d7c3991f3222ed25380268e5cf865e090851",
+            "taxonomy_class": "foley.transient.contact"
+          },
+          {
+            "acoustic": {
+              "channels": 2,
+              "dry_wet_state": "dry",
+              "microphone_class": "cardioid_close",
+              "perspective": "mid",
+              "room_id": "room_studio_a",
+              "sample_rate_hz": 48000
+            },
+            "admitted": false,
+            "asset_id": "fixture:body",
+            "justified": true,
+            "layer_role": "body",
+            "license_classification": "cc0",
+            "recipe": {
+              "attack_ms": 2.0,
+              "fade_in_samples": 0,
+              "fade_out_samples": 64,
+              "gain_db": -3.0,
+              "hold_ms": 40.0,
+              "onset_sample_offset": 16,
+              "release_ms": 80.0
+            },
+            "recipe_sha256": "10eb008d3028a43035f3e5e2a7adafd0540e0f254ef0c1566d4f74d05474a645",
+            "rights_decision_sha256": "74e8342c227ac079d3406f854a7121377001ba685e22d17d9572c7f3cc514d06",
+            "rights_status": "accepted",
+            "score_evidence_sha256": "9fd1bfeb8338451d7d50aa4cee4c5a30d732634bc20763f5057958897aab33e9",
+            "source_pcm_sha256": "b6ca744ba63e03aba5aa88888b8d846a715942423f1285392aca71938b9aafed",
+            "stem_pcm_sha256": "3ddb17045cac30bf1049df8ec2a4c9f5175cf4d7b97ae1af1a9be4785198a408",
+            "taxonomy_class": "foley.body.contact"
+          }
+        ],
+        "library_authority": false,
+        "mix_recipe": {
+          "channels": 2,
+          "headroom_db": -1.0,
+          "ordered_layer_roles": [
+            "transient",
+            "body"
+          ],
+          "recipe_sha256": "513afb7e09c2289752afeb43c4323f911000e911b43fd086788469c491125f47",
+          "sample_rate_hz": 48000
+        },
+        "policy_revision": "wave64_row094_layered_foley_composition_v0.1.0",
+        "policy_sha256": "7c31951ffefd8c950c0178e40c5b9a8db5100daa5e78fc513b3594043e021fc5",
+        "receipt_sha256": "3fed87e2caa7ea1daf1edd0e344e9b6dea14e5c966ee124d07e24c00493805ea",
+        "record_type": "layered_foley_composition_receipt",
+        "required_gates": [
+          "layer_justification",
+          "license_compatibility",
+          "acoustic_compatibility",
+          "stem_lineage",
+          "composite_hash"
+        ],
+        "schema_version": "1.0.0",
+        "tracker_id": "TRK-W64-094"
+      },
+      {
+        "composite": {
+          "composite_hash": null,
+          "environment_sha256": "55130b7ccfc0ccb1f7cec9e0ac3499de8b7c00026b7f8822a83ae0070678c4f3",
+          "output_pcm_sha256": null,
+          "reconstructable": false
+        },
+        "decision": {
+          "blocker_codes": [
+            "MISSING_LAYER_JUSTIFICATION"
+          ],
+          "product_completion": false,
+          "reason": "fail_closed_layer_compatibility_or_justification_blocker",
+          "route": "blocked",
+          "row094_acceptance": "held",
+          "status": "blocked"
+        },
+        "dependency_admissions": {
+          "TRK-W64-068": {
+            "blocker_codes": [],
+            "bytes": 4104,
+            "dependency_satisfied": true,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+            "row_complete": true,
+            "sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+            "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+            "tracker_id": "TRK-W64-068"
+          },
+          "TRK-W64-079": {
+            "blocker_codes": [
+              "TRK_W64_079_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 10464,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-079_FINE_GRAINED_FOLEY_TAXONOMY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "503f2ced0c92c492774ae482dcd18a4f5f623f162e93ddeb9b8b62480f6f32b8",
+            "status": "HOLD_ROW074_ROW076_ROW078_DEPENDENCIES_AND_FULL_LIBRARY_TAXONOMY_RUNTIME_ABSENT",
+            "tracker_id": "TRK-W64-079"
+          },
+          "TRK-W64-081": {
+            "blocker_codes": [
+              "TRK_W64_081_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11848,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-081_EXPLAINABLE_AUDIO_CANDIDATE_SCORING_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "2a102cafe40232d7c044ba0c4e30e83cc0082800a203b5e939393d6e8096fab1",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_SCORING_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-081"
+          },
+          "TRK-W64-091": {
+            "blocker_codes": [
+              "TRK_W64_091_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 23572,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "055e73b6d64bc3bcf2184fe8de9b5360e63a014e39643fad37ff8249225a75a5",
+            "status": "HOLD_DEPENDENCIES_RUNTIME_AND_COMBINED_REVIEW_ABSENT_WITH_FIXTURE_DECISION_PHASE_PACKETS_PRESENT",
+            "tracker_id": "TRK-W64-091"
+          },
+          "TRK-W64-093": {
+            "blocker_codes": [
+              "TRK_W64_093_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 13813,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-093_CANONICAL_CLIP_PREPARATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "3f11d692b8f79751cdd19e57e746187c44c23b3ee1bd3bf46796b789e5740c66",
+            "status": "HOLD_FIVE_DEPENDENCIES_PRODUCTION_CLIP_PREPARER_RUNTIME_AND_AUDIO_QA_ABSENT",
+            "tracker_id": "TRK-W64-093"
+          }
+        },
+        "engine_revision": "wave64_row094_layered_foley_composition_engine_v0.1.0",
+        "event_id": "evt_missing_layer",
+        "event_manifest_sha256": "1ac3e59110e6fea82483f28d03173e3f02529c58007eda782266ba4108ae4212",
+        "exclusions": [
+          {
+            "layer_role": "room",
+            "reason_codes": [
+              "MISSING_LAYER_JUSTIFICATION"
+            ]
+          }
+        ],
+        "expected_layers": [
+          "transient",
+          "body",
+          "room"
+        ],
+        "gate_results": {
+          "acoustic_compatibility": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "composite_hash": {
+            "reason_codes": [
+              "COMPOSITION_BLOCKED"
+            ],
+            "status": "skipped"
+          },
+          "layer_justification": {
+            "reason_codes": [
+              "MISSING_LAYER_JUSTIFICATION"
+            ],
+            "status": "fail"
+          },
+          "license_compatibility": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "stem_lineage": {
+            "reason_codes": [
+              "COMPOSITION_BLOCKED"
+            ],
+            "status": "skipped"
+          }
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-094",
+        "layers": [
+          {
+            "acoustic": {
+              "channels": 2,
+              "dry_wet_state": "dry",
+              "microphone_class": "cardioid_close",
+              "perspective": "mid",
+              "room_id": "room_studio_a",
+              "sample_rate_hz": 48000
+            },
+            "admitted": false,
+            "asset_id": "fixture:transient",
+            "justified": true,
+            "layer_role": "transient",
+            "license_classification": "cc0",
+            "recipe": {
+              "attack_ms": 2.0,
+              "fade_in_samples": 0,
+              "fade_out_samples": 64,
+              "gain_db": -3.0,
+              "hold_ms": 40.0,
+              "onset_sample_offset": 0,
+              "release_ms": 80.0
+            },
+            "recipe_sha256": "e4e3f1c493e0d4cac1600bfe7f866c56c314ba750e13b61bd2610926e51b03e1",
+            "rights_decision_sha256": "d817cd288207ba901ae119ee72d6ebf63fe01349369438230a55625a1d2db9d0",
+            "rights_status": "accepted",
+            "score_evidence_sha256": "69d98557efb9d4f826457ca82169dd13048d4e2532a2d56b28e362d94d3c09ff",
+            "source_pcm_sha256": "920d44829e9e48d23748ece56a1bf88b88eacc3b7166723c7bd48258483bf843",
+            "stem_pcm_sha256": "901c6b5b21125018af6f337a8b00f895bc68c751dd91411ec297b51fd627d908",
+            "taxonomy_class": "foley.transient.contact"
+          },
+          {
+            "acoustic": {
+              "channels": 2,
+              "dry_wet_state": "dry",
+              "microphone_class": "cardioid_close",
+              "perspective": "mid",
+              "room_id": "room_studio_a",
+              "sample_rate_hz": 48000
+            },
+            "admitted": false,
+            "asset_id": "fixture:body",
+            "justified": true,
+            "layer_role": "body",
+            "license_classification": "cc0",
+            "recipe": {
+              "attack_ms": 2.0,
+              "fade_in_samples": 0,
+              "fade_out_samples": 64,
+              "gain_db": -3.0,
+              "hold_ms": 40.0,
+              "onset_sample_offset": 16,
+              "release_ms": 80.0
+            },
+            "recipe_sha256": "10eb008d3028a43035f3e5e2a7adafd0540e0f254ef0c1566d4f74d05474a645",
+            "rights_decision_sha256": "74e8342c227ac079d3406f854a7121377001ba685e22d17d9572c7f3cc514d06",
+            "rights_status": "accepted",
+            "score_evidence_sha256": "9fd1bfeb8338451d7d50aa4cee4c5a30d732634bc20763f5057958897aab33e9",
+            "source_pcm_sha256": "b6ca744ba63e03aba5aa88888b8d846a715942423f1285392aca71938b9aafed",
+            "stem_pcm_sha256": "3ddb17045cac30bf1049df8ec2a4c9f5175cf4d7b97ae1af1a9be4785198a408",
+            "taxonomy_class": "foley.body.contact"
+          }
+        ],
+        "library_authority": false,
+        "mix_recipe": {
+          "channels": 2,
+          "headroom_db": -1.0,
+          "ordered_layer_roles": [
+            "transient",
+            "body",
+            "room"
+          ],
+          "recipe_sha256": "f6f5c9a054f8daa8984a56ac536c26e2926f50dda0277de47e957c2247d89e5c",
+          "sample_rate_hz": 48000
+        },
+        "policy_revision": "wave64_row094_layered_foley_composition_v0.1.0",
+        "policy_sha256": "7c31951ffefd8c950c0178e40c5b9a8db5100daa5e78fc513b3594043e021fc5",
+        "receipt_sha256": "bdc57a50a42ab8e9a398d40c8ed129ecf37efe65b5afa8564687de70e294bf45",
+        "record_type": "layered_foley_composition_receipt",
+        "required_gates": [
+          "layer_justification",
+          "license_compatibility",
+          "acoustic_compatibility",
+          "stem_lineage",
+          "composite_hash"
+        ],
+        "schema_version": "1.0.0",
+        "tracker_id": "TRK-W64-094"
+      }
+    ]
+  },
+  "implementation_completion_claimed": false,
+  "item_id": "ITEM-W64-094",
+  "library_authority": false,
+  "policy_registry": {
+    "authority": "planning_freeze_not_library_acceptance",
+    "path": "Plan/10_REGISTRIES/wave64_row094_layered_foley_composition_registry.json",
+    "revision": "wave64_row094_layered_foley_composition_v0.1.0",
+    "sha256": "7c31951ffefd8c950c0178e40c5b9a8db5100daa5e78fc513b3594043e021fc5"
+  },
+  "policy_revision": "wave64_row094_layered_foley_composition_v0.1.0",
+  "required_gates": [
+    "layer_justification",
+    "license_compatibility",
+    "acoustic_compatibility",
+    "stem_lineage",
+    "composite_hash"
+  ],
+  "row_complete": false,
+  "runtime_completion_claimed": false,
+  "schema": {
+    "path": "Plan/08_SCHEMAS/layered_foley_composition_receipt.schema.json",
+    "sha256": "2b13c3a4fdd0ed094e58b37ffba6644003464fd5f80793b714c493335cfd26d3"
+  },
+  "schema_version": "1.0.0",
+  "status": "HOLD_DEPENDENCIES_AND_LIBRARY_LAYER_COMPOSER_RUNTIME_ABSENT",
+  "tracker_id": "TRK-W64-094"
+}

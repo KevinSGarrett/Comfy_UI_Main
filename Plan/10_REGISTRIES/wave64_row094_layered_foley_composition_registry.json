@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "wave64_row094_layered_foley_composition_registry",
+  "revision": "wave64_row094_layered_foley_composition_v0.1.0",
+  "tracker_id": "TRK-W64-094",
+  "authority": "planning_freeze_not_library_acceptance",
+  "notes": [
+    "Frozen layered Foley composition policy for Row094 synthetic fixture calibration and fail-closed library hold.",
+    "Every expected event layer must be justified exactly once, separately attributable, reconstructable, and rights/acoustic compatible before compose.",
+    "This registry does not accept library completion or substitute for Rows068/079/081/091/093 authority."
+  ],
+  "allowed_layer_roles": [
+    "transient",
+    "body",
+    "clothing",
+    "object",
+    "settle",
+    "debris",
+    "room"
+  ],
+  "required_gates": [
+    "layer_justification",
+    "license_compatibility",
+    "acoustic_compatibility",
+    "stem_lineage",
+    "composite_hash"
+  ],
+  "layer_order": [
+    "transient",
+    "body",
+    "clothing",
+    "object",
+    "settle",
+    "debris",
+    "room"
+  ],
+  "recipe_defaults": {
+    "sample_rate_hz": 48000,
+    "channels": 2,
+    "headroom_db": -1.0,
+    "fade_in_samples": 0,
+    "fade_out_samples": 0
+  },
+  "license_compatibility_matrix": {
+    "cc0": ["cc0", "cc_by", "royalty_free_cleared"],
+    "cc_by": ["cc0", "cc_by", "royalty_free_cleared"],
+    "royalty_free_cleared": ["cc0", "cc_by", "royalty_free_cleared"],
+    "restricted_nc": ["restricted_nc"],
+    "denied": []
+  },
+  "acoustic_compatibility": {
+    "require_matching_sample_rate": true,
+    "require_matching_channels": true,
+    "compatible_perspectives": {
+      "close": ["close"],
+      "mid": ["mid"],
+      "far": ["far"]
+    },
+    "reject_dry_wet_mix_without_transform": true,
+    "require_matching_room_id_for_wet_or_room": true
+  },
+  "fail_closed": {
+    "library_authority_requires_dependencies": true,
+    "duplicate_layer_role_rejected": true,
+    "missing_expected_layer_rejected": true,
+    "unjustified_extra_layer_rejected": true,
+    "denied_rights_rejected": true,
+    "license_incompatible_rejected": true,
+    "acoustic_incompatible_rejected": true,
+    "composite_hash_must_recompute": true,
+    "stem_lineage_must_recompute": true
+  },
+  "dependency_prerequisites": [
+    "TRK-W64-068",
+    "TRK-W64-079",
+    "TRK-W64-081",
+    "TRK-W64-091",
+    "TRK-W64-093"
+  ]
+}

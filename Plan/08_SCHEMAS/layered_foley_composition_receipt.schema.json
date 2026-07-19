@@ -1,0 +1,352 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/layered_foley_composition_receipt.schema.json",
+  "title": "Wave64 Row094 Layered Foley Composition Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "tracker_id",
+    "item_id",
+    "record_type",
+    "engine_revision",
+    "policy_revision",
+    "policy_sha256",
+    "event_id",
+    "event_manifest_sha256",
+    "expected_layers",
+    "is_synthetic",
+    "library_authority",
+    "dependency_admissions",
+    "required_gates",
+    "gate_results",
+    "layers",
+    "exclusions",
+    "mix_recipe",
+    "composite",
+    "decision",
+    "receipt_sha256"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "tracker_id": { "type": "string", "const": "TRK-W64-094" },
+    "item_id": { "type": "string", "const": "ITEM-W64-094" },
+    "record_type": {
+      "type": "string",
+      "const": "layered_foley_composition_receipt"
+    },
+    "engine_revision": {
+      "type": "string",
+      "const": "wave64_row094_layered_foley_composition_engine_v0.1.0"
+    },
+    "policy_revision": {
+      "type": "string",
+      "const": "wave64_row094_layered_foley_composition_v0.1.0"
+    },
+    "policy_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "event_id": { "type": "string", "minLength": 1 },
+    "event_manifest_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "expected_layers": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/layer_role" },
+      "uniqueItems": true
+    },
+    "is_synthetic": { "type": "boolean" },
+    "library_authority": { "type": "boolean", "const": false },
+    "dependency_admissions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "TRK-W64-068",
+        "TRK-W64-079",
+        "TRK-W64-081",
+        "TRK-W64-091",
+        "TRK-W64-093"
+      ],
+      "properties": {
+        "TRK-W64-068": { "$ref": "#/$defs/dependency_admission" },
+        "TRK-W64-079": { "$ref": "#/$defs/dependency_admission" },
+        "TRK-W64-081": { "$ref": "#/$defs/dependency_admission" },
+        "TRK-W64-091": { "$ref": "#/$defs/dependency_admission" },
+        "TRK-W64-093": { "$ref": "#/$defs/dependency_admission" }
+      }
+    },
+    "required_gates": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "type": "string",
+        "enum": [
+          "layer_justification",
+          "license_compatibility",
+          "acoustic_compatibility",
+          "stem_lineage",
+          "composite_hash"
+        ]
+      }
+    },
+    "gate_results": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "layer_justification",
+        "license_compatibility",
+        "acoustic_compatibility",
+        "stem_lineage",
+        "composite_hash"
+      ],
+      "properties": {
+        "layer_justification": { "$ref": "#/$defs/gate_result" },
+        "license_compatibility": { "$ref": "#/$defs/gate_result" },
+        "acoustic_compatibility": { "$ref": "#/$defs/gate_result" },
+        "stem_lineage": { "$ref": "#/$defs/gate_result" },
+        "composite_hash": { "$ref": "#/$defs/gate_result" }
+      }
+    },
+    "layers": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/layer_record" }
+    },
+    "exclusions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["layer_role", "reason_codes"],
+        "properties": {
+          "layer_role": { "type": "string", "minLength": 1 },
+          "reason_codes": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    },
+    "mix_recipe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sample_rate_hz",
+        "channels",
+        "headroom_db",
+        "ordered_layer_roles",
+        "recipe_sha256"
+      ],
+      "properties": {
+        "sample_rate_hz": { "type": "integer", "minimum": 8000 },
+        "channels": { "type": "integer", "minimum": 1, "maximum": 8 },
+        "headroom_db": { "type": "number" },
+        "ordered_layer_roles": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/layer_role" }
+        },
+        "recipe_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+      }
+    },
+    "composite": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "output_pcm_sha256",
+        "composite_hash",
+        "environment_sha256",
+        "reconstructable"
+      ],
+      "properties": {
+        "output_pcm_sha256": {
+          "type": ["string", "null"],
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "composite_hash": {
+          "type": ["string", "null"],
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "environment_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "reconstructable": { "type": "boolean" }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "route",
+        "status",
+        "blocker_codes",
+        "product_completion",
+        "row094_acceptance",
+        "reason"
+      ],
+      "properties": {
+        "route": {
+          "type": "string",
+          "enum": ["compose", "blocked"]
+        },
+        "status": {
+          "type": "string",
+          "enum": ["composed", "blocked"]
+        },
+        "blocker_codes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "product_completion": { "type": "boolean", "const": false },
+        "row094_acceptance": {
+          "type": "string",
+          "enum": ["held", "fixture_only"]
+        },
+        "reason": { "type": "string", "minLength": 1 }
+      }
+    },
+    "receipt_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  },
+  "$defs": {
+    "layer_role": {
+      "type": "string",
+      "enum": [
+        "transient",
+        "body",
+        "clothing",
+        "object",
+        "settle",
+        "debris",
+        "room"
+      ]
+    },
+    "dependency_admission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tracker_id",
+        "dependency_satisfied",
+        "blocker_codes",
+        "row_complete",
+        "path"
+      ],
+      "properties": {
+        "tracker_id": { "type": "string", "minLength": 1 },
+        "dependency_satisfied": { "type": "boolean" },
+        "blocker_codes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "row_complete": { "type": "boolean" },
+        "status": { "type": "string" },
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "bytes": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "gate_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "reason_codes"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["pass", "fail", "skipped"]
+        },
+        "reason_codes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "layer_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "layer_role",
+        "asset_id",
+        "source_pcm_sha256",
+        "stem_pcm_sha256",
+        "recipe_sha256",
+        "rights_decision_sha256",
+        "license_classification",
+        "rights_status",
+        "acoustic",
+        "recipe",
+        "taxonomy_class",
+        "score_evidence_sha256",
+        "justified",
+        "admitted"
+      ],
+      "properties": {
+        "layer_role": { "$ref": "#/$defs/layer_role" },
+        "asset_id": { "type": "string", "minLength": 1 },
+        "source_pcm_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "stem_pcm_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "recipe_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "rights_decision_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "license_classification": {
+          "type": "string",
+          "enum": [
+            "cc0",
+            "cc_by",
+            "royalty_free_cleared",
+            "restricted_nc",
+            "denied"
+          ]
+        },
+        "rights_status": {
+          "type": "string",
+          "enum": ["accepted", "denied", "blocked"]
+        },
+        "acoustic": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sample_rate_hz",
+            "channels",
+            "perspective",
+            "dry_wet_state",
+            "microphone_class",
+            "room_id"
+          ],
+          "properties": {
+            "sample_rate_hz": { "type": "integer", "minimum": 8000 },
+            "channels": { "type": "integer", "minimum": 1, "maximum": 8 },
+            "perspective": {
+              "type": "string",
+              "enum": ["close", "mid", "far"]
+            },
+            "dry_wet_state": {
+              "type": "string",
+              "enum": ["dry", "wet"]
+            },
+            "microphone_class": { "type": "string", "minLength": 1 },
+            "room_id": { "type": "string", "minLength": 1 }
+          }
+        },
+        "recipe": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "gain_db",
+            "onset_sample_offset",
+            "attack_ms",
+            "hold_ms",
+            "release_ms",
+            "fade_in_samples",
+            "fade_out_samples"
+          ],
+          "properties": {
+            "gain_db": { "type": "number" },
+            "onset_sample_offset": { "type": "integer" },
+            "attack_ms": { "type": "number", "minimum": 0 },
+            "hold_ms": { "type": "number", "minimum": 0 },
+            "release_ms": { "type": "number", "minimum": 0 },
+            "fade_in_samples": { "type": "integer", "minimum": 0 },
+            "fade_out_samples": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "taxonomy_class": { "type": "string", "minLength": 1 },
+        "score_evidence_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "justified": { "type": "boolean" },
+        "admitted": { "type": "boolean" }
+      }
+    }
+  }
+}

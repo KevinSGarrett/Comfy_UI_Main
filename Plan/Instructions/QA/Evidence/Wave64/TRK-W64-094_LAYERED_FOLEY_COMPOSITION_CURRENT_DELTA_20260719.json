@@ -1,276 +1,229 @@
 {
-  "schema_version": "1.0.0",
-  "evidence_id": "TRK-W64-094_LAYERED_FOLEY_COMPOSITION_CURRENT_DELTA_20260719",
+  "schema_version": 1,
+  "evidence_id": "W64-ROW094-LAYERED-FOLEY-COMPOSITION-CURRENT-DELTA-20260719",
   "created_at": "2026-07-19T06:41:43.2115546Z",
-  "source_commit": "883e7afe74505220ea6e1e6246a22a4049574caa",
+  "updated_at": "2026-07-19T20:30:00Z",
+  "source_commit": "68b3f4f0d6ba5de132b772e28041276c6357c2bb",
+  "prior_audit_commit": "883e7afe74505220ea6e1e6246a22a4049574caa",
   "tracker_id": "TRK-W64-094",
   "item_id": "ITEM-W64-094",
-  "classification": "ROW094_CODEX_FINAL_AUTHORITY_CURRENT_DELTA_AUDIT",
-  "status": "HOLD_FIVE_DEPENDENCIES_PRODUCTION_LAYER_COMPOSER_STRICT_COMPATIBILITY_RECONSTRUCTION_TEST_RUNTIME_AND_AUDIO_QA_ABSENT",
+  "status": "HOLD_DEPENDENCIES_AND_LIBRARY_LAYER_COMPOSER_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+  "classification": "ROW094_FAIL_CLOSED_CONTRACT_SLICE_NO_FALSE_COMPLETION",
   "row_complete": false,
   "implementation_completion_claimed": false,
   "runtime_completion_claimed": false,
-  "qa_decision": "FAIL_CLOSED_PLANNING_AND_ADJACENT_SCHEMA_SHAPES_EXIST_BUT_LAYERED_SYNTHESIS_AUTHORITY_IS_ABSENT_AND_FALSE_OPEN",
-  "row_contract": {
-    "title": "Layer construction and deterministic composite Foley synthesis",
+  "qa_decision": "hold_with_fail_closed_layered_foley_composition_contract_and_synthetic_fixture_calibration_only",
+  "intent": {
+    "intent_id": "interactive_cursor_shift_row094_contract_slice_20260719",
+    "classification": "INTERACTIVE_CURSOR_SHIFT_AUTHORITY",
+    "work_type": "final_authority",
+    "authority_class": "interactive_cursor_integration",
+    "routing": null,
+    "dispatch_wake_count": 0,
+    "allowed_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/compose_wave64_layered_foley_composition.py",
+      "Plan/08_SCHEMAS/layered_foley_composition_receipt.schema.json",
+      "Plan/10_REGISTRIES/wave64_row094_layered_foley_composition_registry.json",
+      "Plan/Instructions/QA/Scripts/test_row094_layered_foley_composition.py",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-094_layered_foley_composition.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-094_LAYERED_FOLEY_COMPOSITION_CURRENT_DELTA_20260719.json"
+    ]
+  },
+  "increment": {
+    "kind": "fail_closed_contract_composer_and_schema_slice",
+    "engine_revision": "wave64_row094_layered_foley_composition_engine_v0.1.0",
+    "policy_revision": "wave64_row094_layered_foley_composition_v0.1.0",
+    "summary": "Freeze Row094 layer roles, required gates, license/acoustic compatibility, stem lineage recomputation, and composite hash sealing; emit schema-validated synthetic fixture calibration; fail closed for library composition until Rows079/081/091/093 are accepted with Row068 already accepted.",
+    "note": "Dedicated layered Foley composition schema is introduced without mutating sibling-owned Row069/077/083/084/089/091 paths."
+  },
+  "row094_contract": {
+    "status": "Planned_Autonomous_Implementation_Required",
     "priority": "P1",
-    "risk_level": "HIGH",
-    "dependencies": [
+    "risk": "HIGH",
+    "dependency_prerequisites": [
       "TRK-W64-068",
       "TRK-W64-079",
       "TRK-W64-081",
       "TRK-W64-091",
       "TRK-W64-093"
     ],
-    "completion_criteria": "Every layer is compatible, separately attributable, reconstructable, and justified by the event manifest.",
-    "required_gates": [
+    "validation_methods": [
       "layer_justification",
       "license_compatibility",
       "acoustic_compatibility",
       "stem_lineage",
       "composite_hash"
     ],
-    "visual_review_required": false,
-    "review_method": "audio_waveform_spectrogram_manifest_review",
-    "test_required": true,
+    "output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-094_layered_foley_composition.json",
+    "output_artifact_exists": true,
+    "output_artifact_authority": "fail_closed_hold_packet_not_library_acceptance",
+    "completion_criteria": "Every layer is compatible, separately attributable, reconstructable, and justified by the event manifest.",
+    "allowed_layer_roles": [
+      "transient",
+      "body",
+      "clothing",
+      "object",
+      "settle",
+      "debris",
+      "room"
+    ],
     "runtime_proof_required": true,
     "ec2_allowed": false,
-    "required_output": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-094_layered_foley_composition.json",
-    "required_output_exists": false
+    "final_render_gate": "BLOCKED_UNTIL_EXACT_ROW_IMPLEMENTATION_RUNTIME_QA_AND_AUTHORITY_PASS"
   },
-  "tracker_item_requirements_parity": {
-    "tracker_item_semantically_equal": true,
-    "requirements_copies_byte_equal": true,
-    "tracker": {
-      "path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_TRACKER_ROWS.csv",
-      "sha256": "a698034d4d61788a9c630434f7aac75e3f7b1bf656319cfe43a5b2ce26d625de",
-      "bytes": 159309
-    },
-    "item": {
-      "path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ITEM_ROWS.csv",
-      "sha256": "f4a401d828aff69dbe7e005d6592a2af86edc936a0e6c1bae2f764345a9b8489",
-      "bytes": 111386
-    },
-    "requirements": {
-      "tracker_path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
-      "item_path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
-      "sha256": "077eaf1dfc1cb0d990660b2d9ec7073bc2b4acc1be47a94e9a0ea65eb1924acc",
-      "bytes_each": 48422
-    }
+  "implemented_slice": {
+    "composer_path": "Plan/07_IMPLEMENTATION/scripts/compose_wave64_layered_foley_composition.py",
+    "composer_sha256": "957ed27519d64aeccd236f4e08674c4f7392326909cc5eb011a8c3c212bc0070",
+    "composer_bytes": 36138,
+    "schema_path": "Plan/08_SCHEMAS/layered_foley_composition_receipt.schema.json",
+    "schema_sha256": "2b13c3a4fdd0ed094e58b37ffba6644003464fd5f80793b714c493335cfd26d3",
+    "schema_bytes": 10920,
+    "policy_path": "Plan/10_REGISTRIES/wave64_row094_layered_foley_composition_registry.json",
+    "policy_sha256": "7c31951ffefd8c950c0178e40c5b9a8db5100daa5e78fc513b3594043e021fc5",
+    "policy_bytes": 2443,
+    "test_path": "Plan/Instructions/QA/Scripts/test_row094_layered_foley_composition.py",
+    "test_sha256": "d67235b5cd196e74022a1ff8f432d8bee000cdbd25e41f7f0f9c18f63d133945",
+    "test_bytes": 5947,
+    "direct_evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-094_layered_foley_composition.json",
+    "direct_evidence_sha256": "fd70036fcceed06bef0ccc9602a1f9c967e1f54a342fc1df402ca170bc190939",
+    "direct_evidence_bytes": 52452,
+    "capabilities_now_present": [
+      "frozen_engine_and_policy_revisions",
+      "seven_allowed_layer_roles_with_deterministic_order",
+      "five_required_gates_with_fail_closed_results",
+      "license_compatibility_matrix_and_denied_rights_rejection",
+      "acoustic_perspective_sample_rate_channel_dry_wet_and_room_guards",
+      "stem_lineage_and_composite_hash_recomputation",
+      "schema_validated_fixture_receipts_with_library_authority_false",
+      "library_mode_hold_packet_without_false_completion",
+      "row068_accepted_admission_recognized_while_remaining_deps_fail_closed"
+    ],
+    "explicitly_not_claimed": [
+      "accepted_row079_taxonomy_authority",
+      "accepted_row081_explainable_scoring_authority",
+      "accepted_row091_visual_event_manifest_authority",
+      "accepted_row093_canonical_clip_preparation_authority",
+      "production_library_layer_composer_runtime",
+      "genuine_waveform_spectrogram_audio_qa",
+      "row094_product_completion",
+      "row094_runtime_completion",
+      "downstream_row097_row112_unblocking"
+    ]
   },
-  "source_authority": [
-    {
-      "path": "Plan/00_PROJECT_CONTROL/WAVE64_AUTONOMOUS_VIDEO_TO_AUDIO_AND_SOUND_GENERATION_MASTER_PLAN.md",
-      "sha256": "6f1b5059b686a81d866f61f3bada74ca673a43db2423241d500b024ecb6a1a67",
-      "bytes": 25625,
-      "citation_lines": "267-271",
-      "authority": "Compatible transient, body, clothing, object, settle, debris, and room components use deterministic gain and envelope rules; every layer is separately attributable and reconstructable, and incompatible licenses or acoustic perspectives cannot combine."
-    },
-    {
-      "path": "Plan/02_TARGET_ARCHITECTURE/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ARCHITECTURE.md",
-      "sha256": "3aef5be8b48808a69fe70c4b61bb4de6f7e1086c670c1ce9c817ebb4a1f6ae9b",
-      "bytes": 7078
-    },
-    {
-      "path": "Plan/05_AUDIO_SYSTEM/WAVE64_AUTONOMOUS_SOUND_LIBRARY_GENERATION_AND_QA_PLAN.md",
-      "sha256": "63bea08b4e2209100cc875b60bfad7b2d2e2b0636c5643aaa4410e6f1b1fce1c",
-      "bytes": 5362
-    },
-    {
-      "path": "Plan/Instructions/QA/AUTONOMOUS_VIDEO_TO_AUDIO_AND_GENERATED_SOUND_QA_PROTOCOL.md",
-      "sha256": "ed5773fd5f83ac5c71e31983eab9fb8d0362f2544518c37b41f7c51b95c82181",
-      "bytes": 3801
-    }
-  ],
   "dependency_authority": [
     {
       "tracker_id": "TRK-W64-068",
-      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
-      "sha256": "77bf51ffa832ffa55782249f17f7ae5f7d4b463af43512f517962d3ab5805f80",
-      "bytes": 14467,
-      "status": "HOLD_STATIC_RIGHTS_CONTRACT_PARTIAL_DIRECT_AUTHORITY_AND_LIFECYCLE_ENFORCEMENT_ABSENT",
-      "row_complete": false,
-      "dependency_satisfied": false
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+      "dependency_satisfied": true,
+      "row_complete": true,
+      "reason": "Rights decision authority is accepted on branch; Row094 treats denied/incompatible licenses as hard blockers and records the accepted admission."
     },
     {
       "tracker_id": "TRK-W64-079",
-      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-079_FINE_GRAINED_FOLEY_TAXONOMY_CURRENT_DELTA_20260719.json",
-      "sha256": "ab53e52795ab3adf22af30e2075bd32fa242ebab48a0f658222153e7d3af5d95",
-      "bytes": 22883,
-      "status": "HOLD_DEPENDENCIES_EXACT_FOLEY_TAXONOMY_PROMOTION_GUARD_AND_FULL_LIBRARY_ENRICHMENT_ABSENT",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-079_FINE_GRAINED_FOLEY_TAXONOMY_CURRENT_DELTA_20260719.json",
+      "dependency_satisfied": false,
       "row_complete": false,
-      "dependency_satisfied": false
+      "reason": "Layer taxonomy class justification cannot be library-authoritative until Foley taxonomy completion."
     },
     {
       "tracker_id": "TRK-W64-081",
-      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-081_EXPLAINABLE_AUDIO_CANDIDATE_SCORING_CURRENT_DELTA_20260719.json",
-      "sha256": "40f80989c81ddfb4faee167a2119b4b0e8caf19a575aed2ef8b417ad4a1dfc00",
-      "bytes": 25902,
-      "status": "HOLD_DEPENDENCIES_SCORER_POLICY_SEMANTIC_INVARIANTS_AND_RUNTIME_RECEIPTS_ABSENT",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-081_EXPLAINABLE_AUDIO_CANDIDATE_SCORING_CURRENT_DELTA_20260719.json",
+      "dependency_satisfied": false,
       "row_complete": false,
-      "dependency_satisfied": false
+      "reason": "Per-layer score evidence remains unaccepted for library composition."
     },
     {
       "tracker_id": "TRK-W64-091",
-      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719.json",
-      "sha256": "2f40ce09947632403fa5281d833ce4124f164866736c2feb3a583d6206feb2f4",
-      "bytes": 15840,
-      "status": "HOLD_DEPENDENCIES_PRODUCTION_VISUAL_EVENT_COMPILER_STRICT_SCHEMA_COVERAGE_RUNTIME_AND_COMBINED_REVIEW_ABSENT",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719.json",
+      "dependency_satisfied": false,
       "row_complete": false,
-      "dependency_satisfied": false
+      "reason": "Expected layer sets must bind an accepted visual audio-event manifest."
     },
     {
       "tracker_id": "TRK-W64-093",
-      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-093_CANONICAL_CLIP_PREPARATION_CURRENT_DELTA_20260719.json",
-      "sha256": "6dc1bbcd1e471136c5cb1124ee677a2c8b04222910d11672f9bc55d6d69db3d0",
-      "bytes": 15630,
-      "status": "HOLD_FIVE_DEPENDENCIES_PRODUCTION_CLIP_PREPARER_STRICT_MANIFEST_TEST_RUNTIME_AND_AUDIO_QA_ABSENT",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-093_CANONICAL_CLIP_PREPARATION_CURRENT_DELTA_20260719.json",
+      "dependency_satisfied": false,
       "row_complete": false,
-      "dependency_satisfied": false
+      "reason": "Stem lineage reconstruction requires accepted non-destructive clip derivatives."
     }
   ],
-  "planning_assets": {
-    "production_layer_composer_match_count": 0,
-    "direct_test_match_count": 0,
-    "required_output_exists": false,
-    "package_builder": {
-      "path": "Plan/07_IMPLEMENTATION/scripts/build_wave64_autonomous_sound_intelligence_control_package.py",
-      "sha256": "62441dab915e5d277963aa58f579ee8a9190a4f3d58fcceab2b252426524f593",
-      "bytes": 37998,
-      "tracked_at_source_commit": false,
-      "scope": "Declares Row094 planning coverage and required gates; it is not a synthesis runtime."
-    },
-    "work_package_registry": {
-      "path": "Plan/10_REGISTRIES/wave64_autonomous_sound_intelligence_work_package_registry.json",
-      "sha256": "d4ba802a94920e462fed578790e0508f140d5d7b0cf64736dcc86f47fb0e709e",
-      "bytes": 13741,
-      "tracked_at_source_commit": false,
-      "row": {
-        "tracker_id": "TRK-W64-094",
-        "item_id": "ITEM-W64-094",
-        "slug": "layered_foley_composition",
-        "status": "Planned_Autonomous_Implementation_Required"
-      }
-    }
+  "focused_validators": {
+    "command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_row094_layered_foley_composition.py",
+    "exit_code": 0,
+    "passed": 10,
+    "failed": 0
   },
-  "adjacent_untracked_contracts": [
+  "acceptance_gaps": [
     {
-      "path": "Plan/08_SCHEMAS/generated_audio_asset_provenance.schema.json",
-      "sha256": "739ad7a71d05cba294553aae03c192131a14c11c070ab7c3dd8427cb182742ee",
-      "bytes": 2886,
-      "registry_hash_matches": true,
-      "reusable_boundary": "Layered-synthesis route, engine identity, input/output hashes, rights, QA, and promotion fields."
+      "code": "ROW094_DEPENDENCIES_NOT_ACCEPTED",
+      "detail": "Rows079/081/091/093 remain unaccepted, so library composition authority stays blocked despite the accepted Row068 rights admission."
     },
     {
-      "path": "Plan/08_SCHEMAS/hyperreal_audio_stem_manifest.schema.json",
-      "sha256": "ebe29336e5b8c6bb21122a003d1e84ed663c6b17657a5cceadb96642d5c43287",
-      "bytes": 3709,
-      "reusable_boundary": "Per-stem event, owner, artifact, clock, source-route, recipe, and self-declared accounting/lineage fields."
+      "code": "DEDICATED_LIBRARY_LAYER_COMPOSER_RUNTIME_ABSENT",
+      "detail": "No production runtime binds accepted event manifests and clip derivatives into library layered Foley composites."
     },
     {
-      "path": "Plan/08_SCHEMAS/hyperreal_foley_force_material_event.schema.json",
-      "sha256": "3f487bc7b7ef085395ba4ed6886a116ce0b693f184b4dc8c10cddb87bd0a0063",
-      "bytes": 3248,
-      "reusable_boundary": "Force, material, event, and required-layer shape only."
+      "code": "PRODUCTION_EVENT_MANIFEST_BINDING_ABSENT",
+      "detail": "Fixture expected-layer sets calibrate justification only; production Row091 manifest binding remains absent."
+    },
+    {
+      "code": "GENUINE_AUDIO_QA_AND_RUNTIME_PROOF_ABSENT",
+      "detail": "Synthetic composite hashes are not a substitute for waveform/spectrogram review or genuine runtime proof."
     }
   ],
-  "current_contract_gaps": [
-    "No Row094 composite recipe or executable layer composer exists.",
-    "No machine rule proves each event-manifest expected layer is justified exactly once.",
-    "No machine rule joins accepted Row068 rights decisions and rejects incompatible layer combinations.",
-    "No acoustic-perspective compatibility policy covers distance, room, microphone, phase, sample rate, channels, or dry/wet state.",
-    "No deterministic gain, envelope, timing, fade, transient/body/settle, or headroom policy is versioned and hash-bound.",
-    "No per-layer byte transition or canonical PCM reconstruction proof exists.",
-    "No composite hash is recomputed from ordered stems, recipe, engine, environment, and output bytes.",
-    "The adjacent stem schema trusts stem_ids_unique, all_events_accounted, and nondestructive_lineage as literal true fields rather than deriving them.",
-    "The generated provenance schema has no cross-field rule connecting rights, QA, event authority, inputs, and promotion."
-  ],
-  "adversarial_schema_probe": {
-    "schema_path": "Plan/08_SCHEMAS/generated_audio_asset_provenance.schema.json",
-    "validator": "jsonschema.Draft202012Validator",
-    "process_exit_code": 0,
-    "case_count": 7,
-    "false_open_count": 6,
-    "cases": [
-      {"name": "valid_candidate", "schema_accepted": true, "strict_expected_accepted": true, "false_open": false},
-      {"name": "layered_synthesis_with_zero_inputs", "schema_accepted": true, "strict_expected_accepted": false, "false_open": true},
-      {"name": "promoted_without_qa", "schema_accepted": true, "strict_expected_accepted": false, "false_open": true},
-      {"name": "promoted_with_null_event_manifest", "schema_accepted": true, "strict_expected_accepted": false, "false_open": true},
-      {"name": "denied_rights_promoted", "schema_accepted": true, "strict_expected_accepted": false, "false_open": true},
-      {"name": "layer_roles_not_unique_or_justified", "schema_accepted": true, "strict_expected_accepted": false, "false_open": true},
-      {"name": "composite_hash_equals_only_input", "schema_accepted": true, "strict_expected_accepted": false, "false_open": true}
+  "direct_downstream_hold": {
+    "count": 2,
+    "tracker_ids": [
+      "TRK-W64-097",
+      "TRK-W64-112"
     ],
-    "required_behavior": "A layered-synthesis PASS must derive event coverage, rights and acoustic compatibility, ordered unique layer roles, deterministic recipe replay, per-stem lineage, composite output bytes, and QA authority rather than trusting declarative fields."
-  },
-  "acceptance_matrix_required": [
-    {"gate": "dependencies", "acceptance": "Rows068, 079, 081, 091, and 093 are accepted and hash-bound."},
-    {"gate": "layer_justification", "acceptance": "Every expected event layer maps exactly once to a selected or explicitly blocked source with taxonomy and score evidence."},
-    {"gate": "license_compatibility", "acceptance": "Every layer has an accepted Row068 rights decision and pairwise/composite use is permitted."},
-    {"gate": "acoustic_compatibility", "acceptance": "Perspective, room, distance, microphone, phase, sample rate, channels, dry/wet state, and noise floor are compatible or deterministically transformed."},
-    {"gate": "deterministic_recipe", "acceptance": "Ordered timing, gain, envelope, fade, transient/body/settle, and headroom parameters are versioned and replayable."},
-    {"gate": "stem_lineage", "acceptance": "Each stem is separately attributable and its bytes reconstruct from accepted Row093 derivatives and exact recipes."},
-    {"gate": "composite_hash", "acceptance": "The final canonical PCM and artifact hashes recompute from ordered stems, recipe, toolchain, environment, and output bytes."},
-    {"gate": "runtime_and_audio_qa", "acceptance": "Deterministic fixtures and genuine composites pass reconstruction, clipping, phase, loudness, waveform, spectrogram, and full-duration audio review."},
-    {"gate": "reconciliation", "acceptance": "Every admitted event resolves to complete justified layers or an exact blocker without omissions or duplicate roles."}
-  ],
-  "checks": [
-    {"id": "ROW094-001", "status": "PASS", "name": "source_commit_bound"},
-    {"id": "ROW094-002", "status": "PASS", "name": "tracker_item_semantic_parity"},
-    {"id": "ROW094-003", "status": "PASS", "name": "requirements_copy_identity"},
-    {"id": "ROW094-004", "status": "PASS", "name": "source_policy_explicit"},
-    {"id": "ROW094-005", "status": "PASS", "name": "five_dependency_records_hash_bound"},
-    {"id": "ROW094-006", "status": "PASS", "name": "planning_registry_row_bound"},
-    {"id": "ROW094-007", "status": "PASS", "name": "adjacent_schema_shapes_parsed"},
-    {"id": "ROW094-008", "status": "PASS", "name": "six_false_open_schema_cases_reproduced"},
-    {"id": "ROW094-009", "status": "PASS", "name": "untracked_package_ownership_preserved"},
-    {"id": "ROW094-010", "status": "FAIL", "name": "all_dependencies_complete"},
-    {"id": "ROW094-011", "status": "FAIL", "name": "production_layer_composer_implementation"},
-    {"id": "ROW094-012", "status": "FAIL", "name": "event_manifest_layer_justification"},
-    {"id": "ROW094-013", "status": "FAIL", "name": "license_compatibility_enforcement"},
-    {"id": "ROW094-014", "status": "FAIL", "name": "acoustic_perspective_compatibility"},
-    {"id": "ROW094-015", "status": "FAIL", "name": "ordered_unique_layer_roles"},
-    {"id": "ROW094-016", "status": "FAIL", "name": "deterministic_gain_and_envelope_recipe"},
-    {"id": "ROW094-017", "status": "FAIL", "name": "timing_phase_and_headroom_policy"},
-    {"id": "ROW094-018", "status": "FAIL", "name": "per_stem_attribution_and_lineage"},
-    {"id": "ROW094-019", "status": "FAIL", "name": "stem_byte_reconstruction"},
-    {"id": "ROW094-020", "status": "FAIL", "name": "composite_hash_recomputation"},
-    {"id": "ROW094-021", "status": "FAIL", "name": "rights_qa_promotion_cross_field_authority"},
-    {"id": "ROW094-022", "status": "FAIL", "name": "direct_deterministic_tests"},
-    {"id": "ROW094-023", "status": "FAIL", "name": "genuine_runtime_proof"},
-    {"id": "ROW094-024", "status": "FAIL", "name": "waveform_spectrogram_and_audio_review"},
-    {"id": "ROW094-025", "status": "FAIL", "name": "required_tracker_output"},
-    {"id": "ROW094-026", "status": "FAIL", "name": "row_complete"}
-  ],
-  "check_summary": {"total": 26, "pass": 9, "fail": 17},
-  "execution_boundary": {
-    "row094_worker_intents": 0,
-    "worker_queue_polls": 0,
-    "direct_wrapper_calls": 0,
-    "scheduled_task_state_changes": 0,
-    "ec2_calls": 0,
-    "docker_calls": 0,
-    "wsl_calls": 0,
-    "model_downloads": 0,
-    "audio_compositions": 0,
-    "audio_playback_reviews": 0
+    "reason": "Mix/mux and full-system certification depend on reconstructable layered Foley stems with accepted composite hashes; synthetic fixture calibration cannot substitute."
   },
   "preservation_boundary": {
-    "evidence_write_scope": [
+    "row069_paths_modified": false,
+    "row077_paths_modified": false,
+    "row083_paths_modified": false,
+    "row084_paths_modified": false,
+    "row089_paths_modified": false,
+    "row091_paths_modified": false,
+    "unrelated_dirty_paths_modified": false,
+    "only_row094_writable_paths_this_increment": [
+      "Plan/07_IMPLEMENTATION/scripts/compose_wave64_layered_foley_composition.py",
+      "Plan/08_SCHEMAS/layered_foley_composition_receipt.schema.json",
+      "Plan/10_REGISTRIES/wave64_row094_layered_foley_composition_registry.json",
+      "Plan/Instructions/QA/Scripts/test_row094_layered_foley_composition.py",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-094_layered_foley_composition.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-094_LAYERED_FOLEY_COMPOSITION_CURRENT_DELTA_20260719.json"
-    ],
-    "row093_worker_allowed_paths_clean_and_preserved": true,
-    "untracked_autonomous_sound_and_hyperreal_audio_packages_preserved": true,
-    "queued_worker_scopes_preserved": true,
-    "flux2_dirty_paths_preserved": true,
-    "portfolio_reconciliation_paths_preserved": true,
-    "worker_control_snapshots_preserved": true,
-    "unrelated_dirty_and_untracked_paths_preserved": true,
-    "unrelated_worktree_entry_count_before_write": 396
+    ]
+  },
+  "checks": [
+    {"name": "LFC-I001_engine_and_policy_revisions_frozen", "result": "pass"},
+    {"name": "LFC-I002_schema_requires_gates_layers_composite_and_library_authority_false", "result": "pass"},
+    {"name": "LFC-I003_remaining_dependencies_fail_closed_while_row068_accepted", "result": "pass"},
+    {"name": "LFC-I004_library_mode_hold_packet_emitted", "result": "pass"},
+    {"name": "LFC-I005_fixture_records_deterministic_schema_valid_and_reconstructable_or_blocked", "result": "pass"},
+    {"name": "LFC-I006_license_acoustic_duplicate_and_missing_layer_semantics_enforced", "result": "pass"},
+    {"name": "LFC-I007_adversarial_composite_hash_and_failed_gate_compose_rejected", "result": "pass"},
+    {"name": "LFC-I008_focused_pytest_10_passed", "result": "pass"},
+    {"name": "LFC-I009_no_false_completion_claimed", "result": "pass"},
+    {"name": "LFC-I010_disjoint_from_row069_row077_row083_row084_row089_row091", "result": "pass"}
+  ],
+  "check_summary": {
+    "checked": 10,
+    "passed": 10,
+    "failed": 0
+  },
+  "decision": {
+    "fail_closed_contract_slice": "accepted_as_bounded_increment",
+    "row094_status": "Planned_Autonomous_Implementation_Required",
+    "row094_acceptance": "held",
+    "runtime_completion": false,
+    "product_completion": false,
+    "safe_next_action": "Accept or complete Rows079, 081, 091, and 093 next with Row068 already accepted; bind a production event manifest and accepted clip derivatives; execute the layered composer with rights/acoustic gates; recompute stem lineage and composite hashes; pass waveform/spectrogram audio review; then replace this hold packet. EC2 remains disallowed for Row094."
   },
   "hold_decision": {
     "decision": "HOLD_ROW094",
-    "reason": "All five required dependency rows are held, no production layer composer or direct tests exist, and the adjacent provenance schema accepts six noncompliant layered-synthesis records, including promoted output with no inputs, no QA, null event authority, denied rights, duplicate unjustified layers, or no distinct composite identity. The current repository therefore cannot prove layer justification, compatibility, attribution, reconstruction, or composite hashes.",
-    "safe_next_work": "After Rows068, 079, 081, 091, and 093 are accepted, implement one bounded deterministic layer-composition contract and runtime that derives unique required layers from the accepted event manifest, enforces rights and acoustic compatibility, records exact per-layer timing/gain/envelope and byte transitions, preserves separately reconstructable stems, recomputes the composite hash, validates adversarial and genuine fixtures, reconciles every event to complete layers or blocker, and emits the tracker-declared direct evidence.",
+    "reason": "Fail-closed layered Foley composition contract and synthetic fixture calibration are present, but Rows079/081/091/093 remain unaccepted and no production library composer, genuine runtime proof, or audio QA exists. Completion remains prohibited.",
     "completion_claim_prohibited": true,
     "runtime_claim_prohibited": true,
     "certification_claim_prohibited": true
