@@ -1,16 +1,16 @@
 {
   "schema_version": "1.0.0",
   "evidence_id": "TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719",
-  "created_at": "2026-07-19T19:32:00Z",
-  "source_commit": "62932751eafda35fa7f1b89f133488273b1ace5c",
+  "created_at": "2026-07-19T20:01:00Z",
+  "source_commit": "9eee8531ca59fa18cca13a9fc304a3c1e6af80ea",
   "tracker_id": "TRK-W64-091",
   "item_id": "ITEM-W64-091",
   "classification": "ROW091_CODEX_FINAL_AUTHORITY_CURRENT_DELTA_AUDIT",
-  "status": "HOLD_DEPENDENCIES_PRODUCTION_VISUAL_EVENT_COMPILER_COVERAGE_RUNTIME_AND_COMBINED_REVIEW_ABSENT",
+  "status": "HOLD_DEPENDENCIES_RUNTIME_AND_COMBINED_REVIEW_ABSENT_WITH_PRODUCTION_MANIFEST_COMPILER_SLICE_PRESENT",
   "row_complete": false,
   "implementation_completion_claimed": false,
   "runtime_completion_claimed": false,
-  "qa_decision": "FAIL_CLOSED_EXISTING_WAVE30_STACK_IS_USEFUL_DOWNSTREAM_AUTHORITY_BUT_DOES_NOT_IMPLEMENT_OR_CERTIFY_ROW091",
+  "qa_decision": "FAIL_CLOSED_ROW091_NOW_HAS_A_PRODUCTION_MANIFEST_COMPILER_AND_TRACEABILITY_SLICE_BUT_DEPENDENCIES_RUNTIME_AND_COMBINED_REVIEW_AUTHORITY_REMAIN_UNSATISFIED",
   "row_contract": {
     "title": "Canonical timed visual audio-event manifest compiler",
     "priority": "P0",
@@ -127,9 +127,46 @@
         "path": "Plan/10_REGISTRIES/wave64_autonomous_sound_intelligence_work_package_registry.json",
         "sha256": "d4ba802a94920e462fed578790e0508f140d5d7b0cf64736dcc86f47fb0e709e",
         "bytes": 13741
+      },
+      {
+        "path": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_visual_audio_event_manifest.py",
+        "sha256": "84976477d9718c1a4d9dda93ef40f497df5bd19303b25dc2e2c651bcf7d03bce",
+        "bytes": 18101
+      },
+      {
+        "path": "Plan/Instructions/QA/Scripts/test_row091_visual_audio_event_manifest_compiler.py",
+        "sha256": "d28f4d0402b9a274086076f17e2fc6b7400aa4ea5a370182cb9b5f7462f92265",
+        "bytes": 6762
       }
     ],
-    "production_visual_manifest_compiler_exists": false
+    "production_visual_manifest_compiler_exists": true
+  },
+  "row091_manifest_compiler_slice": {
+    "scope": "Introduces a production-oriented compiler that converts traceability packets into schema-bound visual audio event manifests with dependency/runtime fail-closed gating.",
+    "compiler": {
+      "path": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_visual_audio_event_manifest.py",
+      "sha256": "84976477d9718c1a4d9dda93ef40f497df5bd19303b25dc2e2c651bcf7d03bce",
+      "bytes": 18101,
+      "enforced_controls": [
+        "dependency hold blocks decision=cover and non-candidate authority ceilings",
+        "runtime hold blocks certification ceiling",
+        "frame->seconds->sample anchor consistency",
+        "required equals covered plus silent plus blocked coverage invariant",
+        "traceability decision evidence injection per event"
+      ]
+    },
+    "focused_validators": [
+      {
+        "command": "python -m pytest Plan/Instructions/QA/Scripts/test_row091_visual_audio_event_manifest_compiler.py -q --tb=short",
+        "exit_code": 0,
+        "passed": 4
+      },
+      {
+        "command": "python -m pytest Plan/Instructions/QA/Scripts/test_row091_visual_audio_event_manifest_schema_strict.py -q --tb=short",
+        "exit_code": 0,
+        "passed": 2
+      }
+    ]
   },
   "tracked_wave30_partial_authority": {
     "scope": "Strict downstream compilation and QA of declared audio events, not inference of expected visual events or complete Row091 coverage.",
@@ -290,7 +327,7 @@
     {"id": "ROW091-012", "status": "PASS", "name": "bounded_worker_scopes_signed"},
     {"id": "ROW091-013", "status": "FAIL", "name": "dependency_row084_complete"},
     {"id": "ROW091-014", "status": "FAIL", "name": "dependency_row090_complete"},
-    {"id": "ROW091-015", "status": "FAIL", "name": "production_visual_manifest_compiler"},
+    {"id": "ROW091-015", "status": "PASS", "name": "production_visual_manifest_compiler"},
     {"id": "ROW091-016", "status": "PASS", "name": "strict_visual_manifest_schema"},
     {"id": "ROW091-017", "status": "FAIL", "name": "event_traceability_inference"},
     {"id": "ROW091-018", "status": "FAIL", "name": "frame_and_sample_anchor_authority"},
@@ -300,9 +337,11 @@
     {"id": "ROW091-022", "status": "FAIL", "name": "genuine_runtime_proof"},
     {"id": "ROW091-023", "status": "FAIL", "name": "combined_frame_contact_audio_review"},
     {"id": "ROW091-024", "status": "FAIL", "name": "required_tracker_output"},
-    {"id": "ROW091-025", "status": "FAIL", "name": "row_complete"}
+    {"id": "ROW091-025", "status": "FAIL", "name": "row_complete"},
+    {"id": "ROW091-026", "status": "PASS", "name": "row091_compiler_slice_focused_tests_pass"},
+    {"id": "ROW091-027", "status": "PASS", "name": "row091_compiler_slice_fail_closed_dependency_runtime_gates"}
   ],
-  "check_summary": {"total": 25, "pass": 13, "fail": 12},
+  "check_summary": {"total": 27, "pass": 16, "fail": 11},
   "runtime_boundary": {
     "direct_row091_runtime_runs": 0,
     "visual_reviews_performed": 0,
@@ -330,8 +369,8 @@
   },
   "hold_decision": {
     "decision": "HOLD_ROW091",
-    "reason": "Both prerequisites remain incomplete and no production visual event-manifest compiler exists. The bounded Row091 truth-hardening increment closed Wave30 Boolean/frame-rate coercion and visual schema fail-open probes, but the row still lacks visual event inference, full coverage/silence/blocked-event authority, runtime proof, and combined review.",
-    "safe_next_work": "Use this hardened baseline to implement a production visual event-manifest compiler and event traceability authority only after preserving autonomous-sound package ownership. Keep Row091 held until Rows084 and 090, runtime coverage, and combined review pass.",
+    "reason": "Both prerequisites remain incomplete and runtime/combined-review authority is still absent. This increment adds a production visual event-manifest compiler plus fail-closed traceability gates, but the row still lacks dependency completion evidence, genuine runtime proof, and combined frame-contact-audio review.",
+    "safe_next_work": "Execute dependency rows TRK-W64-084 and TRK-W64-090 to completion evidence, then run the new Row091 compiler on real traceability packets and record required runtime plus combined review outputs before clearing hold.",
     "completion_claim_prohibited": true,
     "runtime_claim_prohibited": true,
     "certification_claim_prohibited": true
