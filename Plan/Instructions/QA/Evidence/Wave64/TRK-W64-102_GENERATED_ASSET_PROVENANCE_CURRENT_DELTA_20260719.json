@@ -1,0 +1,190 @@
+{
+  "schema_version": 1,
+  "evidence_id": "W64-ROW102-GENERATED-ASSET-PROVENANCE-CURRENT-DELTA-20260719",
+  "created_at": "2026-07-19T20:42:20Z",
+  "updated_at": "2026-07-19T20:42:20Z",
+  "source_commit": "70be219b07e9a4ef9371b0d35c62907d5027177f",
+  "prior_audit_commit": "70be219b07e9a4ef9371b0d35c62907d5027177f",
+  "tracker_id": "TRK-W64-102",
+  "item_id": "ITEM-W64-102",
+  "status": "HOLD_DEPENDENCIES_AND_GENERATED_ASSET_STAGING_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+  "classification": "ROW102_FAIL_CLOSED_CONTRACT_SLICE_NO_FALSE_COMPLETION",
+  "row_complete": false,
+  "implementation_completion_claimed": false,
+  "runtime_completion_claimed": false,
+  "qa_decision": "hold_with_fail_closed_generated_asset_provenance_contract_and_synthetic_fixture_calibration_only",
+  "intent": {
+    "intent_id": "interactive_cursor_shift_row102_contract_slice_20260719",
+    "classification": "INTERACTIVE_CURSOR_SHIFT_AUTHORITY",
+    "work_type": "final_authority",
+    "authority_class": "interactive_cursor_integration",
+    "routing": null,
+    "dispatch_wake_count": 0,
+    "allowed_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_generated_asset_provenance.py",
+      "Plan/08_SCHEMAS/generated_asset_provenance_staging_decision.schema.json",
+      "Plan/10_REGISTRIES/wave64_row102_generated_asset_provenance_policy_registry.json",
+      "Plan/Instructions/QA/Scripts/test_row102_generated_asset_provenance.py",
+      "Plan/Instructions/QA/Scripts/test_row103_generated_sound_qa.py",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-102_generated_asset_provenance.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-102_GENERATED_ASSET_PROVENANCE_CURRENT_DELTA_20260719.json"
+    ]
+  },
+  "increment": {
+    "kind": "fail_closed_contract_evaluator_and_schema_slice",
+    "evaluator_revision": "wave64_row102_generated_asset_provenance_evaluator_v0.1.0",
+    "policy_revision": "wave64_row102_generated_asset_provenance_policy_v0.1.0",
+    "summary": "Freeze Row102 generated-asset provenance and candidate-staging gates for input/prompt/engine/seed/output/rights/staging-boundary; bind immutable synthetic fixture calibration against the existing provenance schema; fail closed for library staging until Rows098/099/100/101 are accepted while retaining accepted Row068 rights authority.",
+    "note": "Dedicated staging-decision schema is introduced without mutating sibling-owned Row069/084/085/098/099/100 paths."
+  },
+  "row102_contract": {
+    "status": "Planned_Autonomous_Implementation_Required",
+    "priority": "P0",
+    "risk": "CRITICAL",
+    "dependency_prerequisites": [
+      "TRK-W64-068",
+      "TRK-W64-098",
+      "TRK-W64-099",
+      "TRK-W64-100",
+      "TRK-W64-101"
+    ],
+    "validation_methods": [
+      "input_hashes",
+      "prompt_hash",
+      "engine_hashes",
+      "seed",
+      "output_hash",
+      "rights",
+      "staging_boundary"
+    ],
+    "output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-102_generated_asset_provenance.json",
+    "output_artifact_exists": true,
+    "output_artifact_authority": "fail_closed_hold_packet_not_library_acceptance",
+    "completion_criteria": "Every candidate is immutable and records inputs, prompt, event, engine, model, config, seed, environment, output, rights, and QA state; staging remains outside the approved library and selector-invisible until promotion.",
+    "runtime_proof_required": true,
+    "ec2_allowed": false,
+    "final_render_gate": "BLOCKED_UNTIL_EXACT_ROW_IMPLEMENTATION_RUNTIME_QA_AND_AUTHORITY_PASS"
+  },
+  "implemented_slice": {
+    "evaluator_path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_generated_asset_provenance.py",
+    "evaluator_sha256": "8743eca3ac371db9fd2db509779e3cd8bef7f2c4c6eb00b64c835bd37a05c493",
+    "evaluator_bytes": 28661,
+    "schema_path": "Plan/08_SCHEMAS/generated_asset_provenance_staging_decision.schema.json",
+    "schema_sha256": "33ea6b81ef22bcabec83817742677a5219e086e606cd766bdb70652e4961072c",
+    "schema_bytes": 8732,
+    "policy_path": "Plan/10_REGISTRIES/wave64_row102_generated_asset_provenance_policy_registry.json",
+    "policy_sha256": "9b22d6943714c9c6648a8ec3096ff0f5be1caf0d20a51646185cd7263ed7e410",
+    "policy_bytes": 2226,
+    "test_path": "Plan/Instructions/QA/Scripts/test_row102_generated_asset_provenance.py",
+    "test_sha256": "34a3c221259a5c6ddfbac8e1c0e3fa47db947fa60597b1eef4024fd087bbd9cd",
+    "test_bytes": 6506,
+    "direct_evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-102_generated_asset_provenance.json",
+    "direct_evidence_sha256": "ea27a4984591d53ca2c995ee8a587d71399095ddf401cd461c7e592d0542f70f",
+    "direct_evidence_bytes": 74170,
+    "capabilities_now_present": [
+      "frozen_evaluator_and_policy_revisions",
+      "seven_required_provenance_and_staging_gates_with_fail_closed_results",
+      "immutable_candidate_provenance_binding",
+      "selector_visibility_and_approved_library_path_boundary_denial",
+      "content_based_suppression_forbidden_for_staging",
+      "schema_validated_fixture_receipts_with_library_authority_false",
+      "library_mode_hold_packet_without_false_completion",
+      "accepted_row068_rights_dependency_recognized",
+      "held_row098_099_100_and_absent_row101_recognized_as_hard_blockers"
+    ],
+    "explicitly_not_claimed": [
+      "accepted_row098_deterministic_variation_authority",
+      "accepted_row099_layered_synthesis_authority",
+      "accepted_row100_procedural_engine_authority",
+      "accepted_row101_neural_generation_route_authority",
+      "genuine_generated_candidate_runtime_staging",
+      "selector_visible_library_ingestion",
+      "row102_product_completion",
+      "row102_runtime_completion",
+      "downstream_row103_row104_row112_unblocking"
+    ]
+  },
+  "dependency_authority": [
+    {
+      "tracker_id": "TRK-W64-068",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+      "dependency_satisfied": true,
+      "row_complete": true,
+      "reason": "Row068 rights-decision authority is accepted and may bind rights_decision_sha256 on staged candidates.",
+      "current_delta_sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+      "current_delta_bytes": 4104
+    },
+    {
+      "tracker_id": "TRK-W64-098",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-098_DETERMINISTIC_SOUND_VARIATION_CURRENT_DELTA_20260719.json",
+      "dependency_satisfied": false,
+      "row_complete": false,
+      "reason": "Row098 deterministic sound variation contract slice is present but held; library staging cannot treat the route as accepted.",
+      "current_delta_sha256": "ff54ee3a83e140dda79d5c21f64de70fddf4e783fe9be281d459c08cce2a11b5",
+      "current_delta_bytes": 8805
+    },
+    {
+      "tracker_id": "TRK-W64-099",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-099_NEURAL_TEXT_TO_AUDIO_CURRENT_DELTA_20260719.json",
+      "dependency_satisfied": false,
+      "row_complete": false,
+      "reason": "Row099 neural text-to-audio contract slice is present but held; library staging cannot treat the route as accepted.",
+      "current_delta_sha256": "a33304a765b31b99a558152453eb721ca6a048e9af6c03bef33aede578e11052",
+      "current_delta_bytes": 3426
+    },
+    {
+      "tracker_id": "TRK-W64-100",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-100_REFERENCE_AUDIO_VARIATION_CURRENT_DELTA_20260719.json",
+      "dependency_satisfied": false,
+      "row_complete": false,
+      "reason": "Row100 reference audio variation contract slice is present but held; library staging cannot treat the route as accepted.",
+      "current_delta_sha256": "6896ec803cd830168fa32c0499d0f61b96eeb91d833c4b6919bc74b1c9c24367",
+      "current_delta_bytes": 12797
+    },
+    {
+      "tracker_id": "TRK-W64-101",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-101_VIDEO_CONDITIONED_FOLEY_CURRENT_DELTA_20260719.json",
+      "dependency_satisfied": false,
+      "row_complete": false,
+      "reason": "Row101 delta absent; video-conditioned Foley route cannot authorize staged candidates yet."
+    }
+  ],
+  "hold_decision": {
+    "decision": "hold",
+    "blocker_codes": [
+      "TRK_W64_098_DEPENDENCY_NOT_ACCEPTED",
+      "TRK_W64_099_DEPENDENCY_NOT_ACCEPTED",
+      "TRK_W64_100_DEPENDENCY_NOT_ACCEPTED",
+      "TRK_W64_101_DELTA_ABSENT",
+      "ROW102_DEPENDENCIES_NOT_ACCEPTED",
+      "DEDICATED_GENERATED_ASSET_STAGING_RUNTIME_ABSENT",
+      "GENUINE_GENERATED_CANDIDATE_RUNTIME_PROOF_ABSENT"
+    ],
+    "detail": "Rows098/099/100 remain held and Row101 remains absent, so library generated-asset staging authority stays blocked despite the fail-closed contract slice and accepted Row068 rights authority."
+  },
+  "validation": {
+    "commands": [
+      "python Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_generated_asset_provenance.py --mode library",
+      "python -m pytest Plan/Instructions/QA/Scripts/test_row102_generated_asset_provenance.py Plan/Instructions/QA/Scripts/test_row103_generated_sound_qa.py -q --tb=short"
+    ],
+    "results": [
+      {
+        "command": "python Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_generated_asset_provenance.py --mode library",
+        "result": "pass",
+        "detail": "Emitted fail-closed hold packet with ten synthetic fixture calibrations."
+      },
+      {
+        "command": "python -m pytest Plan/Instructions/QA/Scripts/test_row102_generated_asset_provenance.py Plan/Instructions/QA/Scripts/test_row103_generated_sound_qa.py -q --tb=short",
+        "result": "pass",
+        "detail": "27 passed"
+      }
+    ]
+  },
+  "decision": {
+    "status": "blocked",
+    "row102_acceptance": "held",
+    "product_completion": false,
+    "runtime_completion": false,
+    "safe_next_action": "Keep Row102 held with this fail-closed contract slice; prefer next independent Row101 video-conditioned Foley contract or accept held Rows098/099/100 plus Row101 before claiming generated-asset staging completion."
+  }
+}

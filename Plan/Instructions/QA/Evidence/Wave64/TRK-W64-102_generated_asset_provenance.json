@@ -1,0 +1,1732 @@
+{
+  "blocker_codes": [
+    "TRK_W64_098_DEPENDENCY_NOT_ACCEPTED",
+    "TRK_W64_099_DEPENDENCY_NOT_ACCEPTED",
+    "TRK_W64_100_DEPENDENCY_NOT_ACCEPTED",
+    "TRK_W64_101_DELTA_ABSENT",
+    "ROW102_DEPENDENCIES_NOT_ACCEPTED",
+    "DEDICATED_GENERATED_ASSET_STAGING_RUNTIME_ABSENT",
+    "GENUINE_GENERATED_CANDIDATE_RUNTIME_PROOF_ABSENT",
+    "ROW098_099_100_101_GENERATION_ROUTE_AUTHORITY_ABSENT"
+  ],
+  "decision": {
+    "product_completion": false,
+    "row102_acceptance": "held",
+    "runtime_completion": false,
+    "safe_next_action": "Keep Row068 rights authority; accept Rows098/099/100/101 generation routes; stage genuine generated candidates outside the approved library with immutable provenance bindings; keep selector visibility false until Row104 promotion; then replace this hold packet.",
+    "status": "blocked"
+  },
+  "dependency_admissions": {
+    "TRK-W64-068": {
+      "blocker_codes": [],
+      "bytes": 4104,
+      "dependency_satisfied": true,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+      "row_complete": true,
+      "sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+      "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+      "tracker_id": "TRK-W64-068"
+    },
+    "TRK-W64-098": {
+      "blocker_codes": [
+        "TRK_W64_098_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "bytes": 8805,
+      "dependency_satisfied": false,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-098_DETERMINISTIC_SOUND_VARIATION_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "sha256": "ff54ee3a83e140dda79d5c21f64de70fddf4e783fe9be281d459c08cce2a11b5",
+      "status": "HOLD_DEPENDENCIES_AND_DETERMINISTIC_VARIATION_RUNTIME_AUTHORITY_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE",
+      "tracker_id": "TRK-W64-098"
+    },
+    "TRK-W64-099": {
+      "blocker_codes": [
+        "TRK_W64_099_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "bytes": 3426,
+      "dependency_satisfied": false,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-099_NEURAL_TEXT_TO_AUDIO_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "sha256": "a33304a765b31b99a558152453eb721ca6a048e9af6c03bef33aede578e11052",
+      "status": "HOLD_DEPENDENCIES_AND_LIBRARY_NEURAL_TEXT_TO_AUDIO_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+      "tracker_id": "TRK-W64-099"
+    },
+    "TRK-W64-100": {
+      "blocker_codes": [
+        "TRK_W64_100_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "bytes": 12797,
+      "dependency_satisfied": false,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-100_REFERENCE_AUDIO_VARIATION_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "sha256": "6896ec803cd830168fa32c0499d0f61b96eeb91d833c4b6919bc74b1c9c24367",
+      "status": "HOLD_DEPENDENCIES_AND_REFERENCE_AUDIO_VARIATION_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+      "tracker_id": "TRK-W64-100"
+    },
+    "TRK-W64-101": {
+      "blocker_codes": [
+        "TRK_W64_101_DELTA_ABSENT"
+      ],
+      "dependency_satisfied": false,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-101_VIDEO_CONDITIONED_FOLEY_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "status": "",
+      "tracker_id": "TRK-W64-101"
+    }
+  },
+  "evaluator_revision": "wave64_row102_generated_asset_provenance_evaluator_v0.1.0",
+  "evidence_id": "TRK-W64-102_generated_asset_provenance",
+  "fixture_calibration": {
+    "authority": "synthetic_non_library",
+    "determinism_note": "Fixture records prove input/prompt/engine/seed/output/rights and staging-boundary gates; they do not accept Row102 library completion or substitute for genuine generation-route runtime staging.",
+    "fixture_count": 10,
+    "records": [
+      {
+        "candidate_id": "gen_clean_staged_candidate_accept",
+        "decision": {
+          "blocker_codes": [],
+          "explanation": [
+            "route=stage_candidate",
+            "status=pass",
+            "reason=all_required_provenance_staging_gates_passed_fixture_only",
+            "blockers=['none']",
+            "staging_is_evidence_boundary_not_content_suppression",
+            "selector_visibility_forbidden_until_promotion",
+            "library_authority=false",
+            "candidate_record_immutable=true"
+          ],
+          "product_completion": false,
+          "reason": "all_required_provenance_staging_gates_passed_fixture_only",
+          "route": "stage_candidate",
+          "row102_acceptance": "fixture_only",
+          "status": "pass"
+        },
+        "dependency_admissions": {
+          "TRK-W64-068": {
+            "blocker_codes": [],
+            "bytes": 4104,
+            "dependency_satisfied": true,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+            "row_complete": true,
+            "sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+            "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+            "tracker_id": "TRK-W64-068"
+          },
+          "TRK-W64-098": {
+            "blocker_codes": [
+              "TRK_W64_098_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 8805,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-098_DETERMINISTIC_SOUND_VARIATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "ff54ee3a83e140dda79d5c21f64de70fddf4e783fe9be281d459c08cce2a11b5",
+            "status": "HOLD_DEPENDENCIES_AND_DETERMINISTIC_VARIATION_RUNTIME_AUTHORITY_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE",
+            "tracker_id": "TRK-W64-098"
+          },
+          "TRK-W64-099": {
+            "blocker_codes": [
+              "TRK_W64_099_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 3426,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-099_NEURAL_TEXT_TO_AUDIO_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "a33304a765b31b99a558152453eb721ca6a048e9af6c03bef33aede578e11052",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_NEURAL_TEXT_TO_AUDIO_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-099"
+          },
+          "TRK-W64-100": {
+            "blocker_codes": [
+              "TRK_W64_100_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 12797,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-100_REFERENCE_AUDIO_VARIATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "6896ec803cd830168fa32c0499d0f61b96eeb91d833c4b6919bc74b1c9c24367",
+            "status": "HOLD_DEPENDENCIES_AND_REFERENCE_AUDIO_VARIATION_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-100"
+          },
+          "TRK-W64-101": {
+            "blocker_codes": [
+              "TRK_W64_101_DELTA_ABSENT"
+            ],
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-101_VIDEO_CONDITIONED_FOLEY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "status": "",
+            "tracker_id": "TRK-W64-101"
+          }
+        },
+        "evaluator_revision": "wave64_row102_generated_asset_provenance_evaluator_v0.1.0",
+        "gate_results": {
+          "engine_hashes": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "input_hashes": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "output_hash": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "prompt_hash": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "rights": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "seed": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "staging_boundary": {
+            "reason_codes": [],
+            "status": "pass"
+          }
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-102",
+        "library_authority": false,
+        "policy_revision": "wave64_row102_generated_asset_provenance_policy_v0.1.0",
+        "policy_sha256": "9b22d6943714c9c6648a8ec3096ff0f5be1caf0d20a51646185cd7263ed7e410",
+        "provenance_binding": {
+          "canonical_pcm_sha256": "1dfc8ed0ce9c8a31ab7d146161f71d87efa42e7d7fb38993de3c1289c7058ac9",
+          "generated_asset_id": "gen_clean_staged_candidate_accept",
+          "immutable": true,
+          "output_path": "staging/generated_candidates/clean_staged_candidate_accept.wav",
+          "output_sha256": "8f02611706fe60cbfaa0f51aea80208816998e910bd13f17bb96b7978ee5d740",
+          "promotion_state": "staged_candidate",
+          "qa_state": "not_run",
+          "rights_decision_sha256": "28c0f9778c7b578c6a672cba800b241cdadd1e19fc640c0bf2e5eb8b6e1ecac3",
+          "structured_prompt_sha256": "299213e8ac2436f52ef038be2fe6a0d94dbcea31250518fa74290a9b9cb4d9f1"
+        },
+        "receipt_sha256": "86ee4a9bdbadf9d852d2c7db71220323a6e12b6c380f0d2dda2f5d5721e6e8c0",
+        "record_type": "generated_asset_provenance_staging_decision",
+        "required_gates": [
+          "input_hashes",
+          "prompt_hash",
+          "engine_hashes",
+          "seed",
+          "output_hash",
+          "rights",
+          "staging_boundary"
+        ],
+        "schema_version": "1.0.0",
+        "selector_visible": false,
+        "signals": {
+          "all_input_hashes_valid": true,
+          "canonical_pcm_sha256_present": true,
+          "content_based_suppression": false,
+          "engine_configuration_sha256_present": true,
+          "engine_environment_sha256_present": true,
+          "engine_model_sha256_present": true,
+          "input_hash_count": 2,
+          "output_sha256_present": true,
+          "path_outside_approved_library": true,
+          "promotion_state": "staged_candidate",
+          "prompt_hash_present": true,
+          "rights_decision": "pass",
+          "rights_decision_sha256_present": true,
+          "seed_present": true,
+          "selector_visible": false
+        },
+        "tracker_id": "TRK-W64-102"
+      },
+      {
+        "candidate_id": "gen_missing_input_hashes_rejected",
+        "decision": {
+          "blocker_codes": [
+            "INPUT_HASHES_MISSING",
+            "INPUT_HASH_INVALID"
+          ],
+          "explanation": [
+            "route=reject_candidate",
+            "status=fail",
+            "reason=provenance_or_staging_gate_failure",
+            "blockers=['INPUT_HASHES_MISSING', 'INPUT_HASH_INVALID']",
+            "staging_is_evidence_boundary_not_content_suppression",
+            "selector_visibility_forbidden_until_promotion",
+            "library_authority=false",
+            "candidate_record_immutable=true"
+          ],
+          "product_completion": false,
+          "reason": "provenance_or_staging_gate_failure",
+          "route": "reject_candidate",
+          "row102_acceptance": "fixture_only",
+          "status": "fail"
+        },
+        "dependency_admissions": {
+          "TRK-W64-068": {
+            "blocker_codes": [],
+            "bytes": 4104,
+            "dependency_satisfied": true,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+            "row_complete": true,
+            "sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+            "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+            "tracker_id": "TRK-W64-068"
+          },
+          "TRK-W64-098": {
+            "blocker_codes": [
+              "TRK_W64_098_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 8805,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-098_DETERMINISTIC_SOUND_VARIATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "ff54ee3a83e140dda79d5c21f64de70fddf4e783fe9be281d459c08cce2a11b5",
+            "status": "HOLD_DEPENDENCIES_AND_DETERMINISTIC_VARIATION_RUNTIME_AUTHORITY_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE",
+            "tracker_id": "TRK-W64-098"
+          },
+          "TRK-W64-099": {
+            "blocker_codes": [
+              "TRK_W64_099_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 3426,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-099_NEURAL_TEXT_TO_AUDIO_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "a33304a765b31b99a558152453eb721ca6a048e9af6c03bef33aede578e11052",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_NEURAL_TEXT_TO_AUDIO_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-099"
+          },
+          "TRK-W64-100": {
+            "blocker_codes": [
+              "TRK_W64_100_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 12797,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-100_REFERENCE_AUDIO_VARIATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "6896ec803cd830168fa32c0499d0f61b96eeb91d833c4b6919bc74b1c9c24367",
+            "status": "HOLD_DEPENDENCIES_AND_REFERENCE_AUDIO_VARIATION_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-100"
+          },
+          "TRK-W64-101": {
+            "blocker_codes": [
+              "TRK_W64_101_DELTA_ABSENT"
+            ],
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-101_VIDEO_CONDITIONED_FOLEY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "status": "",
+            "tracker_id": "TRK-W64-101"
+          }
+        },
+        "evaluator_revision": "wave64_row102_generated_asset_provenance_evaluator_v0.1.0",
+        "gate_results": {
+          "engine_hashes": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "input_hashes": {
+            "reason_codes": [
+              "INPUT_HASHES_MISSING",
+              "INPUT_HASH_INVALID"
+            ],
+            "status": "fail"
+          },
+          "output_hash": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "prompt_hash": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "rights": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "seed": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "staging_boundary": {
+            "reason_codes": [],
+            "status": "pass"
+          }
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-102",
+        "library_authority": false,
+        "policy_revision": "wave64_row102_generated_asset_provenance_policy_v0.1.0",
+        "policy_sha256": "9b22d6943714c9c6648a8ec3096ff0f5be1caf0d20a51646185cd7263ed7e410",
+        "provenance_binding": {
+          "canonical_pcm_sha256": "387e8c2efa056ae985286fb3d2eb43ecab4bff1b360dd3cebbef662a5e0c86ef",
+          "generated_asset_id": "gen_missing_input_hashes_rejected",
+          "immutable": true,
+          "output_path": "staging/generated_candidates/missing_input_hashes_rejected.wav",
+          "output_sha256": "7926f9e25e5cd83c690c0affcafaf71049378053f996abda133c84ad43512a76",
+          "promotion_state": "staged_candidate",
+          "qa_state": "not_run",
+          "rights_decision_sha256": "2d1b080b337d71e90f0eeaaa276e2cd76bbf0f3e384868c546c38b32b4f95987",
+          "structured_prompt_sha256": "40f561037c33fe117a886077711b5f9a6e1c59f22fd3d4885742e0f1a86afce6"
+        },
+        "receipt_sha256": "e7eba0790fecab05a68b15868f4c51acde2c40c13e34cbf7122fd84bb707d0e1",
+        "record_type": "generated_asset_provenance_staging_decision",
+        "required_gates": [
+          "input_hashes",
+          "prompt_hash",
+          "engine_hashes",
+          "seed",
+          "output_hash",
+          "rights",
+          "staging_boundary"
+        ],
+        "schema_version": "1.0.0",
+        "selector_visible": false,
+        "signals": {
+          "all_input_hashes_valid": false,
+          "canonical_pcm_sha256_present": true,
+          "content_based_suppression": false,
+          "engine_configuration_sha256_present": true,
+          "engine_environment_sha256_present": true,
+          "engine_model_sha256_present": true,
+          "input_hash_count": 0,
+          "output_sha256_present": true,
+          "path_outside_approved_library": true,
+          "promotion_state": "staged_candidate",
+          "prompt_hash_present": true,
+          "rights_decision": "pass",
+          "rights_decision_sha256_present": true,
+          "seed_present": true,
+          "selector_visible": false
+        },
+        "tracker_id": "TRK-W64-102"
+      },
+      {
+        "candidate_id": "gen_missing_prompt_hash_rejected",
+        "decision": {
+          "blocker_codes": [
+            "PROMPT_HASH_MISSING"
+          ],
+          "explanation": [
+            "route=reject_candidate",
+            "status=fail",
+            "reason=provenance_or_staging_gate_failure",
+            "blockers=['PROMPT_HASH_MISSING']",
+            "staging_is_evidence_boundary_not_content_suppression",
+            "selector_visibility_forbidden_until_promotion",
+            "library_authority=false",
+            "candidate_record_immutable=true"
+          ],
+          "product_completion": false,
+          "reason": "provenance_or_staging_gate_failure",
+          "route": "reject_candidate",
+          "row102_acceptance": "fixture_only",
+          "status": "fail"
+        },
+        "dependency_admissions": {
+          "TRK-W64-068": {
+            "blocker_codes": [],
+            "bytes": 4104,
+            "dependency_satisfied": true,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+            "row_complete": true,
+            "sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+            "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+            "tracker_id": "TRK-W64-068"
+          },
+          "TRK-W64-098": {
+            "blocker_codes": [
+              "TRK_W64_098_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 8805,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-098_DETERMINISTIC_SOUND_VARIATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "ff54ee3a83e140dda79d5c21f64de70fddf4e783fe9be281d459c08cce2a11b5",
+            "status": "HOLD_DEPENDENCIES_AND_DETERMINISTIC_VARIATION_RUNTIME_AUTHORITY_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE",
+            "tracker_id": "TRK-W64-098"
+          },
+          "TRK-W64-099": {
+            "blocker_codes": [
+              "TRK_W64_099_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 3426,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-099_NEURAL_TEXT_TO_AUDIO_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "a33304a765b31b99a558152453eb721ca6a048e9af6c03bef33aede578e11052",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_NEURAL_TEXT_TO_AUDIO_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-099"
+          },
+          "TRK-W64-100": {
+            "blocker_codes": [
+              "TRK_W64_100_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 12797,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-100_REFERENCE_AUDIO_VARIATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "6896ec803cd830168fa32c0499d0f61b96eeb91d833c4b6919bc74b1c9c24367",
+            "status": "HOLD_DEPENDENCIES_AND_REFERENCE_AUDIO_VARIATION_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-100"
+          },
+          "TRK-W64-101": {
+            "blocker_codes": [
+              "TRK_W64_101_DELTA_ABSENT"
+            ],
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-101_VIDEO_CONDITIONED_FOLEY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "status": "",
+            "tracker_id": "TRK-W64-101"
+          }
+        },
+        "evaluator_revision": "wave64_row102_generated_asset_provenance_evaluator_v0.1.0",
+        "gate_results": {
+          "engine_hashes": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "input_hashes": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "output_hash": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "prompt_hash": {
+            "reason_codes": [
+              "PROMPT_HASH_MISSING"
+            ],
+            "status": "fail"
+          },
+          "rights": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "seed": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "staging_boundary": {
+            "reason_codes": [],
+            "status": "pass"
+          }
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-102",
+        "library_authority": false,
+        "policy_revision": "wave64_row102_generated_asset_provenance_policy_v0.1.0",
+        "policy_sha256": "9b22d6943714c9c6648a8ec3096ff0f5be1caf0d20a51646185cd7263ed7e410",
+        "provenance_binding": {
+          "canonical_pcm_sha256": "61a4156ca313ab79bf0bcd68058ab17de4be53c40cd6ff32af1959be0101fbf8",
+          "generated_asset_id": "gen_missing_prompt_hash_rejected",
+          "immutable": true,
+          "output_path": "staging/generated_candidates/missing_prompt_hash_rejected.wav",
+          "output_sha256": "6960d68f8610d8e0cdc5d9672ff7c42a6b05eb2b90690c90267af49436cfd045",
+          "promotion_state": "staged_candidate",
+          "qa_state": "not_run",
+          "rights_decision_sha256": "7aba7116537e2fd0e3534c17632b70b2029550dac3980b0b40f1d3012bf92925",
+          "structured_prompt_sha256": null
+        },
+        "receipt_sha256": "35c7d2e0e1a0624b7bd3d710a6e1a63137478e3f5c70fc052a20af1a89b30a7f",
+        "record_type": "generated_asset_provenance_staging_decision",
+        "required_gates": [
+          "input_hashes",
+          "prompt_hash",
+          "engine_hashes",
+          "seed",
+          "output_hash",
+          "rights",
+          "staging_boundary"
+        ],
+        "schema_version": "1.0.0",
+        "selector_visible": false,
+        "signals": {
+          "all_input_hashes_valid": true,
+          "canonical_pcm_sha256_present": true,
+          "content_based_suppression": false,
+          "engine_configuration_sha256_present": true,
+          "engine_environment_sha256_present": true,
+          "engine_model_sha256_present": true,
+          "input_hash_count": 2,
+          "output_sha256_present": true,
+          "path_outside_approved_library": true,
+          "promotion_state": "staged_candidate",
+          "prompt_hash_present": false,
+          "rights_decision": "pass",
+          "rights_decision_sha256_present": true,
+          "seed_present": true,
+          "selector_visible": false
+        },
+        "tracker_id": "TRK-W64-102"
+      },
+      {
+        "candidate_id": "gen_missing_engine_hashes_rejected",
+        "decision": {
+          "blocker_codes": [
+            "ENGINE_CONFIGURATION_HASH_MISSING",
+            "ENGINE_ENVIRONMENT_HASH_MISSING",
+            "ENGINE_MODEL_HASH_MISSING"
+          ],
+          "explanation": [
+            "route=reject_candidate",
+            "status=fail",
+            "reason=provenance_or_staging_gate_failure",
+            "blockers=['ENGINE_CONFIGURATION_HASH_MISSING', 'ENGINE_ENVIRONMENT_HASH_MISSING', 'ENGINE_MODEL_HASH_MISSING']",
+            "staging_is_evidence_boundary_not_content_suppression",
+            "selector_visibility_forbidden_until_promotion",
+            "library_authority=false",
+            "candidate_record_immutable=true"
+          ],
+          "product_completion": false,
+          "reason": "provenance_or_staging_gate_failure",
+          "route": "reject_candidate",
+          "row102_acceptance": "fixture_only",
+          "status": "fail"
+        },
+        "dependency_admissions": {
+          "TRK-W64-068": {
+            "blocker_codes": [],
+            "bytes": 4104,
+            "dependency_satisfied": true,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+            "row_complete": true,
+            "sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+            "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+            "tracker_id": "TRK-W64-068"
+          },
+          "TRK-W64-098": {
+            "blocker_codes": [
+              "TRK_W64_098_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 8805,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-098_DETERMINISTIC_SOUND_VARIATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "ff54ee3a83e140dda79d5c21f64de70fddf4e783fe9be281d459c08cce2a11b5",
+            "status": "HOLD_DEPENDENCIES_AND_DETERMINISTIC_VARIATION_RUNTIME_AUTHORITY_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE",
+            "tracker_id": "TRK-W64-098"
+          },
+          "TRK-W64-099": {
+            "blocker_codes": [
+              "TRK_W64_099_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 3426,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-099_NEURAL_TEXT_TO_AUDIO_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "a33304a765b31b99a558152453eb721ca6a048e9af6c03bef33aede578e11052",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_NEURAL_TEXT_TO_AUDIO_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-099"
+          },
+          "TRK-W64-100": {
+            "blocker_codes": [
+              "TRK_W64_100_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 12797,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-100_REFERENCE_AUDIO_VARIATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "6896ec803cd830168fa32c0499d0f61b96eeb91d833c4b6919bc74b1c9c24367",
+            "status": "HOLD_DEPENDENCIES_AND_REFERENCE_AUDIO_VARIATION_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-100"
+          },
+          "TRK-W64-101": {
+            "blocker_codes": [
+              "TRK_W64_101_DELTA_ABSENT"
+            ],
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-101_VIDEO_CONDITIONED_FOLEY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "status": "",
+            "tracker_id": "TRK-W64-101"
+          }
+        },
+        "evaluator_revision": "wave64_row102_generated_asset_provenance_evaluator_v0.1.0",
+        "gate_results": {
+          "engine_hashes": {
+            "reason_codes": [
+              "ENGINE_CONFIGURATION_HASH_MISSING",
+              "ENGINE_ENVIRONMENT_HASH_MISSING",
+              "ENGINE_MODEL_HASH_MISSING"
+            ],
+            "status": "fail"
+          },
+          "input_hashes": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "output_hash": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "prompt_hash": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "rights": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "seed": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "staging_boundary": {
+            "reason_codes": [],
+            "status": "pass"
+          }
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-102",
+        "library_authority": false,
+        "policy_revision": "wave64_row102_generated_asset_provenance_policy_v0.1.0",
+        "policy_sha256": "9b22d6943714c9c6648a8ec3096ff0f5be1caf0d20a51646185cd7263ed7e410",
+        "provenance_binding": {
+          "canonical_pcm_sha256": "bbba1f30b47ecec430530130585bfd4fe9d1f82dab8912052e161de6db02f577",
+          "generated_asset_id": "gen_missing_engine_hashes_rejected",
+          "immutable": true,
+          "output_path": "staging/generated_candidates/missing_engine_hashes_rejected.wav",
+          "output_sha256": "4a5de5b133b786ed1793b84aa7ad9a508adf6c2a1cacdb272958b1719e059da8",
+          "promotion_state": "staged_candidate",
+          "qa_state": "not_run",
+          "rights_decision_sha256": "776e17c5b4349f7c40715ec9708c635587f7d3fee3e95ec58a525cd4f0dc8b4c",
+          "structured_prompt_sha256": "afada2781ef37c5b3c0c6f80a19b175f001d3d4a754b400bc395d6be29eef70e"
+        },
+        "receipt_sha256": "9f4ad518729566cf3f91e861497b8ba05142e20563433a95069ea1c817e16558",
+        "record_type": "generated_asset_provenance_staging_decision",
+        "required_gates": [
+          "input_hashes",
+          "prompt_hash",
+          "engine_hashes",
+          "seed",
+          "output_hash",
+          "rights",
+          "staging_boundary"
+        ],
+        "schema_version": "1.0.0",
+        "selector_visible": false,
+        "signals": {
+          "all_input_hashes_valid": true,
+          "canonical_pcm_sha256_present": true,
+          "content_based_suppression": false,
+          "engine_configuration_sha256_present": false,
+          "engine_environment_sha256_present": false,
+          "engine_model_sha256_present": false,
+          "input_hash_count": 2,
+          "output_sha256_present": true,
+          "path_outside_approved_library": true,
+          "promotion_state": "staged_candidate",
+          "prompt_hash_present": true,
+          "rights_decision": "pass",
+          "rights_decision_sha256_present": true,
+          "seed_present": true,
+          "selector_visible": false
+        },
+        "tracker_id": "TRK-W64-102"
+      },
+      {
+        "candidate_id": "gen_missing_seed_rejected",
+        "decision": {
+          "blocker_codes": [
+            "SEED_MISSING"
+          ],
+          "explanation": [
+            "route=reject_candidate",
+            "status=fail",
+            "reason=provenance_or_staging_gate_failure",
+            "blockers=['SEED_MISSING']",
+            "staging_is_evidence_boundary_not_content_suppression",
+            "selector_visibility_forbidden_until_promotion",
+            "library_authority=false",
+            "candidate_record_immutable=true"
+          ],
+          "product_completion": false,
+          "reason": "provenance_or_staging_gate_failure",
+          "route": "reject_candidate",
+          "row102_acceptance": "fixture_only",
+          "status": "fail"
+        },
+        "dependency_admissions": {
+          "TRK-W64-068": {
+            "blocker_codes": [],
+            "bytes": 4104,
+            "dependency_satisfied": true,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+            "row_complete": true,
+            "sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+            "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+            "tracker_id": "TRK-W64-068"
+          },
+          "TRK-W64-098": {
+            "blocker_codes": [
+              "TRK_W64_098_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 8805,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-098_DETERMINISTIC_SOUND_VARIATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "ff54ee3a83e140dda79d5c21f64de70fddf4e783fe9be281d459c08cce2a11b5",
+            "status": "HOLD_DEPENDENCIES_AND_DETERMINISTIC_VARIATION_RUNTIME_AUTHORITY_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE",
+            "tracker_id": "TRK-W64-098"
+          },
+          "TRK-W64-099": {
+            "blocker_codes": [
+              "TRK_W64_099_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 3426,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-099_NEURAL_TEXT_TO_AUDIO_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "a33304a765b31b99a558152453eb721ca6a048e9af6c03bef33aede578e11052",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_NEURAL_TEXT_TO_AUDIO_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-099"
+          },
+          "TRK-W64-100": {
+            "blocker_codes": [
+              "TRK_W64_100_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 12797,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-100_REFERENCE_AUDIO_VARIATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "6896ec803cd830168fa32c0499d0f61b96eeb91d833c4b6919bc74b1c9c24367",
+            "status": "HOLD_DEPENDENCIES_AND_REFERENCE_AUDIO_VARIATION_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-100"
+          },
+          "TRK-W64-101": {
+            "blocker_codes": [
+              "TRK_W64_101_DELTA_ABSENT"
+            ],
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-101_VIDEO_CONDITIONED_FOLEY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "status": "",
+            "tracker_id": "TRK-W64-101"
+          }
+        },
+        "evaluator_revision": "wave64_row102_generated_asset_provenance_evaluator_v0.1.0",
+        "gate_results": {
+          "engine_hashes": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "input_hashes": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "output_hash": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "prompt_hash": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "rights": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "seed": {
+            "reason_codes": [
+              "SEED_MISSING"
+            ],
+            "status": "fail"
+          },
+          "staging_boundary": {
+            "reason_codes": [],
+            "status": "pass"
+          }
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-102",
+        "library_authority": false,
+        "policy_revision": "wave64_row102_generated_asset_provenance_policy_v0.1.0",
+        "policy_sha256": "9b22d6943714c9c6648a8ec3096ff0f5be1caf0d20a51646185cd7263ed7e410",
+        "provenance_binding": {
+          "canonical_pcm_sha256": "6a7bda69ea2959cec826bfa6cc919fc66dc9bfb0680b51e4050689423dfae194",
+          "generated_asset_id": "gen_missing_seed_rejected",
+          "immutable": true,
+          "output_path": "staging/generated_candidates/missing_seed_rejected.wav",
+          "output_sha256": "4f78dd39d64c2db360ab47b7c5ef925bc7164b8de7f4ebfc423cba2b3e487727",
+          "promotion_state": "staged_candidate",
+          "qa_state": "not_run",
+          "rights_decision_sha256": "7cace1d18eefd392c5a1ca71f572021406f83ef3f466db7f519bd07e5e595235",
+          "structured_prompt_sha256": "58c349026843d635dd8dfd6a723497f49815b9f6e74f6aed7b9bc18cab295363"
+        },
+        "receipt_sha256": "e643b025fe150e80329834d8af9c47d31a7f77b1e767234c0d0a752a6fdfc40a",
+        "record_type": "generated_asset_provenance_staging_decision",
+        "required_gates": [
+          "input_hashes",
+          "prompt_hash",
+          "engine_hashes",
+          "seed",
+          "output_hash",
+          "rights",
+          "staging_boundary"
+        ],
+        "schema_version": "1.0.0",
+        "selector_visible": false,
+        "signals": {
+          "all_input_hashes_valid": true,
+          "canonical_pcm_sha256_present": true,
+          "content_based_suppression": false,
+          "engine_configuration_sha256_present": true,
+          "engine_environment_sha256_present": true,
+          "engine_model_sha256_present": true,
+          "input_hash_count": 2,
+          "output_sha256_present": true,
+          "path_outside_approved_library": true,
+          "promotion_state": "staged_candidate",
+          "prompt_hash_present": true,
+          "rights_decision": "pass",
+          "rights_decision_sha256_present": true,
+          "seed_present": false,
+          "selector_visible": false
+        },
+        "tracker_id": "TRK-W64-102"
+      },
+      {
+        "candidate_id": "gen_missing_output_hash_rejected",
+        "decision": {
+          "blocker_codes": [
+            "CANONICAL_PCM_HASH_MISSING",
+            "OUTPUT_HASH_MISSING"
+          ],
+          "explanation": [
+            "route=reject_candidate",
+            "status=fail",
+            "reason=provenance_or_staging_gate_failure",
+            "blockers=['CANONICAL_PCM_HASH_MISSING', 'OUTPUT_HASH_MISSING']",
+            "staging_is_evidence_boundary_not_content_suppression",
+            "selector_visibility_forbidden_until_promotion",
+            "library_authority=false",
+            "candidate_record_immutable=true"
+          ],
+          "product_completion": false,
+          "reason": "provenance_or_staging_gate_failure",
+          "route": "reject_candidate",
+          "row102_acceptance": "fixture_only",
+          "status": "fail"
+        },
+        "dependency_admissions": {
+          "TRK-W64-068": {
+            "blocker_codes": [],
+            "bytes": 4104,
+            "dependency_satisfied": true,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+            "row_complete": true,
+            "sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+            "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+            "tracker_id": "TRK-W64-068"
+          },
+          "TRK-W64-098": {
+            "blocker_codes": [
+              "TRK_W64_098_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 8805,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-098_DETERMINISTIC_SOUND_VARIATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "ff54ee3a83e140dda79d5c21f64de70fddf4e783fe9be281d459c08cce2a11b5",
+            "status": "HOLD_DEPENDENCIES_AND_DETERMINISTIC_VARIATION_RUNTIME_AUTHORITY_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE",
+            "tracker_id": "TRK-W64-098"
+          },
+          "TRK-W64-099": {
+            "blocker_codes": [
+              "TRK_W64_099_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 3426,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-099_NEURAL_TEXT_TO_AUDIO_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "a33304a765b31b99a558152453eb721ca6a048e9af6c03bef33aede578e11052",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_NEURAL_TEXT_TO_AUDIO_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-099"
+          },
+          "TRK-W64-100": {
+            "blocker_codes": [
+              "TRK_W64_100_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 12797,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-100_REFERENCE_AUDIO_VARIATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "6896ec803cd830168fa32c0499d0f61b96eeb91d833c4b6919bc74b1c9c24367",
+            "status": "HOLD_DEPENDENCIES_AND_REFERENCE_AUDIO_VARIATION_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-100"
+          },
+          "TRK-W64-101": {
+            "blocker_codes": [
+              "TRK_W64_101_DELTA_ABSENT"
+            ],
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-101_VIDEO_CONDITIONED_FOLEY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "status": "",
+            "tracker_id": "TRK-W64-101"
+          }
+        },
+        "evaluator_revision": "wave64_row102_generated_asset_provenance_evaluator_v0.1.0",
+        "gate_results": {
+          "engine_hashes": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "input_hashes": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "output_hash": {
+            "reason_codes": [
+              "CANONICAL_PCM_HASH_MISSING",
+              "OUTPUT_HASH_MISSING"
+            ],
+            "status": "fail"
+          },
+          "prompt_hash": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "rights": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "seed": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "staging_boundary": {
+            "reason_codes": [],
+            "status": "pass"
+          }
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-102",
+        "library_authority": false,
+        "policy_revision": "wave64_row102_generated_asset_provenance_policy_v0.1.0",
+        "policy_sha256": "9b22d6943714c9c6648a8ec3096ff0f5be1caf0d20a51646185cd7263ed7e410",
+        "provenance_binding": {
+          "canonical_pcm_sha256": null,
+          "generated_asset_id": "gen_missing_output_hash_rejected",
+          "immutable": true,
+          "output_path": "staging/generated_candidates/missing_output_hash_rejected.wav",
+          "output_sha256": null,
+          "promotion_state": "staged_candidate",
+          "qa_state": "not_run",
+          "rights_decision_sha256": "885321a9dbbf7c393cddbf098ac915d31f2faf898f892fbb3b9fc24e95dfcad5",
+          "structured_prompt_sha256": "7c19952f06ca3365d035424c3f8a1be90b292676df23549127223d3e66fb6a54"
+        },
+        "receipt_sha256": "1ada79effe910b9021000f7f52205518f4300ef0605319f52ecf9e05cbc2f166",
+        "record_type": "generated_asset_provenance_staging_decision",
+        "required_gates": [
+          "input_hashes",
+          "prompt_hash",
+          "engine_hashes",
+          "seed",
+          "output_hash",
+          "rights",
+          "staging_boundary"
+        ],
+        "schema_version": "1.0.0",
+        "selector_visible": false,
+        "signals": {
+          "all_input_hashes_valid": true,
+          "canonical_pcm_sha256_present": false,
+          "content_based_suppression": false,
+          "engine_configuration_sha256_present": true,
+          "engine_environment_sha256_present": true,
+          "engine_model_sha256_present": true,
+          "input_hash_count": 2,
+          "output_sha256_present": false,
+          "path_outside_approved_library": true,
+          "promotion_state": "staged_candidate",
+          "prompt_hash_present": true,
+          "rights_decision": "pass",
+          "rights_decision_sha256_present": true,
+          "seed_present": true,
+          "selector_visible": false
+        },
+        "tracker_id": "TRK-W64-102"
+      },
+      {
+        "candidate_id": "gen_rights_blocked_rejected",
+        "decision": {
+          "blocker_codes": [
+            "RIGHTS_DECISION_NOT_PASS"
+          ],
+          "explanation": [
+            "route=reject_candidate",
+            "status=fail",
+            "reason=provenance_or_staging_gate_failure",
+            "blockers=['RIGHTS_DECISION_NOT_PASS']",
+            "staging_is_evidence_boundary_not_content_suppression",
+            "selector_visibility_forbidden_until_promotion",
+            "library_authority=false",
+            "candidate_record_immutable=true"
+          ],
+          "product_completion": false,
+          "reason": "provenance_or_staging_gate_failure",
+          "route": "reject_candidate",
+          "row102_acceptance": "fixture_only",
+          "status": "fail"
+        },
+        "dependency_admissions": {
+          "TRK-W64-068": {
+            "blocker_codes": [],
+            "bytes": 4104,
+            "dependency_satisfied": true,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+            "row_complete": true,
+            "sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+            "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+            "tracker_id": "TRK-W64-068"
+          },
+          "TRK-W64-098": {
+            "blocker_codes": [
+              "TRK_W64_098_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 8805,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-098_DETERMINISTIC_SOUND_VARIATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "ff54ee3a83e140dda79d5c21f64de70fddf4e783fe9be281d459c08cce2a11b5",
+            "status": "HOLD_DEPENDENCIES_AND_DETERMINISTIC_VARIATION_RUNTIME_AUTHORITY_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE",
+            "tracker_id": "TRK-W64-098"
+          },
+          "TRK-W64-099": {
+            "blocker_codes": [
+              "TRK_W64_099_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 3426,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-099_NEURAL_TEXT_TO_AUDIO_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "a33304a765b31b99a558152453eb721ca6a048e9af6c03bef33aede578e11052",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_NEURAL_TEXT_TO_AUDIO_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-099"
+          },
+          "TRK-W64-100": {
+            "blocker_codes": [
+              "TRK_W64_100_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 12797,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-100_REFERENCE_AUDIO_VARIATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "6896ec803cd830168fa32c0499d0f61b96eeb91d833c4b6919bc74b1c9c24367",
+            "status": "HOLD_DEPENDENCIES_AND_REFERENCE_AUDIO_VARIATION_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-100"
+          },
+          "TRK-W64-101": {
+            "blocker_codes": [
+              "TRK_W64_101_DELTA_ABSENT"
+            ],
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-101_VIDEO_CONDITIONED_FOLEY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "status": "",
+            "tracker_id": "TRK-W64-101"
+          }
+        },
+        "evaluator_revision": "wave64_row102_generated_asset_provenance_evaluator_v0.1.0",
+        "gate_results": {
+          "engine_hashes": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "input_hashes": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "output_hash": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "prompt_hash": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "rights": {
+            "reason_codes": [
+              "RIGHTS_DECISION_NOT_PASS"
+            ],
+            "status": "fail"
+          },
+          "seed": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "staging_boundary": {
+            "reason_codes": [],
+            "status": "pass"
+          }
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-102",
+        "library_authority": false,
+        "policy_revision": "wave64_row102_generated_asset_provenance_policy_v0.1.0",
+        "policy_sha256": "9b22d6943714c9c6648a8ec3096ff0f5be1caf0d20a51646185cd7263ed7e410",
+        "provenance_binding": {
+          "canonical_pcm_sha256": "745192237a51e64c1fe2096f02b1f4038788fbf4d08e54eff04d7850b35815fc",
+          "generated_asset_id": "gen_rights_blocked_rejected",
+          "immutable": true,
+          "output_path": "staging/generated_candidates/rights_blocked_rejected.wav",
+          "output_sha256": "1dd74e095f7a5d18f2e10af2dc3106065c778a072460ec52ae8ad0caf4040083",
+          "promotion_state": "staged_candidate",
+          "qa_state": "not_run",
+          "rights_decision_sha256": "cab6bb2203964c64cc6d3d66d6aab06f657d4c8a73e720b91773c17aa77a00a8",
+          "structured_prompt_sha256": "3ab33a39cd59538bd9ac4c1051baab7a75948e0175774d154af33318b6168da9"
+        },
+        "receipt_sha256": "67484ee753c6e37cf8da80216e28488cd697b3e630544c6fa818cfdb179944d1",
+        "record_type": "generated_asset_provenance_staging_decision",
+        "required_gates": [
+          "input_hashes",
+          "prompt_hash",
+          "engine_hashes",
+          "seed",
+          "output_hash",
+          "rights",
+          "staging_boundary"
+        ],
+        "schema_version": "1.0.0",
+        "selector_visible": false,
+        "signals": {
+          "all_input_hashes_valid": true,
+          "canonical_pcm_sha256_present": true,
+          "content_based_suppression": false,
+          "engine_configuration_sha256_present": true,
+          "engine_environment_sha256_present": true,
+          "engine_model_sha256_present": true,
+          "input_hash_count": 2,
+          "output_sha256_present": true,
+          "path_outside_approved_library": true,
+          "promotion_state": "staged_candidate",
+          "prompt_hash_present": true,
+          "rights_decision": "blocked",
+          "rights_decision_sha256_present": true,
+          "seed_present": true,
+          "selector_visible": false
+        },
+        "tracker_id": "TRK-W64-102"
+      },
+      {
+        "candidate_id": "gen_selector_visible_boundary_rejected",
+        "decision": {
+          "blocker_codes": [
+            "SELECTOR_VISIBLE_BEFORE_PROMOTION"
+          ],
+          "explanation": [
+            "route=reject_candidate",
+            "status=fail",
+            "reason=provenance_or_staging_gate_failure",
+            "blockers=['SELECTOR_VISIBLE_BEFORE_PROMOTION']",
+            "staging_is_evidence_boundary_not_content_suppression",
+            "selector_visibility_forbidden_until_promotion",
+            "library_authority=false",
+            "candidate_record_immutable=true"
+          ],
+          "product_completion": false,
+          "reason": "provenance_or_staging_gate_failure",
+          "route": "reject_candidate",
+          "row102_acceptance": "fixture_only",
+          "status": "fail"
+        },
+        "dependency_admissions": {
+          "TRK-W64-068": {
+            "blocker_codes": [],
+            "bytes": 4104,
+            "dependency_satisfied": true,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+            "row_complete": true,
+            "sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+            "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+            "tracker_id": "TRK-W64-068"
+          },
+          "TRK-W64-098": {
+            "blocker_codes": [
+              "TRK_W64_098_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 8805,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-098_DETERMINISTIC_SOUND_VARIATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "ff54ee3a83e140dda79d5c21f64de70fddf4e783fe9be281d459c08cce2a11b5",
+            "status": "HOLD_DEPENDENCIES_AND_DETERMINISTIC_VARIATION_RUNTIME_AUTHORITY_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE",
+            "tracker_id": "TRK-W64-098"
+          },
+          "TRK-W64-099": {
+            "blocker_codes": [
+              "TRK_W64_099_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 3426,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-099_NEURAL_TEXT_TO_AUDIO_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "a33304a765b31b99a558152453eb721ca6a048e9af6c03bef33aede578e11052",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_NEURAL_TEXT_TO_AUDIO_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-099"
+          },
+          "TRK-W64-100": {
+            "blocker_codes": [
+              "TRK_W64_100_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 12797,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-100_REFERENCE_AUDIO_VARIATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "6896ec803cd830168fa32c0499d0f61b96eeb91d833c4b6919bc74b1c9c24367",
+            "status": "HOLD_DEPENDENCIES_AND_REFERENCE_AUDIO_VARIATION_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-100"
+          },
+          "TRK-W64-101": {
+            "blocker_codes": [
+              "TRK_W64_101_DELTA_ABSENT"
+            ],
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-101_VIDEO_CONDITIONED_FOLEY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "status": "",
+            "tracker_id": "TRK-W64-101"
+          }
+        },
+        "evaluator_revision": "wave64_row102_generated_asset_provenance_evaluator_v0.1.0",
+        "gate_results": {
+          "engine_hashes": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "input_hashes": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "output_hash": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "prompt_hash": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "rights": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "seed": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "staging_boundary": {
+            "reason_codes": [
+              "SELECTOR_VISIBLE_BEFORE_PROMOTION"
+            ],
+            "status": "fail"
+          }
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-102",
+        "library_authority": false,
+        "policy_revision": "wave64_row102_generated_asset_provenance_policy_v0.1.0",
+        "policy_sha256": "9b22d6943714c9c6648a8ec3096ff0f5be1caf0d20a51646185cd7263ed7e410",
+        "provenance_binding": {
+          "canonical_pcm_sha256": "3570834c566b1301d0a5232ccce81d3c7b602c0dd4073391c99082508a4b5487",
+          "generated_asset_id": "gen_selector_visible_boundary_rejected",
+          "immutable": true,
+          "output_path": "staging/generated_candidates/selector_visible_boundary_rejected.wav",
+          "output_sha256": "18341d718149d45ec85dc83730e1d0a4945dae1bf3c05bda2a6b518531d318f8",
+          "promotion_state": "staged_candidate",
+          "qa_state": "not_run",
+          "rights_decision_sha256": "d137c8c45d81bf53ad4ecd0800085db37d542966096da7016b3254ac9a625973",
+          "structured_prompt_sha256": "ceda167150f616e9e114e24d23484dfb4056aa2bac3391dd3e1f7003f793d246"
+        },
+        "receipt_sha256": "454a4caaa084c8db2a2bd2ed670393b9a61dadd1b69d3f97afe60ee33e2b1423",
+        "record_type": "generated_asset_provenance_staging_decision",
+        "required_gates": [
+          "input_hashes",
+          "prompt_hash",
+          "engine_hashes",
+          "seed",
+          "output_hash",
+          "rights",
+          "staging_boundary"
+        ],
+        "schema_version": "1.0.0",
+        "selector_visible": true,
+        "signals": {
+          "all_input_hashes_valid": true,
+          "canonical_pcm_sha256_present": true,
+          "content_based_suppression": false,
+          "engine_configuration_sha256_present": true,
+          "engine_environment_sha256_present": true,
+          "engine_model_sha256_present": true,
+          "input_hash_count": 2,
+          "output_sha256_present": true,
+          "path_outside_approved_library": true,
+          "promotion_state": "staged_candidate",
+          "prompt_hash_present": true,
+          "rights_decision": "pass",
+          "rights_decision_sha256_present": true,
+          "seed_present": true,
+          "selector_visible": true
+        },
+        "tracker_id": "TRK-W64-102"
+      },
+      {
+        "candidate_id": "gen_approved_library_path_boundary_rejected",
+        "decision": {
+          "blocker_codes": [
+            "APPROVED_LIBRARY_PATH_BEFORE_PROMOTION"
+          ],
+          "explanation": [
+            "route=reject_candidate",
+            "status=fail",
+            "reason=provenance_or_staging_gate_failure",
+            "blockers=['APPROVED_LIBRARY_PATH_BEFORE_PROMOTION']",
+            "staging_is_evidence_boundary_not_content_suppression",
+            "selector_visibility_forbidden_until_promotion",
+            "library_authority=false",
+            "candidate_record_immutable=true"
+          ],
+          "product_completion": false,
+          "reason": "provenance_or_staging_gate_failure",
+          "route": "reject_candidate",
+          "row102_acceptance": "fixture_only",
+          "status": "fail"
+        },
+        "dependency_admissions": {
+          "TRK-W64-068": {
+            "blocker_codes": [],
+            "bytes": 4104,
+            "dependency_satisfied": true,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+            "row_complete": true,
+            "sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+            "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+            "tracker_id": "TRK-W64-068"
+          },
+          "TRK-W64-098": {
+            "blocker_codes": [
+              "TRK_W64_098_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 8805,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-098_DETERMINISTIC_SOUND_VARIATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "ff54ee3a83e140dda79d5c21f64de70fddf4e783fe9be281d459c08cce2a11b5",
+            "status": "HOLD_DEPENDENCIES_AND_DETERMINISTIC_VARIATION_RUNTIME_AUTHORITY_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE",
+            "tracker_id": "TRK-W64-098"
+          },
+          "TRK-W64-099": {
+            "blocker_codes": [
+              "TRK_W64_099_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 3426,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-099_NEURAL_TEXT_TO_AUDIO_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "a33304a765b31b99a558152453eb721ca6a048e9af6c03bef33aede578e11052",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_NEURAL_TEXT_TO_AUDIO_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-099"
+          },
+          "TRK-W64-100": {
+            "blocker_codes": [
+              "TRK_W64_100_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 12797,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-100_REFERENCE_AUDIO_VARIATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "6896ec803cd830168fa32c0499d0f61b96eeb91d833c4b6919bc74b1c9c24367",
+            "status": "HOLD_DEPENDENCIES_AND_REFERENCE_AUDIO_VARIATION_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-100"
+          },
+          "TRK-W64-101": {
+            "blocker_codes": [
+              "TRK_W64_101_DELTA_ABSENT"
+            ],
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-101_VIDEO_CONDITIONED_FOLEY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "status": "",
+            "tracker_id": "TRK-W64-101"
+          }
+        },
+        "evaluator_revision": "wave64_row102_generated_asset_provenance_evaluator_v0.1.0",
+        "gate_results": {
+          "engine_hashes": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "input_hashes": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "output_hash": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "prompt_hash": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "rights": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "seed": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "staging_boundary": {
+            "reason_codes": [
+              "APPROVED_LIBRARY_PATH_BEFORE_PROMOTION"
+            ],
+            "status": "fail"
+          }
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-102",
+        "library_authority": false,
+        "policy_revision": "wave64_row102_generated_asset_provenance_policy_v0.1.0",
+        "policy_sha256": "9b22d6943714c9c6648a8ec3096ff0f5be1caf0d20a51646185cd7263ed7e410",
+        "provenance_binding": {
+          "canonical_pcm_sha256": "6baefa30fd7dc3c919b6fc72dd9b95ea207b5c4c49e0dd1faa2f68a1e8a85cae",
+          "generated_asset_id": "gen_approved_library_path_boundary_rejected",
+          "immutable": true,
+          "output_path": "library/approved/generated/footstep.wav",
+          "output_sha256": "bd71cb71134a4390d327c6d4b420e89f480c28c0c0acd88f1b858bb9635a3292",
+          "promotion_state": "staged_candidate",
+          "qa_state": "not_run",
+          "rights_decision_sha256": "9f42f32032a0efb7edf4b38946eb2c87305e3016d2485c301686b51d47cd6b00",
+          "structured_prompt_sha256": "7327d3cac03e70341ce0bd73cf02f8bcd4e3bcbbb2193d48684b22033525e492"
+        },
+        "receipt_sha256": "10a7adb26183d9cd90437bd904309cb6d05cccebe02a9f1726f3b38028b4f7ae",
+        "record_type": "generated_asset_provenance_staging_decision",
+        "required_gates": [
+          "input_hashes",
+          "prompt_hash",
+          "engine_hashes",
+          "seed",
+          "output_hash",
+          "rights",
+          "staging_boundary"
+        ],
+        "schema_version": "1.0.0",
+        "selector_visible": false,
+        "signals": {
+          "all_input_hashes_valid": true,
+          "canonical_pcm_sha256_present": true,
+          "content_based_suppression": false,
+          "engine_configuration_sha256_present": true,
+          "engine_environment_sha256_present": true,
+          "engine_model_sha256_present": true,
+          "input_hash_count": 2,
+          "output_sha256_present": true,
+          "path_outside_approved_library": false,
+          "promotion_state": "staged_candidate",
+          "prompt_hash_present": true,
+          "rights_decision": "pass",
+          "rights_decision_sha256_present": true,
+          "seed_present": true,
+          "selector_visible": false
+        },
+        "tracker_id": "TRK-W64-102"
+      },
+      {
+        "candidate_id": "gen_content_suppression_rejected",
+        "decision": {
+          "blocker_codes": [
+            "CONTENT_BASED_SUPPRESSION_FORBIDDEN"
+          ],
+          "explanation": [
+            "route=reject_candidate",
+            "status=fail",
+            "reason=provenance_or_staging_gate_failure",
+            "blockers=['CONTENT_BASED_SUPPRESSION_FORBIDDEN']",
+            "staging_is_evidence_boundary_not_content_suppression",
+            "selector_visibility_forbidden_until_promotion",
+            "library_authority=false",
+            "candidate_record_immutable=true"
+          ],
+          "product_completion": false,
+          "reason": "provenance_or_staging_gate_failure",
+          "route": "reject_candidate",
+          "row102_acceptance": "fixture_only",
+          "status": "fail"
+        },
+        "dependency_admissions": {
+          "TRK-W64-068": {
+            "blocker_codes": [],
+            "bytes": 4104,
+            "dependency_satisfied": true,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+            "row_complete": true,
+            "sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+            "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+            "tracker_id": "TRK-W64-068"
+          },
+          "TRK-W64-098": {
+            "blocker_codes": [
+              "TRK_W64_098_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 8805,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-098_DETERMINISTIC_SOUND_VARIATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "ff54ee3a83e140dda79d5c21f64de70fddf4e783fe9be281d459c08cce2a11b5",
+            "status": "HOLD_DEPENDENCIES_AND_DETERMINISTIC_VARIATION_RUNTIME_AUTHORITY_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE",
+            "tracker_id": "TRK-W64-098"
+          },
+          "TRK-W64-099": {
+            "blocker_codes": [
+              "TRK_W64_099_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 3426,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-099_NEURAL_TEXT_TO_AUDIO_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "a33304a765b31b99a558152453eb721ca6a048e9af6c03bef33aede578e11052",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_NEURAL_TEXT_TO_AUDIO_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-099"
+          },
+          "TRK-W64-100": {
+            "blocker_codes": [
+              "TRK_W64_100_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 12797,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-100_REFERENCE_AUDIO_VARIATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "6896ec803cd830168fa32c0499d0f61b96eeb91d833c4b6919bc74b1c9c24367",
+            "status": "HOLD_DEPENDENCIES_AND_REFERENCE_AUDIO_VARIATION_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-100"
+          },
+          "TRK-W64-101": {
+            "blocker_codes": [
+              "TRK_W64_101_DELTA_ABSENT"
+            ],
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-101_VIDEO_CONDITIONED_FOLEY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "status": "",
+            "tracker_id": "TRK-W64-101"
+          }
+        },
+        "evaluator_revision": "wave64_row102_generated_asset_provenance_evaluator_v0.1.0",
+        "gate_results": {
+          "engine_hashes": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "input_hashes": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "output_hash": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "prompt_hash": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "rights": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "seed": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "staging_boundary": {
+            "reason_codes": [
+              "CONTENT_BASED_SUPPRESSION_FORBIDDEN"
+            ],
+            "status": "fail"
+          }
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-102",
+        "library_authority": false,
+        "policy_revision": "wave64_row102_generated_asset_provenance_policy_v0.1.0",
+        "policy_sha256": "9b22d6943714c9c6648a8ec3096ff0f5be1caf0d20a51646185cd7263ed7e410",
+        "provenance_binding": {
+          "canonical_pcm_sha256": "f11c6bdf8b0fbfc15819378ccfc8f2f7b370c9de823f349deaba6e45ecc4e723",
+          "generated_asset_id": "gen_content_suppression_rejected",
+          "immutable": true,
+          "output_path": "staging/generated_candidates/content_suppression_rejected.wav",
+          "output_sha256": "d5ee86dcb7a8024b19e0488c3bb705e33f42b1ab60b1a654c1d62db73f9c3ecf",
+          "promotion_state": "staged_candidate",
+          "qa_state": "not_run",
+          "rights_decision_sha256": "cfb799d1dd18a95fc8e7d51a634b32f9dced98d052bfce63c4f860d7631c0ddd",
+          "structured_prompt_sha256": "4f28fb7cb9887fac955406d8b50b99a9df7b370c272722ec3f92825df3cbd029"
+        },
+        "receipt_sha256": "2635a1bbbf7fddb62a58ba1993901f68211df3d48ca4f561249ce726c665c8ce",
+        "record_type": "generated_asset_provenance_staging_decision",
+        "required_gates": [
+          "input_hashes",
+          "prompt_hash",
+          "engine_hashes",
+          "seed",
+          "output_hash",
+          "rights",
+          "staging_boundary"
+        ],
+        "schema_version": "1.0.0",
+        "selector_visible": false,
+        "signals": {
+          "all_input_hashes_valid": true,
+          "canonical_pcm_sha256_present": true,
+          "content_based_suppression": true,
+          "engine_configuration_sha256_present": true,
+          "engine_environment_sha256_present": true,
+          "engine_model_sha256_present": true,
+          "input_hash_count": 2,
+          "output_sha256_present": true,
+          "path_outside_approved_library": true,
+          "promotion_state": "staged_candidate",
+          "prompt_hash_present": true,
+          "rights_decision": "pass",
+          "rights_decision_sha256_present": true,
+          "seed_present": true,
+          "selector_visible": false
+        },
+        "tracker_id": "TRK-W64-102"
+      }
+    ]
+  },
+  "implementation_completion_claimed": false,
+  "item_id": "ITEM-W64-102",
+  "library_authority": false,
+  "policy_registry": {
+    "authority": "planning_freeze_not_library_acceptance",
+    "path": "Plan/10_REGISTRIES/wave64_row102_generated_asset_provenance_policy_registry.json",
+    "revision": "wave64_row102_generated_asset_provenance_policy_v0.1.0",
+    "sha256": "9b22d6943714c9c6648a8ec3096ff0f5be1caf0d20a51646185cd7263ed7e410"
+  },
+  "policy_revision": "wave64_row102_generated_asset_provenance_policy_v0.1.0",
+  "provenance_schema": {
+    "path": "Plan/08_SCHEMAS/generated_audio_asset_provenance.schema.json",
+    "sha256": "ba6f8b99c676812c0f9f78e4db63b136f5bb1c52802b545ce1a3b201d3c5a702"
+  },
+  "required_gates": [
+    "input_hashes",
+    "prompt_hash",
+    "engine_hashes",
+    "seed",
+    "output_hash",
+    "rights",
+    "staging_boundary"
+  ],
+  "row_complete": false,
+  "runtime_completion_claimed": false,
+  "schema": {
+    "path": "Plan/08_SCHEMAS/generated_asset_provenance_staging_decision.schema.json",
+    "sha256": "33ea6b81ef22bcabec83817742677a5219e086e606cd766bdb70652e4961072c"
+  },
+  "schema_version": "1.0.0",
+  "status": "HOLD_DEPENDENCIES_AND_GENERATED_ASSET_STAGING_RUNTIME_ABSENT",
+  "tracker_id": "TRK-W64-102"
+}

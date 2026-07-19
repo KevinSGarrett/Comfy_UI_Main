@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "wave64_row102_generated_asset_provenance_policy_registry",
+  "revision": "wave64_row102_generated_asset_provenance_policy_v0.1.0",
+  "tracker_id": "TRK-W64-102",
+  "authority": "planning_freeze_not_library_acceptance",
+  "notes": [
+    "Frozen generated-asset provenance and candidate-staging policy for Row102 synthetic fixture calibration and fail-closed library hold.",
+    "Every staged candidate must bind input, prompt, engine, seed, output, and rights hashes; staging is an evidence boundary, not content suppression.",
+    "No staged candidate may become selector-visible or land under an approved-library path before Row104 promotion authority exists.",
+    "This registry does not accept library completion or substitute for Rows098/099/100/101 generation-route authority."
+  ],
+  "required_gates": [
+    "input_hashes",
+    "prompt_hash",
+    "engine_hashes",
+    "seed",
+    "output_hash",
+    "rights",
+    "staging_boundary"
+  ],
+  "staging_rules": {
+    "allowed_promotion_states_for_stage": ["staged_candidate", "rejected"],
+    "forbidden_promotion_states_for_stage": ["promoted"],
+    "content_based_suppression_must_be_false": true,
+    "selector_visibility_forbidden_until_promotion": true,
+    "approved_library_path_prefixes": [
+      "library/approved/",
+      "audio_library/approved/",
+      "models/audio/approved/"
+    ],
+    "staging_path_prefixes": [
+      "staging/generated_candidates/",
+      "candidates/generated/"
+    ]
+  },
+  "fail_closed": {
+    "library_authority_requires_dependencies": true,
+    "missing_input_hashes_rejected": true,
+    "missing_prompt_hash_rejected": true,
+    "missing_engine_hashes_rejected": true,
+    "missing_seed_rejected": true,
+    "missing_output_hashes_rejected": true,
+    "rights_non_pass_rejected": true,
+    "selector_visible_staged_candidate_rejected": true,
+    "approved_library_path_before_promotion_rejected": true,
+    "content_based_suppression_rejected": true,
+    "candidate_records_immutable": true
+  },
+  "dependency_prerequisites": [
+    "TRK-W64-068",
+    "TRK-W64-098",
+    "TRK-W64-099",
+    "TRK-W64-100",
+    "TRK-W64-101"
+  ]
+}
