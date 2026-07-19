@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ROW017-LOCAL-MF70-PUPILS-IRIS-SCLERA-VISUAL-QA-20260719T174110-0500",
+  "created_at": "2026-07-19T17:47:50-05:00",
+  "tracker_id": "TRK-W64-017",
+  "item_id": "ITEM-W64-017",
+  "localized_region": "pupils_iris_sclera",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+  "qa_decision": "pass_bounded_localized_pupils_iris_sclera_runtime_candidate",
+  "overall_decision": "pass",
+  "local_only": true,
+  "direct_visual_inspection": true,
+  "fixture_only": false,
+  "generation_executed": true,
+  "runtime_receipt": "Plan\\\\Instructions\\\\Operations\\\\Pulled_Back_Artifacts\\\\local_comfyui_row017_mf70_pupils_iris_sclera_20260719T174110-0500\\\\LOCAL_RUNTIME_RECEIPT.json",
+  "source": {
+    "path": "ComfyUI\\\\input\\\\wave70_mf70_face_identity_source_canny_v3.png",
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d"
+  },
+  "artifact": {
+    "path": "Plan\\\\Instructions\\\\Operations\\\\Pulled_Back_Artifacts\\\\local_comfyui_row017_mf70_pupils_iris_sclera_20260719T174110-0500\\\\images\\\\codex_row017_mf70_pupils_iris_sclera_20260719T174110-0500_00001_.png",
+    "sha256": "4d7f78a7927f0e690c4ef8af5bc51018df449d0cf3a8945dfc3baed26213c2b8"
+  },
+  "comparison_panel": {
+    "path": "Plan\\\\Instructions\\\\Operations\\\\Pulled_Back_Artifacts\\\\local_comfyui_row017_mf70_pupils_iris_sclera_20260719T174110-0500\\\\images\\\\qa_full_side_by_side.png",
+    "sha256": "ca6ca34fb05fdb42f6e01e5fc55f6f71c6c6001294cec2a097aa800b14c666f3"
+  },
+  "difference_metrics": {
+    "full_image_diff_bbox": [
+      258,
+      310,
+      503,
+      331
+    ],
+    "mean_rgb_abs_diff": [
+      0.0001,
+      0.0001,
+      0.0001
+    ],
+    "rms_rgb_abs_diff": [
+      0.0018,
+      0.0017,
+      0.0016
+    ],
+    "changed_pixels": 1748
+  },
+  "whole_frame_findings": [
+    "Fresh local ComfyUI pupils_iris_sclera masked inpaint (seed 8827415536, RealVisXL baked VAE, denoise 0.035, FeatherMask 16px, v3 source-aperture mask) completed successfully.",
+    "Whole-frame identity, gaze, eyelid folds, eyelashes, brows, hair silhouette/occlusion, cream blazer, lighting, and gray background remain stable versus Canny v3 source.",
+    "Pixel delta is tightly localized to the bilateral eye-aperture band [258,310,503,331]; iris color/pupil size/sclera tone/catchlights remain coherent with no doll-eye, glassy-eye, red-eye, or mismatched-eye defect.",
+    "No eyelid deformation, eyelash mutation, eyebrow shift, hair-occlusion change, skin-tone seam, or clothing/background regression observed.",
+    "Hands not in frame; no clothing/background/lighting regression observed."
+  ],
+  "global_defects": [],
+  "promotion_authorized": false,
+  "row_complete": false,
+  "ec2": "EC2_DEFERRED",
+  "docker_cvat": "not-needed",
+  "notes": [
+    "Prior fluid tear-state reject and eyes_full_v3b reject remain truthful and separate.",
+    "Does not complete historical Row017 normalization backlog.",
+    "Wave70 mask promotion gate remains blocked; this is Row017 whole-frame canonicalization evidence only."
+  ]
+}
