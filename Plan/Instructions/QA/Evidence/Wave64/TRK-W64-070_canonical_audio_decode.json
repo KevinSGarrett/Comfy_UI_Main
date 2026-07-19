@@ -1,8 +1,36 @@
 {
+  "accepted_index_strata_runtime": {
+    "authority": "accepted_index_strata_bounded",
+    "decode_blocked": 3,
+    "decode_failed": 0,
+    "decode_pass": 6,
+    "index_sha256": "7301243a364025dbd23907aee20ee8593d5897caa83d38391026ad42da6d17ec",
+    "library_authority": false,
+    "non_wav_extensions_selected": [
+      ".flac",
+      ".mp3",
+      ".ogg"
+    ],
+    "proof_tier": "RUNTIME_PASS_BOUNDED",
+    "receipt_path": "runtime_artifacts/audio_decode/row070_index_strata_20260719/index_strata_receipt.json",
+    "receipt_sha256": "2868e448b7843c16053cc6d0a64e06ee1b1183dfcf83f5e7c9c60c67f5a4afa6",
+    "sources_attempted": 9,
+    "summary_bytes": 12079,
+    "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_ACCEPTED_INDEX_STRATA_BOUNDED_RUNTIME_SUMMARY_20260719.json",
+    "summary_sha256": "dc8bd10a09b657ffd26c432206c26d4f75ef69b50e9667e3c99222fc69254c83",
+    "wav_roles_selected": [
+      "body",
+      "clothing",
+      "effects",
+      "evaluation",
+      "furniture",
+      "voice"
+    ]
+  },
   "blocker_codes": [
-    "ROW069_DEPENDENCY_NOT_ACCEPTED",
     "FULL_LIBRARY_RUNTIME_RECORD_ABSENT",
-    "SOURCE_IMMUTABILITY_FULL_LIBRARY_FINGERPRINT_ABSENT"
+    "SOURCE_IMMUTABILITY_FULL_LIBRARY_FINGERPRINT_ABSENT",
+    "NON_WAV_CODEC_COVERAGE_ABSENT"
   ],
   "bounded_live_pcm_runtime": {
     "authority": "bounded_non_library",
@@ -30,7 +58,7 @@
     "product_completion": false,
     "row070_acceptance": "held",
     "runtime_completion": false,
-    "safe_next_action": "Bounded live PCM decode runtime is proven for a fixture+speech+foley sample. Accept or advance Row069 index authority, then extend Row070 library mode across the accepted index, decode or exact-block every asset beyond PCM WAV, and only then consider Row070 acceptance.",
+    "safe_next_action": "Expand accepted-index decode from strata sample toward full retained-index coverage (decode PASS or exact blocker per record), add non-WAV decoder coverage beyond exact blockers, and prove full-library source immutability before Row070 acceptance. Do not claim COMPLETE without full-library runtime.",
     "status": "blocked"
   },
   "decoder_revision": "wave64_row070_canonical_pcm_v0.1.0",
@@ -166,21 +194,19 @@
   "item_id": "ITEM-W64-070",
   "library_authority": false,
   "row069_admission": {
-    "blocker_codes": [
-      "ROW069_DEPENDENCY_NOT_ACCEPTED"
-    ],
-    "bytes": 9884,
-    "dependency_satisfied": false,
+    "blocker_codes": [],
+    "bytes": 9834,
+    "dependency_satisfied": true,
     "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-069_FULL_AUDIO_LIBRARY_INDEX_CURRENT_DELTA_20260719.json",
-    "row_complete": false,
-    "sha256": "442e975858bc41cebb5182d3cf4b0d2de1f6430637a5e5ea592d14af454f679c",
-    "status": "HOLD_BYTE_HASH_AND_RESUME_PROOFS_PRESENT_LIBRARY_AUTHORITY_STILL_HELD"
+    "row_complete": true,
+    "sha256": "3e506435f7ebe0a1e4efcd32f308c4e46f2bcc100158a9c14b9d454c612d9f7f",
+    "status": "PASS_LIBRARY_INDEX_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION"
   },
   "row_complete": false,
   "runtime_completion_claimed": false,
   "schema_version": "1.0.0",
-  "source_commit": "4e1012e6aa08ee2c74bcc0bf04eb52d5d08c1472",
-  "status": "HOLD_LIBRARY_AUTHORITY_WITH_BOUNDED_LIVE_PCM_RUNTIME_PASS",
+  "source_commit": "ac9f64e5",
+  "status": "HOLD_FULL_LIBRARY_DECODE_WITH_ACCEPTED_INDEX_STRATA_BOUNDED_RUNTIME",
   "tracker_id": "TRK-W64-070",
-  "updated_at": "2026-07-19T21:14:30Z"
+  "updated_at": "2026-07-19T21:40:04Z"
 }

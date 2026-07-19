@@ -12,8 +12,10 @@ import argparse
 import hashlib
 import json
 import math
+import os
 import struct
 import wave
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -28,10 +30,22 @@ DEFAULT_EVIDENCE = Path(
 ROW069_DELTA = Path(
     "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-069_FULL_AUDIO_LIBRARY_INDEX_CURRENT_DELTA_20260719.json"
 )
+INDEX_REGISTRY = Path("Plan/10_REGISTRIES/audio_pack_functional_index_registry.json")
 DECODER_REVISION = "wave64_row070_canonical_pcm_v0.1.0"
 TRACKER_ID = "TRK-W64-070"
 ITEM_ID = "ITEM-W64-070"
 SCHEMA_VERSION = "1.0.0"
+INDEX_STRATA_WAV_ROLES = (
+    "body",
+    "effects",
+    "evaluation",
+    "clothing",
+    "voice",
+    "furniture",
+)
+INDEX_STRATA_NON_WAV_EXTENSIONS = (".mp3", ".flac", ".ogg")
+INDEX_STRATA_WAV_MIN_BYTES = 8_000
+INDEX_STRATA_WAV_MAX_BYTES = 2_000_000
 
 CANONICAL_PCM_CONTRACT: dict[str, str] = {
     "sample_format": "ieee_float32",
@@ -58,15 +72,30 @@ def sha256_bytes(payload: bytes) -> str:
     return hashlib.sha256(payload).hexdigest()
 
 
+def _io_path(path: Path) -> Path:
+    absolute = str(path.absolute())
+    if os.name == "nt" and not absolute.startswith("\\\\?\\"):
+        return Path("\\\\?\\" + absolute)
+    return path
+
+
 def sha256_file(path: Path) -> str:
     digest = hashlib.sha256()
-    with path.open("rb") as handle:
+    with _io_path(path).open("rb") as handle:
         while True:
             chunk = handle.read(1024 * 1024)
             if not chunk:
                 break
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def path_is_file(path: Path) -> bool:
+    return _io_path(path).is_file()
+
+
+def path_size(path: Path) -> int:
+    return _io_path(path).stat().st_size
 
 
 def load_json(path: Path) -> Any:
@@ -292,7 +321,7 @@ def _frames_to_channels(
 
 def decode_wav_file(root: Path, source: Path, *, asset_id: str | None = None) -> dict[str, Any]:
     path = source if source.is_absolute() else resolve_under(root, source, "source")
-    if not path.is_file():
+    if not path_is_file(path):
         return build_record(
             asset_id=asset_id or path.name,
             source_path=str(path),
@@ -317,7 +346,7 @@ def decode_wav_file(root: Path, source: Path, *, asset_id: str | None = None) ->
         )
 
     before_sha = sha256_file(path)
-    before_bytes = path.stat().st_size
+    before_bytes = path_size(path)
     suffix = path.suffix.lower()
     if suffix != ".wav":
         return build_record(
@@ -349,7 +378,7 @@ def decode_wav_file(root: Path, source: Path, *, asset_id: str | None = None) ->
         )
 
     try:
-        with wave.open(str(path), "rb") as handle:
+        with wave.open(str(_io_path(path)), "rb") as handle:
             channels = handle.getnchannels()
             sample_width = handle.getsampwidth()
             sample_rate_hz = handle.getframerate()
@@ -384,7 +413,7 @@ def decode_wav_file(root: Path, source: Path, *, asset_id: str | None = None) ->
         )
 
     after_sha = sha256_file(path)
-    source_immutable = after_sha == before_sha and path.stat().st_size == before_bytes
+    source_immutable = after_sha == before_sha and path_size(path) == before_bytes
     rel_path = (
         str(path.relative_to(root)).replace("\\", "/")
         if root.resolve() in path.resolve().parents
@@ -548,16 +577,317 @@ def decode_fixture_record(root: Path, fixture_dir: Path) -> dict[str, Any]:
     return record
 
 
-def build_library_blocker_packet(root: Path) -> dict[str, Any]:
+def load_active_index_locator(root: Path) -> dict[str, Any]:
+    registry = load_json(resolve_under(root, INDEX_REGISTRY, "index_registry"))
+    active = registry.get("active_index")
+    if not isinstance(active, dict):
+        raise CanonicalDecodeError("active_index_absent")
+    runtime_rel = str(active.get("runtime_path") or "")
+    if not runtime_rel:
+        raise CanonicalDecodeError("active_index_runtime_path_absent")
+    index_path = resolve_under(root, Path(runtime_rel), "active_index")
+    if not index_path.is_file():
+        raise CanonicalDecodeError(f"active_index_missing:{runtime_rel}")
+    observed_sha = sha256_file(index_path)
+    expected_sha = str(active.get("index_sha256") or "")
+    if expected_sha and observed_sha != expected_sha:
+        raise CanonicalDecodeError(
+            f"active_index_sha256_mismatch:expected={expected_sha}:observed={observed_sha}"
+        )
+    source_root = Path(str(active.get("source_root") or ""))
+    if not source_root:
+        raise CanonicalDecodeError("active_index_source_root_absent")
+    return {
+        "registry_path": str(INDEX_REGISTRY).replace("\\", "/"),
+        "runtime_path": runtime_rel.replace("\\", "/"),
+        "index_path": index_path,
+        "index_sha256": observed_sha,
+        "index_bytes": index_path.stat().st_size,
+        "source_root": source_root,
+        "record_count": int(active.get("audio_file_count") or 0),
+        "row069_acceptance": str(active.get("row069_acceptance") or ""),
+        "library_authority": active.get("library_authority") is True,
+    }
+
+
+def _peek_wav_fmt_audio_format_and_bits(path: Path) -> tuple[int, int] | None:
+    """Best-effort RIFF/WAVE fmt peek; returns (audio_format, bits_per_sample) or None."""
+    try:
+        with _io_path(path).open("rb") as handle:
+            header = handle.read(12)
+            if len(header) < 12 or header[0:4] != b"RIFF" or header[8:12] != b"WAVE":
+                return None
+            while True:
+                chunk_header = handle.read(8)
+                if len(chunk_header) < 8:
+                    return None
+                chunk_id = chunk_header[0:4]
+                chunk_size = int.from_bytes(chunk_header[4:8], "little")
+                if chunk_id == b"fmt ":
+                    fmt = handle.read(min(chunk_size, 16))
+                    if len(fmt) < 16:
+                        return None
+                    audio_format = int.from_bytes(fmt[0:2], "little")
+                    bits_per_sample = int.from_bytes(fmt[14:16], "little")
+                    return audio_format, bits_per_sample
+                # Chunks are word-aligned.
+                handle.seek(chunk_size + (chunk_size & 1), 1)
+    except OSError:
+        return None
+
+
+def wav_is_supported_pcm(path: Path) -> bool:
+    """Return True when stdlib wave can decode this path as 16-bit or float32 PCM."""
+    if not path_is_file(path):
+        return False
+    peeked = _peek_wav_fmt_audio_format_and_bits(path)
+    if peeked is not None:
+        audio_format, bits_per_sample = peeked
+        # 1=PCM, 3=IEEE float. Reject obvious unsupported bit depths early.
+        if audio_format == 1 and bits_per_sample not in {16}:
+            return False
+        if audio_format == 3 and bits_per_sample not in {32}:
+            return False
+        if audio_format not in {1, 3}:
+            return False
+    try:
+        with wave.open(str(_io_path(path)), "rb") as handle:
+            if handle.getcomptype() != "NONE":
+                return False
+            if handle.getsampwidth() not in {2, 4}:
+                return False
+            if handle.getnframes() < 1 or handle.getnchannels() < 1:
+                return False
+    except wave.Error:
+        return False
+    return True
+
+
+def select_accepted_index_strata(
+    root: Path,
+    *,
+    wav_roles: tuple[str, ...] = INDEX_STRATA_WAV_ROLES,
+    non_wav_extensions: tuple[str, ...] = INDEX_STRATA_NON_WAV_EXTENSIONS,
+    wav_min_bytes: int = INDEX_STRATA_WAV_MIN_BYTES,
+    wav_max_bytes: int = INDEX_STRATA_WAV_MAX_BYTES,
+) -> dict[str, Any]:
+    locator = load_active_index_locator(root)
+    selected: list[dict[str, Any]] = []
+    selected_paths: set[str] = set()
+    role_hits: dict[str, dict[str, Any]] = {}
+    non_wav_hits: dict[str, dict[str, Any]] = {}
+    scanned = 0
+    wav_probe_rejects = 0
+
+    with locator["index_path"].open("r", encoding="utf-8") as handle:
+        for line in handle:
+            line = line.strip()
+            if not line:
+                continue
+            scanned += 1
+            record = json.loads(line)
+            relative_path = str(record.get("relative_path") or "").replace("\\", "/")
+            if not relative_path or relative_path in selected_paths:
+                continue
+            extension = str(record.get("extension") or Path(relative_path).suffix).lower()
+            absolute = Path(str(record.get("absolute_path") or ""))
+            if not absolute:
+                absolute = locator["source_root"] / relative_path
+            bytes_count = int(record.get("bytes") or 0)
+            role = str(record.get("role") or "")
+            candidate = {
+                "relative_path": relative_path,
+                "absolute_path": str(absolute),
+                "extension": extension,
+                "role": role,
+                "event_type": str(record.get("event_type") or ""),
+                "duration_band": str(record.get("duration_band") or ""),
+                "channels": record.get("channels"),
+                "bytes": bytes_count,
+                "sha256": str(record.get("sha256") or ""),
+                "sample_rate_hz": record.get("sample_rate_hz"),
+                "duration_seconds": record.get("duration_seconds"),
+            }
+
+            if extension == ".wav" and role in wav_roles and role not in role_hits:
+                if wav_min_bytes <= bytes_count <= wav_max_bytes and path_is_file(absolute):
+                    if not wav_is_supported_pcm(absolute):
+                        wav_probe_rejects += 1
+                        continue
+                    role_hits[role] = candidate
+                    selected.append(candidate)
+                    selected_paths.add(relative_path)
+            elif (
+                extension in non_wav_extensions
+                and extension not in non_wav_hits
+                and path_is_file(absolute)
+            ):
+                non_wav_hits[extension] = candidate
+                selected.append(candidate)
+                selected_paths.add(relative_path)
+
+            if len(role_hits) == len(wav_roles) and len(non_wav_hits) == len(non_wav_extensions):
+                break
+
+    return {
+        "locator": {
+            "registry_path": locator["registry_path"],
+            "runtime_path": locator["runtime_path"],
+            "index_sha256": locator["index_sha256"],
+            "index_bytes": locator["index_bytes"],
+            "source_root": str(locator["source_root"]),
+            "record_count": locator["record_count"],
+            "row069_acceptance": locator["row069_acceptance"],
+            "library_authority": locator["library_authority"],
+        },
+        "scanned_records": scanned,
+        "wav_probe_rejects": wav_probe_rejects,
+        "selected": selected,
+        "wav_roles_selected": sorted(role_hits),
+        "non_wav_extensions_selected": sorted(non_wav_hits),
+        "selection_complete_for_targets": (
+            len(role_hits) == len(wav_roles) and len(non_wav_hits) == len(non_wav_extensions)
+        ),
+    }
+
+
+def run_bounded_index_strata_decode(root: Path) -> dict[str, Any]:
+    admission = evaluate_row069_admission(root)
+    if not admission.get("dependency_satisfied"):
+        raise CanonicalDecodeError("index_strata_requires_row069_admission")
+
+    selection = select_accepted_index_strata(root)
+    decode_records: list[dict[str, Any]] = []
+    for candidate in selection["selected"]:
+        absolute = Path(candidate["absolute_path"])
+        asset_id = f"index:{candidate['relative_path']}"
+        record = decode_wav_file(root, absolute, asset_id=asset_id)
+        validate_decode_record(root, record)
+        # Bind retained-index identity; never claim library authority from a strata sample.
+        record["index_binding"] = {
+            "relative_path": candidate["relative_path"],
+            "retained_sha256": candidate["sha256"],
+            "retained_bytes": candidate["bytes"],
+            "role": candidate["role"],
+            "event_type": candidate["event_type"],
+            "duration_band": candidate["duration_band"],
+            "source_sha256_matches_index": record.get("source_sha256") == candidate["sha256"],
+            "source_bytes_match_index": record.get("source_bytes") == candidate["bytes"],
+        }
+        decode_records.append(record)
+
+    decode_pass = sum(1 for record in decode_records if record["decode_status"] == "pass")
+    decode_blocked = sum(1 for record in decode_records if record["decode_status"] == "blocked")
+    decode_failed = sum(1 for record in decode_records if record["decode_status"] == "failed")
+    immutable_pass = all(
+        record.get("source_immutable") is True for record in decode_records
+    )
+    identity_pass = all(
+        (record.get("index_binding") or {}).get("source_sha256_matches_index") is True
+        and (record.get("index_binding") or {}).get("source_bytes_match_index") is True
+        for record in decode_records
+    )
+
+    return {
+        "schema_version": 1,
+        "evidence_id": "W64-ROW070-ACCEPTED-INDEX-STRATA-BOUNDED-DECODE-20260719",
+        "created_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "authority": "accepted_index_strata_bounded",
+        "library_authority": False,
+        "row_complete": False,
+        "proof_tier": "RUNTIME_PASS_BOUNDED",
+        "row069_admission": admission,
+        "selection": {
+            "scanned_records": selection["scanned_records"],
+            "wav_probe_rejects": selection.get("wav_probe_rejects", 0),
+            "selected_count": len(selection["selected"]),
+            "wav_roles_selected": selection["wav_roles_selected"],
+            "non_wav_extensions_selected": selection["non_wav_extensions_selected"],
+            "selection_complete_for_targets": selection["selection_complete_for_targets"],
+            "locator": selection["locator"],
+            "selected_compact": [
+                {
+                    "relative_path": item["relative_path"],
+                    "extension": item["extension"],
+                    "role": item["role"],
+                    "event_type": item["event_type"],
+                    "duration_band": item["duration_band"],
+                    "channels": item["channels"],
+                    "bytes": item["bytes"],
+                    "sha256": item["sha256"],
+                }
+                for item in selection["selected"]
+            ],
+        },
+        "counts": {
+            "sources_attempted": len(decode_records),
+            "decode_pass": decode_pass,
+            "decode_blocked": decode_blocked,
+            "decode_failed": decode_failed,
+            "source_immutable_all": immutable_pass,
+            "index_identity_all": identity_pass,
+        },
+        "decode_records": decode_records,
+        "decode_pass_records_compact": [
+            {
+                "asset_id": record["asset_id"],
+                "decode_status": record["decode_status"],
+                "codec": record["codec"],
+                "canonical_pcm_sha256": record["canonical_pcm_sha256"],
+                "source_sha256": record["source_sha256"],
+                "source_bytes": record["source_bytes"],
+                "source_immutable": record["source_immutable"],
+                "channels": record["channels"],
+                "sample_rate_hz": record["sample_rate_hz"],
+                "duration_seconds": record["duration_seconds"],
+                "role": (record.get("index_binding") or {}).get("role"),
+                "event_type": (record.get("index_binding") or {}).get("event_type"),
+            }
+            for record in decode_records
+            if record["decode_status"] == "pass"
+        ],
+        "exact_blockers_compact": [
+            {
+                "asset_id": record["asset_id"],
+                "decode_status": record["decode_status"],
+                "blocker": record.get("blocker"),
+                "role": (record.get("index_binding") or {}).get("role"),
+                "extension": Path(str((record.get("index_binding") or {}).get("relative_path") or "")).suffix.lower(),
+            }
+            for record in decode_records
+            if record["decode_status"] != "pass"
+        ],
+        "explicit_non_claims": [
+            "COMPLETE",
+            "library_authority",
+            "full_library_decode",
+            "product_completion",
+            "row070_acceptance",
+        ],
+    }
+
+
+def build_library_blocker_packet(
+    root: Path,
+    *,
+    bounded_live_pcm_runtime: dict[str, Any] | None = None,
+    index_strata_runtime: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     admission = evaluate_row069_admission(root)
     blocker_codes = list(admission["blocker_codes"])
     for code in (
-        "CANONICAL_DECODER_LIBRARY_RUNTIME_ABSENT",
         "FULL_LIBRARY_RUNTIME_RECORD_ABSENT",
         "SOURCE_IMMUTABILITY_FULL_LIBRARY_FINGERPRINT_ABSENT",
+        "NON_WAV_CODEC_COVERAGE_ABSENT",
     ):
         if code not in blocker_codes:
             blocker_codes.append(code)
+    if not (
+        index_strata_runtime
+        and int((index_strata_runtime.get("counts") or {}).get("decode_pass") or 0) > 0
+    ):
+        if "CANONICAL_DECODER_LIBRARY_RUNTIME_ABSENT" not in blocker_codes:
+            blocker_codes.append("CANONICAL_DECODER_LIBRARY_RUNTIME_ABSENT")
 
     fixture_dir = resolve_under(
         root,
@@ -613,7 +943,39 @@ def build_library_blocker_packet(root: Path) -> dict[str, Any]:
     )
     validate_decode_record(root, corrupt)
 
-    packet = {
+    strata = index_strata_runtime
+    bounded = bounded_live_pcm_runtime
+    strata_pass = int((strata or {}).get("counts", {}).get("decode_pass") or 0)
+    bounded_pass = int((bounded or {}).get("decode_pass") or 0)
+
+    if admission.get("dependency_satisfied") and strata_pass > 0:
+        status = "HOLD_FULL_LIBRARY_DECODE_WITH_ACCEPTED_INDEX_STRATA_BOUNDED_RUNTIME"
+        bounded_runtime_label = "RUNTIME_PASS_BOUNDED"
+        safe_next = (
+            "Expand accepted-index decode from strata sample toward full retained-index "
+            "coverage (decode PASS or exact blocker per record), add non-WAV decoder "
+            "coverage beyond exact blockers, and prove full-library source immutability "
+            "before Row070 acceptance. Do not claim COMPLETE without full-library runtime."
+        )
+    elif admission.get("dependency_satisfied"):
+        status = "HOLD_FULL_LIBRARY_DECODE_RUNTIME_ABSENT"
+        bounded_runtime_label = "RUNTIME_PASS_BOUNDED" if bounded_pass > 0 else "STATIC_PASS"
+        safe_next = (
+            "Extend decode coverage across accepted Row069 index strata, reconcile every "
+            "accepted index record to decode PASS or an exact blocker with "
+            "output/failure-manifest hashes, and prove full-library source immutability "
+            "before Row070 acceptance."
+        )
+    else:
+        status = "HOLD_ROW069_DEPENDENCY_AND_FULL_LIBRARY_DECODE_RUNTIME_ABSENT"
+        bounded_runtime_label = "RUNTIME_PASS_BOUNDED" if bounded_pass > 0 else "STATIC_PASS"
+        safe_next = (
+            "Accept Row069 index authority, extend decode coverage beyond PCM WAV, "
+            "reconcile every accepted index record to decode PASS or an exact blocker with "
+            "output/failure-manifest hashes, and prove full-library source immutability."
+        )
+
+    packet: dict[str, Any] = {
         "schema_version": SCHEMA_VERSION,
         "evidence_id": "TRK-W64-070_canonical_audio_decode",
         "tracker_id": TRACKER_ID,
@@ -624,11 +986,10 @@ def build_library_blocker_packet(root: Path) -> dict[str, Any]:
         "implementation_completion_claimed": False,
         "runtime_completion_claimed": False,
         "library_authority": False,
-        "status": (
-            "HOLD_FULL_LIBRARY_DECODE_RUNTIME_ABSENT"
-            if admission.get("dependency_satisfied")
-            else "HOLD_ROW069_DEPENDENCY_AND_FULL_LIBRARY_DECODE_RUNTIME_ABSENT"
-        ),
+        "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED"
+        if (strata_pass > 0 or bounded_pass > 0)
+        else "STATIC_PASS",
+        "status": status,
         "row069_admission": admission,
         "fixture_calibration": {
             "authority": "synthetic_non_library",
@@ -644,28 +1005,62 @@ def build_library_blocker_packet(root: Path) -> dict[str, Any]:
             "row070_acceptance": "held",
             "product_completion": False,
             "runtime_completion": False,
-            "safe_next_action": (
-                "Extend decode coverage beyond PCM WAV, reconcile every accepted Row069 index "
-                "record to decode PASS or an exact blocker with output/failure-manifest hashes, "
-                "and prove full-library source immutability before Row070 acceptance."
-                if admission.get("dependency_satisfied")
-                else (
-                    "Accept Row069 index authority, extend decode coverage beyond PCM WAV, "
-                    "reconcile every accepted index record to decode PASS or an exact blocker with "
-                    "output/failure-manifest hashes, and prove full-library source immutability."
-                )
-            ),
+            "bounded_runtime": bounded_runtime_label,
+            "safe_next_action": safe_next,
         },
     }
+    if bounded is not None:
+        packet["bounded_live_pcm_runtime"] = bounded
+    if strata is not None:
+        packet["accepted_index_strata_runtime"] = {
+            "authority": strata.get("authority"),
+            "proof_tier": strata.get("proof_tier"),
+            "library_authority": False,
+            "sources_attempted": (strata.get("counts") or {}).get("sources_attempted"),
+            "decode_pass": (strata.get("counts") or {}).get("decode_pass"),
+            "decode_blocked": (strata.get("counts") or {}).get("decode_blocked"),
+            "decode_failed": (strata.get("counts") or {}).get("decode_failed"),
+            "wav_roles_selected": (strata.get("selection") or {}).get("wav_roles_selected"),
+            "non_wav_extensions_selected": (strata.get("selection") or {}).get(
+                "non_wav_extensions_selected"
+            ),
+            "index_sha256": ((strata.get("selection") or {}).get("locator") or {}).get(
+                "index_sha256"
+            ),
+            "summary_path": strata.get("summary_path"),
+            "summary_sha256": strata.get("summary_sha256"),
+            "summary_bytes": strata.get("summary_bytes"),
+            "receipt_path": strata.get("receipt_path"),
+            "receipt_sha256": strata.get("receipt_sha256"),
+        }
     return packet
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", default=str(ROOT))
-    parser.add_argument("--mode", choices=("library", "fixture", "file"), default="library")
+    parser.add_argument(
+        "--mode",
+        choices=("library", "fixture", "file", "index-strata"),
+        default="library",
+    )
     parser.add_argument("--input", default="")
     parser.add_argument("--output", default=str(DEFAULT_EVIDENCE))
+    parser.add_argument(
+        "--bounded-live-summary",
+        default="",
+        help="Optional prior bounded live PCM summary JSON to embed in library evidence.",
+    )
+    parser.add_argument(
+        "--index-strata-receipt",
+        default="",
+        help="Optional index-strata runtime receipt JSON to embed in library evidence.",
+    )
+    parser.add_argument(
+        "--write-index-strata-receipt",
+        default="",
+        help="When mode=index-strata, write full receipt JSON to this path.",
+    )
     args = parser.parse_args(argv)
     root = Path(args.root).resolve()
     output = resolve_under(root, Path(args.output), "output")
@@ -682,16 +1077,80 @@ def main(argv: list[str] | None = None) -> int:
             "fixture_dir",
         )
         payload = decode_fixture_record(root, fixture_dir)
+    elif args.mode == "index-strata":
+        payload = run_bounded_index_strata_decode(root)
+        if args.write_index_strata_receipt:
+            receipt_path = resolve_under(
+                root, Path(args.write_index_strata_receipt), "index_strata_receipt"
+            )
+            write_json(receipt_path, payload)
+            # Hash/path metadata live on the caller-facing payload only (not self-hashed).
+            payload = dict(payload)
+            payload["receipt_path"] = str(receipt_path.relative_to(root)).replace("\\", "/")
+            payload["receipt_sha256"] = sha256_file(receipt_path)
+            payload["receipt_bytes"] = receipt_path.stat().st_size
     else:
-        payload = build_library_blocker_packet(root)
+        bounded = None
+        strata = None
+        if args.bounded_live_summary:
+            bounded_path = resolve_under(
+                root, Path(args.bounded_live_summary), "bounded_live_summary"
+            )
+            bounded_payload = load_json(bounded_path)
+            bounded = {
+                "authority": "bounded_non_library",
+                "decode_non_pass": int((bounded_payload.get("counts") or {}).get("decode_non_pass") or 0),
+                "decode_pass": int((bounded_payload.get("counts") or {}).get("decode_pass") or 0),
+                "library_authority": False,
+                "proof_tier": "RUNTIME_PASS_BOUNDED",
+                "sources_attempted": int(
+                    (bounded_payload.get("counts") or {}).get("sources_attempted") or 0
+                ),
+                "summary_path": str(bounded_path.relative_to(root)).replace("\\", "/"),
+                "summary_sha256": sha256_file(bounded_path),
+                "summary_bytes": bounded_path.stat().st_size,
+            }
+        if args.index_strata_receipt:
+            strata_path = resolve_under(
+                root, Path(args.index_strata_receipt), "index_strata_receipt"
+            )
+            strata = load_json(strata_path)
+            strata["receipt_path"] = str(strata_path.relative_to(root)).replace("\\", "/")
+            strata["receipt_sha256"] = sha256_file(strata_path)
+            strata["receipt_bytes"] = strata_path.stat().st_size
+        payload = build_library_blocker_packet(
+            root,
+            bounded_live_pcm_runtime=bounded,
+            index_strata_runtime=strata,
+        )
         if payload["decision"]["status"] != "blocked":
             raise CanonicalDecodeError("library_mode_must_remain_fail_closed_until_dependencies_pass")
         if payload.get("row_complete") is True:
             raise CanonicalDecodeError("library_mode_must_not_claim_row_complete")
+        if "ROW069_DEPENDENCY_NOT_ACCEPTED" in payload.get("blocker_codes", []):
+            # Library mode may still emit when admission is held; never silently drop it.
+            pass
 
     write_json(output, payload)
-    status = payload.get("status") or payload.get("decode_status") or payload["decision"]["status"]
-    print(json.dumps({"output": str(output), "status": status}, sort_keys=True))
+    decision = payload.get("decision") if isinstance(payload.get("decision"), dict) else {}
+    status = (
+        payload.get("status")
+        or payload.get("decode_status")
+        or decision.get("status")
+        or payload.get("proof_tier")
+        or "ok"
+    )
+    print(
+        json.dumps(
+            {
+                "output": str(output),
+                "status": status,
+                "counts": payload.get("counts"),
+                "proof_tier": payload.get("proof_tier") or payload.get("highest_proof_tier_achieved"),
+            },
+            sort_keys=True,
+        )
+    )
     return 0
 
 

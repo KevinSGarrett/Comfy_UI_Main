@@ -49,9 +49,120 @@ def test_library_mode_emits_hold_packet_without_false_completion():
     assert payload["row069_admission"]["dependency_satisfied"] is True
     assert "FULL_LIBRARY_RUNTIME_RECORD_ABSENT" in payload["blocker_codes"]
     assert "CANONICAL_DECODER_LIBRARY_RUNTIME_ABSENT" in payload["blocker_codes"]
+    assert "NON_WAV_CODEC_COVERAGE_ABSENT" in payload["blocker_codes"]
+    assert payload["status"] == "HOLD_FULL_LIBRARY_DECODE_RUNTIME_ABSENT"
     assert payload["decoder_revision"] == MOD.DECODER_REVISION
     assert payload["canonical_pcm_contract"] == MOD.CANONICAL_PCM_CONTRACT
     assert len(payload["fixture_calibration"]["records"]) == 3
+
+
+def test_library_mode_with_index_strata_runtime_clears_decoder_absent_blocker():
+    strata = {
+        "authority": "accepted_index_strata_bounded",
+        "proof_tier": "RUNTIME_PASS_BOUNDED",
+        "counts": {
+            "sources_attempted": 2,
+            "decode_pass": 1,
+            "decode_blocked": 1,
+            "decode_failed": 0,
+        },
+        "selection": {
+            "wav_roles_selected": ["body"],
+            "non_wav_extensions_selected": [".mp3"],
+            "locator": {"index_sha256": "a" * 64},
+        },
+        "summary_path": "runtime_artifacts/audio_decode/example/summary.json",
+        "summary_sha256": "b" * 64,
+        "summary_bytes": 1,
+        "receipt_path": "runtime_artifacts/audio_decode/example/receipt.json",
+        "receipt_sha256": "c" * 64,
+    }
+    payload = MOD.build_library_blocker_packet(ROOT, index_strata_runtime=strata)
+    assert "ROW069_DEPENDENCY_NOT_ACCEPTED" not in payload["blocker_codes"]
+    assert "CANONICAL_DECODER_LIBRARY_RUNTIME_ABSENT" not in payload["blocker_codes"]
+    assert "FULL_LIBRARY_RUNTIME_RECORD_ABSENT" in payload["blocker_codes"]
+    assert payload["library_authority"] is False
+    assert payload["row_complete"] is False
+    assert payload["status"] == "HOLD_FULL_LIBRARY_DECODE_WITH_ACCEPTED_INDEX_STRATA_BOUNDED_RUNTIME"
+    assert payload["accepted_index_strata_runtime"]["decode_pass"] == 1
+    assert payload["highest_proof_tier_achieved"] == "RUNTIME_PASS_BOUNDED"
+
+
+def test_active_index_locator_matches_accepted_row069_registry():
+    locator = MOD.load_active_index_locator(ROOT)
+    assert locator["library_authority"] is True
+    assert locator["row069_acceptance"] == "accepted"
+    assert locator["record_count"] == 39771
+    assert len(locator["index_sha256"]) == 64
+    assert locator["index_path"].is_file()
+
+
+def test_select_accepted_index_strata_uses_synthetic_index(tmp_path: Path, monkeypatch):
+    source_root = tmp_path / "audio"
+    source_root.mkdir()
+    wav_path = source_root / "body_tone.wav"
+    # Exceed INDEX_STRATA_WAV_MIN_BYTES so the strata selector admits the candidate.
+    _write_pcm16_wav(wav_path, frames=8192)
+    mp3_path = source_root / "clip.mp3"
+    mp3_path.write_bytes(b"ID3fake-bytes")
+
+    index_path = tmp_path / "index.jsonl"
+    records = [
+        {
+            "relative_path": "body_tone.wav",
+            "absolute_path": str(wav_path),
+            "extension": ".wav",
+            "role": "body",
+            "event_type": "body_foley",
+            "duration_band": "short",
+            "channels": 1,
+            "bytes": wav_path.stat().st_size,
+            "sha256": MOD.sha256_file(wav_path),
+            "sample_rate_hz": 48000,
+            "duration_seconds": 256 / 48000,
+        },
+        {
+            "relative_path": "clip.mp3",
+            "absolute_path": str(mp3_path),
+            "extension": ".mp3",
+            "role": "effects",
+            "event_type": "action_sfx",
+            "duration_band": "short",
+            "channels": 1,
+            "bytes": mp3_path.stat().st_size,
+            "sha256": MOD.sha256_file(mp3_path),
+            "sample_rate_hz": 44100,
+            "duration_seconds": 1.0,
+        },
+    ]
+    index_path.write_text(
+        "\n".join(json.dumps(record) for record in records) + "\n",
+        encoding="utf-8",
+    )
+
+    def fake_locator(_root: Path) -> dict:
+        return {
+            "registry_path": "Plan/10_REGISTRIES/audio_pack_functional_index_registry.json",
+            "runtime_path": str(index_path),
+            "index_path": index_path,
+            "index_sha256": MOD.sha256_file(index_path),
+            "index_bytes": index_path.stat().st_size,
+            "source_root": source_root,
+            "record_count": 2,
+            "row069_acceptance": "accepted",
+            "library_authority": True,
+        }
+
+    monkeypatch.setattr(MOD, "load_active_index_locator", fake_locator)
+    selection = MOD.select_accepted_index_strata(
+        ROOT,
+        wav_roles=("body",),
+        non_wav_extensions=(".mp3",),
+    )
+    assert selection["selection_complete_for_targets"] is True
+    assert selection["wav_roles_selected"] == ["body"]
+    assert selection["non_wav_extensions_selected"] == [".mp3"]
+    assert len(selection["selected"]) == 2
 
 
 def test_fixture_wav_decode_is_deterministic_and_schema_valid(tmp_path: Path):
