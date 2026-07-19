@@ -1,0 +1,453 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/wave64_row095_spatial_audio_render_manifest.schema.json",
+  "title": "Wave64 Row095 Fail-Closed Spatial Audio Render Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "tracker_id",
+    "item_id",
+    "compiler_revision",
+    "registry_revision",
+    "render_id",
+    "event_manifest_sha256",
+    "rights_decision_sha256",
+    "depth_camera_authority_sha256",
+    "prepared_clip_authority_sha256",
+    "room",
+    "listener",
+    "sources",
+    "renderer",
+    "output",
+    "validation",
+    "is_synthetic",
+    "production_authority",
+    "decision"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "tracker_id": { "type": "string", "const": "TRK-W64-095" },
+    "item_id": { "type": "string", "const": "ITEM-W64-095" },
+    "compiler_revision": {
+      "type": "string",
+      "const": "wave64_row095_spatial_audio_renderer_compiler_v0.1.0"
+    },
+    "registry_revision": {
+      "type": "string",
+      "const": "wave64_row095_spatial_audio_renderer_registry_v0.1.0"
+    },
+    "render_id": { "type": "string", "minLength": 1 },
+    "event_manifest_sha256": { "$ref": "#/$defs/sha256" },
+    "rights_decision_sha256": { "$ref": "#/$defs/sha256" },
+    "depth_camera_authority_sha256": { "$ref": "#/$defs/sha256" },
+    "prepared_clip_authority_sha256": { "$ref": "#/$defs/sha256" },
+    "room": { "$ref": "#/$defs/room" },
+    "listener": { "$ref": "#/$defs/listener" },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/source" }
+    },
+    "renderer": { "$ref": "#/$defs/renderer" },
+    "output": { "$ref": "#/$defs/output" },
+    "validation": { "$ref": "#/$defs/validation" },
+    "is_synthetic": { "type": "boolean" },
+    "production_authority": { "type": "boolean" },
+    "decision": { "$ref": "#/$defs/top_decision" }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "validation": {
+            "properties": { "decision": { "const": "pass" } },
+            "required": ["decision"]
+          }
+        },
+        "required": ["validation"]
+      },
+      "then": {
+        "properties": {
+          "room": {
+            "properties": {
+              "authority": { "enum": ["measured", "registered"] }
+            },
+            "required": ["authority"]
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "wet_source_policy": {
+                  "enum": ["dry_render", "compatible_wet_passthrough", "limited_processing"]
+                }
+              },
+              "required": ["wet_source_policy"]
+            }
+          },
+          "validation": {
+            "properties": {
+              "rt60_pass": { "const": true },
+              "trajectory_pass": { "const": true },
+              "phase_pass": { "const": true },
+              "clipping_pass": { "const": true },
+              "elevation_pass": { "const": true },
+              "air_absorption_pass": { "const": true },
+              "offscreen_continuity_pass": { "const": true },
+              "loudness_pass": { "const": true },
+              "occlusion_pass": { "const": true }
+            },
+            "required": [
+              "rt60_pass",
+              "trajectory_pass",
+              "phase_pass",
+              "clipping_pass",
+              "elevation_pass",
+              "air_absorption_pass",
+              "offscreen_continuity_pass",
+              "loudness_pass",
+              "occlusion_pass"
+            ]
+          },
+          "production_authority": { "const": false }
+        },
+        "required": ["room", "sources", "validation", "production_authority"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "production_authority": { "const": true }
+        },
+        "required": ["production_authority"]
+      },
+      "then": {
+        "properties": {
+          "is_synthetic": { "const": false },
+          "decision": {
+            "properties": {
+              "status": { "const": "accepted" },
+              "row095_acceptance": { "const": "accepted" },
+              "product_completion": { "const": true },
+              "runtime_completion": { "const": true }
+            },
+            "required": [
+              "status",
+              "row095_acceptance",
+              "product_completion",
+              "runtime_completion"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "is_synthetic": { "const": true }
+        },
+        "required": ["is_synthetic"]
+      },
+      "then": {
+        "properties": {
+          "production_authority": { "const": false },
+          "decision": {
+            "properties": {
+              "product_completion": { "const": false },
+              "runtime_completion": { "const": false },
+              "row095_acceptance": { "enum": ["held", "fixture_only"] }
+            },
+            "required": [
+              "product_completion",
+              "runtime_completion",
+              "row095_acceptance"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "vec3": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": { "type": "number" }
+    },
+    "positive_vec3": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": { "type": "number", "exclusiveMinimum": 0 }
+    },
+    "room": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile_id",
+        "dimensions_m",
+        "surface_materials",
+        "target_rt60_seconds",
+        "authority"
+      ],
+      "properties": {
+        "profile_id": { "type": "string", "minLength": 1 },
+        "dimensions_m": { "$ref": "#/$defs/positive_vec3" },
+        "surface_materials": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": { "type": "string", "minLength": 1 }
+        },
+        "target_rt60_seconds": { "type": "number", "exclusiveMinimum": 0 },
+        "authority": {
+          "type": "string",
+          "enum": ["measured", "registered", "estimated", "unknown"]
+        }
+      }
+    },
+    "listener": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["position_m", "orientation"],
+      "properties": {
+        "position_m": { "$ref": "#/$defs/vec3" },
+        "orientation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["yaw_deg", "pitch_deg", "roll_deg"],
+          "properties": {
+            "yaw_deg": { "type": "number", "minimum": -180, "maximum": 180 },
+            "pitch_deg": { "type": "number", "minimum": -90, "maximum": 90 },
+            "roll_deg": { "type": "number", "minimum": -180, "maximum": 180 }
+          }
+        }
+      }
+    },
+    "trajectory_point": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "time_s",
+        "position_m",
+        "distance_m",
+        "azimuth_deg",
+        "elevation_deg",
+        "occlusion_amount",
+        "visibility",
+        "offscreen",
+        "air_absorption_db_per_m"
+      ],
+      "properties": {
+        "time_s": { "type": "number", "minimum": 0 },
+        "position_m": { "$ref": "#/$defs/vec3" },
+        "distance_m": { "type": "number", "exclusiveMinimum": 0 },
+        "azimuth_deg": { "type": "number", "minimum": -180, "maximum": 180 },
+        "elevation_deg": { "type": "number", "minimum": -90, "maximum": 90 },
+        "occlusion_amount": { "type": "number", "minimum": 0, "maximum": 1 },
+        "visibility": {
+          "type": "string",
+          "enum": ["visible", "partial", "occluded", "offscreen"]
+        },
+        "offscreen": { "type": "boolean" },
+        "air_absorption_db_per_m": { "type": "number", "minimum": 0 }
+      }
+    },
+    "occlusion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled", "filter_model", "time_varying"],
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "filter_model": {
+          "type": "string",
+          "enum": ["lowpass_obstruction_v1", "none"]
+        },
+        "time_varying": { "type": "boolean" }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "prepared_clip_sha256",
+        "trajectory",
+        "distance_model",
+        "occlusion",
+        "wet_source_policy",
+        "elevation_model",
+        "air_absorption_model",
+        "screen_motion_model"
+      ],
+      "properties": {
+        "event_id": { "type": "string", "minLength": 1 },
+        "prepared_clip_sha256": { "$ref": "#/$defs/sha256" },
+        "trajectory": {
+          "type": "array",
+          "minItems": 2,
+          "items": { "$ref": "#/$defs/trajectory_point" }
+        },
+        "distance_model": {
+          "type": "string",
+          "enum": ["inverse_distance_v1", "inverse_square_v1"]
+        },
+        "occlusion": { "$ref": "#/$defs/occlusion" },
+        "wet_source_policy": {
+          "type": "string",
+          "enum": [
+            "dry_render",
+            "compatible_wet_passthrough",
+            "limited_processing",
+            "reject"
+          ]
+        },
+        "elevation_model": {
+          "type": "string",
+          "enum": ["spectral_tilt_v1", "hrtf_placeholder_unbound"]
+        },
+        "air_absorption_model": {
+          "type": "string",
+          "enum": ["frequency_dependent_v1"]
+        },
+        "screen_motion_model": {
+          "type": "string",
+          "enum": ["equal_power_pan_v1"]
+        }
+      }
+    },
+    "renderer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "revision",
+        "configuration_sha256",
+        "sample_rate_hz",
+        "channels",
+        "deterministic"
+      ],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "revision": { "type": "string", "minLength": 1 },
+        "configuration_sha256": { "$ref": "#/$defs/sha256" },
+        "sample_rate_hz": {
+          "type": "integer",
+          "enum": [24000, 44100, 48000]
+        },
+        "channels": { "type": "integer", "const": 2 },
+        "deterministic": { "type": "boolean", "const": true }
+      }
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "canonical_pcm_sha256",
+        "sample_rate_hz",
+        "channels",
+        "duration_seconds",
+        "peak_absolute",
+        "true_peak_dbfs",
+        "integrated_loudness_lufs"
+      ],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "canonical_pcm_sha256": { "$ref": "#/$defs/sha256" },
+        "sample_rate_hz": {
+          "type": "integer",
+          "enum": [24000, 44100, 48000]
+        },
+        "channels": { "type": "integer", "const": 2 },
+        "duration_seconds": { "type": "number", "exclusiveMinimum": 0 },
+        "peak_absolute": { "type": "number", "minimum": 0, "maximum": 1 },
+        "true_peak_dbfs": { "type": "number", "maximum": 0 },
+        "integrated_loudness_lufs": { "type": "number", "maximum": 0 }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "measured_rt60_seconds",
+        "rt60_pass",
+        "trajectory_pass",
+        "phase_pass",
+        "clipping_pass",
+        "elevation_pass",
+        "air_absorption_pass",
+        "offscreen_continuity_pass",
+        "loudness_pass",
+        "occlusion_pass",
+        "phase_correlation",
+        "clipping_ratio",
+        "trajectory_max_error_m",
+        "decision"
+      ],
+      "properties": {
+        "measured_rt60_seconds": {
+          "type": ["number", "null"],
+          "minimum": 0
+        },
+        "rt60_pass": { "type": "boolean" },
+        "trajectory_pass": { "type": "boolean" },
+        "phase_pass": { "type": "boolean" },
+        "clipping_pass": { "type": "boolean" },
+        "elevation_pass": { "type": "boolean" },
+        "air_absorption_pass": { "type": "boolean" },
+        "offscreen_continuity_pass": { "type": "boolean" },
+        "loudness_pass": { "type": "boolean" },
+        "occlusion_pass": { "type": "boolean" },
+        "phase_correlation": {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1
+        },
+        "clipping_ratio": { "type": "number", "minimum": 0, "maximum": 1 },
+        "trajectory_max_error_m": { "type": "number", "minimum": 0 },
+        "decision": {
+          "type": "string",
+          "enum": ["pass", "blocked", "failed"]
+        }
+      }
+    },
+    "top_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "row095_acceptance",
+        "product_completion",
+        "runtime_completion",
+        "promotion_eligible",
+        "blocker_codes",
+        "advisory_only"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["fixture_ok", "blocked", "abstain", "accepted"]
+        },
+        "row095_acceptance": {
+          "type": "string",
+          "enum": ["held", "fixture_only", "accepted"]
+        },
+        "product_completion": { "type": "boolean" },
+        "runtime_completion": { "type": "boolean" },
+        "promotion_eligible": { "type": "boolean" },
+        "blocker_codes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "advisory_only": { "type": "boolean" }
+      }
+    }
+  }
+}

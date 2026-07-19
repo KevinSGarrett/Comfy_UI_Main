@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "wave64_row095_spatial_audio_renderer_registry",
+  "registry_revision": "wave64_row095_spatial_audio_renderer_registry_v0.1.0",
+  "compiler_revision": "wave64_row095_spatial_audio_renderer_compiler_v0.1.0",
+  "tracker_id": "TRK-W64-095",
+  "authority": "planning_freeze_not_production_spatial_acceptance",
+  "notes": [
+    "Frozen Row095 fail-closed spatial render contract for synthetic trajectory fixtures and dependency admission.",
+    "Planning-era Plan/08_SCHEMAS/audio_spatial_render_manifest.schema.json remains non-authority and false-open; Row095 uses the strict wave64_row095 schema.",
+    "Production spatial authority remains blocked until Rows088, 091, and 093 are accepted and genuine runtime plus audio QA pass."
+  ],
+  "dependency_prerequisites": [
+    "TRK-W64-088",
+    "TRK-W64-091",
+    "TRK-W64-093"
+  ],
+  "required_capabilities": [
+    "stereo_or_binaural_pan",
+    "distance_attenuation",
+    "air_absorption",
+    "elevation_cue",
+    "screen_movement",
+    "occlusion_filtering",
+    "offscreen_continuity",
+    "phase_integrity",
+    "clipping_integrity",
+    "loudness_integrity"
+  ],
+  "required_gates": [
+    "pan",
+    "distance",
+    "elevation",
+    "source_motion",
+    "occlusion",
+    "phase"
+  ],
+  "fixture_render_contract": {
+    "sample_rate_hz": 24000,
+    "channels": 2,
+    "distance_model": "inverse_distance_v1",
+    "elevation_model": "spectral_tilt_v1",
+    "air_absorption_model": "frequency_dependent_v1",
+    "screen_motion_model": "equal_power_pan_v1",
+    "occlusion_filter_model": "lowpass_obstruction_v1",
+    "peak_absolute_max": 0.96,
+    "true_peak_dbfs_max": -1.0,
+    "integrated_loudness_lufs_target": -16.0,
+    "trajectory_max_error_m_max": 0.05,
+    "phase_correlation_min": 0.85,
+    "clipping_ratio_max": 0.0
+  },
+  "room_fixture": {
+    "profile_id": "wave64_row095_fixture_dry_box",
+    "dimensions_m": [4.0, 3.0, 2.5],
+    "surface_materials": {
+      "floor": "hardwood",
+      "walls": "painted_drywall",
+      "ceiling": "acoustic_tile"
+    },
+    "target_rt60_seconds": 0.35,
+    "authority": "registered"
+  },
+  "listener_fixture": {
+    "position_m": [0.0, 0.0, 1.6],
+    "orientation": {
+      "yaw_deg": 0.0,
+      "pitch_deg": 0.0,
+      "roll_deg": 0.0
+    }
+  },
+  "fail_closed": {
+    "production_requires_dependencies": true,
+    "unknown_room_cannot_pass": true,
+    "reject_wet_source_cannot_pass": true,
+    "pass_requires_all_integrity_gates": true,
+    "synthetic_cannot_grant_production_authority": true,
+    "empty_trajectory_points_rejected": true
+  },
+  "row138_technical_reuse": {
+    "allowed": true,
+    "production_authority": false,
+    "runner": "Plan/07_IMPLEMENTATION/scripts/run_wave64_alignment_viseme_spatial.py",
+    "evaluator": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_alignment_viseme_spatial.py",
+    "note": "Row138 proves bounded deterministic stereo technical reuse only; it does not satisfy Row095 event-driven production authority."
+  }
+}

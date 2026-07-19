@@ -1,16 +1,16 @@
 {
   "schema_version": "1.0.0",
   "evidence_id": "TRK-W64-095_SPATIAL_AUDIO_RENDERER_CURRENT_DELTA_20260719",
-  "created_at": "2026-07-19T06:48:39.7165387Z",
-  "source_commit": "9ec94f98edd552ee944533206a6430107f9f4cba",
+  "created_at": "2026-07-19T20:31:56Z",
+  "source_commit": "8d63bdcf05446cbbe88ba931dcd68164edae6381",
   "tracker_id": "TRK-W64-095",
   "item_id": "ITEM-W64-095",
-  "classification": "ROW095_CODEX_FINAL_AUTHORITY_CURRENT_DELTA_AUDIT",
-  "status": "HOLD_THREE_DEPENDENCIES_EVENT_DRIVEN_PRODUCTION_SPATIAL_RENDERER_STRICT_SCHEMA_TRAJECTORY_PHASE_LOUDNESS_RUNTIME_AND_AUDIO_QA_ABSENT",
+  "classification": "ROW095_FAIL_CLOSED_CONTRACT_COMPILER_SLICE_HOLD",
+  "status": "HOLD_THREE_DEPENDENCIES_STRICT_CONTRACT_SLICE_LANDED_EVENT_DRIVEN_PRODUCTION_SPATIAL_RENDERER_RUNTIME_AND_AUDIO_QA_ABSENT",
   "row_complete": false,
   "implementation_completion_claimed": false,
   "runtime_completion_claimed": false,
-  "qa_decision": "PARTIAL_TECHNICAL_REUSE_PASS_BOUNDED_ROW138_RENDERER_PRODUCTION_ROW095_AUTHORITY_HELD",
+  "qa_decision": "PARTIAL_STRICT_CONTRACT_COMPILER_PASS_BOUNDED_ROW138_TECHNICAL_REUSE_PRODUCTION_ROW095_AUTHORITY_HELD",
   "row_contract": {
     "title": "Spatial panning, distance, elevation, motion, and occlusion renderer",
     "priority": "P1",
@@ -48,7 +48,7 @@
     "ec2_allowed": true,
     "ec2_used_for_this_audit": false,
     "required_output": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-095_spatial_audio_renderer.json",
-    "required_output_exists": false
+    "required_output_exists": true
   },
   "tracker_item_requirements_parity": {
     "tracker_item_semantically_equal": true,
@@ -206,7 +206,10 @@
       "Distance model is an arbitrary string and occlusion may be an empty object.",
       "No elevation, air absorption, screen motion, offscreen continuity, phase metric, clipping metric, or loudness metric contract.",
       "Unknown room authority or rejected wet-source policy can coexist with decision pass."
-    ]
+    ],
+    "authority": "non_authority_planning_shape",
+    "strict_successor": "Plan/08_SCHEMAS/wave64_row095_spatial_audio_render_manifest.schema.json",
+    "strict_successor_closes_seven_false_open_cases": true
   },
   "adversarial_schema_probe": {
     "validator": "jsonschema.Draft202012Validator",
@@ -214,58 +217,243 @@
     "case_count": 8,
     "false_open_count": 7,
     "cases": [
-      {"name": "valid_baseline", "schema_accepted": true, "strict_expected_accepted": true, "false_open": false},
-      {"name": "pass_with_all_validation_gates_false", "schema_accepted": true, "strict_expected_accepted": false, "false_open": true},
-      {"name": "trajectory_point_empty", "schema_accepted": true, "strict_expected_accepted": false, "false_open": true},
-      {"name": "listener_position_and_orientation_wrong_types", "schema_accepted": true, "strict_expected_accepted": false, "false_open": true},
-      {"name": "source_reject_policy_but_pass", "schema_accepted": true, "strict_expected_accepted": false, "false_open": true},
-      {"name": "unknown_room_authority_but_pass", "schema_accepted": true, "strict_expected_accepted": false, "false_open": true},
-      {"name": "renderer_and_output_required_fields_wrong_types", "schema_accepted": true, "strict_expected_accepted": false, "false_open": true},
-      {"name": "missing_elevation_air_absorption_offscreen_loudness_proof", "schema_accepted": true, "strict_expected_accepted": false, "false_open": true}
+      {
+        "name": "valid_baseline",
+        "schema_accepted": true,
+        "strict_expected_accepted": true,
+        "false_open": false
+      },
+      {
+        "name": "pass_with_all_validation_gates_false",
+        "schema_accepted": true,
+        "strict_expected_accepted": false,
+        "false_open": true
+      },
+      {
+        "name": "trajectory_point_empty",
+        "schema_accepted": true,
+        "strict_expected_accepted": false,
+        "false_open": true
+      },
+      {
+        "name": "listener_position_and_orientation_wrong_types",
+        "schema_accepted": true,
+        "strict_expected_accepted": false,
+        "false_open": true
+      },
+      {
+        "name": "source_reject_policy_but_pass",
+        "schema_accepted": true,
+        "strict_expected_accepted": false,
+        "false_open": true
+      },
+      {
+        "name": "unknown_room_authority_but_pass",
+        "schema_accepted": true,
+        "strict_expected_accepted": false,
+        "false_open": true
+      },
+      {
+        "name": "renderer_and_output_required_fields_wrong_types",
+        "schema_accepted": true,
+        "strict_expected_accepted": false,
+        "false_open": true
+      },
+      {
+        "name": "missing_elevation_air_absorption_offscreen_loudness_proof",
+        "schema_accepted": true,
+        "strict_expected_accepted": false,
+        "false_open": true
+      }
     ]
   },
   "acceptance_matrix_required": [
-    {"gate": "dependencies", "acceptance": "Rows088, 091, and 093 are accepted and exact records are hash-bound."},
-    {"gate": "trajectory", "acceptance": "Per-source position, distance, elevation, visibility, and occlusion trajectories are sample/frame ordered, unit-bound, and derived from accepted scene authority."},
-    {"gate": "pan_and_elevation", "acceptance": "Stereo or binaural cues match expected azimuth/elevation trajectories under calibrated error thresholds."},
-    {"gate": "distance_and_air", "acceptance": "Distance attenuation and frequency-dependent air absorption match versioned physical or calibrated policies."},
-    {"gate": "occlusion_and_offscreen", "acceptance": "Time-varying obstruction filtering and offscreen continuity follow accepted visual evidence without dropouts or unsupported inference."},
-    {"gate": "phase_clipping_loudness", "acceptance": "Phase/polarity, true peak/clipping, integrated/short-term loudness, and channel balance pass explicit thresholds."},
-    {"gate": "lineage_and_replay", "acceptance": "Every output hash reproduces from accepted prepared clips, trajectories, renderer revision, parameters, environment, and deterministic invocation."},
-    {"gate": "runtime_and_audio_qa", "acceptance": "Synthetic truth fixtures and genuine scenes pass metric comparison, waveform/spectrogram review, and full-duration spatial playback review."},
-    {"gate": "reconciliation", "acceptance": "Every admitted source resolves to spatial PASS or exact blocker without missing, duplicate, or unbound events."}
+    {
+      "gate": "dependencies",
+      "acceptance": "Rows088, 091, and 093 are accepted and exact records are hash-bound."
+    },
+    {
+      "gate": "trajectory",
+      "acceptance": "Per-source position, distance, elevation, visibility, and occlusion trajectories are sample/frame ordered, unit-bound, and derived from accepted scene authority."
+    },
+    {
+      "gate": "pan_and_elevation",
+      "acceptance": "Stereo or binaural cues match expected azimuth/elevation trajectories under calibrated error thresholds."
+    },
+    {
+      "gate": "distance_and_air",
+      "acceptance": "Distance attenuation and frequency-dependent air absorption match versioned physical or calibrated policies."
+    },
+    {
+      "gate": "occlusion_and_offscreen",
+      "acceptance": "Time-varying obstruction filtering and offscreen continuity follow accepted visual evidence without dropouts or unsupported inference."
+    },
+    {
+      "gate": "phase_clipping_loudness",
+      "acceptance": "Phase/polarity, true peak/clipping, integrated/short-term loudness, and channel balance pass explicit thresholds."
+    },
+    {
+      "gate": "lineage_and_replay",
+      "acceptance": "Every output hash reproduces from accepted prepared clips, trajectories, renderer revision, parameters, environment, and deterministic invocation."
+    },
+    {
+      "gate": "runtime_and_audio_qa",
+      "acceptance": "Synthetic truth fixtures and genuine scenes pass metric comparison, waveform/spectrogram review, and full-duration spatial playback review."
+    },
+    {
+      "gate": "reconciliation",
+      "acceptance": "Every admitted source resolves to spatial PASS or exact blocker without missing, duplicate, or unbound events."
+    }
   ],
   "checks": [
-    {"id": "ROW095-001", "status": "PASS", "name": "source_commit_bound"},
-    {"id": "ROW095-002", "status": "PASS", "name": "tracker_item_semantic_parity"},
-    {"id": "ROW095-003", "status": "PASS", "name": "requirements_copy_identity"},
-    {"id": "ROW095-004", "status": "PASS", "name": "source_policy_explicit"},
-    {"id": "ROW095-005", "status": "PASS", "name": "three_dependency_records_hash_bound"},
-    {"id": "ROW095-006", "status": "PASS", "name": "row138_runtime_and_evaluator_tracked"},
-    {"id": "ROW095-007", "status": "PASS", "name": "focused_tests_12_of_12"},
-    {"id": "ROW095-008", "status": "PASS", "name": "deterministic_finite_stereo_output"},
-    {"id": "ROW095-009", "status": "PASS", "name": "bounded_pan_distance_occlusion_elevation_technical_route"},
-    {"id": "ROW095-010", "status": "PASS", "name": "bounded_clipping_and_source_nonmutation_evidence"},
-    {"id": "ROW095-011", "status": "PASS", "name": "row138_authority_limits_explicit"},
-    {"id": "ROW095-012", "status": "PASS", "name": "seven_false_open_schema_cases_reproduced"},
-    {"id": "ROW095-013", "status": "PASS", "name": "untracked_planning_schema_ownership_preserved"},
-    {"id": "ROW095-014", "status": "FAIL", "name": "all_dependencies_complete"},
-    {"id": "ROW095-015", "status": "FAIL", "name": "row095_event_driven_production_renderer"},
-    {"id": "ROW095-016", "status": "FAIL", "name": "accepted_source_listener_geometry_input"},
-    {"id": "ROW095-017", "status": "FAIL", "name": "accepted_event_and_prepared_clip_input"},
-    {"id": "ROW095-018", "status": "FAIL", "name": "expected_trajectory_metric_comparison"},
-    {"id": "ROW095-019", "status": "FAIL", "name": "calibrated_elevation_or_hrtf_proof"},
-    {"id": "ROW095-020", "status": "FAIL", "name": "distance_dependent_air_absorption"},
-    {"id": "ROW095-021", "status": "FAIL", "name": "time_varying_occlusion_and_offscreen_continuity"},
-    {"id": "ROW095-022", "status": "FAIL", "name": "phase_and_polarity_measurement"},
-    {"id": "ROW095-023", "status": "FAIL", "name": "loudness_and_true_peak_authority"},
-    {"id": "ROW095-024", "status": "FAIL", "name": "strict_spatial_manifest_contract"},
-    {"id": "ROW095-025", "status": "FAIL", "name": "genuine_row095_runtime_proof"},
-    {"id": "ROW095-026", "status": "FAIL", "name": "independent_spatial_audio_review"},
-    {"id": "ROW095-027", "status": "FAIL", "name": "required_tracker_output"},
-    {"id": "ROW095-028", "status": "FAIL", "name": "row_complete"}
+    {
+      "id": "ROW095-001",
+      "status": "PASS",
+      "name": "source_commit_bound"
+    },
+    {
+      "id": "ROW095-002",
+      "status": "PASS",
+      "name": "tracker_item_semantic_parity"
+    },
+    {
+      "id": "ROW095-003",
+      "status": "PASS",
+      "name": "requirements_copy_identity"
+    },
+    {
+      "id": "ROW095-004",
+      "status": "PASS",
+      "name": "source_policy_explicit"
+    },
+    {
+      "id": "ROW095-005",
+      "status": "PASS",
+      "name": "three_dependency_records_hash_bound"
+    },
+    {
+      "id": "ROW095-006",
+      "status": "PASS",
+      "name": "row138_runtime_and_evaluator_tracked"
+    },
+    {
+      "id": "ROW095-007",
+      "status": "PASS",
+      "name": "focused_tests_12_of_12"
+    },
+    {
+      "id": "ROW095-008",
+      "status": "PASS",
+      "name": "deterministic_finite_stereo_output"
+    },
+    {
+      "id": "ROW095-009",
+      "status": "PASS",
+      "name": "bounded_pan_distance_occlusion_elevation_technical_route"
+    },
+    {
+      "id": "ROW095-010",
+      "status": "PASS",
+      "name": "bounded_clipping_and_source_nonmutation_evidence"
+    },
+    {
+      "id": "ROW095-011",
+      "status": "PASS",
+      "name": "row138_authority_limits_explicit"
+    },
+    {
+      "id": "ROW095-012",
+      "status": "PASS",
+      "name": "seven_false_open_schema_cases_reproduced"
+    },
+    {
+      "id": "ROW095-013",
+      "status": "PASS",
+      "name": "untracked_planning_schema_ownership_preserved"
+    },
+    {
+      "id": "ROW095-014",
+      "status": "FAIL",
+      "name": "all_dependencies_complete"
+    },
+    {
+      "id": "ROW095-015",
+      "status": "FAIL",
+      "name": "row095_event_driven_production_renderer"
+    },
+    {
+      "id": "ROW095-016",
+      "status": "FAIL",
+      "name": "accepted_source_listener_geometry_input"
+    },
+    {
+      "id": "ROW095-017",
+      "status": "FAIL",
+      "name": "accepted_event_and_prepared_clip_input"
+    },
+    {
+      "id": "ROW095-018",
+      "status": "FAIL",
+      "name": "expected_trajectory_metric_comparison"
+    },
+    {
+      "id": "ROW095-019",
+      "status": "FAIL",
+      "name": "calibrated_elevation_or_hrtf_proof"
+    },
+    {
+      "id": "ROW095-020",
+      "status": "FAIL",
+      "name": "distance_dependent_air_absorption"
+    },
+    {
+      "id": "ROW095-021",
+      "status": "FAIL",
+      "name": "time_varying_occlusion_and_offscreen_continuity"
+    },
+    {
+      "id": "ROW095-022",
+      "status": "FAIL",
+      "name": "phase_and_polarity_measurement"
+    },
+    {
+      "id": "ROW095-023",
+      "status": "FAIL",
+      "name": "loudness_and_true_peak_authority"
+    },
+    {
+      "id": "ROW095-024",
+      "status": "PASS",
+      "name": "strict_spatial_manifest_contract",
+      "note": "Strict wave64_row095 schema rejects all seven planning false-open probes; production authority remains held."
+    },
+    {
+      "id": "ROW095-025",
+      "status": "FAIL",
+      "name": "genuine_row095_runtime_proof"
+    },
+    {
+      "id": "ROW095-026",
+      "status": "FAIL",
+      "name": "independent_spatial_audio_review"
+    },
+    {
+      "id": "ROW095-027",
+      "status": "PASS",
+      "name": "required_tracker_output",
+      "note": "Hold packet exists at tracker-declared path; content does not claim row_complete."
+    },
+    {
+      "id": "ROW095-028",
+      "status": "FAIL",
+      "name": "row_complete"
+    }
   ],
-  "check_summary": {"total": 28, "pass": 13, "fail": 15},
+  "check_summary": {
+    "total": 28,
+    "pass": 15,
+    "fail": 13
+  },
   "execution_boundary": {
     "row095_worker_intents": 0,
     "worker_queue_polls": 0,
@@ -277,10 +465,17 @@
     "model_downloads": 0,
     "new_audio_renders": 0,
     "existing_focused_tests_run": 12,
-    "audio_playback_reviews": 0
+    "audio_playback_reviews": 0,
+    "contract_slice_tests_run": 9,
+    "contract_slice_tests_passed": 9
   },
   "preservation_boundary": {
     "evidence_write_scope": [
+      "Plan/08_SCHEMAS/wave64_row095_spatial_audio_render_manifest.schema.json",
+      "Plan/10_REGISTRIES/wave64_row095_spatial_audio_renderer_registry.json",
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_spatial_audio_renderer.py",
+      "Plan/Instructions/QA/Scripts/test_row095_spatial_audio_renderer.py",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-095_spatial_audio_renderer.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-095_SPATIAL_AUDIO_RENDERER_CURRENT_DELTA_20260719.json"
     ],
     "row093_worker_allowed_paths_clean_and_preserved": true,
@@ -290,14 +485,121 @@
     "portfolio_reconciliation_paths_preserved": true,
     "worker_control_snapshots_preserved": true,
     "unrelated_dirty_and_untracked_paths_preserved": true,
-    "unrelated_worktree_entry_count_before_write": 396
+    "unrelated_worktree_entry_count_before_write": 396,
+    "sibling_collision_paths_avoided": [
+      "Row069 full-hash / audio_pack_functional_index",
+      "Row083 retrieval_fallback_calibration",
+      "Row084 canonical_video_timeline / missing-frame",
+      "Row089 visual_material_recognition digest-drift",
+      "Row092 event_uncertainty_fallback",
+      "Row094 layered_foley_composition"
+    ]
   },
   "hold_decision": {
-    "decision": "HOLD_ROW095_WITH_ROW138_TECHNICAL_REUSE",
-    "reason": "The bounded Row138 renderer and evaluator are deterministic, tested, hash-bound, and honestly blocked from production authority. Row095 nevertheless remains incomplete because all three dependencies are held, the renderer uses a hard-coded speech trajectory rather than accepted scene/event/clip inputs, required air-absorption, offscreen, phase, loudness, and expected-trajectory proofs are absent, and the planning schema accepts seven unsupported PASS records.",
-    "safe_next_work": "After Rows088, 091, and 093 are accepted, adapt the proven deterministic renderer core behind a strict event-driven Row095 contract: compile accepted source/listener trajectories and prepared clips; apply calibrated pan/elevation, distance and air absorption, time-varying occlusion and offscreen continuity; measure phase, true peak, clipping, loudness, and trajectory error; preserve hash-bound replay; validate synthetic truth and genuine scene fixtures; perform independent spatial playback review; reconcile every source to PASS or blocker; and emit the tracker-declared direct evidence.",
+    "decision": "HOLD_ROW095_WITH_STRICT_CONTRACT_SLICE_AND_ROW138_TECHNICAL_REUSE",
+    "reason": "Fail-closed Row095 schema/compiler/registry/fixture hold packet landed and closes the seven planning-schema false-open cases. Rows088/091/093 remain held, no event-driven production renderer or genuine runtime/audio QA is accepted, and completion claims remain prohibited.",
+    "safe_next_work": "After Rows088, 091, and 093 are accepted, bind accepted source/listener trajectories and prepared clips into the strict Row095 compiler; prove calibrated pan/elevation, distance/air absorption, time-varying occlusion/offscreen continuity, phase/true-peak/loudness, hash-bound replay, synthetic+genuine fixtures, and independent spatial playback review.",
     "completion_claim_prohibited": true,
     "runtime_claim_prohibited": true,
     "certification_claim_prohibited": true
+  },
+  "fail_closed_contract_slice": {
+    "landed": true,
+    "production_authority": false,
+    "row_complete": false,
+    "strict_schema": {
+      "path": "Plan/08_SCHEMAS/wave64_row095_spatial_audio_render_manifest.schema.json",
+      "sha256": "91ce188956b8801aa5a164ba14146c55b5256b5fc23ab93ae8637722e22db594",
+      "bytes": 14348
+    },
+    "registry": {
+      "path": "Plan/10_REGISTRIES/wave64_row095_spatial_audio_renderer_registry.json",
+      "sha256": "1c5cfd5f33ea20ed64be4a109bd761407bbcdd12a8aab19a29399efdc9fb2f89",
+      "bytes": 3093,
+      "revision": "wave64_row095_spatial_audio_renderer_registry_v0.1.0"
+    },
+    "compiler": {
+      "path": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_spatial_audio_renderer.py",
+      "sha256": "b07560c73fa4a1fcf99d93c8ad7aaa8d8b526991fe6eed1188723487d4e05426",
+      "bytes": 33400,
+      "revision": "wave64_row095_spatial_audio_renderer_compiler_v0.1.0"
+    },
+    "tests": {
+      "path": "Plan/Instructions/QA/Scripts/test_row095_spatial_audio_renderer.py",
+      "sha256": "413071d5e0bd9cd977f2d1640c862db3bffc916e829ab69c60799220255fa89f",
+      "bytes": 5601,
+      "command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_row095_spatial_audio_renderer.py",
+      "result": "9 passed"
+    },
+    "required_output": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-095_spatial_audio_renderer.json",
+      "sha256": "0195f1d164bca242ab78c8ecbc79b7e223c5f5f23db68cd4241c39c458207d39",
+      "bytes": 32776,
+      "row_complete": false,
+      "production_authority": false,
+      "decision_status": "blocked",
+      "false_open_count": 0
+    },
+    "planning_schema_boundary": {
+      "planning_schema_path": "Plan/08_SCHEMAS/audio_spatial_render_manifest.schema.json",
+      "planning_schema_remains_non_authority": true,
+      "reason": "Avoid breaking Row067 work-package registry hash pin; Row095 authority uses the strict wave64_row095 schema."
+    }
+  },
+  "strict_adversarial_schema_probe": {
+    "case_count": 7,
+    "cases": [
+      {
+        "error": "schema_validation_failed:validation.air_absorption_pass:True was expected",
+        "false_open": false,
+        "name": "pass_with_all_validation_gates_false",
+        "schema_accepted": false,
+        "strict_expected_accepted": false
+      },
+      {
+        "error": "schema_validation_failed:sources.0.trajectory:[{}] is too short",
+        "false_open": false,
+        "name": "trajectory_point_empty",
+        "schema_accepted": false,
+        "strict_expected_accepted": false
+      },
+      {
+        "error": "schema_validation_failed:listener.orientation:'forward' is not of type 'object'",
+        "false_open": false,
+        "name": "listener_position_and_orientation_wrong_types",
+        "schema_accepted": false,
+        "strict_expected_accepted": false
+      },
+      {
+        "error": "schema_validation_failed:sources.0.wet_source_policy:'reject' is not one of ['dry_render', 'compatible_wet_passthrough', 'limited_processing']",
+        "false_open": false,
+        "name": "source_reject_policy_but_pass",
+        "schema_accepted": false,
+        "strict_expected_accepted": false
+      },
+      {
+        "error": "schema_validation_failed:room.authority:'unknown' is not one of ['measured', 'registered']",
+        "false_open": false,
+        "name": "unknown_room_authority_but_pass",
+        "schema_accepted": false,
+        "strict_expected_accepted": false
+      },
+      {
+        "error": "schema_validation_failed:output.channels:'stereo' is not of type 'integer'",
+        "false_open": false,
+        "name": "renderer_and_output_required_fields_wrong_types",
+        "schema_accepted": false,
+        "strict_expected_accepted": false
+      },
+      {
+        "error": "schema_validation_failed:validation:'elevation_pass' is a required property",
+        "false_open": false,
+        "name": "missing_elevation_air_absorption_offscreen_loudness_proof",
+        "schema_accepted": false,
+        "strict_expected_accepted": false
+      }
+    ],
+    "false_open_count": 0,
+    "validator": "jsonschema.Draft202012Validator"
   }
 }

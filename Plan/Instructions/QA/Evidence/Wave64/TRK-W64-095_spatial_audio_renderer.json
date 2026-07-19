@@ -1,0 +1,852 @@
+{
+  "adversarial_schema_probe": {
+    "case_count": 7,
+    "cases": [
+      {
+        "error": "schema_validation_failed:validation.air_absorption_pass:True was expected",
+        "false_open": false,
+        "name": "pass_with_all_validation_gates_false",
+        "schema_accepted": false,
+        "strict_expected_accepted": false
+      },
+      {
+        "error": "schema_validation_failed:sources.0.trajectory:[{}] is too short",
+        "false_open": false,
+        "name": "trajectory_point_empty",
+        "schema_accepted": false,
+        "strict_expected_accepted": false
+      },
+      {
+        "error": "schema_validation_failed:listener.orientation:'forward' is not of type 'object'",
+        "false_open": false,
+        "name": "listener_position_and_orientation_wrong_types",
+        "schema_accepted": false,
+        "strict_expected_accepted": false
+      },
+      {
+        "error": "schema_validation_failed:sources.0.wet_source_policy:'reject' is not one of ['dry_render', 'compatible_wet_passthrough', 'limited_processing']",
+        "false_open": false,
+        "name": "source_reject_policy_but_pass",
+        "schema_accepted": false,
+        "strict_expected_accepted": false
+      },
+      {
+        "error": "schema_validation_failed:room.authority:'unknown' is not one of ['measured', 'registered']",
+        "false_open": false,
+        "name": "unknown_room_authority_but_pass",
+        "schema_accepted": false,
+        "strict_expected_accepted": false
+      },
+      {
+        "error": "schema_validation_failed:output.channels:'stereo' is not of type 'integer'",
+        "false_open": false,
+        "name": "renderer_and_output_required_fields_wrong_types",
+        "schema_accepted": false,
+        "strict_expected_accepted": false
+      },
+      {
+        "error": "schema_validation_failed:validation:'elevation_pass' is a required property",
+        "false_open": false,
+        "name": "missing_elevation_air_absorption_offscreen_loudness_proof",
+        "schema_accepted": false,
+        "strict_expected_accepted": false
+      }
+    ],
+    "false_open_count": 0,
+    "validator": "jsonschema.Draft202012Validator"
+  },
+  "blocker_codes": [
+    "CALIBRATED_ELEVATION_OR_HRTF_PROOF_ABSENT",
+    "EVENT_DRIVEN_PRODUCTION_RENDERER_ABSENT",
+    "EXPECTED_TRAJECTORY_METRIC_COMPARISON_ABSENT",
+    "GENUINE_ROW095_RUNTIME_PROOF_ABSENT",
+    "INDEPENDENT_SPATIAL_AUDIO_REVIEW_ABSENT",
+    "ROW088_DEPENDENCY_NOT_ACCEPTED",
+    "ROW088_ROW091_ROW093_DEPENDENCIES_NOT_ACCEPTED",
+    "ROW091_DEPENDENCY_NOT_ACCEPTED",
+    "ROW093_DEPENDENCY_NOT_ACCEPTED"
+  ],
+  "compiler_revision": "wave64_row095_spatial_audio_renderer_compiler_v0.1.0",
+  "decision": {
+    "product_completion": false,
+    "row095_acceptance": "held",
+    "runtime_completion": false,
+    "safe_next_action": "Accept Rows088, 091, and 093; compile accepted source/listener trajectories and prepared clips into the strict Row095 manifest; apply calibrated pan/elevation, distance and air absorption, time-varying occlusion and offscreen continuity; measure phase, true peak, clipping, loudness, and trajectory error; preserve hash-bound replay; validate synthetic truth and genuine scene fixtures; perform independent spatial playback review; then replace this hold packet with production spatial evidence.",
+    "status": "blocked"
+  },
+  "evidence_id": "TRK-W64-095_spatial_audio_renderer",
+  "fixture_calibration": {
+    "authority": "synthetic_non_production",
+    "determinism_identical_bytes": true,
+    "determinism_note": "Fixture manifests prove fail-closed trajectory, occlusion/offscreen, wet-source reject, unknown-room, and gate-failure contracts; they do not accept Row095 production completion or emit real spatial audio.",
+    "fixture_count": 5,
+    "records": [
+      {
+        "compiler_revision": "wave64_row095_spatial_audio_renderer_compiler_v0.1.0",
+        "decision": {
+          "advisory_only": true,
+          "blocker_codes": [
+            "PRODUCTION_AUTHORITY_NOT_GRANTED",
+            "ROW088_ROW091_ROW093_DEPENDENCIES_NOT_ACCEPTED"
+          ],
+          "product_completion": false,
+          "promotion_eligible": false,
+          "row095_acceptance": "fixture_only",
+          "runtime_completion": false,
+          "status": "fixture_ok"
+        },
+        "depth_camera_authority_sha256": "283e0cf27dff2315e73bff15d6f55430b3e01390f3cc0d09bf87772e251f685d",
+        "event_manifest_sha256": "1f4570497686cf22fa07db3635c22933cdbe7e5e409ce1b891944f3f8b40b142",
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-095",
+        "listener": {
+          "orientation": {
+            "pitch_deg": 0.0,
+            "roll_deg": 0.0,
+            "yaw_deg": 0.0
+          },
+          "position_m": [
+            0.0,
+            0.0,
+            1.6
+          ]
+        },
+        "output": {
+          "canonical_pcm_sha256": "b1ca2a8ed755da73838bdc62c5afe7f158bf752910eedbe4cf33671b78c2fcf7",
+          "channels": 2,
+          "duration_seconds": 3.2,
+          "integrated_loudness_lufs": -16.0,
+          "path": "fixtures/row095/fixture:moving_source_trajectory_pass.wav",
+          "peak_absolute": 0.42,
+          "sample_rate_hz": 24000,
+          "sha256": "5534df7d7d26402708d77f3a416bf32d72feb58b20d505f887a9cf9749110931",
+          "true_peak_dbfs": -3.5
+        },
+        "prepared_clip_authority_sha256": "573fc2df970e557c4bfa76b89b8a15785e5bec7dfd1ea64721bc0145c5a763bd",
+        "production_authority": false,
+        "registry_revision": "wave64_row095_spatial_audio_renderer_registry_v0.1.0",
+        "render_id": "fixture:moving_source_trajectory_pass",
+        "renderer": {
+          "channels": 2,
+          "configuration_sha256": "cfeb4e342c3dad8404f805a61f90d35b4f061c2d0d5ed09193c9e6fba2f246f0",
+          "deterministic": true,
+          "name": "wave64_row095_synthetic_spatial_fixture_renderer",
+          "revision": "wave64_row095_spatial_audio_renderer_compiler_v0.1.0",
+          "sample_rate_hz": 24000
+        },
+        "rights_decision_sha256": "e08d19faa9d6b654f2685ec73de43103cfd470f67ea2a7bd7643f03276394e7e",
+        "room": {
+          "authority": "registered",
+          "dimensions_m": [
+            4.0,
+            3.0,
+            2.5
+          ],
+          "profile_id": "wave64_row095_fixture_dry_box",
+          "surface_materials": {
+            "ceiling": "acoustic_tile",
+            "floor": "hardwood",
+            "walls": "painted_drywall"
+          },
+          "target_rt60_seconds": 0.35
+        },
+        "schema_version": "1.0.0",
+        "sources": [
+          {
+            "air_absorption_model": "frequency_dependent_v1",
+            "distance_model": "inverse_distance_v1",
+            "elevation_model": "spectral_tilt_v1",
+            "event_id": "fixture_event_moving_source",
+            "occlusion": {
+              "enabled": true,
+              "filter_model": "lowpass_obstruction_v1",
+              "time_varying": true
+            },
+            "prepared_clip_sha256": "d117548b4b50ef7db0221112dffea2e75b2fded1e718e6a755dedd9e7c14c3d8",
+            "screen_motion_model": "equal_power_pan_v1",
+            "trajectory": [
+              {
+                "air_absorption_db_per_m": 0.01,
+                "azimuth_deg": -51.3,
+                "distance_m": 1.92,
+                "elevation_deg": 0.0,
+                "occlusion_amount": 0.0,
+                "offscreen": false,
+                "position_m": [
+                  -1.5,
+                  1.2,
+                  1.6
+                ],
+                "time_s": 0.0,
+                "visibility": "visible"
+              },
+              {
+                "air_absorption_db_per_m": 0.01,
+                "azimuth_deg": 51.3,
+                "distance_m": 1.92,
+                "elevation_deg": 5.0,
+                "occlusion_amount": 0.0,
+                "offscreen": false,
+                "position_m": [
+                  1.5,
+                  1.2,
+                  1.6
+                ],
+                "time_s": 3.2,
+                "visibility": "visible"
+              }
+            ],
+            "wet_source_policy": "dry_render"
+          }
+        ],
+        "tracker_id": "TRK-W64-095",
+        "validation": {
+          "air_absorption_pass": true,
+          "clipping_pass": true,
+          "clipping_ratio": 0.0,
+          "decision": "pass",
+          "elevation_pass": true,
+          "loudness_pass": true,
+          "measured_rt60_seconds": 0.35,
+          "occlusion_pass": true,
+          "offscreen_continuity_pass": true,
+          "phase_correlation": 0.85,
+          "phase_pass": true,
+          "rt60_pass": true,
+          "trajectory_max_error_m": 0.05,
+          "trajectory_pass": true
+        }
+      },
+      {
+        "compiler_revision": "wave64_row095_spatial_audio_renderer_compiler_v0.1.0",
+        "decision": {
+          "advisory_only": true,
+          "blocker_codes": [
+            "PRODUCTION_AUTHORITY_NOT_GRANTED",
+            "ROW088_ROW091_ROW093_DEPENDENCIES_NOT_ACCEPTED"
+          ],
+          "product_completion": false,
+          "promotion_eligible": false,
+          "row095_acceptance": "fixture_only",
+          "runtime_completion": false,
+          "status": "fixture_ok"
+        },
+        "depth_camera_authority_sha256": "283e0cf27dff2315e73bff15d6f55430b3e01390f3cc0d09bf87772e251f685d",
+        "event_manifest_sha256": "1f4570497686cf22fa07db3635c22933cdbe7e5e409ce1b891944f3f8b40b142",
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-095",
+        "listener": {
+          "orientation": {
+            "pitch_deg": 0.0,
+            "roll_deg": 0.0,
+            "yaw_deg": 0.0
+          },
+          "position_m": [
+            0.0,
+            0.0,
+            1.6
+          ]
+        },
+        "output": {
+          "canonical_pcm_sha256": "9dc024b30df691a2a74914fee69d3984270bff8c4b4acb9bf71d6b9f140dea95",
+          "channels": 2,
+          "duration_seconds": 3.2,
+          "integrated_loudness_lufs": -16.0,
+          "path": "fixtures/row095/fixture:time_varying_occlusion_offscreen.wav",
+          "peak_absolute": 0.42,
+          "sample_rate_hz": 24000,
+          "sha256": "a40301585a0cb0a710dee512a542d02087e8c024a081ec25f38a165a337719de",
+          "true_peak_dbfs": -3.5
+        },
+        "prepared_clip_authority_sha256": "573fc2df970e557c4bfa76b89b8a15785e5bec7dfd1ea64721bc0145c5a763bd",
+        "production_authority": false,
+        "registry_revision": "wave64_row095_spatial_audio_renderer_registry_v0.1.0",
+        "render_id": "fixture:time_varying_occlusion_offscreen",
+        "renderer": {
+          "channels": 2,
+          "configuration_sha256": "e7cd0eb09b255c9b3a870a736b724d4974bf58620d48fb702deb3f62d13d96b5",
+          "deterministic": true,
+          "name": "wave64_row095_synthetic_spatial_fixture_renderer",
+          "revision": "wave64_row095_spatial_audio_renderer_compiler_v0.1.0",
+          "sample_rate_hz": 24000
+        },
+        "rights_decision_sha256": "e08d19faa9d6b654f2685ec73de43103cfd470f67ea2a7bd7643f03276394e7e",
+        "room": {
+          "authority": "registered",
+          "dimensions_m": [
+            4.0,
+            3.0,
+            2.5
+          ],
+          "profile_id": "wave64_row095_fixture_dry_box",
+          "surface_materials": {
+            "ceiling": "acoustic_tile",
+            "floor": "hardwood",
+            "walls": "painted_drywall"
+          },
+          "target_rt60_seconds": 0.35
+        },
+        "schema_version": "1.0.0",
+        "sources": [
+          {
+            "air_absorption_model": "frequency_dependent_v1",
+            "distance_model": "inverse_distance_v1",
+            "elevation_model": "spectral_tilt_v1",
+            "event_id": "fixture_event_occlusion_offscreen",
+            "occlusion": {
+              "enabled": true,
+              "filter_model": "lowpass_obstruction_v1",
+              "time_varying": true
+            },
+            "prepared_clip_sha256": "a84ee2c91d2393212c78e520d66f6bcfbaa0d273d788ce6828fc80a62f6312d4",
+            "screen_motion_model": "equal_power_pan_v1",
+            "trajectory": [
+              {
+                "air_absorption_db_per_m": 0.015,
+                "azimuth_deg": 22.0,
+                "distance_m": 2.15,
+                "elevation_deg": 3.0,
+                "occlusion_amount": 0.2,
+                "offscreen": false,
+                "position_m": [
+                  0.8,
+                  2.0,
+                  1.7
+                ],
+                "time_s": 0.0,
+                "visibility": "partial"
+              },
+              {
+                "air_absorption_db_per_m": 0.02,
+                "azimuth_deg": 82.0,
+                "distance_m": 2.83,
+                "elevation_deg": 2.0,
+                "occlusion_amount": 0.85,
+                "offscreen": true,
+                "position_m": [
+                  2.8,
+                  0.4,
+                  1.7
+                ],
+                "time_s": 2.5,
+                "visibility": "offscreen"
+              }
+            ],
+            "wet_source_policy": "dry_render"
+          }
+        ],
+        "tracker_id": "TRK-W64-095",
+        "validation": {
+          "air_absorption_pass": true,
+          "clipping_pass": true,
+          "clipping_ratio": 0.0,
+          "decision": "pass",
+          "elevation_pass": true,
+          "loudness_pass": true,
+          "measured_rt60_seconds": 0.35,
+          "occlusion_pass": true,
+          "offscreen_continuity_pass": true,
+          "phase_correlation": 0.85,
+          "phase_pass": true,
+          "rt60_pass": true,
+          "trajectory_max_error_m": 0.05,
+          "trajectory_pass": true
+        }
+      },
+      {
+        "compiler_revision": "wave64_row095_spatial_audio_renderer_compiler_v0.1.0",
+        "decision": {
+          "advisory_only": true,
+          "blocker_codes": [
+            "PRODUCTION_AUTHORITY_NOT_GRANTED",
+            "ROW088_ROW091_ROW093_DEPENDENCIES_NOT_ACCEPTED",
+            "WET_SOURCE_REJECT_POLICY"
+          ],
+          "product_completion": false,
+          "promotion_eligible": false,
+          "row095_acceptance": "held",
+          "runtime_completion": false,
+          "status": "blocked"
+        },
+        "depth_camera_authority_sha256": "283e0cf27dff2315e73bff15d6f55430b3e01390f3cc0d09bf87772e251f685d",
+        "event_manifest_sha256": "1f4570497686cf22fa07db3635c22933cdbe7e5e409ce1b891944f3f8b40b142",
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-095",
+        "listener": {
+          "orientation": {
+            "pitch_deg": 0.0,
+            "roll_deg": 0.0,
+            "yaw_deg": 0.0
+          },
+          "position_m": [
+            0.0,
+            0.0,
+            1.6
+          ]
+        },
+        "output": {
+          "canonical_pcm_sha256": "fdba2f6b7c59fd721b17b57e727834b8b07226185d8348f082c6bbacdfe58670",
+          "channels": 2,
+          "duration_seconds": 3.2,
+          "integrated_loudness_lufs": -16.0,
+          "path": "fixtures/row095/fixture:reject_wet_source_blocked.wav",
+          "peak_absolute": 0.42,
+          "sample_rate_hz": 24000,
+          "sha256": "9fbf89bcb0095bcdf89c0e6e067fa50255a0e9aa5cff06c2bf71baba5dd133f8",
+          "true_peak_dbfs": -3.5
+        },
+        "prepared_clip_authority_sha256": "573fc2df970e557c4bfa76b89b8a15785e5bec7dfd1ea64721bc0145c5a763bd",
+        "production_authority": false,
+        "registry_revision": "wave64_row095_spatial_audio_renderer_registry_v0.1.0",
+        "render_id": "fixture:reject_wet_source_blocked",
+        "renderer": {
+          "channels": 2,
+          "configuration_sha256": "69cf723f0f359773289339cac78a2f1099cf433f4f13192673af0892b1c53f99",
+          "deterministic": true,
+          "name": "wave64_row095_synthetic_spatial_fixture_renderer",
+          "revision": "wave64_row095_spatial_audio_renderer_compiler_v0.1.0",
+          "sample_rate_hz": 24000
+        },
+        "rights_decision_sha256": "e08d19faa9d6b654f2685ec73de43103cfd470f67ea2a7bd7643f03276394e7e",
+        "room": {
+          "authority": "registered",
+          "dimensions_m": [
+            4.0,
+            3.0,
+            2.5
+          ],
+          "profile_id": "wave64_row095_fixture_dry_box",
+          "surface_materials": {
+            "ceiling": "acoustic_tile",
+            "floor": "hardwood",
+            "walls": "painted_drywall"
+          },
+          "target_rt60_seconds": 0.35
+        },
+        "schema_version": "1.0.0",
+        "sources": [
+          {
+            "air_absorption_model": "frequency_dependent_v1",
+            "distance_model": "inverse_distance_v1",
+            "elevation_model": "spectral_tilt_v1",
+            "event_id": "fixture_event_reject_wet",
+            "occlusion": {
+              "enabled": true,
+              "filter_model": "lowpass_obstruction_v1",
+              "time_varying": true
+            },
+            "prepared_clip_sha256": "616bd7e72dd0b869aaca7bdeb2f3a0cd6ab54bc065e7274661ba786976046ac7",
+            "screen_motion_model": "equal_power_pan_v1",
+            "trajectory": [
+              {
+                "air_absorption_db_per_m": 0.01,
+                "azimuth_deg": 26.6,
+                "distance_m": 1.12,
+                "elevation_deg": 0.0,
+                "occlusion_amount": 0.0,
+                "offscreen": false,
+                "position_m": [
+                  0.5,
+                  1.0,
+                  1.6
+                ],
+                "time_s": 0.0,
+                "visibility": "visible"
+              },
+              {
+                "air_absorption_db_per_m": 0.01,
+                "azimuth_deg": 31.0,
+                "distance_m": 1.17,
+                "elevation_deg": 0.0,
+                "occlusion_amount": 0.0,
+                "offscreen": false,
+                "position_m": [
+                  0.6,
+                  1.0,
+                  1.6
+                ],
+                "time_s": 1.0,
+                "visibility": "visible"
+              }
+            ],
+            "wet_source_policy": "reject"
+          }
+        ],
+        "tracker_id": "TRK-W64-095",
+        "validation": {
+          "air_absorption_pass": true,
+          "clipping_pass": true,
+          "clipping_ratio": 0.0,
+          "decision": "blocked",
+          "elevation_pass": true,
+          "loudness_pass": true,
+          "measured_rt60_seconds": 0.35,
+          "occlusion_pass": true,
+          "offscreen_continuity_pass": true,
+          "phase_correlation": 0.9,
+          "phase_pass": true,
+          "rt60_pass": true,
+          "trajectory_max_error_m": 0.01,
+          "trajectory_pass": true
+        }
+      },
+      {
+        "compiler_revision": "wave64_row095_spatial_audio_renderer_compiler_v0.1.0",
+        "decision": {
+          "advisory_only": true,
+          "blocker_codes": [
+            "PRODUCTION_AUTHORITY_NOT_GRANTED",
+            "ROW088_ROW091_ROW093_DEPENDENCIES_NOT_ACCEPTED",
+            "UNKNOWN_ROOM_AUTHORITY"
+          ],
+          "product_completion": false,
+          "promotion_eligible": false,
+          "row095_acceptance": "held",
+          "runtime_completion": false,
+          "status": "blocked"
+        },
+        "depth_camera_authority_sha256": "283e0cf27dff2315e73bff15d6f55430b3e01390f3cc0d09bf87772e251f685d",
+        "event_manifest_sha256": "1f4570497686cf22fa07db3635c22933cdbe7e5e409ce1b891944f3f8b40b142",
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-095",
+        "listener": {
+          "orientation": {
+            "pitch_deg": 0.0,
+            "roll_deg": 0.0,
+            "yaw_deg": 0.0
+          },
+          "position_m": [
+            0.0,
+            0.0,
+            1.6
+          ]
+        },
+        "output": {
+          "canonical_pcm_sha256": "d88d2f1171b44d915eedbfde72fd41f2cea8762b1c0f535871479d768bbddaf0",
+          "channels": 2,
+          "duration_seconds": 3.2,
+          "integrated_loudness_lufs": -16.0,
+          "path": "fixtures/row095/fixture:unknown_room_blocked.wav",
+          "peak_absolute": 0.42,
+          "sample_rate_hz": 24000,
+          "sha256": "2295e71d0f65c8d85cfb4c3b9be5449a46f01ba72e48e6215c22f802a7af7620",
+          "true_peak_dbfs": -3.5
+        },
+        "prepared_clip_authority_sha256": "573fc2df970e557c4bfa76b89b8a15785e5bec7dfd1ea64721bc0145c5a763bd",
+        "production_authority": false,
+        "registry_revision": "wave64_row095_spatial_audio_renderer_registry_v0.1.0",
+        "render_id": "fixture:unknown_room_blocked",
+        "renderer": {
+          "channels": 2,
+          "configuration_sha256": "82e50717f069a626cc07e84b4e6f17b2851334629a243276fcb65c6a078287d1",
+          "deterministic": true,
+          "name": "wave64_row095_synthetic_spatial_fixture_renderer",
+          "revision": "wave64_row095_spatial_audio_renderer_compiler_v0.1.0",
+          "sample_rate_hz": 24000
+        },
+        "rights_decision_sha256": "e08d19faa9d6b654f2685ec73de43103cfd470f67ea2a7bd7643f03276394e7e",
+        "room": {
+          "authority": "unknown",
+          "dimensions_m": [
+            4.0,
+            3.0,
+            2.5
+          ],
+          "profile_id": "wave64_row095_fixture_dry_box",
+          "surface_materials": {
+            "ceiling": "acoustic_tile",
+            "floor": "hardwood",
+            "walls": "painted_drywall"
+          },
+          "target_rt60_seconds": 0.35
+        },
+        "schema_version": "1.0.0",
+        "sources": [
+          {
+            "air_absorption_model": "frequency_dependent_v1",
+            "distance_model": "inverse_distance_v1",
+            "elevation_model": "spectral_tilt_v1",
+            "event_id": "fixture_event_unknown_room",
+            "occlusion": {
+              "enabled": true,
+              "filter_model": "lowpass_obstruction_v1",
+              "time_varying": true
+            },
+            "prepared_clip_sha256": "866cbef7ea904cc79f42555e5b7bd25dda2b62d885b551fda9932442a5a9f536",
+            "screen_motion_model": "equal_power_pan_v1",
+            "trajectory": [
+              {
+                "air_absorption_db_per_m": 0.01,
+                "azimuth_deg": 0.0,
+                "distance_m": 1.5,
+                "elevation_deg": 0.0,
+                "occlusion_amount": 0.0,
+                "offscreen": false,
+                "position_m": [
+                  0.0,
+                  1.5,
+                  1.6
+                ],
+                "time_s": 0.0,
+                "visibility": "visible"
+              },
+              {
+                "air_absorption_db_per_m": 0.01,
+                "azimuth_deg": 7.6,
+                "distance_m": 1.51,
+                "elevation_deg": 0.0,
+                "occlusion_amount": 0.0,
+                "offscreen": false,
+                "position_m": [
+                  0.2,
+                  1.5,
+                  1.6
+                ],
+                "time_s": 1.5,
+                "visibility": "visible"
+              }
+            ],
+            "wet_source_policy": "dry_render"
+          }
+        ],
+        "tracker_id": "TRK-W64-095",
+        "validation": {
+          "air_absorption_pass": false,
+          "clipping_pass": false,
+          "clipping_ratio": 0.0,
+          "decision": "blocked",
+          "elevation_pass": false,
+          "loudness_pass": false,
+          "measured_rt60_seconds": 0.35,
+          "occlusion_pass": false,
+          "offscreen_continuity_pass": false,
+          "phase_correlation": 0.1,
+          "phase_pass": false,
+          "rt60_pass": false,
+          "trajectory_max_error_m": 1.0,
+          "trajectory_pass": false
+        }
+      },
+      {
+        "compiler_revision": "wave64_row095_spatial_audio_renderer_compiler_v0.1.0",
+        "decision": {
+          "advisory_only": true,
+          "blocker_codes": [
+            "CLIPPING_INTEGRITY_FAILED",
+            "LOUDNESS_INTEGRITY_FAILED",
+            "PHASE_INTEGRITY_FAILED",
+            "PRODUCTION_AUTHORITY_NOT_GRANTED",
+            "ROW088_ROW091_ROW093_DEPENDENCIES_NOT_ACCEPTED"
+          ],
+          "product_completion": false,
+          "promotion_eligible": false,
+          "row095_acceptance": "held",
+          "runtime_completion": false,
+          "status": "blocked"
+        },
+        "depth_camera_authority_sha256": "283e0cf27dff2315e73bff15d6f55430b3e01390f3cc0d09bf87772e251f685d",
+        "event_manifest_sha256": "1f4570497686cf22fa07db3635c22933cdbe7e5e409ce1b891944f3f8b40b142",
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-095",
+        "listener": {
+          "orientation": {
+            "pitch_deg": 0.0,
+            "roll_deg": 0.0,
+            "yaw_deg": 0.0
+          },
+          "position_m": [
+            0.0,
+            0.0,
+            1.6
+          ]
+        },
+        "output": {
+          "canonical_pcm_sha256": "01b3860c2c7e19b46c9aaf9130e76c41cc18925c27d6019fecea03ee392191f1",
+          "channels": 2,
+          "duration_seconds": 3.2,
+          "integrated_loudness_lufs": -16.0,
+          "path": "fixtures/row095/fixture:gate_failure_blocked.wav",
+          "peak_absolute": 0.42,
+          "sample_rate_hz": 24000,
+          "sha256": "ce00dfffbbfced11d2ab092e29697b6bbb3a7ff1ee6af7d5067b697a0e3ed070",
+          "true_peak_dbfs": -3.5
+        },
+        "prepared_clip_authority_sha256": "573fc2df970e557c4bfa76b89b8a15785e5bec7dfd1ea64721bc0145c5a763bd",
+        "production_authority": false,
+        "registry_revision": "wave64_row095_spatial_audio_renderer_registry_v0.1.0",
+        "render_id": "fixture:gate_failure_blocked",
+        "renderer": {
+          "channels": 2,
+          "configuration_sha256": "bee7ae5bc244d826fb4d6d7ac24149a521ec2cc392bc2d4ea9514d41447b0f5b",
+          "deterministic": true,
+          "name": "wave64_row095_synthetic_spatial_fixture_renderer",
+          "revision": "wave64_row095_spatial_audio_renderer_compiler_v0.1.0",
+          "sample_rate_hz": 24000
+        },
+        "rights_decision_sha256": "e08d19faa9d6b654f2685ec73de43103cfd470f67ea2a7bd7643f03276394e7e",
+        "room": {
+          "authority": "registered",
+          "dimensions_m": [
+            4.0,
+            3.0,
+            2.5
+          ],
+          "profile_id": "wave64_row095_fixture_dry_box",
+          "surface_materials": {
+            "ceiling": "acoustic_tile",
+            "floor": "hardwood",
+            "walls": "painted_drywall"
+          },
+          "target_rt60_seconds": 0.35
+        },
+        "schema_version": "1.0.0",
+        "sources": [
+          {
+            "air_absorption_model": "frequency_dependent_v1",
+            "distance_model": "inverse_distance_v1",
+            "elevation_model": "spectral_tilt_v1",
+            "event_id": "fixture_event_gate_failure",
+            "occlusion": {
+              "enabled": true,
+              "filter_model": "lowpass_obstruction_v1",
+              "time_varying": true
+            },
+            "prepared_clip_sha256": "6b8f9311630ab234a8e7aef15cc03bae6f5c0664a832b57355c4dbe588046d7e",
+            "screen_motion_model": "equal_power_pan_v1",
+            "trajectory": [
+              {
+                "air_absorption_db_per_m": 0.01,
+                "azimuth_deg": -26.6,
+                "distance_m": 1.12,
+                "elevation_deg": 0.0,
+                "occlusion_amount": 0.0,
+                "offscreen": false,
+                "position_m": [
+                  -0.5,
+                  1.0,
+                  1.6
+                ],
+                "time_s": 0.0,
+                "visibility": "visible"
+              },
+              {
+                "air_absorption_db_per_m": 0.01,
+                "azimuth_deg": 26.6,
+                "distance_m": 1.12,
+                "elevation_deg": 0.0,
+                "occlusion_amount": 0.4,
+                "offscreen": false,
+                "position_m": [
+                  0.5,
+                  1.0,
+                  1.6
+                ],
+                "time_s": 1.0,
+                "visibility": "partial"
+              }
+            ],
+            "wet_source_policy": "dry_render"
+          }
+        ],
+        "tracker_id": "TRK-W64-095",
+        "validation": {
+          "air_absorption_pass": false,
+          "clipping_pass": false,
+          "clipping_ratio": 0.0,
+          "decision": "blocked",
+          "elevation_pass": false,
+          "loudness_pass": false,
+          "measured_rt60_seconds": 0.35,
+          "occlusion_pass": false,
+          "offscreen_continuity_pass": false,
+          "phase_correlation": 0.1,
+          "phase_pass": false,
+          "rt60_pass": false,
+          "trajectory_max_error_m": 1.0,
+          "trajectory_pass": false
+        }
+      }
+    ]
+  },
+  "implementation_completion_claimed": false,
+  "item_id": "ITEM-W64-095",
+  "planning_schema_boundary": {
+    "planning_schema_path": "Plan/08_SCHEMAS/audio_spatial_render_manifest.schema.json",
+    "planning_schema_remains_non_authority": true,
+    "strict_contract_closes_seven_false_open_cases": true,
+    "strict_contract_schema_path": "Plan/08_SCHEMAS/wave64_row095_spatial_audio_render_manifest.schema.json"
+  },
+  "production_authority": false,
+  "registry_revision": "wave64_row095_spatial_audio_renderer_registry_v0.1.0",
+  "required_capabilities": [
+    "stereo_or_binaural_pan",
+    "distance_attenuation",
+    "air_absorption",
+    "elevation_cue",
+    "screen_movement",
+    "occlusion_filtering",
+    "offscreen_continuity",
+    "phase_integrity",
+    "clipping_integrity",
+    "loudness_integrity"
+  ],
+  "required_gates": [
+    "pan",
+    "distance",
+    "elevation",
+    "source_motion",
+    "occlusion",
+    "phase"
+  ],
+  "row088_admission": {
+    "blocker_codes": [
+      "ROW088_DEPENDENCY_NOT_ACCEPTED"
+    ],
+    "bytes": 12399,
+    "dependency_satisfied": false,
+    "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_DEPTH_CAMERA_SOURCE_POSITION_CURRENT_DELTA_20260719.json",
+    "row_complete": false,
+    "sha256": "0003e3fa895f2a2e20a83586a7978582bd4e95f68851ef0cb42afb5e310baae8",
+    "status": "HOLD_DEPENDENCY_RUNTIME_BENCHMARK_AND_VISUAL_PROOF_ABSENT_WITH_FAIL_CLOSED_SPATIAL_COMPILER_SLICE_PRESENT",
+    "tracker_id": "TRK-W64-088"
+  },
+  "row091_admission": {
+    "blocker_codes": [
+      "ROW091_DEPENDENCY_NOT_ACCEPTED"
+    ],
+    "bytes": 23572,
+    "dependency_satisfied": false,
+    "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719.json",
+    "row_complete": false,
+    "sha256": "055e73b6d64bc3bcf2184fe8de9b5360e63a014e39643fad37ff8249225a75a5",
+    "status": "HOLD_DEPENDENCIES_RUNTIME_AND_COMBINED_REVIEW_ABSENT_WITH_FIXTURE_DECISION_PHASE_PACKETS_PRESENT",
+    "tracker_id": "TRK-W64-091"
+  },
+  "row093_admission": {
+    "blocker_codes": [
+      "ROW093_DEPENDENCY_NOT_ACCEPTED"
+    ],
+    "bytes": 13813,
+    "dependency_satisfied": false,
+    "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-093_CANONICAL_CLIP_PREPARATION_CURRENT_DELTA_20260719.json",
+    "row_complete": false,
+    "sha256": "3f11d692b8f79751cdd19e57e746187c44c23b3ee1bd3bf46796b789e5740c66",
+    "status": "HOLD_FIVE_DEPENDENCIES_PRODUCTION_CLIP_PREPARER_RUNTIME_AND_AUDIO_QA_ABSENT",
+    "tracker_id": "TRK-W64-093"
+  },
+  "row_complete": false,
+  "runtime_completion_claimed": false,
+  "schema_version": "1.0.0",
+  "spatial_registry": {
+    "authority": "planning_freeze_not_production_spatial_acceptance",
+    "path": "Plan/10_REGISTRIES/wave64_row095_spatial_audio_renderer_registry.json",
+    "registry_revision": "wave64_row095_spatial_audio_renderer_registry_v0.1.0",
+    "sha256": "1c5cfd5f33ea20ed64be4a109bd761407bbcdd12a8aab19a29399efdc9fb2f89"
+  },
+  "status": "HOLD_ROW088_ROW091_ROW093_DEPENDENCIES_EVENT_DRIVEN_PRODUCTION_SPATIAL_RENDERER_RUNTIME_AND_AUDIO_QA_ABSENT",
+  "strict_schema": {
+    "path": "Plan/08_SCHEMAS/wave64_row095_spatial_audio_render_manifest.schema.json",
+    "sha256": "91ce188956b8801aa5a164ba14146c55b5256b5fc23ab93ae8637722e22db594"
+  },
+  "tracker_id": "TRK-W64-095"
+}
