@@ -1,35 +1,35 @@
 {
   "blocker_codes": [
     "ROW070_DEPENDENCY_NOT_ACCEPTED",
-    "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT",
-    "BS1770_LOUDNESS_AUTHORITY_NOT_WIRED"
+    "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT"
   ],
   "bounded_decoded_pcm_runtime": {
-    "audio_qa_hold": 0,
-    "audio_qa_pass": 3,
-    "authority": "bounded_non_library_technical_audio_qa",
-    "feature_records": 3,
+    "audio_qa_hold": 3,
+    "audio_qa_pass": 6,
+    "authority": "accepted_index_strata_bounded_technical_audio_qa",
+    "exact_blockers": 3,
+    "feature_records": 6,
     "library_authority": false,
-    "note": "Technical audio QA over bounded decoded PCM (loudness/true-peak proxies, clipping, spectral centroid, decode integrity). Not full semantic/AV protocol acceptance.",
+    "note": "Technical audio QA over accepted-index strata decode-pass PCM with BS.1770-4 integrated loudness and true-peak. Not full semantic/AV protocol acceptance.",
     "proof_tier": "AUDIO_QA_PASS_BOUNDED",
-    "qa_scope": "technical_waveform_checks_on_row070_decode_pass_pcm",
-    "summary_bytes": 10271,
-    "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_071_BOUNDED_LIVE_PCM_RUNTIME_SUMMARY_20260719.json",
-    "summary_sha256": "9839d1dc7f9d68d64f2368eefef5197ff037fd196ace56a5f2d99b525d85314f"
+    "summary_bytes": 20434,
+    "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-071_ACCEPTED_INDEX_STRATA_BOUNDED_AUDIO_QA_SUMMARY_20260719.json",
+    "summary_sha256": "d9db117bb6f5f6fe30669e1d5e4ee88794725841bd487d4cbafd6975f3126d63"
   },
+  "bs1770_methods_wired": true,
   "decision": {
     "bounded_runtime": "AUDIO_QA_PASS_BOUNDED",
     "product_completion": false,
     "row071_acceptance": "held",
     "runtime_completion": false,
-    "safe_next_action": "Bounded technical audio QA passed on Row070 decode-pass PCM. Accept Row070 library PCM authority, wire BS.1770 loudness/true-peak, reconcile full-library PASS/blocker counts, then reassess Row071 acceptance.",
+    "safe_next_action": "BS.1770 loudness/true-peak methods are wired and bounded accepted-index strata feature/audio-QA proof may climb. Accept Row070 library PCM authority, then reconcile every accepted decode record to feature PASS or an exact blocker before Row071 library acceptance.",
     "status": "blocked"
   },
   "evidence_id": "TRK-W64-071_waveform_feature_extraction",
-  "feature_pipeline_revision": "wave64_row071_waveform_features_v0.1.0",
+  "feature_pipeline_revision": "wave64_row071_waveform_features_v0.2.0",
   "fixture_calibration": {
     "authority": "synthetic_non_library",
-    "determinism_note": "Fixture records prove PCM-domain method identity only; they do not accept Row071 library completion.",
+    "determinism_note": "Fixture records prove BS.1770-backed method identity on synthetic PCM only; they do not accept Row071 library completion.",
     "fixture_count": 5,
     "records": [
       {
@@ -43,20 +43,20 @@
           "library_authority": false,
           "status": "blocked"
         },
-        "feature_pipeline_revision": "wave64_row071_waveform_features_v0.1.0",
+        "feature_pipeline_revision": "wave64_row071_waveform_features_v0.2.0",
         "features": {
           "channel_correlation": 0.0,
           "clipping": false,
           "crest_factor": 0.0,
           "dc_offset": 0.0,
           "dynamic_range": 0.0,
-          "integrated_loudness": -240.0,
+          "integrated_loudness": -70.0,
           "noise_floor": -240.0,
           "rms": 0.0,
           "spectral_bandwidth": 0.0,
           "spectral_centroid": 0.0,
           "spectral_rolloff": 0.0,
-          "true_peak": -240.0,
+          "true_peak": -70.0,
           "zero_crossing_rate": 0.0
         },
         "frame_count": 2048,
@@ -88,9 +88,9 @@
             "window": "full_signal"
           },
           "integrated_loudness": {
-            "method_id": "pcm_mean_square_dbfs_v1",
-            "unit": "dBFS",
-            "window": "full_signal"
+            "method_id": "bs1770_4_integrated_lufs_v1",
+            "unit": "LUFS",
+            "window": "400ms_75pct_overlap_gated_or_ungated_short"
           },
           "noise_floor": {
             "method_id": "pcm_lowest_decile_rms_dbfs_v1",
@@ -105,22 +105,22 @@
           "spectral_bandwidth": {
             "method_id": "pcm_rfft_power_bandwidth_hz_v1",
             "unit": "Hz",
-            "window": "full_signal_rfft"
+            "window": "leading_power_of_two_rfft"
           },
           "spectral_centroid": {
             "method_id": "pcm_rfft_power_centroid_hz_v1",
             "unit": "Hz",
-            "window": "full_signal_rfft"
+            "window": "leading_power_of_two_rfft"
           },
           "spectral_rolloff": {
             "method_id": "pcm_rfft_power_rolloff_85pct_hz_v1",
             "unit": "Hz",
-            "window": "full_signal_rfft"
+            "window": "leading_power_of_two_rfft"
           },
           "true_peak": {
-            "method_id": "pcm_sample_peak_dbfs_v1",
-            "unit": "dBFS",
-            "window": "full_signal"
+            "method_id": "bs1770_4_true_peak_dbtp_v1",
+            "unit": "dBTP",
+            "window": "4x_oversampled_full_signal"
           },
           "zero_crossing_rate": {
             "method_id": "pcm_zero_crossing_rate_v1",
@@ -144,20 +144,20 @@
           "library_authority": false,
           "status": "blocked"
         },
-        "feature_pipeline_revision": "wave64_row071_waveform_features_v0.1.0",
+        "feature_pipeline_revision": "wave64_row071_waveform_features_v0.2.0",
         "features": {
           "channel_correlation": 1.0,
           "clipping": false,
           "crest_factor": 45.254833996,
           "dc_offset": 0.000439453,
           "dynamic_range": 239.084850189,
-          "integrated_loudness": -34.028449334,
+          "integrated_loudness": -27.923371214,
           "noise_floor": -240.0,
           "rms": 0.019887378,
           "spectral_bandwidth": 6934.96575334,
           "spectral_centroid": 12000.0,
           "spectral_rolloff": 20414.0625,
-          "true_peak": -0.915149811,
+          "true_peak": -0.909622436,
           "zero_crossing_rate": 0.0
         },
         "frame_count": 2048,
@@ -189,9 +189,9 @@
             "window": "full_signal"
           },
           "integrated_loudness": {
-            "method_id": "pcm_mean_square_dbfs_v1",
-            "unit": "dBFS",
-            "window": "full_signal"
+            "method_id": "bs1770_4_integrated_lufs_v1",
+            "unit": "LUFS",
+            "window": "400ms_75pct_overlap_gated_or_ungated_short"
           },
           "noise_floor": {
             "method_id": "pcm_lowest_decile_rms_dbfs_v1",
@@ -206,22 +206,22 @@
           "spectral_bandwidth": {
             "method_id": "pcm_rfft_power_bandwidth_hz_v1",
             "unit": "Hz",
-            "window": "full_signal_rfft"
+            "window": "leading_power_of_two_rfft"
           },
           "spectral_centroid": {
             "method_id": "pcm_rfft_power_centroid_hz_v1",
             "unit": "Hz",
-            "window": "full_signal_rfft"
+            "window": "leading_power_of_two_rfft"
           },
           "spectral_rolloff": {
             "method_id": "pcm_rfft_power_rolloff_85pct_hz_v1",
             "unit": "Hz",
-            "window": "full_signal_rfft"
+            "window": "leading_power_of_two_rfft"
           },
           "true_peak": {
-            "method_id": "pcm_sample_peak_dbfs_v1",
-            "unit": "dBFS",
-            "window": "full_signal"
+            "method_id": "bs1770_4_true_peak_dbtp_v1",
+            "unit": "dBTP",
+            "window": "4x_oversampled_full_signal"
           },
           "zero_crossing_rate": {
             "method_id": "pcm_zero_crossing_rate_v1",
@@ -245,20 +245,20 @@
           "library_authority": false,
           "status": "blocked"
         },
-        "feature_pipeline_revision": "wave64_row071_waveform_features_v0.1.0",
+        "feature_pipeline_revision": "wave64_row071_waveform_features_v0.2.0",
         "features": {
           "channel_correlation": 1.0,
           "clipping": false,
           "crest_factor": 1.415610182,
           "dc_offset": 0.002899366,
           "dynamic_range": 3.038288776,
-          "integrated_loudness": -9.039473467,
+          "integrated_loudness": -6.059705212,
           "noise_floor": -9.058888689,
           "rms": 0.35320458,
           "spectral_bandwidth": 206.940923837,
           "spectral_centroid": 1004.777680989,
           "spectral_rolloff": 1007.8125,
-          "true_peak": -6.020599913,
+          "true_peak": -6.015072538,
           "zero_crossing_rate": 0.041524182
         },
         "frame_count": 2048,
@@ -290,9 +290,9 @@
             "window": "full_signal"
           },
           "integrated_loudness": {
-            "method_id": "pcm_mean_square_dbfs_v1",
-            "unit": "dBFS",
-            "window": "full_signal"
+            "method_id": "bs1770_4_integrated_lufs_v1",
+            "unit": "LUFS",
+            "window": "400ms_75pct_overlap_gated_or_ungated_short"
           },
           "noise_floor": {
             "method_id": "pcm_lowest_decile_rms_dbfs_v1",
@@ -307,22 +307,22 @@
           "spectral_bandwidth": {
             "method_id": "pcm_rfft_power_bandwidth_hz_v1",
             "unit": "Hz",
-            "window": "full_signal_rfft"
+            "window": "leading_power_of_two_rfft"
           },
           "spectral_centroid": {
             "method_id": "pcm_rfft_power_centroid_hz_v1",
             "unit": "Hz",
-            "window": "full_signal_rfft"
+            "window": "leading_power_of_two_rfft"
           },
           "spectral_rolloff": {
             "method_id": "pcm_rfft_power_rolloff_85pct_hz_v1",
             "unit": "Hz",
-            "window": "full_signal_rfft"
+            "window": "leading_power_of_two_rfft"
           },
           "true_peak": {
-            "method_id": "pcm_sample_peak_dbfs_v1",
-            "unit": "dBFS",
-            "window": "full_signal"
+            "method_id": "bs1770_4_true_peak_dbtp_v1",
+            "unit": "dBTP",
+            "window": "4x_oversampled_full_signal"
           },
           "zero_crossing_rate": {
             "method_id": "pcm_zero_crossing_rate_v1",
@@ -346,20 +346,20 @@
           "library_authority": false,
           "status": "blocked"
         },
-        "feature_pipeline_revision": "wave64_row071_waveform_features_v0.1.0",
+        "feature_pipeline_revision": "wave64_row071_waveform_features_v0.2.0",
         "features": {
           "channel_correlation": 1.0,
           "clipping": false,
           "crest_factor": 1.747253357,
           "dc_offset": -0.000918019,
           "dynamic_range": 4.909943795,
-          "integrated_loudness": -16.88870248,
+          "integrated_loudness": -10.82342579,
           "noise_floor": -16.951528603,
           "rms": 0.143075369,
           "spectral_bandwidth": 7010.451079966,
           "spectral_centroid": 12120.949864791,
           "spectral_rolloff": 20531.25,
-          "true_peak": -12.041584808,
+          "true_peak": -8.023299251,
           "zero_crossing_rate": 0.510014656
         },
         "frame_count": 2048,
@@ -391,9 +391,9 @@
             "window": "full_signal"
           },
           "integrated_loudness": {
-            "method_id": "pcm_mean_square_dbfs_v1",
-            "unit": "dBFS",
-            "window": "full_signal"
+            "method_id": "bs1770_4_integrated_lufs_v1",
+            "unit": "LUFS",
+            "window": "400ms_75pct_overlap_gated_or_ungated_short"
           },
           "noise_floor": {
             "method_id": "pcm_lowest_decile_rms_dbfs_v1",
@@ -408,22 +408,22 @@
           "spectral_bandwidth": {
             "method_id": "pcm_rfft_power_bandwidth_hz_v1",
             "unit": "Hz",
-            "window": "full_signal_rfft"
+            "window": "leading_power_of_two_rfft"
           },
           "spectral_centroid": {
             "method_id": "pcm_rfft_power_centroid_hz_v1",
             "unit": "Hz",
-            "window": "full_signal_rfft"
+            "window": "leading_power_of_two_rfft"
           },
           "spectral_rolloff": {
             "method_id": "pcm_rfft_power_rolloff_85pct_hz_v1",
             "unit": "Hz",
-            "window": "full_signal_rfft"
+            "window": "leading_power_of_two_rfft"
           },
           "true_peak": {
-            "method_id": "pcm_sample_peak_dbfs_v1",
-            "unit": "dBFS",
-            "window": "full_signal"
+            "method_id": "bs1770_4_true_peak_dbtp_v1",
+            "unit": "dBTP",
+            "window": "4x_oversampled_full_signal"
           },
           "zero_crossing_rate": {
             "method_id": "pcm_zero_crossing_rate_v1",
@@ -447,20 +447,20 @@
           "library_authority": false,
           "status": "blocked"
         },
-        "feature_pipeline_revision": "wave64_row071_waveform_features_v0.1.0",
+        "feature_pipeline_revision": "wave64_row071_waveform_features_v0.2.0",
         "features": {
           "channel_correlation": -1.0,
           "clipping": false,
           "crest_factor": 0.0,
           "dc_offset": 0.0,
           "dynamic_range": 0.0,
-          "integrated_loudness": -240.0,
+          "integrated_loudness": -8.679069614,
           "noise_floor": -240.0,
           "rms": 0.0,
           "spectral_bandwidth": 0.0,
           "spectral_centroid": 0.0,
           "spectral_rolloff": 0.0,
-          "true_peak": -240.0,
+          "true_peak": -6.893466387,
           "zero_crossing_rate": 0.0
         },
         "frame_count": 2048,
@@ -492,9 +492,9 @@
             "window": "full_signal"
           },
           "integrated_loudness": {
-            "method_id": "pcm_mean_square_dbfs_v1",
-            "unit": "dBFS",
-            "window": "full_signal"
+            "method_id": "bs1770_4_integrated_lufs_v1",
+            "unit": "LUFS",
+            "window": "400ms_75pct_overlap_gated_or_ungated_short"
           },
           "noise_floor": {
             "method_id": "pcm_lowest_decile_rms_dbfs_v1",
@@ -509,22 +509,22 @@
           "spectral_bandwidth": {
             "method_id": "pcm_rfft_power_bandwidth_hz_v1",
             "unit": "Hz",
-            "window": "full_signal_rfft"
+            "window": "leading_power_of_two_rfft"
           },
           "spectral_centroid": {
             "method_id": "pcm_rfft_power_centroid_hz_v1",
             "unit": "Hz",
-            "window": "full_signal_rfft"
+            "window": "leading_power_of_two_rfft"
           },
           "spectral_rolloff": {
             "method_id": "pcm_rfft_power_rolloff_85pct_hz_v1",
             "unit": "Hz",
-            "window": "full_signal_rfft"
+            "window": "leading_power_of_two_rfft"
           },
           "true_peak": {
-            "method_id": "pcm_sample_peak_dbfs_v1",
-            "unit": "dBFS",
-            "window": "full_signal"
+            "method_id": "bs1770_4_true_peak_dbtp_v1",
+            "unit": "dBTP",
+            "window": "4x_oversampled_full_signal"
           },
           "zero_crossing_rate": {
             "method_id": "pcm_zero_crossing_rate_v1",
@@ -539,7 +539,6 @@
       }
     ]
   },
-  "highest_proof_tier_achieved": "AUDIO_QA_PASS_BOUNDED",
   "implementation_completion_claimed": false,
   "item_id": "ITEM-W64-071",
   "library_authority": false,
@@ -570,9 +569,9 @@
       "window": "full_signal"
     },
     "integrated_loudness": {
-      "method_id": "pcm_mean_square_dbfs_v1",
-      "unit": "dBFS",
-      "window": "full_signal"
+      "method_id": "bs1770_4_integrated_lufs_v1",
+      "unit": "LUFS",
+      "window": "400ms_75pct_overlap_gated_or_ungated_short"
     },
     "noise_floor": {
       "method_id": "pcm_lowest_decile_rms_dbfs_v1",
@@ -587,22 +586,22 @@
     "spectral_bandwidth": {
       "method_id": "pcm_rfft_power_bandwidth_hz_v1",
       "unit": "Hz",
-      "window": "full_signal_rfft"
+      "window": "leading_power_of_two_rfft"
     },
     "spectral_centroid": {
       "method_id": "pcm_rfft_power_centroid_hz_v1",
       "unit": "Hz",
-      "window": "full_signal_rfft"
+      "window": "leading_power_of_two_rfft"
     },
     "spectral_rolloff": {
       "method_id": "pcm_rfft_power_rolloff_85pct_hz_v1",
       "unit": "Hz",
-      "window": "full_signal_rfft"
+      "window": "leading_power_of_two_rfft"
     },
     "true_peak": {
-      "method_id": "pcm_sample_peak_dbfs_v1",
-      "unit": "dBFS",
-      "window": "full_signal"
+      "method_id": "bs1770_4_true_peak_dbtp_v1",
+      "unit": "dBTP",
+      "window": "4x_oversampled_full_signal"
     },
     "zero_crossing_rate": {
       "method_id": "pcm_zero_crossing_rate_v1",
@@ -629,18 +628,17 @@
     "blocker_codes": [
       "ROW070_DEPENDENCY_NOT_ACCEPTED"
     ],
-    "bytes": 8988,
+    "bytes": 11079,
     "dependency_satisfied": false,
+    "highest_proof_tier_observed": "RUNTIME_PASS_BOUNDED",
     "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_CANONICAL_AUDIO_DECODE_CURRENT_DELTA_20260719.json",
     "row_complete": false,
-    "sha256": "f298c52203b46a1e9c9b7e181e73dc9780f33daaf4f33c98070f3671e7b667da",
-    "status": "HOLD_LIBRARY_AUTHORITY_WITH_BOUNDED_LIVE_PCM_RUNTIME_PASS"
+    "sha256": "18b09bff18e22c0da147c7399b8854e80ea1fc385abf27766798040e83e7f522",
+    "status": "HOLD_FULL_LIBRARY_DECODE_WITH_ACCEPTED_INDEX_STRATA_BOUNDED_RUNTIME"
   },
   "row_complete": false,
   "runtime_completion_claimed": false,
   "schema_version": "1.0.0",
-  "source_commit": "4e1012e6aa08ee2c74bcc0bf04eb52d5d08c1472",
-  "status": "HOLD_LIBRARY_AUTHORITY_WITH_BOUNDED_DECODED_PCM_AUDIO_QA_PASS",
-  "tracker_id": "TRK-W64-071",
-  "updated_at": "2026-07-19T21:14:30Z"
+  "status": "HOLD_ROW070_LIBRARY_PCM_AND_FULL_LIBRARY_FEATURE_RUNTIME_ABSENT",
+  "tracker_id": "TRK-W64-071"
 }
