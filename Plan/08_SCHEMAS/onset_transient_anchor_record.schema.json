@@ -1,0 +1,174 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/onset_transient_anchor_record.schema.json",
+  "title": "Wave64 Row072 Onset Transient Anchor Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "tracker_id",
+    "item_id",
+    "detector_revision",
+    "threshold_registry_revision",
+    "asset_id",
+    "source_sha256",
+    "canonical_pcm_sha256",
+    "sample_rate_hz",
+    "channels",
+    "frame_count",
+    "event_density",
+    "anchors",
+    "method_results",
+    "multi_method_agreement",
+    "ambiguity",
+    "decision"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "tracker_id": { "type": "string", "const": "TRK-W64-072" },
+    "item_id": { "type": "string", "const": "ITEM-W64-072" },
+    "detector_revision": {
+      "type": "string",
+      "const": "wave64_row072_onset_transient_detector_v0.1.0"
+    },
+    "threshold_registry_revision": {
+      "type": "string",
+      "const": "wave64_row072_onset_thresholds_v0.1.0"
+    },
+    "asset_id": { "type": "string", "minLength": 1 },
+    "source_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "canonical_pcm_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "sample_rate_hz": { "type": "integer", "minimum": 1 },
+    "channels": { "type": "integer", "minimum": 1 },
+    "frame_count": { "type": "integer", "minimum": 1 },
+    "event_family": { "type": "string", "minLength": 1 },
+    "event_density": { "type": "number", "minimum": 0 },
+    "benchmark_fixture_reference": { "type": ["string", "null"] },
+    "anchors": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/anchor" }
+    },
+    "method_results": {
+      "type": "array",
+      "minItems": 2,
+      "items": { "$ref": "#/$defs/method_result" }
+    },
+    "multi_method_agreement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "sample_delta",
+        "frame_delta",
+        "agreement_threshold_samples"
+      ],
+      "properties": {
+        "status": {
+          "enum": ["agree", "disagree", "insufficient_methods", "not_applicable"]
+        },
+        "sample_delta": { "type": ["integer", "null"], "minimum": 0 },
+        "frame_delta": { "type": ["number", "null"], "minimum": 0 },
+        "agreement_threshold_samples": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "ambiguity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "candidate_count", "reason_codes"],
+      "properties": {
+        "status": {
+          "enum": ["none", "multi_candidate", "windowed", "blocked"]
+        },
+        "candidate_count": { "type": "integer", "minimum": 0 },
+        "reason_codes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "window_start_sample": { "type": ["integer", "null"], "minimum": 0 },
+        "window_end_sample": { "type": ["integer", "null"], "minimum": 0 }
+      }
+    },
+    "benchmark": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reference_onset_sample",
+        "measured_onset_sample",
+        "sample_error",
+        "frame_error",
+        "within_registered_thresholds"
+      ],
+      "properties": {
+        "reference_onset_sample": { "type": ["integer", "null"], "minimum": 0 },
+        "measured_onset_sample": { "type": ["integer", "null"], "minimum": 0 },
+        "sample_error": { "type": ["integer", "null"], "minimum": 0 },
+        "frame_error": { "type": ["number", "null"], "minimum": 0 },
+        "within_registered_thresholds": { "type": "boolean" }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "blocker_codes", "library_authority", "frame_exact_claim"],
+      "properties": {
+        "status": { "enum": ["pass", "blocked"] },
+        "blocker_codes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "library_authority": { "type": "boolean" },
+        "frame_exact_claim": { "type": "boolean" }
+      }
+    }
+  },
+  "$defs": {
+    "anchor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_id",
+        "anchor_type",
+        "sample_index",
+        "frame_index",
+        "seconds",
+        "confidence",
+        "method_id"
+      ],
+      "properties": {
+        "candidate_id": { "type": "string", "minLength": 1 },
+        "anchor_type": {
+          "enum": ["onset", "attack_peak", "energy_peak", "offset", "decay_end"]
+        },
+        "sample_index": { "type": "integer", "minimum": 0 },
+        "frame_index": { "type": "number" },
+        "seconds": { "type": "number", "minimum": 0 },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "method_id": { "type": "string", "minLength": 1 },
+        "window_start_sample": { "type": ["integer", "null"], "minimum": 0 },
+        "window_end_sample": { "type": ["integer", "null"], "minimum": 0 }
+      }
+    },
+    "method_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "method_id",
+        "onset_sample",
+        "attack_peak_sample",
+        "energy_peak_sample",
+        "offset_sample",
+        "confidence"
+      ],
+      "properties": {
+        "method_id": { "type": "string", "minLength": 1 },
+        "onset_sample": { "type": ["integer", "null"], "minimum": 0 },
+        "attack_peak_sample": { "type": ["integer", "null"], "minimum": 0 },
+        "energy_peak_sample": { "type": ["integer", "null"], "minimum": 0 },
+        "offset_sample": { "type": ["integer", "null"], "minimum": 0 },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "parameters": { "type": "object" }
+      }
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "wave64_row072_onset_transient_threshold_registry",
+  "revision": "wave64_row072_onset_thresholds_v0.1.0",
+  "tracker_id": "TRK-W64-072",
+  "authority": "planning_freeze_not_library_acceptance",
+  "notes": [
+    "Thresholds freeze Row072 evaluation identity for synthetic fixture calibration.",
+    "They do not accept library completion or substitute for Rows070/071 authority."
+  ],
+  "default_frame_rate_fps": 24.0,
+  "agreement_threshold_samples": 2,
+  "event_families": {
+    "impulse": {
+      "max_sample_error": 2,
+      "max_frame_error": 0.5,
+      "frame_rate_fps": 24.0
+    },
+    "gradual_attack": {
+      "max_sample_error": 48,
+      "max_frame_error": 2.0,
+      "frame_rate_fps": 24.0,
+      "windowed_sync_required": true
+    },
+    "multi_hit": {
+      "max_sample_error": 4,
+      "max_frame_error": 0.5,
+      "frame_rate_fps": 24.0
+    },
+    "silence": {
+      "max_sample_error": 0,
+      "max_frame_error": 0.0,
+      "frame_rate_fps": 24.0,
+      "expect_no_frame_exact_onset": true
+    },
+    "stereo_disagree": {
+      "max_sample_error": 0,
+      "max_frame_error": 0.0,
+      "frame_rate_fps": 24.0,
+      "expect_ambiguity_or_block": true
+    }
+  }
+}

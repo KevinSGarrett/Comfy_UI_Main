@@ -1,0 +1,781 @@
+{
+  "blocker_codes": [
+    "ROW070_DEPENDENCY_NOT_ACCEPTED",
+    "ROW071_DEPENDENCY_NOT_ACCEPTED",
+    "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT",
+    "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+    "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT"
+  ],
+  "decision": {
+    "product_completion": false,
+    "row072_acceptance": "held",
+    "runtime_completion": false,
+    "safe_next_action": "Accept Rows070-071 authority, reconcile every accepted PCM/feature record to anchor PASS or an exact blocker with registered event-family thresholds, and replace this hold packet with full-library onset/transient evidence.",
+    "status": "blocked"
+  },
+  "detector_revision": "wave64_row072_onset_transient_detector_v0.1.0",
+  "evidence_id": "TRK-W64-072_onset_transient_detection",
+  "fixture_calibration": {
+    "authority": "synthetic_non_library",
+    "determinism_note": "Fixture records prove multi-method identity, ambiguity policy, and threshold binding only; they do not accept Row072 library completion.",
+    "fixture_count": 5,
+    "records": [
+      {
+        "ambiguity": {
+          "candidate_count": 0,
+          "reason_codes": [
+            "NO_ONSET_DETECTED"
+          ],
+          "status": "blocked",
+          "window_end_sample": null,
+          "window_start_sample": null
+        },
+        "anchors": [
+          {
+            "anchor_type": "onset",
+            "candidate_id": "blocked_no_onset",
+            "confidence": 0.0,
+            "frame_index": 0.0,
+            "method_id": "none",
+            "sample_index": 0,
+            "seconds": 0.0,
+            "window_end_sample": null,
+            "window_start_sample": null
+          }
+        ],
+        "asset_id": "fixture:silence",
+        "benchmark": {
+          "frame_error": null,
+          "measured_onset_sample": null,
+          "reference_onset_sample": null,
+          "sample_error": null,
+          "within_registered_thresholds": false
+        },
+        "benchmark_fixture_reference": "row072_synthetic/silence",
+        "canonical_pcm_sha256": "c35020473aed1b4642cd726cad727b63fff2824ad68cedd7ffb73c7cbd890479",
+        "channels": 2,
+        "decision": {
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED",
+            "AMBIGUOUS_OR_ABSENT_ONSET_BLOCKED"
+          ],
+          "frame_exact_claim": false,
+          "library_authority": false,
+          "status": "blocked"
+        },
+        "detector_revision": "wave64_row072_onset_transient_detector_v0.1.0",
+        "event_density": 0.0,
+        "event_family": "silence",
+        "frame_count": 4096,
+        "item_id": "ITEM-W64-072",
+        "method_results": [
+          {
+            "attack_peak_sample": null,
+            "confidence": 0.0,
+            "energy_peak_sample": null,
+            "method_id": "energy_flux_onset_v1",
+            "offset_sample": null,
+            "onset_sample": null,
+            "parameters": {
+              "frame": 256,
+              "hop": 64
+            }
+          },
+          {
+            "attack_peak_sample": null,
+            "confidence": 0.0,
+            "energy_peak_sample": null,
+            "method_id": "hf_envelope_onset_v1",
+            "offset_sample": null,
+            "onset_sample": null,
+            "parameters": {
+              "frame": 256,
+              "hop": 64,
+              "preemphasis": "first_difference"
+            }
+          }
+        ],
+        "multi_method_agreement": {
+          "agreement_threshold_samples": 2,
+          "frame_delta": null,
+          "sample_delta": null,
+          "status": "not_applicable"
+        },
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "source_sha256": "ef5e895b316ec93ac51933c28881bf462398edc47a98d2f436469ddd6e65b407",
+        "threshold_registry_revision": "wave64_row072_onset_thresholds_v0.1.0",
+        "tracker_id": "TRK-W64-072"
+      },
+      {
+        "ambiguity": {
+          "candidate_count": 1,
+          "reason_codes": [],
+          "status": "none",
+          "window_end_sample": null,
+          "window_start_sample": null
+        },
+        "anchors": [
+          {
+            "anchor_type": "onset",
+            "candidate_id": "onset_agreed_01",
+            "confidence": 0.999716424,
+            "frame_index": 0.256,
+            "method_id": "energy_flux_onset_v1",
+            "sample_index": 512,
+            "seconds": 0.010666667,
+            "window_end_sample": null,
+            "window_start_sample": null
+          },
+          {
+            "anchor_type": "attack_peak",
+            "candidate_id": "attack_peak_energy_flux_onset_v1",
+            "confidence": 0.999716424,
+            "frame_index": 0.256,
+            "method_id": "energy_flux_onset_v1",
+            "sample_index": 512,
+            "seconds": 0.010666667,
+            "window_end_sample": null,
+            "window_start_sample": null
+          },
+          {
+            "anchor_type": "energy_peak",
+            "candidate_id": "energy_peak_energy_flux_onset_v1",
+            "confidence": 0.999716424,
+            "frame_index": 0.256,
+            "method_id": "energy_flux_onset_v1",
+            "sample_index": 512,
+            "seconds": 0.010666667,
+            "window_end_sample": null,
+            "window_start_sample": null
+          },
+          {
+            "anchor_type": "offset",
+            "candidate_id": "offset_energy_flux_onset_v1",
+            "confidence": 0.999716424,
+            "frame_index": 0.2565,
+            "method_id": "energy_flux_onset_v1",
+            "sample_index": 513,
+            "seconds": 0.0106875,
+            "window_end_sample": null,
+            "window_start_sample": null
+          },
+          {
+            "anchor_type": "attack_peak",
+            "candidate_id": "attack_peak_hf_envelope_onset_v1",
+            "confidence": 0.999858192,
+            "frame_index": 0.256,
+            "method_id": "hf_envelope_onset_v1",
+            "sample_index": 512,
+            "seconds": 0.010666667,
+            "window_end_sample": null,
+            "window_start_sample": null
+          },
+          {
+            "anchor_type": "energy_peak",
+            "candidate_id": "energy_peak_hf_envelope_onset_v1",
+            "confidence": 0.999858192,
+            "frame_index": 0.256,
+            "method_id": "hf_envelope_onset_v1",
+            "sample_index": 512,
+            "seconds": 0.010666667,
+            "window_end_sample": null,
+            "window_start_sample": null
+          },
+          {
+            "anchor_type": "offset",
+            "candidate_id": "offset_hf_envelope_onset_v1",
+            "confidence": 0.999858192,
+            "frame_index": 0.2565,
+            "method_id": "hf_envelope_onset_v1",
+            "sample_index": 513,
+            "seconds": 0.0106875,
+            "window_end_sample": null,
+            "window_start_sample": null
+          }
+        ],
+        "asset_id": "fixture:impulse",
+        "benchmark": {
+          "frame_error": 0.0,
+          "measured_onset_sample": 512,
+          "reference_onset_sample": 512,
+          "sample_error": 0,
+          "within_registered_thresholds": true
+        },
+        "benchmark_fixture_reference": "row072_synthetic/impulse",
+        "canonical_pcm_sha256": "d4341802824147a6aad3c9168b06b0dc78697d687264bb7ba684d6dfb0ee9249",
+        "channels": 2,
+        "decision": {
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED"
+          ],
+          "frame_exact_claim": true,
+          "library_authority": false,
+          "status": "blocked"
+        },
+        "detector_revision": "wave64_row072_onset_transient_detector_v0.1.0",
+        "event_density": 11.71875,
+        "event_family": "impulse",
+        "frame_count": 4096,
+        "item_id": "ITEM-W64-072",
+        "method_results": [
+          {
+            "attack_peak_sample": 512,
+            "confidence": 0.999716424,
+            "energy_peak_sample": 512,
+            "method_id": "energy_flux_onset_v1",
+            "offset_sample": 513,
+            "onset_sample": 512,
+            "parameters": {
+              "frame": 256,
+              "hop": 64
+            }
+          },
+          {
+            "attack_peak_sample": 512,
+            "confidence": 0.999858192,
+            "energy_peak_sample": 512,
+            "method_id": "hf_envelope_onset_v1",
+            "offset_sample": 513,
+            "onset_sample": 512,
+            "parameters": {
+              "frame": 256,
+              "hop": 64,
+              "preemphasis": "first_difference"
+            }
+          }
+        ],
+        "multi_method_agreement": {
+          "agreement_threshold_samples": 2,
+          "frame_delta": 0.0,
+          "sample_delta": 0,
+          "status": "agree"
+        },
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "source_sha256": "0ae9c20c5a084e52c9e87bf926e2e9232d0e84bbaf2e5bac6f7571b610d20c5a",
+        "threshold_registry_revision": "wave64_row072_onset_thresholds_v0.1.0",
+        "tracker_id": "TRK-W64-072"
+      },
+      {
+        "ambiguity": {
+          "candidate_count": 2,
+          "reason_codes": [
+            "METHOD_DISAGREEMENT",
+            "GRADUAL_ATTACK_WINDOW_REQUIRED"
+          ],
+          "status": "windowed",
+          "window_end_sample": 1008,
+          "window_start_sample": 752
+        },
+        "anchors": [
+          {
+            "anchor_type": "onset",
+            "candidate_id": "onset_primary_01",
+            "confidence": 0.36,
+            "frame_index": 0.48,
+            "method_id": "energy_flux_onset_v1",
+            "sample_index": 960,
+            "seconds": 0.02,
+            "window_end_sample": 1008,
+            "window_start_sample": 752
+          },
+          {
+            "anchor_type": "onset",
+            "candidate_id": "onset_secondary_01",
+            "confidence": 0.36,
+            "frame_index": 0.4,
+            "method_id": "hf_envelope_onset_v1",
+            "sample_index": 800,
+            "seconds": 0.016666667,
+            "window_end_sample": 1008,
+            "window_start_sample": 752
+          },
+          {
+            "anchor_type": "attack_peak",
+            "candidate_id": "attack_peak_energy_flux_onset_v1",
+            "confidence": 0.99998623,
+            "frame_index": 0.5995,
+            "method_id": "energy_flux_onset_v1",
+            "sample_index": 1199,
+            "seconds": 0.024979167,
+            "window_end_sample": null,
+            "window_start_sample": null
+          },
+          {
+            "anchor_type": "energy_peak",
+            "candidate_id": "energy_peak_energy_flux_onset_v1",
+            "confidence": 0.99998623,
+            "frame_index": 0.5995,
+            "method_id": "energy_flux_onset_v1",
+            "sample_index": 1199,
+            "seconds": 0.024979167,
+            "window_end_sample": null,
+            "window_start_sample": null
+          },
+          {
+            "anchor_type": "offset",
+            "candidate_id": "offset_energy_flux_onset_v1",
+            "confidence": 0.99998623,
+            "frame_index": 1.066,
+            "method_id": "energy_flux_onset_v1",
+            "sample_index": 2132,
+            "seconds": 0.044416667,
+            "window_end_sample": null,
+            "window_start_sample": null
+          },
+          {
+            "anchor_type": "attack_peak",
+            "candidate_id": "attack_peak_hf_envelope_onset_v1",
+            "confidence": 0.36,
+            "frame_index": 0.5005,
+            "method_id": "hf_envelope_onset_v1",
+            "sample_index": 1001,
+            "seconds": 0.020854167,
+            "window_end_sample": null,
+            "window_start_sample": null
+          },
+          {
+            "anchor_type": "energy_peak",
+            "candidate_id": "energy_peak_hf_envelope_onset_v1",
+            "confidence": 0.36,
+            "frame_index": 0.5995,
+            "method_id": "hf_envelope_onset_v1",
+            "sample_index": 1199,
+            "seconds": 0.024979167,
+            "window_end_sample": null,
+            "window_start_sample": null
+          },
+          {
+            "anchor_type": "offset",
+            "candidate_id": "offset_hf_envelope_onset_v1",
+            "confidence": 0.36,
+            "frame_index": 1.066,
+            "method_id": "hf_envelope_onset_v1",
+            "sample_index": 2132,
+            "seconds": 0.044416667,
+            "window_end_sample": null,
+            "window_start_sample": null
+          }
+        ],
+        "asset_id": "fixture:gradual_attack",
+        "benchmark": {
+          "frame_error": 0.08,
+          "measured_onset_sample": 960,
+          "reference_onset_sample": 800,
+          "sample_error": 160,
+          "within_registered_thresholds": false
+        },
+        "benchmark_fixture_reference": "row072_synthetic/gradual_attack",
+        "canonical_pcm_sha256": "40a1b614bc7ef69f44df01300225d1af1adf94e45e66e1c97385d789c62ab7a5",
+        "channels": 2,
+        "decision": {
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED",
+            "WINDOWED_SYNC_REQUIRED"
+          ],
+          "frame_exact_claim": false,
+          "library_authority": false,
+          "status": "blocked"
+        },
+        "detector_revision": "wave64_row072_onset_transient_detector_v0.1.0",
+        "event_density": 70.3125,
+        "event_family": "gradual_attack",
+        "frame_count": 4096,
+        "item_id": "ITEM-W64-072",
+        "method_results": [
+          {
+            "attack_peak_sample": 1199,
+            "confidence": 0.99998623,
+            "energy_peak_sample": 1199,
+            "method_id": "energy_flux_onset_v1",
+            "offset_sample": 2132,
+            "onset_sample": 960,
+            "parameters": {
+              "frame": 256,
+              "hop": 64
+            }
+          },
+          {
+            "attack_peak_sample": 1001,
+            "confidence": 0.36,
+            "energy_peak_sample": 1199,
+            "method_id": "hf_envelope_onset_v1",
+            "offset_sample": 2132,
+            "onset_sample": 800,
+            "parameters": {
+              "frame": 256,
+              "hop": 64,
+              "preemphasis": "first_difference"
+            }
+          }
+        ],
+        "multi_method_agreement": {
+          "agreement_threshold_samples": 2,
+          "frame_delta": 0.08,
+          "sample_delta": 160,
+          "status": "disagree"
+        },
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "source_sha256": "975bbbf0901b32f2c220fde899edbc2d386ef901790a9e04ec64e540e52b3619",
+        "threshold_registry_revision": "wave64_row072_onset_thresholds_v0.1.0",
+        "tracker_id": "TRK-W64-072"
+      },
+      {
+        "ambiguity": {
+          "candidate_count": 1,
+          "reason_codes": [],
+          "status": "none",
+          "window_end_sample": null,
+          "window_start_sample": null
+        },
+        "anchors": [
+          {
+            "anchor_type": "onset",
+            "candidate_id": "onset_agreed_01",
+            "confidence": 0.999697096,
+            "frame_index": 0.2,
+            "method_id": "energy_flux_onset_v1",
+            "sample_index": 400,
+            "seconds": 0.008333333,
+            "window_end_sample": null,
+            "window_start_sample": null
+          },
+          {
+            "anchor_type": "attack_peak",
+            "candidate_id": "attack_peak_energy_flux_onset_v1",
+            "confidence": 0.999951421,
+            "frame_index": 0.2,
+            "method_id": "energy_flux_onset_v1",
+            "sample_index": 400,
+            "seconds": 0.008333333,
+            "window_end_sample": null,
+            "window_start_sample": null
+          },
+          {
+            "anchor_type": "energy_peak",
+            "candidate_id": "energy_peak_energy_flux_onset_v1",
+            "confidence": 0.999951421,
+            "frame_index": 0.2,
+            "method_id": "energy_flux_onset_v1",
+            "sample_index": 400,
+            "seconds": 0.008333333,
+            "window_end_sample": null,
+            "window_start_sample": null
+          },
+          {
+            "anchor_type": "offset",
+            "candidate_id": "offset_energy_flux_onset_v1",
+            "confidence": 0.999951421,
+            "frame_index": 0.209,
+            "method_id": "energy_flux_onset_v1",
+            "sample_index": 418,
+            "seconds": 0.008708333,
+            "window_end_sample": null,
+            "window_start_sample": null
+          },
+          {
+            "anchor_type": "attack_peak",
+            "candidate_id": "attack_peak_hf_envelope_onset_v1",
+            "confidence": 0.999697096,
+            "frame_index": 0.2,
+            "method_id": "hf_envelope_onset_v1",
+            "sample_index": 400,
+            "seconds": 0.008333333,
+            "window_end_sample": null,
+            "window_start_sample": null
+          },
+          {
+            "anchor_type": "energy_peak",
+            "candidate_id": "energy_peak_hf_envelope_onset_v1",
+            "confidence": 0.999697096,
+            "frame_index": 0.2,
+            "method_id": "hf_envelope_onset_v1",
+            "sample_index": 400,
+            "seconds": 0.008333333,
+            "window_end_sample": null,
+            "window_start_sample": null
+          },
+          {
+            "anchor_type": "offset",
+            "candidate_id": "offset_hf_envelope_onset_v1",
+            "confidence": 0.999697096,
+            "frame_index": 0.209,
+            "method_id": "hf_envelope_onset_v1",
+            "sample_index": 418,
+            "seconds": 0.008708333,
+            "window_end_sample": null,
+            "window_start_sample": null
+          }
+        ],
+        "asset_id": "fixture:multi_hit",
+        "benchmark": {
+          "frame_error": 0.0,
+          "measured_onset_sample": 400,
+          "reference_onset_sample": 400,
+          "sample_error": 0,
+          "within_registered_thresholds": true
+        },
+        "benchmark_fixture_reference": "row072_synthetic/multi_hit",
+        "canonical_pcm_sha256": "95790ae977cb16e536cc76019f140f053c33caa396b440dcfdb41c8c31b66bbe",
+        "channels": 2,
+        "decision": {
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED"
+          ],
+          "frame_exact_claim": true,
+          "library_authority": false,
+          "status": "blocked"
+        },
+        "detector_revision": "wave64_row072_onset_transient_detector_v0.1.0",
+        "event_density": 35.15625,
+        "event_family": "multi_hit",
+        "frame_count": 4096,
+        "item_id": "ITEM-W64-072",
+        "method_results": [
+          {
+            "attack_peak_sample": 400,
+            "confidence": 0.999951421,
+            "energy_peak_sample": 400,
+            "method_id": "energy_flux_onset_v1",
+            "offset_sample": 418,
+            "onset_sample": 400,
+            "parameters": {
+              "frame": 256,
+              "hop": 64
+            }
+          },
+          {
+            "attack_peak_sample": 400,
+            "confidence": 0.999697096,
+            "energy_peak_sample": 400,
+            "method_id": "hf_envelope_onset_v1",
+            "offset_sample": 418,
+            "onset_sample": 400,
+            "parameters": {
+              "frame": 256,
+              "hop": 64,
+              "preemphasis": "first_difference"
+            }
+          }
+        ],
+        "multi_method_agreement": {
+          "agreement_threshold_samples": 2,
+          "frame_delta": 0.0,
+          "sample_delta": 0,
+          "status": "agree"
+        },
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "source_sha256": "7c7ddbc74df07472e5da1d7909536ad57f25161840874e6497e9316beeefe28a",
+        "threshold_registry_revision": "wave64_row072_onset_thresholds_v0.1.0",
+        "tracker_id": "TRK-W64-072"
+      },
+      {
+        "ambiguity": {
+          "candidate_count": 2,
+          "reason_codes": [
+            "METHOD_DISAGREEMENT"
+          ],
+          "status": "multi_candidate",
+          "window_end_sample": 900,
+          "window_start_sample": 300
+        },
+        "anchors": [
+          {
+            "anchor_type": "onset",
+            "candidate_id": "onset_primary_01",
+            "confidence": 0.99968405,
+            "frame_index": 0.15,
+            "method_id": "energy_flux_onset_v1",
+            "sample_index": 300,
+            "seconds": 0.00625,
+            "window_end_sample": 900,
+            "window_start_sample": 300
+          },
+          {
+            "anchor_type": "onset",
+            "candidate_id": "onset_secondary_01",
+            "confidence": 0.99968405,
+            "frame_index": 0.45,
+            "method_id": "hf_envelope_onset_v1",
+            "sample_index": 900,
+            "seconds": 0.01875,
+            "window_end_sample": 900,
+            "window_start_sample": 300
+          },
+          {
+            "anchor_type": "attack_peak",
+            "candidate_id": "attack_peak_energy_flux_onset_v1",
+            "confidence": 0.99968405,
+            "frame_index": 0.15,
+            "method_id": "energy_flux_onset_v1",
+            "sample_index": 300,
+            "seconds": 0.00625,
+            "window_end_sample": null,
+            "window_start_sample": null
+          },
+          {
+            "anchor_type": "energy_peak",
+            "candidate_id": "energy_peak_energy_flux_onset_v1",
+            "confidence": 0.99968405,
+            "frame_index": 0.15,
+            "method_id": "energy_flux_onset_v1",
+            "sample_index": 300,
+            "seconds": 0.00625,
+            "window_end_sample": null,
+            "window_start_sample": null
+          },
+          {
+            "anchor_type": "offset",
+            "candidate_id": "offset_energy_flux_onset_v1",
+            "confidence": 0.99968405,
+            "frame_index": 0.1505,
+            "method_id": "energy_flux_onset_v1",
+            "sample_index": 301,
+            "seconds": 0.006270833,
+            "window_end_sample": null,
+            "window_start_sample": null
+          },
+          {
+            "anchor_type": "attack_peak",
+            "candidate_id": "attack_peak_hf_envelope_onset_v1",
+            "confidence": 0.99968405,
+            "frame_index": 0.45,
+            "method_id": "hf_envelope_onset_v1",
+            "sample_index": 900,
+            "seconds": 0.01875,
+            "window_end_sample": null,
+            "window_start_sample": null
+          },
+          {
+            "anchor_type": "energy_peak",
+            "candidate_id": "energy_peak_hf_envelope_onset_v1",
+            "confidence": 0.99968405,
+            "frame_index": 0.45,
+            "method_id": "hf_envelope_onset_v1",
+            "sample_index": 900,
+            "seconds": 0.01875,
+            "window_end_sample": null,
+            "window_start_sample": null
+          },
+          {
+            "anchor_type": "offset",
+            "candidate_id": "offset_hf_envelope_onset_v1",
+            "confidence": 0.99968405,
+            "frame_index": 0.4505,
+            "method_id": "hf_envelope_onset_v1",
+            "sample_index": 901,
+            "seconds": 0.018770833,
+            "window_end_sample": null,
+            "window_start_sample": null
+          }
+        ],
+        "asset_id": "fixture:stereo_disagree",
+        "benchmark": {
+          "frame_error": null,
+          "measured_onset_sample": 300,
+          "reference_onset_sample": null,
+          "sample_error": null,
+          "within_registered_thresholds": false
+        },
+        "benchmark_fixture_reference": "row072_synthetic/stereo_disagree",
+        "canonical_pcm_sha256": "50391a39dfd1822fa15d00d3adfba3f5e62bd56b622047abca12ae6bfbea0a63",
+        "channels": 2,
+        "decision": {
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED",
+            "MULTI_CANDIDATE_ONSET_NO_FRAME_EXACT_CLAIM"
+          ],
+          "frame_exact_claim": false,
+          "library_authority": false,
+          "status": "blocked"
+        },
+        "detector_revision": "wave64_row072_onset_transient_detector_v0.1.0",
+        "event_density": 23.4375,
+        "event_family": "stereo_disagree",
+        "frame_count": 4096,
+        "item_id": "ITEM-W64-072",
+        "method_results": [
+          {
+            "attack_peak_sample": 300,
+            "confidence": 0.99968405,
+            "energy_peak_sample": 300,
+            "method_id": "energy_flux_onset_v1",
+            "offset_sample": 301,
+            "onset_sample": 300,
+            "parameters": {
+              "frame": 256,
+              "hop": 64
+            }
+          },
+          {
+            "attack_peak_sample": 900,
+            "confidence": 0.99968405,
+            "energy_peak_sample": 900,
+            "method_id": "hf_envelope_onset_v1",
+            "offset_sample": 901,
+            "onset_sample": 900,
+            "parameters": {
+              "frame": 256,
+              "hop": 64
+            }
+          }
+        ],
+        "multi_method_agreement": {
+          "agreement_threshold_samples": 2,
+          "frame_delta": 0.3,
+          "sample_delta": 600,
+          "status": "disagree"
+        },
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "source_sha256": "a5d7308e8b9c96984184b37794198547019c6a2e096f518b0f028a69e52b1059",
+        "threshold_registry_revision": "wave64_row072_onset_thresholds_v0.1.0",
+        "tracker_id": "TRK-W64-072"
+      }
+    ]
+  },
+  "implementation_completion_claimed": false,
+  "item_id": "ITEM-W64-072",
+  "library_authority": false,
+  "required_methods": [
+    "energy_flux_onset_v1",
+    "hf_envelope_onset_v1"
+  ],
+  "row070_admission": {
+    "blocker_codes": [
+      "ROW070_DEPENDENCY_NOT_ACCEPTED"
+    ],
+    "bytes": 9348,
+    "dependency_satisfied": false,
+    "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_CANONICAL_AUDIO_DECODE_CURRENT_DELTA_20260719.json",
+    "row_complete": false,
+    "sha256": "a1e3feaace3961f655a7272017db844768ea2b2c5a1f2390b542f57264d125d0",
+    "status": "HOLD_ROW069_DEPENDENCY_AND_FULL_LIBRARY_DECODE_RUNTIME_ABSENT"
+  },
+  "row071_admission": {
+    "blocker_codes": [
+      "ROW071_DEPENDENCY_NOT_ACCEPTED"
+    ],
+    "bytes": 7370,
+    "dependency_satisfied": false,
+    "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-071_WAVEFORM_FEATURE_EXTRACTION_CURRENT_DELTA_20260719.json",
+    "row_complete": false,
+    "sha256": "4118ecf426dc54242b049e15e27981097a29044d954bd21992dce85aca432def",
+    "status": "HOLD_ROW070_CANONICAL_DECODE_AND_FULL_LIBRARY_FEATURE_RUNTIME_ABSENT"
+  },
+  "row_complete": false,
+  "runtime_completion_claimed": false,
+  "schema_version": "1.0.0",
+  "status": "HOLD_DEPENDENCIES_LIBRARY_RUNTIME_AND_BENCHMARK_STRATA_ABSENT",
+  "threshold_registry": {
+    "authority": "planning_freeze_not_library_acceptance",
+    "path": "Plan/10_REGISTRIES/wave64_row072_onset_transient_threshold_registry.json",
+    "revision": "wave64_row072_onset_thresholds_v0.1.0",
+    "sha256": "130261430751e847bd6a94fa2410edca19f97217d411ad8f692bf90977611446"
+  },
+  "threshold_registry_revision": "wave64_row072_onset_thresholds_v0.1.0",
+  "tracker_id": "TRK-W64-072"
+}
