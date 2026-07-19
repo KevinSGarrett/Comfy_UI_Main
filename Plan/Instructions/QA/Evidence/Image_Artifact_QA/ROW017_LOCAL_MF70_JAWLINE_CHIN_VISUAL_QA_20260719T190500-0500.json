@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ROW017-LOCAL-MF70-JAWLINE-CHIN-VISUAL-QA-20260719T190500-0500",
+  "created_at": "2026-07-19T19:08:00-05:00",
+  "tracker_id": "TRK-W64-017",
+  "item_id": "ITEM-W64-017",
+  "localized_region": "jawline_chin_contour",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+  "qa_decision": "pass_bounded_localized_jawline_chin_runtime_candidate",
+  "overall_decision": "pass",
+  "local_only": true,
+  "direct_visual_inspection": true,
+  "fixture_only": false,
+  "generation_executed": true,
+  "runtime_receipt": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_jawline_chin_20260719T190500-0500\\LOCAL_RUNTIME_RECEIPT.json",
+  "source": {
+    "path": "ComfyUI\\input\\wave70_mf70_face_identity_source_canny_v3.png",
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d"
+  },
+  "artifact": {
+    "path": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_jawline_chin_20260719T190500-0500\\images\\codex_row017_mf70_jawline_chin_20260719T190500-0500_00001_.png",
+    "sha256": "4df8b3c7e8cae0aa7b9843aa716191ff4e112cd0932a2577ae301f15af50df15"
+  },
+  "comparison_panel": {
+    "path": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_jawline_chin_20260719T190500-0500\\images\\qa_full_side_by_side.png",
+    "sha256": "f7eaffbab566649fec67e8dee01d23c4e141943f6936e8599df03d0aa211ba7f"
+  },
+  "jawline_crop_panel": {
+    "path": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_jawline_chin_20260719T190500-0500\\images\\qa_jawline_crop_side_by_side.png",
+    "sha256": "e199ee8a2baf0fbb202c8f496a4af1434561246a009a2b37ed51e6d0a0bff192"
+  },
+  "difference_metrics": {
+    "full_image_diff_bbox": [292, 463, 485, 555],
+    "jawline_mask_bbox": [297, 469, 480, 551],
+    "mean_rgb_abs_diff": [0.0421, 0.0395, 0.0353],
+    "rms_rgb_abs_diff": [0.5197, 0.4929, 0.4422],
+    "jawline_region_mean_abs": [2.8418, 2.6704, 2.3677],
+    "blazer_mean_abs": 0.0,
+    "background_mean_abs": 0.0,
+    "changed_pixel_count": 8472
+  },
+  "whole_frame_findings": [
+    "Fresh local ComfyUI jawline/chin masked inpaint (seed 6284173902, RealVisXL baked VAE, denoise 0.04, FeatherMask 24px) completed successfully (prompt_id 19a77d27-a4e2-4baa-8f50-118026dc57c2).",
+    "Whole-frame identity, gaze, iris/pupil/sclera/catchlights, brows, lids/lashes, nose shape, mouth/philtrum/teeth visibility, cheek contour, forehead, hair silhouette, cream blazer, lighting, and gray background remain stable versus Canny v3 source.",
+    "Pixel delta is localized to jawline/chin bbox [292, 463, 485, 555]; blazer mean abs 0.0; background mean abs 0.0.",
+    "Direct whole-frame + jawline-crop inspection: subtle jawline/chin contour skin continuity delta without hard seam, chin/jaw reshape, plastic/waxy over-smooth, mouth/lip mutation, gaze drift, or clothing/background regression.",
+    "Hands not in frame; no clothing/background/lighting regression observed."
+  ],
+  "global_defects": [],
+  "promotion_authorized": false,
+  "row_complete": false,
+  "ec2": "EC2_DEFERRED",
+  "docker_cvat": "not-needed",
+  "notes": [
+    "Historical MF70 jawline/chin seed210806 canonical pass retained separately; this is a fresh independent local runtime climb.",
+    "Wave70 mf70_jawline_chin mask-alignment/promotion remains blocked; not overturned.",
+    "Prior fluid tear-state reject and eyes_full_v3b reject remain truthful and separate.",
+    "Prior fresh cheeks/nose/eyebrows/eyelids/pupils/skin_tone climbs retained.",
+    "Does not complete historical Row017 normalization backlog."
+  ]
+}
