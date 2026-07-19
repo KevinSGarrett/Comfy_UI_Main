@@ -1,0 +1,189 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/audio_rights_provenance_decision.schema.json",
+  "title": "Wave64 Row068 Audio Rights Provenance Decision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "tracker_id",
+    "item_id",
+    "vocabulary_registry_revision",
+    "evaluator_revision",
+    "decision_id",
+    "subject",
+    "license",
+    "commercial_noncommercial_constraints",
+    "attribution",
+    "derivative_permission",
+    "redistribution",
+    "generated_output_terms",
+    "dataset_rights",
+    "source_pack_restrictions",
+    "output_use",
+    "decision",
+    "rights_decision_sha256"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "tracker_id": { "type": "string", "const": "TRK-W64-068" },
+    "item_id": { "type": "string", "const": "ITEM-W64-068" },
+    "vocabulary_registry_revision": {
+      "type": "string",
+      "const": "wave64_row068_audio_rights_vocabulary_v0.1.0"
+    },
+    "evaluator_revision": {
+      "type": "string",
+      "const": "wave64_row068_audio_rights_evaluator_v0.1.0"
+    },
+    "decision_id": { "type": "string", "minLength": 1 },
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["subject_kind", "subject_id", "subject_sha256"],
+      "properties": {
+        "subject_kind": {
+          "enum": [
+            "source_asset",
+            "generated_asset",
+            "derivative",
+            "engine",
+            "selection_candidate",
+            "transform",
+            "export",
+            "promotion"
+          ]
+        },
+        "subject_id": { "type": "string", "minLength": 1 },
+        "subject_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "source_pack_id": { "type": ["string", "null"], "minLength": 1 }
+      }
+    },
+    "license": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["license_class", "license_id", "license_known"],
+      "properties": {
+        "license_class": {
+          "enum": [
+            "cc0",
+            "cc_by",
+            "cc_by_sa",
+            "cc_by_nc",
+            "project_owned",
+            "engine_generated_terms",
+            "unknown",
+            "prohibited"
+          ]
+        },
+        "license_id": { "type": "string", "minLength": 1 },
+        "license_known": { "type": "boolean" },
+        "spdx_expression": { "type": ["string", "null"], "minLength": 1 }
+      }
+    },
+    "commercial_noncommercial_constraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["commercial_use", "noncommercial_only"],
+      "properties": {
+        "commercial_use": { "enum": ["allowed", "forbidden", "unknown"] },
+        "noncommercial_only": { "type": "boolean" }
+      }
+    },
+    "attribution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "text", "bound"],
+      "properties": {
+        "required": { "type": "boolean" },
+        "text": { "type": "string" },
+        "bound": { "type": "boolean" }
+      }
+    },
+    "derivative_permission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["derivative_use_allowed", "share_alike"],
+      "properties": {
+        "derivative_use_allowed": { "enum": ["allowed", "forbidden", "unknown"] },
+        "share_alike": { "type": "boolean" }
+      }
+    },
+    "redistribution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["redistribution_allowed"],
+      "properties": {
+        "redistribution_allowed": { "enum": ["allowed", "forbidden", "unknown"] }
+      }
+    },
+    "generated_output_terms": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["terms_known", "terms_id"],
+      "properties": {
+        "terms_known": { "type": "boolean" },
+        "terms_id": { "type": "string", "minLength": 1 },
+        "training_restriction": {
+          "enum": ["none", "no_training", "unknown"]
+        }
+      }
+    },
+    "dataset_rights": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dataset_use_allowed"],
+      "properties": {
+        "dataset_use_allowed": { "enum": ["allowed", "forbidden", "unknown"] }
+      }
+    },
+    "source_pack_restrictions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["restriction_codes"],
+      "properties": {
+        "restriction_codes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "output_use": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["requested_use", "use_allowed"],
+      "properties": {
+        "requested_use": {
+          "enum": [
+            "library_selection",
+            "transform",
+            "generation_seed",
+            "export",
+            "promotion",
+            "internal_qa"
+          ]
+        },
+        "use_allowed": { "enum": ["allowed", "forbidden", "unknown"] }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "blocker_codes", "authority_granted"],
+      "properties": {
+        "status": { "enum": ["pass", "blocked", "failed"] },
+        "blocker_codes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "authority_granted": { "type": "boolean" }
+      }
+    },
+    "rights_decision_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "parent_rights_decision_sha256": {
+      "type": ["string", "null"],
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "notes": { "type": "array", "items": { "type": "string" } }
+  }
+}

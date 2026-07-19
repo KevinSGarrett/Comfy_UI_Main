@@ -93,14 +93,24 @@
     },
     "rights": {
       "type": "object",
-      "required": ["decision", "license", "derivative_use_allowed", "attribution"],
+      "additionalProperties": false,
+      "required": [
+        "decision",
+        "license",
+        "derivative_use_allowed",
+        "attribution",
+        "rights_decision_sha256"
+      ],
       "properties": {
         "decision": {"enum": ["pass", "blocked", "failed"]},
         "license": {"type": "string", "minLength": 1},
-        "derivative_use_allowed": {"type": ["boolean", "null"]},
-        "attribution": {"type": "string"}
-      },
-      "additionalProperties": true
+        "derivative_use_allowed": {"type": "boolean"},
+        "attribution": {"type": "string", "minLength": 1},
+        "rights_decision_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "commercial_use": {"enum": ["allowed", "forbidden", "unknown"]},
+        "redistribution_allowed": {"enum": ["allowed", "forbidden", "unknown"]},
+        "output_use": {"type": "string", "minLength": 1}
+      }
     },
     "content_based_suppression": {"const": false}
   }

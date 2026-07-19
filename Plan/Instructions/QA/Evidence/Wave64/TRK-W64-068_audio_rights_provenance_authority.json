@@ -1,0 +1,739 @@
+{
+  "blocker_codes": [
+    "LIFECYCLE_RIGHTS_BINDING_INCOMPLETE"
+  ],
+  "check_summary": {
+    "checked": 9,
+    "failed": 0,
+    "passed": 9
+  },
+  "checks": [
+    {
+      "name": "RPA-V001_row067_dependency_accepted",
+      "result": "pass"
+    },
+    {
+      "name": "RPA-V002_vocabulary_registry_revision_frozen",
+      "result": "pass"
+    },
+    {
+      "name": "RPA-V003_decision_schema_validates_fixtures",
+      "result": "pass"
+    },
+    {
+      "name": "RPA-V004_adversarial_fixtures_block",
+      "result": "pass"
+    },
+    {
+      "name": "RPA-V005_incomplete_dimension_fail_closed",
+      "result": "pass"
+    },
+    {
+      "name": "RPA-V006_source_generated_rights_contracts_tightened",
+      "result": "pass"
+    },
+    {
+      "name": "RPA-V007_lifecycle_binding_inspected",
+      "result": "pass"
+    },
+    {
+      "name": "RPA-V008_no_runtime_or_product_completion_claim",
+      "result": "pass"
+    },
+    {
+      "name": "RPA-V009_authority_accept_consistency",
+      "result": "pass"
+    }
+  ],
+  "created_at": "2026-07-19T19:57:15Z",
+  "decision": {
+    "product_completion": false,
+    "rights_vocabulary": "frozen",
+    "row068_acceptance": "accepted",
+    "runtime_completion": false,
+    "safe_next_action": "Treat Row068 rights-decision authority as accepted for dependency unlock. Next hardening: require rights_decision_sha256 on lifecycle schemas (candidate/transform/render/export/QA/orchestration) without claiming full-library runtime stamping here.",
+    "status": "accepted"
+  },
+  "decision_schema": {
+    "bytes": 5995,
+    "exists": true,
+    "path": "Plan/08_SCHEMAS/audio_rights_provenance_decision.schema.json",
+    "sha256": "55c90a499d13d3c88a2739ff0fc780be71a0755329c4ad415ea3f9e180696ca6"
+  },
+  "dependency_authority": {
+    "blocker_codes": [],
+    "current_delta": {
+      "bytes": 6342,
+      "exists": true,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-067_PLANNING_AUTHORITY_CURRENT_DELTA_20260719.json",
+      "sha256": "5627c37041a4e449f0c44cbf50a6e1b9b442f76cc934ec73c5331bdcb65f68f7"
+    },
+    "delta_row_complete": true,
+    "dependency_satisfied": true,
+    "direct": {
+      "bytes": 10544,
+      "exists": true,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-067_sound_intelligence_planning_authority.json",
+      "sha256": "b34149a131f587057b1d35f380bde04484c67f04cb0af9167b6a3703e1aff3d5"
+    },
+    "direct_row_complete": true
+  },
+  "evaluator_revision": "wave64_row068_audio_rights_evaluator_v0.1.0",
+  "evidence_id": "TRK-W64-068_audio_rights_provenance_authority",
+  "fixture_calibration": {
+    "authority": "synthetic_non_library",
+    "blocked_count": 4,
+    "determinism_note": "Fixture decisions prove vocabulary coverage, fail-closed blockers, and rights_decision_sha256 identity only; they do not accept library runtime.",
+    "fixture_count": 8,
+    "incomplete_dimension_probe": {
+      "incomplete_dimension_rejected": true,
+      "rejected_dimension": "dataset_rights"
+    },
+    "pass_count": 4,
+    "records": [
+      {
+        "expect_status": "pass",
+        "fixture_name": "cc0_source_selection_pass",
+        "record": {
+          "attribution": {
+            "bound": true,
+            "required": false,
+            "text": ""
+          },
+          "commercial_noncommercial_constraints": {
+            "commercial_use": "allowed",
+            "noncommercial_only": false
+          },
+          "dataset_rights": {
+            "dataset_use_allowed": "allowed"
+          },
+          "decision": {
+            "authority_granted": true,
+            "blocker_codes": [],
+            "status": "pass"
+          },
+          "decision_id": "fixture:cc0_source_selection",
+          "derivative_permission": {
+            "derivative_use_allowed": "allowed",
+            "share_alike": false
+          },
+          "evaluator_revision": "wave64_row068_audio_rights_evaluator_v0.1.0",
+          "generated_output_terms": {
+            "terms_id": "terms:CC0-1.0",
+            "terms_known": true,
+            "training_restriction": "unknown"
+          },
+          "item_id": "ITEM-W64-068",
+          "license": {
+            "license_class": "cc0",
+            "license_id": "CC0-1.0",
+            "license_known": true,
+            "spdx_expression": null
+          },
+          "notes": [],
+          "output_use": {
+            "requested_use": "library_selection",
+            "use_allowed": "allowed"
+          },
+          "parent_rights_decision_sha256": null,
+          "redistribution": {
+            "redistribution_allowed": "allowed"
+          },
+          "rights_decision_sha256": "e34913250593eb71a24bfdd6a1c4893cb89d2f789a6e08fef1333accc12fcf50",
+          "schema_version": "1.0.0",
+          "source_pack_restrictions": {
+            "restriction_codes": []
+          },
+          "subject": {
+            "source_pack_id": null,
+            "subject_id": "fixture/source/cc0_fabric_soft.wav",
+            "subject_kind": "source_asset",
+            "subject_sha256": "93eea85422843c6bc92aad3e39b64d68b2a57c2a2050b5a6610ef59e56f48979"
+          },
+          "tracker_id": "TRK-W64-068",
+          "vocabulary_registry_revision": "wave64_row068_audio_rights_vocabulary_v0.1.0"
+        }
+      },
+      {
+        "expect_status": "pass",
+        "fixture_name": "cc_by_attribution_pass",
+        "record": {
+          "attribution": {
+            "bound": true,
+            "required": true,
+            "text": "Footstep by Example Artist / CC BY 4.0"
+          },
+          "commercial_noncommercial_constraints": {
+            "commercial_use": "allowed",
+            "noncommercial_only": false
+          },
+          "dataset_rights": {
+            "dataset_use_allowed": "allowed"
+          },
+          "decision": {
+            "authority_granted": true,
+            "blocker_codes": [],
+            "status": "pass"
+          },
+          "decision_id": "fixture:cc_by_export",
+          "derivative_permission": {
+            "derivative_use_allowed": "allowed",
+            "share_alike": false
+          },
+          "evaluator_revision": "wave64_row068_audio_rights_evaluator_v0.1.0",
+          "generated_output_terms": {
+            "terms_id": "terms:CC-BY-4.0",
+            "terms_known": true,
+            "training_restriction": "unknown"
+          },
+          "item_id": "ITEM-W64-068",
+          "license": {
+            "license_class": "cc_by",
+            "license_id": "CC-BY-4.0",
+            "license_known": true,
+            "spdx_expression": null
+          },
+          "notes": [],
+          "output_use": {
+            "requested_use": "export",
+            "use_allowed": "allowed"
+          },
+          "parent_rights_decision_sha256": null,
+          "redistribution": {
+            "redistribution_allowed": "allowed"
+          },
+          "rights_decision_sha256": "a20501eba57c855c21617a719bcc2299e4790a7e5cfa6c8a632c6fe1ac1c0c39",
+          "schema_version": "1.0.0",
+          "source_pack_restrictions": {
+            "restriction_codes": []
+          },
+          "subject": {
+            "source_pack_id": null,
+            "subject_id": "fixture/export/cc_by_footstep.wav",
+            "subject_kind": "export",
+            "subject_sha256": "275d1a4ce06cdc5b91b32df3b73fd493b43b418e02c4c8b88d6d214425d91806"
+          },
+          "tracker_id": "TRK-W64-068",
+          "vocabulary_registry_revision": "wave64_row068_audio_rights_vocabulary_v0.1.0"
+        }
+      },
+      {
+        "expect_status": "blocked",
+        "fixture_name": "unknown_license_blocks",
+        "record": {
+          "attribution": {
+            "bound": false,
+            "required": true,
+            "text": ""
+          },
+          "commercial_noncommercial_constraints": {
+            "commercial_use": "unknown",
+            "noncommercial_only": false
+          },
+          "dataset_rights": {
+            "dataset_use_allowed": "unknown"
+          },
+          "decision": {
+            "authority_granted": false,
+            "blocker_codes": [
+              "ATTRIBUTION_REQUIRED_BUT_UNBOUND",
+              "ATTRIBUTION_TEXT_EMPTY",
+              "COMMERCIAL_CONSTRAINT_UNKNOWN",
+              "DATASET_RIGHTS_UNKNOWN",
+              "LICENSE_UNKNOWN_OR_PROHIBITED"
+            ],
+            "status": "blocked"
+          },
+          "decision_id": "fixture:unknown_license",
+          "derivative_permission": {
+            "derivative_use_allowed": "unknown",
+            "share_alike": false
+          },
+          "evaluator_revision": "wave64_row068_audio_rights_evaluator_v0.1.0",
+          "generated_output_terms": {
+            "terms_id": "terms:unknown",
+            "terms_known": false,
+            "training_restriction": "unknown"
+          },
+          "item_id": "ITEM-W64-068",
+          "license": {
+            "license_class": "unknown",
+            "license_id": "unknown",
+            "license_known": false,
+            "spdx_expression": null
+          },
+          "notes": [],
+          "output_use": {
+            "requested_use": "library_selection",
+            "use_allowed": "forbidden"
+          },
+          "parent_rights_decision_sha256": null,
+          "redistribution": {
+            "redistribution_allowed": "unknown"
+          },
+          "rights_decision_sha256": "c1c6f7141c3b2e70d3208ffa715ca90d1aa9c9df6a09054720d9cec80098d381",
+          "schema_version": "1.0.0",
+          "source_pack_restrictions": {
+            "restriction_codes": []
+          },
+          "subject": {
+            "source_pack_id": null,
+            "subject_id": "fixture/candidate/mystery.wav",
+            "subject_kind": "selection_candidate",
+            "subject_sha256": "66b9134ce32fc4b8cf136cf7a25cfdecffe2fbe7b19a03db381ef27849750835"
+          },
+          "tracker_id": "TRK-W64-068",
+          "vocabulary_registry_revision": "wave64_row068_audio_rights_vocabulary_v0.1.0"
+        }
+      },
+      {
+        "expect_status": "blocked",
+        "fixture_name": "cc_by_missing_attribution_blocks",
+        "record": {
+          "attribution": {
+            "bound": false,
+            "required": true,
+            "text": ""
+          },
+          "commercial_noncommercial_constraints": {
+            "commercial_use": "allowed",
+            "noncommercial_only": false
+          },
+          "dataset_rights": {
+            "dataset_use_allowed": "allowed"
+          },
+          "decision": {
+            "authority_granted": false,
+            "blocker_codes": [
+              "ATTRIBUTION_REQUIRED_BUT_UNBOUND",
+              "ATTRIBUTION_TEXT_EMPTY"
+            ],
+            "status": "blocked"
+          },
+          "decision_id": "fixture:cc_by_unbound",
+          "derivative_permission": {
+            "derivative_use_allowed": "allowed",
+            "share_alike": false
+          },
+          "evaluator_revision": "wave64_row068_audio_rights_evaluator_v0.1.0",
+          "generated_output_terms": {
+            "terms_id": "terms:CC-BY-4.0",
+            "terms_known": true,
+            "training_restriction": "unknown"
+          },
+          "item_id": "ITEM-W64-068",
+          "license": {
+            "license_class": "cc_by",
+            "license_id": "CC-BY-4.0",
+            "license_known": true,
+            "spdx_expression": null
+          },
+          "notes": [],
+          "output_use": {
+            "requested_use": "library_selection",
+            "use_allowed": "forbidden"
+          },
+          "parent_rights_decision_sha256": null,
+          "redistribution": {
+            "redistribution_allowed": "allowed"
+          },
+          "rights_decision_sha256": "8bee1cd93073fc43a66bc3d53a10002bee9d78200f498cd5347d22cf0de1dccc",
+          "schema_version": "1.0.0",
+          "source_pack_restrictions": {
+            "restriction_codes": []
+          },
+          "subject": {
+            "source_pack_id": null,
+            "subject_id": "fixture/source/cc_by_unbound.wav",
+            "subject_kind": "source_asset",
+            "subject_sha256": "c3acd91799d824cc705e0fba922e861286fc4dbd94feff570dcb8cc88e234179"
+          },
+          "tracker_id": "TRK-W64-068",
+          "vocabulary_registry_revision": "wave64_row068_audio_rights_vocabulary_v0.1.0"
+        }
+      },
+      {
+        "expect_status": "blocked",
+        "fixture_name": "cc_by_nc_commercial_path_blocks",
+        "record": {
+          "attribution": {
+            "bound": true,
+            "required": true,
+            "text": "NC Pack / CC BY-NC 4.0"
+          },
+          "commercial_noncommercial_constraints": {
+            "commercial_use": "forbidden",
+            "noncommercial_only": true
+          },
+          "dataset_rights": {
+            "dataset_use_allowed": "forbidden"
+          },
+          "decision": {
+            "authority_granted": false,
+            "blocker_codes": [
+              "COMMERCIAL_USE_FORBIDDEN_FOR_REQUESTED_USE"
+            ],
+            "status": "blocked"
+          },
+          "decision_id": "fixture:cc_by_nc_promotion",
+          "derivative_permission": {
+            "derivative_use_allowed": "allowed",
+            "share_alike": false
+          },
+          "evaluator_revision": "wave64_row068_audio_rights_evaluator_v0.1.0",
+          "generated_output_terms": {
+            "terms_id": "terms:CC-BY-NC-4.0",
+            "terms_known": true,
+            "training_restriction": "unknown"
+          },
+          "item_id": "ITEM-W64-068",
+          "license": {
+            "license_class": "cc_by_nc",
+            "license_id": "CC-BY-NC-4.0",
+            "license_known": true,
+            "spdx_expression": null
+          },
+          "notes": [],
+          "output_use": {
+            "requested_use": "promotion",
+            "use_allowed": "forbidden"
+          },
+          "parent_rights_decision_sha256": null,
+          "redistribution": {
+            "redistribution_allowed": "allowed"
+          },
+          "rights_decision_sha256": "0f471d38471edb17612a38c21686f3fe233275fd375b7015088b671407037a0c",
+          "schema_version": "1.0.0",
+          "source_pack_restrictions": {
+            "restriction_codes": []
+          },
+          "subject": {
+            "source_pack_id": null,
+            "subject_id": "fixture/promotion/nc_pack_hit.wav",
+            "subject_kind": "promotion",
+            "subject_sha256": "d3f2875374f8617bd117646841e14bc37674e40c563994db8c0c2e6711161f77"
+          },
+          "tracker_id": "TRK-W64-068",
+          "vocabulary_registry_revision": "wave64_row068_audio_rights_vocabulary_v0.1.0"
+        }
+      },
+      {
+        "expect_status": "blocked",
+        "fixture_name": "engine_terms_unknown_blocks_generation",
+        "record": {
+          "attribution": {
+            "bound": true,
+            "required": true,
+            "text": "Generated by unspecified engine"
+          },
+          "commercial_noncommercial_constraints": {
+            "commercial_use": "unknown",
+            "noncommercial_only": false
+          },
+          "dataset_rights": {
+            "dataset_use_allowed": "unknown"
+          },
+          "decision": {
+            "authority_granted": false,
+            "blocker_codes": [
+              "COMMERCIAL_CONSTRAINT_UNKNOWN",
+              "DATASET_RIGHTS_UNKNOWN",
+              "DERIVATIVE_USE_NOT_ALLOWED",
+              "GENERATED_OUTPUT_TERMS_UNKNOWN"
+            ],
+            "status": "blocked"
+          },
+          "decision_id": "fixture:engine_unknown_terms",
+          "derivative_permission": {
+            "derivative_use_allowed": "unknown",
+            "share_alike": false
+          },
+          "evaluator_revision": "wave64_row068_audio_rights_evaluator_v0.1.0",
+          "generated_output_terms": {
+            "terms_id": "terms:engine:unspecified",
+            "terms_known": false,
+            "training_restriction": "unknown"
+          },
+          "item_id": "ITEM-W64-068",
+          "license": {
+            "license_class": "engine_generated_terms",
+            "license_id": "engine:unspecified",
+            "license_known": true,
+            "spdx_expression": null
+          },
+          "notes": [],
+          "output_use": {
+            "requested_use": "generation_seed",
+            "use_allowed": "forbidden"
+          },
+          "parent_rights_decision_sha256": null,
+          "redistribution": {
+            "redistribution_allowed": "unknown"
+          },
+          "rights_decision_sha256": "9e18ede1a6ace8ce15558cf36e3e6f65a4ee41bab4290ce157d36f6a9e1f66b7",
+          "schema_version": "1.0.0",
+          "source_pack_restrictions": {
+            "restriction_codes": []
+          },
+          "subject": {
+            "source_pack_id": null,
+            "subject_id": "fixture/generated/engine_seed_01.wav",
+            "subject_kind": "generated_asset",
+            "subject_sha256": "11c11cb7144bcfa88097723cf257f92a397ca536783ef8ea91060b4efe9db7b7"
+          },
+          "tracker_id": "TRK-W64-068",
+          "vocabulary_registry_revision": "wave64_row068_audio_rights_vocabulary_v0.1.0"
+        }
+      },
+      {
+        "expect_status": "pass",
+        "fixture_name": "project_owned_transform_pass",
+        "record": {
+          "attribution": {
+            "bound": true,
+            "required": false,
+            "text": ""
+          },
+          "commercial_noncommercial_constraints": {
+            "commercial_use": "allowed",
+            "noncommercial_only": false
+          },
+          "dataset_rights": {
+            "dataset_use_allowed": "allowed"
+          },
+          "decision": {
+            "authority_granted": true,
+            "blocker_codes": [],
+            "status": "pass"
+          },
+          "decision_id": "fixture:project_owned_transform",
+          "derivative_permission": {
+            "derivative_use_allowed": "allowed",
+            "share_alike": false
+          },
+          "evaluator_revision": "wave64_row068_audio_rights_evaluator_v0.1.0",
+          "generated_output_terms": {
+            "terms_id": "terms:project-owned",
+            "terms_known": true,
+            "training_restriction": "unknown"
+          },
+          "item_id": "ITEM-W64-068",
+          "license": {
+            "license_class": "project_owned",
+            "license_id": "project-owned",
+            "license_known": true,
+            "spdx_expression": null
+          },
+          "notes": [],
+          "output_use": {
+            "requested_use": "transform",
+            "use_allowed": "allowed"
+          },
+          "parent_rights_decision_sha256": null,
+          "redistribution": {
+            "redistribution_allowed": "allowed"
+          },
+          "rights_decision_sha256": "ba4e7da987b4a050c5eac3650a9a9040e5f853be6d6e96a23096861bce038a86",
+          "schema_version": "1.0.0",
+          "source_pack_restrictions": {
+            "restriction_codes": []
+          },
+          "subject": {
+            "source_pack_id": null,
+            "subject_id": "fixture/transform/project_owned_trim.wav",
+            "subject_kind": "transform",
+            "subject_sha256": "14f702a5bdc8ffb1ccc81150185c2115bff95b9c2a362dac309eb1d25edab245"
+          },
+          "tracker_id": "TRK-W64-068",
+          "vocabulary_registry_revision": "wave64_row068_audio_rights_vocabulary_v0.1.0"
+        }
+      },
+      {
+        "expect_status": "pass",
+        "fixture_name": "derivative_from_parent_pass",
+        "record": {
+          "attribution": {
+            "bound": true,
+            "required": false,
+            "text": ""
+          },
+          "commercial_noncommercial_constraints": {
+            "commercial_use": "allowed",
+            "noncommercial_only": false
+          },
+          "dataset_rights": {
+            "dataset_use_allowed": "allowed"
+          },
+          "decision": {
+            "authority_granted": true,
+            "blocker_codes": [],
+            "status": "pass"
+          },
+          "decision_id": "fixture:derivative_child",
+          "derivative_permission": {
+            "derivative_use_allowed": "allowed",
+            "share_alike": false
+          },
+          "evaluator_revision": "wave64_row068_audio_rights_evaluator_v0.1.0",
+          "generated_output_terms": {
+            "terms_id": "terms:CC0-1.0",
+            "terms_known": true,
+            "training_restriction": "unknown"
+          },
+          "item_id": "ITEM-W64-068",
+          "license": {
+            "license_class": "cc0",
+            "license_id": "CC0-1.0",
+            "license_known": true,
+            "spdx_expression": null
+          },
+          "notes": [],
+          "output_use": {
+            "requested_use": "transform",
+            "use_allowed": "allowed"
+          },
+          "parent_rights_decision_sha256": "e34913250593eb71a24bfdd6a1c4893cb89d2f789a6e08fef1333accc12fcf50",
+          "redistribution": {
+            "redistribution_allowed": "allowed"
+          },
+          "rights_decision_sha256": "7b6993a48feb811f919f9571d1cf5415725fafe6102d6091a601df7f6fedb7b0",
+          "schema_version": "1.0.0",
+          "source_pack_restrictions": {
+            "restriction_codes": []
+          },
+          "subject": {
+            "source_pack_id": null,
+            "subject_id": "fixture/derivative/cc0_trim.wav",
+            "subject_kind": "derivative",
+            "subject_sha256": "5bb38c450ee8be440492bc0d3722f26f97b3fff0873214531ae20f4224bfb28c"
+          },
+          "tracker_id": "TRK-W64-068",
+          "vocabulary_registry_revision": "wave64_row068_audio_rights_vocabulary_v0.1.0"
+        }
+      }
+    ],
+    "subject_kinds_covered": [
+      "derivative",
+      "export",
+      "generated_asset",
+      "promotion",
+      "selection_candidate",
+      "source_asset",
+      "transform"
+    ]
+  },
+  "frozen_dimensions": [
+    "commercial_noncommercial_constraints",
+    "attribution",
+    "derivative_permission",
+    "redistribution",
+    "generated_output_terms",
+    "dataset_rights",
+    "source_pack_restrictions"
+  ],
+  "implementation_completion_claimed": false,
+  "item_id": "ITEM-W64-068",
+  "lifecycle_bindings": {
+    "bound_count": 0,
+    "bound_paths": [],
+    "details": [
+      {
+        "path": "Plan/08_SCHEMAS/visual_audio_event_manifest.schema.json",
+        "rights_decision_sha256_required": false
+      },
+      {
+        "path": "Plan/08_SCHEMAS/audio_candidate_score_record.schema.json",
+        "rights_decision_sha256_required": false
+      },
+      {
+        "path": "Plan/08_SCHEMAS/audio_orchestration_run.schema.json",
+        "rights_decision_sha256_required": false
+      },
+      {
+        "path": "Plan/08_SCHEMAS/audio_clip_preparation_manifest.schema.json",
+        "rights_decision_sha256_required": false
+      },
+      {
+        "path": "Plan/08_SCHEMAS/audio_spatial_render_manifest.schema.json",
+        "rights_decision_sha256_required": false
+      },
+      {
+        "path": "Plan/08_SCHEMAS/generated_audio_qa_report.schema.json",
+        "rights_decision_sha256_required": false
+      }
+    ],
+    "lifecycle_binding_complete": false,
+    "unbound_count": 6,
+    "unbound_paths": [
+      "Plan/08_SCHEMAS/visual_audio_event_manifest.schema.json",
+      "Plan/08_SCHEMAS/audio_candidate_score_record.schema.json",
+      "Plan/08_SCHEMAS/audio_orchestration_run.schema.json",
+      "Plan/08_SCHEMAS/audio_clip_preparation_manifest.schema.json",
+      "Plan/08_SCHEMAS/audio_spatial_render_manifest.schema.json",
+      "Plan/08_SCHEMAS/generated_audio_qa_report.schema.json"
+    ]
+  },
+  "product_completion_claimed": false,
+  "remaining_holds": [
+    {
+      "code": "LIFECYCLE_RIGHTS_BINDING_INCOMPLETE",
+      "detail": "Lifecycle schemas may still represent selection/transform/render/export/QA without a required rights_decision_sha256 field. Decision authority exists; required-field binding is the next hardening slice.",
+      "paths": [
+        "Plan/08_SCHEMAS/visual_audio_event_manifest.schema.json",
+        "Plan/08_SCHEMAS/audio_candidate_score_record.schema.json",
+        "Plan/08_SCHEMAS/audio_orchestration_run.schema.json",
+        "Plan/08_SCHEMAS/audio_clip_preparation_manifest.schema.json",
+        "Plan/08_SCHEMAS/audio_spatial_render_manifest.schema.json",
+        "Plan/08_SCHEMAS/generated_audio_qa_report.schema.json"
+      ]
+    },
+    {
+      "code": "LIBRARY_RUNTIME_RIGHTS_STAMPING_ABSENT",
+      "detail": "No retained full-library asset inventory was stamped with accepted rights decisions in this slice."
+    }
+  ],
+  "rights_decision_authority_accepted": true,
+  "row_complete": true,
+  "runtime_completion_claimed": false,
+  "schema_version": "1.0.0",
+  "source_generated_contracts": {
+    "contracts_tightened": true,
+    "gap_codes": [],
+    "generated_required": [
+      "attribution",
+      "decision",
+      "derivative_chain",
+      "license",
+      "output_use",
+      "rights_decision_sha256"
+    ],
+    "generated_schema": {
+      "bytes": 3741,
+      "exists": true,
+      "path": "Plan/08_SCHEMAS/generated_audio_asset_provenance.schema.json",
+      "sha256": "9805e6681e76f5ec25afa3a05a1d7c5a442e64ec325898bc3824e49c500801dd"
+    },
+    "source_required": [
+      "attribution",
+      "decision",
+      "derivative_use_allowed",
+      "license",
+      "rights_decision_sha256"
+    ],
+    "source_schema": {
+      "bytes": 4699,
+      "exists": true,
+      "path": "Plan/08_SCHEMAS/audio_asset_intelligence_record.schema.json",
+      "sha256": "02cd6229fdba5dff03b50f4f99394da092024cb866935e4bf4f6e1f3c4e99dbd"
+    }
+  },
+  "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+  "tracker_id": "TRK-W64-068",
+  "vocabulary_registry": {
+    "bytes": 3602,
+    "exists": true,
+    "path": "Plan/10_REGISTRIES/wave64_row068_audio_rights_vocabulary_registry.json",
+    "sha256": "3d039873ee85bd79ed740490bf2014d0e285a107c624d009a4cd3d2d80790f89"
+  },
+  "vocabulary_registry_revision": "wave64_row068_audio_rights_vocabulary_v0.1.0"
+}

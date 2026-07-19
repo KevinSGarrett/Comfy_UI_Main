@@ -44,7 +44,33 @@
       },
       "additionalProperties": false
     },
-    "rights": {"type": "object", "required": ["decision", "output_use", "derivative_chain"], "additionalProperties": true},
+    "rights": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision",
+        "output_use",
+        "derivative_chain",
+        "license",
+        "attribution",
+        "rights_decision_sha256"
+      ],
+      "properties": {
+        "decision": {"enum": ["pass", "blocked", "failed"]},
+        "output_use": {"type": "string", "minLength": 1},
+        "derivative_chain": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+        },
+        "license": {"type": "string", "minLength": 1},
+        "attribution": {"type": "string", "minLength": 1},
+        "rights_decision_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "commercial_use": {"enum": ["allowed", "forbidden", "unknown"]},
+        "redistribution_allowed": {"enum": ["allowed", "forbidden", "unknown"]},
+        "engine_license": {"type": "string", "minLength": 1}
+      }
+    },
     "qa_state": {"enum": ["not_run", "blocked", "failed", "technical_pass", "autonomous_qa_pass", "playback_pass"]},
     "qa_report_sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
     "promotion_state": {"enum": ["staged_candidate", "rejected", "promoted", "revoked", "superseded"]},
