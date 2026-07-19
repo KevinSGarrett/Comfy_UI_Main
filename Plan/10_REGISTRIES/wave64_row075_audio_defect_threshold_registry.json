@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "wave64_row075_audio_defect_threshold_registry",
+  "revision": "wave64_row075_audio_defect_thresholds_v0.1.0",
+  "tracker_id": "TRK-W64-075",
+  "authority": "planning_freeze_not_library_acceptance",
+  "notes": [
+    "Thresholds freeze Row075 evaluation identity for synthetic fixture calibration.",
+    "They do not accept library completion or substitute for Rows070/071 authority."
+  ],
+  "thresholds": {
+    "clipping_abs_threshold": 0.98,
+    "clipping_ratio_threshold": 0.002,
+    "click_delta_threshold": 0.55,
+    "dropout_silence_dbfs": -55.0,
+    "dropout_min_ms": 8.0,
+    "hiss_highband_ratio_threshold": 0.55,
+    "hum_tonal_ratio_threshold": 0.55,
+    "noise_rms_dbfs_threshold": -28.0,
+    "truncation_edge_dbfs": -18.0,
+    "channel_policy": "max_abs_mono",
+    "unknown_fail_closed": true,
+    "source_mutation_allowed": false
+  },
+  "severity_policy": {
+    "severe_codes_demote_production": true,
+    "visibility_always_preserved": true,
+    "unknown_or_ambiguous_is_ineligible_until_resolved": true
+  },
+  "required_defect_codes": [
+    "clipping",
+    "hiss",
+    "hum",
+    "clicks",
+    "dropouts",
+    "codec_damage",
+    "excessive_noise",
+    "unintelligible_speech_contamination",
+    "severe_pre_reverb",
+    "truncation",
+    "unsuitable_background_layers"
+  ]
+}

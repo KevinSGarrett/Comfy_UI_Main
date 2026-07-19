@@ -1,0 +1,627 @@
+{
+  "analysis_pipeline_revision": "wave64_row076_audio_reverb_dryness_v0.1.0",
+  "blocker_codes": [
+    "ROW071_DEPENDENCY_NOT_ACCEPTED",
+    "ROW073_DEPENDENCY_NOT_ACCEPTED",
+    "ROW071_AND_ROW073_DEPENDENCIES_NOT_ACCEPTED",
+    "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT",
+    "FULL_LIBRARY_ACOUSTIC_RECONCILIATION_ABSENT",
+    "DOUBLE_REVERB_GUARD_LIBRARY_ENFORCEMENT_ABSENT"
+  ],
+  "decision": {
+    "product_completion": false,
+    "row076_acceptance": "held",
+    "runtime_completion": false,
+    "safe_next_action": "Accept Row071 waveform/spectral features and Row073 usable-bounds/natural-decay authority, reconcile every accepted input to a dry/wet/ambiguous/environment-specific decision with hash-bound evidence and enforced wet-source policy, and replace this hold packet with full-library runtime evidence.",
+    "status": "blocked"
+  },
+  "evidence_id": "TRK-W64-076_audio_reverb_dryness_estimation",
+  "fixture_calibration": {
+    "authority": "synthetic_non_library",
+    "determinism_note": "Fixture records prove direct/reverberant, RT60-style decay, early-reflection density, stereo imprint, wet-source policy, and double-reverb guard method identity only; they do not accept Row076 library completion.",
+    "fixture_count": 6,
+    "records": [
+      {
+        "analysis_pipeline_revision": "wave64_row076_audio_reverb_dryness_v0.1.0",
+        "asset_id": "fixture:dry_impulse",
+        "canonical_pcm_sha256": "5fdbec979d43665fc92449f273cad08091ab46cf7e6c06f99d162dc62c85217e",
+        "channels": 2,
+        "classification": "dry",
+        "decision": {
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED"
+          ],
+          "double_reverb_guard_enforced": true,
+          "library_authority": false,
+          "source_bytes_unchanged": true,
+          "status": "blocked",
+          "suggestion_only": true
+        },
+        "frame_count": 9600,
+        "item_id": "ITEM-W64-076",
+        "measurements": {
+          "additional_convolution_safe": true,
+          "compatible_room_rule_id": null,
+          "confidence": 0.85,
+          "direct_to_reverberant_ratio_db": 249.335931083,
+          "early_reflection_density": 0.0,
+          "reverb_tail_seconds": 0.002145833,
+          "rt60_seconds": 0.002625,
+          "stereo_room_imprint": {
+            "channel_correlation": 1.0,
+            "left_right_rms_asymmetry": 0.0,
+            "width_score": 0.0
+          }
+        },
+        "method_provenance": {
+          "direct_to_reverberant": {
+            "method_id": "pcm_direct_to_reverberant_energy_ratio_v1",
+            "unit": "decibels",
+            "window": "direct_window_then_post_direct_to_tail"
+          },
+          "double_reverb_guard": {
+            "method_id": "pcm_wet_source_policy_double_reverb_guard_v1",
+            "unit": "policy_enum",
+            "window": "classification_plus_compatible_room_rule"
+          },
+          "early_reflections": {
+            "method_id": "pcm_early_local_peak_density_v1",
+            "unit": "peaks_per_early_window",
+            "window": "post_direct_to_early_reflection_window"
+          },
+          "reverb_tail": {
+            "method_id": "pcm_peak_to_tail_floor_duration_v1",
+            "unit": "seconds",
+            "window": "peak_to_tail_floor"
+          },
+          "rt60": {
+            "method_id": "pcm_schroeder_style_t20_extrapolated_rt60_v1",
+            "unit": "seconds",
+            "window": "peak_to_tail_floor_energy_decay"
+          },
+          "stereo_room_imprint": {
+            "method_id": "pcm_stereo_correlation_rms_asymmetry_width_v1",
+            "unit": "correlation_and_normalized_scores",
+            "window": "full_usable_stereo_region"
+          }
+        },
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "source_after_sha256": "d49dcd996529f07cff316e05318ab7b552a5b70ccc46cea8200d883ed9bf7fa0",
+        "source_before_sha256": "d49dcd996529f07cff316e05318ab7b552a5b70ccc46cea8200d883ed9bf7fa0",
+        "source_sha256": "d49dcd996529f07cff316e05318ab7b552a5b70ccc46cea8200d883ed9bf7fa0",
+        "thresholds": {
+          "channel_policy": "max_abs_mono_plus_stereo_imprint",
+          "compatible_room_passthrough_requires_rule_id": true,
+          "direct_window_ms": 10.0,
+          "dry_drr_min_db": 12.0,
+          "early_reflection_density_wet_min": 3.0,
+          "early_reflection_window_ms": 50.0,
+          "rt60_dry_max_s": 0.08,
+          "rt60_wet_min_s": 0.2,
+          "source_mutation_allowed": false,
+          "stereo_imprint_correlation_wet_max": 0.85,
+          "suggestion_only": true,
+          "tail_floor_dbfs": -50.0,
+          "wet_drr_max_db": 3.0
+        },
+        "tracker_id": "TRK-W64-076",
+        "wet_source_policy": "dry_render"
+      },
+      {
+        "analysis_pipeline_revision": "wave64_row076_audio_reverb_dryness_v0.1.0",
+        "asset_id": "fixture:dry_tone_burst",
+        "canonical_pcm_sha256": "7810c1b27a10a398b7d5048dfb681781fb30397452a450c5b6393bf789e5c107",
+        "channels": 2,
+        "classification": "ambiguous",
+        "decision": {
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED"
+          ],
+          "double_reverb_guard_enforced": true,
+          "library_authority": false,
+          "source_bytes_unchanged": true,
+          "status": "blocked",
+          "suggestion_only": true
+        },
+        "frame_count": 9600,
+        "item_id": "ITEM-W64-076",
+        "measurements": {
+          "additional_convolution_safe": false,
+          "compatible_room_rule_id": null,
+          "confidence": 0.45,
+          "direct_to_reverberant_ratio_db": 1.969970169,
+          "early_reflection_density": 0.0,
+          "reverb_tail_seconds": 0.016416667,
+          "rt60_seconds": 0.00075,
+          "stereo_room_imprint": {
+            "channel_correlation": 1.0,
+            "left_right_rms_asymmetry": 0.0,
+            "width_score": 0.0
+          }
+        },
+        "method_provenance": {
+          "direct_to_reverberant": {
+            "method_id": "pcm_direct_to_reverberant_energy_ratio_v1",
+            "unit": "decibels",
+            "window": "direct_window_then_post_direct_to_tail"
+          },
+          "double_reverb_guard": {
+            "method_id": "pcm_wet_source_policy_double_reverb_guard_v1",
+            "unit": "policy_enum",
+            "window": "classification_plus_compatible_room_rule"
+          },
+          "early_reflections": {
+            "method_id": "pcm_early_local_peak_density_v1",
+            "unit": "peaks_per_early_window",
+            "window": "post_direct_to_early_reflection_window"
+          },
+          "reverb_tail": {
+            "method_id": "pcm_peak_to_tail_floor_duration_v1",
+            "unit": "seconds",
+            "window": "peak_to_tail_floor"
+          },
+          "rt60": {
+            "method_id": "pcm_schroeder_style_t20_extrapolated_rt60_v1",
+            "unit": "seconds",
+            "window": "peak_to_tail_floor_energy_decay"
+          },
+          "stereo_room_imprint": {
+            "method_id": "pcm_stereo_correlation_rms_asymmetry_width_v1",
+            "unit": "correlation_and_normalized_scores",
+            "window": "full_usable_stereo_region"
+          }
+        },
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "source_after_sha256": "2c7e98d08800327567ac877af1bdde2491467229d5cca949ca574409bd7c5522",
+        "source_before_sha256": "2c7e98d08800327567ac877af1bdde2491467229d5cca949ca574409bd7c5522",
+        "source_sha256": "2c7e98d08800327567ac877af1bdde2491467229d5cca949ca574409bd7c5522",
+        "thresholds": {
+          "channel_policy": "max_abs_mono_plus_stereo_imprint",
+          "compatible_room_passthrough_requires_rule_id": true,
+          "direct_window_ms": 10.0,
+          "dry_drr_min_db": 12.0,
+          "early_reflection_density_wet_min": 3.0,
+          "early_reflection_window_ms": 50.0,
+          "rt60_dry_max_s": 0.08,
+          "rt60_wet_min_s": 0.2,
+          "source_mutation_allowed": false,
+          "stereo_imprint_correlation_wet_max": 0.85,
+          "suggestion_only": true,
+          "tail_floor_dbfs": -50.0,
+          "wet_drr_max_db": 3.0
+        },
+        "tracker_id": "TRK-W64-076",
+        "wet_source_policy": "limited_processing"
+      },
+      {
+        "analysis_pipeline_revision": "wave64_row076_audio_reverb_dryness_v0.1.0",
+        "asset_id": "fixture:wet_exponential_tail",
+        "canonical_pcm_sha256": "fae387e716708e56a77c0bc5b06d160a39c17ab4b3b2008e6ce812d2237ece1d",
+        "channels": 2,
+        "classification": "wet",
+        "decision": {
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED"
+          ],
+          "double_reverb_guard_enforced": true,
+          "library_authority": false,
+          "source_bytes_unchanged": true,
+          "status": "blocked",
+          "suggestion_only": true
+        },
+        "frame_count": 9600,
+        "item_id": "ITEM-W64-076",
+        "measurements": {
+          "additional_convolution_safe": false,
+          "compatible_room_rule_id": null,
+          "confidence": 0.85,
+          "direct_to_reverberant_ratio_db": -4.538549477,
+          "early_reflection_density": 7.0,
+          "reverb_tail_seconds": 0.19375,
+          "rt60_seconds": 0.386,
+          "stereo_room_imprint": {
+            "channel_correlation": 1.0,
+            "left_right_rms_asymmetry": 0.0,
+            "width_score": 0.0
+          }
+        },
+        "method_provenance": {
+          "direct_to_reverberant": {
+            "method_id": "pcm_direct_to_reverberant_energy_ratio_v1",
+            "unit": "decibels",
+            "window": "direct_window_then_post_direct_to_tail"
+          },
+          "double_reverb_guard": {
+            "method_id": "pcm_wet_source_policy_double_reverb_guard_v1",
+            "unit": "policy_enum",
+            "window": "classification_plus_compatible_room_rule"
+          },
+          "early_reflections": {
+            "method_id": "pcm_early_local_peak_density_v1",
+            "unit": "peaks_per_early_window",
+            "window": "post_direct_to_early_reflection_window"
+          },
+          "reverb_tail": {
+            "method_id": "pcm_peak_to_tail_floor_duration_v1",
+            "unit": "seconds",
+            "window": "peak_to_tail_floor"
+          },
+          "rt60": {
+            "method_id": "pcm_schroeder_style_t20_extrapolated_rt60_v1",
+            "unit": "seconds",
+            "window": "peak_to_tail_floor_energy_decay"
+          },
+          "stereo_room_imprint": {
+            "method_id": "pcm_stereo_correlation_rms_asymmetry_width_v1",
+            "unit": "correlation_and_normalized_scores",
+            "window": "full_usable_stereo_region"
+          }
+        },
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "source_after_sha256": "d7a01f809408ae1690e34b4317ce73e7cb131434521381c0b0af938fd9cde733",
+        "source_before_sha256": "d7a01f809408ae1690e34b4317ce73e7cb131434521381c0b0af938fd9cde733",
+        "source_sha256": "d7a01f809408ae1690e34b4317ce73e7cb131434521381c0b0af938fd9cde733",
+        "thresholds": {
+          "channel_policy": "max_abs_mono_plus_stereo_imprint",
+          "compatible_room_passthrough_requires_rule_id": true,
+          "direct_window_ms": 10.0,
+          "dry_drr_min_db": 12.0,
+          "early_reflection_density_wet_min": 3.0,
+          "early_reflection_window_ms": 50.0,
+          "rt60_dry_max_s": 0.08,
+          "rt60_wet_min_s": 0.2,
+          "source_mutation_allowed": false,
+          "stereo_imprint_correlation_wet_max": 0.85,
+          "suggestion_only": true,
+          "tail_floor_dbfs": -50.0,
+          "wet_drr_max_db": 3.0
+        },
+        "tracker_id": "TRK-W64-076",
+        "wet_source_policy": "reject"
+      },
+      {
+        "analysis_pipeline_revision": "wave64_row076_audio_reverb_dryness_v0.1.0",
+        "asset_id": "fixture:wet_stereo_room",
+        "canonical_pcm_sha256": "f0f1509fbd982b0233dca3da0638030f4dbae81c7a96602e2c05fb2c6b2a94c5",
+        "channels": 2,
+        "classification": "wet",
+        "decision": {
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED"
+          ],
+          "double_reverb_guard_enforced": true,
+          "library_authority": false,
+          "source_bytes_unchanged": true,
+          "status": "blocked",
+          "suggestion_only": true
+        },
+        "frame_count": 9600,
+        "item_id": "ITEM-W64-076",
+        "measurements": {
+          "additional_convolution_safe": false,
+          "compatible_room_rule_id": null,
+          "confidence": 0.85,
+          "direct_to_reverberant_ratio_db": -3.506977667,
+          "early_reflection_density": 11.0,
+          "reverb_tail_seconds": 0.194166667,
+          "rt60_seconds": 0.2894375,
+          "stereo_room_imprint": {
+            "channel_correlation": 0.989873459,
+            "left_right_rms_asymmetry": 0.166303384,
+            "width_score": 0.056979594
+          }
+        },
+        "method_provenance": {
+          "direct_to_reverberant": {
+            "method_id": "pcm_direct_to_reverberant_energy_ratio_v1",
+            "unit": "decibels",
+            "window": "direct_window_then_post_direct_to_tail"
+          },
+          "double_reverb_guard": {
+            "method_id": "pcm_wet_source_policy_double_reverb_guard_v1",
+            "unit": "policy_enum",
+            "window": "classification_plus_compatible_room_rule"
+          },
+          "early_reflections": {
+            "method_id": "pcm_early_local_peak_density_v1",
+            "unit": "peaks_per_early_window",
+            "window": "post_direct_to_early_reflection_window"
+          },
+          "reverb_tail": {
+            "method_id": "pcm_peak_to_tail_floor_duration_v1",
+            "unit": "seconds",
+            "window": "peak_to_tail_floor"
+          },
+          "rt60": {
+            "method_id": "pcm_schroeder_style_t20_extrapolated_rt60_v1",
+            "unit": "seconds",
+            "window": "peak_to_tail_floor_energy_decay"
+          },
+          "stereo_room_imprint": {
+            "method_id": "pcm_stereo_correlation_rms_asymmetry_width_v1",
+            "unit": "correlation_and_normalized_scores",
+            "window": "full_usable_stereo_region"
+          }
+        },
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "source_after_sha256": "5a9a839ba36d8dbc3bc2cab15d962e1413f139420a1df7dc3b7ea07eac45a4e8",
+        "source_before_sha256": "5a9a839ba36d8dbc3bc2cab15d962e1413f139420a1df7dc3b7ea07eac45a4e8",
+        "source_sha256": "5a9a839ba36d8dbc3bc2cab15d962e1413f139420a1df7dc3b7ea07eac45a4e8",
+        "thresholds": {
+          "channel_policy": "max_abs_mono_plus_stereo_imprint",
+          "compatible_room_passthrough_requires_rule_id": true,
+          "direct_window_ms": 10.0,
+          "dry_drr_min_db": 12.0,
+          "early_reflection_density_wet_min": 3.0,
+          "early_reflection_window_ms": 50.0,
+          "rt60_dry_max_s": 0.08,
+          "rt60_wet_min_s": 0.2,
+          "source_mutation_allowed": false,
+          "stereo_imprint_correlation_wet_max": 0.85,
+          "suggestion_only": true,
+          "tail_floor_dbfs": -50.0,
+          "wet_drr_max_db": 3.0
+        },
+        "tracker_id": "TRK-W64-076",
+        "wet_source_policy": "reject"
+      },
+      {
+        "analysis_pipeline_revision": "wave64_row076_audio_reverb_dryness_v0.1.0",
+        "asset_id": "fixture:mono_noise",
+        "canonical_pcm_sha256": "f17b81fac6b3085e5ceb8fe2e916587b3b6c541752266a7e74b3f6ec1a8b3dd4",
+        "channels": 2,
+        "classification": "ambiguous",
+        "decision": {
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED"
+          ],
+          "double_reverb_guard_enforced": true,
+          "library_authority": false,
+          "source_bytes_unchanged": true,
+          "status": "blocked",
+          "suggestion_only": true
+        },
+        "frame_count": 9600,
+        "item_id": "ITEM-W64-076",
+        "measurements": {
+          "additional_convolution_safe": false,
+          "compatible_room_rule_id": null,
+          "confidence": 0.45,
+          "direct_to_reverberant_ratio_db": -9.449327497,
+          "early_reflection_density": 71.0,
+          "reverb_tail_seconds": 0.098708333,
+          "rt60_seconds": 0.0006875,
+          "stereo_room_imprint": {
+            "channel_correlation": 1.0,
+            "left_right_rms_asymmetry": 0.0,
+            "width_score": 0.0
+          }
+        },
+        "method_provenance": {
+          "direct_to_reverberant": {
+            "method_id": "pcm_direct_to_reverberant_energy_ratio_v1",
+            "unit": "decibels",
+            "window": "direct_window_then_post_direct_to_tail"
+          },
+          "double_reverb_guard": {
+            "method_id": "pcm_wet_source_policy_double_reverb_guard_v1",
+            "unit": "policy_enum",
+            "window": "classification_plus_compatible_room_rule"
+          },
+          "early_reflections": {
+            "method_id": "pcm_early_local_peak_density_v1",
+            "unit": "peaks_per_early_window",
+            "window": "post_direct_to_early_reflection_window"
+          },
+          "reverb_tail": {
+            "method_id": "pcm_peak_to_tail_floor_duration_v1",
+            "unit": "seconds",
+            "window": "peak_to_tail_floor"
+          },
+          "rt60": {
+            "method_id": "pcm_schroeder_style_t20_extrapolated_rt60_v1",
+            "unit": "seconds",
+            "window": "peak_to_tail_floor_energy_decay"
+          },
+          "stereo_room_imprint": {
+            "method_id": "pcm_stereo_correlation_rms_asymmetry_width_v1",
+            "unit": "correlation_and_normalized_scores",
+            "window": "full_usable_stereo_region"
+          }
+        },
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "source_after_sha256": "a294b3ae237d2ebd27f24d39171bfc687dfe889d9484ab3434cb6941200fcced",
+        "source_before_sha256": "a294b3ae237d2ebd27f24d39171bfc687dfe889d9484ab3434cb6941200fcced",
+        "source_sha256": "a294b3ae237d2ebd27f24d39171bfc687dfe889d9484ab3434cb6941200fcced",
+        "thresholds": {
+          "channel_policy": "max_abs_mono_plus_stereo_imprint",
+          "compatible_room_passthrough_requires_rule_id": true,
+          "direct_window_ms": 10.0,
+          "dry_drr_min_db": 12.0,
+          "early_reflection_density_wet_min": 3.0,
+          "early_reflection_window_ms": 50.0,
+          "rt60_dry_max_s": 0.08,
+          "rt60_wet_min_s": 0.2,
+          "source_mutation_allowed": false,
+          "stereo_imprint_correlation_wet_max": 0.85,
+          "suggestion_only": true,
+          "tail_floor_dbfs": -50.0,
+          "wet_drr_max_db": 3.0
+        },
+        "tracker_id": "TRK-W64-076",
+        "wet_source_policy": "limited_processing"
+      },
+      {
+        "analysis_pipeline_revision": "wave64_row076_audio_reverb_dryness_v0.1.0",
+        "asset_id": "fixture:ambiguous_medium_tail",
+        "canonical_pcm_sha256": "7504172d40ce5fdaae4f31ee8be536c360b4200c11e94d4cbad5bb5929997db4",
+        "channels": 2,
+        "classification": "ambiguous",
+        "decision": {
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED"
+          ],
+          "double_reverb_guard_enforced": true,
+          "library_authority": false,
+          "source_bytes_unchanged": true,
+          "status": "blocked",
+          "suggestion_only": true
+        },
+        "frame_count": 9600,
+        "item_id": "ITEM-W64-076",
+        "measurements": {
+          "additional_convolution_safe": false,
+          "compatible_room_rule_id": null,
+          "confidence": 0.45,
+          "direct_to_reverberant_ratio_db": 2.906960757,
+          "early_reflection_density": 0.0,
+          "reverb_tail_seconds": 0.080208333,
+          "rt60_seconds": 0.0705,
+          "stereo_room_imprint": {
+            "channel_correlation": 1.0,
+            "left_right_rms_asymmetry": 0.0,
+            "width_score": 0.0
+          }
+        },
+        "method_provenance": {
+          "direct_to_reverberant": {
+            "method_id": "pcm_direct_to_reverberant_energy_ratio_v1",
+            "unit": "decibels",
+            "window": "direct_window_then_post_direct_to_tail"
+          },
+          "double_reverb_guard": {
+            "method_id": "pcm_wet_source_policy_double_reverb_guard_v1",
+            "unit": "policy_enum",
+            "window": "classification_plus_compatible_room_rule"
+          },
+          "early_reflections": {
+            "method_id": "pcm_early_local_peak_density_v1",
+            "unit": "peaks_per_early_window",
+            "window": "post_direct_to_early_reflection_window"
+          },
+          "reverb_tail": {
+            "method_id": "pcm_peak_to_tail_floor_duration_v1",
+            "unit": "seconds",
+            "window": "peak_to_tail_floor"
+          },
+          "rt60": {
+            "method_id": "pcm_schroeder_style_t20_extrapolated_rt60_v1",
+            "unit": "seconds",
+            "window": "peak_to_tail_floor_energy_decay"
+          },
+          "stereo_room_imprint": {
+            "method_id": "pcm_stereo_correlation_rms_asymmetry_width_v1",
+            "unit": "correlation_and_normalized_scores",
+            "window": "full_usable_stereo_region"
+          }
+        },
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "source_after_sha256": "ef8056cffed42b12cf4998cbab813ccd6f1669afdd57a7b8f58ee7c08dd70f58",
+        "source_before_sha256": "ef8056cffed42b12cf4998cbab813ccd6f1669afdd57a7b8f58ee7c08dd70f58",
+        "source_sha256": "ef8056cffed42b12cf4998cbab813ccd6f1669afdd57a7b8f58ee7c08dd70f58",
+        "thresholds": {
+          "channel_policy": "max_abs_mono_plus_stereo_imprint",
+          "compatible_room_passthrough_requires_rule_id": true,
+          "direct_window_ms": 10.0,
+          "dry_drr_min_db": 12.0,
+          "early_reflection_density_wet_min": 3.0,
+          "early_reflection_window_ms": 50.0,
+          "rt60_dry_max_s": 0.08,
+          "rt60_wet_min_s": 0.2,
+          "source_mutation_allowed": false,
+          "stereo_imprint_correlation_wet_max": 0.85,
+          "suggestion_only": true,
+          "tail_floor_dbfs": -50.0,
+          "wet_drr_max_db": 3.0
+        },
+        "tracker_id": "TRK-W64-076",
+        "wet_source_policy": "limited_processing"
+      }
+    ]
+  },
+  "implementation_completion_claimed": false,
+  "item_id": "ITEM-W64-076",
+  "library_authority": false,
+  "method_provenance": {
+    "direct_to_reverberant": {
+      "method_id": "pcm_direct_to_reverberant_energy_ratio_v1",
+      "unit": "decibels",
+      "window": "direct_window_then_post_direct_to_tail"
+    },
+    "double_reverb_guard": {
+      "method_id": "pcm_wet_source_policy_double_reverb_guard_v1",
+      "unit": "policy_enum",
+      "window": "classification_plus_compatible_room_rule"
+    },
+    "early_reflections": {
+      "method_id": "pcm_early_local_peak_density_v1",
+      "unit": "peaks_per_early_window",
+      "window": "post_direct_to_early_reflection_window"
+    },
+    "reverb_tail": {
+      "method_id": "pcm_peak_to_tail_floor_duration_v1",
+      "unit": "seconds",
+      "window": "peak_to_tail_floor"
+    },
+    "rt60": {
+      "method_id": "pcm_schroeder_style_t20_extrapolated_rt60_v1",
+      "unit": "seconds",
+      "window": "peak_to_tail_floor_energy_decay"
+    },
+    "stereo_room_imprint": {
+      "method_id": "pcm_stereo_correlation_rms_asymmetry_width_v1",
+      "unit": "correlation_and_normalized_scores",
+      "window": "full_usable_stereo_region"
+    }
+  },
+  "row071_admission": {
+    "blocker_codes": [
+      "ROW071_DEPENDENCY_NOT_ACCEPTED"
+    ],
+    "bytes": 7370,
+    "dependency_satisfied": false,
+    "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-071_WAVEFORM_FEATURE_EXTRACTION_CURRENT_DELTA_20260719.json",
+    "row_complete": false,
+    "sha256": "4118ecf426dc54242b049e15e27981097a29044d954bd21992dce85aca432def",
+    "status": "HOLD_ROW070_CANONICAL_DECODE_AND_FULL_LIBRARY_FEATURE_RUNTIME_ABSENT",
+    "tracker_id": "TRK-W64-071"
+  },
+  "row073_admission": {
+    "blocker_codes": [
+      "ROW073_DEPENDENCY_NOT_ACCEPTED"
+    ],
+    "bytes": 9007,
+    "dependency_satisfied": false,
+    "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_CURRENT_DELTA_20260719.json",
+    "row_complete": false,
+    "sha256": "9c8b2d4b1871d61276bae4d5f6ca85a437f99b7ca3cc4d1a7a7fe1371b6146ff",
+    "status": "HOLD_ROW071_ROW072_DEPENDENCIES_AND_FULL_LIBRARY_BOUNDS_RUNTIME_ABSENT",
+    "tracker_id": "TRK-W64-073"
+  },
+  "row_complete": false,
+  "runtime_completion_claimed": false,
+  "schema_version": "1.0.0",
+  "status": "HOLD_ROW071_ROW073_DEPENDENCIES_AND_FULL_LIBRARY_ACOUSTIC_RUNTIME_ABSENT",
+  "thresholds": {
+    "channel_policy": "max_abs_mono_plus_stereo_imprint",
+    "compatible_room_passthrough_requires_rule_id": true,
+    "direct_window_ms": 10.0,
+    "dry_drr_min_db": 12.0,
+    "early_reflection_density_wet_min": 3.0,
+    "early_reflection_window_ms": 50.0,
+    "rt60_dry_max_s": 0.08,
+    "rt60_wet_min_s": 0.2,
+    "source_mutation_allowed": false,
+    "stereo_imprint_correlation_wet_max": 0.85,
+    "suggestion_only": true,
+    "tail_floor_dbfs": -50.0,
+    "wet_drr_max_db": 3.0
+  },
+  "tracker_id": "TRK-W64-076"
+}

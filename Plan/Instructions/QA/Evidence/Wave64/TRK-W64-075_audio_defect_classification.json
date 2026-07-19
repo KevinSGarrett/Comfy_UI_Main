@@ -1,0 +1,2955 @@
+{
+  "blocker_codes": [
+    "ROW070_DEPENDENCY_NOT_ACCEPTED",
+    "ROW071_DEPENDENCY_NOT_ACCEPTED",
+    "ROW070_AND_ROW071_DEPENDENCIES_NOT_ACCEPTED",
+    "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT",
+    "CALIBRATED_LIBRARY_DEFECT_STRATA_ABSENT",
+    "FULL_LIBRARY_VISIBILITY_RECONCILIATION_ABSENT"
+  ],
+  "decision": {
+    "product_completion": false,
+    "row075_acceptance": "held",
+    "runtime_completion": false,
+    "safe_next_action": "Accept Row070 canonical PCM decode and Row071 waveform/spectral features, reconcile every retained inventory input to a calibrated defect decision with confidence/evidence spans while preserving visibility, and replace this hold packet with full-library runtime evidence for Row093 unlock.",
+    "status": "blocked"
+  },
+  "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+  "evidence_id": "TRK-W64-075_audio_defect_classification",
+  "fixture_calibration": {
+    "authority": "synthetic_non_library",
+    "determinism_note": "Fixture records prove taxonomy coverage, severity/confidence/evidence bindings, and production-eligibility demotion with visibility preserved; they do not accept Row075 library completion.",
+    "fixture_count": 11,
+    "records": [
+      {
+        "asset_id": "fixture:clean_tone",
+        "canonical_pcm_sha256": "dbbab993c552b2082be707d71e5ab1423bff77ac01a9f060c7312cfe1d0e1b5c",
+        "channels": 2,
+        "decision": {
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED"
+          ],
+          "library_authority": false,
+          "production_eligibility": "eligible",
+          "severe_defect_present": false,
+          "source_bytes_unchanged": true,
+          "status": "blocked",
+          "unknown_or_ambiguous": false,
+          "visibility_preserved": true
+        },
+        "defects": [
+          {
+            "canonical_pcm_sha256": "dbbab993c552b2082be707d71e5ab1423bff77ac01a9f060c7312cfe1d0e1b5c",
+            "confidence": 0.9,
+            "defect_code": "clipping",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_clipping_ratio_v1",
+              "metric_name": "clipping_ratio",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.002
+            },
+            "severity": "none",
+            "source_sha256": "6efdde04e54bc416bc5a8c71383060a43f22084b764c6de4354fe882eec04850",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "dbbab993c552b2082be707d71e5ab1423bff77ac01a9f060c7312cfe1d0e1b5c",
+            "confidence": 0.85,
+            "defect_code": "clicks",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_sample_delta_click_v1",
+              "metric_name": "click_event_count",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 2.0
+            },
+            "severity": "none",
+            "source_sha256": "6efdde04e54bc416bc5a8c71383060a43f22084b764c6de4354fe882eec04850",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "dbbab993c552b2082be707d71e5ab1423bff77ac01a9f060c7312cfe1d0e1b5c",
+            "confidence": 0.88,
+            "defect_code": "dropouts",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_active_window_dropout_v1",
+              "metric_name": "dropout_ms",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 8.0
+            },
+            "severity": "none",
+            "source_sha256": "6efdde04e54bc416bc5a8c71383060a43f22084b764c6de4354fe882eec04850",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "dbbab993c552b2082be707d71e5ab1423bff77ac01a9f060c7312cfe1d0e1b5c",
+            "confidence": 0.8,
+            "defect_code": "truncation",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_abrupt_tail_truncation_v1",
+              "metric_name": "cut_edge_dbfs",
+              "metric_value": -9.864107471,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": -18.0
+            },
+            "severity": "none",
+            "source_sha256": "6efdde04e54bc416bc5a8c71383060a43f22084b764c6de4354fe882eec04850",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "dbbab993c552b2082be707d71e5ab1423bff77ac01a9f060c7312cfe1d0e1b5c",
+            "confidence": 0.75,
+            "defect_code": "hiss",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_highband_residual_hiss_v1",
+              "metric_name": "highband_ratio",
+              "metric_value": 0.114072567,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.55
+            },
+            "severity": "none",
+            "source_sha256": "6efdde04e54bc416bc5a8c71383060a43f22084b764c6de4354fe882eec04850",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "dbbab993c552b2082be707d71e5ab1423bff77ac01a9f060c7312cfe1d0e1b5c",
+            "confidence": 0.8,
+            "defect_code": "hum",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_tonal_hum_goertzel_v1",
+              "metric_name": "hum_60hz_goertzel_ratio",
+              "metric_value": 0.008159703,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.55
+            },
+            "severity": "none",
+            "source_sha256": "6efdde04e54bc416bc5a8c71383060a43f22084b764c6de4354fe882eec04850",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "dbbab993c552b2082be707d71e5ab1423bff77ac01a9f060c7312cfe1d0e1b5c",
+            "confidence": 0.8,
+            "defect_code": "excessive_noise",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_rms_excessive_noise_v1",
+              "metric_name": "rms_dbfs",
+              "metric_value": -12.917503767,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": -28.0
+            },
+            "severity": "none",
+            "source_sha256": "6efdde04e54bc416bc5a8c71383060a43f22084b764c6de4354fe882eec04850",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "dbbab993c552b2082be707d71e5ab1423bff77ac01a9f060c7312cfe1d0e1b5c",
+            "confidence": 0.7,
+            "defect_code": "codec_damage",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_codec_damage_burst_v1",
+              "metric_name": "corruption_burst_ms",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.8
+            },
+            "severity": "none",
+            "source_sha256": "6efdde04e54bc416bc5a8c71383060a43f22084b764c6de4354fe882eec04850",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "dbbab993c552b2082be707d71e5ab1423bff77ac01a9f060c7312cfe1d0e1b5c",
+            "confidence": 0.65,
+            "defect_code": "unintelligible_speech_contamination",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_speech_contamination_proxy_v1",
+              "metric_name": "midband_am_energy",
+              "metric_value": 0.050758155,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.12
+            },
+            "severity": "none",
+            "source_sha256": "6efdde04e54bc416bc5a8c71383060a43f22084b764c6de4354fe882eec04850",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "dbbab993c552b2082be707d71e5ab1423bff77ac01a9f060c7312cfe1d0e1b5c",
+            "confidence": 0.7,
+            "defect_code": "severe_pre_reverb",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_pre_reverb_leadin_v1",
+              "metric_name": "pre_onset_energy_ratio",
+              "metric_value": 0.355769187,
+              "sample_end": 539,
+              "sample_start": 0,
+              "threshold_value": 0.08
+            },
+            "severity": "none",
+            "source_sha256": "6efdde04e54bc416bc5a8c71383060a43f22084b764c6de4354fe882eec04850",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "dbbab993c552b2082be707d71e5ab1423bff77ac01a9f060c7312cfe1d0e1b5c",
+            "confidence": 0.7,
+            "defect_code": "unsuitable_background_layers",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_unsuitable_background_bed_v1",
+              "metric_name": "background_bed_rms",
+              "metric_value": 0.010124394,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.02
+            },
+            "severity": "none",
+            "source_sha256": "6efdde04e54bc416bc5a8c71383060a43f22084b764c6de4354fe882eec04850",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          }
+        ],
+        "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+        "frame_count": 4800,
+        "item_id": "ITEM-W64-075",
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "source_after_sha256": "6efdde04e54bc416bc5a8c71383060a43f22084b764c6de4354fe882eec04850",
+        "source_before_sha256": "6efdde04e54bc416bc5a8c71383060a43f22084b764c6de4354fe882eec04850",
+        "source_sha256": "6efdde04e54bc416bc5a8c71383060a43f22084b764c6de4354fe882eec04850",
+        "taxonomy_coverage": {
+          "all_required_codes_evaluated": true,
+          "evaluated_codes": [
+            "clipping",
+            "clicks",
+            "dropouts",
+            "truncation",
+            "hiss",
+            "hum",
+            "excessive_noise",
+            "codec_damage",
+            "unintelligible_speech_contamination",
+            "severe_pre_reverb",
+            "unsuitable_background_layers"
+          ],
+          "required_codes": [
+            "clipping",
+            "hiss",
+            "hum",
+            "clicks",
+            "dropouts",
+            "codec_damage",
+            "excessive_noise",
+            "unintelligible_speech_contamination",
+            "severe_pre_reverb",
+            "truncation",
+            "unsuitable_background_layers"
+          ],
+          "unknown_codes": []
+        },
+        "threshold_registry_revision": "wave64_row075_audio_defect_thresholds_v0.1.0",
+        "thresholds": {
+          "channel_policy": "max_abs_mono",
+          "click_delta_threshold": 0.55,
+          "clipping_abs_threshold": 0.98,
+          "clipping_ratio_threshold": 0.002,
+          "dropout_min_ms": 8.0,
+          "dropout_silence_dbfs": -55.0,
+          "hiss_highband_ratio_threshold": 0.55,
+          "hum_tonal_ratio_threshold": 0.55,
+          "noise_rms_dbfs_threshold": -28.0,
+          "source_mutation_allowed": false,
+          "truncation_edge_dbfs": -18.0,
+          "unknown_fail_closed": true
+        },
+        "tracker_id": "TRK-W64-075"
+      },
+      {
+        "asset_id": "fixture:clipping",
+        "canonical_pcm_sha256": "1850ce8696dabff1213bc3467414a12b1185e36a461c2fda3613c1ddcb126a32",
+        "channels": 2,
+        "decision": {
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED"
+          ],
+          "library_authority": false,
+          "production_eligibility": "ineligible",
+          "severe_defect_present": true,
+          "source_bytes_unchanged": true,
+          "status": "blocked",
+          "unknown_or_ambiguous": false,
+          "visibility_preserved": true
+        },
+        "defects": [
+          {
+            "canonical_pcm_sha256": "1850ce8696dabff1213bc3467414a12b1185e36a461c2fda3613c1ddcb126a32",
+            "confidence": 1.0,
+            "defect_code": "clipping",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_clipping_ratio_v1",
+              "metric_name": "clipping_ratio",
+              "metric_value": 0.419791667,
+              "sample_end": 4400,
+              "sample_start": 414,
+              "threshold_value": 0.002
+            },
+            "severity": "severe",
+            "source_sha256": "10cfadcc7a9ea2431c1f49a4e3381d32d4108c8bf39326cba8fa5f5d67cc49f5",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "1850ce8696dabff1213bc3467414a12b1185e36a461c2fda3613c1ddcb126a32",
+            "confidence": 0.85,
+            "defect_code": "clicks",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_sample_delta_click_v1",
+              "metric_name": "click_event_count",
+              "metric_value": 1.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 2.0
+            },
+            "severity": "none",
+            "source_sha256": "10cfadcc7a9ea2431c1f49a4e3381d32d4108c8bf39326cba8fa5f5d67cc49f5",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "1850ce8696dabff1213bc3467414a12b1185e36a461c2fda3613c1ddcb126a32",
+            "confidence": 0.88,
+            "defect_code": "dropouts",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_active_window_dropout_v1",
+              "metric_name": "dropout_ms",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 8.0
+            },
+            "severity": "none",
+            "source_sha256": "10cfadcc7a9ea2431c1f49a4e3381d32d4108c8bf39326cba8fa5f5d67cc49f5",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "1850ce8696dabff1213bc3467414a12b1185e36a461c2fda3613c1ddcb126a32",
+            "confidence": 0.8,
+            "defect_code": "truncation",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_abrupt_tail_truncation_v1",
+              "metric_name": "cut_edge_dbfs",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": -18.0
+            },
+            "severity": "none",
+            "source_sha256": "10cfadcc7a9ea2431c1f49a4e3381d32d4108c8bf39326cba8fa5f5d67cc49f5",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "1850ce8696dabff1213bc3467414a12b1185e36a461c2fda3613c1ddcb126a32",
+            "confidence": 0.75,
+            "defect_code": "hiss",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_highband_residual_hiss_v1",
+              "metric_name": "highband_ratio",
+              "metric_value": 0.064747823,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.55
+            },
+            "severity": "none",
+            "source_sha256": "10cfadcc7a9ea2431c1f49a4e3381d32d4108c8bf39326cba8fa5f5d67cc49f5",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "1850ce8696dabff1213bc3467414a12b1185e36a461c2fda3613c1ddcb126a32",
+            "confidence": 0.8,
+            "defect_code": "hum",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_tonal_hum_goertzel_v1",
+              "metric_name": "hum_60hz_goertzel_ratio",
+              "metric_value": 0.017185083,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.55
+            },
+            "severity": "none",
+            "source_sha256": "10cfadcc7a9ea2431c1f49a4e3381d32d4108c8bf39326cba8fa5f5d67cc49f5",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "1850ce8696dabff1213bc3467414a12b1185e36a461c2fda3613c1ddcb126a32",
+            "confidence": 0.8,
+            "defect_code": "excessive_noise",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_rms_excessive_noise_v1",
+              "metric_name": "rms_dbfs",
+              "metric_value": -2.485041082,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": -28.0
+            },
+            "severity": "none",
+            "source_sha256": "10cfadcc7a9ea2431c1f49a4e3381d32d4108c8bf39326cba8fa5f5d67cc49f5",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "1850ce8696dabff1213bc3467414a12b1185e36a461c2fda3613c1ddcb126a32",
+            "confidence": 0.7,
+            "defect_code": "codec_damage",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_codec_damage_burst_v1",
+              "metric_name": "corruption_burst_ms",
+              "metric_value": 0.020833333,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.8
+            },
+            "severity": "none",
+            "source_sha256": "10cfadcc7a9ea2431c1f49a4e3381d32d4108c8bf39326cba8fa5f5d67cc49f5",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "1850ce8696dabff1213bc3467414a12b1185e36a461c2fda3613c1ddcb126a32",
+            "confidence": 0.62,
+            "defect_code": "unintelligible_speech_contamination",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_speech_contamination_proxy_v1",
+              "metric_name": "midband_am_energy",
+              "metric_value": 0.563216373,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.12
+            },
+            "severity": "moderate",
+            "source_sha256": "10cfadcc7a9ea2431c1f49a4e3381d32d4108c8bf39326cba8fa5f5d67cc49f5",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "1850ce8696dabff1213bc3467414a12b1185e36a461c2fda3613c1ddcb126a32",
+            "confidence": 0.7,
+            "defect_code": "severe_pre_reverb",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_pre_reverb_leadin_v1",
+              "metric_name": "pre_onset_energy_ratio",
+              "metric_value": 0.00896469,
+              "sample_end": 403,
+              "sample_start": 0,
+              "threshold_value": 0.08
+            },
+            "severity": "none",
+            "source_sha256": "10cfadcc7a9ea2431c1f49a4e3381d32d4108c8bf39326cba8fa5f5d67cc49f5",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "1850ce8696dabff1213bc3467414a12b1185e36a461c2fda3613c1ddcb126a32",
+            "confidence": 0.7,
+            "defect_code": "unsuitable_background_layers",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_unsuitable_background_bed_v1",
+              "metric_name": "background_bed_rms",
+              "metric_value": 0.006350823,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.02
+            },
+            "severity": "none",
+            "source_sha256": "10cfadcc7a9ea2431c1f49a4e3381d32d4108c8bf39326cba8fa5f5d67cc49f5",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          }
+        ],
+        "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+        "frame_count": 4800,
+        "item_id": "ITEM-W64-075",
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "source_after_sha256": "10cfadcc7a9ea2431c1f49a4e3381d32d4108c8bf39326cba8fa5f5d67cc49f5",
+        "source_before_sha256": "10cfadcc7a9ea2431c1f49a4e3381d32d4108c8bf39326cba8fa5f5d67cc49f5",
+        "source_sha256": "10cfadcc7a9ea2431c1f49a4e3381d32d4108c8bf39326cba8fa5f5d67cc49f5",
+        "taxonomy_coverage": {
+          "all_required_codes_evaluated": true,
+          "evaluated_codes": [
+            "clipping",
+            "clicks",
+            "dropouts",
+            "truncation",
+            "hiss",
+            "hum",
+            "excessive_noise",
+            "codec_damage",
+            "unintelligible_speech_contamination",
+            "severe_pre_reverb",
+            "unsuitable_background_layers"
+          ],
+          "required_codes": [
+            "clipping",
+            "hiss",
+            "hum",
+            "clicks",
+            "dropouts",
+            "codec_damage",
+            "excessive_noise",
+            "unintelligible_speech_contamination",
+            "severe_pre_reverb",
+            "truncation",
+            "unsuitable_background_layers"
+          ],
+          "unknown_codes": []
+        },
+        "threshold_registry_revision": "wave64_row075_audio_defect_thresholds_v0.1.0",
+        "thresholds": {
+          "channel_policy": "max_abs_mono",
+          "click_delta_threshold": 0.55,
+          "clipping_abs_threshold": 0.98,
+          "clipping_ratio_threshold": 0.002,
+          "dropout_min_ms": 8.0,
+          "dropout_silence_dbfs": -55.0,
+          "hiss_highband_ratio_threshold": 0.55,
+          "hum_tonal_ratio_threshold": 0.55,
+          "noise_rms_dbfs_threshold": -28.0,
+          "source_mutation_allowed": false,
+          "truncation_edge_dbfs": -18.0,
+          "unknown_fail_closed": true
+        },
+        "tracker_id": "TRK-W64-075"
+      },
+      {
+        "asset_id": "fixture:clicks",
+        "canonical_pcm_sha256": "13f577a0ed688bc375eb41ce15466099360de8cf86fcc23eb49dd51bb0045a79",
+        "channels": 2,
+        "decision": {
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED"
+          ],
+          "library_authority": false,
+          "production_eligibility": "ineligible",
+          "severe_defect_present": true,
+          "source_bytes_unchanged": true,
+          "status": "blocked",
+          "unknown_or_ambiguous": false,
+          "visibility_preserved": true
+        },
+        "defects": [
+          {
+            "canonical_pcm_sha256": "13f577a0ed688bc375eb41ce15466099360de8cf86fcc23eb49dd51bb0045a79",
+            "confidence": 0.9,
+            "defect_code": "clipping",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_clipping_ratio_v1",
+              "metric_name": "clipping_ratio",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.002
+            },
+            "severity": "none",
+            "source_sha256": "058b9ae7bb04846bccba79583307a243c71e4ba9e102172053bcd477dbbecb29",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "13f577a0ed688bc375eb41ce15466099360de8cf86fcc23eb49dd51bb0045a79",
+            "confidence": 0.70001,
+            "defect_code": "clicks",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_sample_delta_click_v1",
+              "metric_name": "click_event_count",
+              "metric_value": 6.0,
+              "sample_end": 2703,
+              "sample_start": 900,
+              "threshold_value": 2.0
+            },
+            "severity": "severe",
+            "source_sha256": "058b9ae7bb04846bccba79583307a243c71e4ba9e102172053bcd477dbbecb29",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "13f577a0ed688bc375eb41ce15466099360de8cf86fcc23eb49dd51bb0045a79",
+            "confidence": 0.88,
+            "defect_code": "dropouts",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_active_window_dropout_v1",
+              "metric_name": "dropout_ms",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 8.0
+            },
+            "severity": "none",
+            "source_sha256": "058b9ae7bb04846bccba79583307a243c71e4ba9e102172053bcd477dbbecb29",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "13f577a0ed688bc375eb41ce15466099360de8cf86fcc23eb49dd51bb0045a79",
+            "confidence": 0.8,
+            "defect_code": "truncation",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_abrupt_tail_truncation_v1",
+              "metric_name": "cut_edge_dbfs",
+              "metric_value": -12.073655486,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": -18.0
+            },
+            "severity": "none",
+            "source_sha256": "058b9ae7bb04846bccba79583307a243c71e4ba9e102172053bcd477dbbecb29",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "13f577a0ed688bc375eb41ce15466099360de8cf86fcc23eb49dd51bb0045a79",
+            "confidence": 0.75,
+            "defect_code": "hiss",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_highband_residual_hiss_v1",
+              "metric_name": "highband_ratio",
+              "metric_value": 0.215659543,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.55
+            },
+            "severity": "none",
+            "source_sha256": "058b9ae7bb04846bccba79583307a243c71e4ba9e102172053bcd477dbbecb29",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "13f577a0ed688bc375eb41ce15466099360de8cf86fcc23eb49dd51bb0045a79",
+            "confidence": 0.8,
+            "defect_code": "hum",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_tonal_hum_goertzel_v1",
+              "metric_name": "hum_60hz_goertzel_ratio",
+              "metric_value": 0.008957973,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.55
+            },
+            "severity": "none",
+            "source_sha256": "058b9ae7bb04846bccba79583307a243c71e4ba9e102172053bcd477dbbecb29",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "13f577a0ed688bc375eb41ce15466099360de8cf86fcc23eb49dd51bb0045a79",
+            "confidence": 0.8,
+            "defect_code": "excessive_noise",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_rms_excessive_noise_v1",
+              "metric_name": "rms_dbfs",
+              "metric_value": -16.867886488,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": -28.0
+            },
+            "severity": "none",
+            "source_sha256": "058b9ae7bb04846bccba79583307a243c71e4ba9e102172053bcd477dbbecb29",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "13f577a0ed688bc375eb41ce15466099360de8cf86fcc23eb49dd51bb0045a79",
+            "confidence": 0.7,
+            "defect_code": "codec_damage",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_codec_damage_burst_v1",
+              "metric_name": "corruption_burst_ms",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.8
+            },
+            "severity": "none",
+            "source_sha256": "058b9ae7bb04846bccba79583307a243c71e4ba9e102172053bcd477dbbecb29",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "13f577a0ed688bc375eb41ce15466099360de8cf86fcc23eb49dd51bb0045a79",
+            "confidence": 0.65,
+            "defect_code": "unintelligible_speech_contamination",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_speech_contamination_proxy_v1",
+              "metric_name": "midband_am_energy",
+              "metric_value": 0.020094879,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.12
+            },
+            "severity": "none",
+            "source_sha256": "058b9ae7bb04846bccba79583307a243c71e4ba9e102172053bcd477dbbecb29",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "13f577a0ed688bc375eb41ce15466099360de8cf86fcc23eb49dd51bb0045a79",
+            "confidence": 0.7,
+            "defect_code": "severe_pre_reverb",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_pre_reverb_leadin_v1",
+              "metric_name": "pre_onset_energy_ratio",
+              "metric_value": 0.106304598,
+              "sample_end": 900,
+              "sample_start": 0,
+              "threshold_value": 0.08
+            },
+            "severity": "none",
+            "source_sha256": "058b9ae7bb04846bccba79583307a243c71e4ba9e102172053bcd477dbbecb29",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "13f577a0ed688bc375eb41ce15466099360de8cf86fcc23eb49dd51bb0045a79",
+            "confidence": 0.7,
+            "defect_code": "unsuitable_background_layers",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_unsuitable_background_bed_v1",
+              "metric_name": "background_bed_rms",
+              "metric_value": 0.009172941,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.02
+            },
+            "severity": "none",
+            "source_sha256": "058b9ae7bb04846bccba79583307a243c71e4ba9e102172053bcd477dbbecb29",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          }
+        ],
+        "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+        "frame_count": 4800,
+        "item_id": "ITEM-W64-075",
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "source_after_sha256": "058b9ae7bb04846bccba79583307a243c71e4ba9e102172053bcd477dbbecb29",
+        "source_before_sha256": "058b9ae7bb04846bccba79583307a243c71e4ba9e102172053bcd477dbbecb29",
+        "source_sha256": "058b9ae7bb04846bccba79583307a243c71e4ba9e102172053bcd477dbbecb29",
+        "taxonomy_coverage": {
+          "all_required_codes_evaluated": true,
+          "evaluated_codes": [
+            "clipping",
+            "clicks",
+            "dropouts",
+            "truncation",
+            "hiss",
+            "hum",
+            "excessive_noise",
+            "codec_damage",
+            "unintelligible_speech_contamination",
+            "severe_pre_reverb",
+            "unsuitable_background_layers"
+          ],
+          "required_codes": [
+            "clipping",
+            "hiss",
+            "hum",
+            "clicks",
+            "dropouts",
+            "codec_damage",
+            "excessive_noise",
+            "unintelligible_speech_contamination",
+            "severe_pre_reverb",
+            "truncation",
+            "unsuitable_background_layers"
+          ],
+          "unknown_codes": []
+        },
+        "threshold_registry_revision": "wave64_row075_audio_defect_thresholds_v0.1.0",
+        "thresholds": {
+          "channel_policy": "max_abs_mono",
+          "click_delta_threshold": 0.55,
+          "clipping_abs_threshold": 0.98,
+          "clipping_ratio_threshold": 0.002,
+          "dropout_min_ms": 8.0,
+          "dropout_silence_dbfs": -55.0,
+          "hiss_highband_ratio_threshold": 0.55,
+          "hum_tonal_ratio_threshold": 0.55,
+          "noise_rms_dbfs_threshold": -28.0,
+          "source_mutation_allowed": false,
+          "truncation_edge_dbfs": -18.0,
+          "unknown_fail_closed": true
+        },
+        "tracker_id": "TRK-W64-075"
+      },
+      {
+        "asset_id": "fixture:dropout",
+        "canonical_pcm_sha256": "f2d95346c1b852d96827247774d99142df68225b411d1bd6246a7cea56349d87",
+        "channels": 2,
+        "decision": {
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED"
+          ],
+          "library_authority": false,
+          "production_eligibility": "ineligible",
+          "severe_defect_present": true,
+          "source_bytes_unchanged": true,
+          "status": "blocked",
+          "unknown_or_ambiguous": false,
+          "visibility_preserved": true
+        },
+        "defects": [
+          {
+            "canonical_pcm_sha256": "f2d95346c1b852d96827247774d99142df68225b411d1bd6246a7cea56349d87",
+            "confidence": 0.9,
+            "defect_code": "clipping",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_clipping_ratio_v1",
+              "metric_name": "clipping_ratio",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.002
+            },
+            "severity": "none",
+            "source_sha256": "f9a8048a071f1119a9bd46e100acc2699ab070ec0031a16243fd5d84156d4da3",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "f2d95346c1b852d96827247774d99142df68225b411d1bd6246a7cea56349d87",
+            "confidence": 0.85,
+            "defect_code": "clicks",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_sample_delta_click_v1",
+              "metric_name": "click_event_count",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 2.0
+            },
+            "severity": "none",
+            "source_sha256": "f9a8048a071f1119a9bd46e100acc2699ab070ec0031a16243fd5d84156d4da3",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "f2d95346c1b852d96827247774d99142df68225b411d1bd6246a7cea56349d87",
+            "confidence": 0.92,
+            "defect_code": "dropouts",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_active_window_dropout_v1",
+              "metric_name": "dropout_ms",
+              "metric_value": 10.416666667,
+              "sample_end": 2300,
+              "sample_start": 1800,
+              "threshold_value": 8.0
+            },
+            "severity": "severe",
+            "source_sha256": "f9a8048a071f1119a9bd46e100acc2699ab070ec0031a16243fd5d84156d4da3",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "f2d95346c1b852d96827247774d99142df68225b411d1bd6246a7cea56349d87",
+            "confidence": 0.8,
+            "defect_code": "truncation",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_abrupt_tail_truncation_v1",
+              "metric_name": "cut_edge_dbfs",
+              "metric_value": -31.306669006,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": -18.0
+            },
+            "severity": "none",
+            "source_sha256": "f9a8048a071f1119a9bd46e100acc2699ab070ec0031a16243fd5d84156d4da3",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "f2d95346c1b852d96827247774d99142df68225b411d1bd6246a7cea56349d87",
+            "confidence": 0.75,
+            "defect_code": "hiss",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_highband_residual_hiss_v1",
+              "metric_name": "highband_ratio",
+              "metric_value": 0.073669593,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.55
+            },
+            "severity": "none",
+            "source_sha256": "f9a8048a071f1119a9bd46e100acc2699ab070ec0031a16243fd5d84156d4da3",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "f2d95346c1b852d96827247774d99142df68225b411d1bd6246a7cea56349d87",
+            "confidence": 0.8,
+            "defect_code": "hum",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_tonal_hum_goertzel_v1",
+              "metric_name": "hum_60hz_goertzel_ratio",
+              "metric_value": 0.018751151,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.55
+            },
+            "severity": "none",
+            "source_sha256": "f9a8048a071f1119a9bd46e100acc2699ab070ec0031a16243fd5d84156d4da3",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "f2d95346c1b852d96827247774d99142df68225b411d1bd6246a7cea56349d87",
+            "confidence": 0.8,
+            "defect_code": "excessive_noise",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_rms_excessive_noise_v1",
+              "metric_name": "rms_dbfs",
+              "metric_value": -12.092339224,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": -28.0
+            },
+            "severity": "none",
+            "source_sha256": "f9a8048a071f1119a9bd46e100acc2699ab070ec0031a16243fd5d84156d4da3",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "f2d95346c1b852d96827247774d99142df68225b411d1bd6246a7cea56349d87",
+            "confidence": 0.7,
+            "defect_code": "codec_damage",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_codec_damage_burst_v1",
+              "metric_name": "corruption_burst_ms",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.8
+            },
+            "severity": "none",
+            "source_sha256": "f9a8048a071f1119a9bd46e100acc2699ab070ec0031a16243fd5d84156d4da3",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "f2d95346c1b852d96827247774d99142df68225b411d1bd6246a7cea56349d87",
+            "confidence": 0.65,
+            "defect_code": "unintelligible_speech_contamination",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_speech_contamination_proxy_v1",
+              "metric_name": "midband_am_energy",
+              "metric_value": 0.061613617,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.12
+            },
+            "severity": "none",
+            "source_sha256": "f9a8048a071f1119a9bd46e100acc2699ab070ec0031a16243fd5d84156d4da3",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "f2d95346c1b852d96827247774d99142df68225b411d1bd6246a7cea56349d87",
+            "confidence": 0.7,
+            "defect_code": "severe_pre_reverb",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_pre_reverb_leadin_v1",
+              "metric_name": "pre_onset_energy_ratio",
+              "metric_value": 0.488641377,
+              "sample_end": 580,
+              "sample_start": 0,
+              "threshold_value": 0.08
+            },
+            "severity": "none",
+            "source_sha256": "f9a8048a071f1119a9bd46e100acc2699ab070ec0031a16243fd5d84156d4da3",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "f2d95346c1b852d96827247774d99142df68225b411d1bd6246a7cea56349d87",
+            "confidence": 0.7,
+            "defect_code": "unsuitable_background_layers",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_unsuitable_background_bed_v1",
+              "metric_name": "background_bed_rms",
+              "metric_value": 0.017903056,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.02
+            },
+            "severity": "none",
+            "source_sha256": "f9a8048a071f1119a9bd46e100acc2699ab070ec0031a16243fd5d84156d4da3",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          }
+        ],
+        "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+        "frame_count": 4800,
+        "item_id": "ITEM-W64-075",
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "source_after_sha256": "f9a8048a071f1119a9bd46e100acc2699ab070ec0031a16243fd5d84156d4da3",
+        "source_before_sha256": "f9a8048a071f1119a9bd46e100acc2699ab070ec0031a16243fd5d84156d4da3",
+        "source_sha256": "f9a8048a071f1119a9bd46e100acc2699ab070ec0031a16243fd5d84156d4da3",
+        "taxonomy_coverage": {
+          "all_required_codes_evaluated": true,
+          "evaluated_codes": [
+            "clipping",
+            "clicks",
+            "dropouts",
+            "truncation",
+            "hiss",
+            "hum",
+            "excessive_noise",
+            "codec_damage",
+            "unintelligible_speech_contamination",
+            "severe_pre_reverb",
+            "unsuitable_background_layers"
+          ],
+          "required_codes": [
+            "clipping",
+            "hiss",
+            "hum",
+            "clicks",
+            "dropouts",
+            "codec_damage",
+            "excessive_noise",
+            "unintelligible_speech_contamination",
+            "severe_pre_reverb",
+            "truncation",
+            "unsuitable_background_layers"
+          ],
+          "unknown_codes": []
+        },
+        "threshold_registry_revision": "wave64_row075_audio_defect_thresholds_v0.1.0",
+        "thresholds": {
+          "channel_policy": "max_abs_mono",
+          "click_delta_threshold": 0.55,
+          "clipping_abs_threshold": 0.98,
+          "clipping_ratio_threshold": 0.002,
+          "dropout_min_ms": 8.0,
+          "dropout_silence_dbfs": -55.0,
+          "hiss_highband_ratio_threshold": 0.55,
+          "hum_tonal_ratio_threshold": 0.55,
+          "noise_rms_dbfs_threshold": -28.0,
+          "source_mutation_allowed": false,
+          "truncation_edge_dbfs": -18.0,
+          "unknown_fail_closed": true
+        },
+        "tracker_id": "TRK-W64-075"
+      },
+      {
+        "asset_id": "fixture:truncation",
+        "canonical_pcm_sha256": "1a9a6c23e25132526d85ecb698c02c0bae750104cb5704adc66a8012633052af",
+        "channels": 2,
+        "decision": {
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED"
+          ],
+          "library_authority": false,
+          "production_eligibility": "ineligible",
+          "severe_defect_present": true,
+          "source_bytes_unchanged": true,
+          "status": "blocked",
+          "unknown_or_ambiguous": false,
+          "visibility_preserved": true
+        },
+        "defects": [
+          {
+            "canonical_pcm_sha256": "1a9a6c23e25132526d85ecb698c02c0bae750104cb5704adc66a8012633052af",
+            "confidence": 0.9,
+            "defect_code": "clipping",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_clipping_ratio_v1",
+              "metric_name": "clipping_ratio",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.002
+            },
+            "severity": "none",
+            "source_sha256": "d8d9c8cbe0ca9e1129660fff2af864215e35a77ab3eef11b892123547a322c32",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "1a9a6c23e25132526d85ecb698c02c0bae750104cb5704adc66a8012633052af",
+            "confidence": 0.85,
+            "defect_code": "clicks",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_sample_delta_click_v1",
+              "metric_name": "click_event_count",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 2.0
+            },
+            "severity": "none",
+            "source_sha256": "d8d9c8cbe0ca9e1129660fff2af864215e35a77ab3eef11b892123547a322c32",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "1a9a6c23e25132526d85ecb698c02c0bae750104cb5704adc66a8012633052af",
+            "confidence": 0.88,
+            "defect_code": "dropouts",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_active_window_dropout_v1",
+              "metric_name": "dropout_ms",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 8.0
+            },
+            "severity": "none",
+            "source_sha256": "d8d9c8cbe0ca9e1129660fff2af864215e35a77ab3eef11b892123547a322c32",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "1a9a6c23e25132526d85ecb698c02c0bae750104cb5704adc66a8012633052af",
+            "confidence": 0.9,
+            "defect_code": "truncation",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_abrupt_tail_truncation_v1",
+              "metric_name": "cut_edge_dbfs",
+              "metric_value": -6.375175252,
+              "sample_end": 4800,
+              "sample_start": 1919,
+              "threshold_value": -18.0
+            },
+            "severity": "severe",
+            "source_sha256": "d8d9c8cbe0ca9e1129660fff2af864215e35a77ab3eef11b892123547a322c32",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "1a9a6c23e25132526d85ecb698c02c0bae750104cb5704adc66a8012633052af",
+            "confidence": 0.75,
+            "defect_code": "hiss",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_highband_residual_hiss_v1",
+              "metric_name": "highband_ratio",
+              "metric_value": 0.096366492,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.55
+            },
+            "severity": "none",
+            "source_sha256": "d8d9c8cbe0ca9e1129660fff2af864215e35a77ab3eef11b892123547a322c32",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "1a9a6c23e25132526d85ecb698c02c0bae750104cb5704adc66a8012633052af",
+            "confidence": 0.8,
+            "defect_code": "hum",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_tonal_hum_goertzel_v1",
+              "metric_name": "hum_60hz_goertzel_ratio",
+              "metric_value": 0.012809899,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.55
+            },
+            "severity": "none",
+            "source_sha256": "d8d9c8cbe0ca9e1129660fff2af864215e35a77ab3eef11b892123547a322c32",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "1a9a6c23e25132526d85ecb698c02c0bae750104cb5704adc66a8012633052af",
+            "confidence": 0.8,
+            "defect_code": "excessive_noise",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_rms_excessive_noise_v1",
+              "metric_name": "rms_dbfs",
+              "metric_value": -12.425940447,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": -28.0
+            },
+            "severity": "none",
+            "source_sha256": "d8d9c8cbe0ca9e1129660fff2af864215e35a77ab3eef11b892123547a322c32",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "1a9a6c23e25132526d85ecb698c02c0bae750104cb5704adc66a8012633052af",
+            "confidence": 0.7,
+            "defect_code": "codec_damage",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_codec_damage_burst_v1",
+              "metric_name": "corruption_burst_ms",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.8
+            },
+            "severity": "none",
+            "source_sha256": "d8d9c8cbe0ca9e1129660fff2af864215e35a77ab3eef11b892123547a322c32",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "1a9a6c23e25132526d85ecb698c02c0bae750104cb5704adc66a8012633052af",
+            "confidence": 0.65,
+            "defect_code": "unintelligible_speech_contamination",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_speech_contamination_proxy_v1",
+              "metric_name": "midband_am_energy",
+              "metric_value": 0.056947627,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.12
+            },
+            "severity": "none",
+            "source_sha256": "d8d9c8cbe0ca9e1129660fff2af864215e35a77ab3eef11b892123547a322c32",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "1a9a6c23e25132526d85ecb698c02c0bae750104cb5704adc66a8012633052af",
+            "confidence": 0.7,
+            "defect_code": "severe_pre_reverb",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_pre_reverb_leadin_v1",
+              "metric_name": "pre_onset_energy_ratio",
+              "metric_value": 0.410156401,
+              "sample_end": 306,
+              "sample_start": 0,
+              "threshold_value": 0.08
+            },
+            "severity": "none",
+            "source_sha256": "d8d9c8cbe0ca9e1129660fff2af864215e35a77ab3eef11b892123547a322c32",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "1a9a6c23e25132526d85ecb698c02c0bae750104cb5704adc66a8012633052af",
+            "confidence": 0.7,
+            "defect_code": "unsuitable_background_layers",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_unsuitable_background_bed_v1",
+              "metric_name": "background_bed_rms",
+              "metric_value": 0.004835984,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.02
+            },
+            "severity": "none",
+            "source_sha256": "d8d9c8cbe0ca9e1129660fff2af864215e35a77ab3eef11b892123547a322c32",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          }
+        ],
+        "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+        "frame_count": 4800,
+        "item_id": "ITEM-W64-075",
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "source_after_sha256": "d8d9c8cbe0ca9e1129660fff2af864215e35a77ab3eef11b892123547a322c32",
+        "source_before_sha256": "d8d9c8cbe0ca9e1129660fff2af864215e35a77ab3eef11b892123547a322c32",
+        "source_sha256": "d8d9c8cbe0ca9e1129660fff2af864215e35a77ab3eef11b892123547a322c32",
+        "taxonomy_coverage": {
+          "all_required_codes_evaluated": true,
+          "evaluated_codes": [
+            "clipping",
+            "clicks",
+            "dropouts",
+            "truncation",
+            "hiss",
+            "hum",
+            "excessive_noise",
+            "codec_damage",
+            "unintelligible_speech_contamination",
+            "severe_pre_reverb",
+            "unsuitable_background_layers"
+          ],
+          "required_codes": [
+            "clipping",
+            "hiss",
+            "hum",
+            "clicks",
+            "dropouts",
+            "codec_damage",
+            "excessive_noise",
+            "unintelligible_speech_contamination",
+            "severe_pre_reverb",
+            "truncation",
+            "unsuitable_background_layers"
+          ],
+          "unknown_codes": []
+        },
+        "threshold_registry_revision": "wave64_row075_audio_defect_thresholds_v0.1.0",
+        "thresholds": {
+          "channel_policy": "max_abs_mono",
+          "click_delta_threshold": 0.55,
+          "clipping_abs_threshold": 0.98,
+          "clipping_ratio_threshold": 0.002,
+          "dropout_min_ms": 8.0,
+          "dropout_silence_dbfs": -55.0,
+          "hiss_highband_ratio_threshold": 0.55,
+          "hum_tonal_ratio_threshold": 0.55,
+          "noise_rms_dbfs_threshold": -28.0,
+          "source_mutation_allowed": false,
+          "truncation_edge_dbfs": -18.0,
+          "unknown_fail_closed": true
+        },
+        "tracker_id": "TRK-W64-075"
+      },
+      {
+        "asset_id": "fixture:hiss_noise",
+        "canonical_pcm_sha256": "357a62295d2893110be70e1f4ee3ae82cd8331dbf34ae29bafe36e7feeac99d2",
+        "channels": 2,
+        "decision": {
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED",
+            "UNKNOWN_OR_AMBIGUOUS_DEFECT_FAIL_CLOSED"
+          ],
+          "library_authority": false,
+          "production_eligibility": "ineligible",
+          "severe_defect_present": true,
+          "source_bytes_unchanged": true,
+          "status": "blocked",
+          "unknown_or_ambiguous": true,
+          "visibility_preserved": true
+        },
+        "defects": [
+          {
+            "canonical_pcm_sha256": "357a62295d2893110be70e1f4ee3ae82cd8331dbf34ae29bafe36e7feeac99d2",
+            "confidence": 0.9,
+            "defect_code": "clipping",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_clipping_ratio_v1",
+              "metric_name": "clipping_ratio",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.002
+            },
+            "severity": "none",
+            "source_sha256": "cd3abb3e9b9ad5d41df5c4cee271429aa9c5b4f88ccac1310ce35157cb0fe16e",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "357a62295d2893110be70e1f4ee3ae82cd8331dbf34ae29bafe36e7feeac99d2",
+            "confidence": 0.85,
+            "defect_code": "clicks",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_sample_delta_click_v1",
+              "metric_name": "click_event_count",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 2.0
+            },
+            "severity": "none",
+            "source_sha256": "cd3abb3e9b9ad5d41df5c4cee271429aa9c5b4f88ccac1310ce35157cb0fe16e",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "357a62295d2893110be70e1f4ee3ae82cd8331dbf34ae29bafe36e7feeac99d2",
+            "confidence": 0.88,
+            "defect_code": "dropouts",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_active_window_dropout_v1",
+              "metric_name": "dropout_ms",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 8.0
+            },
+            "severity": "none",
+            "source_sha256": "cd3abb3e9b9ad5d41df5c4cee271429aa9c5b4f88ccac1310ce35157cb0fe16e",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "357a62295d2893110be70e1f4ee3ae82cd8331dbf34ae29bafe36e7feeac99d2",
+            "confidence": 0.8,
+            "defect_code": "truncation",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_abrupt_tail_truncation_v1",
+              "metric_name": "cut_edge_dbfs",
+              "metric_value": -27.086661157,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": -18.0
+            },
+            "severity": "none",
+            "source_sha256": "cd3abb3e9b9ad5d41df5c4cee271429aa9c5b4f88ccac1310ce35157cb0fe16e",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "357a62295d2893110be70e1f4ee3ae82cd8331dbf34ae29bafe36e7feeac99d2",
+            "confidence": 1.0,
+            "defect_code": "hiss",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_highband_residual_hiss_v1",
+              "metric_name": "highband_ratio",
+              "metric_value": 0.62460686,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.55
+            },
+            "severity": "moderate",
+            "source_sha256": "cd3abb3e9b9ad5d41df5c4cee271429aa9c5b4f88ccac1310ce35157cb0fe16e",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "357a62295d2893110be70e1f4ee3ae82cd8331dbf34ae29bafe36e7feeac99d2",
+            "confidence": 0.8,
+            "defect_code": "hum",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_tonal_hum_goertzel_v1",
+              "metric_name": "hum_60hz_goertzel_ratio",
+              "metric_value": 0.028736862,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.55
+            },
+            "severity": "none",
+            "source_sha256": "cd3abb3e9b9ad5d41df5c4cee271429aa9c5b4f88ccac1310ce35157cb0fe16e",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "357a62295d2893110be70e1f4ee3ae82cd8331dbf34ae29bafe36e7feeac99d2",
+            "confidence": 0.86,
+            "defect_code": "excessive_noise",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_rms_excessive_noise_v1",
+              "metric_name": "rms_dbfs",
+              "metric_value": -21.281765937,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": -28.0
+            },
+            "severity": "severe",
+            "source_sha256": "cd3abb3e9b9ad5d41df5c4cee271429aa9c5b4f88ccac1310ce35157cb0fe16e",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "357a62295d2893110be70e1f4ee3ae82cd8331dbf34ae29bafe36e7feeac99d2",
+            "confidence": 0.7,
+            "defect_code": "codec_damage",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_codec_damage_burst_v1",
+              "metric_name": "corruption_burst_ms",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.8
+            },
+            "severity": "none",
+            "source_sha256": "cd3abb3e9b9ad5d41df5c4cee271429aa9c5b4f88ccac1310ce35157cb0fe16e",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "357a62295d2893110be70e1f4ee3ae82cd8331dbf34ae29bafe36e7feeac99d2",
+            "confidence": 0.65,
+            "defect_code": "unintelligible_speech_contamination",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_speech_contamination_proxy_v1",
+              "metric_name": "midband_am_energy",
+              "metric_value": 0.005993324,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.12
+            },
+            "severity": "none",
+            "source_sha256": "cd3abb3e9b9ad5d41df5c4cee271429aa9c5b4f88ccac1310ce35157cb0fe16e",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "357a62295d2893110be70e1f4ee3ae82cd8331dbf34ae29bafe36e7feeac99d2",
+            "confidence": 0.7,
+            "defect_code": "severe_pre_reverb",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_pre_reverb_leadin_v1",
+              "metric_name": "pre_onset_energy_ratio",
+              "metric_value": 0.387980188,
+              "sample_end": 1086,
+              "sample_start": 0,
+              "threshold_value": 0.08
+            },
+            "severity": "none",
+            "source_sha256": "cd3abb3e9b9ad5d41df5c4cee271429aa9c5b4f88ccac1310ce35157cb0fe16e",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "357a62295d2893110be70e1f4ee3ae82cd8331dbf34ae29bafe36e7feeac99d2",
+            "confidence": 0.4,
+            "defect_code": "unsuitable_background_layers",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_unsuitable_background_bed_v1",
+              "metric_name": "background_bed_rms",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.02
+            },
+            "severity": "unknown",
+            "source_sha256": "cd3abb3e9b9ad5d41df5c4cee271429aa9c5b4f88ccac1310ce35157cb0fe16e",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          }
+        ],
+        "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+        "frame_count": 4800,
+        "item_id": "ITEM-W64-075",
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "source_after_sha256": "cd3abb3e9b9ad5d41df5c4cee271429aa9c5b4f88ccac1310ce35157cb0fe16e",
+        "source_before_sha256": "cd3abb3e9b9ad5d41df5c4cee271429aa9c5b4f88ccac1310ce35157cb0fe16e",
+        "source_sha256": "cd3abb3e9b9ad5d41df5c4cee271429aa9c5b4f88ccac1310ce35157cb0fe16e",
+        "taxonomy_coverage": {
+          "all_required_codes_evaluated": true,
+          "evaluated_codes": [
+            "clipping",
+            "clicks",
+            "dropouts",
+            "truncation",
+            "hiss",
+            "hum",
+            "excessive_noise",
+            "codec_damage",
+            "unintelligible_speech_contamination",
+            "severe_pre_reverb",
+            "unsuitable_background_layers"
+          ],
+          "required_codes": [
+            "clipping",
+            "hiss",
+            "hum",
+            "clicks",
+            "dropouts",
+            "codec_damage",
+            "excessive_noise",
+            "unintelligible_speech_contamination",
+            "severe_pre_reverb",
+            "truncation",
+            "unsuitable_background_layers"
+          ],
+          "unknown_codes": [
+            "unsuitable_background_layers"
+          ]
+        },
+        "threshold_registry_revision": "wave64_row075_audio_defect_thresholds_v0.1.0",
+        "thresholds": {
+          "channel_policy": "max_abs_mono",
+          "click_delta_threshold": 0.55,
+          "clipping_abs_threshold": 0.98,
+          "clipping_ratio_threshold": 0.002,
+          "dropout_min_ms": 8.0,
+          "dropout_silence_dbfs": -55.0,
+          "hiss_highband_ratio_threshold": 0.55,
+          "hum_tonal_ratio_threshold": 0.55,
+          "noise_rms_dbfs_threshold": -28.0,
+          "source_mutation_allowed": false,
+          "truncation_edge_dbfs": -18.0,
+          "unknown_fail_closed": true
+        },
+        "tracker_id": "TRK-W64-075"
+      },
+      {
+        "asset_id": "fixture:hum",
+        "canonical_pcm_sha256": "a3565535fc65d598f17c05bf19c6c6406c33703daf73cf0c8ebb8fa88bee0851",
+        "channels": 2,
+        "decision": {
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED"
+          ],
+          "library_authority": false,
+          "production_eligibility": "ineligible",
+          "severe_defect_present": true,
+          "source_bytes_unchanged": true,
+          "status": "blocked",
+          "unknown_or_ambiguous": false,
+          "visibility_preserved": true
+        },
+        "defects": [
+          {
+            "canonical_pcm_sha256": "a3565535fc65d598f17c05bf19c6c6406c33703daf73cf0c8ebb8fa88bee0851",
+            "confidence": 0.9,
+            "defect_code": "clipping",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_clipping_ratio_v1",
+              "metric_name": "clipping_ratio",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.002
+            },
+            "severity": "none",
+            "source_sha256": "f2e519d9866992f4f877cb6a0bfc3601c58f0fa2ff5b3a8577f7753fe6d0bead",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "a3565535fc65d598f17c05bf19c6c6406c33703daf73cf0c8ebb8fa88bee0851",
+            "confidence": 0.85,
+            "defect_code": "clicks",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_sample_delta_click_v1",
+              "metric_name": "click_event_count",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 2.0
+            },
+            "severity": "none",
+            "source_sha256": "f2e519d9866992f4f877cb6a0bfc3601c58f0fa2ff5b3a8577f7753fe6d0bead",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "a3565535fc65d598f17c05bf19c6c6406c33703daf73cf0c8ebb8fa88bee0851",
+            "confidence": 0.88,
+            "defect_code": "dropouts",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_active_window_dropout_v1",
+              "metric_name": "dropout_ms",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 8.0
+            },
+            "severity": "none",
+            "source_sha256": "f2e519d9866992f4f877cb6a0bfc3601c58f0fa2ff5b3a8577f7753fe6d0bead",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "a3565535fc65d598f17c05bf19c6c6406c33703daf73cf0c8ebb8fa88bee0851",
+            "confidence": 0.8,
+            "defect_code": "truncation",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_abrupt_tail_truncation_v1",
+              "metric_name": "cut_edge_dbfs",
+              "metric_value": -49.229506039,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": -18.0
+            },
+            "severity": "none",
+            "source_sha256": "f2e519d9866992f4f877cb6a0bfc3601c58f0fa2ff5b3a8577f7753fe6d0bead",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "a3565535fc65d598f17c05bf19c6c6406c33703daf73cf0c8ebb8fa88bee0851",
+            "confidence": 0.75,
+            "defect_code": "hiss",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_highband_residual_hiss_v1",
+              "metric_name": "highband_ratio",
+              "metric_value": 0.062375469,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.55
+            },
+            "severity": "none",
+            "source_sha256": "f2e519d9866992f4f877cb6a0bfc3601c58f0fa2ff5b3a8577f7753fe6d0bead",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "a3565535fc65d598f17c05bf19c6c6406c33703daf73cf0c8ebb8fa88bee0851",
+            "confidence": 1.0,
+            "defect_code": "hum",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_tonal_hum_goertzel_v1",
+              "metric_name": "hum_60hz_goertzel_ratio",
+              "metric_value": 1.199306387,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.55
+            },
+            "severity": "severe",
+            "source_sha256": "f2e519d9866992f4f877cb6a0bfc3601c58f0fa2ff5b3a8577f7753fe6d0bead",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "a3565535fc65d598f17c05bf19c6c6406c33703daf73cf0c8ebb8fa88bee0851",
+            "confidence": 0.8,
+            "defect_code": "excessive_noise",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_rms_excessive_noise_v1",
+              "metric_name": "rms_dbfs",
+              "metric_value": -14.730149314,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": -28.0
+            },
+            "severity": "none",
+            "source_sha256": "f2e519d9866992f4f877cb6a0bfc3601c58f0fa2ff5b3a8577f7753fe6d0bead",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "a3565535fc65d598f17c05bf19c6c6406c33703daf73cf0c8ebb8fa88bee0851",
+            "confidence": 0.7,
+            "defect_code": "codec_damage",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_codec_damage_burst_v1",
+              "metric_name": "corruption_burst_ms",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.8
+            },
+            "severity": "none",
+            "source_sha256": "f2e519d9866992f4f877cb6a0bfc3601c58f0fa2ff5b3a8577f7753fe6d0bead",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "a3565535fc65d598f17c05bf19c6c6406c33703daf73cf0c8ebb8fa88bee0851",
+            "confidence": 0.65,
+            "defect_code": "unintelligible_speech_contamination",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_speech_contamination_proxy_v1",
+              "metric_name": "midband_am_energy",
+              "metric_value": 0.033591551,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.12
+            },
+            "severity": "none",
+            "source_sha256": "f2e519d9866992f4f877cb6a0bfc3601c58f0fa2ff5b3a8577f7753fe6d0bead",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "a3565535fc65d598f17c05bf19c6c6406c33703daf73cf0c8ebb8fa88bee0851",
+            "confidence": 0.7,
+            "defect_code": "severe_pre_reverb",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_pre_reverb_leadin_v1",
+              "metric_name": "pre_onset_energy_ratio",
+              "metric_value": 0.480515085,
+              "sample_end": 3006,
+              "sample_start": 0,
+              "threshold_value": 0.08
+            },
+            "severity": "none",
+            "source_sha256": "f2e519d9866992f4f877cb6a0bfc3601c58f0fa2ff5b3a8577f7753fe6d0bead",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "a3565535fc65d598f17c05bf19c6c6406c33703daf73cf0c8ebb8fa88bee0851",
+            "confidence": 0.7,
+            "defect_code": "unsuitable_background_layers",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_unsuitable_background_bed_v1",
+              "metric_name": "background_bed_rms",
+              "metric_value": 0.127289639,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.02
+            },
+            "severity": "none",
+            "source_sha256": "f2e519d9866992f4f877cb6a0bfc3601c58f0fa2ff5b3a8577f7753fe6d0bead",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          }
+        ],
+        "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+        "frame_count": 4800,
+        "item_id": "ITEM-W64-075",
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "source_after_sha256": "f2e519d9866992f4f877cb6a0bfc3601c58f0fa2ff5b3a8577f7753fe6d0bead",
+        "source_before_sha256": "f2e519d9866992f4f877cb6a0bfc3601c58f0fa2ff5b3a8577f7753fe6d0bead",
+        "source_sha256": "f2e519d9866992f4f877cb6a0bfc3601c58f0fa2ff5b3a8577f7753fe6d0bead",
+        "taxonomy_coverage": {
+          "all_required_codes_evaluated": true,
+          "evaluated_codes": [
+            "clipping",
+            "clicks",
+            "dropouts",
+            "truncation",
+            "hiss",
+            "hum",
+            "excessive_noise",
+            "codec_damage",
+            "unintelligible_speech_contamination",
+            "severe_pre_reverb",
+            "unsuitable_background_layers"
+          ],
+          "required_codes": [
+            "clipping",
+            "hiss",
+            "hum",
+            "clicks",
+            "dropouts",
+            "codec_damage",
+            "excessive_noise",
+            "unintelligible_speech_contamination",
+            "severe_pre_reverb",
+            "truncation",
+            "unsuitable_background_layers"
+          ],
+          "unknown_codes": []
+        },
+        "threshold_registry_revision": "wave64_row075_audio_defect_thresholds_v0.1.0",
+        "thresholds": {
+          "channel_policy": "max_abs_mono",
+          "click_delta_threshold": 0.55,
+          "clipping_abs_threshold": 0.98,
+          "clipping_ratio_threshold": 0.002,
+          "dropout_min_ms": 8.0,
+          "dropout_silence_dbfs": -55.0,
+          "hiss_highband_ratio_threshold": 0.55,
+          "hum_tonal_ratio_threshold": 0.55,
+          "noise_rms_dbfs_threshold": -28.0,
+          "source_mutation_allowed": false,
+          "truncation_edge_dbfs": -18.0,
+          "unknown_fail_closed": true
+        },
+        "tracker_id": "TRK-W64-075"
+      },
+      {
+        "asset_id": "fixture:codec_damage",
+        "canonical_pcm_sha256": "2ae76bed029defbdebd1a877f72ee406ae6fc706ad17c843c93ebaa5f675088e",
+        "channels": 2,
+        "decision": {
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED"
+          ],
+          "library_authority": false,
+          "production_eligibility": "ineligible",
+          "severe_defect_present": true,
+          "source_bytes_unchanged": true,
+          "status": "blocked",
+          "unknown_or_ambiguous": false,
+          "visibility_preserved": true
+        },
+        "defects": [
+          {
+            "canonical_pcm_sha256": "2ae76bed029defbdebd1a877f72ee406ae6fc706ad17c843c93ebaa5f675088e",
+            "confidence": 0.9,
+            "defect_code": "clipping",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_clipping_ratio_v1",
+              "metric_name": "clipping_ratio",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.002
+            },
+            "severity": "none",
+            "source_sha256": "946688b418934f189710d4ecc38f455f6fc1f7750f49fb54fd9d6eeb11f62807",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "2ae76bed029defbdebd1a877f72ee406ae6fc706ad17c843c93ebaa5f675088e",
+            "confidence": 1.0,
+            "defect_code": "clicks",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_sample_delta_click_v1",
+              "metric_name": "click_event_count",
+              "metric_value": 50.0,
+              "sample_end": 2051,
+              "sample_start": 2001,
+              "threshold_value": 2.0
+            },
+            "severity": "severe",
+            "source_sha256": "946688b418934f189710d4ecc38f455f6fc1f7750f49fb54fd9d6eeb11f62807",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "2ae76bed029defbdebd1a877f72ee406ae6fc706ad17c843c93ebaa5f675088e",
+            "confidence": 0.88,
+            "defect_code": "dropouts",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_active_window_dropout_v1",
+              "metric_name": "dropout_ms",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 8.0
+            },
+            "severity": "none",
+            "source_sha256": "946688b418934f189710d4ecc38f455f6fc1f7750f49fb54fd9d6eeb11f62807",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "2ae76bed029defbdebd1a877f72ee406ae6fc706ad17c843c93ebaa5f675088e",
+            "confidence": 0.8,
+            "defect_code": "truncation",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_abrupt_tail_truncation_v1",
+              "metric_name": "cut_edge_dbfs",
+              "metric_value": -34.14560435,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": -18.0
+            },
+            "severity": "none",
+            "source_sha256": "946688b418934f189710d4ecc38f455f6fc1f7750f49fb54fd9d6eeb11f62807",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "2ae76bed029defbdebd1a877f72ee406ae6fc706ad17c843c93ebaa5f675088e",
+            "confidence": 0.75,
+            "defect_code": "hiss",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_highband_residual_hiss_v1",
+              "metric_name": "highband_ratio",
+              "metric_value": 0.453038353,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.55
+            },
+            "severity": "none",
+            "source_sha256": "946688b418934f189710d4ecc38f455f6fc1f7750f49fb54fd9d6eeb11f62807",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "2ae76bed029defbdebd1a877f72ee406ae6fc706ad17c843c93ebaa5f675088e",
+            "confidence": 0.8,
+            "defect_code": "hum",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_tonal_hum_goertzel_v1",
+              "metric_name": "hum_60hz_goertzel_ratio",
+              "metric_value": 0.05506306,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.55
+            },
+            "severity": "none",
+            "source_sha256": "946688b418934f189710d4ecc38f455f6fc1f7750f49fb54fd9d6eeb11f62807",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "2ae76bed029defbdebd1a877f72ee406ae6fc706ad17c843c93ebaa5f675088e",
+            "confidence": 0.86,
+            "defect_code": "excessive_noise",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_rms_excessive_noise_v1",
+              "metric_name": "rms_dbfs",
+              "metric_value": -14.314008296,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": -28.0
+            },
+            "severity": "severe",
+            "source_sha256": "946688b418934f189710d4ecc38f455f6fc1f7750f49fb54fd9d6eeb11f62807",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "2ae76bed029defbdebd1a877f72ee406ae6fc706ad17c843c93ebaa5f675088e",
+            "confidence": 0.95,
+            "defect_code": "codec_damage",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_codec_damage_burst_v1",
+              "metric_name": "corruption_burst_ms",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.8
+            },
+            "severity": "severe",
+            "source_sha256": "946688b418934f189710d4ecc38f455f6fc1f7750f49fb54fd9d6eeb11f62807",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "2ae76bed029defbdebd1a877f72ee406ae6fc706ad17c843c93ebaa5f675088e",
+            "confidence": 0.65,
+            "defect_code": "unintelligible_speech_contamination",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_speech_contamination_proxy_v1",
+              "metric_name": "midband_am_energy",
+              "metric_value": 0.033241107,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.12
+            },
+            "severity": "none",
+            "source_sha256": "946688b418934f189710d4ecc38f455f6fc1f7750f49fb54fd9d6eeb11f62807",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "2ae76bed029defbdebd1a877f72ee406ae6fc706ad17c843c93ebaa5f675088e",
+            "confidence": 0.84,
+            "defect_code": "severe_pre_reverb",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_pre_reverb_leadin_v1",
+              "metric_name": "pre_onset_energy_ratio",
+              "metric_value": 0.222650192,
+              "sample_end": 2001,
+              "sample_start": 0,
+              "threshold_value": 0.08
+            },
+            "severity": "severe",
+            "source_sha256": "946688b418934f189710d4ecc38f455f6fc1f7750f49fb54fd9d6eeb11f62807",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "2ae76bed029defbdebd1a877f72ee406ae6fc706ad17c843c93ebaa5f675088e",
+            "confidence": 0.7,
+            "defect_code": "unsuitable_background_layers",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_unsuitable_background_bed_v1",
+              "metric_name": "background_bed_rms",
+              "metric_value": 0.01687898,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.02
+            },
+            "severity": "none",
+            "source_sha256": "946688b418934f189710d4ecc38f455f6fc1f7750f49fb54fd9d6eeb11f62807",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          }
+        ],
+        "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+        "frame_count": 4800,
+        "item_id": "ITEM-W64-075",
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "source_after_sha256": "946688b418934f189710d4ecc38f455f6fc1f7750f49fb54fd9d6eeb11f62807",
+        "source_before_sha256": "946688b418934f189710d4ecc38f455f6fc1f7750f49fb54fd9d6eeb11f62807",
+        "source_sha256": "946688b418934f189710d4ecc38f455f6fc1f7750f49fb54fd9d6eeb11f62807",
+        "taxonomy_coverage": {
+          "all_required_codes_evaluated": true,
+          "evaluated_codes": [
+            "clipping",
+            "clicks",
+            "dropouts",
+            "truncation",
+            "hiss",
+            "hum",
+            "excessive_noise",
+            "codec_damage",
+            "unintelligible_speech_contamination",
+            "severe_pre_reverb",
+            "unsuitable_background_layers"
+          ],
+          "required_codes": [
+            "clipping",
+            "hiss",
+            "hum",
+            "clicks",
+            "dropouts",
+            "codec_damage",
+            "excessive_noise",
+            "unintelligible_speech_contamination",
+            "severe_pre_reverb",
+            "truncation",
+            "unsuitable_background_layers"
+          ],
+          "unknown_codes": []
+        },
+        "threshold_registry_revision": "wave64_row075_audio_defect_thresholds_v0.1.0",
+        "thresholds": {
+          "channel_policy": "max_abs_mono",
+          "click_delta_threshold": 0.55,
+          "clipping_abs_threshold": 0.98,
+          "clipping_ratio_threshold": 0.002,
+          "dropout_min_ms": 8.0,
+          "dropout_silence_dbfs": -55.0,
+          "hiss_highband_ratio_threshold": 0.55,
+          "hum_tonal_ratio_threshold": 0.55,
+          "noise_rms_dbfs_threshold": -28.0,
+          "source_mutation_allowed": false,
+          "truncation_edge_dbfs": -18.0,
+          "unknown_fail_closed": true
+        },
+        "tracker_id": "TRK-W64-075"
+      },
+      {
+        "asset_id": "fixture:speech_contamination",
+        "canonical_pcm_sha256": "98007024e3fca848ae013b7c88e2e2a97e953f2837c1940a5c955fab03fd6f40",
+        "channels": 2,
+        "decision": {
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED"
+          ],
+          "library_authority": false,
+          "production_eligibility": "ineligible",
+          "severe_defect_present": true,
+          "source_bytes_unchanged": true,
+          "status": "blocked",
+          "unknown_or_ambiguous": false,
+          "visibility_preserved": true
+        },
+        "defects": [
+          {
+            "canonical_pcm_sha256": "98007024e3fca848ae013b7c88e2e2a97e953f2837c1940a5c955fab03fd6f40",
+            "confidence": 0.9,
+            "defect_code": "clipping",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_clipping_ratio_v1",
+              "metric_name": "clipping_ratio",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.002
+            },
+            "severity": "none",
+            "source_sha256": "16358810029343e411e72016f6a408d81030766a4cd4477ac25a64eaf043c32a",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "98007024e3fca848ae013b7c88e2e2a97e953f2837c1940a5c955fab03fd6f40",
+            "confidence": 0.85,
+            "defect_code": "clicks",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_sample_delta_click_v1",
+              "metric_name": "click_event_count",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 2.0
+            },
+            "severity": "none",
+            "source_sha256": "16358810029343e411e72016f6a408d81030766a4cd4477ac25a64eaf043c32a",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "98007024e3fca848ae013b7c88e2e2a97e953f2837c1940a5c955fab03fd6f40",
+            "confidence": 0.88,
+            "defect_code": "dropouts",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_active_window_dropout_v1",
+              "metric_name": "dropout_ms",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 8.0
+            },
+            "severity": "none",
+            "source_sha256": "16358810029343e411e72016f6a408d81030766a4cd4477ac25a64eaf043c32a",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "98007024e3fca848ae013b7c88e2e2a97e953f2837c1940a5c955fab03fd6f40",
+            "confidence": 0.8,
+            "defect_code": "truncation",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_abrupt_tail_truncation_v1",
+              "metric_name": "cut_edge_dbfs",
+              "metric_value": -46.976870496,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": -18.0
+            },
+            "severity": "none",
+            "source_sha256": "16358810029343e411e72016f6a408d81030766a4cd4477ac25a64eaf043c32a",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "98007024e3fca848ae013b7c88e2e2a97e953f2837c1940a5c955fab03fd6f40",
+            "confidence": 0.75,
+            "defect_code": "hiss",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_highband_residual_hiss_v1",
+              "metric_name": "highband_ratio",
+              "metric_value": 0.177361348,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.55
+            },
+            "severity": "none",
+            "source_sha256": "16358810029343e411e72016f6a408d81030766a4cd4477ac25a64eaf043c32a",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "98007024e3fca848ae013b7c88e2e2a97e953f2837c1940a5c955fab03fd6f40",
+            "confidence": 0.8,
+            "defect_code": "hum",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_tonal_hum_goertzel_v1",
+              "metric_name": "hum_60hz_goertzel_ratio",
+              "metric_value": 0.00057515,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.55
+            },
+            "severity": "none",
+            "source_sha256": "16358810029343e411e72016f6a408d81030766a4cd4477ac25a64eaf043c32a",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "98007024e3fca848ae013b7c88e2e2a97e953f2837c1940a5c955fab03fd6f40",
+            "confidence": 0.8,
+            "defect_code": "excessive_noise",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_rms_excessive_noise_v1",
+              "metric_name": "rms_dbfs",
+              "metric_value": -18.853569083,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": -28.0
+            },
+            "severity": "none",
+            "source_sha256": "16358810029343e411e72016f6a408d81030766a4cd4477ac25a64eaf043c32a",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "98007024e3fca848ae013b7c88e2e2a97e953f2837c1940a5c955fab03fd6f40",
+            "confidence": 0.7,
+            "defect_code": "codec_damage",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_codec_damage_burst_v1",
+              "metric_name": "corruption_burst_ms",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.8
+            },
+            "severity": "none",
+            "source_sha256": "16358810029343e411e72016f6a408d81030766a4cd4477ac25a64eaf043c32a",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "98007024e3fca848ae013b7c88e2e2a97e953f2837c1940a5c955fab03fd6f40",
+            "confidence": 0.93,
+            "defect_code": "unintelligible_speech_contamination",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_speech_contamination_proxy_v1",
+              "metric_name": "midband_am_energy",
+              "metric_value": 0.012818875,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.12
+            },
+            "severity": "severe",
+            "source_sha256": "16358810029343e411e72016f6a408d81030766a4cd4477ac25a64eaf043c32a",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "98007024e3fca848ae013b7c88e2e2a97e953f2837c1940a5c955fab03fd6f40",
+            "confidence": 0.7,
+            "defect_code": "severe_pre_reverb",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_pre_reverb_leadin_v1",
+              "metric_name": "pre_onset_energy_ratio",
+              "metric_value": 0.456973906,
+              "sample_end": 2459,
+              "sample_start": 0,
+              "threshold_value": 0.08
+            },
+            "severity": "none",
+            "source_sha256": "16358810029343e411e72016f6a408d81030766a4cd4477ac25a64eaf043c32a",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "98007024e3fca848ae013b7c88e2e2a97e953f2837c1940a5c955fab03fd6f40",
+            "confidence": 0.7,
+            "defect_code": "unsuitable_background_layers",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_unsuitable_background_bed_v1",
+              "metric_name": "background_bed_rms",
+              "metric_value": 0.02869228,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.02
+            },
+            "severity": "none",
+            "source_sha256": "16358810029343e411e72016f6a408d81030766a4cd4477ac25a64eaf043c32a",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          }
+        ],
+        "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+        "frame_count": 4800,
+        "item_id": "ITEM-W64-075",
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "source_after_sha256": "16358810029343e411e72016f6a408d81030766a4cd4477ac25a64eaf043c32a",
+        "source_before_sha256": "16358810029343e411e72016f6a408d81030766a4cd4477ac25a64eaf043c32a",
+        "source_sha256": "16358810029343e411e72016f6a408d81030766a4cd4477ac25a64eaf043c32a",
+        "taxonomy_coverage": {
+          "all_required_codes_evaluated": true,
+          "evaluated_codes": [
+            "clipping",
+            "clicks",
+            "dropouts",
+            "truncation",
+            "hiss",
+            "hum",
+            "excessive_noise",
+            "codec_damage",
+            "unintelligible_speech_contamination",
+            "severe_pre_reverb",
+            "unsuitable_background_layers"
+          ],
+          "required_codes": [
+            "clipping",
+            "hiss",
+            "hum",
+            "clicks",
+            "dropouts",
+            "codec_damage",
+            "excessive_noise",
+            "unintelligible_speech_contamination",
+            "severe_pre_reverb",
+            "truncation",
+            "unsuitable_background_layers"
+          ],
+          "unknown_codes": []
+        },
+        "threshold_registry_revision": "wave64_row075_audio_defect_thresholds_v0.1.0",
+        "thresholds": {
+          "channel_policy": "max_abs_mono",
+          "click_delta_threshold": 0.55,
+          "clipping_abs_threshold": 0.98,
+          "clipping_ratio_threshold": 0.002,
+          "dropout_min_ms": 8.0,
+          "dropout_silence_dbfs": -55.0,
+          "hiss_highband_ratio_threshold": 0.55,
+          "hum_tonal_ratio_threshold": 0.55,
+          "noise_rms_dbfs_threshold": -28.0,
+          "source_mutation_allowed": false,
+          "truncation_edge_dbfs": -18.0,
+          "unknown_fail_closed": true
+        },
+        "tracker_id": "TRK-W64-075"
+      },
+      {
+        "asset_id": "fixture:severe_pre_reverb",
+        "canonical_pcm_sha256": "af1466a24caffb77f2c9c67ce04ced29d47385a0d46552d41f5864c3433b652e",
+        "channels": 2,
+        "decision": {
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED"
+          ],
+          "library_authority": false,
+          "production_eligibility": "ineligible",
+          "severe_defect_present": true,
+          "source_bytes_unchanged": true,
+          "status": "blocked",
+          "unknown_or_ambiguous": false,
+          "visibility_preserved": true
+        },
+        "defects": [
+          {
+            "canonical_pcm_sha256": "af1466a24caffb77f2c9c67ce04ced29d47385a0d46552d41f5864c3433b652e",
+            "confidence": 0.9,
+            "defect_code": "clipping",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_clipping_ratio_v1",
+              "metric_name": "clipping_ratio",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.002
+            },
+            "severity": "none",
+            "source_sha256": "88616a0e2fe20ac5b3c1f391ac3fd33f3516f1b43d2e98164a7640ec00a7a492",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "af1466a24caffb77f2c9c67ce04ced29d47385a0d46552d41f5864c3433b652e",
+            "confidence": 0.85,
+            "defect_code": "clicks",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_sample_delta_click_v1",
+              "metric_name": "click_event_count",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 2.0
+            },
+            "severity": "none",
+            "source_sha256": "88616a0e2fe20ac5b3c1f391ac3fd33f3516f1b43d2e98164a7640ec00a7a492",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "af1466a24caffb77f2c9c67ce04ced29d47385a0d46552d41f5864c3433b652e",
+            "confidence": 0.88,
+            "defect_code": "dropouts",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_active_window_dropout_v1",
+              "metric_name": "dropout_ms",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 8.0
+            },
+            "severity": "none",
+            "source_sha256": "88616a0e2fe20ac5b3c1f391ac3fd33f3516f1b43d2e98164a7640ec00a7a492",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "af1466a24caffb77f2c9c67ce04ced29d47385a0d46552d41f5864c3433b652e",
+            "confidence": 0.8,
+            "defect_code": "truncation",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_abrupt_tail_truncation_v1",
+              "metric_name": "cut_edge_dbfs",
+              "metric_value": -49.140356676,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": -18.0
+            },
+            "severity": "none",
+            "source_sha256": "88616a0e2fe20ac5b3c1f391ac3fd33f3516f1b43d2e98164a7640ec00a7a492",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "af1466a24caffb77f2c9c67ce04ced29d47385a0d46552d41f5864c3433b652e",
+            "confidence": 0.75,
+            "defect_code": "hiss",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_highband_residual_hiss_v1",
+              "metric_name": "highband_ratio",
+              "metric_value": 0.09948379,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.55
+            },
+            "severity": "none",
+            "source_sha256": "88616a0e2fe20ac5b3c1f391ac3fd33f3516f1b43d2e98164a7640ec00a7a492",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "af1466a24caffb77f2c9c67ce04ced29d47385a0d46552d41f5864c3433b652e",
+            "confidence": 0.8,
+            "defect_code": "hum",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_tonal_hum_goertzel_v1",
+              "metric_name": "hum_60hz_goertzel_ratio",
+              "metric_value": 0.005353991,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.55
+            },
+            "severity": "none",
+            "source_sha256": "88616a0e2fe20ac5b3c1f391ac3fd33f3516f1b43d2e98164a7640ec00a7a492",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "af1466a24caffb77f2c9c67ce04ced29d47385a0d46552d41f5864c3433b652e",
+            "confidence": 0.8,
+            "defect_code": "excessive_noise",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_rms_excessive_noise_v1",
+              "metric_name": "rms_dbfs",
+              "metric_value": -14.768964937,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": -28.0
+            },
+            "severity": "none",
+            "source_sha256": "88616a0e2fe20ac5b3c1f391ac3fd33f3516f1b43d2e98164a7640ec00a7a492",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "af1466a24caffb77f2c9c67ce04ced29d47385a0d46552d41f5864c3433b652e",
+            "confidence": 0.7,
+            "defect_code": "codec_damage",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_codec_damage_burst_v1",
+              "metric_name": "corruption_burst_ms",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.8
+            },
+            "severity": "none",
+            "source_sha256": "88616a0e2fe20ac5b3c1f391ac3fd33f3516f1b43d2e98164a7640ec00a7a492",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "af1466a24caffb77f2c9c67ce04ced29d47385a0d46552d41f5864c3433b652e",
+            "confidence": 0.65,
+            "defect_code": "unintelligible_speech_contamination",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_speech_contamination_proxy_v1",
+              "metric_name": "midband_am_energy",
+              "metric_value": 0.033192503,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.12
+            },
+            "severity": "none",
+            "source_sha256": "88616a0e2fe20ac5b3c1f391ac3fd33f3516f1b43d2e98164a7640ec00a7a492",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "af1466a24caffb77f2c9c67ce04ced29d47385a0d46552d41f5864c3433b652e",
+            "confidence": 0.84,
+            "defect_code": "severe_pre_reverb",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_pre_reverb_leadin_v1",
+              "metric_name": "pre_onset_energy_ratio",
+              "metric_value": 0.117894483,
+              "sample_end": 2387,
+              "sample_start": 0,
+              "threshold_value": 0.08
+            },
+            "severity": "severe",
+            "source_sha256": "88616a0e2fe20ac5b3c1f391ac3fd33f3516f1b43d2e98164a7640ec00a7a492",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "af1466a24caffb77f2c9c67ce04ced29d47385a0d46552d41f5864c3433b652e",
+            "confidence": 0.7,
+            "defect_code": "unsuitable_background_layers",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_unsuitable_background_bed_v1",
+              "metric_name": "background_bed_rms",
+              "metric_value": 0.040788338,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.02
+            },
+            "severity": "none",
+            "source_sha256": "88616a0e2fe20ac5b3c1f391ac3fd33f3516f1b43d2e98164a7640ec00a7a492",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          }
+        ],
+        "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+        "frame_count": 4800,
+        "item_id": "ITEM-W64-075",
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "source_after_sha256": "88616a0e2fe20ac5b3c1f391ac3fd33f3516f1b43d2e98164a7640ec00a7a492",
+        "source_before_sha256": "88616a0e2fe20ac5b3c1f391ac3fd33f3516f1b43d2e98164a7640ec00a7a492",
+        "source_sha256": "88616a0e2fe20ac5b3c1f391ac3fd33f3516f1b43d2e98164a7640ec00a7a492",
+        "taxonomy_coverage": {
+          "all_required_codes_evaluated": true,
+          "evaluated_codes": [
+            "clipping",
+            "clicks",
+            "dropouts",
+            "truncation",
+            "hiss",
+            "hum",
+            "excessive_noise",
+            "codec_damage",
+            "unintelligible_speech_contamination",
+            "severe_pre_reverb",
+            "unsuitable_background_layers"
+          ],
+          "required_codes": [
+            "clipping",
+            "hiss",
+            "hum",
+            "clicks",
+            "dropouts",
+            "codec_damage",
+            "excessive_noise",
+            "unintelligible_speech_contamination",
+            "severe_pre_reverb",
+            "truncation",
+            "unsuitable_background_layers"
+          ],
+          "unknown_codes": []
+        },
+        "threshold_registry_revision": "wave64_row075_audio_defect_thresholds_v0.1.0",
+        "thresholds": {
+          "channel_policy": "max_abs_mono",
+          "click_delta_threshold": 0.55,
+          "clipping_abs_threshold": 0.98,
+          "clipping_ratio_threshold": 0.002,
+          "dropout_min_ms": 8.0,
+          "dropout_silence_dbfs": -55.0,
+          "hiss_highband_ratio_threshold": 0.55,
+          "hum_tonal_ratio_threshold": 0.55,
+          "noise_rms_dbfs_threshold": -28.0,
+          "source_mutation_allowed": false,
+          "truncation_edge_dbfs": -18.0,
+          "unknown_fail_closed": true
+        },
+        "tracker_id": "TRK-W64-075"
+      },
+      {
+        "asset_id": "fixture:unsuitable_background",
+        "canonical_pcm_sha256": "f935f51f1d82774eda54cfa4defa7219c773096b0f01a82216f37344590e91b9",
+        "channels": 2,
+        "decision": {
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED"
+          ],
+          "library_authority": false,
+          "production_eligibility": "ineligible",
+          "severe_defect_present": true,
+          "source_bytes_unchanged": true,
+          "status": "blocked",
+          "unknown_or_ambiguous": false,
+          "visibility_preserved": true
+        },
+        "defects": [
+          {
+            "canonical_pcm_sha256": "f935f51f1d82774eda54cfa4defa7219c773096b0f01a82216f37344590e91b9",
+            "confidence": 0.9,
+            "defect_code": "clipping",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_clipping_ratio_v1",
+              "metric_name": "clipping_ratio",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.002
+            },
+            "severity": "none",
+            "source_sha256": "851fe8669bc871ef113ed8a4285a5b96f39ac1cba576ddf3a3fe8d8a0db60d2f",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "f935f51f1d82774eda54cfa4defa7219c773096b0f01a82216f37344590e91b9",
+            "confidence": 0.85,
+            "defect_code": "clicks",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_sample_delta_click_v1",
+              "metric_name": "click_event_count",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 2.0
+            },
+            "severity": "none",
+            "source_sha256": "851fe8669bc871ef113ed8a4285a5b96f39ac1cba576ddf3a3fe8d8a0db60d2f",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "f935f51f1d82774eda54cfa4defa7219c773096b0f01a82216f37344590e91b9",
+            "confidence": 0.88,
+            "defect_code": "dropouts",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_active_window_dropout_v1",
+              "metric_name": "dropout_ms",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 8.0
+            },
+            "severity": "none",
+            "source_sha256": "851fe8669bc871ef113ed8a4285a5b96f39ac1cba576ddf3a3fe8d8a0db60d2f",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "f935f51f1d82774eda54cfa4defa7219c773096b0f01a82216f37344590e91b9",
+            "confidence": 0.8,
+            "defect_code": "truncation",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_abrupt_tail_truncation_v1",
+              "metric_name": "cut_edge_dbfs",
+              "metric_value": -27.672690049,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": -18.0
+            },
+            "severity": "none",
+            "source_sha256": "851fe8669bc871ef113ed8a4285a5b96f39ac1cba576ddf3a3fe8d8a0db60d2f",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "f935f51f1d82774eda54cfa4defa7219c773096b0f01a82216f37344590e91b9",
+            "confidence": 0.75,
+            "defect_code": "hiss",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_highband_residual_hiss_v1",
+              "metric_name": "highband_ratio",
+              "metric_value": 0.262478561,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.55
+            },
+            "severity": "none",
+            "source_sha256": "851fe8669bc871ef113ed8a4285a5b96f39ac1cba576ddf3a3fe8d8a0db60d2f",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "f935f51f1d82774eda54cfa4defa7219c773096b0f01a82216f37344590e91b9",
+            "confidence": 0.8,
+            "defect_code": "hum",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_tonal_hum_goertzel_v1",
+              "metric_name": "hum_60hz_goertzel_ratio",
+              "metric_value": 0.029646074,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.55
+            },
+            "severity": "none",
+            "source_sha256": "851fe8669bc871ef113ed8a4285a5b96f39ac1cba576ddf3a3fe8d8a0db60d2f",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "f935f51f1d82774eda54cfa4defa7219c773096b0f01a82216f37344590e91b9",
+            "confidence": 0.8,
+            "defect_code": "excessive_noise",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_rms_excessive_noise_v1",
+              "metric_name": "rms_dbfs",
+              "metric_value": -19.654879549,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": -28.0
+            },
+            "severity": "none",
+            "source_sha256": "851fe8669bc871ef113ed8a4285a5b96f39ac1cba576ddf3a3fe8d8a0db60d2f",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "f935f51f1d82774eda54cfa4defa7219c773096b0f01a82216f37344590e91b9",
+            "confidence": 0.7,
+            "defect_code": "codec_damage",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_codec_damage_burst_v1",
+              "metric_name": "corruption_burst_ms",
+              "metric_value": 0.0,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.8
+            },
+            "severity": "none",
+            "source_sha256": "851fe8669bc871ef113ed8a4285a5b96f39ac1cba576ddf3a3fe8d8a0db60d2f",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "f935f51f1d82774eda54cfa4defa7219c773096b0f01a82216f37344590e91b9",
+            "confidence": 0.65,
+            "defect_code": "unintelligible_speech_contamination",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_speech_contamination_proxy_v1",
+              "metric_name": "midband_am_energy",
+              "metric_value": 0.010456107,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.12
+            },
+            "severity": "none",
+            "source_sha256": "851fe8669bc871ef113ed8a4285a5b96f39ac1cba576ddf3a3fe8d8a0db60d2f",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "f935f51f1d82774eda54cfa4defa7219c773096b0f01a82216f37344590e91b9",
+            "confidence": 0.84,
+            "defect_code": "severe_pre_reverb",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_pre_reverb_leadin_v1",
+              "metric_name": "pre_onset_energy_ratio",
+              "metric_value": 0.209312273,
+              "sample_end": 2218,
+              "sample_start": 0,
+              "threshold_value": 0.08
+            },
+            "severity": "severe",
+            "source_sha256": "851fe8669bc871ef113ed8a4285a5b96f39ac1cba576ddf3a3fe8d8a0db60d2f",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          },
+          {
+            "canonical_pcm_sha256": "f935f51f1d82774eda54cfa4defa7219c773096b0f01a82216f37344590e91b9",
+            "confidence": 0.7,
+            "defect_code": "unsuitable_background_layers",
+            "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+            "evidence": {
+              "method_id": "pcm_unsuitable_background_bed_v1",
+              "metric_name": "background_bed_rms",
+              "metric_value": 0.029763042,
+              "sample_end": 4800,
+              "sample_start": 0,
+              "threshold_value": 0.02
+            },
+            "severity": "none",
+            "source_sha256": "851fe8669bc871ef113ed8a4285a5b96f39ac1cba576ddf3a3fe8d8a0db60d2f",
+            "threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0"
+          }
+        ],
+        "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
+        "frame_count": 4800,
+        "item_id": "ITEM-W64-075",
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "source_after_sha256": "851fe8669bc871ef113ed8a4285a5b96f39ac1cba576ddf3a3fe8d8a0db60d2f",
+        "source_before_sha256": "851fe8669bc871ef113ed8a4285a5b96f39ac1cba576ddf3a3fe8d8a0db60d2f",
+        "source_sha256": "851fe8669bc871ef113ed8a4285a5b96f39ac1cba576ddf3a3fe8d8a0db60d2f",
+        "taxonomy_coverage": {
+          "all_required_codes_evaluated": true,
+          "evaluated_codes": [
+            "clipping",
+            "clicks",
+            "dropouts",
+            "truncation",
+            "hiss",
+            "hum",
+            "excessive_noise",
+            "codec_damage",
+            "unintelligible_speech_contamination",
+            "severe_pre_reverb",
+            "unsuitable_background_layers"
+          ],
+          "required_codes": [
+            "clipping",
+            "hiss",
+            "hum",
+            "clicks",
+            "dropouts",
+            "codec_damage",
+            "excessive_noise",
+            "unintelligible_speech_contamination",
+            "severe_pre_reverb",
+            "truncation",
+            "unsuitable_background_layers"
+          ],
+          "unknown_codes": []
+        },
+        "threshold_registry_revision": "wave64_row075_audio_defect_thresholds_v0.1.0",
+        "thresholds": {
+          "channel_policy": "max_abs_mono",
+          "click_delta_threshold": 0.55,
+          "clipping_abs_threshold": 0.98,
+          "clipping_ratio_threshold": 0.002,
+          "dropout_min_ms": 8.0,
+          "dropout_silence_dbfs": -55.0,
+          "hiss_highband_ratio_threshold": 0.55,
+          "hum_tonal_ratio_threshold": 0.55,
+          "noise_rms_dbfs_threshold": -28.0,
+          "source_mutation_allowed": false,
+          "truncation_edge_dbfs": -18.0,
+          "unknown_fail_closed": true
+        },
+        "tracker_id": "TRK-W64-075"
+      }
+    ]
+  },
+  "implementation_completion_claimed": false,
+  "item_id": "ITEM-W64-075",
+  "library_authority": false,
+  "required_defect_codes": [
+    "clipping",
+    "hiss",
+    "hum",
+    "clicks",
+    "dropouts",
+    "codec_damage",
+    "excessive_noise",
+    "unintelligible_speech_contamination",
+    "severe_pre_reverb",
+    "truncation",
+    "unsuitable_background_layers"
+  ],
+  "row070_admission": {
+    "blocker_codes": [
+      "ROW070_DEPENDENCY_NOT_ACCEPTED"
+    ],
+    "bytes": 9348,
+    "dependency_satisfied": false,
+    "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_CANONICAL_AUDIO_DECODE_CURRENT_DELTA_20260719.json",
+    "row_complete": false,
+    "sha256": "a1e3feaace3961f655a7272017db844768ea2b2c5a1f2390b542f57264d125d0",
+    "status": "HOLD_ROW069_DEPENDENCY_AND_FULL_LIBRARY_DECODE_RUNTIME_ABSENT",
+    "tracker_id": "TRK-W64-070"
+  },
+  "row071_admission": {
+    "blocker_codes": [
+      "ROW071_DEPENDENCY_NOT_ACCEPTED"
+    ],
+    "bytes": 7370,
+    "dependency_satisfied": false,
+    "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-071_WAVEFORM_FEATURE_EXTRACTION_CURRENT_DELTA_20260719.json",
+    "row_complete": false,
+    "sha256": "4118ecf426dc54242b049e15e27981097a29044d954bd21992dce85aca432def",
+    "status": "HOLD_ROW070_CANONICAL_DECODE_AND_FULL_LIBRARY_FEATURE_RUNTIME_ABSENT",
+    "tracker_id": "TRK-W64-071"
+  },
+  "row_complete": false,
+  "runtime_completion_claimed": false,
+  "schema_version": "1.0.0",
+  "status": "HOLD_ROW070_ROW071_DEPENDENCIES_AND_FULL_LIBRARY_DEFECT_RUNTIME_ABSENT",
+  "threshold_registry": {
+    "authority": "planning_freeze_not_library_acceptance",
+    "path": "Plan/10_REGISTRIES/wave64_row075_audio_defect_threshold_registry.json",
+    "revision": "wave64_row075_audio_defect_thresholds_v0.1.0",
+    "sha256": "c94303206856f363b529523ebbe71ba6dcfaacf4cd235bf9c4e0d42e906f1abd"
+  },
+  "threshold_registry_revision": "wave64_row075_audio_defect_thresholds_v0.1.0",
+  "thresholds": {
+    "channel_policy": "max_abs_mono",
+    "click_delta_threshold": 0.55,
+    "clipping_abs_threshold": 0.98,
+    "clipping_ratio_threshold": 0.002,
+    "dropout_min_ms": 8.0,
+    "dropout_silence_dbfs": -55.0,
+    "hiss_highband_ratio_threshold": 0.55,
+    "hum_tonal_ratio_threshold": 0.55,
+    "noise_rms_dbfs_threshold": -28.0,
+    "source_mutation_allowed": false,
+    "truncation_edge_dbfs": -18.0,
+    "unknown_fail_closed": true
+  },
+  "tracker_id": "TRK-W64-075"
+}

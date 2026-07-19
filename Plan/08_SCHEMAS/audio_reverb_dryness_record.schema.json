@@ -1,0 +1,186 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/audio_reverb_dryness_record.schema.json",
+  "title": "Wave64 Row076 Audio Reverb Dryness Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "tracker_id",
+    "item_id",
+    "analysis_pipeline_revision",
+    "asset_id",
+    "source_sha256",
+    "canonical_pcm_sha256",
+    "source_before_sha256",
+    "source_after_sha256",
+    "sample_rate_hz",
+    "channels",
+    "frame_count",
+    "thresholds",
+    "measurements",
+    "method_provenance",
+    "classification",
+    "wet_source_policy",
+    "decision"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "tracker_id": { "type": "string", "const": "TRK-W64-076" },
+    "item_id": { "type": "string", "const": "ITEM-W64-076" },
+    "analysis_pipeline_revision": {
+      "type": "string",
+      "const": "wave64_row076_audio_reverb_dryness_v0.1.0"
+    },
+    "asset_id": { "type": "string", "minLength": 1 },
+    "source_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "canonical_pcm_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "source_before_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "source_after_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "sample_rate_hz": { "type": "integer", "minimum": 1 },
+    "channels": { "type": "integer", "minimum": 1 },
+    "frame_count": { "type": "integer", "minimum": 1 },
+    "thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "direct_window_ms",
+        "early_reflection_window_ms",
+        "tail_floor_dbfs",
+        "dry_drr_min_db",
+        "wet_drr_max_db",
+        "rt60_dry_max_s",
+        "rt60_wet_min_s",
+        "early_reflection_density_wet_min",
+        "stereo_imprint_correlation_wet_max",
+        "channel_policy",
+        "compatible_room_passthrough_requires_rule_id",
+        "suggestion_only",
+        "source_mutation_allowed"
+      ],
+      "properties": {
+        "direct_window_ms": { "type": "number", "minimum": 0 },
+        "early_reflection_window_ms": { "type": "number", "minimum": 0 },
+        "tail_floor_dbfs": { "type": "number" },
+        "dry_drr_min_db": { "type": "number" },
+        "wet_drr_max_db": { "type": "number" },
+        "rt60_dry_max_s": { "type": "number", "minimum": 0 },
+        "rt60_wet_min_s": { "type": "number", "minimum": 0 },
+        "early_reflection_density_wet_min": { "type": "number", "minimum": 0 },
+        "stereo_imprint_correlation_wet_max": { "type": "number" },
+        "channel_policy": { "type": "string", "const": "max_abs_mono_plus_stereo_imprint" },
+        "compatible_room_passthrough_requires_rule_id": { "type": "boolean", "const": true },
+        "suggestion_only": { "type": "boolean", "const": true },
+        "source_mutation_allowed": { "type": "boolean", "const": false }
+      }
+    },
+    "measurements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "direct_to_reverberant_ratio_db",
+        "rt60_seconds",
+        "early_reflection_density",
+        "stereo_room_imprint",
+        "reverb_tail_seconds",
+        "additional_convolution_safe",
+        "confidence",
+        "compatible_room_rule_id"
+      ],
+      "properties": {
+        "direct_to_reverberant_ratio_db": { "type": "number" },
+        "rt60_seconds": { "type": "number", "minimum": 0 },
+        "early_reflection_density": { "type": "number", "minimum": 0 },
+        "stereo_room_imprint": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "channel_correlation",
+            "left_right_rms_asymmetry",
+            "width_score"
+          ],
+          "properties": {
+            "channel_correlation": { "type": "number", "minimum": -1, "maximum": 1 },
+            "left_right_rms_asymmetry": { "type": "number", "minimum": 0 },
+            "width_score": { "type": "number", "minimum": 0 }
+          }
+        },
+        "reverb_tail_seconds": { "type": "number", "minimum": 0 },
+        "additional_convolution_safe": { "type": "boolean" },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "compatible_room_rule_id": {
+          "type": ["string", "null"],
+          "minLength": 1
+        }
+      }
+    },
+    "method_provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "direct_to_reverberant",
+        "rt60",
+        "early_reflections",
+        "stereo_room_imprint",
+        "reverb_tail",
+        "double_reverb_guard"
+      ],
+      "properties": {
+        "direct_to_reverberant": { "$ref": "#/$defs/method_binding" },
+        "rt60": { "$ref": "#/$defs/method_binding" },
+        "early_reflections": { "$ref": "#/$defs/method_binding" },
+        "stereo_room_imprint": { "$ref": "#/$defs/method_binding" },
+        "reverb_tail": { "$ref": "#/$defs/method_binding" },
+        "double_reverb_guard": { "$ref": "#/$defs/method_binding" }
+      }
+    },
+    "classification": {
+      "type": "string",
+      "enum": ["dry", "wet", "ambiguous", "environment_specific"]
+    },
+    "wet_source_policy": {
+      "type": "string",
+      "enum": [
+        "dry_render",
+        "compatible_wet_passthrough",
+        "limited_processing",
+        "reject"
+      ]
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "blocker_codes",
+        "library_authority",
+        "suggestion_only",
+        "source_bytes_unchanged",
+        "double_reverb_guard_enforced"
+      ],
+      "properties": {
+        "status": { "enum": ["pass", "blocked"] },
+        "blocker_codes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "library_authority": { "type": "boolean" },
+        "suggestion_only": { "type": "boolean", "const": true },
+        "source_bytes_unchanged": { "type": "boolean" },
+        "double_reverb_guard_enforced": { "type": "boolean" }
+      }
+    }
+  },
+  "$defs": {
+    "method_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["method_id", "unit", "window"],
+      "properties": {
+        "method_id": { "type": "string", "minLength": 1 },
+        "unit": { "type": "string", "minLength": 1 },
+        "window": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}
