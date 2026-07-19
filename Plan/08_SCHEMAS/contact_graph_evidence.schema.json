@@ -12,32 +12,18 @@
     "preservation_pass"
   ],
   "properties": {
-    "source_target_ownership_pass": {
-      "type": "boolean"
-    },
-    "pressure_intensity_pass": {
-      "type": "boolean"
-    },
-    "occlusion_pass": {
-      "type": "boolean"
-    },
-    "duration_pass": {
-      "type": "boolean"
-    },
-    "audio_force_pass": {
-      "type": "boolean"
-    },
-    "deformation_evidence_pass": {
-      "type": "boolean"
-    },
-    "preservation_pass": {
-      "type": "boolean"
-    },
+    "source_target_ownership_pass": {"type": "boolean"},
+    "pressure_intensity_pass": {"type": "boolean"},
+    "occlusion_pass": {"type": "boolean"},
+    "duration_pass": {"type": "boolean"},
+    "audio_force_pass": {"type": "boolean"},
+    "deformation_evidence_pass": {"type": "boolean"},
+    "preservation_pass": {"type": "boolean"},
     "failure_flags": {
       "type": "array",
-      "items": {
-        "type": "string"
-      }
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
     }
-  }
+  },
+  "additionalProperties": false
 }

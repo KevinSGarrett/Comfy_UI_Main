@@ -1,0 +1,165 @@
+{
+  "schema_version": "1.0.0",
+  "evidence_id": "WAVE22_CONTACT_GRAPH_FAIL_CLOSED_CORRECTION_20260719",
+  "created_at": "2026-07-19T06:04:49.0150941Z",
+  "source_commit": "389ecfe5d31abe93881d3a73cf4eaf157879e8b5",
+  "source_audit": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-090_CONTACT_INFERENCE_OWNERSHIP_CURRENT_DELTA_20260719.json",
+    "sha256": "a655d09cc83efc9835d6bdd0b9c7ae5bc328afc4f8d1ba7aac1d737445e28c0c",
+    "commit": "389ecfe5d31abe93881d3a73cf4eaf157879e8b5",
+    "finding": "The legacy Wave22 contact validator accepted invalid typed edge fields and the evidence scorer coerced JSON string false values to true."
+  },
+  "classification": "WAVE22_CONTACT_GRAPH_FAIL_CLOSED_CORRECTION_PASS",
+  "status": "IMPLEMENTATION_AND_FOCUSED_QA_PASS_ROW090_REMAINS_HELD",
+  "scope": {
+    "tracker_context": "TRK-W64-090",
+    "correction_only": true,
+    "row090_complete": false,
+    "runtime_certification_claimed": false,
+    "visual_contact_inference_claimed": false,
+    "files": [
+      "Plan/07_IMPLEMENTATION/scripts/validate_physical_contact_graph_contract.py",
+      "Plan/07_IMPLEMENTATION/scripts/score_physical_contact_graph_evidence.py",
+      "Plan/08_SCHEMAS/contact_edge.schema.json",
+      "Plan/08_SCHEMAS/contact_graph_evidence.schema.json",
+      "Plan/08_SCHEMAS/physical_contact_graph.schema.json",
+      "Plan/Instructions/QA/Scripts/test_physical_contact_graph_contract.py",
+      "Plan/Instructions/QA/Evidence/Wave64/WAVE22_CONTACT_GRAPH_FAIL_CLOSED_CORRECTION_20260719.json"
+    ]
+  },
+  "before": [
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/validate_physical_contact_graph_contract.py",
+      "sha256": "702bdc7a3f5f386b561dae65b9b304535ead9257376a291f26e1f44e6a5efe85",
+      "bytes": 1780
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/score_physical_contact_graph_evidence.py",
+      "sha256": "69b9725b47a72b09a2465c96f86e3aa4199f32251230bdd418aeca7c13b94c35",
+      "bytes": 1430
+    },
+    {
+      "path": "Plan/08_SCHEMAS/contact_edge.schema.json",
+      "sha256": "5842a7697372c4ca65975c7169358448502b0b2df1317390dd72bea558acae55",
+      "bytes": 1170
+    },
+    {
+      "path": "Plan/08_SCHEMAS/contact_graph_evidence.schema.json",
+      "sha256": "c3b67d7f4a3cf6fb3e93492d6158658f47b064bc36610e8a26bdeda337f39103",
+      "bytes": 881
+    },
+    {
+      "path": "Plan/08_SCHEMAS/physical_contact_graph.schema.json",
+      "sha256": "abff86764ca108c4196d5d606334cdb1e7ea5897e5d19a7e89b88b8fcb7a5fd5",
+      "bytes": 734
+    }
+  ],
+  "after": [
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/validate_physical_contact_graph_contract.py",
+      "sha256": "0ec2cb154c0ddb765deed9737fb971d62637dbf08f4963dab024a8cfd5390ec0",
+      "bytes": 9643
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/score_physical_contact_graph_evidence.py",
+      "sha256": "eb6f2a704bd1e29bdce0a5fd25031ee293e18d065e5ba2e3140c37910c15b38c",
+      "bytes": 6066
+    },
+    {
+      "path": "Plan/08_SCHEMAS/contact_edge.schema.json",
+      "sha256": "4ec0b7b30c128b91f4f488f3138ad0c39bc779f191da5fa8a2786a96d44a7f46",
+      "bytes": 1964
+    },
+    {
+      "path": "Plan/08_SCHEMAS/contact_graph_evidence.schema.json",
+      "sha256": "bf26cc09dd9918be74ae356b08006274374ae3f9d01535ccc1b2fd3f7bf740a5",
+      "bytes": 857
+    },
+    {
+      "path": "Plan/08_SCHEMAS/physical_contact_graph.schema.json",
+      "sha256": "aa3ce9cd2983b18d53586a550f9af2392d0d6c60ac707b6b6458903a33ab6f50",
+      "bytes": 941
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_physical_contact_graph_contract.py",
+      "sha256": "78af8a7eba28c0fe711b2841783dec9cae00e679751c333aff896f6da07c8e8d",
+      "bytes": 12565
+    }
+  ],
+  "implemented_authority": {
+    "validator": [
+      "Requires exact root and edge field sets and exact wave22.v1 contract version.",
+      "Requires non-empty string identities, unique edge IDs, registered categorical values, and registered QA goals.",
+      "Requires non-empty unique boundary masks for contact types whose canonical taxonomy requires them.",
+      "Returns a structured failure report and nonzero exit for malformed JSON or invalid contracts."
+    ],
+    "scorer": [
+      "Requires every authority check to be an exact Boolean rather than a truthy lookalike.",
+      "Loads and validates the canonical scoring registry, including exact dimensions, weights, threshold, and hard-fail flags.",
+      "Requires all checks true, threshold met, and no failure flags before PASS.",
+      "Returns a structured failure report and nonzero exit for malformed or invalid evidence."
+    ],
+    "schemas": [
+      "Reject additional properties.",
+      "Require non-empty strings, unique arrays, exact contract version, registered enums, and exact JSON Boolean evidence."
+    ]
+  },
+  "qa": {
+    "focused_command": "python -m pytest Plan/Instructions/QA/Scripts/test_physical_contact_graph_contract.py -q --tb=short",
+    "focused_exit_code": 0,
+    "focused_tests_passed": 20,
+    "focused_subtests_passed": 122,
+    "focused_failures": 0,
+    "adjacent_command": "python -m pytest Plan/Instructions/QA/Scripts/test_clothing_prop_contact_contract.py -q --tb=short",
+    "adjacent_exit_code": 0,
+    "adjacent_tests_passed": 10,
+    "adjacent_failures": 0,
+    "python_parse_pass": true,
+    "schema_json_parse_pass": true,
+    "diff_check_pass": true,
+    "adversarial_cases": [
+      "invalid typed edge fields",
+      "missing and extra root or edge fields",
+      "empty and non-string identities",
+      "unknown categorical values",
+      "duplicate edge IDs and masks",
+      "required mask omission",
+      "malformed JSON",
+      "missing Boolean checks",
+      "string true and string false",
+      "numeric zero and one",
+      "null, array, and object Boolean lookalikes",
+      "failure flags",
+      "schema additional properties"
+    ]
+  },
+  "decision": {
+    "wave22_fail_open_defect_closed": true,
+    "row090_hold_preserved": true,
+    "row090_remaining_blockers": [
+      "Rows TRK-W64-085 through TRK-W64-089 remain incomplete.",
+      "No production visual contact inference producer exists.",
+      "No calibrated ownership, contact timing, force, uncertainty, genuine runtime, or combined visual-audio review exists."
+    ]
+  },
+  "execution_boundary": {
+    "worker_intents_created_for_correction": 0,
+    "worker_queue_polls": 0,
+    "provider_calls": 0,
+    "wrapper_calls": 0,
+    "scheduled_task_wakes": 0,
+    "docker_calls": 0,
+    "wsl_calls": 0,
+    "model_downloads": 0,
+    "runtime_generations": 0,
+    "worker_control_files_modified": false,
+    "scheduled_task_state_modified": false
+  },
+  "preservation": {
+    "unrelated_dirty_paths_preserved": true,
+    "queued_worker_scopes_preserved": true,
+    "flux2_paths_preserved": true,
+    "portfolio_reconciliation_paths_preserved": true,
+    "worker_control_snapshots_preserved": true
+  }
+}

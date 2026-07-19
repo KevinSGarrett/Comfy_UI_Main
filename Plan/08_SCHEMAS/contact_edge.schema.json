@@ -16,50 +16,42 @@
     "audio_force_class"
   ],
   "properties": {
-    "edge_id": {
-      "type": "string"
-    },
-    "source_owner_id": {
-      "type": "string"
-    },
-    "source_region_id": {
-      "type": "string"
-    },
-    "source_region_type": {
-      "type": "string"
-    },
-    "target_owner_id": {
-      "type": "string"
-    },
-    "target_region_id": {
-      "type": "string"
-    },
-    "target_region_type": {
-      "type": "string"
-    },
+    "edge_id": {"type": "string", "minLength": 1},
+    "source_owner_id": {"type": "string", "minLength": 1},
+    "source_region_id": {"type": "string", "minLength": 1},
+    "source_region_type": {"type": "string", "minLength": 1},
+    "target_owner_id": {"type": "string", "minLength": 1},
+    "target_region_id": {"type": "string", "minLength": 1},
+    "target_region_type": {"type": "string", "minLength": 1},
     "contact_edge_type": {
-      "type": "string"
+      "type": "string",
+      "enum": ["touch", "press", "squeeze", "pull", "push", "support", "rest", "cover", "occlude", "compress", "slide", "drag", "impact", "rebound"]
     },
     "pressure": {
-      "type": "string"
+      "type": "string",
+      "enum": ["none", "feather", "light", "medium", "firm", "heavy"]
     },
     "intensity": {
-      "type": "string"
+      "type": "string",
+      "enum": ["none", "subtle", "visible", "strong", "extreme_blocked_by_default"]
     },
     "occlusion": {
-      "type": "string"
+      "type": "string",
+      "enum": ["none", "partial_edge", "partial_region", "majority_region", "full_region", "ambiguous_blocked"]
     },
     "duration": {
-      "type": "string"
+      "type": "string",
+      "enum": ["instantaneous", "brief", "held", "sustained", "repeated", "rhythmic", "unresolved"]
     },
     "audio_force_class": {
-      "type": "string"
+      "type": "string",
+      "enum": ["silent_contact", "soft_fabric_rustle", "skin_surface_contact", "firm_surface_contact", "object_tap", "object_drag", "furniture_creak", "impact_thud", "rebound_release"]
     },
     "mask_ids": {
       "type": "array",
-      "items": {
-        "type": "string"
-      }
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
     }
-  }
+  },
+  "additionalProperties": false
 }
