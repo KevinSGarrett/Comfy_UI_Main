@@ -13,9 +13,9 @@
 
 1. `75f97ffb` Prove Row017 MF70 cheeks local visual climb.
 2. `4bf1d12a` Align Row017 cheeks handoff tip to origin HEAD.
-3. Tip-finalize commit records verified origin HEAD after push.
+3. `4a0c8865` Finalize Row017 cheeks handoff tip IDs.
 
-Pushed tip verified on origin: pending push verify
+Pushed tip verified on origin: `4a0c8865`
 
 ## Row-Scoped Increment Executed
 
