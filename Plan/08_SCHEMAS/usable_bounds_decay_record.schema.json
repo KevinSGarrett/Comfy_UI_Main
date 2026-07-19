@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/usable_bounds_decay_record.schema.json",
+  "title": "Wave64 Row073 Usable Bounds and Decay Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "tracker_id",
+    "item_id",
+    "analysis_pipeline_revision",
+    "asset_id",
+    "source_sha256",
+    "canonical_pcm_sha256",
+    "source_before_sha256",
+    "source_after_sha256",
+    "sample_rate_hz",
+    "channels",
+    "frame_count",
+    "thresholds",
+    "measurements",
+    "method_provenance",
+    "decision"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "tracker_id": { "type": "string", "const": "TRK-W64-073" },
+    "item_id": { "type": "string", "const": "ITEM-W64-073" },
+    "analysis_pipeline_revision": {
+      "type": "string",
+      "const": "wave64_row073_usable_bounds_decay_v0.1.0"
+    },
+    "asset_id": { "type": "string", "minLength": 1 },
+    "source_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "canonical_pcm_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "source_before_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "source_after_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "sample_rate_hz": { "type": "integer", "minimum": 1 },
+    "channels": { "type": "integer", "minimum": 1 },
+    "frame_count": { "type": "integer", "minimum": 1 },
+    "thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "silence_threshold_dbfs",
+        "hysteresis_db",
+        "min_silence_ms",
+        "channel_policy",
+        "suggestion_only",
+        "destructive_trim_allowed"
+      ],
+      "properties": {
+        "silence_threshold_dbfs": { "type": "number" },
+        "hysteresis_db": { "type": "number", "minimum": 0 },
+        "min_silence_ms": { "type": "number", "minimum": 0 },
+        "channel_policy": { "type": "string", "const": "max_abs_mono" },
+        "suggestion_only": { "type": "boolean", "const": true },
+        "destructive_trim_allowed": { "type": "boolean", "const": false }
+      }
+    },
+    "measurements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "leading_silence_samples",
+        "trailing_silence_samples",
+        "leading_silence_seconds",
+        "trailing_silence_seconds",
+        "usable_start_sample",
+        "usable_end_sample",
+        "attack_seconds",
+        "sustain_seconds",
+        "release_seconds",
+        "noise_only_tail",
+        "natural_decay_end_sample",
+        "onset_preservation_ok",
+        "tail_preservation_ok"
+      ],
+      "properties": {
+        "leading_silence_samples": { "type": "integer", "minimum": 0 },
+        "trailing_silence_samples": { "type": "integer", "minimum": 0 },
+        "leading_silence_seconds": { "type": "number", "minimum": 0 },
+        "trailing_silence_seconds": { "type": "number", "minimum": 0 },
+        "usable_start_sample": { "type": "integer", "minimum": 0 },
+        "usable_end_sample": { "type": "integer", "minimum": 0 },
+        "attack_seconds": { "type": "number", "minimum": 0 },
+        "sustain_seconds": { "type": "number", "minimum": 0 },
+        "release_seconds": { "type": "number", "minimum": 0 },
+        "noise_only_tail": { "type": "boolean" },
+        "natural_decay_end_sample": { "type": "integer", "minimum": 0 },
+        "onset_preservation_ok": { "type": "boolean" },
+        "tail_preservation_ok": { "type": "boolean" }
+      }
+    },
+    "method_provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "leading_silence",
+        "trailing_silence",
+        "usable_bounds",
+        "attack",
+        "sustain",
+        "release",
+        "noise_only_tail",
+        "natural_decay"
+      ],
+      "properties": {
+        "leading_silence": { "$ref": "#/$defs/method_binding" },
+        "trailing_silence": { "$ref": "#/$defs/method_binding" },
+        "usable_bounds": { "$ref": "#/$defs/method_binding" },
+        "attack": { "$ref": "#/$defs/method_binding" },
+        "sustain": { "$ref": "#/$defs/method_binding" },
+        "release": { "$ref": "#/$defs/method_binding" },
+        "noise_only_tail": { "$ref": "#/$defs/method_binding" },
+        "natural_decay": { "$ref": "#/$defs/method_binding" }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "blocker_codes",
+        "library_authority",
+        "suggestion_only",
+        "source_bytes_unchanged"
+      ],
+      "properties": {
+        "status": { "enum": ["pass", "blocked"] },
+        "blocker_codes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "library_authority": { "type": "boolean" },
+        "suggestion_only": { "type": "boolean", "const": true },
+        "source_bytes_unchanged": { "type": "boolean" }
+      }
+    }
+  },
+  "$defs": {
+    "method_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["method_id", "unit", "window"],
+      "properties": {
+        "method_id": { "type": "string", "minLength": 1 },
+        "unit": { "type": "string", "minLength": 1 },
+        "window": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

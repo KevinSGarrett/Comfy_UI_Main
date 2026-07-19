@@ -1,0 +1,547 @@
+{
+  "analysis_pipeline_revision": "wave64_row073_usable_bounds_decay_v0.1.0",
+  "blocker_codes": [
+    "ROW071_DEPENDENCY_NOT_ACCEPTED",
+    "ROW072_DEPENDENCY_NOT_ACCEPTED",
+    "ROW071_AND_ROW072_DEPENDENCIES_NOT_ACCEPTED",
+    "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT",
+    "FULL_LIBRARY_SOURCE_IMMUTABILITY_PROOF_ABSENT"
+  ],
+  "decision": {
+    "product_completion": false,
+    "row073_acceptance": "held",
+    "runtime_completion": false,
+    "safe_next_action": "Accept Row071 waveform features and Row072 onset/offset anchors, reconcile every accepted input to suggestion-only bounds/decay PASS or an exact blocker with before/after source hashes, and replace this hold packet with full-library runtime evidence.",
+    "status": "blocked"
+  },
+  "evidence_id": "TRK-W64-073_usable_bounds_decay_analysis",
+  "fixture_calibration": {
+    "authority": "synthetic_non_library",
+    "determinism_note": "Fixture records prove silence/usable-bound/envelope/decay method identity only; they do not accept Row073 library completion.",
+    "fixture_count": 5,
+    "records": [
+      {
+        "analysis_pipeline_revision": "wave64_row073_usable_bounds_decay_v0.1.0",
+        "asset_id": "fixture:silence",
+        "canonical_pcm_sha256": "5c9b37300155c1f3338bc88f17d69c51fb248b0de0155630962ca6504d789bba",
+        "channels": 2,
+        "decision": {
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED"
+          ],
+          "library_authority": false,
+          "source_bytes_unchanged": true,
+          "status": "blocked",
+          "suggestion_only": true
+        },
+        "frame_count": 4800,
+        "item_id": "ITEM-W64-073",
+        "measurements": {
+          "attack_seconds": 0.0,
+          "leading_silence_samples": 4800,
+          "leading_silence_seconds": 0.1,
+          "natural_decay_end_sample": 0,
+          "noise_only_tail": false,
+          "onset_preservation_ok": true,
+          "release_seconds": 0.0,
+          "sustain_seconds": 0.0,
+          "tail_preservation_ok": true,
+          "trailing_silence_samples": 4800,
+          "trailing_silence_seconds": 0.1,
+          "usable_end_sample": 0,
+          "usable_start_sample": 0
+        },
+        "method_provenance": {
+          "attack": {
+            "method_id": "pcm_attack_to_peak_v1",
+            "unit": "seconds",
+            "window": "usable_start_to_peak"
+          },
+          "leading_silence": {
+            "method_id": "pcm_leading_silence_hysteresis_v1",
+            "unit": "samples_and_seconds",
+            "window": "prefix_until_enter_threshold"
+          },
+          "natural_decay": {
+            "method_id": "pcm_natural_decay_end_v1",
+            "unit": "sample_index",
+            "window": "usable_region_envelope"
+          },
+          "noise_only_tail": {
+            "method_id": "pcm_noise_only_tail_classifier_v1",
+            "unit": "boolean",
+            "window": "post_release_to_usable_end"
+          },
+          "release": {
+            "method_id": "pcm_release_to_natural_decay_v1",
+            "unit": "seconds",
+            "window": "release_start_to_natural_decay_end"
+          },
+          "sustain": {
+            "method_id": "pcm_sustain_above_release_floor_v1",
+            "unit": "seconds",
+            "window": "peak_to_release_start"
+          },
+          "trailing_silence": {
+            "method_id": "pcm_trailing_silence_hysteresis_v1",
+            "unit": "samples_and_seconds",
+            "window": "suffix_until_enter_threshold"
+          },
+          "usable_bounds": {
+            "method_id": "pcm_usable_bounds_from_silence_v1",
+            "unit": "sample_index",
+            "window": "first_to_last_non_silence"
+          }
+        },
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "source_after_sha256": "9a36c66893f6a060c6fe07fb7c0395813f65e6ae8e81d66c28641a14e71d6c39",
+        "source_before_sha256": "9a36c66893f6a060c6fe07fb7c0395813f65e6ae8e81d66c28641a14e71d6c39",
+        "source_sha256": "9a36c66893f6a060c6fe07fb7c0395813f65e6ae8e81d66c28641a14e71d6c39",
+        "thresholds": {
+          "channel_policy": "max_abs_mono",
+          "destructive_trim_allowed": false,
+          "hysteresis_db": 6.0,
+          "min_silence_ms": 5.0,
+          "silence_threshold_dbfs": -50.0,
+          "suggestion_only": true
+        },
+        "tracker_id": "TRK-W64-073"
+      },
+      {
+        "analysis_pipeline_revision": "wave64_row073_usable_bounds_decay_v0.1.0",
+        "asset_id": "fixture:padded_tone",
+        "canonical_pcm_sha256": "7ac1e6d4d72d83ff43a270b1ebb0d8bdbc9deae31ec039aa4eb5f229a21279b4",
+        "channels": 2,
+        "decision": {
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED"
+          ],
+          "library_authority": false,
+          "source_bytes_unchanged": true,
+          "status": "blocked",
+          "suggestion_only": true
+        },
+        "frame_count": 4800,
+        "item_id": "ITEM-W64-073",
+        "measurements": {
+          "attack_seconds": 0.000229167,
+          "leading_silence_samples": 801,
+          "leading_silence_seconds": 0.0166875,
+          "natural_decay_end_sample": 4000,
+          "noise_only_tail": false,
+          "onset_preservation_ok": true,
+          "release_seconds": 0.0661875,
+          "sustain_seconds": 0.000229167,
+          "tail_preservation_ok": true,
+          "trailing_silence_samples": 800,
+          "trailing_silence_seconds": 0.016666667,
+          "usable_end_sample": 4000,
+          "usable_start_sample": 801
+        },
+        "method_provenance": {
+          "attack": {
+            "method_id": "pcm_attack_to_peak_v1",
+            "unit": "seconds",
+            "window": "usable_start_to_peak"
+          },
+          "leading_silence": {
+            "method_id": "pcm_leading_silence_hysteresis_v1",
+            "unit": "samples_and_seconds",
+            "window": "prefix_until_enter_threshold"
+          },
+          "natural_decay": {
+            "method_id": "pcm_natural_decay_end_v1",
+            "unit": "sample_index",
+            "window": "usable_region_envelope"
+          },
+          "noise_only_tail": {
+            "method_id": "pcm_noise_only_tail_classifier_v1",
+            "unit": "boolean",
+            "window": "post_release_to_usable_end"
+          },
+          "release": {
+            "method_id": "pcm_release_to_natural_decay_v1",
+            "unit": "seconds",
+            "window": "release_start_to_natural_decay_end"
+          },
+          "sustain": {
+            "method_id": "pcm_sustain_above_release_floor_v1",
+            "unit": "seconds",
+            "window": "peak_to_release_start"
+          },
+          "trailing_silence": {
+            "method_id": "pcm_trailing_silence_hysteresis_v1",
+            "unit": "samples_and_seconds",
+            "window": "suffix_until_enter_threshold"
+          },
+          "usable_bounds": {
+            "method_id": "pcm_usable_bounds_from_silence_v1",
+            "unit": "sample_index",
+            "window": "first_to_last_non_silence"
+          }
+        },
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "source_after_sha256": "0f1272625b399a27c820889248c97e9833910db1baf0714d88ff4d01493f655a",
+        "source_before_sha256": "0f1272625b399a27c820889248c97e9833910db1baf0714d88ff4d01493f655a",
+        "source_sha256": "0f1272625b399a27c820889248c97e9833910db1baf0714d88ff4d01493f655a",
+        "thresholds": {
+          "channel_policy": "max_abs_mono",
+          "destructive_trim_allowed": false,
+          "hysteresis_db": 6.0,
+          "min_silence_ms": 5.0,
+          "silence_threshold_dbfs": -50.0,
+          "suggestion_only": true
+        },
+        "tracker_id": "TRK-W64-073"
+      },
+      {
+        "analysis_pipeline_revision": "wave64_row073_usable_bounds_decay_v0.1.0",
+        "asset_id": "fixture:impulse_decay",
+        "canonical_pcm_sha256": "16b6fc1decb95607c3b4c0ebe1a76aff896f1f876a57db25577d69fa5348e88f",
+        "channels": 2,
+        "decision": {
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED"
+          ],
+          "library_authority": false,
+          "source_bytes_unchanged": true,
+          "status": "blocked",
+          "suggestion_only": true
+        },
+        "frame_count": 4800,
+        "item_id": "ITEM-W64-073",
+        "measurements": {
+          "attack_seconds": 0.0,
+          "leading_silence_samples": 0,
+          "leading_silence_seconds": 0.0,
+          "natural_decay_end_sample": 1357,
+          "noise_only_tail": false,
+          "onset_preservation_ok": true,
+          "release_seconds": 0.021354167,
+          "sustain_seconds": 0.006916667,
+          "tail_preservation_ok": true,
+          "trailing_silence_samples": 3443,
+          "trailing_silence_seconds": 0.071729167,
+          "usable_end_sample": 1357,
+          "usable_start_sample": 0
+        },
+        "method_provenance": {
+          "attack": {
+            "method_id": "pcm_attack_to_peak_v1",
+            "unit": "seconds",
+            "window": "usable_start_to_peak"
+          },
+          "leading_silence": {
+            "method_id": "pcm_leading_silence_hysteresis_v1",
+            "unit": "samples_and_seconds",
+            "window": "prefix_until_enter_threshold"
+          },
+          "natural_decay": {
+            "method_id": "pcm_natural_decay_end_v1",
+            "unit": "sample_index",
+            "window": "usable_region_envelope"
+          },
+          "noise_only_tail": {
+            "method_id": "pcm_noise_only_tail_classifier_v1",
+            "unit": "boolean",
+            "window": "post_release_to_usable_end"
+          },
+          "release": {
+            "method_id": "pcm_release_to_natural_decay_v1",
+            "unit": "seconds",
+            "window": "release_start_to_natural_decay_end"
+          },
+          "sustain": {
+            "method_id": "pcm_sustain_above_release_floor_v1",
+            "unit": "seconds",
+            "window": "peak_to_release_start"
+          },
+          "trailing_silence": {
+            "method_id": "pcm_trailing_silence_hysteresis_v1",
+            "unit": "samples_and_seconds",
+            "window": "suffix_until_enter_threshold"
+          },
+          "usable_bounds": {
+            "method_id": "pcm_usable_bounds_from_silence_v1",
+            "unit": "sample_index",
+            "window": "first_to_last_non_silence"
+          }
+        },
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "source_after_sha256": "2d6f5d1d3f5eb28d80d188c89e07ff82a52c4927ff8b03351fbc081025e57dad",
+        "source_before_sha256": "2d6f5d1d3f5eb28d80d188c89e07ff82a52c4927ff8b03351fbc081025e57dad",
+        "source_sha256": "2d6f5d1d3f5eb28d80d188c89e07ff82a52c4927ff8b03351fbc081025e57dad",
+        "thresholds": {
+          "channel_policy": "max_abs_mono",
+          "destructive_trim_allowed": false,
+          "hysteresis_db": 6.0,
+          "min_silence_ms": 5.0,
+          "silence_threshold_dbfs": -50.0,
+          "suggestion_only": true
+        },
+        "tracker_id": "TRK-W64-073"
+      },
+      {
+        "analysis_pipeline_revision": "wave64_row073_usable_bounds_decay_v0.1.0",
+        "asset_id": "fixture:noisy_tail",
+        "canonical_pcm_sha256": "3c0af2a0ccc78a2f41dd20262a0659a3034484645006e0d645d815816a748801",
+        "channels": 2,
+        "decision": {
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED"
+          ],
+          "library_authority": false,
+          "source_bytes_unchanged": true,
+          "status": "blocked",
+          "suggestion_only": true
+        },
+        "frame_count": 4800,
+        "item_id": "ITEM-W64-073",
+        "measurements": {
+          "attack_seconds": 0.003104167,
+          "leading_silence_samples": 401,
+          "leading_silence_seconds": 0.008354167,
+          "natural_decay_end_sample": 4799,
+          "noise_only_tail": false,
+          "onset_preservation_ok": true,
+          "release_seconds": 0.088270833,
+          "sustain_seconds": 0.00025,
+          "tail_preservation_ok": true,
+          "trailing_silence_samples": 1,
+          "trailing_silence_seconds": 2.0833e-05,
+          "usable_end_sample": 4799,
+          "usable_start_sample": 401
+        },
+        "method_provenance": {
+          "attack": {
+            "method_id": "pcm_attack_to_peak_v1",
+            "unit": "seconds",
+            "window": "usable_start_to_peak"
+          },
+          "leading_silence": {
+            "method_id": "pcm_leading_silence_hysteresis_v1",
+            "unit": "samples_and_seconds",
+            "window": "prefix_until_enter_threshold"
+          },
+          "natural_decay": {
+            "method_id": "pcm_natural_decay_end_v1",
+            "unit": "sample_index",
+            "window": "usable_region_envelope"
+          },
+          "noise_only_tail": {
+            "method_id": "pcm_noise_only_tail_classifier_v1",
+            "unit": "boolean",
+            "window": "post_release_to_usable_end"
+          },
+          "release": {
+            "method_id": "pcm_release_to_natural_decay_v1",
+            "unit": "seconds",
+            "window": "release_start_to_natural_decay_end"
+          },
+          "sustain": {
+            "method_id": "pcm_sustain_above_release_floor_v1",
+            "unit": "seconds",
+            "window": "peak_to_release_start"
+          },
+          "trailing_silence": {
+            "method_id": "pcm_trailing_silence_hysteresis_v1",
+            "unit": "samples_and_seconds",
+            "window": "suffix_until_enter_threshold"
+          },
+          "usable_bounds": {
+            "method_id": "pcm_usable_bounds_from_silence_v1",
+            "unit": "sample_index",
+            "window": "first_to_last_non_silence"
+          }
+        },
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "source_after_sha256": "346ad3880f0b431e24ddd9c2691926d55d6ccb570319e0a51234fe5d75d37128",
+        "source_before_sha256": "346ad3880f0b431e24ddd9c2691926d55d6ccb570319e0a51234fe5d75d37128",
+        "source_sha256": "346ad3880f0b431e24ddd9c2691926d55d6ccb570319e0a51234fe5d75d37128",
+        "thresholds": {
+          "channel_policy": "max_abs_mono",
+          "destructive_trim_allowed": false,
+          "hysteresis_db": 6.0,
+          "min_silence_ms": 5.0,
+          "silence_threshold_dbfs": -50.0,
+          "suggestion_only": true
+        },
+        "tracker_id": "TRK-W64-073"
+      },
+      {
+        "analysis_pipeline_revision": "wave64_row073_usable_bounds_decay_v0.1.0",
+        "asset_id": "fixture:gradual_attack",
+        "canonical_pcm_sha256": "48b43c95aa2fa1a1eadfd94b31fb3a0770dcaf26ea05bc2b1904b5ae643e6beb",
+        "channels": 2,
+        "decision": {
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED"
+          ],
+          "library_authority": false,
+          "source_bytes_unchanged": true,
+          "status": "blocked",
+          "suggestion_only": true
+        },
+        "frame_count": 4800,
+        "item_id": "ITEM-W64-073",
+        "measurements": {
+          "attack_seconds": 0.028958333,
+          "leading_silence_samples": 610,
+          "leading_silence_seconds": 0.012708333,
+          "natural_decay_end_sample": 4194,
+          "noise_only_tail": false,
+          "onset_preservation_ok": true,
+          "release_seconds": 0.045375,
+          "sustain_seconds": 0.000333333,
+          "tail_preservation_ok": true,
+          "trailing_silence_samples": 606,
+          "trailing_silence_seconds": 0.012625,
+          "usable_end_sample": 4194,
+          "usable_start_sample": 610
+        },
+        "method_provenance": {
+          "attack": {
+            "method_id": "pcm_attack_to_peak_v1",
+            "unit": "seconds",
+            "window": "usable_start_to_peak"
+          },
+          "leading_silence": {
+            "method_id": "pcm_leading_silence_hysteresis_v1",
+            "unit": "samples_and_seconds",
+            "window": "prefix_until_enter_threshold"
+          },
+          "natural_decay": {
+            "method_id": "pcm_natural_decay_end_v1",
+            "unit": "sample_index",
+            "window": "usable_region_envelope"
+          },
+          "noise_only_tail": {
+            "method_id": "pcm_noise_only_tail_classifier_v1",
+            "unit": "boolean",
+            "window": "post_release_to_usable_end"
+          },
+          "release": {
+            "method_id": "pcm_release_to_natural_decay_v1",
+            "unit": "seconds",
+            "window": "release_start_to_natural_decay_end"
+          },
+          "sustain": {
+            "method_id": "pcm_sustain_above_release_floor_v1",
+            "unit": "seconds",
+            "window": "peak_to_release_start"
+          },
+          "trailing_silence": {
+            "method_id": "pcm_trailing_silence_hysteresis_v1",
+            "unit": "samples_and_seconds",
+            "window": "suffix_until_enter_threshold"
+          },
+          "usable_bounds": {
+            "method_id": "pcm_usable_bounds_from_silence_v1",
+            "unit": "sample_index",
+            "window": "first_to_last_non_silence"
+          }
+        },
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "source_after_sha256": "b2d7e844fd67d8e8f0ac71f0613c1e24b3f0fb71befbe02880a95bb730e61049",
+        "source_before_sha256": "b2d7e844fd67d8e8f0ac71f0613c1e24b3f0fb71befbe02880a95bb730e61049",
+        "source_sha256": "b2d7e844fd67d8e8f0ac71f0613c1e24b3f0fb71befbe02880a95bb730e61049",
+        "thresholds": {
+          "channel_policy": "max_abs_mono",
+          "destructive_trim_allowed": false,
+          "hysteresis_db": 6.0,
+          "min_silence_ms": 5.0,
+          "silence_threshold_dbfs": -50.0,
+          "suggestion_only": true
+        },
+        "tracker_id": "TRK-W64-073"
+      }
+    ]
+  },
+  "implementation_completion_claimed": false,
+  "item_id": "ITEM-W64-073",
+  "library_authority": false,
+  "method_provenance": {
+    "attack": {
+      "method_id": "pcm_attack_to_peak_v1",
+      "unit": "seconds",
+      "window": "usable_start_to_peak"
+    },
+    "leading_silence": {
+      "method_id": "pcm_leading_silence_hysteresis_v1",
+      "unit": "samples_and_seconds",
+      "window": "prefix_until_enter_threshold"
+    },
+    "natural_decay": {
+      "method_id": "pcm_natural_decay_end_v1",
+      "unit": "sample_index",
+      "window": "usable_region_envelope"
+    },
+    "noise_only_tail": {
+      "method_id": "pcm_noise_only_tail_classifier_v1",
+      "unit": "boolean",
+      "window": "post_release_to_usable_end"
+    },
+    "release": {
+      "method_id": "pcm_release_to_natural_decay_v1",
+      "unit": "seconds",
+      "window": "release_start_to_natural_decay_end"
+    },
+    "sustain": {
+      "method_id": "pcm_sustain_above_release_floor_v1",
+      "unit": "seconds",
+      "window": "peak_to_release_start"
+    },
+    "trailing_silence": {
+      "method_id": "pcm_trailing_silence_hysteresis_v1",
+      "unit": "samples_and_seconds",
+      "window": "suffix_until_enter_threshold"
+    },
+    "usable_bounds": {
+      "method_id": "pcm_usable_bounds_from_silence_v1",
+      "unit": "sample_index",
+      "window": "first_to_last_non_silence"
+    }
+  },
+  "row071_admission": {
+    "blocker_codes": [
+      "ROW071_DEPENDENCY_NOT_ACCEPTED"
+    ],
+    "bytes": 7370,
+    "dependency_satisfied": false,
+    "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-071_WAVEFORM_FEATURE_EXTRACTION_CURRENT_DELTA_20260719.json",
+    "row_complete": false,
+    "sha256": "4118ecf426dc54242b049e15e27981097a29044d954bd21992dce85aca432def",
+    "status": "HOLD_ROW070_CANONICAL_DECODE_AND_FULL_LIBRARY_FEATURE_RUNTIME_ABSENT",
+    "tracker_id": "TRK-W64-071"
+  },
+  "row072_admission": {
+    "blocker_codes": [
+      "ROW072_DEPENDENCY_NOT_ACCEPTED"
+    ],
+    "bytes": 18358,
+    "dependency_satisfied": false,
+    "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ONSET_TRANSIENT_ANCHOR_CURRENT_DELTA_20260719.json",
+    "row_complete": false,
+    "sha256": "c116e844619e320341e4dd1707b8c0711288784984f858bc17585b3a2b694778",
+    "status": "HOLD_DEPENDENCIES_DETECTOR_THRESHOLD_REGISTRY_AND_BENCHMARK_AUTHORITY_ABSENT",
+    "tracker_id": "TRK-W64-072"
+  },
+  "row_complete": false,
+  "runtime_completion_claimed": false,
+  "schema_version": "1.0.0",
+  "status": "HOLD_ROW071_ROW072_DEPENDENCIES_AND_FULL_LIBRARY_BOUNDS_RUNTIME_ABSENT",
+  "thresholds": {
+    "channel_policy": "max_abs_mono",
+    "destructive_trim_allowed": false,
+    "hysteresis_db": 6.0,
+    "min_silence_ms": 5.0,
+    "silence_threshold_dbfs": -50.0,
+    "suggestion_only": true
+  },
+  "tracker_id": "TRK-W64-073"
+}
