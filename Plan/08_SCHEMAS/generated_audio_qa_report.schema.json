@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/generated_audio_qa_report.schema.json",
+  "title": "Generated Audio QA Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "report_id", "provenance_sha256", "output_sha256", "threshold_policy", "gates", "unexpected_classes", "decision"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "report_id": {"type": "string", "minLength": 1},
+    "provenance_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "output_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "event_manifest_sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+    "threshold_policy": {"type": "object", "required": ["policy_id", "revision", "sha256"], "additionalProperties": true},
+    "gates": {
+      "type": "object",
+      "required": ["rights", "decode", "technical", "semantic", "timing", "acoustic", "uniqueness", "global_mix"],
+      "properties": {
+        "rights": {"enum": ["pass", "blocked", "failed", "not_applicable"]},
+        "decode": {"enum": ["pass", "blocked", "failed"]},
+        "technical": {"enum": ["pass", "blocked", "failed"]},
+        "semantic": {"enum": ["pass", "blocked", "failed"]},
+        "timing": {"enum": ["pass", "blocked", "failed", "not_applicable"]},
+        "acoustic": {"enum": ["pass", "blocked", "failed"]},
+        "uniqueness": {"enum": ["pass", "blocked", "failed"]},
+        "global_mix": {"enum": ["pass", "blocked", "failed", "not_run"]}
+      },
+      "additionalProperties": true
+    },
+    "measurements": {"type": "object", "additionalProperties": true},
+    "semantic_evidence": {"type": "array", "minItems": 2, "items": {"type": "object", "additionalProperties": true}},
+    "unexpected_classes": {"type": "array", "items": {"type": "string"}},
+    "defects": {"type": "array", "items": {"type": "string"}},
+    "playback_review": {"type": ["object", "null"], "additionalProperties": true},
+    "decision": {
+      "type": "object",
+      "required": ["classification", "reusable_library_promotion_allowed", "reason"],
+      "properties": {
+        "classification": {"enum": ["pass", "blocked", "failed", "abstained"]},
+        "reusable_library_promotion_allowed": {"type": "boolean"},
+        "reason": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    }
+  }
+}

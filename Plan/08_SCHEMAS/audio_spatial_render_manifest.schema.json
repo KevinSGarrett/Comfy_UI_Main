@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/audio_spatial_render_manifest.schema.json",
+  "title": "Audio Spatial Render Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "render_id", "event_manifest_sha256", "room", "listener", "sources", "renderer", "output", "validation"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "render_id": {"type": "string", "minLength": 1},
+    "event_manifest_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "room": {
+      "type": "object",
+      "required": ["profile_id", "dimensions_m", "surface_materials", "target_rt60_seconds", "authority"],
+      "properties": {
+        "profile_id": {"type": "string", "minLength": 1},
+        "dimensions_m": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"type": "number", "exclusiveMinimum": 0}},
+        "surface_materials": {"type": "object", "minProperties": 1},
+        "target_rt60_seconds": {"type": "number", "minimum": 0},
+        "authority": {"enum": ["measured", "registered", "estimated", "unknown"]}
+      },
+      "additionalProperties": true
+    },
+    "listener": {"type": "object", "required": ["position_m", "orientation"], "additionalProperties": true},
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["event_id", "prepared_clip_sha256", "trajectory", "distance_model", "occlusion", "wet_source_policy"],
+        "properties": {
+          "event_id": {"type": "string", "minLength": 1},
+          "prepared_clip_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "trajectory": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": true}},
+          "distance_model": {"type": "string", "minLength": 1},
+          "occlusion": {"type": "object"},
+          "wet_source_policy": {"enum": ["dry_render", "compatible_wet_passthrough", "limited_processing", "reject"]}
+        },
+        "additionalProperties": true
+      }
+    },
+    "renderer": {"type": "object", "required": ["name", "revision", "configuration_sha256"], "additionalProperties": true},
+    "output": {"type": "object", "required": ["path", "sha256", "canonical_pcm_sha256", "sample_rate_hz", "channels"], "additionalProperties": true},
+    "validation": {
+      "type": "object",
+      "required": ["measured_rt60_seconds", "rt60_pass", "trajectory_pass", "phase_pass", "clipping_pass", "decision"],
+      "properties": {
+        "measured_rt60_seconds": {"type": ["number", "null"], "minimum": 0},
+        "rt60_pass": {"type": "boolean"},
+        "trajectory_pass": {"type": "boolean"},
+        "phase_pass": {"type": "boolean"},
+        "clipping_pass": {"type": "boolean"},
+        "decision": {"enum": ["pass", "blocked", "failed"]}
+      },
+      "additionalProperties": true
+    }
+  }
+}

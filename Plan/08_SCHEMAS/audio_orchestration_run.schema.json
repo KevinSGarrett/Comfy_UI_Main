@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/audio_orchestration_run.schema.json",
+  "title": "Audio Orchestration Run",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "run_id", "request_sha256", "inputs", "policy_revision", "stages", "outputs", "decision"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "run_id": {"type": "string", "minLength": 1},
+    "request_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "inputs": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["role", "sha256"], "additionalProperties": true}},
+    "policy_revision": {"type": "string", "minLength": 1},
+    "stages": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["stage_id", "status", "input_hashes", "output_hashes", "implementation_revision", "started_at", "ended_at"],
+        "properties": {
+          "stage_id": {"type": "string", "minLength": 1},
+          "status": {"enum": ["pending", "running", "pass", "blocked", "failed", "abstained", "reused"]},
+          "input_hashes": {"type": "array", "items": {"type": "string", "pattern": "^[a-f0-9]{64}$"}},
+          "output_hashes": {"type": "array", "items": {"type": "string", "pattern": "^[a-f0-9]{64}$"}},
+          "implementation_revision": {"type": "string", "minLength": 1},
+          "started_at": {"type": "string", "format": "date-time"},
+          "ended_at": {"type": "string", "format": "date-time"},
+          "blockers": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": true
+      }
+    },
+    "outputs": {"type": "array", "items": {"type": "object", "required": ["role", "path", "sha256"], "additionalProperties": true}},
+    "decision": {
+      "type": "object",
+      "required": ["classification", "production_release_allowed", "generated_asset_promotion_allowed", "reason"],
+      "properties": {
+        "classification": {"enum": ["pass", "blocked", "failed", "abstained"]},
+        "production_release_allowed": {"type": "boolean"},
+        "generated_asset_promotion_allowed": {"type": "boolean"},
+        "reason": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    }
+  }
+}

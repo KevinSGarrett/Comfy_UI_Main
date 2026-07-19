@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/audio_asset_intelligence_record.schema.json",
+  "title": "Audio Asset Intelligence Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "asset_id", "source_sha256", "canonical_pcm_sha256",
+    "analysis_pipeline", "technical", "anchors", "segments", "semantics",
+    "acoustics", "quality", "rights", "content_based_suppression"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0"},
+    "asset_id": {"type": "string", "minLength": 1},
+    "source_path": {"type": "string"},
+    "source_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "canonical_pcm_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "analysis_pipeline": {
+      "type": "object",
+      "required": ["revision", "decoder", "model_hashes"],
+      "properties": {
+        "revision": {"type": "string", "minLength": 1},
+        "decoder": {"type": "string", "minLength": 1},
+        "model_hashes": {"type": "object", "additionalProperties": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+      },
+      "additionalProperties": true
+    },
+    "technical": {
+      "type": "object",
+      "required": ["decode_status", "duration_seconds", "sample_rate_hz", "channels"],
+      "properties": {
+        "decode_status": {"enum": ["pass", "blocked", "failed"]},
+        "duration_seconds": {"type": "number", "minimum": 0},
+        "sample_rate_hz": {"type": "integer", "minimum": 1},
+        "channels": {"type": "integer", "minimum": 1},
+        "integrated_lufs": {"type": ["number", "null"]},
+        "true_peak_dbtp": {"type": ["number", "null"]}
+      },
+      "additionalProperties": true
+    },
+    "anchors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["anchor_type", "sample_index", "seconds", "confidence"],
+        "properties": {
+          "anchor_type": {"enum": ["onset", "attack_peak", "energy_peak", "offset", "decay_end"]},
+          "sample_index": {"type": "integer", "minimum": 0},
+          "seconds": {"type": "number", "minimum": 0},
+          "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+          "method": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "segments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["segment_id", "start_sample", "end_sample", "confidence"],
+        "properties": {
+          "segment_id": {"type": "string", "minLength": 1},
+          "start_sample": {"type": "integer", "minimum": 0},
+          "end_sample": {"type": "integer", "minimum": 1},
+          "confidence": {"type": "number", "minimum": 0, "maximum": 1}
+        },
+        "additionalProperties": true
+      }
+    },
+    "semantics": {
+      "type": "object",
+      "required": ["event_family", "material", "confidence", "evidence_sources"],
+      "properties": {
+        "event_family": {"type": "string", "minLength": 1},
+        "material": {"type": "string", "minLength": 1},
+        "body_part": {"type": ["string", "null"]},
+        "footwear": {"type": ["string", "null"]},
+        "force_band": {"type": ["string", "null"]},
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "evidence_sources": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      },
+      "additionalProperties": true
+    },
+    "acoustics": {"type": "object", "additionalProperties": true},
+    "quality": {
+      "type": "object",
+      "required": ["decision", "defects"],
+      "properties": {
+        "decision": {"enum": ["eligible", "limited", "ineligible", "unknown"]},
+        "defects": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": true
+    },
+    "rights": {
+      "type": "object",
+      "required": ["decision", "license", "derivative_use_allowed", "attribution"],
+      "properties": {
+        "decision": {"enum": ["pass", "blocked", "failed"]},
+        "license": {"type": "string", "minLength": 1},
+        "derivative_use_allowed": {"type": ["boolean", "null"]},
+        "attribution": {"type": "string"}
+      },
+      "additionalProperties": true
+    },
+    "content_based_suppression": {"const": false}
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/audio_candidate_score_record.schema.json",
+  "title": "Audio Candidate Score Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "event_id", "query_hash", "index_revision", "policy_revision", "candidates", "decision"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "event_id": {"type": "string", "minLength": 1},
+    "query_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "index_revision": {"type": "string", "minLength": 1},
+    "policy_revision": {"type": "string", "minLength": 1},
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["candidate_id", "asset_sha256", "eligible", "hard_exclusions", "components", "total_score", "rank"],
+        "properties": {
+          "candidate_id": {"type": "string", "minLength": 1},
+          "asset_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "eligible": {"type": "boolean"},
+          "hard_exclusions": {"type": "array", "items": {"type": "string"}},
+          "components": {"type": "object", "additionalProperties": {"type": "number"}},
+          "penalties": {"type": "object", "additionalProperties": {"type": "number"}},
+          "total_score": {"type": "number"},
+          "rank": {"type": "integer", "minimum": 1},
+          "explanation": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": false
+      }
+    },
+    "decision": {
+      "type": "object",
+      "required": ["route", "selected_candidate_id", "confidence", "reason"],
+      "properties": {
+        "route": {"enum": ["library", "deterministic_variation", "layered_synthesis", "text_to_audio", "audio_to_audio", "video_to_audio", "procedural", "abstain"]},
+        "selected_candidate_id": {"type": ["string", "null"]},
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "reason": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    }
+  }
+}

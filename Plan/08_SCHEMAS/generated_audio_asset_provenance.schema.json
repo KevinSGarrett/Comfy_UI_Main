@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/generated_audio_asset_provenance.schema.json",
+  "title": "Generated Audio Asset Provenance",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "generated_asset_id", "generation_route", "engine", "inputs",
+    "structured_prompt_sha256", "seed", "output", "rights", "qa_state", "promotion_state",
+    "content_based_suppression"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "generated_asset_id": {"type": "string", "minLength": 1},
+    "generation_route": {"enum": ["deterministic_variation", "layered_synthesis", "procedural", "text_to_audio", "audio_to_audio", "video_to_audio"]},
+    "engine": {
+      "type": "object",
+      "required": ["name", "revision", "model", "model_revision", "model_sha256", "configuration_sha256", "environment_sha256"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "revision": {"type": "string", "minLength": 1},
+        "model": {"type": "string", "minLength": 1},
+        "model_revision": {"type": "string", "minLength": 1},
+        "model_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "configuration_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "environment_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      },
+      "additionalProperties": true
+    },
+    "inputs": {"type": "array", "items": {"type": "object", "required": ["role", "sha256"], "additionalProperties": true}},
+    "structured_prompt_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "event_manifest_sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+    "seed": {"type": ["integer", "string"]},
+    "output": {
+      "type": "object",
+      "required": ["path", "sha256", "canonical_pcm_sha256", "duration_seconds", "sample_rate_hz", "channels"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "canonical_pcm_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "duration_seconds": {"type": "number", "exclusiveMinimum": 0},
+        "sample_rate_hz": {"type": "integer", "minimum": 1},
+        "channels": {"type": "integer", "minimum": 1}
+      },
+      "additionalProperties": false
+    },
+    "rights": {"type": "object", "required": ["decision", "output_use", "derivative_chain"], "additionalProperties": true},
+    "qa_state": {"enum": ["not_run", "blocked", "failed", "technical_pass", "autonomous_qa_pass", "playback_pass"]},
+    "qa_report_sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+    "promotion_state": {"enum": ["staged_candidate", "rejected", "promoted", "revoked", "superseded"]},
+    "content_based_suppression": {"const": false}
+  }
+}
