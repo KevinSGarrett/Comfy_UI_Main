@@ -1,0 +1,1255 @@
+{
+  "allowed_stem_buses": [
+    "dialogue",
+    "foley",
+    "ambience",
+    "music",
+    "room",
+    "master"
+  ],
+  "blocker_codes": [
+    "TRK_W64_091_DEPENDENCY_NOT_ACCEPTED",
+    "TRK_W64_093_DEPENDENCY_NOT_ACCEPTED",
+    "TRK_W64_094_DEPENDENCY_NOT_ACCEPTED",
+    "TRK_W64_095_DEPENDENCY_NOT_ACCEPTED",
+    "TRK_W64_096_DEPENDENCY_NOT_ACCEPTED",
+    "ROW097_DEPENDENCIES_NOT_ACCEPTED",
+    "DEDICATED_LIBRARY_MIX_MUX_RUNTIME_ABSENT",
+    "PRODUCTION_STEM_AND_SPATIAL_ROOM_BINDING_ABSENT",
+    "GENUINE_AUDIO_QA_AND_RUNTIME_PROOF_ABSENT"
+  ],
+  "decision": {
+    "product_completion": false,
+    "row097_acceptance": "held",
+    "runtime_completion": false,
+    "safe_next_action": "Accept Rows091, 093, 094, 095, and 096; bind production stems with spatial/room renders to a sample-accurate schedule; execute mix/mux with loudness and true-peak gates; seal stem-manifest and mux lineage hashes; pass waveform/spectrogram/AV review; then replace this hold packet.",
+    "status": "blocked"
+  },
+  "dependency_admissions": {
+    "TRK-W64-091": {
+      "blocker_codes": [
+        "TRK_W64_091_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "bytes": 23572,
+      "dependency_satisfied": false,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "sha256": "055e73b6d64bc3bcf2184fe8de9b5360e63a014e39643fad37ff8249225a75a5",
+      "status": "HOLD_DEPENDENCIES_RUNTIME_AND_COMBINED_REVIEW_ABSENT_WITH_FIXTURE_DECISION_PHASE_PACKETS_PRESENT",
+      "tracker_id": "TRK-W64-091"
+    },
+    "TRK-W64-093": {
+      "blocker_codes": [
+        "TRK_W64_093_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "bytes": 13813,
+      "dependency_satisfied": false,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-093_CANONICAL_CLIP_PREPARATION_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "sha256": "3f11d692b8f79751cdd19e57e746187c44c23b3ee1bd3bf46796b789e5740c66",
+      "status": "HOLD_FIVE_DEPENDENCIES_PRODUCTION_CLIP_PREPARER_RUNTIME_AND_AUDIO_QA_ABSENT",
+      "tracker_id": "TRK-W64-093"
+    },
+    "TRK-W64-094": {
+      "blocker_codes": [
+        "TRK_W64_094_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "bytes": 11765,
+      "dependency_satisfied": false,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-094_LAYERED_FOLEY_COMPOSITION_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "sha256": "b8f748823b29856ebc0d5babb1f2cee5831af6248d04eb09d5b998fc467ae772",
+      "status": "HOLD_DEPENDENCIES_AND_LIBRARY_LAYER_COMPOSER_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+      "tracker_id": "TRK-W64-094"
+    },
+    "TRK-W64-095": {
+      "blocker_codes": [
+        "TRK_W64_095_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "bytes": 24663,
+      "dependency_satisfied": false,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-095_SPATIAL_AUDIO_RENDERER_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "sha256": "57a8fef90db378bb2f90ef1f1cc173c813941f4403ddc5c9d13a0625379937ab",
+      "status": "HOLD_THREE_DEPENDENCIES_STRICT_CONTRACT_SLICE_LANDED_EVENT_DRIVEN_PRODUCTION_SPATIAL_RENDERER_RUNTIME_AND_AUDIO_QA_ABSENT",
+      "tracker_id": "TRK-W64-095"
+    },
+    "TRK-W64-096": {
+      "blocker_codes": [
+        "TRK_W64_096_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "bytes": 6726,
+      "dependency_satisfied": false,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-096_ROOM_ACOUSTIC_RENDERER_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "sha256": "ccc7619cf4b0638e7b64e51eb55c722c3f87870d27cd82895d36e547e1c936c8",
+      "status": "HOLD_DEPENDENCIES_AND_EVENT_DRIVEN_ROOM_ACOUSTIC_RUNTIME_AUTHORITY_ABSENT",
+      "tracker_id": "TRK-W64-096"
+    }
+  },
+  "engine_revision": "wave64_row097_sample_accurate_mix_mux_engine_v0.1.0",
+  "evidence_id": "TRK-W64-097_sample_accurate_mix_mux",
+  "fixture_calibration": {
+    "authority": "synthetic_non_library",
+    "determinism_note": "Fixture records prove sample schedule, bus processing, loudness, true-peak, stem-manifest recomputation, and mux-lineage stability; they do not accept Row097 library completion or substitute for genuine audio QA.",
+    "fixture_count": 6,
+    "records": [
+      {
+        "decision": {
+          "blocker_codes": [],
+          "product_completion": false,
+          "reason": "all_required_gates_passed_for_synthetic_or_fixture_mix_mux",
+          "route": "mix_mux",
+          "row097_acceptance": "fixture_only",
+          "status": "mixed"
+        },
+        "dependency_admissions": {
+          "TRK-W64-091": {
+            "blocker_codes": [
+              "TRK_W64_091_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 23572,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "055e73b6d64bc3bcf2184fe8de9b5360e63a014e39643fad37ff8249225a75a5",
+            "status": "HOLD_DEPENDENCIES_RUNTIME_AND_COMBINED_REVIEW_ABSENT_WITH_FIXTURE_DECISION_PHASE_PACKETS_PRESENT",
+            "tracker_id": "TRK-W64-091"
+          },
+          "TRK-W64-093": {
+            "blocker_codes": [
+              "TRK_W64_093_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 13813,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-093_CANONICAL_CLIP_PREPARATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "3f11d692b8f79751cdd19e57e746187c44c23b3ee1bd3bf46796b789e5740c66",
+            "status": "HOLD_FIVE_DEPENDENCIES_PRODUCTION_CLIP_PREPARER_RUNTIME_AND_AUDIO_QA_ABSENT",
+            "tracker_id": "TRK-W64-093"
+          },
+          "TRK-W64-094": {
+            "blocker_codes": [
+              "TRK_W64_094_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11765,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-094_LAYERED_FOLEY_COMPOSITION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "b8f748823b29856ebc0d5babb1f2cee5831af6248d04eb09d5b998fc467ae772",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_LAYER_COMPOSER_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-094"
+          },
+          "TRK-W64-095": {
+            "blocker_codes": [
+              "TRK_W64_095_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 24663,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-095_SPATIAL_AUDIO_RENDERER_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "57a8fef90db378bb2f90ef1f1cc173c813941f4403ddc5c9d13a0625379937ab",
+            "status": "HOLD_THREE_DEPENDENCIES_STRICT_CONTRACT_SLICE_LANDED_EVENT_DRIVEN_PRODUCTION_SPATIAL_RENDERER_RUNTIME_AND_AUDIO_QA_ABSENT",
+            "tracker_id": "TRK-W64-095"
+          },
+          "TRK-W64-096": {
+            "blocker_codes": [
+              "TRK_W64_096_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 6726,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-096_ROOM_ACOUSTIC_RENDERER_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "ccc7619cf4b0638e7b64e51eb55c722c3f87870d27cd82895d36e547e1c936c8",
+            "status": "HOLD_DEPENDENCIES_AND_EVENT_DRIVEN_ROOM_ACOUSTIC_RUNTIME_AUTHORITY_ABSENT",
+            "tracker_id": "TRK-W64-096"
+          }
+        },
+        "engine_revision": "wave64_row097_sample_accurate_mix_mux_engine_v0.1.0",
+        "exclusions": [],
+        "expected_stems": [
+          "dialogue",
+          "foley",
+          "ambience",
+          "room"
+        ],
+        "gate_results": {
+          "bus_processing": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "loudness": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "mux_lineage": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "sample_schedule": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "stem_manifest": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "true_peak": {
+            "reason_codes": [],
+            "status": "pass"
+          }
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-097",
+        "library_authority": false,
+        "mix_recipe": {
+          "channels": 2,
+          "measured_lufs": -16.0,
+          "measured_true_peak_dbtp": -1.2,
+          "minimum_headroom_db": 1.0,
+          "ordered_stem_buses": [
+            "dialogue",
+            "foley",
+            "ambience",
+            "room"
+          ],
+          "recipe_sha256": "8f3ef14070e4705bf95224c6b982b4f47f9deb85d945f9df65fa23d491f1d689",
+          "sample_rate_hz": 48000,
+          "target_lufs": -16.0,
+          "true_peak_ceiling_dbtp": -1.0
+        },
+        "mux": {
+          "audio_sample_count": 96000,
+          "endpoint_drift_samples": 0,
+          "mix_pcm_sha256": "8ab0772f3f6f81ca75d45801e7e5d69f4b9384e5b87f8baec802574b8e0c66f1",
+          "mux_container_sha256": "083addf4adad3a6af1b3638aec37a4b7644de8c560bf8751c4bf1a10540b2386",
+          "mux_lineage_sha256": "b8928f4f032a21efa193946ec1e96ab66eaaff3d1033a2803b35896c132a962b",
+          "reconstructable": true,
+          "stem_manifest_sha256": "9253959164e30a42747a6f7962225ca0c829c90c25a1925f0a94c2cde37ff614",
+          "video_frame_count": 60
+        },
+        "policy_revision": "wave64_row097_sample_accurate_mix_mux_v0.1.0",
+        "policy_sha256": "e65b20845800fcf036797aa9d1962141d5d248fefac3a735f72d58a17d02e15a",
+        "receipt_sha256": "9f146107bcc04f2ec0b44302494751024f46bb83f06ed361286c5310ef2ec951",
+        "record_type": "sample_accurate_mix_mux_receipt",
+        "required_gates": [
+          "sample_schedule",
+          "bus_processing",
+          "loudness",
+          "true_peak",
+          "stem_manifest",
+          "mux_lineage"
+        ],
+        "schema_version": "1.0.0",
+        "stems": [
+          {
+            "admitted": true,
+            "asset_id": "fixture:dialogue",
+            "bus_gain_db": 0.0,
+            "end_sample": 96000,
+            "gain_db": -2.0,
+            "source_pcm_sha256": "ac467cd15d32854a06b280db869408ee2745b1c1aa44093d1fa7ace2cee78baf",
+            "start_sample": 0,
+            "stem_bus": "dialogue",
+            "stem_pcm_sha256": "5297026869628a5f2d30015a93b3f0994b6fc3f94f42b55909f9c3778d4be5c0"
+          },
+          {
+            "admitted": true,
+            "asset_id": "fixture:foley",
+            "bus_gain_db": 0.0,
+            "end_sample": 24000,
+            "gain_db": -4.0,
+            "source_pcm_sha256": "23091f829700a7bcc0ef4fc08431e3a29ac8611c815cef42d0006977cb2f119f",
+            "start_sample": 1200,
+            "stem_bus": "foley",
+            "stem_pcm_sha256": "8b89c6f8b96c06b9b74a7ccd8c7762874b2c1aa0dd1d2a049a9608269acb81d1"
+          },
+          {
+            "admitted": true,
+            "asset_id": "fixture:ambience",
+            "bus_gain_db": 0.0,
+            "end_sample": 96000,
+            "gain_db": -12.0,
+            "source_pcm_sha256": "107f48e1c73cd079184d889326b9db3fe45c41dc5d09e97204ff6f576e4e9c6c",
+            "start_sample": 0,
+            "stem_bus": "ambience",
+            "stem_pcm_sha256": "76cd3819517d8a0dc7f2a0e28849fe34fb741a5be182cf492327acfdf4215186"
+          },
+          {
+            "admitted": true,
+            "asset_id": "fixture:room",
+            "bus_gain_db": 0.0,
+            "end_sample": 96000,
+            "gain_db": -9.0,
+            "source_pcm_sha256": "7aeba0426f374a27daaf3a2c98a5b15d9b8749501e215a2f15fed2fdfcc625f3",
+            "start_sample": 0,
+            "stem_bus": "room",
+            "stem_pcm_sha256": "ae53e743ffe321d9e7afc56c161acb59d6cd9739b2ffc203ac8b51bf743b7f44"
+          }
+        ],
+        "timeline_id": "tl_compatible_mix_mux",
+        "tracker_id": "TRK-W64-097",
+        "video_timeline_sha256": "e6cfea98dab976875f1cf82b2f0ebe37dd1ca52fd8076708836d6d8d6aa04c5e"
+      },
+      {
+        "decision": {
+          "blocker_codes": [
+            "MISSING_EXPECTED_STEM"
+          ],
+          "product_completion": false,
+          "reason": "fail_closed_mix_mux_schedule_loudness_or_stem_blocker",
+          "route": "blocked",
+          "row097_acceptance": "held",
+          "status": "blocked"
+        },
+        "dependency_admissions": {
+          "TRK-W64-091": {
+            "blocker_codes": [
+              "TRK_W64_091_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 23572,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "055e73b6d64bc3bcf2184fe8de9b5360e63a014e39643fad37ff8249225a75a5",
+            "status": "HOLD_DEPENDENCIES_RUNTIME_AND_COMBINED_REVIEW_ABSENT_WITH_FIXTURE_DECISION_PHASE_PACKETS_PRESENT",
+            "tracker_id": "TRK-W64-091"
+          },
+          "TRK-W64-093": {
+            "blocker_codes": [
+              "TRK_W64_093_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 13813,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-093_CANONICAL_CLIP_PREPARATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "3f11d692b8f79751cdd19e57e746187c44c23b3ee1bd3bf46796b789e5740c66",
+            "status": "HOLD_FIVE_DEPENDENCIES_PRODUCTION_CLIP_PREPARER_RUNTIME_AND_AUDIO_QA_ABSENT",
+            "tracker_id": "TRK-W64-093"
+          },
+          "TRK-W64-094": {
+            "blocker_codes": [
+              "TRK_W64_094_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11765,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-094_LAYERED_FOLEY_COMPOSITION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "b8f748823b29856ebc0d5babb1f2cee5831af6248d04eb09d5b998fc467ae772",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_LAYER_COMPOSER_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-094"
+          },
+          "TRK-W64-095": {
+            "blocker_codes": [
+              "TRK_W64_095_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 24663,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-095_SPATIAL_AUDIO_RENDERER_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "57a8fef90db378bb2f90ef1f1cc173c813941f4403ddc5c9d13a0625379937ab",
+            "status": "HOLD_THREE_DEPENDENCIES_STRICT_CONTRACT_SLICE_LANDED_EVENT_DRIVEN_PRODUCTION_SPATIAL_RENDERER_RUNTIME_AND_AUDIO_QA_ABSENT",
+            "tracker_id": "TRK-W64-095"
+          },
+          "TRK-W64-096": {
+            "blocker_codes": [
+              "TRK_W64_096_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 6726,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-096_ROOM_ACOUSTIC_RENDERER_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "ccc7619cf4b0638e7b64e51eb55c722c3f87870d27cd82895d36e547e1c936c8",
+            "status": "HOLD_DEPENDENCIES_AND_EVENT_DRIVEN_ROOM_ACOUSTIC_RUNTIME_AUTHORITY_ABSENT",
+            "tracker_id": "TRK-W64-096"
+          }
+        },
+        "engine_revision": "wave64_row097_sample_accurate_mix_mux_engine_v0.1.0",
+        "exclusions": [
+          {
+            "reason_codes": [
+              "MISSING_EXPECTED_STEM"
+            ],
+            "stem_bus": "foley"
+          }
+        ],
+        "expected_stems": [
+          "dialogue",
+          "foley",
+          "ambience"
+        ],
+        "gate_results": {
+          "bus_processing": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "loudness": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "mux_lineage": {
+            "reason_codes": [
+              "MIX_MUX_BLOCKED"
+            ],
+            "status": "skipped"
+          },
+          "sample_schedule": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "stem_manifest": {
+            "reason_codes": [
+              "MISSING_EXPECTED_STEM"
+            ],
+            "status": "fail"
+          },
+          "true_peak": {
+            "reason_codes": [],
+            "status": "pass"
+          }
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-097",
+        "library_authority": false,
+        "mix_recipe": {
+          "channels": 2,
+          "measured_lufs": -16.0,
+          "measured_true_peak_dbtp": -1.5,
+          "minimum_headroom_db": 1.0,
+          "ordered_stem_buses": [
+            "dialogue",
+            "foley",
+            "ambience"
+          ],
+          "recipe_sha256": "6e9d1d848d5a2c2fa1830b6ea6ba777bba69a331415fb74ad815a750280f7874",
+          "sample_rate_hz": 48000,
+          "target_lufs": -16.0,
+          "true_peak_ceiling_dbtp": -1.0
+        },
+        "mux": {
+          "audio_sample_count": 96000,
+          "endpoint_drift_samples": 0,
+          "mix_pcm_sha256": null,
+          "mux_container_sha256": null,
+          "mux_lineage_sha256": null,
+          "reconstructable": false,
+          "stem_manifest_sha256": null,
+          "video_frame_count": 60
+        },
+        "policy_revision": "wave64_row097_sample_accurate_mix_mux_v0.1.0",
+        "policy_sha256": "e65b20845800fcf036797aa9d1962141d5d248fefac3a735f72d58a17d02e15a",
+        "receipt_sha256": "f28efb33a829b59f0928aaaa0b30c6e33af35bf63b2399f62d8da140eaaa456e",
+        "record_type": "sample_accurate_mix_mux_receipt",
+        "required_gates": [
+          "sample_schedule",
+          "bus_processing",
+          "loudness",
+          "true_peak",
+          "stem_manifest",
+          "mux_lineage"
+        ],
+        "schema_version": "1.0.0",
+        "stems": [
+          {
+            "admitted": false,
+            "asset_id": "fixture:dialogue",
+            "bus_gain_db": 0.0,
+            "end_sample": 96000,
+            "gain_db": -3.0,
+            "source_pcm_sha256": "ac467cd15d32854a06b280db869408ee2745b1c1aa44093d1fa7ace2cee78baf",
+            "start_sample": 0,
+            "stem_bus": "dialogue",
+            "stem_pcm_sha256": "2bbc1b33ad92b532eb44c1f5c44dac2676548ac5c07f1a697903c824e0adbb09"
+          },
+          {
+            "admitted": false,
+            "asset_id": "fixture:ambience",
+            "bus_gain_db": 0.0,
+            "end_sample": 96000,
+            "gain_db": -12.0,
+            "source_pcm_sha256": "107f48e1c73cd079184d889326b9db3fe45c41dc5d09e97204ff6f576e4e9c6c",
+            "start_sample": 0,
+            "stem_bus": "ambience",
+            "stem_pcm_sha256": "76cd3819517d8a0dc7f2a0e28849fe34fb741a5be182cf492327acfdf4215186"
+          }
+        ],
+        "timeline_id": "tl_missing_stem",
+        "tracker_id": "TRK-W64-097",
+        "video_timeline_sha256": "82b91f405e8b1bd105dc99c18170731928ae924a99de703855752ccef9bf3f74"
+      },
+      {
+        "decision": {
+          "blocker_codes": [
+            "TRUE_PEAK_EXCEEDANCE"
+          ],
+          "product_completion": false,
+          "reason": "fail_closed_mix_mux_schedule_loudness_or_stem_blocker",
+          "route": "blocked",
+          "row097_acceptance": "held",
+          "status": "blocked"
+        },
+        "dependency_admissions": {
+          "TRK-W64-091": {
+            "blocker_codes": [
+              "TRK_W64_091_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 23572,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "055e73b6d64bc3bcf2184fe8de9b5360e63a014e39643fad37ff8249225a75a5",
+            "status": "HOLD_DEPENDENCIES_RUNTIME_AND_COMBINED_REVIEW_ABSENT_WITH_FIXTURE_DECISION_PHASE_PACKETS_PRESENT",
+            "tracker_id": "TRK-W64-091"
+          },
+          "TRK-W64-093": {
+            "blocker_codes": [
+              "TRK_W64_093_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 13813,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-093_CANONICAL_CLIP_PREPARATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "3f11d692b8f79751cdd19e57e746187c44c23b3ee1bd3bf46796b789e5740c66",
+            "status": "HOLD_FIVE_DEPENDENCIES_PRODUCTION_CLIP_PREPARER_RUNTIME_AND_AUDIO_QA_ABSENT",
+            "tracker_id": "TRK-W64-093"
+          },
+          "TRK-W64-094": {
+            "blocker_codes": [
+              "TRK_W64_094_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11765,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-094_LAYERED_FOLEY_COMPOSITION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "b8f748823b29856ebc0d5babb1f2cee5831af6248d04eb09d5b998fc467ae772",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_LAYER_COMPOSER_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-094"
+          },
+          "TRK-W64-095": {
+            "blocker_codes": [
+              "TRK_W64_095_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 24663,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-095_SPATIAL_AUDIO_RENDERER_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "57a8fef90db378bb2f90ef1f1cc173c813941f4403ddc5c9d13a0625379937ab",
+            "status": "HOLD_THREE_DEPENDENCIES_STRICT_CONTRACT_SLICE_LANDED_EVENT_DRIVEN_PRODUCTION_SPATIAL_RENDERER_RUNTIME_AND_AUDIO_QA_ABSENT",
+            "tracker_id": "TRK-W64-095"
+          },
+          "TRK-W64-096": {
+            "blocker_codes": [
+              "TRK_W64_096_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 6726,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-096_ROOM_ACOUSTIC_RENDERER_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "ccc7619cf4b0638e7b64e51eb55c722c3f87870d27cd82895d36e547e1c936c8",
+            "status": "HOLD_DEPENDENCIES_AND_EVENT_DRIVEN_ROOM_ACOUSTIC_RUNTIME_AUTHORITY_ABSENT",
+            "tracker_id": "TRK-W64-096"
+          }
+        },
+        "engine_revision": "wave64_row097_sample_accurate_mix_mux_engine_v0.1.0",
+        "exclusions": [],
+        "expected_stems": [
+          "dialogue",
+          "foley"
+        ],
+        "gate_results": {
+          "bus_processing": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "loudness": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "mux_lineage": {
+            "reason_codes": [
+              "MIX_MUX_BLOCKED"
+            ],
+            "status": "skipped"
+          },
+          "sample_schedule": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "stem_manifest": {
+            "reason_codes": [
+              "MIX_MUX_BLOCKED"
+            ],
+            "status": "skipped"
+          },
+          "true_peak": {
+            "reason_codes": [
+              "TRUE_PEAK_EXCEEDANCE"
+            ],
+            "status": "fail"
+          }
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-097",
+        "library_authority": false,
+        "mix_recipe": {
+          "channels": 2,
+          "measured_lufs": -15.5,
+          "measured_true_peak_dbtp": 0.3,
+          "minimum_headroom_db": 1.0,
+          "ordered_stem_buses": [
+            "dialogue",
+            "foley"
+          ],
+          "recipe_sha256": "09b50306cda0874bd27041a7882f6edc6857b622c7250445ca32bfe2c3595d9c",
+          "sample_rate_hz": 48000,
+          "target_lufs": -16.0,
+          "true_peak_ceiling_dbtp": -1.0
+        },
+        "mux": {
+          "audio_sample_count": 96000,
+          "endpoint_drift_samples": 0,
+          "mix_pcm_sha256": null,
+          "mux_container_sha256": null,
+          "mux_lineage_sha256": null,
+          "reconstructable": false,
+          "stem_manifest_sha256": null,
+          "video_frame_count": 60
+        },
+        "policy_revision": "wave64_row097_sample_accurate_mix_mux_v0.1.0",
+        "policy_sha256": "e65b20845800fcf036797aa9d1962141d5d248fefac3a735f72d58a17d02e15a",
+        "receipt_sha256": "b16506e0f6319a4aa7f8e50b9e980411b5fbf2cd49776e4cc1591c01e937a222",
+        "record_type": "sample_accurate_mix_mux_receipt",
+        "required_gates": [
+          "sample_schedule",
+          "bus_processing",
+          "loudness",
+          "true_peak",
+          "stem_manifest",
+          "mux_lineage"
+        ],
+        "schema_version": "1.0.0",
+        "stems": [
+          {
+            "admitted": false,
+            "asset_id": "fixture:dialogue",
+            "bus_gain_db": 0.0,
+            "end_sample": 96000,
+            "gain_db": 0.0,
+            "source_pcm_sha256": "ac467cd15d32854a06b280db869408ee2745b1c1aa44093d1fa7ace2cee78baf",
+            "start_sample": 0,
+            "stem_bus": "dialogue",
+            "stem_pcm_sha256": "04a7b33314b174ec492fb74459bd8f201df40fd5ec9798013b0f93a2bb19ec60"
+          },
+          {
+            "admitted": false,
+            "asset_id": "fixture:foley",
+            "bus_gain_db": 0.0,
+            "end_sample": 48000,
+            "gain_db": 0.0,
+            "source_pcm_sha256": "23091f829700a7bcc0ef4fc08431e3a29ac8611c815cef42d0006977cb2f119f",
+            "start_sample": 0,
+            "stem_bus": "foley",
+            "stem_pcm_sha256": "cb3bb192625e1e840dfb0d097bec9fbc612ab257f52779f25630a6eb9b141a13"
+          }
+        ],
+        "timeline_id": "tl_true_peak",
+        "tracker_id": "TRK-W64-097",
+        "video_timeline_sha256": "57c424fcc26566d8de2b9043359350bd0c265c525df747cd3f1e65dee5d0161e"
+      },
+      {
+        "decision": {
+          "blocker_codes": [
+            "ENDPOINT_DRIFT"
+          ],
+          "product_completion": false,
+          "reason": "fail_closed_mix_mux_schedule_loudness_or_stem_blocker",
+          "route": "blocked",
+          "row097_acceptance": "held",
+          "status": "blocked"
+        },
+        "dependency_admissions": {
+          "TRK-W64-091": {
+            "blocker_codes": [
+              "TRK_W64_091_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 23572,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "055e73b6d64bc3bcf2184fe8de9b5360e63a014e39643fad37ff8249225a75a5",
+            "status": "HOLD_DEPENDENCIES_RUNTIME_AND_COMBINED_REVIEW_ABSENT_WITH_FIXTURE_DECISION_PHASE_PACKETS_PRESENT",
+            "tracker_id": "TRK-W64-091"
+          },
+          "TRK-W64-093": {
+            "blocker_codes": [
+              "TRK_W64_093_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 13813,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-093_CANONICAL_CLIP_PREPARATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "3f11d692b8f79751cdd19e57e746187c44c23b3ee1bd3bf46796b789e5740c66",
+            "status": "HOLD_FIVE_DEPENDENCIES_PRODUCTION_CLIP_PREPARER_RUNTIME_AND_AUDIO_QA_ABSENT",
+            "tracker_id": "TRK-W64-093"
+          },
+          "TRK-W64-094": {
+            "blocker_codes": [
+              "TRK_W64_094_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11765,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-094_LAYERED_FOLEY_COMPOSITION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "b8f748823b29856ebc0d5babb1f2cee5831af6248d04eb09d5b998fc467ae772",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_LAYER_COMPOSER_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-094"
+          },
+          "TRK-W64-095": {
+            "blocker_codes": [
+              "TRK_W64_095_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 24663,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-095_SPATIAL_AUDIO_RENDERER_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "57a8fef90db378bb2f90ef1f1cc173c813941f4403ddc5c9d13a0625379937ab",
+            "status": "HOLD_THREE_DEPENDENCIES_STRICT_CONTRACT_SLICE_LANDED_EVENT_DRIVEN_PRODUCTION_SPATIAL_RENDERER_RUNTIME_AND_AUDIO_QA_ABSENT",
+            "tracker_id": "TRK-W64-095"
+          },
+          "TRK-W64-096": {
+            "blocker_codes": [
+              "TRK_W64_096_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 6726,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-096_ROOM_ACOUSTIC_RENDERER_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "ccc7619cf4b0638e7b64e51eb55c722c3f87870d27cd82895d36e547e1c936c8",
+            "status": "HOLD_DEPENDENCIES_AND_EVENT_DRIVEN_ROOM_ACOUSTIC_RUNTIME_AUTHORITY_ABSENT",
+            "tracker_id": "TRK-W64-096"
+          }
+        },
+        "engine_revision": "wave64_row097_sample_accurate_mix_mux_engine_v0.1.0",
+        "exclusions": [
+          {
+            "reason_codes": [
+              "ENDPOINT_DRIFT"
+            ],
+            "stem_bus": "master"
+          }
+        ],
+        "expected_stems": [
+          "dialogue",
+          "ambience"
+        ],
+        "gate_results": {
+          "bus_processing": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "loudness": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "mux_lineage": {
+            "reason_codes": [
+              "MIX_MUX_BLOCKED"
+            ],
+            "status": "skipped"
+          },
+          "sample_schedule": {
+            "reason_codes": [
+              "ENDPOINT_DRIFT"
+            ],
+            "status": "fail"
+          },
+          "stem_manifest": {
+            "reason_codes": [
+              "MIX_MUX_BLOCKED"
+            ],
+            "status": "skipped"
+          },
+          "true_peak": {
+            "reason_codes": [],
+            "status": "pass"
+          }
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-097",
+        "library_authority": false,
+        "mix_recipe": {
+          "channels": 2,
+          "measured_lufs": -16.0,
+          "measured_true_peak_dbtp": -1.4,
+          "minimum_headroom_db": 1.0,
+          "ordered_stem_buses": [
+            "dialogue",
+            "ambience"
+          ],
+          "recipe_sha256": "6aed2225bff9bc8069617d4b4fe2b5919c2c0eff08be19f634ef5c3af69a815e",
+          "sample_rate_hz": 48000,
+          "target_lufs": -16.0,
+          "true_peak_ceiling_dbtp": -1.0
+        },
+        "mux": {
+          "audio_sample_count": 96000,
+          "endpoint_drift_samples": 8,
+          "mix_pcm_sha256": null,
+          "mux_container_sha256": null,
+          "mux_lineage_sha256": null,
+          "reconstructable": false,
+          "stem_manifest_sha256": null,
+          "video_frame_count": 60
+        },
+        "policy_revision": "wave64_row097_sample_accurate_mix_mux_v0.1.0",
+        "policy_sha256": "e65b20845800fcf036797aa9d1962141d5d248fefac3a735f72d58a17d02e15a",
+        "receipt_sha256": "b919e7c631674e3c1395bbac7d2a1639daf8732390f86bc467b6934b14267b30",
+        "record_type": "sample_accurate_mix_mux_receipt",
+        "required_gates": [
+          "sample_schedule",
+          "bus_processing",
+          "loudness",
+          "true_peak",
+          "stem_manifest",
+          "mux_lineage"
+        ],
+        "schema_version": "1.0.0",
+        "stems": [
+          {
+            "admitted": false,
+            "asset_id": "fixture:dialogue",
+            "bus_gain_db": 0.0,
+            "end_sample": 96000,
+            "gain_db": -3.0,
+            "source_pcm_sha256": "ac467cd15d32854a06b280db869408ee2745b1c1aa44093d1fa7ace2cee78baf",
+            "start_sample": 0,
+            "stem_bus": "dialogue",
+            "stem_pcm_sha256": "2bbc1b33ad92b532eb44c1f5c44dac2676548ac5c07f1a697903c824e0adbb09"
+          },
+          {
+            "admitted": false,
+            "asset_id": "fixture:ambience",
+            "bus_gain_db": 0.0,
+            "end_sample": 96000,
+            "gain_db": -10.0,
+            "source_pcm_sha256": "107f48e1c73cd079184d889326b9db3fe45c41dc5d09e97204ff6f576e4e9c6c",
+            "start_sample": 0,
+            "stem_bus": "ambience",
+            "stem_pcm_sha256": "29450368ed3916b29ceffca84bd45ae9e7cec802fbfe3d9fbcc93366e7d268a4"
+          }
+        ],
+        "timeline_id": "tl_endpoint_drift",
+        "tracker_id": "TRK-W64-097",
+        "video_timeline_sha256": "c632112672a3f58a292e56216575d0ba6787e03525d6ed1aeaf4e35dfcdc4c4c"
+      },
+      {
+        "decision": {
+          "blocker_codes": [
+            "SAMPLE_SCHEDULE_MISMATCH"
+          ],
+          "product_completion": false,
+          "reason": "fail_closed_mix_mux_schedule_loudness_or_stem_blocker",
+          "route": "blocked",
+          "row097_acceptance": "held",
+          "status": "blocked"
+        },
+        "dependency_admissions": {
+          "TRK-W64-091": {
+            "blocker_codes": [
+              "TRK_W64_091_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 23572,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "055e73b6d64bc3bcf2184fe8de9b5360e63a014e39643fad37ff8249225a75a5",
+            "status": "HOLD_DEPENDENCIES_RUNTIME_AND_COMBINED_REVIEW_ABSENT_WITH_FIXTURE_DECISION_PHASE_PACKETS_PRESENT",
+            "tracker_id": "TRK-W64-091"
+          },
+          "TRK-W64-093": {
+            "blocker_codes": [
+              "TRK_W64_093_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 13813,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-093_CANONICAL_CLIP_PREPARATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "3f11d692b8f79751cdd19e57e746187c44c23b3ee1bd3bf46796b789e5740c66",
+            "status": "HOLD_FIVE_DEPENDENCIES_PRODUCTION_CLIP_PREPARER_RUNTIME_AND_AUDIO_QA_ABSENT",
+            "tracker_id": "TRK-W64-093"
+          },
+          "TRK-W64-094": {
+            "blocker_codes": [
+              "TRK_W64_094_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11765,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-094_LAYERED_FOLEY_COMPOSITION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "b8f748823b29856ebc0d5babb1f2cee5831af6248d04eb09d5b998fc467ae772",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_LAYER_COMPOSER_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-094"
+          },
+          "TRK-W64-095": {
+            "blocker_codes": [
+              "TRK_W64_095_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 24663,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-095_SPATIAL_AUDIO_RENDERER_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "57a8fef90db378bb2f90ef1f1cc173c813941f4403ddc5c9d13a0625379937ab",
+            "status": "HOLD_THREE_DEPENDENCIES_STRICT_CONTRACT_SLICE_LANDED_EVENT_DRIVEN_PRODUCTION_SPATIAL_RENDERER_RUNTIME_AND_AUDIO_QA_ABSENT",
+            "tracker_id": "TRK-W64-095"
+          },
+          "TRK-W64-096": {
+            "blocker_codes": [
+              "TRK_W64_096_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 6726,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-096_ROOM_ACOUSTIC_RENDERER_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "ccc7619cf4b0638e7b64e51eb55c722c3f87870d27cd82895d36e547e1c936c8",
+            "status": "HOLD_DEPENDENCIES_AND_EVENT_DRIVEN_ROOM_ACOUSTIC_RUNTIME_AUTHORITY_ABSENT",
+            "tracker_id": "TRK-W64-096"
+          }
+        },
+        "engine_revision": "wave64_row097_sample_accurate_mix_mux_engine_v0.1.0",
+        "exclusions": [
+          {
+            "reason_codes": [
+              "SAMPLE_SCHEDULE_MISMATCH"
+            ],
+            "stem_bus": "foley"
+          }
+        ],
+        "expected_stems": [
+          "dialogue",
+          "foley"
+        ],
+        "gate_results": {
+          "bus_processing": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "loudness": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "mux_lineage": {
+            "reason_codes": [
+              "MIX_MUX_BLOCKED"
+            ],
+            "status": "skipped"
+          },
+          "sample_schedule": {
+            "reason_codes": [
+              "SAMPLE_SCHEDULE_MISMATCH"
+            ],
+            "status": "fail"
+          },
+          "stem_manifest": {
+            "reason_codes": [
+              "MIX_MUX_BLOCKED"
+            ],
+            "status": "skipped"
+          },
+          "true_peak": {
+            "reason_codes": [],
+            "status": "pass"
+          }
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-097",
+        "library_authority": false,
+        "mix_recipe": {
+          "channels": 2,
+          "measured_lufs": -16.0,
+          "measured_true_peak_dbtp": -1.3,
+          "minimum_headroom_db": 1.0,
+          "ordered_stem_buses": [
+            "dialogue",
+            "foley"
+          ],
+          "recipe_sha256": "5ebb244bfd6a0bcdfb5c3c9738e07a27991b7ea138504a4467cbc0a4f55c497a",
+          "sample_rate_hz": 48000,
+          "target_lufs": -16.0,
+          "true_peak_ceiling_dbtp": -1.0
+        },
+        "mux": {
+          "audio_sample_count": 96000,
+          "endpoint_drift_samples": 0,
+          "mix_pcm_sha256": null,
+          "mux_container_sha256": null,
+          "mux_lineage_sha256": null,
+          "reconstructable": false,
+          "stem_manifest_sha256": null,
+          "video_frame_count": 60
+        },
+        "policy_revision": "wave64_row097_sample_accurate_mix_mux_v0.1.0",
+        "policy_sha256": "e65b20845800fcf036797aa9d1962141d5d248fefac3a735f72d58a17d02e15a",
+        "receipt_sha256": "e68a4b9d3e3c7fd6d12802506106767932381cdbc225ce6b54447c8e31168704",
+        "record_type": "sample_accurate_mix_mux_receipt",
+        "required_gates": [
+          "sample_schedule",
+          "bus_processing",
+          "loudness",
+          "true_peak",
+          "stem_manifest",
+          "mux_lineage"
+        ],
+        "schema_version": "1.0.0",
+        "stems": [
+          {
+            "admitted": false,
+            "asset_id": "fixture:dialogue",
+            "bus_gain_db": 0.0,
+            "end_sample": 96000,
+            "gain_db": -3.0,
+            "source_pcm_sha256": "ac467cd15d32854a06b280db869408ee2745b1c1aa44093d1fa7ace2cee78baf",
+            "start_sample": 0,
+            "stem_bus": "dialogue",
+            "stem_pcm_sha256": "2bbc1b33ad92b532eb44c1f5c44dac2676548ac5c07f1a697903c824e0adbb09"
+          },
+          {
+            "admitted": false,
+            "asset_id": "fixture:foley",
+            "bus_gain_db": 0.0,
+            "end_sample": 96512,
+            "gain_db": -3.0,
+            "source_pcm_sha256": "23091f829700a7bcc0ef4fc08431e3a29ac8611c815cef42d0006977cb2f119f",
+            "start_sample": 0,
+            "stem_bus": "foley",
+            "stem_pcm_sha256": "3fe619f3c4ee38cbedae450ded43f3097ae3061505e67a85849c6575004358c2"
+          }
+        ],
+        "timeline_id": "tl_schedule_mismatch",
+        "tracker_id": "TRK-W64-097",
+        "video_timeline_sha256": "965ba858ac677c7930138dedd947219bfed5fb94ab4b3ed3a6d6b863c0036c0f"
+      },
+      {
+        "decision": {
+          "blocker_codes": [
+            "DUPLICATE_STEM_BUS"
+          ],
+          "product_completion": false,
+          "reason": "fail_closed_mix_mux_schedule_loudness_or_stem_blocker",
+          "route": "blocked",
+          "row097_acceptance": "held",
+          "status": "blocked"
+        },
+        "dependency_admissions": {
+          "TRK-W64-091": {
+            "blocker_codes": [
+              "TRK_W64_091_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 23572,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "055e73b6d64bc3bcf2184fe8de9b5360e63a014e39643fad37ff8249225a75a5",
+            "status": "HOLD_DEPENDENCIES_RUNTIME_AND_COMBINED_REVIEW_ABSENT_WITH_FIXTURE_DECISION_PHASE_PACKETS_PRESENT",
+            "tracker_id": "TRK-W64-091"
+          },
+          "TRK-W64-093": {
+            "blocker_codes": [
+              "TRK_W64_093_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 13813,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-093_CANONICAL_CLIP_PREPARATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "3f11d692b8f79751cdd19e57e746187c44c23b3ee1bd3bf46796b789e5740c66",
+            "status": "HOLD_FIVE_DEPENDENCIES_PRODUCTION_CLIP_PREPARER_RUNTIME_AND_AUDIO_QA_ABSENT",
+            "tracker_id": "TRK-W64-093"
+          },
+          "TRK-W64-094": {
+            "blocker_codes": [
+              "TRK_W64_094_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11765,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-094_LAYERED_FOLEY_COMPOSITION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "b8f748823b29856ebc0d5babb1f2cee5831af6248d04eb09d5b998fc467ae772",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_LAYER_COMPOSER_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-094"
+          },
+          "TRK-W64-095": {
+            "blocker_codes": [
+              "TRK_W64_095_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 24663,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-095_SPATIAL_AUDIO_RENDERER_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "57a8fef90db378bb2f90ef1f1cc173c813941f4403ddc5c9d13a0625379937ab",
+            "status": "HOLD_THREE_DEPENDENCIES_STRICT_CONTRACT_SLICE_LANDED_EVENT_DRIVEN_PRODUCTION_SPATIAL_RENDERER_RUNTIME_AND_AUDIO_QA_ABSENT",
+            "tracker_id": "TRK-W64-095"
+          },
+          "TRK-W64-096": {
+            "blocker_codes": [
+              "TRK_W64_096_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 6726,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-096_ROOM_ACOUSTIC_RENDERER_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "ccc7619cf4b0638e7b64e51eb55c722c3f87870d27cd82895d36e547e1c936c8",
+            "status": "HOLD_DEPENDENCIES_AND_EVENT_DRIVEN_ROOM_ACOUSTIC_RUNTIME_AUTHORITY_ABSENT",
+            "tracker_id": "TRK-W64-096"
+          }
+        },
+        "engine_revision": "wave64_row097_sample_accurate_mix_mux_engine_v0.1.0",
+        "exclusions": [
+          {
+            "reason_codes": [
+              "DUPLICATE_STEM_BUS"
+            ],
+            "stem_bus": "dialogue"
+          }
+        ],
+        "expected_stems": [
+          "dialogue",
+          "foley"
+        ],
+        "gate_results": {
+          "bus_processing": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "loudness": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "mux_lineage": {
+            "reason_codes": [
+              "MIX_MUX_BLOCKED"
+            ],
+            "status": "skipped"
+          },
+          "sample_schedule": {
+            "reason_codes": [],
+            "status": "pass"
+          },
+          "stem_manifest": {
+            "reason_codes": [
+              "DUPLICATE_STEM_BUS"
+            ],
+            "status": "fail"
+          },
+          "true_peak": {
+            "reason_codes": [],
+            "status": "pass"
+          }
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-097",
+        "library_authority": false,
+        "mix_recipe": {
+          "channels": 2,
+          "measured_lufs": -16.0,
+          "measured_true_peak_dbtp": -1.1,
+          "minimum_headroom_db": 1.0,
+          "ordered_stem_buses": [
+            "dialogue",
+            "foley"
+          ],
+          "recipe_sha256": "c0c511a212b7570e307b37a79463c7d19715da051030a646aa485c3875528a93",
+          "sample_rate_hz": 48000,
+          "target_lufs": -16.0,
+          "true_peak_ceiling_dbtp": -1.0
+        },
+        "mux": {
+          "audio_sample_count": 96000,
+          "endpoint_drift_samples": 0,
+          "mix_pcm_sha256": null,
+          "mux_container_sha256": null,
+          "mux_lineage_sha256": null,
+          "reconstructable": false,
+          "stem_manifest_sha256": null,
+          "video_frame_count": 60
+        },
+        "policy_revision": "wave64_row097_sample_accurate_mix_mux_v0.1.0",
+        "policy_sha256": "e65b20845800fcf036797aa9d1962141d5d248fefac3a735f72d58a17d02e15a",
+        "receipt_sha256": "ae3872d651be3a059b0d4e481ac25db529f98a2ec013701fca25e15d2983ef7e",
+        "record_type": "sample_accurate_mix_mux_receipt",
+        "required_gates": [
+          "sample_schedule",
+          "bus_processing",
+          "loudness",
+          "true_peak",
+          "stem_manifest",
+          "mux_lineage"
+        ],
+        "schema_version": "1.0.0",
+        "stems": [
+          {
+            "admitted": false,
+            "asset_id": "fixture:dialogue",
+            "bus_gain_db": 0.0,
+            "end_sample": 96000,
+            "gain_db": -3.0,
+            "source_pcm_sha256": "ac467cd15d32854a06b280db869408ee2745b1c1aa44093d1fa7ace2cee78baf",
+            "start_sample": 0,
+            "stem_bus": "dialogue",
+            "stem_pcm_sha256": "2bbc1b33ad92b532eb44c1f5c44dac2676548ac5c07f1a697903c824e0adbb09"
+          },
+          {
+            "admitted": false,
+            "asset_id": "fixture:dialogue",
+            "bus_gain_db": 0.0,
+            "end_sample": 48000,
+            "gain_db": -6.0,
+            "source_pcm_sha256": "ac467cd15d32854a06b280db869408ee2745b1c1aa44093d1fa7ace2cee78baf",
+            "start_sample": 0,
+            "stem_bus": "dialogue",
+            "stem_pcm_sha256": "669f91ba6480a122a922af8340c0fa5d6c120e65b0748e55ae7d025d0202c044"
+          },
+          {
+            "admitted": false,
+            "asset_id": "fixture:foley",
+            "bus_gain_db": 0.0,
+            "end_sample": 24000,
+            "gain_db": -3.0,
+            "source_pcm_sha256": "23091f829700a7bcc0ef4fc08431e3a29ac8611c815cef42d0006977cb2f119f",
+            "start_sample": 0,
+            "stem_bus": "foley",
+            "stem_pcm_sha256": "2beed360a9a9e61afb3df612cf1434ae91b12acaf28badb749148c9e91a0a2c4"
+          }
+        ],
+        "timeline_id": "tl_duplicate_bus",
+        "tracker_id": "TRK-W64-097",
+        "video_timeline_sha256": "22ddfd1b60d865c1b9060593635124349030542ec9691f94db02cd74b076438c"
+      }
+    ]
+  },
+  "implementation_completion_claimed": false,
+  "item_id": "ITEM-W64-097",
+  "library_authority": false,
+  "policy_registry": {
+    "authority": "planning_freeze_not_library_acceptance",
+    "path": "Plan/10_REGISTRIES/wave64_row097_sample_accurate_mix_mux_registry.json",
+    "revision": "wave64_row097_sample_accurate_mix_mux_v0.1.0",
+    "sha256": "e65b20845800fcf036797aa9d1962141d5d248fefac3a735f72d58a17d02e15a"
+  },
+  "policy_revision": "wave64_row097_sample_accurate_mix_mux_v0.1.0",
+  "required_gates": [
+    "sample_schedule",
+    "bus_processing",
+    "loudness",
+    "true_peak",
+    "stem_manifest",
+    "mux_lineage"
+  ],
+  "row_complete": false,
+  "runtime_completion_claimed": false,
+  "schema": {
+    "path": "Plan/08_SCHEMAS/sample_accurate_mix_mux_receipt.schema.json",
+    "sha256": "94ed2c2ee21f7337f20155f30819a04a96d6f61836197c8459383f8d3f30199f"
+  },
+  "schema_version": "1.0.0",
+  "status": "HOLD_DEPENDENCIES_AND_LIBRARY_MIX_MUX_RUNTIME_ABSENT",
+  "tracker_id": "TRK-W64-097"
+}

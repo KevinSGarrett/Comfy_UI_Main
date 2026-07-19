@@ -1,0 +1,209 @@
+{
+  "schema_version": 1,
+  "evidence_id": "W64-ROW097-SAMPLE-ACCURATE-MIX-MUX-CURRENT-DELTA-20260719",
+  "created_at": "2026-07-19T20:35:00Z",
+  "updated_at": "2026-07-19T20:35:00Z",
+  "source_commit": "8d63bdcf05446cbbe88ba931dcd68164edae6381",
+  "prior_audit_commit": "73848989885ef8c294c9c0521ddb0444bda42562",
+  "tracker_id": "TRK-W64-097",
+  "item_id": "ITEM-W64-097",
+  "status": "HOLD_DEPENDENCIES_AND_LIBRARY_MIX_MUX_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+  "classification": "ROW097_FAIL_CLOSED_CONTRACT_SLICE_NO_FALSE_COMPLETION",
+  "row_complete": false,
+  "implementation_completion_claimed": false,
+  "runtime_completion_claimed": false,
+  "qa_decision": "hold_with_fail_closed_sample_accurate_mix_mux_contract_and_synthetic_fixture_calibration_only",
+  "intent": {
+    "intent_id": "interactive_cursor_shift_row097_contract_slice_20260719",
+    "classification": "INTERACTIVE_CURSOR_SHIFT_AUTHORITY",
+    "work_type": "final_authority",
+    "authority_class": "interactive_cursor_integration",
+    "routing": null,
+    "dispatch_wake_count": 0,
+    "allowed_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_sample_accurate_mix_mux.py",
+      "Plan/08_SCHEMAS/sample_accurate_mix_mux_receipt.schema.json",
+      "Plan/10_REGISTRIES/wave64_row097_sample_accurate_mix_mux_registry.json",
+      "Plan/Instructions/QA/Scripts/test_row097_sample_accurate_mix_mux.py",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-097_sample_accurate_mix_mux.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-097_SAMPLE_ACCURATE_MIX_MUX_CURRENT_DELTA_20260719.json"
+    ]
+  },
+  "increment": {
+    "kind": "fail_closed_contract_compiler_and_schema_slice",
+    "engine_revision": "wave64_row097_sample_accurate_mix_mux_engine_v0.1.0",
+    "policy_revision": "wave64_row097_sample_accurate_mix_mux_v0.1.0",
+    "summary": "Freeze Row097 sample-schedule, bus-processing, loudness, true-peak, stem-manifest, and mux-lineage gates with mutually exclusive mix_mux/blocked routes; emit schema-validated synthetic fixture calibration; fail closed for library mix/mux authority until Rows091/093/094/095/096 are accepted.",
+    "note": "Dedicated sample-accurate mix/mux schema is introduced without mutating sibling-owned Row069/Row094/Row092/Row095/Row085/Row084 paths."
+  },
+  "row097_contract": {
+    "status": "Planned_Autonomous_Implementation_Required",
+    "priority": "P0",
+    "risk": "CRITICAL",
+    "dependency_prerequisites": [
+      "TRK-W64-091",
+      "TRK-W64-093",
+      "TRK-W64-094",
+      "TRK-W64-095",
+      "TRK-W64-096"
+    ],
+    "validation_methods": [
+      "sample_schedule",
+      "bus_processing",
+      "loudness",
+      "true_peak",
+      "stem_manifest",
+      "mux_lineage"
+    ],
+    "output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-097_sample_accurate_mix_mux.json",
+    "output_artifact_exists": true,
+    "output_artifact_authority": "fail_closed_hold_packet_not_library_acceptance",
+    "completion_criteria": "Reproducible mix/mux preserves frames and samples with no clipping, missing stems, or endpoint drift.",
+    "allowed_stem_buses": [
+      "dialogue",
+      "foley",
+      "ambience",
+      "music",
+      "room",
+      "master"
+    ],
+    "runtime_proof_required": true,
+    "ec2_allowed": true,
+    "final_render_gate": "BLOCKED_UNTIL_EXACT_ROW_IMPLEMENTATION_RUNTIME_QA_AND_AUTHORITY_PASS"
+  },
+  "implemented_slice": {
+    "compiler_path": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_sample_accurate_mix_mux.py",
+    "compiler_sha256": "dc8b41c04001f29e143c526247bcf04bad563f59e8adaa4662cf0f6049a4cbd1",
+    "compiler_bytes": 37972,
+    "schema_path": "Plan/08_SCHEMAS/sample_accurate_mix_mux_receipt.schema.json",
+    "schema_sha256": "94ed2c2ee21f7337f20155f30819a04a96d6f61836197c8459383f8d3f30199f",
+    "schema_bytes": 9396,
+    "policy_registry_path": "Plan/10_REGISTRIES/wave64_row097_sample_accurate_mix_mux_registry.json",
+    "policy_registry_sha256": "e65b20845800fcf036797aa9d1962141d5d248fefac3a735f72d58a17d02e15a",
+    "policy_registry_bytes": 1887,
+    "test_path": "Plan/Instructions/QA/Scripts/test_row097_sample_accurate_mix_mux.py",
+    "test_sha256": "229a13c6bd6a2bb87e9659fe70038404f408345da84abe4b7e08eda528608460",
+    "test_bytes": 5747,
+    "direct_evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-097_sample_accurate_mix_mux.json",
+    "direct_evidence_sha256": "e6933123716637a7b467f9b6d4a76eb248746132b05b767511953a6fdd830ee5",
+    "direct_evidence_bytes": 50735,
+    "fixture_count": 6,
+    "library_authority": false
+  },
+  "dependency_admission_snapshot": {
+    "TRK-W64-091": {
+      "tracker_id": "TRK-W64-091",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719.json",
+      "dependency_satisfied": false,
+      "row_complete": false
+    },
+    "TRK-W64-093": {
+      "tracker_id": "TRK-W64-093",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-093_CANONICAL_CLIP_PREPARATION_CURRENT_DELTA_20260719.json",
+      "dependency_satisfied": false,
+      "row_complete": false
+    },
+    "TRK-W64-094": {
+      "tracker_id": "TRK-W64-094",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-094_LAYERED_FOLEY_COMPOSITION_CURRENT_DELTA_20260719.json",
+      "dependency_satisfied": false,
+      "row_complete": false
+    },
+    "TRK-W64-095": {
+      "tracker_id": "TRK-W64-095",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-095_SPATIAL_AUDIO_RENDERER_CURRENT_DELTA_20260719.json",
+      "dependency_satisfied": false,
+      "row_complete": false
+    },
+    "TRK-W64-096": {
+      "tracker_id": "TRK-W64-096",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-096_ROOM_ACOUSTIC_RENDERER_CURRENT_DELTA_20260719.json",
+      "dependency_satisfied": false,
+      "row_complete": false
+    }
+  },
+  "focused_validators": {
+    "command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_row097_sample_accurate_mix_mux.py",
+    "exit_code": 0,
+    "passed": 11,
+    "failed": 0
+  },
+  "acceptance_gaps": [
+    {
+      "code": "ROW097_DEPENDENCIES_NOT_ACCEPTED",
+      "detail": "Rows091/093/094/095/096 remain unaccepted, so library mix/mux authority stays blocked."
+    },
+    {
+      "code": "DEDICATED_LIBRARY_MIX_MUX_RUNTIME_ABSENT",
+      "detail": "No production runtime binds accepted stems, spatial/room renders, and video timelines into library mix/mux containers."
+    },
+    {
+      "code": "PRODUCTION_STEM_AND_SPATIAL_ROOM_BINDING_ABSENT",
+      "detail": "Fixture stem schedules calibrate gates only; production Row094/095/096 stem and spatial/room bindings remain absent."
+    },
+    {
+      "code": "GENUINE_AUDIO_QA_AND_RUNTIME_PROOF_ABSENT",
+      "detail": "Synthetic mux lineage hashes are not a substitute for waveform/spectrogram/AV review or genuine runtime proof."
+    }
+  ],
+  "direct_downstream_hold": {
+    "count": 5,
+    "tracker_ids": [
+      "TRK-W64-101",
+      "TRK-W64-105",
+      "TRK-W64-106",
+      "TRK-W64-107",
+      "TRK-W64-112"
+    ],
+    "reason": "Video-conditioned Foley, end-to-end audio orchestration, AV QA, ComfyUI audio integration, and full-system certification depend on accepted sample-accurate mix/mux lineage; synthetic fixture calibration cannot substitute."
+  },
+  "preservation_boundary": {
+    "row069_paths_modified": false,
+    "row094_paths_modified": false,
+    "row092_paths_modified": false,
+    "row095_paths_modified": false,
+    "row085_paths_modified": false,
+    "row084_paths_modified": false,
+    "unrelated_dirty_paths_modified": false,
+    "only_row097_writable_paths_this_increment": [
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_sample_accurate_mix_mux.py",
+      "Plan/08_SCHEMAS/sample_accurate_mix_mux_receipt.schema.json",
+      "Plan/10_REGISTRIES/wave64_row097_sample_accurate_mix_mux_registry.json",
+      "Plan/Instructions/QA/Scripts/test_row097_sample_accurate_mix_mux.py",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-097_sample_accurate_mix_mux.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-097_SAMPLE_ACCURATE_MIX_MUX_CURRENT_DELTA_20260719.json"
+    ]
+  },
+  "checks": [
+    {"name": "SMM-I001_engine_and_policy_revisions_frozen", "result": "pass"},
+    {"name": "SMM-I002_schema_requires_gates_stems_mux_and_library_authority_false", "result": "pass"},
+    {"name": "SMM-I003_all_five_dependencies_fail_closed", "result": "pass"},
+    {"name": "SMM-I004_library_mode_hold_packet_emitted", "result": "pass"},
+    {"name": "SMM-I005_fixture_records_deterministic_schema_valid_and_reconstructable_or_blocked", "result": "pass"},
+    {"name": "SMM-I006_missing_peak_drift_schedule_and_duplicate_semantics_enforced", "result": "pass"},
+    {"name": "SMM-I007_adversarial_mux_lineage_and_failed_gate_mix_rejected", "result": "pass"},
+    {"name": "SMM-I008_focused_pytest_11_passed", "result": "pass"},
+    {"name": "SMM-I009_no_false_completion_claimed", "result": "pass"},
+    {"name": "SMM-I010_disjoint_from_row069_row094_row092_row095_row085_row084", "result": "pass"}
+  ],
+  "check_summary": {
+    "checked": 10,
+    "passed": 10,
+    "failed": 0
+  },
+  "decision": {
+    "fail_closed_contract_slice": "accepted_as_bounded_increment",
+    "row097_status": "Planned_Autonomous_Implementation_Required",
+    "row097_acceptance": "held",
+    "runtime_completion": false,
+    "product_completion": false,
+    "safe_next_action": "Accept or complete Rows091, 093, 094, 095, and 096 next; bind production stems with spatial/room renders to a sample-accurate schedule; execute mix/mux with loudness and true-peak gates; seal stem-manifest and mux lineage hashes; pass waveform/spectrogram/AV review; then replace this hold packet. EC2 remains disallowed until dependency acceptance and dedicated library runtime exist."
+  },
+  "hold_decision": {
+    "decision": "HOLD_ROW097",
+    "reason": "Fail-closed sample-accurate mix/mux contract and synthetic fixture calibration are present, but Rows091/093/094/095/096 remain unaccepted and no production library mix/mux runtime, genuine runtime proof, or audio QA exists. Completion remains prohibited.",
+    "completion_claim_prohibited": true,
+    "runtime_claim_prohibited": true,
+    "certification_claim_prohibited": true
+  }
+}

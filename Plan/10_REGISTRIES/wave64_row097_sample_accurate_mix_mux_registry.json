@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "wave64_row097_sample_accurate_mix_mux_registry",
+  "revision": "wave64_row097_sample_accurate_mix_mux_v0.1.0",
+  "tracker_id": "TRK-W64-097",
+  "authority": "planning_freeze_not_library_acceptance",
+  "notes": [
+    "Frozen sample-accurate mix/mux policy for Row097 synthetic fixture calibration and fail-closed library hold.",
+    "Required stems must land on an exact sample schedule, pass bus/loudness/true-peak gates, and seal mux lineage before any library mix authority.",
+    "This registry does not accept library completion or substitute for Rows091/093/094/095/096 authority."
+  ],
+  "allowed_stem_buses": [
+    "dialogue",
+    "foley",
+    "ambience",
+    "music",
+    "room",
+    "master"
+  ],
+  "required_gates": [
+    "sample_schedule",
+    "bus_processing",
+    "loudness",
+    "true_peak",
+    "stem_manifest",
+    "mux_lineage"
+  ],
+  "bus_order": [
+    "dialogue",
+    "foley",
+    "ambience",
+    "music",
+    "room",
+    "master"
+  ],
+  "mix_defaults": {
+    "sample_rate_hz": 48000,
+    "channels": 2,
+    "target_lufs": -16.0,
+    "true_peak_ceiling_dbtp": -1.0,
+    "minimum_headroom_db": 1.0,
+    "endpoint_drift_tolerance_samples": 0,
+    "frame_rate_numerator": 30,
+    "frame_rate_denominator": 1
+  },
+  "fail_closed": {
+    "library_authority_requires_dependencies": true,
+    "missing_expected_stem_rejected": true,
+    "duplicate_stem_bus_rejected": true,
+    "sample_schedule_mismatch_rejected": true,
+    "endpoint_drift_rejected": true,
+    "true_peak_exceedance_rejected": true,
+    "loudness_out_of_band_rejected": true,
+    "mux_lineage_must_recompute": true,
+    "stem_manifest_must_recompute": true
+  },
+  "dependency_prerequisites": [
+    "TRK-W64-091",
+    "TRK-W64-093",
+    "TRK-W64-094",
+    "TRK-W64-095",
+    "TRK-W64-096"
+  ]
+}
