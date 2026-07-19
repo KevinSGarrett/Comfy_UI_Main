@@ -11,14 +11,15 @@
 
 ## Commits Pushed This Pass
 
-1. c84e9dee Prove Row017 MF70 skin_tone_continuity local visual climb.
-2. 5869f224 Stamp Row017 skin_tone_continuity handoff with primary commit id.
-3. 44e93e6d Finalize Row017 skin_tone_continuity handoff tip to origin HEAD.
-4. 74903cc2 Refresh Row017 skin_tone_continuity handoff with pushed tip IDs.
-5. 16e7559c Align Row017 skin_tone_continuity handoff tip to origin HEAD.
-6. afe36528 Refresh Row017 skin_tone_continuity handoff tip IDs to origin HEAD.
+1. `c84e9dee` Prove Row017 MF70 skin_tone_continuity local visual climb.
+2. `5869f224` Stamp Row017 skin_tone_continuity handoff with primary commit id.
+3. `44e93e6d` Finalize Row017 skin_tone_continuity handoff tip to origin HEAD.
+4. `74903cc2` Refresh Row017 skin_tone_continuity handoff with pushed tip IDs.
+5. `16e7559c` Align Row017 skin_tone_continuity handoff tip to origin HEAD.
+6. `afe36528` Refresh Row017 skin_tone_continuity handoff tip IDs to origin HEAD.
+7. `975c5448` Align Row017 skin_tone_continuity handoff tip IDs to origin HEAD.
 
-Pushed tip verified on origin: afe36528
+Pushed tip verified on origin: `975c5448`
 
 ## Row-Scoped Increment Executed
 
