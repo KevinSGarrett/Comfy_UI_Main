@@ -11,10 +11,10 @@
 
 ## Commits Pushed This Pass
 
-1. `<PRIMARY>` Prove Row017 MF70 cheeks local visual climb.
-2. `<TIP>` Stamp Row017 cheeks handoff with primary/tip commit ids.
+1. `75f97ffb` Prove Row017 MF70 cheeks local visual climb.
+2. 75f97ffb Stamp Row017 cheeks handoff with primary commit id.
 
-Pushed tip verified on origin: `<TIP>`
+Pushed tip verified on origin: 75f97ffb
 
 ## Row-Scoped Increment Executed
 
