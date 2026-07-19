@@ -1,0 +1,150 @@
+{
+  "schema_version": "1.0.0",
+  "evidence_id": "TRK-W64-096_ROOM_ACOUSTIC_RENDERER_CURRENT_DELTA_20260719",
+  "created_at": "2026-07-19T19:13:30Z",
+  "source_commit": "4bf69c54a54da5d914ed9eda82f600c56c53a7d8",
+  "prior_row_commit": "4bf69c54a54da5d914ed9eda82f600c56c53a7d8",
+  "prior_row_commit_is_current_head": true,
+  "tracker_id": "TRK-W64-096",
+  "item_id": "ITEM-W64-096",
+  "status": "HOLD_DEPENDENCIES_AND_EVENT_DRIVEN_ROOM_ACOUSTIC_RUNTIME_AUTHORITY_ABSENT",
+  "classification": "ROW096_CODEX_FINAL_AUTHORITY_CURRENT_DELTA_AUDIT",
+  "row_complete": false,
+  "implementation_completion_claimed": false,
+  "runtime_completion_claimed": false,
+  "qa_decision": "HOLD_WITH_BOUNDED_REUSE_OF_STRICT_SPATIAL_ROOM_EVALUATOR",
+  "row096_contract": {
+    "title": "Room impulse response, early-reflection, RT60, and convolution renderer",
+    "priority": "P0",
+    "risk_level": "CRITICAL",
+    "dependencies": [
+      "TRK-W64-076",
+      "TRK-W64-088",
+      "TRK-W64-089",
+      "TRK-W64-095"
+    ],
+    "required_gates": [
+      "room_geometry",
+      "material_absorption",
+      "rir",
+      "early_reflections",
+      "rt60",
+      "wet_source_guard"
+    ],
+    "completion_criteria": "Measured output RT60 and early reflections meet target tolerances and wet-source compatibility rules.",
+    "required_output": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-096_room_acoustic_renderer.json",
+    "required_output_exists": false,
+    "test_required": true,
+    "runtime_proof_required": true,
+    "ec2_allowed": true
+  },
+  "dependency_authority": [
+    {
+      "tracker_id": "TRK-W64-076",
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_REVERB_DRYNESS_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "status": "HOLD_DEPENDENCIES_ASSET_ACOUSTIC_ESTIMATOR_CALIBRATION_AND_DOUBLE_REVERB_AUTHORITY_ABSENT",
+      "dependency_satisfied": false
+    },
+    {
+      "tracker_id": "TRK-W64-088",
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_DEPTH_CAMERA_SOURCE_POSITION_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "status": "HOLD_DEPENDENCIES_DIRECT_DEPTH_CAMERA_LISTENER_SOURCE_ESTIMATION_CALIBRATION_UNCERTAINTY_AND_VISUAL_RUNTIME_AUTHORITY_ABSENT",
+      "dependency_satisfied": false
+    },
+    {
+      "tracker_id": "TRK-W64-089",
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-089_VISUAL_MATERIAL_RECOGNITION_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "status": "HOLD_DEPENDENCIES_AND_DIRECT_VISUAL_MATERIAL_CLASSIFIER_FUSION_CONFIDENCE_ABSTENTION_AND_RUNTIME_AUTHORITY_ABSENT",
+      "dependency_satisfied": false
+    },
+    {
+      "tracker_id": "TRK-W64-095",
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-095_SPATIAL_AUDIO_RENDERER_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "status": "HOLD_THREE_DEPENDENCIES_EVENT_DRIVEN_PRODUCTION_SPATIAL_RENDERER_STRICT_SCHEMA_TRAJECTORY_PHASE_LOUDNESS_RUNTIME_AND_AUDIO_QA_ABSENT",
+      "dependency_satisfied": false
+    }
+  ],
+  "reusable_row096_components": {
+    "producer_script": "Plan/07_IMPLEMENTATION/scripts/produce_wave64_spatial_room_evidence_bundle.py",
+    "evaluator_script": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_spatial_room_evidence.py",
+    "strict_test_suite": [
+      "Plan/Instructions/QA/Scripts/test_produce_wave64_spatial_room_evidence_bundle.py",
+      "Plan/Instructions/QA/Scripts/test_wave64_spatial_room_evaluator_strict.py"
+    ],
+    "focused_test_result": {
+      "command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_produce_wave64_spatial_room_evidence_bundle.py Plan/Instructions/QA/Scripts/test_wave64_spatial_room_evaluator_strict.py",
+      "exit_code": 0,
+      "passed": 55,
+      "duration": "126.58s"
+    },
+    "bounded_reuse_limitations": [
+      "Current strict suite validates packet integrity and fail-closed room/spatial gates but does not grant Row096 production completion.",
+      "No accepted event-driven production renderer output exists at the tracker-declared Row096 evidence path.",
+      "Synthetic and policy-blocked cases remain intentionally blocked in strict tests."
+    ]
+  },
+  "blocker_ledger": {
+    "blocked_outcome": "ROW096_HOLD",
+    "blocker_class": "dependency",
+    "exact_missing_dependencies": [
+      "TRK-W64-076 complete runtime acoustic estimation and wet-source compatibility authority",
+      "TRK-W64-088 complete depth/camera/listener/source coordinate authority",
+      "TRK-W64-089 complete visual material recognition and confidence authority",
+      "TRK-W64-095 complete event-driven spatial renderer authority"
+    ],
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_REVERB_DRYNESS_CURRENT_DELTA_20260719.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_DEPTH_CAMERA_SOURCE_POSITION_CURRENT_DELTA_20260719.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-089_VISUAL_MATERIAL_RECOGNITION_CURRENT_DELTA_20260719.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-095_SPATIAL_AUDIO_RENDERER_CURRENT_DELTA_20260719.json"
+    ],
+    "safe_parallel_work": "Continue independent tracker-authorized PM/QA integration and blocker-ledger maintenance while preserving all unrelated dirty ownership.",
+    "minimum_unblock_action": "Close dependencies and emit tracker-declared direct Row096 runtime evidence with strict gate pass."
+  },
+  "checks": [
+    {
+      "id": "ROW096-001",
+      "status": "PASS",
+      "name": "focused_row096_strict_suite_passed"
+    },
+    {
+      "id": "ROW096-002",
+      "status": "FAIL",
+      "name": "dependency_row076_complete"
+    },
+    {
+      "id": "ROW096-003",
+      "status": "FAIL",
+      "name": "dependency_row088_complete"
+    },
+    {
+      "id": "ROW096-004",
+      "status": "FAIL",
+      "name": "dependency_row089_complete"
+    },
+    {
+      "id": "ROW096-005",
+      "status": "FAIL",
+      "name": "dependency_row095_complete"
+    },
+    {
+      "id": "ROW096-006",
+      "status": "FAIL",
+      "name": "required_row096_output_present"
+    },
+    {
+      "id": "ROW096-007",
+      "status": "FAIL",
+      "name": "row096_complete"
+    }
+  ],
+  "hold_decision": {
+    "decision": "HOLD_ROW096_NO_FALSE_COMPLETION",
+    "reason": "Strict evaluator tests pass, but all four declared prerequisites remain incomplete and no direct tracker-declared Row096 runtime evidence artifact exists.",
+    "safe_next_action": "Immediately continue to an independent unblocked integration lane, preserve blocker evidence, and resume Row096 only after dependencies close."
+  }
+}
