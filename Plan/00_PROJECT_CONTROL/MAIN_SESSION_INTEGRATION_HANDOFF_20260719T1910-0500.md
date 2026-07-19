@@ -11,8 +11,8 @@
 
 ## Commits Pushed This Pass
 
-1. `PENDING_PRIMARY` Prove Row017 MF70 jawline/chin local visual climb.
-2. Tip alignment commits follow exact-path push/verify.
+1. `80d57969` Prove Row017 MF70 jawline/chin local visual climb.
+2. Tip alignment commit(s) stamp this handoff to origin HEAD after push/verify.
 
 Pushed tip verified on origin: `PENDING_TIP`
 
