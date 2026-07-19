@@ -2,22 +2,23 @@
   "schema_version": 1,
   "evidence_id": "W64-ROW076-REVERB-DRYNESS-CURRENT-DELTA-20260719",
   "created_at": "2026-07-19T03:33:26.4267538Z",
-  "source_commit": "fb69dcf000452f1109fef708d0217a983c898867",
-  "prior_row_commit": "fb69dcf000452f1109fef708d0217a983c898867",
+  "updated_at": "2026-07-19T20:05:00Z",
+  "source_commit": "3a1f1c37841ee40bddfb62b41552194af0bcfa6c",
+  "prior_row_commit": "3a1f1c37841ee40bddfb62b41552194af0bcfa6c",
   "prior_row_commit_is_current_head": true,
   "tracker_id": "TRK-W64-076",
   "item_id": "ITEM-W64-076",
-  "status": "HOLD_DEPENDENCIES_ASSET_ACOUSTIC_ESTIMATOR_CALIBRATION_AND_DOUBLE_REVERB_AUTHORITY_ABSENT",
-  "classification": "ROW076_CURRENT_DELTA_PATH_HINTS_RENDER_ROOM_METRICS_AND_POLICY_SHAPES_ONLY_NO_FALSE_COMPLETION",
+  "status": "HOLD_ROW071_ROW073_DEPENDENCIES_AND_FULL_LIBRARY_ACOUSTIC_RUNTIME_ABSENT",
+  "classification": "ROW076_FAIL_CLOSED_CONTRACT_SLICE_NO_FALSE_COMPLETION",
   "row_complete": false,
   "implementation_completion_claimed": false,
   "runtime_completion_claimed": false,
-  "qa_decision": "hold_with_bounded_reuse_of_decay_metric_room_profile_and_wet_source_policy_shapes",
-  "intent": {
-    "intent_id": "intent_20260719T033041673Z_row076_reverb_dryness_current_delta_5dc9a6d9",
-    "authority_class": "codex_only",
-    "routing": null,
-    "worker_wake_count": 0
+  "qa_decision": "hold_with_fail_closed_acoustic_contract_and_synthetic_fixture_calibration_only",
+  "increment": {
+    "kind": "fail_closed_contract_and_analyzer_slice",
+    "analysis_pipeline_revision": "wave64_row076_audio_reverb_dryness_v0.1.0",
+    "summary": "Freeze Row076 direct/reverberant, RT60-style decay, early-reflection density, stereo imprint, wet-source policy, and double-reverb guard thresholds; emit schema-validated synthetic fixture calibration for dry/wet/ambiguous/noise cases; fail closed for library authority until Row071 and Row073 acceptance exists.",
+    "note": "Analyzer/schema/hold-packet bytes first landed on branch via concurrent sibling staging inside 63c29685; this increment adds the focused pytest authority and replaces the audit-only current delta with the fail-closed contract slice record without claiming library completion."
   },
   "row076_contract": {
     "status": "Planned_Autonomous_Implementation_Required",
@@ -34,7 +35,8 @@
       "double_reverb_guard"
     ],
     "output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_audio_reverb_dryness_estimation.json",
-    "output_artifact_exists": false,
+    "output_artifact_exists": true,
+    "output_artifact_authority": "fail_closed_hold_packet_not_library_acceptance",
     "completion_criteria": "Dry/wet and decay estimates are calibrated and prevent incompatible double reverberation.",
     "required_measurements": [
       "direct_to_reverberant_characteristic",
@@ -52,396 +54,156 @@
       "permit compatible wet passthrough only under an explicit compatible-room rule",
       "preserve dry stems and source bytes"
     ],
+    "frozen_thresholds": {
+      "direct_window_ms": 10.0,
+      "early_reflection_window_ms": 50.0,
+      "tail_floor_dbfs": -50.0,
+      "dry_drr_min_db": 12.0,
+      "wet_drr_max_db": 3.0,
+      "rt60_dry_max_s": 0.08,
+      "rt60_wet_min_s": 0.20,
+      "early_reflection_density_wet_min": 3.0,
+      "stereo_imprint_correlation_wet_max": 0.85,
+      "channel_policy": "max_abs_mono_plus_stereo_imprint",
+      "compatible_room_passthrough_requires_rule_id": true,
+      "suggestion_only": true,
+      "source_mutation_allowed": false
+    },
     "runtime_proof_required": true,
     "ec2_allowed": false,
     "final_render_gate": "BLOCKED_UNTIL_EXACT_ROW_IMPLEMENTATION_RUNTIME_QA_AND_AUTHORITY_PASS"
   },
-  "tracker_item_requirements_parity": {
-    "tracker_path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_TRACKER_ROWS.csv",
-    "tracker_sha256": "a698034d4d61788a9c630434f7aac75e3f7b1bf656319cfe43a5b2ce26d625de",
-    "tracker_bytes": 159309,
-    "item_path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ITEM_ROWS.csv",
-    "item_sha256": "f4a401d828aff69dbe7e005d6592a2af86edc936a0e6c1bae2f764345a9b8489",
-    "item_bytes": 111386,
-    "requirements_tracker_path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
-    "requirements_item_path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
-    "requirements_sha256": "077eaf1dfc1cb0d990660b2d9ec7073bc2b4acc1be47a94e9a0ea65eb1924acc",
-    "requirements_bytes": 48422,
-    "requirements_copies_byte_identical": true,
-    "tracker_item_title_match": true,
-    "tracker_item_status_match": true,
-    "tracker_item_acceptance_match": true,
-    "tracker_item_gate_match": true,
-    "tracker_item_dependency_match": true,
-    "git_state": "untracked_preserved_unaccepted"
+  "implemented_slice": {
+    "analyzer_path": "Plan/07_IMPLEMENTATION/scripts/analyze_wave64_audio_reverb_dryness.py",
+    "analyzer_sha256": "55c5156515d270df9b647dc8bd356b7e28842fdb43bdd1ce27605f6f9586784b",
+    "analyzer_bytes": 25796,
+    "schema_path": "Plan/08_SCHEMAS/audio_reverb_dryness_record.schema.json",
+    "schema_sha256": "214af80f231841b4920f58b80b17b4edfcda5c466200db932e6449dfe8793f59",
+    "schema_bytes": 6709,
+    "test_path": "Plan/Instructions/QA/Scripts/test_analyze_wave64_audio_reverb_dryness.py",
+    "test_sha256": "cbe5171c81fcbf2f246e71d0603f718d7baf5d53e6464a2a122e60399e7ff4ed",
+    "test_bytes": 6158,
+    "direct_evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_audio_reverb_dryness_estimation.json",
+    "direct_evidence_sha256": "1a5f66ebd0f2b2b29ed9f7f43b4d382df5236c42f5915bc73fa460b887bb7f3c",
+    "direct_evidence_bytes": 25934,
+    "capabilities_now_present": [
+      "frozen_analysis_pipeline_revision",
+      "frozen_drr_rt60_early_reflection_stereo_and_wet_policy_thresholds",
+      "method_unit_window_provenance_for_acoustic_estimates_and_double_reverb_guard",
+      "schema_validated_audio_reverb_dryness_records",
+      "row071_and_row073_admission_fail_closed_gates",
+      "synthetic_fixture_determinism_for_dry_wet_ambiguous_noise_and_stereo_room",
+      "wet_source_policy_reject_or_compatible_passthrough_with_explicit_rule_id",
+      "non_destructive_source_before_after_sha256_binding",
+      "library_mode_hold_packet_without_false_completion"
+    ],
+    "explicitly_not_claimed": [
+      "full_library_acoustic_estimation_records",
+      "accepted_row071_waveform_feature_authority",
+      "accepted_row073_usable_bounds_decay_authority",
+      "representative_library_room_and_source_truth_calibration",
+      "environment_specific_library_metadata_binding",
+      "row076_product_completion",
+      "row076_runtime_completion",
+      "downstream_row079_row081_row096_row103_row112_unblocking"
+    ]
   },
-  "source_authority": [
-    {
-      "path": "Plan/00_PROJECT_CONTROL/WAVE64_AUTONOMOUS_VIDEO_TO_AUDIO_AND_SOUND_GENERATION_MASTER_PLAN.md",
-      "sha256": "6f1b5059b686a81d866f61f3bada74ca673a43db2423241d500b024ecb6a1a67",
-      "bytes": 25625,
-      "citation": "Row076 Dryness, reverberation, and room-tail estimation, lines 159-163",
-      "git_state": "untracked_preserved_unaccepted"
-    },
-    {
-      "path": "Plan/02_TARGET_ARCHITECTURE/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ARCHITECTURE.md",
-      "sha256": "3aef5be8b48808a69fe70c4b61bb4de6f7e1086c670c1ce9c817ebb4a1f6ae9b",
-      "bytes": 7078,
-      "git_state": "untracked_preserved_unaccepted"
-    },
-    {
-      "path": "Plan/05_AUDIO_SYSTEM/WAVE64_AUTONOMOUS_SOUND_LIBRARY_GENERATION_AND_QA_PLAN.md",
-      "sha256": "63bea08b4e2209100cc875b60bfad7b2d2e2b0636c5643aaa4410e6f1b1fce1c",
-      "bytes": 5362,
-      "git_state": "untracked_preserved_unaccepted"
-    },
-    {
-      "path": "Plan/Instructions/QA/AUTONOMOUS_VIDEO_TO_AUDIO_AND_GENERATED_SOUND_QA_PROTOCOL.md",
-      "sha256": "ed5773fd5f83ac5c71e31983eab9fb8d0362f2544518c37b41f7c51b95c82181",
-      "bytes": 3801,
-      "git_state": "untracked_preserved_unaccepted"
-    }
-  ],
   "dependency_authority": [
     {
       "tracker_id": "TRK-W64-071",
-      "commit": "9a8e45d30da7603c8c1262cc858ee779b09c93cd",
       "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-071_WAVEFORM_FEATURE_EXTRACTION_CURRENT_DELTA_20260719.json",
-      "current_delta_sha256": "790f6689893c883692d146b2ceedf7daa69e2d2f4079749b943e4eff9b16444f",
-      "current_delta_bytes": 16710,
-      "current_delta_status": "HOLD_ROW070_CANONICAL_DECODE_AND_VERSIONED_FULL_FEATURE_PIPELINE_ABSENT",
+      "current_delta_sha256": "4118ecf426dc54242b049e15e27981097a29044d954bd21992dce85aca432def",
+      "current_delta_bytes": 7370,
+      "current_delta_status": "HOLD_ROW070_CANONICAL_DECODE_AND_FULL_LIBRARY_FEATURE_RUNTIME_ABSENT",
       "row_complete": false,
       "dependency_satisfied": false,
-      "reason": "Direct/reverberant, early-reflection, stereo-imprint, and decay estimates require accepted versioned waveform and spectral features; Row071 currently preserves techniques only."
+      "reason": "Direct/reverberant, early-reflection, stereo-imprint, and decay estimates still require accepted versioned waveform and spectral feature authority."
     },
     {
       "tracker_id": "TRK-W64-073",
-      "commit": "f3598905c6f2b2e1dfa64aa053074e7bd320392f",
       "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_CURRENT_DELTA_20260719.json",
-      "current_delta_sha256": "0224de679cff05151f05e5311508fa53ada4c9f50c127e25126c633a2fb6442b",
-      "current_delta_bytes": 18625,
-      "current_delta_status": "HOLD_DEPENDENCIES_WAVEFORM_ANALYZER_SCHEMA_AND_FULL_LIBRARY_PROOF_ABSENT",
+      "current_delta_sha256": "9c8b2d4b1871d61276bae4d5f6ca85a437f99b7ca3cc4d1a7a7fe1371b6146ff",
+      "current_delta_bytes": 9007,
+      "current_delta_status": "HOLD_ROW071_ROW072_DEPENDENCIES_AND_FULL_LIBRARY_BOUNDS_RUNTIME_ABSENT",
       "row_complete": false,
       "dependency_satisfied": false,
-      "reason": "Room-tail estimation must distinguish the primary event envelope and natural decay from reverberation; Row073 has no accepted analyzer, schema authority, or full-library records."
+      "reason": "Room-tail estimation must separate primary event envelope and natural decay from reverberation; Row073 remains unaccepted for library authority."
     }
   ],
-  "retained_index_input_boundary": {
-    "path": "runtime_artifacts/audio_asset_indexes/audio_downloads_functional_20260715T095712-0500/audio_pack_functional_index.jsonl",
-    "sha256": "7301243a364025dbd23907aee20ee8593d5897caa83d38391026ad42da6d17ec",
-    "bytes": 38266398,
-    "record_count": 39771,
-    "read_only_scan_performed": true,
-    "source_audio_opened_or_decoded": false,
-    "room_environment_suitability_field_count": 39771,
-    "room_environment_suitability_counts": {
-      "dry_or_unspecified": 38016,
-      "bathroom": 984,
-      "outdoor": 764,
-      "environment_specific_unspecified": 6,
-      "hall": 1
-    },
-    "counts_reconcile_to_record_count": true,
-    "row076_field_presence_counts": {
-      "room_environment_suitability": 39771,
-      "acoustics": 0,
-      "dryness": 0,
-      "dry_wet_ratio": 0,
-      "direct_to_reverberant_ratio": 0,
-      "rt60_seconds": 0,
-      "early_reflection_density": 0,
-      "stereo_room_imprint": 0,
-      "additional_convolution_safe": 0,
-      "wet_source_policy": 0
-    },
-    "classification_method": "Directory and filename token matching for bedroom bathroom kitchen office hall outdoor and studio; otherwise ambience-like records become environment_specific_unspecified and all other records become dry_or_unspecified.",
-    "classification_is_acoustic_measurement": false,
-    "dry_or_unspecified_is_proof_of_dryness": false,
-    "scope": "Existing retained JSONL bytes only. No external source inventory, audio decode, waveform or spectral analysis, impulse response estimation, playback, index rebuild, source mutation, or runtime service was used."
-  },
-  "metadata_indexer_room_hint_boundary": {
-    "path": "Plan/07_IMPLEMENTATION/scripts/build_audio_pack_functional_index.py",
-    "sha256": "d958bde4c7bd79b9ff1fdcffd787d074fea84e9f0ae4d48b9a56f93f54a1736c",
-    "bytes": 17598,
-    "git_state": "tracked_clean",
-    "implemented_behavior": [
-      "infer a room token from the relative path",
-      "mark ambience or room-tone paths environment_specific_unspecified",
-      "mark all other unmatched paths dry_or_unspecified",
-      "preserve every source record"
-    ],
-    "missing_measurements": [
-      "direct_to_reverberant_ratio",
-      "rt60",
-      "early_reflection_density",
-      "stereo_room_imprint",
-      "tail_confidence",
-      "convolution_safety"
-    ],
-    "decision": "inventory_room_hint_reusable_not_row076_acoustic_estimation"
-  },
-  "planned_asset_acoustics_schema": {
-    "path": "Plan/08_SCHEMAS/audio_asset_intelligence_record.schema.json",
-    "sha256": "42b7aec3b9595c153de3482290d1dfe715a082d4d5f85823f4afa6a162e0cc1f",
-    "bytes": 4323,
-    "git_state": "untracked_preserved_unaccepted",
-    "acoustics_required_at_record_root": true,
-    "acoustics_required_properties": [],
-    "acoustics_additional_properties_allowed": true,
-    "empty_acoustics_object_valid": true,
-    "missing_required_row076_fields": [
-      "dryness_decision",
-      "direct_to_reverberant_ratio",
-      "rt60_seconds",
-      "early_reflection_density",
-      "stereo_room_imprint",
-      "reverb_tail_seconds",
-      "additional_convolution_safe",
-      "compatible_room_rule_id",
-      "confidence",
-      "method_revision",
-      "calibration_evidence",
-      "source_and_canonical_pcm_bindings"
-    ],
-    "decision": "generic_extension_container_only_not_row076_contract"
-  },
-  "reusable_render_room_metric_implementation": {
-    "path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_spatial_room_evidence.py",
-    "sha256": "515c181072e93bbe553a47061b29b22a4206f74a4338ed1a75cb3db8269c3733",
-    "bytes": 92833,
-    "git_state": "tracked_clean",
-    "implemented_measurements": [
-      "PCM WAV decode with channel sample and payload checks",
-      "per-file RMS peak clipping and stereo pan",
-      "20-millisecond mean absolute frame-level smoothing",
-      "peak-to-first-0.001-amplitude decay duration reported as rt60_seconds",
-      "peak-to-end duration reported as reverb_tail_seconds",
-      "room profile and reverb profile range checks",
-      "spatialized dialogue versus dry dialogue and final mix bindings"
-    ],
-    "registry_path": "Plan/10_REGISTRIES/wave64_spatial_room_gate_rules.json",
-    "registry_sha256": "11300c817a4bd2b86ecdb6e83cb588a4a61365d511dec559dbfdecb89f30a8ef",
-    "registry_bytes": 4560,
-    "report_schema_path": "Plan/08_SCHEMAS/wave64_spatial_room_evaluator_report.schema.json",
-    "report_schema_sha256": "6fd55e783cd530a6e240c32131194f082982aae5a8463132912ee4056dd62ec9",
-    "report_schema_bytes": 15486,
-    "bundle_schema_path": "Plan/08_SCHEMAS/wave64_spatial_room_evidence_bundle.schema.json",
-    "bundle_schema_sha256": "58d50edaecd665a49058ab1c8327fef1791109a37094b1a859438b0cddbe4200",
-    "bundle_schema_bytes": 7672,
-    "test_path": "Plan/Instructions/QA/Scripts/test_wave64_spatial_room_evaluator_strict.py",
-    "test_sha256": "e9fe09daa8e40c22ed3ce7a110be30445ae2bbde2edd7db7dd10bd60c366ae99",
-    "test_bytes": 52270,
-    "test_count_source_audit": 46,
-    "direct_relevant_test_names": [
-      "test_unknown_room_profile_fails_room_gate",
-      "test_unknown_reverb_or_material_combo_fails_room_gate",
-      "test_rt60_mismatch_fails_room_gate",
-      "test_tail_mismatch_fails_room_gate"
-    ],
-    "limitations": [
-      "measures a prepared spatial-dialogue render inside a room-review packet rather than classifying retained source assets",
-      "does not compute direct-to-reverberant ratio",
-      "does not estimate early-reflection density",
-      "does not characterize stereo room imprint beyond overall left-right RMS pan",
-      "does not derive wet-source or additional-convolution safety",
-      "uses a peak threshold duration rather than a calibrated Schroeder energy-decay T20 T30 or noise-corrected estimator",
-      "emits no per-estimate confidence or calibration certificate"
-    ],
-    "decision": "pcm_decay_and_room_range_techniques_reusable_not_row076_asset_classifier_or_calibration"
-  },
-  "recovered_room_evidence_boundary": {
-    "path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_SPATIAL_ROOM_RECOVERED_READINESS_20260714T082800-0500.json",
-    "sha256": "7b7800211207758d967673ab8fbf521628d9e9c0e274dc9900867e99a19d5b90",
-    "bytes": 12862,
-    "tracker_id": "TRK-W64-029",
-    "status_decision": "Blocked_Spatial_Room_Production_Proof_Missing",
-    "checked_wav_count": 9,
-    "all_recovered_wavs_decode": true,
-    "all_recovered_wavs_match_strict_profile": false,
-    "room_rt60_or_reverb_tail_measurable_from_current_evidence": false,
-    "legacy_level_metrics_accepted_as_room_or_spatial_measurements": false,
-    "strict_evaluator_invoked": false,
-    "decision": "direct_fail_closed_evidence_supports_row076_hold_not_runtime_completion"
-  },
-  "wet_source_and_scene_policy_shapes": [
-    {
-      "path": "Plan/08_SCHEMAS/audio_spatial_render_manifest.schema.json",
-      "sha256": "690385cb2f293c3cdccf15a22a8f7ba55b0ddb2a251424c3494c92f6ebf071fc",
-      "bytes": 2934,
-      "git_state": "untracked_preserved_unaccepted",
-      "reusable_contract": {
-        "wet_source_policy_enum": [
-          "dry_render",
-          "compatible_wet_passthrough",
-          "limited_processing",
-          "reject"
-        ],
-        "room_target_rt60_and_authority": true,
-        "measured_rt60_validation": true
-      },
-      "limit": "The manifest accepts a wet_source_policy but does not derive it, require a Row076 evidence binding, define compatible-room identity, or implement a double-reverb guard.",
-      "decision": "decision_enum_reusable_not_classifier_or_enforcement"
-    },
-    {
-      "path": "Plan/08_SCHEMAS/hyperreal_acoustic_scene_spec.schema.json",
-      "sha256": "e3bb40fc6e1bccb3f92452f162e7cdaa7cee896674d568609eff134ac3877ac7",
-      "bytes": 2850,
-      "git_state": "untracked_preserved_unaccepted",
-      "reusable_contract": [
-        "impulse response references",
-        "early reflection policy id",
-        "late reverb policy id",
-        "dry stems preserved equals true"
-      ],
-      "limit": "This specifies an authored rendering scene, not source-asset wetness measurements or convolution compatibility evidence.",
-      "decision": "render_scene_authority_shape_reusable_not_row076_estimator"
-    },
-    {
-      "path": "Plan/10_REGISTRIES/wave64_hyperreal_foley_acoustic_spatial_policy_registry.json",
-      "sha256": "ec7df2c5a2e57f87b3a1fecead1a3ee42344682f62b799e24615019648f23c57",
-      "bytes": 696,
-      "git_state": "untracked_preserved_unaccepted",
-      "acoustic_feature_names": [
-        "direct_path",
-        "early_reflections",
-        "late_reverb",
-        "source_directivity",
-        "distance_attenuation",
-        "air_absorption",
-        "obstruction",
-        "listener_motion"
-      ],
-      "dry_stem_preservation_required": true,
-      "runtime_completion_claimed": false,
-      "decision": "planning_policy_only"
-    }
-  ],
-  "planning_only_coverage": {
-    "builder_path": "Plan/07_IMPLEMENTATION/scripts/build_wave64_autonomous_sound_intelligence_control_package.py",
-    "builder_sha256": "62441dab915e5d277963aa58f579ee8a9190a4f3d58fcceab2b252426524f593",
-    "builder_bytes": 37998,
-    "builder_git_state": "untracked_preserved_unaccepted",
-    "registry_path": "Plan/10_REGISTRIES/wave64_autonomous_sound_intelligence_work_package_registry.json",
-    "registry_sha256": "d4ba802a94920e462fed578790e0508f140d5d7b0cf64736dcc86f47fb0e709e",
-    "registry_bytes": 13741,
-    "registry_git_state": "untracked_preserved_unaccepted",
-    "row076_registry_status": "Planned_Autonomous_Implementation_Required",
-    "direct_implementation_or_runtime_evidence_emitted": false,
-    "decision": "planning_coverage_only"
-  },
-  "repository_search_boundary": {
-    "direct_to_reverberant_asset_estimator_found": false,
-    "early_reflection_density_asset_estimator_found": false,
-    "stereo_room_imprint_asset_estimator_found": false,
-    "double_reverb_guard_implementation_found": false,
-    "additional_convolution_safety_derivation_found": false,
-    "wet_source_policy_schema_found": true,
-    "rendered_room_rt60_and_tail_metric_found": true,
-    "interpretation": "Adjacent rendering and room-review code must not be relabeled as source-library acoustic intelligence."
+  "focused_validators": {
+    "command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_analyze_wave64_audio_reverb_dryness.py",
+    "exit_code": 0,
+    "passed": 10,
+    "failed": 0
   },
   "acceptance_gaps": [
-    "accepted Row071 versioned waveform and spectral feature pipeline",
-    "accepted Row073 event envelope usable bounds and natural-decay authority",
-    "frozen per-asset Row076 schema with exact measurement units methods and uncertainty",
-    "deterministic analyzer bound to source and canonical PCM hashes",
-    "calibrated direct-to-reverberant ratio estimator",
-    "calibrated RT60 T20 or T30 estimator with noise-floor correction and method selection",
-    "early-reflection density timing and energy estimator",
-    "stereo room-imprint coherence width and asymmetry estimator",
-    "event-tail versus room-tail separation",
-    "dry wet ambiguous and environment-specific classification taxonomy",
-    "confidence and evidence spans for every estimate and decision",
-    "known impulse response dry source convolved source stereo mono noise and ambiguous fixtures",
-    "error and calibration metrics against held-out room and source truth",
-    "explicit compatible-room identity and wet-passthrough policy",
-    "double-reverb prevention enforced by the renderer or admission gate",
-    "unknown or incompatible source fail-closed behavior",
-    "full retained-library reconciliation with one terminal acoustic decision or exact blocker per input",
-    "tracker-declared direct runtime QA and evidence artifact"
-  ],
-  "downstream_holds": [
     {
-      "tracker_id": "TRK-W64-079",
-      "task_name": "Fine-grained Foley body, material, footwear, force, and room enrichment",
-      "reason": "Room enrichment cannot assert compatible acoustic tags until source wetness and room imprint are measured."
+      "code": "ROW071_AND_ROW073_DEPENDENCIES_NOT_ACCEPTED",
+      "detail": "Both direct prerequisites remain row_complete=false, so accepted waveform features and usable natural-tail bounds are unavailable for library authority."
     },
     {
-      "tracker_id": "TRK-W64-081",
-      "task_name": "Explainable weighted audio candidate scoring and ranking",
-      "reason": "Candidate scoring cannot use dryness or room compatibility as a hard filter or component score before Row076 authority exists."
+      "code": "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT",
+      "detail": "No runtime reconciles every accepted Row071/Row073 input to dry/wet/ambiguous/environment-specific PASS or an exact blocker with hash-bound acoustic evidence."
     },
     {
-      "tracker_id": "TRK-W64-096",
-      "task_name": "Room impulse response, early-reflection, RT60, and convolution renderer",
-      "reason": "The renderer requires Row076 wet-source classification to prevent incompatible double reverberation."
+      "code": "FULL_LIBRARY_ACOUSTIC_RECONCILIATION_ABSENT",
+      "detail": "Fixture calibration proves method identity only; retained-library acoustic decision counts remain unreconciled."
     },
     {
-      "tracker_id": "TRK-W64-103",
-      "task_name": "Generated-sound technical, semantic, timing, acoustic, and uniqueness QA",
-      "reason": "Generated-sound acoustic QA requires accepted source and output reverb measurements and compatibility semantics."
-    },
-    {
-      "tracker_id": "TRK-W64-112",
-      "task_name": "Autonomous sound intelligence production acceptance and full-system certification",
-      "reason": "Full-system certification explicitly requires Row076 completion."
+      "code": "DOUBLE_REVERB_GUARD_LIBRARY_ENFORCEMENT_ABSENT",
+      "detail": "Fixture wet-source reject/passthrough policies do not yet bind renderer or admission gates across the retained library."
     }
   ],
-  "checks": [
-    {"name": "tracker_item_contract_parity", "status": "PASS"},
-    {"name": "direct_row076_output_absent", "status": "PASS"},
-    {"name": "row071_dependency_complete", "status": "FAIL"},
-    {"name": "row073_dependency_complete", "status": "FAIL"},
-    {"name": "retained_inventory_record_count_bound", "status": "PASS"},
-    {"name": "retained_room_hint_present_for_every_record", "status": "PASS"},
-    {"name": "retained_room_hint_is_acoustic_measurement", "status": "FAIL"},
-    {"name": "asset_acoustics_schema_requires_row076_fields", "status": "FAIL"},
-    {"name": "rendered_pcm_rt60_tail_technique_reusable", "status": "PASS"},
-    {"name": "rendered_room_evaluator_is_asset_classifier", "status": "FAIL"},
-    {"name": "direct_reverberant_estimate_present", "status": "FAIL"},
-    {"name": "calibrated_rt60_asset_estimate_present", "status": "FAIL"},
-    {"name": "early_reflection_density_present", "status": "FAIL"},
-    {"name": "stereo_room_imprint_present", "status": "FAIL"},
-    {"name": "wet_source_policy_shape_reusable", "status": "PASS"},
-    {"name": "double_reverb_guard_enforced", "status": "FAIL"},
-    {"name": "recovered_room_evidence_fails_closed", "status": "PASS"},
-    {"name": "full_library_runtime_reconciliation_present", "status": "FAIL"},
-    {"name": "source_audio_or_runtime_mutated_by_this_audit", "status": "PASS", "observed": false},
-    {"name": "row076_completion_claim_safe", "status": "FAIL"}
-  ],
-  "test_and_runtime_boundary": {
-    "source_tests_audited": true,
-    "tests_executed_for_this_delta": false,
-    "reason_tests_not_executed": "No implementation bytes changed and existing room-render tests do not establish the missing per-asset Row076 classifier calibration or full-library runtime proof.",
-    "audio_runtime_invoked": false,
-    "source_audio_read_or_decoded": false,
-    "ec2_invoked": false,
-    "docker_invoked": false,
-    "wsl_invoked": false,
-    "provider_calls": 0,
-    "wrapper_calls": 0,
-    "scheduled_task_wakes": 0
-  },
-  "scheduler_and_worker_containment": {
-    "codex_automations_modified": false,
-    "windows_worker_tasks_modified": false,
-    "mask_maintenance_tasks_modified": false,
-    "ec2_read_only_safety_monitor_modified": false,
-    "worker_control_paths_modified": false,
-    "queued_or_running_worker_scope_duplicated": false,
-    "containment_note": "The incident containment state remains untouched. This evidence is Codex final-authority PM/QA work only."
+  "direct_downstream_hold": {
+    "count": 5,
+    "tracker_ids": [
+      "TRK-W64-079",
+      "TRK-W64-081",
+      "TRK-W64-096",
+      "TRK-W64-103",
+      "TRK-W64-112"
+    ],
+    "reason": "Each row directly declares TRK-W64-076 as a prerequisite; synthetic fixture calibration and fail-closed hold packets cannot substitute for accepted source acoustic authority."
   },
   "preservation_boundary": {
-    "only_new_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_REVERB_DRYNESS_CURRENT_DELTA_20260719.json",
-    "queued_worker_scopes_preserved": true,
-    "flux2_dirty_paths_preserved": true,
-    "portfolio_reconciliation_paths_preserved": true,
-    "worker_control_snapshots_preserved": true,
-    "unrelated_dirty_and_untracked_paths_preserved": true,
-    "retained_audio_index_preserved": true
+    "row068_owned_paths_modified": false,
+    "row069_owned_paths_modified": false,
+    "row075_owned_paths_modified": false,
+    "row084_owned_paths_modified": false,
+    "row086_owned_paths_modified": false,
+    "unrelated_dirty_paths_modified": false,
+    "only_row076_writable_paths_this_increment": [
+      "Plan/Instructions/QA/Scripts/test_analyze_wave64_audio_reverb_dryness.py",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_REVERB_DRYNESS_CURRENT_DELTA_20260719.json"
+    ],
+    "row076_impl_already_on_branch": [
+      "Plan/07_IMPLEMENTATION/scripts/analyze_wave64_audio_reverb_dryness.py",
+      "Plan/08_SCHEMAS/audio_reverb_dryness_record.schema.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_audio_reverb_dryness_estimation.json"
+    ]
   },
-  "hold_decision": {
-    "decision": "HOLD_ROW076_NO_FALSE_COMPLETION",
-    "reason": "The repository has useful path-derived room hints, rendered-room decay measurements, authored room-profile ranges, and a wet-source policy enum, but it has no accepted dependencies, source-asset acoustic estimator, calibrated direct/reverberant or early-reflection authority, stereo room-imprint evidence, or enforced compatible-room double-reverb guard. Existing rendered-room checks cannot prove retained-library dryness.",
-    "safe_next_action": "After Rows071 and 073 are accepted, implement one bounded Row076 analyzer that is hash-bound to source and canonical PCM; separates event envelope from room tail; estimates direct/reverberant energy, calibrated RT60 or decay, early-reflection density, stereo room imprint, tail, and confidence; validates known dry, convolved, room, stereo, mono, noise, and ambiguous fixtures; emits dry, wet, ambiguous, or environment-specific decisions with exact evidence; enforces dry render, compatible wet passthrough, limited processing, or reject through an explicit room-compatibility binding; reconciles all retained inputs or exact blockers; and emits the tracker-declared runtime evidence. Reuse the existing PCM decay, room-profile, and wet-source policy shapes only within their proven rendered-room boundaries. Continue independent Codex PM/QA work meanwhile."
+  "checks": [
+    {"name": "ARD-I001_analysis_pipeline_revision_frozen", "result": "pass"},
+    {"name": "ARD-I002_schema_requires_drr_rt60_early_stereo_tail_policy_and_guard", "result": "pass"},
+    {"name": "ARD-I003_row071_and_row073_admission_fails_closed", "result": "pass"},
+    {"name": "ARD-I004_library_mode_hold_packet_emitted", "result": "pass"},
+    {"name": "ARD-I005_fixture_records_deterministic_schema_valid_and_suggestion_only", "result": "pass"},
+    {"name": "ARD-I006_wet_assets_reject_additional_convolution_without_compatible_rule", "result": "pass"},
+    {"name": "ARD-I007_focused_pytest_10_passed", "result": "pass"},
+    {"name": "ARD-I008_no_false_completion_claimed", "result": "pass"},
+    {"name": "ARD-I009_disjoint_from_row068_row069_row075_row084_row086_owned_paths", "result": "pass"}
+  ],
+  "check_summary": {
+    "checked": 9,
+    "passed": 9,
+    "failed": 0
+  },
+  "decision": {
+    "fail_closed_contract_slice": "accepted_as_bounded_increment",
+    "row076_status": "Planned_Autonomous_Implementation_Required",
+    "row076_acceptance": "held",
+    "runtime_completion": false,
+    "product_completion": false,
+    "safe_next_action": "Accept or complete Rows071 and 073 next; then extend Row076 library mode to consume accepted feature and bounds records, reconcile full-library dry/wet/ambiguous/environment-specific decisions with enforced wet-source policy and double-reverb guard, and only then mark Row076 complete for Row079/081/096/103/112 consumers."
   }
 }
