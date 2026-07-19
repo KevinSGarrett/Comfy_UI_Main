@@ -12,8 +12,9 @@
 
 1. `8e81819f` Prove Row017 MF70 mouth_lips local visual climb.
 2. `fa99ea1e` Stamp Row017 mouth_lips handoff with pushed commit parity.
+3. `40ff3119` Refresh Row017 mouth_lips handoff with pushed tip IDs.
 
-Pushed tip verified on origin: `fa99ea1e00f5258f521ccb259610a29e0f15e34d`
+Pushed tip verified on origin: `40ff31195559a8a957f0bb05a54b6ad522dd74f4`
 
 ## Row-Scoped Increment Executed
 
