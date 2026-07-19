@@ -3,7 +3,9 @@
 
 Compiles fixture or decoded-frame metadata into a content-addressed timeline
 receipt, plus mux-prep scaffold, held-out fixed/VFR round-trip matrix helpers,
-and a fixture-backed missing-frame policy matrix (preserve_gap / explicit_gap).
+a fixture-backed missing-frame policy matrix (preserve_gap / explicit_gap),
+and a fixture-backed camera-motion policy matrix
+(not_evaluated / blocked_until_calibrated / distinguish_from_cuts).
 Production completion remains blocked unless dependency, benchmark, mux-replay,
 and visual-review authorities are all satisfied.
 """
@@ -18,9 +20,12 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-COMPILER_REVISION = "row084_missing_frame_policy_matrix_v6"
+COMPILER_REVISION = "row084_camera_motion_policy_matrix_v7"
 MATRIX_AUTHORIZED_MISSING_POLICIES = frozenset({"preserve_gap", "explicit_gap"})
 RUNTIME_BLOCKED_MISSING_POLICIES = frozenset({"interpolate", "block"})
+MATRIX_AUTHORIZED_CAMERA_MOTION_POLICIES = frozenset(
+    {"not_evaluated", "blocked_until_calibrated", "distinguish_from_cuts"}
+)
 
 
 ALLOWED_TOP_LEVEL_FIELDS = {
@@ -696,6 +701,11 @@ def compile_timeline(payload: dict[str, Any]) -> dict[str, Any]:
     frames = _validate_frame_table(payload.get("frame_table"), clock_span)
     vfr_segments = _validate_vfr_segments(payload.get("vfr_segments"), frame_rate_mode, clock_span)
     cut_epochs = _validate_cut_epochs(payload.get("cut_epochs"), clock_span)
+    if camera_motion_policy == "distinguish_from_cuts" and not cut_epochs:
+        raise ValueError(
+            "camera_motion_policy distinguish_from_cuts is fail-closed without "
+            "non-empty cut_epochs (cannot distinguish camera motion from cuts)"
+        )
     missing_frames = _validate_missing_frames(payload.get("missing_frames"), clock_span)
 
     dependency_raw = payload.get("dependency_authority")
@@ -1354,6 +1364,152 @@ def compile_missing_frame_policy_matrix(payload: dict[str, Any]) -> dict[str, An
     return body
 
 
+def compile_camera_motion_policy_matrix(payload: dict[str, Any]) -> dict[str, Any]:
+    """Compile a fixture-backed camera-motion policy distinction matrix.
+
+    Covers not_evaluated / blocked_until_calibrated / distinguish_from_cuts with
+    fail-closed reject paths. Does not grant camera-motion normalization,
+    visual review, mux replay, or row_complete.
+    """
+    if not isinstance(payload, dict):
+        raise ValueError("camera-motion policy matrix payload must be an object")
+    allowed = {"schema_version", "matrix_id", "revision", "cases", "provenance"}
+    _assert_keys_exact(payload, allowed, "camera_motion_policy_matrix")
+    schema_version = _expect_non_empty_string(payload.get("schema_version"), "schema_version")
+    if schema_version != "1.0.0":
+        raise ValueError("schema_version must equal 1.0.0")
+    matrix_id = _expect_non_empty_string(payload.get("matrix_id"), "matrix_id")
+    revision = _expect_non_empty_string(payload.get("revision"), "revision")
+    cases_raw = payload.get("cases")
+    if not isinstance(cases_raw, list) or len(cases_raw) < 3:
+        raise ValueError("cases must be a list with at least three camera-motion policy fixtures")
+
+    seen_case_ids: set[str] = set()
+    seen_policies: set[str] = set()
+    case_results: list[dict[str, Any]] = []
+    for idx, entry in enumerate(cases_raw):
+        if not isinstance(entry, dict):
+            raise ValueError(f"cases[{idx}] must be an object")
+        _assert_keys_exact(
+            entry,
+            {"case_id", "expected_policy", "timeline_packet"},
+            f"cases[{idx}]",
+        )
+        case_id = _expect_non_empty_string(entry.get("case_id"), f"cases[{idx}].case_id")
+        if case_id in seen_case_ids:
+            raise ValueError(f"cases[{idx}].case_id duplicates a prior case_id")
+        seen_case_ids.add(case_id)
+        expected_policy = _expect_non_empty_string(
+            entry.get("expected_policy"), f"cases[{idx}].expected_policy"
+        )
+        if expected_policy not in MATRIX_AUTHORIZED_CAMERA_MOTION_POLICIES:
+            raise ValueError(
+                f"cases[{idx}].expected_policy must be one of "
+                f"{sorted(MATRIX_AUTHORIZED_CAMERA_MOTION_POLICIES)}"
+            )
+        packet = entry.get("timeline_packet")
+        if not isinstance(packet, dict):
+            raise ValueError(f"cases[{idx}].timeline_packet must be an object")
+        declared_policy = packet.get("camera_motion_policy")
+        if declared_policy != expected_policy:
+            raise ValueError(
+                f"cases[{idx}].timeline_packet.camera_motion_policy "
+                f"must equal expected_policy {expected_policy}"
+            )
+
+        receipt = compile_timeline(packet)
+        applied_policy = receipt.get("camera_motion_policy")
+        if applied_policy != expected_policy:
+            raise ValueError(
+                f"cases[{idx}] compiled camera_motion_policy {applied_policy!r} "
+                f"must equal expected_policy {expected_policy}"
+            )
+        cut_epochs = receipt.get("cut_epochs")
+        if not isinstance(cut_epochs, list):
+            raise ValueError(f"cases[{idx}] compiled receipt cut_epochs must be a list")
+        if expected_policy == "distinguish_from_cuts" and not cut_epochs:
+            raise ValueError(
+                f"cases[{idx}] distinguish_from_cuts requires non-empty cut_epochs"
+            )
+        seen_policies.add(expected_policy)
+        case_results.append(
+            {
+                "case_id": case_id,
+                "expected_policy": expected_policy,
+                "timeline_id": receipt["timeline_id"],
+                "timeline_sha256": receipt["timeline_sha256"],
+                "frame_rate_mode": receipt["frame_rate_mode"],
+                "cut_epoch_count": len(cut_epochs),
+                "applied_policy": applied_policy,
+                "policy_applied": True,
+                "within_tolerance": receipt["roundtrip_evidence"]["within_tolerance"],
+                "runtime_policy_complete": False,
+                "row_complete": False,
+            }
+        )
+
+    for required in sorted(MATRIX_AUTHORIZED_CAMERA_MOTION_POLICIES):
+        if required not in seen_policies:
+            raise ValueError(
+                f"camera-motion policy matrix requires at least one {required} case"
+            )
+
+    all_within = all(case["within_tolerance"] for case in case_results)
+    all_applied = all(case["policy_applied"] for case in case_results)
+    created_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    provenance = payload.get("provenance")
+    if provenance is None:
+        provenance = {
+            "compiler": "compile_wave64_canonical_video_timeline.py",
+            "compiler_revision": COMPILER_REVISION,
+        }
+    if not isinstance(provenance, dict):
+        raise ValueError("provenance must be an object")
+
+    body = {
+        "schema_version": "1.0.0",
+        "record_type": "canonical_video_timeline_camera_motion_policy_matrix",
+        "matrix_id": matrix_id,
+        "revision": revision,
+        "status": "fixture_camera_motion_policy_partial" if all_within and all_applied else "blocked",
+        "created_at": created_at,
+        "cases": case_results,
+        "summary": {
+            "case_count": len(case_results),
+            "passed_count": sum(
+                1 for case in case_results if case["within_tolerance"] and case["policy_applied"]
+            ),
+            "failed_count": sum(
+                1
+                for case in case_results
+                if not (case["within_tolerance"] and case["policy_applied"])
+            ),
+            "all_within_tolerance": all_within,
+            "policies_covered": sorted(seen_policies),
+            "not_evaluated_covered": "not_evaluated" in seen_policies,
+            "blocked_until_calibrated_covered": "blocked_until_calibrated" in seen_policies,
+            "distinguish_from_cuts_covered": "distinguish_from_cuts" in seen_policies,
+            "runtime_policy_complete": False,
+            "mux_replay_included": False,
+            "runtime_media_decode_invoked": False,
+            "benchmark_authority_granted": False,
+            "visual_review_authority_granted": False,
+        },
+        "authority": {
+            "fixture_matrix_only": True,
+            "camera_motion_normalization_complete": False,
+            "fixed_vfr_benchmark_pass": False,
+            "mux_replay_proof_present": False,
+            "combined_visual_review_present": False,
+        },
+        "production_completion_allowed": False,
+        "row_complete": False,
+        "provenance": provenance,
+    }
+    body["matrix_sha256"] = _canonical_sha256(body)
+    return body
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Compile a fail-closed Row084 canonical video timeline receipt.")
     parser.add_argument(
@@ -1361,7 +1517,7 @@ def main(argv: list[str] | None = None) -> int:
         required=True,
         help=(
             "Path to timeline, mux-prep, held-out matrix, held-out mux dry-run, "
-            "or missing-frame policy matrix input JSON"
+            "missing-frame policy matrix, or camera-motion policy matrix input JSON"
         ),
     )
     parser.add_argument("--output", required=True, help="Path to write compiled receipt JSON")
@@ -1373,6 +1529,7 @@ def main(argv: list[str] | None = None) -> int:
             "held-out-matrix",
             "held-out-mux-dry-run",
             "missing-frame-policy-matrix",
+            "camera-motion-policy-matrix",
         ),
         default="timeline",
         help="Compilation mode (default: timeline)",
@@ -1402,8 +1559,11 @@ def main(argv: list[str] | None = None) -> int:
         elif args.mode == "held-out-mux-dry-run":
             receipt = compile_held_out_mux_dry_run_matrix(payload)
             digest_key = "matrix_sha256"
-        else:
+        elif args.mode == "missing-frame-policy-matrix":
             receipt = compile_missing_frame_policy_matrix(payload)
+            digest_key = "matrix_sha256"
+        else:
+            receipt = compile_camera_motion_policy_matrix(payload)
             digest_key = "matrix_sha256"
     except ValueError as exc:
         raise SystemExit(f"ROW084_FAIL_CLOSED: {exc}") from exc

@@ -25,6 +25,9 @@ HELD_OUT_MUX_DRY_RUN_SCHEMA = (
 MISSING_FRAME_POLICY_MATRIX_SCHEMA = (
     ROOT / "Plan/08_SCHEMAS/canonical_video_timeline_missing_frame_policy_matrix.schema.json"
 )
+CAMERA_MOTION_POLICY_MATRIX_SCHEMA = (
+    ROOT / "Plan/08_SCHEMAS/canonical_video_timeline_camera_motion_policy_matrix.schema.json"
+)
 
 
 def _write_json(path: Path, payload: dict) -> None:
@@ -316,6 +319,58 @@ def _missing_frame_policy_matrix_packet() -> dict:
     }
 
 
+def _camera_motion_policy_matrix_packet() -> dict:
+    """Fixture matrix covering not_evaluated / blocked_until_calibrated / distinguish_from_cuts."""
+    not_evaluated = _fixed_packet(
+        frame_count=12,
+        timeline_id="row084_camera_not_evaluated",
+        video_sha256="7" * 64,
+        dependency_complete=True,
+        provenance_fixture="row084_camera_not_evaluated",
+    )
+    not_evaluated["camera_motion_policy"] = "not_evaluated"
+
+    blocked = _fixed_packet(
+        frame_count=12,
+        timeline_id="row084_camera_blocked_until_calibrated",
+        video_sha256="8" * 64,
+        dependency_complete=True,
+        provenance_fixture="row084_camera_blocked_until_calibrated",
+    )
+    blocked["camera_motion_policy"] = "blocked_until_calibrated"
+
+    distinguish = _vfr_cut_packet(
+        timeline_id="row084_camera_distinguish_from_cuts",
+        video_sha256="9" * 64,
+        provenance_fixture="row084_camera_distinguish_from_cuts",
+    )
+    distinguish["camera_motion_policy"] = "distinguish_from_cuts"
+
+    return {
+        "schema_version": "1.0.0",
+        "matrix_id": "row084_camera_motion_policy_matrix_v1",
+        "revision": "r001",
+        "cases": [
+            {
+                "case_id": "not_evaluated_fixed",
+                "expected_policy": "not_evaluated",
+                "timeline_packet": not_evaluated,
+            },
+            {
+                "case_id": "blocked_until_calibrated_fixed",
+                "expected_policy": "blocked_until_calibrated",
+                "timeline_packet": blocked,
+            },
+            {
+                "case_id": "distinguish_from_cuts_vfr",
+                "expected_policy": "distinguish_from_cuts",
+                "timeline_packet": distinguish,
+            },
+        ],
+        "provenance": {"fixture": "row084_camera_motion_policy_matrix"},
+    }
+
+
 class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
     def setUp(self) -> None:
         self.timeline_validator = Draft202012Validator(json.loads(TIMELINE_SCHEMA.read_text(encoding="utf-8")))
@@ -328,6 +383,9 @@ class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
         )
         self.missing_frame_policy_validator = Draft202012Validator(
             json.loads(MISSING_FRAME_POLICY_MATRIX_SCHEMA.read_text(encoding="utf-8"))
+        )
+        self.camera_motion_policy_validator = Draft202012Validator(
+            json.loads(CAMERA_MOTION_POLICY_MATRIX_SCHEMA.read_text(encoding="utf-8"))
         )
         self.clock_span_schema = json.loads(CLOCK_SPAN_SCHEMA.read_text(encoding="utf-8"))
 
@@ -776,6 +834,92 @@ class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
         packet["missing_frames"] = [{"frame_index": 8, "policy": "explicit_gap"}]
         completed, _ = self._run_compile(packet, expect_ok=False)
         self.assertIn("outside clock_span bounds", completed.stderr + completed.stdout)
+
+    def test_camera_motion_policy_matrix_covers_three_policies(self) -> None:
+        packet = _camera_motion_policy_matrix_packet()
+        _, receipt = self._run_compile(packet, expect_ok=True, mode="camera-motion-policy-matrix")
+        assert receipt is not None
+        self.camera_motion_policy_validator.validate(receipt)
+        self.assertEqual(
+            receipt["record_type"], "canonical_video_timeline_camera_motion_policy_matrix"
+        )
+        self.assertEqual(receipt["status"], "fixture_camera_motion_policy_partial")
+        self.assertFalse(receipt["row_complete"])
+        self.assertFalse(receipt["production_completion_allowed"])
+        self.assertFalse(receipt["summary"]["runtime_policy_complete"])
+        self.assertTrue(receipt["summary"]["not_evaluated_covered"])
+        self.assertTrue(receipt["summary"]["blocked_until_calibrated_covered"])
+        self.assertTrue(receipt["summary"]["distinguish_from_cuts_covered"])
+        self.assertEqual(
+            set(receipt["summary"]["policies_covered"]),
+            {"not_evaluated", "blocked_until_calibrated", "distinguish_from_cuts"},
+        )
+        self.assertFalse(receipt["authority"]["camera_motion_normalization_complete"])
+        self.assertFalse(receipt["authority"]["mux_replay_proof_present"])
+        self.assertFalse(receipt["authority"]["combined_visual_review_present"])
+        self.assertEqual(receipt["summary"]["case_count"], 3)
+        self.assertEqual(receipt["summary"]["passed_count"], 3)
+        by_id = {case["case_id"]: case for case in receipt["cases"]}
+        self.assertEqual(by_id["not_evaluated_fixed"]["applied_policy"], "not_evaluated")
+        self.assertEqual(
+            by_id["blocked_until_calibrated_fixed"]["applied_policy"],
+            "blocked_until_calibrated",
+        )
+        self.assertEqual(
+            by_id["distinguish_from_cuts_vfr"]["applied_policy"], "distinguish_from_cuts"
+        )
+        self.assertGreaterEqual(by_id["distinguish_from_cuts_vfr"]["cut_epoch_count"], 1)
+        self.assertTrue(all(case["policy_applied"] for case in receipt["cases"]))
+        self.assertTrue(all(case["runtime_policy_complete"] is False for case in receipt["cases"]))
+        self.assertTrue(all(case["row_complete"] is False for case in receipt["cases"]))
+
+    def test_camera_motion_policy_matrix_requires_all_three_policies(self) -> None:
+        packet = _camera_motion_policy_matrix_packet()
+        # Three cases, but no distinguish_from_cuts — coverage must fail closed.
+        packet["cases"][2]["case_id"] = "not_evaluated_fixed_b"
+        packet["cases"][2]["expected_policy"] = "not_evaluated"
+        packet["cases"][2]["timeline_packet"] = _fixed_packet(
+            frame_count=12,
+            timeline_id="row084_camera_not_evaluated_b",
+            video_sha256="a" * 64,
+            dependency_complete=True,
+            provenance_fixture="row084_camera_not_evaluated_b",
+        )
+        packet["cases"][2]["timeline_packet"]["camera_motion_policy"] = "not_evaluated"
+        completed, _ = self._run_compile(
+            packet, expect_ok=False, mode="camera-motion-policy-matrix"
+        )
+        self.assertIn(
+            "requires at least one distinguish_from_cuts case",
+            completed.stderr + completed.stdout,
+        )
+
+    def test_camera_motion_policy_matrix_rejects_policy_mismatch(self) -> None:
+        packet = _camera_motion_policy_matrix_packet()
+        packet["cases"][0]["timeline_packet"]["camera_motion_policy"] = "blocked_until_calibrated"
+        completed, _ = self._run_compile(
+            packet, expect_ok=False, mode="camera-motion-policy-matrix"
+        )
+        self.assertIn(
+            "must equal expected_policy not_evaluated",
+            completed.stderr + completed.stdout,
+        )
+
+    def test_camera_motion_distinguish_from_cuts_without_cut_epochs_is_fail_closed(self) -> None:
+        packet = _fixed_packet(dependency_complete=True)
+        packet["camera_motion_policy"] = "distinguish_from_cuts"
+        packet["cut_epochs"] = []
+        completed, _ = self._run_compile(packet, expect_ok=False)
+        self.assertIn(
+            "fail-closed without non-empty cut_epochs",
+            completed.stderr + completed.stdout,
+        )
+
+    def test_camera_motion_unknown_policy_is_rejected(self) -> None:
+        packet = _fixed_packet(dependency_complete=True)
+        packet["camera_motion_policy"] = "calibrated_runtime"
+        completed, _ = self._run_compile(packet, expect_ok=False)
+        self.assertIn("camera_motion_policy must be one of", completed.stderr + completed.stdout)
 
 
 if __name__ == "__main__":
