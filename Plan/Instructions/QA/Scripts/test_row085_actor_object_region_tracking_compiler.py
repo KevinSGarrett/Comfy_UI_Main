@@ -16,11 +16,13 @@ ROOT = Path(__file__).resolve().parents[4]
 COMPILER = ROOT / "Plan/07_IMPLEMENTATION/scripts/compile_wave64_actor_object_region_tracking.py"
 SCHEMA = ROOT / "Plan/08_SCHEMAS/actor_object_region_tracking_manifest.schema.json"
 FIXTURE_DIR = ROOT / "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085"
+SYNTHETIC_LEDGER = FIXTURE_DIR / "synthetic_tracking_benchmark_ledger.json"
 FIXTURE_PACKETS = (
     "case_occlusion_gap.json",
     "case_reappearance.json",
     "case_lost_track.json",
 )
+TRACKING_CASES = ("lost_track", "occlusion_gap", "reappearance")
 
 
 def _load_compiler_module():
@@ -387,6 +389,139 @@ class Row085ActorObjectRegionTrackingCompilerTests(unittest.TestCase):
         with self.assertRaises(ValueError) as ctx2:
             COMPILER_MOD.verify_manifest_integrity(hash_tampered)
         self.assertIn("tamper/replay mismatch", str(ctx2.exception))
+
+    def test_synthetic_tracking_benchmark_ledger_binds_fixture_digests(self) -> None:
+        self.assertTrue(SYNTHETIC_LEDGER.is_file(), msg="missing synthetic ledger fixture")
+        ledger = COMPILER_MOD.build_synthetic_tracking_benchmark_ledger()
+        checked_in = json.loads(SYNTHETIC_LEDGER.read_text(encoding="utf-8"))
+
+        self.assertEqual(ledger, checked_in)
+        self.assertEqual(
+            COMPILER_MOD.verify_synthetic_benchmark_ledger_integrity(ledger),
+            ledger["ledger_sha256"],
+        )
+        self.assertFalse(ledger["row_complete"])
+        self.assertFalse(ledger["production_completion_allowed"])
+        self.assertFalse(ledger["production_benchmark"])
+        self.assertFalse(ledger["annotated_tracking_benchmark_pass"])
+        self.assertFalse(ledger["visual_review_claimed"])
+        self.assertFalse(ledger["row084_acceptance_claimed"])
+        self.assertEqual(ledger["authority_ceiling"], "fixture_synthetic_only")
+        self.assertTrue(ledger["is_synthetic"])
+
+        binding_by_name = {item["fixture_name"]: item for item in ledger["fixture_bindings"]}
+        self.assertEqual(set(binding_by_name), set(FIXTURE_PACKETS))
+        for name in FIXTURE_PACKETS:
+            expected_file_digest = COMPILER_MOD.fixture_file_sha256(name)
+            compiled = COMPILER_MOD.compile_manifest(COMPILER_MOD.load_fixture_packet(name))
+            self.assertEqual(binding_by_name[name]["fixture_file_sha256"], expected_file_digest)
+            self.assertEqual(
+                binding_by_name[name]["compiled_manifest_sha256"],
+                compiled["manifest_sha256"],
+            )
+            self.assertFalse(binding_by_name[name]["row_complete"])
+
+        by_case = {item["case_id"]: item for item in ledger["tracking_metric_expectations"]}
+        self.assertEqual(set(by_case), set(TRACKING_CASES))
+        self.assertEqual(by_case["occlusion_gap"]["expected_occlusion_gap_frames"], 6)
+        self.assertEqual(by_case["occlusion_gap"]["expected_reappearance_count"], 0)
+        self.assertEqual(by_case["occlusion_gap"]["expected_lost_track_count"], 0)
+        self.assertEqual(by_case["reappearance"]["expected_occlusion_gap_frames"], 3)
+        self.assertEqual(by_case["reappearance"]["expected_reappearance_count"], 2)
+        self.assertEqual(by_case["reappearance"]["expected_lost_track_count"], 0)
+        self.assertEqual(by_case["lost_track"]["expected_lost_track_count"], 2)
+        self.assertEqual(by_case["lost_track"]["expected_occlusion_gap_frames"], 0)
+        self.assertEqual(by_case["lost_track"]["expected_reappearance_count"], 0)
+
+        tampered = json.loads(json.dumps(ledger))
+        tampered["annotated_tracking_benchmark_pass"] = True
+        with self.assertRaises(ValueError) as ctx:
+            COMPILER_MOD.verify_synthetic_benchmark_ledger_integrity(tampered)
+        self.assertIn("tamper/replay mismatch", str(ctx.exception))
+
+    def test_ledger_vs_compiled_manifest_expectation_verifier_rejects_digest_drift(self) -> None:
+        receipt = COMPILER_MOD.verify_synthetic_ledger_vs_compiled_manifest_expectations()
+        self.assertEqual(receipt["status"], "ok")
+        self.assertTrue(receipt["digest_drift_rejected"])
+        self.assertFalse(receipt["row_complete"])
+        self.assertFalse(receipt["production_benchmark"])
+        self.assertFalse(receipt["annotated_tracking_benchmark_pass"])
+        self.assertFalse(receipt["visual_review_claimed"])
+        self.assertFalse(receipt["row084_acceptance_claimed"])
+        self.assertEqual(receipt["fixture_binding_count"], 3)
+        self.assertEqual(receipt["tracking_metric_expectation_count"], 3)
+        self.assertEqual(receipt["authority_ceiling"], "fixture_synthetic_only")
+
+        cli = subprocess.run(
+            [sys.executable, str(COMPILER), "--verify-synthetic-benchmark-ledger"],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        self.assertEqual(cli.returncode, 0, msg=cli.stderr + cli.stdout)
+        cli_receipt = json.loads(cli.stdout)
+        self.assertEqual(cli_receipt["ledger_sha256"], receipt["ledger_sha256"])
+        self.assertFalse(cli_receipt["annotated_tracking_benchmark_pass"])
+
+        ledger = COMPILER_MOD.load_synthetic_benchmark_ledger()
+        drifted = json.loads(json.dumps(ledger))
+        drifted["fixture_bindings"][0]["compiled_manifest_sha256"] = "0" * 64
+        drifted_body = {key: value for key, value in drifted.items() if key != "ledger_sha256"}
+        drifted["ledger_sha256"] = COMPILER_MOD._canonical_sha256(drifted_body)
+        with self.assertRaises(ValueError) as ctx:
+            COMPILER_MOD.verify_synthetic_ledger_vs_compiled_manifest_expectations(drifted)
+        self.assertIn("compiled manifest digest drift", str(ctx.exception))
+
+        file_drifted = json.loads(json.dumps(ledger))
+        file_drifted["fixture_bindings"][0]["fixture_file_sha256"] = "1" * 64
+        file_body = {key: value for key, value in file_drifted.items() if key != "ledger_sha256"}
+        file_drifted["ledger_sha256"] = COMPILER_MOD._canonical_sha256(file_body)
+        with self.assertRaises(ValueError) as ctx2:
+            COMPILER_MOD.verify_synthetic_ledger_vs_compiled_manifest_expectations(file_drifted)
+        self.assertIn("fixture file digest drift", str(ctx2.exception))
+
+        expectation_drifted = json.loads(json.dumps(ledger))
+        expectation_drifted["tracking_metric_expectations"][0][
+            "expected_occlusion_gap_frames"
+        ] = 99
+        expectation_body = {
+            key: value for key, value in expectation_drifted.items() if key != "ledger_sha256"
+        }
+        expectation_drifted["ledger_sha256"] = COMPILER_MOD._canonical_sha256(expectation_body)
+        with self.assertRaises(ValueError) as ctx3:
+            COMPILER_MOD.verify_synthetic_ledger_vs_compiled_manifest_expectations(
+                expectation_drifted
+            )
+        self.assertIn("expected_occlusion_gap_frames mismatch", str(ctx3.exception))
+
+        pass_claimed = json.loads(json.dumps(ledger))
+        pass_claimed["annotated_tracking_benchmark_pass"] = True
+        pass_body = {key: value for key, value in pass_claimed.items() if key != "ledger_sha256"}
+        pass_claimed["ledger_sha256"] = COMPILER_MOD._canonical_sha256(pass_body)
+        with self.assertRaises(ValueError) as ctx4:
+            COMPILER_MOD.verify_synthetic_ledger_vs_compiled_manifest_expectations(pass_claimed)
+        self.assertIn("annotated_tracking_benchmark_pass=false", str(ctx4.exception))
+
+        visual_claimed = json.loads(json.dumps(ledger))
+        visual_claimed["visual_review_claimed"] = True
+        visual_body = {
+            key: value for key, value in visual_claimed.items() if key != "ledger_sha256"
+        }
+        visual_claimed["ledger_sha256"] = COMPILER_MOD._canonical_sha256(visual_body)
+        with self.assertRaises(ValueError) as ctx5:
+            COMPILER_MOD.verify_synthetic_ledger_vs_compiled_manifest_expectations(visual_claimed)
+        self.assertIn("visual_review_claimed=false", str(ctx5.exception))
+
+        row084_claimed = json.loads(json.dumps(ledger))
+        row084_claimed["row084_acceptance_claimed"] = True
+        row084_body = {
+            key: value for key, value in row084_claimed.items() if key != "ledger_sha256"
+        }
+        row084_claimed["ledger_sha256"] = COMPILER_MOD._canonical_sha256(row084_body)
+        with self.assertRaises(ValueError) as ctx6:
+            COMPILER_MOD.verify_synthetic_ledger_vs_compiled_manifest_expectations(row084_claimed)
+        self.assertIn("row084_acceptance_claimed=false", str(ctx6.exception))
 
 
 if __name__ == "__main__":
