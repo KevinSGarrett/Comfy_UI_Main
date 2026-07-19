@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import importlib.util
 import json
 import subprocess
 import sys
@@ -14,6 +15,34 @@ from jsonschema import Draft202012Validator
 ROOT = Path(__file__).resolve().parents[4]
 COMPILER = ROOT / "Plan/07_IMPLEMENTATION/scripts/compile_wave64_visual_material_recognition.py"
 SCHEMA = ROOT / "Plan/08_SCHEMAS/visual_material_recognition_manifest.schema.json"
+FIXTURE_DIR = ROOT / "Plan/Instructions/QA/Evidence/Wave64/fixtures/row089"
+REQUIRED_MATERIALS = {
+    "hardwood",
+    "carpet",
+    "tile",
+    "skin",
+    "fabric",
+    "leather",
+    "metal",
+    "glass",
+}
+FIXTURE_PACKETS = (
+    "materials_all_eight_required.json",
+    "case_occlusion_abstain.json",
+    "case_ambiguity_broader_class.json",
+    "case_false_positive_disagreement_abstain.json",
+)
+
+
+def _load_compiler_module():
+    spec = importlib.util.spec_from_file_location("compile_wave64_visual_material_recognition", COMPILER)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+COMPILER_MOD = _load_compiler_module()
 
 
 def _write_json(path: Path, payload: dict) -> None:
@@ -310,6 +339,87 @@ class Row089VisualMaterialRecognitionCompilerTests(unittest.TestCase):
         self.assertIn("taxonomy", required)
         self.assertIn("material_decisions", required)
         self.assertIn("row_complete", required)
+
+    def test_fixture_packets_cover_required_materials_and_edge_cases(self) -> None:
+        for name in FIXTURE_PACKETS:
+            self.assertTrue((FIXTURE_DIR / name).is_file(), msg=f"missing fixture {name}")
+
+        _, all_eight = self._run_compile(
+            COMPILER_MOD.load_fixture_packet("materials_all_eight_required.json"),
+            expect_ok=True,
+        )
+        assert all_eight is not None
+        covered = set(all_eight["metrics"]["required_classes_covered"])
+        self.assertEqual(covered, REQUIRED_MATERIALS)
+        self.assertEqual(all_eight["metrics"]["required_class_coverage_count"], 8)
+        self.assertFalse(all_eight["row_complete"])
+        self.assertFalse(all_eight["production_completion_allowed"])
+        self.assertFalse(all_eight["authority_summary"]["material_certification_allowed"])
+
+        _, occlusion = self._run_compile(
+            COMPILER_MOD.load_fixture_packet("case_occlusion_abstain.json"),
+            expect_ok=True,
+        )
+        assert occlusion is not None
+        self.assertEqual(occlusion["metrics"]["abstention_count"], 1)
+        self.assertEqual(
+            occlusion["material_decisions"][0]["abstention_reason"],
+            "region_occluded_visual_proof_absent",
+        )
+        self.assertFalse(occlusion["row_complete"])
+
+        _, ambiguity = self._run_compile(
+            COMPILER_MOD.load_fixture_packet("case_ambiguity_broader_class.json"),
+            expect_ok=True,
+        )
+        assert ambiguity is not None
+        self.assertEqual(ambiguity["metrics"]["broader_class_count"], 1)
+        self.assertEqual(ambiguity["material_decisions"][0]["decision_state"], "broader_class")
+        self.assertEqual(ambiguity["material_decisions"][0]["broader_class"], "hard_floor")
+        self.assertTrue(ambiguity["material_decisions"][0]["fusion"]["disagreement"])
+        self.assertFalse(ambiguity["row_complete"])
+
+        _, false_positive = self._run_compile(
+            COMPILER_MOD.load_fixture_packet("case_false_positive_disagreement_abstain.json"),
+            expect_ok=True,
+        )
+        assert false_positive is not None
+        self.assertEqual(false_positive["metrics"]["abstention_count"], 1)
+        self.assertEqual(
+            false_positive["material_decisions"][0]["abstention_reason"],
+            "false_positive_independent_disagreement",
+        )
+        self.assertIsNone(false_positive["material_decisions"][0]["observed_class"])
+        self.assertFalse(false_positive["row_complete"])
+
+    def test_deterministic_replay_and_tamper_hash_check(self) -> None:
+        packet = COMPILER_MOD.load_fixture_packet("materials_all_eight_required.json")
+        first = COMPILER_MOD.compile_manifest(packet)
+        second = COMPILER_MOD.compile_manifest(packet)
+        # Wall-clock created_at may differ; content-addressed digest must replay.
+        self.assertNotEqual(first.get("created_at"), "__sentinel__")
+        second["created_at"] = "2000-01-01T00:00:00Z"
+        self.assertEqual(first["manifest_sha256"], second["manifest_sha256"])
+        self.assertEqual(
+            COMPILER_MOD.verify_manifest_integrity(first),
+            first["manifest_sha256"],
+        )
+        self.assertEqual(
+            COMPILER_MOD.verify_manifest_integrity(second),
+            second["manifest_sha256"],
+        )
+
+        tampered = json.loads(json.dumps(first))
+        tampered["material_decisions"][0]["confidence"] = 0.11
+        with self.assertRaises(ValueError) as ctx:
+            COMPILER_MOD.verify_manifest_integrity(tampered)
+        self.assertIn("tamper/replay mismatch", str(ctx.exception))
+
+        hash_tampered = json.loads(json.dumps(first))
+        hash_tampered["manifest_sha256"] = "0" * 64
+        with self.assertRaises(ValueError) as ctx2:
+            COMPILER_MOD.verify_manifest_integrity(hash_tampered)
+        self.assertIn("tamper/replay mismatch", str(ctx2.exception))
 
 
 if __name__ == "__main__":

@@ -1,20 +1,20 @@
 {
   "schema_version": "1.0",
   "evidence_id": "TRK-W64-089_VISUAL_MATERIAL_RECOGNITION_CURRENT_DELTA_20260719",
-  "created_at": "2026-07-19T20:01:59Z",
-  "source_commit": "e2b2e6634509a6d58311cacf43362e85de14ee61",
-  "prior_row_commit": "e2b2e6634509a6d58311cacf43362e85de14ee61",
-  "prior_row_commit_is_current_head": true,
+  "created_at": "2026-07-19T20:11:16Z",
+  "source_commit": "1c2fe6fa55f2e222b5681028f650fcb0dee563cc",
+  "prior_row_commit": "0b77df17d10b008c0aa80a942037561322729c20",
+  "prior_row_commit_is_current_head": false,
   "tracker_id": "TRK-W64-089",
   "item_id": "ITEM-W64-089",
-  "status": "HOLD_DEPENDENCY_RUNTIME_BENCHMARK_AND_VISUAL_PROOF_ABSENT_WITH_FAIL_CLOSED_MATERIAL_COMPILER_SLICE_PRESENT",
-  "classification": "ROW089_CURRENT_DELTA_FAIL_CLOSED_COMPILER_AND_SCHEMA_SLICE_NO_FALSE_COMPLETION",
+  "status": "HOLD_DEPENDENCY_RUNTIME_BENCHMARK_AND_VISUAL_PROOF_ABSENT_WITH_FIXTURE_PACKET_AND_REPLAY_HASH_SLICE_PRESENT",
+  "classification": "ROW089_CURRENT_DELTA_FIXTURE_PACKETS_AND_REPLAY_TAMPER_HASH_SLICE_NO_FALSE_COMPLETION",
   "row_complete": false,
   "implementation_completion_claimed": false,
   "runtime_completion_claimed": false,
   "qa_decision": "HOLD",
   "intent": {
-    "intent_id": "interactive_cursor_shift_row089_compiler_slice_20260719",
+    "intent_id": "interactive_cursor_shift_row089_fixture_replay_slice_20260719",
     "classification": "INTERACTIVE_CURSOR_SHIFT_AUTHORITY",
     "work_type": "final_authority",
     "authority_class": "interactive_cursor_integration",
@@ -22,14 +22,20 @@
     "dispatch_wake_count": 0,
     "candidate_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_visual_material_recognition.py",
-      "Plan/08_SCHEMAS/visual_material_recognition_manifest.schema.json",
       "Plan/Instructions/QA/Scripts/test_row089_visual_material_recognition_compiler.py",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row089/materials_all_eight_required.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row089/case_occlusion_abstain.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row089/case_ambiguity_broader_class.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row089/case_false_positive_disagreement_abstain.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-089_VISUAL_MATERIAL_RECOGNITION_CURRENT_DELTA_20260719.json"
     ],
     "allowed_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_visual_material_recognition.py",
-      "Plan/08_SCHEMAS/visual_material_recognition_manifest.schema.json",
       "Plan/Instructions/QA/Scripts/test_row089_visual_material_recognition_compiler.py",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row089/materials_all_eight_required.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row089/case_occlusion_abstain.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row089/case_ambiguity_broader_class.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row089/case_false_positive_disagreement_abstain.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-089_VISUAL_MATERIAL_RECOGNITION_CURRENT_DELTA_20260719.json"
     ]
   },
@@ -79,14 +85,41 @@
   },
   "compiler_slice": {
     "compiler_path": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_visual_material_recognition.py",
-    "compiler_sha256": "91f6fa4b15f0c052d6c70cbd668809b1aa30ba259504773c0494966f52091b65",
-    "compiler_bytes": 34223,
+    "compiler_sha256": "412a0e69d4dbbfb46c4121481dfbf862932336ce5d5bfd06b1c4922a5521e5cc",
+    "compiler_bytes": 36301,
     "schema_path": "Plan/08_SCHEMAS/visual_material_recognition_manifest.schema.json",
     "schema_sha256": "328acab5b3d34d10eabd8a4fbf2f3ef21b4de6106ecc4715a4431d5a6f0d96a2",
     "schema_bytes": 13552,
     "test_path": "Plan/Instructions/QA/Scripts/test_row089_visual_material_recognition_compiler.py",
-    "test_sha256": "68c6ceaa273152f8f6056d33e080ccf7e409e449110aa549acca7b86a19eac8d",
-    "test_bytes": 13166,
+    "test_sha256": "cafba19e4c50f199769626cd7ac20786631dbd29e49e61cf638d6ae112f726c8",
+    "test_bytes": 17958,
+    "fixture_dir": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row089",
+    "fixture_packets": [
+      {
+        "name": "materials_all_eight_required.json",
+        "sha256": "bbccf1e08310dc6ce2fecbb2e2c9546d68f221784fd517e6996c36dcaa1fdac4",
+        "bytes": 16220,
+        "covers": ["hardwood", "carpet", "tile", "skin", "fabric", "leather", "metal", "glass"]
+      },
+      {
+        "name": "case_occlusion_abstain.json",
+        "sha256": "3489a9f67dcc0f61b5208e0d6b160ba0d3a18ee5eb90675f7be5dd0a09ab4b28",
+        "bytes": 3758,
+        "covers": ["occlusion_abstain"]
+      },
+      {
+        "name": "case_ambiguity_broader_class.json",
+        "sha256": "dd70ae5e9e298f0990baef558aee6422bd75a5134994095f93510b34adf89896",
+        "bytes": 3764,
+        "covers": ["ambiguity_broader_class"]
+      },
+      {
+        "name": "case_false_positive_disagreement_abstain.json",
+        "sha256": "8c9b9c3332f827dd55a0e1a5991ea1f0d7885d8b26491b6aa2867f78628831ed",
+        "bytes": 3827,
+        "covers": ["false_positive_disagreement_abstain"]
+      }
+    ],
     "fail_closed_invariants": [
       "required material taxonomy plus governed aliases only (wood_floor->hardwood, cotton_fabric->fabric)",
       "observed_class requires classifier + texture evidence, unanimous independent agreement, and calibrated confidence",
@@ -94,26 +127,28 @@
       "contact_region observed_class requires trusted ownership_state",
       "scene_registry binding and classifier identity hashes are mandatory",
       "threshold and unsupported material claims block certification",
+      "content-addressed manifest_sha256 excludes created_at for deterministic replay; verify_manifest_integrity rejects tamper",
+      "checked-in fixture packets cover all eight required materials plus occlusion/ambiguity/false-positive cases",
       "row_complete and production_completion_allowed remain false in this increment",
       "Row085 and Row088 dependency plus runtime/review flags gate authority ceiling"
     ],
-    "decision": "USEFUL_FAIL_CLOSED_CONTRACT_COMPILER_SLICE_NOT_PRODUCTION_MATERIAL_AUTHORITY"
+    "decision": "USEFUL_FIXTURE_PACKET_AND_REPLAY_HASH_SLICE_NOT_PRODUCTION_MATERIAL_AUTHORITY"
   },
   "dependency_authority": {
     "tracker_ids": ["TRK-W64-085", "TRK-W64-088"],
     "row085_complete": false,
     "row088_complete": false,
     "dependency_satisfied": false,
-    "row089_effect": "Owner-aware region binding and depth/source-position context cannot be certified without accepted Row085 tracking and Row088 spatial authority. Row088 now has a fail-closed compiler slice (6b30a5a2) but remains incomplete."
+    "row089_effect": "Owner-aware region binding and depth/source-position context cannot be certified without accepted Row085 tracking and Row088 spatial authority. Fixture packets and replay/tamper checks do not satisfy those upstream authorities."
   },
   "focused_local_test_result": {
     "py_compile": "PASS",
     "strict_command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_row089_visual_material_recognition_compiler.py",
-    "strict_result": "9 passed",
+    "strict_result": "11 passed",
     "strict_exit_code": 0,
-    "total_focused_passed": 9,
+    "total_focused_passed": 11,
     "total_focused_failed": 0,
-    "scope_interpretation": "Focused tests prove the fail-closed visual material recognition contract/compiler slice only. They do not grant Row089 completion, production classifier runtime, material benchmark pass, runtime receipt, or combined visual review."
+    "scope_interpretation": "Focused tests prove the fail-closed compiler plus checked-in fixture packets and deterministic replay/tamper hash integrity only. They do not grant Row089 completion, production classifier runtime, material benchmark pass, runtime receipt, Rows085/088 acceptance, or combined visual review."
   },
   "checks": [
     {"check_id": "ROW089-001", "name": "tracker_item_requirements_parity", "status": "PASS"},
@@ -128,23 +163,29 @@
     {"check_id": "ROW089-010", "name": "confidence_and_min_agreeing_source_thresholds", "status": "PASS"},
     {"check_id": "ROW089-011", "name": "classifier_identity_and_scene_registry_binding_present", "status": "PASS"},
     {"check_id": "ROW089-012", "name": "codex_or_interactive_scope_and_zero_wake_boundary", "status": "PASS"},
-    {"check_id": "ROW089-013", "name": "dependency_row085_complete", "status": "FAIL"},
-    {"check_id": "ROW089-014", "name": "dependency_row088_complete", "status": "FAIL"},
-    {"check_id": "ROW089-015", "name": "production_visual_material_classifier_runtime_complete", "status": "FAIL"},
-    {"check_id": "ROW089-016", "name": "material_benchmark_pass", "status": "FAIL"},
-    {"check_id": "ROW089-017", "name": "direct_row089_runtime_receipt_present", "status": "FAIL"},
-    {"check_id": "ROW089-018", "name": "combined_frame_contact_audio_visual_review_present", "status": "FAIL"},
-    {"check_id": "ROW089-019", "name": "tracker_declared_output_artifact_present", "status": "FAIL"}
+    {"check_id": "ROW089-013", "name": "fixture_packets_cover_eight_required_materials", "status": "PASS"},
+    {"check_id": "ROW089-014", "name": "fixture_packets_cover_occlusion_ambiguity_false_positive", "status": "PASS"},
+    {"check_id": "ROW089-015", "name": "deterministic_replay_and_tamper_hash_check", "status": "PASS"},
+    {"check_id": "ROW089-016", "name": "dependency_row085_complete", "status": "FAIL"},
+    {"check_id": "ROW089-017", "name": "dependency_row088_complete", "status": "FAIL"},
+    {"check_id": "ROW089-018", "name": "production_visual_material_classifier_runtime_complete", "status": "FAIL"},
+    {"check_id": "ROW089-019", "name": "material_benchmark_pass", "status": "FAIL"},
+    {"check_id": "ROW089-020", "name": "direct_row089_runtime_receipt_present", "status": "FAIL"},
+    {"check_id": "ROW089-021", "name": "combined_frame_contact_audio_visual_review_present", "status": "FAIL"},
+    {"check_id": "ROW089-022", "name": "tracker_declared_output_artifact_present", "status": "FAIL"}
   ],
   "test_and_runtime_boundary": {
     "schema_meta_validation_executed": true,
     "focused_source_tests_executed": true,
-    "focused_source_tests_passed": 9,
+    "focused_source_tests_passed": 11,
     "focused_source_tests_failed": 0,
+    "fixture_packets_compiled": true,
+    "replay_tamper_hash_check_executed": true,
     "production_material_classifier_invoked": false,
     "new_media_decode_or_texture_inference_invoked": false,
     "direct_row089_runtime_benchmark_executed": false,
     "visual_review_executed": false,
+    "rows085_088_acceptance_claimed": false,
     "ec2_allowed": true,
     "ec2_invoked": false,
     "ec2_not_invoked_reason": "Prerequisite Rows085/088 and material-benchmark/runtime-receipt/combined-review gates already fail; GPU execution cannot cure those authority gaps.",
@@ -155,52 +196,69 @@
     "scheduled_task_wakes": 0
   },
   "sibling_lane_disjointness": {
-    "excluded_sibling_rows": ["TRK-W64-075", "TRK-W64-068", "TRK-W64-076", "TRK-W64-087", "TRK-W64-084"],
+    "excluded_sibling_rows": [
+      "TRK-W64-068",
+      "TRK-W64-069",
+      "TRK-W64-079",
+      "TRK-W64-081",
+      "TRK-W64-084",
+      "TRK-W64-090"
+    ],
     "excluded_paths": [
-      "Plan/07_IMPLEMENTATION/scripts/classify_wave64_audio_defects.py",
       "Plan/07_IMPLEMENTATION/scripts/validate_wave64_audio_rights_provenance_authority.py",
-      "Plan/07_IMPLEMENTATION/scripts/analyze_wave64_audio_reverb_dryness.py",
-      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_motion_force_cues.py",
+      "Plan/07_IMPLEMENTATION/scripts/build_audio_pack_functional_index.py",
+      "Plan/07_IMPLEMENTATION/scripts/enrich_wave64_fine_grained_foley_taxonomy.py",
+      "Plan/07_IMPLEMENTATION/scripts/rank_wave64_explainable_audio_candidates.py",
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-      "Plan/08_SCHEMAS/audio_defect_classification_record.schema.json",
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_contact_inference_ownership.py",
       "Plan/08_SCHEMAS/audio_rights_provenance_decision.schema.json",
-      "Plan/08_SCHEMAS/audio_reverb_dryness_record.schema.json",
-      "Plan/08_SCHEMAS/motion_force_cues_manifest.schema.json",
       "Plan/08_SCHEMAS/canonical_video_timeline.schema.json",
       "Plan/08_SCHEMAS/canonical_video_timeline_mux_prep_receipt.schema.json",
-      "Plan/Instructions/QA/Scripts/test_classify_wave64_audio_defects.py",
+      "Plan/08_SCHEMAS/explainable_audio_candidate_ranking_record.schema.json",
+      "Plan/08_SCHEMAS/fine_grained_foley_taxonomy_record.schema.json",
       "Plan/Instructions/QA/Scripts/test_row068_audio_rights_provenance_authority.py",
-      "Plan/Instructions/QA/Scripts/test_analyze_wave64_audio_reverb_dryness.py",
-      "Plan/Instructions/QA/Scripts/test_row087_motion_force_cues_compiler.py",
+      "Plan/Instructions/QA/Scripts/test_audio_pack_functional_index.py",
+      "Plan/Instructions/QA/Scripts/test_enrich_wave64_fine_grained_foley_taxonomy.py",
+      "Plan/Instructions/QA/Scripts/test_row081_explainable_audio_candidate_ranking.py",
       "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_*",
+      "Plan/Instructions/QA/Scripts/test_row090_contact_inference_ownership_compiler.py",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_*",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_*",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-087_*",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_*"
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-069_*",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-079_*",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-081_*",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_*",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-090_*",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row090/*"
     ],
-    "disjoint_from_sibling_agents": true
+    "disjoint_from_sibling_agents": true,
+    "writable_scope_note": "Disjoint from sibling lifecycle rights, Row069, Row090, Row079, Row081, and Row084 mux identity paths."
   },
   "preservation_boundary": {
     "allowed_write_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_visual_material_recognition.py",
-      "Plan/08_SCHEMAS/visual_material_recognition_manifest.schema.json",
       "Plan/Instructions/QA/Scripts/test_row089_visual_material_recognition_compiler.py",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row089/materials_all_eight_required.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row089/case_occlusion_abstain.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row089/case_ambiguity_broader_class.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row089/case_false_positive_disagreement_abstain.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-089_VISUAL_MATERIAL_RECOGNITION_CURRENT_DELTA_20260719.json"
     ],
     "actual_write_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_visual_material_recognition.py",
-      "Plan/08_SCHEMAS/visual_material_recognition_manifest.schema.json",
       "Plan/Instructions/QA/Scripts/test_row089_visual_material_recognition_compiler.py",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row089/materials_all_eight_required.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row089/case_occlusion_abstain.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row089/case_ambiguity_broader_class.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row089/case_false_positive_disagreement_abstain.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-089_VISUAL_MATERIAL_RECOGNITION_CURRENT_DELTA_20260719.json"
     ],
     "unrelated_dirty_paths_preserved": true,
     "worker_artifacts_preserved": true,
-    "sibling_row075_068_076_087_084_paths_preserved": true
+    "sibling_lifecycle_row069_row090_row079_row081_row084_paths_preserved": true
   },
   "hold_decision": {
     "decision": "HOLD_ROW089_NO_FALSE_COMPLETION",
-    "reason": "A fail-closed Row089 visual material recognition compiler/schema slice now exists with nine passing focused tests covering governed taxonomy aliases, independent evidence fusion, abstention/broader-class gates, contact ownership, confidence thresholds, and certification holds. Rows085 and 088 remain incomplete. Material benchmarks, production classifier runtime receipts, combined frame/contact/audio review, and the tracker-declared runtime artifact remain absent. The compiler never sets row_complete or production_completion_allowed true in this increment.",
-    "safe_next_action": "Keep Row089 on hold for runtime completion. Next useful Row089 write: add fixture packets covering all eight required materials plus occlusion/ambiguity/false-positive cases and a deterministic replay/tamper hash check without claiming visual-review or Rows085/088 acceptance. Upstream, continue advancing Row085 ownership and Row088 measured spatial authority."
+    "reason": "Row089 now has checked-in fixture packets covering all eight required materials plus occlusion abstain, ambiguity broader-class, and false-positive disagreement abstain cases, with deterministic content-addressed replay/tamper hash verification. Eleven focused tests pass. Rows085 and 088 remain incomplete. Material benchmarks, production classifier runtime receipts, combined frame/contact/audio review, and the tracker-declared runtime artifact remain absent. The compiler never sets row_complete or production_completion_allowed true in this increment.",
+    "safe_next_action": "Keep Row089 on hold for runtime completion. Next useful Row089 write: bind fixture packet digests into a synthetic benchmark ledger (still non-production) that records per-class expected decision_state without claiming visual-review or Rows085/088 acceptance. Upstream, continue advancing Row085 ownership and Row088 measured spatial authority."
   }
 }
