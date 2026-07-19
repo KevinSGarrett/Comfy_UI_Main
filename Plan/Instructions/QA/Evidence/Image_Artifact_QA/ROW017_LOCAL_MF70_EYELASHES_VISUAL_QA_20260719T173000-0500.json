@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ROW017-LOCAL-MF70-EYELASHES-VISUAL-QA-20260719T173000-0500",
+  "created_at": "2026-07-19T17:32:55-05:00",
+  "tracker_id": "TRK-W64-017",
+  "item_id": "ITEM-W64-017",
+  "localized_region": "eyelashes",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+  "qa_decision": "pass_bounded_localized_eyelashes_runtime_candidate",
+  "overall_decision": "pass",
+  "local_only": true,
+  "direct_visual_inspection": true,
+  "fixture_only": false,
+  "generation_executed": true,
+  "runtime_receipt": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_eyelashes_20260719T173000-0500\\LOCAL_RUNTIME_RECEIPT.json",
+  "source": {
+    "path": "ComfyUI\\input\\wave70_mf70_face_identity_source_canny_v3.png",
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d"
+  },
+  "artifact": {
+    "path": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_eyelashes_20260719T173000-0500\\images\\codex_row017_mf70_eyelashes_20260719T173000-0500_00001_.png",
+    "sha256": "ae33b932b7781856c76fd100b7de496041a39fe3f794ba6fa4d6549c96edc395"
+  },
+  "comparison_panel": {
+    "path": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_eyelashes_20260719T173000-0500\\images\\qa_full_side_by_side.png",
+    "sha256": "03e16c25d4c7dfe3e915a7ee2cd9199e8e46af05c7594f0caea5d63a9a61cd48"
+  },
+  "difference_metrics": {
+    "full_image_diff_bbox": [
+      284,
+      313,
+      467,
+      351
+    ],
+    "mean_rgb_abs_diff": [
+      0.0015,
+      0.0014,
+      0.0014
+    ],
+    "rms_rgb_abs_diff": [
+      0.0672,
+      0.0655,
+      0.0638
+    ]
+  },
+  "whole_frame_findings": [
+    "Fresh local ComfyUI eyelashes masked inpaint (seed 7718294414, RealVisXL baked VAE, denoise 0.03, FeatherMask 24px) completed successfully.",
+    "Whole-frame identity, gaze, iris/pupil/sclera/catchlights, eyelid folds, brows, hair silhouette, cream blazer, lighting, and gray background remain stable versus Canny v3 source.",
+    "Pixel delta is tightly localized to the bilateral upper lash-line band [284,313,467,351]; no false-lash, mascara, eyeliner, or clumped-lash mutation observed.",
+    "No gaze drift, iris color change, eyelid deformation, eyebrow shift, or seam observed.",
+    "Hands not in frame; no clothing/background/lighting regression observed."
+  ],
+  "global_defects": [],
+  "promotion_authorized": false,
+  "row_complete": false,
+  "ec2": "EC2_DEFERRED",
+  "docker_cvat": "not-needed",
+  "notes": [
+    "Prior fluid tear-state reject and eyes_full_v3b reject remain truthful and separate.",
+    "Does not complete historical Row017 normalization backlog."
+  ]
+}
