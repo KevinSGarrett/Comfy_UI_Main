@@ -12,8 +12,9 @@
 
 1. `4414a8ca` Prove Row017 MF70 pupils_iris_sclera local visual climb.
 2. `d60963ed` Stamp Row017 pupils_iris_sclera handoff with primary commit id.
+3. `5cc6ae26` Finalize Row017 pupils_iris_sclera handoff tip to origin HEAD.
 
-Pushed tip verified on origin: `d60963ed`
+Pushed tip verified on origin: `5cc6ae26`
 
 ## Row-Scoped Increment Executed
 
