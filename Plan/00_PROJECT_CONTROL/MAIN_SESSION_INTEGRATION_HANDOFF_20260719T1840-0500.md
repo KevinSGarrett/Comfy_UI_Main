@@ -17,8 +17,9 @@
 4. `d59366d6` Finalize Row017 nose handoff tip to origin HEAD.
 5. `845e2ef2` Refresh Row017 nose handoff with pushed tip IDs.
 6. `7f90a099` Align Row017 nose handoff tip IDs to origin HEAD.
+7. `ff0be0b9` Correct Row017 nose handoff tip ID formatting.
 
-Pushed tip verified on origin: `7f90a099`
+Pushed tip verified on origin: `ff0be0b9`
 
 ## Row-Scoped Increment Executed
 
