@@ -1,0 +1,333 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/contact_inference_ownership_manifest.schema.json",
+  "title": "Contact Inference Ownership Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "manifest_id",
+    "run_id",
+    "scene_id",
+    "shot_id",
+    "take_id",
+    "is_synthetic",
+    "video_sha256",
+    "timeline",
+    "input_bindings",
+    "dependency_authority",
+    "runtime_authority",
+    "contacts",
+    "authority_summary",
+    "visual_contact_manifest"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "manifest_id": {"type": "string", "minLength": 1},
+    "run_id": {"type": "string", "minLength": 1},
+    "scene_id": {"type": "string", "minLength": 1},
+    "shot_id": {"type": "string", "minLength": 1},
+    "take_id": {"type": "string", "minLength": 1},
+    "is_synthetic": {"type": "boolean"},
+    "video_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "timeline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "frame_rate",
+        "frame_count",
+        "frame_time_origin_seconds",
+        "target_sample_rate_hz",
+        "duration_seconds"
+      ],
+      "properties": {
+        "frame_rate": {"type": "number", "exclusiveMinimum": 0},
+        "frame_count": {"type": "integer", "minimum": 1},
+        "frame_time_origin_seconds": {"type": "number"},
+        "target_sample_rate_hz": {"type": "integer", "minimum": 1},
+        "duration_seconds": {"type": "number", "exclusiveMinimum": 0}
+      }
+    },
+    "input_bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tracked_masks", "landmarks", "depth", "motion", "materials"],
+      "properties": {
+        "tracked_masks": {"$ref": "#/$defs/binding_or_blocker"},
+        "landmarks": {"$ref": "#/$defs/binding_or_blocker"},
+        "depth": {"$ref": "#/$defs/binding_or_blocker"},
+        "motion": {"$ref": "#/$defs/binding_or_blocker"},
+        "materials": {"$ref": "#/$defs/binding_or_blocker"}
+      }
+    },
+    "dependency_authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "row085_complete",
+        "row086_complete",
+        "row087_complete",
+        "row088_complete",
+        "row089_complete",
+        "all_dependencies_complete"
+      ],
+      "properties": {
+        "row085_complete": {"type": "boolean"},
+        "row086_complete": {"type": "boolean"},
+        "row087_complete": {"type": "boolean"},
+        "row088_complete": {"type": "boolean"},
+        "row089_complete": {"type": "boolean"},
+        "all_dependencies_complete": {"type": "boolean"}
+      }
+    },
+    "runtime_authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "runtime_proof_present",
+        "combined_frame_contact_audio_review_present",
+        "runtime_ready"
+      ],
+      "properties": {
+        "runtime_proof_present": {"type": "boolean"},
+        "combined_frame_contact_audio_review_present": {"type": "boolean"},
+        "runtime_ready": {"type": "boolean"}
+      }
+    },
+    "contacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/contact_event"}
+    },
+    "authority_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contact_count",
+        "candidate_count",
+        "blocked_count",
+        "certified_count",
+        "production_trust_allowed",
+        "hold_reasons"
+      ],
+      "properties": {
+        "contact_count": {"type": "integer", "minimum": 0},
+        "candidate_count": {"type": "integer", "minimum": 0},
+        "blocked_count": {"type": "integer", "minimum": 0},
+        "certified_count": {"type": "integer", "minimum": 0},
+        "production_trust_allowed": {"type": "boolean"},
+        "hold_reasons": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "visual_contact_manifest": {"$ref": "#/$defs/visual_contact_manifest"}
+  },
+  "$defs": {
+    "binding_or_blocker": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["present", "path", "sha256", "bytes", "blocker"],
+      "properties": {
+        "present": {"type": "boolean"},
+        "path": {"type": ["string", "null"]},
+        "sha256": {
+          "type": ["string", "null"],
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "bytes": {"type": ["integer", "null"], "minimum": 0},
+        "blocker": {"type": ["string", "null"]}
+      }
+    },
+    "phase_anchor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "approach_frame",
+        "onset_frame",
+        "peak_frame",
+        "release_frame",
+        "end_frame",
+        "onset_seconds",
+        "peak_seconds",
+        "release_seconds",
+        "onset_sample",
+        "peak_sample",
+        "release_sample",
+        "duration_frames",
+        "duration_seconds",
+        "uncertainty_frames"
+      ],
+      "properties": {
+        "approach_frame": {"type": ["integer", "null"], "minimum": 0},
+        "onset_frame": {"type": "integer", "minimum": 0},
+        "peak_frame": {"type": "integer", "minimum": 0},
+        "release_frame": {"type": "integer", "minimum": 0},
+        "end_frame": {"type": "integer", "minimum": 0},
+        "onset_seconds": {"type": "number", "minimum": 0},
+        "peak_seconds": {"type": "number", "minimum": 0},
+        "release_seconds": {"type": "number", "minimum": 0},
+        "onset_sample": {"type": "integer", "minimum": 0},
+        "peak_sample": {"type": "integer", "minimum": 0},
+        "release_sample": {"type": "integer", "minimum": 0},
+        "duration_frames": {"type": "integer", "minimum": 0},
+        "duration_seconds": {"type": "number", "minimum": 0},
+        "uncertainty_frames": {"type": "number", "minimum": 0}
+      }
+    },
+    "contact_event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contact_id",
+        "source_owner",
+        "target_owner",
+        "source_body_region",
+        "target_body_region_or_surface",
+        "object_or_surface",
+        "phases",
+        "force_band",
+        "visibility",
+        "ownership_trusted",
+        "confidence",
+        "authority_ceiling",
+        "decision",
+        "decision_reason",
+        "blockers",
+        "evidence"
+      ],
+      "properties": {
+        "contact_id": {"type": "string", "minLength": 1},
+        "source_owner": {"type": ["string", "null"], "minLength": 1},
+        "target_owner": {"type": ["string", "null"], "minLength": 1},
+        "source_body_region": {"type": ["string", "null"], "minLength": 1},
+        "target_body_region_or_surface": {"type": ["string", "null"], "minLength": 1},
+        "object_or_surface": {"type": ["string", "null"], "minLength": 1},
+        "phases": {"$ref": "#/$defs/phase_anchor"},
+        "force_band": {"enum": ["none", "light", "medium", "heavy"]},
+        "visibility": {"enum": ["visible", "partial", "occluded", "offscreen", "unknown"]},
+        "ownership_trusted": {"type": "boolean"},
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "authority_ceiling": {"enum": ["candidate", "technical", "certification"]},
+        "decision": {"enum": ["candidate", "blocked", "certified"]},
+        "decision_reason": {"type": "string", "minLength": 1},
+        "blockers": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        },
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      }
+    },
+    "visual_contact_manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "run_id",
+        "scene_id",
+        "shot_id",
+        "take_id",
+        "is_synthetic",
+        "frame_rate",
+        "frame_time_origin_seconds",
+        "visual_take_artifact",
+        "contact_evidence_artifact",
+        "contact_authority",
+        "contact_edges"
+      ],
+      "properties": {
+        "run_id": {"type": "string", "minLength": 1},
+        "scene_id": {"type": "string", "minLength": 1},
+        "shot_id": {"type": "string", "minLength": 1},
+        "take_id": {"type": "string", "minLength": 1},
+        "is_synthetic": {"type": "boolean"},
+        "frame_rate": {"type": "number", "exclusiveMinimum": 0},
+        "frame_time_origin_seconds": {"type": "number"},
+        "visual_take_artifact": {"$ref": "#/$defs/media_artifact"},
+        "contact_evidence_artifact": {"$ref": "#/$defs/media_artifact"},
+        "contact_authority": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "authority_scope",
+            "gold_mask_dependency_status",
+            "evidence_authority_class",
+            "production_trust_claim"
+          ],
+          "properties": {
+            "authority_scope": {
+              "enum": ["body", "contact", "body_contact", "non_body_contact"]
+            },
+            "gold_mask_dependency_status": {
+              "enum": ["missing", "cleared", "not_applicable"]
+            },
+            "evidence_authority_class": {
+              "enum": [
+                "gold_mask_validated",
+                "manual_review",
+                "synthetic_fixture",
+                "untrusted"
+              ]
+            },
+            "production_trust_claim": {"type": "boolean"}
+          }
+        },
+        "contact_edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "contact_edge_id",
+              "source_entity_id",
+              "target_entity_id",
+              "source_owner_id",
+              "target_owner_id",
+              "source_material",
+              "target_material",
+              "visual_force_intensity",
+              "start_frame",
+              "end_frame",
+              "audio_expected",
+              "min_expected_force_events",
+              "max_expected_force_events"
+            ],
+            "properties": {
+              "contact_edge_id": {"type": "string", "minLength": 1},
+              "source_entity_id": {"type": "string", "minLength": 1},
+              "target_entity_id": {"type": "string", "minLength": 1},
+              "source_owner_id": {"type": "string", "minLength": 1},
+              "target_owner_id": {"type": "string", "minLength": 1},
+              "source_material": {"type": "string", "minLength": 1},
+              "target_material": {"type": "string", "minLength": 1},
+              "visual_force_intensity": {"type": "string", "minLength": 1},
+              "start_frame": {"type": "integer", "minimum": 0},
+              "end_frame": {"type": "integer", "minimum": 0},
+              "audio_expected": {"type": "boolean"},
+              "min_expected_force_events": {"type": "integer", "minimum": 0},
+              "max_expected_force_events": {"type": "integer", "minimum": 0}
+            }
+          }
+        }
+      }
+    },
+    "media_artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "bytes", "media_type"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "bytes": {"type": "integer", "minimum": 0},
+        "media_type": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

@@ -1,18 +1,18 @@
 {
   "schema_version": "1.0.0",
   "evidence_id": "TRK-W64-090_CONTACT_INFERENCE_OWNERSHIP_CURRENT_DELTA_20260719",
-  "created_at": "2026-07-19T05:46:44.7897073Z",
-  "source_commit": "3ab7ec0f48254a06ac12610218a2466b29356f36",
-  "prior_row_commit": "3ab7ec0f48254a06ac12610218a2466b29356f36",
-  "prior_row_commit_is_current_head": true,
+  "created_at": "2026-07-19T19:38:54Z",
+  "source_commit": "f99ad809d79330b0ab2d839b31afaeed1a4437d1",
+  "prior_row_commit": "add39846",
+  "prior_row_commit_is_current_head": false,
   "tracker_id": "TRK-W64-090",
   "item_id": "ITEM-W64-090",
-  "status": "HOLD_ALL_FIVE_DEPENDENCIES_AND_DIRECT_VISUAL_CONTACT_INFERENCE_TIMING_FORCE_OWNERSHIP_CALIBRATION_AND_RUNTIME_AUTHORITY_ABSENT",
+  "status": "HOLD_DEPENDENCIES_RUNTIME_AND_VISUAL_INFERENCE_ABSENT_WITH_OWNERSHIP_COMPILER_SLICE_PRESENT",
   "classification": "ROW090_CODEX_FINAL_AUTHORITY_CURRENT_DELTA_AUDIT",
   "row_complete": false,
   "implementation_completion_claimed": false,
   "runtime_completion_claimed": false,
-  "qa_decision": "FAIL_CLOSED_DOWNSTREAM_CONTACT_AND_FOLEY_VALIDATORS_DO_NOT_PROVE_ROW090_VISUAL_CONTACT_INFERENCE",
+  "qa_decision": "FAIL_CLOSED_ROW090_NOW_HAS_STRICT_SCHEMA_AND_FAIL_CLOSED_OWNERSHIP_COMPILER_SLICE_BUT_DEPENDENCIES_RUNTIME_AND_COMBINED_REVIEW_REMAIN_UNSATISFIED",
   "intent": {
     "intent_id": "intent_20260719T054024398Z_row090_contact_inference_ownership_current_delta_87a46f78",
     "classification": "AI_WORKER_DEVELOPMENT_PIPELINE_ADMITTED_DEFERRED",
@@ -194,18 +194,66 @@
   },
   "legacy_wave22_contact_graph_partial_authority": {
     "files": [
-      {"path": "Plan/07_IMPLEMENTATION/scripts/compile_physical_contact_graph_contract.py", "sha256": "889195f46d41afbec74c4fdd2b6c9246abf961980706efd7029f6f9bae22d824", "bytes": 1175},
-      {"path": "Plan/07_IMPLEMENTATION/scripts/validate_physical_contact_graph_contract.py", "sha256": "702bdc7a3f5f386b561dae65b9b304535ead9257376a291f26e1f44e6a5efe85", "bytes": 1780},
-      {"path": "Plan/07_IMPLEMENTATION/scripts/score_physical_contact_graph_evidence.py", "sha256": "69b9725b47a72b09a2465c96f86e3aa4199f32251230bdd418aeca7c13b94c35", "bytes": 1430},
-      {"path": "Plan/08_SCHEMAS/contact_edge.schema.json", "sha256": "5842a7697372c4ca65975c7169358448502b0b2df1317390dd72bea558acae55", "bytes": 1170},
-      {"path": "Plan/08_SCHEMAS/contact_evidence.schema.json", "sha256": "0b0acbf8f16a48a2bc3f7b34ec9a33b978a6f230128ce5b772b828699a8a40a9", "bytes": 645},
-      {"path": "Plan/08_SCHEMAS/contact_graph_edge.schema.json", "sha256": "97d433fcc83e4e5cde58bed913e09a84c5da4a0829b1fadb1f503df34078602b", "bytes": 1211},
-      {"path": "Plan/08_SCHEMAS/contact_graph_evidence.schema.json", "sha256": "c3b67d7f4a3cf6fb3e93492d6158658f47b064bc36610e8a26bdeda337f39103", "bytes": 881},
-      {"path": "Plan/08_SCHEMAS/physical_contact_graph.schema.json", "sha256": "abff86764ca108c4196d5d606334cdb1e7ea5897e5d19a7e89b88b8fcb7a5fd5", "bytes": 734},
-      {"path": "Plan/10_REGISTRIES/wave22_contact_edge_type_taxonomy.json", "sha256": "038a34b9e16212f94acd8e17c38ad186dd7b9dd4052e913a515f7590301616b8", "bytes": 451},
-      {"path": "Plan/10_REGISTRIES/wave22_contact_graph_qa_scoring_rules.json", "sha256": "8522da2327b557bdf49877d0f55bf72fa5f7616f67a1fc34bcd12b5fd1f75589", "bytes": 473},
-      {"path": "Plan/10_REGISTRIES/wave22_contact_graph_rerun_policy.json", "sha256": "6a25a09b13930486e15acd0e9566c62a7e8611760781c0245564a90025cacbcc", "bytes": 350},
-      {"path": "Plan/10_REGISTRIES/wave22_main_flow_contact_graph_inventory.json", "sha256": "0afef7833ff9ef322e5694a8f53322213d942efc6750f342ebba017a07d08ad3", "bytes": 41549}
+      {
+        "path": "Plan/07_IMPLEMENTATION/scripts/compile_physical_contact_graph_contract.py",
+        "sha256": "889195f46d41afbec74c4fdd2b6c9246abf961980706efd7029f6f9bae22d824",
+        "bytes": 1175
+      },
+      {
+        "path": "Plan/07_IMPLEMENTATION/scripts/validate_physical_contact_graph_contract.py",
+        "sha256": "702bdc7a3f5f386b561dae65b9b304535ead9257376a291f26e1f44e6a5efe85",
+        "bytes": 1780
+      },
+      {
+        "path": "Plan/07_IMPLEMENTATION/scripts/score_physical_contact_graph_evidence.py",
+        "sha256": "69b9725b47a72b09a2465c96f86e3aa4199f32251230bdd418aeca7c13b94c35",
+        "bytes": 1430
+      },
+      {
+        "path": "Plan/08_SCHEMAS/contact_edge.schema.json",
+        "sha256": "5842a7697372c4ca65975c7169358448502b0b2df1317390dd72bea558acae55",
+        "bytes": 1170
+      },
+      {
+        "path": "Plan/08_SCHEMAS/contact_evidence.schema.json",
+        "sha256": "0b0acbf8f16a48a2bc3f7b34ec9a33b978a6f230128ce5b772b828699a8a40a9",
+        "bytes": 645
+      },
+      {
+        "path": "Plan/08_SCHEMAS/contact_graph_edge.schema.json",
+        "sha256": "97d433fcc83e4e5cde58bed913e09a84c5da4a0829b1fadb1f503df34078602b",
+        "bytes": 1211
+      },
+      {
+        "path": "Plan/08_SCHEMAS/contact_graph_evidence.schema.json",
+        "sha256": "c3b67d7f4a3cf6fb3e93492d6158658f47b064bc36610e8a26bdeda337f39103",
+        "bytes": 881
+      },
+      {
+        "path": "Plan/08_SCHEMAS/physical_contact_graph.schema.json",
+        "sha256": "abff86764ca108c4196d5d606334cdb1e7ea5897e5d19a7e89b88b8fcb7a5fd5",
+        "bytes": 734
+      },
+      {
+        "path": "Plan/10_REGISTRIES/wave22_contact_edge_type_taxonomy.json",
+        "sha256": "038a34b9e16212f94acd8e17c38ad186dd7b9dd4052e913a515f7590301616b8",
+        "bytes": 451
+      },
+      {
+        "path": "Plan/10_REGISTRIES/wave22_contact_graph_qa_scoring_rules.json",
+        "sha256": "8522da2327b557bdf49877d0f55bf72fa5f7616f67a1fc34bcd12b5fd1f75589",
+        "bytes": 473
+      },
+      {
+        "path": "Plan/10_REGISTRIES/wave22_contact_graph_rerun_policy.json",
+        "sha256": "6a25a09b13930486e15acd0e9566c62a7e8611760781c0245564a90025cacbcc",
+        "bytes": 350
+      },
+      {
+        "path": "Plan/10_REGISTRIES/wave22_main_flow_contact_graph_inventory.json",
+        "sha256": "0afef7833ff9ef322e5694a8f53322213d942efc6750f342ebba017a07d08ad3",
+        "bytes": 41549
+      }
     ],
     "compiler_behavior": "Copies contact_edges from input and supplies default QA goal labels; it performs no visual inference.",
     "validator_behavior": "Requires only root keys, a nonempty edge list, and presence of eleven edge fields; it does not validate value types, nonempty identities, enumerations, ranges, frame spans, evidence hashes, or ownership provenance.",
@@ -237,13 +285,41 @@
   },
   "wave64_foley_alignment_partial_authority": {
     "files": [
-      {"path": "Plan/07_IMPLEMENTATION/scripts/produce_wave64_foley_force_alignment_request.py", "sha256": "5d7c9055584e87781a05cf576d5fc86ee1e359624f9a66f766bd2d986177a5ce", "bytes": 4557},
-      {"path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_foley_force_alignment.py", "sha256": "59b069099ec4fc903b4d6dbf993c3c88ff93e26d7c4dec0d6c15dd5949395413", "bytes": 84501},
-      {"path": "Plan/08_SCHEMAS/wave64_foley_force_alignment_request.schema.json", "sha256": "5ff92b6b1c26d2848dd423ef284f6b75cbbb3de0bc62bf110a6d7f134a13a603", "bytes": 3460},
-      {"path": "Plan/08_SCHEMAS/wave64_foley_force_alignment_report.schema.json", "sha256": "f7f42a4904635482b8716959295d2b2988dcb6b41f8c2251451139d04573359e", "bytes": 8737},
-      {"path": "Plan/10_REGISTRIES/wave64_foley_force_alignment_authority_registry.json", "sha256": "247a5e5c2a33cb49cccc72fc4002c035cc2910d5b7801faa11a3134830856587", "bytes": 4409},
-      {"path": "Plan/Instructions/QA/Scripts/test_produce_wave64_foley_force_alignment_request.py", "sha256": "087a3add17ac0374b69024248a0219d03f5051e328ba2bb04347cfae7d18a53f", "bytes": 4826},
-      {"path": "Plan/Instructions/QA/Scripts/test_wave64_foley_force_alignment_strict.py", "sha256": "fb7ce4e5d4ccce040af728fccd93ff0011802f49414ba38bd92ac90e02cd0c6d", "bytes": 53070}
+      {
+        "path": "Plan/07_IMPLEMENTATION/scripts/produce_wave64_foley_force_alignment_request.py",
+        "sha256": "5d7c9055584e87781a05cf576d5fc86ee1e359624f9a66f766bd2d986177a5ce",
+        "bytes": 4557
+      },
+      {
+        "path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_foley_force_alignment.py",
+        "sha256": "59b069099ec4fc903b4d6dbf993c3c88ff93e26d7c4dec0d6c15dd5949395413",
+        "bytes": 84501
+      },
+      {
+        "path": "Plan/08_SCHEMAS/wave64_foley_force_alignment_request.schema.json",
+        "sha256": "5ff92b6b1c26d2848dd423ef284f6b75cbbb3de0bc62bf110a6d7f134a13a603",
+        "bytes": 3460
+      },
+      {
+        "path": "Plan/08_SCHEMAS/wave64_foley_force_alignment_report.schema.json",
+        "sha256": "f7f42a4904635482b8716959295d2b2988dcb6b41f8c2251451139d04573359e",
+        "bytes": 8737
+      },
+      {
+        "path": "Plan/10_REGISTRIES/wave64_foley_force_alignment_authority_registry.json",
+        "sha256": "247a5e5c2a33cb49cccc72fc4002c035cc2910d5b7801faa11a3134830856587",
+        "bytes": 4409
+      },
+      {
+        "path": "Plan/Instructions/QA/Scripts/test_produce_wave64_foley_force_alignment_request.py",
+        "sha256": "087a3add17ac0374b69024248a0219d03f5051e328ba2bb04347cfae7d18a53f",
+        "bytes": 4826
+      },
+      {
+        "path": "Plan/Instructions/QA/Scripts/test_wave64_foley_force_alignment_strict.py",
+        "sha256": "fb7ce4e5d4ccce040af728fccd93ff0011802f49414ba38bd92ac90e02cd0c6d",
+        "bytes": 53070
+      }
     ],
     "validated_input_contract": {
       "visual_contact_manifest_requires": [
@@ -323,9 +399,21 @@
   },
   "wave31_force_routing_partial_authority": {
     "files": [
-      {"path": "Plan/07_IMPLEMENTATION/scripts/route_wave31_pose_audio_force.py", "sha256": "7c93f393a21058fcd322788ae559f3b2b08a18a5cb22f3336d2576bd7a80a8d3", "bytes": 1731},
-      {"path": "Plan/08_SCHEMAS/wave31_pose_audio_force_event.schema.json", "sha256": "e0820f19ad0683d3bc3aa65ce4f8df4aae9414b499989d9895003d2d43f59331", "bytes": 526},
-      {"path": "Plan/10_REGISTRIES/wave31_pose_audio_force_taxonomy.json", "sha256": "59821f140a1fccf512d23b0ee29a0e885ebfc876771a33d7443c70aa18316eb6", "bytes": 510}
+      {
+        "path": "Plan/07_IMPLEMENTATION/scripts/route_wave31_pose_audio_force.py",
+        "sha256": "7c93f393a21058fcd322788ae559f3b2b08a18a5cb22f3336d2576bd7a80a8d3",
+        "bytes": 1731
+      },
+      {
+        "path": "Plan/08_SCHEMAS/wave31_pose_audio_force_event.schema.json",
+        "sha256": "e0820f19ad0683d3bc3aa65ce4f8df4aae9414b499989d9895003d2d43f59331",
+        "bytes": 526
+      },
+      {
+        "path": "Plan/10_REGISTRIES/wave31_pose_audio_force_taxonomy.json",
+        "sha256": "59821f140a1fccf512d23b0ee29a0e885ebfc876771a33d7443c70aa18316eb6",
+        "bytes": 510
+      }
     ],
     "direct_test_reference_count": 0,
     "boundary": "The router maps declared force_type, intensity, material, and times to an audio layer and sync precision. It does not infer contact, ownership, or calibrated timing from visual evidence."
@@ -410,14 +498,15 @@
       "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
       "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_TRACKER_ROWS.csv"
     ],
-    "production_contact_inference_implementation_found": false,
-    "production_visual_contact_manifest_producer_found": false,
-    "direct_row090_tests_found": false,
+    "production_contact_inference_implementation_found": true,
+    "production_visual_contact_manifest_producer_found": true,
+    "direct_row090_tests_found": true,
     "direct_row090_runtime_record_found": false,
     "direct_row090_tracker_output_found": false,
     "calibrated_force_model_found": false,
     "onset_peak_release_inference_found": false,
-    "genuine_temporal_contact_benchmark_found": false
+    "genuine_temporal_contact_benchmark_found": false,
+    "boundary": "Compiler validates declared ownership/phase packets and projects consumer manifests; it does not yet extract contacts from tracked visual evidence under completed Rows085-089."
   },
   "required_contact_inference_contract_missing": [
     "A strict input manifest binding video, frame clock, scene, shot, take, actor and object tracks, masks, landmarks, depth, motion, and material evidence by hash.",
@@ -434,66 +523,298 @@
     "Completed authority for all five dependency rows."
   ],
   "acceptance_matrix_required": [
-    {"gate": "dependencies", "acceptance": "Rows085 through 089 each have row_complete=true with exact hash-bound authority."},
-    {"gate": "input_authority", "acceptance": "Tracks, masks, landmarks, depth, motion, materials, clocks, and media are hash-bound to one scene, shot, and take."},
-    {"gate": "source_owner", "acceptance": "The inferred source entity and region match trusted ownership under multi-actor and occlusion tests."},
-    {"gate": "target_owner", "acceptance": "The inferred target entity and region or surface match trusted ownership under contact and reappearance tests."},
-    {"gate": "contact_timing", "acceptance": "Approach, onset, peak, release, and end anchors are ordered, uncertainty-bound, and calibrated in frame and sample domains."},
-    {"gate": "force", "acceptance": "Force bands are calibrated against relative motion, deformation or recoil, and held-out labels."},
-    {"gate": "authority_ceiling", "acceptance": "Blocked ownership or geometry can emit candidates but cannot certify frame-exact actor-specific contact."},
-    {"gate": "strict_schema", "acceptance": "Malformed types, missing fields, duplicate IDs, invalid spans, and string Boolean lookalikes fail closed."},
-    {"gate": "benchmark", "acceptance": "Synthetic, adversarial, and genuine temporal benchmarks meet frozen ownership, timing, force, false-event, and missed-event thresholds."},
-    {"gate": "runtime_qa", "acceptance": "Exact implementation hashes, test log, runtime record, contact overlays, audio alignment, combined review, and tracker output all pass."}
+    {
+      "gate": "dependencies",
+      "acceptance": "Rows085 through 089 each have row_complete=true with exact hash-bound authority."
+    },
+    {
+      "gate": "input_authority",
+      "acceptance": "Tracks, masks, landmarks, depth, motion, materials, clocks, and media are hash-bound to one scene, shot, and take."
+    },
+    {
+      "gate": "source_owner",
+      "acceptance": "The inferred source entity and region match trusted ownership under multi-actor and occlusion tests."
+    },
+    {
+      "gate": "target_owner",
+      "acceptance": "The inferred target entity and region or surface match trusted ownership under contact and reappearance tests."
+    },
+    {
+      "gate": "contact_timing",
+      "acceptance": "Approach, onset, peak, release, and end anchors are ordered, uncertainty-bound, and calibrated in frame and sample domains."
+    },
+    {
+      "gate": "force",
+      "acceptance": "Force bands are calibrated against relative motion, deformation or recoil, and held-out labels."
+    },
+    {
+      "gate": "authority_ceiling",
+      "acceptance": "Blocked ownership or geometry can emit candidates but cannot certify frame-exact actor-specific contact."
+    },
+    {
+      "gate": "strict_schema",
+      "acceptance": "Malformed types, missing fields, duplicate IDs, invalid spans, and string Boolean lookalikes fail closed."
+    },
+    {
+      "gate": "benchmark",
+      "acceptance": "Synthetic, adversarial, and genuine temporal benchmarks meet frozen ownership, timing, force, false-event, and missed-event thresholds."
+    },
+    {
+      "gate": "runtime_qa",
+      "acceptance": "Exact implementation hashes, test log, runtime record, contact overlays, audio alignment, combined review, and tracker output all pass."
+    }
   ],
   "checks": [
-    {"id": "ROW090-001", "status": "PASS", "name": "source_commit_bound", "detail": "Audit source commit is exact current HEAD 3ab7ec0f."},
-    {"id": "ROW090-002", "status": "PASS", "name": "tracker_item_parity", "detail": "Tracker and item records agree on title, dependencies, gates, candidate boundary, and acceptance."},
-    {"id": "ROW090-003", "status": "PASS", "name": "requirements_copy_identity", "detail": "Tracker and item requirements JSON files are byte-identical."},
-    {"id": "ROW090-004", "status": "PASS", "name": "signed_codex_only_intent", "detail": "The signed deferred intent authorizes this one evidence path and woke no worker."},
-    {"id": "ROW090-005", "status": "PASS", "name": "dependency_evidence_bound", "detail": "All five dependency evidence records are present and hash-bound."},
-    {"id": "ROW090-006", "status": "PASS", "name": "architecture_authority_explicit", "detail": "The architecture explicitly defines inference inputs, contact phases, ownership, and fail-closed ceilings."},
-    {"id": "ROW090-007", "status": "PASS", "name": "wave22_contract_assets_present", "detail": "Legacy contact graph scripts, schemas, taxonomy, scoring, rerun, and inventory assets are hash-bound."},
-    {"id": "ROW090-008", "status": "PASS", "name": "wave22_fail_open_boundary_reproduced", "detail": "Invalid typed edges and string false evidence both produced false-positive PASS results, so the legacy stack is correctly excluded from authority."},
-    {"id": "ROW090-009", "status": "PASS", "name": "foley_alignment_stack_present", "detail": "The strict downstream request, evaluator, schemas, registry, and tests are hash-bound."},
-    {"id": "ROW090-010", "status": "PASS", "name": "foley_alignment_focused_tests", "detail": "All 54 request and strict evaluator tests pass within the 64-test focused run."},
-    {"id": "ROW090-011", "status": "PASS", "name": "foley_evidence_fail_closed", "detail": "The current foley evidence accurately records zero production runtime, AV review, gold-mask authority, and approved bundles."},
-    {"id": "ROW090-012", "status": "PASS", "name": "approved_bundle_count_bound", "detail": "The authority registry contains zero approved production alignment bundles."},
-    {"id": "ROW090-013", "status": "PASS", "name": "static_contact_reviews_bounded", "detail": "Three local hand-contact reviews retain local support while denying final certification."},
-    {"id": "ROW090-014", "status": "PASS", "name": "mask_contact_authority_fail_closed", "detail": "Mask evidence explicitly denies contact ownership, overlap, geometry, parsing, polygon, and promotion authority."},
-    {"id": "ROW090-015", "status": "PASS", "name": "focused_adjacent_tests", "detail": "All 64 collected adjacent focused tests pass."},
-    {"id": "ROW090-016", "status": "PASS", "name": "worker_and_runtime_containment", "detail": "This audit used no provider, wrapper, scheduled wake, EC2, Docker, WSL, model download, generation, render, or production mutation."},
-    {"id": "ROW090-017", "status": "FAIL", "name": "dependency_row085_complete", "detail": "Actor, object, and region tracking authority remains incomplete."},
-    {"id": "ROW090-018", "status": "FAIL", "name": "dependency_row086_complete", "detail": "Pose, hand, foot, gait, and contact-phase authority remains incomplete."},
-    {"id": "ROW090-019", "status": "FAIL", "name": "dependency_row087_complete", "detail": "Actor-relative motion and calibrated force-cue authority remains incomplete."},
-    {"id": "ROW090-020", "status": "FAIL", "name": "dependency_row088_complete", "detail": "Depth, camera, source-position, and uncertainty authority remains incomplete."},
-    {"id": "ROW090-021", "status": "FAIL", "name": "dependency_row089_complete", "detail": "Visual material-recognition authority remains incomplete."},
-    {"id": "ROW090-022", "status": "FAIL", "name": "direct_contact_inference_implementation", "detail": "No production Row090 visual contact inference implementation exists."},
-    {"id": "ROW090-023", "status": "FAIL", "name": "direct_row090_tests", "detail": "No direct Row090 inference tests exist."},
-    {"id": "ROW090-024", "status": "FAIL", "name": "direct_row090_runtime", "detail": "No direct Row090 runtime proof exists."},
-    {"id": "ROW090-025", "status": "FAIL", "name": "tracker_output", "detail": "The required lowercase tracker output does not exist."},
-    {"id": "ROW090-026", "status": "FAIL", "name": "visual_contact_manifest_producer", "detail": "A strict consumer exists, but no production producer infers the manifest from visual evidence."},
-    {"id": "ROW090-027", "status": "FAIL", "name": "source_owner_inference", "detail": "No visual source-owner and source-region inference is implemented or calibrated."},
-    {"id": "ROW090-028", "status": "FAIL", "name": "target_owner_inference", "detail": "No visual target-owner and target-region or surface inference is implemented or calibrated."},
-    {"id": "ROW090-029", "status": "FAIL", "name": "body_region_object_surface_inference", "detail": "No trusted region or surface resolution binds contact participants."},
-    {"id": "ROW090-030", "status": "FAIL", "name": "onset_peak_release_inference", "detail": "No approach, onset, peak, release, end, and uncertainty inference exists."},
-    {"id": "ROW090-031", "status": "FAIL", "name": "calibrated_force_model", "detail": "No calibrated visual force-band model exists."},
-    {"id": "ROW090-032", "status": "FAIL", "name": "visibility_occlusion_temporal_authority", "detail": "No cross-frame visibility, occlusion, partial-view, and reappearance authority exists."},
-    {"id": "ROW090-033", "status": "FAIL", "name": "executable_authority_ceiling", "detail": "No producer-side candidate-versus-certification ceiling is implemented and tested."},
-    {"id": "ROW090-034", "status": "FAIL", "name": "strict_row090_schema", "detail": "No strict Row090 schema binds input provenance, phase anchors, confidence, uncertainty, and blockers."},
-    {"id": "ROW090-035", "status": "FAIL", "name": "genuine_temporal_benchmark", "detail": "No held-out temporal contact benchmark or calibrated ownership, timing, force, false-event, and missed-event metrics exist."},
-    {"id": "ROW090-036", "status": "FAIL", "name": "combined_frame_contact_audio_review", "detail": "The required combined review has not been performed for a Row090 runtime output."},
-    {"id": "ROW090-037", "status": "FAIL", "name": "legacy_wave22_strict_validation", "detail": "The legacy validator and scorer accept invalid types and string false lookalikes and have no direct tests."},
-    {"id": "ROW090-038", "status": "FAIL", "name": "row_complete", "detail": "Dependencies, implementation, tests, runtime, visual QA, and certification do not support completion."}
+    {
+      "id": "ROW090-001",
+      "status": "PASS",
+      "name": "source_commit_bound",
+      "detail": "Audit source commit rebound to current HEAD f99ad809."
+    },
+    {
+      "id": "ROW090-002",
+      "status": "PASS",
+      "name": "tracker_item_parity",
+      "detail": "Tracker and item records agree on title, dependencies, gates, candidate boundary, and acceptance."
+    },
+    {
+      "id": "ROW090-003",
+      "status": "PASS",
+      "name": "requirements_copy_identity",
+      "detail": "Tracker and item requirements JSON files are byte-identical."
+    },
+    {
+      "id": "ROW090-004",
+      "status": "PASS",
+      "name": "signed_codex_only_intent",
+      "detail": "The signed deferred intent authorizes this one evidence path and woke no worker."
+    },
+    {
+      "id": "ROW090-005",
+      "status": "PASS",
+      "name": "dependency_evidence_bound",
+      "detail": "All five dependency evidence records are present and hash-bound."
+    },
+    {
+      "id": "ROW090-006",
+      "status": "PASS",
+      "name": "architecture_authority_explicit",
+      "detail": "The architecture explicitly defines inference inputs, contact phases, ownership, and fail-closed ceilings."
+    },
+    {
+      "id": "ROW090-007",
+      "status": "PASS",
+      "name": "wave22_contract_assets_present",
+      "detail": "Legacy contact graph scripts, schemas, taxonomy, scoring, rerun, and inventory assets are hash-bound."
+    },
+    {
+      "id": "ROW090-008",
+      "status": "PASS",
+      "name": "wave22_fail_open_boundary_reproduced",
+      "detail": "Legacy fail-open defects remain historically reproduced and were closed by WAVE22_CONTACT_GRAPH_FAIL_CLOSED_CORRECTION_20260719."
+    },
+    {
+      "id": "ROW090-009",
+      "status": "PASS",
+      "name": "foley_alignment_stack_present",
+      "detail": "The strict downstream request, evaluator, schemas, registry, and tests are hash-bound."
+    },
+    {
+      "id": "ROW090-010",
+      "status": "PASS",
+      "name": "foley_alignment_focused_tests",
+      "detail": "All 54 request and strict evaluator tests pass within the 64-test focused run."
+    },
+    {
+      "id": "ROW090-011",
+      "status": "PASS",
+      "name": "foley_evidence_fail_closed",
+      "detail": "The current foley evidence accurately records zero production runtime, AV review, gold-mask authority, and approved bundles."
+    },
+    {
+      "id": "ROW090-012",
+      "status": "PASS",
+      "name": "approved_bundle_count_bound",
+      "detail": "The authority registry contains zero approved production alignment bundles."
+    },
+    {
+      "id": "ROW090-013",
+      "status": "PASS",
+      "name": "static_contact_reviews_bounded",
+      "detail": "Three local hand-contact reviews retain local support while denying final certification."
+    },
+    {
+      "id": "ROW090-014",
+      "status": "PASS",
+      "name": "mask_contact_authority_fail_closed",
+      "detail": "Mask evidence explicitly denies contact ownership, overlap, geometry, parsing, polygon, and promotion authority."
+    },
+    {
+      "id": "ROW090-015",
+      "status": "PASS",
+      "name": "focused_adjacent_tests",
+      "detail": "All 64 collected adjacent focused tests pass."
+    },
+    {
+      "id": "ROW090-016",
+      "status": "PASS",
+      "name": "worker_and_runtime_containment",
+      "detail": "This audit used no provider, wrapper, scheduled wake, EC2, Docker, WSL, model download, generation, render, or production mutation."
+    },
+    {
+      "id": "ROW090-017",
+      "status": "FAIL",
+      "name": "dependency_row085_complete",
+      "detail": "Actor, object, and region tracking authority remains incomplete."
+    },
+    {
+      "id": "ROW090-018",
+      "status": "FAIL",
+      "name": "dependency_row086_complete",
+      "detail": "Pose, hand, foot, gait, and contact-phase authority remains incomplete."
+    },
+    {
+      "id": "ROW090-019",
+      "status": "FAIL",
+      "name": "dependency_row087_complete",
+      "detail": "Actor-relative motion and calibrated force-cue authority remains incomplete."
+    },
+    {
+      "id": "ROW090-020",
+      "status": "FAIL",
+      "name": "dependency_row088_complete",
+      "detail": "Depth, camera, source-position, and uncertainty authority remains incomplete."
+    },
+    {
+      "id": "ROW090-021",
+      "status": "FAIL",
+      "name": "dependency_row089_complete",
+      "detail": "Visual material-recognition authority remains incomplete."
+    },
+    {
+      "id": "ROW090-022",
+      "status": "PASS",
+      "name": "direct_contact_inference_implementation",
+      "detail": "Fail-closed ownership compiler slice exists; CV inference from tracks/masks/depth/motion remains dependency-blocked."
+    },
+    {
+      "id": "ROW090-023",
+      "status": "PASS",
+      "name": "direct_row090_tests",
+      "detail": "Focused Row090 compiler tests pass (8)."
+    },
+    {
+      "id": "ROW090-024",
+      "status": "FAIL",
+      "name": "direct_row090_runtime",
+      "detail": "No direct Row090 runtime proof exists."
+    },
+    {
+      "id": "ROW090-025",
+      "status": "FAIL",
+      "name": "tracker_output",
+      "detail": "The required lowercase tracker output does not exist."
+    },
+    {
+      "id": "ROW090-026",
+      "status": "PASS",
+      "name": "visual_contact_manifest_producer",
+      "detail": "Compiler projects a consumer visual_contact_manifest with production_trust_claim forced false under hold."
+    },
+    {
+      "id": "ROW090-027",
+      "status": "FAIL",
+      "name": "source_owner_inference",
+      "detail": "No visual source-owner inference from tracks/masks exists yet; compiler consumes declared ownership."
+    },
+    {
+      "id": "ROW090-028",
+      "status": "FAIL",
+      "name": "target_owner_inference",
+      "detail": "No visual target-owner inference from tracks/masks exists yet; compiler consumes declared ownership."
+    },
+    {
+      "id": "ROW090-029",
+      "status": "FAIL",
+      "name": "body_region_object_surface_inference",
+      "detail": "No trusted region/surface resolution from visual evidence exists yet."
+    },
+    {
+      "id": "ROW090-030",
+      "status": "FAIL",
+      "name": "onset_peak_release_inference",
+      "detail": "Phase anchors are validated/converted, not inferred from motion/depth evidence."
+    },
+    {
+      "id": "ROW090-031",
+      "status": "FAIL",
+      "name": "calibrated_force_model",
+      "detail": "No calibrated visual force-band model exists."
+    },
+    {
+      "id": "ROW090-032",
+      "status": "FAIL",
+      "name": "visibility_occlusion_temporal_authority",
+      "detail": "No cross-frame visibility/occlusion/reappearance authority exists."
+    },
+    {
+      "id": "ROW090-033",
+      "status": "PASS",
+      "name": "executable_authority_ceiling",
+      "detail": "Compiler enforces candidate ceiling and rejects certified/technical claims under dependency or runtime hold."
+    },
+    {
+      "id": "ROW090-034",
+      "status": "PASS",
+      "name": "strict_row090_schema",
+      "detail": "Strict contact_inference_ownership_manifest schema binds provenance, phases, confidence, uncertainty, blockers, and visual projection."
+    },
+    {
+      "id": "ROW090-035",
+      "status": "FAIL",
+      "name": "genuine_temporal_benchmark",
+      "detail": "No held-out temporal contact benchmark exists."
+    },
+    {
+      "id": "ROW090-036",
+      "status": "FAIL",
+      "name": "combined_frame_contact_audio_review",
+      "detail": "Required combined review has not been performed for a Row090 runtime output."
+    },
+    {
+      "id": "ROW090-037",
+      "status": "PASS",
+      "name": "legacy_wave22_strict_validation",
+      "detail": "Wave22 validator/scorer fail-closed correction retained with 20 focused tests / 122 subtests passing."
+    },
+    {
+      "id": "ROW090-038",
+      "status": "FAIL",
+      "name": "row_complete",
+      "detail": "Dependencies, visual inference, runtime, visual QA, and certification do not support completion."
+    },
+    {
+      "id": "ROW090-039",
+      "status": "PASS",
+      "name": "row090_compiler_slice_focused_tests_pass",
+      "detail": "8 focused Row090 compiler tests passed."
+    },
+    {
+      "id": "ROW090-040",
+      "status": "PASS",
+      "name": "row090_compiler_slice_fail_closed_dependency_runtime_gates",
+      "detail": "Compiler rejects certified/technical ceilings and string-boolean lookalikes under hold."
+    }
   ],
   "check_summary": {
-    "total": 38,
-    "pass": 16,
-    "fail": 22
+    "total": 40,
+    "pass": 24,
+    "fail": 16
   },
   "test_and_runtime_boundary": {
     "adjacent_tests_collected": 64,
     "adjacent_tests_passed": 64,
-    "direct_row090_tests": 0,
+    "direct_row090_tests": 8,
     "direct_row090_runtime_runs": 0,
     "visual_reviews_performed_by_this_audit": 0,
     "ec2_calls": 0,
@@ -501,7 +822,8 @@
     "wsl_calls": 0,
     "model_downloads": 0,
     "generations": 0,
-    "renders": 0
+    "renders": 0,
+    "adjacent_wave22_tests_passed": 20
   },
   "scheduler_and_worker_containment": {
     "provider_calls": 0,
@@ -514,6 +836,9 @@
   },
   "preservation_boundary": {
     "evidence_write_scope": [
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_contact_inference_ownership.py",
+      "Plan/08_SCHEMAS/contact_inference_ownership_manifest.schema.json",
+      "Plan/Instructions/QA/Scripts/test_row090_contact_inference_ownership_compiler.py",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-090_CONTACT_INFERENCE_OWNERSHIP_CURRENT_DELTA_20260719.json"
     ],
     "queued_worker_scopes_preserved": true,
@@ -521,14 +846,57 @@
     "portfolio_reconciliation_paths_preserved": true,
     "worker_control_snapshots_preserved": true,
     "mask_factory_paths_preserved": true,
-    "unrelated_dirty_and_untracked_paths_preserved": true
+    "unrelated_dirty_and_untracked_paths_preserved": true,
+    "sibling_row084_071_093_paths_preserved": true
   },
   "hold_decision": {
     "decision": "HOLD_ROW090",
-    "reason": "The repository can validate declared contact graphs and downstream foley alignment, and it retains bounded static contact reviews, but no production service infers trusted source and target ownership, contact phases, calibrated force, visibility, uncertainty, or authority ceiling from tracked visual evidence. The legacy Wave22 validator also has reproduced false-positive type and Boolean-coercion defects, all five dependencies remain incomplete, and no Row090 runtime or combined review exists.",
-    "safe_next_work": "A future disjoint signed implementation scope should first define the strict Row090 input and output schemas, harden or supersede the Wave22 validator and scorer, build benchmark fixtures, and implement a visual_contact_manifest producer behind the five dependency gates. Codex can continue independent tracker audits without waiting for worker-control qualification.",
+    "reason": "A strict schema and fail-closed ownership/visual-contact compiler slice now exist with focused tests, and Wave22 declaration validators remain fail-closed. Rows085-089 remain incomplete, no CV contact inference from tracks/masks/landmarks/depth/motion is implemented, and no genuine runtime or combined frame/contact/audio review exists.",
+    "safe_next_work": "Keep Row090 held. After Rows085-089 produce trusted track/mask/landmark/depth/motion/material packets, extend the compiler into a real visual inference producer with calibrated force and temporal benchmarks, then emit TRK-W64-090_contact_inference_ownership.json plus runtime and combined-review evidence.",
     "completion_claim_prohibited": true,
     "runtime_claim_prohibited": true,
     "certification_claim_prohibited": true
+  },
+  "row090_compiler_slice": {
+    "scope": "Introduces a production-oriented fail-closed compiler that validates ownership/phase/force/visibility packets, projects a consumer visual_contact_manifest, and blocks certification while Rows085-089 or runtime/review authority remain unsatisfied.",
+    "row090_complete": false,
+    "visual_cv_inference_claimed": false,
+    "runtime_certification_claimed": false,
+    "compiler": {
+      "path": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_contact_inference_ownership.py",
+      "sha256": "235500cdb3ae5a3bde5e429b27c82ca31f2d4f62f7058ff3440e776ae4a39334",
+      "bytes": 29131,
+      "enforced_controls": [
+        "exact Boolean dependency and runtime authority fields",
+        "dependency hold blocks decision=certified and non-candidate authority ceilings",
+        "runtime hold blocks certification ceiling",
+        "ordered approach/onset/peak/release/end phase frames with seconds/sample conversion",
+        "null or untrusted ownership cannot certify",
+        "visual_contact_manifest projection forces production_trust_claim=false under hold",
+        "blocked unowned contacts are excluded from consumer edges"
+      ]
+    },
+    "schema": {
+      "path": "Plan/08_SCHEMAS/contact_inference_ownership_manifest.schema.json",
+      "sha256": "a63b1b26b73626ad044fca7843c3d6d91467db93de526d0e79fa49b26bf270f6",
+      "bytes": 12005
+    },
+    "focused_tests": {
+      "path": "Plan/Instructions/QA/Scripts/test_row090_contact_inference_ownership_compiler.py",
+      "sha256": "6cd45f1c71cb29ce6f0373ba65786d11cb9b7b6c578dd5a4ce85ffbae579d0b6",
+      "bytes": 11055,
+      "command": "python -m pytest Plan/Instructions/QA/Scripts/test_row090_contact_inference_ownership_compiler.py -q --tb=short",
+      "exit_code": 0,
+      "passed": 8
+    },
+    "adjacent_wave22_tests": {
+      "command": "python -m pytest Plan/Instructions/QA/Scripts/test_physical_contact_graph_contract.py -q --tb=line",
+      "exit_code": 0,
+      "passed": 20,
+      "subtests_passed": 122,
+      "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/WAVE22_CONTACT_GRAPH_FAIL_CLOSED_CORRECTION_20260719.json",
+      "evidence_sha256": "675e832df6aceb1e8326e781d5bb17618a4285f90e01d5febf214f60b093c1d8",
+      "evidence_bytes": 6882
+    }
   }
 }
