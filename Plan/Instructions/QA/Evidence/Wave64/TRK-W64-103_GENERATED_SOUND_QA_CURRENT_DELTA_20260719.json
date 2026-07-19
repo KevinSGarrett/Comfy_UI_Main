@@ -1,0 +1,250 @@
+{
+  "schema_version": 1,
+  "evidence_id": "W64-ROW103-GENERATED-SOUND-QA-CURRENT-DELTA-20260719",
+  "created_at": "2026-07-19T20:33:36Z",
+  "updated_at": "2026-07-19T20:33:36Z",
+  "source_commit": "8309874c08760753a8ca660ebc500d09cf421afc",
+  "prior_audit_commit": "8309874c08760753a8ca660ebc500d09cf421afc",
+  "tracker_id": "TRK-W64-103",
+  "item_id": "ITEM-W64-103",
+  "status": "HOLD_DEPENDENCIES_AND_GENERATED_SOUND_QA_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+  "classification": "ROW103_FAIL_CLOSED_CONTRACT_SLICE_NO_FALSE_COMPLETION",
+  "row_complete": false,
+  "implementation_completion_claimed": false,
+  "runtime_completion_claimed": false,
+  "qa_decision": "hold_with_fail_closed_generated_sound_qa_contract_and_synthetic_fixture_calibration_only",
+  "intent": {
+    "intent_id": "interactive_cursor_shift_row103_contract_slice_20260719",
+    "classification": "INTERACTIVE_CURSOR_SHIFT_AUTHORITY",
+    "work_type": "final_authority",
+    "authority_class": "interactive_cursor_integration",
+    "routing": null,
+    "dispatch_wake_count": 0,
+    "allowed_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_generated_sound_qa.py",
+      "Plan/08_SCHEMAS/generated_sound_qa_evaluation.schema.json",
+      "Plan/10_REGISTRIES/wave64_row103_generated_sound_qa_policy_registry.json",
+      "Plan/Instructions/QA/Scripts/test_row103_generated_sound_qa.py",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-103_generated_sound_qa.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-103_GENERATED_SOUND_QA_CURRENT_DELTA_20260719.json"
+    ]
+  },
+  "increment": {
+    "kind": "fail_closed_contract_evaluator_and_schema_slice",
+    "evaluator_revision": "wave64_row103_generated_sound_qa_evaluator_v0.1.0",
+    "policy_revision": "wave64_row103_generated_sound_qa_policy_v0.1.0",
+    "summary": "Freeze Row103 multi-signal technical/semantic/timing/acoustic/dedup/negative-evidence gates; deny single-model-metric production authority; retain failed candidates as immutable negative evidence; emit schema-validated synthetic fixture calibration; fail closed for library QA until Rows071/072/075/076/079/083/102 are accepted.",
+    "note": "Dedicated generated-sound QA schema is introduced without mutating sibling-owned Row069/084/085/095/096/097 paths."
+  },
+  "row103_contract": {
+    "status": "Planned_Autonomous_Implementation_Required",
+    "priority": "P0",
+    "risk": "CRITICAL",
+    "dependency_prerequisites": [
+      "TRK-W64-071",
+      "TRK-W64-072",
+      "TRK-W64-075",
+      "TRK-W64-076",
+      "TRK-W64-079",
+      "TRK-W64-083",
+      "TRK-W64-102"
+    ],
+    "validation_methods": [
+      "technical_qa",
+      "semantic_qa",
+      "timing_qa",
+      "acoustic_qa",
+      "dedup",
+      "negative_evidence"
+    ],
+    "output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-103_generated_sound_qa.json",
+    "output_artifact_exists": true,
+    "output_artifact_authority": "fail_closed_hold_packet_not_library_acceptance",
+    "completion_criteria": "Calibrated multi-signal QA rejects semantic mismatch, extra events, timing defects, technical defects, and unsuitable acoustics; no single model metric grants production authority; failed candidates remain immutable negative evidence.",
+    "runtime_proof_required": true,
+    "ec2_allowed": true,
+    "final_render_gate": "BLOCKED_UNTIL_EXACT_ROW_IMPLEMENTATION_RUNTIME_QA_AND_AUTHORITY_PASS"
+  },
+  "implemented_slice": {
+    "evaluator_path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_generated_sound_qa.py",
+    "evaluator_sha256": "033fd8f44452b2aebc54e6d94476e1de711ee1cf760db9d71dd2989783add412",
+    "evaluator_bytes": 26554,
+    "schema_path": "Plan/08_SCHEMAS/generated_sound_qa_evaluation.schema.json",
+    "schema_sha256": "dde081c6c2e3fe8eef87e3890883e1d7e666179e2a5d3168150207dcab32a11f",
+    "schema_bytes": 8344,
+    "policy_path": "Plan/10_REGISTRIES/wave64_row103_generated_sound_qa_policy_registry.json",
+    "policy_sha256": "952837ff081f8b9c808f272668b6334a6ae09780195cf136228a826a56c33fa0",
+    "policy_bytes": 2248,
+    "test_path": "Plan/Instructions/QA/Scripts/test_row103_generated_sound_qa.py",
+    "test_sha256": "d5808bd9a0023fc7f5c918aaba6f9a9c32043c7b3962142d97e229c9b784525f",
+    "test_bytes": 6367,
+    "direct_evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-103_generated_sound_qa.json",
+    "direct_evidence_sha256": "4c8103df00e97d7012c214bf1074b214b6b5a06628f7809f3bbeb41ba36db0f4",
+    "direct_evidence_bytes": 76104,
+    "capabilities_now_present": [
+      "frozen_evaluator_and_policy_revisions",
+      "six_required_multi_signal_gates_with_fail_closed_results",
+      "single_model_metric_cannot_grant_production_authority",
+      "immutable_negative_evidence_retention_and_rewrite_block",
+      "semantic_extra_event_timing_technical_acoustic_and_dedup_rejection_fixtures",
+      "schema_validated_fixture_receipts_with_library_authority_false",
+      "library_mode_hold_packet_without_false_completion",
+      "row102_absent_delta_recognized_as_hard_blocker"
+    ],
+    "explicitly_not_claimed": [
+      "accepted_row071_feature_runtime_authority",
+      "accepted_row072_onset_anchor_authority",
+      "accepted_row075_defect_classifier_authority",
+      "accepted_row076_acoustic_estimator_authority",
+      "accepted_row079_taxonomy_authority",
+      "accepted_row083_retrieval_calibration_authority",
+      "accepted_row102_generated_asset_provenance_authority",
+      "reference_calibrated_production_thresholds",
+      "genuine_waveform_spectrogram_audio_qa",
+      "row103_product_completion",
+      "row103_runtime_completion",
+      "downstream_row104_row106_row112_unblocking"
+    ]
+  },
+  "dependency_authority": [
+    {
+      "tracker_id": "TRK-W64-071",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-071_WAVEFORM_FEATURE_EXTRACTION_CURRENT_DELTA_20260719.json",
+      "current_delta_sha256": "4118ecf426dc54242b049e15e27981097a29044d954bd21992dce85aca432def",
+      "current_delta_bytes": 7370,
+      "dependency_satisfied": false,
+      "row_complete": false,
+      "reason": "Waveform feature authority remains held; generated QA cannot bind production technical features yet."
+    },
+    {
+      "tracker_id": "TRK-W64-072",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ONSET_TRANSIENT_ANCHOR_CURRENT_DELTA_20260719.json",
+      "current_delta_sha256": "f0d647f5f623e7b8bbeb4ef1270732ba8116972dcecd620592c12dabbde0477a",
+      "current_delta_bytes": 12124,
+      "dependency_satisfied": false,
+      "row_complete": false,
+      "reason": "Onset/transient anchor authority remains held; timing QA cannot claim production calibration."
+    },
+    {
+      "tracker_id": "TRK-W64-075",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_AUDIO_QUALITY_DEFECT_CURRENT_DELTA_20260719.json",
+      "current_delta_sha256": "43c1ff3c2e88bf5d2dbf6f3ba1b6f4329152d232bdf46e36fa73b46f97c63aeb",
+      "current_delta_bytes": 10201,
+      "dependency_satisfied": false,
+      "row_complete": false,
+      "reason": "Defect classification authority remains held; technical QA relies on synthetic fixture signals only."
+    },
+    {
+      "tracker_id": "TRK-W64-076",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_REVERB_DRYNESS_CURRENT_DELTA_20260719.json",
+      "current_delta_sha256": "a31adb18277200105c7d19802d4f7db2bfec7899332425bfadc5705accffddfe",
+      "current_delta_bytes": 10989,
+      "dependency_satisfied": false,
+      "row_complete": false,
+      "reason": "Reverb/dryness authority remains held; acoustic suitability cannot claim production room judgment."
+    },
+    {
+      "tracker_id": "TRK-W64-079",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-079_FINE_GRAINED_FOLEY_TAXONOMY_CURRENT_DELTA_20260719.json",
+      "current_delta_sha256": "503f2ced0c92c492774ae482dcd18a4f5f623f162e93ddeb9b8b62480f6f32b8",
+      "current_delta_bytes": 10464,
+      "dependency_satisfied": false,
+      "row_complete": false,
+      "reason": "Fine-grained Foley taxonomy remains held; semantic/material fit cannot claim accepted taxonomy identity."
+    },
+    {
+      "tracker_id": "TRK-W64-083",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-083_RETRIEVAL_FALLBACK_CALIBRATION_CURRENT_DELTA_20260719.json",
+      "current_delta_sha256": "aa01f744028a788ea3a3b125a9af529f24e3b0080120dcf2e397be6516fa825f",
+      "current_delta_bytes": 11448,
+      "dependency_satisfied": false,
+      "row_complete": false,
+      "reason": "Retrieval fallback calibration remains held; generated-candidate uniqueness/selection context is incomplete."
+    },
+    {
+      "tracker_id": "TRK-W64-102",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-102_GENERATED_ASSET_PROVENANCE_CURRENT_DELTA_20260719.json",
+      "dependency_satisfied": false,
+      "row_complete": false,
+      "reason": "Generated-asset provenance current-delta is absent; staging/provenance authority is a hard blocker."
+    }
+  ],
+  "focused_validators": {
+    "command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_row103_generated_sound_qa.py",
+    "exit_code": 0,
+    "passed": 13,
+    "failed": 0
+  },
+  "acceptance_gaps": [
+    {
+      "code": "ROW103_DEPENDENCIES_NOT_ACCEPTED",
+      "detail": "Rows071/072/075/076/079/083 remain held and Row102 delta is absent, so library generated-sound QA authority stays blocked."
+    },
+    {
+      "code": "REFERENCE_CALIBRATION_CORPUS_ABSENT",
+      "detail": "Synthetic fixture thresholds prove contract identity only; immutable reference-calibrated partitions remain absent."
+    },
+    {
+      "code": "DEDICATED_GENERATED_SOUND_QA_RUNTIME_ABSENT",
+      "detail": "No production runtime binds accepted feature/onset/defect/acoustic/taxonomy/provenance evidence into generated QA receipts."
+    },
+    {
+      "code": "GENUINE_AUDIO_QA_AND_RUNTIME_PROOF_ABSENT",
+      "detail": "Waveform/spectrogram genuine-audio QA and runtime proof are not claimed by this contract slice."
+    },
+    {
+      "code": "ROW102_PROVENANCE_STAGING_AUTHORITY_ABSENT",
+      "detail": "Generated candidates lack accepted provenance/staging authority required before reusable QA promotion paths."
+    }
+  ],
+  "direct_downstream_hold": {
+    "count": 3,
+    "tracker_ids": [
+      "TRK-W64-104",
+      "TRK-W64-106",
+      "TRK-W64-112"
+    ],
+    "reason": "Generated-asset promotion, AV QA matrix, and full-system certification require accepted multi-signal generated-sound QA authority, not synthetic fixture calibration alone."
+  },
+  "preservation_boundary": {
+    "row069_paths_modified": false,
+    "row084_camera_motion_paths_modified": false,
+    "row085_fixture_paths_modified": false,
+    "row095_paths_modified": false,
+    "row096_paths_modified": false,
+    "row097_paths_modified": false,
+    "unrelated_dirty_paths_modified": false,
+    "only_row103_writable_paths_this_increment": [
+      "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_generated_sound_qa.py",
+      "Plan/08_SCHEMAS/generated_sound_qa_evaluation.schema.json",
+      "Plan/10_REGISTRIES/wave64_row103_generated_sound_qa_policy_registry.json",
+      "Plan/Instructions/QA/Scripts/test_row103_generated_sound_qa.py",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-103_generated_sound_qa.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-103_GENERATED_SOUND_QA_CURRENT_DELTA_20260719.json"
+    ]
+  },
+  "checks": [
+    {"name": "ARD-I001_evaluator_and_policy_revisions_frozen", "result": "pass"},
+    {"name": "ARD-I002_schema_requires_six_gates_and_negative_evidence", "result": "pass"},
+    {"name": "ARD-I003_dependencies_071_072_075_076_079_083_102_fail_closed", "result": "pass"},
+    {"name": "ARD-I004_library_mode_hold_packet_emitted", "result": "pass"},
+    {"name": "ARD-I005_fixture_records_deterministic_schema_valid", "result": "pass"},
+    {"name": "ARD-I006_semantic_timing_technical_acoustic_dedup_rejection_enforced", "result": "pass"},
+    {"name": "ARD-I007_single_metric_authority_denied_and_negative_evidence_immutable", "result": "pass"},
+    {"name": "ARD-I008_focused_pytest_13_passed", "result": "pass"},
+    {"name": "ARD-I009_no_false_completion_claimed", "result": "pass"},
+    {"name": "ARD-I010_disjoint_from_row069_row084_row085_row095_row096_row097", "result": "pass"}
+  ],
+  "check_summary": {
+    "checked": 10,
+    "passed": 10,
+    "failed": 0
+  },
+  "decision": {
+    "status": "blocked",
+    "row103_acceptance": "held",
+    "product_completion": false,
+    "runtime_completion": false,
+    "safe_next_action": "Keep Row103 held with this fail-closed contract slice; prefer next independent upstream Row102 provenance contract or accept Rows071/072/075/076/079/083 before claiming generated-sound QA completion."
+  }
+}

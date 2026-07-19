@@ -1,0 +1,254 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/generated_sound_qa_evaluation.schema.json",
+  "title": "Wave64 Row103 Generated Sound QA Evaluation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "tracker_id",
+    "item_id",
+    "record_type",
+    "evaluator_revision",
+    "policy_revision",
+    "policy_sha256",
+    "candidate_id",
+    "candidate_pcm_sha256",
+    "event_id",
+    "event_family",
+    "expected_event_family",
+    "is_synthetic",
+    "library_authority",
+    "dependency_admissions",
+    "required_gates",
+    "gate_results",
+    "signals",
+    "negative_evidence",
+    "decision",
+    "receipt_sha256"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "tracker_id": { "type": "string", "const": "TRK-W64-103" },
+    "item_id": { "type": "string", "const": "ITEM-W64-103" },
+    "record_type": {
+      "type": "string",
+      "const": "generated_sound_qa_evaluation"
+    },
+    "evaluator_revision": {
+      "type": "string",
+      "const": "wave64_row103_generated_sound_qa_evaluator_v0.1.0"
+    },
+    "policy_revision": {
+      "type": "string",
+      "const": "wave64_row103_generated_sound_qa_policy_v0.1.0"
+    },
+    "policy_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "candidate_id": { "type": "string", "minLength": 1 },
+    "candidate_pcm_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "event_id": { "type": "string", "minLength": 1 },
+    "event_family": { "type": "string", "minLength": 1 },
+    "expected_event_family": { "type": "string", "minLength": 1 },
+    "is_synthetic": { "type": "boolean" },
+    "library_authority": { "type": "boolean", "const": false },
+    "dependency_admissions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "TRK-W64-071",
+        "TRK-W64-072",
+        "TRK-W64-075",
+        "TRK-W64-076",
+        "TRK-W64-079",
+        "TRK-W64-083",
+        "TRK-W64-102"
+      ],
+      "properties": {
+        "TRK-W64-071": { "$ref": "#/$defs/dependency_admission" },
+        "TRK-W64-072": { "$ref": "#/$defs/dependency_admission" },
+        "TRK-W64-075": { "$ref": "#/$defs/dependency_admission" },
+        "TRK-W64-076": { "$ref": "#/$defs/dependency_admission" },
+        "TRK-W64-079": { "$ref": "#/$defs/dependency_admission" },
+        "TRK-W64-083": { "$ref": "#/$defs/dependency_admission" },
+        "TRK-W64-102": { "$ref": "#/$defs/dependency_admission" }
+      }
+    },
+    "required_gates": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {
+        "type": "string",
+        "enum": [
+          "technical_qa",
+          "semantic_qa",
+          "timing_qa",
+          "acoustic_qa",
+          "dedup",
+          "negative_evidence"
+        ]
+      }
+    },
+    "gate_results": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "technical_qa",
+        "semantic_qa",
+        "timing_qa",
+        "acoustic_qa",
+        "dedup",
+        "negative_evidence"
+      ],
+      "properties": {
+        "technical_qa": { "$ref": "#/$defs/gate_result" },
+        "semantic_qa": { "$ref": "#/$defs/gate_result" },
+        "timing_qa": { "$ref": "#/$defs/gate_result" },
+        "acoustic_qa": { "$ref": "#/$defs/gate_result" },
+        "dedup": { "$ref": "#/$defs/gate_result" },
+        "negative_evidence": { "$ref": "#/$defs/gate_result" }
+      }
+    },
+    "signals": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decode_ok",
+        "duration_ms",
+        "onset_offset_ms",
+        "endpoint_drift_ms",
+        "event_count",
+        "extra_event_count",
+        "silence_ratio",
+        "true_peak_dbfs",
+        "clipping",
+        "spectral_defect",
+        "semantic_score",
+        "material_action_score",
+        "acoustic_suitability_score",
+        "near_duplicate_similarity",
+        "source_leakage",
+        "model_metric_score",
+        "provenance_present"
+      ],
+      "properties": {
+        "decode_ok": { "type": "boolean" },
+        "duration_ms": { "type": "number", "minimum": 0 },
+        "onset_offset_ms": { "type": "number" },
+        "endpoint_drift_ms": { "type": "number" },
+        "event_count": { "type": "integer", "minimum": 0 },
+        "extra_event_count": { "type": "integer", "minimum": 0 },
+        "silence_ratio": { "type": "number", "minimum": 0, "maximum": 1 },
+        "true_peak_dbfs": { "type": "number" },
+        "clipping": { "type": "boolean" },
+        "spectral_defect": { "type": "boolean" },
+        "semantic_score": { "type": "number", "minimum": 0, "maximum": 1 },
+        "material_action_score": { "type": "number", "minimum": 0, "maximum": 1 },
+        "acoustic_suitability_score": { "type": "number", "minimum": 0, "maximum": 1 },
+        "near_duplicate_similarity": { "type": "number", "minimum": 0, "maximum": 1 },
+        "source_leakage": { "type": "boolean" },
+        "model_metric_score": { "type": "number", "minimum": 0, "maximum": 1 },
+        "provenance_present": { "type": "boolean" }
+      }
+    },
+    "negative_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "immutable",
+        "retained",
+        "prior_failure_codes",
+        "rewrite_blocked",
+        "evidence_sha256"
+      ],
+      "properties": {
+        "immutable": { "type": "boolean" },
+        "retained": { "type": "boolean" },
+        "prior_failure_codes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "rewrite_blocked": { "type": "boolean" },
+        "evidence_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "route",
+        "status",
+        "reason",
+        "blocker_codes",
+        "explanation",
+        "product_completion",
+        "row103_acceptance"
+      ],
+      "properties": {
+        "route": {
+          "type": "string",
+          "enum": ["accept_candidate", "reject_candidate", "blocked"]
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pass", "fail", "blocked"]
+        },
+        "reason": { "type": "string", "minLength": 1 },
+        "blocker_codes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "explanation": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "product_completion": { "type": "boolean", "const": false },
+        "row103_acceptance": {
+          "type": "string",
+          "enum": ["fixture_only", "held"]
+        }
+      }
+    },
+    "receipt_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  },
+  "$defs": {
+    "dependency_admission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tracker_id",
+        "dependency_satisfied",
+        "blocker_codes",
+        "row_complete",
+        "status",
+        "path"
+      ],
+      "properties": {
+        "tracker_id": { "type": "string", "minLength": 1 },
+        "dependency_satisfied": { "type": "boolean" },
+        "blocker_codes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "row_complete": { "type": "boolean" },
+        "status": { "type": "string" },
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "bytes": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "gate_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "reason_codes"],
+      "properties": {
+        "status": { "type": "string", "enum": ["pass", "fail"] },
+        "reason_codes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "wave64_row103_generated_sound_qa_policy_registry",
+  "revision": "wave64_row103_generated_sound_qa_policy_v0.1.0",
+  "tracker_id": "TRK-W64-103",
+  "authority": "planning_freeze_not_library_acceptance",
+  "notes": [
+    "Frozen generated-sound multi-signal QA policy for Row103 synthetic fixture calibration and fail-closed library hold.",
+    "Technical, semantic, timing, acoustic, and uniqueness gates are independent; no single model metric may grant production authority.",
+    "Failed candidates remain immutable negative evidence and cannot be rewritten into passing authority by re-scoring alone.",
+    "This registry does not accept library completion or substitute for Rows071/072/075/076/079/083/102 authority."
+  ],
+  "required_gates": [
+    "technical_qa",
+    "semantic_qa",
+    "timing_qa",
+    "acoustic_qa",
+    "dedup",
+    "negative_evidence"
+  ],
+  "signal_families": [
+    "decode_integrity",
+    "duration",
+    "onset",
+    "event_count",
+    "silence",
+    "clipping",
+    "loudness",
+    "spectral_defects",
+    "semantic_alignment",
+    "material_action_fit",
+    "timing_offset",
+    "diversity",
+    "source_leakage",
+    "acoustic_suitability"
+  ],
+  "thresholds": {
+    "semantic_min_score": 0.78,
+    "material_action_min_score": 0.74,
+    "max_onset_offset_ms": 12.0,
+    "max_endpoint_drift_ms": 24.0,
+    "max_true_peak_dbfs": -1.0,
+    "max_near_duplicate_similarity": 0.97,
+    "min_duration_ms": 40.0,
+    "max_silence_ratio": 0.85,
+    "max_extra_events": 0
+  },
+  "fail_closed": {
+    "library_authority_requires_dependencies": true,
+    "single_metric_cannot_grant_authority": true,
+    "failed_candidates_immutable_negative_evidence": true,
+    "semantic_mismatch_rejected": true,
+    "extra_events_rejected": true,
+    "timing_defects_rejected": true,
+    "technical_defects_rejected": true,
+    "unsuitable_acoustics_rejected": true,
+    "near_duplicates_rejected": true,
+    "missing_provenance_rejected": true
+  },
+  "dependency_prerequisites": [
+    "TRK-W64-071",
+    "TRK-W64-072",
+    "TRK-W64-075",
+    "TRK-W64-076",
+    "TRK-W64-079",
+    "TRK-W64-083",
+    "TRK-W64-102"
+  ]
+}
