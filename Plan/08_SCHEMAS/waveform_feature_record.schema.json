@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/waveform_feature_record.schema.json",
+  "title": "Wave64 Row071 Waveform Feature Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "tracker_id",
+    "item_id",
+    "feature_pipeline_revision",
+    "asset_id",
+    "source_sha256",
+    "canonical_pcm_sha256",
+    "sample_rate_hz",
+    "channels",
+    "frame_count",
+    "features",
+    "method_provenance",
+    "decision"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "tracker_id": { "type": "string", "const": "TRK-W64-071" },
+    "item_id": { "type": "string", "const": "ITEM-W64-071" },
+    "feature_pipeline_revision": {
+      "type": "string",
+      "const": "wave64_row071_waveform_features_v0.1.0"
+    },
+    "asset_id": { "type": "string", "minLength": 1 },
+    "source_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "canonical_pcm_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "sample_rate_hz": { "type": "integer", "minimum": 1 },
+    "channels": { "type": "integer", "minimum": 1 },
+    "frame_count": { "type": "integer", "minimum": 1 },
+    "features": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "integrated_loudness",
+        "true_peak",
+        "rms",
+        "crest_factor",
+        "spectral_centroid",
+        "spectral_bandwidth",
+        "spectral_rolloff",
+        "zero_crossing_rate",
+        "dynamic_range",
+        "noise_floor",
+        "clipping",
+        "dc_offset",
+        "channel_correlation"
+      ],
+      "properties": {
+        "integrated_loudness": { "type": "number" },
+        "true_peak": { "type": "number" },
+        "rms": { "type": "number", "minimum": 0 },
+        "crest_factor": { "type": "number", "minimum": 0 },
+        "spectral_centroid": { "type": "number", "minimum": 0 },
+        "spectral_bandwidth": { "type": "number", "minimum": 0 },
+        "spectral_rolloff": { "type": "number", "minimum": 0 },
+        "zero_crossing_rate": { "type": "number", "minimum": 0, "maximum": 1 },
+        "dynamic_range": { "type": "number" },
+        "noise_floor": { "type": "number" },
+        "clipping": { "type": "boolean" },
+        "dc_offset": { "type": "number" },
+        "channel_correlation": { "type": ["number", "null"], "minimum": -1, "maximum": 1 }
+      }
+    },
+    "method_provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "integrated_loudness",
+        "true_peak",
+        "rms",
+        "crest_factor",
+        "spectral_centroid",
+        "spectral_bandwidth",
+        "spectral_rolloff",
+        "zero_crossing_rate",
+        "dynamic_range",
+        "noise_floor",
+        "clipping",
+        "dc_offset",
+        "channel_correlation"
+      ],
+      "properties": {
+        "integrated_loudness": { "$ref": "#/$defs/method_binding" },
+        "true_peak": { "$ref": "#/$defs/method_binding" },
+        "rms": { "$ref": "#/$defs/method_binding" },
+        "crest_factor": { "$ref": "#/$defs/method_binding" },
+        "spectral_centroid": { "$ref": "#/$defs/method_binding" },
+        "spectral_bandwidth": { "$ref": "#/$defs/method_binding" },
+        "spectral_rolloff": { "$ref": "#/$defs/method_binding" },
+        "zero_crossing_rate": { "$ref": "#/$defs/method_binding" },
+        "dynamic_range": { "$ref": "#/$defs/method_binding" },
+        "noise_floor": { "$ref": "#/$defs/method_binding" },
+        "clipping": { "$ref": "#/$defs/method_binding" },
+        "dc_offset": { "$ref": "#/$defs/method_binding" },
+        "channel_correlation": { "$ref": "#/$defs/method_binding" }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "blocker_codes", "library_authority"],
+      "properties": {
+        "status": { "enum": ["pass", "blocked"] },
+        "blocker_codes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "library_authority": { "type": "boolean" }
+      }
+    }
+  },
+  "$defs": {
+    "method_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["method_id", "unit", "window"],
+      "properties": {
+        "method_id": { "type": "string", "minLength": 1 },
+        "unit": { "type": "string", "minLength": 1 },
+        "window": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

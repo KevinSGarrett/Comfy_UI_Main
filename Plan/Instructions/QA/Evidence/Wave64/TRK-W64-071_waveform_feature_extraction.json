@@ -1,0 +1,629 @@
+{
+  "blocker_codes": [
+    "ROW070_DEPENDENCY_NOT_ACCEPTED",
+    "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT",
+    "BS1770_LOUDNESS_AUTHORITY_NOT_WIRED"
+  ],
+  "decision": {
+    "product_completion": false,
+    "row071_acceptance": "held",
+    "runtime_completion": false,
+    "safe_next_action": "Accept Row070 canonical PCM authority, wire BS.1770 loudness/true-peak library methods, reconcile every accepted decode record to feature PASS or an exact blocker, and replace this hold packet with full-library runtime evidence.",
+    "status": "blocked"
+  },
+  "evidence_id": "TRK-W64-071_waveform_feature_extraction",
+  "feature_pipeline_revision": "wave64_row071_waveform_features_v0.1.0",
+  "fixture_calibration": {
+    "authority": "synthetic_non_library",
+    "determinism_note": "Fixture records prove PCM-domain method identity only; they do not accept Row071 library completion.",
+    "fixture_count": 5,
+    "records": [
+      {
+        "asset_id": "fixture:silence",
+        "canonical_pcm_sha256": "4fe7b59af6de3b665b67788cc2f99892ab827efae3a467342b3bb4e3bc8e5bfe",
+        "channels": 2,
+        "decision": {
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED"
+          ],
+          "library_authority": false,
+          "status": "blocked"
+        },
+        "feature_pipeline_revision": "wave64_row071_waveform_features_v0.1.0",
+        "features": {
+          "channel_correlation": 0.0,
+          "clipping": false,
+          "crest_factor": 0.0,
+          "dc_offset": 0.0,
+          "dynamic_range": 0.0,
+          "integrated_loudness": -240.0,
+          "noise_floor": -240.0,
+          "rms": 0.0,
+          "spectral_bandwidth": 0.0,
+          "spectral_centroid": 0.0,
+          "spectral_rolloff": 0.0,
+          "true_peak": -240.0,
+          "zero_crossing_rate": 0.0
+        },
+        "frame_count": 2048,
+        "item_id": "ITEM-W64-071",
+        "method_provenance": {
+          "channel_correlation": {
+            "method_id": "pcm_pearson_ch0_ch1_v1",
+            "unit": "correlation",
+            "window": "full_signal"
+          },
+          "clipping": {
+            "method_id": "pcm_near_full_scale_ratio_v1",
+            "unit": "boolean",
+            "window": "full_signal"
+          },
+          "crest_factor": {
+            "method_id": "pcm_peak_over_rms_v1",
+            "unit": "ratio",
+            "window": "full_signal"
+          },
+          "dc_offset": {
+            "method_id": "pcm_mean_amplitude_v1",
+            "unit": "linear_amplitude",
+            "window": "full_signal"
+          },
+          "dynamic_range": {
+            "method_id": "pcm_peak_minus_noise_floor_db_v1",
+            "unit": "dB",
+            "window": "full_signal"
+          },
+          "integrated_loudness": {
+            "method_id": "pcm_mean_square_dbfs_v1",
+            "unit": "dBFS",
+            "window": "full_signal"
+          },
+          "noise_floor": {
+            "method_id": "pcm_lowest_decile_rms_dbfs_v1",
+            "unit": "dBFS",
+            "window": "non_overlapping_1024"
+          },
+          "rms": {
+            "method_id": "pcm_rms_linear_v1",
+            "unit": "linear_amplitude",
+            "window": "full_signal"
+          },
+          "spectral_bandwidth": {
+            "method_id": "pcm_rfft_power_bandwidth_hz_v1",
+            "unit": "Hz",
+            "window": "full_signal_rfft"
+          },
+          "spectral_centroid": {
+            "method_id": "pcm_rfft_power_centroid_hz_v1",
+            "unit": "Hz",
+            "window": "full_signal_rfft"
+          },
+          "spectral_rolloff": {
+            "method_id": "pcm_rfft_power_rolloff_85pct_hz_v1",
+            "unit": "Hz",
+            "window": "full_signal_rfft"
+          },
+          "true_peak": {
+            "method_id": "pcm_sample_peak_dbfs_v1",
+            "unit": "dBFS",
+            "window": "full_signal"
+          },
+          "zero_crossing_rate": {
+            "method_id": "pcm_zero_crossing_rate_v1",
+            "unit": "ratio",
+            "window": "full_signal"
+          }
+        },
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "source_sha256": "fd7bdcdd86ef496c28c70aed701e6b5407902e6b848e28d64f4fcd4e27c728f9",
+        "tracker_id": "TRK-W64-071"
+      },
+      {
+        "asset_id": "fixture:impulse",
+        "canonical_pcm_sha256": "807c51502e2ccfe85dad972c4ddda034629d6f4451aaf1ae4b5aa71abe0e8337",
+        "channels": 2,
+        "decision": {
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED"
+          ],
+          "library_authority": false,
+          "status": "blocked"
+        },
+        "feature_pipeline_revision": "wave64_row071_waveform_features_v0.1.0",
+        "features": {
+          "channel_correlation": 1.0,
+          "clipping": false,
+          "crest_factor": 45.254833996,
+          "dc_offset": 0.000439453,
+          "dynamic_range": 239.084850189,
+          "integrated_loudness": -34.028449334,
+          "noise_floor": -240.0,
+          "rms": 0.019887378,
+          "spectral_bandwidth": 6934.96575334,
+          "spectral_centroid": 12000.0,
+          "spectral_rolloff": 20414.0625,
+          "true_peak": -0.915149811,
+          "zero_crossing_rate": 0.0
+        },
+        "frame_count": 2048,
+        "item_id": "ITEM-W64-071",
+        "method_provenance": {
+          "channel_correlation": {
+            "method_id": "pcm_pearson_ch0_ch1_v1",
+            "unit": "correlation",
+            "window": "full_signal"
+          },
+          "clipping": {
+            "method_id": "pcm_near_full_scale_ratio_v1",
+            "unit": "boolean",
+            "window": "full_signal"
+          },
+          "crest_factor": {
+            "method_id": "pcm_peak_over_rms_v1",
+            "unit": "ratio",
+            "window": "full_signal"
+          },
+          "dc_offset": {
+            "method_id": "pcm_mean_amplitude_v1",
+            "unit": "linear_amplitude",
+            "window": "full_signal"
+          },
+          "dynamic_range": {
+            "method_id": "pcm_peak_minus_noise_floor_db_v1",
+            "unit": "dB",
+            "window": "full_signal"
+          },
+          "integrated_loudness": {
+            "method_id": "pcm_mean_square_dbfs_v1",
+            "unit": "dBFS",
+            "window": "full_signal"
+          },
+          "noise_floor": {
+            "method_id": "pcm_lowest_decile_rms_dbfs_v1",
+            "unit": "dBFS",
+            "window": "non_overlapping_1024"
+          },
+          "rms": {
+            "method_id": "pcm_rms_linear_v1",
+            "unit": "linear_amplitude",
+            "window": "full_signal"
+          },
+          "spectral_bandwidth": {
+            "method_id": "pcm_rfft_power_bandwidth_hz_v1",
+            "unit": "Hz",
+            "window": "full_signal_rfft"
+          },
+          "spectral_centroid": {
+            "method_id": "pcm_rfft_power_centroid_hz_v1",
+            "unit": "Hz",
+            "window": "full_signal_rfft"
+          },
+          "spectral_rolloff": {
+            "method_id": "pcm_rfft_power_rolloff_85pct_hz_v1",
+            "unit": "Hz",
+            "window": "full_signal_rfft"
+          },
+          "true_peak": {
+            "method_id": "pcm_sample_peak_dbfs_v1",
+            "unit": "dBFS",
+            "window": "full_signal"
+          },
+          "zero_crossing_rate": {
+            "method_id": "pcm_zero_crossing_rate_v1",
+            "unit": "ratio",
+            "window": "full_signal"
+          }
+        },
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "source_sha256": "2bb9ed684ca6cf3e0795b3270960996a270f056d1d5e22797f69f92e63066661",
+        "tracker_id": "TRK-W64-071"
+      },
+      {
+        "asset_id": "fixture:tone_1k",
+        "canonical_pcm_sha256": "11b03ca2a6a3a000e6b392ca28cb04dae6ccf89230578028c48432a006db0f87",
+        "channels": 2,
+        "decision": {
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED"
+          ],
+          "library_authority": false,
+          "status": "blocked"
+        },
+        "feature_pipeline_revision": "wave64_row071_waveform_features_v0.1.0",
+        "features": {
+          "channel_correlation": 1.0,
+          "clipping": false,
+          "crest_factor": 1.415610182,
+          "dc_offset": 0.002899366,
+          "dynamic_range": 3.038288776,
+          "integrated_loudness": -9.039473467,
+          "noise_floor": -9.058888689,
+          "rms": 0.35320458,
+          "spectral_bandwidth": 206.940923837,
+          "spectral_centroid": 1004.777680989,
+          "spectral_rolloff": 1007.8125,
+          "true_peak": -6.020599913,
+          "zero_crossing_rate": 0.041524182
+        },
+        "frame_count": 2048,
+        "item_id": "ITEM-W64-071",
+        "method_provenance": {
+          "channel_correlation": {
+            "method_id": "pcm_pearson_ch0_ch1_v1",
+            "unit": "correlation",
+            "window": "full_signal"
+          },
+          "clipping": {
+            "method_id": "pcm_near_full_scale_ratio_v1",
+            "unit": "boolean",
+            "window": "full_signal"
+          },
+          "crest_factor": {
+            "method_id": "pcm_peak_over_rms_v1",
+            "unit": "ratio",
+            "window": "full_signal"
+          },
+          "dc_offset": {
+            "method_id": "pcm_mean_amplitude_v1",
+            "unit": "linear_amplitude",
+            "window": "full_signal"
+          },
+          "dynamic_range": {
+            "method_id": "pcm_peak_minus_noise_floor_db_v1",
+            "unit": "dB",
+            "window": "full_signal"
+          },
+          "integrated_loudness": {
+            "method_id": "pcm_mean_square_dbfs_v1",
+            "unit": "dBFS",
+            "window": "full_signal"
+          },
+          "noise_floor": {
+            "method_id": "pcm_lowest_decile_rms_dbfs_v1",
+            "unit": "dBFS",
+            "window": "non_overlapping_1024"
+          },
+          "rms": {
+            "method_id": "pcm_rms_linear_v1",
+            "unit": "linear_amplitude",
+            "window": "full_signal"
+          },
+          "spectral_bandwidth": {
+            "method_id": "pcm_rfft_power_bandwidth_hz_v1",
+            "unit": "Hz",
+            "window": "full_signal_rfft"
+          },
+          "spectral_centroid": {
+            "method_id": "pcm_rfft_power_centroid_hz_v1",
+            "unit": "Hz",
+            "window": "full_signal_rfft"
+          },
+          "spectral_rolloff": {
+            "method_id": "pcm_rfft_power_rolloff_85pct_hz_v1",
+            "unit": "Hz",
+            "window": "full_signal_rfft"
+          },
+          "true_peak": {
+            "method_id": "pcm_sample_peak_dbfs_v1",
+            "unit": "dBFS",
+            "window": "full_signal"
+          },
+          "zero_crossing_rate": {
+            "method_id": "pcm_zero_crossing_rate_v1",
+            "unit": "ratio",
+            "window": "full_signal"
+          }
+        },
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "source_sha256": "657c2ed959acb2da3077d39392ff7ee5a9a21d23b9384c09f60fe0b6f01d7e62",
+        "tracker_id": "TRK-W64-071"
+      },
+      {
+        "asset_id": "fixture:noise",
+        "canonical_pcm_sha256": "cc1c2992e35606608573ef75bac8a5cae93c3d981da0bed62b91b44a844f3cc0",
+        "channels": 2,
+        "decision": {
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED"
+          ],
+          "library_authority": false,
+          "status": "blocked"
+        },
+        "feature_pipeline_revision": "wave64_row071_waveform_features_v0.1.0",
+        "features": {
+          "channel_correlation": 1.0,
+          "clipping": false,
+          "crest_factor": 1.747253357,
+          "dc_offset": -0.000918019,
+          "dynamic_range": 4.909943795,
+          "integrated_loudness": -16.88870248,
+          "noise_floor": -16.951528603,
+          "rms": 0.143075369,
+          "spectral_bandwidth": 7010.451079966,
+          "spectral_centroid": 12120.949864791,
+          "spectral_rolloff": 20531.25,
+          "true_peak": -12.041584808,
+          "zero_crossing_rate": 0.510014656
+        },
+        "frame_count": 2048,
+        "item_id": "ITEM-W64-071",
+        "method_provenance": {
+          "channel_correlation": {
+            "method_id": "pcm_pearson_ch0_ch1_v1",
+            "unit": "correlation",
+            "window": "full_signal"
+          },
+          "clipping": {
+            "method_id": "pcm_near_full_scale_ratio_v1",
+            "unit": "boolean",
+            "window": "full_signal"
+          },
+          "crest_factor": {
+            "method_id": "pcm_peak_over_rms_v1",
+            "unit": "ratio",
+            "window": "full_signal"
+          },
+          "dc_offset": {
+            "method_id": "pcm_mean_amplitude_v1",
+            "unit": "linear_amplitude",
+            "window": "full_signal"
+          },
+          "dynamic_range": {
+            "method_id": "pcm_peak_minus_noise_floor_db_v1",
+            "unit": "dB",
+            "window": "full_signal"
+          },
+          "integrated_loudness": {
+            "method_id": "pcm_mean_square_dbfs_v1",
+            "unit": "dBFS",
+            "window": "full_signal"
+          },
+          "noise_floor": {
+            "method_id": "pcm_lowest_decile_rms_dbfs_v1",
+            "unit": "dBFS",
+            "window": "non_overlapping_1024"
+          },
+          "rms": {
+            "method_id": "pcm_rms_linear_v1",
+            "unit": "linear_amplitude",
+            "window": "full_signal"
+          },
+          "spectral_bandwidth": {
+            "method_id": "pcm_rfft_power_bandwidth_hz_v1",
+            "unit": "Hz",
+            "window": "full_signal_rfft"
+          },
+          "spectral_centroid": {
+            "method_id": "pcm_rfft_power_centroid_hz_v1",
+            "unit": "Hz",
+            "window": "full_signal_rfft"
+          },
+          "spectral_rolloff": {
+            "method_id": "pcm_rfft_power_rolloff_85pct_hz_v1",
+            "unit": "Hz",
+            "window": "full_signal_rfft"
+          },
+          "true_peak": {
+            "method_id": "pcm_sample_peak_dbfs_v1",
+            "unit": "dBFS",
+            "window": "full_signal"
+          },
+          "zero_crossing_rate": {
+            "method_id": "pcm_zero_crossing_rate_v1",
+            "unit": "ratio",
+            "window": "full_signal"
+          }
+        },
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "source_sha256": "051a4dc13318e857bdbd77c201105a32dbb492e2e2cbccf77169d38ddafd387f",
+        "tracker_id": "TRK-W64-071"
+      },
+      {
+        "asset_id": "fixture:stereo_anticorrelated",
+        "canonical_pcm_sha256": "aeac8f858cd8a2d2fc73b6e1b41643bbdee89703d8b432b36ae5f453076432c9",
+        "channels": 2,
+        "decision": {
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED"
+          ],
+          "library_authority": false,
+          "status": "blocked"
+        },
+        "feature_pipeline_revision": "wave64_row071_waveform_features_v0.1.0",
+        "features": {
+          "channel_correlation": -1.0,
+          "clipping": false,
+          "crest_factor": 0.0,
+          "dc_offset": 0.0,
+          "dynamic_range": 0.0,
+          "integrated_loudness": -240.0,
+          "noise_floor": -240.0,
+          "rms": 0.0,
+          "spectral_bandwidth": 0.0,
+          "spectral_centroid": 0.0,
+          "spectral_rolloff": 0.0,
+          "true_peak": -240.0,
+          "zero_crossing_rate": 0.0
+        },
+        "frame_count": 2048,
+        "item_id": "ITEM-W64-071",
+        "method_provenance": {
+          "channel_correlation": {
+            "method_id": "pcm_pearson_ch0_ch1_v1",
+            "unit": "correlation",
+            "window": "full_signal"
+          },
+          "clipping": {
+            "method_id": "pcm_near_full_scale_ratio_v1",
+            "unit": "boolean",
+            "window": "full_signal"
+          },
+          "crest_factor": {
+            "method_id": "pcm_peak_over_rms_v1",
+            "unit": "ratio",
+            "window": "full_signal"
+          },
+          "dc_offset": {
+            "method_id": "pcm_mean_amplitude_v1",
+            "unit": "linear_amplitude",
+            "window": "full_signal"
+          },
+          "dynamic_range": {
+            "method_id": "pcm_peak_minus_noise_floor_db_v1",
+            "unit": "dB",
+            "window": "full_signal"
+          },
+          "integrated_loudness": {
+            "method_id": "pcm_mean_square_dbfs_v1",
+            "unit": "dBFS",
+            "window": "full_signal"
+          },
+          "noise_floor": {
+            "method_id": "pcm_lowest_decile_rms_dbfs_v1",
+            "unit": "dBFS",
+            "window": "non_overlapping_1024"
+          },
+          "rms": {
+            "method_id": "pcm_rms_linear_v1",
+            "unit": "linear_amplitude",
+            "window": "full_signal"
+          },
+          "spectral_bandwidth": {
+            "method_id": "pcm_rfft_power_bandwidth_hz_v1",
+            "unit": "Hz",
+            "window": "full_signal_rfft"
+          },
+          "spectral_centroid": {
+            "method_id": "pcm_rfft_power_centroid_hz_v1",
+            "unit": "Hz",
+            "window": "full_signal_rfft"
+          },
+          "spectral_rolloff": {
+            "method_id": "pcm_rfft_power_rolloff_85pct_hz_v1",
+            "unit": "Hz",
+            "window": "full_signal_rfft"
+          },
+          "true_peak": {
+            "method_id": "pcm_sample_peak_dbfs_v1",
+            "unit": "dBFS",
+            "window": "full_signal"
+          },
+          "zero_crossing_rate": {
+            "method_id": "pcm_zero_crossing_rate_v1",
+            "unit": "ratio",
+            "window": "full_signal"
+          }
+        },
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "source_sha256": "1d72c62b6be65471d308ecb6a8a8a218eda119cd62dc9a74f4593b4d04bc0f11",
+        "tracker_id": "TRK-W64-071"
+      }
+    ]
+  },
+  "implementation_completion_claimed": false,
+  "item_id": "ITEM-W64-071",
+  "library_authority": false,
+  "method_provenance": {
+    "channel_correlation": {
+      "method_id": "pcm_pearson_ch0_ch1_v1",
+      "unit": "correlation",
+      "window": "full_signal"
+    },
+    "clipping": {
+      "method_id": "pcm_near_full_scale_ratio_v1",
+      "unit": "boolean",
+      "window": "full_signal"
+    },
+    "crest_factor": {
+      "method_id": "pcm_peak_over_rms_v1",
+      "unit": "ratio",
+      "window": "full_signal"
+    },
+    "dc_offset": {
+      "method_id": "pcm_mean_amplitude_v1",
+      "unit": "linear_amplitude",
+      "window": "full_signal"
+    },
+    "dynamic_range": {
+      "method_id": "pcm_peak_minus_noise_floor_db_v1",
+      "unit": "dB",
+      "window": "full_signal"
+    },
+    "integrated_loudness": {
+      "method_id": "pcm_mean_square_dbfs_v1",
+      "unit": "dBFS",
+      "window": "full_signal"
+    },
+    "noise_floor": {
+      "method_id": "pcm_lowest_decile_rms_dbfs_v1",
+      "unit": "dBFS",
+      "window": "non_overlapping_1024"
+    },
+    "rms": {
+      "method_id": "pcm_rms_linear_v1",
+      "unit": "linear_amplitude",
+      "window": "full_signal"
+    },
+    "spectral_bandwidth": {
+      "method_id": "pcm_rfft_power_bandwidth_hz_v1",
+      "unit": "Hz",
+      "window": "full_signal_rfft"
+    },
+    "spectral_centroid": {
+      "method_id": "pcm_rfft_power_centroid_hz_v1",
+      "unit": "Hz",
+      "window": "full_signal_rfft"
+    },
+    "spectral_rolloff": {
+      "method_id": "pcm_rfft_power_rolloff_85pct_hz_v1",
+      "unit": "Hz",
+      "window": "full_signal_rfft"
+    },
+    "true_peak": {
+      "method_id": "pcm_sample_peak_dbfs_v1",
+      "unit": "dBFS",
+      "window": "full_signal"
+    },
+    "zero_crossing_rate": {
+      "method_id": "pcm_zero_crossing_rate_v1",
+      "unit": "ratio",
+      "window": "full_signal"
+    }
+  },
+  "required_features": [
+    "integrated_loudness",
+    "true_peak",
+    "rms",
+    "crest_factor",
+    "spectral_centroid",
+    "spectral_bandwidth",
+    "spectral_rolloff",
+    "zero_crossing_rate",
+    "dynamic_range",
+    "noise_floor",
+    "clipping",
+    "dc_offset",
+    "channel_correlation"
+  ],
+  "row070_admission": {
+    "blocker_codes": [
+      "ROW070_DEPENDENCY_NOT_ACCEPTED"
+    ],
+    "bytes": 14013,
+    "dependency_satisfied": false,
+    "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_CANONICAL_AUDIO_DECODE_CURRENT_DELTA_20260719.json",
+    "row_complete": false,
+    "sha256": "b08ed6005bf18da6f4f26efc1b2b2c1d629842d3a4fc10920e3ef323eac5d562",
+    "status": "HOLD_CONTAINER_METADATA_REUSABLE_CANONICAL_DECODE_IMPLEMENTATION_AND_AUTHORITY_ABSENT"
+  },
+  "row_complete": false,
+  "runtime_completion_claimed": false,
+  "schema_version": "1.0.0",
+  "status": "HOLD_ROW070_CANONICAL_DECODE_AND_FULL_LIBRARY_FEATURE_RUNTIME_ABSENT",
+  "tracker_id": "TRK-W64-071"
+}

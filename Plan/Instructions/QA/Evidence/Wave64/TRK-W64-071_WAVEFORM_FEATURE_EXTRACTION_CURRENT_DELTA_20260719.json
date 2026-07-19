@@ -1,23 +1,22 @@
 {
   "schema_version": 1,
   "evidence_id": "W64-ROW071-WAVEFORM-FEATURE-EXTRACTION-CURRENT-DELTA-20260719",
-  "created_at": "2026-07-19T03:04:38.5643978Z",
-  "source_commit": "9a8e45d30da7603c8c1262cc858ee779b09c93cd",
-  "prior_row_commit": "9a8e45d30da7603c8c1262cc858ee779b09c93cd",
-  "prior_row_commit_is_current_head": true,
+  "created_at": "2026-07-19T19:34:40Z",
+  "source_commit": "363672902238846e6a3837ab2372452b3f00584c",
+  "prior_row_commit": "fc9f1616d5aa99ede91c26277c880e89d8a6aa5b",
+  "prior_row_commit_is_current_head": false,
   "tracker_id": "TRK-W64-071",
   "item_id": "ITEM-W64-071",
-  "status": "HOLD_ROW070_CANONICAL_DECODE_AND_VERSIONED_FULL_FEATURE_PIPELINE_ABSENT",
-  "classification": "ROW071_CURRENT_DELTA_REUSABLE_LOUDNESS_TECHNIQUES_ONLY_NO_FALSE_COMPLETION",
+  "status": "HOLD_ROW070_CANONICAL_DECODE_AND_FULL_LIBRARY_FEATURE_RUNTIME_ABSENT",
+  "classification": "ROW071_FAIL_CLOSED_CONTRACT_SLICE_NO_FALSE_COMPLETION",
   "row_complete": false,
   "implementation_completion_claimed": false,
   "runtime_completion_claimed": false,
-  "qa_decision": "hold_with_bounded_reuse_of_existing_loudness_and_true_peak_techniques",
-  "intent": {
-    "intent_id": "intent_20260719T030119569Z_row071_waveform_feature_extraction_current_delta_215d6b8b",
-    "authority_class": "codex_only",
-    "routing": null,
-    "worker_wake_count": 0
+  "qa_decision": "hold_with_fail_closed_feature_contract_and_synthetic_fixture_calibration_only",
+  "increment": {
+    "kind": "fail_closed_contract_and_extractor_slice",
+    "feature_pipeline_revision": "wave64_row071_waveform_features_v0.1.0",
+    "summary": "Freeze Row071 feature method/unit/window identity, emit schema-validated fixture calibration records, and fail closed for library authority until Row070 canonical PCM acceptance exists."
   },
   "row071_contract": {
     "status": "Planned_Autonomous_Implementation_Required",
@@ -34,7 +33,8 @@
       "channel_analysis"
     ],
     "output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-071_waveform_feature_extraction.json",
-    "output_artifact_exists": false,
+    "output_artifact_exists": true,
+    "output_artifact_authority": "fail_closed_hold_packet_not_library_acceptance",
     "completion_criteria": "Versioned acoustic features pass fixture and representative-strata calibration tests.",
     "required_feature_set": [
       "integrated_loudness",
@@ -55,308 +55,103 @@
     "ec2_allowed": false,
     "final_render_gate": "BLOCKED_UNTIL_EXACT_ROW_IMPLEMENTATION_RUNTIME_QA_AND_AUTHORITY_PASS"
   },
-  "tracker_item_requirements_parity": {
-    "tracker_path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_TRACKER_ROWS.csv",
-    "tracker_sha256": "a698034d4d61788a9c630434f7aac75e3f7b1bf656319cfe43a5b2ce26d625de",
-    "tracker_bytes": 159309,
-    "item_path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ITEM_ROWS.csv",
-    "item_sha256": "f4a401d828aff69dbe7e005d6592a2af86edc936a0e6c1bae2f764345a9b8489",
-    "item_bytes": 111386,
-    "requirements_tracker_path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
-    "requirements_item_path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
-    "requirements_sha256": "077eaf1dfc1cb0d990660b2d9ec7073bc2b4acc1be47a94e9a0ea65eb1924acc",
-    "requirements_bytes": 48422,
-    "requirements_copies_byte_identical": true,
-    "tracker_item_title_match": true,
-    "tracker_item_status_match": true,
-    "tracker_item_acceptance_match": true,
-    "tracker_item_gate_match": true,
-    "tracker_item_dependency_match": true,
-    "git_state": "untracked_preserved_unaccepted"
+  "implemented_slice": {
+    "extractor_path": "Plan/07_IMPLEMENTATION/scripts/extract_wave64_waveform_features.py",
+    "extractor_sha256": "006c350b7ccd469cc4b279ed73d974f68273c79ec79365f3377f313ac142f083",
+    "extractor_bytes": 19138,
+    "schema_path": "Plan/08_SCHEMAS/waveform_feature_record.schema.json",
+    "schema_sha256": "9e1772053c3631f386a0c5d02421c119434d94a6d9435f2ad19ad842c49ac7c4",
+    "schema_bytes": 4665,
+    "test_path": "Plan/Instructions/QA/Scripts/test_extract_wave64_waveform_features.py",
+    "test_sha256": "097afabd8d15a0114d8a96e417e0d3f4ab139f2667b3242a069ed996efcb83ba",
+    "test_bytes": 3345,
+    "direct_evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-071_waveform_feature_extraction.json",
+    "direct_evidence_sha256": "0f2417cdd4cd4dc25fe45bfff74c21632d995bd36a36bc5e9ac028196a5e4c7e",
+    "direct_evidence_bytes": 21458,
+    "capabilities_now_present": [
+      "frozen_feature_pipeline_revision",
+      "method_unit_window_provenance_for_all_13_features",
+      "schema_validated_feature_records",
+      "row070_admission_fail_closed_gate",
+      "synthetic_fixture_determinism_for_silence_impulse_tone_noise_stereo",
+      "library_mode_hold_packet_without_false_completion"
+    ],
+    "explicitly_not_claimed": [
+      "full_library_feature_records",
+      "bs1770_integrated_loudness_authority",
+      "row071_product_completion",
+      "row071_runtime_completion",
+      "downstream_row072_through_row076_unblocking"
+    ]
   },
   "dependency_authority": {
     "tracker_id": "TRK-W64-070",
-    "tracker_status": "Planned_Autonomous_Implementation_Required",
     "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_CANONICAL_AUDIO_DECODE_CURRENT_DELTA_20260719.json",
     "current_delta_sha256": "b08ed6005bf18da6f4f26efc1b2b2c1d629842d3a4fc10920e3ef323eac5d562",
     "current_delta_bytes": 14013,
     "current_delta_status": "HOLD_CONTAINER_METADATA_REUSABLE_CANONICAL_DECODE_IMPLEMENTATION_AND_AUTHORITY_ABSENT",
     "row_complete": false,
     "dependency_satisfied": false,
-    "reason": "Row071 feature authority requires canonical decoded sample bytes, but Row070 has no accepted canonical PCM normalization contract, decoder implementation, deterministic fixtures, or full-library runtime record."
+    "reason": "Row071 library authority still requires accepted canonical PCM identity from Row070."
   },
-  "retained_index_input_boundary": {
-    "path": "runtime_artifacts/audio_asset_indexes/audio_downloads_functional_20260715T095712-0500/audio_pack_functional_index.jsonl",
-    "sha256": "7301243a364025dbd23907aee20ee8593d5897caa83d38391026ad42da6d17ec",
-    "bytes": 38266398,
-    "record_count": 39771,
-    "read_only_scan_performed": true,
-    "source_audio_opened_or_decoded": false,
-    "top_level_keys": [
-      "absolute_path",
-      "attack_characteristic",
-      "attribution",
-      "bytes",
-      "channels",
-      "content_based_suppression",
-      "duration_band",
-      "duration_seconds",
-      "event_type",
-      "extension",
-      "format",
-      "intensity_band",
-      "license_classification",
-      "loopability",
-      "material",
-      "quality_defects",
-      "relative_path",
-      "role",
-      "room_environment_suitability",
-      "sample_rate_hz",
-      "sha256",
-      "sync_class"
-    ],
-    "feature_presence_counts": {
-      "integrated_lufs": 0,
-      "true_peak_dbtp": 0,
-      "rms": 0,
-      "rms_dbfs": 0,
-      "crest_factor": 0,
-      "spectral_centroid": 0,
-      "spectral_bandwidth": 0,
-      "spectral_rolloff": 0,
-      "zero_crossing_rate": 0,
-      "dynamic_range": 0,
-      "noise_floor": 0,
-      "clipping": 0,
-      "dc_offset": 0,
-      "channel_correlation": 0,
-      "canonical_pcm_sha256": 0,
-      "decode_status": 0,
-      "technical": 0,
-      "acoustics": 0
-    },
-    "row071_feature_records_present": false,
-    "scope": "Existing retained JSONL bytes only. No external source inventory, audio decode, feature extraction, index rebuild, or runtime mutation was performed."
+  "focused_validators": {
+    "command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_extract_wave64_waveform_features.py",
+    "exit_code": 0,
+    "passed": 7,
+    "failed": 0
   },
-  "planned_schema_assessment": {
-    "path": "Plan/08_SCHEMAS/audio_asset_intelligence_record.schema.json",
-    "sha256": "42b7aec3b9595c153de3482290d1dfe715a082d4d5f85823f4afa6a162e0cc1f",
-    "bytes": 4323,
-    "git_state": "untracked_preserved_unaccepted",
-    "technical_required_fields": [
-      "decode_status",
-      "duration_seconds",
-      "sample_rate_hz",
-      "channels"
-    ],
-    "named_row071_properties": [
-      "integrated_lufs",
-      "true_peak_dbtp"
-    ],
-    "acoustics_is_unconstrained_object": true,
-    "required_feature_fields_missing": [
-      "rms",
-      "crest_factor",
-      "spectral_centroid",
-      "spectral_bandwidth",
-      "spectral_rolloff",
-      "zero_crossing_rate",
-      "dynamic_range",
-      "noise_floor",
-      "clipping",
-      "dc_offset",
-      "channel_correlation"
-    ],
-    "method_unit_window_and_feature_version_contract_missing": true,
-    "representative_strata_calibration_contract_missing": true,
-    "decision": "not_accepted_as_row071_feature_contract"
-  },
-  "reusable_local_techniques": [
-    {
-      "path": "Plan/07_IMPLEMENTATION/scripts/build_wave64_genuine_audio_chain.py",
-      "sha256": "632c7110e6fecf0bc821314d98e6b2db84cf38f9236ef9b8ed4a1f441fdacc81",
-      "bytes": 17328,
-      "git_state": "tracked_clean",
-      "reusable_scope": "Parses FFmpeg loudnorm BS.1770 integrated LUFS, true peak, loudness range, and threshold for one generated mix.",
-      "row071_limit": "The record explicitly declines certification authority, does not consume the retained library index, and does not calculate the complete feature set."
-    },
-    {
-      "path": "Plan/07_IMPLEMENTATION/scripts/build_wave64_genuine_av_sync_inputs.py",
-      "sha256": "c677bca52644a4d3e2295aeccf0cf079ab8d332bc5adabbc3a93f0df5845e5c6",
-      "bytes": 17417,
-      "git_state": "tracked_clean",
-      "reusable_scope": "Measures FFmpeg loudnorm integrated LUFS and true peak and derives a simple clipping flag for one AV-sync input.",
-      "row071_limit": "The measurement is task-specific, explicitly non-certifying, and omits RMS, crest, spectral, noise, DC, and channel-correlation features."
-    },
-    {
-      "path": "Plan/07_IMPLEMENTATION/scripts/score_wave30_audio_qa.py",
-      "sha256": "6feea4eb144624b0b9c2698bcbd2a0548a187c273fd9ea0605fc6334655c91d1",
-      "bytes": 29194,
-      "git_state": "tracked_clean",
-      "reusable_scope": "Validates declared mix LUFS, true peak, clipping, channel count, sample rate, and PCM WAV structure against task-specific QA limits.",
-      "row071_limit": "It consumes declared loudness values rather than operating as a versioned full-library feature extractor."
-    }
-  ],
-  "repository_feature_scan": {
-    "scope": [
-      "Plan/07_IMPLEMENTATION/scripts",
-      "Plan/Instructions/QA/Scripts"
-    ],
-    "dedicated_row071_implementation_found": false,
-    "dedicated_row071_test_found": false,
-    "exact_term_hit_counts": {
-      "crest_factor": 0,
-      "spectral_centroid": 0,
-      "spectral_bandwidth": 0,
-      "spectral_rolloff": 0,
-      "zero_crossing_rate": 0,
-      "dc_offset": 0,
-      "channel_correlation": 0,
-      "noise_floor": 1,
-      "dynamic_range": 6
-    },
-    "nonzero_hits_are_contract_or_unrelated_visual_depth_terms": true,
-    "planning_only_row071_hits": [
-      "Plan/07_IMPLEMENTATION/scripts/build_wave64_autonomous_sound_intelligence_control_package.py",
-      "Plan/10_REGISTRIES/wave64_autonomous_sound_intelligence_work_package_registry.json"
-    ]
-  },
-  "gate_assessment": [
-    {
-      "gate": "loudness",
-      "reusable_evidence": "bounded_technique_only",
-      "current_row071_decision": "hold",
-      "reason": "FFmpeg loudnorm parsing exists for task-specific generated audio, but there is no versioned full-library feature record, fixture calibration, or accepted method contract."
-    },
-    {
-      "gate": "true_peak",
-      "reusable_evidence": "bounded_technique_only",
-      "current_row071_decision": "hold",
-      "reason": "True-peak parsing exists only in bounded mix builders and is explicitly non-certifying."
-    },
-    {
-      "gate": "spectral_features",
-      "reusable_evidence": "absent",
-      "current_row071_decision": "hold",
-      "reason": "No implementation or test computes centroid, bandwidth, rolloff, or zero-crossing rate for Row071 records."
-    },
-    {
-      "gate": "dynamic_range",
-      "reusable_evidence": "loudness_range_only_in_one_bounded_mix",
-      "current_row071_decision": "hold",
-      "reason": "One builder records FFmpeg loudness range, but no frozen Row071 dynamic-range definition, RMS/crest/noise calibration, or batch record exists."
-    },
-    {
-      "gate": "channel_analysis",
-      "reusable_evidence": "container_channel_count_only",
-      "current_row071_decision": "hold",
-      "reason": "The retained index records channel count, but no decoded channel-layout or channel-correlation analysis exists."
-    }
-  ],
   "acceptance_gaps": [
     {
       "code": "ROW070_DEPENDENCY_NOT_ACCEPTED",
       "detail": "The direct prerequisite remains row_complete=false and has no accepted canonical PCM byte authority."
     },
     {
-      "code": "ROW071_DIRECT_EVIDENCE_ABSENT",
-      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-071_waveform_feature_extraction.json",
-      "detail": "The tracker-declared direct Row071 evidence artifact does not exist."
+      "code": "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT",
+      "detail": "No runtime reconciles every accepted Row070 record to feature PASS or an exact blocker with output and failure-manifest hashes."
     },
     {
-      "code": "DEDICATED_VERSIONED_FEATURE_EXTRACTOR_ABSENT",
-      "detail": "No implementation consumes canonical decoded records and emits all required Row071 features with frozen methods, units, windows, and revision identity."
+      "code": "BS1770_LOUDNESS_AUTHORITY_NOT_WIRED",
+      "detail": "Current integrated_loudness/true_peak methods are PCM mean-square and sample-peak proxies; FFmpeg loudnorm BS.1770 library authority is not yet wired."
     },
     {
-      "code": "FEATURE_SCHEMA_AND_PROVENANCE_CONTRACT_INCOMPLETE",
-      "detail": "The planned schema names only LUFS and true peak, leaves acoustics unconstrained, and does not require method, unit, window, calibration, or feature-version authority."
-    },
-    {
-      "code": "FULL_LIBRARY_FEATURE_RECORDS_ABSENT",
-      "detail": "All 39,771 retained index records lack canonical PCM identity and every Row071 feature field."
-    },
-    {
-      "code": "FIXTURE_AND_REPRESENTATIVE_STRATA_CALIBRATION_ABSENT",
-      "detail": "No Row071 test suite proves known-signal values, silence/impulse/tone/noise/stereo edge cases, repeated-run determinism, or calibration across format, duration, channel, and event strata."
-    },
-    {
-      "code": "FULL_LIBRARY_RUNTIME_AND_BLOCKER_MANIFEST_ABSENT",
-      "detail": "No runtime packet reconciles every accepted Row070 record to feature PASS or an exact blocker and binds feature-output, calibration, and failure-manifest hashes."
-    },
-    {
-      "code": "TASK_SPECIFIC_METRICS_NOT_ROW071_AUTHORITY",
-      "detail": "Existing generated-mix and AV-sync scripts provide reusable loudness techniques but explicitly do not certify the complete Row071 contract."
+      "code": "REPRESENTATIVE_STRATA_CALIBRATION_ABSENT",
+      "detail": "Synthetic fixtures prove method identity and determinism only; format/duration/event/channel library strata remain unreconciled."
     }
   ],
-  "direct_downstream_hold": {
-    "count": 8,
-    "tracker_ids": [
-      "TRK-W64-072",
-      "TRK-W64-073",
-      "TRK-W64-075",
-      "TRK-W64-076",
-      "TRK-W64-078",
-      "TRK-W64-098",
-      "TRK-W64-103",
-      "TRK-W64-112"
-    ],
-    "reason": "Each row directly declares TRK-W64-071 as a prerequisite; bounded loudness utilities cannot substitute for accepted versioned full-library waveform and acoustic feature authority."
-  },
-  "scheduler_and_worker_containment": {
-    "controls_modified": false,
-    "codex_automations_enabled_or_resumed": false,
-    "windows_worker_tasks_enabled_or_started": false,
-    "mask_maintenance_tasks_enabled_or_started": false,
-    "worker_lanes_polled_or_woken": false,
-    "ec2_read_only_monitor_modified": false,
-    "boundary_source": "Root-recovery containment update supplied to this task; this QA turn performed no scheduler, task, provider, Docker, WSL, EC2, or audio runtime action."
-  },
   "preservation_boundary": {
-    "queued_worker_scopes_modified": false,
-    "flux2_dirty_paths_modified": false,
-    "portfolio_reconciliation_paths_modified": false,
-    "worker_control_snapshots_modified": false,
-    "sound_planning_source_package_modified": false,
-    "row069_index_artifacts_modified": false,
-    "row070_evidence_modified": false,
-    "planned_audio_intelligence_schema_modified": false,
-    "external_audio_source_modified": false,
-    "provider_or_worker_invoked": false,
-    "audio_decode_feature_extraction_generation_or_playback_executed": false,
-    "only_new_project_output": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-071_WAVEFORM_FEATURE_EXTRACTION_CURRENT_DELTA_20260719.json"
+    "row084_owned_paths_modified": false,
+    "row091_owned_paths_modified": false,
+    "row093_owned_paths_modified": false,
+    "unrelated_dirty_paths_modified": false,
+    "only_row071_writable_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/extract_wave64_waveform_features.py",
+      "Plan/08_SCHEMAS/waveform_feature_record.schema.json",
+      "Plan/Instructions/QA/Scripts/test_extract_wave64_waveform_features.py",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-071_waveform_feature_extraction.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-071_WAVEFORM_FEATURE_EXTRACTION_CURRENT_DELTA_20260719.json"
+    ]
   },
   "checks": [
-    {"name": "WFE-D001_row070_commit_is_current_head", "result": "pass"},
-    {"name": "WFE-D002_tracker_item_row071_contract_parity", "result": "pass"},
-    {"name": "WFE-D003_requirements_copies_byte_identical", "result": "pass"},
-    {"name": "WFE-D004_row070_dependency_hold_detected", "result": "pass"},
-    {"name": "WFE-D005_row071_direct_evidence_absence_detected", "result": "pass"},
-    {"name": "WFE-D006_retained_index_hash_and_record_count_bound", "result": "pass"},
-    {"name": "WFE-D007_all_39771_retained_records_scanned_read_only", "result": "pass"},
-    {"name": "WFE-D008_zero_row071_feature_records_detected", "result": "pass"},
-    {"name": "WFE-D009_dedicated_feature_extractor_absence_detected", "result": "pass"},
-    {"name": "WFE-D010_existing_loudness_techniques_bounded_not_overclaimed", "result": "pass"},
-    {"name": "WFE-D011_planned_schema_only_names_lufs_and_true_peak", "result": "pass"},
-    {"name": "WFE-D012_unconstrained_acoustics_contract_detected", "result": "pass"},
-    {"name": "WFE-D013_fixture_and_strata_calibration_absence_detected", "result": "pass"},
-    {"name": "WFE-D014_full_library_runtime_manifest_absence_detected", "result": "pass"},
-    {"name": "WFE-D015_eight_direct_downstream_rows_held", "result": "pass"},
-    {"name": "WFE-D016_no_false_completion_or_runtime_claim", "result": "pass"},
-    {"name": "WFE-D017_no_audio_runtime_or_external_source_scan", "result": "pass"},
-    {"name": "WFE-D018_disjoint_preservation_and_no_wake_boundary", "result": "pass"}
+    {"name": "WFE-I001_feature_pipeline_revision_frozen", "result": "pass"},
+    {"name": "WFE-I002_schema_requires_all_13_features_and_method_provenance", "result": "pass"},
+    {"name": "WFE-I003_row070_admission_fails_closed", "result": "pass"},
+    {"name": "WFE-I004_library_mode_hold_packet_emitted", "result": "pass"},
+    {"name": "WFE-I005_fixture_records_deterministic_and_schema_valid", "result": "pass"},
+    {"name": "WFE-I006_focused_pytest_7_passed", "result": "pass"},
+    {"name": "WFE-I007_no_false_completion_claimed", "result": "pass"},
+    {"name": "WFE-I008_disjoint_from_row084_row091_row093_owned_paths", "result": "pass"}
   ],
   "check_summary": {
-    "checked": 18,
-    "passed": 18,
+    "checked": 8,
+    "passed": 8,
     "failed": 0
   },
   "decision": {
-    "bounded_loudness_techniques": "technical_reuse_allowed",
+    "fail_closed_contract_slice": "accepted_as_bounded_increment",
     "row071_status": "Planned_Autonomous_Implementation_Required",
     "row071_acceptance": "held",
     "runtime_completion": false,
     "product_completion": false,
-    "safe_next_action": "After Row070 canonical decode authority is accepted, route a bounded Row071 implementation that freezes feature definitions, units, windows, revision identity, and method provenance; computes the complete feature set from canonical PCM; validates deterministic known-signal fixtures and representative format, duration, event, and channel strata; reconciles every accepted input to feature PASS or an exact blocker; and emits the tracker-declared direct evidence. Reuse the existing FFmpeg loudnorm parsing technique where appropriate, without treating task-specific mix records as full-library authority. Continue independent Codex PM/QA work meanwhile."
+    "safe_next_action": "Implement or accept Row070 canonical PCM authority next; then extend Row071 library mode to consume accepted decode records, wire BS.1770 loudness/true-peak, reconcile full-library PASS/blocker counts, and only then mark Row071 complete."
   }
 }
