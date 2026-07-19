@@ -10,8 +10,10 @@
 
 ## Commits Pushed This Pass
 
-1. (pending) Prove Row017 MF70 under-eye local visual climb + historical canonicalization.
-2. (pending) Stamp Row017 under-eye handoff with pushed commit parity.
+1. 9e071920 Prove Row017 MF70 under-eye local visual climb.
+2. (this commit) Stamp Row017 under-eye handoff with pushed commit parity.
+
+Pushed tip verified on origin after stamp commit.
 
 ## Row-Scoped Increment Executed
 
