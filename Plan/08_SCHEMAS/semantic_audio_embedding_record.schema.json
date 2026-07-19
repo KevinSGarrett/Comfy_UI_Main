@@ -1,0 +1,280 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/semantic_audio_embedding_record.schema.json",
+  "title": "Wave64 Row077 Semantic Audio Embedding Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "tracker_id",
+    "item_id",
+    "compiler_revision",
+    "registry_revision",
+    "record_type",
+    "asset_id",
+    "source_input_sha256",
+    "modality",
+    "embedding_space",
+    "model_identity",
+    "preprocessing_identity",
+    "taxonomy_revision_sha256",
+    "vector",
+    "embedding_sha256",
+    "embedding_index_identity",
+    "partition",
+    "determinism_proof",
+    "retrieval_evidence",
+    "non_certifying_policy",
+    "is_synthetic",
+    "library_authority",
+    "decision"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "tracker_id": { "type": "string", "const": "TRK-W64-077" },
+    "item_id": { "type": "string", "const": "ITEM-W64-077" },
+    "compiler_revision": {
+      "type": "string",
+      "const": "wave64_row077_semantic_audio_embedding_compiler_v0.1.0"
+    },
+    "registry_revision": {
+      "type": "string",
+      "const": "wave64_row077_semantic_audio_embedding_registry_v0.1.0"
+    },
+    "record_type": {
+      "type": "string",
+      "const": "semantic_audio_embedding_record"
+    },
+    "asset_id": { "type": "string", "minLength": 1 },
+    "source_input_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "modality": {
+      "type": "string",
+      "enum": ["audio", "text_taxonomy"]
+    },
+    "embedding_space": { "$ref": "#/$defs/embedding_space" },
+    "taxonomy_label": { "type": "string", "minLength": 1 },
+    "model_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "embedding_model_name",
+        "embedding_model_revision",
+        "embedding_model_file_sha256",
+        "model_code_revision",
+        "production_ready",
+        "selected_for_library"
+      ],
+      "properties": {
+        "embedding_model_name": { "type": "string", "minLength": 1 },
+        "embedding_model_revision": { "type": "string", "minLength": 1 },
+        "embedding_model_file_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "model_code_revision": { "type": "string", "minLength": 1 },
+        "production_ready": { "type": "boolean", "const": false },
+        "selected_for_library": { "type": "boolean", "const": false }
+      }
+    },
+    "preprocessing_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "preprocessing_configuration_sha256",
+        "sample_rate_hz",
+        "channels",
+        "normalize",
+        "windowing",
+        "padding_policy"
+      ],
+      "properties": {
+        "preprocessing_configuration_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "sample_rate_hz": { "type": "integer", "const": 48000 },
+        "channels": { "type": "integer", "const": 1 },
+        "normalize": { "type": "string", "const": "peak_abs_max_then_clamp" },
+        "windowing": { "type": "string", "const": "full_clip_then_center_pad_or_trim" },
+        "padding_policy": { "type": "string", "const": "zero_pad_to_fixed_frames" }
+      }
+    },
+    "taxonomy_revision_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "vector": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dimension",
+        "dtype",
+        "normalization",
+        "values",
+        "compatible_audio_text_space"
+      ],
+      "properties": {
+        "dimension": { "type": "integer", "const": 16 },
+        "dtype": { "type": "string", "const": "float32" },
+        "normalization": { "type": "string", "const": "l2_unit" },
+        "values": {
+          "type": "array",
+          "minItems": 16,
+          "maxItems": 16,
+          "items": { "type": "number" }
+        },
+        "compatible_audio_text_space": { "type": "boolean", "const": true }
+      }
+    },
+    "embedding_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "embedding_index_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["embedding_index_revision", "embedding_index_sha256"],
+      "properties": {
+        "embedding_index_revision": {
+          "type": "string",
+          "const": "wave64_row077_fixture_embedding_index_v0.1.0"
+        },
+        "embedding_index_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "partition": {
+      "type": "string",
+      "enum": ["calibration", "held_out", "unknown", "ambiguous"]
+    },
+    "determinism_proof": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repeat_count",
+        "identical_bytes",
+        "max_abs_delta",
+        "tolerance_contract"
+      ],
+      "properties": {
+        "repeat_count": { "type": "integer", "minimum": 2 },
+        "identical_bytes": { "type": "boolean" },
+        "max_abs_delta": { "type": "number", "minimum": 0 },
+        "tolerance_contract": {
+          "type": "string",
+          "const": "exact_repeat_or_registered_max_abs_delta"
+        }
+      }
+    },
+    "retrieval_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "query_sha256",
+        "neighbor_asset_ids",
+        "cosine_similarities",
+        "top_k",
+        "slice",
+        "metric_pass",
+        "abstained"
+      ],
+      "properties": {
+        "query_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "neighbor_asset_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "cosine_similarities": {
+          "type": "array",
+          "items": { "type": "number" }
+        },
+        "top_k": { "type": "integer", "minimum": 1 },
+        "slice": { "$ref": "#/$defs/embedding_space" },
+        "metric_pass": { "type": "boolean" },
+        "abstained": { "type": "boolean" },
+        "abstention_reason": { "type": "string" }
+      }
+    },
+    "non_certifying_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "similarity_alone_cannot_certify",
+        "cannot_certify_rights",
+        "cannot_certify_quality",
+        "cannot_certify_timing",
+        "cannot_certify_ownership",
+        "cannot_certify_production_eligibility"
+      ],
+      "properties": {
+        "similarity_alone_cannot_certify": { "type": "boolean", "const": true },
+        "cannot_certify_rights": { "type": "boolean", "const": true },
+        "cannot_certify_quality": { "type": "boolean", "const": true },
+        "cannot_certify_timing": { "type": "boolean", "const": true },
+        "cannot_certify_ownership": { "type": "boolean", "const": true },
+        "cannot_certify_production_eligibility": {
+          "type": "boolean",
+          "const": true
+        }
+      }
+    },
+    "is_synthetic": { "type": "boolean" },
+    "library_authority": { "type": "boolean", "const": false },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "row077_acceptance",
+        "product_completion",
+        "runtime_completion",
+        "promotion_eligible",
+        "blocker_codes",
+        "advisory_only"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["blocked", "abstain", "fixture_ok"]
+        },
+        "row077_acceptance": {
+          "type": "string",
+          "enum": ["held", "accepted"]
+        },
+        "product_completion": { "type": "boolean", "const": false },
+        "runtime_completion": { "type": "boolean", "const": false },
+        "promotion_eligible": { "type": "boolean", "const": false },
+        "blocker_codes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "advisory_only": { "type": "boolean", "const": true }
+      }
+    }
+  },
+  "$defs": {
+    "embedding_space": {
+      "type": "string",
+      "enum": [
+        "source_audio",
+        "event",
+        "action",
+        "body_part",
+        "material",
+        "footwear",
+        "object",
+        "environment",
+        "intensity",
+        "acoustic_descriptor"
+      ]
+    }
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "wave64_row077_semantic_audio_embedding_registry",
+  "registry_revision": "wave64_row077_semantic_audio_embedding_registry_v0.1.0",
+  "compiler_revision": "wave64_row077_semantic_audio_embedding_compiler_v0.1.0",
+  "tracker_id": "TRK-W64-077",
+  "authority": "planning_freeze_not_library_acceptance",
+  "notes": [
+    "Frozen Row077 embedding-space, preprocessing, fixture vector, held-out metric, and non-certifying policy for fail-closed admission.",
+    "Fixture vectors are deterministic synthetic L2 unit vectors in a 16-d compatible audio/text space; they do not load or certify a production CLAP stack.",
+    "Library authority remains blocked until Rows069 and 070 are accepted, one model file-set is selected and hash-reconciled, and held-out retrieval is proven on real decoded audio."
+  ],
+  "required_embedding_spaces": [
+    "source_audio",
+    "event",
+    "action",
+    "body_part",
+    "material",
+    "footwear",
+    "object",
+    "environment",
+    "intensity",
+    "acoustic_descriptor"
+  ],
+  "fixture_vector_contract": {
+    "dimension": 16,
+    "dtype": "float32",
+    "normalization": "l2_unit",
+    "compatible_audio_text_space": true,
+    "production_dimension_declared_unbound": 512
+  },
+  "preprocessing_configuration": {
+    "sample_rate_hz": 48000,
+    "channels": 1,
+    "normalize": "peak_abs_max_then_clamp",
+    "windowing": "full_clip_then_center_pad_or_trim",
+    "padding_policy": "zero_pad_to_fixed_frames",
+    "fixed_frames": 48000,
+    "resampler": "fixture_identity_no_runtime_decode",
+    "channel_mix": "mono_mean_when_stereo_else_passthrough"
+  },
+  "model_binding": {
+    "selected_for_library": false,
+    "production_ready": false,
+    "fixture_model_name": "wave64_row077_synthetic_clap_compatible_fixture",
+    "fixture_model_revision": "fixture_v0.1.0",
+    "fixture_model_code_revision": "wave64_row077_semantic_audio_embedding_compiler_v0.1.0",
+    "acquisition_candidates_catalog": "Plan/10_REGISTRIES/wave64_hyperreal_audio_model_asset_acquisition_catalog.json",
+    "candidate_asset_ids": [
+      "laion_clap_general",
+      "laion_clap_music_speech"
+    ],
+    "notes": "Pinned LAION CLAP candidates remain acquisition identities only; neither is selected, installed, or runtime-qualified for Row077."
+  },
+  "embedding_index": {
+    "fixture_revision": "wave64_row077_fixture_embedding_index_v0.1.0",
+    "mixed_generations_forbidden": true,
+    "requires_complete_membership_reconciliation": true
+  },
+  "partition_policy": {
+    "calibration_and_held_out_must_be_disjoint": true,
+    "unknown_and_ambiguous_visible": true,
+    "unknown_or_ambiguous_fail_closed": true
+  },
+  "held_out_metrics": {
+    "top_k": 3,
+    "fixture_thresholds": {
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0,
+      "mrr": 1.0
+    },
+    "slices": [
+      "event",
+      "material",
+      "intensity",
+      "acoustic_descriptor"
+    ]
+  },
+  "determinism_contract": {
+    "policy": "exact_repeat_or_registered_max_abs_delta",
+    "fixture_max_abs_delta": 0.0,
+    "minimum_repeat_count": 2
+  },
+  "non_certifying_policy": {
+    "similarity_alone_cannot_certify": true,
+    "cannot_certify_rights": true,
+    "cannot_certify_quality": true,
+    "cannot_certify_timing": true,
+    "cannot_certify_ownership": true,
+    "cannot_certify_production_eligibility": true
+  },
+  "taxonomy_fixture_labels": {
+    "event": "footstep",
+    "action": "heel_strike",
+    "body_part": "foot",
+    "material": "hardwood",
+    "footwear": "heel",
+    "object": "none",
+    "environment": "dry_close",
+    "intensity": "medium",
+    "acoustic_descriptor": "transient_dry"
+  },
+  "dependency_prerequisites": [
+    "TRK-W64-069",
+    "TRK-W64-070"
+  ],
+  "fail_closed": {
+    "library_authority_requires_dependencies": true,
+    "unselected_model_blocks_library": true,
+    "missing_preprocessing_hash_rejected": true,
+    "partition_overlap_rejected": true,
+    "unknown_or_ambiguous_must_abstain": true,
+    "similarity_cannot_grant_promotion": true
+  }
+}
