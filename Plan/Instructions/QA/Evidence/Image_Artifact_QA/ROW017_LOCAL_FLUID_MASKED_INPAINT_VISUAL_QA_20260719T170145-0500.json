@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ROW017-LOCAL-FLUID-MASKED-INPAINT-VISUAL-QA-20260719T170145-0500",
+  "artifact_type": "image_artifact_visual_qa",
+  "lane_id": "fluid_state_continuity_sdxl_tears_masked_inpaint",
+  "tracker_id": "TRK-W64-017",
+  "item_id": "ITEM-W64-017",
+  "reviewer": "Cursor interactive autonomous shift",
+  "timestamp": "2026-07-19T16:57:01-05:00",
+  "scope": "Direct whole-frame visual QA of a freshly regenerated local ComfyUI masked-inpaint localized change (baseline dry state -> under-eye tear/mascara state).",
+  "overall_result": "reject_global_defects_on_localized_candidate",
+  "certification_status": "local_runtime_visual_qa_bounded_not_row_complete",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+  "row_complete": false,
+  "runtime_boundaries": {
+    "local_comfyui_used": true,
+    "used_existing_comfyui_process": true,
+    "api_base_url": "http://127.0.0.1:8188",
+    "ec2_started": false,
+    "aws_contacted": false,
+    "generation_executed": true,
+    "docker_cvat": "not-needed"
+  },
+  "runtime_receipt": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_row017_fluid_masked_inpaint_20260719T165215-0500/LOCAL_RUNTIME_RECEIPT.json",
+  "runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_LOCAL_COMFYUI_ROW017_FLUID_MASKED_INPAINT_EXECUTE_20260719T165215-0500.json",
+  "baseline": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_row017_fluid_masked_inpaint_20260719T165215-0500/images/baseline_dry_state.png",
+    "sha256": "acfc3598b059979a0c43af40a91e9305ffc86015af030f4543bb15c6798e881f",
+    "bytes": 1055507
+  },
+  "mask": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_row017_fluid_masked_inpaint_20260719T165215-0500/images/under_eye_edit_region_mask.png",
+    "sha256": "27a2f999307a2be4785e86a5b987bfb650058f49983282fa5ac112de045182b5",
+    "bytes": 17499,
+    "edit_region_mask_is_not_truth": true
+  },
+  "candidate": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_row017_fluid_masked_inpaint_20260719T165215-0500/images/codex_row017_fluid_masked_inpaint_20260719T165215-0500_00001_.png",
+    "sha256": "5eb0bba33b672b9f7edf19df700c7462aeeade11ae00d0727f99fae9398942cc",
+    "bytes": 1007608,
+    "prompt_id": "95dbf3cb-5dbd-4c91-a3f3-89528e6d6bfb",
+    "seed": 6607051314
+  },
+  "quantitative_support": {
+    "mean_abs_diff_edit_region": 9.384,
+    "mean_abs_diff_outside_mask": 1.607,
+    "p95_outside_mask": 4.667,
+    "mean_abs_vs_prior_20260715_candidate": 0.968,
+    "outside_mask_preservation": "strong"
+  },
+  "comparison_artifacts": [
+    "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_row017_fluid_masked_inpaint_20260719T165215-0500/images/qa_full_side_by_side.png",
+    "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_row017_fluid_masked_inpaint_20260719T165215-0500/images/qa_undereye_side_by_side.png",
+    "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_row017_fluid_masked_inpaint_20260719T165215-0500/images/qa_left_track_sbs.png",
+    "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_row017_fluid_masked_inpaint_20260719T165215-0500/images/qa_right_track_sbs.png"
+  ],
+  "visual_findings": [
+    "Outside-mask continuity is strong: hair bun, wardrobe, background, mouth, neck, and framing remain stable.",
+    "Edit-region changes concentrate under the eyes and lower lids, with mascara/lash darkening, but bilateral tear tracks are not clearly realized as a planned wet-tear state.",
+    "Iris appearance shifts toward a cooler/desaturated reading inside the feathered edit zone; treated as a visible identity/face global defect for Row017.",
+    "Under-eye skin shows over-smoothing relative to baseline pores/folds rather than authoritative running-mascara + tear-track materialization.",
+    "Near-match to the 2026-07-15 technical candidate does not authorize a Row017 pass when global defects remain."
+  ],
+  "blocking_defects": [
+    {
+      "severity": "blocking",
+      "code": "identity_iris_shift_in_edit_zone",
+      "region": "face_iris",
+      "message": "Iris color/appearance drifts cooler/desaturated versus baseline inside the under-eye edit influence zone."
+    },
+    {
+      "severity": "blocking",
+      "code": "planned_tear_track_state_not_clearly_realized",
+      "region": "bilateral_under_eye_tear_tracks",
+      "message": "Planned bilateral tear tracks / running mascara state is not clearly established; edit reads closer to under-eye smoothing plus lash darkening."
+    }
+  ],
+  "score_5": 2.8,
+  "decision": "reject",
+  "ec2": "EC2_DEFERRED",
+  "docker_cvat": "not-needed"
+}
