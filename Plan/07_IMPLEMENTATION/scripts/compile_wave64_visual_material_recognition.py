@@ -339,6 +339,276 @@ def verify_synthetic_benchmark_ledger_integrity(payload: dict[str, Any]) -> str:
     return recomputed
 
 
+def load_synthetic_benchmark_ledger(*, fixture_dir: Path | None = None) -> dict[str, Any]:
+    """Load the checked-in non-production synthetic per-class benchmark ledger."""
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    path = directory / SYNTHETIC_BENCHMARK_LEDGER_FILENAME
+    if not path.is_file():
+        raise FileNotFoundError(f"Row089 synthetic benchmark ledger missing: {path}")
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise ValueError(f"Row089 synthetic benchmark ledger must be a JSON object: {path}")
+    return payload
+
+
+def _decision_by_id(compiled: dict[str, Any], decision_id: str, label: str) -> dict[str, Any]:
+    decisions = compiled.get("material_decisions")
+    if not isinstance(decisions, list):
+        raise ValueError(f"{label}: compiled manifest missing material_decisions")
+    for decision in decisions:
+        if isinstance(decision, dict) and decision.get("decision_id") == decision_id:
+            return decision
+    raise ValueError(f"{label}: decision_id {decision_id!r} absent from compiled manifest")
+
+
+def _assert_expectation_matches_decision(
+    expectation: dict[str, Any],
+    decision: dict[str, Any],
+    *,
+    label: str,
+) -> None:
+    field_pairs = (
+        ("expected_decision_state", "decision_state"),
+        ("expected_observed_class", "observed_class"),
+        ("expected_broader_class", "broader_class"),
+        ("expected_abstention_reason", "abstention_reason"),
+    )
+    for expected_key, actual_key in field_pairs:
+        if expected_key not in expectation:
+            raise ValueError(f"{label}: missing {expected_key}")
+        if expectation[expected_key] != decision.get(actual_key):
+            raise ValueError(
+                f"{label}: {expected_key} mismatch "
+                f"ledger={expectation[expected_key]!r} compiled={decision.get(actual_key)!r}"
+            )
+
+
+def verify_synthetic_ledger_vs_compiled_manifest_expectations(
+    ledger: dict[str, Any] | None = None,
+    *,
+    fixture_dir: Path | None = None,
+) -> dict[str, Any]:
+    """Fail-closed ledger-vs-compiled-manifest expectation verifier.
+
+    Recompiles every ledger-bound fixture packet and rejects:
+    - fixture-file digest drift
+    - compiled-manifest digest drift
+    - per-class / edge-case expectation field drift
+
+    Explicitly refuses production benchmark pass, visual-review, Rows085/088
+    acceptance, and row completion claims. Synthetic fixture authority only.
+    """
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    payload = ledger if ledger is not None else load_synthetic_benchmark_ledger(fixture_dir=directory)
+    if not isinstance(payload, dict):
+        raise ValueError("synthetic ledger must be an object")
+    _assert_keys_exact(payload, ALLOWED_SYNTHETIC_LEDGER_FIELDS, "synthetic_ledger")
+    ledger_digest = verify_synthetic_benchmark_ledger_integrity(payload)
+
+    if payload.get("record_type") != "row089_synthetic_per_class_benchmark_ledger":
+        raise ValueError("synthetic ledger record_type mismatch")
+    if payload.get("is_synthetic") is not True:
+        raise ValueError("synthetic ledger must set is_synthetic=true")
+    if payload.get("authority_ceiling") != "fixture_synthetic_only":
+        raise ValueError("synthetic ledger authority_ceiling must remain fixture_synthetic_only")
+
+    false_flags = (
+        "production_benchmark",
+        "material_benchmark_pass",
+        "row_complete",
+        "production_completion_allowed",
+        "visual_review_claimed",
+        "rows085_088_acceptance_claimed",
+    )
+    for flag in false_flags:
+        if payload.get(flag) is not False:
+            raise ValueError(f"synthetic ledger must keep {flag}=false")
+
+    bindings = payload.get("fixture_bindings")
+    if not isinstance(bindings, list) or not bindings:
+        raise ValueError("synthetic ledger fixture_bindings must be a non-empty list")
+    per_class = payload.get("per_class_expectations")
+    if not isinstance(per_class, list) or len(per_class) != len(REQUIRED_MATERIAL_CLASSES):
+        raise ValueError("synthetic ledger per_class_expectations must cover exactly eight classes")
+    edge_cases = payload.get("edge_case_expectations")
+    if not isinstance(edge_cases, list) or len(edge_cases) != 3:
+        raise ValueError("synthetic ledger edge_case_expectations must contain exactly three cases")
+
+    compiled_by_fixture: dict[str, dict[str, Any]] = {}
+    live_file_digest_by_fixture: dict[str, str] = {}
+    live_compiled_digest_by_fixture: dict[str, str] = {}
+
+    for idx, binding in enumerate(bindings):
+        label = f"fixture_bindings[{idx}]"
+        if not isinstance(binding, dict):
+            raise ValueError(f"{label} must be an object")
+        fixture_name = _expect_non_empty_string(binding.get("fixture_name"), f"{label}.fixture_name")
+        recorded_file = _expect_sha256(
+            binding.get("fixture_file_sha256"), f"{label}.fixture_file_sha256"
+        )
+        recorded_compiled = _expect_sha256(
+            binding.get("compiled_manifest_sha256"), f"{label}.compiled_manifest_sha256"
+        )
+        if binding.get("row_complete") is not False:
+            raise ValueError(f"{label}.row_complete must remain false")
+        if binding.get("is_synthetic") is not True:
+            raise ValueError(f"{label}.is_synthetic must be true")
+
+        live_file = fixture_file_sha256(fixture_name, fixture_dir=directory)
+        if recorded_file != live_file:
+            raise ValueError(
+                f"{label}: fixture file digest drift for {fixture_name}: "
+                f"ledger={recorded_file} live={live_file}"
+            )
+
+        compiled = compile_manifest(load_fixture_packet(fixture_name, fixture_dir=directory))
+        live_compiled = verify_manifest_integrity(compiled)
+        if recorded_compiled != live_compiled:
+            raise ValueError(
+                f"{label}: compiled manifest digest drift for {fixture_name}: "
+                f"ledger={recorded_compiled} live={live_compiled}"
+            )
+        if compiled["row_complete"] or compiled["production_completion_allowed"]:
+            raise ValueError(f"{label}: compiled fixture must remain non-complete")
+        if compiled["runtime_authority"].get("material_benchmark_pass"):
+            raise ValueError(f"{label}: compiled fixture must not claim material_benchmark_pass")
+
+        compiled_by_fixture[fixture_name] = compiled
+        live_file_digest_by_fixture[fixture_name] = live_file
+        live_compiled_digest_by_fixture[fixture_name] = live_compiled
+
+    expected_fixture_names = {meta["name"] for meta in SYNTHETIC_BENCHMARK_FIXTURE_PACKETS}
+    if set(compiled_by_fixture) != expected_fixture_names:
+        raise ValueError(
+            "synthetic ledger fixture_bindings set drift: "
+            f"ledger={sorted(compiled_by_fixture)} expected={sorted(expected_fixture_names)}"
+        )
+
+    seen_classes: set[str] = set()
+    for idx, expectation in enumerate(per_class):
+        label = f"per_class_expectations[{idx}]"
+        if not isinstance(expectation, dict):
+            raise ValueError(f"{label} must be an object")
+        material_class = _expect_non_empty_string(
+            expectation.get("material_class"), f"{label}.material_class"
+        )
+        if material_class not in REQUIRED_MATERIAL_CLASSES:
+            raise ValueError(f"{label}.material_class not in required taxonomy: {material_class}")
+        if material_class in seen_classes:
+            raise ValueError(f"{label}: duplicate material_class {material_class}")
+        seen_classes.add(material_class)
+
+        source_fixture = _expect_non_empty_string(
+            expectation.get("source_fixture"), f"{label}.source_fixture"
+        )
+        if source_fixture not in compiled_by_fixture:
+            raise ValueError(f"{label}: source_fixture {source_fixture!r} not bound")
+        recorded_file = _expect_sha256(
+            expectation.get("source_fixture_file_sha256"),
+            f"{label}.source_fixture_file_sha256",
+        )
+        recorded_compiled = _expect_sha256(
+            expectation.get("source_compiled_manifest_sha256"),
+            f"{label}.source_compiled_manifest_sha256",
+        )
+        if recorded_file != live_file_digest_by_fixture[source_fixture]:
+            raise ValueError(
+                f"{label}: source fixture file digest drift for {source_fixture}: "
+                f"ledger={recorded_file} live={live_file_digest_by_fixture[source_fixture]}"
+            )
+        if recorded_compiled != live_compiled_digest_by_fixture[source_fixture]:
+            raise ValueError(
+                f"{label}: source compiled manifest digest drift for {source_fixture}: "
+                f"ledger={recorded_compiled} live={live_compiled_digest_by_fixture[source_fixture]}"
+            )
+
+        decision_id = _expect_non_empty_string(
+            expectation.get("decision_id"), f"{label}.decision_id"
+        )
+        decision = _decision_by_id(compiled_by_fixture[source_fixture], decision_id, label)
+        _assert_expectation_matches_decision(expectation, decision, label=label)
+        if expectation.get("expected_observed_class") != material_class:
+            raise ValueError(
+                f"{label}: expected_observed_class must equal material_class "
+                f"({material_class})"
+            )
+        if expectation.get("expected_decision_state") != "observed_class":
+            raise ValueError(f"{label}: required materials must expect observed_class")
+
+    missing_classes = sorted(REQUIRED_MATERIAL_CLASSES - seen_classes)
+    if missing_classes:
+        raise ValueError(
+            "synthetic ledger per_class coverage missing: " + ",".join(missing_classes)
+        )
+
+    seen_edge_cases: set[str] = set()
+    for idx, expectation in enumerate(edge_cases):
+        label = f"edge_case_expectations[{idx}]"
+        if not isinstance(expectation, dict):
+            raise ValueError(f"{label} must be an object")
+        case_id = _expect_non_empty_string(expectation.get("case_id"), f"{label}.case_id")
+        if case_id in seen_edge_cases:
+            raise ValueError(f"{label}: duplicate case_id {case_id}")
+        seen_edge_cases.add(case_id)
+
+        source_fixture = _expect_non_empty_string(
+            expectation.get("source_fixture"), f"{label}.source_fixture"
+        )
+        if source_fixture not in compiled_by_fixture:
+            raise ValueError(f"{label}: source_fixture {source_fixture!r} not bound")
+        recorded_file = _expect_sha256(
+            expectation.get("source_fixture_file_sha256"),
+            f"{label}.source_fixture_file_sha256",
+        )
+        recorded_compiled = _expect_sha256(
+            expectation.get("source_compiled_manifest_sha256"),
+            f"{label}.source_compiled_manifest_sha256",
+        )
+        if recorded_file != live_file_digest_by_fixture[source_fixture]:
+            raise ValueError(
+                f"{label}: source fixture file digest drift for {source_fixture}: "
+                f"ledger={recorded_file} live={live_file_digest_by_fixture[source_fixture]}"
+            )
+        if recorded_compiled != live_compiled_digest_by_fixture[source_fixture]:
+            raise ValueError(
+                f"{label}: source compiled manifest digest drift for {source_fixture}: "
+                f"ledger={recorded_compiled} live={live_compiled_digest_by_fixture[source_fixture]}"
+            )
+
+        decision_id = _expect_non_empty_string(
+            expectation.get("decision_id"), f"{label}.decision_id"
+        )
+        decision = _decision_by_id(compiled_by_fixture[source_fixture], decision_id, label)
+        _assert_expectation_matches_decision(expectation, decision, label=label)
+
+    expected_edge_cases = {
+        meta["case_id"]
+        for meta in SYNTHETIC_BENCHMARK_FIXTURE_PACKETS
+        if meta["role"] != "required_materials"
+    }
+    if seen_edge_cases != expected_edge_cases:
+        raise ValueError(
+            "synthetic ledger edge_case set drift: "
+            f"ledger={sorted(seen_edge_cases)} expected={sorted(expected_edge_cases)}"
+        )
+
+    return {
+        "status": "ok",
+        "verifier": "verify_synthetic_ledger_vs_compiled_manifest_expectations",
+        "ledger_sha256": ledger_digest,
+        "fixture_binding_count": len(bindings),
+        "per_class_expectation_count": len(per_class),
+        "edge_case_expectation_count": len(edge_cases),
+        "digest_drift_rejected": True,
+        "production_benchmark": False,
+        "material_benchmark_pass": False,
+        "visual_review_claimed": False,
+        "rows085_088_acceptance_claimed": False,
+        "row_complete": False,
+        "authority_ceiling": "fixture_synthetic_only",
+    }
+
+
 def build_synthetic_per_class_benchmark_ledger(
     *,
     fixture_dir: Path | None = None,
@@ -1020,6 +1290,15 @@ def main(argv: list[str] | None = None) -> int:
         ),
     )
     parser.add_argument(
+        "--verify-synthetic-benchmark-ledger",
+        action="store_true",
+        help=(
+            "Fail-closed verify checked-in synthetic ledger expectations against "
+            "live compiled fixture manifests; reject digest drift without claiming "
+            "production benchmark pass"
+        ),
+    )
+    parser.add_argument(
         "--fixture-dir",
         default=str(DEFAULT_FIXTURE_DIR),
         help="Fixture directory for synthetic ledger emission (default: checked-in row089 fixtures)",
@@ -1052,8 +1331,21 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 0
 
+    if args.verify_synthetic_benchmark_ledger:
+        try:
+            receipt = verify_synthetic_ledger_vs_compiled_manifest_expectations(
+                fixture_dir=Path(args.fixture_dir),
+            )
+        except (OSError, ValueError, FileNotFoundError) as exc:
+            raise SystemExit(f"ROW089_FAIL_CLOSED: {exc}") from exc
+        print(json.dumps(receipt))
+        return 0
+
     if not args.input or not args.output:
-        raise SystemExit("ROW089_FAIL_CLOSED: --input and --output are required unless emitting the synthetic ledger")
+        raise SystemExit(
+            "ROW089_FAIL_CLOSED: --input and --output are required unless emitting "
+            "or verifying the synthetic ledger"
+        )
 
     input_path = Path(args.input)
     output_path = Path(args.output)

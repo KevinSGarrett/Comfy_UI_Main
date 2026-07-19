@@ -1,20 +1,20 @@
 {
   "schema_version": "1.0",
   "evidence_id": "TRK-W64-089_VISUAL_MATERIAL_RECOGNITION_CURRENT_DELTA_20260719",
-  "created_at": "2026-07-19T20:20:00Z",
-  "source_commit": "4c1b474478f5125ad8b6c009ea5c66de608933ca",
-  "prior_row_commit": "4c1b474478f5125ad8b6c009ea5c66de608933ca",
+  "created_at": "2026-07-19T20:26:00Z",
+  "source_commit": "786234fd77dc46117ab1d7c0f60a769720a39cd7",
+  "prior_row_commit": "786234fd77dc46117ab1d7c0f60a769720a39cd7",
   "prior_row_commit_is_current_head": false,
   "tracker_id": "TRK-W64-089",
   "item_id": "ITEM-W64-089",
-  "status": "HOLD_DEPENDENCY_RUNTIME_BENCHMARK_AND_VISUAL_PROOF_ABSENT_WITH_SYNTHETIC_PER_CLASS_LEDGER_SLICE_PRESENT",
-  "classification": "ROW089_CURRENT_DELTA_SYNTHETIC_PER_CLASS_BENCHMARK_LEDGER_SLICE_NO_FALSE_COMPLETION",
+  "status": "HOLD_DEPENDENCY_RUNTIME_BENCHMARK_AND_VISUAL_PROOF_ABSENT_WITH_LEDGER_EXPECTATION_VERIFIER_SLICE_PRESENT",
+  "classification": "ROW089_CURRENT_DELTA_LEDGER_VS_COMPILED_MANIFEST_EXPECTATION_VERIFIER_SLICE_NO_FALSE_COMPLETION",
   "row_complete": false,
   "implementation_completion_claimed": false,
   "runtime_completion_claimed": false,
   "qa_decision": "HOLD",
   "intent": {
-    "intent_id": "interactive_cursor_shift_row089_synthetic_per_class_ledger_slice_20260719",
+    "intent_id": "interactive_cursor_shift_row089_ledger_expectation_verifier_slice_20260719",
     "classification": "INTERACTIVE_CURSOR_SHIFT_AUTHORITY",
     "work_type": "final_authority",
     "authority_class": "interactive_cursor_integration",
@@ -23,13 +23,11 @@
     "candidate_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_visual_material_recognition.py",
       "Plan/Instructions/QA/Scripts/test_row089_visual_material_recognition_compiler.py",
-      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row089/synthetic_per_class_benchmark_ledger.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-089_VISUAL_MATERIAL_RECOGNITION_CURRENT_DELTA_20260719.json"
     ],
     "allowed_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_visual_material_recognition.py",
       "Plan/Instructions/QA/Scripts/test_row089_visual_material_recognition_compiler.py",
-      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row089/synthetic_per_class_benchmark_ledger.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-089_VISUAL_MATERIAL_RECOGNITION_CURRENT_DELTA_20260719.json"
     ]
   },
@@ -79,41 +77,15 @@
   },
   "compiler_slice": {
     "compiler_path": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_visual_material_recognition.py",
-    "compiler_sha256": "f854d57b3a83e041cd093b4ec86772457fafff4f70f4865521aa009399b607a0",
-    "compiler_bytes": 46996,
+    "compiler_sha256": "2b6c8aa791ebb0802c55fd237e3cd16409aa93108fb63c47d5135457d913e9d3",
+    "compiler_bytes": 60893,
     "schema_path": "Plan/08_SCHEMAS/visual_material_recognition_manifest.schema.json",
     "schema_sha256": "328acab5b3d34d10eabd8a4fbf2f3ef21b4de6106ecc4715a4431d5a6f0d96a2",
     "schema_bytes": 13552,
     "test_path": "Plan/Instructions/QA/Scripts/test_row089_visual_material_recognition_compiler.py",
-    "test_sha256": "88da0f4da759f5cc7878bd5d03acfa1b907a9027a859445f90f8f47ee7ae3eb0",
-    "test_bytes": 21293,
+    "test_sha256": "b4b8b76298db56a3691d847ffd6f286ab4128f7b5605b4424051a88d3ec4b07e",
+    "test_bytes": 25181,
     "fixture_dir": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row089",
-    "fixture_packets": [
-      {
-        "name": "materials_all_eight_required.json",
-        "sha256": "bbccf1e08310dc6ce2fecbb2e2c9546d68f221784fd517e6996c36dcaa1fdac4",
-        "bytes": 16220,
-        "covers": ["hardwood", "carpet", "tile", "skin", "fabric", "leather", "metal", "glass"]
-      },
-      {
-        "name": "case_occlusion_abstain.json",
-        "sha256": "3489a9f67dcc0f61b5208e0d6b160ba0d3a18ee5eb90675f7be5dd0a09ab4b28",
-        "bytes": 3758,
-        "covers": ["occlusion_abstain"]
-      },
-      {
-        "name": "case_ambiguity_broader_class.json",
-        "sha256": "dd70ae5e9e298f0990baef558aee6422bd75a5134994095f93510b34adf89896",
-        "bytes": 3764,
-        "covers": ["ambiguity_broader_class"]
-      },
-      {
-        "name": "case_false_positive_disagreement_abstain.json",
-        "sha256": "8c9b9c3332f827dd55a0e1a5991ea1f0d7885d8b26491b6aa2867f78628831ed",
-        "bytes": 3827,
-        "covers": ["false_positive_disagreement_abstain"]
-      }
-    ],
     "synthetic_per_class_benchmark_ledger": {
       "path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row089/synthetic_per_class_benchmark_ledger.json",
       "sha256": "94604ea413ae0cf3c498bf54dff1c1707940d00a137d14356da90a6989ec4c6b",
@@ -127,6 +99,19 @@
       "edge_case_count": 3,
       "binds_fixture_file_and_compiled_manifest_digests": true
     },
+    "ledger_vs_compiled_manifest_expectation_verifier": {
+      "function": "verify_synthetic_ledger_vs_compiled_manifest_expectations",
+      "cli_flag": "--verify-synthetic-benchmark-ledger",
+      "rejects_fixture_file_digest_drift": true,
+      "rejects_compiled_manifest_digest_drift": true,
+      "rejects_expectation_field_drift": true,
+      "rejects_production_benchmark_claim": true,
+      "production_benchmark": false,
+      "material_benchmark_pass": false,
+      "visual_review_claimed": false,
+      "rows085_088_acceptance_claimed": false,
+      "row_complete": false
+    },
     "fail_closed_invariants": [
       "required material taxonomy plus governed aliases only (wood_floor->hardwood, cotton_fabric->fabric)",
       "observed_class requires classifier + texture evidence, unanimous independent agreement, and calibrated confidence",
@@ -137,26 +122,29 @@
       "content-addressed manifest_sha256 excludes created_at for deterministic replay; verify_manifest_integrity rejects tamper",
       "checked-in fixture packets cover all eight required materials plus occlusion/ambiguity/false-positive cases",
       "synthetic per-class benchmark ledger binds fixture file digests and compiled manifest digests without production pass",
+      "ledger-vs-compiled-manifest expectation verifier rejects fixture/compiled digest drift and decision expectation mismatch",
       "row_complete and production_completion_allowed remain false in this increment",
       "Row085 and Row088 dependency plus runtime/review flags gate authority ceiling"
     ],
-    "decision": "USEFUL_SYNTHETIC_PER_CLASS_BENCHMARK_LEDGER_SLICE_NOT_PRODUCTION_MATERIAL_AUTHORITY"
+    "decision": "USEFUL_LEDGER_EXPECTATION_VERIFIER_SLICE_NOT_PRODUCTION_MATERIAL_AUTHORITY"
   },
   "dependency_authority": {
     "tracker_ids": ["TRK-W64-085", "TRK-W64-088"],
     "row085_complete": false,
     "row088_complete": false,
     "dependency_satisfied": false,
-    "row089_effect": "Owner-aware region binding and depth/source-position context cannot be certified without accepted Row085 tracking and Row088 spatial authority. Fixture packets, replay/tamper checks, and the synthetic per-class ledger do not satisfy those upstream authorities."
+    "row089_effect": "Owner-aware region binding and depth/source-position context cannot be certified without accepted Row085 tracking and Row088 spatial authority. Fixture packets, replay/tamper checks, the synthetic per-class ledger, and the ledger expectation verifier do not satisfy those upstream authorities."
   },
   "focused_local_test_result": {
     "py_compile": "PASS",
     "strict_command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_row089_visual_material_recognition_compiler.py",
-    "strict_result": "12 passed",
+    "strict_result": "13 passed",
     "strict_exit_code": 0,
-    "total_focused_passed": 12,
+    "cli_verify_command": "python Plan/07_IMPLEMENTATION/scripts/compile_wave64_visual_material_recognition.py --verify-synthetic-benchmark-ledger",
+    "cli_verify_result": "PASS",
+    "total_focused_passed": 13,
     "total_focused_failed": 0,
-    "scope_interpretation": "Focused tests prove the fail-closed compiler, checked-in fixture packets, deterministic replay/tamper hash integrity, and the non-production synthetic per-class benchmark ledger binding only. They do not grant Row089 completion, production classifier runtime, material benchmark pass, runtime receipt, Rows085/088 acceptance, or combined visual review."
+    "scope_interpretation": "Focused tests prove the fail-closed compiler, fixture packets, replay/tamper integrity, synthetic per-class ledger binding, and the ledger-vs-compiled-manifest expectation verifier that rejects digest drift. They do not grant Row089 completion, production classifier runtime, material benchmark pass, runtime receipt, Rows085/088 acceptance, or combined visual review."
   },
   "checks": [
     {"check_id": "ROW089-001", "name": "tracker_item_requirements_parity", "status": "PASS"},
@@ -181,16 +169,18 @@
     {"check_id": "ROW089-020", "name": "direct_row089_runtime_receipt_present", "status": "FAIL"},
     {"check_id": "ROW089-021", "name": "combined_frame_contact_audio_visual_review_present", "status": "FAIL"},
     {"check_id": "ROW089-022", "name": "tracker_declared_output_artifact_present", "status": "FAIL"},
-    {"check_id": "ROW089-023", "name": "synthetic_per_class_benchmark_ledger_binds_fixture_digests", "status": "PASS"}
+    {"check_id": "ROW089-023", "name": "synthetic_per_class_benchmark_ledger_binds_fixture_digests", "status": "PASS"},
+    {"check_id": "ROW089-024", "name": "ledger_vs_compiled_manifest_expectation_verifier_rejects_digest_drift", "status": "PASS"}
   ],
   "test_and_runtime_boundary": {
     "schema_meta_validation_executed": true,
     "focused_source_tests_executed": true,
-    "focused_source_tests_passed": 12,
+    "focused_source_tests_passed": 13,
     "focused_source_tests_failed": 0,
     "fixture_packets_compiled": true,
     "replay_tamper_hash_check_executed": true,
     "synthetic_per_class_benchmark_ledger_bound": true,
+    "ledger_vs_compiled_manifest_expectation_verifier_executed": true,
     "production_material_classifier_invoked": false,
     "new_media_decode_or_texture_inference_invoked": false,
     "direct_row089_runtime_benchmark_executed": false,
@@ -209,52 +199,54 @@
     "excluded_sibling_rows": [
       "TRK-W64-069",
       "TRK-W64-077",
-      "TRK-W64-080",
-      "TRK-W64-082",
+      "TRK-W64-083",
       "TRK-W64-084",
-      "TRK-W64-091"
+      "TRK-W64-092",
+      "TRK-W64-094"
     ],
     "excluded_paths": [
-      "Plan/07_IMPLEMENTATION/scripts/build_audio_pack_functional_index.py",
-      "Plan/07_IMPLEMENTATION/scripts/select_wave64_audio_repetition_diversity.py",
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_semantic_audio_embeddings.py",
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_mux_dry_run_matrix.schema.json",
-      "Plan/08_SCHEMAS/canonical_video_timeline_mux_prep_receipt.schema.json",
-      "Plan/08_SCHEMAS/audio_repetition_diversity_selection_record.schema.json",
-      "Plan/Instructions/QA/Scripts/test_audio_pack_functional_index.py",
-      "Plan/Instructions/QA/Scripts/test_row082_audio_repetition_diversity.py",
-      "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
+      "Plan/07_IMPLEMENTATION/scripts/build_audio_pack_functional_index.py",
+      "Plan/Instructions/QA/Scripts/test_row077_*",
+      "Plan/Instructions/QA/Scripts/test_row083_*",
+      "Plan/Instructions/QA/Scripts/test_row084_*",
+      "Plan/Instructions/QA/Scripts/test_row092_*",
+      "Plan/Instructions/QA/Scripts/test_row094_*",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-069_*",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-077_*",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-080_*",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-082_*",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-083_*",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_*",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_*",
-      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row091/*"
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-092_*",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-094_*",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row069/*",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row077/*",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row083/*",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/*",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row092/*",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row094/*"
     ],
     "disjoint_from_sibling_agents": true,
-    "writable_scope_note": "Disjoint from sibling Row069 full hash, Row091, Row080, Row082, Row084 mux envelope, and Row077 paths."
+    "writable_scope_note": "Disjoint from sibling Row069 full hash, Row077, Row083, Row084 missing-frame, Row094, and Row092 paths."
   },
   "preservation_boundary": {
     "allowed_write_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_visual_material_recognition.py",
       "Plan/Instructions/QA/Scripts/test_row089_visual_material_recognition_compiler.py",
-      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row089/synthetic_per_class_benchmark_ledger.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-089_VISUAL_MATERIAL_RECOGNITION_CURRENT_DELTA_20260719.json"
     ],
     "actual_write_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_visual_material_recognition.py",
       "Plan/Instructions/QA/Scripts/test_row089_visual_material_recognition_compiler.py",
-      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row089/synthetic_per_class_benchmark_ledger.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-089_VISUAL_MATERIAL_RECOGNITION_CURRENT_DELTA_20260719.json"
     ],
     "unrelated_dirty_paths_preserved": true,
     "worker_artifacts_preserved": true,
-    "sibling_row069_row091_row080_row082_row084_row077_paths_preserved": true
+    "sibling_row069_row077_row083_row084_row092_row094_paths_preserved": true
   },
   "hold_decision": {
     "decision": "HOLD_ROW089_NO_FALSE_COMPLETION",
-    "reason": "Row089 now binds checked-in fixture packet digests into a synthetic per-class benchmark ledger that records expected decision_state for all eight required materials plus occlusion/ambiguity/false-positive edge cases. The ledger explicitly keeps material_benchmark_pass, production_benchmark, visual_review_claimed, rows085_088_acceptance_claimed, and row_complete false. Rows085 and 088 remain incomplete. Production classifier runtime receipts, calibrated material benchmarks, combined frame/contact/audio review, and the tracker-declared runtime artifact remain absent.",
-    "safe_next_action": "Keep Row089 on hold for runtime completion. Next useful Row089 write: add a fail-closed ledger-vs-compiled-manifest expectation verifier that rejects digest drift without claiming production benchmark pass or Rows085/088 acceptance. Upstream, continue advancing Row085 ownership and Row088 measured spatial authority."
+    "reason": "Row089 now includes a fail-closed ledger-vs-compiled-manifest expectation verifier that recompiles every ledger-bound fixture packet, checks fixture-file and compiled-manifest digests, and rejects decision-field expectation drift. The verifier and ledger explicitly keep material_benchmark_pass, production_benchmark, visual_review_claimed, rows085_088_acceptance_claimed, and row_complete false. Rows085 and 088 remain incomplete. Production classifier runtime receipts, calibrated material benchmarks, combined frame/contact/audio review, and the tracker-declared runtime artifact remain absent.",
+    "safe_next_action": "Keep Row089 on hold for runtime completion. Next useful Row089 write: add a CLI/CI gate that fails closed when checked-in ledger digests diverge from fixture packets on CI without claiming production benchmark pass or Rows085/088 acceptance. Upstream, continue advancing Row085 ownership and Row088 measured spatial authority."
   }
 }
