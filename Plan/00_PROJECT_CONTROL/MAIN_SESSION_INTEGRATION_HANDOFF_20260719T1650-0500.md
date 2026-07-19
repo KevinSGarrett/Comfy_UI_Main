@@ -9,7 +9,7 @@
 
 ## Commits Pushed This Pass
 
-1. (this push) Row018 local RealVisXL 3-seed/3-prompt multisample portfolio-parity regeneration + visual QA.
+1. `27688c78` Prove Row018 local RealVisXL three-seed multisample parity.
 
 ## Row-Scoped Increment Executed
 
@@ -34,7 +34,9 @@
 
 - `python -m unittest Plan.Instructions.QA.Scripts.test_image_multi_sample_certification -v` → **9 passed**
 - ComfyUI: live local runtime used (`system_stats` / `/prompt` / `/history` / `/view`)
-- Docker/CVAT: unused (`not-needed`)
+- Docker/CVAT: unused (
+ot-needed)
+- Pushed commit verified on origin: `27688c788e6c293488edcc2b3f03caf20d6c4434`
 - EC2: `EC2_DEFERRED`
 
 ## Dirty Ownership Boundary (Preserved)
