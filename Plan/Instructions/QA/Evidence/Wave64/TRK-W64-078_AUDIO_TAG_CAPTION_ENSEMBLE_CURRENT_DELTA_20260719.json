@@ -1,0 +1,491 @@
+{
+  "schema_version": 1,
+  "evidence_id": "W64-ROW078-AUDIO-TAG-CAPTION-ENSEMBLE-CURRENT-DELTA-20260719",
+  "created_at": "2026-07-19T03:47:20.6340398Z",
+  "source_commit": "a2ac8e8fd4bdde7d7b7b92daa22773b16d39d5ca",
+  "prior_row_commit": "a2ac8e8fd4bdde7d7b7b92daa22773b16d39d5ca",
+  "prior_row_commit_is_current_head": true,
+  "tracker_id": "TRK-W64-078",
+  "item_id": "ITEM-W64-078",
+  "status": "HOLD_DEPENDENCIES_MULTI_SOURCE_TAGGER_CAPTIONER_TAXONOMY_AND_ENSEMBLE_RUNTIME_PROOF_ABSENT",
+  "classification": "ROW078_CURRENT_DELTA_DETERMINISTIC_METADATA_AND_UNBOUND_MODEL_CANDIDATES_ONLY_NO_FALSE_COMPLETION",
+  "row_complete": false,
+  "implementation_completion_claimed": false,
+  "runtime_completion_claimed": false,
+  "qa_decision": "hold_with_bounded_reuse_of_retained_metadata_schema_shape_and_pinned_model_candidate_identities_only",
+  "intent": {
+    "intent_id": "intent_20260719T034438234Z_row078_audio_tag_caption_ensemble_current_delta_3bf11cd3",
+    "authority_class": "codex_only",
+    "routing": null,
+    "worker_wake_count": 0
+  },
+  "row078_contract": {
+    "status": "Planned_Autonomous_Implementation_Required",
+    "priority": "P1",
+    "risk": "HIGH",
+    "dependency_prerequisites": [
+      "TRK-W64-071",
+      "TRK-W64-075",
+      "TRK-W64-077"
+    ],
+    "validation_methods": [
+      "ensemble_sources",
+      "taxonomy_validation",
+      "conflict_preservation",
+      "unknown_fail_closed"
+    ],
+    "output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-078_audio_tag_caption_ensemble.json",
+    "output_artifact_exists": false,
+    "completion_criteria": "Tags preserve disagreements and unknowns while combining independent metadata, acoustic, embedding, and model signals.",
+    "required_signal_families": [
+      "path_and_source_metadata",
+      "deterministic_acoustic_features",
+      "semantic_embeddings",
+      "audio_tagging_models"
+    ],
+    "required_outputs": [
+      "structured_tags",
+      "concise_technical_caption",
+      "per_source_evidence",
+      "taxonomy_revision",
+      "explicit_disagreements",
+      "explicit_unknowns",
+      "ensemble_resolution_or_abstention"
+    ],
+    "required_behavior": [
+      "independent signal families remain separately attributable",
+      "taxonomy labels are validated against a frozen revision",
+      "source disagreements remain visible rather than being silently averaged away",
+      "unknown ambiguous and out_of_taxonomy outcomes fail closed",
+      "captions never overwrite source metadata",
+      "captions and tags remain advisory until downstream acceptance"
+    ],
+    "runtime_proof_required": true,
+    "ec2_allowed": true,
+    "ec2_used_for_this_audit": false,
+    "final_render_gate": "BLOCKED_UNTIL_EXACT_ROW_IMPLEMENTATION_RUNTIME_QA_AND_AUTHORITY_PASS"
+  },
+  "tracker_item_requirements_parity": {
+    "tracker_path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_TRACKER_ROWS.csv",
+    "tracker_sha256": "a698034d4d61788a9c630434f7aac75e3f7b1bf656319cfe43a5b2ce26d625de",
+    "tracker_bytes": 159309,
+    "item_path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ITEM_ROWS.csv",
+    "item_sha256": "f4a401d828aff69dbe7e005d6592a2af86edc936a0e6c1bae2f764345a9b8489",
+    "item_bytes": 111386,
+    "requirements_tracker_path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
+    "requirements_item_path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
+    "requirements_sha256": "077eaf1dfc1cb0d990660b2d9ec7073bc2b4acc1be47a94e9a0ea65eb1924acc",
+    "requirements_bytes": 48422,
+    "requirements_copies_byte_identical": true,
+    "tracker_item_title_match": true,
+    "tracker_item_status_match": true,
+    "tracker_item_acceptance_match": true,
+    "tracker_item_gate_match": true,
+    "tracker_item_dependency_match": true,
+    "git_state": "untracked_preserved_unaccepted"
+  },
+  "source_authority": [
+    {
+      "path": "Plan/00_PROJECT_CONTROL/WAVE64_AUTONOMOUS_VIDEO_TO_AUDIO_AND_SOUND_GENERATION_MASTER_PLAN.md",
+      "sha256": "6f1b5059b686a81d866f61f3bada74ca673a43db2423241d500b024ecb6a1a67",
+      "bytes": 25625,
+      "citation": "Row078 Audio tagging and caption ensemble, lines 171-175",
+      "git_state": "untracked_preserved_unaccepted"
+    },
+    {
+      "path": "Plan/02_TARGET_ARCHITECTURE/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ARCHITECTURE.md",
+      "sha256": "3aef5be8b48808a69fe70c4b61bb4de6f7e1086c670c1ce9c817ebb4a1f6ae9b",
+      "bytes": 7078,
+      "git_state": "untracked_preserved_unaccepted"
+    },
+    {
+      "path": "Plan/05_AUDIO_SYSTEM/WAVE64_AUTONOMOUS_SOUND_LIBRARY_GENERATION_AND_QA_PLAN.md",
+      "sha256": "63bea08b4e2209100cc875b60bfad7b2d2e2b0636c5643aaa4410e6f1b1fce1c",
+      "bytes": 5362,
+      "git_state": "untracked_preserved_unaccepted"
+    },
+    {
+      "path": "Plan/Instructions/QA/AUTONOMOUS_VIDEO_TO_AUDIO_AND_GENERATED_SOUND_QA_PROTOCOL.md",
+      "sha256": "ed5773fd5f83ac5c71e31983eab9fb8d0362f2544518c37b41f7c51b95c82181",
+      "bytes": 3801,
+      "git_state": "untracked_preserved_unaccepted"
+    }
+  ],
+  "dependency_authority": [
+    {
+      "tracker_id": "TRK-W64-071",
+      "commit": "9a8e45d30da7603c8c1262cc858ee779b09c93cd",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-071_WAVEFORM_FEATURE_EXTRACTION_CURRENT_DELTA_20260719.json",
+      "current_delta_sha256": "790f6689893c883692d146b2ceedf7daa69e2d2f4079749b943e4eff9b16444f",
+      "current_delta_bytes": 16710,
+      "current_delta_status": "HOLD_ROW070_CANONICAL_DECODE_AND_VERSIONED_FULL_FEATURE_PIPELINE_ABSENT",
+      "row_complete": false,
+      "dependency_satisfied": false,
+      "reason": "The ensemble requires accepted deterministic acoustic features with exact pipeline identity; Row071 currently has reusable loudness techniques only and no accepted full feature pipeline."
+    },
+    {
+      "tracker_id": "TRK-W64-075",
+      "commit": "2ecf3d991ca16d9a4ca419dadfb3b7e586e8a617",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_AUDIO_QUALITY_DEFECT_CURRENT_DELTA_20260719.json",
+      "current_delta_sha256": "262c88b52e2c10c7a20684b5d0f9b87a99f40d916312a061f43dc2c885efb30b",
+      "current_delta_bytes": 21669,
+      "current_delta_status": "HOLD_DEPENDENCIES_CANONICAL_PCM_FEATURE_PIPELINE_AND_LIBRARY_DEFECT_CLASSIFIER_ABSENT",
+      "row_complete": false,
+      "dependency_satisfied": false,
+      "reason": "Quality and defect observations must remain attributable ensemble inputs; Row075 has no accepted library defect classifier or calibrated full-library proof."
+    },
+    {
+      "tracker_id": "TRK-W64-077",
+      "commit": "2a26113966b86885b641a10ce16718f08cc70730",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-077_SEMANTIC_AUDIO_EMBEDDING_CURRENT_DELTA_20260719.json",
+      "current_delta_sha256": "9c70c3551465e6fce1bfdc9f42afb6adcd2db3d61a0d37feab0df66c4225c0e5",
+      "current_delta_bytes": 20745,
+      "current_delta_status": "HOLD_DEPENDENCIES_MODEL_INSTALL_PREPROCESSING_EMBEDDING_INDEX_AND_HELDOUT_RETRIEVAL_PROOF_ABSENT",
+      "row_complete": false,
+      "dependency_satisfied": false,
+      "reason": "The ensemble cannot consume a semantic signal until Row077 has an accepted model, preprocessing identity, embedding index, and held-out retrieval proof."
+    }
+  ],
+  "retained_index_input_boundary": {
+    "path": "runtime_artifacts/audio_asset_indexes/audio_downloads_functional_20260715T095712-0500/audio_pack_functional_index.jsonl",
+    "sha256": "7301243a364025dbd23907aee20ee8593d5897caa83d38391026ad42da6d17ec",
+    "bytes": 38266398,
+    "record_count": 39771,
+    "read_only_scan_performed": true,
+    "source_audio_opened_or_decoded": false,
+    "deterministic_metadata_field_presence": {
+      "event_type": 39771,
+      "material": 39771,
+      "role": 39771,
+      "intensity_band": 39771,
+      "duration_band": 39771,
+      "attack_characteristic": 39771,
+      "sync_class": 39771,
+      "room_environment_suitability": 39771
+    },
+    "row078_recursive_field_presence": {
+      "tag_or_tags": 0,
+      "audio_tags": 0,
+      "technical_caption_or_captions": 0,
+      "tag_sources": 0,
+      "caption_sources": 0,
+      "ensemble_or_ensemble_sources": 0,
+      "conflicts_or_disagreements": 0,
+      "unknowns_or_unknown_taxonomy": 0,
+      "model_tags_or_model_caption": 0,
+      "acoustic_tags_or_embedding_tags": 0
+    },
+    "existing_unknown_like_metadata_counts": {
+      "attack_characteristic_unknown": 26961,
+      "intensity_band_unknown": 23703,
+      "material_unspecified": 33435,
+      "room_dry_or_unspecified": 38016,
+      "room_environment_specific_unspecified": 6
+    },
+    "interpretation": "The retained index contains valuable deterministic metadata and already exposes many unknown or unspecified values. It contains no Row078 ensemble result, per-source tags, caption, conflict set, or explicit taxonomy-resolution record. Existing metadata must be preserved as immutable source evidence rather than rewritten by a future caption.",
+    "scope": "Existing retained JSONL bytes only. No source audio decode, feature extraction, embedding generation, model load, tagging, caption generation, EC2 contact, model acquisition, or runtime mutation was performed."
+  },
+  "planned_asset_semantics_schema": {
+    "path": "Plan/08_SCHEMAS/audio_asset_intelligence_record.schema.json",
+    "sha256": "42b7aec3b9595c153de3482290d1dfe715a082d4d5f85823f4afa6a162e0cc1f",
+    "bytes": 4323,
+    "git_state": "untracked_preserved_unaccepted",
+    "required_semantic_fields": [
+      "event_family",
+      "material",
+      "confidence",
+      "evidence_sources"
+    ],
+    "optional_semantic_fields": [
+      "body_part",
+      "footwear",
+      "force_band"
+    ],
+    "missing_row078_contract_fields": [
+      "taxonomy_revision_sha256",
+      "source_metadata_snapshot_sha256",
+      "independent_source_observations",
+      "tagging_model_identity",
+      "embedding_identity",
+      "acoustic_feature_pipeline_identity",
+      "structured_tags_with_per_source_confidence",
+      "technical_caption",
+      "source_disagreements",
+      "unknown_and_out_of_taxonomy_values",
+      "ensemble_resolution_policy_revision",
+      "abstention_reason",
+      "caption_non_overwrite_proof"
+    ],
+    "additional_properties_permitted": true,
+    "decision": "generic_semantic_shape_reusable_but_not_a_fail_closed_row078_ensemble_contract"
+  },
+  "model_candidate_boundary": {
+    "catalog_path": "Plan/10_REGISTRIES/wave64_hyperreal_audio_model_asset_acquisition_catalog.json",
+    "catalog_sha256": "6bab42e521045fedfb52cde14f3724c0f51c5d79b3d809447b30f6f9fc037fff",
+    "catalog_bytes": 61956,
+    "catalog_git_state": "tracked_clean",
+    "catalog_status": "provider_resolved_candidates_not_installed_or_production_ready",
+    "catalog_entry_is_download_authority": false,
+    "download_is_runtime_ready": false,
+    "runtime_or_generation_executed": false,
+    "row078_asset_binding": null,
+    "candidate_inputs": [
+      {
+        "asset_id": "laion_clap_general",
+        "capability": "semantic_audio_retrieval_and_similarity",
+        "repo_id": "laion/larger_clap_general",
+        "revision": "ada0c23a36c4e8582805bb38fec3905903f18b41",
+        "key_file": "pytorch_model.bin",
+        "key_file_bytes": 776444665,
+        "key_file_sha256": "314eb00cce6ad68d25237b8446b659ccdb136ed4672c1bca470f142f72455026",
+        "required_by_rows_includes_row078": false,
+        "production_ready": false,
+        "possible_future_role": "embedding_signal_only_not_a_complete_tag_caption_ensemble"
+      },
+      {
+        "asset_id": "laion_clap_music_speech",
+        "capability": "speech_music_cross_modal_similarity",
+        "repo_id": "laion/larger_clap_music_and_speech",
+        "revision": "195c3a3e68faebb3e2088b9a79e79b43ddbda76b",
+        "key_file": "pytorch_model.bin",
+        "key_file_bytes": 776444665,
+        "key_file_sha256": "b73c5e596fda5b29b522a1ab3f0842977fe2b147bf8b78c2ec5f7ae6267038a1",
+        "required_by_rows_includes_row078": false,
+        "production_ready": false,
+        "possible_future_role": "embedding_signal_only_not_a_complete_tag_caption_ensemble"
+      },
+      {
+        "asset_id": "beats_official_audioset_checkpoint",
+        "status": "exact_official_checkpoint_sha256_required",
+        "reason": "Do not substitute an unverified community Hugging Face mirror for the Microsoft-published checkpoint.",
+        "required_by_rows_includes_row078": false,
+        "production_ready": false,
+        "possible_future_role": "tagging_model_candidate_only_after_exact_official_identity_is_resolved"
+      }
+    ],
+    "tagging_model_selected_for_row078": false,
+    "caption_model_selected_for_row078": false,
+    "ensemble_model_stack_bound": false,
+    "decision": "pinned_or_blocked_candidates_are_future_inputs_not_row078_implementation_or_authority"
+  },
+  "acquisition_catalog_builder_boundary": {
+    "builder_path": "Plan/07_IMPLEMENTATION/scripts/build_wave64_hyperreal_audio_asset_catalog.py",
+    "builder_sha256": "b5f89ae383acae8bb37083bca1b91ef0add51492e2b43713deee18e0987b9c5f",
+    "builder_bytes": 28863,
+    "builder_git_state": "tracked_clean",
+    "test_path": "Plan/Instructions/QA/Scripts/test_wave64_hyperreal_audio_asset_catalog.py",
+    "test_sha256": "f1e9c69d17ddc21897d5abf3e11c8d4117916e83f41b88920cccfe847d35133b",
+    "test_bytes": 5108,
+    "test_function_count": 5,
+    "test_scope": "immutable acquisition metadata license access and catalog truth boundaries",
+    "row078_ensemble_behavior_covered": false,
+    "decision": "catalog_qualification_is_not_tagging_caption_or_ensemble_runtime_qualification"
+  },
+  "repository_implementation_search": {
+    "row078_tagging_runtime_found": false,
+    "row078_caption_runtime_found": false,
+    "row078_ensemble_policy_found": false,
+    "row078_taxonomy_validator_found": false,
+    "row078_conflict_preservation_implementation_found": false,
+    "row078_unknown_fail_closed_implementation_found": false,
+    "row078_caption_non_overwrite_guard_found": false,
+    "row078_direct_qa_test_found": false,
+    "matching_runtime_or_test_files": [],
+    "planning_references": [
+      "Plan/07_IMPLEMENTATION/scripts/build_wave64_autonomous_sound_intelligence_control_package.py",
+      "Plan/10_REGISTRIES/wave64_autonomous_sound_intelligence_work_package_registry.json"
+    ],
+    "unrelated_search_matches_excluded": [
+      "Plan/07_IMPLEMENTATION/scripts/build_wave64_ultimate_multimodal_workflow_control_package.py",
+      "Plan/07_IMPLEMENTATION/scripts/run_wave27_local_validation.py",
+      "Plan/07_IMPLEMENTATION/scripts/score_wave27_temporal_evidence.py"
+    ],
+    "interpretation": "The direct Row078 references are planning package generation and registry records. Other search matches implement unrelated Wave27 or multimodal conflict handling and do not satisfy the Row078 audio ensemble contract."
+  },
+  "ensemble_acceptance_assessment": {
+    "independent_metadata_source_present": true,
+    "independent_acoustic_feature_source_accepted": false,
+    "independent_embedding_source_accepted": false,
+    "independent_tagging_model_source_accepted": false,
+    "technical_caption_generator_present": false,
+    "frozen_taxonomy_present": false,
+    "per_source_confidence_and_provenance_present": false,
+    "conflict_set_preserved": false,
+    "unknown_and_out_of_taxonomy_fail_closed": false,
+    "caption_source_metadata_non_overwrite_proven": false,
+    "full_library_reconciliation_present": false,
+    "heldout_ensemble_accuracy_and_abstention_metrics_present": false,
+    "minimum_signal_family_count_required": 4,
+    "accepted_signal_family_count": 1,
+    "decision": "insufficient_independent_inputs_and_no_ensemble_runtime"
+  },
+  "planning_only_coverage": {
+    "builder_path": "Plan/07_IMPLEMENTATION/scripts/build_wave64_autonomous_sound_intelligence_control_package.py",
+    "builder_sha256": "62441dab915e5d277963aa58f579ee8a9190a4f3d58fcceab2b252426524f593",
+    "builder_bytes": 37998,
+    "builder_git_state": "untracked_preserved_unaccepted",
+    "registry_path": "Plan/10_REGISTRIES/wave64_autonomous_sound_intelligence_work_package_registry.json",
+    "registry_sha256": "d4ba802a94920e462fed578790e0508f140d5d7b0cf64736dcc86f47fb0e709e",
+    "registry_bytes": 13741,
+    "registry_git_state": "untracked_preserved_unaccepted",
+    "row078_registry_status": "Planned_Autonomous_Implementation_Required",
+    "direct_implementation_or_runtime_evidence_emitted": false,
+    "decision": "planning_coverage_only"
+  },
+  "acceptance_gaps": [
+    "accepted Row071 deterministic acoustic feature pipeline and full-library reconciliation",
+    "accepted Row075 calibrated defect observations with per-asset evidence",
+    "accepted Row077 semantic embedding model preprocessing index and held-out retrieval proof",
+    "frozen Row078 taxonomy with revision hash aliases hierarchy and explicit unknown values",
+    "selected and license-bound tagging model with complete immutable file-set hashes",
+    "selected caption model or deterministic caption renderer with exact identity",
+    "frozen per-signal preprocessing and calibration",
+    "schema for immutable source observations separated from derived tags and captions",
+    "per-source labels confidence model or pipeline identity timestamp and evidence hashes",
+    "deterministic ensemble policy with version and hash",
+    "explicit conflict representation that preserves every disagreeing source",
+    "unknown ambiguous out-of-distribution and out-of-taxonomy abstention behavior",
+    "guard proving captions cannot mutate replace or become authority over source metadata",
+    "deterministic tie ordering and repeat proof",
+    "calibration and held-out datasets with disjoint immutable identities",
+    "registered tagging precision recall calibration and abstention metrics by taxonomy slice",
+    "registered caption factuality source-entailment omission and contradiction checks",
+    "adversarial tests for model hallucination metadata conflict unknown labels and missing sources",
+    "full retained-library reconciliation or exact per-input blockers",
+    "tracker-declared direct runtime QA and evidence artifact"
+  ],
+  "downstream_holds": [
+    {
+      "tracker_id": "TRK-W64-079",
+      "task_name": "Fine-grained Foley body, material, footwear, force, and room enrichment",
+      "reason": "Fine-grained enrichment requires accepted Row078 source-attributed tags and explicit unknowns; otherwise incompatible use cannot fail closed."
+    },
+    {
+      "tracker_id": "TRK-W64-112",
+      "task_name": "Autonomous sound intelligence production acceptance and full-system certification",
+      "reason": "Full-system certification explicitly requires Row078 completion."
+    }
+  ],
+  "checks": [
+    {
+      "name": "tracker_item_contract_parity",
+      "status": "PASS"
+    },
+    {
+      "name": "direct_row078_output_absent",
+      "status": "PASS"
+    },
+    {
+      "name": "row071_dependency_complete",
+      "status": "FAIL"
+    },
+    {
+      "name": "row075_dependency_complete",
+      "status": "FAIL"
+    },
+    {
+      "name": "row077_dependency_complete",
+      "status": "FAIL"
+    },
+    {
+      "name": "retained_inventory_record_count_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "retained_deterministic_metadata_present",
+      "status": "PASS"
+    },
+    {
+      "name": "retained_per_source_tag_caption_ensemble_fields_present",
+      "status": "FAIL"
+    },
+    {
+      "name": "existing_unknown_like_metadata_preserved",
+      "status": "PASS"
+    },
+    {
+      "name": "asset_schema_requires_row078_ensemble_contract",
+      "status": "FAIL"
+    },
+    {
+      "name": "row078_model_stack_selected_and_bound",
+      "status": "FAIL"
+    },
+    {
+      "name": "four_independent_signal_families_accepted",
+      "status": "FAIL"
+    },
+    {
+      "name": "taxonomy_revision_and_validator_present",
+      "status": "FAIL"
+    },
+    {
+      "name": "per_source_provenance_and_confidence_present",
+      "status": "FAIL"
+    },
+    {
+      "name": "conflict_preservation_implemented_and_tested",
+      "status": "FAIL"
+    },
+    {
+      "name": "unknown_fail_closed_implemented_and_tested",
+      "status": "FAIL"
+    },
+    {
+      "name": "caption_non_overwrite_guard_implemented_and_tested",
+      "status": "FAIL"
+    },
+    {
+      "name": "full_library_runtime_reconciliation_present",
+      "status": "FAIL"
+    },
+    {
+      "name": "ec2_or_runtime_mutated_by_this_audit",
+      "status": "PASS",
+      "observed": false
+    },
+    {
+      "name": "row078_completion_claim_safe",
+      "status": "FAIL"
+    }
+  ],
+  "test_and_runtime_boundary": {
+    "source_tests_audited": true,
+    "tests_executed_for_this_delta": false,
+    "reason_tests_not_executed": "No implementation bytes changed. The available five catalog tests validate acquisition metadata and truth boundaries, not Row078 tagging, captioning, taxonomy validation, conflict preservation, unknown handling, or source-metadata immutability.",
+    "model_download_invoked": false,
+    "tagging_model_loaded": false,
+    "caption_model_loaded": false,
+    "embedding_model_loaded": false,
+    "tag_or_caption_generation_invoked": false,
+    "ec2_invoked": false,
+    "docker_invoked": false,
+    "wsl_invoked": false,
+    "provider_calls": 0,
+    "wrapper_calls": 0,
+    "scheduled_task_wakes": 0
+  },
+  "scheduler_and_worker_containment": {
+    "codex_automations_modified": false,
+    "windows_worker_tasks_modified": false,
+    "mask_maintenance_tasks_modified": false,
+    "ec2_read_only_safety_monitor_modified": false,
+    "worker_control_paths_modified": false,
+    "queued_or_running_worker_scope_duplicated": false,
+    "containment_note": "The scheduled-task incident containment state remains untouched. All paused automations and disabled worker or Mask tasks remain outside this evidence-only Codex final-authority audit."
+  },
+  "preservation_boundary": {
+    "only_new_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-078_AUDIO_TAG_CAPTION_ENSEMBLE_CURRENT_DELTA_20260719.json",
+    "queued_worker_scopes_preserved": true,
+    "flux2_dirty_paths_preserved": true,
+    "portfolio_reconciliation_paths_preserved": true,
+    "worker_control_snapshots_preserved": true,
+    "unrelated_dirty_and_untracked_paths_preserved": true,
+    "retained_audio_index_preserved": true
+  },
+  "hold_decision": {
+    "decision": "HOLD_ROW078_NO_FALSE_COMPLETION",
+    "reason": "The retained library has useful deterministic metadata and explicit unknown-like values, and the acquisition catalog preserves two CLAP candidates plus a fail-closed BEATs identity blocker. However, all three declared dependencies remain incomplete, no tagging or caption model is bound to Row078, no ensemble implementation or direct test exists, and every retained record lacks per-source tags, captions, conflicts, and taxonomy-resolution fields.",
+    "safe_next_action": "After Rows071, 075, and 077 are accepted, freeze a versioned taxonomy and immutable source-metadata snapshot; select and hash-bind an exact tagging model and caption mechanism; define four separately attributable signal inputs; implement a deterministic ensemble that preserves every conflict and abstains on unknown, ambiguous, missing, or out-of-taxonomy evidence; store derived tags and captions separately from immutable source metadata; prove repeatability, taxonomy validation, caption non-overwrite, adversarial conflict handling, and disjoint held-out metrics; reconcile every retained input or exact blocker; and emit the tracker-declared runtime artifact. Use bounded EC2 only if local qualification proves it is required. Continue independent Codex PM/QA work meanwhile."
+  }
+}
