@@ -13,8 +13,9 @@
 
 1. `d93ddf33` Prove Row017 MF70 eyelids local visual climb.
 2. `6c1ccff7` Stamp Row017 eyelids handoff with primary commit id.
+3. `2376520e` Finalize Row017 eyelids handoff tip to origin HEAD.
 
-Pushed tip verified on origin: `6c1ccff7`
+Pushed tip verified on origin: `2376520e`
 
 ## Row-Scoped Increment Executed
 
