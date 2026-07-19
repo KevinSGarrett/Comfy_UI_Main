@@ -1,18 +1,19 @@
 {
   "schema_version": "1.0.0",
   "evidence_id": "TRK-W64-096_ROOM_ACOUSTIC_RENDERER_CURRENT_DELTA_20260719",
-  "created_at": "2026-07-19T19:13:30Z",
-  "source_commit": "4bf69c54a54da5d914ed9eda82f600c56c53a7d8",
-  "prior_row_commit": "4bf69c54a54da5d914ed9eda82f600c56c53a7d8",
-  "prior_row_commit_is_current_head": true,
+  "created_at": "2026-07-19T20:35:00Z",
+  "updated_at": "2026-07-19T20:35:00Z",
+  "source_commit": "8d63bdcf05446cbbe88ba931dcd68164edae6381",
+  "prior_row_commit": "65574c10d6835dedd2cf1bbba03c4d0e3abd9bb2",
+  "prior_row_commit_is_current_head": false,
   "tracker_id": "TRK-W64-096",
   "item_id": "ITEM-W64-096",
-  "status": "HOLD_DEPENDENCIES_AND_EVENT_DRIVEN_ROOM_ACOUSTIC_RUNTIME_AUTHORITY_ABSENT",
+  "status": "HOLD_DEPENDENCIES_AND_EVENT_DRIVEN_ROOM_ACOUSTIC_RUNTIME_AUTHORITY_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE",
   "classification": "ROW096_CODEX_FINAL_AUTHORITY_CURRENT_DELTA_AUDIT",
   "row_complete": false,
   "implementation_completion_claimed": false,
   "runtime_completion_claimed": false,
-  "qa_decision": "HOLD_WITH_BOUNDED_REUSE_OF_STRICT_SPATIAL_ROOM_EVALUATOR",
+  "qa_decision": "HOLD_WITH_BOUNDED_FAIL_CLOSED_CONTRACT_COMPILER_AND_STRICT_SPATIAL_ROOM_EVALUATOR_REUSE",
   "row096_contract": {
     "title": "Room impulse response, early-reflection, RT60, and convolution renderer",
     "priority": "P0",
@@ -33,10 +34,30 @@
     ],
     "completion_criteria": "Measured output RT60 and early reflections meet target tolerances and wet-source compatibility rules.",
     "required_output": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-096_room_acoustic_renderer.json",
-    "required_output_exists": false,
+    "required_output_exists": true,
+    "required_output_is_hold_packet": true,
     "test_required": true,
     "runtime_proof_required": true,
     "ec2_allowed": true
+  },
+  "fail_closed_contract_slice": {
+    "compiler": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_room_acoustic_renderer.py",
+    "schema": "Plan/08_SCHEMAS/wave64_row096_room_acoustic_render_manifest.schema.json",
+    "registry": "Plan/10_REGISTRIES/wave64_row096_room_acoustic_renderer_registry.json",
+    "focused_tests": "Plan/Instructions/QA/Scripts/test_row096_room_acoustic_renderer.py",
+    "hold_evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-096_room_acoustic_renderer.json",
+    "hold_evidence_sha256": "d511b2f79b22f86c1a7d25c725adfbe4a550bf02203393b6c3b7a23b0c07baa0",
+    "compiler_revision": "wave64_row096_room_acoustic_renderer_compiler_v0.1.0",
+    "registry_revision": "wave64_row096_room_acoustic_renderer_registry_v0.1.0",
+    "fixture_count": 5,
+    "adversarial_false_open_count": 0,
+    "production_authority": false,
+    "grants_row_completion": false,
+    "notes": [
+      "Contract slice freezes RIR/early-reflection/RT60/wet-source fail-closed gates with synthetic fixtures.",
+      "Hold packet at the tracker-declared evidence path is intentional and must not be read as production acceptance.",
+      "Planning-era wave31_room_acoustics schema and Row029 spatial-room evaluator remain non-authority for Row096 production convolution."
+    ]
   },
   "dependency_authority": [
     {
@@ -75,16 +96,16 @@
       "Plan/Instructions/QA/Scripts/test_produce_wave64_spatial_room_evidence_bundle.py",
       "Plan/Instructions/QA/Scripts/test_wave64_spatial_room_evaluator_strict.py"
     ],
-    "focused_test_result": {
-      "command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_produce_wave64_spatial_room_evidence_bundle.py Plan/Instructions/QA/Scripts/test_wave64_spatial_room_evaluator_strict.py",
+    "contract_slice_test_result": {
+      "command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_row096_room_acoustic_renderer.py",
       "exit_code": 0,
-      "passed": 55,
-      "duration": "126.58s"
+      "passed": 10,
+      "duration": "6.27s"
     },
     "bounded_reuse_limitations": [
-      "Current strict suite validates packet integrity and fail-closed room/spatial gates but does not grant Row096 production completion.",
-      "No accepted event-driven production renderer output exists at the tracker-declared Row096 evidence path.",
-      "Synthetic and policy-blocked cases remain intentionally blocked in strict tests."
+      "Fail-closed contract/compiler slice and hold packet do not grant Row096 production completion.",
+      "Current strict spatial-room suite validates packet integrity and room/spatial gates but does not satisfy event-driven RIR selection/synthesis and dry-source convolution authority.",
+      "All four declared prerequisites remain incomplete."
     ]
   },
   "blocker_ledger": {
@@ -100,16 +121,17 @@
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_REVERB_DRYNESS_CURRENT_DELTA_20260719.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_DEPTH_CAMERA_SOURCE_POSITION_CURRENT_DELTA_20260719.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-089_VISUAL_MATERIAL_RECOGNITION_CURRENT_DELTA_20260719.json",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-095_SPATIAL_AUDIO_RENDERER_CURRENT_DELTA_20260719.json"
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-095_SPATIAL_AUDIO_RENDERER_CURRENT_DELTA_20260719.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-096_room_acoustic_renderer.json"
     ],
     "safe_parallel_work": "Continue independent tracker-authorized PM/QA integration and blocker-ledger maintenance while preserving all unrelated dirty ownership.",
-    "minimum_unblock_action": "Close dependencies and emit tracker-declared direct Row096 runtime evidence with strict gate pass."
+    "minimum_unblock_action": "Close dependencies and replace the Row096 hold packet with measured RIR/RT60 convolution runtime evidence under strict gate pass."
   },
   "checks": [
     {
       "id": "ROW096-001",
       "status": "PASS",
-      "name": "focused_row096_strict_suite_passed"
+      "name": "fail_closed_contract_slice_focused_suite_passed"
     },
     {
       "id": "ROW096-002",
@@ -133,18 +155,23 @@
     },
     {
       "id": "ROW096-006",
-      "status": "FAIL",
-      "name": "required_row096_output_present"
+      "status": "PASS",
+      "name": "required_row096_hold_output_present"
     },
     {
       "id": "ROW096-007",
       "status": "FAIL",
       "name": "row096_complete"
+    },
+    {
+      "id": "ROW096-008",
+      "status": "PASS",
+      "name": "adversarial_false_open_count_zero"
     }
   ],
   "hold_decision": {
     "decision": "HOLD_ROW096_NO_FALSE_COMPLETION",
-    "reason": "Strict evaluator tests pass, but all four declared prerequisites remain incomplete and no direct tracker-declared Row096 runtime evidence artifact exists.",
-    "safe_next_action": "Immediately continue to an independent unblocked integration lane, preserve blocker evidence, and resume Row096 only after dependencies close."
+    "reason": "Fail-closed contract/compiler slice and synthetic fixtures are accepted as a bounded planning freeze, but all four declared prerequisites remain incomplete and no event-driven measured RIR/RT60 convolution runtime authority exists.",
+    "safe_next_action": "Preserve this contract slice; continue independent unblocked lanes; resume Row096 production runtime only after dependencies close."
   }
 }

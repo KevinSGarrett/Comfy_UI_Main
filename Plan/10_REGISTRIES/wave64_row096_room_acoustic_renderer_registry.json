@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "wave64_row096_room_acoustic_renderer_registry",
+  "registry_revision": "wave64_row096_room_acoustic_renderer_registry_v0.1.0",
+  "compiler_revision": "wave64_row096_room_acoustic_renderer_compiler_v0.1.0",
+  "tracker_id": "TRK-W64-096",
+  "authority": "planning_freeze_not_production_room_acoustic_acceptance",
+  "notes": [
+    "Frozen Row096 fail-closed room-acoustic render contract for synthetic RIR/early-reflection/RT60/wet-source fixtures and dependency admission.",
+    "Planning-era Plan/08_SCHEMAS/wave31_room_acoustics.schema.json and the Row029 spatial-room evaluator remain reusable evaluation surfaces; they do not grant Row096 event-driven production convolution authority.",
+    "Production room-acoustic authority remains blocked until Rows076, 088, 089, and 095 are accepted and genuine measured RIR/RT60 runtime plus wet-source QA pass."
+  ],
+  "dependency_prerequisites": [
+    "TRK-W64-076",
+    "TRK-W64-088",
+    "TRK-W64-089",
+    "TRK-W64-095"
+  ],
+  "required_gates": [
+    "room_geometry",
+    "material_absorption",
+    "rir",
+    "early_reflections",
+    "rt60",
+    "wet_source_guard"
+  ],
+  "fixture_render_contract": {
+    "sample_rate_hz": 48000,
+    "channels": 2,
+    "rir_selection_mode": "geometry_material_matched_v1",
+    "early_reflection_model": "image_source_early_v1",
+    "late_reverb_model": "exponential_decay_v1",
+    "convolution_mode": "partitioned_fft_v1",
+    "wet_source_policy_default": "dry_render",
+    "target_rt60_seconds": 0.42,
+    "rt60_tolerance_seconds": 0.05,
+    "early_reflection_count_min": 4,
+    "early_reflection_count_max": 32,
+    "early_reflection_onset_ms_max": 80.0,
+    "peak_absolute_max": 0.96,
+    "true_peak_dbfs_max": -1.0,
+    "integrated_loudness_lufs_target": -16.0
+  },
+  "room_fixture": {
+    "profile_id": "wave64_row096_fixture_small_studio",
+    "dimensions_m": [5.0, 4.0, 2.7],
+    "surface_materials": {
+      "floor": "hardwood",
+      "walls": "painted_drywall",
+      "ceiling": "acoustic_tile"
+    },
+    "material_absorption_coefficients": {
+      "floor": 0.12,
+      "walls": 0.08,
+      "ceiling": 0.45
+    },
+    "target_rt60_seconds": 0.42,
+    "authority": "registered"
+  },
+  "source_listener_fixture": {
+    "source_position_m": [1.2, 2.0, 1.5],
+    "listener_position_m": [0.0, 0.0, 1.6],
+    "distance_m": 2.45
+  },
+  "fail_closed": {
+    "production_requires_dependencies": true,
+    "unknown_room_cannot_pass": true,
+    "missing_material_absorption_cannot_pass": true,
+    "reject_wet_source_cannot_pass": true,
+    "pass_requires_all_room_gates": true,
+    "synthetic_cannot_grant_production_authority": true,
+    "self_declared_certification_rejected": true
+  },
+  "bounded_reuse": {
+    "spatial_room_evaluator_allowed": true,
+    "spatial_room_evaluator": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_spatial_room_evidence.py",
+    "spatial_room_producer": "Plan/07_IMPLEMENTATION/scripts/produce_wave64_spatial_room_evidence_bundle.py",
+    "production_authority": false,
+    "note": "Row029/spatial-room evaluator reuse proves packet integrity and measured room gates only; it does not satisfy Row096 event-driven RIR selection/synthesis and dry-source convolution authority."
+  }
+}

@@ -1,0 +1,723 @@
+{
+  "adversarial_schema_probe": {
+    "case_count": 7,
+    "cases": [
+      {
+        "error": "schema_validation_failed:validation.early_reflections_pass:True was expected",
+        "false_open": false,
+        "name": "pass_with_all_room_gates_false",
+        "schema_accepted": false,
+        "strict_expected_accepted": false
+      },
+      {
+        "error": "schema_validation_failed:$:False schema does not allow {'schema_version': '1.0.0', 'tracker_id': 'TRK-W64-096', 'item_id': 'ITEM-W64-096', 'compiler_revision': 'wave64_row096_room_acoustic_renderer_compiler_v0.1.0', 'registry_revision': 'wave64_row096_room_acoustic_renderer_registry_v0.1.0', 'render_id': 'fixture:measured_rir_convolution_pass', 'reverb_dryness_authority_sha256': 'a12b1213cfdbf4fe6db7109547778533ccab3877667b5f8a6deb476cbf328ba0', 'depth_camera_authority_sha256': '29fd845de97af07694776cd5f8b37035f489b874528e068584274d781361495d', 'visual_material_authority_sha256': '0d81e00f12ceb711372ad43916fff521b7fd6ae4aa881705bb5821d0ac426aa2', 'spatial_renderer_authority_sha256': '2ca06f5b41cdfa698b3f07d13692c36094c06fc276f7a84ac965a83bc996725b', 'room': {'profile_id': 'wave64_row096_fixture_small_studio', 'dimensions_m': [5.0, 4.0, 2.7], 'surface_materials': {'floor': 'hardwood', 'walls': 'painted_drywall', 'ceiling': 'acoustic_tile'}, 'material_absorption_coefficients': {'floor': 0.12, 'walls': 0.08, 'ceiling': 0.45}, 'target_rt60_seconds': 0.42, 'authority': 'registered'}, 'source_listener': {'source_position_m': [1.2, 2.0, 1.5], 'listener_position_m': [0.0, 0.0, 1.6], 'distance_m': 2.45}, 'rir': {'selection_mode': 'geometry_material_matched_v1', 'rir_asset_id': 'fixture:rir:measured_rir_convolution_pass', 'rir_sha256': '5ea1fb17beaabd55d46a0e9d9d9d61228cb0838a0f26884083cf025f4991bbc9', 'sample_rate_hz': 48000, 'channels': 2, 'duration_seconds': 1.2}, 'early_reflections': {'model': 'image_source_early_v1', 'reflection_count': 14, 'first_onset_ms': 8.5, 'energy_ratio': 0.28}, 'convolution': {'mode': 'partitioned_fft_v1', 'dry_gain': 0.85, 'wet_gain': 0.35, 'latency_samples': 128, 'deterministic': True}, 'wet_source': {'policy': 'reject', 'source_was_wet': True, 'guard_triggered': True}, 'output': {'path': 'fixtures/row096/measured_rir_convolution_pass.wav', 'sha256': '743546d15d48530eeeb055bad481869d53195621a5a27bb93846070afeb01106', 'canonical_pcm_sha256': 'f98eaf5ad28bed2c35d992fcd4b947bc8b9c91e38cb203916af7ecbc1a155e8d', 'sample_rate_hz': 48000, 'channels': 2, 'duration_seconds': 2.8, 'peak_absolute': 0.38, 'true_peak_dbfs': -3.8, 'integrated_loudness_lufs': -16.0, 'measured_rt60_seconds': 0.43}, 'validation': {'room_geometry_pass': True, 'material_absorption_pass': True, 'rir_pass': True, 'early_reflections_pass': True, 'rt60_pass': True, 'wet_source_guard_pass': True, 'measured_rt60_seconds': 0.43, 'rt60_error_seconds': 0.01, 'early_reflection_count': 12, 'decision': 'pass'}, 'is_synthetic': True, 'production_authority': False, 'decision': {'status': 'fixture_ok', 'row096_acceptance': 'fixture_only', 'product_completion': False, 'runtime_completion': False, 'promotion_eligible': False, 'blocker_codes': ['PRODUCTION_AUTHORITY_NOT_GRANTED', 'ROW076_ROW088_ROW089_ROW095_DEPENDENCIES_NOT_ACCEPTED'], 'advisory_only': True}}",
+        "false_open": false,
+        "name": "reject_wet_source_but_pass",
+        "schema_accepted": false,
+        "strict_expected_accepted": false
+      },
+      {
+        "error": "schema_validation_failed:$:False schema does not allow {'schema_version': '1.0.0', 'tracker_id': 'TRK-W64-096', 'item_id': 'ITEM-W64-096', 'compiler_revision': 'wave64_row096_room_acoustic_renderer_compiler_v0.1.0', 'registry_revision': 'wave64_row096_room_acoustic_renderer_registry_v0.1.0', 'render_id': 'fixture:measured_rir_convolution_pass', 'reverb_dryness_authority_sha256': 'a12b1213cfdbf4fe6db7109547778533ccab3877667b5f8a6deb476cbf328ba0', 'depth_camera_authority_sha256': '29fd845de97af07694776cd5f8b37035f489b874528e068584274d781361495d', 'visual_material_authority_sha256': '0d81e00f12ceb711372ad43916fff521b7fd6ae4aa881705bb5821d0ac426aa2', 'spatial_renderer_authority_sha256': '2ca06f5b41cdfa698b3f07d13692c36094c06fc276f7a84ac965a83bc996725b', 'room': {'profile_id': 'wave64_row096_fixture_small_studio', 'dimensions_m': [5.0, 4.0, 2.7], 'surface_materials': {'floor': 'hardwood', 'walls': 'painted_drywall', 'ceiling': 'acoustic_tile'}, 'material_absorption_coefficients': {'floor': 0.12, 'walls': 0.08, 'ceiling': 0.45}, 'target_rt60_seconds': 0.42, 'authority': 'unknown'}, 'source_listener': {'source_position_m': [1.2, 2.0, 1.5], 'listener_position_m': [0.0, 0.0, 1.6], 'distance_m': 2.45}, 'rir': {'selection_mode': 'geometry_material_matched_v1', 'rir_asset_id': 'fixture:rir:measured_rir_convolution_pass', 'rir_sha256': '5ea1fb17beaabd55d46a0e9d9d9d61228cb0838a0f26884083cf025f4991bbc9', 'sample_rate_hz': 48000, 'channels': 2, 'duration_seconds': 1.2}, 'early_reflections': {'model': 'image_source_early_v1', 'reflection_count': 14, 'first_onset_ms': 8.5, 'energy_ratio': 0.28}, 'convolution': {'mode': 'partitioned_fft_v1', 'dry_gain': 0.85, 'wet_gain': 0.35, 'latency_samples': 128, 'deterministic': True}, 'wet_source': {'policy': 'dry_render', 'source_was_wet': False, 'guard_triggered': False}, 'output': {'path': 'fixtures/row096/measured_rir_convolution_pass.wav', 'sha256': '743546d15d48530eeeb055bad481869d53195621a5a27bb93846070afeb01106', 'canonical_pcm_sha256': 'f98eaf5ad28bed2c35d992fcd4b947bc8b9c91e38cb203916af7ecbc1a155e8d', 'sample_rate_hz': 48000, 'channels': 2, 'duration_seconds': 2.8, 'peak_absolute': 0.38, 'true_peak_dbfs': -3.8, 'integrated_loudness_lufs': -16.0, 'measured_rt60_seconds': 0.43}, 'validation': {'room_geometry_pass': True, 'material_absorption_pass': True, 'rir_pass': True, 'early_reflections_pass': True, 'rt60_pass': True, 'wet_source_guard_pass': True, 'measured_rt60_seconds': 0.43, 'rt60_error_seconds': 0.01, 'early_reflection_count': 12, 'decision': 'pass'}, 'is_synthetic': True, 'production_authority': False, 'decision': {'status': 'fixture_ok', 'row096_acceptance': 'fixture_only', 'product_completion': False, 'runtime_completion': False, 'promotion_eligible': False, 'blocker_codes': ['PRODUCTION_AUTHORITY_NOT_GRANTED', 'ROW076_ROW088_ROW089_ROW095_DEPENDENCIES_NOT_ACCEPTED'], 'advisory_only': True}}",
+        "false_open": false,
+        "name": "unknown_room_authority_but_pass",
+        "schema_accepted": false,
+        "strict_expected_accepted": false
+      },
+      {
+        "error": "schema_validation_failed:room:'material_absorption_coefficients' is a required property",
+        "false_open": false,
+        "name": "missing_material_absorption_coefficients",
+        "schema_accepted": false,
+        "strict_expected_accepted": false
+      },
+      {
+        "error": "schema_validation_failed:decision.product_completion:False was expected",
+        "false_open": false,
+        "name": "production_authority_true_on_synthetic",
+        "schema_accepted": false,
+        "strict_expected_accepted": false
+      },
+      {
+        "error": "schema_validation_failed:rir.rir_sha256:123 is not of type 'string'",
+        "false_open": false,
+        "name": "rir_sha256_wrong_type",
+        "schema_accepted": false,
+        "strict_expected_accepted": false
+      },
+      {
+        "error": "schema_validation_failed:validation:'early_reflections_pass' is a required property",
+        "false_open": false,
+        "name": "missing_early_reflections_and_rt60_proof",
+        "schema_accepted": false,
+        "strict_expected_accepted": false
+      }
+    ],
+    "false_open_count": 0,
+    "validator": "jsonschema.Draft202012Validator"
+  },
+  "blocker_codes": [
+    "DRY_SOURCE_CONVOLUTION_RUNTIME_ABSENT",
+    "EARLY_REFLECTION_RT60_TOLERANCE_PROOF_ABSENT",
+    "EVENT_DRIVEN_ROOM_ACOUSTIC_RUNTIME_ABSENT",
+    "GENUINE_ROW096_RUNTIME_PROOF_ABSENT",
+    "INDEPENDENT_ROOM_ACOUSTIC_AUDIO_REVIEW_ABSENT",
+    "MEASURED_RIR_SELECTION_OR_SYNTHESIS_ABSENT",
+    "ROW076_DEPENDENCY_NOT_ACCEPTED",
+    "ROW076_ROW088_ROW089_ROW095_DEPENDENCIES_NOT_ACCEPTED",
+    "ROW088_DEPENDENCY_NOT_ACCEPTED",
+    "ROW089_DEPENDENCY_NOT_ACCEPTED",
+    "ROW095_DEPENDENCY_NOT_ACCEPTED"
+  ],
+  "compiler_revision": "wave64_row096_room_acoustic_renderer_compiler_v0.1.0",
+  "decision": {
+    "product_completion": false,
+    "row096_acceptance": "held",
+    "runtime_completion": false,
+    "safe_next_action": "Accept Rows076, 088, 089, and 095; bind measured/registered room geometry and material absorption into RIR selection or synthesis; convolve dry sources with early-reflection and RT60-tolerant impulse responses under wet-source guard; measure output RT60 and early reflections; preserve hash-bound replay; validate synthetic truth and genuine scene fixtures; perform independent room-acoustic audio review; then replace this hold packet with production Row096 evidence.",
+    "status": "blocked"
+  },
+  "dependency_admissions": {
+    "TRK-W64-076": {
+      "blocker_codes": [
+        "ROW076_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "bytes": 10989,
+      "dependency_satisfied": false,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_REVERB_DRYNESS_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "sha256": "a31adb18277200105c7d19802d4f7db2bfec7899332425bfadc5705accffddfe",
+      "status": "HOLD_ROW071_ROW073_DEPENDENCIES_AND_FULL_LIBRARY_ACOUSTIC_RUNTIME_ABSENT",
+      "tracker_id": "TRK-W64-076"
+    },
+    "TRK-W64-088": {
+      "blocker_codes": [
+        "ROW088_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "bytes": 12399,
+      "dependency_satisfied": false,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_DEPTH_CAMERA_SOURCE_POSITION_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "sha256": "0003e3fa895f2a2e20a83586a7978582bd4e95f68851ef0cb42afb5e310baae8",
+      "status": "HOLD_DEPENDENCY_RUNTIME_BENCHMARK_AND_VISUAL_PROOF_ABSENT_WITH_FAIL_CLOSED_SPATIAL_COMPILER_SLICE_PRESENT",
+      "tracker_id": "TRK-W64-088"
+    },
+    "TRK-W64-089": {
+      "blocker_codes": [
+        "ROW089_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "bytes": 15136,
+      "dependency_satisfied": false,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-089_VISUAL_MATERIAL_RECOGNITION_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "sha256": "d336bf11ce09bffc365906f575cd053379d9bb8478e006593a6ee9d622ca1516",
+      "status": "HOLD_DEPENDENCY_RUNTIME_BENCHMARK_AND_VISUAL_PROOF_ABSENT_WITH_LEDGER_EXPECTATION_VERIFIER_SLICE_PRESENT",
+      "tracker_id": "TRK-W64-089"
+    },
+    "TRK-W64-095": {
+      "blocker_codes": [
+        "ROW095_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "bytes": 24683,
+      "dependency_satisfied": false,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-095_SPATIAL_AUDIO_RENDERER_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "sha256": "7ee9a149affb9b53ab839e41d6d6aa4748b47887f222fb519494437115e43fcf",
+      "status": "HOLD_THREE_DEPENDENCIES_STRICT_CONTRACT_SLICE_LANDED_EVENT_DRIVEN_PRODUCTION_SPATIAL_RENDERER_RUNTIME_AND_AUDIO_QA_ABSENT",
+      "tracker_id": "TRK-W64-095"
+    }
+  },
+  "evidence_id": "TRK-W64-096_room_acoustic_renderer",
+  "fixture_calibration": {
+    "authority": "synthetic_non_production",
+    "determinism_identical_bytes": true,
+    "determinism_note": "Fixture manifests prove fail-closed RIR/convolution, early-reflection/RT60, wet-source reject, unknown-room geometry, and gate-failure contracts; they do not accept Row096 production completion or emit real convolved audio.",
+    "fixture_count": 5,
+    "records": [
+      {
+        "compiler_revision": "wave64_row096_room_acoustic_renderer_compiler_v0.1.0",
+        "convolution": {
+          "deterministic": true,
+          "dry_gain": 0.85,
+          "latency_samples": 128,
+          "mode": "partitioned_fft_v1",
+          "wet_gain": 0.35
+        },
+        "decision": {
+          "advisory_only": true,
+          "blocker_codes": [
+            "PRODUCTION_AUTHORITY_NOT_GRANTED",
+            "ROW076_ROW088_ROW089_ROW095_DEPENDENCIES_NOT_ACCEPTED"
+          ],
+          "product_completion": false,
+          "promotion_eligible": false,
+          "row096_acceptance": "fixture_only",
+          "runtime_completion": false,
+          "status": "fixture_ok"
+        },
+        "depth_camera_authority_sha256": "29fd845de97af07694776cd5f8b37035f489b874528e068584274d781361495d",
+        "early_reflections": {
+          "energy_ratio": 0.28,
+          "first_onset_ms": 8.5,
+          "model": "image_source_early_v1",
+          "reflection_count": 14
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-096",
+        "output": {
+          "canonical_pcm_sha256": "f98eaf5ad28bed2c35d992fcd4b947bc8b9c91e38cb203916af7ecbc1a155e8d",
+          "channels": 2,
+          "duration_seconds": 2.8,
+          "integrated_loudness_lufs": -16.0,
+          "measured_rt60_seconds": 0.43,
+          "path": "fixtures/row096/measured_rir_convolution_pass.wav",
+          "peak_absolute": 0.38,
+          "sample_rate_hz": 48000,
+          "sha256": "743546d15d48530eeeb055bad481869d53195621a5a27bb93846070afeb01106",
+          "true_peak_dbfs": -3.8
+        },
+        "production_authority": false,
+        "registry_revision": "wave64_row096_room_acoustic_renderer_registry_v0.1.0",
+        "render_id": "fixture:measured_rir_convolution_pass",
+        "reverb_dryness_authority_sha256": "a12b1213cfdbf4fe6db7109547778533ccab3877667b5f8a6deb476cbf328ba0",
+        "rir": {
+          "channels": 2,
+          "duration_seconds": 1.2,
+          "rir_asset_id": "fixture:rir:measured_rir_convolution_pass",
+          "rir_sha256": "5ea1fb17beaabd55d46a0e9d9d9d61228cb0838a0f26884083cf025f4991bbc9",
+          "sample_rate_hz": 48000,
+          "selection_mode": "geometry_material_matched_v1"
+        },
+        "room": {
+          "authority": "registered",
+          "dimensions_m": [
+            5.0,
+            4.0,
+            2.7
+          ],
+          "material_absorption_coefficients": {
+            "ceiling": 0.45,
+            "floor": 0.12,
+            "walls": 0.08
+          },
+          "profile_id": "wave64_row096_fixture_small_studio",
+          "surface_materials": {
+            "ceiling": "acoustic_tile",
+            "floor": "hardwood",
+            "walls": "painted_drywall"
+          },
+          "target_rt60_seconds": 0.42
+        },
+        "schema_version": "1.0.0",
+        "source_listener": {
+          "distance_m": 2.45,
+          "listener_position_m": [
+            0.0,
+            0.0,
+            1.6
+          ],
+          "source_position_m": [
+            1.2,
+            2.0,
+            1.5
+          ]
+        },
+        "spatial_renderer_authority_sha256": "2ca06f5b41cdfa698b3f07d13692c36094c06fc276f7a84ac965a83bc996725b",
+        "tracker_id": "TRK-W64-096",
+        "validation": {
+          "decision": "pass",
+          "early_reflection_count": 12,
+          "early_reflections_pass": true,
+          "material_absorption_pass": true,
+          "measured_rt60_seconds": 0.43,
+          "rir_pass": true,
+          "room_geometry_pass": true,
+          "rt60_error_seconds": 0.01,
+          "rt60_pass": true,
+          "wet_source_guard_pass": true
+        },
+        "visual_material_authority_sha256": "0d81e00f12ceb711372ad43916fff521b7fd6ae4aa881705bb5821d0ac426aa2",
+        "wet_source": {
+          "guard_triggered": false,
+          "policy": "dry_render",
+          "source_was_wet": false
+        }
+      },
+      {
+        "compiler_revision": "wave64_row096_room_acoustic_renderer_compiler_v0.1.0",
+        "convolution": {
+          "deterministic": true,
+          "dry_gain": 0.85,
+          "latency_samples": 128,
+          "mode": "partitioned_fft_v1",
+          "wet_gain": 0.35
+        },
+        "decision": {
+          "advisory_only": true,
+          "blocker_codes": [
+            "PRODUCTION_AUTHORITY_NOT_GRANTED",
+            "ROW076_ROW088_ROW089_ROW095_DEPENDENCIES_NOT_ACCEPTED"
+          ],
+          "product_completion": false,
+          "promotion_eligible": false,
+          "row096_acceptance": "fixture_only",
+          "runtime_completion": false,
+          "status": "fixture_ok"
+        },
+        "depth_camera_authority_sha256": "29fd845de97af07694776cd5f8b37035f489b874528e068584274d781361495d",
+        "early_reflections": {
+          "energy_ratio": 0.33,
+          "first_onset_ms": 12.0,
+          "model": "image_source_early_v1",
+          "reflection_count": 8
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-096",
+        "output": {
+          "canonical_pcm_sha256": "fb1fe2d86751c5e0fbc2535ac9b3926a638b884ec637d106ff3619b7a185fd0d",
+          "channels": 2,
+          "duration_seconds": 2.8,
+          "integrated_loudness_lufs": -16.0,
+          "measured_rt60_seconds": 0.39999999999999997,
+          "path": "fixtures/row096/early_reflection_rt60_pass.wav",
+          "peak_absolute": 0.38,
+          "sample_rate_hz": 48000,
+          "sha256": "6cdf317797258ddcdd85cece06908383b7a5b4cac864e8656202efd300974fd5",
+          "true_peak_dbfs": -3.8
+        },
+        "production_authority": false,
+        "registry_revision": "wave64_row096_room_acoustic_renderer_registry_v0.1.0",
+        "render_id": "fixture:early_reflection_rt60_pass",
+        "reverb_dryness_authority_sha256": "a12b1213cfdbf4fe6db7109547778533ccab3877667b5f8a6deb476cbf328ba0",
+        "rir": {
+          "channels": 2,
+          "duration_seconds": 1.2,
+          "rir_asset_id": "fixture:rir:early_reflection_rt60_pass",
+          "rir_sha256": "ec4a913e4d00d386878d39adfdf26142e88525315b7d94e27ea76e77fc34b937",
+          "sample_rate_hz": 48000,
+          "selection_mode": "geometry_material_matched_v1"
+        },
+        "room": {
+          "authority": "registered",
+          "dimensions_m": [
+            5.0,
+            4.0,
+            2.7
+          ],
+          "material_absorption_coefficients": {
+            "ceiling": 0.45,
+            "floor": 0.12,
+            "walls": 0.08
+          },
+          "profile_id": "wave64_row096_fixture_small_studio",
+          "surface_materials": {
+            "ceiling": "acoustic_tile",
+            "floor": "hardwood",
+            "walls": "painted_drywall"
+          },
+          "target_rt60_seconds": 0.42
+        },
+        "schema_version": "1.0.0",
+        "source_listener": {
+          "distance_m": 2.45,
+          "listener_position_m": [
+            0.0,
+            0.0,
+            1.6
+          ],
+          "source_position_m": [
+            1.2,
+            2.0,
+            1.5
+          ]
+        },
+        "spatial_renderer_authority_sha256": "2ca06f5b41cdfa698b3f07d13692c36094c06fc276f7a84ac965a83bc996725b",
+        "tracker_id": "TRK-W64-096",
+        "validation": {
+          "decision": "pass",
+          "early_reflection_count": 12,
+          "early_reflections_pass": true,
+          "material_absorption_pass": true,
+          "measured_rt60_seconds": 0.39999999999999997,
+          "rir_pass": true,
+          "room_geometry_pass": true,
+          "rt60_error_seconds": 0.02,
+          "rt60_pass": true,
+          "wet_source_guard_pass": true
+        },
+        "visual_material_authority_sha256": "0d81e00f12ceb711372ad43916fff521b7fd6ae4aa881705bb5821d0ac426aa2",
+        "wet_source": {
+          "guard_triggered": false,
+          "policy": "dry_render",
+          "source_was_wet": false
+        }
+      },
+      {
+        "compiler_revision": "wave64_row096_room_acoustic_renderer_compiler_v0.1.0",
+        "convolution": {
+          "deterministic": true,
+          "dry_gain": 0.85,
+          "latency_samples": 128,
+          "mode": "partitioned_fft_v1",
+          "wet_gain": 0.35
+        },
+        "decision": {
+          "advisory_only": true,
+          "blocker_codes": [
+            "PRODUCTION_AUTHORITY_NOT_GRANTED",
+            "ROW076_ROW088_ROW089_ROW095_DEPENDENCIES_NOT_ACCEPTED",
+            "WET_SOURCE_REJECT_POLICY"
+          ],
+          "product_completion": false,
+          "promotion_eligible": false,
+          "row096_acceptance": "held",
+          "runtime_completion": false,
+          "status": "blocked"
+        },
+        "depth_camera_authority_sha256": "29fd845de97af07694776cd5f8b37035f489b874528e068584274d781361495d",
+        "early_reflections": {
+          "energy_ratio": 0.25,
+          "first_onset_ms": 9.0,
+          "model": "image_source_early_v1",
+          "reflection_count": 10
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-096",
+        "output": {
+          "canonical_pcm_sha256": "b61b5dad6165d34a0799ac508111cf0610f0dac57ceec79bff46a6ad34ac3604",
+          "channels": 2,
+          "duration_seconds": 2.8,
+          "integrated_loudness_lufs": -16.0,
+          "measured_rt60_seconds": 0.42,
+          "path": "fixtures/row096/reject_wet_source_blocked.wav",
+          "peak_absolute": 0.38,
+          "sample_rate_hz": 48000,
+          "sha256": "7b66808303871b19310186d3065c6ae915ef2d869b45432c665047fcc9a70660",
+          "true_peak_dbfs": -3.8
+        },
+        "production_authority": false,
+        "registry_revision": "wave64_row096_room_acoustic_renderer_registry_v0.1.0",
+        "render_id": "fixture:reject_wet_source_blocked",
+        "reverb_dryness_authority_sha256": "a12b1213cfdbf4fe6db7109547778533ccab3877667b5f8a6deb476cbf328ba0",
+        "rir": {
+          "channels": 2,
+          "duration_seconds": 1.2,
+          "rir_asset_id": "fixture:rir:reject_wet_source_blocked",
+          "rir_sha256": "bffd78286811388e423a74a8154cee61c926c1c2c436d06cfbe404d89ef21167",
+          "sample_rate_hz": 48000,
+          "selection_mode": "geometry_material_matched_v1"
+        },
+        "room": {
+          "authority": "registered",
+          "dimensions_m": [
+            5.0,
+            4.0,
+            2.7
+          ],
+          "material_absorption_coefficients": {
+            "ceiling": 0.45,
+            "floor": 0.12,
+            "walls": 0.08
+          },
+          "profile_id": "wave64_row096_fixture_small_studio",
+          "surface_materials": {
+            "ceiling": "acoustic_tile",
+            "floor": "hardwood",
+            "walls": "painted_drywall"
+          },
+          "target_rt60_seconds": 0.42
+        },
+        "schema_version": "1.0.0",
+        "source_listener": {
+          "distance_m": 2.45,
+          "listener_position_m": [
+            0.0,
+            0.0,
+            1.6
+          ],
+          "source_position_m": [
+            1.2,
+            2.0,
+            1.5
+          ]
+        },
+        "spatial_renderer_authority_sha256": "2ca06f5b41cdfa698b3f07d13692c36094c06fc276f7a84ac965a83bc996725b",
+        "tracker_id": "TRK-W64-096",
+        "validation": {
+          "decision": "blocked",
+          "early_reflection_count": 10,
+          "early_reflections_pass": true,
+          "material_absorption_pass": true,
+          "measured_rt60_seconds": 0.42,
+          "rir_pass": true,
+          "room_geometry_pass": true,
+          "rt60_error_seconds": 0.0,
+          "rt60_pass": true,
+          "wet_source_guard_pass": false
+        },
+        "visual_material_authority_sha256": "0d81e00f12ceb711372ad43916fff521b7fd6ae4aa881705bb5821d0ac426aa2",
+        "wet_source": {
+          "guard_triggered": true,
+          "policy": "reject",
+          "source_was_wet": true
+        }
+      },
+      {
+        "compiler_revision": "wave64_row096_room_acoustic_renderer_compiler_v0.1.0",
+        "convolution": {
+          "deterministic": true,
+          "dry_gain": 0.85,
+          "latency_samples": 128,
+          "mode": "partitioned_fft_v1",
+          "wet_gain": 0.35
+        },
+        "decision": {
+          "advisory_only": true,
+          "blocker_codes": [
+            "MATERIAL_ABSORPTION_MISSING",
+            "PRODUCTION_AUTHORITY_NOT_GRANTED",
+            "ROW076_ROW088_ROW089_ROW095_DEPENDENCIES_NOT_ACCEPTED",
+            "UNKNOWN_ROOM_AUTHORITY"
+          ],
+          "product_completion": false,
+          "promotion_eligible": false,
+          "row096_acceptance": "held",
+          "runtime_completion": false,
+          "status": "blocked"
+        },
+        "depth_camera_authority_sha256": "29fd845de97af07694776cd5f8b37035f489b874528e068584274d781361495d",
+        "early_reflections": {
+          "energy_ratio": 0.0,
+          "first_onset_ms": 0.0,
+          "model": "image_source_early_v1",
+          "reflection_count": 0
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-096",
+        "output": {
+          "canonical_pcm_sha256": "54c02b57114c584a55b7e8a9d0be0b7de0aa56075bab05e5e56304c0c02c5ffb",
+          "channels": 2,
+          "duration_seconds": 2.8,
+          "integrated_loudness_lufs": -16.0,
+          "measured_rt60_seconds": 0.8200000000000001,
+          "path": "fixtures/row096/unknown_room_geometry_blocked.wav",
+          "peak_absolute": 0.38,
+          "sample_rate_hz": 48000,
+          "sha256": "49b3e8ecda551a8669e93f84160610ff023d660e2726a3c7ec66e75e4229db18",
+          "true_peak_dbfs": -3.8
+        },
+        "production_authority": false,
+        "registry_revision": "wave64_row096_room_acoustic_renderer_registry_v0.1.0",
+        "render_id": "fixture:unknown_room_geometry_blocked",
+        "reverb_dryness_authority_sha256": "a12b1213cfdbf4fe6db7109547778533ccab3877667b5f8a6deb476cbf328ba0",
+        "rir": {
+          "channels": 2,
+          "duration_seconds": 1.2,
+          "rir_asset_id": "fixture:rir:unknown_room_geometry_blocked",
+          "rir_sha256": "c845effc2410013d27ce214168dfbc48eeaf969da9c27f16b60aa031c614e7a5",
+          "sample_rate_hz": 48000,
+          "selection_mode": "geometry_material_matched_v1"
+        },
+        "room": {
+          "authority": "unknown",
+          "dimensions_m": [
+            5.0,
+            4.0,
+            2.7
+          ],
+          "material_absorption_coefficients": {
+            "ceiling": 0.0,
+            "floor": 0.0,
+            "walls": 0.0
+          },
+          "profile_id": "wave64_row096_fixture_small_studio",
+          "surface_materials": {
+            "ceiling": "acoustic_tile",
+            "floor": "hardwood",
+            "walls": "painted_drywall"
+          },
+          "target_rt60_seconds": 0.42
+        },
+        "schema_version": "1.0.0",
+        "source_listener": {
+          "distance_m": 2.45,
+          "listener_position_m": [
+            0.0,
+            0.0,
+            1.6
+          ],
+          "source_position_m": [
+            1.2,
+            2.0,
+            1.5
+          ]
+        },
+        "spatial_renderer_authority_sha256": "2ca06f5b41cdfa698b3f07d13692c36094c06fc276f7a84ac965a83bc996725b",
+        "tracker_id": "TRK-W64-096",
+        "validation": {
+          "decision": "blocked",
+          "early_reflection_count": 0,
+          "early_reflections_pass": false,
+          "material_absorption_pass": false,
+          "measured_rt60_seconds": 0.8200000000000001,
+          "rir_pass": false,
+          "room_geometry_pass": false,
+          "rt60_error_seconds": 0.4,
+          "rt60_pass": false,
+          "wet_source_guard_pass": true
+        },
+        "visual_material_authority_sha256": "0d81e00f12ceb711372ad43916fff521b7fd6ae4aa881705bb5821d0ac426aa2",
+        "wet_source": {
+          "guard_triggered": false,
+          "policy": "dry_render",
+          "source_was_wet": false
+        }
+      },
+      {
+        "compiler_revision": "wave64_row096_room_acoustic_renderer_compiler_v0.1.0",
+        "convolution": {
+          "deterministic": true,
+          "dry_gain": 0.85,
+          "latency_samples": 128,
+          "mode": "partitioned_fft_v1",
+          "wet_gain": 0.35
+        },
+        "decision": {
+          "advisory_only": true,
+          "blocker_codes": [
+            "EARLY_REFLECTION_TOLERANCE_FAILED",
+            "PRODUCTION_AUTHORITY_NOT_GRANTED",
+            "RIR_SELECTION_FAILED",
+            "ROW076_ROW088_ROW089_ROW095_DEPENDENCIES_NOT_ACCEPTED",
+            "RT60_TOLERANCE_FAILED"
+          ],
+          "product_completion": false,
+          "promotion_eligible": false,
+          "row096_acceptance": "held",
+          "runtime_completion": false,
+          "status": "blocked"
+        },
+        "depth_camera_authority_sha256": "29fd845de97af07694776cd5f8b37035f489b874528e068584274d781361495d",
+        "early_reflections": {
+          "energy_ratio": 0.05,
+          "first_onset_ms": 120.0,
+          "model": "image_source_early_v1",
+          "reflection_count": 1
+        },
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-096",
+        "output": {
+          "canonical_pcm_sha256": "5726f685f0c84a8fb441c204cea0c83f71d4a48cb9d6b0325d56458abd1e641a",
+          "channels": 2,
+          "duration_seconds": 2.8,
+          "integrated_loudness_lufs": -16.0,
+          "measured_rt60_seconds": 0.64,
+          "path": "fixtures/row096/gate_failure_blocked.wav",
+          "peak_absolute": 0.38,
+          "sample_rate_hz": 48000,
+          "sha256": "fd6b9c3f61ad6193ddc3176ec95434060d47145962be389439a3f9edaab1404c",
+          "true_peak_dbfs": -3.8
+        },
+        "production_authority": false,
+        "registry_revision": "wave64_row096_room_acoustic_renderer_registry_v0.1.0",
+        "render_id": "fixture:gate_failure_blocked",
+        "reverb_dryness_authority_sha256": "a12b1213cfdbf4fe6db7109547778533ccab3877667b5f8a6deb476cbf328ba0",
+        "rir": {
+          "channels": 2,
+          "duration_seconds": 1.2,
+          "rir_asset_id": "fixture:rir:gate_failure_blocked",
+          "rir_sha256": "10b2e73288fe947800b3fc3e47cae8f9adffa34620233ac663aaab7738c81d02",
+          "sample_rate_hz": 48000,
+          "selection_mode": "geometry_material_matched_v1"
+        },
+        "room": {
+          "authority": "registered",
+          "dimensions_m": [
+            5.0,
+            4.0,
+            2.7
+          ],
+          "material_absorption_coefficients": {
+            "ceiling": 0.45,
+            "floor": 0.12,
+            "walls": 0.08
+          },
+          "profile_id": "wave64_row096_fixture_small_studio",
+          "surface_materials": {
+            "ceiling": "acoustic_tile",
+            "floor": "hardwood",
+            "walls": "painted_drywall"
+          },
+          "target_rt60_seconds": 0.42
+        },
+        "schema_version": "1.0.0",
+        "source_listener": {
+          "distance_m": 2.45,
+          "listener_position_m": [
+            0.0,
+            0.0,
+            1.6
+          ],
+          "source_position_m": [
+            1.2,
+            2.0,
+            1.5
+          ]
+        },
+        "spatial_renderer_authority_sha256": "2ca06f5b41cdfa698b3f07d13692c36094c06fc276f7a84ac965a83bc996725b",
+        "tracker_id": "TRK-W64-096",
+        "validation": {
+          "decision": "blocked",
+          "early_reflection_count": 1,
+          "early_reflections_pass": false,
+          "material_absorption_pass": true,
+          "measured_rt60_seconds": 0.64,
+          "rir_pass": false,
+          "room_geometry_pass": true,
+          "rt60_error_seconds": 0.22,
+          "rt60_pass": false,
+          "wet_source_guard_pass": true
+        },
+        "visual_material_authority_sha256": "0d81e00f12ceb711372ad43916fff521b7fd6ae4aa881705bb5821d0ac426aa2",
+        "wet_source": {
+          "guard_triggered": false,
+          "policy": "dry_render",
+          "source_was_wet": false
+        }
+      }
+    ]
+  },
+  "implementation_completion_claimed": false,
+  "item_id": "ITEM-W64-096",
+  "planning_schema_boundary": {
+    "planning_schema_path": "Plan/08_SCHEMAS/wave31_room_acoustics.schema.json",
+    "planning_schema_remains_non_authority": true,
+    "spatial_room_evaluator_reuse_does_not_grant_row096": true,
+    "strict_contract_closes_seven_false_open_cases": true,
+    "strict_contract_schema_path": "Plan/08_SCHEMAS/wave64_row096_room_acoustic_render_manifest.schema.json"
+  },
+  "production_authority": false,
+  "registry_revision": "wave64_row096_room_acoustic_renderer_registry_v0.1.0",
+  "required_gates": [
+    "room_geometry",
+    "material_absorption",
+    "rir",
+    "early_reflections",
+    "rt60",
+    "wet_source_guard"
+  ],
+  "room_acoustic_registry": {
+    "authority": "planning_freeze_not_production_room_acoustic_acceptance",
+    "path": "Plan/10_REGISTRIES/wave64_row096_room_acoustic_renderer_registry.json",
+    "registry_revision": "wave64_row096_room_acoustic_renderer_registry_v0.1.0",
+    "sha256": "a8a7875fffc96b6003a4cf4e2ab584b987b4df70a7f43cf2501c51a6485b6ac7"
+  },
+  "row_complete": false,
+  "runtime_completion_claimed": false,
+  "schema_version": "1.0.0",
+  "status": "HOLD_ROW076_ROW088_ROW089_ROW095_DEPENDENCIES_EVENT_DRIVEN_ROOM_ACOUSTIC_RUNTIME_AND_AUDIO_QA_ABSENT",
+  "strict_schema": {
+    "path": "Plan/08_SCHEMAS/wave64_row096_room_acoustic_render_manifest.schema.json",
+    "sha256": "f120fe823a4118627bd6f5a8fb39facdc66e0165957a4155e211ebc144df48f1"
+  },
+  "tracker_id": "TRK-W64-096"
+}

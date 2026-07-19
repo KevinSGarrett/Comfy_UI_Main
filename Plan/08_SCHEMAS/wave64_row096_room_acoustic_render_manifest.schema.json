@@ -1,0 +1,419 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/wave64_row096_room_acoustic_render_manifest.schema.json",
+  "title": "Wave64 Row096 Fail-Closed Room Acoustic Render Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "tracker_id",
+    "item_id",
+    "compiler_revision",
+    "registry_revision",
+    "render_id",
+    "reverb_dryness_authority_sha256",
+    "depth_camera_authority_sha256",
+    "visual_material_authority_sha256",
+    "spatial_renderer_authority_sha256",
+    "room",
+    "source_listener",
+    "rir",
+    "early_reflections",
+    "convolution",
+    "wet_source",
+    "output",
+    "validation",
+    "is_synthetic",
+    "production_authority",
+    "decision"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "tracker_id": { "type": "string", "const": "TRK-W64-096" },
+    "item_id": { "type": "string", "const": "ITEM-W64-096" },
+    "compiler_revision": {
+      "type": "string",
+      "const": "wave64_row096_room_acoustic_renderer_compiler_v0.1.0"
+    },
+    "registry_revision": {
+      "type": "string",
+      "const": "wave64_row096_room_acoustic_renderer_registry_v0.1.0"
+    },
+    "render_id": { "type": "string", "minLength": 1 },
+    "reverb_dryness_authority_sha256": { "$ref": "#/$defs/sha256" },
+    "depth_camera_authority_sha256": { "$ref": "#/$defs/sha256" },
+    "visual_material_authority_sha256": { "$ref": "#/$defs/sha256" },
+    "spatial_renderer_authority_sha256": { "$ref": "#/$defs/sha256" },
+    "room": { "$ref": "#/$defs/room" },
+    "source_listener": { "$ref": "#/$defs/source_listener" },
+    "rir": { "$ref": "#/$defs/rir" },
+    "early_reflections": { "$ref": "#/$defs/early_reflections" },
+    "convolution": { "$ref": "#/$defs/convolution" },
+    "wet_source": { "$ref": "#/$defs/wet_source" },
+    "output": { "$ref": "#/$defs/output" },
+    "validation": { "$ref": "#/$defs/validation" },
+    "is_synthetic": { "type": "boolean" },
+    "production_authority": { "type": "boolean" },
+    "decision": { "$ref": "#/$defs/top_decision" }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "validation": {
+            "properties": { "decision": { "const": "pass" } },
+            "required": ["decision"]
+          }
+        },
+        "required": ["validation"]
+      },
+      "then": {
+        "properties": {
+          "room": {
+            "properties": {
+              "authority": { "enum": ["measured", "registered"] }
+            },
+            "required": ["authority"]
+          },
+          "wet_source": {
+            "properties": {
+              "policy": {
+                "enum": ["dry_render", "compatible_wet_passthrough", "limited_processing"]
+              }
+            },
+            "required": ["policy"]
+          },
+          "validation": {
+            "properties": {
+              "room_geometry_pass": { "const": true },
+              "material_absorption_pass": { "const": true },
+              "rir_pass": { "const": true },
+              "early_reflections_pass": { "const": true },
+              "rt60_pass": { "const": true },
+              "wet_source_guard_pass": { "const": true }
+            },
+            "required": [
+              "room_geometry_pass",
+              "material_absorption_pass",
+              "rir_pass",
+              "early_reflections_pass",
+              "rt60_pass",
+              "wet_source_guard_pass"
+            ]
+          },
+          "production_authority": { "const": false }
+        },
+        "required": ["room", "wet_source", "validation", "production_authority"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "production_authority": { "const": true }
+        },
+        "required": ["production_authority"]
+      },
+      "then": {
+        "properties": {
+          "is_synthetic": { "const": false },
+          "decision": {
+            "properties": {
+              "status": { "const": "accepted" },
+              "row096_acceptance": { "const": "accepted" },
+              "product_completion": { "const": true },
+              "runtime_completion": { "const": true }
+            },
+            "required": [
+              "status",
+              "row096_acceptance",
+              "product_completion",
+              "runtime_completion"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "is_synthetic": { "const": true }
+        },
+        "required": ["is_synthetic"]
+      },
+      "then": {
+        "properties": {
+          "production_authority": { "const": false },
+          "decision": {
+            "properties": {
+              "product_completion": { "const": false },
+              "runtime_completion": { "const": false },
+              "row096_acceptance": { "enum": ["held", "fixture_only"] }
+            },
+            "required": [
+              "product_completion",
+              "runtime_completion",
+              "row096_acceptance"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "wet_source": {
+            "properties": { "policy": { "const": "reject" } },
+            "required": ["policy"]
+          },
+          "validation": {
+            "properties": { "decision": { "const": "pass" } },
+            "required": ["decision"]
+          }
+        },
+        "required": ["wet_source", "validation"]
+      },
+      "then": false
+    },
+    {
+      "if": {
+        "properties": {
+          "room": {
+            "properties": { "authority": { "const": "unknown" } },
+            "required": ["authority"]
+          },
+          "validation": {
+            "properties": { "decision": { "const": "pass" } },
+            "required": ["decision"]
+          }
+        },
+        "required": ["room", "validation"]
+      },
+      "then": false
+    }
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "vec3": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": { "type": "number" }
+    },
+    "positive_vec3": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": { "type": "number", "exclusiveMinimum": 0 }
+    },
+    "room": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile_id",
+        "dimensions_m",
+        "surface_materials",
+        "material_absorption_coefficients",
+        "target_rt60_seconds",
+        "authority"
+      ],
+      "properties": {
+        "profile_id": { "type": "string", "minLength": 1 },
+        "dimensions_m": { "$ref": "#/$defs/positive_vec3" },
+        "surface_materials": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["floor", "walls", "ceiling"],
+          "properties": {
+            "floor": { "type": "string", "minLength": 1 },
+            "walls": { "type": "string", "minLength": 1 },
+            "ceiling": { "type": "string", "minLength": 1 }
+          }
+        },
+        "material_absorption_coefficients": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["floor", "walls", "ceiling"],
+          "properties": {
+            "floor": { "type": "number", "minimum": 0, "maximum": 1 },
+            "walls": { "type": "number", "minimum": 0, "maximum": 1 },
+            "ceiling": { "type": "number", "minimum": 0, "maximum": 1 }
+          }
+        },
+        "target_rt60_seconds": { "type": "number", "exclusiveMinimum": 0 },
+        "authority": {
+          "type": "string",
+          "enum": ["measured", "registered", "unknown"]
+        }
+      }
+    },
+    "source_listener": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_position_m", "listener_position_m", "distance_m"],
+      "properties": {
+        "source_position_m": { "$ref": "#/$defs/vec3" },
+        "listener_position_m": { "$ref": "#/$defs/vec3" },
+        "distance_m": { "type": "number", "exclusiveMinimum": 0 }
+      }
+    },
+    "rir": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "selection_mode",
+        "rir_asset_id",
+        "rir_sha256",
+        "sample_rate_hz",
+        "channels",
+        "duration_seconds"
+      ],
+      "properties": {
+        "selection_mode": { "type": "string", "minLength": 1 },
+        "rir_asset_id": { "type": "string", "minLength": 1 },
+        "rir_sha256": { "$ref": "#/$defs/sha256" },
+        "sample_rate_hz": { "type": "integer", "minimum": 8000 },
+        "channels": { "type": "integer", "minimum": 1, "maximum": 8 },
+        "duration_seconds": { "type": "number", "exclusiveMinimum": 0 }
+      }
+    },
+    "early_reflections": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model",
+        "reflection_count",
+        "first_onset_ms",
+        "energy_ratio"
+      ],
+      "properties": {
+        "model": { "type": "string", "minLength": 1 },
+        "reflection_count": { "type": "integer", "minimum": 0 },
+        "first_onset_ms": { "type": "number", "minimum": 0 },
+        "energy_ratio": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "convolution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "dry_gain", "wet_gain", "latency_samples", "deterministic"],
+      "properties": {
+        "mode": { "type": "string", "minLength": 1 },
+        "dry_gain": { "type": "number", "minimum": 0 },
+        "wet_gain": { "type": "number", "minimum": 0 },
+        "latency_samples": { "type": "integer", "minimum": 0 },
+        "deterministic": { "type": "boolean" }
+      }
+    },
+    "wet_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["policy", "source_was_wet", "guard_triggered"],
+      "properties": {
+        "policy": {
+          "type": "string",
+          "enum": [
+            "dry_render",
+            "compatible_wet_passthrough",
+            "limited_processing",
+            "reject"
+          ]
+        },
+        "source_was_wet": { "type": "boolean" },
+        "guard_triggered": { "type": "boolean" }
+      }
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "canonical_pcm_sha256",
+        "sample_rate_hz",
+        "channels",
+        "duration_seconds",
+        "peak_absolute",
+        "true_peak_dbfs",
+        "integrated_loudness_lufs",
+        "measured_rt60_seconds"
+      ],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "canonical_pcm_sha256": { "$ref": "#/$defs/sha256" },
+        "sample_rate_hz": { "type": "integer", "minimum": 8000 },
+        "channels": { "type": "integer", "minimum": 1, "maximum": 8 },
+        "duration_seconds": { "type": "number", "exclusiveMinimum": 0 },
+        "peak_absolute": { "type": "number", "minimum": 0 },
+        "true_peak_dbfs": { "type": "number" },
+        "integrated_loudness_lufs": { "type": "number" },
+        "measured_rt60_seconds": { "type": "number", "exclusiveMinimum": 0 }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "room_geometry_pass",
+        "material_absorption_pass",
+        "rir_pass",
+        "early_reflections_pass",
+        "rt60_pass",
+        "wet_source_guard_pass",
+        "measured_rt60_seconds",
+        "rt60_error_seconds",
+        "early_reflection_count",
+        "decision"
+      ],
+      "properties": {
+        "room_geometry_pass": { "type": "boolean" },
+        "material_absorption_pass": { "type": "boolean" },
+        "rir_pass": { "type": "boolean" },
+        "early_reflections_pass": { "type": "boolean" },
+        "rt60_pass": { "type": "boolean" },
+        "wet_source_guard_pass": { "type": "boolean" },
+        "measured_rt60_seconds": { "type": "number", "exclusiveMinimum": 0 },
+        "rt60_error_seconds": { "type": "number", "minimum": 0 },
+        "early_reflection_count": { "type": "integer", "minimum": 0 },
+        "decision": {
+          "type": "string",
+          "enum": ["pass", "blocked"]
+        }
+      }
+    },
+    "top_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "row096_acceptance",
+        "product_completion",
+        "runtime_completion",
+        "promotion_eligible",
+        "blocker_codes",
+        "advisory_only"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["fixture_ok", "blocked", "accepted"]
+        },
+        "row096_acceptance": {
+          "type": "string",
+          "enum": ["held", "fixture_only", "accepted"]
+        },
+        "product_completion": { "type": "boolean" },
+        "runtime_completion": { "type": "boolean" },
+        "promotion_eligible": { "type": "boolean" },
+        "blocker_codes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "advisory_only": { "type": "boolean" }
+      }
+    }
+  }
+}
