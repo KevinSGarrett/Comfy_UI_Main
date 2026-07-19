@@ -1,0 +1,409 @@
+{
+  "schema_version": 1,
+  "evidence_id": "W64-ROW075-AUDIO-QUALITY-DEFECT-CURRENT-DELTA-20260719",
+  "created_at": "2026-07-19T03:26:23.7207842Z",
+  "source_commit": "2ecf3d991ca16d9a4ca419dadfb3b7e586e8a617",
+  "prior_row_commit": "2ecf3d991ca16d9a4ca419dadfb3b7e586e8a617",
+  "prior_row_commit_is_current_head": true,
+  "tracker_id": "TRK-W64-075",
+  "item_id": "ITEM-W64-075",
+  "status": "HOLD_DEPENDENCIES_CANONICAL_PCM_FEATURE_PIPELINE_AND_LIBRARY_DEFECT_CLASSIFIER_ABSENT",
+  "classification": "ROW075_CURRENT_DELTA_METADATA_AND_MIX_LEVEL_TECHNIQUES_ONLY_NO_FALSE_COMPLETION",
+  "row_complete": false,
+  "implementation_completion_claimed": false,
+  "runtime_completion_claimed": false,
+  "qa_decision": "hold_with_bounded_reuse_of_inventory_visibility_metadata_checks_mix_waveform_checks_and_defect_rejection_shapes",
+  "intent": {
+    "intent_id": "intent_20260719T032251244Z_row075_audio_quality_defect_current_delta_da943e3d",
+    "authority_class": "codex_only",
+    "routing": null,
+    "worker_wake_count": 0
+  },
+  "row075_contract": {
+    "status": "Planned_Autonomous_Implementation_Required",
+    "priority": "P1",
+    "risk": "HIGH",
+    "dependency_prerequisites": [
+      "TRK-W64-070",
+      "TRK-W64-071"
+    ],
+    "validation_methods": [
+      "clipping",
+      "noise",
+      "dropout",
+      "truncation",
+      "codec_damage",
+      "visibility_preserved"
+    ],
+    "output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_audio_defect_classification.json",
+    "output_artifact_exists": false,
+    "completion_criteria": "Severe technical defects are detected and remove production eligibility without hiding inventory records.",
+    "required_defect_classes": [
+      "clipping",
+      "hiss",
+      "hum",
+      "clicks",
+      "dropouts",
+      "codec_damage",
+      "excessive_noise",
+      "unintelligible_speech_contamination",
+      "severe_pre_reverb",
+      "truncation",
+      "unsuitable_background_layers"
+    ],
+    "required_label_authority": [
+      "defect_code",
+      "severity",
+      "confidence",
+      "evidence",
+      "detector_revision",
+      "threshold_revision",
+      "source_and_canonical_pcm_hash_binding"
+    ],
+    "required_policy_behavior": [
+      "severe defects remove production eligibility",
+      "defective records remain visible in inventory",
+      "unknown and ambiguous classifications fail closed",
+      "source bytes remain unchanged"
+    ],
+    "runtime_proof_required": true,
+    "ec2_allowed": false,
+    "final_render_gate": "BLOCKED_UNTIL_EXACT_ROW_IMPLEMENTATION_RUNTIME_QA_AND_AUTHORITY_PASS"
+  },
+  "tracker_item_requirements_parity": {
+    "tracker_path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_TRACKER_ROWS.csv",
+    "tracker_sha256": "a698034d4d61788a9c630434f7aac75e3f7b1bf656319cfe43a5b2ce26d625de",
+    "tracker_bytes": 159309,
+    "item_path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ITEM_ROWS.csv",
+    "item_sha256": "f4a401d828aff69dbe7e005d6592a2af86edc936a0e6c1bae2f764345a9b8489",
+    "item_bytes": 111386,
+    "requirements_tracker_path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
+    "requirements_item_path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
+    "requirements_sha256": "077eaf1dfc1cb0d990660b2d9ec7073bc2b4acc1be47a94e9a0ea65eb1924acc",
+    "requirements_bytes": 48422,
+    "requirements_copies_byte_identical": true,
+    "tracker_item_title_match": true,
+    "tracker_item_status_match": true,
+    "tracker_item_acceptance_match": true,
+    "tracker_item_gate_match": true,
+    "tracker_item_dependency_match": true,
+    "git_state": "untracked_preserved_unaccepted"
+  },
+  "source_authority": [
+    {
+      "path": "Plan/00_PROJECT_CONTROL/WAVE64_AUTONOMOUS_VIDEO_TO_AUDIO_AND_SOUND_GENERATION_MASTER_PLAN.md",
+      "sha256": "6f1b5059b686a81d866f61f3bada74ca673a43db2423241d500b024ecb6a1a67",
+      "bytes": 25625,
+      "citation": "Row075 Audio quality and defect classification, lines 153-158",
+      "git_state": "untracked_preserved_unaccepted"
+    },
+    {
+      "path": "Plan/02_TARGET_ARCHITECTURE/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ARCHITECTURE.md",
+      "sha256": "3aef5be8b48808a69fe70c4b61bb4de6f7e1086c670c1ce9c817ebb4a1f6ae9b",
+      "bytes": 7078,
+      "git_state": "untracked_preserved_unaccepted"
+    },
+    {
+      "path": "Plan/05_AUDIO_SYSTEM/WAVE64_AUTONOMOUS_SOUND_LIBRARY_GENERATION_AND_QA_PLAN.md",
+      "sha256": "63bea08b4e2209100cc875b60bfad7b2d2e2b0636c5643aaa4410e6f1b1fce1c",
+      "bytes": 5362,
+      "git_state": "untracked_preserved_unaccepted"
+    },
+    {
+      "path": "Plan/Instructions/QA/AUTONOMOUS_VIDEO_TO_AUDIO_AND_GENERATED_SOUND_QA_PROTOCOL.md",
+      "sha256": "ed5773fd5f83ac5c71e31983eab9fb8d0362f2544518c37b41f7c51b95c82181",
+      "bytes": 3801,
+      "git_state": "untracked_preserved_unaccepted"
+    }
+  ],
+  "dependency_authority": [
+    {
+      "tracker_id": "TRK-W64-070",
+      "commit": "7a8223219d383ccb9b568a2a54e5852b0e9cbf9f",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_CANONICAL_AUDIO_DECODE_CURRENT_DELTA_20260719.json",
+      "current_delta_sha256": "b08ed6005bf18da6f4f26efc1b2b2c1d629842d3a4fc10920e3ef323eac5d562",
+      "current_delta_bytes": 14013,
+      "current_delta_status": "HOLD_CONTAINER_METADATA_REUSABLE_CANONICAL_DECODE_IMPLEMENTATION_AND_AUTHORITY_ABSENT",
+      "row_complete": false,
+      "dependency_satisfied": false,
+      "reason": "Codec damage, clipping, noise, dropout, and truncation must be evaluated against deterministic canonical PCM and exact decode truth; Row070 has no accepted canonical decoder or full-library decode proof."
+    },
+    {
+      "tracker_id": "TRK-W64-071",
+      "commit": "9a8e45d30da7603c8c1262cc858ee779b09c93cd",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-071_WAVEFORM_FEATURE_EXTRACTION_CURRENT_DELTA_20260719.json",
+      "current_delta_sha256": "790f6689893c883692d146b2ceedf7daa69e2d2f4079749b943e4eff9b16444f",
+      "current_delta_bytes": 16710,
+      "current_delta_status": "HOLD_ROW070_CANONICAL_DECODE_AND_VERSIONED_FULL_FEATURE_PIPELINE_ABSENT",
+      "row_complete": false,
+      "dependency_satisfied": false,
+      "reason": "Noise, hum, click, dropout, truncation, speech contamination, and pre-reverb classifiers require accepted versioned waveform and spectral features; Row071 currently preserves techniques only."
+    }
+  ],
+  "retained_index_input_boundary": {
+    "path": "runtime_artifacts/audio_asset_indexes/audio_downloads_functional_20260715T095712-0500/audio_pack_functional_index.jsonl",
+    "sha256": "7301243a364025dbd23907aee20ee8593d5897caa83d38391026ad42da6d17ec",
+    "bytes": 38266398,
+    "record_count": 39771,
+    "read_only_scan_performed": true,
+    "source_audio_opened_or_decoded": false,
+    "quality_defects_field_count": 39771,
+    "records_with_nonempty_quality_defects": 0,
+    "observed_defect_counts": {},
+    "row075_field_presence_counts": {
+      "quality_defects": 39771,
+      "quality": 0,
+      "defect_confidence": 0,
+      "defect_evidence": 0,
+      "production_eligibility": 0,
+      "visibility_preserved": 0
+    },
+    "content_based_suppression": false,
+    "duplicate_audio_file_count": 9909,
+    "unique_audio_sha256_count": 29862,
+    "index_summary_path": "runtime_artifacts/audio_asset_indexes/audio_downloads_functional_20260715T095712-0500/index_summary.json",
+    "index_summary_sha256": "f79da9c1714e5e77b77edb8c9e02d109b069a3938c71fe801f09ab287ebef513",
+    "index_summary_bytes": 2442,
+    "interpretation": "Inventory visibility is preserved and every retained row exposes a quality_defects array, but an all-empty field set is not evidence that 39,771 assets were waveform-classified or defect-free.",
+    "scope": "Existing retained JSONL and summary bytes only. No external source inventory, audio decode, waveform feature extraction, playback, defect inference, index rebuild, source suppression, or runtime mutation was performed."
+  },
+  "metadata_indexer_boundary": {
+    "path": "Plan/07_IMPLEMENTATION/scripts/build_audio_pack_functional_index.py",
+    "sha256": "d958bde4c7bd79b9ff1fdcffd787d074fea84e9f0ae4d48b9a56f93f54a1736c",
+    "bytes": 17598,
+    "git_state": "tracked_clean",
+    "implemented_checks": [
+      "metadata parser failure",
+      "non-positive or missing duration",
+      "missing sample rate",
+      "missing channel count",
+      "multichannel requires mix policy",
+      "nonstandard sample rate"
+    ],
+    "implementation_technique": "Mutagen container metadata inspection plus deterministic record retention and source hash inventory.",
+    "does_not_decode_canonical_pcm": true,
+    "does_not_measure_waveform_or_spectrum": true,
+    "missing_row075_classes": [
+      "clipping",
+      "hiss",
+      "hum",
+      "clicks",
+      "dropouts",
+      "codec_damage_beyond_metadata_parse_failure",
+      "excessive_noise",
+      "speech_contamination",
+      "pre_reverb",
+      "truncation",
+      "unsuitable_background_layers"
+    ],
+    "decision": "inventory_visibility_and_metadata_checks_reusable_not_row075_classifier"
+  },
+  "planned_primary_quality_schema": {
+    "path": "Plan/08_SCHEMAS/audio_asset_intelligence_record.schema.json",
+    "sha256": "42b7aec3b9595c153de3482290d1dfe715a082d4d5f85823f4afa6a162e0cc1f",
+    "bytes": 4323,
+    "git_state": "untracked_preserved_unaccepted",
+    "quality_required_fields": [
+      "decision",
+      "defects"
+    ],
+    "quality_decision_enum": [
+      "eligible",
+      "limited",
+      "ineligible",
+      "unknown"
+    ],
+    "defects_item_type": "string",
+    "defects_min_items_declared": false,
+    "empty_defects_valid": true,
+    "missing_required_defect_fields": [
+      "code taxonomy",
+      "severity",
+      "confidence",
+      "evidence spans and metrics",
+      "detector and threshold revision",
+      "source and canonical PCM bindings",
+      "production eligibility policy reason"
+    ],
+    "decision": "eligibility_and_defect_container_shape_reusable_not_row075_label_contract"
+  },
+  "reusable_adjacent_quality_techniques": [
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_global_audio_review.py",
+      "sha256": "1cff81e0654b1db565a3d9d1ad115dc81d568e212580c215acce2a2b9bd989a1",
+      "bytes": 73436,
+      "git_state": "tracked_clean",
+      "implemented_checks": [
+        "per-channel clipping ratio and clipping-run threshold",
+        "sample-delta click peak and ratio",
+        "active-window silence and dropout duration",
+        "loudness jump",
+        "channel imbalance",
+        "baseline-relative single-channel clipping and dropout regression"
+      ],
+      "registry_path": "Plan/10_REGISTRIES/wave64_global_audio_review_gate_rules.json",
+      "registry_sha256": "958a74b23772f522172f2b161c77b6d0cec2095dc33a2d8ca3febf3783b185ca",
+      "registry_bytes": 1356,
+      "test_path": "Plan/Instructions/QA/Scripts/test_wave64_global_audio_review_strict.py",
+      "test_sha256": "34d2988bd03c91d7611f0ceac08a3672c57fce96b1b07d182a294441cf44b9d5",
+      "test_bytes": 52985,
+      "test_count_source_audit": 33,
+      "direct_row075_regression_name": "test_single_channel_clipping_and_dropout_regressions",
+      "limit": "This is a candidate-mix versus baseline reviewer with authored active windows. It does not scan the retained library, emit calibrated per-asset defect labels, or cover codec damage, hiss, hum, speech contamination, pre-reverb, truncation, and unsuitable backgrounds.",
+      "decision": "waveform_metric_techniques_reusable_not_library_classifier_or_runtime_proof"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_strict_audio_artifact_review.py",
+      "sha256": "b3fceae2a55a7b0bd9597d020299a5be841894e3c334e749a48e982d1886d5d4",
+      "bytes": 64814,
+      "git_state": "tracked_clean",
+      "implemented_checks": [
+        "consume defect code severity and description from a signed playback proof",
+        "block configured codes and critical or high severities",
+        "bind playback proof to exact audio and review authority"
+      ],
+      "registry_path": "Plan/10_REGISTRIES/wave64_strict_audio_review_authority_registry.json",
+      "registry_sha256": "1ba4acdb99aa6b5dcbbb78e896a204f9eed1f28a49ac66b5a9c47a72606fc8f0",
+      "registry_bytes": 3288,
+      "playback_schema_path": "Plan/08_SCHEMAS/wave64_human_playback_review_proof.schema.json",
+      "playback_schema_sha256": "c05bdb34cd680703979f349511bfa78ed9a8f529cfacc04964c933e6f0d90692",
+      "playback_schema_bytes": 2200,
+      "test_path": "Plan/Instructions/QA/Scripts/test_wave64_strict_audio_artifact_review.py",
+      "test_sha256": "aa00dc784b108da7d607fb9375ebce03da16ff1e27dad8c328d590e2bf19f94d",
+      "test_bytes": 58802,
+      "test_count_source_audit": 53,
+      "limit": "This validates externally supplied mix/playback defects and promotion authority. It is not an autonomous detector, the playback defect shape requires code/severity/description only, and it does not require confidence or machine evidence spans.",
+      "decision": "blocking_defect_policy_and_proof_binding_reusable_not_row075_detection"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/score_wave30_audio_qa.py",
+      "sha256": "6feea4eb144624b0b9c2698bcbd2a0548a187c273fd9ea0605fc6334655c91d1",
+      "bytes": 29194,
+      "git_state": "tracked_clean",
+      "implemented_checks": [
+        "reject declared clipping PASS when clipping_detected is true",
+        "reject clipping PASS above true-peak limit",
+        "bind technical gate status to mix manifest and proof"
+      ],
+      "test_path": "Plan/Instructions/QA/Scripts/test_wave30_audio_pipeline_strict.py",
+      "test_sha256": "785f20c271c16f49b59b6a428f4941cec892616cb9c038ce330b23b68ccd3d80",
+      "test_bytes": 36078,
+      "test_count_source_audit": 14,
+      "limit": "The scorer checks the consistency of declared mix QA; it does not derive defects from source audio or classify the retained asset library.",
+      "decision": "declared_gate_consistency_reusable_not_row075_detector"
+    }
+  ],
+  "planning_only_coverage": {
+    "builder_path": "Plan/07_IMPLEMENTATION/scripts/build_wave64_autonomous_sound_intelligence_control_package.py",
+    "builder_sha256": "62441dab915e5d277963aa58f579ee8a9190a4f3d58fcceab2b252426524f593",
+    "builder_bytes": 37998,
+    "builder_git_state": "untracked_preserved_unaccepted",
+    "registry_path": "Plan/10_REGISTRIES/wave64_autonomous_sound_intelligence_work_package_registry.json",
+    "registry_sha256": "d4ba802a94920e462fed578790e0508f140d5d7b0cf64736dcc86f47fb0e709e",
+    "registry_bytes": 13741,
+    "registry_git_state": "untracked_preserved_unaccepted",
+    "row075_registry_status": "Planned_Autonomous_Implementation_Required",
+    "direct_implementation_or_runtime_evidence_emitted": false,
+    "decision": "planning_coverage_only"
+  },
+  "acceptance_gaps": [
+    "accepted Row070 deterministic canonical PCM decode and failure taxonomy",
+    "accepted Row071 versioned waveform and spectral feature pipeline",
+    "frozen Row075 defect taxonomy with severity and production-eligibility mapping",
+    "deterministic per-asset analyzer bound to source and canonical PCM hashes",
+    "clipping and distortion detector with calibrated amplitude and run thresholds",
+    "hiss hum and excessive-noise detector with calibrated spectral and level evidence",
+    "click and pop detector with exact sample spans",
+    "dropout and unexpected-silence detector with event-aware evidence",
+    "truncation detector that distinguishes intentional cut from lost attack or tail",
+    "codec-damage detector that distinguishes decode failure container damage and audible corruption",
+    "unintelligible-speech and unsuitable-speech-or-music contamination detector",
+    "severe-pre-reverb and unsuitable-background-layer detector",
+    "confidence calibration against labeled positive negative ambiguous and boundary fixtures",
+    "per-label evidence including sample ranges metrics thresholds and method revision",
+    "fail-closed unknown and partial-analysis behavior",
+    "production eligibility demotion while preserving every source inventory record",
+    "full retained-library reconciliation with one terminal quality decision per input",
+    "tracker-declared direct runtime QA and evidence artifact"
+  ],
+  "downstream_holds": [
+    {
+      "tracker_id": "TRK-W64-078",
+      "task_name": "Audio tagging and technical caption ensemble",
+      "reason": "The ensemble cannot treat defect labels as an independent technical signal until Row075 emits calibrated, evidence-bound labels and unknowns."
+    },
+    {
+      "tracker_id": "TRK-W64-093",
+      "task_name": "Canonical non-destructive audio clip preparation",
+      "reason": "Clip preparation cannot claim production eligibility for a source segment until severe source defects are classified without removing its inventory lineage."
+    },
+    {
+      "tracker_id": "TRK-W64-103",
+      "task_name": "Generated-sound technical, semantic, timing, acoustic, and uniqueness QA",
+      "reason": "Generated-sound QA depends on the same accepted technical defect semantics and evidence contract."
+    },
+    {
+      "tracker_id": "TRK-W64-112",
+      "task_name": "Autonomous sound intelligence production acceptance and full-system certification",
+      "reason": "Full-system certification explicitly requires Row075 completion."
+    }
+  ],
+  "checks": [
+    {"name": "tracker_item_contract_parity", "status": "PASS"},
+    {"name": "direct_row075_output_absent", "status": "PASS"},
+    {"name": "row070_dependency_complete", "status": "FAIL"},
+    {"name": "row071_dependency_complete", "status": "FAIL"},
+    {"name": "retained_inventory_record_count_bound", "status": "PASS"},
+    {"name": "retained_inventory_visibility_preserved", "status": "PASS"},
+    {"name": "retained_quality_defects_field_present", "status": "PASS"},
+    {"name": "retained_nonempty_defect_labels_present", "status": "FAIL"},
+    {"name": "metadata_quality_checks_reusable", "status": "PASS"},
+    {"name": "canonical_pcm_library_classifier_present", "status": "FAIL"},
+    {"name": "clipping_click_dropout_mix_techniques_reusable", "status": "PASS"},
+    {"name": "mix_reviewer_is_library_classifier", "status": "FAIL"},
+    {"name": "blocking_defect_rejection_shape_reusable", "status": "PASS"},
+    {"name": "defect_taxonomy_complete", "status": "FAIL"},
+    {"name": "defect_confidence_required", "status": "FAIL"},
+    {"name": "defect_evidence_spans_required", "status": "FAIL"},
+    {"name": "severe_defect_production_demotion_implemented_for_library", "status": "FAIL"},
+    {"name": "full_library_runtime_reconciliation_present", "status": "FAIL"},
+    {"name": "source_audio_or_runtime_mutated_by_this_audit", "status": "PASS", "observed": false},
+    {"name": "row075_completion_claim_safe", "status": "FAIL"}
+  ],
+  "test_and_runtime_boundary": {
+    "source_tests_audited": true,
+    "tests_executed_for_this_delta": false,
+    "reason_tests_not_executed": "No implementation bytes changed and existing adjacent tests do not establish the missing full-library Row075 classifier or runtime proof.",
+    "audio_runtime_invoked": false,
+    "source_audio_read_or_decoded": false,
+    "ec2_invoked": false,
+    "docker_invoked": false,
+    "wsl_invoked": false,
+    "provider_calls": 0,
+    "wrapper_calls": 0,
+    "scheduled_task_wakes": 0
+  },
+  "scheduler_and_worker_containment": {
+    "codex_automations_modified": false,
+    "windows_worker_tasks_modified": false,
+    "mask_maintenance_tasks_modified": false,
+    "ec2_read_only_safety_monitor_modified": false,
+    "worker_control_paths_modified": false,
+    "queued_or_running_worker_scope_duplicated": false,
+    "containment_note": "The incident containment state remains untouched. This evidence is Codex final-authority PM/QA work only."
+  },
+  "preservation_boundary": {
+    "only_new_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_AUDIO_QUALITY_DEFECT_CURRENT_DELTA_20260719.json",
+    "queued_worker_scopes_preserved": true,
+    "flux2_dirty_paths_preserved": true,
+    "portfolio_reconciliation_paths_preserved": true,
+    "worker_control_snapshots_preserved": true,
+    "unrelated_dirty_and_untracked_paths_preserved": true,
+    "retained_audio_index_preserved": true
+  },
+  "hold_decision": {
+    "decision": "HOLD_ROW075_NO_FALSE_COMPLETION",
+    "reason": "The repository contains useful metadata, mix-waveform, and blocking-defect policy techniques, but no accepted dependency chain, per-asset canonical-PCM classifier, calibrated confidence/evidence taxonomy, or reconciled full-library runtime proof. The all-empty retained quality_defects arrays cannot establish defect-free audio.",
+    "safe_next_action": "After Rows070 and 071 are accepted, implement one bounded Row075 classifier that is hash-bound to source and canonical PCM; emits a frozen defect taxonomy with severity confidence evidence sample spans detector and threshold revisions; covers clipping distortion hiss hum clicks dropouts truncation codec damage excessive noise speech or music contamination severe pre-reverb and unsuitable backgrounds; demotes severe defects while preserving inventory visibility; validates labeled positive negative ambiguous and boundary fixtures; reconciles all 39,771 retained inputs or records exact blockers; and emits the tracker-declared runtime evidence. Reuse the existing inventory, mix-waveform, and blocking-policy techniques only within their proven boundaries. Continue independent Codex PM/QA work meanwhile."
+  }
+}
