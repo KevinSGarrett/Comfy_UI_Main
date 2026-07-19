@@ -1,0 +1,330 @@
+{
+  "schema_version": "1.0.0",
+  "evidence_id": "TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719",
+  "created_at": "2026-07-19T06:19:19.2692732Z",
+  "source_commit": "add3984653c5a3a6e52e224c045055e3a615b9c7",
+  "tracker_id": "TRK-W64-091",
+  "item_id": "ITEM-W64-091",
+  "classification": "ROW091_CODEX_FINAL_AUTHORITY_CURRENT_DELTA_AUDIT",
+  "status": "HOLD_DEPENDENCIES_PRODUCTION_VISUAL_EVENT_COMPILER_STRICT_SCHEMA_COVERAGE_RUNTIME_AND_COMBINED_REVIEW_ABSENT",
+  "row_complete": false,
+  "implementation_completion_claimed": false,
+  "runtime_completion_claimed": false,
+  "qa_decision": "FAIL_CLOSED_EXISTING_WAVE30_STACK_IS_USEFUL_DOWNSTREAM_AUTHORITY_BUT_DOES_NOT_IMPLEMENT_OR_CERTIFY_ROW091",
+  "row_contract": {
+    "title": "Canonical timed visual audio-event manifest compiler",
+    "priority": "P0",
+    "risk_level": "CRITICAL",
+    "dependencies": ["TRK-W64-084", "TRK-W64-090"],
+    "completion_criteria": "Every expected audible event is evidenced, intentionally silent, or explicitly blocked with frame and sample anchors.",
+    "required_gates": [
+      "event_traceability",
+      "frame_anchor",
+      "sample_anchor",
+      "expected_layers",
+      "silence_decision",
+      "coverage"
+    ],
+    "visual_review_required": true,
+    "visual_review_method": "combined_frame_contact_audio_review",
+    "runtime_proof_required": true,
+    "ec2_allowed": false,
+    "required_output": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_visual_audio_event_manifest.json",
+    "required_output_exists": false
+  },
+  "tracker_item_requirements_parity": {
+    "tracker_item_semantically_equal": true,
+    "requirements_copies_byte_equal": true,
+    "tracker": {
+      "path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_TRACKER_ROWS.csv",
+      "sha256": "a698034d4d61788a9c630434f7aac75e3f7b1bf656319cfe43a5b2ce26d625de",
+      "bytes": 159309
+    },
+    "item": {
+      "path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ITEM_ROWS.csv",
+      "sha256": "f4a401d828aff69dbe7e005d6592a2af86edc936a0e6c1bae2f764345a9b8489",
+      "bytes": 111386
+    },
+    "tracker_requirements": {
+      "path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
+      "sha256": "077eaf1dfc1cb0d990660b2d9ec7073bc2b4acc1be47a94e9a0ea65eb1924acc",
+      "bytes": 48422
+    },
+    "item_requirements": {
+      "path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
+      "sha256": "077eaf1dfc1cb0d990660b2d9ec7073bc2b4acc1be47a94e9a0ea65eb1924acc",
+      "bytes": 48422
+    }
+  },
+  "source_authority": [
+    {
+      "path": "Plan/00_PROJECT_CONTROL/WAVE64_AUTONOMOUS_VIDEO_TO_AUDIO_AND_SOUND_GENERATION_MASTER_PLAN.md",
+      "sha256": "6f1b5059b686a81d866f61f3bada74ca673a43db2423241d500b024ecb6a1a67",
+      "bytes": 25625,
+      "citation_lines": "249-254"
+    },
+    {
+      "path": "Plan/02_TARGET_ARCHITECTURE/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ARCHITECTURE.md",
+      "sha256": "3aef5be8b48808a69fe70c4b61bb4de6f7e1086c670c1ce9c817ebb4a1f6ae9b",
+      "bytes": 7078
+    },
+    {
+      "path": "Plan/05_AUDIO_SYSTEM/WAVE64_AUTONOMOUS_SOUND_LIBRARY_GENERATION_AND_QA_PLAN.md",
+      "sha256": "63bea08b4e2209100cc875b60bfad7b2d2e2b0636c5643aaa4410e6f1b1fce1c",
+      "bytes": 5362
+    },
+    {
+      "path": "Plan/Instructions/QA/AUTONOMOUS_VIDEO_TO_AUDIO_AND_GENERATED_SOUND_QA_PROTOCOL.md",
+      "sha256": "ed5773fd5f83ac5c71e31983eab9fb8d0362f2544518c37b41f7c51b95c82181",
+      "bytes": 3801
+    }
+  ],
+  "dependency_authority": {
+    "dependency_count": 2,
+    "complete_dependency_count": 0,
+    "all_dependencies_complete": false,
+    "dependencies": [
+      {
+        "tracker_id": "TRK-W64-084",
+        "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json",
+        "sha256": "397480d385ab8dc88d696eee4c6c8feeb548b682f568cce82afc1e7b38e97dd1",
+        "bytes": 23248,
+        "row_complete": false,
+        "status": "HOLD_DEPENDENCY_CANONICAL_TIMELINE_IMPLEMENTATION_VFR_CUT_ROUNDTRIP_TOLERANCE_MUX_REPLAY_AND_VISUAL_RUNTIME_PROOF_ABSENT"
+      },
+      {
+        "tracker_id": "TRK-W64-090",
+        "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-090_CONTACT_INFERENCE_OWNERSHIP_CURRENT_DELTA_20260719.json",
+        "sha256": "a655d09cc83efc9835d6bdd0b9c7ae5bc328afc4f8d1ba7aac1d737445e28c0c",
+        "bytes": 35843,
+        "row_complete": false,
+        "status": "HOLD_ALL_FIVE_DEPENDENCIES_AND_DIRECT_VISUAL_CONTACT_INFERENCE_TIMING_FORCE_OWNERSHIP_CALIBRATION_AND_RUNTIME_AUTHORITY_ABSENT"
+      }
+    ],
+    "adjacent_correction": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/WAVE22_CONTACT_GRAPH_FAIL_CLOSED_CORRECTION_20260719.json",
+      "sha256": "675e832df6aceb1e8326e781d5bb17618a4285f90e01d5febf214f60b093c1d8",
+      "bytes": 6882,
+      "classification": "WAVE22_CONTACT_GRAPH_FAIL_CLOSED_CORRECTION_PASS",
+      "scope": "Closes the legacy contact declaration validator and scorer coercion defect only; it does not complete visual inference or Row090."
+    }
+  },
+  "planned_visual_manifest_assets": {
+    "tracked_at_source_commit": false,
+    "ownership_boundary": "Present as preserved untracked autonomous-sound package bytes and not modified by this audit.",
+    "assets": [
+      {
+        "path": "Plan/08_SCHEMAS/visual_audio_event_manifest.schema.json",
+        "sha256": "1c58053d0c8005627c63ae820b4ff726a844daa2d422a5bb732b4240bd2bde07",
+        "bytes": 3019
+      },
+      {
+        "path": "Plan/07_IMPLEMENTATION/scripts/build_wave64_autonomous_sound_intelligence_control_package.py",
+        "sha256": "62441dab915e5d277963aa58f579ee8a9190a4f3d58fcceab2b252426524f593",
+        "bytes": 37998
+      },
+      {
+        "path": "Plan/10_REGISTRIES/wave64_autonomous_sound_intelligence_work_package_registry.json",
+        "sha256": "d4ba802a94920e462fed578790e0508f140d5d7b0cf64736dcc86f47fb0e709e",
+        "bytes": 13741
+      }
+    ],
+    "production_visual_manifest_compiler_exists": false
+  },
+  "tracked_wave30_partial_authority": {
+    "scope": "Strict downstream compilation and QA of declared audio events, not inference of expected visual events or complete Row091 coverage.",
+    "files": [
+      {
+        "path": "Plan/07_IMPLEMENTATION/scripts/compile_wave30_audio_event_manifest.py",
+        "sha256": "7e8d7ceda30f00b888e5b7c102f75d21387c96a4a1724c3ff336c98f034a0667",
+        "bytes": 17158
+      },
+      {
+        "path": "Plan/08_SCHEMAS/wave30_audio_event_manifest.schema.json",
+        "sha256": "d614c9961d8a0710844f363cf9b59ccf404e28b11ba3e39ecd698abc51dea133",
+        "bytes": 9668
+      },
+      {
+        "path": "Plan/10_REGISTRIES/wave30_audio_event_taxonomy.json",
+        "sha256": "4f136c46d0083756f030387fc5ff71fe7313b9ae72c62b9085b37d282071a54d",
+        "bytes": 475
+      },
+      {
+        "path": "Plan/Instructions/QA/Scripts/test_wave30_audio_pipeline_strict.py",
+        "sha256": "785f20c271c16f49b59b6a428f4941cec892616cb9c038ce330b23b68ccd3d80",
+        "bytes": 36078
+      }
+    ],
+    "focused_test_command": "python -m pytest Plan/Instructions/QA/Scripts/test_wave30_audio_pipeline_strict.py -q --tb=short",
+    "focused_test_exit_code": 0,
+    "focused_tests_passed": 14,
+    "focused_test_duration_seconds": 67.63
+  },
+  "direct_false_positive_probes": {
+    "wave30_string_false": {
+      "input": {"is_synthetic": "false"},
+      "process_exit_code": 0,
+      "manifest_written": true,
+      "observed_is_synthetic": true,
+      "expected": "Non-Boolean is_synthetic fails closed and preserves any existing output."
+    },
+    "wave30_negative_frame_rate": {
+      "input": {"av_frame_rate": -1.0},
+      "process_exit_code": 0,
+      "manifest_written": true,
+      "observed_frame_rate": -1.0,
+      "expected": "Non-finite or non-positive av_frame_rate fails closed."
+    },
+    "visual_manifest_schema": {
+      "schema_path": "Plan/08_SCHEMAS/visual_audio_event_manifest.schema.json",
+      "schema_sha256": "1c58053d0c8005627c63ae820b4ff726a844daa2d422a5bb732b4240bd2bde07",
+      "probe_accepted": true,
+      "probe_error_count": 0,
+      "invalid_probe_properties": [
+        "events is empty",
+        "detector name is null",
+        "detector revision is an array",
+        "coverage.required_events is a string",
+        "coverage.covered_events is negative",
+        "coverage.silent_events is null",
+        "coverage.blocked_events is an object",
+        "timeline contains an unexpected field"
+      ],
+      "expected": "Typed detector identity, non-empty events or explicit all-silent authority, exact timeline fields, typed coverage counts, and coverage invariants fail closed."
+    }
+  },
+  "downstream_partial_authority": [
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_foley_force_alignment.py",
+      "sha256": "59b069099ec4fc903b4d6dbf993c3c88ff93e26d7c4dec0d6c15dd5949395413",
+      "bytes": 84501
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_wave64_foley_force_alignment_strict.py",
+      "sha256": "fb7ce4e5d4ccce040af728fccd93ff0011802f49414ba38bd92ac90e02cd0c6d",
+      "bytes": 53070
+    }
+  ],
+  "worker_delegation": {
+    "origin_task_id": "019f422f-88b1-7382-872b-21de2089e983",
+    "priority": 100,
+    "unchanged_failed_intents": [
+      {
+        "intent_id": "intent_20260719T061253671Z_row091_wave30_manifest_truth_hardening_03f8475f",
+        "requested_lane": "Cursor",
+        "admission_status": "FAIL",
+        "request_ids": [],
+        "issue": "Quality profile balanced_default requires at least 2 independent host validators."
+      },
+      {
+        "intent_id": "intent_20260719T061340893Z_row091_manifest_truth_semantic_test_review_139479f4",
+        "requested_lane": "Claude",
+        "admission_status": "FAIL",
+        "request_ids": [],
+        "issue": "Acceptance contract is missing required balanced_default field: behavior"
+      }
+    ],
+    "material_different_replacements": [
+      {
+        "intent_id": "intent_20260719T061703902Z_row091_wave30_manifest_truth_hardening_v2_cb1611c7",
+        "requested_lane": "Cursor",
+        "quality_profile": "high_assurance",
+        "max_attempts": 1,
+        "allowed_paths": [
+          "Plan/07_IMPLEMENTATION/scripts/compile_wave30_audio_event_manifest.py",
+          "Plan/Instructions/QA/Scripts/test_wave30_audio_pipeline_strict.py"
+        ],
+        "request_ids": [
+          "p000_20260719T061706055Z_row091_wave30_manifest_truth_hardening_v2_sonnet_preflight_c370584f",
+          "p000_20260719T061707117Z_row091_wave30_manifest_truth_hardening_v2_32019b57",
+          "p001_20260719T061708386Z_row091_wave30_manifest_truth_hardening_v2_sonnet_review_206f6055"
+        ],
+        "dependencies": {
+          "cursor": "Depends on the Sonnet preflight request.",
+          "sonnet_review": "Depends on the Cursor implementation request."
+        },
+        "admission_status": "PASS",
+        "queue_status_at_admission": "QUEUED",
+        "scheduled_wake_status": "FAIL_TASK_DISABLED",
+        "provider_use_claimed": false
+      },
+      {
+        "intent_id": "intent_20260719T061737676Z_row091_manifest_truth_semantic_test_review_v2_da58b983",
+        "requested_lane": "Claude",
+        "quality_profile": "high_assurance",
+        "max_attempts": 1,
+        "allowed_paths": [],
+        "request_ids": [
+          "p000_20260719T061739292Z_row091_manifest_truth_semantic_test_review_v2_18eb946a"
+        ],
+        "dependencies": [],
+        "admission_status": "PASS",
+        "queue_status_at_admission": "QUEUED",
+        "scheduled_wake_status": "PASS_WAKE_TRIGGERED",
+        "provider_use_claimed": null,
+        "note": "Codex did not poll the lane after the governed pipeline reported the wake."
+      }
+    ]
+  },
+  "checks": [
+    {"id": "ROW091-001", "status": "PASS", "name": "source_commit_bound"},
+    {"id": "ROW091-002", "status": "PASS", "name": "tracker_item_semantic_parity"},
+    {"id": "ROW091-003", "status": "PASS", "name": "requirements_copy_identity"},
+    {"id": "ROW091-004", "status": "PASS", "name": "dependency_evidence_hash_bound"},
+    {"id": "ROW091-005", "status": "PASS", "name": "planned_schema_and_package_bytes_preserved"},
+    {"id": "ROW091-006", "status": "PASS", "name": "tracked_wave30_partial_authority_present"},
+    {"id": "ROW091-007", "status": "PASS", "name": "wave30_focused_tests_pass"},
+    {"id": "ROW091-008", "status": "PASS", "name": "string_boolean_false_positive_reproduced"},
+    {"id": "ROW091-009", "status": "PASS", "name": "negative_frame_rate_false_positive_reproduced"},
+    {"id": "ROW091-010", "status": "PASS", "name": "visual_schema_false_positive_reproduced"},
+    {"id": "ROW091-011", "status": "PASS", "name": "downstream_foley_authority_bound"},
+    {"id": "ROW091-012", "status": "PASS", "name": "bounded_worker_scopes_signed"},
+    {"id": "ROW091-013", "status": "FAIL", "name": "dependency_row084_complete"},
+    {"id": "ROW091-014", "status": "FAIL", "name": "dependency_row090_complete"},
+    {"id": "ROW091-015", "status": "FAIL", "name": "production_visual_manifest_compiler"},
+    {"id": "ROW091-016", "status": "FAIL", "name": "strict_visual_manifest_schema"},
+    {"id": "ROW091-017", "status": "FAIL", "name": "event_traceability_inference"},
+    {"id": "ROW091-018", "status": "FAIL", "name": "frame_and_sample_anchor_authority"},
+    {"id": "ROW091-019", "status": "FAIL", "name": "expected_layer_coverage"},
+    {"id": "ROW091-020", "status": "FAIL", "name": "intentional_silence_decisions"},
+    {"id": "ROW091-021", "status": "FAIL", "name": "blocked_event_authority"},
+    {"id": "ROW091-022", "status": "FAIL", "name": "genuine_runtime_proof"},
+    {"id": "ROW091-023", "status": "FAIL", "name": "combined_frame_contact_audio_review"},
+    {"id": "ROW091-024", "status": "FAIL", "name": "required_tracker_output"},
+    {"id": "ROW091-025", "status": "FAIL", "name": "row_complete"}
+  ],
+  "check_summary": {"total": 25, "pass": 12, "fail": 13},
+  "runtime_boundary": {
+    "direct_row091_runtime_runs": 0,
+    "visual_reviews_performed": 0,
+    "ec2_calls": 0,
+    "docker_calls": 0,
+    "wsl_calls": 0,
+    "model_downloads": 0,
+    "generations": 0,
+    "renders": 0,
+    "direct_wrapper_calls": 0,
+    "worker_queue_polls": 0,
+    "scheduled_task_state_changes": 0
+  },
+  "preservation_boundary": {
+    "evidence_write_scope": [
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719.json"
+    ],
+    "delegated_compiler_and_test_paths_frozen": true,
+    "untracked_autonomous_sound_package_preserved": true,
+    "queued_worker_scopes_preserved": true,
+    "flux2_dirty_paths_preserved": true,
+    "portfolio_reconciliation_paths_preserved": true,
+    "worker_control_snapshots_preserved": true,
+    "unrelated_dirty_and_untracked_paths_preserved": true
+  },
+  "hold_decision": {
+    "decision": "HOLD_ROW091",
+    "reason": "Both prerequisites are incomplete, no production visual event-manifest compiler exists, the preserved planning schema accepts structurally meaningless coverage, and the tracked Wave30 compiler accepts string Boolean and negative frame-rate lookalikes. The tracked Wave30 and foley stacks remain useful downstream partial authority but cannot prove visual event discovery, full coverage, silence decisions, blocked events, runtime behavior, or combined review.",
+    "safe_next_work": "Independently validate any governed compiler correction, then define a strict versioned visual manifest schema and producer only after preserving ownership of the existing autonomous-sound package. Keep Row091 held until Rows084 and 090, genuine runtime coverage, and combined review pass.",
+    "completion_claim_prohibited": true,
+    "runtime_claim_prohibited": true,
+    "certification_claim_prohibited": true
+  }
+}
