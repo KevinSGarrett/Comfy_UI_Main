@@ -1,0 +1,540 @@
+{
+  "blocker_codes": [
+    "TRK_W64_091_DEPENDENCY_NOT_ACCEPTED",
+    "ROW092_DEPENDENCY_ROW091_NOT_ACCEPTED",
+    "PRODUCTION_EVENT_UNCERTAINTY_RUNTIME_ABSENT",
+    "COMBINED_FRAME_CONTACT_AUDIO_REVIEW_ABSENT",
+    "GENUINE_FIXTURE_RUNTIME_PROOF_ABSENT",
+    "STRICT_ROW091_MANIFEST_AUTHORITY_ABSENT"
+  ],
+  "decision": {
+    "product_completion": false,
+    "row092_acceptance": "held",
+    "runtime_completion": false,
+    "safe_next_action": "Accept Row091 strict hash-bound visual event manifest authority; bind production observations into this policy engine; prove conflict, occlusion, cut, offscreen, unknown-material, and silence fixtures under combined frame/contact/audio review; then replace this hold packet.",
+    "status": "blocked"
+  },
+  "dependency_admissions": {
+    "TRK-W64-091": {
+      "blocker_codes": [
+        "TRK_W64_091_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "bytes": 23572,
+      "dependency_satisfied": false,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "sha256": "055e73b6d64bc3bcf2184fe8de9b5360e63a014e39643fad37ff8249225a75a5",
+      "status": "HOLD_DEPENDENCIES_RUNTIME_AND_COMBINED_REVIEW_ABSENT_WITH_FIXTURE_DECISION_PHASE_PACKETS_PRESENT",
+      "tracker_id": "TRK-W64-091"
+    }
+  },
+  "engine_revision": "wave64_row092_event_uncertainty_fallback_engine_v0.1.0",
+  "evidence_id": "TRK-W64-092_event_uncertainty_fallback",
+  "fixture_calibration": {
+    "authority": "synthetic_non_production",
+    "determinism_note": "Fixture decisions prove detector-vote preservation, conflict resolution, unknown-material fallback, offscreen intentional silence, occlusion candidate ceiling, and rejection of self-declared certification; they do not accept Row092 production completion or combined visual/audio review.",
+    "fixture_count": 5,
+    "records": [
+      {
+        "conflict_record": {
+          "conflict_present": false,
+          "disagreement_metric": 0.0,
+          "preserved_vote_count": 1,
+          "resolution": "unanimous",
+          "selected_detector_name": "contact_detector",
+          "tie_policy": "highest_confidence_then_detector_name_asc"
+        },
+        "decision": {
+          "product_completion": false,
+          "route": "blocked",
+          "row092_acceptance": "fixture_only",
+          "selected_event_type": "unknown_contact",
+          "selected_material": "unknown",
+          "selected_source_owner": null,
+          "selected_target_owner": null,
+          "status": "blocked",
+          "sync_class": "none"
+        },
+        "declared_authority_ceiling": "certification",
+        "dependency_admissions": {
+          "TRK-W64-091": {
+            "blocker_codes": [
+              "TRK_W64_091_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 23572,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "055e73b6d64bc3bcf2184fe8de9b5360e63a014e39643fad37ff8249225a75a5",
+            "status": "HOLD_DEPENDENCIES_RUNTIME_AND_COMBINED_REVIEW_ABSENT_WITH_FIXTURE_DECISION_PHASE_PACKETS_PRESENT",
+            "tracker_id": "TRK-W64-091"
+          }
+        },
+        "derived_authority_ceiling": "candidate",
+        "detector_votes": [
+          {
+            "confidence": 0.0,
+            "detector_name": "contact_detector",
+            "detector_revision": "r0",
+            "event_type": "unknown_contact",
+            "evidence_ref": "empty",
+            "material": "unknown",
+            "source_owner": null,
+            "target_owner": null
+          }
+        ],
+        "engine_revision": "wave64_row092_event_uncertainty_fallback_engine_v0.1.0",
+        "event_id": "evt_adversarial_zero_evidence",
+        "fallback_reason_codes": [
+          "DEPENDENCY_ROW091_NOT_ACCEPTED",
+          "EMPTY_EVIDENCE",
+          "LOW_CONFIDENCE",
+          "NULL_OWNERSHIP",
+          "SELF_DECLARED_CERTIFICATION_REJECTED",
+          "UNKNOWN_MATERIAL"
+        ],
+        "fallback_route": "blocked",
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-092",
+        "observation_sha256": "ab263ba054ef8dd196d057aa63231b547bd4cf8437d145176d8dea06511a1c6a",
+        "policy_revision": "wave64_row092_event_uncertainty_fallback_policy_v0.1.0",
+        "policy_sha256": "8e35c7c5a5a935fce4ff3bbd4a4246b3aab06f1a170a9929b7a6704b102b9d89",
+        "production_authority": false,
+        "receipt_sha256": "57876e20ca261342b0261ba2ea334f8cfe83e5d8b9c4612e8a1bedc4160cd6e4",
+        "record_type": "event_uncertainty_fallback_decision",
+        "required_gates": [
+          "conflict_resolution",
+          "uncertainty_preserved",
+          "offscreen_policy",
+          "fallback_route",
+          "certification_ceiling"
+        ],
+        "scene_flags": {
+          "crowded_scene": false,
+          "cut_boundary": false,
+          "intentionally_silent": false,
+          "occlusion": false,
+          "offscreen": false
+        },
+        "schema_version": "1.0.0",
+        "tracker_id": "TRK-W64-092",
+        "uncertainty": {
+          "calibration_revision": "wave64_row092_uncertainty_calibration_v0.1.0",
+          "ceiling_effect": "candidate",
+          "propagation": "event_local",
+          "sources": [
+            "low_confidence",
+            "null_ownership",
+            "unknown_material"
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "conflict_record": {
+          "conflict_present": true,
+          "disagreement_metric": 0.52,
+          "preserved_vote_count": 2,
+          "resolution": "majority_confidence",
+          "selected_detector_name": "contact_detector",
+          "tie_policy": "highest_confidence_then_detector_name_asc"
+        },
+        "decision": {
+          "product_completion": false,
+          "route": "broader_retrieval",
+          "row092_acceptance": "fixture_only",
+          "selected_event_type": "footstep",
+          "selected_material": "wood",
+          "selected_source_owner": "character_1",
+          "selected_target_owner": "floor_1",
+          "status": "fallback",
+          "sync_class": "frame_exact"
+        },
+        "declared_authority_ceiling": "technical",
+        "dependency_admissions": {
+          "TRK-W64-091": {
+            "blocker_codes": [
+              "TRK_W64_091_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 23572,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "055e73b6d64bc3bcf2184fe8de9b5360e63a014e39643fad37ff8249225a75a5",
+            "status": "HOLD_DEPENDENCIES_RUNTIME_AND_COMBINED_REVIEW_ABSENT_WITH_FIXTURE_DECISION_PHASE_PACKETS_PRESENT",
+            "tracker_id": "TRK-W64-091"
+          }
+        },
+        "derived_authority_ceiling": "technical",
+        "detector_votes": [
+          {
+            "confidence": 0.72,
+            "detector_name": "contact_detector",
+            "detector_revision": "r2",
+            "event_type": "footstep",
+            "evidence_ref": "contact_a",
+            "material": "wood",
+            "source_owner": "character_1",
+            "target_owner": "floor_1"
+          },
+          {
+            "confidence": 0.68,
+            "detector_name": "pose_detector",
+            "detector_revision": "r2",
+            "event_type": "hand_body_contact",
+            "evidence_ref": "pose_b",
+            "material": "skin",
+            "source_owner": "character_1",
+            "target_owner": "character_1"
+          }
+        ],
+        "engine_revision": "wave64_row092_event_uncertainty_fallback_engine_v0.1.0",
+        "event_id": "evt_conflict_foot_vs_hand",
+        "fallback_reason_codes": [
+          "DEPENDENCY_ROW091_NOT_ACCEPTED",
+          "DETECTOR_CONFLICT",
+          "LOW_CONFIDENCE"
+        ],
+        "fallback_route": "broader_retrieval",
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-092",
+        "observation_sha256": "2c1507dfd90e6910793f55049a38833287347fb7e4f79cc9d56249477edb3514",
+        "policy_revision": "wave64_row092_event_uncertainty_fallback_policy_v0.1.0",
+        "policy_sha256": "8e35c7c5a5a935fce4ff3bbd4a4246b3aab06f1a170a9929b7a6704b102b9d89",
+        "production_authority": false,
+        "receipt_sha256": "1be7858a3986f565834f4f66c0629144e6fd0e158ae8b6344b5ca817d4b31fcb",
+        "record_type": "event_uncertainty_fallback_decision",
+        "required_gates": [
+          "conflict_resolution",
+          "uncertainty_preserved",
+          "offscreen_policy",
+          "fallback_route",
+          "certification_ceiling"
+        ],
+        "scene_flags": {
+          "crowded_scene": false,
+          "cut_boundary": false,
+          "intentionally_silent": false,
+          "occlusion": false,
+          "offscreen": false
+        },
+        "schema_version": "1.0.0",
+        "tracker_id": "TRK-W64-092",
+        "uncertainty": {
+          "calibration_revision": "wave64_row092_uncertainty_calibration_v0.1.0",
+          "ceiling_effect": "technical",
+          "propagation": "event_local",
+          "sources": [
+            "detector_disagreement",
+            "low_confidence"
+          ],
+          "value": 0.52
+        }
+      },
+      {
+        "conflict_record": {
+          "conflict_present": false,
+          "disagreement_metric": 0.0,
+          "preserved_vote_count": 1,
+          "resolution": "unanimous",
+          "selected_detector_name": "material_detector",
+          "tie_policy": "highest_confidence_then_detector_name_asc"
+        },
+        "decision": {
+          "product_completion": false,
+          "route": "blocked",
+          "row092_acceptance": "fixture_only",
+          "selected_event_type": "footstep",
+          "selected_material": "unknown",
+          "selected_source_owner": "character_1",
+          "selected_target_owner": "floor_1",
+          "status": "blocked",
+          "sync_class": "none"
+        },
+        "declared_authority_ceiling": "certification",
+        "dependency_admissions": {
+          "TRK-W64-091": {
+            "blocker_codes": [
+              "TRK_W64_091_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 23572,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "055e73b6d64bc3bcf2184fe8de9b5360e63a014e39643fad37ff8249225a75a5",
+            "status": "HOLD_DEPENDENCIES_RUNTIME_AND_COMBINED_REVIEW_ABSENT_WITH_FIXTURE_DECISION_PHASE_PACKETS_PRESENT",
+            "tracker_id": "TRK-W64-091"
+          }
+        },
+        "derived_authority_ceiling": "candidate",
+        "detector_votes": [
+          {
+            "confidence": 0.9,
+            "detector_name": "material_detector",
+            "detector_revision": "r1",
+            "event_type": "footstep",
+            "evidence_ref": "mat_unresolved",
+            "material": "unknown",
+            "source_owner": "character_1",
+            "target_owner": "floor_1"
+          }
+        ],
+        "engine_revision": "wave64_row092_event_uncertainty_fallback_engine_v0.1.0",
+        "event_id": "evt_unknown_material",
+        "fallback_reason_codes": [
+          "DEPENDENCY_ROW091_NOT_ACCEPTED",
+          "SELF_DECLARED_CERTIFICATION_REJECTED",
+          "UNKNOWN_MATERIAL"
+        ],
+        "fallback_route": "blocked",
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-092",
+        "observation_sha256": "e15184444f2eb3cf44be817f8a7cbdcdee3dda581e531a9611a8845b88d99e0e",
+        "policy_revision": "wave64_row092_event_uncertainty_fallback_policy_v0.1.0",
+        "policy_sha256": "8e35c7c5a5a935fce4ff3bbd4a4246b3aab06f1a170a9929b7a6704b102b9d89",
+        "production_authority": false,
+        "receipt_sha256": "043b7e20a19277650888b033375dda5f423337d535e43b47e6e2c039ebd3dc1b",
+        "record_type": "event_uncertainty_fallback_decision",
+        "required_gates": [
+          "conflict_resolution",
+          "uncertainty_preserved",
+          "offscreen_policy",
+          "fallback_route",
+          "certification_ceiling"
+        ],
+        "scene_flags": {
+          "crowded_scene": false,
+          "cut_boundary": false,
+          "intentionally_silent": false,
+          "occlusion": false,
+          "offscreen": false
+        },
+        "schema_version": "1.0.0",
+        "tracker_id": "TRK-W64-092",
+        "uncertainty": {
+          "calibration_revision": "wave64_row092_uncertainty_calibration_v0.1.0",
+          "ceiling_effect": "candidate",
+          "propagation": "event_local",
+          "sources": [
+            "unknown_material"
+          ],
+          "value": 0.75
+        }
+      },
+      {
+        "conflict_record": {
+          "conflict_present": false,
+          "disagreement_metric": 0.0,
+          "preserved_vote_count": 1,
+          "resolution": "unanimous",
+          "selected_detector_name": "scene_continuity",
+          "tie_policy": "highest_confidence_then_detector_name_asc"
+        },
+        "decision": {
+          "product_completion": false,
+          "route": "intentional_silence",
+          "row092_acceptance": "fixture_only",
+          "selected_event_type": "door_close",
+          "selected_material": "wood",
+          "selected_source_owner": "prop_door",
+          "selected_target_owner": "frame_1",
+          "status": "intentional_silence",
+          "sync_class": "none"
+        },
+        "declared_authority_ceiling": "technical",
+        "dependency_admissions": {
+          "TRK-W64-091": {
+            "blocker_codes": [
+              "TRK_W64_091_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 23572,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "055e73b6d64bc3bcf2184fe8de9b5360e63a014e39643fad37ff8249225a75a5",
+            "status": "HOLD_DEPENDENCIES_RUNTIME_AND_COMBINED_REVIEW_ABSENT_WITH_FIXTURE_DECISION_PHASE_PACKETS_PRESENT",
+            "tracker_id": "TRK-W64-091"
+          }
+        },
+        "derived_authority_ceiling": "candidate",
+        "detector_votes": [
+          {
+            "confidence": 0.6,
+            "detector_name": "scene_continuity",
+            "detector_revision": "r1",
+            "event_type": "door_close",
+            "evidence_ref": "offscreen_audio_cue",
+            "material": "wood",
+            "source_owner": "prop_door",
+            "target_owner": "frame_1"
+          }
+        ],
+        "engine_revision": "wave64_row092_event_uncertainty_fallback_engine_v0.1.0",
+        "event_id": "evt_offscreen_door",
+        "fallback_reason_codes": [
+          "DEPENDENCY_ROW091_NOT_ACCEPTED",
+          "INTENTIONAL_SILENCE",
+          "LOW_CONFIDENCE",
+          "OFFSCREEN"
+        ],
+        "fallback_route": "intentional_silence",
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-092",
+        "observation_sha256": "2223dc4a930970d3607c91371d01d29f0166d0b908219a9da29f3b86a9c59131",
+        "policy_revision": "wave64_row092_event_uncertainty_fallback_policy_v0.1.0",
+        "policy_sha256": "8e35c7c5a5a935fce4ff3bbd4a4246b3aab06f1a170a9929b7a6704b102b9d89",
+        "production_authority": false,
+        "receipt_sha256": "bdfcd0a3b0423c48bc3ed8fcd2e5d90816403d50b9ed7ce046eedd93670efcda",
+        "record_type": "event_uncertainty_fallback_decision",
+        "required_gates": [
+          "conflict_resolution",
+          "uncertainty_preserved",
+          "offscreen_policy",
+          "fallback_route",
+          "certification_ceiling"
+        ],
+        "scene_flags": {
+          "crowded_scene": false,
+          "cut_boundary": false,
+          "intentionally_silent": true,
+          "occlusion": false,
+          "offscreen": true
+        },
+        "schema_version": "1.0.0",
+        "tracker_id": "TRK-W64-092",
+        "uncertainty": {
+          "calibration_revision": "wave64_row092_uncertainty_calibration_v0.1.0",
+          "ceiling_effect": "candidate",
+          "propagation": "event_local",
+          "sources": [
+            "low_confidence",
+            "offscreen"
+          ],
+          "value": 0.7
+        }
+      },
+      {
+        "conflict_record": {
+          "conflict_present": false,
+          "disagreement_metric": 0.0,
+          "preserved_vote_count": 1,
+          "resolution": "unanimous",
+          "selected_detector_name": "mask_detector",
+          "tie_policy": "highest_confidence_then_detector_name_asc"
+        },
+        "decision": {
+          "product_completion": false,
+          "route": "blocked",
+          "row092_acceptance": "fixture_only",
+          "selected_event_type": "hand_body_contact",
+          "selected_material": "fabric",
+          "selected_source_owner": "character_1",
+          "selected_target_owner": "character_2",
+          "status": "blocked",
+          "sync_class": "none"
+        },
+        "declared_authority_ceiling": "certification",
+        "dependency_admissions": {
+          "TRK-W64-091": {
+            "blocker_codes": [
+              "TRK_W64_091_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 23572,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "055e73b6d64bc3bcf2184fe8de9b5360e63a014e39643fad37ff8249225a75a5",
+            "status": "HOLD_DEPENDENCIES_RUNTIME_AND_COMBINED_REVIEW_ABSENT_WITH_FIXTURE_DECISION_PHASE_PACKETS_PRESENT",
+            "tracker_id": "TRK-W64-091"
+          }
+        },
+        "derived_authority_ceiling": "candidate",
+        "detector_votes": [
+          {
+            "confidence": 0.8,
+            "detector_name": "mask_detector",
+            "detector_revision": "r3",
+            "event_type": "hand_body_contact",
+            "evidence_ref": "mask_partial",
+            "material": "fabric",
+            "source_owner": "character_1",
+            "target_owner": "character_2"
+          }
+        ],
+        "engine_revision": "wave64_row092_event_uncertainty_fallback_engine_v0.1.0",
+        "event_id": "evt_occluded_hand_contact",
+        "fallback_reason_codes": [
+          "AMBIGUOUS_ONSET",
+          "CROWDED_SCENE",
+          "DEPENDENCY_ROW091_NOT_ACCEPTED",
+          "LOW_CONFIDENCE",
+          "OCCLUSION",
+          "SELF_DECLARED_CERTIFICATION_REJECTED"
+        ],
+        "fallback_route": "blocked",
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-092",
+        "observation_sha256": "69ddce2b44fbc2770b7b29f7fa6dd2dfd3333e946b6e74b9b22d80e3a81e7f6e",
+        "policy_revision": "wave64_row092_event_uncertainty_fallback_policy_v0.1.0",
+        "policy_sha256": "8e35c7c5a5a935fce4ff3bbd4a4246b3aab06f1a170a9929b7a6704b102b9d89",
+        "production_authority": false,
+        "receipt_sha256": "49d69de1def797056203dbe6b5a2d62b66e8f2d7748102cd4e0fd69423a93a14",
+        "record_type": "event_uncertainty_fallback_decision",
+        "required_gates": [
+          "conflict_resolution",
+          "uncertainty_preserved",
+          "offscreen_policy",
+          "fallback_route",
+          "certification_ceiling"
+        ],
+        "scene_flags": {
+          "crowded_scene": true,
+          "cut_boundary": false,
+          "intentionally_silent": false,
+          "occlusion": true,
+          "offscreen": false
+        },
+        "schema_version": "1.0.0",
+        "tracker_id": "TRK-W64-092",
+        "uncertainty": {
+          "calibration_revision": "wave64_row092_uncertainty_calibration_v0.1.0",
+          "ceiling_effect": "candidate",
+          "propagation": "event_local",
+          "sources": [
+            "ambiguous_onset",
+            "crowded_scene",
+            "low_confidence",
+            "occlusion"
+          ],
+          "value": 0.7
+        }
+      }
+    ]
+  },
+  "implementation_completion_claimed": false,
+  "item_id": "ITEM-W64-092",
+  "policy_registry": {
+    "authority": "planning_freeze_not_production_acceptance",
+    "path": "Plan/10_REGISTRIES/wave64_row092_event_uncertainty_fallback_policy_registry.json",
+    "revision": "wave64_row092_event_uncertainty_fallback_policy_v0.1.0",
+    "sha256": "8e35c7c5a5a935fce4ff3bbd4a4246b3aab06f1a170a9929b7a6704b102b9d89"
+  },
+  "policy_revision": "wave64_row092_event_uncertainty_fallback_policy_v0.1.0",
+  "production_authority": false,
+  "required_gates": [
+    "conflict_resolution",
+    "uncertainty_preserved",
+    "offscreen_policy",
+    "fallback_route",
+    "certification_ceiling"
+  ],
+  "row_complete": false,
+  "runtime_completion_claimed": false,
+  "schema": {
+    "path": "Plan/08_SCHEMAS/event_uncertainty_fallback_decision.schema.json",
+    "sha256": "508b9efab3d3c9e0bf7b83cc4f13c2f2c192ffe985e1fef4320818261d3d94a8"
+  },
+  "schema_version": "1.0.0",
+  "status": "HOLD_DEPENDENCY_ROW091_AND_RUNTIME_VISUAL_QA_ABSENT",
+  "tracker_id": "TRK-W64-092"
+}

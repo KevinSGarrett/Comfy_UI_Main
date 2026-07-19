@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "wave64_row092_event_uncertainty_fallback_policy_registry",
+  "revision": "wave64_row092_event_uncertainty_fallback_policy_v0.1.0",
+  "tracker_id": "TRK-W64-092",
+  "authority": "planning_freeze_not_production_acceptance",
+  "notes": [
+    "Policy freezes Row092 conflict, uncertainty, offscreen/occlusion, fallback-route, and derived certification-ceiling contracts for synthetic fixture calibration.",
+    "It does not accept production completion, runtime proof, visual QA, or substitute for Row091 visual-event-manifest authority."
+  ],
+  "required_gates": [
+    "conflict_resolution",
+    "uncertainty_preserved",
+    "offscreen_policy",
+    "fallback_route",
+    "certification_ceiling"
+  ],
+  "tie_policy": "highest_confidence_then_detector_name_asc",
+  "calibration_revision": "wave64_row092_uncertainty_calibration_v0.1.0",
+  "thresholds": {
+    "certification_min_confidence": 0.85,
+    "technical_min_confidence": 0.55,
+    "conflict_disagreement_floor": 0.25,
+    "unknown_material_tokens": ["unknown", "unresolved", "ambiguous"]
+  },
+  "authority_rank": {
+    "candidate": 0,
+    "technical": 1,
+    "certification": 2
+  },
+  "scene_ceiling_caps": {
+    "occlusion": "candidate",
+    "offscreen": "candidate",
+    "cut_boundary": "technical",
+    "crowded_scene": "technical",
+    "intentionally_silent": "candidate"
+  },
+  "fallback_priority": [
+    "blocked",
+    "intentional_silence",
+    "multi_anchor_sync",
+    "generated_candidate",
+    "broader_retrieval",
+    "exact_library"
+  ]
+}

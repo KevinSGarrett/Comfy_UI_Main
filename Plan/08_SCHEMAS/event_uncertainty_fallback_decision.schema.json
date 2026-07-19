@@ -1,0 +1,302 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/event_uncertainty_fallback_decision.schema.json",
+  "title": "Wave64 Row092 Event Uncertainty Fallback Decision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "tracker_id",
+    "item_id",
+    "record_type",
+    "engine_revision",
+    "policy_revision",
+    "policy_sha256",
+    "event_id",
+    "observation_sha256",
+    "is_synthetic",
+    "production_authority",
+    "dependency_admissions",
+    "required_gates",
+    "detector_votes",
+    "conflict_record",
+    "uncertainty",
+    "scene_flags",
+    "fallback_route",
+    "fallback_reason_codes",
+    "declared_authority_ceiling",
+    "derived_authority_ceiling",
+    "decision",
+    "receipt_sha256"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "tracker_id": { "type": "string", "const": "TRK-W64-092" },
+    "item_id": { "type": "string", "const": "ITEM-W64-092" },
+    "record_type": {
+      "type": "string",
+      "const": "event_uncertainty_fallback_decision"
+    },
+    "engine_revision": {
+      "type": "string",
+      "const": "wave64_row092_event_uncertainty_fallback_engine_v0.1.0"
+    },
+    "policy_revision": {
+      "type": "string",
+      "const": "wave64_row092_event_uncertainty_fallback_policy_v0.1.0"
+    },
+    "policy_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "event_id": { "type": "string", "minLength": 1 },
+    "observation_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "is_synthetic": { "type": "boolean" },
+    "production_authority": { "type": "boolean", "const": false },
+    "dependency_admissions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["TRK-W64-091"],
+      "properties": {
+        "TRK-W64-091": { "$ref": "#/$defs/dependency_admission" }
+      }
+    },
+    "required_gates": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "type": "string",
+        "enum": [
+          "conflict_resolution",
+          "uncertainty_preserved",
+          "offscreen_policy",
+          "fallback_route",
+          "certification_ceiling"
+        ]
+      }
+    },
+    "detector_votes": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/detector_vote" }
+    },
+    "conflict_record": { "$ref": "#/$defs/conflict_record" },
+    "uncertainty": { "$ref": "#/$defs/uncertainty" },
+    "scene_flags": { "$ref": "#/$defs/scene_flags" },
+    "fallback_route": { "$ref": "#/$defs/fallback_route" },
+    "fallback_reason_codes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/reason_code" }
+    },
+    "declared_authority_ceiling": {
+      "type": ["string", "null"],
+      "enum": ["candidate", "technical", "certification", null]
+    },
+    "derived_authority_ceiling": {
+      "type": "string",
+      "enum": ["candidate", "technical", "certification"]
+    },
+    "decision": { "$ref": "#/$defs/decision" },
+    "receipt_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  },
+  "$defs": {
+    "dependency_admission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tracker_id",
+        "dependency_satisfied",
+        "blocker_codes",
+        "row_complete",
+        "status",
+        "path",
+        "sha256",
+        "bytes"
+      ],
+      "properties": {
+        "tracker_id": { "type": "string", "minLength": 1 },
+        "dependency_satisfied": { "type": "boolean" },
+        "blocker_codes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "row_complete": { "type": "boolean" },
+        "status": { "type": "string" },
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "bytes": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "detector_vote": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "detector_name",
+        "detector_revision",
+        "event_type",
+        "source_owner",
+        "target_owner",
+        "material",
+        "confidence",
+        "evidence_ref"
+      ],
+      "properties": {
+        "detector_name": { "type": "string", "minLength": 1 },
+        "detector_revision": { "type": "string", "minLength": 1 },
+        "event_type": { "type": "string", "minLength": 1 },
+        "source_owner": { "type": ["string", "null"] },
+        "target_owner": { "type": ["string", "null"] },
+        "material": { "type": "string", "minLength": 1 },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "evidence_ref": { "type": "string", "minLength": 1 }
+      }
+    },
+    "conflict_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "conflict_present",
+        "disagreement_metric",
+        "tie_policy",
+        "preserved_vote_count",
+        "selected_detector_name",
+        "resolution"
+      ],
+      "properties": {
+        "conflict_present": { "type": "boolean" },
+        "disagreement_metric": { "type": "number", "minimum": 0, "maximum": 1 },
+        "tie_policy": {
+          "type": "string",
+          "const": "highest_confidence_then_detector_name_asc"
+        },
+        "preserved_vote_count": { "type": "integer", "minimum": 1 },
+        "selected_detector_name": { "type": ["string", "null"] },
+        "resolution": {
+          "type": "string",
+          "enum": ["unanimous", "majority_confidence", "blocked_unresolvable"]
+        }
+      }
+    },
+    "uncertainty": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "sources",
+        "propagation",
+        "calibration_revision",
+        "ceiling_effect"
+      ],
+      "properties": {
+        "value": { "type": "number", "minimum": 0, "maximum": 1 },
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": [
+              "detector_disagreement",
+              "low_confidence",
+              "unknown_material",
+              "null_ownership",
+              "occlusion",
+              "offscreen",
+              "cut_boundary",
+              "crowded_scene",
+              "ambiguous_onset"
+            ]
+          }
+        },
+        "propagation": {
+          "type": "string",
+          "enum": ["event_local", "shot_local", "scene_inherited"]
+        },
+        "calibration_revision": { "type": "string", "minLength": 1 },
+        "ceiling_effect": {
+          "type": "string",
+          "enum": ["candidate", "technical", "certification"]
+        }
+      }
+    },
+    "scene_flags": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "occlusion",
+        "offscreen",
+        "cut_boundary",
+        "crowded_scene",
+        "intentionally_silent"
+      ],
+      "properties": {
+        "occlusion": { "type": "boolean" },
+        "offscreen": { "type": "boolean" },
+        "cut_boundary": { "type": "boolean" },
+        "crowded_scene": { "type": "boolean" },
+        "intentionally_silent": { "type": "boolean" }
+      }
+    },
+    "fallback_route": {
+      "type": "string",
+      "enum": [
+        "exact_library",
+        "broader_retrieval",
+        "generated_candidate",
+        "multi_anchor_sync",
+        "intentional_silence",
+        "blocked"
+      ]
+    },
+    "reason_code": {
+      "type": "string",
+      "enum": [
+        "SELF_DECLARED_CERTIFICATION_REJECTED",
+        "NULL_OWNERSHIP",
+        "UNKNOWN_MATERIAL",
+        "LOW_CONFIDENCE",
+        "DETECTOR_CONFLICT",
+        "OCCLUSION",
+        "OFFSCREEN",
+        "CUT_BOUNDARY",
+        "CROWDED_SCENE",
+        "AMBIGUOUS_ONSET",
+        "DEPENDENCY_ROW091_NOT_ACCEPTED",
+        "EMPTY_EVIDENCE",
+        "INTENTIONAL_SILENCE"
+      ]
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "route",
+        "product_completion",
+        "row092_acceptance",
+        "selected_event_type",
+        "selected_material",
+        "selected_source_owner",
+        "selected_target_owner",
+        "sync_class"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["proceed", "fallback", "blocked", "intentional_silence"]
+        },
+        "route": { "$ref": "#/$defs/fallback_route" },
+        "product_completion": { "type": "boolean", "const": false },
+        "row092_acceptance": {
+          "type": "string",
+          "enum": ["held", "fixture_only"]
+        },
+        "selected_event_type": { "type": ["string", "null"] },
+        "selected_material": { "type": ["string", "null"] },
+        "selected_source_owner": { "type": ["string", "null"] },
+        "selected_target_owner": { "type": ["string", "null"] },
+        "sync_class": {
+          "type": "string",
+          "enum": ["frame_exact", "windowed", "multi_anchor", "none"]
+        }
+      }
+    }
+  }
+}
