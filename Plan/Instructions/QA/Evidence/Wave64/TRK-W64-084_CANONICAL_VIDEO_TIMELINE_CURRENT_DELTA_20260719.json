@@ -1,0 +1,430 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719",
+  "created_at": "2026-07-19T04:40:05.5104150Z",
+  "source_commit": "dce510282a82c18e9f0ba7f4068a84eaa0f40851",
+  "prior_row_commit": "dce510282a82c18e9f0ba7f4068a84eaa0f40851",
+  "prior_row_commit_is_current_head": true,
+  "tracker_id": "TRK-W64-084",
+  "item_id": "ITEM-W64-084",
+  "status": "HOLD_DEPENDENCY_CANONICAL_TIMELINE_IMPLEMENTATION_VFR_CUT_ROUNDTRIP_TOLERANCE_MUX_REPLAY_AND_VISUAL_RUNTIME_PROOF_ABSENT",
+  "classification": "ROW084_CURRENT_DELTA_USEFUL_CLOCK_SCHEMA_AND_AV_SYNC_EVALUATOR_PARTIAL_AUTHORITY_ONLY_NO_FALSE_COMPLETION",
+  "row_complete": false,
+  "implementation_completion_claimed": false,
+  "runtime_completion_claimed": false,
+  "qa_decision": "HOLD",
+  "intent": {
+    "intent_id": "intent_20260719T043457542Z_row084_canonical_video_timeline_current_delta_2df27b49",
+    "classification": "AI_WORKER_DEVELOPMENT_PIPELINE_ADMITTED_DEFERRED",
+    "work_type": "final_authority",
+    "authority_class": "codex_only",
+    "routing": null,
+    "dispatch_wake_count": 0,
+    "candidate_paths": [
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
+    ],
+    "allowed_paths": [
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
+    ]
+  },
+  "row084_contract": {
+    "title": "Canonical video decode, cuts, frame timing, and sample-clock normalization",
+    "phase": "visual_event_intelligence",
+    "priority": "P1",
+    "risk": "HIGH",
+    "status": "Planned_Autonomous_Implementation_Required",
+    "completion_criteria": "Frame/time/sample conversions round-trip within tolerance for fixed and variable frame rate sources.",
+    "dependency": "TRK-W64-067",
+    "required_gates": [
+      "video_decode",
+      "time_base",
+      "cut_detection",
+      "frame_sample_roundtrip"
+    ],
+    "required_inputs_and_normalization": [
+      "decoded source frames",
+      "source time bases",
+      "variable frame rate",
+      "cuts",
+      "missing frames",
+      "camera motion",
+      "target audio sample clock"
+    ],
+    "required_acceptance": [
+      "frame-to-seconds-to-samples round trip",
+      "registered tolerances",
+      "fixed-frame-rate fixtures",
+      "variable-frame-rate fixtures",
+      "mux replay survival"
+    ],
+    "test_required": true,
+    "runtime_proof_required": true,
+    "visual_review_required": true,
+    "visual_review_method": "combined_frame_contact_audio_review",
+    "preview_required": true,
+    "ec2_allowed": false,
+    "tracker_output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_canonical_video_timeline.json",
+    "tracker_output_artifact_exists": false,
+    "current_delta_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
+  },
+  "tracker_item_requirements_parity": {
+    "tracker_path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_TRACKER_ROWS.csv",
+    "tracker_sha256": "a698034d4d61788a9c630434f7aac75e3f7b1bf656319cfe43a5b2ce26d625de",
+    "tracker_bytes": 159309,
+    "item_rows_path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ITEM_ROWS.csv",
+    "item_rows_sha256": "f4a401d828aff69dbe7e005d6592a2af86edc936a0e6c1bae2f764345a9b8489",
+    "item_rows_bytes": 111386,
+    "requirements_item_path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
+    "requirements_tracker_path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
+    "requirements_sha256": "077eaf1dfc1cb0d990660b2d9ec7073bc2b4acc1be47a94e9a0ea65eb1924acc",
+    "requirements_bytes": 48422,
+    "requirements_copies_equal": true,
+    "tracker_item_id_match": true,
+    "tracker_title_match": true,
+    "tracker_status_match": true,
+    "tracker_dependency_match": true,
+    "tracker_gate_order_match": true,
+    "tracker_runtime_requirement_match": true,
+    "tracker_visual_requirement_match": true,
+    "tracker_ec2_prohibition_match": true
+  },
+  "source_authority": [
+    {
+      "path": "Plan/00_PROJECT_CONTROL/WAVE64_AUTONOMOUS_VIDEO_TO_AUDIO_AND_SOUND_GENERATION_MASTER_PLAN.md",
+      "sha256": "6f1b5059b686a81d866f61f3bada74ca673a43db2423241d500b024ecb6a1a67",
+      "bytes": 25625,
+      "git_state": "untracked_preserved",
+      "authority": "Row084 canonical timeline and round-trip acceptance"
+    },
+    {
+      "path": "Plan/02_TARGET_ARCHITECTURE/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ARCHITECTURE.md",
+      "sha256": "3aef5be8b48808a69fe70c4b61bb4de6f7e1086c670c1ce9c817ebb4a1f6ae9b",
+      "bytes": 7078,
+      "git_state": "untracked_preserved",
+      "authority": "frame, seconds, sample anchor, and mux verification architecture"
+    },
+    {
+      "path": "Plan/05_AUDIO_SYSTEM/WAVE64_AUTONOMOUS_SOUND_LIBRARY_GENERATION_AND_QA_PLAN.md",
+      "sha256": "63bea08b4e2209100cc875b60bfad7b2d2e2b0636c5643aaa4410e6f1b1fce1c",
+      "bytes": 5362,
+      "git_state": "untracked_preserved",
+      "authority": "source timing and generated-audio QA boundary"
+    },
+    {
+      "path": "Plan/Instructions/QA/AUTONOMOUS_VIDEO_TO_AUDIO_AND_GENERATED_SOUND_QA_PROTOCOL.md",
+      "sha256": "ed5773fd5f83ac5c71e31983eab9fb8d0362f2544518c37b41f7c51b95c82181",
+      "bytes": 3801,
+      "git_state": "untracked_preserved",
+      "authority": "registered frame-rate and sample-domain timing thresholds"
+    }
+  ],
+  "dependency_authority": {
+    "tracker_id": "TRK-W64-067",
+    "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-067_PLANNING_AUTHORITY_CURRENT_DELTA_20260719.json",
+    "evidence_sha256": "abcb3a0d80f8ede36d58e65f194e5a555e5654cec3eff5b6223e8162e3b725d2",
+    "evidence_bytes": 12127,
+    "evidence_commit": "1247c551ace5734ed2b7f6881a754e0e440f8747",
+    "current_delta_status": "HOLD_PLANNING_PACKAGE_STATIC_CONSISTENCY_PASS_IMPLEMENTATION_EVIDENCE_ABSENT",
+    "row_complete": false,
+    "dependency_satisfied": false,
+    "row084_effect": "The foundational planning package is not implementation- or runtime-authoritative."
+  },
+  "planning_package_adoption_boundary": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/WAVE64_HYPERREAL_VIDEO_AUDIO_APP_THIRD_PASS_MAIN_ADOPTION_20260716T231337-0500.json",
+    "sha256": "e5f46d6cdd3494359816becdaa7c2c56d169414ebfb344a7429c631faff24fe5",
+    "bytes": 4091,
+    "adoption_decision": "ADOPTED",
+    "adoption_scope": "planning_and_contract_authority_only",
+    "adopted_clock_decision": "AV assembly uses a rational frame, PTS, and sample clock with immutable lineage.",
+    "runtime_completion_claimed": false,
+    "runtime_execution_allowed": false,
+    "production_video_audio_av_authority_claimed": false,
+    "assessment_decision": "PLANNING_AUTHORITY_ADOPTED_RUNTIME_AUTHORITY_EXPLICITLY_HELD"
+  },
+  "clock_profile_registry_assessment": {
+    "path": "Plan/10_REGISTRIES/wave64_audio_delivery_and_clock_profile_registry.json",
+    "sha256": "67927555c3136220b676d31427c992774e9b2b76f749faaa167daa8180fe2de6",
+    "bytes": 979,
+    "git_state": "untracked_preserved",
+    "registry_id": "wave64_audio_delivery_and_clock_profile_registry_v1",
+    "runtime_completion_claimed": false,
+    "profile_count": 3,
+    "sample_rate_hz": 48000,
+    "declared_support": [
+      "rational_video_timebase",
+      "vfr_segment_map",
+      "frame_pts_duration",
+      "sample_clock",
+      "encoder_priming_padding",
+      "retime_edit_list",
+      "cut_epochs",
+      "piecewise_drift"
+    ],
+    "registered_tolerances_present": false,
+    "roundtrip_policy_present": false,
+    "mux_replay_policy_present": false,
+    "executable_profile_logic_present": false,
+    "decision": "DECLARATIVE_CAPABILITY_LIST_NOT_EXECUTABLE_ROW084_POLICY"
+  },
+  "canonical_clock_span_schema_assessment": {
+    "path": "Plan/08_SCHEMAS/canonical_media_clock_span.schema.json",
+    "sha256": "e54b8ea9bfeba5b5a757e3ceb19909c90d169d998cab03d13e8a76a960bf6870",
+    "bytes": 2249,
+    "git_state": "untracked_preserved",
+    "required_fields": [
+      "schema_version",
+      "record_type",
+      "media_clock_span_id",
+      "revision",
+      "status",
+      "created_at",
+      "clock_id",
+      "timebase_numerator",
+      "timebase_denominator",
+      "start_pts",
+      "end_pts_exclusive",
+      "frame_rate",
+      "sample_rate_hz",
+      "rounding_policy",
+      "source_clock_ref",
+      "span_sha256",
+      "provenance"
+    ],
+    "useful_shape": [
+      "rational time base",
+      "PTS span",
+      "optional frame rate",
+      "optional sample rate",
+      "rounding policy",
+      "source clock reference",
+      "content hash and provenance"
+    ],
+    "missing_or_underconstrained_authority": [
+      "no schema-level end_pts_exclusive greater than start_pts invariant",
+      "frame_rate and sample_rate_hz may both be null",
+      "no start or end frame indices",
+      "no start or end sample indices",
+      "no VFR segment map",
+      "no frame PTS and duration table",
+      "no cut epochs",
+      "no missing-frame ledger or policy",
+      "no camera-motion evidence",
+      "no conversion residuals or tolerance binding",
+      "no mux-replay input and output binding"
+    ],
+    "decision": "USEFUL_DRAFT_RECORD_NOT_ROW084_SEMANTIC_AUTHORITY"
+  },
+  "adversarial_schema_probe": {
+    "command_family": "python jsonschema Draft202012Validator with model-intelligence common registry",
+    "probe_status": "PASS",
+    "production_timeline_invoked": false,
+    "reversed_span_with_null_frame_and_sample_rates_accepted": true,
+    "reversed_span_error_count": 0,
+    "frame_sample_roundtrip_fields_rejected": true,
+    "roundtrip_field_error_count": 1,
+    "roundtrip_field_error": "Additional properties are not allowed ('end_frame_exclusive', 'end_sample_exclusive', 'start_frame', 'start_sample' were unexpected)",
+    "interpretation": "The standalone record schema accepts a reversed PTS span with no frame or sample rate, while its closed shape cannot directly record the frame and sample endpoints needed to prove the tracker-required round trip. The adjacent package validator adds a reversed-span semantic check, but no current Row084 runtime authority binds that helper to production decisions."
+  },
+  "av_sync_evaluator_partial_authority": {
+    "implementation_path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_av_sync_certification.py",
+    "implementation_sha256": "ce521bff0b9ec088bd7380ea588dc646807726a700e6e67158fa0aea9e3ccd04",
+    "implementation_bytes": 87754,
+    "implementation_git_state": "tracked_clean",
+    "report_schema_path": "Plan/08_SCHEMAS/wave64_av_sync_certification_report.schema.json",
+    "report_schema_sha256": "4171b9a8a378266841be5714d2088878b0d7f1160aad08e55b1f5f92c001e9c8",
+    "report_schema_bytes": 14425,
+    "strict_test_path": "Plan/Instructions/QA/Scripts/test_wave64_av_sync_certification_strict.py",
+    "strict_test_sha256": "31cedfe4c543c3f6b77f034f5405a48e0804d582ad294201d338d7403c81cee7",
+    "strict_test_bytes": 54647,
+    "proven_capabilities": [
+      "video and audio container decode",
+      "packet and frame PTS monotonicity",
+      "missing packet and frame timestamp rejection",
+      "decoded video-sequence and audio-sample hash comparison",
+      "source and mux frame-count and sample-count equality",
+      "decoded last-frame duration for irregular endpoint",
+      "audio-start offset and endpoint drift",
+      "anchor bounds",
+      "mux stream, codec, sample-rate, channel, and layout checks",
+      "transactional evidence output"
+    ],
+    "row084_scope_gaps": [
+      "not a canonical timeline compiler",
+      "no content-addressed VFR segment map output",
+      "no cut detector or cut epoch output",
+      "no missing-frame reconstruction or explicit gap mapping",
+      "no camera-motion normalization",
+      "no generic frame-to-seconds-to-samples conversion API",
+      "no registered Row084 round-trip tolerance table",
+      "no direct Row084 tracker receipt"
+    ],
+    "decision": "STRONG_ADJACENT_MUX_VALIDATOR_PARTIAL_CREDIT_ONLY"
+  },
+  "focused_local_test_result": {
+    "py_compile": "PASS",
+    "strict_command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_wave64_av_sync_certification_strict.py -k irregular_video_endpoint_uses_decoded_last_frame_duration_or_missing_mux_frame_timestamp_fails_offset_gate_or_anchor_beyond_decoded_mux_timeline_fails_or_schema_roundtrip_and_no_current_exit_zero_assertion",
+    "strict_result": "4 passed, 27 deselected",
+    "strict_exit_code": 0,
+    "package_test_path": "Plan/Instructions/QA/Scripts/test_wave64_hyperreal_video_audio_app_third_pass_package.py",
+    "package_test_sha256": "b1b846608c06ee4d5433016f61b7acd0295c11fc4e9bcbc97a81c2304bf6b8b0",
+    "package_test_bytes": 17118,
+    "package_command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_wave64_hyperreal_video_audio_app_third_pass_package.py -k reversed_media_span_is_rejected_or_audio_delivery_registry_rejects_legacy_fixture_as_universal_authority",
+    "package_result": "2 passed, 35 deselected",
+    "package_exit_code": 0,
+    "total_focused_passed": 6,
+    "total_focused_failed": 0,
+    "scope_interpretation": "These tests prove selected adjacent semantic and mux fail-closed behavior. They do not cover the complete Row084 acceptance matrix."
+  },
+  "adjacent_genuine_runtime_evidence": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/W64_GENUINE_AV_SYNC_FRAME_ALIGNED_TECHNICAL_PROOF_20260714T203828-0500.json",
+    "sha256": "cf94177f9da713b90370d9a29acfed39d56e3f968b7ae0e2a27436ea7ea4d063",
+    "bytes": 6196,
+    "tracker_id": "TRK-W64-030",
+    "status": "PASS_TECHNICAL_REPAIR_AUTHORITY_BLOCKED",
+    "classification": "GENUINE_AV_SYNC_FRAME_ALIGNED_TECHNICAL_PROOF_PASS_AUTHORITY_BLOCKED",
+    "source_video_frames": 49,
+    "corrected_mux_video_frames": 49,
+    "source_audio_samples": 32640,
+    "corrected_mux_audio_samples": 32640,
+    "decoded_video_hash_match": true,
+    "decoded_audio_hash_match": true,
+    "row_complete": false,
+    "row084_non_authority_reasons": [
+      "The evidence belongs to Row030 rather than Row084.",
+      "It is explicitly authority-blocked and not production-certified.",
+      "It does not bind a fixed-versus-variable-frame-rate benchmark matrix.",
+      "It does not prove cut, missing-frame, camera-motion, or general round-trip normalization."
+    ],
+    "decision": "GENUINE_PARTIAL_MUX_PRESERVATION_EVIDENCE_NOT_ROW084_COMPLETION"
+  },
+  "repository_implementation_search": {
+    "direct_row084_executable_file_count": 0,
+    "direct_row084_test_file_count": 0,
+    "direct_row084_runtime_or_benchmark_count": 0,
+    "matching_vfr_cut_camera_roundtrip_test_file_count": 0,
+    "tracker_declared_output_artifact_exists": false,
+    "planning_registry_entry_status": "Planned_Autonomous_Implementation_Required",
+    "planning_registry_path": "Plan/10_REGISTRIES/wave64_autonomous_sound_intelligence_work_package_registry.json",
+    "planning_registry_sha256": "d4ba802a94920e462fed578790e0508f140d5d7b0cf64736dcc86f47fb0e709e",
+    "decision": "PARTIAL_ADJACENT_PRIMITIVES_PRESENT_DIRECT_ROW084_AUTHORITY_ABSENT"
+  },
+  "required_timeline_contract_missing": [
+    "canonical decoded-video artifact binding with stream and container provenance",
+    "exact rational source time base and normalized master clock",
+    "per-frame source PTS, duration, normalized seconds, and normalized sample anchor",
+    "VFR segment map with monotonicity, gap, overlap, and duration invariants",
+    "cut epochs and cut-detection algorithm, revision, parameters, and confidence",
+    "missing-frame ledger and explicit preserve, interpolate, block, or gap policy",
+    "camera-motion trace and distinction from scene cuts",
+    "encoder priming, padding, edit-list, and retime representation",
+    "registered conversion rounding and tolerance policy",
+    "frame-to-seconds-to-samples and inverse conversion with residual evidence",
+    "fixed- and variable-frame-rate held-out fixtures",
+    "mux replay proof binding decoded before and after frame/sample identities",
+    "content-addressed timeline receipt and deterministic replay hashes",
+    "combined frame/contact/audio visual review evidence"
+  ],
+  "acceptance_matrix_required": [
+    "fixed integer frame-rate exact round trip",
+    "fractional 24000/1001 and 30000/1001 frame-rate round trip",
+    "variable-frame-rate per-frame PTS and duration round trip",
+    "first and terminal frame endpoint preservation",
+    "missing PTS and non-monotonic PTS rejection",
+    "duplicate, gap, overlap, and missing-frame behavior",
+    "hard cut, match cut, dissolve, and continuous-segment boundaries",
+    "camera motion is not misclassified as a cut",
+    "frame/sample rounding at exact half and nonintegral boundaries",
+    "multiple supported sample rates and explicit unsupported-rate rejection",
+    "encoder priming, padding, retime, and edit-list handling",
+    "mux replay retains every decoded frame and sample",
+    "conversion residual remains inside a registered threshold",
+    "schema and receipt tamper rejection",
+    "cross-process deterministic replay",
+    "combined frame/contact/audio review on genuine media"
+  ],
+  "downstream_holds": [
+    {
+      "tracker_id": "TRK-W64-085",
+      "reason": "Video shot and scene segmentation requires accepted canonical decode and cut epochs."
+    },
+    {
+      "tracker_id": "TRK-W64-091",
+      "reason": "The visual audio-event manifest requires canonical frame and sample anchors."
+    },
+    {
+      "tracker_id": "TRK-W64-097",
+      "reason": "Sample-accurate mix and mux certification requires the canonical timeline and mux-replay authority."
+    },
+    {
+      "tracker_id": "TRK-W64-112",
+      "reason": "Full-system certification requires every prerequisite row, including Row084, to pass."
+    }
+  ],
+  "checks": [
+    {"check_id": "ROW084-001", "name": "tracker_item_requirements_parity", "status": "PASS"},
+    {"check_id": "ROW084-002", "name": "dependency_audit_complete", "status": "PASS"},
+    {"check_id": "ROW084-003", "name": "canonical_clock_span_schema_present", "status": "PASS"},
+    {"check_id": "ROW084-004", "name": "clock_profile_registry_present", "status": "PASS"},
+    {"check_id": "ROW084-005", "name": "adjacent_av_sync_evaluator_present", "status": "PASS"},
+    {"check_id": "ROW084-006", "name": "focused_local_tests_pass", "status": "PASS"},
+    {"check_id": "ROW084-007", "name": "adjacent_genuine_mux_preservation_evidence_present", "status": "PASS"},
+    {"check_id": "ROW084-008", "name": "adversarial_clock_schema_probe_executed", "status": "PASS"},
+    {"check_id": "ROW084-009", "name": "codex_only_scope_and_zero_wake_boundary", "status": "PASS"},
+    {"check_id": "ROW084-010", "name": "dependency_row067_complete", "status": "FAIL"},
+    {"check_id": "ROW084-011", "name": "canonical_timeline_compiler_implemented", "status": "FAIL"},
+    {"check_id": "ROW084-012", "name": "clock_span_semantic_invariants_enforced_by_direct_schema", "status": "FAIL"},
+    {"check_id": "ROW084-013", "name": "vfr_segment_map_implemented_and_tested", "status": "FAIL"},
+    {"check_id": "ROW084-014", "name": "cut_epochs_implemented_and_tested", "status": "FAIL"},
+    {"check_id": "ROW084-015", "name": "missing_frame_policy_implemented_and_tested", "status": "FAIL"},
+    {"check_id": "ROW084-016", "name": "camera_motion_normalization_implemented_and_tested", "status": "FAIL"},
+    {"check_id": "ROW084-017", "name": "registered_roundtrip_tolerances_present", "status": "FAIL"},
+    {"check_id": "ROW084-018", "name": "fixed_and_vfr_frame_seconds_sample_roundtrip_benchmark_pass", "status": "FAIL"},
+    {"check_id": "ROW084-019", "name": "direct_row084_mux_replay_proof_present", "status": "FAIL"},
+    {"check_id": "ROW084-020", "name": "direct_combined_visual_audio_review_present", "status": "FAIL"},
+    {"check_id": "ROW084-021", "name": "direct_row084_runtime_receipt_present", "status": "FAIL"},
+    {"check_id": "ROW084-022", "name": "tracker_declared_output_artifact_present", "status": "FAIL"}
+  ],
+  "test_and_runtime_boundary": {
+    "schema_meta_validation_executed": true,
+    "adversarial_schema_probe_executed": true,
+    "focused_source_tests_executed": true,
+    "focused_source_tests_passed": 6,
+    "focused_source_tests_failed": 0,
+    "production_timeline_compilation_invoked": false,
+    "new_media_decode_or_mux_invoked": false,
+    "direct_row084_runtime_benchmark_executed": false,
+    "visual_review_executed": false,
+    "ec2_invoked": false,
+    "docker_invoked": false,
+    "wsl_invoked": false,
+    "provider_calls": 0,
+    "wrapper_calls": 0,
+    "scheduled_task_wakes": 0
+  },
+  "scheduler_and_worker_containment": {
+    "codex_automations_modified": false,
+    "windows_worker_tasks_modified": false,
+    "mask_maintenance_tasks_modified": false,
+    "ec2_read_only_safety_monitor_modified": false,
+    "worker_control_paths_modified": false,
+    "queued_or_running_worker_scope_duplicated": false,
+    "containment_note": "The signed intent was deferred with no routing or wake. Existing paused automations, disabled worker tasks, disabled Mask maintenance tasks, worker snapshots, FLUX2 paths, portfolio paths, and unrelated dirty files were not modified."
+  },
+  "preservation_boundary": {
+    "allowed_write_paths": [
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
+    ],
+    "actual_write_paths": [
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
+    ],
+    "unrelated_dirty_paths_preserved": true,
+    "worker_artifacts_preserved": true,
+    "flux2_dirty_paths_preserved": true,
+    "portfolio_reconciliation_paths_preserved": true
+  },
+  "hold_decision": {
+    "decision": "HOLD_ROW084_NO_FALSE_COMPLETION",
+    "reason": "Row067 remains incomplete. The project has a useful draft clock record, a declarative clock-profile registry, a strong adjacent AV-sync evaluator, six passing focused tests, and genuine Row030 mux-preservation evidence. However, no direct Row084 canonical timeline compiler, VFR segment map, cut authority, missing-frame policy, camera-motion normalization, registered round-trip tolerances, fixed-and-VFR conversion benchmark, mux-replay receipt, combined visual review, or tracker output exists. The standalone clock schema accepts a reversed span with null frame and sample rates and cannot record frame/sample endpoints.",
+    "safe_next_action": "After Row067 is accepted, freeze a Row084 canonical timeline contract and registry with rational clocks, per-frame PTS and duration, frame/sample endpoints, VFR segments, cut epochs, missing-frame and camera-motion policy, priming/padding/edit-list/retime handling, conversion rounding, and registered tolerances. Implement one deterministic compiler that binds decoded source and mux-replay identities; validate fixed, fractional, and variable-rate fixtures plus gaps, overlaps, cuts, missing frames, boundaries, tamper, and replay; then run genuine combined frame/contact/audio review and emit the tracker-declared runtime evidence. EC2 is not allowed for Row084. Continue independent Codex PM/QA work meanwhile."
+  }
+}
