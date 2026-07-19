@@ -15,8 +15,9 @@
 2. `a4062e15` Stamp Row017 nose handoff with primary commit id.
 3. `b6398ef2` Align Row017 nose handoff tip to origin HEAD.
 4. `d59366d6` Finalize Row017 nose handoff tip to origin HEAD.
+5. `845e2ef2` Refresh Row017 nose handoff with pushed tip IDs.
 
-Pushed tip verified on origin: `d59366d6`
+Pushed tip verified on origin: $h`
 
 ## Row-Scoped Increment Executed
 
