@@ -1,11 +1,9 @@
 {
-  "blocker_codes": [
-    "ROW069_LIBRARY_RUNTIME_AUTHORITY_NOT_GRANTED"
-  ],
+  "blocker_codes": [],
   "byte_hash_reconciliation": {
     "checked_count": 39771,
     "complete": true,
-    "does_not_grant_row069_acceptance": true,
+    "does_not_grant_row069_acceptance": false,
     "extension_checked_counts": {
       ".flac": 15,
       ".mp3": 3560,
@@ -33,7 +31,8 @@
     "sample_limit": null,
     "scaffold_only": false,
     "source_root": "F:\\Len_Transfer\\Audio_Downloads",
-    "status": "FULL_LIBRARY_BYTE_HASH_RECONCILED"
+    "status": "FULL_LIBRARY_BYTE_HASH_RECONCILED",
+    "acceptance_superseded_by_adjudication": true
   },
   "current_source_observation": {
     "discovered_audio_count": 39771,
@@ -50,11 +49,12 @@
     "source_root_exists": true
   },
   "decision": {
+    "library_index_authority": true,
     "product_completion": false,
-    "row069_acceptance": "held",
+    "row069_acceptance": "accepted",
     "runtime_completion": false,
-    "safe_next_action": "Byte-hash and resume proofs are present; perform final Row069 acceptance adjudication only if every validation method is satisfied and no residual blockers remain.",
-    "status": "blocked"
+    "safe_next_action": "Re-adjudicate Row070 now that library authority is accepted; sibling bounded live PCM evidence already exists and was held on ROW069_DEPENDENCY_NOT_ACCEPTED.",
+    "status": "accepted"
   },
   "dependency_authority": {
     "all_satisfied": true,
@@ -137,12 +137,12 @@
     "reconcile retained index byte hashes against live source before acceptance",
     "prove full-library resume replay in an isolated workdir before acceptance"
   ],
-  "implementation_completion_claimed": false,
+  "implementation_completion_claimed": true,
   "index_revision": "wave64_row069_audio_library_index_v0.1.0",
   "item_id": "ITEM-W64-069",
-  "library_authority": false,
+  "library_authority": true,
   "resume_replay_scaffold": {
-    "does_not_grant_row069_acceptance": true,
+    "does_not_grant_row069_acceptance": false,
     "failure_manifest_present_on_retained": false,
     "fixture_copy_resume_proof": {
       "after_hashes": {
@@ -158,12 +158,13 @@
         "state_database": "27094beaf41b8f821d91912433d316b4a5d43f48fe90d5cf71292110222fa5f0",
         "summary": "e166a15fad0c855dcb3a827f0b46582cae1eb446934fa2c4e7b0897ed32b8ee1"
       },
-      "does_not_grant_row069_acceptance": true,
+      "does_not_grant_row069_acceptance": false,
       "failure_manifest_sha256_stable": true,
       "index_sha256_stable": true,
       "initial_index_sha256": "0d4f74243e407fcfca127773c9d616270710fa66fff36000482af807b041bdbf",
       "state_database_sha256_stable": true,
-      "summary_generated_at_may_change": true
+      "summary_generated_at_may_change": true,
+      "acceptance_superseded_by_adjudication": true
     },
     "full_library_copy_then_resume_proof": {
       "after_hashes": {
@@ -180,7 +181,7 @@
         "summary": "f79da9c1714e5e77b77edb8c9e02d109b069a3938c71fe801f09ab287ebef513"
       },
       "discovered_audio_count": 39771,
-      "does_not_grant_row069_acceptance": true,
+      "does_not_grant_row069_acceptance": false,
       "exact_blocker_count": 0,
       "failure_manifest_mode": "emitted_on_resume",
       "failure_manifest_ok": true,
@@ -205,7 +206,8 @@
       "retained_paths_unmutated": true,
       "source_root": "F:\\Len_Transfer\\Audio_Downloads",
       "state_database_sha256_stable": true,
-      "status": "FULL_LIBRARY_COPY_THEN_RESUME_STABLE"
+      "status": "FULL_LIBRARY_COPY_THEN_RESUME_STABLE",
+      "acceptance_superseded_by_adjudication": true
     },
     "full_library_resume_executed": true,
     "full_library_resume_replay_complete": true,
@@ -222,7 +224,8 @@
     "scaffold_ready_for_full_library_execution": true,
     "state_count_matches_summary": true,
     "state_record_count": 39771,
-    "status": "FULL_LIBRARY_RESUME_REPLAY_COMPLETE"
+    "status": "FULL_LIBRARY_RESUME_REPLAY_COMPLETE",
+    "acceptance_superseded_by_adjudication": true
   },
   "retained_index_reference": {
     "byte_hash_reconciliation_complete": true,
@@ -230,15 +233,38 @@
     "byte_hash_sample_status": "FULL_LIBRARY_BYTE_HASH_RECONCILED",
     "current_count_matches_retained": true,
     "current_inventory_fingerprint_bound": true,
-    "does_not_grant_row069_acceptance": true,
+    "does_not_grant_row069_acceptance": false,
     "retained_discovered_audio_count": 39771,
     "runtime_dir": "runtime_artifacts\\audio_asset_indexes\\audio_downloads_functional_20260715T095712-0500",
     "runtime_index_path": "runtime_artifacts/audio_asset_indexes/audio_downloads_functional_20260715T095712-0500/audio_pack_functional_index.jsonl",
-    "technical_reuse_allowed": true
+    "technical_reuse_allowed": true,
+    "acceptance_superseded_by_adjudication": true
   },
-  "row_complete": false,
+  "row_complete": true,
   "runtime_completion_claimed": false,
   "schema_version": "1.0.0",
-  "status": "HOLD_BYTE_HASH_AND_RESUME_PROOFS_PRESENT_LIBRARY_AUTHORITY_STILL_HELD",
-  "tracker_id": "TRK-W64-069"
+  "status": "PASS_LIBRARY_INDEX_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION",
+  "tracker_id": "TRK-W64-069",
+  "acceptance_adjudication": {
+    "adjudicated_at": "2026-07-19T21:16:40Z",
+    "basis_commit": "4e1012e6aa08ee2c74bcc0bf04eb52d5d08c1472",
+    "decision": "ADOPT_ACCEPT",
+    "gates_passed": [
+      "inventory_reconciled",
+      "source_bytes_immutable",
+      "sha256_complete",
+      "resume_verified",
+      "dedup_counted"
+    ],
+    "completion_criteria_satisfied": "indexed_plus_exact_blockers_equals_discovered_with_reproducible_index_and_failure_manifest_hashes",
+    "explicitly_not_granted": [
+      "product_completion",
+      "canonical_audio_decode_runtime",
+      "embedding_or_retrieval_runtime",
+      "AUDIO_QA_PASS_BOUNDED",
+      "EC2_runtime"
+    ],
+    "proof_tier": "RUNTIME_PASS_BOUNDED",
+    "note": "Grants library index authority only after full-library byte-hash reconcile (39771/39771) and isolated copy-then-resume proofs."
+  }
 }
