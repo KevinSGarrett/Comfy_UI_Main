@@ -1,0 +1,373 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/pose_hand_foot_gait_extraction_manifest.schema.json",
+  "title": "Pose Hand Foot Gait Extraction Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_type",
+    "manifest_id",
+    "revision",
+    "run_id",
+    "scene_id",
+    "shot_id",
+    "take_id",
+    "is_synthetic",
+    "video_sha256",
+    "created_at",
+    "status",
+    "timeline_binding",
+    "owner_track_binding",
+    "detector_stack",
+    "dependency_authority",
+    "runtime_authority",
+    "instances",
+    "thresholds",
+    "threshold_violations",
+    "authority_summary",
+    "authority_ceiling",
+    "production_completion_allowed",
+    "row_complete",
+    "provenance",
+    "manifest_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_type": {"const": "pose_hand_foot_gait_extraction_manifest"},
+    "manifest_id": {"type": "string", "minLength": 1},
+    "revision": {"type": "string", "minLength": 1},
+    "run_id": {"type": "string", "minLength": 1},
+    "scene_id": {"type": "string", "minLength": 1},
+    "shot_id": {"type": "string", "minLength": 1},
+    "take_id": {"type": "string", "minLength": 1},
+    "is_synthetic": {"type": "boolean"},
+    "video_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "created_at": {"type": "string", "minLength": 1},
+    "status": {
+      "type": "string",
+      "enum": ["candidate_hold", "technical_partial", "blocked"]
+    },
+    "timeline_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "timeline_id",
+        "timeline_sha256",
+        "frame_count",
+        "frame_rate",
+        "frame_time_origin_seconds"
+      ],
+      "properties": {
+        "timeline_id": {"type": "string", "minLength": 1},
+        "timeline_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "frame_count": {"type": "integer", "minimum": 1},
+        "frame_rate": {"type": "number", "exclusiveMinimum": 0},
+        "frame_time_origin_seconds": {"type": "number"}
+      }
+    },
+    "owner_track_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tracking_manifest_id",
+        "tracking_manifest_sha256",
+        "owner_id",
+        "track_id"
+      ],
+      "properties": {
+        "tracking_manifest_id": {"type": "string", "minLength": 1},
+        "tracking_manifest_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "owner_id": {"type": "string", "minLength": 1},
+        "track_id": {"type": "string", "minLength": 1}
+      }
+    },
+    "detector_stack": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pose_detector_id",
+        "hand_detector_id",
+        "foot_detector_id",
+        "gait_estimator_id",
+        "revision",
+        "parameter_digest_sha256"
+      ],
+      "properties": {
+        "pose_detector_id": {"type": "string", "minLength": 1},
+        "hand_detector_id": {"type": "string", "minLength": 1},
+        "foot_detector_id": {"type": "string", "minLength": 1},
+        "gait_estimator_id": {"type": "string", "minLength": 1},
+        "revision": {"type": "string", "minLength": 1},
+        "parameter_digest_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "dependency_authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["row084_complete", "row085_complete", "dependency_ready"],
+      "properties": {
+        "row084_complete": {"type": "boolean"},
+        "row085_complete": {"type": "boolean"},
+        "dependency_ready": {"type": "boolean"}
+      }
+    },
+    "runtime_authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "annotated_benchmark_pass",
+        "runtime_receipt_present",
+        "combined_landmark_track_contact_audio_review_present",
+        "runtime_ready"
+      ],
+      "properties": {
+        "annotated_benchmark_pass": {"type": "boolean"},
+        "runtime_receipt_present": {"type": "boolean"},
+        "combined_landmark_track_contact_audio_review_present": {"type": "boolean"},
+        "runtime_ready": {"type": "boolean"}
+      }
+    },
+    "instances": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/instance"}
+    },
+    "thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "min_landmark_confidence",
+        "max_trajectory_gap_frames",
+        "max_fabricated_hidden_joint_count",
+        "min_gait_phase_confidence",
+        "min_contact_phase_confidence"
+      ],
+      "properties": {
+        "min_landmark_confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "max_trajectory_gap_frames": {"type": "integer", "minimum": 0},
+        "max_fabricated_hidden_joint_count": {"const": 0},
+        "min_gait_phase_confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "min_contact_phase_confidence": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "threshold_violations": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    },
+    "authority_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "instance_count",
+        "landmark_count",
+        "trajectory_count",
+        "gait_phase_count",
+        "contact_phase_count",
+        "fabricated_hidden_joint_count",
+        "contact_phase_certification_allowed",
+        "hold_reasons"
+      ],
+      "properties": {
+        "instance_count": {"type": "integer", "minimum": 0},
+        "landmark_count": {"type": "integer", "minimum": 0},
+        "trajectory_count": {"type": "integer", "minimum": 0},
+        "gait_phase_count": {"type": "integer", "minimum": 0},
+        "contact_phase_count": {"type": "integer", "minimum": 0},
+        "fabricated_hidden_joint_count": {"type": "integer", "minimum": 0},
+        "contact_phase_certification_allowed": {"type": "boolean"},
+        "hold_reasons": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "authority_ceiling": {
+      "type": "string",
+      "enum": ["candidate", "technical", "certification"]
+    },
+    "production_completion_allowed": {"type": "boolean"},
+    "row_complete": {"type": "boolean"},
+    "provenance": {"type": "object"},
+    "manifest_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  },
+  "$defs": {
+    "instance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "instance_id",
+        "owner_id",
+        "track_id",
+        "landmark_count",
+        "trajectory_count",
+        "gait_phase_count",
+        "contact_phase_count",
+        "landmark_classes_present",
+        "fabricated_hidden_joint_count",
+        "landmarks",
+        "trajectories",
+        "gait_phases",
+        "contact_phases",
+        "ownership_bound"
+      ],
+      "properties": {
+        "instance_id": {"type": "string", "minLength": 1},
+        "owner_id": {"type": "string", "minLength": 1},
+        "track_id": {"type": "string", "minLength": 1},
+        "landmark_count": {"type": "integer", "minimum": 1},
+        "trajectory_count": {"type": "integer", "minimum": 1},
+        "gait_phase_count": {"type": "integer", "minimum": 1},
+        "contact_phase_count": {"type": "integer", "minimum": 1},
+        "landmark_classes_present": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "enum": ["body", "hand", "foot"]}
+        },
+        "fabricated_hidden_joint_count": {"type": "integer", "minimum": 0},
+        "landmarks": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/landmark"}
+        },
+        "trajectories": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/trajectory"}
+        },
+        "gait_phases": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/gait_phase"}
+        },
+        "contact_phases": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/contact_phase"}
+        },
+        "ownership_bound": {"type": "boolean"}
+      }
+    },
+    "landmark": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "landmark_id",
+        "landmark_class",
+        "side",
+        "frame_index",
+        "pts",
+        "x",
+        "y",
+        "confidence",
+        "observation_state"
+      ],
+      "properties": {
+        "landmark_id": {"type": "string", "minLength": 1},
+        "landmark_class": {"type": "string", "enum": ["body", "hand", "foot"]},
+        "side": {"type": "string", "enum": ["left", "right", "center", "none"]},
+        "frame_index": {"type": "integer", "minimum": 0},
+        "pts": {"type": "integer", "minimum": 0},
+        "x": {"type": ["number", "null"]},
+        "y": {"type": ["number", "null"]},
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "observation_state": {
+          "type": "string",
+          "enum": ["observed", "inferred", "occluded", "outside_frame", "unknown", "invalid"]
+        }
+      }
+    },
+    "trajectory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "landmark_id",
+        "sample_count",
+        "first_frame",
+        "last_frame",
+        "max_gap_frames",
+        "samples"
+      ],
+      "properties": {
+        "landmark_id": {"type": "string", "minLength": 1},
+        "sample_count": {"type": "integer", "minimum": 1},
+        "first_frame": {"type": "integer", "minimum": 0},
+        "last_frame": {"type": "integer", "minimum": 0},
+        "max_gap_frames": {"type": "integer", "minimum": 0},
+        "samples": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/trajectory_sample"}
+        }
+      }
+    },
+    "trajectory_sample": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "frame_index",
+        "pts",
+        "x",
+        "y",
+        "vx",
+        "vy",
+        "confidence",
+        "observation_state"
+      ],
+      "properties": {
+        "frame_index": {"type": "integer", "minimum": 0},
+        "pts": {"type": "integer", "minimum": 0},
+        "x": {"type": ["number", "null"]},
+        "y": {"type": ["number", "null"]},
+        "vx": {"type": ["number", "null"]},
+        "vy": {"type": ["number", "null"]},
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "observation_state": {
+          "type": "string",
+          "enum": ["observed", "inferred", "occluded", "outside_frame", "unknown", "invalid"]
+        }
+      }
+    },
+    "gait_phase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["side", "phase", "frame_index", "pts", "confidence"],
+      "properties": {
+        "side": {"type": "string", "enum": ["left", "right"]},
+        "phase": {
+          "type": "string",
+          "enum": ["stance", "swing", "heel_strike", "sole_contact", "toe_off"]
+        },
+        "frame_index": {"type": "integer", "minimum": 0},
+        "pts": {"type": "integer", "minimum": 0},
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "contact_phase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "effector",
+        "phase",
+        "frame_index",
+        "pts",
+        "target_owner_id",
+        "confidence"
+      ],
+      "properties": {
+        "effector": {
+          "type": "string",
+          "enum": ["hand_left", "hand_right", "foot_left", "foot_right", "body"]
+        },
+        "phase": {
+          "type": "string",
+          "enum": ["approach", "contact", "compression", "recoil", "release", "settle"]
+        },
+        "frame_index": {"type": "integer", "minimum": 0},
+        "pts": {"type": "integer", "minimum": 0},
+        "target_owner_id": {"type": "string", "minLength": 1},
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    }
+  }
+}
