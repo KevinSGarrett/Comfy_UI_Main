@@ -28,6 +28,10 @@ MISSING_FRAME_POLICY_MATRIX_SCHEMA = (
 CAMERA_MOTION_POLICY_MATRIX_SCHEMA = (
     ROOT / "Plan/08_SCHEMAS/canonical_video_timeline_camera_motion_policy_matrix.schema.json"
 )
+CUT_DETECTOR_ALGORITHM_CONTRACT_SCHEMA = (
+    ROOT
+    / "Plan/08_SCHEMAS/canonical_video_timeline_cut_detector_algorithm_contract.schema.json"
+)
 
 
 def _write_json(path: Path, payload: dict) -> None:
@@ -371,6 +375,74 @@ def _camera_motion_policy_matrix_packet() -> dict:
     }
 
 
+def _cut_detector_algorithm_contract_packet() -> dict:
+    """Fixture contract covering algorithm_id binding + confidence calibration gates."""
+    ledger = _vfr_cut_packet(
+        timeline_id="row084_cut_detector_fixture_ledger",
+        video_sha256="b" * 64,
+        provenance_fixture="row084_cut_detector_fixture_ledger",
+    )
+    ledger["cut_epochs"] = [
+        {
+            "cut_id": "cut_hard_ledger",
+            "frame_index": 12,
+            "cut_kind": "hard",
+            "algorithm_id": "fixture_ledger_v1",
+            "confidence": 0.95,
+        }
+    ]
+
+    histogram = _fixed_packet(
+        frame_count=24,
+        timeline_id="row084_cut_detector_fixture_histogram",
+        video_sha256="c" * 64,
+        dependency_complete=True,
+        provenance_fixture="row084_cut_detector_fixture_histogram",
+    )
+    histogram["cut_epochs"] = [
+        {
+            "cut_id": "cut_match_histogram",
+            "frame_index": 8,
+            "cut_kind": "match",
+            "algorithm_id": "fixture_histogram_diff_v1",
+            "confidence": 0.88,
+        }
+    ]
+
+    return {
+        "schema_version": "1.0.0",
+        "contract_id": "row084_cut_detector_algorithm_contract_v1",
+        "revision": "r001",
+        "algorithms": [
+            {
+                "algorithm_id": "fixture_ledger_v1",
+                "min_confidence": 0.85,
+                "calibration_status": "fixture_calibrated",
+            },
+            {
+                "algorithm_id": "fixture_histogram_diff_v1",
+                "min_confidence": 0.80,
+                "calibration_status": "fixture_calibrated",
+            },
+        ],
+        "cases": [
+            {
+                "case_id": "ledger_hard_cut_above_gate",
+                "expected_algorithm_id": "fixture_ledger_v1",
+                "expected_min_confidence": 0.85,
+                "timeline_packet": ledger,
+            },
+            {
+                "case_id": "histogram_match_cut_above_gate",
+                "expected_algorithm_id": "fixture_histogram_diff_v1",
+                "expected_min_confidence": 0.80,
+                "timeline_packet": histogram,
+            },
+        ],
+        "provenance": {"fixture": "row084_cut_detector_algorithm_contract"},
+    }
+
+
 class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
     def setUp(self) -> None:
         self.timeline_validator = Draft202012Validator(json.loads(TIMELINE_SCHEMA.read_text(encoding="utf-8")))
@@ -386,6 +458,9 @@ class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
         )
         self.camera_motion_policy_validator = Draft202012Validator(
             json.loads(CAMERA_MOTION_POLICY_MATRIX_SCHEMA.read_text(encoding="utf-8"))
+        )
+        self.cut_detector_algorithm_validator = Draft202012Validator(
+            json.loads(CUT_DETECTOR_ALGORITHM_CONTRACT_SCHEMA.read_text(encoding="utf-8"))
         )
         self.clock_span_schema = json.loads(CLOCK_SPAN_SCHEMA.read_text(encoding="utf-8"))
 
@@ -920,6 +995,121 @@ class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
         packet["camera_motion_policy"] = "calibrated_runtime"
         completed, _ = self._run_compile(packet, expect_ok=False)
         self.assertIn("camera_motion_policy must be one of", completed.stderr + completed.stdout)
+
+    def test_cut_detector_algorithm_contract_covers_two_algorithms(self) -> None:
+        packet = _cut_detector_algorithm_contract_packet()
+        _, receipt = self._run_compile(
+            packet, expect_ok=True, mode="cut-detector-algorithm-contract"
+        )
+        assert receipt is not None
+        self.cut_detector_algorithm_validator.validate(receipt)
+        self.assertEqual(
+            receipt["record_type"],
+            "canonical_video_timeline_cut_detector_algorithm_contract",
+        )
+        self.assertEqual(receipt["status"], "fixture_cut_detector_algorithm_partial")
+        self.assertFalse(receipt["row_complete"])
+        self.assertFalse(receipt["production_completion_allowed"])
+        self.assertFalse(receipt["summary"]["runtime_detector_complete"])
+        self.assertTrue(receipt["summary"]["confidence_calibration_gates_enforced"])
+        self.assertTrue(receipt["summary"]["fixture_ledger_v1_covered"])
+        self.assertTrue(receipt["summary"]["fixture_histogram_diff_v1_covered"])
+        self.assertEqual(
+            set(receipt["summary"]["algorithms_covered"]),
+            {"fixture_ledger_v1", "fixture_histogram_diff_v1"},
+        )
+        self.assertFalse(receipt["authority"]["cut_detection_algorithm_complete"])
+        self.assertFalse(receipt["authority"]["mux_replay_proof_present"])
+        self.assertFalse(receipt["authority"]["combined_visual_review_present"])
+        self.assertEqual(receipt["summary"]["case_count"], 2)
+        self.assertEqual(receipt["summary"]["passed_count"], 2)
+        by_id = {case["case_id"]: case for case in receipt["cases"]}
+        self.assertEqual(
+            by_id["ledger_hard_cut_above_gate"]["expected_algorithm_id"], "fixture_ledger_v1"
+        )
+        self.assertEqual(
+            by_id["histogram_match_cut_above_gate"]["expected_algorithm_id"],
+            "fixture_histogram_diff_v1",
+        )
+        self.assertTrue(by_id["ledger_hard_cut_above_gate"]["confidence_gate_passed"])
+        self.assertGreaterEqual(
+            by_id["ledger_hard_cut_above_gate"]["min_observed_confidence"], 0.85
+        )
+        self.assertTrue(all(case["runtime_detector_complete"] is False for case in receipt["cases"]))
+        self.assertTrue(all(case["row_complete"] is False for case in receipt["cases"]))
+
+    def test_cut_detector_algorithm_contract_requires_both_algorithms(self) -> None:
+        packet = _cut_detector_algorithm_contract_packet()
+        # Two cases, but both ledger — histogram coverage must fail closed.
+        packet["cases"][1]["case_id"] = "ledger_hard_cut_above_gate_b"
+        packet["cases"][1]["expected_algorithm_id"] = "fixture_ledger_v1"
+        packet["cases"][1]["expected_min_confidence"] = 0.85
+        packet["cases"][1]["timeline_packet"] = _vfr_cut_packet(
+            timeline_id="row084_cut_detector_fixture_ledger_b",
+            video_sha256="d" * 64,
+            provenance_fixture="row084_cut_detector_fixture_ledger_b",
+        )
+        packet["cases"][1]["timeline_packet"]["cut_epochs"] = [
+            {
+                "cut_id": "cut_hard_ledger_b",
+                "frame_index": 12,
+                "cut_kind": "hard",
+                "algorithm_id": "fixture_ledger_v1",
+                "confidence": 0.91,
+            }
+        ]
+        completed, _ = self._run_compile(
+            packet, expect_ok=False, mode="cut-detector-algorithm-contract"
+        )
+        self.assertIn(
+            "requires at least one fixture_histogram_diff_v1 case",
+            completed.stderr + completed.stdout,
+        )
+
+    def test_cut_detector_confidence_below_gate_is_fail_closed(self) -> None:
+        packet = _cut_detector_algorithm_contract_packet()
+        packet["cases"][0]["timeline_packet"]["cut_epochs"][0]["confidence"] = 0.50
+        completed, _ = self._run_compile(
+            packet, expect_ok=False, mode="cut-detector-algorithm-contract"
+        )
+        self.assertIn("below calibration gate min_confidence", completed.stderr + completed.stdout)
+
+    def test_cut_detector_unknown_algorithm_id_is_fail_closed(self) -> None:
+        packet = _cut_detector_algorithm_contract_packet()
+        packet["cases"][0]["timeline_packet"]["cut_epochs"][0]["algorithm_id"] = (
+            "runtime_unregistered_v9"
+        )
+        completed, _ = self._run_compile(
+            packet, expect_ok=False, mode="cut-detector-algorithm-contract"
+        )
+        combined = completed.stderr + completed.stdout
+        self.assertTrue(
+            "is not authorized by the contract registry" in combined
+            or "must equal expected_algorithm_id" in combined,
+            msg=combined,
+        )
+
+    def test_cut_detector_uncalibrated_algorithm_registry_is_fail_closed(self) -> None:
+        packet = _cut_detector_algorithm_contract_packet()
+        packet["algorithms"][0]["calibration_status"] = "blocked_until_calibrated"
+        completed, _ = self._run_compile(
+            packet, expect_ok=False, mode="cut-detector-algorithm-contract"
+        )
+        self.assertIn(
+            "uncalibrated algorithms are fail-closed",
+            completed.stderr + completed.stdout,
+        )
+
+    def test_cut_detector_empty_cut_epochs_is_fail_closed(self) -> None:
+        packet = _cut_detector_algorithm_contract_packet()
+        packet["cases"][1]["timeline_packet"]["cut_epochs"] = []
+        completed, _ = self._run_compile(
+            packet, expect_ok=False, mode="cut-detector-algorithm-contract"
+        )
+        self.assertIn(
+            "requires non-empty cut_epochs for cut-detector contract",
+            completed.stderr + completed.stdout,
+        )
 
 
 if __name__ == "__main__":

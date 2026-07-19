@@ -4,8 +4,10 @@
 Compiles fixture or decoded-frame metadata into a content-addressed timeline
 receipt, plus mux-prep scaffold, held-out fixed/VFR round-trip matrix helpers,
 a fixture-backed missing-frame policy matrix (preserve_gap / explicit_gap),
-and a fixture-backed camera-motion policy matrix
-(not_evaluated / blocked_until_calibrated / distinguish_from_cuts).
+a fixture-backed camera-motion policy matrix
+(not_evaluated / blocked_until_calibrated / distinguish_from_cuts),
+and a fixture-backed cut-detector algorithm contract
+(algorithm_id + confidence calibration gates).
 Production completion remains blocked unless dependency, benchmark, mux-replay,
 and visual-review authorities are all satisfied.
 """
@@ -20,12 +22,16 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-COMPILER_REVISION = "row084_camera_motion_policy_matrix_v7"
+COMPILER_REVISION = "row084_cut_detector_algorithm_contract_v8"
 MATRIX_AUTHORIZED_MISSING_POLICIES = frozenset({"preserve_gap", "explicit_gap"})
 RUNTIME_BLOCKED_MISSING_POLICIES = frozenset({"interpolate", "block"})
 MATRIX_AUTHORIZED_CAMERA_MOTION_POLICIES = frozenset(
     {"not_evaluated", "blocked_until_calibrated", "distinguish_from_cuts"}
 )
+CONTRACT_AUTHORIZED_CUT_DETECTOR_ALGORITHMS = frozenset(
+    {"fixture_ledger_v1", "fixture_histogram_diff_v1"}
+)
+CONTRACT_AUTHORIZED_CUT_DETECTOR_CALIBRATION = "fixture_calibrated"
 
 
 ALLOWED_TOP_LEVEL_FIELDS = {
@@ -1510,6 +1516,268 @@ def compile_camera_motion_policy_matrix(payload: dict[str, Any]) -> dict[str, An
     return body
 
 
+def compile_cut_detector_algorithm_contract(payload: dict[str, Any]) -> dict[str, Any]:
+    """Compile a fixture-backed cut-detector algorithm contract.
+
+    Binds authorized algorithm_id values to confidence calibration gates and
+    proves fail-closed reject paths. Does not grant runtime cut detection,
+    visual review, mux replay, or row_complete.
+    """
+    if not isinstance(payload, dict):
+        raise ValueError("cut-detector algorithm contract payload must be an object")
+    allowed = {
+        "schema_version",
+        "contract_id",
+        "revision",
+        "algorithms",
+        "cases",
+        "provenance",
+    }
+    _assert_keys_exact(payload, allowed, "cut_detector_algorithm_contract")
+    schema_version = _expect_non_empty_string(payload.get("schema_version"), "schema_version")
+    if schema_version != "1.0.0":
+        raise ValueError("schema_version must equal 1.0.0")
+    contract_id = _expect_non_empty_string(payload.get("contract_id"), "contract_id")
+    revision = _expect_non_empty_string(payload.get("revision"), "revision")
+
+    algorithms_raw = payload.get("algorithms")
+    if not isinstance(algorithms_raw, list) or len(algorithms_raw) < 2:
+        raise ValueError(
+            "algorithms must be a list with at least two cut-detector algorithm entries"
+        )
+    algorithm_gates: dict[str, float] = {}
+    algorithm_records: list[dict[str, Any]] = []
+    for idx, entry in enumerate(algorithms_raw):
+        if not isinstance(entry, dict):
+            raise ValueError(f"algorithms[{idx}] must be an object")
+        _assert_keys_exact(
+            entry,
+            {"algorithm_id", "min_confidence", "calibration_status"},
+            f"algorithms[{idx}]",
+        )
+        algorithm_id = _expect_non_empty_string(
+            entry.get("algorithm_id"), f"algorithms[{idx}].algorithm_id"
+        )
+        if algorithm_id not in CONTRACT_AUTHORIZED_CUT_DETECTOR_ALGORITHMS:
+            raise ValueError(
+                f"algorithms[{idx}].algorithm_id {algorithm_id!r} is not authorized; "
+                f"must be one of {sorted(CONTRACT_AUTHORIZED_CUT_DETECTOR_ALGORITHMS)}"
+            )
+        if algorithm_id in algorithm_gates:
+            raise ValueError(f"algorithms[{idx}].algorithm_id duplicates a prior algorithm_id")
+        min_confidence = _expect_number(
+            entry.get("min_confidence"), f"algorithms[{idx}].min_confidence"
+        )
+        if min_confidence < 0 or min_confidence > 1:
+            raise ValueError(f"algorithms[{idx}].min_confidence must be within [0, 1]")
+        calibration_status = _expect_non_empty_string(
+            entry.get("calibration_status"), f"algorithms[{idx}].calibration_status"
+        )
+        if calibration_status != CONTRACT_AUTHORIZED_CUT_DETECTOR_CALIBRATION:
+            raise ValueError(
+                f"algorithms[{idx}].calibration_status must equal "
+                f"{CONTRACT_AUTHORIZED_CUT_DETECTOR_CALIBRATION!r} "
+                f"(uncalibrated algorithms are fail-closed)"
+            )
+        algorithm_gates[algorithm_id] = float(min_confidence)
+        algorithm_records.append(
+            {
+                "algorithm_id": algorithm_id,
+                "min_confidence": float(min_confidence),
+                "calibration_status": calibration_status,
+                "authorized": True,
+            }
+        )
+
+    for required in sorted(CONTRACT_AUTHORIZED_CUT_DETECTOR_ALGORITHMS):
+        if required not in algorithm_gates:
+            raise ValueError(
+                f"cut-detector algorithm contract requires algorithm registry entry "
+                f"for {required}"
+            )
+
+    cases_raw = payload.get("cases")
+    if not isinstance(cases_raw, list) or len(cases_raw) < 2:
+        raise ValueError(
+            "cases must be a list with at least two cut-detector algorithm fixtures"
+        )
+
+    seen_case_ids: set[str] = set()
+    seen_algorithms: set[str] = set()
+    case_results: list[dict[str, Any]] = []
+    for idx, entry in enumerate(cases_raw):
+        if not isinstance(entry, dict):
+            raise ValueError(f"cases[{idx}] must be an object")
+        _assert_keys_exact(
+            entry,
+            {
+                "case_id",
+                "expected_algorithm_id",
+                "expected_min_confidence",
+                "timeline_packet",
+            },
+            f"cases[{idx}]",
+        )
+        case_id = _expect_non_empty_string(entry.get("case_id"), f"cases[{idx}].case_id")
+        if case_id in seen_case_ids:
+            raise ValueError(f"cases[{idx}].case_id duplicates a prior case_id")
+        seen_case_ids.add(case_id)
+        expected_algorithm_id = _expect_non_empty_string(
+            entry.get("expected_algorithm_id"), f"cases[{idx}].expected_algorithm_id"
+        )
+        if expected_algorithm_id not in algorithm_gates:
+            raise ValueError(
+                f"cases[{idx}].expected_algorithm_id {expected_algorithm_id!r} "
+                f"is not present in the algorithm registry"
+            )
+        expected_min_confidence = _expect_number(
+            entry.get("expected_min_confidence"), f"cases[{idx}].expected_min_confidence"
+        )
+        registry_min = algorithm_gates[expected_algorithm_id]
+        if expected_min_confidence != registry_min:
+            raise ValueError(
+                f"cases[{idx}].expected_min_confidence {expected_min_confidence} "
+                f"must equal registry min_confidence {registry_min} for "
+                f"{expected_algorithm_id}"
+            )
+
+        packet = entry.get("timeline_packet")
+        if not isinstance(packet, dict):
+            raise ValueError(f"cases[{idx}].timeline_packet must be an object")
+        receipt = compile_timeline(packet)
+        cut_epochs = receipt.get("cut_epochs")
+        if not isinstance(cut_epochs, list) or not cut_epochs:
+            raise ValueError(
+                f"cases[{idx}] requires non-empty cut_epochs for cut-detector contract"
+            )
+
+        applied_ids: set[str] = set()
+        min_observed = 1.0
+        for cut_idx, cut in enumerate(cut_epochs):
+            if not isinstance(cut, dict):
+                raise ValueError(f"cases[{idx}].cut_epochs[{cut_idx}] must be an object")
+            algorithm_id = cut.get("algorithm_id")
+            if algorithm_id not in algorithm_gates:
+                raise ValueError(
+                    f"cases[{idx}].cut_epochs[{cut_idx}].algorithm_id "
+                    f"{algorithm_id!r} is not authorized by the contract registry"
+                )
+            if algorithm_id != expected_algorithm_id:
+                raise ValueError(
+                    f"cases[{idx}].cut_epochs[{cut_idx}].algorithm_id "
+                    f"must equal expected_algorithm_id {expected_algorithm_id}"
+                )
+            confidence = cut.get("confidence")
+            if not isinstance(confidence, (int, float)) or isinstance(confidence, bool):
+                raise ValueError(
+                    f"cases[{idx}].cut_epochs[{cut_idx}].confidence must be a number"
+                )
+            confidence_f = float(confidence)
+            if confidence_f < registry_min:
+                raise ValueError(
+                    f"cases[{idx}].cut_epochs[{cut_idx}].confidence {confidence_f} "
+                    f"is below calibration gate min_confidence {registry_min} "
+                    f"for algorithm_id {expected_algorithm_id}"
+                )
+            applied_ids.add(algorithm_id)
+            min_observed = min(min_observed, confidence_f)
+
+        seen_algorithms.add(expected_algorithm_id)
+        case_results.append(
+            {
+                "case_id": case_id,
+                "expected_algorithm_id": expected_algorithm_id,
+                "expected_min_confidence": float(expected_min_confidence),
+                "timeline_id": receipt["timeline_id"],
+                "timeline_sha256": receipt["timeline_sha256"],
+                "frame_rate_mode": receipt["frame_rate_mode"],
+                "cut_epoch_count": len(cut_epochs),
+                "applied_algorithm_ids": sorted(applied_ids),
+                "min_observed_confidence": min_observed,
+                "confidence_gate_passed": True,
+                "algorithm_contract_applied": True,
+                "within_tolerance": receipt["roundtrip_evidence"]["within_tolerance"],
+                "runtime_detector_complete": False,
+                "row_complete": False,
+            }
+        )
+
+    for required in sorted(CONTRACT_AUTHORIZED_CUT_DETECTOR_ALGORITHMS):
+        if required not in seen_algorithms:
+            raise ValueError(
+                f"cut-detector algorithm contract requires at least one {required} case"
+            )
+
+    all_within = all(case["within_tolerance"] for case in case_results)
+    all_applied = all(case["algorithm_contract_applied"] for case in case_results)
+    all_gated = all(case["confidence_gate_passed"] for case in case_results)
+    created_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    provenance = payload.get("provenance")
+    if provenance is None:
+        provenance = {
+            "compiler": "compile_wave64_canonical_video_timeline.py",
+            "compiler_revision": COMPILER_REVISION,
+        }
+    if not isinstance(provenance, dict):
+        raise ValueError("provenance must be an object")
+
+    body = {
+        "schema_version": "1.0.0",
+        "record_type": "canonical_video_timeline_cut_detector_algorithm_contract",
+        "contract_id": contract_id,
+        "revision": revision,
+        "status": (
+            "fixture_cut_detector_algorithm_partial"
+            if all_within and all_applied and all_gated
+            else "blocked"
+        ),
+        "created_at": created_at,
+        "algorithms": algorithm_records,
+        "cases": case_results,
+        "summary": {
+            "case_count": len(case_results),
+            "passed_count": sum(
+                1
+                for case in case_results
+                if case["within_tolerance"]
+                and case["algorithm_contract_applied"]
+                and case["confidence_gate_passed"]
+            ),
+            "failed_count": sum(
+                1
+                for case in case_results
+                if not (
+                    case["within_tolerance"]
+                    and case["algorithm_contract_applied"]
+                    and case["confidence_gate_passed"]
+                )
+            ),
+            "all_within_tolerance": all_within,
+            "algorithms_covered": sorted(seen_algorithms),
+            "fixture_ledger_v1_covered": "fixture_ledger_v1" in seen_algorithms,
+            "fixture_histogram_diff_v1_covered": "fixture_histogram_diff_v1" in seen_algorithms,
+            "confidence_calibration_gates_enforced": True,
+            "runtime_detector_complete": False,
+            "mux_replay_included": False,
+            "runtime_media_decode_invoked": False,
+            "benchmark_authority_granted": False,
+            "visual_review_authority_granted": False,
+        },
+        "authority": {
+            "fixture_contract_only": True,
+            "cut_detection_algorithm_complete": False,
+            "fixed_vfr_benchmark_pass": False,
+            "mux_replay_proof_present": False,
+            "combined_visual_review_present": False,
+        },
+        "production_completion_allowed": False,
+        "row_complete": False,
+        "provenance": provenance,
+    }
+    body["contract_sha256"] = _canonical_sha256(body)
+    return body
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Compile a fail-closed Row084 canonical video timeline receipt.")
     parser.add_argument(
@@ -1517,7 +1785,8 @@ def main(argv: list[str] | None = None) -> int:
         required=True,
         help=(
             "Path to timeline, mux-prep, held-out matrix, held-out mux dry-run, "
-            "missing-frame policy matrix, or camera-motion policy matrix input JSON"
+            "missing-frame policy matrix, camera-motion policy matrix, or "
+            "cut-detector algorithm contract input JSON"
         ),
     )
     parser.add_argument("--output", required=True, help="Path to write compiled receipt JSON")
@@ -1530,6 +1799,7 @@ def main(argv: list[str] | None = None) -> int:
             "held-out-mux-dry-run",
             "missing-frame-policy-matrix",
             "camera-motion-policy-matrix",
+            "cut-detector-algorithm-contract",
         ),
         default="timeline",
         help="Compilation mode (default: timeline)",
@@ -1562,9 +1832,12 @@ def main(argv: list[str] | None = None) -> int:
         elif args.mode == "missing-frame-policy-matrix":
             receipt = compile_missing_frame_policy_matrix(payload)
             digest_key = "matrix_sha256"
-        else:
+        elif args.mode == "camera-motion-policy-matrix":
             receipt = compile_camera_motion_policy_matrix(payload)
             digest_key = "matrix_sha256"
+        else:
+            receipt = compile_cut_detector_algorithm_contract(payload)
+            digest_key = "contract_sha256"
     except ValueError as exc:
         raise SystemExit(f"ROW084_FAIL_CLOSED: {exc}") from exc
     _write_json_atomic(output_path, receipt)

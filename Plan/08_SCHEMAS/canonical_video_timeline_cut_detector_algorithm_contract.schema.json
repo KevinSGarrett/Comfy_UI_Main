@@ -1,0 +1,185 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/canonical-video-timeline-cut-detector-algorithm-contract/1.0.0",
+  "title": "Wave64 Canonical Video Timeline Cut-Detector Algorithm Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_type",
+    "contract_id",
+    "revision",
+    "status",
+    "created_at",
+    "algorithms",
+    "cases",
+    "summary",
+    "authority",
+    "production_completion_allowed",
+    "row_complete",
+    "contract_sha256",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "record_type": {
+      "const": "canonical_video_timeline_cut_detector_algorithm_contract"
+    },
+    "contract_id": { "type": "string", "minLength": 1 },
+    "revision": { "type": "string", "minLength": 1 },
+    "status": {
+      "enum": ["fixture_cut_detector_algorithm_partial", "blocked"]
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "algorithms": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "algorithm_id",
+          "min_confidence",
+          "calibration_status",
+          "authorized"
+        ],
+        "properties": {
+          "algorithm_id": {
+            "enum": ["fixture_ledger_v1", "fixture_histogram_diff_v1"]
+          },
+          "min_confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "calibration_status": { "const": "fixture_calibrated" },
+          "authorized": { "const": true }
+        }
+      }
+    },
+    "cases": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "case_id",
+          "expected_algorithm_id",
+          "expected_min_confidence",
+          "timeline_id",
+          "timeline_sha256",
+          "frame_rate_mode",
+          "cut_epoch_count",
+          "applied_algorithm_ids",
+          "min_observed_confidence",
+          "confidence_gate_passed",
+          "algorithm_contract_applied",
+          "within_tolerance",
+          "runtime_detector_complete",
+          "row_complete"
+        ],
+        "properties": {
+          "case_id": { "type": "string", "minLength": 1 },
+          "expected_algorithm_id": {
+            "enum": ["fixture_ledger_v1", "fixture_histogram_diff_v1"]
+          },
+          "expected_min_confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "timeline_id": { "type": "string", "minLength": 1 },
+          "timeline_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+          "frame_rate_mode": { "enum": ["fixed", "fractional", "vfr"] },
+          "cut_epoch_count": { "type": "integer", "minimum": 1 },
+          "applied_algorithm_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "enum": ["fixture_ledger_v1", "fixture_histogram_diff_v1"]
+            }
+          },
+          "min_observed_confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "confidence_gate_passed": { "const": true },
+          "algorithm_contract_applied": { "const": true },
+          "within_tolerance": { "type": "boolean" },
+          "runtime_detector_complete": { "const": false },
+          "row_complete": { "const": false }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "case_count",
+        "passed_count",
+        "failed_count",
+        "all_within_tolerance",
+        "algorithms_covered",
+        "fixture_ledger_v1_covered",
+        "fixture_histogram_diff_v1_covered",
+        "confidence_calibration_gates_enforced",
+        "runtime_detector_complete",
+        "mux_replay_included",
+        "runtime_media_decode_invoked",
+        "benchmark_authority_granted",
+        "visual_review_authority_granted"
+      ],
+      "properties": {
+        "case_count": { "type": "integer", "minimum": 2 },
+        "passed_count": { "type": "integer", "minimum": 0 },
+        "failed_count": { "type": "integer", "minimum": 0 },
+        "all_within_tolerance": { "type": "boolean" },
+        "algorithms_covered": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "enum": ["fixture_ledger_v1", "fixture_histogram_diff_v1"]
+          }
+        },
+        "fixture_ledger_v1_covered": { "const": true },
+        "fixture_histogram_diff_v1_covered": { "const": true },
+        "confidence_calibration_gates_enforced": { "const": true },
+        "runtime_detector_complete": { "const": false },
+        "mux_replay_included": { "const": false },
+        "runtime_media_decode_invoked": { "const": false },
+        "benchmark_authority_granted": { "const": false },
+        "visual_review_authority_granted": { "const": false }
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fixture_contract_only",
+        "cut_detection_algorithm_complete",
+        "fixed_vfr_benchmark_pass",
+        "mux_replay_proof_present",
+        "combined_visual_review_present"
+      ],
+      "properties": {
+        "fixture_contract_only": { "const": true },
+        "cut_detection_algorithm_complete": { "const": false },
+        "fixed_vfr_benchmark_pass": { "const": false },
+        "mux_replay_proof_present": { "const": false },
+        "combined_visual_review_present": { "const": false }
+      }
+    },
+    "production_completion_allowed": { "const": false },
+    "row_complete": { "const": false },
+    "contract_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

@@ -1,21 +1,21 @@
 {
   "schema_version": "1.0",
   "evidence_id": "TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719",
-  "created_at": "2026-07-19T20:31:32Z",
-  "source_commit": "8d63bdcf05446cbbe88ba931dcd68164edae6381",
-  "prior_evidence_commit": "68b3f4f0",
+  "created_at": "2026-07-19T20:39:21Z",
+  "source_commit": "1c66552e03a349649ed343345c92de1c96a79859",
+  "prior_evidence_commit": "aaf58532",
   "prior_row_commit_is_current_head": false,
   "tracker_id": "TRK-W64-084",
   "item_id": "ITEM-W64-084",
-  "status": "HOLD_RUNTIME_MUX_REPLAY_BENCHMARK_CUT_DETECTOR_CAMERA_VISUAL_PROOF_ABSENT_CAMERA_MOTION_POLICY_MATRIX_PARTIAL",
-  "classification": "ROW084_FAIL_CLOSED_CAMERA_MOTION_POLICY_MATRIX_NOT_EVALUATED_BLOCKED_DISTINGUISH_NO_FALSE_COMPLETION",
+  "status": "HOLD_RUNTIME_MUX_REPLAY_BENCHMARK_CUT_DETECTOR_CAMERA_VISUAL_PROOF_ABSENT_CUT_DETECTOR_ALGORITHM_CONTRACT_PARTIAL",
+  "classification": "ROW084_FAIL_CLOSED_CUT_DETECTOR_ALGORITHM_CONTRACT_ALGORITHM_ID_CONFIDENCE_GATES_NO_FALSE_COMPLETION",
   "row_complete": false,
   "implementation_completion_claimed": false,
   "runtime_completion_claimed": false,
   "qa_decision": "HOLD",
   "increment": {
-    "kind": "fail_closed_fixture_backed_camera_motion_policy_matrix_not_evaluated_blocked_distinguish",
-    "summary": "Added a fixture-backed camera-motion policy distinction matrix covering not_evaluated, blocked_until_calibrated, and distinguish_from_cuts, with fail-closed reject paths for incomplete coverage, expected_policy mismatch, distinguish_from_cuts without cut_epochs, and unknown policies. Does not grant camera-motion normalization, mux replay, visual review, or row_complete.",
+    "kind": "fail_closed_fixture_backed_cut_detector_algorithm_contract_algorithm_id_confidence_gates",
+    "summary": "Added a fixture-backed cut-detector algorithm contract covering authorized algorithm_id values (fixture_ledger_v1 / fixture_histogram_diff_v1) with confidence calibration gates, plus fail-closed reject paths for incomplete algorithm coverage, confidence below gate, unknown algorithm_id, uncalibrated registry entries, and empty cut_epochs. Does not grant runtime cut detection, mux replay, visual review, or row_complete.",
     "production_media_decode_invoked": false,
     "tracker_output_artifact_emitted": false,
     "mux_replay_executed": false,
@@ -23,10 +23,11 @@
     "visual_review_authority_claimed": false,
     "camera_motion_normalization_complete": false,
     "missing_frame_policy_runtime_complete": false,
+    "cut_detection_algorithm_complete": false,
     "row067_binding_commit": "b074c694518b7ebe78a1e7292db28427d7f75ca7"
   },
   "intent": {
-    "intent_id": "interactive_cursor_shift_row084_camera_motion_policy_matrix_20260719",
+    "intent_id": "interactive_cursor_shift_row084_cut_detector_algorithm_contract_20260719",
     "classification": "INTERACTIVE_PLATFORM_SHIFT_AUTHORITY",
     "work_type": "final_authority",
     "authority_class": "interactive_cursor",
@@ -34,13 +35,13 @@
     "dispatch_wake_count": 0,
     "candidate_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-      "Plan/08_SCHEMAS/canonical_video_timeline_camera_motion_policy_matrix.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline_cut_detector_algorithm_contract.schema.json",
       "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
     ],
     "allowed_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-      "Plan/08_SCHEMAS/canonical_video_timeline_camera_motion_policy_matrix.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline_cut_detector_algorithm_contract.schema.json",
       "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
     ]
@@ -76,13 +77,13 @@
     "row_complete": true,
     "row067_complete": true,
     "dependency_satisfied": true,
-    "row084_effect": "Dependency remains unlocked. Fixture-backed camera-motion policy matrix (not_evaluated / blocked_until_calibrated / distinguish_from_cuts) does not grant camera-motion normalization, missing-frame runtime completion, mux replay, runtime benchmark, cut-detector algorithm, visual review, or tracker runtime artifact authority."
+    "row084_effect": "Dependency remains unlocked. Fixture-backed cut-detector algorithm contract (algorithm_id + confidence calibration gates) does not grant runtime cut detection, camera-motion normalization, missing-frame runtime completion, mux replay, runtime benchmark, visual review, or tracker runtime artifact authority."
   },
   "implementation_slice": {
     "compiler_path": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-    "compiler_sha256": "517b1f954f19d71977c7bb24e2822d9cac9b1887dbf64daa7887e98d4b70af7b",
-    "compiler_bytes": 72892,
-    "compiler_revision": "row084_camera_motion_policy_matrix_v7",
+    "compiler_sha256": "062f92cda83d27d10498dc2e4f46104b41de88035960857599780894263607b2",
+    "compiler_bytes": 84999,
+    "compiler_revision": "row084_cut_detector_algorithm_contract_v8",
     "timeline_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline.schema.json",
     "timeline_schema_sha256": "48052223b8d1025fcc982eedc95d6f722d4ed4947dcdca6eeb6b5a3f1f8b853f",
     "timeline_schema_bytes": 8892,
@@ -92,12 +93,15 @@
     "camera_motion_policy_matrix_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_camera_motion_policy_matrix.schema.json",
     "camera_motion_policy_matrix_schema_sha256": "17838ff5c55cde910d3c19a2da1baedb61247bda5fff00f44de98f8817fe673e",
     "camera_motion_policy_matrix_schema_bytes": 5088,
+    "cut_detector_algorithm_contract_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_cut_detector_algorithm_contract.schema.json",
+    "cut_detector_algorithm_contract_schema_sha256": "560494196f900c6a381e75b1e8500398f8fe6e93ca1d25aa7b7cf1102fe1dfe2",
+    "cut_detector_algorithm_contract_schema_bytes": 6259,
     "mux_prep_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_mux_prep_receipt.schema.json",
     "held_out_matrix_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_held_out_roundtrip_matrix.schema.json",
     "held_out_mux_dry_run_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_held_out_mux_dry_run_matrix.schema.json",
     "test_path": "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
-    "test_sha256": "748a61c017380989ad17d12d46513c5c6cb55527a7169d0064229e35f44457ee",
-    "test_bytes": 43248,
+    "test_sha256": "682ece3740ab310696dd27401b174e7c5eb5d95b16a23de0956e20359bb3913e",
+    "test_bytes": 51449,
     "proven_capabilities": [
       "fail-closed reversed PTS/frame/sample span rejection",
       "required non-null frame and sample rates on clock-span schema",
@@ -134,11 +138,17 @@
       "fixture-backed camera-motion policy matrix covering not_evaluated, blocked_until_calibrated, and distinguish_from_cuts",
       "fail-closed reject for distinguish_from_cuts without non-empty cut_epochs",
       "fail-closed reject for unknown camera_motion_policy values",
-      "camera-motion policy matrix rejects incomplete three-policy coverage and expected_policy mismatch"
+      "camera-motion policy matrix rejects incomplete three-policy coverage and expected_policy mismatch",
+      "fixture-backed cut-detector algorithm contract covering fixture_ledger_v1 and fixture_histogram_diff_v1 with confidence calibration gates",
+      "fail-closed reject for confidence below algorithm min_confidence gate",
+      "fail-closed reject for unknown or unauthorized algorithm_id",
+      "fail-closed reject for uncalibrated algorithm registry entries",
+      "fail-closed reject for empty cut_epochs under cut-detector contract",
+      "cut-detector algorithm contract rejects incomplete two-algorithm coverage"
     ],
     "still_absent": [
       "video decode integration",
-      "cut detector algorithm beyond cut_epoch ledger acceptance",
+      "runtime cut detector algorithm beyond fixture algorithm_id/confidence contract",
       "camera-motion normalization beyond fixture policy distinction",
       "missing-frame policy runtime completion (interpolate/block + media-backed gaps)",
       "held-out fixed+VFR runtime media benchmark with mux replay",
@@ -151,11 +161,11 @@
   "focused_local_test_result": {
     "py_compile": "PASS",
     "strict_command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
-    "strict_result": "32 passed",
+    "strict_result": "38 passed",
     "strict_exit_code": 0,
-    "total_focused_passed": 32,
+    "total_focused_passed": 38,
     "total_focused_failed": 0,
-    "scope_interpretation": "Focused tests prove fixture-backed not_evaluated/blocked_until_calibrated/distinguish_from_cuts camera-motion policy matrix plus fail-closed reject paths only. They do not grant Row084 completion, camera-motion normalization, runtime held-out media benchmark, mux replay, or visual review authority."
+    "scope_interpretation": "Focused tests prove fixture-backed cut-detector algorithm_id + confidence calibration gates contract plus fail-closed reject paths only. They do not grant Row084 completion, runtime cut detection, camera-motion normalization, runtime held-out media benchmark, mux replay, or visual review authority."
   },
   "checks": [
     {"check_id": "ROW084-001", "name": "tracker_item_requirements_parity", "status": "PASS"},
@@ -190,12 +200,14 @@
     {"check_id": "ROW084-030", "name": "fixture_missing_frame_policy_matrix_preserve_explicit_gap_pass", "status": "PASS"},
     {"check_id": "ROW084-031", "name": "missing_frame_fail_closed_reject_paths_pass", "status": "PASS"},
     {"check_id": "ROW084-032", "name": "fixture_camera_motion_policy_matrix_three_policy_pass", "status": "PASS"},
-    {"check_id": "ROW084-033", "name": "camera_motion_fail_closed_reject_paths_pass", "status": "PASS"}
+    {"check_id": "ROW084-033", "name": "camera_motion_fail_closed_reject_paths_pass", "status": "PASS"},
+    {"check_id": "ROW084-034", "name": "fixture_cut_detector_algorithm_contract_two_algorithm_pass", "status": "PASS"},
+    {"check_id": "ROW084-035", "name": "cut_detector_algorithm_fail_closed_reject_paths_pass", "status": "PASS"}
   ],
   "test_and_runtime_boundary": {
     "schema_meta_validation_executed": true,
     "focused_source_tests_executed": true,
-    "focused_source_tests_passed": 32,
+    "focused_source_tests_passed": 38,
     "focused_source_tests_failed": 0,
     "production_timeline_compilation_invoked": false,
     "new_media_decode_or_mux_invoked": false,
@@ -205,9 +217,11 @@
     "held_out_fixture_matrix_only": true,
     "missing_frame_policy_fixture_matrix_only": true,
     "camera_motion_policy_fixture_matrix_only": true,
+    "cut_detector_algorithm_fixture_contract_only": true,
     "direct_row084_runtime_benchmark_executed": false,
     "missing_frame_policy_runtime_complete": false,
     "camera_motion_normalization_complete": false,
+    "cut_detection_algorithm_complete": false,
     "visual_review_executed": false,
     "ec2_invoked": false,
     "docker_invoked": false,
@@ -219,48 +233,48 @@
   "sibling_lane_boundary": {
     "excluded_sibling_rows": [
       "TRK-W64-069",
-      "TRK-W64-083",
       "TRK-W64-085",
-      "TRK-W64-092",
-      "TRK-W64-094",
-      "TRK-W64-095"
+      "TRK-W64-095",
+      "TRK-W64-096",
+      "TRK-W64-097",
+      "TRK-W64-103"
     ],
     "excluded_path_globs": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_visual_material_recognition.py",
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_actor_object_region_tracking.py",
-      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_event_uncertainty_fallback.py",
-      "Plan/07_IMPLEMENTATION/scripts/compose_wave64_layered_foley_composition.py",
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_spatial_audio_renderer.py",
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_room_acoustic_renderer.py",
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_sample_accurate_mix_mux.py",
+      "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_generated_sound_qa.py",
       "Plan/07_IMPLEMENTATION/scripts/build_audio_pack_functional_index.py",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-069_*",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-083_*",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_*",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-092_*",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-094_*",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-095_*",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-096_*",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-097_*",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-103_*",
       "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/**",
-      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row089/**",
       "Plan/Instructions/QA/Scripts/test_row069_*",
-      "Plan/Instructions/QA/Scripts/test_row083_*",
       "Plan/Instructions/QA/Scripts/test_row085_*",
-      "Plan/Instructions/QA/Scripts/test_row092_*",
-      "Plan/Instructions/QA/Scripts/test_row094_*",
       "Plan/Instructions/QA/Scripts/test_row095_*",
+      "Plan/Instructions/QA/Scripts/test_row096_*",
+      "Plan/Instructions/QA/Scripts/test_row097_*",
+      "Plan/Instructions/QA/Scripts/test_row103_*",
       "Plan/Instructions/QA/Scripts/test_audio_pack_functional_index.py"
     ],
     "writable_scope_disjoint": true,
-    "writable_scope_note": "Disjoint from sibling Row069 full hash, Row083, Row094, Row092, Row095, and Row085 fixture benchmark paths."
+    "writable_scope_note": "Disjoint from sibling Row069 full hash, Row095, Row085 fixture, Row097, Row096, and Row103 paths."
   },
   "preservation_boundary": {
     "allowed_write_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-      "Plan/08_SCHEMAS/canonical_video_timeline_camera_motion_policy_matrix.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline_cut_detector_algorithm_contract.schema.json",
       "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
     ],
     "actual_write_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-      "Plan/08_SCHEMAS/canonical_video_timeline_camera_motion_policy_matrix.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline_cut_detector_algorithm_contract.schema.json",
       "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
     ],
@@ -270,7 +284,7 @@
   },
   "hold_decision": {
     "decision": "HOLD_ROW084_NO_FALSE_COMPLETION",
-    "reason": "Fixture-backed camera-motion policy matrix for not_evaluated/blocked_until_calibrated/distinguish_from_cuts is present and locally proven (ROW084-032/033 PASS; 32 focused tests). Camera-motion normalization (ROW084-016), missing-frame runtime completion (ROW084-015), runtime held-out media benchmark with mux replay (ROW084-018/019), cut-detection algorithm, combined visual review, and the tracker-declared runtime artifact remain absent. The compiler never sets row_complete or production_completion_allowed true in this increment.",
-    "safe_next_action": "Keep Row084 on hold for runtime completion. Next useful Row084 write: extend cut-epoch ledger toward a fixture-backed cut-detector algorithm contract (algorithm_id + confidence calibration gates) with fail-closed reject paths, still without claiming visual-review authority, mux replay, or row_complete."
+    "reason": "Fixture-backed cut-detector algorithm contract for algorithm_id + confidence calibration gates is present and locally proven (ROW084-034/035 PASS; 38 focused tests). Runtime cut detection (ROW084-014), camera-motion normalization (ROW084-016), missing-frame runtime completion (ROW084-015), runtime held-out media benchmark with mux replay (ROW084-018/019), combined visual review, and the tracker-declared runtime artifact remain absent. The compiler never sets row_complete or production_completion_allowed true in this increment.",
+    "safe_next_action": "Keep Row084 on hold for runtime completion. Next useful Row084 write: bind the cut-detector algorithm contract digests into a synthetic non-production detector calibration ledger that records expected precision/recall fixtures without claiming visual-review authority, mux replay, or row_complete."
   }
 }
