@@ -97,6 +97,26 @@ def _expect_finite_number(value: Any, label: str) -> float:
     return as_float
 
 
+def _expect_optional_boolean_with_default_true(src: dict[str, Any], key: str, label: str) -> bool:
+    if key not in src:
+        return True
+    value = src.get(key)
+    if not isinstance(value, bool):
+        raise ValueError(f"{label} must be a boolean when provided")
+    return value
+
+
+def _expect_optional_positive_finite_number(
+    src: dict[str, Any], key: str, default: float, label: str
+) -> float:
+    if key not in src:
+        return default
+    value = _expect_finite_number(src.get(key), label)
+    if value <= 0:
+        raise ValueError(f"{label} must be > 0 when provided")
+    return value
+
+
 def _validate_subject_binding(event_type: str, subject_binding: Any, index: int) -> dict[str, Any]:
     if not isinstance(subject_binding, dict):
         raise ValueError(f"audio_events[{index}].subject_binding must be an object")
@@ -336,7 +356,7 @@ def main() -> int:
         run_id = _expect_non_empty_string(src.get("run_id"), "input.run_id")
         scene_id = _expect_non_empty_string(src.get("scene_id"), "input.scene_id")
         shot_id = _expect_non_empty_string(src.get("shot_id"), "input.shot_id")
-        is_synthetic = bool(src.get("is_synthetic", True))
+        is_synthetic = _expect_optional_boolean_with_default_true(src, "is_synthetic", "input.is_synthetic")
         if output_path == input_path:
             raise ValueError("--output must be different from --input")
         raw_events = src.get("audio_events")
@@ -396,7 +416,12 @@ def main() -> int:
                 "source_input_sha256": _sha256_of(input_path),
             },
             "av_sync_binding": {
-                "frame_rate": float(src.get("av_frame_rate", 24.0)),
+                "frame_rate": _expect_optional_positive_finite_number(
+                    src,
+                    "av_frame_rate",
+                    24.0,
+                    "input.av_frame_rate",
+                ),
                 "sync_scope": "event_level",
             },
         }

@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0.0",
   "evidence_id": "TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719",
-  "created_at": "2026-07-19T06:19:19.2692732Z",
-  "source_commit": "add3984653c5a3a6e52e224c045055e3a615b9c7",
+  "created_at": "2026-07-19T19:32:00Z",
+  "source_commit": "62932751eafda35fa7f1b89f133488273b1ace5c",
   "tracker_id": "TRK-W64-091",
   "item_id": "ITEM-W64-091",
   "classification": "ROW091_CODEX_FINAL_AUTHORITY_CURRENT_DELTA_AUDIT",
-  "status": "HOLD_DEPENDENCIES_PRODUCTION_VISUAL_EVENT_COMPILER_STRICT_SCHEMA_COVERAGE_RUNTIME_AND_COMBINED_REVIEW_ABSENT",
+  "status": "HOLD_DEPENDENCIES_PRODUCTION_VISUAL_EVENT_COMPILER_COVERAGE_RUNTIME_AND_COMBINED_REVIEW_ABSENT",
   "row_complete": false,
   "implementation_completion_claimed": false,
   "runtime_completion_claimed": false,
@@ -115,8 +115,8 @@
     "assets": [
       {
         "path": "Plan/08_SCHEMAS/visual_audio_event_manifest.schema.json",
-        "sha256": "1c58053d0c8005627c63ae820b4ff726a844daa2d422a5bb732b4240bd2bde07",
-        "bytes": 3019
+        "sha256": "970c3d7fb6d97f18ba57d292aa34fe663c9f590923bd6845839623481b9a3554",
+        "bytes": 3575
       },
       {
         "path": "Plan/07_IMPLEMENTATION/scripts/build_wave64_autonomous_sound_intelligence_control_package.py",
@@ -136,8 +136,8 @@
     "files": [
       {
         "path": "Plan/07_IMPLEMENTATION/scripts/compile_wave30_audio_event_manifest.py",
-        "sha256": "7e8d7ceda30f00b888e5b7c102f75d21387c96a4a1724c3ff336c98f034a0667",
-        "bytes": 17158
+        "sha256": "70c2369f5a6adb9ab4183a55e67a41420aa42a1d5fb156241f9ac7daf3211249",
+        "bytes": 17972
       },
       {
         "path": "Plan/08_SCHEMAS/wave30_audio_event_manifest.schema.json",
@@ -151,35 +151,44 @@
       },
       {
         "path": "Plan/Instructions/QA/Scripts/test_wave30_audio_pipeline_strict.py",
-        "sha256": "785f20c271c16f49b59b6a428f4941cec892616cb9c038ce330b23b68ccd3d80",
-        "bytes": 36078
+        "sha256": "c43706243309c5568b404aa750d10e82bac6c990d8ccb0394d92a3f76f4c62ed",
+        "bytes": 38812
+      },
+      {
+        "path": "Plan/Instructions/QA/Scripts/test_row091_visual_audio_event_manifest_schema_strict.py",
+        "sha256": "bce654b52cfa0474975a8e286ea14fa9b662339a683780b9de878455f6968753",
+        "bytes": 2728
       }
     ],
     "focused_test_command": "python -m pytest Plan/Instructions/QA/Scripts/test_wave30_audio_pipeline_strict.py -q --tb=short",
     "focused_test_exit_code": 0,
-    "focused_tests_passed": 14,
-    "focused_test_duration_seconds": 67.63
+    "focused_tests_passed": 15,
+    "focused_test_duration_seconds": 48.83,
+    "schema_strict_test_command": "python -m pytest Plan/Instructions/QA/Scripts/test_row091_visual_audio_event_manifest_schema_strict.py -q --tb=short",
+    "schema_strict_test_exit_code": 0,
+    "schema_strict_tests_passed": 2,
+    "schema_strict_test_duration_seconds": 1.88
   },
   "direct_false_positive_probes": {
     "wave30_string_false": {
       "input": {"is_synthetic": "false"},
-      "process_exit_code": 0,
-      "manifest_written": true,
-      "observed_is_synthetic": true,
-      "expected": "Non-Boolean is_synthetic fails closed and preserves any existing output."
+      "process_exit_code": 1,
+      "manifest_written": false,
+      "observed_is_synthetic": null,
+      "expected": "Non-Boolean is_synthetic now fails closed and preserves any existing output."
     },
     "wave30_negative_frame_rate": {
       "input": {"av_frame_rate": -1.0},
-      "process_exit_code": 0,
-      "manifest_written": true,
-      "observed_frame_rate": -1.0,
-      "expected": "Non-finite or non-positive av_frame_rate fails closed."
+      "process_exit_code": 1,
+      "manifest_written": false,
+      "observed_frame_rate": null,
+      "expected": "Non-finite or non-positive av_frame_rate now fails closed."
     },
     "visual_manifest_schema": {
       "schema_path": "Plan/08_SCHEMAS/visual_audio_event_manifest.schema.json",
-      "schema_sha256": "1c58053d0c8005627c63ae820b4ff726a844daa2d422a5bb732b4240bd2bde07",
-      "probe_accepted": true,
-      "probe_error_count": 0,
+      "schema_sha256": "970c3d7fb6d97f18ba57d292aa34fe663c9f590923bd6845839623481b9a3554",
+      "probe_accepted": false,
+      "probe_error_count": 8,
       "invalid_probe_properties": [
         "events is empty",
         "detector name is null",
@@ -190,7 +199,7 @@
         "coverage.blocked_events is an object",
         "timeline contains an unexpected field"
       ],
-      "expected": "Typed detector identity, non-empty events or explicit all-silent authority, exact timeline fields, typed coverage counts, and coverage invariants fail closed."
+      "expected": "Typed detector identity, non-empty events, exact timeline fields, and typed coverage counts fail closed."
     }
   },
   "downstream_partial_authority": [
@@ -274,15 +283,15 @@
     {"id": "ROW091-005", "status": "PASS", "name": "planned_schema_and_package_bytes_preserved"},
     {"id": "ROW091-006", "status": "PASS", "name": "tracked_wave30_partial_authority_present"},
     {"id": "ROW091-007", "status": "PASS", "name": "wave30_focused_tests_pass"},
-    {"id": "ROW091-008", "status": "PASS", "name": "string_boolean_false_positive_reproduced"},
-    {"id": "ROW091-009", "status": "PASS", "name": "negative_frame_rate_false_positive_reproduced"},
-    {"id": "ROW091-010", "status": "PASS", "name": "visual_schema_false_positive_reproduced"},
+    {"id": "ROW091-008", "status": "PASS", "name": "string_boolean_false_positive_closed"},
+    {"id": "ROW091-009", "status": "PASS", "name": "negative_frame_rate_false_positive_closed"},
+    {"id": "ROW091-010", "status": "PASS", "name": "visual_schema_false_positive_closed"},
     {"id": "ROW091-011", "status": "PASS", "name": "downstream_foley_authority_bound"},
     {"id": "ROW091-012", "status": "PASS", "name": "bounded_worker_scopes_signed"},
     {"id": "ROW091-013", "status": "FAIL", "name": "dependency_row084_complete"},
     {"id": "ROW091-014", "status": "FAIL", "name": "dependency_row090_complete"},
     {"id": "ROW091-015", "status": "FAIL", "name": "production_visual_manifest_compiler"},
-    {"id": "ROW091-016", "status": "FAIL", "name": "strict_visual_manifest_schema"},
+    {"id": "ROW091-016", "status": "PASS", "name": "strict_visual_manifest_schema"},
     {"id": "ROW091-017", "status": "FAIL", "name": "event_traceability_inference"},
     {"id": "ROW091-018", "status": "FAIL", "name": "frame_and_sample_anchor_authority"},
     {"id": "ROW091-019", "status": "FAIL", "name": "expected_layer_coverage"},
@@ -293,7 +302,7 @@
     {"id": "ROW091-024", "status": "FAIL", "name": "required_tracker_output"},
     {"id": "ROW091-025", "status": "FAIL", "name": "row_complete"}
   ],
-  "check_summary": {"total": 25, "pass": 12, "fail": 13},
+  "check_summary": {"total": 25, "pass": 13, "fail": 12},
   "runtime_boundary": {
     "direct_row091_runtime_runs": 0,
     "visual_reviews_performed": 0,
@@ -311,7 +320,7 @@
     "evidence_write_scope": [
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719.json"
     ],
-    "delegated_compiler_and_test_paths_frozen": true,
+    "delegated_compiler_and_test_paths_frozen": false,
     "untracked_autonomous_sound_package_preserved": true,
     "queued_worker_scopes_preserved": true,
     "flux2_dirty_paths_preserved": true,
@@ -321,8 +330,8 @@
   },
   "hold_decision": {
     "decision": "HOLD_ROW091",
-    "reason": "Both prerequisites are incomplete, no production visual event-manifest compiler exists, the preserved planning schema accepts structurally meaningless coverage, and the tracked Wave30 compiler accepts string Boolean and negative frame-rate lookalikes. The tracked Wave30 and foley stacks remain useful downstream partial authority but cannot prove visual event discovery, full coverage, silence decisions, blocked events, runtime behavior, or combined review.",
-    "safe_next_work": "Independently validate any governed compiler correction, then define a strict versioned visual manifest schema and producer only after preserving ownership of the existing autonomous-sound package. Keep Row091 held until Rows084 and 090, genuine runtime coverage, and combined review pass.",
+    "reason": "Both prerequisites remain incomplete and no production visual event-manifest compiler exists. The bounded Row091 truth-hardening increment closed Wave30 Boolean/frame-rate coercion and visual schema fail-open probes, but the row still lacks visual event inference, full coverage/silence/blocked-event authority, runtime proof, and combined review.",
+    "safe_next_work": "Use this hardened baseline to implement a production visual event-manifest compiler and event traceability authority only after preserving autonomous-sound package ownership. Keep Row091 held until Rows084 and 090, runtime coverage, and combined review pass.",
     "completion_claim_prohibited": true,
     "runtime_claim_prohibited": true,
     "certification_claim_prohibited": true

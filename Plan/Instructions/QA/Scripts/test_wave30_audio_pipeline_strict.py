@@ -459,6 +459,56 @@ class Wave30AudioPipelineStrictTests(unittest.TestCase):
             observed = json.loads(event_manifest_path.read_text(encoding="utf-8"))
             self.assertEqual(observed, original_payload)
 
+    def test_compiler_rejects_non_boolean_is_synthetic_and_invalid_frame_rate(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            tmpdir = Path(tmp)
+            packet_path, event_manifest_path = self._base_event_packet(tmpdir)
+
+            payload = json.loads(packet_path.read_text(encoding="utf-8"))
+            for bad_value in ["true", "false", 1, 0, None, [], {}]:
+                payload["is_synthetic"] = bad_value
+                _write_json(packet_path, payload)
+                self._compile(packet_path, event_manifest_path, expect_ok=False)
+
+            payload = json.loads(packet_path.read_text(encoding="utf-8"))
+            payload["is_synthetic"] = True
+            _write_json(packet_path, payload)
+            self._compile(packet_path, event_manifest_path, expect_ok=True)
+            manifest = json.loads(event_manifest_path.read_text(encoding="utf-8"))
+            self.assertTrue(manifest["is_synthetic"])
+
+            payload["is_synthetic"] = False
+            _write_json(packet_path, payload)
+            self._compile(packet_path, event_manifest_path, expect_ok=True)
+            manifest = json.loads(event_manifest_path.read_text(encoding="utf-8"))
+            self.assertFalse(manifest["is_synthetic"])
+
+            payload = json.loads(packet_path.read_text(encoding="utf-8"))
+            payload.pop("is_synthetic", None)
+            _write_json(packet_path, payload)
+            self._compile(packet_path, event_manifest_path, expect_ok=True)
+            manifest = json.loads(event_manifest_path.read_text(encoding="utf-8"))
+            self.assertTrue(manifest["is_synthetic"])
+
+            for bad_frame_rate in [0.0, -1.0, float("inf"), float("-inf"), float("nan")]:
+                payload = json.loads(packet_path.read_text(encoding="utf-8"))
+                payload["av_frame_rate"] = bad_frame_rate
+                _write_json(packet_path, payload)
+                self._compile(packet_path, event_manifest_path, expect_ok=False)
+
+            payload = json.loads(packet_path.read_text(encoding="utf-8"))
+            payload["av_frame_rate"] = 60.0
+            _write_json(packet_path, payload)
+            self._compile(packet_path, event_manifest_path, expect_ok=True)
+            manifest = json.loads(event_manifest_path.read_text(encoding="utf-8"))
+            self.assertEqual(manifest["av_sync_binding"]["frame_rate"], 60.0)
+
+            payload.pop("av_frame_rate", None)
+            _write_json(packet_path, payload)
+            self._compile(packet_path, event_manifest_path, expect_ok=True)
+            manifest = json.loads(event_manifest_path.read_text(encoding="utf-8"))
+            self.assertEqual(manifest["av_sync_binding"]["frame_rate"], 24.0)
+
     def test_scorer_rejects_event_mix_hash_mismatch_and_missing_lane(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             tmpdir = Path(tmp)
