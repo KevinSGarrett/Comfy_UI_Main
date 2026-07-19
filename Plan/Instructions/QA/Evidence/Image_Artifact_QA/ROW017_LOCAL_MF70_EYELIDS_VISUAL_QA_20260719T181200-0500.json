@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ROW017-LOCAL-MF70-EYELIDS-VISUAL-QA-20260719T181200-0500",
+  "created_at": "2026-07-19T18:14:30-05:00",
+  "tracker_id": "TRK-W64-017",
+  "item_id": "ITEM-W64-017",
+  "localized_region": "eyelids",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+  "qa_decision": "pass_bounded_localized_eyelids_runtime_candidate",
+  "overall_decision": "pass",
+  "local_only": true,
+  "direct_visual_inspection": true,
+  "fixture_only": false,
+  "generation_executed": true,
+  "runtime_receipt": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_eyelids_20260719T181200-0500\\LOCAL_RUNTIME_RECEIPT.json",
+  "source": {
+    "path": "ComfyUI\\input\\wave70_mf70_face_identity_source_canny_v3.png",
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d"
+  },
+  "artifact": {
+    "path": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_eyelids_20260719T181200-0500\\images\\codex_row017_mf70_eyelids_20260719T181200-0500_00001_.png",
+    "sha256": "2a92fdb4988db2eac1f2773ae05ce1927f8e797023d11f5a1d28e4921400e5c8"
+  },
+  "comparison_panel": {
+    "path": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_eyelids_20260719T181200-0500\\images\\qa_full_side_by_side.png",
+    "sha256": "16e7298d5ebd8405a070153a629ceb2ed2838612c4b5e6e02eb6973165feb4de"
+  },
+  "eye_crop_panel": {
+    "path": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_eyelids_20260719T181200-0500\\images\\qa_eye_crop_side_by_side.png",
+    "sha256": "28cfa082797ce23b9f9b2d7560c7bb0e67732a7eee4f1a00157f52002ffcbc63"
+  },
+  "difference_metrics": {
+    "full_image_diff_bbox": [
+      285,
+      303,
+      462,
+      355
+    ],
+    "mean_rgb_abs_diff": [
+      0.011,
+      0.0104,
+      0.0104
+    ],
+    "rms_rgb_abs_diff": [
+      0.2618,
+      0.2538,
+      0.2433
+    ],
+    "eye_band_mean_abs": [
+      0.0058,
+      0.0062,
+      0.0447
+    ],
+    "blazer_mean_abs": 0.0,
+    "background_mean_abs": 0.0
+  },
+  "whole_frame_findings": [
+    "Fresh local ComfyUI eyelids masked inpaint (seed 7718294416, RealVisXL baked VAE, denoise 0.03, FeatherMask 24px) completed successfully (prompt_id aa2bd802-f0bd-468c-8ad7-e50f6c41e7e5).",
+    "Whole-frame identity, gaze, iris/pupil/sclera/catchlights, lashes, brows, hair silhouette, cream blazer, lighting, and gray background remain stable versus Canny v3 source.",
+    "Pixel delta is tightly localized to the bilateral eyelid/orbital band [285, 303, 462, 355]; blazer mean abs 0.0; background mean abs 0.0.",
+    "No swollen-lid, makeup/eyeshadow, gaze drift, iris color change, eyelash mutation, eyebrow shift, or hard seam observed on direct whole-frame + eye-crop inspection.",
+    "Hands not in frame; no clothing/background/lighting regression observed."
+  ],
+  "global_defects": [],
+  "promotion_authorized": false,
+  "row_complete": false,
+  "ec2": "EC2_DEFERRED",
+  "docker_cvat": "not-needed",
+  "notes": [
+    "Prior fluid tear-state reject and eyes_full_v3b reject remain truthful and separate.",
+    "Historical eyelids seed210812 canonical pass retained separately; this is a fresh independent local runtime climb.",
+    "Wave70 mf70_eyelids mask-alignment fail retained; not overturned.",
+    "Does not complete historical Row017 normalization backlog."
+  ]
+}
