@@ -5,7 +5,8 @@
 - Active integration platform: top-level interactive Cursor session with bounded Git/GitHub authority.
 - Branch: `codex/workflow_plan_update_improvements`
 - Pre-commit HEAD: `c1f0360c` (includes Row070 strata `34729b05` and sibling Row018 multisample stamps; this climb stays DISJOINT from Row018 paths).
-- Upstream: `origin/codex/workflow_plan_update_improvements`
+- Pushed commit: `2c6be039` — Wire Row071 BS.1770 loudness and prove strata audio QA.
+- Upstream: `origin/codex/workflow_plan_update_improvements` (parity verified at `2c6be039`)
 - Policy pivot obeyed: local runtime/audio QA proof ladder; EC2 deferred; Docker/CVAT unused; no false COMPLETE claims.
 - Writable scope limited to Row071 (+ tiny tracker/items notes + handoff). Sibling Row018 visual-QA paths untouched.
 
