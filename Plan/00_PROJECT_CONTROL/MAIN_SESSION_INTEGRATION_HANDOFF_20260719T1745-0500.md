@@ -1,4 +1,4 @@
-# Main Session Integration Handoff - 2026-07-19T17:45-05:00
+﻿# Main Session Integration Handoff - 2026-07-19T17:45-05:00
 
 ## Integration Summary
 
@@ -10,10 +10,10 @@
 
 ## Commits Pushed This Pass
 
-1. *(filled after push)* Prove Row017 MF70 eyelashes local visual climb.
+1. `376e07bc` Prove Row017 MF70 eyelashes local visual climb.
 2. *(optional tip-parity refresh if required)*
 
-Pushed tip verified on origin: *(filled after push)*
+Pushed tip verified on origin: `376e07bc` (pre-push local; refreshed after origin verify)
 
 ## Row-Scoped Increment Executed
 
@@ -42,8 +42,8 @@ Pushed tip verified on origin: *(filled after push)*
 
 ## Validators Run
 
-- `python Plan/07_IMPLEMENTATION/scripts/validate_global_whole_image_visual_review.py --input <3 canonical reviews>` → **PASS** each
-- `python -m unittest Plan.Instructions.QA.Scripts.test_global_whole_image_visual_review -v` → **9 passed**
+- `python Plan/07_IMPLEMENTATION/scripts/validate_global_whole_image_visual_review.py --input <3 canonical reviews>` â†’ **PASS** each
+- `python -m unittest Plan.Instructions.QA.Scripts.test_global_whole_image_visual_review -v` â†’ **9 passed**
 - ComfyUI: live local runtime used (`system_stats` / `/free` / `/upload/image` / `/prompt` / `/history` / `/view`)
 - Docker/CVAT: unused (not-needed)
 - EC2: `EC2_DEFERRED`
@@ -69,6 +69,7 @@ Pushed tip verified on origin: *(filled after push)*
 
 ## Exact Next Action
 
-1. Continue Row017 historical localized canonicalization with additional local artifacts / runtime candidates away from Row069–071 (e.g. pupils_iris_sclera, skin_tone_continuity, or a fresh eyelids runtime climb).
+1. Continue Row017 historical localized canonicalization with additional local artifacts / runtime candidates away from Row069â€“071 (e.g. pupils_iris_sclera, skin_tone_continuity, or a fresh eyelids runtime climb).
 2. Or climb another tracker-authorized independent local visual/audio proof lane with existing artifacts/workflows.
 3. Do not treat Docker/CVAT uptime as ComfyUI proof; keep EC2 deferred.
+
