@@ -1,4 +1,4 @@
-﻿# Main Session Integration Handoff - 2026-07-19T17:45-05:00
+# Main Session Integration Handoff - 2026-07-19T17:45-05:00
 
 ## Integration Summary
 
@@ -13,7 +13,7 @@
 1. `376e07bc` Prove Row017 MF70 eyelashes local visual climb.
 2. `2e2be4e7` Stamp Row017 eyelashes handoff with primary commit id.
 
-Pushed tip verified on origin: `2e2be4e7`
+Pushed tip verified on origin: `097efc23`
 
 ## Row-Scoped Increment Executed
 
