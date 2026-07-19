@@ -4,11 +4,13 @@
 
 - Active integration platform: top-level interactive Cursor session with bounded Git/GitHub authority.
 - Branch: `codex/workflow_plan_update_improvements`
+- HEAD: `cc74e16107369e5cb205d8117ae4e1b19ddaf922`
+- Upstream: `origin/codex/workflow_plan_update_improvements` (push and remote-head parity verified this pass).
 - Policy pivot obeyed: stop treating STATIC_PASS/fixture slices as completion; climb local runtime / visual/audio QA proof tiers; EC2 deferred; Docker/CVAT annotation-only and unused this pass.
 
 ## Commits Pushed This Pass
 
-1. (pending push in same pass) Row069 local full-library byte-hash runtime proof + fail-closed evidence refresh.
+1. `cc74e16107369e5cb205d8117ae4e1b19ddaf922` - Prove Row069 full-library byte-hash runtime against live audio inventory.
 
 ## Row-Scoped Increment Executed
 
