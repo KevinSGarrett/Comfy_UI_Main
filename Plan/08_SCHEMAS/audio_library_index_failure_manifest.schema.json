@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/audio_library_index_failure_manifest.schema.json",
+  "title": "Wave64 Row069 Audio Library Index Failure Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "index_revision",
+    "tracker_id",
+    "item_id",
+    "source_root",
+    "discovered_audio_count",
+    "indexed_count",
+    "exact_blocker_count",
+    "indexed_plus_blockers_equals_discovered",
+    "blocker_code_counts",
+    "blockers"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "artifact_type": {
+      "type": "string",
+      "const": "audio_library_index_failure_manifest"
+    },
+    "index_revision": {
+      "type": "string",
+      "const": "wave64_row069_audio_library_index_v0.1.0"
+    },
+    "tracker_id": { "type": "string", "const": "TRK-W64-069" },
+    "item_id": { "type": "string", "const": "ITEM-W64-069" },
+    "source_root": { "type": "string", "minLength": 1 },
+    "discovered_audio_count": { "type": "integer", "minimum": 0 },
+    "indexed_count": { "type": "integer", "minimum": 0 },
+    "exact_blocker_count": { "type": "integer", "minimum": 0 },
+    "indexed_plus_blockers_equals_discovered": { "type": "boolean" },
+    "blocker_code_counts": {
+      "type": "object",
+      "additionalProperties": { "type": "integer", "minimum": 1 }
+    },
+    "blockers": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/blocker" }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "indexed_plus_blockers_equals_discovered": { "const": true }
+        },
+        "required": ["indexed_plus_blockers_equals_discovered"]
+      },
+      "then": {
+        "properties": {
+          "exact_blocker_count": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "blocker": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["relative_path", "code", "detail", "bytes", "mtime_ns"],
+      "properties": {
+        "relative_path": { "type": "string", "minLength": 1 },
+        "code": {
+          "type": "string",
+          "enum": [
+            "INDEX_EMPTY_OR_UNREADABLE",
+            "INDEX_SOURCE_UNREADABLE",
+            "INDEX_SCHEMA_FAILED",
+            "INDEX_RECORD_BUILD_FAILED",
+            "INDEX_HASH_FAILED"
+          ]
+        },
+        "detail": { "type": "string", "minLength": 1 },
+        "bytes": {
+          "oneOf": [
+            { "type": "integer", "minimum": 0 },
+            { "type": "null" }
+          ]
+        },
+        "mtime_ns": {
+          "oneOf": [
+            { "type": "integer", "minimum": 0 },
+            { "type": "null" }
+          ]
+        }
+      }
+    }
+  }
+}

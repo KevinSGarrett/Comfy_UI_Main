@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-"""Build a resumable, hash-bound functional index for external audio assets."""
+"""Build a resumable, hash-bound functional index for external audio assets.
+
+Row069 authority slice: emit a durable exact failure manifest and before/after
+source inventory fingerprints. Library acceptance remains fail-closed until
+current-source reconciliation, full-library resume replay, and prerequisite
+Rows067/068 are accepted.
+"""
 
 from __future__ import annotations
 
@@ -20,7 +26,18 @@ from mutagen import File as MutagenFile
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 SCHEMA_PATH = PROJECT_ROOT / "Plan/08_SCHEMAS/audio_pack_functional_index_record.schema.json"
+FAILURE_MANIFEST_SCHEMA_PATH = (
+    PROJECT_ROOT / "Plan/08_SCHEMAS/audio_library_index_failure_manifest.schema.json"
+)
+DEFAULT_EVIDENCE = Path(
+    "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-069_full_audio_library_index.json"
+)
+DEFAULT_SOURCE_ROOT = Path("F:/Len_Transfer/Audio_Downloads")
 AUDIO_EXTENSIONS = {".wav", ".mp3", ".flac", ".ogg"}
+INDEX_REVISION = "wave64_row069_audio_library_index_v0.1.0"
+SCHEMA_VERSION = "1.0.0"
+TRACKER_ID = "TRK-W64-069"
+ITEM_ID = "ITEM-W64-069"
 
 
 def _io_path(path: Path) -> Path:
@@ -36,6 +53,10 @@ def _sha256(path: Path) -> str:
         for chunk in iter(lambda: handle.read(4 * 1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def _sha256_text(text: str) -> str:
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
 def _contains(text: str, values: tuple[str, ...]) -> bool:
@@ -271,7 +292,11 @@ def _refresh_routing(record: dict[str, Any]) -> dict[str, Any]:
 def _open_database(path: Path) -> sqlite3.Connection:
     connection = sqlite3.connect(path)
     connection.execute("PRAGMA journal_mode=WAL")
-    connection.execute("CREATE TABLE IF NOT EXISTS records (relative_path TEXT PRIMARY KEY, size INTEGER NOT NULL, mtime_ns INTEGER NOT NULL, payload TEXT NOT NULL)")
+    connection.execute(
+        "CREATE TABLE IF NOT EXISTS records ("
+        "relative_path TEXT PRIMARY KEY, size INTEGER NOT NULL, "
+        "mtime_ns INTEGER NOT NULL, payload TEXT NOT NULL)"
+    )
     return connection
 
 
@@ -284,6 +309,81 @@ def _literal_audio_files(source_root: Path) -> list[Path]:
             if path.suffix.lower() in AUDIO_EXTENSIONS:
                 paths.append(path)
     return sorted(paths, key=lambda path: path.relative_to(source_root).as_posix().casefold())
+
+
+def build_source_inventory_fingerprint(source_root: Path, audio_files: list[Path] | None = None) -> dict[str, Any]:
+    files = audio_files if audio_files is not None else _literal_audio_files(source_root)
+    lines: list[str] = []
+    extension_counts: Counter[str] = Counter()
+    for path in files:
+        relative = path.relative_to(source_root).as_posix()
+        stat = _io_path(path).stat()
+        lines.append(f"{relative}\t{stat.st_size}\t{stat.st_mtime_ns}")
+        extension_counts[path.suffix.lower().lstrip(".")] += 1
+    canonical = "\n".join(lines) + ("\n" if lines else "")
+    return {
+        "algorithm": "sha256_of_sorted_relative_path_size_mtime_ns_tsv",
+        "discovered_audio_count": len(files),
+        "extension_counts": dict(sorted(extension_counts.items())),
+        "fingerprint_sha256": _sha256_text(canonical),
+        "inventory_bytes": len(canonical.encode("utf-8")),
+    }
+
+
+def observe_source_inventory(source_root: Path) -> dict[str, Any]:
+    if not source_root.is_dir():
+        return {
+            "source_root": str(source_root),
+            "source_root_exists": False,
+            "discovered_audio_count": None,
+            "extension_counts": {},
+            "inventory_fingerprint_sha256": None,
+            "observation": "SOURCE_ROOT_ABSENT",
+        }
+    fingerprint = build_source_inventory_fingerprint(source_root)
+    return {
+        "source_root": str(source_root.resolve()),
+        "source_root_exists": True,
+        "discovered_audio_count": fingerprint["discovered_audio_count"],
+        "extension_counts": fingerprint["extension_counts"],
+        "inventory_fingerprint_sha256": fingerprint["fingerprint_sha256"],
+        "observation": "COUNT_AND_PATH_SIZE_MTIME_FINGERPRINT_ONLY",
+        "note": (
+            "Walk-only inventory observation. Does not re-hash audio bytes or "
+            "rebuild the retained production index."
+        ),
+    }
+
+
+def _blocker_entry(
+    *,
+    relative_path: str,
+    code: str,
+    detail: str,
+    size: int | None = None,
+    mtime_ns: int | None = None,
+) -> dict[str, Any]:
+    return {
+        "relative_path": relative_path,
+        "code": code,
+        "detail": detail,
+        "bytes": size,
+        "mtime_ns": mtime_ns,
+    }
+
+
+def _write_json(path: Path, payload: dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, indent=2, ensure_ascii=True, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def _validate_failure_manifest(manifest: dict[str, Any]) -> None:
+    if not FAILURE_MANIFEST_SCHEMA_PATH.is_file():
+        return
+    schema = json.loads(FAILURE_MANIFEST_SCHEMA_PATH.read_text(encoding="utf-8"))
+    errors = sorted(Draft202012Validator(schema).iter_errors(manifest), key=lambda err: list(err.absolute_path))
+    if errors:
+        raise ValueError(f"failure manifest schema failed: {errors[0].message}")
 
 
 def build_index(source_root: Path, output_dir: Path, *, resume: bool = False) -> dict[str, Any]:
@@ -299,20 +399,83 @@ def build_index(source_root: Path, output_dir: Path, *, resume: bool = False) ->
     schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
     validator = Draft202012Validator(schema)
     audio_files = _literal_audio_files(source_root)
+    fingerprint_before = build_source_inventory_fingerprint(source_root, audio_files)
+    blockers: list[dict[str, Any]] = []
     try:
         for index, path in enumerate(audio_files, start=1):
             relative = path.relative_to(source_root).as_posix()
-            stat = _io_path(path).stat()
-            cached = connection.execute("SELECT size, mtime_ns FROM records WHERE relative_path = ?", (relative,)).fetchone()
-            if cached != (stat.st_size, stat.st_mtime_ns):
+            try:
+                stat = _io_path(path).stat()
+            except OSError as exc:
+                blockers.append(
+                    _blocker_entry(
+                        relative_path=relative,
+                        code="INDEX_SOURCE_UNREADABLE",
+                        detail=f"stat_failed:{type(exc).__name__}:{exc}",
+                    )
+                )
+                continue
+            if stat.st_size < 1:
+                blockers.append(
+                    _blocker_entry(
+                        relative_path=relative,
+                        code="INDEX_EMPTY_OR_UNREADABLE",
+                        detail="audio file has zero bytes and cannot enter the functional index",
+                        size=stat.st_size,
+                        mtime_ns=stat.st_mtime_ns,
+                    )
+                )
+                connection.execute("DELETE FROM records WHERE relative_path = ?", (relative,))
+                continue
+            cached = connection.execute(
+                "SELECT size, mtime_ns FROM records WHERE relative_path = ?",
+                (relative,),
+            ).fetchone()
+            if cached == (stat.st_size, stat.st_mtime_ns):
+                if index % 100 == 0:
+                    connection.commit()
+                continue
+            try:
                 record = _record_for(path, source_root)
                 errors = list(validator.iter_errors(record))
                 if errors:
-                    raise ValueError(f"record schema failed for {relative}: {errors[0].message}")
+                    blockers.append(
+                        _blocker_entry(
+                            relative_path=relative,
+                            code="INDEX_SCHEMA_FAILED",
+                            detail=errors[0].message,
+                            size=stat.st_size,
+                            mtime_ns=stat.st_mtime_ns,
+                        )
+                    )
+                    connection.execute("DELETE FROM records WHERE relative_path = ?", (relative,))
+                    continue
                 connection.execute(
                     "INSERT OR REPLACE INTO records(relative_path, size, mtime_ns, payload) VALUES (?, ?, ?, ?)",
                     (relative, stat.st_size, stat.st_mtime_ns, json.dumps(record, ensure_ascii=True, sort_keys=True)),
                 )
+            except OSError as exc:
+                blockers.append(
+                    _blocker_entry(
+                        relative_path=relative,
+                        code="INDEX_SOURCE_UNREADABLE",
+                        detail=f"read_failed:{type(exc).__name__}:{exc}",
+                        size=stat.st_size,
+                        mtime_ns=stat.st_mtime_ns,
+                    )
+                )
+                connection.execute("DELETE FROM records WHERE relative_path = ?", (relative,))
+            except Exception as exc:
+                blockers.append(
+                    _blocker_entry(
+                        relative_path=relative,
+                        code="INDEX_RECORD_BUILD_FAILED",
+                        detail=f"{type(exc).__name__}:{exc}",
+                        size=stat.st_size,
+                        mtime_ns=stat.st_mtime_ns,
+                    )
+                )
+                connection.execute("DELETE FROM records WHERE relative_path = ?", (relative,))
             if index % 100 == 0:
                 connection.commit()
         connection.commit()
@@ -325,66 +488,371 @@ def build_index(source_root: Path, output_dir: Path, *, resume: bool = False) ->
 
         temp_handle = tempfile.NamedTemporaryFile("w", encoding="utf-8", newline="\n", dir=output_dir, delete=False)
         temp_path = Path(temp_handle.name)
-        counters: dict[str, Counter[str]] = {key: Counter() for key in ("extension", "event_type", "material", "role", "intensity_band", "sync_class", "license_classification")}
+        counters: dict[str, Counter[str]] = {
+            key: Counter()
+            for key in (
+                "extension",
+                "event_type",
+                "material",
+                "role",
+                "intensity_band",
+                "sync_class",
+                "license_classification",
+            )
+        }
         hashes: Counter[str] = Counter()
         defects = 0
         total_bytes = 0
+        indexed_count = 0
         try:
             with temp_handle:
-                for (payload_text,) in connection.execute("SELECT payload FROM records ORDER BY relative_path COLLATE NOCASE"):
+                for (payload_text,) in connection.execute(
+                    "SELECT payload FROM records ORDER BY relative_path COLLATE NOCASE"
+                ):
                     payload = _refresh_routing(json.loads(payload_text))
                     errors = list(validator.iter_errors(payload))
                     if errors:
-                        raise ValueError(f"cached record schema failed for {payload.get('relative_path')}: {errors[0].message}")
+                        relative = str(payload.get("relative_path") or "unknown")
+                        blockers.append(
+                            _blocker_entry(
+                                relative_path=relative,
+                                code="INDEX_SCHEMA_FAILED",
+                                detail=f"cached_record:{errors[0].message}",
+                                size=payload.get("bytes"),
+                            )
+                        )
+                        connection.execute("DELETE FROM records WHERE relative_path = ?", (relative,))
+                        continue
                     temp_handle.write(json.dumps(payload, ensure_ascii=True, sort_keys=True) + "\n")
+                    indexed_count += 1
                     total_bytes += payload["bytes"]
                     hashes[payload["sha256"]] += 1
                     if payload["quality_defects"]:
                         defects += 1
                     for key, counter in counters.items():
                         counter[payload[key]] += 1
+            connection.commit()
             index_path = output_dir / "audio_pack_functional_index.jsonl"
             os.replace(temp_path, index_path)
         finally:
             if temp_path.exists():
                 temp_path.unlink()
 
+        # Deduplicate blockers by relative_path (last write wins for detail freshness).
+        blocker_by_path = {item["relative_path"]: item for item in blockers}
+        ordered_blockers = [blocker_by_path[key] for key in sorted(blocker_by_path, key=str.casefold)]
+        code_counts = Counter(item["code"] for item in ordered_blockers)
+        failure_manifest = {
+            "schema_version": SCHEMA_VERSION,
+            "artifact_type": "audio_library_index_failure_manifest",
+            "index_revision": INDEX_REVISION,
+            "tracker_id": TRACKER_ID,
+            "item_id": ITEM_ID,
+            "source_root": str(source_root),
+            "discovered_audio_count": len(audio_files),
+            "indexed_count": indexed_count,
+            "exact_blocker_count": len(ordered_blockers),
+            "indexed_plus_blockers_equals_discovered": indexed_count + len(ordered_blockers) == len(audio_files),
+            "blocker_code_counts": dict(sorted(code_counts.items())),
+            "blockers": ordered_blockers,
+        }
+        _validate_failure_manifest(failure_manifest)
+        failure_manifest_path = output_dir / "failure_manifest.json"
+        _write_json(failure_manifest_path, failure_manifest)
+
+        fingerprint_after = build_source_inventory_fingerprint(source_root)
+        source_files_modified = (
+            fingerprint_before["fingerprint_sha256"] != fingerprint_after["fingerprint_sha256"]
+        )
         summary = {
             "schema_version": "1.0",
             "artifact_type": "audio_pack_functional_index",
+            "index_revision": INDEX_REVISION,
             "generated_at": datetime.now(timezone.utc).isoformat(),
             "source_root": str(source_root),
-            "source_files_modified": False,
+            "source_files_modified": source_files_modified,
             "content_based_suppression": False,
             "audio_file_count": len(audio_files),
+            "indexed_count": indexed_count,
+            "exact_blocker_count": len(ordered_blockers),
+            "indexed_plus_blockers_equals_discovered": indexed_count + len(ordered_blockers) == len(audio_files),
             "audio_bytes": total_bytes,
             "unique_audio_sha256_count": len(hashes),
             "duplicate_audio_file_count": sum(count - 1 for count in hashes.values()),
             "records_with_quality_defects": defects,
             "classification_counts": {key: dict(sorted(counter.items())) for key, counter in counters.items()},
             "index": {"path": index_path.name, "sha256": _sha256(index_path), "bytes": index_path.stat().st_size},
+            "failure_manifest": {
+                "path": failure_manifest_path.name,
+                "sha256": _sha256(failure_manifest_path),
+                "bytes": failure_manifest_path.stat().st_size,
+            },
+            "source_inventory_fingerprint": {
+                "before": fingerprint_before,
+                "after": fingerprint_after,
+                "unchanged": not source_files_modified,
+            },
             "state_database": {"path": state_path.name, "bytes": state_path.stat().st_size},
             "resume_policy": "reuse records only when relative path, byte size, and mtime_ns are unchanged",
         }
         summary_path = output_dir / "index_summary.json"
-        summary_path.write_text(json.dumps(summary, indent=2, ensure_ascii=True, sort_keys=True) + "\n", encoding="utf-8")
+        _write_json(summary_path, summary)
         return summary
     finally:
         connection.close()
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--source-root", required=True)
-    parser.add_argument("--output-dir", required=True)
+def evaluate_dependency_holds(root: Path) -> dict[str, Any]:
+    holds: list[dict[str, Any]] = []
+    for tracker_id, relative in (
+        ("TRK-W64-067", "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-067_PLANNING_AUTHORITY_CURRENT_DELTA_20260719.json"),
+        ("TRK-W64-068", "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json"),
+    ):
+        path = root / relative
+        if not path.is_file():
+            holds.append(
+                {
+                    "tracker_id": tracker_id,
+                    "path": relative,
+                    "row_complete": False,
+                    "dependency_satisfied": False,
+                    "reason": "current_delta_absent",
+                }
+            )
+            continue
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        row_complete = payload.get("row_complete") is True
+        acceptance_key = "row067_acceptance" if tracker_id == "TRK-W64-067" else "row068_acceptance"
+        acceptance = str(payload.get("decision", {}).get(acceptance_key) or "").lower()
+        satisfied = row_complete and acceptance in {"accepted", "pass", "passed"}
+        holds.append(
+            {
+                "tracker_id": tracker_id,
+                "path": relative,
+                "row_complete": row_complete,
+                "dependency_satisfied": satisfied,
+                "status": payload.get("status"),
+                "sha256": _sha256(path),
+                "bytes": path.stat().st_size,
+            }
+        )
+    return {
+        "dependencies": holds,
+        "all_satisfied": all(item["dependency_satisfied"] for item in holds),
+    }
+
+
+def build_authority_packet(root: Path, *, source_root: Path | None = None) -> dict[str, Any]:
+    root = root.resolve()
+    dependency = evaluate_dependency_holds(root)
+    source = source_root or DEFAULT_SOURCE_ROOT
+    source_observation = observe_source_inventory(source)
+
+    with tempfile.TemporaryDirectory(prefix="row069_authority_") as temporary:
+        base = Path(temporary)
+        fixture_source = base / "source"
+        fixture_source.mkdir()
+        import struct
+        import wave
+
+        def _wav(path: Path, seconds: float) -> None:
+            frames = int(16000 * seconds)
+            with wave.open(str(path), "wb") as handle:
+                handle.setnchannels(1)
+                handle.setsampwidth(2)
+                handle.setframerate(16000)
+                handle.writeframes(struct.pack("<h", 0) * frames)
+
+        good = fixture_source / "Fabric soft loop (CC0).wav"
+        duplicate = fixture_source / "Fabric soft duplicate (CC0).wav"
+        empty_blocker = fixture_source / "empty_blocker.wav"
+        _wav(good, 0.25)
+        duplicate.write_bytes(good.read_bytes())
+        empty_blocker.write_bytes(b"")
+        output = base / "index"
+        summary = build_index(fixture_source, output)
+        resumed = build_index(fixture_source, output, resume=True)
+        failure_manifest = json.loads((output / "failure_manifest.json").read_text(encoding="utf-8"))
+        fixture_calibration = {
+            "authority": "synthetic_non_library",
+            "determinism_note": (
+                "Fixture proves durable failure-manifest emission, indexed+blocker "
+                "reconciliation, source fingerprint immutability binding, and resume "
+                "hash stability only; it does not accept Row069 library completion."
+            ),
+            "summary": {
+                "audio_file_count": summary["audio_file_count"],
+                "indexed_count": summary["indexed_count"],
+                "exact_blocker_count": summary["exact_blocker_count"],
+                "indexed_plus_blockers_equals_discovered": summary[
+                    "indexed_plus_blockers_equals_discovered"
+                ],
+                "unique_audio_sha256_count": summary["unique_audio_sha256_count"],
+                "duplicate_audio_file_count": summary["duplicate_audio_file_count"],
+                "index_sha256": summary["index"]["sha256"],
+                "failure_manifest_sha256": summary["failure_manifest"]["sha256"],
+                "source_fingerprint_before": summary["source_inventory_fingerprint"]["before"][
+                    "fingerprint_sha256"
+                ],
+                "source_fingerprint_after": summary["source_inventory_fingerprint"]["after"][
+                    "fingerprint_sha256"
+                ],
+                "source_fingerprint_unchanged": summary["source_inventory_fingerprint"]["unchanged"],
+                "resume_index_sha256_match": resumed["index"]["sha256"] == summary["index"]["sha256"],
+                "resume_failure_manifest_sha256_match": (
+                    resumed["failure_manifest"]["sha256"] == summary["failure_manifest"]["sha256"]
+                ),
+            },
+            "failure_manifest": failure_manifest,
+        }
+
+    retained_count = 39771
+    current_count = source_observation.get("discovered_audio_count")
+    current_count_matches = isinstance(current_count, int) and current_count == retained_count
+    blocker_codes: list[str] = []
+    unsatisfied = [dep for dep in dependency["dependencies"] if not dep["dependency_satisfied"]]
+    for dep in unsatisfied:
+        blocker_codes.append(f"{dep['tracker_id'].replace('-', '_')}_DEPENDENCY_NOT_ACCEPTED")
+    if len(unsatisfied) == 2:
+        blocker_codes.append("ROW067_AND_ROW068_DEPENDENCIES_NOT_ACCEPTED")
+    elif len(unsatisfied) == 1:
+        blocker_codes.append("ROW069_PREREQUISITE_DEPENDENCY_NOT_ACCEPTED")
+    if not current_count_matches:
+        blocker_codes.append("CURRENT_EXTERNAL_INVENTORY_NOT_RECONCILED")
+    else:
+        blocker_codes.append("RETAINED_INDEX_BYTE_HASH_RECONCILIATION_ABSENT")
+    if source_observation.get("inventory_fingerprint_sha256") is None:
+        blocker_codes.append("SOURCE_INVENTORY_FINGERPRINT_UNAVAILABLE")
+    blocker_codes.extend(
+        [
+            "FULL_LIBRARY_RESUME_REPLAY_ABSENT",
+            "ROW069_LIBRARY_RUNTIME_AUTHORITY_NOT_GRANTED",
+        ]
+    )
+
+    # Deduplicate while preserving order.
+    seen: set[str] = set()
+    ordered_codes: list[str] = []
+    for code in blocker_codes:
+        if code not in seen:
+            seen.add(code)
+            ordered_codes.append(code)
+
+    status = "HOLD_FAIL_CLOSED_INDEX_CONTRACT_ADVANCED_LIBRARY_AUTHORITY_INCOMPLETE"
+    return {
+        "schema_version": SCHEMA_VERSION,
+        "evidence_id": "TRK-W64-069_full_audio_library_index",
+        "tracker_id": TRACKER_ID,
+        "item_id": ITEM_ID,
+        "index_revision": INDEX_REVISION,
+        "row_complete": False,
+        "implementation_completion_claimed": False,
+        "runtime_completion_claimed": False,
+        "library_authority": False,
+        "status": status,
+        "frozen_behavior": [
+            "one deterministic index across all supported audio files",
+            "preserve source bytes",
+            "resume by relative path, byte size, and mtime_ns",
+            "hash every indexed asset",
+            "record exact parse/index failures in a durable failure manifest",
+            "bind before/after source inventory fingerprints",
+            "deduplicate container hashes",
+            "reproduce index hash, record count, unique hash count, and failure-manifest hash",
+        ],
+        "dependency_authority": dependency,
+        "current_source_observation": source_observation,
+        "retained_index_reference": {
+            "runtime_index_path": (
+                "runtime_artifacts/audio_asset_indexes/"
+                "audio_downloads_functional_20260715T095712-0500/audio_pack_functional_index.jsonl"
+            ),
+            "retained_discovered_audio_count": retained_count,
+            "current_count_matches_retained": current_count_matches,
+            "current_inventory_fingerprint_bound": bool(
+                source_observation.get("inventory_fingerprint_sha256")
+            ),
+            "byte_hash_reconciliation_complete": False,
+            "technical_reuse_allowed": True,
+            "does_not_grant_row069_acceptance": True,
+        },
+        "fixture_calibration": fixture_calibration,
+        "blocker_codes": ordered_codes,
+        "decision": {
+            "status": "blocked",
+            "row069_acceptance": "held",
+            "product_completion": False,
+            "runtime_completion": False,
+            "safe_next_action": (
+                "Accept Row068 rights authority, bind retained-index byte-hash reconciliation "
+                "to the live inventory fingerprint, prove unchanged full-library resume with "
+                "stable index/summary/state/failure-manifest hashes, then replace this hold "
+                "packet with accepted Row069 library authority."
+            ),
+        },
+    }
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--root", default=str(PROJECT_ROOT))
+    parser.add_argument("--source-root", default="")
+    parser.add_argument("--output-dir", default="")
     parser.add_argument("--resume", action="store_true")
-    args = parser.parse_args()
+    parser.add_argument(
+        "--emit-authority",
+        action="store_true",
+        help="Emit fail-closed Row069 direct evidence (library acceptance remains held).",
+    )
+    parser.add_argument("--output", default=str(DEFAULT_EVIDENCE))
+    args = parser.parse_args(argv)
+    root = Path(args.root).resolve()
+
+    if args.emit_authority:
+        source_root = Path(args.source_root) if args.source_root else DEFAULT_SOURCE_ROOT
+        payload = build_authority_packet(root, source_root=source_root)
+        if payload["decision"]["status"] != "blocked":
+            raise SystemExit("authority emission must remain fail-closed until acceptance gates pass")
+        if payload.get("row_complete") is True:
+            raise SystemExit("authority emission must not claim row_complete")
+        output = Path(args.output)
+        if not output.is_absolute():
+            output = root / output
+        _write_json(output, payload)
+        print(
+            json.dumps(
+                {
+                    "output": str(output),
+                    "status": payload["status"],
+                    "row069_acceptance": payload["decision"]["row069_acceptance"],
+                    "library_authority": payload["library_authority"],
+                },
+                sort_keys=True,
+            )
+        )
+        return 0
+
+    if not args.source_root or not args.output_dir:
+        parser.error("--source-root and --output-dir are required unless --emit-authority is set")
     try:
         summary = build_index(Path(args.source_root), Path(args.output_dir), resume=args.resume)
     except Exception as exc:
         print(f"ERROR: {exc}")
         return 2
-    print(json.dumps({"status": "PASS", **summary["index"], "audio_file_count": summary["audio_file_count"]}, sort_keys=True))
+    print(
+        json.dumps(
+            {
+                "status": "PASS",
+                **summary["index"],
+                "audio_file_count": summary["audio_file_count"],
+                "indexed_count": summary["indexed_count"],
+                "exact_blocker_count": summary["exact_blocker_count"],
+                "failure_manifest_sha256": summary["failure_manifest"]["sha256"],
+                "source_fingerprint_unchanged": summary["source_inventory_fingerprint"]["unchanged"],
+            },
+            sort_keys=True,
+        )
+    )
     return 0
 
 
