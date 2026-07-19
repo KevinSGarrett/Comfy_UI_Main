@@ -1,0 +1,57 @@
+{
+    "schema_version":  "1.0",
+    "evidence_id":  "LOCAL-COMFYUI-REALVISXL-BOUNDED-SMOKE-20260719T162402-0500",
+    "timestamp":  "2026-07-19T16:32:40-05:00",
+    "tracker_id":  "TRK-W64-018",
+    "item_id":  "ITEM-W64-018",
+    "lane_id":  "sdxl_realvisxl_base_lane",
+    "proof_tier_target":  "RUNTIME_PASS_BOUNDED",
+    "local_only":  true,
+    "aws_contacted":  false,
+    "ec2_started":  false,
+    "docker_cvat_used":  false,
+    "used_existing_comfyui_process":  true,
+    "api_base_url":  "http://127.0.0.1:8188",
+    "comfyui_version":  "0.27.0",
+    "gpu":  "cuda:0 NVIDIA GeForce RTX 5060 Laptop GPU : cudaMallocAsync",
+    "vram_free_before":  3522717870,
+    "run_package":  "runtime_artifacts/run_packages/realvisxl_local_bounded_smoke_v1/RUN_PACKAGE_MANIFEST.json",
+    "prompt_request":  "runtime_artifacts/run_packages/realvisxl_local_bounded_smoke_v1/prompt_request.json",
+    "prompt_request_sha256":  "47f6dbfa680d0dba6e5bac311871ef508874f15e5c96ad4e67988aa7fdb815e7",
+    "ckpt_name":  "realvisxlV50_v50Bakedvae.safetensors",
+    "resolution":  "512x512",
+    "steps":  10,
+    "seed":  660715512,
+    "prompt_id":  "b7edcbbf-f179-447b-bfaa-13b1b1392d05",
+    "history_status":  "success",
+    "object_info_node_count":  1056,
+    "required_nodes_present":  [
+                                   "CheckpointLoaderSimple",
+                                   "EmptyLatentImage",
+                                   "CLIPTextEncode",
+                                   "KSampler",
+                                   "VAEDecode",
+                                   "SaveImage"
+                               ],
+    "output_images":  [
+                          {
+                              "node_id":  "9",
+                              "filename":  "codex_realvisxl_local_bounded_smoke_00001_.png",
+                              "subfolder":  "",
+                              "type":  "output"
+                          }
+                      ],
+    "pulled_artifacts":  [
+                             {
+                                 "source":  "C:\\Comfy_UI\\balhaw_test\\comfy_output\\codex_realvisxl_local_bounded_smoke_00001_.png",
+                                 "local_path":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_realvisxl_smoke_20260719T162402-0500/images/codex_realvisxl_local_bounded_smoke_00001_.png",
+                                 "bytes":  384578,
+                                 "sha256":  "a3b1527fcd3223fbb55cfc51434ff9b7495318ec79cfcb2f1ca48b0184881ec8",
+                                 "node_id":  "9"
+                             }
+                         ],
+    "pullback_dir":  "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_realvisxl_smoke_20260719T162402-0500",
+    "generation_executed":  true,
+    "result":  "pass_local_generation_smoke_existing_comfyui",
+    "helper_execute_avoided_reason":  "Invoke-LocalComfyUIRunPackageSmoke -Execute starts/stops a new process on :8188; existing ComfyUI was already serving, so prompt was posted to the live endpoint instead."
+}

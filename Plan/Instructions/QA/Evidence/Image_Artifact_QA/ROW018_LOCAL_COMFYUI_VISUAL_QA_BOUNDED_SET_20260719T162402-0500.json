@@ -1,0 +1,112 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ROW018-LOCAL-COMFYUI-VISUAL-QA-BOUNDED-SET-20260719T162402-0500",
+  "created_iso": "2026-07-19T16:24:02-05:00",
+  "tracker_id": "TRK-W64-018",
+  "item_id": "ITEM-W64-018",
+  "lane_id": "sdxl_realvisxl_base_lane",
+  "status": "VISUAL_QA_PASS_BOUNDED",
+  "row_complete": false,
+  "library_authority": false,
+  "full_project_certification": false,
+  "proof_tiers": {
+    "static_package_dry_run": "STATIC_PASS",
+    "local_comfyui_generation": "RUNTIME_PASS_BOUNDED",
+    "direct_visual_qa": "VISUAL_QA_PASS_BOUNDED",
+    "ec2": "EC2_DEFERRED",
+    "highest_achieved": "VISUAL_QA_PASS_BOUNDED"
+  },
+  "local_runtime": {
+    "api_base_url": "http://127.0.0.1:8188",
+    "comfyui_version": "0.27.0",
+    "gpu": "cuda:0 NVIDIA GeForce RTX 5060 Laptop GPU : cudaMallocAsync",
+    "prompt_id": "b7edcbbf-f179-447b-bfaa-13b1b1392d05",
+    "generation_executed": true,
+    "used_existing_comfyui_process": true,
+    "ckpt_name": "realvisxlV50_v50Bakedvae.safetensors",
+    "seed": 660715512,
+    "steps": 10,
+    "resolution": "512x512",
+    "output_sha256": "a3b1527fcd3223fbb55cfc51434ff9b7495318ec79cfcb2f1ca48b0184881ec8",
+    "deterministic_replay_of_20260706_local_smoke": true,
+    "runtime_receipt": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_realvisxl_smoke_20260719T162402-0500/LOCAL_RUNTIME_RECEIPT.json",
+    "workflow_runtime_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_LOCAL_COMFYUI_REALVISXL_SMOKE_EXECUTE_20260719T162402-0500.json",
+    "dry_run_evidence": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_LOCAL_COMFYUI_REALVISXL_SMOKE_DRYRUN_20260719T1619-0500.json"
+  },
+  "local_smoke_visual_qa": {
+    "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_LOCAL_REALVISXL_BOUNDED_SMOKE_IMAGE_QA_VISUAL_20260719T162402-0500.json",
+    "technical_path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_LOCAL_REALVISXL_BOUNDED_SMOKE_IMAGE_QA_TECHNICAL_20260719T162402-0500.json",
+    "result": "pass_local_bounded_smoke_with_notes",
+    "qa_score": 89,
+    "score_5": 4.45
+  },
+  "bounded_image_set_reaffirmation": {
+    "set_id": "realvisxl_multisample_certification_v1_three_sample_matrix",
+    "sample_count": 3,
+    "all_hashes_match_prior_cert": true,
+    "samples": [
+      {
+        "sample_id": "realvisxl_closeup_skin_eye_811006101",
+        "image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T185315-0500/images/9_codex_realvisxl_cert_closeup_skin_eye_00001_.png",
+        "expected_sha256": "5f8a996ea615a7376f9186dff80bce0ee600b19378bdaa307bbcf73394e0e18d",
+        "prior_visual": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_SAMPLE1_IMAGE_QA_VISUAL_20260706T190640-0500.json",
+        "prior_score_100": 91,
+        "prior_score_5": 4.55,
+        "direct_review_20260719": "pass_with_nonblocking_beauty_retouch_smoothness_and_close_crop_scope",
+        "notes": "Close-up face/eye/skin pass; hands/body not in crop; minor beauty smoothness remains nonblocking.",
+        "observed_sha256": "5f8a996ea615a7376f9186dff80bce0ee600b19378bdaa307bbcf73394e0e18d",
+        "hash_match": true,
+        "bytes": 1588039
+      },
+      {
+        "sample_id": "realvisxl_three_quarter_hands_fabric_811006202",
+        "image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T192734-0500/images/9_codex_realvisxl_cert_hands_fabric_00001_.png",
+        "expected_sha256": "3d69eb051d1d416a0adf01de2ba357d7540d24a4993638888dea28a0b1ba9076",
+        "prior_visual": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_SAMPLE2_IMAGE_QA_VISUAL_20260706T193800-0500.json",
+        "prior_score_100": 88,
+        "prior_score_5": 4.4,
+        "direct_review_20260719": "pass_with_nonblocking_interlocked_finger_contact_compression",
+        "notes": "Hands/fabric/contact visible and anatomically plausible; residual finger-contact compression nonblocking.",
+        "observed_sha256": "3d69eb051d1d416a0adf01de2ba357d7540d24a4993638888dea28a0b1ba9076",
+        "hash_match": true,
+        "bytes": 1876319
+      },
+      {
+        "sample_id": "realvisxl_environment_lowlight_811006303",
+        "image": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260706T195752-0500/images/9_codex_realvisxl_cert_environment_lowlight_00001_.png",
+        "expected_sha256": "5a47e700233c29065c8ccfc18397ff55e7bc1717596110cf89a9d5e9eca23bc5",
+        "prior_visual": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_SAMPLE3_IMAGE_QA_VISUAL_20260706T200845-0500.json",
+        "prior_score_100": 90,
+        "prior_score_5": 4.5,
+        "direct_review_20260719": "pass_with_nonblocking_lamp_geometry_and_polished_skin_notes",
+        "notes": "Low-light environment/lighting coherence pass; lamp geometry and polished-skin notes remain nonblocking.",
+        "observed_sha256": "5a47e700233c29065c8ccfc18397ff55e7bc1717596110cf89a9d5e9eca23bc5",
+        "hash_match": true,
+        "bytes": 1404676
+      }
+    ],
+    "mean_prior_visual_score_0_to_5": 4.4833,
+    "minimum_prior_visual_score_0_to_5": 4.4,
+    "blocking_defect_sample_count": 0,
+    "direct_visual_review_pass_count": 3
+  },
+  "docker_cvat": {
+    "used": false,
+    "role": "annotation_support_only_not_comfyui_proof"
+  },
+  "explicit_exclusions": [
+    "full_project_image_certification",
+    "row016_promotion_authority",
+    "new_three_seed_local_multisample_regeneration",
+    "hands_feet_regional_hard_anatomy_completion",
+    "EC2_target_runtime_reproof",
+    "COMPLETE_claimed_from_this_delta"
+  ],
+  "claims_not_established": [
+    "COMPLETE",
+    "row_complete=true from this local climb alone",
+    "Wave71/mask promotion"
+  ],
+  "qa_decision": "row018_local_comfyui_runtime_and_visual_qa_bounded_pass_matrix_hashes_reaffirmed",
+  "next_action": "Keep Row018 target-runtime multi-sample certification as prior authority; optionally regenerate a 3-seed local multisample set for local-only portfolio parity, or climb Row016 only if a promoted image binding becomes available. Do not treat this local smoke as full-project COMPLETE."
+}

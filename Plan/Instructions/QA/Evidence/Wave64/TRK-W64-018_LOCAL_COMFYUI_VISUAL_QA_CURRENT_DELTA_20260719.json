@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-018_LOCAL_COMFYUI_VISUAL_QA_CURRENT_DELTA_20260719",
+  "created_iso": "2026-07-19T16:24:02-05:00",
+  "tracker_id": "TRK-W64-018",
+  "item_id": "ITEM-W64-018",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+  "runtime_proof_tier": "RUNTIME_PASS_BOUNDED",
+  "status": "PASS_LOCAL_COMFYUI_RUNTIME_AND_VISUAL_QA_BOUNDED",
+  "row_complete": false,
+  "summary": "Climbed Row018 local proof from package dry-run into live ComfyUI generation (deterministic RealVisXL 512 smoke) plus direct visual QA, and reaffirmed the existing three-sample RealVisXL matrix hashes/visual judgments. Does not claim full-project COMPLETE or a new local three-seed portfolio regeneration.",
+  "primary_evidence": [
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_LOCAL_COMFYUI_REALVISXL_SMOKE_EXECUTE_20260719T162402-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_LOCAL_REALVISXL_BOUNDED_SMOKE_IMAGE_QA_VISUAL_20260719T162402-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/ROW018_LOCAL_COMFYUI_VISUAL_QA_BOUNDED_SET_20260719T162402-0500.json"
+  ],
+  "bounded_set_evidence": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/ROW018_LOCAL_COMFYUI_VISUAL_QA_BOUNDED_SET_20260719T162402-0500.json",
+  "validators": {
+    "command": "python -m unittest Plan.Instructions.QA.Scripts.test_image_multi_sample_certification -v",
+    "result": "pass",
+    "passed": 9,
+    "failed": 0
+  },
+  "disjoint_scope": {
+    "avoided_paths": [
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-069_*",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_*",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-071_*",
+      "Plan/10_REGISTRIES/audio_pack_functional_index_registry.json"
+    ],
+    "reason": "Sibling agents own Row069 acceptance and Row070/071 evidence at ad4c326e."
+  },
+  "ec2": "EC2_DEFERRED",
+  "docker_cvat": "not-needed"
+}

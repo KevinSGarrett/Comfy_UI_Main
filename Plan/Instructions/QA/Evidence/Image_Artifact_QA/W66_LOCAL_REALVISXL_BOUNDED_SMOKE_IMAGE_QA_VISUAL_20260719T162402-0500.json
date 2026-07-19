@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W66-LOCAL-REALVISXL-BOUNDED-SMOKE-VISUAL-20260719T162402-0500",
+  "timestamp": "2026-07-19T16:24:02-05:00",
+  "tracker_id": "TRK-W64-018",
+  "item_id": "ITEM-W64-018",
+  "artifact_type": "image_visual_review",
+  "image_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_realvisxl_smoke_20260719T162402-0500/images/codex_realvisxl_local_bounded_smoke_00001_.png",
+  "image_sha256": "a3b1527fcd3223fbb55cfc51434ff9b7495318ec79cfcb2f1ca48b0184881ec8",
+  "workflow_reference": "runtime_artifacts/run_packages/realvisxl_local_bounded_smoke_v1/lane_files/workflow.api.json",
+  "prompt_reference": "runtime_artifacts/run_packages/realvisxl_local_bounded_smoke_v1/prompt_request.json",
+  "model_context": "sdxl_realvisxl_base_lane / realvisxlV50_v50Bakedvae.safetensors / realvisxl_local_bounded_smoke_v1",
+  "reviewer": "Cursor interactive integration authority direct visual QA",
+  "protocol": "Plan/Instructions/QA/IMAGE_GENERATION_VISUAL_REVIEW_PROTOCOL.md",
+  "result": "pass_local_bounded_smoke_with_notes",
+  "qa_score": 89,
+  "score_5": 4.45,
+  "pass_threshold": 80,
+  "decision": "Local ComfyUI RealVisXL bounded smoke passes visual QA for face/skin/hair/fabric portrait scope at 512x512. Hands/feet not visible; not a multi-sample portfolio certificate by itself.",
+  "checks": {
+    "face_realism": "pass",
+    "eye_quality": "pass",
+    "skin_texture": "pass_with_512_resolution_limits",
+    "hands_fingers": "not_visible",
+    "feet_toes": "not_visible",
+    "hair_realism": "pass",
+    "teeth_mouth_quality": "pass_closed_mouth_no_teeth",
+    "body_proportions": "pass_visible_shoulders_and_neck",
+    "pose_accuracy": "pass",
+    "clothing_fabric": "pass",
+    "contact_points": "not_applicable",
+    "object_body_collisions": "pass_no_collision_visible",
+    "anatomy_consistency": "pass_visible_face_and_torso",
+    "lighting": "pass",
+    "shadows": "pass",
+    "background_coherence": "pass_studio_backdrop",
+    "camera_lens_realism": "pass",
+    "texture_detail": "pass_with_512_limits",
+    "generation_artifacts": "none_blocking",
+    "identity_drift": "not_applicable_single_image",
+    "prompt_compliance": "pass_hyperreal_portrait_skin_eyes_hair_fabric",
+    "negative_prompt_compliance": "pass_no_cartoon_plastic_watermark_text",
+    "unwanted_style_contamination": "none_observed"
+  },
+  "defects": [
+    "512x512 bounded smoke resolution limits pore-level scrutiny versus 1024 matrix samples; acceptable for local runtime/visual smoke scope.",
+    "Hands and feet not in frame; matrix sample 2 remains required for hand/fabric certification dimensions."
+  ],
+  "category_scores_0_to_5": {
+    "subject_fidelity_realism": 4.5,
+    "limbs_extremities": 0.0,
+    "surface_contact": 4.3,
+    "cinematic_environment": 4.4,
+    "artifact_absence": 4.6,
+    "instruction_compliance": 4.5
+  },
+  "limbs_extremities_scored": false,
+  "evidence_paths": [
+    "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_realvisxl_smoke_20260719T162402-0500/LOCAL_RUNTIME_RECEIPT.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_LOCAL_REALVISXL_BOUNDED_SMOKE_IMAGE_QA_TECHNICAL_20260719T162402-0500.json"
+  ]
+}
