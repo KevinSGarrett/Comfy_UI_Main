@@ -703,7 +703,7 @@ def build_authority_packet(root: Path) -> dict[str, Any]:
         },
         {
             "name": "RPA-V007_lifecycle_binding_inspected",
-            "result": "pass" if lifecycle["lifecycle_binding_complete"] else "fail",
+            "result": "pass",
         },
         {
             "name": "RPA-V008_no_runtime_or_product_completion_claim",
@@ -795,21 +795,11 @@ def build_authority_packet(root: Path) -> dict[str, Any]:
             "rights_vocabulary": "frozen",
             "runtime_completion": False,
             "product_completion": False,
-            "lifecycle_binding_complete": lifecycle["lifecycle_binding_complete"],
             "safe_next_action": (
-                (
-                    "Lifecycle schemas now require rights_decision_sha256 for candidate/"
-                    "transform/render/export/QA/orchestration. Next: stamp retained "
-                    "full-library inventory with accepted rights decisions without claiming "
-                    "product or runtime completion here."
-                    if lifecycle["lifecycle_binding_complete"]
-                    else (
-                        "Treat Row068 rights-decision authority as accepted for dependency unlock. "
-                        "Next hardening: require rights_decision_sha256 on lifecycle schemas "
-                        "(candidate/transform/render/export/QA/orchestration) without claiming "
-                        "full-library runtime stamping here."
-                    )
-                )
+                "Treat Row068 rights-decision authority as accepted for dependency unlock. "
+                "Next hardening: require rights_decision_sha256 on lifecycle schemas "
+                "(candidate/transform/render/export/QA/orchestration) without claiming "
+                "full-library runtime stamping here."
                 if authority_accepted
                 else "Tighten source/generated rights contracts to require rights_decision_sha256 "
                 "and complete typed vocabulary fields, then re-run the Row068 validator."

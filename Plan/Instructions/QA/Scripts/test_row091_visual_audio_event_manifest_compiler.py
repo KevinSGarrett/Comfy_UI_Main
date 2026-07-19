@@ -43,7 +43,6 @@ def _base_packet() -> dict:
             "audio_review_present": False,
             "combined_frame_contact_audio_review_present": False,
         },
-        "rights_decision_sha256": "c" * 64,
         "traceability_events": [
             {
                 "traceability_id": "trace_evt_001",

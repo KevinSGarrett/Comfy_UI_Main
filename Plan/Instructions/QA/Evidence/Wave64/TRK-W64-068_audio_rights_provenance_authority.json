@@ -1,5 +1,7 @@
 {
-  "blocker_codes": [],
+  "blocker_codes": [
+    "LIFECYCLE_RIGHTS_BINDING_INCOMPLETE"
+  ],
   "check_summary": {
     "checked": 9,
     "failed": 0,
@@ -43,14 +45,13 @@
       "result": "pass"
     }
   ],
-  "created_at": "2026-07-19T20:01:51Z",
+  "created_at": "2026-07-19T19:57:15Z",
   "decision": {
-    "lifecycle_binding_complete": true,
     "product_completion": false,
     "rights_vocabulary": "frozen",
     "row068_acceptance": "accepted",
     "runtime_completion": false,
-    "safe_next_action": "Lifecycle schemas now require rights_decision_sha256 for candidate/transform/render/export/QA/orchestration. Next: stamp retained full-library inventory with accepted rights decisions without claiming product or runtime completion here.",
+    "safe_next_action": "Treat Row068 rights-decision authority as accepted for dependency unlock. Next hardening: require rights_decision_sha256 on lifecycle schemas (candidate/transform/render/export/QA/orchestration) without claiming full-library runtime stamping here.",
     "status": "accepted"
   },
   "decision_schema": {
@@ -633,47 +634,59 @@
   "implementation_completion_claimed": false,
   "item_id": "ITEM-W64-068",
   "lifecycle_bindings": {
-    "bound_count": 6,
-    "bound_paths": [
+    "bound_count": 0,
+    "bound_paths": [],
+    "details": [
+      {
+        "path": "Plan/08_SCHEMAS/visual_audio_event_manifest.schema.json",
+        "rights_decision_sha256_required": false
+      },
+      {
+        "path": "Plan/08_SCHEMAS/audio_candidate_score_record.schema.json",
+        "rights_decision_sha256_required": false
+      },
+      {
+        "path": "Plan/08_SCHEMAS/audio_orchestration_run.schema.json",
+        "rights_decision_sha256_required": false
+      },
+      {
+        "path": "Plan/08_SCHEMAS/audio_clip_preparation_manifest.schema.json",
+        "rights_decision_sha256_required": false
+      },
+      {
+        "path": "Plan/08_SCHEMAS/audio_spatial_render_manifest.schema.json",
+        "rights_decision_sha256_required": false
+      },
+      {
+        "path": "Plan/08_SCHEMAS/generated_audio_qa_report.schema.json",
+        "rights_decision_sha256_required": false
+      }
+    ],
+    "lifecycle_binding_complete": false,
+    "unbound_count": 6,
+    "unbound_paths": [
       "Plan/08_SCHEMAS/visual_audio_event_manifest.schema.json",
       "Plan/08_SCHEMAS/audio_candidate_score_record.schema.json",
       "Plan/08_SCHEMAS/audio_orchestration_run.schema.json",
       "Plan/08_SCHEMAS/audio_clip_preparation_manifest.schema.json",
       "Plan/08_SCHEMAS/audio_spatial_render_manifest.schema.json",
       "Plan/08_SCHEMAS/generated_audio_qa_report.schema.json"
-    ],
-    "details": [
-      {
-        "path": "Plan/08_SCHEMAS/visual_audio_event_manifest.schema.json",
-        "rights_decision_sha256_required": true
-      },
-      {
-        "path": "Plan/08_SCHEMAS/audio_candidate_score_record.schema.json",
-        "rights_decision_sha256_required": true
-      },
-      {
-        "path": "Plan/08_SCHEMAS/audio_orchestration_run.schema.json",
-        "rights_decision_sha256_required": true
-      },
-      {
-        "path": "Plan/08_SCHEMAS/audio_clip_preparation_manifest.schema.json",
-        "rights_decision_sha256_required": true
-      },
-      {
-        "path": "Plan/08_SCHEMAS/audio_spatial_render_manifest.schema.json",
-        "rights_decision_sha256_required": true
-      },
-      {
-        "path": "Plan/08_SCHEMAS/generated_audio_qa_report.schema.json",
-        "rights_decision_sha256_required": true
-      }
-    ],
-    "lifecycle_binding_complete": true,
-    "unbound_count": 0,
-    "unbound_paths": []
+    ]
   },
   "product_completion_claimed": false,
   "remaining_holds": [
+    {
+      "code": "LIFECYCLE_RIGHTS_BINDING_INCOMPLETE",
+      "detail": "Lifecycle schemas may still represent selection/transform/render/export/QA without a required rights_decision_sha256 field. Decision authority exists; required-field binding is the next hardening slice.",
+      "paths": [
+        "Plan/08_SCHEMAS/visual_audio_event_manifest.schema.json",
+        "Plan/08_SCHEMAS/audio_candidate_score_record.schema.json",
+        "Plan/08_SCHEMAS/audio_orchestration_run.schema.json",
+        "Plan/08_SCHEMAS/audio_clip_preparation_manifest.schema.json",
+        "Plan/08_SCHEMAS/audio_spatial_render_manifest.schema.json",
+        "Plan/08_SCHEMAS/generated_audio_qa_report.schema.json"
+      ]
+    },
     {
       "code": "LIBRARY_RUNTIME_RIGHTS_STAMPING_ABSENT",
       "detail": "No retained full-library asset inventory was stamped with accepted rights decisions in this slice."
@@ -695,10 +708,10 @@
       "rights_decision_sha256"
     ],
     "generated_schema": {
-      "bytes": 3820,
+      "bytes": 3741,
       "exists": true,
       "path": "Plan/08_SCHEMAS/generated_audio_asset_provenance.schema.json",
-      "sha256": "ba6f8b99c676812c0f9f78e4db63b136f5bb1c52802b545ce1a3b201d3c5a702"
+      "sha256": "9805e6681e76f5ec25afa3a05a1d7c5a442e64ec325898bc3824e49c500801dd"
     },
     "source_required": [
       "attribution",
@@ -708,10 +721,10 @@
       "rights_decision_sha256"
     ],
     "source_schema": {
-      "bytes": 4816,
+      "bytes": 4699,
       "exists": true,
       "path": "Plan/08_SCHEMAS/audio_asset_intelligence_record.schema.json",
-      "sha256": "bd8d25c6ee00c2d7356c2df8aeb425e075aa0050ea7250671e6688b36341b01b"
+      "sha256": "02cd6229fdba5dff03b50f4f99394da092024cb866935e4bf4f6e1f3c4e99dbd"
     }
   },
   "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
