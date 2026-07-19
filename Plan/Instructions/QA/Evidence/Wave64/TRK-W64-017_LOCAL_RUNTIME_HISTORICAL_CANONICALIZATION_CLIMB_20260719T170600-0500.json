@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ROW017-LOCAL-RUNTIME-HISTORICAL-CANONICALIZATION-CLIMB-20260719T170600-0500",
+  "created_at": "2026-07-19T17:11:02-05:00",
+  "tracker_id": "TRK-W64-017",
+  "item_id": "ITEM-W64-017",
+  "decision": "Climbed Row017 with an independent local ComfyUI MF70 under-eye runtime + direct whole-frame visual QA (canonical pass), and emitted three additional historical MF70 canonical global reviews after fresh direct visual inspection. This does not complete historical normalization.",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+  "row_complete": false,
+  "local_only": true,
+  "fixture_only": false,
+  "ec2": "EC2_DEFERRED",
+  "docker_cvat": "not-needed",
+  "runtime": {
+    "prompt_id": "b9bdee70-a042-420f-ba51-5b0af051a930",
+    "seed": 6607052114,
+    "ckpt_name": "realvisxlV50_v50Bakedvae.safetensors",
+    "denoise": 0.045,
+    "output_sha256": "92cebb02a47c43e85f1578939d9aeb58cad90002c596662e093c443b1bedeb50",
+    "receipt": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_under_eye_20260719T170600-0500\\LOCAL_RUNTIME_RECEIPT.json"
+  },
+  "reviews": [
+    {
+      "path": "Plan\\Instructions\\QA\\Evidence\\Image_Artifact_QA\\Row017_Canonical_Global_Reviews\\ROW017_LOCAL_MF70_UNDER_EYE_20260719T170600-0500_GLOBAL_REVIEW.json",
+      "sha256": "d33f14653fc8dac11b7ec9b57e40b79cf76c7cfdeff6cbe77eb0b0d27f4eb7d1",
+      "decision": "pass",
+      "kind": "fresh_local_runtime"
+    },
+    {
+      "path": "Plan\\Instructions\\QA\\Evidence\\Image_Artifact_QA\\Row017_Canonical_Global_Reviews\\ROW017_W70_EYEBROWS_V4_GLOBAL_REVIEW_20260719.json",
+      "sha256": "73f3a6c0167ed0a5081538bf8c38320e690d490dd6d77b4f1d56389ddbfefad6",
+      "decision": "pass",
+      "kind": "historical_direct_reinspection"
+    },
+    {
+      "path": "Plan\\Instructions\\QA\\Evidence\\Image_Artifact_QA\\Row017_Canonical_Global_Reviews\\ROW017_W70_UNDER_EYE_V2_GLOBAL_REVIEW_20260719.json",
+      "sha256": "ea3f8d3d08b98490f7419c51743613817c41574256cd3c2ec71ce0f1fc65e0a0",
+      "decision": "pass",
+      "kind": "historical_direct_reinspection"
+    },
+    {
+      "path": "Plan\\Instructions\\QA\\Evidence\\Image_Artifact_QA\\Row017_Canonical_Global_Reviews\\ROW017_W70_NOSE_V5_GLOBAL_REVIEW_20260719.json",
+      "sha256": "e4bfeafbd54316ac9594ed1e60b75cb62f1590ba3731c0ed332f524ae56b86e3",
+      "decision": "pass",
+      "kind": "historical_direct_reinspection"
+    }
+  ],
+  "visual_qa": "Plan\\Instructions\\QA\\Evidence\\Image_Artifact_QA\\ROW017_LOCAL_MF70_UNDER_EYE_VISUAL_QA_20260719T170600-0500.json",
+  "runtime_evidence": "Plan\\Instructions\\QA\\Evidence\\Workflow_Runtime\\W64_LOCAL_COMFYUI_ROW017_MF70_UNDER_EYE_EXECUTE_20260719T170600-0500.json",
+  "prior_fluid_reject_retained": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_LOCAL_FLUID_MASKED_INPAINT_20260719T165215-0500_GLOBAL_REVIEW.json",
+  "writable_scope_disjoint_from_row070": true,
+  "remaining_blocker": "Row017 cannot complete until remaining historical localized visual-review records are classified into canonical pre/post, target, non-target, six-category, and global-rejection evidence, and future localized candidates continue to clear whole-frame rejection gates.",
+  "next_action": "Continue bounded Row017 historical localized canonicalization with additional local artifacts/runtime candidates, or climb another tracker-authorized local visual/audio lane away from Row069-071."
+}
