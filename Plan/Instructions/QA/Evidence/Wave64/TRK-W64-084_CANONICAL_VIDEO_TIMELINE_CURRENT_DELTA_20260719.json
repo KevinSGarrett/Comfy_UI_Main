@@ -1,26 +1,27 @@
 {
   "schema_version": "1.0",
   "evidence_id": "TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719",
-  "created_at": "2026-07-19T19:35:18Z",
-  "source_commit": "363672902238846e6a3837ab2372452b3f00584c",
-  "prior_evidence_commit": "c76466d5",
+  "created_at": "2026-07-19T19:53:13Z",
+  "source_commit": "c5e3d6ce995d436dc1c6760d5099f6d4e6417cb1",
+  "prior_evidence_commit": "f99ad809",
   "prior_row_commit_is_current_head": false,
   "tracker_id": "TRK-W64-084",
   "item_id": "ITEM-W64-084",
-  "status": "HOLD_DEPENDENCY_ROW067_AND_RUNTIME_MUX_VFR_CUT_CAMERA_BENCHMARK_VISUAL_PROOF_ABSENT_CONTRACT_COMPILER_PARTIAL",
-  "classification": "ROW084_FAIL_CLOSED_CONTRACT_AND_COMPILER_INCREMENT_NO_FALSE_COMPLETION",
+  "status": "HOLD_RUNTIME_MUX_VFR_BENCHMARK_CUT_DETECTOR_CAMERA_VISUAL_PROOF_ABSENT_DEPENDENCY_UNLOCKED_VFR_CUT_FIXTURE_PARTIAL",
+  "classification": "ROW084_FAIL_CLOSED_VFR_CUT_EPOCH_FIXTURE_AND_DEPENDENCY_UNLOCK_NO_FALSE_COMPLETION",
   "row_complete": false,
   "implementation_completion_claimed": false,
   "runtime_completion_claimed": false,
   "qa_decision": "HOLD",
   "increment": {
-    "kind": "fail_closed_contract_compiler_slice",
-    "summary": "Added a Row084 canonical timeline schema, fail-closed compiler with fixed/fractional round-trip math and span/VFR/sample-rate gates, clock-span endpoint/rate tightening, declarative round-trip tolerances, and eight focused tests. Production completion remains blocked.",
+    "kind": "fail_closed_vfr_cut_epoch_fixture_and_dependency_unlock",
+    "summary": "Refreshed Row084 dependency authority to bind accepted Row067 (row067_complete=true at b074c694). Extended the compiler with VFR segment-aware round-trip math, unique/contiguous segment IDs, strictly increasing cut-epoch ledger checks, schema roundtrip evidence fields, and four focused fixture tests. Production completion remains blocked.",
     "production_media_decode_invoked": false,
-    "tracker_output_artifact_emitted": false
+    "tracker_output_artifact_emitted": false,
+    "row067_binding_commit": "b074c694518b7ebe78a1e7292db28427d7f75ca7"
   },
   "intent": {
-    "intent_id": "interactive_cursor_shift_row084_fail_closed_increment_20260719",
+    "intent_id": "interactive_cursor_shift_row084_vfr_cut_dependency_unlock_20260719",
     "classification": "INTERACTIVE_PLATFORM_SHIFT_AUTHORITY",
     "work_type": "final_authority",
     "authority_class": "interactive_cursor",
@@ -29,19 +30,13 @@
     "candidate_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
       "Plan/08_SCHEMAS/canonical_video_timeline.schema.json",
-      "Plan/08_SCHEMAS/canonical_media_clock_span.schema.json",
       "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
-      "Plan/10_REGISTRIES/wave64_audio_delivery_and_clock_profile_registry.json",
-      "Plan/07_IMPLEMENTATION/scripts/build_wave64_autonomous_model_intelligence_control_package.py",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
     ],
     "allowed_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
       "Plan/08_SCHEMAS/canonical_video_timeline.schema.json",
-      "Plan/08_SCHEMAS/canonical_media_clock_span.schema.json",
       "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
-      "Plan/10_REGISTRIES/wave64_audio_delivery_and_clock_profile_registry.json",
-      "Plan/07_IMPLEMENTATION/scripts/build_wave64_autonomous_model_intelligence_control_package.py",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
     ]
   },
@@ -72,32 +67,34 @@
   "dependency_authority": {
     "tracker_id": "TRK-W64-067",
     "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-067_PLANNING_AUTHORITY_CURRENT_DELTA_20260719.json",
-    "evidence_sha256": "abcb3a0d80f8ede36d58e65f194e5a555e5654cec3eff5b6223e8162e3b725d2",
-    "evidence_bytes": 12127,
-    "current_delta_status": "HOLD_PLANNING_PACKAGE_STATIC_CONSISTENCY_PASS_IMPLEMENTATION_EVIDENCE_ABSENT",
-    "row_complete": false,
-    "dependency_satisfied": false,
-    "row084_effect": "The foundational planning package is not implementation- or runtime-authoritative. The new compiler keeps authority_ceiling=candidate and production_completion_allowed=false while row067_complete is false."
+    "evidence_sha256": "5627c37041a4e449f0c44cbf50a6e1b9b442f76cc934ec73c5331bdcb65f68f7",
+    "evidence_bytes": 6342,
+    "direct_evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-067_sound_intelligence_planning_authority.json",
+    "direct_evidence_sha256": "b34149a131f587057b1d35f380bde04484c67f04cb0af9167b6a3703e1aff3d5",
+    "direct_evidence_bytes": 10544,
+    "acceptance_commit": "b074c694518b7ebe78a1e7292db28427d7f75ca7",
+    "current_delta_status": "PASS_PLANNING_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+    "row_complete": true,
+    "row067_complete": true,
+    "dependency_satisfied": true,
+    "evaluate_row067_complete": {
+      "row067_complete": true,
+      "dependency_satisfied": true,
+      "blocker_codes": [],
+      "status": "PASS_PLANNING_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION"
+    },
+    "row084_effect": "Dependency unlock raises authority_ceiling to technical when runtime authorities remain false. Mux replay, held-out VFR benchmark, cut-detector algorithm, camera-motion normalization, combined visual review, and tracker runtime artifact remain independent holds."
   },
   "implementation_slice": {
     "compiler_path": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-    "compiler_sha256": "5dfc2849fbe49f4a8fac8d358de99372f353dbe678e4cdecc8380000a8bf991f",
-    "compiler_bytes": 26390,
+    "compiler_sha256": "2c0ebed1a8265616d8b9f6e9816350e6e50abab92454a89bb7a2020491844eec",
+    "compiler_bytes": 30497,
     "timeline_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline.schema.json",
-    "timeline_schema_sha256": "c3e0f4b41ff3f53516ffef3f9d8e064b1d5ad8ade85c8271942b92402d52d21b",
-    "timeline_schema_bytes": 8164,
-    "clock_span_schema_path": "Plan/08_SCHEMAS/canonical_media_clock_span.schema.json",
-    "clock_span_schema_sha256": "eb203bdae6a8b99df08e23e888dcd94f98b9991804603913ad14e8bf3f377d20",
-    "clock_span_schema_bytes": 2581,
+    "timeline_schema_sha256": "89b5d246dcf0599daaef2323e381e079689928f3026313a46e7deb065946abc8",
+    "timeline_schema_bytes": 8454,
     "test_path": "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
-    "test_sha256": "35c9c6254485cd1f31b56591c272a6fd9ddc8b89dcfe5bfb7b8ef7b90558f948",
-    "test_bytes": 8516,
-    "clock_registry_path": "Plan/10_REGISTRIES/wave64_audio_delivery_and_clock_profile_registry.json",
-    "clock_registry_sha256": "46f38dc64cd0e52a270c4483ddd9e3478f7d20560a9f3f18678784b3100a6fd0",
-    "clock_registry_bytes": 1408,
-    "package_builder_path": "Plan/07_IMPLEMENTATION/scripts/build_wave64_autonomous_model_intelligence_control_package.py",
-    "package_builder_sha256": "7c22c93873e558852e05f207130e07483ea3ab922f0ce3275f5e633cb45ecc03",
-    "package_builder_bytes": 338862,
+    "test_sha256": "ed0e4d68003b783d81c0a2a93d48890df7f78ba590a34088daaa51b9189b1143",
+    "test_bytes": 14231,
     "proven_capabilities": [
       "fail-closed reversed PTS/frame/sample span rejection",
       "required non-null frame and sample rates on clock-span schema",
@@ -108,27 +105,33 @@
       "unsupported sample-rate rejection (non-48000)",
       "non-monotonic PTS rejection",
       "dependency hold keeps candidate ceiling and blocks production completion",
-      "declarative row084_roundtrip_tolerances registry binding"
+      "declarative row084_roundtrip_tolerances registry binding",
+      "Row067 dependency unlock recorded (row067_complete=true)",
+      "dependency unlock raises authority_ceiling to technical_partial without granting production completion",
+      "fixture-backed contiguous VFR segment compilation with per-segment round-trip",
+      "fixture-backed cut-epoch ledger acceptance with unique IDs and strictly increasing frames",
+      "VFR segment gap rejection",
+      "non-monotonic cut-epoch rejection"
     ],
     "still_absent": [
       "video decode integration",
-      "cut detector implementation beyond cut_epoch ledger acceptance",
+      "cut detector algorithm beyond cut_epoch ledger acceptance",
       "camera-motion normalization",
       "held-out fixed+VFR benchmark matrix with mux replay",
       "combined frame/contact/audio visual review",
       "tracker-declared runtime output artifact",
       "JSON Schema native end_pts > start_pts comparison",
-      "Row067 acceptance"
+      "mux-prep runtime receipt path"
     ]
   },
   "focused_local_test_result": {
     "py_compile": "PASS",
     "strict_command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
-    "strict_result": "8 passed",
+    "strict_result": "12 passed",
     "strict_exit_code": 0,
-    "total_focused_passed": 8,
+    "total_focused_passed": 12,
     "total_focused_failed": 0,
-    "scope_interpretation": "Focused tests prove the fail-closed contract/compiler slice only. They do not grant Row084 completion, runtime mux replay, or visual review authority."
+    "scope_interpretation": "Focused tests prove dependency unlock plus fixture VFR/cut-epoch compiler gates only. They do not grant Row084 completion, held-out VFR benchmark, mux replay, or visual review authority."
   },
   "checks": [
     {"check_id": "ROW084-001", "name": "tracker_item_requirements_parity", "status": "PASS"},
@@ -140,7 +143,7 @@
     {"check_id": "ROW084-007", "name": "fail_closed_compiler_present", "status": "PASS"},
     {"check_id": "ROW084-008", "name": "canonical_timeline_schema_present", "status": "PASS"},
     {"check_id": "ROW084-009", "name": "clock_span_endpoints_and_non_null_rates_required", "status": "PASS"},
-    {"check_id": "ROW084-010", "name": "dependency_row067_complete", "status": "FAIL"},
+    {"check_id": "ROW084-010", "name": "dependency_row067_complete", "status": "PASS"},
     {"check_id": "ROW084-011", "name": "canonical_timeline_compiler_production_complete", "status": "FAIL"},
     {"check_id": "ROW084-012", "name": "clock_span_reversed_pts_enforced_by_json_schema_alone", "status": "FAIL"},
     {"check_id": "ROW084-013", "name": "vfr_segment_map_benchmark_complete", "status": "FAIL"},
@@ -152,12 +155,13 @@
     {"check_id": "ROW084-019", "name": "direct_row084_mux_replay_proof_present", "status": "FAIL"},
     {"check_id": "ROW084-020", "name": "direct_combined_visual_audio_review_present", "status": "FAIL"},
     {"check_id": "ROW084-021", "name": "direct_row084_runtime_receipt_present", "status": "FAIL"},
-    {"check_id": "ROW084-022", "name": "tracker_declared_output_artifact_present", "status": "FAIL"}
+    {"check_id": "ROW084-022", "name": "tracker_declared_output_artifact_present", "status": "FAIL"},
+    {"check_id": "ROW084-023", "name": "fixture_vfr_segment_and_cut_epoch_matrix_pass", "status": "PASS"}
   ],
   "test_and_runtime_boundary": {
     "schema_meta_validation_executed": true,
     "focused_source_tests_executed": true,
-    "focused_source_tests_passed": 8,
+    "focused_source_tests_passed": 12,
     "focused_source_tests_failed": 0,
     "production_timeline_compilation_invoked": false,
     "new_media_decode_or_mux_invoked": false,
@@ -170,42 +174,51 @@
     "wrapper_calls": 0,
     "scheduled_task_wakes": 0
   },
-  "row091_boundary": {
-    "touched": false,
-    "excluded_paths": [
-      "Plan/07_IMPLEMENTATION/scripts/compile_wave30_audio_event_manifest.py",
-      "Plan/08_SCHEMAS/visual_audio_event_manifest.schema.json",
-      "Plan/Instructions/QA/Scripts/test_wave30_audio_pipeline_strict.py",
-      "Plan/Instructions/QA/Scripts/test_row091_*",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_*"
-    ]
+  "sibling_lane_boundary": {
+    "excluded_sibling_rows": [
+      "TRK-W64-068",
+      "TRK-W64-069",
+      "TRK-W64-074",
+      "TRK-W64-075",
+      "TRK-W64-086"
+    ],
+    "excluded_path_globs": [
+      "Plan/07_IMPLEMENTATION/scripts/build_audio_pack_functional_index.py",
+      "Plan/07_IMPLEMENTATION/scripts/segment_wave64_multi_event_audio.py",
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_pose_hand_foot_gait_extraction.py",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_*",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-069_*",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_*",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_*",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-086_*",
+      "Plan/Instructions/QA/Scripts/test_row068_*",
+      "Plan/Instructions/QA/Scripts/test_row069_*",
+      "Plan/Instructions/QA/Scripts/test_row074_*",
+      "Plan/Instructions/QA/Scripts/test_row075_*",
+      "Plan/Instructions/QA/Scripts/test_row086_*"
+    ],
+    "writable_scope_disjoint": true
   },
   "preservation_boundary": {
     "allowed_write_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
       "Plan/08_SCHEMAS/canonical_video_timeline.schema.json",
-      "Plan/08_SCHEMAS/canonical_media_clock_span.schema.json",
       "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
-      "Plan/10_REGISTRIES/wave64_audio_delivery_and_clock_profile_registry.json",
-      "Plan/07_IMPLEMENTATION/scripts/build_wave64_autonomous_model_intelligence_control_package.py",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
     ],
     "actual_write_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
       "Plan/08_SCHEMAS/canonical_video_timeline.schema.json",
-      "Plan/08_SCHEMAS/canonical_media_clock_span.schema.json",
       "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
-      "Plan/10_REGISTRIES/wave64_audio_delivery_and_clock_profile_registry.json",
-      "Plan/07_IMPLEMENTATION/scripts/build_wave64_autonomous_model_intelligence_control_package.py",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
     ],
     "unrelated_dirty_paths_preserved": true,
     "worker_artifacts_preserved": true,
-    "row091_paths_preserved": true
+    "sibling_row_paths_preserved": true
   },
   "hold_decision": {
     "decision": "HOLD_ROW084_NO_FALSE_COMPLETION",
-    "reason": "A fail-closed Row084 contract/compiler slice now exists with eight passing focused tests, tightened clock-span endpoint/rate requirements, and declarative round-trip tolerances. Row067 remains incomplete. VFR benchmark, cut detection, camera-motion normalization, mux-replay proof, combined visual review, and the tracker-declared runtime artifact remain absent. The compiler never sets row_complete or production_completion_allowed true in this increment.",
-    "safe_next_action": "Keep Row084 on hold for runtime completion. Next useful Row084 write: add fixture-backed VFR segment compilation plus cut-epoch validation matrix without claiming mux/visual authority. In parallel, unblocking Row067 planning-to-implementation authority remains the critical upstream dependency. EC2 is not allowed for Row084."
+    "reason": "Row067 planning authority is now accepted and bound (ROW084-010 PASS). Fixture-backed VFR segment compilation and cut-epoch ledger gates pass locally (ROW084-023 PASS; 12 focused tests). Held-out VFR benchmark, cut-detection algorithm, camera-motion normalization, mux-replay proof, combined visual review, and the tracker-declared runtime artifact remain absent. The compiler never sets row_complete or production_completion_allowed true in this increment.",
+    "safe_next_action": "Keep Row084 on hold for runtime completion. Next useful Row084 write: mux-prep receipt scaffold plus held-out fixed+VFR round-trip fixture matrix without claiming mux/visual authority or row_complete."
   }
 }

@@ -169,6 +169,68 @@ def frame_from_seconds(seconds: float, fps_num: int, fps_den: int, rounding_poli
     raise ValueError(f"unsupported rounding_policy: {rounding_policy}")
 
 
+def _round_scaled_index(scaled: float, rounding_policy: str, label: str) -> int:
+    if rounding_policy == "exact_only":
+        if abs(scaled - round(scaled)) > 1e-9:
+            raise ValueError(f"exact_only rounding rejected non-integral {label}")
+        return int(round(scaled))
+    if rounding_policy == "nearest_ties_to_even":
+        return int(round(scaled))
+    if rounding_policy == "floor_start_ceil_end":
+        return int(math.floor(scaled + 1e-12))
+    raise ValueError(f"unsupported rounding_policy: {rounding_policy}")
+
+
+def seconds_from_vfr_frame(frame_index: int, segments: list[dict[str, Any]]) -> float:
+    """Accumulate seconds using contiguous VFR segment timebases (tb_num/tb_den seconds per frame)."""
+    if not segments:
+        raise ValueError("vfr seconds conversion requires a non-empty vfr_segments map")
+    seconds = 0.0
+    for seg in segments:
+        start = seg["start_frame"]
+        end = seg["end_frame_exclusive"]
+        tb_num = seg["timebase_numerator"]
+        tb_den = seg["timebase_denominator"]
+        if frame_index < start:
+            raise ValueError(f"frame {frame_index} precedes vfr_segments coverage")
+        if frame_index >= end:
+            seconds += (end - start) * tb_num / float(tb_den)
+            continue
+        seconds += (frame_index - start) * tb_num / float(tb_den)
+        return seconds
+    raise ValueError(f"frame {frame_index} outside vfr_segments coverage")
+
+
+def frame_from_vfr_seconds(
+    seconds: float, segments: list[dict[str, Any]], rounding_policy: str
+) -> int:
+    """Invert VFR segment accumulation for sample/frame round-trip checks."""
+    if not segments:
+        raise ValueError("vfr frame conversion requires a non-empty vfr_segments map")
+    if seconds < -1e-12:
+        raise ValueError("vfr seconds must be non-negative")
+    cursor = 0.0
+    for idx, seg in enumerate(segments):
+        start = seg["start_frame"]
+        end = seg["end_frame_exclusive"]
+        tb_num = seg["timebase_numerator"]
+        tb_den = seg["timebase_denominator"]
+        frame_duration = tb_num / float(tb_den)
+        seg_duration = (end - start) * frame_duration
+        is_last = idx == len(segments) - 1
+        if seconds + 1e-12 < cursor + seg_duration or is_last:
+            local = max(0.0, seconds - cursor)
+            offset = _round_scaled_index(local / frame_duration, rounding_policy, "vfr frame conversion")
+            frame = start + offset
+            if frame < start:
+                return start
+            if frame >= end:
+                return end - 1 if is_last else end
+            return frame
+        cursor += seg_duration
+    raise ValueError("seconds outside vfr_segments coverage")
+
+
 def validate_clock_span_invariants(span: dict[str, Any], label: str = "clock_span") -> dict[str, Any]:
     _assert_keys_exact(span, ALLOWED_CLOCK_SPAN_FIELDS, label)
     validated = {
@@ -288,6 +350,7 @@ def _validate_vfr_segments(raw: Any, frame_rate_mode: str, clock_span: dict[str,
         raise ValueError("vfr_segments must be empty unless frame_rate_mode is vfr")
     segments: list[dict[str, Any]] = []
     previous_end: int | None = None
+    seen_ids: set[str] = set()
     for idx, entry in enumerate(raw):
         if not isinstance(entry, dict):
             raise ValueError(f"vfr_segments[{idx}] must be an object")
@@ -309,9 +372,13 @@ def _validate_vfr_segments(raw: Any, frame_rate_mode: str, clock_span: dict[str,
             raise ValueError(f"vfr_segments[{idx}] overlaps prior segment")
         if previous_end is not None and start_frame > previous_end:
             raise ValueError(f"vfr_segments[{idx}] leaves an unmapped frame gap")
+        segment_id = _expect_non_empty_string(entry.get("segment_id"), f"vfr_segments[{idx}].segment_id")
+        if segment_id in seen_ids:
+            raise ValueError(f"vfr_segments[{idx}].segment_id duplicates a prior segment_id")
+        seen_ids.add(segment_id)
         segments.append(
             {
-                "segment_id": _expect_non_empty_string(entry.get("segment_id"), f"vfr_segments[{idx}].segment_id"),
+                "segment_id": segment_id,
                 "start_frame": start_frame,
                 "end_frame_exclusive": end_frame,
                 "timebase_numerator": _expect_positive_int(
@@ -337,6 +404,8 @@ def _validate_cut_epochs(raw: Any, clock_span: dict[str, Any]) -> list[dict[str,
     if not isinstance(raw, list):
         raise ValueError("cut_epochs must be a list")
     cuts: list[dict[str, Any]] = []
+    seen_ids: set[str] = set()
+    previous_frame: int | None = None
     for idx, entry in enumerate(raw):
         if not isinstance(entry, dict):
             raise ValueError(f"cut_epochs[{idx}] must be an object")
@@ -345,15 +414,21 @@ def _validate_cut_epochs(raw: Any, clock_span: dict[str, Any]) -> list[dict[str,
         frame_index = _expect_non_negative_int(entry.get("frame_index"), f"cut_epochs[{idx}].frame_index")
         if frame_index < clock_span["start_frame"] or frame_index >= clock_span["end_frame_exclusive"]:
             raise ValueError(f"cut_epochs[{idx}].frame_index outside clock_span bounds")
+        if previous_frame is not None and frame_index <= previous_frame:
+            raise ValueError(f"cut_epochs[{idx}].frame_index must be strictly increasing")
         cut_kind = _expect_non_empty_string(entry.get("cut_kind"), f"cut_epochs[{idx}].cut_kind")
         if cut_kind not in ALLOWED_CUT_KINDS:
             raise ValueError(f"cut_epochs[{idx}].cut_kind must be one of {sorted(ALLOWED_CUT_KINDS)}")
         confidence = _expect_number(entry.get("confidence"), f"cut_epochs[{idx}].confidence")
         if confidence < 0 or confidence > 1:
             raise ValueError(f"cut_epochs[{idx}].confidence must be within [0, 1]")
+        cut_id = _expect_non_empty_string(entry.get("cut_id"), f"cut_epochs[{idx}].cut_id")
+        if cut_id in seen_ids:
+            raise ValueError(f"cut_epochs[{idx}].cut_id duplicates a prior cut_id")
+        seen_ids.add(cut_id)
         cuts.append(
             {
-                "cut_id": _expect_non_empty_string(entry.get("cut_id"), f"cut_epochs[{idx}].cut_id"),
+                "cut_id": cut_id,
                 "frame_index": frame_index,
                 "cut_kind": cut_kind,
                 "algorithm_id": _expect_non_empty_string(
@@ -362,6 +437,7 @@ def _validate_cut_epochs(raw: Any, clock_span: dict[str, Any]) -> list[dict[str,
                 "confidence": confidence,
             }
         )
+        previous_frame = frame_index
     return cuts
 
 
@@ -391,6 +467,9 @@ def _build_normalized_frames(
     frames: list[dict[str, Any]],
     clock_span: dict[str, Any],
     tolerances: dict[str, float],
+    *,
+    frame_rate_mode: str,
+    vfr_segments: list[dict[str, Any]],
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     fps_num = clock_span["frame_rate_numerator"]
     fps_den = clock_span["frame_rate_denominator"]
@@ -402,10 +481,16 @@ def _build_normalized_frames(
     max_seconds_residual = 0.0
     for entry in frames:
         frame_index = entry["frame_index"]
-        seconds = seconds_from_frame(frame_index, fps_num, fps_den)
+        if frame_rate_mode == "vfr":
+            seconds = seconds_from_vfr_frame(frame_index, vfr_segments)
+        else:
+            seconds = seconds_from_frame(frame_index, fps_num, fps_den)
         sample = sample_from_seconds(seconds, sample_rate, rounding)
         roundtrip_seconds = sample / float(sample_rate)
-        roundtrip_frame = frame_from_seconds(roundtrip_seconds, fps_num, fps_den, rounding)
+        if frame_rate_mode == "vfr":
+            roundtrip_frame = frame_from_vfr_seconds(roundtrip_seconds, vfr_segments, rounding)
+        else:
+            roundtrip_frame = frame_from_seconds(roundtrip_seconds, fps_num, fps_den, rounding)
         frame_residual = abs(roundtrip_frame - frame_index)
         sample_residual = abs(sample - round(seconds * sample_rate))
         seconds_residual = abs(roundtrip_seconds - seconds)
@@ -439,6 +524,8 @@ def _build_normalized_frames(
         "max_observed_sample_residual": max_sample_residual,
         "max_observed_seconds_residual": max_seconds_residual,
         "within_tolerance": True,
+        "frame_rate_mode": frame_rate_mode,
+        "vfr_segment_count": len(vfr_segments) if frame_rate_mode == "vfr" else 0,
     }
     return normalized, evidence
 
@@ -493,7 +580,14 @@ def compile_timeline(payload: dict[str, Any]) -> dict[str, Any]:
         runtime_raw.get("fixed_vfr_benchmark_pass"), "runtime_authority.fixed_vfr_benchmark_pass"
     )
 
-    normalized_frames, roundtrip_evidence = _build_normalized_frames(frames, clock_span, tolerances)
+    normalized_frames, roundtrip_evidence = _build_normalized_frames(
+        frames,
+        clock_span,
+        tolerances,
+        frame_rate_mode=frame_rate_mode,
+        vfr_segments=vfr_segments,
+    )
+    roundtrip_evidence["cut_epoch_count"] = len(cut_epochs)
 
     dependency_ready = row067_complete
     runtime_ready = mux_replay and visual_review and benchmark_pass
@@ -516,7 +610,7 @@ def compile_timeline(payload: dict[str, Any]) -> dict[str, Any]:
     if provenance is None:
         provenance = {
             "compiler": "compile_wave64_canonical_video_timeline.py",
-            "compiler_revision": "row084_fail_closed_v1",
+            "compiler_revision": "row084_vfr_cut_epoch_v2",
         }
     if not isinstance(provenance, dict):
         raise ValueError("provenance must be an object")

@@ -78,6 +78,93 @@ def _fixed_packet(*, frame_count: int = 24, fps_num: int = 24, fps_den: int = 1)
     }
 
 
+def _vfr_cut_packet() -> dict:
+    """Two contiguous VFR segments (24fps then 30fps) with a mid-timeline hard cut ledger."""
+    sample_rate = 48000
+    # 12 frames @ 24fps + 12 frames @ 30fps
+    segments = [
+        {
+            "segment_id": "seg_24",
+            "start_frame": 0,
+            "end_frame_exclusive": 12,
+            "timebase_numerator": 1,
+            "timebase_denominator": 24,
+        },
+        {
+            "segment_id": "seg_30",
+            "start_frame": 12,
+            "end_frame_exclusive": 24,
+            "timebase_numerator": 1,
+            "timebase_denominator": 30,
+        },
+    ]
+    frames = []
+    # Synthetic PTS uses per-segment timebase ticks accumulated across the timeline.
+    pts_cursor = 0
+    for idx in range(24):
+        frames.append(
+            {
+                "frame_index": idx,
+                "source_pts": pts_cursor,
+                "duration_pts": 1,
+            }
+        )
+        pts_cursor += 1
+    end_seconds = (12 * 1 / 24.0) + (12 * 1 / 30.0)
+    end_sample = int(round(end_seconds * sample_rate))
+    return {
+        "schema_version": "1.0.0",
+        "timeline_id": "row084_vfr_cut_fixture",
+        "revision": "r002",
+        "source_binding": {
+            "video_sha256": "b" * 64,
+            "stream_index": 0,
+            "container_sha256": None,
+        },
+        "clock_span": {
+            "clock_id": "clock_vfr_fixture",
+            "timebase_numerator": 1,
+            "timebase_denominator": 24,
+            "start_pts": 0,
+            "end_pts_exclusive": pts_cursor,
+            "start_frame": 0,
+            "end_frame_exclusive": 24,
+            "start_sample": 0,
+            "end_sample_exclusive": end_sample,
+            "frame_rate_numerator": 24,
+            "frame_rate_denominator": 1,
+            "sample_rate_hz": sample_rate,
+            "rounding_policy": "nearest_ties_to_even",
+        },
+        "frame_rate_mode": "vfr",
+        "frame_table": frames,
+        "vfr_segments": segments,
+        "cut_epochs": [
+            {
+                "cut_id": "cut_hard_boundary",
+                "frame_index": 12,
+                "cut_kind": "hard",
+                "algorithm_id": "fixture_ledger_v1",
+                "confidence": 1.0,
+            }
+        ],
+        "missing_frames": [],
+        "camera_motion_policy": "not_evaluated",
+        "tolerances": {
+            "max_frame_residual": 0.0,
+            "max_sample_residual": 1.0,
+            "max_seconds_residual": 1.0 / sample_rate,
+        },
+        "dependency_authority": {"row067_complete": True},
+        "runtime_authority": {
+            "mux_replay_proof_present": False,
+            "combined_visual_review_present": False,
+            "fixed_vfr_benchmark_pass": False,
+        },
+        "provenance": {"fixture": "row084_vfr_cut_unit"},
+    }
+
+
 class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
     def setUp(self) -> None:
         self.timeline_validator = Draft202012Validator(json.loads(TIMELINE_SCHEMA.read_text(encoding="utf-8")))
@@ -181,6 +268,62 @@ class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
         _, receipt = self._run_compile(packet, expect_ok=True)
         assert receipt is not None
         self.assertEqual(receipt["authority_ceiling"], "candidate")
+        self.assertFalse(receipt["production_completion_allowed"])
+        self.assertFalse(receipt["row_complete"])
+
+    def test_vfr_segment_map_with_cut_epochs_compiles_technical_partial(self) -> None:
+        packet = _vfr_cut_packet()
+        _, receipt = self._run_compile(packet, expect_ok=True)
+        assert receipt is not None
+        self.timeline_validator.validate(receipt)
+        self.assertEqual(receipt["frame_rate_mode"], "vfr")
+        self.assertEqual(receipt["authority_ceiling"], "technical")
+        self.assertEqual(receipt["status"], "technical_partial")
+        self.assertFalse(receipt["row_complete"])
+        self.assertFalse(receipt["production_completion_allowed"])
+        self.assertTrue(receipt["dependency_authority"]["row067_complete"])
+        self.assertFalse(receipt["runtime_authority"]["mux_replay_proof_present"])
+        self.assertFalse(receipt["runtime_authority"]["fixed_vfr_benchmark_pass"])
+        self.assertEqual(receipt["roundtrip_evidence"]["vfr_segment_count"], 2)
+        self.assertEqual(receipt["roundtrip_evidence"]["cut_epoch_count"], 1)
+        self.assertTrue(receipt["roundtrip_evidence"]["within_tolerance"])
+        self.assertEqual(len(receipt["vfr_segments"]), 2)
+        self.assertEqual(receipt["cut_epochs"][0]["frame_index"], 12)
+
+    def test_vfr_segment_gap_is_rejected(self) -> None:
+        packet = _vfr_cut_packet()
+        packet["vfr_segments"][1]["start_frame"] = 13
+        completed, _ = self._run_compile(packet, expect_ok=False)
+        self.assertIn("unmapped frame gap", completed.stderr + completed.stdout)
+
+    def test_cut_epoch_non_monotonic_is_rejected(self) -> None:
+        packet = _vfr_cut_packet()
+        packet["cut_epochs"] = [
+            {
+                "cut_id": "cut_b",
+                "frame_index": 18,
+                "cut_kind": "hard",
+                "algorithm_id": "fixture_ledger_v1",
+                "confidence": 0.9,
+            },
+            {
+                "cut_id": "cut_a",
+                "frame_index": 12,
+                "cut_kind": "hard",
+                "algorithm_id": "fixture_ledger_v1",
+                "confidence": 0.9,
+            },
+        ]
+        completed, _ = self._run_compile(packet, expect_ok=False)
+        self.assertIn("strictly increasing", completed.stderr + completed.stdout)
+
+    def test_dependency_unlock_raises_technical_partial_ceiling(self) -> None:
+        packet = _fixed_packet()
+        packet["dependency_authority"]["row067_complete"] = True
+        _, receipt = self._run_compile(packet, expect_ok=True)
+        assert receipt is not None
+        self.assertEqual(receipt["authority_ceiling"], "technical")
+        self.assertEqual(receipt["status"], "technical_partial")
         self.assertFalse(receipt["production_completion_allowed"])
         self.assertFalse(receipt["row_complete"])
 

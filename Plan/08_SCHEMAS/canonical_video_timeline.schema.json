@@ -204,14 +204,20 @@
         "max_observed_frame_residual",
         "max_observed_sample_residual",
         "max_observed_seconds_residual",
-        "within_tolerance"
+        "within_tolerance",
+        "frame_rate_mode",
+        "vfr_segment_count",
+        "cut_epoch_count"
       ],
       "properties": {
         "checked_frame_count": { "type": "integer", "minimum": 1 },
         "max_observed_frame_residual": { "type": "number", "minimum": 0 },
         "max_observed_sample_residual": { "type": "number", "minimum": 0 },
         "max_observed_seconds_residual": { "type": "number", "minimum": 0 },
-        "within_tolerance": { "type": "boolean" }
+        "within_tolerance": { "type": "boolean" },
+        "frame_rate_mode": { "enum": ["fixed", "fractional", "vfr"] },
+        "vfr_segment_count": { "type": "integer", "minimum": 0 },
+        "cut_epoch_count": { "type": "integer", "minimum": 0 }
       }
     },
     "dependency_authority": {
