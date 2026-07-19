@@ -1,0 +1,325 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/motion_force_cues_manifest.schema.json",
+  "title": "Motion Force Cues Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_type",
+    "manifest_id",
+    "revision",
+    "run_id",
+    "scene_id",
+    "shot_id",
+    "take_id",
+    "is_synthetic",
+    "video_sha256",
+    "created_at",
+    "status",
+    "timeline_binding",
+    "flow_binding",
+    "camera_model",
+    "coordinate_spaces",
+    "dependency_authority",
+    "runtime_authority",
+    "motion_samples",
+    "force_cues",
+    "metrics",
+    "thresholds",
+    "threshold_violations",
+    "authority_summary",
+    "authority_ceiling",
+    "production_completion_allowed",
+    "row_complete",
+    "provenance",
+    "manifest_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_type": {"const": "motion_force_cues_manifest"},
+    "manifest_id": {"type": "string", "minLength": 1},
+    "revision": {"type": "string", "minLength": 1},
+    "run_id": {"type": "string", "minLength": 1},
+    "scene_id": {"type": "string", "minLength": 1},
+    "shot_id": {"type": "string", "minLength": 1},
+    "take_id": {"type": "string", "minLength": 1},
+    "is_synthetic": {"type": "boolean"},
+    "video_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "created_at": {"type": "string", "minLength": 1},
+    "status": {
+      "type": "string",
+      "enum": ["candidate_hold", "technical_partial", "blocked"]
+    },
+    "timeline_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "timeline_id",
+        "timeline_sha256",
+        "frame_count",
+        "frame_rate",
+        "frame_time_origin_seconds"
+      ],
+      "properties": {
+        "timeline_id": {"type": "string", "minLength": 1},
+        "timeline_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "frame_count": {"type": "integer", "minimum": 1},
+        "frame_rate": {"type": "number", "exclusiveMinimum": 0},
+        "frame_time_origin_seconds": {"type": "number"}
+      }
+    },
+    "flow_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "optical_flow_algorithm",
+        "field_sha256",
+        "frame_pair_count",
+        "units"
+      ],
+      "properties": {
+        "optical_flow_algorithm": {"type": "string", "minLength": 1},
+        "field_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "frame_pair_count": {"type": "integer", "minimum": 1},
+        "units": {"const": "pixels_per_frame"}
+      }
+    },
+    "camera_model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model_id",
+        "compensation_mode",
+        "transform_sha256",
+        "planned_motion_supported"
+      ],
+      "properties": {
+        "model_id": {"type": "string", "minLength": 1},
+        "compensation_mode": {
+          "type": "string",
+          "enum": ["static_translation", "planned_transform", "unsupported"]
+        },
+        "transform_sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+        "planned_motion_supported": {"type": "boolean"}
+      }
+    },
+    "coordinate_spaces": {
+      "type": "array",
+      "minItems": 4,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "local_image",
+          "actor_relative",
+          "object_relative",
+          "surface_relative",
+          "camera_compensated"
+        ]
+      }
+    },
+    "dependency_authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "row084_complete",
+        "row085_complete",
+        "row086_complete",
+        "dependency_ready"
+      ],
+      "properties": {
+        "row084_complete": {"type": "boolean"},
+        "row085_complete": {"type": "boolean"},
+        "row086_complete": {"type": "boolean"},
+        "dependency_ready": {"type": "boolean"}
+      }
+    },
+    "runtime_authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "calibrated_trajectory_benchmark_pass",
+        "runtime_receipt_present",
+        "combined_flow_track_contact_audio_review_present",
+        "runtime_ready"
+      ],
+      "properties": {
+        "calibrated_trajectory_benchmark_pass": {"type": "boolean"},
+        "runtime_receipt_present": {"type": "boolean"},
+        "combined_flow_track_contact_audio_review_present": {"type": "boolean"},
+        "runtime_ready": {"type": "boolean"}
+      }
+    },
+    "motion_samples": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/motion_sample"}
+    },
+    "force_cues": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/force_cue"}
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "motion_sample_count",
+        "owner_count",
+        "sliding_cue_count",
+        "scuffing_cue_count",
+        "fabric_cue_count",
+        "impact_cue_count",
+        "approach_cue_count",
+        "force_estimate_count",
+        "camera_dominant_sample_count"
+      ],
+      "properties": {
+        "motion_sample_count": {"type": "integer", "minimum": 0},
+        "owner_count": {"type": "integer", "minimum": 0},
+        "sliding_cue_count": {"type": "integer", "minimum": 0},
+        "scuffing_cue_count": {"type": "integer", "minimum": 0},
+        "fabric_cue_count": {"type": "integer", "minimum": 0},
+        "impact_cue_count": {"type": "integer", "minimum": 0},
+        "approach_cue_count": {"type": "integer", "minimum": 0},
+        "force_estimate_count": {"type": "integer", "minimum": 0},
+        "camera_dominant_sample_count": {"type": "integer", "minimum": 0}
+      }
+    },
+    "thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_false_actor_motion_from_camera",
+        "min_sample_confidence",
+        "max_force_uncertainty"
+      ],
+      "properties": {
+        "max_false_actor_motion_from_camera": {
+          "type": "number",
+          "minimum": 0
+        },
+        "min_sample_confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "max_force_uncertainty": {"type": "number", "minimum": 0}
+      }
+    },
+    "threshold_violations": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    },
+    "authority_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "motion_sample_count",
+        "force_cue_count",
+        "force_proxies_are_estimates",
+        "camera_false_actor_motion_blocked",
+        "contact_force_certification_allowed",
+        "hold_reasons"
+      ],
+      "properties": {
+        "motion_sample_count": {"type": "integer", "minimum": 0},
+        "force_cue_count": {"type": "integer", "minimum": 0},
+        "force_proxies_are_estimates": {"type": "boolean"},
+        "camera_false_actor_motion_blocked": {"type": "boolean"},
+        "contact_force_certification_allowed": {"type": "boolean"},
+        "hold_reasons": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "authority_ceiling": {
+      "type": "string",
+      "enum": ["candidate", "technical", "certification"]
+    },
+    "production_completion_allowed": {"type": "boolean"},
+    "row_complete": {"type": "boolean"},
+    "provenance": {"type": "object"},
+    "manifest_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  },
+  "$defs": {
+    "xy_pair": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {"type": "number"}
+    },
+    "motion_sample": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sample_id",
+        "owner_id",
+        "region_class",
+        "frame_index",
+        "pts",
+        "local_velocity_xy",
+        "actor_relative_velocity_xy",
+        "residual_after_camera_xy",
+        "acceleration_xy",
+        "velocity_units",
+        "acceleration_units",
+        "camera_motion_dominant",
+        "confidence"
+      ],
+      "properties": {
+        "sample_id": {"type": "string", "minLength": 1},
+        "owner_id": {"type": "string", "minLength": 1},
+        "region_class": {
+          "type": "string",
+          "enum": [
+            "actor",
+            "limb",
+            "hand",
+            "foot",
+            "clothing_region",
+            "prop",
+            "surface",
+            "background"
+          ]
+        },
+        "frame_index": {"type": "integer", "minimum": 0},
+        "pts": {"type": "integer", "minimum": 0},
+        "local_velocity_xy": {"$ref": "#/$defs/xy_pair"},
+        "actor_relative_velocity_xy": {"$ref": "#/$defs/xy_pair"},
+        "residual_after_camera_xy": {"$ref": "#/$defs/xy_pair"},
+        "acceleration_xy": {"$ref": "#/$defs/xy_pair"},
+        "velocity_units": {"const": "pixels_per_frame"},
+        "acceleration_units": {"const": "pixels_per_frame_squared"},
+        "camera_motion_dominant": {"type": "boolean"},
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "force_cue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cue_id",
+        "owner_id",
+        "cue_class",
+        "frame_index",
+        "force_proxy",
+        "force_is_estimate",
+        "force_units",
+        "uncertainty",
+        "confidence"
+      ],
+      "properties": {
+        "cue_id": {"type": "string", "minLength": 1},
+        "owner_id": {"type": "string", "minLength": 1},
+        "cue_class": {
+          "type": "string",
+          "enum": ["sliding", "scuffing", "fabric", "approach", "impact", "none"]
+        },
+        "frame_index": {"type": "integer", "minimum": 0},
+        "force_proxy": {"type": "number"},
+        "force_is_estimate": {"const": true},
+        "force_units": {"const": "nonphysical_proxy"},
+        "uncertainty": {"type": "number", "minimum": 0},
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    }
+  }
+}
