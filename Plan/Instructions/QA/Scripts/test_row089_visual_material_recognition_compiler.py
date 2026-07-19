@@ -32,6 +32,7 @@ FIXTURE_PACKETS = (
     "case_ambiguity_broader_class.json",
     "case_false_positive_disagreement_abstain.json",
 )
+SYNTHETIC_LEDGER = FIXTURE_DIR / "synthetic_per_class_benchmark_ledger.json"
 
 
 def _load_compiler_module():
@@ -420,6 +421,68 @@ class Row089VisualMaterialRecognitionCompilerTests(unittest.TestCase):
         with self.assertRaises(ValueError) as ctx2:
             COMPILER_MOD.verify_manifest_integrity(hash_tampered)
         self.assertIn("tamper/replay mismatch", str(ctx2.exception))
+
+    def test_synthetic_per_class_benchmark_ledger_binds_fixture_digests(self) -> None:
+        self.assertTrue(SYNTHETIC_LEDGER.is_file(), msg="missing synthetic ledger fixture")
+        ledger = COMPILER_MOD.build_synthetic_per_class_benchmark_ledger()
+        checked_in = json.loads(SYNTHETIC_LEDGER.read_text(encoding="utf-8"))
+
+        self.assertEqual(ledger, checked_in)
+        self.assertEqual(
+            COMPILER_MOD.verify_synthetic_benchmark_ledger_integrity(ledger),
+            ledger["ledger_sha256"],
+        )
+        self.assertFalse(ledger["row_complete"])
+        self.assertFalse(ledger["production_completion_allowed"])
+        self.assertFalse(ledger["production_benchmark"])
+        self.assertFalse(ledger["material_benchmark_pass"])
+        self.assertFalse(ledger["visual_review_claimed"])
+        self.assertFalse(ledger["rows085_088_acceptance_claimed"])
+        self.assertEqual(ledger["authority_ceiling"], "fixture_synthetic_only")
+        self.assertTrue(ledger["is_synthetic"])
+
+        binding_by_name = {item["fixture_name"]: item for item in ledger["fixture_bindings"]}
+        self.assertEqual(set(binding_by_name), set(FIXTURE_PACKETS))
+        for name in FIXTURE_PACKETS:
+            expected_file_digest = COMPILER_MOD.fixture_file_sha256(name)
+            compiled = COMPILER_MOD.compile_manifest(COMPILER_MOD.load_fixture_packet(name))
+            self.assertEqual(binding_by_name[name]["fixture_file_sha256"], expected_file_digest)
+            self.assertEqual(
+                binding_by_name[name]["compiled_manifest_sha256"],
+                compiled["manifest_sha256"],
+            )
+            self.assertFalse(binding_by_name[name]["row_complete"])
+
+        per_class = {item["material_class"]: item for item in ledger["per_class_expectations"]}
+        self.assertEqual(set(per_class), REQUIRED_MATERIALS)
+        for material_class, expectation in per_class.items():
+            self.assertEqual(expectation["expected_decision_state"], "observed_class")
+            self.assertEqual(expectation["expected_observed_class"], material_class)
+            self.assertEqual(
+                expectation["source_fixture"],
+                "materials_all_eight_required.json",
+            )
+
+        edge_by_case = {item["case_id"]: item for item in ledger["edge_case_expectations"]}
+        self.assertEqual(
+            set(edge_by_case),
+            {"occlusion_abstain", "ambiguity_broader_class", "false_positive_disagreement_abstain"},
+        )
+        self.assertEqual(edge_by_case["occlusion_abstain"]["expected_decision_state"], "abstain")
+        self.assertEqual(
+            edge_by_case["ambiguity_broader_class"]["expected_decision_state"],
+            "broader_class",
+        )
+        self.assertEqual(
+            edge_by_case["false_positive_disagreement_abstain"]["expected_decision_state"],
+            "abstain",
+        )
+
+        tampered = json.loads(json.dumps(ledger))
+        tampered["material_benchmark_pass"] = True
+        with self.assertRaises(ValueError) as ctx:
+            COMPILER_MOD.verify_synthetic_benchmark_ledger_integrity(tampered)
+        self.assertIn("tamper/replay mismatch", str(ctx.exception))
 
 
 if __name__ == "__main__":

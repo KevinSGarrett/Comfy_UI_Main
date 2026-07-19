@@ -159,6 +159,52 @@ DEFAULT_FIXTURE_DIR = (
     REPO_ROOT / "Plan" / "Instructions" / "QA" / "Evidence" / "Wave64" / "fixtures" / "row089"
 )
 
+# Checked-in fixture packets bound into the non-production synthetic ledger.
+SYNTHETIC_BENCHMARK_FIXTURE_PACKETS: tuple[dict[str, str], ...] = (
+    {
+        "name": "materials_all_eight_required.json",
+        "role": "required_materials",
+        "case_id": "materials_all_eight_required",
+    },
+    {
+        "name": "case_occlusion_abstain.json",
+        "role": "occlusion_abstain",
+        "case_id": "occlusion_abstain",
+    },
+    {
+        "name": "case_ambiguity_broader_class.json",
+        "role": "ambiguity_broader_class",
+        "case_id": "ambiguity_broader_class",
+    },
+    {
+        "name": "case_false_positive_disagreement_abstain.json",
+        "role": "false_positive_disagreement_abstain",
+        "case_id": "false_positive_disagreement_abstain",
+    },
+)
+
+SYNTHETIC_BENCHMARK_LEDGER_FILENAME = "synthetic_per_class_benchmark_ledger.json"
+ALLOWED_SYNTHETIC_LEDGER_FIELDS = {
+    "schema_version",
+    "record_type",
+    "ledger_id",
+    "revision",
+    "is_synthetic",
+    "production_benchmark",
+    "material_benchmark_pass",
+    "row_complete",
+    "production_completion_allowed",
+    "visual_review_claimed",
+    "rows085_088_acceptance_claimed",
+    "authority_ceiling",
+    "hold_reasons",
+    "fixture_bindings",
+    "per_class_expectations",
+    "edge_case_expectations",
+    "provenance",
+    "ledger_sha256",
+}
+
 
 def _assert_keys_exact(obj: dict[str, Any], allowed: set[str], label: str) -> None:
     unknown = sorted(set(obj.keys()) - allowed)
@@ -269,6 +315,174 @@ def load_fixture_packet(name: str, *, fixture_dir: Path | None = None) -> dict[s
     if not isinstance(payload, dict):
         raise ValueError(f"Row089 fixture packet must be a JSON object: {path}")
     return payload
+
+
+def fixture_file_sha256(name: str, *, fixture_dir: Path | None = None) -> str:
+    """Return the lowercase sha256 of a checked-in fixture packet file bytes."""
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    path = directory / name
+    if not path.is_file():
+        raise FileNotFoundError(f"Row089 fixture packet missing: {path}")
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def verify_synthetic_benchmark_ledger_integrity(payload: dict[str, Any]) -> str:
+    """Recompute content-addressed ledger digest and reject tamper."""
+    recorded = _expect_sha256(payload.get("ledger_sha256"), "ledger_sha256")
+    body = {key: value for key, value in payload.items() if key != "ledger_sha256"}
+    recomputed = _canonical_sha256(body)
+    if recorded != recomputed:
+        raise ValueError(
+            "ledger_sha256 tamper/replay mismatch: "
+            f"recorded={recorded} recomputed={recomputed}"
+        )
+    return recomputed
+
+
+def build_synthetic_per_class_benchmark_ledger(
+    *,
+    fixture_dir: Path | None = None,
+) -> dict[str, Any]:
+    """Bind fixture digests into a non-production per-class benchmark ledger.
+
+    Records expected decision_state per required material class and edge-case
+    fixtures. Explicitly refuses production benchmark pass, visual-review, and
+    Rows085/088 acceptance claims. ``row_complete`` remains false.
+    """
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    fixture_bindings: list[dict[str, Any]] = []
+    per_class_expectations: list[dict[str, Any]] = []
+    edge_case_expectations: list[dict[str, Any]] = []
+    seen_classes: set[str] = set()
+
+    for packet_meta in SYNTHETIC_BENCHMARK_FIXTURE_PACKETS:
+        name = packet_meta["name"]
+        role = packet_meta["role"]
+        case_id = packet_meta["case_id"]
+        file_digest = fixture_file_sha256(name, fixture_dir=directory)
+        packet = load_fixture_packet(name, fixture_dir=directory)
+        compiled = compile_manifest(packet)
+        compiled_digest = verify_manifest_integrity(compiled)
+        if compiled["row_complete"] or compiled["production_completion_allowed"]:
+            raise ValueError(
+                f"fixture {name} must remain non-complete for synthetic ledger binding"
+            )
+        if compiled["runtime_authority"].get("material_benchmark_pass"):
+            raise ValueError(
+                f"fixture {name} must not claim material_benchmark_pass in synthetic ledger"
+            )
+
+        fixture_bindings.append(
+            {
+                "fixture_name": name,
+                "role": role,
+                "case_id": case_id,
+                "fixture_file_sha256": file_digest,
+                "compiled_manifest_sha256": compiled_digest,
+                "is_synthetic": True,
+                "row_complete": False,
+            }
+        )
+
+        for decision in compiled["material_decisions"]:
+            decision_state = decision["decision_state"]
+            observed_class = decision.get("observed_class")
+            entry = {
+                "source_fixture": name,
+                "source_fixture_file_sha256": file_digest,
+                "source_compiled_manifest_sha256": compiled_digest,
+                "decision_id": decision["decision_id"],
+                "expected_decision_state": decision_state,
+                "expected_observed_class": observed_class,
+                "expected_broader_class": decision.get("broader_class"),
+                "expected_abstention_reason": decision.get("abstention_reason"),
+            }
+            if role == "required_materials":
+                if observed_class is None:
+                    raise ValueError(
+                        f"required_materials fixture decision {decision['decision_id']} "
+                        "missing observed_class"
+                    )
+                if observed_class in seen_classes:
+                    raise ValueError(f"duplicate required material class in ledger: {observed_class}")
+                seen_classes.add(observed_class)
+                per_class_expectations.append(
+                    {
+                        "material_class": observed_class,
+                        **entry,
+                    }
+                )
+            else:
+                edge_case_expectations.append(
+                    {
+                        "case_id": case_id,
+                        "role": role,
+                        **entry,
+                    }
+                )
+
+    missing = sorted(REQUIRED_MATERIAL_CLASSES - seen_classes)
+    if missing:
+        raise ValueError(
+            "synthetic ledger missing required material classes: " + ",".join(missing)
+        )
+    if len(per_class_expectations) != len(REQUIRED_MATERIAL_CLASSES):
+        raise ValueError("synthetic ledger per_class_expectations must cover exactly eight classes")
+    if len(edge_case_expectations) != 3:
+        raise ValueError("synthetic ledger requires exactly three edge-case expectations")
+
+    per_class_expectations.sort(key=lambda item: item["material_class"])
+    edge_case_expectations.sort(key=lambda item: item["case_id"])
+    fixture_bindings.sort(key=lambda item: item["fixture_name"])
+
+    ledger_body: dict[str, Any] = {
+        "schema_version": "1.0.0",
+        "record_type": "row089_synthetic_per_class_benchmark_ledger",
+        "ledger_id": "row089_synthetic_per_class_benchmark_ledger_v1",
+        "revision": "row089_synthetic_ledger_v1",
+        "is_synthetic": True,
+        "production_benchmark": False,
+        "material_benchmark_pass": False,
+        "row_complete": False,
+        "production_completion_allowed": False,
+        "visual_review_claimed": False,
+        "rows085_088_acceptance_claimed": False,
+        "authority_ceiling": "fixture_synthetic_only",
+        "hold_reasons": [
+            "synthetic_fixture_ledger_only",
+            "dependency_row085_incomplete",
+            "dependency_row088_incomplete",
+            "material_benchmark_absent",
+            "runtime_receipt_absent",
+            "combined_frame_contact_audio_review_absent",
+        ],
+        "fixture_bindings": fixture_bindings,
+        "per_class_expectations": per_class_expectations,
+        "edge_case_expectations": edge_case_expectations,
+        "provenance": {
+            "compiler": "compile_wave64_visual_material_recognition.py",
+            "compiler_revision": "row089_synthetic_per_class_benchmark_ledger_v1",
+            "non_production": True,
+            "binds_fixture_file_and_compiled_manifest_digests": True,
+        },
+    }
+    _assert_keys_exact(ledger_body, ALLOWED_SYNTHETIC_LEDGER_FIELDS - {"ledger_sha256"}, "synthetic_ledger")
+    ledger_body["ledger_sha256"] = _canonical_sha256(ledger_body)
+    verify_synthetic_benchmark_ledger_integrity(ledger_body)
+    return ledger_body
+
+
+def write_synthetic_per_class_benchmark_ledger(
+    output_path: Path | None = None,
+    *,
+    fixture_dir: Path | None = None,
+) -> dict[str, Any]:
+    """Build and atomically write the synthetic per-class benchmark ledger."""
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    path = output_path if output_path is not None else directory / SYNTHETIC_BENCHMARK_LEDGER_FILENAME
+    ledger = build_synthetic_per_class_benchmark_ledger(fixture_dir=directory)
+    _write_json_atomic(path, ledger)
+    return ledger
 
 
 def _normalize_material_class(raw: Any, label: str) -> str:
@@ -795,9 +1009,51 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description="Compile a fail-closed Row089 visual material recognition manifest."
     )
-    parser.add_argument("--input", required=True, help="Path to visual material recognition input packet JSON")
-    parser.add_argument("--output", required=True, help="Path to write compiled material manifest JSON")
+    parser.add_argument("--input", help="Path to visual material recognition input packet JSON")
+    parser.add_argument("--output", help="Path to write compiled material manifest JSON")
+    parser.add_argument(
+        "--emit-synthetic-benchmark-ledger",
+        metavar="PATH",
+        help=(
+            "Build the non-production synthetic per-class benchmark ledger bound to "
+            "checked-in fixture digests and write it to PATH"
+        ),
+    )
+    parser.add_argument(
+        "--fixture-dir",
+        default=str(DEFAULT_FIXTURE_DIR),
+        help="Fixture directory for synthetic ledger emission (default: checked-in row089 fixtures)",
+    )
     args = parser.parse_args(argv)
+
+    if args.emit_synthetic_benchmark_ledger:
+        try:
+            ledger = write_synthetic_per_class_benchmark_ledger(
+                Path(args.emit_synthetic_benchmark_ledger),
+                fixture_dir=Path(args.fixture_dir),
+            )
+        except (OSError, ValueError, FileNotFoundError) as exc:
+            raise SystemExit(f"ROW089_FAIL_CLOSED: {exc}") from exc
+        print(
+            json.dumps(
+                {
+                    "status": "ok",
+                    "record_type": ledger["record_type"],
+                    "ledger_sha256": ledger["ledger_sha256"],
+                    "row_complete": False,
+                    "material_benchmark_pass": False,
+                    "production_benchmark": False,
+                    "visual_review_claimed": False,
+                    "rows085_088_acceptance_claimed": False,
+                    "per_class_count": len(ledger["per_class_expectations"]),
+                    "edge_case_count": len(ledger["edge_case_expectations"]),
+                }
+            )
+        )
+        return 0
+
+    if not args.input or not args.output:
+        raise SystemExit("ROW089_FAIL_CLOSED: --input and --output are required unless emitting the synthetic ledger")
 
     input_path = Path(args.input)
     output_path = Path(args.output)
