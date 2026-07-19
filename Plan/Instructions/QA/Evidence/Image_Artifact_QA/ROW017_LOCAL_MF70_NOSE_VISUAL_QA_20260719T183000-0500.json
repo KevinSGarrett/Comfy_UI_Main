@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ROW017-LOCAL-MF70-NOSE-VISUAL-QA-20260719T183000-0500",
+  "created_at": "2026-07-19T18:33:00-05:00",
+  "tracker_id": "TRK-W64-017",
+  "item_id": "ITEM-W64-017",
+  "localized_region": "nose",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+  "qa_decision": "pass_bounded_localized_nose_runtime_candidate",
+  "overall_decision": "pass",
+  "local_only": true,
+  "direct_visual_inspection": true,
+  "fixture_only": false,
+  "generation_executed": true,
+  "runtime_receipt": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_nose_20260719T183000-0500\\LOCAL_RUNTIME_RECEIPT.json",
+  "source": {
+    "path": "ComfyUI\\input\\wave70_mf70_face_identity_source_canny_v3.png",
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d"
+  },
+  "artifact": {
+    "path": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_nose_20260719T183000-0500\\images\\codex_row017_mf70_nose_20260719T183000-0500_00001_.png",
+    "sha256": "0e8dc67a2283ed5897dd6772bccfda5bce0e25f15645548ebaae84d006e2ffcf"
+  },
+  "comparison_panel": {
+    "path": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_nose_20260719T183000-0500\\images\\qa_full_side_by_side.png",
+    "sha256": "c22c2622a0983bb9d01fe839444471c0f937fd8db47d00bc092a8183f69de453"
+  },
+  "nose_crop_panel": {
+    "path": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_nose_20260719T183000-0500\\images\\qa_nose_crop_side_by_side.png",
+    "sha256": "413129d41b4aa11ec656c09bcf7374f3e9f65e342108b45b7a55cf88ca38ef75"
+  },
+  "difference_metrics": {
+    "full_image_diff_bbox": [
+      316,
+      316,
+      390,
+      419
+    ],
+    "mean_rgb_abs_diff": [
+      0.0324,
+      0.0294,
+      0.0266
+    ],
+    "rms_rgb_abs_diff": [
+      0.4677,
+      0.4369,
+      0.4008
+    ],
+    "nose_region_mean_abs": [
+      1.2424,
+      1.126,
+      1.0199
+    ],
+    "blazer_mean_abs": 0.0,
+    "background_mean_abs": 0.0,
+    "changed_pixel_count": 5173
+  },
+  "whole_frame_findings": [
+    "Fresh local ComfyUI nose masked inpaint (seed 8830145722, RealVisXL baked VAE, denoise 0.02, FeatherMask 24px) completed successfully (prompt_id 9f3e9e1d-f2b6-4274-b64d-0015d8001bff).",
+    "Whole-frame identity, gaze, iris/pupil/sclera/catchlights, brows, lids/lashes, mouth/philtrum, cheeks, hair silhouette, cream blazer, lighting, and gray background remain stable versus Canny v3 source.",
+    "Pixel delta is tightly localized to the nose bbox [316, 316, 390, 419]; blazer mean abs 0.0; background mean abs 0.0.",
+    "No nose reshape/asymmetry, bridge collapse, nostril mutation, cheek/philtrum/mouth drift, gaze drift, or hard seam observed on direct whole-frame + nose-crop inspection.",
+    "Hands not in frame; no clothing/background/lighting regression observed."
+  ],
+  "global_defects": [],
+  "promotion_authorized": false,
+  "row_complete": false,
+  "ec2": "EC2_DEFERRED",
+  "docker_cvat": "not-needed",
+  "notes": [
+    "Historical nose v5 seed210825 canonical pass retained separately; this is a fresh independent local runtime climb.",
+    "Wave70 mf70_nose promotion remains blocked; not overturned.",
+    "Prior fluid tear-state reject and eyes_full_v3b reject remain truthful and separate.",
+    "Prior fresh eyebrows/eyelids/pupils/skin_tone climbs retained.",
+    "Does not complete historical Row017 normalization backlog."
+  ]
+}
