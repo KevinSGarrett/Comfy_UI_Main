@@ -1,0 +1,129 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ROW018-LOCAL-REALVISXL-MULTISAMPLE-VISUAL-QA-20260719T163820-0500",
+  "artifact_type": "image_artifact_visual_qa",
+  "lane_id": "sdxl_realvisxl_base_lane",
+  "tracker_id": "TRK-W64-018",
+  "item_id": "ITEM-W64-018",
+  "reviewer": "Cursor interactive autonomous shift",
+  "timestamp": "2026-07-19T16:43:42-05:00",
+  "scope": "True local regeneration of RealVisXL three-seed / three-prompt multisample set on existing ComfyUI :8188 for local portfolio parity.",
+  "overall_result": "pass_with_notes_for_local_multisample",
+  "certification_status": "local_portfolio_parity_pass_bounded_not_full_project_complete",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+  "row_complete": false,
+  "runtime_boundaries": {
+    "local_comfyui_used": true,
+    "used_existing_comfyui_process": true,
+    "api_base_url": "http://127.0.0.1:8188",
+    "ec2_started": false,
+    "aws_contacted": false,
+    "github_api_contacted": false,
+    "civitai_contacted": false,
+    "generation_executed": true,
+    "docker_cvat": "not-needed"
+  },
+  "runtime_receipt": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_realvisxl_multisample_20260719T163820-0500/LOCAL_RUNTIME_RECEIPT.json",
+  "deterministic_replay_of_20260707_local_matrix": true,
+  "sample_count": 3,
+  "samples": [
+    {
+      "sample_id": "realvisxl_closeup_skin_eye_811006101",
+      "seed": 811006101,
+      "focus": "close-up skin, eyes, mouth, and hairline",
+      "output_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_realvisxl_multisample_20260719T163820-0500/images/codex_realvisxl_cert_closeup_skin_eye_00001_.png",
+      "sha256": "a76a8cbd1cb35b3b6d9e859cb5b12728a77a15c766e07bc1497f7d03472f8183",
+      "bytes": 1599513,
+      "width": 1024,
+      "height": 1024,
+      "prompt_id": "171253e2-e210-442e-8748-6780a3c4d181",
+      "visual_result": "pass",
+      "score_5": 4.55,
+      "score_100": 91,
+      "blocking_defects": [],
+      "qa_notes": [
+        "Close-up facial realism with readable iris/catchlights, pores, and hairline.",
+        "Mouth/jaw coherent; no blocking facial deformation.",
+        "Hands/body not in crop; beauty-smoothness notes remain nonblocking."
+      ]
+    },
+    {
+      "sample_id": "realvisxl_three_quarter_hands_fabric_811006202",
+      "seed": 811006202,
+      "focus": "hands, wrist anatomy, fabric texture, and contact realism",
+      "output_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_realvisxl_multisample_20260719T163820-0500/images/codex_realvisxl_cert_hands_fabric_00001_.png",
+      "sha256": "dac0ba017a7ea1a5b319f21dfbeb49a2b749fcb2b92ab4f2c7ea628704fecde3",
+      "bytes": 1822866,
+      "width": 1024,
+      "height": 1024,
+      "prompt_id": "b64aceaf-4e35-4b25-8871-1da99f7c7eb7",
+      "visual_result": "pass_with_notes",
+      "score_5": 4.4,
+      "score_100": 88,
+      "blocking_defects": [],
+      "qa_notes": [
+        "Face, fabric weave, lighting, and seated pose coherent.",
+        "Hands usable for local matrix; clasped contact retains mild finger/contact ambiguity (nonblocking).",
+        "No severe extra-finger or body-proportion failure."
+      ],
+      "defects": [
+        {
+          "severity": "minor",
+          "code": "mild_hand_contact_ambiguity",
+          "message": "Clasped hands show mild finger/contact ambiguity; acceptable for local pass-with-notes."
+        }
+      ]
+    },
+    {
+      "sample_id": "realvisxl_environment_lowlight_811006303",
+      "seed": 811006303,
+      "focus": "lighting, reflections, background coherence, and low-light realism",
+      "output_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_realvisxl_multisample_20260719T163820-0500/images/codex_realvisxl_cert_environment_lowlight_00001_.png",
+      "sha256": "b2b5f826252f64b6823ffe32478b4abfd14508725388f09e6f0cf2c5f03e95c8",
+      "bytes": 1423378,
+      "width": 1024,
+      "height": 1024,
+      "prompt_id": "29fc2843-1a08-4131-9faf-658fd17662b0",
+      "visual_result": "pass",
+      "score_5": 4.5,
+      "score_100": 90,
+      "blocking_defects": [],
+      "qa_notes": [
+        "Lamp/window lighting coherent without crushing subject.",
+        "Background, fabric, hair, jewelry remain plausible.",
+        "Face/gaze stable; no blocking anatomy or collision defect."
+      ]
+    }
+  ],
+  "aggregate_score": {
+    "mean": 4.483333333333333,
+    "minimum": 4.4,
+    "required_mean": 4.0,
+    "required_minimum": 3.0
+  },
+  "defect_rate_limit": {
+    "blocking_defect_sample_count": 0,
+    "sample_count": 3,
+    "rate": 0.0,
+    "maximum_rate": 0.0
+  },
+  "prior_local_matrix_hash_parity": {
+    "reference": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_REALVISXL_MULTISAMPLE_VISUAL_QA_20260707T034600-0500.json",
+    "all_three_sha256_match": true,
+    "hashes": [
+      "a76a8cbd1cb35b3b6d9e859cb5b12728a77a15c766e07bc1497f7d03472f8183",
+      "dac0ba017a7ea1a5b319f21dfbeb49a2b749fcb2b92ab4f2c7ea628704fecde3",
+      "b2b5f826252f64b6823ffe32478b4abfd14508725388f09e6f0cf2c5f03e95c8"
+    ]
+  },
+  "explicit_exclusions": [
+    "full_project_image_certification",
+    "COMPLETE_claimed_from_this_delta",
+    "EC2_target_runtime_reproof",
+    "row016_promotion_authority",
+    "hands_feet_regional_hard_anatomy_completion"
+  ],
+  "qa_decision": "row018_local_three_seed_three_prompt_multisample_regenerated_visual_qa_pass_bounded",
+  "next_action": "Keep EC2 deferred. Prior target-runtime certification remains authority for bounded Row018 completeness. Do not claim full-project COMPLETE. Next independent lane may climb another disjoint visual/audio proof if needed."
+}

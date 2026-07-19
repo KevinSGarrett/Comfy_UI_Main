@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-018_LOCAL_COMFYUI_MULTISAMPLE_PORTFOLIO_PARITY_20260719",
+  "created_iso": "2026-07-19T16:43:42-05:00",
+  "tracker_id": "TRK-W64-018",
+  "item_id": "ITEM-W64-018",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+  "runtime_proof_tier": "RUNTIME_PASS_BOUNDED",
+  "local_portfolio_parity_tier": "LOCAL_MULTISAMPLE_PORTFOLIO_PARITY_PASS_BOUNDED",
+  "status": "PASS_LOCAL_THREE_SEED_THREE_PROMPT_MULTISAMPLE_VISUAL_QA_BOUNDED",
+  "row_complete": false,
+  "summary": "Regenerated a true local RealVisXL 3-seed/3-prompt multisample set on existing ComfyUI :8188 (1024x1024 cert packages), pulled artifacts, and completed direct visual QA. Outputs bit-match the 2026-07-07 local matrix. Does not claim full-project COMPLETE or replace prior target-runtime certification authority.",
+  "primary_evidence": [
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W66_LOCAL_COMFYUI_REALVISXL_MULTISAMPLE_EXECUTE_20260719T163820-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/ROW018_LOCAL_REALVISXL_MULTISAMPLE_VISUAL_QA_20260719T163820-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/ROW018_LOCAL_REALVISXL_MULTISAMPLE_BOUNDED_SET_20260719T163820-0500.json"
+  ],
+  "pullback_dir": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_realvisxl_multisample_20260719T163820-0500",
+  "validators": {
+    "command": "python -m unittest Plan.Instructions.QA.Scripts.test_image_multi_sample_certification -v",
+    "result": "pass",
+    "passed": 9,
+    "failed": 0
+  },
+  "disjoint_scope": {
+    "avoided_paths": [
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-069_*",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_*",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-071_*",
+      "Plan/10_REGISTRIES/audio_pack_functional_index_registry.json",
+      "Plan/07_IMPLEMENTATION/scripts/decode_wave64_canonical_audio.py"
+    ],
+    "reason": "Writable scope kept DISJOINT from Row069 acceptance and Row070/071 re-adjudication sibling lanes."
+  },
+  "ec2": "EC2_DEFERRED",
+  "docker_cvat": "not-needed"
+}
