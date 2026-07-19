@@ -1,0 +1,1109 @@
+{
+  "blocker_codes": [
+    "TRK_W64_074_DEPENDENCY_NOT_ACCEPTED",
+    "TRK_W64_080_DEPENDENCY_NOT_ACCEPTED",
+    "TRK_W64_081_DEPENDENCY_NOT_ACCEPTED",
+    "ROW082_DEPENDENCIES_NOT_ACCEPTED",
+    "DEDICATED_LIBRARY_DIVERSITY_RUNTIME_ABSENT",
+    "HELD_OUT_REPEATED_EVENT_BENCHMARK_ABSENT",
+    "ATOMIC_SELECTION_HISTORY_TRANSACTION_ABSENT",
+    "CONTENT_ADDRESSED_RUNTIME_RECEIPT_ABSENT"
+  ],
+  "decision": {
+    "product_completion": false,
+    "row082_acceptance": "held",
+    "runtime_completion": false,
+    "safe_next_action": "Accept Rows074, 080, and 081; freeze an immutable selection-history ledger with atomic claim semantics; enforce cooldown, near-duplicate, alternation, continuity, and bounded-variation gates; run held-out repeated-event benchmarks proving diversity without semantic drift or continuity breaks; then replace this hold packet.",
+    "status": "blocked"
+  },
+  "dependency_admissions": {
+    "TRK-W64-074": {
+      "blocker_codes": [
+        "TRK_W64_074_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "bytes": 10177,
+      "dependency_satisfied": false,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_MULTI_EVENT_SEGMENTATION_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "sha256": "2e4df5618bfa1afd5e0ec3f0e7bc05843c6bfa882746d74d576f78d2d129badc",
+      "status": "HOLD_ROW072_ROW073_DEPENDENCIES_AND_FULL_LIBRARY_SEGMENT_RUNTIME_ABSENT",
+      "tracker_id": "TRK-W64-074"
+    },
+    "TRK-W64-080": {
+      "blocker_codes": [
+        "TRK_W64_080_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "bytes": 8678,
+      "dependency_satisfied": false,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-080_HYBRID_AUDIO_RETRIEVAL_INDEX_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "sha256": "fc90241f9f413f6ea4b95fa4282bfc85cef9671a0c29ff491df85ad3473b8e4d",
+      "status": "HOLD_ROW069_ROW077_ROW079_DEPENDENCIES_AND_LIBRARY_HYBRID_RUNTIME_ABSENT",
+      "tracker_id": "TRK-W64-080"
+    },
+    "TRK-W64-081": {
+      "blocker_codes": [
+        "TRK_W64_081_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "bytes": 11848,
+      "dependency_satisfied": false,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-081_EXPLAINABLE_AUDIO_CANDIDATE_SCORING_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "sha256": "2a102cafe40232d7c044ba0c4e30e83cc0082800a203b5e939393d6e8096fab1",
+      "status": "HOLD_DEPENDENCIES_AND_LIBRARY_SCORING_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+      "tracker_id": "TRK-W64-081"
+    }
+  },
+  "evidence_id": "TRK-W64-082_audio_repetition_diversity",
+  "fixture_calibration": {
+    "authority": "synthetic_non_library",
+    "determinism_note": "Fixture records prove cooldown, near-duplicate penalties, foot alternation, history binding, and bounded-variation rejection; they do not accept Row082 library completion or repeated-event runtime proof.",
+    "fixture_count": 5,
+    "records": [
+      {
+        "alternation_state": {
+          "confidence": 0.9,
+          "enabled": true,
+          "expected_side": "left",
+          "previous_side": "right"
+        },
+        "candidate_set_hash": "3480d9ad8c83c86b6aff5411d2cc9e72499779bc9a4391754eaace9b4b75ddcf",
+        "candidates": [
+          {
+            "asset_sha256": "f2c9af2dfde1185e6315039e0f0412157a25337ea8f68e4131718251c06c8c6b",
+            "base_score": 0.84,
+            "candidate_id": "cand_alt_ok",
+            "eligible": true,
+            "explanation": [
+              "hard_filters=['none']",
+              "eligible=True",
+              "base_score=0.84",
+              "penalty_total=0.0",
+              "total_score=0.84"
+            ],
+            "hard_exclusions": [],
+            "near_duplicate_group_id": "nd_foot_b",
+            "penalties": [],
+            "rank": 1,
+            "semantic_scores": {
+              "continuity_fit": 0.91,
+              "event_fit": 0.92,
+              "force_fit": 0.88,
+              "material_fit": 0.9
+            },
+            "total_score": 0.84,
+            "variation_transform": {
+              "eq_tilt_db": 0.0,
+              "gain_db": 0.0,
+              "pitch_cents": 0.0,
+              "room_mix": 0.0,
+              "stereo_width": 1.0,
+              "timing_ms": 0.0,
+              "transient_scale": 1.0
+            }
+          },
+          {
+            "asset_sha256": "420f2954e5104f381d0c67a765d315419b51b3fa0b0b2b800fb85fb712a509a5",
+            "base_score": 0.95,
+            "candidate_id": "cand_reuse_blocked",
+            "eligible": false,
+            "explanation": [
+              "hard_filters=['COOLDOWN_ACTIVE']",
+              "eligible=False",
+              "base_score=0.95",
+              "penalty_total=-0.12",
+              "total_score=-1.0",
+              "penalty:near_duplicate_recent_use=-0.12"
+            ],
+            "hard_exclusions": [
+              "COOLDOWN_ACTIVE"
+            ],
+            "near_duplicate_group_id": "nd_foot_a",
+            "penalties": [
+              {
+                "cap": 0.36,
+                "code": "near_duplicate_recent_use",
+                "contribution": -0.12,
+                "raw": 1.0,
+                "reason": "near_duplicate_or_group_recently_used",
+                "scale": 0.12
+              }
+            ],
+            "rank": 2,
+            "semantic_scores": {
+              "continuity_fit": 0.91,
+              "event_fit": 0.92,
+              "force_fit": 0.88,
+              "material_fit": 0.9
+            },
+            "total_score": -1.0,
+            "variation_transform": {
+              "eq_tilt_db": 0.0,
+              "gain_db": 0.0,
+              "pitch_cents": 0.0,
+              "room_mix": 0.0,
+              "stereo_width": 1.0,
+              "timing_ms": 0.0,
+              "transient_scale": 1.0
+            }
+          }
+        ],
+        "continuity_keys": {
+          "actor_id": "actor_a",
+          "foot_side": "left",
+          "gait_id": "gait_walk",
+          "scene_id": "scene_kitchen",
+          "shot_id": "shot_01"
+        },
+        "cooldown_state": {
+          "recent_asset_sha256": [
+            "420f2954e5104f381d0c67a765d315419b51b3fa0b0b2b800fb85fb712a509a5"
+          ],
+          "recent_near_duplicate_group_ids": [
+            "nd_foot_a"
+          ],
+          "window_events": 4
+        },
+        "decision": {
+          "applied_gates": [
+            "cooldown",
+            "near_duplicate_penalty",
+            "alternation",
+            "scene_continuity",
+            "bounded_variation"
+          ],
+          "confidence": 0.84,
+          "explanation": [
+            "history_aware_hard_exclusions_before_diversity_ranking",
+            "eligible_count=1",
+            "library_deps_ok=False",
+            "tie_break_applied=False",
+            "library_selection_blocked_fail_closed",
+            "fixture_mode_records_decision_without_library_authority"
+          ],
+          "product_completion": false,
+          "reason": "fixture_selected_rank_one_eligible_candidate",
+          "route": "select",
+          "row082_acceptance": "fixture_only",
+          "selected_candidate_id": "cand_alt_ok",
+          "tie_break_outcome": {
+            "applied": false,
+            "inputs": [
+              {
+                "asset_sha256": "f2c9af2dfde1185e6315039e0f0412157a25337ea8f68e4131718251c06c8c6b",
+                "candidate_id": "cand_alt_ok",
+                "total_score": 0.84
+              },
+              {
+                "asset_sha256": "420f2954e5104f381d0c67a765d315419b51b3fa0b0b2b800fb85fb712a509a5",
+                "candidate_id": "cand_reuse_blocked",
+                "total_score": -1.0
+              }
+            ],
+            "order": [
+              "total_score_desc",
+              "candidate_id_asc",
+              "asset_sha256_asc"
+            ],
+            "winner_candidate_id": "cand_alt_ok"
+          }
+        },
+        "dependency_admissions": {
+          "TRK-W64-074": {
+            "blocker_codes": [
+              "TRK_W64_074_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 10177,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_MULTI_EVENT_SEGMENTATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "2e4df5618bfa1afd5e0ec3f0e7bc05843c6bfa882746d74d576f78d2d129badc",
+            "status": "HOLD_ROW072_ROW073_DEPENDENCIES_AND_FULL_LIBRARY_SEGMENT_RUNTIME_ABSENT",
+            "tracker_id": "TRK-W64-074"
+          },
+          "TRK-W64-080": {
+            "blocker_codes": [
+              "TRK_W64_080_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 8678,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-080_HYBRID_AUDIO_RETRIEVAL_INDEX_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "fc90241f9f413f6ea4b95fa4282bfc85cef9671a0c29ff491df85ad3473b8e4d",
+            "status": "HOLD_ROW069_ROW077_ROW079_DEPENDENCIES_AND_LIBRARY_HYBRID_RUNTIME_ABSENT",
+            "tracker_id": "TRK-W64-080"
+          },
+          "TRK-W64-081": {
+            "blocker_codes": [
+              "TRK_W64_081_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11848,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-081_EXPLAINABLE_AUDIO_CANDIDATE_SCORING_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "2a102cafe40232d7c044ba0c4e30e83cc0082800a203b5e939393d6e8096fab1",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_SCORING_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-081"
+          }
+        },
+        "event_family": "footstep",
+        "event_id": "fixture_event_cooldown",
+        "hard_exclusion_order": [
+          "MISSING_SELECTION_HISTORY",
+          "COOLDOWN_ACTIVE",
+          "ALTERNATION_VIOLATION",
+          "CONTINUITY_PARTITION_MISMATCH",
+          "TRANSFORM_OUT_OF_BOUNDS",
+          "SEMANTIC_FLOOR_VIOLATION",
+          "DEPENDENCY_EVIDENCE_ABSENT"
+        ],
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-082",
+        "library_authority": false,
+        "policy_revision": "wave64_row082_repetition_diversity_policy_v0.1.0",
+        "policy_sha256": "4d3ed02c21432a345eb88bb62a1dbe83f25a150b16d7ee9c33142b746c0118de",
+        "query_hash": "c173a58d52c00b8a58fdcec265622dfc6381828fe410475ad2d7b238c5c92d7b",
+        "receipt_sha256": "3cbc5942bfaf9dcce4914be31491b9374ef558353b0e067de48b40d83ea52097",
+        "record_type": "audio_repetition_diversity_selection_record",
+        "required_gates": [
+          "cooldown",
+          "near_duplicate_penalty",
+          "alternation",
+          "scene_continuity",
+          "bounded_variation"
+        ],
+        "resulting_history_sha256": "ae6cfd5f949c3d0aa8f64bd1fe516374de66688c882c0c9646282b0a9fb204e1",
+        "schema_version": "1.0.0",
+        "selection_history_sha256": "6d4265a41e0e72045f917f5de70fb5929711ee3dfd4e11dc6acb2489dd57fafd",
+        "selector_revision": "wave64_row082_audio_repetition_diversity_selector_v0.1.0",
+        "tracker_id": "TRK-W64-082"
+      },
+      {
+        "alternation_state": {
+          "confidence": 0.88,
+          "enabled": true,
+          "expected_side": "right",
+          "previous_side": "left"
+        },
+        "candidate_set_hash": "df1534c368a0005e5c6870207b81f0a7bb2b3991e1164e75ed92aef982599aaf",
+        "candidates": [
+          {
+            "asset_sha256": "467c923f5ee342dbb0f5ef7fe79c45a6a6915ae4bd2f692602037840c6988918",
+            "base_score": 0.86,
+            "candidate_id": "cand_distinct_rotate",
+            "eligible": true,
+            "explanation": [
+              "hard_filters=['none']",
+              "eligible=True",
+              "base_score=0.86",
+              "penalty_total=0.0",
+              "total_score=0.86"
+            ],
+            "hard_exclusions": [],
+            "near_duplicate_group_id": "nd_group_cool",
+            "penalties": [],
+            "rank": 1,
+            "semantic_scores": {
+              "continuity_fit": 0.91,
+              "event_fit": 0.92,
+              "force_fit": 0.88,
+              "material_fit": 0.9
+            },
+            "total_score": 0.86,
+            "variation_transform": {
+              "eq_tilt_db": 0.0,
+              "gain_db": 0.0,
+              "pitch_cents": 0.0,
+              "room_mix": 0.0,
+              "stereo_width": 1.0,
+              "timing_ms": 0.0,
+              "transient_scale": 1.0
+            }
+          },
+          {
+            "asset_sha256": "0600fbb21b9e9706dbeaa9e4541d868aaa4cf592974769b4b5bd56e535e96877",
+            "base_score": 0.93,
+            "candidate_id": "cand_near_dup_hot",
+            "eligible": true,
+            "explanation": [
+              "hard_filters=['none']",
+              "eligible=True",
+              "base_score=0.93",
+              "penalty_total=-0.12",
+              "total_score=0.81",
+              "penalty:near_duplicate_recent_use=-0.12"
+            ],
+            "hard_exclusions": [],
+            "near_duplicate_group_id": "nd_group_hot",
+            "penalties": [
+              {
+                "cap": 0.36,
+                "code": "near_duplicate_recent_use",
+                "contribution": -0.12,
+                "raw": 1.0,
+                "reason": "near_duplicate_or_group_recently_used",
+                "scale": 0.12
+              }
+            ],
+            "rank": 2,
+            "semantic_scores": {
+              "continuity_fit": 0.91,
+              "event_fit": 0.92,
+              "force_fit": 0.88,
+              "material_fit": 0.9
+            },
+            "total_score": 0.81,
+            "variation_transform": {
+              "eq_tilt_db": 0.0,
+              "gain_db": 0.0,
+              "pitch_cents": 0.0,
+              "room_mix": 0.0,
+              "stereo_width": 1.0,
+              "timing_ms": 0.0,
+              "transient_scale": 1.0
+            }
+          }
+        ],
+        "continuity_keys": {
+          "actor_id": "actor_a",
+          "foot_side": "right",
+          "gait_id": "gait_walk",
+          "scene_id": "scene_kitchen",
+          "shot_id": "shot_01"
+        },
+        "cooldown_state": {
+          "recent_asset_sha256": [
+            "2a9742cff9efc4c21156a276f4775762d58ef7da4c2939e056fd15bcb663e594"
+          ],
+          "recent_near_duplicate_group_ids": [
+            "nd_group_hot"
+          ],
+          "window_events": 4
+        },
+        "decision": {
+          "applied_gates": [
+            "cooldown",
+            "near_duplicate_penalty",
+            "alternation",
+            "scene_continuity",
+            "bounded_variation"
+          ],
+          "confidence": 0.86,
+          "explanation": [
+            "history_aware_hard_exclusions_before_diversity_ranking",
+            "eligible_count=2",
+            "library_deps_ok=False",
+            "tie_break_applied=False",
+            "library_selection_blocked_fail_closed",
+            "fixture_mode_records_decision_without_library_authority"
+          ],
+          "product_completion": false,
+          "reason": "fixture_selected_rank_one_eligible_candidate",
+          "route": "select",
+          "row082_acceptance": "fixture_only",
+          "selected_candidate_id": "cand_distinct_rotate",
+          "tie_break_outcome": {
+            "applied": false,
+            "inputs": [
+              {
+                "asset_sha256": "467c923f5ee342dbb0f5ef7fe79c45a6a6915ae4bd2f692602037840c6988918",
+                "candidate_id": "cand_distinct_rotate",
+                "total_score": 0.86
+              },
+              {
+                "asset_sha256": "0600fbb21b9e9706dbeaa9e4541d868aaa4cf592974769b4b5bd56e535e96877",
+                "candidate_id": "cand_near_dup_hot",
+                "total_score": 0.81
+              }
+            ],
+            "order": [
+              "total_score_desc",
+              "candidate_id_asc",
+              "asset_sha256_asc"
+            ],
+            "winner_candidate_id": "cand_distinct_rotate"
+          }
+        },
+        "dependency_admissions": {
+          "TRK-W64-074": {
+            "blocker_codes": [
+              "TRK_W64_074_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 10177,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_MULTI_EVENT_SEGMENTATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "2e4df5618bfa1afd5e0ec3f0e7bc05843c6bfa882746d74d576f78d2d129badc",
+            "status": "HOLD_ROW072_ROW073_DEPENDENCIES_AND_FULL_LIBRARY_SEGMENT_RUNTIME_ABSENT",
+            "tracker_id": "TRK-W64-074"
+          },
+          "TRK-W64-080": {
+            "blocker_codes": [
+              "TRK_W64_080_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 8678,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-080_HYBRID_AUDIO_RETRIEVAL_INDEX_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "fc90241f9f413f6ea4b95fa4282bfc85cef9671a0c29ff491df85ad3473b8e4d",
+            "status": "HOLD_ROW069_ROW077_ROW079_DEPENDENCIES_AND_LIBRARY_HYBRID_RUNTIME_ABSENT",
+            "tracker_id": "TRK-W64-080"
+          },
+          "TRK-W64-081": {
+            "blocker_codes": [
+              "TRK_W64_081_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11848,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-081_EXPLAINABLE_AUDIO_CANDIDATE_SCORING_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "2a102cafe40232d7c044ba0c4e30e83cc0082800a203b5e939393d6e8096fab1",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_SCORING_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-081"
+          }
+        },
+        "event_family": "footstep",
+        "event_id": "fixture_event_near_dup",
+        "hard_exclusion_order": [
+          "MISSING_SELECTION_HISTORY",
+          "COOLDOWN_ACTIVE",
+          "ALTERNATION_VIOLATION",
+          "CONTINUITY_PARTITION_MISMATCH",
+          "TRANSFORM_OUT_OF_BOUNDS",
+          "SEMANTIC_FLOOR_VIOLATION",
+          "DEPENDENCY_EVIDENCE_ABSENT"
+        ],
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-082",
+        "library_authority": false,
+        "policy_revision": "wave64_row082_repetition_diversity_policy_v0.1.0",
+        "policy_sha256": "4d3ed02c21432a345eb88bb62a1dbe83f25a150b16d7ee9c33142b746c0118de",
+        "query_hash": "bbb161bf20726bb2e77750e6f1f8106e0fe65869f6ca1adba8117a9bbca66560",
+        "receipt_sha256": "a2fe7bd3fbdbedec681d6cec5e8d0743c93663af9786a45e91109c4ce1ef2e21",
+        "record_type": "audio_repetition_diversity_selection_record",
+        "required_gates": [
+          "cooldown",
+          "near_duplicate_penalty",
+          "alternation",
+          "scene_continuity",
+          "bounded_variation"
+        ],
+        "resulting_history_sha256": "f037498cace43a9d2273d9c0151f479ff10f23ab8bc5f73571b377f9e31f1ee9",
+        "schema_version": "1.0.0",
+        "selection_history_sha256": "c29acb946b367f3656b5ddb852e8e0165768cbb747389a7b4f6e040e63450f62",
+        "selector_revision": "wave64_row082_audio_repetition_diversity_selector_v0.1.0",
+        "tracker_id": "TRK-W64-082"
+      },
+      {
+        "alternation_state": {
+          "confidence": 0.95,
+          "enabled": true,
+          "expected_side": "left",
+          "previous_side": "right"
+        },
+        "candidate_set_hash": "fafa54d2da4c570c5467b1b6bea4228fd233ba37f661cb0b693b77a49c924325",
+        "candidates": [
+          {
+            "asset_sha256": "1e925644c838d07cecfe0b04fb1bff62ab834c23adde04be80f1c05947e5ef24",
+            "base_score": 0.85,
+            "candidate_id": "cand_left_expected",
+            "eligible": true,
+            "explanation": [
+              "hard_filters=['none']",
+              "eligible=True",
+              "base_score=0.85",
+              "penalty_total=0.0",
+              "total_score=0.85"
+            ],
+            "hard_exclusions": [],
+            "near_duplicate_group_id": "nd_left",
+            "penalties": [],
+            "rank": 1,
+            "semantic_scores": {
+              "continuity_fit": 0.91,
+              "event_fit": 0.92,
+              "force_fit": 0.88,
+              "material_fit": 0.9
+            },
+            "total_score": 0.85,
+            "variation_transform": {
+              "eq_tilt_db": 0.0,
+              "gain_db": 0.0,
+              "pitch_cents": 0.0,
+              "room_mix": 0.0,
+              "stereo_width": 1.0,
+              "timing_ms": 0.0,
+              "transient_scale": 1.0
+            }
+          },
+          {
+            "asset_sha256": "6feb2af18f58671fcd8b89871173d2a7c8ab4d322571ec495f4131cfa3c65908",
+            "base_score": 0.96,
+            "candidate_id": "cand_right_wrong",
+            "eligible": false,
+            "explanation": [
+              "hard_filters=['ALTERNATION_VIOLATION']",
+              "eligible=False",
+              "base_score=0.96",
+              "penalty_total=0.0",
+              "total_score=-1.0"
+            ],
+            "hard_exclusions": [
+              "ALTERNATION_VIOLATION"
+            ],
+            "near_duplicate_group_id": "nd_right",
+            "penalties": [],
+            "rank": 2,
+            "semantic_scores": {
+              "continuity_fit": 0.91,
+              "event_fit": 0.92,
+              "force_fit": 0.88,
+              "material_fit": 0.9
+            },
+            "total_score": -1.0,
+            "variation_transform": {
+              "eq_tilt_db": 0.0,
+              "gain_db": 0.0,
+              "pitch_cents": 0.0,
+              "room_mix": 0.0,
+              "stereo_width": 1.0,
+              "timing_ms": 0.0,
+              "transient_scale": 1.0
+            }
+          }
+        ],
+        "continuity_keys": {
+          "actor_id": "actor_a",
+          "foot_side": "left",
+          "gait_id": "gait_walk",
+          "scene_id": "scene_kitchen",
+          "shot_id": "shot_01"
+        },
+        "cooldown_state": {
+          "recent_asset_sha256": [],
+          "recent_near_duplicate_group_ids": [],
+          "window_events": 4
+        },
+        "decision": {
+          "applied_gates": [
+            "cooldown",
+            "near_duplicate_penalty",
+            "alternation",
+            "scene_continuity",
+            "bounded_variation"
+          ],
+          "confidence": 0.85,
+          "explanation": [
+            "history_aware_hard_exclusions_before_diversity_ranking",
+            "eligible_count=1",
+            "library_deps_ok=False",
+            "tie_break_applied=False",
+            "library_selection_blocked_fail_closed",
+            "fixture_mode_records_decision_without_library_authority"
+          ],
+          "product_completion": false,
+          "reason": "fixture_selected_rank_one_eligible_candidate",
+          "route": "select",
+          "row082_acceptance": "fixture_only",
+          "selected_candidate_id": "cand_left_expected",
+          "tie_break_outcome": {
+            "applied": false,
+            "inputs": [
+              {
+                "asset_sha256": "1e925644c838d07cecfe0b04fb1bff62ab834c23adde04be80f1c05947e5ef24",
+                "candidate_id": "cand_left_expected",
+                "total_score": 0.85
+              },
+              {
+                "asset_sha256": "6feb2af18f58671fcd8b89871173d2a7c8ab4d322571ec495f4131cfa3c65908",
+                "candidate_id": "cand_right_wrong",
+                "total_score": -1.0
+              }
+            ],
+            "order": [
+              "total_score_desc",
+              "candidate_id_asc",
+              "asset_sha256_asc"
+            ],
+            "winner_candidate_id": "cand_left_expected"
+          }
+        },
+        "dependency_admissions": {
+          "TRK-W64-074": {
+            "blocker_codes": [
+              "TRK_W64_074_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 10177,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_MULTI_EVENT_SEGMENTATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "2e4df5618bfa1afd5e0ec3f0e7bc05843c6bfa882746d74d576f78d2d129badc",
+            "status": "HOLD_ROW072_ROW073_DEPENDENCIES_AND_FULL_LIBRARY_SEGMENT_RUNTIME_ABSENT",
+            "tracker_id": "TRK-W64-074"
+          },
+          "TRK-W64-080": {
+            "blocker_codes": [
+              "TRK_W64_080_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 8678,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-080_HYBRID_AUDIO_RETRIEVAL_INDEX_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "fc90241f9f413f6ea4b95fa4282bfc85cef9671a0c29ff491df85ad3473b8e4d",
+            "status": "HOLD_ROW069_ROW077_ROW079_DEPENDENCIES_AND_LIBRARY_HYBRID_RUNTIME_ABSENT",
+            "tracker_id": "TRK-W64-080"
+          },
+          "TRK-W64-081": {
+            "blocker_codes": [
+              "TRK_W64_081_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11848,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-081_EXPLAINABLE_AUDIO_CANDIDATE_SCORING_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "2a102cafe40232d7c044ba0c4e30e83cc0082800a203b5e939393d6e8096fab1",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_SCORING_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-081"
+          }
+        },
+        "event_family": "footstep",
+        "event_id": "fixture_event_alternation",
+        "hard_exclusion_order": [
+          "MISSING_SELECTION_HISTORY",
+          "COOLDOWN_ACTIVE",
+          "ALTERNATION_VIOLATION",
+          "CONTINUITY_PARTITION_MISMATCH",
+          "TRANSFORM_OUT_OF_BOUNDS",
+          "SEMANTIC_FLOOR_VIOLATION",
+          "DEPENDENCY_EVIDENCE_ABSENT"
+        ],
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-082",
+        "library_authority": false,
+        "policy_revision": "wave64_row082_repetition_diversity_policy_v0.1.0",
+        "policy_sha256": "4d3ed02c21432a345eb88bb62a1dbe83f25a150b16d7ee9c33142b746c0118de",
+        "query_hash": "ae32ac98035cd2b6efde695d85ab0e668555a6e7afcbfcd72eefb89f1f7e478a",
+        "receipt_sha256": "10db0bb808a39f326a3dd711b427fc3d5c05ff4bf1d1da3cf6ef063b5911469c",
+        "record_type": "audio_repetition_diversity_selection_record",
+        "required_gates": [
+          "cooldown",
+          "near_duplicate_penalty",
+          "alternation",
+          "scene_continuity",
+          "bounded_variation"
+        ],
+        "resulting_history_sha256": "c4e44f946a24251b82caae437cbd4da39b873cce3b243312ac05f7a6ac4f8907",
+        "schema_version": "1.0.0",
+        "selection_history_sha256": "9cce67c357f6e1b858516a0bb68b0c41e2a8b6a81fb758382bf351e2751e6535",
+        "selector_revision": "wave64_row082_audio_repetition_diversity_selector_v0.1.0",
+        "tracker_id": "TRK-W64-082"
+      },
+      {
+        "alternation_state": {
+          "confidence": 0.9,
+          "enabled": true,
+          "expected_side": "left",
+          "previous_side": "right"
+        },
+        "candidate_set_hash": "72bbc38a7c950de0dd404d9ec74949ee1dea3f2e0a81f772aa11944968b7c972",
+        "candidates": [
+          {
+            "asset_sha256": "9e228fe66b50652dd079fe262e702e96c140ba13ef2f81a99d763ad8ae319240",
+            "base_score": 0.9,
+            "candidate_id": "cand_no_history",
+            "eligible": false,
+            "explanation": [
+              "hard_filters=['MISSING_SELECTION_HISTORY']",
+              "eligible=False",
+              "base_score=0.9",
+              "penalty_total=0.0",
+              "total_score=-1.0"
+            ],
+            "hard_exclusions": [
+              "MISSING_SELECTION_HISTORY"
+            ],
+            "near_duplicate_group_id": "nd_no_history",
+            "penalties": [],
+            "rank": 1,
+            "semantic_scores": {
+              "continuity_fit": 0.91,
+              "event_fit": 0.92,
+              "force_fit": 0.88,
+              "material_fit": 0.9
+            },
+            "total_score": -1.0,
+            "variation_transform": {
+              "eq_tilt_db": 0.0,
+              "gain_db": 0.0,
+              "pitch_cents": 0.0,
+              "room_mix": 0.0,
+              "stereo_width": 1.0,
+              "timing_ms": 0.0,
+              "transient_scale": 1.0
+            }
+          }
+        ],
+        "continuity_keys": {
+          "actor_id": "actor_a",
+          "foot_side": "left",
+          "gait_id": "gait_walk",
+          "scene_id": "scene_kitchen",
+          "shot_id": "shot_01"
+        },
+        "cooldown_state": {
+          "recent_asset_sha256": [],
+          "recent_near_duplicate_group_ids": [],
+          "window_events": 4
+        },
+        "decision": {
+          "applied_gates": [
+            "cooldown",
+            "near_duplicate_penalty",
+            "alternation",
+            "scene_continuity",
+            "bounded_variation"
+          ],
+          "confidence": 0.0,
+          "explanation": [
+            "history_aware_hard_exclusions_before_diversity_ranking",
+            "eligible_count=0",
+            "library_deps_ok=False",
+            "tie_break_applied=False",
+            "library_selection_blocked_fail_closed",
+            "fixture_mode_records_decision_without_library_authority"
+          ],
+          "product_completion": false,
+          "reason": "fixture_no_eligible_candidate",
+          "route": "abstain",
+          "row082_acceptance": "fixture_only",
+          "selected_candidate_id": null,
+          "tie_break_outcome": {
+            "applied": false,
+            "inputs": [
+              {
+                "asset_sha256": "9e228fe66b50652dd079fe262e702e96c140ba13ef2f81a99d763ad8ae319240",
+                "candidate_id": "cand_no_history",
+                "total_score": -1.0
+              }
+            ],
+            "order": [
+              "total_score_desc",
+              "candidate_id_asc",
+              "asset_sha256_asc"
+            ],
+            "winner_candidate_id": "cand_no_history"
+          }
+        },
+        "dependency_admissions": {
+          "TRK-W64-074": {
+            "blocker_codes": [
+              "TRK_W64_074_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 10177,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_MULTI_EVENT_SEGMENTATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "2e4df5618bfa1afd5e0ec3f0e7bc05843c6bfa882746d74d576f78d2d129badc",
+            "status": "HOLD_ROW072_ROW073_DEPENDENCIES_AND_FULL_LIBRARY_SEGMENT_RUNTIME_ABSENT",
+            "tracker_id": "TRK-W64-074"
+          },
+          "TRK-W64-080": {
+            "blocker_codes": [
+              "TRK_W64_080_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 8678,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-080_HYBRID_AUDIO_RETRIEVAL_INDEX_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "fc90241f9f413f6ea4b95fa4282bfc85cef9671a0c29ff491df85ad3473b8e4d",
+            "status": "HOLD_ROW069_ROW077_ROW079_DEPENDENCIES_AND_LIBRARY_HYBRID_RUNTIME_ABSENT",
+            "tracker_id": "TRK-W64-080"
+          },
+          "TRK-W64-081": {
+            "blocker_codes": [
+              "TRK_W64_081_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11848,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-081_EXPLAINABLE_AUDIO_CANDIDATE_SCORING_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "2a102cafe40232d7c044ba0c4e30e83cc0082800a203b5e939393d6e8096fab1",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_SCORING_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-081"
+          }
+        },
+        "event_family": "footstep",
+        "event_id": "fixture_event_missing_history",
+        "hard_exclusion_order": [
+          "MISSING_SELECTION_HISTORY",
+          "COOLDOWN_ACTIVE",
+          "ALTERNATION_VIOLATION",
+          "CONTINUITY_PARTITION_MISMATCH",
+          "TRANSFORM_OUT_OF_BOUNDS",
+          "SEMANTIC_FLOOR_VIOLATION",
+          "DEPENDENCY_EVIDENCE_ABSENT"
+        ],
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-082",
+        "library_authority": false,
+        "policy_revision": "wave64_row082_repetition_diversity_policy_v0.1.0",
+        "policy_sha256": "4d3ed02c21432a345eb88bb62a1dbe83f25a150b16d7ee9c33142b746c0118de",
+        "query_hash": "e49926d22cd73f3219d40b0677738ac5e5a1ef2fece069f2fabf34011d0315de",
+        "receipt_sha256": "da197a1c4cdb33026065f31aabe2b41e709d3e0f79b4c48b9c5ee9613548d3f0",
+        "record_type": "audio_repetition_diversity_selection_record",
+        "required_gates": [
+          "cooldown",
+          "near_duplicate_penalty",
+          "alternation",
+          "scene_continuity",
+          "bounded_variation"
+        ],
+        "resulting_history_sha256": "b35051773b9ce2a79cf732a6cbfb463f5fc11b5fe10d9fb5fa8dde9d923cd9be",
+        "schema_version": "1.0.0",
+        "selection_history_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "selector_revision": "wave64_row082_audio_repetition_diversity_selector_v0.1.0",
+        "tracker_id": "TRK-W64-082"
+      },
+      {
+        "alternation_state": {
+          "confidence": 1.0,
+          "enabled": false,
+          "expected_side": null,
+          "previous_side": null
+        },
+        "candidate_set_hash": "a095dd0fa14a56f393bc5c9e8f5346c4b198a66741fef44ca3ca6315d4f63973",
+        "candidates": [
+          {
+            "asset_sha256": "71ea406d96a7abd5350ff8dc66cc1a679136accd2d13ef4f52159dc4ab8b6541",
+            "base_score": 0.82,
+            "candidate_id": "cand_transform_ok",
+            "eligible": true,
+            "explanation": [
+              "hard_filters=['none']",
+              "eligible=True",
+              "base_score=0.82",
+              "penalty_total=0.0",
+              "total_score=0.82"
+            ],
+            "hard_exclusions": [],
+            "near_duplicate_group_id": "nd_fabric_b",
+            "penalties": [],
+            "rank": 1,
+            "semantic_scores": {
+              "continuity_fit": 0.91,
+              "event_fit": 0.92,
+              "force_fit": 0.88,
+              "material_fit": 0.9
+            },
+            "total_score": 0.82,
+            "variation_transform": {
+              "eq_tilt_db": 0.0,
+              "gain_db": 0.0,
+              "pitch_cents": 0.0,
+              "room_mix": 0.0,
+              "stereo_width": 1.0,
+              "timing_ms": 0.0,
+              "transient_scale": 1.0
+            }
+          },
+          {
+            "asset_sha256": "1a1198d001c93911c6e081903060b506e1d11f8370bd880799b500d6722c1f3d",
+            "base_score": 0.94,
+            "candidate_id": "cand_transform_bad",
+            "eligible": false,
+            "explanation": [
+              "hard_filters=['TRANSFORM_OUT_OF_BOUNDS']",
+              "eligible=False",
+              "base_score=0.94",
+              "penalty_total=0.0",
+              "total_score=-1.0"
+            ],
+            "hard_exclusions": [
+              "TRANSFORM_OUT_OF_BOUNDS"
+            ],
+            "near_duplicate_group_id": "nd_fabric_a",
+            "penalties": [],
+            "rank": 2,
+            "semantic_scores": {
+              "continuity_fit": 0.91,
+              "event_fit": 0.92,
+              "force_fit": 0.88,
+              "material_fit": 0.9
+            },
+            "total_score": -1.0,
+            "variation_transform": {
+              "eq_tilt_db": 0.0,
+              "gain_db": 4.0,
+              "pitch_cents": 0.0,
+              "room_mix": 0.0,
+              "stereo_width": 1.0,
+              "timing_ms": 0.0,
+              "transient_scale": 1.0
+            }
+          }
+        ],
+        "continuity_keys": {
+          "actor_id": "actor_a",
+          "foot_side": null,
+          "gait_id": "gait_walk",
+          "scene_id": "scene_kitchen",
+          "shot_id": "shot_01"
+        },
+        "cooldown_state": {
+          "recent_asset_sha256": [],
+          "recent_near_duplicate_group_ids": [],
+          "window_events": 2
+        },
+        "decision": {
+          "applied_gates": [
+            "cooldown",
+            "near_duplicate_penalty",
+            "alternation",
+            "scene_continuity",
+            "bounded_variation"
+          ],
+          "confidence": 0.82,
+          "explanation": [
+            "history_aware_hard_exclusions_before_diversity_ranking",
+            "eligible_count=1",
+            "library_deps_ok=False",
+            "tie_break_applied=False",
+            "library_selection_blocked_fail_closed",
+            "fixture_mode_records_decision_without_library_authority"
+          ],
+          "product_completion": false,
+          "reason": "fixture_selected_rank_one_eligible_candidate",
+          "route": "select",
+          "row082_acceptance": "fixture_only",
+          "selected_candidate_id": "cand_transform_ok",
+          "tie_break_outcome": {
+            "applied": false,
+            "inputs": [
+              {
+                "asset_sha256": "71ea406d96a7abd5350ff8dc66cc1a679136accd2d13ef4f52159dc4ab8b6541",
+                "candidate_id": "cand_transform_ok",
+                "total_score": 0.82
+              },
+              {
+                "asset_sha256": "1a1198d001c93911c6e081903060b506e1d11f8370bd880799b500d6722c1f3d",
+                "candidate_id": "cand_transform_bad",
+                "total_score": -1.0
+              }
+            ],
+            "order": [
+              "total_score_desc",
+              "candidate_id_asc",
+              "asset_sha256_asc"
+            ],
+            "winner_candidate_id": "cand_transform_ok"
+          }
+        },
+        "dependency_admissions": {
+          "TRK-W64-074": {
+            "blocker_codes": [
+              "TRK_W64_074_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 10177,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_MULTI_EVENT_SEGMENTATION_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "2e4df5618bfa1afd5e0ec3f0e7bc05843c6bfa882746d74d576f78d2d129badc",
+            "status": "HOLD_ROW072_ROW073_DEPENDENCIES_AND_FULL_LIBRARY_SEGMENT_RUNTIME_ABSENT",
+            "tracker_id": "TRK-W64-074"
+          },
+          "TRK-W64-080": {
+            "blocker_codes": [
+              "TRK_W64_080_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 8678,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-080_HYBRID_AUDIO_RETRIEVAL_INDEX_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "fc90241f9f413f6ea4b95fa4282bfc85cef9671a0c29ff491df85ad3473b8e4d",
+            "status": "HOLD_ROW069_ROW077_ROW079_DEPENDENCIES_AND_LIBRARY_HYBRID_RUNTIME_ABSENT",
+            "tracker_id": "TRK-W64-080"
+          },
+          "TRK-W64-081": {
+            "blocker_codes": [
+              "TRK_W64_081_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11848,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-081_EXPLAINABLE_AUDIO_CANDIDATE_SCORING_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "2a102cafe40232d7c044ba0c4e30e83cc0082800a203b5e939393d6e8096fab1",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_SCORING_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-081"
+          }
+        },
+        "event_family": "fabric_rustle",
+        "event_id": "fixture_event_transform_bounds",
+        "hard_exclusion_order": [
+          "MISSING_SELECTION_HISTORY",
+          "COOLDOWN_ACTIVE",
+          "ALTERNATION_VIOLATION",
+          "CONTINUITY_PARTITION_MISMATCH",
+          "TRANSFORM_OUT_OF_BOUNDS",
+          "SEMANTIC_FLOOR_VIOLATION",
+          "DEPENDENCY_EVIDENCE_ABSENT"
+        ],
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-082",
+        "library_authority": false,
+        "policy_revision": "wave64_row082_repetition_diversity_policy_v0.1.0",
+        "policy_sha256": "4d3ed02c21432a345eb88bb62a1dbe83f25a150b16d7ee9c33142b746c0118de",
+        "query_hash": "5071c79c22252c8ad649142fa60e32ec0636bcc3eb0ec05f1d277e6873e42896",
+        "receipt_sha256": "7d8c0d951e6f9d8994f6a8fd7b9fac20780f3a47e1e9de4bee8edc00ddde7145",
+        "record_type": "audio_repetition_diversity_selection_record",
+        "required_gates": [
+          "cooldown",
+          "near_duplicate_penalty",
+          "alternation",
+          "scene_continuity",
+          "bounded_variation"
+        ],
+        "resulting_history_sha256": "262a958ce08ca6839708bf74a1d943743b3809bf06ac35662188f13b79ead458",
+        "schema_version": "1.0.0",
+        "selection_history_sha256": "0cf5961a7014e7f93931568e6dfd98358afbfa1527a0a7bb2f54abf1278f7eba",
+        "selector_revision": "wave64_row082_audio_repetition_diversity_selector_v0.1.0",
+        "tracker_id": "TRK-W64-082"
+      }
+    ]
+  },
+  "hard_exclusion_order": [
+    "MISSING_SELECTION_HISTORY",
+    "COOLDOWN_ACTIVE",
+    "ALTERNATION_VIOLATION",
+    "CONTINUITY_PARTITION_MISMATCH",
+    "TRANSFORM_OUT_OF_BOUNDS",
+    "SEMANTIC_FLOOR_VIOLATION",
+    "DEPENDENCY_EVIDENCE_ABSENT"
+  ],
+  "implementation_completion_claimed": false,
+  "item_id": "ITEM-W64-082",
+  "library_authority": false,
+  "policy_registry": {
+    "authority": "planning_freeze_not_library_acceptance",
+    "path": "Plan/10_REGISTRIES/wave64_row082_repetition_diversity_policy_registry.json",
+    "revision": "wave64_row082_repetition_diversity_policy_v0.1.0",
+    "sha256": "4d3ed02c21432a345eb88bb62a1dbe83f25a150b16d7ee9c33142b746c0118de"
+  },
+  "policy_revision": "wave64_row082_repetition_diversity_policy_v0.1.0",
+  "required_gates": [
+    "cooldown",
+    "near_duplicate_penalty",
+    "alternation",
+    "scene_continuity",
+    "bounded_variation"
+  ],
+  "row_complete": false,
+  "runtime_completion_claimed": false,
+  "schema": {
+    "path": "Plan/08_SCHEMAS/audio_repetition_diversity_selection_record.schema.json",
+    "sha256": "96af0dd56a48faef2de62aaf8cd33a7e7686deb23b6d42b1bf73e00be72496fd"
+  },
+  "schema_version": "1.0.0",
+  "selector_revision": "wave64_row082_audio_repetition_diversity_selector_v0.1.0",
+  "status": "HOLD_DEPENDENCIES_AND_LIBRARY_DIVERSITY_RUNTIME_ABSENT",
+  "tracker_id": "TRK-W64-082"
+}

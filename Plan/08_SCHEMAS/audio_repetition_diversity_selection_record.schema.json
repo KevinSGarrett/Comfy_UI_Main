@@ -1,0 +1,346 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/audio_repetition_diversity_selection_record.schema.json",
+  "title": "Wave64 Row082 Audio Repetition Diversity Selection Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "tracker_id",
+    "item_id",
+    "record_type",
+    "selector_revision",
+    "policy_revision",
+    "policy_sha256",
+    "event_id",
+    "event_family",
+    "query_hash",
+    "candidate_set_hash",
+    "selection_history_sha256",
+    "resulting_history_sha256",
+    "is_synthetic",
+    "library_authority",
+    "dependency_admissions",
+    "required_gates",
+    "hard_exclusion_order",
+    "continuity_keys",
+    "cooldown_state",
+    "alternation_state",
+    "candidates",
+    "decision",
+    "receipt_sha256"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "tracker_id": { "type": "string", "const": "TRK-W64-082" },
+    "item_id": { "type": "string", "const": "ITEM-W64-082" },
+    "record_type": {
+      "type": "string",
+      "const": "audio_repetition_diversity_selection_record"
+    },
+    "selector_revision": {
+      "type": "string",
+      "const": "wave64_row082_audio_repetition_diversity_selector_v0.1.0"
+    },
+    "policy_revision": {
+      "type": "string",
+      "const": "wave64_row082_repetition_diversity_policy_v0.1.0"
+    },
+    "policy_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "event_id": { "type": "string", "minLength": 1 },
+    "event_family": { "type": "string", "minLength": 1 },
+    "query_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "candidate_set_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "selection_history_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "resulting_history_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "is_synthetic": { "type": "boolean" },
+    "library_authority": { "type": "boolean", "const": false },
+    "dependency_admissions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["TRK-W64-074", "TRK-W64-080", "TRK-W64-081"],
+      "properties": {
+        "TRK-W64-074": { "$ref": "#/$defs/dependency_admission" },
+        "TRK-W64-080": { "$ref": "#/$defs/dependency_admission" },
+        "TRK-W64-081": { "$ref": "#/$defs/dependency_admission" }
+      }
+    },
+    "required_gates": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "type": "string",
+        "enum": [
+          "cooldown",
+          "near_duplicate_penalty",
+          "alternation",
+          "scene_continuity",
+          "bounded_variation"
+        ]
+      }
+    },
+    "hard_exclusion_order": {
+      "type": "array",
+      "minItems": 7,
+      "items": { "$ref": "#/$defs/hard_exclusion_code" }
+    },
+    "continuity_keys": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["actor_id", "scene_id", "shot_id", "gait_id", "foot_side"],
+      "properties": {
+        "actor_id": { "type": "string", "minLength": 1 },
+        "scene_id": { "type": "string", "minLength": 1 },
+        "shot_id": { "type": "string", "minLength": 1 },
+        "gait_id": { "type": "string", "minLength": 1 },
+        "foot_side": {
+          "type": ["string", "null"],
+          "enum": ["left", "right", null]
+        }
+      }
+    },
+    "cooldown_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "window_events",
+        "recent_asset_sha256",
+        "recent_near_duplicate_group_ids"
+      ],
+      "properties": {
+        "window_events": { "type": "integer", "minimum": 0 },
+        "recent_asset_sha256": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+        },
+        "recent_near_duplicate_group_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "alternation_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled", "expected_side", "previous_side", "confidence"],
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "expected_side": {
+          "type": ["string", "null"],
+          "enum": ["left", "right", null]
+        },
+        "previous_side": {
+          "type": ["string", "null"],
+          "enum": ["left", "right", null]
+        },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "candidates": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/candidate_selection" }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "route",
+        "selected_candidate_id",
+        "confidence",
+        "reason",
+        "tie_break_outcome",
+        "applied_gates",
+        "explanation",
+        "product_completion",
+        "row082_acceptance"
+      ],
+      "properties": {
+        "route": {
+          "type": "string",
+          "enum": ["select", "abstain", "blocked"]
+        },
+        "selected_candidate_id": { "type": ["string", "null"] },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "reason": { "type": "string", "minLength": 1 },
+        "tie_break_outcome": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["applied", "order", "winner_candidate_id", "inputs"],
+          "properties": {
+            "applied": { "type": "boolean" },
+            "order": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "total_score_desc",
+                  "candidate_id_asc",
+                  "asset_sha256_asc"
+                ]
+              }
+            },
+            "winner_candidate_id": { "type": ["string", "null"] },
+            "inputs": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["candidate_id", "total_score", "asset_sha256"],
+                "properties": {
+                  "candidate_id": { "type": "string", "minLength": 1 },
+                  "total_score": { "type": "number" },
+                  "asset_sha256": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "applied_gates": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "explanation": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "product_completion": { "type": "boolean", "const": false },
+        "row082_acceptance": {
+          "type": "string",
+          "enum": ["held", "fixture_only"]
+        }
+      }
+    },
+    "receipt_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  },
+  "$defs": {
+    "dependency_admission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tracker_id",
+        "dependency_satisfied",
+        "row_complete",
+        "blocker_codes"
+      ],
+      "properties": {
+        "tracker_id": { "type": "string", "minLength": 1 },
+        "dependency_satisfied": { "type": "boolean" },
+        "row_complete": { "type": "boolean" },
+        "blocker_codes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "status": { "type": "string" },
+        "path": { "type": "string" },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "bytes": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "hard_exclusion_code": {
+      "type": "string",
+      "enum": [
+        "MISSING_SELECTION_HISTORY",
+        "COOLDOWN_ACTIVE",
+        "ALTERNATION_VIOLATION",
+        "CONTINUITY_PARTITION_MISMATCH",
+        "TRANSFORM_OUT_OF_BOUNDS",
+        "SEMANTIC_FLOOR_VIOLATION",
+        "DEPENDENCY_EVIDENCE_ABSENT"
+      ]
+    },
+    "penalty_detail": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "raw", "scale", "cap", "contribution", "reason"],
+      "properties": {
+        "code": { "type": "string", "minLength": 1 },
+        "raw": { "type": "number" },
+        "scale": { "type": "number", "minimum": 0 },
+        "cap": { "type": "number", "minimum": 0 },
+        "contribution": { "type": "number", "maximum": 0 },
+        "reason": { "type": "string", "minLength": 1 }
+      }
+    },
+    "variation_transform": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "gain_db",
+        "timing_ms",
+        "pitch_cents",
+        "eq_tilt_db",
+        "transient_scale",
+        "stereo_width",
+        "room_mix"
+      ],
+      "properties": {
+        "gain_db": { "type": "number" },
+        "timing_ms": { "type": "number" },
+        "pitch_cents": { "type": "number" },
+        "eq_tilt_db": { "type": "number" },
+        "transient_scale": { "type": "number" },
+        "stereo_width": { "type": "number" },
+        "room_mix": { "type": "number" }
+      }
+    },
+    "candidate_selection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_id",
+        "asset_sha256",
+        "near_duplicate_group_id",
+        "base_score",
+        "eligible",
+        "hard_exclusions",
+        "penalties",
+        "variation_transform",
+        "semantic_scores",
+        "total_score",
+        "rank",
+        "explanation"
+      ],
+      "properties": {
+        "candidate_id": { "type": "string", "minLength": 1 },
+        "asset_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "near_duplicate_group_id": { "type": "string", "minLength": 1 },
+        "base_score": { "type": "number" },
+        "eligible": { "type": "boolean" },
+        "hard_exclusions": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/hard_exclusion_code" }
+        },
+        "penalties": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/penalty_detail" }
+        },
+        "variation_transform": { "$ref": "#/$defs/variation_transform" },
+        "semantic_scores": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["event_fit", "material_fit", "force_fit", "continuity_fit"],
+          "properties": {
+            "event_fit": { "type": "number", "minimum": 0, "maximum": 1 },
+            "material_fit": { "type": "number", "minimum": 0, "maximum": 1 },
+            "force_fit": { "type": "number", "minimum": 0, "maximum": 1 },
+            "continuity_fit": { "type": "number", "minimum": 0, "maximum": 1 }
+          }
+        },
+        "total_score": { "type": "number" },
+        "rank": { "type": "integer", "minimum": 1 },
+        "explanation": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}
