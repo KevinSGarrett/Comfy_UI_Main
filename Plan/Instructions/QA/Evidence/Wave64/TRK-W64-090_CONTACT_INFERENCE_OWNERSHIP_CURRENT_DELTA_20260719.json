@@ -1,0 +1,534 @@
+{
+  "schema_version": "1.0.0",
+  "evidence_id": "TRK-W64-090_CONTACT_INFERENCE_OWNERSHIP_CURRENT_DELTA_20260719",
+  "created_at": "2026-07-19T05:46:44.7897073Z",
+  "source_commit": "3ab7ec0f48254a06ac12610218a2466b29356f36",
+  "prior_row_commit": "3ab7ec0f48254a06ac12610218a2466b29356f36",
+  "prior_row_commit_is_current_head": true,
+  "tracker_id": "TRK-W64-090",
+  "item_id": "ITEM-W64-090",
+  "status": "HOLD_ALL_FIVE_DEPENDENCIES_AND_DIRECT_VISUAL_CONTACT_INFERENCE_TIMING_FORCE_OWNERSHIP_CALIBRATION_AND_RUNTIME_AUTHORITY_ABSENT",
+  "classification": "ROW090_CODEX_FINAL_AUTHORITY_CURRENT_DELTA_AUDIT",
+  "row_complete": false,
+  "implementation_completion_claimed": false,
+  "runtime_completion_claimed": false,
+  "qa_decision": "FAIL_CLOSED_DOWNSTREAM_CONTACT_AND_FOLEY_VALIDATORS_DO_NOT_PROVE_ROW090_VISUAL_CONTACT_INFERENCE",
+  "intent": {
+    "intent_id": "intent_20260719T054024398Z_row090_contact_inference_ownership_current_delta_87a46f78",
+    "classification": "AI_WORKER_DEVELOPMENT_PIPELINE_ADMITTED_DEFERRED",
+    "authority": "codex_only",
+    "routing": null,
+    "worker_wake_count": 0,
+    "candidate_paths": [
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-090_CONTACT_INFERENCE_OWNERSHIP_CURRENT_DELTA_20260719.json"
+    ],
+    "allowed_paths": [
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-090_CONTACT_INFERENCE_OWNERSHIP_CURRENT_DELTA_20260719.json"
+    ]
+  },
+  "row090_contract": {
+    "title": "Visual contact inference, timing, force, and source-target ownership authority",
+    "priority": "P0",
+    "risk_level": "CRITICAL",
+    "tracker_status": "Planned_Autonomous_Implementation_Required",
+    "dependencies": [
+      "TRK-W64-085",
+      "TRK-W64-086",
+      "TRK-W64-087",
+      "TRK-W64-088",
+      "TRK-W64-089"
+    ],
+    "required_gates": [
+      "source_owner",
+      "target_owner",
+      "contact_onset",
+      "contact_peak",
+      "release",
+      "authority_ceiling"
+    ],
+    "required_inference_fields": [
+      "source",
+      "target",
+      "body_region",
+      "object_or_surface",
+      "onset",
+      "peak",
+      "release",
+      "duration",
+      "force_band",
+      "visibility",
+      "ownership"
+    ],
+    "required_inputs": [
+      "tracked_masks",
+      "landmarks",
+      "depth",
+      "motion"
+    ],
+    "completion_criteria": "Actor-specific contact certification requires trusted source/target ownership and calibrated onset/peak/release evidence.",
+    "candidate_boundary": "Candidate-only output is allowed when mask or contact authority is blocked, but certification is not.",
+    "visual_review_required": true,
+    "visual_review_method": "combined_frame_contact_audio_review",
+    "test_required": true,
+    "runtime_proof_required": true,
+    "preview_required": true,
+    "final_render_gate": "BLOCKED_UNTIL_EXACT_ROW_IMPLEMENTATION_RUNTIME_QA_AND_AUTHORITY_PASS",
+    "required_output": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-090_contact_inference_ownership.json",
+    "required_output_exists": false
+  },
+  "tracker_item_requirements_parity": {
+    "tracker_item_semantically_equal": true,
+    "requirements_copies_byte_equal": true,
+    "tracker": {
+      "path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_TRACKER_ROWS.csv",
+      "sha256": "a698034d4d61788a9c630434f7aac75e3f7b1bf656319cfe43a5b2ce26d625de",
+      "bytes": 159309
+    },
+    "item": {
+      "path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ITEM_ROWS.csv",
+      "sha256": "f4a401d828aff69dbe7e005d6592a2af86edc936a0e6c1bae2f764345a9b8489",
+      "bytes": 111386
+    },
+    "tracker_requirements": {
+      "path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
+      "sha256": "077eaf1dfc1cb0d990660b2d9ec7073bc2b4acc1be47a94e9a0ea65eb1924acc",
+      "bytes": 48422
+    },
+    "item_requirements": {
+      "path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
+      "sha256": "077eaf1dfc1cb0d990660b2d9ec7073bc2b4acc1be47a94e9a0ea65eb1924acc",
+      "bytes": 48422
+    }
+  },
+  "source_authority": {
+    "master_plan": {
+      "path": "Plan/00_PROJECT_CONTROL/WAVE64_AUTONOMOUS_VIDEO_TO_AUDIO_AND_SOUND_GENERATION_MASTER_PLAN.md",
+      "sha256": "6f1b5059b686a81d866f61f3bada74ca673a43db2423241d500b024ecb6a1a67",
+      "bytes": 25625,
+      "citation_lines": "243-248"
+    },
+    "architecture": {
+      "path": "Plan/02_TARGET_ARCHITECTURE/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ARCHITECTURE.md",
+      "sha256": "3aef5be8b48808a69fe70c4b61bb4de6f7e1086c670c1ce9c817ebb4a1f6ae9b",
+      "bytes": 7078,
+      "contact_authority_boundary": [
+        "Track source hand and target actor or body region with ownership.",
+        "Infer approach, contact, compression or recoil, release, velocity, clothing coverage, and visibility.",
+        "Align the transient to contact onset and rustle or settle envelopes to motion windows.",
+        "Block certification when source or target ownership or body or contact geometry is untrusted."
+      ],
+      "fail_closed_boundaries": [
+        "Unknown source or target ownership permits candidate mixes only below certification ceiling.",
+        "Ambiguous onset permits multi-anchor candidate or windowed sync, never a frame-exact claim."
+      ]
+    },
+    "audio_plan": {
+      "path": "Plan/05_AUDIO_SYSTEM/WAVE64_AUTONOMOUS_SOUND_LIBRARY_GENERATION_AND_QA_PLAN.md",
+      "sha256": "63bea08b4e2209100cc875b60bfad7b2d2e2b0636c5643aaa4410e6f1b1fce1c",
+      "bytes": 5362
+    },
+    "qa_protocol": {
+      "path": "Plan/Instructions/QA/AUTONOMOUS_VIDEO_TO_AUDIO_AND_GENERATED_SOUND_QA_PROTOCOL.md",
+      "sha256": "ed5773fd5f83ac5c71e31983eab9fb8d0362f2544518c37b41f7c51b95c82181",
+      "bytes": 3801,
+      "timing_boundary": "Frame-exact contact targets no more than half a source frame error, with stricter sample-domain thresholds where calibrated; evaluators record frame and sample errors.",
+      "benchmark_boundary": "Benchmarks include visible, clothed, occluded, and multi-actor hand or body contact, fixed and moving cameras, cuts, slow motion, variable frame rate, offscreen events, and intentionally silent motion."
+    },
+    "package_builder": {
+      "path": "Plan/07_IMPLEMENTATION/scripts/build_wave64_autonomous_sound_intelligence_control_package.py",
+      "sha256": "62441dab915e5d277963aa58f579ee8a9190a4f3d58fcceab2b252426524f593",
+      "bytes": 37998
+    },
+    "work_package_registry": {
+      "path": "Plan/10_REGISTRIES/wave64_autonomous_sound_intelligence_work_package_registry.json",
+      "sha256": "d4ba802a94920e462fed578790e0508f140d5d7b0cf64736dcc86f47fb0e709e",
+      "bytes": 13741
+    }
+  },
+  "dependency_authority": {
+    "dependency_count": 5,
+    "complete_dependency_count": 0,
+    "all_dependencies_complete": false,
+    "dependencies": [
+      {
+        "tracker_id": "TRK-W64-085",
+        "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719.json",
+        "sha256": "720b87bf6007e3ab7970ae91cd94a6086d740ed2c4eed652f4e18554835a56fd",
+        "bytes": 23535,
+        "row_complete": false,
+        "status": "HOLD_DEPENDENCY_PERSISTENT_TRACKING_IMPLEMENTATION_OWNERSHIP_METRICS_OCCLUSION_REAPPEARANCE_AND_VISUAL_RUNTIME_PROOF_ABSENT"
+      },
+      {
+        "tracker_id": "TRK-W64-086",
+        "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-086_POSE_HAND_FOOT_GAIT_EXTRACTION_CURRENT_DELTA_20260719.json",
+        "sha256": "b5e0a2795f58359ed6b4bd849e56d3cf58f59ad1755b9881dd79476df89bebe8",
+        "bytes": 26242,
+        "row_complete": false,
+        "status": "HOLD_DEPENDENCIES_TEMPORAL_POSE_GAIT_CONTACT_PHASE_PARTIAL_VIEW_BENCHMARK_AND_VISUAL_RUNTIME_AUTHORITY_ABSENT"
+      },
+      {
+        "tracker_id": "TRK-W64-087",
+        "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-087_MOTION_FORCE_CUES_CURRENT_DELTA_20260719.json",
+        "sha256": "fbad4741f352058d8fd18c094e94fdc16926081e1a8451bef3ce3ea3d26ab7b3",
+        "bytes": 27920,
+        "row_complete": false,
+        "status": "HOLD_DEPENDENCIES_ACTOR_RELATIVE_MOTION_PLANNED_CAMERA_COMPENSATION_CALIBRATED_FORCE_PROXY_AND_VISUAL_RUNTIME_AUTHORITY_ABSENT"
+      },
+      {
+        "tracker_id": "TRK-W64-088",
+        "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_DEPTH_CAMERA_SOURCE_POSITION_CURRENT_DELTA_20260719.json",
+        "sha256": "4c5f3c3fe238bbbf283dd2936a5c191d659ad7aa84fbfdfa983701dc24a3b886",
+        "bytes": 27616,
+        "row_complete": false,
+        "status": "HOLD_DEPENDENCIES_DIRECT_DEPTH_CAMERA_LISTENER_SOURCE_ESTIMATION_CALIBRATION_UNCERTAINTY_AND_VISUAL_RUNTIME_AUTHORITY_ABSENT"
+      },
+      {
+        "tracker_id": "TRK-W64-089",
+        "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-089_VISUAL_MATERIAL_RECOGNITION_CURRENT_DELTA_20260719.json",
+        "sha256": "166c5b24da2932964749349f8c83422f5920742ba0f50631b15ce2012d5ddaf2",
+        "bytes": 29136,
+        "row_complete": false,
+        "status": "HOLD_DEPENDENCIES_AND_DIRECT_VISUAL_MATERIAL_CLASSIFIER_FUSION_CONFIDENCE_ABSTENTION_AND_RUNTIME_AUTHORITY_ABSENT"
+      }
+    ]
+  },
+  "legacy_wave22_contact_graph_partial_authority": {
+    "files": [
+      {"path": "Plan/07_IMPLEMENTATION/scripts/compile_physical_contact_graph_contract.py", "sha256": "889195f46d41afbec74c4fdd2b6c9246abf961980706efd7029f6f9bae22d824", "bytes": 1175},
+      {"path": "Plan/07_IMPLEMENTATION/scripts/validate_physical_contact_graph_contract.py", "sha256": "702bdc7a3f5f386b561dae65b9b304535ead9257376a291f26e1f44e6a5efe85", "bytes": 1780},
+      {"path": "Plan/07_IMPLEMENTATION/scripts/score_physical_contact_graph_evidence.py", "sha256": "69b9725b47a72b09a2465c96f86e3aa4199f32251230bdd418aeca7c13b94c35", "bytes": 1430},
+      {"path": "Plan/08_SCHEMAS/contact_edge.schema.json", "sha256": "5842a7697372c4ca65975c7169358448502b0b2df1317390dd72bea558acae55", "bytes": 1170},
+      {"path": "Plan/08_SCHEMAS/contact_evidence.schema.json", "sha256": "0b0acbf8f16a48a2bc3f7b34ec9a33b978a6f230128ce5b772b828699a8a40a9", "bytes": 645},
+      {"path": "Plan/08_SCHEMAS/contact_graph_edge.schema.json", "sha256": "97d433fcc83e4e5cde58bed913e09a84c5da4a0829b1fadb1f503df34078602b", "bytes": 1211},
+      {"path": "Plan/08_SCHEMAS/contact_graph_evidence.schema.json", "sha256": "c3b67d7f4a3cf6fb3e93492d6158658f47b064bc36610e8a26bdeda337f39103", "bytes": 881},
+      {"path": "Plan/08_SCHEMAS/physical_contact_graph.schema.json", "sha256": "abff86764ca108c4196d5d606334cdb1e7ea5897e5d19a7e89b88b8fcb7a5fd5", "bytes": 734},
+      {"path": "Plan/10_REGISTRIES/wave22_contact_edge_type_taxonomy.json", "sha256": "038a34b9e16212f94acd8e17c38ad186dd7b9dd4052e913a515f7590301616b8", "bytes": 451},
+      {"path": "Plan/10_REGISTRIES/wave22_contact_graph_qa_scoring_rules.json", "sha256": "8522da2327b557bdf49877d0f55bf72fa5f7616f67a1fc34bcd12b5fd1f75589", "bytes": 473},
+      {"path": "Plan/10_REGISTRIES/wave22_contact_graph_rerun_policy.json", "sha256": "6a25a09b13930486e15acd0e9566c62a7e8611760781c0245564a90025cacbcc", "bytes": 350},
+      {"path": "Plan/10_REGISTRIES/wave22_main_flow_contact_graph_inventory.json", "sha256": "0afef7833ff9ef322e5694a8f53322213d942efc6750f342ebba017a07d08ad3", "bytes": 41549}
+    ],
+    "compiler_behavior": "Copies contact_edges from input and supplies default QA goal labels; it performs no visual inference.",
+    "validator_behavior": "Requires only root keys, a nonempty edge list, and presence of eleven edge fields; it does not validate value types, nonempty identities, enumerations, ranges, frame spans, evidence hashes, or ownership provenance.",
+    "scorer_behavior": "Coerces seven input values with bool(), then requires all coerced values true.",
+    "direct_test_reference_count": 0,
+    "adversarial_probe": {
+      "invalid_typed_edge_validator_exit": 0,
+      "invalid_typed_edge_passed": true,
+      "invalid_typed_edge_error_count": 0,
+      "invalid_values_included": [
+        "null edge_id",
+        "array source_owner_id",
+        "integer source_region_id",
+        "Boolean target_owner_id",
+        "object target_region_id",
+        "integer contact_edge_type",
+        "nonsense pressure",
+        "null intensity",
+        "array occlusion",
+        "negative duration",
+        "object audio_force_class"
+      ],
+      "string_false_scorer_exit": 0,
+      "string_false_score": 1.0,
+      "string_false_pass": true,
+      "finding": "Each JSON string value false was truthy under Python bool(), producing seven true checks and a false-positive PASS."
+    },
+    "inventory_boundary": "The current Main Flow has future contact-pass anchors, but the inventory explicitly says physical interaction runtime is not proved and contact evidence must not be inferred from prompt text or LoRA filenames."
+  },
+  "wave64_foley_alignment_partial_authority": {
+    "files": [
+      {"path": "Plan/07_IMPLEMENTATION/scripts/produce_wave64_foley_force_alignment_request.py", "sha256": "5d7c9055584e87781a05cf576d5fc86ee1e359624f9a66f766bd2d986177a5ce", "bytes": 4557},
+      {"path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_foley_force_alignment.py", "sha256": "59b069099ec4fc903b4d6dbf993c3c88ff93e26d7c4dec0d6c15dd5949395413", "bytes": 84501},
+      {"path": "Plan/08_SCHEMAS/wave64_foley_force_alignment_request.schema.json", "sha256": "5ff92b6b1c26d2848dd423ef284f6b75cbbb3de0bc62bf110a6d7f134a13a603", "bytes": 3460},
+      {"path": "Plan/08_SCHEMAS/wave64_foley_force_alignment_report.schema.json", "sha256": "f7f42a4904635482b8716959295d2b2988dcb6b41f8c2251451139d04573359e", "bytes": 8737},
+      {"path": "Plan/10_REGISTRIES/wave64_foley_force_alignment_authority_registry.json", "sha256": "247a5e5c2a33cb49cccc72fc4002c035cc2910d5b7801faa11a3134830856587", "bytes": 4409},
+      {"path": "Plan/Instructions/QA/Scripts/test_produce_wave64_foley_force_alignment_request.py", "sha256": "087a3add17ac0374b69024248a0219d03f5051e328ba2bb04347cfae7d18a53f", "bytes": 4826},
+      {"path": "Plan/Instructions/QA/Scripts/test_wave64_foley_force_alignment_strict.py", "sha256": "fb7ce4e5d4ccce040af728fccd93ff0011802f49414ba38bd92ac90e02cd0c6d", "bytes": 53070}
+    ],
+    "validated_input_contract": {
+      "visual_contact_manifest_requires": [
+        "run, scene, shot, and take identity",
+        "frame rate and frame-time origin",
+        "hash-bound visual take artifact",
+        "hash-bound contact evidence artifact",
+        "contact authority classification",
+        "contact edges with owner, entity, material, visual-force, frame-span, and expected-event fields"
+      ],
+      "downstream_gates": [
+        "exact manifest and artifact hashes",
+        "contact authority and gold-mask consistency",
+        "force-event to contact-edge binding",
+        "material-pair and force-profile compatibility",
+        "audio ownership binding",
+        "WAV metrics and duration",
+        "frame-to-audio alignment",
+        "runtime proof",
+        "AV review proof",
+        "production allowlist"
+      ],
+      "boundary": "The evaluator consumes a pre-existing visual_contact_manifest. It does not generate contact edges from tracks, masks, landmarks, depth, or motion and does not infer peak or release anchors."
+    },
+    "registry": {
+      "registry_version": 1,
+      "force_profile_count": 9,
+      "material_pair_rule_count": 8,
+      "max_frame_drift": 2,
+      "max_seconds_drift": 0.08,
+      "approved_alignment_bundle_count": 0
+    },
+    "production_visual_contact_manifest_producer_found": false
+  },
+  "foley_evidence_current_authority": {
+    "primary_evidence": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/audio_foley_force.json",
+      "sha256": "b60f1c89e35c859b555bf24ef84c8ea9b7a135d01496804f2ba7024e14102ea2",
+      "bytes": 14833,
+      "tracker_id": "TRK-W64-028",
+      "overall_pass": false,
+      "status_decision": "Blocked_Foley_Force_Production_Proof_Missing",
+      "approved_alignment_bundle_count": 0,
+      "approved_production_foley_run_count": 0,
+      "approved_production_av_review_count": 0,
+      "manual_body_contact_gold_mask_authority_ready": false,
+      "strict_recovered_packet_formed": false
+    },
+    "retained_test_log": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/audio_foley_force_test_log.json",
+      "sha256": "aba86001578d3d158d6ab41f5b9137ce406ebf1c9a92118efe0b903b79454e1f",
+      "bytes": 2355,
+      "tests_run": 54,
+      "failures": 0,
+      "errors": 0,
+      "production_foley_runtime_executed": false,
+      "production_av_review_present": false,
+      "production_alignment_bundle_approved": false
+    },
+    "recovered_packet_readiness": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_FOLEY_FORCE_RECOVERED_PACKET_READINESS_20260714T073313-0500.json",
+      "sha256": "0257433565485e9a5ea1f59c461e4cad3df5c03f7036cf4879dbf024537234d7",
+      "bytes": 6974,
+      "recovered_wav_candidate_count": 2,
+      "recovered_legacy_event_source_count": 4,
+      "missing_required_binding_count": 6,
+      "strict_packet_formable": false,
+      "evaluator_invoked": false,
+      "production_eligible": false
+    },
+    "recovered_packet_test_log": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/AUDIO_FOLEY_FORCE_RECOVERED_PACKET_READINESS_TEST_LOG_20260714T073313-0500.json",
+      "sha256": "a5064c26da889ccd86c878d4b7c3f0482f9ec6b02ca37975afcc511e6a72005b",
+      "bytes": 1477
+    },
+    "boundary": "The downstream alignment stack is technically useful and fail-closed, but its own signed evidence proves that authoritative visual-contact, Wave22 force, event-linkage, run, shot, take, gold-mask, runtime, AV-review, and allowlist authority is absent."
+  },
+  "wave31_force_routing_partial_authority": {
+    "files": [
+      {"path": "Plan/07_IMPLEMENTATION/scripts/route_wave31_pose_audio_force.py", "sha256": "7c93f393a21058fcd322788ae559f3b2b08a18a5cb22f3336d2576bd7a80a8d3", "bytes": 1731},
+      {"path": "Plan/08_SCHEMAS/wave31_pose_audio_force_event.schema.json", "sha256": "e0820f19ad0683d3bc3aa65ce4f8df4aae9414b499989d9895003d2d43f59331", "bytes": 526},
+      {"path": "Plan/10_REGISTRIES/wave31_pose_audio_force_taxonomy.json", "sha256": "59821f140a1fccf512d23b0ee29a0e885ebfc876771a33d7443c70aa18316eb6", "bytes": 510}
+    ],
+    "direct_test_reference_count": 0,
+    "boundary": "The router maps declared force_type, intensity, material, and times to an audio layer and sync precision. It does not infer contact, ownership, or calibrated timing from visual evidence."
+  },
+  "static_hand_contact_visual_partial_authority": {
+    "validator": {
+      "path": "Plan/Instructions/QA/Scripts/Test-HandContactVisualCertification.ps1",
+      "sha256": "ed1333068886ca48f4e2e2c1791ec41c7fd713f7646a1e239b349fd49534de3c",
+      "bytes": 7734,
+      "parser_errors": 0
+    },
+    "evidence": [
+      {
+        "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_HAND_CONTACT_VISUAL_CERTIFICATION_TWO_CHARACTER_HAND_TO_BODY_20260707T123500-0500.json",
+        "sha256": "c5cb51aeed5fd10dfcc7ae411048bcf8f55d99917e198f8627687d6404540924",
+        "bytes": 6202,
+        "local_support_passed": true,
+        "final_certification_allowed": false,
+        "result": "pass_local_support_block_final_hand_contact_certification"
+      },
+      {
+        "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_HAND_CONTACT_VISUAL_CERTIFICATION_SHADOW_PRESSURE_SEED210704_20260707T125000-0500.json",
+        "sha256": "2a5808c289cd6f6af219c103acaface89d1970c66256f1cf39cac7456d6ce585",
+        "bytes": 6362,
+        "local_support_passed": true,
+        "final_certification_allowed": false,
+        "result": "pass_local_support_block_final_hand_contact_certification"
+      },
+      {
+        "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_HAND_CONTACT_VISUAL_CERTIFICATION_LOWER_UPPER_ARM_REPOSITION_SEED210705_20260707T130500-0500.json",
+        "sha256": "ba5a67e59e9c90e8e51c044f25f225f4ebebfd1c88d35d60eaafc88d017aaf1d",
+        "bytes": 6526,
+        "local_support_passed": true,
+        "final_certification_allowed": false,
+        "result": "pass_local_support_block_final_hand_contact_certification"
+      }
+    ],
+    "shared_blockers": [
+      "contact shadow is subtle or only subtle-to-moderate",
+      "placement remains shoulder or top-upper-sleeve instead of the exact target",
+      "target-runtime proof is missing",
+      "final certification review is missing"
+    ],
+    "boundary": "These are bounded static-image local-support reviews. They do not establish approach, onset, peak, release, duration, calibrated force, temporal visibility, or cross-frame ownership."
+  },
+  "mask_contact_ownership_boundary": {
+    "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/contact_occlusion_ownership_authority.json",
+    "sha256": "1c0a5c910dafcebc8ee2863348fc8003c441de08e600265f74fdad80febedcd8",
+    "bytes": 7804,
+    "production_route_pass": false,
+    "contact_occlusion_ownership_pass": false,
+    "protected_overlap_threshold_pass": false,
+    "owner_overlap_error_pass": false,
+    "whole_body_geometry_authority_pass": false,
+    "pose_hand_dense_landmark_or_segmentation_pass": false,
+    "semantic_human_part_parsing_pass": false,
+    "body_region_geometry_pass": false,
+    "canonical_polygon_export_pass": false,
+    "promotion_decision": "no_mask_promoted_no_active_input_changed_contact_occlusion_ownership_route_not_complete"
+  },
+  "focused_test_result": {
+    "command": "python -m pytest Plan/Instructions/QA/Scripts/test_produce_wave64_foley_force_alignment_request.py Plan/Instructions/QA/Scripts/test_wave64_foley_force_alignment_strict.py Plan/Instructions/QA/Scripts/test_clothing_prop_contact_contract.py -q",
+    "exit_code": 0,
+    "collected": 64,
+    "passed": 64,
+    "failed": 0,
+    "suite_breakdown": {
+      "foley_request_producer": 6,
+      "foley_force_alignment_strict": 48,
+      "clothing_prop_contact_contract": 10
+    },
+    "scope": "Downstream request construction, foley-force alignment validation, and declared clothing-contact QA only",
+    "row090_direct_inference_test_count": 0
+  },
+  "repository_implementation_search": {
+    "contact_inference_ownership_literal_hit_count": 6,
+    "contact_inference_ownership_hits": [
+      "Plan/07_IMPLEMENTATION/scripts/build_wave64_autonomous_sound_intelligence_control_package.py",
+      "Plan/10_REGISTRIES/wave64_autonomous_sound_intelligence_work_package_registry.json",
+      "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ITEM_ROWS.csv",
+      "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
+      "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
+      "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_TRACKER_ROWS.csv"
+    ],
+    "production_contact_inference_implementation_found": false,
+    "production_visual_contact_manifest_producer_found": false,
+    "direct_row090_tests_found": false,
+    "direct_row090_runtime_record_found": false,
+    "direct_row090_tracker_output_found": false,
+    "calibrated_force_model_found": false,
+    "onset_peak_release_inference_found": false,
+    "genuine_temporal_contact_benchmark_found": false
+  },
+  "required_contact_inference_contract_missing": [
+    "A strict input manifest binding video, frame clock, scene, shot, take, actor and object tracks, masks, landmarks, depth, motion, and material evidence by hash.",
+    "A production inference implementation that derives source owner, source body or object region, target owner, target body region or surface, and contact identity from visual evidence.",
+    "Approach, onset, peak compression or impact, release, end, and duration anchors with frame, seconds, sample, uncertainty, and source-frame provenance.",
+    "A calibrated force-band model using actor-relative motion, camera compensation, deformation or recoil, contact persistence, and uncertainty.",
+    "Visibility, occlusion, partial-view, and reappearance logic that preserves ownership and lowers authority when evidence is hidden or ambiguous.",
+    "A deterministic authority ceiling that emits candidate-only output when ownership, masks, geometry, force, or timing is untrusted.",
+    "A strict output schema with exact types, enums, ranges, unique event IDs, nonempty owner and region IDs, ordered anchors, provenance, confidence, and blocker fields.",
+    "A visual_contact_manifest producer rather than only a consumer-side validator.",
+    "Positive, negative, malformed, false-positive, multi-actor, occluded, moving-camera, cut, slow-motion, variable-frame-rate, repeated-contact, offscreen, and intentionally-silent tests.",
+    "Calibrated held-out benchmarks measuring ownership error, onset or peak or release error, force classification, false contacts, missed contacts, and authority-ceiling correctness.",
+    "Genuine runtime artifacts and combined frame, contact, and audio QA for the exact Row090 output.",
+    "Completed authority for all five dependency rows."
+  ],
+  "acceptance_matrix_required": [
+    {"gate": "dependencies", "acceptance": "Rows085 through 089 each have row_complete=true with exact hash-bound authority."},
+    {"gate": "input_authority", "acceptance": "Tracks, masks, landmarks, depth, motion, materials, clocks, and media are hash-bound to one scene, shot, and take."},
+    {"gate": "source_owner", "acceptance": "The inferred source entity and region match trusted ownership under multi-actor and occlusion tests."},
+    {"gate": "target_owner", "acceptance": "The inferred target entity and region or surface match trusted ownership under contact and reappearance tests."},
+    {"gate": "contact_timing", "acceptance": "Approach, onset, peak, release, and end anchors are ordered, uncertainty-bound, and calibrated in frame and sample domains."},
+    {"gate": "force", "acceptance": "Force bands are calibrated against relative motion, deformation or recoil, and held-out labels."},
+    {"gate": "authority_ceiling", "acceptance": "Blocked ownership or geometry can emit candidates but cannot certify frame-exact actor-specific contact."},
+    {"gate": "strict_schema", "acceptance": "Malformed types, missing fields, duplicate IDs, invalid spans, and string Boolean lookalikes fail closed."},
+    {"gate": "benchmark", "acceptance": "Synthetic, adversarial, and genuine temporal benchmarks meet frozen ownership, timing, force, false-event, and missed-event thresholds."},
+    {"gate": "runtime_qa", "acceptance": "Exact implementation hashes, test log, runtime record, contact overlays, audio alignment, combined review, and tracker output all pass."}
+  ],
+  "checks": [
+    {"id": "ROW090-001", "status": "PASS", "name": "source_commit_bound", "detail": "Audit source commit is exact current HEAD 3ab7ec0f."},
+    {"id": "ROW090-002", "status": "PASS", "name": "tracker_item_parity", "detail": "Tracker and item records agree on title, dependencies, gates, candidate boundary, and acceptance."},
+    {"id": "ROW090-003", "status": "PASS", "name": "requirements_copy_identity", "detail": "Tracker and item requirements JSON files are byte-identical."},
+    {"id": "ROW090-004", "status": "PASS", "name": "signed_codex_only_intent", "detail": "The signed deferred intent authorizes this one evidence path and woke no worker."},
+    {"id": "ROW090-005", "status": "PASS", "name": "dependency_evidence_bound", "detail": "All five dependency evidence records are present and hash-bound."},
+    {"id": "ROW090-006", "status": "PASS", "name": "architecture_authority_explicit", "detail": "The architecture explicitly defines inference inputs, contact phases, ownership, and fail-closed ceilings."},
+    {"id": "ROW090-007", "status": "PASS", "name": "wave22_contract_assets_present", "detail": "Legacy contact graph scripts, schemas, taxonomy, scoring, rerun, and inventory assets are hash-bound."},
+    {"id": "ROW090-008", "status": "PASS", "name": "wave22_fail_open_boundary_reproduced", "detail": "Invalid typed edges and string false evidence both produced false-positive PASS results, so the legacy stack is correctly excluded from authority."},
+    {"id": "ROW090-009", "status": "PASS", "name": "foley_alignment_stack_present", "detail": "The strict downstream request, evaluator, schemas, registry, and tests are hash-bound."},
+    {"id": "ROW090-010", "status": "PASS", "name": "foley_alignment_focused_tests", "detail": "All 54 request and strict evaluator tests pass within the 64-test focused run."},
+    {"id": "ROW090-011", "status": "PASS", "name": "foley_evidence_fail_closed", "detail": "The current foley evidence accurately records zero production runtime, AV review, gold-mask authority, and approved bundles."},
+    {"id": "ROW090-012", "status": "PASS", "name": "approved_bundle_count_bound", "detail": "The authority registry contains zero approved production alignment bundles."},
+    {"id": "ROW090-013", "status": "PASS", "name": "static_contact_reviews_bounded", "detail": "Three local hand-contact reviews retain local support while denying final certification."},
+    {"id": "ROW090-014", "status": "PASS", "name": "mask_contact_authority_fail_closed", "detail": "Mask evidence explicitly denies contact ownership, overlap, geometry, parsing, polygon, and promotion authority."},
+    {"id": "ROW090-015", "status": "PASS", "name": "focused_adjacent_tests", "detail": "All 64 collected adjacent focused tests pass."},
+    {"id": "ROW090-016", "status": "PASS", "name": "worker_and_runtime_containment", "detail": "This audit used no provider, wrapper, scheduled wake, EC2, Docker, WSL, model download, generation, render, or production mutation."},
+    {"id": "ROW090-017", "status": "FAIL", "name": "dependency_row085_complete", "detail": "Actor, object, and region tracking authority remains incomplete."},
+    {"id": "ROW090-018", "status": "FAIL", "name": "dependency_row086_complete", "detail": "Pose, hand, foot, gait, and contact-phase authority remains incomplete."},
+    {"id": "ROW090-019", "status": "FAIL", "name": "dependency_row087_complete", "detail": "Actor-relative motion and calibrated force-cue authority remains incomplete."},
+    {"id": "ROW090-020", "status": "FAIL", "name": "dependency_row088_complete", "detail": "Depth, camera, source-position, and uncertainty authority remains incomplete."},
+    {"id": "ROW090-021", "status": "FAIL", "name": "dependency_row089_complete", "detail": "Visual material-recognition authority remains incomplete."},
+    {"id": "ROW090-022", "status": "FAIL", "name": "direct_contact_inference_implementation", "detail": "No production Row090 visual contact inference implementation exists."},
+    {"id": "ROW090-023", "status": "FAIL", "name": "direct_row090_tests", "detail": "No direct Row090 inference tests exist."},
+    {"id": "ROW090-024", "status": "FAIL", "name": "direct_row090_runtime", "detail": "No direct Row090 runtime proof exists."},
+    {"id": "ROW090-025", "status": "FAIL", "name": "tracker_output", "detail": "The required lowercase tracker output does not exist."},
+    {"id": "ROW090-026", "status": "FAIL", "name": "visual_contact_manifest_producer", "detail": "A strict consumer exists, but no production producer infers the manifest from visual evidence."},
+    {"id": "ROW090-027", "status": "FAIL", "name": "source_owner_inference", "detail": "No visual source-owner and source-region inference is implemented or calibrated."},
+    {"id": "ROW090-028", "status": "FAIL", "name": "target_owner_inference", "detail": "No visual target-owner and target-region or surface inference is implemented or calibrated."},
+    {"id": "ROW090-029", "status": "FAIL", "name": "body_region_object_surface_inference", "detail": "No trusted region or surface resolution binds contact participants."},
+    {"id": "ROW090-030", "status": "FAIL", "name": "onset_peak_release_inference", "detail": "No approach, onset, peak, release, end, and uncertainty inference exists."},
+    {"id": "ROW090-031", "status": "FAIL", "name": "calibrated_force_model", "detail": "No calibrated visual force-band model exists."},
+    {"id": "ROW090-032", "status": "FAIL", "name": "visibility_occlusion_temporal_authority", "detail": "No cross-frame visibility, occlusion, partial-view, and reappearance authority exists."},
+    {"id": "ROW090-033", "status": "FAIL", "name": "executable_authority_ceiling", "detail": "No producer-side candidate-versus-certification ceiling is implemented and tested."},
+    {"id": "ROW090-034", "status": "FAIL", "name": "strict_row090_schema", "detail": "No strict Row090 schema binds input provenance, phase anchors, confidence, uncertainty, and blockers."},
+    {"id": "ROW090-035", "status": "FAIL", "name": "genuine_temporal_benchmark", "detail": "No held-out temporal contact benchmark or calibrated ownership, timing, force, false-event, and missed-event metrics exist."},
+    {"id": "ROW090-036", "status": "FAIL", "name": "combined_frame_contact_audio_review", "detail": "The required combined review has not been performed for a Row090 runtime output."},
+    {"id": "ROW090-037", "status": "FAIL", "name": "legacy_wave22_strict_validation", "detail": "The legacy validator and scorer accept invalid types and string false lookalikes and have no direct tests."},
+    {"id": "ROW090-038", "status": "FAIL", "name": "row_complete", "detail": "Dependencies, implementation, tests, runtime, visual QA, and certification do not support completion."}
+  ],
+  "check_summary": {
+    "total": 38,
+    "pass": 16,
+    "fail": 22
+  },
+  "test_and_runtime_boundary": {
+    "adjacent_tests_collected": 64,
+    "adjacent_tests_passed": 64,
+    "direct_row090_tests": 0,
+    "direct_row090_runtime_runs": 0,
+    "visual_reviews_performed_by_this_audit": 0,
+    "ec2_calls": 0,
+    "docker_calls": 0,
+    "wsl_calls": 0,
+    "model_downloads": 0,
+    "generations": 0,
+    "renders": 0
+  },
+  "scheduler_and_worker_containment": {
+    "provider_calls": 0,
+    "wrapper_calls": 0,
+    "scheduled_worker_wakes": 0,
+    "worker_queue_polled": false,
+    "worker_control_files_modified": false,
+    "containment_controls_modified": false,
+    "note": "The audit does not re-enable or alter paused Codex automations, disabled AI-worker tasks, disabled Mask maintenance tasks, or the EC2 read-only safety monitor."
+  },
+  "preservation_boundary": {
+    "evidence_write_scope": [
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-090_CONTACT_INFERENCE_OWNERSHIP_CURRENT_DELTA_20260719.json"
+    ],
+    "queued_worker_scopes_preserved": true,
+    "flux2_dirty_paths_preserved": true,
+    "portfolio_reconciliation_paths_preserved": true,
+    "worker_control_snapshots_preserved": true,
+    "mask_factory_paths_preserved": true,
+    "unrelated_dirty_and_untracked_paths_preserved": true
+  },
+  "hold_decision": {
+    "decision": "HOLD_ROW090",
+    "reason": "The repository can validate declared contact graphs and downstream foley alignment, and it retains bounded static contact reviews, but no production service infers trusted source and target ownership, contact phases, calibrated force, visibility, uncertainty, or authority ceiling from tracked visual evidence. The legacy Wave22 validator also has reproduced false-positive type and Boolean-coercion defects, all five dependencies remain incomplete, and no Row090 runtime or combined review exists.",
+    "safe_next_work": "A future disjoint signed implementation scope should first define the strict Row090 input and output schemas, harden or supersede the Wave22 validator and scorer, build benchmark fixtures, and implement a visual_contact_manifest producer behind the five dependency gates. Codex can continue independent tracker audits without waiting for worker-control qualification.",
+    "completion_claim_prohibited": true,
+    "runtime_claim_prohibited": true,
+    "certification_claim_prohibited": true
+  }
+}
