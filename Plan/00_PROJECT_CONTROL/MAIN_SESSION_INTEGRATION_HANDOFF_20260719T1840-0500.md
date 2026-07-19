@@ -13,8 +13,9 @@
 
 1. `080f10f7` Prove Row017 MF70 nose local visual climb.
 2. `a4062e15` Stamp Row017 nose handoff with primary commit id.
+3. `b6398ef2` Align Row017 nose handoff tip to origin HEAD.
 
-Pushed tip verified on origin: `a4062e15`
+Pushed tip verified on origin: `b6398ef2`
 
 ## Row-Scoped Increment Executed
 
