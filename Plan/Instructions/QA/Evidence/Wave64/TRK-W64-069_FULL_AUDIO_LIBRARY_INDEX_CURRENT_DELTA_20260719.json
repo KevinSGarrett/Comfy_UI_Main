@@ -1,0 +1,368 @@
+{
+  "schema_version": 1,
+  "evidence_id": "W64-ROW069-FULL-AUDIO-LIBRARY-INDEX-CURRENT-DELTA-20260719",
+  "created_at": "2026-07-19T02:52:51.9576613Z",
+  "source_commit": "097eddde38b3ff4cda0c652dea396a4a58022e49",
+  "prior_row_commit": "097eddde38b3ff4cda0c652dea396a4a58022e49",
+  "prior_row_commit_is_current_head": true,
+  "tracker_id": "TRK-W64-069",
+  "item_id": "ITEM-W64-069",
+  "status": "HOLD_RETAINED_INDEX_INTEGRITY_PASS_CURRENT_SOURCE_RECONCILIATION_AND_ROW069_AUTHORITY_INCOMPLETE",
+  "classification": "ROW069_CURRENT_DELTA_RETAINED_FUNCTIONAL_INDEX_PARTIALLY_ADOPTED_NO_FALSE_COMPLETION",
+  "row_complete": false,
+  "retained_technical_index_revalidated": true,
+  "implementation_completion_claimed": false,
+  "runtime_completion_claimed": false,
+  "qa_decision": "partial_adoption_of_retained_index_integrity_only_row069_acceptance_held",
+  "intent": {
+    "intent_id": "intent_20260719T024852880Z_row069_full_audio_library_index_current_delta_fba991c1",
+    "authority_class": "codex_only",
+    "routing": null,
+    "worker_wake_count": 0
+  },
+  "row069_contract": {
+    "status": "Planned_Autonomous_Implementation_Required",
+    "priority": "P1",
+    "risk": "HIGH",
+    "dependency_prerequisites": [
+      "TRK-W64-067",
+      "TRK-W64-068"
+    ],
+    "validation_methods": [
+      "inventory_reconciled",
+      "source_bytes_immutable",
+      "sha256_complete",
+      "resume_verified",
+      "dedup_counted"
+    ],
+    "output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-069_full_audio_library_index.json",
+    "output_artifact_exists": false,
+    "completion_criteria": "Indexed plus exact-blocker count equals discovered audio count with reproducible index and failure-manifest hashes.",
+    "frozen_behavior": [
+      "one deterministic index across all supported audio files",
+      "preserve source bytes",
+      "resume by relative path, byte size, and mtime_ns",
+      "hash every asset",
+      "record parse failures",
+      "deduplicate container hashes",
+      "reproduce index hash, record count, unique hash count, and failure manifest"
+    ],
+    "runtime_proof_required": true,
+    "ec2_allowed": false,
+    "final_render_gate": "BLOCKED_UNTIL_EXACT_ROW_IMPLEMENTATION_RUNTIME_QA_AND_AUTHORITY_PASS"
+  },
+  "tracker_item_requirements_parity": {
+    "tracker_path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_TRACKER_ROWS.csv",
+    "tracker_sha256": "a698034d4d61788a9c630434f7aac75e3f7b1bf656319cfe43a5b2ce26d625de",
+    "tracker_bytes": 159309,
+    "item_path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ITEM_ROWS.csv",
+    "item_sha256": "f4a401d828aff69dbe7e005d6592a2af86edc936a0e6c1bae2f764345a9b8489",
+    "item_bytes": 111386,
+    "requirements_tracker_path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
+    "requirements_item_path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
+    "requirements_sha256": "077eaf1dfc1cb0d990660b2d9ec7073bc2b4acc1be47a94e9a0ea65eb1924acc",
+    "requirements_bytes": 48422,
+    "requirements_copies_byte_identical": true,
+    "tracker_item_title_match": true,
+    "tracker_item_status_match": true,
+    "tracker_item_acceptance_match": true,
+    "tracker_item_gate_match": true,
+    "tracker_item_dependency_match": true,
+    "git_state": "untracked_preserved_unaccepted"
+  },
+  "dependency_authority": [
+    {
+      "tracker_id": "TRK-W64-067",
+      "tracker_status": "Planned_Autonomous_Implementation_Required",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-067_PLANNING_AUTHORITY_CURRENT_DELTA_20260719.json",
+      "current_delta_sha256": "abcb3a0d80f8ede36d58e65f194e5a555e5654cec3eff5b6223e8162e3b725d2",
+      "current_delta_bytes": 12127,
+      "row_complete": false,
+      "dependency_satisfied": false
+    },
+    {
+      "tracker_id": "TRK-W64-068",
+      "tracker_status": "Planned_Autonomous_Implementation_Required",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+      "current_delta_sha256": "77bf51ffa832ffa55782249f17f7ae5f7d4b463af43512f517962d3ab5805f80",
+      "current_delta_bytes": 14467,
+      "row_complete": false,
+      "dependency_satisfied": false
+    }
+  ],
+  "retained_index_authority": {
+    "source_root": "F:/Len_Transfer/Audio_Downloads",
+    "source_root_exists_at_audit": true,
+    "source_root_rescanned": false,
+    "source_current_discovered_count_reobserved": false,
+    "retained_discovered_audio_count": 39771,
+    "retained_audio_bytes": 10261302811,
+    "retained_extension_counts": {
+      "wav": 36195,
+      "mp3": 3560,
+      "flac": 15,
+      "ogg": 1
+    },
+    "implementation": {
+      "path": "Plan/07_IMPLEMENTATION/scripts/build_audio_pack_functional_index.py",
+      "sha256": "d958bde4c7bd79b9ff1fdcffd787d074fea84e9f0ae4d48b9a56f93f54a1736c",
+      "bytes": 17598,
+      "git_state": "tracked_clean"
+    },
+    "record_schema": {
+      "path": "Plan/08_SCHEMAS/audio_pack_functional_index_record.schema.json",
+      "sha256": "5843d2b7f0ca853cd7d7bc95a07d5b2b5dc6bc22082bc917397c06321183bc18",
+      "bytes": 2723,
+      "git_state": "tracked_clean"
+    },
+    "test_source": {
+      "path": "Plan/Instructions/QA/Scripts/test_audio_pack_functional_index.py",
+      "sha256": "6780c160bc0e80f7584f11d37683b4f70d4330de54e949a4ea956a73b51b0c18",
+      "bytes": 3494,
+      "git_state": "tracked_clean"
+    },
+    "registry": {
+      "path": "Plan/10_REGISTRIES/audio_pack_functional_index_registry.json",
+      "sha256": "a0f38c62ce10c3aa6da806b373923b09b1e1eededcd62784010afd9e42270829",
+      "bytes": 1938,
+      "git_state": "tracked_clean"
+    },
+    "intake_registry": {
+      "path": "Plan/10_REGISTRIES/audio_downloads_external_asset_intake_registry.json",
+      "sha256": "6e80695ef85d2708309c3ebe60f494eb679b34456bcd5b36c75931212d18e408",
+      "bytes": 22025,
+      "git_state": "tracked_clean"
+    },
+    "prior_evidence": {
+      "path": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/AUDIO_PACK_FUNCTIONAL_INDEX_20260715T151915Z.json",
+      "sha256": "2e26bedfe39352af3e11d3a1608b34c65b95a4d5ea2ffc823effda8c417adb60",
+      "bytes": 1855,
+      "classification": "AUDIO_PACK_FUNCTIONAL_INDEX_COMPLETE",
+      "affected_trackers_include_row069": false,
+      "promotion_boundary_preserved": true,
+      "git_state": "tracked_clean"
+    },
+    "prior_item_report": {
+      "path": "Plan/Items/Reports/ITEM-W64-026_audio_pack_functional_index.json",
+      "sha256": "57953c36067da39d699d03077c8f036c6009b40cbe87aa3b7c757dcd7f1865fe",
+      "bytes": 1051,
+      "item_id": "ITEM-W64-026",
+      "does_not_constitute_row069_direct_acceptance": true,
+      "git_state": "tracked_clean"
+    }
+  },
+  "retained_runtime_artifacts": [
+    {
+      "path": "runtime_artifacts/audio_asset_indexes/audio_downloads_functional_20260715T095712-0500/audio_pack_functional_index.jsonl",
+      "sha256": "7301243a364025dbd23907aee20ee8593d5897caa83d38391026ad42da6d17ec",
+      "bytes": 38266398,
+      "git_state": "ignored_runtime_artifact_preserved"
+    },
+    {
+      "path": "runtime_artifacts/audio_asset_indexes/audio_downloads_functional_20260715T095712-0500/index_summary.json",
+      "sha256": "f79da9c1714e5e77b77edb8c9e02d109b069a3938c71fe801f09ab287ebef513",
+      "bytes": 2442,
+      "git_state": "ignored_runtime_artifact_preserved"
+    },
+    {
+      "path": "runtime_artifacts/audio_asset_indexes/audio_downloads_functional_20260715T095712-0500/functional_index_state.sqlite3",
+      "sha256": "62d3702bc8c757d126dd1c45637509a9245930d0fa9b934e22d209ee1922ec52",
+      "bytes": 57794560,
+      "git_state": "ignored_runtime_artifact_preserved"
+    },
+    {
+      "path": "runtime_artifacts/audio_asset_indexes/audio_downloads_functional_20260715T095712-0500/body_foley_selector_smoke.json",
+      "sha256": "f1c225ace632184f331dcce6dae8ee1402bc467c499988e1aff46b932ad8393b",
+      "bytes": 11408,
+      "git_state": "ignored_runtime_artifact_preserved"
+    }
+  ],
+  "read_only_artifact_validation": {
+    "index_sha256_match": true,
+    "index_bytes_match": true,
+    "jsonl_line_count": 39771,
+    "jsonl_line_count_matches_retained_discovery": true,
+    "json_parse_failure_count": 0,
+    "schema_validation_failure_count": 0,
+    "unique_relative_path_count": 39771,
+    "sqlite_record_count": 39771,
+    "sqlite_unique_relative_path_count": 39771,
+    "jsonl_sqlite_count_match": true,
+    "unique_audio_sha256_count": 29862,
+    "duplicate_audio_file_count": 9909,
+    "dedup_arithmetic_match": true,
+    "recomputed_audio_bytes": 10261302811,
+    "records_with_quality_defects": 0,
+    "retained_reconciliation_arithmetic": {
+      "indexed_count": 39771,
+      "exact_blocker_count": 0,
+      "retained_discovered_count": 39771,
+      "indexed_plus_blockers_equals_retained_discovered": true
+    },
+    "validation_scope": "Existing retained JSONL and SQLite artifacts only. No external source directory enumeration, audio decode, metadata parse, source-file hash pass, or index rebuild was performed."
+  },
+  "focused_test_validation": {
+    "command": "python -m unittest Plan.Instructions.QA.Scripts.test_audio_pack_functional_index -v",
+    "process_exit": 0,
+    "test_count": 3,
+    "passed": 3,
+    "failed": 0,
+    "cases": [
+      "classification_uses_wave30_wave31_terms",
+      "build_resume_hash_dedupe_and_select",
+      "refuses_existing_output_without_resume"
+    ],
+    "fixture_only": true,
+    "production_source_scan_performed": false,
+    "python_compile_pass": true
+  },
+  "gate_assessment": [
+    {
+      "gate": "inventory_reconciled",
+      "retained_evidence": "pass_for_20260715_snapshot",
+      "current_row069_decision": "hold",
+      "reason": "The retained index and SQLite state reconcile to the retained 39,771-file discovery, but the external source inventory was not re-observed for current-state equality."
+    },
+    {
+      "gate": "source_bytes_immutable",
+      "retained_evidence": "asserted_and_implementation_has_no_intended_source_write_path",
+      "current_row069_decision": "hold",
+      "reason": "The summary and evidence set source_files_modified=false, but no before/after source inventory fingerprint proves that assertion across the full run."
+    },
+    {
+      "gate": "sha256_complete",
+      "retained_evidence": "pass",
+      "current_row069_decision": "technical_reuse_allowed",
+      "reason": "All 39,771 retained records parse, validate, and contain schema-conforming SHA-256 values; the recomputed index hash matches the registry."
+    },
+    {
+      "gate": "resume_verified",
+      "retained_evidence": "fixture_pass",
+      "current_row069_decision": "hold",
+      "reason": "The three-file fixture reproduces the index hash on unchanged resume, but no full 39,771-record resume replay is bound with pre/post index and state hashes."
+    },
+    {
+      "gate": "dedup_counted",
+      "retained_evidence": "pass",
+      "current_row069_decision": "technical_reuse_allowed",
+      "reason": "29,862 unique hashes plus 9,909 duplicate files equals 39,771 records."
+    }
+  ],
+  "acceptance_gaps": [
+    {
+      "code": "ROW067_AND_ROW068_DEPENDENCIES_NOT_ACCEPTED",
+      "detail": "Both direct prerequisites remain planned with row_complete=false in their current-delta evidence."
+    },
+    {
+      "code": "ROW069_DIRECT_EVIDENCE_ABSENT",
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-069_full_audio_library_index.json",
+      "detail": "The tracker-declared direct Row069 evidence artifact does not exist."
+    },
+    {
+      "code": "CURRENT_EXTERNAL_INVENTORY_NOT_RECONCILED",
+      "detail": "The source root exists, but this bounded QA turn did not enumerate F:/Len_Transfer/Audio_Downloads; the retained 39,771 count is not current-source proof."
+    },
+    {
+      "code": "EXACT_FAILURE_MANIFEST_ABSENT",
+      "detail": "The retained runtime directory contains no zero-or-nonzero exact blocker/failure manifest or manifest hash. Hard indexer failures abort with process error text rather than a durable structured blocker manifest."
+    },
+    {
+      "code": "SOURCE_IMMUTABILITY_FINGERPRINT_ABSENT",
+      "detail": "source_files_modified=false is not backed by an exact before/after source path-size-mtime/hash binding."
+    },
+    {
+      "code": "FULL_PRODUCTION_RESUME_REPLAY_ABSENT",
+      "detail": "Resume semantics are fixture-tested, but no unchanged full-library replay proves stable JSONL, summary, record count, and failure-manifest hashes."
+    },
+    {
+      "code": "ROW068_RIGHTS_AUTHORITY_NOT_BOUND",
+      "detail": "The index requires license_classification and attribution strings, but Row068 remains held and its complete machine-readable rights authority is not accepted."
+    }
+  ],
+  "direct_downstream_hold": {
+    "count": 6,
+    "tracker_ids": [
+      "TRK-W64-070",
+      "TRK-W64-077",
+      "TRK-W64-080",
+      "TRK-W64-108",
+      "TRK-W64-111",
+      "TRK-W64-112"
+    ],
+    "reason": "Each row directly declares TRK-W64-069 as a prerequisite; retained technical index integrity is reusable but does not satisfy the missing current-source and Row069 authority gates."
+  },
+  "probe_sidecar_containment": {
+    "sqlite_read_only_probe_created_transient_sidecars": true,
+    "project_runtime_directory_restored_to_original_four_artifacts": true,
+    "sidecars_preserved_outside_project": "C:/Users/kevin/.codex/scratch/row069_sqlite_probe_20260719T0253Z",
+    "preserved_sidecars": [
+      {
+        "name": "functional_index_state.sqlite3-shm",
+        "sha256": "fd4c9fda9cd3f9ae7c962b0ddf37232294d55580e1aa165aa06129b8549389eb",
+        "bytes": 32768
+      },
+      {
+        "name": "functional_index_state.sqlite3-wal",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    ]
+  },
+  "scheduler_and_worker_containment": {
+    "controls_modified": false,
+    "codex_automations_enabled_or_resumed": false,
+    "windows_worker_tasks_enabled_or_started": false,
+    "mask_maintenance_tasks_enabled_or_started": false,
+    "worker_lanes_polled_or_woken": false,
+    "ec2_read_only_monitor_modified": false,
+    "boundary_source": "Root-recovery containment update supplied to this task; this QA turn performed no scheduler, task, provider, Docker, WSL, EC2, or external audio-source mutation."
+  },
+  "preservation_boundary": {
+    "queued_worker_scopes_modified": false,
+    "flux2_dirty_paths_modified": false,
+    "portfolio_reconciliation_paths_modified": false,
+    "worker_control_snapshots_modified": false,
+    "sound_planning_source_package_modified": false,
+    "index_implementation_schema_registry_modified": false,
+    "retained_index_artifacts_modified": false,
+    "external_audio_source_modified": false,
+    "provider_or_worker_invoked": false,
+    "audio_generation_or_playback_executed": false,
+    "only_new_project_output": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-069_FULL_AUDIO_LIBRARY_INDEX_CURRENT_DELTA_20260719.json"
+  },
+  "checks": [
+    {"name": "FAI-D001_row068_commit_is_current_head", "result": "pass"},
+    {"name": "FAI-D002_tracker_item_row069_contract_parity", "result": "pass"},
+    {"name": "FAI-D003_requirements_copies_byte_identical", "result": "pass"},
+    {"name": "FAI-D004_row067_and_row068_dependency_holds_detected", "result": "pass"},
+    {"name": "FAI-D005_retained_index_hash_and_bytes_match", "result": "pass"},
+    {"name": "FAI-D006_all_39771_jsonl_records_parse", "result": "pass"},
+    {"name": "FAI-D007_all_39771_records_validate_against_schema", "result": "pass"},
+    {"name": "FAI-D008_jsonl_and_sqlite_counts_match", "result": "pass"},
+    {"name": "FAI-D009_relative_paths_unique_39771_of_39771", "result": "pass"},
+    {"name": "FAI-D010_hash_dedup_arithmetic_reconciles", "result": "pass"},
+    {"name": "FAI-D011_fixture_resume_and_refusal_tests_3_of_3", "result": "pass"},
+    {"name": "FAI-D012_row069_direct_evidence_absence_detected", "result": "pass"},
+    {"name": "FAI-D013_current_source_inventory_not_reobserved", "result": "pass"},
+    {"name": "FAI-D014_exact_failure_manifest_absence_detected", "result": "pass"},
+    {"name": "FAI-D015_source_immutability_fingerprint_absence_detected", "result": "pass"},
+    {"name": "FAI-D016_full_production_resume_replay_absence_detected", "result": "pass"},
+    {"name": "FAI-D017_six_direct_downstream_rows_held", "result": "pass"},
+    {"name": "FAI-D018_no_false_completion_or_runtime_claim", "result": "pass"},
+    {"name": "FAI-D019_probe_sidecars_contained_outside_project", "result": "pass"},
+    {"name": "FAI-D020_disjoint_preservation_and_no_wake_boundary", "result": "pass"}
+  ],
+  "check_summary": {
+    "checked": 20,
+    "passed": 20,
+    "failed": 0
+  },
+  "decision": {
+    "retained_index_integrity": "technical_reuse_pass",
+    "row069_status": "Planned_Autonomous_Implementation_Required",
+    "row069_acceptance": "held",
+    "runtime_completion": false,
+    "product_completion": false,
+    "safe_next_action": "Preserve and reuse the retained 39,771-record index. After Rows067-068 are accepted, route a bounded Row069 correction/qualification that adds a durable exact blocker manifest, source before/after fingerprint, current source reconciliation, and unchanged full-library resume replay with stable index, summary, state, and failure-manifest hashes; then emit the tracker-declared direct evidence. Continue independent Codex PM/QA work meanwhile."
+  }
+}
