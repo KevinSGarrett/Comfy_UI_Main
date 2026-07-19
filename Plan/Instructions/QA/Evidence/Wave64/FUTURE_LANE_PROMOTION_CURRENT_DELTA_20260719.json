@@ -1,0 +1,362 @@
+{
+  "schema_version": 1,
+  "evidence_id": "W64-ROW066-FUTURE-LANE-PROMOTION-CURRENT-DELTA-20260719",
+  "created_at": "2026-07-19T01:48:00Z",
+  "source_commit": "bfbb0348635ba8921af7e501c7dd95c36aec02cf",
+  "tracker_id": "TRK-W64-066",
+  "item_id": "ITEM-W64-066",
+  "status": "PASS_CONTROL_FAIL_CLOSED_CURRENT_PROMOTION_HELD",
+  "classification": "ROW066_CURRENT_DELTA_POLICY_EXACT_PROMOTION_DENIED_QUEUE_ACTIVE_AND_REGISTRY_RECONCILIATION_REQUIRED",
+  "row_complete": true,
+  "current_reconciliation_complete": true,
+  "qa_decision": "promotion_control_pass_current_promotion_denied_source_reconciliation_required",
+  "intent": {
+    "intent_id": "intent_20260719T014149730Z_row066_future_lane_promotion_current_delta_3235f994",
+    "authority_class": "codex_only",
+    "routing": null,
+    "worker_wake_count": 0
+  },
+  "tracker_contract": {
+    "tracker_path": "Plan/Tracker/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_TRACKER_ROWS.csv",
+    "tracker_sha256": "957ba74edcfa2cdd4120fabbac85e342722bd684e49a2b3473aadebd484f0da9",
+    "tracker_bytes": 321312,
+    "tracker_row_count": 1,
+    "tracker_status": "Completed_Current_Future_Lane_Module_Promotion_Control_Pass_No_Promotion_Executed",
+    "item_path": "Plan/Items/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_ITEM_ROWS.csv",
+    "item_sha256": "2097eb64b6b0c990ffd481d4ae2d4f8c16468d12881448ff212c6f016f2815ee",
+    "item_bytes": 259000,
+    "item_row_count": 1,
+    "item_status": "Completed_Current_Future_Lane_Module_Promotion_Control_Pass_No_Promotion_Executed",
+    "validation_methods": [
+      "objective_declared",
+      "lane_queue_update",
+      "model_registry",
+      "run_package",
+      "runtime_proof",
+      "runtime_gate"
+    ]
+  },
+  "canonical_row_evidence": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/future_lane_promotion.json",
+    "sha256": "0131ef3a4cb513243d49d7250a80c75f6ec4f78642aa292603b6c9ebcf799fbf",
+    "bytes": 13042,
+    "status": "Completed_Current_Future_Lane_Module_Promotion_Control_Pass_No_Promotion_Executed",
+    "row_complete": true,
+    "qa_decision": "promotion_control_pass_current_promotion_denied_no_request",
+    "historical_check_count": 20,
+    "historical_check_pass_count": 20
+  },
+  "row_evidence_copy_parity": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/future_lane_promotion.json",
+      "sha256": "0131ef3a4cb513243d49d7250a80c75f6ec4f78642aa292603b6c9ebcf799fbf",
+      "bytes": 13042
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/FUTURE_LANE_PROMOTION_20260712T093624-0500.json",
+      "sha256": "0131ef3a4cb513243d49d7250a80c75f6ec4f78642aa292603b6c9ebcf799fbf",
+      "bytes": 13042
+    },
+    {
+      "path": "Plan/Tracker/Evidence/FUTURE_LANE_PROMOTION_20260712T093624-0500.json",
+      "sha256": "0131ef3a4cb513243d49d7250a80c75f6ec4f78642aa292603b6c9ebcf799fbf",
+      "bytes": 13042
+    }
+  ],
+  "supporting_row_records": [
+    {
+      "role": "test_log",
+      "path": "Plan/Instructions/QA/Evidence/Wave64/future_lane_promotion_test_log.json",
+      "sha256": "3de8086f90829b44b601cedbed3ce2f232ab39e57ffddda56ad5fc1573c94525",
+      "bytes": 2073,
+      "historical_result": "pass",
+      "historical_check_count": 20
+    },
+    {
+      "role": "item_report",
+      "path": "Plan/Items/Reports/ITEM-W64-066_future_lane_promotion.json",
+      "sha256": "b9277eb4859165e9991c936e9479514ed1dce2b1966a908f45d1c521081c6dcd",
+      "bytes": 1702,
+      "status": "Completed_Current_Future_Lane_Module_Promotion_Control_Pass_No_Promotion_Executed"
+    }
+  ],
+  "policy_state": {
+    "path": "Plan/10_REGISTRIES/future_lane_module_promotion_policy.json",
+    "sha256": "b117ddb83d9ed4a0ddd2e0378cd479148c40e9e367387948597b936f3c2a2828",
+    "bytes": 4574,
+    "historical_hash_match": true,
+    "policy_id": "wave64_future_lane_module_promotion_policy",
+    "authority": "Codex Desktop final promotion control",
+    "default_promotion_decision": "deny",
+    "current_promotion_decision": "deny_no_promotion_request",
+    "promotion_allowed": false,
+    "selected_lane_id": null,
+    "promotion_request_id": null,
+    "required_gate_order": [
+      "objective_declared",
+      "lane_queue_update",
+      "model_registry",
+      "run_package",
+      "runtime_proof",
+      "runtime_gate"
+    ],
+    "gate_count": 6,
+    "all_gate_required_fields_nonempty": true,
+    "all_gate_pass_rules_nonempty": true,
+    "change_control": {
+      "preserve_passed_evidence": true,
+      "no_broad_rerun": true,
+      "targeted_rerun_requires_material_change": true,
+      "completed_terminal_chain_reuse_required": true,
+      "single_lane_mutation_only": true,
+      "historical_evidence_append_only": true,
+      "promotion_request_must_supersede_explicitly": true
+    },
+    "authority_boundaries": {
+      "mask_promotion_authorized": false,
+      "wave70_hard_gate_rerun_authorized": false,
+      "wave71_plus_activation_authorized": false,
+      "jira_mutation_authorized": false,
+      "aws_or_ec2_execution_authorized": false
+    }
+  },
+  "source_hash_reconciliation": {
+    "historical_source_count": 6,
+    "historical_hash_match_count": 3,
+    "current_hash_drift_count": 3,
+    "sources": [
+      {
+        "role": "promotion_policy",
+        "path": "Plan/10_REGISTRIES/future_lane_module_promotion_policy.json",
+        "historical_sha256": "b117ddb83d9ed4a0ddd2e0378cd479148c40e9e367387948597b936f3c2a2828",
+        "current_sha256": "b117ddb83d9ed4a0ddd2e0378cd479148c40e9e367387948597b936f3c2a2828",
+        "current_bytes": 4574,
+        "hash_match": true,
+        "working_tree_state": "clean"
+      },
+      {
+        "role": "runtime_lane_queue",
+        "path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+        "historical_sha256": "f6720781658e747ab8da5aa5bb6eb59989415cf2691b9d2204cf53a4ab027385",
+        "current_sha256": "88bead474e24e8c41af19ba7a3f8e0bdaa00510419b1ee0aa7d7fe2ce31032a2",
+        "current_bytes": 87608,
+        "hash_match": false,
+        "working_tree_state": "clean_committed_post_evidence_evolution"
+      },
+      {
+        "role": "active_lanes",
+        "path": "Workflows/base_generation/ACTIVE_LANES.json",
+        "historical_sha256": "e564a2a654b40add3202b9aead9d78317670592eea1fbf0e68a5a0a16f7bc05b",
+        "current_sha256": "be4fb2fc3913a76eb1520360107e552355fcb25a32f2e457ade43d472d702036",
+        "current_bytes": 9862,
+        "hash_match": false,
+        "working_tree_state": "clean_committed_post_evidence_evolution"
+      },
+      {
+        "role": "model_registry",
+        "path": "Plan/Registries/Models/model_registry.jsonl",
+        "historical_sha256": "60ce5bd6d86d6416474b5c66d8a023fb8e5e632f03072ab4ea05620736382b2f",
+        "current_sha256": "41d8c72ef55cf0159a4bec130ec98abbce7871f805938d7b3d69ec0fbede0c03",
+        "current_bytes": 161598,
+        "hash_match": false,
+        "working_tree_state": "modified_preserved_unaccepted"
+      },
+      {
+        "role": "failure_classification",
+        "path": "Plan/Instructions/QA/Evidence/Wave64/failure_classification_rerun.json",
+        "historical_sha256": "8fca16a67194913c2b3cfdf4113c4548c1a05b1246a5d32785273bae1d322e9b",
+        "current_sha256": "8fca16a67194913c2b3cfdf4113c4548c1a05b1246a5d32785273bae1d322e9b",
+        "current_bytes": 38220,
+        "hash_match": true,
+        "working_tree_state": "clean"
+      },
+      {
+        "role": "row065_terminal_state",
+        "path": "Plan/Instructions/QA/Evidence/Wave64/realvisxl_lane_terminal_state.json",
+        "historical_sha256": "aada5f78c80d8ffc14a618fa9b872074125c79d2dfc2fcbfa3bfd9debdaf2005",
+        "current_sha256": "aada5f78c80d8ffc14a618fa9b872074125c79d2dfc2fcbfa3bfd9debdaf2005",
+        "current_bytes": 7536,
+        "hash_match": true,
+        "working_tree_state": "clean"
+      }
+    ]
+  },
+  "queue_active_reconciliation": {
+    "queue_path": "Plan/07_IMPLEMENTATION/workflow_templates/base_generation/runtime_lane_queue.json",
+    "queue_sha256": "88bead474e24e8c41af19ba7a3f8e0bdaa00510419b1ee0aa7d7fe2ce31032a2",
+    "queue_bytes": 87608,
+    "queue_lane_count": 10,
+    "queue_local_only": true,
+    "queue_ec2_start_allowed": false,
+    "queue_generation_allowed": false,
+    "active_path": "Workflows/base_generation/ACTIVE_LANES.json",
+    "active_sha256": "be4fb2fc3913a76eb1520360107e552355fcb25a32f2e457ade43d472d702036",
+    "active_bytes": 9862,
+    "active_lane_count": 10,
+    "active_ec2_start_allowed": false,
+    "active_generation_allowed": false,
+    "ordered_lane_identity_match_count": 10,
+    "status_match_count": 7,
+    "next_gate_match_count": 8,
+    "promotion_rule_present_count": 10,
+    "full_parity": false,
+    "mismatches": [
+      {
+        "order": 4,
+        "lane_id": "sdxl_realvisxl_inpaint_detail_lane",
+        "status_match": false,
+        "gate_match": true,
+        "queue_status": "target_runtime_inpaint_nomouth_v4_single_sample_smoke_certified_with_notes_full_lane_not_certified",
+        "active_status": "target_runtime_nomouth_v4_single_sample_plus_local_fixed_e2e_contact_repair_pass_with_notes_full_lane_not_certified"
+      },
+      {
+        "order": 7,
+        "lane_id": "sdxl_realvisxl_controlnet_openpose_lane",
+        "status_match": false,
+        "gate_match": false,
+        "queue_status": "bounded_target_runtime_openpose_v6_seed711470303_final_certification_complete_with_footwear_note",
+        "active_status": "bounded_openpose_v6_target_runtime_recovered_and_final_certified_with_notes",
+        "queue_next_gate": "changed_seed_pose_control_image_workflow_model_or_broader_quality_scope_only_if_intentionally_selected",
+        "active_next_gate": "changed_workflow_model_control_input_seed_pose_or_broader_quality_scope_only_if_intentionally_selected"
+      },
+      {
+        "order": 9,
+        "lane_id": "sdxl_realesrgan_upscale_polish_lane",
+        "status_match": false,
+        "gate_match": false,
+        "queue_status": "bounded_target_runtime_conditional_resolution_export_complete_source_master_retained",
+        "active_status": "bounded_target_runtime_conditional_export_complete_plus_fixed_e2e_local_candidate_rejected_source_retained",
+        "queue_next_gate": "none_for_completed_hash_bound_target_candidate_do_not_rerun",
+        "active_next_gate": "changed_candidate_or_acceptance_scope_only_do_not_rerun_completed_target_or_fixed_e2e_samples"
+      }
+    ]
+  },
+  "model_registry_reconciliation": {
+    "path": "Plan/Registries/Models/model_registry.jsonl",
+    "sha256": "41d8c72ef55cf0159a4bec130ec98abbce7871f805938d7b3d69ec0fbede0c03",
+    "bytes": 161598,
+    "working_tree_state": "modified_preserved_unaccepted",
+    "record_count": 74,
+    "parse_success_count": 74,
+    "parse_failure_count": 0,
+    "nonempty_record_id_count": 74,
+    "unique_record_id_count": 74,
+    "historical_record_count": 15,
+    "historical_count_still_current": false,
+    "accepted_as_promotion_authority": false
+  },
+  "current_promotion_state": {
+    "policy_decision": "deny_no_promotion_request",
+    "promotion_allowed": false,
+    "selected_lane_id": null,
+    "promotion_request_id": null,
+    "promoted_lane_count": 0,
+    "audit_disposition": "deny_and_hold_until_explicit_request_and_source_reconciliation",
+    "deny_reasons": [
+      "No explicit promotion request or selected lane exists.",
+      "Only 7 of 10 queue-to-active status rows and 8 of 10 next-gate rows currently match.",
+      "The model registry has expanded to 74 parseable records but is modified and unaccepted.",
+      "Three of six historical Row066 source hashes no longer match current source bytes."
+    ]
+  },
+  "preservation_boundary": {
+    "queued_worker_scopes_modified": false,
+    "flux2_dirty_paths_modified": false,
+    "portfolio_reconciliation_paths_modified": false,
+    "worker_control_snapshots_modified": false,
+    "runtime_lane_queue_modified": false,
+    "active_lanes_modified": false,
+    "model_registry_modified_by_this_audit": false,
+    "historical_row066_evidence_modified": false,
+    "runtime_or_provider_invoked": false,
+    "worker_lane_polled_or_woken": false,
+    "promotion_executed": false,
+    "only_new_output": "Plan/Instructions/QA/Evidence/Wave64/FUTURE_LANE_PROMOTION_CURRENT_DELTA_20260719.json"
+  },
+  "checks": [
+    {
+      "name": "FLP-D001_tracker_and_item_rows_unique_completed",
+      "result": "pass"
+    },
+    {
+      "name": "FLP-D002_three_historical_evidence_copies_exact",
+      "result": "pass"
+    },
+    {
+      "name": "FLP-D003_policy_hash_and_identity_exact",
+      "result": "pass"
+    },
+    {
+      "name": "FLP-D004_six_gate_order_and_fields_complete",
+      "result": "pass"
+    },
+    {
+      "name": "FLP-D005_default_and_current_decisions_deny",
+      "result": "pass"
+    },
+    {
+      "name": "FLP-D006_no_selected_lane_or_promotion_request",
+      "result": "pass"
+    },
+    {
+      "name": "FLP-D007_queue_and_active_each_have_ten_ordered_lanes",
+      "result": "pass"
+    },
+    {
+      "name": "FLP-D008_ten_of_ten_lane_identities_match",
+      "result": "pass"
+    },
+    {
+      "name": "FLP-D009_current_status_parity_drift_detected",
+      "result": "pass"
+    },
+    {
+      "name": "FLP-D010_current_next_gate_parity_drift_detected",
+      "result": "pass"
+    },
+    {
+      "name": "FLP-D011_all_queue_promotion_rules_present",
+      "result": "pass"
+    },
+    {
+      "name": "FLP-D012_queue_and_active_runtime_boundaries_deny_execution",
+      "result": "pass"
+    },
+    {
+      "name": "FLP-D013_registry_all_seventy_four_records_parse",
+      "result": "pass"
+    },
+    {
+      "name": "FLP-D014_registry_record_ids_nonempty_and_unique",
+      "result": "pass"
+    },
+    {
+      "name": "FLP-D015_dirty_registry_preserved_and_not_accepted",
+      "result": "pass"
+    },
+    {
+      "name": "FLP-D016_three_historical_source_drifts_detected",
+      "result": "pass"
+    },
+    {
+      "name": "FLP-D017_current_promotion_fail_closed_zero_promoted",
+      "result": "pass"
+    },
+    {
+      "name": "FLP-D018_no_implementation_runtime_worker_or_external_action",
+      "result": "pass"
+    }
+  ],
+  "check_summary": {
+    "checked": 18,
+    "passed": 18,
+    "failed": 0
+  },
+  "decision": {
+    "promotion_control_implementation": "preserved_pass",
+    "current_promotion_eligibility": "denied",
+    "promotion_executed": false,
+    "source_reconciliation_required": true,
+    "safe_next_action": "Continue independent PM/QA work; reconcile the three divergent lane rows and accept a clean model registry only through their governed scopes before any future promotion request."
+  }
+}
