@@ -1,0 +1,122 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "wave64_row083_retrieval_fallback_calibration_policy_registry",
+  "revision": "wave64_row083_retrieval_fallback_calibration_policy_v0.1.0",
+  "tracker_id": "TRK-W64-083",
+  "authority": "planning_freeze_not_library_acceptance",
+  "notes": [
+    "Policy freezes Row083 confidence-calibration, precision/recall, false-match, fallback-threshold, and abstention contracts for synthetic fixture calibration.",
+    "It does not accept library completion or substitute for Rows081/082 authority."
+  ],
+  "required_gates": [
+    "confidence_calibration",
+    "precision_recall",
+    "false_match_rate",
+    "fallback_threshold",
+    "abstention"
+  ],
+  "required_routes": [
+    "exact_retrieval",
+    "approximate_retrieval",
+    "layered_synthesis",
+    "generated_fallback",
+    "abstain",
+    "review_escalation"
+  ],
+  "route_precedence": [
+    "exact_retrieval",
+    "approximate_retrieval",
+    "layered_synthesis",
+    "generated_fallback",
+    "review_escalation",
+    "abstain"
+  ],
+  "calibration_revision": "wave64_row083_synthetic_calibration_v0.1.0",
+  "metric_table_revision": "wave64_row083_synthetic_event_family_metrics_v0.1.0",
+  "partition_policy": {
+    "required_partitions": ["train", "calibration", "final_test"],
+    "immutable_hashes_required": true,
+    "mixing_partitions_rejected": true
+  },
+  "route_thresholds": {
+    "exact_retrieval": {
+      "min_calibrated_confidence": 0.92,
+      "allowed_relevance": ["exact"],
+      "max_false_match_rate": 0.02
+    },
+    "approximate_retrieval": {
+      "min_calibrated_confidence": 0.78,
+      "allowed_relevance": ["exact", "approximate"],
+      "max_false_match_rate": 0.08
+    },
+    "layered_synthesis": {
+      "min_calibrated_confidence": 0.65,
+      "allowed_relevance": ["exact", "approximate", "layered"],
+      "max_false_match_rate": 0.12
+    },
+    "generated_fallback": {
+      "min_calibrated_confidence": 0.55,
+      "allowed_relevance": ["exact", "approximate", "layered", "generated"],
+      "max_false_match_rate": 0.20
+    },
+    "review_escalation": {
+      "min_calibrated_confidence": 0.0,
+      "trigger_on": [
+        "semantic_disagreement",
+        "sparse_support",
+        "stale_metric_table",
+        "false_match_constraint_breach"
+      ]
+    },
+    "abstain": {
+      "min_calibrated_confidence": 0.0,
+      "selected_candidate_must_be_null": true
+    }
+  },
+  "support_policy": {
+    "min_event_family_support": 8,
+    "sparse_bucket_behavior": "fail_closed_review_or_abstain"
+  },
+  "event_family_metrics": {
+    "footstep": {
+      "support_count": 24,
+      "precision": 0.94,
+      "recall": 0.91,
+      "false_match_rate": 0.015,
+      "false_negative_rate": 0.09
+    },
+    "fabric_rustle": {
+      "support_count": 16,
+      "precision": 0.90,
+      "recall": 0.86,
+      "false_match_rate": 0.04,
+      "false_negative_rate": 0.14
+    },
+    "impact_hard": {
+      "support_count": 12,
+      "precision": 0.88,
+      "recall": 0.84,
+      "false_match_rate": 0.05,
+      "false_negative_rate": 0.16
+    },
+    "sparse_unknown": {
+      "support_count": 2,
+      "precision": 0.50,
+      "recall": 0.40,
+      "false_match_rate": 0.35,
+      "false_negative_rate": 0.60
+    }
+  },
+  "fail_closed": {
+    "low_confidence_cannot_silently_select": true,
+    "no_candidates_cannot_select_library": true,
+    "abstain_cannot_retain_selected_candidate": true,
+    "review_cannot_retain_selected_candidate": true,
+    "missing_metric_table_rejected": true,
+    "stale_calibration_revision_rejected": true,
+    "non_finite_confidence_rejected": true,
+    "sparse_event_family_fails_closed": true,
+    "library_authority_requires_dependencies": true,
+    "product_completion_forbidden_until_runtime_proof": true
+  }
+}

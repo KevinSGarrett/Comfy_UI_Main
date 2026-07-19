@@ -1,0 +1,867 @@
+{
+  "blocker_codes": [
+    "TRK_W64_081_DEPENDENCY_NOT_ACCEPTED",
+    "TRK_W64_082_DEPENDENCY_NOT_ACCEPTED",
+    "ROW083_DEPENDENCIES_NOT_ACCEPTED",
+    "HELD_OUT_EVENT_FAMILY_CORPUS_ABSENT",
+    "RUNTIME_CALIBRATION_THRESHOLDS_ABSENT",
+    "LIBRARY_SOURCE_ROUTE_RUNTIME_ABSENT",
+    "CONTENT_ADDRESSED_RUNTIME_RECEIPT_ABSENT"
+  ],
+  "calibration_revision": "wave64_row083_synthetic_calibration_v0.1.0",
+  "calibrator_revision": "wave64_row083_retrieval_fallback_calibrator_v0.1.0",
+  "decision": {
+    "product_completion": false,
+    "row083_acceptance": "held",
+    "runtime_completion": false,
+    "safe_next_action": "Accept Rows081 and 082; freeze an immutable held-out event-family corpus with train/calibration/final-test partitions; bind precision, recall, false-match rates, confidence intervals, and versioned route thresholds; enforce mutually exclusive route semantics and selected-candidate invariants; emit content-addressed decision receipts; then replace this hold packet.",
+    "status": "blocked"
+  },
+  "dependency_admissions": {
+    "TRK-W64-081": {
+      "blocker_codes": [
+        "TRK_W64_081_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "bytes": 11848,
+      "dependency_satisfied": false,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-081_EXPLAINABLE_AUDIO_CANDIDATE_SCORING_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "sha256": "2a102cafe40232d7c044ba0c4e30e83cc0082800a203b5e939393d6e8096fab1",
+      "status": "HOLD_DEPENDENCIES_AND_LIBRARY_SCORING_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+      "tracker_id": "TRK-W64-081"
+    },
+    "TRK-W64-082": {
+      "blocker_codes": [
+        "TRK_W64_082_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "bytes": 10874,
+      "dependency_satisfied": false,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-082_REPETITION_DIVERSITY_CONTINUITY_CURRENT_DELTA_20260719.json",
+      "row_complete": false,
+      "sha256": "43332059a1e4dcf87ce8caa225de70e4cef27bbb2546304bd3869aec5fd51fc4",
+      "status": "HOLD_DEPENDENCIES_AND_LIBRARY_DIVERSITY_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+      "tracker_id": "TRK-W64-082"
+    }
+  },
+  "evidence_id": "TRK-W64-083_retrieval_fallback_calibration",
+  "fixture_calibration": {
+    "authority": "synthetic_non_library",
+    "determinism_note": "Fixture records prove exact/approximate routing, low-confidence abstention, no-candidate fail-closed behavior, sparse-family review escalation, missing metric-table rejection, and generated-fallback banding; they do not accept Row083 library completion or held-out runtime proof.",
+    "fixture_count": 7,
+    "records": [
+      {
+        "calibrated_confidence": 0.9509,
+        "calibration_revision": "wave64_row083_synthetic_calibration_v0.1.0",
+        "calibrator_revision": "wave64_row083_retrieval_fallback_calibrator_v0.1.0",
+        "candidate_set_hash": "dcf7408ed04f11748e3b2013d900073a0086faa3310021d8e6e5f54cd0e91729",
+        "candidates": [
+          {
+            "asset_sha256": "5bbf7fc632586077984b2a83a1296443fc4aff1f98183146a25ab319ee70fbac",
+            "candidate_id": "cand_exact_ok",
+            "eligible": true,
+            "explanation": [
+              "relevance=exact",
+              "route=exact_retrieval",
+              "eligible=True",
+              "hard_filters=['none']"
+            ],
+            "hard_exclusions": [],
+            "rank": 1,
+            "relevance": "exact"
+          },
+          {
+            "asset_sha256": "fb45754282f0038d0aa910df87e7c5507fe60c565574ddf468e29e3876435e04",
+            "candidate_id": "cand_approx_alt",
+            "eligible": false,
+            "explanation": [
+              "relevance=approximate",
+              "route=exact_retrieval",
+              "eligible=False",
+              "hard_filters=['RELEVANCE_ROUTE_MISMATCH']"
+            ],
+            "hard_exclusions": [
+              "RELEVANCE_ROUTE_MISMATCH"
+            ],
+            "rank": 2,
+            "relevance": "approximate"
+          }
+        ],
+        "decision": {
+          "applied_gates": [
+            "confidence_calibration",
+            "precision_recall",
+            "false_match_rate",
+            "fallback_threshold",
+            "abstention"
+          ],
+          "confidence": 0.9509,
+          "explanation": [
+            "raw_confidence=0.97",
+            "calibrated_confidence=0.9509",
+            "route=exact_retrieval",
+            "reason=calibrated_route_exact_retrieval",
+            "exclusions=['none']"
+          ],
+          "product_completion": false,
+          "reason": "calibrated_route_exact_retrieval",
+          "route": "exact_retrieval",
+          "row083_acceptance": "fixture_only",
+          "selected_candidate_id": "cand_exact_ok"
+        },
+        "dependency_admissions": {
+          "TRK-W64-081": {
+            "blocker_codes": [
+              "TRK_W64_081_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11848,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-081_EXPLAINABLE_AUDIO_CANDIDATE_SCORING_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "2a102cafe40232d7c044ba0c4e30e83cc0082800a203b5e939393d6e8096fab1",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_SCORING_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-081"
+          },
+          "TRK-W64-082": {
+            "blocker_codes": [
+              "TRK_W64_082_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 10874,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-082_REPETITION_DIVERSITY_CONTINUITY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "43332059a1e4dcf87ce8caa225de70e4cef27bbb2546304bd3869aec5fd51fc4",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_DIVERSITY_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-082"
+          }
+        },
+        "event_family": "footstep",
+        "event_family_metrics": {
+          "false_match_rate": 0.015,
+          "false_negative_rate": 0.09,
+          "precision": 0.94,
+          "recall": 0.91,
+          "support_count": 24
+        },
+        "event_id": "fixture_exact_ok",
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-083",
+        "library_authority": false,
+        "metric_table_revision": "wave64_row083_synthetic_event_family_metrics_v0.1.0",
+        "metric_table_sha256": "5660a7db26d8d2ac8973c1ab92d349518a56eb86192c6eb04ed1ccabe2fc188f",
+        "partition_id": "synthetic_fixture",
+        "policy_revision": "wave64_row083_retrieval_fallback_calibration_policy_v0.1.0",
+        "policy_sha256": "bb47c1df8fe7052190b13ed511e4ce886b8d4a3877dae4b76ae202eead628c76",
+        "query_hash": "38e24bf9b4b5d010d9e89e683ae22a80405a37b615b3db9bbbdc1478dce7a4eb",
+        "raw_confidence": 0.97,
+        "receipt_sha256": "03507bb8b336120b1028c1782b9fa719e08bbc6f8f2226eb83a4f646370b51e5",
+        "record_type": "audio_retrieval_fallback_calibration_record",
+        "required_gates": [
+          "confidence_calibration",
+          "precision_recall",
+          "false_match_rate",
+          "fallback_threshold",
+          "abstention"
+        ],
+        "required_routes": [
+          "exact_retrieval",
+          "approximate_retrieval",
+          "layered_synthesis",
+          "generated_fallback",
+          "abstain",
+          "review_escalation"
+        ],
+        "schema_version": "1.0.0",
+        "tracker_id": "TRK-W64-083"
+      },
+      {
+        "calibrated_confidence": 0.8248,
+        "calibration_revision": "wave64_row083_synthetic_calibration_v0.1.0",
+        "calibrator_revision": "wave64_row083_retrieval_fallback_calibrator_v0.1.0",
+        "candidate_set_hash": "6d977972db74ff6f71d0a35cc40f7c81bacf45bb6ac789a3a0b1ab717dc2cb09",
+        "candidates": [
+          {
+            "asset_sha256": "a56810c05974f5eb070fa47b7be38463955efa7e4d42655562a8947a4e8fb17d",
+            "candidate_id": "cand_approx_primary",
+            "eligible": true,
+            "explanation": [
+              "relevance=approximate",
+              "route=approximate_retrieval",
+              "eligible=True",
+              "hard_filters=['none']"
+            ],
+            "hard_exclusions": [],
+            "rank": 1,
+            "relevance": "approximate"
+          },
+          {
+            "asset_sha256": "8281539f5512fe67c187d57544fa2e2affa5165a12d2c8b48d37fa0e0fd4eb99",
+            "candidate_id": "cand_exact_secondary",
+            "eligible": true,
+            "explanation": [
+              "relevance=exact",
+              "route=approximate_retrieval",
+              "eligible=True",
+              "hard_filters=['none']"
+            ],
+            "hard_exclusions": [],
+            "rank": 2,
+            "relevance": "exact"
+          }
+        ],
+        "decision": {
+          "applied_gates": [
+            "confidence_calibration",
+            "precision_recall",
+            "false_match_rate",
+            "fallback_threshold",
+            "abstention"
+          ],
+          "confidence": 0.8248,
+          "explanation": [
+            "raw_confidence=0.84",
+            "calibrated_confidence=0.8248",
+            "route=approximate_retrieval",
+            "reason=calibrated_route_approximate_retrieval",
+            "exclusions=['none']"
+          ],
+          "product_completion": false,
+          "reason": "calibrated_route_approximate_retrieval",
+          "route": "approximate_retrieval",
+          "row083_acceptance": "fixture_only",
+          "selected_candidate_id": "cand_approx_primary"
+        },
+        "dependency_admissions": {
+          "TRK-W64-081": {
+            "blocker_codes": [
+              "TRK_W64_081_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11848,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-081_EXPLAINABLE_AUDIO_CANDIDATE_SCORING_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "2a102cafe40232d7c044ba0c4e30e83cc0082800a203b5e939393d6e8096fab1",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_SCORING_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-081"
+          },
+          "TRK-W64-082": {
+            "blocker_codes": [
+              "TRK_W64_082_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 10874,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-082_REPETITION_DIVERSITY_CONTINUITY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "43332059a1e4dcf87ce8caa225de70e4cef27bbb2546304bd3869aec5fd51fc4",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_DIVERSITY_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-082"
+          }
+        },
+        "event_family": "fabric_rustle",
+        "event_family_metrics": {
+          "false_match_rate": 0.04,
+          "false_negative_rate": 0.14,
+          "precision": 0.9,
+          "recall": 0.86,
+          "support_count": 16
+        },
+        "event_id": "fixture_below_exact",
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-083",
+        "library_authority": false,
+        "metric_table_revision": "wave64_row083_synthetic_event_family_metrics_v0.1.0",
+        "metric_table_sha256": "5660a7db26d8d2ac8973c1ab92d349518a56eb86192c6eb04ed1ccabe2fc188f",
+        "partition_id": "synthetic_fixture",
+        "policy_revision": "wave64_row083_retrieval_fallback_calibration_policy_v0.1.0",
+        "policy_sha256": "bb47c1df8fe7052190b13ed511e4ce886b8d4a3877dae4b76ae202eead628c76",
+        "query_hash": "4c21e6b7c5ffbad623ace0443938a1fd2d0923baa3e05e824b8a7feb296f7b74",
+        "raw_confidence": 0.84,
+        "receipt_sha256": "7078c6d88148d1ec302c38bc00dadf2b60a0d28c31ba6e3f2eaec1cc572760da",
+        "record_type": "audio_retrieval_fallback_calibration_record",
+        "required_gates": [
+          "confidence_calibration",
+          "precision_recall",
+          "false_match_rate",
+          "fallback_threshold",
+          "abstention"
+        ],
+        "required_routes": [
+          "exact_retrieval",
+          "approximate_retrieval",
+          "layered_synthesis",
+          "generated_fallback",
+          "abstain",
+          "review_escalation"
+        ],
+        "schema_version": "1.0.0",
+        "tracker_id": "TRK-W64-083"
+      },
+      {
+        "calibrated_confidence": 0.301,
+        "calibration_revision": "wave64_row083_synthetic_calibration_v0.1.0",
+        "calibrator_revision": "wave64_row083_retrieval_fallback_calibrator_v0.1.0",
+        "candidate_set_hash": "b6e308b2a699af4cc8fc32df526bf089ac60ec983b4c971547c3d06fabac4236",
+        "candidates": [
+          {
+            "asset_sha256": "37f2d9d045608e16d73d7ba9fa9c59dfba7ddc3edab988fb0629f8dd5979628a",
+            "candidate_id": "cand_silent_trap",
+            "eligible": false,
+            "explanation": [
+              "relevance=exact",
+              "route=abstain",
+              "eligible=False",
+              "hard_filters=['BELOW_ROUTE_THRESHOLD']"
+            ],
+            "hard_exclusions": [
+              "BELOW_ROUTE_THRESHOLD"
+            ],
+            "rank": 1,
+            "relevance": "exact"
+          }
+        ],
+        "decision": {
+          "applied_gates": [
+            "confidence_calibration",
+            "precision_recall",
+            "false_match_rate",
+            "fallback_threshold",
+            "abstention"
+          ],
+          "confidence": 0.301,
+          "explanation": [
+            "raw_confidence=0.3",
+            "calibrated_confidence=0.301",
+            "route=abstain",
+            "reason=low_confidence_abstain",
+            "exclusions=['BELOW_ROUTE_THRESHOLD']",
+            "low_confidence_cannot_silently_select"
+          ],
+          "product_completion": false,
+          "reason": "low_confidence_abstain",
+          "route": "abstain",
+          "row083_acceptance": "fixture_only",
+          "selected_candidate_id": null
+        },
+        "dependency_admissions": {
+          "TRK-W64-081": {
+            "blocker_codes": [
+              "TRK_W64_081_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11848,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-081_EXPLAINABLE_AUDIO_CANDIDATE_SCORING_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "2a102cafe40232d7c044ba0c4e30e83cc0082800a203b5e939393d6e8096fab1",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_SCORING_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-081"
+          },
+          "TRK-W64-082": {
+            "blocker_codes": [
+              "TRK_W64_082_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 10874,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-082_REPETITION_DIVERSITY_CONTINUITY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "43332059a1e4dcf87ce8caa225de70e4cef27bbb2546304bd3869aec5fd51fc4",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_DIVERSITY_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-082"
+          }
+        },
+        "event_family": "impact_hard",
+        "event_family_metrics": {
+          "false_match_rate": 0.05,
+          "false_negative_rate": 0.16,
+          "precision": 0.88,
+          "recall": 0.84,
+          "support_count": 12
+        },
+        "event_id": "fixture_low_confidence",
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-083",
+        "library_authority": false,
+        "metric_table_revision": "wave64_row083_synthetic_event_family_metrics_v0.1.0",
+        "metric_table_sha256": "5660a7db26d8d2ac8973c1ab92d349518a56eb86192c6eb04ed1ccabe2fc188f",
+        "partition_id": "synthetic_fixture",
+        "policy_revision": "wave64_row083_retrieval_fallback_calibration_policy_v0.1.0",
+        "policy_sha256": "bb47c1df8fe7052190b13ed511e4ce886b8d4a3877dae4b76ae202eead628c76",
+        "query_hash": "cbd07bd424da76147ee346c528b916b91a68de5ea91c676964610da12a68aa7f",
+        "raw_confidence": 0.3,
+        "receipt_sha256": "a692ea7c2d4f642163627fea9d36df65bc03e3d4e0efb8d778f973aa8a4c9846",
+        "record_type": "audio_retrieval_fallback_calibration_record",
+        "required_gates": [
+          "confidence_calibration",
+          "precision_recall",
+          "false_match_rate",
+          "fallback_threshold",
+          "abstention"
+        ],
+        "required_routes": [
+          "exact_retrieval",
+          "approximate_retrieval",
+          "layered_synthesis",
+          "generated_fallback",
+          "abstain",
+          "review_escalation"
+        ],
+        "schema_version": "1.0.0",
+        "tracker_id": "TRK-W64-083"
+      },
+      {
+        "calibrated_confidence": 0.9703,
+        "calibration_revision": "wave64_row083_synthetic_calibration_v0.1.0",
+        "calibrator_revision": "wave64_row083_retrieval_fallback_calibrator_v0.1.0",
+        "candidate_set_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "candidates": [],
+        "decision": {
+          "applied_gates": [
+            "confidence_calibration",
+            "precision_recall",
+            "false_match_rate",
+            "fallback_threshold",
+            "abstention"
+          ],
+          "confidence": 0.9703,
+          "explanation": [
+            "raw_confidence=0.99",
+            "calibrated_confidence=0.9703",
+            "route=abstain",
+            "reason=no_candidates",
+            "exclusions=['NO_CANDIDATES']"
+          ],
+          "product_completion": false,
+          "reason": "no_candidates",
+          "route": "abstain",
+          "row083_acceptance": "fixture_only",
+          "selected_candidate_id": null
+        },
+        "dependency_admissions": {
+          "TRK-W64-081": {
+            "blocker_codes": [
+              "TRK_W64_081_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11848,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-081_EXPLAINABLE_AUDIO_CANDIDATE_SCORING_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "2a102cafe40232d7c044ba0c4e30e83cc0082800a203b5e939393d6e8096fab1",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_SCORING_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-081"
+          },
+          "TRK-W64-082": {
+            "blocker_codes": [
+              "TRK_W64_082_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 10874,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-082_REPETITION_DIVERSITY_CONTINUITY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "43332059a1e4dcf87ce8caa225de70e4cef27bbb2546304bd3869aec5fd51fc4",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_DIVERSITY_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-082"
+          }
+        },
+        "event_family": "footstep",
+        "event_family_metrics": {
+          "false_match_rate": 0.015,
+          "false_negative_rate": 0.09,
+          "precision": 0.94,
+          "recall": 0.91,
+          "support_count": 24
+        },
+        "event_id": "fixture_no_candidates",
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-083",
+        "library_authority": false,
+        "metric_table_revision": "wave64_row083_synthetic_event_family_metrics_v0.1.0",
+        "metric_table_sha256": "5660a7db26d8d2ac8973c1ab92d349518a56eb86192c6eb04ed1ccabe2fc188f",
+        "partition_id": "synthetic_fixture",
+        "policy_revision": "wave64_row083_retrieval_fallback_calibration_policy_v0.1.0",
+        "policy_sha256": "bb47c1df8fe7052190b13ed511e4ce886b8d4a3877dae4b76ae202eead628c76",
+        "query_hash": "fc650bfaa8caec017f4029fa16689d7dec13774a8351962cd6588ea32f851299",
+        "raw_confidence": 0.99,
+        "receipt_sha256": "087040a6188528dd8b7553de8856b96620c977de03fadd70cecf0be3c9796388",
+        "record_type": "audio_retrieval_fallback_calibration_record",
+        "required_gates": [
+          "confidence_calibration",
+          "precision_recall",
+          "false_match_rate",
+          "fallback_threshold",
+          "abstention"
+        ],
+        "required_routes": [
+          "exact_retrieval",
+          "approximate_retrieval",
+          "layered_synthesis",
+          "generated_fallback",
+          "abstain",
+          "review_escalation"
+        ],
+        "schema_version": "1.0.0",
+        "tracker_id": "TRK-W64-083"
+      },
+      {
+        "calibrated_confidence": 0.9703,
+        "calibration_revision": "wave64_row083_synthetic_calibration_v0.1.0",
+        "calibrator_revision": "wave64_row083_retrieval_fallback_calibrator_v0.1.0",
+        "candidate_set_hash": "6c09f608b7f4ce8fa5a080a60cc28e38543ca4eb39ff8d05df5663bc63f217b4",
+        "candidates": [
+          {
+            "asset_sha256": "e74aceb5e637ed0db324c1ccedab2dcf3d5f611e2ff009bbd4d142efcf0ce78e",
+            "candidate_id": "cand_sparse",
+            "eligible": false,
+            "explanation": [
+              "relevance=exact",
+              "route=review_escalation",
+              "eligible=False",
+              "hard_filters=['SPARSE_EVENT_FAMILY']"
+            ],
+            "hard_exclusions": [
+              "SPARSE_EVENT_FAMILY"
+            ],
+            "rank": 1,
+            "relevance": "exact"
+          }
+        ],
+        "decision": {
+          "applied_gates": [
+            "confidence_calibration",
+            "precision_recall",
+            "false_match_rate",
+            "fallback_threshold",
+            "abstention"
+          ],
+          "confidence": 0.9703,
+          "explanation": [
+            "raw_confidence=0.99",
+            "calibrated_confidence=0.9703",
+            "route=review_escalation",
+            "reason=sparse_event_family",
+            "exclusions=['SPARSE_EVENT_FAMILY']"
+          ],
+          "product_completion": false,
+          "reason": "sparse_event_family",
+          "route": "review_escalation",
+          "row083_acceptance": "fixture_only",
+          "selected_candidate_id": null
+        },
+        "dependency_admissions": {
+          "TRK-W64-081": {
+            "blocker_codes": [
+              "TRK_W64_081_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11848,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-081_EXPLAINABLE_AUDIO_CANDIDATE_SCORING_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "2a102cafe40232d7c044ba0c4e30e83cc0082800a203b5e939393d6e8096fab1",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_SCORING_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-081"
+          },
+          "TRK-W64-082": {
+            "blocker_codes": [
+              "TRK_W64_082_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 10874,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-082_REPETITION_DIVERSITY_CONTINUITY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "43332059a1e4dcf87ce8caa225de70e4cef27bbb2546304bd3869aec5fd51fc4",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_DIVERSITY_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-082"
+          }
+        },
+        "event_family": "sparse_unknown",
+        "event_family_metrics": {
+          "false_match_rate": 0.35,
+          "false_negative_rate": 0.6,
+          "precision": 0.5,
+          "recall": 0.4,
+          "support_count": 2
+        },
+        "event_id": "fixture_sparse",
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-083",
+        "library_authority": false,
+        "metric_table_revision": "wave64_row083_synthetic_event_family_metrics_v0.1.0",
+        "metric_table_sha256": "5660a7db26d8d2ac8973c1ab92d349518a56eb86192c6eb04ed1ccabe2fc188f",
+        "partition_id": "synthetic_fixture",
+        "policy_revision": "wave64_row083_retrieval_fallback_calibration_policy_v0.1.0",
+        "policy_sha256": "bb47c1df8fe7052190b13ed511e4ce886b8d4a3877dae4b76ae202eead628c76",
+        "query_hash": "1d709716840349ac9be7bc8fd4599495cffb0c4b8f982d1f97b75843976548c5",
+        "raw_confidence": 0.99,
+        "receipt_sha256": "6c0f8fd95ab18e66cead54bfddb0d8275992cea9c05c73193dc0f1c98551a0db",
+        "record_type": "audio_retrieval_fallback_calibration_record",
+        "required_gates": [
+          "confidence_calibration",
+          "precision_recall",
+          "false_match_rate",
+          "fallback_threshold",
+          "abstention"
+        ],
+        "required_routes": [
+          "exact_retrieval",
+          "approximate_retrieval",
+          "layered_synthesis",
+          "generated_fallback",
+          "abstain",
+          "review_escalation"
+        ],
+        "schema_version": "1.0.0",
+        "tracker_id": "TRK-W64-083"
+      },
+      {
+        "calibrated_confidence": 0.9703,
+        "calibration_revision": "wave64_row083_synthetic_calibration_v0.1.0",
+        "calibrator_revision": "wave64_row083_retrieval_fallback_calibrator_v0.1.0",
+        "candidate_set_hash": "0bd7012c40e9a284b29faa3f0891e06695fc715ca6819bea449c543f8b561e08",
+        "candidates": [
+          {
+            "asset_sha256": "415ee65b7dd81a798c5cd637729913754ab02347695b7129366d4047ef54481f",
+            "candidate_id": "cand_no_metrics",
+            "eligible": false,
+            "explanation": [
+              "relevance=exact",
+              "route=blocked",
+              "eligible=False",
+              "hard_filters=['MISSING_METRIC_TABLE']"
+            ],
+            "hard_exclusions": [
+              "MISSING_METRIC_TABLE"
+            ],
+            "rank": 1,
+            "relevance": "exact"
+          }
+        ],
+        "decision": {
+          "applied_gates": [
+            "confidence_calibration",
+            "precision_recall",
+            "false_match_rate",
+            "fallback_threshold",
+            "abstention"
+          ],
+          "confidence": 0.9703,
+          "explanation": [
+            "raw_confidence=0.99",
+            "calibrated_confidence=0.9703",
+            "route=blocked",
+            "reason=missing_metric_table",
+            "exclusions=['MISSING_METRIC_TABLE']"
+          ],
+          "product_completion": false,
+          "reason": "missing_metric_table",
+          "route": "blocked",
+          "row083_acceptance": "fixture_only",
+          "selected_candidate_id": null
+        },
+        "dependency_admissions": {
+          "TRK-W64-081": {
+            "blocker_codes": [
+              "TRK_W64_081_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11848,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-081_EXPLAINABLE_AUDIO_CANDIDATE_SCORING_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "2a102cafe40232d7c044ba0c4e30e83cc0082800a203b5e939393d6e8096fab1",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_SCORING_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-081"
+          },
+          "TRK-W64-082": {
+            "blocker_codes": [
+              "TRK_W64_082_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 10874,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-082_REPETITION_DIVERSITY_CONTINUITY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "43332059a1e4dcf87ce8caa225de70e4cef27bbb2546304bd3869aec5fd51fc4",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_DIVERSITY_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-082"
+          }
+        },
+        "event_family": "footstep",
+        "event_family_metrics": {
+          "false_match_rate": 1.0,
+          "false_negative_rate": 1.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support_count": 0
+        },
+        "event_id": "fixture_missing_metrics",
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-083",
+        "library_authority": false,
+        "metric_table_revision": "wave64_row083_synthetic_event_family_metrics_v0.1.0",
+        "metric_table_sha256": "5660a7db26d8d2ac8973c1ab92d349518a56eb86192c6eb04ed1ccabe2fc188f",
+        "partition_id": "synthetic_fixture",
+        "policy_revision": "wave64_row083_retrieval_fallback_calibration_policy_v0.1.0",
+        "policy_sha256": "bb47c1df8fe7052190b13ed511e4ce886b8d4a3877dae4b76ae202eead628c76",
+        "query_hash": "a28244529820ddfb5c9b929130373ead8fecd3f1bca2ba292915411abca66f95",
+        "raw_confidence": 0.99,
+        "receipt_sha256": "ea52930f71f58015391805bdd95b8b44cfa32720629fa33eb655b1fe40c72b8a",
+        "record_type": "audio_retrieval_fallback_calibration_record",
+        "required_gates": [
+          "confidence_calibration",
+          "precision_recall",
+          "false_match_rate",
+          "fallback_threshold",
+          "abstention"
+        ],
+        "required_routes": [
+          "exact_retrieval",
+          "approximate_retrieval",
+          "layered_synthesis",
+          "generated_fallback",
+          "abstain",
+          "review_escalation"
+        ],
+        "schema_version": "1.0.0",
+        "tracker_id": "TRK-W64-083"
+      },
+      {
+        "calibrated_confidence": 0.592,
+        "calibration_revision": "wave64_row083_synthetic_calibration_v0.1.0",
+        "calibrator_revision": "wave64_row083_retrieval_fallback_calibrator_v0.1.0",
+        "candidate_set_hash": "f18add34e6538225565fd877463dda7a5f83e83d175fffb0c468a600e293f690",
+        "candidates": [
+          {
+            "asset_sha256": "26f205c097b60fc19b03d988a951560b985f884d6082be172078d20025142a33",
+            "candidate_id": "cand_generated",
+            "eligible": true,
+            "explanation": [
+              "relevance=generated",
+              "route=generated_fallback",
+              "eligible=True",
+              "hard_filters=['none']"
+            ],
+            "hard_exclusions": [],
+            "rank": 1,
+            "relevance": "generated"
+          }
+        ],
+        "decision": {
+          "applied_gates": [
+            "confidence_calibration",
+            "precision_recall",
+            "false_match_rate",
+            "fallback_threshold",
+            "abstention"
+          ],
+          "confidence": 0.592,
+          "explanation": [
+            "raw_confidence=0.6",
+            "calibrated_confidence=0.592",
+            "route=generated_fallback",
+            "reason=calibrated_route_generated_fallback",
+            "exclusions=['none']"
+          ],
+          "product_completion": false,
+          "reason": "calibrated_route_generated_fallback",
+          "route": "generated_fallback",
+          "row083_acceptance": "fixture_only",
+          "selected_candidate_id": "cand_generated"
+        },
+        "dependency_admissions": {
+          "TRK-W64-081": {
+            "blocker_codes": [
+              "TRK_W64_081_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 11848,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-081_EXPLAINABLE_AUDIO_CANDIDATE_SCORING_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "2a102cafe40232d7c044ba0c4e30e83cc0082800a203b5e939393d6e8096fab1",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_SCORING_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-081"
+          },
+          "TRK-W64-082": {
+            "blocker_codes": [
+              "TRK_W64_082_DEPENDENCY_NOT_ACCEPTED"
+            ],
+            "bytes": 10874,
+            "dependency_satisfied": false,
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-082_REPETITION_DIVERSITY_CONTINUITY_CURRENT_DELTA_20260719.json",
+            "row_complete": false,
+            "sha256": "43332059a1e4dcf87ce8caa225de70e4cef27bbb2546304bd3869aec5fd51fc4",
+            "status": "HOLD_DEPENDENCIES_AND_LIBRARY_DIVERSITY_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+            "tracker_id": "TRK-W64-082"
+          }
+        },
+        "event_family": "impact_hard",
+        "event_family_metrics": {
+          "false_match_rate": 0.05,
+          "false_negative_rate": 0.16,
+          "precision": 0.88,
+          "recall": 0.84,
+          "support_count": 12
+        },
+        "event_id": "fixture_generated_fallback",
+        "is_synthetic": true,
+        "item_id": "ITEM-W64-083",
+        "library_authority": false,
+        "metric_table_revision": "wave64_row083_synthetic_event_family_metrics_v0.1.0",
+        "metric_table_sha256": "5660a7db26d8d2ac8973c1ab92d349518a56eb86192c6eb04ed1ccabe2fc188f",
+        "partition_id": "synthetic_fixture",
+        "policy_revision": "wave64_row083_retrieval_fallback_calibration_policy_v0.1.0",
+        "policy_sha256": "bb47c1df8fe7052190b13ed511e4ce886b8d4a3877dae4b76ae202eead628c76",
+        "query_hash": "f9c575a5479327d77c1baa07e78391390d5cfc2796a1fdecfc3b908c15b255fb",
+        "raw_confidence": 0.6,
+        "receipt_sha256": "86f7f09bf540322489a8035d2de6e5a294c6b81e227b0e73114a1569345e9e0d",
+        "record_type": "audio_retrieval_fallback_calibration_record",
+        "required_gates": [
+          "confidence_calibration",
+          "precision_recall",
+          "false_match_rate",
+          "fallback_threshold",
+          "abstention"
+        ],
+        "required_routes": [
+          "exact_retrieval",
+          "approximate_retrieval",
+          "layered_synthesis",
+          "generated_fallback",
+          "abstain",
+          "review_escalation"
+        ],
+        "schema_version": "1.0.0",
+        "tracker_id": "TRK-W64-083"
+      }
+    ]
+  },
+  "implementation_completion_claimed": false,
+  "item_id": "ITEM-W64-083",
+  "library_authority": false,
+  "metric_table_revision": "wave64_row083_synthetic_event_family_metrics_v0.1.0",
+  "policy_registry": {
+    "authority": "planning_freeze_not_library_acceptance",
+    "path": "Plan/10_REGISTRIES/wave64_row083_retrieval_fallback_calibration_policy_registry.json",
+    "revision": "wave64_row083_retrieval_fallback_calibration_policy_v0.1.0",
+    "sha256": "bb47c1df8fe7052190b13ed511e4ce886b8d4a3877dae4b76ae202eead628c76"
+  },
+  "policy_revision": "wave64_row083_retrieval_fallback_calibration_policy_v0.1.0",
+  "required_gates": [
+    "confidence_calibration",
+    "precision_recall",
+    "false_match_rate",
+    "fallback_threshold",
+    "abstention"
+  ],
+  "required_routes": [
+    "exact_retrieval",
+    "approximate_retrieval",
+    "layered_synthesis",
+    "generated_fallback",
+    "abstain",
+    "review_escalation"
+  ],
+  "row_complete": false,
+  "runtime_completion_claimed": false,
+  "schema": {
+    "path": "Plan/08_SCHEMAS/audio_retrieval_fallback_calibration_record.schema.json",
+    "sha256": "d97cc1b890e88d28f7876df7efdb405bd56f779ddfdc2a2bb28984b228214530"
+  },
+  "schema_version": "1.0.0",
+  "status": "HOLD_DEPENDENCIES_AND_LIBRARY_CALIBRATION_RUNTIME_ABSENT",
+  "tracker_id": "TRK-W64-083"
+}

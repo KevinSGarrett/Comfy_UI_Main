@@ -1,0 +1,253 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/audio_retrieval_fallback_calibration_record.schema.json",
+  "title": "Wave64 Row083 Audio Retrieval Fallback Calibration Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "tracker_id",
+    "item_id",
+    "record_type",
+    "calibrator_revision",
+    "policy_revision",
+    "policy_sha256",
+    "calibration_revision",
+    "metric_table_revision",
+    "metric_table_sha256",
+    "event_id",
+    "event_family",
+    "query_hash",
+    "candidate_set_hash",
+    "partition_id",
+    "raw_confidence",
+    "calibrated_confidence",
+    "is_synthetic",
+    "library_authority",
+    "dependency_admissions",
+    "required_gates",
+    "required_routes",
+    "event_family_metrics",
+    "candidates",
+    "decision",
+    "receipt_sha256"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "tracker_id": { "type": "string", "const": "TRK-W64-083" },
+    "item_id": { "type": "string", "const": "ITEM-W64-083" },
+    "record_type": {
+      "type": "string",
+      "const": "audio_retrieval_fallback_calibration_record"
+    },
+    "calibrator_revision": {
+      "type": "string",
+      "const": "wave64_row083_retrieval_fallback_calibrator_v0.1.0"
+    },
+    "policy_revision": {
+      "type": "string",
+      "const": "wave64_row083_retrieval_fallback_calibration_policy_v0.1.0"
+    },
+    "policy_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "calibration_revision": {
+      "type": "string",
+      "const": "wave64_row083_synthetic_calibration_v0.1.0"
+    },
+    "metric_table_revision": {
+      "type": "string",
+      "const": "wave64_row083_synthetic_event_family_metrics_v0.1.0"
+    },
+    "metric_table_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "event_id": { "type": "string", "minLength": 1 },
+    "event_family": { "type": "string", "minLength": 1 },
+    "query_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "candidate_set_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "partition_id": {
+      "type": "string",
+      "enum": ["train", "calibration", "final_test", "synthetic_fixture"]
+    },
+    "raw_confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "calibrated_confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "is_synthetic": { "type": "boolean" },
+    "library_authority": { "type": "boolean", "const": false },
+    "dependency_admissions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["TRK-W64-081", "TRK-W64-082"],
+      "properties": {
+        "TRK-W64-081": { "$ref": "#/$defs/dependency_admission" },
+        "TRK-W64-082": { "$ref": "#/$defs/dependency_admission" }
+      }
+    },
+    "required_gates": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "type": "string",
+        "enum": [
+          "confidence_calibration",
+          "precision_recall",
+          "false_match_rate",
+          "fallback_threshold",
+          "abstention"
+        ]
+      }
+    },
+    "required_routes": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {
+        "type": "string",
+        "enum": [
+          "exact_retrieval",
+          "approximate_retrieval",
+          "layered_synthesis",
+          "generated_fallback",
+          "abstain",
+          "review_escalation"
+        ]
+      }
+    },
+    "event_family_metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "support_count",
+        "precision",
+        "recall",
+        "false_match_rate",
+        "false_negative_rate"
+      ],
+      "properties": {
+        "support_count": { "type": "integer", "minimum": 0 },
+        "precision": { "type": "number", "minimum": 0, "maximum": 1 },
+        "recall": { "type": "number", "minimum": 0, "maximum": 1 },
+        "false_match_rate": { "type": "number", "minimum": 0, "maximum": 1 },
+        "false_negative_rate": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "candidates": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/candidate_calibration" }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "route",
+        "selected_candidate_id",
+        "confidence",
+        "reason",
+        "applied_gates",
+        "explanation",
+        "product_completion",
+        "row083_acceptance"
+      ],
+      "properties": {
+        "route": {
+          "type": "string",
+          "enum": [
+            "exact_retrieval",
+            "approximate_retrieval",
+            "layered_synthesis",
+            "generated_fallback",
+            "abstain",
+            "review_escalation",
+            "blocked"
+          ]
+        },
+        "selected_candidate_id": { "type": ["string", "null"] },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "reason": { "type": "string", "minLength": 1 },
+        "applied_gates": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "explanation": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "product_completion": { "type": "boolean", "const": false },
+        "row083_acceptance": {
+          "type": "string",
+          "enum": ["held", "fixture_only"]
+        }
+      }
+    },
+    "receipt_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  },
+  "$defs": {
+    "dependency_admission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tracker_id",
+        "dependency_satisfied",
+        "row_complete",
+        "blocker_codes"
+      ],
+      "properties": {
+        "tracker_id": { "type": "string", "minLength": 1 },
+        "dependency_satisfied": { "type": "boolean" },
+        "row_complete": { "type": "boolean" },
+        "blocker_codes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "status": { "type": "string" },
+        "path": { "type": "string" },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "bytes": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "candidate_calibration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_id",
+        "asset_sha256",
+        "relevance",
+        "eligible",
+        "hard_exclusions",
+        "rank",
+        "explanation"
+      ],
+      "properties": {
+        "candidate_id": { "type": "string", "minLength": 1 },
+        "asset_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "relevance": {
+          "type": "string",
+          "enum": ["exact", "approximate", "layered", "generated"]
+        },
+        "eligible": { "type": "boolean" },
+        "hard_exclusions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "MISSING_METRIC_TABLE",
+              "STALE_CALIBRATION_REVISION",
+              "NON_FINITE_CONFIDENCE",
+              "SPARSE_EVENT_FAMILY",
+              "FALSE_MATCH_CONSTRAINT_BREACH",
+              "BELOW_ROUTE_THRESHOLD",
+              "RELEVANCE_ROUTE_MISMATCH",
+              "NO_CANDIDATES",
+              "DEPENDENCY_EVIDENCE_ABSENT"
+            ]
+          }
+        },
+        "rank": { "type": "integer", "minimum": 1 },
+        "explanation": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}
