@@ -273,3 +273,184 @@ def test_main_library_mode_writes_hold_evidence(tmp_path: Path):
     payload = json.loads(output.read_text(encoding="utf-8"))
     assert payload["row_complete"] is False
     assert payload["decision"]["row070_acceptance"] == "held"
+
+
+def test_frames_to_canonical_pcm_matches_channel_roundtrip():
+    frames = struct.pack("<" + "h" * 8, *range(8))
+    fast = MOD.frames_to_canonical_pcm_f32le(
+        frames, channels=2, sample_width=2, frame_count=4
+    )
+    channels = MOD._frames_to_channels(
+        frames, channels=2, sample_width=2, frame_count=4
+    )
+    slow = MOD.pack_pcm_f32le(channels)
+    assert fast == slow
+    assert len(MOD.sha256_bytes(fast)) == 64
+
+
+def test_retained_index_decode_maps_every_record(tmp_path: Path, monkeypatch):
+    source_root = tmp_path / "audio"
+    source_root.mkdir()
+    wav_path = source_root / "tone.wav"
+    _write_pcm16_wav(wav_path, frames=256)
+    mp3_path = source_root / "clip.mp3"
+    mp3_path.write_bytes(b"ID3fake-bytes")
+
+    index_path = tmp_path / "index.jsonl"
+    records = [
+        {
+            "relative_path": "tone.wav",
+            "absolute_path": str(wav_path),
+            "extension": ".wav",
+            "role": "body",
+            "event_type": "body_foley",
+            "duration_band": "short",
+            "channels": 1,
+            "bytes": wav_path.stat().st_size,
+            "sha256": MOD.sha256_file(wav_path),
+            "sample_rate_hz": 48000,
+            "duration_seconds": 256 / 48000,
+        },
+        {
+            "relative_path": "clip.mp3",
+            "absolute_path": str(mp3_path),
+            "extension": ".mp3",
+            "role": "effects",
+            "event_type": "action_sfx",
+            "duration_band": "short",
+            "channels": 1,
+            "bytes": mp3_path.stat().st_size,
+            "sha256": MOD.sha256_file(mp3_path),
+            "sample_rate_hz": 44100,
+            "duration_seconds": 1.0,
+        },
+    ]
+    index_path.write_text(
+        "\n".join(json.dumps(record) for record in records) + "\n",
+        encoding="utf-8",
+    )
+
+    def fake_locator(_root: Path) -> dict:
+        return {
+            "registry_path": "Plan/10_REGISTRIES/audio_pack_functional_index_registry.json",
+            "runtime_path": str(index_path),
+            "index_path": index_path,
+            "index_sha256": MOD.sha256_file(index_path),
+            "index_bytes": index_path.stat().st_size,
+            "source_root": source_root,
+            "record_count": 2,
+            "row069_acceptance": "accepted",
+            "library_authority": True,
+        }
+
+    monkeypatch.setattr(MOD, "load_active_index_locator", fake_locator)
+    monkeypatch.setattr(
+        MOD,
+        "evaluate_row069_admission",
+        lambda _root, delta_path=None: {
+            "dependency_satisfied": True,
+            "blocker_codes": [],
+            "row_complete": True,
+            "status": "PASS_LIBRARY_INDEX_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION",
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-069_FULL_AUDIO_LIBRARY_INDEX_CURRENT_DELTA_20260719.json",
+            "sha256": "a" * 64,
+            "bytes": 1,
+        },
+    )
+
+    runtime_dir = tmp_path / "retained"
+    summary = MOD.run_retained_index_decode(
+        ROOT,
+        runtime_dir=runtime_dir,
+        limit=None,
+        resume=False,
+        checkpoint_every=1,
+    )
+    assert summary["coverage_complete"] is True
+    assert summary["library_authority"] is False
+    assert summary["row_complete"] is False
+    assert summary["counts"]["records_processed"] == 2
+    assert summary["counts"]["decode_pass"] == 1
+    assert summary["counts"]["decode_blocked"] == 1
+    assert summary["counts"]["non_wav_blocked"] == 1
+    assert summary["source_immutability_fingerprint"]["fingerprint_complete"] is True
+
+    packet = MOD.build_library_blocker_packet(ROOT, retained_index_runtime=summary)
+    assert packet["row_complete"] is False
+    assert "FULL_LIBRARY_RUNTIME_RECORD_ABSENT" not in packet["blocker_codes"]
+    assert "SOURCE_IMMUTABILITY_FULL_LIBRARY_FINGERPRINT_ABSENT" not in packet["blocker_codes"]
+    assert "NON_WAV_CODEC_COVERAGE_ABSENT" in packet["blocker_codes"]
+    assert packet["status"] == "HOLD_NON_WAV_CODEC_WITH_RETAINED_INDEX_RECONCILE_RUNTIME"
+    assert packet["accepted_index_retained_runtime"]["coverage_complete"] is True
+
+
+def test_retained_index_respects_limit_without_false_complete(tmp_path: Path, monkeypatch):
+    source_root = tmp_path / "audio"
+    source_root.mkdir()
+    paths = []
+    for index in range(3):
+        wav_path = source_root / f"tone_{index}.wav"
+        _write_pcm16_wav(wav_path, frames=128 + index)
+        paths.append(wav_path)
+
+    index_path = tmp_path / "index.jsonl"
+    records = []
+    for wav_path in paths:
+        records.append(
+            {
+                "relative_path": wav_path.name,
+                "absolute_path": str(wav_path),
+                "extension": ".wav",
+                "role": "effects",
+                "event_type": "action_sfx",
+                "duration_band": "short",
+                "channels": 1,
+                "bytes": wav_path.stat().st_size,
+                "sha256": MOD.sha256_file(wav_path),
+            }
+        )
+    index_path.write_text(
+        "\n".join(json.dumps(record) for record in records) + "\n",
+        encoding="utf-8",
+    )
+
+    def fake_locator(_root: Path) -> dict:
+        return {
+            "registry_path": "Plan/10_REGISTRIES/audio_pack_functional_index_registry.json",
+            "runtime_path": str(index_path),
+            "index_path": index_path,
+            "index_sha256": MOD.sha256_file(index_path),
+            "index_bytes": index_path.stat().st_size,
+            "source_root": source_root,
+            "record_count": 3,
+            "row069_acceptance": "accepted",
+            "library_authority": True,
+        }
+
+    monkeypatch.setattr(MOD, "load_active_index_locator", fake_locator)
+    monkeypatch.setattr(
+        MOD,
+        "evaluate_row069_admission",
+        lambda _root, delta_path=None: {
+            "dependency_satisfied": True,
+            "blocker_codes": [],
+            "row_complete": True,
+            "status": "PASS",
+            "path": "x",
+            "sha256": "b" * 64,
+            "bytes": 1,
+        },
+    )
+
+    runtime_dir = tmp_path / "retained_partial"
+    first = MOD.run_retained_index_decode(
+        ROOT, runtime_dir=runtime_dir, limit=1, resume=False, checkpoint_every=1
+    )
+    assert first["coverage_complete"] is False
+    assert first["counts"]["records_processed"] == 1
+    second = MOD.run_retained_index_decode(
+        ROOT, runtime_dir=runtime_dir, limit=None, resume=True, checkpoint_every=1
+    )
+    assert second["coverage_complete"] is True
+    assert second["counts"]["records_processed"] == 3
+    assert second["library_authority"] is False

@@ -1,4 +1,41 @@
 {
+  "accepted_index_retained_runtime": {
+    "authority": "accepted_index_retained_reconcile",
+    "blocker_histogram": {
+      "DECODE_FAILED_CORRUPT_OR_UNREADABLE": 747,
+      "UNSUPPORTED_CODEC_OR_CONTAINER": 3576,
+      "UNSUPPORTED_SAMPLE_FORMAT": 25300
+    },
+    "coverage_complete": true,
+    "decode_blocked": 28876,
+    "decode_failed": 747,
+    "decode_pass": 10148,
+    "extension_histogram": {
+      ".flac": 15,
+      ".mp3": 3560,
+      ".ogg": 1,
+      ".wav": 36195
+    },
+    "index_sha256": "7301243a364025dbd23907aee20ee8593d5897caa83d38391026ad42da6d17ec",
+    "library_authority": false,
+    "proof_tier": "RUNTIME_PASS_BOUNDED",
+    "receipt_path": "runtime_artifacts/audio_decode/row070_index_retained_20260719/retained_index_receipt.json",
+    "receipt_sha256": "2507c4a225fd895594defcac60601fa962c5d193a5d06a7751c76784ccf5f718",
+    "records_path": "runtime_artifacts/audio_decode/row070_index_retained_20260719/records.jsonl",
+    "records_processed": 39771,
+    "records_sha256": "e5d96dbd093f9f6adc8ba61a83eb45ef294c819d7da73938e89ffd6c503874c7",
+    "records_total": 39771,
+    "source_immutability_fingerprint": {
+      "fingerprint_complete": true,
+      "index_identity_all_processed": true,
+      "index_sha256": "7301243a364025dbd23907aee20ee8593d5897caa83d38391026ad42da6d17ec",
+      "records_processed": 39771,
+      "source_immutable_all_processed": true
+    },
+    "summary_bytes": 3358,
+    "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_ACCEPTED_INDEX_RETAINED_RUNTIME_SUMMARY_20260719.json",
+    "summary_sha256": "90886a0cc3e24cbdb65454f516895039d7d10f170d71be72c01bd9ae6890dc59"
+  },
   "accepted_index_strata_runtime": {
     "authority": "accepted_index_strata_bounded",
     "decode_blocked": 3,
@@ -12,12 +49,12 @@
       ".ogg"
     ],
     "proof_tier": "RUNTIME_PASS_BOUNDED",
-    "receipt_path": "runtime_artifacts/audio_decode/row070_index_strata_20260719/index_strata_receipt.json",
-    "receipt_sha256": "2868e448b7843c16053cc6d0a64e06ee1b1183dfcf83f5e7c9c60c67f5a4afa6",
+    "receipt_path": null,
+    "receipt_sha256": null,
     "sources_attempted": 9,
-    "summary_bytes": 12079,
-    "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_ACCEPTED_INDEX_STRATA_BOUNDED_RUNTIME_SUMMARY_20260719.json",
-    "summary_sha256": "dc8bd10a09b657ffd26c432206c26d4f75ef69b50e9667e3c99222fc69254c83",
+    "summary_bytes": null,
+    "summary_path": null,
+    "summary_sha256": null,
     "wav_roles_selected": [
       "body",
       "clothing",
@@ -28,8 +65,6 @@
     ]
   },
   "blocker_codes": [
-    "FULL_LIBRARY_RUNTIME_RECORD_ABSENT",
-    "SOURCE_IMMUTABILITY_FULL_LIBRARY_FINGERPRINT_ABSENT",
     "NON_WAV_CODEC_COVERAGE_ABSENT"
   ],
   "bounded_live_pcm_runtime": {
@@ -58,7 +93,7 @@
     "product_completion": false,
     "row070_acceptance": "held",
     "runtime_completion": false,
-    "safe_next_action": "Expand accepted-index decode from strata sample toward full retained-index coverage (decode PASS or exact blocker per record), add non-WAV decoder coverage beyond exact blockers, and prove full-library source immutability before Row070 acceptance. Do not claim COMPLETE without full-library runtime.",
+    "safe_next_action": "Retained-index decode reconcile mapped every accepted record to PASS or an exact blocker. Add non-WAV decoder coverage beyond exact blockers, then reassess Row070 acceptance. Do not claim COMPLETE while NON_WAV_CODEC_COVERAGE_ABSENT.",
     "status": "blocked"
   },
   "decoder_revision": "wave64_row070_canonical_pcm_v0.1.0",
@@ -205,8 +240,6 @@
   "row_complete": false,
   "runtime_completion_claimed": false,
   "schema_version": "1.0.0",
-  "source_commit": "ac9f64e5",
-  "status": "HOLD_FULL_LIBRARY_DECODE_WITH_ACCEPTED_INDEX_STRATA_BOUNDED_RUNTIME",
-  "tracker_id": "TRK-W64-070",
-  "updated_at": "2026-07-19T21:40:04Z"
+  "status": "HOLD_NON_WAV_CODEC_WITH_RETAINED_INDEX_RECONCILE_RUNTIME",
+  "tracker_id": "TRK-W64-070"
 }

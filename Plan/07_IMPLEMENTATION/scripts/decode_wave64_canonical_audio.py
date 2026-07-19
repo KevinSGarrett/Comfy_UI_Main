@@ -9,6 +9,7 @@ and a full-library reconcile runtime is present.
 from __future__ import annotations
 
 import argparse
+import array
 import hashlib
 import json
 import math
@@ -46,6 +47,10 @@ INDEX_STRATA_WAV_ROLES = (
 INDEX_STRATA_NON_WAV_EXTENSIONS = (".mp3", ".flac", ".ogg")
 INDEX_STRATA_WAV_MIN_BYTES = 8_000
 INDEX_STRATA_WAV_MAX_BYTES = 2_000_000
+DEFAULT_RETAINED_RUNTIME_DIR = Path(
+    "runtime_artifacts/audio_decode/row070_index_retained_20260719"
+)
+RETAINED_CHECKPOINT_EVERY = 250
 
 CANONICAL_PCM_CONTRACT: dict[str, str] = {
     "sample_format": "ieee_float32",
@@ -66,6 +71,9 @@ CHANNEL_LAYOUTS = {
 
 class CanonicalDecodeError(RuntimeError):
     pass
+
+
+_SCHEMA_VALIDATOR: Draft202012Validator | None = None
 
 
 def sha256_bytes(payload: bytes) -> str:
@@ -107,6 +115,13 @@ def write_json(path: Path, payload: Any) -> None:
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
+def relpath_or_abs(root: Path, path: Path) -> str:
+    try:
+        return str(path.resolve().relative_to(root.resolve())).replace("\\", "/")
+    except ValueError:
+        return str(path.resolve())
+
+
 def resolve_under(root: Path, relative: Path, label: str) -> Path:
     if relative.is_absolute():
         return relative.resolve()
@@ -123,11 +138,45 @@ def pack_pcm_f32le(channels: list[list[float]]) -> bytes:
     frame_count = len(channels[0])
     if any(len(channel) != frame_count for channel in channels):
         raise CanonicalDecodeError("channel_length_mismatch")
-    parts: list[bytes] = []
+    # Interleaved f32le; keep list-path for tests while production decode uses the
+    # hash-identical frames_to_canonical_pcm_f32le fast path.
+    interleaved = array.array("f")
     for index in range(frame_count):
         for channel in channels:
-            parts.append(struct.pack("<f", float(channel[index])))
-    return b"".join(parts)
+            interleaved.append(float(channel[index]))
+    return interleaved.tobytes()
+
+
+def frames_to_canonical_pcm_f32le(
+    frames: bytes,
+    *,
+    channels: int,
+    sample_width: int,
+    frame_count: int,
+) -> bytes:
+    """Pack source frames into the frozen interleaved f32le PCM hash domain."""
+    expected = frame_count * channels * sample_width
+    if len(frames) != expected:
+        raise CanonicalDecodeError(
+            f"frame_byte_length_mismatch:expected={expected}:got={len(frames)}"
+        )
+    if frame_count < 1 or channels < 1:
+        raise CanonicalDecodeError("empty_pcm")
+    if sample_width == 2:
+        samples = array.array("h")
+        samples.frombytes(frames)
+        if len(samples) != frame_count * channels:
+            raise CanonicalDecodeError("pcm_s16_sample_count_mismatch")
+        out = array.array("f", (value / 32768.0 for value in samples))
+        return out.tobytes()
+    if sample_width == 4:
+        # IEEE float32 WAV payload is already the frozen interleaved f32le domain.
+        floats = array.array("f")
+        floats.frombytes(frames)
+        if len(floats) != frame_count * channels:
+            raise CanonicalDecodeError("pcm_f32_sample_count_mismatch")
+        return floats.tobytes()
+    raise CanonicalDecodeError(f"unsupported_sample_width:{sample_width}")
 
 
 def channel_layout_for(channels: int) -> str:
@@ -170,10 +219,17 @@ def evaluate_row069_admission(root: Path, delta_path: Path | None = None) -> dic
     }
 
 
+def _schema_validator(root: Path) -> Draft202012Validator:
+    global _SCHEMA_VALIDATOR
+    if _SCHEMA_VALIDATOR is None:
+        schema = load_json(resolve_under(root, SCHEMA_PATH, "schema"))
+        _SCHEMA_VALIDATOR = Draft202012Validator(schema)
+    return _SCHEMA_VALIDATOR
+
+
 def validate_decode_record(root: Path, record: dict[str, Any]) -> None:
-    schema = load_json(resolve_under(root, SCHEMA_PATH, "schema"))
     errors = sorted(
-        Draft202012Validator(schema).iter_errors(record),
+        _schema_validator(root).iter_errors(record),
         key=lambda error: list(error.absolute_path),
     )
     semantic = semantic_errors(record)
@@ -496,14 +552,13 @@ def decode_wav_file(root: Path, source: Path, *, asset_id: str | None = None) ->
         )
 
     try:
-        channel_samples = _frames_to_channels(
+        pcm = frames_to_canonical_pcm_f32le(
             frames,
             channels=channels,
             sample_width=sample_width,
             frame_count=frame_count,
         )
-        pcm = pack_pcm_f32le(channel_samples)
-    except (CanonicalDecodeError, struct.error) as exc:
+    except (CanonicalDecodeError, struct.error, ValueError) as exc:
         return build_record(
             asset_id=asset_id or path.name,
             source_path=rel_path,
@@ -867,24 +922,351 @@ def run_bounded_index_strata_decode(root: Path) -> dict[str, Any]:
     }
 
 
+def _compact_retained_record(
+    candidate: dict[str, Any],
+    record: dict[str, Any],
+) -> dict[str, Any]:
+    binding = record.get("index_binding") or {}
+    blocker = record.get("blocker") if isinstance(record.get("blocker"), dict) else None
+    return {
+        "relative_path": candidate["relative_path"],
+        "extension": candidate["extension"],
+        "role": candidate.get("role") or "",
+        "event_type": candidate.get("event_type") or "",
+        "decode_status": record["decode_status"],
+        "blocker_code": (blocker or {}).get("code"),
+        "blocker_detail": (blocker or {}).get("detail"),
+        "canonical_pcm_sha256": record.get("canonical_pcm_sha256"),
+        "source_sha256": record.get("source_sha256"),
+        "source_bytes": record.get("source_bytes"),
+        "source_immutable": record.get("source_immutable"),
+        "codec": record.get("codec"),
+        "channels": record.get("channels"),
+        "sample_rate_hz": record.get("sample_rate_hz"),
+        "duration_seconds": record.get("duration_seconds"),
+        "frame_count": record.get("frame_count"),
+        "retained_sha256": candidate.get("sha256") or "",
+        "retained_bytes": candidate.get("bytes"),
+        "source_sha256_matches_index": binding.get("source_sha256_matches_index"),
+        "source_bytes_match_index": binding.get("source_bytes_match_index"),
+    }
+
+
+def _empty_retained_counts() -> dict[str, int]:
+    return {
+        "records_total": 0,
+        "records_processed": 0,
+        "decode_pass": 0,
+        "decode_blocked": 0,
+        "decode_failed": 0,
+        "wav_pass": 0,
+        "wav_blocked": 0,
+        "wav_failed": 0,
+        "non_wav_blocked": 0,
+        "source_immutable_true": 0,
+        "index_identity_true": 0,
+        "index_identity_false": 0,
+    }
+
+
+def _bump_retained_counts(counts: dict[str, int], compact: dict[str, Any]) -> None:
+    counts["records_processed"] += 1
+    status = str(compact.get("decode_status") or "")
+    extension = str(compact.get("extension") or "").lower()
+    if status == "pass":
+        counts["decode_pass"] += 1
+        if extension == ".wav":
+            counts["wav_pass"] += 1
+    elif status == "blocked":
+        counts["decode_blocked"] += 1
+        if extension == ".wav":
+            counts["wav_blocked"] += 1
+        else:
+            counts["non_wav_blocked"] += 1
+    else:
+        counts["decode_failed"] += 1
+        if extension == ".wav":
+            counts["wav_failed"] += 1
+    if compact.get("source_immutable") is True:
+        counts["source_immutable_true"] += 1
+    if (
+        compact.get("source_sha256_matches_index") is True
+        and compact.get("source_bytes_match_index") is True
+    ):
+        counts["index_identity_true"] += 1
+    else:
+        counts["index_identity_false"] += 1
+
+
+def run_retained_index_decode(
+    root: Path,
+    *,
+    runtime_dir: Path | None = None,
+    limit: int | None = None,
+    resume: bool = True,
+    checkpoint_every: int = RETAINED_CHECKPOINT_EVERY,
+) -> dict[str, Any]:
+    """Decode every retained index record to PASS or an exact blocker.
+
+    Writes a resumable JSONL receipt under runtime_artifacts. Never claims
+    library authority or product COMPLETE, even when coverage_complete is true.
+    """
+    admission = evaluate_row069_admission(root)
+    if not admission.get("dependency_satisfied"):
+        raise CanonicalDecodeError("index_retained_requires_row069_admission")
+
+    locator = load_active_index_locator(root)
+    out_dir = runtime_dir or resolve_under(root, DEFAULT_RETAINED_RUNTIME_DIR, "retained_runtime")
+    out_dir.mkdir(parents=True, exist_ok=True)
+    records_path = out_dir / "records.jsonl"
+    progress_path = out_dir / "progress.json"
+    receipt_path = out_dir / "retained_index_receipt.json"
+
+    counts = _empty_retained_counts()
+    counts["records_total"] = int(locator["record_count"] or 0)
+    blocker_histogram: dict[str, int] = {}
+    extension_histogram: dict[str, int] = {}
+    started_at = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+    processed_paths: set[str] = set()
+    next_index = 0
+
+    if resume and progress_path.is_file() and records_path.is_file():
+        progress = load_json(progress_path)
+        if str(progress.get("index_sha256") or "") == locator["index_sha256"]:
+            counts = dict(progress.get("counts") or counts)
+            blocker_histogram = {
+                str(key): int(value)
+                for key, value in (progress.get("blocker_histogram") or {}).items()
+            }
+            extension_histogram = {
+                str(key): int(value)
+                for key, value in (progress.get("extension_histogram") or {}).items()
+            }
+            next_index = int(progress.get("next_record_index") or 0)
+            started_at = str(progress.get("started_at") or started_at)
+            with records_path.open("r", encoding="utf-8") as handle:
+                for line in handle:
+                    if not line.strip():
+                        continue
+                    compact = json.loads(line)
+                    processed_paths.add(str(compact.get("relative_path") or ""))
+        else:
+            # Index identity changed; start a fresh reconcile receipt.
+            records_path.write_text("", encoding="utf-8")
+            next_index = 0
+            processed_paths = set()
+            counts = _empty_retained_counts()
+            counts["records_total"] = int(locator["record_count"] or 0)
+            blocker_histogram = {}
+            extension_histogram = {}
+    elif not records_path.is_file():
+        records_path.write_text("", encoding="utf-8")
+
+    def write_progress(*, complete: bool) -> None:
+        payload = {
+            "schema_version": 1,
+            "tracker_id": TRACKER_ID,
+            "item_id": ITEM_ID,
+            "decoder_revision": DECODER_REVISION,
+            "index_sha256": locator["index_sha256"],
+            "index_bytes": locator["index_bytes"],
+            "started_at": started_at,
+            "updated_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+            "next_record_index": next_index,
+            "limit": limit,
+            "complete": complete,
+            "counts": counts,
+            "blocker_histogram": blocker_histogram,
+            "extension_histogram": extension_histogram,
+            "records_path": relpath_or_abs(root, records_path),
+        }
+        write_json(progress_path, payload)
+
+    with locator["index_path"].open("r", encoding="utf-8") as handle, records_path.open(
+        "a", encoding="utf-8"
+    ) as out_handle:
+        for line_index, line in enumerate(handle):
+            if line_index < next_index:
+                continue
+            stripped = line.strip()
+            if not stripped:
+                next_index = line_index + 1
+                continue
+            record = json.loads(stripped)
+            relative_path = str(record.get("relative_path") or "").replace("\\", "/")
+            if not relative_path:
+                next_index = line_index + 1
+                continue
+            if relative_path in processed_paths:
+                next_index = line_index + 1
+                continue
+            if limit is not None and counts["records_processed"] >= limit:
+                break
+
+            extension = str(record.get("extension") or Path(relative_path).suffix).lower()
+            absolute = Path(str(record.get("absolute_path") or ""))
+            if not absolute:
+                absolute = locator["source_root"] / relative_path
+            candidate = {
+                "relative_path": relative_path,
+                "absolute_path": str(absolute),
+                "extension": extension,
+                "role": str(record.get("role") or ""),
+                "event_type": str(record.get("event_type") or ""),
+                "duration_band": str(record.get("duration_band") or ""),
+                "bytes": int(record.get("bytes") or 0),
+                "sha256": str(record.get("sha256") or ""),
+            }
+            decoded = decode_wav_file(
+                root, absolute, asset_id=f"index:{relative_path}"
+            )
+            validate_decode_record(root, decoded)
+            decoded["index_binding"] = {
+                "relative_path": relative_path,
+                "retained_sha256": candidate["sha256"],
+                "retained_bytes": candidate["bytes"],
+                "role": candidate["role"],
+                "event_type": candidate["event_type"],
+                "duration_band": candidate["duration_band"],
+                "source_sha256_matches_index": decoded.get("source_sha256")
+                == candidate["sha256"],
+                "source_bytes_match_index": decoded.get("source_bytes")
+                == candidate["bytes"],
+            }
+            compact = _compact_retained_record(candidate, decoded)
+            out_handle.write(json.dumps(compact, sort_keys=True) + "\n")
+            processed_paths.add(relative_path)
+            _bump_retained_counts(counts, compact)
+            extension_histogram[extension] = extension_histogram.get(extension, 0) + 1
+            blocker_code = compact.get("blocker_code")
+            if blocker_code:
+                blocker_histogram[str(blocker_code)] = (
+                    blocker_histogram.get(str(blocker_code), 0) + 1
+                )
+            next_index = line_index + 1
+            if counts["records_processed"] % checkpoint_every == 0:
+                out_handle.flush()
+                write_progress(complete=False)
+                print(
+                    json.dumps(
+                        {
+                            "progress": True,
+                            "records_processed": counts["records_processed"],
+                            "records_total": counts["records_total"],
+                            "decode_pass": counts["decode_pass"],
+                            "decode_blocked": counts["decode_blocked"],
+                            "decode_failed": counts["decode_failed"],
+                        },
+                        sort_keys=True,
+                    ),
+                    flush=True,
+                )
+
+    coverage_complete = (
+        limit is None
+        and counts["records_total"] > 0
+        and counts["records_processed"] == counts["records_total"]
+        and (counts["decode_pass"] + counts["decode_blocked"] + counts["decode_failed"])
+        == counts["records_processed"]
+    )
+    write_progress(complete=coverage_complete)
+
+    fingerprint = {
+        "index_sha256": locator["index_sha256"],
+        "records_processed": counts["records_processed"],
+        "source_immutable_all_processed": (
+            counts["records_processed"] > 0
+            and counts["source_immutable_true"] == counts["records_processed"]
+        ),
+        "index_identity_all_processed": (
+            counts["records_processed"] > 0
+            and counts["index_identity_true"] == counts["records_processed"]
+        ),
+        "fingerprint_complete": coverage_complete
+        and counts["source_immutable_true"] == counts["records_processed"]
+        and counts["index_identity_true"] == counts["records_processed"],
+    }
+
+    summary = {
+        "schema_version": 1,
+        "evidence_id": "W64-ROW070-ACCEPTED-INDEX-RETAINED-DECODE-20260719",
+        "created_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "started_at": started_at,
+        "authority": "accepted_index_retained_reconcile",
+        "library_authority": False,
+        "row_complete": False,
+        "product_completion_claimed": False,
+        "runtime_completion_claimed": False,
+        "coverage_complete": coverage_complete,
+        "proof_tier": "RUNTIME_PASS_BOUNDED",
+        "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+        "row069_admission": admission,
+        "locator": {
+            "registry_path": locator["registry_path"],
+            "runtime_path": locator["runtime_path"],
+            "index_sha256": locator["index_sha256"],
+            "index_bytes": locator["index_bytes"],
+            "source_root": str(locator["source_root"]),
+            "record_count": locator["record_count"],
+            "row069_acceptance": locator["row069_acceptance"],
+            "library_authority": locator["library_authority"],
+        },
+        "limit": limit,
+        "counts": counts,
+        "blocker_histogram": blocker_histogram,
+        "extension_histogram": extension_histogram,
+        "source_immutability_fingerprint": fingerprint,
+        "records_path": relpath_or_abs(root, records_path),
+        "progress_path": relpath_or_abs(root, progress_path),
+        "explicit_non_claims": [
+            "COMPLETE",
+            "library_authority",
+            "product_completion",
+            "row070_acceptance",
+            # Even with coverage_complete, non-WAV remains exact-blocked in this slice.
+            "non_wav_decode_authority",
+        ],
+    }
+    write_json(receipt_path, summary)
+    summary["receipt_path"] = relpath_or_abs(root, receipt_path)
+    summary["receipt_sha256"] = sha256_file(receipt_path)
+    summary["receipt_bytes"] = receipt_path.stat().st_size
+    summary["records_sha256"] = sha256_file(records_path)
+    summary["records_bytes"] = records_path.stat().st_size
+    write_json(receipt_path, summary)
+    summary["receipt_sha256"] = sha256_file(receipt_path)
+    summary["receipt_bytes"] = receipt_path.stat().st_size
+    return summary
+
+
 def build_library_blocker_packet(
     root: Path,
     *,
     bounded_live_pcm_runtime: dict[str, Any] | None = None,
     index_strata_runtime: dict[str, Any] | None = None,
+    retained_index_runtime: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     admission = evaluate_row069_admission(root)
     blocker_codes = list(admission["blocker_codes"])
-    for code in (
-        "FULL_LIBRARY_RUNTIME_RECORD_ABSENT",
-        "SOURCE_IMMUTABILITY_FULL_LIBRARY_FINGERPRINT_ABSENT",
-        "NON_WAV_CODEC_COVERAGE_ABSENT",
-    ):
-        if code not in blocker_codes:
-            blocker_codes.append(code)
+    retained = retained_index_runtime or {}
+    retained_complete = retained.get("coverage_complete") is True
+    retained_fingerprint = (
+        (retained.get("source_immutability_fingerprint") or {}).get("fingerprint_complete")
+        is True
+    )
+    if not retained_complete:
+        if "FULL_LIBRARY_RUNTIME_RECORD_ABSENT" not in blocker_codes:
+            blocker_codes.append("FULL_LIBRARY_RUNTIME_RECORD_ABSENT")
+    if not retained_fingerprint:
+        if "SOURCE_IMMUTABILITY_FULL_LIBRARY_FINGERPRINT_ABSENT" not in blocker_codes:
+            blocker_codes.append("SOURCE_IMMUTABILITY_FULL_LIBRARY_FINGERPRINT_ABSENT")
+    if "NON_WAV_CODEC_COVERAGE_ABSENT" not in blocker_codes:
+        blocker_codes.append("NON_WAV_CODEC_COVERAGE_ABSENT")
+    strata_pass = int((index_strata_runtime or {}).get("counts", {}).get("decode_pass") or 0)
+    retained_pass = int((retained.get("counts") or {}).get("decode_pass") or 0)
     if not (
-        index_strata_runtime
-        and int((index_strata_runtime.get("counts") or {}).get("decode_pass") or 0) > 0
+        (index_strata_runtime and strata_pass > 0)
+        or retained_pass > 0
     ):
         if "CANONICAL_DECODER_LIBRARY_RUNTIME_ABSENT" not in blocker_codes:
             blocker_codes.append("CANONICAL_DECODER_LIBRARY_RUNTIME_ABSENT")
@@ -947,8 +1329,25 @@ def build_library_blocker_packet(
     bounded = bounded_live_pcm_runtime
     strata_pass = int((strata or {}).get("counts", {}).get("decode_pass") or 0)
     bounded_pass = int((bounded or {}).get("decode_pass") or 0)
+    retained_processed = int((retained.get("counts") or {}).get("records_processed") or 0)
 
-    if admission.get("dependency_satisfied") and strata_pass > 0:
+    if admission.get("dependency_satisfied") and retained_complete:
+        status = "HOLD_NON_WAV_CODEC_WITH_RETAINED_INDEX_RECONCILE_RUNTIME"
+        bounded_runtime_label = "RUNTIME_PASS_BOUNDED"
+        safe_next = (
+            "Retained-index decode reconcile mapped every accepted record to PASS or an "
+            "exact blocker. Add non-WAV decoder coverage beyond exact blockers, then "
+            "reassess Row070 acceptance. Do not claim COMPLETE while NON_WAV_CODEC_COVERAGE_ABSENT."
+        )
+    elif admission.get("dependency_satisfied") and retained_processed > 0:
+        status = "HOLD_FULL_LIBRARY_DECODE_WITH_ACCEPTED_INDEX_RETAINED_PARTIAL_RUNTIME"
+        bounded_runtime_label = "RUNTIME_PASS_BOUNDED"
+        safe_next = (
+            "Continue resumable retained-index decode until every accepted record maps to "
+            "PASS or an exact blocker, then add non-WAV decoder coverage. Do not claim "
+            "COMPLETE without full retained-index reconcile and non-WAV authority."
+        )
+    elif admission.get("dependency_satisfied") and strata_pass > 0:
         status = "HOLD_FULL_LIBRARY_DECODE_WITH_ACCEPTED_INDEX_STRATA_BOUNDED_RUNTIME"
         bounded_runtime_label = "RUNTIME_PASS_BOUNDED"
         safe_next = (
@@ -987,7 +1386,7 @@ def build_library_blocker_packet(
         "runtime_completion_claimed": False,
         "library_authority": False,
         "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED"
-        if (strata_pass > 0 or bounded_pass > 0)
+        if (strata_pass > 0 or bounded_pass > 0 or retained_pass > 0)
         else "STATIC_PASS",
         "status": status,
         "row069_admission": admission,
@@ -1033,6 +1432,31 @@ def build_library_blocker_packet(
             "receipt_path": strata.get("receipt_path"),
             "receipt_sha256": strata.get("receipt_sha256"),
         }
+    if retained:
+        packet["accepted_index_retained_runtime"] = {
+            "authority": retained.get("authority"),
+            "proof_tier": retained.get("proof_tier"),
+            "library_authority": False,
+            "coverage_complete": retained.get("coverage_complete") is True,
+            "records_processed": (retained.get("counts") or {}).get("records_processed"),
+            "records_total": (retained.get("counts") or {}).get("records_total"),
+            "decode_pass": (retained.get("counts") or {}).get("decode_pass"),
+            "decode_blocked": (retained.get("counts") or {}).get("decode_blocked"),
+            "decode_failed": (retained.get("counts") or {}).get("decode_failed"),
+            "blocker_histogram": retained.get("blocker_histogram"),
+            "extension_histogram": retained.get("extension_histogram"),
+            "source_immutability_fingerprint": retained.get(
+                "source_immutability_fingerprint"
+            ),
+            "index_sha256": (retained.get("locator") or {}).get("index_sha256"),
+            "records_path": retained.get("records_path"),
+            "records_sha256": retained.get("records_sha256"),
+            "receipt_path": retained.get("receipt_path"),
+            "receipt_sha256": retained.get("receipt_sha256"),
+            "summary_path": retained.get("summary_path"),
+            "summary_sha256": retained.get("summary_sha256"),
+            "summary_bytes": retained.get("summary_bytes"),
+        }
     return packet
 
 
@@ -1041,7 +1465,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--root", default=str(ROOT))
     parser.add_argument(
         "--mode",
-        choices=("library", "fixture", "file", "index-strata"),
+        choices=("library", "fixture", "file", "index-strata", "index-retained"),
         default="library",
     )
     parser.add_argument("--input", default="")
@@ -1060,6 +1484,27 @@ def main(argv: list[str] | None = None) -> int:
         "--write-index-strata-receipt",
         default="",
         help="When mode=index-strata, write full receipt JSON to this path.",
+    )
+    parser.add_argument(
+        "--retained-runtime-dir",
+        default=str(DEFAULT_RETAINED_RUNTIME_DIR),
+        help="When mode=index-retained, resumable runtime directory for JSONL/receipt.",
+    )
+    parser.add_argument(
+        "--retained-limit",
+        type=int,
+        default=0,
+        help="Optional max records for index-retained mode (0 = all retained records).",
+    )
+    parser.add_argument(
+        "--no-resume",
+        action="store_true",
+        help="When mode=index-retained, ignore prior progress and rewrite receipts.",
+    )
+    parser.add_argument(
+        "--retained-index-receipt",
+        default="",
+        help="Optional retained-index runtime receipt JSON to embed in library evidence.",
     )
     args = parser.parse_args(argv)
     root = Path(args.root).resolve()
@@ -1089,9 +1534,26 @@ def main(argv: list[str] | None = None) -> int:
             payload["receipt_path"] = str(receipt_path.relative_to(root)).replace("\\", "/")
             payload["receipt_sha256"] = sha256_file(receipt_path)
             payload["receipt_bytes"] = receipt_path.stat().st_size
+    elif args.mode == "index-retained":
+        runtime_dir = resolve_under(
+            root, Path(args.retained_runtime_dir), "retained_runtime_dir"
+        )
+        if args.no_resume:
+            for name in ("records.jsonl", "progress.json", "retained_index_receipt.json"):
+                path = runtime_dir / name
+                if path.is_file():
+                    path.unlink()
+        limit = args.retained_limit if args.retained_limit > 0 else None
+        payload = run_retained_index_decode(
+            root,
+            runtime_dir=runtime_dir,
+            limit=limit,
+            resume=not args.no_resume,
+        )
     else:
         bounded = None
         strata = None
+        retained = None
         if args.bounded_live_summary:
             bounded_path = resolve_under(
                 root, Path(args.bounded_live_summary), "bounded_live_summary"
@@ -1118,10 +1580,19 @@ def main(argv: list[str] | None = None) -> int:
             strata["receipt_path"] = str(strata_path.relative_to(root)).replace("\\", "/")
             strata["receipt_sha256"] = sha256_file(strata_path)
             strata["receipt_bytes"] = strata_path.stat().st_size
+        if args.retained_index_receipt:
+            retained_path = resolve_under(
+                root, Path(args.retained_index_receipt), "retained_index_receipt"
+            )
+            retained = load_json(retained_path)
+            retained["receipt_path"] = str(retained_path.relative_to(root)).replace("\\", "/")
+            retained["receipt_sha256"] = sha256_file(retained_path)
+            retained["receipt_bytes"] = retained_path.stat().st_size
         payload = build_library_blocker_packet(
             root,
             bounded_live_pcm_runtime=bounded,
             index_strata_runtime=strata,
+            retained_index_runtime=retained,
         )
         if payload["decision"]["status"] != "blocked":
             raise CanonicalDecodeError("library_mode_must_remain_fail_closed_until_dependencies_pass")
@@ -1146,6 +1617,7 @@ def main(argv: list[str] | None = None) -> int:
                 "output": str(output),
                 "status": status,
                 "counts": payload.get("counts"),
+                "coverage_complete": payload.get("coverage_complete"),
                 "proof_tier": payload.get("proof_tier") or payload.get("highest_proof_tier_achieved"),
             },
             sort_keys=True,
