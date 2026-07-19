@@ -1,0 +1,414 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/depth_camera_source_position_manifest.schema.json",
+  "title": "Depth Camera Source Position Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_type",
+    "manifest_id",
+    "revision",
+    "run_id",
+    "scene_id",
+    "shot_id",
+    "take_id",
+    "camera_id",
+    "is_synthetic",
+    "video_sha256",
+    "created_at",
+    "status",
+    "timeline_binding",
+    "owner_track_binding",
+    "camera_binding",
+    "coordinate_space",
+    "estimator_stack",
+    "dependency_authority",
+    "runtime_authority",
+    "depth_authority",
+    "listener_trajectory",
+    "source_trajectories",
+    "metrics",
+    "thresholds",
+    "threshold_violations",
+    "authority_summary",
+    "authority_ceiling",
+    "production_completion_allowed",
+    "row_complete",
+    "provenance",
+    "manifest_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_type": {"const": "depth_camera_source_position_manifest"},
+    "manifest_id": {"type": "string", "minLength": 1},
+    "revision": {"type": "string", "minLength": 1},
+    "run_id": {"type": "string", "minLength": 1},
+    "scene_id": {"type": "string", "minLength": 1},
+    "shot_id": {"type": "string", "minLength": 1},
+    "take_id": {"type": "string", "minLength": 1},
+    "camera_id": {"type": "string", "minLength": 1},
+    "is_synthetic": {"type": "boolean"},
+    "video_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "created_at": {"type": "string", "minLength": 1},
+    "status": {
+      "type": "string",
+      "enum": ["candidate_hold", "technical_partial", "blocked"]
+    },
+    "timeline_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "timeline_id",
+        "timeline_sha256",
+        "frame_count",
+        "frame_rate",
+        "frame_time_origin_seconds"
+      ],
+      "properties": {
+        "timeline_id": {"type": "string", "minLength": 1},
+        "timeline_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "frame_count": {"type": "integer", "minimum": 1},
+        "frame_rate": {"type": "number", "exclusiveMinimum": 0},
+        "frame_time_origin_seconds": {"type": "number"}
+      }
+    },
+    "owner_track_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tracking_manifest_id",
+        "tracking_manifest_sha256",
+        "owner_id",
+        "track_id"
+      ],
+      "properties": {
+        "tracking_manifest_id": {"type": "string", "minLength": 1},
+        "tracking_manifest_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "owner_id": {"type": "string", "minLength": 1},
+        "track_id": {"type": "string", "minLength": 1}
+      }
+    },
+    "camera_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "camera_id",
+        "shot_id",
+        "take_id",
+        "intrinsics_present",
+        "extrinsics_present",
+        "calibration_authority",
+        "pose_model"
+      ],
+      "properties": {
+        "camera_id": {"type": "string", "minLength": 1},
+        "shot_id": {"type": "string", "minLength": 1},
+        "take_id": {"type": "string", "minLength": 1},
+        "intrinsics_present": {"type": "boolean"},
+        "extrinsics_present": {"type": "boolean"},
+        "calibration_authority": {
+          "type": "string",
+          "enum": ["none", "relative_only", "metric_calibrated"]
+        },
+        "pose_model": {
+          "type": "string",
+          "enum": ["static", "moving", "cut_aware_unknown"]
+        }
+      }
+    },
+    "coordinate_space": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "frame_id",
+        "handedness",
+        "units",
+        "origin",
+        "up_axis"
+      ],
+      "properties": {
+        "frame_id": {"type": "string", "minLength": 1},
+        "handedness": {"type": "string", "enum": ["right", "left"]},
+        "units": {"type": "string", "enum": ["relative", "meters", "centimeters"]},
+        "origin": {"type": "string", "enum": ["camera", "world", "listener"]},
+        "up_axis": {"type": "string", "enum": ["+y", "+z", "-y", "-z"]}
+      }
+    },
+    "estimator_stack": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "depth_estimator_id",
+        "camera_pose_estimator_id",
+        "source_position_estimator_id",
+        "listener_estimator_id",
+        "revision",
+        "parameter_digest_sha256"
+      ],
+      "properties": {
+        "depth_estimator_id": {"type": "string", "minLength": 1},
+        "camera_pose_estimator_id": {"type": "string", "minLength": 1},
+        "source_position_estimator_id": {"type": "string", "minLength": 1},
+        "listener_estimator_id": {"type": "string", "minLength": 1},
+        "revision": {"type": "string", "minLength": 1},
+        "parameter_digest_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "dependency_authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["row084_complete", "row085_complete", "dependency_ready"],
+      "properties": {
+        "row084_complete": {"type": "boolean"},
+        "row085_complete": {"type": "boolean"},
+        "dependency_ready": {"type": "boolean"}
+      }
+    },
+    "runtime_authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "calibrated_trajectory_benchmark_pass",
+        "runtime_receipt_present",
+        "combined_frame_contact_audio_review_present",
+        "runtime_ready"
+      ],
+      "properties": {
+        "calibrated_trajectory_benchmark_pass": {"type": "boolean"},
+        "runtime_receipt_present": {"type": "boolean"},
+        "combined_frame_contact_audio_review_present": {"type": "boolean"},
+        "runtime_ready": {"type": "boolean"}
+      }
+    },
+    "depth_authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "depth_mode",
+        "metric_claims_allowed",
+        "relative_depth_labeled",
+        "calibration_source",
+        "scale_uncertainty"
+      ],
+      "properties": {
+        "depth_mode": {
+          "type": "string",
+          "enum": ["relative", "metric", "abstain"]
+        },
+        "metric_claims_allowed": {"type": "boolean"},
+        "relative_depth_labeled": {"type": "boolean"},
+        "calibration_source": {"type": ["string", "null"]},
+        "scale_uncertainty": {"type": "number", "minimum": 0}
+      }
+    },
+    "listener_trajectory": {"$ref": "#/$defs/listener_trajectory"},
+    "source_trajectories": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/source_trajectory"}
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_count",
+        "listener_sample_count",
+        "source_sample_count",
+        "metric_claim_count",
+        "relative_only_sample_count",
+        "abstention_count",
+        "occlusion_sample_count",
+        "low_confidence_sample_count"
+      ],
+      "properties": {
+        "source_count": {"type": "integer", "minimum": 0},
+        "listener_sample_count": {"type": "integer", "minimum": 0},
+        "source_sample_count": {"type": "integer", "minimum": 0},
+        "metric_claim_count": {"type": "integer", "minimum": 0},
+        "relative_only_sample_count": {"type": "integer", "minimum": 0},
+        "abstention_count": {"type": "integer", "minimum": 0},
+        "occlusion_sample_count": {"type": "integer", "minimum": 0},
+        "low_confidence_sample_count": {"type": "integer", "minimum": 0}
+      }
+    },
+    "thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "min_position_confidence",
+        "max_scale_uncertainty",
+        "max_abstention_ratio",
+        "max_occlusion_ratio"
+      ],
+      "properties": {
+        "min_position_confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "max_scale_uncertainty": {"type": "number", "minimum": 0},
+        "max_abstention_ratio": {"type": "number", "minimum": 0, "maximum": 1},
+        "max_occlusion_ratio": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "threshold_violations": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    },
+    "authority_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "spatial_certification_allowed",
+        "metric_depth_authority_present",
+        "unsupported_spatial_claims",
+        "hold_reasons"
+      ],
+      "properties": {
+        "spatial_certification_allowed": {"type": "boolean"},
+        "metric_depth_authority_present": {"type": "boolean"},
+        "unsupported_spatial_claims": {"type": "boolean"},
+        "hold_reasons": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "authority_ceiling": {
+      "type": "string",
+      "enum": ["candidate", "technical", "certification"]
+    },
+    "production_completion_allowed": {"type": "boolean"},
+    "row_complete": {"type": "boolean"},
+    "provenance": {"type": "object"},
+    "manifest_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  },
+  "$defs": {
+    "vec3": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {"type": "number"}
+    },
+    "listener_trajectory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "listener_id",
+        "sample_count",
+        "first_frame",
+        "last_frame",
+        "samples"
+      ],
+      "properties": {
+        "listener_id": {"type": "string", "minLength": 1},
+        "sample_count": {"type": "integer", "minimum": 1},
+        "first_frame": {"type": "integer", "minimum": 0},
+        "last_frame": {"type": "integer", "minimum": 0},
+        "samples": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/listener_sample"}
+        }
+      }
+    },
+    "listener_sample": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "frame_index",
+        "pts",
+        "position",
+        "forward",
+        "up",
+        "confidence",
+        "observation_state"
+      ],
+      "properties": {
+        "frame_index": {"type": "integer", "minimum": 0},
+        "pts": {"type": "integer", "minimum": 0},
+        "position": {"$ref": "#/$defs/vec3"},
+        "forward": {"$ref": "#/$defs/vec3"},
+        "up": {"$ref": "#/$defs/vec3"},
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "observation_state": {
+          "type": "string",
+          "enum": ["observed", "interpolated", "abstain", "unknown"]
+        }
+      }
+    },
+    "source_trajectory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "owner_id",
+        "track_id",
+        "sample_count",
+        "first_frame",
+        "last_frame",
+        "samples"
+      ],
+      "properties": {
+        "source_id": {"type": "string", "minLength": 1},
+        "owner_id": {"type": "string", "minLength": 1},
+        "track_id": {"type": "string", "minLength": 1},
+        "sample_count": {"type": "integer", "minimum": 1},
+        "first_frame": {"type": "integer", "minimum": 0},
+        "last_frame": {"type": "integer", "minimum": 0},
+        "samples": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/source_sample"}
+        }
+      }
+    },
+    "source_sample": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "frame_index",
+        "pts",
+        "position",
+        "depth_mode",
+        "relative_depth",
+        "metric_depth_m",
+        "source_camera_distance",
+        "source_listener_distance",
+        "screen_azimuth_deg",
+        "screen_elevation_deg",
+        "occlusion_state",
+        "visibility",
+        "confidence",
+        "uncertainty",
+        "observation_state"
+      ],
+      "properties": {
+        "frame_index": {"type": "integer", "minimum": 0},
+        "pts": {"type": "integer", "minimum": 0},
+        "position": {"$ref": "#/$defs/vec3"},
+        "depth_mode": {
+          "type": "string",
+          "enum": ["relative", "metric", "abstain"]
+        },
+        "relative_depth": {"type": ["number", "null"]},
+        "metric_depth_m": {"type": ["number", "null"]},
+        "source_camera_distance": {"type": ["number", "null"], "minimum": 0},
+        "source_listener_distance": {"type": ["number", "null"], "minimum": 0},
+        "screen_azimuth_deg": {"type": ["number", "null"], "minimum": -180, "maximum": 180},
+        "screen_elevation_deg": {"type": ["number", "null"], "minimum": -90, "maximum": 90},
+        "occlusion_state": {
+          "type": "string",
+          "enum": ["clear", "partial", "occluded", "unknown"]
+        },
+        "visibility": {
+          "type": "string",
+          "enum": ["visible", "partial", "occluded", "offscreen", "unknown"]
+        },
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "uncertainty": {"type": "number", "minimum": 0},
+        "observation_state": {
+          "type": "string",
+          "enum": ["observed", "interpolated", "abstain", "unknown"]
+        }
+      }
+    }
+  }
+}
