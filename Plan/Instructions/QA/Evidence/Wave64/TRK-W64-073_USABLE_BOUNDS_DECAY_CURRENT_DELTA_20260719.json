@@ -1,0 +1,365 @@
+{
+  "schema_version": 1,
+  "evidence_id": "W64-ROW073-USABLE-BOUNDS-DECAY-CURRENT-DELTA-20260719",
+  "created_at": "2026-07-19T03:14:39.6880663Z",
+  "source_commit": "f3598905c6f2b2e1dfa64aa053074e7bd320392f",
+  "prior_row_commit": "f3598905c6f2b2e1dfa64aa053074e7bd320392f",
+  "prior_row_commit_is_current_head": true,
+  "tracker_id": "TRK-W64-073",
+  "item_id": "ITEM-W64-073",
+  "status": "HOLD_DEPENDENCIES_WAVEFORM_ANALYZER_SCHEMA_AND_FULL_LIBRARY_PROOF_ABSENT",
+  "classification": "ROW073_CURRENT_DELTA_NON_DESTRUCTIVE_DERIVATIVE_PATTERN_REUSABLE_ONLY_NO_FALSE_COMPLETION",
+  "row_complete": false,
+  "implementation_completion_claimed": false,
+  "runtime_completion_claimed": false,
+  "qa_decision": "hold_with_bounded_reuse_of_non_destructive_derivative_pattern_only",
+  "intent": {
+    "intent_id": "intent_20260719T031319838Z_row073_usable_bounds_decay_current_delta_68b0a235",
+    "authority_class": "codex_only",
+    "routing": null,
+    "worker_wake_count": 0
+  },
+  "row073_contract": {
+    "status": "Planned_Autonomous_Implementation_Required",
+    "priority": "P1",
+    "risk": "HIGH",
+    "dependency_prerequisites": [
+      "TRK-W64-071",
+      "TRK-W64-072"
+    ],
+    "validation_methods": [
+      "silence_bounds",
+      "attack_sustain_release",
+      "tail_preservation",
+      "non_destructive"
+    ],
+    "output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_usable_bounds_decay_analysis.json",
+    "output_artifact_exists": false,
+    "completion_criteria": "Suggested bounds preserve primary onset and audible natural decay without changing source bytes.",
+    "required_behavior": [
+      "measure leading silence",
+      "measure trailing silence",
+      "suggest usable start and end bounds",
+      "measure attack",
+      "measure sustain",
+      "measure release",
+      "classify noise-only tails",
+      "locate natural decay boundaries",
+      "preserve measured primary onset",
+      "preserve audible natural tails",
+      "never destructively trim source bytes"
+    ],
+    "runtime_proof_required": true,
+    "ec2_allowed": false,
+    "final_render_gate": "BLOCKED_UNTIL_EXACT_ROW_IMPLEMENTATION_RUNTIME_QA_AND_AUTHORITY_PASS"
+  },
+  "tracker_item_requirements_parity": {
+    "tracker_path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_TRACKER_ROWS.csv",
+    "tracker_sha256": "a698034d4d61788a9c630434f7aac75e3f7b1bf656319cfe43a5b2ce26d625de",
+    "tracker_bytes": 159309,
+    "item_path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ITEM_ROWS.csv",
+    "item_sha256": "f4a401d828aff69dbe7e005d6592a2af86edc936a0e6c1bae2f764345a9b8489",
+    "item_bytes": 111386,
+    "requirements_tracker_path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
+    "requirements_item_path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
+    "requirements_sha256": "077eaf1dfc1cb0d990660b2d9ec7073bc2b4acc1be47a94e9a0ea65eb1924acc",
+    "requirements_bytes": 48422,
+    "requirements_copies_byte_identical": true,
+    "tracker_item_title_match": true,
+    "tracker_item_status_match": true,
+    "tracker_item_acceptance_match": true,
+    "tracker_item_gate_match": true,
+    "tracker_item_dependency_match": true,
+    "git_state": "untracked_preserved_unaccepted"
+  },
+  "dependency_authority": [
+    {
+      "tracker_id": "TRK-W64-071",
+      "commit": "fc9f1616d5aa99ede91c26277c880e89d8a6aa5b",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-071_WAVEFORM_FEATURE_EXTRACTION_CURRENT_DELTA_20260719.json",
+      "current_delta_sha256": "790f6689893c883692d146b2ceedf7daa69e2d2f4079749b943e4eff9b16444f",
+      "current_delta_bytes": 16710,
+      "current_delta_status": "HOLD_ROW070_CANONICAL_DECODE_AND_VERSIONED_FULL_FEATURE_PIPELINE_ABSENT",
+      "row_complete": false,
+      "dependency_satisfied": false,
+      "reason": "Silence, envelope, noise-floor, and decay decisions require accepted waveform and acoustic feature authority."
+    },
+    {
+      "tracker_id": "TRK-W64-072",
+      "commit": "f3598905c6f2b2e1dfa64aa053074e7bd320392f",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ONSET_TRANSIENT_ANCHOR_CURRENT_DELTA_20260719.json",
+      "current_delta_sha256": "c116e844619e320341e4dd1707b8c0711288784984f858bc17585b3a2b694778",
+      "current_delta_bytes": 18358,
+      "current_delta_status": "HOLD_DEPENDENCIES_DETECTOR_THRESHOLD_REGISTRY_AND_BENCHMARK_AUTHORITY_ABSENT",
+      "row_complete": false,
+      "dependency_satisfied": false,
+      "reason": "Usable trim bounds cannot prove onset or tail preservation without accepted onset, peak, offset, and ambiguity authority."
+    }
+  ],
+  "retained_index_input_boundary": {
+    "path": "runtime_artifacts/audio_asset_indexes/audio_downloads_functional_20260715T095712-0500/audio_pack_functional_index.jsonl",
+    "sha256": "7301243a364025dbd23907aee20ee8593d5897caa83d38391026ad42da6d17ec",
+    "bytes": 38266398,
+    "record_count": 39771,
+    "read_only_scan_performed": true,
+    "source_audio_opened_or_decoded": false,
+    "row073_field_presence_counts": {
+      "leading_silence_seconds": 0,
+      "trailing_silence_seconds": 0,
+      "usable_start_sample": 0,
+      "usable_end_sample": 0,
+      "usable_bounds": 0,
+      "attack_seconds": 0,
+      "sustain_seconds": 0,
+      "release_seconds": 0,
+      "noise_only_tail": 0,
+      "natural_decay_end_sample": 0,
+      "envelope": 0,
+      "segments": 0,
+      "anchors": 0,
+      "source_before_sha256": 0,
+      "source_after_sha256": 0
+    },
+    "attack_characteristic_counts": {
+      "gradual": 22,
+      "sharp_transient": 887,
+      "soft_transient": 4059,
+      "sustained": 7842,
+      "unknown": 26961
+    },
+    "attack_characteristic_count_reconciles_to_records": true,
+    "loopability_counts": {
+      "candidate": 25,
+      "declared_loop": 118,
+      "not_indicated": 39628
+    },
+    "loopability_count_reconciles_to_records": true,
+    "row073_measured_records_present": false,
+    "scope": "Existing retained JSONL bytes only. No external source inventory, audio decode, feature extraction, bounds analysis, trimming, index rebuild, or runtime mutation was performed."
+  },
+  "retained_metadata_provenance": {
+    "implementation_path": "Plan/07_IMPLEMENTATION/scripts/build_audio_pack_functional_index.py",
+    "implementation_sha256": "d958bde4c7bd79b9ff1fdcffd787d074fea84e9f0ae4d48b9a56f93f54a1736c",
+    "implementation_bytes": 17598,
+    "git_state": "tracked_clean",
+    "attack_characteristic_derivation": "relative path text and previously classified event_type",
+    "attack_characteristic_uses_waveform_samples": false,
+    "loopability_derivation": "the word loop in the relative path or broad ambience, room-tone, or music event type",
+    "loopability_uses_waveform_samples": false,
+    "decision": "metadata_routing_hints_reusable_but_not_row073_measurement_authority"
+  },
+  "planned_schema_assessment": {
+    "path": "Plan/08_SCHEMAS/audio_asset_intelligence_record.schema.json",
+    "sha256": "42b7aec3b9595c153de3482290d1dfe715a082d4d5f85823f4afa6a162e0cc1f",
+    "bytes": 4323,
+    "git_state": "untracked_preserved_unaccepted",
+    "anchors_can_name_onset_offset_and_decay_end": true,
+    "segments_can_name_start_and_end_samples": true,
+    "anchors_array_min_items_declared": false,
+    "segments_array_min_items_declared": false,
+    "segments_require_semantic_type": false,
+    "segments_require_end_after_start": false,
+    "missing_row073_authority_fields": [
+      "leading_silence_start_and_end",
+      "trailing_silence_start_and_end",
+      "usable_start_sample",
+      "usable_end_sample",
+      "attack_interval",
+      "sustain_interval",
+      "release_interval",
+      "noise_only_tail_classification",
+      "natural_decay_end_sample",
+      "analysis_thresholds_and_hysteresis",
+      "channel_aggregation_policy",
+      "onset_preservation_check",
+      "tail_preservation_check",
+      "source_before_sha256",
+      "source_after_sha256",
+      "suggestion_only_non_destructive_flag"
+    ],
+    "decision": "partial_anchor_and_segment_shapes_reusable_not_accepted_as_row073_contract"
+  },
+  "bounded_non_destructive_pattern": {
+    "implementation_path": "Plan/07_IMPLEMENTATION/scripts/run_wave64_kokoro_dialogue_audition.py",
+    "implementation_sha256": "4b8f63c5a01033f56d43e473c51b423db25405fceadf697a74d945415b423eb7",
+    "implementation_bytes": 12251,
+    "implementation_git_state": "tracked_clean",
+    "test_path": "Plan/Instructions/QA/Scripts/test_run_wave64_kokoro_dialogue_audition.py",
+    "test_sha256": "63c9948af5940f45b177ffe2c0e2d1e5f1fe147367dc129fc4ad15af7daebd0c",
+    "test_bytes": 4635,
+    "test_git_state": "tracked_clean",
+    "reusable_behavior": [
+      "writes raw generated audio separately",
+      "pads only a derived packaged copy with trailing zeros",
+      "refuses to truncate overlength audio",
+      "records speech_truncated=false and time_stretched=false"
+    ],
+    "row073_limit": "The fixed-duration speech packager does not detect silence, usable bounds, envelope phases, noise-only tails, or natural decay and does not operate over the retained library.",
+    "decision": "non_destructive_derivative_pattern_reusable_not_row073_analysis"
+  },
+  "planning_only_coverage": {
+    "builder_path": "Plan/07_IMPLEMENTATION/scripts/build_wave64_autonomous_sound_intelligence_control_package.py",
+    "builder_sha256": "62441dab915e5d277963aa58f579ee8a9190a4f3d58fcceab2b252426524f593",
+    "builder_bytes": 37998,
+    "builder_git_state": "untracked_preserved_unaccepted",
+    "registry_path": "Plan/10_REGISTRIES/wave64_autonomous_sound_intelligence_work_package_registry.json",
+    "registry_sha256": "d4ba802a94920e462fed578790e0508f140d5d7b0cf64736dcc86f47fb0e709e",
+    "registry_bytes": 13741,
+    "registry_git_state": "untracked_preserved_unaccepted",
+    "registry_row_status": "Planned_Autonomous_Implementation_Required",
+    "decision": "planning_coverage_only_not_analyzer_or_runtime_evidence"
+  },
+  "repository_analyzer_scan": {
+    "scope": [
+      "Plan/07_IMPLEMENTATION/scripts",
+      "Plan/Instructions/QA/Scripts"
+    ],
+    "dedicated_row073_analyzer_found": false,
+    "dedicated_row073_test_found": false,
+    "exact_term_hit_counts": {
+      "leading_silence": 0,
+      "trailing_silence": 3,
+      "usable_start": 0,
+      "usable_end": 0,
+      "natural_decay": 0,
+      "noise_only_tail": 0,
+      "attack_sustain_release": 1
+    },
+    "trailing_silence_hits_are_kokoro_padding_contract_only": true,
+    "attack_sustain_release_hit_is_row073_planning_declaration_only": true,
+    "matching_audio_bounds_or_decay_implementation_filename_count": 0,
+    "implementation_status": "absent"
+  },
+  "gate_assessment": [
+    {
+      "gate": "silence_bounds",
+      "reusable_evidence": "none",
+      "current_row073_decision": "hold",
+      "reason": "No waveform-derived leading or trailing silence measurement, threshold, hysteresis, or channel policy exists."
+    },
+    {
+      "gate": "attack_sustain_release",
+      "reusable_evidence": "path_heuristic_only",
+      "current_row073_decision": "hold",
+      "reason": "The retained attack label is inferred from path text and event type; no measured envelope phases or confidence exist."
+    },
+    {
+      "gate": "tail_preservation",
+      "reusable_evidence": "non_destructive_speech_packaging_pattern_only",
+      "current_row073_decision": "hold",
+      "reason": "One unrelated packager preserves raw speech and avoids truncation, but no natural-decay detector or audible-tail benchmark exists."
+    },
+    {
+      "gate": "non_destructive",
+      "reusable_evidence": "local_pattern_pass_full_library_proof_absent",
+      "current_row073_decision": "hold",
+      "reason": "A reusable source-plus-derived-output pattern exists, but no full-library source before/after fingerprint proves Row073 analysis leaves every source byte unchanged."
+    }
+  ],
+  "acceptance_gaps": [
+    {
+      "code": "ROW071_AND_ROW072_DEPENDENCIES_NOT_ACCEPTED",
+      "detail": "Both direct prerequisites remain row_complete=false, so accepted waveform features and onset/offset anchors are unavailable."
+    },
+    {
+      "code": "ROW073_DIRECT_EVIDENCE_ABSENT",
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_usable_bounds_decay_analysis.json",
+      "detail": "The tracker-declared direct Row073 evidence artifact does not exist."
+    },
+    {
+      "code": "USABLE_BOUNDS_AND_DECAY_ANALYZER_ABSENT",
+      "detail": "No implementation consumes canonical PCM and accepted anchors/features to measure silence, envelope phases, usable bounds, noise-only tails, and natural decay."
+    },
+    {
+      "code": "MEASURED_FEATURE_SCHEMA_INCOMPLETE",
+      "detail": "The planned schema has generic anchors and segments but no required Row073 fields, thresholds, phase types, preservation checks, or suggestion-only authority."
+    },
+    {
+      "code": "RETAINED_ATTACK_AND_LOOP_HINTS_NOT_WAVEFORM_AUTHORITY",
+      "detail": "All retained attack and loopability values are path/event heuristics; none proves measured envelope or decay behavior."
+    },
+    {
+      "code": "FIXTURE_AND_REPRESENTATIVE_STRATA_TESTS_ABSENT",
+      "detail": "No tests cover silence, impulse, gradual attack, sustained tone, noisy tail, long reverb, multi-event, stereo disagreement, low-SNR onset, or preservation of audible tails."
+    },
+    {
+      "code": "FULL_LIBRARY_SOURCE_IMMUTABILITY_PROOF_ABSENT",
+      "detail": "No before/after path-size-hash binding proves every source file remained byte-identical during analysis."
+    },
+    {
+      "code": "FULL_LIBRARY_RUNTIME_AND_BLOCKER_MANIFEST_ABSENT",
+      "detail": "All 39,771 retained records lack Row073 outputs, and no runtime packet reconciles accepted inputs to analysis PASS or exact blockers with output, test, and failure-manifest hashes."
+    }
+  ],
+  "direct_downstream_hold": {
+    "count": 6,
+    "tracker_ids": [
+      "TRK-W64-074",
+      "TRK-W64-076",
+      "TRK-W64-093",
+      "TRK-W64-098",
+      "TRK-W64-100",
+      "TRK-W64-112"
+    ],
+    "reason": "Each row directly declares TRK-W64-073 as a prerequisite; path heuristics and one unrelated non-destructive padding pattern cannot substitute for accepted silence, envelope, usable-bound, and natural-decay authority."
+  },
+  "scheduler_and_worker_containment": {
+    "controls_modified": false,
+    "codex_automations_enabled_or_resumed": false,
+    "windows_worker_tasks_enabled_or_started": false,
+    "mask_maintenance_tasks_enabled_or_started": false,
+    "worker_lanes_polled_or_woken": false,
+    "ec2_read_only_monitor_modified": false,
+    "boundary_source": "Root-recovery containment update supplied to this task; this QA turn performed no scheduler, task, provider, Docker, WSL, EC2, or audio runtime action."
+  },
+  "preservation_boundary": {
+    "queued_worker_scopes_modified": false,
+    "flux2_dirty_paths_modified": false,
+    "portfolio_reconciliation_paths_modified": false,
+    "worker_control_snapshots_modified": false,
+    "sound_planning_source_package_modified": false,
+    "row069_index_artifacts_modified": false,
+    "row071_or_row072_evidence_modified": false,
+    "planned_audio_intelligence_schema_modified": false,
+    "external_audio_source_modified": false,
+    "provider_or_worker_invoked": false,
+    "audio_decode_feature_extraction_bounds_analysis_generation_or_playback_executed": false,
+    "only_new_project_output": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_CURRENT_DELTA_20260719.json"
+  },
+  "checks": [
+    {"name": "UBD-D001_row072_commit_is_current_head", "result": "pass"},
+    {"name": "UBD-D002_tracker_item_row073_contract_parity", "result": "pass"},
+    {"name": "UBD-D003_requirements_copies_byte_identical", "result": "pass"},
+    {"name": "UBD-D004_row071_and_row072_dependency_holds_detected", "result": "pass"},
+    {"name": "UBD-D005_row073_direct_evidence_absence_detected", "result": "pass"},
+    {"name": "UBD-D006_retained_index_hash_and_39771_count_bound", "result": "pass"},
+    {"name": "UBD-D007_zero_retained_row073_measurement_records_detected", "result": "pass"},
+    {"name": "UBD-D008_attack_characteristic_path_heuristic_provenance_detected", "result": "pass"},
+    {"name": "UBD-D009_loopability_path_or_event_heuristic_provenance_detected", "result": "pass"},
+    {"name": "UBD-D010_partial_anchor_and_segment_schema_identified", "result": "pass"},
+    {"name": "UBD-D011_row073_schema_authority_gaps_detected", "result": "pass"},
+    {"name": "UBD-D012_dedicated_bounds_decay_analyzer_absence_detected", "result": "pass"},
+    {"name": "UBD-D013_dedicated_bounds_decay_test_absence_detected", "result": "pass"},
+    {"name": "UBD-D014_kokoro_non_destructive_pattern_not_overclaimed", "result": "pass"},
+    {"name": "UBD-D015_full_library_source_immutability_proof_absence_detected", "result": "pass"},
+    {"name": "UBD-D016_full_library_runtime_manifest_absence_detected", "result": "pass"},
+    {"name": "UBD-D017_six_direct_downstream_rows_held", "result": "pass"},
+    {"name": "UBD-D018_no_false_completion_or_runtime_claim", "result": "pass"},
+    {"name": "UBD-D019_no_audio_runtime_or_external_source_scan", "result": "pass"},
+    {"name": "UBD-D020_disjoint_preservation_and_no_wake_boundary", "result": "pass"}
+  ],
+  "check_summary": {
+    "checked": 20,
+    "passed": 20,
+    "failed": 0
+  },
+  "decision": {
+    "retained_attack_and_loop_hints": "routing_metadata_reuse_only",
+    "bounded_non_destructive_derivative_pattern": "technical_reuse_allowed",
+    "row073_status": "Planned_Autonomous_Implementation_Required",
+    "row073_acceptance": "held",
+    "runtime_completion": false,
+    "product_completion": false,
+    "safe_next_action": "After Rows071-072 are accepted, route a bounded Row073 implementation that freezes silence/noise thresholds, hysteresis, channel policy, envelope and tail definitions, and suggestion-only authority; emits measured leading/trailing silence, usable bounds, attack/sustain/release, noise-tail, and natural-decay records from canonical PCM; preserves accepted onset/offset anchors; validates deterministic fixtures and representative strata; proves every source byte unchanged with before/after bindings; reconciles every accepted input to analysis PASS or an exact blocker; and emits the tracker-declared direct evidence. Reuse the existing raw-plus-derived non-destructive packaging pattern where appropriate without treating path-derived attack labels as waveform authority. Continue independent Codex PM/QA work meanwhile."
+  }
+}
