@@ -137,6 +137,30 @@ ALLOWED_THRESHOLD_FIELDS = {
 }
 SHA256_HEX_CHARS = set("0123456789abcdef")
 BODY_ATTACHED_CLASSES = {"limb", "hand", "foot", "clothing_region"}
+CONTENT_ADDRESSED_EXCLUDED_FIELDS = frozenset({"created_at", "manifest_sha256"})
+REPO_ROOT = Path(__file__).resolve().parents[3]
+DEFAULT_FIXTURE_DIR = (
+    REPO_ROOT / "Plan" / "Instructions" / "QA" / "Evidence" / "Wave64" / "fixtures" / "row085"
+)
+
+# Checked-in synthetic benchmark packets for occlusion / reappearance / lost-track.
+BENCHMARK_FIXTURE_PACKETS: tuple[dict[str, str], ...] = (
+    {
+        "name": "case_occlusion_gap.json",
+        "role": "occlusion_gap",
+        "case_id": "occlusion_gap",
+    },
+    {
+        "name": "case_reappearance.json",
+        "role": "reappearance",
+        "case_id": "reappearance",
+    },
+    {
+        "name": "case_lost_track.json",
+        "role": "lost_track",
+        "case_id": "lost_track",
+    },
+)
 
 
 def _assert_keys_exact(obj: dict[str, Any], allowed: set[str], label: str) -> None:
@@ -209,6 +233,54 @@ def _write_json_atomic(path: Path, payload: dict[str, Any]) -> None:
 def _canonical_sha256(payload: dict[str, Any]) -> str:
     encoded = json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode("utf-8")
     return hashlib.sha256(encoded).hexdigest()
+
+
+def content_addressed_body(payload: dict[str, Any]) -> dict[str, Any]:
+    """Return the deterministic body hashed for replay/tamper checks.
+
+    Wall-clock ``created_at`` and the self-referential ``manifest_sha256`` are
+    excluded so identical fixture packets replay to the same digest.
+    """
+    if not isinstance(payload, dict):
+        raise ValueError("payload must be an object")
+    return {key: value for key, value in payload.items() if key not in CONTENT_ADDRESSED_EXCLUDED_FIELDS}
+
+
+def content_addressed_manifest_sha256(payload: dict[str, Any]) -> str:
+    return _canonical_sha256(content_addressed_body(payload))
+
+
+def verify_manifest_integrity(payload: dict[str, Any]) -> str:
+    """Recompute content-addressed digest and reject tampered manifests."""
+    recorded = _expect_sha256(payload.get("manifest_sha256"), "manifest_sha256")
+    recomputed = content_addressed_manifest_sha256(payload)
+    if recorded != recomputed:
+        raise ValueError(
+            "manifest_sha256 tamper/replay mismatch: "
+            f"recorded={recorded} recomputed={recomputed}"
+        )
+    return recomputed
+
+
+def load_fixture_packet(name: str, *, fixture_dir: Path | None = None) -> dict[str, Any]:
+    """Load a checked-in Row085 fixture packet by filename."""
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    path = directory / name
+    if not path.is_file():
+        raise FileNotFoundError(f"Row085 fixture packet missing: {path}")
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise ValueError(f"Row085 fixture packet must be a JSON object: {path}")
+    return payload
+
+
+def fixture_file_sha256(name: str, *, fixture_dir: Path | None = None) -> str:
+    """Return the lowercase sha256 of a checked-in fixture packet file bytes."""
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    path = directory / name
+    if not path.is_file():
+        raise FileNotFoundError(f"Row085 fixture packet missing: {path}")
+    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def _validate_timeline_binding(raw: Any) -> dict[str, Any]:
@@ -687,7 +759,8 @@ def compile_manifest(payload: dict[str, Any]) -> dict[str, Any]:
         "row_complete": row_complete,
         "provenance": provenance,
     }
-    manifest_sha256 = _canonical_sha256(receipt_body)
+    # Content-addressed digest excludes wall-clock created_at for deterministic replay.
+    manifest_sha256 = content_addressed_manifest_sha256(receipt_body)
     receipt_body["manifest_sha256"] = manifest_sha256
     return receipt_body
 

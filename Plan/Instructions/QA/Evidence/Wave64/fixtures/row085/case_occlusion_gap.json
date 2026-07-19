@@ -1,0 +1,260 @@
+{
+  "schema_version": "1.0.0",
+  "manifest_id": "row085_fixture_occlusion_gap",
+  "revision": "r001",
+  "run_id": "run_085_occlusion_gap",
+  "scene_id": "scene_085_fixture",
+  "shot_id": "shot_085_occlusion",
+  "take_id": "take_085_occlusion_gap",
+  "is_synthetic": true,
+  "video_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "timeline_binding": {
+    "timeline_id": "timeline_row084_fixture",
+    "timeline_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "frame_count": 48,
+    "frame_rate": 24.0,
+    "frame_time_origin_seconds": 0.0
+  },
+  "detector_stack": {
+    "detector_id": "fixture_detector",
+    "segmenter_id": "fixture_segmenter",
+    "tracker_id": "fixture_tracker",
+    "association_id": "fixture_association",
+    "revision": "fixture_v1",
+    "parameter_digest_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "dependency_authority": {
+    "row084_complete": false
+  },
+  "runtime_authority": {
+    "annotated_benchmark_pass": false,
+    "runtime_receipt_present": false,
+    "combined_track_overlay_contact_audio_review_present": false
+  },
+  "tracks": [
+    {
+      "track_id": "track_actor_1",
+      "owner_id": "character_1",
+      "entity_class": "actor",
+      "parent_owner_id": null,
+      "samples": [
+        {
+          "frame_index": 0,
+          "pts": 0,
+          "bbox_xywh": [10.0, 20.0, 40.0, 80.0],
+          "visibility": "visible",
+          "state": "active",
+          "confidence": 0.92,
+          "mask_ref": "mask_0",
+          "occluder_owner_ids": [],
+          "depth_order": 1
+        },
+        {
+          "frame_index": 1,
+          "pts": 1,
+          "bbox_xywh": [11.0, 20.0, 40.0, 80.0],
+          "visibility": "visible",
+          "state": "active",
+          "confidence": 0.91,
+          "mask_ref": "mask_1",
+          "occluder_owner_ids": [],
+          "depth_order": 1
+        },
+        {
+          "frame_index": 2,
+          "pts": 2,
+          "bbox_xywh": [12.0, 20.0, 40.0, 80.0],
+          "visibility": "occluded",
+          "state": "occluded",
+          "confidence": 0.55,
+          "mask_ref": "mask_2",
+          "occluder_owner_ids": ["prop_table"],
+          "depth_order": 2
+        },
+        {
+          "frame_index": 4,
+          "pts": 4,
+          "bbox_xywh": [14.0, 20.0, 40.0, 80.0],
+          "visibility": "occluded",
+          "state": "occluded",
+          "confidence": 0.5,
+          "mask_ref": "mask_4",
+          "occluder_owner_ids": ["prop_table"],
+          "depth_order": 2
+        }
+      ],
+      "lifecycle_events": [
+        {
+          "event_type": "spawn",
+          "frame_index": 0,
+          "reason": "actor enters frame",
+          "related_track_id": null
+        },
+        {
+          "event_type": "occlusion_gap_start",
+          "frame_index": 2,
+          "reason": "crossed behind prop",
+          "related_track_id": "track_prop_table"
+        },
+        {
+          "event_type": "occlusion_gap_end",
+          "frame_index": 4,
+          "reason": "still occluded at gap close sample",
+          "related_track_id": "track_prop_table"
+        }
+      ]
+    },
+    {
+      "track_id": "track_hand_1",
+      "owner_id": "character_1_hand_right",
+      "entity_class": "hand",
+      "parent_owner_id": "character_1",
+      "samples": [
+        {
+          "frame_index": 0,
+          "pts": 0,
+          "bbox_xywh": [18.0, 40.0, 12.0, 16.0],
+          "visibility": "visible",
+          "state": "active",
+          "confidence": 0.88,
+          "mask_ref": "hand_mask_0",
+          "occluder_owner_ids": [],
+          "depth_order": 1
+        },
+        {
+          "frame_index": 1,
+          "pts": 1,
+          "bbox_xywh": [19.0, 40.0, 12.0, 16.0],
+          "visibility": "partial",
+          "state": "occluded",
+          "confidence": 0.62,
+          "mask_ref": "hand_mask_1",
+          "occluder_owner_ids": ["prop_table"],
+          "depth_order": 2
+        }
+      ],
+      "lifecycle_events": [
+        {
+          "event_type": "spawn",
+          "frame_index": 0,
+          "reason": "hand attached to actor",
+          "related_track_id": "track_actor_1"
+        },
+        {
+          "event_type": "occlusion_gap_start",
+          "frame_index": 1,
+          "reason": "hand occluded by prop",
+          "related_track_id": "track_prop_table"
+        },
+        {
+          "event_type": "occlusion_gap_end",
+          "frame_index": 3,
+          "reason": "hand occlusion span closed in lifecycle",
+          "related_track_id": "track_prop_table"
+        }
+      ]
+    },
+    {
+      "track_id": "track_prop_table",
+      "owner_id": "prop_table",
+      "entity_class": "prop",
+      "parent_owner_id": null,
+      "samples": [
+        {
+          "frame_index": 0,
+          "pts": 0,
+          "bbox_xywh": [30.0, 50.0, 60.0, 40.0],
+          "visibility": "visible",
+          "state": "active",
+          "confidence": 0.95,
+          "mask_ref": "prop_mask_0",
+          "occluder_owner_ids": [],
+          "depth_order": 0
+        },
+        {
+          "frame_index": 10,
+          "pts": 10,
+          "bbox_xywh": [30.0, 50.0, 60.0, 40.0],
+          "visibility": "visible",
+          "state": "active",
+          "confidence": 0.95,
+          "mask_ref": "prop_mask_10",
+          "occluder_owner_ids": [],
+          "depth_order": 0
+        }
+      ],
+      "lifecycle_events": [
+        {
+          "event_type": "spawn",
+          "frame_index": 0,
+          "reason": "static prop",
+          "related_track_id": null
+        }
+      ]
+    },
+    {
+      "track_id": "track_surface_floor",
+      "owner_id": "surface_floor",
+      "entity_class": "surface",
+      "parent_owner_id": null,
+      "samples": [
+        {
+          "frame_index": 0,
+          "pts": 0,
+          "bbox_xywh": [0.0, 80.0, 128.0, 48.0],
+          "visibility": "visible",
+          "state": "active",
+          "confidence": 0.97,
+          "mask_ref": "surface_mask_0",
+          "occluder_owner_ids": [],
+          "depth_order": 3
+        },
+        {
+          "frame_index": 10,
+          "pts": 10,
+          "bbox_xywh": [0.0, 80.0, 128.0, 48.0],
+          "visibility": "visible",
+          "state": "active",
+          "confidence": 0.97,
+          "mask_ref": "surface_mask_10",
+          "occluder_owner_ids": [],
+          "depth_order": 3
+        }
+      ],
+      "lifecycle_events": [
+        {
+          "event_type": "spawn",
+          "frame_index": 0,
+          "reason": "static surface",
+          "related_track_id": null
+        }
+      ]
+    }
+  ],
+  "metrics": {
+    "identity_switch_count": 0,
+    "lost_track_count": 0,
+    "occlusion_gap_frames": 6,
+    "reappearance_count": 0,
+    "fragmentation_count": 0,
+    "merge_count": 0,
+    "split_count": 0,
+    "false_positive_count": 0,
+    "false_negative_count": 0
+  },
+  "thresholds": {
+    "max_identity_switch_count": 0,
+    "max_lost_track_count": 0,
+    "max_occlusion_gap_frames": 12,
+    "max_fragmentation_count": 0,
+    "max_merge_count": 0,
+    "max_split_count": 0,
+    "min_track_confidence": 0.5
+  },
+  "provenance": {
+    "fixture": "row085_case_occlusion_gap",
+    "benchmark_role": "occlusion_gap",
+    "annotated_benchmark_pass": false,
+    "production_benchmark": false
+  }
+}

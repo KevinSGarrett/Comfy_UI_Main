@@ -1,20 +1,20 @@
 {
   "schema_version": "1.0",
   "evidence_id": "TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719",
-  "created_at": "2026-07-19T19:43:06Z",
-  "source_commit": "791f961fc2085e148aa7dd349f41c106a06a9f53",
-  "prior_row_commit": "c76466d5e2f68211162e27747d6898a86f4af5ac",
+  "created_at": "2026-07-19T20:32:50Z",
+  "source_commit": "8d63bdcf05446cbbe88ba931dcd68164edae6381",
+  "prior_row_commit": "41a6ed7f",
   "prior_row_commit_is_current_head": false,
   "tracker_id": "TRK-W64-085",
   "item_id": "ITEM-W64-085",
-  "status": "HOLD_DEPENDENCY_RUNTIME_BENCHMARK_AND_VISUAL_PROOF_ABSENT_WITH_FAIL_CLOSED_TRACK_COMPILER_SLICE_PRESENT",
-  "classification": "ROW085_CURRENT_DELTA_FAIL_CLOSED_COMPILER_AND_SCHEMA_SLICE_NO_FALSE_COMPLETION",
+  "status": "HOLD_DEPENDENCY_RUNTIME_BENCHMARK_AND_VISUAL_PROOF_ABSENT_WITH_FIXTURE_PACKET_AND_REPLAY_HASH_SLICE_PRESENT",
+  "classification": "ROW085_CURRENT_DELTA_FIXTURE_PACKETS_AND_REPLAY_TAMPER_HASH_SLICE_NO_FALSE_COMPLETION",
   "row_complete": false,
   "implementation_completion_claimed": false,
   "runtime_completion_claimed": false,
   "qa_decision": "HOLD",
   "intent": {
-    "intent_id": "interactive_cursor_shift_row085_compiler_slice_20260719",
+    "intent_id": "interactive_cursor_shift_row085_fixture_replay_slice_20260719",
     "classification": "INTERACTIVE_CURSOR_SHIFT_AUTHORITY",
     "work_type": "final_authority",
     "authority_class": "interactive_cursor_integration",
@@ -24,13 +24,19 @@
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_actor_object_region_tracking.py",
       "Plan/08_SCHEMAS/actor_object_region_tracking_manifest.schema.json",
       "Plan/Instructions/QA/Scripts/test_row085_actor_object_region_tracking_compiler.py",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719.json"
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/case_occlusion_gap.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/case_reappearance.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/case_lost_track.json"
     ],
     "allowed_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_actor_object_region_tracking.py",
       "Plan/08_SCHEMAS/actor_object_region_tracking_manifest.schema.json",
       "Plan/Instructions/QA/Scripts/test_row085_actor_object_region_tracking_compiler.py",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719.json"
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/case_occlusion_gap.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/case_reappearance.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/case_lost_track.json"
     ]
   },
   "row085_contract": {
@@ -78,39 +84,65 @@
   },
   "compiler_slice": {
     "compiler_path": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_actor_object_region_tracking.py",
-    "compiler_sha256": "a39b8023058db98c374372c1da77c867727b741eb4d57b26a8730c06f5a65d24",
-    "compiler_bytes": 29282,
+    "compiler_sha256": "b8440cf79d52e9cda4c870be7628ea14a1e9928ea6c628c47c140c336344b643",
+    "compiler_bytes": 32324,
     "schema_path": "Plan/08_SCHEMAS/actor_object_region_tracking_manifest.schema.json",
     "schema_sha256": "6a78cd3ec728a63a663a9a2873973a623a411e46a53730b5e3e7460dc36a20f1",
     "schema_bytes": 10863,
     "test_path": "Plan/Instructions/QA/Scripts/test_row085_actor_object_region_tracking_compiler.py",
-    "test_sha256": "2a1198e147b418be23510eb42027a107b8647bbda4cb80ed16fe5e5a08893d63",
-    "test_bytes": 12184,
+    "test_sha256": "872cc9a3314683034e1cfdc6d7315e21850cfb07d9b1e1bebe5952ba6f507fc4",
+    "test_bytes": 17608,
+    "fixture_dir": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085",
+    "fixture_packets": [
+      {
+        "name": "case_occlusion_gap.json",
+        "role": "occlusion_gap",
+        "file_sha256": "adf2ece4ccfb4a401a1fb9e15c994741dd868ff7cd588d84e9dd0d3faf841557",
+        "compiled_manifest_sha256": "facc7e4096717412690e8c6198a916ad8fa4931f38e0f9cba8f6c88a53387282",
+        "bytes": 7564
+      },
+      {
+        "name": "case_reappearance.json",
+        "role": "reappearance",
+        "file_sha256": "a917100637c76556a8daa5b5ec4da4b40b87c870567e54402daabe9ba07fd2a2",
+        "compiled_manifest_sha256": "73abaf4ac77cb6fa78f499f51a5f5d2a9cd79ca28f582c733946fb6d20814457",
+        "bytes": 7992
+      },
+      {
+        "name": "case_lost_track.json",
+        "role": "lost_track",
+        "file_sha256": "78707e1138e4047e8a3373cfffe0fa506ed27bf9e121cb2739f178abd7938ff5",
+        "compiled_manifest_sha256": "8489f46fed11796adb07224d78021acb5070690d622f3fdd9e78d86ec20e75ac",
+        "bytes": 7058
+      }
+    ],
     "fail_closed_invariants": [
       "strict monotonic unique frame_index and pts per track",
       "required actor/prop/surface taxonomy with body-attached parent_owner_id",
       "lifecycle-derived identity-switch, lost-track, occlusion-gap, and reappearance metrics",
       "threshold and identity-switch ownership unsupported blocks contact-Foley certification",
+      "content-addressed manifest_sha256 excludes created_at for deterministic replay; verify_manifest_integrity rejects tamper",
+      "checked-in fixture packets cover occlusion-gap, reappearance, and lost-track benchmark cases",
       "row_complete and production_completion_allowed remain false in this increment",
       "Row084 dependency and runtime/review flags gate authority ceiling"
     ],
-    "decision": "USEFUL_FAIL_CLOSED_CONTRACT_COMPILER_SLICE_NOT_PRODUCTION_TRACKING_AUTHORITY"
+    "decision": "USEFUL_FIXTURE_PACKET_AND_REPLAY_HASH_SLICE_NOT_PRODUCTION_TRACKING_AUTHORITY"
   },
   "dependency_authority": {
     "tracker_id": "TRK-W64-084",
     "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json",
     "row_complete": false,
     "dependency_satisfied": false,
-    "row085_effect": "Persistent frame-to-frame ownership cannot be certified without an accepted canonical frame, PTS, cut, and missing-frame authority."
+    "row085_effect": "Persistent frame-to-frame ownership cannot be certified without an accepted canonical frame, PTS, cut, and missing-frame authority. Fixture packets and replay/tamper checks do not satisfy that upstream authority."
   },
   "focused_local_test_result": {
     "py_compile": "PASS",
     "strict_command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_row085_actor_object_region_tracking_compiler.py",
-    "strict_result": "8 passed",
+    "strict_result": "10 passed",
     "strict_exit_code": 0,
-    "total_focused_passed": 8,
+    "total_focused_passed": 10,
     "total_focused_failed": 0,
-    "scope_interpretation": "Focused tests prove the fail-closed track lifecycle contract/compiler slice only. They do not grant Row085 completion, annotated benchmark authority, runtime receipt, or combined visual review."
+    "scope_interpretation": "Focused tests prove the fail-closed compiler plus checked-in occlusion/reappearance/lost-track fixture packets and deterministic replay/tamper hash integrity only. They do not grant Row085 completion, annotated benchmark authority, Row084 acceptance, runtime receipt, or combined visual review."
   },
   "checks": [
     {"check_id": "ROW085-001", "name": "tracker_item_requirements_parity", "status": "PASS"},
@@ -126,23 +158,30 @@
     {"check_id": "ROW085-011", "name": "entity_taxonomy_and_parent_owner_gates_present", "status": "PASS"},
     {"check_id": "ROW085-012", "name": "identity_switch_blocks_contact_foley_certification", "status": "PASS"},
     {"check_id": "ROW085-013", "name": "codex_or_interactive_scope_and_zero_wake_boundary", "status": "PASS"},
-    {"check_id": "ROW085-014", "name": "dependency_row084_complete", "status": "FAIL"},
-    {"check_id": "ROW085-015", "name": "production_actor_object_region_tracker_runtime_complete", "status": "FAIL"},
-    {"check_id": "ROW085-016", "name": "annotated_tracking_benchmark_pass", "status": "FAIL"},
-    {"check_id": "ROW085-017", "name": "deterministic_tracking_replay_and_tamper_proof_present", "status": "FAIL"},
-    {"check_id": "ROW085-018", "name": "combined_track_overlay_contact_audio_visual_review_present", "status": "FAIL"},
-    {"check_id": "ROW085-019", "name": "direct_row085_runtime_receipt_present", "status": "FAIL"},
-    {"check_id": "ROW085-020", "name": "tracker_declared_output_artifact_present", "status": "FAIL"}
+    {"check_id": "ROW085-014", "name": "fixture_packets_cover_occlusion_gap", "status": "PASS"},
+    {"check_id": "ROW085-015", "name": "fixture_packets_cover_reappearance", "status": "PASS"},
+    {"check_id": "ROW085-016", "name": "fixture_packets_cover_lost_track", "status": "PASS"},
+    {"check_id": "ROW085-017", "name": "deterministic_tracking_replay_and_tamper_proof_present", "status": "PASS"},
+    {"check_id": "ROW085-018", "name": "dependency_row084_complete", "status": "FAIL"},
+    {"check_id": "ROW085-019", "name": "production_actor_object_region_tracker_runtime_complete", "status": "FAIL"},
+    {"check_id": "ROW085-020", "name": "annotated_tracking_benchmark_pass", "status": "FAIL"},
+    {"check_id": "ROW085-021", "name": "combined_track_overlay_contact_audio_visual_review_present", "status": "FAIL"},
+    {"check_id": "ROW085-022", "name": "direct_row085_runtime_receipt_present", "status": "FAIL"},
+    {"check_id": "ROW085-023", "name": "tracker_declared_output_artifact_present", "status": "FAIL"}
   ],
   "test_and_runtime_boundary": {
     "schema_meta_validation_executed": true,
     "focused_source_tests_executed": true,
-    "focused_source_tests_passed": 8,
+    "focused_source_tests_passed": 10,
     "focused_source_tests_failed": 0,
+    "fixture_packets_compiled": true,
+    "replay_tamper_hash_check_executed": true,
     "production_tracking_invoked": false,
     "new_media_decode_or_tracking_invoked": false,
     "direct_row085_runtime_benchmark_executed": false,
+    "annotated_benchmark_pass_claimed": false,
     "visual_review_executed": false,
+    "row084_acceptance_claimed": false,
     "ec2_allowed": true,
     "ec2_invoked": false,
     "ec2_not_invoked_reason": "The prerequisite Row084 authority and annotated benchmark, runtime-receipt, and combined-review gates already fail; GPU execution cannot cure those authority gaps.",
@@ -153,24 +192,30 @@
     "scheduled_task_wakes": 0
   },
   "sibling_lane_disjointness": {
-    "excluded_sibling_rows": ["TRK-W64-067", "TRK-W64-070", "TRK-W64-072", "TRK-W64-073"],
+    "excluded_sibling_rows": [
+      "TRK-W64-069",
+      "TRK-W64-083",
+      "TRK-W64-084",
+      "TRK-W64-092",
+      "TRK-W64-094",
+      "TRK-W64-095"
+    ],
     "excluded_paths": [
-      "Plan/07_IMPLEMENTATION/scripts/decode_wave64_canonical_audio.py",
-      "Plan/07_IMPLEMENTATION/scripts/detect_wave64_onset_transient_anchors.py",
-      "Plan/07_IMPLEMENTATION/scripts/analyze_wave64_usable_bounds_decay.py",
-      "Plan/07_IMPLEMENTATION/scripts/validate_wave64_sound_intelligence_planning_authority.py",
-      "Plan/Instructions/QA/Scripts/test_decode_wave64_canonical_audio.py",
-      "Plan/Instructions/QA/Scripts/test_detect_wave64_onset_transient_anchors.py",
-      "Plan/Instructions/QA/Scripts/test_analyze_wave64_usable_bounds_decay.py",
-      "Plan/Instructions/QA/Scripts/test_row067_sound_intelligence_planning_authority.py",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-067_*",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_*",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_*",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_*",
+      "Plan/07_IMPLEMENTATION/scripts/build_audio_pack_functional_index.py",
+      "Plan/07_IMPLEMENTATION/scripts/calibrate_wave64_retrieval_fallback.py",
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_contact_inference_ownership.py",
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_event_uncertainty_fallback.py",
+      "Plan/07_IMPLEMENTATION/scripts/compose_wave64_layered_foley_composition.py",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-069_*",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-083_*",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_*",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-090_*"
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-092_*",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-094_*",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-095_*",
+      "Plan/Instructions/QA/Scripts/test_row083_*",
+      "Plan/Instructions/QA/Scripts/test_row084_*",
+      "Plan/Instructions/QA/Scripts/test_row092_*",
+      "Plan/Instructions/QA/Scripts/test_row094_*"
     ],
     "disjoint_from_sibling_agents": true
   },
@@ -179,21 +224,26 @@
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_actor_object_region_tracking.py",
       "Plan/08_SCHEMAS/actor_object_region_tracking_manifest.schema.json",
       "Plan/Instructions/QA/Scripts/test_row085_actor_object_region_tracking_compiler.py",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719.json"
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/case_occlusion_gap.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/case_reappearance.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/case_lost_track.json"
     ],
     "actual_write_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_actor_object_region_tracking.py",
-      "Plan/08_SCHEMAS/actor_object_region_tracking_manifest.schema.json",
       "Plan/Instructions/QA/Scripts/test_row085_actor_object_region_tracking_compiler.py",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719.json"
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/case_occlusion_gap.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/case_reappearance.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/case_lost_track.json"
     ],
     "unrelated_dirty_paths_preserved": true,
     "worker_artifacts_preserved": true,
-    "sibling_row067_070_072_073_paths_preserved": true
+    "sibling_row069_083_084_092_094_095_paths_preserved": true
   },
   "hold_decision": {
     "decision": "HOLD_ROW085_NO_FALSE_COMPLETION",
-    "reason": "A fail-closed Row085 track lifecycle compiler/schema slice now exists with eight passing focused tests covering monotonic frame/PTS enforcement, required entity taxonomy, parent-owner attachment, lifecycle-derived metrics, and identity-switch blocking of contact-Foley certification. Row084 remains incomplete. Annotated tracking benchmarks, production runtime receipts, deterministic replay/tamper proof, combined track-overlay/contact/audio review, and the tracker-declared runtime artifact remain absent. The compiler never sets row_complete or production_completion_allowed true in this increment.",
-    "safe_next_action": "Keep Row085 on hold for runtime completion. Next useful Row085 write: add fixture-backed occlusion/reappearance/lost-track benchmark packets and a deterministic replay hash check without claiming visual-review or Row084 acceptance. Upstream, continue advancing Row084 canonical timeline acceptance. Downstream Rows088/089/090 remain blocked on Row085 measured ownership authority."
+    "reason": "Row085 now has checked-in fixture packets covering occlusion-gap, reappearance, and lost-track lifecycle cases, with deterministic content-addressed replay/tamper hash verification. Ten focused tests pass. Row084 remains incomplete. Annotated production tracking benchmarks, production runtime receipts, combined track-overlay/contact/audio review, and the tracker-declared runtime artifact remain absent. The compiler never sets row_complete or production_completion_allowed true in this increment.",
+    "safe_next_action": "Keep Row085 on hold for runtime completion. Next useful Row085 write: bind fixture packet digests into a synthetic non-production tracking benchmark ledger that records expected occlusion/reappearance/lost-track metrics without claiming visual-review or Row084 acceptance. Upstream, continue advancing Row084 canonical timeline acceptance. Downstream Rows088/089/090 remain blocked on Row085 measured ownership authority."
   }
 }
