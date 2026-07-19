@@ -12,9 +12,9 @@
 ## Commits Pushed This Pass
 
 1. `c84e9dee` Prove Row017 MF70 skin_tone_continuity local visual climb.
-2. `(pending tip stamp after push)`
+2. `5869f224` Stamp Row017 skin_tone_continuity handoff with primary commit id.
 
-Pushed tip verified on origin: `(pending)`
+Pushed tip verified on origin: `5869f224`
 
 ## Row-Scoped Increment Executed
 
