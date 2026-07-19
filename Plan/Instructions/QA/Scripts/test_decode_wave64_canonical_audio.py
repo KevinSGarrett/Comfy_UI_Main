@@ -29,11 +29,12 @@ def _write_pcm16_wav(path: Path, *, frames: int = 128, sample_rate_hz: int = 480
         handle.writeframes(payload)
 
 
-def test_row069_admission_fails_closed_on_current_hold_delta():
+def test_row069_admission_accepts_current_library_index_authority():
     admission = MOD.evaluate_row069_admission(ROOT)
-    assert admission["dependency_satisfied"] is False
-    assert "ROW069_DEPENDENCY_NOT_ACCEPTED" in admission["blocker_codes"]
-    assert admission["row_complete"] is False
+    assert admission["dependency_satisfied"] is True
+    assert admission["blocker_codes"] == []
+    assert admission["row_complete"] is True
+    assert "PASS_LIBRARY_INDEX_AUTHORITY_ACCEPTED" in str(admission.get("status") or "")
 
 
 def test_library_mode_emits_hold_packet_without_false_completion():
@@ -44,8 +45,10 @@ def test_library_mode_emits_hold_packet_without_false_completion():
     assert payload["library_authority"] is False
     assert payload["decision"]["status"] == "blocked"
     assert payload["decision"]["product_completion"] is False
-    assert "ROW069_DEPENDENCY_NOT_ACCEPTED" in payload["blocker_codes"]
+    assert "ROW069_DEPENDENCY_NOT_ACCEPTED" not in payload["blocker_codes"]
+    assert payload["row069_admission"]["dependency_satisfied"] is True
     assert "FULL_LIBRARY_RUNTIME_RECORD_ABSENT" in payload["blocker_codes"]
+    assert "CANONICAL_DECODER_LIBRARY_RUNTIME_ABSENT" in payload["blocker_codes"]
     assert payload["decoder_revision"] == MOD.DECODER_REVISION
     assert payload["canonical_pcm_contract"] == MOD.CANONICAL_PCM_CONTRACT
     assert len(payload["fixture_calibration"]["records"]) == 3

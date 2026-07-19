@@ -624,7 +624,11 @@ def build_library_blocker_packet(root: Path) -> dict[str, Any]:
         "implementation_completion_claimed": False,
         "runtime_completion_claimed": False,
         "library_authority": False,
-        "status": "HOLD_ROW069_DEPENDENCY_AND_FULL_LIBRARY_DECODE_RUNTIME_ABSENT",
+        "status": (
+            "HOLD_FULL_LIBRARY_DECODE_RUNTIME_ABSENT"
+            if admission.get("dependency_satisfied")
+            else "HOLD_ROW069_DEPENDENCY_AND_FULL_LIBRARY_DECODE_RUNTIME_ABSENT"
+        ),
         "row069_admission": admission,
         "fixture_calibration": {
             "authority": "synthetic_non_library",
@@ -641,9 +645,15 @@ def build_library_blocker_packet(root: Path) -> dict[str, Any]:
             "product_completion": False,
             "runtime_completion": False,
             "safe_next_action": (
-                "Accept Row069 index authority, extend decode coverage beyond PCM WAV, "
-                "reconcile every accepted index record to decode PASS or an exact blocker with "
-                "output/failure-manifest hashes, and prove full-library source immutability."
+                "Extend decode coverage beyond PCM WAV, reconcile every accepted Row069 index "
+                "record to decode PASS or an exact blocker with output/failure-manifest hashes, "
+                "and prove full-library source immutability before Row070 acceptance."
+                if admission.get("dependency_satisfied")
+                else (
+                    "Accept Row069 index authority, extend decode coverage beyond PCM WAV, "
+                    "reconcile every accepted index record to decode PASS or an exact blocker with "
+                    "output/failure-manifest hashes, and prove full-library source immutability."
+                )
             ),
         },
     }

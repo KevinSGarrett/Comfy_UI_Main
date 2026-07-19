@@ -7,7 +7,7 @@
 - HEAD: `3b834cde2e1f4749b303762fc72d2aca39024eaf` (acceptance commit; parent `d205c952` includes proof commit `4e1012e6`; remote parity verified).
 - Upstream: `origin/codex/workflow_plan_update_improvements`
 - Policy pivot obeyed: local runtime proof ladder; EC2 deferred; Docker/CVAT annotation-only and unused this pass.
-- Sibling lanes observed and left untouched: Row070/071 bounded live PCM runtime evidence already present and still fail-closed on `ROW069_DEPENDENCY_NOT_ACCEPTED`.
+- Sibling Row070/071 bounded live PCM runtime evidence remains fail-closed on full-library decode gaps; Row069 dependency admission is now satisfied and Row070 tests/hold packet were updated accordingly.
 
 ## Decision
 
@@ -24,7 +24,7 @@
 1. `cc74e16107369e5cb205d8117ae4e1b19ddaf922` - Prove Row069 full-library byte-hash runtime against live audio inventory.
 2. `407a6c628abfbb33870138201c2b043a7fca8121` - Stamp prior Row069 handoff parity.
 3. `4e1012e6aa08ee2c74bcc0bf04eb52d5d08c1472` - Record Row069 full-library byte-hash and resume proofs fail-closed after MAX_PATH repair.
-4. (this commit) Accept Row069 library index authority after independent adjudication.
+4. `3b834cde2e1f4749b303762fc72d2aca39024eaf` - Accept Row069 library index authority after independent adjudication.
 
 ## Independent Verification
 
@@ -37,8 +37,10 @@
 
 ## Validators Run
 
-- `python -m unittest Plan.Instructions.QA.Scripts.test_audio_pack_functional_index -v` → **8 passed**
-- `evaluate_row069_admission` → satisfied
+- `python -m pytest Plan/Instructions/QA/Scripts/test_audio_pack_functional_index.py -q` → **8 passed**
+- `python -m pytest Plan/Instructions/QA/Scripts/test_decode_wave64_canonical_audio.py -q` → **9 passed**
+- `evaluate_row069_admission` → `dependency_satisfied=true`
+- Independent MAX_PATH cluster re-check earlier this shift: 13/13 sha256/bytes match
 - ComfyUI observed up but unused for this acceptance slice
 - Docker/CVAT: not used (`not-needed`)
 - EC2: `EC2_DEFERRED`
@@ -50,6 +52,8 @@
 - `Plan/10_REGISTRIES/audio_pack_functional_index_registry.json`
 - `Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_TRACKER_ROWS.csv` (Notes only; Status remains Planned for SIP planning parity)
 - `Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ITEM_ROWS.csv` (Notes only)
+- `Plan/07_IMPLEMENTATION/scripts/decode_wave64_canonical_audio.py` (hold status/next-action when Row069 admitted)
+- `Plan/Instructions/QA/Scripts/test_decode_wave64_canonical_audio.py` (admission assertions follow accepted authority)
 - This handoff
 
 ## Dirty Ownership Boundary (Preserved)
@@ -71,6 +75,6 @@
 
 ## Exact Next Action
 
-1. Re-adjudicate **TRK-W64-070** now that Row069 library authority is accepted: clear `ROW069_DEPENDENCY_NOT_ACCEPTED` if bounded live PCM evidence still satisfies Row070 gates; grant `row070_acceptance` only on those gates (no product completion).
-2. Keep product completion false until decode + downstream gates pass on their own evidence.
-3. Parallel/alternate if Row070 acceptance blocked on residual decode gaps: local ComfyUI visual QA on an already-generated bounded image set (Docker/CVAT only if annotation gate requires it).
+1. Expand **TRK-W64-070** library-mode decode across accepted Row069 WAV strata (or exact-block non-WAV); residual blockers remain `FULL_LIBRARY_RUNTIME_RECORD_ABSENT` / non-WAV coverage.
+2. Do not claim Row070/`product_completion` until every accepted index record maps to decode PASS or an exact blocker with failure-manifest hashes.
+3. Parallel/alternate: local ComfyUI visual QA on an already-generated bounded image set (Docker/CVAT only if annotation gate requires it).
