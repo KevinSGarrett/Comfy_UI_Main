@@ -1,0 +1,180 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/fine_grained_foley_taxonomy_record.schema.json",
+  "title": "Wave64 Row079 Fine-Grained Foley Taxonomy Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "tracker_id",
+    "item_id",
+    "enricher_revision",
+    "taxonomy_revision",
+    "asset_id",
+    "source_sha256",
+    "segment_id",
+    "canonical_pcm_sha256",
+    "taxonomy",
+    "dimension_evidence",
+    "compatibility",
+    "decision"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "tracker_id": { "type": "string", "const": "TRK-W64-079" },
+    "item_id": { "type": "string", "const": "ITEM-W64-079" },
+    "enricher_revision": {
+      "type": "string",
+      "const": "wave64_row079_fine_grained_foley_enricher_v0.1.0"
+    },
+    "taxonomy_revision": {
+      "type": "string",
+      "const": "wave64_row079_fine_grained_foley_taxonomy_v0.1.0"
+    },
+    "asset_id": { "type": "string", "minLength": 1 },
+    "source_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "segment_id": { "type": "string", "minLength": 1 },
+    "canonical_pcm_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "taxonomy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_family",
+        "contact_pair",
+        "body_region",
+        "footwear",
+        "gait_phase",
+        "surface_material",
+        "object_material",
+        "force",
+        "attack",
+        "motion",
+        "room",
+        "source_perspective"
+      ],
+      "properties": {
+        "event_family": { "$ref": "#/$defs/taxonomy_value" },
+        "contact_pair": { "$ref": "#/$defs/taxonomy_value" },
+        "body_region": { "$ref": "#/$defs/taxonomy_value" },
+        "footwear": { "$ref": "#/$defs/taxonomy_value" },
+        "gait_phase": { "$ref": "#/$defs/taxonomy_value" },
+        "surface_material": { "$ref": "#/$defs/taxonomy_value" },
+        "object_material": { "$ref": "#/$defs/taxonomy_value" },
+        "force": { "$ref": "#/$defs/taxonomy_value" },
+        "attack": { "$ref": "#/$defs/taxonomy_value" },
+        "motion": { "$ref": "#/$defs/taxonomy_value" },
+        "room": { "$ref": "#/$defs/taxonomy_value" },
+        "source_perspective": { "$ref": "#/$defs/taxonomy_value" }
+      }
+    },
+    "dimension_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_family",
+        "contact_pair",
+        "body_region",
+        "footwear",
+        "gait_phase",
+        "surface_material",
+        "object_material",
+        "force",
+        "attack",
+        "motion",
+        "room",
+        "source_perspective"
+      ],
+      "properties": {
+        "event_family": { "$ref": "#/$defs/dimension_evidence" },
+        "contact_pair": { "$ref": "#/$defs/dimension_evidence" },
+        "body_region": { "$ref": "#/$defs/dimension_evidence" },
+        "footwear": { "$ref": "#/$defs/dimension_evidence" },
+        "gait_phase": { "$ref": "#/$defs/dimension_evidence" },
+        "surface_material": { "$ref": "#/$defs/dimension_evidence" },
+        "object_material": { "$ref": "#/$defs/dimension_evidence" },
+        "force": { "$ref": "#/$defs/dimension_evidence" },
+        "attack": { "$ref": "#/$defs/dimension_evidence" },
+        "motion": { "$ref": "#/$defs/dimension_evidence" },
+        "room": { "$ref": "#/$defs/dimension_evidence" },
+        "source_perspective": { "$ref": "#/$defs/dimension_evidence" }
+      }
+    },
+    "compatibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "exact_match_compatible",
+        "unknown_dimensions",
+        "invalid_dimensions",
+        "semantic_blocker_codes",
+        "all_required_dimensions_present"
+      ],
+      "properties": {
+        "exact_match_compatible": { "type": "boolean" },
+        "unknown_dimensions": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "invalid_dimensions": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "semantic_blocker_codes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "all_required_dimensions_present": { "type": "boolean" }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "blocker_codes",
+        "library_authority",
+        "promotion_eligible",
+        "exact_match_use_allowed",
+        "source_bytes_unchanged"
+      ],
+      "properties": {
+        "status": { "enum": ["pass", "blocked"] },
+        "blocker_codes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "library_authority": { "type": "boolean" },
+        "promotion_eligible": { "type": "boolean" },
+        "exact_match_use_allowed": { "type": "boolean" },
+        "source_bytes_unchanged": { "type": "boolean", "const": true }
+      }
+    }
+  },
+  "$defs": {
+    "taxonomy_value": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "dimension_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "classification",
+        "confidence",
+        "evidence_source",
+        "enricher_identity"
+      ],
+      "properties": {
+        "value": { "$ref": "#/$defs/taxonomy_value" },
+        "classification": {
+          "enum": ["known", "unknown", "ambiguous", "not_applicable"]
+        },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "evidence_source": { "type": "string", "minLength": 1 },
+        "enricher_identity": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

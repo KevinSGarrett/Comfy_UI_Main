@@ -2,22 +2,24 @@
   "schema_version": 1,
   "evidence_id": "W64-ROW079-FINE-GRAINED-FOLEY-TAXONOMY-CURRENT-DELTA-20260719",
   "created_at": "2026-07-19T03:52:30.1207992Z",
-  "source_commit": "d14ff2b995c69011e91ef133b2625c6ea3d94f80",
-  "prior_row_commit": "d14ff2b995c69011e91ef133b2625c6ea3d94f80",
-  "prior_row_commit_is_current_head": true,
+  "updated_at": "2026-07-19T20:03:36Z",
+  "source_commit": "fff7dc447214092dadb6fefc4560416661384410",
+  "prior_row_commit": "f839f4398d48b433910d5a714fd4ff9f4260985e",
+  "prior_row_commit_is_current_head": false,
   "tracker_id": "TRK-W64-079",
   "item_id": "ITEM-W64-079",
-  "status": "HOLD_DEPENDENCIES_EXACT_FOLEY_TAXONOMY_PROMOTION_GUARD_AND_FULL_LIBRARY_ENRICHMENT_ABSENT",
-  "classification": "ROW079_CURRENT_DELTA_COARSE_METADATA_AND_PARTIAL_SCHEMA_SHAPES_ONLY_NO_FALSE_COMPLETION",
+  "status": "HOLD_ROW074_ROW076_ROW078_DEPENDENCIES_AND_FULL_LIBRARY_TAXONOMY_RUNTIME_ABSENT",
+  "classification": "ROW079_FAIL_CLOSED_CONTRACT_SLICE_NO_FALSE_COMPLETION",
   "row_complete": false,
   "implementation_completion_claimed": false,
   "runtime_completion_claimed": false,
-  "qa_decision": "hold_with_bounded_reuse_of_coarse_metadata_and_unaccepted_schema_shapes_only",
-  "intent": {
-    "intent_id": "intent_20260719T035119000Z_row079_fine_grained_foley_taxonomy_current_delta_1873f940",
-    "authority_class": "codex_only",
-    "routing": null,
-    "worker_wake_count": 0
+  "qa_decision": "hold_with_fail_closed_taxonomy_contract_and_synthetic_fixture_calibration_only",
+  "increment": {
+    "kind": "fail_closed_contract_and_enricher_slice",
+    "enricher_revision": "wave64_row079_fine_grained_foley_enricher_v0.1.0",
+    "taxonomy_revision": "wave64_row079_fine_grained_foley_taxonomy_v0.1.0",
+    "summary": "Freeze Row079 twelve-dimension Foley taxonomy registry, schema-required enrichment record, explicit-unknown exact-match blocking, semantic footwear/gait guards, and promotion fail-closed behavior with synthetic fixture calibration; refuse library authority until Rows074, 076, and 078 are accepted.",
+    "writable_scope_note": "Disjoint from sibling Row076, Row084 mux, Row089, lifecycle rights binding, Row069, and Row090 paths."
   },
   "row079_contract": {
     "status": "Planned_Autonomous_Implementation_Required",
@@ -38,7 +40,8 @@
       "room"
     ],
     "output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-079_fine_grained_foley_taxonomy.json",
-    "output_artifact_exists": false,
+    "output_artifact_exists": true,
+    "output_artifact_authority": "fail_closed_hold_packet_not_library_acceptance",
     "completion_criteria": "Promoted Foley records have exact required tags or explicit unknowns that prevent incompatible use.",
     "required_taxonomy_dimensions": [
       "event_family",
@@ -67,330 +70,88 @@
     "ec2_used_for_this_audit": false,
     "final_render_gate": "BLOCKED_UNTIL_EXACT_ROW_IMPLEMENTATION_RUNTIME_QA_AND_AUTHORITY_PASS"
   },
-  "tracker_item_requirements_parity": {
-    "tracker_path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_TRACKER_ROWS.csv",
-    "tracker_sha256": "a698034d4d61788a9c630434f7aac75e3f7b1bf656319cfe43a5b2ce26d625de",
-    "tracker_bytes": 159309,
-    "item_path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ITEM_ROWS.csv",
-    "item_sha256": "f4a401d828aff69dbe7e005d6592a2af86edc936a0e6c1bae2f764345a9b8489",
-    "item_bytes": 111386,
-    "requirements_tracker_path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
-    "requirements_item_path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
-    "requirements_sha256": "077eaf1dfc1cb0d990660b2d9ec7073bc2b4acc1be47a94e9a0ea65eb1924acc",
-    "requirements_bytes": 48422,
-    "requirements_copies_byte_identical": true,
-    "tracker_item_title_match": true,
-    "tracker_item_status_match": true,
-    "tracker_item_acceptance_match": true,
-    "tracker_item_gate_match": true,
-    "tracker_item_dependency_match": true,
-    "git_state": "untracked_preserved_unaccepted"
+  "implemented_slice": {
+    "enricher_path": "Plan/07_IMPLEMENTATION/scripts/enrich_wave64_fine_grained_foley_taxonomy.py",
+    "enricher_sha256": "e6887042227cea2a1458f1f65a74e52cdc483a6903b41275730658c1ecba973e",
+    "enricher_bytes": 22170,
+    "schema_path": "Plan/08_SCHEMAS/fine_grained_foley_taxonomy_record.schema.json",
+    "schema_sha256": "50ddb6f3b00879eb8a02bb82666905517e08e190be4c9792a1dfa5abfc26b3b2",
+    "schema_bytes": 6098,
+    "taxonomy_registry_path": "Plan/10_REGISTRIES/wave64_row079_fine_grained_foley_taxonomy_registry.json",
+    "taxonomy_registry_sha256": "1c61805188da2ccb725b4791ae87df6727bb32140dfae854896536257e0598c2",
+    "taxonomy_registry_bytes": 4878,
+    "test_path": "Plan/Instructions/QA/Scripts/test_enrich_wave64_fine_grained_foley_taxonomy.py",
+    "test_sha256": "dbd0fffc09301a2327068c793a6f93526fa08e9bdc1a571ca63087e3ebc23f6b",
+    "test_bytes": 6601,
+    "direct_evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-079_fine_grained_foley_taxonomy.json",
+    "direct_evidence_sha256": "f69dc8eec4c5da4b79223de49e77a7b4ccb9594cdf9c03351865e4423f896263",
+    "direct_evidence_bytes": 31672,
+    "capabilities_now_present": [
+      "frozen_enricher_and_taxonomy_revisions",
+      "frozen_twelve_dimension_foley_taxonomy",
+      "schema_required_non_omittable_dimensions",
+      "explicit_unknown_exact_match_blocking",
+      "semantic_footwear_and_gait_consistency_guards",
+      "row074_row076_row078_admission_fail_closed_gates",
+      "synthetic_fixture_determinism_for_known_unknown_and_semantic_cases",
+      "library_mode_hold_packet_without_false_completion"
+    ],
+    "explicitly_not_claimed": [
+      "full_library_foley_taxonomy_enrichment",
+      "accepted_row074_segment_virtual_clip_authority",
+      "accepted_row076_acoustic_room_perspective_authority",
+      "accepted_row078_tag_caption_ensemble_authority",
+      "promoted_foley_subset_reconciliation",
+      "calibrated_held_out_foley_label_metrics",
+      "row079_product_completion",
+      "row079_runtime_completion",
+      "downstream_row080_row081_row094_row098_row099_row103_row112_unblocking"
+    ]
   },
-  "source_authority": [
-    {
-      "path": "Plan/00_PROJECT_CONTROL/WAVE64_AUTONOMOUS_VIDEO_TO_AUDIO_AND_SOUND_GENERATION_MASTER_PLAN.md",
-      "sha256": "6f1b5059b686a81d866f61f3bada74ca673a43db2423241d500b024ecb6a1a67",
-      "bytes": 25625,
-      "citation": "Row079 Fine-grained Foley taxonomy enrichment, lines 177-181",
-      "git_state": "untracked_preserved_unaccepted"
-    },
-    {
-      "path": "Plan/02_TARGET_ARCHITECTURE/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ARCHITECTURE.md",
-      "sha256": "3aef5be8b48808a69fe70c4b61bb4de6f7e1086c670c1ce9c817ebb4a1f6ae9b",
-      "bytes": 7078,
-      "git_state": "untracked_preserved_unaccepted"
-    },
-    {
-      "path": "Plan/05_AUDIO_SYSTEM/WAVE64_AUTONOMOUS_SOUND_LIBRARY_GENERATION_AND_QA_PLAN.md",
-      "sha256": "63bea08b4e2209100cc875b60bfad7b2d2e2b0636c5643aaa4410e6f1b1fce1c",
-      "bytes": 5362,
-      "git_state": "untracked_preserved_unaccepted"
-    },
-    {
-      "path": "Plan/Instructions/QA/AUTONOMOUS_VIDEO_TO_AUDIO_AND_GENERATED_SOUND_QA_PROTOCOL.md",
-      "sha256": "ed5773fd5f83ac5c71e31983eab9fb8d0362f2544518c37b41f7c51b95c82181",
-      "bytes": 3801,
-      "git_state": "untracked_preserved_unaccepted"
-    }
-  ],
   "dependency_authority": [
     {
       "tracker_id": "TRK-W64-074",
-      "evidence_commit": "2ecf3d991ca16d9a4ca419dadfb3b7e586e8a617",
       "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_MULTI_EVENT_SEGMENTATION_CURRENT_DELTA_20260719.json",
-      "current_delta_sha256": "60a83570faf79cf10f967fd7b2de860022da4ddad45b319082275988e852832c",
-      "current_delta_bytes": 19357,
-      "current_delta_status": "HOLD_DEPENDENCIES_SEGMENTER_VIRTUAL_CLIP_CONTRACT_AND_CALIBRATION_ABSENT",
       "row_complete": false,
       "dependency_satisfied": false,
-      "reason": "Fine-grained labels must bind to accepted single-event or multi-event segment identities; Row074 lacks the accepted segmenter, virtual-clip contract, and calibration needed for that attribution."
+      "reason": "Fine-grained labels must bind to accepted single-event or multi-event segment identities; Row074 remains held."
     },
     {
       "tracker_id": "TRK-W64-076",
-      "evidence_commit": "2a26113966b86885b641a10ce16718f08cc70730",
       "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_REVERB_DRYNESS_CURRENT_DELTA_20260719.json",
-      "current_delta_sha256": "b4ff1e1cf02feedbe507c8c018af5844d5991f5c02f40c8768bc74771b6e894c",
-      "current_delta_bytes": 23561,
-      "current_delta_status": "HOLD_DEPENDENCIES_ASSET_ACOUSTIC_ESTIMATOR_CALIBRATION_AND_DOUBLE_REVERB_AUTHORITY_ABSENT",
       "row_complete": false,
       "dependency_satisfied": false,
-      "reason": "Room and source-perspective enrichment must be grounded in accepted acoustic evidence; Row076 currently has path hints and rendered-room techniques only, not source-asset dryness or room authority."
+      "reason": "Room and source-perspective enrichment must be grounded in accepted acoustic evidence; Row076 remains held. This slice reads the delta for admission only and does not mutate Row076 paths."
     },
     {
       "tracker_id": "TRK-W64-078",
-      "evidence_commit": "d14ff2b995c69011e91ef133b2625c6ea3d94f80",
       "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-078_AUDIO_TAG_CAPTION_ENSEMBLE_CURRENT_DELTA_20260719.json",
-      "current_delta_sha256": "b18d134a511e771930fcd9eec45d935453b39252315b14899bf85cb81dd7bef8",
-      "current_delta_bytes": 23805,
-      "current_delta_status": "HOLD_DEPENDENCIES_MULTI_SOURCE_TAGGER_CAPTIONER_TAXONOMY_AND_ENSEMBLE_RUNTIME_PROOF_ABSENT",
       "row_complete": false,
       "dependency_satisfied": false,
       "reason": "Row079 cannot treat derived labels as enrichment authority until Row078 preserves per-source evidence, conflicts, explicit unknowns, and deterministic ensemble resolution."
     }
   ],
-  "retained_index_input_boundary": {
-    "path": "runtime_artifacts/audio_asset_indexes/audio_downloads_functional_20260715T095712-0500/audio_pack_functional_index.jsonl",
-    "sha256": "7301243a364025dbd23907aee20ee8593d5897caa83d38391026ad42da6d17ec",
-    "bytes": 38266398,
-    "record_count": 39771,
-    "read_only_scan_performed": true,
-    "source_audio_opened_or_decoded": false,
-    "coarse_field_presence": {
-      "event_type": 39771,
-      "material": 39771,
-      "attack_characteristic": 39771,
-      "room_environment_suitability": 39771
-    },
-    "exact_row079_field_presence_top_level": {
-      "event_family": 0,
-      "contact_pair": 0,
-      "body_region": 0,
-      "body_part": 0,
-      "footwear": 0,
-      "gait_phase": 0,
-      "surface_material": 0,
-      "object_material": 0,
-      "force": 0,
-      "force_band": 0,
-      "attack": 0,
-      "motion": 0,
-      "motion_type": 0,
-      "room": 0,
-      "room_environment": 0,
-      "source_perspective": 0,
-      "perspective": 0
-    },
-    "exact_row079_field_presence_recursive": {
-      "event_family": 0,
-      "contact_pair": 0,
-      "body_region": 0,
-      "body_part": 0,
-      "footwear": 0,
-      "gait_phase": 0,
-      "surface_material": 0,
-      "object_material": 0,
-      "force": 0,
-      "force_band": 0,
-      "attack": 0,
-      "motion": 0,
-      "motion_type": 0,
-      "room": 0,
-      "room_environment": 0,
-      "source_perspective": 0,
-      "perspective": 0
-    },
-    "unknown_like_coarse_record_counts": {
-      "material_unspecified": 33435,
-      "attack_characteristic_unknown": 26961,
-      "room_environment_suitability_unknown_or_unspecified": 38022
-    },
-    "recursive_promotion_or_compatibility_fields": {},
-    "promotion_or_compatibility_field_count": 0,
-    "interpretation": "The retained index has complete coarse metadata columns but no exact Row079 taxonomy record at any nesting level. Existing unknown-like values are useful blockers-in-waiting, but no machine-readable promotion or compatibility field currently makes them fail closed for exact-match use.",
-    "scope": "Existing retained JSONL bytes only. No source audio decode, segmentation, feature extraction, model inference, enrichment, promotion, EC2 contact, or runtime mutation was performed."
-  },
-  "asset_intelligence_schema_assessment": {
-    "path": "Plan/08_SCHEMAS/audio_asset_intelligence_record.schema.json",
-    "sha256": "42b7aec3b9595c153de3482290d1dfe715a082d4d5f85823f4afa6a162e0cc1f",
-    "bytes": 4323,
-    "git_state": "untracked_preserved_unaccepted",
-    "required_semantic_fields": [
-      "event_family",
-      "material",
-      "confidence",
-      "evidence_sources"
-    ],
-    "nullable_optional_fields": [
-      "body_part",
-      "footwear",
-      "force_band"
-    ],
-    "missing_row079_fields": [
-      "contact_pair",
-      "body_region",
-      "gait_phase",
-      "surface_material",
-      "object_material",
-      "attack",
-      "motion",
-      "room",
-      "source_perspective"
-    ],
-    "unknown_enum_or_sentinel_required": false,
-    "taxonomy_revision_required": false,
-    "promotion_compatibility_guard_required": false,
-    "additional_properties_permitted": true,
-    "decision": "partial_semantic_shape_reusable_but_not_an_exact_row079_taxonomy_or_promotion_contract"
-  },
-  "visual_event_schema_assessment": {
-    "path": "Plan/08_SCHEMAS/visual_audio_event_manifest.schema.json",
-    "sha256": "1c58053d0c8005627c63ae820b4ff726a844daa2d422a5bb732b4240bd2bde07",
-    "bytes": 3019,
-    "git_state": "untracked_preserved_unaccepted",
-    "required_event_fields_reusable": [
-      "event_type",
-      "source_owner",
-      "target_owner",
-      "material",
-      "force_band",
-      "confidence",
-      "evidence"
-    ],
-    "nullable_or_optional_fields": [
-      "source_body_part",
-      "target_body_part",
-      "footwear"
-    ],
-    "missing_row079_fields": [
-      "explicit_contact_pair",
-      "gait_phase",
-      "surface_material",
-      "object_material",
-      "attack",
-      "motion",
-      "room",
-      "source_perspective",
-      "taxonomy_revision",
-      "exact_match_compatibility"
-    ],
-    "unknown_prevents_incompatible_use": false,
-    "decision": "event_provenance_shape_reusable_but_not_row079_asset_enrichment_or_promotion_authority"
-  },
-  "repository_implementation_search": {
-    "row079_taxonomy_registry_found": false,
-    "row079_enricher_found": false,
-    "row079_validator_found": false,
-    "row079_promotion_guard_found": false,
-    "row079_unknown_exact_match_blocker_found": false,
-    "row079_full_library_reconciliation_found": false,
-    "row079_direct_qa_test_found": false,
-    "matching_runtime_or_test_files": [],
-    "planning_references": [
-      "Plan/07_IMPLEMENTATION/scripts/build_wave64_autonomous_sound_intelligence_control_package.py",
-      "Plan/10_REGISTRIES/wave64_autonomous_sound_intelligence_work_package_registry.json"
-    ],
-    "unrelated_search_matches_excluded": "Image and Mask Factory body-region/contact-pair implementations, Wave22 visual contact taxonomies, spatial-render room schemas, and general multimodal promotion checks do not implement Row079 Foley asset enrichment or exact-match blocking.",
-    "interpretation": "The only direct Row079 implementation reference is the planning work-package builder."
-  },
-  "taxonomy_and_promotion_assessment": {
-    "required_dimension_count": 12,
-    "exact_required_dimensions_present_in_retained_records": 0,
-    "coarse_analog_fields_present": [
-      "event_type",
-      "material",
-      "attack_characteristic",
-      "room_environment_suitability"
-    ],
-    "coarse_analogs_are_exact_taxonomy_authority": false,
-    "frozen_taxonomy_revision_present": false,
-    "known_value_validation_present": false,
-    "explicit_unknown_contract_present": false,
-    "unknown_blocks_incompatible_exact_match": false,
-    "missing_field_blocks_promotion": false,
-    "source_evidence_and_enricher_identity_bound": false,
-    "promotion_record_present": false,
-    "promoted_asset_reconciliation_present": false,
-    "decision": "no_exact_taxonomy_or_fail_closed_promotion_authority"
-  },
-  "planning_only_coverage": {
-    "builder_path": "Plan/07_IMPLEMENTATION/scripts/build_wave64_autonomous_sound_intelligence_control_package.py",
-    "builder_sha256": "62441dab915e5d277963aa58f579ee8a9190a4f3d58fcceab2b252426524f593",
-    "builder_bytes": 37998,
-    "builder_git_state": "untracked_preserved_unaccepted",
-    "registry_path": "Plan/10_REGISTRIES/wave64_autonomous_sound_intelligence_work_package_registry.json",
-    "registry_sha256": "d4ba802a94920e462fed578790e0508f140d5d7b0cf64736dcc86f47fb0e709e",
-    "registry_bytes": 13741,
-    "registry_git_state": "untracked_preserved_unaccepted",
-    "row079_registry_status": "Planned_Autonomous_Implementation_Required",
-    "direct_implementation_or_runtime_evidence_emitted": false,
-    "decision": "planning_coverage_only"
-  },
-  "acceptance_gaps": [
-    "accepted Row074 segment and virtual-clip identity for multi-event source attribution",
-    "accepted Row076 source acoustic room and perspective evidence",
-    "accepted Row078 source-attributed tag ensemble with conflict and unknown preservation",
-    "one frozen versioned Foley taxonomy registry with aliases hierarchy and explicit unknown sentinels",
-    "separate event family contact pair body region footwear gait phase surface material object material force attack motion room and perspective fields",
-    "schema requiring every dimension rather than nullable or omitted convenience fields",
-    "exact source record segment and canonical PCM hashes for every enrichment",
-    "enricher code model feature and taxonomy identities",
-    "per-field evidence source confidence and known unknown or ambiguous classification",
-    "deterministic conflict resolution that cannot erase upstream disagreement",
-    "typed compatibility projection for exact-match retrieval",
-    "fail-closed rule blocking incompatible use when any required dimension is unknown missing stale or invalid",
-    "promotion validator requiring schema taxonomy provenance and compatibility PASS",
-    "adversarial tests for missing fields null empty whitespace alias collision unknown values and invalid combinations",
-    "semantic consistency tests such as footwear versus contact pair and surface versus room",
-    "deterministic same-input repeat proof",
-    "calibration and held-out labeled Foley datasets with immutable disjoint identities",
-    "registered per-dimension precision recall calibration unknown coverage and incompatibility-block metrics",
-    "full retained-library enrichment and promoted-subset reconciliation or exact per-input blockers",
-    "tracker-declared direct runtime QA and evidence artifact"
-  ],
-  "downstream_holds": [
-    {
-      "tracker_id": "TRK-W64-080",
-      "task_name": "Hybrid structured, lexical, embedding, and hash retrieval index",
-      "reason": "Structured exact-match retrieval cannot be certified until Row079 provides complete typed fields and unknown-driven compatibility blockers."
-    },
-    {
-      "tracker_id": "TRK-W64-081",
-      "task_name": "Explainable weighted audio candidate scoring and ranking",
-      "reason": "Candidate scoring needs accepted Row079 taxonomy dimensions and provenance before semantic fit features can be trusted."
-    },
-    {
-      "tracker_id": "TRK-W64-094",
-      "task_name": "Layer construction and deterministic composite Foley synthesis",
-      "reason": "Composite Foley layers cannot be selected safely without compatible event contact material force and room tags."
-    },
-    {
-      "tracker_id": "TRK-W64-098",
-      "task_name": "Deterministic reusable sound variation engine",
-      "reason": "Variation policies require exact taxonomy identities and compatibility boundaries to preserve semantic class."
-    },
-    {
-      "tracker_id": "TRK-W64-099",
-      "task_name": "Neural text-to-audio sound-effect generation router",
-      "reason": "Generation prompts and output validation require the accepted Row079 taxonomy contract."
-    },
-    {
-      "tracker_id": "TRK-W64-103",
-      "task_name": "Generated-sound technical, semantic, timing, acoustic, and uniqueness QA",
-      "reason": "Generated-sound semantic QA cannot measure taxonomy correctness against an absent Row079 authority."
-    },
-    {
-      "tracker_id": "TRK-W64-112",
-      "task_name": "Autonomous sound intelligence production acceptance and full-system certification",
-      "reason": "Full-system certification explicitly requires Row079 completion."
-    }
-  ],
   "checks": [
     {
-      "name": "tracker_item_contract_parity",
+      "name": "frozen_taxonomy_registry_present",
       "status": "PASS"
     },
     {
-      "name": "direct_row079_output_absent",
+      "name": "schema_requires_full_row079_contract",
+      "status": "PASS"
+    },
+    {
+      "name": "unknown_blocks_incompatible_exact_match",
+      "status": "PASS",
+      "scope": "fixture_and_contract_only"
+    },
+    {
+      "name": "missing_or_invalid_field_blocks_promotion",
+      "status": "PASS",
+      "scope": "fixture_and_contract_only"
+    },
+    {
+      "name": "semantic_footwear_gait_guards_present",
       "status": "PASS"
     },
     {
@@ -406,50 +167,6 @@
       "status": "FAIL"
     },
     {
-      "name": "retained_inventory_record_count_bound",
-      "status": "PASS"
-    },
-    {
-      "name": "retained_coarse_metadata_present",
-      "status": "PASS"
-    },
-    {
-      "name": "all_exact_row079_dimensions_present",
-      "status": "FAIL"
-    },
-    {
-      "name": "existing_unknown_like_values_preserved",
-      "status": "PASS"
-    },
-    {
-      "name": "frozen_taxonomy_registry_present",
-      "status": "FAIL"
-    },
-    {
-      "name": "asset_schema_requires_full_row079_contract",
-      "status": "FAIL"
-    },
-    {
-      "name": "visual_event_schema_requires_full_row079_contract",
-      "status": "FAIL"
-    },
-    {
-      "name": "unknown_blocks_incompatible_exact_match",
-      "status": "FAIL"
-    },
-    {
-      "name": "missing_or_invalid_field_blocks_promotion",
-      "status": "FAIL"
-    },
-    {
-      "name": "enrichment_provenance_and_determinism_bound",
-      "status": "FAIL"
-    },
-    {
-      "name": "adversarial_taxonomy_tests_present",
-      "status": "FAIL"
-    },
-    {
       "name": "promoted_foley_subset_reconciled",
       "status": "FAIL"
     },
@@ -458,7 +175,12 @@
       "status": "FAIL"
     },
     {
-      "name": "ec2_or_runtime_mutated_by_this_audit",
+      "name": "focused_row079_validators",
+      "status": "PASS",
+      "observed": "10 passed"
+    },
+    {
+      "name": "ec2_or_runtime_mutated_by_this_increment",
       "status": "PASS",
       "observed": false
     },
@@ -469,10 +191,12 @@
   ],
   "test_and_runtime_boundary": {
     "source_tests_audited": true,
-    "tests_executed_for_this_delta": false,
-    "reason_tests_not_executed": "No Row079 implementation bytes exist or changed. Existing image contact, mask body-region, spatial-render room, and generic multimodal promotion tests do not validate Foley taxonomy enrichment or unknown-driven exact-match blocking.",
+    "tests_executed_for_this_delta": true,
+    "test_command": "python -m pytest Plan/Instructions/QA/Scripts/test_enrich_wave64_fine_grained_foley_taxonomy.py -q",
+    "test_result": "10 passed",
     "audio_opened_or_decoded": false,
-    "enrichment_invoked": false,
+    "enrichment_invoked": true,
+    "enrichment_scope": "synthetic_fixtures_and_library_hold_packet_only",
     "promotion_invoked": false,
     "ec2_invoked": false,
     "docker_invoked": false,
@@ -481,27 +205,37 @@
     "wrapper_calls": 0,
     "scheduled_task_wakes": 0
   },
-  "scheduler_and_worker_containment": {
-    "codex_automations_modified": false,
-    "windows_worker_tasks_modified": false,
-    "mask_maintenance_tasks_modified": false,
-    "ec2_read_only_safety_monitor_modified": false,
-    "worker_control_paths_modified": false,
-    "queued_or_running_worker_scope_duplicated": false,
-    "containment_note": "The scheduled-task incident containment state remains untouched. All paused automations and disabled worker or Mask tasks remain outside this evidence-only Codex final-authority audit."
-  },
   "preservation_boundary": {
-    "only_new_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-079_FINE_GRAINED_FOLEY_TAXONOMY_CURRENT_DELTA_20260719.json",
-    "queued_worker_scopes_preserved": true,
-    "flux2_dirty_paths_preserved": true,
-    "portfolio_reconciliation_paths_preserved": true,
-    "worker_control_snapshots_preserved": true,
+    "owned_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/enrich_wave64_fine_grained_foley_taxonomy.py",
+      "Plan/08_SCHEMAS/fine_grained_foley_taxonomy_record.schema.json",
+      "Plan/10_REGISTRIES/wave64_row079_fine_grained_foley_taxonomy_registry.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-079_FINE_GRAINED_FOLEY_TAXONOMY_CURRENT_DELTA_20260719.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-079_fine_grained_foley_taxonomy.json",
+      "Plan/Instructions/QA/Scripts/test_enrich_wave64_fine_grained_foley_taxonomy.py"
+    ],
+    "sibling_scopes_preserved": [
+      "TRK-W64-076",
+      "TRK-W64-084",
+      "TRK-W64-089",
+      "lifecycle_rights_binding",
+      "TRK-W64-069",
+      "TRK-W64-090"
+    ],
     "unrelated_dirty_and_untracked_paths_preserved": true,
     "retained_audio_index_preserved": true
   },
+  "decision": {
+    "fail_closed_contract_slice": "accepted_as_bounded_increment",
+    "row079_status": "Planned_Autonomous_Implementation_Required",
+    "row079_acceptance": "held",
+    "runtime_completion": false,
+    "product_completion": false,
+    "safe_next_action": "Accept or complete Rows074, 076, and 078 next; then extend Row079 library mode to enrich retained Foley assets against this frozen taxonomy revision, reconcile the promoted subset or exact blockers, and only then mark Row079 complete for Row080/081/094 consumers."
+  },
   "hold_decision": {
     "decision": "HOLD_ROW079_NO_FALSE_COMPLETION",
-    "reason": "The retained library preserves coarse event, material, attack, and room-suitability metadata plus many explicit unknown-like values, and two unaccepted draft schemas provide partial reusable shapes. However, all three dependencies remain incomplete; no retained record contains the exact Row079 taxonomy fields; no frozen taxonomy, enricher, validator, promotion guard, direct tests, or compatibility record exists; and unknown values do not currently block incompatible exact-match use.",
-    "safe_next_action": "After Rows074, 076, and 078 are accepted, freeze one versioned Foley taxonomy; define required non-omittable fields for event family, contact pair, body region, footwear, gait phase, surface and object material, force, attack, motion, room, and source perspective; preserve explicit unknown and ambiguity values with per-field evidence and confidence; implement deterministic source-bound enrichment; derive a typed exact-match compatibility projection; reject promotion on missing, stale, invalid, conflicting, or incompatible unknown dimensions; exercise adversarial schema, alias, cross-field, unknown, conflict, and repeatability cases; validate against immutable disjoint labeled fixtures; reconcile all retained assets and the promoted subset or exact blockers; and emit the tracker-declared runtime artifact. EC2 is not allowed for Row079. Continue independent Codex PM/QA work meanwhile."
+    "reason": "The fail-closed taxonomy contract, enricher, schema, registry, fixture calibration, and focused validators are now present, but Rows074/076/078 remain incomplete and no full-library enrichment or promoted-subset reconciliation exists.",
+    "safe_next_action": "Keep Row079 held. Continue independent work on dependency rows; do not claim Row079 product or runtime completion from this contract slice."
   }
 }

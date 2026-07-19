@@ -1,0 +1,209 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "wave64_row079_fine_grained_foley_taxonomy_registry",
+  "revision": "wave64_row079_fine_grained_foley_taxonomy_v0.1.0",
+  "tracker_id": "TRK-W64-079",
+  "authority": "planning_freeze_not_library_acceptance",
+  "notes": [
+    "Frozen taxonomy revision for Row079 synthetic fixture calibration and fail-closed promotion guards.",
+    "Known values must resolve against this revision. Explicit unknown sentinels block incompatible exact-match use.",
+    "This registry does not accept full-library enrichment or substitute for Rows074/076/078 authority."
+  ],
+  "required_dimensions": [
+    "event_family",
+    "contact_pair",
+    "body_region",
+    "footwear",
+    "gait_phase",
+    "surface_material",
+    "object_material",
+    "force",
+    "attack",
+    "motion",
+    "room",
+    "source_perspective"
+  ],
+  "unknown_sentinel": "unknown",
+  "not_applicable_sentinel": "n_a",
+  "dimensions": {
+    "event_family": {
+      "allowed_values": [
+        "footstep",
+        "impact",
+        "friction",
+        "cloth",
+        "body_contact",
+        "prop_handling",
+        "debris",
+        "unknown"
+      ]
+    },
+    "contact_pair": {
+      "allowed_values": [
+        "heel_to_surface",
+        "toe_to_surface",
+        "sole_to_surface",
+        "hand_to_body",
+        "hand_to_object",
+        "object_to_object",
+        "body_to_body",
+        "cloth_to_cloth",
+        "unknown"
+      ]
+    },
+    "body_region": {
+      "allowed_values": [
+        "foot",
+        "hand",
+        "torso",
+        "limb",
+        "head",
+        "multi_region",
+        "none",
+        "unknown"
+      ]
+    },
+    "footwear": {
+      "allowed_values": [
+        "barefoot",
+        "sock",
+        "sneaker",
+        "heel",
+        "boot",
+        "none",
+        "unknown"
+      ]
+    },
+    "gait_phase": {
+      "allowed_values": [
+        "heel_strike",
+        "midstance",
+        "toe_off",
+        "scuff",
+        "n_a",
+        "unknown"
+      ]
+    },
+    "surface_material": {
+      "allowed_values": [
+        "hardwood",
+        "concrete",
+        "carpet",
+        "tile",
+        "dirt",
+        "metal",
+        "skin",
+        "fabric",
+        "none",
+        "unknown"
+      ]
+    },
+    "object_material": {
+      "allowed_values": [
+        "wood",
+        "metal",
+        "plastic",
+        "glass",
+        "fabric",
+        "skin",
+        "none",
+        "unknown"
+      ]
+    },
+    "force": {
+      "allowed_values": [
+        "soft",
+        "light",
+        "medium",
+        "hard",
+        "unknown"
+      ]
+    },
+    "attack": {
+      "allowed_values": [
+        "transient",
+        "soft_onset",
+        "sustained",
+        "unknown"
+      ]
+    },
+    "motion": {
+      "allowed_values": [
+        "strike",
+        "slide",
+        "rub",
+        "press",
+        "release",
+        "roll",
+        "unknown"
+      ]
+    },
+    "room": {
+      "allowed_values": [
+        "dry_close",
+        "small_room",
+        "medium_room",
+        "large_hall",
+        "outdoor",
+        "unknown"
+      ]
+    },
+    "source_perspective": {
+      "allowed_values": [
+        "close_mic",
+        "near_field",
+        "mid_field",
+        "far_field",
+        "unknown"
+      ]
+    }
+  },
+  "aliases": {
+    "heel-on-hardwood": {
+      "canonical_fixture": "heel_on_hardwood",
+      "maps_to": {
+        "event_family": "footstep",
+        "contact_pair": "heel_to_surface",
+        "surface_material": "hardwood",
+        "footwear": "heel"
+      }
+    },
+    "hand-to-body": {
+      "canonical_fixture": "hand_to_body_contact",
+      "maps_to": {
+        "event_family": "body_contact",
+        "contact_pair": "hand_to_body",
+        "body_region": "hand"
+      }
+    }
+  },
+  "semantic_rules": {
+    "footwear_requires_foot_contact": {
+      "when_footwear_in": ["sock", "sneaker", "heel", "boot"],
+      "contact_pair_must_be_in": [
+        "heel_to_surface",
+        "toe_to_surface",
+        "sole_to_surface",
+        "unknown"
+      ],
+      "body_region_must_be_in": ["foot", "unknown"]
+    },
+    "gait_phase_requires_footstep_family": {
+      "when_gait_phase_in": ["heel_strike", "midstance", "toe_off", "scuff"],
+      "event_family_must_be_in": ["footstep", "unknown"]
+    }
+  },
+  "promotion_policy": {
+    "require_all_dimensions": true,
+    "unknown_blocks_exact_match": true,
+    "missing_blocks_promotion": true,
+    "invalid_value_blocks_promotion": true,
+    "semantic_inconsistency_blocks_promotion": true,
+    "library_authority_requires_dependencies": [
+      "TRK-W64-074",
+      "TRK-W64-076",
+      "TRK-W64-078"
+    ],
+    "source_mutation_allowed": false
+  }
+}
