@@ -41,6 +41,7 @@ def _base_manifest() -> dict:
     return {
         "schema_version": "1.0",
         "preparation_id": "prep_row093_probe",
+        "rights_decision_sha256": _sha(9),
         "source": {
             "path": "fixtures/source.wav",
             "sha256": source_hash,

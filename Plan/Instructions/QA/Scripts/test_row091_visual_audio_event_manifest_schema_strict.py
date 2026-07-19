@@ -49,6 +49,7 @@ def _base_manifest() -> dict:
             "silent_events": 0,
             "blocked_events": 0,
         },
+        "rights_decision_sha256": "c" * 64,
     }
 
 

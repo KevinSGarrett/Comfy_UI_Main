@@ -42,13 +42,14 @@
       "result": "pass"
     }
   ],
-  "created_at": "2026-07-19T19:54:49Z",
+  "created_at": "2026-07-19T20:01:51Z",
   "decision": {
+    "lifecycle_binding_complete": true,
     "product_completion": false,
     "rights_vocabulary": "frozen",
     "row068_acceptance": "accepted",
     "runtime_completion": false,
-    "safe_next_action": "Treat Row068 rights-decision authority as accepted for dependency unlock. Next hardening: require rights_decision_sha256 on lifecycle schemas (candidate/transform/render/export/QA/orchestration) without claiming full-library runtime stamping here.",
+    "safe_next_action": "Lifecycle schemas now require rights_decision_sha256 for candidate/transform/render/export/QA/orchestration. Next: stamp retained full-library inventory with accepted rights decisions without claiming product or runtime completion here.",
     "status": "accepted"
   },
   "dependency_authority": {
@@ -70,10 +71,10 @@
     "direct_row_complete": true
   },
   "direct_evidence": {
-    "bytes": 26600,
+    "bytes": 25849,
     "exists": true,
     "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_audio_rights_provenance_authority.json",
-    "sha256": "532c951482d3322b69d14f2f6e396fd838671715ee6832d9cef00c70f544109a"
+    "sha256": "f8a7d95a2a5a106581329d66f49c08cdea420ca5637db7b6f9740d22b697a41d"
   },
   "evaluator_revision": "wave64_row068_audio_rights_evaluator_v0.1.0",
   "evidence_id": "W64-ROW068-RIGHTS-PROVENANCE-CURRENT-DELTA-20260719",
@@ -103,32 +104,13 @@
   "implementation_completion_claimed": false,
   "item_id": "ITEM-W64-068",
   "lifecycle_bindings": {
-    "lifecycle_binding_complete": false,
-    "unbound_count": 6,
-    "unbound_paths": [
-      "Plan/08_SCHEMAS/visual_audio_event_manifest.schema.json",
-      "Plan/08_SCHEMAS/audio_candidate_score_record.schema.json",
-      "Plan/08_SCHEMAS/audio_orchestration_run.schema.json",
-      "Plan/08_SCHEMAS/audio_clip_preparation_manifest.schema.json",
-      "Plan/08_SCHEMAS/audio_spatial_render_manifest.schema.json",
-      "Plan/08_SCHEMAS/generated_audio_qa_report.schema.json"
-    ]
+    "lifecycle_binding_complete": true,
+    "unbound_count": 0,
+    "unbound_paths": []
   },
   "planning_contract_validated": true,
   "product_completion_claimed": false,
   "remaining_holds": [
-    {
-      "code": "LIFECYCLE_RIGHTS_BINDING_INCOMPLETE",
-      "detail": "Lifecycle schemas may still represent selection/transform/render/export/QA without a required rights_decision_sha256 field. Decision authority exists; required-field binding is the next hardening slice.",
-      "paths": [
-        "Plan/08_SCHEMAS/visual_audio_event_manifest.schema.json",
-        "Plan/08_SCHEMAS/audio_candidate_score_record.schema.json",
-        "Plan/08_SCHEMAS/audio_orchestration_run.schema.json",
-        "Plan/08_SCHEMAS/audio_clip_preparation_manifest.schema.json",
-        "Plan/08_SCHEMAS/audio_spatial_render_manifest.schema.json",
-        "Plan/08_SCHEMAS/generated_audio_qa_report.schema.json"
-      ]
-    },
     {
       "code": "LIBRARY_RUNTIME_RIGHTS_STAMPING_ABSENT",
       "detail": "No retained full-library asset inventory was stamped with accepted rights decisions in this slice."

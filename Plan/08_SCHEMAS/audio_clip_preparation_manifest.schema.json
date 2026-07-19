@@ -13,11 +13,13 @@
     "anchor",
     "tail",
     "phase",
-    "validation"
+    "validation",
+    "rights_decision_sha256"
   ],
   "properties": {
     "schema_version": { "const": "1.0" },
     "preparation_id": { "type": "string", "minLength": 1 },
+    "rights_decision_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
     "source": {
       "type": "object",
       "additionalProperties": false,

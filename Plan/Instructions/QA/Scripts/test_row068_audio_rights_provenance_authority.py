@@ -89,6 +89,14 @@ def test_schema_rejects_authority_granted_without_pass_seal_consistency():
         MOD.validate_decision_record(ROOT, broken)
 
 
+def test_lifecycle_schemas_require_rights_decision_sha256():
+    lifecycle = MOD.inspect_lifecycle_rights_bindings(ROOT)
+    assert lifecycle["lifecycle_binding_complete"] is True
+    assert lifecycle["unbound_count"] == 0
+    assert lifecycle["bound_count"] == len(MOD.LIFECYCLE_SCHEMAS)
+    assert all(detail["rights_decision_sha256_required"] for detail in lifecycle["details"])
+
+
 def test_authority_packet_accepts_without_claiming_runtime_or_product():
     packet = MOD.build_authority_packet(ROOT)
     assert packet["rights_decision_authority_accepted"] is True
@@ -99,7 +107,9 @@ def test_authority_packet_accepts_without_claiming_runtime_or_product():
     assert packet["decision"]["row068_acceptance"] == "accepted"
     assert packet["decision"]["runtime_completion"] is False
     assert packet["decision"]["product_completion"] is False
+    assert packet["decision"]["lifecycle_binding_complete"] is True
     assert packet["fixture_calibration"]["fixture_count"] >= 8
-    assert "LIFECYCLE_RIGHTS_BINDING_INCOMPLETE" in {
-        hold["code"] for hold in packet["remaining_holds"]
-    }
+    hold_codes = {hold["code"] for hold in packet["remaining_holds"]}
+    assert "LIFECYCLE_RIGHTS_BINDING_INCOMPLETE" not in hold_codes
+    assert "LIBRARY_RUNTIME_RIGHTS_STAMPING_ABSENT" in hold_codes
+    assert packet["lifecycle_bindings"]["lifecycle_binding_complete"] is True

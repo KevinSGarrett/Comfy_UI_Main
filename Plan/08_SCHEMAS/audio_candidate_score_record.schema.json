@@ -15,7 +15,7 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["candidate_id", "asset_sha256", "eligible", "hard_exclusions", "components", "total_score", "rank"],
+        "required": ["candidate_id", "asset_sha256", "eligible", "hard_exclusions", "components", "total_score", "rank", "rights_decision_sha256"],
         "properties": {
           "candidate_id": {"type": "string", "minLength": 1},
           "asset_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
@@ -25,7 +25,8 @@
           "penalties": {"type": "object", "additionalProperties": {"type": "number"}},
           "total_score": {"type": "number"},
           "rank": {"type": "integer", "minimum": 1},
-          "explanation": {"type": "array", "items": {"type": "string"}}
+          "explanation": {"type": "array", "items": {"type": "string"}},
+          "rights_decision_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
         },
         "additionalProperties": false
       }

@@ -1,36 +1,45 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.0",
   "evidence_id": "TRK-W64-089_VISUAL_MATERIAL_RECOGNITION_CURRENT_DELTA_20260719",
-  "created_at": "2026-07-19T05:32:11.5674855Z",
-  "source_commit": "746f3d2ccdcdb003624aa2e5fa689d44f848143c",
-  "prior_row_commit": "746f3d2ccdcdb003624aa2e5fa689d44f848143c",
+  "created_at": "2026-07-19T20:01:59Z",
+  "source_commit": "e2b2e6634509a6d58311cacf43362e85de14ee61",
+  "prior_row_commit": "e2b2e6634509a6d58311cacf43362e85de14ee61",
   "prior_row_commit_is_current_head": true,
   "tracker_id": "TRK-W64-089",
   "item_id": "ITEM-W64-089",
-  "status": "HOLD_DEPENDENCIES_AND_DIRECT_VISUAL_MATERIAL_CLASSIFIER_FUSION_CONFIDENCE_ABSTENTION_AND_RUNTIME_AUTHORITY_ABSENT",
-  "classification": "ROW089_CODEX_FINAL_AUTHORITY_CURRENT_DELTA_AUDIT",
+  "status": "HOLD_DEPENDENCY_RUNTIME_BENCHMARK_AND_VISUAL_PROOF_ABSENT_WITH_FAIL_CLOSED_MATERIAL_COMPILER_SLICE_PRESENT",
+  "classification": "ROW089_CURRENT_DELTA_FAIL_CLOSED_COMPILER_AND_SCHEMA_SLICE_NO_FALSE_COMPLETION",
   "row_complete": false,
   "implementation_completion_claimed": false,
   "runtime_completion_claimed": false,
-  "qa_decision": "FAIL_CLOSED_CURRENT_REPOSITORY_HAS_REUSABLE_TAXONOMY_AND_ADJACENT_QA_BUT_NOT_ROW089_VISUAL_MATERIAL_RECOGNITION_AUTHORITY",
+  "qa_decision": "HOLD",
   "intent": {
-    "intent_id": "intent_20260719T052738010Z_row089_visual_material_recognition_current_delta_d8a75201",
-    "classification": "AI_WORKER_DEVELOPMENT_PIPELINE_ADMITTED_DEFERRED",
-    "authority": "codex_only",
+    "intent_id": "interactive_cursor_shift_row089_compiler_slice_20260719",
+    "classification": "INTERACTIVE_CURSOR_SHIFT_AUTHORITY",
+    "work_type": "final_authority",
+    "authority_class": "interactive_cursor_integration",
     "routing": null,
-    "worker_wake_count": 0,
+    "dispatch_wake_count": 0,
     "candidate_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_visual_material_recognition.py",
+      "Plan/08_SCHEMAS/visual_material_recognition_manifest.schema.json",
+      "Plan/Instructions/QA/Scripts/test_row089_visual_material_recognition_compiler.py",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-089_VISUAL_MATERIAL_RECOGNITION_CURRENT_DELTA_20260719.json"
     ],
     "allowed_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_visual_material_recognition.py",
+      "Plan/08_SCHEMAS/visual_material_recognition_manifest.schema.json",
+      "Plan/Instructions/QA/Scripts/test_row089_visual_material_recognition_compiler.py",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-089_VISUAL_MATERIAL_RECOGNITION_CURRENT_DELTA_20260719.json"
     ]
   },
   "row089_contract": {
     "title": "Surface, object, clothing, and contact-material recognition",
+    "phase": "visual_event_intelligence",
     "priority": "P0",
-    "risk_level": "CRITICAL",
-    "tracker_status": "Planned_Autonomous_Implementation_Required",
+    "risk": "CRITICAL",
+    "status": "Planned_Autonomous_Implementation_Required",
+    "completion_criteria": "Material decisions fuse independent evidence and abstain or broaden class when visual proof is ambiguous.",
     "dependencies": [
       "TRK-W64-085",
       "TRK-W64-088"
@@ -52,409 +61,146 @@
       "metal",
       "glass"
     ],
-    "completion_criteria": "Material decisions fuse independent evidence and abstain or broaden class when visual proof is ambiguous.",
-    "visual_review_required": true,
-    "visual_review_method": "combined_frame_contact_audio_review",
+    "required_acceptance": [
+      "material decisions include provenance and confidence",
+      "visually ambiguous surfaces use broader classes or abstain",
+      "independent evidence fusion prevents one weak signal from granting PASS",
+      "combined frame, contact, and audio review"
+    ],
     "test_required": true,
     "runtime_proof_required": true,
+    "visual_review_required": true,
+    "visual_review_method": "combined_frame_contact_audio_review",
     "preview_required": true,
-    "final_render_gate": "BLOCKED_UNTIL_EXACT_ROW_IMPLEMENTATION_RUNTIME_QA_AND_AUTHORITY_PASS",
-    "required_output": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-089_visual_material_recognition.json",
-    "required_output_exists": false
+    "ec2_allowed": true,
+    "tracker_output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-089_visual_material_recognition.json",
+    "tracker_output_artifact_exists": false,
+    "current_delta_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-089_VISUAL_MATERIAL_RECOGNITION_CURRENT_DELTA_20260719.json"
   },
-  "tracker_item_requirements_parity": {
-    "tracker_item_semantically_equal": true,
-    "requirements_copies_byte_equal": true,
-    "tracker": {
-      "path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_TRACKER_ROWS.csv",
-      "sha256": "a698034d4d61788a9c630434f7aac75e3f7b1bf656319cfe43a5b2ce26d625de",
-      "bytes": 159309
-    },
-    "item": {
-      "path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ITEM_ROWS.csv",
-      "sha256": "f4a401d828aff69dbe7e005d6592a2af86edc936a0e6c1bae2f764345a9b8489",
-      "bytes": 111386
-    },
-    "tracker_requirements": {
-      "path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
-      "sha256": "077eaf1dfc1cb0d990660b2d9ec7073bc2b4acc1be47a94e9a0ea65eb1924acc",
-      "bytes": 48422
-    },
-    "item_requirements": {
-      "path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
-      "sha256": "077eaf1dfc1cb0d990660b2d9ec7073bc2b4acc1be47a94e9a0ea65eb1924acc",
-      "bytes": 48422
-    }
-  },
-  "source_authority": {
-    "master_plan": {
-      "path": "Plan/00_PROJECT_CONTROL/WAVE64_AUTONOMOUS_VIDEO_TO_AUDIO_AND_SOUND_GENERATION_MASTER_PLAN.md",
-      "sha256": "6f1b5059b686a81d866f61f3bada74ca673a43db2423241d500b024ecb6a1a67",
-      "bytes": 25625,
-      "citation_lines": "237-242"
-    },
-    "architecture": {
-      "path": "Plan/02_TARGET_ARCHITECTURE/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ARCHITECTURE.md",
-      "sha256": "3aef5be8b48808a69fe70c4b61bb4de6f7e1086c670c1ce9c817ebb4a1f6ae9b",
-      "bytes": 7078,
-      "authority_boundary": "Fuse scene registry, tracks, masks, landmarks, flow, depth, material, and contact evidence; preserve observed, inferred, inherited, and unknown distinctions."
-    },
-    "audio_plan": {
-      "path": "Plan/05_AUDIO_SYSTEM/WAVE64_AUTONOMOUS_SOUND_LIBRARY_GENERATION_AND_QA_PLAN.md",
-      "sha256": "63bea08b4e2209100cc875b60bfad7b2d2e2b0636c5643aaa4410e6f1b1fce1c",
-      "bytes": 5362
-    },
-    "qa_protocol": {
-      "path": "Plan/Instructions/QA/AUTONOMOUS_VIDEO_TO_AUDIO_AND_GENERATED_SOUND_QA_PROTOCOL.md",
-      "sha256": "ed5773fd5f83ac5c71e31983eab9fb8d0362f2544518c37b41f7c51b95c82181",
-      "bytes": 3801,
-      "authority_boundary": "Filename and path tags, embeddings, acoustic features, tags or captions, script expectations, and reference comparisons are independent signals; no single signal grants PASS and disagreement lowers confidence or requires fallback or abstention."
-    },
-    "package_builder": {
-      "path": "Plan/07_IMPLEMENTATION/scripts/build_wave64_autonomous_sound_intelligence_control_package.py",
-      "sha256": "62441dab915e5d277963aa58f579ee8a9190a4f3d58fcceab2b252426524f593",
-      "bytes": 37998
-    },
-    "work_package_registry": {
-      "path": "Plan/10_REGISTRIES/wave64_autonomous_sound_intelligence_work_package_registry.json",
-      "sha256": "d4ba802a94920e462fed578790e0508f140d5d7b0cf64736dcc86f47fb0e709e",
-      "bytes": 13741
-    }
+  "compiler_slice": {
+    "compiler_path": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_visual_material_recognition.py",
+    "compiler_sha256": "91f6fa4b15f0c052d6c70cbd668809b1aa30ba259504773c0494966f52091b65",
+    "compiler_bytes": 34223,
+    "schema_path": "Plan/08_SCHEMAS/visual_material_recognition_manifest.schema.json",
+    "schema_sha256": "328acab5b3d34d10eabd8a4fbf2f3ef21b4de6106ecc4715a4431d5a6f0d96a2",
+    "schema_bytes": 13552,
+    "test_path": "Plan/Instructions/QA/Scripts/test_row089_visual_material_recognition_compiler.py",
+    "test_sha256": "68c6ceaa273152f8f6056d33e080ccf7e409e449110aa549acca7b86a19eac8d",
+    "test_bytes": 13166,
+    "fail_closed_invariants": [
+      "required material taxonomy plus governed aliases only (wood_floor->hardwood, cotton_fabric->fabric)",
+      "observed_class requires classifier + texture evidence, unanimous independent agreement, and calibrated confidence",
+      "disagreement or ambiguity must broaden class or abstain; abstain requires confidence=0 and reason",
+      "contact_region observed_class requires trusted ownership_state",
+      "scene_registry binding and classifier identity hashes are mandatory",
+      "threshold and unsupported material claims block certification",
+      "row_complete and production_completion_allowed remain false in this increment",
+      "Row085 and Row088 dependency plus runtime/review flags gate authority ceiling"
+    ],
+    "decision": "USEFUL_FAIL_CLOSED_CONTRACT_COMPILER_SLICE_NOT_PRODUCTION_MATERIAL_AUTHORITY"
   },
   "dependency_authority": {
-    "all_dependencies_complete": false,
-    "dependencies": [
-      {
-        "tracker_id": "TRK-W64-085",
-        "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719.json",
-        "sha256": "720b87bf6007e3ab7970ae91cd94a6086d740ed2c4eed652f4e18554835a56fd",
-        "bytes": 23535,
-        "row_complete": false,
-        "status": "HOLD_DEPENDENCY_PERSISTENT_TRACKING_IMPLEMENTATION_OWNERSHIP_METRICS_OCCLUSION_REAPPEARANCE_AND_VISUAL_RUNTIME_PROOF_ABSENT"
-      },
-      {
-        "tracker_id": "TRK-W64-088",
-        "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_DEPTH_CAMERA_SOURCE_POSITION_CURRENT_DELTA_20260719.json",
-        "sha256": "4c5f3c3fe238bbbf283dd2936a5c191d659ad7aa84fbfdfa983701dc24a3b886",
-        "bytes": 27616,
-        "row_complete": false,
-        "status": "HOLD_DEPENDENCIES_DIRECT_DEPTH_CAMERA_LISTENER_SOURCE_ESTIMATION_CALIBRATION_UNCERTAINTY_AND_VISUAL_RUNTIME_AUTHORITY_ABSENT"
-      }
-    ]
+    "tracker_ids": ["TRK-W64-085", "TRK-W64-088"],
+    "row085_complete": false,
+    "row088_complete": false,
+    "dependency_satisfied": false,
+    "row089_effect": "Owner-aware region binding and depth/source-position context cannot be certified without accepted Row085 tracking and Row088 spatial authority. Row088 now has a fail-closed compiler slice (6b30a5a2) but remains incomplete."
   },
-  "material_taxonomy_partial_authority": {
-    "taxonomy": {
-      "path": "Plan/10_REGISTRIES/wave09_material_surface_taxonomy.json",
-      "sha256": "fd07925bf116cb8f36960ed92265933ce03dbd77d5d435e0a77e17a2ece15410",
-      "bytes": 727,
-      "class_count": 13,
-      "classes_unique": true,
-      "classes": [
-        "painted_wall",
-        "wood_floor",
-        "tile",
-        "carpet",
-        "cotton_fabric",
-        "leather",
-        "glass",
-        "mirror",
-        "metal",
-        "water_wet_surface",
-        "plastic",
-        "stone",
-        "concrete"
-      ],
-      "required_exact_class_coverage_count": 5,
-      "required_exact_class_count": 8,
-      "required_exact_class_coverage": {
-        "hardwood": false,
-        "carpet": true,
-        "tile": true,
-        "skin": false,
-        "fabric": false,
-        "leather": true,
-        "metal": true,
-        "glass": true
-      },
-      "boundary": "wood_floor and cotton_fabric are plausible broader aliases, but no governed alias map exists and skin is absent. The taxonomy does not classify pixels, regions, objects, clothing, or contacts."
-    },
-    "foley_profiles": {
-      "path": "Plan/10_REGISTRIES/wave30_foley_material_profiles.json",
-      "sha256": "905f9f065fb2404f8b1d8f74f61b7a9bdee03248b1dde579cb70557dfefa0ab8",
-      "bytes": 593,
-      "profile_count": 5,
-      "boundary": "These are downstream source and force profiles, not visual recognition evidence."
-    }
+  "focused_local_test_result": {
+    "py_compile": "PASS",
+    "strict_command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_row089_visual_material_recognition_compiler.py",
+    "strict_result": "9 passed",
+    "strict_exit_code": 0,
+    "total_focused_passed": 9,
+    "total_focused_failed": 0,
+    "scope_interpretation": "Focused tests prove the fail-closed visual material recognition contract/compiler slice only. They do not grant Row089 completion, production classifier runtime, material benchmark pass, runtime receipt, or combined visual review."
   },
-  "filename_material_heuristic_partial_authority": {
-    "implementation": {
-      "path": "Plan/07_IMPLEMENTATION/scripts/build_audio_pack_functional_index.py",
-      "sha256": "d958bde4c7bd79b9ff1fdcffd787d074fea84e9f0ae4d48b9a56f93f54a1736c",
-      "bytes": 17598,
-      "function": "_classify_material",
-      "method": "first filename substring match else unspecified",
-      "terms": [
-        "skin",
-        "fabric",
-        "cloth",
-        "leather",
-        "latex",
-        "metal",
-        "wood",
-        "glass",
-        "plastic",
-        "rubber",
-        "water",
-        "liquid",
-        "fluid",
-        "paper",
-        "ceramic",
-        "stone",
-        "sand"
-      ]
-    },
-    "test": {
-      "path": "Plan/Instructions/QA/Scripts/test_audio_pack_functional_index.py",
-      "sha256": "6780c160bc0e80f7584f11d37683b4f70d4330de54e949a4ea956a73b51b0c18",
-      "bytes": 3494,
-      "focused_test_count": 3
-    },
-    "direct_probe": [
-      {"input": "skin_contact.wav", "result": "skin"},
-      {"input": "wood_floor_step.wav", "result": "wood"},
-      {"input": "carpet_step.wav", "result": "unspecified"},
-      {"input": "tile_step.wav", "result": "unspecified"},
-      {"input": "leather_on_wood.wav", "result": "leather"},
-      {"input": "skinny_roomtone.wav", "result": "skin", "false_positive": true},
-      {"input": "unknown.wav", "result": "unspecified"}
-    ],
-    "boundary": "This deterministic audio-index metadata heuristic is not an image or region material classifier. It has no segmentation, texture, contact, provenance fusion, confidence calibration, or governed abstention authority."
-  },
-  "material_schema_assessment": {
-    "material_surface_profile": {
-      "path": "Plan/08_SCHEMAS/material_surface_profile.schema.json",
-      "sha256": "67ff82e35a38f5738c9b982ab1674a2bacede5764409fef668943b252ca0d7aa",
-      "bytes": 480,
-      "required_root_fields": ["id", "surfaces"],
-      "surface_item_schema_is_unconstrained_object": true,
-      "surfaces_min_items_required": false,
-      "root_additional_properties_allowed": true,
-      "probe_results": [
-        {"case": "empty_surfaces", "validation_error_count": 0},
-        {"case": "arbitrary_surface_object", "validation_error_count": 0},
-        {"case": "extra_root_classifier_proof", "validation_error_count": 0}
-      ],
-      "boundary": "The schema cannot bind a classifier observation, region or track, provenance sources, calibrated confidence, class hierarchy, ambiguity, or abstention."
-    },
-    "foley_force_material_event": {
-      "path": "Plan/08_SCHEMAS/hyperreal_foley_force_material_event.schema.json",
-      "sha256": "3f487bc7b7ef085395ba4ed6886a116ce0b693f184b4dc8c10cddb87bd0a0063",
-      "bytes": 3248,
-      "boundary": "source_material_id and target_material_id consume nonempty identifiers but do not prove how a visual material decision was produced."
-    },
-    "audio_asset_intelligence_record": {
-      "path": "Plan/08_SCHEMAS/audio_asset_intelligence_record.schema.json",
-      "sha256": "42b7aec3b9595c153de3482290d1dfe715a082d4d5f85823f4afa6a162e0cc1f",
-      "bytes": 4323,
-      "boundary": "The semantics block supports an arbitrary material string, confidence, and evidence sources for downstream audio assets; it is not visual material recognition authority."
-    }
-  },
-  "skin_material_qa_partial_authority": {
-    "files": [
-      {"path": "Plan/07_IMPLEMENTATION/scripts/compile_skin_material_contract.py", "sha256": "9b6d9df00777708eb30cdb11a259880ff36cdc6a43850ff216c00ff1ee950c93", "bytes": 1182},
-      {"path": "Plan/07_IMPLEMENTATION/scripts/validate_skin_material_contract.py", "sha256": "80e5b94fafd993c13e0cf37f7da57df4fb616646dbc9a404e4116361c89dfafb", "bytes": 2266},
-      {"path": "Plan/07_IMPLEMENTATION/scripts/score_skin_material_evidence.py", "sha256": "84fc472533c2c6e2ed694ea5e3fcf24e34ef99e1858cb857dd5a0e13037b1029", "bytes": 3179},
-      {"path": "Plan/Instructions/QA/Scripts/test_skin_material_contract.py", "sha256": "6aad29973025f554c0bf746102f4ad905bea562959fdc217dbd36d1e1c8c88c7", "bytes": 4562},
-      {"path": "Plan/08_SCHEMAS/skin_material_contract.schema.json", "sha256": "8b9a629ae4e7ec8fb31895191f944ef24d5df4312fa30b25bef80eb621f077fb", "bytes": 1118},
-      {"path": "Plan/08_SCHEMAS/skin_material_evidence.schema.json", "sha256": "829bbd57ac1418e3d59a9cc24ca81748f60d49d091b70385fcc781c1ac87d9be", "bytes": 2227},
-      {"path": "Plan/08_SCHEMAS/skin_material_qa_goal.schema.json", "sha256": "14f9a22210bfbb140c1bb21afca4b158790db9c05c6b3a05ce708e61665ce874", "bytes": 440},
-      {"path": "Plan/10_REGISTRIES/wave18_skin_material_profiles.json", "sha256": "83f6c48735894e6c523f02fe3706e8b731bcba774537cf92267587a4c7be73d6", "bytes": 1011},
-      {"path": "Plan/10_REGISTRIES/wave18_skin_material_rerun_policy.json", "sha256": "d082f435050539dec3e9e172305c77e91fecc44969fd5762d9c7108a1f348c96", "bytes": 568}
-    ],
-    "retained_evidence": {
-      "path": "Plan/Instructions/QA/Evidence/Wave64/image_skin_material.json",
-      "sha256": "56a5a457e2d3ba7ea6fe9faa2fb9ade2155eff66be7c45205c3b61f8c665f0ca",
-      "bytes": 10097,
-      "status": "Blocked_Gold_Mask_Dependency_Missing",
-      "row_complete": false,
-      "qa_decision": "skin_material_contract_pass_bounded_visual_support_macro_regional_promotion_blocked"
-    },
-    "boundary": "This stack evaluates rendering and continuity against a declared skin-material goal. It does not detect or classify skin from arbitrary visual regions, and its own promotion authority remains blocked by missing trusted regional mask evidence."
-  },
-  "clothing_contact_qa_partial_authority": {
-    "files": [
-      {"path": "Plan/07_IMPLEMENTATION/scripts/compile_clothing_prop_contact_contract.py", "sha256": "83d03303cee9d6117899c22d0a9ca0639bbdff57df2c4593e13aa0f7bdb02cda", "bytes": 1356},
-      {"path": "Plan/07_IMPLEMENTATION/scripts/validate_clothing_prop_contact_contract.py", "sha256": "1dbe1ddf76152a16e0cd1b17c92d831caa8d054aedb34e7ecc612453cf612592", "bytes": 2917},
-      {"path": "Plan/07_IMPLEMENTATION/scripts/score_clothing_prop_contact_evidence.py", "sha256": "cf9cb35bb6fbf224a6ea75212a324ddef1e5622ee3cbc37c0779b7f1896bfbde", "bytes": 2452},
-      {"path": "Plan/Instructions/QA/Scripts/test_clothing_prop_contact_contract.py", "sha256": "aa8e7ca7a7c83d28beb6aa10776fed63aafe0285f47d0a3fb938650f4bceb71a", "bytes": 5225},
-      {"path": "Plan/08_SCHEMAS/clothing_prop_contact_contract.schema.json", "sha256": "f4d610d32c9b5eabb6633114dd2579f969208580a42322aecac4203f21aebf9c", "bytes": 1659},
-      {"path": "Plan/08_SCHEMAS/clothing_prop_contact_evidence.schema.json", "sha256": "a6ba971f958a238759f56b9b743c7301cb4ab710ca45af190ad88b5959e36e3d", "bytes": 1639},
-      {"path": "Plan/10_REGISTRIES/wave19_contact_type_taxonomy.json", "sha256": "fc58f31d895c34feb18cc67d39dc323dd67495b4852ecf99798b9c4084f19760", "bytes": 442}
-    ],
-    "boundary": "This stack governs declared clothing, prop, and support-contact realism. It does not infer material class from pixels or fuse material evidence into a calibrated recognition decision."
-  },
-  "mask_and_contact_partial_authority": {
-    "segmentation_refinement": {
-      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/segmentation_refinement_authority.json",
-      "sha256": "2a66ca495ba9335d00e08aed13588bb4eb10ebf94b9e054a6a3ec2ab08701cf6",
-      "bytes": 114687,
-      "sam_refinement_pass": true,
-      "stability_score": 0.7907859086990356,
-      "mask_area_ratio": 0.168627,
-      "canonical_polygon_path": "",
-      "promotion_decision": "no_mask_promoted_no_active_input_changed_sam2_refinement_only",
-      "boundary": "A bounded SAM2 face refinement exists, but consensus and canonical polygon authority are absent and it is not a material-classification benchmark."
-    },
-    "contact_occlusion_ownership": {
-      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/contact_occlusion_ownership_authority.json",
-      "sha256": "1c0a5c910dafcebc8ee2863348fc8003c441de08e600265f74fdad80febedcd8",
-      "bytes": 7804,
-      "production_route_pass": false,
-      "contact_occlusion_ownership_pass": false,
-      "protected_overlap_threshold_pass": false,
-      "owner_overlap_error_pass": false,
-      "whole_body_geometry_authority_pass": false,
-      "canonical_polygon_export_pass": false,
-      "promotion_decision": "no_mask_promoted_no_active_input_changed_contact_occlusion_ownership_route_not_complete"
-    }
-  },
-  "focused_test_result": {
-    "command": "python -m pytest Plan/Instructions/QA/Scripts/test_audio_pack_functional_index.py Plan/Instructions/QA/Scripts/test_skin_material_contract.py Plan/Instructions/QA/Scripts/test_clothing_prop_contact_contract.py -q",
-    "exit_code": 0,
-    "passed": 21,
-    "failed": 0,
-    "duration_seconds": 2.67,
-    "scope": "Adjacent audio-index, skin-material-contract, and clothing-contact-contract behavior only",
-    "row089_direct_test_count": 0
-  },
-  "repository_implementation_search": {
-    "direct_row089_hits": [
-      "Plan/07_IMPLEMENTATION/scripts/build_wave64_autonomous_sound_intelligence_control_package.py",
-      "Plan/10_REGISTRIES/wave64_autonomous_sound_intelligence_work_package_registry.json",
-      "planning and requirements records"
-    ],
-    "scene_registry_literal_hit_count_excluding_evidence_and_csv": 3,
-    "scene_registry_hits": [
-      "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
-      "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
-      "Plan/07_IMPLEMENTATION/scripts/build_wave64_autonomous_sound_intelligence_control_package.py"
-    ],
-    "production_scene_registry_found": false,
-    "production_visual_material_classifier_found": false,
-    "visual_material_model_or_config_found": false,
-    "direct_row089_tests_found": false,
-    "direct_row089_runtime_record_found": false,
-    "direct_row089_tracker_output_found": false,
-    "material_benchmark_or_confusion_matrix_found": false,
-    "confidence_calibration_or_abstention_test_found": false
-  },
-  "required_visual_material_recognition_contract_missing": [
-    "A governed scene-registry observation bound to frame, shot, take, actor, object, clothing region, and contact region identifiers.",
-    "A production image or region material classifier with exact model, weights, preprocessing, class map, and implementation hashes.",
-    "Owner-aware segmentation or tracking inputs that bind each observation to the correct surface rather than a whole-frame guess.",
-    "Texture evidence with raw feature provenance, resolution and crop authority, and deterministic quality gates.",
-    "Contact context fused from actor-object-region ownership rather than declared labels alone.",
-    "Independent evidence-source provenance and a deterministic fusion rule that prevents one weak signal from granting PASS.",
-    "Calibrated confidence with class-specific thresholds and benchmarked error or confusion evidence.",
-    "An executable broader-class and abstention policy for ambiguity, disagreement, occlusion, low resolution, and unsupported classes.",
-    "A governed alias hierarchy covering hardwood or wood_floor, fabric or cotton_fabric, and skin without silent taxonomy substitution.",
-    "A strict output schema binding observed class, broader class, confidence, provenance, region, contact context, ambiguity, and abstention reason.",
-    "Positive, negative, ambiguity, false-positive, occlusion, reappearance, and cross-frame consistency tests.",
-    "A representative annotated visual benchmark for surfaces, objects, clothing, skin, and contact materials.",
-    "Runtime evidence and combined frame, contact, and audio review for the exact Row089 output.",
-    "Completed Row085 tracking authority and Row088 depth or source-position authority."
-  ],
-  "acceptance_matrix_required": [
-    {"gate": "dependency_authority", "acceptance": "TRK-W64-085 and TRK-W64-088 each have row_complete=true with hash-bound evidence."},
-    {"gate": "scene_registry", "acceptance": "A runtime scene registry provides immutable frame or span and entity-region identity inputs."},
-    {"gate": "material_classifier", "acceptance": "A hash-bound visual classifier and class map produce deterministic region-level candidates."},
-    {"gate": "texture_evidence", "acceptance": "Texture features and quality gates are recorded per classified region."},
-    {"gate": "contact_context", "acceptance": "Contact ownership and participating surfaces are proven rather than inferred from filenames."},
-    {"gate": "confidence", "acceptance": "Calibrated confidence and class-specific thresholds are benchmarked and recorded."},
-    {"gate": "abstention", "acceptance": "Ambiguous or unsupported inputs deterministically broaden class or abstain with a reason."},
-    {"gate": "provenance", "acceptance": "Every decision binds independent source observations and the fusion decision."},
-    {"gate": "taxonomy", "acceptance": "Required classes and governed aliases are complete, unique, and schema-bound."},
-    {"gate": "runtime", "acceptance": "The exact tracker output, runtime record, test log, and combined frame-contact-audio QA pass are present."}
-  ],
   "checks": [
-    {"id": "ROW089-001", "status": "PASS", "name": "source_commit_bound", "detail": "Audit source commit is exact current HEAD 746f3d2c."},
-    {"id": "ROW089-002", "status": "PASS", "name": "tracker_item_parity", "detail": "Tracker and item records agree on title, dependencies, gates, and acceptance."},
-    {"id": "ROW089-003", "status": "PASS", "name": "requirements_copy_identity", "detail": "Tracker and item requirements JSON files are byte-identical."},
-    {"id": "ROW089-004", "status": "PASS", "name": "signed_codex_only_intent", "detail": "The signed deferred intent authorizes this one evidence path without routing or waking a worker."},
-    {"id": "ROW089-005", "status": "PASS", "name": "dependency_evidence_bound", "detail": "Both dependency evidence records are hash-bound and retained."},
-    {"id": "ROW089-006", "status": "PASS", "name": "material_taxonomy_inventory", "detail": "The existing taxonomy has 13 unique surface classes."},
-    {"id": "ROW089-007", "status": "PASS", "name": "filename_heuristic_bounded", "detail": "The audio-index material heuristic was directly probed and its false-positive and unsupported-class limits are recorded."},
-    {"id": "ROW089-008", "status": "PASS", "name": "skin_material_qa_stack_present", "detail": "Skin-material contract, validation, scoring, schema, registry, and tests are hash-bound."},
-    {"id": "ROW089-009", "status": "PASS", "name": "skin_material_evidence_fail_closed", "detail": "Retained skin evidence accurately remains blocked instead of claiming regional promotion authority."},
-    {"id": "ROW089-010", "status": "PASS", "name": "clothing_contact_qa_stack_present", "detail": "Clothing and contact contract, validation, scoring, schema, taxonomy, and tests are hash-bound."},
-    {"id": "ROW089-011", "status": "PASS", "name": "segmentation_evidence_bounded", "detail": "SAM2 refinement evidence records its score and withheld promotion boundary."},
-    {"id": "ROW089-012", "status": "PASS", "name": "contact_ownership_evidence_fail_closed", "detail": "Contact ownership evidence explicitly reports missing production route and geometry authority."},
-    {"id": "ROW089-013", "status": "PASS", "name": "adjacent_focused_tests", "detail": "All 21 adjacent focused tests passed."},
-    {"id": "ROW089-014", "status": "PASS", "name": "schema_probe_deterministic", "detail": "Material surface profile permissiveness was reproduced with three zero-error adversarial probes."},
-    {"id": "ROW089-015", "status": "PASS", "name": "worker_and_runtime_containment", "detail": "This audit used no provider, wrapper, scheduled worker wake, EC2, Docker, WSL, model download, generation, or render."},
-    {"id": "ROW089-016", "status": "FAIL", "name": "dependency_row085_complete", "detail": "TRK-W64-085 remains incomplete."},
-    {"id": "ROW089-017", "status": "FAIL", "name": "dependency_row088_complete", "detail": "TRK-W64-088 remains incomplete."},
-    {"id": "ROW089-018", "status": "FAIL", "name": "direct_visual_material_classifier", "detail": "No production visual material classifier implementation exists."},
-    {"id": "ROW089-019", "status": "FAIL", "name": "direct_row089_tests", "detail": "No direct Row089 tests exist."},
-    {"id": "ROW089-020", "status": "FAIL", "name": "direct_row089_runtime", "detail": "No direct Row089 runtime proof exists."},
-    {"id": "ROW089-021", "status": "FAIL", "name": "tracker_output", "detail": "The required lowercase tracker output does not exist."},
-    {"id": "ROW089-022", "status": "FAIL", "name": "scene_registry", "detail": "No production scene registry was found; existing literals are planning requirements only."},
-    {"id": "ROW089-023", "status": "FAIL", "name": "fused_provenance", "detail": "No executable independent-evidence fusion and provenance record exists."},
-    {"id": "ROW089-024", "status": "FAIL", "name": "visual_model_identity", "detail": "No exact material model, weights, preprocessing, class map, or runtime identity is bound."},
-    {"id": "ROW089-025", "status": "FAIL", "name": "segmentation_owner_binding", "detail": "No promoted owner-aware region masks bind classifier observations to tracked entities."},
-    {"id": "ROW089-026", "status": "FAIL", "name": "texture_feature_evidence", "detail": "No texture feature pipeline or quality authority exists."},
-    {"id": "ROW089-027", "status": "FAIL", "name": "contact_context_authority", "detail": "No completed contact ownership route feeds material recognition."},
-    {"id": "ROW089-028", "status": "FAIL", "name": "confidence_calibration", "detail": "No calibrated class confidence benchmark or threshold evidence exists."},
-    {"id": "ROW089-029", "status": "FAIL", "name": "broader_class_or_abstention", "detail": "No executable broader-class or abstention policy is tested."},
-    {"id": "ROW089-030", "status": "FAIL", "name": "required_taxonomy_coverage", "detail": "Only 5 of 8 required material names have exact taxonomy classes; aliases are not governed and skin is absent."},
-    {"id": "ROW089-031", "status": "FAIL", "name": "strict_output_schema", "detail": "Existing material schemas do not bind the Row089 decision contract."},
-    {"id": "ROW089-032", "status": "FAIL", "name": "representative_visual_benchmark", "detail": "No annotated benchmark, confusion matrix, or ambiguity set was found."},
-    {"id": "ROW089-033", "status": "FAIL", "name": "combined_frame_contact_audio_review", "detail": "The required combined review has not been performed for a Row089 runtime output."},
-    {"id": "ROW089-034", "status": "FAIL", "name": "row_complete", "detail": "Implementation, tests, runtime, QA, and dependencies do not support completion."}
+    {"check_id": "ROW089-001", "name": "tracker_item_requirements_parity", "status": "PASS"},
+    {"check_id": "ROW089-002", "name": "dependency_audit_complete", "status": "PASS"},
+    {"check_id": "ROW089-003", "name": "fail_closed_material_compiler_present", "status": "PASS"},
+    {"check_id": "ROW089-004", "name": "visual_material_recognition_manifest_schema_present", "status": "PASS"},
+    {"check_id": "ROW089-005", "name": "focused_compiler_tests_pass", "status": "PASS"},
+    {"check_id": "ROW089-006", "name": "governed_alias_and_taxonomy_enforced", "status": "PASS"},
+    {"check_id": "ROW089-007", "name": "independent_evidence_fusion_and_disagreement_gate", "status": "PASS"},
+    {"check_id": "ROW089-008", "name": "abstention_and_broader_class_contract_present", "status": "PASS"},
+    {"check_id": "ROW089-009", "name": "contact_ownership_gate_for_contact_region", "status": "PASS"},
+    {"check_id": "ROW089-010", "name": "confidence_and_min_agreeing_source_thresholds", "status": "PASS"},
+    {"check_id": "ROW089-011", "name": "classifier_identity_and_scene_registry_binding_present", "status": "PASS"},
+    {"check_id": "ROW089-012", "name": "codex_or_interactive_scope_and_zero_wake_boundary", "status": "PASS"},
+    {"check_id": "ROW089-013", "name": "dependency_row085_complete", "status": "FAIL"},
+    {"check_id": "ROW089-014", "name": "dependency_row088_complete", "status": "FAIL"},
+    {"check_id": "ROW089-015", "name": "production_visual_material_classifier_runtime_complete", "status": "FAIL"},
+    {"check_id": "ROW089-016", "name": "material_benchmark_pass", "status": "FAIL"},
+    {"check_id": "ROW089-017", "name": "direct_row089_runtime_receipt_present", "status": "FAIL"},
+    {"check_id": "ROW089-018", "name": "combined_frame_contact_audio_visual_review_present", "status": "FAIL"},
+    {"check_id": "ROW089-019", "name": "tracker_declared_output_artifact_present", "status": "FAIL"}
   ],
-  "check_summary": {
-    "total": 34,
-    "pass": 15,
-    "fail": 19
-  },
   "test_and_runtime_boundary": {
-    "adjacent_tests_passed": 21,
-    "direct_row089_tests": 0,
-    "direct_row089_runtime_runs": 0,
-    "visual_reviews_performed": 0,
-    "ec2_calls": 0,
-    "docker_calls": 0,
-    "wsl_calls": 0,
-    "model_downloads": 0,
-    "generations": 0,
-    "renders": 0
-  },
-  "scheduler_and_worker_containment": {
+    "schema_meta_validation_executed": true,
+    "focused_source_tests_executed": true,
+    "focused_source_tests_passed": 9,
+    "focused_source_tests_failed": 0,
+    "production_material_classifier_invoked": false,
+    "new_media_decode_or_texture_inference_invoked": false,
+    "direct_row089_runtime_benchmark_executed": false,
+    "visual_review_executed": false,
+    "ec2_allowed": true,
+    "ec2_invoked": false,
+    "ec2_not_invoked_reason": "Prerequisite Rows085/088 and material-benchmark/runtime-receipt/combined-review gates already fail; GPU execution cannot cure those authority gaps.",
+    "docker_invoked": false,
+    "wsl_invoked": false,
     "provider_calls": 0,
     "wrapper_calls": 0,
-    "scheduled_worker_wakes": 0,
-    "worker_queue_polled": false,
-    "worker_control_files_modified": false,
-    "containment_controls_modified": false,
-    "note": "The audit does not re-enable or alter paused Codex automations, disabled AI-worker tasks, disabled Mask maintenance tasks, or the EC2 read-only safety monitor."
+    "scheduled_task_wakes": 0
+  },
+  "sibling_lane_disjointness": {
+    "excluded_sibling_rows": ["TRK-W64-075", "TRK-W64-068", "TRK-W64-076", "TRK-W64-087", "TRK-W64-084"],
+    "excluded_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/classify_wave64_audio_defects.py",
+      "Plan/07_IMPLEMENTATION/scripts/validate_wave64_audio_rights_provenance_authority.py",
+      "Plan/07_IMPLEMENTATION/scripts/analyze_wave64_audio_reverb_dryness.py",
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_motion_force_cues.py",
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
+      "Plan/08_SCHEMAS/audio_defect_classification_record.schema.json",
+      "Plan/08_SCHEMAS/audio_rights_provenance_decision.schema.json",
+      "Plan/08_SCHEMAS/audio_reverb_dryness_record.schema.json",
+      "Plan/08_SCHEMAS/motion_force_cues_manifest.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline_mux_prep_receipt.schema.json",
+      "Plan/Instructions/QA/Scripts/test_classify_wave64_audio_defects.py",
+      "Plan/Instructions/QA/Scripts/test_row068_audio_rights_provenance_authority.py",
+      "Plan/Instructions/QA/Scripts/test_analyze_wave64_audio_reverb_dryness.py",
+      "Plan/Instructions/QA/Scripts/test_row087_motion_force_cues_compiler.py",
+      "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_*",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_*",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_*",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-087_*",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_*"
+    ],
+    "disjoint_from_sibling_agents": true
   },
   "preservation_boundary": {
-    "evidence_write_scope": [
+    "allowed_write_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_visual_material_recognition.py",
+      "Plan/08_SCHEMAS/visual_material_recognition_manifest.schema.json",
+      "Plan/Instructions/QA/Scripts/test_row089_visual_material_recognition_compiler.py",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-089_VISUAL_MATERIAL_RECOGNITION_CURRENT_DELTA_20260719.json"
     ],
-    "queued_worker_scopes_preserved": true,
-    "flux2_dirty_paths_preserved": true,
-    "portfolio_reconciliation_paths_preserved": true,
-    "worker_control_snapshots_preserved": true,
-    "mask_factory_paths_preserved": true,
-    "unrelated_dirty_and_untracked_paths_preserved": true
+    "actual_write_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_visual_material_recognition.py",
+      "Plan/08_SCHEMAS/visual_material_recognition_manifest.schema.json",
+      "Plan/Instructions/QA/Scripts/test_row089_visual_material_recognition_compiler.py",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-089_VISUAL_MATERIAL_RECOGNITION_CURRENT_DELTA_20260719.json"
+    ],
+    "unrelated_dirty_paths_preserved": true,
+    "worker_artifacts_preserved": true,
+    "sibling_row075_068_076_087_084_paths_preserved": true
   },
   "hold_decision": {
-    "decision": "HOLD_ROW089",
-    "reason": "The repository contains useful taxonomy, declared-material QA, contact QA, and bounded segmentation evidence, but these do not constitute production visual material recognition. Both dependencies remain incomplete, and direct scene-registry, classifier, texture, contact, confidence, provenance, abstention, benchmark, runtime, and combined-review authority are absent.",
-    "safe_next_work": "Implement the missing contract only through a disjoint signed worker scope when eligible, beginning with strict output schema and benchmark fixtures while preserving dependency gates. Codex may continue independent tracker audits without waiting for worker-control qualification.",
-    "completion_claim_prohibited": true,
-    "runtime_claim_prohibited": true,
-    "promotion_claim_prohibited": true
+    "decision": "HOLD_ROW089_NO_FALSE_COMPLETION",
+    "reason": "A fail-closed Row089 visual material recognition compiler/schema slice now exists with nine passing focused tests covering governed taxonomy aliases, independent evidence fusion, abstention/broader-class gates, contact ownership, confidence thresholds, and certification holds. Rows085 and 088 remain incomplete. Material benchmarks, production classifier runtime receipts, combined frame/contact/audio review, and the tracker-declared runtime artifact remain absent. The compiler never sets row_complete or production_completion_allowed true in this increment.",
+    "safe_next_action": "Keep Row089 on hold for runtime completion. Next useful Row089 write: add fixture packets covering all eight required materials plus occlusion/ambiguity/false-positive cases and a deterministic replay/tamper hash check without claiming visual-review or Rows085/088 acceptance. Upstream, continue advancing Row085 ownership and Row088 measured spatial authority."
   }
 }
