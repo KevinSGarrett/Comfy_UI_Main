@@ -10,8 +10,8 @@
 
 ## Commits Pushed This Pass
 
-1. `PENDING_PRIMARY` Prove Row017 MF70 mouth_lips local visual climb.
-2. Tip / handoff parity commits filled after push verify.
+1. `8e81819f` Prove Row017 MF70 mouth_lips local visual climb.
+2. `PENDING_TIP` Stamp Row017 mouth_lips handoff with pushed commit parity.
 
 Pushed tip verified on origin: `PENDING_TIP`
 
