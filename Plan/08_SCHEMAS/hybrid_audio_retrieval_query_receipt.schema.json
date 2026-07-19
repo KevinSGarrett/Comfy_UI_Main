@@ -1,0 +1,242 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/hybrid_audio_retrieval_query_receipt.schema.json",
+  "title": "Wave64 Row080 Hybrid Audio Retrieval Query Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "tracker_id",
+    "item_id",
+    "record_type",
+    "engine_revision",
+    "policy_revision",
+    "policy_sha256",
+    "query_sha256",
+    "index_revision",
+    "index_manifest_sha256",
+    "record_schema_sha256",
+    "taxonomy_revision_sha256",
+    "embedding_index_sha256",
+    "retrieval_policy_sha256",
+    "ordered_candidate_set_sha256",
+    "is_synthetic",
+    "library_authority",
+    "dependency_admissions",
+    "required_channels",
+    "channel_results",
+    "exclusions",
+    "candidates",
+    "decision",
+    "receipt_sha256"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "tracker_id": { "type": "string", "const": "TRK-W64-080" },
+    "item_id": { "type": "string", "const": "ITEM-W64-080" },
+    "record_type": {
+      "type": "string",
+      "const": "hybrid_audio_retrieval_query_receipt"
+    },
+    "engine_revision": {
+      "type": "string",
+      "const": "wave64_row080_hybrid_audio_retrieval_engine_v0.1.0"
+    },
+    "policy_revision": {
+      "type": "string",
+      "const": "wave64_row080_hybrid_audio_retrieval_index_v0.1.0"
+    },
+    "policy_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "query_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "index_revision": { "type": "string", "minLength": 1 },
+    "index_manifest_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "record_schema_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "taxonomy_revision_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "embedding_index_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "retrieval_policy_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "ordered_candidate_set_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "is_synthetic": { "type": "boolean" },
+    "library_authority": { "type": "boolean", "const": false },
+    "dependency_admissions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["TRK-W64-069", "TRK-W64-077", "TRK-W64-079"],
+      "properties": {
+        "TRK-W64-069": { "$ref": "#/$defs/dependency_admission" },
+        "TRK-W64-077": { "$ref": "#/$defs/dependency_admission" },
+        "TRK-W64-079": { "$ref": "#/$defs/dependency_admission" }
+      }
+    },
+    "required_channels": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "string",
+        "enum": [
+          "structured_metadata_filter",
+          "lexical_search",
+          "embedding_similarity",
+          "canonical_content_hash_deduplication"
+        ]
+      }
+    },
+    "channel_results": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "structured_metadata_filter",
+        "lexical_search",
+        "embedding_similarity",
+        "canonical_content_hash_deduplication"
+      ],
+      "properties": {
+        "structured_metadata_filter": { "$ref": "#/$defs/channel_result" },
+        "lexical_search": { "$ref": "#/$defs/channel_result" },
+        "embedding_similarity": { "$ref": "#/$defs/channel_result" },
+        "canonical_content_hash_deduplication": { "$ref": "#/$defs/channel_result" }
+      }
+    },
+    "exclusions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["asset_id", "reason_codes"],
+        "properties": {
+          "asset_id": { "type": "string", "minLength": 1 },
+          "reason_codes": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    },
+    "candidates": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/candidate" }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "route",
+        "product_completion",
+        "row080_acceptance",
+        "blocker_codes",
+        "explanation"
+      ],
+      "properties": {
+        "status": { "type": "string", "enum": ["pass", "blocked"] },
+        "route": {
+          "type": "string",
+          "enum": ["return_candidates", "abstain", "blocked"]
+        },
+        "product_completion": { "type": "boolean", "const": false },
+        "row080_acceptance": {
+          "type": "string",
+          "enum": ["held", "fixture_only"]
+        },
+        "blocker_codes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "explanation": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "receipt_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  },
+  "$defs": {
+    "dependency_admission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tracker_id",
+        "dependency_satisfied",
+        "blocker_codes",
+        "row_complete",
+        "status",
+        "path"
+      ],
+      "properties": {
+        "tracker_id": { "type": "string", "minLength": 1 },
+        "dependency_satisfied": { "type": "boolean" },
+        "blocker_codes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "row_complete": { "type": "boolean" },
+        "status": { "type": "string" },
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "bytes": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "channel_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "hit_count", "hits", "blocker_codes"],
+      "properties": {
+        "status": { "type": "string", "enum": ["ok", "blocked", "skipped"] },
+        "hit_count": { "type": "integer", "minimum": 0 },
+        "hits": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["asset_id", "score"],
+            "properties": {
+              "asset_id": { "type": "string", "minLength": 1 },
+              "score": { "type": "number" }
+            }
+          }
+        },
+        "blocker_codes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rank",
+        "asset_id",
+        "canonical_pcm_sha256",
+        "merged_score",
+        "channel_scores",
+        "dedup_group",
+        "representative"
+      ],
+      "properties": {
+        "rank": { "type": "integer", "minimum": 1 },
+        "asset_id": { "type": "string", "minLength": 1 },
+        "canonical_pcm_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "merged_score": { "type": "number" },
+        "channel_scores": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "structured_metadata_filter",
+            "lexical_search",
+            "embedding_similarity"
+          ],
+          "properties": {
+            "structured_metadata_filter": { "type": "number" },
+            "lexical_search": { "type": "number" },
+            "embedding_similarity": { "type": "number" }
+          }
+        },
+        "dedup_group": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "representative": { "type": "boolean" }
+      }
+    }
+  }
+}
