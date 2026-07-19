@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import copy
+import hashlib
 import json
 import subprocess
 import sys
@@ -15,6 +16,10 @@ from jsonschema import Draft202012Validator
 ROOT = Path(__file__).resolve().parents[4]
 COMPILER = ROOT / "Plan/07_IMPLEMENTATION/scripts/compile_wave64_visual_audio_event_manifest.py"
 SCHEMA = ROOT / "Plan/08_SCHEMAS/visual_audio_event_manifest.schema.json"
+FIXTURE_DIR = ROOT / "Plan/Instructions/QA/Evidence/Wave64/fixtures/row091"
+BLOCKED_HOLD_FIXTURE = FIXTURE_DIR / "decision_phase_blocked_dependency_hold.json"
+SILENCE_HOLD_FIXTURE = FIXTURE_DIR / "decision_phase_intentional_silence_hold.json"
+MIXED_HOLD_FIXTURE = FIXTURE_DIR / "decision_phase_mixed_coverage_hold.json"
 
 
 def _write_json(path: Path, payload: dict) -> None:
@@ -160,6 +165,73 @@ class Row091VisualAudioEventManifestCompilerTests(unittest.TestCase):
         dup["traceability_id"] = packet["traceability_events"][0]["traceability_id"]
         packet["traceability_events"].append(dup)
         self._run_compile(packet, expect_ok=False)
+
+    def test_rejects_timeline_duration_disagreeing_with_frame_count(self) -> None:
+        packet = _base_packet()
+        packet["timeline"]["duration_seconds"] = 9.0
+        self._run_compile(packet, expect_ok=False)
+
+    def test_rejects_invalid_dependency_evidence_sha256(self) -> None:
+        packet = _base_packet()
+        packet["dependency_authority"]["row084_evidence_sha256"] = "not-a-sha256"
+        self._run_compile(packet, expect_ok=False)
+
+    def _load_fixture(self, path: Path) -> dict:
+        self.assertTrue(path.is_file(), f"missing fixture: {path}")
+        return json.loads(path.read_text(encoding="utf-8"))
+
+    def _canonical_sha256(self, payload: dict) -> str:
+        encoded = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
+        return hashlib.sha256(encoded).hexdigest()
+
+    def test_fixture_blocked_dependency_hold_compiles(self) -> None:
+        packet = self._load_fixture(BLOCKED_HOLD_FIXTURE)
+        _, compiled = self._run_compile(packet, expect_ok=True)
+        assert compiled is not None
+        self.assertEqual(compiled["coverage"]["required_events"], 1)
+        self.assertEqual(compiled["coverage"]["blocked_events"], 1)
+        self.assertEqual(compiled["coverage"]["covered_events"], 0)
+        self.assertEqual(compiled["events"][0]["event_id"], "evt_blocked_footstep_001")
+        self.assertEqual(compiled["events"][0]["authority_ceiling"], "candidate")
+        self.assertEqual(compiled["events"][0]["anchor_sample"], 26000)
+
+    def test_fixture_intentional_silence_hold_compiles(self) -> None:
+        packet = self._load_fixture(SILENCE_HOLD_FIXTURE)
+        _, compiled = self._run_compile(packet, expect_ok=True)
+        assert compiled is not None
+        self.assertEqual(compiled["coverage"]["silent_events"], 1)
+        self.assertEqual(compiled["coverage"]["blocked_events"], 0)
+        self.assertEqual(compiled["events"][0]["event_id"], "evt_silent_breath_001")
+        self.assertEqual(compiled["events"][0]["anchor_sample"], 44000)
+        self.assertTrue(
+            any(evidence.get("kind") == "traceability_decision" for evidence in compiled["events"][0]["evidence"])
+        )
+
+    def test_fixture_mixed_coverage_hold_compiles(self) -> None:
+        packet = self._load_fixture(MIXED_HOLD_FIXTURE)
+        _, compiled = self._run_compile(packet, expect_ok=True)
+        assert compiled is not None
+        self.assertEqual(compiled["coverage"]["required_events"], 2)
+        self.assertEqual(compiled["coverage"]["blocked_events"], 1)
+        self.assertEqual(compiled["coverage"]["silent_events"], 1)
+        self.assertEqual(compiled["coverage"]["covered_events"], 0)
+        by_id = {event["event_id"]: event for event in compiled["events"]}
+        self.assertIn("evt_mixed_blocked_001", by_id)
+        self.assertIn("evt_mixed_silent_002", by_id)
+
+    def test_fixture_decision_phase_packets_deterministic_replay_hash(self) -> None:
+        digests: dict[str, str] = {}
+        for path in (BLOCKED_HOLD_FIXTURE, SILENCE_HOLD_FIXTURE, MIXED_HOLD_FIXTURE):
+            packet = self._load_fixture(path)
+            _, first = self._run_compile(packet, expect_ok=True)
+            _, second = self._run_compile(packet, expect_ok=True)
+            assert first is not None and second is not None
+            digest_a = self._canonical_sha256(first)
+            digest_b = self._canonical_sha256(second)
+            self.assertEqual(digest_a, digest_b, f"non-deterministic compile for {path.name}")
+            self.assertEqual(first["coverage"]["covered_events"], 0)
+            digests[path.name] = digest_a
+        self.assertEqual(len(set(digests.values())), 3)
 
 
 if __name__ == "__main__":

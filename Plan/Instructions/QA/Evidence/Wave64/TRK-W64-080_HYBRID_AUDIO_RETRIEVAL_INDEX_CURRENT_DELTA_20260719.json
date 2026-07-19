@@ -2,22 +2,24 @@
   "schema_version": 1,
   "evidence_id": "W64-ROW080-HYBRID-AUDIO-RETRIEVAL-INDEX-CURRENT-DELTA-20260719",
   "created_at": "2026-07-19T03:59:23.3163564Z",
-  "source_commit": "f839f4398d48b433910d5a714fd4ff9f4260985e",
-  "prior_row_commit": "f839f4398d48b433910d5a714fd4ff9f4260985e",
-  "prior_row_commit_is_current_head": true,
+  "updated_at": "2026-07-19T20:13:52Z",
+  "source_commit": "4c1b474478f5125ad8b6c009ea5c66de608933ca",
+  "prior_audit_commit": "6d5ba82d69e27e11a76334c0f7a60bafce7fc682",
+  "prior_row_commit": "6d5ba82d69e27e11a76334c0f7a60bafce7fc682",
   "tracker_id": "TRK-W64-080",
   "item_id": "ITEM-W64-080",
-  "status": "HOLD_DEPENDENCIES_HYBRID_QUERY_ENGINE_VECTOR_LEXICAL_CANONICAL_DEDUP_AND_GENERATION_ISOLATION_ABSENT",
-  "classification": "ROW080_CURRENT_DELTA_HASH_BOUND_STRUCTURED_SELECTOR_ONLY_NO_FALSE_COMPLETION",
+  "status": "HOLD_ROW069_ROW077_ROW079_DEPENDENCIES_AND_LIBRARY_HYBRID_RUNTIME_ABSENT",
+  "classification": "ROW080_FAIL_CLOSED_CONTRACT_SLICE_NO_FALSE_COMPLETION",
   "row_complete": false,
   "implementation_completion_claimed": false,
   "runtime_completion_claimed": false,
-  "qa_decision": "hold_with_bounded_reuse_of_hash_bound_functional_index_registry_and_deterministic_structured_selector_only",
-  "intent": {
-    "intent_id": "intent_20260719T035705577Z_row080_hybrid_audio_retrieval_index_current_delta_c562db01",
-    "authority_class": "codex_only",
-    "routing": null,
-    "worker_wake_count": 0
+  "qa_decision": "hold_with_fail_closed_hybrid_retrieval_contract_and_synthetic_fixture_calibration_only",
+  "increment": {
+    "kind": "fail_closed_contract_and_query_engine_slice",
+    "engine_revision": "wave64_row080_hybrid_audio_retrieval_engine_v0.1.0",
+    "policy_revision": "wave64_row080_hybrid_audio_retrieval_index_v0.1.0",
+    "summary": "Freeze Row080 hybrid retrieval policy, schema-required query receipt, immutable generation binding for structured/lexical/vector/canonical channels, stale-generation rejection, canonical-hash dedup before limit, and deterministic ordered-candidate hashing with synthetic fixture calibration; refuse library authority until Rows069, 077, and 079 are accepted.",
+    "writable_scope_note": "Disjoint from sibling Row081, Row084, Row089 fixtures, Row069 full hash, Row078, and Row091 paths."
   },
   "row080_contract": {
     "status": "Planned_Autonomous_Implementation_Required",
@@ -36,7 +38,8 @@
       "deterministic_order"
     ],
     "output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-080_hybrid_audio_retrieval_index.json",
-    "output_artifact_exists": false,
+    "output_artifact_exists": true,
+    "output_artifact_authority": "fail_closed_hold_packet_not_library_acceptance",
     "completion_criteria": "A fixed query and index revision returns the same candidate set with no mixed index generations.",
     "required_retrieval_channels": [
       "structured_metadata_filter",
@@ -44,397 +47,93 @@
       "embedding_similarity",
       "canonical_content_hash_deduplication"
     ],
-    "required_identity": [
-      "query_sha256",
-      "index_revision",
-      "index_manifest_sha256",
-      "record_schema_sha256",
-      "taxonomy_revision_sha256",
-      "embedding_index_sha256",
-      "retrieval_policy_sha256",
-      "ordered_candidate_set_sha256"
-    ],
-    "required_behavior": [
-      "all retrieval channels read one immutable content-addressed generation",
-      "stale generations cannot participate in one query",
-      "identical query and revision return the same ordered canonical candidate set",
-      "duplicate paths with identical canonical content collapse deterministically",
-      "missing corrupt stale or mixed channel state fails closed",
-      "a query receipt preserves channel scores exclusions tie breakers and final ordering"
-    ],
     "runtime_proof_required": true,
     "ec2_allowed": false,
     "ec2_used_for_this_audit": false,
     "final_render_gate": "BLOCKED_UNTIL_EXACT_ROW_IMPLEMENTATION_RUNTIME_QA_AND_AUTHORITY_PASS"
   },
-  "tracker_item_requirements_parity": {
-    "tracker_path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_TRACKER_ROWS.csv",
-    "tracker_sha256": "a698034d4d61788a9c630434f7aac75e3f7b1bf656319cfe43a5b2ce26d625de",
-    "tracker_bytes": 159309,
-    "item_path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ITEM_ROWS.csv",
-    "item_sha256": "f4a401d828aff69dbe7e005d6592a2af86edc936a0e6c1bae2f764345a9b8489",
-    "item_bytes": 111386,
-    "requirements_tracker_path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
-    "requirements_item_path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
-    "requirements_sha256": "077eaf1dfc1cb0d990660b2d9ec7073bc2b4acc1be47a94e9a0ea65eb1924acc",
-    "requirements_bytes": 48422,
-    "requirements_copies_byte_identical": true,
-    "tracker_item_title_match": true,
-    "tracker_item_status_match": true,
-    "tracker_item_acceptance_match": true,
-    "tracker_item_gate_match": true,
-    "tracker_item_dependency_match": true,
-    "git_state": "untracked_preserved_unaccepted"
+  "implemented_slice": {
+    "engine_path": "Plan/07_IMPLEMENTATION/scripts/query_wave64_hybrid_audio_retrieval_index.py",
+    "engine_sha256": "d56c77c230ad20b91fabf7a3a73f54263dd7081051d6f912faef706852e180b5",
+    "engine_bytes": 36597,
+    "schema_path": "Plan/08_SCHEMAS/hybrid_audio_retrieval_query_receipt.schema.json",
+    "schema_sha256": "827a168e1617a7c01f00d6d1217d3fd0caa5514b4236edf86871cb8ff003d0c9",
+    "schema_bytes": 8064,
+    "policy_registry_path": "Plan/10_REGISTRIES/wave64_row080_hybrid_audio_retrieval_index_registry.json",
+    "policy_registry_sha256": "04d0925eb98161b903f6c2a05ffa8ccfa2583d7eca2d7807683bc6359e76c925",
+    "policy_registry_bytes": 2538,
+    "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-080_hybrid_audio_retrieval_index.json",
+    "evidence_sha256": "2763074a1f02d86801dbde572af03a56256183e8be9988964b77cf827b0bc171",
+    "evidence_bytes": 39754,
+    "test_path": "Plan/Instructions/QA/Scripts/test_row080_hybrid_audio_retrieval_index.py",
+    "test_sha256": "e07b869ffbafb09302dcbf31357cf50ce996b9bb56e424749f05d82e7ac63f85",
+    "test_bytes": 5712,
+    "test_command": "python -m pytest Plan/Instructions/QA/Scripts/test_row080_hybrid_audio_retrieval_index.py -q",
+    "test_result": "PASS_9_OF_9",
+    "fixture_count": 5
   },
-  "source_authority": [
-    {
-      "path": "Plan/00_PROJECT_CONTROL/WAVE64_AUTONOMOUS_VIDEO_TO_AUDIO_AND_SOUND_GENERATION_MASTER_PLAN.md",
-      "sha256": "6f1b5059b686a81d866f61f3bada74ca673a43db2423241d500b024ecb6a1a67",
-      "bytes": 25625,
-      "citation": "Row080 Vector and structured retrieval index, lines 183-187",
-      "git_state": "untracked_preserved_unaccepted"
-    },
-    {
-      "path": "Plan/02_TARGET_ARCHITECTURE/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ARCHITECTURE.md",
-      "sha256": "3aef5be8b48808a69fe70c4b61bb4de6f7e1086c670c1ce9c817ebb4a1f6ae9b",
-      "bytes": 7078,
-      "git_state": "untracked_preserved_unaccepted"
-    },
-    {
-      "path": "Plan/05_AUDIO_SYSTEM/WAVE64_AUTONOMOUS_SOUND_LIBRARY_GENERATION_AND_QA_PLAN.md",
-      "sha256": "63bea08b4e2209100cc875b60bfad7b2d2e2b0636c5643aaa4410e6f1b1fce1c",
-      "bytes": 5362,
-      "git_state": "untracked_preserved_unaccepted"
-    },
-    {
-      "path": "Plan/Instructions/QA/AUTONOMOUS_VIDEO_TO_AUDIO_AND_GENERATED_SOUND_QA_PROTOCOL.md",
-      "sha256": "ed5773fd5f83ac5c71e31983eab9fb8d0362f2544518c37b41f7c51b95c82181",
-      "bytes": 3801,
-      "git_state": "untracked_preserved_unaccepted"
-    }
-  ],
-  "dependency_authority": [
-    {
+  "dependency_admissions": {
+    "TRK-W64-069": {
       "tracker_id": "TRK-W64-069",
-      "evidence_commit": "7a8223219d383ccb9b568a2a54e5852b0e9cbf9f",
-      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-069_FULL_AUDIO_LIBRARY_INDEX_CURRENT_DELTA_20260719.json",
-      "current_delta_sha256": "29031dcc7e2f41dc91203526da9cfe9df6cc790d019b2218b2045b4fdfc3dec7",
-      "current_delta_bytes": 17488,
-      "current_delta_status": "HOLD_RETAINED_INDEX_INTEGRITY_PASS_CURRENT_SOURCE_RECONCILIATION_AND_ROW069_AUTHORITY_INCOMPLETE",
-      "row_complete": false,
       "dependency_satisfied": false,
-      "reason": "Row069 preserved a technically useful hash-bound retained index, but current external-source reconciliation, exact failure manifest, immutable source fingerprint, full resume replay, and direct Row069 authority remain incomplete."
+      "blocker_codes": [
+        "TRK_W64_069_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "row_complete": false,
+      "status": "HOLD_ROW068_UNLOCKED_BYTE_HASH_SAMPLE_AND_RESUME_SCAFFOLD_LIBRARY_AUTHORITY_INCOMPLETE",
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-069_FULL_AUDIO_LIBRARY_INDEX_CURRENT_DELTA_20260719.json",
+      "sha256": "d51aa3a36b40ca1f9e2f207cc845719166c97be3a6a58c715a8458c5e2a84ae8",
+      "bytes": 10783
     },
-    {
+    "TRK-W64-077": {
       "tracker_id": "TRK-W64-077",
-      "evidence_commit": "a2ac8e8fd4bdde7d7b7b92daa22773b16d39d5ca",
-      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-077_SEMANTIC_AUDIO_EMBEDDING_CURRENT_DELTA_20260719.json",
-      "current_delta_sha256": "9c70c3551465e6fce1bfdc9f42afb6adcd2db3d61a0d37feab0df66c4225c0e5",
-      "current_delta_bytes": 20745,
-      "current_delta_status": "HOLD_DEPENDENCIES_MODEL_INSTALL_PREPROCESSING_EMBEDDING_INDEX_AND_HELDOUT_RETRIEVAL_PROOF_ABSENT",
-      "row_complete": false,
       "dependency_satisfied": false,
-      "reason": "Vector search cannot be accepted until Row077 binds an installed model, preprocessing identity, immutable embedding index, deterministic vectors, and held-out retrieval behavior."
+      "blocker_codes": [
+        "TRK_W64_077_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "row_complete": false,
+      "status": "HOLD_DEPENDENCIES_MODEL_INSTALL_PREPROCESSING_EMBEDDING_INDEX_AND_HELDOUT_RETRIEVAL_PROOF_ABSENT",
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-077_SEMANTIC_AUDIO_EMBEDDING_CURRENT_DELTA_20260719.json",
+      "sha256": "9c70c3551465e6fce1bfdc9f42afb6adcd2db3d61a0d37feab0df66c4225c0e5",
+      "bytes": 20745
     },
-    {
+    "TRK-W64-079": {
       "tracker_id": "TRK-W64-079",
-      "evidence_commit": "f839f4398d48b433910d5a714fd4ff9f4260985e",
-      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-079_FINE_GRAINED_FOLEY_TAXONOMY_CURRENT_DELTA_20260719.json",
-      "current_delta_sha256": "ab53e52795ab3adf22af30e2075bd32fa242ebab48a0f658222153e7d3af5d95",
-      "current_delta_bytes": 22883,
-      "current_delta_status": "HOLD_DEPENDENCIES_EXACT_FOLEY_TAXONOMY_PROMOTION_GUARD_AND_FULL_LIBRARY_ENRICHMENT_ABSENT",
-      "row_complete": false,
       "dependency_satisfied": false,
-      "reason": "Structured exact-match retrieval cannot be production-safe until Row079 provides complete versioned fields and unknown-driven compatibility blockers."
+      "blocker_codes": [
+        "TRK_W64_079_DEPENDENCY_NOT_ACCEPTED"
+      ],
+      "row_complete": false,
+      "status": "HOLD_ROW074_ROW076_ROW078_DEPENDENCIES_AND_FULL_LIBRARY_TAXONOMY_RUNTIME_ABSENT",
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-079_FINE_GRAINED_FOLEY_TAXONOMY_CURRENT_DELTA_20260719.json",
+      "sha256": "503f2ced0c92c492774ae482dcd18a4f5f623f162e93ddeb9b8b62480f6f32b8",
+      "bytes": 10464
     }
-  ],
-  "retained_functional_index": {
-    "runtime_directory": "runtime_artifacts/audio_asset_indexes/audio_downloads_functional_20260715T095712-0500",
-    "jsonl_path": "runtime_artifacts/audio_asset_indexes/audio_downloads_functional_20260715T095712-0500/audio_pack_functional_index.jsonl",
-    "jsonl_sha256": "7301243a364025dbd23907aee20ee8593d5897caa83d38391026ad42da6d17ec",
-    "jsonl_bytes": 38266398,
-    "summary_path": "runtime_artifacts/audio_asset_indexes/audio_downloads_functional_20260715T095712-0500/index_summary.json",
-    "summary_sha256": "f79da9c1714e5e77b77edb8c9e02d109b069a3938c71fe801f09ab287ebef513",
-    "summary_bytes": 2442,
-    "state_database_path": "runtime_artifacts/audio_asset_indexes/audio_downloads_functional_20260715T095712-0500/functional_index_state.sqlite3",
-    "state_database_sha256": "62d3702bc8c757d126dd1c45637509a9245930d0fa9b934e22d209ee1922ec52",
-    "state_database_bytes": 57794560,
-    "record_count": 39771,
-    "audio_bytes": 10261302811,
-    "unique_relative_path_count": 39771,
-    "duplicate_relative_path_groups": 0,
-    "unique_audio_sha256_count": 29862,
-    "duplicate_audio_file_count": 9909,
-    "duplicate_sha256_group_count": 8253,
-    "records_in_duplicate_sha256_groups": 18162,
-    "casefold_relative_path_order": true,
-    "ordinal_relative_path_order": false,
-    "source_current_reconciled": false,
-    "row080_record_field_presence": {
-      "index_id": 0,
-      "index_revision": 0,
-      "index_generation": 0,
-      "generation_id": 0,
-      "lexical_index": 0,
-      "lexical_tokens": 0,
-      "embedding": 0,
-      "vector": 0,
-      "vector_index": 0,
-      "canonical_asset_id": 0,
-      "canonical_pcm_sha256": 0,
-      "dedup_group": 0,
-      "query_order_key": 0
-    },
-    "state_database_role": "builder_resume_cache_keyed_by_relative_path_size_and_mtime_with_payload_text_not_a_hybrid_query_index",
-    "read_only_scan_performed": true,
-    "source_audio_opened_or_decoded": false,
-    "interpretation": "The retained JSONL is a strong hash-bound coarse structured inventory with deterministic case-insensitive path publication. It is not a content-addressed hybrid retrieval generation because lexical, vector, canonical group, query order, and generation identities are absent."
   },
-  "active_index_registry": {
-    "path": "Plan/10_REGISTRIES/audio_pack_functional_index_registry.json",
-    "sha256": "a0f38c62ce10c3aa6da806b373923b09b1e1eededcd62784010afd9e42270829",
-    "bytes": 1938,
-    "git_state": "tracked_clean",
-    "registry_version": 1,
-    "active_index_path": "runtime_artifacts/audio_asset_indexes/audio_downloads_functional_20260715T095712-0500/audio_pack_functional_index.jsonl",
-    "active_index_sha256": "7301243a364025dbd23907aee20ee8593d5897caa83d38391026ad42da6d17ec",
-    "active_index_hash_matches_retained_bytes": true,
-    "declared_selector": "Plan/07_IMPLEMENTATION/scripts/select_audio_pack_assets.py",
-    "declared_deduplication_key": "sha256",
-    "preserved_prior_index": "runtime_artifacts/audio_asset_indexes/open_nsfw_sfx_20260714T162800-0500/audio_asset_index.jsonl",
-    "active_pointer_present": true,
-    "selector_requires_registry_or_active_hash": false,
-    "declared_deduplication_enforced_by_selector": false,
-    "atomic_generation_snapshot_or_reader_lease_present": false,
-    "decision": "useful_active_pointer_but_not_runtime_generation_isolation_or_dedup_authority"
+  "decision": {
+    "status": "blocked",
+    "row080_acceptance": "held",
+    "product_completion": false,
+    "runtime_completion": false,
+    "safe_next_action": "Accept Row069 canonical inventory authority, Row077 immutable embedding generation, and Row079 versioned Foley taxonomy; publish one immutable library generation manifest binding structured/lexical/vector/canonical artifacts; then replace this hold packet with registry-bound hybrid query runtime evidence and held-out retrieval metrics."
   },
-  "preserved_prior_generation": {
-    "directory": "runtime_artifacts/audio_asset_indexes/open_nsfw_sfx_20260714T162800-0500",
-    "jsonl_path": "runtime_artifacts/audio_asset_indexes/open_nsfw_sfx_20260714T162800-0500/audio_asset_index.jsonl",
-    "jsonl_sha256": "a7df1ca2a2685974dc7f5e9e8091bde4299fa6937c94c2a3e5e14ddc98dfcc99",
-    "jsonl_bytes": 18031926,
-    "summary_path": "runtime_artifacts/audio_asset_indexes/open_nsfw_sfx_20260714T162800-0500/index_summary.json",
-    "summary_sha256": "579b68002c69462acd309452117423ba9a035376f5335d9522ca88d4d471082b",
-    "summary_bytes": 1481,
-    "record_count": 31936,
-    "registry_role": "historical_path_and_category_inventory",
-    "multiple_generations_retained": true,
-    "interpretation": "Preserving the historical generation is correct recovery behavior, but readers must be forced through an exact immutable generation contract so historical and active channel data cannot mix."
+  "hold_decision": {
+    "decision": "HOLD_ROW080_NO_FALSE_COMPLETION",
+    "reason": "Fail-closed hybrid retrieval contract, query engine, schema, registry, fixture calibration, and focused validators are present, but Rows069/077/079 remain incomplete and no library generation runtime or held-out retrieval metrics exist.",
+    "safe_next_action": "Accept Row069 canonical inventory authority, Row077 immutable embedding generation, and Row079 versioned Foley taxonomy; publish one immutable library generation manifest binding structured/lexical/vector/canonical artifacts; then replace this hold packet with registry-bound hybrid query runtime evidence and held-out retrieval metrics."
   },
-  "structured_selector_assessment": {
-    "path": "Plan/07_IMPLEMENTATION/scripts/select_audio_pack_assets.py",
-    "sha256": "cbe87f1bcc5db7e09c237dc8fb8c9995b06e3389df78c0b783edbe86363d1f71",
-    "bytes": 2915,
-    "git_state": "tracked_clean",
-    "supported_exact_filters": [
-      "event_type",
-      "material",
-      "role",
-      "intensity_band",
-      "duration_band",
-      "attack_characteristic",
-      "sync_class",
-      "license_classification",
-      "loopability"
-    ],
-    "unsupported_criteria_rejected": true,
-    "quality_defect_records_skipped": true,
-    "sort_key": [
-      "duration_seconds_null_last",
-      "sha256",
-      "relative_path_casefold"
-    ],
-    "deterministic_sort_implemented": true,
-    "requires_index_revision": false,
-    "requires_index_sha256": false,
-    "requires_registry_active_pointer": false,
-    "implements_lexical_search": false,
-    "implements_vector_search": false,
-    "deduplicates_by_sha256": false,
-    "emits_query_hash": false,
-    "emits_ordered_candidate_set_hash": false,
-    "emits_channel_scores_or_generation_receipt": false,
-    "decision": "reusable_deterministic_structured_filter_only"
-  },
-  "fixed_query_read_only_probe": {
-    "criteria": {
-      "event_type": "body_foley",
-      "sync_class": "frame_exact"
-    },
-    "limit": 10,
-    "source_index_sha256": "7301243a364025dbd23907aee20ee8593d5897caa83d38391026ad42da6d17ec",
-    "selector_invocation_count": 2,
-    "result_a_sha256": "9403c9d877472b098124e61ba2b017d4a0db234c314777a7324a09ab0b9d1881",
-    "result_b_sha256": "9403c9d877472b098124e61ba2b017d4a0db234c314777a7324a09ab0b9d1881",
-    "repeat_equal": true,
-    "selected_count": 10,
-    "unique_content_sha256_count": 7,
-    "duplicate_result_count": 3,
-    "ordered_by_declared_selector_key": true,
-    "source_files_modified": false,
-    "interpretation": "The same in-memory selector function and unchanged retained file produce the same ordered structured result. The result is not canonical-deduplicated and the function does not itself verify or bind the index revision."
-  },
-  "existing_selector_smoke": {
-    "path": "runtime_artifacts/audio_asset_indexes/audio_downloads_functional_20260715T095712-0500/body_foley_selector_smoke.json",
-    "sha256": "f1c225ace632184f331dcce6dae8ee1402bc467c499988e1aff46b932ad8393b",
-    "bytes": 11408,
-    "criteria": {
-      "event_type": "body_foley",
-      "sync_class": "frame_exact"
-    },
-    "selected_count": 10,
-    "unique_content_sha256_count": 7,
-    "duplicate_result_count": 3,
-    "duplicate_content_sha256": [
-      "a5158603b82bda6cb14be996bf45901130bbc855236c85a67c9e095b08087d23",
-      "8a6e31f7af5a10f03cc4db5ce3a260734dcbfe54ada52ff569642ae11bdc094f",
-      "f547a3fb454eab0016960f5296c303b58c3e36b406e370a54403f59861ec35de"
-    ],
-    "canonical_deduplication_pass": false
-  },
-  "functional_index_implementation_and_tests": {
-    "builder_path": "Plan/07_IMPLEMENTATION/scripts/build_audio_pack_functional_index.py",
-    "builder_sha256": "d958bde4c7bd79b9ff1fdcffd787d074fea84e9f0ae4d48b9a56f93f54a1736c",
-    "builder_bytes": 17598,
-    "record_schema_path": "Plan/08_SCHEMAS/audio_pack_functional_index_record.schema.json",
-    "record_schema_sha256": "5843d2b7f0ca853cd7d7bc95a07d5b2b5dc6bc22082bc917397c06321183bc18",
-    "record_schema_bytes": 2723,
-    "test_path": "Plan/Instructions/QA/Scripts/test_audio_pack_functional_index.py",
-    "test_sha256": "6780c160bc0e80f7584f11d37683b4f70d4330de54e949a4ea956a73b51b0c18",
-    "test_bytes": 3494,
-    "test_count": 3,
-    "test_command": "python -m unittest Plan.Instructions.QA.Scripts.test_audio_pack_functional_index",
-    "test_process_exit": 0,
-    "test_duration_ms": 4817,
-    "test_combined_utf8_bytes": 144,
-    "test_combined_sha256": "2a697fba5d8d69b607c8037f5bb6e3246df38396fbd24fbcabcbb76dd131f9c5",
-    "test_result": "PASS_3_OF_3",
-    "test_scope": "coarse classification fixture build resume hash duplicate accounting literal bracket paths content suppression boundary structured selection and existing-output refusal",
-    "test_explicitly_accepts_duplicate_selected_records": true,
-    "row080_lexical_vector_generation_isolation_or_canonical_dedup_covered": false
-  },
-  "candidate_score_schema_boundary": {
-    "path": "Plan/08_SCHEMAS/audio_candidate_score_record.schema.json",
-    "sha256": "778bf0e64ec56a62b0e33dfc7cedb2724b4d3a56ddb41c01ab3a1a578ae6356e",
-    "bytes": 2114,
-    "git_state": "untracked_preserved_unaccepted",
-    "requires_query_hash": true,
-    "requires_index_revision": true,
-    "requires_policy_revision": true,
-    "requires_asset_sha256_rank_and_components": true,
-    "binds_lexical_vector_or_generation_channel_manifests": false,
-    "runtime_records_found_for_row080": false,
-    "decision": "useful_downstream_score_receipt_shape_not_a_hybrid_index_or_query_execution_contract"
-  },
-  "repository_implementation_search": {
-    "row080_hybrid_query_engine_found": false,
-    "row080_lexical_index_or_search_found": false,
-    "row080_vector_index_or_search_found": false,
-    "row080_canonical_dedup_query_found": false,
-    "row080_generation_snapshot_or_reader_lease_found": false,
-    "row080_stale_generation_rejection_found": false,
-    "row080_query_receipt_found": false,
-    "row080_direct_qa_test_found": false,
-    "direct_row080_planning_references": [
-      "Plan/07_IMPLEMENTATION/scripts/build_wave64_autonomous_sound_intelligence_control_package.py",
-      "Plan/10_REGISTRIES/wave64_autonomous_sound_intelligence_work_package_registry.json"
-    ],
-    "partial_preexisting_assets": [
-      "Plan/07_IMPLEMENTATION/scripts/build_audio_pack_functional_index.py",
-      "Plan/07_IMPLEMENTATION/scripts/select_audio_pack_assets.py",
-      "Plan/08_SCHEMAS/audio_pack_functional_index_record.schema.json",
-      "Plan/10_REGISTRIES/audio_pack_functional_index_registry.json",
-      "Plan/Instructions/QA/Scripts/test_audio_pack_functional_index.py"
-    ],
-    "interpretation": "The preexisting assets implement a useful coarse functional inventory and deterministic exact filter, but no direct Row080 hybrid retrieval service or qualification exists."
-  },
-  "hybrid_acceptance_assessment": {
-    "hash_bound_functional_inventory_present": true,
-    "active_index_pointer_present": true,
-    "structured_filter_present": true,
-    "fixed_current_file_query_repeat_equal": true,
-    "deterministic_local_sort_present": true,
-    "lexical_search_present": false,
-    "vector_search_present": false,
-    "canonical_hash_deduplication_present": false,
-    "query_binds_exact_index_revision": false,
-    "all_channels_bind_one_generation": false,
-    "stale_generation_mixing_prevented": false,
-    "content_addressed_query_receipt_present": false,
-    "full_hybrid_runtime_reconciliation_present": false,
-    "required_retrieval_channel_count": 4,
-    "implemented_retrieval_channel_count": 1,
-    "decision": "structured_selector_partial_reuse_only_no_row080_completion"
-  },
-  "planning_only_coverage": {
-    "builder_path": "Plan/07_IMPLEMENTATION/scripts/build_wave64_autonomous_sound_intelligence_control_package.py",
-    "builder_sha256": "62441dab915e5d277963aa58f579ee8a9190a4f3d58fcceab2b252426524f593",
-    "builder_bytes": 37998,
-    "builder_git_state": "untracked_preserved_unaccepted",
-    "registry_path": "Plan/10_REGISTRIES/wave64_autonomous_sound_intelligence_work_package_registry.json",
-    "registry_sha256": "d4ba802a94920e462fed578790e0508f140d5d7b0cf64736dcc86f47fb0e709e",
-    "registry_bytes": 13741,
-    "registry_git_state": "untracked_preserved_unaccepted",
-    "row080_registry_status": "Planned_Autonomous_Implementation_Required",
-    "direct_implementation_or_runtime_evidence_emitted": false,
-    "decision": "planning_coverage_only"
-  },
-  "acceptance_gaps": [
-    "accepted Row069 current-source-complete canonical inventory authority",
-    "accepted Row077 immutable embedding generation and vector index",
-    "accepted Row079 versioned complete taxonomy and unknown compatibility projection",
-    "one immutable generation manifest binding structured lexical vector canonical and taxonomy artifacts",
-    "query schema with canonical serialization and query SHA",
-    "lexical tokenizer normalization field weighting index and revision identity",
-    "vector metric dimension normalization model preprocessing and index identity",
-    "canonical content identity and deterministic representative selection policy",
-    "actual SHA-based deduplication before result limiting",
-    "atomic generation publication and reader snapshot or lease semantics",
-    "fail-closed rejection for missing corrupt stale revoked or mixed channel artifacts",
-    "deterministic cross-channel score normalization merge tie breaking and order",
-    "query receipt with every channel result exclusion dedup decision and ordered candidate set hash",
-    "same query same generation repeated-process and cold-start determinism proof",
-    "concurrent publication versus query race proof",
-    "adversarial duplicate path case Unicode case normalization stale generation missing vector and corrupt lexical tests",
-    "registered structured lexical vector hybrid and dedup retrieval metrics on immutable held-out queries",
-    "full retained-library and canonical membership reconciliation",
-    "exact failure manifests and no partial result publication",
-    "tracker-declared direct runtime QA and evidence artifact"
-  ],
-  "downstream_holds": [
-    {
-      "tracker_id": "TRK-W64-081",
-      "task_name": "Explainable weighted audio candidate scoring and ranking",
-      "reason": "Scoring cannot consume an authoritative candidate pool until Row080 produces one immutable hybrid query receipt and canonical candidate set."
-    },
-    {
-      "tracker_id": "TRK-W64-082",
-      "task_name": "Audio repetition, diversity, continuity, and recent-use control",
-      "reason": "Diversity controls require canonical deduplication and deterministic retrieval identities."
-    },
-    {
-      "tracker_id": "TRK-W64-104",
-      "task_name": "Generated-asset promotion, reuse, revocation, and library ingestion",
-      "reason": "Promotion and revocation cannot safely update or query a mixed-generation retrieval index."
-    },
-    {
-      "tracker_id": "TRK-W64-111",
-      "task_name": "Existing Wave30, Wave31, Wave64, selector, indexer, and generator compatibility migration",
-      "reason": "Compatibility migration explicitly depends on the accepted Row080 index contract."
-    },
-    {
-      "tracker_id": "TRK-W64-112",
-      "task_name": "Autonomous sound intelligence production acceptance and full-system certification",
-      "reason": "Full-system certification explicitly requires Row080 completion."
-    }
-  ],
   "checks": [
     {
-      "name": "tracker_item_contract_parity",
+      "name": "fail_closed_contract_slice_present",
       "status": "PASS"
     },
     {
-      "name": "direct_row080_output_absent",
+      "name": "focused_validators_pass",
+      "status": "PASS",
+      "observed": "9/9"
+    },
+    {
+      "name": "library_hold_packet_emitted",
       "status": "PASS"
     },
     {
@@ -450,105 +149,36 @@
       "status": "FAIL"
     },
     {
-      "name": "retained_functional_index_hash_bound",
-      "status": "PASS"
-    },
-    {
-      "name": "active_index_registry_pointer_matches",
-      "status": "PASS"
-    },
-    {
-      "name": "structured_filter_implemented",
-      "status": "PASS"
-    },
-    {
-      "name": "fixed_current_file_query_repeat_equal",
-      "status": "PASS"
-    },
-    {
-      "name": "deterministic_local_sort_implemented",
-      "status": "PASS"
-    },
-    {
-      "name": "lexical_search_implemented",
+      "name": "library_hybrid_runtime_present",
       "status": "FAIL"
-    },
-    {
-      "name": "vector_search_implemented",
-      "status": "FAIL"
-    },
-    {
-      "name": "canonical_hash_deduplication_implemented",
-      "status": "FAIL"
-    },
-    {
-      "name": "query_binds_exact_index_revision",
-      "status": "FAIL"
-    },
-    {
-      "name": "stale_or_mixed_generation_rejected",
-      "status": "FAIL"
-    },
-    {
-      "name": "content_addressed_query_receipt_present",
-      "status": "FAIL"
-    },
-    {
-      "name": "focused_functional_index_tests_pass",
-      "status": "PASS"
-    },
-    {
-      "name": "current_source_and_full_hybrid_membership_reconciled",
-      "status": "FAIL"
-    },
-    {
-      "name": "ec2_or_production_runtime_mutated_by_this_audit",
-      "status": "PASS",
-      "observed": false
     },
     {
       "name": "row080_completion_claim_safe",
       "status": "FAIL"
+    },
+    {
+      "name": "ec2_or_production_runtime_mutated_by_this_increment",
+      "status": "PASS",
+      "observed": false
     }
   ],
-  "test_and_runtime_boundary": {
-    "source_tests_executed": true,
-    "source_test_result": "PASS_3_OF_3",
-    "read_only_fixed_query_probe_executed": true,
-    "production_index_build_invoked": false,
-    "production_index_or_registry_modified": false,
-    "source_audio_opened_or_decoded": false,
-    "embedding_model_loaded": false,
-    "lexical_index_built": false,
-    "vector_index_built": false,
-    "ec2_invoked": false,
-    "docker_invoked": false,
-    "wsl_invoked": false,
-    "provider_calls": 0,
-    "wrapper_calls": 0,
-    "scheduled_task_wakes": 0
-  },
-  "scheduler_and_worker_containment": {
-    "codex_automations_modified": false,
-    "windows_worker_tasks_modified": false,
-    "mask_maintenance_tasks_modified": false,
-    "ec2_read_only_safety_monitor_modified": false,
-    "worker_control_paths_modified": false,
-    "queued_or_running_worker_scope_duplicated": false,
-    "containment_note": "The scheduled-task incident containment state remains untouched. All paused automations and disabled worker or Mask tasks remain outside this evidence-only Codex final-authority audit."
-  },
   "preservation_boundary": {
-    "only_new_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-080_HYBRID_AUDIO_RETRIEVAL_INDEX_CURRENT_DELTA_20260719.json",
-    "queued_worker_scopes_preserved": true,
-    "flux2_dirty_paths_preserved": true,
-    "portfolio_reconciliation_paths_preserved": true,
-    "worker_control_snapshots_preserved": true,
-    "unrelated_dirty_and_untracked_paths_preserved": true,
-    "retained_audio_indexes_preserved": true
-  },
-  "hold_decision": {
-    "decision": "HOLD_ROW080_NO_FALSE_COMPLETION",
-    "reason": "The project has a technically useful hash-bound 39,771-record functional inventory, an active registry pointer, a deterministic exact metadata selector, and passing focused tests. However, all three dependencies remain incomplete; no lexical or vector search exists; the selector does not bind the active revision and returns duplicate content hashes; multiple generations are retained without an atomic reader-generation contract; and no hybrid query receipt, stale-generation rejection, or full membership reconciliation exists.",
-    "safe_next_action": "After Rows069, 077, and 079 are accepted, define one immutable generation manifest binding the structured records, lexical index, vector index, canonical content groups, schemas, taxonomies, models, preprocessing, and retrieval policy; implement canonical query serialization and hash verification; enforce registry-bound atomic reader snapshots; execute structured lexical and vector channels only from that generation; canonical-deduplicate before limiting with deterministic representative and tie policies; fail closed on stale missing corrupt revoked or mixed channel identities; emit a complete query receipt and ordered-candidate hash; validate repeated processes, cold starts, duplicates, Unicode paths, concurrent publication races, corrupt channels, and immutable held-out retrieval metrics; reconcile every retained member; and emit the tracker-declared runtime artifact. EC2 is not allowed for Row080. Continue independent Codex PM/QA work meanwhile."
+    "writable_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/query_wave64_hybrid_audio_retrieval_index.py",
+      "Plan/08_SCHEMAS/hybrid_audio_retrieval_query_receipt.schema.json",
+      "Plan/10_REGISTRIES/wave64_row080_hybrid_audio_retrieval_index_registry.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-080_hybrid_audio_retrieval_index.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-080_HYBRID_AUDIO_RETRIEVAL_INDEX_CURRENT_DELTA_20260719.json",
+      "Plan/Instructions/QA/Scripts/test_row080_hybrid_audio_retrieval_index.py"
+    ],
+    "sibling_rows_untouched": [
+      "TRK-W64-081",
+      "TRK-W64-084",
+      "TRK-W64-089",
+      "TRK-W64-069",
+      "TRK-W64-078",
+      "TRK-W64-091"
+    ],
+    "unrelated_dirty_and_untracked_paths_preserved": true
   }
 }

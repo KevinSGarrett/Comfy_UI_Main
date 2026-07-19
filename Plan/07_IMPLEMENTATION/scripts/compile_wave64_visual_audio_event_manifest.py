@@ -143,6 +143,14 @@ def _validate_timeline(raw_timeline: Any) -> tuple[dict[str, Any], float]:
     duration_seconds = _expect_number(raw_timeline.get("duration_seconds"), "timeline.duration_seconds")
     if duration_seconds <= 0:
         raise ValueError("timeline.duration_seconds must be > 0")
+    # Bind declared duration to Row084-style frame/time_base identity so fixture and
+    # declared packets cannot drift from the canonical clock without failing closed.
+    expected_duration = frame_count / fps
+    if abs(duration_seconds - expected_duration) > (1.0 / fps):
+        raise ValueError(
+            "timeline.duration_seconds disagrees with frame_count/time_base "
+            f"(expected≈{expected_duration}, observed={duration_seconds})"
+        )
     sample_rate = _expect_positive_int(raw_timeline.get("target_sample_rate_hz"), "timeline.target_sample_rate_hz")
     return {
         "time_base": time_base,
@@ -183,6 +191,9 @@ def _runtime_ready(runtime_authority: dict[str, Any]) -> bool:
 def _dependency_ready(dependency_authority: dict[str, Any]) -> bool:
     row084 = _expect_boolean(dependency_authority.get("row084_complete"), "dependency_authority.row084_complete")
     row090 = _expect_boolean(dependency_authority.get("row090_complete"), "dependency_authority.row090_complete")
+    for key in ("row084_evidence_sha256", "row090_evidence_sha256"):
+        if key in dependency_authority and dependency_authority.get(key) is not None:
+            _expect_sha256(dependency_authority.get(key), f"dependency_authority.{key}")
     return row084 and row090
 
 

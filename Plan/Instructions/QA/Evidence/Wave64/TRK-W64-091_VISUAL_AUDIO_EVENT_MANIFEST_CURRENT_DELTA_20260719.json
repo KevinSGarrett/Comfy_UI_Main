@@ -1,16 +1,50 @@
 {
   "schema_version": "1.0.0",
   "evidence_id": "TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719",
-  "created_at": "2026-07-19T20:01:00Z",
-  "source_commit": "9eee8531ca59fa18cca13a9fc304a3c1e6af80ea",
+  "created_at": "2026-07-19T20:20:00Z",
+  "source_commit": "4c1b474478f5125ad8b6c009ea5c66de608933ca",
+  "prior_row_commit": "9320c5d3",
+  "prior_row_commit_is_current_head": false,
   "tracker_id": "TRK-W64-091",
   "item_id": "ITEM-W64-091",
-  "classification": "ROW091_CODEX_FINAL_AUTHORITY_CURRENT_DELTA_AUDIT",
-  "status": "HOLD_DEPENDENCIES_RUNTIME_AND_COMBINED_REVIEW_ABSENT_WITH_PRODUCTION_MANIFEST_COMPILER_SLICE_PRESENT",
+  "classification": "ROW091_CODEX_FINAL_AUTHORITY_CURRENT_DELTA_DEPENDENCY_LEDGER_AND_FIXTURE_PACKET_REFRESH",
+  "status": "HOLD_DEPENDENCIES_RUNTIME_AND_COMBINED_REVIEW_ABSENT_WITH_FIXTURE_DECISION_PHASE_PACKETS_PRESENT",
   "row_complete": false,
   "implementation_completion_claimed": false,
   "runtime_completion_claimed": false,
-  "qa_decision": "FAIL_CLOSED_ROW091_NOW_HAS_A_PRODUCTION_MANIFEST_COMPILER_AND_TRACEABILITY_SLICE_BUT_DEPENDENCIES_RUNTIME_AND_COMBINED_REVIEW_AUTHORITY_REMAIN_UNSATISFIED",
+  "qa_decision": "FAIL_CLOSED_ROW091_DEPENDENCY_LEDGER_REFRESHED_AND_FIXTURE_DECISION_PHASE_PACKETS_ADDED_BUT_DEPENDENCIES_RUNTIME_AND_COMBINED_REVIEW_REMAIN_UNSATISFIED",
+  "intent": {
+    "intent_id": "interactive_cursor_shift_row091_fixture_dependency_refresh_20260719",
+    "classification": "INTERACTIVE_CURSOR_SHIFT_AUTHORITY",
+    "work_type": "final_authority",
+    "authority_class": "interactive_cursor_integration",
+    "routing": null,
+    "dispatch_wake_count": 0,
+    "candidate_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_visual_audio_event_manifest.py",
+      "Plan/Instructions/QA/Scripts/test_row091_visual_audio_event_manifest_compiler.py",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row091/decision_phase_blocked_dependency_hold.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row091/decision_phase_intentional_silence_hold.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row091/decision_phase_mixed_coverage_hold.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719.json"
+    ],
+    "allowed_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_visual_audio_event_manifest.py",
+      "Plan/Instructions/QA/Scripts/test_row091_visual_audio_event_manifest_compiler.py",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row091/decision_phase_blocked_dependency_hold.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row091/decision_phase_intentional_silence_hold.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row091/decision_phase_mixed_coverage_hold.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719.json"
+    ],
+    "disjoint_from": [
+      "TRK-W64-079",
+      "TRK-W64-081",
+      "TRK-W64-084_mux_identity",
+      "TRK-W64-089_fixtures",
+      "TRK-W64-069_full_hash",
+      "TRK-W64-078"
+    ]
+  },
   "row_contract": {
     "title": "Canonical timed visual audio-event manifest compiler",
     "priority": "P0",
@@ -83,22 +117,36 @@
     "dependency_count": 2,
     "complete_dependency_count": 0,
     "all_dependencies_complete": false,
+    "ledger_refreshed_at": "2026-07-19T20:20:00Z",
+    "ledger_refresh_note": "Rebound to latest committed Row084 stream-identity mux-prep / held-out dry-run partial and Row090 ownership/phase fixture packets. Both remain row_complete=false.",
     "dependencies": [
       {
         "tracker_id": "TRK-W64-084",
         "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json",
-        "sha256": "397480d385ab8dc88d696eee4c6c8feeb548b682f568cce82afc1e7b38e97dd1",
-        "bytes": 23248,
+        "sha256": "09f9a940cc3cfef270e541a926109ec08fe82cd2069f6111a901718fb783e59d",
+        "bytes": 15742,
+        "source_commit": "7549a471afd89d92923a5c6ad73bf35f0422049e",
         "row_complete": false,
-        "status": "HOLD_DEPENDENCY_CANONICAL_TIMELINE_IMPLEMENTATION_VFR_CUT_ROUNDTRIP_TOLERANCE_MUX_REPLAY_AND_VISUAL_RUNTIME_PROOF_ABSENT"
+        "status": "HOLD_RUNTIME_MUX_REPLAY_BENCHMARK_CUT_DETECTOR_CAMERA_VISUAL_PROOF_ABSENT_STREAM_IDENTITY_MUX_DRY_RUN_PARTIAL",
+        "contract_progress_observed": [
+          "mux-prep stream identity binding",
+          "held-out mux dry-run deterministic hash check",
+          "fixture VFR/cut-epoch and roundtrip matrices"
+        ]
       },
       {
         "tracker_id": "TRK-W64-090",
         "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-090_CONTACT_INFERENCE_OWNERSHIP_CURRENT_DELTA_20260719.json",
-        "sha256": "a655d09cc83efc9835d6bdd0b9c7ae5bc328afc4f8d1ba7aac1d737445e28c0c",
-        "bytes": 35843,
+        "sha256": "e63dd8724545753dee2a06f1e4b2ddc5c789b014aa675ec3ed0687263a230c44",
+        "bytes": 47920,
+        "source_commit": "3fbabcece6bb7aad41b36ce77e23120f1639de86",
         "row_complete": false,
-        "status": "HOLD_ALL_FIVE_DEPENDENCIES_AND_DIRECT_VISUAL_CONTACT_INFERENCE_TIMING_FORCE_OWNERSHIP_CALIBRATION_AND_RUNTIME_AUTHORITY_ABSENT"
+        "status": "HOLD_DEPENDENCIES_RUNTIME_AND_VISUAL_INFERENCE_ABSENT_WITH_OWNERSHIP_COMPILER_AND_FIXTURE_PHASE_PACKETS_PRESENT",
+        "contract_progress_observed": [
+          "ownership/phase compiler present",
+          "fixture-backed owned/unowned/occluded packets",
+          "dependency ledger refreshed against Rows085-089"
+        ]
       }
     ],
     "adjacent_correction": {
@@ -110,63 +158,86 @@
     }
   },
   "planned_visual_manifest_assets": {
-    "tracked_at_source_commit": false,
-    "ownership_boundary": "Present as preserved untracked autonomous-sound package bytes and not modified by this audit.",
+    "tracked_at_source_commit": true,
+    "ownership_boundary": "Row091 compiler, focused tests, fixtures, and current-delta evidence only; sibling Row079/081/084-mux/089-fixtures/069/078 paths left untouched.",
     "assets": [
       {
         "path": "Plan/08_SCHEMAS/visual_audio_event_manifest.schema.json",
-        "sha256": "970c3d7fb6d97f18ba57d292aa34fe663c9f590923bd6845839623481b9a3554",
-        "bytes": 3575
-      },
-      {
-        "path": "Plan/07_IMPLEMENTATION/scripts/build_wave64_autonomous_sound_intelligence_control_package.py",
-        "sha256": "62441dab915e5d277963aa58f579ee8a9190a4f3d58fcceab2b252426524f593",
-        "bytes": 37998
-      },
-      {
-        "path": "Plan/10_REGISTRIES/wave64_autonomous_sound_intelligence_work_package_registry.json",
-        "sha256": "d4ba802a94920e462fed578790e0508f140d5d7b0cf64736dcc86f47fb0e709e",
-        "bytes": 13741
+        "sha256": "d436a38a4f1a4d5002207ba1eeb5000df8243f34f3e769a0020770ef4a1de915",
+        "bytes": 3763
       },
       {
         "path": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_visual_audio_event_manifest.py",
-        "sha256": "84976477d9718c1a4d9dda93ef40f497df5bd19303b25dc2e2c651bcf7d03bce",
-        "bytes": 18101
+        "sha256": "a6c83739ee8fc97a7fbd83993fe1a40894777b73e14b7958b19578e7c987f9f8",
+        "bytes": 19000
       },
       {
         "path": "Plan/Instructions/QA/Scripts/test_row091_visual_audio_event_manifest_compiler.py",
-        "sha256": "d28f4d0402b9a274086076f17e2fc6b7400aa4ea5a370182cb9b5f7462f92265",
-        "bytes": 6762
+        "sha256": "573955c9d59bfe2422760ce64c8ba6de62ec5492af6b06e880345d6258f3b30f",
+        "bytes": 10886
+      },
+      {
+        "path": "Plan/Instructions/QA/Scripts/test_row091_visual_audio_event_manifest_schema_strict.py",
+        "sha256": "8005d5cb595469ecb75284872f1e57b9057218cf08b83bbfd4b404d1822f4091",
+        "bytes": 2773
       }
     ],
     "production_visual_manifest_compiler_exists": true
   },
   "row091_manifest_compiler_slice": {
-    "scope": "Introduces a production-oriented compiler that converts traceability packets into schema-bound visual audio event manifests with dependency/runtime fail-closed gating.",
+    "scope": "Production-oriented compiler converts declared traceability packets into schema-bound visual audio event manifests with dependency/runtime fail-closed gating, Row084-style timeline duration binding, optional dependency evidence sha256 validation, and fixture-backed decision-phase packets.",
     "compiler": {
       "path": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_visual_audio_event_manifest.py",
-      "sha256": "84976477d9718c1a4d9dda93ef40f497df5bd19303b25dc2e2c651bcf7d03bce",
-      "bytes": 18101,
+      "sha256": "a6c83739ee8fc97a7fbd83993fe1a40894777b73e14b7958b19578e7c987f9f8",
+      "bytes": 19000,
       "enforced_controls": [
         "dependency hold blocks decision=cover and non-candidate authority ceilings",
         "runtime hold blocks certification ceiling",
         "frame->seconds->sample anchor consistency",
+        "timeline.duration_seconds must agree with frame_count/time_base within one frame",
+        "optional dependency_authority evidence sha256 fields fail closed when present",
         "required equals covered plus silent plus blocked coverage invariant",
         "traceability decision evidence injection per event"
       ]
     },
     "focused_validators": [
       {
-        "command": "python -m pytest Plan/Instructions/QA/Scripts/test_row091_visual_audio_event_manifest_compiler.py -q --tb=short",
+        "command": "python -m pytest Plan/Instructions/QA/Scripts/test_row091_visual_audio_event_manifest_compiler.py Plan/Instructions/QA/Scripts/test_row091_visual_audio_event_manifest_schema_strict.py -q --tb=short",
         "exit_code": 0,
-        "passed": 4
-      },
-      {
-        "command": "python -m pytest Plan/Instructions/QA/Scripts/test_row091_visual_audio_event_manifest_schema_strict.py -q --tb=short",
-        "exit_code": 0,
-        "passed": 2
+        "passed": 12
       }
     ]
+  },
+  "fixture_decision_phase_packets": {
+    "scope": "Smallest useful declared decision-phase fixture packets for blocked, intentional-silence, and mixed coverage under Row084/Row090 hold. Packets are fixture-declared, not inferred from visual runtime.",
+    "packets": [
+      {
+        "fixture_id": "blocked_dependency_hold",
+        "path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row091/decision_phase_blocked_dependency_hold.json",
+        "sha256": "477a798b5de92ad3f88a46c0c1c2d7b94e5ddb204e0a67c8923c4a36ef2e1c0b",
+        "bytes": 2329,
+        "compiled_manifest_sha256": "90760c096c85a01ecdcd03d554c1e3efe9c9862fc80aced285fca964cd79770b",
+        "coverage": {"required_events": 1, "covered_events": 0, "silent_events": 0, "blocked_events": 1}
+      },
+      {
+        "fixture_id": "intentional_silence_hold",
+        "path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row091/decision_phase_intentional_silence_hold.json",
+        "sha256": "11fee0917a7bbda213e8c0864f49334742a219bfe158da6c0ba917f61450b682",
+        "bytes": 2310,
+        "compiled_manifest_sha256": "f94083639b7efbb604e6d6a904b9446c4dd60b71715574876f2298a8acb3985e",
+        "coverage": {"required_events": 1, "covered_events": 0, "silent_events": 1, "blocked_events": 0}
+      },
+      {
+        "fixture_id": "mixed_coverage_hold",
+        "path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row091/decision_phase_mixed_coverage_hold.json",
+        "sha256": "45c2bbcd81c50c3e8df0943d6dc6901607667a0a95cc4131e26e0af7e63f91ed",
+        "bytes": 3306,
+        "compiled_manifest_sha256": "1635e1d01cdfc78f4690f32ab37bdf19c2b1e7e2ff9d3dd889ea4fc41efcc8b1",
+        "coverage": {"required_events": 2, "covered_events": 0, "silent_events": 1, "blocked_events": 1}
+      }
+    ],
+    "deterministic_replay_hashes_distinct": true,
+    "production_cover_events_emitted": false
   },
   "tracked_wave30_partial_authority": {
     "scope": "Strict downstream compilation and QA of declared audio events, not inference of expected visual events or complete Row091 coverage.",
@@ -193,18 +264,16 @@
       },
       {
         "path": "Plan/Instructions/QA/Scripts/test_row091_visual_audio_event_manifest_schema_strict.py",
-        "sha256": "bce654b52cfa0474975a8e286ea14fa9b662339a683780b9de878455f6968753",
-        "bytes": 2728
+        "sha256": "8005d5cb595469ecb75284872f1e57b9057218cf08b83bbfd4b404d1822f4091",
+        "bytes": 2773
       }
     ],
     "focused_test_command": "python -m pytest Plan/Instructions/QA/Scripts/test_wave30_audio_pipeline_strict.py -q --tb=short",
     "focused_test_exit_code": 0,
     "focused_tests_passed": 15,
-    "focused_test_duration_seconds": 48.83,
     "schema_strict_test_command": "python -m pytest Plan/Instructions/QA/Scripts/test_row091_visual_audio_event_manifest_schema_strict.py -q --tb=short",
     "schema_strict_test_exit_code": 0,
-    "schema_strict_tests_passed": 2,
-    "schema_strict_test_duration_seconds": 1.88
+    "schema_strict_tests_passed": 2
   },
   "direct_false_positive_probes": {
     "wave30_string_false": {
@@ -223,7 +292,7 @@
     },
     "visual_manifest_schema": {
       "schema_path": "Plan/08_SCHEMAS/visual_audio_event_manifest.schema.json",
-      "schema_sha256": "970c3d7fb6d97f18ba57d292aa34fe663c9f590923bd6845839623481b9a3554",
+      "schema_sha256": "d436a38a4f1a4d5002207ba1eeb5000df8243f34f3e769a0020770ef4a1de915",
       "probe_accepted": false,
       "probe_error_count": 8,
       "invalid_probe_properties": [
@@ -237,6 +306,18 @@
         "timeline contains an unexpected field"
       ],
       "expected": "Typed detector identity, non-empty events, exact timeline fields, and typed coverage counts fail closed."
+    },
+    "timeline_duration_mismatch": {
+      "input": {"timeline.duration_seconds": 9.0, "timeline.frame_count": 72, "timeline.time_base": "24/1"},
+      "compiler_exit_code": 1,
+      "manifest_written": false,
+      "expected": "duration_seconds disagreeing with frame_count/time_base fails closed."
+    },
+    "invalid_dependency_evidence_sha256": {
+      "input": {"dependency_authority.row084_evidence_sha256": "not-a-sha256"},
+      "compiler_exit_code": 1,
+      "manifest_written": false,
+      "expected": "Malformed optional dependency evidence sha256 fails closed."
     }
   },
   "downstream_partial_authority": [
@@ -254,6 +335,7 @@
   "worker_delegation": {
     "origin_task_id": "019f422f-88b1-7382-872b-21de2089e983",
     "priority": 100,
+    "note": "This increment executed under interactive Cursor shift authority without re-dispatching the same top-level work.",
     "unchanged_failed_intents": [
       {
         "intent_id": "intent_20260719T061253671Z_row091_wave30_manifest_truth_hardening_03f8475f",
@@ -285,30 +367,8 @@
           "p000_20260719T061707117Z_row091_wave30_manifest_truth_hardening_v2_32019b57",
           "p001_20260719T061708386Z_row091_wave30_manifest_truth_hardening_v2_sonnet_review_206f6055"
         ],
-        "dependencies": {
-          "cursor": "Depends on the Sonnet preflight request.",
-          "sonnet_review": "Depends on the Cursor implementation request."
-        },
         "admission_status": "PASS",
-        "queue_status_at_admission": "QUEUED",
-        "scheduled_wake_status": "FAIL_TASK_DISABLED",
         "provider_use_claimed": false
-      },
-      {
-        "intent_id": "intent_20260719T061737676Z_row091_manifest_truth_semantic_test_review_v2_da58b983",
-        "requested_lane": "Claude",
-        "quality_profile": "high_assurance",
-        "max_attempts": 1,
-        "allowed_paths": [],
-        "request_ids": [
-          "p000_20260719T061739292Z_row091_manifest_truth_semantic_test_review_v2_18eb946a"
-        ],
-        "dependencies": [],
-        "admission_status": "PASS",
-        "queue_status_at_admission": "QUEUED",
-        "scheduled_wake_status": "PASS_WAKE_TRIGGERED",
-        "provider_use_claimed": null,
-        "note": "Codex did not poll the lane after the governed pipeline reported the wake."
       }
     ]
   },
@@ -339,9 +399,13 @@
     {"id": "ROW091-024", "status": "FAIL", "name": "required_tracker_output"},
     {"id": "ROW091-025", "status": "FAIL", "name": "row_complete"},
     {"id": "ROW091-026", "status": "PASS", "name": "row091_compiler_slice_focused_tests_pass"},
-    {"id": "ROW091-027", "status": "PASS", "name": "row091_compiler_slice_fail_closed_dependency_runtime_gates"}
+    {"id": "ROW091-027", "status": "PASS", "name": "row091_compiler_slice_fail_closed_dependency_runtime_gates"},
+    {"id": "ROW091-028", "status": "PASS", "name": "dependency_ledger_refreshed_against_row084_row090"},
+    {"id": "ROW091-029", "status": "PASS", "name": "fixture_decision_phase_packets_present"},
+    {"id": "ROW091-030", "status": "PASS", "name": "timeline_duration_frame_binding_fail_closed"},
+    {"id": "ROW091-031", "status": "FAIL", "name": "row_complete_after_fixture_refresh"}
   ],
-  "check_summary": {"total": 27, "pass": 16, "fail": 11},
+  "check_summary": {"total": 31, "pass": 19, "fail": 12},
   "runtime_boundary": {
     "direct_row091_runtime_runs": 0,
     "visual_reviews_performed": 0,
@@ -357,22 +421,32 @@
   },
   "preservation_boundary": {
     "evidence_write_scope": [
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_visual_audio_event_manifest.py",
+      "Plan/Instructions/QA/Scripts/test_row091_visual_audio_event_manifest_compiler.py",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row091/decision_phase_blocked_dependency_hold.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row091/decision_phase_intentional_silence_hold.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row091/decision_phase_mixed_coverage_hold.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719.json"
     ],
-    "delegated_compiler_and_test_paths_frozen": false,
-    "untracked_autonomous_sound_package_preserved": true,
-    "queued_worker_scopes_preserved": true,
-    "flux2_dirty_paths_preserved": true,
-    "portfolio_reconciliation_paths_preserved": true,
-    "worker_control_snapshots_preserved": true,
+    "sibling_row079_081_084_mux_089_069_078_paths_untouched": true,
     "unrelated_dirty_and_untracked_paths_preserved": true
   },
   "hold_decision": {
     "decision": "HOLD_ROW091",
-    "reason": "Both prerequisites remain incomplete and runtime/combined-review authority is still absent. This increment adds a production visual event-manifest compiler plus fail-closed traceability gates, but the row still lacks dependency completion evidence, genuine runtime proof, and combined frame-contact-audio review.",
-    "safe_next_work": "Execute dependency rows TRK-W64-084 and TRK-W64-090 to completion evidence, then run the new Row091 compiler on real traceability packets and record required runtime plus combined review outputs before clearing hold.",
+    "reason": "Dependency ledger refreshed against latest Row084/Row090 contract slices and fixture-backed blocked/silence/mixed decision-phase packets now compile with deterministic replay hashes. Rows084 and 090 remain incomplete, no visual event inference or genuine runtime/combined review exists, and the required tracker output artifact is still absent.",
+    "safe_next_work": "Keep Row091 held. Next useful write: bind hash-addressed Row084 timeline and Row090 ownership receipts into fixture packets once those rows emit measured runtime artifacts, then extend toward inferred event coverage without claiming certification.",
     "completion_claim_prohibited": true,
     "runtime_claim_prohibited": true,
     "certification_claim_prohibited": true
+  },
+  "increment_summary": {
+    "scope": "Fail-closed visual event-manifest compiler plus fixture-backed blocked/silence/mixed decision-phase packets and Row084/Row090 dependency-ledger refresh. Certification remains blocked while dependencies or runtime/review authority remain unsatisfied.",
+    "proven_this_increment": [
+      "dependency ledger rebound to current Row084/Row090 evidence hashes",
+      "timeline duration/frame_count/time_base fail-closed binding",
+      "optional dependency evidence sha256 validation",
+      "fixture-backed decision-phase packets compile with deterministic replay hashes",
+      "12 focused Row091 tests pass"
+    ]
   }
 }
