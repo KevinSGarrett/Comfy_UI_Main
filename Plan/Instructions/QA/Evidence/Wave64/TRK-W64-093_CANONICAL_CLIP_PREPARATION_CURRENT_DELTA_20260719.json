@@ -2,15 +2,27 @@
   "schema_version": "1.0.0",
   "evidence_id": "TRK-W64-093_CANONICAL_CLIP_PREPARATION_CURRENT_DELTA_20260719",
   "created_at": "2026-07-19T06:32:04.4047067Z",
-  "source_commit": "05d38d479444ea1e54cc9b0fc6f68492b595edfa",
+  "updated_at": "2026-07-19T19:34:22Z",
+  "source_commit": "9320c5d39155abb9df8aefe99e85cd367a8b269e",
+  "prior_audit_commit": "883e7afe74505220ea6e1e6246a22a4049574caa",
   "tracker_id": "TRK-W64-093",
   "item_id": "ITEM-W64-093",
-  "classification": "ROW093_CODEX_FINAL_AUTHORITY_CURRENT_DELTA_AUDIT",
-  "status": "HOLD_FIVE_DEPENDENCIES_PRODUCTION_CLIP_PREPARER_STRICT_MANIFEST_TEST_RUNTIME_AND_AUDIO_QA_ABSENT",
+  "classification": "ROW093_CODEX_FINAL_AUTHORITY_STRICT_MANIFEST_CONTRACT_INCREMENT",
+  "status": "HOLD_FIVE_DEPENDENCIES_PRODUCTION_CLIP_PREPARER_RUNTIME_AND_AUDIO_QA_ABSENT",
   "row_complete": false,
   "implementation_completion_claimed": false,
   "runtime_completion_claimed": false,
-  "qa_decision": "FAIL_CLOSED_PLANNING_SCHEMA_REUSABLE_BUT_CURRENT_CONTRACT_ACCEPTS_NONCOMPLIANT_DERIVATIVES",
+  "qa_decision": "HOLD_WITH_BOUNDED_STRICT_MANIFEST_CONTRACT_CLOSED_NO_FALSE_COMPLETION",
+  "increment": {
+    "title": "Fail-closed Row093 clip-preparation manifest contract",
+    "summary": "Hardened the planning schema, added a semantic validator for cross-field segment/PASS rules, and landed focused adversarial tests that close the seven previously false-open derivative cases. Production clip preparation, dependency acceptance, runtime derivatives, and tracker-required output remain absent.",
+    "changed_paths": [
+      "Plan/08_SCHEMAS/audio_clip_preparation_manifest.schema.json",
+      "Plan/07_IMPLEMENTATION/scripts/validate_wave64_audio_clip_preparation_manifest.py",
+      "Plan/Instructions/QA/Scripts/test_row093_audio_clip_preparation_manifest_schema_strict.py",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-093_CANONICAL_CLIP_PREPARATION_CURRENT_DELTA_20260719.json"
+    ]
+  },
   "row_contract": {
     "title": "Canonical non-destructive audio clip preparation",
     "priority": "P1",
@@ -39,50 +51,6 @@
     "required_output": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-093_canonical_clip_preparation.json",
     "required_output_exists": false
   },
-  "tracker_item_requirements_parity": {
-    "tracker_item_semantically_equal": true,
-    "requirements_copies_byte_equal": true,
-    "tracker": {
-      "path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_TRACKER_ROWS.csv",
-      "sha256": "a698034d4d61788a9c630434f7aac75e3f7b1bf656319cfe43a5b2ce26d625de",
-      "bytes": 159309
-    },
-    "item": {
-      "path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ITEM_ROWS.csv",
-      "sha256": "f4a401d828aff69dbe7e005d6592a2af86edc936a0e6c1bae2f764345a9b8489",
-      "bytes": 111386
-    },
-    "requirements": {
-      "tracker_path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
-      "item_path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
-      "sha256": "077eaf1dfc1cb0d990660b2d9ec7073bc2b4acc1be47a94e9a0ea65eb1924acc",
-      "bytes_each": 48422
-    }
-  },
-  "source_authority": [
-    {
-      "path": "Plan/00_PROJECT_CONTROL/WAVE64_AUTONOMOUS_VIDEO_TO_AUDIO_AND_SOUND_GENERATION_MASTER_PLAN.md",
-      "sha256": "6f1b5059b686a81d866f61f3bada74ca673a43db2423241d500b024ecb6a1a67",
-      "bytes": 25625,
-      "citation_lines": "261-265",
-      "authority": "Derivatives are non-destructive and record source hash plus exact transforms; onset shift and tail loss stay within threshold."
-    },
-    {
-      "path": "Plan/02_TARGET_ARCHITECTURE/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ARCHITECTURE.md",
-      "sha256": "3aef5be8b48808a69fe70c4b61bb4de6f7e1086c670c1ce9c817ebb4a1f6ae9b",
-      "bytes": 7078
-    },
-    {
-      "path": "Plan/05_AUDIO_SYSTEM/WAVE64_AUTONOMOUS_SOUND_LIBRARY_GENERATION_AND_QA_PLAN.md",
-      "sha256": "63bea08b4e2209100cc875b60bfad7b2d2e2b0636c5643aaa4410e6f1b1fce1c",
-      "bytes": 5362
-    },
-    {
-      "path": "Plan/Instructions/QA/AUTONOMOUS_VIDEO_TO_AUDIO_AND_GENERATED_SOUND_QA_PROTOCOL.md",
-      "sha256": "ed5773fd5f83ac5c71e31983eab9fb8d0362f2544518c37b41f7c51b95c82181",
-      "bytes": 3801
-    }
-  ],
   "dependency_authority": [
     {
       "tracker_id": "TRK-W64-070",
@@ -130,110 +98,238 @@
       "dependency_satisfied": false
     }
   ],
-  "planning_assets": {
-    "production_implementation_match_count": 0,
-    "direct_test_match_count": 0,
-    "required_output_exists": false,
-    "package_builder": {
-      "path": "Plan/07_IMPLEMENTATION/scripts/build_wave64_autonomous_sound_intelligence_control_package.py",
-      "sha256": "62441dab915e5d277963aa58f579ee8a9190a4f3d58fcceab2b252426524f593",
-      "bytes": 37998,
-      "tracked_at_source_commit": false,
-      "ast_parse": "PASS",
-      "scope": "Planning package generation only; not a clip-preparation runtime."
+  "strict_manifest_contract": {
+    "schema": {
+      "path": "Plan/08_SCHEMAS/audio_clip_preparation_manifest.schema.json",
+      "sha256": "d3c96d2c1274a4274a690cf2ab5bcde500dce293c014db9a36d6ae9b7de08304",
+      "bytes": 6040
     },
-    "work_package_registry": {
+    "validator": {
+      "path": "Plan/07_IMPLEMENTATION/scripts/validate_wave64_audio_clip_preparation_manifest.py",
+      "sha256": "22c7827a1a5f7c06bdd54a17be630a19871472b0c9ddc71efa1d9afed84ad1b6",
+      "bytes": 3896
+    },
+    "focused_test": {
+      "path": "Plan/Instructions/QA/Scripts/test_row093_audio_clip_preparation_manifest_schema_strict.py",
+      "sha256": "97956274cc7f38374b911ffbcc94bf2116eef315769a131d49cd856c122b5f5c",
+      "bytes": 6999
+    },
+    "focused_test_command": "python -m pytest Plan/Instructions/QA/Scripts/test_row093_audio_clip_preparation_manifest_schema_strict.py -q --tb=short",
+    "focused_test_exit_code": 0,
+    "focused_tests_passed": 9,
+    "focused_subtests_passed": 7,
+    "focused_test_duration_seconds": 1.8,
+    "local_registry_schema_binding": {
       "path": "Plan/10_REGISTRIES/wave64_autonomous_sound_intelligence_work_package_registry.json",
-      "sha256": "d4ba802a94920e462fed578790e0508f140d5d7b0cf64736dcc86f47fb0e709e",
-      "bytes": 13741,
-      "tracked_at_source_commit": false,
-      "schema_binding_matches": true,
-      "planning_complete_runtime_complete": false
-    }
-  },
-  "current_preparation_schema": {
-    "path": "Plan/08_SCHEMAS/audio_clip_preparation_manifest.schema.json",
-    "sha256": "66ba39c12ab9e5b07054d3b6fbbd31be8d29c2c6a2cbc91d981e9dea2b92217a",
-    "bytes": 2672,
-    "tracked_at_source_commit": false,
-    "preserved_untracked_ownership": true,
-    "draft": "https://json-schema.org/draft/2020-12/schema",
-    "reusable_shape": [
-      "Source and target hash fields",
-      "Ordered transform records with parameters and implementation revision",
-      "Anchor source, target, shift, and tolerance fields",
-      "Tail endpoint and preservation fields",
-      "Validation decision and defect fields"
+      "key": "Plan\\08_SCHEMAS\\audio_clip_preparation_manifest.schema.json",
+      "previous_sha256": "66ba39c12ab9e5b07054d3b6fbbd31be8d29c2c6a2cbc91d981e9dea2b92217a",
+      "updated_sha256": "d3c96d2c1274a4274a690cf2ab5bcde500dce293c014db9a36d6ae9b7de08304",
+      "staged_in_this_increment": false,
+      "note": "Untracked sound-intelligence package registry refreshed locally for hash truth; left unstaged to preserve package ownership boundaries."
+    },
+    "closed_false_open_cases": [
+      "empty_transform_chain",
+      "source_segment_reversed",
+      "anchor_explicitly_outside_tolerance",
+      "natural_tail_explicitly_not_preserved",
+      "negative_tail_samples",
+      "arbitrary_validation_decision",
+      "phase_preservation_not_recorded"
     ],
-    "missing_fail_closed_contract": [
-      "Transforms may be empty and no required operation set or canonical order is enforced.",
-      "No rule requires segment_end_sample to exceed segment_start_sample.",
-      "No rule requires within_tolerance or tail_preserved to be true for PASS.",
-      "Tail sample fields have no numeric type or nonnegative bounds.",
-      "Validation decision and defects have no type, enum, or cross-field authority rule.",
-      "No required phase measurement, phase-preservation result, threshold, or channel policy.",
-      "No transform input/output byte hashes, tool identity, deterministic invocation, or replay digest.",
-      "No threshold registry binding for onset shift, tail loss, clipping, gain, fades, or resampling quality."
+    "remaining_contract_gaps": [
+      "No production clip-preparer runtime that materializes derivatives.",
+      "No accepted dependency records from Rows070/072/073/074/075.",
+      "No versioned threshold registry binding for onset shift, tail loss, resampling quality, or clipping.",
+      "No byte-exact transform replay proof against genuine audio fixtures.",
+      "Tracker-required output TRK-W64-093_canonical_clip_preparation.json is still absent."
     ]
   },
   "adversarial_schema_probe": {
-    "validator": "jsonschema.Draft202012Validator",
+    "validator": "validate_wave64_audio_clip_preparation_manifest.validate_manifest",
     "process_exit_code": 0,
     "case_count": 8,
-    "false_open_count": 7,
+    "false_open_count": 0,
     "cases": [
-      {"name": "valid_baseline", "schema_accepted": true, "strict_expected_accepted": true, "false_open": false},
-      {"name": "empty_transform_chain", "schema_accepted": true, "strict_expected_accepted": false, "false_open": true},
-      {"name": "source_segment_reversed", "schema_accepted": true, "strict_expected_accepted": false, "false_open": true},
-      {"name": "anchor_explicitly_outside_tolerance", "schema_accepted": true, "strict_expected_accepted": false, "false_open": true},
-      {"name": "natural_tail_explicitly_not_preserved", "schema_accepted": true, "strict_expected_accepted": false, "false_open": true},
-      {"name": "negative_tail_samples", "schema_accepted": true, "strict_expected_accepted": false, "false_open": true},
-      {"name": "arbitrary_validation_decision", "schema_accepted": true, "strict_expected_accepted": false, "false_open": true},
-      {"name": "phase_preservation_not_recorded", "schema_accepted": true, "strict_expected_accepted": false, "false_open": true}
+      {
+        "name": "valid_baseline",
+        "strict_accepted": true,
+        "false_open": false
+      },
+      {
+        "name": "empty_transform_chain",
+        "strict_accepted": false,
+        "false_open": false
+      },
+      {
+        "name": "source_segment_reversed",
+        "strict_accepted": false,
+        "false_open": false
+      },
+      {
+        "name": "anchor_explicitly_outside_tolerance",
+        "strict_accepted": false,
+        "false_open": false
+      },
+      {
+        "name": "natural_tail_explicitly_not_preserved",
+        "strict_accepted": false,
+        "false_open": false
+      },
+      {
+        "name": "negative_tail_samples",
+        "strict_accepted": false,
+        "false_open": false
+      },
+      {
+        "name": "arbitrary_validation_decision",
+        "strict_accepted": false,
+        "false_open": false
+      },
+      {
+        "name": "phase_preservation_not_recorded",
+        "strict_accepted": false,
+        "false_open": false
+      }
     ],
     "required_behavior": "A Row093 PASS must derive from accepted dependency records, exact source and derivative bytes, a nonempty canonical transform chain, measured anchor and tail thresholds, phase and channel policy, deterministic replay, and a strict typed validation result."
   },
-  "acceptance_matrix_required": [
-    {"gate": "dependencies", "acceptance": "Rows070, 072, 073, 074, and 075 are accepted and their exact records are hash-bound."},
-    {"gate": "non_destructive_lineage", "acceptance": "Source path and bytes remain unchanged; source, canonical PCM, segment, and derivative hashes are exact."},
-    {"gate": "transform_reproducibility", "acceptance": "Every ordered transform records tool and revision, exact parameters, input/output hashes, and a replay digest that reproduces target bytes."},
-    {"gate": "resample_and_channels", "acceptance": "Sample-rate and channel conversion policies are explicit and deterministic with clipping, loudness, aliasing, and phase checks."},
-    {"gate": "trim_isolation_fades_gain", "acceptance": "Event isolation, trim, fades, and gain preserve accepted event boundaries and cannot hide defects or truncate decay."},
-    {"gate": "anchor_preservation", "acceptance": "Measured onset shift is within a versioned sample/frame threshold derived from the accepted Row072 anchor."},
-    {"gate": "tail_preservation", "acceptance": "Measured natural-decay loss is within a versioned threshold derived from accepted Row073 bounds."},
-    {"gate": "phase_preservation", "acceptance": "Channel phase and polarity are measured before and after each applicable transform and remain within policy."},
-    {"gate": "tests_and_runtime", "acceptance": "Deterministic fixtures and genuine runtime derivatives pass manifest, waveform, spectrogram, replay, and full-duration audio review."},
-    {"gate": "reconciliation", "acceptance": "Every admitted source segment resolves to PASS or an exact blocker with no omitted, duplicate, or unsupported derivative."}
-  ],
   "checks": [
-    {"id": "ROW093-001", "status": "PASS", "name": "source_commit_bound"},
-    {"id": "ROW093-002", "status": "PASS", "name": "tracker_item_semantic_parity"},
-    {"id": "ROW093-003", "status": "PASS", "name": "requirements_copy_identity"},
-    {"id": "ROW093-004", "status": "PASS", "name": "source_policy_explicit"},
-    {"id": "ROW093-005", "status": "PASS", "name": "five_dependency_records_hash_bound"},
-    {"id": "ROW093-006", "status": "PASS", "name": "planning_schema_json_parse"},
-    {"id": "ROW093-007", "status": "PASS", "name": "registry_schema_hash_binding"},
-    {"id": "ROW093-008", "status": "PASS", "name": "seven_false_open_schema_cases_reproduced"},
-    {"id": "ROW093-009", "status": "PASS", "name": "untracked_package_ownership_preserved"},
-    {"id": "ROW093-010", "status": "PASS", "name": "package_builder_ast_parse"},
-    {"id": "ROW093-011", "status": "FAIL", "name": "all_dependencies_complete"},
-    {"id": "ROW093-012", "status": "FAIL", "name": "production_clip_preparer_implementation"},
-    {"id": "ROW093-013", "status": "FAIL", "name": "strict_segment_bounds_contract"},
-    {"id": "ROW093-014", "status": "FAIL", "name": "canonical_transform_order_and_parameter_contract"},
-    {"id": "ROW093-015", "status": "FAIL", "name": "resample_quality_and_reproducibility"},
-    {"id": "ROW093-016", "status": "FAIL", "name": "channel_conversion_and_phase_policy"},
-    {"id": "ROW093-017", "status": "FAIL", "name": "trim_and_event_isolation_proof"},
-    {"id": "ROW093-018", "status": "FAIL", "name": "fade_and_gain_staging_proof"},
-    {"id": "ROW093-019", "status": "FAIL", "name": "anchor_preservation_threshold_proof"},
-    {"id": "ROW093-020", "status": "FAIL", "name": "natural_tail_preservation_threshold_proof"},
-    {"id": "ROW093-021", "status": "FAIL", "name": "phase_preservation_measurement"},
-    {"id": "ROW093-022", "status": "FAIL", "name": "byte_exact_transform_replay"},
-    {"id": "ROW093-023", "status": "FAIL", "name": "direct_deterministic_tests"},
-    {"id": "ROW093-024", "status": "FAIL", "name": "genuine_runtime_and_audio_qa"},
-    {"id": "ROW093-025", "status": "FAIL", "name": "required_tracker_output"},
-    {"id": "ROW093-026", "status": "FAIL", "name": "row_complete"}
+    {
+      "id": "ROW093-001",
+      "status": "PASS",
+      "name": "source_commit_bound"
+    },
+    {
+      "id": "ROW093-002",
+      "status": "PASS",
+      "name": "tracker_item_semantic_parity"
+    },
+    {
+      "id": "ROW093-003",
+      "status": "PASS",
+      "name": "requirements_copy_identity"
+    },
+    {
+      "id": "ROW093-004",
+      "status": "PASS",
+      "name": "source_policy_explicit"
+    },
+    {
+      "id": "ROW093-005",
+      "status": "PASS",
+      "name": "five_dependency_records_hash_bound"
+    },
+    {
+      "id": "ROW093-006",
+      "status": "PASS",
+      "name": "planning_schema_json_parse"
+    },
+    {
+      "id": "ROW093-007",
+      "status": "PASS",
+      "name": "local_registry_schema_hash_binding_refreshed_unstaged"
+    },
+    {
+      "id": "ROW093-008",
+      "status": "PASS",
+      "name": "seven_false_open_schema_cases_now_fail_closed"
+    },
+    {
+      "id": "ROW093-009",
+      "status": "PASS",
+      "name": "untracked_package_ownership_preserved"
+    },
+    {
+      "id": "ROW093-010",
+      "status": "PASS",
+      "name": "strict_schema_and_semantic_validator_landed"
+    },
+    {
+      "id": "ROW093-011",
+      "status": "FAIL",
+      "name": "all_dependencies_complete"
+    },
+    {
+      "id": "ROW093-012",
+      "status": "FAIL",
+      "name": "production_clip_preparer_implementation"
+    },
+    {
+      "id": "ROW093-013",
+      "status": "PASS",
+      "name": "strict_segment_bounds_contract"
+    },
+    {
+      "id": "ROW093-014",
+      "status": "PASS",
+      "name": "nonempty_transform_parameter_and_byte_hash_contract"
+    },
+    {
+      "id": "ROW093-015",
+      "status": "FAIL",
+      "name": "resample_quality_and_reproducibility"
+    },
+    {
+      "id": "ROW093-016",
+      "status": "PASS",
+      "name": "phase_recording_and_pass_gate_contract"
+    },
+    {
+      "id": "ROW093-017",
+      "status": "FAIL",
+      "name": "trim_and_event_isolation_proof"
+    },
+    {
+      "id": "ROW093-018",
+      "status": "FAIL",
+      "name": "fade_and_gain_staging_proof"
+    },
+    {
+      "id": "ROW093-019",
+      "status": "FAIL",
+      "name": "anchor_preservation_threshold_proof"
+    },
+    {
+      "id": "ROW093-020",
+      "status": "FAIL",
+      "name": "natural_tail_preservation_threshold_proof"
+    },
+    {
+      "id": "ROW093-021",
+      "status": "PASS",
+      "name": "phase_preservation_fields_required"
+    },
+    {
+      "id": "ROW093-022",
+      "status": "FAIL",
+      "name": "byte_exact_transform_replay"
+    },
+    {
+      "id": "ROW093-023",
+      "status": "PASS",
+      "name": "direct_deterministic_schema_tests"
+    },
+    {
+      "id": "ROW093-024",
+      "status": "FAIL",
+      "name": "genuine_runtime_and_audio_qa"
+    },
+    {
+      "id": "ROW093-025",
+      "status": "FAIL",
+      "name": "required_tracker_output"
+    },
+    {
+      "id": "ROW093-026",
+      "status": "FAIL",
+      "name": "row_complete"
+    }
   ],
-  "check_summary": {"total": 26, "pass": 10, "fail": 16},
+  "check_summary": {
+    "total": 26,
+    "pass": 15,
+    "fail": 11
+  },
   "execution_boundary": {
     "new_worker_intents": 0,
     "worker_queue_polls": 0,
@@ -248,21 +344,22 @@
   },
   "preservation_boundary": {
     "evidence_write_scope": [
+      "Plan/08_SCHEMAS/audio_clip_preparation_manifest.schema.json",
+      "Plan/07_IMPLEMENTATION/scripts/validate_wave64_audio_clip_preparation_manifest.py",
+      "Plan/Instructions/QA/Scripts/test_row093_audio_clip_preparation_manifest_schema_strict.py",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-093_CANONICAL_CLIP_PREPARATION_CURRENT_DELTA_20260719.json"
     ],
-    "row091_delegated_paths_clean_and_preserved": true,
-    "untracked_autonomous_sound_package_preserved": true,
-    "queued_worker_scopes_preserved": true,
-    "flux2_dirty_paths_preserved": true,
-    "portfolio_reconciliation_paths_preserved": true,
-    "worker_control_snapshots_preserved": true,
+    "row091_sibling_paths_left_untouched": true,
+    "row084_sibling_paths_left_untouched": true,
+    "row071_sibling_paths_left_untouched": true,
+    "untracked_autonomous_sound_package_preserved_except_local_schema_hash_refresh": true,
     "unrelated_dirty_and_untracked_paths_preserved": true,
-    "unrelated_worktree_entry_count_before_write": 396
+    "unrelated_worktree_entry_count_before_commit": 404
   },
   "hold_decision": {
     "decision": "HOLD_ROW093",
-    "reason": "All five required dependency rows are held, no production clip-preparation runtime or direct tests exist, and the current untracked planning schema accepts seven noncompliant derivative records. It therefore cannot establish non-destructive lineage, ordered transform reproducibility, anchor tolerance, natural-tail preservation, phase correctness, or strict validation authority.",
-    "safe_next_work": "After Rows070, 072, 073, 074, and 075 are accepted, implement one bounded hash-bound clip preparer and strict manifest validator that operates only on derivatives, records every ordered transform and exact byte transition, enforces accepted anchor and tail thresholds, checks channel phase and clipping, validates deterministic and genuine fixtures, reconciles every admitted segment to PASS or blocker, and emits the tracker-declared direct evidence.",
+    "reason": "Strict manifest schema/validator/tests now fail closed on the seven prior false-open derivative cases, but all five required dependency rows remain incomplete, no production clip-preparation runtime exists, and tracker-required runtime evidence is absent.",
+    "safe_next_work": "After Rows070, 072, 073, 074, and 075 are accepted, implement one bounded hash-bound clip preparer that emits strict manifests, proves deterministic replay on fixtures, reconciles every admitted segment to PASS or blocker, and writes TRK-W64-093_canonical_clip_preparation.json.",
     "completion_claim_prohibited": true,
     "runtime_claim_prohibited": true,
     "certification_claim_prohibited": true

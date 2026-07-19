@@ -1,0 +1,201 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/audio_clip_preparation_manifest.schema.json",
+  "title": "Audio Clip Preparation Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "preparation_id",
+    "source",
+    "target",
+    "transforms",
+    "anchor",
+    "tail",
+    "phase",
+    "validation"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "preparation_id": { "type": "string", "minLength": 1 },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sha256",
+        "canonical_pcm_sha256",
+        "segment_start_sample",
+        "segment_end_sample"
+      ],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "canonical_pcm_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "segment_start_sample": { "type": "integer", "minimum": 0 },
+        "segment_end_sample": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "canonical_pcm_sha256",
+        "sample_rate_hz",
+        "channels"
+      ],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "canonical_pcm_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "sample_rate_hz": { "type": "integer", "minimum": 1 },
+        "channels": { "type": "integer", "minimum": 1, "maximum": 32 }
+      }
+    },
+    "transforms": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operation",
+          "parameters",
+          "implementation_revision",
+          "tool_identity",
+          "input_sha256",
+          "output_sha256"
+        ],
+        "properties": {
+          "operation": {
+            "enum": [
+              "segment",
+              "trim",
+              "resample",
+              "channel_convert",
+              "gain",
+              "fade",
+              "phase",
+              "denoise",
+              "other"
+            ]
+          },
+          "parameters": { "type": "object" },
+          "implementation_revision": { "type": "string", "minLength": 1 },
+          "tool_identity": { "type": "string", "minLength": 1 },
+          "input_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "output_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "replay_digest_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+        }
+      }
+    },
+    "anchor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_sample",
+        "target_sample",
+        "shift_samples",
+        "within_tolerance",
+        "tolerance_samples"
+      ],
+      "properties": {
+        "source_sample": { "type": "integer", "minimum": 0 },
+        "target_sample": { "type": "integer", "minimum": 0 },
+        "shift_samples": { "type": "integer" },
+        "within_tolerance": { "type": "boolean" },
+        "tolerance_samples": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "tail": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_decay_end_sample",
+        "target_decay_end_sample",
+        "tail_preserved",
+        "lost_tail_samples"
+      ],
+      "properties": {
+        "source_decay_end_sample": { "type": "integer", "minimum": 0 },
+        "target_decay_end_sample": { "type": "integer", "minimum": 0 },
+        "tail_preserved": { "type": "boolean" },
+        "lost_tail_samples": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "phase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "polarity_inverted",
+        "inter_channel_phase_error_degrees",
+        "within_tolerance",
+        "tolerance_degrees"
+      ],
+      "properties": {
+        "polarity_inverted": { "type": "boolean" },
+        "inter_channel_phase_error_degrees": { "type": "number" },
+        "within_tolerance": { "type": "boolean" },
+        "tolerance_degrees": { "type": "number", "minimum": 0 }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decision", "defects"],
+      "properties": {
+        "decision": { "enum": ["PASS", "FAIL", "HOLD", "BLOCKED"] },
+        "defects": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["code", "message"],
+            "properties": {
+              "code": { "type": "string", "minLength": 1 },
+              "message": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "validation": {
+            "properties": { "decision": { "const": "PASS" } },
+            "required": ["decision"]
+          }
+        },
+        "required": ["validation"]
+      },
+      "then": {
+        "properties": {
+          "anchor": {
+            "properties": { "within_tolerance": { "const": true } },
+            "required": ["within_tolerance"]
+          },
+          "tail": {
+            "properties": { "tail_preserved": { "const": true } },
+            "required": ["tail_preserved"]
+          },
+          "phase": {
+            "properties": {
+              "polarity_inverted": { "const": false },
+              "within_tolerance": { "const": true }
+            },
+            "required": ["polarity_inverted", "within_tolerance"]
+          },
+          "validation": {
+            "properties": {
+              "defects": { "type": "array", "maxItems": 0 }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
