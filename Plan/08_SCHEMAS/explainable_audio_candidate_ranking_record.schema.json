@@ -1,0 +1,323 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/explainable_audio_candidate_ranking_record.schema.json",
+  "title": "Wave64 Row081 Explainable Audio Candidate Ranking Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "tracker_id",
+    "item_id",
+    "record_type",
+    "scorer_revision",
+    "policy_revision",
+    "policy_sha256",
+    "event_id",
+    "query_hash",
+    "candidate_set_hash",
+    "index_revision",
+    "is_synthetic",
+    "library_authority",
+    "dependency_admissions",
+    "hard_filter_order",
+    "required_components",
+    "candidates",
+    "decision",
+    "receipt_sha256"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "tracker_id": { "type": "string", "const": "TRK-W64-081" },
+    "item_id": { "type": "string", "const": "ITEM-W64-081" },
+    "record_type": {
+      "type": "string",
+      "const": "explainable_audio_candidate_ranking_record"
+    },
+    "scorer_revision": {
+      "type": "string",
+      "const": "wave64_row081_explainable_audio_candidate_ranker_v0.1.0"
+    },
+    "policy_revision": {
+      "type": "string",
+      "const": "wave64_row081_explainable_candidate_ranking_policy_v0.1.0"
+    },
+    "policy_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "event_id": { "type": "string", "minLength": 1 },
+    "query_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "candidate_set_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "index_revision": { "type": "string", "minLength": 1 },
+    "is_synthetic": { "type": "boolean" },
+    "library_authority": { "type": "boolean", "const": false },
+    "dependency_admissions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "TRK-W64-068",
+        "TRK-W64-072",
+        "TRK-W64-076",
+        "TRK-W64-079",
+        "TRK-W64-080"
+      ],
+      "properties": {
+        "TRK-W64-068": { "$ref": "#/$defs/dependency_admission" },
+        "TRK-W64-072": { "$ref": "#/$defs/dependency_admission" },
+        "TRK-W64-076": { "$ref": "#/$defs/dependency_admission" },
+        "TRK-W64-079": { "$ref": "#/$defs/dependency_admission" },
+        "TRK-W64-080": { "$ref": "#/$defs/dependency_admission" }
+      }
+    },
+    "hard_filter_order": {
+      "type": "array",
+      "minItems": 5,
+      "items": { "$ref": "#/$defs/hard_exclusion_code" }
+    },
+    "required_components": {
+      "type": "array",
+      "minItems": 14,
+      "maxItems": 14,
+      "items": { "$ref": "#/$defs/component_name" }
+    },
+    "candidates": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/candidate_score" }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "route",
+        "selected_candidate_id",
+        "confidence",
+        "reason",
+        "tie_break_outcome",
+        "explanation",
+        "product_completion",
+        "row081_acceptance"
+      ],
+      "properties": {
+        "route": {
+          "type": "string",
+          "enum": ["select", "abstain", "blocked"]
+        },
+        "selected_candidate_id": { "type": ["string", "null"] },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "reason": { "type": "string", "minLength": 1 },
+        "tie_break_outcome": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["applied", "order", "winner_candidate_id", "inputs"],
+          "properties": {
+            "applied": { "type": "boolean" },
+            "order": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "total_score_desc",
+                  "candidate_id_asc",
+                  "asset_sha256_asc"
+                ]
+              }
+            },
+            "winner_candidate_id": { "type": ["string", "null"] },
+            "inputs": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["candidate_id", "total_score", "asset_sha256"],
+                "properties": {
+                  "candidate_id": { "type": "string", "minLength": 1 },
+                  "total_score": { "type": "number" },
+                  "asset_sha256": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "explanation": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "product_completion": { "type": "boolean", "const": false },
+        "row081_acceptance": {
+          "type": "string",
+          "enum": ["held", "fixture_only"]
+        }
+      }
+    },
+    "receipt_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  },
+  "$defs": {
+    "dependency_admission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tracker_id",
+        "dependency_satisfied",
+        "row_complete",
+        "blocker_codes"
+      ],
+      "properties": {
+        "tracker_id": { "type": "string", "minLength": 1 },
+        "dependency_satisfied": { "type": "boolean" },
+        "row_complete": { "type": "boolean" },
+        "blocker_codes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "status": { "type": "string" },
+        "path": { "type": "string" },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "bytes": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "hard_exclusion_code": {
+      "type": "string",
+      "enum": [
+        "RIGHTS_INELIGIBLE",
+        "MISSING_MANDATORY_FEATURE",
+        "TAXONOMY_INCOMPATIBLE",
+        "QUERY_CANDIDATE_SET_MISMATCH",
+        "DEPENDENCY_EVIDENCE_ABSENT"
+      ]
+    },
+    "component_name": {
+      "type": "string",
+      "enum": [
+        "event_fit",
+        "source_target_fit",
+        "material_fit",
+        "body_part_fit",
+        "footwear_fit",
+        "force_fit",
+        "timing_fit",
+        "duration_fit",
+        "onset_fit",
+        "acoustic_fit",
+        "quality_fit",
+        "rights_eligibility",
+        "continuity_fit",
+        "cost"
+      ]
+    },
+    "component_detail": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "raw",
+        "raw_min",
+        "raw_max",
+        "normalized",
+        "weight",
+        "contribution",
+        "direction",
+        "mandatory",
+        "present"
+      ],
+      "properties": {
+        "raw": { "type": ["number", "null"] },
+        "raw_min": { "type": "number" },
+        "raw_max": { "type": "number" },
+        "normalized": { "type": ["number", "null"] },
+        "weight": { "type": "number", "minimum": 0 },
+        "contribution": { "type": ["number", "null"] },
+        "direction": {
+          "type": "string",
+          "enum": ["higher_better", "lower_better"]
+        },
+        "mandatory": { "type": "boolean" },
+        "present": { "type": "boolean" }
+      }
+    },
+    "penalty_detail": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "raw", "scale", "cap", "contribution", "reason"],
+      "properties": {
+        "code": { "type": "string", "minLength": 1 },
+        "raw": { "type": "number" },
+        "scale": { "type": "number", "minimum": 0 },
+        "cap": { "type": "number", "minimum": 0 },
+        "contribution": { "type": "number", "maximum": 0 },
+        "reason": { "type": "string", "minLength": 1 }
+      }
+    },
+    "candidate_score": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_id",
+        "asset_sha256",
+        "eligible",
+        "hard_exclusions",
+        "components",
+        "penalties",
+        "total_score",
+        "rank",
+        "explanation"
+      ],
+      "properties": {
+        "candidate_id": { "type": "string", "minLength": 1 },
+        "asset_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "eligible": { "type": "boolean" },
+        "hard_exclusions": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/hard_exclusion_code" }
+        },
+        "components": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "event_fit",
+            "source_target_fit",
+            "material_fit",
+            "body_part_fit",
+            "footwear_fit",
+            "force_fit",
+            "timing_fit",
+            "duration_fit",
+            "onset_fit",
+            "acoustic_fit",
+            "quality_fit",
+            "rights_eligibility",
+            "continuity_fit",
+            "cost"
+          ],
+          "properties": {
+            "event_fit": { "$ref": "#/$defs/component_detail" },
+            "source_target_fit": { "$ref": "#/$defs/component_detail" },
+            "material_fit": { "$ref": "#/$defs/component_detail" },
+            "body_part_fit": { "$ref": "#/$defs/component_detail" },
+            "footwear_fit": { "$ref": "#/$defs/component_detail" },
+            "force_fit": { "$ref": "#/$defs/component_detail" },
+            "timing_fit": { "$ref": "#/$defs/component_detail" },
+            "duration_fit": { "$ref": "#/$defs/component_detail" },
+            "onset_fit": { "$ref": "#/$defs/component_detail" },
+            "acoustic_fit": { "$ref": "#/$defs/component_detail" },
+            "quality_fit": { "$ref": "#/$defs/component_detail" },
+            "rights_eligibility": { "$ref": "#/$defs/component_detail" },
+            "continuity_fit": { "$ref": "#/$defs/component_detail" },
+            "cost": { "$ref": "#/$defs/component_detail" }
+          }
+        },
+        "penalties": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/penalty_detail" }
+        },
+        "total_score": { "type": "number" },
+        "rank": { "type": "integer", "minimum": 1 },
+        "explanation": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}

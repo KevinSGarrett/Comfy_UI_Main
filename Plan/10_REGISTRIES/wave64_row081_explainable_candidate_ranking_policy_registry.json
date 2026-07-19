@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "wave64_row081_explainable_candidate_ranking_policy_registry",
+  "revision": "wave64_row081_explainable_candidate_ranking_policy_v0.1.0",
+  "tracker_id": "TRK-W64-081",
+  "authority": "planning_freeze_not_library_acceptance",
+  "notes": [
+    "Policy freezes Row081 hard-filter order, component identities, normalization bounds, weights, penalties, and tie-break total order for synthetic fixture calibration.",
+    "It does not accept library completion or substitute for Rows068/072/076/079/080 authority."
+  ],
+  "hard_filter_order": [
+    "RIGHTS_INELIGIBLE",
+    "MISSING_MANDATORY_FEATURE",
+    "TAXONOMY_INCOMPATIBLE",
+    "QUERY_CANDIDATE_SET_MISMATCH",
+    "DEPENDENCY_EVIDENCE_ABSENT"
+  ],
+  "required_components": [
+    "event_fit",
+    "source_target_fit",
+    "material_fit",
+    "body_part_fit",
+    "footwear_fit",
+    "force_fit",
+    "timing_fit",
+    "duration_fit",
+    "onset_fit",
+    "acoustic_fit",
+    "quality_fit",
+    "rights_eligibility",
+    "continuity_fit",
+    "cost"
+  ],
+  "component_policy": {
+    "event_fit": {"direction": "higher_better", "raw_min": 0.0, "raw_max": 1.0, "weight": 0.14, "mandatory": true},
+    "source_target_fit": {"direction": "higher_better", "raw_min": 0.0, "raw_max": 1.0, "weight": 0.10, "mandatory": true},
+    "material_fit": {"direction": "higher_better", "raw_min": 0.0, "raw_max": 1.0, "weight": 0.09, "mandatory": true},
+    "body_part_fit": {"direction": "higher_better", "raw_min": 0.0, "raw_max": 1.0, "weight": 0.07, "mandatory": true},
+    "footwear_fit": {"direction": "higher_better", "raw_min": 0.0, "raw_max": 1.0, "weight": 0.05, "mandatory": true},
+    "force_fit": {"direction": "higher_better", "raw_min": 0.0, "raw_max": 1.0, "weight": 0.07, "mandatory": true},
+    "timing_fit": {"direction": "higher_better", "raw_min": 0.0, "raw_max": 1.0, "weight": 0.08, "mandatory": true},
+    "duration_fit": {"direction": "higher_better", "raw_min": 0.0, "raw_max": 1.0, "weight": 0.05, "mandatory": true},
+    "onset_fit": {"direction": "higher_better", "raw_min": 0.0, "raw_max": 1.0, "weight": 0.07, "mandatory": true},
+    "acoustic_fit": {"direction": "higher_better", "raw_min": 0.0, "raw_max": 1.0, "weight": 0.07, "mandatory": true},
+    "quality_fit": {"direction": "higher_better", "raw_min": 0.0, "raw_max": 1.0, "weight": 0.06, "mandatory": true},
+    "rights_eligibility": {"direction": "higher_better", "raw_min": 0.0, "raw_max": 1.0, "weight": 0.05, "mandatory": true},
+    "continuity_fit": {"direction": "higher_better", "raw_min": 0.0, "raw_max": 1.0, "weight": 0.05, "mandatory": true},
+    "cost": {"direction": "lower_better", "raw_min": 0.0, "raw_max": 1.0, "weight": 0.05, "mandatory": true}
+  },
+  "penalty_policy": {
+    "near_duplicate_recent_use": {"scale": 0.08, "cap": 0.20},
+    "weak_explanation_coverage": {"scale": 0.04, "cap": 0.10}
+  },
+  "tie_break_order": [
+    "total_score_desc",
+    "candidate_id_asc",
+    "asset_sha256_asc"
+  ],
+  "decision_thresholds": {
+    "min_select_confidence": 0.55,
+    "abstain_when_no_eligible": true,
+    "require_rank_one_selection": true
+  },
+  "normalization_method": "min_max_clamp_then_direction_align",
+  "fail_closed": {
+    "missing_mandatory_feature_makes_ineligible": true,
+    "hard_exclusions_before_weighted_ranking": true,
+    "empty_components_rejected": true,
+    "eligible_with_hard_exclusions_rejected": true,
+    "duplicate_ranks_rejected": true,
+    "nonexistent_selection_rejected": true,
+    "library_authority_requires_dependencies": true
+  }
+}
