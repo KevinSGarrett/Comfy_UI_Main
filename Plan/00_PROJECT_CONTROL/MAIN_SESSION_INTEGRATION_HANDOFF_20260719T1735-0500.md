@@ -5,6 +5,8 @@
 - Active integration platform: top-level interactive Cursor session with bounded Git/GitHub authority.
 - Branch: `codex/workflow_plan_update_improvements`
 - Pre-commit HEAD: `c1ac0841` (includes prior Row071 BS.1770 stamp and unrelated Row017 sibling tip; this climb stays DISJOINT from Row017/018 visual sibling paths and Row071 feature surfaces).
+- Pushed commit: `8d4b2d93` — Prove Row070 full retained-index decode reconcile.
+- Upstream: `origin/codex/workflow_plan_update_improvements` (parity verified at `8d4b2d93`)
 - Policy pivot obeyed: local retained-index runtime proof ladder; EC2 deferred; Docker/CVAT unused; no false COMPLETE claims.
 - Writable scope limited to Row070 decode + tracker/items notes + this handoff.
 
