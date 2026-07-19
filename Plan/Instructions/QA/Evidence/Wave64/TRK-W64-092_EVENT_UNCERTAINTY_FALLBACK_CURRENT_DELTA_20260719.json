@@ -1,0 +1,236 @@
+{
+  "schema_version": "1.0.0",
+  "evidence_id": "TRK-W64-092_EVENT_UNCERTAINTY_FALLBACK_CURRENT_DELTA_20260719",
+  "created_at": "2026-07-19T06:24:49.3601965Z",
+  "source_commit": "46fc893afaf2db9011b91218ba67a2abe8690e9c",
+  "tracker_id": "TRK-W64-092",
+  "item_id": "ITEM-W64-092",
+  "classification": "ROW092_CODEX_FINAL_AUTHORITY_CURRENT_DELTA_AUDIT",
+  "status": "HOLD_DEPENDENCY_AND_DIRECT_CONFLICT_UNCERTAINTY_OFFSCREEN_FALLBACK_CERTIFICATION_CEILING_IMPLEMENTATION_TEST_RUNTIME_AND_VISUAL_QA_ABSENT",
+  "row_complete": false,
+  "implementation_completion_claimed": false,
+  "runtime_completion_claimed": false,
+  "qa_decision": "FAIL_CLOSED_PLANNING_POLICY_EXISTS_BUT_NO_MACHINE_ENFORCEMENT_AND_CURRENT_VISUAL_SCHEMA_PERMITS_UNSUPPORTED_CERTIFICATION",
+  "row_contract": {
+    "title": "Visual event uncertainty, conflict, offscreen, and fallback policy",
+    "priority": "P0",
+    "risk_level": "CRITICAL",
+    "dependency": "TRK-W64-091",
+    "completion_criteria": "Detector conflicts, occlusion, unknown materials, cuts, and offscreen events produce deterministic fallback and certification ceilings.",
+    "required_gates": [
+      "conflict_resolution",
+      "uncertainty_preserved",
+      "offscreen_policy",
+      "fallback_route",
+      "certification_ceiling"
+    ],
+    "visual_review_required": true,
+    "visual_review_method": "combined_frame_contact_audio_review",
+    "test_required": true,
+    "runtime_proof_required": true,
+    "ec2_allowed": false,
+    "required_output": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-092_event_uncertainty_fallback.json",
+    "required_output_exists": false
+  },
+  "tracker_item_requirements_parity": {
+    "tracker_item_semantically_equal": true,
+    "requirements_copies_byte_equal": true,
+    "tracker": {
+      "path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_TRACKER_ROWS.csv",
+      "sha256": "a698034d4d61788a9c630434f7aac75e3f7b1bf656319cfe43a5b2ce26d625de",
+      "bytes": 159309
+    },
+    "item": {
+      "path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ITEM_ROWS.csv",
+      "sha256": "f4a401d828aff69dbe7e005d6592a2af86edc936a0e6c1bae2f764345a9b8489",
+      "bytes": 111386
+    },
+    "requirements": {
+      "tracker_path": "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
+      "item_path": "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_REQUIREMENTS.json",
+      "sha256": "077eaf1dfc1cb0d990660b2d9ec7073bc2b4acc1be47a94e9a0ea65eb1924acc",
+      "bytes_each": 48422
+    }
+  },
+  "source_authority": [
+    {
+      "path": "Plan/00_PROJECT_CONTROL/WAVE64_AUTONOMOUS_VIDEO_TO_AUDIO_AND_SOUND_GENERATION_MASTER_PLAN.md",
+      "sha256": "6f1b5059b686a81d866f61f3bada74ca673a43db2423241d500b024ecb6a1a67",
+      "bytes": 25625,
+      "citation_lines": "255-260",
+      "authority": "Uncertainty is never discarded; fallback route and certification ceiling are machine-readable."
+    },
+    {
+      "path": "Plan/02_TARGET_ARCHITECTURE/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ARCHITECTURE.md",
+      "sha256": "3aef5be8b48808a69fe70c4b61bb4de6f7e1086c670c1ce9c817ebb4a1f6ae9b",
+      "bytes": 7078,
+      "policy_lines": [
+        "Unknown source or target ownership permits candidate output only below certification ceiling.",
+        "Unknown material permits broader retrieval or generation but never exact-material certification.",
+        "Ambiguous onset permits multi-anchor or windowed sync but never frame-exact certification."
+      ]
+    },
+    {
+      "path": "Plan/Instructions/QA/AUTONOMOUS_VIDEO_TO_AUDIO_AND_GENERATED_SOUND_QA_PROTOCOL.md",
+      "sha256": "ed5773fd5f83ac5c71e31983eab9fb8d0362f2544518c37b41f7c51b95c82181",
+      "bytes": 3801,
+      "fixture_scope": "Requires occluded and multi-actor contacts, cuts, slow motion, variable frame rate, offscreen events, and intentionally silent events."
+    }
+  ],
+  "dependency_authority": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-091_VISUAL_AUDIO_EVENT_MANIFEST_CURRENT_DELTA_20260719.json",
+    "sha256": "2f40ce09947632403fa5281d833ce4124f164866736c2feb3a583d6206feb2f4",
+    "bytes": 15840,
+    "row_complete": false,
+    "status": "HOLD_DEPENDENCIES_PRODUCTION_VISUAL_EVENT_COMPILER_STRICT_SCHEMA_COVERAGE_RUNTIME_AND_COMBINED_REVIEW_ABSENT",
+    "dependency_satisfied": false
+  },
+  "planning_assets": {
+    "implementation_match_count": 0,
+    "direct_test_match_count": 0,
+    "required_output_exists": false,
+    "work_package_registry": {
+      "path": "Plan/10_REGISTRIES/wave64_autonomous_sound_intelligence_work_package_registry.json",
+      "sha256": "d4ba802a94920e462fed578790e0508f140d5d7b0cf64736dcc86f47fb0e709e",
+      "bytes": 13741,
+      "row": {
+        "tracker_id": "TRK-W64-092",
+        "item_id": "ITEM-W64-092",
+        "slug": "event_uncertainty_fallback",
+        "status": "Planned_Autonomous_Implementation_Required"
+      }
+    },
+    "package_builder": {
+      "path": "Plan/07_IMPLEMENTATION/scripts/build_wave64_autonomous_sound_intelligence_control_package.py",
+      "sha256": "62441dab915e5d277963aa58f579ee8a9190a4f3d58fcceab2b252426524f593",
+      "bytes": 37998,
+      "scope": "Emits planning, schema, registry, tracker, and item package assets; it is not a runtime fallback-policy implementation."
+    }
+  },
+  "current_visual_manifest_schema": {
+    "path": "Plan/08_SCHEMAS/visual_audio_event_manifest.schema.json",
+    "sha256": "1c58053d0c8005627c63ae820b4ff726a844daa2d422a5bb732b4240bd2bde07",
+    "bytes": 3019,
+    "tracked_at_source_commit": false,
+    "preserved_untracked_ownership": true,
+    "declared_authority_ceilings": ["candidate", "technical", "certification"],
+    "missing_row092_machine_contract": [
+      "No conflict records, detector votes, disagreement metric, or deterministic tie policy.",
+      "No uncertainty value, source, propagation, decay, or calibration contract beyond one confidence scalar.",
+      "No occlusion, crowded-scene, cut, offscreen, or intentionally-silent state.",
+      "No fallback route, route reason, escalation budget, or blocked-state contract.",
+      "No conditional rule linking null ownership, unknown material, ambiguous timing, or low confidence to a lower authority ceiling.",
+      "No coverage invariant proving required equals covered plus silent plus blocked events."
+    ]
+  },
+  "adversarial_schema_probe": {
+    "validator": "jsonschema.Draft202012Validator",
+    "process_exit_code": 0,
+    "schema_error_count": 0,
+    "probe_accepted": true,
+    "event": {
+      "event_type": "unknown_contact",
+      "source_owner": null,
+      "target_owner": null,
+      "material": "unknown",
+      "confidence": 0.0,
+      "expected_layers": [],
+      "authority_ceiling": "certification",
+      "evidence": [{}]
+    },
+    "authority_violation": "The schema accepts certification despite zero confidence, absent ownership, unknown type and material, no expected layers, and no substantive evidence.",
+    "required_behavior": "Such an event must be blocked or candidate-only with explicit uncertainty, conflict, fallback route, reason, and machine-readable certification ceiling."
+  },
+  "acceptance_matrix_required": [
+    {
+      "gate": "dependency",
+      "acceptance": "Row091 is complete with a strict hash-bound visual event manifest."
+    },
+    {
+      "gate": "conflict_resolution",
+      "acceptance": "Every conflicting detector observation is preserved and a deterministic policy produces a reproducible decision or blocker."
+    },
+    {
+      "gate": "uncertainty_preserved",
+      "acceptance": "Per-source uncertainty, aggregation, temporal decay, calibration, and propagated ceiling are machine-readable."
+    },
+    {
+      "gate": "offscreen_and_occlusion",
+      "acceptance": "Occluded, crowded, cut-boundary, and offscreen events have explicit continuity and abstention behavior."
+    },
+    {
+      "gate": "fallback_route",
+      "acceptance": "Unknown material, ambiguous timing, and unsupported ownership route deterministically to broader retrieval, generated candidate, multi-anchor, intentional silence, or blocked."
+    },
+    {
+      "gate": "certification_ceiling",
+      "acceptance": "Candidate, technical, and certification authority are derived from evidence and cannot be self-declared."
+    },
+    {
+      "gate": "coverage",
+      "acceptance": "Required events equal covered plus intentional-silence plus blocked events with no duplicate or omitted identity."
+    },
+    {
+      "gate": "runtime_and_visual_qa",
+      "acceptance": "Genuine fixtures and combined frame/contact/audio review pass for conflicts, occlusion, cuts, offscreen, unknown material, and silence."
+    }
+  ],
+  "checks": [
+    {"id": "ROW092-001", "status": "PASS", "name": "source_commit_bound"},
+    {"id": "ROW092-002", "status": "PASS", "name": "tracker_item_semantic_parity"},
+    {"id": "ROW092-003", "status": "PASS", "name": "requirements_copy_identity"},
+    {"id": "ROW092-004", "status": "PASS", "name": "source_policy_explicit"},
+    {"id": "ROW092-005", "status": "PASS", "name": "dependency_evidence_bound"},
+    {"id": "ROW092-006", "status": "PASS", "name": "planning_registry_bound"},
+    {"id": "ROW092-007", "status": "PASS", "name": "schema_authority_false_positive_reproduced"},
+    {"id": "ROW092-008", "status": "PASS", "name": "untracked_package_ownership_preserved"},
+    {"id": "ROW092-009", "status": "FAIL", "name": "dependency_row091_complete"},
+    {"id": "ROW092-010", "status": "FAIL", "name": "conflict_resolution_implementation"},
+    {"id": "ROW092-011", "status": "FAIL", "name": "uncertainty_preservation_implementation"},
+    {"id": "ROW092-012", "status": "FAIL", "name": "offscreen_policy_implementation"},
+    {"id": "ROW092-013", "status": "FAIL", "name": "occlusion_and_crowded_scene_policy"},
+    {"id": "ROW092-014", "status": "FAIL", "name": "cut_boundary_policy"},
+    {"id": "ROW092-015", "status": "FAIL", "name": "unknown_material_fallback"},
+    {"id": "ROW092-016", "status": "FAIL", "name": "machine_readable_fallback_route"},
+    {"id": "ROW092-017", "status": "FAIL", "name": "derived_certification_ceiling"},
+    {"id": "ROW092-018", "status": "FAIL", "name": "direct_adversarial_tests"},
+    {"id": "ROW092-019", "status": "FAIL", "name": "genuine_runtime_proof"},
+    {"id": "ROW092-020", "status": "FAIL", "name": "combined_frame_contact_audio_review"},
+    {"id": "ROW092-021", "status": "FAIL", "name": "required_tracker_output"},
+    {"id": "ROW092-022", "status": "FAIL", "name": "row_complete"}
+  ],
+  "check_summary": {"total": 22, "pass": 8, "fail": 14},
+  "execution_boundary": {
+    "new_worker_intents": 0,
+    "worker_queue_polls": 0,
+    "direct_wrapper_calls": 0,
+    "scheduled_task_state_changes": 0,
+    "ec2_calls": 0,
+    "docker_calls": 0,
+    "wsl_calls": 0,
+    "model_downloads": 0,
+    "generations": 0,
+    "renders": 0,
+    "visual_reviews_performed": 0
+  },
+  "preservation_boundary": {
+    "evidence_write_scope": [
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-092_EVENT_UNCERTAINTY_FALLBACK_CURRENT_DELTA_20260719.json"
+    ],
+    "row091_delegated_paths_preserved": true,
+    "untracked_autonomous_sound_package_preserved": true,
+    "queued_worker_scopes_preserved": true,
+    "flux2_dirty_paths_preserved": true,
+    "portfolio_reconciliation_paths_preserved": true,
+    "worker_control_snapshots_preserved": true,
+    "unrelated_dirty_and_untracked_paths_preserved": true
+  },
+  "hold_decision": {
+    "decision": "HOLD_ROW092",
+    "reason": "Row091 is incomplete and no executable Row092 policy exists. The current visual manifest schema allows unsupported certification without ownership, confidence, known material, layers, or substantive evidence and contains none of the required conflict, uncertainty, offscreen, occlusion, cut, fallback-route, or derived-ceiling contracts.",
+    "safe_next_work": "After Row091's strict manifest boundary is accepted, implement a versioned deterministic policy and adversarial fixture matrix that preserves every detector observation and derives fallback and authority rather than trusting self-declared certification.",
+    "completion_claim_prohibited": true,
+    "runtime_claim_prohibited": true,
+    "certification_claim_prohibited": true
+  }
+}
