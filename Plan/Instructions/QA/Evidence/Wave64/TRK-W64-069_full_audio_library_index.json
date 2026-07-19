@@ -1,11 +1,34 @@
 {
   "blocker_codes": [
-    "TRK_W64_068_DEPENDENCY_NOT_ACCEPTED",
-    "ROW069_PREREQUISITE_DEPENDENCY_NOT_ACCEPTED",
-    "RETAINED_INDEX_BYTE_HASH_RECONCILIATION_ABSENT",
+    "RETAINED_INDEX_BYTE_HASH_RECONCILIATION_SAMPLE_ONLY",
     "FULL_LIBRARY_RESUME_REPLAY_ABSENT",
     "ROW069_LIBRARY_RUNTIME_AUTHORITY_NOT_GRANTED"
   ],
+  "byte_hash_reconciliation": {
+    "checked_count": 48,
+    "complete": false,
+    "does_not_grant_row069_acceptance": true,
+    "extension_checked_counts": {
+      ".flac": 15,
+      ".mp3": 16,
+      ".ogg": 1,
+      ".wav": 16
+    },
+    "match_count": 48,
+    "mismatch_count": 0,
+    "mismatch_truncated": 0,
+    "mismatches": [],
+    "missing_count": 0,
+    "mode": "sample",
+    "retained_index_bytes": 38266398,
+    "retained_index_path": "C:\\Comfy_UI_Main\\runtime_artifacts\\audio_asset_indexes\\audio_downloads_functional_20260715T095712-0500\\audio_pack_functional_index.jsonl",
+    "retained_index_sha256": "7301243a364025dbd23907aee20ee8593d5897caa83d38391026ad42da6d17ec",
+    "retained_record_count": 39771,
+    "sample_limit": 48,
+    "scaffold_only": true,
+    "source_root": "F:\\Len_Transfer\\Audio_Downloads",
+    "status": "SCAFFOLD_SAMPLE_BYTE_HASH_RECONCILED"
+  },
   "current_source_observation": {
     "discovered_audio_count": 39771,
     "extension_counts": {
@@ -24,13 +47,14 @@
     "product_completion": false,
     "row069_acceptance": "held",
     "runtime_completion": false,
-    "safe_next_action": "Accept Row068 rights authority, bind retained-index byte-hash reconciliation to the live inventory fingerprint, prove unchanged full-library resume with stable index/summary/state/failure-manifest hashes, then replace this hold packet with accepted Row069 library authority.",
+    "safe_next_action": "Execute full retained-index byte-hash reconciliation (sample_limit=None) against the live inventory fingerprint, then run isolated full-library copy-then-resume replay with stable index/state/failure-manifest hashes before granting Row069 library acceptance.",
     "status": "blocked"
   },
   "dependency_authority": {
-    "all_satisfied": false,
+    "all_satisfied": true,
     "dependencies": [
       {
+        "acceptance": "accepted",
         "bytes": 6342,
         "dependency_satisfied": true,
         "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-067_PLANNING_AUTHORITY_CURRENT_DELTA_20260719.json",
@@ -40,12 +64,13 @@
         "tracker_id": "TRK-W64-067"
       },
       {
-        "bytes": 14467,
-        "dependency_satisfied": false,
+        "acceptance": "accepted",
+        "bytes": 4104,
+        "dependency_satisfied": true,
         "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
-        "row_complete": false,
-        "sha256": "77bf51ffa832ffa55782249f17f7ae5f7d4b463af43512f517962d3ab5805f80",
-        "status": "HOLD_STATIC_RIGHTS_CONTRACT_PARTIAL_DIRECT_AUTHORITY_AND_LIFECYCLE_ENFORCEMENT_ABSENT",
+        "row_complete": true,
+        "sha256": "5dbc08b4bdfccb092ebf6ea2f88fb30b53e24c6cff67215c3ce5528ff1744899",
+        "status": "PASS_RIGHTS_DECISION_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
         "tracker_id": "TRK-W64-068"
       }
     ]
@@ -53,7 +78,7 @@
   "evidence_id": "TRK-W64-069_full_audio_library_index",
   "fixture_calibration": {
     "authority": "synthetic_non_library",
-    "determinism_note": "Fixture proves durable failure-manifest emission, indexed+blocker reconciliation, source fingerprint immutability binding, and resume hash stability only; it does not accept Row069 library completion.",
+    "determinism_note": "Fixture proves durable failure-manifest emission, indexed+blocker reconciliation, source fingerprint immutability binding, resume hash stability, and copy-then-resume scaffold only; it does not accept Row069 library completion.",
     "failure_manifest": {
       "artifact_type": "audio_library_index_failure_manifest",
       "blocker_code_counts": {
@@ -64,7 +89,7 @@
           "bytes": 0,
           "code": "INDEX_EMPTY_OR_UNREADABLE",
           "detail": "audio file has zero bytes and cannot enter the functional index",
-          "mtime_ns": 1784490666028577100,
+          "mtime_ns": 1784491406680152100,
           "relative_path": "empty_blocker.wav"
         }
       ],
@@ -75,21 +100,21 @@
       "indexed_plus_blockers_equals_discovered": true,
       "item_id": "ITEM-W64-069",
       "schema_version": "1.0.0",
-      "source_root": "C:\\Users\\kevin\\AppData\\Local\\Temp\\row069_authority_8_tujn9i\\source",
+      "source_root": "C:\\Users\\kevin\\AppData\\Local\\Temp\\row069_authority_ca1xn629\\source",
       "tracker_id": "TRK-W64-069"
     },
     "summary": {
       "audio_file_count": 3,
       "duplicate_audio_file_count": 1,
       "exact_blocker_count": 1,
-      "failure_manifest_sha256": "38f6c51490dea260e8ec531934a44a2403950b7b0beab50fe0b08dc79295b313",
-      "index_sha256": "453c114b27af46942c878aee215b737b94ca6b82094704552ae2162b255a084e",
+      "failure_manifest_sha256": "2681dd32e087f45a31b50b0edd90174eb1c3886a13d28267be7fbb5bdc3ac729",
+      "index_sha256": "1e8bf34d3f1ed529a0880920655e211d4d9442609b9ebb97d0453ffee8929670",
       "indexed_count": 2,
       "indexed_plus_blockers_equals_discovered": true,
       "resume_failure_manifest_sha256_match": true,
       "resume_index_sha256_match": true,
-      "source_fingerprint_after": "cc947a4dfdaab12941287d787acea5cfa92c469a7a0d39af651a455c9df84965",
-      "source_fingerprint_before": "cc947a4dfdaab12941287d787acea5cfa92c469a7a0d39af651a455c9df84965",
+      "source_fingerprint_after": "555cfa5c562a7e7dbadf888888904644a1fbfd3feaf2ada32eb19ee3fdc7c1c6",
+      "source_fingerprint_before": "555cfa5c562a7e7dbadf888888904644a1fbfd3feaf2ada32eb19ee3fdc7c1c6",
       "source_fingerprint_unchanged": true,
       "unique_audio_sha256_count": 1
     }
@@ -102,24 +127,70 @@
     "record exact parse/index failures in a durable failure manifest",
     "bind before/after source inventory fingerprints",
     "deduplicate container hashes",
-    "reproduce index hash, record count, unique hash count, and failure-manifest hash"
+    "reproduce index hash, record count, unique hash count, and failure-manifest hash",
+    "reconcile retained index byte hashes against live source before acceptance",
+    "prove full-library resume replay in an isolated workdir before acceptance"
   ],
   "implementation_completion_claimed": false,
   "index_revision": "wave64_row069_audio_library_index_v0.1.0",
   "item_id": "ITEM-W64-069",
   "library_authority": false,
+  "resume_replay_scaffold": {
+    "does_not_grant_row069_acceptance": true,
+    "failure_manifest_present_on_retained": false,
+    "fixture_copy_resume_proof": {
+      "after_hashes": {
+        "failure_manifest": "d25f59d5e757501c2227ce3be085c0649c1cfb8480c47737e584fc0b25f70ef3",
+        "index": "ab8700652f264e59d1d510dd3925ce6f80cf76427777568a31eb5c6588e16d33",
+        "state_database": "abb8e3ea60d2bfedd26a34de4b0a6575fd129d4dcc3b3cb213018e39f166ac89",
+        "summary": "62f0389ea365cf43e78c7750d4dd8de567413f227950a2e3cc1213870f9c2834"
+      },
+      "authority": "synthetic_non_library",
+      "before_hashes": {
+        "failure_manifest": "d25f59d5e757501c2227ce3be085c0649c1cfb8480c47737e584fc0b25f70ef3",
+        "index": "ab8700652f264e59d1d510dd3925ce6f80cf76427777568a31eb5c6588e16d33",
+        "state_database": "abb8e3ea60d2bfedd26a34de4b0a6575fd129d4dcc3b3cb213018e39f166ac89",
+        "summary": "c1a3d7fcd27f300c15e4b0428a192bf01ff8d688cb09a7d55b0fa597d3a5cff4"
+      },
+      "does_not_grant_row069_acceptance": true,
+      "failure_manifest_sha256_stable": true,
+      "index_sha256_stable": true,
+      "initial_index_sha256": "ab8700652f264e59d1d510dd3925ce6f80cf76427777568a31eb5c6588e16d33",
+      "state_database_sha256_stable": true,
+      "summary_generated_at_may_change": true
+    },
+    "full_library_resume_executed": false,
+    "full_library_resume_replay_complete": false,
+    "index_sha_matches_summary": true,
+    "required_full_library_proof": [
+      "copy retained index/summary/state into an isolated replay workdir",
+      "run build_index(source_root, replay_workdir, resume=True) without mutating retained paths",
+      "require stable audio_pack_functional_index.jsonl sha256",
+      "require stable functional_index_state.sqlite3 sha256 when source path/size/mtime unchanged",
+      "emit/refresh failure_manifest.json and bind its sha256 into the acceptance packet",
+      "bind live inventory fingerprint before and after the resume replay"
+    ],
+    "retained_summary_indexed_count": 39771,
+    "scaffold_ready_for_full_library_execution": true,
+    "state_count_matches_summary": true,
+    "state_record_count": 39771,
+    "status": "RESUME_REPLAY_SCAFFOLD_READY_FULL_LIBRARY_ABSENT"
+  },
   "retained_index_reference": {
     "byte_hash_reconciliation_complete": false,
+    "byte_hash_sample_checked_count": 48,
+    "byte_hash_sample_status": "SCAFFOLD_SAMPLE_BYTE_HASH_RECONCILED",
     "current_count_matches_retained": true,
     "current_inventory_fingerprint_bound": true,
     "does_not_grant_row069_acceptance": true,
     "retained_discovered_audio_count": 39771,
+    "runtime_dir": "runtime_artifacts\\audio_asset_indexes\\audio_downloads_functional_20260715T095712-0500",
     "runtime_index_path": "runtime_artifacts/audio_asset_indexes/audio_downloads_functional_20260715T095712-0500/audio_pack_functional_index.jsonl",
     "technical_reuse_allowed": true
   },
   "row_complete": false,
   "runtime_completion_claimed": false,
   "schema_version": "1.0.0",
-  "status": "HOLD_FAIL_CLOSED_INDEX_CONTRACT_ADVANCED_LIBRARY_AUTHORITY_INCOMPLETE",
+  "status": "HOLD_ROW068_UNLOCKED_BYTE_HASH_SAMPLE_AND_RESUME_SCAFFOLD_LIBRARY_AUTHORITY_INCOMPLETE",
   "tracker_id": "TRK-W64-069"
 }

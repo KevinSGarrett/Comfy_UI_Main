@@ -117,18 +117,46 @@ class AudioPackFunctionalIndexTests(unittest.TestCase):
                 INDEXER.build_index(source, output)
 
     def test_authority_packet_remains_fail_closed(self):
-        packet = INDEXER.build_authority_packet(ROOT)
+        with tempfile.TemporaryDirectory() as temporary:
+            base = Path(temporary)
+            source = base / "source"
+            retained = base / "retained"
+            source.mkdir()
+            first = source / "Fabric soft (CC0).wav"
+            second = source / "Impact hit metal.wav"
+            _wav(first, 0.2)
+            _wav(second, 0.15)
+            built = INDEXER.build_index(source, retained)
+            # Drop failure_manifest to mirror retained 20260715 production layout.
+            (retained / "failure_manifest.json").unlink(missing_ok=True)
+            packet = INDEXER.build_authority_packet(
+                ROOT,
+                source_root=source,
+                retained_dir=retained,
+                byte_hash_sample_limit=1,
+            )
         self.assertFalse(packet["row_complete"])
         self.assertFalse(packet["library_authority"])
         self.assertFalse(packet["implementation_completion_claimed"])
         self.assertFalse(packet["runtime_completion_claimed"])
         self.assertEqual(packet["decision"]["row069_acceptance"], "held")
         self.assertEqual(packet["decision"]["status"], "blocked")
+        self.assertTrue(packet["dependency_authority"]["all_satisfied"])
+        self.assertNotIn("TRK_W64_068_DEPENDENCY_NOT_ACCEPTED", packet["blocker_codes"])
+        self.assertNotIn("ROW069_PREREQUISITE_DEPENDENCY_NOT_ACCEPTED", packet["blocker_codes"])
         self.assertIn("ROW069_LIBRARY_RUNTIME_AUTHORITY_NOT_GRANTED", packet["blocker_codes"])
         self.assertIn("FULL_LIBRARY_RESUME_REPLAY_ABSENT", packet["blocker_codes"])
-        self.assertIn("TRK_W64_068_DEPENDENCY_NOT_ACCEPTED", packet["blocker_codes"])
-        self.assertIn("ROW069_PREREQUISITE_DEPENDENCY_NOT_ACCEPTED", packet["blocker_codes"])
-        self.assertIn("RETAINED_INDEX_BYTE_HASH_RECONCILIATION_ABSENT", packet["blocker_codes"])
+        self.assertIn("RETAINED_INDEX_BYTE_HASH_RECONCILIATION_SAMPLE_ONLY", packet["blocker_codes"])
+        self.assertIn("CURRENT_EXTERNAL_INVENTORY_NOT_RECONCILED", packet["blocker_codes"])
+        self.assertEqual(
+            packet["byte_hash_reconciliation"]["status"],
+            "SCAFFOLD_SAMPLE_BYTE_HASH_RECONCILED",
+        )
+        self.assertEqual(packet["byte_hash_reconciliation"]["checked_count"], 1)
+        self.assertFalse(packet["byte_hash_reconciliation"]["complete"])
+        self.assertFalse(packet["resume_replay_scaffold"]["full_library_resume_replay_complete"])
+        self.assertTrue(packet["resume_replay_scaffold"]["fixture_copy_resume_proof"]["index_sha256_stable"])
+        self.assertEqual(built["indexed_count"], 2)
         fixture = packet["fixture_calibration"]["summary"]
         self.assertTrue(fixture["indexed_plus_blockers_equals_discovered"])
         self.assertTrue(fixture["source_fingerprint_unchanged"])
@@ -136,6 +164,38 @@ class AudioPackFunctionalIndexTests(unittest.TestCase):
         self.assertTrue(fixture["resume_failure_manifest_sha256_match"])
         self.assertEqual(fixture["exact_blocker_count"], 1)
         self.assertEqual(fixture["indexed_count"], 2)
+
+    def test_byte_hash_reconcile_and_resume_scaffold(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            base = Path(temporary)
+            source = base / "source"
+            retained = base / "retained"
+            source.mkdir()
+            wav_a = source / "a.wav"
+            wav_b = source / "b.wav"
+            _wav(wav_a, 0.1)
+            _wav(wav_b, 0.12)
+            INDEXER.build_index(source, retained)
+            full = INDEXER.reconcile_retained_index_byte_hashes(
+                source,
+                retained / "audio_pack_functional_index.jsonl",
+                sample_limit=None,
+            )
+            self.assertTrue(full["complete"])
+            self.assertEqual(full["status"], "FULL_LIBRARY_BYTE_HASH_RECONCILED")
+            sample = INDEXER.reconcile_retained_index_byte_hashes(
+                source,
+                retained / "audio_pack_functional_index.jsonl",
+                sample_limit=1,
+            )
+            self.assertFalse(sample["complete"])
+            self.assertTrue(sample["scaffold_only"])
+            self.assertEqual(sample["status"], "SCAFFOLD_SAMPLE_BYTE_HASH_RECONCILED")
+            scaffold = INDEXER.build_resume_replay_scaffold(retained, source_root=source)
+            self.assertFalse(scaffold["full_library_resume_replay_complete"])
+            self.assertTrue(scaffold["fixture_copy_resume_proof"]["index_sha256_stable"])
+            self.assertTrue(scaffold["fixture_copy_resume_proof"]["failure_manifest_sha256_stable"])
+            self.assertEqual(scaffold["status"], "RESUME_REPLAY_SCAFFOLD_READY_FULL_LIBRARY_ABSENT")
 
 
 if __name__ == "__main__":

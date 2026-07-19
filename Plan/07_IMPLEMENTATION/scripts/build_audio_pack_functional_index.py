@@ -2,9 +2,10 @@
 """Build a resumable, hash-bound functional index for external audio assets.
 
 Row069 authority slice: emit a durable exact failure manifest and before/after
-source inventory fingerprints. Library acceptance remains fail-closed until
-current-source reconciliation, full-library resume replay, and prerequisite
-Rows067/068 are accepted.
+source inventory fingerprints, plus retained-index byte-hash reconciliation and
+full-library resume-replay scaffolding. Library acceptance remains fail-closed
+until full-library reconcile/resume proofs pass; prerequisite Rows067/068 must
+be accepted as dependency authority only.
 """
 
 from __future__ import annotations
@@ -13,12 +14,13 @@ import argparse
 import hashlib
 import json
 import os
+import shutil
 import sqlite3
 import tempfile
-from collections import Counter
+from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Iterator
 
 from jsonschema import Draft202012Validator
 from mutagen import File as MutagenFile
@@ -33,11 +35,15 @@ DEFAULT_EVIDENCE = Path(
     "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-069_full_audio_library_index.json"
 )
 DEFAULT_SOURCE_ROOT = Path("F:/Len_Transfer/Audio_Downloads")
+DEFAULT_RETAINED_INDEX_DIR = Path(
+    "runtime_artifacts/audio_asset_indexes/audio_downloads_functional_20260715T095712-0500"
+)
 AUDIO_EXTENSIONS = {".wav", ".mp3", ".flac", ".ogg"}
 INDEX_REVISION = "wave64_row069_audio_library_index_v0.1.0"
 SCHEMA_VERSION = "1.0.0"
 TRACKER_ID = "TRK-W64-069"
 ITEM_ID = "ITEM-W64-069"
+BYTE_HASH_SAMPLE_DEFAULT = 48
 
 
 def _io_path(path: Path) -> Path:
@@ -602,6 +608,359 @@ def build_index(source_root: Path, output_dir: Path, *, resume: bool = False) ->
         connection.close()
 
 
+def _resolve_under_root(root: Path, path: Path) -> Path:
+    return path if path.is_absolute() else (root / path)
+
+
+def iter_retained_index_records(index_path: Path) -> Iterator[dict[str, Any]]:
+    with index_path.open("r", encoding="utf-8") as handle:
+        for line_number, line in enumerate(handle, start=1):
+            text = line.strip()
+            if not text:
+                continue
+            try:
+                payload = json.loads(text)
+            except json.JSONDecodeError as exc:
+                raise ValueError(f"retained index JSONL parse failed at line {line_number}: {exc}") from exc
+            if not isinstance(payload, dict):
+                raise ValueError(f"retained index JSONL line {line_number} is not an object")
+            yield payload
+
+
+def _select_reconcile_sample(
+    records: list[dict[str, Any]],
+    *,
+    sample_limit: int | None,
+) -> list[dict[str, Any]]:
+    if sample_limit is None or sample_limit >= len(records):
+        return records
+    if sample_limit < 1:
+        raise ValueError("sample_limit must be >= 1 when provided")
+    by_extension: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for record in records:
+        extension = str(record.get("extension") or Path(str(record.get("relative_path") or "")).suffix or "unknown")
+        by_extension[extension].append(record)
+    selected: list[dict[str, Any]] = []
+    extensions = sorted(by_extension)
+    # Round-robin across extensions so mp3/flac/ogg are not starved by wav dominance.
+    indexes = {extension: 0 for extension in extensions}
+    while len(selected) < sample_limit and any(
+        indexes[extension] < len(by_extension[extension]) for extension in extensions
+    ):
+        for extension in extensions:
+            cursor = indexes[extension]
+            bucket = by_extension[extension]
+            if cursor >= len(bucket):
+                continue
+            selected.append(bucket[cursor])
+            indexes[extension] = cursor + 1
+            if len(selected) >= sample_limit:
+                break
+    return selected
+
+
+def reconcile_retained_index_byte_hashes(
+    source_root: Path,
+    retained_index_path: Path,
+    *,
+    sample_limit: int | None = BYTE_HASH_SAMPLE_DEFAULT,
+) -> dict[str, Any]:
+    """Compare retained JSONL sha256/bytes against live source files.
+
+    sample_limit=None checks every retained record (full-library gate).
+    A finite sample advances scaffolding only and must not claim completion.
+    """
+    source_root = source_root.resolve()
+    retained_index_path = retained_index_path.resolve()
+    if not retained_index_path.is_file():
+        return {
+            "mode": "absent_retained_index",
+            "retained_index_path": str(retained_index_path),
+            "source_root": str(source_root),
+            "complete": False,
+            "scaffold_only": True,
+            "checked_count": 0,
+            "match_count": 0,
+            "mismatch_count": 0,
+            "missing_count": 0,
+            "mismatches": [],
+            "status": "RETAINED_INDEX_ABSENT",
+        }
+    if not source_root.is_dir():
+        return {
+            "mode": "absent_source_root",
+            "retained_index_path": str(retained_index_path),
+            "source_root": str(source_root),
+            "complete": False,
+            "scaffold_only": True,
+            "checked_count": 0,
+            "match_count": 0,
+            "mismatch_count": 0,
+            "missing_count": 0,
+            "mismatches": [],
+            "status": "SOURCE_ROOT_ABSENT",
+        }
+
+    records = list(iter_retained_index_records(retained_index_path))
+    selected = _select_reconcile_sample(records, sample_limit=sample_limit)
+    # A finite sample_limit never grants full-library completion, even if the
+    # retained corpus is smaller than the requested sample.
+    scaffold_only = sample_limit is not None
+    mismatches: list[dict[str, Any]] = []
+    match_count = 0
+    missing_count = 0
+    mismatch_count = 0
+    extension_checked: Counter[str] = Counter()
+
+    for record in selected:
+        relative = str(record.get("relative_path") or "")
+        expected_sha = str(record.get("sha256") or "")
+        expected_bytes = record.get("bytes")
+        extension = str(record.get("extension") or Path(relative).suffix or "unknown")
+        extension_checked[extension] += 1
+        live_path = source_root / relative
+        if not live_path.is_file():
+            missing_count += 1
+            mismatch_count += 1
+            mismatches.append(
+                {
+                    "relative_path": relative,
+                    "code": "LIVE_SOURCE_MISSING",
+                    "expected_sha256": expected_sha,
+                    "expected_bytes": expected_bytes,
+                }
+            )
+            continue
+        try:
+            live_stat = _io_path(live_path).stat()
+            live_sha = _sha256(live_path)
+        except OSError as exc:
+            mismatch_count += 1
+            mismatches.append(
+                {
+                    "relative_path": relative,
+                    "code": "LIVE_SOURCE_UNREADABLE",
+                    "detail": f"{type(exc).__name__}:{exc}",
+                    "expected_sha256": expected_sha,
+                    "expected_bytes": expected_bytes,
+                }
+            )
+            continue
+        if live_stat.st_size != expected_bytes or live_sha != expected_sha:
+            mismatch_count += 1
+            mismatches.append(
+                {
+                    "relative_path": relative,
+                    "code": "BYTE_HASH_MISMATCH",
+                    "expected_sha256": expected_sha,
+                    "expected_bytes": expected_bytes,
+                    "observed_sha256": live_sha,
+                    "observed_bytes": live_stat.st_size,
+                }
+            )
+            continue
+        match_count += 1
+
+    complete = (
+        sample_limit is None
+        and mismatch_count == 0
+        and len(selected) == len(records)
+        and len(records) > 0
+    )
+    if complete:
+        status = "FULL_LIBRARY_BYTE_HASH_RECONCILED"
+    elif scaffold_only and mismatch_count == 0 and match_count == len(selected) and selected:
+        status = "SCAFFOLD_SAMPLE_BYTE_HASH_RECONCILED"
+    elif mismatch_count:
+        status = "BYTE_HASH_RECONCILIATION_MISMATCHES_PRESENT"
+    else:
+        status = "BYTE_HASH_RECONCILIATION_INCOMPLETE"
+
+    return {
+        "mode": "sample" if scaffold_only else "full_library",
+        "retained_index_path": str(retained_index_path),
+        "retained_index_sha256": _sha256(retained_index_path),
+        "retained_index_bytes": retained_index_path.stat().st_size,
+        "source_root": str(source_root),
+        "retained_record_count": len(records),
+        "sample_limit": sample_limit,
+        "checked_count": len(selected),
+        "match_count": match_count,
+        "mismatch_count": mismatch_count,
+        "missing_count": missing_count,
+        "extension_checked_counts": dict(sorted(extension_checked.items())),
+        "mismatches": mismatches[:32],
+        "mismatch_truncated": max(0, len(mismatches) - 32),
+        "complete": complete,
+        "scaffold_only": scaffold_only,
+        "does_not_grant_row069_acceptance": True,
+        "status": status,
+    }
+
+
+def build_resume_replay_scaffold(
+    retained_dir: Path,
+    *,
+    source_root: Path | None = None,
+    prove_fixture: bool = True,
+) -> dict[str, Any]:
+    """Inspect retained artifacts and prove resume hash stability on a fixture only.
+
+    Full-library resume replay against the retained 39771-record runtime directory
+    remains intentionally unexecuted here so this slice cannot falsely claim
+    library acceptance.
+    """
+    retained_dir = retained_dir.resolve()
+    index_path = retained_dir / "audio_pack_functional_index.jsonl"
+    summary_path = retained_dir / "index_summary.json"
+    state_path = retained_dir / "functional_index_state.sqlite3"
+    failure_path = retained_dir / "failure_manifest.json"
+
+    artifacts: dict[str, Any] = {}
+    for label, path in (
+        ("index", index_path),
+        ("summary", summary_path),
+        ("state_database", state_path),
+        ("failure_manifest", failure_path),
+    ):
+        if path.is_file():
+            artifacts[label] = {
+                "path": str(path),
+                "exists": True,
+                "sha256": _sha256(path),
+                "bytes": path.stat().st_size,
+            }
+        else:
+            artifacts[label] = {"path": str(path), "exists": False, "sha256": None, "bytes": None}
+
+    retained_summary = None
+    if summary_path.is_file():
+        retained_summary = json.loads(summary_path.read_text(encoding="utf-8"))
+
+    state_record_count = None
+    if state_path.is_file():
+        connection = sqlite3.connect(state_path)
+        try:
+            row = connection.execute("SELECT COUNT(*) FROM records").fetchone()
+            state_record_count = int(row[0]) if row else 0
+        finally:
+            connection.close()
+
+    expected_index_sha = None
+    expected_count = None
+    if isinstance(retained_summary, dict):
+        expected_index_sha = ((retained_summary.get("index") or {}).get("sha256"))
+        expected_count = retained_summary.get("indexed_count") or retained_summary.get("audio_file_count")
+
+    index_sha_matches_summary = bool(
+        artifacts["index"]["exists"]
+        and expected_index_sha
+        and artifacts["index"]["sha256"] == expected_index_sha
+    )
+    state_count_matches = (
+        state_record_count is not None
+        and expected_count is not None
+        and state_record_count == expected_count
+    )
+
+    fixture_proof: dict[str, Any] | None = None
+    if prove_fixture:
+        with tempfile.TemporaryDirectory(prefix="row069_resume_scaffold_") as temporary:
+            base = Path(temporary)
+            fixture_source = base / "source"
+            fixture_source.mkdir()
+            import struct
+            import wave
+
+            def _wav(path: Path, seconds: float) -> None:
+                frames = int(16000 * seconds)
+                with wave.open(str(path), "wb") as handle:
+                    handle.setnchannels(1)
+                    handle.setsampwidth(2)
+                    handle.setframerate(16000)
+                    handle.writeframes(struct.pack("<h", 0) * frames)
+
+            first = fixture_source / "Fabric soft loop (CC0).wav"
+            second = fixture_source / "Fabric soft duplicate (CC0).wav"
+            _wav(first, 0.2)
+            second.write_bytes(first.read_bytes())
+            output = base / "index"
+            initial = build_index(fixture_source, output)
+            # Clone artifacts into a replay workdir so the scaffold mirrors the
+            # eventual full-library copy-then-resume procedure without mutating
+            # the retained production directory.
+            replay_dir = base / "replay"
+            shutil.copytree(output, replay_dir)
+            before_hashes = {
+                "index": _sha256(replay_dir / "audio_pack_functional_index.jsonl"),
+                "summary": _sha256(replay_dir / "index_summary.json"),
+                "failure_manifest": _sha256(replay_dir / "failure_manifest.json"),
+                "state_database": _sha256(replay_dir / "functional_index_state.sqlite3"),
+            }
+            resumed = build_index(fixture_source, replay_dir, resume=True)
+            after_hashes = {
+                "index": resumed["index"]["sha256"],
+                "summary": _sha256(replay_dir / "index_summary.json"),
+                "failure_manifest": resumed["failure_manifest"]["sha256"],
+                "state_database": _sha256(replay_dir / "functional_index_state.sqlite3"),
+            }
+            fixture_proof = {
+                "authority": "synthetic_non_library",
+                "initial_index_sha256": initial["index"]["sha256"],
+                "before_hashes": before_hashes,
+                "after_hashes": after_hashes,
+                "index_sha256_stable": before_hashes["index"] == after_hashes["index"],
+                "failure_manifest_sha256_stable": (
+                    before_hashes["failure_manifest"] == after_hashes["failure_manifest"]
+                ),
+                "state_database_sha256_stable": (
+                    before_hashes["state_database"] == after_hashes["state_database"]
+                ),
+                # Summary embeds generated_at, so byte identity is not required;
+                # resume must still preserve index/failure-manifest/state hashes.
+                "summary_generated_at_may_change": True,
+                "does_not_grant_row069_acceptance": True,
+            }
+
+    full_library_ready = bool(
+        artifacts["index"]["exists"]
+        and artifacts["summary"]["exists"]
+        and artifacts["state_database"]["exists"]
+        and index_sha_matches_summary
+        and state_count_matches
+        and (fixture_proof is None or fixture_proof.get("index_sha256_stable"))
+    )
+    return {
+        "retained_dir": str(retained_dir),
+        "source_root": str(source_root.resolve()) if source_root else None,
+        "artifacts": artifacts,
+        "retained_summary_index_sha256": expected_index_sha,
+        "retained_summary_indexed_count": expected_count,
+        "state_record_count": state_record_count,
+        "index_sha_matches_summary": index_sha_matches_summary,
+        "state_count_matches_summary": state_count_matches,
+        "failure_manifest_present_on_retained": artifacts["failure_manifest"]["exists"],
+        "fixture_copy_resume_proof": fixture_proof,
+        "full_library_resume_executed": False,
+        "full_library_resume_replay_complete": False,
+        "scaffold_ready_for_full_library_execution": full_library_ready,
+        "does_not_grant_row069_acceptance": True,
+        "status": (
+            "RESUME_REPLAY_SCAFFOLD_READY_FULL_LIBRARY_ABSENT"
+            if full_library_ready
+            else "RESUME_REPLAY_SCAFFOLD_INCOMPLETE"
+        ),
+        "required_full_library_proof": [
+            "copy retained index/summary/state into an isolated replay workdir",
+            "run build_index(source_root, replay_workdir, resume=True) without mutating retained paths",
+            "require stable audio_pack_functional_index.jsonl sha256",
+            "require stable functional_index_state.sqlite3 sha256 when source path/size/mtime unchanged",
+            "emit/refresh failure_manifest.json and bind its sha256 into the acceptance packet",
+            "bind live inventory fingerprint before and after the resume replay",
+        ],
+    }
+
+
 def evaluate_dependency_holds(root: Path) -> dict[str, Any]:
     holds: list[dict[str, Any]] = []
     for tracker_id, relative in (
@@ -632,6 +991,7 @@ def evaluate_dependency_holds(root: Path) -> dict[str, Any]:
                 "row_complete": row_complete,
                 "dependency_satisfied": satisfied,
                 "status": payload.get("status"),
+                "acceptance": acceptance or None,
                 "sha256": _sha256(path),
                 "bytes": path.stat().st_size,
             }
@@ -642,11 +1002,28 @@ def evaluate_dependency_holds(root: Path) -> dict[str, Any]:
     }
 
 
-def build_authority_packet(root: Path, *, source_root: Path | None = None) -> dict[str, Any]:
+def build_authority_packet(
+    root: Path,
+    *,
+    source_root: Path | None = None,
+    retained_dir: Path | None = None,
+    byte_hash_sample_limit: int | None = BYTE_HASH_SAMPLE_DEFAULT,
+) -> dict[str, Any]:
     root = root.resolve()
     dependency = evaluate_dependency_holds(root)
     source = source_root or DEFAULT_SOURCE_ROOT
+    retained = _resolve_under_root(root, retained_dir or DEFAULT_RETAINED_INDEX_DIR)
     source_observation = observe_source_inventory(source)
+    byte_hash_reconcile = reconcile_retained_index_byte_hashes(
+        source,
+        retained / "audio_pack_functional_index.jsonl",
+        sample_limit=byte_hash_sample_limit,
+    )
+    resume_scaffold = build_resume_replay_scaffold(
+        retained,
+        source_root=source,
+        prove_fixture=True,
+    )
 
     with tempfile.TemporaryDirectory(prefix="row069_authority_") as temporary:
         base = Path(temporary)
@@ -677,8 +1054,9 @@ def build_authority_packet(root: Path, *, source_root: Path | None = None) -> di
             "authority": "synthetic_non_library",
             "determinism_note": (
                 "Fixture proves durable failure-manifest emission, indexed+blocker "
-                "reconciliation, source fingerprint immutability binding, and resume "
-                "hash stability only; it does not accept Row069 library completion."
+                "reconciliation, source fingerprint immutability binding, resume "
+                "hash stability, and copy-then-resume scaffold only; it does not "
+                "accept Row069 library completion."
             ),
             "summary": {
                 "audio_file_count": summary["audio_file_count"],
@@ -719,16 +1097,16 @@ def build_authority_packet(root: Path, *, source_root: Path | None = None) -> di
         blocker_codes.append("ROW069_PREREQUISITE_DEPENDENCY_NOT_ACCEPTED")
     if not current_count_matches:
         blocker_codes.append("CURRENT_EXTERNAL_INVENTORY_NOT_RECONCILED")
-    else:
-        blocker_codes.append("RETAINED_INDEX_BYTE_HASH_RECONCILIATION_ABSENT")
+    if not byte_hash_reconcile.get("complete"):
+        if byte_hash_reconcile.get("status") == "SCAFFOLD_SAMPLE_BYTE_HASH_RECONCILED":
+            blocker_codes.append("RETAINED_INDEX_BYTE_HASH_RECONCILIATION_SAMPLE_ONLY")
+        else:
+            blocker_codes.append("RETAINED_INDEX_BYTE_HASH_RECONCILIATION_ABSENT")
     if source_observation.get("inventory_fingerprint_sha256") is None:
         blocker_codes.append("SOURCE_INVENTORY_FINGERPRINT_UNAVAILABLE")
-    blocker_codes.extend(
-        [
-            "FULL_LIBRARY_RESUME_REPLAY_ABSENT",
-            "ROW069_LIBRARY_RUNTIME_AUTHORITY_NOT_GRANTED",
-        ]
-    )
+    if not resume_scaffold.get("full_library_resume_replay_complete"):
+        blocker_codes.append("FULL_LIBRARY_RESUME_REPLAY_ABSENT")
+    blocker_codes.append("ROW069_LIBRARY_RUNTIME_AUTHORITY_NOT_GRANTED")
 
     # Deduplicate while preserving order.
     seen: set[str] = set()
@@ -738,7 +1116,23 @@ def build_authority_packet(root: Path, *, source_root: Path | None = None) -> di
             seen.add(code)
             ordered_codes.append(code)
 
-    status = "HOLD_FAIL_CLOSED_INDEX_CONTRACT_ADVANCED_LIBRARY_AUTHORITY_INCOMPLETE"
+    if dependency["all_satisfied"] and byte_hash_reconcile.get("status") == "SCAFFOLD_SAMPLE_BYTE_HASH_RECONCILED":
+        status = "HOLD_ROW068_UNLOCKED_BYTE_HASH_SAMPLE_AND_RESUME_SCAFFOLD_LIBRARY_AUTHORITY_INCOMPLETE"
+    else:
+        status = "HOLD_FAIL_CLOSED_INDEX_CONTRACT_ADVANCED_LIBRARY_AUTHORITY_INCOMPLETE"
+
+    safe_next = (
+        "Execute full retained-index byte-hash reconciliation (sample_limit=None) against the "
+        "live inventory fingerprint, then run isolated full-library copy-then-resume replay "
+        "with stable index/state/failure-manifest hashes before granting Row069 library acceptance."
+    )
+    if unsatisfied:
+        safe_next = (
+            "Accept remaining prerequisite dependency authority, then "
+            + safe_next[0].lower()
+            + safe_next[1:]
+        )
+
     return {
         "schema_version": SCHEMA_VERSION,
         "evidence_id": "TRK-W64-069_full_audio_library_index",
@@ -759,20 +1153,50 @@ def build_authority_packet(root: Path, *, source_root: Path | None = None) -> di
             "bind before/after source inventory fingerprints",
             "deduplicate container hashes",
             "reproduce index hash, record count, unique hash count, and failure-manifest hash",
+            "reconcile retained index byte hashes against live source before acceptance",
+            "prove full-library resume replay in an isolated workdir before acceptance",
         ],
         "dependency_authority": dependency,
         "current_source_observation": source_observation,
+        "byte_hash_reconciliation": byte_hash_reconcile,
+        "resume_replay_scaffold": {
+            "status": resume_scaffold.get("status"),
+            "scaffold_ready_for_full_library_execution": resume_scaffold.get(
+                "scaffold_ready_for_full_library_execution"
+            ),
+            "full_library_resume_executed": resume_scaffold.get("full_library_resume_executed"),
+            "full_library_resume_replay_complete": resume_scaffold.get(
+                "full_library_resume_replay_complete"
+            ),
+            "failure_manifest_present_on_retained": resume_scaffold.get(
+                "failure_manifest_present_on_retained"
+            ),
+            "index_sha_matches_summary": resume_scaffold.get("index_sha_matches_summary"),
+            "state_count_matches_summary": resume_scaffold.get("state_count_matches_summary"),
+            "state_record_count": resume_scaffold.get("state_record_count"),
+            "retained_summary_indexed_count": resume_scaffold.get("retained_summary_indexed_count"),
+            "fixture_copy_resume_proof": resume_scaffold.get("fixture_copy_resume_proof"),
+            "required_full_library_proof": resume_scaffold.get("required_full_library_proof"),
+            "does_not_grant_row069_acceptance": True,
+        },
         "retained_index_reference": {
             "runtime_index_path": (
                 "runtime_artifacts/audio_asset_indexes/"
                 "audio_downloads_functional_20260715T095712-0500/audio_pack_functional_index.jsonl"
+            ),
+            "runtime_dir": (
+                str(retained.relative_to(root))
+                if str(retained).lower().startswith(str(root).lower())
+                else str(retained)
             ),
             "retained_discovered_audio_count": retained_count,
             "current_count_matches_retained": current_count_matches,
             "current_inventory_fingerprint_bound": bool(
                 source_observation.get("inventory_fingerprint_sha256")
             ),
-            "byte_hash_reconciliation_complete": False,
+            "byte_hash_reconciliation_complete": bool(byte_hash_reconcile.get("complete")),
+            "byte_hash_sample_status": byte_hash_reconcile.get("status"),
+            "byte_hash_sample_checked_count": byte_hash_reconcile.get("checked_count"),
             "technical_reuse_allowed": True,
             "does_not_grant_row069_acceptance": True,
         },
@@ -783,12 +1207,7 @@ def build_authority_packet(root: Path, *, source_root: Path | None = None) -> di
             "row069_acceptance": "held",
             "product_completion": False,
             "runtime_completion": False,
-            "safe_next_action": (
-                "Accept Row068 rights authority, bind retained-index byte-hash reconciliation "
-                "to the live inventory fingerprint, prove unchanged full-library resume with "
-                "stable index/summary/state/failure-manifest hashes, then replace this hold "
-                "packet with accepted Row069 library authority."
-            ),
+            "safe_next_action": safe_next,
         },
     }
 
@@ -804,17 +1223,36 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="Emit fail-closed Row069 direct evidence (library acceptance remains held).",
     )
+    parser.add_argument(
+        "--retained-dir",
+        default=str(DEFAULT_RETAINED_INDEX_DIR),
+        help="Retained runtime index directory used for reconcile/resume scaffolding.",
+    )
+    parser.add_argument(
+        "--byte-hash-sample-limit",
+        type=int,
+        default=BYTE_HASH_SAMPLE_DEFAULT,
+        help="Finite sample for byte-hash scaffolding; use 0 to request full-library reconcile.",
+    )
     parser.add_argument("--output", default=str(DEFAULT_EVIDENCE))
     args = parser.parse_args(argv)
     root = Path(args.root).resolve()
 
     if args.emit_authority:
         source_root = Path(args.source_root) if args.source_root else DEFAULT_SOURCE_ROOT
-        payload = build_authority_packet(root, source_root=source_root)
+        sample_limit = None if args.byte_hash_sample_limit == 0 else args.byte_hash_sample_limit
+        payload = build_authority_packet(
+            root,
+            source_root=source_root,
+            retained_dir=Path(args.retained_dir),
+            byte_hash_sample_limit=sample_limit,
+        )
         if payload["decision"]["status"] != "blocked":
             raise SystemExit("authority emission must remain fail-closed until acceptance gates pass")
         if payload.get("row_complete") is True:
             raise SystemExit("authority emission must not claim row_complete")
+        if payload.get("library_authority") is True:
+            raise SystemExit("authority emission must not claim library_authority")
         output = Path(args.output)
         if not output.is_absolute():
             output = root / output
@@ -826,6 +1264,9 @@ def main(argv: list[str] | None = None) -> int:
                     "status": payload["status"],
                     "row069_acceptance": payload["decision"]["row069_acceptance"],
                     "library_authority": payload["library_authority"],
+                    "dependency_all_satisfied": payload["dependency_authority"]["all_satisfied"],
+                    "byte_hash_status": payload["byte_hash_reconciliation"]["status"],
+                    "resume_scaffold_status": payload["resume_replay_scaffold"]["status"],
                 },
                 sort_keys=True,
             )
