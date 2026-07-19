@@ -11,8 +11,9 @@
 ## Commits Pushed This Pass
 
 1. `4414a8ca` Prove Row017 MF70 pupils_iris_sclera local visual climb.
+2. `d60963ed` Stamp Row017 pupils_iris_sclera handoff with primary commit id.
 
-Pushed tip verified on origin: `4414a8ca`
+Pushed tip verified on origin: `d60963ed`
 
 ## Row-Scoped Increment Executed
 
