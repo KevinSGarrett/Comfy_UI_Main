@@ -14,8 +14,9 @@
 2. `649bc727` Stamp Row017 under-eye handoff with pushed commit parity.
 3. `0cf4a27c` Refresh Row017 under-eye handoff with dual pushed commit IDs.
 4. `5189e0d9` Align Row017 under-eye handoff tip to origin HEAD.
+5. `70c7c91b` Finalize Row017 under-eye handoff pushed tip parity.
 
-Pushed tip verified on origin: `5189e0d98520ffe1726cf6f571a210890dfdd431`
+Pushed tip verified on origin: `70c7c91b757aafb417aa0cf2b8ef124081e0f6ee`
 
 ## Row-Scoped Increment Executed
 
