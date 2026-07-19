@@ -15,13 +15,26 @@ ROOT = Path(__file__).resolve().parents[4]
 COMPILER = ROOT / "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py"
 TIMELINE_SCHEMA = ROOT / "Plan/08_SCHEMAS/canonical_video_timeline.schema.json"
 CLOCK_SPAN_SCHEMA = ROOT / "Plan/08_SCHEMAS/canonical_media_clock_span.schema.json"
+MUX_PREP_SCHEMA = ROOT / "Plan/08_SCHEMAS/canonical_video_timeline_mux_prep_receipt.schema.json"
+HELD_OUT_MATRIX_SCHEMA = (
+    ROOT / "Plan/08_SCHEMAS/canonical_video_timeline_held_out_roundtrip_matrix.schema.json"
+)
 
 
 def _write_json(path: Path, payload: dict) -> None:
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
-def _fixed_packet(*, frame_count: int = 24, fps_num: int = 24, fps_den: int = 1) -> dict:
+def _fixed_packet(
+    *,
+    frame_count: int = 24,
+    fps_num: int = 24,
+    fps_den: int = 1,
+    timeline_id: str = "row084_fixed_fixture",
+    video_sha256: str | None = None,
+    dependency_complete: bool = False,
+    provenance_fixture: str = "row084_unit",
+) -> dict:
     sample_rate = 48000
     frames = []
     for idx in range(frame_count):
@@ -35,10 +48,10 @@ def _fixed_packet(*, frame_count: int = 24, fps_num: int = 24, fps_den: int = 1)
     end_sample = int(round((frame_count * fps_den / float(fps_num)) * sample_rate))
     return {
         "schema_version": "1.0.0",
-        "timeline_id": "row084_fixed_fixture",
+        "timeline_id": timeline_id,
         "revision": "r001",
         "source_binding": {
-            "video_sha256": "a" * 64,
+            "video_sha256": video_sha256 or ("a" * 64),
             "stream_index": 0,
             "container_sha256": None,
         },
@@ -68,17 +81,22 @@ def _fixed_packet(*, frame_count: int = 24, fps_num: int = 24, fps_den: int = 1)
             "max_sample_residual": 1.0,
             "max_seconds_residual": 1.0 / sample_rate,
         },
-        "dependency_authority": {"row067_complete": False},
+        "dependency_authority": {"row067_complete": dependency_complete},
         "runtime_authority": {
             "mux_replay_proof_present": False,
             "combined_visual_review_present": False,
             "fixed_vfr_benchmark_pass": False,
         },
-        "provenance": {"fixture": "row084_unit"},
+        "provenance": {"fixture": provenance_fixture},
     }
 
 
-def _vfr_cut_packet() -> dict:
+def _vfr_cut_packet(
+    *,
+    timeline_id: str = "row084_vfr_cut_fixture",
+    video_sha256: str | None = None,
+    provenance_fixture: str = "row084_vfr_cut_unit",
+) -> dict:
     """Two contiguous VFR segments (24fps then 30fps) with a mid-timeline hard cut ledger."""
     sample_rate = 48000
     # 12 frames @ 24fps + 12 frames @ 30fps
@@ -114,10 +132,10 @@ def _vfr_cut_packet() -> dict:
     end_sample = int(round(end_seconds * sample_rate))
     return {
         "schema_version": "1.0.0",
-        "timeline_id": "row084_vfr_cut_fixture",
+        "timeline_id": timeline_id,
         "revision": "r002",
         "source_binding": {
-            "video_sha256": "b" * 64,
+            "video_sha256": video_sha256 or ("b" * 64),
             "stream_index": 0,
             "container_sha256": None,
         },
@@ -161,23 +179,89 @@ def _vfr_cut_packet() -> dict:
             "combined_visual_review_present": False,
             "fixed_vfr_benchmark_pass": False,
         },
-        "provenance": {"fixture": "row084_vfr_cut_unit"},
+        "provenance": {"fixture": provenance_fixture},
+    }
+
+
+def _held_out_matrix_packet() -> dict:
+    """Held-out partition matrix: fixed, fractional, and VFR cases with distinct bindings."""
+    return {
+        "schema_version": "1.0.0",
+        "matrix_id": "row084_held_out_fixed_vfr_roundtrip_matrix_v1",
+        "revision": "m001",
+        "cases": [
+            {
+                "case_id": "held_out_fixed_24",
+                "partition": "held_out",
+                "timeline_packet": _fixed_packet(
+                    frame_count=16,
+                    fps_num=24,
+                    fps_den=1,
+                    timeline_id="row084_held_out_fixed_24",
+                    video_sha256="c" * 64,
+                    dependency_complete=True,
+                    provenance_fixture="row084_held_out_fixed_24",
+                ),
+            },
+            {
+                "case_id": "held_out_fractional_ntsc",
+                "partition": "held_out",
+                "timeline_packet": _fixed_packet(
+                    frame_count=10,
+                    fps_num=24000,
+                    fps_den=1001,
+                    timeline_id="row084_held_out_fractional_ntsc",
+                    video_sha256="d" * 64,
+                    dependency_complete=True,
+                    provenance_fixture="row084_held_out_fractional_ntsc",
+                ),
+            },
+            {
+                "case_id": "held_out_vfr_24_30",
+                "partition": "held_out",
+                "timeline_packet": _vfr_cut_packet(
+                    timeline_id="row084_held_out_vfr_24_30",
+                    video_sha256="e" * 64,
+                    provenance_fixture="row084_held_out_vfr_24_30",
+                ),
+            },
+        ],
+        "provenance": {"fixture": "row084_held_out_matrix"},
     }
 
 
 class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
     def setUp(self) -> None:
         self.timeline_validator = Draft202012Validator(json.loads(TIMELINE_SCHEMA.read_text(encoding="utf-8")))
+        self.mux_prep_validator = Draft202012Validator(json.loads(MUX_PREP_SCHEMA.read_text(encoding="utf-8")))
+        self.matrix_validator = Draft202012Validator(
+            json.loads(HELD_OUT_MATRIX_SCHEMA.read_text(encoding="utf-8"))
+        )
         self.clock_span_schema = json.loads(CLOCK_SPAN_SCHEMA.read_text(encoding="utf-8"))
 
-    def _run_compile(self, packet: dict, *, expect_ok: bool) -> tuple[subprocess.CompletedProcess[str], dict | None]:
+    def _run_compile(
+        self,
+        packet: dict,
+        *,
+        expect_ok: bool,
+        mode: str = "timeline",
+    ) -> tuple[subprocess.completedProcess[str], dict | None]:
         with tempfile.TemporaryDirectory() as tmp:
             tmpdir = Path(tmp)
             packet_path = tmpdir / "timeline_packet.json"
             output_path = tmpdir / "timeline_receipt.json"
             _write_json(packet_path, packet)
             completed = subprocess.run(
-                [sys.executable, str(COMPILER), "--input", str(packet_path), "--output", str(output_path)],
+                [
+                    sys.executable,
+                    str(COMPILER),
+                    "--mode",
+                    mode,
+                    "--input",
+                    str(packet_path),
+                    "--output",
+                    str(output_path),
+                ],
                 capture_output=True,
                 text=True,
                 check=False,
@@ -326,6 +410,63 @@ class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
         self.assertEqual(receipt["status"], "technical_partial")
         self.assertFalse(receipt["production_completion_allowed"])
         self.assertFalse(receipt["row_complete"])
+
+    def test_mux_prep_scaffold_holds_mux_authority(self) -> None:
+        packet = _fixed_packet(dependency_complete=True)
+        packet["runtime_authority"]["mux_replay_proof_present"] = True
+        _, receipt = self._run_compile(packet, expect_ok=True, mode="mux-prep")
+        assert receipt is not None
+        self.mux_prep_validator.validate(receipt)
+        self.assertEqual(receipt["record_type"], "canonical_video_timeline_mux_prep_receipt")
+        self.assertEqual(receipt["status"], "scaffold_hold")
+        self.assertFalse(receipt["row_complete"])
+        self.assertFalse(receipt["production_completion_allowed"])
+        self.assertTrue(receipt["authority"]["scaffold_only"])
+        self.assertFalse(receipt["authority"]["mux_replay_executed"])
+        self.assertFalse(receipt["authority"]["mux_replay_proof_present"])
+        self.assertFalse(receipt["authority"]["mux_authority_granted"])
+        self.assertTrue(receipt["authority"]["upstream_mux_replay_claim_ignored"])
+        self.assertFalse(receipt["mux_prep"]["mux_command_executed"])
+        self.assertIsNone(receipt["mux_prep"]["audio_stream_binding"])
+        self.assertEqual(receipt["mux_prep"]["planned_frame_count"], 24)
+        self.assertEqual(len(receipt["mux_prep_sha256"]), 64)
+
+    def test_held_out_fixed_vfr_roundtrip_matrix_compiles_without_benchmark_authority(self) -> None:
+        packet = _held_out_matrix_packet()
+        _, receipt = self._run_compile(packet, expect_ok=True, mode="held-out-matrix")
+        assert receipt is not None
+        self.matrix_validator.validate(receipt)
+        self.assertEqual(receipt["record_type"], "canonical_video_timeline_held_out_roundtrip_matrix")
+        self.assertEqual(receipt["status"], "fixture_matrix_partial")
+        self.assertFalse(receipt["row_complete"])
+        self.assertFalse(receipt["production_completion_allowed"])
+        self.assertEqual(receipt["summary"]["case_count"], 3)
+        self.assertEqual(receipt["summary"]["passed_count"], 3)
+        self.assertTrue(receipt["summary"]["all_within_tolerance"])
+        self.assertFalse(receipt["summary"]["mux_replay_included"])
+        self.assertFalse(receipt["summary"]["runtime_media_decode_invoked"])
+        self.assertFalse(receipt["summary"]["benchmark_authority_granted"])
+        self.assertFalse(receipt["authority"]["fixed_vfr_benchmark_pass"])
+        self.assertFalse(receipt["authority"]["mux_replay_proof_present"])
+        modes = set(receipt["summary"]["modes_covered"])
+        self.assertTrue({"fixed", "fractional", "vfr"}.issubset(modes) or {"fixed", "vfr"}.issubset(modes))
+        self.assertIn("fractional", modes)
+        self.assertIn("vfr", modes)
+        self.assertTrue(all(case["partition"] == "held_out" for case in receipt["cases"]))
+        self.assertTrue(all(case["within_tolerance"] for case in receipt["cases"]))
+        self.assertTrue(all(case["row_complete"] is False for case in receipt["cases"]))
+
+    def test_held_out_matrix_without_vfr_is_rejected(self) -> None:
+        packet = _held_out_matrix_packet()
+        packet["cases"] = packet["cases"][:2]  # fixed + fractional only
+        completed, _ = self._run_compile(packet, expect_ok=False, mode="held-out-matrix")
+        self.assertIn("requires at least one vfr case", completed.stderr + completed.stdout)
+
+    def test_held_out_matrix_rejects_non_held_out_partition(self) -> None:
+        packet = _held_out_matrix_packet()
+        packet["cases"][0]["partition"] = "calibration"
+        completed, _ = self._run_compile(packet, expect_ok=False, mode="held-out-matrix")
+        self.assertIn("partition must equal held_out", completed.stderr + completed.stdout)
 
 
 if __name__ == "__main__":

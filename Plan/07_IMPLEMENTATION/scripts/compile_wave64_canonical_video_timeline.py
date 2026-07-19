@@ -2,7 +2,8 @@
 """Fail-closed Row084 canonical video timeline compiler.
 
 Compiles fixture or decoded-frame metadata into a content-addressed timeline
-receipt. Production completion remains blocked unless dependency, benchmark,
+receipt, plus mux-prep scaffold and held-out fixed/VFR round-trip matrix
+helpers. Production completion remains blocked unless dependency, benchmark,
 mux-replay, and visual-review authorities are all satisfied.
 """
 from __future__ import annotations
@@ -15,6 +16,8 @@ import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+COMPILER_REVISION = "row084_mux_prep_held_out_matrix_v3"
 
 
 ALLOWED_TOP_LEVEL_FIELDS = {
@@ -610,7 +613,7 @@ def compile_timeline(payload: dict[str, Any]) -> dict[str, Any]:
     if provenance is None:
         provenance = {
             "compiler": "compile_wave64_canonical_video_timeline.py",
-            "compiler_revision": "row084_vfr_cut_epoch_v2",
+            "compiler_revision": COMPILER_REVISION,
         }
     if not isinstance(provenance, dict):
         raise ValueError("provenance must be an object")
@@ -648,10 +651,205 @@ def compile_timeline(payload: dict[str, Any]) -> dict[str, Any]:
     return receipt_body
 
 
+def build_mux_prep_scaffold(timeline_receipt: dict[str, Any]) -> dict[str, Any]:
+    """Build a fail-closed mux-prep receipt scaffold from a compiled timeline.
+
+    This records planned mux bindings only. It never executes mux, never grants
+    mux-replay authority, and never flips row_complete.
+    """
+    if not isinstance(timeline_receipt, dict):
+        raise ValueError("timeline_receipt must be an object")
+    if timeline_receipt.get("record_type") != "canonical_video_timeline":
+        raise ValueError("timeline_receipt.record_type must equal canonical_video_timeline")
+    timeline_id = _expect_non_empty_string(timeline_receipt.get("timeline_id"), "timeline_id")
+    timeline_sha256 = _expect_sha256(timeline_receipt.get("timeline_sha256"), "timeline_sha256")
+    clock_span = timeline_receipt.get("clock_span")
+    if not isinstance(clock_span, dict):
+        raise ValueError("timeline_receipt.clock_span must be an object")
+    frame_table = timeline_receipt.get("frame_table")
+    if not isinstance(frame_table, list) or not frame_table:
+        raise ValueError("timeline_receipt.frame_table must be a non-empty list")
+    vfr_segments = timeline_receipt.get("vfr_segments")
+    if not isinstance(vfr_segments, list):
+        raise ValueError("timeline_receipt.vfr_segments must be a list")
+    cut_epochs = timeline_receipt.get("cut_epochs")
+    if not isinstance(cut_epochs, list):
+        raise ValueError("timeline_receipt.cut_epochs must be a list")
+    runtime_authority = timeline_receipt.get("runtime_authority")
+    if not isinstance(runtime_authority, dict):
+        raise ValueError("timeline_receipt.runtime_authority must be an object")
+
+    # Scaffold remains fail-closed even if an upstream packet falsely claims mux proof.
+    mux_replay_claimed = _expect_boolean(
+        runtime_authority.get("mux_replay_proof_present"),
+        "runtime_authority.mux_replay_proof_present",
+    )
+    created_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    body = {
+        "schema_version": "1.0.0",
+        "record_type": "canonical_video_timeline_mux_prep_receipt",
+        "timeline_id": timeline_id,
+        "timeline_sha256": timeline_sha256,
+        "revision": _expect_non_empty_string(timeline_receipt.get("revision"), "revision"),
+        "status": "scaffold_hold",
+        "created_at": created_at,
+        "mux_prep": {
+            "planned_sample_rate_hz": _expect_positive_int(
+                clock_span.get("sample_rate_hz"), "clock_span.sample_rate_hz"
+            ),
+            "planned_frame_count": len(frame_table),
+            "planned_start_sample": _expect_non_negative_int(
+                clock_span.get("start_sample"), "clock_span.start_sample"
+            ),
+            "planned_end_sample_exclusive": _expect_positive_int(
+                clock_span.get("end_sample_exclusive"), "clock_span.end_sample_exclusive"
+            ),
+            "frame_rate_mode": _expect_non_empty_string(
+                timeline_receipt.get("frame_rate_mode"), "frame_rate_mode"
+            ),
+            "vfr_segment_count": len(vfr_segments),
+            "cut_epoch_count": len(cut_epochs),
+            "audio_stream_binding": None,
+            "container_binding": None,
+            "mux_command_planned": False,
+            "mux_command_executed": False,
+        },
+        "authority": {
+            "scaffold_only": True,
+            "mux_replay_executed": False,
+            "mux_replay_proof_present": False,
+            "mux_authority_granted": False,
+            "upstream_mux_replay_claim_ignored": mux_replay_claimed,
+        },
+        "production_completion_allowed": False,
+        "row_complete": False,
+        "provenance": {
+            "compiler": "compile_wave64_canonical_video_timeline.py",
+            "compiler_revision": COMPILER_REVISION,
+            "scaffold_kind": "mux_prep_receipt",
+        },
+    }
+    body["mux_prep_sha256"] = _canonical_sha256(body)
+    return body
+
+
+def compile_held_out_roundtrip_matrix(payload: dict[str, Any]) -> dict[str, Any]:
+    """Compile a held-out fixed/VFR round-trip fixture matrix.
+
+    Fixture matrix success does not grant runtime benchmark, mux-replay, or
+    visual-review authority and never sets row_complete.
+    """
+    if not isinstance(payload, dict):
+        raise ValueError("held-out matrix payload must be an object")
+    allowed = {"schema_version", "matrix_id", "revision", "cases", "provenance"}
+    _assert_keys_exact(payload, allowed, "held_out_matrix")
+    schema_version = _expect_non_empty_string(payload.get("schema_version"), "schema_version")
+    if schema_version != "1.0.0":
+        raise ValueError("schema_version must equal 1.0.0")
+    matrix_id = _expect_non_empty_string(payload.get("matrix_id"), "matrix_id")
+    revision = _expect_non_empty_string(payload.get("revision"), "revision")
+    cases_raw = payload.get("cases")
+    if not isinstance(cases_raw, list) or len(cases_raw) < 2:
+        raise ValueError("cases must be a list with at least two held-out fixtures")
+
+    seen_case_ids: set[str] = set()
+    seen_modes: set[str] = set()
+    case_results: list[dict[str, Any]] = []
+    for idx, entry in enumerate(cases_raw):
+        if not isinstance(entry, dict):
+            raise ValueError(f"cases[{idx}] must be an object")
+        _assert_keys_exact(entry, {"case_id", "partition", "timeline_packet"}, f"cases[{idx}]")
+        case_id = _expect_non_empty_string(entry.get("case_id"), f"cases[{idx}].case_id")
+        if case_id in seen_case_ids:
+            raise ValueError(f"cases[{idx}].case_id duplicates a prior case_id")
+        seen_case_ids.add(case_id)
+        partition = _expect_non_empty_string(entry.get("partition"), f"cases[{idx}].partition")
+        if partition != "held_out":
+            raise ValueError(f"cases[{idx}].partition must equal held_out")
+        packet = entry.get("timeline_packet")
+        if not isinstance(packet, dict):
+            raise ValueError(f"cases[{idx}].timeline_packet must be an object")
+        receipt = compile_timeline(packet)
+        mode = receipt["frame_rate_mode"]
+        seen_modes.add(mode)
+        evidence = receipt["roundtrip_evidence"]
+        case_results.append(
+            {
+                "case_id": case_id,
+                "partition": partition,
+                "timeline_id": receipt["timeline_id"],
+                "timeline_sha256": receipt["timeline_sha256"],
+                "frame_rate_mode": mode,
+                "checked_frame_count": evidence["checked_frame_count"],
+                "within_tolerance": evidence["within_tolerance"],
+                "max_observed_frame_residual": evidence["max_observed_frame_residual"],
+                "max_observed_sample_residual": evidence["max_observed_sample_residual"],
+                "max_observed_seconds_residual": evidence["max_observed_seconds_residual"],
+                "vfr_segment_count": evidence["vfr_segment_count"],
+                "cut_epoch_count": evidence["cut_epoch_count"],
+                "row_complete": False,
+            }
+        )
+
+    if "fixed" not in seen_modes and "fractional" not in seen_modes:
+        raise ValueError("held-out matrix requires at least one fixed or fractional case")
+    if "vfr" not in seen_modes:
+        raise ValueError("held-out matrix requires at least one vfr case")
+
+    all_within = all(case["within_tolerance"] for case in case_results)
+    created_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    provenance = payload.get("provenance")
+    if provenance is None:
+        provenance = {
+            "compiler": "compile_wave64_canonical_video_timeline.py",
+            "compiler_revision": COMPILER_REVISION,
+        }
+    if not isinstance(provenance, dict):
+        raise ValueError("provenance must be an object")
+
+    body = {
+        "schema_version": "1.0.0",
+        "record_type": "canonical_video_timeline_held_out_roundtrip_matrix",
+        "matrix_id": matrix_id,
+        "revision": revision,
+        "status": "fixture_matrix_partial" if all_within else "blocked",
+        "created_at": created_at,
+        "cases": case_results,
+        "summary": {
+            "case_count": len(case_results),
+            "passed_count": sum(1 for case in case_results if case["within_tolerance"]),
+            "failed_count": sum(1 for case in case_results if not case["within_tolerance"]),
+            "all_within_tolerance": all_within,
+            "modes_covered": sorted(seen_modes),
+            "mux_replay_included": False,
+            "runtime_media_decode_invoked": False,
+            "benchmark_authority_granted": False,
+            "visual_review_authority_granted": False,
+        },
+        "authority": {
+            "fixture_matrix_only": True,
+            "fixed_vfr_benchmark_pass": False,
+            "mux_replay_proof_present": False,
+            "combined_visual_review_present": False,
+        },
+        "production_completion_allowed": False,
+        "row_complete": False,
+        "provenance": provenance,
+    }
+    body["matrix_sha256"] = _canonical_sha256(body)
+    return body
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Compile a fail-closed Row084 canonical video timeline receipt.")
-    parser.add_argument("--input", required=True, help="Path to timeline input packet JSON")
-    parser.add_argument("--output", required=True, help="Path to write compiled timeline receipt JSON")
+    parser.add_argument("--input", required=True, help="Path to timeline, mux-prep, or held-out matrix input JSON")
+    parser.add_argument("--output", required=True, help="Path to write compiled receipt JSON")
+    parser.add_argument(
+        "--mode",
+        choices=("timeline", "mux-prep", "held-out-matrix"),
+        default="timeline",
+        help="Compilation mode (default: timeline)",
+    )
     args = parser.parse_args(argv)
 
     input_path = Path(args.input)
@@ -660,11 +858,33 @@ def main(argv: list[str] | None = None) -> int:
     if not isinstance(payload, dict):
         raise SystemExit("input packet must be a JSON object")
     try:
-        receipt = compile_timeline(payload)
+        if args.mode == "timeline":
+            receipt = compile_timeline(payload)
+            digest_key = "timeline_sha256"
+        elif args.mode == "mux-prep":
+            # Accept either a raw timeline packet or an already-compiled timeline receipt.
+            if payload.get("record_type") == "canonical_video_timeline":
+                timeline_receipt = payload
+            else:
+                timeline_receipt = compile_timeline(payload)
+            receipt = build_mux_prep_scaffold(timeline_receipt)
+            digest_key = "mux_prep_sha256"
+        else:
+            receipt = compile_held_out_roundtrip_matrix(payload)
+            digest_key = "matrix_sha256"
     except ValueError as exc:
         raise SystemExit(f"ROW084_FAIL_CLOSED: {exc}") from exc
     _write_json_atomic(output_path, receipt)
-    print(json.dumps({"status": "ok", "timeline_sha256": receipt["timeline_sha256"], "row_complete": False}))
+    print(
+        json.dumps(
+            {
+                "status": "ok",
+                "mode": args.mode,
+                digest_key: receipt[digest_key],
+                "row_complete": False,
+            }
+        )
+    )
     return 0
 
 

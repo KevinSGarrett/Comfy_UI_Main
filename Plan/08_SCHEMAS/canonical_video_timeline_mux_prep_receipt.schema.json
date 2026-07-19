@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/canonical-video-timeline-mux-prep-receipt/1.0.0",
+  "title": "Wave64 Canonical Video Timeline Mux-Prep Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_type",
+    "timeline_id",
+    "timeline_sha256",
+    "revision",
+    "status",
+    "created_at",
+    "mux_prep",
+    "authority",
+    "production_completion_allowed",
+    "row_complete",
+    "mux_prep_sha256",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "record_type": { "const": "canonical_video_timeline_mux_prep_receipt" },
+    "timeline_id": { "type": "string", "minLength": 1 },
+    "timeline_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "revision": { "type": "string", "minLength": 1 },
+    "status": { "enum": ["scaffold_hold", "blocked"] },
+    "created_at": { "type": "string", "format": "date-time" },
+    "mux_prep": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "planned_sample_rate_hz",
+        "planned_frame_count",
+        "planned_start_sample",
+        "planned_end_sample_exclusive",
+        "frame_rate_mode",
+        "vfr_segment_count",
+        "cut_epoch_count",
+        "audio_stream_binding",
+        "container_binding",
+        "mux_command_planned",
+        "mux_command_executed"
+      ],
+      "properties": {
+        "planned_sample_rate_hz": { "type": "integer", "minimum": 1 },
+        "planned_frame_count": { "type": "integer", "minimum": 1 },
+        "planned_start_sample": { "type": "integer", "minimum": 0 },
+        "planned_end_sample_exclusive": { "type": "integer", "minimum": 1 },
+        "frame_rate_mode": { "enum": ["fixed", "fractional", "vfr"] },
+        "vfr_segment_count": { "type": "integer", "minimum": 0 },
+        "cut_epoch_count": { "type": "integer", "minimum": 0 },
+        "audio_stream_binding": { "type": ["string", "null"] },
+        "container_binding": { "type": ["string", "null"] },
+        "mux_command_planned": { "type": "boolean" },
+        "mux_command_executed": { "type": "boolean" }
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scaffold_only",
+        "mux_replay_executed",
+        "mux_replay_proof_present",
+        "mux_authority_granted",
+        "upstream_mux_replay_claim_ignored"
+      ],
+      "properties": {
+        "scaffold_only": { "const": true },
+        "mux_replay_executed": { "const": false },
+        "mux_replay_proof_present": { "const": false },
+        "mux_authority_granted": { "const": false },
+        "upstream_mux_replay_claim_ignored": { "type": "boolean" }
+      }
+    },
+    "production_completion_allowed": { "const": false },
+    "row_complete": { "const": false },
+    "mux_prep_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/canonical-video-timeline-held-out-roundtrip-matrix/1.0.0",
+  "title": "Wave64 Canonical Video Timeline Held-Out Round-Trip Matrix",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_type",
+    "matrix_id",
+    "revision",
+    "status",
+    "created_at",
+    "cases",
+    "summary",
+    "authority",
+    "production_completion_allowed",
+    "row_complete",
+    "matrix_sha256",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "record_type": {
+      "const": "canonical_video_timeline_held_out_roundtrip_matrix"
+    },
+    "matrix_id": { "type": "string", "minLength": 1 },
+    "revision": { "type": "string", "minLength": 1 },
+    "status": {
+      "enum": ["fixture_matrix_partial", "blocked"]
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "cases": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "case_id",
+          "partition",
+          "timeline_id",
+          "timeline_sha256",
+          "frame_rate_mode",
+          "checked_frame_count",
+          "within_tolerance",
+          "max_observed_frame_residual",
+          "max_observed_sample_residual",
+          "max_observed_seconds_residual",
+          "vfr_segment_count",
+          "cut_epoch_count",
+          "row_complete"
+        ],
+        "properties": {
+          "case_id": { "type": "string", "minLength": 1 },
+          "partition": { "const": "held_out" },
+          "timeline_id": { "type": "string", "minLength": 1 },
+          "timeline_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+          "frame_rate_mode": { "enum": ["fixed", "fractional", "vfr"] },
+          "checked_frame_count": { "type": "integer", "minimum": 1 },
+          "within_tolerance": { "type": "boolean" },
+          "max_observed_frame_residual": { "type": "number", "minimum": 0 },
+          "max_observed_sample_residual": { "type": "number", "minimum": 0 },
+          "max_observed_seconds_residual": { "type": "number", "minimum": 0 },
+          "vfr_segment_count": { "type": "integer", "minimum": 0 },
+          "cut_epoch_count": { "type": "integer", "minimum": 0 },
+          "row_complete": { "const": false }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "case_count",
+        "passed_count",
+        "failed_count",
+        "all_within_tolerance",
+        "modes_covered",
+        "mux_replay_included",
+        "runtime_media_decode_invoked",
+        "benchmark_authority_granted",
+        "visual_review_authority_granted"
+      ],
+      "properties": {
+        "case_count": { "type": "integer", "minimum": 2 },
+        "passed_count": { "type": "integer", "minimum": 0 },
+        "failed_count": { "type": "integer", "minimum": 0 },
+        "all_within_tolerance": { "type": "boolean" },
+        "modes_covered": {
+          "type": "array",
+          "items": { "enum": ["fixed", "fractional", "vfr"] },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "mux_replay_included": { "const": false },
+        "runtime_media_decode_invoked": { "const": false },
+        "benchmark_authority_granted": { "const": false },
+        "visual_review_authority_granted": { "const": false }
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fixture_matrix_only",
+        "fixed_vfr_benchmark_pass",
+        "mux_replay_proof_present",
+        "combined_visual_review_present"
+      ],
+      "properties": {
+        "fixture_matrix_only": { "const": true },
+        "fixed_vfr_benchmark_pass": { "const": false },
+        "mux_replay_proof_present": { "const": false },
+        "combined_visual_review_present": { "const": false }
+      }
+    },
+    "production_completion_allowed": { "const": false },
+    "row_complete": { "const": false },
+    "matrix_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

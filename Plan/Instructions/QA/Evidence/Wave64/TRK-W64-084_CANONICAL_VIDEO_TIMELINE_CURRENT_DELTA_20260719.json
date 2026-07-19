@@ -1,27 +1,28 @@
 {
   "schema_version": "1.0",
   "evidence_id": "TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719",
-  "created_at": "2026-07-19T19:53:13Z",
-  "source_commit": "c5e3d6ce995d436dc1c6760d5099f6d4e6417cb1",
-  "prior_evidence_commit": "f99ad809",
+  "created_at": "2026-07-19T20:05:00Z",
+  "source_commit": "cb3a68759ee669638ef73abfd0c1f014c0f18e2b",
+  "prior_evidence_commit": "a00b3184",
   "prior_row_commit_is_current_head": false,
   "tracker_id": "TRK-W64-084",
   "item_id": "ITEM-W64-084",
-  "status": "HOLD_RUNTIME_MUX_VFR_BENCHMARK_CUT_DETECTOR_CAMERA_VISUAL_PROOF_ABSENT_DEPENDENCY_UNLOCKED_VFR_CUT_FIXTURE_PARTIAL",
-  "classification": "ROW084_FAIL_CLOSED_VFR_CUT_EPOCH_FIXTURE_AND_DEPENDENCY_UNLOCK_NO_FALSE_COMPLETION",
+  "status": "HOLD_RUNTIME_MUX_REPLAY_BENCHMARK_CUT_DETECTOR_CAMERA_VISUAL_PROOF_ABSENT_MUX_PREP_AND_HELD_OUT_FIXTURE_MATRIX_PARTIAL",
+  "classification": "ROW084_FAIL_CLOSED_MUX_PREP_SCAFFOLD_AND_HELD_OUT_FIXED_VFR_MATRIX_NO_FALSE_COMPLETION",
   "row_complete": false,
   "implementation_completion_claimed": false,
   "runtime_completion_claimed": false,
   "qa_decision": "HOLD",
   "increment": {
-    "kind": "fail_closed_vfr_cut_epoch_fixture_and_dependency_unlock",
-    "summary": "Refreshed Row084 dependency authority to bind accepted Row067 (row067_complete=true at b074c694). Extended the compiler with VFR segment-aware round-trip math, unique/contiguous segment IDs, strictly increasing cut-epoch ledger checks, schema roundtrip evidence fields, and four focused fixture tests. Production completion remains blocked.",
+    "kind": "fail_closed_mux_prep_scaffold_and_held_out_fixed_vfr_roundtrip_matrix",
+    "summary": "Added content-addressed mux-prep receipt scaffold (scaffold_hold; never grants mux authority) and a held-out fixed/fractional/VFR round-trip fixture matrix compiler mode. Four focused tests cover scaffold authority hold, matrix success without benchmark authority, and fail-closed partition/VFR coverage gates. Production completion remains blocked.",
     "production_media_decode_invoked": false,
     "tracker_output_artifact_emitted": false,
+    "mux_replay_executed": false,
     "row067_binding_commit": "b074c694518b7ebe78a1e7292db28427d7f75ca7"
   },
   "intent": {
-    "intent_id": "interactive_cursor_shift_row084_vfr_cut_dependency_unlock_20260719",
+    "intent_id": "interactive_cursor_shift_row084_mux_prep_held_out_matrix_20260719",
     "classification": "INTERACTIVE_PLATFORM_SHIFT_AUTHORITY",
     "work_type": "final_authority",
     "authority_class": "interactive_cursor",
@@ -29,13 +30,15 @@
     "dispatch_wake_count": 0,
     "candidate_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-      "Plan/08_SCHEMAS/canonical_video_timeline.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline_mux_prep_receipt.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_roundtrip_matrix.schema.json",
       "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
     ],
     "allowed_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-      "Plan/08_SCHEMAS/canonical_video_timeline.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline_mux_prep_receipt.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_roundtrip_matrix.schema.json",
       "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
     ]
@@ -67,34 +70,29 @@
   "dependency_authority": {
     "tracker_id": "TRK-W64-067",
     "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-067_PLANNING_AUTHORITY_CURRENT_DELTA_20260719.json",
-    "evidence_sha256": "5627c37041a4e449f0c44cbf50a6e1b9b442f76cc934ec73c5331bdcb65f68f7",
-    "evidence_bytes": 6342,
-    "direct_evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-067_sound_intelligence_planning_authority.json",
-    "direct_evidence_sha256": "b34149a131f587057b1d35f380bde04484c67f04cb0af9167b6a3703e1aff3d5",
-    "direct_evidence_bytes": 10544,
     "acceptance_commit": "b074c694518b7ebe78a1e7292db28427d7f75ca7",
-    "current_delta_status": "PASS_PLANNING_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
     "row_complete": true,
     "row067_complete": true,
     "dependency_satisfied": true,
-    "evaluate_row067_complete": {
-      "row067_complete": true,
-      "dependency_satisfied": true,
-      "blocker_codes": [],
-      "status": "PASS_PLANNING_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION"
-    },
-    "row084_effect": "Dependency unlock raises authority_ceiling to technical when runtime authorities remain false. Mux replay, held-out VFR benchmark, cut-detector algorithm, camera-motion normalization, combined visual review, and tracker runtime artifact remain independent holds."
+    "row084_effect": "Dependency remains unlocked. Mux-prep scaffold and held-out fixture matrix do not grant mux replay, runtime benchmark, cut-detector, camera-motion, visual review, or tracker runtime artifact authority."
   },
   "implementation_slice": {
     "compiler_path": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-    "compiler_sha256": "2c0ebed1a8265616d8b9f6e9816350e6e50abab92454a89bb7a2020491844eec",
-    "compiler_bytes": 30497,
+    "compiler_sha256": "5f238bb10824d1780c98493886df8cfa703b8d7913cb223ab1365116bb0ab47e",
+    "compiler_bytes": 40035,
+    "compiler_revision": "row084_mux_prep_held_out_matrix_v3",
     "timeline_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline.schema.json",
     "timeline_schema_sha256": "89b5d246dcf0599daaef2323e381e079689928f3026313a46e7deb065946abc8",
     "timeline_schema_bytes": 8454,
+    "mux_prep_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_mux_prep_receipt.schema.json",
+    "mux_prep_schema_sha256": "b4d792a2da4accdb582f40f15ad39e70dfb10da5f9ff02073eca8526c5fafab9",
+    "mux_prep_schema_bytes": 3141,
+    "held_out_matrix_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_held_out_roundtrip_matrix.schema.json",
+    "held_out_matrix_schema_sha256": "03a162e2ec0654b74bf93919ae161cc5cc51abb0816e1e470d73f9c9955db081",
+    "held_out_matrix_schema_bytes": 4422,
     "test_path": "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
-    "test_sha256": "ed0e4d68003b783d81c0a2a93d48890df7f78ba590a34088daaa51b9189b1143",
-    "test_bytes": 14231,
+    "test_sha256": "82a74457301edee5fe4a9d72e3f70dcf7baa9fdc71a0bec5cbe8890c74186be5",
+    "test_bytes": 20441,
     "proven_capabilities": [
       "fail-closed reversed PTS/frame/sample span rejection",
       "required non-null frame and sample rates on clock-span schema",
@@ -111,27 +109,31 @@
       "fixture-backed contiguous VFR segment compilation with per-segment round-trip",
       "fixture-backed cut-epoch ledger acceptance with unique IDs and strictly increasing frames",
       "VFR segment gap rejection",
-      "non-monotonic cut-epoch rejection"
+      "non-monotonic cut-epoch rejection",
+      "mux-prep receipt scaffold with content-addressed digest and scaffold_hold status",
+      "mux-prep scaffold ignores upstream mux_replay claims and never grants mux authority",
+      "held-out fixed/fractional/VFR round-trip fixture matrix without benchmark authority",
+      "held-out matrix rejects missing VFR coverage and non-held_out partitions"
     ],
     "still_absent": [
       "video decode integration",
       "cut detector algorithm beyond cut_epoch ledger acceptance",
       "camera-motion normalization",
-      "held-out fixed+VFR benchmark matrix with mux replay",
+      "held-out fixed+VFR runtime media benchmark with mux replay",
       "combined frame/contact/audio visual review",
       "tracker-declared runtime output artifact",
       "JSON Schema native end_pts > start_pts comparison",
-      "mux-prep runtime receipt path"
+      "executed mux replay proof (scaffold only)"
     ]
   },
   "focused_local_test_result": {
     "py_compile": "PASS",
     "strict_command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
-    "strict_result": "12 passed",
+    "strict_result": "16 passed",
     "strict_exit_code": 0,
-    "total_focused_passed": 12,
+    "total_focused_passed": 16,
     "total_focused_failed": 0,
-    "scope_interpretation": "Focused tests prove dependency unlock plus fixture VFR/cut-epoch compiler gates only. They do not grant Row084 completion, held-out VFR benchmark, mux replay, or visual review authority."
+    "scope_interpretation": "Focused tests prove mux-prep scaffold hold plus held-out fixed/VFR fixture matrix gates only. They do not grant Row084 completion, runtime held-out media benchmark, mux replay, or visual review authority."
   },
   "checks": [
     {"check_id": "ROW084-001", "name": "tracker_item_requirements_parity", "status": "PASS"},
@@ -156,15 +158,19 @@
     {"check_id": "ROW084-020", "name": "direct_combined_visual_audio_review_present", "status": "FAIL"},
     {"check_id": "ROW084-021", "name": "direct_row084_runtime_receipt_present", "status": "FAIL"},
     {"check_id": "ROW084-022", "name": "tracker_declared_output_artifact_present", "status": "FAIL"},
-    {"check_id": "ROW084-023", "name": "fixture_vfr_segment_and_cut_epoch_matrix_pass", "status": "PASS"}
+    {"check_id": "ROW084-023", "name": "fixture_vfr_segment_and_cut_epoch_matrix_pass", "status": "PASS"},
+    {"check_id": "ROW084-024", "name": "mux_prep_receipt_scaffold_present", "status": "PASS"},
+    {"check_id": "ROW084-025", "name": "held_out_fixed_vfr_fixture_roundtrip_matrix_pass", "status": "PASS"}
   ],
   "test_and_runtime_boundary": {
     "schema_meta_validation_executed": true,
     "focused_source_tests_executed": true,
-    "focused_source_tests_passed": 12,
+    "focused_source_tests_passed": 16,
     "focused_source_tests_failed": 0,
     "production_timeline_compilation_invoked": false,
     "new_media_decode_or_mux_invoked": false,
+    "mux_prep_scaffold_only": true,
+    "held_out_fixture_matrix_only": true,
     "direct_row084_runtime_benchmark_executed": false,
     "visual_review_executed": false,
     "ec2_invoked": false,
@@ -177,38 +183,40 @@
   "sibling_lane_boundary": {
     "excluded_sibling_rows": [
       "TRK-W64-068",
-      "TRK-W64-069",
-      "TRK-W64-074",
       "TRK-W64-075",
-      "TRK-W64-086"
+      "TRK-W64-076",
+      "TRK-W64-087",
+      "TRK-W64-088"
     ],
     "excluded_path_globs": [
-      "Plan/07_IMPLEMENTATION/scripts/build_audio_pack_functional_index.py",
-      "Plan/07_IMPLEMENTATION/scripts/segment_wave64_multi_event_audio.py",
-      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_pose_hand_foot_gait_extraction.py",
+      "Plan/07_IMPLEMENTATION/scripts/validate_wave64_audio_rights_provenance_authority.py",
+      "Plan/07_IMPLEMENTATION/scripts/analyze_wave64_audio_reverb_dryness.py",
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_motion_force_cues.py",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_*",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-069_*",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_*",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_*",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-086_*",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_*",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-087_*",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_*",
       "Plan/Instructions/QA/Scripts/test_row068_*",
-      "Plan/Instructions/QA/Scripts/test_row069_*",
-      "Plan/Instructions/QA/Scripts/test_row074_*",
       "Plan/Instructions/QA/Scripts/test_row075_*",
-      "Plan/Instructions/QA/Scripts/test_row086_*"
+      "Plan/Instructions/QA/Scripts/test_row076_*",
+      "Plan/Instructions/QA/Scripts/test_row087_*",
+      "Plan/Instructions/QA/Scripts/test_row088_*"
     ],
     "writable_scope_disjoint": true
   },
   "preservation_boundary": {
     "allowed_write_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-      "Plan/08_SCHEMAS/canonical_video_timeline.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline_mux_prep_receipt.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_roundtrip_matrix.schema.json",
       "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
     ],
     "actual_write_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-      "Plan/08_SCHEMAS/canonical_video_timeline.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline_mux_prep_receipt.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_roundtrip_matrix.schema.json",
       "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
     ],
@@ -218,7 +226,7 @@
   },
   "hold_decision": {
     "decision": "HOLD_ROW084_NO_FALSE_COMPLETION",
-    "reason": "Row067 planning authority is now accepted and bound (ROW084-010 PASS). Fixture-backed VFR segment compilation and cut-epoch ledger gates pass locally (ROW084-023 PASS; 12 focused tests). Held-out VFR benchmark, cut-detection algorithm, camera-motion normalization, mux-replay proof, combined visual review, and the tracker-declared runtime artifact remain absent. The compiler never sets row_complete or production_completion_allowed true in this increment.",
-    "safe_next_action": "Keep Row084 on hold for runtime completion. Next useful Row084 write: mux-prep receipt scaffold plus held-out fixed+VFR round-trip fixture matrix without claiming mux/visual authority or row_complete."
+    "reason": "Mux-prep scaffold and held-out fixed/VFR fixture matrix are present and locally proven (ROW084-024/025 PASS; 16 focused tests). Runtime held-out media benchmark with mux replay (ROW084-018/019), cut-detection algorithm, camera-motion normalization, combined visual review, and the tracker-declared runtime artifact remain absent. The compiler never sets row_complete or production_completion_allowed true in this increment.",
+    "safe_next_action": "Keep Row084 on hold for runtime completion. Next useful Row084 write: bind audio/container stream identities into mux-prep and execute a deterministic dry-run mux receipt hash check against the held-out matrix without claiming visual-review authority or row_complete."
   }
 }
