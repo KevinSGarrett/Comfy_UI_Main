@@ -13,8 +13,9 @@
 
 1. `c84e9dee` Prove Row017 MF70 skin_tone_continuity local visual climb.
 2. `5869f224` Stamp Row017 skin_tone_continuity handoff with primary commit id.
+3. `44e93e6d` Finalize Row017 skin_tone_continuity handoff tip to origin HEAD.
 
-Pushed tip verified on origin: `5869f224`
+Pushed tip verified on origin: `44e93e6d`
 
 ## Row-Scoped Increment Executed
 
