@@ -1,0 +1,153 @@
+{
+  "schema_version": "1.0",
+  "artifact_type": "wave64_release_done_certification_current_delta",
+  "status": "HOLD_FULL_PROJECT_RELEASE_GATES_NOT_MET",
+  "classification": "ROW059_CURRENT_BLOCKER_DELTA_ONE_STALE_BLOCKER_RETIRED_FIVE_ACTIVE_CATEGORIES",
+  "created_at": "2026-07-18T19:18:30-05:00",
+  "wave": 64,
+  "tracker_id": "TRK-W64-059",
+  "item_id": "ITEM-W64-059",
+  "source_commit": "7c6a2c65e14c9c22b434bee6579453b53689ca8b",
+  "row_complete": false,
+  "release_authorized": false,
+  "production_qualified": false,
+  "canonical_prior_audit": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/release_done_certification.json",
+    "sha256": "cc7635bbf7ca597444f6509248b57521ef872aa231c18ef21e85aca06b32618f",
+    "status": "Blocked_Full_Project_Release_Certification_Gates_Not_Met",
+    "global_blocker_count": 6
+  },
+  "protocol_binding": {
+    "path": "Plan/Instructions/QA/DONE_CERTIFICATION_EVIDENCE_PROTOCOL.md",
+    "sha256": "9944d2973861c2f4af7d954cf77abbcad9e90c53f5f860aea7453358889a4b7c"
+  },
+  "item_binding": {
+    "path": "Plan/Items/Reports/ITEM-W64-059_release_done_certification.json",
+    "sha256": "f49bce21397ea1aaa7cb8a5fb2ec447e368ed13df01a099c00fbc399cd1fa5a6"
+  },
+  "retired_prior_blockers": [
+    {
+      "blocker_id": "BLOCKER-W64-ORGANIZATION-PLACEMENT-DEBT-001",
+      "retirement_status": "CLOSED_BY_CURRENT_STRUCTURED_EVIDENCE",
+      "source": "Plan/Instructions/QA/Evidence/Wave64/organization_system.json",
+      "source_sha256": "e45a5bc82d21daf55f7ffc1e06efa4ca52ca5aca06b5bc11df6d6c40d2bdf98a",
+      "evidence_status": "Completed_Current_Organization_Governance_Pass",
+      "decision": "organization_governance_pass_no_tracked_placement_debt",
+      "check_summary": {
+        "checked": 20,
+        "passed": 20,
+        "failed": 0
+      }
+    }
+  ],
+  "reclassified_prior_blockers": [
+    {
+      "prior_blocker_id": "BLOCKER-W64-AWS-EXPIRED-SESSION-001",
+      "current_blocker_id": "BLOCKER-W64-FRESH-TARGET-RUNTIME-PROOF-001",
+      "classification": "PRIOR_SESSION_IDENTIFIER_OBSOLETE_UNDERLYING_PROOF_GAP_PERSISTS",
+      "source": "Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog.json",
+      "source_sha256": "28a77212ad434a6bca9404b7b0ca1c33fc1ea0c342d14317e141239e70a0b21c",
+      "current_evidence_status": "Completed_Live_TTL_Watchdog_Proof_And_Final_Stop_Pass",
+      "current_evidence_decision": "ec2_ttl_watchdog_completed_window_reconciled_existing_proof_no_rerun",
+      "remaining_gap": "A completed watchdog/final-stop proof does not provide current full-project target-runtime, S3, generation, QA, or release authority."
+    },
+    {
+      "prior_blocker_id": "BLOCKER-W64-GIT-DIRTY-WORKTREE-001",
+      "current_blocker_id": "BLOCKER-W64-PRESERVED-WORKTREE-CHECKPOINT-001",
+      "classification": "SECURITY_CHECKS_PASS_INTENTIONAL_PRESERVATION_PREVENTS_RELEASE_CHECKPOINT",
+      "source": "Plan/Instructions/QA/Evidence/Wave64/secret_git_security.json",
+      "source_sha256": "45addfc7558c576b0e66aa49cfee0b88cb751993ebabfb8c4e17c3f6118a070b",
+      "current_evidence_status": "Blocked_Intentional_Preserved_Worktree_Checkpoint",
+      "current_evidence_decision": "local_secret_git_security_pass_checkpoint_blocked_only_by_preserved_worktree",
+      "remaining_gap": "Preserved project and worker artifacts must be integrated or isolated in a release-authoritative clean snapshot; they must not be deleted to manufacture cleanliness."
+    }
+  ],
+  "active_blockers": [
+    {
+      "blocker_id": "BLOCKER-W64-ADVANCED-DIRECT-PROOF-001",
+      "source": "Plan/Instructions/QA/Evidence/Wave64/ADVANCED_ADDITIONS_STATIC_GATE_CURRENT_REVALIDATION_20260718.json",
+      "source_sha256": "7ebbc6e44f756ec7673911047690640c8f14e3f7d1666c0ac8be0507ee832866",
+      "state": "STATIC_PASS_RUNTIME_HELD",
+      "remaining_topology": {
+        "missing_direct_proof_count": 4,
+        "bounded_pass_count": 1,
+        "bounded_fail_count": 1,
+        "technical_partial_count": 1
+      }
+    },
+    {
+      "blocker_id": "BLOCKER-W64-FRESH-TARGET-RUNTIME-PROOF-001",
+      "source": "Plan/Instructions/QA/Evidence/Wave64/ec2_ttl_watchdog.json",
+      "source_sha256": "28a77212ad434a6bca9404b7b0ca1c33fc1ea0c342d14317e141239e70a0b21c",
+      "state": "WATCHDOG_COMPLETE_FULL_PROJECT_RUNTIME_PROOF_ABSENT"
+    },
+    {
+      "blocker_id": "BLOCKER-W64-PRESERVED-WORKTREE-CHECKPOINT-001",
+      "source": "Plan/Instructions/QA/Evidence/Wave64/secret_git_security.json",
+      "source_sha256": "45addfc7558c576b0e66aa49cfee0b88cb751993ebabfb8c4e17c3f6118a070b",
+      "state": "SECURITY_PASS_RELEASE_CHECKPOINT_HELD"
+    },
+    {
+      "blocker_id": "BLOCKER-W64-RUNTIME-DEPENDENT-TRACE-LINKS-001",
+      "source": "Plan/Instructions/QA/Evidence/Wave64/blueprint_projectplan_combination.json",
+      "source_sha256": "61331dca70903f408308d065155a16ff01587cdc82390f7293fbd1a2a44d1f0a",
+      "state": "STATIC_TRACEABILITY_PASS_RUNTIME_LINKS_CW_006_CW_007_CW_008_HELD"
+    },
+    {
+      "blocker_id": "BLOCKER-W66-FINAL-READINESS-001",
+      "source": "Plan/Instructions/QA/Evidence/Done_Certifications/W66_ACTIVE_RUNTIME_QUEUE_FINAL_CERTIFICATION_READINESS_20260711T211346-0500.json",
+      "source_sha256": "53b2ef16edb4d4d68f38dd5e87bc73d83f34425dfc7468a1212c6765f59a0238",
+      "state": "FAIL_INPUTS_INVALID_NINE_OF_TEN_LANES_BLOCKED_REQUALIFICATION_REQUIRED",
+      "lane_count": 10,
+      "blocked_lane_count": 9
+    }
+  ],
+  "supporting_current_evidence": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/blocker_known_issue_control.json",
+      "sha256": "595b28a07654b5fa9915decb4b15cca159125dd9c3b5bb0b3578dca83865593f",
+      "status": "Evidence_Passed_Blocker_Governance_Active_Blockers_Tracked"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Done_Certifications/W66_BASE_LANE_FINAL_CERTIFICATION_BLOCKER_AFTER_ROBUSTNESS_20260711T035500-0500.json",
+      "sha256": "9dfa90c45ba0fed4460dc2198fbf5ee7993b937a8d695cce4bb46bb49f2b6ca5",
+      "decision": "blocked"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Done_Certifications/W66_INPAINT_BOUNDED_TARGET_RUNTIME_SMOKE_CERTIFICATE_20260711T031500-0500.json",
+      "sha256": "d2bbc6dcd50b6df46035f2df46494c8cf674ad6732747f3cc487db6a8fcd3d57",
+      "decision": "pass_bounded_smoke_scope_only"
+    }
+  ],
+  "gate_results": {
+    "done_cert_schema": "pass_existing_audit_and_current_delta_structured",
+    "evidence_manifest": "pass_current_sources_hash_bound",
+    "qa_pass": "fail",
+    "runtime_pass": "fail",
+    "review_pass": "fail",
+    "blockers_zero": "fail_five_active_categories"
+  },
+  "delta_summary": {
+    "prior_global_blocker_count": 6,
+    "retired_blocker_count": 1,
+    "reclassified_blocker_count": 2,
+    "current_active_blocker_category_count": 5,
+    "release_decision_changed": false
+  },
+  "safety_boundary": {
+    "aws_contacted": false,
+    "ec2_started": false,
+    "docker_contacted": false,
+    "wsl_contacted": false,
+    "comfyui_contacted": false,
+    "generation_executed": false,
+    "provider_or_wrapper_called": false,
+    "scheduled_task_woken": false,
+    "release_promoted": false,
+    "tracker_status_changed": false,
+    "queued_row053_or_row054_path_touched": false,
+    "preserved_artifact_deleted": false
+  },
+  "decision": "Row059 remains blocked. Retire only the obsolete organization-placement blocker, reclassify the session and dirty-worktree labels to current evidence truth, and preserve the five active release categories until genuine structured evidence closes them.",
+  "next_safe_action": "Continue independent implementation and QA that closes a named active category; do not rerun full release certification until at least one bound source materially changes."
+}
