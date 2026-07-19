@@ -1,0 +1,343 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/actor_object_region_tracking_manifest.schema.json",
+  "title": "Actor Object Region Tracking Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_type",
+    "manifest_id",
+    "revision",
+    "run_id",
+    "scene_id",
+    "shot_id",
+    "take_id",
+    "is_synthetic",
+    "video_sha256",
+    "created_at",
+    "status",
+    "timeline_binding",
+    "detector_stack",
+    "dependency_authority",
+    "runtime_authority",
+    "entity_taxonomy_present",
+    "tracks",
+    "metrics",
+    "thresholds",
+    "threshold_violations",
+    "authority_summary",
+    "authority_ceiling",
+    "production_completion_allowed",
+    "row_complete",
+    "provenance",
+    "manifest_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_type": {"const": "actor_object_region_tracking_manifest"},
+    "manifest_id": {"type": "string", "minLength": 1},
+    "revision": {"type": "string", "minLength": 1},
+    "run_id": {"type": "string", "minLength": 1},
+    "scene_id": {"type": "string", "minLength": 1},
+    "shot_id": {"type": "string", "minLength": 1},
+    "take_id": {"type": "string", "minLength": 1},
+    "is_synthetic": {"type": "boolean"},
+    "video_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "created_at": {"type": "string", "minLength": 1},
+    "status": {
+      "type": "string",
+      "enum": ["candidate_hold", "technical_partial", "blocked"]
+    },
+    "timeline_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "timeline_id",
+        "timeline_sha256",
+        "frame_count",
+        "frame_rate",
+        "frame_time_origin_seconds"
+      ],
+      "properties": {
+        "timeline_id": {"type": "string", "minLength": 1},
+        "timeline_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "frame_count": {"type": "integer", "minimum": 1},
+        "frame_rate": {"type": "number", "exclusiveMinimum": 0},
+        "frame_time_origin_seconds": {"type": "number"}
+      }
+    },
+    "detector_stack": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "detector_id",
+        "segmenter_id",
+        "tracker_id",
+        "association_id",
+        "revision",
+        "parameter_digest_sha256"
+      ],
+      "properties": {
+        "detector_id": {"type": "string", "minLength": 1},
+        "segmenter_id": {"type": "string", "minLength": 1},
+        "tracker_id": {"type": "string", "minLength": 1},
+        "association_id": {"type": "string", "minLength": 1},
+        "revision": {"type": "string", "minLength": 1},
+        "parameter_digest_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "dependency_authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["row084_complete", "dependency_ready"],
+      "properties": {
+        "row084_complete": {"type": "boolean"},
+        "dependency_ready": {"type": "boolean"}
+      }
+    },
+    "runtime_authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "annotated_benchmark_pass",
+        "runtime_receipt_present",
+        "combined_track_overlay_contact_audio_review_present",
+        "runtime_ready"
+      ],
+      "properties": {
+        "annotated_benchmark_pass": {"type": "boolean"},
+        "runtime_receipt_present": {"type": "boolean"},
+        "combined_track_overlay_contact_audio_review_present": {"type": "boolean"},
+        "runtime_ready": {"type": "boolean"}
+      }
+    },
+    "entity_taxonomy_present": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": [
+          "actor",
+          "limb",
+          "hand",
+          "foot",
+          "clothing_region",
+          "prop",
+          "furniture",
+          "surface"
+        ]
+      }
+    },
+    "tracks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/track"}
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "identity_switch_count",
+        "lost_track_count",
+        "occlusion_gap_frames",
+        "reappearance_count",
+        "fragmentation_count",
+        "merge_count",
+        "split_count",
+        "false_positive_count",
+        "false_negative_count"
+      ],
+      "properties": {
+        "identity_switch_count": {"type": "integer", "minimum": 0},
+        "lost_track_count": {"type": "integer", "minimum": 0},
+        "occlusion_gap_frames": {"type": "integer", "minimum": 0},
+        "reappearance_count": {"type": "integer", "minimum": 0},
+        "fragmentation_count": {"type": "integer", "minimum": 0},
+        "merge_count": {"type": "integer", "minimum": 0},
+        "split_count": {"type": "integer", "minimum": 0},
+        "false_positive_count": {"type": "integer", "minimum": 0},
+        "false_negative_count": {"type": "integer", "minimum": 0}
+      }
+    },
+    "thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_identity_switch_count",
+        "max_lost_track_count",
+        "max_occlusion_gap_frames",
+        "max_fragmentation_count",
+        "max_merge_count",
+        "max_split_count",
+        "min_track_confidence"
+      ],
+      "properties": {
+        "max_identity_switch_count": {"type": "integer", "minimum": 0},
+        "max_lost_track_count": {"type": "integer", "minimum": 0},
+        "max_occlusion_gap_frames": {"type": "integer", "minimum": 0},
+        "max_fragmentation_count": {"type": "integer", "minimum": 0},
+        "max_merge_count": {"type": "integer", "minimum": 0},
+        "max_split_count": {"type": "integer", "minimum": 0},
+        "min_track_confidence": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "threshold_violations": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    },
+    "authority_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "track_count",
+        "owner_count",
+        "ownership_unsupported",
+        "contact_foley_certification_allowed",
+        "hold_reasons"
+      ],
+      "properties": {
+        "track_count": {"type": "integer", "minimum": 0},
+        "owner_count": {"type": "integer", "minimum": 0},
+        "ownership_unsupported": {"type": "boolean"},
+        "contact_foley_certification_allowed": {"type": "boolean"},
+        "hold_reasons": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "authority_ceiling": {
+      "type": "string",
+      "enum": ["candidate", "technical", "certification"]
+    },
+    "production_completion_allowed": {"type": "boolean"},
+    "row_complete": {"type": "boolean"},
+    "provenance": {"type": "object"},
+    "manifest_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  },
+  "$defs": {
+    "track": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "track_id",
+        "owner_id",
+        "entity_class",
+        "parent_owner_id",
+        "sample_count",
+        "first_frame",
+        "last_frame",
+        "samples",
+        "lifecycle_events",
+        "ownership_trusted",
+        "ownership_block_reason"
+      ],
+      "properties": {
+        "track_id": {"type": "string", "minLength": 1},
+        "owner_id": {"type": "string", "minLength": 1},
+        "entity_class": {
+          "type": "string",
+          "enum": [
+            "actor",
+            "limb",
+            "hand",
+            "foot",
+            "clothing_region",
+            "prop",
+            "furniture",
+            "surface"
+          ]
+        },
+        "parent_owner_id": {"type": ["string", "null"], "minLength": 1},
+        "sample_count": {"type": "integer", "minimum": 1},
+        "first_frame": {"type": "integer", "minimum": 0},
+        "last_frame": {"type": "integer", "minimum": 0},
+        "samples": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/sample"}
+        },
+        "lifecycle_events": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/lifecycle_event"}
+        },
+        "ownership_trusted": {"type": "boolean"},
+        "ownership_block_reason": {"type": ["string", "null"]}
+      }
+    },
+    "sample": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "frame_index",
+        "pts",
+        "bbox_xywh",
+        "visibility",
+        "state",
+        "confidence",
+        "mask_ref",
+        "occluder_owner_ids",
+        "depth_order"
+      ],
+      "properties": {
+        "frame_index": {"type": "integer", "minimum": 0},
+        "pts": {"type": "integer", "minimum": 0},
+        "bbox_xywh": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {"type": "number"}
+        },
+        "visibility": {
+          "type": "string",
+          "enum": ["visible", "partial", "occluded", "offscreen", "unknown"]
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "active",
+            "occluded",
+            "lost",
+            "reidentified",
+            "terminated",
+            "split",
+            "merged"
+          ]
+        },
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "mask_ref": {"type": ["string", "null"]},
+        "occluder_owner_ids": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        },
+        "depth_order": {"type": ["integer", "null"], "minimum": 0}
+      }
+    },
+    "lifecycle_event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["event_type", "frame_index", "reason", "related_track_id"],
+      "properties": {
+        "event_type": {
+          "type": "string",
+          "enum": [
+            "spawn",
+            "identity_switch",
+            "occlusion_gap_start",
+            "occlusion_gap_end",
+            "reappearance",
+            "lost",
+            "reidentified",
+            "split",
+            "merged",
+            "terminated"
+          ]
+        },
+        "frame_index": {"type": "integer", "minimum": 0},
+        "reason": {"type": "string", "minLength": 1},
+        "related_track_id": {"type": ["string", "null"], "minLength": 1}
+      }
+    }
+  }
+}
