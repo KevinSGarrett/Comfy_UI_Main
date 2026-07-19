@@ -4,12 +4,13 @@
   "title": "Visual Audio Event Manifest",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "manifest_id", "video_sha256", "timeline", "detectors", "events", "coverage"],
+  "required": ["schema_version", "manifest_id", "video_sha256", "timeline", "detectors", "events", "coverage", "rights_decision_sha256"],
   "properties": {
     "schema_version": {"const": "1.0"},
     "manifest_id": {"type": "string", "minLength": 1},
     "video_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
     "scene_state_sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+    "rights_decision_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
     "timeline": {
       "type": "object",
       "required": ["time_base", "frame_count", "duration_seconds", "target_sample_rate_hz"],

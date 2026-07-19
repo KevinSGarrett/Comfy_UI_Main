@@ -4,13 +4,14 @@
   "title": "Audio Orchestration Run",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "run_id", "request_sha256", "inputs", "policy_revision", "stages", "outputs", "decision"],
+  "required": ["schema_version", "run_id", "request_sha256", "inputs", "policy_revision", "stages", "outputs", "decision", "rights_decision_sha256"],
   "properties": {
     "schema_version": {"const": "1.0"},
     "run_id": {"type": "string", "minLength": 1},
     "request_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
     "inputs": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["role", "sha256"], "additionalProperties": true}},
     "policy_revision": {"type": "string", "minLength": 1},
+    "rights_decision_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
     "stages": {
       "type": "array",
       "minItems": 1,

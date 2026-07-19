@@ -19,6 +19,7 @@ ALLOWED_TOP_LEVEL_FIELDS = {
     "traceability_events",
     "dependency_authority",
     "runtime_authority",
+    "rights_decision_sha256",
 }
 
 ALLOWED_TRACEABILITY_EVENT_FIELDS = {
@@ -387,6 +388,9 @@ def compile_manifest(payload: dict[str, Any]) -> dict[str, Any]:
             "silent_events": silent_events,
             "blocked_events": blocked_events,
         },
+        "rights_decision_sha256": _expect_sha256(
+            payload.get("rights_decision_sha256"), "input.rights_decision_sha256"
+        ),
     }
 
 

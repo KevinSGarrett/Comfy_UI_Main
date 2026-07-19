@@ -4,11 +4,12 @@
   "title": "Audio Spatial Render Manifest",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "render_id", "event_manifest_sha256", "room", "listener", "sources", "renderer", "output", "validation"],
+  "required": ["schema_version", "render_id", "event_manifest_sha256", "room", "listener", "sources", "renderer", "output", "validation", "rights_decision_sha256"],
   "properties": {
     "schema_version": {"const": "1.0"},
     "render_id": {"type": "string", "minLength": 1},
     "event_manifest_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "rights_decision_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
     "room": {
       "type": "object",
       "required": ["profile_id", "dimensions_m", "surface_materials", "target_rt60_seconds", "authority"],
