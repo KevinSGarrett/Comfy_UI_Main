@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://comfy-ui-main.local/schemas/canonical-video-timeline-held-out-mux-dry-run-matrix/1.0.0",
+  "$id": "https://comfy-ui-main.local/schemas/canonical-video-timeline-held-out-mux-dry-run-matrix/1.1.0",
   "title": "Wave64 Canonical Video Timeline Held-Out Mux Dry-Run Matrix",
   "type": "object",
   "additionalProperties": false,
@@ -49,6 +49,8 @@
           "stream_identities_bound",
           "mux_command_planned",
           "mux_command_executed",
+          "planned_mux_command_envelope_sha256",
+          "envelope_hash_deterministic",
           "dry_run_mux_plan_sha256",
           "dry_run_hash_deterministic",
           "row_complete"
@@ -66,6 +68,11 @@
           "stream_identities_bound": { "const": true },
           "mux_command_planned": { "const": true },
           "mux_command_executed": { "const": false },
+          "planned_mux_command_envelope_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "envelope_hash_deterministic": { "const": true },
           "dry_run_mux_plan_sha256": {
             "type": "string",
             "pattern": "^[0-9a-f]{64}$"
@@ -86,6 +93,7 @@
         "modes_covered",
         "stream_identities_bound",
         "dry_run_mux_hash_check_passed",
+        "planned_mux_envelope_hash_check_passed",
         "mux_replay_included",
         "runtime_media_decode_invoked",
         "benchmark_authority_granted",
@@ -104,6 +112,7 @@
         },
         "stream_identities_bound": { "const": true },
         "dry_run_mux_hash_check_passed": { "type": "boolean" },
+        "planned_mux_envelope_hash_check_passed": { "type": "boolean" },
         "mux_replay_included": { "const": false },
         "runtime_media_decode_invoked": { "const": false },
         "benchmark_authority_granted": { "const": false },
@@ -116,6 +125,7 @@
       "required": [
         "fixture_matrix_only",
         "dry_run_plan_only",
+        "planned_mux_command_envelope_only",
         "fixed_vfr_benchmark_pass",
         "mux_replay_proof_present",
         "combined_visual_review_present"
@@ -123,6 +133,7 @@
       "properties": {
         "fixture_matrix_only": { "const": true },
         "dry_run_plan_only": { "const": true },
+        "planned_mux_command_envelope_only": { "const": true },
         "fixed_vfr_benchmark_pass": { "const": false },
         "mux_replay_proof_present": { "const": false },
         "combined_visual_review_present": { "const": false }

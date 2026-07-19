@@ -473,10 +473,13 @@ class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
         self.assertTrue(receipt["authority"]["upstream_mux_replay_claim_ignored"])
         self.assertTrue(receipt["authority"]["dry_run_plan_only"])
         self.assertFalse(receipt["authority"]["stream_identities_bound"])
+        self.assertFalse(receipt["authority"]["planned_mux_command_envelope_bound"])
         self.assertFalse(receipt["mux_prep"]["mux_command_executed"])
         self.assertFalse(receipt["mux_prep"]["mux_command_planned"])
         self.assertIsNone(receipt["mux_prep"]["audio_stream_binding"])
         self.assertIsNone(receipt["mux_prep"]["container_binding"])
+        self.assertIsNone(receipt["planned_mux_command_envelope"])
+        self.assertIsNone(receipt["planned_mux_command_envelope_sha256"])
         self.assertEqual(receipt["mux_prep"]["planned_frame_count"], 24)
         self.assertEqual(len(receipt["mux_prep_sha256"]), 64)
         self.assertEqual(len(receipt["dry_run_mux_plan_sha256"]), 64)
@@ -503,12 +506,40 @@ class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
             f"container_sha256:{'f' * 64}",
         )
         self.assertTrue(receipt["authority"]["stream_identities_bound"])
+        self.assertTrue(receipt["authority"]["planned_mux_command_envelope_bound"])
         self.assertFalse(receipt["authority"]["mux_authority_granted"])
         self.assertFalse(receipt["row_complete"])
-        # Deterministic dry-run digest across rebuilds (excludes created_at).
+        envelope = receipt["planned_mux_command_envelope"]
+        assert envelope is not None
+        self.assertEqual(
+            envelope["record_type"],
+            "canonical_video_timeline_planned_mux_command_envelope",
+        )
+        self.assertEqual(envelope["execution_mode"], "dry_run_non_executed")
+        self.assertEqual(envelope["command_status"], "planned_only")
+        self.assertFalse(envelope["execution_guards"]["mux_command_executed"])
+        self.assertFalse(envelope["execution_guards"]["mux_replay_executed"])
+        self.assertEqual(
+            envelope["inputs"]["video_stream_binding"],
+            f"video_sha256:{'a' * 64};stream_index:0",
+        )
+        self.assertEqual(
+            envelope["inputs"]["audio_stream_binding"],
+            receipt["mux_prep"]["audio_stream_binding"],
+        )
+        self.assertEqual(
+            envelope["inputs"]["container_binding"],
+            receipt["mux_prep"]["container_binding"],
+        )
+        self.assertEqual(len(receipt["planned_mux_command_envelope_sha256"]), 64)
+        # Deterministic dry-run and envelope digests across rebuilds (excludes created_at).
         _, receipt_b = self._run_compile(packet, expect_ok=True, mode="mux-prep")
         assert receipt_b is not None
         self.assertEqual(receipt["dry_run_mux_plan_sha256"], receipt_b["dry_run_mux_plan_sha256"])
+        self.assertEqual(
+            receipt["planned_mux_command_envelope_sha256"],
+            receipt_b["planned_mux_command_envelope_sha256"],
+        )
 
     def test_held_out_fixed_vfr_roundtrip_matrix_compiles_without_benchmark_authority(self) -> None:
         packet = _held_out_matrix_packet()
@@ -560,31 +591,58 @@ class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
         self.assertFalse(receipt["production_completion_allowed"])
         self.assertTrue(receipt["summary"]["stream_identities_bound"])
         self.assertTrue(receipt["summary"]["dry_run_mux_hash_check_passed"])
+        self.assertTrue(receipt["summary"]["planned_mux_envelope_hash_check_passed"])
         self.assertFalse(receipt["summary"]["mux_replay_included"])
         self.assertFalse(receipt["summary"]["visual_review_authority_granted"])
         self.assertFalse(receipt["authority"]["mux_replay_proof_present"])
         self.assertFalse(receipt["authority"]["combined_visual_review_present"])
         self.assertTrue(receipt["authority"]["dry_run_plan_only"])
+        self.assertTrue(receipt["authority"]["planned_mux_command_envelope_only"])
         self.assertEqual(receipt["summary"]["case_count"], 3)
         digests = {case["dry_run_mux_plan_sha256"] for case in receipt["cases"]}
+        envelope_digests = {
+            case["planned_mux_command_envelope_sha256"] for case in receipt["cases"]
+        }
         self.assertEqual(len(digests), 3)
+        self.assertEqual(len(envelope_digests), 3)
         self.assertTrue(all(case["stream_identities_bound"] for case in receipt["cases"]))
         self.assertTrue(all(case["mux_command_planned"] for case in receipt["cases"]))
         self.assertTrue(all(case["mux_command_executed"] is False for case in receipt["cases"]))
         self.assertTrue(all(case["dry_run_hash_deterministic"] for case in receipt["cases"]))
+        self.assertTrue(all(case["envelope_hash_deterministic"] for case in receipt["cases"]))
         self.assertTrue(all(case["row_complete"] is False for case in receipt["cases"]))
-        # Rebuild proves deterministic per-case dry-run digests.
+        # Rebuild proves deterministic per-case dry-run and envelope digests.
         _, receipt_b = self._run_compile(packet, expect_ok=True, mode="held-out-mux-dry-run")
         assert receipt_b is not None
         by_id_a = {case["case_id"]: case["dry_run_mux_plan_sha256"] for case in receipt["cases"]}
         by_id_b = {case["case_id"]: case["dry_run_mux_plan_sha256"] for case in receipt_b["cases"]}
         self.assertEqual(by_id_a, by_id_b)
+        env_a = {
+            case["case_id"]: case["planned_mux_command_envelope_sha256"]
+            for case in receipt["cases"]
+        }
+        env_b = {
+            case["case_id"]: case["planned_mux_command_envelope_sha256"]
+            for case in receipt_b["cases"]
+        }
+        self.assertEqual(env_a, env_b)
 
     def test_held_out_mux_dry_run_rejects_missing_stream_identities(self) -> None:
         packet = _held_out_matrix_packet(with_stream_identities=False)
         completed, _ = self._run_compile(packet, expect_ok=False, mode="held-out-mux-dry-run")
         combined = completed.stderr + completed.stdout
         self.assertIn("mux dry-run requires source_binding.audio_stream_sha256", combined)
+
+    def test_planned_mux_command_envelope_absent_without_stream_identities(self) -> None:
+        packet = _fixed_packet(dependency_complete=True)
+        _, receipt = self._run_compile(packet, expect_ok=True, mode="mux-prep")
+        assert receipt is not None
+        self.mux_prep_validator.validate(receipt)
+        self.assertIsNone(receipt["planned_mux_command_envelope"])
+        self.assertIsNone(receipt["planned_mux_command_envelope_sha256"])
+        self.assertFalse(receipt["authority"]["planned_mux_command_envelope_bound"])
+        self.assertFalse(receipt["row_complete"])
+        self.assertFalse(receipt["production_completion_allowed"])
 
 
 if __name__ == "__main__":

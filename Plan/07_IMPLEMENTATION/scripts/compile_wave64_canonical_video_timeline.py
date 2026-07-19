@@ -17,7 +17,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-COMPILER_REVISION = "row084_mux_prep_stream_identity_dry_run_v4"
+COMPILER_REVISION = "row084_planned_mux_command_envelope_v5"
 
 
 ALLOWED_TOP_LEVEL_FIELDS = {
@@ -327,6 +327,12 @@ def _format_container_binding(source_binding: dict[str, Any]) -> str | None:
     return f"container_sha256:{container_sha}"
 
 
+def _format_video_stream_binding(source_binding: dict[str, Any]) -> str:
+    video_sha = _expect_sha256(source_binding.get("video_sha256"), "source_binding.video_sha256")
+    stream_index = _expect_non_negative_int(source_binding.get("stream_index"), "source_binding.stream_index")
+    return f"video_sha256:{video_sha};stream_index:{stream_index}"
+
+
 def _stable_timeline_plan_sha256(timeline_receipt: dict[str, Any]) -> str:
     """Hash timeline receipt content excluding wall-clock and self-digest fields."""
     if not isinstance(timeline_receipt, dict):
@@ -339,12 +345,64 @@ def _stable_timeline_plan_sha256(timeline_receipt: dict[str, Any]) -> str:
     return _canonical_sha256(stable)
 
 
+def _build_planned_mux_command_envelope(
+    *,
+    timeline_id: str,
+    revision: str,
+    timeline_plan_sha256: str,
+    source_binding: dict[str, Any],
+    mux_prep: dict[str, Any],
+) -> dict[str, Any]:
+    """Build a fixture-backed dry-run mux command envelope (never executed)."""
+    audio_stream_binding = mux_prep.get("audio_stream_binding")
+    container_binding = mux_prep.get("container_binding")
+    if not isinstance(audio_stream_binding, str) or not audio_stream_binding.strip():
+        raise ValueError("planned mux command envelope requires audio_stream_binding")
+    if not isinstance(container_binding, str) or not container_binding.strip():
+        raise ValueError("planned mux command envelope requires container_binding")
+    return {
+        "schema_version": "1.0.0",
+        "record_type": "canonical_video_timeline_planned_mux_command_envelope",
+        "execution_mode": "dry_run_non_executed",
+        "command_status": "planned_only",
+        "timeline_id": timeline_id,
+        "revision": revision,
+        "timeline_plan_sha256": timeline_plan_sha256,
+        "inputs": {
+            "video_stream_binding": _format_video_stream_binding(source_binding),
+            "audio_stream_binding": audio_stream_binding,
+            "container_binding": container_binding,
+        },
+        "plan": {
+            "planned_sample_rate_hz": mux_prep["planned_sample_rate_hz"],
+            "planned_frame_count": mux_prep["planned_frame_count"],
+            "planned_start_sample": mux_prep["planned_start_sample"],
+            "planned_end_sample_exclusive": mux_prep["planned_end_sample_exclusive"],
+            "frame_rate_mode": mux_prep["frame_rate_mode"],
+            "vfr_segment_count": mux_prep["vfr_segment_count"],
+            "cut_epoch_count": mux_prep["cut_epoch_count"],
+        },
+        "execution_guards": {
+            "mux_command_executed": False,
+            "mux_replay_executed": False,
+            "runtime_media_decode_invoked": False,
+            "visual_review_authority_granted": False,
+        },
+    }
+
+
+def _planned_mux_command_envelope_sha256(envelope: dict[str, Any]) -> str:
+    """Content-addressed planned mux command envelope digest (no wall-clock)."""
+    return _canonical_sha256(envelope)
+
+
 def _dry_run_mux_plan_sha256(
     *,
     timeline_id: str,
     timeline_plan_sha256: str,
     revision: str,
     mux_prep: dict[str, Any],
+    planned_mux_command_envelope_sha256: str | None,
 ) -> str:
     """Content-addressed dry-run mux plan digest (excludes created_at / wall-clock)."""
     return _canonical_sha256(
@@ -354,6 +412,7 @@ def _dry_run_mux_plan_sha256(
             "timeline_plan_sha256": timeline_plan_sha256,
             "revision": revision,
             "mux_prep": mux_prep,
+            "planned_mux_command_envelope_sha256": planned_mux_command_envelope_sha256,
             "mux_command_executed": False,
             "mux_replay_executed": False,
         }
@@ -784,11 +843,33 @@ def build_mux_prep_scaffold(timeline_receipt: dict[str, Any]) -> dict[str, Any]:
         "mux_command_planned": stream_identities_bound,
         "mux_command_executed": False,
     }
+    if stream_identities_bound:
+        planned_mux_command_envelope = _build_planned_mux_command_envelope(
+            timeline_id=timeline_id,
+            revision=revision,
+            timeline_plan_sha256=timeline_plan_sha256,
+            source_binding=source_binding,
+            mux_prep=mux_prep,
+        )
+        planned_mux_command_envelope_sha256 = _planned_mux_command_envelope_sha256(
+            planned_mux_command_envelope
+        )
+        # Determinism gate for the envelope itself (no wall-clock inputs).
+        envelope_recomputed = _planned_mux_command_envelope_sha256(planned_mux_command_envelope)
+        if planned_mux_command_envelope_sha256 != envelope_recomputed:
+            raise ValueError("planned_mux_command_envelope_sha256 recomputation mismatch")
+        if planned_mux_command_envelope["execution_guards"]["mux_command_executed"]:
+            raise ValueError("planned mux command envelope must remain non-executed")
+    else:
+        planned_mux_command_envelope = None
+        planned_mux_command_envelope_sha256 = None
+
     dry_run_mux_plan_sha256 = _dry_run_mux_plan_sha256(
         timeline_id=timeline_id,
         timeline_plan_sha256=timeline_plan_sha256,
         revision=revision,
         mux_prep=mux_prep,
+        planned_mux_command_envelope_sha256=planned_mux_command_envelope_sha256,
     )
     # Determinism gate: recompute must match without wall-clock inputs.
     recomputed = _dry_run_mux_plan_sha256(
@@ -796,6 +877,7 @@ def build_mux_prep_scaffold(timeline_receipt: dict[str, Any]) -> dict[str, Any]:
         timeline_plan_sha256=timeline_plan_sha256,
         revision=revision,
         mux_prep=mux_prep,
+        planned_mux_command_envelope_sha256=planned_mux_command_envelope_sha256,
     )
     if dry_run_mux_plan_sha256 != recomputed:
         raise ValueError("dry_run_mux_plan_sha256 recomputation mismatch")
@@ -810,6 +892,8 @@ def build_mux_prep_scaffold(timeline_receipt: dict[str, Any]) -> dict[str, Any]:
         "status": "scaffold_hold",
         "created_at": created_at,
         "mux_prep": mux_prep,
+        "planned_mux_command_envelope": planned_mux_command_envelope,
+        "planned_mux_command_envelope_sha256": planned_mux_command_envelope_sha256,
         "dry_run_mux_plan_sha256": dry_run_mux_plan_sha256,
         "authority": {
             "scaffold_only": True,
@@ -819,6 +903,7 @@ def build_mux_prep_scaffold(timeline_receipt: dict[str, Any]) -> dict[str, Any]:
             "upstream_mux_replay_claim_ignored": mux_replay_claimed,
             "dry_run_plan_only": True,
             "stream_identities_bound": stream_identities_bound,
+            "planned_mux_command_envelope_bound": stream_identities_bound,
         },
         "production_completion_allowed": False,
         "row_complete": False,
@@ -998,12 +1083,33 @@ def compile_held_out_mux_dry_run_matrix(payload: dict[str, Any]) -> dict[str, An
             raise ValueError(
                 f"cases[{idx}] dry_run_mux_plan_sha256 not deterministic across rebuilds"
             )
+        envelope_digest_a = mux_prep_a["planned_mux_command_envelope_sha256"]
+        envelope_digest_b = mux_prep_b["planned_mux_command_envelope_sha256"]
+        if not isinstance(envelope_digest_a, str) or len(envelope_digest_a) != 64:
+            raise ValueError(
+                f"cases[{idx}] planned_mux_command_envelope_sha256 must be bound for mux dry-run"
+            )
+        if envelope_digest_a != envelope_digest_b:
+            raise ValueError(
+                f"cases[{idx}] planned_mux_command_envelope_sha256 not deterministic across rebuilds"
+            )
+        envelope_a = mux_prep_a["planned_mux_command_envelope"]
+        if not isinstance(envelope_a, dict):
+            raise ValueError(f"cases[{idx}] planned_mux_command_envelope must be an object")
+        if envelope_a.get("execution_mode") != "dry_run_non_executed":
+            raise ValueError(f"cases[{idx}] planned mux envelope must remain dry_run_non_executed")
+        if envelope_a.get("command_status") != "planned_only":
+            raise ValueError(f"cases[{idx}] planned mux envelope command_status must be planned_only")
+        if envelope_a.get("execution_guards", {}).get("mux_command_executed"):
+            raise ValueError(f"cases[{idx}] planned mux envelope must remain non-executed")
         if not mux_prep_a["mux_prep"]["stream_identities_bound"]:
             raise ValueError(f"cases[{idx}] stream identities must be bound for mux dry-run")
         if not mux_prep_a["mux_prep"]["mux_command_planned"]:
             raise ValueError(f"cases[{idx}] mux_command_planned must be true for mux dry-run")
         if mux_prep_a["mux_prep"]["mux_command_executed"]:
             raise ValueError(f"cases[{idx}] mux_command_executed must remain false")
+        if not mux_prep_a["authority"].get("planned_mux_command_envelope_bound"):
+            raise ValueError(f"cases[{idx}] planned_mux_command_envelope_bound must be true")
 
         mode = timeline_receipt["frame_rate_mode"]
         seen_modes.add(mode)
@@ -1022,6 +1128,8 @@ def compile_held_out_mux_dry_run_matrix(payload: dict[str, Any]) -> dict[str, An
                 "stream_identities_bound": True,
                 "mux_command_planned": True,
                 "mux_command_executed": False,
+                "planned_mux_command_envelope_sha256": envelope_digest_a,
+                "envelope_hash_deterministic": True,
                 "dry_run_mux_plan_sha256": digest_a,
                 "dry_run_hash_deterministic": True,
                 "row_complete": False,
@@ -1034,7 +1142,9 @@ def compile_held_out_mux_dry_run_matrix(payload: dict[str, Any]) -> dict[str, An
         raise ValueError("held-out mux dry-run matrix requires at least one vfr case")
 
     all_within = all(case["within_tolerance"] for case in case_results)
-    all_deterministic = all(case["dry_run_hash_deterministic"] for case in case_results)
+    all_dry_run_deterministic = all(case["dry_run_hash_deterministic"] for case in case_results)
+    all_envelope_deterministic = all(case["envelope_hash_deterministic"] for case in case_results)
+    all_deterministic = all_dry_run_deterministic and all_envelope_deterministic
     created_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
     provenance = payload.get("provenance")
     if provenance is None:
@@ -1060,7 +1170,8 @@ def compile_held_out_mux_dry_run_matrix(payload: dict[str, Any]) -> dict[str, An
             "all_within_tolerance": all_within,
             "modes_covered": sorted(seen_modes),
             "stream_identities_bound": True,
-            "dry_run_mux_hash_check_passed": all_deterministic,
+            "dry_run_mux_hash_check_passed": all_dry_run_deterministic,
+            "planned_mux_envelope_hash_check_passed": all_envelope_deterministic,
             "mux_replay_included": False,
             "runtime_media_decode_invoked": False,
             "benchmark_authority_granted": False,
@@ -1069,6 +1180,7 @@ def compile_held_out_mux_dry_run_matrix(payload: dict[str, Any]) -> dict[str, An
         "authority": {
             "fixture_matrix_only": True,
             "dry_run_plan_only": True,
+            "planned_mux_command_envelope_only": True,
             "fixed_vfr_benchmark_pass": False,
             "mux_replay_proof_present": False,
             "combined_visual_review_present": False,
