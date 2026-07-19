@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import copy
+import hashlib
 import json
 import subprocess
 import sys
@@ -15,6 +16,10 @@ from jsonschema import Draft202012Validator
 ROOT = Path(__file__).resolve().parents[4]
 COMPILER = ROOT / "Plan/07_IMPLEMENTATION/scripts/compile_wave64_contact_inference_ownership.py"
 SCHEMA = ROOT / "Plan/08_SCHEMAS/contact_inference_ownership_manifest.schema.json"
+FIXTURE_DIR = ROOT / "Plan/Instructions/QA/Evidence/Wave64/fixtures/row090"
+OWNED_CANDIDATE_FIXTURE = FIXTURE_DIR / "ownership_phase_owned_candidate.json"
+UNOWNED_BLOCKED_FIXTURE = FIXTURE_DIR / "ownership_phase_unowned_blocked.json"
+OCCLUDED_PARTIAL_FIXTURE = FIXTURE_DIR / "ownership_phase_occluded_partial.json"
 
 
 def _write_json(path: Path, payload: dict) -> None:
@@ -251,6 +256,77 @@ class Row090ContactInferenceOwnershipCompilerTests(unittest.TestCase):
         compiled["is_synthetic"] = "false"
         errors = list(self.validator.iter_errors(compiled))
         self.assertTrue(errors)
+
+    def _load_fixture(self, path: Path) -> dict:
+        self.assertTrue(path.is_file(), f"missing fixture: {path}")
+        return json.loads(path.read_text(encoding="utf-8"))
+
+    def _canonical_sha256(self, payload: dict) -> str:
+        encoded = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
+        return hashlib.sha256(encoded).hexdigest()
+
+    def test_fixture_owned_candidate_phase_packet_compiles(self) -> None:
+        packet = self._load_fixture(OWNED_CANDIDATE_FIXTURE)
+        _, compiled = self._run_compile(packet, expect_ok=True)
+        assert compiled is not None
+        contact = compiled["contacts"][0]
+        self.assertEqual(contact["contact_id"], "owned_hand_forearm_001")
+        self.assertEqual(contact["decision"], "candidate")
+        self.assertFalse(contact["ownership_trusted"])
+        self.assertEqual(contact["phases"]["approach_frame"], 8)
+        self.assertEqual(contact["phases"]["onset_frame"], 12)
+        self.assertEqual(contact["phases"]["onset_sample"], 24000)
+        self.assertEqual(contact["phases"]["peak_sample"], 28000)
+        self.assertEqual(contact["phases"]["release_sample"], 32000)
+        self.assertEqual(contact["phases"]["uncertainty_frames"], 1.0)
+        self.assertFalse(compiled["authority_summary"]["production_trust_allowed"])
+        self.assertEqual(len(compiled["visual_contact_manifest"]["contact_edges"]), 1)
+
+    def test_fixture_unowned_blocked_phase_packet_compiles(self) -> None:
+        packet = self._load_fixture(UNOWNED_BLOCKED_FIXTURE)
+        _, compiled = self._run_compile(packet, expect_ok=True)
+        assert compiled is not None
+        contact = compiled["contacts"][0]
+        self.assertEqual(contact["decision"], "blocked")
+        self.assertIsNone(contact["source_owner"])
+        self.assertIn("unowned_source_or_target", contact["blockers"])
+        self.assertEqual(compiled["authority_summary"]["blocked_count"], 1)
+        self.assertEqual(compiled["authority_summary"]["candidate_count"], 0)
+        self.assertEqual(compiled["visual_contact_manifest"]["contact_edges"], [])
+        self.assertFalse(compiled["visual_contact_manifest"]["contact_authority"]["production_trust_claim"])
+
+    def test_fixture_occluded_partial_phase_packet_compiles(self) -> None:
+        packet = self._load_fixture(OCCLUDED_PARTIAL_FIXTURE)
+        _, compiled = self._run_compile(packet, expect_ok=True)
+        assert compiled is not None
+        self.assertEqual(compiled["authority_summary"]["contact_count"], 2)
+        self.assertEqual(compiled["authority_summary"]["candidate_count"], 2)
+        self.assertEqual(compiled["authority_summary"]["certified_count"], 0)
+        by_id = {contact["contact_id"]: contact for contact in compiled["contacts"]}
+        self.assertEqual(by_id["occluded_hand_torso_001"]["visibility"], "occluded")
+        self.assertEqual(by_id["partial_hand_fabric_002"]["visibility"], "partial")
+        self.assertFalse(by_id["occluded_hand_torso_001"]["ownership_trusted"])
+        self.assertFalse(by_id["partial_hand_fabric_002"]["ownership_trusted"])
+        self.assertEqual(len(compiled["visual_contact_manifest"]["contact_edges"]), 2)
+        self.assertFalse(compiled["dependency_authority"]["all_dependencies_complete"])
+
+    def test_fixture_ownership_phase_packets_deterministic_replay_hash(self) -> None:
+        digests: dict[str, str] = {}
+        for path in (
+            OWNED_CANDIDATE_FIXTURE,
+            UNOWNED_BLOCKED_FIXTURE,
+            OCCLUDED_PARTIAL_FIXTURE,
+        ):
+            packet = self._load_fixture(path)
+            _, first = self._run_compile(packet, expect_ok=True)
+            _, second = self._run_compile(packet, expect_ok=True)
+            assert first is not None and second is not None
+            digest_a = self._canonical_sha256(first)
+            digest_b = self._canonical_sha256(second)
+            self.assertEqual(digest_a, digest_b, f"non-deterministic compile for {path.name}")
+            self.assertFalse(first["authority_summary"]["production_trust_allowed"])
+            digests[path.name] = digest_a
+        self.assertEqual(len(set(digests.values())), 3)
 
 
 if __name__ == "__main__":

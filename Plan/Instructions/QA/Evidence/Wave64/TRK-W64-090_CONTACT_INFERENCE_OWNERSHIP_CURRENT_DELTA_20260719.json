@@ -1,29 +1,48 @@
 {
   "schema_version": "1.0.0",
   "evidence_id": "TRK-W64-090_CONTACT_INFERENCE_OWNERSHIP_CURRENT_DELTA_20260719",
-  "created_at": "2026-07-19T19:38:54Z",
-  "source_commit": "f99ad809d79330b0ab2d839b31afaeed1a4437d1",
-  "prior_row_commit": "add39846",
+  "created_at": "2026-07-19T20:05:00Z",
+  "source_commit": "3fbabcece6bb7aad41b36ce77e23120f1639de86",
+  "prior_row_commit": "963b2bef",
   "prior_row_commit_is_current_head": false,
   "tracker_id": "TRK-W64-090",
   "item_id": "ITEM-W64-090",
-  "status": "HOLD_DEPENDENCIES_RUNTIME_AND_VISUAL_INFERENCE_ABSENT_WITH_OWNERSHIP_COMPILER_SLICE_PRESENT",
-  "classification": "ROW090_CODEX_FINAL_AUTHORITY_CURRENT_DELTA_AUDIT",
+  "status": "HOLD_DEPENDENCIES_RUNTIME_AND_VISUAL_INFERENCE_ABSENT_WITH_OWNERSHIP_COMPILER_AND_FIXTURE_PHASE_PACKETS_PRESENT",
+  "classification": "ROW090_CODEX_FINAL_AUTHORITY_CURRENT_DELTA_DEPENDENCY_LEDGER_AND_FIXTURE_PACKET_REFRESH",
   "row_complete": false,
   "implementation_completion_claimed": false,
   "runtime_completion_claimed": false,
-  "qa_decision": "FAIL_CLOSED_ROW090_NOW_HAS_STRICT_SCHEMA_AND_FAIL_CLOSED_OWNERSHIP_COMPILER_SLICE_BUT_DEPENDENCIES_RUNTIME_AND_COMBINED_REVIEW_REMAIN_UNSATISFIED",
+  "qa_decision": "FAIL_CLOSED_ROW090_DEPENDENCY_LEDGER_REFRESHED_AND_FIXTURE_OWNERSHIP_PHASE_PACKETS_ADDED_BUT_DEPENDENCIES_RUNTIME_AND_COMBINED_REVIEW_REMAIN_UNSATISFIED",
   "intent": {
-    "intent_id": "intent_20260719T054024398Z_row090_contact_inference_ownership_current_delta_87a46f78",
-    "classification": "AI_WORKER_DEVELOPMENT_PIPELINE_ADMITTED_DEFERRED",
-    "authority": "codex_only",
+    "intent_id": "interactive_cursor_shift_row090_fixture_dependency_refresh_20260719",
+    "classification": "INTERACTIVE_CURSOR_SHIFT_AUTHORITY",
+    "work_type": "final_authority",
+    "authority_class": "interactive_cursor_integration",
     "routing": null,
-    "worker_wake_count": 0,
+    "dispatch_wake_count": 0,
     "candidate_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_contact_inference_ownership.py",
+      "Plan/Instructions/QA/Scripts/test_row090_contact_inference_ownership_compiler.py",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row090/ownership_phase_owned_candidate.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row090/ownership_phase_unowned_blocked.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row090/ownership_phase_occluded_partial.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-090_CONTACT_INFERENCE_OWNERSHIP_CURRENT_DELTA_20260719.json"
     ],
     "allowed_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_contact_inference_ownership.py",
+      "Plan/Instructions/QA/Scripts/test_row090_contact_inference_ownership_compiler.py",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row090/ownership_phase_owned_candidate.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row090/ownership_phase_unowned_blocked.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row090/ownership_phase_occluded_partial.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-090_CONTACT_INFERENCE_OWNERSHIP_CURRENT_DELTA_20260719.json"
+    ],
+    "disjoint_from": [
+      "TRK-W64-075",
+      "TRK-W64-076",
+      "TRK-W64-084_mux",
+      "TRK-W64-089",
+      "lifecycle_rights_binding",
+      "TRK-W64-069"
     ]
   },
   "row090_contract": {
@@ -149,46 +168,53 @@
     "dependency_count": 5,
     "complete_dependency_count": 0,
     "all_dependencies_complete": false,
+    "ledger_refreshed_at": "2026-07-19T20:04:14Z",
+    "ledger_refresh_note": "Rebounded against latest Row085-089 current-delta contract slices after Row087/088/089 compiler-slice commits. All five remain row_complete=false.",
     "dependencies": [
       {
         "tracker_id": "TRK-W64-085",
         "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719.json",
-        "sha256": "720b87bf6007e3ab7970ae91cd94a6086d740ed2c4eed652f4e18554835a56fd",
-        "bytes": 23535,
+        "sha256": "5d4fd9f4ad57b93916651119745280e7be6b2a4ae4ab4da364abffcaa34a9af2",
+        "bytes": 11989,
         "row_complete": false,
-        "status": "HOLD_DEPENDENCY_PERSISTENT_TRACKING_IMPLEMENTATION_OWNERSHIP_METRICS_OCCLUSION_REAPPEARANCE_AND_VISUAL_RUNTIME_PROOF_ABSENT"
+        "status": "HOLD_DEPENDENCY_RUNTIME_BENCHMARK_AND_VISUAL_PROOF_ABSENT_WITH_FAIL_CLOSED_TRACK_COMPILER_SLICE_PRESENT",
+        "compiler_slice_present": true
       },
       {
         "tracker_id": "TRK-W64-086",
         "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-086_POSE_HAND_FOOT_GAIT_EXTRACTION_CURRENT_DELTA_20260719.json",
-        "sha256": "b5e0a2795f58359ed6b4bd849e56d3cf58f59ad1755b9881dd79476df89bebe8",
-        "bytes": 26242,
+        "sha256": "d0f4f42ec3e738b5052e7225c99d22f04f25d974dcd99fda1bd57cd2d4c25dea",
+        "bytes": 12643,
         "row_complete": false,
-        "status": "HOLD_DEPENDENCIES_TEMPORAL_POSE_GAIT_CONTACT_PHASE_PARTIAL_VIEW_BENCHMARK_AND_VISUAL_RUNTIME_AUTHORITY_ABSENT"
+        "status": "HOLD_DEPENDENCY_RUNTIME_BENCHMARK_AND_VISUAL_PROOF_ABSENT_WITH_FAIL_CLOSED_POSE_GAIT_COMPILER_SLICE_PRESENT",
+        "compiler_slice_present": true
       },
       {
         "tracker_id": "TRK-W64-087",
         "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-087_MOTION_FORCE_CUES_CURRENT_DELTA_20260719.json",
-        "sha256": "fbad4741f352058d8fd18c094e94fdc16926081e1a8451bef3ce3ea3d26ab7b3",
-        "bytes": 27920,
+        "sha256": "4caad5c75b3287e42d78ccaf444813574ea5b8aa92f9e50d9ea91b4518842db2",
+        "bytes": 11614,
         "row_complete": false,
-        "status": "HOLD_DEPENDENCIES_ACTOR_RELATIVE_MOTION_PLANNED_CAMERA_COMPENSATION_CALIBRATED_FORCE_PROXY_AND_VISUAL_RUNTIME_AUTHORITY_ABSENT"
+        "status": "HOLD_DEPENDENCIES_RUNTIME_BENCHMARK_AND_VISUAL_PROOF_ABSENT_WITH_FAIL_CLOSED_MEASUREMENT_COMPILER_SLICE_PRESENT",
+        "compiler_slice_present": true
       },
       {
         "tracker_id": "TRK-W64-088",
         "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_DEPTH_CAMERA_SOURCE_POSITION_CURRENT_DELTA_20260719.json",
-        "sha256": "4c5f3c3fe238bbbf283dd2936a5c191d659ad7aa84fbfdfa983701dc24a3b886",
-        "bytes": 27616,
+        "sha256": "0003e3fa895f2a2e20a83586a7978582bd4e95f68851ef0cb42afb5e310baae8",
+        "bytes": 12399,
         "row_complete": false,
-        "status": "HOLD_DEPENDENCIES_DIRECT_DEPTH_CAMERA_LISTENER_SOURCE_ESTIMATION_CALIBRATION_UNCERTAINTY_AND_VISUAL_RUNTIME_AUTHORITY_ABSENT"
+        "status": "HOLD_DEPENDENCY_RUNTIME_BENCHMARK_AND_VISUAL_PROOF_ABSENT_WITH_FAIL_CLOSED_SPATIAL_COMPILER_SLICE_PRESENT",
+        "compiler_slice_present": true
       },
       {
         "tracker_id": "TRK-W64-089",
         "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-089_VISUAL_MATERIAL_RECOGNITION_CURRENT_DELTA_20260719.json",
-        "sha256": "166c5b24da2932964749349f8c83422f5920742ba0f50631b15ce2012d5ddaf2",
-        "bytes": 29136,
+        "sha256": "298291b38be2d93e9c3a3511d19533b0ca1467a29159bab9d0339dbc71a1f469",
+        "bytes": 12424,
         "row_complete": false,
-        "status": "HOLD_DEPENDENCIES_AND_DIRECT_VISUAL_MATERIAL_CLASSIFIER_FUSION_CONFIDENCE_ABSTENTION_AND_RUNTIME_AUTHORITY_ABSENT"
+        "status": "HOLD_DEPENDENCY_RUNTIME_BENCHMARK_AND_VISUAL_PROOF_ABSENT_WITH_FAIL_CLOSED_MATERIAL_COMPILER_SLICE_PRESENT",
+        "compiler_slice_present": true
       }
     ]
   },
@@ -506,7 +532,7 @@
     "calibrated_force_model_found": false,
     "onset_peak_release_inference_found": false,
     "genuine_temporal_contact_benchmark_found": false,
-    "boundary": "Compiler validates declared ownership/phase packets and projects consumer manifests; it does not yet extract contacts from tracked visual evidence under completed Rows085-089."
+    "boundary": "Compiler validates declared ownership/phase packets (including fixture-backed owned/unowned/occluded packets) and projects consumer manifests; it does not yet extract contacts from tracked visual evidence under completed Rows085-089."
   },
   "required_contact_inference_contract_missing": [
     "A strict input manifest binding video, frame clock, scene, shot, take, actor and object tracks, masks, landmarks, depth, motion, and material evidence by hash.",
@@ -569,7 +595,7 @@
       "id": "ROW090-001",
       "status": "PASS",
       "name": "source_commit_bound",
-      "detail": "Audit source commit rebound to current HEAD f99ad809."
+      "detail": "Audit source commit rebound to current HEAD 3fbabcec."
     },
     {
       "id": "ROW090-002",
@@ -593,7 +619,7 @@
       "id": "ROW090-005",
       "status": "PASS",
       "name": "dependency_evidence_bound",
-      "detail": "All five dependency evidence records are present and hash-bound."
+      "detail": "All five dependency evidence records are present and hash-bound to latest slices."
     },
     {
       "id": "ROW090-006",
@@ -701,7 +727,7 @@
       "id": "ROW090-023",
       "status": "PASS",
       "name": "direct_row090_tests",
-      "detail": "Focused Row090 compiler tests pass (8)."
+      "detail": "Focused Row090 compiler tests pass (12), including fixture ownership/phase packets."
     },
     {
       "id": "ROW090-024",
@@ -797,24 +823,42 @@
       "id": "ROW090-039",
       "status": "PASS",
       "name": "row090_compiler_slice_focused_tests_pass",
-      "detail": "8 focused Row090 compiler tests passed."
+      "detail": "12 focused Row090 compiler tests passed."
     },
     {
       "id": "ROW090-040",
       "status": "PASS",
       "name": "row090_compiler_slice_fail_closed_dependency_runtime_gates",
-      "detail": "Compiler rejects certified/technical ceilings and string-boolean lookalikes under hold."
+      "detail": "Compiler rejects certified/technical ceilings and clears ownership_trusted under hold."
+    },
+    {
+      "id": "ROW090-041",
+      "status": "PASS",
+      "name": "dependency_ledger_refreshed_against_row085_089",
+      "detail": "Dependency ledger rebound to latest Row085-089 current-delta hashes/statuses; complete_dependency_count remains 0."
+    },
+    {
+      "id": "ROW090-042",
+      "status": "PASS",
+      "name": "fixture_ownership_phase_packets_present",
+      "detail": "Owned-candidate, unowned-blocked, and occluded/partial fixture packets compile with deterministic replay hashes and production_trust_allowed=false."
+    },
+    {
+      "id": "ROW090-043",
+      "status": "FAIL",
+      "name": "row_complete_after_fixture_refresh",
+      "detail": "Fixture packets and dependency ledger refresh do not satisfy visual inference, runtime, or combined review completion."
     }
   ],
   "check_summary": {
-    "total": 40,
-    "pass": 24,
-    "fail": 16
+    "total": 43,
+    "pass": 26,
+    "fail": 17
   },
   "test_and_runtime_boundary": {
     "adjacent_tests_collected": 64,
     "adjacent_tests_passed": 64,
-    "direct_row090_tests": 8,
+    "direct_row090_tests": 12,
     "direct_row090_runtime_runs": 0,
     "visual_reviews_performed_by_this_audit": 0,
     "ec2_calls": 0,
@@ -837,8 +881,10 @@
   "preservation_boundary": {
     "evidence_write_scope": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_contact_inference_ownership.py",
-      "Plan/08_SCHEMAS/contact_inference_ownership_manifest.schema.json",
       "Plan/Instructions/QA/Scripts/test_row090_contact_inference_ownership_compiler.py",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row090/ownership_phase_owned_candidate.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row090/ownership_phase_unowned_blocked.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row090/ownership_phase_occluded_partial.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-090_CONTACT_INFERENCE_OWNERSHIP_CURRENT_DELTA_20260719.json"
     ],
     "queued_worker_scopes_preserved": true,
@@ -847,33 +893,35 @@
     "worker_control_snapshots_preserved": true,
     "mask_factory_paths_preserved": true,
     "unrelated_dirty_and_untracked_paths_preserved": true,
-    "sibling_row084_071_093_paths_preserved": true
+    "sibling_row075_076_084_mux_089_069_lifecycle_paths_preserved": true
   },
   "hold_decision": {
     "decision": "HOLD_ROW090",
-    "reason": "A strict schema and fail-closed ownership/visual-contact compiler slice now exist with focused tests, and Wave22 declaration validators remain fail-closed. Rows085-089 remain incomplete, no CV contact inference from tracks/masks/landmarks/depth/motion is implemented, and no genuine runtime or combined frame/contact/audio review exists.",
-    "safe_next_work": "Keep Row090 held. After Rows085-089 produce trusted track/mask/landmark/depth/motion/material packets, extend the compiler into a real visual inference producer with calibrated force and temporal benchmarks, then emit TRK-W64-090_contact_inference_ownership.json plus runtime and combined-review evidence.",
+    "reason": "Dependency ledger refreshed against latest Row085-089 contract slices and fixture-backed ownership/phase packets now compile with deterministic replay hashes. Rows085-089 remain incomplete, no CV contact inference from tracks/masks/landmarks/depth/motion/materials is implemented, and no genuine runtime or combined frame/contact/audio review exists.",
+    "safe_next_work": "Keep Row090 held. Next useful write: bind hash-addressed Row085-089 input artifacts into fixture packets once those rows emit measured track/mask/landmark/depth/motion/material receipts, then extend toward inferred ownership/phase production without claiming certification.",
     "completion_claim_prohibited": true,
     "runtime_claim_prohibited": true,
     "certification_claim_prohibited": true
   },
   "row090_compiler_slice": {
-    "scope": "Introduces a production-oriented fail-closed compiler that validates ownership/phase/force/visibility packets, projects a consumer visual_contact_manifest, and blocks certification while Rows085-089 or runtime/review authority remain unsatisfied.",
+    "scope": "Fail-closed ownership/phase compiler plus fixture-backed owned/unowned/occluded packets and dependency-ledger refresh. Certification remains blocked while Rows085-089 or runtime/review authority remain unsatisfied.",
     "row090_complete": false,
     "visual_cv_inference_claimed": false,
     "runtime_certification_claimed": false,
     "compiler": {
       "path": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_contact_inference_ownership.py",
-      "sha256": "235500cdb3ae5a3bde5e429b27c82ca31f2d4f62f7058ff3440e776ae4a39334",
-      "bytes": 29131,
+      "sha256": "2d877edb208b1a3709bf102ea43c6bf2c429e20c74c61f5e41d26e9368eae20c",
+      "bytes": 29391,
       "enforced_controls": [
         "exact Boolean dependency and runtime authority fields",
         "dependency hold blocks decision=certified and non-candidate authority ceilings",
         "runtime hold blocks certification ceiling",
         "ordered approach/onset/peak/release/end phase frames with seconds/sample conversion",
         "null or untrusted ownership cannot certify",
+        "ownership_trusted cleared under dependency or missing-input hold",
         "visual_contact_manifest projection forces production_trust_claim=false under hold",
-        "blocked unowned contacts are excluded from consumer edges"
+        "blocked unowned contacts are excluded from consumer edges",
+        "fixture-backed ownership/phase packets compile with deterministic replay hashes"
       ]
     },
     "schema": {
@@ -883,11 +931,11 @@
     },
     "focused_tests": {
       "path": "Plan/Instructions/QA/Scripts/test_row090_contact_inference_ownership_compiler.py",
-      "sha256": "6cd45f1c71cb29ce6f0373ba65786d11cb9b7b6c578dd5a4ce85ffbae579d0b6",
-      "bytes": 11055,
+      "sha256": "398786fc05e2997eecc79cd9a80b223d99daabce386560a83ad90e6645ec571d",
+      "bytes": 15630,
       "command": "python -m pytest Plan/Instructions/QA/Scripts/test_row090_contact_inference_ownership_compiler.py -q --tb=short",
       "exit_code": 0,
-      "passed": 8
+      "passed": 12
     },
     "adjacent_wave22_tests": {
       "command": "python -m pytest Plan/Instructions/QA/Scripts/test_physical_contact_graph_contract.py -q --tb=line",
@@ -897,6 +945,70 @@
       "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/WAVE22_CONTACT_GRAPH_FAIL_CLOSED_CORRECTION_20260719.json",
       "evidence_sha256": "675e832df6aceb1e8326e781d5bb17618a4285f90e01d5febf214f60b093c1d8",
       "evidence_bytes": 6882
-    }
+    },
+    "fixture_packets": [
+      {
+        "fixture_id": "owned_candidate",
+        "path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row090/ownership_phase_owned_candidate.json",
+        "sha256": "bfa26e9c1ebcf3e06dfbb91ee5bce8d4bdc52817374b6dafb6ba60ecc8233f57",
+        "bytes": 3447,
+        "compiled_replay_sha256": "44a7fbadfe4595b61aaa22e6f6eed40cd2da5997bd38fe3f5e7010b2245e6428",
+        "production_trust_allowed": false,
+        "row090_complete_claim": false
+      },
+      {
+        "fixture_id": "unowned_blocked",
+        "path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row090/ownership_phase_unowned_blocked.json",
+        "sha256": "6d2062e6232ad9d1cb445414de423a4dce4a4689167e1c001749356be87ce448",
+        "bytes": 3371,
+        "compiled_replay_sha256": "16ce70ba48b540a1c75160601f8415cea879118d1ac288fbc93a1b9b9d35ef9e",
+        "production_trust_allowed": false,
+        "row090_complete_claim": false
+      },
+      {
+        "fixture_id": "occluded_partial",
+        "path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row090/ownership_phase_occluded_partial.json",
+        "sha256": "de726e6ba53d63ec97cbca70afcb78643f7971f78254673df90909b06293cdcc",
+        "bytes": 4781,
+        "compiled_replay_sha256": "5164f6db2f5f66437346e2d861a2b9037a4d125f0da6362700f187db24b013c8",
+        "production_trust_allowed": false,
+        "row090_complete_claim": false
+      }
+    ]
+  },
+  "fixture_ownership_phase_packets": {
+    "scope": "Smallest useful declared ownership/phase fixture packets for owned-candidate, unowned-blocked, and occluded/partial visibility under Rows085-089 hold.",
+    "visual_cv_inference_claimed": false,
+    "runtime_certification_claimed": false,
+    "deterministic_replay_checked": true,
+    "packets": [
+      {
+        "fixture_id": "owned_candidate",
+        "path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row090/ownership_phase_owned_candidate.json",
+        "sha256": "bfa26e9c1ebcf3e06dfbb91ee5bce8d4bdc52817374b6dafb6ba60ecc8233f57",
+        "bytes": 3447,
+        "compiled_replay_sha256": "44a7fbadfe4595b61aaa22e6f6eed40cd2da5997bd38fe3f5e7010b2245e6428",
+        "production_trust_allowed": false,
+        "row090_complete_claim": false
+      },
+      {
+        "fixture_id": "unowned_blocked",
+        "path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row090/ownership_phase_unowned_blocked.json",
+        "sha256": "6d2062e6232ad9d1cb445414de423a4dce4a4689167e1c001749356be87ce448",
+        "bytes": 3371,
+        "compiled_replay_sha256": "16ce70ba48b540a1c75160601f8415cea879118d1ac288fbc93a1b9b9d35ef9e",
+        "production_trust_allowed": false,
+        "row090_complete_claim": false
+      },
+      {
+        "fixture_id": "occluded_partial",
+        "path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row090/ownership_phase_occluded_partial.json",
+        "sha256": "de726e6ba53d63ec97cbca70afcb78643f7971f78254673df90909b06293cdcc",
+        "bytes": 4781,
+        "compiled_replay_sha256": "5164f6db2f5f66437346e2d861a2b9037a4d125f0da6362700f187db24b013c8",
+        "production_trust_allowed": false,
+        "row090_complete_claim": false
+      }
+    ]
   }
 }

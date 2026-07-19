@@ -362,6 +362,11 @@ def _compile_contact(
     if decision == "blocked" and not blockers:
         raise ValueError(f"{label} blocked decision requires at least one blocker")
 
+    # Fixture or declared packets may mark ownership_trusted under hold; clear it so
+    # ownership trust cannot leak while Rows085-089 input authority remains incomplete.
+    if not dependency_ready or missing_inputs:
+        ownership_trusted = False
+
     onset_seconds = _frame_to_seconds(onset_frame, timeline)
     peak_seconds = _frame_to_seconds(peak_frame, timeline)
     release_seconds = _frame_to_seconds(release_frame, timeline)
