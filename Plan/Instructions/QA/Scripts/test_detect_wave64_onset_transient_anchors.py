@@ -16,13 +16,13 @@ sys.modules[SPEC.name] = MOD
 SPEC.loader.exec_module(MOD)
 
 
-def test_row070_and_row071_admission_fail_closed_on_current_hold_deltas():
+def test_row070_and_row071_admission_unlocked_on_accepted_deltas():
     row070 = MOD.evaluate_row070_admission(ROOT)
     row071 = MOD.evaluate_row071_admission(ROOT)
-    assert row070["dependency_satisfied"] is False
-    assert row071["dependency_satisfied"] is False
-    assert "ROW070_DEPENDENCY_NOT_ACCEPTED" in row070["blocker_codes"]
-    assert "ROW071_DEPENDENCY_NOT_ACCEPTED" in row071["blocker_codes"]
+    assert row070["dependency_satisfied"] is True
+    assert row071["dependency_satisfied"] is True
+    assert row070["blocker_codes"] == []
+    assert row071["blocker_codes"] == []
 
 
 def test_library_mode_emits_hold_packet_without_false_completion():
@@ -33,9 +33,15 @@ def test_library_mode_emits_hold_packet_without_false_completion():
     assert payload["library_authority"] is False
     assert payload["decision"]["status"] == "blocked"
     assert payload["decision"]["product_completion"] is False
-    assert "ROW070_DEPENDENCY_NOT_ACCEPTED" in payload["blocker_codes"]
-    assert "ROW071_DEPENDENCY_NOT_ACCEPTED" in payload["blocker_codes"]
+    assert payload["decision"]["dependencies_unlocked"] is True
+    assert payload["status"] == (
+        "HOLD_LIBRARY_RUNTIME_AND_BENCHMARK_STRATA_ABSENT_DEPS_UNLOCKED"
+    )
+    assert "ROW070_DEPENDENCY_NOT_ACCEPTED" not in payload["blocker_codes"]
+    assert "ROW071_DEPENDENCY_NOT_ACCEPTED" not in payload["blocker_codes"]
     assert "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT" in payload["blocker_codes"]
+    assert "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY" in payload["blocker_codes"]
+    assert "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT" in payload["blocker_codes"]
     assert payload["detector_revision"] == MOD.DETECTOR_REVISION
     assert payload["threshold_registry_revision"] == MOD.THRESHOLD_REGISTRY_REVISION
     assert payload["fixture_calibration"]["fixture_count"] == 5

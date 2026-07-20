@@ -774,6 +774,24 @@ def build_library_blocker_packet(root: Path) -> dict[str, Any]:
     ):
         if code not in blocker_codes:
             blocker_codes.append(code)
+    deps_unlocked = bool(row070["dependency_satisfied"] and row071["dependency_satisfied"])
+    status = (
+        "HOLD_LIBRARY_RUNTIME_AND_BENCHMARK_STRATA_ABSENT_DEPS_UNLOCKED"
+        if deps_unlocked
+        else "HOLD_DEPENDENCIES_LIBRARY_RUNTIME_AND_BENCHMARK_STRATA_ABSENT"
+    )
+    safe_next = (
+        "Rows070-071 library authority is accepted. Extend the detector to reconcile "
+        "every accepted PCM/feature record to anchor PASS or an exact blocker under the "
+        "frozen threshold registry, then replace this hold packet with full-library "
+        "onset/transient evidence before claiming Row072 acceptance or Row093 unlock."
+        if deps_unlocked
+        else (
+            "Accept Rows070-071 authority, reconcile every accepted PCM/feature record "
+            "to anchor PASS or an exact blocker with registered event-family thresholds, "
+            "and replace this hold packet with full-library onset/transient evidence."
+        )
+    )
     fixture_names = ["silence", "impulse", "gradual_attack", "multi_hit", "stereo_disagree"]
     fixture_records = [extract_fixture_record(root, name) for name in fixture_names]
     registry = load_threshold_registry(root)
@@ -788,7 +806,7 @@ def build_library_blocker_packet(root: Path) -> dict[str, Any]:
         "implementation_completion_claimed": False,
         "runtime_completion_claimed": False,
         "library_authority": False,
-        "status": "HOLD_DEPENDENCIES_LIBRARY_RUNTIME_AND_BENCHMARK_STRATA_ABSENT",
+        "status": status,
         "row070_admission": row070,
         "row071_admission": row071,
         "threshold_registry": {
@@ -813,11 +831,8 @@ def build_library_blocker_packet(root: Path) -> dict[str, Any]:
             "row072_acceptance": "held",
             "product_completion": False,
             "runtime_completion": False,
-            "safe_next_action": (
-                "Accept Rows070-071 authority, reconcile every accepted PCM/feature record "
-                "to anchor PASS or an exact blocker with registered event-family thresholds, "
-                "and replace this hold packet with full-library onset/transient evidence."
-            ),
+            "dependencies_unlocked": deps_unlocked,
+            "safe_next_action": safe_next,
         },
     }
     return packet

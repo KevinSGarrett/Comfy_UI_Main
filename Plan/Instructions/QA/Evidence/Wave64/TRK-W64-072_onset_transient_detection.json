@@ -1,16 +1,15 @@
 {
   "blocker_codes": [
-    "ROW070_DEPENDENCY_NOT_ACCEPTED",
-    "ROW071_DEPENDENCY_NOT_ACCEPTED",
     "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT",
     "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
     "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT"
   ],
   "decision": {
+    "dependencies_unlocked": true,
     "product_completion": false,
     "row072_acceptance": "held",
     "runtime_completion": false,
-    "safe_next_action": "Accept Rows070-071 authority, reconcile every accepted PCM/feature record to anchor PASS or an exact blocker with registered event-family thresholds, and replace this hold packet with full-library onset/transient evidence.",
+    "safe_next_action": "Rows070-071 library authority is accepted. Extend the detector to reconcile every accepted PCM/feature record to anchor PASS or an exact blocker under the frozen threshold registry, then replace this hold packet with full-library onset/transient evidence before claiming Row072 acceptance or Row093 unlock.",
     "status": "blocked"
   },
   "detector_revision": "wave64_row072_onset_transient_detector_v0.1.0",
@@ -745,31 +744,27 @@
     "hf_envelope_onset_v1"
   ],
   "row070_admission": {
-    "blocker_codes": [
-      "ROW070_DEPENDENCY_NOT_ACCEPTED"
-    ],
-    "bytes": 9348,
-    "dependency_satisfied": false,
+    "blocker_codes": [],
+    "bytes": 10002,
+    "dependency_satisfied": true,
     "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_CANONICAL_AUDIO_DECODE_CURRENT_DELTA_20260719.json",
-    "row_complete": false,
-    "sha256": "a1e3feaace3961f655a7272017db844768ea2b2c5a1f2390b542f57264d125d0",
-    "status": "HOLD_ROW069_DEPENDENCY_AND_FULL_LIBRARY_DECODE_RUNTIME_ABSENT"
+    "row_complete": true,
+    "sha256": "9fdced4244a95f6cb467a09ebe172fef06aff75b9a63b9cc1455c6bcae134c41",
+    "status": "PASS_LIBRARY_PCM_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION"
   },
   "row071_admission": {
-    "blocker_codes": [
-      "ROW071_DEPENDENCY_NOT_ACCEPTED"
-    ],
-    "bytes": 7370,
-    "dependency_satisfied": false,
+    "blocker_codes": [],
+    "bytes": 5000,
+    "dependency_satisfied": true,
     "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-071_WAVEFORM_FEATURE_EXTRACTION_CURRENT_DELTA_20260719.json",
-    "row_complete": false,
-    "sha256": "4118ecf426dc54242b049e15e27981097a29044d954bd21992dce85aca432def",
-    "status": "HOLD_ROW070_CANONICAL_DECODE_AND_FULL_LIBRARY_FEATURE_RUNTIME_ABSENT"
+    "row_complete": true,
+    "sha256": "6e16ed12bf095644712d07a746f5b6c0c553180eaa27020fcaea7bf3a113a81d",
+    "status": "PASS_LIBRARY_FEATURE_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION"
   },
   "row_complete": false,
   "runtime_completion_claimed": false,
   "schema_version": "1.0.0",
-  "status": "HOLD_DEPENDENCIES_LIBRARY_RUNTIME_AND_BENCHMARK_STRATA_ABSENT",
+  "status": "HOLD_LIBRARY_RUNTIME_AND_BENCHMARK_STRATA_ABSENT_DEPS_UNLOCKED",
   "threshold_registry": {
     "authority": "planning_freeze_not_library_acceptance",
     "path": "Plan/10_REGISTRIES/wave64_row072_onset_transient_threshold_registry.json",

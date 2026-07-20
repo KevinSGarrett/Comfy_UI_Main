@@ -2,174 +2,74 @@
   "schema_version": 1,
   "evidence_id": "W64-ROW072-ONSET-TRANSIENT-ANCHOR-CURRENT-DELTA-20260719",
   "created_at": "2026-07-19T03:09:59.1691849Z",
-  "updated_at": "2026-07-19T19:45:00Z",
-  "source_commit": "41a6ed7f5019a04694b2f8e39c5cfa5599a582fd",
-  "prior_row_commit": "f3598905c6f2b2e1dfa64aa053074e7bd320392f",
+  "updated_at": "2026-07-20T03:45:00Z",
+  "source_commit": "c791af4b0b76ee251dce22c2a80294ca45050ddf",
+  "prior_row_commit": "b03c549e60fd1d0d1aa730a333401432f532141d",
   "prior_row_commit_is_current_head": false,
   "tracker_id": "TRK-W64-072",
   "item_id": "ITEM-W64-072",
-  "status": "HOLD_DEPENDENCIES_LIBRARY_RUNTIME_AND_BENCHMARK_STRATA_ABSENT",
-  "classification": "ROW072_FAIL_CLOSED_CONTRACT_SLICE_NO_FALSE_COMPLETION",
+  "status": "HOLD_LIBRARY_RUNTIME_AND_BENCHMARK_STRATA_ABSENT_DEPS_UNLOCKED",
+  "classification": "ROW072_DEPS_UNLOCKED_LIBRARY_STRATA_STILL_ABSENT_NO_FALSE_COMPLETION",
+  "proof_tier": "RUNTIME_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
   "row_complete": false,
   "implementation_completion_claimed": false,
   "runtime_completion_claimed": false,
-  "qa_decision": "hold_with_fail_closed_multi_method_contract_and_synthetic_fixture_calibration_only",
+  "qa_decision": "dependencies_unlocked_hold_with_fail_closed_multi_method_contract_and_synthetic_fixture_calibration_only",
   "increment": {
-    "kind": "fail_closed_contract_detector_and_threshold_registry_slice",
+    "kind": "dependency_unlock_reconcile_and_hold_packet_refresh",
     "detector_revision": "wave64_row072_onset_transient_detector_v0.1.0",
     "threshold_registry_revision": "wave64_row072_onset_thresholds_v0.1.0",
-    "summary": "Freeze Row072 multi-method onset/transient/peak/offset contract, register event-family thresholds, emit schema-validated synthetic fixture calibration, and fail closed for library authority until Rows070-071 are accepted.",
+    "summary": "Rows070-071 library authority is now accepted. Refresh Row072 library hold packet and tests to drop dependency blockers while retaining DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT, FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT, and REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY. No product COMPLETE.",
     "changed_paths": [
-      "Plan/08_SCHEMAS/onset_transient_anchor_record.schema.json",
-      "Plan/10_REGISTRIES/wave64_row072_onset_transient_threshold_registry.json",
       "Plan/07_IMPLEMENTATION/scripts/detect_wave64_onset_transient_anchors.py",
       "Plan/Instructions/QA/Scripts/test_detect_wave64_onset_transient_anchors.py",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_onset_transient_detection.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ONSET_TRANSIENT_ANCHOR_CURRENT_DELTA_20260719.json"
     ],
     "disjoint_from_sibling_lanes": [
+      "TRK-W64-069",
       "TRK-W64-070",
       "TRK-W64-071",
       "TRK-W64-084",
       "TRK-W64-090"
     ]
   },
-  "row072_contract": {
-    "status": "Planned_Autonomous_Implementation_Required",
-    "priority": "P0",
-    "risk": "CRITICAL",
-    "dependency_prerequisites": [
-      "TRK-W64-070",
-      "TRK-W64-071"
-    ],
-    "validation_methods": [
-      "onset_precision",
-      "peak_alignment",
-      "offset_detection",
-      "multi_method_agreement"
-    ],
-    "output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_onset_transient_detection.json",
-    "output_artifact_exists": true,
-    "output_artifact_authority": "fail_closed_hold_packet_not_library_acceptance",
-    "completion_criteria": "Frame-exact benchmark errors meet registered thresholds and ambiguous anchors remain explicit.",
-    "required_behavior": [
-      "detect onset candidates",
-      "detect attack peak",
-      "detect maximum-energy peak",
-      "detect offset",
-      "record confidence",
-      "record event density",
-      "use at least two independently checkable methods for frame-exact candidates",
-      "measure benchmark errors against registered frame and sample thresholds",
-      "retain ambiguous onsets as multiple candidates or block"
-    ],
-    "runtime_proof_required": true,
-    "ec2_allowed": false,
-    "final_render_gate": "BLOCKED_UNTIL_EXACT_ROW_IMPLEMENTATION_RUNTIME_QA_AND_AUTHORITY_PASS"
-  },
-  "implemented_slice": {
-    "schema_path": "Plan/08_SCHEMAS/onset_transient_anchor_record.schema.json",
-    "schema_sha256": "65c3d82a58a842ecc8176e86f47570d8b37c62bd4acdc175c03f8bf4d368ea16",
-    "schema_bytes": 6126,
-    "threshold_registry_path": "Plan/10_REGISTRIES/wave64_row072_onset_transient_threshold_registry.json",
-    "threshold_registry_sha256": "130261430751e847bd6a94fa2410edca19f97217d411ad8f692bf90977611446",
-    "threshold_registry_bytes": 1273,
-    "detector_path": "Plan/07_IMPLEMENTATION/scripts/detect_wave64_onset_transient_anchors.py",
-    "detector_sha256": "9af450d4657de17834c83850d0ad52a1856b91e08cd9e5a1ebb175fecace55d8",
-    "detector_bytes": 34864,
-    "test_path": "Plan/Instructions/QA/Scripts/test_detect_wave64_onset_transient_anchors.py",
-    "test_sha256": "1af0a4151d72de35dd4ce29400a30e5f780dc5cb1606ed13315953551e6142e5",
-    "test_bytes": 4801,
-    "direct_evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_onset_transient_detection.json",
-    "direct_evidence_sha256": "de258c606ada67f2d80f488c194957f67fa2a5f0faa70a4502fa9ed7275e2227",
-    "direct_evidence_bytes": 27882,
-    "capabilities_now_present": [
-      "frozen_detector_revision",
-      "frozen_event_family_threshold_registry",
-      "two_independent_methods_energy_flux_and_hf_envelope",
-      "schema_validated_anchor_records_with_candidate_ids",
-      "multi_method_agreement_and_ambiguity_policy",
-      "windowed_sync_for_gradual_attack",
-      "row070_and_row071_admission_fail_closed_gates",
-      "synthetic_fixture_determinism_for_silence_impulse_gradual_multi_hit_stereo",
-      "library_mode_hold_packet_without_false_completion"
-    ],
-    "explicitly_not_claimed": [
-      "full_library_anchor_records",
-      "accepted_row070_canonical_pcm_authority",
-      "accepted_row071_feature_authority",
-      "representative_library_benchmark_strata",
-      "row072_product_completion",
-      "row072_runtime_completion",
-      "row093_unlock"
-    ]
-  },
   "dependency_authority": [
     {
       "tracker_id": "TRK-W64-070",
-      "commit": "cc6b36d82341be2229b693c0d18ed47620deeaa9",
       "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_CANONICAL_AUDIO_DECODE_CURRENT_DELTA_20260719.json",
-      "current_delta_sha256": "a1e3feaace3961f655a7272017db844768ea2b2c5a1f2390b542f57264d125d0",
-      "current_delta_bytes": 9348,
-      "current_delta_status": "HOLD_ROW069_DEPENDENCY_AND_FULL_LIBRARY_DECODE_RUNTIME_ABSENT",
-      "row_complete": false,
-      "dependency_satisfied": false,
-      "reason": "Frame and sample anchors still require accepted canonical decoded sample bytes; Row070 remains held after its fail-closed contract slice."
+      "current_delta_sha256": "9fdced4244a95f6cb467a09ebe172fef06aff75b9a63b9cc1455c6bcae134c41",
+      "current_delta_bytes": 10002,
+      "current_delta_status": "PASS_LIBRARY_PCM_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION",
+      "row_complete": true,
+      "dependency_satisfied": true,
+      "highest_proof_tier_observed": "RUNTIME_PASS_BOUNDED",
+      "reason": "Row070 retained-index library PCM authority accepted (RUNTIME_PASS_BOUNDED); product COMPLETE not claimed."
     },
     {
       "tracker_id": "TRK-W64-071",
-      "commit": "cf77bd6a213278f0e3a3af023ff5f68422ef294b",
       "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-071_WAVEFORM_FEATURE_EXTRACTION_CURRENT_DELTA_20260719.json",
-      "current_delta_sha256": "4118ecf426dc54242b049e15e27981097a29044d954bd21992dce85aca432def",
-      "current_delta_bytes": 7370,
-      "current_delta_status": "HOLD_ROW070_CANONICAL_DECODE_AND_FULL_LIBRARY_FEATURE_RUNTIME_ABSENT",
-      "row_complete": false,
-      "dependency_satisfied": false,
-      "reason": "Row072 library authority still requires accepted Row071 feature records; current Row071 slice is fixture-calibration only."
+      "current_delta_sha256": "6e16ed12bf095644712d07a746f5b6c0c553180eaa27020fcaea7bf3a113a81d",
+      "current_delta_bytes": 5000,
+      "current_delta_status": "PASS_LIBRARY_FEATURE_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION",
+      "row_complete": true,
+      "dependency_satisfied": true,
+      "highest_proof_tier_observed": "AUDIO_QA_PASS_BOUNDED",
+      "reason": "Row071 retained-index feature/audio-QA authority accepted (AUDIO_QA_PASS_BOUNDED); product COMPLETE not claimed."
     }
   ],
   "focused_validators": {
     "command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_detect_wave64_onset_transient_anchors.py",
     "exit_code": 0,
     "passed": 9,
-    "duration_seconds": 8.22,
     "library_hold_packet_command": "python Plan/07_IMPLEMENTATION/scripts/detect_wave64_onset_transient_anchors.py --mode library",
-    "library_hold_packet_status": "HOLD_DEPENDENCIES_LIBRARY_RUNTIME_AND_BENCHMARK_STRATA_ABSENT"
+    "library_hold_packet_status": "HOLD_LIBRARY_RUNTIME_AND_BENCHMARK_STRATA_ABSENT_DEPS_UNLOCKED"
   },
-  "gate_assessment": [
-    {
-      "gate": "onset_precision",
-      "reusable_evidence": "synthetic_impulse_fixture_within_registered_sample_threshold",
-      "current_row072_decision": "hold",
-      "reason": "Impulse fixture calibration passes registered thresholds, but library strata and dependency authority remain absent."
-    },
-    {
-      "gate": "peak_alignment",
-      "reusable_evidence": "attack_peak_and_energy_peak_emitted_per_method",
-      "current_row072_decision": "hold",
-      "reason": "Peaks are emitted on fixtures only; no accepted library PCM/feature inputs exist."
-    },
-    {
-      "gate": "offset_detection",
-      "reusable_evidence": "offset_anchor_emitted_from_energy_decay_rule",
-      "current_row072_decision": "hold",
-      "reason": "Offset is fixture-calibrated only and not library-accepted."
-    },
-    {
-      "gate": "multi_method_agreement",
-      "reusable_evidence": "energy_flux_and_hf_envelope_agreement_ambiguity_and_window_policy",
-      "current_row072_decision": "hold",
-      "reason": "Agreement and ambiguity policies are frozen and tested, but library completion remains blocked."
-    }
-  ],
   "acceptance_gaps": [
     {
-      "code": "ROW070_AND_ROW071_DEPENDENCIES_NOT_ACCEPTED",
-      "detail": "Both direct prerequisites remain row_complete=false after their fail-closed contract slices."
-    },
-    {
       "code": "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT",
-      "detail": "Library mode emits a hold packet; it does not reconcile retained index records to anchor PASS/blocker outcomes."
+      "detail": "Library mode still emits a hold packet; it does not yet reconcile retained index records to anchor PASS/blocker outcomes."
     },
     {
       "code": "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT",
@@ -177,65 +77,67 @@
     },
     {
       "code": "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
-      "detail": "Event-family thresholds are frozen for fixture identity, not accepted as production library authority."
+      "detail": "Event-family thresholds remain frozen for fixture identity, not accepted as production library authority."
     }
   ],
-  "direct_downstream_hold": {
-    "count": 8,
-    "tracker_ids": [
-      "TRK-W64-073",
-      "TRK-W64-074",
-      "TRK-W64-081",
-      "TRK-W64-093",
-      "TRK-W64-098",
-      "TRK-W64-100",
-      "TRK-W64-103",
-      "TRK-W64-112"
-    ],
-    "reason": "Fail-closed Row072 contract and synthetic calibration do not unlock Row093 or other dependents until library authority is accepted."
-  },
-  "preservation_boundary": {
-    "row070_paths_modified": false,
-    "row071_paths_modified": false,
-    "row084_paths_modified": false,
-    "row090_paths_modified": false,
-    "sound_planning_source_package_modified": false,
-    "external_audio_source_modified": false,
-    "provider_or_worker_invoked": false,
-    "audio_decode_feature_extraction_library_runtime_executed": false,
-    "only_new_or_updated_project_outputs": [
-      "Plan/08_SCHEMAS/onset_transient_anchor_record.schema.json",
-      "Plan/10_REGISTRIES/wave64_row072_onset_transient_threshold_registry.json",
-      "Plan/07_IMPLEMENTATION/scripts/detect_wave64_onset_transient_anchors.py",
-      "Plan/Instructions/QA/Scripts/test_detect_wave64_onset_transient_anchors.py",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_onset_transient_detection.json",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ONSET_TRANSIENT_ANCHOR_CURRENT_DELTA_20260719.json"
-    ]
-  },
-  "checks": [
-    {"name": "OTA-I001_focused_pytest_nine_passed", "result": "pass"},
-    {"name": "OTA-I002_library_mode_hold_packet_emitted", "result": "pass"},
-    {"name": "OTA-I003_row070_dependency_hold_detected", "result": "pass"},
-    {"name": "OTA-I004_row071_dependency_hold_detected", "result": "pass"},
-    {"name": "OTA-I005_threshold_registry_revision_frozen", "result": "pass"},
-    {"name": "OTA-I006_two_methods_required_by_schema", "result": "pass"},
-    {"name": "OTA-I007_impulse_fixture_within_sample_threshold", "result": "pass"},
-    {"name": "OTA-I008_silence_and_gradual_attack_block_frame_exact_claim", "result": "pass"},
-    {"name": "OTA-I009_no_false_completion_or_runtime_claim", "result": "pass"},
-    {"name": "OTA-I010_sibling_lane_paths_unmodified", "result": "pass"}
+  "blocker_codes": [
+    "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT",
+    "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+    "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT"
   ],
-  "check_summary": {
-    "checked": 10,
-    "passed": 10,
-    "failed": 0
+  "direct_evidence": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_onset_transient_detection.json",
+    "sha256": "20f5573b6868ef51a2ccf4887cff0a91cc4404a3ba3411e99a9e8269bb1123ba",
+    "bytes": 27819,
+    "status": "HOLD_LIBRARY_RUNTIME_AND_BENCHMARK_STRATA_ABSENT_DEPS_UNLOCKED",
+    "library_authority": false,
+    "row_complete": false
   },
   "decision": {
-    "fail_closed_contract": "accepted_as_bounded_increment",
+    "fail_closed_contract": "retained",
+    "dependencies_unlocked": true,
     "synthetic_fixture_calibration": "technical_method_identity_reuse_allowed",
-    "row072_status": "Planned_Autonomous_Implementation_Required",
     "row072_acceptance": "held",
     "runtime_completion": false,
     "product_completion": false,
-    "safe_next_action": "After Rows070-071 library authority is accepted, extend the detector to reconcile every accepted PCM/feature record to anchor PASS or an exact blocker under the frozen threshold registry, then replace the hold packet with full-library evidence before claiming any Row093 unlock."
-  }
+    "proof_tier": "RUNTIME_PASS_BOUNDED",
+    "safe_next_action": "Rows070-071 library authority is accepted. Extend the detector to reconcile every accepted PCM/feature record to anchor PASS or an exact blocker under the frozen threshold registry, then replace this hold packet with full-library onset/transient evidence before claiming Row072 acceptance or Row093 unlock."
+  },
+  "checks": [
+    {
+      "name": "OTA-I001_focused_pytest_nine_passed",
+      "result": "pass"
+    },
+    {
+      "name": "OTA-I002_library_mode_hold_packet_emitted",
+      "result": "pass"
+    },
+    {
+      "name": "OTA-I003_row070_dependency_unlocked",
+      "result": "pass"
+    },
+    {
+      "name": "OTA-I004_row071_dependency_unlocked",
+      "result": "pass"
+    },
+    {
+      "name": "OTA-I005_library_strata_blockers_retained",
+      "result": "pass"
+    },
+    {
+      "name": "OTA-I006_no_false_completion_or_runtime_claim",
+      "result": "pass"
+    },
+    {
+      "name": "OTA-I007_row069_070_071_surfaces_not_reopened_for_mutation",
+      "result": "pass"
+    }
+  ],
+  "check_summary": {
+    "checked": 7,
+    "passed": 7,
+    "failed": 0
+  },
+  "ec2": "EC2_DEFERRED",
+  "docker_cvat": "not-needed"
 }
