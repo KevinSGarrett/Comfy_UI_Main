@@ -14,8 +14,9 @@
 1. `80d57969` Prove Row017 MF70 jawline/chin local visual climb.
 2. `1892d005` Stamp Row017 jawline/chin handoff with primary commit id.
 3. `cf4d771d` Finalize Row017 jawline/chin handoff tip IDs.
+4. `93a18168` Align Row017 jawline/chin handoff tip to origin HEAD.
 
-Pushed tip verified on origin: `cf4d771d`
+Pushed tip verified on origin: `93a18168`
 
 ## Row-Scoped Increment Executed
 
