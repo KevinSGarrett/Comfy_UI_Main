@@ -1,0 +1,84 @@
+{
+  "artifact_type": "wave64_speech_row124_multi_ref_drift_leakage_matrix",
+  "boundaries": {
+    "comfyui_8188_used": false,
+    "gpu_used": false,
+    "invented_voices": false,
+    "listening_authority_granted": false,
+    "offline_only": true,
+    "production_promotion_claimed": false,
+    "row075_touched": false,
+    "sound_csv_written": false,
+    "speech_csv_written": false,
+    "tip_sha_chain": false
+  },
+  "candidate_sha256": "ff8325a1c2f8613d599af69284f5c4693d996a581230ccbbbb1aeba7affa9815",
+  "check_summary": {
+    "checked": 4,
+    "failed": 0,
+    "passed_structural": 2,
+    "pending_measured": 2
+  },
+  "checks": [
+    {
+      "id": "same_character_multi_source_identity",
+      "measurement": "structural_speaker_and_source_family_concordance",
+      "note": "Both bound references attribute Chris Goringe / LibriVox The Raven. Embedding-level same-character confirmation remains for measured evaluation.",
+      "status": "PASS_STRUCTURAL_OFFLINE"
+    },
+    {
+      "id": "cross_line_drift",
+      "measurement": "calibrated_speaker_embedding_cross_line_drift",
+      "note": "Matrix started; measured cross-line drift not executed in this offline slice.",
+      "status": "PENDING_MEASURED_EVALUATION"
+    },
+    {
+      "id": "non_target_speaker_leakage_rejection",
+      "measurement": "calibrated_non_target_rejector_against_openslr31_authority",
+      "note": "OpenSLR31 validation evidence bound as planned rejector authority only. No non-target acceptance/rejection scores claimed in this offline start.",
+      "planned_rejector_authority": "Plan/Instructions/QA/Evidence/Wave64/W64_OPENSLR31_SPEAKER_IDENTITY_VALIDATION_20260715T035744-0500.json",
+      "status": "PENDING_MEASURED_EVALUATION"
+    },
+    {
+      "id": "reference_separation_from_candidate",
+      "measurement": "sha256_inequality_refs_vs_candidate",
+      "note": "Candidate wav hash is distinct from both source reference hashes.",
+      "status": "PASS_STRUCTURAL_OFFLINE"
+    }
+  ],
+  "evidence_id": "TRK-W64-124_MULTI_REF_DRIFT_LEAKAGE_MATRIX_20260720B",
+  "item_id": "ITEM-W64-124",
+  "matrix_complete": false,
+  "matrix_started": true,
+  "openslr_rejector_authority": {
+    "bytes": 6802,
+    "path": "C:/Comfy_UI_Main/Plan/Instructions/QA/Evidence/Wave64/W64_OPENSLR31_SPEAKER_IDENTITY_VALIDATION_20260715T035744-0500.json",
+    "repo_relative": "Plan/Instructions/QA/Evidence/Wave64/W64_OPENSLR31_SPEAKER_IDENTITY_VALIDATION_20260715T035744-0500.json",
+    "sha256": "cdd7f0c8a0af54ec82c307cc4cea1492976ae1fbbded8712822d4329103ca0a9"
+  },
+  "proof_tier": "OFFLINE_PROOF_BOUNDED",
+  "references_bound": [
+    {
+      "reference_id": "REF-LIBRIVOX-CHRIS-GORINGE-001",
+      "role": "primary_source_reference",
+      "sha256": "f1e5f767d775c514cf94cdedfdf0010961102a3358e095812301e5da72e6d932",
+      "window_seconds": {
+        "end": 5.0,
+        "start": 0.0
+      }
+    },
+    {
+      "reference_id": "REF-LIBRIVOX-CHRIS-GORINGE-002-EXCERPT-20P4",
+      "role": "second_independent_source_reference",
+      "sha256": "ac013d29e84309abd52c49720fe1a9caf2550fd83ce2f8e248be6e4329145f48",
+      "window_seconds": {
+        "end": 21.8,
+        "start": 20.4
+      }
+    }
+  ],
+  "row_complete": false,
+  "schema_version": "1.0",
+  "status": "STARTED_OFFLINE_STRUCTURAL_PENDING_MEASURED_EVALUATION",
+  "tracker_id": "TRK-W64-124"
+}
