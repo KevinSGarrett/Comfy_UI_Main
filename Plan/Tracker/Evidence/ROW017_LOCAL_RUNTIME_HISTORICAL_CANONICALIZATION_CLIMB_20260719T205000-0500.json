@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ROW017-LOCAL-RUNTIME-HISTORICAL-CANONICALIZATION-CLIMB-20260719T205000-0500",
+  "created_at": "2026-07-19T20:55:00-05:00",
+  "tracker_id": "TRK-W64-017",
+  "item_id": "ITEM-W64-017",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+  "decision": "Climbed Row017 with an independent local ComfyUI MF70 left-eye runtime + direct whole-frame visual QA (canonical pass). Historical left-eye seed210809 pass retained. Prior MF70 face-region and W69 inpaint-nomouth/eyeonly/contact-shadow VISUAL_QA_PASS_BOUNDED climbs retained. This does not complete historical normalization.",
+  "row_complete": false,
+  "local_only": true,
+  "generation_executed": true,
+  "canonical_reviews_this_pass": [
+    {
+      "path": "Plan\\Instructions\\QA\\Evidence\\Image_Artifact_QA\\Row017_Canonical_Global_Reviews\\ROW017_LOCAL_MF70_LEFT_EYE_20260719T205000-0500_GLOBAL_REVIEW.json",
+      "decision": "pass"
+    }
+  ],
+  "retained_reviews": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_LOCAL_W69_INPAINT_NOMOUTH_20260719T203000-0500_GLOBAL_REVIEW.json",
+      "note": "prior_inpaint_nomouth_pass_retained"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_LOCAL_W69_EYEONLY_20260719T200500-0500_GLOBAL_REVIEW.json",
+      "note": "prior_eyeonly_pass_retained"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_LOCAL_W69_CONTACT_SHADOW_20260719T194500-0500_GLOBAL_REVIEW.json",
+      "note": "prior_contact_shadow_pass_retained"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_LEFT_EYE_SEED210809_VISUAL_QA_20260707T173000-0500.json",
+      "note": "historical_left_eye_seed210809_pass_retained"
+    }
+  ],
+  "historical_canny_eyeonly_reject_retained": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_W69_CANNY_EYEONLY_GLOBAL_REVIEW_20260718.json",
+  "historical_contact_shadow_seed210704_reject_retained": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_W69_CONTACT_SHADOW_PRESSURE_GLOBAL_REVIEW_20260718.json",
+  "runtime_execute": "Plan\\Instructions\\QA\\Evidence\\Workflow_Runtime\\W64_LOCAL_COMFYUI_ROW017_MF70_LEFT_EYE_EXECUTE_20260719T205000-0500.json",
+  "visual_qa": "Plan\\Instructions\\QA\\Evidence\\Image_Artifact_QA\\ROW017_LOCAL_MF70_LEFT_EYE_VISUAL_QA_20260719T205000-0500.json",
+  "remaining_blocker": "Row017 cannot complete until remaining historical localized visual-review records are classified into canonical pre/post, target, non-target, six-category, and global-rejection evidence, and future localized candidates continue to clear whole-frame rejection gates.",
+  "next_action": "Continue bounded Row017 historical localized canonicalization with another independent local visual/audio proof lane away from Row069-071, e.g. MF70 right-eye or expression-region local ComfyUI + whole-frame visual QA.",
+  "ec2": "EC2_DEFERRED",
+  "docker_cvat": "not-needed"
+}

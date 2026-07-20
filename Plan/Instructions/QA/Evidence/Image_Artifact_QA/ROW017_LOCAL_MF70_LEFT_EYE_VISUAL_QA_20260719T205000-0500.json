@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ROW017-LOCAL-MF70-LEFT-EYE-VISUAL-QA-20260719T205000-0500",
+  "created_at": "2026-07-19T20:55:00-05:00",
+  "tracker_id": "TRK-W64-017",
+  "item_id": "ITEM-W64-017",
+  "localized_region": "left_eye",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+  "qa_decision": "pass_bounded_localized_left_eye_runtime_candidate",
+  "overall_decision": "pass",
+  "local_only": true,
+  "direct_visual_inspection": true,
+  "fixture_only": false,
+  "generation_executed": true,
+  "runtime_receipt": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_left_eye_20260719T205000-0500\\LOCAL_RUNTIME_RECEIPT.json",
+  "source": {
+    "path": "ComfyUI\\input\\wave70_mf70_face_identity_source_canny_v3.png",
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d"
+  },
+  "artifact": {
+    "path": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_left_eye_20260719T205000-0500\\images\\codex_row017_mf70_left_eye_20260719T205000-0500_00001_.png",
+    "sha256": "a323b31f8aaa4de706c5dfb81a43cd52ef2d5d6ecd7ea2e45b576170fd33b23c"
+  },
+  "comparison_panel": {
+    "path": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_left_eye_20260719T205000-0500\\images\\qa_full_side_by_side.png",
+    "sha256": "39d3a3455c480753ed22104ae912c4960ef7a9d2b738bc68a597d4903903c85e"
+  },
+  "left_eye_crop_panel": {
+    "path": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_left_eye_20260719T205000-0500\\images\\qa_left_eye_crop_side_by_side.png",
+    "sha256": "3fff04ef46ae03eaf08a718ee53b6bb90b036bc963a3e3076ee946f03d46495e"
+  },
+  "difference_metrics": {
+    "full_image_diff_bbox": [
+      391,
+      293,
+      469,
+      350
+    ],
+    "left_eye_mask_bbox": [
+      387,
+      291,
+      474,
+      352
+    ],
+    "left_eye_crop_box": [
+      347,
+      251,
+      514,
+      392
+    ],
+    "mean_rgb_abs_diff": [
+      0.0404459647834301,
+      0.0405629463493824,
+      0.039520263671875
+    ],
+    "rms_rgb_abs_diff": [
+      0.790852427482605,
+      0.7837103009223938,
+      0.7503254413604736
+    ],
+    "left_eye_region_mean_abs": [
+      4.495194911956787,
+      4.508196830749512,
+      4.392312049865723
+    ],
+    "right_eye_region_mean_abs": 0.0,
+    "mouth_region_mean_abs": 0.0,
+    "blazer_mean_abs": 0.0,
+    "background_corner_mean_abs": 0.0,
+    "hair_region_mean_abs": 0.0,
+    "changed_pixel_count": 3126,
+    "mask_pixel_count": 4239,
+    "subject_right_eye_region_mean_abs": 0.0,
+    "nose_bridge_region_mean_abs": 0.45483332872390747,
+    "cheek_region_mean_abs": 0.0,
+    "iris_mean_rgb_source": [
+      79.333336,
+      57.52635,
+      47.51365
+    ],
+    "iris_mean_rgb_output": [
+      80.03429,
+      58.883175,
+      47.50349
+    ]
+  },
+  "whole_frame_findings": [
+    "Fresh local ComfyUI MF70 left-eye masked inpaint (seed 4829176503, RealVisXL baked VAE, denoise 0.05, FeatherMask 24px, cfg 3.4, steps 18) completed successfully (prompt_id 9810d04a-8197-4f14-a886-b1986f06b6fe).",
+    "Whole-frame identity, subject-right eye, gaze pairing, brows, nose, mouth/teeth visibility, cheeks, jawline/chin, hair silhouette, cream blazer, lighting, and gray background remain stable versus Canny v3 identity source.",
+    "Pixel delta localized to subject-left eye bbox [391, 293, 469, 350]; mouth/blazer/background/hair/subject-right-eye mean abs 0.0; 3126 changed pixels.",
+    "Iris mean RGB remains dark-brown/stable (src ~[79,57,47] vs out ~[80,58,47]); no iris-color flip.",
+    "Direct whole-frame + left-eye crop inspection: subtle subject-left eyelid crease / lash / iris microtexture refinement without hard seam, gaze drift, mismatched eyes, clothing/background regression, or identity change.",
+    "Hands not in frame; no clothing/background/lighting regression observed."
+  ],
+  "global_defects": [],
+  "promotion_authorized": false,
+  "row_complete": false,
+  "ec2": "EC2_DEFERRED",
+  "docker_cvat": "not-needed",
+  "notes": [
+    "Historical MF70 left-eye seed210809 pass retained separately; this is a fresh independent local runtime climb.",
+    "Prior W69 inpaint-nomouth / eyeonly / contact-shadow and MF70 face-region VISUAL_QA_PASS_BOUNDED climbs retained.",
+    "Historical canny eyeonly full-gen reject, contact-shadow seed210704 reject, fluid masked-inpaint reject, and eyes_full_v3b reject remain truthful and separate.",
+    "Does not complete historical Row017 normalization backlog."
+  ]
+}
