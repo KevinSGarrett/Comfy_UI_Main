@@ -25,8 +25,10 @@
     "CLOCK_SPAN_REVERSED_PTS_JSON_SCHEMA_NATIVE_ABSENT": {
       "check_id": "ROW084-012",
       "class": "C",
-      "detail": "Draft 2020-12 JSON Schema cannot natively express end_pts_exclusive > start_pts cross-field comparison; compiler invariants remain fail-closed. HOLD only.",
-      "status": "OPEN_HOLD"
+      "detail": "Deepened HOLD: Draft 2020-12 + Draft202012Validator accept equal/reversed PTS on published field schemas; hold packet + focused schema-alone proof test recorded. Compiler invariants remain fail-closed. Not cleared.",
+      "status": "OPEN_HOLD",
+      "hold_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-012_CLASS_C_SCHEMA_NATIVE_REVERSED_PTS_HOLD_PACKET_20260720.json",
+      "hold_packet_sha256": "0e0c3d8648f939f24684be7a9b7ad70aef20b1289f6fadd30d90256dbdeb1ff7"
     }
   },
   "checks": [
@@ -90,7 +92,9 @@
       "check_id": "ROW084-012",
       "name": "clock_span_reversed_pts_enforced_by_json_schema_alone",
       "status": "FAIL",
-      "note": "Class C HOLD: Draft 2020-12 cannot express end_pts_exclusive > start_pts via JSON Schema alone; compiler validate_clock_span_invariants remains authoritative fail-closed. Not cleared this pass."
+      "note": "Class C HOLD deepened: offline Draft202012Validator probe shows equal/reversed PTS validate under canonical_media_clock_span field schemas; schema-alone enforcement absent. Hold packet + test_clock_span_schema_alone_cannot_reject_reversed_pts. Compiler validate_clock_span_invariants remains authoritative. Not cleared.",
+      "hold_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-012_CLASS_C_SCHEMA_NATIVE_REVERSED_PTS_HOLD_PACKET_20260720.json",
+      "hold_packet_sha256": "0e0c3d8648f939f24684be7a9b7ad70aef20b1289f6fadd30d90256dbdeb1ff7"
     },
     {
       "check_id": "ROW084-013",
@@ -259,12 +263,12 @@
       "status": "PASS"
     }
   ],
-  "classification": "ROW084_OFFLINE_VFR_SEGMENT_MAP_BENCHMARK_CLEARED_NO_COMPLETE",
+  "classification": "ROW084_CLASS_C_SCHEMA_NATIVE_REVERSED_PTS_HOLD_DEEPENED_NO_COMPLETE",
   "climb_targets": [
     "RUNTIME_PASS_BOUNDED",
     "VISUAL_QA_PASS_BOUNDED"
   ],
-  "created_at": "2026-07-20T14:58:49Z",
+  "created_at": "2026-07-20T15:16:00Z",
   "dependency_authority": {
     "acceptance_commit": "b074c694518b7ebe78a1e7292db28427d7f75ca7",
     "dependency_satisfied": true,
@@ -300,12 +304,12 @@
       "visual_review_authority_granted": true
     },
     "py_compile": "PASS",
-    "scope_interpretation": "Offline VFR segment-map benchmark cleared ROW084-013 Class B via ffprobe PTS-derived contiguous map + per-segment roundtrip without COMPLETE/row_complete or :8188. Class E PRODUCTION_COMPLETION remains open; Class C ROW084-012 schema native hold recorded.",
+    "scope_interpretation": "ROW084-012 Class C HOLD deepened via offline schema-native probe + focused proof test without inventing Ajv/ or custom vocabulary authority. ROW084-013/017 remain cleared. Class E PRODUCTION_COMPLETION (ROW084-011) remains open FAIL. No COMPLETE/row_complete.",
     "strict_command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
     "strict_exit_code": 0,
-    "strict_result": "49 passed",
+    "strict_result": "50 passed",
     "total_focused_failed": 0,
-    "total_focused_passed": 49,
+    "total_focused_passed": 50,
     "registered_tolerances_runtime_climb": {
       "blocker_class": "D",
       "blocker_codes_cleared": [
@@ -333,14 +337,32 @@
       "row_complete": false,
       "production_completion_allowed": false,
       "status": "PASS"
+    },
+    "schema_native_reversed_pts_hold_climb": {
+      "blocker_class": "C",
+      "blocker_codes_held": [
+        "CLOCK_SPAN_REVERSED_PTS_JSON_SCHEMA_NATIVE_ABSENT"
+      ],
+      "blocker_codes_cleared": [],
+      "comfyui_8188_invoked": false,
+      "schema_alone_enforcement_present": false,
+      "cleared": false,
+      "proof_tier": "CONTRACT_PASS_BOUNDED",
+      "hold_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-012_CLASS_C_SCHEMA_NATIVE_REVERSED_PTS_HOLD_PACKET_20260720.json",
+      "hold_packet_sha256": "0e0c3d8648f939f24684be7a9b7ad70aef20b1289f6fadd30d90256dbdeb1ff7",
+      "clock_span_schema_sha256": "eb203bdae6a8b99df08e23e888dcd94f98b9991804603913ad14e8bf3f377d20",
+      "focused_proof_test": "test_clock_span_schema_alone_cannot_reject_reversed_pts",
+      "row_complete": false,
+      "production_completion_allowed": false,
+      "status": "HOLD"
     }
   },
   "focused_source_tests": {
     "command": "python -m unittest Plan.Instructions.QA.Scripts.test_row084_canonical_video_timeline_compiler",
     "strict_exit_code": 0,
-    "strict_result": "49 passed",
+    "strict_result": "50 passed",
     "total_focused_failed": 0,
-    "total_focused_passed": 49
+    "total_focused_passed": 50
   },
   "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
   "hold_decision": {
@@ -350,7 +372,7 @@
         "check_ids": [
           "ROW084-011"
         ],
-        "detail": "COMPLETE/row_complete intentionally withheld. Class E.",
+        "detail": "COMPLETE/row_complete intentionally withheld. Class E. Do not clear.",
         "severity": "blocking_for_row_complete"
       },
       {
@@ -358,8 +380,10 @@
         "check_ids": [
           "ROW084-012"
         ],
-        "detail": "Class C HOLD: JSON Schema Draft 2020-12 cannot natively enforce end_pts_exclusive > start_pts; compiler invariants remain.",
-        "severity": "recorded_hold_not_cleared"
+        "detail": "Class C OPEN_HOLD deepened: Draft 2020-12 cannot natively enforce end_pts_exclusive > start_pts; hold packet recorded.",
+        "severity": "recorded_hold_not_cleared",
+        "hold_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-012_CLASS_C_SCHEMA_NATIVE_REVERSED_PTS_HOLD_PACKET_20260720.json",
+        "hold_packet_sha256": "0e0c3d8648f939f24684be7a9b7ad70aef20b1289f6fadd30d90256dbdeb1ff7"
       }
     ],
     "cleared_blockers": [
@@ -408,9 +432,9 @@
         "check_id": "ROW084-013"
       }
     ],
-    "decision": "HOLD_ROW084_AFTER_VFR_SEGMENT_MAP_BENCHMARK_NO_COMPLETE",
-    "reason": "ROW084-013 cleared via offline media-backed VFR segment-map benchmark without :8188. COMPLETE/row_complete remain withheld (Class E). ROW084-012 Class C schema hold recorded.",
-    "safe_next_action": "CSV deferred. Class E PRODUCTION_COMPLETION_AND_ROW_COMPLETE_BLOCKED remains; ROW084-011 FAIL (do not clear); ROW084-012 Class C HOLD. Do not claim COMPLETE/row_complete."
+    "decision": "HOLD_ROW084_CLASS_C_SCHEMA_NATIVE_REVERSED_PTS_DEEPENED_NO_COMPLETE",
+    "reason": "ROW084-012 Class C HOLD deepened with offline Draft 2020-12 probe evidence and focused schema-alone proof test. Schema-native clearance not feasible without inventing non-Draft authority. ROW084-011 Class E FAIL remains. COMPLETE/row_complete withheld.",
+    "safe_next_action": "CSV deferred. Class E PRODUCTION_COMPLETION_AND_ROW_COMPLETE_BLOCKED remains; ROW084-011 FAIL (do not clear); ROW084-012 Class C OPEN_HOLD deepened (do not fake PASS). Do not claim COMPLETE/row_complete."
   },
   "host_execution": {
     "comfyui_8188_invoked": false,
@@ -536,7 +560,8 @@
       "registry status runtime_authoritative_offline_bounded without COMPLETE/row_complete",
       "media-backed VFR segment map derived from ffprobe packet PTS deltas (ROW084-013)",
       "contiguous VFR segment coverage with per-segment roundtrip residuals",
-      "held-out VFR segment-map benchmark without COMPLETE/row_complete"
+      "held-out VFR segment-map benchmark without COMPLETE/row_complete",
+      "focused proof that Draft202012Validator accepts equal/reversed PTS under clock-span field schemas (ROW084-012 HOLD)"
     ],
     "runtime_revision": "row084_held_out_roundtrip_benchmark_v2",
     "still_absent": [
@@ -552,9 +577,9 @@
     "synthetic_climb_ledger_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_synthetic_runtime_climb_ledger.schema.json",
     "synthetic_climb_ledger_schema_sha256": "fa45fbf3adaa0873b17e143009b8b5b8e441823d4a2f68cafad6ee3d855883c3",
     "synthetic_climb_ledger_sha256": "286d3b200f7700c456e0122332290c9f7cc2dd62d9fb63e96ed57515051a6764",
-    "test_bytes": 83315,
+    "test_bytes": 84711,
     "test_path": "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
-    "test_sha256": "d438962be1cdd786935cb3b2317bf5afc8bd998253eb2c460bc83b5cd304b721",
+    "test_sha256": "1ec1056206b0cef101b8f9297b22835d7aa555f7e73417def13e9e408e9c8ea4",
     "tracker_output_artifact_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_canonical_video_timeline.json",
     "tracker_output_artifact_sha256": "4316bad64f2e1f2d77c8d5a96fba724527ae0648d740db4d14f965b0cbdfcbca",
     "clock_profile_registry_path": "Plan/10_REGISTRIES/wave64_audio_delivery_and_clock_profile_registry.json",
@@ -564,38 +589,37 @@
     "held_out_vfr_segment_map_benchmark_receipt_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/held_out_vfr_segment_map_benchmark_receipt.json",
     "held_out_vfr_segment_map_benchmark_receipt_sha256": "ec3e3861b1940d31a729ad2ca681b07f72e4cff5351b26ede3e85a82e78c5479",
     "held_out_vfr_segment_map_benchmark_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_held_out_vfr_segment_map_benchmark_receipt.schema.json",
-    "held_out_vfr_segment_map_benchmark_schema_sha256": "5026b13f7fa14dc93aa4525888ee1d0329c0480ed9a895f84114f8ac6a5b3fbc"
+    "held_out_vfr_segment_map_benchmark_schema_sha256": "5026b13f7fa14dc93aa4525888ee1d0329c0480ed9a895f84114f8ac6a5b3fbc",
+    "class_c_schema_native_hold_packet_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-012_CLASS_C_SCHEMA_NATIVE_REVERSED_PTS_HOLD_PACKET_20260720.json",
+    "class_c_schema_native_hold_packet_sha256": "0e0c3d8648f939f24684be7a9b7ad70aef20b1289f6fadd30d90256dbdeb1ff7",
+    "clock_span_schema_path": "Plan/08_SCHEMAS/canonical_media_clock_span.schema.json",
+    "clock_span_schema_sha256": "eb203bdae6a8b99df08e23e888dcd94f98b9991804603913ad14e8bf3f377d20"
   },
   "increment": {
     "comfyui_8188_invoked": false,
-    "kind": "offline_vfr_segment_map_benchmark",
+    "kind": "class_c_schema_native_reversed_pts_hold_deepen",
     "row_complete": false,
     "runtime_media_decode_invoked": false,
-    "summary": "Cleared ROW084-013 via offline ffprobe PTS-derived VFR segment-map benchmark without :8188, COMPLETE, or row_complete.",
-    "vfr_segment_map_benchmark_complete": true,
+    "summary": "Deepened ROW084-012 Class C HOLD with offline schema-native probe packet and focused proof test; no PASS/COMPLETE.",
+    "schema_alone_enforcement_present": false,
     "visual_qa_pass_bounded_claimed": true
   },
   "intent": {
     "allowed_paths": [
-      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_vfr_segment_map_benchmark_receipt.schema.json",
       "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
-      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_canonical_video_timeline.json",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-012_CLASS_C_SCHEMA_NATIVE_REVERSED_PTS_HOLD_PACKET_20260720.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_canonical_video_timeline.json"
     ],
     "authority_class": "interactive_cursor",
     "candidate_paths": [
-      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_vfr_segment_map_benchmark_receipt.schema.json",
       "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
-      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_canonical_video_timeline.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-012_CLASS_C_SCHEMA_NATIVE_REVERSED_PTS_HOLD_PACKET_20260720.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
     ],
     "classification": "INTERACTIVE_PLATFORM_SHIFT_AUTHORITY",
     "dispatch_wake_count": 0,
-    "intent_id": "interactive_cursor_shift_row084_vfr_segment_map_20260720",
+    "intent_id": "interactive_cursor_shift_row084_012_class_c_hold_20260720",
     "routing": null,
     "work_type": "final_authority"
   },
@@ -603,22 +627,18 @@
   "pass_digest_owner_pending": true,
   "preservation_boundary": {
     "actual_write_paths": [
-      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_vfr_segment_map_benchmark_receipt.schema.json",
       "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
-      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_canonical_video_timeline.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-012_CLASS_C_SCHEMA_NATIVE_REVERSED_PTS_HOLD_PACKET_20260720.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
     ],
     "allowed_write_paths": [
-      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_vfr_segment_map_benchmark_receipt.schema.json",
       "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
-      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_canonical_video_timeline.json",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-012_CLASS_C_SCHEMA_NATIVE_REVERSED_PTS_HOLD_PACKET_20260720.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_canonical_video_timeline.json"
     ],
     "comfyui_8188_touched": false,
+    "row073_pcm_left_alone": true,
     "row075_pid_left_alone": true,
     "sibling_row_paths_preserved": true,
     "tip_sha_chain_written": false,
@@ -626,7 +646,7 @@
     "unrelated_dirty_paths_preserved": true,
     "worker_artifacts_preserved": true
   },
-  "prior_evidence_commit": "5c2f72dd87d154e78ff80dc9f17ad436cec071ca",
+  "prior_evidence_commit": "b2d23937daf595ec83ff4912c890b10cfda2828a",
   "prior_row_commit_is_current_head": true,
   "proof_tier": "VISUAL_QA_PASS_BOUNDED",
   "qa_decision": "HOLD",
@@ -646,7 +666,7 @@
     ],
     "risk": "HIGH",
     "runtime_proof_required": true,
-    "status": "Blocked_Visual_Qa_Pass_Bounded_Production_Completion_And_Row_Complete_Blocked",
+    "status": "Blocked_Visual_Qa_Pass_Bounded_Class_C_Schema_Native_Hold_And_Production_Completion_Blocked",
     "test_required": true,
     "title": "Canonical video decode, cuts, frame timing, and sample-clock normalization",
     "tracker_output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_canonical_video_timeline.json",
@@ -688,7 +708,7 @@
     "writable_scope_note": "Disjoint from Row075 PID, Rows069-071 library, Row017 MF70, and sibling Row085 fixture paths. No Tracker/Items CSV writes."
   },
   "source_commit": "PENDING_LANDING",
-  "status": "HOLD_ROW084_VISUAL_QA_PASS_BOUNDED_VFR_SEGMENT_MAP_CLEARED_NO_COMPLETE",
+  "status": "HOLD_ROW084_VISUAL_QA_PASS_BOUNDED_CLASS_C_SCHEMA_NATIVE_HOLD_DEEPENED_NO_COMPLETE",
   "test_and_runtime_boundary": {
     "camera_motion_normalization_complete": true,
     "camera_motion_policy_fixture_matrix_only": true,
@@ -705,7 +725,7 @@
     "fixture_mux_plan_replay_only": true,
     "focused_source_tests_executed": true,
     "focused_source_tests_failed": 0,
-    "focused_source_tests_passed": 49,
+    "focused_source_tests_passed": 50,
     "held_out_fixture_matrix_only": true,
     "missing_frame_policy_fixture_matrix_only": false,
     "missing_frame_policy_runtime_complete": true,
@@ -723,7 +743,8 @@
     "wrapper_calls": 0,
     "wsl_invoked": false,
     "registered_roundtrip_tolerances_runtime_authoritative": true,
-    "vfr_segment_map_benchmark_complete": true
+    "vfr_segment_map_benchmark_complete": true,
+    "schema_native_reversed_pts_enforcement_present": false
   },
   "tracker_id": "TRK-W64-084"
 }
