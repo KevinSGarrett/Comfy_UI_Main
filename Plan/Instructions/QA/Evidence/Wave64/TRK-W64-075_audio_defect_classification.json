@@ -34,9 +34,7 @@
     "receipt_path": "runtime_artifacts/audio_defects/row075_index_retained_20260719/retained_index_defect_receipt.json",
     "records_path": "runtime_artifacts/audio_defects/row075_index_retained_20260719/records.jsonl",
     "row072_contention_policy": "separate_runtime_dir_read_only_row071_records;full_library_deferred_while_row072_pcm_scan_active",
-    "status": "RUNTIME_PASS_BOUNDED_LIBRARY_THRESHOLDS_FROZEN",
-    "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_ACCEPTED_INDEX_RETAINED_DEFECT_SUMMARY_20260719.json",
-    "summary_sha256": "12a27767048a4b11bc105d3f9d36c41bdaef688b51272da2ef83c29c378d53d9"
+    "status": "RUNTIME_PASS_BOUNDED_LIBRARY_THRESHOLDS_FROZEN"
   },
   "blocker_codes": [
     "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
@@ -46,7 +44,7 @@
     "product_completion": false,
     "row075_acceptance": "held",
     "runtime_completion": true,
-    "safe_next_action": "Full-library defect reconcile covered retained Row071 records under frozen synthetic thresholds. Calibrate representative library defect strata and unfreeze threshold authority before Row075 acceptance or Row078/Row093 unlock.",
+    "safe_next_action": "Full-library defect reconcile is coverage_complete. Synthetic fixture truth defects are labeled on the retained shortlist, but library_unlabeled candidates remain pending/blocked and threshold authority stays frozen at wave64_row075_audio_defect_thresholds_v0.1.0. Obtain library strata truth before unfreezing thresholds or claiming Row075 acceptance. Do not decode library PCM or claim COMPLETE.",
     "status": "blocked"
   },
   "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
@@ -2925,6 +2923,26 @@
   "implementation_completion_claimed": false,
   "item_id": "ITEM-W64-075",
   "library_authority": false,
+  "library_benchmark_strata": {
+    "authority": "candidate_shortlist_pending_truth_defects",
+    "benchmark_strata_calibrated": false,
+    "blocker_codes": [
+      "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+      "CALIBRATED_LIBRARY_DEFECT_STRATA_ABSENT"
+    ],
+    "candidates_selected": 13,
+    "library_authority": false,
+    "packet_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_LIBRARY_BENCHMARK_STRATA_CANDIDATE_PACKET_20260720.json",
+    "packet_sha256": "34fbd40a8b28940c1edc5edad8b9a27d1ef87a63ea7e38e27402ccb81171ca95",
+    "present": true,
+    "selection_policy": "retained_shortlist_synthetic_fixture_truth_no_pcm_library_decode",
+    "strata_registry_revision": "wave64_row075_audio_defect_library_benchmark_strata_v0.1.0",
+    "threshold_authority_unfrozen": false,
+    "truth_blocked": 2,
+    "truth_defect_status": "partial",
+    "truth_labeled": 5,
+    "truth_pending": 6
+  },
   "proof_tier": "RUNTIME_PASS_BOUNDED",
   "required_defect_codes": [
     "clipping",
