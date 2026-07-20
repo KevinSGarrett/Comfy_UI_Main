@@ -2,18 +2,29 @@
   "schema_version": "1.0",
   "evidence_id": "TRK-W64-019_023_CLASS_B_BLOCKER_LEDGER_20260720",
   "created_iso": "2026-07-20T01:52:00-05:00",
-  "updated_iso": "2026-07-20T02:42:00-05:00",
+  "updated_iso": "2026-07-20T02:50:30-05:00",
   "classification": "Class_B_Failed_runtime_visual_QA",
   "row_complete": false,
   "production_video_complete_claimed": false,
   "ec2": "EC2_DEFERRED",
   "docker_cvat": "not_proof",
+  "class_reclassification_20260720T025030": {
+    "disposition_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_CLASS_A_F_BLOCKER_DISPOSITION_PACKET_20260720.json",
+    "class_f_codes": ["LOCAL_WAN_MODEL_PAYLOAD_MISSING"],
+    "class_a_codes": [
+      "CONTACT_SOFT_BODY_VIDEO_SCOPE_BLOCKED_GOLD_MASKS",
+      "Blocked_Gold_Mask_Dependency_Missing"
+    ],
+    "flux_seed_retries": "CAP_REACHED_STOP_THIS_SHIFT",
+    "note": "Visual-QA reject codes remain Class B in this ledger; Class A/F disposition is authoritative for payload and gold-mask authority gaps."
+  },
   "gpu_serialization": {
     "port": 8188,
     "queue_stolen": false,
     "row075_pid_left_alone": true,
     "this_landing_client_id": "row023-flux-span-repair-v2-20260720",
-    "this_landing_prompt_id": "570f705e-1730-44e4-84d1-5ea3e2d64229"
+    "this_landing_prompt_id": "570f705e-1730-44e4-84d1-5ea3e2d64229",
+    "further_flux_or_8188_spam_this_shift": false
   },
   "class_b_codes_before": {
     "TRK-W64-019": [
@@ -79,6 +90,7 @@
         },
         {
           "blocker_id": "CONTACT_SOFT_BODY_VIDEO_SCOPE_BLOCKED_GOLD_MASKS",
+          "blocker_class": "A",
           "opportunity": true,
           "scope": "contact_and_soft_body_subgates_only",
           "exact_defect": "Trusted body/contact gold masks unavailable; contact/soft-body video claims remain out of scope."
@@ -106,6 +118,7 @@
         },
         {
           "blocker_id": "LOCAL_WAN_MODEL_PAYLOAD_MISSING",
+          "blocker_class": "F",
           "opportunity": true,
           "runtime_proof_required": true,
           "missing_assets": [
@@ -114,7 +127,8 @@
             "wan2.2_vae.safetensors"
           ],
           "evidence": [
-            "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-023_LOCAL_WAN_MODEL_PAYLOAD_SEARCH_20260720.json"
+            "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-023_LOCAL_WAN_MODEL_PAYLOAD_SEARCH_20260720.json",
+            "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_CLASS_A_F_BLOCKER_DISPOSITION_PACKET_20260720.json"
           ],
           "exact_defect": "Exact-filename search across Comfy_UI_Main/models, Comfy_UI, HF hub cache, and Downloads returned 0 hits; new local Wan regeneration still cannot satisfy Runtime_Proof_Required."
         },
@@ -131,6 +145,7 @@
         },
         {
           "blocker_id": "Blocked_Gold_Mask_Dependency_Missing",
+          "blocker_class": "A",
           "opportunity": true,
           "scope": "contact_and_deformation_repair_subgates_only",
           "exact_defect": "Body/contact deformation claims cannot consume candidate masks as trusted truth."
@@ -228,5 +243,5 @@
     }
   },
   "csv_sync": "deferred_evidence_only_avoid_racing_designated_csv_mutator",
-  "next_action": "Retain Wan+Flux v1+v2 rejects. LOCAL_WAN_MODEL_PAYLOAD_MISSING confirmed with search evidence. Next material climb needs Wan payloads or a non-Flux-fill stack. CSV deferred. No COMPLETE."
+  "next_action": "STOP Flux seed retries (cap reached; rejects retained). Class F LOCAL_WAN_MODEL_PAYLOAD_MISSING fail-closed at 0 hits. Class A gold-mask codes: CONTACT_SOFT_BODY_VIDEO_SCOPE_BLOCKED_GOLD_MASKS | Blocked_Gold_Mask_Dependency_Missing. Human/external: stage three Wan payloads or body-contact gold masks. CSV deferred. No COMPLETE."
 }

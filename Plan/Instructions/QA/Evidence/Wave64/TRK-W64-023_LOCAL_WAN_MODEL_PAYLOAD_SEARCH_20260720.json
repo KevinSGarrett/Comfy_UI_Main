@@ -2,28 +2,73 @@
   "schema_version": "1.0",
   "evidence_id": "TRK-W64-023_LOCAL_WAN_MODEL_PAYLOAD_SEARCH_20260720",
   "created_iso": "2026-07-20T02:30:00-05:00",
+  "updated_iso": "2026-07-20T02:50:18-05:00",
   "tracker_id": "TRK-W64-023",
   "item_id": "ITEM-W64-023",
   "blocker_id": "LOCAL_WAN_MODEL_PAYLOAD_MISSING",
+  "blocker_class": "F",
   "decision": "LOCAL_WAN_MODEL_PAYLOAD_MISSING",
+  "fail_closed": true,
   "install_attempted": false,
-  "install_reason_skipped": "No local candidate payloads found to install without inventing/downloading new weights this landing.",
+  "download_attempted": false,
+  "install_reason_skipped": "No local candidate payloads found to install without inventing/downloading new weights this landing. HF hub has zero wan/umt5 top-level model dirs; Downloads and Comfy model roots also 0 exact hits.",
   "required_assets": [
-    "wan2.2_ti2v_5B_fp16.safetensors",
-    "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
-    "wan2.2_vae.safetensors"
+    {
+      "filename": "wan2.2_ti2v_5B_fp16.safetensors",
+      "comfyui_model_subdir": "diffusion_models",
+      "expected_local_path": "C:\\Comfy_UI_Main\\models\\diffusion_models\\wan2.2_ti2v_5B_fp16.safetensors",
+      "bytes": 9999658848,
+      "sha256": "456f901338bd9eadbded3828b819109a9b68e8a525ca5cf8d0049a69fcfeca1e"
+    },
+    {
+      "filename": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+      "comfyui_model_subdir": "text_encoders",
+      "expected_local_path": "C:\\Comfy_UI_Main\\models\\text_encoders\\umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+      "bytes": 6735906897,
+      "sha256": "c3355d30191f1f066b26d93fba017ae9809dce6c627dda5f6a66eaa651204f68"
+    },
+    {
+      "filename": "wan2.2_vae.safetensors",
+      "comfyui_model_subdir": "vae",
+      "expected_local_path": "C:\\Comfy_UI_Main\\models\\vae\\wan2.2_vae.safetensors",
+      "bytes": 1409400960,
+      "sha256": "e40321bd36b9709991dae2530eb4ac303dd168276980d3e9bc4b6e2b75fed156"
+    }
   ],
   "search_roots": [
-    "C:\\Comfy_UI_Main\\models",
-    "C:\\Comfy_UI_Main\\ComfyUI\\models",
-    "C:\\Comfy_UI",
-    "C:\\Users\\kevin\\.cache\\huggingface\\hub",
-    "C:\\Users\\kevin\\Downloads"
+    {
+      "root": "C:\\Comfy_UI_Main\\models",
+      "exists": true,
+      "exact_hits": 0
+    },
+    {
+      "root": "C:\\Comfy_UI_Main\\ComfyUI\\models",
+      "exists": true,
+      "exact_hits": 0
+    },
+    {
+      "root": "C:\\Comfy_UI",
+      "exists": true,
+      "exact_hits": 0
+    },
+    {
+      "root": "C:\\Users\\kevin\\.cache\\huggingface\\hub",
+      "exists": true,
+      "exact_hits": 0,
+      "hf_hub_wan_umt5_top_level_dirs": []
+    },
+    {
+      "root": "C:\\Users\\kevin\\Downloads",
+      "exists": true,
+      "exact_hits": 0
+    }
   ],
   "exact_filename_hits": 0,
   "near_miss_safetensors_hits": 0,
   "runtime_search_artifact": "runtime_artifacts/wave64_row023_wan_payload_search_20260720/wan_payload_search.json",
+  "runtime_search_artifact_sha256": "AF1D6BB8C7DFCD587CB44E534AE9B72ACE729E97DB3B136369A22F95B6430FD1",
   "extra_model_paths": "C:\\Comfy_UI_Main\\config\\comfyui_extra_model_paths.yaml",
   "wan_generation_authorized_this_landing": false,
-  "note": "Local :8188 may expose Wan nodes, but TI2V 5B payloads remain absent under all searched roots; Flux lights-first refine used instead when queue idle."
+  "class_f_disposition_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_CLASS_A_F_BLOCKER_DISPOSITION_PACKET_20260720.json",
+  "note": "Reverified 2026-07-20T02:50:18-05:00: exact-filename recurse across all five roots returned 0 hits. Class F fail-closed until payloads exist; Flux seed retries stopped this shift."
 }
