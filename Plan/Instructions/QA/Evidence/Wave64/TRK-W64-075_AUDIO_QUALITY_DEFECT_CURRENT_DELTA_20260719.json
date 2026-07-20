@@ -2,46 +2,47 @@
   "schema_version": 1,
   "evidence_id": "W64-ROW075-AUDIO-QUALITY-DEFECT-CURRENT-DELTA-20260719",
   "created_at": "2026-07-19T03:26:23.7207842Z",
-  "updated_at": "2026-07-19T23:18:05-05:00",
-  "source_commit": "8236c545",
+  "updated_at": "2026-07-20T00:28:52-05:00",
+  "source_commit": "PENDING_THIS_PASS",
   "tracker_id": "TRK-W64-075",
   "item_id": "ITEM-W64-075",
-  "status": "HOLD_LIBRARY_PROBE_PASS_FULL_RECONCILE_DEFERRED_DEPS_UNLOCKED",
-  "classification": "ROW075_INDEX_RETAINED_PROBE_RUNTIME_PASS_BOUNDED_NO_FALSE_COMPLETION",
+  "status": "HOLD_LIBRARY_RECONCILE_IN_PROGRESS_DEPS_UNLOCKED",
+  "classification": "ROW075_FULL_LIBRARY_INDEX_RETAINED_RECONCILE_STARTED_NO_FALSE_COMPLETION",
   "proof_tier": "RUNTIME_PASS_BOUNDED",
   "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
   "row_complete": false,
   "implementation_completion_claimed": false,
   "runtime_completion_claimed": false,
   "library_authority": false,
-  "qa_decision": "deps_unlocked_index_retained_probe_pass;full_library_deferred_to_avoid_row072_pcm_contention;frozen_thresholds_and_strata_still_block_acceptance",
+  "qa_decision": "row072_coverage_complete_unlocked_full_library_index_retained_defect_reconcile_in_progress;frozen_thresholds_and_strata_still_block_acceptance",
   "increment": {
-    "kind": "index_retained_defect_reconcile_implement_and_bounded_probe",
+    "kind": "full_library_index_retained_defect_reconcile_started",
     "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
     "threshold_registry_revision": "wave64_row075_audio_defect_thresholds_v0.1.0",
-    "summary": "Unlocked Row075 against accepted Row070/071; implemented --mode index-retained over Row071 retained records into a separate runtime dir; proved limit-40 probe (RUNTIME_PASS_BOUNDED). Full-library PCM reconcile deferred while Row072 PID 54864 is healthy to avoid dual PCM I/O contention. No product COMPLETE.",
+    "summary": "After Row072 retained-index coverage_complete, started Row075 full-library --mode index-retained --resume without --limit (PID 45992). Progress 250/39771 (0.63%); defect_pass=199; limit cleared; FULL_RECONCILE_OWNER written. No product COMPLETE.",
     "changed_paths": [
-      "Plan/07_IMPLEMENTATION/scripts/classify_wave64_audio_defects.py",
-      "Plan/Instructions/QA/Scripts/test_classify_wave64_audio_defects.py",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_audio_defect_classification.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_AUDIO_QUALITY_DEFECT_CURRENT_DELTA_20260719.json",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_ACCEPTED_INDEX_RETAINED_DEFECT_SUMMARY_20260719.json"
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_AUDIO_DEFECT_RECONCILE_PROGRESS_20260720T0028-0500.json",
+      "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_TRACKER_ROWS.csv",
+      "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ITEM_ROWS.csv"
     ]
   },
   "focused_validators": {
-    "command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_classify_wave64_audio_defects.py",
-    "exit_code": 0,
-    "passed": 9,
+    "prior_pytest": "python -m pytest -q Plan/Instructions/QA/Scripts/test_classify_wave64_audio_defects.py",
+    "prior_pytest_passed": 9,
     "probe_command": "python Plan/07_IMPLEMENTATION/scripts/classify_wave64_audio_defects.py --mode index-retained --limit 40 --no-resume --retained-runtime-dir runtime_artifacts/audio_defects/row075_index_retained_20260719",
     "probe_records_processed": 40,
-    "probe_defect_pass": 28,
-    "probe_defect_blocked": 12,
-    "probe_eligibility_histogram": {
-      "eligible": 4,
-      "ineligible": 24,
-      "unknown": 12
-    },
-    "library_hold_packet_status": "HOLD_LIBRARY_PROBE_PASS_FULL_RECONCILE_DEFERRED_DEPS_UNLOCKED"
+    "full_run_command": "python Plan/07_IMPLEMENTATION/scripts/classify_wave64_audio_defects.py --mode index-retained --resume --retained-runtime-dir runtime_artifacts/audio_defects/row075_index_retained_20260719",
+    "full_run_pid": 45992,
+    "full_run_alive": true,
+    "full_run_records_processed": 250,
+    "full_run_records_total": 39771,
+    "full_run_percent_complete": 0.63,
+    "full_run_defect_pass": 199,
+    "full_run_defect_blocked": 51,
+    "full_run_eta_hours_remaining_estimate": 12.64,
+    "library_hold_packet_status": "HOLD_LIBRARY_RECONCILE_IN_PROGRESS_DEPS_UNLOCKED",
+    "progress_stamp": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_AUDIO_DEFECT_RECONCILE_PROGRESS_20260720T0028-0500.json"
   },
   "implemented_slice": {
     "classifier_path": "Plan/07_IMPLEMENTATION/scripts/classify_wave64_audio_defects.py",
@@ -85,12 +86,12 @@
   ],
   "acceptance_gaps": [
     {
-      "code": "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT",
-      "detail": "Only limit-40 probe reconciled; full-library deferred while Row072 PCM scan is active."
+      "code": "FULL_LIBRARY_RECONCILE_IN_PROGRESS_TIME_BOUND",
+      "detail": "Full-library index-retained defect reconcile in progress at 250/39771; ETA ~12.64h at current rate."
     },
     {
       "code": "CALIBRATED_LIBRARY_DEFECT_STRATA_ABSENT",
-      "detail": "Synthetic fixtures + probe do not accept library precision/recall strata."
+      "detail": "Synthetic fixtures + probe/partial run do not accept library precision/recall strata."
     },
     {
       "code": "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
@@ -98,19 +99,19 @@
     }
   ],
   "blocker_codes": [
-    "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT",
-    "FULL_LIBRARY_RECONCILE_DEFERRED_OR_IN_PROGRESS",
+    "FULL_LIBRARY_RECONCILE_IN_PROGRESS_TIME_BOUND",
     "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
     "CALIBRATED_LIBRARY_DEFECT_STRATA_ABSENT"
   ],
-  "row072_contention_policy": "separate_runtime_dir_read_only_row071_records;full_library_deferred_while_row072_pcm_scan_active",
+  "row072_contention_policy": "row072_pcm_scan_finished_coverage_complete;row075_full_library_pcm_reconcile_started_exclusive",
   "direct_evidence": {
     "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_audio_defect_classification.json",
     "sha256": "63274f9a4067c409276545bcb9f4d6f2a0af09ed684da8995d914e1e92f73a6a",
     "bytes": 132569,
-    "status": "HOLD_LIBRARY_PROBE_PASS_FULL_RECONCILE_DEFERRED_DEPS_UNLOCKED",
+    "status": "HOLD_LIBRARY_RECONCILE_IN_PROGRESS_DEPS_UNLOCKED",
     "library_authority": false,
-    "row_complete": false
+    "row_complete": false,
+    "note": "Hold packet will refresh when full-library run exits; runtime progress.json is authoritative mid-run."
   },
   "decision": {
     "status": "blocked",
@@ -118,27 +119,27 @@
     "product_completion": false,
     "runtime_completion": false,
     "dependencies_unlocked": true,
-    "safe_next_action": "After Row072 retained-index onset reconcile finishes, resume Row075 --mode index-retained without --limit to coverage_complete under frozen thresholds; then calibrate library defect strata / unfreeze thresholds before acceptance. Keep Row069-071 closed."
+    "safe_next_action": "Do not kill healthy PID 45992; finish retained-index defect reconcile to coverage_complete under frozen thresholds, then calibrate library defect strata / unfreeze thresholds before acceptance. Keep Row069-071 closed."
   },
   "checks": [
     {
-      "name": "ADC-R001_pytest_nine_passed",
+      "name": "ADC-S001_row072_coverage_complete_before_start",
       "result": "pass"
     },
     {
-      "name": "ADC-R002_index_retained_limit40_probe",
+      "name": "ADC-S002_full_library_resume_without_limit_started",
       "result": "pass"
     },
     {
-      "name": "ADC-R003_deps_unlocked_no_false_complete",
+      "name": "ADC-S003_progress_past_probe_checkpoint",
       "result": "pass"
     },
     {
-      "name": "ADC-R004_row072_not_restarted",
+      "name": "ADC-S004_no_false_completion",
       "result": "pass"
     },
     {
-      "name": "ADC-R005_no_mf70_lane_remaining_documented",
+      "name": "ADC-S005_row069_070_071_not_reopened",
       "result": "pass"
     }
   ],
@@ -146,5 +147,34 @@
     "checked": 5,
     "passed": 5,
     "failed": 0
-  }
+  },
+  "process": {
+    "pid": 45992,
+    "alive": true,
+    "command": "classify_wave64_audio_defects.py --mode index-retained --resume --retained-runtime-dir runtime_artifacts/audio_defects/row075_index_retained_20260719",
+    "action": "started_full_library_after_row072_coverage_complete"
+  },
+  "progress_snapshot": {
+    "records_processed": 250,
+    "records_total": 39771,
+    "defect_pass": 199,
+    "defect_blocked": 51,
+    "percent_complete": 0.63,
+    "limit": null,
+    "started_at": "2026-07-20T04:16:16.966679Z",
+    "full_reconcile_owner_started_at": "2026-07-20T05:22:57.939994+00:00",
+    "updated_at": "2026-07-20T05:26:59.725667Z",
+    "eta_hours_remaining_estimate": 12.64,
+    "rate_new_records_per_min_estimate": 52.1,
+    "eligibility_histogram": {
+      "eligible": 22,
+      "ineligible": 177,
+      "unknown": 51
+    },
+    "blocker_histogram": {
+      "DEFECT_CLASSIFICATION_AMBIGUOUS": 51
+    }
+  },
+  "ec2": "EC2_DEFERRED",
+  "docker_cvat": "not-needed"
 }
