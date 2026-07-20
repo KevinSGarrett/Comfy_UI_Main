@@ -2,25 +2,26 @@
   "accepted_index_retained_onset_runtime": {
     "authority": "accepted_index_retained_onset_reconcile",
     "counts": {
-      "analysis_truncated": 0,
-      "exact_blockers": 937,
-      "feature_non_pass_inputs": 0,
-      "feature_pass_inputs": 1000,
-      "onset_blocked": 937,
-      "onset_pass": 63,
-      "pcm_sha_verified": 1000,
-      "records_processed": 1000,
+      "analysis_truncated": 52,
+      "exact_blockers": 33412,
+      "feature_non_pass_inputs": 760,
+      "feature_pass_inputs": 39011,
+      "onset_blocked": 33412,
+      "onset_pass": 6359,
+      "pcm_sha_verified": 39011,
+      "records_processed": 39771,
       "records_total": 39771,
-      "source_immutable_true": 1000
+      "source_immutable_true": 39011
     },
-    "coverage_complete": false,
+    "coverage_complete": true,
     "proof_tier": "RUNTIME_PASS_BOUNDED",
-    "receipt_path": "runtime_artifacts/onset_anchors/row072_index_retained_20260719/progress.json",
+    "receipt_path": "runtime_artifacts/onset_anchors/row072_index_retained_20260719/retained_index_onset_receipt.json",
     "records_path": "runtime_artifacts/onset_anchors/row072_index_retained_20260719/records.jsonl",
-    "status": "HOLD_LIBRARY_RECONCILE_IN_PROGRESS"
+    "status": "RUNTIME_PASS_BOUNDED_LIBRARY_THRESHOLDS_FROZEN",
+    "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ACCEPTED_INDEX_RETAINED_ONSET_SUMMARY_20260719.json",
+    "summary_sha256": "cc6536d408d9459e957212518b84d67088992889a9efadb24b9c288e05878fed"
   },
   "blocker_codes": [
-    "FULL_LIBRARY_RECONCILE_IN_PROGRESS_TIME_BOUND",
     "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
     "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT"
   ],
@@ -28,8 +29,8 @@
     "dependencies_unlocked": true,
     "product_completion": false,
     "row072_acceptance": "held",
-    "runtime_completion": false,
-    "safe_next_action": "Resume/finish retained-index onset reconcile to coverage_complete, then address frozen threshold authority and library benchmark strata before claiming Row072 acceptance.",
+    "runtime_completion": true,
+    "safe_next_action": "Full-library onset reconcile covered retained Row071 records under frozen synthetic thresholds. Calibrate representative library strata with truth onsets and unfreeze threshold authority before Row072 acceptance or Row093 unlock.",
     "status": "blocked"
   },
   "detector_revision": "wave64_row072_onset_transient_detector_v0.1.0",
@@ -784,9 +785,9 @@
     "status": "PASS_LIBRARY_FEATURE_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION"
   },
   "row_complete": false,
-  "runtime_completion_claimed": false,
+  "runtime_completion_claimed": true,
   "schema_version": "1.0.0",
-  "status": "HOLD_LIBRARY_RECONCILE_IN_PROGRESS_DEPS_UNLOCKED",
+  "status": "HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE",
   "threshold_registry": {
     "authority": "planning_freeze_not_library_acceptance",
     "path": "Plan/10_REGISTRIES/wave64_row072_onset_transient_threshold_registry.json",

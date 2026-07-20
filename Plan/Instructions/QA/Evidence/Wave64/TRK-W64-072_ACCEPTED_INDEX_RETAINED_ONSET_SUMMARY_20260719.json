@@ -1,38 +1,85 @@
 {
   "authority": "accepted_index_retained_onset_reconcile",
-  "coverage_complete": false,
-  "counts": {
-    "analysis_truncated": 0,
-    "exact_blockers": 937,
-    "feature_non_pass_inputs": 0,
-    "feature_pass_inputs": 1000,
-    "onset_blocked": 937,
-    "onset_pass": 63,
-    "pcm_sha_verified": 1000,
-    "records_processed": 1000,
-    "records_total": 39771,
-    "source_immutable_true": 1000
-  },
   "blocker_histogram": {
-    "MULTI_CANDIDATE_ONSET_NO_FRAME_EXACT_CLAIM": 937
+    "ANALYSIS_WINDOW_TRUNCATED": 52,
+    "DECODE_FAILED_CORRUPT_OR_UNREADABLE": 747,
+    "FEATURE_EXTRACTION_FAILED": 13,
+    "MULTI_CANDIDATE_ONSET_NO_FRAME_EXACT_CLAIM": 32600
   },
-  "receipt_path": "runtime_artifacts/onset_anchors/row072_index_retained_20260719/progress.json",
-  "records_path": "runtime_artifacts/onset_anchors/row072_index_retained_20260719/records.jsonl",
-  "probe_summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ACCEPTED_INDEX_RETAINED_ONSET_PROBE_SUMMARY_20260719.json",
-  "probe_counts": {
-    "analysis_truncated": 0,
-    "exact_blockers": 36,
-    "feature_non_pass_inputs": 0,
-    "feature_pass_inputs": 40,
-    "onset_blocked": 36,
-    "onset_pass": 4,
-    "pcm_sha_verified": 40,
-    "records_processed": 40,
+  "counts": {
+    "analysis_truncated": 52,
+    "exact_blockers": 33412,
+    "feature_non_pass_inputs": 760,
+    "feature_pass_inputs": 39011,
+    "onset_blocked": 33412,
+    "onset_pass": 6359,
+    "pcm_sha_verified": 39011,
+    "records_processed": 39771,
     "records_total": 39771,
-    "source_immutable_true": 40
+    "source_immutable_true": 39011
   },
+  "coverage_complete": true,
+  "created_at": "2026-07-20T05:20:28.271419Z",
+  "detector_revision": "wave64_row072_onset_transient_detector_v0.1.0",
+  "evidence_id": "W64-ROW072-ACCEPTED-INDEX-RETAINED-ONSET-20260719",
+  "explicit_non_claims": [
+    "COMPLETE",
+    "product_completion",
+    "library_threshold_authority"
+  ],
+  "extension_histogram": {
+    ".flac": 15,
+    ".mp3": 3560,
+    ".ogg": 1,
+    ".wav": 36195
+  },
+  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+  "item_id": "ITEM-W64-072",
+  "library_authority": false,
+  "limit": null,
+  "locator": {
+    "index_sha256": "7301243a364025dbd23907aee20ee8593d5897caa83d38391026ad42da6d17ec",
+    "record_count": 39771,
+    "source_root": "F:\\Len_Transfer\\Audio_Downloads"
+  },
+  "product_completion_claimed": false,
+  "progress_path": "runtime_artifacts/onset_anchors/row072_index_retained_20260719/progress.json",
   "proof_tier": "RUNTIME_PASS_BOUNDED",
-  "status": "HOLD_LIBRARY_RECONCILE_IN_PROGRESS",
-  "estimated_full_library_hours": 13.81,
-  "time_bound_note": "40-record probe ~50s implies ~14h wall-clock for 39771 retained records on this host; full reconcile left running with resume checkpoints."
+  "receipt_bytes": 3341,
+  "receipt_path": "runtime_artifacts/onset_anchors/row072_index_retained_20260719/retained_index_onset_receipt.json",
+  "receipt_sha256": "a315f094486d26041d3d9848d3532160bf6259a02e09df36eb50671cdb5a4273",
+  "records_bytes": 50374817,
+  "records_path": "runtime_artifacts/onset_anchors/row072_index_retained_20260719/records.jsonl",
+  "records_sha256": "2c7b6e8d70718406ed3fb6e26c69a8990b6bbaf18311d3ffc9fa3a8bf9efdad5",
+  "row070_admission": {
+    "blocker_codes": [],
+    "bytes": 10002,
+    "dependency_satisfied": true,
+    "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_CANONICAL_AUDIO_DECODE_CURRENT_DELTA_20260719.json",
+    "row_complete": true,
+    "sha256": "9fdced4244a95f6cb467a09ebe172fef06aff75b9a63b9cc1455c6bcae134c41",
+    "status": "PASS_LIBRARY_PCM_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION"
+  },
+  "row071_admission": {
+    "blocker_codes": [],
+    "bytes": 5000,
+    "dependency_satisfied": true,
+    "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-071_WAVEFORM_FEATURE_EXTRACTION_CURRENT_DELTA_20260719.json",
+    "row_complete": true,
+    "sha256": "6e16ed12bf095644712d07a746f5b6c0c553180eaa27020fcaea7bf3a113a81d",
+    "status": "PASS_LIBRARY_FEATURE_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION"
+  },
+  "row071_records": {
+    "bytes": 57007894,
+    "path": "runtime_artifacts/audio_qa/row071_index_retained_20260719/records.jsonl",
+    "sha256": "8ce3d073cc9a59b703ffc188da93cdb0dcbc6abe6ba72481b29683f4aba4dfdb"
+  },
+  "row_complete": false,
+  "runtime_completion_claimed": true,
+  "schema_version": 1,
+  "started_at": "2026-07-20T03:56:53.367277Z",
+  "status": "RUNTIME_PASS_BOUNDED_LIBRARY_THRESHOLDS_FROZEN",
+  "threshold_authority": "planning_freeze_not_library_acceptance",
+  "threshold_registry_revision": "wave64_row072_onset_thresholds_v0.1.0",
+  "tracker_id": "TRK-W64-072"
 }
