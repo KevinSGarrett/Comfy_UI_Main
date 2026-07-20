@@ -45,7 +45,10 @@ class PackageWave64SpeechRow124MultiRefListeningProofTests(unittest.TestCase):
         )
         self.assertEqual(
             by_class["DIALOGUE_TIMING"]["codes"],
-            ["RAW_DIALOGUE_TIMING_OUT_OF_TOLERANCE"],
+            [
+                "RAW_DIALOGUE_TIMING_OUT_OF_TOLERANCE",
+                MODULE.TIMING_DISPOSITION_UNDOCUMENTED_CODE,
+            ],
         )
         codes = MODULE.flatten_blocker_codes(blockers)
         self.assertNotIn("LISTENING_REVIEW_REQUEST_UNPREPARED", codes)
@@ -91,6 +94,45 @@ class PackageWave64SpeechRow124MultiRefListeningProofTests(unittest.TestCase):
         self.assertNotIn("MULTI_REF_DRIFT_LEAKAGE_MATRIX_INCOMPLETE", codes)
         self.assertIn("PRODUCTION_CHARACTER_REFERENCE_AUTHORITY_ABSENT", codes)
         self.assertIn("INDEPENDENT_PLAYBACK_REVIEW_ABSENT", codes)
+
+    def test_classify_blockers_fail_closed_timing_waiver_retains_out_of_tolerance(self) -> None:
+        blockers = MODULE.classify_blockers(
+            independent_source_reference_count=2,
+            listening_request_prepared=True,
+            raw_dialogue_timing_pass=False,
+            production_reference_authority_pass=False,
+            matrix_complete=True,
+            timing_waiver_packet_prepared=True,
+            timing_waiver_granted=False,
+        )
+        timing = next(item for item in blockers if item["class"] == "DIALOGUE_TIMING")
+        self.assertEqual(timing["codes"], ["RAW_DIALOGUE_TIMING_OUT_OF_TOLERANCE"])
+        self.assertEqual(
+            timing["cleared_by_this_packet"],
+            [MODULE.TIMING_DISPOSITION_UNDOCUMENTED_CODE],
+        )
+        self.assertEqual(timing["disposition"], MODULE.TIMING_WAIVER_DISPOSITION)
+        self.assertFalse(timing["timing_waiver_granted"])
+        codes = MODULE.flatten_blocker_codes(blockers)
+        self.assertIn("RAW_DIALOGUE_TIMING_OUT_OF_TOLERANCE", codes)
+        self.assertNotIn(MODULE.TIMING_DISPOSITION_UNDOCUMENTED_CODE, codes)
+
+    def test_build_fail_closed_timing_waiver_packet_exact_criteria(self) -> None:
+        packet = MODULE.build_raw_dialogue_timing_fail_closed_waiver_packet(
+            stamp="UNITTEST",
+            candidate_sha256=MODULE.EXPECTED_CANDIDATE_SHA256,
+        )
+        self.assertFalse(packet["waiver_granted"])
+        self.assertFalse(packet["raw_dialogue_timing_pass"])
+        self.assertEqual(packet["blocker_code_retained"], "RAW_DIALOGUE_TIMING_OUT_OF_TOLERANCE")
+        self.assertIn("path_a_retimed_immutable_candidate", packet["clearance_paths"])
+        self.assertIn(
+            "path_b_authorized_timing_contract_revision_or_waiver_grant",
+            packet["clearance_paths"],
+        )
+        self.assertGreater(packet["measured"]["out_of_tolerance_by_seconds"], 0.0)
+        self.assertFalse(packet["boundaries"]["timing_waiver_granted"])
+        self.assertFalse(packet["row_complete"])
 
     def test_classify_blockers_marks_unprepared_listening_request(self) -> None:
         blockers = MODULE.classify_blockers(
@@ -188,10 +230,15 @@ class PackageWave64SpeechRow124MultiRefListeningProofTests(unittest.TestCase):
         self.assertFalse(packet["boundaries"]["sound_csv_written"])
         self.assertFalse(packet["boundaries"]["row075_touched"])
         self.assertFalse(packet["boundaries"]["invented_voices"])
+        self.assertFalse(packet["boundaries"]["timing_waiver_granted"])
         self.assertIn("listening_review_request_payload", packet)
         self.assertIn("multi_ref_drift_leakage_matrix_payload", packet)
+        self.assertIn("raw_dialogue_timing_fail_closed_waiver_payload", packet)
+        self.assertFalse(packet["raw_dialogue_timing_fail_closed_waiver_payload"]["waiver_granted"])
         self.assertNotIn("INDEPENDENT_SOURCE_REFERENCE_COUNT_BELOW_TWO", packet["blocker_codes"])
         self.assertIn("MULTI_REF_DRIFT_LEAKAGE_MATRIX_INCOMPLETE", packet["blocker_codes"])
+        self.assertIn("RAW_DIALOGUE_TIMING_OUT_OF_TOLERANCE", packet["blocker_codes"])
+        self.assertNotIn(MODULE.TIMING_DISPOSITION_UNDOCUMENTED_CODE, packet["blocker_codes"])
         self.assertEqual(
             packet["independent_source_references"]["independent_source_reference_count"],
             2,
