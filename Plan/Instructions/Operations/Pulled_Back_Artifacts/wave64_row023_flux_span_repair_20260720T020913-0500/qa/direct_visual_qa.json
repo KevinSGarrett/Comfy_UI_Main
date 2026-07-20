@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-ROW023-FLUX-SPAN-REPAIR-DIRECT-VISUAL-QA-20260720T020913-0500",
+  "timestamp": "2026-07-20T02:12:00-05:00",
+  "tracker_id": "TRK-W64-023",
+  "item_id": "ITEM-W64-023",
+  "review_authority": "Cursor interactive primary GPU shift direct visual QA",
+  "material_method": "flux_fill_span_repair_midframe",
+  "prompt_id": "99c68c83-76b4-47df-8201-38f680fc5248",
+  "seed": 2272401,
+  "source": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_row023_flux_span_repair_20260720T020913-0500/images/source_mid_frame_0024.png",
+    "sha256": "3dc576cedc723be8bb565f32cc569c7d118feffc18ef3b178b37a10c31921bc4"
+  },
+  "candidate": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_row023_flux_span_repair_20260720T020913-0500/images/midframe_seed2272401_00001_.png",
+    "sha256": "2985a6a9d2c59428ca5510a58100b8edb4bcb4296a364ba475b5028007ace5cf"
+  },
+  "metrics": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_row023_flux_span_repair_20260720T020913-0500/qa/compare_metrics.json",
+    "source_blue_excess": 12.501829769736842,
+    "repaired_blue_excess": 12.113384046052634,
+    "blue_excess_delta_repaired_minus_source": -0.3884457236842085,
+    "face_region_mad": 17.552642822265625
+  },
+  "gates": {
+    "runtime_generation_completed": {"pass": true, "observation": "Local :8188 Flux fill completed successfully once on idle queue."},
+    "material_method_change_from_wan_seed": {"pass": true, "observation": "Flux fill span repair with new seed 2272401; not identical Wan seed 2272301 retry."},
+    "symmetric_gray_side_lights_restored": {"pass": false, "observation": "Purple/violet side-light orbs remain dominant; blue_excess only fell by 0.39 and stays ~12.1."},
+    "recognizable_anchor_identity_improved": {"pass": false, "observation": "Face changes (MAD~17.6) but remains soft/blurred without recoverable exact identity lock to the AnimateDiff medoid anchor."},
+    "no_new_hard_artifacts": {"pass": false, "observation": "New yellow vertical streak through hair/eye and yellow star-like chin artifact introduced."},
+    "white_blouse_and_black_studio_retained": {"pass": true, "observation": "Blouse/background class retained at review level despite overexposure."}
+  },
+  "passed_gate_count": 3,
+  "failed_gate_count": 3,
+  "direct_visual_acceptance_pass": false,
+  "classification": "Blocked_Video_Frame_Repair_Flux_Span_Candidate_Visual_QA_Failed",
+  "result": "fail_closed_side_lights_identity_and_new_artifacts",
+  "generation_retry_allowed": false,
+  "next_action": "Retain Flux reject. Do not seed-spam. Next material climb needs stronger gray-light conditioning and artifact-free mask/prompt, or local Wan payloads for a new TI2V seed."
+}

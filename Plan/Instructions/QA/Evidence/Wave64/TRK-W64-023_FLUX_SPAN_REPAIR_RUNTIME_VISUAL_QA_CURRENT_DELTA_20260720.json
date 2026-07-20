@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-023_FLUX_SPAN_REPAIR_RUNTIME_VISUAL_QA_CURRENT_DELTA_20260720",
+  "created_iso": "2026-07-20T02:12:30-05:00",
+  "tracker_id": "TRK-W64-023",
+  "item_id": "ITEM-W64-023",
+  "classification": "Class_B_Failed_runtime_visual_QA",
+  "proof_tier": "RUNTIME_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+  "visual_proof_tier": "VISUAL_QA_REJECT_RETAINED",
+  "status": "Blocked_Video_Frame_Repair_Flux_Span_Candidate_Visual_QA_Failed",
+  "row_complete": false,
+  "summary": "Executed one authorized material-method Flux fill span repair on idle local :8188 against Wan mid-frame 24 (seed 2272401). Runtime succeeded, but strict visual QA REJECTS: violet side lights remain (blue_excess ~12.1), identity not recovered, and new yellow streak/star artifacts appeared. Immutable Wan reject retained. No COMPLETE.",
+  "blocker_codes": [
+    "FRAME_REPAIR_VISUAL_ACCEPTANCE_FAILED",
+    "FLUX_SPAN_REPAIR_VISUAL_QA_FAILED",
+    "SIDE_LIGHT_GRAY_NOT_RESTORED",
+    "NEW_HARD_ARTIFACTS_INTRODUCED",
+    "LOCAL_WAN_MODEL_PAYLOAD_MISSING",
+    "SAME_SEED_RERUN_FORBIDDEN",
+    "Blocked_Gold_Mask_Dependency_Missing"
+  ],
+  "runtime": {
+    "port": 8188,
+    "queue_stolen": false,
+    "prompt_id": "99c68c83-76b4-47df-8201-38f680fc5248",
+    "seed": 2272401,
+    "status": "success",
+    "material_method": "flux_fill_span_repair_midframe",
+    "pullback": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_row023_flux_span_repair_20260720T020913-0500"
+  },
+  "strict_qa": {
+    "decision": "REJECT_RETAINED",
+    "visual_qa_pass_bounded": false,
+    "direct_visual_qa": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_row023_flux_span_repair_20260720T020913-0500/qa/direct_visual_qa.json",
+    "hard_defects": [
+      "Symmetric gray side lights not restored; violet/purple orbs remain.",
+      "Exact recognizable identity not recovered.",
+      "New yellow vertical streak and chin star artifact introduced."
+    ]
+  },
+  "prior_offline_reaffirm": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-023_WAN_REPAIR_CANDIDATE_REAFFIRM_CURRENT_DELTA_20260720.json",
+  "blocker_ledger": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_CLASS_B_BLOCKER_LEDGER_20260720.json",
+  "boundaries": {
+    "wan_identical_seed_2272301_regenerated": false,
+    "ec2_started": false,
+    "csv_mutated": false,
+    "production_video_complete_claimed": false,
+    "row075_pid_left_alone": true
+  },
+  "csv_sync": "deferred_evidence_only",
+  "next_action": "Keep both Wan and Flux rejects immutable. Next climb: refined Flux mask/prompt for gray lights without artifact injection, or install local Wan TI2V payloads for one new seed. Row019 keyframe_manifest remains blocked."
+}

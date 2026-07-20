@@ -50,7 +50,7 @@
     {
       "tracker_id": "TRK-W64-023",
       "item_id": "ITEM-W64-023",
-      "status": "Blocked_Video_Frame_Repair_Rerun_Candidate_Visual_QA_Failed",
+      "status": "Blocked_Video_Frame_Repair_Flux_Span_Candidate_Visual_QA_Failed",
       "blocker_codes": [
         {
           "blocker_id": "FRAME_REPAIR_VISUAL_ACCEPTANCE_FAILED",
@@ -63,7 +63,7 @@
             "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260715T115203-0500/qa/direct_visual_qa.json",
             "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-023_WAN_REPAIR_CANDIDATE_REAFFIRM_CURRENT_DELTA_20260720.json"
           ],
-          "exact_defect": "Immutable seed 2272301 Wan candidate keeps facial identity drift through middle/terminal frames and side lights drift gray→violet-blue."
+          "exact_defect": "Immutable seed 2272301 Wan candidate keeps facial identity drift through middle/terminal frames and side lights drift gray\u2192violet-blue."
         },
         {
           "blocker_id": "LOCAL_WAN_MODEL_PAYLOAD_MISSING",
@@ -92,6 +92,11 @@
           "severity": true,
           "scope": "contact_and_deformation_repair_subgates_only",
           "exact_defect": "Body/contact deformation claims cannot consume candidate masks as trusted truth."
+        },
+        {
+          "blocker_id": "FLUX_SPAN_REPAIR_VISUAL_QA_FAILED",
+          "severity": true,
+          "exact_defect": "Local Flux fill mid-frame repair runtime passed but visual QA failed: violet lights remain, identity not recovered, new yellow streak/star artifacts."
         }
       ]
     }
@@ -155,5 +160,14 @@
     }
   },
   "csv_sync": "deferred_evidence_only_avoid_racing_designated_csv_mutator",
-  "next_action": "Wait for :8188 idle without stealing queue; execute Option A Flux span repair if Flux lane free, else install Wan payloads for Option B; keep REJECT candidate immutable; no COMPLETE."
+  "next_action": "Retain Wan+Flux rejects. Next material climb needs stronger gray-light repair without new artifacts, or local Wan payloads. CSV deferred. No COMPLETE.",
+  "flux_span_repair_attempt": {
+    "executed": true,
+    "prompt_id": "99c68c83-76b4-47df-8201-38f680fc5248",
+    "seed": 2272401,
+    "runtime": "success",
+    "visual": "REJECT_RETAINED",
+    "delta": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-023_FLUX_SPAN_REPAIR_RUNTIME_VISUAL_QA_CURRENT_DELTA_20260720.json",
+    "pullback": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_row023_flux_span_repair_20260720T020913-0500"
+  }
 }
