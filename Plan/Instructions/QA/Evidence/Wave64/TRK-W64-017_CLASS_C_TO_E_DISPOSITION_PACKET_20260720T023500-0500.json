@@ -1,0 +1,128 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-017-CLASS-C-TO-E-DISPOSITION-PACKET-20260720T023500-0500",
+  "created_at": "2026-07-20T02:35:00-05:00",
+  "tracker_id": "TRK-W64-017",
+  "item_id": "ITEM-W64-017",
+  "proof_tier": "CONTRACT_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "CONTRACT_PASS_BOUNDED",
+  "row_complete": false,
+  "product_completion_claimed": false,
+  "disposition": "RENAME_STATUS_KEEP_BLOCKED_CLASS_E",
+  "mutation_this_landing": "evidence_only_disposition_packet",
+  "csv_mutation": "deferred_serialized_mutator",
+  "authority_bind": {
+    "class_c_clearance_commit": "70e12e70d8b977c22ea75649b291185ef420de20",
+    "class_c_clearance_commit_short": "70e12e70",
+    "latest_normalization": "Plan/Instructions/QA/Evidence/Wave64/ROW017_CANONICAL_GLOBAL_REVIEW_NORMALIZATION_20260720T021800-0500.json",
+    "backlog_ledger": "Plan/Instructions/QA/Evidence/Wave64/ROW017_HISTORICAL_CANONICALIZATION_BACKLOG_LEDGER_20260720T021800-0500.json",
+    "latest_class_c_delta": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-017_CLASS_C_HISTORICAL_CANONICALIZATION_DELTA_20260720T021800-0500.json",
+    "item_report": "Plan/Items/Reports/ITEM-W64-017_global_visual_review_not_local_only.json"
+  },
+  "spot_checks": {
+    "pass_example": {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_W69_LINEART_CONTROLNET_V2_GLOBAL_REVIEW_20260720.json",
+      "overall_decision": "pass"
+    },
+    "reject_example": {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_W69_OPENPOSE_V2_UPPER_BODY_HANDS_GLOBAL_REVIEW_20260720.json",
+      "overall_decision": "reject"
+    },
+    "focused_bound": "78/78",
+    "focused_still_unclassified": 0,
+    "canonical_global_reviews_on_disk": 83
+  },
+  "residual_classification": {
+    "class_c_historical_evidence_debt": {
+      "remaining_for_focused_w69_w70_local_visual_qa": "none",
+      "verdict": "CLEARED_FOCUSED_BACKLOG",
+      "evidence": "focused_candidates_with_canonical_binding=78; focused_candidates_still_unclassified=0; remaining_unclassified_sample=[]"
+    },
+    "class_e_policy_future_producer_contract": {
+      "remaining": true,
+      "verdict": "ACTIVE_RESIDUAL",
+      "nature": "Future localized producers must emit canonical whole-frame GLOBAL_REVIEW contract for new localized edits; historical focused backlog classification is not row completion.",
+      "secondary_policy_codes_retained_not_as_missing_debt": [
+        "Blocked_Canonical_Historical_Record_Not_Localized_Edit_Artifact",
+        "Blocked_Canonical_Historical_Record_Not_Single_Localized_Change",
+        "Blocked_Canonical_Historical_Record_Outside_Localized_Edit_Scope"
+      ],
+      "note": "Those three codes are fail-closed exclusion taxonomy for non-applicable historical records, not evidence that focused Class C candidates remain unbound."
+    }
+  },
+  "status_disposition": {
+    "current_status": "Blocked_Canonical_Global_Review_Records_Missing_For_Historical_Localized_Changes",
+    "current_status_accurate_after_70e12e70": false,
+    "accuracy_defect": "Current Status asserts historical localized canonical GLOBAL_REVIEW records are still missing; focused W69/W70 LOCAL visual-QA backlog is already 78/78 bound.",
+    "recommended_status": "Blocked_Canonical_Future_Localized_Producer_Global_Review_Contract_Pending",
+    "forbidden_statuses": [
+      "COMPLETE",
+      "Complete",
+      "PASS",
+      "Passed"
+    ],
+    "row_complete_must_remain": false,
+    "apply_rename_keep_blocked_when_all": [
+      "Backlog ledger reports focused_candidates_still_unclassified == 0",
+      "Backlog ledger reports focused_candidates_with_canonical_binding == focused_w69_w70_local_visual_qa_candidates",
+      "Authority commit 70e12e70 (or successor containing the 20260720T021800-0500 ledger/normalization/delta) is on the integration branch",
+      "At least one PASS and one REJECT canonical GLOBAL_REVIEW from the clearance batch remain on disk with overall_decision matching the normalization package",
+      "No Notes/Status/report claims COMPLETE or row_complete=true"
+    ],
+    "do_not_clear_to_non_blocked_when": [
+      "Only historical focused backlog is classified",
+      "CSV Notes already mention future-producer residual but Status string is stale",
+      "MF70/W69 micro-climbs are offered as substitute proof",
+      "Exclusion taxonomy codes still appear in evidence"
+    ],
+    "clear_renamed_blocked_status_only_when_all": [
+      "A post-70e12e70 future-producer proof package exists showing new localized edit producers emit canonical Row017 GLOBAL_REVIEW records (five gates + pre/post whole-frame + reject-on-any-global-defect)",
+      "Those emitted records pass Plan/07_IMPLEMENTATION/scripts/validate_global_whole_image_visual_review.py",
+      "Proof package cites concrete producer paths/workflows and at least one new localized runtime or deterministic producer emission after Class C clearance",
+      "Serialized Tracker/Item CSV mutator syncs Status away from the renamed Blocked_* string under explicit acceptance (still may remain non-COMPLETE)",
+      "row_complete stays false unless independent full Row017 certification gates are separately satisfied — this disposition never authorizes COMPLETE"
+    ]
+  },
+  "mutator_apply_plan": {
+    "owner": "serialized_tracker_item_csv_mutator_or_interactive_integration_authority",
+    "boundaries": {
+      "comfyui_8188": "do_not_contend",
+      "row075": "leave_alone",
+      "mf70_w69_micro_climb_treadmill": "stopped",
+      "audio_paths": "do_not_stage",
+      "csv_if_race": "skip_csv_this_landing"
+    },
+    "exact_paths_status_rename_when_csv_free": [
+      "Plan/Tracker/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_TRACKER_ROWS.csv",
+      "Plan/Items/Waves/Wave64/WAVE64_END_TO_END_STRICT_AI_ITEM_ROWS.csv",
+      "Plan/Items/Reports/ITEM-W64-017_global_visual_review_not_local_only.json",
+      "Plan/Instructions/QA/Evidence/Wave64/global_visual_review_not_local_only.json",
+      "Plan/Tracker/Evidence/GLOBAL_VISUAL_REVIEW_NOT_LOCAL_ONLY_20260712T133749-0500.json",
+      "Plan/Instructions/QA/Evidence/Wave64/GLOBAL_VISUAL_REVIEW_NOT_LOCAL_ONLY_20260712T133749-0500.json"
+    ],
+    "exact_fields": {
+      "Status": "Blocked_Canonical_Future_Localized_Producer_Global_Review_Contract_Pending",
+      "Notes_prefix_required": "Class E residual after Class C 78/78 (70e12e70): Status renamed; focused historical backlog cleared; future-producer canonical GLOBAL_REVIEW contract pending; row_complete=false; never Complete.",
+      "Evidence_Path_append": [
+        "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-017_CLASS_C_TO_E_DISPOSITION_PACKET_20260720T023500-0500.json",
+        "Plan/Tracker/Evidence/TRK-W64-017_CLASS_C_TO_E_DISPOSITION_PACKET_20260720T023500-0500.json"
+      ]
+    },
+    "item_report_fields": {
+      "status": "Blocked_Canonical_Future_Localized_Producer_Global_Review_Contract_Pending",
+      "exact_blocker": "Focused historical Class C backlog cleared (78/78); blocked only on Class E future localized producer canonical GLOBAL_REVIEW contract; not COMPLETE.",
+      "row_complete": false
+    },
+    "do_not_mutate_unless_csv_owner_free": true,
+    "commit_message_suggestion": "Rename Row017 Status to Class E future-producer contract pending.\n\nKeep Blocked after 78/78 Class C clearance (70e12e70); never Complete; no :8188/Row075."
+  },
+  "this_landing_actions": {
+    "wrote_disposition_packet": true,
+    "renamed_status": false,
+    "touched_csv": false,
+    "touched_row075": false,
+    "contended_8188": false,
+    "claimed_complete": false
+  },
+  "recommended_codex_follow_up": "When Tracker/Item CSV owner is free, apply status_disposition.recommended_status and mutator_apply_plan.exact_fields only; leave row_complete=false; do not resume Class C historical normalization or MF70 climbs for this residual."
+}
