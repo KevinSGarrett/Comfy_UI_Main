@@ -13,8 +13,9 @@
 
 1. `8f88a8f9` Prove Row017 W69 eyeonly local visual climb.
 2. `53237e59` Stamp Row017 eyeonly handoff with primary commit id.
+3. `5e11441a` Finalize Row017 eyeonly handoff tip IDs.
 
-Pushed tip verified on origin: `53237e59`
+Pushed tip verified on origin: `5e11441a`
 
 ## Row-Scoped Increment Executed
 
