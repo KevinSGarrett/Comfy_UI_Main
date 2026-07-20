@@ -12,9 +12,9 @@
 ## Commits Pushed This Pass
 
 1. `44a66459` Prove Row017 W69 contact-shadow local visual climb.
-2. `TIP_PENDING` Stamp Row017 contact-shadow handoff with primary commit id.
+2. `30e16dcc` Stamp Row017 contact-shadow handoff with primary commit id.
 
-Pushed tip verified on origin: `TIP_PENDING`
+Pushed tip verified on origin: `30e16dcc`
 
 ## Row-Scoped Increment Executed
 
