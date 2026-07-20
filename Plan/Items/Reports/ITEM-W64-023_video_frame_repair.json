@@ -1,11 +1,11 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-023-VIDEO-FRAME-REPAIR-20260711T152500-0500",
-  "timestamp": "2026-07-20T02:09:13-05:00",
+  "timestamp": "2026-07-20T02:30:49-05:00",
   "item_id": "ITEM-W64-023",
   "tracker_id": "TRK-W64-023",
   "workstream": "video_frame_repair",
-  "status": "Blocked_Video_Frame_Repair_Flux_Span_Candidate_Visual_QA_Failed",
+  "status": "Blocked_Video_Frame_Repair_Flux_Span_V2_Visual_QA_Failed",
   "row_complete": false,
   "implementation": {
     "frame_level_defect_planner_ready": true,
@@ -72,24 +72,28 @@
   "blockers": {
     "codes": [
       "FRAME_REPAIR_VISUAL_ACCEPTANCE_FAILED",
-      "FLUX_SPAN_REPAIR_VISUAL_QA_FAILED",
+      "FLUX_SPAN_REPAIR_V2_VISUAL_QA_FAILED",
       "SIDE_LIGHT_GRAY_NOT_RESTORED",
-      "NEW_HARD_ARTIFACTS_INTRODUCED",
+      "HARD_ARTIFACTS_RETAINED",
       "LOCAL_WAN_MODEL_PAYLOAD_MISSING",
       "SAME_SEED_RERUN_FORBIDDEN",
       "Blocked_Gold_Mask_Dependency_Missing"
     ],
-    "summary": "Class B: offline Wan reaffirm retained REJECT; Flux span-repair runtime succeeded but VISUAL_QA_REJECT_RETAINED (not PASS). No COMPLETE.",
-    "visual_proof_tier": "VISUAL_QA_REJECT_RETAINED"
+    "summary": "Class B retained: Flux lights-first v2 VISUAL_QA_REJECT_RETAINED; Wan payload miss; forbidden seeds 2272301/2272401/2272507; never Complete.",
+    "visual_proof_tier": "VISUAL_QA_REJECT_RETAINED",
+    "forbidden_seeds": [
+      2272301,
+      2272401,
+      2272507
+    ]
   },
   "evidence": {
-    "flux_span_repair_current_delta": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-023_FLUX_SPAN_REPAIR_RUNTIME_VISUAL_QA_CURRENT_DELTA_20260720.json",
+    "flux_v2_current_delta": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-023_FLUX_SPAN_REPAIR_V2_RUNTIME_VISUAL_QA_CURRENT_DELTA_20260720.json",
+    "flux_v1_current_delta": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-023_FLUX_SPAN_REPAIR_RUNTIME_VISUAL_QA_CURRENT_DELTA_20260720.json",
     "wan_reaffirm_current_delta": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-023_WAN_REPAIR_CANDIDATE_REAFFIRM_CURRENT_DELTA_20260720.json",
+    "wan_payload_search": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-023_LOCAL_WAN_MODEL_PAYLOAD_SEARCH_20260720.json",
     "class_b_blocker_ledger": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_CLASS_B_BLOCKER_LEDGER_20260720.json",
-    "commits": [
-      "0184b176",
-      "960ccf2a"
-    ]
+    "tip_commit": "1c1fed85"
   },
   "runtime": {
     "repair_execution_count": 1,
@@ -104,5 +108,5 @@
     "completed_generation_count": 1,
     "generation_retry_allowed": false
   },
-  "next_action": "Retain Wan+Flux rejects immutable. Next climb: refined Flux mask/prompt for gray lights without artifact injection, or install local Wan TI2V payloads for one new seed. No COMPLETE."
+  "next_action": "Keep all rejects immutable. Install local Wan TI2V 5B payloads before any new Wan seed; do not seed-spam Flux. No COMPLETE."
 }
