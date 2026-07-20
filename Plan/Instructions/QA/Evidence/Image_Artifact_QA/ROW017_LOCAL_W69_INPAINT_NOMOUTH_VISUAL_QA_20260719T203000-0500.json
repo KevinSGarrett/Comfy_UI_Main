@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ROW017-LOCAL-W69-INPAINT-NOMOUTH-VISUAL-QA-20260719T203000-0500",
+  "created_at": "2026-07-19T20:33:00-05:00",
+  "tracker_id": "TRK-W64-017",
+  "item_id": "ITEM-W64-017",
+  "localized_region": "face_skin_excluding_eyes_and_mouth",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+  "qa_decision": "pass_bounded_localized_w69_inpaint_nomouth_runtime_candidate",
+  "overall_decision": "pass",
+  "local_only": true,
+  "direct_visual_inspection": true,
+  "fixture_only": false,
+  "generation_executed": true,
+  "runtime_receipt": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_row017_w69_inpaint_nomouth_20260719T203000-0500/LOCAL_RUNTIME_RECEIPT.json",
+  "source": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_controlnet_canny_w69_matrix_softer_edges_seed711570102_20260707T065920-0500/images/canny_soft_seed711570102.png",
+    "sha256": "b0eb59492ae6e900d9cf9e9502a3c2529a68c2e23ed327f9f7295eae26bbac62"
+  },
+  "mask": {
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/sdxl_inpaint_detail_micro_nomouth_v4_20260707T034500-0500/sdxl_inpaint_detail_micro_nomouth_v4.png",
+    "sha256": "9bfbbda24b0f4915282649bb8c2b3e5a39b5a057dacbce6278683e9b531ec92d"
+  },
+  "artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_row017_w69_inpaint_nomouth_20260719T203000-0500/images/codex_row017_w69_inpaint_nomouth_20260719T203000-0500_00001_.png",
+    "sha256": "a7c058b5159b9e070246c9ab5bb97ec404d98e2babc9e01fae9c2e0c8305ffc4"
+  },
+  "comparison_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_row017_w69_inpaint_nomouth_20260719T203000-0500/images/qa_full_side_by_side.png",
+    "sha256": "a4bc3448c6b5beda1cdf93dd6942e1f4676f1ea72697777be3b5c5db51828c0c"
+  },
+  "face_skin_crop_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_row017_w69_inpaint_nomouth_20260719T203000-0500/images/qa_face_skin_crop_side_by_side.png",
+    "sha256": "6b4f7b91c86a5a8e42d15c1d47493d2857f771acc6f4362714912622cc3f573c"
+  },
+  "eye_crop_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_row017_w69_inpaint_nomouth_20260719T203000-0500/images/qa_eye_crop_side_by_side.png",
+    "sha256": "6f916d63fb78c64372bf81c0d83cc6242c15174ce12a524c5d2746cb6fe2ea2b"
+  },
+  "mouth_crop_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_row017_w69_inpaint_nomouth_20260719T203000-0500/images/qa_mouth_crop_side_by_side.png",
+    "sha256": "881f4a3a8e0686319c36ec66228528f345b028a8a7142cf6571d36e0e7acca41"
+  },
+  "difference_metrics": {
+    "full_image_diff_bbox": [
+      280,
+      250,
+      488,
+      420
+    ],
+    "nomouth_mask_bbox": [
+      280,
+      250,
+      488,
+      420
+    ],
+    "face_skin_crop_box": [
+      260,
+      230,
+      508,
+      440
+    ],
+    "mean_rgb_abs_diff": [
+      0.1186167374253273,
+      0.1177876815199852,
+      0.1146257221698761
+    ],
+    "rms_rgb_abs_diff": [
+      0.918701708316803,
+      0.9222776889801025,
+      0.9133397936820984
+    ],
+    "face_skin_region_mean_abs": [
+      1.9576092958450317,
+      1.9439268112182617,
+      1.8917429447174072
+    ],
+    "eye_region_mean_abs": 1.3355729579925537,
+    "mouth_region_mean_abs": 0.0,
+    "blazer_mean_abs": 0.0,
+    "background_corner_mean_abs": 0.0,
+    "hair_region_mean_abs": 0.0,
+    "changed_pixel_count": 15704,
+    "mask_pixel_count": 16986
+  },
+  "whole_frame_findings": [
+    "Fresh local ComfyUI W69 inpaint-nomouth masked inpaint on preferred softer-edges seed711570102 source (seed 6284913705, RealVisXL baked VAE, denoise 0.14, FeatherMask 16px, cfg 4.0, steps 18) completed successfully (prompt_id 2eeaa6fd-c69b-48dc-b08a-e6a1940448a1).",
+    "Whole-frame identity, hair, facial hair, navy blazer, blue shirt, collar, background, lighting, and framing remain stable versus the softer-edges preferred source.",
+    "Pixel delta is localized to nomouth-mask bbox [280, 250, 488, 420]; mouth/blazer/background/hair region mean abs all 0.0; 15704 changed pixels inside/near 16986-pixel face-skin nomouth mask.",
+    "Direct whole-frame + face-skin/eye/mouth crop inspection: mild forehead/cheek/nose microtexture smoothing without mouth rewrite, gaze drift, identity change, wardrobe rewrite, background change, or hard mask-edge regression.",
+    "Eye-crop mean abs 1.3356 is explained by intended cheek/nose-bridge mask overlap with the broad eye crop box; iris/gaze/eyelashes remain stable on direct inspection. Mouth crop is unchanged (mean abs 0.0).",
+    "Hands are outside this head-and-shoulders crop (not applicable); no global style drift observed."
+  ],
+  "global_defects": [],
+  "promotion_authorized": false,
+  "row_complete": false,
+  "ec2": "EC2_DEFERRED",
+  "docker_cvat": "not-needed",
+  "notes": [
+    "Historical W69 inpaint-nomouth v4/seed210501/seed210502 canonical passes retained separately; this is a fresh independent localized inpaint-nomouth climb on the preferred softer-edges source for Row017 whole-frame review.",
+    "Does not overturn historical eyes_full_v3b reject or claim COMPLETE.",
+    "Prior MF70 face-region, W69 contact-shadow, and W69 eyeonly VISUAL_QA_PASS_BOUNDED climbs retained.",
+    "Prior fluid tear-state reject remains truthful and separate.",
+    "Does not complete historical Row017 normalization backlog."
+  ]
+}
