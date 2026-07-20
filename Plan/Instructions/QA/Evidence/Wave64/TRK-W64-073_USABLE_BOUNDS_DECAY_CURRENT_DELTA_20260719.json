@@ -2,7 +2,7 @@
   "acceptance_gaps": [
     {
       "code": "FULL_LIBRARY_RECONCILE_IN_PROGRESS_TIME_BOUND",
-      "detail": "Healthy PID 20200 owns full-library index-retained resume without --limit; 6050/39771 (~15.2%) at sync; coverage_complete=false."
+      "detail": "PID 20200 died mid-run (progress 17525 vs records.jsonl 17541). Recount-from-records reconcile advanced next_record_index/counts to 17541; healthy PID 27320 resumed exclusive full-library index-retained without --limit and advanced past 17541; coverage_complete=false."
     },
     {
       "code": "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
@@ -88,6 +88,17 @@
   ],
   "classification": "ROW073_INDEX_RETAINED_LIMITED_PROBE_DEPS_UNLOCKED_NO_FALSE_COMPLETION",
   "created_at": "2026-07-19T19:40:10Z",
+  "death_reconcile_resume": {
+    "blind_resume_refused": true,
+    "dead_pid": 20200,
+    "new_pid": 27320,
+    "progress_lagged_records_by": 16,
+    "reconcile_method": "recount_from_records_jsonl_row075_pattern",
+    "records_not_truncated": true,
+    "resumed_from_next_record_index": 17541,
+    "script_fix": "Plan/07_IMPLEMENTATION/scripts/analyze_wave64_usable_bounds_decay.py:_rebuild_retained_bounds_aggregates_from_records",
+    "stale_owner_cleared": true
+  },
   "decision": {
     "dependencies_unlocked": true,
     "fail_closed_probe_slice": "accepted_as_bounded_increment",
@@ -95,7 +106,7 @@
     "row073_acceptance": "held",
     "row073_status": "Blocked_Library_Reconcile_In_Progress_Deps_Unlocked",
     "runtime_completion": false,
-    "safe_next_action": "Do not kill healthy PID 20200; finish retained-index usable-bounds reconcile to coverage_complete under frozen suggestion-only thresholds. Do not start Row074/076/077 library PCM scans in parallel. No product COMPLETE."
+    "safe_next_action": "Do not kill healthy PID 27320; finish retained-index usable-bounds reconcile to coverage_complete under frozen suggestion-only thresholds. Do not start Row074/076/077 library PCM scans in parallel. No product COMPLETE. CSV Notes sync deferred to mutator."
   },
   "dependency_authority": [
     {
@@ -186,12 +197,12 @@
   "ledger_status": "Blocked_Library_Reconcile_In_Progress_Deps_Unlocked",
   "ledger_vocabulary_sync": {
     "ledger_status": "Blocked_Library_Reconcile_In_Progress_Deps_Unlocked",
-    "note": "Progress sync 6050/39771; PID 20200 left alone; prove stamp 8c9d88eb; no COMPLETE; no tip-SHA chain.",
+    "note": "PID 20200 death + recount reconcile + PID 27320 resume; progress advancing past 17541; stamp 20260720T1152; no COMPLETE; CSV deferred to mutator.",
     "product_completion": false,
-    "progress_stamp": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_RECONCILE_PROGRESS_20260720T0949-0500.json",
-    "prove_commit": "8c9d88eb",
+    "progress_stamp": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_RECONCILE_PROGRESS_20260720T1152-0500.json",
+    "prove_commit": "525e29c7",
     "runtime_completion": false,
-    "synced_at": "2026-07-20T14:49:05.349368Z"
+    "synced_at": "2026-07-20T16:52:00Z"
   },
   "library_authority": false,
   "preservation_boundary": {
@@ -201,7 +212,8 @@
       "Plan/Instructions/QA/Scripts/test_analyze_wave64_usable_bounds_decay.py",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_usable_bounds_decay_analysis.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_ACCEPTED_INDEX_RETAINED_BOUNDS_SUMMARY_20260720.json",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_CURRENT_DELTA_20260719.json"
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_CURRENT_DELTA_20260719.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_RECONCILE_PROGRESS_20260720T1152-0500.json"
     ],
     "row017_visual_paths_modified": false,
     "row075_pid_left_alone": true,

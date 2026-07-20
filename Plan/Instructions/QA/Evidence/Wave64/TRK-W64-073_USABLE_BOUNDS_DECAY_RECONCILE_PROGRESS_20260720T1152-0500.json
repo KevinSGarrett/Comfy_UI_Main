@@ -1,0 +1,86 @@
+{
+  "created_at": "2026-07-20T11:52:09-05:00",
+  "csv_stamp": "deferred_to_primary_csv_mutator",
+  "evidence_id": "TRK-W64-073-BOUNDS-RECONCILE-PROGRESS-20260720T1152-0500",
+  "explicit_non_claims": [
+    "COMPLETE",
+    "product_completion",
+    "library_authority",
+    "full_library_coverage"
+  ],
+  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+  "item_id": "ITEM-W64-073",
+  "library_authority": false,
+  "process": {
+    "action": "reconciled_stale_progress_and_resumed_after_pid_20200_death",
+    "alive": true,
+    "blind_resume_refused": true,
+    "command": "analyze_wave64_usable_bounds_decay.py --mode index-retained --resume --retained-runtime-dir runtime_artifacts/usable_bounds/row073_index_retained_20260720",
+    "exclusive_lane": "library_pcm",
+    "parallel_074_076_077_refused": true,
+    "pid": 27320,
+    "prior_dead_pid": 20200,
+    "reconcile_method": "recount_from_records_jsonl_row075_pattern"
+  },
+  "product_completion_claimed": false,
+  "progress": {
+    "blocker_histogram": {
+      "BOUNDS_EXTRACTION_FAILED": 8269,
+      "DECODE_FAILED_CORRUPT_OR_UNREADABLE": 147
+    },
+    "bounds_blocked": 8416,
+    "bounds_pass": 9484,
+    "complete": false,
+    "coverage_complete": false,
+    "exact_blockers": 8416,
+    "extension_histogram": {
+      ".mp3": 970,
+      ".wav": 16930
+    },
+    "feature_non_pass_inputs": 147,
+    "feature_pass_inputs": 17753,
+    "full_reconcile_owner_started_at": "2026-07-20T16:51:04.782624+00:00",
+    "limit": null,
+    "next_record_index": 17900,
+    "onset_preservation_ok": 9484,
+    "pcm_sha_verified": 9484,
+    "percent_complete": 45.01,
+    "reconcile_from": {
+      "advanced_next_record_index_to": 17541,
+      "dead_pid": 20200,
+      "method": "recount_from_records_jsonl_row075_pattern",
+      "prior_next_record_index": 17525,
+      "prior_records_processed": 17525,
+      "progress_lagged_records_by": 16,
+      "records_jsonl_lines_at_death": 17541,
+      "records_not_truncated": true,
+      "script_fix": "analyze_wave64_usable_bounds_decay.py:_rebuild_retained_bounds_aggregates_from_records"
+    },
+    "records_processed": 17900,
+    "records_total": 39771,
+    "source_immutable_true": 9484,
+    "started_at": "2026-07-20T05:57:57.504721Z",
+    "tail_preservation_ok": 9484,
+    "updated_at": "2026-07-20T16:53:06.864225Z"
+  },
+  "proof_tier": "RUNTIME_PASS_BOUNDED",
+  "remaining_blockers": [
+    "FULL_LIBRARY_RECONCILE_IN_PROGRESS_TIME_BOUND",
+    "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+    "REPRESENTATIVE_STRATA_CALIBRATION_ABSENT"
+  ],
+  "row_complete": false,
+  "runtime_completion_claimed": false,
+  "runtime_paths": {
+    "owner_path": "runtime_artifacts/usable_bounds/row073_index_retained_20260720/FULL_RECONCILE_OWNER.txt",
+    "progress_backup_pre_reconcile": "runtime_artifacts/usable_bounds/row073_index_retained_20260720/progress.json.bak_pre_reconcile_20260720T115038",
+    "progress_path": "runtime_artifacts/usable_bounds/row073_index_retained_20260720/progress.json",
+    "records_path": "runtime_artifacts/usable_bounds/row073_index_retained_20260720/records.jsonl",
+    "retained_runtime_dir": "runtime_artifacts/usable_bounds/row073_index_retained_20260720"
+  },
+  "safe_next_action": "Do not kill healthy PID 27320; finish retained-index usable-bounds reconcile to coverage_complete under frozen suggestion-only thresholds. Do not start Row074/076/077 library PCM scans in parallel. No product COMPLETE. CSV Notes sync deferred to mutator.",
+  "schema_version": "1.0",
+  "source_commit": "525e29c7",
+  "status": "HOLD_LIBRARY_RECONCILE_IN_PROGRESS_DEPS_UNLOCKED",
+  "tracker_id": "TRK-W64-073"
+}
