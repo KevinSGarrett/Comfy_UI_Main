@@ -1,0 +1,106 @@
+{
+  "schema_version": "row017.v1",
+  "artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_row017_w69_inpaint_micro_v2_20260720T005500-0500/images/codex_row017_w69_inpaint_micro_v2_20260720T005500-0500_00001_.png",
+    "sha256": "a1f8dd9536cd4c510ea783d1d3195fad051c2318f8f50c76da3034d73f033bf3"
+  },
+  "localized_change": {
+    "target_region": "w69_inpaint_micro_mask_v2",
+    "source_artifact": {
+      "path": "ComfyUI/input/sdxl_inpaint_detail_source_canny_v1.png",
+      "sha256": "7951e6a37e8e05bbf22604ac03eac38831875ed283206af8f6a99d874ad3e523"
+    },
+    "mask_artifact": {
+      "path": "Plan/Instructions/Operations/Prepared_Input_Assets/sdxl_inpaint_detail_micro_mask_v2_20260707T032500-0500/sdxl_inpaint_detail_micro_mask_v2.png",
+      "sha256": "25a72ab773544c393c548179367daa53ff4993d3fe81939035055504b86629e6"
+    }
+  },
+  "whole_frame_visual_scan": {
+    "status": "pass",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/ROW017_LOCAL_W69_INPAINT_MICRO_V2_VISUAL_QA_20260720T005500-0500.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_row017_w69_inpaint_micro_v2_20260720T005500-0500/images/codex_row017_w69_inpaint_micro_v2_20260720T005500-0500_00001_.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_row017_w69_inpaint_micro_v2_20260720T005500-0500/images/qa_full_side_by_side.png"
+    ],
+    "pre_edit_status": "pass",
+    "post_edit_status": "pass"
+  },
+  "required_target_region_check": {
+    "status": "pass",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/ROW017_LOCAL_W69_INPAINT_MICRO_V2_VISUAL_QA_20260720T005500-0500.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_row017_w69_inpaint_micro_v2_20260720T005500-0500/images/qa_face_crop_side_by_side.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_row017_w69_inpaint_micro_v2_20260720T005500-0500/images/qa_mouth_crop_side_by_side.png"
+    ],
+    "target_region": "w69_inpaint_micro_mask_v2",
+    "findings": [
+      "Fresh local W69 micro_mask_v2 climb remains a bounded multi-island facial microtexture refinement with no gray-mask, face-replacement, or hard-edge failure."
+    ]
+  },
+  "required_non_target_region_scan": {
+    "status": "pass",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/ROW017_LOCAL_W69_INPAINT_MICRO_V2_VISUAL_QA_20260720T005500-0500.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_row017_w69_inpaint_micro_v2_20260720T005500-0500/images/qa_full_side_by_side.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_row017_w69_inpaint_micro_v2_20260720T005500-0500/images/qa_eye_crop_side_by_side.png"
+    ],
+    "regions_scanned": [
+      "eyes",
+      "face_identity",
+      "hair",
+      "wardrobe",
+      "background",
+      "lighting",
+      "framing"
+    ],
+    "findings": [
+      "Identity, hair, wardrobe, background, lighting, and framing remain stable; clothing/background mean abs 0.0; eyes/gaze preserved on direct inspection."
+    ]
+  },
+  "hands_face_body_background_contact_lighting_check": {
+    "hands": {
+      "visibility": "not_visible",
+      "inspected": true,
+      "status": "not_applicable",
+      "reason": "Hands are outside this head-and-shoulders crop."
+    },
+    "face": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Face identity and eyes remain stable; only micro-mask islands are refined."
+    },
+    "body": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Visible shoulders/clothing remain unchanged (clothing mean abs 0.0)."
+    },
+    "background": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Background corner mean abs 0.0; no seam regression."
+    },
+    "contact": {
+      "visibility": "not_applicable",
+      "inspected": true,
+      "status": "not_applicable",
+      "reason": "No multi-character contact interaction is required in this portrait."
+    },
+    "lighting": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Soft directional lighting remains coherent across the frame."
+    }
+  },
+  "reject_on_any_global_defect": {
+    "status": "pass",
+    "global_defects": [],
+    "rejection_applied": false
+  },
+  "overall_decision": "pass",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "row_complete": false
+}
