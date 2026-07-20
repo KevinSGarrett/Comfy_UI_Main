@@ -28,7 +28,7 @@
     "product_completion": false,
     "row072_acceptance": "held",
     "runtime_completion": true,
-    "safe_next_action": "Full-library onset reconcile is coverage_complete and a retained-record strata candidate shortlist exists, but truth onset labels remain absent. Label truth onsets and unfreeze threshold authority before Row072 acceptance or Row093 unlock. Do not claim COMPLETE.",
+    "safe_next_action": "Full-library onset reconcile is coverage_complete. Synthetic fixture truth onsets are labeled on the strata shortlist, but library_unlabeled retained candidates remain pending/blocked and thresholds stay frozen synthetic-only. Calibrate library truth and unfreeze threshold authority before Row072 acceptance or Row093 unlock. Do not claim COMPLETE.",
     "status": "blocked"
   },
   "detector_revision": "wave64_row072_onset_transient_detector_v0.1.0",
@@ -766,17 +766,19 @@
       "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
       "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT"
     ],
-    "candidates_selected": 10,
+    "candidates_selected": 13,
     "counts": {
-      "candidates_selected": 10,
-      "strata_filled": 10,
-      "strata_targets": 10,
+      "candidates_selected": 13,
+      "strata_filled": 13,
+      "strata_targets": 13,
       "strata_unfilled": 0,
-      "truth_labeled": 0,
+      "truth_blocked": 3,
+      "truth_labeled": 3,
+      "truth_pending": 7,
       "truth_unlabeled": 10
     },
     "packet_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_LIBRARY_BENCHMARK_STRATA_CANDIDATE_PACKET_20260719.json",
-    "packet_sha256": "5dd2989d04ed167d1f26d23115d3492521291f1e396cd0c45b8d06308efc0d3e",
+    "packet_sha256": "a14fc0aa1481b8e6170d38a52e06d4cbb9aaa197f9eef1774747d410100311cf",
     "row109_synthetic_partition_references": {
       "authority": "synthetic_fixture_partition_references_only",
       "binding_scope": "synthetic_partition_ids_only",
@@ -799,9 +801,9 @@
       "threshold_authority_unfrozen": false,
       "tracker_id": "TRK-W64-109"
     },
-    "selection_policy": "retained_records_only_no_pcm_decode_no_full_rescan",
+    "selection_policy": "retained_shortlist_synthetic_fixture_truth_no_pcm_library_decode",
     "strata_registry_revision": "wave64_row072_onset_library_benchmark_strata_v0.1.0",
-    "truth_onset_status": "absent"
+    "truth_onset_status": "partial"
   },
   "proof_tier": "RUNTIME_PASS_BOUNDED",
   "required_methods": [

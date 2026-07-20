@@ -6,7 +6,7 @@
     },
     {
       "code": "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT",
-      "detail": "Retained-record candidate shortlist and Row109 synthetic partition ID refs exist, but library truth onset labels remain absent."
+      "detail": "Synthetic fixture truth onsets are labeled (partial), but library_unlabeled retained shortlist candidates remain pending/blocked and strata are not calibrated."
     }
   ],
   "blocker_codes": [
@@ -14,9 +14,9 @@
     "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT"
   ],
   "check_summary": {
-    "checked": 5,
+    "checked": 6,
     "failed": 0,
-    "passed": 5
+    "passed": 6
   },
   "checks": [
     {
@@ -38,20 +38,24 @@
     {
       "name": "OTA-C005_no_pcm_decode_and_row075_left_alone",
       "result": "pass"
+    },
+    {
+      "name": "OTA-C006_partial_truth_onset_labels_from_synthetic_fixtures",
+      "result": "pass"
     }
   ],
-  "classification": "ROW072_LIBRARY_STRATA_SHORTLIST_WITH_ROW109_SYNTHETIC_PARTITION_REFS_THRESHOLDS_AND_TRUTH_HELD_NO_FALSE_COMPLETION",
-  "created_at": "2026-07-19T03:09:59.1691849Z",
+  "classification": "ROW072_LIBRARY_STRATA_PARTIAL_SYNTHETIC_TRUTH_LABELS_LIBRARY_PENDING_THRESHOLDS_HELD_NO_FALSE_COMPLETION",
+  "created_at": "2026-07-20T06:22:22.437997Z",
   "decision": {
     "dependencies_unlocked": true,
     "product_completion": false,
     "row072_acceptance": "held",
     "runtime_completion": true,
-    "safe_next_action": "Label truth onset samples on the retained-record library-strata shortlist, then calibrate registered event-family thresholds before Row072 acceptance. Row109 partition IDs remain synthetic references only. Do not decode PCM or claim COMPLETE.",
+    "safe_next_action": "Calibrate registered event-family thresholds against labeled synthetic fixture truth and remaining library pending/blocked shortlist candidates before Row072 acceptance. Do not decode library PCM or claim COMPLETE.",
     "status": "blocked"
   },
   "direct_evidence": {
-    "bytes": 30690,
+    "bytes": 30846,
     "library_authority": false,
     "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_onset_transient_detection.json",
     "row109_binding_scope": "synthetic_partition_ids_only",
@@ -64,12 +68,16 @@
     "row_complete": false,
     "runtime_receipt_path": "runtime_artifacts/onset_anchors/row072_index_retained_20260719/retained_index_onset_receipt.json",
     "runtime_records_sha256": "2c7b6e8d70718406ed3fb6e26c69a8990b6bbaf18311d3ffc9fa3a8bf9efdad5",
-    "sha256": "62b226aa725b04cb33d00a75cd78a09ba0e6b434f569f4d0e41798752bacf43b",
+    "sha256": "1059b9a90210264bac086027f6ed704a13ee1e77c77da5656449b3e4a0a44e13",
     "status": "HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE",
-    "strata_candidate_packet_bytes": 15488,
+    "strata_candidate_packet_bytes": 18845,
     "strata_candidate_packet_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_LIBRARY_BENCHMARK_STRATA_CANDIDATE_PACKET_20260719.json",
-    "strata_candidate_packet_sha256": "5dd2989d04ed167d1f26d23115d3492521291f1e396cd0c45b8d06308efc0d3e",
-    "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ACCEPTED_INDEX_RETAINED_ONSET_SUMMARY_20260719.json"
+    "strata_candidate_packet_sha256": "a14fc0aa1481b8e6170d38a52e06d4cbb9aaa197f9eef1774747d410100311cf",
+    "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ACCEPTED_INDEX_RETAINED_ONSET_SUMMARY_20260719.json",
+    "truth_blocked": 3,
+    "truth_labeled": 3,
+    "truth_onset_status": "partial",
+    "truth_pending": 7
   },
   "docker_cvat": "not-needed",
   "ec2": "EC2_DEFERRED",
@@ -79,9 +87,9 @@
     "exit_code": 0,
     "full_library_rescan_performed": false,
     "library_hold_packet_status": "HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE",
-    "library_strata_candidates_selected": 10,
+    "library_strata_candidates_selected": 13,
     "library_strata_command": "python Plan/07_IMPLEMENTATION/scripts/detect_wave64_onset_transient_anchors.py --mode library-strata",
-    "library_strata_truth_onset_status": "absent",
+    "library_strata_truth_onset_status": "partial",
     "pcm_decode_performed": false,
     "pytest_command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_detect_wave64_onset_transient_anchors.py",
     "pytest_result": "15 passed",
@@ -90,7 +98,10 @@
       "calibration",
       "held_out_test",
       "adversarial"
-    ]
+    ],
+    "truth_blocked": 3,
+    "truth_labeled": 3,
+    "truth_pending": 7
   },
   "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
   "implementation_completion_claimed": false,
@@ -105,28 +116,27 @@
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ONSET_TRANSIENT_ANCHOR_CURRENT_DELTA_20260719.json"
     ],
     "detector_revision": "wave64_row072_onset_transient_detector_v0.1.0",
-    "kind": "library_strata_row109_synthetic_partition_binding",
+    "kind": "library_strata_partial_synthetic_fixture_truth_labels",
     "strata_registry_revision": "wave64_row072_onset_library_benchmark_strata_v0.1.0",
-    "summary": "Bound Row109 train/calibration/held_out_test/adversarial partition IDs into the Row072 strata candidate manifest as synthetic references only. No PCM decode, no threshold unfreeze, both blockers retained, no COMPLETE.",
+    "summary": "Labeled determinable Row072 synthetic fixture truth onsets on the strata shortlist (impulse/gradual_attack/multi_hit) and marked library_unlabeled retained candidates pending/blocked. truth_onset_status=partial; both blockers retained; no PCM library decode; no threshold unfreeze; no COMPLETE.",
     "threshold_registry_revision": "wave64_row072_onset_thresholds_v0.1.0"
   },
   "item_id": "ITEM-W64-072",
   "ledger_status": "Blocked_Library_Thresholds_And_Benchmark_Strata_Absent_Reconcile_Complete",
   "ledger_vocabulary_sync": {
     "ledger_status": "Blocked_Library_Thresholds_And_Benchmark_Strata_Absent_Reconcile_Complete",
-    "note": "Notes hygiene: coverage_complete retained; library-strata shortlist and Row109 synthetic partition refs bound at b850cb65; thresholds/strata holds remain; no COMPLETE.",
+    "note": "Notes hygiene: partial synthetic fixture truth labels on shortlist; library_unlabeled remain pending/blocked; thresholds/strata holds remain; CSV deferred; no COMPLETE.",
     "product_completion": false,
-    "prove_commit": "b850cb65",
-    "synced_at": "2026-07-20T06:16:17.290395Z"
+    "synced_at": "2026-07-20T06:22:22.437997Z"
   },
   "library_authority": false,
   "proof_tier": "RUNTIME_PASS_BOUNDED",
-  "qa_decision": "library_strata_shortlist_bound_to_row109_synthetic_partition_ids_without_pcm_decode_authority_or_product_completion",
+  "qa_decision": "library_strata_partial_synthetic_fixture_truth_labels_without_pcm_decode_authority_or_product_completion",
   "row_complete": false,
   "runtime_completion_claimed": true,
   "schema_version": 1,
   "source_commit": "PENDING_THIS_PASS",
   "status": "HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE",
   "tracker_id": "TRK-W64-072",
-  "updated_at": "2026-07-20T06:16:17.290395Z"
+  "updated_at": "2026-07-20T06:22:22.437997Z"
 }

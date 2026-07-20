@@ -82,6 +82,14 @@ ROW109_REQUIRED_PARTITION_IDS = (
     "held_out_test",
     "adversarial",
 )
+# Determinable Row072 synthetic fixture truth onsets (no library PCM decode).
+SYNTHETIC_FIXTURE_TRUTH_ONSETS: dict[str, int] = {
+    "impulse": 512,
+    "gradual_attack": 800,
+    "multi_hit": 400,
+}
+SYNTHETIC_FIXTURE_BLOCKED_NO_TRUTH = frozenset({"silence", "stereo_disagree"})
+SELECTION_POLICY = "retained_shortlist_synthetic_fixture_truth_no_pcm_library_decode"
 _FEATURE_MOD: Any | None = None
 
 
@@ -326,16 +334,105 @@ def _sha256_or_none(value: Any) -> str | None:
     return None
 
 
+def resolve_retained_truth_label(
+    record: dict[str, Any],
+) -> tuple[int | None, str]:
+    """Resolve truth onset label from retained metadata only (no PCM decode).
+
+    library_unlabeled retained rows never invent truth from measured onset; they stay
+    pending (technical pass) or blocked (technical/onset blocker).
+    """
+    truth_onset = record.get("truth_onset_sample")
+    if isinstance(truth_onset, int) and truth_onset >= 0:
+        return int(truth_onset), "labeled"
+
+    event_family = str(record.get("event_family") or LIBRARY_EVENT_FAMILY)
+    onset_status = str(record.get("onset_status") or "")
+    explicit = record.get("truth_label_status")
+    library_unlabeled = event_family == LIBRARY_EVENT_FAMILY or explicit in {
+        None,
+        "unlabeled",
+    }
+
+    if explicit in {"pending", "blocked"} and not (
+        library_unlabeled and explicit == "unlabeled"
+    ):
+        return None, str(explicit)
+
+    if library_unlabeled or explicit == "unlabeled":
+        if onset_status == "blocked" or record.get("blocker_code"):
+            return None, "blocked"
+        return None, "pending"
+
+    if explicit == "labeled":
+        # Labeled without a non-negative sample is not determinable.
+        return None, "pending"
+    return None, "pending"
+
+
+def build_synthetic_fixture_strata_candidate(
+    *,
+    stratum_id: str,
+    fixture_name: str,
+    candidate_index: int = 1,
+) -> dict[str, Any]:
+    """Bind known Row072 synthetic fixture truth without library PCM decode."""
+    if fixture_name not in SYNTHETIC_FIXTURE_TRUTH_ONSETS and fixture_name not in (
+        SYNTHETIC_FIXTURE_BLOCKED_NO_TRUTH
+    ):
+        raise OnsetAnchorError(f"unknown_synthetic_fixture_strata:{fixture_name}")
+    fixture = synthesize_fixture(fixture_name)
+    truth_onset = fixture.get("truth_onset_sample")
+    if isinstance(truth_onset, int) and truth_onset >= 0:
+        # Prefer the frozen contract table; synthesize_fixture must agree.
+        expected = SYNTHETIC_FIXTURE_TRUTH_ONSETS.get(fixture_name)
+        if expected is not None and int(truth_onset) != int(expected):
+            raise OnsetAnchorError(
+                f"synthetic_fixture_truth_contract_mismatch:{fixture_name}"
+            )
+        label_status = "labeled"
+        blocker_code = None
+        onset_status = "pass"
+        technical_pass = True
+    else:
+        truth_onset = None
+        label_status = "blocked"
+        blocker_code = "SYNTHETIC_FIXTURE_NO_DETERMINABLE_ONSET"
+        onset_status = "blocked"
+        technical_pass = False
+    return {
+        "candidate_id": f"{stratum_id}_{candidate_index:02d}",
+        "stratum_id": stratum_id,
+        "relative_path": f"row072_synthetic/{fixture_name}.wav",
+        "asset_id": str(fixture["asset_id"]),
+        "role": "fixture",
+        "event_type": fixture_name,
+        "extension": ".wav",
+        "onset_status": onset_status,
+        "technical_onset_pass": technical_pass,
+        "measured_onset_sample": truth_onset,
+        "sample_rate_hz": fixture.get("sample_rate_hz"),
+        "channels": fixture.get("channels"),
+        "frame_count": fixture.get("frame_count"),
+        "source_sha256": _sha256_or_none(fixture.get("source_sha256")),
+        "canonical_pcm_sha256": _sha256_or_none(fixture.get("canonical_pcm_sha256")),
+        "truth_onset_sample": truth_onset if isinstance(truth_onset, int) else None,
+        "truth_label_status": label_status,
+        "blocker_code": blocker_code,
+    }
+
+
 def select_library_strata_candidates_from_retained(
     root: Path,
     *,
     retained_records_path: Path | None = None,
     strata_registry: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    """Select benchmark strata candidates from retained Row072 records only.
+    """Select benchmark strata candidates and label determinable truth onsets.
 
-    Does not decode PCM, re-scan the full library, grant authority, or claim COMPLETE.
-    Truth onsets remain unlabeled unless already present on retained records (none expected).
+    Library retained rows are metadata-only (no PCM decode / no full re-scan).
+    Determinable truth binds from Row072 synthetic fixtures; library_unlabeled
+    retained candidates stay pending/blocked. Does not grant authority or COMPLETE.
     """
     registry = strata_registry or load_strata_registry(root)
     records_path = resolve_under(
@@ -369,6 +466,22 @@ def select_library_strata_candidates_from_retained(
         (registry.get("selection") or {}).get("early_exit_when_targets_filled", True)
     )
 
+    # Fill synthetic fixture strata first from known truth contracts (no library PCM).
+    for target in targets:
+        stratum_id = str(target["stratum_id"])
+        if str(target.get("role")) != "fixture":
+            continue
+        fixture_name = str(target.get("event_type") or "")
+        while len(buckets[stratum_id]) < limits[stratum_id]:
+            buckets[stratum_id].append(
+                build_synthetic_fixture_strata_candidate(
+                    stratum_id=stratum_id,
+                    fixture_name=fixture_name,
+                    candidate_index=len(buckets[stratum_id]) + 1,
+                )
+            )
+
+    library_targets = [target for target in targets if str(target.get("role")) != "fixture"]
     with records_path.open("r", encoding="utf-8") as handle:
         for line in handle:
             stripped = line.strip()
@@ -385,7 +498,7 @@ def select_library_strata_candidates_from_retained(
             relative_path = str(record.get("relative_path") or "").replace("\\", "/")
             if not relative_path:
                 continue
-            for target in targets:
+            for target in library_targets:
                 stratum_id = str(target["stratum_id"])
                 if len(buckets[stratum_id]) >= limits[stratum_id]:
                     continue
@@ -395,21 +508,7 @@ def select_library_strata_candidates_from_retained(
                     and extension == str(target["extension"]).lower()
                     and onset_status == str(target["onset_status"])
                 ):
-                    truth_onset = record.get("truth_onset_sample")
-                    truth_label_status = "unlabeled"
-                    if isinstance(truth_onset, int) and truth_onset >= 0:
-                        truth_label_status = "labeled"
-                    elif record.get("truth_label_status") in {
-                        "pending",
-                        "blocked",
-                        "labeled",
-                        "unlabeled",
-                    }:
-                        truth_label_status = str(record["truth_label_status"])
-                        if truth_label_status != "labeled":
-                            truth_onset = None
-                    else:
-                        truth_onset = None
+                    truth_onset, truth_label_status = resolve_retained_truth_label(record)
                     candidate_index = len(buckets[stratum_id]) + 1
                     buckets[stratum_id].append(
                         {
@@ -449,31 +548,50 @@ def select_library_strata_candidates_from_retained(
         candidates.extend(buckets[stratum_id])
 
     truth_labeled = sum(1 for item in candidates if item["truth_label_status"] == "labeled")
+    truth_pending = sum(1 for item in candidates if item["truth_label_status"] == "pending")
+    truth_blocked = sum(1 for item in candidates if item["truth_label_status"] == "blocked")
     truth_unlabeled = len(candidates) - truth_labeled
     strata_filled = sum(
         1 for stratum_id, items in buckets.items() if len(items) >= limits[stratum_id]
     )
     strata_unfilled = len(targets) - strata_filled
 
-    # Candidate shortlist alone never clears strata absence; unlabeled truth keeps hold.
-    if truth_labeled == 0 or truth_unlabeled > 0 or strata_unfilled > 0:
-        truth_onset_status = "absent" if truth_labeled == 0 else "partial"
+    # Partial once any determinable truth is labeled; complete only when none remain pending/blocked.
+    if truth_labeled == 0:
+        truth_onset_status = "absent"
+    elif truth_unlabeled > 0 or strata_unfilled > 0:
+        truth_onset_status = "partial"
     else:
         truth_onset_status = "complete"
 
+    # Fail closed: both blockers remain until calibrated library truth + threshold unfreeze.
     blocker_codes = [BLOCKER_THRESHOLD_FROZEN, BLOCKER_STRATA_ABSENT]
-    if truth_onset_status != "complete":
-        # Keep strata absent until every selected candidate has truth onset labels.
-        if BLOCKER_STRATA_ABSENT not in blocker_codes:
-            blocker_codes.append(BLOCKER_STRATA_ABSENT)
-    else:
-        # Fail closed: even fully labeled shortlist cannot unfreeze thresholds here.
-        blocker_codes = [BLOCKER_THRESHOLD_FROZEN, BLOCKER_STRATA_ABSENT]
 
     calibrated = False
     row109_refs = build_row109_synthetic_partition_references(
         root, strata_registry=registry
     )
+    if truth_onset_status == "absent":
+        safe_next = (
+            "Label truth onset samples on the retained-record shortlist, then calibrate "
+            "registered event-family thresholds before claiming Row072 acceptance. "
+            "Row109 partition IDs are synthetic references only. Do not decode PCM or "
+            "re-scan the full library in this mode; do not claim COMPLETE."
+        )
+    elif truth_onset_status == "partial":
+        safe_next = (
+            "Synthetic fixture truth onsets are labeled; library_unlabeled retained "
+            "candidates remain pending/blocked. Calibrate registered event-family "
+            "thresholds before claiming Row072 acceptance. Row109 partition IDs remain "
+            "synthetic references only. Do not decode PCM or re-scan the full library; "
+            "do not claim COMPLETE."
+        )
+    else:
+        safe_next = (
+            "Shortlist truth onsets are labeled, but threshold authority remains frozen "
+            "synthetic-only. Calibrate registered event-family thresholds before Row072 "
+            "acceptance. Do not decode PCM or claim COMPLETE."
+        )
     manifest = {
         "schema_version": SCHEMA_VERSION,
         "artifact_type": "onset_library_benchmark_strata_manifest",
@@ -483,7 +601,7 @@ def select_library_strata_candidates_from_retained(
         "threshold_registry_revision": THRESHOLD_REGISTRY_REVISION,
         "detector_revision": DETECTOR_REVISION,
         "authority": "candidate_shortlist_pending_truth_onsets",
-        "selection_policy": "retained_records_only_no_pcm_decode_no_full_rescan",
+        "selection_policy": SELECTION_POLICY,
         "source_retained_records": {
             "path": str(records_path.relative_to(root)).replace("\\", "/"),
             "sha256": sha256_file(records_path),
@@ -509,6 +627,8 @@ def select_library_strata_candidates_from_retained(
             "candidates_selected": len(candidates),
             "truth_labeled": truth_labeled,
             "truth_unlabeled": truth_unlabeled,
+            "truth_pending": truth_pending,
+            "truth_blocked": truth_blocked,
         },
         "truth_onset_status": truth_onset_status,
         "row109_synthetic_partition_references": row109_refs,
@@ -520,19 +640,16 @@ def select_library_strata_candidates_from_retained(
             "product_completion": False,
             "threshold_authority_unfrozen": False,
             "benchmark_strata_calibrated": calibrated,
-            "safe_next_action": (
-                "Label truth onset samples on the retained-record shortlist, then calibrate "
-                "registered event-family thresholds before claiming Row072 acceptance. "
-                "Row109 partition IDs are synthetic references only. Do not decode PCM or "
-                "re-scan the full library in this mode; do not claim COMPLETE."
-            ),
+            "safe_next_action": safe_next,
         },
         "created_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "notes": [
-            "Selected from retained Row072 onset records only; no PCM decode and no full-library re-scan.",
+            "Library candidates selected from retained Row072 onset records only; no library PCM decode and no full-library re-scan.",
+            "Determinable truth onsets bind from Row072 synthetic fixtures (impulse/gradual_attack/multi_hit).",
+            "library_unlabeled retained candidates remain pending/blocked; measured onset is never promoted to truth.",
+            "Row109 descriptors do not encode onset samples; partition IDs remain synthetic references only.",
             "Candidate shortlist does not grant library authority or clear frozen synthetic thresholds.",
-            "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT remains while truth onsets are unlabeled.",
-            "Bound Row109 train/calibration/held_out_test/adversarial partition IDs as synthetic references only.",
+            "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT remains until library truth is calibrated.",
         ],
     }
     if (
@@ -548,6 +665,10 @@ def select_library_strata_candidates_from_retained(
         raise OnsetAnchorError("library_strata_must_emit_frozen_threshold_blocker")
     if BLOCKER_STRATA_ABSENT not in manifest["blocker_codes"]:
         raise OnsetAnchorError("library_strata_must_emit_strata_absent_blocker_until_truth")
+    if truth_onset_status == "complete":
+        # Fail closed: full shortlist labels still cannot unfreeze thresholds here.
+        if BLOCKER_THRESHOLD_FROZEN not in manifest["blocker_codes"]:
+            raise OnsetAnchorError("library_strata_complete_labels_still_frozen")
     validate_strata_manifest(root, manifest)
     return manifest
 
@@ -1774,7 +1895,16 @@ def build_library_blocker_packet(
     deps_unlocked = bool(row070["dependency_satisfied"] and row071["dependency_satisfied"])
     if coverage_complete and deps_unlocked:
         status = "HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE"
-        if strata_shortlist_present:
+        strata_truth_status = str(strata.get("truth_onset_status") or "absent")
+        if strata_shortlist_present and strata_truth_status == "partial":
+            safe_next = (
+                "Full-library onset reconcile is coverage_complete. Synthetic fixture truth "
+                "onsets are labeled on the strata shortlist, but library_unlabeled retained "
+                "candidates remain pending/blocked and thresholds stay frozen synthetic-only. "
+                "Calibrate library truth and unfreeze threshold authority before Row072 "
+                "acceptance or Row093 unlock. Do not claim COMPLETE."
+            )
+        elif strata_shortlist_present:
             safe_next = (
                 "Full-library onset reconcile is coverage_complete and a retained-record "
                 "strata candidate shortlist exists, but truth onset labels remain absent. "

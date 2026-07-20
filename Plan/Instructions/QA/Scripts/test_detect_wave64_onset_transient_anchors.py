@@ -336,7 +336,7 @@ def test_library_packet_marks_reconcile_in_progress_when_retained_present():
     assert payload["library_authority"] is False
 
 
-def test_coverage_complete_with_unlabeled_strata_shortlist_keeps_both_blockers():
+def test_coverage_complete_with_partial_truth_strata_keeps_both_blockers():
     retained_path = (
         ROOT
         / "runtime_artifacts"
@@ -378,12 +378,12 @@ def test_coverage_complete_with_unlabeled_strata_shortlist_keeps_both_blockers()
     assert payload["runtime_completion_claimed"] is True
     assert "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY" in payload["blocker_codes"]
     assert "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT" in payload["blocker_codes"]
-    assert payload["library_benchmark_strata"]["candidates_selected"] == 10
-    assert payload["library_benchmark_strata"]["truth_onset_status"] == "absent"
+    assert payload["library_benchmark_strata"]["candidates_selected"] == 13
+    assert payload["library_benchmark_strata"]["truth_onset_status"] == "partial"
     assert payload["library_benchmark_strata"]["benchmark_strata_calibrated"] is False
 
 
-def test_library_strata_selects_from_retained_records_without_authority():
+def test_library_strata_labels_synthetic_truth_and_holds_library_pending():
     retained_path = (
         ROOT
         / "runtime_artifacts"
@@ -397,12 +397,14 @@ def test_library_strata_selects_from_retained_records_without_authority():
             retained_records_path=retained_path,
         )
         assert strata["authority"] == "candidate_shortlist_pending_truth_onsets"
-        assert strata["selection_policy"] == "retained_records_only_no_pcm_decode_no_full_rescan"
-        assert strata["counts"]["candidates_selected"] == 10
-        assert strata["counts"]["strata_filled"] == 10
-        assert strata["counts"]["truth_labeled"] == 0
+        assert strata["selection_policy"] == MOD.SELECTION_POLICY
+        assert strata["counts"]["candidates_selected"] == 13
+        assert strata["counts"]["strata_filled"] == 13
+        assert strata["counts"]["truth_labeled"] == 3
+        assert strata["counts"]["truth_pending"] == 7
+        assert strata["counts"]["truth_blocked"] == 3
         assert strata["counts"]["truth_unlabeled"] == 10
-        assert strata["truth_onset_status"] == "absent"
+        assert strata["truth_onset_status"] == "partial"
         assert strata["decision"]["status"] == "blocked"
         assert strata["decision"]["library_authority"] is False
         assert strata["decision"]["row_complete"] is False
@@ -411,8 +413,16 @@ def test_library_strata_selects_from_retained_records_without_authority():
         assert strata["decision"]["benchmark_strata_calibrated"] is False
         assert MOD.BLOCKER_THRESHOLD_FROZEN in strata["blocker_codes"]
         assert MOD.BLOCKER_STRATA_ABSENT in strata["blocker_codes"]
-        assert all(item["truth_label_status"] == "unlabeled" for item in strata["candidates"])
-        assert all(item["truth_onset_sample"] is None for item in strata["candidates"])
+        labeled = [item for item in strata["candidates"] if item["truth_label_status"] == "labeled"]
+        library = [item for item in strata["candidates"] if item["role"] != "fixture"]
+        assert {item["event_type"] for item in labeled} == {
+            "impulse",
+            "gradual_attack",
+            "multi_hit",
+        }
+        assert {item["truth_onset_sample"] for item in labeled} == {512, 800, 400}
+        assert all(item["truth_label_status"] in {"pending", "blocked"} for item in library)
+        assert all(item["truth_onset_sample"] is None for item in library)
         refs = strata["row109_synthetic_partition_references"]
         assert refs["partition_ids"] == [
             "train",
@@ -438,8 +448,9 @@ def test_strata_registry_revision_is_frozen_pending_truth():
     assert registry["library_authority"] is False
     assert registry["row_complete"] is False
     assert registry["threshold_authority_unfrozen"] is False
-    assert registry["truth_onset_status"] == "absent"
-    assert len(registry["strata_targets"]) >= 8
+    assert registry["truth_onset_status"] == "partial"
+    assert registry["selection_policy"] == MOD.SELECTION_POLICY
+    assert len(registry["strata_targets"]) >= 11
     refs = registry["row109_synthetic_partition_references"]
     assert refs["partition_ids"] == [
         "train",

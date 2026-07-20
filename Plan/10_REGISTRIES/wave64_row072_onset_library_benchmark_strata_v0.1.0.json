@@ -7,15 +7,16 @@
   "authority": "candidate_shortlist_pending_truth_onsets",
   "threshold_registry_revision": "wave64_row072_onset_thresholds_v0.1.0",
   "detector_revision": "wave64_row072_onset_transient_detector_v0.1.0",
-  "selection_policy": "retained_records_only_no_pcm_decode_no_full_rescan",
+  "selection_policy": "retained_shortlist_synthetic_fixture_truth_no_pcm_library_decode",
   "source_retained_records": {
     "path": "runtime_artifacts/onset_anchors/row072_index_retained_20260719/records.jsonl",
     "notes": [
-      "Candidates are selected only from retained Row072 onset reconcile records.",
+      "Library strata candidates are selected from retained Row072 onset reconcile records only.",
+      "Determinable truth onsets bind from Row072 synthetic fixtures; library_unlabeled retained rows stay pending/blocked.",
       "library-strata mode must not decode PCM, re-scan the full audio library, or fight Row075."
     ]
   },
-  "truth_onset_status": "absent",
+  "truth_onset_status": "partial",
   "library_authority": false,
   "row_complete": false,
   "product_completion": false,
@@ -45,8 +46,8 @@
   "notes": [
     "This registry freezes representative library strata targets for Row072 benchmark calibration.",
     "Candidate shortlist does not grant library authority, unfreeze synthetic thresholds, or clear FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT.",
-    "Truth onset labels remain absent/pending; unlabeled candidates keep benchmark strata blocked.",
-    "Row109 partition IDs are synthetic references only and do not calibrate library truth onsets."
+    "Row072 synthetic fixture truth onsets (impulse/gradual_attack/multi_hit) may label without library PCM decode; library_unlabeled retained candidates remain pending/blocked.",
+    "Row109 partition IDs are synthetic references only; Row109 descriptors do not encode onset samples and do not calibrate library truth onsets."
   ],
   "selection": {
     "max_candidates_per_stratum_default": 1,
@@ -60,6 +61,30 @@
     "early_exit_when_targets_filled": true
   },
   "strata_targets": [
+    {
+      "stratum_id": "synthetic_impulse_wav_pass",
+      "role": "fixture",
+      "event_type": "impulse",
+      "extension": ".wav",
+      "onset_status": "pass",
+      "max_candidates": 1
+    },
+    {
+      "stratum_id": "synthetic_gradual_attack_wav_pass",
+      "role": "fixture",
+      "event_type": "gradual_attack",
+      "extension": ".wav",
+      "onset_status": "pass",
+      "max_candidates": 1
+    },
+    {
+      "stratum_id": "synthetic_multi_hit_wav_pass",
+      "role": "fixture",
+      "event_type": "multi_hit",
+      "extension": ".wav",
+      "onset_status": "pass",
+      "max_candidates": 1
+    },
     {
       "stratum_id": "body_foley_wav_pass",
       "role": "body",
