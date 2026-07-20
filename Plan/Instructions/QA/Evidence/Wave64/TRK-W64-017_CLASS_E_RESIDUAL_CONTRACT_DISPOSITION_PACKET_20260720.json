@@ -1,0 +1,162 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-017_CLASS_E_RESIDUAL_CONTRACT_DISPOSITION_PACKET_20260720T115227-0500",
+  "created_iso": "2026-07-20T11:52:27-05:00",
+  "tracker_id": "TRK-W64-017",
+  "item_id": "ITEM-W64-017",
+  "mutation_this_landing": "evidence_only_class_e_residual_contract_deepen",
+  "row_complete": false,
+  "product_completion_claimed": false,
+  "csv_sync": "deferred_leave_to_serialized_mutator",
+  "proof_tier": "OFFLINE_INVENTORY_BLOCKER_BOUNDED",
+  "highest_proof_tier_achieved": "OFFLINE_INVENTORY_BLOCKER_BOUNDED",
+  "prior_disposition": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-017_CLASS_C_TO_E_DISPOSITION_PACKET_20260720T023500-0500.json",
+    "sha256": "ca3760b40e814291e7366f56cac56a6abac73b04ea8480d81c1b658bc17b868a",
+    "disposition": "RENAME_STATUS_KEEP_BLOCKED_CLASS_E",
+    "note": "Rename already applied (4697bb30); this landing deepens residual contract absence proof."
+  },
+  "deepen_reason": "Status rename Class E already landed; residual future-producer emission proof package was asserted in Notes but not hash-bound. Live negative inventory confirms zero named future-producer packets and zero canonical reviews claiming future_localized_producer_emission.",
+  "blocker_classes": [
+    {
+      "class": "E",
+      "name": "FUTURE_LOCALIZED_PRODUCER_GLOBAL_REVIEW_CONTRACT",
+      "primary_code": "FUTURE_PRODUCER_EMISSION_PROOF_PACKAGE_ABSENT",
+      "codes": [
+        "FUTURE_PRODUCER_EMISSION_PROOF_PACKAGE_ABSENT",
+        "Blocked_Canonical_Future_Localized_Producer_Global_Review_Contract_Pending"
+      ],
+      "cleared_by_this_packet": [],
+      "summary": "Class C focused backlog remains cleared (70e12e70); Status remains future-producer pending; no post-clearance producer emission proof package exists on disk.",
+      "fail_closed_until": "A post-70e12e70 future-producer proof package shows new localized edit producers emit canonical Row017 GLOBAL_REVIEW records (five gates + pre/post whole-frame + reject-on-any-global-defect), those records pass validate_global_whole_image_visual_review.py, and proof cites concrete producer paths after Class C clearance"
+    }
+  ],
+  "negative_inventory": {
+    "runtime_receipt": "runtime_artifacts/wave64_row017_class_e_residual_20260720/class_e_residual_negative_inventory.json",
+    "runtime_receipt_sha256": "c91ec5887dcfaac8454dc07187a61c42ec7aca2500e4902aade40d5d547dbfc5",
+    "named_packet_hits": 0,
+    "producer_claim_hits": 0,
+    "canonical_global_reviews_on_disk": 83,
+    "verdict": "FUTURE_PRODUCER_EMISSION_PACKAGE_ABSENT_CLASS_E_RESIDUAL_ACTIVE"
+  },
+  "authority_bindings": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-017_CLASS_C_TO_E_DISPOSITION_PACKET_20260720T023500-0500.json",
+      "exists": true,
+      "bytes": 7909,
+      "sha256": "ca3760b40e814291e7366f56cac56a6abac73b04ea8480d81c1b658bc17b868a"
+    },
+    {
+      "path": "Plan/Items/Reports/ITEM-W64-017_global_visual_review_not_local_only.json",
+      "exists": true,
+      "bytes": 19384,
+      "sha256": "3403c43c41deeae12c33c97065c90cc45c386528733c3d682c9e68d8f6b3ac37"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/validate_global_whole_image_visual_review.py",
+      "exists": true,
+      "bytes": 5310,
+      "sha256": "fd2b6fe57cfe508b08e09a0e6be49ef7cebd60ad2cc6bd660b37802b0bcfb203"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/ROW017_HISTORICAL_CANONICALIZATION_BACKLOG_LEDGER_20260720T021800-0500.json",
+      "exists": true,
+      "bytes": 2738,
+      "sha256": "6a39bea0e0156b8dc039eb90a94c7cad13eff876271e1ff387a6a89c8f10f470"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/ROW017_CANONICAL_GLOBAL_REVIEW_NORMALIZATION_20260720T021800-0500.json",
+      "exists": true,
+      "bytes": 14301,
+      "sha256": "9080fa991b334c9f3c67f7ad1c98a32e988f2233df09388217b6258b1da30b96"
+    }
+  ],
+  "spot_checks_retained": {
+    "pass_example": {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_W69_LINEART_CONTROLNET_V2_GLOBAL_REVIEW_20260720.json",
+      "overall_decision": "pass"
+    },
+    "reject_example": {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_W69_OPENPOSE_V2_UPPER_BODY_HANDS_GLOBAL_REVIEW_20260720.json",
+      "overall_decision": "reject"
+    },
+    "focused_bound": "78/78",
+    "focused_still_unclassified": 0,
+    "canonical_global_reviews_on_disk": 83
+  },
+  "clearance_contract": [
+    "A post-70e12e70 future-producer proof package exists showing new localized edit producers emit canonical Row017 GLOBAL_REVIEW records (five gates + pre/post whole-frame + reject-on-any-global-defect)",
+    "Those emitted records pass Plan/07_IMPLEMENTATION/scripts/validate_global_whole_image_visual_review.py",
+    "Proof package cites concrete producer paths/workflows and at least one new localized runtime or deterministic producer emission after Class C clearance",
+    "Serialized Tracker/Item CSV mutator syncs Status away from the renamed Blocked_* string under explicit acceptance (still may remain non-COMPLETE)",
+    "row_complete stays false unless independent full Row017 certification gates are separately satisfied — this disposition never authorizes COMPLETE"
+  ],
+  "boundaries": {
+    "comfyui_8188_used": false,
+    "gpu_used": false,
+    "mf70_w69_climb_resumed": false,
+    "row073_pcm_touched": false,
+    "sound_csv_mutated": false,
+    "end_to_end_csv_mutated": false,
+    "tip_sha_chain": false,
+    "complete_claimed": false,
+    "offline_only": true
+  },
+  "checks": [
+    {
+      "name": "R017-E001_prior_class_c_to_e_disposition_bound",
+      "result": "pass"
+    },
+    {
+      "name": "R017-E002_rename_commit_ancestor",
+      "result": "pass"
+    },
+    {
+      "name": "R017-E003_class_c_clearance_ancestor",
+      "result": "pass"
+    },
+    {
+      "name": "R017-E004_status_already_future_producer_pending",
+      "result": "pass"
+    },
+    {
+      "name": "R017-E005_zero_named_future_producer_packets",
+      "result": "pass"
+    },
+    {
+      "name": "R017-E006_zero_canonical_emission_claims",
+      "result": "pass"
+    },
+    {
+      "name": "R017-E007_canonical_reviews_still_present",
+      "result": "pass"
+    },
+    {
+      "name": "R017-E008_csv_deferred",
+      "result": "pass"
+    },
+    {
+      "name": "R017-E009_no_8188",
+      "result": "pass"
+    },
+    {
+      "name": "R017-E010_no_complete_claim",
+      "result": "pass"
+    }
+  ],
+  "decision": {
+    "status": "blocked",
+    "row_complete": false,
+    "product_completion": false,
+    "safe_next_action": "Implement/prove a post-70e12e70 localized-edit producer emission that writes canonical Row017 GLOBAL_REVIEW artifacts and passes validate_global_whole_image_visual_review.py; do not resume historical Class C normalization or MF70 treadmill; do not claim COMPLETE from this residual deepen; CSV Notes sync optional via mutator."
+  },
+  "ledger_status_unchanged": "Blocked_Canonical_Future_Localized_Producer_Global_Review_Contract_Pending",
+  "this_landing_actions": {
+    "wrote_negative_inventory": true,
+    "wrote_disposition_packet": true,
+    "touched_csv": false,
+    "renamed_status": false,
+    "claimed_complete": false
+  },
+  "recommended_codex_follow_up": "When a real localized producer is ready, emit canonical GLOBAL_REVIEW under the Class E contract and validate; leave Status blocked until then; no CSV thrash."
+}

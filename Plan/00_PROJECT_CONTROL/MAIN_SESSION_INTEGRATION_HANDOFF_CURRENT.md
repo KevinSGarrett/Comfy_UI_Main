@@ -1,37 +1,33 @@
 # Main Session Integration Handoff (rolling)
 
-Updated: 2026-07-20T11:50-05:00
+Updated: 2026-07-20T11:53-05:00
 
 ## Integration Summary
 
 - Active platform: interactive Cursor (integration authority)
 - Branch: `codex/workflow_plan_update_improvements`
-- This pass: deepen Row109 Class F step2 empty-media offline blocker (negative inventory + disposition packet)
-- Companion handoff: `Plan/00_PROJECT_CONTROL/MAIN_SESSION_INTEGRATION_HANDOFF_20260720T1150-0500.md`
+- This pass: deepen Row017 Class E residual future-producer contract (negative inventory + disposition)
+- Companion handoff: `Plan/00_PROJECT_CONTROL/MAIN_SESSION_INTEGRATION_HANDOFF_20260720T1153-0500.md`
+- Prior same-shift landing: Row109 Class F step2 (`253083e5`)
 - No COMPLETE / Status flip. CSV deferred to mutator.
-- Row073 full-library PCM left alone (not restarted; no 074/076/077).
+- Row073 full-library PCM left alone.
 
 ## This pass proof
 
-- Disposition: `Plan/Instructions/QA/Evidence/Wave64/TRK-W64-109_CLASS_F_STEP2_EMPTY_MEDIA_DISPOSITION_PACKET_20260720.json`
-- Inventory: `Plan/Instructions/QA/Evidence/Wave64/TRK-W64-109_CLASS_F_STEP2_EMPTY_MEDIA_INVENTORY_20260720.json`
-- Receipt SHA256: `eea79563560a0b789276ad9ef110db8661833238217b1d0e93838e67c347668a`
-- Eligible genuine annotated media hits: 0 (media/row109 absent; reviews/row109 absent)
+- Disposition: `Plan/Instructions/QA/Evidence/Wave64/TRK-W64-017_CLASS_E_RESIDUAL_CONTRACT_DISPOSITION_PACKET_20260720.json`
+- Inventory: `Plan/Instructions/QA/Evidence/Wave64/TRK-W64-017_CLASS_E_RESIDUAL_NEGATIVE_INVENTORY_20260720.json`
+- Receipt SHA256: `c91ec5887dcfaac8454dc07187a61c42ec7aca2500e4902aade40d5d547dbfc5`
+- Future-producer emission packages found: 0
 - Proof tier: `OFFLINE_INVENTORY_BLOCKER_BOUNDED`
-- Status remains: `Blocked_Synthetic_Fixture_Corpus_Present_Genuine_Media_And_Visual_QA_Absent`
-
-## Prior wave context
-
-- Row010 Class A/F disposition deepened (`642f831a`)
-- ROW084-017/013 cleared; ROW084-012 Class C OPEN_HOLD deepened; ROW084-011 Class E withhold
-- Row075 Class F/D shortlist stop; Row073 reconcile in progress (leave exclusive)
+- Status remains: `Blocked_Canonical_Future_Localized_Producer_Global_Review_Contract_Pending`
 
 ## Exclusive ownership
 
-- Row073 full-library `analyze_wave64_usable_bounds_decay.py --mode index-retained` — do not kill/contend/restart this shift
+- Row073 full-library index-retained PCM — do not kill/contend/restart this shift
+- Pre-existing dirty `analyze_wave64_usable_bounds_decay.py` preserved outside this commit
 
 ## Exact next action
 
-1. Human/external: stage rights-cleared annotated copies under `media/row109` with `human_gold` + `rights_decision_sha256` before any Row109 production corpus climb.
-2. Leave Row073 alone; CSV Notes sync optional via mutator.
-3. Optional: Row017 Class E future-producer contract deepen offline (no :8188) if character/sound human-intake lanes wait.
+1. Produce a real post-70e12e70 localized-edit producer emission + validated canonical GLOBAL_REVIEW for Row017 Class E clearance path (still not COMPLETE alone).
+2. Human media for Row010/Row109 remains external.
+3. Leave Row073 alone; CSV via mutator only.
