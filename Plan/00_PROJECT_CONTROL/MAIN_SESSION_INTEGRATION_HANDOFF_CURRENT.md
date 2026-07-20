@@ -1,31 +1,33 @@
 # Main Session Integration Handoff (rolling)
 
-Updated: 2026-07-20T12:30-05:00
+Updated: 2026-07-20T12:35-05:00
 
 ## Integration Summary
 
 - Active platform: interactive Cursor (integration authority)
 - Branch: `codex/workflow_plan_update_improvements`
-- This pass: hash-bound post-073 exclusive PCM handoff ranking 074 vs 076 vs 077 (evidence only; no PCM start)
-- Companion handoff: `Plan/00_PROJECT_CONTROL/MAIN_SESSION_INTEGRATION_HANDOFF_20260720T1230-0500.md`
-- Tip at packet: `5cae1f6828e542a94b92868e0ebad7effb3fa96f`
-- No COMPLETE / Status flip. CSV deferred to mutator.
-- Row073 PID 27320 left alone (~72.7% at packet; coverage_complete=false).
+- This pass: Row017 Class E deepen `FUTURE_PRODUCER_EMISSION_PROOF` readiness (offline)
+- Companion handoff: `Plan/00_PROJECT_CONTROL/MAIN_SESSION_INTEGRATION_HANDOFF_20260720T1235-0500.md`
+- Prior residual deepen: `2026036f`
+- No COMPLETE / Status flip / shared CSV / PCM / HOLD090+
+- No :8188 HTTP contention; no GLOBAL_REVIEW emission
 
 ## This pass proof
 
-- Ranking packet: `Plan/Instructions/QA/Evidence/Wave64/TRK-W64-POST073_EXCLUSIVE_PCM_HANDOFF_RANKING_074_076_077_20260720.json`
-- Packet SHA256: `9eff1fd1b682b20ab3d49532f56832b2933f8de9250b4d7a50151b5d353f0727`
-- Recommendation: first exclusive owner after Row073 coverage_complete = **TRK-W64-074**, then 076, then 077
-- No library PCM job started
+- Readiness: `Plan/Instructions/QA/Evidence/Wave64/TRK-W64-017_FUTURE_PRODUCER_EMISSION_PROOF_READINESS_20260720.json`
+- Readiness SHA256: `8d3c9004cc6e42b695164a032e9d92b6634971196be85a1ecc17228d5cc0f77f`
+- Command path: `Plan/Instructions/QA/Evidence/Wave64/TRK-W64-017_FUTURE_PRODUCER_COMMAND_PATH_20260720.json`
+- Producer path: `run_row017_fluid_masked_inpaint_local.py` → re-stamped emit → `validate_global_whole_image_visual_review.py --input …`
+- Validator entry smoke: ENTRY_READY (historical pass+reject spots only)
+- Emission proof package: still absent; Status remains future-producer pending
+- Proof tier: `OFFLINE_EMISSION_PROOF_READINESS_BOUNDED`; `row_complete=false`
 
 ## Exclusive ownership
 
-- Row073 full-library index-retained PCM (PID 27320) — do not kill/contend/restart
-- Do not start Row074/076/077 library PCM while 073 owns the lane
+- Row073 full-library PCM — leave alone
+- :8188 GPU lane — do not contend from this offline readiness landing
 
 ## Exact next action
 
-1. Leave Row073 alone until coverage_complete.
-2. After coverage_complete, claim Row074 exclusive index-retained full reconcile (omit `--limit`); keep 076/077 idle.
-3. CSV via mutator only; no COMPLETE.
+1. When :8188 free: NEW post-70e12e70 localized producer emission + validator PASS + `FUTURE_PRODUCER_EMISSION_PROOF` package.
+2. Do not claim COMPLETE from readiness; CSV via mutator only.

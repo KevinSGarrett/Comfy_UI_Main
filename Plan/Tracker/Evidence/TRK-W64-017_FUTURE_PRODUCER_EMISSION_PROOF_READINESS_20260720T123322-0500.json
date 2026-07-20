@@ -1,0 +1,331 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-017_FUTURE_PRODUCER_EMISSION_PROOF_READINESS_20260720T123322-0500",
+  "created_iso": "2026-07-20T12:33:22-05:00",
+  "tracker_id": "TRK-W64-017",
+  "item_id": "ITEM-W64-017",
+  "proof_tier": "OFFLINE_EMISSION_PROOF_READINESS_BOUNDED",
+  "highest_proof_tier_achieved": "OFFLINE_EMISSION_PROOF_READINESS_BOUNDED",
+  "row_complete": false,
+  "product_completion_claimed": false,
+  "global_review_emitted_this_landing": false,
+  "global_review_files_created": [],
+  "global_review_files_mutated": [],
+  "future_producer_emission_proof_package_present": false,
+  "future_producer_emission_proof_named_hits_excluding_readiness": [],
+  "class_c_clearance_commit": "70e12e70d8b977c22ea75649b291185ef420de20",
+  "class_c_commit_is_ancestor": true,
+  "prior_residual_deepen_commit": "2026036f",
+  "prior_residual_commit_is_ancestor": true,
+  "canonical_global_reviews_on_disk": 83,
+  "deepen_reason": "Prior Class E residual landing (2026036f) proved emission package ABSENCE. This landing deepens FUTURE_PRODUCER_EMISSION_PROOF readiness by hash-binding the exact producer command path, validate_global_whole_image_visual_review entrypoint (smoke PASS on existing spot checks), and required artifacts — without faking GLOBAL_REVIEW emission and without contending :8188.",
+  "producer_command_path": {
+    "lane": "reference_fluid_masked_inpaint_post_class_c_template",
+    "do_not_run_while_gpu_lane_owns_8188": true,
+    "observed_8188_tcp_listen_no_http": false,
+    "ordered_steps": [
+      {
+        "step": 1,
+        "name": "localized_runtime_producer",
+        "cwd": "C:\\Comfy_UI_Main",
+        "command": "python ztest/run_row017_fluid_masked_inpaint_local.py",
+        "requires_8188": true,
+        "writes": [
+          "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_row017_fluid_masked_inpaint_<STAMP>/",
+          "LOCAL_RUNTIME_RECEIPT.json",
+          "images/*_00001_.png"
+        ],
+        "script_bind": {
+          "path": "ztest/run_row017_fluid_masked_inpaint_local.py",
+          "exists": true,
+          "bytes": 8362,
+          "sha256": "d3214b0ae82b885c357cd39997b284d9b50cca9653d42580b6bec50addd9ac37"
+        },
+        "workflow_bind": {
+          "path": "Workflows/regional_detail/fluid_state_continuity_sdxl_tears/workflow.masked_inpaint_state_v3.api.json",
+          "exists": true,
+          "bytes": 2651,
+          "sha256": "394739775ece22e13859832e28a6a35ed4b565d1fa628012b92e525d85a8acf9"
+        },
+        "baseline_bind": {
+          "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_fluid_state_continuity_20260715T100719-0500/baseline_dry_state.png",
+          "exists": true,
+          "bytes": 1055507,
+          "sha256": "acfc3598b059979a0c43af40a91e9305ffc86015af030f4543bb15c6798e881f"
+        },
+        "mask_bind": {
+          "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_fluid_state_continuity_20260715T100719-0500/under_eye_edit_region_mask.png",
+          "exists": true,
+          "bytes": 17499,
+          "sha256": "27a2f999307a2be4785e86a5b987bfb650058f49983282fa5ac112de045182b5"
+        }
+      },
+      {
+        "step": 2,
+        "name": "canonical_global_review_emission_packager",
+        "cwd": "C:\\Comfy_UI_Main",
+        "command": "python ztest/emit_row017_local_global_visual_evidence.py  # must be re-stamped for a NEW post-70e12e70 runtime receipt; historical hardcoded STAMP is NOT Class E emission proof",
+        "requires_8188": false,
+        "writes": [
+          "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_*_<STAMP>_GLOBAL_REVIEW.json"
+        ],
+        "script_bind": {
+          "path": "ztest/emit_row017_local_global_visual_evidence.py",
+          "exists": true,
+          "bytes": 27887,
+          "sha256": "4617f60aa81cc39a46391522cbc942c52d59eddbfae83f3e949d3f9026e10bef"
+        },
+        "note": "Current emit script embeds pre-clearance STAMP 20260719T165215-0500. Class E proof requires a fresh post-70e12e70 localized edit + emission, not re-packaging historical climbs."
+      },
+      {
+        "step": 3,
+        "name": "production_validator_entry",
+        "cwd": "C:\\Comfy_UI_Main",
+        "command": "python Plan/07_IMPLEMENTATION/scripts/validate_global_whole_image_visual_review.py --input <canonical_Row017_GLOBAL_REVIEW.json>",
+        "requires_8188": false,
+        "script_bind": {
+          "path": "Plan/07_IMPLEMENTATION/scripts/validate_global_whole_image_visual_review.py",
+          "exists": true,
+          "bytes": 5310,
+          "sha256": "fd2b6fe57cfe508b08e09a0e6be49ef7cebd60ad2cc6bd660b37802b0bcfb203"
+        },
+        "entry_smoke_this_landing": {
+          "pass_spot": {
+            "input": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_W69_LINEART_CONTROLNET_V2_GLOBAL_REVIEW_20260720.json",
+            "exit_code": 0,
+            "stdout_first_line": "PASS",
+            "result": "PASS"
+          },
+          "reject_spot": {
+            "input": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_W69_OPENPOSE_V2_UPPER_BODY_HANDS_GLOBAL_REVIEW_20260720.json",
+            "exit_code": 0,
+            "stdout_first_line": "PASS",
+            "result": "PASS"
+          },
+          "note": "Smoke validates the entrypoint against already-landed Class C spot checks only; it is not future-producer emission proof."
+        }
+      }
+    ],
+    "alternate_localized_producer_templates": [
+      {
+        "path": "ztest/run_row017_w69_inpaint_micro_v2_local.py",
+        "exists": true,
+        "bytes": 16192,
+        "sha256": "91e1ff4b38a5de27e366d49e8c49254ac4eb5437a667a1be97104758ae1aa128"
+      },
+      {
+        "path": "ztest/package_row017_w69_micro_v2_evidence.py",
+        "exists": true,
+        "bytes": 14650,
+        "sha256": "3a2525bde82f6e4ffd55f2c68bd7b3ca6754652c600b08a9831ea7668b910cc0"
+      },
+      {
+        "path": "ztest/run_row017_mf70_face_identity_critical_local.py",
+        "exists": true,
+        "bytes": 15719,
+        "sha256": "f6f7a3000c2efc7cda08bc3c4e1a849499147bf5d6668892fa648f4dd102fb9f"
+      },
+      {
+        "path": "ztest/package_row017_mf70_face_identity_critical_evidence.py",
+        "exists": true,
+        "bytes": 27810,
+        "sha256": "fddefa81a6b1096c197c02557190ffdb3ec5af6166039992077e9dcc3c608eaf"
+      }
+    ]
+  },
+  "validator_entry": {
+    "script": {
+      "path": "Plan/07_IMPLEMENTATION/scripts/validate_global_whole_image_visual_review.py",
+      "exists": true,
+      "bytes": 5310,
+      "sha256": "fd2b6fe57cfe508b08e09a0e6be49ef7cebd60ad2cc6bd660b37802b0bcfb203"
+    },
+    "command": "python Plan/07_IMPLEMENTATION/scripts/validate_global_whole_image_visual_review.py --input <canonical_Row017_GLOBAL_REVIEW.json>",
+    "argparse": [
+      "--input <path>"
+    ],
+    "smoke_pass_spot": {
+      "input": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_W69_LINEART_CONTROLNET_V2_GLOBAL_REVIEW_20260720.json",
+      "exit_code": 0,
+      "stdout_first_line": "PASS",
+      "result": "PASS"
+    },
+    "smoke_reject_spot": {
+      "input": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_W69_OPENPOSE_V2_UPPER_BODY_HANDS_GLOBAL_REVIEW_20260720.json",
+      "exit_code": 0,
+      "stdout_first_line": "PASS",
+      "result": "PASS"
+    },
+    "smoke_verdict": "ENTRY_READY"
+  },
+  "required_artifacts": {
+    "canonical_global_review_schema": "row017.v1",
+    "canonical_output_dir": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews",
+    "required_top_level_fields": [
+      "schema_version",
+      "artifact",
+      "localized_change",
+      "whole_frame_visual_scan",
+      "required_target_region_check",
+      "required_non_target_region_scan",
+      "hands_face_body_background_contact_lighting_check",
+      "reject_on_any_global_defect",
+      "overall_decision"
+    ],
+    "five_gates": [
+      "whole_frame_visual_scan",
+      "required_target_region_check",
+      "required_non_target_region_scan",
+      "hands_face_body_background_contact_lighting_check",
+      "reject_on_any_global_defect"
+    ],
+    "whole_frame_pre_post": [
+      "pre_edit_status",
+      "post_edit_status"
+    ],
+    "coverage_categories": [
+      "hands",
+      "face",
+      "body",
+      "background",
+      "contact",
+      "lighting"
+    ],
+    "artifact_bindings": [
+      "artifact.path + artifact.sha256 (lowercase 64-hex)",
+      "localized_change.source_artifact.path + sha256",
+      "localized_change.target_region non-empty",
+      "gate.evidence_paths non-empty string lists"
+    ],
+    "proof_package_must_also_include": [
+      "post-70e12e70 runtime receipt or deterministic producer emission receipt",
+      "concrete producer script/workflow paths used for the NEW localized edit",
+      "at least one new canonical GLOBAL_REVIEW written under Row017_Canonical_Global_Reviews",
+      "validator PASS receipt for that new record (and any claimed pass/reject pair)",
+      "explicit citation that emission occurred after Class C clearance commit 70e12e70"
+    ],
+    "forbidden_substitutes": [
+      "re-validating historical Class C GLOBAL_REVIEW files",
+      "MF70/W69 micro-climb treadmill without new post-clearance emission",
+      "hand-authored GLOBAL_REVIEW without a real localized producer receipt",
+      "Status/Notes COMPLETE claims"
+    ]
+  },
+  "authority_bindings": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-017_CLASS_E_RESIDUAL_CONTRACT_DISPOSITION_PACKET_20260720.json",
+      "exists": true,
+      "bytes": 7466,
+      "sha256": "4814012c1b3fb2929eaaadd3a2612efe2b5ffd35a6ddc327afde8f110a17d436"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-017_CLASS_C_TO_E_DISPOSITION_PACKET_20260720T023500-0500.json",
+      "exists": true,
+      "bytes": 7909,
+      "sha256": "ca3760b40e814291e7366f56cac56a6abac73b04ea8480d81c1b658bc17b868a"
+    },
+    {
+      "path": "Plan/Items/Reports/ITEM-W64-017_global_visual_review_not_local_only.json",
+      "exists": true,
+      "bytes": 23146,
+      "sha256": "2b6316c73c4c837087eace60da38fb92c3cff3c101cf7d1d01e73d46464a4c2d"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/validate_global_whole_image_visual_review.py",
+      "exists": true,
+      "bytes": 5310,
+      "sha256": "fd2b6fe57cfe508b08e09a0e6be49ef7cebd60ad2cc6bd660b37802b0bcfb203"
+    },
+    {
+      "path": "ztest/run_row017_fluid_masked_inpaint_local.py",
+      "exists": true,
+      "bytes": 8362,
+      "sha256": "d3214b0ae82b885c357cd39997b284d9b50cca9653d42580b6bec50addd9ac37"
+    },
+    {
+      "path": "ztest/emit_row017_local_global_visual_evidence.py",
+      "exists": true,
+      "bytes": 27887,
+      "sha256": "4617f60aa81cc39a46391522cbc942c52d59eddbfae83f3e949d3f9026e10bef"
+    },
+    {
+      "path": "Workflows/regional_detail/fluid_state_continuity_sdxl_tears/workflow.masked_inpaint_state_v3.api.json",
+      "exists": true,
+      "bytes": 2651,
+      "sha256": "394739775ece22e13859832e28a6a35ed4b565d1fa628012b92e525d85a8acf9"
+    }
+  ],
+  "boundaries": {
+    "comfyui_8188_http_used": false,
+    "comfyui_8188_tcp_listen_observed": false,
+    "gpu_used": false,
+    "global_review_emitted": false,
+    "mf70_w69_climb_resumed": false,
+    "row073_pcm_touched": false,
+    "shared_csv_mutated": false,
+    "complete_claimed": false,
+    "hold090_plus_touched": false,
+    "offline_only": true
+  },
+  "checks": [
+    {
+      "name": "R017-EP001_prior_residual_disposition_bound",
+      "result": "pass"
+    },
+    {
+      "name": "R017-EP002_class_c_ancestor",
+      "result": "pass"
+    },
+    {
+      "name": "R017-EP003_residual_deepen_ancestor",
+      "result": "pass"
+    },
+    {
+      "name": "R017-EP004_producer_runtime_script_present",
+      "result": "pass"
+    },
+    {
+      "name": "R017-EP005_producer_emit_script_present",
+      "result": "pass"
+    },
+    {
+      "name": "R017-EP006_workflow_present",
+      "result": "pass"
+    },
+    {
+      "name": "R017-EP007_validator_entry_smoke_pass_spot",
+      "result": "pass"
+    },
+    {
+      "name": "R017-EP008_validator_entry_smoke_reject_spot",
+      "result": "pass"
+    },
+    {
+      "name": "R017-EP009_no_new_global_review_emitted",
+      "result": "pass"
+    },
+    {
+      "name": "R017-EP010_emission_proof_still_absent",
+      "result": "pass"
+    },
+    {
+      "name": "R017-EP011_no_8188_http",
+      "result": "pass"
+    },
+    {
+      "name": "R017-EP012_no_complete_claim",
+      "result": "pass"
+    }
+  ],
+  "decision": {
+    "status": "blocked",
+    "row_complete": false,
+    "product_completion": false,
+    "readiness": "COMMAND_PATH_AND_VALIDATOR_ENTRY_BOUND",
+    "emission_proof": "STILL_ABSENT",
+    "safe_next_action": "When GPU lane releases :8188, run a NEW post-70e12e70 localized producer (re-stamp runtime + emit scripts), write canonical GLOBAL_REVIEW under Row017_Canonical_Global_Reviews, pass validate_global_whole_image_visual_review.py, and land a FUTURE_PRODUCER_EMISSION_PROOF package citing those paths. Do not claim COMPLETE; do not mutate shared CSV/PCM; do not thrash HOLD090+."
+  },
+  "ledger_status_unchanged": "Blocked_Canonical_Future_Localized_Producer_Global_Review_Contract_Pending",
+  "recommended_codex_follow_up": "Execute real post-clearance producer emission only when :8188 is free; accept readiness packet as offline deepen only.",
+  "verdict": "FUTURE_PRODUCER_EMISSION_PROOF_READINESS_BOUND_EMISSION_STILL_ABSENT"
+}

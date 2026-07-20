@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-017_FUTURE_PRODUCER_COMMAND_PATH_20260720T123322-0500",
+  "created_iso": "2026-07-20T12:33:22-05:00",
+  "tracker_id": "TRK-W64-017",
+  "offline_readiness_only": true,
+  "do_not_execute_while_gpu_lane_owns_8188": true,
+  "commands": [
+    "python ztest/run_row017_fluid_masked_inpaint_local.py",
+    "python ztest/emit_row017_local_global_visual_evidence.py  # re-stamp for NEW post-70e12e70 receipt first",
+    "python Plan/07_IMPLEMENTATION/scripts/validate_global_whole_image_visual_review.py --input <canonical_Row017_GLOBAL_REVIEW.json>"
+  ],
+  "validator_smoke_this_landing": {
+    "pass_spot": {
+      "input": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_W69_LINEART_CONTROLNET_V2_GLOBAL_REVIEW_20260720.json",
+      "exit_code": 0,
+      "stdout_first_line": "PASS",
+      "result": "PASS"
+    },
+    "reject_spot": {
+      "input": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_W69_OPENPOSE_V2_UPPER_BODY_HANDS_GLOBAL_REVIEW_20260720.json",
+      "exit_code": 0,
+      "stdout_first_line": "PASS",
+      "result": "PASS"
+    }
+  },
+  "readiness_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-017_FUTURE_PRODUCER_EMISSION_PROOF_READINESS_20260720.json",
+  "readiness_sha256": "8d3c9004cc6e42b695164a032e9d92b6634971196be85a1ecc17228d5cc0f77f"
+}
