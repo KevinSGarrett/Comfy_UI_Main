@@ -13,8 +13,9 @@
 
 1. `ef32e5c9` Prove Row017 MF70 teeth/mouth-area local visual climb.
 2. `7316dc6e` Stamp Row017 teeth/mouth-area handoff with primary commit id.
+3. `49ed3884` Finalize Row017 teeth/mouth-area handoff tip IDs.
 
-Pushed tip verified on origin: `7316dc6e`
+Pushed tip verified on origin: `PENDING_ALIGN`
 
 ## Row-Scoped Increment Executed
 
