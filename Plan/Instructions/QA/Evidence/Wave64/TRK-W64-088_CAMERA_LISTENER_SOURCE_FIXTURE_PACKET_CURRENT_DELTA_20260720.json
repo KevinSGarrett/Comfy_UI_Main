@@ -1,0 +1,243 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-088_CAMERA_LISTENER_SOURCE_FIXTURE_PACKET_CURRENT_DELTA_20260720",
+  "created_at": "2026-07-20T06:03:55Z",
+  "tracker_id": "TRK-W64-088",
+  "item_id": "ITEM-W64-088",
+  "status": "HOLD_DEPENDENCY_RUNTIME_BENCHMARK_AND_VISUAL_PROOF_ABSENT_WITH_FIXTURE_PACKET_AND_REPLAY_HASH_SLICE_PRESENT",
+  "classification": "ROW088_CURRENT_DELTA_SYNTHETIC_CAMERA_LISTENER_SOURCE_TRAJECTORY_FIXTURE_LEDGER_NO_FALSE_COMPLETION",
+  "row_complete": false,
+  "implementation_completion_claimed": false,
+  "runtime_completion_claimed": false,
+  "qa_decision": "HOLD",
+  "intent": {
+    "intent_id": "interactive_cursor_shift_row088_camera_listener_source_fixture_packet_20260720",
+    "classification": "INTERACTIVE_CURSOR_SHIFT_AUTHORITY",
+    "work_type": "final_authority",
+    "authority_class": "interactive_cursor_integration",
+    "routing": null,
+    "dispatch_wake_count": 0,
+    "allowed_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_depth_camera_source_position.py",
+      "Plan/08_SCHEMAS/depth_camera_source_position_manifest.schema.json",
+      "Plan/Instructions/QA/Scripts/test_row088_depth_camera_source_position_compiler.py",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row088/",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_CAMERA_LISTENER_SOURCE_FIXTURE_PACKET_CURRENT_DELTA_20260720.json"
+    ]
+  },
+  "compiler_slice": {
+    "compiler_path": "Plan\\07_IMPLEMENTATION\\scripts\\compile_wave64_depth_camera_source_position.py",
+    "compiler_sha256": "16d9cabff7310d66a3ad6c8e51b33341be382e002939a7875ce51181bb04e88e",
+    "compiler_bytes": 61643,
+    "schema_path": "Plan\\08_SCHEMAS\\depth_camera_source_position_manifest.schema.json",
+    "schema_sha256": "09ee3b021db0d299e24bcef55699f24f749530dec8cffa1ca1f957b3e839347f",
+    "schema_bytes": 13918,
+    "test_path": "Plan\\Instructions\\QA\\Scripts\\test_row088_depth_camera_source_position_compiler.py",
+    "test_sha256": "b3217f9523f0f3e739255d95c923d698d587ed90508338872a94b530322f4a1c",
+    "test_bytes": 21505,
+    "fixture_dir": "Plan\\Instructions\\QA\\Evidence\\Wave64\\fixtures\\row088",
+    "fixture_packets": [
+      {
+        "name": "case_static_camera_listener_source.json",
+        "role": "static",
+        "file_sha256": "fac7ebc334953d0fb9cce5cdff65e4304767042d915d90b1a58c153358da1182",
+        "compiled_manifest_sha256": "64616ee50d6655afd357e242a6a48c932dee3aaf545ecf60331623bc399251ee",
+        "bytes": 5219
+      },
+      {
+        "name": "case_moving_camera_listener_source.json",
+        "role": "moving",
+        "file_sha256": "68f2433001e2719945283adbf7f7351bfd2265ab70693176e35d33e7398a6210",
+        "compiled_manifest_sha256": "37ccdf0f0e729e45c6a1ec7ace23da7eb745687da3066a0ad301bc51c3576e8a",
+        "bytes": 6051
+      }
+    ],
+    "synthetic_camera_listener_source_trajectory_ledger": {
+      "path": "Plan\\Instructions\\QA\\Evidence\\Wave64\\fixtures\\row088\\synthetic_camera_listener_source_trajectory_ledger.json",
+      "sha256": "4d56870e38ceaad567fed27d858f20aad697e559fb1736b9dc67c208a8c89f9a",
+      "bytes": 3300,
+      "ledger_sha256": "99280e36e6016f2cec5cd52d4a4b0cc0e5364bac9b3d04f5b73558737b9b7abe",
+      "production_benchmark": false,
+      "calibrated_trajectory_benchmark_pass": false,
+      "visual_review_claimed": false,
+      "rows084_085_acceptance_claimed": false,
+      "fixture_binding_count": 2,
+      "trajectory_metric_expectation_count": 2,
+      "binds_fixture_file_and_compiled_manifest_digests": true
+    },
+    "ledger_expectation_verifier": {
+      "function": "verify_synthetic_ledger_vs_compiled_manifest_expectations",
+      "cli_flag": "--verify-synthetic-benchmark-ledger",
+      "rejects_fixture_file_digest_drift": true,
+      "rejects_compiled_manifest_digest_drift": true,
+      "rejects_metric_expectation_drift": true,
+      "rejects_calibrated_trajectory_benchmark_pass_claim": true,
+      "rejects_visual_review_claim": true,
+      "rejects_rows084_085_acceptance_claim": true
+    },
+    "fail_closed_invariants": [
+      "content-addressed manifest_sha256 excludes created_at for deterministic replay; verify_manifest_integrity rejects tamper",
+      "checked-in fixture packets cover static and moving camera-listener-source trajectory cases",
+      "synthetic camera-listener-source trajectory ledger binds fixture file digests and compiled manifest digests without production pass",
+      "ledger-vs-compiled-manifest expectation verifier rejects fixture/compiled digest drift and metric expectation mismatch",
+      "relative depth remains labeled; metric claims remain blocked without calibration authority",
+      "row_complete and production_completion_allowed remain false in this increment",
+      "Rows084-085 dependency and runtime/review flags gate authority ceiling"
+    ],
+    "decision": "USEFUL_SYNTHETIC_CAMERA_LISTENER_SOURCE_TRAJECTORY_FIXTURE_LEDGER_SLICE_NOT_PRODUCTION_SPATIAL_AUTHORITY"
+  },
+  "dependency_authority": {
+    "tracker_ids": [
+      "TRK-W64-084",
+      "TRK-W64-085"
+    ],
+    "row084_complete": false,
+    "row085_complete": false,
+    "dependency_satisfied": false,
+    "row088_effect": "Fixture packets and replay hashes do not satisfy upstream Rows084/085 production authority. Lane D remains disjoint."
+  },
+  "focused_local_test_result": {
+    "strict_command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_row088_depth_camera_source_position_compiler.py -ra",
+    "strict_result": "13 passed in 16.60s",
+    "strict_exit_code": 0,
+    "cli_verify_command": "python Plan/07_IMPLEMENTATION/scripts/compile_wave64_depth_camera_source_position.py --verify-synthetic-benchmark-ledger",
+    "cli_verify_receipt": {
+      "status": "ok",
+      "verifier": "verify_synthetic_ledger_vs_compiled_manifest_expectations",
+      "ledger_sha256": "99280e36e6016f2cec5cd52d4a4b0cc0e5364bac9b3d04f5b73558737b9b7abe",
+      "fixture_binding_count": 2,
+      "trajectory_metric_expectation_count": 2,
+      "digest_drift_rejected": true,
+      "production_benchmark": false,
+      "calibrated_trajectory_benchmark_pass": false,
+      "visual_review_claimed": false,
+      "rows084_085_acceptance_claimed": false,
+      "row_complete": false,
+      "authority_ceiling": "fixture_synthetic_only"
+    },
+    "scope_interpretation": "Focused tests prove the fail-closed compiler, static/moving camera-listener-source fixture packets, replay/tamper integrity, synthetic trajectory ledger binding, and the ledger-vs-compiled-manifest expectation verifier. They do not grant Row088 completion, metric calibration authority, production runtime receipt, Rows084/085 acceptance, or combined visual review."
+  },
+  "checks": [
+    {
+      "check_id": "ROW088-F01",
+      "name": "fixture_packets_cover_static_camera_listener_source",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW088-F02",
+      "name": "fixture_packets_cover_moving_camera_listener_source",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW088-F03",
+      "name": "deterministic_replay_and_tamper_hash_check",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW088-F04",
+      "name": "synthetic_camera_listener_source_ledger_binds_fixture_digests",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW088-F05",
+      "name": "ledger_expectation_verifier_rejects_digest_drift",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW088-F06",
+      "name": "focused_compiler_and_fixture_tests_pass",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW088-013",
+      "name": "dependency_row084_complete",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW088-014",
+      "name": "dependency_row085_complete",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW088-015",
+      "name": "production_depth_camera_source_estimator_runtime_complete",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW088-016",
+      "name": "calibrated_trajectory_benchmark_pass",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW088-017",
+      "name": "direct_row088_runtime_receipt_present",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW088-018",
+      "name": "combined_frame_contact_audio_visual_review_present",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW088-019",
+      "name": "tracker_declared_output_artifact_present",
+      "status": "FAIL"
+    }
+  ],
+  "test_and_runtime_boundary": {
+    "fixture_packets_compiled": true,
+    "replay_tamper_hash_check_executed": true,
+    "synthetic_camera_listener_source_trajectory_ledger_bound": true,
+    "focused_source_tests_executed": true,
+    "production_spatial_estimation_invoked": false,
+    "direct_row088_runtime_benchmark_executed": false,
+    "visual_review_executed": false,
+    "ec2_invoked": false,
+    "docker_invoked": false,
+    "wsl_invoked": false,
+    "provider_calls": 0,
+    "wrapper_calls": 0,
+    "scheduled_task_wakes": 0
+  },
+  "sibling_lane_disjointness": {
+    "excluded_sibling_rows": [
+      "TRK-W64-075",
+      "TRK-W64-085",
+      "TRK-W64-086",
+      "TRK-W64-087"
+    ],
+    "disjoint_from_lane_d_085_086": true,
+    "shared_csv_writes": false,
+    "row075_paths_touched": false
+  },
+  "preservation_boundary": {
+    "actual_write_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_depth_camera_source_position.py",
+      "Plan/Instructions/QA/Scripts/test_row088_depth_camera_source_position_compiler.py",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row088/",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_CAMERA_LISTENER_SOURCE_FIXTURE_PACKET_CURRENT_DELTA_20260720.json"
+    ],
+    "unrelated_dirty_paths_preserved": true
+  },
+  "proof_tier": {
+    "tier": "T2_SYNTHETIC_FIXTURE_REPLAY_HASH",
+    "claims": [
+      "synthetic fixture packet compile",
+      "deterministic content-addressed replay hash",
+      "tamper rejection",
+      "ledger digest binding"
+    ],
+    "non_claims": [
+      "production calibrated trajectory benchmark pass",
+      "metric depth authority",
+      "visual review",
+      "Rows084-085 acceptance",
+      "row_complete"
+    ]
+  },
+  "hold_decision": {
+    "decision": "HOLD_ROW088_NO_FALSE_COMPLETION",
+    "reason": "Row088 now binds static/moving camera-listener-source fixture packet digests into a synthetic non-production trajectory ledger with expected metrics and a fail-closed ledger-vs-compiled-manifest expectation verifier. Focused tests pass. Rows084 and 085 remain incomplete. Production spatial estimator runtime, calibrated production benchmark pass, runtime receipts, combined visual review, and the tracker-declared output artifact remain absent. Compiler and ledger never set row_complete or calibrated_trajectory_benchmark_pass true.",
+    "safe_next_action": "Keep Row088 on hold. Next useful write: CI/gate wrapper that fails closed when checked-in ledger digests diverge from fixture packets without claiming calibrated production benchmark pass, visual review, or Rows084/085 acceptance. Upstream continue Row084 timeline and Row085 ownership on disjoint lanes."
+  }
+}

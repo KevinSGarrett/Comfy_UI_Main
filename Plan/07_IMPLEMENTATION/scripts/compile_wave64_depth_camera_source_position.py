@@ -139,6 +139,74 @@ ALLOWED_THRESHOLD_FIELDS = {
 SHA256_HEX_CHARS = set("0123456789abcdef")
 
 
+CONTENT_ADDRESSED_EXCLUDED_FIELDS = frozenset({"created_at", "manifest_sha256"})
+REPO_ROOT = Path(__file__).resolve().parents[3]
+DEFAULT_FIXTURE_DIR = (
+    REPO_ROOT / "Plan" / "Instructions" / "QA" / "Evidence" / "Wave64" / "fixtures" / "row088"
+)
+
+BENCHMARK_FIXTURE_PACKETS: tuple[dict[str, str], ...] = (
+    {
+        "name": "case_static_camera_listener_source.json",
+        "role": "static",
+        "case_id": "static",
+    },
+    {
+        "name": "case_moving_camera_listener_source.json",
+        "role": "moving",
+        "case_id": "moving",
+    },
+)
+
+SYNTHETIC_BENCHMARK_LEDGER_FILENAME = "synthetic_camera_listener_source_trajectory_ledger.json"
+ALLOWED_SYNTHETIC_LEDGER_FIELDS = {
+    "schema_version",
+    "record_type",
+    "ledger_id",
+    "revision",
+    "is_synthetic",
+    "production_benchmark",
+    "calibrated_trajectory_benchmark_pass",
+    "row_complete",
+    "production_completion_allowed",
+    "visual_review_claimed",
+    "rows084_085_acceptance_claimed",
+    "authority_ceiling",
+    "hold_reasons",
+    "fixture_bindings",
+    "trajectory_metric_expectations",
+    "provenance",
+    "ledger_sha256",
+}
+ALLOWED_TRAJECTORY_METRIC_EXPECTATION_FIELDS = {
+    "case_id",
+    "role",
+    "source_fixture",
+    "source_fixture_file_sha256",
+    "source_compiled_manifest_sha256",
+    "expected_listener_sample_count",
+    "expected_source_sample_count",
+    "expected_relative_only_sample_count",
+    "expected_occlusion_sample_count",
+    "expected_metric_claim_count",
+}
+LEDGER_EXPECTED_METRIC_KEYS = (
+    "expected_listener_sample_count",
+    "expected_source_sample_count",
+    "expected_relative_only_sample_count",
+    "expected_occlusion_sample_count",
+    "expected_metric_claim_count",
+)
+COMPILED_METRIC_KEYS_FOR_LEDGER = (
+    "listener_sample_count",
+    "source_sample_count",
+    "relative_only_sample_count",
+    "occlusion_sample_count",
+    "metric_claim_count",
+)
+
+
+
 def _assert_keys_exact(obj: dict[str, Any], allowed: set[str], label: str) -> None:
     unknown = sorted(set(obj.keys()) - allowed)
     if unknown:
@@ -221,6 +289,380 @@ def _write_json_atomic(path: Path, payload: dict[str, Any]) -> None:
 def _canonical_sha256(payload: dict[str, Any]) -> str:
     encoded = json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode("utf-8")
     return hashlib.sha256(encoded).hexdigest()
+
+def content_addressed_body(payload: dict[str, Any]) -> dict[str, Any]:
+    """Return the deterministic body hashed for replay/tamper checks.
+
+    Wall-clock created_at and the self-referential manifest_sha256 are
+    excluded so identical fixture packets replay to the same digest.
+    """
+    if not isinstance(payload, dict):
+        raise ValueError("payload must be an object")
+    return {key: value for key, value in payload.items() if key not in CONTENT_ADDRESSED_EXCLUDED_FIELDS}
+
+
+def content_addressed_manifest_sha256(payload: dict[str, Any]) -> str:
+    return _canonical_sha256(content_addressed_body(payload))
+
+
+def verify_manifest_integrity(payload: dict[str, Any]) -> str:
+    """Recompute content-addressed digest and reject tampered manifests."""
+    recorded = _expect_sha256(payload.get("manifest_sha256"), "manifest_sha256")
+    recomputed = content_addressed_manifest_sha256(payload)
+    if recorded != recomputed:
+        raise ValueError(
+            "manifest_sha256 tamper/replay mismatch: "
+            f"recorded={recorded} recomputed={recomputed}"
+        )
+    return recomputed
+
+
+def load_fixture_packet(name: str, *, fixture_dir: Path | None = None) -> dict[str, Any]:
+    """Load a checked-in Row088 fixture packet by filename."""
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    path = directory / name
+    if not path.is_file():
+        raise FileNotFoundError(f"Row088 fixture packet missing: {path}")
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise ValueError(f"Row088 fixture packet must be a JSON object: {path}")
+    return payload
+
+
+def fixture_file_sha256(name: str, *, fixture_dir: Path | None = None) -> str:
+    """Return the lowercase sha256 of a checked-in fixture packet file bytes."""
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    path = directory / name
+    if not path.is_file():
+        raise FileNotFoundError(f"Row088 fixture packet missing: {path}")
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def verify_synthetic_benchmark_ledger_integrity(payload: dict[str, Any]) -> str:
+    """Recompute content-addressed ledger digest and reject tamper."""
+    recorded = _expect_sha256(payload.get("ledger_sha256"), "ledger_sha256")
+    body = {key: value for key, value in payload.items() if key != "ledger_sha256"}
+    recomputed = _canonical_sha256(body)
+    if recorded != recomputed:
+        raise ValueError(
+            "ledger_sha256 tamper/replay mismatch: "
+            f"recorded={recorded} recomputed={recomputed}"
+        )
+    return recomputed
+
+
+def load_synthetic_benchmark_ledger(*, fixture_dir: Path | None = None) -> dict[str, Any]:
+    """Load the checked-in non-production camera-listener-source trajectory ledger."""
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    path = directory / SYNTHETIC_BENCHMARK_LEDGER_FILENAME
+    if not path.is_file():
+        raise FileNotFoundError(f"Row088 synthetic benchmark ledger missing: {path}")
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise ValueError(f"Row088 synthetic benchmark ledger must be a JSON object: {path}")
+    return payload
+
+
+def _assert_metric_expectations_match_compiled(
+    expectation: dict[str, Any],
+    compiled: dict[str, Any],
+    *,
+    label: str,
+) -> None:
+    metrics = compiled.get("metrics")
+    if not isinstance(metrics, dict):
+        raise ValueError(f"{label}: compiled manifest missing metrics")
+    for expected_key, metric_key in zip(
+        LEDGER_EXPECTED_METRIC_KEYS, COMPILED_METRIC_KEYS_FOR_LEDGER, strict=True
+    ):
+        if expected_key not in expectation:
+            raise ValueError(f"{label}: missing {expected_key}")
+        if expectation[expected_key] != metrics.get(metric_key):
+            raise ValueError(
+                f"{label}: {expected_key} mismatch "
+                f"ledger={expectation[expected_key]!r} compiled={metrics.get(metric_key)!r}"
+            )
+
+
+def verify_synthetic_ledger_vs_compiled_manifest_expectations(
+    ledger: dict[str, Any] | None = None,
+    *,
+    fixture_dir: Path | None = None,
+) -> dict[str, Any]:
+    """Fail-closed ledger-vs-compiled-manifest expectation verifier.
+
+    Recompiles every ledger-bound fixture packet and rejects digest/metric drift.
+    Explicitly refuses calibrated trajectory benchmark pass, visual-review,
+    Rows084/085 acceptance, and row completion claims.
+    """
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    payload = ledger if ledger is not None else load_synthetic_benchmark_ledger(fixture_dir=directory)
+    if not isinstance(payload, dict):
+        raise ValueError("synthetic ledger must be an object")
+    _assert_keys_exact(payload, ALLOWED_SYNTHETIC_LEDGER_FIELDS, "synthetic_ledger")
+    ledger_digest = verify_synthetic_benchmark_ledger_integrity(payload)
+
+    if payload.get("record_type") != "row088_synthetic_camera_listener_source_trajectory_ledger":
+        raise ValueError("synthetic ledger record_type mismatch")
+    if payload.get("is_synthetic") is not True:
+        raise ValueError("synthetic ledger must set is_synthetic=true")
+    if payload.get("authority_ceiling") != "fixture_synthetic_only":
+        raise ValueError("synthetic ledger authority_ceiling must remain fixture_synthetic_only")
+
+    false_flags = (
+        "production_benchmark",
+        "calibrated_trajectory_benchmark_pass",
+        "row_complete",
+        "production_completion_allowed",
+        "visual_review_claimed",
+        "rows084_085_acceptance_claimed",
+    )
+    for flag in false_flags:
+        if payload.get(flag) is not False:
+            raise ValueError(f"synthetic ledger must keep {flag}=false")
+
+    bindings = payload.get("fixture_bindings")
+    if not isinstance(bindings, list) or len(bindings) != len(BENCHMARK_FIXTURE_PACKETS):
+        raise ValueError(
+            "synthetic ledger fixture_bindings must cover exactly two trajectory cases"
+        )
+    expectations = payload.get("trajectory_metric_expectations")
+    if not isinstance(expectations, list) or len(expectations) != len(BENCHMARK_FIXTURE_PACKETS):
+        raise ValueError(
+            "synthetic ledger trajectory_metric_expectations must cover exactly two cases"
+        )
+
+    compiled_by_fixture: dict[str, dict[str, Any]] = {}
+    live_file_digest_by_fixture: dict[str, str] = {}
+    live_compiled_digest_by_fixture: dict[str, str] = {}
+
+    for idx, binding in enumerate(bindings):
+        label = f"fixture_bindings[{idx}]"
+        if not isinstance(binding, dict):
+            raise ValueError(f"{label} must be an object")
+        fixture_name = _expect_non_empty_string(binding.get("fixture_name"), f"{label}.fixture_name")
+        recorded_file = _expect_sha256(
+            binding.get("fixture_file_sha256"), f"{label}.fixture_file_sha256"
+        )
+        recorded_compiled = _expect_sha256(
+            binding.get("compiled_manifest_sha256"), f"{label}.compiled_manifest_sha256"
+        )
+        if binding.get("row_complete") is not False:
+            raise ValueError(f"{label}.row_complete must remain false")
+        if binding.get("is_synthetic") is not True:
+            raise ValueError(f"{label}.is_synthetic must be true")
+
+        live_file = fixture_file_sha256(fixture_name, fixture_dir=directory)
+        if recorded_file != live_file:
+            raise ValueError(
+                f"{label}: fixture file digest drift for {fixture_name}: "
+                f"ledger={recorded_file} live={live_file}"
+            )
+
+        compiled = compile_manifest(load_fixture_packet(fixture_name, fixture_dir=directory))
+        live_compiled = verify_manifest_integrity(compiled)
+        if recorded_compiled != live_compiled:
+            raise ValueError(
+                f"{label}: compiled manifest digest drift for {fixture_name}: "
+                f"ledger={recorded_compiled} live={live_compiled}"
+            )
+        if compiled["row_complete"] or compiled["production_completion_allowed"]:
+            raise ValueError(f"{label}: compiled fixture must remain non-complete")
+        if compiled["runtime_authority"].get("calibrated_trajectory_benchmark_pass"):
+            raise ValueError(
+                f"{label}: compiled fixture must not claim calibrated_trajectory_benchmark_pass"
+            )
+        for dep in ("row084_complete", "row085_complete"):
+            if compiled["dependency_authority"].get(dep):
+                raise ValueError(f"{label}: compiled fixture must not claim {dep}")
+
+        compiled_by_fixture[fixture_name] = compiled
+        live_file_digest_by_fixture[fixture_name] = live_file
+        live_compiled_digest_by_fixture[fixture_name] = live_compiled
+
+    expected_fixture_names = {meta["name"] for meta in BENCHMARK_FIXTURE_PACKETS}
+    if set(compiled_by_fixture) != expected_fixture_names:
+        raise ValueError(
+            "synthetic ledger fixture_bindings set drift: "
+            f"ledger={sorted(compiled_by_fixture)} expected={sorted(expected_fixture_names)}"
+        )
+
+    seen_cases: set[str] = set()
+    for idx, expectation in enumerate(expectations):
+        label = f"trajectory_metric_expectations[{idx}]"
+        if not isinstance(expectation, dict):
+            raise ValueError(f"{label} must be an object")
+        _assert_keys_exact(expectation, ALLOWED_TRAJECTORY_METRIC_EXPECTATION_FIELDS, label)
+        case_id = _expect_non_empty_string(expectation.get("case_id"), f"{label}.case_id")
+        if case_id in seen_cases:
+            raise ValueError(f"{label}: duplicate case_id {case_id}")
+        seen_cases.add(case_id)
+
+        source_fixture = _expect_non_empty_string(
+            expectation.get("source_fixture"), f"{label}.source_fixture"
+        )
+        if source_fixture not in compiled_by_fixture:
+            raise ValueError(f"{label}: source_fixture {source_fixture!r} not bound")
+        recorded_file = _expect_sha256(
+            expectation.get("source_fixture_file_sha256"),
+            f"{label}.source_fixture_file_sha256",
+        )
+        recorded_compiled = _expect_sha256(
+            expectation.get("source_compiled_manifest_sha256"),
+            f"{label}.source_compiled_manifest_sha256",
+        )
+        if recorded_file != live_file_digest_by_fixture[source_fixture]:
+            raise ValueError(
+                f"{label}: source fixture file digest drift for {source_fixture}: "
+                f"ledger={recorded_file} live={live_file_digest_by_fixture[source_fixture]}"
+            )
+        if recorded_compiled != live_compiled_digest_by_fixture[source_fixture]:
+            raise ValueError(
+                f"{label}: source compiled manifest digest drift for {source_fixture}: "
+                f"ledger={recorded_compiled} live={live_compiled_digest_by_fixture[source_fixture]}"
+            )
+        for expected_key in LEDGER_EXPECTED_METRIC_KEYS:
+            _expect_non_negative_int(expectation.get(expected_key), f"{label}.{expected_key}")
+        _assert_metric_expectations_match_compiled(
+            expectation, compiled_by_fixture[source_fixture], label=label
+        )
+
+    expected_cases = {meta["case_id"] for meta in BENCHMARK_FIXTURE_PACKETS}
+    if seen_cases != expected_cases:
+        raise ValueError(
+            "synthetic ledger trajectory case set drift: "
+            f"ledger={sorted(seen_cases)} expected={sorted(expected_cases)}"
+        )
+
+    return {
+        "status": "ok",
+        "verifier": "verify_synthetic_ledger_vs_compiled_manifest_expectations",
+        "ledger_sha256": ledger_digest,
+        "fixture_binding_count": len(bindings),
+        "trajectory_metric_expectation_count": len(expectations),
+        "digest_drift_rejected": True,
+        "production_benchmark": False,
+        "calibrated_trajectory_benchmark_pass": False,
+        "visual_review_claimed": False,
+        "rows084_085_acceptance_claimed": False,
+        "row_complete": False,
+        "authority_ceiling": "fixture_synthetic_only",
+    }
+
+
+def build_synthetic_camera_listener_source_trajectory_ledger(
+    *,
+    fixture_dir: Path | None = None,
+) -> dict[str, Any]:
+    """Bind fixture digests into a non-production camera-listener-source ledger."""
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    fixture_bindings: list[dict[str, Any]] = []
+    trajectory_metric_expectations: list[dict[str, Any]] = []
+
+    for packet_meta in BENCHMARK_FIXTURE_PACKETS:
+        name = packet_meta["name"]
+        role = packet_meta["role"]
+        case_id = packet_meta["case_id"]
+        file_digest = fixture_file_sha256(name, fixture_dir=directory)
+        packet = load_fixture_packet(name, fixture_dir=directory)
+        compiled = compile_manifest(packet)
+        compiled_digest = verify_manifest_integrity(compiled)
+        if compiled["row_complete"] or compiled["production_completion_allowed"]:
+            raise ValueError(
+                f"fixture {name} must remain non-complete for synthetic ledger binding"
+            )
+        if compiled["runtime_authority"].get("calibrated_trajectory_benchmark_pass"):
+            raise ValueError(
+                f"fixture {name} must not claim calibrated_trajectory_benchmark_pass"
+            )
+        for dep in ("row084_complete", "row085_complete"):
+            if compiled["dependency_authority"].get(dep):
+                raise ValueError(f"fixture {name} must not claim {dep}")
+
+        metrics = compiled["metrics"]
+        fixture_bindings.append(
+            {
+                "fixture_name": name,
+                "role": role,
+                "case_id": case_id,
+                "fixture_file_sha256": file_digest,
+                "compiled_manifest_sha256": compiled_digest,
+                "is_synthetic": True,
+                "row_complete": False,
+            }
+        )
+        trajectory_metric_expectations.append(
+            {
+                "case_id": case_id,
+                "role": role,
+                "source_fixture": name,
+                "source_fixture_file_sha256": file_digest,
+                "source_compiled_manifest_sha256": compiled_digest,
+                "expected_listener_sample_count": metrics["listener_sample_count"],
+                "expected_source_sample_count": metrics["source_sample_count"],
+                "expected_relative_only_sample_count": metrics["relative_only_sample_count"],
+                "expected_occlusion_sample_count": metrics["occlusion_sample_count"],
+                "expected_metric_claim_count": metrics["metric_claim_count"],
+            }
+        )
+
+    if len(fixture_bindings) != 2 or len(trajectory_metric_expectations) != 2:
+        raise ValueError("synthetic ledger requires exactly two trajectory fixture cases")
+
+    fixture_bindings.sort(key=lambda item: item["fixture_name"])
+    trajectory_metric_expectations.sort(key=lambda item: item["case_id"])
+
+    ledger_body: dict[str, Any] = {
+        "schema_version": "1.0.0",
+        "record_type": "row088_synthetic_camera_listener_source_trajectory_ledger",
+        "ledger_id": "row088_synthetic_camera_listener_source_trajectory_ledger_v1",
+        "revision": "row088_synthetic_ledger_v1",
+        "is_synthetic": True,
+        "production_benchmark": False,
+        "calibrated_trajectory_benchmark_pass": False,
+        "row_complete": False,
+        "production_completion_allowed": False,
+        "visual_review_claimed": False,
+        "rows084_085_acceptance_claimed": False,
+        "authority_ceiling": "fixture_synthetic_only",
+        "hold_reasons": [
+            "synthetic_fixture_ledger_only",
+            "dependency_row084_incomplete",
+            "dependency_row085_incomplete",
+            "calibrated_trajectory_benchmark_absent",
+            "runtime_receipt_absent",
+            "combined_frame_contact_audio_review_absent",
+            "relative_depth_only_no_metric_authority",
+        ],
+        "fixture_bindings": fixture_bindings,
+        "trajectory_metric_expectations": trajectory_metric_expectations,
+        "provenance": {
+            "compiler": "compile_wave64_depth_camera_source_position.py",
+            "compiler_revision": "row088_synthetic_camera_listener_source_trajectory_ledger_v1",
+            "non_production": True,
+            "binds_fixture_file_and_compiled_manifest_digests": True,
+            "records_expected_static_moving_camera_listener_source_metrics": True,
+        },
+    }
+    _assert_keys_exact(
+        ledger_body, ALLOWED_SYNTHETIC_LEDGER_FIELDS - {"ledger_sha256"}, "synthetic_ledger"
+    )
+    ledger_body["ledger_sha256"] = _canonical_sha256(ledger_body)
+    verify_synthetic_benchmark_ledger_integrity(ledger_body)
+    return ledger_body
+
+
+def write_synthetic_camera_listener_source_trajectory_ledger(
+    output_path: Path | None = None,
+    *,
+    fixture_dir: Path | None = None,
+) -> dict[str, Any]:
+    """Build and atomically write the synthetic camera-listener-source ledger."""
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    path = output_path if output_path is not None else directory / SYNTHETIC_BENCHMARK_LEDGER_FILENAME
+    ledger = build_synthetic_camera_listener_source_trajectory_ledger(fixture_dir=directory)
+    _write_json_atomic(path, ledger)
+    return ledger
 
 
 def _validate_timeline_binding(raw: Any) -> dict[str, Any]:
@@ -856,7 +1298,8 @@ def compile_manifest(payload: dict[str, Any]) -> dict[str, Any]:
         "row_complete": row_complete,
         "provenance": provenance,
     }
-    manifest_sha256 = _canonical_sha256(receipt_body)
+    # Content-addressed digest excludes wall-clock created_at for deterministic replay.
+    manifest_sha256 = content_addressed_manifest_sha256(receipt_body)
     receipt_body["manifest_sha256"] = manifest_sha256
     return receipt_body
 
@@ -865,9 +1308,75 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description="Compile a fail-closed Row088 depth/camera/source-position manifest."
     )
-    parser.add_argument("--input", required=True, help="Path to depth/camera/source input packet JSON")
-    parser.add_argument("--output", required=True, help="Path to write compiled spatial manifest JSON")
+    parser.add_argument("--input", help="Path to depth/camera/source input packet JSON")
+    parser.add_argument("--output", help="Path to write compiled spatial manifest JSON")
+    parser.add_argument(
+        "--emit-synthetic-benchmark-ledger",
+        metavar="PATH",
+        help=(
+            "Build the non-production synthetic camera-listener-source trajectory ledger "
+            "bound to checked-in fixture digests and write it to PATH"
+        ),
+    )
+    parser.add_argument(
+        "--verify-synthetic-benchmark-ledger",
+        action="store_true",
+        help=(
+            "Fail-closed verify checked-in synthetic ledger expectations against "
+            "live compiled fixture manifests; reject digest drift without claiming "
+            "calibrated trajectory benchmark pass"
+        ),
+    )
+    parser.add_argument(
+        "--fixture-dir",
+        default=str(DEFAULT_FIXTURE_DIR),
+        help="Fixture directory for synthetic ledger emission (default: checked-in row088 fixtures)",
+    )
     args = parser.parse_args(argv)
+
+    if args.emit_synthetic_benchmark_ledger:
+        try:
+            ledger = write_synthetic_camera_listener_source_trajectory_ledger(
+                Path(args.emit_synthetic_benchmark_ledger),
+                fixture_dir=Path(args.fixture_dir),
+            )
+        except (OSError, ValueError, FileNotFoundError) as exc:
+            raise SystemExit(f"ROW088_FAIL_CLOSED: {exc}") from exc
+        print(
+            json.dumps(
+                {
+                    "status": "ok",
+                    "record_type": ledger["record_type"],
+                    "ledger_sha256": ledger["ledger_sha256"],
+                    "row_complete": False,
+                    "calibrated_trajectory_benchmark_pass": False,
+                    "production_benchmark": False,
+                    "visual_review_claimed": False,
+                    "rows084_085_acceptance_claimed": False,
+                    "fixture_binding_count": len(ledger["fixture_bindings"]),
+                    "trajectory_metric_expectation_count": len(
+                        ledger["trajectory_metric_expectations"]
+                    ),
+                }
+            )
+        )
+        return 0
+
+    if args.verify_synthetic_benchmark_ledger:
+        try:
+            receipt = verify_synthetic_ledger_vs_compiled_manifest_expectations(
+                fixture_dir=Path(args.fixture_dir),
+            )
+        except (OSError, ValueError, FileNotFoundError) as exc:
+            raise SystemExit(f"ROW088_FAIL_CLOSED: {exc}") from exc
+        print(json.dumps(receipt))
+        return 0
+
+    if not args.input or not args.output:
+        raise SystemExit(
+            "ROW088_FAIL_CLOSED: --input and --output are required unless emitting "
+            "or verifying the synthetic ledger"
+        )
 
     input_path = Path(args.input)
     output_path = Path(args.output)
@@ -885,7 +1394,9 @@ def main(argv: list[str] | None = None) -> int:
                 "status": "ok",
                 "manifest_sha256": receipt["manifest_sha256"],
                 "row_complete": False,
-                "spatial_certification_allowed": receipt["authority_summary"]["spatial_certification_allowed"],
+                "spatial_certification_allowed": receipt["authority_summary"][
+                    "spatial_certification_allowed"
+                ],
             }
         )
     )
