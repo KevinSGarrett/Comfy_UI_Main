@@ -1,0 +1,59 @@
+{
+  "schema_version": "row017.v1",
+  "artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave25_contact_shadow_pressure_seed210704_20260707T122546-0500/images/codex_wave25_contact_shadow_pressure_seed210704_00001_.png",
+    "sha256": "b9a1a02057c99eeabf0d6427c1af0a5e2a5b33195db1b8ebd6866915fafd6321"
+  },
+  "localized_change": {
+    "target_region": "woman_lower_fingers_to_man_upper_arm_contact_zone",
+    "source_artifact": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave25_two_character_contact_refine_seed210701_20260707T114731-0500/images/codex_wave25_two_character_contact_refine_seed210701_00001_.png",
+      "sha256": "991ede7b0df2f820d7fbd834a888c1b085958ebf30781840728f190a32e2968c"
+    }
+  },
+  "whole_frame_visual_scan": {
+    "status": "pass",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_WAVE25_CONTACT_SHADOW_PRESSURE_SEED210704_VISUAL_QA_20260707T124500-0500.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave25_two_character_contact_refine_seed210701_20260707T114731-0500/images/codex_wave25_two_character_contact_refine_seed210701_00001_.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave25_contact_shadow_pressure_seed210704_20260707T122546-0500/images/codex_wave25_contact_shadow_pressure_seed210704_00001_.png"
+    ],
+    "pre_edit_status": "pass",
+    "post_edit_status": "pass"
+  },
+  "required_target_region_check": {
+    "status": "fail",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_WAVE25_CONTACT_SHADOW_PRESSURE_SEED210704_VISUAL_QA_20260707T124500-0500.json",
+      "runtime_artifacts/multi_character_interaction/two_character_hand_to_body_w69/qa_contact_crops/contact_shadow_pressure_compare_seed210701_seed210704.png"
+    ],
+    "target_region": "woman_lower_fingers_to_man_upper_arm_contact_zone",
+    "findings": [
+      "The lower-finger contact shadow is slightly stronger than the source baseline.",
+      "Contact remains shoulder/top-upper-sleeve biased rather than at the required lower upper-arm target, and the pressure cue is not clear enough for certification."
+    ]
+  },
+  "required_non_target_region_scan": {
+    "status": "pass",
+    "evidence_paths": ["Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_WAVE25_CONTACT_SHADOW_PRESSURE_SEED210704_VISUAL_QA_20260707T124500-0500.json"],
+    "regions_scanned": ["both_faces", "both_bodies", "non_target_hands", "wardrobe", "background", "lighting", "framing"],
+    "findings": ["Both identities, poses, clothing, non-target anatomy, gray background, lighting, and crop remain stable."]
+  },
+  "hands_face_body_background_contact_lighting_check": {
+    "hands": {"visibility": "visible", "inspected": true, "status": "pass", "reason": "Visible hands remain distinct without duplicate or missing digits; the blocking issue is placement/contact authority."},
+    "face": {"visibility": "visible", "inspected": true, "status": "pass", "reason": "Both faces and identities remain stable."},
+    "body": {"visibility": "visible", "inspected": true, "status": "pass", "reason": "Both bodies remain distinct and proportionally coherent."},
+    "background": {"visibility": "visible", "inspected": true, "status": "pass", "reason": "The neutral background remains stable."},
+    "contact": {"visibility": "visible", "inspected": true, "status": "fail", "reason": "Placement remains too high and the contact shadow/pressure cue remains insufficient for the declared target."},
+    "lighting": {"visibility": "visible", "inspected": true, "status": "pass", "reason": "Lighting remains coherent across the pair."}
+  },
+  "reject_on_any_global_defect": {
+    "status": "fail",
+    "global_defects": [
+      {"code": "contact_placement_not_exact_target", "severity": "blocking", "region": "woman_hand_to_man_upper_arm_contact"},
+      {"code": "contact_shadow_pressure_cue_insufficient", "severity": "major", "region": "lower_fingers_and_sleeve"}
+    ],
+    "rejection_applied": true
+  },
+  "overall_decision": "reject"
+}

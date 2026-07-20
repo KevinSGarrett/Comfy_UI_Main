@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ROW017-CANONICAL-GLOBAL-REVIEW-NORMALIZATION-20260718T163008-0500",
+  "created_at": "2026-07-18T16:30:08.6242991-05:00",
+  "tracker_id": "TRK-W64-017",
+  "item_id": "ITEM-W64-017",
+  "status": "PASS_WITH_BOUNDED_PROGRESS_ROW_REMAINS_BLOCKED",
+  "decision": "Six artifact-level canonical Row017 reviews were emitted from five localized legacy source records; one representative non-localized matrix record was explicitly excluded rather than coerced. This does not complete historical normalization.",
+  "normalization_scope": {
+    "representative_legacy_records_assessed": 6,
+    "localized_source_records_normalized": 5,
+    "canonical_artifact_reviews_emitted": 6,
+    "canonical_pass": 4,
+    "canonical_reject": 2,
+    "canonical_blocked": 0,
+    "nonlocalized_records_excluded": 1,
+    "candidate_legacy_visual_qa_records_observed": 100,
+    "candidate_count_is_completion_denominator": false,
+    "row_complete": false
+  },
+  "reviews": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_W69_INPAINT_NOMOUTH_V4_GLOBAL_REVIEW_20260718.json",
+      "sha256": "5868148c85d3d52b337d4a91bffa82447ea3093ca45b0072634eedd9114e7764",
+      "decision": "pass",
+      "legacy_source_record": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_VISUAL_QA_20260707T035000-0500.json"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_W69_INPAINT_NOMOUTH_V4_SEED210501_GLOBAL_REVIEW_20260718.json",
+      "sha256": "a201634be912a2734946d7c9a4c5938cfdcf2ed481264a8a86b313ea56b151fd",
+      "decision": "pass",
+      "legacy_source_record": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_ROBUSTNESS_VISUAL_QA_20260707T034000-0500.json"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_W69_INPAINT_NOMOUTH_V4_SEED210502_GLOBAL_REVIEW_20260718.json",
+      "sha256": "1f109d878ba8b224582e3cded81d27ed9ae375ab3655662b6dbf6d33dacbc0f8",
+      "decision": "pass",
+      "legacy_source_record": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_ROBUSTNESS_VISUAL_QA_20260707T034000-0500.json"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_W69_CANNY_EYEONLY_GLOBAL_REVIEW_20260718.json",
+      "sha256": "a80028b568aad4767ec7c4b7f21b3ecb3529eb8861010d8e717263838d6159b3",
+      "decision": "reject",
+      "legacy_source_record": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CANNY_EYEONLY_VISUAL_QA_20260707T071100-0500.json",
+      "reason": "The eye target passes, but identity, hair, wardrobe, and background drift relative to the named prior candidate."
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_W69_CONTACT_SHADOW_PRESSURE_GLOBAL_REVIEW_20260718.json",
+      "sha256": "8a893c25fd9609904df1259dbb2940eee6cb81b94d50daca4b371dc3e0f425bc",
+      "decision": "reject",
+      "legacy_source_record": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_WAVE25_CONTACT_SHADOW_PRESSURE_SEED210704_VISUAL_QA_20260707T124500-0500.json",
+      "reason": "Non-target regions remain stable, but contact placement and pressure/shadow authority still fail."
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_W70_CHEEKS_SKIN_GLOBAL_REVIEW_20260718.json",
+      "sha256": "6dca0a887b0cc771780c047a122047f422218adc8320e70f693a4f4e00cd4e09",
+      "decision": "pass",
+      "legacy_source_record": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_CHEEKS_SKIN_SEED210805_VISUAL_QA_20260707T154500-0500.json"
+    }
+  ],
+  "excluded_assessments": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_W66_REALVISXL_MATRIX_NORMALIZATION_ASSESSMENT_20260718.json",
+      "sha256": "a0b819e0c5545ae04d32ef814fc4129892356e9ead72687a3f0be5f4acaefb44",
+      "classification": "not_applicable_nonlocalized_generation_matrix"
+    }
+  ],
+  "validation": {
+    "production_validator": "Plan/07_IMPLEMENTATION/scripts/validate_global_whole_image_visual_review.py",
+    "records_run": 6,
+    "records_passed": 6,
+    "records_failed": 0,
+    "unit_test_command": "python -m unittest Plan.Instructions.QA.Scripts.test_global_whole_image_visual_review",
+    "unit_tests_run": 9,
+    "unit_tests_passed": 9
+  },
+  "authority_boundary": {
+    "legacy_records_modified": false,
+    "legacy_bounded_decisions_preserved": true,
+    "generation_executed": false,
+    "aws_contacted": false,
+    "ec2_started": false,
+    "promotion_performed": false,
+    "deferred_worker_paths_modified": false
+  },
+  "remaining_blocker": "Row017 cannot complete until the remaining historical localized visual-review records are classified and every applicable localized artifact has canonical pre/post, target, non-target, six-category, and global-rejection evidence.",
+  "next_action": "Continue bounded normalization in later Codex-owned QA turns while product work proceeds; do not block unrelated product work or duplicate deferred Cursor units."
+}
