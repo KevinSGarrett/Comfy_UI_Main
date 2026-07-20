@@ -1,0 +1,171 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-085_HOLD_ARTIFACT_AND_DEPENDENCY_DISPOSITION_PACKET_20260720T120029-0500",
+  "created_iso": "2026-07-20T12:00:29-05:00",
+  "tracker_id": "TRK-W64-085",
+  "item_id": "ITEM-W64-085",
+  "mutation_this_landing": "evidence_only_hold_artifact_and_dependency_deepen",
+  "row_complete": false,
+  "product_completion_claimed": false,
+  "csv_sync": "deferred_leave_to_serialized_mutator",
+  "proof_tier": "CONTRACT_FIXTURE_CI_GATE",
+  "highest_proof_tier_achieved": "CONTRACT_FIXTURE_CI_GATE",
+  "deepen_reason": "After Row084 VISUAL_QA_PASS_BOUNDED wave + Row109/017 deepenings, Row085 still lacked the tracker-declared HOLD output artifact and a hash-bound post-wave dependency/runtime/visual absence inventory. Emit HOLD artifact (ROW085-023) without claiming Row084 acceptance, annotated benchmark, visual review, or COMPLETE.",
+  "blocker_classes": [
+    {
+      "class": "D",
+      "name": "ROW084_ACCEPTANCE_ABSENT",
+      "primary_code": "ROW084_ACCEPTANCE_ABSENT",
+      "codes": [
+        "ROW084_ACCEPTANCE_ABSENT",
+        "DEPENDENCY_RUNTIME_BENCHMARK_ABSENT"
+      ],
+      "cleared_by_this_packet": [],
+      "summary": "Row084 reached VISUAL_QA_PASS_BOUNDED with Class C OPEN_HOLD and Class E production completion OPEN; row_complete remains false. Row085 cannot certify persistent ownership without upstream acceptance.",
+      "fail_closed_until": "Row084 Status/acceptance clears production completion blockers (not merely VISUAL_QA_PASS_BOUNDED on held-out lavfi) under explicit authority"
+    },
+    {
+      "class": "B",
+      "name": "PRODUCTION_RUNTIME_AND_VISUAL_PROOF_ABSENT",
+      "primary_code": "VISUAL_PROOF_ABSENT",
+      "codes": [
+        "VISUAL_PROOF_ABSENT",
+        "DEPENDENCY_RUNTIME_BENCHMARK_ABSENT",
+        "DIRECT_ROW085_RUNTIME_RECEIPT_ABSENT"
+      ],
+      "cleared_by_this_packet": [
+        "TRACKER_DECLARED_HOLD_ARTIFACT_ABSENT"
+      ],
+      "summary": "media/row085 and reviews/row085 absent; fixture/runtime tree absent; no direct_row085 runtime receipt; CI/fixture ledger gate still passes.",
+      "fail_closed_until": "Annotated ownership-track benchmark + combined track-overlay/contact/audio visual review + direct runtime receipt exist with row084_acceptance satisfied"
+    }
+  ],
+  "negative_inventory": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_RUNTIME_VISUAL_DEPENDENCY_NEGATIVE_INVENTORY_20260720.json",
+    "sha256": "4cfab6e3cc255407e014ebf4514f3811355ccb39fad8997a5b0e2412d4d9cd20",
+    "runtime_receipt": "runtime_artifacts/wave64_row085_hold_artifact_deepen_20260720/runtime_visual_dependency_negative_inventory.json",
+    "runtime_receipt_sha256": "4cfab6e3cc255407e014ebf4514f3811355ccb39fad8997a5b0e2412d4d9cd20",
+    "media_file_count": 0,
+    "reviews_file_count": 0,
+    "direct_runtime_receipt_candidates": 0,
+    "verdict": "ROW085_HOLD_ARTIFACT_EMIT_ALLOWED_RUNTIME_VISUAL_AND_ROW084_ACCEPTANCE_ABSENT"
+  },
+  "hold_artifact": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_actor_object_region_tracking.json",
+    "sha256": "67f25196a7821547dbc481cd279df3016e800cf37a46577cfa2c9bad8d056fd7",
+    "bytes": 3998,
+    "clears_check": "ROW085-023",
+    "does_not_clear": [
+      "ROW085-018",
+      "ROW085-019",
+      "ROW085-020",
+      "ROW085-021",
+      "ROW085-022"
+    ]
+  },
+  "authority_bindings": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719.json",
+      "exists": true,
+      "bytes": 19301,
+      "sha256": "a772011586e2dbb43d24a20f4e18c5754ce0c1843b2405f9587c9d855bac1e49"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json",
+      "exists": true,
+      "bytes": 41466,
+      "sha256": "3a8b6ab2dae9158f520f3060573ed12a81f5717420c7e5862473fced220d3845"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_canonical_video_timeline.json",
+      "exists": true,
+      "bytes": 4203,
+      "sha256": "ca621e0d519850799096780ea481ad43d1b45c02976da24c5f1e27bf48323927"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_actor_object_region_tracking.py",
+      "exists": true,
+      "bytes": 54461,
+      "sha256": "7fbafd0fa68aff8a4a333dc076227d93055aadeeae8f78ba911159452593a76a"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/synthetic_tracking_benchmark_ledger.json",
+      "exists": true,
+      "bytes": 3928,
+      "sha256": "c60190530faccaa09b4d945ebf94ff04f64faf78b817adb7fe9bda5061dd8e9c"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_row085_actor_object_region_tracking_compiler.py",
+      "exists": true,
+      "bytes": 27665,
+      "sha256": "f16dc134dd720940fcc068b112c328fb61b569ee2d734db0b33a420e6f515652"
+    }
+  ],
+  "validators": {
+    "ci_gate_exit_code": 0,
+    "pytest_exit_code": 0,
+    "ci_gate_row_complete": false,
+    "ci_gate_row084_acceptance_claimed": false
+  },
+  "boundaries": {
+    "comfyui_8188_used": false,
+    "gpu_used": false,
+    "row073_pcm_touched": false,
+    "sound_csv_mutated": false,
+    "end_to_end_csv_mutated": false,
+    "tip_sha_chain": false,
+    "complete_claimed": false,
+    "row084_012_hold_thrashed": false,
+    "human_media_invented": false,
+    "offline_only": true
+  },
+  "checks": [
+    {
+      "name": "R085-H001_ci_gate_pass",
+      "result": "pass"
+    },
+    {
+      "name": "R085-H002_pytest_pass",
+      "result": "pass"
+    },
+    {
+      "name": "R085-H003_status_unchanged_blocked",
+      "result": "pass"
+    },
+    {
+      "name": "R085-H004_row084_row_complete_false",
+      "result": "pass"
+    },
+    {
+      "name": "R085-H005_media_absent",
+      "result": "pass"
+    },
+    {
+      "name": "R085-H006_reviews_absent",
+      "result": "pass"
+    },
+    {
+      "name": "R085-H007_hold_artifact_emitted",
+      "result": "pass"
+    },
+    {
+      "name": "R085-H008_no_row084_acceptance_claim",
+      "result": "pass"
+    },
+    {
+      "name": "R085-H009_csv_deferred",
+      "result": "pass"
+    },
+    {
+      "name": "R085-H010_no_complete_claim",
+      "result": "pass"
+    }
+  ],
+  "decision": {
+    "status": "blocked",
+    "row_complete": false,
+    "product_completion": false,
+    "safe_next_action": "Keep Row085 blocked until Row084 acceptance clears Class E production completion (do not thrash ROW084-012 Class C HOLD). Then advance annotated ownership-track benchmark + combined visual review + direct runtime receipt. CSV Notes sync optional via mutator only. Leave Row073 alone."
+  },
+  "ledger_status_unchanged": "Blocked_Dependency_Runtime_Benchmark_And_Visual_Proof_Absent_CI_Fixture_Ledger_Gate_Present"
+}

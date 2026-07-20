@@ -118,7 +118,10 @@
     {
       "check_id": "ROW085-023",
       "name": "tracker_declared_output_artifact_present",
-      "status": "FAIL"
+      "status": "PASS",
+      "note": "Tracker-declared HOLD artifact present (TRK-W64-085_actor_object_region_tracking.json). HOLD only; row_complete false; no COMPLETE; does not grant runtime/visual authority.",
+      "hold_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_actor_object_region_tracking.json",
+      "hold_artifact_sha256": "67f25196a7821547dbc481cd279df3016e800cf37a46577cfa2c9bad8d056fd7"
     },
     {
       "check_id": "ROW085-024",
@@ -226,10 +229,16 @@
   "dependency_authority": {
     "dependency_satisfied": false,
     "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json",
+    "evidence_sha256": "3a8b6ab2dae9158f520f3060573ed12a81f5717420c7e5862473fced220d3845",
     "row084_acceptance_claimed": false,
-    "row085_effect": "Persistent frame-to-frame ownership cannot be certified without an accepted canonical frame, PTS, cut, and missing-frame authority. CI/fixture ledger gating does not satisfy that upstream authority.",
-    "row_complete": false,
-    "tracker_id": "TRK-W64-084"
+    "row084_row_complete": false,
+    "row084_highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+    "row084_qa_decision": "HOLD",
+    "row084_open_class_c_hold": true,
+    "row084_open_class_e_production_completion": true,
+    "row085_effect": "Post-wave rebind: Row084 VISUAL_QA_PASS_BOUNDED does not satisfy Row085 upstream acceptance. Persistent ownership remains uncertified. HOLD declared artifact does not elevate dependency authority.",
+    "tracker_id": "TRK-W64-084",
+    "disposition_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_HOLD_ARTIFACT_AND_DEPENDENCY_DISPOSITION_PACKET_20260720.json"
   },
   "evidence_id": "TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719",
   "focused_local_test_result": {
@@ -245,9 +254,13 @@
   },
   "highest_proof_tier_achieved": "CONTRACT_FIXTURE_CI_GATE",
   "hold_decision": {
-    "decision": "HOLD_ROW085_NO_FALSE_COMPLETION",
-    "reason": "Row085 now has a CI/fixture ledger gate (--ci-gate) that fails closed when the checked-in synthetic ledger diverges from a live rebuild of fixture-packet digests, then runs the ledger-vs-compiled-manifest expectation verifier. Thirteen focused tests pass. Row084 remains incomplete and is not claimed accepted. Annotated production tracking benchmarks, production runtime receipts, combined track-overlay/contact/audio review, and the tracker-declared runtime artifact remain absent. The compiler and gate never set row_complete, annotated_tracking_benchmark_pass, visual_review_claimed, or row084_acceptance_claimed true in this increment.",
-    "safe_next_action": "Keep Row085 on hold for runtime completion. Upstream, continue advancing Row084 canonical timeline acceptance. Downstream, once Row084 is accepted, advance annotated ownership-track benchmarks and combined visual review. Do not mark COMPLETE from fixture/CI gate authority alone."
+    "decision": "HOLD_ROW085_DECLARED_ARTIFACT_PRESENT_NO_FALSE_COMPLETION",
+    "reason": "Declared HOLD output artifact emitted and ROW085-023 cleared as HOLD-present. CI/fixture ledger gate still passes. Row084 acceptance, production runtime benchmark, annotated tracking benchmark, combined visual review, and direct runtime receipt remain absent. No COMPLETE.",
+    "safe_next_action": "Keep Row085 blocked until Row084 acceptance clears Class E production completion (do not thrash ROW084-012 Class C HOLD). Then advance annotated ownership-track benchmark + combined visual review + direct runtime receipt. CSV Notes sync optional via mutator only. Leave Row073 alone.",
+    "disposition_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_HOLD_ARTIFACT_AND_DEPENDENCY_DISPOSITION_PACKET_20260720.json",
+    "disposition_packet_sha256": "6c8c2c8639a1f5b07296039bf21ea2343db121a850848b4c4433408b9658d797",
+    "hold_artifact_sha256": "67f25196a7821547dbc481cd279df3016e800cf37a46577cfa2c9bad8d056fd7",
+    "negative_inventory_sha256": "4cfab6e3cc255407e014ebf4514f3811355ccb39fad8997a5b0e2412d4d9cd20"
   },
   "implementation_completion_claimed": false,
   "intent": {
@@ -352,7 +365,7 @@
     "test_required": true,
     "title": "Actor, object, body-region, clothing, and surface segmentation/tracking",
     "tracker_output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_actor_object_region_tracking.json",
-    "tracker_output_artifact_exists": false,
+    "tracker_output_artifact_exists": true,
     "visual_review_method": "combined_frame_contact_audio_review",
     "visual_review_required": true
   },
@@ -414,5 +427,15 @@
     "wsl_invoked": false
   },
   "tracker_id": "TRK-W64-085",
-  "updated_at": "2026-07-20T06:20:09.943506Z"
+  "updated_at": "2026-07-20T17:00:29.735607Z",
+  "this_landing": {
+    "landing_id": "row085_hold_artifact_deepen_20260720T120029-0500",
+    "mutation": "hold_artifact_emit_and_dependency_inventory_deepen",
+    "primary_paths": [
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_actor_object_region_tracking.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_HOLD_ARTIFACT_AND_DEPENDENCY_DISPOSITION_PACKET_20260720.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_RUNTIME_VISUAL_DEPENDENCY_NEGATIVE_INVENTORY_20260720.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719.json"
+    ]
+  }
 }
