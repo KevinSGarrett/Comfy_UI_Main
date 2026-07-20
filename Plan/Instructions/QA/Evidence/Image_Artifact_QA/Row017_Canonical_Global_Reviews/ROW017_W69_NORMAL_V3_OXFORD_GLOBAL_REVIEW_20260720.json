@@ -1,0 +1,97 @@
+{
+  "schema_version": "row017.v1",
+  "artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v3_oxford_711670203_20260707T075249-0500/images/normal_v3_oxford_711670203_00001_.png",
+    "sha256": "5de4177f7a25d90692784891c6d6ea82c2e8e39c81ce56ba091508d80845d45f"
+  },
+  "localized_change": {
+    "target_region": "skin_and_oxford_fabric_texture",
+    "source_artifact": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v2_skin_fabric_711670202_20260707T074551-0500/images/normal_v2_skin_fabric_711670202_00001_.png",
+      "sha256": "f3186da8e115e0a25295d1af2075981a358b5fa6b91638de47b41f24a451cafd"
+    }
+  },
+  "whole_frame_visual_scan": {
+    "status": "pass",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_NORMAL_V3_OXFORD_VISUAL_QA_20260707T075600-0500.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v3_oxford_711670203_20260707T075249-0500/images/normal_v3_oxford_711670203_00001_.png"
+    ],
+    "pre_edit_status": "pass",
+    "post_edit_status": "pass"
+  },
+  "required_target_region_check": {
+    "status": "pass",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_NORMAL_V3_OXFORD_VISUAL_QA_20260707T075600-0500.json"
+    ],
+    "target_region": "skin_and_oxford_fabric_texture",
+    "findings": [
+      "Oxford-style shirt/blazer show more visible woven texture versus v2 white-shirt collapse.",
+      "Skin microcontrast improves over v2 while remaining a bounded local pass-with-notes."
+    ]
+  },
+  "required_non_target_region_scan": {
+    "status": "pass",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_NORMAL_V3_OXFORD_VISUAL_QA_20260707T075600-0500.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/normal_v3_oxford_711670203_20260707T075249-0500/images/normal_v3_oxford_711670203_00001_.png"
+    ],
+    "regions_scanned": [
+      "eyes",
+      "hair",
+      "face_geometry",
+      "background",
+      "lighting",
+      "normal_map_leakage",
+      "framing"
+    ],
+    "findings": [
+      "No normal-map color leakage; face/shoulder/collar geometry remain stable."
+    ]
+  },
+  "hands_face_body_background_contact_lighting_check": {
+    "hands": {
+      "visibility": "not_visible",
+      "inspected": true,
+      "status": "not_applicable",
+      "reason": "Hands are outside the portrait frame."
+    },
+    "face": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Identity and facial features remain coherent for this localized candidate."
+    },
+    "body": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Visible neck/shoulders and clothing remain coherent."
+    },
+    "background": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Background remains stable without seams or leakage."
+    },
+    "contact": {
+      "visibility": "not_applicable",
+      "inspected": true,
+      "status": "not_applicable",
+      "reason": "No contact interaction is required in this portrait."
+    },
+    "lighting": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Lighting remains coherent across the source/output pair."
+    }
+  },
+  "reject_on_any_global_defect": {
+    "status": "pass",
+    "global_defects": [],
+    "rejection_applied": false
+  },
+  "overall_decision": "pass"
+}

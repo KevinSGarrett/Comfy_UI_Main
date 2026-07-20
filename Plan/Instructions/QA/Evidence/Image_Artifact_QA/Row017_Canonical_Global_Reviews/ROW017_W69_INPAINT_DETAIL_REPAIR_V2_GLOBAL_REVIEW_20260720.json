@@ -1,0 +1,106 @@
+{
+  "schema_version": "row017.v1",
+  "artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_inpaint_detail_local_repair_v2_20260707T031000-0500/images/codex_sdxl_realvisxl_inpaint_detail_repair_v2_00001_.png",
+    "sha256": "d1b2e5152166fff28b3ef72e19ed21ff4517638d0303dc0aba5b8cf704b4977f"
+  },
+  "localized_change": {
+    "target_region": "face_skin_inpaint_detail",
+    "source_artifact": {
+      "path": "ComfyUI/input/sdxl_inpaint_detail_source_canny_v1.png",
+      "sha256": "7951e6a37e8e05bbf22604ac03eac38831875ed283206af8f6a99d874ad3e523"
+    }
+  },
+  "whole_frame_visual_scan": {
+    "status": "fail",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_VISUAL_QA_20260707T031000-0500.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_inpaint_detail_local_repair_v2_20260707T031000-0500/images/codex_sdxl_realvisxl_inpaint_detail_repair_v2_00001_.png"
+    ],
+    "pre_edit_status": "pass",
+    "post_edit_status": "fail"
+  },
+  "required_target_region_check": {
+    "status": "fail",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_VISUAL_QA_20260707T031000-0500.json"
+    ],
+    "target_region": "face_skin_inpaint_detail",
+    "findings": [
+      "Gray oval defect is removed, but identity drift is strong: eye color/gaze, eyebrows, and proportions change.",
+      "Regenerated eyes are over-bright/synthetic versus surrounding lighting; fail_with_improvement retained as reject."
+    ]
+  },
+  "required_non_target_region_scan": {
+    "status": "pass",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_VISUAL_QA_20260707T031000-0500.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_inpaint_detail_local_repair_v2_20260707T031000-0500/images/codex_sdxl_realvisxl_inpaint_detail_repair_v2_00001_.png"
+    ],
+    "regions_scanned": [
+      "hair",
+      "clothing",
+      "background",
+      "body_framing",
+      "lighting"
+    ],
+    "findings": [
+      "Clothing, background, body framing, and most hair outside the mask remain stable."
+    ]
+  },
+  "hands_face_body_background_contact_lighting_check": {
+    "hands": {
+      "visibility": "not_visible",
+      "inspected": true,
+      "status": "not_applicable",
+      "reason": "Hands are outside the portrait frame."
+    },
+    "face": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "fail",
+      "reason": "Identity drift and synthetic-eye artifacts fail the localized face-repair gate despite removing the gray oval."
+    },
+    "body": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Visible neck/shoulders and clothing remain coherent."
+    },
+    "background": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Background remains stable without seams or leakage."
+    },
+    "contact": {
+      "visibility": "not_applicable",
+      "inspected": true,
+      "status": "not_applicable",
+      "reason": "No contact interaction is required in this portrait."
+    },
+    "lighting": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Lighting remains coherent across the source/output pair."
+    }
+  },
+  "reject_on_any_global_defect": {
+    "status": "fail",
+    "global_defects": [
+      {
+        "code": "identity_drift_after_face_inpaint_repair",
+        "severity": "blocking",
+        "region": "face"
+      },
+      {
+        "code": "synthetic_eye_lighting_mismatch",
+        "severity": "major",
+        "region": "eyes"
+      }
+    ],
+    "rejection_applied": true
+  },
+  "overall_decision": "reject"
+}

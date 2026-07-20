@@ -1,0 +1,103 @@
+{
+  "schema_version": "row017.v1",
+  "artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/lineart_v3_background_identity_711370003_20260707T091312-0500/images/lineart_v3_background_identity_711370003_00001_.png",
+    "sha256": "b111d269d6be108667f798f8b7e5ee4bd0b9633e99d57495fbaeb8fc8562919f"
+  },
+  "localized_change": {
+    "target_region": "background_identity_stability",
+    "source_artifact": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_controlnet_lineart_v2_natural_skin_background_w69_20260707T061000-0500/images/lineart_v2_seed711370002.png",
+      "sha256": "d34f5609695bd518ce44334167a882d1ad7a3cf7e74f625cd837e65212ecdd76"
+    }
+  },
+  "whole_frame_visual_scan": {
+    "status": "fail",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_LINEART_V3_BACKGROUND_IDENTITY_VISUAL_QA_20260707T091600-0500.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/lineart_v3_background_identity_711370003_20260707T091312-0500/images/lineart_v3_background_identity_711370003_00001_.png"
+    ],
+    "pre_edit_status": "pass",
+    "post_edit_status": "fail"
+  },
+  "required_target_region_check": {
+    "status": "fail",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_LINEART_V3_BACKGROUND_IDENTITY_VISUAL_QA_20260707T091600-0500.json"
+    ],
+    "target_region": "background_identity_stability",
+    "findings": [
+      "Partial improvement only: bright upper-left panel and right-side vertical window bands remain.",
+      "Legacy not_promoted_to_final decision retained as fail-closed reject."
+    ]
+  },
+  "required_non_target_region_scan": {
+    "status": "pass",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_LINEART_V3_BACKGROUND_IDENTITY_VISUAL_QA_20260707T091600-0500.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/lineart_v3_background_identity_711370003_20260707T091312-0500/images/lineart_v3_background_identity_711370003_00001_.png"
+    ],
+    "regions_scanned": [
+      "face",
+      "eyes",
+      "hair",
+      "clothing",
+      "lineart_control_leakage",
+      "lighting",
+      "framing"
+    ],
+    "findings": [
+      "Subject presentation improved versus weaker v2 robustness drift; lineart control remains clean."
+    ]
+  },
+  "hands_face_body_background_contact_lighting_check": {
+    "hands": {
+      "visibility": "not_visible",
+      "inspected": true,
+      "status": "not_applicable",
+      "reason": "Hands are outside the portrait frame."
+    },
+    "face": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Identity and facial features remain coherent for this localized candidate."
+    },
+    "body": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Visible neck/shoulders and clothing remain coherent."
+    },
+    "background": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "fail",
+      "reason": "Background still shows bright panel and vertical window-band defects; not a clean robustness solution."
+    },
+    "contact": {
+      "visibility": "not_applicable",
+      "inspected": true,
+      "status": "not_applicable",
+      "reason": "No contact interaction is required in this portrait."
+    },
+    "lighting": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Lighting remains coherent across the source/output pair."
+    }
+  },
+  "reject_on_any_global_defect": {
+    "status": "fail",
+    "global_defects": [
+      {
+        "code": "background_panel_and_window_band_residual",
+        "severity": "blocking",
+        "region": "background"
+      }
+    ],
+    "rejection_applied": true
+  },
+  "overall_decision": "reject"
+}

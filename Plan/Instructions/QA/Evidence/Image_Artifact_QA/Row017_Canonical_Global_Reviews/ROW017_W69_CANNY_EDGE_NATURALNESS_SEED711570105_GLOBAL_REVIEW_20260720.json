@@ -1,0 +1,102 @@
+{
+  "schema_version": "row017.v1",
+  "artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_edge_naturalness_seed711570105_20260707T131058-0500/images/canny_w69_edge_naturalness_seed711570105_00001_.png",
+    "sha256": "fbc88110451d16edf94a658881a6e68727fb2501f5af3c102d235c656cde572e"
+  },
+  "localized_change": {
+    "target_region": "right_edge_background_continuity",
+    "source_artifact": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_eyeonly_seam_suppression_711570105_20260707T104736-0500/images/canny_w69_eyeonly_seam_suppression_711570105_00001_.png",
+      "sha256": "4119997a991d443c17e2a9b26fad775a179c5ee11d060c730eb64c81e50f728e"
+    }
+  },
+  "whole_frame_visual_scan": {
+    "status": "fail",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CANNY_EDGE_NATURALNESS_SEED711570105_VISUAL_QA_20260707T131500-0500.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_edge_naturalness_seed711570105_20260707T131058-0500/images/canny_w69_edge_naturalness_seed711570105_00001_.png"
+    ],
+    "pre_edit_status": "pass",
+    "post_edit_status": "fail"
+  },
+  "required_target_region_check": {
+    "status": "fail",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CANNY_EDGE_NATURALNESS_SEED711570105_VISUAL_QA_20260707T131500-0500.json"
+    ],
+    "target_region": "right_edge_background_continuity",
+    "findings": [
+      "Legacy regression retained: right-edge vertical band/panel artifact reintroduced.",
+      "Fail-closed historical reject; do_not_promote edge-naturalness 0.38/0.55 profile."
+    ]
+  },
+  "required_non_target_region_scan": {
+    "status": "pass",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CANNY_EDGE_NATURALNESS_SEED711570105_VISUAL_QA_20260707T131500-0500.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_edge_naturalness_seed711570105_20260707T131058-0500/images/canny_w69_edge_naturalness_seed711570105_00001_.png"
+    ],
+    "regions_scanned": [
+      "eyes",
+      "face",
+      "hair",
+      "clothing",
+      "lighting",
+      "framing"
+    ],
+    "findings": [
+      "Face/eyes/hair/clothing remain broadly coherent; rejection is right-edge background driven."
+    ]
+  },
+  "hands_face_body_background_contact_lighting_check": {
+    "hands": {
+      "visibility": "not_visible",
+      "inspected": true,
+      "status": "not_applicable",
+      "reason": "Hands are outside the portrait frame."
+    },
+    "face": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Identity and facial features remain coherent for this localized candidate."
+    },
+    "body": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Visible neck/shoulders and clothing remain coherent."
+    },
+    "background": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "fail",
+      "reason": "Right-edge vertical band/panel artifact reintroduced versus the seam-suppressed prior."
+    },
+    "contact": {
+      "visibility": "not_applicable",
+      "inspected": true,
+      "status": "not_applicable",
+      "reason": "No contact interaction is required in this portrait."
+    },
+    "lighting": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Lighting remains coherent across the source/output pair."
+    }
+  },
+  "reject_on_any_global_defect": {
+    "status": "fail",
+    "global_defects": [
+      {
+        "code": "right_edge_vertical_band_regression",
+        "severity": "blocking",
+        "region": "background"
+      }
+    ],
+    "rejection_applied": true
+  },
+  "overall_decision": "reject"
+}

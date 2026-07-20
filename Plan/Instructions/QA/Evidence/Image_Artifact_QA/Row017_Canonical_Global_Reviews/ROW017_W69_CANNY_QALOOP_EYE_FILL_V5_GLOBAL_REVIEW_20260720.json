@@ -1,0 +1,97 @@
+{
+  "schema_version": "row017.v1",
+  "artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_controlnet_canny_qaloop_eye_fill_v5_20260707T031800-0500/images/codex_sdxl_realvisxl_controlnet_canny_smoke_00005_.png",
+    "sha256": "d9b7eb4fdd05d4ff9cc6639613824fe77fe7dbfcd807806e7824823b2ab244a2"
+  },
+  "localized_change": {
+    "target_region": "eyes_and_eye_socket_readability",
+    "source_artifact": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_controlnet_canny_qaloop_current_20260707T031600-0500/images/codex_sdxl_realvisxl_controlnet_canny_smoke_00004_.png",
+      "sha256": "c9f79120cdfb2e1dc7331134b828b457a7f6d39816e84bb4b02f92f2af59a92a"
+    }
+  },
+  "whole_frame_visual_scan": {
+    "status": "pass",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CANNY_QALOOP_EYE_FILL_V5_VISUAL_QA_20260707T031800-0500.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_controlnet_canny_qaloop_eye_fill_v5_20260707T031800-0500/images/codex_sdxl_realvisxl_controlnet_canny_smoke_00005_.png"
+    ],
+    "pre_edit_status": "pass",
+    "post_edit_status": "pass"
+  },
+  "required_target_region_check": {
+    "status": "pass",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CANNY_QALOOP_EYE_FILL_V5_VISUAL_QA_20260707T031800-0500.json"
+    ],
+    "target_region": "eyes_and_eye_socket_readability",
+    "findings": [
+      "Iris readability and catchlights improved versus the pre-iteration baseline.",
+      "Eye-area underexposure is reduced without introducing blocking eye artifacts."
+    ]
+  },
+  "required_non_target_region_scan": {
+    "status": "pass",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CANNY_QALOOP_EYE_FILL_V5_VISUAL_QA_20260707T031800-0500.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_controlnet_canny_qaloop_eye_fill_v5_20260707T031800-0500/images/codex_sdxl_realvisxl_controlnet_canny_smoke_00005_.png"
+    ],
+    "regions_scanned": [
+      "face_identity",
+      "hair",
+      "clothing",
+      "background",
+      "lighting",
+      "framing",
+      "mouth_and_lips"
+    ],
+    "findings": [
+      "Face geometry, clothing, hair, background, and framing remain coherent for this local Canny iteration."
+    ]
+  },
+  "hands_face_body_background_contact_lighting_check": {
+    "hands": {
+      "visibility": "not_visible",
+      "inspected": true,
+      "status": "not_applicable",
+      "reason": "Hands are outside the portrait frame."
+    },
+    "face": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Identity and facial features remain coherent for this localized candidate."
+    },
+    "body": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Visible neck/shoulders and clothing remain coherent."
+    },
+    "background": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Background remains stable without seams or leakage."
+    },
+    "contact": {
+      "visibility": "not_applicable",
+      "inspected": true,
+      "status": "not_applicable",
+      "reason": "No contact interaction is required in this portrait."
+    },
+    "lighting": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Lighting remains coherent across the source/output pair."
+    }
+  },
+  "reject_on_any_global_defect": {
+    "status": "pass",
+    "global_defects": [],
+    "rejection_applied": false
+  },
+  "overall_decision": "pass"
+}

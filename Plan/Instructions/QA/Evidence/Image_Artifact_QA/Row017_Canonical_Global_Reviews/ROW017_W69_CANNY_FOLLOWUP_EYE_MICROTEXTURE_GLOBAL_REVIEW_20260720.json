@@ -1,0 +1,102 @@
+{
+  "schema_version": "row017.v1",
+  "artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_followup_eye_microtexture_20260707T070138-0500/images/canny_w69_followup_eye_microtexture_seed711570103.png",
+    "sha256": "662928170295aa69b891c3d32524f9d57676f63eff3726da6df8705b07a3ceed"
+  },
+  "localized_change": {
+    "target_region": "eye_readability_with_skin_microtexture",
+    "source_artifact": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_controlnet_canny_w69_matrix_softer_edges_seed711570102_20260707T065920-0500/images/canny_soft_seed711570102.png",
+      "sha256": "b0eb59492ae6e900d9cf9e9502a3c2529a68c2e23ed327f9f7295eae26bbac62"
+    }
+  },
+  "whole_frame_visual_scan": {
+    "status": "fail",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CANNY_FOLLOWUP_EYE_MICROTEXTURE_VISUAL_QA_20260707T070600-0500.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_followup_eye_microtexture_20260707T070138-0500/images/canny_w69_followup_eye_microtexture_seed711570103.png"
+    ],
+    "pre_edit_status": "pass",
+    "post_edit_status": "fail"
+  },
+  "required_target_region_check": {
+    "status": "fail",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CANNY_FOLLOWUP_EYE_MICROTEXTURE_VISUAL_QA_20260707T070600-0500.json"
+    ],
+    "target_region": "eye_readability_with_skin_microtexture",
+    "findings": [
+      "Eyes improved, but skin-texture goal regressed to smoother beauty-polished finish versus matrix winner.",
+      "Legacy do_not_promote_followup_over_matrix_winner decision retained as fail-closed reject."
+    ]
+  },
+  "required_non_target_region_scan": {
+    "status": "pass",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_CANNY_FOLLOWUP_EYE_MICROTEXTURE_VISUAL_QA_20260707T070600-0500.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/canny_w69_followup_eye_microtexture_20260707T070138-0500/images/canny_w69_followup_eye_microtexture_seed711570103.png"
+    ],
+    "regions_scanned": [
+      "hair",
+      "clothing",
+      "background",
+      "lighting",
+      "framing",
+      "control_map_leakage"
+    ],
+    "findings": [
+      "Hair, clothing, background, and control adherence remain coherent; rejection is skin-texture regression driven."
+    ]
+  },
+  "hands_face_body_background_contact_lighting_check": {
+    "hands": {
+      "visibility": "not_visible",
+      "inspected": true,
+      "status": "not_applicable",
+      "reason": "Hands are outside the portrait frame."
+    },
+    "face": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "fail",
+      "reason": "Face is coherent but skin surface is more polished than the preferred matrix winner, failing the microtexture goal."
+    },
+    "body": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Visible neck/shoulders and clothing remain coherent."
+    },
+    "background": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Background remains stable without seams or leakage."
+    },
+    "contact": {
+      "visibility": "not_applicable",
+      "inspected": true,
+      "status": "not_applicable",
+      "reason": "No contact interaction is required in this portrait."
+    },
+    "lighting": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Lighting remains coherent across the source/output pair."
+    }
+  },
+  "reject_on_any_global_defect": {
+    "status": "fail",
+    "global_defects": [
+      {
+        "code": "skin_microtexture_regression_vs_matrix_winner",
+        "severity": "blocking",
+        "region": "face_skin"
+      }
+    ],
+    "rejection_applied": true
+  },
+  "overall_decision": "reject"
+}
