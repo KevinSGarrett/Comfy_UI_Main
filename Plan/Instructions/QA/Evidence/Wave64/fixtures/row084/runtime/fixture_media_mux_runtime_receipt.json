@@ -1,0 +1,122 @@
+{
+  "authority": {
+    "camera_motion_normalization_complete": false,
+    "combined_visual_review_present": false,
+    "cut_detection_algorithm_complete": false,
+    "ffmpeg_invoked": false,
+    "fixture_media_mux_runtime_only": true,
+    "mux_command_executed": false,
+    "mux_replay_executed": false,
+    "production_mux_replay_pass": false,
+    "runtime_media_decode_invoked": false,
+    "visual_review_authority_granted": false
+  },
+  "climb_targets": [
+    "RUNTIME_PASS_BOUNDED",
+    "VISUAL_QA_PASS_BOUNDED"
+  ],
+  "combined_visual_surface_runtime": {
+    "all_surfaces_runtime_checked": true,
+    "combined_visual_review_present": false,
+    "proof_tier": "CONTRACT_PASS_BOUNDED",
+    "protocol_id": "row084_combined_visual_review_fixture_protocol_v1",
+    "review_method": "combined_frame_contact_audio_review",
+    "surfaces": [
+      {
+        "runtime_digest_check_passed": true,
+        "source_fixture": "held_out_mux_dry_run_matrix.json",
+        "source_fixture_file_sha256": "ee12468242d46fe30c57f42de3bb290944840d496a06247c71759bb7b54ebc21",
+        "surface": "audio_stream_binding",
+        "visual_review_executed": false
+      },
+      {
+        "runtime_digest_check_passed": true,
+        "source_fixture": "camera_motion_policy_matrix.json",
+        "source_fixture_file_sha256": "247ec886a884304cf592c07992828efe42edb2150f58e43401f107c50ddd2618",
+        "surface": "camera_motion_policy",
+        "visual_review_executed": false
+      },
+      {
+        "runtime_digest_check_passed": true,
+        "source_fixture": "held_out_mux_dry_run_matrix.json",
+        "source_fixture_file_sha256": "ee12468242d46fe30c57f42de3bb290944840d496a06247c71759bb7b54ebc21",
+        "surface": "contact_placeholder",
+        "visual_review_executed": false
+      },
+      {
+        "runtime_digest_check_passed": true,
+        "source_fixture": "cut_detector_algorithm_contract.json",
+        "source_fixture_file_sha256": "59db6fd543c8b4ccf9c4e5c7dd327ad009d1320f6f419427f58cc2c13a20d55f",
+        "surface": "cut_epochs",
+        "visual_review_executed": false
+      },
+      {
+        "runtime_digest_check_passed": true,
+        "source_fixture": "held_out_mux_dry_run_matrix.json",
+        "source_fixture_file_sha256": "ee12468242d46fe30c57f42de3bb290944840d496a06247c71759bb7b54ebc21",
+        "surface": "frame_timeline",
+        "visual_review_executed": false
+      }
+    ],
+    "visual_review_authority_granted": false
+  },
+  "created_at": "2026-07-20T06:21:41Z",
+  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+  "hold_reasons": [
+    "ffmpeg_mux_replay_absent",
+    "runtime_cut_detector_absent",
+    "camera_motion_normalization_incomplete",
+    "combined_visual_review_authority_absent",
+    "tracker_runtime_artifact_absent",
+    "row_complete_blocked"
+  ],
+  "identity_roundtrip": {
+    "audio_sha256": "f1d6de7662b6ee7e0e2b66e25412f4b25681b96c8dcc402fc777840ab22de657",
+    "climb_ledger_audio_binding_matched": true,
+    "climb_ledger_container_binding_matched": true,
+    "container_sha256": "2589a1178447c7754d71537f6cd45351f8dd6e89cb181b65151743a73a6012fb",
+    "deterministic_reassembly_passed": true,
+    "roundtrip_passed": true,
+    "video_sha256": "f154d5175319c007e59b71881095a699ddcc816ccd7d35c7351664a62b765dff"
+  },
+  "mux_output": {
+    "mux_byte_length": 926,
+    "mux_sha256": "0c45a087ecd2eeb86f0ab33a22b4e0a2264af69516b31260d74ea5fe92857bef",
+    "relative_path": "runtime/fixture_media_mux_output.mux",
+    "streams": {
+      "audio": {
+        "byte_length": 95,
+        "name": "media/fixture_audio_stream.bin",
+        "sha256": "f1d6de7662b6ee7e0e2b66e25412f4b25681b96c8dcc402fc777840ab22de657"
+      },
+      "container": {
+        "byte_length": 92,
+        "name": "media/fixture_container.bin",
+        "sha256": "2589a1178447c7754d71537f6cd45351f8dd6e89cb181b65151743a73a6012fb"
+      },
+      "video": {
+        "byte_length": 95,
+        "name": "media/fixture_video_stream.bin",
+        "sha256": "f154d5175319c007e59b71881095a699ddcc816ccd7d35c7351664a62b765dff"
+      }
+    }
+  },
+  "production_completion_allowed": false,
+  "proof_tier": "RUNTIME_PASS_BOUNDED",
+  "provenance": {
+    "binds_climb_ledger_stream_identities": true,
+    "compiler": "compile_wave64_canonical_video_timeline.py",
+    "compiler_revision": "row084_synthetic_runtime_climb_ledger_v9",
+    "does_not_claim_row_complete": true,
+    "does_not_claim_visual_qa_pass_bounded": true,
+    "execution_mode": "pure_python_fixture_media_mux",
+    "runtime_revision": "row084_fixture_media_mux_runtime_v10"
+  },
+  "receipt_id": "row084_fixture_media_mux_runtime_receipt_v1",
+  "receipt_sha256": "48789e9403878d82bfb3eac2ef4c9c779f78cd7753148628d88e21544be439d7",
+  "record_type": "row084_fixture_media_mux_runtime_receipt",
+  "revision": "row084_fixture_media_mux_runtime_v10",
+  "row_complete": false,
+  "schema_version": "1.0.0",
+  "status": "fixture_media_mux_runtime_pass_bounded"
+}

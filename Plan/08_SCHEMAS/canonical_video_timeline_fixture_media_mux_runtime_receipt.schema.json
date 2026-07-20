@@ -1,0 +1,183 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/canonical-video-timeline-fixture-media-mux-runtime-receipt/1.0.0",
+  "title": "Wave64 Canonical Video Timeline Fixture Media Mux Runtime Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_type",
+    "receipt_id",
+    "revision",
+    "status",
+    "created_at",
+    "proof_tier",
+    "highest_proof_tier_achieved",
+    "climb_targets",
+    "mux_output",
+    "identity_roundtrip",
+    "combined_visual_surface_runtime",
+    "authority",
+    "hold_reasons",
+    "production_completion_allowed",
+    "row_complete",
+    "provenance",
+    "receipt_sha256"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "record_type": { "const": "row084_fixture_media_mux_runtime_receipt" },
+    "receipt_id": { "type": "string", "minLength": 1 },
+    "revision": { "type": "string", "minLength": 1 },
+    "status": { "const": "fixture_media_mux_runtime_pass_bounded" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "proof_tier": { "const": "RUNTIME_PASS_BOUNDED" },
+    "highest_proof_tier_achieved": { "const": "RUNTIME_PASS_BOUNDED" },
+    "climb_targets": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "enum": ["RUNTIME_PASS_BOUNDED", "VISUAL_QA_PASS_BOUNDED"]
+      },
+      "uniqueItems": true
+    },
+    "mux_output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "relative_path",
+        "mux_sha256",
+        "mux_byte_length",
+        "streams"
+      ],
+      "properties": {
+        "relative_path": { "type": "string", "minLength": 1 },
+        "mux_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "mux_byte_length": { "type": "integer", "minimum": 1 },
+        "streams": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["video", "audio", "container"],
+          "properties": {
+            "video": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["name", "sha256", "byte_length"],
+              "properties": {
+                "name": { "type": "string", "minLength": 1 },
+                "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                "byte_length": { "type": "integer", "minimum": 1 }
+              }
+            },
+            "audio": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["name", "sha256", "byte_length"],
+              "properties": {
+                "name": { "type": "string", "minLength": 1 },
+                "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                "byte_length": { "type": "integer", "minimum": 1 }
+              }
+            },
+            "container": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["name", "sha256", "byte_length"],
+              "properties": {
+                "name": { "type": "string", "minLength": 1 },
+                "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                "byte_length": { "type": "integer", "minimum": 1 }
+              }
+            }
+          }
+        }
+      }
+    },
+    "identity_roundtrip": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "video_sha256",
+        "audio_sha256",
+        "container_sha256",
+        "roundtrip_passed",
+        "deterministic_reassembly_passed",
+        "climb_ledger_audio_binding_matched",
+        "climb_ledger_container_binding_matched"
+      ],
+      "properties": {
+        "video_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "audio_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "container_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "roundtrip_passed": { "const": true },
+        "deterministic_reassembly_passed": { "const": true },
+        "climb_ledger_audio_binding_matched": { "const": true },
+        "climb_ledger_container_binding_matched": { "const": true }
+      }
+    },
+    "combined_visual_surface_runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol_id",
+        "review_method",
+        "surfaces",
+        "all_surfaces_runtime_checked",
+        "visual_review_authority_granted",
+        "combined_visual_review_present",
+        "proof_tier"
+      ],
+      "properties": {
+        "protocol_id": { "type": "string", "minLength": 1 },
+        "review_method": { "const": "combined_frame_contact_audio_review" },
+        "surfaces": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5
+        },
+        "all_surfaces_runtime_checked": { "const": true },
+        "visual_review_authority_granted": { "const": false },
+        "combined_visual_review_present": { "const": false },
+        "proof_tier": { "const": "CONTRACT_PASS_BOUNDED" }
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fixture_media_mux_runtime_only",
+        "ffmpeg_invoked",
+        "mux_command_executed",
+        "mux_replay_executed",
+        "production_mux_replay_pass",
+        "runtime_media_decode_invoked",
+        "visual_review_authority_granted",
+        "combined_visual_review_present",
+        "cut_detection_algorithm_complete",
+        "camera_motion_normalization_complete"
+      ],
+      "properties": {
+        "fixture_media_mux_runtime_only": { "const": true },
+        "ffmpeg_invoked": { "const": false },
+        "mux_command_executed": { "const": false },
+        "mux_replay_executed": { "const": false },
+        "production_mux_replay_pass": { "const": false },
+        "runtime_media_decode_invoked": { "const": false },
+        "visual_review_authority_granted": { "const": false },
+        "combined_visual_review_present": { "const": false },
+        "cut_detection_algorithm_complete": { "const": false },
+        "camera_motion_normalization_complete": { "const": false }
+      }
+    },
+    "hold_reasons": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "production_completion_allowed": { "const": false },
+    "row_complete": { "const": false },
+    "provenance": { "type": "object", "minProperties": 1 },
+    "receipt_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  }
+}

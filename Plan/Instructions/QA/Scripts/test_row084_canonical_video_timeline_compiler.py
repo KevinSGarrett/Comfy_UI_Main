@@ -41,8 +41,16 @@ SYNTHETIC_CLIMB_LEDGER_SCHEMA = (
     ROOT
     / "Plan/08_SCHEMAS/canonical_video_timeline_synthetic_runtime_climb_ledger.schema.json"
 )
+FIXTURE_MUX_RUNTIME_SCHEMA = (
+    ROOT
+    / "Plan/08_SCHEMAS/canonical_video_timeline_fixture_media_mux_runtime_receipt.schema.json"
+)
 FIXTURE_DIR = ROOT / "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084"
 SYNTHETIC_CLIMB_LEDGER = FIXTURE_DIR / "synthetic_runtime_climb_ledger.json"
+FIXTURE_MUX_RUNTIME_RECEIPT = (
+    FIXTURE_DIR / "runtime" / "fixture_media_mux_runtime_receipt.json"
+)
+FIXTURE_MUX_OUTPUT = FIXTURE_DIR / "runtime" / "fixture_media_mux_output.mux"
 
 _spec = importlib.util.spec_from_file_location("row084_compiler", COMPILER)
 COMPILER_MOD = importlib.util.module_from_spec(_spec)
@@ -483,6 +491,9 @@ class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
         )
         self.synthetic_climb_ledger_validator = Draft202012Validator(
             json.loads(SYNTHETIC_CLIMB_LEDGER_SCHEMA.read_text(encoding="utf-8"))
+        )
+        self.fixture_mux_runtime_validator = Draft202012Validator(
+            json.loads(FIXTURE_MUX_RUNTIME_SCHEMA.read_text(encoding="utf-8"))
         )
         self.clock_span_schema = json.loads(CLOCK_SPAN_SCHEMA.read_text(encoding="utf-8"))
 
@@ -1255,6 +1266,42 @@ class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
         with self.assertRaises(ValueError) as ctx:
             COMPILER_MOD.verify_synthetic_runtime_climb_ledger(drifted)
         self.assertIn("compiled digest drift", str(ctx.exception))
+
+    def test_fixture_media_mux_runtime_executes_and_holds_completion(self) -> None:
+        self.assertTrue(FIXTURE_MUX_RUNTIME_RECEIPT.is_file())
+        self.assertTrue(FIXTURE_MUX_OUTPUT.is_file())
+        receipt = COMPILER_MOD.execute_fixture_media_mux_runtime(write_outputs=False)
+        checked_in = json.loads(FIXTURE_MUX_RUNTIME_RECEIPT.read_text(encoding="utf-8"))
+        self.fixture_mux_runtime_validator.validate(checked_in)
+        self.assertEqual(receipt["proof_tier"], "RUNTIME_PASS_BOUNDED")
+        self.assertEqual(receipt["highest_proof_tier_achieved"], "RUNTIME_PASS_BOUNDED")
+        self.assertEqual(receipt["mux_output"]["mux_sha256"], checked_in["mux_output"]["mux_sha256"])
+        self.assertEqual(receipt["receipt_sha256"], checked_in["receipt_sha256"])
+        self.assertTrue(receipt["identity_roundtrip"]["roundtrip_passed"])
+        self.assertTrue(
+            receipt["combined_visual_surface_runtime"]["all_surfaces_runtime_checked"]
+        )
+        self.assertFalse(receipt["authority"]["ffmpeg_invoked"])
+        self.assertFalse(receipt["authority"]["visual_review_authority_granted"])
+        self.assertFalse(receipt["row_complete"])
+        self.assertFalse(receipt["production_completion_allowed"])
+
+        verify = COMPILER_MOD.verify_fixture_media_mux_runtime_receipt()
+        self.assertEqual(verify["status"], "ok")
+        self.assertEqual(verify["proof_tier"], "RUNTIME_PASS_BOUNDED")
+        self.assertFalse(verify["row_complete"])
+
+        cli = subprocess.run(
+            [sys.executable, str(COMPILER), "--verify-fixture-media-mux-runtime"],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        self.assertEqual(cli.returncode, 0, msg=cli.stderr + cli.stdout)
+        cli_receipt = json.loads(cli.stdout)
+        self.assertEqual(cli_receipt["mux_sha256"], checked_in["mux_output"]["mux_sha256"])
+        self.assertEqual(cli_receipt["proof_tier"], "RUNTIME_PASS_BOUNDED")
 
 
 if __name__ == "__main__":

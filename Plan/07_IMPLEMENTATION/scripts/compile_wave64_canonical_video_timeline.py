@@ -24,6 +24,7 @@ from pathlib import Path
 from typing import Any
 
 COMPILER_REVISION = "row084_synthetic_runtime_climb_ledger_v9"
+FIXTURE_MUX_RUNTIME_REVISION = "row084_fixture_media_mux_runtime_v10"
 MATRIX_AUTHORIZED_MISSING_POLICIES = frozenset({"preserve_gap", "explicit_gap"})
 RUNTIME_BLOCKED_MISSING_POLICIES = frozenset({"interpolate", "block"})
 MATRIX_AUTHORIZED_CAMERA_MOTION_POLICIES = frozenset(
@@ -52,6 +53,11 @@ HELD_OUT_MUX_DRY_RUN_FIXTURE = "held_out_mux_dry_run_matrix.json"
 COMBINED_VISUAL_PROTOCOL_FIXTURE = "combined_visual_review_fixture_protocol.json"
 FIXTURE_MEDIA_AUDIO = "media/fixture_audio_stream.bin"
 FIXTURE_MEDIA_CONTAINER = "media/fixture_container.bin"
+FIXTURE_MEDIA_VIDEO = "media/fixture_video_stream.bin"
+FIXTURE_MUX_RUNTIME_DIRNAME = "runtime"
+FIXTURE_MUX_OUTPUT_FILENAME = "fixture_media_mux_output.mux"
+FIXTURE_MUX_RUNTIME_RECEIPT_FILENAME = "fixture_media_mux_runtime_receipt.json"
+FIXTURE_MUX_MAGIC = b"ROW084_FIXTURE_MUX_V1\n"
 REQUIRED_COMBINED_VISUAL_SURFACES = frozenset(
     {
         "frame_timeline",
@@ -2426,6 +2432,375 @@ def verify_synthetic_runtime_climb_ledger(
     }
 
 
+def _read_fixture_media_bytes(name: str, *, fixture_dir: Path) -> tuple[bytes, str]:
+    path = fixture_dir / name
+    if not path.is_file():
+        raise FileNotFoundError(f"Row084 fixture media missing: {path}")
+    data = path.read_bytes()
+    if not data:
+        raise ValueError(f"Row084 fixture media is empty: {path}")
+    return data, hashlib.sha256(data).hexdigest()
+
+
+def _assemble_fixture_media_mux_bytes(
+    *,
+    video_bytes: bytes,
+    audio_bytes: bytes,
+    container_bytes: bytes,
+    video_sha256: str,
+    audio_sha256: str,
+    container_sha256: str,
+) -> bytes:
+    header = {
+        "schema_version": "1.0.0",
+        "record_type": "row084_fixture_media_mux_header",
+        "revision": FIXTURE_MUX_RUNTIME_REVISION,
+        "streams": {
+            "video": {
+                "name": FIXTURE_MEDIA_VIDEO,
+                "sha256": video_sha256,
+                "byte_length": len(video_bytes),
+            },
+            "audio": {
+                "name": FIXTURE_MEDIA_AUDIO,
+                "sha256": audio_sha256,
+                "byte_length": len(audio_bytes),
+            },
+            "container": {
+                "name": FIXTURE_MEDIA_CONTAINER,
+                "sha256": container_sha256,
+                "byte_length": len(container_bytes),
+            },
+        },
+        "ffmpeg_invoked": False,
+        "mux_command_executed": False,
+    }
+    header_json = json.dumps(header, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    header_len = len(header_json).to_bytes(4, "big")
+    return (
+        FIXTURE_MUX_MAGIC
+        + header_len
+        + header_json
+        + video_bytes
+        + audio_bytes
+        + container_bytes
+    )
+
+
+def _parse_fixture_media_mux_bytes(blob: bytes) -> dict[str, Any]:
+    if not blob.startswith(FIXTURE_MUX_MAGIC):
+        raise ValueError("fixture mux output missing ROW084_FIXTURE_MUX_V1 magic")
+    offset = len(FIXTURE_MUX_MAGIC)
+    if len(blob) < offset + 4:
+        raise ValueError("fixture mux output truncated before header length")
+    header_len = int.from_bytes(blob[offset : offset + 4], "big")
+    offset += 4
+    header_raw = blob[offset : offset + header_len]
+    if len(header_raw) != header_len:
+        raise ValueError("fixture mux output truncated before header JSON")
+    offset += header_len
+    header = json.loads(header_raw.decode("utf-8"))
+    if not isinstance(header, dict):
+        raise ValueError("fixture mux header must be an object")
+    streams = header.get("streams")
+    if not isinstance(streams, dict):
+        raise ValueError("fixture mux header.streams must be an object")
+    recovered: dict[str, dict[str, Any]] = {}
+    for key in ("video", "audio", "container"):
+        meta = streams.get(key)
+        if not isinstance(meta, dict):
+            raise ValueError(f"fixture mux header.streams.{key} must be an object")
+        byte_length = _expect_positive_int(meta.get("byte_length"), f"streams.{key}.byte_length")
+        expected_sha = _expect_sha256(meta.get("sha256"), f"streams.{key}.sha256")
+        payload = blob[offset : offset + byte_length]
+        if len(payload) != byte_length:
+            raise ValueError(f"fixture mux output truncated in {key} payload")
+        offset += byte_length
+        actual_sha = hashlib.sha256(payload).hexdigest()
+        if actual_sha != expected_sha:
+            raise ValueError(
+                f"fixture mux {key} payload digest mismatch: "
+                f"header={expected_sha} payload={actual_sha}"
+            )
+        recovered[key] = {
+            "name": _expect_non_empty_string(meta.get("name"), f"streams.{key}.name"),
+            "sha256": actual_sha,
+            "byte_length": byte_length,
+        }
+    if offset != len(blob):
+        raise ValueError("fixture mux output has trailing unexpected bytes")
+    return {"header": header, "streams": recovered, "mux_byte_length": len(blob)}
+
+
+def execute_combined_visual_surface_runtime_check(
+    *,
+    fixture_dir: Path | None = None,
+) -> dict[str, Any]:
+    """Execute fixture combined-visual surface digest checks at runtime.
+
+    Validates required surfaces against live fixture file digests. Does not grant
+    visual-review authority or VISUAL_QA_PASS_BOUNDED.
+    """
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    packet = load_fixture_packet(COMBINED_VISUAL_PROTOCOL_FIXTURE, fixture_dir=directory)
+    protocol = compile_combined_visual_review_fixture_protocol(packet, fixture_dir=directory)
+    surface_results: list[dict[str, Any]] = []
+    for binding in protocol["surface_bindings"]:
+        live_digest = fixture_file_sha256(binding["source_fixture"], fixture_dir=directory)
+        if live_digest != binding["source_fixture_file_sha256"]:
+            raise ValueError(
+                f"combined visual surface {binding['surface']} fixture digest drift"
+            )
+        surface_results.append(
+            {
+                "surface": binding["surface"],
+                "source_fixture": binding["source_fixture"],
+                "source_fixture_file_sha256": live_digest,
+                "runtime_digest_check_passed": True,
+                "visual_review_executed": False,
+            }
+        )
+    return {
+        "protocol_id": protocol["protocol_id"],
+        "protocol_sha256": protocol["protocol_sha256"],
+        "review_method": protocol["review_method"],
+        "surfaces": sorted(surface_results, key=lambda item: item["surface"]),
+        "all_surfaces_runtime_checked": True,
+        "visual_review_authority_granted": False,
+        "combined_visual_review_present": False,
+        "proof_tier": "CONTRACT_PASS_BOUNDED",
+    }
+
+
+def execute_fixture_media_mux_runtime(
+    *,
+    fixture_dir: Path | None = None,
+    output_mux_path: Path | None = None,
+    output_receipt_path: Path | None = None,
+    write_outputs: bool = True,
+) -> dict[str, Any]:
+    """Execute pure-Python fixture media mux assembly and identity roundtrip.
+
+    Reads checked-in fixture media blobs, assembles a deterministic mux artifact,
+    parses it back, and verifies stream digests against the synthetic climb ledger
+    audio/container bindings. Does not invoke ffmpeg. Grants
+    RUNTIME_PASS_BOUNDED for fixture media mux identity roundtrip only. Never sets
+    row_complete or visual-review authority.
+    """
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    runtime_dir = directory / FIXTURE_MUX_RUNTIME_DIRNAME
+    mux_path = (
+        output_mux_path
+        if output_mux_path is not None
+        else runtime_dir / FIXTURE_MUX_OUTPUT_FILENAME
+    )
+    receipt_path = (
+        output_receipt_path
+        if output_receipt_path is not None
+        else runtime_dir / FIXTURE_MUX_RUNTIME_RECEIPT_FILENAME
+    )
+
+    video_bytes, video_sha = _read_fixture_media_bytes(FIXTURE_MEDIA_VIDEO, fixture_dir=directory)
+    audio_bytes, audio_sha = _read_fixture_media_bytes(FIXTURE_MEDIA_AUDIO, fixture_dir=directory)
+    container_bytes, container_sha = _read_fixture_media_bytes(
+        FIXTURE_MEDIA_CONTAINER, fixture_dir=directory
+    )
+
+    ledger = load_synthetic_runtime_climb_ledger(fixture_dir=directory)
+    verify_synthetic_runtime_climb_ledger_integrity(ledger)
+    plan_replay = ledger.get("fixture_mux_plan_replay")
+    if not isinstance(plan_replay, dict):
+        raise ValueError("climb ledger fixture_mux_plan_replay must be an object")
+    if plan_replay.get("fixture_audio_stream_sha256") != audio_sha:
+        raise ValueError("fixture audio digest drift vs climb ledger plan replay")
+    if plan_replay.get("fixture_container_sha256") != container_sha:
+        raise ValueError("fixture container digest drift vs climb ledger plan replay")
+
+    mux_bytes = _assemble_fixture_media_mux_bytes(
+        video_bytes=video_bytes,
+        audio_bytes=audio_bytes,
+        container_bytes=container_bytes,
+        video_sha256=video_sha,
+        audio_sha256=audio_sha,
+        container_sha256=container_sha,
+    )
+    mux_sha = hashlib.sha256(mux_bytes).hexdigest()
+    parsed = _parse_fixture_media_mux_bytes(mux_bytes)
+    if parsed["streams"]["video"]["sha256"] != video_sha:
+        raise ValueError("mux roundtrip video digest mismatch")
+    if parsed["streams"]["audio"]["sha256"] != audio_sha:
+        raise ValueError("mux roundtrip audio digest mismatch")
+    if parsed["streams"]["container"]["sha256"] != container_sha:
+        raise ValueError("mux roundtrip container digest mismatch")
+
+    # Determinism: reassemble and require identical mux digest.
+    mux_bytes_b = _assemble_fixture_media_mux_bytes(
+        video_bytes=video_bytes,
+        audio_bytes=audio_bytes,
+        container_bytes=container_bytes,
+        video_sha256=video_sha,
+        audio_sha256=audio_sha,
+        container_sha256=container_sha,
+    )
+    if hashlib.sha256(mux_bytes_b).hexdigest() != mux_sha:
+        raise ValueError("fixture media mux assembly is not deterministic")
+
+    visual_runtime = execute_combined_visual_surface_runtime_check(fixture_dir=directory)
+    # Drop unstable nested protocol digest (includes wall-clock-free but rebuild-volatile
+    # compiled protocol hash fields) from the durable runtime receipt identity.
+    visual_runtime_stable = {
+        "protocol_id": visual_runtime["protocol_id"],
+        "review_method": visual_runtime["review_method"],
+        "surfaces": [
+            {
+                "surface": item["surface"],
+                "source_fixture": item["source_fixture"],
+                "source_fixture_file_sha256": item["source_fixture_file_sha256"],
+                "runtime_digest_check_passed": item["runtime_digest_check_passed"],
+                "visual_review_executed": item["visual_review_executed"],
+            }
+            for item in visual_runtime["surfaces"]
+        ],
+        "all_surfaces_runtime_checked": visual_runtime["all_surfaces_runtime_checked"],
+        "visual_review_authority_granted": False,
+        "combined_visual_review_present": False,
+        "proof_tier": "CONTRACT_PASS_BOUNDED",
+    }
+    created_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    relative_mux = f"{FIXTURE_MUX_RUNTIME_DIRNAME}/{FIXTURE_MUX_OUTPUT_FILENAME}"
+
+    receipt_body: dict[str, Any] = {
+        "schema_version": "1.0.0",
+        "record_type": "row084_fixture_media_mux_runtime_receipt",
+        "receipt_id": "row084_fixture_media_mux_runtime_receipt_v1",
+        "revision": FIXTURE_MUX_RUNTIME_REVISION,
+        "status": "fixture_media_mux_runtime_pass_bounded",
+        "created_at": created_at,
+        "proof_tier": "RUNTIME_PASS_BOUNDED",
+        "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+        "climb_targets": ["RUNTIME_PASS_BOUNDED", "VISUAL_QA_PASS_BOUNDED"],
+        "mux_output": {
+            "relative_path": relative_mux,
+            "mux_sha256": mux_sha,
+            "mux_byte_length": len(mux_bytes),
+            "streams": parsed["streams"],
+        },
+        "identity_roundtrip": {
+            "video_sha256": video_sha,
+            "audio_sha256": audio_sha,
+            "container_sha256": container_sha,
+            "roundtrip_passed": True,
+            "deterministic_reassembly_passed": True,
+            "climb_ledger_audio_binding_matched": True,
+            "climb_ledger_container_binding_matched": True,
+        },
+        "combined_visual_surface_runtime": visual_runtime_stable,
+        "authority": {
+            "fixture_media_mux_runtime_only": True,
+            "ffmpeg_invoked": False,
+            "mux_command_executed": False,
+            "mux_replay_executed": False,
+            "production_mux_replay_pass": False,
+            "runtime_media_decode_invoked": False,
+            "visual_review_authority_granted": False,
+            "combined_visual_review_present": False,
+            "cut_detection_algorithm_complete": False,
+            "camera_motion_normalization_complete": False,
+        },
+        "hold_reasons": [
+            "ffmpeg_mux_replay_absent",
+            "runtime_cut_detector_absent",
+            "camera_motion_normalization_incomplete",
+            "combined_visual_review_authority_absent",
+            "tracker_runtime_artifact_absent",
+            "row_complete_blocked",
+        ],
+        "production_completion_allowed": False,
+        "row_complete": False,
+        "provenance": {
+            "compiler": "compile_wave64_canonical_video_timeline.py",
+            "compiler_revision": COMPILER_REVISION,
+            "runtime_revision": FIXTURE_MUX_RUNTIME_REVISION,
+            "execution_mode": "pure_python_fixture_media_mux",
+            "binds_climb_ledger_stream_identities": True,
+            "does_not_claim_visual_qa_pass_bounded": True,
+            "does_not_claim_row_complete": True,
+        },
+    }
+    stable = {key: value for key, value in receipt_body.items() if key != "created_at"}
+    receipt_body["receipt_sha256"] = _canonical_sha256(stable)
+    if write_outputs:
+        mux_path.parent.mkdir(parents=True, exist_ok=True)
+        mux_path.write_bytes(mux_bytes)
+        _write_json_atomic(receipt_path, receipt_body)
+    return receipt_body
+
+
+def verify_fixture_media_mux_runtime_receipt(
+    receipt: dict[str, Any] | None = None,
+    *,
+    fixture_dir: Path | None = None,
+) -> dict[str, Any]:
+    """Fail-closed verify checked-in fixture media mux runtime receipt."""
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    receipt_path = directory / FIXTURE_MUX_RUNTIME_DIRNAME / FIXTURE_MUX_RUNTIME_RECEIPT_FILENAME
+    payload = receipt if receipt is not None else json.loads(receipt_path.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise ValueError("fixture media mux runtime receipt must be an object")
+    recorded = _expect_sha256(payload.get("receipt_sha256"), "receipt_sha256")
+    stable = {
+        key: value
+        for key, value in payload.items()
+        if key not in {"created_at", "receipt_sha256"}
+    }
+    recomputed = _canonical_sha256(stable)
+    if recorded != recomputed:
+        raise ValueError(
+            "receipt_sha256 tamper/replay mismatch: "
+            f"recorded={recorded} recomputed={recomputed}"
+        )
+    if payload.get("proof_tier") != "RUNTIME_PASS_BOUNDED":
+        raise ValueError("fixture media mux runtime receipt proof_tier mismatch")
+    if payload.get("row_complete") is not False:
+        raise ValueError("fixture media mux runtime receipt must keep row_complete=false")
+    if payload.get("authority", {}).get("ffmpeg_invoked") is not False:
+        raise ValueError("fixture media mux runtime receipt must keep ffmpeg_invoked=false")
+    if payload.get("authority", {}).get("visual_review_authority_granted") is not False:
+        raise ValueError("fixture media mux runtime must not grant visual review authority")
+
+    live = execute_fixture_media_mux_runtime(fixture_dir=directory, write_outputs=False)
+    if live["mux_output"]["mux_sha256"] != payload["mux_output"]["mux_sha256"]:
+        raise ValueError("fixture media mux output digest drift vs live runtime")
+    if live["identity_roundtrip"] != payload["identity_roundtrip"]:
+        raise ValueError("fixture media identity_roundtrip drift vs live runtime")
+    if live["combined_visual_surface_runtime"] != payload["combined_visual_surface_runtime"]:
+        raise ValueError("combined visual surface runtime check drift")
+    if live["receipt_sha256"] != recorded:
+        raise ValueError(
+            "fixture media mux runtime receipt_sha256 drift vs live runtime: "
+            f"recorded={recorded} live={live['receipt_sha256']}"
+        )
+
+    mux_file = directory / FIXTURE_MUX_RUNTIME_DIRNAME / FIXTURE_MUX_OUTPUT_FILENAME
+    if not mux_file.is_file():
+        raise FileNotFoundError(f"fixture media mux output missing: {mux_file}")
+    if hashlib.sha256(mux_file.read_bytes()).hexdigest() != payload["mux_output"]["mux_sha256"]:
+        raise ValueError("checked-in fixture media mux file digest drift")
+
+    return {
+        "status": "ok",
+        "verifier": "verify_fixture_media_mux_runtime_receipt",
+        "receipt_sha256": recorded,
+        "mux_sha256": payload["mux_output"]["mux_sha256"],
+        "proof_tier": "RUNTIME_PASS_BOUNDED",
+        "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+        "ffmpeg_invoked": False,
+        "visual_review_authority_granted": False,
+        "row_complete": False,
+        "production_completion_allowed": False,
+    }
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Compile a fail-closed Row084 canonical video timeline receipt.")
     parser.add_argument(
@@ -2470,6 +2845,23 @@ def main(argv: list[str] | None = None) -> int:
         ),
     )
     parser.add_argument(
+        "--execute-fixture-media-mux-runtime",
+        action="store_true",
+        help=(
+            "Execute pure-Python fixture media mux assembly + identity roundtrip "
+            "and write runtime receipt under fixtures/row084/runtime/; grants "
+            "RUNTIME_PASS_BOUNDED for fixture mux only without row_complete"
+        ),
+    )
+    parser.add_argument(
+        "--verify-fixture-media-mux-runtime",
+        action="store_true",
+        help=(
+            "Fail-closed verify checked-in fixture media mux runtime receipt "
+            "against live re-execution without claiming visual QA or row_complete"
+        ),
+    )
+    parser.add_argument(
         "--fixture-dir",
         default=str(DEFAULT_FIXTURE_DIR),
         help="Fixture directory for synthetic climb ledger (default: checked-in row084 fixtures)",
@@ -2506,10 +2898,37 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(receipt))
         return 0
 
+    if args.execute_fixture_media_mux_runtime:
+        try:
+            receipt = execute_fixture_media_mux_runtime(fixture_dir=fixture_dir)
+        except (OSError, ValueError, FileNotFoundError) as exc:
+            raise SystemExit(f"ROW084_FAIL_CLOSED: {exc}") from exc
+        print(
+            json.dumps(
+                {
+                    "status": "ok",
+                    "mode": "execute-fixture-media-mux-runtime",
+                    "receipt_sha256": receipt["receipt_sha256"],
+                    "mux_sha256": receipt["mux_output"]["mux_sha256"],
+                    "proof_tier": receipt["proof_tier"],
+                    "row_complete": False,
+                }
+            )
+        )
+        return 0
+
+    if args.verify_fixture_media_mux_runtime:
+        try:
+            receipt = verify_fixture_media_mux_runtime_receipt(fixture_dir=fixture_dir)
+        except (OSError, ValueError, FileNotFoundError) as exc:
+            raise SystemExit(f"ROW084_FAIL_CLOSED: {exc}") from exc
+        print(json.dumps(receipt))
+        return 0
+
     if not args.input or not args.output:
         raise SystemExit(
-            "ROW084_FAIL_CLOSED: --input and --output are required unless emitting "
-            "or verifying the synthetic runtime climb ledger"
+            "ROW084_FAIL_CLOSED: --input and --output are required unless emitting, "
+            "verifying, or executing fixture media mux runtime helpers"
         )
 
     input_path = Path(args.input)
