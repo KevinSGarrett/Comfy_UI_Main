@@ -1,0 +1,102 @@
+{
+  "schema_version": "row017.v1",
+  "artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_row017_w69_inpaint_micro_v2_20260720T005909-0500/images/codex_row017_w69_inpaint_micro_v2_20260720T005909-0500_00001_.png",
+    "sha256": "db1b04ec0423f5c5c47ca5b38e6b47ce0984e32fc159b1ef8e767d4ef9862c3b"
+  },
+  "localized_change": {
+    "target_region": "facial_micro_detail_eyes_nose_mouth_forehead",
+    "source_artifact": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_controlnet_canny_w69_matrix_softer_edges_seed711570102_20260707T065920-0500/images/canny_soft_seed711570102.png",
+      "sha256": "b0eb59492ae6e900d9cf9e9502a3c2529a68c2e23ed327f9f7295eae26bbac62"
+    }
+  },
+  "whole_frame_visual_scan": {
+    "status": "pass",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/ROW017_LOCAL_W69_INPAINT_MICRO_V2_VISUAL_QA_20260720T005909-0500.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_row017_w69_inpaint_micro_v2_20260720T005909-0500/images/codex_row017_w69_inpaint_micro_v2_20260720T005909-0500_00001_.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_row017_w69_inpaint_micro_v2_20260720T005909-0500/images/qa_full_side_by_side.png"
+    ],
+    "pre_edit_status": "pass",
+    "post_edit_status": "pass"
+  },
+  "required_target_region_check": {
+    "status": "pass",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/ROW017_LOCAL_W69_INPAINT_MICRO_V2_VISUAL_QA_20260720T005909-0500.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_row017_w69_inpaint_micro_v2_20260720T005909-0500/images/qa_face_skin_crop_side_by_side.png"
+    ],
+    "target_region": "facial_micro_detail_eyes_nose_mouth_forehead",
+    "findings": [
+      "Fresh local W69 inpaint-micro_v2 climb remains a bounded multi-ellipse facial micro-detail refinement without wardrobe/background rewrite under metric gates."
+    ]
+  },
+  "required_non_target_region_scan": {
+    "status": "pass",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/ROW017_LOCAL_W69_INPAINT_MICRO_V2_VISUAL_QA_20260720T005909-0500.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_row017_w69_inpaint_micro_v2_20260720T005909-0500/images/qa_full_side_by_side.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_row017_w69_inpaint_micro_v2_20260720T005909-0500/images/qa_eye_crop_side_by_side.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_row017_w69_inpaint_micro_v2_20260720T005909-0500/images/qa_mouth_crop_side_by_side.png"
+    ],
+    "regions_scanned": [
+      "eyes",
+      "mouth",
+      "face_identity",
+      "hair",
+      "facial_hair",
+      "wardrobe",
+      "background",
+      "lighting",
+      "framing"
+    ],
+    "findings": [
+      "Identity/hair/wardrobe/background metric gates held; micro_mask_v2 intentionally includes eye-adjacent/nose/mouth/forehead ellipses so mild local texture change there is expected."
+    ]
+  },
+  "hands_face_body_background_contact_lighting_check": {
+    "hands": {
+      "visibility": "not_visible",
+      "inspected": true,
+      "status": "not_applicable",
+      "reason": "Hands are outside this head-and-shoulders crop."
+    },
+    "face": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Face identity retained under bounded micro-detail edit."
+    },
+    "body": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Visible shoulders/clothing blazer mean abs 0.0000."
+    },
+    "background": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Background corner mean abs 0.0000."
+    },
+    "contact": {
+      "visibility": "not_applicable",
+      "inspected": true,
+      "status": "not_applicable",
+      "reason": "No multi-character contact interaction is required in this portrait."
+    },
+    "lighting": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Soft directional lighting remains coherent across the frame."
+    }
+  },
+  "reject_on_any_global_defect": {
+    "status": "pass",
+    "global_defects": [],
+    "rejection_applied": false
+  },
+  "overall_decision": "pass"
+}

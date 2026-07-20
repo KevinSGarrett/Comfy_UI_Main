@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ROW017-LOCAL-RUNTIME-HISTORICAL-CANONICALIZATION-CLIMB-20260720T005909-0500",
+  "created_at": "2026-07-20T01:26:00-05:00",
+  "tracker_id": "TRK-W64-017",
+  "item_id": "ITEM-W64-017",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+  "decision": "Climbed Row017 with an independent local ComfyUI W69 inpaint-micro_v2 runtime + direct whole-frame visual QA (canonical pass). Historical MICRO_V3 pass_with_notes retained. Prior W69 nomouth/eyeonly/contact-shadow and MF70 climbs retained. face_mask_v1 remains unused/prepared (not tip-passed). This does not complete historical normalization.",
+  "row_complete": false,
+  "local_only": true,
+  "generation_executed": true,
+  "canonical_reviews_this_pass": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_LOCAL_W69_INPAINT_MICRO_V2_20260720T005909-0500_GLOBAL_REVIEW.json",
+      "decision": "pass"
+    }
+  ],
+  "retained_reviews": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_MICRO_V3_VISUAL_QA_20260707T033500-0500.json",
+      "note": "historical_micro_v3_pass_with_notes_retained_not_tip_canonical"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_LOCAL_W69_INPAINT_NOMOUTH_20260719T203000-0500_GLOBAL_REVIEW.json",
+      "note": "prior_w69_nomouth_pass_retained"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_LOCAL_MF70_FACE_IDENTITY_CRITICAL_20260719T231500-0500_GLOBAL_REVIEW.json",
+      "note": "prior_mf70_face_identity_critical_pass_retained"
+    }
+  ],
+  "runtime_execute": "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_LOCAL_COMFYUI_ROW017_W69_INPAINT_MICRO_V2_EXECUTE_20260720T005909-0500.json",
+  "visual_qa": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/ROW017_LOCAL_W69_INPAINT_MICRO_V2_VISUAL_QA_20260720T005909-0500.json",
+  "remaining_blocker": "Row017 cannot complete until remaining historical localized visual-review records are classified into canonical pre/post, target, non-target, six-category, and global-rejection evidence, and future localized candidates continue to clear whole-frame rejection gates.",
+  "next_action": "Climb prepared unused face_mask_v1 only if still not tip-passed and assets remain; or continue historical canonicalization backlog. Keep Row017 Blocked_Canonical_\u2026; leave Row075 PID alone; do not claim COMPLETE.",
+  "ec2": "EC2_DEFERRED",
+  "docker_cvat": "not-needed",
+  "contradiction_resolution": {
+    "inventory_claim": "w69_inpaint_micro_mask_v2 unused/prepared best next climb",
+    "other_climber_claim": "all W69 tip-passed and BLOCKED with no commits",
+    "resolution": "Tip Row017_Canonical_Global_Reviews contains only W69 contact_shadow, eyeonly, and inpaint_nomouth local tip climbs. No ROW017_LOCAL_W69_INPAINT_MICRO_V2 tip review existed before this climb; historical MICRO_V3 is pass_with_notes only. face_mask_v1 also lacked tip review. Inventory claim was correct for micro_v2."
+  }
+}
