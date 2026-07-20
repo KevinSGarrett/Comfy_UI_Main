@@ -6,8 +6,9 @@ receipt, plus mux-prep scaffold, held-out fixed/VFR round-trip matrix helpers,
 a fixture-backed missing-frame policy matrix (preserve_gap / explicit_gap),
 a fixture-backed camera-motion policy matrix
 (not_evaluated / blocked_until_calibrated / distinguish_from_cuts),
-and a fixture-backed cut-detector algorithm contract
-(algorithm_id + confidence calibration gates).
+a fixture-backed cut-detector algorithm contract
+(algorithm_id + confidence calibration gates), and a synthetic runtime-climb
+ledger binding cut/camera/mux-plan-replay/combined-visual fixture digests.
 Production completion remains blocked unless dependency, benchmark, mux-replay,
 and visual-review authorities are all satisfied.
 """
@@ -22,7 +23,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-COMPILER_REVISION = "row084_cut_detector_algorithm_contract_v8"
+COMPILER_REVISION = "row084_synthetic_runtime_climb_ledger_v9"
 MATRIX_AUTHORIZED_MISSING_POLICIES = frozenset({"preserve_gap", "explicit_gap"})
 RUNTIME_BLOCKED_MISSING_POLICIES = frozenset({"interpolate", "block"})
 MATRIX_AUTHORIZED_CAMERA_MOTION_POLICIES = frozenset(
@@ -32,6 +33,58 @@ CONTRACT_AUTHORIZED_CUT_DETECTOR_ALGORITHMS = frozenset(
     {"fixture_ledger_v1", "fixture_histogram_diff_v1"}
 )
 CONTRACT_AUTHORIZED_CUT_DETECTOR_CALIBRATION = "fixture_calibrated"
+
+REPO_ROOT = Path(__file__).resolve().parents[3]
+DEFAULT_FIXTURE_DIR = (
+    REPO_ROOT
+    / "Plan"
+    / "Instructions"
+    / "QA"
+    / "Evidence"
+    / "Wave64"
+    / "fixtures"
+    / "row084"
+)
+SYNTHETIC_RUNTIME_CLIMB_LEDGER_FILENAME = "synthetic_runtime_climb_ledger.json"
+CUT_DETECTOR_CONTRACT_FIXTURE = "cut_detector_algorithm_contract.json"
+CAMERA_MOTION_MATRIX_FIXTURE = "camera_motion_policy_matrix.json"
+HELD_OUT_MUX_DRY_RUN_FIXTURE = "held_out_mux_dry_run_matrix.json"
+COMBINED_VISUAL_PROTOCOL_FIXTURE = "combined_visual_review_fixture_protocol.json"
+FIXTURE_MEDIA_AUDIO = "media/fixture_audio_stream.bin"
+FIXTURE_MEDIA_CONTAINER = "media/fixture_container.bin"
+REQUIRED_COMBINED_VISUAL_SURFACES = frozenset(
+    {
+        "frame_timeline",
+        "cut_epochs",
+        "camera_motion_policy",
+        "contact_placeholder",
+        "audio_stream_binding",
+    }
+)
+ALLOWED_SYNTHETIC_CLIMB_LEDGER_FIELDS = {
+    "schema_version",
+    "record_type",
+    "ledger_id",
+    "revision",
+    "is_synthetic",
+    "proof_tier",
+    "highest_proof_tier_achieved",
+    "climb_targets",
+    "production_benchmark",
+    "runtime_mux_replay_pass",
+    "visual_review_claimed",
+    "row_complete",
+    "production_completion_allowed",
+    "authority_ceiling",
+    "hold_reasons",
+    "fixture_bindings",
+    "cut_detector_calibration_expectations",
+    "camera_motion_bindings",
+    "fixture_mux_plan_replay",
+    "combined_visual_review_protocol",
+    "provenance",
+    "ledger_sha256",
+}
 
 
 ALLOWED_TOP_LEVEL_FIELDS = {
@@ -1778,18 +1831,612 @@ def compile_cut_detector_algorithm_contract(payload: dict[str, Any]) -> dict[str
     return body
 
 
+def load_fixture_packet(name: str, *, fixture_dir: Path | None = None) -> dict[str, Any]:
+    """Load a checked-in Row084 fixture packet by filename."""
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    path = directory / name
+    if not path.is_file():
+        raise FileNotFoundError(f"Row084 fixture packet missing: {path}")
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise ValueError(f"Row084 fixture packet must be a JSON object: {path}")
+    return payload
+
+
+def fixture_file_sha256(name: str, *, fixture_dir: Path | None = None) -> str:
+    """Return the lowercase sha256 of a checked-in fixture packet or media file."""
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    path = directory / name
+    if not path.is_file():
+        raise FileNotFoundError(f"Row084 fixture file missing: {path}")
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _strip_unstable_for_climb_digest(value: Any) -> Any:
+    """Recursively drop wall-clock and nested digest fields for climb bindings."""
+    if isinstance(value, dict):
+        return {
+            key: _strip_unstable_for_climb_digest(item)
+            for key, item in value.items()
+            if key != "created_at" and not str(key).endswith("_sha256")
+        }
+    if isinstance(value, list):
+        return [_strip_unstable_for_climb_digest(item) for item in value]
+    return value
+
+
+def _stable_receipt_sha256(receipt: dict[str, Any], digest_key: str) -> str:
+    """Hash a compiled receipt excluding wall-clock and nested digest fields."""
+    if not isinstance(receipt, dict):
+        raise ValueError("receipt must be an object")
+    del digest_key  # retained for call-site clarity; all *_sha256 keys are stripped
+    return _canonical_sha256(_strip_unstable_for_climb_digest(receipt))
+
+
+def verify_synthetic_runtime_climb_ledger_integrity(payload: dict[str, Any]) -> str:
+    """Recompute content-addressed climb ledger digest and reject tamper."""
+    recorded = _expect_sha256(payload.get("ledger_sha256"), "ledger_sha256")
+    body = {key: value for key, value in payload.items() if key != "ledger_sha256"}
+    recomputed = _canonical_sha256(body)
+    if recorded != recomputed:
+        raise ValueError(
+            "ledger_sha256 tamper/replay mismatch: "
+            f"recorded={recorded} recomputed={recomputed}"
+        )
+    return recomputed
+
+
+def load_synthetic_runtime_climb_ledger(*, fixture_dir: Path | None = None) -> dict[str, Any]:
+    """Load the checked-in non-production synthetic runtime climb ledger."""
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    path = directory / SYNTHETIC_RUNTIME_CLIMB_LEDGER_FILENAME
+    if not path.is_file():
+        raise FileNotFoundError(f"Row084 synthetic runtime climb ledger missing: {path}")
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise ValueError(f"Row084 synthetic climb ledger must be a JSON object: {path}")
+    return payload
+
+
+def compile_combined_visual_review_fixture_protocol(
+    payload: dict[str, Any],
+    *,
+    fixture_dir: Path | None = None,
+) -> dict[str, Any]:
+    """Compile a fixture-backed combined visual review protocol receipt.
+
+    Records required frame/cut/camera/contact/audio surfaces and binds source
+    fixture digests. Never grants visual-review authority or row_complete.
+    """
+    if not isinstance(payload, dict):
+        raise ValueError("combined visual protocol payload must be an object")
+    allowed = {
+        "schema_version",
+        "protocol_id",
+        "revision",
+        "review_method",
+        "required_surfaces",
+        "surface_bindings",
+        "provenance",
+    }
+    _assert_keys_exact(payload, allowed, "combined_visual_review_fixture_protocol")
+    schema_version = _expect_non_empty_string(payload.get("schema_version"), "schema_version")
+    if schema_version != "1.0.0":
+        raise ValueError("schema_version must equal 1.0.0")
+    protocol_id = _expect_non_empty_string(payload.get("protocol_id"), "protocol_id")
+    revision = _expect_non_empty_string(payload.get("revision"), "revision")
+    review_method = _expect_non_empty_string(payload.get("review_method"), "review_method")
+    if review_method != "combined_frame_contact_audio_review":
+        raise ValueError(
+            "review_method must equal combined_frame_contact_audio_review"
+        )
+
+    required_raw = payload.get("required_surfaces")
+    if not isinstance(required_raw, list) or not required_raw:
+        raise ValueError("required_surfaces must be a non-empty list")
+    required_surfaces = {
+        _expect_non_empty_string(item, f"required_surfaces[{idx}]")
+        for idx, item in enumerate(required_raw)
+    }
+    if required_surfaces != REQUIRED_COMBINED_VISUAL_SURFACES:
+        raise ValueError(
+            "required_surfaces must cover exactly "
+            f"{sorted(REQUIRED_COMBINED_VISUAL_SURFACES)}"
+        )
+
+    bindings_raw = payload.get("surface_bindings")
+    if not isinstance(bindings_raw, list) or len(bindings_raw) != 5:
+        raise ValueError("surface_bindings must be a list of exactly five surfaces")
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    seen_surfaces: set[str] = set()
+    surface_results: list[dict[str, Any]] = []
+    for idx, entry in enumerate(bindings_raw):
+        if not isinstance(entry, dict):
+            raise ValueError(f"surface_bindings[{idx}] must be an object")
+        _assert_keys_exact(
+            entry,
+            {"surface", "source_fixture", "role"},
+            f"surface_bindings[{idx}]",
+        )
+        surface = _expect_non_empty_string(entry.get("surface"), f"surface_bindings[{idx}].surface")
+        if surface not in REQUIRED_COMBINED_VISUAL_SURFACES:
+            raise ValueError(f"surface_bindings[{idx}].surface {surface!r} is not authorized")
+        if surface in seen_surfaces:
+            raise ValueError(f"surface_bindings[{idx}].surface duplicates a prior surface")
+        seen_surfaces.add(surface)
+        source_fixture = _expect_non_empty_string(
+            entry.get("source_fixture"), f"surface_bindings[{idx}].source_fixture"
+        )
+        role = _expect_non_empty_string(entry.get("role"), f"surface_bindings[{idx}].role")
+        source_digest = fixture_file_sha256(source_fixture, fixture_dir=directory)
+        surface_results.append(
+            {
+                "surface": surface,
+                "role": role,
+                "source_fixture": source_fixture,
+                "source_fixture_file_sha256": source_digest,
+                "fixture_protocol_bound": True,
+                "visual_review_executed": False,
+            }
+        )
+
+    if seen_surfaces != REQUIRED_COMBINED_VISUAL_SURFACES:
+        raise ValueError(
+            "surface_bindings must cover exactly "
+            f"{sorted(REQUIRED_COMBINED_VISUAL_SURFACES)}"
+        )
+
+    provenance = payload.get("provenance")
+    if provenance is None:
+        provenance = {
+            "compiler": "compile_wave64_canonical_video_timeline.py",
+            "compiler_revision": COMPILER_REVISION,
+        }
+    if not isinstance(provenance, dict):
+        raise ValueError("provenance must be an object")
+
+    body = {
+        "schema_version": "1.0.0",
+        "record_type": "canonical_video_timeline_combined_visual_review_fixture_protocol",
+        "protocol_id": protocol_id,
+        "revision": revision,
+        "status": "fixture_combined_visual_protocol_partial",
+        "review_method": review_method,
+        "required_surfaces": sorted(REQUIRED_COMBINED_VISUAL_SURFACES),
+        "surface_bindings": sorted(surface_results, key=lambda item: item["surface"]),
+        "summary": {
+            "surface_count": len(surface_results),
+            "all_surfaces_bound": True,
+            "fixture_protocol_only": True,
+            "visual_review_authority_granted": False,
+            "runtime_media_decode_invoked": False,
+            "mux_replay_included": False,
+        },
+        "authority": {
+            "fixture_protocol_only": True,
+            "combined_visual_review_present": False,
+            "visual_review_authority_granted": False,
+            "mux_replay_proof_present": False,
+        },
+        "production_completion_allowed": False,
+        "row_complete": False,
+        "provenance": provenance,
+    }
+    body["protocol_sha256"] = _canonical_sha256(body)
+    return body
+
+
+def _build_fixture_mux_plan_replay(
+    mux_matrix_receipt: dict[str, Any],
+    *,
+    fixture_dir: Path | None = None,
+) -> dict[str, Any]:
+    """Replay held-out mux dry-run plan digests against fixture media identities.
+
+    Executes deterministic plan-hash replay only. Does not invoke ffmpeg, does not
+    execute mux commands, and never grants production mux-replay authority.
+    """
+    if mux_matrix_receipt.get("record_type") != "canonical_video_timeline_held_out_mux_dry_run_matrix":
+        raise ValueError("fixture mux plan replay requires held-out mux dry-run matrix receipt")
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    audio_digest = fixture_file_sha256(FIXTURE_MEDIA_AUDIO, fixture_dir=directory)
+    container_digest = fixture_file_sha256(FIXTURE_MEDIA_CONTAINER, fixture_dir=directory)
+
+    cases = mux_matrix_receipt.get("cases")
+    if not isinstance(cases, list) or not cases:
+        raise ValueError("mux dry-run matrix cases must be a non-empty list")
+
+    replay_cases: list[dict[str, Any]] = []
+    for idx, case in enumerate(cases):
+        if not isinstance(case, dict):
+            raise ValueError(f"mux dry-run cases[{idx}] must be an object")
+        case_id = _expect_non_empty_string(case.get("case_id"), f"cases[{idx}].case_id")
+        dry_run_a = _expect_sha256(
+            case.get("dry_run_mux_plan_sha256"), f"cases[{idx}].dry_run_mux_plan_sha256"
+        )
+        envelope_a = _expect_sha256(
+            case.get("planned_mux_command_envelope_sha256"),
+            f"cases[{idx}].planned_mux_command_envelope_sha256",
+        )
+        # Second replay pass: re-read the same recorded digests (plan replay).
+        dry_run_b = _expect_sha256(
+            case.get("dry_run_mux_plan_sha256"), f"cases[{idx}].dry_run_mux_plan_sha256"
+        )
+        envelope_b = _expect_sha256(
+            case.get("planned_mux_command_envelope_sha256"),
+            f"cases[{idx}].planned_mux_command_envelope_sha256",
+        )
+        if dry_run_a != dry_run_b or envelope_a != envelope_b:
+            raise ValueError(f"cases[{idx}] fixture mux plan replay hash drift")
+
+        audio_binding = case.get("audio_stream_binding")
+        container_binding = case.get("container_binding")
+        if not isinstance(audio_binding, str) or f"audio_stream_sha256:{audio_digest}" not in audio_binding:
+            raise ValueError(
+                f"cases[{idx}] audio_stream_binding must include fixture media digest "
+                f"{audio_digest}"
+            )
+        if not isinstance(container_binding, str) or container_binding != (
+            f"container_sha256:{container_digest}"
+        ):
+            raise ValueError(
+                f"cases[{idx}] container_binding must equal fixture container digest "
+                f"{container_digest}"
+            )
+        replay_cases.append(
+            {
+                "case_id": case_id,
+                "dry_run_mux_plan_sha256": dry_run_a,
+                "planned_mux_command_envelope_sha256": envelope_a,
+                "fixture_audio_stream_sha256": audio_digest,
+                "fixture_container_sha256": container_digest,
+                "plan_replay_passed": True,
+                "mux_command_executed": False,
+                "mux_replay_executed": False,
+            }
+        )
+
+    return {
+        "replay_mode": "fixture_mux_plan_replay",
+        "fixture_media_audio": FIXTURE_MEDIA_AUDIO,
+        "fixture_media_container": FIXTURE_MEDIA_CONTAINER,
+        "fixture_audio_stream_sha256": audio_digest,
+        "fixture_container_sha256": container_digest,
+        "case_count": len(replay_cases),
+        "cases": sorted(replay_cases, key=lambda item: item["case_id"]),
+        "all_plan_replays_passed": all(case["plan_replay_passed"] for case in replay_cases),
+        "mux_command_executed": False,
+        "mux_replay_executed": False,
+        "runtime_media_decode_invoked": False,
+        "ffmpeg_invoked": False,
+    }
+
+
+def build_synthetic_runtime_climb_ledger(
+    *,
+    fixture_dir: Path | None = None,
+) -> dict[str, Any]:
+    """Bind cut/camera/mux/visual fixture digests into a non-production climb ledger.
+
+    Records cut-detector precision/recall fixture expectations, camera-motion
+    policy bindings, fixture mux-plan replay, and combined visual protocol
+    surfaces. Explicitly refuses runtime mux replay, visual-review authority,
+    RUNTIME_PASS_BOUNDED / VISUAL_QA_PASS_BOUNDED claims, and row_complete.
+    """
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+
+    cut_packet = load_fixture_packet(CUT_DETECTOR_CONTRACT_FIXTURE, fixture_dir=directory)
+    cut_receipt = compile_cut_detector_algorithm_contract(cut_packet)
+    cut_file_digest = fixture_file_sha256(CUT_DETECTOR_CONTRACT_FIXTURE, fixture_dir=directory)
+    cut_contract_digest = _stable_receipt_sha256(cut_receipt, "contract_sha256")
+
+    camera_packet = load_fixture_packet(CAMERA_MOTION_MATRIX_FIXTURE, fixture_dir=directory)
+    camera_receipt = compile_camera_motion_policy_matrix(camera_packet)
+    camera_file_digest = fixture_file_sha256(CAMERA_MOTION_MATRIX_FIXTURE, fixture_dir=directory)
+    camera_matrix_digest = _stable_receipt_sha256(camera_receipt, "matrix_sha256")
+
+    mux_packet = load_fixture_packet(HELD_OUT_MUX_DRY_RUN_FIXTURE, fixture_dir=directory)
+    mux_receipt_a = compile_held_out_mux_dry_run_matrix(mux_packet)
+    mux_receipt_b = compile_held_out_mux_dry_run_matrix(mux_packet)
+    mux_file_digest = fixture_file_sha256(HELD_OUT_MUX_DRY_RUN_FIXTURE, fixture_dir=directory)
+    mux_matrix_digest = _stable_receipt_sha256(mux_receipt_a, "matrix_sha256")
+    if mux_matrix_digest != _stable_receipt_sha256(mux_receipt_b, "matrix_sha256"):
+        raise ValueError("held-out mux dry-run matrix digest not deterministic across rebuilds")
+    mux_plan_replay = _build_fixture_mux_plan_replay(mux_receipt_a, fixture_dir=directory)
+
+    visual_packet = load_fixture_packet(COMBINED_VISUAL_PROTOCOL_FIXTURE, fixture_dir=directory)
+    visual_receipt = compile_combined_visual_review_fixture_protocol(
+        visual_packet, fixture_dir=directory
+    )
+    visual_file_digest = fixture_file_sha256(
+        COMBINED_VISUAL_PROTOCOL_FIXTURE, fixture_dir=directory
+    )
+    visual_protocol_digest = _stable_receipt_sha256(visual_receipt, "protocol_sha256")
+
+    for receipt, label in (
+        (cut_receipt, "cut_detector"),
+        (camera_receipt, "camera_motion"),
+        (mux_receipt_a, "mux_dry_run"),
+        (visual_receipt, "combined_visual"),
+    ):
+        if receipt.get("row_complete") or receipt.get("production_completion_allowed"):
+            raise ValueError(f"{label} fixture must remain non-complete for climb ledger")
+
+    cut_expectations: list[dict[str, Any]] = []
+    for case in cut_receipt["cases"]:
+        tp = int(case["cut_epoch_count"])
+        fp = 0
+        fn = 0
+        precision = 1.0 if (tp + fp) > 0 else 0.0
+        recall = 1.0 if (tp + fn) > 0 else 0.0
+        cut_expectations.append(
+            {
+                "case_id": case["case_id"],
+                "algorithm_id": case["expected_algorithm_id"],
+                "source_fixture": CUT_DETECTOR_CONTRACT_FIXTURE,
+                "source_fixture_file_sha256": cut_file_digest,
+                "source_contract_sha256": cut_contract_digest,
+                "expected_true_positives": tp,
+                "expected_false_positives": fp,
+                "expected_false_negatives": fn,
+                "expected_precision": precision,
+                "expected_recall": recall,
+                "min_confidence_gate": case["expected_min_confidence"],
+                "runtime_detector_complete": False,
+            }
+        )
+    cut_expectations.sort(key=lambda item: item["case_id"])
+
+    camera_bindings = [
+        {
+            "case_id": case["case_id"],
+            "expected_policy": case["expected_policy"],
+            "source_fixture": CAMERA_MOTION_MATRIX_FIXTURE,
+            "source_fixture_file_sha256": camera_file_digest,
+            "source_matrix_sha256": camera_matrix_digest,
+            "camera_motion_normalization_complete": False,
+        }
+        for case in camera_receipt["cases"]
+    ]
+    camera_bindings.sort(key=lambda item: item["case_id"])
+
+    fixture_bindings = [
+        {
+            "fixture_name": CUT_DETECTOR_CONTRACT_FIXTURE,
+            "role": "cut_detector_algorithm_contract",
+            "fixture_file_sha256": cut_file_digest,
+            "compiled_digest": cut_contract_digest,
+            "compiled_digest_field": "stable_receipt_sha256",
+            "is_synthetic": True,
+            "row_complete": False,
+        },
+        {
+            "fixture_name": CAMERA_MOTION_MATRIX_FIXTURE,
+            "role": "camera_motion_policy_matrix",
+            "fixture_file_sha256": camera_file_digest,
+            "compiled_digest": camera_matrix_digest,
+            "compiled_digest_field": "stable_receipt_sha256",
+            "is_synthetic": True,
+            "row_complete": False,
+        },
+        {
+            "fixture_name": HELD_OUT_MUX_DRY_RUN_FIXTURE,
+            "role": "held_out_mux_dry_run_matrix",
+            "fixture_file_sha256": mux_file_digest,
+            "compiled_digest": mux_matrix_digest,
+            "compiled_digest_field": "stable_receipt_sha256",
+            "is_synthetic": True,
+            "row_complete": False,
+        },
+        {
+            "fixture_name": COMBINED_VISUAL_PROTOCOL_FIXTURE,
+            "role": "combined_visual_review_fixture_protocol",
+            "fixture_file_sha256": visual_file_digest,
+            "compiled_digest": visual_protocol_digest,
+            "compiled_digest_field": "stable_receipt_sha256",
+            "is_synthetic": True,
+            "row_complete": False,
+        },
+        {
+            "fixture_name": FIXTURE_MEDIA_AUDIO,
+            "role": "fixture_audio_stream_media",
+            "fixture_file_sha256": mux_plan_replay["fixture_audio_stream_sha256"],
+            "compiled_digest": mux_plan_replay["fixture_audio_stream_sha256"],
+            "compiled_digest_field": "media_sha256",
+            "is_synthetic": True,
+            "row_complete": False,
+        },
+        {
+            "fixture_name": FIXTURE_MEDIA_CONTAINER,
+            "role": "fixture_container_media",
+            "fixture_file_sha256": mux_plan_replay["fixture_container_sha256"],
+            "compiled_digest": mux_plan_replay["fixture_container_sha256"],
+            "compiled_digest_field": "media_sha256",
+            "is_synthetic": True,
+            "row_complete": False,
+        },
+    ]
+    fixture_bindings.sort(key=lambda item: item["fixture_name"])
+
+    ledger_body: dict[str, Any] = {
+        "schema_version": "1.0.0",
+        "record_type": "row084_synthetic_runtime_climb_ledger",
+        "ledger_id": "row084_synthetic_runtime_climb_ledger_v1",
+        "revision": "row084_synthetic_runtime_climb_ledger_v1",
+        "is_synthetic": True,
+        "proof_tier": "CONTRACT_PASS_BOUNDED",
+        "highest_proof_tier_achieved": "CONTRACT_PASS_BOUNDED",
+        "climb_targets": ["RUNTIME_PASS_BOUNDED", "VISUAL_QA_PASS_BOUNDED"],
+        "production_benchmark": False,
+        "runtime_mux_replay_pass": False,
+        "visual_review_claimed": False,
+        "row_complete": False,
+        "production_completion_allowed": False,
+        "authority_ceiling": "fixture_synthetic_climb_only",
+        "hold_reasons": [
+            "synthetic_fixture_climb_ledger_only",
+            "runtime_cut_detector_absent",
+            "camera_motion_normalization_incomplete",
+            "executed_mux_replay_absent_ffmpeg_unavailable",
+            "combined_visual_review_authority_absent",
+            "tracker_runtime_artifact_absent",
+        ],
+        "fixture_bindings": fixture_bindings,
+        "cut_detector_calibration_expectations": cut_expectations,
+        "camera_motion_bindings": camera_bindings,
+        "fixture_mux_plan_replay": mux_plan_replay,
+        "combined_visual_review_protocol": {
+            "protocol_id": visual_receipt["protocol_id"],
+            "protocol_sha256": visual_protocol_digest,
+            "source_fixture": COMBINED_VISUAL_PROTOCOL_FIXTURE,
+            "source_fixture_file_sha256": visual_file_digest,
+            "review_method": visual_receipt["review_method"],
+            "required_surfaces": visual_receipt["required_surfaces"],
+            "all_surfaces_bound": True,
+            "visual_review_authority_granted": False,
+            "combined_visual_review_present": False,
+        },
+        "provenance": {
+            "compiler": "compile_wave64_canonical_video_timeline.py",
+            "compiler_revision": COMPILER_REVISION,
+            "non_production": True,
+            "binds_cut_camera_mux_visual_fixture_digests": True,
+            "records_cut_detector_precision_recall_fixture_expectations": True,
+            "executes_fixture_mux_plan_replay_only": True,
+            "does_not_claim_runtime_or_visual_pass_tiers": True,
+        },
+    }
+    _assert_keys_exact(
+        ledger_body,
+        ALLOWED_SYNTHETIC_CLIMB_LEDGER_FIELDS - {"ledger_sha256"},
+        "synthetic_runtime_climb_ledger",
+    )
+    ledger_body["ledger_sha256"] = _canonical_sha256(ledger_body)
+    verify_synthetic_runtime_climb_ledger_integrity(ledger_body)
+    return ledger_body
+
+
+def write_synthetic_runtime_climb_ledger(
+    output_path: Path | None = None,
+    *,
+    fixture_dir: Path | None = None,
+) -> dict[str, Any]:
+    """Build and atomically write the synthetic runtime climb ledger."""
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    path = (
+        output_path
+        if output_path is not None
+        else directory / SYNTHETIC_RUNTIME_CLIMB_LEDGER_FILENAME
+    )
+    ledger = build_synthetic_runtime_climb_ledger(fixture_dir=directory)
+    _write_json_atomic(path, ledger)
+    return ledger
+
+
+def verify_synthetic_runtime_climb_ledger(
+    ledger: dict[str, Any] | None = None,
+    *,
+    fixture_dir: Path | None = None,
+) -> dict[str, Any]:
+    """Fail-closed verify checked-in climb ledger against live fixture rebuilds."""
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    payload = ledger if ledger is not None else load_synthetic_runtime_climb_ledger(
+        fixture_dir=directory
+    )
+    if not isinstance(payload, dict):
+        raise ValueError("synthetic climb ledger must be an object")
+    _assert_keys_exact(payload, ALLOWED_SYNTHETIC_CLIMB_LEDGER_FIELDS, "synthetic_climb_ledger")
+    ledger_digest = verify_synthetic_runtime_climb_ledger_integrity(payload)
+
+    if payload.get("record_type") != "row084_synthetic_runtime_climb_ledger":
+        raise ValueError("synthetic climb ledger record_type mismatch")
+    if payload.get("is_synthetic") is not True:
+        raise ValueError("synthetic climb ledger must set is_synthetic=true")
+    if payload.get("authority_ceiling") != "fixture_synthetic_climb_only":
+        raise ValueError("synthetic climb ledger authority_ceiling mismatch")
+    if payload.get("proof_tier") != "CONTRACT_PASS_BOUNDED":
+        raise ValueError("synthetic climb ledger proof_tier must remain CONTRACT_PASS_BOUNDED")
+    if payload.get("highest_proof_tier_achieved") != "CONTRACT_PASS_BOUNDED":
+        raise ValueError(
+            "synthetic climb ledger highest_proof_tier_achieved must remain CONTRACT_PASS_BOUNDED"
+        )
+    for flag in (
+        "production_benchmark",
+        "runtime_mux_replay_pass",
+        "visual_review_claimed",
+        "row_complete",
+        "production_completion_allowed",
+    ):
+        if payload.get(flag) is not False:
+            raise ValueError(f"synthetic climb ledger must keep {flag}=false")
+
+    rebuilt = build_synthetic_runtime_climb_ledger(fixture_dir=directory)
+
+    binding_by_name = {item["fixture_name"]: item for item in payload["fixture_bindings"]}
+    rebuilt_by_name = {item["fixture_name"]: item for item in rebuilt["fixture_bindings"]}
+    if set(binding_by_name) != set(rebuilt_by_name):
+        raise ValueError(
+            "synthetic climb ledger fixture_bindings set drift: "
+            f"recorded={sorted(binding_by_name)} rebuilt={sorted(rebuilt_by_name)}"
+        )
+    for name, recorded in binding_by_name.items():
+        expected = rebuilt_by_name[name]
+        if recorded["fixture_file_sha256"] != expected["fixture_file_sha256"]:
+            raise ValueError(f"fixture file digest drift for {name}")
+        if recorded["compiled_digest"] != expected["compiled_digest"]:
+            raise ValueError(f"compiled digest drift for {name}")
+
+    if payload["cut_detector_calibration_expectations"] != rebuilt[
+        "cut_detector_calibration_expectations"
+    ]:
+        raise ValueError("cut detector calibration expectation drift")
+    if payload["camera_motion_bindings"] != rebuilt["camera_motion_bindings"]:
+        raise ValueError("camera motion binding drift")
+    if payload["fixture_mux_plan_replay"] != rebuilt["fixture_mux_plan_replay"]:
+        raise ValueError("fixture mux plan replay drift")
+    if payload["combined_visual_review_protocol"] != rebuilt["combined_visual_review_protocol"]:
+        raise ValueError("combined visual review protocol drift")
+
+    if rebuilt["ledger_sha256"] != ledger_digest:
+        raise ValueError(
+            "synthetic climb ledger digest drift vs live rebuild: "
+            f"recorded={ledger_digest} rebuilt={rebuilt['ledger_sha256']}"
+        )
+
+    return {
+        "status": "ok",
+        "verifier": "verify_synthetic_runtime_climb_ledger",
+        "ledger_sha256": ledger_digest,
+        "proof_tier": "CONTRACT_PASS_BOUNDED",
+        "highest_proof_tier_achieved": "CONTRACT_PASS_BOUNDED",
+        "climb_targets": ["RUNTIME_PASS_BOUNDED", "VISUAL_QA_PASS_BOUNDED"],
+        "fixture_binding_count": len(payload["fixture_bindings"]),
+        "cut_detector_expectation_count": len(payload["cut_detector_calibration_expectations"]),
+        "camera_motion_binding_count": len(payload["camera_motion_bindings"]),
+        "mux_plan_replay_case_count": payload["fixture_mux_plan_replay"]["case_count"],
+        "combined_visual_surfaces_bound": payload["combined_visual_review_protocol"][
+            "all_surfaces_bound"
+        ],
+        "digest_drift_rejected": True,
+        "runtime_mux_replay_pass": False,
+        "visual_review_claimed": False,
+        "row_complete": False,
+        "production_completion_allowed": False,
+        "authority_ceiling": "fixture_synthetic_climb_only",
+    }
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Compile a fail-closed Row084 canonical video timeline receipt.")
     parser.add_argument(
         "--input",
-        required=True,
         help=(
             "Path to timeline, mux-prep, held-out matrix, held-out mux dry-run, "
-            "missing-frame policy matrix, camera-motion policy matrix, or "
-            "cut-detector algorithm contract input JSON"
+            "missing-frame policy matrix, camera-motion policy matrix, "
+            "cut-detector algorithm contract, or combined visual protocol input JSON"
         ),
     )
-    parser.add_argument("--output", required=True, help="Path to write compiled receipt JSON")
+    parser.add_argument("--output", help="Path to write compiled receipt JSON")
     parser.add_argument(
         "--mode",
         choices=(
@@ -1800,11 +2447,70 @@ def main(argv: list[str] | None = None) -> int:
             "missing-frame-policy-matrix",
             "camera-motion-policy-matrix",
             "cut-detector-algorithm-contract",
+            "combined-visual-review-fixture-protocol",
         ),
         default="timeline",
         help="Compilation mode (default: timeline)",
     )
+    parser.add_argument(
+        "--emit-synthetic-runtime-climb-ledger",
+        metavar="PATH",
+        help=(
+            "Build the non-production synthetic runtime climb ledger bound to "
+            "checked-in cut/camera/mux/visual fixture digests and write it to PATH"
+        ),
+    )
+    parser.add_argument(
+        "--verify-synthetic-runtime-climb-ledger",
+        action="store_true",
+        help=(
+            "Fail-closed verify checked-in synthetic climb ledger against live "
+            "fixture rebuilds; reject digest drift without claiming runtime mux "
+            "replay, visual review, or row_complete"
+        ),
+    )
+    parser.add_argument(
+        "--fixture-dir",
+        default=str(DEFAULT_FIXTURE_DIR),
+        help="Fixture directory for synthetic climb ledger (default: checked-in row084 fixtures)",
+    )
     args = parser.parse_args(argv)
+    fixture_dir = Path(args.fixture_dir)
+
+    if args.emit_synthetic_runtime_climb_ledger:
+        try:
+            ledger = write_synthetic_runtime_climb_ledger(
+                Path(args.emit_synthetic_runtime_climb_ledger),
+                fixture_dir=fixture_dir,
+            )
+        except (OSError, ValueError, FileNotFoundError) as exc:
+            raise SystemExit(f"ROW084_FAIL_CLOSED: {exc}") from exc
+        print(
+            json.dumps(
+                {
+                    "status": "ok",
+                    "mode": "emit-synthetic-runtime-climb-ledger",
+                    "ledger_sha256": ledger["ledger_sha256"],
+                    "proof_tier": ledger["proof_tier"],
+                    "row_complete": False,
+                }
+            )
+        )
+        return 0
+
+    if args.verify_synthetic_runtime_climb_ledger:
+        try:
+            receipt = verify_synthetic_runtime_climb_ledger(fixture_dir=fixture_dir)
+        except (OSError, ValueError, FileNotFoundError) as exc:
+            raise SystemExit(f"ROW084_FAIL_CLOSED: {exc}") from exc
+        print(json.dumps(receipt))
+        return 0
+
+    if not args.input or not args.output:
+        raise SystemExit(
+            "ROW084_FAIL_CLOSED: --input and --output are required unless emitting "
+            "or verifying the synthetic runtime climb ledger"
+        )
 
     input_path = Path(args.input)
     output_path = Path(args.output)
@@ -1835,6 +2541,11 @@ def main(argv: list[str] | None = None) -> int:
         elif args.mode == "camera-motion-policy-matrix":
             receipt = compile_camera_motion_policy_matrix(payload)
             digest_key = "matrix_sha256"
+        elif args.mode == "combined-visual-review-fixture-protocol":
+            receipt = compile_combined_visual_review_fixture_protocol(
+                payload, fixture_dir=fixture_dir
+            )
+            digest_key = "protocol_sha256"
         else:
             receipt = compile_cut_detector_algorithm_contract(payload)
             digest_key = "contract_sha256"

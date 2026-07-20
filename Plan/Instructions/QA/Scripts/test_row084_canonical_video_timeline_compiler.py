@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import importlib.util
 import json
 import subprocess
 import sys
@@ -32,6 +33,21 @@ CUT_DETECTOR_ALGORITHM_CONTRACT_SCHEMA = (
     ROOT
     / "Plan/08_SCHEMAS/canonical_video_timeline_cut_detector_algorithm_contract.schema.json"
 )
+COMBINED_VISUAL_PROTOCOL_SCHEMA = (
+    ROOT
+    / "Plan/08_SCHEMAS/canonical_video_timeline_combined_visual_review_fixture_protocol.schema.json"
+)
+SYNTHETIC_CLIMB_LEDGER_SCHEMA = (
+    ROOT
+    / "Plan/08_SCHEMAS/canonical_video_timeline_synthetic_runtime_climb_ledger.schema.json"
+)
+FIXTURE_DIR = ROOT / "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084"
+SYNTHETIC_CLIMB_LEDGER = FIXTURE_DIR / "synthetic_runtime_climb_ledger.json"
+
+_spec = importlib.util.spec_from_file_location("row084_compiler", COMPILER)
+COMPILER_MOD = importlib.util.module_from_spec(_spec)
+assert _spec.loader is not None
+_spec.loader.exec_module(COMPILER_MOD)
 
 
 def _write_json(path: Path, payload: dict) -> None:
@@ -461,6 +477,12 @@ class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
         )
         self.cut_detector_algorithm_validator = Draft202012Validator(
             json.loads(CUT_DETECTOR_ALGORITHM_CONTRACT_SCHEMA.read_text(encoding="utf-8"))
+        )
+        self.combined_visual_protocol_validator = Draft202012Validator(
+            json.loads(COMBINED_VISUAL_PROTOCOL_SCHEMA.read_text(encoding="utf-8"))
+        )
+        self.synthetic_climb_ledger_validator = Draft202012Validator(
+            json.loads(SYNTHETIC_CLIMB_LEDGER_SCHEMA.read_text(encoding="utf-8"))
         )
         self.clock_span_schema = json.loads(CLOCK_SPAN_SCHEMA.read_text(encoding="utf-8"))
 
@@ -1110,6 +1132,129 @@ class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
             "requires non-empty cut_epochs for cut-detector contract",
             completed.stderr + completed.stdout,
         )
+
+    def test_combined_visual_review_fixture_protocol_binds_five_surfaces(self) -> None:
+        packet = json.loads(
+            (FIXTURE_DIR / "combined_visual_review_fixture_protocol.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        _, receipt = self._run_compile(
+            packet, expect_ok=True, mode="combined-visual-review-fixture-protocol"
+        )
+        assert receipt is not None
+        self.combined_visual_protocol_validator.validate(receipt)
+        self.assertEqual(
+            receipt["record_type"],
+            "canonical_video_timeline_combined_visual_review_fixture_protocol",
+        )
+        self.assertEqual(receipt["status"], "fixture_combined_visual_protocol_partial")
+        self.assertEqual(receipt["summary"]["surface_count"], 5)
+        self.assertFalse(receipt["authority"]["combined_visual_review_present"])
+        self.assertFalse(receipt["authority"]["visual_review_authority_granted"])
+        self.assertFalse(receipt["row_complete"])
+
+    def test_combined_visual_review_missing_surface_is_fail_closed(self) -> None:
+        packet = json.loads(
+            (FIXTURE_DIR / "combined_visual_review_fixture_protocol.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        packet["required_surfaces"] = [
+            surface for surface in packet["required_surfaces"] if surface != "contact_placeholder"
+        ]
+        packet["surface_bindings"] = [
+            binding
+            for binding in packet["surface_bindings"]
+            if binding["surface"] != "contact_placeholder"
+        ]
+        completed, _ = self._run_compile(
+            packet, expect_ok=False, mode="combined-visual-review-fixture-protocol"
+        )
+        self.assertIn("required_surfaces must cover exactly", completed.stderr + completed.stdout)
+
+    def test_synthetic_runtime_climb_ledger_binds_cut_camera_mux_visual(self) -> None:
+        self.assertTrue(SYNTHETIC_CLIMB_LEDGER.is_file(), msg="missing synthetic climb ledger")
+        ledger = COMPILER_MOD.build_synthetic_runtime_climb_ledger()
+        checked_in = json.loads(SYNTHETIC_CLIMB_LEDGER.read_text(encoding="utf-8"))
+        self.assertEqual(ledger, checked_in)
+        self.synthetic_climb_ledger_validator.validate(ledger)
+        self.assertEqual(
+            COMPILER_MOD.verify_synthetic_runtime_climb_ledger_integrity(ledger),
+            ledger["ledger_sha256"],
+        )
+        self.assertEqual(ledger["proof_tier"], "CONTRACT_PASS_BOUNDED")
+        self.assertEqual(ledger["highest_proof_tier_achieved"], "CONTRACT_PASS_BOUNDED")
+        self.assertEqual(
+            set(ledger["climb_targets"]),
+            {"RUNTIME_PASS_BOUNDED", "VISUAL_QA_PASS_BOUNDED"},
+        )
+        self.assertFalse(ledger["row_complete"])
+        self.assertFalse(ledger["runtime_mux_replay_pass"])
+        self.assertFalse(ledger["visual_review_claimed"])
+        self.assertEqual(ledger["authority_ceiling"], "fixture_synthetic_climb_only")
+        self.assertEqual(len(ledger["fixture_bindings"]), 6)
+        self.assertEqual(len(ledger["cut_detector_calibration_expectations"]), 2)
+        self.assertEqual(len(ledger["camera_motion_bindings"]), 3)
+        self.assertEqual(ledger["fixture_mux_plan_replay"]["case_count"], 3)
+        self.assertTrue(ledger["fixture_mux_plan_replay"]["all_plan_replays_passed"])
+        self.assertFalse(ledger["fixture_mux_plan_replay"]["ffmpeg_invoked"])
+        self.assertTrue(ledger["combined_visual_review_protocol"]["all_surfaces_bound"])
+        self.assertFalse(
+            ledger["combined_visual_review_protocol"]["visual_review_authority_granted"]
+        )
+
+        by_algo = {
+            item["algorithm_id"]: item
+            for item in ledger["cut_detector_calibration_expectations"]
+        }
+        self.assertEqual(by_algo["fixture_ledger_v1"]["expected_true_positives"], 1)
+        self.assertEqual(by_algo["fixture_ledger_v1"]["expected_precision"], 1.0)
+        self.assertEqual(by_algo["fixture_histogram_diff_v1"]["expected_recall"], 1.0)
+
+        policies = {item["expected_policy"] for item in ledger["camera_motion_bindings"]}
+        self.assertEqual(
+            policies,
+            {"not_evaluated", "blocked_until_calibrated", "distinguish_from_cuts"},
+        )
+
+        tampered = json.loads(json.dumps(ledger))
+        tampered["runtime_mux_replay_pass"] = True
+        with self.assertRaises(ValueError) as ctx:
+            COMPILER_MOD.verify_synthetic_runtime_climb_ledger_integrity(tampered)
+        self.assertIn("tamper/replay mismatch", str(ctx.exception))
+
+    def test_synthetic_runtime_climb_ledger_verifier_and_cli(self) -> None:
+        receipt = COMPILER_MOD.verify_synthetic_runtime_climb_ledger()
+        self.assertEqual(receipt["status"], "ok")
+        self.assertEqual(receipt["proof_tier"], "CONTRACT_PASS_BOUNDED")
+        self.assertTrue(receipt["digest_drift_rejected"])
+        self.assertFalse(receipt["row_complete"])
+        self.assertFalse(receipt["runtime_mux_replay_pass"])
+        self.assertFalse(receipt["visual_review_claimed"])
+        self.assertEqual(receipt["mux_plan_replay_case_count"], 3)
+        self.assertTrue(receipt["combined_visual_surfaces_bound"])
+
+        cli = subprocess.run(
+            [sys.executable, str(COMPILER), "--verify-synthetic-runtime-climb-ledger"],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        self.assertEqual(cli.returncode, 0, msg=cli.stderr + cli.stdout)
+        cli_receipt = json.loads(cli.stdout)
+        self.assertEqual(cli_receipt["ledger_sha256"], receipt["ledger_sha256"])
+        self.assertEqual(cli_receipt["proof_tier"], "CONTRACT_PASS_BOUNDED")
+
+        ledger = COMPILER_MOD.load_synthetic_runtime_climb_ledger()
+        drifted = json.loads(json.dumps(ledger))
+        drifted["fixture_bindings"][0]["compiled_digest"] = "0" * 64
+        drifted_body = {key: value for key, value in drifted.items() if key != "ledger_sha256"}
+        drifted["ledger_sha256"] = COMPILER_MOD._canonical_sha256(drifted_body)
+        with self.assertRaises(ValueError) as ctx:
+            COMPILER_MOD.verify_synthetic_runtime_climb_ledger(drifted)
+        self.assertIn("compiled digest drift", str(ctx.exception))
 
 
 if __name__ == "__main__":

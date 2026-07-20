@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/canonical-video-timeline-combined-visual-review-fixture-protocol/1.0.0",
+  "title": "Wave64 Canonical Video Timeline Combined Visual Review Fixture Protocol",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_type",
+    "protocol_id",
+    "revision",
+    "status",
+    "review_method",
+    "required_surfaces",
+    "surface_bindings",
+    "summary",
+    "authority",
+    "production_completion_allowed",
+    "row_complete",
+    "protocol_sha256",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "record_type": {
+      "const": "canonical_video_timeline_combined_visual_review_fixture_protocol"
+    },
+    "protocol_id": { "type": "string", "minLength": 1 },
+    "revision": { "type": "string", "minLength": 1 },
+    "status": {
+      "enum": ["fixture_combined_visual_protocol_partial", "blocked"]
+    },
+    "review_method": { "const": "combined_frame_contact_audio_review" },
+    "required_surfaces": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "enum": [
+          "audio_stream_binding",
+          "camera_motion_policy",
+          "contact_placeholder",
+          "cut_epochs",
+          "frame_timeline"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "surface_bindings": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "surface",
+          "role",
+          "source_fixture",
+          "source_fixture_file_sha256",
+          "fixture_protocol_bound",
+          "visual_review_executed"
+        ],
+        "properties": {
+          "surface": {
+            "enum": [
+              "audio_stream_binding",
+              "camera_motion_policy",
+              "contact_placeholder",
+              "cut_epochs",
+              "frame_timeline"
+            ]
+          },
+          "role": { "type": "string", "minLength": 1 },
+          "source_fixture": { "type": "string", "minLength": 1 },
+          "source_fixture_file_sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "fixture_protocol_bound": { "const": true },
+          "visual_review_executed": { "const": false }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "surface_count",
+        "all_surfaces_bound",
+        "fixture_protocol_only",
+        "visual_review_authority_granted",
+        "runtime_media_decode_invoked",
+        "mux_replay_included"
+      ],
+      "properties": {
+        "surface_count": { "const": 5 },
+        "all_surfaces_bound": { "const": true },
+        "fixture_protocol_only": { "const": true },
+        "visual_review_authority_granted": { "const": false },
+        "runtime_media_decode_invoked": { "const": false },
+        "mux_replay_included": { "const": false }
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fixture_protocol_only",
+        "combined_visual_review_present",
+        "visual_review_authority_granted",
+        "mux_replay_proof_present"
+      ],
+      "properties": {
+        "fixture_protocol_only": { "const": true },
+        "combined_visual_review_present": { "const": false },
+        "visual_review_authority_granted": { "const": false },
+        "mux_replay_proof_present": { "const": false }
+      }
+    },
+    "production_completion_allowed": { "const": false },
+    "row_complete": { "const": false },
+    "protocol_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "provenance": {
+      "type": "object",
+      "minProperties": 1
+    }
+  }
+}

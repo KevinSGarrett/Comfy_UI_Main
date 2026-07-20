@@ -1,0 +1,211 @@
+{
+  "authority_ceiling": "fixture_synthetic_climb_only",
+  "camera_motion_bindings": [
+    {
+      "camera_motion_normalization_complete": false,
+      "case_id": "blocked_until_calibrated_fixed",
+      "expected_policy": "blocked_until_calibrated",
+      "source_fixture": "camera_motion_policy_matrix.json",
+      "source_fixture_file_sha256": "247ec886a884304cf592c07992828efe42edb2150f58e43401f107c50ddd2618",
+      "source_matrix_sha256": "71db8f6878cef86c369b00fca22d03c43f4dd5cc94eabb705acaca2ac748d333"
+    },
+    {
+      "camera_motion_normalization_complete": false,
+      "case_id": "distinguish_from_cuts_vfr",
+      "expected_policy": "distinguish_from_cuts",
+      "source_fixture": "camera_motion_policy_matrix.json",
+      "source_fixture_file_sha256": "247ec886a884304cf592c07992828efe42edb2150f58e43401f107c50ddd2618",
+      "source_matrix_sha256": "71db8f6878cef86c369b00fca22d03c43f4dd5cc94eabb705acaca2ac748d333"
+    },
+    {
+      "camera_motion_normalization_complete": false,
+      "case_id": "not_evaluated_fixed",
+      "expected_policy": "not_evaluated",
+      "source_fixture": "camera_motion_policy_matrix.json",
+      "source_fixture_file_sha256": "247ec886a884304cf592c07992828efe42edb2150f58e43401f107c50ddd2618",
+      "source_matrix_sha256": "71db8f6878cef86c369b00fca22d03c43f4dd5cc94eabb705acaca2ac748d333"
+    }
+  ],
+  "climb_targets": [
+    "RUNTIME_PASS_BOUNDED",
+    "VISUAL_QA_PASS_BOUNDED"
+  ],
+  "combined_visual_review_protocol": {
+    "all_surfaces_bound": true,
+    "combined_visual_review_present": false,
+    "protocol_id": "row084_combined_visual_review_fixture_protocol_v1",
+    "protocol_sha256": "5946f1add0573db56302994da1ac10dab3b20df97abd31d5501a1d9a63d7e5d5",
+    "required_surfaces": [
+      "audio_stream_binding",
+      "camera_motion_policy",
+      "contact_placeholder",
+      "cut_epochs",
+      "frame_timeline"
+    ],
+    "review_method": "combined_frame_contact_audio_review",
+    "source_fixture": "combined_visual_review_fixture_protocol.json",
+    "source_fixture_file_sha256": "2aa475d1ac1b919dad7700dbe7a64e6e1577df9bcdbc013a3a89d9c9fba99f98",
+    "visual_review_authority_granted": false
+  },
+  "cut_detector_calibration_expectations": [
+    {
+      "algorithm_id": "fixture_histogram_diff_v1",
+      "case_id": "histogram_match_cut_above_gate",
+      "expected_false_negatives": 0,
+      "expected_false_positives": 0,
+      "expected_precision": 1.0,
+      "expected_recall": 1.0,
+      "expected_true_positives": 1,
+      "min_confidence_gate": 0.8,
+      "runtime_detector_complete": false,
+      "source_contract_sha256": "a756970ffa856b8d8aaf979b6086b0b3a3684a5afcc539e7d93e5c75a4607010",
+      "source_fixture": "cut_detector_algorithm_contract.json",
+      "source_fixture_file_sha256": "59db6fd543c8b4ccf9c4e5c7dd327ad009d1320f6f419427f58cc2c13a20d55f"
+    },
+    {
+      "algorithm_id": "fixture_ledger_v1",
+      "case_id": "ledger_hard_cut_above_gate",
+      "expected_false_negatives": 0,
+      "expected_false_positives": 0,
+      "expected_precision": 1.0,
+      "expected_recall": 1.0,
+      "expected_true_positives": 1,
+      "min_confidence_gate": 0.85,
+      "runtime_detector_complete": false,
+      "source_contract_sha256": "a756970ffa856b8d8aaf979b6086b0b3a3684a5afcc539e7d93e5c75a4607010",
+      "source_fixture": "cut_detector_algorithm_contract.json",
+      "source_fixture_file_sha256": "59db6fd543c8b4ccf9c4e5c7dd327ad009d1320f6f419427f58cc2c13a20d55f"
+    }
+  ],
+  "fixture_bindings": [
+    {
+      "compiled_digest": "71db8f6878cef86c369b00fca22d03c43f4dd5cc94eabb705acaca2ac748d333",
+      "compiled_digest_field": "stable_receipt_sha256",
+      "fixture_file_sha256": "247ec886a884304cf592c07992828efe42edb2150f58e43401f107c50ddd2618",
+      "fixture_name": "camera_motion_policy_matrix.json",
+      "is_synthetic": true,
+      "role": "camera_motion_policy_matrix",
+      "row_complete": false
+    },
+    {
+      "compiled_digest": "5946f1add0573db56302994da1ac10dab3b20df97abd31d5501a1d9a63d7e5d5",
+      "compiled_digest_field": "stable_receipt_sha256",
+      "fixture_file_sha256": "2aa475d1ac1b919dad7700dbe7a64e6e1577df9bcdbc013a3a89d9c9fba99f98",
+      "fixture_name": "combined_visual_review_fixture_protocol.json",
+      "is_synthetic": true,
+      "role": "combined_visual_review_fixture_protocol",
+      "row_complete": false
+    },
+    {
+      "compiled_digest": "a756970ffa856b8d8aaf979b6086b0b3a3684a5afcc539e7d93e5c75a4607010",
+      "compiled_digest_field": "stable_receipt_sha256",
+      "fixture_file_sha256": "59db6fd543c8b4ccf9c4e5c7dd327ad009d1320f6f419427f58cc2c13a20d55f",
+      "fixture_name": "cut_detector_algorithm_contract.json",
+      "is_synthetic": true,
+      "role": "cut_detector_algorithm_contract",
+      "row_complete": false
+    },
+    {
+      "compiled_digest": "6cbd3177d24e2887982a2632a26992153101502b5ab1e1e0e289e6ef23402324",
+      "compiled_digest_field": "stable_receipt_sha256",
+      "fixture_file_sha256": "ee12468242d46fe30c57f42de3bb290944840d496a06247c71759bb7b54ebc21",
+      "fixture_name": "held_out_mux_dry_run_matrix.json",
+      "is_synthetic": true,
+      "role": "held_out_mux_dry_run_matrix",
+      "row_complete": false
+    },
+    {
+      "compiled_digest": "f1d6de7662b6ee7e0e2b66e25412f4b25681b96c8dcc402fc777840ab22de657",
+      "compiled_digest_field": "media_sha256",
+      "fixture_file_sha256": "f1d6de7662b6ee7e0e2b66e25412f4b25681b96c8dcc402fc777840ab22de657",
+      "fixture_name": "media/fixture_audio_stream.bin",
+      "is_synthetic": true,
+      "role": "fixture_audio_stream_media",
+      "row_complete": false
+    },
+    {
+      "compiled_digest": "2589a1178447c7754d71537f6cd45351f8dd6e89cb181b65151743a73a6012fb",
+      "compiled_digest_field": "media_sha256",
+      "fixture_file_sha256": "2589a1178447c7754d71537f6cd45351f8dd6e89cb181b65151743a73a6012fb",
+      "fixture_name": "media/fixture_container.bin",
+      "is_synthetic": true,
+      "role": "fixture_container_media",
+      "row_complete": false
+    }
+  ],
+  "fixture_mux_plan_replay": {
+    "all_plan_replays_passed": true,
+    "case_count": 3,
+    "cases": [
+      {
+        "case_id": "held_out_fixed_24",
+        "dry_run_mux_plan_sha256": "c8be2a3537107ec6376ac72ac83a1f16a11d4ddfb7caa29ff151b4bb5ae36222",
+        "fixture_audio_stream_sha256": "f1d6de7662b6ee7e0e2b66e25412f4b25681b96c8dcc402fc777840ab22de657",
+        "fixture_container_sha256": "2589a1178447c7754d71537f6cd45351f8dd6e89cb181b65151743a73a6012fb",
+        "mux_command_executed": false,
+        "mux_replay_executed": false,
+        "plan_replay_passed": true,
+        "planned_mux_command_envelope_sha256": "5c8b78176ac490ca523921dc8dc0b0029bd3d7a1c0e82ffb30397157d6a1b246"
+      },
+      {
+        "case_id": "held_out_fractional_ntsc",
+        "dry_run_mux_plan_sha256": "d469d4338396b9a3fa86d0e04f1c2855687107c680d3a31b9fde0b4273b3534d",
+        "fixture_audio_stream_sha256": "f1d6de7662b6ee7e0e2b66e25412f4b25681b96c8dcc402fc777840ab22de657",
+        "fixture_container_sha256": "2589a1178447c7754d71537f6cd45351f8dd6e89cb181b65151743a73a6012fb",
+        "mux_command_executed": false,
+        "mux_replay_executed": false,
+        "plan_replay_passed": true,
+        "planned_mux_command_envelope_sha256": "6e923c1f124beb9676fe889ee8c80198cbcfa5841ec2b7a30de92d9be467dba2"
+      },
+      {
+        "case_id": "held_out_vfr_24_30",
+        "dry_run_mux_plan_sha256": "39a10176fca868117a5d497c9e7aaee6f5ced49998b0dabfeb2621f5e590d5ea",
+        "fixture_audio_stream_sha256": "f1d6de7662b6ee7e0e2b66e25412f4b25681b96c8dcc402fc777840ab22de657",
+        "fixture_container_sha256": "2589a1178447c7754d71537f6cd45351f8dd6e89cb181b65151743a73a6012fb",
+        "mux_command_executed": false,
+        "mux_replay_executed": false,
+        "plan_replay_passed": true,
+        "planned_mux_command_envelope_sha256": "73123277bd511c1ee697ffcba7a7d1977073e64e07da976496122b77103c7a3e"
+      }
+    ],
+    "ffmpeg_invoked": false,
+    "fixture_audio_stream_sha256": "f1d6de7662b6ee7e0e2b66e25412f4b25681b96c8dcc402fc777840ab22de657",
+    "fixture_container_sha256": "2589a1178447c7754d71537f6cd45351f8dd6e89cb181b65151743a73a6012fb",
+    "fixture_media_audio": "media/fixture_audio_stream.bin",
+    "fixture_media_container": "media/fixture_container.bin",
+    "mux_command_executed": false,
+    "mux_replay_executed": false,
+    "replay_mode": "fixture_mux_plan_replay",
+    "runtime_media_decode_invoked": false
+  },
+  "highest_proof_tier_achieved": "CONTRACT_PASS_BOUNDED",
+  "hold_reasons": [
+    "synthetic_fixture_climb_ledger_only",
+    "runtime_cut_detector_absent",
+    "camera_motion_normalization_incomplete",
+    "executed_mux_replay_absent_ffmpeg_unavailable",
+    "combined_visual_review_authority_absent",
+    "tracker_runtime_artifact_absent"
+  ],
+  "is_synthetic": true,
+  "ledger_id": "row084_synthetic_runtime_climb_ledger_v1",
+  "ledger_sha256": "286d3b200f7700c456e0122332290c9f7cc2dd62d9fb63e96ed57515051a6764",
+  "production_benchmark": false,
+  "production_completion_allowed": false,
+  "proof_tier": "CONTRACT_PASS_BOUNDED",
+  "provenance": {
+    "binds_cut_camera_mux_visual_fixture_digests": true,
+    "compiler": "compile_wave64_canonical_video_timeline.py",
+    "compiler_revision": "row084_synthetic_runtime_climb_ledger_v9",
+    "does_not_claim_runtime_or_visual_pass_tiers": true,
+    "executes_fixture_mux_plan_replay_only": true,
+    "non_production": true,
+    "records_cut_detector_precision_recall_fixture_expectations": true
+  },
+  "record_type": "row084_synthetic_runtime_climb_ledger",
+  "revision": "row084_synthetic_runtime_climb_ledger_v1",
+  "row_complete": false,
+  "runtime_mux_replay_pass": false,
+  "schema_version": "1.0.0",
+  "visual_review_claimed": false
+}
