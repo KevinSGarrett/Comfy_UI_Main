@@ -55,10 +55,11 @@ def test_library_mode_emits_model_selected_heldout_bound_hold_without_false_comp
     assert "EMBEDDING_MODEL_NOT_SELECTED_OR_INSTALLED" not in payload["blocker_codes"]
     assert "PREPROCESSING_RUNTIME_UNBOUND" not in payload["blocker_codes"]
     assert "HELDOUT_RETRIEVAL_LIBRARY_METRICS_ABSENT" not in payload["blocker_codes"]
-    assert "EMBEDDING_MODEL_WEIGHTS_NOT_INSTALLED" in payload["blocker_codes"]
+    assert "EMBEDDING_MODEL_WEIGHTS_NOT_INSTALLED" not in payload["blocker_codes"]
     assert "EMBEDDING_INDEX_LIBRARY_RUNTIME_ABSENT" in payload["blocker_codes"]
     assert "FULL_LIBRARY_EMBEDDING_RECONCILIATION_ABSENT" in payload["blocker_codes"]
     assert payload["model_selection"]["selected_asset_id"] == "laion_clap_general"
+    assert payload["model_selection"]["weights_installed"] is True
     assert payload["heldout_binding"]["scope"] == "held_out_only"
     assert payload["heldout_binding"]["full_library_scan"] is False
     assert payload["compiler_revision"] == MOD.COMPILER_REVISION
@@ -72,7 +73,10 @@ def test_registry_freezes_hashes_and_license_binds_selected_model():
     frozen = MOD.assert_frozen_hashes(registry)
     selection = MOD.assert_model_selection_binding(registry)
     assert registry["model_binding"]["selected_for_library"] is True
+    assert registry["model_binding"]["weights_installed"] is True
     assert selection["selected_asset_id"] == "laion_clap_general"
+    assert selection["weights_installed"] is True
+    assert MOD.weights_installed(ROOT, registry) is True
     assert selection["expected_key_file_sha256"] == (
         "314eb00cce6ad68d25237b8446b659ccdb136ed4672c1bca470f142f72455026"
     )
@@ -94,6 +98,7 @@ def test_heldout_binding_is_disjoint_and_forbids_full_library_scan():
     assert heldout["manifest"]["full_library_scan"] is False
     assert heldout["manifest"]["pcm_decoded"] is False
     assert heldout["manifest"]["model_weights_loaded"] is False
+    assert heldout["manifest"]["weights_installed"] is True
     assert heldout["manifest"]["row_complete"] is False
     assert heldout["metrics"]["all_slices_pass"] is True
     assert heldout["metrics"]["full_library_metrics"] is False

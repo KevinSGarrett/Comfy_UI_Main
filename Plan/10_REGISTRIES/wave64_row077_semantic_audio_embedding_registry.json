@@ -10,7 +10,7 @@
     "Fixture vectors remain deterministic synthetic L2 unit vectors in a 16-d compatible audio/text space; they do not load or certify a production CLAP stack.",
     "Selected laion_clap_general with Apache-2.0 license binding and frozen expected key-file / preprocessing / taxonomy hashes.",
     "Held-out binding is disjoint and bounded under runtime_artifacts/embeddings/row077_heldout_*; full-library embed/PCM scan remains forbidden while Row075 owns library I/O.",
-    "Weights are selected and license-bound but not installed; library embedding index and full-library reconciliation remain absent."
+    "Weights installed and hash-reconciled at declared_local_path against frozen expected key-file sha256; library embedding index and full-library reconciliation remain absent."
   ],
   "required_embedding_spaces": [
     "source_audio",
@@ -50,7 +50,7 @@
   "model_binding": {
     "selected_for_library": true,
     "production_ready": false,
-    "weights_installed": false,
+    "weights_installed": true,
     "selected_asset_id": "laion_clap_general",
     "selected_model_name": "laion/larger_clap_general",
     "selected_model_revision": "ada0c23a36c4e8582805bb38fec3905903f18b41",
@@ -81,7 +81,7 @@
     "fixture_model_name": "wave64_row077_synthetic_clap_compatible_fixture",
     "fixture_model_revision": "fixture_v0.1.0",
     "fixture_model_code_revision": "wave64_row077_semantic_audio_embedding_compiler_v0.1.0",
-    "notes": "laion_clap_general is selected and Apache-2.0 license-bound with frozen expected key-file hash; weights remain uninstalled. Fixture model remains the only vector emitter until weights are installed."
+    "notes": "laion_clap_general is selected, Apache-2.0 license-bound, and hash-reconciled at declared_local_path; fixture vectors remain the only held-out emitter until a weights-backed held-out pass is authorized. Full-library embed remains forbidden while Row075 owns library I/O."
   },
   "embedding_index": {
     "fixture_revision": "wave64_row077_fixture_embedding_index_v0.1.0",

@@ -722,11 +722,13 @@ def build_heldout_binding_artifacts(root: Path) -> dict[str, Any]:
         raise SemanticAudioEmbeddingError("weights_installed_flag_true_but_file_absent")
 
     labels = registry["taxonomy_fixture_labels"]
+    installed = weights_installed(root, registry)
     common_blockers = [
         "LIBRARY_AUTHORITY_NOT_GRANTED",
-        "EMBEDDING_MODEL_WEIGHTS_NOT_INSTALLED",
         "FULL_LIBRARY_EMBEDDING_RECONCILIATION_ABSENT",
     ]
+    if not installed:
+        common_blockers.insert(1, "EMBEDDING_MODEL_WEIGHTS_NOT_INSTALLED")
     members: list[dict[str, Any]] = []
     records: list[dict[str, Any]] = []
     slice_metrics: list[dict[str, Any]] = []
@@ -972,13 +974,22 @@ def build_library_blocker_packet(root: Path) -> dict[str, Any]:
     if deps_unlocked and model_selected and license_bound and hashes_frozen and heldout_bound:
         status = "HOLD_LIBRARY_EMBEDDING_INDEX_ABSENT_MODEL_SELECTED_HELDOUT_BOUND"
         proof_tier = "CONTRACT_PASS_BOUNDED"
-        safe_next = (
-            "Model laion_clap_general is selected, Apache-2.0 license-bound, and hash-frozen; "
-            "held-out-only index/metrics are bound under runtime_artifacts/embeddings/"
-            "row077_heldout_*. Install and hash-reconcile the selected weights, then build the "
-            "full-library embedding index only after Row075 releases library I/O. Do not start a "
-            "full-library PCM/embedding scan while Row075 owns library I/O."
-        )
+        if installed:
+            safe_next = (
+                "Model laion_clap_general weights are installed and hash-reconciled at the frozen "
+                "key-file sha256; held-out-only index/metrics remain bound under "
+                "runtime_artifacts/embeddings/row077_heldout_*. Build the full-library embedding "
+                "index only after Row075 releases library I/O. Do not start a full-library "
+                "PCM/embedding scan while Row075 owns library I/O."
+            )
+        else:
+            safe_next = (
+                "Model laion_clap_general is selected, Apache-2.0 license-bound, and hash-frozen; "
+                "held-out-only index/metrics are bound under runtime_artifacts/embeddings/"
+                "row077_heldout_*. Install and hash-reconcile the selected weights, then build the "
+                "full-library embedding index only after Row075 releases library I/O. Do not start a "
+                "full-library PCM/embedding scan while Row075 owns library I/O."
+            )
     elif deps_unlocked:
         status = "HOLD_LIBRARY_EMBEDDING_MODEL_AND_INDEX_ABSENT_DEPS_UNLOCKED"
         proof_tier = "CONTRACT_PASS_BOUNDED"
