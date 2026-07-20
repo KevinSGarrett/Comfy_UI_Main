@@ -1,0 +1,132 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-084_ROW084-012_CLASS_C_SCHEMA_NATIVE_REVERSED_PTS_HOLD_PACKET_20260720",
+  "created_at": "2026-07-20T15:10:00Z",
+  "tracker_id": "TRK-W64-084",
+  "item_id": "ITEM-W64-084",
+  "check_id": "ROW084-012",
+  "blocker_id": "CLOCK_SPAN_REVERSED_PTS_JSON_SCHEMA_NATIVE_ABSENT",
+  "blocker_class": "C",
+  "decision": "HOLD",
+  "cleared": false,
+  "row_complete": false,
+  "production_completion_allowed": false,
+  "implementation_completion_claimed": false,
+  "csv_sync": "deferred_to_designated_mutator",
+  "mutation_this_landing": "evidence_and_focused_test_only_class_c_hold_deepen",
+  "tip_at_probe": "39de957077de0a19eefcb160596097972ebb0b2d",
+  "do_not_clear": [
+    "ROW084-011"
+  ],
+  "check": {
+    "name": "clock_span_reversed_pts_enforced_by_json_schema_alone",
+    "status": "FAIL",
+    "hold_status": "OPEN_HOLD",
+    "note": "Draft 2020-12 JSON Schema cannot natively express end_pts_exclusive > start_pts; compiler validate_clock_span_invariants remains the fail-closed authority."
+  },
+  "schema_under_test": {
+    "path": "Plan/08_SCHEMAS/canonical_media_clock_span.schema.json",
+    "draft": "https://json-schema.org/draft/2020-12/schema",
+    "validator": "jsonschema.Draft202012Validator",
+    "cross_field_keywords_present": false,
+    "dollar_data_present": false,
+    "per_field_constraints_only": {
+      "start_pts": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "end_pts_exclusive": {
+        "type": "integer",
+        "minimum": 1
+      }
+    }
+  },
+  "offline_probe": {
+    "command": "python tmp_row084_012_schema_native_probe.py",
+    "exit_code": 0,
+    "cases": {
+      "equal_pts": {
+        "instance": {
+          "start_pts": 10,
+          "end_pts_exclusive": 10
+        },
+        "schema_errors": [],
+        "schema_alone_rejects": false
+      },
+      "reversed_pts": {
+        "instance": {
+          "start_pts": 10,
+          "end_pts_exclusive": 5
+        },
+        "schema_errors": [],
+        "schema_alone_rejects": false
+      },
+      "forward": {
+        "instance": {
+          "start_pts": 10,
+          "end_pts_exclusive": 11
+        },
+        "schema_errors": [],
+        "schema_alone_rejects": false
+      },
+      "end_below_schema_minimum": {
+        "instance": {
+          "start_pts": 0,
+          "end_pts_exclusive": 0
+        },
+        "schema_errors": [
+          "0 is less than the minimum of 1"
+        ],
+        "schema_alone_rejects": true,
+        "note": "Only per-field minimum fires; this is not cross-field order enforcement."
+      }
+    },
+    "conclusion": "Equal and reversed PTS pairs validate under Draft202012Validator on the published clock-span field schemas; schema-alone ROW084-012 remains FAIL/HOLD."
+  },
+  "compiler_fail_closed_authority": {
+    "path": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
+    "function": "validate_clock_span_invariants",
+    "rule": "start_pts must precede end_pts_exclusive",
+    "focused_test": "test_reversed_pts_span_is_rejected",
+    "schema_hold_proof_test": "test_clock_span_schema_alone_cannot_reject_reversed_pts",
+    "note": "Compiler remains authoritative for reversed PTS. Schema-native clearance would invent non-Draft-2020-12 authority."
+  },
+  "rejected_clearance_paths_this_shift": [
+    {
+      "path": "ajv_$data_keyword",
+      "why_rejected": "Non-standard extension; invents production schema authority beyond Draft 2020-12 + Draft202012Validator."
+    },
+    {
+      "path": "custom_json_schema_vocabulary",
+      "why_rejected": "Would invent project-local production vocabulary without upstream Draft adoption."
+    },
+    {
+      "path": "finite_if_then_enumeration_of_pts_pairs",
+      "why_rejected": "Cannot cover unbounded integer PTS domains; would fake native coverage."
+    },
+    {
+      "path": "encode_order_into_single_string_field",
+      "why_rejected": "Changes data model; does not natively enforce end_pts_exclusive > start_pts on the two published fields."
+    },
+    {
+      "path": "claim_PASS_while_compiler_only_enforces",
+      "why_rejected": "Check name requires enforcement by JSON Schema alone; compiler-only PASS would be false clearance."
+    }
+  ],
+  "clearance_preconditions_if_ever_reopened": [
+    "Upstream JSON Schema draft gains a standard cross-instance comparison keyword adopted by jsonschema.Draft*Validator used here, OR",
+    "Project explicitly adopts a signed schema vocabulary + validator lane as production authority (separate ADR; out of scope for this hold deepen), AND",
+    "Focused tests prove schema-alone rejection of equal/reversed PTS without compiler invariants, AND",
+    "ROW084-011 Class E remains untouched by any schema-native claim."
+  ],
+  "preservation_boundary": {
+    "row075_pid_left_alone": true,
+    "row073_pcm_left_alone": true,
+    "tracker_items_csv_writes": false,
+    "tip_sha_chain_written": false,
+    "comfyui_8188_touched": false,
+    "unrelated_dirty_paths_preserved": true
+  },
+  "safe_next_action": "CSV deferred. Keep ROW084-012 Class C OPEN_HOLD. Do not clear ROW084-011 Class E. Do not claim COMPLETE/row_complete. No schema-native PASS without Draft-level cross-field authority.",
+  "recommended_codex_follow_up": "Leave Class C hold in place until a real Draft-native or ADR-backed validator vocabulary exists; prioritize unrelated row work or Class E production-completion criteria when authorized."
+}

@@ -684,6 +684,32 @@ class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
         self.assertFalse(list(Draft202012Validator(frame_rate_schema).iter_errors(24.0)))
         self.assertFalse(list(Draft202012Validator(sample_rate_schema).iter_errors(48000)))
 
+    def test_clock_span_schema_alone_cannot_reject_reversed_pts(self) -> None:
+        """ROW084-012 Class C HOLD proof: Draft 2020-12 has no native cross-field PTS order."""
+        props = self.clock_span_schema["properties"]
+        local = {
+            "type": "object",
+            "required": ["start_pts", "end_pts_exclusive"],
+            "properties": {
+                "start_pts": props["start_pts"],
+                "end_pts_exclusive": props["end_pts_exclusive"],
+            },
+        }
+        validator = Draft202012Validator(local)
+        self.assertEqual(
+            self.clock_span_schema.get("$schema"),
+            "https://json-schema.org/draft/2020-12/schema",
+        )
+        self.assertFalse(
+            any(k in self.clock_span_schema for k in ("if", "then", "allOf", "dependentSchemas"))
+        )
+        self.assertNotIn("$data", json.dumps(self.clock_span_schema))
+        # Per-field minima alone cannot enforce end_pts_exclusive > start_pts.
+        self.assertFalse(list(validator.iter_errors({"start_pts": 10, "end_pts_exclusive": 10})))
+        self.assertFalse(list(validator.iter_errors({"start_pts": 10, "end_pts_exclusive": 5})))
+        self.assertFalse(list(validator.iter_errors({"start_pts": 10, "end_pts_exclusive": 11})))
+        self.assertTrue(list(validator.iter_errors({"start_pts": 0, "end_pts_exclusive": 0})))
+
     def test_dependency_hold_keeps_candidate_ceiling(self) -> None:
         packet = _fixed_packet()
         packet["dependency_authority"]["row067_complete"] = False
