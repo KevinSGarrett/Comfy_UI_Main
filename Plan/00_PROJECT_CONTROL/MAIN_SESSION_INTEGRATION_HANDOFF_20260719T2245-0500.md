@@ -10,8 +10,8 @@
 
 ## Commits Pushed This Pass
 
-1. `(pending)` Unlock Row072 deps after accepted Rows070-071; refresh hold packet.
-2. Stamp / tip finalize follows primary land.
+1. `961df239` Unlock Row072 deps after accepted Rows070-071; refresh hold packet.
+2. Stamp commit aligns handoff primary id to tip.
 
 ## Row-Scoped Increment Executed
 
