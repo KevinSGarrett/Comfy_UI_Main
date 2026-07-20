@@ -1,10 +1,39 @@
 {
+  "accepted_index_retained_segment_runtime": {
+    "authority": "accepted_index_retained_segment_probe",
+    "blocker_histogram": {},
+    "counts": {
+      "analysis_truncated": 0,
+      "bit_exact_reconstruction_ok": 25,
+      "exact_blockers": 0,
+      "feature_non_pass_inputs": 0,
+      "feature_pass_inputs": 25,
+      "multi_event_assets": 25,
+      "pcm_sha_verified": 25,
+      "records_processed": 25,
+      "records_total": 39771,
+      "segment_blocked": 0,
+      "segment_pass": 25,
+      "single_event_assets": 0,
+      "source_immutable_true": 25,
+      "zero_event_assets": 0
+    },
+    "coverage_complete": false,
+    "limit": 25,
+    "present": true,
+    "progress_path": "runtime_artifacts/multi_event_segmentation/row074_index_retained_20260720/progress.json",
+    "receipt_path": "runtime_artifacts/multi_event_segmentation/row074_index_retained_20260720/retained_index_segment_receipt.json",
+    "records_path": "runtime_artifacts/multi_event_segmentation/row074_index_retained_20260720/records.jsonl",
+    "row075_contention_policy": "limited_probe_only_while_row075_full_reconcile_owns_pcm_io",
+    "status": "RUNTIME_PASS_BOUNDED_PROBE_LIMIT",
+    "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_ACCEPTED_INDEX_RETAINED_SEGMENT_SUMMARY_20260720.json",
+    "summary_sha256": "284229426ccee2d41fcb50eefd7604a564c4c01fca00e681c91fe66c7f6bce1f"
+  },
   "blocker_codes": [
-    "ROW072_DEPENDENCY_NOT_ACCEPTED",
-    "ROW073_DEPENDENCY_NOT_ACCEPTED",
-    "ROW072_AND_ROW073_DEPENDENCIES_NOT_ACCEPTED",
-    "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT",
-    "EVENT_COUNT_CALIBRATION_STRATA_ABSENT"
+    "FULL_LIBRARY_RECONCILE_DEFERRED_OR_IN_PROGRESS",
+    "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+    "EVENT_COUNT_CALIBRATION_STRATA_ABSENT",
+    "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT"
   ],
   "boundary_convention": {
     "exclusive_end": true,
@@ -12,10 +41,11 @@
     "sample_unit": "pcm_frame_index"
   },
   "decision": {
+    "dependencies_unlocked": true,
     "product_completion": false,
     "row074_acceptance": "held",
     "runtime_completion": false,
-    "safe_next_action": "Accept Row072 onset/transient anchors and Row073 usable-bounds/decay authority, reconcile every accepted input to single-event or multi-event PASS or an exact blocker with parent-hash and bit-exact reconstruction proofs, and replace this hold packet with full-library runtime evidence.",
+    "safe_next_action": "Bounded index-retained segment probe passed under frozen suggestion-only thresholds. Defer full-library Row074 PCM reconcile until Row075 retained-index defect scan finishes (avoid dual PCM I/O contention), then resume --mode index-retained without --limit before claiming Row074 acceptance.",
     "status": "blocked"
   },
   "evidence_id": "TRK-W64-074_multi_event_segmentation",
@@ -52,7 +82,7 @@
         },
         "sample_rate_hz": 48000,
         "schema_version": "1.0.0",
-        "segmentation_pipeline_revision": "wave64_row074_multi_event_segmentation_v0.1.0",
+        "segmentation_pipeline_revision": "wave64_row074_multi_event_segmentation_v0.2.0",
         "segments": [],
         "source_after_sha256": "7e3be6c02caabf4e9e3de9a545655e78e48c32d9046ad8b2cd31b81755095262",
         "source_before_sha256": "7e3be6c02caabf4e9e3de9a545655e78e48c32d9046ad8b2cd31b81755095262",
@@ -96,7 +126,7 @@
         },
         "sample_rate_hz": 48000,
         "schema_version": "1.0.0",
-        "segmentation_pipeline_revision": "wave64_row074_multi_event_segmentation_v0.1.0",
+        "segmentation_pipeline_revision": "wave64_row074_multi_event_segmentation_v0.2.0",
         "segments": [
           {
             "confidence": 0.9,
@@ -152,7 +182,7 @@
         },
         "sample_rate_hz": 48000,
         "schema_version": "1.0.0",
-        "segmentation_pipeline_revision": "wave64_row074_multi_event_segmentation_v0.1.0",
+        "segmentation_pipeline_revision": "wave64_row074_multi_event_segmentation_v0.2.0",
         "segments": [
           {
             "confidence": 0.9,
@@ -219,7 +249,7 @@
         },
         "sample_rate_hz": 48000,
         "schema_version": "1.0.0",
-        "segmentation_pipeline_revision": "wave64_row074_multi_event_segmentation_v0.1.0",
+        "segmentation_pipeline_revision": "wave64_row074_multi_event_segmentation_v0.2.0",
         "segments": [
           {
             "confidence": 0.9,
@@ -297,7 +327,7 @@
         },
         "sample_rate_hz": 48000,
         "schema_version": "1.0.0",
-        "segmentation_pipeline_revision": "wave64_row074_multi_event_segmentation_v0.1.0",
+        "segmentation_pipeline_revision": "wave64_row074_multi_event_segmentation_v0.2.0",
         "segments": [
           {
             "confidence": 0.9,
@@ -364,7 +394,7 @@
         },
         "sample_rate_hz": 48000,
         "schema_version": "1.0.0",
-        "segmentation_pipeline_revision": "wave64_row074_multi_event_segmentation_v0.1.0",
+        "segmentation_pipeline_revision": "wave64_row074_multi_event_segmentation_v0.2.0",
         "segments": [
           {
             "confidence": 0.82,
@@ -405,38 +435,45 @@
       }
     ]
   },
+  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
   "implementation_completion_claimed": false,
   "item_id": "ITEM-W64-074",
   "library_authority": false,
+  "proof_tier": "RUNTIME_PASS_BOUNDED",
   "row072_admission": {
-    "blocker_codes": [
-      "ROW072_DEPENDENCY_NOT_ACCEPTED"
-    ],
-    "bytes": 12124,
-    "dependency_satisfied": false,
+    "admission_mode": "runtime_unlocked",
+    "blocker_codes": [],
+    "bytes": 6766,
+    "dependencies_unlocked": true,
+    "dependency_satisfied": true,
     "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ONSET_TRANSIENT_ANCHOR_CURRENT_DELTA_20260719.json",
+    "proof_tier": "RUNTIME_PASS_BOUNDED",
+    "row072_acceptance": "held",
     "row_complete": false,
-    "sha256": "f0d647f5f623e7b8bbeb4ef1270732ba8116972dcecd620592c12dabbde0477a",
-    "status": "HOLD_DEPENDENCIES_LIBRARY_RUNTIME_AND_BENCHMARK_STRATA_ABSENT",
+    "sha256": "c64ea2e90666a45e81b2f0ee33a72cc5102b4935030f048cb4a0941de825af8a",
+    "status": "HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE",
     "tracker_id": "TRK-W64-072"
   },
   "row073_admission": {
-    "blocker_codes": [
-      "ROW073_DEPENDENCY_NOT_ACCEPTED"
-    ],
-    "bytes": 9007,
-    "dependency_satisfied": false,
+    "admission_mode": "probe_unlocked",
+    "blocker_codes": [],
+    "bytes": 11685,
+    "dependencies_unlocked": true,
+    "dependency_satisfied": true,
     "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_CURRENT_DELTA_20260719.json",
+    "probe_authority": "accepted_index_retained_bounds_probe",
+    "proof_tier": "RUNTIME_PASS_BOUNDED",
+    "row073_acceptance": "held",
     "row_complete": false,
-    "sha256": "9c8b2d4b1871d61276bae4d5f6ca85a437f99b7ca3cc4d1a7a7fe1371b6146ff",
-    "status": "HOLD_ROW071_ROW072_DEPENDENCIES_AND_FULL_LIBRARY_BOUNDS_RUNTIME_ABSENT",
+    "sha256": "5ab04bac83498ef9f97a55e39dd3b2abae144c53632eac8a9589ac4b3fdb26c5",
+    "status": "HOLD_LIBRARY_PROBE_PASS_FULL_RECONCILE_DEFERRED_DEPS_UNLOCKED",
     "tracker_id": "TRK-W64-073"
   },
   "row_complete": false,
   "runtime_completion_claimed": false,
   "schema_version": "1.0.0",
-  "segmentation_pipeline_revision": "wave64_row074_multi_event_segmentation_v0.1.0",
-  "status": "HOLD_ROW072_ROW073_DEPENDENCIES_AND_FULL_LIBRARY_SEGMENT_RUNTIME_ABSENT",
+  "segmentation_pipeline_revision": "wave64_row074_multi_event_segmentation_v0.2.0",
+  "status": "HOLD_LIBRARY_PROBE_PASS_FULL_RECONCILE_DEFERRED_DEPS_UNLOCKED",
   "thresholds": {
     "channel_policy": "max_abs_mono",
     "energy_threshold_dbfs": -40.0,

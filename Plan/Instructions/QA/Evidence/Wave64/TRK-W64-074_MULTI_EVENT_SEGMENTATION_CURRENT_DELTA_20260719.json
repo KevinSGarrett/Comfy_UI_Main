@@ -1,200 +1,233 @@
 {
-  "schema_version": 1,
-  "evidence_id": "W64-ROW074-MULTI-EVENT-SEGMENTATION-CURRENT-DELTA-20260719",
+  "accepted_index_retained_segment_runtime": {
+    "authority": "accepted_index_retained_segment_probe",
+    "counts": {
+      "analysis_truncated": 0,
+      "bit_exact_reconstruction_ok": 25,
+      "exact_blockers": 0,
+      "feature_non_pass_inputs": 0,
+      "feature_pass_inputs": 25,
+      "multi_event_assets": 25,
+      "pcm_sha_verified": 25,
+      "records_processed": 25,
+      "records_total": 39771,
+      "segment_blocked": 0,
+      "segment_pass": 25,
+      "single_event_assets": 0,
+      "source_immutable_true": 25,
+      "zero_event_assets": 0
+    },
+    "coverage_complete": false,
+    "limit": 25,
+    "proof_tier": "RUNTIME_PASS_BOUNDED",
+    "row075_contention_policy": "limited_probe_only_while_row075_full_reconcile_owns_pcm_io",
+    "runtime_receipt_path": "runtime_artifacts/multi_event_segmentation/row074_index_retained_20260720/retained_index_segment_receipt.json",
+    "status": "RUNTIME_PASS_BOUNDED_PROBE_LIMIT",
+    "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_ACCEPTED_INDEX_RETAINED_SEGMENT_SUMMARY_20260720.json",
+    "summary_sha256": "284229426ccee2d41fcb50eefd7604a564c4c01fca00e681c91fe66c7f6bce1f"
+  },
+  "blocker_codes": [
+    "FULL_LIBRARY_RECONCILE_DEFERRED_OR_IN_PROGRESS",
+    "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+    "EVENT_COUNT_CALIBRATION_STRATA_ABSENT",
+    "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT"
+  ],
+  "checks": [
+    {
+      "name": "MES-P001_row072_runtime_unlocked_admission",
+      "result": "pass"
+    },
+    {
+      "name": "MES-P002_row073_probe_unlocked_admission",
+      "result": "pass"
+    },
+    {
+      "name": "MES-P003_index_retained_mode_unlocked_with_limit",
+      "result": "pass"
+    },
+    {
+      "name": "MES-P004_limit_25_probe_segment_pass_25_of_25",
+      "result": "pass"
+    },
+    {
+      "name": "MES-P005_bit_exact_reconstruction_ok_25",
+      "result": "pass"
+    },
+    {
+      "name": "MES-P006_source_immutable_true_25",
+      "result": "pass"
+    },
+    {
+      "name": "MES-P007_focused_pytest_12_passed",
+      "result": "pass"
+    },
+    {
+      "name": "MES-P008_row075_pid_left_alone",
+      "result": "pass"
+    },
+    {
+      "name": "MES-P009_no_product_complete_claim",
+      "result": "pass"
+    },
+    {
+      "name": "MES-P010_sound_csv_deferred_evidence_code_only",
+      "result": "pass"
+    }
+  ],
+  "check_summary": {
+    "checked": 10,
+    "failed": 0,
+    "passed": 10
+  },
+  "classification": "ROW074_INDEX_RETAINED_LIMITED_PROBE_DEPS_UNLOCKED_NO_FALSE_COMPLETION",
   "created_at": "2026-07-19T03:19:23.1173944Z",
-  "updated_at": "2026-07-19T19:49:24Z",
-  "source_commit": "b074c694518b7ebe78a1e7292db28427d7f75ca7",
-  "prior_row_commit": "791f961fc2085e148aa7dd349f41c106a06a9f53",
-  "prior_row_commit_is_current_head": false,
-  "tracker_id": "TRK-W64-074",
-  "item_id": "ITEM-W64-074",
-  "status": "HOLD_ROW072_ROW073_DEPENDENCIES_AND_FULL_LIBRARY_SEGMENT_RUNTIME_ABSENT",
-  "classification": "ROW074_FAIL_CLOSED_CONTRACT_SLICE_NO_FALSE_COMPLETION",
-  "row_complete": false,
-  "implementation_completion_claimed": false,
-  "runtime_completion_claimed": false,
-  "qa_decision": "hold_with_fail_closed_virtual_clip_contract_and_synthetic_fixture_calibration_only",
-  "increment": {
-    "kind": "fail_closed_contract_and_segmenter_slice",
-    "segmentation_pipeline_revision": "wave64_row074_multi_event_segmentation_v0.1.0",
-    "summary": "Freeze Row074 boundary convention, energy/gap thresholds, overlap policy, parent-hash lineage, and bit-exact virtual-clip reconstruction; emit schema-validated synthetic fixture calibration for silence/single/multi-event/layered cases; fail closed for library authority until Row072 and Row073 acceptance exists."
-  },
-  "row074_contract": {
-    "status": "Planned_Autonomous_Implementation_Required",
-    "priority": "P0",
-    "risk": "CRITICAL",
-    "dependency_prerequisites": [
-      "TRK-W64-072",
-      "TRK-W64-073"
-    ],
-    "validation_methods": [
-      "event_count",
-      "segment_bounds",
-      "parent_lineage",
-      "overlap_policy"
-    ],
-    "output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_multi_event_segmentation.json",
-    "output_artifact_exists": true,
-    "output_artifact_authority": "fail_closed_hold_packet_not_library_acceptance",
-    "completion_criteria": "Every virtual segment is reproducible from parent hash and sample bounds with calibrated event-count accuracy.",
-    "required_behavior": [
-      "detect multiple events inside one recording",
-      "support footsteps, impacts, breaths, and repeated events",
-      "emit virtual segments without mutating source bytes",
-      "bind each segment to the parent audio hash",
-      "bind exact sample ranges and boundary convention",
-      "record overlap or layering policy",
-      "record confidence",
-      "keep ordinary segments non-overlapping",
-      "permit overlap only when explicitly layered",
-      "reproduce each segment bit-exactly from parent bytes plus boundaries",
-      "calibrate event-count accuracy"
-    ],
-    "frozen_thresholds": {
-      "energy_threshold_dbfs": -40.0,
-      "min_event_gap_ms": 20.0,
-      "min_event_duration_ms": 5.0,
-      "channel_policy": "max_abs_mono",
-      "ordinary_segments_non_overlapping": true,
-      "layered_overlap_requires_layer_id": true,
-      "source_mutation_allowed": false
-    },
-    "boundary_convention": {
-      "inclusive_start": true,
-      "exclusive_end": true,
-      "sample_unit": "pcm_frame_index"
-    },
-    "runtime_proof_required": true,
-    "ec2_allowed": false,
-    "final_render_gate": "BLOCKED_UNTIL_EXACT_ROW_IMPLEMENTATION_RUNTIME_QA_AND_AUTHORITY_PASS"
-  },
-  "implemented_slice": {
-    "segmenter_path": "Plan/07_IMPLEMENTATION/scripts/segment_wave64_multi_event_audio.py",
-    "segmenter_sha256": "ef72e64cb0e0c1e68117250d55c2f3591fbfdbd20d42f0507d14bbee646fa346",
-    "segmenter_bytes": 24003,
-    "schema_path": "Plan/08_SCHEMAS/multi_event_segmentation_record.schema.json",
-    "schema_sha256": "cb996083cf3f76471d75b3aba7c81cbd4a60beda1ed41cd642ff555d043e9d14",
-    "schema_bytes": 5325,
-    "test_path": "Plan/Instructions/QA/Scripts/test_segment_wave64_multi_event_audio.py",
-    "test_sha256": "d39ef8ae8d86a2d8cf544a3978ffe6e97763d2f0a9690941bf167272aff1550b",
-    "test_bytes": 6401,
-    "direct_evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_multi_event_segmentation.json",
-    "direct_evidence_sha256": "4af87e65ad6edb492df35ca94576a999e497c421b577f2f1647a86f8116b10ef",
-    "direct_evidence_bytes": 18495,
-    "capabilities_now_present": [
-      "frozen_segmentation_pipeline_revision",
-      "frozen_energy_gap_duration_and_non_mutation_thresholds",
-      "inclusive_start_exclusive_end_pcm_frame_boundary_convention",
-      "schema_validated_multi_event_virtual_segment_records",
-      "row072_and_row073_admission_fail_closed_gates",
-      "synthetic_fixture_determinism_for_silence_single_multi_breath_and_layered_overlap",
-      "bit_exact_virtual_clip_reconstruction_from_parent_pcm_plus_bounds",
-      "ordinary_non_overlap_and_explicit_layered_overlap_policy_enforcement",
-      "library_mode_hold_packet_without_false_completion"
-    ],
-    "explicitly_not_claimed": [
-      "full_library_multi_event_segmentation_records",
-      "accepted_row072_onset_transient_authority",
-      "accepted_row073_usable_bounds_decay_authority",
-      "representative_library_event_count_calibration_strata",
-      "row074_product_completion",
-      "row074_runtime_completion",
-      "downstream_row079_row082_row093_row112_unblocking"
-    ]
+  "decision": {
+    "dependencies_unlocked": true,
+    "fail_closed_probe_slice": "accepted_as_bounded_increment",
+    "product_completion": false,
+    "row074_acceptance": "held",
+    "row074_status": "Blocked_Library_Probe_Pass_Full_Reconcile_Deferred_Deps_Unlocked",
+    "runtime_completion": false,
+    "safe_next_action": "After Row075 retained-index defect reconcile reaches coverage_complete, resume Row074 --mode index-retained without --limit to coverage_complete under frozen suggestion-only thresholds; keep event-count calibration holds; do not claim COMPLETE. Serialized mutator may then sync sound ITEM/TRACKER CSV Notes from this evidence delta."
   },
   "dependency_authority": [
     {
-      "tracker_id": "TRK-W64-072",
+      "admission_mode": "runtime_unlocked",
       "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ONSET_TRANSIENT_ANCHOR_CURRENT_DELTA_20260719.json",
-      "current_delta_sha256": "f0d647f5f623e7b8bbeb4ef1270732ba8116972dcecd620592c12dabbde0477a",
-      "current_delta_bytes": 12124,
-      "current_delta_status": "HOLD_DEPENDENCIES_LIBRARY_RUNTIME_AND_BENCHMARK_STRATA_ABSENT",
+      "dependency_satisfied": true,
+      "proof_tier": "RUNTIME_PASS_BOUNDED",
+      "reason": "Row072 coverage_complete under frozen thresholds with decision.dependencies_unlocked=true and runtime_completion unlocks dependency-safe Row074 probes without claiming Row072 acceptance.",
+      "row072_acceptance": "held",
       "row_complete": false,
-      "dependency_satisfied": false,
-      "reason": "Multi-event boundaries still require accepted onset, peak, offset, confidence, and ambiguity authority for library admission."
+      "tracker_id": "TRK-W64-072"
     },
     {
-      "tracker_id": "TRK-W64-073",
+      "admission_mode": "probe_unlocked",
       "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_CURRENT_DELTA_20260719.json",
-      "current_delta_sha256": "9c8b2d4b1871d61276bae4d5f6ca85a437f99b7ca3cc4d1a7a7fe1371b6146ff",
-      "current_delta_bytes": 9007,
-      "current_delta_status": "HOLD_ROW071_ROW072_DEPENDENCIES_AND_FULL_LIBRARY_BOUNDS_RUNTIME_ABSENT",
+      "dependency_satisfied": true,
+      "proof_tier": "RUNTIME_PASS_BOUNDED",
+      "reason": "Row073 index-retained probe authority under RUNTIME_PASS_BOUNDED with decision.dependencies_unlocked=true unlocks dependency-safe Row074 probes without claiming Row073 acceptance.",
+      "row073_acceptance": "held",
       "row_complete": false,
-      "dependency_satisfied": false,
-      "reason": "Segment bounds must preserve measured usable starts, offsets, and natural tails; Row073 remains unaccepted for library authority."
+      "tracker_id": "TRK-W64-073"
     }
+  ],
+  "docker_cvat": "not-needed",
+  "ec2": "EC2_DEFERRED",
+  "evidence_id": "W64-ROW074-MULTI-EVENT-SEGMENTATION-CURRENT-DELTA-20260720",
+  "explicit_non_claims": [
+    "COMPLETE",
+    "product_completion",
+    "library_authority",
+    "full_library_coverage"
   ],
   "focused_validators": {
-    "command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_segment_wave64_multi_event_audio.py",
-    "exit_code": 0,
-    "passed": 11,
-    "failed": 0
+    "probe_command": "python Plan/07_IMPLEMENTATION/scripts/segment_wave64_multi_event_audio.py --mode index-retained --limit 25 --no-resume",
+    "probe_exit_code": 0,
+    "probe_status": "HOLD_LIBRARY_PROBE_PASS_FULL_RECONCILE_DEFERRED_DEPS_UNLOCKED",
+    "pytest_command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_segment_wave64_multi_event_audio.py",
+    "pytest_exit_code": 0,
+    "pytest_failed": 0,
+    "pytest_passed": 12,
+    "row075_left_alone": true,
+    "row075_pid": 45992,
+    "row075_progress_after_probe": "4750/39771"
   },
-  "acceptance_gaps": [
-    {
-      "code": "ROW072_AND_ROW073_DEPENDENCIES_NOT_ACCEPTED",
-      "detail": "Both direct prerequisites remain row_complete=false, so accepted event anchors and usable natural-tail bounds are unavailable for library authority."
-    },
-    {
-      "code": "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT",
-      "detail": "No runtime reconciles every accepted Row072/Row073 input to single-event or multi-event PASS or an exact blocker with output and calibration hashes."
-    },
-    {
-      "code": "EVENT_COUNT_CALIBRATION_STRATA_ABSENT",
-      "detail": "Synthetic fixtures prove method identity, overlap policy, and bit-exact reconstruction only; library event-count precision/recall strata remain unreconciled."
-    },
-    {
-      "code": "FULL_LIBRARY_PARENT_RECONSTRUCTION_PROOF_ABSENT",
-      "detail": "Fixture parent-hash and virtual-clip reconstruction proofs do not substitute for retained-library canonical PCM reconciliation."
-    }
-  ],
-  "direct_downstream_hold": {
-    "count": 4,
-    "tracker_ids": [
-      "TRK-W64-079",
-      "TRK-W64-082",
-      "TRK-W64-093",
-      "TRK-W64-112"
+  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+  "implementation_completion_claimed": false,
+  "implemented_slice": {
+    "capabilities_now_present": [
+      "row072_runtime_unlock_admission_gate",
+      "row073_probe_unlock_admission_gate",
+      "index_retained_mode_with_limit_and_resume",
+      "bounded_limit_25_probe_over_retained_row071_records",
+      "suggestion_only_segment_pass_with_bit_exact_virtual_clips",
+      "non_destructive_source_before_after_sha256_binding",
+      "row075_contention_policy_limited_probe_only",
+      "disjoint_runtime_tree_from_row075_row073_row076"
     ],
-    "reason": "Each row directly declares TRK-W64-074 as a prerequisite; synthetic fixture calibration and fail-closed hold packets cannot substitute for accepted detected virtual-clip authority."
+    "direct_evidence_bytes": 20310,
+    "direct_evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_multi_event_segmentation.json",
+    "direct_evidence_sha256": "ec2307615658bd45e4f8d68425a21f7cc36f3eb5e740249a214bd60bbf382a7b",
+    "explicitly_not_claimed": [
+      "full_library_multi_event_segmentation_records",
+      "row074_product_completion",
+      "row074_runtime_completion",
+      "library_threshold_authority",
+      "row072_acceptance",
+      "row073_acceptance",
+      "row079_unlock"
+    ],
+    "retained_summary_bytes": 3869,
+    "retained_summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_ACCEPTED_INDEX_RETAINED_SEGMENT_SUMMARY_20260720.json",
+    "retained_summary_sha256": "284229426ccee2d41fcb50eefd7604a564c4c01fca00e681c91fe66c7f6bce1f",
+    "runtime_dir": "runtime_artifacts/multi_event_segmentation/row074_index_retained_20260720",
+    "runtime_records_bytes": 142125,
+    "runtime_records_sha256": "09da7aaedc3433505a667b9cc5506d7795d4f5ff67d01943ebaba46f4154f0d2",
+    "schema_bytes": 5325,
+    "schema_path": "Plan/08_SCHEMAS/multi_event_segmentation_record.schema.json",
+    "schema_sha256": "2acdc8360833be71e73510df053715838c999a3fd6485fb771a562fe87b88e44",
+    "segmenter_bytes": 57833,
+    "segmenter_path": "Plan/07_IMPLEMENTATION/scripts/segment_wave64_multi_event_audio.py",
+    "segmenter_sha256": "584e873cf951a0a415d19c0f9c34b619e23b56223f69dc28de70b6a3e2087ee9",
+    "test_bytes": 8477,
+    "test_path": "Plan/Instructions/QA/Scripts/test_segment_wave64_multi_event_audio.py",
+    "test_sha256": "dc6ae69898706e98cb7b5b40c458bccaf737b4bf7a82e69d0ce1aa5a34d3a62d"
   },
+  "increment": {
+    "kind": "index_retained_limited_probe_and_runtime_unlock",
+    "segmentation_pipeline_revision": "wave64_row074_multi_event_segmentation_v0.2.0",
+    "summary": "Unlocked Row074 index-retained probe gate via Row072 RUNTIME_PASS_BOUNDED runtime_unlocked + Row073 RUNTIME_PASS_BOUNDED probe_unlocked; added --mode index-retained with --limit; ran limit=25 probe (segment_pass=25/25, multi_event_assets=25, bit_exact=25) in a disjoint runtime tree while leaving healthy Row075 PID 45992 alone. No product COMPLETE; full-library reconcile deferred until Row075 finishes PCM I/O.",
+    "writable_scope_note": "Disjoint from Row017 visuals, Row075 progress stamps, Row073/076 runtime trees, and Row077/078/079 paths. Sound ITEM/TRACKER CSV deferred for serialized mutator."
+  },
+  "item_id": "ITEM-W64-074",
+  "ledger_status": "Blocked_Library_Probe_Pass_Full_Reconcile_Deferred_Deps_Unlocked",
+  "library_authority": false,
   "preservation_boundary": {
-    "row067_owned_paths_modified": false,
-    "row069_owned_paths_modified": false,
-    "row072_owned_paths_modified": false,
-    "row073_owned_paths_modified": false,
-    "row085_owned_paths_modified": false,
-    "unrelated_dirty_paths_modified": false,
     "only_row074_writable_paths": [
       "Plan/07_IMPLEMENTATION/scripts/segment_wave64_multi_event_audio.py",
       "Plan/08_SCHEMAS/multi_event_segmentation_record.schema.json",
       "Plan/Instructions/QA/Scripts/test_segment_wave64_multi_event_audio.py",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_multi_event_segmentation.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_ACCEPTED_INDEX_RETAINED_SEGMENT_SUMMARY_20260720.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_MULTI_EVENT_SEGMENTATION_CURRENT_DELTA_20260719.json"
+    ],
+    "row017_visual_paths_modified": false,
+    "row073_runtime_paths_modified": false,
+    "row075_pid_left_alone": true,
+    "row075_progress_paths_modified": false,
+    "row076_runtime_paths_modified": false,
+    "sound_item_tracker_csv_deferred_reason": "contention_risk_with_parallel_agents_evidence_code_only_landing",
+    "sound_item_tracker_csv_modified": false
+  },
+  "proof_tier": "RUNTIME_PASS_BOUNDED",
+  "qa_decision": "deps_unlocked_index_retained_limit_25_probe_pass_full_reconcile_deferred_for_row075_pcm_contention",
+  "row074_contract": {
+    "completion_criteria": "Every virtual segment is reproducible from parent hash and sample bounds with calibrated event-count accuracy.",
+    "dependency_prerequisites": [
+      "TRK-W64-072",
+      "TRK-W64-073"
+    ],
+    "ec2_allowed": false,
+    "final_render_gate": "BLOCKED_UNTIL_EXACT_ROW_IMPLEMENTATION_RUNTIME_QA_AND_AUTHORITY_PASS",
+    "output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_multi_event_segmentation.json",
+    "output_artifact_authority": "fail_closed_probe_hold_packet_not_library_acceptance",
+    "output_artifact_exists": true,
+    "priority": "P0",
+    "risk": "CRITICAL",
+    "runtime_proof_required": true,
+    "status": "Blocked_Library_Probe_Pass_Full_Reconcile_Deferred_Deps_Unlocked",
+    "validation_methods": [
+      "event_count",
+      "segment_bounds",
+      "parent_lineage",
+      "overlap_policy"
     ]
   },
-  "checks": [
-    {"name": "MES-I001_segmentation_pipeline_revision_frozen", "result": "pass"},
-    {"name": "MES-I002_schema_requires_bounds_lineage_overlap_and_virtual_clip_hash", "result": "pass"},
-    {"name": "MES-I003_row072_and_row073_admission_fails_closed", "result": "pass"},
-    {"name": "MES-I004_library_mode_hold_packet_emitted", "result": "pass"},
-    {"name": "MES-I005_fixture_records_deterministic_schema_valid_and_bit_exact", "result": "pass"},
-    {"name": "MES-I006_overlap_policy_rejects_accidental_and_unlayered_overlap", "result": "pass"},
-    {"name": "MES-I007_focused_pytest_11_passed", "result": "pass"},
-    {"name": "MES-I008_no_false_completion_claimed", "result": "pass"},
-    {"name": "MES-I009_disjoint_from_row067_row069_row072_row085_owned_paths", "result": "pass"}
-  ],
-  "check_summary": {
-    "checked": 9,
-    "passed": 9,
-    "failed": 0
-  },
-  "decision": {
-    "fail_closed_contract_slice": "accepted_as_bounded_increment",
-    "row074_status": "Planned_Autonomous_Implementation_Required",
-    "row074_acceptance": "held",
-    "runtime_completion": false,
-    "product_completion": false,
-    "safe_next_action": "Accept or complete Rows072-073 next; then extend Row074 library mode to consume accepted anchor/bounds records, reconcile full-library single-event/multi-event PASS or exact blockers with parent-hash and bit-exact reconstruction proofs, and only then mark Row074 complete for Row079/Row082/Row093/Row112 consumers."
-  }
+  "row_complete": false,
+  "runtime_completion_claimed": false,
+  "schema_version": 1,
+  "status": "HOLD_LIBRARY_PROBE_PASS_FULL_RECONCILE_DEFERRED_DEPS_UNLOCKED",
+  "tracker_id": "TRK-W64-074",
+  "updated_at": "2026-07-20T06:31:30Z"
 }
