@@ -2,9 +2,9 @@
 """Offline TRK-W64-124 multi-ref continuity / listening authority proof packager.
 
 Binds the immutable Qwen Base ICL clone, adjacent continuity-matrix diagnostic,
-two disjoint public-domain source references (when present), a started multi-ref
-drift/leakage matrix, and a prepared human listening request. Classifies remaining
-blockers by named class and exact codes. Never claims production COMPLETE,
+two disjoint public-domain source references (when present), a started or measured
+multi-ref drift/leakage matrix, and a prepared human listening request. Classifies
+remaining blockers by named class and exact codes. Never claims production COMPLETE,
 fabricates listening authority, steals :8188, touches Row075, decodes full-library
 PCM, writes sound CSV rows, or invents voice references.
 """
@@ -32,7 +32,13 @@ EXPECTED_SECOND_REFERENCE_SHA256 = "ac013d29e84309abd52c49720fe1a9caf2550fd83ce2
 EXPECTED_CONTINUITY_CLASSIFICATION = "PASS_CONTINUITY_PILOT_PRODUCTION_AUTHORITY_BLOCKED"
 ROW_STATUS = "Blocked_Production_Voice_Authority_And_Multi_Reference_Validation_Pending"
 PROOF_TIER = "OFFLINE_PROOF_BOUNDED"
-EVIDENCE_STAMP = "20260720B"
+EVIDENCE_STAMP = "20260720C"
+REQUIRED_MATRIX_CHECK_IDS = (
+    "same_character_multi_source_identity",
+    "cross_line_drift",
+    "non_target_speaker_leakage_rejection",
+    "reference_separation_from_candidate",
+)
 
 DURABLE_CANDIDATE = Path(
     "Plan/Instructions/Operations/Pulled_Back_Artifacts/"
@@ -479,6 +485,44 @@ def build_drift_leakage_matrix_start(
     }
 
 
+def load_measured_matrix(path: Path, *, stamp: str, candidate_sha256: str) -> dict[str, Any]:
+    matrix = load_json(path)
+    if matrix.get("artifact_type") != "wave64_speech_row124_multi_ref_drift_leakage_matrix":
+        raise ProofError("measured matrix artifact_type mismatch")
+    if matrix.get("tracker_id") != TRACKER_ID or matrix.get("item_id") != ITEM_ID:
+        raise ProofError("measured matrix tracker/item identity drift")
+    if matrix.get("evidence_id") != f"TRK-W64-124_MULTI_REF_DRIFT_LEAKAGE_MATRIX_{stamp}":
+        raise ProofError("measured matrix evidence_id/stamp mismatch")
+    if matrix.get("candidate_sha256") != candidate_sha256:
+        raise ProofError("measured matrix candidate hash drift")
+    if matrix.get("proof_tier") != PROOF_TIER:
+        raise ProofError("measured matrix proof_tier drift")
+    if matrix.get("row_complete") is not False:
+        raise ProofError("measured matrix incorrectly claims row_complete")
+    boundaries = matrix.get("boundaries") or {}
+    if boundaries.get("comfyui_8188_used") is not False:
+        raise ProofError("measured matrix used :8188")
+    if boundaries.get("sound_csv_written") is not False:
+        raise ProofError("measured matrix wrote sound CSV")
+    if boundaries.get("row075_touched") is not False:
+        raise ProofError("measured matrix touched Row075")
+    if boundaries.get("listening_authority_granted") is not False:
+        raise ProofError("measured matrix incorrectly grants listening authority")
+    if boundaries.get("production_promotion_claimed") is not False:
+        raise ProofError("measured matrix incorrectly claims production promotion")
+    checks = matrix.get("checks") or []
+    check_ids = [item.get("id") for item in checks]
+    if check_ids != list(REQUIRED_MATRIX_CHECK_IDS):
+        raise ProofError(f"measured matrix check set drift: {check_ids}")
+    if matrix.get("matrix_complete") is not True:
+        raise ProofError("measured matrix is not complete")
+    if not all(str(item.get("status", "")).startswith("PASS") for item in checks):
+        raise ProofError("measured matrix contains non-passing checks")
+    if int((matrix.get("check_summary") or {}).get("pending_measured") or 0) != 0:
+        raise ProofError("measured matrix still reports pending measured checks")
+    return matrix
+
+
 def classify_blockers(
     *,
     independent_source_reference_count: int,
@@ -502,6 +546,8 @@ def classify_blockers(
         multi_ref_cleared.append("INDEPENDENT_SOURCE_REFERENCE_COUNT_BELOW_TWO")
     if not matrix_complete:
         multi_ref_codes.append("MULTI_REF_DRIFT_LEAKAGE_MATRIX_INCOMPLETE")
+    elif independent_source_reference_count >= 2:
+        multi_ref_cleared.append("MULTI_REF_DRIFT_LEAKAGE_MATRIX_INCOMPLETE")
     if independent_source_reference_count < 2:
         summary = (
             "Only one independent source reference is bound; multi-reference drift/leakage "
@@ -518,7 +564,11 @@ def classify_blockers(
             "matrix is started with offline structural checks but measured evaluation remains incomplete."
         )
     else:
-        summary = "Multi-reference continuity contract currently satisfied at offline proof tier."
+        summary = (
+            "Two disjoint independent source references are bound and the multi-reference "
+            "drift/leakage matrix completed at OFFLINE_PROOF_BOUNDED with measured ERes2Net "
+            "scores. Production voice authority and listening authority remain separately blocked."
+        )
     blockers.append(
         {
             "class": "MULTI_REFERENCE_CONTINUITY",
@@ -702,6 +752,7 @@ def build_proof_packet(
     *,
     stamp: str = EVIDENCE_STAMP,
     write_outputs: bool = True,
+    measured_matrix_path: Path | None = None,
 ) -> dict[str, Any]:
     root = root.resolve()
     row124_path = root / ROW124_QA
@@ -760,12 +811,20 @@ def build_proof_packet(
             }
         return packet
 
-    matrix = build_drift_leakage_matrix_start(
-        root,
-        references=source_bind["references"],
-        candidate_sha256=EXPECTED_CANDIDATE_SHA256,
-        stamp=stamp,
-    )
+    if measured_matrix_path is not None:
+        matrix = load_measured_matrix(
+            Path(measured_matrix_path).resolve(),
+            stamp=stamp,
+            candidate_sha256=EXPECTED_CANDIDATE_SHA256,
+        )
+    else:
+        matrix = build_drift_leakage_matrix_start(
+            root,
+            references=source_bind["references"],
+            candidate_sha256=EXPECTED_CANDIDATE_SHA256,
+            stamp=stamp,
+        )
+    matrix_complete = bool(matrix.get("matrix_complete"))
     independent_count = int(source_bind["independent_source_reference_count"])
 
     listening_request = build_listening_request(
@@ -797,7 +856,7 @@ def build_proof_packet(
         listening_request_prepared=True,
         raw_dialogue_timing_pass=gate_snapshot["raw_dialogue_timing_pass"],
         production_reference_authority_pass=gate_snapshot["production_reference_authority_pass"],
-        matrix_complete=bool(matrix["matrix_complete"]),
+        matrix_complete=matrix_complete,
     )
     blocker_codes = flatten_blocker_codes(blockers)
     multi_ref_cleared = next(
@@ -818,10 +877,10 @@ def build_proof_packet(
         },
         {
             "name": "R124-P004_multi_ref_drift_leakage_matrix_complete",
-            "result": "fail" if not matrix["matrix_complete"] else "pass",
+            "result": "pass" if matrix_complete else "fail",
             **(
                 {}
-                if matrix["matrix_complete"]
+                if matrix_complete
                 else {"blocker_code": "MULTI_REF_DRIFT_LEAKAGE_MATRIX_INCOMPLETE"}
             ),
         },
@@ -860,6 +919,27 @@ def build_proof_packet(
         "failed": sum(1 for check in checks if check["result"] == "fail"),
     }
 
+    if matrix_complete:
+        packet_status = "BLOCKED_PRODUCTION_VOICE_AND_LISTENING_AUTHORITY_PENDING"
+        safe_next_action = (
+            "Retain OFFLINE_PROOF_BOUNDED packet. Measured multi-ref drift/leakage matrix is "
+            "complete against the two bound disjoint LibriVox references plus OpenSLR31 "
+            "rejectors. Clear raw timing or document an approved timing waiver, then execute "
+            "independent human listening against the prepared request. Do not steal :8188, "
+            "touch Row075, decode full-library PCM, write sound CSV, invent voices, or claim "
+            "COMPLETE / PRODUCTION_VOICE_AUTHORITY / LISTENING_AUTHORITY."
+        )
+    else:
+        packet_status = "BLOCKED_MULTI_REF_MATRIX_INCOMPLETE_AND_LISTENING_AUTHORITY_PENDING"
+        safe_next_action = (
+            "Retain OFFLINE_PROOF_BOUNDED packet. Complete measured multi-ref drift/leakage "
+            "matrix evaluation against the two bound disjoint LibriVox references, clear raw "
+            "timing or document an approved timing waiver, then execute independent human "
+            "listening against the prepared request. Do not steal :8188, touch Row075, decode "
+            "full-library PCM, write sound CSV, invent voices, or claim COMPLETE / "
+            "PRODUCTION_VOICE_AUTHORITY / LISTENING_AUTHORITY."
+        )
+
     created_at = datetime.now(timezone.utc).isoformat()
     packet = {
         "schema_version": "1.0",
@@ -870,7 +950,7 @@ def build_proof_packet(
         "created_at": created_at,
         "proof_tier": PROOF_TIER,
         "highest_proof_tier_achieved": PROOF_TIER,
-        "status": "BLOCKED_MULTI_REF_MATRIX_INCOMPLETE_AND_LISTENING_AUTHORITY_PENDING",
+        "status": packet_status,
         "decision": {
             "status": "blocked",
             "row_complete": False,
@@ -878,14 +958,7 @@ def build_proof_packet(
             "production_promotion_claimed": False,
             "listening_authority_granted": False,
             "multi_source_reference_authority": False,
-            "safe_next_action": (
-                "Retain OFFLINE_PROOF_BOUNDED packet. Complete measured multi-ref drift/leakage "
-                "matrix evaluation against the two bound disjoint LibriVox references, clear raw "
-                "timing or document an approved timing waiver, then execute independent human "
-                "listening against the prepared request. Do not steal :8188, touch Row075, decode "
-                "full-library PCM, write sound CSV, invent voices, or claim COMPLETE / "
-                "PRODUCTION_VOICE_AUTHORITY / LISTENING_AUTHORITY."
-            ),
+            "safe_next_action": safe_next_action,
         },
         "bindings": {
             "row124_evidence": row124_binding,
@@ -911,22 +984,17 @@ def build_proof_packet(
         "multi_ref_continuity_contract": {
             "required_independent_source_references": 2,
             "observed_independent_source_references": independent_count,
-            "required_checks": [
-                "same_character_multi_source_identity",
-                "cross_line_drift",
-                "non_target_speaker_leakage_rejection",
-                "reference_separation_from_candidate",
-            ],
+            "required_checks": list(REQUIRED_MATRIX_CHECK_IDS),
             "adjacent_multi_line_matrix_bound": True,
             "multi_source_authority_satisfied": False,
             "drift_leakage_matrix_started": True,
-            "drift_leakage_matrix_complete": False,
+            "drift_leakage_matrix_complete": matrix_complete,
         },
         "multi_ref_drift_leakage_matrix": {
             "evidence_id": matrix["evidence_id"],
             "status": matrix["status"],
             "matrix_started": True,
-            "matrix_complete": False,
+            "matrix_complete": matrix_complete,
             "check_summary": matrix["check_summary"],
         },
         "listening_authority": {
@@ -994,7 +1062,7 @@ def build_proof_packet(
         "continuity_diagnostic_bound": True,
         "second_source_reference_bound": True,
         "drift_leakage_matrix_started": True,
-        "drift_leakage_matrix_complete": False,
+        "drift_leakage_matrix_complete": matrix_complete,
         "row_complete": False,
         "product_completion": False,
         "production_voice_authority_claimed": False,
@@ -1037,6 +1105,12 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--project-root", type=Path, default=ROOT_DEFAULT)
     parser.add_argument("--stamp", default=EVIDENCE_STAMP)
+    parser.add_argument(
+        "--measured-matrix",
+        type=Path,
+        default=None,
+        help="Optional hash-bound measured drift/leakage matrix JSON to adopt",
+    )
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
     try:
@@ -1044,6 +1118,7 @@ def main() -> int:
             args.project_root.resolve(),
             stamp=args.stamp,
             write_outputs=not args.dry_run,
+            measured_matrix_path=args.measured_matrix,
         )
     except Exception as exc:
         print(

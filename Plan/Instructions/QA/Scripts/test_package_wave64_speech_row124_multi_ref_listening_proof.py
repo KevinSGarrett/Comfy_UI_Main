@@ -70,6 +70,28 @@ class PackageWave64SpeechRow124MultiRefListeningProofTests(unittest.TestCase):
         self.assertIn("MULTI_REF_DRIFT_LEAKAGE_MATRIX_INCOMPLETE", codes)
         self.assertIn("PRODUCTION_CHARACTER_REFERENCE_AUTHORITY_ABSENT", codes)
 
+    def test_classify_blockers_clears_matrix_incomplete_when_measured_complete(self) -> None:
+        blockers = MODULE.classify_blockers(
+            independent_source_reference_count=2,
+            listening_request_prepared=True,
+            raw_dialogue_timing_pass=False,
+            production_reference_authority_pass=False,
+            matrix_complete=True,
+        )
+        multi_ref = next(item for item in blockers if item["class"] == "MULTI_REFERENCE_CONTINUITY")
+        self.assertEqual(multi_ref["codes"], [])
+        self.assertEqual(
+            multi_ref["cleared_by_this_packet"],
+            [
+                "INDEPENDENT_SOURCE_REFERENCE_COUNT_BELOW_TWO",
+                "MULTI_REF_DRIFT_LEAKAGE_MATRIX_INCOMPLETE",
+            ],
+        )
+        codes = MODULE.flatten_blocker_codes(blockers)
+        self.assertNotIn("MULTI_REF_DRIFT_LEAKAGE_MATRIX_INCOMPLETE", codes)
+        self.assertIn("PRODUCTION_CHARACTER_REFERENCE_AUTHORITY_ABSENT", codes)
+        self.assertIn("INDEPENDENT_PLAYBACK_REVIEW_ABSENT", codes)
+
     def test_classify_blockers_marks_unprepared_listening_request(self) -> None:
         blockers = MODULE.classify_blockers(
             independent_source_reference_count=2,
