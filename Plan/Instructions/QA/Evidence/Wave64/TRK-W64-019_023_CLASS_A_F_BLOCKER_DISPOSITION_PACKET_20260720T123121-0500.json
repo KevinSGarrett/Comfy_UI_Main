@@ -1,0 +1,339 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-019_023_CLASS_A_F_BLOCKER_DISPOSITION_PACKET_20260720T123121-0500",
+  "created_iso": "2026-07-20T12:31:21-05:00",
+  "tracker_ids": [
+    "TRK-W64-019",
+    "TRK-W64-023"
+  ],
+  "item_ids": [
+    "ITEM-W64-019",
+    "ITEM-W64-023"
+  ],
+  "mutation_this_landing": "evidence_only_class_a_f_disposition_deepen",
+  "row_complete": false,
+  "product_completion_claimed": false,
+  "production_video_complete_claimed": false,
+  "csv_sync": "deferred_leave_to_serialized_mutator",
+  "proof_tier": "OFFLINE_INVENTORY_BLOCKER_BOUNDED",
+  "highest_proof_tier_achieved": "OFFLINE_INVENTORY_BLOCKER_BOUNDED",
+  "prior_disposition": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_CLASS_A_F_BLOCKER_DISPOSITION_PACKET_20260720.json",
+    "prove_commit": "d5b9fbb0",
+    "sha256": "3e28839513e7f2800ad0872c8f91b0e36b16d86625cf7b3ac86700ef4c16cdeb",
+    "note": "Morning Class A/F disposition retained; this landing deepens with live hash-bound negative inventories + formal clearance contract."
+  },
+  "deepen_reason": "Prior disposition already pinned Class F LOCAL_WAN_MODEL_PAYLOAD_MISSING (0/3) and Class A gold-mask codes; this landing re-runs live exact-filename Wan search + body/contact gold-mask negative inventory and records a formal clearance contract without Flux seed spam, Wan download, or inventing gold masks.",
+  "flux_seed_retries": {
+    "status": "CAP_REACHED_STOP_THIS_SHIFT",
+    "forbidden_identical_retries": [
+      2272301,
+      2272401,
+      2272507
+    ],
+    "rejects_retained": true,
+    "further_flux_seed_retries_authorized": false,
+    "port_8188_contention": "do_not_spam",
+    "this_landing_flux_or_8188_used": false
+  },
+  "blocker_classes": [
+    {
+      "class": "F",
+      "name": "EXTERNAL_LOCAL_MODEL_PAYLOAD_GATE",
+      "primary_code": "LOCAL_WAN_MODEL_PAYLOAD_MISSING",
+      "codes": [
+        "LOCAL_WAN_MODEL_PAYLOAD_MISSING"
+      ],
+      "applies_to": [
+        "TRK-W64-023"
+      ],
+      "cleared_by_this_packet": [],
+      "summary": "Live exact-filename recurse across five roots returned 0 hits (0/3 payloads). Class F fail-closed; no download/install this landing.",
+      "fail_closed_until": "all_three_exact_payloads_present_hash_bound_under_comfy_model_roots",
+      "required_assets": [
+        {
+          "filename": "wan2.2_ti2v_5B_fp16.safetensors",
+          "role": "diffusion_model",
+          "comfyui_model_subdir": "diffusion_models",
+          "expected_local_path": "C:\\Comfy_UI_Main\\models\\diffusion_models\\wan2.2_ti2v_5B_fp16.safetensors",
+          "bytes": 9999658848,
+          "sha256": "456f901338bd9eadbded3828b819109a9b68e8a525ca5cf8d0049a69fcfeca1e"
+        },
+        {
+          "filename": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+          "role": "text_encoder",
+          "comfyui_model_subdir": "text_encoders",
+          "expected_local_path": "C:\\Comfy_UI_Main\\models\\text_encoders\\umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+          "bytes": 6735906897,
+          "sha256": "c3355d30191f1f066b26d93fba017ae9809dce6c627dda5f6a66eaa651204f68"
+        },
+        {
+          "filename": "wan2.2_vae.safetensors",
+          "role": "vae",
+          "comfyui_model_subdir": "vae",
+          "expected_local_path": "C:\\Comfy_UI_Main\\models\\vae\\wan2.2_vae.safetensors",
+          "bytes": 1409400960,
+          "sha256": "e40321bd36b9709991dae2530eb4ac303dd168276980d3e9bc4b6e2b75fed156"
+        }
+      ],
+      "live_inventory": {
+        "runtime_receipt": "runtime_artifacts/wave64_row019_023_class_af_deepen_20260720/wan_payload_negative_inventory.json",
+        "runtime_receipt_sha256": "a44f151c65af2fa3777e71bea34ec3878960d86bcd91056b049d4f35a0392030",
+        "exact_filename_hits": 0,
+        "payloads_present_count": 0,
+        "missing_filenames": [
+          "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+          "wan2.2_ti2v_5B_fp16.safetensors",
+          "wan2.2_vae.safetensors"
+        ]
+      },
+      "download_attempted_this_landing": false,
+      "install_attempted_this_landing": false,
+      "wan_generation_authorized_this_landing": false
+    },
+    {
+      "class": "A",
+      "name": "GOLD_MASK_CONTACT_SOFT_BODY_AUTHORITY",
+      "primary_code": "CONTACT_SOFT_BODY_VIDEO_SCOPE_BLOCKED_GOLD_MASKS",
+      "codes": [
+        "CONTACT_SOFT_BODY_VIDEO_SCOPE_BLOCKED_GOLD_MASKS",
+        "Blocked_Gold_Mask_Dependency_Missing"
+      ],
+      "applies_to": {
+        "CONTACT_SOFT_BODY_VIDEO_SCOPE_BLOCKED_GOLD_MASKS": [
+          "TRK-W64-019"
+        ],
+        "Blocked_Gold_Mask_Dependency_Missing": [
+          "TRK-W64-023"
+        ]
+      },
+      "cleared_by_this_packet": [],
+      "scope": "contact_and_soft_body_and_deformation_repair_subgates_only",
+      "protocol": "Plan/Instructions/QA/GOLD_STANDARD_MASK_DEPENDENCY_GATE_PROTOCOL.md",
+      "summary": "Live negative inventory found 0 eligible trusted body/contact gold-mask authority artifacts. Facial/neck/hair registry exception does not clear these codes. Candidate masks were not consumed as truth; gold masks were not invented.",
+      "fail_closed_until": "user signals manual body/contact gold masks ready + canonical intake/QA/geometry/promotion evidence passes for those exact masks",
+      "live_inventory": {
+        "runtime_receipt": "runtime_artifacts/wave64_row019_023_class_af_deepen_20260720/body_contact_gold_mask_negative_inventory.json",
+        "runtime_receipt_sha256": "d50163e4f75188e7c9a33c66bb47719c470fa239e9dcd1a56ea62a64498575f3",
+        "eligible_body_contact_gold_authority_hits": 0,
+        "files_scanned": 3795,
+        "facial_neck_hair_clears_body_contact": false
+      },
+      "non_mask_work_may_continue": true,
+      "facial_neck_hair_dataset_exception_does_not_clear_body_contact": true
+    }
+  ],
+  "negative_inventories": {
+    "wan_payload": {
+      "runtime_receipt": "runtime_artifacts/wave64_row019_023_class_af_deepen_20260720/wan_payload_negative_inventory.json",
+      "runtime_receipt_sha256": "a44f151c65af2fa3777e71bea34ec3878960d86bcd91056b049d4f35a0392030",
+      "exact_filename_hits": 0,
+      "verdict": "WAN_PAYLOADS_0_OF_3_CONFIRMED_FAIL_CLOSED"
+    },
+    "body_contact_gold_mask": {
+      "runtime_receipt": "runtime_artifacts/wave64_row019_023_class_af_deepen_20260720/body_contact_gold_mask_negative_inventory.json",
+      "runtime_receipt_sha256": "d50163e4f75188e7c9a33c66bb47719c470fa239e9dcd1a56ea62a64498575f3",
+      "eligible_hits": 0,
+      "verdict": "BODY_CONTACT_GOLD_MASK_AUTHORITY_ABSENT_FAIL_CLOSED"
+    }
+  },
+  "authority_bindings": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_CLASS_A_F_BLOCKER_DISPOSITION_PACKET_20260720.json",
+      "exists": true,
+      "bytes": 9472,
+      "sha256": "3e28839513e7f2800ad0872c8f91b0e36b16d86625cf7b3ac86700ef4c16cdeb"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-023_LOCAL_WAN_MODEL_PAYLOAD_SEARCH_20260720.json",
+      "exists": true,
+      "bytes": 3095,
+      "sha256": "2350539b82758c34bd388bc6314f4234307d55cb222e92d855633aec1746caf9"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_CLASS_B_BLOCKER_LEDGER_20260720.json",
+      "exists": true,
+      "bytes": 12244,
+      "sha256": "f2f178d13dd3e98493493a08e68eeec52abaf95ce6304851d3c292b852830784"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/facial_neck_hair_gold_standard_dataset_registry.json",
+      "exists": true,
+      "bytes": 4832,
+      "sha256": "49ec5990f879300d63ec55216c4a7d292d542b3b8a364a5524bfc5209865a6a0"
+    },
+    {
+      "path": "Plan/Instructions/QA/GOLD_STANDARD_MASK_DEPENDENCY_GATE_PROTOCOL.md",
+      "exists": true,
+      "bytes": 4070,
+      "sha256": "659fd3c21c084b0e3ebdbf8e8378eba2cd845186089a7b824ff4297403727cd3"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/workflow_templates/video_generation/wan_2_2_ti2v_5b_primary_lane/runtime_requirements.json",
+      "exists": true,
+      "bytes": 5720,
+      "sha256": "30137ac9509439012804c36916bd89ef425dbd7063d730ee771c82c0633d374a"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_KEYFRAME_REPAIR_GATES_CURRENT_DELTA_20260720.json",
+      "exists": true,
+      "bytes": 3140,
+      "sha256": "f5213289e6a763077a17332d9b9fd18a983b569efea4f2f372a404ff4808afb8"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-023_WAN_REPAIR_CANDIDATE_REAFFIRM_CURRENT_DELTA_20260720.json",
+      "exists": true,
+      "bytes": 4897,
+      "sha256": "6197e416ed7a4f0c2179368f3537da1715464e88fb40e0609909eb8d121daf24"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-023_FLUX_SPAN_REPAIR_V2_RUNTIME_VISUAL_QA_CURRENT_DELTA_20260720.json",
+      "exists": true,
+      "bytes": 3574,
+      "sha256": "f31f528683b9a59172e0f768371a0346d26cce3eb7441ba52b1f8617a7eb06d6"
+    },
+    {
+      "path": "Plan/Items/Reports/ITEM-W64-019_video_pipeline_build.json",
+      "exists": true,
+      "bytes": 2908,
+      "sha256": "e6dadd71362393ff1a74d4a21aba12236064b98924d06910a5b27ee575ed9fc7"
+    },
+    {
+      "path": "Plan/Items/Reports/ITEM-W64-023_video_frame_repair.json",
+      "exists": true,
+      "bytes": 4623,
+      "sha256": "a001742b90fbcb057368de9bf6ea0fb4e99cae3324315ad413b4531ef8e14651"
+    }
+  ],
+  "retained_class_b_visual_qa_not_reclassified_here": {
+    "note": "Flux/Wan visual REJECT codes remain Class B. This deepen only reaffirms Class F payload absence and Class A gold-mask authority gaps.",
+    "class_b_ledger": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_CLASS_B_BLOCKER_LEDGER_20260720.json",
+    "codes_remain_class_b": [
+      "FRAME_REPAIR_VISUAL_ACCEPTANCE_FAILED",
+      "FLUX_SPAN_REPAIR_VISUAL_QA_FAILED",
+      "FLUX_SPAN_REPAIR_V2_VISUAL_QA_FAILED",
+      "SIDE_LIGHT_GRAY_NOT_RESTORED",
+      "HARD_ARTIFACTS_RETAINED",
+      "KEYFRAME_MANIFEST_INTEGRATION_MISSING",
+      "SAME_SEED_RERUN_FORBIDDEN",
+      "SHORT_SPAN_EXECUTOR_NOT_ELIGIBLE"
+    ]
+  },
+  "clearance_contract": {
+    "class_f_status_flip_forbidden_until": [
+      "Exact filenames for all three Wan TI2V 5B payloads exist under Comfy model roots",
+      "Each payload SHA-256 matches runtime_requirements.json required_models",
+      "One new authorized non-forbidden Wan seed may then be considered only on idle :8188"
+    ],
+    "class_a_status_flip_forbidden_until": [
+      "User explicitly signals required manual body/contact gold masks ready for intake",
+      "Canonical intake/QA/geometry/promotion evidence passes for those exact masks",
+      "Row019/023 contact/soft-body or deformation subgates no longer depend on missing gold truth"
+    ],
+    "never_complete_from_this_packet": true,
+    "do_not": [
+      "flux_seed_spam_or_identical_retries_2272301_2272401_2272507",
+      "download_or_auto_stage_wan_payloads_this_shift",
+      "invent_gold_masks_or_consume_candidates_as_truth",
+      "treat_facial_neck_hair_registry_as_body_contact_clearance",
+      "touch_row073_pcm",
+      "mutate_shared_csv",
+      "emit_hold_090_plus",
+      "claim_COMPLETE_or_row_complete"
+    ]
+  },
+  "boundaries": {
+    "comfyui_8188_used": false,
+    "gpu_used": false,
+    "flux_seed_retries": false,
+    "wan_download": false,
+    "wan_install": false,
+    "gold_masks_invented": false,
+    "candidate_masks_consumed_as_truth": false,
+    "row073_pcm_touched": false,
+    "row075_touched": false,
+    "hold_090_plus_touched": false,
+    "sound_csv_mutated": false,
+    "tip_sha_chain": false,
+    "csv_sync_performed": false,
+    "complete_claimed": false,
+    "offline_only": true
+  },
+  "checks": [
+    {
+      "name": "R019023-D001_prior_disposition_bound",
+      "result": "pass"
+    },
+    {
+      "name": "R019023-D002_live_wan_exact_filename_search_executed",
+      "result": "pass"
+    },
+    {
+      "name": "R019023-D003_wan_payloads_0_of_3",
+      "result": "pass"
+    },
+    {
+      "name": "R019023-D004_no_wan_download_or_install",
+      "result": "pass"
+    },
+    {
+      "name": "R019023-D005_live_gold_mask_negative_inventory_executed",
+      "result": "pass"
+    },
+    {
+      "name": "R019023-D006_eligible_body_contact_gold_hits_zero",
+      "result": "pass"
+    },
+    {
+      "name": "R019023-D007_no_gold_mask_invention",
+      "result": "pass"
+    },
+    {
+      "name": "R019023-D008_no_flux_seed_spam",
+      "result": "pass"
+    },
+    {
+      "name": "R019023-D009_csv_deferred",
+      "result": "pass"
+    },
+    {
+      "name": "R019023-D010_row073_pcm_left_alone",
+      "result": "pass"
+    },
+    {
+      "name": "R019023-D011_no_hold_090_plus",
+      "result": "pass"
+    },
+    {
+      "name": "R019023-D012_no_complete_claim",
+      "result": "pass"
+    }
+  ],
+  "decision": {
+    "status": "blocked",
+    "row_complete": false,
+    "product_completion": false,
+    "class_f": "LOCAL_WAN_MODEL_PAYLOAD_MISSING",
+    "class_a": [
+      "CONTACT_SOFT_BODY_VIDEO_SCOPE_BLOCKED_GOLD_MASKS",
+      "Blocked_Gold_Mask_Dependency_Missing"
+    ],
+    "safe_next_action": "Human/external: stage the three exact Wan TI2V 5B payloads onto this host (operator-owned copy/transfer; no auto-download here), hash-bind them, then authorize one new non-forbidden Wan seed on idle :8188. Separately, supply/intake trusted body-contact gold masks before any Class A contact/soft-body claim. Agents must not Flux-spam, invent gold masks, touch Row073 PCM, mutate shared CSVs, emit HOLD 090+, or claim COMPLETE."
+  },
+  "ledger_status_unchanged": {
+    "TRK-W64-019": "Blocked_Keyframe_And_Repair_Visual_Acceptance_Missing_Bounded_Wan_Pass",
+    "TRK-W64-023": "Blocked_Video_Frame_Repair_Rerun_Candidate_Visual_QA_Failed"
+  },
+  "this_landing_actions": {
+    "wrote_wan_negative_inventory": true,
+    "wrote_gold_mask_negative_inventory": true,
+    "wrote_disposition_packet": true,
+    "touched_csv": false,
+    "touched_row073": false,
+    "flux_seed_retries": false,
+    "wan_download": false,
+    "invented_gold_masks": false,
+    "claimed_complete": false
+  },
+  "recommended_codex_follow_up": "Leave Row019/023 blocked on Class F payload staging + Class A gold-mask intake; optional CSV Notes sync via mutator only. Prefer unrelated offline rows — do not Flux-spam, download Wan this shift, or invent gold masks."
+}

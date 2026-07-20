@@ -1,41 +1,24 @@
-# Main Session Integration Handoff — 2026-07-20T12:33-05:00
+﻿# Main Session Integration Handoff — 2026-07-20T12:33-05:00
 
 ## Integration Summary
 
 - Active platform: interactive Cursor (integration authority)
 - Branch: `codex/workflow_plan_update_improvements`
-- Tip before this landing: `5cae1f68` (Row089 HOLD declared artifact Notes sync)
-- This pass: Row072/075 Class D residual-blocker — no safe offline metadata/planning deepen remains
-- No COMPLETE / Status flip / CSV mutation / threshold unfreeze
-- Row073 exclusive PCM left alone (progress incomplete; not contended)
-
-## Candidate selection
-
-| Candidate | Verdict |
-|---|---|
-| Row072 Class D | Planning-freeze thresholds + shortlist already stamped (`57bb7550`/`505b1027`); no safe deepen |
-| Row075 Class D | Class F/D shortlist stop already stamped (`d71ec94d`/`dce0fd1a`); no safe deepen |
-| **Residual stop** | **Selected: compact Class D residual-blocker packet + CURRENT_DELTA pointers** |
+- This pass: deepen TRK-W64-019/023 Class F (Wan payloads 0/3) + Class A (gold-mask) disposition
+- Tip deepen: `6cd6deaf` + inventory/handoff follow-up
+- Tip disposition stamp: `20260720T123355-0500`; supporting scan: `20260720T123121-0500`
+- No COMPLETE / Status flip / CSV / Flux spam / Wan download / gold invention / Row073 PCM / HOLD 090+
 
 ## This pass proof
 
-- Residual packet: `Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_075_CLASS_D_RESIDUAL_BLOCKER_PACKET_20260720T123330-0500.json`
-- Alias: `Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_075_CLASS_D_RESIDUAL_BLOCKER_PACKET_20260720.json`
-- Packet SHA256: `129bcac329f896551e200ed3c243d765e0cf200f36d8251c227654207f100cce`
-- Verdict: `NO_SAFE_CLASS_D_METADATA_PLANNING_INCREMENT_REMAINS`
-- Proof tier: `OFFLINE_INVENTORY_BLOCKER_BOUNDED`
-- CURRENT_DELTA pointers updated for TRK-W64-072 and TRK-W64-075
-- `row_complete=false` both rows; thresholds remain frozen; no Accept/COMPLETE
-
-## Boundaries honored
-
-- No Row073 PCM touch / library PCM decode
-- No threshold unfreeze
-- No shared CSV / HOLD090+
-- No tip-SHA chain / COMPLETE
+- Tip disposition SHA256: `b8109ce42d954e10b0a3a6a811fb68d738b2dc18317c216926a51e036d58ada1`
+- Combined inventory SHA256: `f0ab5d6d6ac5a44f0de34f2e9aa0eadb15f12e2ff4acb97d56eb93946a7d117f`
+- Wan supporting inventory SHA256: `a44f151c65af2fa3777e71bea34ec3878960d86bcd91056b049d4f35a0392030` (0/3)
+- Gold supporting inventory SHA256: `d50163e4f75188e7c9a33c66bb47719c470fa239e9dcd1a56ea62a64498575f3` (0 eligible)
+- Live: Wan 0/3; body/contact gold authority 4/4 ABSENT; :8188 unreachable
+- `row_complete=false`; proof tier `OFFLINE_INVENTORY_BLOCKER_BOUNDED`
 
 ## Exact next action
 
-1. STOP further Row072/075 Class D offline deepen until human-gold library truth exists.
-2. Leave Row073 alone until coverage_complete; then authorized PCM re-listen may reopen Class D separately.
-3. Prefer unrelated offline rows; optional CSV Notes sync via mutator only.
+1. Human/external: stage three Wan TI2V payloads + body-contact gold masks.
+2. Leave Row073 alone; CSV via mutator only; do not invent payloads/masks or claim COMPLETE.
