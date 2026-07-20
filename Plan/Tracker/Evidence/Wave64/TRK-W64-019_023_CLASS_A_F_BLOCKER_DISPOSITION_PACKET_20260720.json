@@ -1,0 +1,173 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-019_023_CLASS_A_F_BLOCKER_DISPOSITION_PACKET_20260720",
+  "created_iso": "2026-07-20T02:50:30-05:00",
+  "tracker_ids": ["TRK-W64-019", "TRK-W64-023"],
+  "item_ids": ["ITEM-W64-019", "ITEM-W64-023"],
+  "mutation_this_landing": "evidence_only_class_a_f_disposition",
+  "row_complete": false,
+  "production_video_complete_claimed": false,
+  "csv_sync": "deferred_evidence_only_avoid_racing_designated_csv_mutator",
+  "flux_seed_retries": {
+    "status": "CAP_REACHED_STOP_THIS_SHIFT",
+    "forbidden_identical_retries": [2272301, 2272401, 2272507],
+    "rejects_retained": true,
+    "further_flux_seed_retries_authorized": false,
+    "port_8188_contention": "do_not_spam",
+    "row075": "leave_alone"
+  },
+  "blocker_classes": [
+    {
+      "class": "F",
+      "name": "EXTERNAL_LOCAL_MODEL_PAYLOAD_GATE",
+      "primary_code": "LOCAL_WAN_MODEL_PAYLOAD_MISSING",
+      "codes": [
+        "LOCAL_WAN_MODEL_PAYLOAD_MISSING"
+      ],
+      "applies_to": ["TRK-W64-023"],
+      "fail_closed_until": "all_three_exact_payloads_present_hash_bound_under_comfy_model_roots",
+      "summary": "Class F fail-closed: local Wan 2.2 TI2V 5B payloads are absent under every searched root (0 exact hits). No huge-model download this landing; install only if payloads already exist on disk/HF cache (they do not). New Wan regeneration remains blocked.",
+      "required_assets": [
+        {
+          "filename": "wan2.2_ti2v_5B_fp16.safetensors",
+          "role": "diffusion_model",
+          "comfyui_model_subdir": "diffusion_models",
+          "expected_local_path": "C:\\Comfy_UI_Main\\models\\diffusion_models\\wan2.2_ti2v_5B_fp16.safetensors",
+          "bytes": 9999658848,
+          "sha256": "456f901338bd9eadbded3828b819109a9b68e8a525ca5cf8d0049a69fcfeca1e",
+          "source_url_reference_only_do_not_auto_download": "https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/resolve/fb1388adc906ab39ffc26ee40e96b22886b56bc4/split_files/diffusion_models/wan2.2_ti2v_5B_fp16.safetensors"
+        },
+        {
+          "filename": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+          "role": "text_encoder",
+          "comfyui_model_subdir": "text_encoders",
+          "expected_local_path": "C:\\Comfy_UI_Main\\models\\text_encoders\\umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+          "bytes": 6735906897,
+          "sha256": "c3355d30191f1f066b26d93fba017ae9809dce6c627dda5f6a66eaa651204f68",
+          "source_url_reference_only_do_not_auto_download": "https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/resolve/fb1388adc906ab39ffc26ee40e96b22886b56bc4/split_files/text_encoders/umt5_xxl_fp8_e4m3fn_scaled.safetensors"
+        },
+        {
+          "filename": "wan2.2_vae.safetensors",
+          "role": "vae",
+          "comfyui_model_subdir": "vae",
+          "expected_local_path": "C:\\Comfy_UI_Main\\models\\vae\\wan2.2_vae.safetensors",
+          "bytes": 1409400960,
+          "sha256": "e40321bd36b9709991dae2530eb4ac303dd168276980d3e9bc4b6e2b75fed156",
+          "source_url_reference_only_do_not_auto_download": "https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/resolve/fb1388adc906ab39ffc26ee40e96b22886b56bc4/split_files/vae/wan2.2_vae.safetensors"
+        }
+      ],
+      "search_roots_0_hits": [
+        {
+          "root": "C:\\Comfy_UI_Main\\models",
+          "exists": true,
+          "exact_hits": 0
+        },
+        {
+          "root": "C:\\Comfy_UI_Main\\ComfyUI\\models",
+          "exists": true,
+          "exact_hits": 0
+        },
+        {
+          "root": "C:\\Comfy_UI",
+          "exists": true,
+          "exact_hits": 0
+        },
+        {
+          "root": "C:\\Users\\kevin\\.cache\\huggingface\\hub",
+          "exists": true,
+          "exact_hits": 0,
+          "hf_hub_wan_umt5_top_level_dirs": []
+        },
+        {
+          "root": "C:\\Users\\kevin\\Downloads",
+          "exists": true,
+          "exact_hits": 0
+        }
+      ],
+      "total_exact_filename_hits": 0,
+      "runtime_search_artifact": "runtime_artifacts/wave64_row023_wan_payload_search_20260720/wan_payload_search.json",
+      "runtime_search_artifact_sha256": "AF1D6BB8C7DFCD587CB44E534AE9B72ACE729E97DB3B136369A22F95B6430FD1",
+      "prior_search_evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-023_LOCAL_WAN_MODEL_PAYLOAD_SEARCH_20260720.json",
+      "authority_runtime_requirements": "Plan/07_IMPLEMENTATION/workflow_templates/video_generation/wan_2_2_ti2v_5b_primary_lane/runtime_requirements.json",
+      "model_source": {
+        "repository": "Comfy-Org/Wan_2.2_ComfyUI_Repackaged",
+        "revision": "fb1388adc906ab39ffc26ee40e96b22886b56bc4",
+        "license_id": "Apache-2.0"
+      },
+      "install_steps_if_payloads_already_present": [
+        "1. Re-scan exact filenames under HF hub cache, Downloads, and any user-supplied path. Do not download ~18GB unless files already exist on disk.",
+        "2. If an exact filename is found, verify size and SHA-256 against required_assets above before any copy/hardlink.",
+        "3. Place verified files only at expected_local_path (or ComfyUI\\models\\<subdir> equivalent via config\\comfyui_extra_model_paths.yaml base_path).",
+        "4. Re-run exact-filename presence check; require total_exact_filename_hits == 3 and all three SHA-256 matches.",
+        "5. Only then may one new authorized Wan seed (not 2272301/2272401/2272507) be considered on idle :8188."
+      ],
+      "install_steps_when_payloads_absent_this_host": [
+        "Fail-closed: do not invent alternate weights, do not auto-download in this shift, do not spam :8188.",
+        "Human/external action required: stage the three exact payloads onto this host (copy from existing EC2/S3/cache owned by operator, or an explicitly authorized offline transfer), then hash-bind and re-open Class F.",
+        "EC2 generation remains out of scope for this disposition packet unless separately authorized."
+      ],
+      "download_attempted_this_landing": false,
+      "install_attempted_this_landing": false,
+      "wan_generation_authorized_this_landing": false
+    },
+    {
+      "class": "A",
+      "name": "GOLD_MASK_CONTACT_SOFT_BODY_AUTHORITY",
+      "codes": [
+        "CONTACT_SOFT_BODY_VIDEO_SCOPE_BLOCKED_GOLD_MASKS",
+        "Blocked_Gold_Mask_Dependency_Missing"
+      ],
+      "applies_to": {
+        "CONTACT_SOFT_BODY_VIDEO_SCOPE_BLOCKED_GOLD_MASKS": ["TRK-W64-019"],
+        "Blocked_Gold_Mask_Dependency_Missing": ["TRK-W64-023"]
+      },
+      "scope": "contact_and_soft_body_and_deformation_repair_subgates_only",
+      "protocol": "Plan/Instructions/QA/GOLD_STANDARD_MASK_DEPENDENCY_GATE_PROTOCOL.md",
+      "summary": "Class A authority gap: trusted body/contact gold masks are unavailable. Contact/soft-body video claims and contact/deformation repair subgates remain fail-closed; candidate masks must not be consumed as truth.",
+      "exact_defects": [
+        {
+          "code": "CONTACT_SOFT_BODY_VIDEO_SCOPE_BLOCKED_GOLD_MASKS",
+          "tracker_id": "TRK-W64-019",
+          "exact_defect": "Trusted body/contact gold masks unavailable; contact/soft-body video claims remain out of scope."
+        },
+        {
+          "code": "Blocked_Gold_Mask_Dependency_Missing",
+          "tracker_id": "TRK-W64-023",
+          "exact_defect": "Body/contact deformation claims cannot consume candidate masks as trusted truth."
+        }
+      ],
+      "cleared_only_when": [
+        "User explicitly signals required manual body/contact gold masks ready for intake",
+        "Canonical intake/QA/geometry/promotion evidence passes for those exact masks",
+        "Row scope no longer depends on missing gold-mask truth for contact/soft-body claims"
+      ],
+      "non_mask_work_may_continue": true,
+      "facial_neck_hair_dataset_exception_does_not_clear_body_contact": true
+    }
+  ],
+  "retained_class_b_visual_qa_not_reclassified_here": {
+    "note": "Flux/Wan visual REJECT codes remain Class B (runtime pass / visual fail). This packet only reclassifies payload absence as Class F and gold-mask/contact scope as Class A.",
+    "codes_remain_class_b": [
+      "FRAME_REPAIR_VISUAL_ACCEPTANCE_FAILED",
+      "FLUX_SPAN_REPAIR_VISUAL_QA_FAILED",
+      "FLUX_SPAN_REPAIR_V2_VISUAL_QA_FAILED",
+      "SIDE_LIGHT_GRAY_NOT_RESTORED",
+      "HARD_ARTIFACTS_RETAINED",
+      "KEYFRAME_MANIFEST_INTEGRATION_MISSING",
+      "SAME_SEED_RERUN_FORBIDDEN",
+      "SHORT_SPAN_EXECUTOR_NOT_ELIGIBLE"
+    ],
+    "class_b_ledger": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_CLASS_B_BLOCKER_LEDGER_20260720.json"
+  },
+  "boundaries": {
+    "flux_seed_retries_stopped": true,
+    "comfyui_8188_spam": false,
+    "row075_left_alone": true,
+    "csv_mutated": false,
+    "complete_claimed": false,
+    "ec2_started": false,
+    "huge_model_download_attempted": false
+  },
+  "next_human_external_action": "Stage the three exact Wan TI2V 5B payloads onto this host (operator-owned copy/transfer; no auto-download here), hash-bind them, then authorize one new non-forbidden Wan seed on idle :8188. Separately, supply/intake trusted body-contact gold masks before any Class A contact/soft-body claim. CSV remains deferred; no COMPLETE.",
+  "qa_mirror": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_CLASS_A_F_BLOCKER_DISPOSITION_PACKET_20260720.json"
+}
