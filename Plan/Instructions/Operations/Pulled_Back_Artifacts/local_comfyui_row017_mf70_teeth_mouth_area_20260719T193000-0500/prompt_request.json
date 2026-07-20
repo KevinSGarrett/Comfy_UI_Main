@@ -1,0 +1,172 @@
+{
+  "prompt": {
+    "3": {
+      "class_type": "KSampler",
+      "inputs": {
+        "seed": 4829173651,
+        "steps": 14,
+        "cfg": 3.0,
+        "sampler_name": "euler",
+        "scheduler": "normal",
+        "denoise": 0.02,
+        "model": [
+          "4",
+          0
+        ],
+        "positive": [
+          "8",
+          0
+        ],
+        "negative": [
+          "9",
+          0
+        ],
+        "latent_image": [
+          "12",
+          0
+        ]
+      }
+    },
+    "4": {
+      "class_type": "CheckpointLoaderSimple",
+      "inputs": {
+        "ckpt_name": "realvisxlV50_v50Bakedvae.safetensors"
+      }
+    },
+    "5": {
+      "class_type": "LoadImage",
+      "inputs": {
+        "image": "wave70_mf70_face_identity_source_canny_v3.png"
+      }
+    },
+    "6": {
+      "class_type": "LoadImageMask",
+      "inputs": {
+        "image": "wave70_mf70_teeth_mouth_area_v2_mask.png",
+        "channel": "red"
+      }
+    },
+    "7": {
+      "class_type": "VAEEncode",
+      "inputs": {
+        "pixels": [
+          "5",
+          0
+        ],
+        "vae": [
+          "4",
+          2
+        ]
+      }
+    },
+    "8": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "very subtle photoreal teeth and mouth-area preservation pass, preserve exact face identity, closed mouth shape, visible teeth band detail, natural lip edges, philtrum, nose, cheeks, eyes, gaze direction, eyebrows, skin texture, hair, cream blazer, lighting, background, and portrait composition unchanged",
+        "clip": [
+          "4",
+          1
+        ]
+      }
+    },
+    "9": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "identity change, different person, expression change, smile change, open mouth, closed teeth removed, added teeth, missing teeth, crooked teeth, warped teeth, tongue, lip mutation, upper lip change, lower lip change, mouth shape change, philtrum mutation, nose mutation, cheek mutation, gaze change, softened eyes, mismatched eyes, skin tone change, visible seam, hair mutation, clothing change, background change, plastic skin, watermark, text",
+        "clip": [
+          "4",
+          1
+        ]
+      }
+    },
+    "10": {
+      "class_type": "VAEDecode",
+      "inputs": {
+        "samples": [
+          "3",
+          0
+        ],
+        "vae": [
+          "4",
+          2
+        ]
+      }
+    },
+    "11": {
+      "class_type": "SaveImage",
+      "inputs": {
+        "filename_prefix": "codex_row017_mf70_teeth_mouth_area_20260719T193000-0500",
+        "images": [
+          "14",
+          0
+        ]
+      }
+    },
+    "12": {
+      "class_type": "SetLatentNoiseMask",
+      "inputs": {
+        "samples": [
+          "7",
+          0
+        ],
+        "mask": [
+          "13",
+          0
+        ]
+      }
+    },
+    "13": {
+      "class_type": "FeatherMask",
+      "inputs": {
+        "mask": [
+          "6",
+          0
+        ],
+        "left": 8,
+        "top": 8,
+        "right": 8,
+        "bottom": 8
+      }
+    },
+    "14": {
+      "class_type": "ImageCompositeMasked",
+      "inputs": {
+        "destination": [
+          "5",
+          0
+        ],
+        "source": [
+          "10",
+          0
+        ],
+        "x": 0,
+        "y": 0,
+        "resize_source": false,
+        "mask": [
+          "13",
+          0
+        ]
+      }
+    },
+    "15": {
+      "class_type": "MaskToImage",
+      "inputs": {
+        "mask": [
+          "13",
+          0
+        ]
+      }
+    },
+    "16": {
+      "class_type": "SaveImage",
+      "inputs": {
+        "filename_prefix": "codex_row017_mf70_teeth_mouth_area_20260719T193000-0500_mask_preview",
+        "images": [
+          "15",
+          0
+        ]
+      }
+    }
+  },
+  "client_id": "cursor-row017-teeth-mouth-193000"
+}
