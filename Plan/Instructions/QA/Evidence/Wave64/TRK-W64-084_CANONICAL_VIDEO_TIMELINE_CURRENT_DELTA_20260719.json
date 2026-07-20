@@ -1,14 +1,14 @@
 {
   "schema_version": "1.0",
   "evidence_id": "TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719",
-  "created_at": "2026-07-20T06:23:52Z",
+  "created_at": "2026-07-20T06:38:22Z",
   "source_commit": "a9b2b30722b47b55245e1740eb5365dd1a23367b",
-  "prior_evidence_commit": "25d507fe",
+  "prior_evidence_commit": "86dbb071",
   "prior_row_commit_is_current_head": false,
   "tracker_id": "TRK-W64-084",
   "item_id": "ITEM-W64-084",
-  "status": "HOLD_VISUAL_QA_AND_FFMPEG_MUX_ABSENT_FIXTURE_MEDIA_MUX_RUNTIME_PASS_BOUNDED",
-  "classification": "ROW084_FAIL_CLOSED_FIXTURE_MEDIA_MUX_RUNTIME_PASS_BOUNDED_NO_FALSE_COMPLETION",
+  "status": "HOLD_ROW084_019_FFMPEG_MUX_REPLAY_BLOCKED_RUNTIME_PASS_BOUNDED",
+  "classification": "ROW084_FAIL_CLOSED_FFMPEG_ABSENT_MUX_REPLAY_BLOCKED_NO_FALSE_COMPLETION",
   "row_complete": false,
   "implementation_completion_claimed": false,
   "runtime_completion_claimed": false,
@@ -20,40 +20,44 @@
     "VISUAL_QA_PASS_BOUNDED"
   ],
   "increment": {
-    "kind": "fail_closed_pure_python_fixture_media_mux_runtime_identity_roundtrip",
-    "summary": "Executed pure-Python fixture media mux assembly against checked-in audio/container/video blobs with deterministic identity roundtrip and combined-visual surface runtime digest checks. Raises highest proof tier to RUNTIME_PASS_BOUNDED for fixture mux only. ffmpeg mux replay, VISUAL_QA_PASS_BOUNDED, and row_complete remain absent.",
+    "kind": "fail_closed_ffmpeg_path_probe_held_out_mux_replay_blocked",
+    "summary": "Probed local ffmpeg path candidates after RUNTIME_PASS_BOUNDED fixture mux. shutil.which and known install locations miss; winget package Gyan.FFmpeg observed but not installed this landing due to binding-shift yield to TRK-W64-019/023. ROW084-019 recorded BLOCKED. No ffmpeg mux replay executed. proof_tier remains RUNTIME_PASS_BOUNDED. row_complete remains false.",
     "production_media_decode_invoked": false,
     "tracker_output_artifact_emitted": false,
     "mux_replay_executed": false,
     "mux_command_executed": false,
+    "ffmpeg_path_probe_executed": true,
+    "ffmpeg_available": false,
+    "ffmpeg_installed_this_landing": false,
+    "held_out_fixed_vfr_mux_replay_attempted": false,
     "fixture_mux_plan_replay_executed": true,
     "fixture_media_mux_runtime_executed": true,
     "visual_review_authority_claimed": false,
     "camera_motion_normalization_complete": false,
     "missing_frame_policy_runtime_complete": false,
     "cut_detection_algorithm_complete": false,
+    "comfyui_8188_required": false,
+    "binding_shift_yield_to": [
+      "TRK-W64-019",
+      "TRK-W64-023"
+    ],
     "row067_binding_commit": "b074c694518b7ebe78a1e7292db28427d7f75ca7",
+    "prior_runtime_pass_bounded_commit": "86dbb071",
     "prior_climb_ledger_commit": "25d507fe"
   },
   "intent": {
-    "intent_id": "interactive_cursor_shift_row084_fixture_media_mux_runtime_20260720",
+    "intent_id": "interactive_cursor_shift_row084_ffmpeg_mux_replay_blocked_20260720",
     "classification": "INTERACTIVE_PLATFORM_SHIFT_AUTHORITY",
     "work_type": "final_authority",
     "authority_class": "interactive_cursor",
     "routing": null,
     "dispatch_wake_count": 0,
     "candidate_paths": [
-      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-      "Plan/08_SCHEMAS/canonical_video_timeline_fixture_media_mux_runtime_receipt.schema.json",
-      "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
-      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/ffmpeg_path_probe_receipt.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
     ],
     "allowed_paths": [
-      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-      "Plan/08_SCHEMAS/canonical_video_timeline_fixture_media_mux_runtime_receipt.schema.json",
-      "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
-      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/ffmpeg_path_probe_receipt.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
     ]
   },
@@ -184,7 +188,10 @@
     "fixture_media_mux_output_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/fixture_media_mux_output.mux",
     "fixture_media_mux_output_sha256": "0c45a087ecd2eeb86f0ab33a22b4e0a2264af69516b31260d74ea5fe92857bef",
     "fixture_media_mux_runtime_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_fixture_media_mux_runtime_receipt.schema.json",
-    "fixture_media_mux_runtime_schema_sha256": "4d4bada967bf00c85e0cad4ddc9a39bfee4c3bc62d3814109d04e54b89270df4"
+    "fixture_media_mux_runtime_schema_sha256": "4d4bada967bf00c85e0cad4ddc9a39bfee4c3bc62d3814109d04e54b89270df4",
+    "ffmpeg_path_probe_receipt_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/ffmpeg_path_probe_receipt.json",
+    "ffmpeg_path_probe_receipt_sha256": "a235ccdb1d53a916b5b3018b80cc6fe733bf908b0f8a6b28a2d15832c4879d2c",
+    "ffmpeg_path_probe_receipt_bytes": 1859
   },
   "focused_local_test_result": {
     "py_compile": "PASS",
@@ -205,7 +212,16 @@
       "row_complete": false,
       "production_completion_allowed": false
     },
-    "scope_interpretation": "Focused tests prove pure-Python fixture media mux runtime identity roundtrip at RUNTIME_PASS_BOUNDED plus prior climb ledger. They do not grant ffmpeg mux replay, VISUAL_QA_PASS_BOUNDED, or row_complete."
+    "scope_interpretation": "ffmpeg path probe fail-closed BLOCKED for ROW084-019. Prior fixture media mux runtime remains RUNTIME_PASS_BOUNDED. No ffmpeg mux replay, no VISUAL_QA_PASS_BOUNDED, no row_complete. Binding shift yields further 084 expansion to TRK-W64-019/023.",
+    "ffmpeg_path_probe": {
+      "status": "BLOCKED",
+      "ffmpeg_available": false,
+      "shutil_which_ffmpeg": null,
+      "receipt_sha256": "a235ccdb1d53a916b5b3018b80cc6fe733bf908b0f8a6b28a2d15832c4879d2c",
+      "mux_replay_executed": false,
+      "proof_tier": "RUNTIME_PASS_BOUNDED",
+      "row_complete": false
+    }
   },
   "checks": [
     {
@@ -301,8 +317,11 @@
     {
       "check_id": "ROW084-019",
       "name": "direct_row084_mux_replay_proof_present",
-      "status": "FAIL",
-      "note": "ffmpeg mux replay still absent; fixture media mux runtime is bounded substitute only"
+      "status": "BLOCKED",
+      "note": "ffmpeg binary absent after local path probe (shutil.which=None; known locations miss). Held-out fixed+VFR mux replay not executed. Fail-closed BLOCKED evidence landed; proof_tier stays RUNTIME_PASS_BOUNDED.",
+      "blocker_id": "FFMPEG_ABSENT_PATH_MISS",
+      "probe_receipt": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/ffmpeg_path_probe_receipt.json",
+      "probe_receipt_sha256": "a235ccdb1d53a916b5b3018b80cc6fe733bf908b0f8a6b28a2d15832c4879d2c"
     },
     {
       "check_id": "ROW084-020",
@@ -474,28 +493,37 @@
   },
   "preservation_boundary": {
     "allowed_write_paths": [
-      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-      "Plan/08_SCHEMAS/canonical_video_timeline_fixture_media_mux_runtime_receipt.schema.json",
-      "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
-      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/ffmpeg_path_probe_receipt.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
     ],
     "actual_write_paths": [
-      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-      "Plan/08_SCHEMAS/canonical_video_timeline_fixture_media_mux_runtime_receipt.schema.json",
-      "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
-      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/ffmpeg_path_probe_receipt.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
     ],
     "unrelated_dirty_paths_preserved": true,
     "worker_artifacts_preserved": true,
     "sibling_row_paths_preserved": true,
     "row075_pid_left_alone": true,
-    "tracker_items_csv_writes": false
+    "tracker_items_csv_writes": false,
+    "tip_sha_chain_written": false,
+    "comfyui_8188_touched": false
   },
   "hold_decision": {
-    "decision": "HOLD_ROW084_NO_FALSE_COMPLETION",
-    "reason": "Fixture media mux runtime is locally proven at RUNTIME_PASS_BOUNDED (ROW084-039/040 PASS). ffmpeg-backed mux replay (ROW084-019), runtime cut detector (ROW084-014), camera-motion normalization (ROW084-016), VISUAL_QA_PASS_BOUNDED combined visual authority (ROW084-020), and tracker runtime artifact remain absent. row_complete stays false.",
-    "safe_next_action": "Next climb: install/path ffmpeg for held-out fixed+VFR media mux replay and/or execute bounded combined frame/contact/audio visual review against decoded fixture surfaces to raise VISUAL_QA_PASS_BOUNDED without claiming row_complete. CSV acceptance sync remains with serialized mutator."
+    "decision": "HOLD_ROW084_019_FFMPEG_MUX_REPLAY_BLOCKED_YIELD_019_023",
+    "reason": "ROW084-019 blocked fail-closed: ffmpeg absent from PATH and known locations after probe. Fixture media mux runtime remains RUNTIME_PASS_BOUNDED. row_complete stays false. Binding shift: primary video is TRK-W64-019/023; stop further 084 expansion this landing.",
+    "safe_next_action": "Yield to TRK-W64-019/023. Later: install/path ffmpeg (e.g. winget Gyan.FFmpeg) then execute held-out fixed+VFR mux replay for ROW084-019 without claiming COMPLETE. CSV acceptance sync remains with serialized mutator.",
+    "blockers": [
+      {
+        "blocker_id": "FFMPEG_ABSENT_PATH_MISS",
+        "check_id": "ROW084-019",
+        "severity": "blocking_for_mux_replay_climb",
+        "detail": "ffmpeg binary not resolvable; held-out fixed+VFR mux replay cannot execute"
+      }
+    ]
+  },
+  "host_execution": {
+    "ffmpeg_available": false,
+    "ffmpeg_path_probe_executed": true,
+    "ffmpeg_mux_replay_executed": false
   }
 }
