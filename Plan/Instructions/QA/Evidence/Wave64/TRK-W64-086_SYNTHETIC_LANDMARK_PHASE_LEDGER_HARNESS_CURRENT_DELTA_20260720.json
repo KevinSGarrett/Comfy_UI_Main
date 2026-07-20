@@ -1,0 +1,289 @@
+{
+  "blocker_codes": [
+    "DEPENDENCY_RUNTIME_BENCHMARK_ABSENT",
+    "VISUAL_PROOF_ABSENT",
+    "ROWS084_085_ACCEPTANCE_ABSENT"
+  ],
+  "blocker_classification": {
+    "DEPENDENCY_RUNTIME_BENCHMARK_ABSENT": {
+      "class": "EXTERNAL_DEPENDENCY_AND_RUNTIME",
+      "detail": "Rows084/085 remain incomplete; production pose/gait runtime extractor, annotated production benchmark, runtime receipt, and tracker-declared runtime artifact remain absent.",
+      "row086_effect": "Cannot raise authority above fixture_synthetic_only or set row_complete."
+    },
+    "VISUAL_PROOF_ABSENT": {
+      "class": "VISUAL_QA",
+      "detail": "Combined landmark/track/contact/audio visual review was not executed and is not claimed.",
+      "row086_effect": "Visual proof gate remains FAIL; harness is non-production only."
+    },
+    "ROWS084_085_ACCEPTANCE_ABSENT": {
+      "class": "UPSTREAM_ACCEPTANCE",
+      "detail": "This slice does not claim Rows084 or 085 acceptance. Fixture timeline/owner bindings remain synthetic placeholders.",
+      "row086_effect": "Frame-level trajectories and owner-bound landmarks cannot be production-certified."
+    }
+  },
+  "builds_on": {
+    "existing_cli": "--verify-fixture-replay",
+    "foundation_commits": [
+      "f337a55f",
+      "c5e3d6ce"
+    ],
+    "foundation_evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-086_POSE_HAND_FOOT_GAIT_EXTRACTION_CURRENT_DELTA_20260719.json",
+    "tip_sha_chain": false
+  },
+  "checks": [
+    {
+      "check_id": "ROW086-L01",
+      "name": "synthetic_landmark_phase_ledger_binds_fixture_digests",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW086-L02",
+      "name": "ledger_vs_compiled_manifest_expectation_verifier_rejects_digest_drift",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW086-L03",
+      "name": "annotated_clip_harness_runs_non_production_only",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW086-L04",
+      "name": "ci_fixture_ledger_gate_rejects_checked_in_divergence",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW086-L05",
+      "name": "focused_compiler_tests_pass",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW086-011",
+      "name": "dependency_row084_complete",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW086-012",
+      "name": "dependency_row085_complete",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW086-013",
+      "name": "production_pose_hand_foot_gait_extractor_runtime_complete",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW086-014",
+      "name": "body_hand_foot_landmark_accuracy_benchmark_pass",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW086-015",
+      "name": "annotated_clip_benchmark_pass",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW086-017",
+      "name": "combined_landmark_track_contact_audio_visual_review_present",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW086-018",
+      "name": "direct_row086_runtime_receipt_present",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW086-019",
+      "name": "tracker_declared_output_artifact_present",
+      "status": "FAIL"
+    }
+  ],
+  "classification": "ROW086_CURRENT_DELTA_SYNTHETIC_LANDMARK_PHASE_LEDGER_AND_ANNOTATED_CLIP_HARNESS_SLICE_NO_FALSE_COMPLETION",
+  "compiler_slice": {
+    "annotated_clip_harness": {
+      "cli_flag": "--run-annotated-clip-harness",
+      "function": "run_annotated_clip_harness",
+      "harness_id": "row086_annotated_clip_harness",
+      "production_benchmark": false,
+      "rejects_annotated_benchmark_pass_claim": true,
+      "rejects_row084_acceptance_claim": true,
+      "rejects_row085_acceptance_claim": true,
+      "rejects_visual_review_claim": true,
+      "row_complete": false
+    },
+    "ci_fixture_ledger_gate": {
+      "checks_checked_in_ledger_matches_rebuild": true,
+      "cli_flag": "--ci-gate",
+      "function": "run_ci_fixture_ledger_gate",
+      "gate_id": "row086_ci_fixture_ledger_gate",
+      "production_benchmark": false,
+      "rejects_annotated_benchmark_pass_claim": true,
+      "rejects_checked_in_divergence": true,
+      "rejects_rows084_085_acceptance_claim": true,
+      "rejects_visual_review_claim": true,
+      "row_complete": false,
+      "runs_annotated_clip_harness": true
+    },
+    "compiler_bytes": 65211,
+    "compiler_path": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_pose_hand_foot_gait_extraction.py",
+    "compiler_sha256": "3ec24adfbeb1ea849bfdb418098f0d1e3d6ae41af09824bd9388c1807096e2c4",
+    "decision": "USEFUL_SYNTHETIC_LANDMARK_PHASE_LEDGER_AND_ANNOTATED_CLIP_HARNESS_SLICE_NOT_PRODUCTION_POSE_GAIT_AUTHORITY",
+    "fail_closed_invariants": [
+      "synthetic landmark/phase ledger binds three fixture file digests and compiled manifest digests",
+      "landmark_phase_expectations cover landmark/trajectory/gait/contact/hidden-joint metrics",
+      "ledger-vs-compiled-manifest expectation verifier rejects fixture/compiled digest drift and metric mismatch",
+      "annotated-clip harness verifies synthetic fixtures without granting annotated_benchmark_pass",
+      "CI/fixture ledger gate fails closed when checked-in ledger digests diverge from rebuild",
+      "row_complete, production_completion_allowed, annotated_benchmark_pass, and rows084_085_acceptance_claimed remain false",
+      "sound Tracker/Items CSV untouched; Row075 untouched; no :8188; no tip-SHA chain; no COMPLETE"
+    ],
+    "fixture_dir": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row086",
+    "ledger_expectation_verifier": {
+      "cli_flag": "--verify-synthetic-landmark-phase-ledger",
+      "function": "verify_synthetic_ledger_vs_compiled_manifest_expectations",
+      "rejects_annotated_benchmark_pass_claim": true,
+      "rejects_compiled_manifest_digest_drift": true,
+      "rejects_fixture_file_digest_drift": true,
+      "rejects_rows084_085_acceptance_claim": true
+    },
+    "synthetic_landmark_phase_ledger": {
+      "bytes": 4552,
+      "cli_emit_flag": "--emit-synthetic-landmark-phase-ledger",
+      "file_sha256": "dfab4b8d144c629c2cde648011e8ef99e6ad93649d551d5629cba56afc262b9e",
+      "ledger_sha256": "1411d7cdb7cdb7387ca7058a0e4102cc621693483887a3a19a604016c7e7dd17",
+      "path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row086/synthetic_landmark_phase_ledger.json",
+      "record_type": "row086_synthetic_landmark_phase_ledger"
+    },
+    "test_bytes": 27245,
+    "test_path": "Plan/Instructions/QA/Scripts/test_row086_pose_hand_foot_gait_extraction_compiler.py",
+    "test_sha256": "c91776c3cf83e1d04f683e6a6aad3b3235718a566926d598e28142d9110f9652"
+  },
+  "created_at": "2026-07-20T06:42:00Z",
+  "dependency_authority": [
+    {
+      "dependency_satisfied": false,
+      "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json",
+      "row084_acceptance_claimed": false,
+      "row086_effect": "Frame-level trajectories and phases cannot be certified without an accepted canonical timebase.",
+      "row_complete": false,
+      "tracker_id": "TRK-W64-084"
+    },
+    {
+      "dependency_satisfied": false,
+      "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719.json",
+      "row085_acceptance_claimed": false,
+      "row086_effect": "Landmarks and contact phases cannot be assigned safely without accepted persistent owner/track identities. Synthetic harness does not satisfy that ownership authority.",
+      "row_complete": false,
+      "tracker_id": "TRK-W64-085"
+    }
+  ],
+  "evidence_id": "TRK-W64-086_SYNTHETIC_LANDMARK_PHASE_LEDGER_HARNESS_CURRENT_DELTA_20260720",
+  "focused_local_test_result": {
+    "cli_annotated_clip_harness_command": "python Plan/07_IMPLEMENTATION/scripts/compile_wave64_pose_hand_foot_gait_extraction.py --run-annotated-clip-harness",
+    "cli_ci_gate_command": "python Plan/07_IMPLEMENTATION/scripts/compile_wave64_pose_hand_foot_gait_extraction.py --ci-gate",
+    "cli_ci_gate_receipt": {
+      "annotated_benchmark_pass": false,
+      "annotated_clip_harness": "row086_annotated_clip_harness",
+      "annotated_clip_harness_production_pass": false,
+      "authority_ceiling": "fixture_synthetic_only",
+      "checked_in_matches_rebuild": true,
+      "digest_drift_rejected": true,
+      "expectation_verifier": "verify_synthetic_ledger_vs_compiled_manifest_expectations",
+      "fixture_binding_count": 3,
+      "gate": "row086_ci_fixture_ledger_gate",
+      "landmark_phase_expectation_count": 3,
+      "ledger_sha256": "1411d7cdb7cdb7387ca7058a0e4102cc621693483887a3a19a604016c7e7dd17",
+      "production_benchmark": false,
+      "row_complete": false,
+      "rows084_085_acceptance_claimed": false,
+      "visual_review_claimed": false
+    },
+    "cli_verify_ledger_command": "python Plan/07_IMPLEMENTATION/scripts/compile_wave64_pose_hand_foot_gait_extraction.py --verify-synthetic-landmark-phase-ledger",
+    "py_compile": "PASS",
+    "scope_interpretation": "Focused tests prove the synthetic landmark/phase ledger, annotated-clip harness, and CI fixture ledger gate. They do not grant Row086 completion, production annotated benchmark authority, runtime receipt, Rows084/085 acceptance, or combined visual review.",
+    "strict_command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_row086_pose_hand_foot_gait_extraction_compiler.py",
+    "strict_exit_code": 0,
+    "strict_result": "13 passed",
+    "total_focused_failed": 0,
+    "total_focused_passed": 13
+  },
+  "highest_proof_tier_achieved": "CONTRACT_FIXTURE_LEDGER_HARNESS",
+  "hold_decision": {
+    "decision": "HOLD_ROW086_NO_FALSE_COMPLETION",
+    "reason": "Row086 now freezes a synthetic landmark/phase ledger bound to the three checked-in fixture digests, plus a non-production annotated-clip harness and CI ledger gate. Thirteen focused tests pass. Rows084 and 085 remain incomplete and are not claimed accepted. Annotated production landmark/phase benchmarks, production runtime receipts, combined landmark/track/contact/audio review, and the tracker-declared runtime artifact remain absent. The compiler never sets row_complete or production_completion_allowed true in this increment.",
+    "safe_next_action": "Keep Row086 on hold for runtime completion. After Rows084/085 acceptance: bind real annotated clips under the same ledger/harness contracts, run production pose/gait extraction with runtime receipts, then combined visual review. Downstream Rows087/090 remain blocked on measured pose/gait and contact-phase authority."
+  },
+  "implementation_completion_claimed": false,
+  "intent": {
+    "allowed_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_pose_hand_foot_gait_extraction.py",
+      "Plan/Instructions/QA/Scripts/test_row086_pose_hand_foot_gait_extraction_compiler.py",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row086/synthetic_landmark_phase_ledger.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-086_SYNTHETIC_LANDMARK_PHASE_LEDGER_HARNESS_CURRENT_DELTA_20260720.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-086_POSE_HAND_FOOT_GAIT_EXTRACTION_CURRENT_DELTA_20260719.json"
+    ],
+    "authority_class": "interactive_cursor_integration",
+    "classification": "INTERACTIVE_CURSOR_SHIFT_AUTHORITY",
+    "dispatch_wake_count": 0,
+    "intent_id": "interactive_cursor_shift_row086_synthetic_landmark_phase_ledger_harness_20260720",
+    "routing": null,
+    "work_type": "final_authority"
+  },
+  "item_id": "ITEM-W64-086",
+  "ledger_status": "Blocked_Dependency_Runtime_Benchmark_And_Visual_Proof_Absent_Synthetic_Landmark_Phase_Ledger_Harness_Present",
+  "library_authority": false,
+  "preservation_boundary": {
+    "actual_write_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_pose_hand_foot_gait_extraction.py",
+      "Plan/Instructions/QA/Scripts/test_row086_pose_hand_foot_gait_extraction_compiler.py",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row086/synthetic_landmark_phase_ledger.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-086_SYNTHETIC_LANDMARK_PHASE_LEDGER_HARNESS_CURRENT_DELTA_20260720.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-086_POSE_HAND_FOOT_GAIT_EXTRACTION_CURRENT_DELTA_20260719.json"
+    ],
+    "shared_csv_untouched": true,
+    "sibling_row075_087_088_paths_preserved": true,
+    "unrelated_dirty_paths_preserved": true
+  },
+  "proof_tier": "CONTRACT_FIXTURE_LEDGER_HARNESS",
+  "qa_decision": "HOLD",
+  "row_complete": false,
+  "runtime_completion_claimed": false,
+  "schema_version": "1.0",
+  "sibling_lane_disjointness": {
+    "disjoint_from_sibling_agents": true,
+    "excluded_paths": [
+      "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_TRACKER_ROWS.csv",
+      "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ITEM_ROWS.csv",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_*",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row075/**"
+    ],
+    "excluded_sibling_rows": [
+      "TRK-W64-075",
+      "TRK-W64-087",
+      "TRK-W64-088"
+    ]
+  },
+  "status": "HOLD_DEPENDENCY_RUNTIME_BENCHMARK_AND_VISUAL_PROOF_ABSENT_WITH_SYNTHETIC_LANDMARK_PHASE_LEDGER_HARNESS_SLICE_PRESENT",
+  "test_and_runtime_boundary": {
+    "comfyui_8188_invoked": false,
+    "direct_row086_annotated_benchmark_executed": false,
+    "direct_row086_visual_review_executed": false,
+    "docker_invoked": false,
+    "ec2_invoked": false,
+    "fixture_packets_compiled": true,
+    "focused_source_tests_executed": true,
+    "focused_source_tests_failed": 0,
+    "focused_source_tests_passed": 13,
+    "new_media_decode_pose_or_contact_runtime_invoked": false,
+    "production_pose_gait_extraction_invoked": false,
+    "provider_calls": 0,
+    "row084_acceptance_claimed": false,
+    "row085_acceptance_claimed": false,
+    "scheduled_task_wakes": 0,
+    "sound_csv_mutated": false,
+    "tip_sha_chain": false,
+    "wrapper_calls": 0,
+    "wsl_invoked": false
+  },
+  "tracker_id": "TRK-W64-086",
+  "updated_at": "2026-07-20T06:42:00Z"
+}

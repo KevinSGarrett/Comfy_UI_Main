@@ -202,15 +202,15 @@
     "scope_interpretation": "Focused tests prove the fail-closed pose/hand/foot/gait compiler, landmark/phase fixture packets, and content-addressed deterministic replay/tamper proof. They do not grant Row086 completion, annotated production benchmark authority, runtime receipt, Rows084/085 acceptance, or combined visual review.",
     "strict_command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_row086_pose_hand_foot_gait_extraction_compiler.py",
     "strict_exit_code": 0,
-    "strict_result": "10 passed",
+    "strict_result": "13 passed",
     "total_focused_failed": 0,
-    "total_focused_passed": 10
+    "total_focused_passed": 13
   },
-  "highest_proof_tier_achieved": "CONTRACT_FIXTURE_REPLAY",
+  "highest_proof_tier_achieved": "CONTRACT_FIXTURE_LEDGER_HARNESS",
   "hold_decision": {
     "decision": "HOLD_ROW086_NO_FALSE_COMPLETION",
-    "reason": "Row086 now freezes three checked-in landmark/phase fixture packets (visible trajectory, gait/contact phases, partial-view hidden joints) with content-addressed deterministic replay/tamper verification and a --verify-fixture-replay CLI. Ten focused tests pass. Rows084 and 085 remain incomplete and are not claimed accepted. Annotated production landmark/phase benchmarks, production runtime receipts, combined landmark/track/contact/audio review, and the tracker-declared runtime artifact remain absent. The compiler never sets row_complete or production_completion_allowed true in this increment.",
-    "safe_next_action": "Keep Row086 on hold for runtime completion. Next useful Row086 write after Rows084/085 acceptance: bind fixture digests into a synthetic non-production landmark/phase ledger and/or annotated-clip benchmark harness without claiming visual review. Downstream Rows087/090 remain blocked on measured pose/gait and contact-phase authority."
+    "reason": "Row086 freezes three checked-in landmark/phase fixture packets plus a synthetic landmark/phase ledger, non-production annotated-clip harness, and CI ledger gate. Thirteen focused tests pass. Rows084 and 085 remain incomplete and are not claimed accepted. Annotated production landmark/phase benchmarks, production runtime receipts, combined landmark/track/contact/audio review, and the tracker-declared runtime artifact remain absent. The compiler never sets row_complete or production_completion_allowed true in this increment. See TRK-W64-086_SYNTHETIC_LANDMARK_PHASE_LEDGER_HARNESS_CURRENT_DELTA_20260720.json for the ledger/harness proof package.",
+    "safe_next_action": "Keep Row086 on hold for runtime completion. After Rows084/085 acceptance: bind real annotated clips under the same ledger/harness contracts, run production pose/gait extraction with runtime receipts, then combined visual review. Downstream Rows087/090 remain blocked on measured pose/gait and contact-phase authority."
   },
   "implementation_completion_claimed": false,
   "intent": {
@@ -240,16 +240,17 @@
     "work_type": "final_authority"
   },
   "item_id": "ITEM-W64-086",
-  "ledger_status": "Blocked_Dependency_Runtime_Benchmark_And_Visual_Proof_Absent_Landmark_Phase_Fixture_Replay_Present",
+  "ledger_status": "Blocked_Dependency_Runtime_Benchmark_And_Visual_Proof_Absent_Synthetic_Landmark_Phase_Ledger_Harness_Present",
   "ledger_vocabulary_sync": {
-    "ledger_status": "Blocked_Dependency_Runtime_Benchmark_And_Visual_Proof_Absent_Landmark_Phase_Fixture_Replay_Present",
-    "note": "Triple-synced Tracker/Item from f337a55f; no COMPLETE.",
+    "ledger_status": "Blocked_Dependency_Runtime_Benchmark_And_Visual_Proof_Absent_Synthetic_Landmark_Phase_Ledger_Harness_Present",
+    "note": "Sound Tracker/Items CSV intentionally untouched this slice (no sound CSV mutation). Prior fixture-replay sync remains historical. No COMPLETE.",
     "product_completion": false,
     "prove_commits": [
       "f337a55f"
     ],
     "runtime_completion": false,
-    "synced_at": "2026-07-20T06:20:09.943506Z"
+    "shared_csv_untouched": true,
+    "synced_at": "2026-07-20T06:42:00Z"
   },
   "library_authority": false,
   "preservation_boundary": {
@@ -257,15 +258,16 @@
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_pose_hand_foot_gait_extraction.py",
       "Plan/Instructions/QA/Scripts/test_row086_pose_hand_foot_gait_extraction_compiler.py",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-086_POSE_HAND_FOOT_GAIT_EXTRACTION_CURRENT_DELTA_20260719.json",
-      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row086/case_visible_landmark_trajectory.json",
-      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row086/case_gait_contact_phases.json",
-      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row086/case_partial_view_hidden_joint.json"
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-086_SYNTHETIC_LANDMARK_PHASE_LEDGER_HARNESS_CURRENT_DELTA_20260720.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row086/synthetic_landmark_phase_ledger.json"
     ],
     "allowed_write_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_pose_hand_foot_gait_extraction.py",
       "Plan/08_SCHEMAS/pose_hand_foot_gait_extraction_manifest.schema.json",
       "Plan/Instructions/QA/Scripts/test_row086_pose_hand_foot_gait_extraction_compiler.py",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-086_POSE_HAND_FOOT_GAIT_EXTRACTION_CURRENT_DELTA_20260719.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-086_SYNTHETIC_LANDMARK_PHASE_LEDGER_HARNESS_CURRENT_DELTA_20260720.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row086/synthetic_landmark_phase_ledger.json",
       "Plan/Instructions/QA/Evidence/Wave64/fixtures/row086/case_visible_landmark_trajectory.json",
       "Plan/Instructions/QA/Evidence/Wave64/fixtures/row086/case_gait_contact_phases.json",
       "Plan/Instructions/QA/Evidence/Wave64/fixtures/row086/case_partial_view_hidden_joint.json"
@@ -277,7 +279,7 @@
   },
   "prior_row_commit": "c5e3d6ce",
   "prior_row_commit_is_current_head": false,
-  "proof_tier": "CONTRACT_FIXTURE_REPLAY",
+  "proof_tier": "CONTRACT_FIXTURE_LEDGER_HARNESS",
   "qa_decision": "HOLD",
   "row086_contract": {
     "completion_criteria": "Annotated-clip benchmarks validate visible landmark trajectories and contact phases without fabricated hidden joints.",
@@ -355,8 +357,9 @@
     ]
   },
   "source_commit": "be4cc4ea",
-  "status": "HOLD_DEPENDENCY_RUNTIME_BENCHMARK_AND_VISUAL_PROOF_ABSENT_WITH_LANDMARK_PHASE_FIXTURE_REPLAY_SLICE_PRESENT",
+  "status": "HOLD_DEPENDENCY_RUNTIME_BENCHMARK_AND_VISUAL_PROOF_ABSENT_WITH_SYNTHETIC_LANDMARK_PHASE_LEDGER_HARNESS_SLICE_PRESENT",
   "test_and_runtime_boundary": {
+    "comfyui_8188_invoked": false,
     "direct_row086_annotated_benchmark_executed": false,
     "direct_row086_visual_review_executed": false,
     "docker_invoked": false,
@@ -367,7 +370,7 @@
     "fixture_replay_cli_executed": true,
     "focused_source_tests_executed": true,
     "focused_source_tests_failed": 0,
-    "focused_source_tests_passed": 10,
+    "focused_source_tests_passed": 13,
     "new_media_decode_pose_or_contact_runtime_invoked": false,
     "production_pose_gait_extraction_invoked": false,
     "provider_calls": 0,
@@ -376,9 +379,11 @@
     "row085_acceptance_claimed": false,
     "scheduled_task_wakes": 0,
     "schema_meta_validation_executed": true,
+    "sound_csv_mutated": false,
+    "tip_sha_chain": false,
     "wrapper_calls": 0,
     "wsl_invoked": false
   },
   "tracker_id": "TRK-W64-086",
-  "updated_at": "2026-07-20T06:20:09.943506Z"
+  "updated_at": "2026-07-20T06:42:00Z"
 }
