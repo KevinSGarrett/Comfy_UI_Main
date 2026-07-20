@@ -1,158 +1,159 @@
 {
-  "schema_version": "1.0",
-  "evidence_id": "TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719",
-  "created_at": "2026-07-20T06:02:00Z",
-  "source_commit": "be4cc4ea",
-  "prior_row_commit": "5db320e0",
-  "prior_row_commit_is_current_head": false,
-  "tracker_id": "TRK-W64-085",
-  "item_id": "ITEM-W64-085",
-  "status": "HOLD_DEPENDENCY_RUNTIME_BENCHMARK_AND_VISUAL_PROOF_ABSENT_WITH_CI_FIXTURE_LEDGER_GATE_PRESENT",
+  "blocker_codes": [
+    "DEPENDENCY_RUNTIME_BENCHMARK_ABSENT",
+    "VISUAL_PROOF_ABSENT",
+    "ROW084_ACCEPTANCE_ABSENT"
+  ],
+  "checks": [
+    {
+      "check_id": "ROW085-001",
+      "name": "tracker_item_requirements_parity",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW085-002",
+      "name": "dependency_audit_complete",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW085-003",
+      "name": "temporal_instance_track_schema_present",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW085-004",
+      "name": "per_frame_track_manifest_schema_present",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW085-005",
+      "name": "legacy_region_and_contact_ownership_schemas_present",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW085-006",
+      "name": "blocking_tracking_metrics_declared",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW085-007",
+      "name": "fail_closed_tracking_compiler_present",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW085-008",
+      "name": "actor_object_region_tracking_manifest_schema_present",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW085-009",
+      "name": "focused_compiler_tests_pass",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW085-010",
+      "name": "track_compiler_enforces_monotonic_unique_frame_and_pts",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW085-011",
+      "name": "entity_taxonomy_and_parent_owner_gates_present",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW085-012",
+      "name": "identity_switch_blocks_contact_foley_certification",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW085-013",
+      "name": "codex_or_interactive_scope_and_zero_wake_boundary",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW085-014",
+      "name": "fixture_packets_cover_occlusion_gap",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW085-015",
+      "name": "fixture_packets_cover_reappearance",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW085-016",
+      "name": "fixture_packets_cover_lost_track",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW085-017",
+      "name": "deterministic_tracking_replay_and_tamper_proof_present",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW085-018",
+      "name": "dependency_row084_complete",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW085-019",
+      "name": "production_actor_object_region_tracker_runtime_complete",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW085-020",
+      "name": "annotated_tracking_benchmark_pass",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW085-021",
+      "name": "combined_track_overlay_contact_audio_visual_review_present",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW085-022",
+      "name": "direct_row085_runtime_receipt_present",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW085-023",
+      "name": "tracker_declared_output_artifact_present",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW085-024",
+      "name": "synthetic_tracking_benchmark_ledger_binds_fixture_digests",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW085-025",
+      "name": "ledger_vs_compiled_manifest_expectation_verifier_rejects_digest_drift",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW085-026",
+      "name": "ci_fixture_ledger_gate_rejects_checked_in_divergence",
+      "status": "PASS"
+    }
+  ],
   "classification": "ROW085_CURRENT_DELTA_CI_FIXTURE_LEDGER_GATE_SLICE_NO_FALSE_COMPLETION",
-  "proof_tier": "CONTRACT_FIXTURE_CI_GATE",
-  "row_complete": false,
-  "implementation_completion_claimed": false,
-  "runtime_completion_claimed": false,
-  "qa_decision": "HOLD",
-  "intent": {
-    "intent_id": "interactive_cursor_shift_row085_ci_fixture_ledger_gate_20260720",
-    "classification": "INTERACTIVE_CURSOR_SHIFT_AUTHORITY",
-    "work_type": "final_authority",
-    "authority_class": "interactive_cursor_integration",
-    "routing": null,
-    "dispatch_wake_count": 0,
-    "candidate_paths": [
-      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_actor_object_region_tracking.py",
-      "Plan/Instructions/QA/Scripts/test_row085_actor_object_region_tracking_compiler.py",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719.json",
-      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/synthetic_tracking_benchmark_ledger.json",
-      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/case_occlusion_gap.json",
-      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/case_reappearance.json",
-      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/case_lost_track.json"
-    ],
-    "allowed_paths": [
-      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_actor_object_region_tracking.py",
-      "Plan/Instructions/QA/Scripts/test_row085_actor_object_region_tracking_compiler.py",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719.json",
-      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/synthetic_tracking_benchmark_ledger.json",
-      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/case_occlusion_gap.json",
-      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/case_reappearance.json",
-      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/case_lost_track.json"
-    ]
-  },
-  "row085_contract": {
-    "title": "Actor, object, body-region, clothing, and surface segmentation/tracking",
-    "phase": "visual_event_intelligence",
-    "priority": "P0",
-    "risk": "CRITICAL",
-    "status": "Planned_Autonomous_Implementation_Required",
-    "completion_criteria": "Persistent ownership tracks have measured identity-switch, occlusion, reappearance, and lost-track behavior.",
-    "dependency": "TRK-W64-084",
-    "required_gates": [
-      "actor_tracking",
-      "object_tracking",
-      "body_region_tracking",
-      "occlusion",
-      "ownership"
-    ],
-    "required_entity_classes": [
-      "actors",
-      "limbs",
-      "hands",
-      "feet",
-      "clothing regions",
-      "props",
-      "furniture",
-      "surfaces"
-    ],
-    "required_acceptance": [
-      "persistent ownership identifiers",
-      "identity-switch measurement",
-      "lost-track measurement",
-      "occlusion-gap measurement",
-      "reappearance behavior measurement",
-      "unsupported ownership blocks contact-Foley certification"
-    ],
-    "test_required": true,
-    "runtime_proof_required": true,
-    "visual_review_required": true,
-    "visual_review_method": "combined_frame_contact_audio_review",
-    "preview_required": true,
-    "ec2_allowed": true,
-    "tracker_output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_actor_object_region_tracking.json",
-    "tracker_output_artifact_exists": false,
-    "current_delta_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719.json"
-  },
   "compiler_slice": {
+    "ci_fixture_ledger_gate": {
+      "checks_checked_in_ledger_matches_rebuild": true,
+      "cli_flag": "--ci-gate",
+      "function": "run_ci_fixture_ledger_gate",
+      "production_benchmark": false,
+      "rejects_annotated_tracking_benchmark_pass_claim": true,
+      "rejects_checked_in_divergence": true,
+      "rejects_row084_acceptance_claim": true,
+      "rejects_visual_review_claim": true,
+      "row_complete": false,
+      "runs_expectation_verifier": true
+    },
+    "compiler_bytes": 54461,
     "compiler_path": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_actor_object_region_tracking.py",
     "compiler_sha256": "7fbafd0fa68aff8a4a333dc076227d93055aadeeae8f78ba911159452593a76a",
-    "compiler_bytes": 54461,
-    "schema_path": "Plan/08_SCHEMAS/actor_object_region_tracking_manifest.schema.json",
-    "schema_sha256": "6a78cd3ec728a63a663a9a2873973a623a411e46a53730b5e3e7460dc36a20f1",
-    "schema_bytes": 10863,
-    "test_path": "Plan/Instructions/QA/Scripts/test_row085_actor_object_region_tracking_compiler.py",
-    "test_sha256": "f16dc134dd720940fcc068b112c328fb61b569ee2d734db0b33a420e6f515652",
-    "test_bytes": 27665,
-    "fixture_dir": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085",
-    "fixture_packets": [
-      {
-        "name": "case_occlusion_gap.json",
-        "role": "occlusion_gap",
-        "file_sha256": "adf2ece4ccfb4a401a1fb9e15c994741dd868ff7cd588d84e9dd0d3faf841557",
-        "compiled_manifest_sha256": "facc7e4096717412690e8c6198a916ad8fa4931f38e0f9cba8f6c88a53387282",
-        "bytes": 7564
-      },
-      {
-        "name": "case_reappearance.json",
-        "role": "reappearance",
-        "file_sha256": "a917100637c76556a8daa5b5ec4da4b40b87c870567e54402daabe9ba07fd2a2",
-        "compiled_manifest_sha256": "73abaf4ac77cb6fa78f499f51a5f5d2a9cd79ca28f582c733946fb6d20814457",
-        "bytes": 7992
-      },
-      {
-        "name": "case_lost_track.json",
-        "role": "lost_track",
-        "file_sha256": "78707e1138e4047e8a3373cfffe0fa506ed27bf9e121cb2739f178abd7938ff5",
-        "compiled_manifest_sha256": "8489f46fed11796adb07224d78021acb5070690d622f3fdd9e78d86ec20e75ac",
-        "bytes": 7058
-      }
-    ],
-    "synthetic_tracking_benchmark_ledger": {
-      "path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/synthetic_tracking_benchmark_ledger.json",
-      "sha256": "c60190530faccaa09b4d945ebf94ff04f64faf78b817adb7fe9bda5061dd8e9c",
-      "bytes": 3928,
-      "ledger_sha256": "f65d203b78926c2fb9892bc18a051cd2574004c2e0b62cfe008ac1e1152fc4c7",
-      "production_benchmark": false,
-      "annotated_tracking_benchmark_pass": false,
-      "visual_review_claimed": false,
-      "row084_acceptance_claimed": false,
-      "fixture_binding_count": 3,
-      "tracking_metric_expectation_count": 3,
-      "binds_fixture_file_and_compiled_manifest_digests": true,
-      "records_expected_occlusion_reappearance_lost_track_metrics": true
-    },
-    "ledger_expectation_verifier": {
-      "function": "verify_synthetic_ledger_vs_compiled_manifest_expectations",
-      "cli_flag": "--verify-synthetic-benchmark-ledger",
-      "rejects_fixture_file_digest_drift": true,
-      "rejects_compiled_manifest_digest_drift": true,
-      "rejects_metric_expectation_drift": true,
-      "rejects_annotated_tracking_benchmark_pass_claim": true,
-      "rejects_visual_review_claim": true,
-      "rejects_row084_acceptance_claim": true
-    },
-    "ci_fixture_ledger_gate": {
-      "function": "run_ci_fixture_ledger_gate",
-      "cli_flag": "--ci-gate",
-      "checks_checked_in_ledger_matches_rebuild": true,
-      "runs_expectation_verifier": true,
-      "rejects_checked_in_divergence": true,
-      "rejects_annotated_tracking_benchmark_pass_claim": true,
-      "rejects_visual_review_claim": true,
-      "rejects_row084_acceptance_claim": true,
-      "production_benchmark": false,
-      "row_complete": false
-    },
+    "decision": "USEFUL_CI_FIXTURE_LEDGER_GATE_SLICE_NOT_PRODUCTION_TRACKING_AUTHORITY",
     "fail_closed_invariants": [
       "strict monotonic unique frame_index and pts per track",
       "required actor/prop/surface taxonomy with body-attached parent_owner_id",
@@ -166,87 +167,200 @@
       "row_complete and production_completion_allowed remain false in this increment",
       "Row084 dependency and runtime/review flags gate authority ceiling"
     ],
-    "decision": "USEFUL_CI_FIXTURE_LEDGER_GATE_SLICE_NOT_PRODUCTION_TRACKING_AUTHORITY"
-  },
-  "dependency_authority": {
-    "tracker_id": "TRK-W64-084",
-    "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json",
-    "row_complete": false,
-    "dependency_satisfied": false,
-    "row084_acceptance_claimed": false,
-    "row085_effect": "Persistent frame-to-frame ownership cannot be certified without an accepted canonical frame, PTS, cut, and missing-frame authority. CI/fixture ledger gating does not satisfy that upstream authority."
-  },
-  "focused_local_test_result": {
-    "py_compile": "PASS",
-    "strict_command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_row085_actor_object_region_tracking_compiler.py",
-    "strict_result": "13 passed",
-    "strict_exit_code": 0,
-    "total_focused_passed": 13,
-    "total_focused_failed": 0,
-    "cli_verify_command": "python Plan/07_IMPLEMENTATION/scripts/compile_wave64_actor_object_region_tracking.py --verify-synthetic-benchmark-ledger",
-    "cli_ci_gate_command": "python Plan/07_IMPLEMENTATION/scripts/compile_wave64_actor_object_region_tracking.py --ci-gate",
-    "scope_interpretation": "Focused tests prove the fail-closed compiler, fixture packets, replay/tamper integrity, synthetic tracking ledger binding, ledger-vs-compiled-manifest expectation verifier, and CI/fixture ledger gate that rejects checked-in ledger divergence. They do not grant Row085 completion, annotated production tracking benchmark authority, Row084 acceptance, runtime receipt, or combined visual review."
-  },
-  "checks": [
-    {"check_id": "ROW085-001", "name": "tracker_item_requirements_parity", "status": "PASS"},
-    {"check_id": "ROW085-002", "name": "dependency_audit_complete", "status": "PASS"},
-    {"check_id": "ROW085-003", "name": "temporal_instance_track_schema_present", "status": "PASS"},
-    {"check_id": "ROW085-004", "name": "per_frame_track_manifest_schema_present", "status": "PASS"},
-    {"check_id": "ROW085-005", "name": "legacy_region_and_contact_ownership_schemas_present", "status": "PASS"},
-    {"check_id": "ROW085-006", "name": "blocking_tracking_metrics_declared", "status": "PASS"},
-    {"check_id": "ROW085-007", "name": "fail_closed_tracking_compiler_present", "status": "PASS"},
-    {"check_id": "ROW085-008", "name": "actor_object_region_tracking_manifest_schema_present", "status": "PASS"},
-    {"check_id": "ROW085-009", "name": "focused_compiler_tests_pass", "status": "PASS"},
-    {"check_id": "ROW085-010", "name": "track_compiler_enforces_monotonic_unique_frame_and_pts", "status": "PASS"},
-    {"check_id": "ROW085-011", "name": "entity_taxonomy_and_parent_owner_gates_present", "status": "PASS"},
-    {"check_id": "ROW085-012", "name": "identity_switch_blocks_contact_foley_certification", "status": "PASS"},
-    {"check_id": "ROW085-013", "name": "codex_or_interactive_scope_and_zero_wake_boundary", "status": "PASS"},
-    {"check_id": "ROW085-014", "name": "fixture_packets_cover_occlusion_gap", "status": "PASS"},
-    {"check_id": "ROW085-015", "name": "fixture_packets_cover_reappearance", "status": "PASS"},
-    {"check_id": "ROW085-016", "name": "fixture_packets_cover_lost_track", "status": "PASS"},
-    {"check_id": "ROW085-017", "name": "deterministic_tracking_replay_and_tamper_proof_present", "status": "PASS"},
-    {"check_id": "ROW085-018", "name": "dependency_row084_complete", "status": "FAIL"},
-    {"check_id": "ROW085-019", "name": "production_actor_object_region_tracker_runtime_complete", "status": "FAIL"},
-    {"check_id": "ROW085-020", "name": "annotated_tracking_benchmark_pass", "status": "FAIL"},
-    {"check_id": "ROW085-021", "name": "combined_track_overlay_contact_audio_visual_review_present", "status": "FAIL"},
-    {"check_id": "ROW085-022", "name": "direct_row085_runtime_receipt_present", "status": "FAIL"},
-    {"check_id": "ROW085-023", "name": "tracker_declared_output_artifact_present", "status": "FAIL"},
-    {"check_id": "ROW085-024", "name": "synthetic_tracking_benchmark_ledger_binds_fixture_digests", "status": "PASS"},
-    {"check_id": "ROW085-025", "name": "ledger_vs_compiled_manifest_expectation_verifier_rejects_digest_drift", "status": "PASS"},
-    {"check_id": "ROW085-026", "name": "ci_fixture_ledger_gate_rejects_checked_in_divergence", "status": "PASS"}
-  ],
-  "test_and_runtime_boundary": {
-    "schema_meta_validation_executed": true,
-    "focused_source_tests_executed": true,
-    "focused_source_tests_passed": 13,
-    "focused_source_tests_failed": 0,
-    "fixture_packets_compiled": true,
-    "replay_tamper_hash_check_executed": true,
-    "synthetic_tracking_benchmark_ledger_bound": true,
-    "ledger_expectation_verifier_executed": true,
-    "ci_fixture_ledger_gate_executed": true,
-    "production_tracking_invoked": false,
-    "new_media_decode_or_tracking_invoked": false,
-    "direct_row085_runtime_benchmark_executed": false,
-    "annotated_benchmark_pass_claimed": false,
-    "visual_review_executed": false,
-    "row084_acceptance_claimed": false,
-    "ec2_allowed": true,
-    "ec2_invoked": false,
-    "ec2_not_invoked_reason": "The prerequisite Row084 authority and annotated benchmark, runtime-receipt, and combined-review gates already fail; GPU execution cannot cure those authority gaps.",
-    "docker_invoked": false,
-    "wsl_invoked": false,
-    "provider_calls": 0,
-    "wrapper_calls": 0,
-    "scheduled_task_wakes": 0
-  },
-  "sibling_lane_disjointness": {
-    "excluded_sibling_rows": [
-      "TRK-W64-075",
-      "TRK-W64-084",
-      "TRK-W64-087",
-      "TRK-W64-088"
+    "fixture_dir": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085",
+    "fixture_packets": [
+      {
+        "bytes": 7564,
+        "compiled_manifest_sha256": "facc7e4096717412690e8c6198a916ad8fa4931f38e0f9cba8f6c88a53387282",
+        "file_sha256": "adf2ece4ccfb4a401a1fb9e15c994741dd868ff7cd588d84e9dd0d3faf841557",
+        "name": "case_occlusion_gap.json",
+        "role": "occlusion_gap"
+      },
+      {
+        "bytes": 7992,
+        "compiled_manifest_sha256": "73abaf4ac77cb6fa78f499f51a5f5d2a9cd79ca28f582c733946fb6d20814457",
+        "file_sha256": "a917100637c76556a8daa5b5ec4da4b40b87c870567e54402daabe9ba07fd2a2",
+        "name": "case_reappearance.json",
+        "role": "reappearance"
+      },
+      {
+        "bytes": 7058,
+        "compiled_manifest_sha256": "8489f46fed11796adb07224d78021acb5070690d622f3fdd9e78d86ec20e75ac",
+        "file_sha256": "78707e1138e4047e8a3373cfffe0fa506ed27bf9e121cb2739f178abd7938ff5",
+        "name": "case_lost_track.json",
+        "role": "lost_track"
+      }
     ],
+    "ledger_expectation_verifier": {
+      "cli_flag": "--verify-synthetic-benchmark-ledger",
+      "function": "verify_synthetic_ledger_vs_compiled_manifest_expectations",
+      "rejects_annotated_tracking_benchmark_pass_claim": true,
+      "rejects_compiled_manifest_digest_drift": true,
+      "rejects_fixture_file_digest_drift": true,
+      "rejects_metric_expectation_drift": true,
+      "rejects_row084_acceptance_claim": true,
+      "rejects_visual_review_claim": true
+    },
+    "schema_bytes": 10863,
+    "schema_path": "Plan/08_SCHEMAS/actor_object_region_tracking_manifest.schema.json",
+    "schema_sha256": "6a78cd3ec728a63a663a9a2873973a623a411e46a53730b5e3e7460dc36a20f1",
+    "synthetic_tracking_benchmark_ledger": {
+      "annotated_tracking_benchmark_pass": false,
+      "binds_fixture_file_and_compiled_manifest_digests": true,
+      "bytes": 3928,
+      "fixture_binding_count": 3,
+      "ledger_sha256": "f65d203b78926c2fb9892bc18a051cd2574004c2e0b62cfe008ac1e1152fc4c7",
+      "path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/synthetic_tracking_benchmark_ledger.json",
+      "production_benchmark": false,
+      "records_expected_occlusion_reappearance_lost_track_metrics": true,
+      "row084_acceptance_claimed": false,
+      "sha256": "c60190530faccaa09b4d945ebf94ff04f64faf78b817adb7fe9bda5061dd8e9c",
+      "tracking_metric_expectation_count": 3,
+      "visual_review_claimed": false
+    },
+    "test_bytes": 27665,
+    "test_path": "Plan/Instructions/QA/Scripts/test_row085_actor_object_region_tracking_compiler.py",
+    "test_sha256": "f16dc134dd720940fcc068b112c328fb61b569ee2d734db0b33a420e6f515652"
+  },
+  "created_at": "2026-07-20T06:02:00Z",
+  "dependency_authority": {
+    "dependency_satisfied": false,
+    "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json",
+    "row084_acceptance_claimed": false,
+    "row085_effect": "Persistent frame-to-frame ownership cannot be certified without an accepted canonical frame, PTS, cut, and missing-frame authority. CI/fixture ledger gating does not satisfy that upstream authority.",
+    "row_complete": false,
+    "tracker_id": "TRK-W64-084"
+  },
+  "evidence_id": "TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719",
+  "focused_local_test_result": {
+    "cli_ci_gate_command": "python Plan/07_IMPLEMENTATION/scripts/compile_wave64_actor_object_region_tracking.py --ci-gate",
+    "cli_verify_command": "python Plan/07_IMPLEMENTATION/scripts/compile_wave64_actor_object_region_tracking.py --verify-synthetic-benchmark-ledger",
+    "py_compile": "PASS",
+    "scope_interpretation": "Focused tests prove the fail-closed compiler, fixture packets, replay/tamper integrity, synthetic tracking ledger binding, ledger-vs-compiled-manifest expectation verifier, and CI/fixture ledger gate that rejects checked-in ledger divergence. They do not grant Row085 completion, annotated production tracking benchmark authority, Row084 acceptance, runtime receipt, or combined visual review.",
+    "strict_command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_row085_actor_object_region_tracking_compiler.py",
+    "strict_exit_code": 0,
+    "strict_result": "13 passed",
+    "total_focused_failed": 0,
+    "total_focused_passed": 13
+  },
+  "highest_proof_tier_achieved": "CONTRACT_FIXTURE_CI_GATE",
+  "hold_decision": {
+    "decision": "HOLD_ROW085_NO_FALSE_COMPLETION",
+    "reason": "Row085 now has a CI/fixture ledger gate (--ci-gate) that fails closed when the checked-in synthetic ledger diverges from a live rebuild of fixture-packet digests, then runs the ledger-vs-compiled-manifest expectation verifier. Thirteen focused tests pass. Row084 remains incomplete and is not claimed accepted. Annotated production tracking benchmarks, production runtime receipts, combined track-overlay/contact/audio review, and the tracker-declared runtime artifact remain absent. The compiler and gate never set row_complete, annotated_tracking_benchmark_pass, visual_review_claimed, or row084_acceptance_claimed true in this increment.",
+    "safe_next_action": "Keep Row085 on hold for runtime completion. Upstream, continue advancing Row084 canonical timeline acceptance. Downstream, once Row084 is accepted, advance annotated ownership-track benchmarks and combined visual review. Do not mark COMPLETE from fixture/CI gate authority alone."
+  },
+  "implementation_completion_claimed": false,
+  "intent": {
+    "allowed_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_actor_object_region_tracking.py",
+      "Plan/Instructions/QA/Scripts/test_row085_actor_object_region_tracking_compiler.py",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/synthetic_tracking_benchmark_ledger.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/case_occlusion_gap.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/case_reappearance.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/case_lost_track.json"
+    ],
+    "authority_class": "interactive_cursor_integration",
+    "candidate_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_actor_object_region_tracking.py",
+      "Plan/Instructions/QA/Scripts/test_row085_actor_object_region_tracking_compiler.py",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/synthetic_tracking_benchmark_ledger.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/case_occlusion_gap.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/case_reappearance.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/case_lost_track.json"
+    ],
+    "classification": "INTERACTIVE_CURSOR_SHIFT_AUTHORITY",
+    "dispatch_wake_count": 0,
+    "intent_id": "interactive_cursor_shift_row085_ci_fixture_ledger_gate_20260720",
+    "routing": null,
+    "work_type": "final_authority"
+  },
+  "item_id": "ITEM-W64-085",
+  "ledger_status": "Blocked_Dependency_Runtime_Benchmark_And_Visual_Proof_Absent_CI_Fixture_Ledger_Gate_Present",
+  "ledger_vocabulary_sync": {
+    "ledger_status": "Blocked_Dependency_Runtime_Benchmark_And_Visual_Proof_Absent_CI_Fixture_Ledger_Gate_Present",
+    "note": "Triple-synced Tracker/Item from b928c408; no COMPLETE.",
+    "product_completion": false,
+    "prove_commits": [
+      "b928c408"
+    ],
+    "runtime_completion": false,
+    "synced_at": "2026-07-20T06:20:09.943506Z"
+  },
+  "library_authority": false,
+  "preservation_boundary": {
+    "actual_write_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_actor_object_region_tracking.py",
+      "Plan/Instructions/QA/Scripts/test_row085_actor_object_region_tracking_compiler.py",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719.json"
+    ],
+    "allowed_write_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_actor_object_region_tracking.py",
+      "Plan/Instructions/QA/Scripts/test_row085_actor_object_region_tracking_compiler.py",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/synthetic_tracking_benchmark_ledger.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/case_occlusion_gap.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/case_reappearance.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/case_lost_track.json"
+    ],
+    "shared_csv_untouched": true,
+    "sibling_row075_084_087_088_paths_preserved": true,
+    "unrelated_dirty_paths_preserved": true,
+    "worker_artifacts_preserved": true
+  },
+  "prior_row_commit": "5db320e0",
+  "prior_row_commit_is_current_head": false,
+  "proof_tier": "CONTRACT_FIXTURE_CI_GATE",
+  "qa_decision": "HOLD",
+  "row085_contract": {
+    "completion_criteria": "Persistent ownership tracks have measured identity-switch, occlusion, reappearance, and lost-track behavior.",
+    "current_delta_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719.json",
+    "dependency": "TRK-W64-084",
+    "ec2_allowed": true,
+    "phase": "visual_event_intelligence",
+    "preview_required": true,
+    "priority": "P0",
+    "required_acceptance": [
+      "persistent ownership identifiers",
+      "identity-switch measurement",
+      "lost-track measurement",
+      "occlusion-gap measurement",
+      "reappearance behavior measurement",
+      "unsupported ownership blocks contact-Foley certification"
+    ],
+    "required_entity_classes": [
+      "actors",
+      "limbs",
+      "hands",
+      "feet",
+      "clothing regions",
+      "props",
+      "furniture",
+      "surfaces"
+    ],
+    "required_gates": [
+      "actor_tracking",
+      "object_tracking",
+      "body_region_tracking",
+      "occlusion",
+      "ownership"
+    ],
+    "risk": "CRITICAL",
+    "runtime_proof_required": true,
+    "status": "Planned_Autonomous_Implementation_Required",
+    "test_required": true,
+    "title": "Actor, object, body-region, clothing, and surface segmentation/tracking",
+    "tracker_output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_actor_object_region_tracking.json",
+    "tracker_output_artifact_exists": false,
+    "visual_review_method": "combined_frame_contact_audio_review",
+    "visual_review_required": true
+  },
+  "row_complete": false,
+  "runtime_completion_claimed": false,
+  "schema_version": "1.0",
+  "sibling_lane_disjointness": {
+    "disjoint_from_sibling_agents": true,
     "excluded_paths": [
       "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_TRACKER_ROWS.csv",
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
@@ -265,31 +379,40 @@
       "Plan/Instructions/QA/Evidence/Wave64/fixtures/row087/**",
       "Plan/Instructions/QA/Evidence/Wave64/fixtures/row088/**"
     ],
-    "disjoint_from_sibling_agents": true
+    "excluded_sibling_rows": [
+      "TRK-W64-075",
+      "TRK-W64-084",
+      "TRK-W64-087",
+      "TRK-W64-088"
+    ]
   },
-  "preservation_boundary": {
-    "allowed_write_paths": [
-      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_actor_object_region_tracking.py",
-      "Plan/Instructions/QA/Scripts/test_row085_actor_object_region_tracking_compiler.py",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719.json",
-      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/synthetic_tracking_benchmark_ledger.json",
-      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/case_occlusion_gap.json",
-      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/case_reappearance.json",
-      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/case_lost_track.json"
-    ],
-    "actual_write_paths": [
-      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_actor_object_region_tracking.py",
-      "Plan/Instructions/QA/Scripts/test_row085_actor_object_region_tracking_compiler.py",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719.json"
-    ],
-    "unrelated_dirty_paths_preserved": true,
-    "worker_artifacts_preserved": true,
-    "sibling_row075_084_087_088_paths_preserved": true,
-    "shared_csv_untouched": true
+  "source_commit": "be4cc4ea",
+  "status": "HOLD_DEPENDENCY_RUNTIME_BENCHMARK_AND_VISUAL_PROOF_ABSENT_WITH_CI_FIXTURE_LEDGER_GATE_PRESENT",
+  "test_and_runtime_boundary": {
+    "annotated_benchmark_pass_claimed": false,
+    "ci_fixture_ledger_gate_executed": true,
+    "direct_row085_runtime_benchmark_executed": false,
+    "docker_invoked": false,
+    "ec2_allowed": true,
+    "ec2_invoked": false,
+    "ec2_not_invoked_reason": "The prerequisite Row084 authority and annotated benchmark, runtime-receipt, and combined-review gates already fail; GPU execution cannot cure those authority gaps.",
+    "fixture_packets_compiled": true,
+    "focused_source_tests_executed": true,
+    "focused_source_tests_failed": 0,
+    "focused_source_tests_passed": 13,
+    "ledger_expectation_verifier_executed": true,
+    "new_media_decode_or_tracking_invoked": false,
+    "production_tracking_invoked": false,
+    "provider_calls": 0,
+    "replay_tamper_hash_check_executed": true,
+    "row084_acceptance_claimed": false,
+    "scheduled_task_wakes": 0,
+    "schema_meta_validation_executed": true,
+    "synthetic_tracking_benchmark_ledger_bound": true,
+    "visual_review_executed": false,
+    "wrapper_calls": 0,
+    "wsl_invoked": false
   },
-  "hold_decision": {
-    "decision": "HOLD_ROW085_NO_FALSE_COMPLETION",
-    "reason": "Row085 now has a CI/fixture ledger gate (--ci-gate) that fails closed when the checked-in synthetic ledger diverges from a live rebuild of fixture-packet digests, then runs the ledger-vs-compiled-manifest expectation verifier. Thirteen focused tests pass. Row084 remains incomplete and is not claimed accepted. Annotated production tracking benchmarks, production runtime receipts, combined track-overlay/contact/audio review, and the tracker-declared runtime artifact remain absent. The compiler and gate never set row_complete, annotated_tracking_benchmark_pass, visual_review_claimed, or row084_acceptance_claimed true in this increment.",
-    "safe_next_action": "Keep Row085 on hold for runtime completion. Upstream, continue advancing Row084 canonical timeline acceptance. Downstream, once Row084 is accepted, advance annotated ownership-track benchmarks and combined visual review. Do not mark COMPLETE from fixture/CI gate authority alone."
-  }
+  "tracker_id": "TRK-W64-085",
+  "updated_at": "2026-07-20T06:20:09.943506Z"
 }

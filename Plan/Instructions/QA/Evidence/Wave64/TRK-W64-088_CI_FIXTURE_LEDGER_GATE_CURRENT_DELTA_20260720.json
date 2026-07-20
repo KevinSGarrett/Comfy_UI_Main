@@ -1,106 +1,16 @@
 {
-  "schema_version": "1.0",
-  "evidence_id": "TRK-W64-088_CI_FIXTURE_LEDGER_GATE_CURRENT_DELTA_20260720",
-  "created_at": "2026-07-20T06:14:45Z",
-  "tracker_id": "TRK-W64-088",
-  "item_id": "ITEM-W64-088",
-  "status": "HOLD_DEPENDENCY_RUNTIME_BENCHMARK_AND_VISUAL_PROOF_ABSENT_WITH_CI_FIXTURE_LEDGER_GATE_PRESENT",
-  "classification": "ROW088_CURRENT_DELTA_CI_FIXTURE_LEDGER_GATE_SLICE_NO_FALSE_COMPLETION",
-  "proof_tier": "CONTRACT_FIXTURE_CI_GATE",
-  "row_complete": false,
-  "implementation_completion_claimed": false,
-  "runtime_completion_claimed": false,
-  "qa_decision": "HOLD",
+  "blocker_codes": [
+    "DEPENDENCY_RUNTIME_BENCHMARK_ABSENT",
+    "VISUAL_PROOF_ABSENT",
+    "ROWS084_085_ACCEPTANCE_ABSENT"
+  ],
   "builds_on": {
+    "existing_cli": "--verify-synthetic-benchmark-ledger",
     "foundation_commits": [
       "863be2b2"
     ],
     "foundation_evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_CAMERA_LISTENER_SOURCE_FIXTURE_PACKET_CURRENT_DELTA_20260720.json",
-    "existing_cli": "--verify-synthetic-benchmark-ledger",
     "tip_sha_chain": false
-  },
-  "intent": {
-    "intent_id": "interactive_cursor_shift_row088_ci_fixture_ledger_gate_20260720",
-    "classification": "INTERACTIVE_CURSOR_SHIFT_AUTHORITY",
-    "work_type": "final_authority",
-    "authority_class": "interactive_cursor_integration",
-    "routing": null,
-    "dispatch_wake_count": 0,
-    "allowed_paths": [
-      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_depth_camera_source_position.py",
-      "Plan/Instructions/QA/Scripts/test_row088_depth_camera_source_position_compiler.py",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_CI_FIXTURE_LEDGER_GATE_CURRENT_DELTA_20260720.json"
-    ]
-  },
-  "compiler_slice": {
-    "compiler_path": "Plan\\07_IMPLEMENTATION\\scripts\\compile_wave64_depth_camera_source_position.py",
-    "compiler_sha256": "7bc4986e93e43d34b1c72f9349c053173ff5c28293febdf844ce8acc23d7291c",
-    "compiler_bytes": 64485,
-    "test_path": "Plan\\Instructions\\QA\\Scripts\\test_row088_depth_camera_source_position_compiler.py",
-    "test_sha256": "ebd9f0f7fdb1ed63e8b0eeae3c5029e8bb3cb94a3d1e36ed4eeb5d78a32632db",
-    "test_bytes": 23660,
-    "fixture_dir": "Plan\\Instructions\\QA\\Evidence\\Wave64\\fixtures\\row088",
-    "ledger_expectation_verifier": {
-      "function": "verify_synthetic_ledger_vs_compiled_manifest_expectations",
-      "cli_flag": "--verify-synthetic-benchmark-ledger",
-      "rejects_fixture_file_digest_drift": true,
-      "rejects_compiled_manifest_digest_drift": true
-    },
-    "ci_fixture_ledger_gate": {
-      "function": "run_ci_fixture_ledger_gate",
-      "cli_flag": "--ci-gate",
-      "gate_id": "row088_ci_fixture_ledger_gate",
-      "checks_checked_in_ledger_matches_rebuild": true,
-      "runs_expectation_verifier": true,
-      "rejects_checked_in_divergence": true,
-      "rejects_calibrated_trajectory_benchmark_pass_claim": true,
-      "rejects_visual_review_claim": true,
-      "rejects_rows084_085_acceptance_claim": true,
-      "production_benchmark": false,
-      "row_complete": false
-    },
-    "fail_closed_invariants": [
-      "CI/fixture ledger gate fails closed when checked-in ledger digests diverge from fixture-packet rebuild",
-      "gate runs ledger-vs-compiled-manifest expectation verifier and rejects digest drift",
-      "row_complete and calibrated_trajectory_benchmark_pass remain false",
-      "no COMPLETE status mutation; Tracker/Items CSV untouched; Row075 untouched"
-    ],
-    "decision": "USEFUL_CI_FIXTURE_LEDGER_GATE_SLICE_NOT_PRODUCTION_SPATIAL_AUTHORITY"
-  },
-  "dependency_authority": {
-    "tracker_ids": [
-      "TRK-W64-084",
-      "TRK-W64-085"
-    ],
-    "row084_complete": false,
-    "row085_complete": false,
-    "dependency_satisfied": false,
-    "row088_effect": "CI/fixture ledger gating does not satisfy upstream Rows084/085 production authority. Disjoint from Lane D mutators."
-  },
-  "focused_local_test_result": {
-    "strict_command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_row088_depth_camera_source_position_compiler.py -ra",
-    "strict_result": "14 passed in 23.55s",
-    "strict_exit_code": 0,
-    "cli_verify_command": "python Plan/07_IMPLEMENTATION/scripts/compile_wave64_depth_camera_source_position.py --verify-synthetic-benchmark-ledger",
-    "cli_ci_gate_command": "python Plan/07_IMPLEMENTATION/scripts/compile_wave64_depth_camera_source_position.py --ci-gate",
-    "cli_ci_gate_receipt": {
-      "status": "ok",
-      "gate": "row088_ci_fixture_ledger_gate",
-      "verifier": "run_ci_fixture_ledger_gate",
-      "checked_in_matches_rebuild": true,
-      "ledger_sha256": "99280e36e6016f2cec5cd52d4a4b0cc0e5364bac9b3d04f5b73558737b9b7abe",
-      "fixture_binding_count": 2,
-      "trajectory_metric_expectation_count": 2,
-      "digest_drift_rejected": true,
-      "production_benchmark": false,
-      "calibrated_trajectory_benchmark_pass": false,
-      "visual_review_claimed": false,
-      "rows084_085_acceptance_claimed": false,
-      "row_complete": false,
-      "authority_ceiling": "fixture_synthetic_only",
-      "expectation_verifier": "verify_synthetic_ledger_vs_compiled_manifest_expectations"
-    },
-    "scope_interpretation": "Focused tests prove the fail-closed CI/fixture ledger gate that rejects checked-in ledger divergence from fixture-packet rebuild and runs the ledger-vs-compiled-manifest expectation verifier. They do not grant Row088 completion, metric calibration authority, production runtime receipt, Rows084/085 acceptance, or combined visual review."
   },
   "checks": [
     {
@@ -144,32 +54,112 @@
       "status": "FAIL"
     }
   ],
-  "test_and_runtime_boundary": {
-    "ci_fixture_ledger_gate_executed": true,
-    "ledger_expectation_verifier_executed": true,
-    "focused_compiler_tests_executed": true,
-    "production_row088_spatial_runtime_invoked": false,
-    "direct_row088_calibration_benchmark_executed": false,
-    "direct_row088_visual_review_executed": false,
-    "ec2_invoked": false,
-    "docker_invoked": false,
-    "wsl_invoked": false,
-    "provider_calls": 0,
-    "wrapper_calls": 0,
-    "scheduled_task_wakes": 0
-  },
-  "sibling_lane_disjointness": {
-    "excluded_sibling_rows": [
-      "TRK-W64-075",
-      "TRK-W64-084",
-      "TRK-W64-085",
-      "TRK-W64-086",
-      "TRK-W64-087"
+  "classification": "ROW088_CURRENT_DELTA_CI_FIXTURE_LEDGER_GATE_SLICE_NO_FALSE_COMPLETION",
+  "compiler_slice": {
+    "ci_fixture_ledger_gate": {
+      "checks_checked_in_ledger_matches_rebuild": true,
+      "cli_flag": "--ci-gate",
+      "function": "run_ci_fixture_ledger_gate",
+      "gate_id": "row088_ci_fixture_ledger_gate",
+      "production_benchmark": false,
+      "rejects_calibrated_trajectory_benchmark_pass_claim": true,
+      "rejects_checked_in_divergence": true,
+      "rejects_rows084_085_acceptance_claim": true,
+      "rejects_visual_review_claim": true,
+      "row_complete": false,
+      "runs_expectation_verifier": true
+    },
+    "compiler_bytes": 64485,
+    "compiler_path": "Plan\\07_IMPLEMENTATION\\scripts\\compile_wave64_depth_camera_source_position.py",
+    "compiler_sha256": "7bc4986e93e43d34b1c72f9349c053173ff5c28293febdf844ce8acc23d7291c",
+    "decision": "USEFUL_CI_FIXTURE_LEDGER_GATE_SLICE_NOT_PRODUCTION_SPATIAL_AUTHORITY",
+    "fail_closed_invariants": [
+      "CI/fixture ledger gate fails closed when checked-in ledger digests diverge from fixture-packet rebuild",
+      "gate runs ledger-vs-compiled-manifest expectation verifier and rejects digest drift",
+      "row_complete and calibrated_trajectory_benchmark_pass remain false",
+      "no COMPLETE status mutation; Tracker/Items CSV untouched; Row075 untouched"
     ],
-    "disjoint_from_lane_d_084_085_086": true,
-    "shared_csv_writes": false,
-    "row075_paths_touched": false
+    "fixture_dir": "Plan\\Instructions\\QA\\Evidence\\Wave64\\fixtures\\row088",
+    "ledger_expectation_verifier": {
+      "cli_flag": "--verify-synthetic-benchmark-ledger",
+      "function": "verify_synthetic_ledger_vs_compiled_manifest_expectations",
+      "rejects_compiled_manifest_digest_drift": true,
+      "rejects_fixture_file_digest_drift": true
+    },
+    "test_bytes": 23660,
+    "test_path": "Plan\\Instructions\\QA\\Scripts\\test_row088_depth_camera_source_position_compiler.py",
+    "test_sha256": "ebd9f0f7fdb1ed63e8b0eeae3c5029e8bb3cb94a3d1e36ed4eeb5d78a32632db"
   },
+  "created_at": "2026-07-20T06:14:45Z",
+  "dependency_authority": {
+    "dependency_satisfied": false,
+    "row084_complete": false,
+    "row085_complete": false,
+    "row088_effect": "CI/fixture ledger gating does not satisfy upstream Rows084/085 production authority. Disjoint from Lane D mutators.",
+    "tracker_ids": [
+      "TRK-W64-084",
+      "TRK-W64-085"
+    ]
+  },
+  "evidence_id": "TRK-W64-088_CI_FIXTURE_LEDGER_GATE_CURRENT_DELTA_20260720",
+  "focused_local_test_result": {
+    "cli_ci_gate_command": "python Plan/07_IMPLEMENTATION/scripts/compile_wave64_depth_camera_source_position.py --ci-gate",
+    "cli_ci_gate_receipt": {
+      "authority_ceiling": "fixture_synthetic_only",
+      "calibrated_trajectory_benchmark_pass": false,
+      "checked_in_matches_rebuild": true,
+      "digest_drift_rejected": true,
+      "expectation_verifier": "verify_synthetic_ledger_vs_compiled_manifest_expectations",
+      "fixture_binding_count": 2,
+      "gate": "row088_ci_fixture_ledger_gate",
+      "ledger_sha256": "99280e36e6016f2cec5cd52d4a4b0cc0e5364bac9b3d04f5b73558737b9b7abe",
+      "production_benchmark": false,
+      "row_complete": false,
+      "rows084_085_acceptance_claimed": false,
+      "status": "ok",
+      "trajectory_metric_expectation_count": 2,
+      "verifier": "run_ci_fixture_ledger_gate",
+      "visual_review_claimed": false
+    },
+    "cli_verify_command": "python Plan/07_IMPLEMENTATION/scripts/compile_wave64_depth_camera_source_position.py --verify-synthetic-benchmark-ledger",
+    "scope_interpretation": "Focused tests prove the fail-closed CI/fixture ledger gate that rejects checked-in ledger divergence from fixture-packet rebuild and runs the ledger-vs-compiled-manifest expectation verifier. They do not grant Row088 completion, metric calibration authority, production runtime receipt, Rows084/085 acceptance, or combined visual review.",
+    "strict_command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_row088_depth_camera_source_position_compiler.py -ra",
+    "strict_exit_code": 0,
+    "strict_result": "14 passed in 23.55s"
+  },
+  "highest_proof_tier_achieved": "CONTRACT_FIXTURE_CI_GATE",
+  "hold_decision": {
+    "decision": "HOLD_ROW088_NO_FALSE_COMPLETION",
+    "reason": "Row088 now has a CI/fixture ledger gate (--ci-gate) that fails closed when the checked-in synthetic ledger diverges from a live rebuild of fixture-packet digests, then runs the ledger-vs-compiled-manifest expectation verifier. Fourteen focused tests pass. Rows084/085 remain incomplete. Metric calibration authority, production runtime receipts, combined visual review, and the tracker-declared output artifact remain absent. The compiler and gate never set row_complete or calibrated_trajectory_benchmark_pass true.",
+    "safe_next_action": "Keep Row088 on hold. Upstream continue Rows084/085 on disjoint lanes. Do not claim COMPLETE or mutate Tracker/Items CSV from this CI-gate slice."
+  },
+  "implementation_completion_claimed": false,
+  "intent": {
+    "allowed_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_depth_camera_source_position.py",
+      "Plan/Instructions/QA/Scripts/test_row088_depth_camera_source_position_compiler.py",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_CI_FIXTURE_LEDGER_GATE_CURRENT_DELTA_20260720.json"
+    ],
+    "authority_class": "interactive_cursor_integration",
+    "classification": "INTERACTIVE_CURSOR_SHIFT_AUTHORITY",
+    "dispatch_wake_count": 0,
+    "intent_id": "interactive_cursor_shift_row088_ci_fixture_ledger_gate_20260720",
+    "routing": null,
+    "work_type": "final_authority"
+  },
+  "item_id": "ITEM-W64-088",
+  "ledger_status": "Blocked_Dependency_Runtime_Benchmark_And_Visual_Proof_Absent_CI_Fixture_Ledger_Gate_Present",
+  "ledger_vocabulary_sync": {
+    "ledger_status": "Blocked_Dependency_Runtime_Benchmark_And_Visual_Proof_Absent_CI_Fixture_Ledger_Gate_Present",
+    "note": "Triple-synced Tracker/Item from 0bc53d13; no COMPLETE.",
+    "product_completion": false,
+    "prove_commits": [
+      "0bc53d13"
+    ],
+    "runtime_completion": false,
+    "synced_at": "2026-07-20T06:20:09.943506Z"
+  },
+  "library_authority": false,
   "preservation_boundary": {
     "actual_write_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_depth_camera_source_position.py",
@@ -178,11 +168,11 @@
     ],
     "unrelated_dirty_paths_preserved": true
   },
+  "proof_tier": "CONTRACT_FIXTURE_CI_GATE",
   "proof_tier_detail": {
-    "tier": "CONTRACT_FIXTURE_CI_GATE",
     "claims": [
       "checked-in synthetic ledger matches live fixture-packet rebuild",
-      "ledger↔fixture digest drift fail-closed",
+      "ledger\u2194fixture digest drift fail-closed",
       "CI --ci-gate wrapper"
     ],
     "non_claims": [
@@ -191,11 +181,40 @@
       "Rows084/085 acceptance",
       "row_complete",
       "COMPLETE"
-    ]
+    ],
+    "tier": "CONTRACT_FIXTURE_CI_GATE"
   },
-  "hold_decision": {
-    "decision": "HOLD_ROW088_NO_FALSE_COMPLETION",
-    "reason": "Row088 now has a CI/fixture ledger gate (--ci-gate) that fails closed when the checked-in synthetic ledger diverges from a live rebuild of fixture-packet digests, then runs the ledger-vs-compiled-manifest expectation verifier. Fourteen focused tests pass. Rows084/085 remain incomplete. Metric calibration authority, production runtime receipts, combined visual review, and the tracker-declared output artifact remain absent. The compiler and gate never set row_complete or calibrated_trajectory_benchmark_pass true.",
-    "safe_next_action": "Keep Row088 on hold. Upstream continue Rows084/085 on disjoint lanes. Do not claim COMPLETE or mutate Tracker/Items CSV from this CI-gate slice."
-  }
+  "qa_decision": "HOLD",
+  "row_complete": false,
+  "runtime_completion_claimed": false,
+  "schema_version": "1.0",
+  "sibling_lane_disjointness": {
+    "disjoint_from_lane_d_084_085_086": true,
+    "excluded_sibling_rows": [
+      "TRK-W64-075",
+      "TRK-W64-084",
+      "TRK-W64-085",
+      "TRK-W64-086",
+      "TRK-W64-087"
+    ],
+    "row075_paths_touched": false,
+    "shared_csv_writes": false
+  },
+  "status": "HOLD_DEPENDENCY_RUNTIME_BENCHMARK_AND_VISUAL_PROOF_ABSENT_WITH_CI_FIXTURE_LEDGER_GATE_PRESENT",
+  "test_and_runtime_boundary": {
+    "ci_fixture_ledger_gate_executed": true,
+    "direct_row088_calibration_benchmark_executed": false,
+    "direct_row088_visual_review_executed": false,
+    "docker_invoked": false,
+    "ec2_invoked": false,
+    "focused_compiler_tests_executed": true,
+    "ledger_expectation_verifier_executed": true,
+    "production_row088_spatial_runtime_invoked": false,
+    "provider_calls": 0,
+    "scheduled_task_wakes": 0,
+    "wrapper_calls": 0,
+    "wsl_invoked": false
+  },
+  "tracker_id": "TRK-W64-088",
+  "updated_at": "2026-07-20T06:20:09.943506Z"
 }
