@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -45,12 +46,22 @@ FIXTURE_MUX_RUNTIME_SCHEMA = (
     ROOT
     / "Plan/08_SCHEMAS/canonical_video_timeline_fixture_media_mux_runtime_receipt.schema.json"
 )
+HELD_OUT_FFMPEG_MUX_REPLAY_SCHEMA = (
+    ROOT
+    / "Plan/08_SCHEMAS/canonical_video_timeline_held_out_ffmpeg_mux_replay_receipt.schema.json"
+)
 FIXTURE_DIR = ROOT / "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084"
 SYNTHETIC_CLIMB_LEDGER = FIXTURE_DIR / "synthetic_runtime_climb_ledger.json"
 FIXTURE_MUX_RUNTIME_RECEIPT = (
     FIXTURE_DIR / "runtime" / "fixture_media_mux_runtime_receipt.json"
 )
 FIXTURE_MUX_OUTPUT = FIXTURE_DIR / "runtime" / "fixture_media_mux_output.mux"
+HELD_OUT_FFMPEG_MUX_REPLAY_RECEIPT = (
+    FIXTURE_DIR / "runtime" / "held_out_ffmpeg_mux_replay_receipt.json"
+)
+DEFAULT_ROW084_FFMPEG = Path(
+    r"C:\Users\kevin\AppData\Local\Programs\ffmpeg\ffmpeg-8.1.2-full_build\bin\ffmpeg.exe"
+)
 
 _spec = importlib.util.spec_from_file_location("row084_compiler", COMPILER)
 COMPILER_MOD = importlib.util.module_from_spec(_spec)
@@ -494,6 +505,9 @@ class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
         )
         self.fixture_mux_runtime_validator = Draft202012Validator(
             json.loads(FIXTURE_MUX_RUNTIME_SCHEMA.read_text(encoding="utf-8"))
+        )
+        self.held_out_ffmpeg_mux_replay_validator = Draft202012Validator(
+            json.loads(HELD_OUT_FFMPEG_MUX_REPLAY_SCHEMA.read_text(encoding="utf-8"))
         )
         self.clock_span_schema = json.loads(CLOCK_SPAN_SCHEMA.read_text(encoding="utf-8"))
 
@@ -1301,6 +1315,52 @@ class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
         self.assertEqual(cli.returncode, 0, msg=cli.stderr + cli.stdout)
         cli_receipt = json.loads(cli.stdout)
         self.assertEqual(cli_receipt["mux_sha256"], checked_in["mux_output"]["mux_sha256"])
+        self.assertEqual(cli_receipt["proof_tier"], "RUNTIME_PASS_BOUNDED")
+
+    def test_held_out_ffmpeg_mux_replay_receipt_holds_completion(self) -> None:
+        if not DEFAULT_ROW084_FFMPEG.is_file() and not shutil.which("ffmpeg"):
+            self.skipTest("ffmpeg unavailable for held-out mux replay test")
+        self.assertTrue(HELD_OUT_FFMPEG_MUX_REPLAY_RECEIPT.is_file())
+        checked_in = json.loads(HELD_OUT_FFMPEG_MUX_REPLAY_RECEIPT.read_text(encoding="utf-8"))
+        self.held_out_ffmpeg_mux_replay_validator.validate(checked_in)
+        verify = COMPILER_MOD.verify_held_out_ffmpeg_mux_replay_receipt(
+            ffmpeg_path=DEFAULT_ROW084_FFMPEG if DEFAULT_ROW084_FFMPEG.is_file() else None
+        )
+        self.assertEqual(verify["status"], "ok")
+        self.assertEqual(verify["proof_tier"], "RUNTIME_PASS_BOUNDED")
+        self.assertTrue(verify["held_out_fixed_vfr_mux_replay_pass"])
+        self.assertTrue(verify["direct_row084_mux_replay_proof_present"])
+        self.assertTrue(verify["ffmpeg_invoked"])
+        self.assertTrue(verify["mux_replay_executed"])
+        self.assertFalse(verify["production_mux_replay_pass"])
+        self.assertFalse(verify["visual_review_authority_granted"])
+        self.assertFalse(verify["row_complete"])
+        self.assertGreaterEqual(verify["case_count"], 2)
+        modes = {case["frame_rate_mode"] for case in checked_in["cases"]}
+        self.assertIn("fixed", modes)
+        self.assertIn("vfr", modes)
+        self.assertFalse(checked_in["authority"]["production_mux_replay_pass"])
+        self.assertFalse(checked_in["row_complete"])
+
+        cli = subprocess.run(
+            [
+                sys.executable,
+                str(COMPILER),
+                "--verify-held-out-ffmpeg-mux-replay",
+                *(
+                    ["--ffmpeg-path", str(DEFAULT_ROW084_FFMPEG)]
+                    if DEFAULT_ROW084_FFMPEG.is_file()
+                    else []
+                ),
+            ],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        self.assertEqual(cli.returncode, 0, msg=cli.stderr + cli.stdout)
+        cli_receipt = json.loads(cli.stdout)
+        self.assertEqual(cli_receipt["receipt_sha256"], checked_in["receipt_sha256"])
         self.assertEqual(cli_receipt["proof_tier"], "RUNTIME_PASS_BOUNDED")
 
 

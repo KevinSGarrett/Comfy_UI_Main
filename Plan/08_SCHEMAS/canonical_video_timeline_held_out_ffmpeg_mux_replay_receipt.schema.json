@@ -1,0 +1,192 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/canonical-video-timeline-held-out-ffmpeg-mux-replay-receipt/1.0.0",
+  "title": "Wave64 Canonical Video Timeline Held-Out FFmpeg Mux Replay Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_type",
+    "receipt_id",
+    "revision",
+    "status",
+    "created_at",
+    "proof_tier",
+    "highest_proof_tier_achieved",
+    "climb_targets",
+    "ffmpeg",
+    "cases",
+    "summary",
+    "authority",
+    "hold_reasons",
+    "production_completion_allowed",
+    "row_complete",
+    "provenance",
+    "receipt_sha256"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "record_type": { "const": "row084_held_out_ffmpeg_mux_replay_receipt" },
+    "receipt_id": { "type": "string", "minLength": 1 },
+    "revision": { "type": "string", "minLength": 1 },
+    "status": { "const": "held_out_ffmpeg_mux_replay_pass_bounded" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "proof_tier": { "const": "RUNTIME_PASS_BOUNDED" },
+    "highest_proof_tier_achieved": { "const": "RUNTIME_PASS_BOUNDED" },
+    "climb_targets": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "enum": ["RUNTIME_PASS_BOUNDED", "VISUAL_QA_PASS_BOUNDED"]
+      },
+      "uniqueItems": true
+    },
+    "ffmpeg": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["resolved_path", "ffprobe_path", "version_line", "invoked"],
+      "properties": {
+        "resolved_path": { "type": "string", "minLength": 1 },
+        "ffprobe_path": { "type": "string", "minLength": 1 },
+        "version_line": { "type": "string", "minLength": 1 },
+        "invoked": { "const": true }
+      }
+    },
+    "cases": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "case_id",
+          "frame_rate_mode",
+          "mux_relative_path",
+          "mux_sha256",
+          "mux_byte_length",
+          "video_frames",
+          "audio_sample_rate_hz",
+          "duration_seconds",
+          "approx_end_sample_exclusive",
+          "expected_video_frames",
+          "expected_end_sample_exclusive",
+          "expected_duration_seconds",
+          "frame_count_matched",
+          "sample_rate_matched",
+          "duration_within_tolerance",
+          "mux_replay_passed"
+        ],
+        "properties": {
+          "case_id": { "type": "string", "minLength": 1 },
+          "frame_rate_mode": { "enum": ["fixed", "fractional", "vfr"] },
+          "mux_relative_path": { "type": "string", "minLength": 1 },
+          "mux_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "mux_byte_length": { "type": "integer", "minimum": 1 },
+          "video_frames": { "type": "integer", "minimum": 1 },
+          "audio_sample_rate_hz": { "const": 48000 },
+          "duration_seconds": { "type": "number", "exclusiveMinimum": 0 },
+          "approx_end_sample_exclusive": { "type": "integer", "minimum": 1 },
+          "expected_video_frames": { "type": "integer", "minimum": 1 },
+          "expected_end_sample_exclusive": { "type": "integer", "minimum": 1 },
+          "expected_duration_seconds": { "type": "number", "exclusiveMinimum": 0 },
+          "frame_count_matched": { "const": true },
+          "sample_rate_matched": { "const": true },
+          "duration_within_tolerance": { "const": true },
+          "mux_replay_passed": { "const": true }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "case_count",
+        "modes_covered",
+        "fixed_covered",
+        "fractional_covered",
+        "vfr_covered",
+        "all_cases_passed",
+        "held_out_fixed_vfr_mux_replay_pass"
+      ],
+      "properties": {
+        "case_count": { "type": "integer", "minimum": 2 },
+        "modes_covered": {
+          "type": "array",
+          "minItems": 2,
+          "items": { "enum": ["fixed", "fractional", "vfr"] },
+          "uniqueItems": true
+        },
+        "fixed_covered": { "const": true },
+        "fractional_covered": { "type": "boolean" },
+        "vfr_covered": { "const": true },
+        "all_cases_passed": { "const": true },
+        "held_out_fixed_vfr_mux_replay_pass": { "const": true }
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ffmpeg_invoked",
+        "mux_command_executed",
+        "mux_replay_executed",
+        "held_out_fixed_vfr_mux_replay_pass",
+        "direct_row084_mux_replay_proof_present",
+        "production_mux_replay_pass",
+        "runtime_media_decode_invoked",
+        "visual_review_authority_granted",
+        "combined_visual_review_present",
+        "fixed_vfr_benchmark_pass",
+        "cut_detection_algorithm_complete",
+        "camera_motion_normalization_complete"
+      ],
+      "properties": {
+        "ffmpeg_invoked": { "const": true },
+        "mux_command_executed": { "const": true },
+        "mux_replay_executed": { "const": true },
+        "held_out_fixed_vfr_mux_replay_pass": { "const": true },
+        "direct_row084_mux_replay_proof_present": { "const": true },
+        "production_mux_replay_pass": { "const": false },
+        "runtime_media_decode_invoked": { "const": false },
+        "visual_review_authority_granted": { "const": false },
+        "combined_visual_review_present": { "const": false },
+        "fixed_vfr_benchmark_pass": { "const": false },
+        "cut_detection_algorithm_complete": { "const": false },
+        "camera_motion_normalization_complete": { "const": false }
+      }
+    },
+    "hold_reasons": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "production_completion_allowed": { "const": false },
+    "row_complete": { "const": false },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "compiler",
+        "compiler_revision",
+        "runtime_revision",
+        "execution_mode",
+        "binds_held_out_mux_dry_run_case_ids",
+        "does_not_claim_visual_qa_pass_bounded",
+        "does_not_claim_row_complete",
+        "does_not_claim_production_mux_replay"
+      ],
+      "properties": {
+        "compiler": { "const": "compile_wave64_canonical_video_timeline.py" },
+        "compiler_revision": { "type": "string", "minLength": 1 },
+        "runtime_revision": { "type": "string", "minLength": 1 },
+        "execution_mode": { "const": "ffmpeg_lavfi_held_out_fixed_vfr_mux" },
+        "binds_held_out_mux_dry_run_case_ids": { "const": true },
+        "does_not_claim_visual_qa_pass_bounded": { "const": true },
+        "does_not_claim_row_complete": { "const": true },
+        "does_not_claim_production_mux_replay": { "const": true }
+      }
+    },
+    "receipt_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "authority": {
+    "camera_motion_normalization_complete": false,
+    "combined_visual_review_present": false,
+    "cut_detection_algorithm_complete": false,
+    "direct_row084_mux_replay_proof_present": true,
+    "ffmpeg_invoked": true,
+    "fixed_vfr_benchmark_pass": false,
+    "held_out_fixed_vfr_mux_replay_pass": true,
+    "mux_command_executed": true,
+    "mux_replay_executed": true,
+    "production_mux_replay_pass": false,
+    "runtime_media_decode_invoked": false,
+    "visual_review_authority_granted": false
+  },
+  "cases": [
+    {
+      "approx_end_sample_exclusive": 32976,
+      "audio_sample_rate_hz": 48000,
+      "case_id": "held_out_fixed_24",
+      "duration_seconds": 0.687,
+      "duration_within_tolerance": true,
+      "expected_duration_seconds": 0.6666666666666666,
+      "expected_end_sample_exclusive": 32000,
+      "expected_video_frames": 16,
+      "frame_count_matched": true,
+      "frame_rate_mode": "fixed",
+      "mux_byte_length": 8040,
+      "mux_relative_path": "runtime/held_out_ffmpeg_mux/held_out_fixed_24_mux.mkv",
+      "mux_replay_passed": true,
+      "mux_sha256": "c41608eb64e5bc18a9a0e0e03a30f30f28565a13e9d8cd8fe8846965030d32cf",
+      "sample_rate_matched": true,
+      "video_frames": 16
+    },
+    {
+      "approx_end_sample_exclusive": 21024,
+      "audio_sample_rate_hz": 48000,
+      "case_id": "held_out_fractional_ntsc",
+      "duration_seconds": 0.438,
+      "duration_within_tolerance": true,
+      "expected_duration_seconds": 0.4170833333333333,
+      "expected_end_sample_exclusive": 20020,
+      "expected_video_frames": 10,
+      "frame_count_matched": true,
+      "frame_rate_mode": "fractional",
+      "mux_byte_length": 5683,
+      "mux_relative_path": "runtime/held_out_ffmpeg_mux/held_out_fractional_ntsc_mux.mkv",
+      "mux_replay_passed": true,
+      "mux_sha256": "dbcb70963a3a7eaa4e2a0d70550c14b953be316ffde0064e5f7b437f2e8c1e40",
+      "sample_rate_matched": true,
+      "video_frames": 10
+    },
+    {
+      "approx_end_sample_exclusive": 44208,
+      "audio_sample_rate_hz": 48000,
+      "case_id": "held_out_vfr_24_30",
+      "duration_seconds": 0.921,
+      "duration_within_tolerance": true,
+      "expected_duration_seconds": 0.9,
+      "expected_end_sample_exclusive": 43200,
+      "expected_video_frames": 24,
+      "frame_count_matched": true,
+      "frame_rate_mode": "vfr",
+      "mux_byte_length": 10326,
+      "mux_relative_path": "runtime/held_out_ffmpeg_mux/held_out_vfr_24_30_mux.mkv",
+      "mux_replay_passed": true,
+      "mux_sha256": "5327faf9dc2406024dc1ee9763d50affc692057e2d41c542029573a6aa38338a",
+      "sample_rate_matched": true,
+      "video_frames": 24
+    }
+  ],
+  "climb_targets": [
+    "RUNTIME_PASS_BOUNDED",
+    "VISUAL_QA_PASS_BOUNDED"
+  ],
+  "created_at": "2026-07-20T07:17:00Z",
+  "ffmpeg": {
+    "ffprobe_path": "C:\\Users\\kevin\\AppData\\Local\\Programs\\ffmpeg\\ffmpeg-8.1.2-full_build\\bin\\ffprobe.exe",
+    "invoked": true,
+    "resolved_path": "C:\\Users\\kevin\\AppData\\Local\\Programs\\ffmpeg\\ffmpeg-8.1.2-full_build\\bin\\ffmpeg.exe",
+    "version_line": "ffmpeg version 8.1.2-full_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers"
+  },
+  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+  "hold_reasons": [
+    "production_mux_replay_not_granted",
+    "runtime_cut_detector_absent",
+    "camera_motion_normalization_incomplete",
+    "combined_visual_review_authority_absent",
+    "tracker_runtime_artifact_absent",
+    "fixed_vfr_benchmark_authority_absent",
+    "row_complete_blocked"
+  ],
+  "production_completion_allowed": false,
+  "proof_tier": "RUNTIME_PASS_BOUNDED",
+  "provenance": {
+    "binds_held_out_mux_dry_run_case_ids": true,
+    "compiler": "compile_wave64_canonical_video_timeline.py",
+    "compiler_revision": "row084_synthetic_runtime_climb_ledger_v9",
+    "does_not_claim_production_mux_replay": true,
+    "does_not_claim_row_complete": true,
+    "does_not_claim_visual_qa_pass_bounded": true,
+    "execution_mode": "ffmpeg_lavfi_held_out_fixed_vfr_mux",
+    "runtime_revision": "row084_held_out_ffmpeg_mux_replay_v1"
+  },
+  "receipt_id": "row084_held_out_ffmpeg_mux_replay_receipt_v1",
+  "receipt_sha256": "79c47e734e0ea06b47fc1a6a1556fb932f3cc51d0570e5a236e6519102e74149",
+  "record_type": "row084_held_out_ffmpeg_mux_replay_receipt",
+  "revision": "row084_held_out_ffmpeg_mux_replay_v1",
+  "row_complete": false,
+  "schema_version": "1.0.0",
+  "status": "held_out_ffmpeg_mux_replay_pass_bounded",
+  "summary": {
+    "all_cases_passed": true,
+    "case_count": 3,
+    "fixed_covered": true,
+    "fractional_covered": true,
+    "held_out_fixed_vfr_mux_replay_pass": true,
+    "modes_covered": [
+      "fixed",
+      "fractional",
+      "vfr"
+    ],
+    "vfr_covered": true
+  }
+}

@@ -18,6 +18,9 @@ import argparse
 import hashlib
 import json
 import math
+import os
+import shutil
+import subprocess
 import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
@@ -25,6 +28,7 @@ from typing import Any
 
 COMPILER_REVISION = "row084_synthetic_runtime_climb_ledger_v9"
 FIXTURE_MUX_RUNTIME_REVISION = "row084_fixture_media_mux_runtime_v10"
+HELD_OUT_FFMPEG_MUX_REPLAY_REVISION = "row084_held_out_ffmpeg_mux_replay_v1"
 MATRIX_AUTHORIZED_MISSING_POLICIES = frozenset({"preserve_gap", "explicit_gap"})
 RUNTIME_BLOCKED_MISSING_POLICIES = frozenset({"interpolate", "block"})
 MATRIX_AUTHORIZED_CAMERA_MOTION_POLICIES = frozenset(
@@ -57,7 +61,16 @@ FIXTURE_MEDIA_VIDEO = "media/fixture_video_stream.bin"
 FIXTURE_MUX_RUNTIME_DIRNAME = "runtime"
 FIXTURE_MUX_OUTPUT_FILENAME = "fixture_media_mux_output.mux"
 FIXTURE_MUX_RUNTIME_RECEIPT_FILENAME = "fixture_media_mux_runtime_receipt.json"
+HELD_OUT_FFMPEG_MUX_REPLAY_RECEIPT_FILENAME = "held_out_ffmpeg_mux_replay_receipt.json"
+HELD_OUT_FFMPEG_MUX_REPLAY_DIRNAME = "held_out_ffmpeg_mux"
+FFMPEG_PATH_PROBE_RECEIPT_FILENAME = "ffmpeg_path_probe_receipt.json"
 FIXTURE_MUX_MAGIC = b"ROW084_FIXTURE_MUX_V1\n"
+DEFAULT_FFMPEG_CANDIDATES = (
+    Path(r"C:\Users\kevin\AppData\Local\Programs\ffmpeg\ffmpeg-8.1.2-full_build\bin\ffmpeg.exe"),
+    Path(r"C:\Users\kevin\AppData\Local\Microsoft\WinGet\Links\ffmpeg.exe"),
+    Path(r"C:\Program Files\ffmpeg\bin\ffmpeg.exe"),
+    Path(r"C:\ffmpeg\bin\ffmpeg.exe"),
+)
 REQUIRED_COMBINED_VISUAL_SURFACES = frozenset(
     {
         "frame_timeline",
@@ -2801,6 +2814,585 @@ def verify_fixture_media_mux_runtime_receipt(
     }
 
 
+def resolve_ffmpeg_binary(
+    *,
+    explicit_path: str | Path | None = None,
+    fixture_dir: Path | None = None,
+) -> Path:
+    """Resolve ffmpeg.exe fail-closed for held-out mux replay.
+
+    Prefers explicit path, then ROW084_FFMPEG_PATH, then probe receipt, then
+    known user-local install candidates, then PATH.
+    """
+    candidates: list[Path] = []
+    if explicit_path is not None and str(explicit_path).strip():
+        candidates.append(Path(str(explicit_path)))
+    env_path = os.environ.get("ROW084_FFMPEG_PATH", "").strip()
+    if env_path:
+        candidates.append(Path(env_path))
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    probe_path = directory / FIXTURE_MUX_RUNTIME_DIRNAME / FFMPEG_PATH_PROBE_RECEIPT_FILENAME
+    if probe_path.is_file():
+        try:
+            probe = json.loads(probe_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            probe = None
+        if isinstance(probe, dict):
+            resolved = probe.get("ffmpeg_resolved_path")
+            if isinstance(resolved, str) and resolved.strip():
+                candidates.append(Path(resolved))
+    candidates.extend(DEFAULT_FFMPEG_CANDIDATES)
+    which = shutil.which("ffmpeg")
+    if which:
+        candidates.append(Path(which))
+
+    seen: set[str] = set()
+    for candidate in candidates:
+        key = str(candidate)
+        if not key or key in seen:
+            continue
+        seen.add(key)
+        if candidate.is_file():
+            return candidate.resolve()
+    raise FileNotFoundError(
+        "FFMPEG_ABSENT_PATH_MISS: ffmpeg binary not resolvable for held-out mux replay"
+    )
+
+
+def _ffprobe_beside(ffmpeg: Path) -> Path:
+    sibling = ffmpeg.with_name("ffprobe.exe" if ffmpeg.suffix.lower() == ".exe" else "ffprobe")
+    if sibling.is_file():
+        return sibling.resolve()
+    which = shutil.which("ffprobe")
+    if which:
+        return Path(which).resolve()
+    raise FileNotFoundError(f"ffprobe missing beside ffmpeg at {ffmpeg}")
+
+
+def _run_media_tool(binary: Path, args: list[str], *, label: str) -> dict[str, Any]:
+    command = [str(binary), *args]
+    completed = subprocess.run(
+        command,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        check=False,
+    )
+    stderr_tail = (completed.stderr or "")[-4000:]
+    stdout_tail = (completed.stdout or "")[-4000:]
+    if completed.returncode != 0:
+        raise ValueError(
+            f"{label} failed ({completed.returncode}): {' '.join(command)}\n"
+            f"stdout={stdout_tail}\nstderr={stderr_tail}"
+        )
+    return {
+        "command": command,
+        "exit_code": completed.returncode,
+        "stdout_tail": stdout_tail,
+        "stderr_tail": stderr_tail,
+    }
+
+
+def _ffprobe_json(ffprobe: Path, media_path: Path) -> dict[str, Any]:
+    completed = subprocess.run(
+        [
+            str(ffprobe),
+            "-v",
+            "error",
+            "-count_frames",
+            "-show_streams",
+            "-show_format",
+            "-of",
+            "json",
+            str(media_path),
+        ],
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        check=False,
+    )
+    if completed.returncode != 0:
+        raise ValueError(f"ffprobe json failed: {(completed.stderr or '')[-2000:]}")
+    payload = json.loads(completed.stdout)
+    if not isinstance(payload, dict):
+        raise ValueError("ffprobe json must be an object")
+    return payload
+
+
+def _stream_by_codec_type(probe: dict[str, Any], codec_type: str) -> dict[str, Any]:
+    streams = probe.get("streams")
+    if not isinstance(streams, list):
+        raise ValueError("ffprobe streams missing")
+    for stream in streams:
+        if isinstance(stream, dict) and stream.get("codec_type") == codec_type:
+            return stream
+    raise ValueError(f"ffprobe missing {codec_type} stream")
+
+
+def _file_sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _held_out_ffmpeg_mux_cases() -> list[dict[str, Any]]:
+    """Held-out fixed + fractional + VFR mux cases bound to dry-run matrix IDs."""
+    return [
+        {
+            "case_id": "held_out_fixed_24",
+            "frame_rate_mode": "fixed",
+            "expected_video_frames": 16,
+            "expected_sample_rate_hz": 48000,
+            "expected_duration_seconds": 16 / 24.0,
+            "expected_end_sample_exclusive": 32000,
+            "fps_num": 24,
+            "fps_den": 1,
+            "vfr_segments": None,
+        },
+        {
+            "case_id": "held_out_fractional_ntsc",
+            "frame_rate_mode": "fractional",
+            "expected_video_frames": 10,
+            "expected_sample_rate_hz": 48000,
+            "expected_duration_seconds": 10 * 1001 / 24000.0,
+            "expected_end_sample_exclusive": 20020,
+            "fps_num": 24000,
+            "fps_den": 1001,
+            "vfr_segments": None,
+        },
+        {
+            "case_id": "held_out_vfr_24_30",
+            "frame_rate_mode": "vfr",
+            "expected_video_frames": 24,
+            "expected_sample_rate_hz": 48000,
+            "expected_duration_seconds": (12 / 24.0) + (12 / 30.0),
+            "expected_end_sample_exclusive": 43200,
+            "fps_num": None,
+            "fps_den": None,
+            "vfr_segments": [
+                {"fps_num": 24, "fps_den": 1, "frames": 12, "color": "0x2244AA"},
+                {"fps_num": 30, "fps_den": 1, "frames": 12, "color": "0xAA4422"},
+            ],
+        },
+    ]
+
+
+def _mux_fixed_or_fractional_case(
+    *,
+    ffmpeg: Path,
+    work_dir: Path,
+    case: dict[str, Any],
+) -> Path:
+    frames = int(case["expected_video_frames"])
+    fps_num = int(case["fps_num"])
+    fps_den = int(case["fps_den"])
+    duration = float(case["expected_duration_seconds"])
+    fps_expr = f"{fps_num}/{fps_den}" if fps_den != 1 else str(fps_num)
+    out_path = work_dir / f"{case['case_id']}_mux.mkv"
+    _run_media_tool(
+        ffmpeg,
+        [
+            "-y",
+            "-hide_banner",
+            "-loglevel",
+            "error",
+            "-f",
+            "lavfi",
+            "-i",
+            f"color=c=0x336699:s=64x64:r={fps_expr}:d={duration:.12f}",
+            "-f",
+            "lavfi",
+            "-i",
+            f"sine=frequency=440:sample_rate=48000:duration={duration:.12f}",
+            "-frames:v",
+            str(frames),
+            "-c:v",
+            "libx264",
+            "-preset",
+            "ultrafast",
+            "-pix_fmt",
+            "yuv420p",
+            "-c:a",
+            "aac",
+            "-ar",
+            "48000",
+            "-ac",
+            "1",
+            "-shortest",
+            str(out_path),
+        ],
+        label=f"ffmpeg-mux-{case['case_id']}",
+    )
+    if not out_path.is_file() or out_path.stat().st_size < 1:
+        raise ValueError(f"{case['case_id']} mux output missing")
+    return out_path
+
+
+def _mux_vfr_case(*, ffmpeg: Path, work_dir: Path, case: dict[str, Any]) -> Path:
+    segments = case["vfr_segments"]
+    if not isinstance(segments, list) or len(segments) != 2:
+        raise ValueError("vfr case requires exactly two segments")
+    lavfi_inputs: list[str] = []
+    for seg in segments:
+        frames = int(seg["frames"])
+        fps_num = int(seg["fps_num"])
+        fps_den = int(seg["fps_den"])
+        duration = frames * fps_den / float(fps_num)
+        fps_expr = f"{fps_num}/{fps_den}" if fps_den != 1 else str(fps_num)
+        lavfi_inputs.extend(
+            [
+                "-f",
+                "lavfi",
+                "-i",
+                f"color=c={seg['color']}:s=64x64:r={fps_expr}:d={duration:.12f}",
+            ]
+        )
+    frames0 = int(segments[0]["frames"])
+    frames1 = int(segments[1]["frames"])
+    total_frames = frames0 + frames1
+    duration = float(case["expected_duration_seconds"])
+    out_path = work_dir / f"{case['case_id']}_mux.mkv"
+    filter_complex = (
+        f"[0:v]trim=end_frame={frames0},setpts=PTS-STARTPTS[v0];"
+        f"[1:v]trim=end_frame={frames1},setpts=PTS-STARTPTS[v1];"
+        f"[v0][v1]concat=n=2:v=1:a=0[v]"
+    )
+    _run_media_tool(
+        ffmpeg,
+        [
+            "-y",
+            "-hide_banner",
+            "-loglevel",
+            "error",
+            *lavfi_inputs,
+            "-f",
+            "lavfi",
+            "-i",
+            f"sine=frequency=440:sample_rate=48000:duration={duration:.12f}",
+            "-filter_complex",
+            filter_complex,
+            "-map",
+            "[v]",
+            "-map",
+            "2:a",
+            "-frames:v",
+            str(total_frames),
+            "-c:v",
+            "libx264",
+            "-preset",
+            "ultrafast",
+            "-pix_fmt",
+            "yuv420p",
+            "-c:a",
+            "aac",
+            "-ar",
+            "48000",
+            "-ac",
+            "1",
+            "-shortest",
+            str(out_path),
+        ],
+        label=f"ffmpeg-mux-{case['case_id']}",
+    )
+    if not out_path.is_file() or out_path.stat().st_size < 1:
+        raise ValueError(f"{case['case_id']} mux output missing")
+    return out_path
+
+
+def _verify_held_out_mux_output(
+    *,
+    ffprobe: Path,
+    mux_path: Path,
+    case: dict[str, Any],
+) -> dict[str, Any]:
+    probe = _ffprobe_json(ffprobe, mux_path)
+    video = _stream_by_codec_type(probe, "video")
+    audio = _stream_by_codec_type(probe, "audio")
+    nb_read = video.get("nb_read_frames")
+    if nb_read is None:
+        nb_read = video.get("nb_frames")
+    if nb_read is None:
+        raise ValueError(f"{case['case_id']}: ffprobe did not report frame count")
+    frame_count = int(nb_read)
+    expected_frames = int(case["expected_video_frames"])
+    if frame_count != expected_frames:
+        raise ValueError(
+            f"{case['case_id']}: frame count mismatch expected={expected_frames} got={frame_count}"
+        )
+    sample_rate = int(float(audio.get("sample_rate", 0)))
+    if sample_rate != int(case["expected_sample_rate_hz"]):
+        raise ValueError(
+            f"{case['case_id']}: sample_rate mismatch expected="
+            f"{case['expected_sample_rate_hz']} got={sample_rate}"
+        )
+    format_block = probe.get("format") if isinstance(probe.get("format"), dict) else {}
+    duration = float(format_block.get("duration") or audio.get("duration") or 0.0)
+    expected_duration = float(case["expected_duration_seconds"])
+    if abs(duration - expected_duration) > 0.05:
+        raise ValueError(
+            f"{case['case_id']}: duration mismatch expected={expected_duration:.6f} got={duration:.6f}"
+        )
+    approx_samples = int(round(duration * sample_rate))
+    expected_samples = int(case["expected_end_sample_exclusive"])
+    if abs(approx_samples - expected_samples) > 2400:  # 50ms @ 48k
+        raise ValueError(
+            f"{case['case_id']}: sample span mismatch expected={expected_samples} got≈{approx_samples}"
+        )
+    return {
+        "case_id": case["case_id"],
+        "frame_rate_mode": case["frame_rate_mode"],
+        "mux_relative_path": None,  # filled by caller
+        "mux_sha256": _file_sha256(mux_path),
+        "mux_byte_length": mux_path.stat().st_size,
+        "video_frames": frame_count,
+        "audio_sample_rate_hz": sample_rate,
+        "duration_seconds": duration,
+        "approx_end_sample_exclusive": approx_samples,
+        "expected_video_frames": expected_frames,
+        "expected_end_sample_exclusive": expected_samples,
+        "expected_duration_seconds": expected_duration,
+        "frame_count_matched": True,
+        "sample_rate_matched": True,
+        "duration_within_tolerance": True,
+        "mux_replay_passed": True,
+    }
+
+
+def execute_held_out_ffmpeg_mux_replay(
+    *,
+    fixture_dir: Path | None = None,
+    ffmpeg_path: str | Path | None = None,
+    output_dir: Path | None = None,
+    output_receipt_path: Path | None = None,
+    write_outputs: bool = True,
+) -> dict[str, Any]:
+    """Execute ffmpeg-backed held-out fixed+VFR mux replay.
+
+    Generates synthetic lavfi media matching held-out dry-run matrix clocks,
+    muxes with ffmpeg, and verifies frame/sample/duration via ffprobe.
+    Grants ROW084-019 held-out mux replay proof only. Never sets row_complete,
+    production mux authority, visual-review authority, or VISUAL_QA_PASS_BOUNDED.
+    """
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    runtime_dir = directory / FIXTURE_MUX_RUNTIME_DIRNAME
+    mux_dir = (
+        output_dir
+        if output_dir is not None
+        else runtime_dir / HELD_OUT_FFMPEG_MUX_REPLAY_DIRNAME
+    )
+    receipt_path = (
+        output_receipt_path
+        if output_receipt_path is not None
+        else runtime_dir / HELD_OUT_FFMPEG_MUX_REPLAY_RECEIPT_FILENAME
+    )
+
+    ffmpeg = resolve_ffmpeg_binary(explicit_path=ffmpeg_path, fixture_dir=directory)
+    ffprobe = _ffprobe_beside(ffmpeg)
+    version_run = _run_media_tool(ffmpeg, ["-version"], label="ffmpeg-version")
+    version_line = (version_run["stdout_tail"] or version_run["stderr_tail"]).splitlines()[0].strip()
+
+    cases = _held_out_ffmpeg_mux_cases()
+    case_results: list[dict[str, Any]] = []
+    with tempfile.TemporaryDirectory(prefix="row084_ffmpeg_mux_") as tmp:
+        work_dir = Path(tmp)
+        if write_outputs:
+            mux_dir.mkdir(parents=True, exist_ok=True)
+        for case in cases:
+            if case["frame_rate_mode"] == "vfr":
+                produced = _mux_vfr_case(ffmpeg=ffmpeg, work_dir=work_dir, case=case)
+            else:
+                produced = _mux_fixed_or_fractional_case(
+                    ffmpeg=ffmpeg, work_dir=work_dir, case=case
+                )
+            durable = mux_dir / produced.name
+            if write_outputs:
+                durable.write_bytes(produced.read_bytes())
+                verify_path = durable
+            else:
+                verify_path = produced
+            result = _verify_held_out_mux_output(
+                ffprobe=ffprobe, mux_path=verify_path, case=case
+            )
+            rel = f"{FIXTURE_MUX_RUNTIME_DIRNAME}/{HELD_OUT_FFMPEG_MUX_REPLAY_DIRNAME}/{produced.name}"
+            result["mux_relative_path"] = rel
+            case_results.append(result)
+
+    modes = {item["frame_rate_mode"] for item in case_results}
+    if "fixed" not in modes or "vfr" not in modes:
+        raise ValueError("held-out ffmpeg mux replay must cover fixed and vfr modes")
+    all_passed = all(item["mux_replay_passed"] for item in case_results)
+    if not all_passed:
+        raise ValueError("held-out ffmpeg mux replay case failure")
+
+    created_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    receipt_body: dict[str, Any] = {
+        "schema_version": "1.0.0",
+        "record_type": "row084_held_out_ffmpeg_mux_replay_receipt",
+        "receipt_id": "row084_held_out_ffmpeg_mux_replay_receipt_v1",
+        "revision": HELD_OUT_FFMPEG_MUX_REPLAY_REVISION,
+        "status": "held_out_ffmpeg_mux_replay_pass_bounded",
+        "created_at": created_at,
+        "proof_tier": "RUNTIME_PASS_BOUNDED",
+        "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+        "climb_targets": ["RUNTIME_PASS_BOUNDED", "VISUAL_QA_PASS_BOUNDED"],
+        "ffmpeg": {
+            "resolved_path": str(ffmpeg),
+            "ffprobe_path": str(ffprobe),
+            "version_line": version_line,
+            "invoked": True,
+        },
+        "cases": case_results,
+        "summary": {
+            "case_count": len(case_results),
+            "modes_covered": sorted(modes),
+            "fixed_covered": "fixed" in modes,
+            "fractional_covered": "fractional" in modes,
+            "vfr_covered": "vfr" in modes,
+            "all_cases_passed": True,
+            "held_out_fixed_vfr_mux_replay_pass": True,
+        },
+        "authority": {
+            "ffmpeg_invoked": True,
+            "mux_command_executed": True,
+            "mux_replay_executed": True,
+            "held_out_fixed_vfr_mux_replay_pass": True,
+            "direct_row084_mux_replay_proof_present": True,
+            "production_mux_replay_pass": False,
+            "runtime_media_decode_invoked": False,
+            "visual_review_authority_granted": False,
+            "combined_visual_review_present": False,
+            "fixed_vfr_benchmark_pass": False,
+            "cut_detection_algorithm_complete": False,
+            "camera_motion_normalization_complete": False,
+        },
+        "hold_reasons": [
+            "production_mux_replay_not_granted",
+            "runtime_cut_detector_absent",
+            "camera_motion_normalization_incomplete",
+            "combined_visual_review_authority_absent",
+            "tracker_runtime_artifact_absent",
+            "fixed_vfr_benchmark_authority_absent",
+            "row_complete_blocked",
+        ],
+        "production_completion_allowed": False,
+        "row_complete": False,
+        "provenance": {
+            "compiler": "compile_wave64_canonical_video_timeline.py",
+            "compiler_revision": COMPILER_REVISION,
+            "runtime_revision": HELD_OUT_FFMPEG_MUX_REPLAY_REVISION,
+            "execution_mode": "ffmpeg_lavfi_held_out_fixed_vfr_mux",
+            "binds_held_out_mux_dry_run_case_ids": True,
+            "does_not_claim_visual_qa_pass_bounded": True,
+            "does_not_claim_row_complete": True,
+            "does_not_claim_production_mux_replay": True,
+        },
+    }
+    stable = {key: value for key, value in receipt_body.items() if key != "created_at"}
+    receipt_body["receipt_sha256"] = _canonical_sha256(stable)
+    if write_outputs:
+        _write_json_atomic(receipt_path, receipt_body)
+    return receipt_body
+
+
+def verify_held_out_ffmpeg_mux_replay_receipt(
+    receipt: dict[str, Any] | None = None,
+    *,
+    fixture_dir: Path | None = None,
+    ffmpeg_path: str | Path | None = None,
+    reexecute: bool = False,
+) -> dict[str, Any]:
+    """Fail-closed verify checked-in held-out ffmpeg mux replay receipt."""
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    receipt_path = (
+        directory / FIXTURE_MUX_RUNTIME_DIRNAME / HELD_OUT_FFMPEG_MUX_REPLAY_RECEIPT_FILENAME
+    )
+    payload = receipt if receipt is not None else json.loads(receipt_path.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise ValueError("held-out ffmpeg mux replay receipt must be an object")
+    recorded = _expect_sha256(payload.get("receipt_sha256"), "receipt_sha256")
+    stable = {
+        key: value
+        for key, value in payload.items()
+        if key not in {"created_at", "receipt_sha256"}
+    }
+    recomputed = _canonical_sha256(stable)
+    if recorded != recomputed:
+        raise ValueError(
+            "receipt_sha256 tamper/replay mismatch: "
+            f"recorded={recorded} recomputed={recomputed}"
+        )
+    if payload.get("proof_tier") != "RUNTIME_PASS_BOUNDED":
+        raise ValueError("held-out ffmpeg mux replay receipt proof_tier mismatch")
+    if payload.get("row_complete") is not False:
+        raise ValueError("held-out ffmpeg mux replay receipt must keep row_complete=false")
+    if payload.get("authority", {}).get("production_mux_replay_pass") is not False:
+        raise ValueError("held-out ffmpeg mux must not grant production_mux_replay_pass")
+    if payload.get("authority", {}).get("visual_review_authority_granted") is not False:
+        raise ValueError("held-out ffmpeg mux must not grant visual review authority")
+    if payload.get("summary", {}).get("held_out_fixed_vfr_mux_replay_pass") is not True:
+        raise ValueError("held_out_fixed_vfr_mux_replay_pass must be true")
+    if payload.get("authority", {}).get("direct_row084_mux_replay_proof_present") is not True:
+        raise ValueError("direct_row084_mux_replay_proof_present must be true")
+
+    for case in payload.get("cases", []):
+        if not isinstance(case, dict):
+            raise ValueError("cases entries must be objects")
+        rel = case.get("mux_relative_path")
+        if not isinstance(rel, str) or not rel:
+            raise ValueError("case mux_relative_path required")
+        by_name = (
+            directory
+            / FIXTURE_MUX_RUNTIME_DIRNAME
+            / HELD_OUT_FFMPEG_MUX_REPLAY_DIRNAME
+            / Path(rel).name
+        )
+        if by_name.is_file():
+            mux_path = by_name
+        elif rel.startswith("runtime/"):
+            mux_path = directory / Path(*Path(rel).parts[1:])
+        else:
+            mux_path = directory / rel
+        if not mux_path.is_file():
+            raise FileNotFoundError(f"held-out mux output missing: {rel}")
+        live_sha = _file_sha256(mux_path)
+        if live_sha != case.get("mux_sha256"):
+            raise ValueError(
+                f"{case.get('case_id')}: mux sha256 drift recorded={case.get('mux_sha256')} live={live_sha}"
+            )
+
+    result = {
+        "status": "ok",
+        "verifier": "verify_held_out_ffmpeg_mux_replay_receipt",
+        "receipt_sha256": recorded,
+        "proof_tier": "RUNTIME_PASS_BOUNDED",
+        "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+        "ffmpeg_invoked": True,
+        "mux_replay_executed": True,
+        "held_out_fixed_vfr_mux_replay_pass": True,
+        "direct_row084_mux_replay_proof_present": True,
+        "production_mux_replay_pass": False,
+        "visual_review_authority_granted": False,
+        "row_complete": False,
+        "production_completion_allowed": False,
+        "case_count": len(payload.get("cases", [])),
+    }
+    if reexecute:
+        live = execute_held_out_ffmpeg_mux_replay(
+            fixture_dir=directory,
+            ffmpeg_path=ffmpeg_path,
+            write_outputs=False,
+        )
+        if not live["summary"]["held_out_fixed_vfr_mux_replay_pass"]:
+            raise ValueError("live re-execution held-out mux replay failed")
+        result["live_reexecution_passed"] = True
+        result["live_case_count"] = live["summary"]["case_count"]
+    return result
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Compile a fail-closed Row084 canonical video timeline receipt.")
     parser.add_argument(
@@ -2862,6 +3454,26 @@ def main(argv: list[str] | None = None) -> int:
         ),
     )
     parser.add_argument(
+        "--execute-held-out-ffmpeg-mux-replay",
+        action="store_true",
+        help=(
+            "Execute ffmpeg-backed held-out fixed+VFR mux replay under "
+            "fixtures/row084/runtime/; proves ROW084-019 without row_complete"
+        ),
+    )
+    parser.add_argument(
+        "--verify-held-out-ffmpeg-mux-replay",
+        action="store_true",
+        help=(
+            "Fail-closed verify checked-in held-out ffmpeg mux replay receipt "
+            "without claiming visual QA, production mux, or row_complete"
+        ),
+    )
+    parser.add_argument(
+        "--ffmpeg-path",
+        help="Explicit ffmpeg.exe path (overrides probe receipt / PATH)",
+    )
+    parser.add_argument(
         "--fixture-dir",
         default=str(DEFAULT_FIXTURE_DIR),
         help="Fixture directory for synthetic climb ledger (default: checked-in row084 fixtures)",
@@ -2920,6 +3532,41 @@ def main(argv: list[str] | None = None) -> int:
     if args.verify_fixture_media_mux_runtime:
         try:
             receipt = verify_fixture_media_mux_runtime_receipt(fixture_dir=fixture_dir)
+        except (OSError, ValueError, FileNotFoundError) as exc:
+            raise SystemExit(f"ROW084_FAIL_CLOSED: {exc}") from exc
+        print(json.dumps(receipt))
+        return 0
+
+    if args.execute_held_out_ffmpeg_mux_replay:
+        try:
+            receipt = execute_held_out_ffmpeg_mux_replay(
+                fixture_dir=fixture_dir,
+                ffmpeg_path=args.ffmpeg_path,
+            )
+        except (OSError, ValueError, FileNotFoundError) as exc:
+            raise SystemExit(f"ROW084_FAIL_CLOSED: {exc}") from exc
+        print(
+            json.dumps(
+                {
+                    "status": "ok",
+                    "mode": "execute-held-out-ffmpeg-mux-replay",
+                    "receipt_sha256": receipt["receipt_sha256"],
+                    "held_out_fixed_vfr_mux_replay_pass": True,
+                    "direct_row084_mux_replay_proof_present": True,
+                    "proof_tier": receipt["proof_tier"],
+                    "row_complete": False,
+                    "production_mux_replay_pass": False,
+                }
+            )
+        )
+        return 0
+
+    if args.verify_held_out_ffmpeg_mux_replay:
+        try:
+            receipt = verify_held_out_ffmpeg_mux_replay_receipt(
+                fixture_dir=fixture_dir,
+                ffmpeg_path=args.ffmpeg_path,
+            )
         except (OSError, ValueError, FileNotFoundError) as exc:
             raise SystemExit(f"ROW084_FAIL_CLOSED: {exc}") from exc
         print(json.dumps(receipt))
