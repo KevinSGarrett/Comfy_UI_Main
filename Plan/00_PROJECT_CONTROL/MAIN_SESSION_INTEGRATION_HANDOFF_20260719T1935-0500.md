@@ -11,8 +11,7 @@
 
 ## Commits Pushed This Pass
 
-1. `PENDING_PRIMARY` Prove Row017 MF70 teeth/mouth-area local visual climb.
-2. Tip-stamp commits follow after primary push verify.
+1. `ef32e5c9` Prove Row017 MF70 teeth/mouth-area local visual climb.
 
 Pushed tip verified on origin: `PENDING_TIP`
 
