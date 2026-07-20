@@ -1,11 +1,11 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-023-VIDEO-FRAME-REPAIR-20260711T152500-0500",
-  "timestamp": "2026-07-15T12:11:19-05:00",
+  "timestamp": "2026-07-20T02:09:13-05:00",
   "item_id": "ITEM-W64-023",
   "tracker_id": "TRK-W64-023",
   "workstream": "video_frame_repair",
-  "status": "Blocked_Video_Frame_Repair_Rerun_Candidate_Visual_QA_Failed",
+  "status": "Blocked_Video_Frame_Repair_Flux_Span_Candidate_Visual_QA_Failed",
   "row_complete": false,
   "implementation": {
     "frame_level_defect_planner_ready": true,
@@ -64,50 +64,33 @@
     "generation_retry_allowed": false
   },
   "acceptance_gates": {
-    "defect_localization": true,
-    "targeted_repair_record": true,
-    "candidate_rerun_delta_verifier": true,
-    "preserve_passed_frames_verifier": true,
-    "short_span_candidate_executor": true,
-    "synthetic_decodable_candidate_verified": true,
-    "real_repaired_candidate": true,
-    "before_after_visual_review": true,
-    "runtime_repair_proof": true,
-    "final_temporal_acceptance": false,
-    "real_defect_localization": true,
-    "real_repair_ledger": true,
-    "identity_environment_visual_preservation": false
+    "visual_qa_pass_bounded": false,
+    "visual_qa_reject_retained": true,
+    "row_complete": false,
+    "complete_claimed": false
   },
-  "blockers": [
-    {
-      "classification": "Blocked_Video_Frame_Repair_Rerun_Candidate_Visual_QA_Failed",
-      "scope": "primary_row_blocker",
-      "reason": "The one authorized Wan rerun candidate passes runtime and technical QA but fails strict direct visual acceptance because facial identity drifts subtly and the symmetric gray side lights become violet-blue."
-    },
-    {
-      "classification": "Blocked_Gold_Mask_Dependency_Missing",
-      "scope": "contact_and_deformation_repair_subgates_only",
-      "reason": "Body/contact deformation claims remain outside this portrait rerun and cannot consume candidate masks as trusted truth while manual body gold masks remain unavailable."
-    }
-  ],
-  "evidence": [
-    {
-      "path": "Plan/Instructions/QA/Evidence/Wave64/video_frame_repair.json",
-      "sha256": "c7b74f376cfaf4fae93dd5ddc8671b7b2cf3bb0efdc1b2dd16ec1ac309c857c2"
-    },
-    {
-      "path": "Plan/Instructions/QA/Evidence/Wave64/video_frame_repair_test_log.json",
-      "sha256": "6a427ac601458802a06866eeaf29df35a14eeda0cb3b187d165d705d68b42019"
-    },
-    {
-      "path": "Plan/Instructions/QA/Evidence/Wave64/VIDEO_FRAME_REPAIR_REAL_SEQUENCE_ROUTING_20260713T042629-0500.json",
-      "sha256": "a3ee46bcd13a26180e1fdfb35635ed0c23c62d7d4a282b858156c31156b31c2d"
-    },
-    {
-      "path": "Plan/Instructions/QA/Evidence/Wave64/W64_ROW023_WAN_RERUN_RUNTIME_VISUAL_QA_20260715T121119-0500.json",
-      "sha256": "643cfa34c46d5228e40617b2ffd4ba13cf1ec37f5e6c14e5a4999d6c653ce937"
-    }
-  ],
+  "blockers": {
+    "codes": [
+      "FRAME_REPAIR_VISUAL_ACCEPTANCE_FAILED",
+      "FLUX_SPAN_REPAIR_VISUAL_QA_FAILED",
+      "SIDE_LIGHT_GRAY_NOT_RESTORED",
+      "NEW_HARD_ARTIFACTS_INTRODUCED",
+      "LOCAL_WAN_MODEL_PAYLOAD_MISSING",
+      "SAME_SEED_RERUN_FORBIDDEN",
+      "Blocked_Gold_Mask_Dependency_Missing"
+    ],
+    "summary": "Class B: offline Wan reaffirm retained REJECT; Flux span-repair runtime succeeded but VISUAL_QA_REJECT_RETAINED (not PASS). No COMPLETE.",
+    "visual_proof_tier": "VISUAL_QA_REJECT_RETAINED"
+  },
+  "evidence": {
+    "flux_span_repair_current_delta": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-023_FLUX_SPAN_REPAIR_RUNTIME_VISUAL_QA_CURRENT_DELTA_20260720.json",
+    "wan_reaffirm_current_delta": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-023_WAN_REPAIR_CANDIDATE_REAFFIRM_CURRENT_DELTA_20260720.json",
+    "class_b_blocker_ledger": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_CLASS_B_BLOCKER_LEDGER_20260720.json",
+    "commits": [
+      "0184b176",
+      "960ccf2a"
+    ]
+  },
   "runtime": {
     "repair_execution_count": 1,
     "candidate_frame_count": 49,
@@ -121,5 +104,5 @@
     "completed_generation_count": 1,
     "generation_retry_allowed": false
   },
-  "next_action": "Preserve the immutable Row023 candidate and fail-closed visual result. Do not rerun Row023; continue the next concrete non-mask project task without promoting this shot."
+  "next_action": "Retain Wan+Flux rejects immutable. Next climb: refined Flux mask/prompt for gray lights without artifact injection, or install local Wan TI2V payloads for one new seed. No COMPLETE."
 }
