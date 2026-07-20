@@ -1,5 +1,6 @@
 {
   "blocker_codes": [
+    "BLOCKED_CONTENTION_ROW073_EXCLUSIVE_PCM_IO",
     "EMBEDDING_INDEX_LIBRARY_RUNTIME_ABSENT",
     "FULL_LIBRARY_EMBEDDING_RECONCILIATION_ABSENT"
   ],
@@ -14,8 +15,10 @@
     "product_completion": false,
     "row077_acceptance": "held",
     "runtime_completion": false,
-    "safe_next_action": "Held-out-only laion_clap_general weights runtime index/metrics are bound under runtime_artifacts/embeddings/row077_heldout_* (emitter=weights_runtime). Build the full-library embedding index only after Row075 releases library I/O. Do not start a full-library PCM/embedding scan while Row075 owns library I/O.",
-    "status": "blocked"
+    "status": "YIELD",
+    "decision_code": "YIELD",
+    "contention_code": "BLOCKED_CONTENTION",
+    "safe_next_action": "YIELD: Row073 PID 20200 owns exclusive full-library PCM. Do not start Row077 library embed until Row073 coverage_complete. Then start with resume support in a disjoint runtime tree. No COMPLETE; CSV deferred."
   },
   "dependencies_unlocked": true,
   "embedding_registry": {
@@ -613,7 +616,7 @@
   "row_complete": false,
   "runtime_completion_claimed": false,
   "schema_version": "1.0.0",
-  "status": "HOLD_LIBRARY_EMBEDDING_INDEX_ABSENT_HELDOUT_WEIGHTS_RUNTIME_BOUND",
+  "status": "HOLD_LIBRARY_EMBEDDING_INDEX_ABSENT_YIELD_ROW073_EXCLUSIVE_PCM",
   "tracker_id": "TRK-W64-077",
   "validation_methods": [
     "model_hash",

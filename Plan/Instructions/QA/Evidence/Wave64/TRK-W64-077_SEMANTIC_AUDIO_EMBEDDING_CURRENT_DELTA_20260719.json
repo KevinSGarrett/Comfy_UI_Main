@@ -1,15 +1,20 @@
 {
   "acceptance_gaps": [
     {
+      "code": "BLOCKED_CONTENTION_ROW073_EXCLUSIVE_PCM_IO",
+      "detail": "Healthy Row073 PID 20200 owns full-library index-retained PCM (limit=null, progressing); Row077 library embed yielded."
+    },
+    {
       "code": "EMBEDDING_INDEX_LIBRARY_RUNTIME_ABSENT",
       "detail": "Full-library embedding index still absent; held-out weights runtime does not grant library authority."
     },
     {
       "code": "FULL_LIBRARY_EMBEDDING_RECONCILIATION_ABSENT",
-      "detail": "Forbidden while Row075 owns library I/O; not started."
+      "detail": "Not started; YIELD while Row073 owns exclusive PCM I/O."
     }
   ],
   "blocker_codes": [
+    "BLOCKED_CONTENTION_ROW073_EXCLUSIVE_PCM_IO",
     "EMBEDDING_INDEX_LIBRARY_RUNTIME_ABSENT",
     "FULL_LIBRARY_EMBEDDING_RECONCILIATION_ABSENT"
   ],
@@ -60,12 +65,21 @@
     },
     {
       "name": "no_full_library_pcm_contention_with_row075",
+      "observed": "row075_coverage_complete_alive_false",
       "status": "PASS"
+    },
+    {
+      "name": "no_full_library_pcm_contention_with_row073",
+      "observed": "pid_20200_limit_null_progressing",
+      "status": "FAIL"
     }
   ],
-  "classification": "ROW077_HELDOUT_WEIGHTS_RUNTIME_BOUND_LIBRARY_INDEX_ABSENT_NO_FALSE_COMPLETION",
+  "classification": "ROW077_YIELD_ROW073_EXCLUSIVE_PCM_HELDOUT_WEIGHTS_RUNTIME_BOUND_NO_FALSE_COMPLETION",
   "created_at": "2026-07-20T07:04:18Z",
   "decision": {
+    "status": "YIELD",
+    "decision_code": "YIELD",
+    "contention_code": "BLOCKED_CONTENTION",
     "dependencies_unlocked": true,
     "hashes_frozen": true,
     "heldout_bound": true,
@@ -75,8 +89,7 @@
     "product_completion": false,
     "row077_acceptance": "held",
     "runtime_completion": false,
-    "safe_next_action": "Held-out-only laion_clap_general weights runtime index/metrics are bound under runtime_artifacts/embeddings/row077_heldout_* (emitter=weights_runtime). Build the full-library embedding index only after Row075 releases library I/O. Do not start a full-library PCM/embedding scan while Row075 owns library I/O.",
-    "status": "blocked"
+    "safe_next_action": "YIELD: Row073 PID 20200 owns exclusive full-library PCM. Do not start Row077 library embed until Row073 coverage_complete. Then start with resume support in a disjoint runtime tree. No COMPLETE; CSV deferred."
   },
   "dependency_authority": [
     {
@@ -93,7 +106,7 @@
     }
   ],
   "direct_evidence": {
-    "bytes": 25750,
+    "bytes": 25773,
     "dependencies_unlocked": true,
     "heldout_bound": true,
     "heldout_weights_runtime": true,
@@ -101,8 +114,8 @@
     "model_selected": true,
     "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-077_semantic_audio_embeddings.json",
     "row_complete": false,
-    "sha256": "60cfbe2826f9cb3db0989824c9e46b777815cb9f079a8bfe5f025345e00f9076",
-    "status": "HOLD_LIBRARY_EMBEDDING_INDEX_ABSENT_HELDOUT_WEIGHTS_RUNTIME_BOUND",
+    "sha256": "ae28c2c5027ee12a11011e31685a336e53838af9bae24e60a8620a215278e0b9",
+    "status": "HOLD_LIBRARY_EMBEDDING_INDEX_ABSENT_YIELD_ROW073_EXCLUSIVE_PCM",
     "weights_installed": true
   },
   "docker_cvat": "not-needed",
@@ -165,33 +178,25 @@
     "test_sha256": "2bcb4a1de4130bc2df82a7bdc07f457b1fd443a27ba6492fa9ac2ed976582ab1"
   },
   "increment": {
-    "changed_paths": [
-      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_semantic_audio_embeddings.py",
-      "Plan/Instructions/QA/Scripts/test_row077_semantic_audio_embeddings.py",
-      "Plan/10_REGISTRIES/wave64_row077_semantic_audio_embedding_registry.json",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-077_semantic_audio_embeddings.json",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-077_SEMANTIC_AUDIO_EMBEDDING_CURRENT_DELTA_20260719.json",
-      "runtime_artifacts/embeddings/row077_heldout_20260720/row077_heldout_manifest.json",
-      "runtime_artifacts/embeddings/row077_heldout_20260720/row077_heldout_embedding_index.json",
-      "runtime_artifacts/embeddings/row077_heldout_20260720/row077_heldout_retrieval_metrics.json"
-    ],
+    "kind": "library_embed_yield_row073_exclusive_pcm_stamp",
     "compiler_revision": "wave64_row077_semantic_audio_embedding_compiler_v0.1.0",
-    "kind": "heldout_weights_runtime_index_metrics",
     "registry_revision": "wave64_row077_semantic_audio_embedding_registry_v0.1.0",
-    "summary": "Ran held-out-only laion_clap_general weights-runtime embedding index/metrics on synthetic held-out PCM; climbed to RUNTIME_PASS_BOUNDED. Kept EMBEDDING_INDEX_LIBRARY_RUNTIME_ABSENT and FULL_LIBRARY_EMBEDDING_RECONCILIATION_ABSENT. No COMPLETE; no shared CSV; Row075 left alone."
+    "summary": "Row075 coverage_complete released library I/O, but Row073 just claimed exclusive full-library index-retained PCM (PID 20200, limit=null, progressing). Returned YIELD; did not start Row077 library embed. Held-out weights RUNTIME_PASS_BOUNDED retained. No COMPLETE; CSV deferred.",
+    "changed_paths": [
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-077_LIBRARY_EMBED_YIELD_ROW073_CONTENTION_20260720T0934-0500.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-077_SEMANTIC_AUDIO_EMBEDDING_CURRENT_DELTA_20260719.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-077_semantic_audio_embeddings.json"
+    ]
   },
   "item_id": "ITEM-W64-077",
-  "ledger_status": "Blocked_Library_Embedding_Index_Absent_Heldout_Weights_Runtime_Bound",
+  "ledger_status": "Blocked_Library_Embedding_Index_Absent_Yield_Row073_Exclusive_Pcm",
   "ledger_vocabulary_sync": {
-    "ledger_status": "Blocked_Library_Embedding_Index_Absent_Heldout_Weights_Runtime_Bound",
-    "note": "Progressed held-out runtime proof after weights install 38d97fb1/b14cd1c9; no tip-SHA chain; full-library index still absent; no COMPLETE.",
+    "ledger_status": "Blocked_Library_Embedding_Index_Absent_Yield_Row073_Exclusive_Pcm",
+    "note": "CSV deferred; evidence-only YIELD stamp while Row073 owns exclusive PCM. No COMPLETE.",
     "product_completion": false,
-    "prove_commits": [
-      "38d97fb1",
-      "b14cd1c9"
-    ],
     "runtime_completion": false,
-    "synced_at": "2026-07-20T07:04:18Z"
+    "synced_at": "2026-07-20T14:34:07Z",
+    "csv_deferred": true
   },
   "library_authority": false,
   "model_selection": {
@@ -205,12 +210,12 @@
     "weights_installed": true
   },
   "proof_tier": "RUNTIME_PASS_BOUNDED",
-  "qa_decision": "heldout_weights_runtime_bound_hold_library_index_absent",
+  "qa_decision": "yield_row073_exclusive_pcm;heldout_weights_runtime_bound;library_embed_not_started;no_product_complete",
   "row_complete": false,
   "runtime_completion_claimed": false,
   "schema_version": 1,
   "source_commit": "38d97fb1",
-  "status": "HOLD_LIBRARY_EMBEDDING_INDEX_ABSENT_HELDOUT_WEIGHTS_RUNTIME_BOUND",
+  "status": "HOLD_LIBRARY_EMBEDDING_INDEX_ABSENT_YIELD_ROW073_EXCLUSIVE_PCM",
   "test_and_runtime_boundary": {
     "audio_opened_or_decoded": true,
     "docker_invoked": false,
@@ -225,8 +230,31 @@
     "tests_executed_for_this_delta": true,
     "weights_file_installed": true,
     "weights_hash_reconciled": true,
-    "weights_runtime_emitter": true
+    "weights_runtime_emitter": true,
+    "yielded_for_row073_exclusive_pcm": true,
+    "row073_owner_pid": 20200
   },
   "tracker_id": "TRK-W64-077",
-  "updated_at": "2026-07-20T07:04:18Z"
+  "updated_at": "2026-07-20T14:34:07Z",
+  "row073_contention": {
+    "owner_row": "TRK-W64-073",
+    "pid": 20200,
+    "alive": true,
+    "process_start_local": "2026-07-20T09:32:35-05:00",
+    "command": "analyze_wave64_usable_bounds_decay.py --mode index-retained --resume --retained-runtime-dir runtime_artifacts/usable_bounds/row073_index_retained_20260720",
+    "limit": null,
+    "records_processed": 4000,
+    "records_total": 39771,
+    "next_record_index": 4000,
+    "complete": false,
+    "updated_at": "2026-07-20T14:33:54.822493Z",
+    "runtime_dir": "runtime_artifacts/usable_bounds/row073_index_retained_20260720",
+    "claim_kind": "full_library_index_retained_resume_without_limit"
+  },
+  "yield_stamp": {
+    "path": "Plan\\Instructions\\QA\\Evidence\\Wave64\\TRK-W64-077_LIBRARY_EMBED_YIELD_ROW073_CONTENTION_20260720T0934-0500.json",
+    "sha256": "d4e658a11ff50aafc4ade2dfd2a8c315429226495ebf4798be00a917db72c742",
+    "bytes": 2601,
+    "status": "YIELD_ROW073_EXCLUSIVE_PCM_LIBRARY_EMBED_NOT_STARTED"
+  }
 }
