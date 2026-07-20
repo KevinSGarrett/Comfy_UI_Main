@@ -471,3 +471,96 @@ def test_row109_synthetic_partition_refs_bind_without_authority():
     assert refs["threshold_authority_unfrozen"] is False
     assert refs["library_authority"] is False
     assert refs["tracker_id"] == "TRK-W64-109"
+
+
+def test_calibrate_synthetic_thresholds_drafts_candidate_without_unfreeze():
+    packet = MOD.calibrate_synthetic_threshold_candidate(ROOT)
+    assert packet["authority"] == "planning_freeze_suggestion_only_not_library_acceptance"
+    assert packet["active_threshold_registry_revision"] == MOD.THRESHOLD_REGISTRY_REVISION
+    assert packet["candidate_threshold_registry_revision"] == MOD.THRESHOLD_CANDIDATE_REVISION
+    assert packet["calibration_scope"] == "labeled_synthetic_fixtures_only"
+    assert packet["decision"]["status"] == "blocked"
+    assert packet["decision"]["library_authority"] is False
+    assert packet["decision"]["row_complete"] is False
+    assert packet["decision"]["product_completion"] is False
+    assert packet["decision"]["threshold_authority_unfrozen"] is False
+    assert packet["decision"]["benchmark_strata_calibrated"] is False
+    assert packet["decision"]["synthetic_threshold_candidate_ready"] is True
+    assert MOD.BLOCKER_THRESHOLD_FROZEN in packet["blocker_codes"]
+    assert MOD.BLOCKER_STRATA_ABSENT in packet["blocker_codes"]
+    by_family = {item["event_family"]: item for item in packet["observations"]}
+    assert by_family["impulse"]["sample_error"] == 0
+    assert by_family["impulse"]["within_active_v0_1_0"] is True
+    assert by_family["impulse"]["within_candidate_v0_2_0"] is True
+    assert by_family["multi_hit"]["sample_error"] == 0
+    assert by_family["multi_hit"]["within_candidate_v0_2_0"] is True
+    assert by_family["gradual_attack"]["sample_error"] == 160
+    assert by_family["gradual_attack"]["within_active_v0_1_0"] is False
+    assert by_family["gradual_attack"]["proposed_max_sample_error"] == 160
+    assert by_family["gradual_attack"]["within_candidate_v0_2_0"] is True
+    candidate = packet["candidate_registry"]
+    assert candidate["revision"] == MOD.THRESHOLD_CANDIDATE_REVISION
+    assert candidate["authority"] == "planning_freeze_suggestion_only_not_library_acceptance"
+    assert candidate["candidate_only"] is True
+    assert candidate["active_evaluation_revision"] == MOD.THRESHOLD_REGISTRY_REVISION
+    assert candidate["threshold_authority_unfrozen"] is False
+    assert candidate["library_authority"] is False
+    assert candidate["event_families"]["gradual_attack"]["max_sample_error"] == 160
+    assert candidate["event_families"]["impulse"]["max_sample_error"] == 2
+    assert candidate["calibration_basis"]["library_pcm_decode"] is False
+    assert candidate["calibration_basis"]["row075_touched"] is False
+    # Active frozen registry must remain v0.1.0 evaluation identity.
+    active = MOD.load_threshold_registry(ROOT)
+    assert active["revision"] == MOD.THRESHOLD_REGISTRY_REVISION
+    assert active["event_families"]["gradual_attack"]["max_sample_error"] == 48
+
+
+def test_library_packet_with_synthetic_candidate_keeps_both_blockers():
+    calibration = MOD.calibrate_synthetic_threshold_candidate(ROOT)
+    retained = {
+        "authority": "accepted_index_retained_onset_reconcile",
+        "coverage_complete": True,
+        "counts": {"records_processed": 39771, "records_total": 39771, "onset_pass": 6359},
+        "receipt_path": "runtime_artifacts/onset_anchors/row072_index_retained_20260719/retained_index_onset_receipt.json",
+        "records_path": "runtime_artifacts/onset_anchors/row072_index_retained_20260719/records.jsonl",
+        "proof_tier": "RUNTIME_PASS_BOUNDED",
+        "status": "RUNTIME_PASS_BOUNDED_LIBRARY_THRESHOLDS_FROZEN",
+    }
+    retained_path = (
+        ROOT
+        / "runtime_artifacts"
+        / "_pytest_row072_library_strata"
+        / "calibrate_records.jsonl"
+    )
+    _write_retained_fixture(retained_path)
+    try:
+        strata = MOD.select_library_strata_candidates_from_retained(
+            ROOT,
+            retained_records_path=retained_path,
+        )
+    finally:
+        if retained_path.is_file():
+            retained_path.unlink()
+        parent = retained_path.parent
+        if parent.is_dir() and not any(parent.iterdir()):
+            parent.rmdir()
+    payload = MOD.build_library_blocker_packet(
+        ROOT,
+        retained_runtime=retained,
+        strata_manifest=strata,
+        threshold_calibration=calibration,
+    )
+    assert payload["status"] == (
+        "HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE"
+    )
+    assert MOD.BLOCKER_THRESHOLD_FROZEN in payload["blocker_codes"]
+    assert MOD.BLOCKER_STRATA_ABSENT in payload["blocker_codes"]
+    assert payload["library_authority"] is False
+    assert payload["row_complete"] is False
+    assert payload["threshold_candidate"]["ready"] is True
+    assert payload["threshold_candidate"]["revision"] == MOD.THRESHOLD_CANDIDATE_REVISION
+    assert payload["threshold_candidate"]["threshold_authority_unfrozen"] is False
+    assert payload["synthetic_threshold_calibration"]["synthetic_threshold_candidate_ready"] is True
+    assert payload["synthetic_threshold_calibration"]["benchmark_strata_calibrated"] is False
+    assert payload["library_benchmark_strata"]["benchmark_strata_calibrated"] is False
+    assert "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT" in payload["decision"]["safe_next_action"]

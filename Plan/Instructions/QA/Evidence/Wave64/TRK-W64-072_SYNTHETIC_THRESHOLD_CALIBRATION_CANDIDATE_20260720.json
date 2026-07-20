@@ -1,0 +1,207 @@
+{
+  "active_threshold_registry_revision": "wave64_row072_onset_thresholds_v0.1.0",
+  "artifact_type": "onset_synthetic_threshold_calibration_candidate",
+  "authority": "planning_freeze_suggestion_only_not_library_acceptance",
+  "blocker_codes": [
+    "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+    "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT"
+  ],
+  "calibration_scope": "labeled_synthetic_fixtures_only",
+  "candidate_registry": {
+    "active_evaluation_revision": "wave64_row072_onset_thresholds_v0.1.0",
+    "agreement_threshold_samples": 2,
+    "authority": "planning_freeze_suggestion_only_not_library_acceptance",
+    "calibration_basis": {
+      "families_calibrated": [
+        "impulse",
+        "gradual_attack",
+        "multi_hit"
+      ],
+      "families_expanded": [
+        "gradual_attack"
+      ],
+      "library_pcm_decode": false,
+      "observed_sample_errors": {
+        "gradual_attack": 160,
+        "impulse": 0,
+        "multi_hit": 0
+      },
+      "policy_families_unchanged": [
+        "silence",
+        "stereo_disagree"
+      ],
+      "row075_touched": false,
+      "truth_source": "labeled_synthetic_fixtures_only"
+    },
+    "candidate_only": true,
+    "default_frame_rate_fps": 24.0,
+    "event_families": {
+      "gradual_attack": {
+        "frame_rate_fps": 24.0,
+        "max_frame_error": 2.0,
+        "max_sample_error": 160,
+        "windowed_sync_required": true
+      },
+      "impulse": {
+        "frame_rate_fps": 24.0,
+        "max_frame_error": 0.5,
+        "max_sample_error": 2
+      },
+      "multi_hit": {
+        "frame_rate_fps": 24.0,
+        "max_frame_error": 0.5,
+        "max_sample_error": 4
+      },
+      "silence": {
+        "expect_no_frame_exact_onset": true,
+        "frame_rate_fps": 24.0,
+        "max_frame_error": 0.0,
+        "max_sample_error": 0
+      },
+      "stereo_disagree": {
+        "expect_ambiguity_or_block": true,
+        "frame_rate_fps": 24.0,
+        "max_frame_error": 0.0,
+        "max_sample_error": 0
+      }
+    },
+    "library_authority": false,
+    "notes": [
+      "Candidate thresholds calibrated against labeled Row072 synthetic fixture truth only.",
+      "Active evaluation remains wave64_row072_onset_thresholds_v0.1.0 under planning freeze.",
+      "Does not clear FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT or grant library authority.",
+      "Library unlabeled shortlist candidates remain pending/blocked; no library PCM decode."
+    ],
+    "product_completion": false,
+    "registry_id": "wave64_row072_onset_transient_threshold_registry",
+    "revision": "wave64_row072_onset_thresholds_v0.2.0",
+    "row_complete": false,
+    "schema_version": "1.0.0",
+    "supersedes": "wave64_row072_onset_thresholds_v0.1.0",
+    "threshold_authority_unfrozen": false,
+    "tracker_id": "TRK-W64-072"
+  },
+  "candidate_registry_path": "Plan/10_REGISTRIES/wave64_row072_onset_thresholds_v0.2.0.json",
+  "candidate_registry_sha256": "301d108c0780e06b852aaced03e3afd22917c197714a541a9b84b6a6ef2a2bbb",
+  "candidate_threshold_registry_revision": "wave64_row072_onset_thresholds_v0.2.0",
+  "created_at": "2026-07-20T06:31:28.523269Z",
+  "decision": {
+    "active_evaluation_remains": "wave64_row072_onset_thresholds_v0.1.0",
+    "benchmark_strata_calibrated": false,
+    "library_authority": false,
+    "product_completion": false,
+    "row_complete": false,
+    "safe_next_action": "Synthetic threshold candidate wave64_row072_onset_thresholds_v0.2.0 is evidence-backed against labeled fixtures, but active evaluation stays frozen at wave64_row072_onset_thresholds_v0.1.0. Keep FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT until library strata truth exists; do not decode library PCM, touch Row075, or claim COMPLETE.",
+    "status": "blocked",
+    "synthetic_threshold_candidate_ready": true,
+    "threshold_authority_unfrozen": false
+  },
+  "detector_revision": "wave64_row072_onset_transient_detector_v0.1.0",
+  "evidence_id": "TRK-W64-072_SYNTHETIC_THRESHOLD_CALIBRATION_CANDIDATE_20260720",
+  "item_id": "ITEM-W64-072",
+  "notes": [
+    "Calibration math uses measured-vs-truth sample/frame errors on impulse/gradual_attack/multi_hit labeled synthetic fixtures only.",
+    "gradual_attack expands max_sample_error to the observed primary-method error.",
+    "Candidate revision is planning-freeze suggestion only; not library acceptance.",
+    "Both Row072 blockers remain; library_authority/row_complete stay false."
+  ],
+  "observations": [
+    {
+      "active_max_frame_error": 0.5,
+      "active_max_sample_error": 2,
+      "ambiguity_status": "none",
+      "event_family": "impulse",
+      "frame_error": 0.0,
+      "measured_onset_sample": 512,
+      "method_onset_samples": {
+        "energy_flux_onset_v1": 512,
+        "hf_envelope_onset_v1": 512
+      },
+      "proposed_max_frame_error": 0.5,
+      "proposed_max_sample_error": 2,
+      "sample_error": 0,
+      "truth_in_window": null,
+      "truth_onset_sample": 512,
+      "windowed_sync_required": false,
+      "within_active_v0_1_0": true,
+      "within_candidate_v0_2_0": true
+    },
+    {
+      "active_max_frame_error": 2.0,
+      "active_max_sample_error": 48,
+      "ambiguity_status": "windowed",
+      "event_family": "gradual_attack",
+      "frame_error": 0.08,
+      "measured_onset_sample": 960,
+      "method_onset_samples": {
+        "energy_flux_onset_v1": 960,
+        "hf_envelope_onset_v1": 800
+      },
+      "proposed_max_frame_error": 2.0,
+      "proposed_max_sample_error": 160,
+      "sample_error": 160,
+      "truth_in_window": true,
+      "truth_onset_sample": 800,
+      "windowed_sync_required": true,
+      "within_active_v0_1_0": false,
+      "within_candidate_v0_2_0": true
+    },
+    {
+      "active_max_frame_error": 0.5,
+      "active_max_sample_error": 4,
+      "ambiguity_status": "none",
+      "event_family": "multi_hit",
+      "frame_error": 0.0,
+      "measured_onset_sample": 400,
+      "method_onset_samples": {
+        "energy_flux_onset_v1": 400,
+        "hf_envelope_onset_v1": 400
+      },
+      "proposed_max_frame_error": 0.5,
+      "proposed_max_sample_error": 4,
+      "sample_error": 0,
+      "truth_in_window": null,
+      "truth_onset_sample": 400,
+      "windowed_sync_required": false,
+      "within_active_v0_1_0": true,
+      "within_candidate_v0_2_0": true
+    },
+    {
+      "active_max_frame_error": 0.0,
+      "active_max_sample_error": 0,
+      "ambiguity_status": "policy_family_not_numerically_calibrated",
+      "event_family": "silence",
+      "frame_error": null,
+      "measured_onset_sample": null,
+      "method_onset_samples": {},
+      "proposed_max_frame_error": 0.0,
+      "proposed_max_sample_error": 0,
+      "sample_error": null,
+      "truth_in_window": null,
+      "truth_onset_sample": null,
+      "windowed_sync_required": false,
+      "within_active_v0_1_0": false,
+      "within_candidate_v0_2_0": false
+    },
+    {
+      "active_max_frame_error": 0.0,
+      "active_max_sample_error": 0,
+      "ambiguity_status": "policy_family_not_numerically_calibrated",
+      "event_family": "stereo_disagree",
+      "frame_error": null,
+      "measured_onset_sample": null,
+      "method_onset_samples": {},
+      "proposed_max_frame_error": 0.0,
+      "proposed_max_sample_error": 0,
+      "sample_error": null,
+      "truth_in_window": null,
+      "truth_onset_sample": null,
+      "windowed_sync_required": false,
+      "within_active_v0_1_0": false,
+      "within_candidate_v0_2_0": false
+    }
+  ],
+  "schema_version": "1.0.0",
+  "tracker_id": "TRK-W64-072",
+  "truth_onset_status": "partial"
+}

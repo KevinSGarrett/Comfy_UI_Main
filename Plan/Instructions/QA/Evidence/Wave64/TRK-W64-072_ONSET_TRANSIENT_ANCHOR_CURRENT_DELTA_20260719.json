@@ -2,11 +2,11 @@
   "acceptance_gaps": [
     {
       "code": "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
-      "detail": "Event-family thresholds remain frozen for fixture identity, not accepted as production library authority."
+      "detail": "Active evaluation remains wave64_row072_onset_thresholds_v0.1.0. Candidate wave64_row072_onset_thresholds_v0.2.0 is planning-freeze suggestion only and does not unfreeze threshold authority."
     },
     {
       "code": "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT",
-      "detail": "Synthetic fixture truth onsets are labeled (partial), but library_unlabeled retained shortlist candidates remain pending/blocked and strata are not calibrated."
+      "detail": "Synthetic fixture truth onsets are labeled (partial) and synthetic thresholds are candidate-calibrated, but library_unlabeled retained shortlist candidates remain pending/blocked; library strata truth is still absent."
     }
   ],
   "blocker_codes": [
@@ -14,9 +14,9 @@
     "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT"
   ],
   "check_summary": {
-    "checked": 6,
+    "checked": 7,
     "failed": 0,
-    "passed": 6
+    "passed": 7
   },
   "checks": [
     {
@@ -42,20 +42,26 @@
     {
       "name": "OTA-C006_partial_truth_onset_labels_from_synthetic_fixtures",
       "result": "pass"
+    },
+    {
+      "name": "OTA-C007_synthetic_threshold_candidate_v0_2_0_planning_freeze",
+      "result": "pass"
     }
   ],
-  "classification": "ROW072_LIBRARY_STRATA_PARTIAL_SYNTHETIC_TRUTH_LABELS_LIBRARY_PENDING_THRESHOLDS_HELD_NO_FALSE_COMPLETION",
-  "created_at": "2026-07-20T06:22:22.437997Z",
+  "classification": "ROW072_SYNTHETIC_THRESHOLD_CANDIDATE_CALIBRATED_LIBRARY_STRATA_ABSENT_THRESHOLDS_HELD_NO_FALSE_COMPLETION",
+  "created_at": "2026-07-20T06:32:34.544553Z",
   "decision": {
     "dependencies_unlocked": true,
     "product_completion": false,
     "row072_acceptance": "held",
     "runtime_completion": true,
-    "safe_next_action": "Calibrate registered event-family thresholds against labeled synthetic fixture truth and remaining library pending/blocked shortlist candidates before Row072 acceptance. Do not decode library PCM or claim COMPLETE.",
+    "safe_next_action": "Obtain library strata truth labels for pending/blocked retained shortlist candidates before unfreezing threshold authority or claiming Row072 acceptance. Active evaluation stays v0.1.0; candidate v0.2.0 remains planning-freeze only. Do not decode library PCM, touch Row075, or claim COMPLETE.",
     "status": "blocked"
   },
   "direct_evidence": {
-    "bytes": 30846,
+    "active_threshold_registry_revision": "wave64_row072_onset_thresholds_v0.1.0",
+    "bytes": 35203,
+    "candidate_threshold_registry_revision": "wave64_row072_onset_thresholds_v0.2.0",
     "library_authority": false,
     "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_onset_transient_detection.json",
     "row109_binding_scope": "synthetic_partition_ids_only",
@@ -68,12 +74,19 @@
     "row_complete": false,
     "runtime_receipt_path": "runtime_artifacts/onset_anchors/row072_index_retained_20260719/retained_index_onset_receipt.json",
     "runtime_records_sha256": "2c7b6e8d70718406ed3fb6e26c69a8990b6bbaf18311d3ffc9fa3a8bf9efdad5",
-    "sha256": "1059b9a90210264bac086027f6ed704a13ee1e77c77da5656449b3e4a0a44e13",
+    "sha256": "8b3a0d5712692a2caf32e849c783d393baba2ce51cc0e40d2dec9124d0969484",
     "status": "HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE",
-    "strata_candidate_packet_bytes": 18845,
+    "strata_candidate_packet_bytes": 18958,
     "strata_candidate_packet_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_LIBRARY_BENCHMARK_STRATA_CANDIDATE_PACKET_20260719.json",
-    "strata_candidate_packet_sha256": "a14fc0aa1481b8e6170d38a52e06d4cbb9aaa197f9eef1774747d410100311cf",
+    "strata_candidate_packet_sha256": "e3bb39c9ac44caed3cd7d871845493fd20254eaf9e756fa784bd3f3b010d9464",
     "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ACCEPTED_INDEX_RETAINED_ONSET_SUMMARY_20260719.json",
+    "synthetic_threshold_calibration_bytes": 7753,
+    "synthetic_threshold_calibration_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_SYNTHETIC_THRESHOLD_CALIBRATION_CANDIDATE_20260720.json",
+    "synthetic_threshold_calibration_sha256": "4367e0f381f398c9424e451d051a5b2bafd9a70678c33a1dff5b9cf6a0909b49",
+    "synthetic_threshold_candidate_ready": true,
+    "threshold_candidate_registry_bytes": 2295,
+    "threshold_candidate_registry_path": "Plan/10_REGISTRIES/wave64_row072_onset_thresholds_v0.2.0.json",
+    "threshold_candidate_registry_sha256": "301d108c0780e06b852aaced03e3afd22917c197714a541a9b84b6a6ef2a2bbb",
     "truth_blocked": 3,
     "truth_labeled": 3,
     "truth_onset_status": "partial",
@@ -83,6 +96,9 @@
   "ec2": "EC2_DEFERRED",
   "evidence_id": "W64-ROW072-ONSET-TRANSIENT-ANCHOR-CURRENT-DELTA-20260719",
   "focused_validators": {
+    "calibrate_thresholds_command": "python Plan/07_IMPLEMENTATION/scripts/detect_wave64_onset_transient_anchors.py --mode calibrate-thresholds",
+    "calibrate_thresholds_result": "synthetic_threshold_candidate_ready=true; both blockers retained",
+    "candidate_gradual_attack_max_sample_error": 160,
     "coverage_complete": true,
     "exit_code": 0,
     "full_library_rescan_performed": false,
@@ -90,9 +106,14 @@
     "library_strata_candidates_selected": 13,
     "library_strata_command": "python Plan/07_IMPLEMENTATION/scripts/detect_wave64_onset_transient_anchors.py --mode library-strata",
     "library_strata_truth_onset_status": "partial",
+    "observed_sample_errors": {
+      "gradual_attack": 160,
+      "impulse": 0,
+      "multi_hit": 0
+    },
     "pcm_decode_performed": false,
     "pytest_command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_detect_wave64_onset_transient_anchors.py",
-    "pytest_result": "15 passed",
+    "pytest_result": "17 passed",
     "row109_partition_ids": [
       "train",
       "calibration",
@@ -107,36 +128,39 @@
   "implementation_completion_claimed": false,
   "increment": {
     "changed_paths": [
-      "Plan/08_SCHEMAS/onset_library_benchmark_strata_manifest.schema.json",
-      "Plan/10_REGISTRIES/wave64_row072_onset_library_benchmark_strata_v0.1.0.json",
       "Plan/07_IMPLEMENTATION/scripts/detect_wave64_onset_transient_anchors.py",
       "Plan/Instructions/QA/Scripts/test_detect_wave64_onset_transient_anchors.py",
+      "Plan/10_REGISTRIES/wave64_row072_onset_transient_threshold_registry.json",
+      "Plan/10_REGISTRIES/wave64_row072_onset_library_benchmark_strata_v0.1.0.json",
+      "Plan/10_REGISTRIES/wave64_row072_onset_thresholds_v0.2.0.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_SYNTHETIC_THRESHOLD_CALIBRATION_CANDIDATE_20260720.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_LIBRARY_BENCHMARK_STRATA_CANDIDATE_PACKET_20260719.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_onset_transient_detection.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ONSET_TRANSIENT_ANCHOR_CURRENT_DELTA_20260719.json"
     ],
     "detector_revision": "wave64_row072_onset_transient_detector_v0.1.0",
-    "kind": "library_strata_partial_synthetic_fixture_truth_labels",
+    "kind": "synthetic_threshold_candidate_calibration_planning_freeze",
     "strata_registry_revision": "wave64_row072_onset_library_benchmark_strata_v0.1.0",
-    "summary": "Labeled determinable Row072 synthetic fixture truth onsets on the strata shortlist (impulse/gradual_attack/multi_hit) and marked library_unlabeled retained candidates pending/blocked. truth_onset_status=partial; both blockers retained; no PCM library decode; no threshold unfreeze; no COMPLETE.",
+    "summary": "Calibrated event-family thresholds against labeled synthetic fixture truth only and drafted candidate wave64_row072_onset_thresholds_v0.2.0 under planning_freeze_suggestion_only_not_library_acceptance. Active evaluation remains v0.1.0; gradual_attack max_sample_error expands 48->160 from observed primary-method error; both blockers retained; no library PCM decode; no COMPLETE.",
+    "threshold_candidate_revision": "wave64_row072_onset_thresholds_v0.2.0",
     "threshold_registry_revision": "wave64_row072_onset_thresholds_v0.1.0"
   },
   "item_id": "ITEM-W64-072",
   "ledger_status": "Blocked_Library_Thresholds_And_Benchmark_Strata_Absent_Reconcile_Complete",
   "ledger_vocabulary_sync": {
     "ledger_status": "Blocked_Library_Thresholds_And_Benchmark_Strata_Absent_Reconcile_Complete",
-    "note": "Notes hygiene: partial synthetic fixture truth labels on shortlist; library_unlabeled remain pending/blocked; thresholds/strata holds remain; CSV deferred; no COMPLETE.",
+    "note": "Notes hygiene: synthetic threshold candidate drafted under planning freeze; active v0.1.0 frozen; library strata absence retained; CSV deferred; no COMPLETE.",
     "product_completion": false,
-    "synced_at": "2026-07-20T06:22:22.437997Z"
+    "synced_at": "2026-07-20T06:32:34.544553Z"
   },
   "library_authority": false,
   "proof_tier": "RUNTIME_PASS_BOUNDED",
-  "qa_decision": "library_strata_partial_synthetic_fixture_truth_labels_without_pcm_decode_authority_or_product_completion",
+  "qa_decision": "synthetic_threshold_candidate_calibrated_without_library_strata_unfreeze_authority_or_product_completion",
   "row_complete": false,
   "runtime_completion_claimed": true,
   "schema_version": 1,
   "source_commit": "PENDING_THIS_PASS",
   "status": "HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE",
   "tracker_id": "TRK-W64-072",
-  "updated_at": "2026-07-20T06:22:22.437997Z"
+  "updated_at": "2026-07-20T06:32:34.544553Z"
 }

@@ -9,6 +9,7 @@ anchor records for synthetic PCM without promoting library completion.
 from __future__ import annotations
 
 import argparse
+import copy
 import hashlib
 import json
 import math
@@ -29,6 +30,9 @@ STRATA_MANIFEST_SCHEMA_PATH = Path(
 THRESHOLD_REGISTRY_PATH = Path(
     "Plan/10_REGISTRIES/wave64_row072_onset_transient_threshold_registry.json"
 )
+THRESHOLD_CANDIDATE_REGISTRY_PATH = Path(
+    "Plan/10_REGISTRIES/wave64_row072_onset_thresholds_v0.2.0.json"
+)
 STRATA_REGISTRY_PATH = Path(
     "Plan/10_REGISTRIES/wave64_row072_onset_library_benchmark_strata_v0.1.0.json"
 )
@@ -38,6 +42,10 @@ DEFAULT_EVIDENCE = Path(
 DEFAULT_STRATA_CANDIDATE_PACKET = Path(
     "Plan/Instructions/QA/Evidence/Wave64/"
     "TRK-W64-072_LIBRARY_BENCHMARK_STRATA_CANDIDATE_PACKET_20260719.json"
+)
+DEFAULT_THRESHOLD_CALIBRATION_PACKET = Path(
+    "Plan/Instructions/QA/Evidence/Wave64/"
+    "TRK-W64-072_SYNTHETIC_THRESHOLD_CALIBRATION_CANDIDATE_20260720.json"
 )
 ROW070_DELTA = Path(
     "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_CANONICAL_AUDIO_DECODE_CURRENT_DELTA_20260719.json"
@@ -56,7 +64,10 @@ DEFAULT_RETAINED_ONSET_RECORDS = (
 )
 DETECTOR_REVISION = "wave64_row072_onset_transient_detector_v0.1.0"
 THRESHOLD_REGISTRY_REVISION = "wave64_row072_onset_thresholds_v0.1.0"
+THRESHOLD_CANDIDATE_REVISION = "wave64_row072_onset_thresholds_v0.2.0"
 STRATA_REGISTRY_REVISION = "wave64_row072_onset_library_benchmark_strata_v0.1.0"
+LABELED_SYNTHETIC_CALIBRATION_FAMILIES = ("impulse", "gradual_attack", "multi_hit")
+POLICY_EVENT_FAMILIES = ("silence", "stereo_disagree")
 TRACKER_ID = "TRK-W64-072"
 ITEM_ID = "ITEM-W64-072"
 SCHEMA_VERSION = "1.0.0"
@@ -581,16 +592,17 @@ def select_library_strata_candidates_from_retained(
     elif truth_onset_status == "partial":
         safe_next = (
             "Synthetic fixture truth onsets are labeled; library_unlabeled retained "
-            "candidates remain pending/blocked. Calibrate registered event-family "
-            "thresholds before claiming Row072 acceptance. Row109 partition IDs remain "
-            "synthetic references only. Do not decode PCM or re-scan the full library; "
-            "do not claim COMPLETE."
+            "candidates remain pending/blocked. Draft/adopt synthetic threshold candidate "
+            f"{THRESHOLD_CANDIDATE_REVISION} against labeled fixtures only, but keep "
+            "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT until library truth exists. "
+            "Row109 partition IDs remain synthetic references only. Do not decode PCM or "
+            "re-scan the full library; do not claim COMPLETE."
         )
     else:
         safe_next = (
             "Shortlist truth onsets are labeled, but threshold authority remains frozen "
-            "synthetic-only. Calibrate registered event-family thresholds before Row072 "
-            "acceptance. Do not decode PCM or claim COMPLETE."
+            "synthetic-only and library strata truth is still absent. Keep both blockers; "
+            "do not decode PCM or claim COMPLETE."
         )
     manifest = {
         "schema_version": SCHEMA_VERSION,
@@ -1268,6 +1280,207 @@ def extract_fixture_record(root: Path, fixture_name: str) -> dict[str, Any]:
     )
 
 
+def calibrate_synthetic_threshold_candidate(root: Path) -> dict[str, Any]:
+    """Calibrate event-family thresholds against labeled synthetic fixtures only.
+
+    Produces a planning-freeze candidate revision. Does not unfreeze active
+    evaluation authority, clear library-strata absence, or grant COMPLETE.
+    """
+    active = load_threshold_registry(root)
+    proposed_families = copy.deepcopy(active["event_families"])
+    observations: list[dict[str, Any]] = []
+
+    for family in LABELED_SYNTHETIC_CALIBRATION_FAMILIES:
+        record = extract_fixture_record(root, family)
+        benchmark = dict(record.get("benchmark") or {})
+        truth = SYNTHETIC_FIXTURE_TRUTH_ONSETS.get(family)
+        if truth is None or benchmark.get("reference_onset_sample") != truth:
+            raise OnsetAnchorError(f"synthetic_truth_mismatch:{family}")
+        sample_error = benchmark.get("sample_error")
+        if sample_error is None:
+            raise OnsetAnchorError(f"labeled_family_missing_sample_error:{family}")
+        sample_error_i = int(sample_error)
+        frame_error = benchmark.get("frame_error")
+        current = dict(proposed_families.get(family) or {})
+        current_max_sample = int(current.get("max_sample_error", 0))
+        current_max_frame = float(current.get("max_frame_error", 0.0))
+        # Evidence-backed floor: never shrink identity slack; expand when observed error exceeds freeze.
+        proposed_max_sample = max(current_max_sample, sample_error_i)
+        proposed_max_frame = max(current_max_frame, float(frame_error or 0.0))
+        proposed_families[family] = {
+            **current,
+            "max_sample_error": proposed_max_sample,
+            "max_frame_error": proposed_max_frame,
+            "frame_rate_fps": float(current.get("frame_rate_fps", active["default_frame_rate_fps"])),
+        }
+        method_onsets = {
+            str(item.get("method_id")): item.get("onset_sample")
+            for item in (record.get("method_results") or [])
+        }
+        window_start = (record.get("ambiguity") or {}).get("window_start_sample")
+        window_end = (record.get("ambiguity") or {}).get("window_end_sample")
+        truth_in_window = None
+        if window_start is not None and window_end is not None:
+            truth_in_window = int(window_start) <= int(truth) <= int(window_end)
+        candidate_bench = build_benchmark(
+            truth_onset=truth,
+            measured_onset=benchmark.get("measured_onset_sample"),
+            sample_rate_hz=int(record["sample_rate_hz"]),
+            event_family=family,
+            registry={
+                **active,
+                "event_families": proposed_families,
+            },
+        )
+        observations.append(
+            {
+                "event_family": family,
+                "truth_onset_sample": int(truth),
+                "measured_onset_sample": benchmark.get("measured_onset_sample"),
+                "sample_error": sample_error_i,
+                "frame_error": frame_error,
+                "within_active_v0_1_0": bool(benchmark.get("within_registered_thresholds")),
+                "within_candidate_v0_2_0": bool(candidate_bench.get("within_registered_thresholds")),
+                "active_max_sample_error": current_max_sample,
+                "proposed_max_sample_error": proposed_max_sample,
+                "active_max_frame_error": current_max_frame,
+                "proposed_max_frame_error": proposed_max_frame,
+                "ambiguity_status": (record.get("ambiguity") or {}).get("status"),
+                "method_onset_samples": method_onsets,
+                "truth_in_window": truth_in_window,
+                "windowed_sync_required": bool(current.get("windowed_sync_required")),
+            }
+        )
+
+    for family in POLICY_EVENT_FAMILIES:
+        # Policy families have no determinable truth onset; retain freeze values unchanged.
+        if family not in proposed_families:
+            raise OnsetAnchorError(f"policy_family_missing:{family}")
+        observations.append(
+            {
+                "event_family": family,
+                "truth_onset_sample": None,
+                "measured_onset_sample": None,
+                "sample_error": None,
+                "frame_error": None,
+                "within_active_v0_1_0": False,
+                "within_candidate_v0_2_0": False,
+                "active_max_sample_error": int(proposed_families[family]["max_sample_error"]),
+                "proposed_max_sample_error": int(proposed_families[family]["max_sample_error"]),
+                "active_max_frame_error": float(proposed_families[family]["max_frame_error"]),
+                "proposed_max_frame_error": float(proposed_families[family]["max_frame_error"]),
+                "ambiguity_status": "policy_family_not_numerically_calibrated",
+                "method_onset_samples": {},
+                "truth_in_window": None,
+                "windowed_sync_required": bool(
+                    proposed_families[family].get("windowed_sync_required")
+                ),
+            }
+        )
+
+    if not all(item["within_candidate_v0_2_0"] for item in observations if item["truth_onset_sample"] is not None):
+        raise OnsetAnchorError("candidate_thresholds_fail_labeled_synthetic_truth")
+
+    changed_families = [
+        item["event_family"]
+        for item in observations
+        if item["truth_onset_sample"] is not None
+        and item["proposed_max_sample_error"] != item["active_max_sample_error"]
+    ]
+
+    candidate_registry = {
+        "schema_version": SCHEMA_VERSION,
+        "registry_id": "wave64_row072_onset_transient_threshold_registry",
+        "revision": THRESHOLD_CANDIDATE_REVISION,
+        "supersedes": THRESHOLD_REGISTRY_REVISION,
+        "tracker_id": TRACKER_ID,
+        "authority": "planning_freeze_suggestion_only_not_library_acceptance",
+        "candidate_only": True,
+        "active_evaluation_revision": THRESHOLD_REGISTRY_REVISION,
+        "threshold_authority_unfrozen": False,
+        "library_authority": False,
+        "row_complete": False,
+        "product_completion": False,
+        "notes": [
+            "Candidate thresholds calibrated against labeled Row072 synthetic fixture truth only.",
+            "Active evaluation remains wave64_row072_onset_thresholds_v0.1.0 under planning freeze.",
+            "Does not clear FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT or grant library authority.",
+            "Library unlabeled shortlist candidates remain pending/blocked; no library PCM decode.",
+        ],
+        "default_frame_rate_fps": float(active["default_frame_rate_fps"]),
+        "agreement_threshold_samples": int(active["agreement_threshold_samples"]),
+        "event_families": proposed_families,
+        "calibration_basis": {
+            "truth_source": "labeled_synthetic_fixtures_only",
+            "families_calibrated": list(LABELED_SYNTHETIC_CALIBRATION_FAMILIES),
+            "policy_families_unchanged": list(POLICY_EVENT_FAMILIES),
+            "library_pcm_decode": False,
+            "row075_touched": False,
+            "observed_sample_errors": {
+                item["event_family"]: item["sample_error"]
+                for item in observations
+                if item["truth_onset_sample"] is not None
+            },
+            "families_expanded": changed_families,
+        },
+    }
+
+    packet = {
+        "schema_version": SCHEMA_VERSION,
+        "artifact_type": "onset_synthetic_threshold_calibration_candidate",
+        "evidence_id": "TRK-W64-072_SYNTHETIC_THRESHOLD_CALIBRATION_CANDIDATE_20260720",
+        "tracker_id": TRACKER_ID,
+        "item_id": ITEM_ID,
+        "detector_revision": DETECTOR_REVISION,
+        "active_threshold_registry_revision": THRESHOLD_REGISTRY_REVISION,
+        "candidate_threshold_registry_revision": THRESHOLD_CANDIDATE_REVISION,
+        "authority": "planning_freeze_suggestion_only_not_library_acceptance",
+        "truth_onset_status": "partial",
+        "calibration_scope": "labeled_synthetic_fixtures_only",
+        "observations": observations,
+        "candidate_registry": candidate_registry,
+        "blocker_codes": [BLOCKER_THRESHOLD_FROZEN, BLOCKER_STRATA_ABSENT],
+        "decision": {
+            "status": "blocked",
+            "library_authority": False,
+            "row_complete": False,
+            "product_completion": False,
+            "threshold_authority_unfrozen": False,
+            "benchmark_strata_calibrated": False,
+            "synthetic_threshold_candidate_ready": True,
+            "active_evaluation_remains": THRESHOLD_REGISTRY_REVISION,
+            "safe_next_action": (
+                "Synthetic threshold candidate "
+                f"{THRESHOLD_CANDIDATE_REVISION} is evidence-backed against labeled "
+                "fixtures, but active evaluation stays frozen at "
+                f"{THRESHOLD_REGISTRY_REVISION}. Keep "
+                "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT until library strata "
+                "truth exists; do not decode library PCM, touch Row075, or claim COMPLETE."
+            ),
+        },
+        "created_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "notes": [
+            "Calibration math uses measured-vs-truth sample/frame errors on impulse/"
+            "gradual_attack/multi_hit labeled synthetic fixtures only.",
+            "gradual_attack expands max_sample_error to the observed primary-method error.",
+            "Candidate revision is planning-freeze suggestion only; not library acceptance.",
+            "Both Row072 blockers remain; library_authority/row_complete stay false.",
+        ],
+    }
+    if (
+        packet["decision"]["library_authority"]
+        or packet["decision"]["row_complete"]
+        or packet["decision"]["product_completion"]
+        or packet["decision"]["threshold_authority_unfrozen"]
+        or packet["decision"]["benchmark_strata_calibrated"]
+        or packet["decision"]["status"] != "blocked"
+        or BLOCKER_STRATA_ABSENT not in packet["blocker_codes"]
+        or BLOCKER_THRESHOLD_FROZEN not in packet["blocker_codes"]
+    ):
+        raise OnsetAnchorError("synthetic_calibration_must_remain_fail_closed")
+    return packet
+
+
 def load_feature_module() -> Any:
     global _FEATURE_MOD
     if _FEATURE_MOD is not None:
@@ -1851,6 +2064,7 @@ def build_library_blocker_packet(
     *,
     retained_runtime: dict[str, Any] | None = None,
     strata_manifest: dict[str, Any] | None = None,
+    threshold_calibration: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     row070 = evaluate_row070_admission(root)
     row071 = evaluate_row071_admission(root)
@@ -1862,6 +2076,10 @@ def build_library_blocker_packet(
     strata_shortlist_present = bool(strata.get("candidates"))
     strata_calibrated = bool(
         (strata.get("decision") or {}).get("benchmark_strata_calibrated") is True
+    )
+    calibration = threshold_calibration or {}
+    synthetic_candidate_ready = bool(
+        (calibration.get("decision") or {}).get("synthetic_threshold_candidate_ready") is True
     )
 
     if not coverage_complete:
@@ -1897,13 +2115,25 @@ def build_library_blocker_packet(
         status = "HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE"
         strata_truth_status = str(strata.get("truth_onset_status") or "absent")
         if strata_shortlist_present and strata_truth_status == "partial":
-            safe_next = (
-                "Full-library onset reconcile is coverage_complete. Synthetic fixture truth "
-                "onsets are labeled on the strata shortlist, but library_unlabeled retained "
-                "candidates remain pending/blocked and thresholds stay frozen synthetic-only. "
-                "Calibrate library truth and unfreeze threshold authority before Row072 "
-                "acceptance or Row093 unlock. Do not claim COMPLETE."
-            )
+            if synthetic_candidate_ready:
+                safe_next = (
+                    "Full-library onset reconcile is coverage_complete. Synthetic fixture truth "
+                    "onsets are labeled and synthetic threshold candidate "
+                    f"{THRESHOLD_CANDIDATE_REVISION} is drafted under planning freeze, but "
+                    "active evaluation remains "
+                    f"{THRESHOLD_REGISTRY_REVISION}. Keep "
+                    "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT until library strata truth "
+                    "exists; do not decode library PCM, unfreeze authority, or claim COMPLETE."
+                )
+            else:
+                safe_next = (
+                    "Full-library onset reconcile is coverage_complete. Synthetic fixture truth "
+                    "onsets are labeled on the strata shortlist, but library_unlabeled retained "
+                    "candidates remain pending/blocked and thresholds stay frozen synthetic-only. "
+                    "Calibrate labeled synthetic thresholds as a planning-freeze candidate, then "
+                    "obtain library strata truth before Row072 acceptance or Row093 unlock. "
+                    "Do not claim COMPLETE."
+                )
         elif strata_shortlist_present:
             safe_next = (
                 "Full-library onset reconcile is coverage_complete and a retained-record "
@@ -1968,6 +2198,14 @@ def build_library_blocker_packet(
             "authority": registry.get("authority"),
             "sha256": sha256_file(resolve_under(root, THRESHOLD_REGISTRY_PATH, "threshold_registry")),
         },
+        "threshold_candidate": {
+            "path": str(THRESHOLD_CANDIDATE_REGISTRY_PATH).replace("\\", "/"),
+            "revision": THRESHOLD_CANDIDATE_REVISION,
+            "authority": "planning_freeze_suggestion_only_not_library_acceptance",
+            "ready": synthetic_candidate_ready,
+            "active_evaluation_revision": THRESHOLD_REGISTRY_REVISION,
+            "threshold_authority_unfrozen": False,
+        },
         "required_methods": [METHOD_ENERGY_FLUX, METHOD_HF_ENVELOPE],
         "fixture_calibration": {
             "authority": "synthetic_non_library",
@@ -1978,6 +2216,22 @@ def build_library_blocker_packet(
                 "threshold binding only; they do not accept Row072 library completion."
             ),
         },
+        "synthetic_threshold_calibration": {
+            "authority": calibration.get("authority"),
+            "candidate_threshold_registry_revision": calibration.get(
+                "candidate_threshold_registry_revision"
+            ),
+            "active_threshold_registry_revision": calibration.get(
+                "active_threshold_registry_revision"
+            ),
+            "calibration_scope": calibration.get("calibration_scope"),
+            "synthetic_threshold_candidate_ready": synthetic_candidate_ready,
+            "benchmark_strata_calibrated": False,
+            "blocker_codes": calibration.get("blocker_codes"),
+            "observations": calibration.get("observations"),
+        }
+        if calibration
+        else None,
         "accepted_index_retained_onset_runtime": {
             "authority": retained.get("authority"),
             "coverage_complete": coverage_complete,
@@ -2033,7 +2287,13 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--root", default=str(ROOT))
     parser.add_argument(
         "--mode",
-        choices=("library", "fixture", "index-retained", "library-strata"),
+        choices=(
+            "library",
+            "fixture",
+            "index-retained",
+            "library-strata",
+            "calibrate-thresholds",
+        ),
         default="library",
     )
     parser.add_argument("--fixture", default="impulse")
@@ -2060,6 +2320,14 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--write-strata-packet",
         default=str(DEFAULT_STRATA_CANDIDATE_PACKET),
+    )
+    parser.add_argument(
+        "--write-calibration-packet",
+        default=str(DEFAULT_THRESHOLD_CALIBRATION_PACKET),
+    )
+    parser.add_argument(
+        "--write-candidate-registry",
+        default=str(THRESHOLD_CANDIDATE_REGISTRY_PATH),
     )
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument("--resume", action="store_true", default=True)
@@ -2088,6 +2356,58 @@ def main(argv: list[str] | None = None) -> int:
         payload["accepted_index_retained_onset_runtime"]["summary_sha256"] = sha256_file(
             summary_path
         )
+    elif args.mode == "calibrate-thresholds":
+        calibration = calibrate_synthetic_threshold_candidate(root)
+        candidate_path = resolve_under(
+            root, Path(args.write_candidate_registry), "candidate_registry"
+        )
+        write_json(candidate_path, calibration["candidate_registry"])
+        calibration_path = resolve_under(
+            root, Path(args.write_calibration_packet), "calibration_packet"
+        )
+        calibration_out = dict(calibration)
+        calibration_out["candidate_registry_path"] = str(
+            candidate_path.relative_to(root)
+        ).replace("\\", "/")
+        calibration_out["candidate_registry_sha256"] = sha256_file(candidate_path)
+        write_json(calibration_path, calibration_out)
+        retained = None
+        receipt_candidate = resolve_under(
+            root,
+            DEFAULT_RETAINED_ONSET_RUNTIME_DIR / "retained_index_onset_receipt.json",
+            "retained_onset_receipt",
+        )
+        if receipt_candidate.is_file():
+            retained = load_json(receipt_candidate)
+        strata = None
+        strata_candidate = resolve_under(
+            root,
+            DEFAULT_STRATA_CANDIDATE_PACKET,
+            "strata_packet",
+        )
+        if strata_candidate.is_file():
+            strata = load_json(strata_candidate)
+        payload = build_library_blocker_packet(
+            root,
+            retained_runtime=retained,
+            strata_manifest=strata,
+            threshold_calibration=calibration_out,
+        )
+        payload["synthetic_threshold_calibration"]["packet_path"] = str(
+            calibration_path.relative_to(root)
+        ).replace("\\", "/")
+        payload["synthetic_threshold_calibration"]["packet_sha256"] = sha256_file(
+            calibration_path
+        )
+        payload["threshold_candidate"]["sha256"] = sha256_file(candidate_path)
+        if payload["decision"]["status"] != "blocked":
+            raise OnsetAnchorError("calibrate_mode_must_remain_fail_closed")
+        if payload["row_complete"] or payload["library_authority"]:
+            raise OnsetAnchorError("calibrate_mode_refuses_authority_and_complete")
+        if BLOCKER_STRATA_ABSENT not in payload["blocker_codes"]:
+            raise OnsetAnchorError("calibrate_mode_must_retain_library_strata_absent")
+        if BLOCKER_THRESHOLD_FROZEN not in payload["blocker_codes"]:
+            raise OnsetAnchorError("calibrate_mode_must_retain_frozen_threshold_blocker")
     elif args.mode == "library-strata":
         strata = select_library_strata_candidates_from_retained(
             root,
@@ -2103,10 +2423,19 @@ def main(argv: list[str] | None = None) -> int:
         )
         if receipt_candidate.is_file():
             retained = load_json(receipt_candidate)
+        calibration = None
+        calibration_candidate = resolve_under(
+            root,
+            DEFAULT_THRESHOLD_CALIBRATION_PACKET,
+            "calibration_packet",
+        )
+        if calibration_candidate.is_file():
+            calibration = load_json(calibration_candidate)
         payload = build_library_blocker_packet(
             root,
             retained_runtime=retained,
             strata_manifest=strata,
+            threshold_calibration=calibration,
         )
         payload["library_benchmark_strata"]["packet_path"] = str(
             strata_path.relative_to(root)
@@ -2134,10 +2463,19 @@ def main(argv: list[str] | None = None) -> int:
         )
         if strata_candidate.is_file():
             strata = load_json(strata_candidate)
+        calibration = None
+        calibration_candidate = resolve_under(
+            root,
+            DEFAULT_THRESHOLD_CALIBRATION_PACKET,
+            "calibration_packet",
+        )
+        if calibration_candidate.is_file():
+            calibration = load_json(calibration_candidate)
         payload = build_library_blocker_packet(
             root,
             retained_runtime=retained,
             strata_manifest=strata,
+            threshold_calibration=calibration,
         )
         if payload["decision"]["status"] != "blocked":
             raise OnsetAnchorError("library_mode_must_remain_fail_closed_until_acceptance")
@@ -2158,6 +2496,10 @@ def main(argv: list[str] | None = None) -> int:
                 "truth_onset_status": (
                     (payload.get("library_benchmark_strata") or {}).get("truth_onset_status")
                 ),
+                "synthetic_threshold_candidate_ready": (
+                    (payload.get("threshold_candidate") or {}).get("ready")
+                ),
+                "blocker_codes": payload.get("blocker_codes"),
             },
             sort_keys=True,
         )

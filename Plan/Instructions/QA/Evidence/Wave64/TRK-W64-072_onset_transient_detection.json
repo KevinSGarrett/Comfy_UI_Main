@@ -28,7 +28,7 @@
     "product_completion": false,
     "row072_acceptance": "held",
     "runtime_completion": true,
-    "safe_next_action": "Full-library onset reconcile is coverage_complete. Synthetic fixture truth onsets are labeled on the strata shortlist, but library_unlabeled retained candidates remain pending/blocked and thresholds stay frozen synthetic-only. Calibrate library truth and unfreeze threshold authority before Row072 acceptance or Row093 unlock. Do not claim COMPLETE.",
+    "safe_next_action": "Full-library onset reconcile is coverage_complete. Synthetic fixture truth onsets are labeled and synthetic threshold candidate wave64_row072_onset_thresholds_v0.2.0 is drafted under planning freeze, but active evaluation remains wave64_row072_onset_thresholds_v0.1.0. Keep FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT until library strata truth exists; do not decode library PCM, unfreeze authority, or claim COMPLETE.",
     "status": "blocked"
   },
   "detector_revision": "wave64_row072_onset_transient_detector_v0.1.0",
@@ -778,7 +778,7 @@
       "truth_unlabeled": 10
     },
     "packet_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_LIBRARY_BENCHMARK_STRATA_CANDIDATE_PACKET_20260719.json",
-    "packet_sha256": "a14fc0aa1481b8e6170d38a52e06d4cbb9aaa197f9eef1774747d410100311cf",
+    "packet_sha256": "e3bb39c9ac44caed3cd7d871845493fd20254eaf9e756fa784bd3f3b010d9464",
     "row109_synthetic_partition_references": {
       "authority": "synthetic_fixture_partition_references_only",
       "binding_scope": "synthetic_partition_ids_only",
@@ -832,11 +832,127 @@
   "runtime_completion_claimed": true,
   "schema_version": "1.0.0",
   "status": "HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE",
+  "synthetic_threshold_calibration": {
+    "active_threshold_registry_revision": "wave64_row072_onset_thresholds_v0.1.0",
+    "authority": "planning_freeze_suggestion_only_not_library_acceptance",
+    "benchmark_strata_calibrated": false,
+    "blocker_codes": [
+      "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+      "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT"
+    ],
+    "calibration_scope": "labeled_synthetic_fixtures_only",
+    "candidate_threshold_registry_revision": "wave64_row072_onset_thresholds_v0.2.0",
+    "observations": [
+      {
+        "active_max_frame_error": 0.5,
+        "active_max_sample_error": 2,
+        "ambiguity_status": "none",
+        "event_family": "impulse",
+        "frame_error": 0.0,
+        "measured_onset_sample": 512,
+        "method_onset_samples": {
+          "energy_flux_onset_v1": 512,
+          "hf_envelope_onset_v1": 512
+        },
+        "proposed_max_frame_error": 0.5,
+        "proposed_max_sample_error": 2,
+        "sample_error": 0,
+        "truth_in_window": null,
+        "truth_onset_sample": 512,
+        "windowed_sync_required": false,
+        "within_active_v0_1_0": true,
+        "within_candidate_v0_2_0": true
+      },
+      {
+        "active_max_frame_error": 2.0,
+        "active_max_sample_error": 48,
+        "ambiguity_status": "windowed",
+        "event_family": "gradual_attack",
+        "frame_error": 0.08,
+        "measured_onset_sample": 960,
+        "method_onset_samples": {
+          "energy_flux_onset_v1": 960,
+          "hf_envelope_onset_v1": 800
+        },
+        "proposed_max_frame_error": 2.0,
+        "proposed_max_sample_error": 160,
+        "sample_error": 160,
+        "truth_in_window": true,
+        "truth_onset_sample": 800,
+        "windowed_sync_required": true,
+        "within_active_v0_1_0": false,
+        "within_candidate_v0_2_0": true
+      },
+      {
+        "active_max_frame_error": 0.5,
+        "active_max_sample_error": 4,
+        "ambiguity_status": "none",
+        "event_family": "multi_hit",
+        "frame_error": 0.0,
+        "measured_onset_sample": 400,
+        "method_onset_samples": {
+          "energy_flux_onset_v1": 400,
+          "hf_envelope_onset_v1": 400
+        },
+        "proposed_max_frame_error": 0.5,
+        "proposed_max_sample_error": 4,
+        "sample_error": 0,
+        "truth_in_window": null,
+        "truth_onset_sample": 400,
+        "windowed_sync_required": false,
+        "within_active_v0_1_0": true,
+        "within_candidate_v0_2_0": true
+      },
+      {
+        "active_max_frame_error": 0.0,
+        "active_max_sample_error": 0,
+        "ambiguity_status": "policy_family_not_numerically_calibrated",
+        "event_family": "silence",
+        "frame_error": null,
+        "measured_onset_sample": null,
+        "method_onset_samples": {},
+        "proposed_max_frame_error": 0.0,
+        "proposed_max_sample_error": 0,
+        "sample_error": null,
+        "truth_in_window": null,
+        "truth_onset_sample": null,
+        "windowed_sync_required": false,
+        "within_active_v0_1_0": false,
+        "within_candidate_v0_2_0": false
+      },
+      {
+        "active_max_frame_error": 0.0,
+        "active_max_sample_error": 0,
+        "ambiguity_status": "policy_family_not_numerically_calibrated",
+        "event_family": "stereo_disagree",
+        "frame_error": null,
+        "measured_onset_sample": null,
+        "method_onset_samples": {},
+        "proposed_max_frame_error": 0.0,
+        "proposed_max_sample_error": 0,
+        "sample_error": null,
+        "truth_in_window": null,
+        "truth_onset_sample": null,
+        "windowed_sync_required": false,
+        "within_active_v0_1_0": false,
+        "within_candidate_v0_2_0": false
+      }
+    ],
+    "synthetic_threshold_candidate_ready": true
+  },
+  "threshold_candidate": {
+    "active_evaluation_revision": "wave64_row072_onset_thresholds_v0.1.0",
+    "authority": "planning_freeze_suggestion_only_not_library_acceptance",
+    "path": "Plan/10_REGISTRIES/wave64_row072_onset_thresholds_v0.2.0.json",
+    "ready": true,
+    "revision": "wave64_row072_onset_thresholds_v0.2.0",
+    "threshold_authority_unfrozen": false
+  },
   "threshold_registry": {
     "authority": "planning_freeze_not_library_acceptance",
     "path": "Plan/10_REGISTRIES/wave64_row072_onset_transient_threshold_registry.json",
     "revision": "wave64_row072_onset_thresholds_v0.1.0",
-    "sha256": "130261430751e847bd6a94fa2410edca19f97217d411ad8f692bf90977611446"
+    "sha256": "abd468aee81ff1d0e01e3504f78e1d083a38ff93ee502a21561bda797c0586ff"
   },
   "threshold_registry_revision": "wave64_row072_onset_thresholds_v0.1.0",
   "tracker_id": "TRK-W64-072"
