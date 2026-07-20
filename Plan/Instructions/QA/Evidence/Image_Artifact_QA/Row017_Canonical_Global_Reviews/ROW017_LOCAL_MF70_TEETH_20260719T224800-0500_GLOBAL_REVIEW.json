@@ -1,0 +1,100 @@
+{
+  "schema_version": "row017.v1",
+  "artifact": {
+    "path": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_teeth_20260719T224800-0500\\images\\codex_row017_mf70_teeth_20260719T224800-0500_00001_.png",
+    "sha256": "4472cce5513fe5b7c6b10829f6270e1c6b3e4568161cf054d0ddab5773ee330e"
+  },
+  "localized_change": {
+    "target_region": "teeth",
+    "source_artifact": {
+      "path": "ComfyUI\\input\\wave70_mf70_face_identity_source_canny_v3.png",
+      "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d"
+    }
+  },
+  "whole_frame_visual_scan": {
+    "status": "pass",
+    "evidence_paths": [
+      "Plan\\Instructions\\QA\\Evidence\\Image_Artifact_QA\\ROW017_LOCAL_MF70_TEETH_VISUAL_QA_20260719T224800-0500.json",
+      "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_teeth_20260719T224800-0500\\images\\codex_row017_mf70_teeth_20260719T224800-0500_00001_.png",
+      "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_teeth_20260719T224800-0500\\images\\qa_full_side_by_side.png"
+    ],
+    "pre_edit_status": "pass",
+    "post_edit_status": "pass"
+  },
+  "required_target_region_check": {
+    "status": "pass",
+    "evidence_paths": [
+      "Plan\\Instructions\\QA\\Evidence\\Image_Artifact_QA\\ROW017_LOCAL_MF70_TEETH_VISUAL_QA_20260719T224800-0500.json",
+      "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_teeth_20260719T224800-0500\\images\\qa_teeth_crop_side_by_side.png"
+    ],
+    "target_region": "teeth",
+    "findings": [
+      "Teeth/enamel edge remains coherent with only subtle localized continuity refinement; mouth closure holds; no smile/open-mouth drift."
+    ]
+  },
+  "required_non_target_region_scan": {
+    "status": "pass",
+    "evidence_paths": [
+      "Plan\\Instructions\\QA\\Evidence\\Image_Artifact_QA\\ROW017_LOCAL_MF70_TEETH_VISUAL_QA_20260719T224800-0500.json",
+      "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_teeth_20260719T224800-0500\\images\\codex_row017_mf70_teeth_20260719T224800-0500_00001_.png"
+    ],
+    "regions_scanned": [
+      "hair",
+      "clothing",
+      "background",
+      "neck",
+      "lighting",
+      "framing",
+      "hands",
+      "eyes",
+      "nose"
+    ],
+    "findings": [
+      "Identity, eyes, hair, blazer, neck, background, and lighting remain stable; blazer/background mean abs 0.0."
+    ]
+  },
+  "hands_face_body_background_contact_lighting_check": {
+    "hands": {
+      "visibility": "not_visible",
+      "inspected": true,
+      "status": "not_applicable",
+      "reason": "Hands are outside the portrait frame."
+    },
+    "face": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Identity remains coherent with only a localized teeth delta."
+    },
+    "body": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Visible neck/shoulders and blazer remain coherent."
+    },
+    "background": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Neutral gray background remains stable."
+    },
+    "contact": {
+      "visibility": "not_applicable",
+      "inspected": true,
+      "status": "not_applicable",
+      "reason": "No contact interaction is required in this portrait."
+    },
+    "lighting": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Studio lighting remains coherent across the pair."
+    }
+  },
+  "reject_on_any_global_defect": {
+    "status": "pass",
+    "global_defects": [],
+    "rejection_applied": false
+  },
+  "overall_decision": "pass"
+}

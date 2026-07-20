@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ROW017-LOCAL-MF70-TEETH-VISUAL-QA-20260719T224800-0500",
+  "created_at": "2026-07-19T22:59:00-05:00",
+  "tracker_id": "TRK-W64-017",
+  "item_id": "ITEM-W64-017",
+  "localized_region": "teeth",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+  "qa_decision": "pass_bounded_localized_teeth_runtime_candidate",
+  "overall_decision": "pass",
+  "local_only": true,
+  "direct_visual_inspection": true,
+  "fixture_only": false,
+  "generation_executed": true,
+  "runtime_receipt": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_teeth_20260719T224800-0500\\LOCAL_RUNTIME_RECEIPT.json",
+  "source": {
+    "path": "ComfyUI\\input\\wave70_mf70_face_identity_source_canny_v3.png",
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d"
+  },
+  "artifact": {
+    "path": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_teeth_20260719T224800-0500\\images\\codex_row017_mf70_teeth_20260719T224800-0500_00001_.png",
+    "sha256": "4472cce5513fe5b7c6b10829f6270e1c6b3e4568161cf054d0ddab5773ee330e"
+  },
+  "comparison_panel": {
+    "path": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_teeth_20260719T224800-0500\\images\\qa_full_side_by_side.png",
+    "sha256": "adee37e9315b8bc004d7fa92ee7578f875c0fce7fa1980adcd7737df0b069bd0"
+  },
+  "teeth_crop_panel": {
+    "path": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_teeth_20260719T224800-0500\\images\\qa_teeth_crop_side_by_side.png",
+    "sha256": "ff9750b2128c08d3cf3efa4ddfd3466aeff6af004e2b852dc118aca53aa821fb"
+  },
+  "difference_metrics": {
+    "full_image_diff_bbox": [
+      340,
+      454,
+      403,
+      463
+    ],
+    "teeth_mask_bbox": [
+      340,
+      454,
+      403,
+      463
+    ],
+    "teeth_crop_box": [
+      316,
+      430,
+      427,
+      487
+    ],
+    "mean_rgb_abs_diff": [
+      0.0032,
+      0.0031,
+      0.0025
+    ],
+    "rms_rgb_abs_diff": [
+      0.1686,
+      0.1625,
+      0.1413
+    ],
+    "teeth_region_mean_abs": [
+      3.0329
+    ],
+    "blazer_mean_abs": 0.0,
+    "background_corner_mean_abs": 0.0,
+    "changed_pixel_count": 253,
+    "mask_pixel_count": 380
+  },
+  "whole_frame_findings": [
+    "Fresh local ComfyUI MF70 teeth masked inpaint (seed 6193845720, RealVisXL baked VAE, denoise 0.03, FeatherMask 10px, cfg 3.6, steps 18) completed successfully (prompt_id 1c673ecf-c6ef-4828-813c-0a66e6c80a27).",
+    "Whole-frame identity, gaze, iris/pupil/sclera/catchlights, brows, lids, nose, cheeks, jawline/chin, forehead, hair silhouette, cream blazer, lighting, and gray background remain stable versus Canny v3 source.",
+    "Pixel delta localized to teeth bbox [340, 454, 403, 463]; blazer mean abs 0.0; background corner mean abs 0.0; 253 changed pixels inside 380-pixel mask.",
+    "Direct whole-frame + teeth-crop inspection: subtle enamel/edge continuity refinement without open-mouth drift, smile change, added/missing teeth, lip reshape, philtrum mutation, gaze drift, or clothing/background regression.",
+    "Hands not in frame; no clothing/background/lighting regression observed."
+  ],
+  "global_defects": [],
+  "promotion_authorized": false,
+  "row_complete": false,
+  "ec2": "EC2_DEFERRED",
+  "docker_cvat": "not-needed",
+  "notes": [
+    "Independent of prior teeth_mouth_area climb (20260719T193000); this targets mf70_teeth mask lane.",
+    "Wave70 mf70_teeth mask-alignment/promotion remains blocked (fail-closed); not overturned.",
+    "Prior face_full_instance/expression/eyes/forehead/jawline climbs retained.",
+    "Does not complete historical Row017 normalization backlog."
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "prompt": {
+    "3": {
+      "class_type": "KSampler",
+      "inputs": {
+        "seed": 6193845720,
+        "steps": 18,
+        "cfg": 3.6,
+        "sampler_name": "euler",
+        "scheduler": "normal",
+        "denoise": 0.03,
+        "model": [
+          "4",
+          0
+        ],
+        "positive": [
+          "8",
+          0
+        ],
+        "negative": [
+          "9",
+          0
+        ],
+        "latent_image": [
+          "12",
+          0
+        ]
+      }
+    },
+    "4": {
+      "class_type": "CheckpointLoaderSimple",
+      "inputs": {
+        "ckpt_name": "realvisxlV50_v50Bakedvae.safetensors"
+      }
+    },
+    "5": {
+      "class_type": "LoadImage",
+      "inputs": {
+        "image": "wave64_row017_mf70_teeth_src_canny_v3_20260719T224800-0500.png"
+      }
+    },
+    "6": {
+      "class_type": "LoadImageMask",
+      "inputs": {
+        "image": "wave64_row017_mf70_teeth_mask_20260719T224800-0500.png",
+        "channel": "red"
+      }
+    },
+    "7": {
+      "class_type": "VAEEncode",
+      "inputs": {
+        "pixels": [
+          "5",
+          0
+        ],
+        "vae": [
+          "4",
+          2
+        ]
+      }
+    },
+    "8": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "very subtle photoreal teeth preservation pass, preserve exact tooth edges and dental silhouette, preserve lip boundary and mouth closure, natural enamel texture, consistent portrait lighting, no smile change, no open-mouth drift, no background, hair, neck, or clothing change",
+        "clip": [
+          "4",
+          1
+        ]
+      }
+    },
+    "9": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "identity change, face shape drift, different person, smile change, open mouth, extra teeth, missing teeth, dental braces, yellow teeth, tooth gap change, lip reshape, philtrum mutation, jawline change, gaze drift, eye color change, nose deformation, hairline change, clothing change, background change, plastic skin, watermark, text",
+        "clip": [
+          "4",
+          1
+        ]
+      }
+    },
+    "10": {
+      "class_type": "VAEDecode",
+      "inputs": {
+        "samples": [
+          "3",
+          0
+        ],
+        "vae": [
+          "4",
+          2
+        ]
+      }
+    },
+    "11": {
+      "class_type": "SaveImage",
+      "inputs": {
+        "filename_prefix": "codex_row017_mf70_teeth_20260719T224800-0500",
+        "images": [
+          "14",
+          0
+        ]
+      }
+    },
+    "12": {
+      "class_type": "SetLatentNoiseMask",
+      "inputs": {
+        "samples": [
+          "7",
+          0
+        ],
+        "mask": [
+          "13",
+          0
+        ]
+      }
+    },
+    "13": {
+      "class_type": "FeatherMask",
+      "inputs": {
+        "mask": [
+          "6",
+          0
+        ],
+        "left": 10,
+        "top": 10,
+        "right": 10,
+        "bottom": 10
+      }
+    },
+    "14": {
+      "class_type": "ImageCompositeMasked",
+      "inputs": {
+        "destination": [
+          "5",
+          0
+        ],
+        "source": [
+          "10",
+          0
+        ],
+        "x": 0,
+        "y": 0,
+        "resize_source": false,
+        "mask": [
+          "13",
+          0
+        ]
+      }
+    },
+    "15": {
+      "class_type": "MaskToImage",
+      "inputs": {
+        "mask": [
+          "13",
+          0
+        ]
+      }
+    },
+    "16": {
+      "class_type": "SaveImage",
+      "inputs": {
+        "filename_prefix": "codex_row017_mf70_teeth_20260719T224800-0500_mask_preview",
+        "images": [
+          "15",
+          0
+        ]
+      }
+    }
+  },
+  "client_id": "cursor-row017-teeth-e30b716a"
+}
