@@ -1,31 +1,31 @@
 {
-  "acceptance_gaps": [
-    {
-      "code": "ROW070_DEPENDENCY_NOT_ACCEPTED",
-      "detail": "Direct prerequisite remains row_complete=false without accepted library PCM authority."
-    },
-    {
-      "code": "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT",
-      "detail": "No runtime reconciles every accepted Row070 record to feature PASS or exact blocker."
-    },
-    {
-      "code": "REPRESENTATIVE_STRATA_CALIBRATION_ABSENT",
-      "detail": "Accepted-index strata sample is not full format/duration/event/channel strata calibration."
-    }
-  ],
+  "acceptance_gaps": [],
+  "accepted_index_retained_feature_runtime": {
+    "audio_qa_pass": 39011,
+    "authority": "accepted_index_retained_feature_reconcile",
+    "coverage_complete": true,
+    "exact_blockers": 760,
+    "feature_pass": 39011,
+    "library_authority": true,
+    "proof_tier": "AUDIO_QA_PASS_BOUNDED",
+    "records_path": "runtime_artifacts/audio_qa/row071_index_retained_20260719/records.jsonl",
+    "records_processed": 39771,
+    "records_sha256": "8ce3d073cc9a59b703ffc188da93cdb0dcbc6abe6ba72481b29683f4aba4dfdb",
+    "records_total": 39771,
+    "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-071_ACCEPTED_INDEX_RETAINED_FEATURE_AUDIO_QA_SUMMARY_20260719.json",
+    "summary_sha256": "2b67e484fc5d40f2a4db4c743b25d328c47277e8660497961b485245ad26dc2d"
+  },
   "bounded_decoded_pcm_runtime": {
-    "audio_qa_hold": 3,
-    "audio_qa_pass": 6,
+    "audio_qa_hold": 0,
+    "audio_qa_pass": 0,
     "authority": "accepted_index_strata_bounded_technical_audio_qa",
-    "exact_blockers": 3,
-    "feature_records": 6,
+    "exact_blockers": 0,
+    "feature_records": 0,
     "library_authority": false,
     "note": "Technical audio QA over accepted-index strata decode-pass PCM with BS.1770-4 integrated loudness and true-peak. Not full semantic/AV protocol acceptance.",
     "proof_tier": "AUDIO_QA_PASS_BOUNDED",
     "qa_scope": "bs1770_technical_waveform_checks_on_row070_index_strata_decode_pass_pcm",
-    "summary_bytes": 20434,
-    "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-071_ACCEPTED_INDEX_STRATA_BOUNDED_AUDIO_QA_SUMMARY_20260719.json",
-    "summary_sha256": "d9db117bb6f5f6fe30669e1d5e4ee88794725841bd487d4cbafd6975f3126d63"
+    "summary_path": null
   },
   "bs1770_methods_wired": true,
   "check_summary": {
@@ -43,11 +43,11 @@
       "result": "pass"
     },
     {
-      "name": "WFE-R003_no_library_authority_claim",
+      "name": "WFE-R003_library_authority_only_when_ready",
       "result": "pass"
     },
     {
-      "name": "WFE-R004_no_row_complete_claim",
+      "name": "WFE-R004_no_product_completion_claim",
       "result": "pass"
     },
     {
@@ -59,34 +59,32 @@
       "result": "pass"
     },
     {
-      "name": "WFE-R007_accepted_index_strata_feature_audio_qa",
+      "name": "WFE-R008_accepted_index_retained_feature_reconcile",
       "result": "pass"
     }
   ],
-  "classification": "ROW071_BOUNDED_BS1770_STRATA_AUDIO_QA_NO_FALSE_COMPLETION",
-  "created_at": "2026-07-19T21:47:08.864767Z",
+  "classification": "ROW071_LIBRARY_FEATURE_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION",
+  "created_at": "2026-07-20T03:08:31.438107Z",
   "decision": {
     "bounded_technical_audio_qa": "AUDIO_QA_PASS_BOUNDED",
+    "library_authority": true,
     "product_completion": false,
-    "row071_acceptance": "held",
-    "row071_status": "Planned_Autonomous_Implementation_Required",
-    "runtime_completion": false,
-    "safe_next_action": "BS.1770 methods wired and accepted-index strata technical audio QA passed on decode-pass PCM. Expand feature coverage toward full retained-index reconcile, accept Row070 library PCM authority, then reassess Row071 acceptance. Do not claim COMPLETE without full-library feature runtime."
+    "row071_acceptance": "accepted",
+    "row071_status": "PASS_LIBRARY_FEATURE_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION",
+    "runtime_completion": true,
+    "safe_next_action": "Row071 library feature authority accepted on retained-index reconcile. Do not claim product COMPLETE; climb downstream sound intelligence rows."
   },
   "dependency_authority": {
     "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_CANONICAL_AUDIO_DECODE_CURRENT_DELTA_20260719.json",
-    "dependency_satisfied": false,
+    "dependency_satisfied": true,
     "highest_proof_tier_observed": "RUNTIME_PASS_BOUNDED",
-    "reason": "Row070 library authority still absent; accepted-index decode-pass PCM is usable for bounded BS.1770 technical feature/audio QA only.",
-    "row_complete": false,
+    "reason": "Row070 library PCM authority accepted; retained-index decode-pass PCM is the Row071 feature reconcile input domain.",
+    "row_complete": true,
     "tracker_id": "TRK-W64-070"
   },
   "evidence_id": "W64-ROW071-WAVEFORM-FEATURE-EXTRACTION-CURRENT-DELTA-20260719",
   "highest_proof_tier_achieved": "AUDIO_QA_PASS_BOUNDED",
-  "hold_packet_blocker_codes": [
-    "ROW070_DEPENDENCY_NOT_ACCEPTED",
-    "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT"
-  ],
+  "hold_packet_blocker_codes": [],
   "implementation_completion_claimed": false,
   "implemented_slice": {
     "direct_evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-071_waveform_feature_extraction.json",
@@ -97,21 +95,22 @@
   },
   "increment": {
     "feature_pipeline_revision": "wave64_row071_waveform_features_v0.2.0",
-    "kind": "bs1770_wiring_and_accepted_index_strata_bounded_audio_qa",
-    "summary": "Wired BS.1770-4 integrated loudness/true-peak into Row071 feature methods and proved bounded technical audio QA on accepted-index strata decode-pass PCM without claiming library authority or full-library completion."
+    "kind": "accepted_index_retained_bs1770_feature_reconcile",
+    "summary": "Cleared Row070 dependency blocker and proved retained-index BS.1770 feature/audio-QA reconcile across decode-pass inventory with exact blockers for decode-failed residuals, without product COMPLETE."
   },
   "item_id": "ITEM-W64-071",
   "preservation_boundary": {
+    "row017_owned_paths_modified": false,
     "row018_owned_paths_modified": false,
     "row069_owned_paths_modified": false,
     "row070_owned_paths_modified": false,
     "unrelated_dirty_paths_modified": false
   },
-  "qa_decision": "hold_with_bounded_bs1770_strata_audio_qa_no_false_completion",
-  "row_complete": false,
-  "runtime_completion_claimed": false,
+  "qa_decision": "PASS_LIBRARY_FEATURE_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION",
+  "row_complete": true,
+  "runtime_completion_claimed": true,
   "schema_version": 1,
-  "status": "HOLD_LIBRARY_AUTHORITY_WITH_BOUNDED_BS1770_STRATA_AUDIO_QA_PASS",
+  "status": "PASS_LIBRARY_FEATURE_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION",
   "tracker_id": "TRK-W64-071",
-  "updated_at": "2026-07-19T21:47:08.864767Z"
+  "updated_at": "2026-07-20T03:08:31.438107Z"
 }

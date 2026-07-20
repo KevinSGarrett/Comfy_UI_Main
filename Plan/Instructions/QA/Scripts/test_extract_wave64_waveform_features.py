@@ -17,23 +17,19 @@ sys.modules[SPEC.name] = MOD
 SPEC.loader.exec_module(MOD)
 
 
-def test_row070_admission_fails_closed_on_current_hold_delta():
+def test_row070_admission_reads_accepted_library_pcm_authority():
     admission = MOD.evaluate_row070_admission(ROOT)
-    assert admission["dependency_satisfied"] is False
-    assert "ROW070_DEPENDENCY_NOT_ACCEPTED" in admission["blocker_codes"]
-    assert admission["row_complete"] is False
+    assert admission["dependency_satisfied"] is True
+    assert admission["blocker_codes"] == []
+    assert admission["row_complete"] is True
 
 
-def test_library_mode_emits_hold_packet_without_false_completion():
+def test_library_mode_without_retained_runtime_stays_fail_closed():
     payload = MOD.build_library_blocker_packet(ROOT)
-    assert payload["row_complete"] is False
     assert payload["implementation_completion_claimed"] is False
-    assert payload["runtime_completion_claimed"] is False
-    assert payload["library_authority"] is False
-    assert payload["bs1770_methods_wired"] is True
-    assert payload["decision"]["status"] == "blocked"
     assert payload["decision"]["product_completion"] is False
-    assert "ROW070_DEPENDENCY_NOT_ACCEPTED" in payload["blocker_codes"]
+    assert payload["bs1770_methods_wired"] is True
+    assert "ROW070_DEPENDENCY_NOT_ACCEPTED" not in payload["blocker_codes"]
     assert "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT" in payload["blocker_codes"]
     assert "BS1770_LOUDNESS_AUTHORITY_NOT_WIRED" not in payload["blocker_codes"]
     assert payload["feature_pipeline_revision"] == MOD.FEATURE_PIPELINE_REVISION
@@ -41,6 +37,9 @@ def test_library_mode_emits_hold_packet_without_false_completion():
     assert payload["fixture_calibration"]["fixture_count"] == 5
     assert payload["method_provenance"]["integrated_loudness"]["method_id"].startswith("bs1770_")
     assert payload["method_provenance"]["true_peak"]["method_id"].startswith("bs1770_")
+    assert payload["library_authority"] is False
+    assert payload["row_complete"] is False
+    assert payload["decision"]["status"] == "blocked"
 
 
 def test_fixture_records_validate_and_are_deterministic():
@@ -98,9 +97,35 @@ def test_leading_power_of_two_window_supports_non_pot_signals():
     sr = 48000
     tone = [0.25 * math.sin(2.0 * math.pi * 1000.0 * (i / sr)) for i in range(frames)]
     features, analysis = MOD.extract_features_from_channels([tone, tone], sample_rate_hz=sr)
-    assert analysis["policy"] == "leading_power_of_two_truncated"
+    assert analysis["policy"] == "leading_power_of_two_truncated_capped"
     assert analysis["source_frame_count"] == frames
     assert analysis["analysis_frame_count"] == 2048
     assert math.isfinite(features["integrated_loudness"])
     assert math.isfinite(features["true_peak"])
     assert features["spectral_centroid"] >= 0.0
+
+
+def test_retained_reconcile_allows_feature_extraction_failed_residuals():
+    retained = {
+        "coverage_complete": True,
+        "counts": {
+            "feature_pass": 39011,
+            "feature_hold": 0,
+            "exact_blockers": 760,
+            "decode_pass_inputs": 39024,
+            "decode_non_pass_inputs": 747,
+            "records_processed": 39771,
+            "records_total": 39771,
+        },
+        "blocker_histogram": {
+            "DECODE_FAILED_CORRUPT_OR_UNREADABLE": 747,
+            "FEATURE_EXTRACTION_FAILED": 13,
+        },
+    }
+    assert MOD.retained_feature_reconcile_counts_consistent(retained) is True
+    packet = MOD.build_library_blocker_packet(ROOT, retained_feature_runtime=retained)
+    assert "FEATURE_RECONCILE_COUNT_MISMATCH" not in packet["blocker_codes"]
+    assert packet["library_authority"] is True
+    assert packet["decision"]["status"] == "pass"
+    assert packet["status"] == "PASS_LIBRARY_FEATURE_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION"
+    assert packet["decision"]["product_completion"] is False
