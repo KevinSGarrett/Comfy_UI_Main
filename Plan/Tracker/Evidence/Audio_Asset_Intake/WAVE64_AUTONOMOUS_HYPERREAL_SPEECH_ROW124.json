@@ -141,13 +141,18 @@
       {
         "class": "LISTENING_AUTHORITY",
         "cleared_by_this_packet": [
-          "LISTENING_REVIEW_REQUEST_UNPREPARED"
+          "LISTENING_REVIEW_REQUEST_UNPREPARED",
+          "HUMAN_LISTENING_AUTHORITY_DISPOSITION_UNDOCUMENTED"
         ],
         "codes": [
           "INDEPENDENT_PLAYBACK_REVIEW_ABSENT",
           "FINAL_VOICE_CERTIFICATION_PENDING"
         ],
-        "summary": "Independent human playback review and final voice certification remain pending. Preparing a hash-bound listening request does not grant listening authority."
+        "disposition": "FAIL_CLOSED_HUMAN_LISTENING_AUTHORITY_NOT_GRANTED",
+        "human_listening_blocker_packet_prepared": true,
+        "independent_playback_review_pass": false,
+        "listening_authority_granted": false,
+        "summary": "Independent human playback review and final voice certification remain pending. Fail-closed human-listening blocker packet is documented with exact Path A (independent playback receipt) / Path B (final certification) criteria; listening_authority_granted=false and fabricated listening PASS is rejected. Preparing a hash-bound listening request does not grant listening authority."
       },
       {
         "class": "DIALOGUE_TIMING",
@@ -173,21 +178,27 @@
       "LISTENING_REVIEW_REQUEST_UNPREPARED",
       "INDEPENDENT_SOURCE_REFERENCE_COUNT_BELOW_TWO",
       "MULTI_REF_DRIFT_LEAKAGE_MATRIX_INCOMPLETE",
-      "RAW_DIALOGUE_TIMING_DISPOSITION_UNDOCUMENTED"
+      "RAW_DIALOGUE_TIMING_DISPOSITION_UNDOCUMENTED",
+      "LISTENING_REVIEW_REQUEST_UNPREPARED",
+      "HUMAN_LISTENING_AUTHORITY_DISPOSITION_UNDOCUMENTED"
     ],
     "continuity_diagnostic_bound": true,
-    "current_delta": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-124_MULTI_REF_LISTENING_CURRENT_DELTA_20260720D.json",
+    "current_delta": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-124_MULTI_REF_LISTENING_CURRENT_DELTA_20260720E.json",
     "drift_leakage_matrix_complete": true,
     "drift_leakage_matrix_started": true,
-    "evidence_id": "TRK-W64-124_MULTI_REF_LISTENING_CURRENT_DELTA_20260720D",
+    "evidence_id": "TRK-W64-124_MULTI_REF_LISTENING_CURRENT_DELTA_20260720E",
+    "fake_listening_pass_rejected": true,
+    "human_listening_blocker_packet_prepared": true,
+    "human_listening_fail_closed_blocker": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/TRK-W64-124_HUMAN_LISTENING_FAIL_CLOSED_BLOCKER_20260720E.json",
     "independent_source_reference_count": 2,
     "listening_authority_claimed": false,
-    "listening_review_request": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/TRK-W64-124_LISTENING_REVIEW_REQUEST_20260720D.json",
-    "multi_ref_drift_leakage_matrix": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/TRK-W64-124_MULTI_REF_DRIFT_LEAKAGE_MATRIX_20260720D.json",
+    "listening_authority_granted": false,
+    "listening_review_request": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/TRK-W64-124_LISTENING_REVIEW_REQUEST_20260720E.json",
+    "multi_ref_drift_leakage_matrix": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/TRK-W64-124_MULTI_REF_DRIFT_LEAKAGE_MATRIX_20260720E.json",
     "product_completion": false,
     "production_voice_authority_claimed": false,
     "proof_tier": "OFFLINE_PROOF_BOUNDED",
-    "raw_dialogue_timing_fail_closed_waiver": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/TRK-W64-124_RAW_DIALOGUE_TIMING_FAIL_CLOSED_WAIVER_20260720D.json",
+    "raw_dialogue_timing_fail_closed_waiver": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/TRK-W64-124_RAW_DIALOGUE_TIMING_FAIL_CLOSED_WAIVER_20260720E.json",
     "row_complete": false,
     "second_source_reference_bound": true,
     "status": "BLOCKED_PRODUCTION_VOICE_AND_LISTENING_AUTHORITY_PENDING",

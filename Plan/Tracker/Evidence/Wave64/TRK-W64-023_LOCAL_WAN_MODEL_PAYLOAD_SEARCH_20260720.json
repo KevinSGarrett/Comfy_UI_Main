@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "evidence_id": "TRK-W64-023_LOCAL_WAN_MODEL_PAYLOAD_SEARCH_20260720",
   "created_iso": "2026-07-20T02:30:00-05:00",
-  "updated_iso": "2026-07-20T02:50:18-05:00",
+  "updated_iso": "2026-07-20T12:33:55-05:00",
   "tracker_id": "TRK-W64-023",
   "item_id": "ITEM-W64-023",
   "blocker_id": "LOCAL_WAN_MODEL_PAYLOAD_MISSING",
@@ -70,5 +70,88 @@
   "extra_model_paths": "C:\\Comfy_UI_Main\\config\\comfyui_extra_model_paths.yaml",
   "wan_generation_authorized_this_landing": false,
   "class_f_disposition_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_CLASS_A_F_BLOCKER_DISPOSITION_PACKET_20260720.json",
-  "note": "Reverified 2026-07-20T02:50:18-05:00: exact-filename recurse across all five roots returned 0 hits. Class F fail-closed until payloads exist; Flux seed retries stopped this shift."
+  "note": "Reverified 2026-07-20T12:33:55-05:00: exact expected-path present 0/3; recursive exact-filename hits=0; :8188 reachable=False. Class F fail-closed; no download; no HOLD.",
+  "deepen_inventory": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-023_LOCAL_WAN_MODEL_PAYLOAD_NEGATIVE_INVENTORY_20260720.json",
+    "runtime_receipt": "runtime_artifacts/wave64_row019_023_class_af_deepen_20260720/wan_payload_negative_inventory.json",
+    "runtime_receipt_sha256": "a44f151c65af2fa3777e71bea34ec3878960d86bcd91056b049d4f35a0392030",
+    "deepened_at": "2026-07-20T12:31:21-05:00"
+  },
+  "present_count": 0,
+  "present_ratio": "0/3",
+  "live_reverify": {
+    "at": "2026-07-20T12:33:55-05:00",
+    "runtime_inventory": "runtime_artifacts/wave64_row019_023_class_af_inventory_20260720/class_af_negative_inventory.json",
+    "runtime_inventory_sha256": "F0AB5D6D6AC5A44F0DE34F2E9AA0EADB15F12E2FF4ACB97D56EB93946A7D117F",
+    "asset_presence": [
+      {
+        "filename": "wan2.2_ti2v_5B_fp16.safetensors",
+        "role": "diffusion_model",
+        "expected_local_path": "C:\\Comfy_UI_Main\\models\\diffusion_models\\wan2.2_ti2v_5B_fp16.safetensors",
+        "alt_expected_local_path": "C:\\Comfy_UI_Main\\ComfyUI\\models\\diffusion_models\\wan2.2_ti2v_5B_fp16.safetensors",
+        "required_bytes": 9999658848,
+        "required_sha256": "456f901338bd9eadbded3828b819109a9b68e8a525ca5cf8d0049a69fcfeca1e",
+        "present": false,
+        "present_at": null,
+        "observed_bytes": null,
+        "status": "ABSENT"
+      },
+      {
+        "filename": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+        "role": "text_encoder",
+        "expected_local_path": "C:\\Comfy_UI_Main\\models\\text_encoders\\umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+        "alt_expected_local_path": "C:\\Comfy_UI_Main\\ComfyUI\\models\\text_encoders\\umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+        "required_bytes": 6735906897,
+        "required_sha256": "c3355d30191f1f066b26d93fba017ae9809dce6c627dda5f6a66eaa651204f68",
+        "present": false,
+        "present_at": null,
+        "observed_bytes": null,
+        "status": "ABSENT"
+      },
+      {
+        "filename": "wan2.2_vae.safetensors",
+        "role": "vae",
+        "expected_local_path": "C:\\Comfy_UI_Main\\models\\vae\\wan2.2_vae.safetensors",
+        "alt_expected_local_path": "C:\\Comfy_UI_Main\\ComfyUI\\models\\vae\\wan2.2_vae.safetensors",
+        "required_bytes": 1409400960,
+        "required_sha256": "e40321bd36b9709991dae2530eb4ac303dd168276980d3e9bc4b6e2b75fed156",
+        "present": false,
+        "present_at": null,
+        "observed_bytes": null,
+        "status": "ABSENT"
+      }
+    ],
+    "search_roots": [
+      {
+        "root": "C:\\Comfy_UI_Main\\models",
+        "exists": true,
+        "exact_hits": 0
+      },
+      {
+        "root": "C:\\Comfy_UI_Main\\ComfyUI\\models",
+        "exists": true,
+        "exact_hits": 0
+      },
+      {
+        "root": "C:\\Comfy_UI",
+        "exists": true,
+        "exact_hits": 0
+      },
+      {
+        "root": "C:\\Users\\kevin\\.cache\\huggingface\\hub",
+        "exists": true,
+        "exact_hits": 0,
+        "hf_hub_wan_umt5_top_level_dirs": []
+      },
+      {
+        "root": "C:\\Users\\kevin\\Downloads",
+        "exists": true,
+        "exact_hits": 0
+      }
+    ],
+    "comfyui_8188_reachable": false,
+    "download_attempted": false,
+    "decision": "LOCAL_WAN_MODEL_PAYLOAD_MISSING"
+  },
+  "class_f_disposition_deepen_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_CLASS_A_F_BLOCKER_DISPOSITION_PACKET_20260720T123355-0500.json"
 }
