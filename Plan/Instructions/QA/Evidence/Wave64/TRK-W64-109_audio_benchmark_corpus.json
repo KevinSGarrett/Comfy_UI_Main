@@ -76,8 +76,9 @@
     "product_completion": false,
     "row109_acceptance": "fixture_only",
     "runtime_completion": false,
-    "safe_next_action": "Human/external: stage rights-cleared annotated copies under Plan/Instructions/QA/Evidence/Wave64/media/row109 with human_gold and rights_decision_sha256 (decode_invoked=false); recompile to clear GENUINE_ANNOTATED_MEDIA_CORPUS_ABSENT; then execute combined frame/contact/audio review. Agents must not invent media, decode library PCM, touch Row073, start 074/076/077 library, mutate shared CSVs, or claim COMPLETE.",
-    "status": "blocked"
+    "safe_next_action": "Human/external: execute acquisition/rights checklist AR-01..AR-14 — obtain rights-cleared annotated copies, stamp Row068-valid rights_decision_sha256 per copy, stage under Plan/Instructions/QA/Evidence/Wave64/media/row109 with human_gold (decode_invoked=false), meet partition/coverage floors, recompile, then combined frame/contact/audio review. Agents must not invent media, fabricate rights hashes, decode library PCM, touch Row073, start 074/076/077 library, mutate shared CSVs, claim COMPLETE, or emit HOLD090+.",
+    "status": "blocked",
+    "step2_still_blocked": true
   },
   "dependency_admissions": {
     "TRK-W64-067": {
@@ -208,17 +209,21 @@
     "integrity_ok": true,
     "partition_truth_rules_ok": true
   },
-  "class_f_step2_empty_media_disposition_deepen": {
-    "disposition_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-109_CLASS_F_STEP2_EMPTY_MEDIA_DISPOSITION_PACKET_20260720.json",
-    "negative_inventory": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-109_CLASS_F_STEP2_EMPTY_MEDIA_INVENTORY_20260720.json",
-    "runtime_receipt": "runtime_artifacts/wave64_row109_class_f_step2_empty_media_20260720/class_f_step2_empty_media_inventory.json",
-    "runtime_receipt_sha256": "eea79563560a0b789276ad9ef110db8661833238217b1d0e93838e67c347668a",
-    "deepened_at": "2026-07-20T11:49:47-05:00",
+  "class_f_step2_acquisition_rights_checklist_deepen": {
+    "checklist_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-109_CLASS_F_STEP2_GENUINE_MEDIA_ACQUISITION_RIGHTS_CHECKLIST_PACKET_20260720.json",
+    "negative_inventory": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-109_CLASS_F_STEP2_ACQUISITION_RIGHTS_INVENTORY_20260720.json",
+    "runtime_receipt": "runtime_artifacts/wave64_row109_class_f_step2_acquisition_rights_20260720/class_f_step2_acquisition_rights_inventory.json",
+    "runtime_receipt_sha256": "976dc5cd8aa789738b859a5d6a66c9886463c3ed953160efadfb1ff7dd93ba6d",
+    "deepened_at": "2026-07-20T12:31:18-05:00",
+    "checklist_open": 14,
+    "checklist_satisfied": 1,
     "eligible_genuine_annotated_media_hits": 0,
     "media_file_count": 0,
     "reviews_file_count": 0,
-    "verdict": "EMPTY_MEDIA_CONFIRMED_FAIL_CLOSED",
+    "rights_decision_files_under_media": 0,
+    "verdict": "ACQUISITION_RIGHTS_CHECKLIST_OPEN_EMPTY_MEDIA_FAIL_CLOSED",
+    "step2_still_blocked": true,
     "csv_sync": "deferred",
-    "proof_tier": "OFFLINE_INVENTORY_BLOCKER_BOUNDED"
+    "proof_tier": "OFFLINE_ACQUISITION_RIGHTS_CHECKLIST_BOUNDED"
   }
 }

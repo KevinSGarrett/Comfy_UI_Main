@@ -1,0 +1,430 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-109_CLASS_F_STEP2_GENUINE_MEDIA_ACQUISITION_RIGHTS_CHECKLIST_PACKET_20260720T123118-0500",
+  "created_iso": "2026-07-20T12:31:18-05:00",
+  "tracker_id": "TRK-W64-109",
+  "item_id": "ITEM-W64-109",
+  "mutation_this_landing": "evidence_only_class_f_step2_acquisition_rights_checklist_deepen",
+  "row_complete": false,
+  "product_completion_claimed": false,
+  "csv_sync": "deferred_leave_to_serialized_mutator",
+  "proof_tier": "OFFLINE_ACQUISITION_RIGHTS_CHECKLIST_BOUNDED",
+  "highest_proof_tier_achieved": "OFFLINE_ACQUISITION_RIGHTS_CHECKLIST_BOUNDED",
+  "prior_step1": {
+    "kind": "fail_closed_genuine_copies_only_production_path_scaffold_step1",
+    "delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-109_AUDIO_BENCHMARK_CORPUS_CURRENT_DELTA_20260720.json",
+    "note": "Step1 schema/policy/compiler genuine-path scaffold retained; synthetic T2 still authority."
+  },
+  "prior_step2_empty_media": {
+    "disposition_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-109_CLASS_F_STEP2_EMPTY_MEDIA_DISPOSITION_PACKET_20260720.json",
+    "disposition_sha256": "e7e765d78aac27cd0945980560528929d8ba075a39106430735545cea3e314bb",
+    "inventory_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-109_CLASS_F_STEP2_EMPTY_MEDIA_INVENTORY_20260720.json",
+    "inventory_sha256": "eea79563560a0b789276ad9ef110db8661833238217b1d0e93838e67c347668a",
+    "note": "Empty-media disposition retained; this landing deepens acquisition/rights checklist without clearing step2."
+  },
+  "deepen_reason": "Step2 remains blocked on Class F human media. Prior landing confirmed empty media trees; this landing adds a hash-bound acquisition/rights checklist that enumerates every Row068-rights + copies-only staging gate required before GENUINE_ANNOTATED_MEDIA_CORPUS_ABSENT can clear — without inventing media, fabricating rights hashes, decoding PCM, touching Row073, mutating shared CSVs, claiming COMPLETE, or emitting HOLD090+.",
+  "blocker_classes": [
+    {
+      "class": "F",
+      "name": "EXTERNAL_HUMAN_GENUINE_ANNOTATED_MEDIA_ACQUISITION_AND_RIGHTS_GATE",
+      "primary_code": "GENUINE_ANNOTATED_MEDIA_CORPUS_ABSENT",
+      "codes": [
+        "GENUINE_ANNOTATED_MEDIA_CORPUS_ABSENT",
+        "COMBINED_FRAME_CONTACT_AUDIO_REVIEW_ABSENT",
+        "PRODUCTION_BENCHMARK_AUTHORITY_ABSENT",
+        "HELD_OUT_RUNTIME_PROOF_ABSENT"
+      ],
+      "cleared_by_this_packet": [],
+      "summary": "Acquisition/rights checklist is formalized and currently open on 14/15 items. Live reaffirmation: media/row109 and reviews/row109 empty/absent; 0 genuine manifest cases; 0 rights decision files staged; hold CLI remains fail-closed.",
+      "fail_closed_until": "Human completes AR-01..AR-14: rights-cleared genuine annotated copies staged under media/row109 with human_gold + rights_decision_sha256 (decode_invoked=false), partition/coverage floors met, recompile clears GENUINE_ANNOTATED_MEDIA_CORPUS_ABSENT, then combined frame/contact/audio review + held-out runtime proof"
+    }
+  ],
+  "acquisition_rights_checklist": {
+    "checklist_revision": "wave64_row109_class_f_acquisition_rights_checklist_v0.1.0",
+    "items": [
+      {
+        "item_id": "AR-01",
+        "phase": "source_selection",
+        "title": "External human source authority",
+        "requirement": "Human/operator selects real annotated audio/video clips; agents must not invent or synthesize substitute genuine media.",
+        "status": "open",
+        "satisfied": false,
+        "evidence_note": "open — media/row109 empty; no genuine_annotated_media_copy cases; no rights decisions staged",
+        "blocker_if_open": "GENUINE_ANNOTATED_MEDIA_CORPUS_ABSENT"
+      },
+      {
+        "item_id": "AR-02",
+        "phase": "source_selection",
+        "title": "No Row073 / full-library PCM decode path",
+        "requirement": "Acquisition must be copies-only staging; decode_invoked=false; pcm_bytes=null; live_full_library_scan=false; Row073 PCM left alone.",
+        "status": "open",
+        "satisfied": false,
+        "evidence_note": "open — media/row109 empty; no genuine_annotated_media_copy cases; no rights decisions staged; policy pcm_decode_allowed=false",
+        "blocker_if_open": "GENUINE_ANNOTATED_MEDIA_CORPUS_ABSENT"
+      },
+      {
+        "item_id": "AR-03",
+        "phase": "rights_decision",
+        "title": "Row068 rights decision schema compliance",
+        "requirement": "Each staged copy must bind a Row068-valid audio_rights_provenance_decision with rights_decision_sha256 (64 hex) over the decision payload.",
+        "status": "open",
+        "satisfied": false,
+        "evidence_note": "Row068 authority accepted globally, but zero Row109 subject rights decisions exist under media/row109",
+        "blocker_if_open": "GENUINE_ANNOTATED_MEDIA_CORPUS_ABSENT"
+      },
+      {
+        "item_id": "AR-04",
+        "phase": "rights_decision",
+        "title": "License / use dimensions allow internal_qa dataset bind",
+        "requirement": "decision.status=pass, authority_granted=true; dataset_use_allowed=allowed; output_use.requested_use includes internal_qa or equivalent allowed path; license not prohibited/unknown-blocked.",
+        "status": "open",
+        "satisfied": false,
+        "evidence_note": "open — media/row109 empty; no genuine_annotated_media_copy cases; no rights decisions staged",
+        "blocker_if_open": "GENUINE_ANNOTATED_MEDIA_CORPUS_ABSENT"
+      },
+      {
+        "item_id": "AR-05",
+        "phase": "rights_decision",
+        "title": "Commercial / attribution / derivative / redistribution recorded",
+        "requirement": "commercial_noncommercial_constraints, attribution, derivative_permission, redistribution, generated_output_terms, and source_pack_restrictions must be complete and non-contradictory for the intended bind.",
+        "status": "open",
+        "satisfied": false,
+        "evidence_note": "open — media/row109 empty; no genuine_annotated_media_copy cases; no rights decisions staged",
+        "blocker_if_open": "GENUINE_ANNOTATED_MEDIA_CORPUS_ABSENT"
+      },
+      {
+        "item_id": "AR-06",
+        "phase": "staging",
+        "title": "Copy path under media/row109",
+        "requirement": "copy_path must live under Plan/Instructions/QA/Evidence/Wave64/media/row109 (schema pattern) and resolve as a real file.",
+        "status": "open",
+        "satisfied": false,
+        "evidence_note": "media tree file_count=0; exists=False",
+        "blocker_if_open": "GENUINE_ANNOTATED_MEDIA_CORPUS_ABSENT"
+      },
+      {
+        "item_id": "AR-07",
+        "phase": "staging",
+        "title": "media_sha256 identity match",
+        "requirement": "Claimed media_sha256 must equal sha256 of staged copy bytes (compiler fail-closed on mismatch).",
+        "status": "open",
+        "satisfied": false,
+        "evidence_note": "open — media/row109 empty; no genuine_annotated_media_copy cases; no rights decisions staged",
+        "blocker_if_open": "GENUINE_ANNOTATED_MEDIA_CORPUS_ABSENT"
+      },
+      {
+        "item_id": "AR-08",
+        "phase": "annotation",
+        "title": "human_gold + rights_bound annotation",
+        "requirement": "annotation.annotator_role=human_gold and annotation.rights_bound=true on every genuine_annotated_media_copy case.",
+        "status": "open",
+        "satisfied": false,
+        "evidence_note": "open — media/row109 empty; no genuine_annotated_media_copy cases; no rights decisions staged",
+        "blocker_if_open": "GENUINE_ANNOTATED_MEDIA_CORPUS_ABSENT"
+      },
+      {
+        "item_id": "AR-09",
+        "phase": "coverage",
+        "title": "Partition minimum counts",
+        "requirement": "Genuine corpus min_counts: {'train': 5, 'calibration': 11, 'held_out_test': 11, 'adversarial': 4}.",
+        "status": "open",
+        "satisfied": false,
+        "evidence_note": "partition_counts={'adversarial': 0, 'calibration': 0, 'held_out_test': 0, 'train': 0}; reasons=['no_genuine_annotated_media_copy_cases', 'min_count_unmet:train:0<5', 'min_count_unmet:calibration:0<11', 'min_count_unmet:held_out_test:0<11', 'min_count_unmet:adversarial:0<4']",
+        "blocker_if_open": "GENUINE_ANNOTATED_MEDIA_CORPUS_ABSENT"
+      },
+      {
+        "item_id": "AR-10",
+        "phase": "coverage",
+        "title": "Event-family / material / footwear / adversarial coverage floors",
+        "requirement": "calibration+held_out reference_truth must cover event_families=['footstep', 'heel_strike', 'body_contact', 'clothing', 'prop', 'room_ambience', 'occlusion', 'multi_actor', 'cut_boundary', 'ambiguous_material', 'intentional_silence']; materials=['hardwood', 'carpet', 'tile', 'concrete', 'ambiguous_surface']; footwear=['bare_foot', 'soft_shoe', 'sneaker', 'boot', 'hard_heel']; adversarial roles=['filename_semantic_mismatch', 'generated_candidate_truth_contamination', 'partition_leak_attempt', 'wrong_material_timing_drift'].",
+        "status": "open",
+        "satisfied": false,
+        "evidence_note": "open — media/row109 empty; no genuine_annotated_media_copy cases; no rights decisions staged",
+        "blocker_if_open": "GENUINE_ANNOTATED_MEDIA_CORPUS_ABSENT"
+      },
+      {
+        "item_id": "AR-11",
+        "phase": "bind_flags",
+        "title": "Copies-only bind flags",
+        "requirement": "media_locator: kind=genuine_annotated_media_copy; pcm_bytes=null; decode_invoked=false; live_full_library_scan=false; rights_decision_sha256 present.",
+        "status": "open",
+        "satisfied": false,
+        "evidence_note": "open — media/row109 empty; no genuine_annotated_media_copy cases; no rights decisions staged",
+        "blocker_if_open": "GENUINE_ANNOTATED_MEDIA_CORPUS_ABSENT"
+      },
+      {
+        "item_id": "AR-12",
+        "phase": "recompile",
+        "title": "Recompile clears GENUINE_ANNOTATED_MEDIA_CORPUS_ABSENT",
+        "requirement": "After staging, compile_wave64_audio_benchmark_corpus must report genuine_annotated_media_corpus.present=true without inventing media.",
+        "status": "open",
+        "satisfied": false,
+        "evidence_note": "hold status=HOLD_SYNTHETIC_FIXTURE_CORPUS_SLICE_PRESENT_GENUINE_ANNOTATED_MEDIA_AND_VISUAL_QA_ABSENT; genuine present=False",
+        "blocker_if_open": "GENUINE_ANNOTATED_MEDIA_CORPUS_ABSENT"
+      },
+      {
+        "item_id": "AR-13",
+        "phase": "review",
+        "title": "Combined frame/contact/audio review under reviews/row109",
+        "requirement": "Post-bind human combined review artifacts required; reviews tree currently empty/absent.",
+        "status": "open",
+        "satisfied": false,
+        "evidence_note": "reviews file_count=0; exists=False",
+        "blocker_if_open": "COMBINED_FRAME_CONTACT_AUDIO_REVIEW_ABSENT"
+      },
+      {
+        "item_id": "AR-14",
+        "phase": "runtime",
+        "title": "Held-out runtime proof without truth contamination",
+        "requirement": "Held-out runtime proof remains blocked; contamination probe must stay fail-closed.",
+        "status": "open",
+        "satisfied": false,
+        "evidence_note": "HELD_OUT_RUNTIME_PROOF_ABSENT retained; contamination probe blocked_as_required",
+        "blocker_if_open": "HELD_OUT_RUNTIME_PROOF_ABSENT"
+      },
+      {
+        "item_id": "AR-15",
+        "phase": "completion_guard",
+        "title": "No COMPLETE / Status flip from checklist alone",
+        "requirement": "This packet never grants row_complete, product completion, CSV Status flip, or HOLD090+ emission.",
+        "status": "satisfied",
+        "satisfied": true,
+        "evidence_note": "packet explicitly row_complete=false; product_completion_claimed=false; csv deferred; HOLD090+ not in scope",
+        "blocker_if_open": null
+      }
+    ],
+    "counts": {
+      "total": 15,
+      "open": 14,
+      "satisfied": 1,
+      "blocked_open_required_for_step2_clear": 14
+    },
+    "all_required_open_cleared": false,
+    "never_complete_from_checklist_alone": true
+  },
+  "negative_inventory": {
+    "runtime_receipt": "runtime_artifacts/wave64_row109_class_f_step2_acquisition_rights_20260720/class_f_step2_acquisition_rights_inventory.json",
+    "runtime_receipt_sha256": "976dc5cd8aa789738b859a5d6a66c9886463c3ed953160efadfb1ff7dd93ba6d",
+    "media_tree_exists": false,
+    "media_file_count": 0,
+    "reviews_tree_exists": false,
+    "reviews_file_count": 0,
+    "genuine_annotated_media_copy_case_count": 0,
+    "rights_decision_files_under_media": 0,
+    "eligible_genuine_annotated_media_hits": 0,
+    "verdict": "ACQUISITION_RIGHTS_CHECKLIST_OPEN_EMPTY_MEDIA_FAIL_CLOSED"
+  },
+  "validators": {
+    "compiler_hold_exit_code": 0,
+    "compiler_hold_status": "HOLD_SYNTHETIC_FIXTURE_CORPUS_SLICE_PRESENT_GENUINE_ANNOTATED_MEDIA_AND_VISUAL_QA_ABSENT",
+    "compiler_hold_row_complete": false,
+    "pytest_exit_code": 0,
+    "pytest_summary_tail": "............                                                             [100%]\n12 passed in 12.87s",
+    "contamination_probe_blocked_as_required": true,
+    "row068_rights_decision_authority_accepted": true
+  },
+  "authority_bindings": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-109_AUDIO_BENCHMARK_CORPUS_CURRENT_DELTA_20260720.json",
+      "exists": true,
+      "bytes": 17145,
+      "sha256": "7ab3347490433d2a9a24ca07b3ce0004f2812e79905c57fd27424e50059c1c27"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-109_audio_benchmark_corpus.json",
+      "exists": true,
+      "bytes": 6958,
+      "sha256": "e0476d5f37485230b2d79110dc0d747e903e32dc58c68974428e69433ca594f4"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/benchmarks/row109/audio_benchmark_corpus_manifest.json",
+      "exists": true,
+      "bytes": 55663,
+      "sha256": "aa714ddd202022b7aa18804f210538b2c57d77723bde2da03e43593bcff9939f"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-109_CLASS_F_STEP2_EMPTY_MEDIA_DISPOSITION_PACKET_20260720.json",
+      "exists": true,
+      "bytes": 8164,
+      "sha256": "e7e765d78aac27cd0945980560528929d8ba075a39106430735545cea3e314bb"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-109_CLASS_F_STEP2_EMPTY_MEDIA_INVENTORY_20260720.json",
+      "exists": true,
+      "bytes": 3571,
+      "sha256": "eea79563560a0b789276ad9ef110db8661833238217b1d0e93838e67c347668a"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_audio_benchmark_corpus.py",
+      "exists": true,
+      "bytes": 47605,
+      "sha256": "81a0fbd0ab412903566fad6fb0846e1a48602da3f22e6c12325eb5d13ce4681b"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_row109_audio_benchmark_corpus.py",
+      "exists": true,
+      "bytes": 13419,
+      "sha256": "073629c85592dd6cf009c398faeef0117bf627612b17b96a69ba9e26a4454741"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave64_row109_audio_benchmark_corpus_policy_registry.json",
+      "exists": true,
+      "bytes": 3486,
+      "sha256": "c6bf124e9d8850858769bf2a7b5571b0a8a17a9407ac7911726e1d687cd155ed"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/audio_benchmark_corpus_manifest.schema.json",
+      "exists": true,
+      "bytes": 12903,
+      "sha256": "042063c32378d3f95ec0e82a5a48f4d7a97a01d5063e98e74fed98ed9679b8ab"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/audio_rights_provenance_decision.schema.json",
+      "exists": true,
+      "bytes": 5995,
+      "sha256": "55c90a499d13d3c88a2739ff0fc780be71a0755329c4ad415ea3f9e180696ca6"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+      "exists": true,
+      "bytes": 4567,
+      "sha256": "e46c2d02f9e10e57a9653e3bc839b0a1fb876cc32bc18d85453327b23bed8381"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_audio_rights_provenance_authority.json",
+      "exists": true,
+      "bytes": 25849,
+      "sha256": "c520754b88b305e5e4ab0697fadac8a83420b2e0ac13cc737ece4beac08c6020"
+    }
+  ],
+  "clearance_contract": {
+    "status_flip_forbidden_until": [
+      "AR-01..AR-14 checklist items satisfied with live staged copies",
+      "media/row109 contains rights-cleared genuine_annotated_media_copy cases with human_gold",
+      "partition min_counts satisfied ({'train': 5, 'calibration': 11, 'held_out_test': 11, 'adversarial': 4})",
+      "rights_decision_sha256 bound per copy via Row068 schema; decode_invoked=false during bind",
+      "combined frame/contact/audio review executed under reviews/row109",
+      "held-out runtime proof executed without contaminating reference truth"
+    ],
+    "never_complete_from_this_packet": true,
+    "do_not": [
+      "invent_genuine_annotated_media",
+      "fabricate_rights_decision_sha256_without_subject_bytes",
+      "decode_library_pcm",
+      "live_full_library_scan",
+      "touch_row073_pcm",
+      "start_074_076_077_library",
+      "mutate_shared_sound_csv",
+      "claim_COMPLETE_or_row_complete",
+      "emit_HOLD090_plus"
+    ]
+  },
+  "boundaries": {
+    "comfyui_8188_used": false,
+    "gpu_used": false,
+    "genuine_media_invented": false,
+    "rights_decision_fabricated": false,
+    "pcm_decode_invoked": false,
+    "live_full_library_scan": false,
+    "row073_pcm_touched": false,
+    "row074_076_077_library_started": false,
+    "row075_touched": false,
+    "sound_csv_mutated": false,
+    "hold090_plus_emitted": false,
+    "tip_sha_chain": false,
+    "csv_sync_performed": false,
+    "complete_claimed": false,
+    "offline_only": true
+  },
+  "checks": [
+    {
+      "name": "R109-AR001_prior_empty_media_disposition_bound",
+      "result": "pass"
+    },
+    {
+      "name": "R109-AR002_live_media_inventory_reaffirmed",
+      "result": "pass"
+    },
+    {
+      "name": "R109-AR003_media_row109_still_empty",
+      "result": "pass"
+    },
+    {
+      "name": "R109-AR004_reviews_row109_still_empty",
+      "result": "pass"
+    },
+    {
+      "name": "R109-AR005_zero_genuine_manifest_cases",
+      "result": "pass"
+    },
+    {
+      "name": "R109-AR006_zero_rights_decision_files_staged",
+      "result": "pass"
+    },
+    {
+      "name": "R109-AR007_hold_cli_fail_closed",
+      "result": "pass"
+    },
+    {
+      "name": "R109-AR008_focused_tests_pass",
+      "result": "pass"
+    },
+    {
+      "name": "R109-AR009_row068_rights_authority_bound",
+      "result": "pass"
+    },
+    {
+      "name": "R109-AR010_checklist_enumerated_15_items",
+      "result": "pass"
+    },
+    {
+      "name": "R109-AR011_required_checklist_items_still_open",
+      "result": "pass"
+    },
+    {
+      "name": "R109-AR012_no_media_invention",
+      "result": "pass"
+    },
+    {
+      "name": "R109-AR013_no_rights_fabrication",
+      "result": "pass"
+    },
+    {
+      "name": "R109-AR014_csv_deferred",
+      "result": "pass"
+    },
+    {
+      "name": "R109-AR015_row073_pcm_left_alone",
+      "result": "pass"
+    },
+    {
+      "name": "R109-AR016_no_complete_claim",
+      "result": "pass"
+    },
+    {
+      "name": "R109-AR017_no_hold090_plus",
+      "result": "pass"
+    }
+  ],
+  "decision": {
+    "status": "blocked",
+    "row_complete": false,
+    "product_completion": false,
+    "step2_still_blocked": true,
+    "proof_tier": "OFFLINE_ACQUISITION_RIGHTS_CHECKLIST_BOUNDED",
+    "synthetic_fixture_authority_retained": true,
+    "safe_next_action": "Human/external: execute acquisition/rights checklist AR-01..AR-14 — obtain rights-cleared annotated copies, stamp Row068-valid rights_decision_sha256 per copy, stage under Plan/Instructions/QA/Evidence/Wave64/media/row109 with human_gold (decode_invoked=false), meet partition/coverage floors, recompile, then combined frame/contact/audio review. Agents must not invent media, fabricate rights hashes, decode library PCM, touch Row073, start 074/076/077 library, mutate shared CSVs, claim COMPLETE, or emit HOLD090+."
+  },
+  "ledger_status_unchanged": "Blocked_Synthetic_Fixture_Corpus_Present_Genuine_Media_And_Visual_QA_Absent",
+  "this_landing_actions": {
+    "wrote_acquisition_rights_checklist_packet": true,
+    "wrote_acquisition_rights_inventory_receipt": true,
+    "touched_csv": false,
+    "touched_row073": false,
+    "invented_genuine_media": false,
+    "fabricated_rights_decision": false,
+    "claimed_complete": false,
+    "emitted_hold090_plus": false
+  },
+  "recommended_codex_follow_up": "Leave Row109 blocked on Class F human acquisition/rights intake; optional CSV Notes sync via mutator only. Prefer human media staging against AR-01..AR-14 — do not invent clips or fabricate rights_decision_sha256."
+}
