@@ -12,9 +12,9 @@
 ## Commits Pushed This Pass
 
 1. `e12cf00b` Prove Row017 MF70 forehead local visual climb.
-2. Follow-up tip-stamp commits as needed after primary push.
+2. `cdbdbe83` Stamp Row017 forehead handoff with primary commit id.
 
-Pushed tip verified on origin: `PENDING_AFTER_PUSH`
+Pushed tip verified on origin: `cdbdbe83`
 
 ## Row-Scoped Increment Executed
 
