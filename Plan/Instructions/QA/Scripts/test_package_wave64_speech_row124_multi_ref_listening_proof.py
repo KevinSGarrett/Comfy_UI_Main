@@ -14,12 +14,13 @@ SPEC.loader.exec_module(MODULE)
 
 
 class PackageWave64SpeechRow124MultiRefListeningProofTests(unittest.TestCase):
-    def test_classify_blockers_clears_only_listening_request_gap(self) -> None:
+    def test_classify_blockers_clears_listening_request_when_single_ref(self) -> None:
         blockers = MODULE.classify_blockers(
             independent_source_reference_count=1,
             listening_request_prepared=True,
             raw_dialogue_timing_pass=False,
             production_reference_authority_pass=False,
+            matrix_complete=False,
         )
         by_class = {item["class"]: item for item in blockers}
         self.assertEqual(
@@ -29,6 +30,7 @@ class PackageWave64SpeechRow124MultiRefListeningProofTests(unittest.TestCase):
                 "MULTI_REF_DRIFT_LEAKAGE_MATRIX_INCOMPLETE",
             ],
         )
+        self.assertEqual(by_class["MULTI_REFERENCE_CONTINUITY"]["cleared_by_this_packet"], [])
         self.assertEqual(
             by_class["PRODUCTION_VOICE_AUTHORITY"]["codes"],
             ["PRODUCTION_CHARACTER_REFERENCE_AUTHORITY_ABSENT"],
@@ -49,18 +51,56 @@ class PackageWave64SpeechRow124MultiRefListeningProofTests(unittest.TestCase):
         self.assertNotIn("LISTENING_REVIEW_REQUEST_UNPREPARED", codes)
         self.assertIn("INDEPENDENT_SOURCE_REFERENCE_COUNT_BELOW_TWO", codes)
 
+    def test_classify_blockers_clears_independent_ref_count_when_two_bound(self) -> None:
+        blockers = MODULE.classify_blockers(
+            independent_source_reference_count=2,
+            listening_request_prepared=True,
+            raw_dialogue_timing_pass=False,
+            production_reference_authority_pass=False,
+            matrix_complete=False,
+        )
+        multi_ref = next(item for item in blockers if item["class"] == "MULTI_REFERENCE_CONTINUITY")
+        self.assertEqual(multi_ref["codes"], ["MULTI_REF_DRIFT_LEAKAGE_MATRIX_INCOMPLETE"])
+        self.assertEqual(
+            multi_ref["cleared_by_this_packet"],
+            ["INDEPENDENT_SOURCE_REFERENCE_COUNT_BELOW_TWO"],
+        )
+        codes = MODULE.flatten_blocker_codes(blockers)
+        self.assertNotIn("INDEPENDENT_SOURCE_REFERENCE_COUNT_BELOW_TWO", codes)
+        self.assertIn("MULTI_REF_DRIFT_LEAKAGE_MATRIX_INCOMPLETE", codes)
+        self.assertIn("PRODUCTION_CHARACTER_REFERENCE_AUTHORITY_ABSENT", codes)
+
     def test_classify_blockers_marks_unprepared_listening_request(self) -> None:
         blockers = MODULE.classify_blockers(
             independent_source_reference_count=2,
             listening_request_prepared=False,
             raw_dialogue_timing_pass=True,
             production_reference_authority_pass=False,
+            matrix_complete=False,
         )
         listening = next(item for item in blockers if item["class"] == "LISTENING_AUTHORITY")
         self.assertIn("LISTENING_REVIEW_REQUEST_UNPREPARED", listening["codes"])
         self.assertEqual(listening["cleared_by_this_packet"], [])
         multi_ref = next(item for item in blockers if item["class"] == "MULTI_REFERENCE_CONTINUITY")
         self.assertEqual(multi_ref["codes"], ["MULTI_REF_DRIFT_LEAKAGE_MATRIX_INCOMPLETE"])
+
+    def test_classify_blockers_records_class_f_a_when_second_ref_absent(self) -> None:
+        blockers = MODULE.classify_blockers(
+            independent_source_reference_count=1,
+            listening_request_prepared=True,
+            raw_dialogue_timing_pass=False,
+            production_reference_authority_pass=False,
+            matrix_complete=False,
+            class_f_blocker=MODULE.CLASS_F_BLOCKER_CODE,
+            class_a_blocker=MODULE.CLASS_A_BLOCKER_CODE,
+        )
+        multi_ref = next(item for item in blockers if item["class"] == "MULTI_REFERENCE_CONTINUITY")
+        self.assertIn(MODULE.CLASS_F_BLOCKER_CODE, multi_ref["codes"])
+        self.assertIn(MODULE.CLASS_A_BLOCKER_CODE, multi_ref["codes"])
+
+    def test_windows_disjoint(self) -> None:
+        self.assertTrue(MODULE.windows_disjoint((0.0, 5.0), (20.4, 21.8)))
+        self.assertFalse(MODULE.windows_disjoint((0.0, 5.0), (4.5, 6.0)))
 
     def test_verify_row124_rejects_complete_claim(self) -> None:
         row = {
@@ -101,23 +141,43 @@ class PackageWave64SpeechRow124MultiRefListeningProofTests(unittest.TestCase):
                 "133": {"row_complete": False},
             },
         }
-        with self.assertRaisesRegex(MODULE.ProofError, "exactly one independent source reference"):
+        with self.assertRaisesRegex(MODULE.ProofError, "one-source historical truth"):
             MODULE.verify_continuity_diagnostic(evaluation)
 
+    def test_bind_independent_source_references_finds_two_disjoint(self) -> None:
+        bound = MODULE.bind_independent_source_references(ROOT)
+        self.assertFalse(bound["stop"])
+        self.assertEqual(bound["independent_source_reference_count"], 2)
+        self.assertIsNone(bound["class_f_blocker"])
+        self.assertEqual(len(bound["references"]), 2)
+        self.assertTrue(bound["disjointness"]["windows_disjoint"])
+        self.assertNotEqual(
+            bound["references"][0]["binding"]["sha256"],
+            bound["references"][1]["binding"]["sha256"],
+        )
+
     def test_dry_run_builds_offline_packet_without_writes(self) -> None:
-        packet = MODULE.build_proof_packet(ROOT, stamp="DRYRUNTEST", write_outputs=False)
+        packet = MODULE.build_proof_packet(ROOT, stamp="DRYRUNTESTB", write_outputs=False)
         self.assertEqual(packet["proof_tier"], "OFFLINE_PROOF_BOUNDED")
         self.assertFalse(packet["row_complete"])
         self.assertFalse(packet["decision"]["product_completion"])
+        self.assertFalse(packet["decision"]["listening_authority_granted"])
         self.assertFalse(packet["boundaries"]["gpu_used"])
         self.assertFalse(packet["boundaries"]["sound_csv_written"])
         self.assertFalse(packet["boundaries"]["row075_touched"])
+        self.assertFalse(packet["boundaries"]["invented_voices"])
         self.assertIn("listening_review_request_payload", packet)
-        self.assertIn("INDEPENDENT_SOURCE_REFERENCE_COUNT_BELOW_TWO", packet["blocker_codes"])
+        self.assertIn("multi_ref_drift_leakage_matrix_payload", packet)
+        self.assertNotIn("INDEPENDENT_SOURCE_REFERENCE_COUNT_BELOW_TWO", packet["blocker_codes"])
+        self.assertIn("MULTI_REF_DRIFT_LEAKAGE_MATRIX_INCOMPLETE", packet["blocker_codes"])
+        self.assertEqual(
+            packet["independent_source_references"]["independent_source_reference_count"],
+            2,
+        )
         self.assertFalse(
             (
                 ROOT
-                / "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-124_MULTI_REF_LISTENING_CURRENT_DELTA_DRYRUNTEST.json"
+                / "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-124_MULTI_REF_LISTENING_CURRENT_DELTA_DRYRUNTESTB.json"
             ).exists()
         )
 
