@@ -12,9 +12,9 @@
 ## Commits Pushed This Pass
 
 1. `13481175` Prove Row017 W69 inpaint-nomouth local visual climb.
-2. `PENDING_HANDOFF` Stamp Row017 inpaint-nomouth handoff with commit ids.
+2. `841320fd` Stamp Row017 inpaint-nomouth handoff with primary commit id.
 
-Pushed tip verified on origin: `PENDING_TIP`
+Pushed tip verified on origin: `841320fd`
 
 ## Row-Scoped Increment Executed
 
