@@ -1,5 +1,4 @@
 {
-  "acceptance_gaps": [],
   "accepted_index_retained_runtime": {
     "authority": "accepted_index_retained_reconcile",
     "blocker_histogram": {
@@ -15,33 +14,55 @@
       ".ogg": 1,
       ".wav": 36195
     },
-    "fingerprint_complete": true,
-    "index_sha256": "7301243a364025dbd23907aee20ee8593d5897caa83d38391026ad42da6d17ec",
-    "library_authority": true,
-    "non_wav_pass": 3576,
-    "proof_tier": "RUNTIME_PASS_BOUNDED",
-    "receipt_path": "runtime_artifacts/audio_decode/row070_index_retained_20260719/retained_index_receipt.json",
-    "receipt_sha256": "de75be8cefbd6e654b6e787746daf5be470038223f5558b2a1fcd59c8b193ac3",
-    "records_path": "runtime_artifacts/audio_decode/row070_index_retained_20260719/records.jsonl",
-    "records_processed": 39771,
-    "records_sha256": "838748eddd32cd08db97a43d3dd70de6d32260e1e2cf980d31727bf9259c2884",
-    "records_total": 39771,
-    "summary_bytes": 3229,
-    "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_ACCEPTED_INDEX_RETAINED_RUNTIME_SUMMARY_20260719.json",
-    "summary_sha256": "d33189b9c2b268f189cbdf8d74cbc67a9db90498924f10d879ef50313d8f6b30"
-  },
-  "accepted_index_strata_runtime": {
-    "authority": "accepted_index_strata_bounded",
-    "decode_blocked": 3,
-    "decode_failed": 0,
-    "decode_pass": 6,
     "index_sha256": "7301243a364025dbd23907aee20ee8593d5897caa83d38391026ad42da6d17ec",
     "library_authority": false,
     "proof_tier": "RUNTIME_PASS_BOUNDED",
-    "summary_bytes": 12047,
-    "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_ACCEPTED_INDEX_STRATA_BOUNDED_RUNTIME_SUMMARY_20260719.json",
-    "summary_sha256": "9be8963d5fc48b2ef2fbd1f091934d3bd44fa9bdcaca90e27356d083f7a2661e"
+    "receipt_path": "runtime_artifacts/audio_decode/row070_index_retained_nonwav_v020_20260719/retained_index_receipt.json",
+    "receipt_sha256": "fe5bb4239f1a797149e6090ae63aa015e643addd330899179ef532003d0b5097",
+    "records_path": "runtime_artifacts/audio_decode/row070_index_retained_nonwav_v020_20260719/records.jsonl",
+    "records_processed": 39771,
+    "records_sha256": "838748eddd32cd08db97a43d3dd70de6d32260e1e2cf980d31727bf9259c2884",
+    "records_total": 39771,
+    "source_immutability_fingerprint": {
+      "fingerprint_complete": true,
+      "index_identity_all_processed": true,
+      "index_sha256": "7301243a364025dbd23907aee20ee8593d5897caa83d38391026ad42da6d17ec",
+      "records_processed": 39771,
+      "source_immutable_all_processed": true
+    },
+    "summary_bytes": 1680,
+    "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_ACCEPTED_INDEX_RETAINED_RUNTIME_SUMMARY_20260719.json",
+    "summary_sha256": "4a3f0ddbe18287546d2190501ef5490073e1ae012a866aa231d282875b01e0ed"
   },
+  "accepted_index_strata_runtime": {
+    "authority": "accepted_index_strata_bounded",
+    "decode_blocked": 0,
+    "decode_failed": 0,
+    "decode_pass": 9,
+    "index_sha256": "7301243a364025dbd23907aee20ee8593d5897caa83d38391026ad42da6d17ec",
+    "library_authority": false,
+    "non_wav_extensions_selected": [
+      ".flac",
+      ".mp3",
+      ".ogg"
+    ],
+    "proof_tier": "RUNTIME_PASS_BOUNDED",
+    "receipt_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_INDEX_STRATA_NON_WAV_SAMPLE_FORMAT_RUNTIME_20260719.json",
+    "receipt_sha256": "e54028af2a42996f34261bebe25d3753f7c7b757dd1a7acff858bf4caacc9cf5",
+    "sources_attempted": 9,
+    "summary_bytes": null,
+    "summary_path": null,
+    "summary_sha256": null,
+    "wav_roles_selected": [
+      "body",
+      "clothing",
+      "effects",
+      "evaluation",
+      "furniture",
+      "voice"
+    ]
+  },
+  "blocker_codes": [],
   "bounded_live_pcm_runtime": {
     "authority": "bounded_non_library",
     "decode_non_pass": 0,
@@ -53,8 +74,6 @@
     "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_071_BOUNDED_LIVE_PCM_RUNTIME_SUMMARY_20260719.json",
     "summary_sha256": "9839d1dc7f9d68d64f2368eefef5197ff037fd196ace56a5f2d99b525d85314f"
   },
-  "canonical_decode_implemented": true,
-  "canonical_decode_library_authority": true,
   "canonical_pcm_contract": {
     "channel_order_policy": "preserve_source_order",
     "endianness": "little",
@@ -65,62 +84,149 @@
     "sample_rate_policy": "preserve_source_rate",
     "trim_policy": "no_trim"
   },
-  "check_summary": {
-    "checked": 7,
-    "failed": 0,
-    "passed": 7
-  },
-  "checks": [
-    {
-      "name": "CAD-R001_row069_admission_satisfied",
-      "result": "pass"
-    },
-    {
-      "name": "CAD-R002_bounded_live_pcm_decode_pass",
-      "result": "pass"
-    },
-    {
-      "name": "CAD-R003_accepted_index_strata_wav_roles_pass",
-      "result": "pass"
-    },
-    {
-      "name": "CAD-R004_non_wav_decode_or_exact_blockers",
-      "result": "pass"
-    },
-    {
-      "name": "CAD-R005_no_product_completion_claim",
-      "result": "pass"
-    },
-    {
-      "name": "CAD-R006_index_identity_matched_on_retained",
-      "result": "pass"
-    },
-    {
-      "name": "CAD-R007_retained_index_full_reconcile_mapped",
-      "result": "pass"
-    }
-  ],
-  "classification": "ROW070_LIBRARY_PCM_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION",
-  "closed_gaps_this_increment": [
-    "NON_WAV_CODEC_COVERAGE_ABSENT",
-    "UNSUPPORTED_SAMPLE_FORMAT_WAV_COVERAGE_ABSENT",
-    "FULL_LIBRARY_RUNTIME_RECORD_ABSENT",
-    "SOURCE_IMMUTABILITY_FULL_LIBRARY_FINGERPRINT_ABSENT"
-  ],
-  "created_at": "2026-07-20T00:16:51.307584Z",
   "decision": {
-    "accepted_index_retained_runtime": "RUNTIME_PASS_BOUNDED",
-    "accepted_index_strata_runtime": "RUNTIME_PASS_BOUNDED",
-    "bounded_live_pcm_runtime": "RUNTIME_PASS_BOUNDED",
-    "canonical_decode_library_authority": "accepted",
-    "canonical_pcm_contract": "frozen_v0.2.0",
+    "bounded_runtime": "RUNTIME_PASS_BOUNDED",
+    "library_authority": true,
     "product_completion": false,
     "row070_acceptance": "accepted",
-    "row070_status": "PASS_LIBRARY_PCM_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION",
     "runtime_completion": true,
-    "safe_next_action": "Row070 library PCM authority accepted on retained-index reconcile with 24-bit WAV + mp3/flac/ogg decode coverage. Residual inventory blockers remain exact fail-closed records only. Climb Row071 library feature reconcile next; do not claim product COMPLETE."
+    "safe_next_action": "Row070 library PCM authority accepted on retained-index reconcile with 24-bit WAV + mp3/flac/ogg decode coverage. Residual inventory blockers remain exact fail-closed records only. Climb Row071 library feature reconcile next; do not claim product COMPLETE.",
+    "status": "pass"
   },
-  "dependency_authority": {
+  "decoder_revision": "wave64_row070_canonical_pcm_v0.2.0",
+  "evidence_id": "TRK-W64-070_canonical_audio_decode",
+  "fixture_calibration": {
+    "authority": "synthetic_non_library",
+    "determinism_note": "Fixture WAV decode proves frozen f32le hash identity and fail-closed unsupported/corrupt blockers only; library acceptance requires retained-index reconcile with non-WAV and supported WAV sample-format coverage.",
+    "records": [
+      {
+        "asset_id": "fixture:row070_tone_ramp",
+        "bit_depth": 16,
+        "blocker": null,
+        "canonical_pcm_contract": {
+          "channel_order_policy": "preserve_source_order",
+          "endianness": "little",
+          "hash_domain": "raw_interleaved_f32le_bytes",
+          "interleaving": "frame_interleaved",
+          "normalization_policy": "none_full_scale_integer_to_float",
+          "sample_format": "ieee_float32",
+          "sample_rate_policy": "preserve_source_rate",
+          "trim_policy": "no_trim"
+        },
+        "canonical_pcm_sha256": "abad5795a174700348bc35a657a1d2824b5db0566d4c20b0d6c2774fd33c311a",
+        "channel_layout": "stereo",
+        "channels": 2,
+        "codec": "pcm_s16le",
+        "decision": {
+          "blocker_codes": [
+            "LIBRARY_AUTHORITY_NOT_GRANTED"
+          ],
+          "library_authority": false,
+          "status": "blocked"
+        },
+        "decode_status": "pass",
+        "decoder_revision": "wave64_row070_canonical_pcm_v0.2.0",
+        "duration_seconds": 0.005333333333333333,
+        "frame_count": 256,
+        "item_id": "ITEM-W64-070",
+        "sample_rate_hz": 48000,
+        "schema_version": "1.0.0",
+        "source_bytes": 1068,
+        "source_immutable": true,
+        "source_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row070_canonical_decode/row070_tone_ramp.wav",
+        "source_sha256": "ee2b1b1339c7bf4fe85595701db1ee1ad6264f530e8446a9db12a1d4232b0c8b",
+        "tracker_id": "TRK-W64-070"
+      },
+      {
+        "asset_id": "fixture:unsupported.aac",
+        "bit_depth": 1,
+        "blocker": {
+          "code": "UNSUPPORTED_CODEC_OR_CONTAINER",
+          "detail": "AAC remains outside the Row070 mp3/flac/ogg decode set."
+        },
+        "canonical_pcm_contract": {
+          "channel_order_policy": "preserve_source_order",
+          "endianness": "little",
+          "hash_domain": "raw_interleaved_f32le_bytes",
+          "interleaving": "frame_interleaved",
+          "normalization_policy": "none_full_scale_integer_to_float",
+          "sample_format": "ieee_float32",
+          "sample_rate_policy": "preserve_source_rate",
+          "trim_policy": "no_trim"
+        },
+        "canonical_pcm_sha256": null,
+        "channel_layout": "mono",
+        "channels": 1,
+        "codec": "aac",
+        "decision": {
+          "blocker_codes": [
+            "UNSUPPORTED_CODEC_OR_CONTAINER"
+          ],
+          "library_authority": false,
+          "status": "blocked"
+        },
+        "decode_status": "blocked",
+        "decoder_revision": "wave64_row070_canonical_pcm_v0.2.0",
+        "duration_seconds": 0.0,
+        "frame_count": 0,
+        "item_id": "ITEM-W64-070",
+        "sample_rate_hz": 1,
+        "schema_version": "1.0.0",
+        "source_bytes": 13,
+        "source_immutable": true,
+        "source_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row070_canonical_decode/unsupported.aac",
+        "source_sha256": "cf0ab84ded0df44a00e95cee979bae24fe091ad24c974ee5f0d15fce0ab71d50",
+        "tracker_id": "TRK-W64-070"
+      },
+      {
+        "asset_id": "fixture:corrupt.wav",
+        "bit_depth": 1,
+        "blocker": {
+          "code": "DECODE_FAILED_CORRUPT_OR_UNREADABLE",
+          "detail": "Corrupt WAV fixture fails closed without canonical PCM hash."
+        },
+        "canonical_pcm_contract": {
+          "channel_order_policy": "preserve_source_order",
+          "endianness": "little",
+          "hash_domain": "raw_interleaved_f32le_bytes",
+          "interleaving": "frame_interleaved",
+          "normalization_policy": "none_full_scale_integer_to_float",
+          "sample_format": "ieee_float32",
+          "sample_rate_policy": "preserve_source_rate",
+          "trim_policy": "no_trim"
+        },
+        "canonical_pcm_sha256": null,
+        "channel_layout": "mono",
+        "channels": 1,
+        "codec": "wav",
+        "decision": {
+          "blocker_codes": [
+            "DECODE_FAILED_CORRUPT_OR_UNREADABLE"
+          ],
+          "library_authority": false,
+          "status": "failed"
+        },
+        "decode_status": "failed",
+        "decoder_revision": "wave64_row070_canonical_pcm_v0.2.0",
+        "duration_seconds": 0.0,
+        "frame_count": 0,
+        "item_id": "ITEM-W64-070",
+        "sample_rate_hz": 1,
+        "schema_version": "1.0.0",
+        "source_bytes": 16,
+        "source_immutable": true,
+        "source_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row070_canonical_decode/corrupt.wav",
+        "source_sha256": "aeb852048e35be4391685af966e670f32bb52a5064ce93030911a087d7f115f7",
+        "tracker_id": "TRK-W64-070"
+      }
+    ]
+  },
+  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+  "implementation_completion_claimed": false,
+  "item_id": "ITEM-W64-070",
+  "library_authority": true,
+  "product_completion_claimed": false,
+  "row069_admission": {
     "blocker_codes": [],
     "bytes": 9834,
     "dependency_satisfied": true,
@@ -129,111 +235,9 @@
     "sha256": "3e506435f7ebe0a1e4efcd32f308c4e46f2bcc100158a9c14b9d454c612d9f7f",
     "status": "PASS_LIBRARY_INDEX_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION"
   },
-  "evidence_id": "W64-ROW070-CANONICAL-AUDIO-DECODE-CURRENT-DELTA-20260719",
-  "gate_assessment": [
-    {
-      "current_evidence": "retained_index_full_reconcile_expanded_codecs",
-      "decision": "pass",
-      "gate": "decode_integrity",
-      "reason": "decode_pass=39024 blocked=0 failed=747; non_wav_pass=3576; blocker_histogram={'DECODE_FAILED_CORRUPT_OR_UNREADABLE': 747}"
-    },
-    {
-      "current_evidence": "retained_index_pcm_hashes_and_blocker_manifest",
-      "decision": "pass",
-      "gate": "canonical_pcm_hash",
-      "reason": "Pass records emit frozen f32le hashes; non-pass retain typed blockers."
-    },
-    {
-      "current_evidence": "retained_compact_records_include_required_fields",
-      "decision": "pass",
-      "gate": "metadata_complete",
-      "reason": "Compact retained records include codec/duration/rate/channels/status."
-    },
-    {
-      "current_evidence": "retained_full_library_source_fingerprint",
-      "decision": "pass_for_processed_retained_index",
-      "gate": "source_immutable",
-      "reason": "All processed retained sources remained immutable with index identity."
-    }
-  ],
-  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
-  "implementation_artifacts": {
-    "decoder_bytes": 82343,
-    "decoder_path": "Plan/07_IMPLEMENTATION/scripts/decode_wave64_canonical_audio.py",
-    "decoder_sha256": "25606b224ec592460db656fb7e94415aaceb90a215709e4c154ece2064492607",
-    "direct_evidence_bytes": 9981,
-    "direct_evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_canonical_audio_decode.json",
-    "direct_evidence_sha256": "b9739bae59ff29ab76312b1f0bfd90761b0dff3f6be51049af69fdfaa6e4fe0f",
-    "index_retained_receipt_bytes": 2643,
-    "index_retained_receipt_path": "runtime_artifacts/audio_decode/row070_index_retained_20260719/retained_index_receipt.json",
-    "index_retained_receipt_sha256": "de75be8cefbd6e654b6e787746daf5be470038223f5558b2a1fcd59c8b193ac3",
-    "index_retained_records_bytes": 32042672,
-    "index_retained_records_path": "runtime_artifacts/audio_decode/row070_index_retained_20260719/records.jsonl",
-    "index_retained_records_sha256": "838748eddd32cd08db97a43d3dd70de6d32260e1e2cf980d31727bf9259c2884",
-    "index_retained_summary_bytes": 3229,
-    "index_retained_summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_ACCEPTED_INDEX_RETAINED_RUNTIME_SUMMARY_20260719.json",
-    "index_retained_summary_sha256": "bfe386db7efc2c1614b8cf8e8757281109d0f1a7f229e47368ae6a7f0a434c7d",
-    "schema_bytes": 4808,
-    "schema_path": "Plan/08_SCHEMAS/canonical_audio_decode_record.schema.json",
-    "schema_sha256": "12127be794818d44a93becfbf3e6faafb6e65a30aba0c405cb9d003707e97c17",
-    "test_bytes": 23449,
-    "test_path": "Plan/Instructions/QA/Scripts/test_decode_wave64_canonical_audio.py",
-    "test_sha256": "dc9e784d9c472f239b4ac7c5d2a72fe7648fe928d9fda23a6ca4f63b6abf558c"
-  },
-  "implementation_completion_claimed": false,
-  "increment": {
-    "changed_paths": [
-      "Plan/07_IMPLEMENTATION/scripts/decode_wave64_canonical_audio.py",
-      "Plan/Instructions/QA/Scripts/test_decode_wave64_canonical_audio.py",
-      "Plan/08_SCHEMAS/canonical_audio_decode_record.schema.json",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_canonical_audio_decode.json",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_CANONICAL_AUDIO_DECODE_CURRENT_DELTA_20260719.json",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_ACCEPTED_INDEX_RETAINED_RUNTIME_SUMMARY_20260719.json"
-    ],
-    "summary": "Row070 library PCM authority accepted on retained-index reconcile with 24-bit WAV + mp3/flac/ogg decode coverage. Residual inventory blockers remain exact fail-closed records only. Climb Row071 library feature reconcile next; do not claim product COMPLETE.",
-    "title": "Expand Row070 WAV 24-bit + mp3/flac/ogg decode coverage"
-  },
-  "item_id": "ITEM-W64-070",
-  "preservation_boundary": {
-    "external_audio_source_modified": false,
-    "only_owned_paths_written": true,
-    "row017_paths_modified": false,
-    "row069_paths_modified": false,
-    "row071_paths_modified": false,
-    "unrelated_dirty_paths_staged": false
-  },
-  "qa_decision": "PASS_LIBRARY_PCM_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION",
   "row_complete": true,
-  "row_contract": {
-    "completion_criteria": "Every supported asset has deterministic decode metadata and a canonical PCM hash or an exact fail-closed decode blocker.",
-    "dependencies": [
-      "TRK-W64-069"
-    ],
-    "ec2_allowed": false,
-    "priority": "P1",
-    "required_gates": [
-      "decode_integrity",
-      "canonical_pcm_hash",
-      "metadata_complete",
-      "source_immutable"
-    ],
-    "required_output": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_canonical_audio_decode.json",
-    "required_output_exists": true,
-    "required_output_is_completion_claim": false,
-    "risk_level": "HIGH",
-    "runtime_proof_required": true,
-    "test_required": true,
-    "title": "Canonical audio decode and technical metadata"
-  },
   "runtime_completion_claimed": true,
   "schema_version": "1.0.0",
   "status": "PASS_LIBRARY_PCM_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION",
-  "tracker_id": "TRK-W64-070",
-  "updated_at": "2026-07-20T00:16:51.307584Z",
-  "validators": {
-    "command": "python -m pytest Plan/Instructions/QA/Scripts/test_decode_wave64_canonical_audio.py -q",
-    "result": "pass",
-    "retained_runtime_command": "python Plan/07_IMPLEMENTATION/scripts/decode_wave64_canonical_audio.py --mode index-retained --no-resume",
-    "retained_runtime_result": "coverage_complete=True records=39771/39771 decode_pass=39024 non_wav_pass=3576"
-  }
+  "tracker_id": "TRK-W64-070"
 }

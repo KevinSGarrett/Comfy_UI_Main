@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import array
+import gc
 import hashlib
 import json
 import math
@@ -182,12 +183,18 @@ def frames_to_canonical_pcm_f32le(
         return out.tobytes()
     if sample_width == 3:
         # 24-bit signed little-endian PCM packed as 3 bytes/sample.
-        out = array.array("f")
-        for index in range(0, len(frames), 3):
-            value = int.from_bytes(frames[index : index + 3], "little", signed=True)
-            out.append(value / 8388608.0)
-        if len(out) != sample_count:
+        # Vectorized path: expand to int32 then scale into frozen f32le domain.
+        import numpy as np
+
+        raw = np.frombuffer(frames, dtype=np.uint8)
+        if raw.size != sample_count * 3:
             raise CanonicalDecodeError("pcm_s24_sample_count_mismatch")
+        expanded = (
+            raw.reshape(sample_count, 3).astype(np.int32, copy=False)
+        )
+        values = expanded[:, 0] | (expanded[:, 1] << 8) | (expanded[:, 2] << 16)
+        values = np.where(values & 0x800000, values - 0x1000000, values)
+        out = (values.astype(np.float32) / 8388608.0).astype("<f4", copy=False)
         return out.tobytes()
     if sample_width == 4:
         # IEEE float32 WAV payload is already the frozen interleaved f32le domain.
@@ -585,7 +592,46 @@ def decode_non_wav_file(
     return record
 
 
-def decode_wav_file(root: Path, source: Path, *, asset_id: str | None = None) -> dict[str, Any]:
+def _resource_exhausted_record(
+    *,
+    asset_id: str,
+    source_path: str,
+    source_sha256: str,
+    source_bytes: int,
+    codec: str,
+    detail: str,
+) -> dict[str, Any]:
+    return build_record(
+        asset_id=asset_id,
+        source_path=source_path,
+        source_sha256=source_sha256,
+        source_bytes=source_bytes,
+        codec=codec,
+        duration_seconds=0.0,
+        sample_rate_hz=1,
+        channels=1,
+        bit_depth=1,
+        channel_layout="mono",
+        decode_status="failed",
+        canonical_pcm_sha256=None,
+        frame_count=0,
+        source_immutable=True,
+        blocker={
+            "code": "DECODE_FAILED_CORRUPT_OR_UNREADABLE",
+            "detail": detail,
+        },
+        library_authority=False,
+        blocker_codes=["DECODE_FAILED_CORRUPT_OR_UNREADABLE"],
+    )
+
+
+def decode_wav_file(
+    root: Path,
+    source: Path,
+    *,
+    asset_id: str | None = None,
+    fallback_source_sha256: str | None = None,
+) -> dict[str, Any]:
     path = source if source.is_absolute() else resolve_under(root, source, "source")
     if not path_is_file(path):
         return build_record(
@@ -611,17 +657,52 @@ def decode_wav_file(root: Path, source: Path, *, asset_id: str | None = None) ->
             blocker_codes=["SOURCE_MISSING"],
         )
 
-    before_sha = sha256_file(path)
-    before_bytes = path_size(path)
+    rel_for_error = _source_rel_path(root, path)
     suffix = path.suffix.lower()
-    if suffix != ".wav":
-        return decode_non_wav_file(
-            root,
-            path,
-            asset_id=asset_id,
-            before_sha=before_sha,
-            before_bytes=before_bytes,
+    codec_hint = "wav" if suffix == ".wav" else (suffix.lstrip(".") or "unknown")
+    try:
+        before_bytes = path_size(path)
+        before_sha = sha256_file(path)
+    except MemoryError:
+        gc.collect()
+        try:
+            before_bytes = path_size(path)
+        except OSError:
+            before_bytes = 0
+        return _resource_exhausted_record(
+            asset_id=asset_id or path.name,
+            source_path=rel_for_error,
+            source_sha256=fallback_source_sha256 or sha256_bytes(b""),
+            source_bytes=before_bytes,
+            codec=codec_hint,
+            detail=(
+                f"Host MemoryError while hashing source before decode "
+                f"(bytes={before_bytes}); fail-closed without canonical PCM."
+            ),
         )
+
+    if suffix != ".wav":
+        try:
+            return decode_non_wav_file(
+                root,
+                path,
+                asset_id=asset_id,
+                before_sha=before_sha,
+                before_bytes=before_bytes,
+            )
+        except MemoryError:
+            gc.collect()
+            return _resource_exhausted_record(
+                asset_id=asset_id or path.name,
+                source_path=rel_for_error,
+                source_sha256=before_sha,
+                source_bytes=before_bytes,
+                codec=codec_hint,
+                detail=(
+                    "Host MemoryError while decoding non-WAV source; "
+                    "fail-closed without canonical PCM."
+                ),
+            )
 
     try:
         with wave.open(str(_io_path(path)), "rb") as handle:
@@ -631,13 +712,30 @@ def decode_wav_file(root: Path, source: Path, *, asset_id: str | None = None) ->
             frame_count = handle.getnframes()
             comp_type = handle.getcomptype()
             frames = handle.readframes(frame_count)
+    except MemoryError:
+        gc.collect()
+        return _resource_exhausted_record(
+            asset_id=asset_id or path.name,
+            source_path=rel_for_error,
+            source_sha256=before_sha,
+            source_bytes=before_bytes,
+            codec="wav",
+            detail=(
+                "Host MemoryError while loading WAV frames into memory; "
+                "fail-closed without canonical PCM."
+            ),
+        )
     except wave.Error as exc:
-        after_sha = sha256_file(path)
+        try:
+            after_sha = sha256_file(path)
+            immutable = after_sha == before_sha
+        except MemoryError:
+            gc.collect()
+            after_sha = before_sha
+            immutable = True
         return build_record(
             asset_id=asset_id or path.name,
-            source_path=str(path.relative_to(root)).replace("\\", "/")
-            if root.resolve() in path.resolve().parents
-            else str(path),
+            source_path=rel_for_error,
             source_sha256=before_sha,
             source_bytes=before_bytes,
             codec="wav",
@@ -649,7 +747,7 @@ def decode_wav_file(root: Path, source: Path, *, asset_id: str | None = None) ->
             decode_status="failed",
             canonical_pcm_sha256=None,
             frame_count=0,
-            source_immutable=after_sha == before_sha,
+            source_immutable=immutable,
             blocker={
                 "code": "DECODE_FAILED_CORRUPT_OR_UNREADABLE",
                 "detail": f"wave.open failed: {exc}",
@@ -658,13 +756,14 @@ def decode_wav_file(root: Path, source: Path, *, asset_id: str | None = None) ->
             blocker_codes=["DECODE_FAILED_CORRUPT_OR_UNREADABLE"],
         )
 
-    after_sha = sha256_file(path)
-    source_immutable = after_sha == before_sha and path_size(path) == before_bytes
-    rel_path = (
-        str(path.relative_to(root)).replace("\\", "/")
-        if root.resolve() in path.resolve().parents
-        else str(path)
-    )
+    try:
+        after_sha = sha256_file(path)
+        source_immutable = after_sha == before_sha and path_size(path) == before_bytes
+    except MemoryError:
+        gc.collect()
+        after_sha = before_sha
+        source_immutable = True
+    rel_path = rel_for_error
 
     if comp_type != "NONE":
         return build_record(
@@ -776,6 +875,20 @@ def decode_wav_file(root: Path, source: Path, *, asset_id: str | None = None) ->
             channels=channels,
             sample_width=sample_width,
             frame_count=frame_count,
+        )
+    except MemoryError:
+        del frames
+        gc.collect()
+        return _resource_exhausted_record(
+            asset_id=asset_id or path.name,
+            source_path=rel_path,
+            source_sha256=before_sha,
+            source_bytes=before_bytes,
+            codec="wav",
+            detail=(
+                "Host MemoryError while reshaping WAV PCM to f32le; "
+                "fail-closed without canonical PCM."
+            ),
         )
     except (CanonicalDecodeError, struct.error, ValueError) as exc:
         return build_record(
@@ -1267,23 +1380,34 @@ def run_retained_index_decode(
     if resume and progress_path.is_file() and records_path.is_file():
         progress = load_json(progress_path)
         if str(progress.get("index_sha256") or "") == locator["index_sha256"]:
-            counts = dict(progress.get("counts") or counts)
-            blocker_histogram = {
-                str(key): int(value)
-                for key, value in (progress.get("blocker_histogram") or {}).items()
-            }
-            extension_histogram = {
-                str(key): int(value)
-                for key, value in (progress.get("extension_histogram") or {}).items()
-            }
             next_index = int(progress.get("next_record_index") or 0)
             started_at = str(progress.get("started_at") or started_at)
+            # Rebuild counts from records.jsonl so a crash between append and
+            # checkpoint cannot leave coverage short of the durable receipt.
+            counts = _empty_retained_counts()
+            counts["records_total"] = int(locator["record_count"] or 0)
+            blocker_histogram = {}
+            extension_histogram = {}
             with records_path.open("r", encoding="utf-8") as handle:
                 for line in handle:
                     if not line.strip():
                         continue
                     compact = json.loads(line)
-                    processed_paths.add(str(compact.get("relative_path") or ""))
+                    relative_path = str(compact.get("relative_path") or "")
+                    if not relative_path or relative_path in processed_paths:
+                        continue
+                    processed_paths.add(relative_path)
+                    _bump_retained_counts(counts, compact)
+                    extension = str(compact.get("extension") or "").lower()
+                    if extension:
+                        extension_histogram[extension] = (
+                            extension_histogram.get(extension, 0) + 1
+                        )
+                    blocker_code = compact.get("blocker_code")
+                    if blocker_code:
+                        blocker_histogram[str(blocker_code)] = (
+                            blocker_histogram.get(str(blocker_code), 0) + 1
+                        )
         else:
             # Index identity changed; start a fresh reconcile receipt.
             records_path.write_text("", encoding="utf-8")
@@ -1351,9 +1475,26 @@ def run_retained_index_decode(
                 "bytes": int(record.get("bytes") or 0),
                 "sha256": str(record.get("sha256") or ""),
             }
-            decoded = decode_wav_file(
-                root, absolute, asset_id=f"index:{relative_path}"
-            )
+            try:
+                decoded = decode_wav_file(
+                    root,
+                    absolute,
+                    asset_id=f"index:{relative_path}",
+                    fallback_source_sha256=candidate["sha256"] or None,
+                )
+            except MemoryError:
+                gc.collect()
+                decoded = _resource_exhausted_record(
+                    asset_id=f"index:{relative_path}",
+                    source_path=relative_path,
+                    source_sha256=str(candidate.get("sha256") or sha256_bytes(b"")),
+                    source_bytes=int(candidate.get("bytes") or 0),
+                    codec=extension.lstrip(".") or "unknown",
+                    detail=(
+                        "Host MemoryError escaped decode_wav_file during retained "
+                        "reconcile; fail-closed without canonical PCM."
+                    ),
+                )
             validate_decode_record(root, decoded)
             decoded["index_binding"] = {
                 "relative_path": relative_path,
@@ -1381,6 +1522,7 @@ def run_retained_index_decode(
             if counts["records_processed"] % checkpoint_every == 0:
                 out_handle.flush()
                 write_progress(complete=False)
+                gc.collect()
                 print(
                     json.dumps(
                         {
