@@ -1,0 +1,110 @@
+{
+  "$id": "https://comfy-ui-main.local/schemas/row084_held_out_missing_frame_policy_runtime_receipt/1.0.0",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "authority": {
+      "additionalProperties": true,
+      "properties": {
+        "combined_visual_review_present": {
+          "const": false
+        },
+        "missing_frame_policy_runtime_complete": {
+          "const": true
+        },
+        "production_completion_allowed": {
+          "const": false
+        },
+        "visual_review_authority_granted": {
+          "const": false
+        }
+      },
+      "required": [
+        "missing_frame_policy_runtime_complete",
+        "visual_review_authority_granted",
+        "combined_visual_review_present",
+        "production_completion_allowed"
+      ],
+      "type": "object"
+    },
+    "highest_proof_tier_achieved": {
+      "const": "RUNTIME_PASS_BOUNDED"
+    },
+    "production_completion_allowed": {
+      "const": false
+    },
+    "proof_tier": {
+      "const": "RUNTIME_PASS_BOUNDED"
+    },
+    "receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "record_type": {
+      "const": "row084_held_out_missing_frame_policy_runtime_receipt"
+    },
+    "row_complete": {
+      "const": false
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "status": {
+      "const": "held_out_missing_frame_policy_runtime_pass_bounded"
+    },
+    "summary": {
+      "additionalProperties": true,
+      "properties": {
+        "block_covered": {
+          "const": true
+        },
+        "explicit_gap_covered": {
+          "const": true
+        },
+        "interpolate_covered": {
+          "const": true
+        },
+        "media_backed_gaps": {
+          "const": true
+        },
+        "missing_frame_policy_runtime_complete": {
+          "const": true
+        },
+        "preserve_gap_covered": {
+          "const": true
+        }
+      },
+      "required": [
+        "preserve_gap_covered",
+        "explicit_gap_covered",
+        "interpolate_covered",
+        "block_covered",
+        "media_backed_gaps",
+        "missing_frame_policy_runtime_complete"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_version",
+    "record_type",
+    "receipt_id",
+    "revision",
+    "status",
+    "created_at",
+    "proof_tier",
+    "highest_proof_tier_achieved",
+    "climb_targets",
+    "media",
+    "cases",
+    "summary",
+    "authority",
+    "hold_reasons",
+    "production_completion_allowed",
+    "row_complete",
+    "provenance",
+    "receipt_sha256"
+  ],
+  "title": "row084_held_out_missing_frame_policy_runtime_receipt",
+  "type": "object"
+}

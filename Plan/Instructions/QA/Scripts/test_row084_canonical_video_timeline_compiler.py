@@ -62,6 +62,10 @@ HELD_OUT_CAMERA_MOTION_RUNTIME_SCHEMA = (
     ROOT
     / "Plan/08_SCHEMAS/canonical_video_timeline_held_out_camera_motion_runtime_receipt.schema.json"
 )
+HELD_OUT_MISSING_FRAME_POLICY_RUNTIME_SCHEMA = (
+    ROOT
+    / "Plan/08_SCHEMAS/canonical_video_timeline_held_out_missing_frame_policy_runtime_receipt.schema.json"
+)
 DIRECT_ROW084_RUNTIME_RECEIPT_SCHEMA = (
     ROOT / "Plan/08_SCHEMAS/canonical_video_timeline_direct_runtime_receipt.schema.json"
 )
@@ -85,6 +89,9 @@ HELD_OUT_ROUNDTRIP_BENCHMARK_RECEIPT = (
 )
 HELD_OUT_CAMERA_MOTION_RUNTIME_RECEIPT = (
     FIXTURE_DIR / "runtime" / "held_out_camera_motion_runtime_receipt.json"
+)
+HELD_OUT_MISSING_FRAME_POLICY_RUNTIME_RECEIPT = (
+    FIXTURE_DIR / "runtime" / "held_out_missing_frame_policy_runtime_receipt.json"
 )
 DIRECT_ROW084_RUNTIME_RECEIPT = (
     FIXTURE_DIR / "runtime" / "direct_row084_runtime_receipt.json"
@@ -554,6 +561,9 @@ class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
         self.held_out_camera_motion_runtime_validator = Draft202012Validator(
             json.loads(HELD_OUT_CAMERA_MOTION_RUNTIME_SCHEMA.read_text(encoding="utf-8"))
         )
+        self.held_out_missing_frame_policy_runtime_validator = Draft202012Validator(
+            json.loads(HELD_OUT_MISSING_FRAME_POLICY_RUNTIME_SCHEMA.read_text(encoding="utf-8"))
+        )
         self.direct_row084_runtime_validator = Draft202012Validator(
             json.loads(DIRECT_ROW084_RUNTIME_RECEIPT_SCHEMA.read_text(encoding="utf-8"))
         )
@@ -981,17 +991,23 @@ class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
         )
         self.assertIn("must equal expected_policy preserve_gap", completed.stderr + completed.stdout)
 
-    def test_missing_frames_block_policy_is_fail_closed(self) -> None:
+    def test_missing_frames_block_policy_is_runtime_authorized(self) -> None:
         packet = _fixed_packet(dependency_complete=True)
         packet["missing_frames"] = [{"frame_index": 2, "policy": "block"}]
-        completed, _ = self._run_compile(packet, expect_ok=False)
-        self.assertIn("fail-closed until missing-frame runtime completion", completed.stderr + completed.stdout)
+        _, receipt = self._run_compile(packet, expect_ok=True)
+        assert receipt is not None
+        self.timeline_validator.validate(receipt)
+        self.assertEqual(receipt["missing_frames"], [{"frame_index": 2, "policy": "block"}])
 
-    def test_missing_frames_interpolate_policy_is_fail_closed(self) -> None:
+    def test_missing_frames_interpolate_policy_is_runtime_authorized(self) -> None:
         packet = _fixed_packet(dependency_complete=True)
         packet["missing_frames"] = [{"frame_index": 2, "policy": "interpolate"}]
-        completed, _ = self._run_compile(packet, expect_ok=False)
-        self.assertIn("fail-closed until missing-frame runtime completion", completed.stderr + completed.stdout)
+        _, receipt = self._run_compile(packet, expect_ok=True)
+        assert receipt is not None
+        self.timeline_validator.validate(receipt)
+        self.assertEqual(
+            receipt["missing_frames"], [{"frame_index": 2, "policy": "interpolate"}]
+        )
 
     def test_missing_frames_duplicate_index_is_rejected(self) -> None:
         packet = _fixed_packet(dependency_complete=True)
@@ -1525,6 +1541,44 @@ class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
         self.assertFalse(live["row_complete"])
         self.assertFalse(live["comfyui_8188_invoked"])
         self.assertEqual(live["visual_receipt_sha256"], visual["receipt_sha256"])
+
+    def test_held_out_missing_frame_policy_runtime_clears_row084_015(self) -> None:
+        if not DEFAULT_ROW084_FFMPEG.is_file() and not shutil.which("ffmpeg"):
+            self.skipTest("ffmpeg unavailable for missing-frame runtime test")
+        self.assertTrue(HELD_OUT_MISSING_FRAME_POLICY_RUNTIME_RECEIPT.is_file())
+        receipt = json.loads(
+            HELD_OUT_MISSING_FRAME_POLICY_RUNTIME_RECEIPT.read_text(encoding="utf-8")
+        )
+        direct = json.loads(DIRECT_ROW084_RUNTIME_RECEIPT.read_text(encoding="utf-8"))
+        tracker = json.loads(TRACKER_OUTPUT_ARTIFACT.read_text(encoding="utf-8"))
+        self.held_out_missing_frame_policy_runtime_validator.validate(receipt)
+        self.assertTrue(receipt["authority"]["missing_frame_policy_runtime_complete"])
+        self.assertTrue(receipt["summary"]["media_backed_gaps"])
+        self.assertEqual(
+            set(receipt["summary"]["policies_covered"]),
+            {"preserve_gap", "explicit_gap", "interpolate", "block"},
+        )
+        self.assertFalse(receipt["row_complete"])
+        self.assertFalse(receipt["authority"]["visual_review_authority_granted"])
+        self.assertTrue(direct["authority"].get("missing_frame_policy_runtime_complete"))
+        self.assertIn("ROW084-015", tracker.get("cleared_offline_checks", []))
+        self.assertFalse(tracker.get("row_complete"))
+        self.assertNotEqual(tracker.get("status"), "COMPLETE")
+        verify = COMPILER_MOD.verify_held_out_missing_frame_policy_runtime_receipt()
+        self.assertEqual(verify["status"], "ok")
+        self.assertTrue(verify["missing_frame_policy_runtime_complete"])
+        live = COMPILER_MOD.execute_missing_frame_policy_runtime_climb(
+            ffmpeg_path=DEFAULT_ROW084_FFMPEG if DEFAULT_ROW084_FFMPEG.is_file() else None,
+            write_outputs=False,
+        )
+        self.assertEqual(live["status"], "ok")
+        self.assertEqual(live["cleared_check"], "ROW084-015")
+        self.assertTrue(live["missing_frame_policy_runtime_complete"])
+        self.assertFalse(live["row_complete"])
+        self.assertFalse(live["comfyui_8188_invoked"])
+        self.assertEqual(
+            live["missing_frame_policy_runtime_receipt_sha256"], receipt["receipt_sha256"]
+        )
 
 
 if __name__ == "__main__":

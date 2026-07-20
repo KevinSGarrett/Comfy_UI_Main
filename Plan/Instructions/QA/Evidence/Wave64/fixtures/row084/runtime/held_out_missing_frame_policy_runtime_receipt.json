@@ -1,0 +1,254 @@
+{
+  "authority": {
+    "combined_visual_review_present": false,
+    "fixed_vfr_benchmark_pass": false,
+    "fixture_matrix_only": false,
+    "missing_frame_policy_runtime_complete": true,
+    "production_completion_allowed": false,
+    "visual_review_authority_granted": false
+  },
+  "cases": [
+    {
+      "case_id": "preserve_gap",
+      "effects": {
+        "blocked_frame_indices": [],
+        "dispositions": [
+          {
+            "disposition": "gap_preserved",
+            "downstream_blocked": false,
+            "frame_index": 5,
+            "policy": "preserve_gap",
+            "synthesized": false
+          },
+          {
+            "disposition": "gap_preserved",
+            "downstream_blocked": false,
+            "frame_index": 10,
+            "policy": "preserve_gap",
+            "synthesized": false
+          }
+        ],
+        "interpolated_frames": [],
+        "policies_applied": [
+          "preserve_gap"
+        ]
+      },
+      "gap_indices": [
+        5,
+        10
+      ],
+      "passed": true,
+      "policy": "preserve_gap",
+      "stable_timeline_sha256": "fa941a422cfb8dc47ef600f5748c890f91c94928ab422d5d5e1189af15b4993c",
+      "timeline_id": "row084_mf_runtime_preserve_gap",
+      "within_tolerance": true
+    },
+    {
+      "case_id": "explicit_gap",
+      "effects": {
+        "blocked_frame_indices": [],
+        "dispositions": [
+          {
+            "disposition": "gap_preserved",
+            "downstream_blocked": false,
+            "frame_index": 5,
+            "policy": "explicit_gap",
+            "synthesized": false
+          },
+          {
+            "disposition": "gap_preserved",
+            "downstream_blocked": false,
+            "frame_index": 10,
+            "policy": "explicit_gap",
+            "synthesized": false
+          }
+        ],
+        "interpolated_frames": [],
+        "policies_applied": [
+          "explicit_gap"
+        ]
+      },
+      "gap_indices": [
+        5,
+        10
+      ],
+      "passed": true,
+      "policy": "explicit_gap",
+      "stable_timeline_sha256": "39c3deb9fc0cd7f8e6bd64c45cc6a31780fb2cfb94aad65a3003e505c5c05cfe",
+      "timeline_id": "row084_mf_runtime_explicit_gap",
+      "within_tolerance": true
+    },
+    {
+      "case_id": "interpolate",
+      "effects": {
+        "blocked_frame_indices": [],
+        "dispositions": [
+          {
+            "disposition": "interpolated",
+            "downstream_blocked": false,
+            "frame_index": 5,
+            "policy": "interpolate",
+            "synthesized": true
+          },
+          {
+            "disposition": "interpolated",
+            "downstream_blocked": false,
+            "frame_index": 10,
+            "policy": "interpolate",
+            "synthesized": true
+          }
+        ],
+        "interpolated_frames": [
+          {
+            "frame_index": 5,
+            "left_frame_index": 4,
+            "normalized_sample": 10000,
+            "normalized_seconds": 0.208333333334,
+            "policy": "interpolate",
+            "right_frame_index": 6,
+            "synthetic": true
+          },
+          {
+            "frame_index": 10,
+            "left_frame_index": 9,
+            "normalized_sample": 20000,
+            "normalized_seconds": 0.416666666666,
+            "policy": "interpolate",
+            "right_frame_index": 11,
+            "synthetic": true
+          }
+        ],
+        "policies_applied": [
+          "interpolate"
+        ]
+      },
+      "gap_indices": [
+        5,
+        10
+      ],
+      "passed": true,
+      "policy": "interpolate",
+      "stable_timeline_sha256": "132fd1db070e7b0c266840b188d3113e1b19afa27b834f3f775ddf512bee1fb0",
+      "timeline_id": "row084_mf_runtime_interpolate",
+      "within_tolerance": true
+    },
+    {
+      "case_id": "block",
+      "effects": {
+        "blocked_frame_indices": [
+          5,
+          10
+        ],
+        "dispositions": [
+          {
+            "disposition": "blocked",
+            "downstream_blocked": true,
+            "frame_index": 5,
+            "policy": "block",
+            "synthesized": false
+          },
+          {
+            "disposition": "blocked",
+            "downstream_blocked": true,
+            "frame_index": 10,
+            "policy": "block",
+            "synthesized": false
+          }
+        ],
+        "interpolated_frames": [],
+        "policies_applied": [
+          "block"
+        ]
+      },
+      "gap_indices": [
+        5,
+        10
+      ],
+      "passed": true,
+      "policy": "block",
+      "stable_timeline_sha256": "be19879247159bbd0f65efcfd1b035dc4d11f16f777e920e9d832f81839fbd8a",
+      "timeline_id": "row084_mf_runtime_block",
+      "within_tolerance": true
+    }
+  ],
+  "climb_targets": [
+    "RUNTIME_PASS_BOUNDED",
+    "VISUAL_QA_PASS_BOUNDED"
+  ],
+  "created_at": "2026-07-20T14:31:30Z",
+  "ffmpeg": {
+    "comfyui_8188_invoked": false,
+    "ffprobe_path": "C:\\Users\\kevin\\AppData\\Local\\Programs\\ffmpeg\\ffmpeg-8.1.2-full_build\\bin\\ffprobe.exe",
+    "invoked": true,
+    "resolved_path": "C:\\Users\\kevin\\AppData\\Local\\Programs\\ffmpeg\\ffmpeg-8.1.2-full_build\\bin\\ffmpeg.exe",
+    "runtime_media_decode_invoked": true,
+    "version_line": "ffmpeg version 8.1.2-full_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers"
+  },
+  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+  "hold_reasons": [
+    "production_completion_blocked",
+    "row_complete_blocked",
+    "held_out_lavfi_missing_frame_runtime_only"
+  ],
+  "media": {
+    "decoded_present_frame_count": 14,
+    "detected_gap_indices": [
+      5,
+      10
+    ],
+    "expected_gap_indices": [
+      5,
+      10
+    ],
+    "gapped_mux_sha256": "294b2aa6f334e07d389188f81e8b84868bed6c47aede363e74b3799b0d0d445d",
+    "gapped_relative_path": "runtime/held_out_missing_frame/held_out_fixed_24_gapped_drop_5_10.mkv",
+    "generated_media": false,
+    "source_case_id": "held_out_fixed_24",
+    "source_frame_count": 16,
+    "source_mux_sha256": "c41608eb64e5bc18a9a0e0e03a30f30f28565a13e9d8cd8fe8846965030d32cf"
+  },
+  "production_completion_allowed": false,
+  "proof_tier": "RUNTIME_PASS_BOUNDED",
+  "provenance": {
+    "blocker_class": "B",
+    "blocker_codes_cleared": [
+      "MISSING_FRAME_POLICY_RUNTIME_ABSENT"
+    ],
+    "compiler": "compile_wave64_canonical_video_timeline.py",
+    "compiler_revision": "row084_synthetic_runtime_climb_ledger_v9",
+    "does_not_claim_row_complete": true,
+    "does_not_claim_visual_qa_pass_bounded": true,
+    "does_not_use_comfyui_8188": true,
+    "execution_mode": "ffmpeg_passthrough_gap_detect_four_policy_matrix",
+    "remaining_blocker_codes": [
+      "REGISTERED_ROUNDTRIP_TOLERANCES_NOT_RUNTIME_AUTHORITATIVE",
+      "PRODUCTION_COMPLETION_AND_ROW_COMPLETE_BLOCKED"
+    ],
+    "runtime_revision": "row084_held_out_missing_frame_policy_runtime_v1"
+  },
+  "receipt_id": "row084_held_out_missing_frame_policy_runtime_receipt_v1",
+  "receipt_sha256": "03ed45d9924fec7539a04b384430fdf0d14853cddac3722dccdd1fbeaddef55a",
+  "record_type": "row084_held_out_missing_frame_policy_runtime_receipt",
+  "revision": "row084_held_out_missing_frame_policy_runtime_v1",
+  "row_complete": false,
+  "schema_version": "1.0.0",
+  "status": "held_out_missing_frame_policy_runtime_pass_bounded",
+  "summary": {
+    "all_cases_passed": true,
+    "block_covered": true,
+    "case_count": 4,
+    "comfyui_8188_invoked": false,
+    "explicit_gap_covered": true,
+    "interpolate_covered": true,
+    "media_backed_gaps": true,
+    "missing_frame_policy_runtime_complete": true,
+    "policies_covered": [
+      "block",
+      "explicit_gap",
+      "interpolate",
+      "preserve_gap"
+    ],
+    "preserve_gap_covered": true,
+    "runtime_media_decode_invoked": true
+  }
+}

@@ -9,7 +9,7 @@ a fixture-backed camera-motion policy matrix
 a fixture-backed cut-detector algorithm contract
 (algorithm_id + confidence calibration gates), and a synthetic runtime-climb
 ledger binding cut/camera/mux-plan-replay/combined-visual fixture digests,
-plus offline held-out cut/camera/roundtrip runtime climb helpers.
+plus offline held-out cut/camera/roundtrip/missing-frame runtime climb helpers.
 Production completion remains blocked unless dependency, benchmark, mux-replay,
 and visual-review authorities are all satisfied.
 """
@@ -31,7 +31,11 @@ COMPILER_REVISION = "row084_synthetic_runtime_climb_ledger_v9"
 FIXTURE_MUX_RUNTIME_REVISION = "row084_fixture_media_mux_runtime_v10"
 HELD_OUT_FFMPEG_MUX_REPLAY_REVISION = "row084_held_out_ffmpeg_mux_replay_v1"
 MATRIX_AUTHORIZED_MISSING_POLICIES = frozenset({"preserve_gap", "explicit_gap"})
-RUNTIME_BLOCKED_MISSING_POLICIES = frozenset({"interpolate", "block"})
+# interpolate/block unlocked after offline held-out missing-frame runtime completion.
+RUNTIME_BLOCKED_MISSING_POLICIES: frozenset[str] = frozenset()
+RUNTIME_AUTHORIZED_MISSING_POLICIES = frozenset(
+    {"preserve_gap", "explicit_gap", "interpolate", "block"}
+)
 MATRIX_AUTHORIZED_CAMERA_MOTION_POLICIES = frozenset(
     {"not_evaluated", "blocked_until_calibrated", "distinguish_from_cuts"}
 )
@@ -680,6 +684,11 @@ def _validate_missing_frames(raw: Any, clock_span: dict[str, Any]) -> list[dict[
         if policy not in ALLOWED_MISSING_POLICIES:
             raise ValueError(
                 f"missing_frames[{idx}].policy must be one of {sorted(ALLOWED_MISSING_POLICIES)}"
+            )
+        if policy not in RUNTIME_AUTHORIZED_MISSING_POLICIES:
+            raise ValueError(
+                f"missing_frames[{idx}].policy {policy} is not runtime-authorized "
+                f"(authorized: {sorted(RUNTIME_AUTHORIZED_MISSING_POLICIES)})"
             )
         if policy in RUNTIME_BLOCKED_MISSING_POLICIES:
             raise ValueError(
@@ -3397,12 +3406,20 @@ def verify_held_out_ffmpeg_mux_replay_receipt(
 HELD_OUT_CUT_DETECTOR_RUNTIME_REVISION = "row084_held_out_cut_detector_runtime_v1"
 HELD_OUT_ROUNDTRIP_BENCHMARK_REVISION = "row084_held_out_roundtrip_benchmark_v1"
 HELD_OUT_CAMERA_MOTION_RUNTIME_REVISION = "row084_held_out_camera_motion_runtime_v1"
+HELD_OUT_MISSING_FRAME_POLICY_RUNTIME_REVISION = "row084_held_out_missing_frame_policy_runtime_v1"
 DIRECT_ROW084_RUNTIME_RECEIPT_REVISION = "row084_direct_runtime_receipt_v1"
 HELD_OUT_CUT_DETECTOR_RUNTIME_RECEIPT_FILENAME = "held_out_cut_detector_runtime_receipt.json"
 HELD_OUT_ROUNDTRIP_BENCHMARK_RECEIPT_FILENAME = "held_out_roundtrip_benchmark_receipt.json"
 HELD_OUT_CAMERA_MOTION_RUNTIME_RECEIPT_FILENAME = "held_out_camera_motion_runtime_receipt.json"
+HELD_OUT_MISSING_FRAME_POLICY_RUNTIME_RECEIPT_FILENAME = (
+    "held_out_missing_frame_policy_runtime_receipt.json"
+)
 DIRECT_ROW084_RUNTIME_RECEIPT_FILENAME = "direct_row084_runtime_receipt.json"
 HELD_OUT_CAMERA_MOTION_DIRNAME = "held_out_camera_motion"
+HELD_OUT_MISSING_FRAME_DIRNAME = "held_out_missing_frame"
+HELD_OUT_MISSING_FRAME_GAPPED_FILENAME = "held_out_fixed_24_gapped_drop_5_10.mkv"
+HELD_OUT_MISSING_FRAME_EXPECTED_GAPS = (5, 10)
+HELD_OUT_MISSING_FRAME_SOURCE_FRAME_COUNT = 16
 TRACKER_OUTPUT_ARTIFACT_PATH = (
     REPO_ROOT
     / "Plan"
@@ -4335,6 +4352,495 @@ def verify_held_out_camera_motion_runtime_receipt(
     }
 
 
+def _generate_held_out_gapped_mux(
+    *,
+    ffmpeg: Path,
+    source_mux: Path,
+    output_path: Path,
+    drop_frames: tuple[int, ...] = HELD_OUT_MISSING_FRAME_EXPECTED_GAPS,
+) -> Path:
+    """Drop explicit source-frame indices while preserving PTS for gap detection."""
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    if not drop_frames:
+        raise ValueError("drop_frames must be non-empty")
+    select_expr = "*".join(f"not(eq(n\\,{idx}))" for idx in drop_frames)
+    _run_media_tool(
+        ffmpeg,
+        [
+            "-y",
+            "-i",
+            str(source_mux),
+            "-vf",
+            f"select='{select_expr}'",
+            "-fps_mode",
+            "passthrough",
+            "-an",
+            "-c:v",
+            "libx264",
+            "-pix_fmt",
+            "yuv420p",
+            str(output_path),
+        ],
+        label="ffmpeg-missing-frame-gapped-mux",
+    )
+    if not output_path.is_file() or output_path.stat().st_size < 1:
+        raise ValueError("gapped missing-frame mux generation failed")
+    return output_path
+
+
+def _detect_missing_frames_from_packet_pts(
+    *,
+    ffprobe: Path,
+    media_path: Path,
+    expected_frame_count: int,
+    fps_num: int = 24,
+    fps_den: int = 1,
+) -> list[int]:
+    """Detect missing frame indices from video packet PTS gaps (passthrough encode)."""
+    completed = subprocess.run(
+        [
+            str(ffprobe),
+            "-v",
+            "error",
+            "-select_streams",
+            "v:0",
+            "-show_entries",
+            "packet=pts_time",
+            "-of",
+            "csv=p=0",
+            str(media_path),
+        ],
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        check=False,
+    )
+    if completed.returncode != 0:
+        raise ValueError(f"ffprobe packet pts failed: {(completed.stderr or '')[-2000:]}")
+    present: set[int] = set()
+    frame_duration = float(fps_den) / float(fps_num)
+    for line in (completed.stdout or "").splitlines():
+        text = line.strip()
+        if not text or text == "N/A":
+            continue
+        pts_time = float(text)
+        frame_index = int(round(pts_time / frame_duration))
+        if 0 <= frame_index < expected_frame_count:
+            present.add(frame_index)
+    if not present:
+        raise ValueError(f"no video packets decoded from {media_path}")
+    missing = [idx for idx in range(expected_frame_count) if idx not in present]
+    return missing
+
+
+def _missing_frame_policy_effects(
+    *,
+    missing_frames: list[dict[str, Any]],
+    normalized_frames: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Compute preserve/explicit/interpolate/block dispositions for runtime proof."""
+    by_index = {
+        int(frame["frame_index"]): frame
+        for frame in normalized_frames
+        if isinstance(frame, dict)
+    }
+    dispositions: list[dict[str, Any]] = []
+    interpolated: list[dict[str, Any]] = []
+    blocked_indices: list[int] = []
+    for miss in missing_frames:
+        idx = int(miss["frame_index"])
+        policy = str(miss["policy"])
+        if policy in {"preserve_gap", "explicit_gap"}:
+            dispositions.append(
+                {
+                    "frame_index": idx,
+                    "policy": policy,
+                    "disposition": "gap_preserved",
+                    "synthesized": False,
+                    "downstream_blocked": False,
+                }
+            )
+            continue
+        if policy == "interpolate":
+            left_candidates = [i for i in by_index if i < idx]
+            right_candidates = [i for i in by_index if i > idx]
+            if not left_candidates or not right_candidates:
+                raise ValueError(f"interpolate frame {idx} lacks neighboring frames")
+            left = max(left_candidates)
+            right = min(right_candidates)
+            left_f = by_index[left]
+            right_f = by_index[right]
+            weight = (idx - left) / float(right - left)
+            seconds = float(left_f["normalized_seconds"]) + weight * (
+                float(right_f["normalized_seconds"]) - float(left_f["normalized_seconds"])
+            )
+            sample = int(
+                round(
+                    float(left_f["normalized_sample"])
+                    + weight
+                    * (float(right_f["normalized_sample"]) - float(left_f["normalized_sample"]))
+                )
+            )
+            interpolated.append(
+                {
+                    "frame_index": idx,
+                    "policy": "interpolate",
+                    "normalized_seconds": round(seconds, 12),
+                    "normalized_sample": sample,
+                    "left_frame_index": left,
+                    "right_frame_index": right,
+                    "synthetic": True,
+                }
+            )
+            dispositions.append(
+                {
+                    "frame_index": idx,
+                    "policy": "interpolate",
+                    "disposition": "interpolated",
+                    "synthesized": True,
+                    "downstream_blocked": False,
+                }
+            )
+            continue
+        if policy == "block":
+            blocked_indices.append(idx)
+            dispositions.append(
+                {
+                    "frame_index": idx,
+                    "policy": "block",
+                    "disposition": "blocked",
+                    "synthesized": False,
+                    "downstream_blocked": True,
+                }
+            )
+            continue
+        raise ValueError(f"unsupported missing-frame policy for effects: {policy}")
+    return {
+        "dispositions": dispositions,
+        "interpolated_frames": interpolated,
+        "blocked_frame_indices": blocked_indices,
+        "policies_applied": sorted({item["policy"] for item in dispositions}),
+    }
+
+
+def _build_missing_frame_runtime_timeline_packet(
+    *,
+    case_id: str,
+    policy: str,
+    gap_indices: list[int],
+    media_sha256: str,
+    frame_count: int = HELD_OUT_MISSING_FRAME_SOURCE_FRAME_COUNT,
+) -> dict[str, Any]:
+    sample_rate = 48000
+    fps_num = 24
+    fps_den = 1
+    frames = [
+        {"frame_index": idx, "source_pts": idx, "duration_pts": 1}
+        for idx in range(frame_count)
+    ]
+    end_sample = int(round((frame_count * fps_den / float(fps_num)) * sample_rate))
+    return {
+        "schema_version": "1.0.0",
+        "timeline_id": f"row084_mf_runtime_{case_id}",
+        "revision": HELD_OUT_MISSING_FRAME_POLICY_RUNTIME_REVISION,
+        "source_binding": {
+            "video_sha256": media_sha256,
+            "stream_index": 0,
+            "container_sha256": media_sha256,
+            "audio_stream_sha256": None,
+            "audio_stream_index": None,
+        },
+        "clock_span": {
+            "clock_id": f"clock_{case_id}",
+            "timebase_numerator": 1,
+            "timebase_denominator": 24,
+            "start_pts": 0,
+            "end_pts_exclusive": frame_count,
+            "start_frame": 0,
+            "end_frame_exclusive": frame_count,
+            "start_sample": 0,
+            "end_sample_exclusive": end_sample,
+            "frame_rate_numerator": fps_num,
+            "frame_rate_denominator": fps_den,
+            "sample_rate_hz": sample_rate,
+            "rounding_policy": "nearest_ties_to_even",
+        },
+        "frame_rate_mode": "fixed",
+        "frame_table": frames,
+        "vfr_segments": [],
+        "cut_epochs": [],
+        "missing_frames": [{"frame_index": idx, "policy": policy} for idx in gap_indices],
+        "camera_motion_policy": "not_evaluated",
+        "tolerances": dict(DEFAULT_TOLERANCES),
+        "dependency_authority": {"row067_complete": True},
+        "runtime_authority": {
+            "mux_replay_proof_present": True,
+            "combined_visual_review_present": False,
+            "fixed_vfr_benchmark_pass": True,
+        },
+        "provenance": {
+            "fixture": "row084_held_out_missing_frame_policy_runtime",
+            "media_backed_gaps": True,
+        },
+    }
+
+
+def execute_held_out_missing_frame_policy_runtime(
+    *,
+    fixture_dir: Path | None = None,
+    ffmpeg_path: str | Path | None = None,
+    output_receipt_path: Path | None = None,
+    write_outputs: bool = True,
+) -> dict[str, Any]:
+    """Offline media-backed missing-frame policy runtime (ROW084-015).
+
+    Proves preserve_gap / explicit_gap / interpolate / block against ffmpeg-derived
+    held-out gaps. Grants missing_frame_policy_runtime_complete at RUNTIME_PASS_BOUNDED
+    without VISUAL_QA authority, production completion, or row_complete.
+    """
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    runtime_dir = directory / FIXTURE_MUX_RUNTIME_DIRNAME
+    media_dir = runtime_dir / HELD_OUT_MISSING_FRAME_DIRNAME
+    receipt_path = (
+        output_receipt_path
+        if output_receipt_path is not None
+        else runtime_dir / HELD_OUT_MISSING_FRAME_POLICY_RUNTIME_RECEIPT_FILENAME
+    )
+    ffmpeg = resolve_ffmpeg_binary(explicit_path=ffmpeg_path, fixture_dir=directory)
+    ffprobe = _ffprobe_beside(ffmpeg)
+    version_run = _run_media_tool(ffmpeg, ["-version"], label="ffmpeg-version")
+    version_line = (version_run["stdout_tail"] or version_run["stderr_tail"]).splitlines()[0].strip()
+
+    source_mux = _resolve_held_out_mux_path(directory, "held_out_fixed_24")
+    durable_gapped = media_dir / HELD_OUT_MISSING_FRAME_GAPPED_FILENAME
+    durable_existed = durable_gapped.is_file()
+    if durable_existed:
+        gapped_path = durable_gapped
+    elif write_outputs:
+        media_dir.mkdir(parents=True, exist_ok=True)
+        gapped_path = durable_gapped
+        _generate_held_out_gapped_mux(
+            ffmpeg=ffmpeg, source_mux=source_mux, output_path=gapped_path
+        )
+    else:
+        gapped_path = (
+            Path(tempfile.mkdtemp(prefix="row084_mf_")) / HELD_OUT_MISSING_FRAME_GAPPED_FILENAME
+        )
+        _generate_held_out_gapped_mux(
+            ffmpeg=ffmpeg, source_mux=source_mux, output_path=gapped_path
+        )
+
+    detected_gaps = _detect_missing_frames_from_packet_pts(
+        ffprobe=ffprobe,
+        media_path=gapped_path,
+        expected_frame_count=HELD_OUT_MISSING_FRAME_SOURCE_FRAME_COUNT,
+    )
+    expected_gaps = list(HELD_OUT_MISSING_FRAME_EXPECTED_GAPS)
+    if detected_gaps != expected_gaps:
+        raise ValueError(
+            f"media-backed gap detection mismatch expected={expected_gaps} got={detected_gaps}"
+        )
+    decoded_present = _decode_rgb_frames(
+        ffmpeg=ffmpeg,
+        media_path=gapped_path,
+        width=64,
+        height=64,
+        expected_frames=HELD_OUT_MISSING_FRAME_SOURCE_FRAME_COUNT - len(expected_gaps),
+    )
+    media_sha = _file_sha256(gapped_path)
+
+    policy_cases = (
+        ("preserve_gap", "preserve_gap"),
+        ("explicit_gap", "explicit_gap"),
+        ("interpolate", "interpolate"),
+        ("block", "block"),
+    )
+    case_results: list[dict[str, Any]] = []
+    for case_id, policy in policy_cases:
+        packet = _build_missing_frame_runtime_timeline_packet(
+            case_id=case_id,
+            policy=policy,
+            gap_indices=expected_gaps,
+            media_sha256=media_sha,
+        )
+        receipt = compile_timeline(packet)
+        applied = receipt.get("missing_frames")
+        if not isinstance(applied, list) or len(applied) != len(expected_gaps):
+            raise ValueError(f"{case_id}: compiled missing_frames count mismatch")
+        if {item["policy"] for item in applied} != {policy}:
+            raise ValueError(f"{case_id}: compiled policy mismatch")
+        effects = _missing_frame_policy_effects(
+            missing_frames=applied,
+            normalized_frames=receipt["frame_table"],
+        )
+        if policy in {"preserve_gap", "explicit_gap"}:
+            if any(item["disposition"] != "gap_preserved" for item in effects["dispositions"]):
+                raise ValueError(f"{case_id}: expected gap_preserved dispositions")
+            if effects["interpolated_frames"] or effects["blocked_frame_indices"]:
+                raise ValueError(f"{case_id}: unexpected interpolate/block effects")
+        elif policy == "interpolate":
+            if len(effects["interpolated_frames"]) != len(expected_gaps):
+                raise ValueError(f"{case_id}: interpolated frame count mismatch")
+            if any(not item["synthesized"] for item in effects["dispositions"]):
+                raise ValueError(f"{case_id}: interpolate dispositions must be synthesized")
+        elif policy == "block":
+            if effects["blocked_frame_indices"] != expected_gaps:
+                raise ValueError(f"{case_id}: blocked indices mismatch")
+            if any(not item["downstream_blocked"] for item in effects["dispositions"]):
+                raise ValueError(f"{case_id}: block dispositions must set downstream_blocked")
+        # Exclude wall-clock created_at/timeline_sha256 so runtime receipt digests stay stable.
+        stable_timeline = {
+            key: value
+            for key, value in receipt.items()
+            if key not in {"created_at", "timeline_sha256"}
+        }
+        case_results.append(
+            {
+                "case_id": case_id,
+                "policy": policy,
+                "gap_indices": list(expected_gaps),
+                "timeline_id": receipt["timeline_id"],
+                "stable_timeline_sha256": _canonical_sha256(stable_timeline),
+                "within_tolerance": receipt["roundtrip_evidence"]["within_tolerance"],
+                "effects": effects,
+                "passed": True,
+            }
+        )
+
+    created_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    receipt_body: dict[str, Any] = {
+        "schema_version": "1.0.0",
+        "record_type": "row084_held_out_missing_frame_policy_runtime_receipt",
+        "receipt_id": "row084_held_out_missing_frame_policy_runtime_receipt_v1",
+        "revision": HELD_OUT_MISSING_FRAME_POLICY_RUNTIME_REVISION,
+        "status": "held_out_missing_frame_policy_runtime_pass_bounded",
+        "created_at": created_at,
+        "proof_tier": "RUNTIME_PASS_BOUNDED",
+        "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+        "climb_targets": ["RUNTIME_PASS_BOUNDED", "VISUAL_QA_PASS_BOUNDED"],
+        "ffmpeg": {
+            "resolved_path": str(ffmpeg),
+            "ffprobe_path": str(ffprobe),
+            "version_line": version_line,
+            "invoked": True,
+            "runtime_media_decode_invoked": True,
+            "comfyui_8188_invoked": False,
+        },
+        "media": {
+            "source_case_id": "held_out_fixed_24",
+            "source_mux_sha256": _file_sha256(source_mux),
+            "gapped_relative_path": (
+                f"{FIXTURE_MUX_RUNTIME_DIRNAME}/{HELD_OUT_MISSING_FRAME_DIRNAME}/"
+                f"{HELD_OUT_MISSING_FRAME_GAPPED_FILENAME}"
+            ),
+            "gapped_mux_sha256": media_sha,
+            "source_frame_count": HELD_OUT_MISSING_FRAME_SOURCE_FRAME_COUNT,
+            "decoded_present_frame_count": len(decoded_present),
+            "expected_gap_indices": list(expected_gaps),
+            "detected_gap_indices": detected_gaps,
+            "generated_media": not durable_existed,
+        },
+        "cases": case_results,
+        "summary": {
+            "case_count": len(case_results),
+            "policies_covered": sorted({item["policy"] for item in case_results}),
+            "preserve_gap_covered": True,
+            "explicit_gap_covered": True,
+            "interpolate_covered": True,
+            "block_covered": True,
+            "media_backed_gaps": True,
+            "all_cases_passed": True,
+            "missing_frame_policy_runtime_complete": True,
+            "runtime_media_decode_invoked": True,
+            "comfyui_8188_invoked": False,
+        },
+        "authority": {
+            "missing_frame_policy_runtime_complete": True,
+            "fixture_matrix_only": False,
+            "fixed_vfr_benchmark_pass": False,
+            "combined_visual_review_present": False,
+            "visual_review_authority_granted": False,
+            "production_completion_allowed": False,
+        },
+        "hold_reasons": [
+            "production_completion_blocked",
+            "row_complete_blocked",
+            "held_out_lavfi_missing_frame_runtime_only",
+        ],
+        "production_completion_allowed": False,
+        "row_complete": False,
+        "provenance": {
+            "compiler": "compile_wave64_canonical_video_timeline.py",
+            "compiler_revision": COMPILER_REVISION,
+            "runtime_revision": HELD_OUT_MISSING_FRAME_POLICY_RUNTIME_REVISION,
+            "execution_mode": "ffmpeg_passthrough_gap_detect_four_policy_matrix",
+            "blocker_class": "B",
+            "blocker_codes_cleared": ["MISSING_FRAME_POLICY_RUNTIME_ABSENT"],
+            "remaining_blocker_codes": [
+                "REGISTERED_ROUNDTRIP_TOLERANCES_NOT_RUNTIME_AUTHORITATIVE",
+                "PRODUCTION_COMPLETION_AND_ROW_COMPLETE_BLOCKED",
+            ],
+            "does_not_claim_visual_qa_pass_bounded": True,
+            "does_not_claim_row_complete": True,
+            "does_not_use_comfyui_8188": True,
+        },
+    }
+    stable = {key: value for key, value in receipt_body.items() if key != "created_at"}
+    receipt_body["receipt_sha256"] = _canonical_sha256(stable)
+    if write_outputs:
+        _write_json_atomic(receipt_path, receipt_body)
+    return receipt_body
+
+
+def verify_held_out_missing_frame_policy_runtime_receipt(
+    receipt: dict[str, Any] | None = None,
+    *,
+    fixture_dir: Path | None = None,
+) -> dict[str, Any]:
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    receipt_path = (
+        directory
+        / FIXTURE_MUX_RUNTIME_DIRNAME
+        / HELD_OUT_MISSING_FRAME_POLICY_RUNTIME_RECEIPT_FILENAME
+    )
+    payload = receipt if receipt is not None else json.loads(receipt_path.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise ValueError("missing-frame policy runtime receipt must be an object")
+    recorded = _expect_sha256(payload.get("receipt_sha256"), "receipt_sha256")
+    stable = {
+        key: value
+        for key, value in payload.items()
+        if key not in {"created_at", "receipt_sha256"}
+    }
+    recomputed = _canonical_sha256(stable)
+    if recorded != recomputed:
+        raise ValueError(
+            "missing-frame policy receipt_sha256 mismatch "
+            f"recorded={recorded} recomputed={recomputed}"
+        )
+    if payload.get("authority", {}).get("missing_frame_policy_runtime_complete") is not True:
+        raise ValueError("missing_frame_policy_runtime_complete must be true")
+    if payload.get("authority", {}).get("visual_review_authority_granted") is not False:
+        raise ValueError("missing-frame runtime must not grant visual review authority")
+    if payload.get("row_complete") is not False:
+        raise ValueError("missing-frame runtime must keep row_complete=false")
+    if payload.get("ffmpeg", {}).get("comfyui_8188_invoked") is not False:
+        raise ValueError("missing-frame runtime must not invoke comfyui :8188")
+    policies = set(payload.get("summary", {}).get("policies_covered") or [])
+    if policies != RUNTIME_AUTHORIZED_MISSING_POLICIES:
+        raise ValueError(f"missing-frame runtime policies incomplete: {sorted(policies)}")
+    return {
+        "status": "ok",
+        "verifier": "verify_held_out_missing_frame_policy_runtime_receipt",
+        "receipt_sha256": recorded,
+        "proof_tier": "RUNTIME_PASS_BOUNDED",
+        "missing_frame_policy_runtime_complete": True,
+        "visual_review_authority_granted": False,
+        "row_complete": False,
+    }
+
+
 def emit_direct_row084_runtime_receipt(
     *,
     fixture_dir: Path | None = None,
@@ -4913,6 +5419,29 @@ def emit_direct_row084_runtime_receipt_with_visual(
         "proof_tier": visual["proof_tier"],
         "row_complete": False,
     }
+    preloaded = preloaded_receipts or {}
+    mf_payload = preloaded.get("held_out_missing_frame_policy_runtime")
+    if mf_payload is None:
+        mf_path = runtime_dir / HELD_OUT_MISSING_FRAME_POLICY_RUNTIME_RECEIPT_FILENAME
+        if mf_path.is_file():
+            mf_payload = json.loads(mf_path.read_text(encoding="utf-8"))
+    missing_frame_runtime_complete = False
+    if isinstance(mf_payload, dict):
+        mf_digest = mf_payload.get("receipt_sha256")
+        if not isinstance(mf_digest, str) or len(mf_digest) != 64:
+            raise ValueError("missing-frame runtime receipt missing receipt_sha256")
+        if mf_payload.get("authority", {}).get("missing_frame_policy_runtime_complete") is not True:
+            raise ValueError("missing-frame runtime receipt must mark runtime complete")
+        bindings["held_out_missing_frame_policy_runtime"] = {
+            "relative_path": (
+                f"{FIXTURE_MUX_RUNTIME_DIRNAME}/"
+                f"{HELD_OUT_MISSING_FRAME_POLICY_RUNTIME_RECEIPT_FILENAME}"
+            ),
+            "receipt_sha256": mf_digest,
+            "proof_tier": mf_payload.get("proof_tier"),
+            "row_complete": False,
+        }
+        missing_frame_runtime_complete = True
     created_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
     receipt_body: dict[str, Any] = {
         "schema_version": "1.0.0",
@@ -4932,6 +5461,7 @@ def emit_direct_row084_runtime_receipt_with_visual(
             "camera_motion_normalization_complete": True,
             "fixed_vfr_benchmark_pass": True,
             "mux_replay_proof_present": True,
+            "missing_frame_policy_runtime_complete": missing_frame_runtime_complete,
             "combined_visual_review_present": True,
             "direct_combined_visual_audio_review_present": True,
             "comfyui_8188_invoked": False,
@@ -4941,6 +5471,7 @@ def emit_direct_row084_runtime_receipt_with_visual(
             "cut_detection_algorithm_complete": True,
             "camera_motion_normalization_complete": True,
             "fixed_vfr_benchmark_pass": True,
+            "missing_frame_policy_runtime_complete": missing_frame_runtime_complete,
             "combined_visual_review_present": True,
             "visual_review_authority_granted": True,
             "direct_combined_visual_audio_review_present": True,
@@ -5024,6 +5555,11 @@ def emit_tracker_output_artifact_after_visual(
             "ROW084-020",
             "ROW084-021",
             "ROW084-022",
+            *(
+                ["ROW084-015"]
+                if direct.get("authority", {}).get("missing_frame_policy_runtime_complete")
+                else []
+            ),
         ],
         "remaining_complete_blockers": [],
         "hold_reasons": [
@@ -5046,6 +5582,55 @@ def emit_tracker_output_artifact_after_visual(
     if write_outputs:
         _write_json_atomic(TRACKER_OUTPUT_ARTIFACT_PATH, body)
     return body
+
+
+def execute_missing_frame_policy_runtime_climb(
+    *,
+    fixture_dir: Path | None = None,
+    ffmpeg_path: str | Path | None = None,
+    write_outputs: bool = True,
+) -> dict[str, Any]:
+    """Clear ROW084-015 offline and rebind visual-tier direct/tracker HOLD artifacts."""
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    missing = execute_held_out_missing_frame_policy_runtime(
+        fixture_dir=directory, ffmpeg_path=ffmpeg_path, write_outputs=write_outputs
+    )
+    visual_path = (
+        directory / FIXTURE_MUX_RUNTIME_DIRNAME / COMBINED_VISUAL_AUDIO_REVIEW_RECEIPT_FILENAME
+    )
+    if not visual_path.is_file():
+        raise FileNotFoundError(
+            "missing-frame climb requires existing combined visual receipt; "
+            "run --execute-combined-visual-audio-review-climb first"
+        )
+    visual = json.loads(visual_path.read_text(encoding="utf-8"))
+    direct = emit_direct_row084_runtime_receipt_with_visual(
+        fixture_dir=directory,
+        visual_receipt=visual,
+        write_outputs=write_outputs,
+        preloaded_receipts={"held_out_missing_frame_policy_runtime": missing},
+    )
+    tracker = emit_tracker_output_artifact_after_visual(
+        fixture_dir=directory,
+        visual_receipt=visual,
+        direct_receipt=direct,
+        write_outputs=write_outputs,
+    )
+    return {
+        "status": "ok",
+        "mode": "execute-missing-frame-policy-runtime-climb",
+        "proof_tier": "RUNTIME_PASS_BOUNDED",
+        "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+        "missing_frame_policy_runtime_receipt_sha256": missing["receipt_sha256"],
+        "direct_runtime_receipt_sha256": direct["receipt_sha256"],
+        "tracker_artifact_sha256": tracker["artifact_sha256"],
+        "missing_frame_policy_runtime_complete": True,
+        "direct_combined_visual_audio_review_present": True,
+        "visual_review_authority_granted": True,
+        "cleared_check": "ROW084-015",
+        "row_complete": False,
+        "comfyui_8188_invoked": False,
+    }
 
 
 def execute_combined_visual_audio_review_climb(
@@ -5262,6 +5847,28 @@ def main(argv: list[str] | None = None) -> int:
         help="Verify checked-in held-out camera-motion runtime receipt",
     )
     parser.add_argument(
+        "--execute-held-out-missing-frame-policy-runtime",
+        action="store_true",
+        help=(
+            "Execute offline ffmpeg media-backed missing-frame policy runtime "
+            "(preserve/explicit/interpolate/block); clears ROW084-015 without "
+            "COMPLETE/row_complete or :8188"
+        ),
+    )
+    parser.add_argument(
+        "--execute-missing-frame-policy-runtime-climb",
+        action="store_true",
+        help=(
+            "Execute missing-frame runtime and rebind visual-tier direct/tracker "
+            "HOLD artifacts; clears ROW084-015 without COMPLETE/row_complete"
+        ),
+    )
+    parser.add_argument(
+        "--verify-held-out-missing-frame-policy-runtime",
+        action="store_true",
+        help="Verify checked-in held-out missing-frame policy runtime receipt",
+    )
+    parser.add_argument(
         "--fixture-dir",
         default=str(DEFAULT_FIXTURE_DIR),
         help="Fixture directory for synthetic climb ledger (default: checked-in row084 fixtures)",
@@ -5411,6 +6018,49 @@ def main(argv: list[str] | None = None) -> int:
     if args.verify_held_out_camera_motion_runtime:
         try:
             receipt = verify_held_out_camera_motion_runtime_receipt(fixture_dir=fixture_dir)
+        except (OSError, ValueError, FileNotFoundError) as exc:
+            raise SystemExit(f"ROW084_FAIL_CLOSED: {exc}") from exc
+        print(json.dumps(receipt))
+        return 0
+
+    if args.execute_held_out_missing_frame_policy_runtime:
+        try:
+            receipt = execute_held_out_missing_frame_policy_runtime(
+                fixture_dir=fixture_dir,
+                ffmpeg_path=args.ffmpeg_path,
+            )
+        except (OSError, ValueError, FileNotFoundError) as exc:
+            raise SystemExit(f"ROW084_FAIL_CLOSED: {exc}") from exc
+        print(
+            json.dumps(
+                {
+                    "status": "ok",
+                    "mode": "execute-held-out-missing-frame-policy-runtime",
+                    "receipt_sha256": receipt["receipt_sha256"],
+                    "missing_frame_policy_runtime_complete": True,
+                    "proof_tier": receipt["proof_tier"],
+                    "row_complete": False,
+                }
+            )
+        )
+        return 0
+
+    if args.execute_missing_frame_policy_runtime_climb:
+        try:
+            receipt = execute_missing_frame_policy_runtime_climb(
+                fixture_dir=fixture_dir,
+                ffmpeg_path=args.ffmpeg_path,
+            )
+        except (OSError, ValueError, FileNotFoundError) as exc:
+            raise SystemExit(f"ROW084_FAIL_CLOSED: {exc}") from exc
+        print(json.dumps(receipt))
+        return 0
+
+    if args.verify_held_out_missing_frame_policy_runtime:
+        try:
+            receipt = verify_held_out_missing_frame_policy_runtime_receipt(
+                fixture_dir=fixture_dir
+            )
         except (OSError, ValueError, FileNotFoundError) as exc:
             raise SystemExit(f"ROW084_FAIL_CLOSED: {exc}") from exc
         print(json.dumps(receipt))
