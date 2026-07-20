@@ -72,6 +72,14 @@ STRATA_REGISTRY_REVISION = "wave64_row075_audio_defect_library_benchmark_strata_
 SELECTION_POLICY = "retained_shortlist_synthetic_fixture_truth_no_pcm_library_decode"
 BLOCKER_THRESHOLD_FROZEN = "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY"
 BLOCKER_STRATA_ABSENT = "CALIBRATED_LIBRARY_DEFECT_STRATA_ABSENT"
+# Class F: inventable human-gold listening truth is absent for library shortlist rows.
+BLOCKER_LIBRARY_TRUTH_HUMAN_GOLD_ABSENT = "LIBRARY_DEFECT_TRUTH_HUMAN_GOLD_LABELS_ABSENT"
+# Class D: measured severities stay non-authoritative under metadata-first stop.
+BLOCKER_MEASURED_SEVERITY_NOT_TRUTH = "MEASURED_SEVERITY_NOT_PROMOTED_TO_LIBRARY_TRUTH"
+# Class D: PCM re-listen truth deferred while Row073 owns exclusive library PCM I/O.
+BLOCKER_PCM_TRUTH_DEFERRED_ROW073 = (
+    "LIBRARY_PCM_TRUTH_LABELING_DEFERRED_ROW073_EXCLUSIVE"
+)
 TRACKER_ID = "TRK-W64-075"
 ITEM_ID = "ITEM-W64-075"
 SCHEMA_VERSION = "1.0.0"
@@ -1695,6 +1703,33 @@ def resolve_retained_defect_truth_label(
     return None, "pending"
 
 
+def build_library_truth_label_stop(
+    *,
+    truth_label_status: str,
+    severe_defect_codes: list[str],
+) -> dict[str, Any] | None:
+    """Record Class F/D stop when metadata-first cannot invent library truth labels."""
+    if truth_label_status == "labeled":
+        return None
+    return {
+        "status": "stop",
+        "classes": ["F", "D"],
+        "blocker_codes": [
+            BLOCKER_LIBRARY_TRUTH_HUMAN_GOLD_ABSENT,
+            BLOCKER_MEASURED_SEVERITY_NOT_TRUTH,
+            BLOCKER_PCM_TRUTH_DEFERRED_ROW073,
+        ],
+        "measured_severe_defect_codes_not_promoted": list(severe_defect_codes),
+        "detail": (
+            "Metadata-first labeling cannot invent library truth defect codes without "
+            "human-gold listening labels or authorized PCM re-listen; measured severities "
+            "are not promoted. Class F human/external truth required; Class D offline "
+            "threshold/strata authority remains frozen. Stop without PCM decode while "
+            "Row073 owns exclusive library PCM I/O."
+        ),
+    }
+
+
 def build_synthetic_fixture_strata_candidate(
     root: Path,
     *,
@@ -1728,6 +1763,7 @@ def build_synthetic_fixture_strata_candidate(
         "canonical_pcm_sha256": _sha256_or_none(record.get("canonical_pcm_sha256")),
         "truth_severe_defect_codes": severe,
         "truth_label_status": "labeled",
+        "truth_label_stop": None,
         "blocker_code": None,
     }
 
@@ -1847,6 +1883,10 @@ def select_library_strata_candidates_from_retained(
                             ),
                             "truth_severe_defect_codes": truth_codes,
                             "truth_label_status": truth_label_status,
+                            "truth_label_stop": build_library_truth_label_stop(
+                                truth_label_status=truth_label_status,
+                                severe_defect_codes=severe_codes,
+                            ),
                             "blocker_code": record.get("blocker_code"),
                         }
                     )
@@ -1864,6 +1904,7 @@ def select_library_strata_candidates_from_retained(
     truth_labeled = sum(1 for item in candidates if item["truth_label_status"] == "labeled")
     truth_pending = sum(1 for item in candidates if item["truth_label_status"] == "pending")
     truth_blocked = sum(1 for item in candidates if item["truth_label_status"] == "blocked")
+    truth_label_stops = sum(1 for item in candidates if item.get("truth_label_stop"))
     truth_unlabeled = len(candidates) - truth_labeled
     strata_filled = sum(
         1 for stratum_id, items in buckets.items() if len(items) >= limits[stratum_id]
@@ -1877,7 +1918,11 @@ def select_library_strata_candidates_from_retained(
     else:
         truth_defect_status = "complete"
 
-    blocker_codes = [BLOCKER_THRESHOLD_FROZEN, BLOCKER_STRATA_ABSENT]
+    blocker_codes = [
+        BLOCKER_THRESHOLD_FROZEN,
+        BLOCKER_STRATA_ABSENT,
+        BLOCKER_LIBRARY_TRUTH_HUMAN_GOLD_ABSENT,
+    ]
     calibrated = False
     row109_refs = build_row109_synthetic_partition_references(root, strata_registry=registry)
     if truth_defect_status == "absent":
@@ -1889,11 +1934,11 @@ def select_library_strata_candidates_from_retained(
         )
     elif truth_defect_status == "partial":
         safe_next = (
-            "Synthetic fixture truth defect codes are labeled; library_unlabeled retained "
-            "candidates remain pending/blocked. Keep CALIBRATED_LIBRARY_DEFECT_STRATA_ABSENT "
-            "and frozen synthetic thresholds until library truth exists. "
-            "Row109 partition IDs remain synthetic references only. Do not decode library PCM "
-            "or fight Row073 PCM I/O; do not claim COMPLETE."
+            "Synthetic fixture truth defect codes are labeled; metadata-first labeling "
+            f"recorded Class F/D stop on {truth_label_stops} library_unlabeled candidates "
+            "(human-gold truth absent; measured severities not promoted; PCM deferred while "
+            "Row073 owns exclusive I/O). Keep CALIBRATED_LIBRARY_DEFECT_STRATA_ABSENT and "
+            "frozen synthetic thresholds. Do not decode library PCM or claim COMPLETE."
         )
     else:
         safe_next = (
@@ -1939,6 +1984,7 @@ def select_library_strata_candidates_from_retained(
             "truth_unlabeled": truth_unlabeled,
             "truth_pending": truth_pending,
             "truth_blocked": truth_blocked,
+            "truth_label_stops": truth_label_stops,
         },
         "truth_defect_status": truth_defect_status,
         "row109_synthetic_partition_references": row109_refs,
@@ -1957,6 +2003,7 @@ def select_library_strata_candidates_from_retained(
             "Library candidates selected from retained Row075 defect records only; no library PCM decode and no full-library re-scan.",
             "Determinable truth defect codes bind from Row075 synthetic fixtures.",
             "library_unlabeled retained candidates remain pending/blocked; measured severities are never promoted to truth.",
+            "Metadata-first pending labeling records Class F/D stop per unlabeled candidate when human-gold or authorized PCM truth is absent.",
             "Row109 descriptors remain synthetic partition references only.",
             "Candidate shortlist does not grant library authority or clear frozen synthetic thresholds.",
             "CALIBRATED_LIBRARY_DEFECT_STRATA_ABSENT remains until library truth is calibrated.",
@@ -1976,6 +2023,12 @@ def select_library_strata_candidates_from_retained(
         raise AudioDefectError("library_strata_must_emit_frozen_threshold_blocker")
     if BLOCKER_STRATA_ABSENT not in manifest["blocker_codes"]:
         raise AudioDefectError("library_strata_must_emit_strata_absent_blocker_until_truth")
+    if truth_unlabeled > 0 and BLOCKER_LIBRARY_TRUTH_HUMAN_GOLD_ABSENT not in manifest[
+        "blocker_codes"
+    ]:
+        raise AudioDefectError("library_strata_must_emit_class_f_human_gold_blocker")
+    if truth_unlabeled > 0 and truth_label_stops != truth_unlabeled:
+        raise AudioDefectError("library_strata_must_record_class_f_d_stop_per_unlabeled")
     validate_strata_manifest(root, manifest)
     return manifest
 

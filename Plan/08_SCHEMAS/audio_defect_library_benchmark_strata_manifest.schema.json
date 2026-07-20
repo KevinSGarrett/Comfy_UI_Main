@@ -90,7 +90,8 @@
         "truth_labeled": { "type": "integer", "minimum": 0 },
         "truth_unlabeled": { "type": "integer", "minimum": 0 },
         "truth_pending": { "type": "integer", "minimum": 0 },
-        "truth_blocked": { "type": "integer", "minimum": 0 }
+        "truth_blocked": { "type": "integer", "minimum": 0 },
+        "truth_label_stops": { "type": "integer", "minimum": 0 }
       }
     },
     "truth_defect_status": {
@@ -265,7 +266,44 @@
         "truth_label_status": {
           "enum": ["unlabeled", "pending", "labeled", "blocked"]
         },
+        "truth_label_stop": {
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/$defs/truth_label_stop" }
+          ]
+        },
         "blocker_code": { "type": ["string", "null"] }
+      }
+    },
+    "truth_label_stop": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "classes",
+        "blocker_codes",
+        "measured_severe_defect_codes_not_promoted",
+        "detail"
+      ],
+      "properties": {
+        "status": { "type": "string", "const": "stop" },
+        "classes": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": { "enum": ["D", "F"] }
+        },
+        "blocker_codes": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "measured_severe_defect_codes_not_promoted": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "detail": { "type": "string", "minLength": 1 }
       }
     }
   }

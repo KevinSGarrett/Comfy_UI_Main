@@ -338,6 +338,7 @@ def test_library_strata_labels_synthetic_truth_and_holds_library_pending():
         assert strata["counts"]["truth_pending"] == 6
         assert strata["counts"]["truth_blocked"] == 2
         assert strata["counts"]["truth_unlabeled"] == 8
+        assert strata["counts"]["truth_label_stops"] == 8
         assert strata["truth_defect_status"] == "partial"
         assert strata["decision"]["status"] == "blocked"
         assert strata["decision"]["library_authority"] is False
@@ -347,6 +348,7 @@ def test_library_strata_labels_synthetic_truth_and_holds_library_pending():
         assert strata["decision"]["benchmark_strata_calibrated"] is False
         assert MOD.BLOCKER_THRESHOLD_FROZEN in strata["blocker_codes"]
         assert MOD.BLOCKER_STRATA_ABSENT in strata["blocker_codes"]
+        assert MOD.BLOCKER_LIBRARY_TRUTH_HUMAN_GOLD_ABSENT in strata["blocker_codes"]
         labeled = [item for item in strata["candidates"] if item["truth_label_status"] == "labeled"]
         library = [item for item in strata["candidates"] if item["role"] != "fixture"]
         assert {item["event_type"] for item in labeled} == {
@@ -357,8 +359,16 @@ def test_library_strata_labels_synthetic_truth_and_holds_library_pending():
             "hum",
         }
         assert all(isinstance(item["truth_severe_defect_codes"], list) for item in labeled)
+        assert all(item.get("truth_label_stop") is None for item in labeled)
         assert all(item["truth_label_status"] in {"pending", "blocked"} for item in library)
         assert all(item["truth_severe_defect_codes"] is None for item in library)
+        assert all(isinstance(item.get("truth_label_stop"), dict) for item in library)
+        for stop in (item["truth_label_stop"] for item in library):
+            assert stop["status"] == "stop"
+            assert set(stop["classes"]) == {"F", "D"}
+            assert MOD.BLOCKER_LIBRARY_TRUTH_HUMAN_GOLD_ABSENT in stop["blocker_codes"]
+            assert MOD.BLOCKER_MEASURED_SEVERITY_NOT_TRUTH in stop["blocker_codes"]
+            assert MOD.BLOCKER_PCM_TRUTH_DEFERRED_ROW073 in stop["blocker_codes"]
         refs = strata["row109_synthetic_partition_references"]
         assert refs["partition_ids"] == [
             "train",
