@@ -3,12 +3,12 @@
 
 Binds the immutable Qwen Base ICL clone, adjacent continuity-matrix diagnostic,
 two disjoint public-domain source references (when present), a started or measured
-multi-ref drift/leakage matrix, a prepared human listening request, and a fail-closed
-raw-dialogue-timing waiver disposition with exact clearance criteria. Classifies
-remaining blockers by named class and exact codes. Never claims production COMPLETE,
-fabricates listening authority, grants an unauthorized timing waiver, steals :8188,
-touches Row075, decodes full-library PCM, writes sound CSV rows, or invents voice
-references.
+multi-ref drift/leakage matrix, a prepared human listening request, a fail-closed
+raw-dialogue-timing waiver disposition, and a fail-closed human-listening blocker
+disposition with exact clearance criteria. Classifies remaining blockers by named
+class and exact codes. Never claims production COMPLETE, fabricates listening PASS,
+grants an unauthorized timing waiver, steals :8188, touches Row075, decodes
+full-library PCM, writes sound CSV rows, or invents voice references.
 """
 
 from __future__ import annotations
@@ -34,7 +34,7 @@ EXPECTED_SECOND_REFERENCE_SHA256 = "ac013d29e84309abd52c49720fe1a9caf2550fd83ce2
 EXPECTED_CONTINUITY_CLASSIFICATION = "PASS_CONTINUITY_PILOT_PRODUCTION_AUTHORITY_BLOCKED"
 ROW_STATUS = "Blocked_Production_Voice_Authority_And_Multi_Reference_Validation_Pending"
 PROOF_TIER = "OFFLINE_PROOF_BOUNDED"
-EVIDENCE_STAMP = "20260720D"
+EVIDENCE_STAMP = "20260720E"
 REQUIRED_MATRIX_CHECK_IDS = (
     "same_character_multi_source_identity",
     "cross_line_drift",
@@ -47,6 +47,9 @@ TIMING_MEASURED_DURATION_SECONDS = 3.200041667
 TIMING_DURATION_DELTA_SECONDS = 0.200041667
 TIMING_WAIVER_DISPOSITION = "FAIL_CLOSED_WAIVER_NOT_GRANTED"
 TIMING_DISPOSITION_UNDOCUMENTED_CODE = "RAW_DIALOGUE_TIMING_DISPOSITION_UNDOCUMENTED"
+LISTENING_BLOCKER_DISPOSITION = "FAIL_CLOSED_HUMAN_LISTENING_AUTHORITY_NOT_GRANTED"
+LISTENING_DISPOSITION_UNDOCUMENTED_CODE = "HUMAN_LISTENING_AUTHORITY_DISPOSITION_UNDOCUMENTED"
+LISTENING_REVIEW_ID = "W64-ROW124-QWEN3-BASE-ICL-CLONE-LISTENING-001"
 
 DURABLE_CANDIDATE = Path(
     "Plan/Instructions/Operations/Pulled_Back_Artifacts/"
@@ -639,13 +642,29 @@ def build_raw_dialogue_timing_fail_closed_waiver_packet(
             "Duration is close but still outside ±0.080s",
             "Post-hoc silence pad/trim is offered as a timing pass",
             "Subjective listening is offered as a substitute for the timing gate",
+            "A prepared listening review request is offered as timing clearance",
+            "A human-listening fail-closed blocker packet is offered as timing clearance",
+            "Agent-fabricated listening PASS is offered as timing clearance",
             "Production or listening authority is claimed in the same landing",
         ],
+        "anti_fake_pass_invariants": [
+            "waiver_granted remains false unless a separate Path B grant artifact is bound",
+            "raw_dialogue_timing_pass may become true only from measured duration or Path B grant",
+            "listening_review_request_prepared never implies raw_dialogue_timing_pass",
+            "Close-but-outside duration must not round or coerce to PASS",
+        ],
+        "cross_gate_coupling": {
+            "listening_cannot_clear_timing": True,
+            "timing_waiver_cannot_grant_listening": True,
+            "fake_listening_pass_rejected": True,
+        },
         "boundaries": {
             "offline_only": True,
             "gpu_used": False,
             "comfyui_8188_used": False,
             "row075_touched": False,
+            "row073_touched": False,
+            "full_library_pcm_decoded": False,
             "sound_csv_written": False,
             "speech_csv_written": False,
             "media_mutated": False,
@@ -654,10 +673,166 @@ def build_raw_dialogue_timing_fail_closed_waiver_packet(
             "production_promotion_claimed": False,
             "invented_voices": False,
             "tip_sha_chain": False,
+            "hold090_plus_touched": False,
         },
         "row_complete": False,
         "product_completion_claimed": False,
     }
+
+
+def build_human_listening_fail_closed_blocker_packet(
+    *,
+    stamp: str,
+    candidate_sha256: str,
+    listening_review_request_prepared: bool = True,
+    review_id: str = LISTENING_REVIEW_ID,
+    timing_waiver_granted: bool = False,
+    raw_dialogue_timing_pass: bool = False,
+) -> dict[str, Any]:
+    """Document fail-closed human-listening disposition; never fabricates listening PASS."""
+    if not listening_review_request_prepared:
+        raise ProofError("human listening blocker requires a prepared review request binding")
+    return {
+        "schema_version": "1.0",
+        "artifact_type": "wave64_speech_row124_human_listening_fail_closed_blocker_packet",
+        "evidence_id": f"TRK-W64-124_HUMAN_LISTENING_FAIL_CLOSED_BLOCKER_{stamp}",
+        "tracker_id": TRACKER_ID,
+        "item_id": ITEM_ID,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "proof_tier": PROOF_TIER,
+        "status": LISTENING_BLOCKER_DISPOSITION,
+        "disposition": LISTENING_BLOCKER_DISPOSITION,
+        "listening_authority_granted": False,
+        "independent_playback_review_pass": False,
+        "final_voice_certification_pass": False,
+        "human_decision_fabricated": False,
+        "listening_review_request_prepared": True,
+        "review_id": review_id,
+        "candidate_sha256": candidate_sha256,
+        "blocker_codes_retained": [
+            "INDEPENDENT_PLAYBACK_REVIEW_ABSENT",
+            "FINAL_VOICE_CERTIFICATION_PENDING",
+        ],
+        "upstream_gates_still_blocking_production_listening": {
+            "raw_dialogue_timing_pass": bool(raw_dialogue_timing_pass),
+            "timing_waiver_granted": bool(timing_waiver_granted),
+            "production_character_reference_authority_pass": False,
+        },
+        "clearance_paths": {
+            "path_a_independent_human_playback_review": {
+                "description": (
+                    "Execute a real independent human playback review against the prepared "
+                    "hash-bound listening request. Agent/packager self-scores are prohibited."
+                ),
+                "must_all": [
+                    f"Review cites review_id {review_id}",
+                    f"Review cites candidate sha256 {candidate_sha256}",
+                    "Named independent human reviewer performs actual playback",
+                    "Reviewer is not the packaging/automation agent that authored this packet",
+                    "Category/section scores meet the prepared request minimum without fabrication",
+                    "Hash-bound review receipt is recorded under the human-audio review authority",
+                    "Packager/ROW124 automated_gates.independent_playback_review_pass becomes true "
+                    "only from that receipt, never from this blocker packet",
+                    "Preparing or re-emitting the listening request alone is insufficient",
+                ],
+            },
+            "path_b_final_voice_certification_after_playback": {
+                "description": (
+                    "After Path A playback PASS, record final voice certification. This fail-closed "
+                    "blocker packet is not that certification and never grants LISTENING_AUTHORITY."
+                ),
+                "must_all": [
+                    "Path A independent playback review already passed with hash-bound receipt",
+                    "Production character reference authority is present OR certification explicitly "
+                    "scoped as non-production evaluation-only",
+                    "Final certification artifact cites this blocker evidence_id and candidate sha256",
+                    "Certification forbids COMPLETE / PRODUCTION_VOICE_AUTHORITY promotion by itself",
+                    "Subsequent delta binds the certification before dropping "
+                    "FINAL_VOICE_CERTIFICATION_PENDING",
+                    "No CSV sound-row write, :8188 contention, Row073/Row075 mutation, or "
+                    "full-library PCM decode is implied",
+                ],
+            },
+        },
+        "do_not_clear_blocker_when": [
+            "Only the listening review request is prepared",
+            "Only this fail-closed human-listening blocker packet exists",
+            "Agent or packager fabricates category scores or listening PASS",
+            "Automated ASR / identity / multi-ref matrix success is offered as listening PASS",
+            "Subjective claim exists without a hash-bound independent review receipt",
+            "Timing waiver packet or timing measurement is offered as listening authority",
+            "Production COMPLETE is claimed in the same landing",
+        ],
+        "anti_fake_pass_invariants": [
+            "listening_review_request_prepared=true NEVER implies independent_playback_review_pass",
+            "independent_playback_review_pass=true without hash-bound human review receipt is REJECTED",
+            "Agent-authored review scores are fabricated_human_decision and FAIL CLOSED",
+            "This packet itself never sets listening PASS or listening_authority_granted",
+            "Timing Path A/B clearance never substitutes for independent human playback",
+        ],
+        "cross_gate_coupling": {
+            "request_prepared_is_not_listening_pass": True,
+            "timing_cannot_grant_listening": True,
+            "listening_cannot_clear_timing": True,
+            "fake_listening_pass_rejected": True,
+        },
+        "boundaries": {
+            "offline_only": True,
+            "gpu_used": False,
+            "comfyui_8188_used": False,
+            "row075_touched": False,
+            "row073_touched": False,
+            "full_library_pcm_decoded": False,
+            "sound_csv_written": False,
+            "speech_csv_written": False,
+            "media_mutated": False,
+            "subjective_review_fabricated": False,
+            "timing_waiver_granted": bool(timing_waiver_granted),
+            "listening_authority_granted": False,
+            "production_promotion_claimed": False,
+            "invented_voices": False,
+            "tip_sha_chain": False,
+            "hold090_plus_touched": False,
+        },
+        "row_complete": False,
+        "product_completion_claimed": False,
+    }
+
+
+def verify_human_listening_fail_closed_blocker_packet(packet: dict[str, Any]) -> dict[str, Any]:
+    """Reject any fake listening PASS smuggled into the fail-closed blocker packet."""
+    if packet.get("artifact_type") != "wave64_speech_row124_human_listening_fail_closed_blocker_packet":
+        raise ProofError("human listening blocker artifact_type mismatch")
+    if packet.get("disposition") != LISTENING_BLOCKER_DISPOSITION:
+        raise ProofError("human listening blocker disposition drift")
+    if packet.get("listening_authority_granted") is not False:
+        raise ProofError("human listening blocker incorrectly grants listening authority")
+    if packet.get("independent_playback_review_pass") is not False:
+        raise ProofError("human listening blocker incorrectly claims playback PASS")
+    if packet.get("final_voice_certification_pass") is not False:
+        raise ProofError("human listening blocker incorrectly claims final voice certification")
+    if packet.get("human_decision_fabricated") is not False:
+        raise ProofError("human listening blocker marks fabricated decision without failing closed")
+    if packet.get("row_complete") is not False:
+        raise ProofError("human listening blocker incorrectly claims row_complete")
+    if packet.get("product_completion_claimed") is not False:
+        raise ProofError("human listening blocker incorrectly claims product completion")
+    boundaries = packet.get("boundaries") or {}
+    if boundaries.get("listening_authority_granted") is not False:
+        raise ProofError("human listening blocker boundary grants listening authority")
+    if boundaries.get("subjective_review_fabricated") is not False:
+        raise ProofError("human listening blocker fabricates subjective review")
+    coupling = packet.get("cross_gate_coupling") or {}
+    if coupling.get("fake_listening_pass_rejected") is not True:
+        raise ProofError("human listening blocker missing fake-pass rejection invariant")
+    if coupling.get("request_prepared_is_not_listening_pass") is not True:
+        raise ProofError("human listening blocker missing request≠pass invariant")
+    retained = packet.get("blocker_codes_retained") or []
+    if "INDEPENDENT_PLAYBACK_REVIEW_ABSENT" not in retained:
+        raise ProofError("human listening blocker dropped playback-absent code")
+    if "FINAL_VOICE_CERTIFICATION_PENDING" not in retained:
+        raise ProofError("human listening blocker dropped final-certification-pending code")
+    return packet
 
 
 def classify_blockers(
@@ -669,6 +844,7 @@ def classify_blockers(
     matrix_complete: bool,
     timing_waiver_packet_prepared: bool = False,
     timing_waiver_granted: bool = False,
+    human_listening_blocker_packet_prepared: bool = False,
     class_f_blocker: str | None = None,
     class_a_blocker: str | None = None,
 ) -> list[dict[str, Any]]:
@@ -734,14 +910,35 @@ def classify_blockers(
         cleared.append("LISTENING_REVIEW_REQUEST_UNPREPARED")
     else:
         listening_codes.insert(0, "LISTENING_REVIEW_REQUEST_UNPREPARED")
+    if human_listening_blocker_packet_prepared:
+        cleared.append(LISTENING_DISPOSITION_UNDOCUMENTED_CODE)
+    else:
+        listening_codes.append(LISTENING_DISPOSITION_UNDOCUMENTED_CODE)
+    if human_listening_blocker_packet_prepared:
+        listening_summary = (
+            "Independent human playback review and final voice certification remain pending. "
+            "Fail-closed human-listening blocker packet is documented with exact Path A "
+            "(independent playback receipt) / Path B (final certification) criteria; "
+            "listening_authority_granted=false and fabricated listening PASS is rejected. "
+            "Preparing a hash-bound listening request does not grant listening authority."
+        )
+    else:
+        listening_summary = (
+            "Independent human playback review and final voice certification remain pending. "
+            "Preparing a hash-bound listening request does not grant listening authority. "
+            "Human-listening fail-closed disposition packet is not yet documented."
+        )
     blockers.append(
         {
             "class": "LISTENING_AUTHORITY",
             "codes": listening_codes,
             "cleared_by_this_packet": cleared,
-            "summary": (
-                "Independent human playback review and final voice certification remain pending. "
-                "Preparing a hash-bound listening request does not grant listening authority."
+            "summary": listening_summary,
+            "human_listening_blocker_packet_prepared": human_listening_blocker_packet_prepared,
+            "listening_authority_granted": False,
+            "independent_playback_review_pass": False,
+            "disposition": (
+                LISTENING_BLOCKER_DISPOSITION if human_listening_blocker_packet_prepared else None
             ),
         }
     )
@@ -815,7 +1012,7 @@ def build_listening_request(
     args = argparse.Namespace(
         artifact=str(candidate),
         media_type="audio",
-        review_id="W64-ROW124-QWEN3-BASE-ICL-CLONE-LISTENING-001",
+        review_id=LISTENING_REVIEW_ID,
         expected_transcript="We hold the frame steady and move on the beat.",
         character_id="UNASSIGNED_REFERENCE_POOL",
         voice_profile_id="voice_unassigned_public_domain_eval_ref_v1",
@@ -1004,6 +1201,15 @@ def build_proof_packet(
     )
     timing_waiver_prepared = True
     timing_waiver_granted = False
+    listening_blocker = build_human_listening_fail_closed_blocker_packet(
+        stamp=stamp,
+        candidate_sha256=EXPECTED_CANDIDATE_SHA256,
+        listening_review_request_prepared=True,
+        timing_waiver_granted=timing_waiver_granted,
+        raw_dialogue_timing_pass=gate_snapshot["raw_dialogue_timing_pass"],
+    )
+    verify_human_listening_fail_closed_blocker_packet(listening_blocker)
+    listening_blocker_prepared = True
 
     listening_request = build_listening_request(
         root,
@@ -1038,6 +1244,14 @@ def build_proof_packet(
         f"Plan/Tracker/Evidence/Audio_Asset_Intake/"
         f"TRK-W64-124_RAW_DIALOGUE_TIMING_FAIL_CLOSED_WAIVER_{stamp}.json"
     )
+    listening_blocker_rel = (
+        f"Plan/Instructions/QA/Evidence/Audio_Asset_Intake/"
+        f"TRK-W64-124_HUMAN_LISTENING_FAIL_CLOSED_BLOCKER_{stamp}.json"
+    )
+    tracker_listening_blocker_rel = (
+        f"Plan/Tracker/Evidence/Audio_Asset_Intake/"
+        f"TRK-W64-124_HUMAN_LISTENING_FAIL_CLOSED_BLOCKER_{stamp}.json"
+    )
 
     blockers = classify_blockers(
         independent_source_reference_count=independent_count,
@@ -1047,6 +1261,7 @@ def build_proof_packet(
         matrix_complete=matrix_complete,
         timing_waiver_packet_prepared=timing_waiver_prepared,
         timing_waiver_granted=timing_waiver_granted,
+        human_listening_blocker_packet_prepared=listening_blocker_prepared,
     )
     blocker_codes = flatten_blocker_codes(blockers)
     multi_ref_cleared = next(
@@ -1054,6 +1269,9 @@ def build_proof_packet(
     )
     timing_cleared = next(
         item["cleared_by_this_packet"] for item in blockers if item["class"] == "DIALOGUE_TIMING"
+    )
+    listening_cleared = next(
+        item["cleared_by_this_packet"] for item in blockers if item["class"] == "LISTENING_AUTHORITY"
     )
 
     checks = [
@@ -1097,6 +1315,33 @@ def build_proof_packet(
             "name": "R124-P015_raw_dialogue_timing_fail_closed_waiver_prepared",
             "result": "pass" if timing_waiver_prepared and not timing_waiver_granted else "fail",
         },
+        {
+            "name": "R124-P016_human_listening_fail_closed_blocker_prepared",
+            "result": "pass" if listening_blocker_prepared else "fail",
+        },
+        {
+            "name": "R124-P017_no_fake_listening_pass",
+            "result": (
+                "pass"
+                if (
+                    listening_blocker.get("independent_playback_review_pass") is False
+                    and listening_blocker.get("listening_authority_granted") is False
+                    and listening_request.get("authority_boundary", {}).get(
+                        "independent_playback_review_pass"
+                    )
+                    is False
+                )
+                else "fail"
+            ),
+            **(
+                {}
+                if (
+                    listening_blocker.get("independent_playback_review_pass") is False
+                    and listening_blocker.get("listening_authority_granted") is False
+                )
+                else {"blocker_code": "FABRICATED_LISTENING_PASS_REJECTED"}
+            ),
+        },
         {"name": "R124-P009_no_product_complete_claim", "result": "pass"},
         {"name": "R124-P010_no_sound_csv_write", "result": "pass"},
         {"name": "R124-P011_row075_left_alone", "result": "pass"},
@@ -1123,20 +1368,25 @@ def build_proof_packet(
             "complete. Fail-closed raw-dialogue-timing waiver packet is recorded with exact "
             "Path A (retimed immutable candidate) / Path B (authorized contract revision or "
             "waiver grant) criteria; waiver_granted=false and "
-            "RAW_DIALOGUE_TIMING_OUT_OF_TOLERANCE remains. Satisfy Path A or Path B, then "
-            "execute independent human listening against the prepared request. Do not steal "
-            ":8188, touch Row075, decode full-library PCM, write sound CSV, invent voices, or "
-            "claim COMPLETE / PRODUCTION_VOICE_AUTHORITY / LISTENING_AUTHORITY."
+            "RAW_DIALOGUE_TIMING_OUT_OF_TOLERANCE remains. Fail-closed human-listening blocker "
+            "packet is recorded with exact Path A (independent playback receipt) / Path B "
+            "(final certification) criteria; listening_authority_granted=false and fabricated "
+            "listening PASS is rejected. Satisfy timing Path A or B, then execute real "
+            "independent human listening against the prepared request. Do not steal :8188, "
+            "touch Row073/Row075, decode full-library PCM, write sound CSV, invent voices, "
+            "fabricate listening PASS, or claim COMPLETE / PRODUCTION_VOICE_AUTHORITY / "
+            "LISTENING_AUTHORITY."
         )
     else:
         packet_status = "BLOCKED_MULTI_REF_MATRIX_INCOMPLETE_AND_LISTENING_AUTHORITY_PENDING"
         safe_next_action = (
             "Retain OFFLINE_PROOF_BOUNDED packet. Complete measured multi-ref drift/leakage "
             "matrix evaluation against the two bound disjoint LibriVox references. Fail-closed "
-            "timing waiver criteria are documented but not granted. Then execute independent "
-            "human listening against the prepared request. Do not steal :8188, touch Row075, "
-            "decode full-library PCM, write sound CSV, invent voices, or claim COMPLETE / "
-            "PRODUCTION_VOICE_AUTHORITY / LISTENING_AUTHORITY."
+            "timing waiver and human-listening blocker criteria are documented but neither "
+            "timing waiver nor listening authority is granted. Then execute independent human "
+            "listening against the prepared request. Do not steal :8188, touch Row073/Row075, "
+            "decode full-library PCM, write sound CSV, invent voices, fabricate listening PASS, "
+            "or claim COMPLETE / PRODUCTION_VOICE_AUTHORITY / LISTENING_AUTHORITY."
         )
 
     created_at = datetime.now(timezone.utc).isoformat()
@@ -1172,6 +1422,7 @@ def build_proof_packet(
             "listening_review_request": listening_rel,
             "multi_ref_drift_leakage_matrix": matrix_rel,
             "raw_dialogue_timing_fail_closed_waiver": timing_waiver_rel,
+            "human_listening_fail_closed_blocker": listening_blocker_rel,
             "packager_script": display_relative(
                 root,
                 root
@@ -1207,6 +1458,20 @@ def build_proof_packet(
             "target_duration_seconds": timing_waiver["contract"]["target_duration_seconds"],
             "tolerance_seconds": timing_waiver["contract"]["tolerance_seconds"],
             "clearance_paths": list(timing_waiver["clearance_paths"].keys()),
+            "cross_gate_coupling": timing_waiver.get("cross_gate_coupling"),
+            "anti_fake_pass_invariants": timing_waiver.get("anti_fake_pass_invariants"),
+        },
+        "human_listening_disposition": {
+            "evidence_id": listening_blocker["evidence_id"],
+            "status": listening_blocker["status"],
+            "listening_authority_granted": False,
+            "independent_playback_review_pass": False,
+            "final_voice_certification_pass": False,
+            "human_decision_fabricated": False,
+            "blocker_codes_retained": list(listening_blocker["blocker_codes_retained"]),
+            "clearance_paths": list(listening_blocker["clearance_paths"].keys()),
+            "cross_gate_coupling": listening_blocker.get("cross_gate_coupling"),
+            "anti_fake_pass_invariants": listening_blocker.get("anti_fake_pass_invariants"),
         },
         "listening_authority": {
             "review_request_prepared": True,
@@ -1214,6 +1479,9 @@ def build_proof_packet(
             "independent_playback_review_pass": False,
             "production_listening_authority": False,
             "human_decision_fabricated": False,
+            "fail_closed_blocker_prepared": True,
+            "fail_closed_blocker_evidence_id": listening_blocker["evidence_id"],
+            "fake_listening_pass_rejected": True,
         },
         "blocker_classes": blockers,
         "blocker_codes": blocker_codes,
@@ -1235,6 +1503,9 @@ def build_proof_packet(
             "tip_sha_chain": False,
             "invented_voices": False,
             "timing_waiver_granted": False,
+            "row073_touched": False,
+            "hold090_plus_touched": False,
+            "fake_listening_pass_rejected": True,
         },
         "row_complete": False,
     }
@@ -1243,6 +1514,7 @@ def build_proof_packet(
         packet["listening_review_request_payload"] = listening_request
         packet["multi_ref_drift_leakage_matrix_payload"] = matrix
         packet["raw_dialogue_timing_fail_closed_waiver_payload"] = timing_waiver
+        packet["human_listening_fail_closed_blocker_payload"] = listening_blocker
         return packet
 
     listening_binding = write_json_atomic(root / listening_rel, listening_request, immutable=True)
@@ -1259,6 +1531,13 @@ def build_proof_packet(
     write_json_atomic(root / tracker_timing_waiver_rel, timing_waiver, immutable=True)
     packet["bindings"]["raw_dialogue_timing_fail_closed_waiver_binding"] = timing_binding
 
+    listening_blocker_binding = write_json_atomic(
+        root / listening_blocker_rel, listening_blocker, immutable=True
+    )
+    listening_blocker_binding["repo_relative"] = listening_blocker_rel
+    write_json_atomic(root / tracker_listening_blocker_rel, listening_blocker, immutable=True)
+    packet["bindings"]["human_listening_fail_closed_blocker_binding"] = listening_blocker_binding
+
     delta_binding = write_json_atomic(root / delta_rel, packet, immutable=True)
     delta_binding["repo_relative"] = delta_rel
     write_json_atomic(root / tracker_delta_rel, packet, immutable=True)
@@ -1267,6 +1546,7 @@ def build_proof_packet(
     cleared_partial = ["LISTENING_REVIEW_REQUEST_UNPREPARED"]
     cleared_partial.extend(multi_ref_cleared)
     cleared_partial.extend(timing_cleared)
+    cleared_partial.extend(listening_cleared)
     updated_row["multi_ref_listening_proof"] = {
         "proof_tier": PROOF_TIER,
         "status": packet["status"],
@@ -1275,6 +1555,7 @@ def build_proof_packet(
         "listening_review_request": listening_rel,
         "multi_ref_drift_leakage_matrix": matrix_rel,
         "raw_dialogue_timing_fail_closed_waiver": timing_waiver_rel,
+        "human_listening_fail_closed_blocker": listening_blocker_rel,
         "independent_source_reference_count": independent_count,
         "blocker_classes": blockers,
         "blocker_codes": blocker_codes,
@@ -1285,6 +1566,9 @@ def build_proof_packet(
         "drift_leakage_matrix_complete": matrix_complete,
         "timing_waiver_packet_prepared": True,
         "timing_waiver_granted": False,
+        "human_listening_blocker_packet_prepared": True,
+        "listening_authority_granted": False,
+        "fake_listening_pass_rejected": True,
         "row_complete": False,
         "product_completion": False,
         "production_voice_authority_claimed": False,
@@ -1320,6 +1604,9 @@ def build_proof_packet(
         "raw_dialogue_timing_fail_closed_waiver": timing_waiver_rel,
         "raw_dialogue_timing_fail_closed_waiver_sha256": timing_binding["sha256"],
         "tracker_raw_dialogue_timing_fail_closed_waiver": tracker_timing_waiver_rel,
+        "human_listening_fail_closed_blocker": listening_blocker_rel,
+        "human_listening_fail_closed_blocker_sha256": listening_blocker_binding["sha256"],
+        "tracker_human_listening_fail_closed_blocker": tracker_listening_blocker_rel,
         "row124_qa": ROW124_QA.as_posix(),
         "row124_tracker": ROW124_TRACKER.as_posix(),
     }
