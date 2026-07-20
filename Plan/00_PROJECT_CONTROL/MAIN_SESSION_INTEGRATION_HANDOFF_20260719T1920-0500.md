@@ -13,8 +13,9 @@
 
 1. `e12cf00b` Prove Row017 MF70 forehead local visual climb.
 2. `cdbdbe83` Stamp Row017 forehead handoff with primary commit id.
+3. `37806d49` Finalize Row017 forehead handoff tip IDs.
 
-Pushed tip verified on origin: `cdbdbe83`
+Pushed tip verified on origin: `37806d49`
 
 ## Row-Scoped Increment Executed
 
