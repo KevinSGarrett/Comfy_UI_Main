@@ -164,6 +164,30 @@ ALLOWED_EFFECTORS = {
 }
 SHA256_HEX_CHARS = set("0123456789abcdef")
 REQUIRED_LANDMARK_CLASSES = {"body", "hand", "foot"}
+CONTENT_ADDRESSED_EXCLUDED_FIELDS = frozenset({"created_at", "manifest_sha256"})
+REPO_ROOT = Path(__file__).resolve().parents[3]
+DEFAULT_FIXTURE_DIR = (
+    REPO_ROOT / "Plan" / "Instructions" / "QA" / "Evidence" / "Wave64" / "fixtures" / "row086"
+)
+
+# Checked-in synthetic landmark / gait / contact-phase fixture packets.
+BENCHMARK_FIXTURE_PACKETS: tuple[dict[str, str], ...] = (
+    {
+        "name": "case_visible_landmark_trajectory.json",
+        "role": "visible_landmark_trajectory",
+        "case_id": "visible_landmark_trajectory",
+    },
+    {
+        "name": "case_gait_contact_phases.json",
+        "role": "gait_contact_phases",
+        "case_id": "gait_contact_phases",
+    },
+    {
+        "name": "case_partial_view_hidden_joint.json",
+        "role": "partial_view_hidden_joint",
+        "case_id": "partial_view_hidden_joint",
+    },
+)
 
 
 def _assert_keys_exact(obj: dict[str, Any], allowed: set[str], label: str) -> None:
@@ -242,6 +266,54 @@ def _write_json_atomic(path: Path, payload: dict[str, Any]) -> None:
 def _canonical_sha256(payload: dict[str, Any]) -> str:
     encoded = json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode("utf-8")
     return hashlib.sha256(encoded).hexdigest()
+
+
+def content_addressed_body(payload: dict[str, Any]) -> dict[str, Any]:
+    """Return the deterministic body hashed for replay/tamper checks.
+
+    Wall-clock ``created_at`` and the self-referential ``manifest_sha256`` are
+    excluded so identical fixture packets replay to the same digest.
+    """
+    if not isinstance(payload, dict):
+        raise ValueError("payload must be an object")
+    return {key: value for key, value in payload.items() if key not in CONTENT_ADDRESSED_EXCLUDED_FIELDS}
+
+
+def content_addressed_manifest_sha256(payload: dict[str, Any]) -> str:
+    return _canonical_sha256(content_addressed_body(payload))
+
+
+def verify_manifest_integrity(payload: dict[str, Any]) -> str:
+    """Recompute content-addressed digest and reject tampered manifests."""
+    recorded = _expect_sha256(payload.get("manifest_sha256"), "manifest_sha256")
+    recomputed = content_addressed_manifest_sha256(payload)
+    if recorded != recomputed:
+        raise ValueError(
+            "manifest_sha256 tamper/replay mismatch: "
+            f"recorded={recorded} recomputed={recomputed}"
+        )
+    return recomputed
+
+
+def load_fixture_packet(name: str, *, fixture_dir: Path | None = None) -> dict[str, Any]:
+    """Load a checked-in Row086 fixture packet by filename."""
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    path = directory / name
+    if not path.is_file():
+        raise FileNotFoundError(f"Row086 fixture packet missing: {path}")
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise ValueError(f"Row086 fixture packet must be a JSON object: {path}")
+    return payload
+
+
+def fixture_file_sha256(name: str, *, fixture_dir: Path | None = None) -> str:
+    """Return the lowercase sha256 of a checked-in fixture packet file bytes."""
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    path = directory / name
+    if not path.is_file():
+        raise FileNotFoundError(f"Row086 fixture packet missing: {path}")
+    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def _validate_timeline_binding(raw: Any) -> dict[str, Any]:
@@ -823,7 +895,8 @@ def compile_manifest(payload: dict[str, Any]) -> dict[str, Any]:
         "row_complete": row_complete,
         "provenance": provenance,
     }
-    manifest_sha256 = _canonical_sha256(receipt_body)
+    # Content-addressed digest excludes wall-clock created_at for deterministic replay.
+    manifest_sha256 = content_addressed_manifest_sha256(receipt_body)
     receipt_body["manifest_sha256"] = manifest_sha256
     return receipt_body
 
@@ -832,9 +905,74 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description="Compile a fail-closed Row086 pose/hand/foot/gait extraction manifest."
     )
-    parser.add_argument("--input", required=True, help="Path to pose/gait input packet JSON")
-    parser.add_argument("--output", required=True, help="Path to write compiled extraction manifest JSON")
+    parser.add_argument("--input", help="Path to pose/gait input packet JSON")
+    parser.add_argument("--output", help="Path to write compiled extraction manifest JSON")
+    parser.add_argument(
+        "--verify-fixture-replay",
+        action="store_true",
+        help=(
+            "Fail-closed compile checked-in landmark/phase fixtures and verify "
+            "content-addressed replay/tamper hashes without claiming annotated "
+            "benchmark pass or Rows084/085 acceptance"
+        ),
+    )
+    parser.add_argument(
+        "--fixture-dir",
+        default=str(DEFAULT_FIXTURE_DIR),
+        help="Fixture directory for replay verification (default: checked-in row086 fixtures)",
+    )
     args = parser.parse_args(argv)
+
+    if args.verify_fixture_replay:
+        directory = Path(args.fixture_dir)
+        receipts: list[dict[str, Any]] = []
+        try:
+            for packet_meta in BENCHMARK_FIXTURE_PACKETS:
+                name = packet_meta["name"]
+                packet = load_fixture_packet(name, fixture_dir=directory)
+                compiled = compile_manifest(packet)
+                digest = verify_manifest_integrity(compiled)
+                if compiled["row_complete"] or compiled["production_completion_allowed"]:
+                    raise ValueError(f"{name}: fixture must remain non-complete")
+                if compiled["dependency_authority"].get("row084_complete"):
+                    raise ValueError(f"{name}: must not claim row084_complete")
+                if compiled["dependency_authority"].get("row085_complete"):
+                    raise ValueError(f"{name}: must not claim row085_complete")
+                if compiled["runtime_authority"].get("annotated_benchmark_pass"):
+                    raise ValueError(f"{name}: must not claim annotated_benchmark_pass")
+                receipts.append(
+                    {
+                        "fixture_name": name,
+                        "role": packet_meta["role"],
+                        "fixture_file_sha256": fixture_file_sha256(name, fixture_dir=directory),
+                        "compiled_manifest_sha256": digest,
+                        "row_complete": False,
+                    }
+                )
+        except (OSError, ValueError, FileNotFoundError) as exc:
+            raise SystemExit(f"ROW086_FAIL_CLOSED: {exc}") from exc
+        print(
+            json.dumps(
+                {
+                    "status": "ok",
+                    "verifier": "verify_fixture_replay",
+                    "fixture_count": len(receipts),
+                    "fixtures": receipts,
+                    "annotated_benchmark_pass": False,
+                    "row084_acceptance_claimed": False,
+                    "row085_acceptance_claimed": False,
+                    "row_complete": False,
+                    "authority_ceiling": "fixture_synthetic_only",
+                }
+            )
+        )
+        return 0
+
+    if not args.input or not args.output:
+        raise SystemExit(
+            "ROW086_FAIL_CLOSED: --input and --output are required unless verifying "
+            "fixture replay"
+        )
 
     input_path = Path(args.input)
     output_path = Path(args.output)

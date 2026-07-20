@@ -1,20 +1,21 @@
 {
   "schema_version": "1.0",
   "evidence_id": "TRK-W64-086_POSE_HAND_FOOT_GAIT_EXTRACTION_CURRENT_DELTA_20260719",
-  "created_at": "2026-07-19T19:55:00Z",
-  "source_commit": "6e84cf6fdccf872bb246d92bdae4d629f9c2b971",
-  "prior_row_commit": "41a6ed7f5019a04694b2f8e39c5cfa5599a582fd",
+  "created_at": "2026-07-20T06:02:30Z",
+  "source_commit": "be4cc4ea",
+  "prior_row_commit": "c5e3d6ce",
   "prior_row_commit_is_current_head": false,
   "tracker_id": "TRK-W64-086",
   "item_id": "ITEM-W64-086",
-  "status": "HOLD_DEPENDENCY_RUNTIME_BENCHMARK_AND_VISUAL_PROOF_ABSENT_WITH_FAIL_CLOSED_POSE_GAIT_COMPILER_SLICE_PRESENT",
-  "classification": "ROW086_CURRENT_DELTA_FAIL_CLOSED_COMPILER_AND_SCHEMA_SLICE_NO_FALSE_COMPLETION",
+  "status": "HOLD_DEPENDENCY_RUNTIME_BENCHMARK_AND_VISUAL_PROOF_ABSENT_WITH_LANDMARK_PHASE_FIXTURE_REPLAY_SLICE_PRESENT",
+  "classification": "ROW086_CURRENT_DELTA_LANDMARK_PHASE_FIXTURE_AND_REPLAY_HASH_SLICE_NO_FALSE_COMPLETION",
+  "proof_tier": "CONTRACT_FIXTURE_REPLAY",
   "row_complete": false,
   "implementation_completion_claimed": false,
   "runtime_completion_claimed": false,
   "qa_decision": "HOLD",
   "intent": {
-    "intent_id": "interactive_cursor_shift_row086_compiler_slice_20260719",
+    "intent_id": "interactive_cursor_shift_row086_landmark_phase_fixture_replay_20260720",
     "classification": "INTERACTIVE_CURSOR_SHIFT_AUTHORITY",
     "work_type": "final_authority",
     "authority_class": "interactive_cursor_integration",
@@ -24,13 +25,19 @@
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_pose_hand_foot_gait_extraction.py",
       "Plan/08_SCHEMAS/pose_hand_foot_gait_extraction_manifest.schema.json",
       "Plan/Instructions/QA/Scripts/test_row086_pose_hand_foot_gait_extraction_compiler.py",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-086_POSE_HAND_FOOT_GAIT_EXTRACTION_CURRENT_DELTA_20260719.json"
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-086_POSE_HAND_FOOT_GAIT_EXTRACTION_CURRENT_DELTA_20260719.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row086/case_visible_landmark_trajectory.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row086/case_gait_contact_phases.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row086/case_partial_view_hidden_joint.json"
     ],
     "allowed_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_pose_hand_foot_gait_extraction.py",
       "Plan/08_SCHEMAS/pose_hand_foot_gait_extraction_manifest.schema.json",
       "Plan/Instructions/QA/Scripts/test_row086_pose_hand_foot_gait_extraction_compiler.py",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-086_POSE_HAND_FOOT_GAIT_EXTRACTION_CURRENT_DELTA_20260719.json"
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-086_POSE_HAND_FOOT_GAIT_EXTRACTION_CURRENT_DELTA_20260719.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row086/case_visible_landmark_trajectory.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row086/case_gait_contact_phases.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row086/case_partial_view_hidden_joint.json"
     ]
   },
   "row086_contract": {
@@ -85,24 +92,62 @@
   },
   "compiler_slice": {
     "compiler_path": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_pose_hand_foot_gait_extraction.py",
-    "compiler_sha256": "0ed75a52b1c50f9fa67fec90ed604589fa9b0284ea3cb7c1353dd849484d46d7",
-    "compiler_bytes": 34383,
+    "compiler_sha256": "429e087d2724ac745ac689134bc5ab06d5db7105291dd7e2823eb80d4abea5ba",
+    "compiler_bytes": 40471,
     "schema_path": "Plan/08_SCHEMAS/pose_hand_foot_gait_extraction_manifest.schema.json",
     "schema_sha256": "4db66467198c2cc6b3df232f0407d8a43affe890a84096fb4629983e301d0bd9",
     "schema_bytes": 12611,
     "test_path": "Plan/Instructions/QA/Scripts/test_row086_pose_hand_foot_gait_extraction_compiler.py",
-    "test_sha256": "12b8894da7ce4ab7eae9cf004543c6e1945c4aab5a2ec601f0d1e5b91457d180",
-    "test_bytes": 14692,
+    "test_sha256": "b610da9f365c9c1ca5d47e3f28e8d780cf85e52d07098d50fead4f5a537feaf5",
+    "test_bytes": 19312,
+    "fixture_dir": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row086",
+    "fixture_packets": [
+      {
+        "name": "case_visible_landmark_trajectory.json",
+        "role": "visible_landmark_trajectory",
+        "file_sha256": "9b31ede816dfe0a846963fe712bad44b1c631558b8cf8c94c7c3e5a58e29cddb",
+        "compiled_manifest_sha256": "248f7897ed0c618d0056da77b768a15fce19ec6f3c07a2e9d527eacbb751e920",
+        "bytes": 7087
+      },
+      {
+        "name": "case_gait_contact_phases.json",
+        "role": "gait_contact_phases",
+        "file_sha256": "6ac1a74fa91e7565bb1eb4521e5a1d1f03dd3460e7db21a166e891cdd027350d",
+        "compiled_manifest_sha256": "c10823590b86ddf0e21872634d6026eb5592a7940f28916ba1fa2c1c96629027",
+        "bytes": 7373
+      },
+      {
+        "name": "case_partial_view_hidden_joint.json",
+        "role": "partial_view_hidden_joint",
+        "file_sha256": "868f50d52fe4e68b726f646fb5016fdcf904f315ab10f2355581fb93a0e52806",
+        "compiled_manifest_sha256": "dc0a24dfcc2f96a653aa5f4edcaf99a4d4c78b338b3390341268f7e7cc766087",
+        "bytes": 7349
+      }
+    ],
+    "fixture_replay_verifier": {
+      "function": "verify_manifest_integrity",
+      "cli_flag": "--verify-fixture-replay",
+      "content_addressed_excludes_created_at": true,
+      "rejects_tamper": true,
+      "rejects_annotated_benchmark_pass_claim": true,
+      "rejects_row084_acceptance_claim": true,
+      "rejects_row085_acceptance_claim": true,
+      "production_benchmark": false,
+      "row_complete": false
+    },
     "fail_closed_invariants": [
       "required body/hand/foot landmark taxonomy with owner-track binding",
       "partial-view guard rejects fabricated coordinates/velocity for hidden or unknown joints",
       "trajectory samples enforce unique strictly increasing frame_index and pts",
       "gait phases include heel_strike/sole_contact/toe_off/stance/swing",
       "contact phases include approach/contact/release ownership-bound effector events",
+      "content-addressed manifest_sha256 excludes created_at for deterministic replay; verify_manifest_integrity rejects tamper",
+      "checked-in fixture packets cover visible landmark trajectory, gait/contact phases, and partial-view hidden joints",
+      "fixture replay CLI verifies all three packets without claiming annotated benchmark or Rows084/085 acceptance",
       "Rows084 and 085 dependency flags plus runtime/review flags gate authority ceiling",
       "row_complete and production_completion_allowed remain false in this increment"
     ],
-    "decision": "USEFUL_FAIL_CLOSED_CONTRACT_COMPILER_SLICE_NOT_PRODUCTION_POSE_GAIT_AUTHORITY"
+    "decision": "USEFUL_LANDMARK_PHASE_FIXTURE_REPLAY_SLICE_NOT_PRODUCTION_POSE_GAIT_AUTHORITY"
   },
   "dependency_authority": [
     {
@@ -110,6 +155,7 @@
       "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json",
       "row_complete": false,
       "dependency_satisfied": false,
+      "row084_acceptance_claimed": false,
       "row086_effect": "Frame-level trajectories and phases cannot be certified without an accepted canonical timebase, frame sequence, cuts, and missing-frame policy."
     },
     {
@@ -117,18 +163,19 @@
       "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719.json",
       "row_complete": false,
       "dependency_satisfied": false,
-      "row086_effect": "Landmarks, body regions, and contact phases cannot be assigned safely without accepted persistent owner and track identities.",
-      "note": "Row085 now has a fail-closed track compiler slice at 41a6ed7f, but remains incomplete pending Row084, benchmarks, and runtime/visual authorities."
+      "row085_acceptance_claimed": false,
+      "row086_effect": "Landmarks, body regions, and contact phases cannot be assigned safely without accepted persistent owner and track identities. Fixture replay does not satisfy that ownership authority."
     }
   ],
   "focused_local_test_result": {
     "py_compile": "PASS",
     "strict_command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_row086_pose_hand_foot_gait_extraction_compiler.py",
-    "strict_result": "8 passed",
+    "strict_result": "10 passed",
     "strict_exit_code": 0,
-    "total_focused_passed": 8,
+    "total_focused_passed": 10,
     "total_focused_failed": 0,
-    "scope_interpretation": "Focused tests prove the fail-closed pose/hand/foot/gait contract/compiler slice only. They do not grant Row086 completion, annotated benchmark authority, runtime receipt, or combined visual review."
+    "cli_verify_command": "python Plan/07_IMPLEMENTATION/scripts/compile_wave64_pose_hand_foot_gait_extraction.py --verify-fixture-replay",
+    "scope_interpretation": "Focused tests prove the fail-closed pose/hand/foot/gait compiler, landmark/phase fixture packets, and content-addressed deterministic replay/tamper proof. They do not grant Row086 completion, annotated production benchmark authority, runtime receipt, Rows084/085 acceptance, or combined visual review."
   },
   "checks": [
     {"check_id": "ROW086-001", "name": "tracker_item_requirements_parity", "status": "PASS"},
@@ -146,20 +193,28 @@
     {"check_id": "ROW086-013", "name": "production_pose_hand_foot_gait_extractor_runtime_complete", "status": "FAIL"},
     {"check_id": "ROW086-014", "name": "body_hand_foot_landmark_accuracy_benchmark_pass", "status": "FAIL"},
     {"check_id": "ROW086-015", "name": "annotated_clip_benchmark_pass", "status": "FAIL"},
-    {"check_id": "ROW086-016", "name": "deterministic_replay_and_tamper_proof_present", "status": "FAIL"},
+    {"check_id": "ROW086-016", "name": "deterministic_replay_and_tamper_proof_present", "status": "PASS"},
     {"check_id": "ROW086-017", "name": "combined_landmark_track_contact_audio_visual_review_present", "status": "FAIL"},
     {"check_id": "ROW086-018", "name": "direct_row086_runtime_receipt_present", "status": "FAIL"},
-    {"check_id": "ROW086-019", "name": "tracker_declared_output_artifact_present", "status": "FAIL"}
+    {"check_id": "ROW086-019", "name": "tracker_declared_output_artifact_present", "status": "FAIL"},
+    {"check_id": "ROW086-020", "name": "fixture_packets_cover_visible_landmark_trajectory", "status": "PASS"},
+    {"check_id": "ROW086-021", "name": "fixture_packets_cover_gait_contact_phases", "status": "PASS"},
+    {"check_id": "ROW086-022", "name": "fixture_packets_cover_partial_view_hidden_joint", "status": "PASS"}
   ],
   "test_and_runtime_boundary": {
     "schema_meta_validation_executed": true,
     "focused_source_tests_executed": true,
-    "focused_source_tests_passed": 8,
+    "focused_source_tests_passed": 10,
     "focused_source_tests_failed": 0,
+    "fixture_packets_compiled": true,
+    "replay_tamper_hash_check_executed": true,
+    "fixture_replay_cli_executed": true,
     "production_pose_gait_extraction_invoked": false,
     "new_media_decode_pose_or_contact_runtime_invoked": false,
     "direct_row086_annotated_benchmark_executed": false,
     "direct_row086_visual_review_executed": false,
+    "row084_acceptance_claimed": false,
+    "row085_acceptance_claimed": false,
     "ec2_allowed": true,
     "ec2_invoked": false,
     "ec2_not_invoked_reason": "Prerequisite Rows084/085 and annotated benchmark, runtime-receipt, and combined-review gates already fail; GPU execution cannot cure those authority gaps.",
@@ -170,22 +225,24 @@
     "scheduled_task_wakes": 0
   },
   "sibling_lane_disjointness": {
-    "excluded_sibling_rows": ["TRK-W64-067", "TRK-W64-069", "TRK-W64-074", "TRK-W64-075"],
+    "excluded_sibling_rows": [
+      "TRK-W64-075",
+      "TRK-W64-087",
+      "TRK-W64-088"
+    ],
     "excluded_paths": [
-      "Plan/07_IMPLEMENTATION/scripts/validate_wave64_sound_intelligence_planning_authority.py",
-      "Plan/07_IMPLEMENTATION/scripts/build_audio_pack_functional_index.py",
-      "Plan/07_IMPLEMENTATION/scripts/segment_wave64_multi_event_audio.py",
-      "Plan/08_SCHEMAS/multi_event_segmentation_record.schema.json",
-      "Plan/Instructions/QA/Scripts/test_row067_sound_intelligence_planning_authority.py",
-      "Plan/Instructions/QA/Scripts/test_audio_pack_functional_index.py",
-      "Plan/Instructions/QA/Scripts/test_segment_wave64_multi_event_audio.py",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-067_*",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-069_*",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_*",
+      "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_TRACKER_ROWS.csv",
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_motion_force_cues.py",
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_depth_camera_source_position.py",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_*",
-      "Plan/10_REGISTRIES/audio_pack_functional_index_registry.json",
-      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_actor_object_region_tracking.py",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_*"
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-087_*",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_*",
+      "Plan/Instructions/QA/Scripts/test_row075_*",
+      "Plan/Instructions/QA/Scripts/test_row087_*",
+      "Plan/Instructions/QA/Scripts/test_row088_*",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row075/**",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row087/**",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row088/**"
     ],
     "disjoint_from_sibling_agents": true
   },
@@ -194,21 +251,27 @@
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_pose_hand_foot_gait_extraction.py",
       "Plan/08_SCHEMAS/pose_hand_foot_gait_extraction_manifest.schema.json",
       "Plan/Instructions/QA/Scripts/test_row086_pose_hand_foot_gait_extraction_compiler.py",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-086_POSE_HAND_FOOT_GAIT_EXTRACTION_CURRENT_DELTA_20260719.json"
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-086_POSE_HAND_FOOT_GAIT_EXTRACTION_CURRENT_DELTA_20260719.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row086/case_visible_landmark_trajectory.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row086/case_gait_contact_phases.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row086/case_partial_view_hidden_joint.json"
     ],
     "actual_write_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_pose_hand_foot_gait_extraction.py",
-      "Plan/08_SCHEMAS/pose_hand_foot_gait_extraction_manifest.schema.json",
       "Plan/Instructions/QA/Scripts/test_row086_pose_hand_foot_gait_extraction_compiler.py",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-086_POSE_HAND_FOOT_GAIT_EXTRACTION_CURRENT_DELTA_20260719.json"
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-086_POSE_HAND_FOOT_GAIT_EXTRACTION_CURRENT_DELTA_20260719.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row086/case_visible_landmark_trajectory.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row086/case_gait_contact_phases.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row086/case_partial_view_hidden_joint.json"
     ],
     "unrelated_dirty_paths_preserved": true,
     "worker_artifacts_preserved": true,
-    "sibling_row067_069_074_075_paths_preserved": true
+    "sibling_row075_087_088_paths_preserved": true,
+    "shared_csv_untouched": true
   },
   "hold_decision": {
     "decision": "HOLD_ROW086_NO_FALSE_COMPLETION",
-    "reason": "A fail-closed Row086 pose/hand/foot/gait compiler/schema slice now exists with eight passing focused tests covering body/hand/foot taxonomy, owner-track binding, partial-view hidden-joint rejection, monotonic trajectory frames/PTS, gait and contact phase requirements, and dependency/runtime authority gating. Rows084 and 085 remain incomplete. Annotated landmark/phase benchmarks, production runtime receipts, deterministic replay/tamper proof, combined landmark/track/contact/audio review, and the tracker-declared runtime artifact remain absent. The compiler never sets row_complete or production_completion_allowed true in this increment.",
-    "safe_next_action": "Keep Row086 on hold for runtime completion. Next useful Row086 write: add fixture-backed annotated landmark/phase packets and a deterministic replay hash check without claiming visual-review or Rows084/085 acceptance. Upstream, continue advancing Row084 canonical timeline and Row085 ownership measurement. Downstream Rows087/090 remain blocked on measured pose/gait and contact-phase authority."
+    "reason": "Row086 now freezes three checked-in landmark/phase fixture packets (visible trajectory, gait/contact phases, partial-view hidden joints) with content-addressed deterministic replay/tamper verification and a --verify-fixture-replay CLI. Ten focused tests pass. Rows084 and 085 remain incomplete and are not claimed accepted. Annotated production landmark/phase benchmarks, production runtime receipts, combined landmark/track/contact/audio review, and the tracker-declared runtime artifact remain absent. The compiler never sets row_complete or production_completion_allowed true in this increment.",
+    "safe_next_action": "Keep Row086 on hold for runtime completion. Next useful Row086 write after Rows084/085 acceptance: bind fixture digests into a synthetic non-production landmark/phase ledger and/or annotated-clip benchmark harness without claiming visual review. Downstream Rows087/090 remain blocked on measured pose/gait and contact-phase authority."
   }
 }

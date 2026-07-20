@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import importlib.util
 import json
 import subprocess
 import sys
@@ -14,6 +15,25 @@ from jsonschema import Draft202012Validator
 ROOT = Path(__file__).resolve().parents[4]
 COMPILER = ROOT / "Plan/07_IMPLEMENTATION/scripts/compile_wave64_pose_hand_foot_gait_extraction.py"
 SCHEMA = ROOT / "Plan/08_SCHEMAS/pose_hand_foot_gait_extraction_manifest.schema.json"
+FIXTURE_DIR = ROOT / "Plan/Instructions/QA/Evidence/Wave64/fixtures/row086"
+FIXTURE_PACKETS = (
+    "case_visible_landmark_trajectory.json",
+    "case_gait_contact_phases.json",
+    "case_partial_view_hidden_joint.json",
+)
+
+
+def _load_compiler_module():
+    spec = importlib.util.spec_from_file_location(
+        "compile_wave64_pose_hand_foot_gait_extraction", COMPILER
+    )
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+COMPILER_MOD = _load_compiler_module()
 
 
 def _write_json(path: Path, payload: dict) -> None:
@@ -337,6 +357,86 @@ class Row086PoseHandFootGaitExtractionCompilerTests(unittest.TestCase):
         self.assertIn("thresholds", required)
         self.assertIn("owner_track_binding", required)
         self.assertIn("row_complete", required)
+
+    def test_fixture_packets_cover_landmark_gait_and_partial_view(self) -> None:
+        for name in FIXTURE_PACKETS:
+            self.assertTrue((FIXTURE_DIR / name).is_file(), msg=f"missing fixture {name}")
+
+        _, visible = self._run_compile(
+            COMPILER_MOD.load_fixture_packet("case_visible_landmark_trajectory.json"),
+            expect_ok=True,
+        )
+        assert visible is not None
+        self.assertEqual(visible["authority_summary"]["trajectory_count"], 3)
+        self.assertEqual(visible["authority_summary"]["landmark_count"], 3)
+        self.assertFalse(visible["row_complete"])
+        self.assertFalse(visible["dependency_authority"]["row084_complete"])
+        self.assertFalse(visible["dependency_authority"]["row085_complete"])
+        self.assertFalse(visible["runtime_authority"]["annotated_benchmark_pass"])
+
+        _, gait = self._run_compile(
+            COMPILER_MOD.load_fixture_packet("case_gait_contact_phases.json"),
+            expect_ok=True,
+        )
+        assert gait is not None
+        self.assertGreaterEqual(gait["authority_summary"]["gait_phase_count"], 4)
+        self.assertGreaterEqual(gait["authority_summary"]["contact_phase_count"], 4)
+        phases = {item["phase"] for item in gait["instances"][0]["gait_phases"]}
+        self.assertTrue({"heel_strike", "sole_contact", "toe_off"}.issubset(phases))
+
+        _, partial = self._run_compile(
+            COMPILER_MOD.load_fixture_packet("case_partial_view_hidden_joint.json"),
+            expect_ok=True,
+        )
+        assert partial is not None
+        hidden = [
+            item
+            for item in partial["instances"][0]["landmarks"]
+            if item["observation_state"] in {"outside_frame", "occluded"}
+        ]
+        self.assertGreaterEqual(len(hidden), 2)
+        for landmark in hidden:
+            self.assertIsNone(landmark["x"])
+            self.assertIsNone(landmark["y"])
+        self.assertEqual(partial["authority_summary"]["fabricated_hidden_joint_count"], 0)
+
+    def test_deterministic_replay_and_tamper_proof_for_fixtures(self) -> None:
+        for name in FIXTURE_PACKETS:
+            first = COMPILER_MOD.compile_manifest(COMPILER_MOD.load_fixture_packet(name))
+            second = COMPILER_MOD.compile_manifest(COMPILER_MOD.load_fixture_packet(name))
+            self.assertEqual(first["manifest_sha256"], second["manifest_sha256"])
+            self.assertEqual(
+                COMPILER_MOD.verify_manifest_integrity(first),
+                first["manifest_sha256"],
+            )
+            tampered = json.loads(json.dumps(first))
+            tampered["authority_summary"]["landmark_count"] = 99
+            with self.assertRaises(ValueError) as ctx:
+                COMPILER_MOD.verify_manifest_integrity(tampered)
+            self.assertIn("tamper/replay mismatch", str(ctx.exception))
+
+            hash_tampered = json.loads(json.dumps(first))
+            hash_tampered["manifest_sha256"] = "0" * 64
+            with self.assertRaises(ValueError) as ctx2:
+                COMPILER_MOD.verify_manifest_integrity(hash_tampered)
+            self.assertIn("tamper/replay mismatch", str(ctx2.exception))
+
+        cli = subprocess.run(
+            [sys.executable, str(COMPILER), "--verify-fixture-replay"],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        self.assertEqual(cli.returncode, 0, msg=cli.stderr + cli.stdout)
+        receipt = json.loads(cli.stdout)
+        self.assertEqual(receipt["status"], "ok")
+        self.assertEqual(receipt["fixture_count"], 3)
+        self.assertFalse(receipt["annotated_benchmark_pass"])
+        self.assertFalse(receipt["row084_acceptance_claimed"])
+        self.assertFalse(receipt["row085_acceptance_claimed"])
+        self.assertFalse(receipt["row_complete"])
+        self.assertEqual(receipt["authority_ceiling"], "fixture_synthetic_only")
 
 
 if __name__ == "__main__":
