@@ -1,0 +1,339 @@
+{
+  "checks": [
+    {
+      "check_id": "ROW109-001",
+      "name": "deps_067_068_evidence_accepted",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW109-002",
+      "name": "compiler_schema_policy_present",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW109-003",
+      "name": "fixture_row109_packets_present",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW109-004",
+      "name": "benchmark_manifest_compiled",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW109-005",
+      "name": "coverage_matrix_complete",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW109-006",
+      "name": "partition_separation_ok",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW109-007",
+      "name": "adversarial_cases_complete",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW109-008",
+      "name": "truth_integrity_ok",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW109-009",
+      "name": "pcm_decode_not_invoked",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW109-010",
+      "name": "live_full_library_scan_not_invoked",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW109-011",
+      "name": "focused_tests_pass",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW109-012",
+      "name": "contamination_probe_blocks",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW109-013",
+      "name": "direct_hold_evidence_present",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW109-014",
+      "name": "row_complete_false",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW109-015",
+      "name": "genuine_annotated_media_corpus",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW109-016",
+      "name": "combined_frame_contact_audio_review",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW109-017",
+      "name": "production_benchmark_authority",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW109-018",
+      "name": "held_out_runtime_proof",
+      "status": "FAIL"
+    }
+  ],
+  "classification": "ROW109_FAIL_CLOSED_SYNTHETIC_BENCHMARK_CORPUS_IMPLEMENT_PROBE_SLICE_NO_FALSE_COMPLETION",
+  "created_at": "2026-07-20T06:01:39.431096Z",
+  "decision": {
+    "product_completion": false,
+    "proof_tier": "T2_SYNTHETIC_FIXTURE_CONTRACT_PROBE",
+    "row109_acceptance": "fixture_only",
+    "runtime_completion": false,
+    "safe_next_action": "Retain synthetic partition/truth gates; ingest genuine annotated clips under the same immutable truth contract; run combined frame/contact/audio review; then replace fixture-only acceptance without contaminating held-out reference truth.",
+    "status": "hold"
+  },
+  "dependency_authority": {
+    "TRK-W64-067": {
+      "bytes": 6807,
+      "dependency_satisfied": true,
+      "evidence_accepted": true,
+      "exists": true,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-067_PLANNING_AUTHORITY_CURRENT_DELTA_20260719.json",
+      "row_complete": true,
+      "sha256": "f7f357a6de11b270f94bab27cd42a62b5fa82534b12c48b7ef7ad5d03933d352"
+    },
+    "TRK-W64-068": {
+      "bytes": 4567,
+      "dependency_satisfied": true,
+      "evidence_accepted": true,
+      "exists": true,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+      "row_complete": true,
+      "sha256": "e46c2d02f9e10e57a9653e3bc839b0a1fb876cc32bc18d85453327b23bed8381"
+    },
+    "dependency_satisfied": true,
+    "row109_effect": "Planning and rights authority unlock the synthetic corpus contract slice; they do not grant genuine annotated media runtime, visual QA, or production corpus completion.",
+    "tracker_ids": [
+      "TRK-W64-067",
+      "TRK-W64-068"
+    ]
+  },
+  "evidence_id": "W64-ROW109-AUDIO-BENCHMARK-CORPUS-CURRENT-DELTA-20260720",
+  "focused_local_test_result": {
+    "cli_hold_command": "python Plan/07_IMPLEMENTATION/scripts/compile_wave64_audio_benchmark_corpus.py --mode hold",
+    "cli_hold_result": "PASS",
+    "cli_probe_contamination_result": "BLOCKED_AS_REQUIRED",
+    "py_compile": "PASS",
+    "scope_interpretation": "Focused tests prove fail-closed synthetic corpus compilation, partition/truth gates, contamination blocking, and dependency admissions. They do not grant Row109 completion, genuine media runtime, or combined visual/audio review.",
+    "strict_command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_row109_audio_benchmark_corpus.py",
+    "strict_exit_code": 0,
+    "strict_result": "8 passed in 10.61s",
+    "total_focused_failed": 0
+  },
+  "implementation_completion_claimed": false,
+  "implemented_slice": {
+    "benchmark_manifest": {
+      "bytes": 55663,
+      "exists": true,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/benchmarks/row109/audio_benchmark_corpus_manifest.json",
+      "sha256": "be18a996a2ba5b41f6ea0f539fe1c71454fb8fbc2caeeed8608d6e2fad65b2d6"
+    },
+    "capabilities_now_present": [
+      "frozen_compiler_policy_schema_revisions",
+      "four_partition_corpus_train_calibration_held_out_adversarial",
+      "eleven_required_event_families_in_calibration_and_held_out",
+      "coverage_matrix_materials_and_footwear",
+      "annotation_authority_and_rights_bound_flags",
+      "partition_separation_case_id_and_media_descriptor_isolation",
+      "adversarial_filename_semantic_mismatch",
+      "adversarial_generated_candidate_truth_contamination_blocked",
+      "adversarial_partition_leak_and_timing_drift_roles",
+      "immutable_truth_sha256_bindings",
+      "no_pcm_decode_no_live_full_library_scan",
+      "hold_packet_without_false_completion"
+    ],
+    "compiled_case_count": 31,
+    "compiler": {
+      "bytes": 39486,
+      "exists": true,
+      "path": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_audio_benchmark_corpus.py",
+      "sha256": "23a206c54e51820e1cddb574fb2d26cac7d764c742a0e364a43ecc9108ca4c4a"
+    },
+    "direct_evidence": {
+      "bytes": 5987,
+      "exists": true,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-109_audio_benchmark_corpus.json",
+      "sha256": "6ae2d73d6ad029359fefd47d00cd1d808d584dcd92799e6883df34697f40e269"
+    },
+    "explicitly_not_claimed": [
+      "genuine_annotated_media_corpus",
+      "production_benchmark_authority",
+      "combined_frame_contact_audio_review",
+      "held_out_runtime_proof",
+      "row109_product_completion",
+      "row109_runtime_completion",
+      "tracker_items_csv_status_mutation",
+      "row075_any_mutation"
+    ],
+    "fixture_case_count": 31,
+    "fixture_index": {
+      "bytes": 4862,
+      "exists": true,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row109/corpus_case_index.json",
+      "sha256": "8bce2063b9192fb7a50051fef6df790da0ad1cae0b732395e69c493957f50d69"
+    },
+    "manifest_sha256": "c31202e5c221ea912cdd717e1cffd9da2b9c767988e06db57191ee688bae3444",
+    "policy": {
+      "bytes": 2583,
+      "exists": true,
+      "path": "Plan/10_REGISTRIES/wave64_row109_audio_benchmark_corpus_policy_registry.json",
+      "sha256": "7ed39030b9d8dfe4d5b95c482198dc02f2a8855d43445daec256912ebebcb458"
+    },
+    "probe_contamination_command": "python Plan/07_IMPLEMENTATION/scripts/compile_wave64_audio_benchmark_corpus.py --mode probe-contamination",
+    "probe_contamination_result": "BLOCKED_AS_REQUIRED",
+    "schema": {
+      "bytes": 11423,
+      "exists": true,
+      "path": "Plan/08_SCHEMAS/audio_benchmark_corpus_manifest.schema.json",
+      "sha256": "824c30fa922a7d57ca42af99548c1f8d9f6e6d2b5ca1afc198687de7790f96bb"
+    },
+    "test": {
+      "bytes": 8522,
+      "exists": true,
+      "path": "Plan/Instructions/QA/Scripts/test_row109_audio_benchmark_corpus.py",
+      "sha256": "5507a41e4d1cec8a70d59302d65717a77fc3347bf766f008981dcc90f3cd652f"
+    },
+    "test_command": "python -m pytest Plan/Instructions/QA/Scripts/test_row109_audio_benchmark_corpus.py -q",
+    "test_result": "PASS_EXIT_0",
+    "test_summary_line": "8 passed in 10.61s"
+  },
+  "increment": {
+    "compiler_revision": "wave64_row109_audio_benchmark_corpus_compiler_v0.1.0",
+    "corpus_revision": "wave64_row109_synthetic_benchmark_corpus_v0.1.0",
+    "kind": "fail_closed_synthetic_benchmark_corpus_compiler_schema_fixture_probe_slice",
+    "policy_revision": "wave64_row109_audio_benchmark_corpus_policy_v0.1.0",
+    "summary": "Create Row109 implement-to-probe path: partitioned synthetic train/calibration/held-out/adversarial corpus with coverage-matrix, annotation-authority, partition-separation, adversarial contamination blocking, and immutable truth hashes. Copies/fixtures only; no live full-library PCM decode; no Tracker/Items CSV mutation; no COMPLETE.",
+    "writable_scope_note": "Disjoint from Row075 defect reconcile and shared Tracker/Items CSV lanes."
+  },
+  "intent": {
+    "allowed_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_audio_benchmark_corpus.py",
+      "Plan/08_SCHEMAS/audio_benchmark_corpus_manifest.schema.json",
+      "Plan/10_REGISTRIES/wave64_row109_audio_benchmark_corpus_policy_registry.json",
+      "Plan/Instructions/QA/Scripts/test_row109_audio_benchmark_corpus.py",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row109/**",
+      "Plan/Instructions/QA/Evidence/Wave64/benchmarks/row109/**",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-109_audio_benchmark_corpus.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-109_AUDIO_BENCHMARK_CORPUS_CURRENT_DELTA_20260720.json"
+    ],
+    "authority_class": "interactive_cursor_integration",
+    "classification": "INTERACTIVE_CURSOR_SHIFT_AUTHORITY",
+    "dispatch_wake_count": 0,
+    "excluded_paths": [
+      "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_TRACKER_ROWS.csv",
+      "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ITEM_ROWS.csv",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075*"
+    ],
+    "intent_id": "interactive_cursor_shift_lane_b_row109_implement_probe_20260720",
+    "routing": null,
+    "work_type": "final_authority"
+  },
+  "item_id": "ITEM-W64-109",
+  "prior_row_commit": null,
+  "prior_row_commit_is_current_head": false,
+  "product_completion_claimed": false,
+  "qa_decision": "hold_with_fail_closed_synthetic_fixture_corpus_and_immutable_truth_gates_only",
+  "remaining_holds": [
+    {
+      "code": "GENUINE_ANNOTATED_MEDIA_CORPUS_ABSENT",
+      "detail": "Only synthetic fixture descriptors exist; no genuine annotated clips bound as reference truth."
+    },
+    {
+      "code": "COMBINED_FRAME_CONTACT_AUDIO_REVIEW_ABSENT",
+      "detail": "Visual/audio review not executed in this slice."
+    },
+    {
+      "code": "PRODUCTION_BENCHMARK_AUTHORITY_ABSENT",
+      "detail": "Fixture-only corpus cannot authorize production benchmark pass."
+    },
+    {
+      "code": "HELD_OUT_RUNTIME_PROOF_ABSENT",
+      "detail": "Held-out partition is synthetic; runtime retrieval/eval proof not executed."
+    }
+  ],
+  "row109_contract": {
+    "completion_criteria": "Representative event/material/room/ownership fixtures have separate calibration and final-test roles with immutable truth.",
+    "current_delta_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-109_AUDIO_BENCHMARK_CORPUS_CURRENT_DELTA_20260720.json",
+    "dependencies": [
+      "TRK-W64-067",
+      "TRK-W64-068"
+    ],
+    "final_render_gate": "BLOCKED_UNTIL_EXACT_ROW_IMPLEMENTATION_RUNTIME_QA_AND_AUTHORITY_PASS",
+    "phase": "orchestration_and_operations",
+    "priority": "P0",
+    "required_gates": [
+      "coverage_matrix",
+      "annotation_authority",
+      "partition_separation",
+      "adversarial_cases",
+      "truth_integrity"
+    ],
+    "risk": "CRITICAL",
+    "runtime_proof_required": true,
+    "status": "Planned_Autonomous_Implementation_Required",
+    "test_required": true,
+    "title": "Audio-event benchmark, calibration, held-out test, and adversarial corpus",
+    "tracker_output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-109_audio_benchmark_corpus.json",
+    "tracker_output_artifact_authority": "fail_closed_hold_packet_not_production_corpus_acceptance",
+    "tracker_output_artifact_exists": true,
+    "visual_review_method": "combined_frame_contact_audio_review",
+    "visual_review_required": true
+  },
+  "row_complete": false,
+  "runtime_completion_claimed": false,
+  "schema_version": 1,
+  "sibling_lane_disjointness": {
+    "excluded_sibling_rows": [
+      "TRK-W64-075",
+      "TRK-W64-069",
+      "TRK-W64-070",
+      "TRK-W64-071",
+      "TRK-W64-072",
+      "TRK-W64-077"
+    ],
+    "note": "Lane B Row109 exact-path evidence only; Row075 left alone; no shared CSV writes.",
+    "shared_tracker_items_csv_writes": false
+  },
+  "source_commit": null,
+  "status": "HOLD_SYNTHETIC_FIXTURE_CORPUS_SLICE_PRESENT_GENUINE_ANNOTATED_MEDIA_AND_VISUAL_QA_ABSENT",
+  "test_and_runtime_boundary": {
+    "benchmark_manifest_written": true,
+    "contamination_probe_executed": true,
+    "docker_invoked": false,
+    "ec2_invoked": false,
+    "fixture_packets_compiled": true,
+    "focused_source_tests_executed": true,
+    "live_full_library_scan_invoked": false,
+    "pcm_decode_invoked": false,
+    "production_benchmark_invoked": false,
+    "provider_calls": 0,
+    "row075_touched": false,
+    "scheduled_task_wakes": 0,
+    "schema_meta_validation_executed": true,
+    "tracker_items_csv_mutated": false,
+    "visual_review_executed": false,
+    "wrapper_calls": 0
+  },
+  "tip_sha_chain": false,
+  "tracker_id": "TRK-W64-109",
+  "updated_at": "2026-07-20T06:01:39.431096Z"
+}
