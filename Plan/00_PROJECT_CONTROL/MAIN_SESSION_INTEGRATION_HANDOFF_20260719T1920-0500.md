@@ -15,8 +15,9 @@
 2. `cdbdbe83` Stamp Row017 forehead handoff with primary commit id.
 3. `37806d49` Finalize Row017 forehead handoff tip IDs.
 4. `99468502` Align Row017 forehead handoff tip to origin HEAD.
+5. `d7b845ae` Record Row017 forehead handoff tip commit list.
 
-Pushed tip verified on origin: `dc330049`
+Pushed tip verified on origin: `d7b845ae`
 
 ## Row-Scoped Increment Executed
 
