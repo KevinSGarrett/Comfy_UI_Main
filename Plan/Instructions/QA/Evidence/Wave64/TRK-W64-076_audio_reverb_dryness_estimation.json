@@ -1,18 +1,47 @@
 {
-  "analysis_pipeline_revision": "wave64_row076_audio_reverb_dryness_v0.1.0",
+  "accepted_index_retained_reverb_runtime": {
+    "blocker_histogram": {},
+    "counts": {
+      "analysis_truncated": 0,
+      "classification_ambiguous": 25,
+      "classification_dry": 0,
+      "classification_environment_specific": 0,
+      "classification_wet": 0,
+      "double_reverb_guard_enforced": 25,
+      "exact_blockers": 0,
+      "feature_non_pass_inputs": 0,
+      "feature_pass_inputs": 25,
+      "pcm_sha_verified": 25,
+      "records_processed": 25,
+      "records_total": 39771,
+      "reverb_blocked": 0,
+      "reverb_pass": 25,
+      "source_immutable_true": 25
+    },
+    "coverage_complete": false,
+    "limit": 25,
+    "present": true,
+    "progress_path": "runtime_artifacts/reverb_dryness/row076_index_retained_20260720/progress.json",
+    "receipt_path": "runtime_artifacts/reverb_dryness/row076_index_retained_20260720/retained_index_reverb_receipt.json",
+    "records_path": "runtime_artifacts/reverb_dryness/row076_index_retained_20260720/records.jsonl",
+    "row075_contention_policy": "limited_probe_only_while_row075_full_reconcile_owns_pcm_io",
+    "status": "RUNTIME_PASS_BOUNDED_PROBE_LIMIT",
+    "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_ACCEPTED_INDEX_RETAINED_REVERB_SUMMARY_20260720.json",
+    "summary_sha256": "4ec494e181c445a57ff02e5b99918ac9d032a99975291a594a9719b3ee37a149"
+  },
+  "analysis_pipeline_revision": "wave64_row076_audio_reverb_dryness_v0.2.0",
   "blocker_codes": [
-    "ROW071_DEPENDENCY_NOT_ACCEPTED",
-    "ROW073_DEPENDENCY_NOT_ACCEPTED",
-    "ROW071_AND_ROW073_DEPENDENCIES_NOT_ACCEPTED",
-    "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT",
-    "FULL_LIBRARY_ACOUSTIC_RECONCILIATION_ABSENT",
-    "DOUBLE_REVERB_GUARD_LIBRARY_ENFORCEMENT_ABSENT"
+    "FULL_LIBRARY_RECONCILE_DEFERRED_OR_IN_PROGRESS",
+    "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+    "REPRESENTATIVE_ROOM_SOURCE_CALIBRATION_ABSENT",
+    "DOUBLE_REVERB_GUARD_LIBRARY_ENFORCEMENT_ABSENT",
+    "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT"
   ],
   "decision": {
     "product_completion": false,
     "row076_acceptance": "held",
     "runtime_completion": false,
-    "safe_next_action": "Accept Row071 waveform/spectral features and Row073 usable-bounds/natural-decay authority, reconcile every accepted input to a dry/wet/ambiguous/environment-specific decision with hash-bound evidence and enforced wet-source policy, and replace this hold packet with full-library runtime evidence.",
+    "safe_next_action": "Bounded index-retained reverb probe passed under frozen suggestion-only thresholds. Defer full-library Row076 PCM reconcile until Row075 retained-index defect scan finishes (avoid dual PCM I/O contention), then resume --mode index-retained without --limit before claiming Row076 acceptance.",
     "status": "blocked"
   },
   "evidence_id": "TRK-W64-076_audio_reverb_dryness_estimation",
@@ -22,7 +51,7 @@
     "fixture_count": 6,
     "records": [
       {
-        "analysis_pipeline_revision": "wave64_row076_audio_reverb_dryness_v0.1.0",
+        "analysis_pipeline_revision": "wave64_row076_audio_reverb_dryness_v0.2.0",
         "asset_id": "fixture:dry_impulse",
         "canonical_pcm_sha256": "5fdbec979d43665fc92449f273cad08091ab46cf7e6c06f99d162dc62c85217e",
         "channels": 2,
@@ -109,7 +138,7 @@
         "wet_source_policy": "dry_render"
       },
       {
-        "analysis_pipeline_revision": "wave64_row076_audio_reverb_dryness_v0.1.0",
+        "analysis_pipeline_revision": "wave64_row076_audio_reverb_dryness_v0.2.0",
         "asset_id": "fixture:dry_tone_burst",
         "canonical_pcm_sha256": "7810c1b27a10a398b7d5048dfb681781fb30397452a450c5b6393bf789e5c107",
         "channels": 2,
@@ -196,7 +225,7 @@
         "wet_source_policy": "limited_processing"
       },
       {
-        "analysis_pipeline_revision": "wave64_row076_audio_reverb_dryness_v0.1.0",
+        "analysis_pipeline_revision": "wave64_row076_audio_reverb_dryness_v0.2.0",
         "asset_id": "fixture:wet_exponential_tail",
         "canonical_pcm_sha256": "fae387e716708e56a77c0bc5b06d160a39c17ab4b3b2008e6ce812d2237ece1d",
         "channels": 2,
@@ -283,7 +312,7 @@
         "wet_source_policy": "reject"
       },
       {
-        "analysis_pipeline_revision": "wave64_row076_audio_reverb_dryness_v0.1.0",
+        "analysis_pipeline_revision": "wave64_row076_audio_reverb_dryness_v0.2.0",
         "asset_id": "fixture:wet_stereo_room",
         "canonical_pcm_sha256": "f0f1509fbd982b0233dca3da0638030f4dbae81c7a96602e2c05fb2c6b2a94c5",
         "channels": 2,
@@ -370,7 +399,7 @@
         "wet_source_policy": "reject"
       },
       {
-        "analysis_pipeline_revision": "wave64_row076_audio_reverb_dryness_v0.1.0",
+        "analysis_pipeline_revision": "wave64_row076_audio_reverb_dryness_v0.2.0",
         "asset_id": "fixture:mono_noise",
         "canonical_pcm_sha256": "f17b81fac6b3085e5ceb8fe2e916587b3b6c541752266a7e74b3f6ec1a8b3dd4",
         "channels": 2,
@@ -457,7 +486,7 @@
         "wet_source_policy": "limited_processing"
       },
       {
-        "analysis_pipeline_revision": "wave64_row076_audio_reverb_dryness_v0.1.0",
+        "analysis_pipeline_revision": "wave64_row076_audio_reverb_dryness_v0.2.0",
         "asset_id": "fixture:ambiguous_medium_tail",
         "canonical_pcm_sha256": "7504172d40ce5fdaae4f31ee8be536c360b4200c11e94d4cbad5bb5929997db4",
         "channels": 2,
@@ -545,6 +574,7 @@
       }
     ]
   },
+  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
   "implementation_completion_claimed": false,
   "item_id": "ITEM-W64-076",
   "library_authority": false,
@@ -580,34 +610,36 @@
       "window": "full_usable_stereo_region"
     }
   },
+  "proof_tier": "RUNTIME_PASS_BOUNDED",
   "row071_admission": {
-    "blocker_codes": [
-      "ROW071_DEPENDENCY_NOT_ACCEPTED"
-    ],
-    "bytes": 7370,
-    "dependency_satisfied": false,
+    "blocker_codes": [],
+    "bytes": 5898,
+    "dependency_satisfied": true,
     "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-071_WAVEFORM_FEATURE_EXTRACTION_CURRENT_DELTA_20260719.json",
-    "row_complete": false,
-    "sha256": "4118ecf426dc54242b049e15e27981097a29044d954bd21992dce85aca432def",
-    "status": "HOLD_ROW070_CANONICAL_DECODE_AND_FULL_LIBRARY_FEATURE_RUNTIME_ABSENT",
+    "row_complete": true,
+    "sha256": "03640e949fa38f3687fe31052801ddd9b02dbfd4a76ffac06f3002970e034cd0",
+    "status": "PASS_LIBRARY_FEATURE_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION",
     "tracker_id": "TRK-W64-071"
   },
   "row073_admission": {
-    "blocker_codes": [
-      "ROW073_DEPENDENCY_NOT_ACCEPTED"
-    ],
-    "bytes": 9007,
-    "dependency_satisfied": false,
+    "admission_mode": "probe_unlocked",
+    "blocker_codes": [],
+    "bytes": 11685,
+    "dependencies_unlocked": true,
+    "dependency_satisfied": true,
     "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_CURRENT_DELTA_20260719.json",
+    "probe_authority": "accepted_index_retained_bounds_probe",
+    "proof_tier": "RUNTIME_PASS_BOUNDED",
+    "row073_acceptance": "held",
     "row_complete": false,
-    "sha256": "9c8b2d4b1871d61276bae4d5f6ca85a437f99b7ca3cc4d1a7a7fe1371b6146ff",
-    "status": "HOLD_ROW071_ROW072_DEPENDENCIES_AND_FULL_LIBRARY_BOUNDS_RUNTIME_ABSENT",
+    "sha256": "5ab04bac83498ef9f97a55e39dd3b2abae144c53632eac8a9589ac4b3fdb26c5",
+    "status": "HOLD_LIBRARY_PROBE_PASS_FULL_RECONCILE_DEFERRED_DEPS_UNLOCKED",
     "tracker_id": "TRK-W64-073"
   },
   "row_complete": false,
   "runtime_completion_claimed": false,
   "schema_version": "1.0.0",
-  "status": "HOLD_ROW071_ROW073_DEPENDENCIES_AND_FULL_LIBRARY_ACOUSTIC_RUNTIME_ABSENT",
+  "status": "HOLD_LIBRARY_PROBE_PASS_FULL_RECONCILE_DEFERRED_DEPS_UNLOCKED",
   "thresholds": {
     "channel_policy": "max_abs_mono_plus_stereo_imprint",
     "compatible_room_passthrough_requires_rule_id": true,

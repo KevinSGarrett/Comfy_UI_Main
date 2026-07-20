@@ -1,209 +1,214 @@
 {
-  "schema_version": 1,
-  "evidence_id": "W64-ROW076-REVERB-DRYNESS-CURRENT-DELTA-20260719",
-  "created_at": "2026-07-19T03:33:26.4267538Z",
-  "updated_at": "2026-07-19T20:05:00Z",
-  "source_commit": "3a1f1c37841ee40bddfb62b41552194af0bcfa6c",
-  "prior_row_commit": "3a1f1c37841ee40bddfb62b41552194af0bcfa6c",
-  "prior_row_commit_is_current_head": true,
-  "tracker_id": "TRK-W64-076",
-  "item_id": "ITEM-W64-076",
-  "status": "HOLD_ROW071_ROW073_DEPENDENCIES_AND_FULL_LIBRARY_ACOUSTIC_RUNTIME_ABSENT",
-  "classification": "ROW076_FAIL_CLOSED_CONTRACT_SLICE_NO_FALSE_COMPLETION",
-  "row_complete": false,
-  "implementation_completion_claimed": false,
-  "runtime_completion_claimed": false,
-  "qa_decision": "hold_with_fail_closed_acoustic_contract_and_synthetic_fixture_calibration_only",
-  "increment": {
-    "kind": "fail_closed_contract_and_analyzer_slice",
-    "analysis_pipeline_revision": "wave64_row076_audio_reverb_dryness_v0.1.0",
-    "summary": "Freeze Row076 direct/reverberant, RT60-style decay, early-reflection density, stereo imprint, wet-source policy, and double-reverb guard thresholds; emit schema-validated synthetic fixture calibration for dry/wet/ambiguous/noise cases; fail closed for library authority until Row071 and Row073 acceptance exists.",
-    "note": "Analyzer/schema/hold-packet bytes first landed on branch via concurrent sibling staging inside 63c29685; this increment adds the focused pytest authority and replaces the audit-only current delta with the fail-closed contract slice record without claiming library completion."
+  "accepted_index_retained_reverb_runtime": {
+    "authority": "accepted_index_retained_reverb_probe",
+    "counts": {
+      "analysis_truncated": 0,
+      "classification_ambiguous": 25,
+      "classification_dry": 0,
+      "classification_environment_specific": 0,
+      "classification_wet": 0,
+      "double_reverb_guard_enforced": 25,
+      "exact_blockers": 0,
+      "feature_non_pass_inputs": 0,
+      "feature_pass_inputs": 25,
+      "pcm_sha_verified": 25,
+      "records_processed": 25,
+      "records_total": 39771,
+      "reverb_blocked": 0,
+      "reverb_pass": 25,
+      "source_immutable_true": 25
+    },
+    "coverage_complete": false,
+    "limit": 25,
+    "proof_tier": "RUNTIME_PASS_BOUNDED",
+    "row075_contention_policy": "limited_probe_only_while_row075_full_reconcile_owns_pcm_io",
+    "runtime_receipt_path": "runtime_artifacts/reverb_dryness/row076_index_retained_20260720/retained_index_reverb_receipt.json",
+    "status": "RUNTIME_PASS_BOUNDED_PROBE_LIMIT",
+    "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_ACCEPTED_INDEX_RETAINED_REVERB_SUMMARY_20260720.json",
+    "summary_sha256": "4ec494e181c445a57ff02e5b99918ac9d032a99975291a594a9719b3ee37a149"
   },
+  "checks": [
+    {
+      "name": "ARD-P001_row071_accepted_admission",
+      "result": "pass"
+    },
+    {
+      "name": "ARD-P002_row073_probe_unlocked_admission",
+      "result": "pass"
+    },
+    {
+      "name": "ARD-P003_index_retained_mode_unlocked_with_limit",
+      "result": "pass"
+    },
+    {
+      "name": "ARD-P004_limit_25_probe_reverb_pass_25_of_25",
+      "result": "pass"
+    },
+    {
+      "name": "ARD-P005_double_reverb_guard_enforced_25",
+      "result": "pass"
+    },
+    {
+      "name": "ARD-P006_source_immutable_true_25",
+      "result": "pass"
+    },
+    {
+      "name": "ARD-P007_row075_pid_left_alone",
+      "result": "pass"
+    },
+    {
+      "name": "ARD-P008_no_product_complete_claim",
+      "result": "pass"
+    },
+    {
+      "name": "ARD-P009_sound_csv_deferred_evidence_code_only",
+      "result": "pass"
+    }
+  ],
+  "classification": "ROW076_INDEX_RETAINED_LIMITED_PROBE_DEPS_UNLOCKED_NO_FALSE_COMPLETION",
+  "created_at": "2026-07-19T03:33:26.4267538Z",
+  "decision": {
+    "dependencies_unlocked": true,
+    "fail_closed_probe_slice": "accepted_as_bounded_increment",
+    "product_completion": false,
+    "row076_acceptance": "held",
+    "row076_status": "Blocked_Library_Probe_Pass_Full_Reconcile_Deferred_Deps_Unlocked",
+    "runtime_completion": false,
+    "safe_next_action": "After Row075 retained-index defect reconcile reaches coverage_complete, resume Row076 --mode index-retained without --limit to coverage_complete under frozen suggestion-only thresholds; keep thresholds/room-calibration holds; do not claim COMPLETE. Serialized mutator may then sync sound ITEM/TRACKER CSV Notes from this evidence delta."
+  },
+  "dependency_authority": [
+    {
+      "admission_mode": "accepted",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-071_WAVEFORM_FEATURE_EXTRACTION_CURRENT_DELTA_20260719.json",
+      "dependency_satisfied": true,
+      "reason": "Row071 library feature authority accepted; retained-index feature records are the Row076 probe input domain.",
+      "row_complete": true,
+      "tracker_id": "TRK-W64-071"
+    },
+    {
+      "admission_mode": "probe_unlocked",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_CURRENT_DELTA_20260719.json",
+      "dependency_satisfied": true,
+      "proof_tier": "RUNTIME_PASS_BOUNDED",
+      "reason": "Row073 index-retained probe authority under RUNTIME_PASS_BOUNDED with decision.dependencies_unlocked=true unlocks dependency-safe Row076 probes without claiming Row073 acceptance.",
+      "row073_acceptance": "held",
+      "row_complete": false,
+      "tracker_id": "TRK-W64-073"
+    }
+  ],
+  "docker_cvat": "not-needed",
+  "ec2": "EC2_DEFERRED",
+  "evidence_id": "W64-ROW076-REVERB-DRYNESS-CURRENT-DELTA-20260720",
+  "explicit_non_claims": [
+    "COMPLETE",
+    "product_completion",
+    "library_authority",
+    "full_library_coverage"
+  ],
+  "focused_validators": {
+    "probe_command": "python Plan/07_IMPLEMENTATION/scripts/analyze_wave64_audio_reverb_dryness.py --mode index-retained --limit 25 --no-resume",
+    "probe_exit_code": 0,
+    "probe_status": "HOLD_LIBRARY_PROBE_PASS_FULL_RECONCILE_DEFERRED_DEPS_UNLOCKED",
+    "pytest_command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_analyze_wave64_audio_reverb_dryness.py",
+    "pytest_exit_code": 0,
+    "pytest_failed": 0,
+    "pytest_passed": 11,
+    "row075_left_alone": true,
+    "row075_pid": 45992,
+    "row075_progress_after_probe": "3750/39771"
+  },
+  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+  "implementation_completion_claimed": false,
+  "implemented_slice": {
+    "analyzer_bytes": 56734,
+    "analyzer_path": "Plan/07_IMPLEMENTATION/scripts/analyze_wave64_audio_reverb_dryness.py",
+    "analyzer_sha256": "3391d86d20edbd749d12c69ada7c2c0610f8d3c72c3e3240024e2318e8a361d9",
+    "capabilities_now_present": [
+      "row073_probe_unlock_admission_gate",
+      "index_retained_mode_with_limit_and_resume",
+      "bounded_limit_25_probe_over_retained_row071_records",
+      "suggestion_only_reverb_pass_with_double_reverb_guard",
+      "non_destructive_source_before_after_sha256_binding",
+      "row075_contention_policy_limited_probe_only",
+      "disjoint_runtime_tree_from_row075_and_row073"
+    ],
+    "direct_evidence_bytes": 27492,
+    "direct_evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_audio_reverb_dryness_estimation.json",
+    "direct_evidence_sha256": "b141d2b59b86b2f7444708fb03be6cc687b3bc5ddd64a1fb2fa04f2731664cda",
+    "explicitly_not_claimed": [
+      "full_library_acoustic_estimation_records",
+      "row076_product_completion",
+      "row076_runtime_completion",
+      "library_threshold_authority",
+      "row073_acceptance",
+      "row079_unlock"
+    ],
+    "retained_summary_bytes": 3718,
+    "retained_summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_ACCEPTED_INDEX_RETAINED_REVERB_SUMMARY_20260720.json",
+    "retained_summary_sha256": "4ec494e181c445a57ff02e5b99918ac9d032a99975291a594a9719b3ee37a149",
+    "runtime_dir": "runtime_artifacts/reverb_dryness/row076_index_retained_20260720",
+    "runtime_records_bytes": 51125,
+    "runtime_records_sha256": "4d7ab63dbcc82c15ef3aee60669a23afea81b6afaca3b4282fc2e537e359829f",
+    "schema_bytes": 6709,
+    "schema_path": "Plan/08_SCHEMAS/audio_reverb_dryness_record.schema.json",
+    "schema_sha256": "ae62b63cde0ec4c95c334337044660032bb910600adb64646c2cddf42bb97637",
+    "test_bytes": 7604,
+    "test_path": "Plan/Instructions/QA/Scripts/test_analyze_wave64_audio_reverb_dryness.py",
+    "test_sha256": "0944e51b63ec86c2943f8a7954c39861d3608afb2aa60417231a8a79f62a076a"
+  },
+  "increment": {
+    "analysis_pipeline_revision": "wave64_row076_audio_reverb_dryness_v0.2.0",
+    "kind": "index_retained_limited_probe_and_runtime_unlock",
+    "summary": "Unlocked Row076 index-retained probe gate via Row071 acceptance + Row073 RUNTIME_PASS_BOUNDED probe_unlocked; added --mode index-retained with --limit; ran limit=25 probe (reverb_pass=25/25) in a disjoint runtime tree while leaving healthy Row075 PID alone. No product COMPLETE; full-library reconcile deferred until Row075 finishes PCM I/O.",
+    "writable_scope_note": "Disjoint from Row017 visuals, Row075 progress stamps, Row073 bounds runtime, and Row077/078/079 paths. Sound ITEM/TRACKER CSV deferred for serialized mutator."
+  },
+  "item_id": "ITEM-W64-076",
+  "ledger_status": "Blocked_Library_Probe_Pass_Full_Reconcile_Deferred_Deps_Unlocked",
+  "library_authority": false,
+  "preservation_boundary": {
+    "only_row076_writable_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/analyze_wave64_audio_reverb_dryness.py",
+      "Plan/08_SCHEMAS/audio_reverb_dryness_record.schema.json",
+      "Plan/Instructions/QA/Scripts/test_analyze_wave64_audio_reverb_dryness.py",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_audio_reverb_dryness_estimation.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_ACCEPTED_INDEX_RETAINED_REVERB_SUMMARY_20260720.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_REVERB_DRYNESS_CURRENT_DELTA_20260719.json"
+    ],
+    "row017_visual_paths_modified": false,
+    "row073_runtime_paths_modified": false,
+    "row075_pid_left_alone": true,
+    "row075_progress_paths_modified": false,
+    "sound_item_tracker_csv_deferred_reason": "contention_risk_with_parallel_agents_evidence_code_only_landing",
+    "sound_item_tracker_csv_modified": false
+  },
+  "proof_tier": "RUNTIME_PASS_BOUNDED",
+  "qa_decision": "deps_unlocked_index_retained_limit_25_probe_pass_full_reconcile_deferred_for_row075_pcm_contention",
   "row076_contract": {
-    "status": "Planned_Autonomous_Implementation_Required",
-    "priority": "P1",
-    "risk": "HIGH",
+    "completion_criteria": "Dry/wet and decay estimates are calibrated and prevent incompatible double reverberation.",
     "dependency_prerequisites": [
       "TRK-W64-071",
       "TRK-W64-073"
     ],
+    "ec2_allowed": false,
+    "final_render_gate": "BLOCKED_UNTIL_EXACT_ROW_IMPLEMENTATION_RUNTIME_QA_AND_AUTHORITY_PASS",
+    "output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_audio_reverb_dryness_estimation.json",
+    "output_artifact_authority": "fail_closed_probe_hold_packet_not_library_acceptance",
+    "output_artifact_exists": true,
+    "priority": "P1",
+    "risk": "HIGH",
+    "runtime_proof_required": true,
+    "status": "Blocked_Library_Probe_Pass_Full_Reconcile_Deferred_Deps_Unlocked",
     "validation_methods": [
       "direct_reverberant_estimate",
       "rt60_estimate",
       "early_reflections",
       "double_reverb_guard"
-    ],
-    "output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_audio_reverb_dryness_estimation.json",
-    "output_artifact_exists": true,
-    "output_artifact_authority": "fail_closed_hold_packet_not_library_acceptance",
-    "completion_criteria": "Dry/wet and decay estimates are calibrated and prevent incompatible double reverberation.",
-    "required_measurements": [
-      "direct_to_reverberant_characteristic",
-      "decay_time_or_rt60",
-      "early_reflection_density",
-      "stereo_room_imprint",
-      "reverb_tail",
-      "additional_convolution_safety"
-    ],
-    "required_policy_behavior": [
-      "classify dry wet ambiguous and environment-specific assets",
-      "bind estimates to source and canonical PCM hashes",
-      "include confidence method and calibration evidence",
-      "reject incompatible additional convolution for already-wet assets",
-      "permit compatible wet passthrough only under an explicit compatible-room rule",
-      "preserve dry stems and source bytes"
-    ],
-    "frozen_thresholds": {
-      "direct_window_ms": 10.0,
-      "early_reflection_window_ms": 50.0,
-      "tail_floor_dbfs": -50.0,
-      "dry_drr_min_db": 12.0,
-      "wet_drr_max_db": 3.0,
-      "rt60_dry_max_s": 0.08,
-      "rt60_wet_min_s": 0.20,
-      "early_reflection_density_wet_min": 3.0,
-      "stereo_imprint_correlation_wet_max": 0.85,
-      "channel_policy": "max_abs_mono_plus_stereo_imprint",
-      "compatible_room_passthrough_requires_rule_id": true,
-      "suggestion_only": true,
-      "source_mutation_allowed": false
-    },
-    "runtime_proof_required": true,
-    "ec2_allowed": false,
-    "final_render_gate": "BLOCKED_UNTIL_EXACT_ROW_IMPLEMENTATION_RUNTIME_QA_AND_AUTHORITY_PASS"
-  },
-  "implemented_slice": {
-    "analyzer_path": "Plan/07_IMPLEMENTATION/scripts/analyze_wave64_audio_reverb_dryness.py",
-    "analyzer_sha256": "55c5156515d270df9b647dc8bd356b7e28842fdb43bdd1ce27605f6f9586784b",
-    "analyzer_bytes": 25796,
-    "schema_path": "Plan/08_SCHEMAS/audio_reverb_dryness_record.schema.json",
-    "schema_sha256": "214af80f231841b4920f58b80b17b4edfcda5c466200db932e6449dfe8793f59",
-    "schema_bytes": 6709,
-    "test_path": "Plan/Instructions/QA/Scripts/test_analyze_wave64_audio_reverb_dryness.py",
-    "test_sha256": "cbe5171c81fcbf2f246e71d0603f718d7baf5d53e6464a2a122e60399e7ff4ed",
-    "test_bytes": 6158,
-    "direct_evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_audio_reverb_dryness_estimation.json",
-    "direct_evidence_sha256": "1a5f66ebd0f2b2b29ed9f7f43b4d382df5236c42f5915bc73fa460b887bb7f3c",
-    "direct_evidence_bytes": 25934,
-    "capabilities_now_present": [
-      "frozen_analysis_pipeline_revision",
-      "frozen_drr_rt60_early_reflection_stereo_and_wet_policy_thresholds",
-      "method_unit_window_provenance_for_acoustic_estimates_and_double_reverb_guard",
-      "schema_validated_audio_reverb_dryness_records",
-      "row071_and_row073_admission_fail_closed_gates",
-      "synthetic_fixture_determinism_for_dry_wet_ambiguous_noise_and_stereo_room",
-      "wet_source_policy_reject_or_compatible_passthrough_with_explicit_rule_id",
-      "non_destructive_source_before_after_sha256_binding",
-      "library_mode_hold_packet_without_false_completion"
-    ],
-    "explicitly_not_claimed": [
-      "full_library_acoustic_estimation_records",
-      "accepted_row071_waveform_feature_authority",
-      "accepted_row073_usable_bounds_decay_authority",
-      "representative_library_room_and_source_truth_calibration",
-      "environment_specific_library_metadata_binding",
-      "row076_product_completion",
-      "row076_runtime_completion",
-      "downstream_row079_row081_row096_row103_row112_unblocking"
     ]
   },
-  "dependency_authority": [
-    {
-      "tracker_id": "TRK-W64-071",
-      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-071_WAVEFORM_FEATURE_EXTRACTION_CURRENT_DELTA_20260719.json",
-      "current_delta_sha256": "4118ecf426dc54242b049e15e27981097a29044d954bd21992dce85aca432def",
-      "current_delta_bytes": 7370,
-      "current_delta_status": "HOLD_ROW070_CANONICAL_DECODE_AND_FULL_LIBRARY_FEATURE_RUNTIME_ABSENT",
-      "row_complete": false,
-      "dependency_satisfied": false,
-      "reason": "Direct/reverberant, early-reflection, stereo-imprint, and decay estimates still require accepted versioned waveform and spectral feature authority."
-    },
-    {
-      "tracker_id": "TRK-W64-073",
-      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_CURRENT_DELTA_20260719.json",
-      "current_delta_sha256": "9c8b2d4b1871d61276bae4d5f6ca85a437f99b7ca3cc4d1a7a7fe1371b6146ff",
-      "current_delta_bytes": 9007,
-      "current_delta_status": "HOLD_ROW071_ROW072_DEPENDENCIES_AND_FULL_LIBRARY_BOUNDS_RUNTIME_ABSENT",
-      "row_complete": false,
-      "dependency_satisfied": false,
-      "reason": "Room-tail estimation must separate primary event envelope and natural decay from reverberation; Row073 remains unaccepted for library authority."
-    }
-  ],
-  "focused_validators": {
-    "command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_analyze_wave64_audio_reverb_dryness.py",
-    "exit_code": 0,
-    "passed": 10,
-    "failed": 0
-  },
-  "acceptance_gaps": [
-    {
-      "code": "ROW071_AND_ROW073_DEPENDENCIES_NOT_ACCEPTED",
-      "detail": "Both direct prerequisites remain row_complete=false, so accepted waveform features and usable natural-tail bounds are unavailable for library authority."
-    },
-    {
-      "code": "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT",
-      "detail": "No runtime reconciles every accepted Row071/Row073 input to dry/wet/ambiguous/environment-specific PASS or an exact blocker with hash-bound acoustic evidence."
-    },
-    {
-      "code": "FULL_LIBRARY_ACOUSTIC_RECONCILIATION_ABSENT",
-      "detail": "Fixture calibration proves method identity only; retained-library acoustic decision counts remain unreconciled."
-    },
-    {
-      "code": "DOUBLE_REVERB_GUARD_LIBRARY_ENFORCEMENT_ABSENT",
-      "detail": "Fixture wet-source reject/passthrough policies do not yet bind renderer or admission gates across the retained library."
-    }
-  ],
-  "direct_downstream_hold": {
-    "count": 5,
-    "tracker_ids": [
-      "TRK-W64-079",
-      "TRK-W64-081",
-      "TRK-W64-096",
-      "TRK-W64-103",
-      "TRK-W64-112"
-    ],
-    "reason": "Each row directly declares TRK-W64-076 as a prerequisite; synthetic fixture calibration and fail-closed hold packets cannot substitute for accepted source acoustic authority."
-  },
-  "preservation_boundary": {
-    "row068_owned_paths_modified": false,
-    "row069_owned_paths_modified": false,
-    "row075_owned_paths_modified": false,
-    "row084_owned_paths_modified": false,
-    "row086_owned_paths_modified": false,
-    "unrelated_dirty_paths_modified": false,
-    "only_row076_writable_paths_this_increment": [
-      "Plan/Instructions/QA/Scripts/test_analyze_wave64_audio_reverb_dryness.py",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_REVERB_DRYNESS_CURRENT_DELTA_20260719.json"
-    ],
-    "row076_impl_already_on_branch": [
-      "Plan/07_IMPLEMENTATION/scripts/analyze_wave64_audio_reverb_dryness.py",
-      "Plan/08_SCHEMAS/audio_reverb_dryness_record.schema.json",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_audio_reverb_dryness_estimation.json"
-    ]
-  },
-  "checks": [
-    {"name": "ARD-I001_analysis_pipeline_revision_frozen", "result": "pass"},
-    {"name": "ARD-I002_schema_requires_drr_rt60_early_stereo_tail_policy_and_guard", "result": "pass"},
-    {"name": "ARD-I003_row071_and_row073_admission_fails_closed", "result": "pass"},
-    {"name": "ARD-I004_library_mode_hold_packet_emitted", "result": "pass"},
-    {"name": "ARD-I005_fixture_records_deterministic_schema_valid_and_suggestion_only", "result": "pass"},
-    {"name": "ARD-I006_wet_assets_reject_additional_convolution_without_compatible_rule", "result": "pass"},
-    {"name": "ARD-I007_focused_pytest_10_passed", "result": "pass"},
-    {"name": "ARD-I008_no_false_completion_claimed", "result": "pass"},
-    {"name": "ARD-I009_disjoint_from_row068_row069_row075_row084_row086_owned_paths", "result": "pass"}
-  ],
-  "check_summary": {
-    "checked": 9,
-    "passed": 9,
-    "failed": 0
-  },
-  "decision": {
-    "fail_closed_contract_slice": "accepted_as_bounded_increment",
-    "row076_status": "Planned_Autonomous_Implementation_Required",
-    "row076_acceptance": "held",
-    "runtime_completion": false,
-    "product_completion": false,
-    "safe_next_action": "Accept or complete Rows071 and 073 next; then extend Row076 library mode to consume accepted feature and bounds records, reconcile full-library dry/wet/ambiguous/environment-specific decisions with enforced wet-source policy and double-reverb guard, and only then mark Row076 complete for Row079/081/096/103/112 consumers."
-  }
+  "row_complete": false,
+  "runtime_completion_claimed": false,
+  "schema_version": 1,
+  "status": "HOLD_LIBRARY_PROBE_PASS_FULL_RECONCILE_DEFERRED_DEPS_UNLOCKED",
+  "tracker_id": "TRK-W64-076",
+  "updated_at": "2026-07-20T06:16:16.606583Z"
 }
