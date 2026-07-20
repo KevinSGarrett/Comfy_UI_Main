@@ -5,12 +5,13 @@
 - Active integration platform: top-level interactive Cursor subagent under continuous autonomous shift plan / proof-tier pivot.
 - Branch: `codex/workflow_plan_update_improvements`
 - Prior tip: `48509a81`
+- Primary commit: `85e097d9` — Prove Row017 MF70 face_identity_critical local visual climb.
 - This pass: Row072 healthy long-run verified (no restart); Row017 `mf70_face_identity_critical` VISUAL_QA_PASS_BOUNDED with alignment caveat.
 - No COMPLETE / promotion claim.
 
 ## Commits Pushed This Pass
 
-1. `(pending)` Prove Row017 MF70 face_identity_critical local visual climb + Row072 progress stamp.
+1. `85e097d9` Prove Row017 MF70 face_identity_critical local visual climb + Row072 progress stamp.
 2. Tip stamp aligns this handoff commit list to origin HEAD.
 
 ## Row-Scoped Increments Executed
