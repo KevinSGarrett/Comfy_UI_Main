@@ -2,29 +2,28 @@
   "schema_version": 1,
   "evidence_id": "W64-ROW075-AUDIO-QUALITY-DEFECT-CURRENT-DELTA-20260719",
   "created_at": "2026-07-19T03:26:23.7207842Z",
-  "updated_at": "2026-07-20T09:35:00-05:00",
-  "source_commit": "1c6f8ca9",
+  "updated_at": "2026-07-20T09:48:00-05:00",
+  "source_commit": "d71ec94d",
   "tracker_id": "TRK-W64-075",
   "item_id": "ITEM-W64-075",
   "status": "HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE",
-  "classification": "ROW075_LIBRARY_STRATA_CANDIDATE_SHORTLIST_PARTIAL_TRUTH_THRESHOLDS_STILL_FROZEN",
+  "classification": "ROW075_LIBRARY_STRATA_METADATA_FIRST_CLASS_F_D_STOP_PARTIAL_TRUTH_THRESHOLDS_STILL_FROZEN",
   "proof_tier": "RUNTIME_PASS_BOUNDED",
   "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
   "row_complete": false,
   "implementation_completion_claimed": false,
   "runtime_completion_claimed": true,
   "library_authority": false,
-  "qa_decision": "library_strata_candidate_shortlist_partial_synthetic_truth;frozen_thresholds_and_library_truth_still_block_acceptance;no_product_complete",
+  "qa_decision": "library_strata_metadata_first_class_f_d_stop_on_8_unlabeled;frozen_thresholds_and_library_truth_still_block_acceptance;no_product_complete",
   "increment": {
-    "kind": "library_strata_candidate_labeling_metadata_only_no_pcm",
+    "kind": "library_strata_metadata_first_pending_label_class_f_d_stop_no_pcm",
     "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
     "threshold_registry_revision": "wave64_row075_audio_defect_thresholds_v0.1.0",
     "strata_registry_revision": "wave64_row075_audio_defect_library_benchmark_strata_v0.1.0",
-    "summary": "After coverage_complete reconcile, advanced Row075 with retained-only --mode library-strata candidate shortlist (13/13 strata filled; truth_labeled=5 synthetic fixtures; truth_pending=6; truth_blocked=2). Metadata-only JSONL selection while Row073 PID 20200 owns usable-bounds PCM I/O. Thresholds remain frozen synthetic-only. No Accept/COMPLETE. CSV deferred.",
+    "summary": "Metadata-first pending shortlist labeling recorded Class F/D stop on 8 library_unlabeled candidates (6 pending/2 blocked) without promoting measured severities or decoding library PCM (Row073 PID 20200 exclusive). Counts remain truth_labeled=5 / truth_pending=6 / truth_blocked=2 / truth_label_stops=8. Thresholds remain frozen; BOTH acceptance blockers remain plus LIBRARY_DEFECT_TRUTH_HUMAN_GOLD_LABELS_ABSENT. No Accept/COMPLETE. CSV deferred.",
     "changed_paths": [
       "Plan/07_IMPLEMENTATION/scripts/classify_wave64_audio_defects.py",
       "Plan/Instructions/QA/Scripts/test_classify_wave64_audio_defects.py",
-      "Plan/10_REGISTRIES/wave64_row075_audio_defect_library_benchmark_strata_v0.1.0.json",
       "Plan/08_SCHEMAS/audio_defect_library_benchmark_strata_manifest.schema.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_LIBRARY_BENCHMARK_STRATA_CANDIDATE_PACKET_20260720.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_audio_defect_classification.json",
@@ -40,6 +39,7 @@
     "library_strata_truth_labeled": 5,
     "library_strata_truth_pending": 6,
     "library_strata_truth_blocked": 2,
+    "library_strata_truth_label_stops": 8,
     "full_run_coverage_complete": true,
     "full_run_records_processed": 39771,
     "full_run_records_total": 39771,
@@ -47,23 +47,23 @@
     "full_run_defect_blocked": 31643,
     "library_hold_packet_status": "HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE",
     "strata_candidate_packet_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_LIBRARY_BENCHMARK_STRATA_CANDIDATE_PACKET_20260720.json",
-    "strata_candidate_packet_sha256": "34fbd40a8b28940c1edc5edad8b9a27d1ef87a63ea7e38e27402ccb81171ca95",
-    "strata_candidate_packet_bytes": 19447
+    "strata_candidate_packet_sha256": "22edc7fa564e0f8917825c26bc92f893f9d962eb64a9cf07eed924abf706fcae",
+    "strata_candidate_packet_bytes": 26234
   },
   "implemented_slice": {
     "classifier_path": "Plan/07_IMPLEMENTATION/scripts/classify_wave64_audio_defects.py",
-    "classifier_sha256": "1247ad70a47acd2114a7d735dfa14c35b8fc590da5da57d299a2bc0f0956d7ad",
-    "classifier_bytes": 99298,
+    "classifier_sha256": "ff0035c5934ba2676fe3061421b19912295ecca29efff3e8e96bc5adb72562f5",
+    "classifier_bytes": 101986,
     "test_path": "Plan/Instructions/QA/Scripts/test_classify_wave64_audio_defects.py",
-    "test_sha256": "6e4c4d67afd141650af267b49b1fc0dc81e7cc43bdfc6ccdb7fc648c61936ec0",
-    "test_bytes": 17890,
+    "test_sha256": "929795c651c446554af95e80791d84a79a61718f9f498b9b0ba4de60d6b5f3e3",
+    "test_bytes": 18628,
     "strata_registry_path": "Plan/10_REGISTRIES/wave64_row075_audio_defect_library_benchmark_strata_v0.1.0.json",
     "strata_registry_sha256": "22ce4f5fd70cca625a41f3f42dd57af1001b7c72ebbaa43b896c3335eed5e346",
     "strata_schema_path": "Plan/08_SCHEMAS/audio_defect_library_benchmark_strata_manifest.schema.json",
-    "strata_schema_sha256": "e4f21eeb5745c47ef9b32d178ddbf117da0deec57380927c5d2a3d9e9ecdfebd",
+    "strata_schema_sha256": "d23f5301ea24eb685cfeed4858c0ca145690b3a9e8aec3c54b0c8676deda69b4",
     "direct_evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_audio_defect_classification.json",
-    "direct_evidence_sha256": "d3e8df5ef7d97d22d480e9ad63f2ee767c5e954621d21c16d3a5fe145115e3e6",
-    "direct_evidence_bytes": 133531,
+    "direct_evidence_sha256": "fdbefe4e5074ffeec3cbbfbe0844f0a7d783e35a64ae76f0466234654045b256",
+    "direct_evidence_bytes": 133587,
     "capabilities_now_present": [
       "bounded_probe_runtime_pass_bounded",
       "fail_closed_no_false_completion",
@@ -74,14 +74,16 @@
       "resume_records_jsonl_recount_fail_closed",
       "row070_row071_admission_unlocked",
       "separate_runtime_dir_from_row072",
-      "visibility_preserved_eligibility_demotion"
+      "visibility_preserved_eligibility_demotion",
+      "library_strata_metadata_first_pending_label_class_f_d_stop"
     ],
     "explicitly_not_claimed": [
       "calibrated_library_defect_strata",
       "threshold_authority_unfrozen",
       "row075_product_completion",
       "row078_row093_unlock",
-      "library_truth_defect_labels_complete"
+      "library_truth_defect_labels_complete",
+      "human_gold_library_defect_truth_labels"
     ]
   },
   "dependency_authority": [
@@ -101,28 +103,33 @@
   "acceptance_gaps": [
     {
       "code": "CALIBRATED_LIBRARY_DEFECT_STRATA_ABSENT",
-      "detail": "Synthetic fixture truth is labeled on the shortlist, but library_unlabeled retained candidates remain pending/blocked; no library precision/recall strata calibration."
+      "detail": "Synthetic fixture truth is labeled on the shortlist, but library_unlabeled retained candidates remain pending/blocked with Class F/D stop; no library precision/recall strata calibration."
     },
     {
       "code": "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
       "detail": "Threshold registry remains frozen synthetic-only at wave64_row075_audio_defect_thresholds_v0.1.0."
+    },
+    {
+      "code": "LIBRARY_DEFECT_TRUTH_HUMAN_GOLD_LABELS_ABSENT",
+      "detail": "Metadata-first labeling recorded Class F/D stop on 8 unlabeled shortlist candidates; human-gold listening truth or authorized PCM re-listen required; measured severities not promoted."
     }
   ],
   "blocker_codes": [
     "CALIBRATED_LIBRARY_DEFECT_STRATA_ABSENT",
-    "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY"
+    "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+    "LIBRARY_DEFECT_TRUTH_HUMAN_GOLD_LABELS_ABSENT"
   ],
-  "row073_contention_policy": "library_strata_metadata_only_jsonl_selection;no_library_pcm_decode_while_row073_index_retained_pcm_active",
+  "row073_contention_policy": "library_strata_metadata_only_jsonl_selection;class_f_d_stop_no_library_pcm_decode_while_row073_index_retained_pcm_active",
   "row072_contention_policy": "row072_pcm_scan_finished_coverage_complete;row075_full_library_pcm_reconcile_finished",
   "direct_evidence": {
     "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_audio_defect_classification.json",
-    "sha256": "d3e8df5ef7d97d22d480e9ad63f2ee767c5e954621d21c16d3a5fe145115e3e6",
-    "bytes": 133531,
+    "sha256": "fdbefe4e5074ffeec3cbbfbe0844f0a7d783e35a64ae76f0466234654045b256",
+    "bytes": 133587,
     "status": "HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE",
     "library_authority": false,
     "row_complete": false,
     "coverage_complete": true,
-    "note": "Hold packet refreshed by library-strata mode; runtime receipt remains authoritative for coverage_complete; strata packet is candidate shortlist only."
+    "note": "Hold packet refreshed after metadata-first Class F/D stop; runtime receipt remains authoritative for coverage_complete; strata packet remains candidate shortlist only."
   },
   "decision": {
     "status": "blocked",
@@ -132,7 +139,7 @@
     "dependencies_unlocked": true,
     "benchmark_strata_calibrated": false,
     "threshold_authority_unfrozen": false,
-    "safe_next_action": "Obtain library strata truth labels for pending/blocked retained shortlist candidates before unfreezing threshold authority or claiming Row075 acceptance. Keep metadata-only labeling while Row073 PCM is active. No product COMPLETE. CSV Notes sync owned by mutator."
+    "safe_next_action": "Class F/D stop recorded on 8 unlabeled shortlist candidates. Obtain human-gold library defect truth (or authorized PCM re-listen after Row073 frees the lane) before unfreezing threshold authority or claiming Row075 acceptance. No product COMPLETE. CSV deferred."
   },
   "checks": [
     {
@@ -174,11 +181,15 @@
     {
       "name": "ADC-S010_no_library_pcm_while_row073_active",
       "result": "pass"
+    },
+    {
+      "name": "ADC-S011_metadata_first_class_f_d_stop_on_unlabeled",
+      "result": "pass"
     }
   ],
   "check_summary": {
-    "checked": 10,
-    "passed": 10,
+    "checked": 11,
+    "passed": 11,
     "failed": 0
   },
   "process": {
@@ -188,9 +199,9 @@
     "alive": false,
     "row073_pcm_pid_observed": 20200,
     "row073_pcm_command": "analyze_wave64_usable_bounds_decay.py --mode index-retained --resume --retained-runtime-dir runtime_artifacts/usable_bounds/row073_index_retained_20260720",
-    "library_strata_action": "metadata_only_candidate_shortlist_while_row073_pcm_active",
+    "library_strata_action": "metadata_first_class_f_d_stop_while_row073_pcm_active",
     "command": "classify_wave64_audio_defects.py --mode library-strata",
-    "exit_cause": "clean_exit_partial_truth_shortlist_thresholds_still_frozen"
+    "exit_cause": "clean_exit_class_f_d_stop_partial_truth_thresholds_still_frozen"
   },
   "progress_snapshot": {
     "records_processed": 39771,
@@ -203,7 +214,11 @@
     "coverage_complete": true,
     "complete": true,
     "library_strata_candidates_selected": 13,
-    "library_strata_truth_defect_status": "partial"
+    "library_strata_truth_defect_status": "partial",
+    "library_strata_truth_labeled": 5,
+    "library_strata_truth_pending": 6,
+    "library_strata_truth_blocked": 2,
+    "library_strata_truth_label_stops": 8
   },
   "ec2": "EC2_DEFERRED",
   "docker_cvat": "not-needed"
