@@ -66,6 +66,10 @@ HELD_OUT_MISSING_FRAME_POLICY_RUNTIME_SCHEMA = (
     ROOT
     / "Plan/08_SCHEMAS/canonical_video_timeline_held_out_missing_frame_policy_runtime_receipt.schema.json"
 )
+HELD_OUT_VFR_SEGMENT_MAP_BENCHMARK_SCHEMA = (
+    ROOT
+    / "Plan/08_SCHEMAS/canonical_video_timeline_held_out_vfr_segment_map_benchmark_receipt.schema.json"
+)
 DIRECT_ROW084_RUNTIME_RECEIPT_SCHEMA = (
     ROOT / "Plan/08_SCHEMAS/canonical_video_timeline_direct_runtime_receipt.schema.json"
 )
@@ -92,6 +96,9 @@ HELD_OUT_CAMERA_MOTION_RUNTIME_RECEIPT = (
 )
 HELD_OUT_MISSING_FRAME_POLICY_RUNTIME_RECEIPT = (
     FIXTURE_DIR / "runtime" / "held_out_missing_frame_policy_runtime_receipt.json"
+)
+HELD_OUT_VFR_SEGMENT_MAP_BENCHMARK_RECEIPT = (
+    FIXTURE_DIR / "runtime" / "held_out_vfr_segment_map_benchmark_receipt.json"
 )
 DIRECT_ROW084_RUNTIME_RECEIPT = (
     FIXTURE_DIR / "runtime" / "direct_row084_runtime_receipt.json"
@@ -563,6 +570,9 @@ class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
         )
         self.held_out_missing_frame_policy_runtime_validator = Draft202012Validator(
             json.loads(HELD_OUT_MISSING_FRAME_POLICY_RUNTIME_SCHEMA.read_text(encoding="utf-8"))
+        )
+        self.held_out_vfr_segment_map_benchmark_validator = Draft202012Validator(
+            json.loads(HELD_OUT_VFR_SEGMENT_MAP_BENCHMARK_SCHEMA.read_text(encoding="utf-8"))
         )
         self.direct_row084_runtime_validator = Draft202012Validator(
             json.loads(DIRECT_ROW084_RUNTIME_RECEIPT_SCHEMA.read_text(encoding="utf-8"))
@@ -1631,6 +1641,43 @@ class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
         self.assertFalse(live["comfyui_8188_invoked"])
         self.assertEqual(
             live["roundtrip_benchmark_receipt_sha256"], bench["receipt_sha256"]
+        )
+
+    def test_held_out_vfr_segment_map_benchmark_clears_row084_013(self) -> None:
+        if not DEFAULT_ROW084_FFMPEG.is_file() and not shutil.which("ffmpeg"):
+            self.skipTest("ffmpeg unavailable for vfr segment-map benchmark test")
+        self.assertTrue(HELD_OUT_VFR_SEGMENT_MAP_BENCHMARK_RECEIPT.is_file())
+        receipt = json.loads(
+            HELD_OUT_VFR_SEGMENT_MAP_BENCHMARK_RECEIPT.read_text(encoding="utf-8")
+        )
+        direct = json.loads(DIRECT_ROW084_RUNTIME_RECEIPT.read_text(encoding="utf-8"))
+        tracker = json.loads(TRACKER_OUTPUT_ARTIFACT.read_text(encoding="utf-8"))
+        self.held_out_vfr_segment_map_benchmark_validator.validate(receipt)
+        self.assertTrue(receipt["authority"]["vfr_segment_map_benchmark_complete"])
+        self.assertTrue(receipt["summary"]["media_pts_derived"])
+        self.assertTrue(receipt["summary"]["contiguous_coverage"])
+        self.assertGreaterEqual(len(receipt["segment_cases"]), 2)
+        self.assertFalse(receipt["row_complete"])
+        self.assertFalse(receipt["production_completion_allowed"])
+        self.assertTrue(direct["authority"].get("vfr_segment_map_benchmark_complete"))
+        self.assertIn("ROW084-013", tracker.get("cleared_offline_checks", []))
+        self.assertFalse(tracker.get("row_complete"))
+        self.assertNotEqual(tracker.get("status"), "COMPLETE")
+        verify = COMPILER_MOD.verify_held_out_vfr_segment_map_benchmark_receipt()
+        self.assertEqual(verify["status"], "ok")
+        self.assertTrue(verify["vfr_segment_map_benchmark_complete"])
+        live = COMPILER_MOD.execute_vfr_segment_map_benchmark_runtime_climb(
+            ffmpeg_path=DEFAULT_ROW084_FFMPEG if DEFAULT_ROW084_FFMPEG.is_file() else None,
+            write_outputs=False,
+        )
+        self.assertEqual(live["status"], "ok")
+        self.assertEqual(live["cleared_check"], "ROW084-013")
+        self.assertTrue(live["vfr_segment_map_benchmark_complete"])
+        self.assertFalse(live["row_complete"])
+        self.assertFalse(live["production_completion_allowed"])
+        self.assertFalse(live["comfyui_8188_invoked"])
+        self.assertEqual(
+            live["vfr_segment_map_benchmark_receipt_sha256"], receipt["receipt_sha256"]
         )
 
 

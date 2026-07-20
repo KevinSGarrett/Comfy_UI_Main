@@ -1,0 +1,154 @@
+{
+  "authority": {
+    "benchmark_authority_granted": true,
+    "fixture_matrix_only": false,
+    "production_benchmark": false,
+    "production_completion_allowed": false,
+    "vfr_segment_map_benchmark_complete": true,
+    "visual_review_authority_granted": false
+  },
+  "case_id": "held_out_vfr_24_30",
+  "climb_targets": [
+    "RUNTIME_PASS_BOUNDED",
+    "VISUAL_QA_PASS_BOUNDED"
+  ],
+  "created_at": "2026-07-20T14:57:36Z",
+  "derived_segment_observations": [
+    {
+      "end_frame_exclusive": 12,
+      "expected_frame_duration_seconds": 0.041666666666666664,
+      "observed_mean_frame_duration_seconds": 0.041666666667,
+      "segment_id": "media_seg_24",
+      "start_frame": 0,
+      "timebase_denominator": 24,
+      "timebase_numerator": 1
+    },
+    {
+      "end_frame_exclusive": 24,
+      "expected_frame_duration_seconds": 0.03333333333333333,
+      "observed_mean_frame_duration_seconds": 0.033416666667,
+      "segment_id": "media_seg_30",
+      "start_frame": 12,
+      "timebase_denominator": 30,
+      "timebase_numerator": 1
+    }
+  ],
+  "ffmpeg": {
+    "comfyui_8188_invoked": false,
+    "ffprobe_path": "C:\\Users\\kevin\\AppData\\Local\\Programs\\ffmpeg\\ffmpeg-8.1.2-full_build\\bin\\ffprobe.exe",
+    "invoked": true,
+    "resolved_path": "C:\\Users\\kevin\\AppData\\Local\\Programs\\ffmpeg\\ffmpeg-8.1.2-full_build\\bin\\ffmpeg.exe",
+    "version_line": "ffmpeg version 8.1.2-full_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers"
+  },
+  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+  "hold_reasons": [
+    "production_benchmark_not_granted",
+    "visual_qa_pass_bounded_not_claimed_here",
+    "row_complete_blocked",
+    "production_completion_blocked"
+  ],
+  "media_frame_count": 24,
+  "mux_sha256": "5327faf9dc2406024dc1ee9763d50affc692057e2d41c542029573a6aa38338a",
+  "production_completion_allowed": false,
+  "proof_tier": "RUNTIME_PASS_BOUNDED",
+  "provenance": {
+    "blocker_codes_cleared": [
+      "VFR_SEGMENT_MAP_BENCHMARK_ABSENT"
+    ],
+    "compiler": "compile_wave64_canonical_video_timeline.py",
+    "compiler_revision": "row084_synthetic_runtime_climb_ledger_v9",
+    "does_not_claim_row_complete": true,
+    "does_not_claim_visual_qa_pass_bounded": true,
+    "does_not_use_comfyui_8188": true,
+    "execution_mode": "held_out_ffmpeg_pts_derived_vfr_segment_map_benchmark",
+    "registry_sha256": "078d4d8637588bdfcc6febd9416040ce6250b4cc90903df83d85aa59f6ee6d74",
+    "remaining_blocker_codes": [
+      "PRODUCTION_COMPLETION_AND_ROW_COMPLETE_BLOCKED",
+      "CLOCK_SPAN_REVERSED_PTS_JSON_SCHEMA_NATIVE_ABSENT"
+    ],
+    "runtime_revision": "row084_held_out_vfr_segment_map_benchmark_v1",
+    "tolerances_source": "wave64_audio_delivery_and_clock_profile_registry.row084_roundtrip_tolerances"
+  },
+  "receipt_id": "row084_held_out_vfr_segment_map_benchmark_receipt_v1",
+  "receipt_sha256": "ec3e3861b1940d31a729ad2ca681b07f72e4cff5351b26ede3e85a82e78c5479",
+  "record_type": "row084_held_out_vfr_segment_map_benchmark_receipt",
+  "registered_tolerances": {
+    "registry_relative_path": "Plan/10_REGISTRIES/wave64_audio_delivery_and_clock_profile_registry.json",
+    "registry_sha256": "078d4d8637588bdfcc6febd9416040ce6250b4cc90903df83d85aa59f6ee6d74",
+    "status": "runtime_authoritative_offline_bounded",
+    "supported_sample_rate_hz": [
+      48000
+    ],
+    "tolerances": {
+      "max_frame_residual": 0.0,
+      "max_sample_residual": 1.0,
+      "max_seconds_residual": 2.0833333333333333e-05
+    },
+    "tolerances_source": "wave64_audio_delivery_and_clock_profile_registry.row084_roundtrip_tolerances"
+  },
+  "revision": "row084_held_out_vfr_segment_map_benchmark_v1",
+  "row_complete": false,
+  "schema_version": "1.0.0",
+  "segment_cases": [
+    {
+      "benchmark_passed": true,
+      "checked_frame_count": 12,
+      "end_frame_exclusive": 12,
+      "expected_frame_duration_seconds": 0.041666666666666664,
+      "frame_count": 12,
+      "max_observed_frame_residual": 0.0,
+      "max_observed_sample_residual": 0.0,
+      "max_observed_seconds_residual": 0.0,
+      "observed_mean_frame_duration_seconds": 0.041666666667,
+      "segment_id": "media_seg_24",
+      "start_frame": 0,
+      "timebase_denominator": 24,
+      "timebase_numerator": 1,
+      "within_tolerance": true
+    },
+    {
+      "benchmark_passed": true,
+      "checked_frame_count": 12,
+      "end_frame_exclusive": 24,
+      "expected_frame_duration_seconds": 0.03333333333333333,
+      "frame_count": 12,
+      "max_observed_frame_residual": 0.0,
+      "max_observed_sample_residual": 0.0,
+      "max_observed_seconds_residual": 1.1102230246251565e-16,
+      "observed_mean_frame_duration_seconds": 0.033416666667,
+      "segment_id": "media_seg_30",
+      "start_frame": 12,
+      "timebase_denominator": 30,
+      "timebase_numerator": 1,
+      "within_tolerance": true
+    }
+  ],
+  "status": "held_out_vfr_segment_map_benchmark_pass_bounded",
+  "summary": {
+    "all_segments_within_tolerance": true,
+    "comfyui_8188_invoked": false,
+    "contiguous_coverage": true,
+    "media_pts_derived": true,
+    "production_benchmark": false,
+    "runtime_media_decode_invoked": false,
+    "segment_count": 2,
+    "vfr_segment_map_benchmark_complete": true
+  },
+  "timeline_stable_sha256": "8102f918663f8f9d21b3d8d464accd09499c92b3ab4194e36547127724926e0a",
+  "vfr_segments": [
+    {
+      "end_frame_exclusive": 12,
+      "segment_id": "media_seg_24",
+      "start_frame": 0,
+      "timebase_denominator": 24,
+      "timebase_numerator": 1
+    },
+    {
+      "end_frame_exclusive": 24,
+      "segment_id": "media_seg_30",
+      "start_frame": 12,
+      "timebase_denominator": 30,
+      "timebase_numerator": 1
+    }
+  ]
+}

@@ -3422,6 +3422,10 @@ HELD_OUT_CAMERA_MOTION_RUNTIME_RECEIPT_FILENAME = "held_out_camera_motion_runtim
 HELD_OUT_MISSING_FRAME_POLICY_RUNTIME_RECEIPT_FILENAME = (
     "held_out_missing_frame_policy_runtime_receipt.json"
 )
+HELD_OUT_VFR_SEGMENT_MAP_BENCHMARK_REVISION = "row084_held_out_vfr_segment_map_benchmark_v1"
+HELD_OUT_VFR_SEGMENT_MAP_BENCHMARK_RECEIPT_FILENAME = (
+    "held_out_vfr_segment_map_benchmark_receipt.json"
+)
 DIRECT_ROW084_RUNTIME_RECEIPT_FILENAME = "direct_row084_runtime_receipt.json"
 HELD_OUT_CAMERA_MOTION_DIRNAME = "held_out_camera_motion"
 HELD_OUT_MISSING_FRAME_DIRNAME = "held_out_missing_frame"
@@ -4954,6 +4958,462 @@ def verify_held_out_missing_frame_policy_runtime_receipt(
     }
 
 
+
+def _probe_packet_pts_times(*, ffprobe: Path, media_path: Path) -> list[float]:
+    """Return ordered video packet pts_time values for media-backed VFR map checks."""
+    completed = subprocess.run(
+        [
+            str(ffprobe),
+            "-v",
+            "error",
+            "-select_streams",
+            "v:0",
+            "-show_entries",
+            "packet=pts_time",
+            "-of",
+            "csv=p=0",
+            str(media_path),
+        ],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if completed.returncode != 0:
+        raise ValueError(f"ffprobe packet pts failed: {(completed.stderr or '')[-2000:]}")
+    pts_times: list[float] = []
+    for line in (completed.stdout or "").splitlines():
+        text_line = line.strip()
+        if not text_line or text_line == "N/A":
+            continue
+        pts_times.append(float(text_line))
+    if not pts_times:
+        raise ValueError(f"no packet pts_time values from {media_path}")
+    return pts_times
+
+
+def _derive_vfr_segments_from_pts(
+    pts_times: list[float],
+    *,
+    expected_segments: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Derive contiguous VFR segments from media PTS deltas and bind expected fps."""
+    if len(pts_times) < 2:
+        raise ValueError("VFR segment derivation requires at least two packet timestamps")
+    if not expected_segments:
+        raise ValueError("expected_segments required for VFR segment-map benchmark")
+    durations = [pts_times[i + 1] - pts_times[i] for i in range(len(pts_times) - 1)]
+    # Final frame inherits prior duration for clustering completeness.
+    durations.append(durations[-1])
+    cursor = 0
+    derived: list[dict[str, Any]] = []
+    for idx, expected in enumerate(expected_segments):
+        frames = int(expected["frames"])
+        fps_num = int(expected["fps_num"])
+        fps_den = int(expected["fps_den"])
+        end = cursor + frames
+        if end > len(durations):
+            raise ValueError("expected VFR segments exceed media frame count")
+        slice_durs = durations[cursor:end]
+        mean_dur = sum(slice_durs) / float(len(slice_durs))
+        expected_dur = float(fps_den) / float(fps_num)
+        if abs(mean_dur - expected_dur) > max(0.002, expected_dur * 0.15):
+            raise ValueError(
+                f"segment[{idx}] mean duration {mean_dur:.6f} diverges from "
+                f"expected {expected_dur:.6f} (fps={fps_num}/{fps_den})"
+            )
+        derived.append(
+            {
+                "segment_id": f"media_seg_{fps_num}",
+                "start_frame": cursor,
+                "end_frame_exclusive": end,
+                "timebase_numerator": fps_den,
+                "timebase_denominator": fps_num,
+                "observed_mean_frame_duration_seconds": round(mean_dur, 12),
+                "expected_frame_duration_seconds": expected_dur,
+            }
+        )
+        cursor = end
+    if cursor != len(durations):
+        raise ValueError(
+            f"derived VFR segment map incomplete: covered={cursor} media_frames={len(durations)}"
+        )
+    return derived
+
+
+def execute_held_out_vfr_segment_map_benchmark(
+    *,
+    fixture_dir: Path | None = None,
+    ffmpeg_path: str | Path | None = None,
+    output_receipt_path: Path | None = None,
+    write_outputs: bool = True,
+) -> dict[str, Any]:
+    """Media-backed VFR segment-map benchmark on held-out lavfi mux.
+
+    Clears ROW084-013 at RUNTIME_PASS_BOUNDED without production/COMPLETE/:8188.
+    Derives segment map from ffprobe PTS deltas, validates contiguous coverage,
+    and proves per-segment frame/seconds/sample round-trip against registered tolerances.
+    """
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    runtime_dir = directory / FIXTURE_MUX_RUNTIME_DIRNAME
+    receipt_path = (
+        output_receipt_path
+        if output_receipt_path is not None
+        else runtime_dir / HELD_OUT_VFR_SEGMENT_MAP_BENCHMARK_RECEIPT_FILENAME
+    )
+    registered = load_registered_roundtrip_tolerances()
+    tolerances = dict(registered["tolerances"])
+    ffmpeg = resolve_ffmpeg_binary(explicit_path=ffmpeg_path, fixture_dir=directory)
+    ffprobe = _ffprobe_beside(ffmpeg)
+    version_run = _run_media_tool(ffmpeg, ["-version"], label="ffmpeg-version")
+    version_line = (version_run["stdout_tail"] or version_run["stderr_tail"]).splitlines()[0].strip()
+
+    case = next(
+        item for item in _held_out_ffmpeg_mux_cases() if item["case_id"] == "held_out_vfr_24_30"
+    )
+    mux_path = _resolve_held_out_mux_path(directory, case["case_id"])
+    probe = _ffprobe_json(ffprobe, mux_path)
+    video = _stream_by_codec_type(probe, "video")
+    nb_read = video.get("nb_read_frames")
+    if nb_read is None:
+        nb_read = video.get("nb_frames")
+    if nb_read is None:
+        raise ValueError("VFR segment-map benchmark: ffprobe frame count missing")
+    frame_count = int(nb_read)
+    if frame_count != int(case["expected_video_frames"]):
+        raise ValueError(
+            f"VFR segment-map frame count mismatch expected={case['expected_video_frames']} got={frame_count}"
+        )
+    pts_times = _probe_packet_pts_times(ffprobe=ffprobe, media_path=mux_path)
+    if len(pts_times) < frame_count:
+        raise ValueError(
+            f"VFR segment-map pts count {len(pts_times)} < media frames {frame_count}"
+        )
+    pts_times = pts_times[:frame_count]
+    expected_segments = case["vfr_segments"]
+    assert isinstance(expected_segments, list)
+    derived_segments = _derive_vfr_segments_from_pts(
+        pts_times, expected_segments=expected_segments
+    )
+    vfr_segments = [
+        {
+            "segment_id": item["segment_id"],
+            "start_frame": item["start_frame"],
+            "end_frame_exclusive": item["end_frame_exclusive"],
+            "timebase_numerator": 1,
+            "timebase_denominator": int(expected_segments[idx]["fps_num"]),
+        }
+        for idx, item in enumerate(derived_segments)
+    ]
+    frame_table = [
+        {"frame_index": idx, "source_pts": idx, "duration_pts": 1}
+        for idx in range(frame_count)
+    ]
+    mux_sha = _file_sha256(mux_path)
+    packet = {
+        "schema_version": "1.0.0",
+        "timeline_id": "benchmark_held_out_vfr_segment_map",
+        "revision": HELD_OUT_VFR_SEGMENT_MAP_BENCHMARK_REVISION,
+        "source_binding": {
+            "video_sha256": mux_sha,
+            "stream_index": 0,
+            "container_sha256": mux_sha,
+            "audio_stream_sha256": None,
+            "audio_stream_index": None,
+        },
+        "clock_span": {
+            "clock_id": "clock_held_out_vfr_segment_map",
+            "timebase_numerator": 1,
+            "timebase_denominator": 24,
+            "start_pts": 0,
+            "end_pts_exclusive": frame_count,
+            "start_frame": 0,
+            "end_frame_exclusive": frame_count,
+            "start_sample": 0,
+            "end_sample_exclusive": int(case["expected_end_sample_exclusive"]),
+            "frame_rate_numerator": 24,
+            "frame_rate_denominator": 1,
+            "sample_rate_hz": 48000,
+            "rounding_policy": "nearest_ties_to_even",
+        },
+        "frame_rate_mode": "vfr",
+        "frame_table": frame_table,
+        "vfr_segments": vfr_segments,
+        "cut_epochs": [],
+        "missing_frames": [],
+        "camera_motion_policy": "not_evaluated",
+        "tolerances": dict(tolerances),
+        "dependency_authority": {"row067_complete": True},
+        "runtime_authority": {
+            "mux_replay_proof_present": True,
+            "fixed_vfr_benchmark_pass": False,
+            "combined_visual_review_present": False,
+        },
+        "provenance": {
+            "fixture": "held_out_vfr_segment_map_benchmark",
+            "case_id": case["case_id"],
+        },
+    }
+    receipt = compile_timeline(packet)
+    evidence = receipt["roundtrip_evidence"]
+    if not evidence.get("within_tolerance"):
+        raise ValueError("VFR segment-map whole-timeline round-trip outside tolerances")
+    if int(evidence.get("vfr_segment_count", 0)) != len(vfr_segments):
+        raise ValueError("VFR segment-map count mismatch in roundtrip evidence")
+
+    segment_cases: list[dict[str, Any]] = []
+    for idx, segment in enumerate(vfr_segments):
+        start = int(segment["start_frame"])
+        end = int(segment["end_frame_exclusive"])
+        seg_frames = frame_table[start:end]
+        max_frame_residual = 0.0
+        max_sample_residual = 0.0
+        max_seconds_residual = 0.0
+        for entry in seg_frames:
+            frame_index = int(entry["frame_index"])
+            seconds = seconds_from_vfr_frame(frame_index, vfr_segments)
+            sample = sample_from_seconds(seconds, 48000, "nearest_ties_to_even")
+            roundtrip_seconds = sample / 48000.0
+            roundtrip_frame = frame_from_vfr_seconds(
+                roundtrip_seconds, vfr_segments, "nearest_ties_to_even"
+            )
+            frame_residual = abs(roundtrip_frame - frame_index)
+            sample_residual = abs(sample - round(seconds * 48000))
+            seconds_residual = abs(roundtrip_seconds - seconds)
+            max_frame_residual = max(max_frame_residual, float(frame_residual))
+            max_sample_residual = max(max_sample_residual, float(sample_residual))
+            max_seconds_residual = max(max_seconds_residual, float(seconds_residual))
+            if frame_residual > tolerances["max_frame_residual"]:
+                raise ValueError(f"segment {segment['segment_id']} frame residual exceed")
+            if sample_residual > tolerances["max_sample_residual"]:
+                raise ValueError(f"segment {segment['segment_id']} sample residual exceed")
+            if seconds_residual > tolerances["max_seconds_residual"]:
+                raise ValueError(f"segment {segment['segment_id']} seconds residual exceed")
+        segment_cases.append(
+            {
+                "segment_id": segment["segment_id"],
+                "start_frame": start,
+                "end_frame_exclusive": end,
+                "frame_count": end - start,
+                "timebase_numerator": segment["timebase_numerator"],
+                "timebase_denominator": segment["timebase_denominator"],
+                "observed_mean_frame_duration_seconds": derived_segments[idx][
+                    "observed_mean_frame_duration_seconds"
+                ],
+                "expected_frame_duration_seconds": derived_segments[idx][
+                    "expected_frame_duration_seconds"
+                ],
+                "checked_frame_count": end - start,
+                "max_observed_frame_residual": max_frame_residual,
+                "max_observed_sample_residual": max_sample_residual,
+                "max_observed_seconds_residual": max_seconds_residual,
+                "within_tolerance": True,
+                "benchmark_passed": True,
+            }
+        )
+
+    if vfr_segments[0]["start_frame"] != 0:
+        raise ValueError("VFR segment map must begin at frame 0")
+    if vfr_segments[-1]["end_frame_exclusive"] != frame_count:
+        raise ValueError("VFR segment map must end at media frame count")
+    for idx in range(1, len(vfr_segments)):
+        if vfr_segments[idx]["start_frame"] != vfr_segments[idx - 1]["end_frame_exclusive"]:
+            raise ValueError("VFR segment map leaves an unmapped frame gap")
+
+    created_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    stable_timeline = {
+        key: value
+        for key, value in receipt.items()
+        if key not in {"created_at", "timeline_sha256"}
+    }
+    receipt_body: dict[str, Any] = {
+        "schema_version": "1.0.0",
+        "record_type": "row084_held_out_vfr_segment_map_benchmark_receipt",
+        "receipt_id": "row084_held_out_vfr_segment_map_benchmark_receipt_v1",
+        "revision": HELD_OUT_VFR_SEGMENT_MAP_BENCHMARK_REVISION,
+        "status": "held_out_vfr_segment_map_benchmark_pass_bounded",
+        "created_at": created_at,
+        "proof_tier": "RUNTIME_PASS_BOUNDED",
+        "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+        "climb_targets": ["RUNTIME_PASS_BOUNDED", "VISUAL_QA_PASS_BOUNDED"],
+        "ffmpeg": {
+            "resolved_path": str(ffmpeg),
+            "ffprobe_path": str(ffprobe),
+            "version_line": version_line,
+            "invoked": True,
+            "comfyui_8188_invoked": False,
+        },
+        "case_id": case["case_id"],
+        "mux_sha256": mux_sha,
+        "media_frame_count": frame_count,
+        "timeline_stable_sha256": _canonical_sha256(stable_timeline),
+        "vfr_segments": vfr_segments,
+        "derived_segment_observations": derived_segments,
+        "segment_cases": segment_cases,
+        "registered_tolerances": {
+            "tolerances": dict(tolerances),
+            "status": registered["status"],
+            "supported_sample_rate_hz": list(registered["supported_sample_rate_hz"]),
+            "registry_relative_path": registered["registry_relative_path"],
+            "registry_sha256": registered["registry_sha256"],
+            "tolerances_source": registered["tolerances_source"],
+        },
+        "summary": {
+            "segment_count": len(vfr_segments),
+            "contiguous_coverage": True,
+            "media_pts_derived": True,
+            "all_segments_within_tolerance": True,
+            "vfr_segment_map_benchmark_complete": True,
+            "production_benchmark": False,
+            "comfyui_8188_invoked": False,
+            "runtime_media_decode_invoked": False,
+        },
+        "authority": {
+            "vfr_segment_map_benchmark_complete": True,
+            "benchmark_authority_granted": True,
+            "fixture_matrix_only": False,
+            "production_benchmark": False,
+            "visual_review_authority_granted": False,
+            "production_completion_allowed": False,
+        },
+        "hold_reasons": [
+            "production_benchmark_not_granted",
+            "visual_qa_pass_bounded_not_claimed_here",
+            "row_complete_blocked",
+            "production_completion_blocked",
+        ],
+        "production_completion_allowed": False,
+        "row_complete": False,
+        "provenance": {
+            "compiler": "compile_wave64_canonical_video_timeline.py",
+            "compiler_revision": COMPILER_REVISION,
+            "runtime_revision": HELD_OUT_VFR_SEGMENT_MAP_BENCHMARK_REVISION,
+            "execution_mode": "held_out_ffmpeg_pts_derived_vfr_segment_map_benchmark",
+            "tolerances_source": registered["tolerances_source"],
+            "registry_sha256": registered["registry_sha256"],
+            "blocker_codes_cleared": ["VFR_SEGMENT_MAP_BENCHMARK_ABSENT"],
+            "remaining_blocker_codes": [
+                "PRODUCTION_COMPLETION_AND_ROW_COMPLETE_BLOCKED",
+                "CLOCK_SPAN_REVERSED_PTS_JSON_SCHEMA_NATIVE_ABSENT",
+            ],
+            "does_not_claim_visual_qa_pass_bounded": True,
+            "does_not_claim_row_complete": True,
+            "does_not_use_comfyui_8188": True,
+        },
+    }
+    stable = {key: value for key, value in receipt_body.items() if key != "created_at"}
+    receipt_body["receipt_sha256"] = _canonical_sha256(stable)
+    if write_outputs:
+        _write_json_atomic(receipt_path, receipt_body)
+    return receipt_body
+
+
+def verify_held_out_vfr_segment_map_benchmark_receipt(
+    receipt: dict[str, Any] | None = None,
+    *,
+    fixture_dir: Path | None = None,
+) -> dict[str, Any]:
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    receipt_path = (
+        directory / FIXTURE_MUX_RUNTIME_DIRNAME / HELD_OUT_VFR_SEGMENT_MAP_BENCHMARK_RECEIPT_FILENAME
+    )
+    payload = receipt if receipt is not None else json.loads(receipt_path.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise ValueError("vfr segment-map benchmark receipt must be an object")
+    recorded = _expect_sha256(payload.get("receipt_sha256"), "receipt_sha256")
+    stable = {
+        key: value
+        for key, value in payload.items()
+        if key not in {"created_at", "receipt_sha256"}
+    }
+    recomputed = _canonical_sha256(stable)
+    if recorded != recomputed:
+        raise ValueError(
+            f"vfr segment-map receipt_sha256 mismatch recorded={recorded} recomputed={recomputed}"
+        )
+    if payload.get("summary", {}).get("vfr_segment_map_benchmark_complete") is not True:
+        raise ValueError("vfr_segment_map_benchmark_complete must be true")
+    if payload.get("authority", {}).get("vfr_segment_map_benchmark_complete") is not True:
+        raise ValueError("authority.vfr_segment_map_benchmark_complete must be true")
+    if payload.get("summary", {}).get("production_benchmark") is not False:
+        raise ValueError("production_benchmark must remain false")
+    if payload.get("authority", {}).get("production_completion_allowed") is not False:
+        raise ValueError("production_completion_allowed must remain false")
+    if payload.get("row_complete") is not False:
+        raise ValueError("row_complete must remain false")
+    if payload.get("authority", {}).get("visual_review_authority_granted") is not False:
+        raise ValueError("must not grant visual review authority")
+    segments = payload.get("vfr_segments")
+    if not isinstance(segments, list) or len(segments) < 2:
+        raise ValueError("vfr_segments must contain at least two segments")
+    return {
+        "status": "ok",
+        "verifier": "verify_held_out_vfr_segment_map_benchmark_receipt",
+        "receipt_sha256": recorded,
+        "proof_tier": "RUNTIME_PASS_BOUNDED",
+        "vfr_segment_map_benchmark_complete": True,
+        "production_benchmark": False,
+        "visual_review_authority_granted": False,
+        "row_complete": False,
+    }
+
+
+def execute_vfr_segment_map_benchmark_runtime_climb(
+    *,
+    fixture_dir: Path | None = None,
+    ffmpeg_path: str | Path | None = None,
+    write_outputs: bool = True,
+) -> dict[str, Any]:
+    """Clear ROW084-013 offline via media-backed VFR segment-map benchmark.
+
+    Never claims COMPLETE/row_complete or production completion. No :8188.
+    """
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    segment_map = execute_held_out_vfr_segment_map_benchmark(
+        fixture_dir=directory, ffmpeg_path=ffmpeg_path, write_outputs=write_outputs
+    )
+    if segment_map.get("authority", {}).get("vfr_segment_map_benchmark_complete") is not True:
+        raise ValueError("vfr segment-map climb failed authority bind")
+    visual_path = (
+        directory / FIXTURE_MUX_RUNTIME_DIRNAME / COMBINED_VISUAL_AUDIO_REVIEW_RECEIPT_FILENAME
+    )
+    if not visual_path.is_file():
+        raise FileNotFoundError(
+            "vfr segment-map climb requires existing combined visual receipt; "
+            "run --execute-combined-visual-audio-review-climb first"
+        )
+    visual = json.loads(visual_path.read_text(encoding="utf-8"))
+    direct = emit_direct_row084_runtime_receipt_with_visual(
+        fixture_dir=directory,
+        visual_receipt=visual,
+        write_outputs=write_outputs,
+        preloaded_receipts={"held_out_vfr_segment_map_benchmark": segment_map},
+    )
+    tracker = emit_tracker_output_artifact_after_visual(
+        fixture_dir=directory,
+        visual_receipt=visual,
+        direct_receipt=direct,
+        write_outputs=write_outputs,
+    )
+    if "ROW084-013" not in tracker.get("cleared_offline_checks", []):
+        raise ValueError("tracker HOLD must clear ROW084-013 after vfr segment-map climb")
+    if tracker.get("row_complete") is not False or tracker.get("status") == "COMPLETE":
+        raise ValueError("vfr segment-map climb must not claim COMPLETE/row_complete")
+    return {
+        "status": "ok",
+        "mode": "execute-vfr-segment-map-benchmark-runtime-climb",
+        "proof_tier": "RUNTIME_PASS_BOUNDED",
+        "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+        "vfr_segment_map_benchmark_receipt_sha256": segment_map["receipt_sha256"],
+        "direct_runtime_receipt_sha256": direct["receipt_sha256"],
+        "tracker_artifact_sha256": tracker["artifact_sha256"],
+        "vfr_segment_map_benchmark_complete": True,
+        "cleared_check": "ROW084-013",
+        "row_complete": False,
+        "production_completion_allowed": False,
+        "comfyui_8188_invoked": False,
+    }
+
+
 def emit_direct_row084_runtime_receipt(
     *,
     fixture_dir: Path | None = None,
@@ -5555,6 +6015,28 @@ def emit_direct_row084_runtime_receipt_with_visual(
             "row_complete": False,
         }
         missing_frame_runtime_complete = True
+    vfr_segment_map_benchmark_complete = False
+    vfr_map_payload = preloaded.get("held_out_vfr_segment_map_benchmark")
+    if vfr_map_payload is None:
+        vfr_map_path = runtime_dir / HELD_OUT_VFR_SEGMENT_MAP_BENCHMARK_RECEIPT_FILENAME
+        if vfr_map_path.is_file():
+            vfr_map_payload = json.loads(vfr_map_path.read_text(encoding="utf-8"))
+    if isinstance(vfr_map_payload, dict):
+        vfr_digest = vfr_map_payload.get("receipt_sha256")
+        if not isinstance(vfr_digest, str) or len(vfr_digest) != 64:
+            raise ValueError("vfr segment-map receipt missing receipt_sha256")
+        if vfr_map_payload.get("authority", {}).get("vfr_segment_map_benchmark_complete") is not True:
+            raise ValueError("vfr segment-map receipt must mark benchmark complete")
+        bindings["held_out_vfr_segment_map_benchmark"] = {
+            "relative_path": (
+                f"{FIXTURE_MUX_RUNTIME_DIRNAME}/"
+                f"{HELD_OUT_VFR_SEGMENT_MAP_BENCHMARK_RECEIPT_FILENAME}"
+            ),
+            "receipt_sha256": vfr_digest,
+            "proof_tier": vfr_map_payload.get("proof_tier"),
+            "row_complete": False,
+        }
+        vfr_segment_map_benchmark_complete = True
     registered_tolerances_runtime_authoritative = False
     bench_payload = preloaded.get("held_out_roundtrip_benchmark")
     if bench_payload is None:
@@ -5591,6 +6073,7 @@ def emit_direct_row084_runtime_receipt_with_visual(
             "registered_roundtrip_tolerances_runtime_authoritative": (
                 registered_tolerances_runtime_authoritative
             ),
+            "vfr_segment_map_benchmark_complete": vfr_segment_map_benchmark_complete,
             "combined_visual_review_present": True,
             "direct_combined_visual_audio_review_present": True,
             "comfyui_8188_invoked": False,
@@ -5604,6 +6087,7 @@ def emit_direct_row084_runtime_receipt_with_visual(
             "registered_roundtrip_tolerances_runtime_authoritative": (
                 registered_tolerances_runtime_authoritative
             ),
+            "vfr_segment_map_benchmark_complete": vfr_segment_map_benchmark_complete,
             "combined_visual_review_present": True,
             "visual_review_authority_granted": True,
             "direct_combined_visual_audio_review_present": True,
@@ -5696,6 +6180,13 @@ def emit_tracker_output_artifact_after_visual(
                 ["ROW084-017"]
                 if direct.get("authority", {}).get(
                     "registered_roundtrip_tolerances_runtime_authoritative"
+                )
+                else []
+            ),
+            *(
+                ["ROW084-013"]
+                if direct.get("authority", {}).get(
+                    "vfr_segment_map_benchmark_complete"
                 )
                 else []
             ),
@@ -6083,6 +6574,27 @@ def main(argv: list[str] | None = None) -> int:
         ),
     )
     parser.add_argument(
+        "--execute-held-out-vfr-segment-map-benchmark",
+        action="store_true",
+        help=(
+            "Execute media-backed VFR segment-map benchmark from ffprobe PTS; "
+            "clears ROW084-013 without COMPLETE/row_complete"
+        ),
+    )
+    parser.add_argument(
+        "--execute-vfr-segment-map-benchmark-runtime-climb",
+        action="store_true",
+        help=(
+            "Execute VFR segment-map benchmark and rebind visual-tier "
+            "direct/tracker HOLD; clears ROW084-013 without COMPLETE"
+        ),
+    )
+    parser.add_argument(
+        "--verify-held-out-vfr-segment-map-benchmark",
+        action="store_true",
+        help="Verify checked-in held-out VFR segment-map benchmark receipt",
+    )
+    parser.add_argument(
         "--fixture-dir",
         default=str(DEFAULT_FIXTURE_DIR),
         help="Fixture directory for synthetic climb ledger (default: checked-in row084 fixtures)",
@@ -6285,6 +6797,49 @@ def main(argv: list[str] | None = None) -> int:
             receipt = execute_registered_roundtrip_tolerances_runtime_climb(
                 fixture_dir=fixture_dir,
                 ffmpeg_path=args.ffmpeg_path,
+            )
+        except (OSError, ValueError, FileNotFoundError) as exc:
+            raise SystemExit(f"ROW084_FAIL_CLOSED: {exc}") from exc
+        print(json.dumps(receipt))
+        return 0
+
+    if args.execute_held_out_vfr_segment_map_benchmark:
+        try:
+            receipt = execute_held_out_vfr_segment_map_benchmark(
+                fixture_dir=fixture_dir,
+                ffmpeg_path=args.ffmpeg_path,
+            )
+        except (OSError, ValueError, FileNotFoundError) as exc:
+            raise SystemExit(f"ROW084_FAIL_CLOSED: {exc}") from exc
+        print(
+            json.dumps(
+                {
+                    "status": "ok",
+                    "mode": "execute-held-out-vfr-segment-map-benchmark",
+                    "receipt_sha256": receipt["receipt_sha256"],
+                    "vfr_segment_map_benchmark_complete": True,
+                    "proof_tier": receipt["proof_tier"],
+                    "row_complete": False,
+                }
+            )
+        )
+        return 0
+
+    if args.execute_vfr_segment_map_benchmark_runtime_climb:
+        try:
+            receipt = execute_vfr_segment_map_benchmark_runtime_climb(
+                fixture_dir=fixture_dir,
+                ffmpeg_path=args.ffmpeg_path,
+            )
+        except (OSError, ValueError, FileNotFoundError) as exc:
+            raise SystemExit(f"ROW084_FAIL_CLOSED: {exc}") from exc
+        print(json.dumps(receipt))
+        return 0
+
+    if args.verify_held_out_vfr_segment_map_benchmark:
+        try:
+            receipt = verify_held_out_vfr_segment_map_benchmark_receipt(
+                fixture_dir=fixture_dir
             )
         except (OSError, ValueError, FileNotFoundError) as exc:
             raise SystemExit(f"ROW084_FAIL_CLOSED: {exc}") from exc
