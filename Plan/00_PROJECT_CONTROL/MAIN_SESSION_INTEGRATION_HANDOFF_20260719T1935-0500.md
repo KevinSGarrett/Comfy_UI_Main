@@ -12,8 +12,9 @@
 ## Commits Pushed This Pass
 
 1. `ef32e5c9` Prove Row017 MF70 teeth/mouth-area local visual climb.
+2. `7316dc6e` Stamp Row017 teeth/mouth-area handoff with primary commit id.
 
-Pushed tip verified on origin: `PENDING_TIP`
+Pushed tip verified on origin: `7316dc6e`
 
 ## Row-Scoped Increment Executed
 
