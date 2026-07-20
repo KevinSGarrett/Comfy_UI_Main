@@ -38,11 +38,22 @@ def test_library_mode_emits_model_selected_heldout_bound_hold_without_false_comp
     assert payload["runtime_completion_claimed"] is False
     assert payload["library_authority"] is False
     assert payload["dependencies_unlocked"] is True
-    assert payload["status"] == (
-        "HOLD_LIBRARY_EMBEDDING_INDEX_ABSENT_MODEL_SELECTED_HELDOUT_BOUND"
-    )
-    assert payload["proof_tier"] == "CONTRACT_PASS_BOUNDED"
-    assert payload["highest_proof_tier_achieved"] == "CONTRACT_PASS_BOUNDED"
+    weights_runtime = bool(payload["heldout_binding"].get("weights_runtime"))
+    if weights_runtime:
+        assert payload["status"] == (
+            "HOLD_LIBRARY_EMBEDDING_INDEX_ABSENT_HELDOUT_WEIGHTS_RUNTIME_BOUND"
+        )
+        assert payload["proof_tier"] == "RUNTIME_PASS_BOUNDED"
+        assert payload["highest_proof_tier_achieved"] == "RUNTIME_PASS_BOUNDED"
+        assert payload["heldout_binding"]["model_weights_loaded"] is True
+        assert payload["heldout_binding"]["emitter"] == MOD.HELDOUT_EMITTER_WEIGHTS_RUNTIME
+        assert payload["decision"]["heldout_weights_runtime"] is True
+    else:
+        assert payload["status"] == (
+            "HOLD_LIBRARY_EMBEDDING_INDEX_ABSENT_MODEL_SELECTED_HELDOUT_BOUND"
+        )
+        assert payload["proof_tier"] == "CONTRACT_PASS_BOUNDED"
+        assert payload["highest_proof_tier_achieved"] == "CONTRACT_PASS_BOUNDED"
     assert payload["decision"]["status"] == "blocked"
     assert payload["decision"]["product_completion"] is False
     assert payload["decision"]["row077_acceptance"] == "held"
@@ -93,8 +104,12 @@ def test_registry_freezes_hashes_and_license_binds_selected_model():
 
 
 def test_heldout_binding_is_disjoint_and_forbids_full_library_scan():
-    heldout = MOD.build_heldout_binding_artifacts(ROOT)
+    # persist=False so fixture rebuild cannot overwrite weights-runtime artifacts on disk.
+    heldout = MOD.build_heldout_binding_artifacts(
+        ROOT, emitter=MOD.HELDOUT_EMITTER_FIXTURE, persist=False
+    )
     assert heldout["manifest"]["scope"] == "held_out_only"
+    assert heldout["manifest"]["emitter"] == MOD.HELDOUT_EMITTER_FIXTURE
     assert heldout["manifest"]["full_library_scan"] is False
     assert heldout["manifest"]["pcm_decoded"] is False
     assert heldout["manifest"]["model_weights_loaded"] is False
@@ -108,6 +123,23 @@ def test_heldout_binding_is_disjoint_and_forbids_full_library_scan():
     assert paths["manifest"].is_file()
     assert paths["index"].is_file()
     assert paths["metrics"].is_file()
+
+
+def test_heldout_weights_runtime_artifacts_forbid_library_scan_when_present():
+    heldout = MOD.load_heldout_binding_if_present(ROOT)
+    if heldout is None:
+        pytest.skip("held-out artifacts absent")
+    manifest = heldout["manifest"]
+    assert manifest["scope"] == "held_out_only"
+    assert manifest["full_library_scan"] is False
+    assert manifest["row_complete"] is False
+    if manifest.get("emitter") == MOD.HELDOUT_EMITTER_WEIGHTS_RUNTIME:
+        assert manifest["model_weights_loaded"] is True
+        assert manifest["pcm_decoded"] is True
+        assert manifest["vector_dimension"] == MOD.PRODUCTION_VECTOR_DIM
+        assert heldout["metrics"]["all_slices_pass"] is True
+        assert heldout["metrics"]["full_library_metrics"] is False
+        assert heldout["index"]["embedding_index_revision"] == MOD.HELDOUT_INDEX_REVISION
 
 
 def test_admission_fail_closed_when_delta_marks_held():
