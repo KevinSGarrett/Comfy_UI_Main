@@ -11,10 +11,9 @@
 
 ## Commits Pushed This Pass
 
-1. `PRIMARY_COMMIT` Prove Row017 W69 eyeonly local visual climb.
-2. Handoff tip-stamp commits follow after primary push.
+1. `8f88a8f9` Prove Row017 W69 eyeonly local visual climb.
 
-Pushed tip verified on origin: `TIP_COMMIT`
+Pushed tip verified on origin: `8f88a8f9`
 
 ## Row-Scoped Increment Executed
 
