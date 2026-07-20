@@ -6,7 +6,7 @@
     },
     {
       "code": "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT",
-      "detail": "Representative library strata with truth onsets remain absent; synthetic fixtures only."
+      "detail": "Retained-record candidate shortlist exists (10/10 strata filled) but truth onset labels remain absent; synthetic fixtures only for calibrated thresholds."
     }
   ],
   "blocker_codes": [
@@ -24,7 +24,7 @@
       "result": "pass"
     },
     {
-      "name": "OTA-C002_time_bound_blocker_cleared",
+      "name": "OTA-C002_library_strata_shortlist_from_retained_only",
       "result": "pass"
     },
     {
@@ -36,72 +36,91 @@
       "result": "pass"
     },
     {
-      "name": "OTA-C005_row069_070_071_surfaces_not_reopened",
+      "name": "OTA-C005_no_pcm_decode_and_row075_left_alone",
       "result": "pass"
     }
   ],
-  "classification": "ROW072_FULL_LIBRARY_RECONCILE_COMPLETE_THRESHOLDS_AND_BENCHMARK_STRATA_HELD_NO_FALSE_COMPLETION",
+  "classification": "ROW072_LIBRARY_STRATA_CANDIDATE_SHORTLIST_SCAFFOLD_THRESHOLDS_AND_TRUTH_HELD_NO_FALSE_COMPLETION",
   "created_at": "2026-07-19T03:09:59.1691849Z",
   "decision": {
     "dependencies_unlocked": true,
     "product_completion": false,
     "row072_acceptance": "held",
     "runtime_completion": true,
-    "safe_next_action": "Full-library onset reconcile covered retained Row071 records under frozen synthetic thresholds. Calibrate representative library strata with truth onsets and unfreeze threshold authority before Row072 acceptance or Row093 unlock.",
+    "safe_next_action": "Label truth onset samples on the retained-record library-strata shortlist, then calibrate registered event-family thresholds before Row072 acceptance or Row093 unlock. Do not decode PCM or re-scan the full library for this strata pass; do not claim COMPLETE.",
     "status": "blocked"
   },
   "direct_evidence": {
-    "bytes": 28853,
+    "bytes": 29617,
     "library_authority": false,
     "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_onset_transient_detection.json",
     "row_complete": false,
     "runtime_receipt_path": "runtime_artifacts/onset_anchors/row072_index_retained_20260719/retained_index_onset_receipt.json",
     "runtime_records_sha256": "2c7b6e8d70718406ed3fb6e26c69a8990b6bbaf18311d3ffc9fa3a8bf9efdad5",
-    "sha256": "b9ac70d193d6d79323bdbbd8e9ce5d5073a29fb89bc9c8851c9a2b814232a4b0",
+    "sha256": "1ffe97bdcfd206ed70f0498cf97347a31ca16808f911af2ab9e974e9c60f13ee",
     "status": "HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE",
-    "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ACCEPTED_INDEX_RETAINED_ONSET_SUMMARY_20260719.json",
-    "summary_sha256": "cc6536d408d9459e957212518b84d67088992889a9efadb24b9c288e05878fed"
+    "strata_candidate_packet_bytes": 14298,
+    "strata_candidate_packet_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_LIBRARY_BENCHMARK_STRATA_CANDIDATE_PACKET_20260719.json",
+    "strata_candidate_packet_sha256": "79649d01ac2e5fedb0b956c1cbde6243be436e926962c977fa1765266ae52a02",
+    "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ACCEPTED_INDEX_RETAINED_ONSET_SUMMARY_20260719.json"
   },
   "docker_cvat": "not-needed",
   "ec2": "EC2_DEFERRED",
   "evidence_id": "W64-ROW072-ONSET-TRANSIENT-ANCHOR-CURRENT-DELTA-20260719",
   "focused_validators": {
     "coverage_complete": true,
-    "exact_blockers": 33412,
     "exit_code": 0,
-    "full_library_command": "python Plan/07_IMPLEMENTATION/scripts/detect_wave64_onset_transient_anchors.py --mode index-retained --resume",
+    "full_library_rescan_performed": false,
     "library_hold_packet_status": "HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE",
-    "onset_pass": 6359,
-    "records_processed": 39771
+    "library_strata_candidates_selected": 10,
+    "library_strata_command": "python Plan/07_IMPLEMENTATION/scripts/detect_wave64_onset_transient_anchors.py --mode library-strata",
+    "library_strata_records_scanned": 16990,
+    "library_strata_truth_onset_status": "absent",
+    "pcm_decode_performed": false,
+    "pytest_command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_detect_wave64_onset_transient_anchors.py",
+    "pytest_result": "14 passed"
   },
   "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
   "implementation_completion_claimed": false,
   "increment": {
+    "artifact_hashes": {
+      "detector_script_sha256": "afcb8d191b287d2794813b619efbad13903ed1fb00b765f8ca971be4162a84a7",
+      "detector_tests_sha256": "1738a30071bd2a51693593ead9c9ad07f3535449f8a93eb5199824cbafa2c087",
+      "hold_packet_sha256": "1ffe97bdcfd206ed70f0498cf97347a31ca16808f911af2ab9e974e9c60f13ee",
+      "strata_candidate_packet_sha256": "79649d01ac2e5fedb0b956c1cbde6243be436e926962c977fa1765266ae52a02",
+      "strata_registry_sha256": "bef679fc9987edaea69b7af9a1a378a62beefb8e731e3bdd71067d5bd7519b44",
+      "strata_schema_sha256": "d8928b23667e564f1e6d8071613af9b2abb54244317e8c3ab34adcfa81f122a6"
+    },
     "changed_paths": [
+      "Plan/08_SCHEMAS/onset_library_benchmark_strata_manifest.schema.json",
+      "Plan/10_REGISTRIES/wave64_row072_onset_library_benchmark_strata_v0.1.0.json",
+      "Plan/07_IMPLEMENTATION/scripts/detect_wave64_onset_transient_anchors.py",
+      "Plan/Instructions/QA/Scripts/test_detect_wave64_onset_transient_anchors.py",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_LIBRARY_BENCHMARK_STRATA_CANDIDATE_PACKET_20260719.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_onset_transient_detection.json",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ACCEPTED_INDEX_RETAINED_ONSET_SUMMARY_20260719.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ONSET_TRANSIENT_ANCHOR_CURRENT_DELTA_20260719.json"
     ],
     "detector_revision": "wave64_row072_onset_transient_detector_v0.1.0",
-    "kind": "full_library_onset_reconcile_coverage_complete",
-    "summary": "Finished retained-index onset reconcile over all 39771 accepted Row071 records (onset_pass=6359, exact_blockers=33412). Cleared FULL_LIBRARY_RECONCILE_IN_PROGRESS_TIME_BOUND. Remaining holds: REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY and FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT. No product COMPLETE.",
+    "kind": "library_benchmark_strata_scaffold_and_candidate_shortlist",
+    "strata_registry_revision": "wave64_row072_onset_library_benchmark_strata_v0.1.0",
+    "summary": "Scaffolded onset library benchmark strata schema/registry and added --mode library-strata that selects 10 unlabeled candidates from retained Row072 records only (scanned 16990, no PCM decode, no full re-scan). Both blockers remain: REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY and FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT. No product COMPLETE.",
     "threshold_registry_revision": "wave64_row072_onset_thresholds_v0.1.0"
   },
   "item_id": "ITEM-W64-072",
   "ledger_status": "Blocked_Library_Thresholds_And_Benchmark_Strata_Absent_Reconcile_Complete",
   "ledger_vocabulary_sync": {
     "ledger_status": "Blocked_Library_Thresholds_And_Benchmark_Strata_Absent_Reconcile_Complete",
-    "note": "Notes hygiene: coverage_complete true under frozen thresholds; strata/threshold holds remain; no COMPLETE.",
+    "note": "Notes hygiene: strata candidate shortlist scaffolded from retained records; truth/threshold holds remain; no COMPLETE; CSV deferred for serialized mutator.",
     "product_completion": false,
-    "synced_at": "2026-07-20T05:47:01.698653Z"
+    "synced_at": "2026-07-20T06:01:11.097912Z"
   },
   "proof_tier": "RUNTIME_PASS_BOUNDED",
-  "qa_decision": "full_library_onset_reconcile_complete_under_frozen_synthetic_thresholds_without_library_authority_or_product_completion",
+  "qa_decision": "library_strata_candidate_shortlist_from_retained_records_without_pcm_decode_authority_or_product_completion",
   "row_complete": false,
   "runtime_completion_claimed": true,
   "schema_version": 1,
   "source_commit": "PENDING_THIS_PASS",
   "status": "HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE",
   "tracker_id": "TRK-W64-072",
-  "updated_at": "2026-07-20T05:47:01.698653Z"
+  "updated_at": "2026-07-20T06:01:11.097912Z"
 }

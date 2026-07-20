@@ -23,11 +23,21 @@ from jsonschema import Draft202012Validator
 
 ROOT = Path(__file__).resolve().parents[3]
 SCHEMA_PATH = Path("Plan/08_SCHEMAS/onset_transient_anchor_record.schema.json")
+STRATA_MANIFEST_SCHEMA_PATH = Path(
+    "Plan/08_SCHEMAS/onset_library_benchmark_strata_manifest.schema.json"
+)
 THRESHOLD_REGISTRY_PATH = Path(
     "Plan/10_REGISTRIES/wave64_row072_onset_transient_threshold_registry.json"
 )
+STRATA_REGISTRY_PATH = Path(
+    "Plan/10_REGISTRIES/wave64_row072_onset_library_benchmark_strata_v0.1.0.json"
+)
 DEFAULT_EVIDENCE = Path(
     "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_onset_transient_detection.json"
+)
+DEFAULT_STRATA_CANDIDATE_PACKET = Path(
+    "Plan/Instructions/QA/Evidence/Wave64/"
+    "TRK-W64-072_LIBRARY_BENCHMARK_STRATA_CANDIDATE_PACKET_20260719.json"
 )
 ROW070_DELTA = Path(
     "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_CANONICAL_AUDIO_DECODE_CURRENT_DELTA_20260719.json"
@@ -41,8 +51,12 @@ DEFAULT_ROW071_RETAINED_RECORDS = Path(
 DEFAULT_RETAINED_ONSET_RUNTIME_DIR = Path(
     "runtime_artifacts/onset_anchors/row072_index_retained_20260719"
 )
+DEFAULT_RETAINED_ONSET_RECORDS = (
+    DEFAULT_RETAINED_ONSET_RUNTIME_DIR / "records.jsonl"
+)
 DETECTOR_REVISION = "wave64_row072_onset_transient_detector_v0.1.0"
 THRESHOLD_REGISTRY_REVISION = "wave64_row072_onset_thresholds_v0.1.0"
+STRATA_REGISTRY_REVISION = "wave64_row072_onset_library_benchmark_strata_v0.1.0"
 TRACKER_ID = "TRK-W64-072"
 ITEM_ID = "ITEM-W64-072"
 SCHEMA_VERSION = "1.0.0"
@@ -53,6 +67,8 @@ DEFAULT_FRAME = 256
 LIBRARY_EVENT_FAMILY = "library_unlabeled"
 MAX_ANALYSIS_FRAMES = 48000 * 120
 RETAINED_CHECKPOINT_EVERY = 250
+BLOCKER_THRESHOLD_FROZEN = "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY"
+BLOCKER_STRATA_ABSENT = "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT"
 _FEATURE_MOD: Any | None = None
 
 
@@ -178,6 +194,261 @@ def load_threshold_registry(root: Path) -> dict[str, Any]:
     if registry.get("revision") != THRESHOLD_REGISTRY_REVISION:
         raise OnsetAnchorError("threshold_registry_revision_mismatch")
     return registry
+
+
+def load_strata_registry(root: Path) -> dict[str, Any]:
+    path = resolve_under(root, STRATA_REGISTRY_PATH, "strata_registry")
+    registry = load_json(path)
+    if registry.get("revision") != STRATA_REGISTRY_REVISION:
+        raise OnsetAnchorError("strata_registry_revision_mismatch")
+    if registry.get("authority") != "candidate_shortlist_pending_truth_onsets":
+        raise OnsetAnchorError("strata_registry_authority_must_remain_pending_truth")
+    if registry.get("library_authority") is True or registry.get("row_complete") is True:
+        raise OnsetAnchorError("strata_registry_must_refuse_library_authority_and_complete")
+    if registry.get("threshold_authority_unfrozen") is True:
+        raise OnsetAnchorError("strata_registry_must_not_unfreeze_thresholds")
+    return registry
+
+
+def validate_strata_manifest(root: Path, manifest: dict[str, Any]) -> None:
+    schema = load_json(resolve_under(root, STRATA_MANIFEST_SCHEMA_PATH, "strata_schema"))
+    errors = sorted(
+        Draft202012Validator(schema).iter_errors(manifest),
+        key=lambda error: list(error.absolute_path),
+    )
+    if errors:
+        first = errors[0]
+        location = ".".join(str(part) for part in first.absolute_path) or "$"
+        raise OnsetAnchorError(f"strata_schema_validation_failed:{location}:{first.message}")
+
+
+def _sha256_or_none(value: Any) -> str | None:
+    if value is None:
+        return None
+    text = str(value).strip().lower()
+    if len(text) == 64 and all(ch in "0123456789abcdef" for ch in text):
+        return text
+    return None
+
+
+def select_library_strata_candidates_from_retained(
+    root: Path,
+    *,
+    retained_records_path: Path | None = None,
+    strata_registry: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Select benchmark strata candidates from retained Row072 records only.
+
+    Does not decode PCM, re-scan the full library, grant authority, or claim COMPLETE.
+    Truth onsets remain unlabeled unless already present on retained records (none expected).
+    """
+    registry = strata_registry or load_strata_registry(root)
+    records_path = resolve_under(
+        root,
+        retained_records_path
+        or Path(
+            str(
+                (registry.get("source_retained_records") or {}).get("path")
+                or DEFAULT_RETAINED_ONSET_RECORDS
+            )
+        ),
+        "retained_onset_records",
+    )
+    if not records_path.is_file():
+        raise OnsetAnchorError("retained_onset_records_absent_for_library_strata")
+
+    targets = list(registry.get("strata_targets") or [])
+    if not targets:
+        raise OnsetAnchorError("strata_targets_absent")
+
+    buckets: dict[str, list[dict[str, Any]]] = {
+        str(target["stratum_id"]): [] for target in targets
+    }
+    limits: dict[str, int] = {
+        str(target["stratum_id"]): int(target.get("max_candidates") or 1)
+        for target in targets
+    }
+    target_by_id = {str(target["stratum_id"]): target for target in targets}
+    records_scanned = 0
+    early_exit = bool(
+        (registry.get("selection") or {}).get("early_exit_when_targets_filled", True)
+    )
+
+    with records_path.open("r", encoding="utf-8") as handle:
+        for line in handle:
+            stripped = line.strip()
+            if not stripped:
+                continue
+            records_scanned += 1
+            record = json.loads(stripped)
+            role = str(record.get("role") or "")
+            event_type = str(record.get("event_type") or "")
+            extension = str(
+                record.get("extension") or Path(str(record.get("relative_path") or "")).suffix
+            ).lower()
+            onset_status = str(record.get("onset_status") or "")
+            relative_path = str(record.get("relative_path") or "").replace("\\", "/")
+            if not relative_path:
+                continue
+            for target in targets:
+                stratum_id = str(target["stratum_id"])
+                if len(buckets[stratum_id]) >= limits[stratum_id]:
+                    continue
+                if (
+                    role == str(target["role"])
+                    and event_type == str(target["event_type"])
+                    and extension == str(target["extension"]).lower()
+                    and onset_status == str(target["onset_status"])
+                ):
+                    truth_onset = record.get("truth_onset_sample")
+                    truth_label_status = "unlabeled"
+                    if isinstance(truth_onset, int) and truth_onset >= 0:
+                        truth_label_status = "labeled"
+                    elif record.get("truth_label_status") in {
+                        "pending",
+                        "blocked",
+                        "labeled",
+                        "unlabeled",
+                    }:
+                        truth_label_status = str(record["truth_label_status"])
+                        if truth_label_status != "labeled":
+                            truth_onset = None
+                    else:
+                        truth_onset = None
+                    candidate_index = len(buckets[stratum_id]) + 1
+                    buckets[stratum_id].append(
+                        {
+                            "candidate_id": f"{stratum_id}_{candidate_index:02d}",
+                            "stratum_id": stratum_id,
+                            "relative_path": relative_path,
+                            "asset_id": str(record.get("asset_id") or f"index:{relative_path}"),
+                            "role": role,
+                            "event_type": event_type,
+                            "extension": extension,
+                            "onset_status": onset_status,
+                            "technical_onset_pass": bool(record.get("technical_onset_pass")),
+                            "measured_onset_sample": record.get("onset_sample"),
+                            "sample_rate_hz": record.get("sample_rate_hz"),
+                            "channels": record.get("channels"),
+                            "frame_count": record.get("frame_count"),
+                            "source_sha256": _sha256_or_none(record.get("source_sha256")),
+                            "canonical_pcm_sha256": _sha256_or_none(
+                                record.get("canonical_pcm_sha256")
+                            ),
+                            "truth_onset_sample": truth_onset
+                            if isinstance(truth_onset, int)
+                            else None,
+                            "truth_label_status": truth_label_status,
+                            "blocker_code": record.get("blocker_code"),
+                        }
+                    )
+                    break
+            if early_exit and all(
+                len(buckets[stratum_id]) >= limits[stratum_id] for stratum_id in buckets
+            ):
+                break
+
+    candidates: list[dict[str, Any]] = []
+    for target in targets:
+        stratum_id = str(target["stratum_id"])
+        candidates.extend(buckets[stratum_id])
+
+    truth_labeled = sum(1 for item in candidates if item["truth_label_status"] == "labeled")
+    truth_unlabeled = len(candidates) - truth_labeled
+    strata_filled = sum(
+        1 for stratum_id, items in buckets.items() if len(items) >= limits[stratum_id]
+    )
+    strata_unfilled = len(targets) - strata_filled
+
+    # Candidate shortlist alone never clears strata absence; unlabeled truth keeps hold.
+    if truth_labeled == 0 or truth_unlabeled > 0 or strata_unfilled > 0:
+        truth_onset_status = "absent" if truth_labeled == 0 else "partial"
+    else:
+        truth_onset_status = "complete"
+
+    blocker_codes = [BLOCKER_THRESHOLD_FROZEN, BLOCKER_STRATA_ABSENT]
+    if truth_onset_status != "complete":
+        # Keep strata absent until every selected candidate has truth onset labels.
+        if BLOCKER_STRATA_ABSENT not in blocker_codes:
+            blocker_codes.append(BLOCKER_STRATA_ABSENT)
+    else:
+        # Fail closed: even fully labeled shortlist cannot unfreeze thresholds here.
+        blocker_codes = [BLOCKER_THRESHOLD_FROZEN, BLOCKER_STRATA_ABSENT]
+
+    calibrated = False
+    manifest = {
+        "schema_version": SCHEMA_VERSION,
+        "artifact_type": "onset_library_benchmark_strata_manifest",
+        "tracker_id": TRACKER_ID,
+        "item_id": ITEM_ID,
+        "strata_registry_revision": STRATA_REGISTRY_REVISION,
+        "threshold_registry_revision": THRESHOLD_REGISTRY_REVISION,
+        "detector_revision": DETECTOR_REVISION,
+        "authority": "candidate_shortlist_pending_truth_onsets",
+        "selection_policy": "retained_records_only_no_pcm_decode_no_full_rescan",
+        "source_retained_records": {
+            "path": str(records_path.relative_to(root)).replace("\\", "/"),
+            "sha256": sha256_file(records_path),
+            "bytes": records_path.stat().st_size,
+            "records_scanned": records_scanned,
+        },
+        "strata_targets": [
+            {
+                "stratum_id": str(target_by_id[sid]["stratum_id"]),
+                "role": str(target_by_id[sid]["role"]),
+                "event_type": str(target_by_id[sid]["event_type"]),
+                "extension": str(target_by_id[sid]["extension"]),
+                "onset_status": str(target_by_id[sid]["onset_status"]),
+                "max_candidates": int(limits[sid]),
+            }
+            for sid in (str(t["stratum_id"]) for t in targets)
+        ],
+        "candidates": candidates,
+        "counts": {
+            "strata_targets": len(targets),
+            "strata_filled": strata_filled,
+            "strata_unfilled": strata_unfilled,
+            "candidates_selected": len(candidates),
+            "truth_labeled": truth_labeled,
+            "truth_unlabeled": truth_unlabeled,
+        },
+        "truth_onset_status": truth_onset_status,
+        "blocker_codes": blocker_codes,
+        "decision": {
+            "status": "blocked",
+            "library_authority": False,
+            "row_complete": False,
+            "product_completion": False,
+            "threshold_authority_unfrozen": False,
+            "benchmark_strata_calibrated": calibrated,
+            "safe_next_action": (
+                "Label truth onset samples on the retained-record shortlist, then calibrate "
+                "registered event-family thresholds before claiming Row072 acceptance. "
+                "Do not decode PCM or re-scan the full library in this mode; do not claim COMPLETE."
+            ),
+        },
+        "created_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "notes": [
+            "Selected from retained Row072 onset records only; no PCM decode and no full-library re-scan.",
+            "Candidate shortlist does not grant library authority or clear frozen synthetic thresholds.",
+            "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT remains while truth onsets are unlabeled.",
+        ],
+    }
+    if (
+        manifest["decision"]["library_authority"]
+        or manifest["decision"]["row_complete"]
+        or manifest["decision"]["product_completion"]
+        or manifest["decision"]["threshold_authority_unfrozen"]
+        or manifest["decision"]["benchmark_strata_calibrated"]
+        or manifest["decision"]["status"] != "blocked"
+    ):
+        raise OnsetAnchorError("library_strata_mode_must_refuse_authority_and_completion")
+    if BLOCKER_THRESHOLD_FROZEN not in manifest["blocker_codes"]:
+        raise OnsetAnchorError("library_strata_must_emit_frozen_threshold_blocker")
+    if BLOCKER_STRATA_ABSENT not in manifest["blocker_codes"]:
+        raise OnsetAnchorError("library_strata_must_emit_strata_absent_blocker_until_truth")
+    validate_strata_manifest(root, manifest)
+    return manifest
 
 
 def synthesize_fixture(name: str, sample_rate_hz: int = 48000, frames: int = 4096) -> dict[str, Any]:
@@ -1357,6 +1628,7 @@ def build_library_blocker_packet(
     root: Path,
     *,
     retained_runtime: dict[str, Any] | None = None,
+    strata_manifest: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     row070 = evaluate_row070_admission(root)
     row071 = evaluate_row071_admission(root)
@@ -1364,40 +1636,56 @@ def build_library_blocker_packet(
     retained = retained_runtime or {}
     coverage_complete = bool(retained.get("coverage_complete"))
     reconcile_started = bool(retained)
+    strata = strata_manifest or {}
+    strata_shortlist_present = bool(strata.get("candidates"))
+    strata_calibrated = bool(
+        (strata.get("decision") or {}).get("benchmark_strata_calibrated") is True
+    )
 
     if not coverage_complete:
         if reconcile_started:
             for code in (
                 "FULL_LIBRARY_RECONCILE_IN_PROGRESS_TIME_BOUND",
-                "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
-                "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT",
+                BLOCKER_THRESHOLD_FROZEN,
+                BLOCKER_STRATA_ABSENT,
             ):
                 if code not in blocker_codes:
                     blocker_codes.append(code)
         else:
             for code in (
                 "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT",
-                "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
-                "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT",
+                BLOCKER_THRESHOLD_FROZEN,
+                BLOCKER_STRATA_ABSENT,
             ):
                 if code not in blocker_codes:
                     blocker_codes.append(code)
     else:
-        for code in (
-            "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
-            "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT",
-        ):
+        for code in (BLOCKER_THRESHOLD_FROZEN, BLOCKER_STRATA_ABSENT):
             if code not in blocker_codes:
                 blocker_codes.append(code)
+
+    # Candidate shortlist never clears strata absence until truth-calibrated.
+    if not strata_calibrated and BLOCKER_STRATA_ABSENT not in blocker_codes:
+        blocker_codes.append(BLOCKER_STRATA_ABSENT)
+    if BLOCKER_THRESHOLD_FROZEN not in blocker_codes:
+        blocker_codes.append(BLOCKER_THRESHOLD_FROZEN)
 
     deps_unlocked = bool(row070["dependency_satisfied"] and row071["dependency_satisfied"])
     if coverage_complete and deps_unlocked:
         status = "HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE"
-        safe_next = (
-            "Full-library onset reconcile covered retained Row071 records under frozen "
-            "synthetic thresholds. Calibrate representative library strata with truth "
-            "onsets and unfreeze threshold authority before Row072 acceptance or Row093 unlock."
-        )
+        if strata_shortlist_present:
+            safe_next = (
+                "Full-library onset reconcile is coverage_complete and a retained-record "
+                "strata candidate shortlist exists, but truth onset labels remain absent. "
+                "Label truth onsets and unfreeze threshold authority before Row072 acceptance "
+                "or Row093 unlock. Do not claim COMPLETE."
+            )
+        else:
+            safe_next = (
+                "Full-library onset reconcile covered retained Row071 records under frozen "
+                "synthetic thresholds. Calibrate representative library strata with truth "
+                "onsets and unfreeze threshold authority before Row072 acceptance or Row093 unlock."
+            )
         proof_tier = "RUNTIME_PASS_BOUNDED"
     elif reconcile_started and deps_unlocked:
         status = "HOLD_LIBRARY_RECONCILE_IN_PROGRESS_DEPS_UNLOCKED"
@@ -1470,6 +1758,18 @@ def build_library_blocker_packet(
         }
         if retained
         else None,
+        "library_benchmark_strata": {
+            "authority": strata.get("authority"),
+            "strata_registry_revision": strata.get("strata_registry_revision"),
+            "truth_onset_status": strata.get("truth_onset_status"),
+            "counts": strata.get("counts"),
+            "candidates_selected": (strata.get("counts") or {}).get("candidates_selected"),
+            "blocker_codes": strata.get("blocker_codes"),
+            "selection_policy": strata.get("selection_policy"),
+            "benchmark_strata_calibrated": strata_calibrated,
+        }
+        if strata
+        else None,
         "blocker_codes": blocker_codes,
         "decision": {
             "status": "blocked",
@@ -1480,6 +1780,12 @@ def build_library_blocker_packet(
             "safe_next_action": safe_next,
         },
     }
+    if packet["row_complete"] or packet["library_authority"] or packet["decision"]["product_completion"]:
+        raise OnsetAnchorError("library_packet_must_refuse_completion_and_authority")
+    if BLOCKER_THRESHOLD_FROZEN not in packet["blocker_codes"]:
+        raise OnsetAnchorError("library_packet_missing_frozen_threshold_blocker")
+    if BLOCKER_STRATA_ABSENT not in packet["blocker_codes"]:
+        raise OnsetAnchorError("library_packet_missing_strata_absent_blocker")
     return packet
 
 
@@ -1493,7 +1799,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--root", default=str(ROOT))
     parser.add_argument(
         "--mode",
-        choices=("library", "fixture", "index-retained"),
+        choices=("library", "fixture", "index-retained", "library-strata"),
         default="library",
     )
     parser.add_argument("--fixture", default="impulse")
@@ -1507,11 +1813,19 @@ def main(argv: list[str] | None = None) -> int:
         default=str(DEFAULT_RETAINED_ONSET_RUNTIME_DIR),
     )
     parser.add_argument(
+        "--retained-onset-records",
+        default=str(DEFAULT_RETAINED_ONSET_RECORDS),
+    )
+    parser.add_argument(
         "--write-retained-summary",
         default=(
             "Plan/Instructions/QA/Evidence/Wave64/"
             "TRK-W64-072_ACCEPTED_INDEX_RETAINED_ONSET_SUMMARY_20260719.json"
         ),
+    )
+    parser.add_argument(
+        "--write-strata-packet",
+        default=str(DEFAULT_STRATA_CANDIDATE_PACKET),
     )
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument("--resume", action="store_true", default=True)
@@ -1540,6 +1854,34 @@ def main(argv: list[str] | None = None) -> int:
         payload["accepted_index_retained_onset_runtime"]["summary_sha256"] = sha256_file(
             summary_path
         )
+    elif args.mode == "library-strata":
+        strata = select_library_strata_candidates_from_retained(
+            root,
+            retained_records_path=Path(args.retained_onset_records),
+        )
+        strata_path = resolve_under(root, Path(args.write_strata_packet), "strata_packet")
+        write_json(strata_path, strata)
+        retained = None
+        receipt_candidate = resolve_under(
+            root,
+            DEFAULT_RETAINED_ONSET_RUNTIME_DIR / "retained_index_onset_receipt.json",
+            "retained_onset_receipt",
+        )
+        if receipt_candidate.is_file():
+            retained = load_json(receipt_candidate)
+        payload = build_library_blocker_packet(
+            root,
+            retained_runtime=retained,
+            strata_manifest=strata,
+        )
+        payload["library_benchmark_strata"]["packet_path"] = str(
+            strata_path.relative_to(root)
+        ).replace("\\", "/")
+        payload["library_benchmark_strata"]["packet_sha256"] = sha256_file(strata_path)
+        if payload["decision"]["status"] != "blocked":
+            raise OnsetAnchorError("library_strata_mode_must_remain_fail_closed")
+        if payload["row_complete"] or payload["library_authority"]:
+            raise OnsetAnchorError("library_strata_mode_refuses_authority_and_complete")
     else:
         # Attach existing retained progress if present (fail-closed hold refresh).
         retained = None
@@ -1550,7 +1892,19 @@ def main(argv: list[str] | None = None) -> int:
         )
         if receipt_candidate.is_file():
             retained = load_json(receipt_candidate)
-        payload = build_library_blocker_packet(root, retained_runtime=retained)
+        strata = None
+        strata_candidate = resolve_under(
+            root,
+            DEFAULT_STRATA_CANDIDATE_PACKET,
+            "strata_packet",
+        )
+        if strata_candidate.is_file():
+            strata = load_json(strata_candidate)
+        payload = build_library_blocker_packet(
+            root,
+            retained_runtime=retained,
+            strata_manifest=strata,
+        )
         if payload["decision"]["status"] != "blocked":
             raise OnsetAnchorError("library_mode_must_remain_fail_closed_until_acceptance")
     write_json(output, payload)
@@ -1563,6 +1917,12 @@ def main(argv: list[str] | None = None) -> int:
                     (payload.get("accepted_index_retained_onset_runtime") or {}).get(
                         "coverage_complete"
                     )
+                ),
+                "candidates_selected": (
+                    (payload.get("library_benchmark_strata") or {}).get("candidates_selected")
+                ),
+                "truth_onset_status": (
+                    (payload.get("library_benchmark_strata") or {}).get("truth_onset_status")
                 ),
             },
             sort_keys=True,

@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "wave64_row109_audio_benchmark_corpus_policy_registry",
+  "revision": "wave64_row109_audio_benchmark_corpus_policy_v0.1.0",
+  "tracker_id": "TRK-W64-109",
+  "item_id": "ITEM-W64-109",
+  "authority": "synthetic_fixture_corpus_freeze_not_production_acceptance",
+  "notes": [
+    "Policy freezes Row109 coverage-matrix, annotation-authority, partition-separation, adversarial-case, and truth-integrity contracts for synthetic fixture corpus compilation.",
+    "It does not accept genuine annotated media runtime, combined frame/contact/audio review, production corpus authority, or row completion.",
+    "Copies and fixtures only: no live full-library PCM decode is authorized by this registry."
+  ],
+  "required_gates": [
+    "coverage_matrix",
+    "annotation_authority",
+    "partition_separation",
+    "adversarial_cases",
+    "truth_integrity"
+  ],
+  "required_partitions": [
+    "train",
+    "calibration",
+    "held_out_test",
+    "adversarial"
+  ],
+  "required_event_families": [
+    "footstep",
+    "heel_strike",
+    "body_contact",
+    "clothing",
+    "prop",
+    "room_ambience",
+    "occlusion",
+    "multi_actor",
+    "cut_boundary",
+    "ambiguous_material",
+    "intentional_silence"
+  ],
+  "required_materials": [
+    "hardwood",
+    "carpet",
+    "tile",
+    "concrete",
+    "ambiguous_surface"
+  ],
+  "required_footwear": [
+    "bare_foot",
+    "soft_shoe",
+    "sneaker",
+    "boot",
+    "hard_heel"
+  ],
+  "required_adversarial_roles": [
+    "filename_semantic_mismatch",
+    "generated_candidate_truth_contamination",
+    "partition_leak_attempt",
+    "wrong_material_timing_drift"
+  ],
+  "truth_classes": [
+    "reference_truth",
+    "generated_candidate",
+    "adversarial_decoy"
+  ],
+  "partition_truth_rules": {
+    "train": ["reference_truth"],
+    "calibration": ["reference_truth"],
+    "held_out_test": ["reference_truth"],
+    "adversarial": ["generated_candidate", "adversarial_decoy"]
+  },
+  "forbidden_promotions": [
+    "generated_candidate_to_reference_truth",
+    "adversarial_decoy_to_reference_truth",
+    "self_eval_pass_as_reference_truth"
+  ],
+  "media_policy": {
+    "allowed_media_kinds": ["synthetic_fixture_descriptor"],
+    "pcm_decode_allowed": false,
+    "live_full_library_scan_allowed": false,
+    "library_authority": false
+  },
+  "annotation_authority_roles": [
+    "synthetic_fixture_authority",
+    "human_gold"
+  ],
+  "compiler_revision": "wave64_row109_audio_benchmark_corpus_compiler_v0.1.0"
+}

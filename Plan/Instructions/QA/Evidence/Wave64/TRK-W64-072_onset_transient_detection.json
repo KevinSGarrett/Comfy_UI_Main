@@ -17,9 +17,7 @@
     "proof_tier": "RUNTIME_PASS_BOUNDED",
     "receipt_path": "runtime_artifacts/onset_anchors/row072_index_retained_20260719/retained_index_onset_receipt.json",
     "records_path": "runtime_artifacts/onset_anchors/row072_index_retained_20260719/records.jsonl",
-    "status": "RUNTIME_PASS_BOUNDED_LIBRARY_THRESHOLDS_FROZEN",
-    "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ACCEPTED_INDEX_RETAINED_ONSET_SUMMARY_20260719.json",
-    "summary_sha256": "cc6536d408d9459e957212518b84d67088992889a9efadb24b9c288e05878fed"
+    "status": "RUNTIME_PASS_BOUNDED_LIBRARY_THRESHOLDS_FROZEN"
   },
   "blocker_codes": [
     "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
@@ -30,7 +28,7 @@
     "product_completion": false,
     "row072_acceptance": "held",
     "runtime_completion": true,
-    "safe_next_action": "Full-library onset reconcile covered retained Row071 records under frozen synthetic thresholds. Calibrate representative library strata with truth onsets and unfreeze threshold authority before Row072 acceptance or Row093 unlock.",
+    "safe_next_action": "Full-library onset reconcile is coverage_complete and a retained-record strata candidate shortlist exists, but truth onset labels remain absent. Label truth onsets and unfreeze threshold authority before Row072 acceptance or Row093 unlock. Do not claim COMPLETE.",
     "status": "blocked"
   },
   "detector_revision": "wave64_row072_onset_transient_detector_v0.1.0",
@@ -761,6 +759,28 @@
   "implementation_completion_claimed": false,
   "item_id": "ITEM-W64-072",
   "library_authority": false,
+  "library_benchmark_strata": {
+    "authority": "candidate_shortlist_pending_truth_onsets",
+    "benchmark_strata_calibrated": false,
+    "blocker_codes": [
+      "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+      "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT"
+    ],
+    "candidates_selected": 10,
+    "counts": {
+      "candidates_selected": 10,
+      "strata_filled": 10,
+      "strata_targets": 10,
+      "strata_unfilled": 0,
+      "truth_labeled": 0,
+      "truth_unlabeled": 10
+    },
+    "packet_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_LIBRARY_BENCHMARK_STRATA_CANDIDATE_PACKET_20260719.json",
+    "packet_sha256": "79649d01ac2e5fedb0b956c1cbde6243be436e926962c977fa1765266ae52a02",
+    "selection_policy": "retained_records_only_no_pcm_decode_no_full_rescan",
+    "strata_registry_revision": "wave64_row072_onset_library_benchmark_strata_v0.1.0",
+    "truth_onset_status": "absent"
+  },
   "proof_tier": "RUNTIME_PASS_BOUNDED",
   "required_methods": [
     "energy_flux_onset_v1",
@@ -768,20 +788,20 @@
   ],
   "row070_admission": {
     "blocker_codes": [],
-    "bytes": 10002,
+    "bytes": 10472,
     "dependency_satisfied": true,
     "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_CANONICAL_AUDIO_DECODE_CURRENT_DELTA_20260719.json",
     "row_complete": true,
-    "sha256": "9fdced4244a95f6cb467a09ebe172fef06aff75b9a63b9cc1455c6bcae134c41",
+    "sha256": "6b127ea819f910197418165e65508854a2c94c951cc7729c2cd91fa41df09146",
     "status": "PASS_LIBRARY_PCM_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION"
   },
   "row071_admission": {
     "blocker_codes": [],
-    "bytes": 5000,
+    "bytes": 5898,
     "dependency_satisfied": true,
     "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-071_WAVEFORM_FEATURE_EXTRACTION_CURRENT_DELTA_20260719.json",
     "row_complete": true,
-    "sha256": "6e16ed12bf095644712d07a746f5b6c0c553180eaa27020fcaea7bf3a113a81d",
+    "sha256": "03640e949fa38f3687fe31052801ddd9b02dbfd4a76ffac06f3002970e034cd0",
     "status": "PASS_LIBRARY_FEATURE_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION"
   },
   "row_complete": false,

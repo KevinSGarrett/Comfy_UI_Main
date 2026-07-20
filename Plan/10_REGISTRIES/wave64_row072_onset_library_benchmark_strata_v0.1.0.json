@@ -1,0 +1,121 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "wave64_row072_onset_library_benchmark_strata",
+  "revision": "wave64_row072_onset_library_benchmark_strata_v0.1.0",
+  "tracker_id": "TRK-W64-072",
+  "item_id": "ITEM-W64-072",
+  "authority": "candidate_shortlist_pending_truth_onsets",
+  "threshold_registry_revision": "wave64_row072_onset_thresholds_v0.1.0",
+  "detector_revision": "wave64_row072_onset_transient_detector_v0.1.0",
+  "selection_policy": "retained_records_only_no_pcm_decode_no_full_rescan",
+  "source_retained_records": {
+    "path": "runtime_artifacts/onset_anchors/row072_index_retained_20260719/records.jsonl",
+    "notes": [
+      "Candidates are selected only from retained Row072 onset reconcile records.",
+      "library-strata mode must not decode PCM, re-scan the full audio library, or fight Row075."
+    ]
+  },
+  "truth_onset_status": "absent",
+  "library_authority": false,
+  "row_complete": false,
+  "product_completion": false,
+  "threshold_authority_unfrozen": false,
+  "notes": [
+    "This registry freezes representative library strata targets for Row072 benchmark calibration.",
+    "Candidate shortlist does not grant library authority, unfreeze synthetic thresholds, or clear FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT.",
+    "Truth onset labels remain absent/pending; unlabeled candidates keep benchmark strata blocked."
+  ],
+  "selection": {
+    "max_candidates_per_stratum_default": 1,
+    "require_fields": [
+      "relative_path",
+      "role",
+      "event_type",
+      "extension",
+      "onset_status"
+    ],
+    "early_exit_when_targets_filled": true
+  },
+  "strata_targets": [
+    {
+      "stratum_id": "body_foley_wav_pass",
+      "role": "body",
+      "event_type": "body_foley",
+      "extension": ".wav",
+      "onset_status": "pass",
+      "max_candidates": 1
+    },
+    {
+      "stratum_id": "body_foley_wav_blocked",
+      "role": "body",
+      "event_type": "body_foley",
+      "extension": ".wav",
+      "onset_status": "blocked",
+      "max_candidates": 1
+    },
+    {
+      "stratum_id": "effects_action_sfx_wav_pass",
+      "role": "effects",
+      "event_type": "action_sfx",
+      "extension": ".wav",
+      "onset_status": "pass",
+      "max_candidates": 1
+    },
+    {
+      "stratum_id": "effects_impact_wav_pass",
+      "role": "effects",
+      "event_type": "impact",
+      "extension": ".wav",
+      "onset_status": "pass",
+      "max_candidates": 1
+    },
+    {
+      "stratum_id": "clothing_foley_wav_pass",
+      "role": "clothing",
+      "event_type": "clothing_foley",
+      "extension": ".wav",
+      "onset_status": "pass",
+      "max_candidates": 1
+    },
+    {
+      "stratum_id": "voice_reaction_wav_pass",
+      "role": "voice",
+      "event_type": "voice_reaction",
+      "extension": ".wav",
+      "onset_status": "pass",
+      "max_candidates": 1
+    },
+    {
+      "stratum_id": "furniture_foley_wav_blocked",
+      "role": "furniture",
+      "event_type": "furniture_foley",
+      "extension": ".wav",
+      "onset_status": "blocked",
+      "max_candidates": 1
+    },
+    {
+      "stratum_id": "evaluation_reference_wav_pass",
+      "role": "evaluation",
+      "event_type": "evaluation_reference",
+      "extension": ".wav",
+      "onset_status": "pass",
+      "max_candidates": 1
+    },
+    {
+      "stratum_id": "effects_unclassified_mp3_pass",
+      "role": "effects",
+      "event_type": "unclassified",
+      "extension": ".mp3",
+      "onset_status": "pass",
+      "max_candidates": 1
+    },
+    {
+      "stratum_id": "body_foley_mp3_blocked",
+      "role": "body",
+      "event_type": "body_foley",
+      "extension": ".mp3",
+      "onset_status": "blocked",
+      "max_candidates": 1
+    }
+  ]
+}

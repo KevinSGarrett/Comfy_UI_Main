@@ -1,0 +1,181 @@
+{
+  "adversarial_cases": {
+    "blocked_contamination_count": 1,
+    "complete": true,
+    "required_roles": [
+      "filename_semantic_mismatch",
+      "generated_candidate_truth_contamination",
+      "partition_leak_attempt",
+      "wrong_material_timing_drift"
+    ],
+    "roles_present": [
+      "filename_semantic_mismatch",
+      "generated_candidate_truth_contamination",
+      "partition_leak_attempt",
+      "wrong_material_timing_drift"
+    ]
+  },
+  "blocker_codes": [
+    "GENUINE_ANNOTATED_MEDIA_CORPUS_ABSENT",
+    "COMBINED_FRAME_CONTACT_AUDIO_REVIEW_ABSENT",
+    "PRODUCTION_BENCHMARK_AUTHORITY_ABSENT",
+    "HELD_OUT_RUNTIME_PROOF_ABSENT"
+  ],
+  "compiler_revision": "wave64_row109_audio_benchmark_corpus_compiler_v0.1.0",
+  "corpus_revision": "wave64_row109_synthetic_benchmark_corpus_v0.1.0",
+  "coverage_matrix": {
+    "calibration_and_held_out_overlap_families": [
+      "ambiguous_material",
+      "body_contact",
+      "clothing",
+      "cut_boundary",
+      "footstep",
+      "heel_strike",
+      "intentional_silence",
+      "multi_actor",
+      "occlusion",
+      "prop",
+      "room_ambience"
+    ],
+    "coverage_complete": true,
+    "event_families_covered": [
+      "ambiguous_material",
+      "body_contact",
+      "clothing",
+      "cut_boundary",
+      "footstep",
+      "heel_strike",
+      "intentional_silence",
+      "multi_actor",
+      "occlusion",
+      "prop",
+      "room_ambience"
+    ],
+    "footwear_covered": [
+      "bare_foot",
+      "boot",
+      "hard_heel",
+      "sneaker",
+      "soft_shoe"
+    ],
+    "materials_covered": [
+      "ambiguous_surface",
+      "carpet",
+      "concrete",
+      "hardwood",
+      "tile"
+    ],
+    "partitions_with_reference_truth": [
+      "calibration",
+      "held_out_test",
+      "train"
+    ]
+  },
+  "decision": {
+    "dependency_067_068_satisfied": true,
+    "product_completion": false,
+    "row109_acceptance": "fixture_only",
+    "runtime_completion": false,
+    "safe_next_action": "Retain synthetic partition/truth gates; ingest genuine annotated clips under the same immutable truth contract; run combined frame/contact/audio review; then replace fixture-only acceptance without contaminating held-out reference truth.",
+    "status": "blocked"
+  },
+  "dependency_admissions": {
+    "TRK-W64-067": {
+      "blocker_codes": [],
+      "delta_exists": true,
+      "delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-067_PLANNING_AUTHORITY_CURRENT_DELTA_20260719.json",
+      "delta_sha256": "5627c37041a4e449f0c44cbf50a6e1b9b442f76cc934ec73c5331bdcb65f68f7",
+      "dependency_satisfied": true,
+      "row_complete": true,
+      "tracker_id": "TRK-W64-067"
+    },
+    "TRK-W64-068": {
+      "blocker_codes": [],
+      "delta_exists": true,
+      "delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-068_RIGHTS_PROVENANCE_CURRENT_DELTA_20260719.json",
+      "delta_sha256": "aa098f7ad0d7c0683947fd41468e1d44afb153c17bd3214df2b16e06b3c6a8fd",
+      "dependency_satisfied": true,
+      "row_complete": true,
+      "tracker_id": "TRK-W64-068"
+    }
+  },
+  "evidence_id": "TRK-W64-109_audio_benchmark_corpus",
+  "fixture_corpus": {
+    "authority": "synthetic_non_production",
+    "benchmark_dir": "Plan/Instructions/QA/Evidence/Wave64/benchmarks/row109",
+    "case_count": 31,
+    "determinism_note": "Synthetic descriptors prove coverage-matrix, annotation-authority, partition-separation, adversarial contamination blocking, and immutable truth hashes without decoding library PCM or claiming production completion.",
+    "fixture_dir": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row109",
+    "live_full_library_scan": false,
+    "manifest_bytes": 55663,
+    "manifest_path": "Plan/Instructions/QA/Evidence/Wave64/benchmarks/row109/audio_benchmark_corpus_manifest.json",
+    "manifest_sha256": "c31202e5c221ea912cdd717e1cffd9da2b9c767988e06db57191ee688bae3444",
+    "pcm_decode_invoked": false
+  },
+  "gate_results": {
+    "adversarial_cases": true,
+    "annotation_authority": true,
+    "coverage_matrix": true,
+    "partition_separation": true,
+    "truth_integrity": true
+  },
+  "implementation_completion_claimed": false,
+  "item_id": "ITEM-W64-109",
+  "partition_manifest": {
+    "adversarial": {
+      "case_count": 4,
+      "truth_classes": [
+        "adversarial_decoy",
+        "generated_candidate"
+      ]
+    },
+    "calibration": {
+      "case_count": 11,
+      "truth_classes": [
+        "reference_truth"
+      ]
+    },
+    "held_out_test": {
+      "case_count": 11,
+      "truth_classes": [
+        "reference_truth"
+      ]
+    },
+    "separation_ok": true,
+    "train": {
+      "case_count": 5,
+      "truth_classes": [
+        "reference_truth"
+      ]
+    }
+  },
+  "policy_registry": {
+    "path": "Plan/10_REGISTRIES/wave64_row109_audio_benchmark_corpus_policy_registry.json",
+    "revision": "wave64_row109_audio_benchmark_corpus_policy_v0.1.0",
+    "sha256": "7ed39030b9d8dfe4d5b95c482198dc02f2a8855d43445daec256912ebebcb458"
+  },
+  "policy_revision": "wave64_row109_audio_benchmark_corpus_policy_v0.1.0",
+  "production_authority": false,
+  "required_gates": [
+    "coverage_matrix",
+    "annotation_authority",
+    "partition_separation",
+    "adversarial_cases",
+    "truth_integrity"
+  ],
+  "row_complete": false,
+  "runtime_completion_claimed": false,
+  "schema": {
+    "path": "Plan/08_SCHEMAS/audio_benchmark_corpus_manifest.schema.json",
+    "sha256": "824c30fa922a7d57ca42af99548c1f8d9f6e6d2b5ca1afc198687de7790f96bb"
+  },
+  "schema_version": "1.0.0",
+  "status": "HOLD_SYNTHETIC_FIXTURE_CORPUS_SLICE_PRESENT_GENUINE_ANNOTATED_MEDIA_AND_VISUAL_QA_ABSENT",
+  "tracker_id": "TRK-W64-109",
+  "truth_integrity": {
+    "generated_cannot_contaminate_reference": true,
+    "immutable_truth_bound": true,
+    "integrity_ok": true,
+    "partition_truth_rules_ok": true
+  }
+}
