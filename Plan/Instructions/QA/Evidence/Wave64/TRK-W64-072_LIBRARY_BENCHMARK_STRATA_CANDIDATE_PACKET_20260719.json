@@ -215,13 +215,13 @@
     "truth_labeled": 0,
     "truth_unlabeled": 10
   },
-  "created_at": "2026-07-20T05:59:30.987589Z",
+  "created_at": "2026-07-20T06:12:45.336656Z",
   "decision": {
     "benchmark_strata_calibrated": false,
     "library_authority": false,
     "product_completion": false,
     "row_complete": false,
-    "safe_next_action": "Label truth onset samples on the retained-record shortlist, then calibrate registered event-family thresholds before claiming Row072 acceptance. Do not decode PCM or re-scan the full library in this mode; do not claim COMPLETE.",
+    "safe_next_action": "Label truth onset samples on the retained-record shortlist, then calibrate registered event-family thresholds before claiming Row072 acceptance. Row109 partition IDs are synthetic references only. Do not decode PCM or re-scan the full library in this mode; do not claim COMPLETE.",
     "status": "blocked",
     "threshold_authority_unfrozen": false
   },
@@ -230,8 +230,31 @@
   "notes": [
     "Selected from retained Row072 onset records only; no PCM decode and no full-library re-scan.",
     "Candidate shortlist does not grant library authority or clear frozen synthetic thresholds.",
-    "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT remains while truth onsets are unlabeled."
+    "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT remains while truth onsets are unlabeled.",
+    "Bound Row109 train/calibration/held_out_test/adversarial partition IDs as synthetic references only."
   ],
+  "row109_synthetic_partition_references": {
+    "authority": "synthetic_fixture_partition_references_only",
+    "binding_scope": "synthetic_partition_ids_only",
+    "corpus_case_index_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row109/corpus_case_index.json",
+    "item_id": "ITEM-W64-109",
+    "library_authority": false,
+    "notes": [
+      "Bind Row109 train/calibration/held_out_test/adversarial partition IDs as synthetic references only.",
+      "Does not decode PCM, import Row109 truth onto library retained candidates, unfreeze thresholds, or claim COMPLETE."
+    ],
+    "partition_ids": [
+      "train",
+      "calibration",
+      "held_out_test",
+      "adversarial"
+    ],
+    "pcm_decode_authorized": false,
+    "policy_registry_path": "Plan/10_REGISTRIES/wave64_row109_audio_benchmark_corpus_policy_registry.json",
+    "policy_registry_revision": "wave64_row109_audio_benchmark_corpus_policy_v0.1.0",
+    "threshold_authority_unfrozen": false,
+    "tracker_id": "TRK-W64-109"
+  },
   "schema_version": "1.0.0",
   "selection_policy": "retained_records_only_no_pcm_decode_no_full_rescan",
   "source_retained_records": {

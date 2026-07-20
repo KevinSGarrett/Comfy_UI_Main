@@ -69,6 +69,19 @@ MAX_ANALYSIS_FRAMES = 48000 * 120
 RETAINED_CHECKPOINT_EVERY = 250
 BLOCKER_THRESHOLD_FROZEN = "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY"
 BLOCKER_STRATA_ABSENT = "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT"
+ROW109_POLICY_REGISTRY_PATH = Path(
+    "Plan/10_REGISTRIES/wave64_row109_audio_benchmark_corpus_policy_registry.json"
+)
+ROW109_POLICY_REGISTRY_REVISION = "wave64_row109_audio_benchmark_corpus_policy_v0.1.0"
+ROW109_CORPUS_CASE_INDEX_PATH = Path(
+    "Plan/Instructions/QA/Evidence/Wave64/fixtures/row109/corpus_case_index.json"
+)
+ROW109_REQUIRED_PARTITION_IDS = (
+    "train",
+    "calibration",
+    "held_out_test",
+    "adversarial",
+)
 _FEATURE_MOD: Any | None = None
 
 
@@ -220,6 +233,88 @@ def validate_strata_manifest(root: Path, manifest: dict[str, Any]) -> None:
         first = errors[0]
         location = ".".join(str(part) for part in first.absolute_path) or "$"
         raise OnsetAnchorError(f"strata_schema_validation_failed:{location}:{first.message}")
+
+
+def build_row109_synthetic_partition_references(
+    root: Path,
+    *,
+    strata_registry: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Bind Row109 partition IDs as synthetic references only (no PCM / no authority)."""
+    registry = strata_registry or load_strata_registry(root)
+    configured = dict(registry.get("row109_synthetic_partition_references") or {})
+    policy_path = resolve_under(
+        root,
+        Path(str(configured.get("policy_registry_path") or ROW109_POLICY_REGISTRY_PATH)),
+        "row109_policy_registry",
+    )
+    index_path = resolve_under(
+        root,
+        Path(str(configured.get("corpus_case_index_path") or ROW109_CORPUS_CASE_INDEX_PATH)),
+        "row109_corpus_case_index",
+    )
+    if not policy_path.is_file():
+        raise OnsetAnchorError("row109_policy_registry_absent_for_partition_binding")
+    if not index_path.is_file():
+        raise OnsetAnchorError("row109_corpus_case_index_absent_for_partition_binding")
+
+    policy = load_json(policy_path)
+    if policy.get("revision") != ROW109_POLICY_REGISTRY_REVISION:
+        raise OnsetAnchorError("row109_policy_registry_revision_mismatch")
+    policy_partitions = [
+        str(item) for item in (policy.get("required_partitions") or [])
+    ]
+    if list(policy_partitions) != list(ROW109_REQUIRED_PARTITION_IDS):
+        raise OnsetAnchorError("row109_required_partitions_mismatch")
+
+    index_payload = load_json(index_path)
+    index_partitions = sorted(
+        {
+            str(case.get("partition") or "")
+            for case in (index_payload.get("cases") or [])
+            if str(case.get("partition") or "")
+        }
+    )
+    expected_sorted = sorted(ROW109_REQUIRED_PARTITION_IDS)
+    if index_partitions != expected_sorted:
+        raise OnsetAnchorError("row109_corpus_case_index_partitions_incomplete")
+
+    partition_ids = [
+        str(item)
+        for item in (
+            configured.get("partition_ids") or list(ROW109_REQUIRED_PARTITION_IDS)
+        )
+    ]
+    if partition_ids != list(ROW109_REQUIRED_PARTITION_IDS):
+        raise OnsetAnchorError("row109_partition_ids_must_match_required_set")
+
+    refs = {
+        "authority": "synthetic_fixture_partition_references_only",
+        "tracker_id": "TRK-W64-109",
+        "item_id": "ITEM-W64-109",
+        "policy_registry_path": str(policy_path.relative_to(root)).replace("\\", "/"),
+        "policy_registry_revision": ROW109_POLICY_REGISTRY_REVISION,
+        "corpus_case_index_path": str(index_path.relative_to(root)).replace("\\", "/"),
+        "partition_ids": partition_ids,
+        "binding_scope": "synthetic_partition_ids_only",
+        "pcm_decode_authorized": False,
+        "threshold_authority_unfrozen": False,
+        "library_authority": False,
+        "notes": list(
+            configured.get("notes")
+            or [
+                "Bind Row109 train/calibration/held_out_test/adversarial partition IDs as synthetic references only.",
+                "Does not decode PCM, import Row109 truth onto library retained candidates, unfreeze thresholds, or claim COMPLETE.",
+            ]
+        ),
+    }
+    if (
+        refs["pcm_decode_authorized"]
+        or refs["threshold_authority_unfrozen"]
+        or refs["library_authority"]
+    ):
+        raise OnsetAnchorError("row109_partition_refs_must_refuse_pcm_and_authority")
+    return refs
 
 
 def _sha256_or_none(value: Any) -> str | None:
@@ -376,6 +471,9 @@ def select_library_strata_candidates_from_retained(
         blocker_codes = [BLOCKER_THRESHOLD_FROZEN, BLOCKER_STRATA_ABSENT]
 
     calibrated = False
+    row109_refs = build_row109_synthetic_partition_references(
+        root, strata_registry=registry
+    )
     manifest = {
         "schema_version": SCHEMA_VERSION,
         "artifact_type": "onset_library_benchmark_strata_manifest",
@@ -413,6 +511,7 @@ def select_library_strata_candidates_from_retained(
             "truth_unlabeled": truth_unlabeled,
         },
         "truth_onset_status": truth_onset_status,
+        "row109_synthetic_partition_references": row109_refs,
         "blocker_codes": blocker_codes,
         "decision": {
             "status": "blocked",
@@ -424,7 +523,8 @@ def select_library_strata_candidates_from_retained(
             "safe_next_action": (
                 "Label truth onset samples on the retained-record shortlist, then calibrate "
                 "registered event-family thresholds before claiming Row072 acceptance. "
-                "Do not decode PCM or re-scan the full library in this mode; do not claim COMPLETE."
+                "Row109 partition IDs are synthetic references only. Do not decode PCM or "
+                "re-scan the full library in this mode; do not claim COMPLETE."
             ),
         },
         "created_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
@@ -432,6 +532,7 @@ def select_library_strata_candidates_from_retained(
             "Selected from retained Row072 onset records only; no PCM decode and no full-library re-scan.",
             "Candidate shortlist does not grant library authority or clear frozen synthetic thresholds.",
             "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT remains while truth onsets are unlabeled.",
+            "Bound Row109 train/calibration/held_out_test/adversarial partition IDs as synthetic references only.",
         ],
     }
     if (
@@ -1767,6 +1868,9 @@ def build_library_blocker_packet(
             "blocker_codes": strata.get("blocker_codes"),
             "selection_policy": strata.get("selection_policy"),
             "benchmark_strata_calibrated": strata_calibrated,
+            "row109_synthetic_partition_references": strata.get(
+                "row109_synthetic_partition_references"
+            ),
         }
         if strata
         else None,

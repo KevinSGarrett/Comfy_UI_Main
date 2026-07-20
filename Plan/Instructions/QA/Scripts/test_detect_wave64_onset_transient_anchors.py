@@ -413,6 +413,15 @@ def test_library_strata_selects_from_retained_records_without_authority():
         assert MOD.BLOCKER_STRATA_ABSENT in strata["blocker_codes"]
         assert all(item["truth_label_status"] == "unlabeled" for item in strata["candidates"])
         assert all(item["truth_onset_sample"] is None for item in strata["candidates"])
+        refs = strata["row109_synthetic_partition_references"]
+        assert refs["partition_ids"] == [
+            "train",
+            "calibration",
+            "held_out_test",
+            "adversarial",
+        ]
+        assert refs["pcm_decode_authorized"] is False
+        assert refs["library_authority"] is False
         MOD.validate_strata_manifest(ROOT, strata)
     finally:
         if retained_path.is_file():
@@ -431,3 +440,23 @@ def test_strata_registry_revision_is_frozen_pending_truth():
     assert registry["threshold_authority_unfrozen"] is False
     assert registry["truth_onset_status"] == "absent"
     assert len(registry["strata_targets"]) >= 8
+    refs = registry["row109_synthetic_partition_references"]
+    assert refs["partition_ids"] == [
+        "train",
+        "calibration",
+        "held_out_test",
+        "adversarial",
+    ]
+    assert refs["pcm_decode_authorized"] is False
+    assert refs["library_authority"] is False
+
+
+def test_row109_synthetic_partition_refs_bind_without_authority():
+    refs = MOD.build_row109_synthetic_partition_references(ROOT)
+    assert refs["authority"] == "synthetic_fixture_partition_references_only"
+    assert refs["binding_scope"] == "synthetic_partition_ids_only"
+    assert refs["partition_ids"] == list(MOD.ROW109_REQUIRED_PARTITION_IDS)
+    assert refs["pcm_decode_authorized"] is False
+    assert refs["threshold_authority_unfrozen"] is False
+    assert refs["library_authority"] is False
+    assert refs["tracker_id"] == "TRK-W64-109"
