@@ -189,6 +189,49 @@ BENCHMARK_FIXTURE_PACKETS: tuple[dict[str, str], ...] = (
     },
 )
 
+SYNTHETIC_LANDMARK_PHASE_LEDGER_FILENAME = "synthetic_landmark_phase_ledger.json"
+ALLOWED_SYNTHETIC_LEDGER_FIELDS = {
+    "schema_version",
+    "record_type",
+    "ledger_id",
+    "revision",
+    "is_synthetic",
+    "production_benchmark",
+    "annotated_benchmark_pass",
+    "annotated_clip_harness_production_pass",
+    "row_complete",
+    "production_completion_allowed",
+    "visual_review_claimed",
+    "rows084_085_acceptance_claimed",
+    "authority_ceiling",
+    "hold_reasons",
+    "fixture_bindings",
+    "landmark_phase_expectations",
+    "provenance",
+    "ledger_sha256",
+}
+ALLOWED_LANDMARK_PHASE_EXPECTATION_FIELDS = {
+    "case_id",
+    "role",
+    "source_fixture",
+    "source_fixture_file_sha256",
+    "source_compiled_manifest_sha256",
+    "expected_landmark_count",
+    "expected_trajectory_count",
+    "expected_gait_phase_count",
+    "expected_contact_phase_count",
+    "expected_fabricated_hidden_joint_count",
+    "expected_hidden_or_unknown_landmark_count",
+}
+LEDGER_EXPECTED_METRIC_KEYS = (
+    "expected_landmark_count",
+    "expected_trajectory_count",
+    "expected_gait_phase_count",
+    "expected_contact_phase_count",
+    "expected_fabricated_hidden_joint_count",
+    "expected_hidden_or_unknown_landmark_count",
+)
+
 
 def _assert_keys_exact(obj: dict[str, Any], allowed: set[str], label: str) -> None:
     unknown = sorted(set(obj.keys()) - allowed)
@@ -314,6 +357,431 @@ def fixture_file_sha256(name: str, *, fixture_dir: Path | None = None) -> str:
     if not path.is_file():
         raise FileNotFoundError(f"Row086 fixture packet missing: {path}")
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def verify_synthetic_landmark_phase_ledger_integrity(payload: dict[str, Any]) -> str:
+    """Recompute content-addressed ledger digest and reject tamper."""
+    recorded = _expect_sha256(payload.get("ledger_sha256"), "ledger_sha256")
+    body = {key: value for key, value in payload.items() if key != "ledger_sha256"}
+    recomputed = _canonical_sha256(body)
+    if recorded != recomputed:
+        raise ValueError(
+            "ledger_sha256 tamper/replay mismatch: "
+            f"recorded={recorded} recomputed={recomputed}"
+        )
+    return recomputed
+
+
+def load_synthetic_landmark_phase_ledger(*, fixture_dir: Path | None = None) -> dict[str, Any]:
+    """Load the checked-in non-production synthetic landmark/phase ledger."""
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    path = directory / SYNTHETIC_LANDMARK_PHASE_LEDGER_FILENAME
+    if not path.is_file():
+        raise FileNotFoundError(f"Row086 synthetic landmark/phase ledger missing: {path}")
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise ValueError(f"Row086 synthetic landmark/phase ledger must be a JSON object: {path}")
+    return payload
+
+
+def _count_hidden_or_unknown_landmarks(compiled: dict[str, Any]) -> int:
+    total = 0
+    for instance in compiled.get("instances", []):
+        if not isinstance(instance, dict):
+            continue
+        for landmark in instance.get("landmarks", []):
+            if (
+                isinstance(landmark, dict)
+                and landmark.get("observation_state") in HIDDEN_OR_UNKNOWN_STATES
+            ):
+                total += 1
+    return total
+
+
+def _compiled_landmark_phase_metrics(compiled: dict[str, Any]) -> dict[str, int]:
+    summary = compiled.get("authority_summary")
+    if not isinstance(summary, dict):
+        raise ValueError("compiled manifest missing authority_summary")
+    return {
+        "expected_landmark_count": int(summary["landmark_count"]),
+        "expected_trajectory_count": int(summary["trajectory_count"]),
+        "expected_gait_phase_count": int(summary["gait_phase_count"]),
+        "expected_contact_phase_count": int(summary["contact_phase_count"]),
+        "expected_fabricated_hidden_joint_count": int(summary["fabricated_hidden_joint_count"]),
+        "expected_hidden_or_unknown_landmark_count": _count_hidden_or_unknown_landmarks(compiled),
+    }
+
+
+def _assert_landmark_phase_expectations_match_compiled(
+    expectation: dict[str, Any],
+    compiled: dict[str, Any],
+    *,
+    label: str,
+) -> None:
+    live = _compiled_landmark_phase_metrics(compiled)
+    for expected_key in LEDGER_EXPECTED_METRIC_KEYS:
+        if expected_key not in expectation:
+            raise ValueError(f"{label}: missing {expected_key}")
+        if expectation[expected_key] != live[expected_key]:
+            raise ValueError(
+                f"{label}: {expected_key} mismatch "
+                f"ledger={expectation[expected_key]!r} compiled={live[expected_key]!r}"
+            )
+
+
+def verify_synthetic_ledger_vs_compiled_manifest_expectations(
+    ledger: dict[str, Any] | None = None,
+    *,
+    fixture_dir: Path | None = None,
+) -> dict[str, Any]:
+    """Fail-closed ledger-vs-compiled-manifest expectation verifier.
+
+    Recompiles every ledger-bound fixture packet and rejects digest/metric drift.
+    Explicitly refuses annotated benchmark pass, annotated-clip production harness
+    pass, visual-review, Rows084/085 acceptance, and row completion claims.
+    """
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    payload = (
+        ledger if ledger is not None else load_synthetic_landmark_phase_ledger(fixture_dir=directory)
+    )
+    if not isinstance(payload, dict):
+        raise ValueError("synthetic ledger must be an object")
+    _assert_keys_exact(payload, ALLOWED_SYNTHETIC_LEDGER_FIELDS, "synthetic_ledger")
+    ledger_digest = verify_synthetic_landmark_phase_ledger_integrity(payload)
+
+    if payload.get("record_type") != "row086_synthetic_landmark_phase_ledger":
+        raise ValueError("synthetic ledger record_type mismatch")
+    if payload.get("is_synthetic") is not True:
+        raise ValueError("synthetic ledger must set is_synthetic=true")
+    if payload.get("authority_ceiling") != "fixture_synthetic_only":
+        raise ValueError("synthetic ledger authority_ceiling must remain fixture_synthetic_only")
+
+    false_flags = (
+        "production_benchmark",
+        "annotated_benchmark_pass",
+        "annotated_clip_harness_production_pass",
+        "row_complete",
+        "production_completion_allowed",
+        "visual_review_claimed",
+        "rows084_085_acceptance_claimed",
+    )
+    for flag in false_flags:
+        if payload.get(flag) is not False:
+            raise ValueError(f"synthetic ledger must keep {flag}=false")
+
+    bindings = payload.get("fixture_bindings")
+    if not isinstance(bindings, list) or len(bindings) != len(BENCHMARK_FIXTURE_PACKETS):
+        raise ValueError(
+            "synthetic ledger fixture_bindings must cover exactly three landmark/phase cases"
+        )
+    expectations = payload.get("landmark_phase_expectations")
+    if not isinstance(expectations, list) or len(expectations) != len(BENCHMARK_FIXTURE_PACKETS):
+        raise ValueError(
+            "synthetic ledger landmark_phase_expectations must cover exactly three cases"
+        )
+
+    compiled_by_fixture: dict[str, dict[str, Any]] = {}
+    live_file_digest_by_fixture: dict[str, str] = {}
+    live_compiled_digest_by_fixture: dict[str, str] = {}
+
+    for idx, binding in enumerate(bindings):
+        label = f"fixture_bindings[{idx}]"
+        if not isinstance(binding, dict):
+            raise ValueError(f"{label} must be an object")
+        fixture_name = _expect_non_empty_string(binding.get("fixture_name"), f"{label}.fixture_name")
+        recorded_file = _expect_sha256(
+            binding.get("fixture_file_sha256"), f"{label}.fixture_file_sha256"
+        )
+        recorded_compiled = _expect_sha256(
+            binding.get("compiled_manifest_sha256"), f"{label}.compiled_manifest_sha256"
+        )
+        if binding.get("row_complete") is not False:
+            raise ValueError(f"{label}.row_complete must remain false")
+        if binding.get("is_synthetic") is not True:
+            raise ValueError(f"{label}.is_synthetic must be true")
+
+        live_file = fixture_file_sha256(fixture_name, fixture_dir=directory)
+        if recorded_file != live_file:
+            raise ValueError(
+                f"{label}: fixture file digest drift for {fixture_name}: "
+                f"ledger={recorded_file} live={live_file}"
+            )
+
+        compiled = compile_manifest(load_fixture_packet(fixture_name, fixture_dir=directory))
+        live_compiled = verify_manifest_integrity(compiled)
+        if recorded_compiled != live_compiled:
+            raise ValueError(
+                f"{label}: compiled manifest digest drift for {fixture_name}: "
+                f"ledger={recorded_compiled} live={live_compiled}"
+            )
+        if compiled["row_complete"] or compiled["production_completion_allowed"]:
+            raise ValueError(f"{label}: compiled fixture must remain non-complete")
+        if compiled["runtime_authority"].get("annotated_benchmark_pass"):
+            raise ValueError(f"{label}: compiled fixture must not claim annotated_benchmark_pass")
+        for dep in ("row084_complete", "row085_complete"):
+            if compiled["dependency_authority"].get(dep):
+                raise ValueError(f"{label}: compiled fixture must not claim {dep}")
+
+        compiled_by_fixture[fixture_name] = compiled
+        live_file_digest_by_fixture[fixture_name] = live_file
+        live_compiled_digest_by_fixture[fixture_name] = live_compiled
+
+    expected_fixture_names = {meta["name"] for meta in BENCHMARK_FIXTURE_PACKETS}
+    if set(compiled_by_fixture) != expected_fixture_names:
+        raise ValueError(
+            "synthetic ledger fixture_bindings set drift: "
+            f"ledger={sorted(compiled_by_fixture)} expected={sorted(expected_fixture_names)}"
+        )
+
+    seen_cases: set[str] = set()
+    for idx, expectation in enumerate(expectations):
+        label = f"landmark_phase_expectations[{idx}]"
+        if not isinstance(expectation, dict):
+            raise ValueError(f"{label} must be an object")
+        _assert_keys_exact(expectation, ALLOWED_LANDMARK_PHASE_EXPECTATION_FIELDS, label)
+        case_id = _expect_non_empty_string(expectation.get("case_id"), f"{label}.case_id")
+        if case_id in seen_cases:
+            raise ValueError(f"{label}: duplicate case_id {case_id}")
+        seen_cases.add(case_id)
+
+        source_fixture = _expect_non_empty_string(
+            expectation.get("source_fixture"), f"{label}.source_fixture"
+        )
+        if source_fixture not in compiled_by_fixture:
+            raise ValueError(f"{label}: source_fixture {source_fixture!r} not bound")
+        recorded_file = _expect_sha256(
+            expectation.get("source_fixture_file_sha256"),
+            f"{label}.source_fixture_file_sha256",
+        )
+        recorded_compiled = _expect_sha256(
+            expectation.get("source_compiled_manifest_sha256"),
+            f"{label}.source_compiled_manifest_sha256",
+        )
+        if recorded_file != live_file_digest_by_fixture[source_fixture]:
+            raise ValueError(
+                f"{label}: source fixture file digest drift for {source_fixture}: "
+                f"ledger={recorded_file} live={live_file_digest_by_fixture[source_fixture]}"
+            )
+        if recorded_compiled != live_compiled_digest_by_fixture[source_fixture]:
+            raise ValueError(
+                f"{label}: source compiled manifest digest drift for {source_fixture}: "
+                f"ledger={recorded_compiled} live={live_compiled_digest_by_fixture[source_fixture]}"
+            )
+        for expected_key in LEDGER_EXPECTED_METRIC_KEYS:
+            _expect_non_negative_int(expectation.get(expected_key), f"{label}.{expected_key}")
+        _assert_landmark_phase_expectations_match_compiled(
+            expectation, compiled_by_fixture[source_fixture], label=label
+        )
+
+    expected_cases = {meta["case_id"] for meta in BENCHMARK_FIXTURE_PACKETS}
+    if seen_cases != expected_cases:
+        raise ValueError(
+            "synthetic ledger landmark/phase case set drift: "
+            f"ledger={sorted(seen_cases)} expected={sorted(expected_cases)}"
+        )
+
+    return {
+        "status": "ok",
+        "verifier": "verify_synthetic_ledger_vs_compiled_manifest_expectations",
+        "ledger_sha256": ledger_digest,
+        "fixture_binding_count": len(bindings),
+        "landmark_phase_expectation_count": len(expectations),
+        "digest_drift_rejected": True,
+        "production_benchmark": False,
+        "annotated_benchmark_pass": False,
+        "annotated_clip_harness_production_pass": False,
+        "visual_review_claimed": False,
+        "rows084_085_acceptance_claimed": False,
+        "row_complete": False,
+        "authority_ceiling": "fixture_synthetic_only",
+    }
+
+
+def run_annotated_clip_harness(*, fixture_dir: Path | None = None) -> dict[str, Any]:
+    """Non-production annotated-clip harness over synthetic landmark/phase fixtures.
+
+    Verifies ledger-bound digests and landmark/phase expectations. Explicitly
+    refuses production annotated_benchmark_pass, Rows084/085 acceptance, visual
+    review, and row completion claims.
+    """
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    expectation_receipt = verify_synthetic_ledger_vs_compiled_manifest_expectations(
+        fixture_dir=directory
+    )
+    return {
+        "status": "ok",
+        "harness": "row086_annotated_clip_harness",
+        "verifier": "run_annotated_clip_harness",
+        "ledger_sha256": expectation_receipt["ledger_sha256"],
+        "fixture_binding_count": expectation_receipt["fixture_binding_count"],
+        "landmark_phase_expectation_count": expectation_receipt[
+            "landmark_phase_expectation_count"
+        ],
+        "digest_drift_rejected": True,
+        "production_benchmark": False,
+        "annotated_benchmark_pass": False,
+        "annotated_clip_harness_production_pass": False,
+        "visual_review_claimed": False,
+        "rows084_085_acceptance_claimed": False,
+        "row_complete": False,
+        "authority_ceiling": "fixture_synthetic_only",
+        "expectation_verifier": expectation_receipt["verifier"],
+    }
+
+
+def run_ci_fixture_ledger_gate(*, fixture_dir: Path | None = None) -> dict[str, Any]:
+    """CI/fixture gate: checked-in ledger must match rebuild and fixture digests.
+
+    Fail-closed when the checked-in synthetic ledger diverges from a live rebuild
+    from fixture packets, or when ledger-bound digests/metrics drift. Explicitly
+    refuses annotated benchmark pass, visual-review, Rows084/085 acceptance, and
+    row completion claims.
+    """
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    rebuilt = build_synthetic_landmark_phase_ledger(fixture_dir=directory)
+    checked_in = load_synthetic_landmark_phase_ledger(fixture_dir=directory)
+    rebuilt_digest = verify_synthetic_landmark_phase_ledger_integrity(rebuilt)
+    checked_digest = verify_synthetic_landmark_phase_ledger_integrity(checked_in)
+    if rebuilt != checked_in or rebuilt_digest != checked_digest:
+        raise ValueError(
+            "CI gate: checked-in synthetic ledger digests diverge from rebuild "
+            f"from fixture packets (checked_in={checked_digest} rebuilt={rebuilt_digest})"
+        )
+
+    harness_receipt = run_annotated_clip_harness(fixture_dir=directory)
+    return {
+        "status": "ok",
+        "gate": "row086_ci_fixture_ledger_gate",
+        "verifier": "run_ci_fixture_ledger_gate",
+        "checked_in_matches_rebuild": True,
+        "ledger_sha256": checked_digest,
+        "fixture_binding_count": harness_receipt["fixture_binding_count"],
+        "landmark_phase_expectation_count": harness_receipt["landmark_phase_expectation_count"],
+        "digest_drift_rejected": True,
+        "production_benchmark": False,
+        "annotated_benchmark_pass": False,
+        "annotated_clip_harness_production_pass": False,
+        "visual_review_claimed": False,
+        "rows084_085_acceptance_claimed": False,
+        "row_complete": False,
+        "authority_ceiling": "fixture_synthetic_only",
+        "annotated_clip_harness": harness_receipt["harness"],
+        "expectation_verifier": harness_receipt["expectation_verifier"],
+    }
+
+
+def build_synthetic_landmark_phase_ledger(
+    *,
+    fixture_dir: Path | None = None,
+) -> dict[str, Any]:
+    """Bind fixture digests into a non-production landmark/phase ledger."""
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    fixture_bindings: list[dict[str, Any]] = []
+    landmark_phase_expectations: list[dict[str, Any]] = []
+
+    for packet_meta in BENCHMARK_FIXTURE_PACKETS:
+        name = packet_meta["name"]
+        role = packet_meta["role"]
+        case_id = packet_meta["case_id"]
+        file_digest = fixture_file_sha256(name, fixture_dir=directory)
+        packet = load_fixture_packet(name, fixture_dir=directory)
+        compiled = compile_manifest(packet)
+        compiled_digest = verify_manifest_integrity(compiled)
+        if compiled["row_complete"] or compiled["production_completion_allowed"]:
+            raise ValueError(
+                f"fixture {name} must remain non-complete for synthetic ledger binding"
+            )
+        if compiled["runtime_authority"].get("annotated_benchmark_pass"):
+            raise ValueError(f"fixture {name} must not claim annotated_benchmark_pass")
+        for dep in ("row084_complete", "row085_complete"):
+            if compiled["dependency_authority"].get(dep):
+                raise ValueError(f"fixture {name} must not claim {dep}")
+
+        metrics = _compiled_landmark_phase_metrics(compiled)
+        fixture_bindings.append(
+            {
+                "fixture_name": name,
+                "role": role,
+                "case_id": case_id,
+                "fixture_file_sha256": file_digest,
+                "compiled_manifest_sha256": compiled_digest,
+                "is_synthetic": True,
+                "row_complete": False,
+            }
+        )
+        landmark_phase_expectations.append(
+            {
+                "case_id": case_id,
+                "role": role,
+                "source_fixture": name,
+                "source_fixture_file_sha256": file_digest,
+                "source_compiled_manifest_sha256": compiled_digest,
+                **metrics,
+            }
+        )
+
+    if len(fixture_bindings) != 3 or len(landmark_phase_expectations) != 3:
+        raise ValueError("synthetic ledger requires exactly three landmark/phase fixture cases")
+
+    fixture_bindings.sort(key=lambda item: item["fixture_name"])
+    landmark_phase_expectations.sort(key=lambda item: item["case_id"])
+
+    ledger_body: dict[str, Any] = {
+        "schema_version": "1.0.0",
+        "record_type": "row086_synthetic_landmark_phase_ledger",
+        "ledger_id": "row086_synthetic_landmark_phase_ledger_v1",
+        "revision": "row086_synthetic_ledger_v1",
+        "is_synthetic": True,
+        "production_benchmark": False,
+        "annotated_benchmark_pass": False,
+        "annotated_clip_harness_production_pass": False,
+        "row_complete": False,
+        "production_completion_allowed": False,
+        "visual_review_claimed": False,
+        "rows084_085_acceptance_claimed": False,
+        "authority_ceiling": "fixture_synthetic_only",
+        "hold_reasons": [
+            "synthetic_fixture_ledger_only",
+            "dependency_row084_incomplete",
+            "dependency_row085_incomplete",
+            "annotated_benchmark_absent",
+            "runtime_receipt_absent",
+            "combined_landmark_track_contact_audio_review_absent",
+        ],
+        "fixture_bindings": fixture_bindings,
+        "landmark_phase_expectations": landmark_phase_expectations,
+        "provenance": {
+            "compiler": "compile_wave64_pose_hand_foot_gait_extraction.py",
+            "compiler_revision": "row086_synthetic_landmark_phase_ledger_v1",
+            "non_production": True,
+            "binds_fixture_file_and_compiled_manifest_digests": True,
+            "records_expected_landmark_trajectory_gait_contact_metrics": True,
+            "annotated_clip_harness_non_production": True,
+        },
+    }
+    _assert_keys_exact(
+        ledger_body, ALLOWED_SYNTHETIC_LEDGER_FIELDS - {"ledger_sha256"}, "synthetic_ledger"
+    )
+    ledger_body["ledger_sha256"] = _canonical_sha256(ledger_body)
+    verify_synthetic_landmark_phase_ledger_integrity(ledger_body)
+    return ledger_body
+
+
+def write_synthetic_landmark_phase_ledger(
+    output_path: Path | None = None,
+    *,
+    fixture_dir: Path | None = None,
+) -> dict[str, Any]:
+    """Build and atomically write the synthetic landmark/phase ledger."""
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    path = (
+        output_path
+        if output_path is not None
+        else directory / SYNTHETIC_LANDMARK_PHASE_LEDGER_FILENAME
+    )
+    ledger = build_synthetic_landmark_phase_ledger(fixture_dir=directory)
+    _write_json_atomic(path, ledger)
+    return ledger
 
 
 def _validate_timeline_binding(raw: Any) -> dict[str, Any]:
@@ -917,11 +1385,100 @@ def main(argv: list[str] | None = None) -> int:
         ),
     )
     parser.add_argument(
+        "--emit-synthetic-landmark-phase-ledger",
+        nargs="?",
+        const="__DEFAULT__",
+        default=None,
+        help=(
+            "Build the non-production synthetic landmark/phase ledger bound to "
+            "checked-in fixture digests (optional output path)"
+        ),
+    )
+    parser.add_argument(
+        "--verify-synthetic-landmark-phase-ledger",
+        action="store_true",
+        help=(
+            "Fail-closed verify checked-in synthetic ledger expectations against "
+            "live fixture recompilation without claiming annotated benchmark pass "
+            "or Rows084/085 acceptance"
+        ),
+    )
+    parser.add_argument(
+        "--run-annotated-clip-harness",
+        action="store_true",
+        help=(
+            "Run the non-production annotated-clip harness over synthetic "
+            "landmark/phase fixtures; never grants annotated_benchmark_pass"
+        ),
+    )
+    parser.add_argument(
+        "--ci-gate",
+        action="store_true",
+        help=(
+            "CI/fixture ledger gate: checked-in synthetic ledger must match live "
+            "rebuild and annotated-clip harness expectations"
+        ),
+    )
+    parser.add_argument(
         "--fixture-dir",
         default=str(DEFAULT_FIXTURE_DIR),
         help="Fixture directory for replay verification (default: checked-in row086 fixtures)",
     )
     args = parser.parse_args(argv)
+
+    if args.emit_synthetic_landmark_phase_ledger is not None:
+        directory = Path(args.fixture_dir)
+        output = (
+            None
+            if args.emit_synthetic_landmark_phase_ledger == "__DEFAULT__"
+            else Path(args.emit_synthetic_landmark_phase_ledger)
+        )
+        try:
+            ledger = write_synthetic_landmark_phase_ledger(output, fixture_dir=directory)
+        except (OSError, ValueError, FileNotFoundError) as exc:
+            raise SystemExit(f"ROW086_FAIL_CLOSED: {exc}") from exc
+        print(
+            json.dumps(
+                {
+                    "status": "ok",
+                    "action": "emit_synthetic_landmark_phase_ledger",
+                    "ledger_sha256": ledger["ledger_sha256"],
+                    "fixture_binding_count": len(ledger["fixture_bindings"]),
+                    "annotated_benchmark_pass": False,
+                    "annotated_clip_harness_production_pass": False,
+                    "rows084_085_acceptance_claimed": False,
+                    "row_complete": False,
+                    "authority_ceiling": "fixture_synthetic_only",
+                }
+            )
+        )
+        return 0
+
+    if args.verify_synthetic_landmark_phase_ledger:
+        try:
+            receipt = verify_synthetic_ledger_vs_compiled_manifest_expectations(
+                fixture_dir=Path(args.fixture_dir)
+            )
+        except (OSError, ValueError, FileNotFoundError) as exc:
+            raise SystemExit(f"ROW086_FAIL_CLOSED: {exc}") from exc
+        print(json.dumps(receipt))
+        return 0
+
+    if args.run_annotated_clip_harness:
+        try:
+            receipt = run_annotated_clip_harness(fixture_dir=Path(args.fixture_dir))
+        except (OSError, ValueError, FileNotFoundError) as exc:
+            raise SystemExit(f"ROW086_FAIL_CLOSED: {exc}") from exc
+        print(json.dumps(receipt))
+        return 0
+
+    if args.ci_gate:
+        try:
+            receipt = run_ci_fixture_ledger_gate(fixture_dir=Path(args.fixture_dir))
+        except (OSError, ValueError, FileNotFoundError) as exc:
+            raise SystemExit(f"ROW086_FAIL_CLOSED: {exc}") from exc
+        print(json.dumps(receipt))
+        return 0
 
     if args.verify_fixture_replay:
         directory = Path(args.fixture_dir)
@@ -971,7 +1528,8 @@ def main(argv: list[str] | None = None) -> int:
     if not args.input or not args.output:
         raise SystemExit(
             "ROW086_FAIL_CLOSED: --input and --output are required unless verifying "
-            "fixture replay"
+            "fixture replay, emitting/verifying the synthetic landmark/phase ledger, "
+            "running the annotated-clip harness, or executing --ci-gate"
         )
 
     input_path = Path(args.input)

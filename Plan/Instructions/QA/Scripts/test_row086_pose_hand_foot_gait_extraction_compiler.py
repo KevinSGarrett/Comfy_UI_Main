@@ -16,6 +16,7 @@ ROOT = Path(__file__).resolve().parents[4]
 COMPILER = ROOT / "Plan/07_IMPLEMENTATION/scripts/compile_wave64_pose_hand_foot_gait_extraction.py"
 SCHEMA = ROOT / "Plan/08_SCHEMAS/pose_hand_foot_gait_extraction_manifest.schema.json"
 FIXTURE_DIR = ROOT / "Plan/Instructions/QA/Evidence/Wave64/fixtures/row086"
+SYNTHETIC_LEDGER = FIXTURE_DIR / "synthetic_landmark_phase_ledger.json"
 FIXTURE_PACKETS = (
     "case_visible_landmark_trajectory.json",
     "case_gait_contact_phases.json",
@@ -437,6 +438,152 @@ class Row086PoseHandFootGaitExtractionCompilerTests(unittest.TestCase):
         self.assertFalse(receipt["row085_acceptance_claimed"])
         self.assertFalse(receipt["row_complete"])
         self.assertEqual(receipt["authority_ceiling"], "fixture_synthetic_only")
+
+    def test_synthetic_landmark_phase_ledger_binds_fixture_digests(self) -> None:
+        self.assertTrue(SYNTHETIC_LEDGER.is_file(), msg="missing synthetic ledger fixture")
+        ledger = COMPILER_MOD.build_synthetic_landmark_phase_ledger()
+        checked_in = COMPILER_MOD.load_synthetic_landmark_phase_ledger()
+        self.assertEqual(ledger, checked_in)
+        self.assertEqual(
+            COMPILER_MOD.verify_synthetic_landmark_phase_ledger_integrity(ledger),
+            ledger["ledger_sha256"],
+        )
+        self.assertFalse(ledger["row_complete"])
+        self.assertFalse(ledger["production_completion_allowed"])
+        self.assertFalse(ledger["production_benchmark"])
+        self.assertFalse(ledger["annotated_benchmark_pass"])
+        self.assertFalse(ledger["annotated_clip_harness_production_pass"])
+        self.assertFalse(ledger["visual_review_claimed"])
+        self.assertFalse(ledger["rows084_085_acceptance_claimed"])
+        self.assertEqual(ledger["authority_ceiling"], "fixture_synthetic_only")
+        self.assertTrue(ledger["is_synthetic"])
+
+        binding_by_name = {item["fixture_name"]: item for item in ledger["fixture_bindings"]}
+        for name in FIXTURE_PACKETS:
+            self.assertIn(name, binding_by_name)
+            self.assertEqual(
+                binding_by_name[name]["fixture_file_sha256"],
+                COMPILER_MOD.fixture_file_sha256(name),
+            )
+            self.assertFalse(binding_by_name[name]["row_complete"])
+
+        by_case = {item["case_id"]: item for item in ledger["landmark_phase_expectations"]}
+        self.assertEqual(
+            set(by_case),
+            {
+                "visible_landmark_trajectory",
+                "gait_contact_phases",
+                "partial_view_hidden_joint",
+            },
+        )
+        self.assertEqual(by_case["partial_view_hidden_joint"]["expected_fabricated_hidden_joint_count"], 0)
+        self.assertGreaterEqual(
+            by_case["partial_view_hidden_joint"]["expected_hidden_or_unknown_landmark_count"],
+            2,
+        )
+
+        tampered = json.loads(json.dumps(ledger))
+        tampered["landmark_phase_expectations"][0]["expected_landmark_count"] = 999
+        with self.assertRaises(ValueError):
+            COMPILER_MOD.verify_synthetic_landmark_phase_ledger_integrity(tampered)
+
+    def test_ledger_vs_compiled_manifest_expectation_verifier_rejects_digest_drift(self) -> None:
+        receipt = COMPILER_MOD.verify_synthetic_ledger_vs_compiled_manifest_expectations()
+        self.assertEqual(receipt["status"], "ok")
+        self.assertEqual(receipt["fixture_binding_count"], 3)
+        self.assertEqual(receipt["landmark_phase_expectation_count"], 3)
+        self.assertFalse(receipt["annotated_benchmark_pass"])
+        self.assertFalse(receipt["annotated_clip_harness_production_pass"])
+        self.assertFalse(receipt["rows084_085_acceptance_claimed"])
+        self.assertFalse(receipt["row_complete"])
+        self.assertEqual(receipt["authority_ceiling"], "fixture_synthetic_only")
+
+        cli = subprocess.run(
+            [sys.executable, str(COMPILER), "--verify-synthetic-landmark-phase-ledger"],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        self.assertEqual(cli.returncode, 0, msg=cli.stderr + cli.stdout)
+        cli_receipt = json.loads(cli.stdout)
+        self.assertEqual(cli_receipt["ledger_sha256"], receipt["ledger_sha256"])
+
+        ledger = COMPILER_MOD.load_synthetic_landmark_phase_ledger()
+        drifted = json.loads(json.dumps(ledger))
+        drifted["fixture_bindings"][0]["compiled_manifest_sha256"] = "a" * 64
+        drifted_body = {key: value for key, value in drifted.items() if key != "ledger_sha256"}
+        drifted["ledger_sha256"] = COMPILER_MOD._canonical_sha256(drifted_body)
+        with self.assertRaises(ValueError):
+            COMPILER_MOD.verify_synthetic_ledger_vs_compiled_manifest_expectations(drifted)
+
+        file_drifted = json.loads(json.dumps(ledger))
+        file_drifted["fixture_bindings"][0]["fixture_file_sha256"] = "b" * 64
+        file_body = {key: value for key, value in file_drifted.items() if key != "ledger_sha256"}
+        file_drifted["ledger_sha256"] = COMPILER_MOD._canonical_sha256(file_body)
+        with self.assertRaises(ValueError):
+            COMPILER_MOD.verify_synthetic_ledger_vs_compiled_manifest_expectations(file_drifted)
+
+        pass_claimed = json.loads(json.dumps(ledger))
+        pass_claimed["annotated_benchmark_pass"] = True
+        pass_body = {key: value for key, value in pass_claimed.items() if key != "ledger_sha256"}
+        pass_claimed["ledger_sha256"] = COMPILER_MOD._canonical_sha256(pass_body)
+        with self.assertRaises(ValueError):
+            COMPILER_MOD.verify_synthetic_ledger_vs_compiled_manifest_expectations(pass_claimed)
+
+    def test_annotated_clip_harness_and_ci_gate_reject_false_completion(self) -> None:
+        harness = COMPILER_MOD.run_annotated_clip_harness()
+        self.assertEqual(harness["status"], "ok")
+        self.assertEqual(harness["harness"], "row086_annotated_clip_harness")
+        self.assertFalse(harness["annotated_benchmark_pass"])
+        self.assertFalse(harness["annotated_clip_harness_production_pass"])
+        self.assertFalse(harness["rows084_085_acceptance_claimed"])
+        self.assertFalse(harness["row_complete"])
+        self.assertEqual(harness["authority_ceiling"], "fixture_synthetic_only")
+
+        harness_cli = subprocess.run(
+            [sys.executable, str(COMPILER), "--run-annotated-clip-harness"],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        self.assertEqual(harness_cli.returncode, 0, msg=harness_cli.stderr + harness_cli.stdout)
+        harness_cli_receipt = json.loads(harness_cli.stdout)
+        self.assertEqual(harness_cli_receipt["ledger_sha256"], harness["ledger_sha256"])
+
+        receipt = COMPILER_MOD.run_ci_fixture_ledger_gate()
+        self.assertEqual(receipt["status"], "ok")
+        self.assertEqual(receipt["gate"], "row086_ci_fixture_ledger_gate")
+        self.assertTrue(receipt["checked_in_matches_rebuild"])
+        self.assertFalse(receipt["annotated_benchmark_pass"])
+        self.assertFalse(receipt["annotated_clip_harness_production_pass"])
+        self.assertFalse(receipt["rows084_085_acceptance_claimed"])
+        self.assertFalse(receipt["row_complete"])
+        self.assertEqual(receipt["authority_ceiling"], "fixture_synthetic_only")
+
+        cli = subprocess.run(
+            [sys.executable, str(COMPILER), "--ci-gate"],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        self.assertEqual(cli.returncode, 0, msg=cli.stderr + cli.stdout)
+        cli_receipt = json.loads(cli.stdout)
+        self.assertEqual(cli_receipt["ledger_sha256"], receipt["ledger_sha256"])
+
+        with tempfile.TemporaryDirectory() as tmp:
+            tmpdir = Path(tmp)
+            for name in FIXTURE_PACKETS:
+                (tmpdir / name).write_bytes((FIXTURE_DIR / name).read_bytes())
+            drifted = json.loads(json.dumps(COMPILER_MOD.load_synthetic_landmark_phase_ledger()))
+            drifted["hold_reasons"] = list(drifted["hold_reasons"]) + ["injected_divergence"]
+            body = {key: value for key, value in drifted.items() if key != "ledger_sha256"}
+            drifted["ledger_sha256"] = COMPILER_MOD._canonical_sha256(body)
+            _write_json(tmpdir / "synthetic_landmark_phase_ledger.json", drifted)
+            with self.assertRaises(ValueError):
+                COMPILER_MOD.run_ci_fixture_ledger_gate(fixture_dir=tmpdir)
 
 
 if __name__ == "__main__":
