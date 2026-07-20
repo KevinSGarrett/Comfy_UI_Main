@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "evidence_id": "TRK-W64-019_023_CLASS_B_BLOCKER_LEDGER_20260720",
   "created_iso": "2026-07-20T01:52:00-05:00",
-  "updated_iso": "2026-07-20T02:50:30-05:00",
+  "updated_iso": "2026-07-20T12:33:55-05:00",
   "classification": "Class_B_Failed_runtime_visual_QA",
   "row_complete": false,
   "production_video_complete_claimed": false,
@@ -10,7 +10,9 @@
   "docker_cvat": "not_proof",
   "class_reclassification_20260720T025030": {
     "disposition_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_CLASS_A_F_BLOCKER_DISPOSITION_PACKET_20260720.json",
-    "class_f_codes": ["LOCAL_WAN_MODEL_PAYLOAD_MISSING"],
+    "class_f_codes": [
+      "LOCAL_WAN_MODEL_PAYLOAD_MISSING"
+    ],
     "class_a_codes": [
       "CONTACT_SOFT_BODY_VIDEO_SCOPE_BLOCKED_GOLD_MASKS",
       "Blocked_Gold_Mask_Dependency_Missing"
@@ -135,7 +137,11 @@
         {
           "blocker_id": "SAME_SEED_RERUN_FORBIDDEN",
           "opportunity": true,
-          "forbidden_seeds": [2272301, 2272401, 2272507],
+          "forbidden_seeds": [
+            2272301,
+            2272401,
+            2272507
+          ],
           "exact_defect": "Authorized one-shot seeds already completed and fail-closed; seed spam / identical retry is forbidden."
         },
         {
@@ -243,5 +249,14 @@
     }
   },
   "csv_sync": "deferred_evidence_only_avoid_racing_designated_csv_mutator",
-  "next_action": "STOP Flux seed retries (cap reached; rejects retained). Class F LOCAL_WAN_MODEL_PAYLOAD_MISSING fail-closed at 0 hits. Class A gold-mask codes: CONTACT_SOFT_BODY_VIDEO_SCOPE_BLOCKED_GOLD_MASKS | Blocked_Gold_Mask_Dependency_Missing. Human/external: stage three Wan payloads or body-contact gold masks. CSV deferred. No COMPLETE."
+  "next_action": "STOP Flux seed retries (cap reached). Class F Wan TI2V still 0/3 by live inventory. Class A body/contact gold authority paths all ABSENT. Human/external stage payloads/masks. No HOLD treadmill. CSV deferred. No COMPLETE.",
+  "class_a_f_disposition_deepen": {
+    "disposition_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_CLASS_A_F_BLOCKER_DISPOSITION_PACKET_20260720T123355-0500.json",
+    "disposition_packet_sha256": "B8109CE42D954E10B0A3A6A811FB68D738B2DC18317C216926A51E036D58ADA1",
+    "runtime_inventory_sha256": "F0AB5D6D6AC5A44F0DE34F2E9AA0EADB15F12E2FF4ACB97D56EB93946A7D117F",
+    "wan_ti2v_present_ratio": "0/3",
+    "gold_authority_paths_absent": "4/4",
+    "hold_emitted": false,
+    "class_b_gpu_climb_this_landing": false
+  }
 }
