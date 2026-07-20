@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib.util
+import json
 import sys
 from pathlib import Path
 
@@ -105,6 +106,38 @@ def test_schema_rejects_missing_defect_evidence():
     del record["defects"][0]["evidence"]
     with pytest.raises(MOD.AudioDefectError, match="schema_validation_failed"):
         MOD.validate_classification_record(ROOT, record)
+
+
+def test_rebuild_retained_aggregates_recovers_resume_undercount(tmp_path):
+    records_path = tmp_path / "records.jsonl"
+    rows = [
+        {
+            "relative_path": f"a/{idx}.wav",
+            "extension": ".wav",
+            "feature_status": "pass",
+            "defect_status": "pass" if idx % 2 == 0 else "blocked",
+            "blocker_code": None if idx % 2 == 0 else "DEFECT_CLASSIFICATION_AMBIGUOUS",
+            "production_eligibility": "eligible" if idx % 2 == 0 else "unknown",
+            "pcm_sha_verified": True,
+            "source_immutable": True,
+            "visibility_preserved": True,
+            "severe_defect_present": False,
+            "analysis_truncated": False,
+        }
+        for idx in range(5)
+    ]
+    records_path.write_text(
+        "\n".join(json.dumps(row, sort_keys=True) for row in rows) + "\n",
+        encoding="utf-8",
+    )
+    counts, blockers, _ext, _elig, paths = MOD._rebuild_retained_defect_aggregates_from_records(
+        records_path
+    )
+    assert counts["records_processed"] == 5
+    assert counts["defect_pass"] == 3
+    assert counts["defect_blocked"] == 2
+    assert blockers["DEFECT_CLASSIFICATION_AMBIGUOUS"] == 2
+    assert len(paths) == 5
 
 
 def test_index_retained_probe_limit_emits_runtime_pass_bounded_without_complete():
