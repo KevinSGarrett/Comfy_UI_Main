@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import importlib.util
 import json
 import subprocess
 import sys
@@ -14,6 +15,26 @@ from jsonschema import Draft202012Validator
 ROOT = Path(__file__).resolve().parents[4]
 COMPILER = ROOT / "Plan/07_IMPLEMENTATION/scripts/compile_wave64_motion_force_cues.py"
 SCHEMA = ROOT / "Plan/08_SCHEMAS/motion_force_cues_manifest.schema.json"
+FIXTURE_DIR = ROOT / "Plan/Instructions/QA/Evidence/Wave64/fixtures/row087"
+SYNTHETIC_LEDGER = FIXTURE_DIR / "synthetic_calibrated_trajectory_benchmark_ledger.json"
+FIXTURE_PACKETS = (
+    "case_static_camera.json",
+    "case_pan_camera.json",
+    "case_actor_relative_residual.json",
+    "case_sliding_scuffing_fabric.json",
+)
+TRAJECTORY_CASES = ("static", "pan", "actor_relative_residual", "sliding_scuffing_fabric")
+
+
+def _load_compiler_module():
+    spec = importlib.util.spec_from_file_location("compile_wave64_motion_force_cues", COMPILER)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+COMPILER_MOD = _load_compiler_module()
 
 
 def _write_json(path: Path, payload: dict) -> None:
@@ -276,6 +297,162 @@ class Row087MotionForceCuesCompilerTests(unittest.TestCase):
         force_cue = schema["$defs"]["force_cue"]["properties"]
         self.assertEqual(force_cue["force_is_estimate"]["const"], True)
         self.assertEqual(force_cue["force_units"]["const"], "nonphysical_proxy")
+
+    def test_fixture_packets_cover_static_pan_residual_and_cues(self) -> None:
+        for name in FIXTURE_PACKETS:
+            self.assertTrue((FIXTURE_DIR / name).is_file(), msg=f"missing fixture {name}")
+
+        static = COMPILER_MOD.compile_manifest(COMPILER_MOD.load_fixture_packet("case_static_camera.json"))
+        self.assertEqual(static["camera_model"]["compensation_mode"], "static_translation")
+        self.assertEqual(static["metrics"]["camera_dominant_sample_count"], 0)
+        self.assertFalse(static["row_complete"])
+
+        pan = COMPILER_MOD.compile_manifest(COMPILER_MOD.load_fixture_packet("case_pan_camera.json"))
+        self.assertEqual(pan["camera_model"]["compensation_mode"], "planned_transform")
+        self.assertTrue(pan["camera_model"]["planned_motion_supported"])
+        self.assertEqual(pan["metrics"]["camera_dominant_sample_count"], 3)
+        for sample in pan["motion_samples"]:
+            self.assertTrue(sample["camera_motion_dominant"])
+            mag = (sample["actor_relative_velocity_xy"][0] ** 2 + sample["actor_relative_velocity_xy"][1] ** 2) ** 0.5
+            self.assertLessEqual(mag, pan["thresholds"]["max_false_actor_motion_from_camera"])
+
+        residual = COMPILER_MOD.compile_manifest(
+            COMPILER_MOD.load_fixture_packet("case_actor_relative_residual.json")
+        )
+        self.assertEqual(residual["metrics"]["motion_sample_count"], 4)
+        self.assertEqual(residual["metrics"]["approach_cue_count"], 1)
+        self.assertEqual(residual["metrics"]["impact_cue_count"], 1)
+
+        cues = COMPILER_MOD.compile_manifest(
+            COMPILER_MOD.load_fixture_packet("case_sliding_scuffing_fabric.json")
+        )
+        self.assertEqual(cues["metrics"]["sliding_cue_count"], 1)
+        self.assertEqual(cues["metrics"]["scuffing_cue_count"], 1)
+        self.assertEqual(cues["metrics"]["fabric_cue_count"], 1)
+
+    def test_deterministic_replay_and_tamper_hash_check(self) -> None:
+        digests: dict[str, str] = {}
+        for name in FIXTURE_PACKETS:
+            packet = COMPILER_MOD.load_fixture_packet(name)
+            first = COMPILER_MOD.compile_manifest(packet)
+            second = COMPILER_MOD.compile_manifest(packet)
+            # Wall-clock created_at may differ; content-addressed digest must replay.
+            self.assertEqual(first["manifest_sha256"], second["manifest_sha256"])
+            self.assertEqual(
+                COMPILER_MOD.verify_manifest_integrity(first),
+                first["manifest_sha256"],
+            )
+            self.assertEqual(
+                COMPILER_MOD.verify_manifest_integrity(second),
+                second["manifest_sha256"],
+            )
+            digests[name] = first["manifest_sha256"]
+
+        self.assertEqual(len(set(digests.values())), 4)
+
+        tampered = COMPILER_MOD.compile_manifest(
+            COMPILER_MOD.load_fixture_packet("case_static_camera.json")
+        )
+        tampered["metrics"]["motion_sample_count"] = 999
+        with self.assertRaises(ValueError) as ctx:
+            COMPILER_MOD.verify_manifest_integrity(tampered)
+        self.assertIn("tamper/replay mismatch", str(ctx.exception))
+
+        hash_tampered = COMPILER_MOD.compile_manifest(
+            COMPILER_MOD.load_fixture_packet("case_pan_camera.json")
+        )
+        hash_tampered["manifest_sha256"] = "0" * 64
+        with self.assertRaises(ValueError) as ctx2:
+            COMPILER_MOD.verify_manifest_integrity(hash_tampered)
+        self.assertIn("tamper/replay mismatch", str(ctx2.exception))
+
+    def test_synthetic_calibrated_trajectory_ledger_binds_fixture_digests(self) -> None:
+        self.assertTrue(SYNTHETIC_LEDGER.is_file(), msg="missing synthetic ledger fixture")
+        ledger = COMPILER_MOD.build_synthetic_calibrated_trajectory_benchmark_ledger()
+        checked_in = json.loads(SYNTHETIC_LEDGER.read_text(encoding="utf-8"))
+        self.assertEqual(ledger, checked_in)
+        self.assertEqual(
+            COMPILER_MOD.verify_synthetic_benchmark_ledger_integrity(ledger),
+            ledger["ledger_sha256"],
+        )
+        self.assertFalse(ledger["row_complete"])
+        self.assertFalse(ledger["production_completion_allowed"])
+        self.assertFalse(ledger["production_benchmark"])
+        self.assertFalse(ledger["calibrated_trajectory_benchmark_pass"])
+        self.assertFalse(ledger["visual_review_claimed"])
+        self.assertFalse(ledger["rows084_085_086_acceptance_claimed"])
+        self.assertEqual(ledger["authority_ceiling"], "fixture_synthetic_only")
+        self.assertTrue(ledger["is_synthetic"])
+
+        binding_by_name = {item["fixture_name"]: item for item in ledger["fixture_bindings"]}
+        for name in FIXTURE_PACKETS:
+            expected_file_digest = COMPILER_MOD.fixture_file_sha256(name)
+            compiled = COMPILER_MOD.compile_manifest(COMPILER_MOD.load_fixture_packet(name))
+            self.assertEqual(binding_by_name[name]["fixture_file_sha256"], expected_file_digest)
+            self.assertEqual(
+                binding_by_name[name]["compiled_manifest_sha256"],
+                compiled["manifest_sha256"],
+            )
+
+        by_case = {item["case_id"]: item for item in ledger["trajectory_metric_expectations"]}
+        self.assertEqual(set(by_case), set(TRAJECTORY_CASES))
+        self.assertEqual(by_case["pan"]["expected_camera_dominant_sample_count"], 3)
+        self.assertEqual(by_case["sliding_scuffing_fabric"]["expected_sliding_cue_count"], 1)
+        self.assertEqual(by_case["sliding_scuffing_fabric"]["expected_scuffing_cue_count"], 1)
+        self.assertEqual(by_case["sliding_scuffing_fabric"]["expected_fabric_cue_count"], 1)
+
+        tampered = json.loads(json.dumps(ledger))
+        tampered["authority_ceiling"] = "tampered"
+        with self.assertRaises(ValueError) as ctx:
+            COMPILER_MOD.verify_synthetic_benchmark_ledger_integrity(tampered)
+        self.assertIn("tamper/replay mismatch", str(ctx.exception))
+
+    def test_ledger_vs_compiled_manifest_expectation_verifier_rejects_digest_drift(self) -> None:
+        receipt = COMPILER_MOD.verify_synthetic_ledger_vs_compiled_manifest_expectations()
+        self.assertEqual(receipt["status"], "ok")
+        self.assertTrue(receipt["digest_drift_rejected"])
+        self.assertFalse(receipt["calibrated_trajectory_benchmark_pass"])
+        self.assertFalse(receipt["visual_review_claimed"])
+        self.assertFalse(receipt["rows084_085_086_acceptance_claimed"])
+        self.assertFalse(receipt["row_complete"])
+        self.assertEqual(receipt["fixture_binding_count"], 4)
+        self.assertEqual(receipt["authority_ceiling"], "fixture_synthetic_only")
+
+        cli = subprocess.run(
+            [sys.executable, str(COMPILER), "--verify-synthetic-benchmark-ledger"],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        self.assertEqual(cli.returncode, 0, msg=cli.stderr + cli.stdout)
+        cli_receipt = json.loads(cli.stdout)
+        self.assertEqual(cli_receipt["ledger_sha256"], receipt["ledger_sha256"])
+
+        ledger = COMPILER_MOD.load_synthetic_benchmark_ledger()
+        drifted = json.loads(json.dumps(ledger))
+        drifted["fixture_bindings"][0]["compiled_manifest_sha256"] = "0" * 64
+        drifted_body = {key: value for key, value in drifted.items() if key != "ledger_sha256"}
+        drifted["ledger_sha256"] = COMPILER_MOD._canonical_sha256(drifted_body)
+        with self.assertRaises(ValueError) as ctx:
+            COMPILER_MOD.verify_synthetic_ledger_vs_compiled_manifest_expectations(drifted)
+        self.assertIn("compiled manifest digest drift", str(ctx.exception))
+
+        file_drifted = json.loads(json.dumps(ledger))
+        file_drifted["fixture_bindings"][0]["fixture_file_sha256"] = "1" * 64
+        file_body = {key: value for key, value in file_drifted.items() if key != "ledger_sha256"}
+        file_drifted["ledger_sha256"] = COMPILER_MOD._canonical_sha256(file_body)
+        with self.assertRaises(ValueError) as ctx2:
+            COMPILER_MOD.verify_synthetic_ledger_vs_compiled_manifest_expectations(file_drifted)
+        self.assertIn("fixture file digest drift", str(ctx2.exception))
+
+        pass_claimed = json.loads(json.dumps(ledger))
+        pass_claimed["calibrated_trajectory_benchmark_pass"] = True
+        pass_body = {key: value for key, value in pass_claimed.items() if key != "ledger_sha256"}
+        pass_claimed["ledger_sha256"] = COMPILER_MOD._canonical_sha256(pass_body)
+        with self.assertRaises(ValueError) as ctx3:
+            COMPILER_MOD.verify_synthetic_ledger_vs_compiled_manifest_expectations(pass_claimed)
+        self.assertIn("calibrated_trajectory_benchmark_pass=false", str(ctx3.exception))
 
 
 if __name__ == "__main__":

@@ -1,0 +1,268 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-087_CALIBRATED_TRAJECTORY_FIXTURE_PACKET_CURRENT_DELTA_20260720",
+  "created_at": "2026-07-20T06:03:29Z",
+  "tracker_id": "TRK-W64-087",
+  "item_id": "ITEM-W64-087",
+  "status": "HOLD_DEPENDENCIES_RUNTIME_BENCHMARK_AND_VISUAL_PROOF_ABSENT_WITH_FIXTURE_PACKET_AND_REPLAY_HASH_SLICE_PRESENT",
+  "classification": "ROW087_CURRENT_DELTA_SYNTHETIC_CALIBRATED_TRAJECTORY_FIXTURE_LEDGER_NO_FALSE_COMPLETION",
+  "row_complete": false,
+  "implementation_completion_claimed": false,
+  "runtime_completion_claimed": false,
+  "qa_decision": "HOLD",
+  "intent": {
+    "intent_id": "interactive_cursor_shift_row087_trajectory_fixture_packet_20260720",
+    "classification": "INTERACTIVE_CURSOR_SHIFT_AUTHORITY",
+    "work_type": "final_authority",
+    "authority_class": "interactive_cursor_integration",
+    "routing": null,
+    "dispatch_wake_count": 0,
+    "allowed_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_motion_force_cues.py",
+      "Plan/08_SCHEMAS/motion_force_cues_manifest.schema.json",
+      "Plan/Instructions/QA/Scripts/test_row087_motion_force_cues_compiler.py",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row087/",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-087_CALIBRATED_TRAJECTORY_FIXTURE_PACKET_CURRENT_DELTA_20260720.json"
+    ]
+  },
+  "compiler_slice": {
+    "compiler_path": "Plan\\07_IMPLEMENTATION\\scripts\\compile_wave64_motion_force_cues.py",
+    "compiler_sha256": "19e4697b7506537927787a11fa7d1bd9bb4964858bcb491baa2c8a2bb7e492f7",
+    "compiler_bytes": 52796,
+    "schema_path": "Plan\\08_SCHEMAS\\motion_force_cues_manifest.schema.json",
+    "schema_sha256": "14ae3fa9c3b8bab0b7a614de4768603f895727c0d53c2ca866b97dc14f1e7a5d",
+    "schema_bytes": 10495,
+    "test_path": "Plan\\Instructions\\QA\\Scripts\\test_row087_motion_force_cues_compiler.py",
+    "test_sha256": "81d9453d85eb3ddfe73d572a98b611be059c51122284582a1f37b554e44cd7af",
+    "test_bytes": 21571,
+    "fixture_dir": "Plan\\Instructions\\QA\\Evidence\\Wave64\\fixtures\\row087",
+    "fixture_packets": [
+      {
+        "name": "case_static_camera.json",
+        "role": "static",
+        "file_sha256": "b3b44a467cc47548e0868d56f295cef5841ac216333d3f440459abbb54cec5ed",
+        "compiled_manifest_sha256": "c8d3a743c8ef36f0b40b77385606b89b7e96cc2f719eb91a02d229825ce6f88c",
+        "bytes": 3661
+      },
+      {
+        "name": "case_pan_camera.json",
+        "role": "pan",
+        "file_sha256": "9077faf02be1ec2833a6a0e01ce079cf03585bcb57915b67081ed2444a17fa10",
+        "compiled_manifest_sha256": "adc1b49a85a28b3b5f1821395ccdfa5c4d29fccbb07c41a0b6305f67ce29d106",
+        "bytes": 3622
+      },
+      {
+        "name": "case_actor_relative_residual.json",
+        "role": "actor_relative_residual",
+        "file_sha256": "0ed5d871b3a006aff2eb2cc94e88a40364c528d30688fd5a1c0b315624684d57",
+        "compiled_manifest_sha256": "fb8e4c6ac97bf6bb2e0cef27becb34cb4c3d26dcd03ba25a217b73215312f60e",
+        "bytes": 4863
+      },
+      {
+        "name": "case_sliding_scuffing_fabric.json",
+        "role": "sliding_scuffing_fabric",
+        "file_sha256": "412e47ff0bd907898546526e3c3ce53ecd9ddcc9d42f8d5d9cc8c2baa1369b07",
+        "compiled_manifest_sha256": "2e369c57e3f3eba8de3f32ee4d1f24943b913f7365ceae6bd17650cff0b07ab9",
+        "bytes": 4596
+      }
+    ],
+    "synthetic_calibrated_trajectory_benchmark_ledger": {
+      "path": "Plan\\Instructions\\QA\\Evidence\\Wave64\\fixtures\\row087\\synthetic_calibrated_trajectory_benchmark_ledger.json",
+      "sha256": "5f918f7da926f4a92d38cbe0d6993a4a6e84373dbaa844b810e596313fc63b2f",
+      "bytes": 5514,
+      "ledger_sha256": "cf13b7fbd445a214bb7d14faf8765e11cf53db1b5d82da9077748960c4c2ea86",
+      "production_benchmark": false,
+      "calibrated_trajectory_benchmark_pass": false,
+      "visual_review_claimed": false,
+      "rows084_085_086_acceptance_claimed": false,
+      "fixture_binding_count": 4,
+      "trajectory_metric_expectation_count": 4,
+      "binds_fixture_file_and_compiled_manifest_digests": true
+    },
+    "ledger_expectation_verifier": {
+      "function": "verify_synthetic_ledger_vs_compiled_manifest_expectations",
+      "cli_flag": "--verify-synthetic-benchmark-ledger",
+      "rejects_fixture_file_digest_drift": true,
+      "rejects_compiled_manifest_digest_drift": true,
+      "rejects_metric_expectation_drift": true,
+      "rejects_calibrated_trajectory_benchmark_pass_claim": true,
+      "rejects_visual_review_claim": true,
+      "rejects_rows084_085_086_acceptance_claim": true
+    },
+    "fail_closed_invariants": [
+      "content-addressed manifest_sha256 excludes created_at for deterministic replay; verify_manifest_integrity rejects tamper",
+      "checked-in fixture packets cover static, pan, actor-relative residual, and sliding/scuffing/fabric cases",
+      "synthetic calibrated trajectory ledger binds fixture file digests and compiled manifest digests without production pass",
+      "ledger-vs-compiled-manifest expectation verifier rejects fixture/compiled digest drift and metric expectation mismatch",
+      "row_complete and production_completion_allowed remain false in this increment",
+      "Rows084-086 dependency and runtime/review flags gate authority ceiling"
+    ],
+    "decision": "USEFUL_SYNTHETIC_CALIBRATED_TRAJECTORY_FIXTURE_LEDGER_SLICE_NOT_PRODUCTION_MOTION_FORCE_AUTHORITY"
+  },
+  "dependency_audit": {
+    "row084_complete": false,
+    "row085_complete": false,
+    "row086_complete": false,
+    "notes": [
+      "Fixture packets and replay hashes do not satisfy upstream Rows084-086 production authority.",
+      "Lane D (085/086) remains disjoint; this increment does not write Row085/086 or Row075 paths."
+    ]
+  },
+  "focused_local_test_result": {
+    "strict_command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_row087_motion_force_cues_compiler.py -ra",
+    "strict_result": "12 passed in 21.25s",
+    "strict_exit_code": 0,
+    "cli_verify_command": "python Plan/07_IMPLEMENTATION/scripts/compile_wave64_motion_force_cues.py --verify-synthetic-benchmark-ledger",
+    "cli_verify_receipt": {
+      "status": "ok",
+      "verifier": "verify_synthetic_ledger_vs_compiled_manifest_expectations",
+      "ledger_sha256": "cf13b7fbd445a214bb7d14faf8765e11cf53db1b5d82da9077748960c4c2ea86",
+      "fixture_binding_count": 4,
+      "trajectory_metric_expectation_count": 4,
+      "digest_drift_rejected": true,
+      "production_benchmark": false,
+      "calibrated_trajectory_benchmark_pass": false,
+      "visual_review_claimed": false,
+      "rows084_085_086_acceptance_claimed": false,
+      "row_complete": false,
+      "authority_ceiling": "fixture_synthetic_only"
+    },
+    "scope_interpretation": "Focused tests prove the fail-closed compiler, fixture packets, replay/tamper integrity, synthetic calibrated trajectory ledger binding, and the ledger-vs-compiled-manifest expectation verifier. They do not grant Row087 completion, production optical-flow runtime, calibrated production benchmark pass, Rows084-086 acceptance, runtime receipt, or combined visual review."
+  },
+  "checks": [
+    {
+      "check_id": "ROW087-F01",
+      "name": "fixture_packets_cover_static",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW087-F02",
+      "name": "fixture_packets_cover_pan",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW087-F03",
+      "name": "fixture_packets_cover_actor_relative_residual",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW087-F04",
+      "name": "fixture_packets_cover_sliding_scuffing_fabric",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW087-F05",
+      "name": "deterministic_replay_and_tamper_hash_check",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW087-F06",
+      "name": "synthetic_calibrated_trajectory_ledger_binds_fixture_digests",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW087-F07",
+      "name": "ledger_expectation_verifier_rejects_digest_drift",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW087-F08",
+      "name": "focused_compiler_and_fixture_tests_pass",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW087-009",
+      "name": "dependency_row084_complete",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW087-010",
+      "name": "dependency_row085_complete",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW087-011",
+      "name": "dependency_row086_complete",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW087-012",
+      "name": "production_row087_motion_force_extractor_implemented",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW087-014",
+      "name": "calibrated_trajectory_benchmark_pass",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW087-015",
+      "name": "combined_flow_track_contact_audio_visual_review_present",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW087-016",
+      "name": "direct_row087_runtime_receipt_present",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW087-017",
+      "name": "tracker_declared_output_artifact_present",
+      "status": "FAIL"
+    }
+  ],
+  "test_and_runtime_boundary": {
+    "fixture_packets_compiled": true,
+    "replay_tamper_hash_check_executed": true,
+    "synthetic_calibrated_trajectory_benchmark_ledger_bound": true,
+    "focused_compiler_tests_executed": true,
+    "production_row087_extraction_invoked": false,
+    "direct_row087_calibration_benchmark_executed": false,
+    "direct_row087_visual_review_executed": false,
+    "ec2_invoked": false,
+    "docker_invoked": false,
+    "wsl_invoked": false,
+    "provider_calls": 0,
+    "wrapper_calls": 0,
+    "scheduled_task_wakes": 0
+  },
+  "sibling_lane_disjointness": {
+    "excluded_sibling_rows": [
+      "TRK-W64-075",
+      "TRK-W64-085",
+      "TRK-W64-086"
+    ],
+    "disjoint_from_lane_d_085_086": true,
+    "shared_csv_writes": false,
+    "row075_paths_touched": false
+  },
+  "preservation_boundary": {
+    "actual_write_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_motion_force_cues.py",
+      "Plan/Instructions/QA/Scripts/test_row087_motion_force_cues_compiler.py",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row087/",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-087_CALIBRATED_TRAJECTORY_FIXTURE_PACKET_CURRENT_DELTA_20260720.json"
+    ],
+    "unrelated_dirty_paths_preserved": true
+  },
+  "proof_tier": {
+    "tier": "T2_SYNTHETIC_FIXTURE_REPLAY_HASH",
+    "claims": [
+      "synthetic fixture packet compile",
+      "deterministic content-addressed replay hash",
+      "tamper rejection",
+      "ledger digest binding"
+    ],
+    "non_claims": [
+      "production calibrated trajectory benchmark pass",
+      "visual review",
+      "Rows084-086 acceptance",
+      "row_complete"
+    ]
+  },
+  "hold_decision": {
+    "decision": "HOLD_ROW087_NO_FALSE_COMPLETION",
+    "reason": "Row087 now binds static/pan/actor-relative-residual/sliding-scuffing-fabric fixture packet digests into a synthetic non-production calibrated trajectory ledger with expected metrics and a fail-closed ledger-vs-compiled-manifest expectation verifier. Focused tests pass. Rows084-086 remain incomplete. Production optical-flow extraction, calibrated production benchmark pass, runtime receipts, combined visual review, and the tracker-declared output artifact remain absent. Compiler and ledger never set row_complete or calibrated_trajectory_benchmark_pass true.",
+    "safe_next_action": "Keep Row087 on hold. Next useful write: CI/gate wrapper that fails closed when checked-in ledger digests diverge from fixture packets without claiming calibrated production benchmark pass, visual review, or Rows084-086 acceptance. Upstream continue Rows084/085/086 on disjoint lanes."
+  }
+}
