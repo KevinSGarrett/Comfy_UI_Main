@@ -74,7 +74,7 @@
     "preview_required": true,
     "ec2_allowed": true,
     "tracker_output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_depth_camera_source_position.json",
-    "tracker_output_artifact_exists": false,
+    "tracker_output_artifact_exists": true,
     "current_delta_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_DEPTH_CAMERA_SOURCE_POSITION_CURRENT_DELTA_20260719.json"
   },
   "compiler_slice": {
@@ -99,13 +99,32 @@
     ],
     "decision": "USEFUL_FAIL_CLOSED_CONTRACT_COMPILER_SLICE_NOT_PRODUCTION_SPATIAL_AUTHORITY"
   },
-  "dependency_authority": {
-    "tracker_ids": ["TRK-W64-084", "TRK-W64-085"],
-    "row084_complete": false,
-    "row085_complete": false,
-    "dependency_satisfied": false,
-    "row088_effect": "Exact take/camera and tracked-source ownership cannot be certified without accepted Row084 timeline and Row085 ownership authority."
-  },
+  "dependency_authority": [
+    {
+      "dependency_satisfied": false,
+      "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json",
+      "evidence_sha256": "3a8b6ab2dae9158f520f3060573ed12a81f5717420c7e5862473fced220d3845",
+      "hold_artifact_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_canonical_video_timeline.json",
+      "hold_artifact_present": true,
+      "acceptance_claimed": false,
+      "row_complete": false,
+      "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+      "row088_effect": "Post-wave rebind: Row084 HOLD/VISUAL_QA_PASS_BOUNDED does not satisfy Row088 upstream acceptance. Exact take/camera binding remains uncertified.",
+      "tracker_id": "TRK-W64-084"
+    },
+    {
+      "dependency_satisfied": false,
+      "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719.json",
+      "evidence_sha256": "6b882a72192a7922f359c5cdd6a8dab5ce5a19123f19851bc312e2cb486a2e76",
+      "hold_artifact_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_actor_object_region_tracking.json",
+      "hold_artifact_present": true,
+      "acceptance_claimed": false,
+      "row_complete": false,
+      "highest_proof_tier_achieved": "CONTRACT_FIXTURE_CI_GATE",
+      "row088_effect": "Row085 HOLD artifact present does not grant ownership acceptance. Source owner/track binding remains uncertified without accepted persistent tracks.",
+      "tracker_id": "TRK-W64-085"
+    }
+  ],
   "focused_local_test_result": {
     "py_compile": "PASS",
     "strict_command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_row088_depth_camera_source_position_compiler.py",
@@ -116,25 +135,104 @@
     "scope_interpretation": "Focused tests prove the fail-closed depth/camera/source-position contract/compiler slice only. They do not grant Row088 completion, metric calibration authority, runtime receipt, or combined visual review."
   },
   "checks": [
-    {"check_id": "ROW088-001", "name": "tracker_item_requirements_parity", "status": "PASS"},
-    {"check_id": "ROW088-002", "name": "dependency_audit_complete", "status": "PASS"},
-    {"check_id": "ROW088-003", "name": "fail_closed_spatial_compiler_present", "status": "PASS"},
-    {"check_id": "ROW088-004", "name": "depth_camera_source_position_manifest_schema_present", "status": "PASS"},
-    {"check_id": "ROW088-005", "name": "focused_compiler_tests_pass", "status": "PASS"},
-    {"check_id": "ROW088-006", "name": "camera_take_binding_parity_enforced", "status": "PASS"},
-    {"check_id": "ROW088-007", "name": "metric_depth_requires_calibration_authority", "status": "PASS"},
-    {"check_id": "ROW088-008", "name": "relative_depth_labeled_and_held", "status": "PASS"},
-    {"check_id": "ROW088-009", "name": "listener_and_source_trajectory_monotonic_frames", "status": "PASS"},
-    {"check_id": "ROW088-010", "name": "owner_track_binding_enforced", "status": "PASS"},
-    {"check_id": "ROW088-011", "name": "uncertainty_and_abstention_contract_present", "status": "PASS"},
-    {"check_id": "ROW088-012", "name": "codex_or_interactive_scope_and_zero_wake_boundary", "status": "PASS"},
-    {"check_id": "ROW088-013", "name": "dependency_row084_complete", "status": "FAIL"},
-    {"check_id": "ROW088-014", "name": "dependency_row085_complete", "status": "FAIL"},
-    {"check_id": "ROW088-015", "name": "production_depth_camera_source_estimator_runtime_complete", "status": "FAIL"},
-    {"check_id": "ROW088-016", "name": "calibrated_trajectory_benchmark_pass", "status": "FAIL"},
-    {"check_id": "ROW088-017", "name": "direct_row088_runtime_receipt_present", "status": "FAIL"},
-    {"check_id": "ROW088-018", "name": "combined_frame_contact_audio_visual_review_present", "status": "FAIL"},
-    {"check_id": "ROW088-019", "name": "tracker_declared_output_artifact_present", "status": "FAIL"}
+    {
+      "check_id": "ROW088-001",
+      "name": "tracker_item_requirements_parity",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW088-002",
+      "name": "dependency_audit_complete",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW088-003",
+      "name": "fail_closed_spatial_compiler_present",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW088-004",
+      "name": "depth_camera_source_position_manifest_schema_present",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW088-005",
+      "name": "focused_compiler_tests_pass",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW088-006",
+      "name": "camera_take_binding_parity_enforced",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW088-007",
+      "name": "metric_depth_requires_calibration_authority",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW088-008",
+      "name": "relative_depth_labeled_and_held",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW088-009",
+      "name": "listener_and_source_trajectory_monotonic_frames",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW088-010",
+      "name": "owner_track_binding_enforced",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW088-011",
+      "name": "uncertainty_and_abstention_contract_present",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW088-012",
+      "name": "codex_or_interactive_scope_and_zero_wake_boundary",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW088-013",
+      "name": "dependency_row084_complete",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW088-014",
+      "name": "dependency_row085_complete",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW088-015",
+      "name": "production_depth_camera_source_estimator_runtime_complete",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW088-016",
+      "name": "calibrated_trajectory_benchmark_pass",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW088-017",
+      "name": "direct_row088_runtime_receipt_present",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW088-018",
+      "name": "combined_frame_contact_audio_visual_review_present",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW088-019",
+      "name": "tracker_declared_output_artifact_present",
+      "status": "PASS",
+      "note": "Tracker-declared HOLD artifact present (TRK-W64-088_depth_camera_source_position.json). HOLD only; row_complete false; no COMPLETE; does not grant runtime/visual authority.",
+      "hold_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_depth_camera_source_position.json",
+      "hold_artifact_sha256": "3e585176444b7359e7148c32e451a721068c77aaf6f6c95ca215a6a97bf2a71f"
+    }
   ],
   "test_and_runtime_boundary": {
     "schema_meta_validation_executed": true,
@@ -155,7 +253,13 @@
     "scheduled_task_wakes": 0
   },
   "sibling_lane_disjointness": {
-    "excluded_sibling_rows": ["TRK-W64-075", "TRK-W64-068", "TRK-W64-084", "TRK-W64-076", "TRK-W64-087"],
+    "excluded_sibling_rows": [
+      "TRK-W64-075",
+      "TRK-W64-068",
+      "TRK-W64-084",
+      "TRK-W64-076",
+      "TRK-W64-087"
+    ],
     "excluded_paths": [
       "Plan/07_IMPLEMENTATION/scripts/classify_wave64_audio_defects.py",
       "Plan/07_IMPLEMENTATION/scripts/validate_wave64_audio_rights_provenance_authority.py",
@@ -198,8 +302,25 @@
     "sibling_row075_068_084_076_087_paths_preserved": true
   },
   "hold_decision": {
-    "decision": "HOLD_ROW088_NO_FALSE_COMPLETION",
-    "reason": "A fail-closed Row088 depth/camera/listener/source-position compiler/schema slice now exists with nine passing focused tests covering camera/take binding parity, relative-versus-metric depth authority, monotonic listener/source trajectories, owner-track binding, abstention/confidence gates, and certification holds. Rows084 and 085 remain incomplete. Calibrated trajectory benchmarks, production runtime receipts, combined frame/contact/audio review, and the tracker-declared runtime artifact remain absent. The compiler never sets row_complete or production_completion_allowed true in this increment.",
-    "safe_next_action": "Keep Row088 on hold for runtime completion. Next useful Row088 write: add fixture-backed static/moving camera-listener-source trajectory packets and a deterministic replay/tamper hash check without claiming visual-review or Rows084/085 acceptance. Upstream, continue advancing Row084 canonical timeline and Row085 ownership acceptance. Downstream Rows089/095/096 remain blocked on Row088 measured spatial authority."
+    "decision": "HOLD_ROW088_DECLARED_ARTIFACT_PRESENT_NO_FALSE_COMPLETION",
+    "reason": "Declared HOLD output artifact emitted and ROW088-019 cleared as HOLD-present. Synthetic camera-listener-source fixtures + CI ledger gate still pass. Rows084/085 acceptance, production runtime benchmark, calibrated trajectory benchmark, combined visual review, metric depth authority, and direct runtime receipt remain absent. No COMPLETE.",
+    "safe_next_action": "Keep Row088 blocked until Rows084/085 acceptance clear (do not thrash settled HOLDs Rows084-087). Then bind production depth/camera/runtime receipts under the calibrated trajectory + CI gate contracts, then combined visual review. Optional next offline: Row089 HOLD declared artifact emit (same pattern). CSV Notes sync optional via mutator only. Leave Row073 alone.",
+    "disposition_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_HOLD_ARTIFACT_AND_DEPENDENCY_DISPOSITION_PACKET_20260720.json",
+    "disposition_packet_sha256": "a6edaec7783fe618e6d6b68b2c7facbfe9570e26111a9346cb25a67780094293",
+    "hold_artifact_sha256": "3e585176444b7359e7148c32e451a721068c77aaf6f6c95ca215a6a97bf2a71f",
+    "negative_inventory_sha256": "c753b2092bf6a5c96417ab7c9a2fac349661c359f9e36d1aa25f90af8dd55f02"
+  },
+  "updated_at": "2026-07-20T17:16:05.766714Z",
+  "this_landing": {
+    "landing_id": "row088_hold_artifact_deepen_20260720T121605-0500",
+    "mutation": "hold_artifact_emit_and_dependency_inventory_deepen",
+    "primary_paths": [
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_depth_camera_source_position.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_HOLD_ARTIFACT_AND_DEPENDENCY_DISPOSITION_PACKET_20260720.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_RUNTIME_VISUAL_DEPENDENCY_NEGATIVE_INVENTORY_20260720.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_DEPTH_CAMERA_SOURCE_POSITION_CURRENT_DELTA_20260719.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_CI_FIXTURE_LEDGER_GATE_CURRENT_DELTA_20260720.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_CAMERA_LISTENER_SOURCE_FIXTURE_PACKET_CURRENT_DELTA_20260720.json"
+    ]
   }
 }

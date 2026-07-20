@@ -52,6 +52,14 @@
       "check_id": "ROW088-016",
       "name": "direct_row088_runtime_receipt_present",
       "status": "FAIL"
+    },
+    {
+      "check_id": "ROW088-019",
+      "name": "tracker_declared_output_artifact_present",
+      "status": "PASS",
+      "note": "Tracker-declared HOLD artifact present (TRK-W64-088_depth_camera_source_position.json). HOLD only; row_complete false; no COMPLETE; does not grant runtime/visual authority.",
+      "hold_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_depth_camera_source_position.json",
+      "hold_artifact_sha256": "3e585176444b7359e7148c32e451a721068c77aaf6f6c95ca215a6a97bf2a71f"
     }
   ],
   "classification": "ROW088_CURRENT_DELTA_CI_FIXTURE_LEDGER_GATE_SLICE_NO_FALSE_COMPLETION",
@@ -91,16 +99,32 @@
     "test_sha256": "ebd9f0f7fdb1ed63e8b0eeae3c5029e8bb3cb94a3d1e36ed4eeb5d78a32632db"
   },
   "created_at": "2026-07-20T06:14:45Z",
-  "dependency_authority": {
-    "dependency_satisfied": false,
-    "row084_complete": false,
-    "row085_complete": false,
-    "row088_effect": "CI/fixture ledger gating does not satisfy upstream Rows084/085 production authority. Disjoint from Lane D mutators.",
-    "tracker_ids": [
-      "TRK-W64-084",
-      "TRK-W64-085"
-    ]
-  },
+  "dependency_authority": [
+    {
+      "dependency_satisfied": false,
+      "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json",
+      "evidence_sha256": "3a8b6ab2dae9158f520f3060573ed12a81f5717420c7e5862473fced220d3845",
+      "hold_artifact_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_canonical_video_timeline.json",
+      "hold_artifact_present": true,
+      "acceptance_claimed": false,
+      "row_complete": false,
+      "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+      "row088_effect": "Post-wave rebind: Row084 HOLD/VISUAL_QA_PASS_BOUNDED does not satisfy Row088 upstream acceptance. Exact take/camera binding remains uncertified.",
+      "tracker_id": "TRK-W64-084"
+    },
+    {
+      "dependency_satisfied": false,
+      "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719.json",
+      "evidence_sha256": "6b882a72192a7922f359c5cdd6a8dab5ce5a19123f19851bc312e2cb486a2e76",
+      "hold_artifact_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_actor_object_region_tracking.json",
+      "hold_artifact_present": true,
+      "acceptance_claimed": false,
+      "row_complete": false,
+      "highest_proof_tier_achieved": "CONTRACT_FIXTURE_CI_GATE",
+      "row088_effect": "Row085 HOLD artifact present does not grant ownership acceptance. Source owner/track binding remains uncertified without accepted persistent tracks.",
+      "tracker_id": "TRK-W64-085"
+    }
+  ],
   "evidence_id": "TRK-W64-088_CI_FIXTURE_LEDGER_GATE_CURRENT_DELTA_20260720",
   "focused_local_test_result": {
     "cli_ci_gate_command": "python Plan/07_IMPLEMENTATION/scripts/compile_wave64_depth_camera_source_position.py --ci-gate",
@@ -129,9 +153,13 @@
   },
   "highest_proof_tier_achieved": "CONTRACT_FIXTURE_CI_GATE",
   "hold_decision": {
-    "decision": "HOLD_ROW088_NO_FALSE_COMPLETION",
-    "reason": "Row088 now has a CI/fixture ledger gate (--ci-gate) that fails closed when the checked-in synthetic ledger diverges from a live rebuild of fixture-packet digests, then runs the ledger-vs-compiled-manifest expectation verifier. Fourteen focused tests pass. Rows084/085 remain incomplete. Metric calibration authority, production runtime receipts, combined visual review, and the tracker-declared output artifact remain absent. The compiler and gate never set row_complete or calibrated_trajectory_benchmark_pass true.",
-    "safe_next_action": "Keep Row088 on hold. Upstream continue Rows084/085 on disjoint lanes. Do not claim COMPLETE or mutate Tracker/Items CSV from this CI-gate slice."
+    "decision": "HOLD_ROW088_DECLARED_ARTIFACT_PRESENT_NO_FALSE_COMPLETION",
+    "reason": "Declared HOLD output artifact emitted and ROW088-019 cleared as HOLD-present. Synthetic camera-listener-source fixtures + CI ledger gate still pass. Rows084/085 acceptance, production runtime benchmark, calibrated trajectory benchmark, combined visual review, metric depth authority, and direct runtime receipt remain absent. No COMPLETE.",
+    "safe_next_action": "Keep Row088 blocked until Rows084/085 acceptance clear (do not thrash settled HOLDs Rows084-087). Then bind production depth/camera/runtime receipts under the calibrated trajectory + CI gate contracts, then combined visual review. Optional next offline: Row089 HOLD declared artifact emit (same pattern). CSV Notes sync optional via mutator only. Leave Row073 alone.",
+    "disposition_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_HOLD_ARTIFACT_AND_DEPENDENCY_DISPOSITION_PACKET_20260720.json",
+    "disposition_packet_sha256": "a6edaec7783fe618e6d6b68b2c7facbfe9570e26111a9346cb25a67780094293",
+    "hold_artifact_sha256": "3e585176444b7359e7148c32e451a721068c77aaf6f6c95ca215a6a97bf2a71f",
+    "negative_inventory_sha256": "c753b2092bf6a5c96417ab7c9a2fac349661c359f9e36d1aa25f90af8dd55f02"
   },
   "implementation_completion_claimed": false,
   "intent": {
@@ -172,7 +200,7 @@
   "proof_tier_detail": {
     "claims": [
       "checked-in synthetic ledger matches live fixture-packet rebuild",
-      "ledger\u2194fixture digest drift fail-closed",
+      "ledger↔fixture digest drift fail-closed",
       "CI --ci-gate wrapper"
     ],
     "non_claims": [
@@ -216,5 +244,17 @@
     "wsl_invoked": false
   },
   "tracker_id": "TRK-W64-088",
-  "updated_at": "2026-07-20T06:20:09.943506Z"
+  "updated_at": "2026-07-20T17:16:05.766714Z",
+  "this_landing": {
+    "landing_id": "row088_hold_artifact_deepen_20260720T121605-0500",
+    "mutation": "hold_artifact_emit_and_dependency_inventory_deepen",
+    "primary_paths": [
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_depth_camera_source_position.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_HOLD_ARTIFACT_AND_DEPENDENCY_DISPOSITION_PACKET_20260720.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_RUNTIME_VISUAL_DEPENDENCY_NEGATIVE_INVENTORY_20260720.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_DEPTH_CAMERA_SOURCE_POSITION_CURRENT_DELTA_20260719.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_CI_FIXTURE_LEDGER_GATE_CURRENT_DELTA_20260720.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_CAMERA_LISTENER_SOURCE_FIXTURE_PACKET_CURRENT_DELTA_20260720.json"
+    ]
+  }
 }
