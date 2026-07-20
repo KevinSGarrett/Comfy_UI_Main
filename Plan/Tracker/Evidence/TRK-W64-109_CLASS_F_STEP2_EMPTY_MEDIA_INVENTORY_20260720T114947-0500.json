@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-109_CLASS_F_STEP2_EMPTY_MEDIA_INVENTORY_20260720T114947-0500",
+  "created_iso": "2026-07-20T11:49:47-05:00",
+  "tracker_id": "TRK-W64-109",
+  "item_id": "ITEM-W64-109",
+  "proof_tier": "OFFLINE_INVENTORY_BLOCKER_BOUNDED",
+  "row_complete": false,
+  "product_completion_claimed": false,
+  "step": "step2_empty_media_disposition",
+  "trees": {
+    "media_row109": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/media/row109",
+      "exists": false,
+      "file_count": 0,
+      "dir_count": 0,
+      "files": [],
+      "classification": "tree_absent"
+    },
+    "reviews_row109": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/reviews/row109",
+      "exists": false,
+      "file_count": 0,
+      "dir_count": 0,
+      "files": [],
+      "classification": "tree_absent"
+    }
+  },
+  "manifest_probe": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/benchmarks/row109/audio_benchmark_corpus_manifest.json",
+    "sha256": "aa714ddd202022b7aa18804f210538b2c57d77723bde2da03e43593bcff9939f",
+    "case_count": 31,
+    "synthetic_or_non_genuine_case_count": 31,
+    "genuine_annotated_media_copy_case_count": 0,
+    "genuine_case_ids": []
+  },
+  "compiler_hold": {
+    "exit_code": 0,
+    "payload": {
+      "case_count": 31,
+      "manifest_output": "C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Wave64\\benchmarks\\row109\\audio_benchmark_corpus_manifest.json",
+      "manifest_sha256": "eb07ba60d155bf28c4bde3c459baf15c4947988863abbc129e6f3ebda3c2db8e",
+      "output": "C:\\Comfy_UI_Main\\Plan\\Instructions\\QA\\Evidence\\Wave64\\TRK-W64-109_audio_benchmark_corpus.json",
+      "row_complete": false,
+      "status": "HOLD_SYNTHETIC_FIXTURE_CORPUS_SLICE_PRESENT_GENUINE_ANNOTATED_MEDIA_AND_VISUAL_QA_ABSENT"
+    },
+    "row_complete": false,
+    "status": "HOLD_SYNTHETIC_FIXTURE_CORPUS_SLICE_PRESENT_GENUINE_ANNOTATED_MEDIA_AND_VISUAL_QA_ABSENT"
+  },
+  "contamination_probe": {
+    "exit_code": 0,
+    "stdout_tail": "{\"mode\": \"probe-contamination\", \"result\": \"BLOCKED_AS_REQUIRED\"}",
+    "stderr_tail": "",
+    "blocked_as_required": true
+  },
+  "focused_tests": {
+    "exit_code": 0,
+    "summary_tail": "............                                                             [100%]\n12 passed in 2.99s",
+    "passed": true
+  },
+  "hold_evidence_gate": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-109_audio_benchmark_corpus.json",
+    "sha256": "e0476d5f37485230b2d79110dc0d747e903e32dc58c68974428e69433ca594f4",
+    "genuine_annotated_media_corpus_present": false,
+    "partition_counts": {
+      "adversarial": 0,
+      "calibration": 0,
+      "held_out_test": 0,
+      "train": 0
+    },
+    "reasons": [
+      "no_genuine_annotated_media_copy_cases",
+      "min_count_unmet:train:0<5",
+      "min_count_unmet:calibration:0<11",
+      "min_count_unmet:held_out_test:0<11",
+      "min_count_unmet:adversarial:0<4"
+    ],
+    "blocker_codes": [
+      "GENUINE_ANNOTATED_MEDIA_CORPUS_ABSENT",
+      "COMBINED_FRAME_CONTACT_AUDIO_REVIEW_ABSENT",
+      "PRODUCTION_BENCHMARK_AUTHORITY_ABSENT",
+      "HELD_OUT_RUNTIME_PROOF_ABSENT"
+    ]
+  },
+  "totals": {
+    "media_files": 0,
+    "review_files": 0,
+    "genuine_cases": 0,
+    "eligible_genuine_annotated_media_hits": 0
+  },
+  "do_not": [
+    "invent_genuine_annotated_media",
+    "decode_library_pcm",
+    "live_full_library_scan",
+    "touch_row073_pcm",
+    "start_074_076_077_library",
+    "mutate_shared_sound_csv",
+    "claim_COMPLETE_or_row_complete"
+  ],
+  "verdict": "EMPTY_MEDIA_CONFIRMED_FAIL_CLOSED"
+}

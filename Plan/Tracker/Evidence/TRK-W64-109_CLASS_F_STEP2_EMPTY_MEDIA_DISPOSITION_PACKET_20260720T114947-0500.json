@@ -1,0 +1,196 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-109_CLASS_F_STEP2_EMPTY_MEDIA_DISPOSITION_PACKET_20260720T114947-0500",
+  "created_iso": "2026-07-20T11:49:47-05:00",
+  "tracker_id": "TRK-W64-109",
+  "item_id": "ITEM-W64-109",
+  "mutation_this_landing": "evidence_only_class_f_step2_empty_media_disposition_deepen",
+  "row_complete": false,
+  "product_completion_claimed": false,
+  "csv_sync": "deferred_leave_to_serialized_mutator",
+  "proof_tier": "OFFLINE_INVENTORY_BLOCKER_BOUNDED",
+  "highest_proof_tier_achieved": "OFFLINE_INVENTORY_BLOCKER_BOUNDED",
+  "prior_step1": {
+    "kind": "fail_closed_genuine_copies_only_production_path_scaffold_step1",
+    "delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-109_AUDIO_BENCHMARK_CORPUS_CURRENT_DELTA_20260720.json",
+    "delta_sha256_before": "3a572bdc65ce03e01642977a6e105158b42ebac3672c21f14424e1d7616d14d1",
+    "note": "Step1 schema/policy/compiler genuine-path scaffold retained; synthetic T2 still authority."
+  },
+  "deepen_reason": "Notes already assert step2 blocked; this landing adds a live hash-bound empty-media inventory receipt plus formal Class F disposition clearance contract without inventing genuine annotated media or touching Row073 PCM / shared CSVs.",
+  "blocker_classes": [
+    {
+      "class": "F",
+      "name": "EXTERNAL_HUMAN_GENUINE_ANNOTATED_MEDIA_GATE",
+      "primary_code": "GENUINE_ANNOTATED_MEDIA_CORPUS_ABSENT",
+      "codes": [
+        "GENUINE_ANNOTATED_MEDIA_CORPUS_ABSENT",
+        "COMBINED_FRAME_CONTACT_AUDIO_REVIEW_ABSENT",
+        "PRODUCTION_BENCHMARK_AUTHORITY_ABSENT",
+        "HELD_OUT_RUNTIME_PROOF_ABSENT"
+      ],
+      "cleared_by_this_packet": [],
+      "summary": "Live inventory confirms media/row109 and reviews/row109 are absent/empty; manifest has 0 genuine_annotated_media_copy cases; hold CLI remains HOLD_SYNTHETIC...; agents must not invent annotated clips.",
+      "fail_closed_until": "rights-cleared genuine annotated media copies staged under media/row109 with human_gold + rights_decision_sha256 (decode_invoked=false), meeting partition min_counts, then recompile + combined frame/contact/audio review"
+    }
+  ],
+  "negative_inventory": {
+    "runtime_receipt": "runtime_artifacts/wave64_row109_class_f_step2_empty_media_20260720/class_f_step2_empty_media_inventory.json",
+    "runtime_receipt_sha256": "eea79563560a0b789276ad9ef110db8661833238217b1d0e93838e67c347668a",
+    "media_tree_exists": false,
+    "media_file_count": 0,
+    "reviews_tree_exists": false,
+    "reviews_file_count": 0,
+    "genuine_annotated_media_copy_case_count": 0,
+    "eligible_genuine_annotated_media_hits": 0,
+    "verdict": "EMPTY_MEDIA_CONFIRMED_FAIL_CLOSED"
+  },
+  "validators": {
+    "compiler_hold_exit_code": 0,
+    "compiler_hold_status": "HOLD_SYNTHETIC_FIXTURE_CORPUS_SLICE_PRESENT_GENUINE_ANNOTATED_MEDIA_AND_VISUAL_QA_ABSENT",
+    "pytest_exit_code": 0,
+    "pytest_summary_tail": "............                                                             [100%]\n12 passed in 2.99s",
+    "contamination_probe_blocked_as_required": true
+  },
+  "authority_bindings": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-109_AUDIO_BENCHMARK_CORPUS_CURRENT_DELTA_20260720.json",
+      "exists": true,
+      "bytes": 15931,
+      "sha256": "3a572bdc65ce03e01642977a6e105158b42ebac3672c21f14424e1d7616d14d1"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-109_audio_benchmark_corpus.json",
+      "exists": true,
+      "bytes": 6958,
+      "sha256": "e0476d5f37485230b2d79110dc0d747e903e32dc58c68974428e69433ca594f4"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/benchmarks/row109/audio_benchmark_corpus_manifest.json",
+      "exists": true,
+      "bytes": 55663,
+      "sha256": "aa714ddd202022b7aa18804f210538b2c57d77723bde2da03e43593bcff9939f"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_audio_benchmark_corpus.py",
+      "exists": true,
+      "bytes": 47605,
+      "sha256": "81a0fbd0ab412903566fad6fb0846e1a48602da3f22e6c12325eb5d13ce4681b"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_row109_audio_benchmark_corpus.py",
+      "exists": true,
+      "bytes": 13419,
+      "sha256": "073629c85592dd6cf009c398faeef0117bf627612b17b96a69ba9e26a4454741"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave64_row109_audio_benchmark_corpus_policy_registry.json",
+      "exists": true,
+      "bytes": 3486,
+      "sha256": "c6bf124e9d8850858769bf2a7b5571b0a8a17a9407ac7911726e1d687cd155ed"
+    },
+    {
+      "path": "Plan/08_SCHEMAS/audio_benchmark_corpus_manifest.schema.json",
+      "exists": true,
+      "bytes": 12903,
+      "sha256": "042063c32378d3f95ec0e82a5a48f4d7a97a01d5063e98e74fed98ed9679b8ab"
+    }
+  ],
+  "clearance_contract": {
+    "status_flip_forbidden_until": [
+      "media/row109 contains rights-cleared genuine_annotated_media_copy cases with human_gold",
+      "partition min_counts satisfied (train>=5, calibration>=11, held_out_test>=11, adversarial>=4)",
+      "rights_decision_sha256 bound; decode_invoked=false during bind",
+      "combined frame/contact/audio review executed under reviews/row109",
+      "held-out runtime proof executed without contaminating reference truth"
+    ],
+    "never_complete_from_this_packet": true,
+    "do_not": [
+      "invent_genuine_annotated_media",
+      "decode_library_pcm",
+      "live_full_library_scan",
+      "touch_row073_pcm",
+      "start_074_076_077_library",
+      "mutate_shared_sound_csv",
+      "claim_COMPLETE_or_row_complete"
+    ]
+  },
+  "boundaries": {
+    "comfyui_8188_used": false,
+    "gpu_used": false,
+    "genuine_media_invented": false,
+    "pcm_decode_invoked": false,
+    "live_full_library_scan": false,
+    "row073_pcm_touched": false,
+    "row074_076_077_library_started": false,
+    "row075_touched": false,
+    "sound_csv_mutated": false,
+    "tip_sha_chain": false,
+    "csv_sync_performed": false,
+    "complete_claimed": false,
+    "offline_only": true
+  },
+  "checks": [
+    {
+      "name": "R109-F001_prior_step1_delta_bound",
+      "result": "pass"
+    },
+    {
+      "name": "R109-F002_live_empty_media_inventory_executed",
+      "result": "pass"
+    },
+    {
+      "name": "R109-F003_media_row109_empty_or_absent",
+      "result": "pass"
+    },
+    {
+      "name": "R109-F004_reviews_row109_empty_or_absent",
+      "result": "pass"
+    },
+    {
+      "name": "R109-F005_zero_genuine_manifest_cases",
+      "result": "pass"
+    },
+    {
+      "name": "R109-F006_hold_cli_fail_closed",
+      "result": "pass"
+    },
+    {
+      "name": "R109-F007_focused_tests_pass",
+      "result": "pass"
+    },
+    {
+      "name": "R109-F008_no_media_invention",
+      "result": "pass"
+    },
+    {
+      "name": "R109-F009_csv_deferred",
+      "result": "pass"
+    },
+    {
+      "name": "R109-F010_row073_pcm_left_alone",
+      "result": "pass"
+    },
+    {
+      "name": "R109-F011_no_complete_claim",
+      "result": "pass"
+    }
+  ],
+  "decision": {
+    "status": "blocked",
+    "row_complete": false,
+    "product_completion": false,
+    "proof_tier": "OFFLINE_INVENTORY_BLOCKER_BOUNDED",
+    "synthetic_fixture_authority_retained": true,
+    "safe_next_action": "Human/external: stage rights-cleared annotated copies under Plan/Instructions/QA/Evidence/Wave64/media/row109 with human_gold and rights_decision_sha256 (decode_invoked=false); recompile to clear GENUINE_ANNOTATED_MEDIA_CORPUS_ABSENT; then execute combined frame/contact/audio review. Agents must not invent media, decode library PCM, touch Row073, start 074/076/077 library, mutate shared CSVs, or claim COMPLETE."
+  },
+  "ledger_status_unchanged": "Blocked_Synthetic_Fixture_Corpus_Present_Genuine_Media_And_Visual_QA_Absent",
+  "this_landing_actions": {
+    "wrote_empty_media_inventory_receipt": true,
+    "wrote_disposition_packet": true,
+    "touched_csv": false,
+    "touched_row073": false,
+    "invented_genuine_media": false,
+    "claimed_complete": false
+  },
+  "recommended_codex_follow_up": "Leave Row109 blocked on Class F human media intake; optional CSV Notes sync via mutator only. Prefer unrelated offline rows or human media staging — do not invent clips."
+}
