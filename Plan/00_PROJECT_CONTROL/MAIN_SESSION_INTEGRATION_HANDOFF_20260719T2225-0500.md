@@ -4,7 +4,7 @@
 
 - Active integration platform: top-level interactive Cursor subagent under continuous autonomous shift plan / proof-tier pivot.
 - Branch: `codex/workflow_plan_update_improvements`
-- Primary commit: `PENDING_STAMP` — Prove Row017 MF70 expression-region local visual climb.
+- Primary commit: `637f0ef0` — Prove Row017 MF70 expression-region local visual climb.
 - Prior tip: `40351c35` (Row071 acceptance stamp). Expression-region runtime/visual evidence was already on disk from a prior disconnected worker; this pass independently validated hashes, validators, and whole-frame QA, then exact-path committed/pushed.
 - Writable scope kept DISJOINT from Row069/070/071 sound/feature surfaces.
 - No COMPLETE / promotion claim.
