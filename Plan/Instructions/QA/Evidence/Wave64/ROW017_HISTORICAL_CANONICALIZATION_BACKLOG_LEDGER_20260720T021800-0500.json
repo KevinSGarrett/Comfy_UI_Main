@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ROW017-HISTORICAL-CANONICALIZATION-BACKLOG-LEDGER-20260720T021800-0500",
+  "created_at": "2026-07-20T02:18:00-05:00",
+  "tracker_id": "TRK-W64-017",
+  "item_id": "ITEM-W64-017",
+  "campaign": "class_c_historical_evidence_debt",
+  "mf70_micro_climb_treadmill": "stopped_this_lane",
+  "denominator_note": "candidate_count_is_not_completion_denominator; row completes only when applicable localized historical backlog is classified and future localized producers emit canonical contract.",
+  "counts": {
+    "focused_w69_w70_local_visual_qa_candidates": 78,
+    "focused_candidates_with_canonical_binding": 78,
+    "focused_candidates_still_unclassified": 0,
+    "historical_canonical_global_reviews_on_disk": 84,
+    "this_batch_normalized_or_rejected": 19,
+    "this_batch_fail_closed_exclusions": 7,
+    "row_complete": false
+  },
+  "blocker_codes_active": [
+    "Blocked_Canonical_Global_Review_Records_Missing_For_Historical_Localized_Changes",
+    "Blocked_Canonical_Historical_Record_Not_Localized_Edit_Artifact",
+    "Blocked_Canonical_Historical_Record_Not_Single_Localized_Change",
+    "Blocked_Canonical_Historical_Record_Outside_Localized_Edit_Scope"
+  ],
+  "prior_batches": [
+    {
+      "stamp": "20260718T163008-0500",
+      "package": "Plan/Instructions/QA/Evidence/Wave64/ROW017_CANONICAL_GLOBAL_REVIEW_NORMALIZATION_20260718T163008-0500.json",
+      "note": "Foundational five-source normalization + one nonlocalized exclusion."
+    },
+    {
+      "stamp": "20260719",
+      "note": "Twelve W70 historical GLOBAL_REVIEW records already tip-tracked from climb commits without a dedicated NORMALIZATION package."
+    },
+    {
+      "stamp": "20260720T014824-0500",
+      "package": "Plan/Instructions/QA/Evidence/Wave64/ROW017_CANONICAL_GLOBAL_REVIEW_NORMALIZATION_20260720T014824-0500.json",
+      "note": "Class C batch: 10 normalize/reject + 5 fail-closed exclusions; landed foundational 20260718 package."
+    },
+    {
+      "stamp": "20260720T020500-0500",
+      "package": "Plan/Instructions/QA/Evidence/Wave64/ROW017_CANONICAL_GLOBAL_REVIEW_NORMALIZATION_20260720T020500-0500.json",
+      "note": "Class C batch: 12 normalize/reject + 10 fail-closed exclusions; bound 52/78."
+    }
+  ],
+  "remaining_unclassified_sample": [],
+  "remaining_unclassified_count": 0,
+  "count_basis": "filesystem_authoritative_binding_scan_over_W69_W70_LOCAL_VISUAL_QA_plus_normalization_exclusions; this batch classified all 26 remaining focused records (19 normalize/reject, 7 exclude).",
+  "residual_note": "No focused W69/W70 LOCAL visual-QA residual remains. Active blocker codes are retained for fail-closed exclusion taxonomy and future-producer contract; row_complete stays false."
+}

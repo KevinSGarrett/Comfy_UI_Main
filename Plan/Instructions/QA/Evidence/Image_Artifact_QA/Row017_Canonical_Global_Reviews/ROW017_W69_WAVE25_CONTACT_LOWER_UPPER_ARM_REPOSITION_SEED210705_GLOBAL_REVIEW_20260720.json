@@ -1,0 +1,108 @@
+{
+  "schema_version": "row017.v1",
+  "artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/images/codex_wave25_contact_lower_upper_arm_reposition_seed210705_00001_.png",
+    "sha256": "033bbcdb1f3be33264fdfc43c342c12f02cb6b90be390bfaaa7e0a59ebcd7831"
+  },
+  "localized_change": {
+    "target_region": "contact_lower_upper_arm_reposition",
+    "source_artifact": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave25_two_character_contact_refine_seed210701_20260707T114731-0500/images/codex_wave25_two_character_contact_refine_seed210701_00001_.png",
+      "sha256": "991ede7b0df2f820d7fbd834a888c1b085958ebf30781840728f190a32e2968c"
+    }
+  },
+  "whole_frame_visual_scan": {
+    "status": "fail",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_WAVE25_CONTACT_LOWER_UPPER_ARM_REPOSITION_SEED210705_VISUAL_QA_20260707T130500-0500.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/images/codex_wave25_contact_lower_upper_arm_reposition_seed210705_00001_.png"
+    ],
+    "pre_edit_status": "pass",
+    "post_edit_status": "fail"
+  },
+  "required_target_region_check": {
+    "status": "fail",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_WAVE25_CONTACT_LOWER_UPPER_ARM_REPOSITION_SEED210705_VISUAL_QA_20260707T130500-0500.json"
+    ],
+    "target_region": "contact_lower_upper_arm_reposition",
+    "findings": [
+      "Legacy mixed blockers retained as fail-closed reject.",
+      "Contact placement remains on shoulder/top upper sleeve rather than lower-upper-arm target; contact shadow unclear."
+    ]
+  },
+  "required_non_target_region_scan": {
+    "status": "pass",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_WAVE25_CONTACT_LOWER_UPPER_ARM_REPOSITION_SEED210705_VISUAL_QA_20260707T130500-0500.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/images/codex_wave25_contact_lower_upper_arm_reposition_seed210705_00001_.png"
+    ],
+    "regions_scanned": [
+      "faces",
+      "hair",
+      "clothing",
+      "background",
+      "non_masked_body",
+      "lighting",
+      "framing"
+    ],
+    "findings": [
+      "Non-contact regions do not introduce a stronger whole-frame regression than the placement miss."
+    ]
+  },
+  "hands_face_body_background_contact_lighting_check": {
+    "hands": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Hands remain coherent for this localized candidate."
+    },
+    "face": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Identity and facial features remain coherent for this localized candidate."
+    },
+    "body": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Visible body/clothing regions remain coherent for this candidate."
+    },
+    "background": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Background remains stable without seams or leakage."
+    },
+    "contact": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "fail",
+      "reason": "Lower-upper-arm placement and contact-shadow targets remain blocking."
+    },
+    "lighting": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Lighting remains coherent across the source/output pair."
+    }
+  },
+  "reject_on_any_global_defect": {
+    "status": "fail",
+    "global_defects": [
+      {
+        "code": "contact_placement_not_exact_target",
+        "severity": "blocking",
+        "region": "contact"
+      },
+      {
+        "code": "contact_shadow_not_clear",
+        "severity": "blocking",
+        "region": "contact"
+      }
+    ],
+    "rejection_applied": true
+  },
+  "overall_decision": "reject"
+}

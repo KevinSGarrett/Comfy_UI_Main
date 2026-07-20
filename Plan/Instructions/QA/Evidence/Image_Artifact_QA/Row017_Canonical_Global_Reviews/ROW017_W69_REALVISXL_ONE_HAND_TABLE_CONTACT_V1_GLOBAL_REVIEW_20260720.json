@@ -1,0 +1,103 @@
+{
+  "schema_version": "row017.v1",
+  "artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_one_hand_table_contact_v1_20260707T041600-0500/images/codex_realvisxl_one_hand_table_contact_00001_.png",
+    "sha256": "ca94d25d71b473e11febf3026fc32149b047b0964d79c62eed434ee0fcc6bacb"
+  },
+  "localized_change": {
+    "target_region": "one_hand_table_contact",
+    "source_artifact": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_hands_contact_followup_v1_20260707T035400-0500/images/codex_realvisxl_hands_contact_followup_00001_.png",
+      "sha256": "8620867cb4795754cfcadfa104e90d894868a2fae174596c22c63c94c554759c"
+    }
+  },
+  "whole_frame_visual_scan": {
+    "status": "fail",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_REALVISXL_ONE_HAND_TABLE_CONTACT_V1_VISUAL_QA_20260707T041800-0500.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_one_hand_table_contact_v1_20260707T041600-0500/images/codex_realvisxl_one_hand_table_contact_00001_.png"
+    ],
+    "pre_edit_status": "pass",
+    "post_edit_status": "fail"
+  },
+  "required_target_region_check": {
+    "status": "fail",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_REALVISXL_ONE_HAND_TABLE_CONTACT_V1_VISUAL_QA_20260707T041800-0500.json"
+    ],
+    "target_region": "one_hand_table_contact",
+    "findings": [
+      "Legacy one-hand target prompt compliance incomplete retained as fail-closed reject.",
+      "Output shows two overlapping hands instead of one isolated visible right hand."
+    ]
+  },
+  "required_non_target_region_scan": {
+    "status": "pass",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_REALVISXL_ONE_HAND_TABLE_CONTACT_V1_VISUAL_QA_20260707T041800-0500.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_one_hand_table_contact_v1_20260707T041600-0500/images/codex_realvisxl_one_hand_table_contact_00001_.png"
+    ],
+    "regions_scanned": [
+      "face",
+      "eyes",
+      "hair",
+      "clothing",
+      "background",
+      "lighting",
+      "framing"
+    ],
+    "findings": [
+      "Portrait composition remains centered and stable; no severe face crop."
+    ]
+  },
+  "hands_face_body_background_contact_lighting_check": {
+    "hands": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "fail",
+      "reason": "Hands fail the localized target or anatomy objective."
+    },
+    "face": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Identity and facial features remain coherent for this localized candidate."
+    },
+    "body": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Visible body/clothing regions remain coherent for this candidate."
+    },
+    "background": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Background remains stable without seams or leakage."
+    },
+    "contact": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Table contact usable, but one-hand-only target failed."
+    },
+    "lighting": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Lighting remains coherent across the source/output pair."
+    }
+  },
+  "reject_on_any_global_defect": {
+    "status": "fail",
+    "global_defects": [
+      {
+        "code": "one_hand_prompt_drift_two_hands_visible",
+        "severity": "blocking",
+        "region": "hands"
+      }
+    ],
+    "rejection_applied": true
+  },
+  "overall_decision": "reject"
+}

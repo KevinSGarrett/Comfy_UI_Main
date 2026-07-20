@@ -1,0 +1,102 @@
+{
+  "schema_version": "row017.v1",
+  "artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_controlnet_openpose_v2_upper_body_hands_w69_20260707T064600-0500/images/openpose_v2_seed711470101.png",
+    "sha256": "7810fbbb9c03e5497a89b54d526b96c20754892fbd44a1cb0ebd99875f341301"
+  },
+  "localized_change": {
+    "target_region": "openpose_upper_body_hands_table_contact",
+    "source_artifact": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_controlnet_openpose_v2_upper_body_hands_w69_20260707T064600-0500/images/codex_sdxl_realvisxl_controlnet_openpose_control_map_diagnostic_00002_.png",
+      "sha256": "ccb2ae834e9cc944156850c837a22f748b840ed8aa065d1cecfc0a6e15a749f4"
+    }
+  },
+  "whole_frame_visual_scan": {
+    "status": "fail",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_V2_UPPER_BODY_HANDS_VISUAL_QA_20260707T064800-0500.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_controlnet_openpose_v2_upper_body_hands_w69_20260707T064600-0500/images/openpose_v2_seed711470101.png"
+    ],
+    "pre_edit_status": "pass",
+    "post_edit_status": "fail"
+  },
+  "required_target_region_check": {
+    "status": "fail",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_V2_UPPER_BODY_HANDS_VISUAL_QA_20260707T064800-0500.json"
+    ],
+    "target_region": "openpose_upper_body_hands_table_contact",
+    "findings": [
+      "Legacy qa_failed_for_openpose_hands_robustness_target retained as fail-closed reject.",
+      "Generated image omits hands and tabletop contact."
+    ]
+  },
+  "required_non_target_region_scan": {
+    "status": "pass",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_OPENPOSE_V2_UPPER_BODY_HANDS_VISUAL_QA_20260707T064800-0500.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_controlnet_openpose_v2_upper_body_hands_w69_20260707T064600-0500/images/openpose_v2_seed711470101.png"
+    ],
+    "regions_scanned": [
+      "face",
+      "hair",
+      "clothing",
+      "pose_map_leakage",
+      "lighting",
+      "framing"
+    ],
+    "findings": [
+      "No pose-map leakage observed; failure is target exercise, not control leakage."
+    ]
+  },
+  "hands_face_body_background_contact_lighting_check": {
+    "hands": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "fail",
+      "reason": "Hands fail the localized target or anatomy objective."
+    },
+    "face": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Identity and facial features remain coherent for this localized candidate."
+    },
+    "body": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Visible body/clothing regions remain coherent for this candidate."
+    },
+    "background": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Background remains stable without seams or leakage."
+    },
+    "contact": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "fail",
+      "reason": "Hands/tabletop contact target not exercised."
+    },
+    "lighting": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Lighting remains coherent across the source/output pair."
+    }
+  },
+  "reject_on_any_global_defect": {
+    "status": "fail",
+    "global_defects": [
+      {
+        "code": "OPENPOSE_V2_HANDS_TARGET_NOT_EXERCISED",
+        "severity": "blocking",
+        "region": "hands"
+      }
+    ],
+    "rejection_applied": true
+  },
+  "overall_decision": "reject"
+}
