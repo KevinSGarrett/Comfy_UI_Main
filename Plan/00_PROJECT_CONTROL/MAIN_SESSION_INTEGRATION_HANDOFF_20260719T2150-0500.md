@@ -12,8 +12,10 @@
 ## Commits Pushed This Pass
 
 1. `adb71b6e` Prove Row017 MF70 right-eye local visual climb.
+2. `c376312d` Stamp Row017 right-eye handoff with primary commit id.
+3. `bb40468e` Finalize Row017 right-eye handoff tip commit ids.
 
-Pushed tip verified on origin: `PENDING_TIP`
+Pushed tip verified on origin: `bb40468e`
 
 ## Row-Scoped Increment Executed
 
