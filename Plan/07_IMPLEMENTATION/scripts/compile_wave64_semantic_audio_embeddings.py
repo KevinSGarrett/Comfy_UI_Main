@@ -593,7 +593,8 @@ def build_library_blocker_packet(root: Path) -> dict[str, Any]:
     blocker_codes: list[str] = []
     for admission in (row069, row070):
         blocker_codes.extend(admission["blocker_codes"])
-    if not (row069["dependency_satisfied"] and row070["dependency_satisfied"]):
+    deps_unlocked = bool(row069["dependency_satisfied"] and row070["dependency_satisfied"])
+    if not deps_unlocked:
         blocker_codes.append("ROW069_ROW070_DEPENDENCIES_NOT_ACCEPTED")
     for code in (
         "EMBEDDING_MODEL_NOT_SELECTED_OR_INSTALLED",
@@ -604,6 +605,30 @@ def build_library_blocker_packet(root: Path) -> dict[str, Any]:
     ):
         if code not in blocker_codes:
             blocker_codes.append(code)
+
+    if deps_unlocked:
+        status = "HOLD_LIBRARY_EMBEDDING_MODEL_AND_INDEX_ABSENT_DEPS_UNLOCKED"
+        proof_tier = "CONTRACT_PASS_BOUNDED"
+        safe_next = (
+            "Rows069-070 library authority is accepted. Select and license-bind one exact "
+            "embedding model file-set; freeze preprocessing and taxonomy serialization "
+            "hashes; build a hash-bound embedding index; prove exact or tolerance-bound "
+            "determinism and disjoint held-out retrieval across required slices; then "
+            "replace this hold packet with library embedding evidence. Do not start a "
+            "full-library PCM/embedding scan while Row075 retained-index defect reconcile "
+            "owns library I/O."
+        )
+    else:
+        status = "HOLD_ROW069_ROW070_DEPENDENCIES_AND_LIBRARY_EMBEDDING_RUNTIME_ABSENT"
+        proof_tier = "CONTRACT_PASS_BOUNDED"
+        safe_next = (
+            "Accept Row069 canonical inventory authority and Row070 deterministic "
+            "canonical decode; select and license-bind one exact embedding model "
+            "file-set; freeze preprocessing and taxonomy serialization hashes; "
+            "build a hash-bound embedding index; prove exact or tolerance-bound "
+            "determinism and disjoint held-out retrieval across required slices; "
+            "then replace this hold packet with library embedding evidence."
+        )
 
     fixture_records = [extract_fixture_record(root, name) for name in FIXTURE_NAMES]
     assert_partitions_disjoint(fixture_records)
@@ -619,7 +644,9 @@ def build_library_blocker_packet(root: Path) -> dict[str, Any]:
         "implementation_completion_claimed": False,
         "runtime_completion_claimed": False,
         "library_authority": False,
-        "status": "HOLD_ROW069_ROW070_DEPENDENCIES_AND_LIBRARY_EMBEDDING_RUNTIME_ABSENT",
+        "proof_tier": proof_tier,
+        "highest_proof_tier_achieved": proof_tier,
+        "status": status,
         "required_embedding_spaces": list(REQUIRED_EMBEDDING_SPACES),
         "validation_methods": [
             "model_hash",
@@ -629,6 +656,7 @@ def build_library_blocker_packet(root: Path) -> dict[str, Any]:
         ],
         "row069_admission": row069,
         "row070_admission": row070,
+        "dependencies_unlocked": deps_unlocked,
         "embedding_registry": {
             "path": str(REGISTRY_PATH).replace("\\", "/"),
             "registry_revision": registry["registry_revision"],
@@ -652,16 +680,10 @@ def build_library_blocker_packet(root: Path) -> dict[str, Any]:
         "decision": {
             "status": "blocked",
             "row077_acceptance": "held",
+            "dependencies_unlocked": deps_unlocked,
             "product_completion": False,
             "runtime_completion": False,
-            "safe_next_action": (
-                "Accept Row069 canonical inventory authority and Row070 deterministic "
-                "canonical decode; select and license-bind one exact embedding model "
-                "file-set; freeze preprocessing and taxonomy serialization hashes; "
-                "build a hash-bound embedding index; prove exact or tolerance-bound "
-                "determinism and disjoint held-out retrieval across required slices; "
-                "then replace this hold packet with library embedding evidence."
-            ),
+            "safe_next_action": safe_next,
         },
     }
 

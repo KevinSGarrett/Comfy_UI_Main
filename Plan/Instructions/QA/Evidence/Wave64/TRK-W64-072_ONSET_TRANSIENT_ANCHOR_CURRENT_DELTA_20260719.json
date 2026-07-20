@@ -1,39 +1,4 @@
 {
-  "schema_version": 1,
-  "evidence_id": "W64-ROW072-ONSET-TRANSIENT-ANCHOR-CURRENT-DELTA-20260719",
-  "created_at": "2026-07-19T03:09:59.1691849Z",
-  "updated_at": "2026-07-20T05:22:14.655407Z",
-  "source_commit": "PENDING_THIS_PASS",
-  "tracker_id": "TRK-W64-072",
-  "item_id": "ITEM-W64-072",
-  "status": "HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE",
-  "classification": "ROW072_FULL_LIBRARY_RECONCILE_COMPLETE_THRESHOLDS_AND_BENCHMARK_STRATA_HELD_NO_FALSE_COMPLETION",
-  "proof_tier": "RUNTIME_PASS_BOUNDED",
-  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
-  "row_complete": false,
-  "implementation_completion_claimed": false,
-  "runtime_completion_claimed": true,
-  "qa_decision": "full_library_onset_reconcile_complete_under_frozen_synthetic_thresholds_without_library_authority_or_product_completion",
-  "increment": {
-    "kind": "full_library_onset_reconcile_coverage_complete",
-    "detector_revision": "wave64_row072_onset_transient_detector_v0.1.0",
-    "threshold_registry_revision": "wave64_row072_onset_thresholds_v0.1.0",
-    "summary": "Finished retained-index onset reconcile over all 39771 accepted Row071 records (onset_pass=6359, exact_blockers=33412). Cleared FULL_LIBRARY_RECONCILE_IN_PROGRESS_TIME_BOUND. Remaining holds: REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY and FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT. No product COMPLETE.",
-    "changed_paths": [
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_onset_transient_detection.json",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ACCEPTED_INDEX_RETAINED_ONSET_SUMMARY_20260719.json",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ONSET_TRANSIENT_ANCHOR_CURRENT_DELTA_20260719.json"
-    ]
-  },
-  "focused_validators": {
-    "full_library_command": "python Plan/07_IMPLEMENTATION/scripts/detect_wave64_onset_transient_anchors.py --mode index-retained --resume",
-    "exit_code": 0,
-    "coverage_complete": true,
-    "records_processed": 39771,
-    "onset_pass": 6359,
-    "exact_blockers": 33412,
-    "library_hold_packet_status": "HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE"
-  },
   "acceptance_gaps": [
     {
       "code": "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
@@ -48,25 +13,10 @@
     "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
     "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT"
   ],
-  "direct_evidence": {
-    "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_onset_transient_detection.json",
-    "sha256": "b9ac70d193d6d79323bdbbd8e9ce5d5073a29fb89bc9c8851c9a2b814232a4b0",
-    "bytes": 28853,
-    "status": "HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE",
-    "library_authority": false,
-    "row_complete": false,
-    "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ACCEPTED_INDEX_RETAINED_ONSET_SUMMARY_20260719.json",
-    "summary_sha256": "cc6536d408d9459e957212518b84d67088992889a9efadb24b9c288e05878fed",
-    "runtime_receipt_path": "runtime_artifacts/onset_anchors/row072_index_retained_20260719/retained_index_onset_receipt.json",
-    "runtime_records_sha256": "2c7b6e8d70718406ed3fb6e26c69a8990b6bbaf18311d3ffc9fa3a8bf9efdad5"
-  },
-  "decision": {
-    "dependencies_unlocked": true,
-    "product_completion": false,
-    "row072_acceptance": "held",
-    "runtime_completion": true,
-    "safe_next_action": "Full-library onset reconcile covered retained Row071 records under frozen synthetic thresholds. Calibrate representative library strata with truth onsets and unfreeze threshold authority before Row072 acceptance or Row093 unlock.",
-    "status": "blocked"
+  "check_summary": {
+    "checked": 5,
+    "failed": 0,
+    "passed": 5
   },
   "checks": [
     {
@@ -90,11 +40,68 @@
       "result": "pass"
     }
   ],
-  "check_summary": {
-    "checked": 5,
-    "passed": 5,
-    "failed": 0
+  "classification": "ROW072_FULL_LIBRARY_RECONCILE_COMPLETE_THRESHOLDS_AND_BENCHMARK_STRATA_HELD_NO_FALSE_COMPLETION",
+  "created_at": "2026-07-19T03:09:59.1691849Z",
+  "decision": {
+    "dependencies_unlocked": true,
+    "product_completion": false,
+    "row072_acceptance": "held",
+    "runtime_completion": true,
+    "safe_next_action": "Full-library onset reconcile covered retained Row071 records under frozen synthetic thresholds. Calibrate representative library strata with truth onsets and unfreeze threshold authority before Row072 acceptance or Row093 unlock.",
+    "status": "blocked"
   },
+  "direct_evidence": {
+    "bytes": 28853,
+    "library_authority": false,
+    "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_onset_transient_detection.json",
+    "row_complete": false,
+    "runtime_receipt_path": "runtime_artifacts/onset_anchors/row072_index_retained_20260719/retained_index_onset_receipt.json",
+    "runtime_records_sha256": "2c7b6e8d70718406ed3fb6e26c69a8990b6bbaf18311d3ffc9fa3a8bf9efdad5",
+    "sha256": "b9ac70d193d6d79323bdbbd8e9ce5d5073a29fb89bc9c8851c9a2b814232a4b0",
+    "status": "HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE",
+    "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ACCEPTED_INDEX_RETAINED_ONSET_SUMMARY_20260719.json",
+    "summary_sha256": "cc6536d408d9459e957212518b84d67088992889a9efadb24b9c288e05878fed"
+  },
+  "docker_cvat": "not-needed",
   "ec2": "EC2_DEFERRED",
-  "docker_cvat": "not-needed"
+  "evidence_id": "W64-ROW072-ONSET-TRANSIENT-ANCHOR-CURRENT-DELTA-20260719",
+  "focused_validators": {
+    "coverage_complete": true,
+    "exact_blockers": 33412,
+    "exit_code": 0,
+    "full_library_command": "python Plan/07_IMPLEMENTATION/scripts/detect_wave64_onset_transient_anchors.py --mode index-retained --resume",
+    "library_hold_packet_status": "HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE",
+    "onset_pass": 6359,
+    "records_processed": 39771
+  },
+  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+  "implementation_completion_claimed": false,
+  "increment": {
+    "changed_paths": [
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_onset_transient_detection.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ACCEPTED_INDEX_RETAINED_ONSET_SUMMARY_20260719.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ONSET_TRANSIENT_ANCHOR_CURRENT_DELTA_20260719.json"
+    ],
+    "detector_revision": "wave64_row072_onset_transient_detector_v0.1.0",
+    "kind": "full_library_onset_reconcile_coverage_complete",
+    "summary": "Finished retained-index onset reconcile over all 39771 accepted Row071 records (onset_pass=6359, exact_blockers=33412). Cleared FULL_LIBRARY_RECONCILE_IN_PROGRESS_TIME_BOUND. Remaining holds: REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY and FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT. No product COMPLETE.",
+    "threshold_registry_revision": "wave64_row072_onset_thresholds_v0.1.0"
+  },
+  "item_id": "ITEM-W64-072",
+  "ledger_status": "Blocked_Library_Thresholds_And_Benchmark_Strata_Absent_Reconcile_Complete",
+  "ledger_vocabulary_sync": {
+    "ledger_status": "Blocked_Library_Thresholds_And_Benchmark_Strata_Absent_Reconcile_Complete",
+    "note": "Notes hygiene: coverage_complete true under frozen thresholds; strata/threshold holds remain; no COMPLETE.",
+    "product_completion": false,
+    "synced_at": "2026-07-20T05:47:01.698653Z"
+  },
+  "proof_tier": "RUNTIME_PASS_BOUNDED",
+  "qa_decision": "full_library_onset_reconcile_complete_under_frozen_synthetic_thresholds_without_library_authority_or_product_completion",
+  "row_complete": false,
+  "runtime_completion_claimed": true,
+  "schema_version": 1,
+  "source_commit": "PENDING_THIS_PASS",
+  "status": "HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE",
+  "tracker_id": "TRK-W64-072",
+  "updated_at": "2026-07-20T05:47:01.698653Z"
 }

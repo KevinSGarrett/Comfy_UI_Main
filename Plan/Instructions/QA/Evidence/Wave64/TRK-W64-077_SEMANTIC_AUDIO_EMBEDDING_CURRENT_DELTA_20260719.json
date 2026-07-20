@@ -1,179 +1,44 @@
 {
-  "schema_version": 1,
-  "evidence_id": "W64-ROW077-SEMANTIC-AUDIO-EMBEDDING-CURRENT-DELTA-20260719",
-  "created_at": "2026-07-19T03:39:26.4338328Z",
-  "updated_at": "2026-07-19T20:19:46Z",
-  "source_commit": "786234fd77dc46117ab1d7c0f60a769720a39cd7",
-  "prior_row_commit": "2a26113966b86885b641a10ce16718f08cc70730",
-  "prior_row_commit_is_current_head": false,
-  "tracker_id": "TRK-W64-077",
-  "item_id": "ITEM-W64-077",
-  "status": "HOLD_ROW069_ROW070_DEPENDENCIES_AND_LIBRARY_EMBEDDING_RUNTIME_ABSENT",
-  "classification": "ROW077_FAIL_CLOSED_CONTRACT_SLICE_NO_FALSE_COMPLETION",
-  "row_complete": false,
-  "implementation_completion_claimed": false,
-  "runtime_completion_claimed": false,
-  "qa_decision": "hold_with_fail_closed_embedding_contract_and_synthetic_fixture_calibration_only",
-  "increment": {
-    "kind": "fail_closed_contract_and_compiler_slice",
-    "compiler_revision": "wave64_row077_semantic_audio_embedding_compiler_v0.1.0",
-    "registry_revision": "wave64_row077_semantic_audio_embedding_registry_v0.1.0",
-    "summary": "Freeze Row077 embedding-space registry, schema-required model/preprocessing/index identities, synthetic audio/text compatible vectors, exact-repeat determinism, held-out retrieval fixture proof, unknown abstention, and non-certifying similarity policy; refuse library authority until Rows069 and 070 are accepted and a production model is selected.",
-    "writable_scope_note": "Disjoint from sibling Row089 fixtures, Row069 full hash, Row091, Row080, Row082, and Row084 mux envelope paths."
-  },
-  "row077_contract": {
-    "status": "Planned_Autonomous_Implementation_Required",
-    "priority": "P1",
-    "risk": "HIGH",
-    "dependency_prerequisites": [
-      "TRK-W64-069",
-      "TRK-W64-070"
-    ],
-    "validation_methods": [
-      "model_hash",
-      "preprocessing_hash",
-      "embedding_determinism",
-      "heldout_retrieval"
-    ],
-    "output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-077_semantic_audio_embeddings.json",
-    "output_artifact_exists": true,
-    "output_artifact_authority": "fail_closed_hold_packet_not_library_acceptance",
-    "completion_criteria": "Held-out semantic retrieval passes registered metrics with exact model, preprocessing, and embedding-index identity.",
-    "required_embedding_spaces": [
-      "source_audio",
-      "event",
-      "action",
-      "body_part",
-      "material",
-      "footwear",
-      "object",
-      "environment",
-      "intensity",
-      "acoustic_descriptor"
-    ],
-    "required_identity": [
-      "embedding_model_name",
-      "embedding_model_revision",
-      "embedding_model_file_sha256",
-      "model_code_revision",
-      "preprocessing_configuration_sha256",
-      "taxonomy_revision_sha256",
-      "embedding_dimension_dtype_and_normalization",
-      "embedding_index_revision_and_sha256"
-    ],
-    "required_behavior": [
-      "audio and text-taxonomy embeddings share a frozen compatible space",
-      "identical inputs and configuration produce deterministic vectors or a frozen tolerance contract",
-      "held-out retrieval passes registered metrics and slices",
-      "calibration and held-out partitions remain disjoint",
-      "embedding similarity cannot alone certify a sound",
-      "unknown and ambiguous retrieval remains visible and fail-closed"
-    ],
-    "runtime_proof_required": true,
-    "ec2_allowed": true,
-    "ec2_used_for_this_audit": false,
-    "final_render_gate": "BLOCKED_UNTIL_EXACT_ROW_IMPLEMENTATION_RUNTIME_QA_AND_AUTHORITY_PASS"
-  },
-  "implemented_slice": {
-    "compiler_path": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_semantic_audio_embeddings.py",
-    "compiler_sha256": "c9f3f78c2c56d6748559ad3d772b1f5c2c41be56306944b5f79d8a862ebfee11",
-    "compiler_bytes": 28406,
-    "schema_path": "Plan/08_SCHEMAS/semantic_audio_embedding_record.schema.json",
-    "schema_sha256": "0baf89b22072e255950a60a6d6d2fb2dbd0bbab2f2ec756343979524d8fdb105",
-    "schema_bytes": 8785,
-    "embedding_registry_path": "Plan/10_REGISTRIES/wave64_row077_semantic_audio_embedding_registry.json",
-    "embedding_registry_sha256": "f321da321619e4101eb47c3107cfa521384068cba308d8655458ac2c489ca0ee",
-    "embedding_registry_bytes": 4144,
-    "test_path": "Plan/Instructions/QA/Scripts/test_row077_semantic_audio_embeddings.py",
-    "test_sha256": "acc463e4b8d6aa2af00e814331eb04e72e2642f2c870db448a286bb8bdd43a55",
-    "test_bytes": 5697,
-    "direct_evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-077_semantic_audio_embeddings.json",
-    "direct_evidence_sha256": "a4bf9dc25635f4f10dbef43a6a7a2711e26c9b8b427b5a7dad9720c075e71c02",
-    "direct_evidence_bytes": 24157,
-    "capabilities_now_present": [
-      "frozen_compiler_and_registry_revisions",
-      "schema_required_model_preprocessing_index_identities",
-      "synthetic_audio_text_compatible_fixture_space",
-      "exact_repeat_embedding_determinism_fixture",
-      "heldout_nearest_neighbor_fixture_ordering",
-      "unknown_ambiguous_fail_closed_abstention",
-      "similarity_non_certifying_policy_enforced",
-      "row069_row070_admission_fail_closed_gates",
-      "library_mode_hold_packet_without_false_completion"
-    ],
-    "explicitly_not_claimed": [
-      "full_library_embedding_generation_runtime",
-      "accepted_row069_inventory_authority",
-      "accepted_row070_canonical_decode_authority",
-      "selected_installed_hash_reconciled_clap_or_other_model",
-      "production_preprocessing_runtime_on_decoded_pcm",
-      "hash_bound_full_library_embedding_index",
-      "held_out_retrieval_metrics_on_real_audio",
-      "row077_product_completion",
-      "row077_runtime_completion",
-      "downstream_row078_row080_row108_row112_unblocking"
-    ]
-  },
-  "dependency_authority": [
+  "acceptance_gaps": [
     {
-      "tracker_id": "TRK-W64-069",
-      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-069_FULL_AUDIO_LIBRARY_INDEX_CURRENT_DELTA_20260719.json",
-      "row_complete": false,
-      "dependency_satisfied": false,
-      "reason": "An embedding index must reconcile to an accepted full source inventory and canonical asset identities; Row069 remains held."
+      "code": "EMBEDDING_INDEX_LIBRARY_RUNTIME_ABSENT",
+      "detail": "Remaining after Rows069/070 unlock."
     },
     {
-      "tracker_id": "TRK-W64-070",
-      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_CANONICAL_AUDIO_DECODE_CURRENT_DELTA_20260719.json",
-      "row_complete": false,
-      "dependency_satisfied": false,
-      "reason": "Audio embeddings require deterministic canonical decoded input and exact preprocessing truth; Row070 remains held."
+      "code": "EMBEDDING_MODEL_NOT_SELECTED_OR_INSTALLED",
+      "detail": "Remaining after Rows069/070 unlock."
+    },
+    {
+      "code": "FULL_LIBRARY_EMBEDDING_RECONCILIATION_ABSENT",
+      "detail": "Remaining after Rows069/070 unlock."
+    },
+    {
+      "code": "HELDOUT_RETRIEVAL_LIBRARY_METRICS_ABSENT",
+      "detail": "Remaining after Rows069/070 unlock."
+    },
+    {
+      "code": "PREPROCESSING_RUNTIME_UNBOUND",
+      "detail": "Remaining after Rows069/070 unlock."
     }
+  ],
+  "blocker_codes": [
+    "EMBEDDING_INDEX_LIBRARY_RUNTIME_ABSENT",
+    "EMBEDDING_MODEL_NOT_SELECTED_OR_INSTALLED",
+    "FULL_LIBRARY_EMBEDDING_RECONCILIATION_ABSENT",
+    "HELDOUT_RETRIEVAL_LIBRARY_METRICS_ABSENT",
+    "PREPROCESSING_RUNTIME_UNBOUND"
   ],
   "checks": [
     {
-      "name": "frozen_embedding_registry_present",
-      "status": "PASS"
-    },
-    {
-      "name": "schema_requires_full_row077_contract",
-      "status": "PASS"
-    },
-    {
-      "name": "audio_text_compatible_space_fixture_tested",
-      "status": "PASS",
-      "scope": "fixture_and_contract_only"
-    },
-    {
-      "name": "embedding_determinism_fixture_tested",
-      "status": "PASS",
-      "scope": "fixture_and_contract_only"
-    },
-    {
-      "name": "heldout_retrieval_fixture_tested",
-      "status": "PASS",
-      "scope": "fixture_and_contract_only"
-    },
-    {
-      "name": "unknown_fail_closed_fixture_tested",
-      "status": "PASS",
-      "scope": "fixture_and_contract_only"
-    },
-    {
-      "name": "similarity_non_certifying_policy_tested",
-      "status": "PASS",
-      "scope": "fixture_and_contract_only"
-    },
-    {
       "name": "row069_dependency_complete",
-      "status": "FAIL"
+      "status": "PASS"
     },
     {
       "name": "row070_dependency_complete",
-      "status": "FAIL"
+      "status": "PASS"
     },
     {
-      "name": "production_model_selected_installed_and_hash_reconciled",
+      "name": "production_model_selected",
       "status": "FAIL"
     },
     {
@@ -181,73 +46,111 @@
       "status": "FAIL"
     },
     {
-      "name": "heldout_retrieval_library_metrics_present",
-      "status": "FAIL"
-    },
-    {
       "name": "focused_row077_validators",
-      "status": "PASS",
-      "observed": "10 passed"
-    },
-    {
-      "name": "ec2_or_runtime_mutated_by_this_increment",
-      "status": "PASS",
-      "observed": false
+      "observed": "11 passed",
+      "status": "PASS"
     },
     {
       "name": "row077_completion_claim_safe",
       "status": "FAIL"
+    },
+    {
+      "name": "no_full_library_pcm_contention_with_row075",
+      "status": "PASS"
     }
   ],
-  "test_and_runtime_boundary": {
-    "source_tests_audited": true,
-    "tests_executed_for_this_delta": true,
-    "test_command": "python -m pytest Plan/Instructions/QA/Scripts/test_row077_semantic_audio_embeddings.py -q",
-    "test_result": "10 passed",
-    "audio_opened_or_decoded": false,
-    "embedding_model_loaded": false,
-    "embedding_generation_invoked": true,
-    "embedding_generation_scope": "synthetic_fixtures_and_library_hold_packet_only",
-    "model_download_invoked": false,
-    "ec2_invoked": false,
-    "docker_invoked": false,
-    "wsl_invoked": false,
-    "provider_calls": 0,
-    "wrapper_calls": 0,
-    "scheduled_task_wakes": 0
-  },
-  "preservation_boundary": {
-    "owned_paths": [
-      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_semantic_audio_embeddings.py",
-      "Plan/08_SCHEMAS/semantic_audio_embedding_record.schema.json",
-      "Plan/10_REGISTRIES/wave64_row077_semantic_audio_embedding_registry.json",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-077_SEMANTIC_AUDIO_EMBEDDING_CURRENT_DELTA_20260719.json",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-077_semantic_audio_embeddings.json",
-      "Plan/Instructions/QA/Scripts/test_row077_semantic_audio_embeddings.py"
-    ],
-    "sibling_scopes_preserved": [
-      "TRK-W64-089_fixtures",
-      "TRK-W64-069_full_hash",
-      "TRK-W64-091",
-      "TRK-W64-080",
-      "TRK-W64-082",
-      "TRK-W64-084_mux_envelope",
-      "TRK-W64-078"
-    ],
-    "unrelated_dirty_and_untracked_paths_preserved": true,
-    "retained_audio_index_preserved": true
-  },
+  "classification": "ROW077_DEPS_UNLOCKED_MODEL_AND_INDEX_ABSENT_NO_FALSE_COMPLETION",
+  "created_at": "2026-07-19T03:39:26.4338328Z",
   "decision": {
-    "fail_closed_contract_slice": "accepted_as_bounded_increment",
-    "row077_status": "Planned_Autonomous_Implementation_Required",
+    "dependencies_unlocked": true,
+    "library_authority": false,
+    "product_completion": false,
     "row077_acceptance": "held",
     "runtime_completion": false,
-    "product_completion": false,
-    "safe_next_action": "Accept or complete Rows069 and 070 next; select and hash-reconcile one embedding model file-set; freeze preprocessing/taxonomy identities; then extend Row077 library mode to embed retained assets and prove held-out retrieval before claiming completion."
+    "safe_next_action": "Rows069-070 library authority is accepted. Select and license-bind one exact embedding model file-set; freeze preprocessing and taxonomy serialization hashes; build a hash-bound embedding index; prove exact or tolerance-bound determinism and disjoint held-out retrieval across required slices; then replace this hold packet with library embedding evidence. Do not start a full-library PCM/embedding scan while Row075 retained-index defect reconcile owns library I/O.",
+    "status": "blocked"
   },
-  "hold_decision": {
-    "decision": "HOLD_ROW077_NO_FALSE_COMPLETION",
-    "reason": "The fail-closed embedding contract, compiler, schema, registry, fixture calibration, and focused validators are now present, but Rows069/070 remain incomplete and no production model, library index, or real held-out retrieval metrics exist.",
-    "safe_next_action": "Keep Row077 held. Continue independent work on dependency rows; do not claim Row077 product or runtime completion from this contract slice."
-  }
+  "dependency_authority": [
+    {
+      "dependency_satisfied": true,
+      "reason": "library index authority accepted",
+      "row_complete": true,
+      "tracker_id": "TRK-W64-069"
+    },
+    {
+      "dependency_satisfied": true,
+      "reason": "library PCM authority accepted",
+      "row_complete": true,
+      "tracker_id": "TRK-W64-070"
+    }
+  ],
+  "direct_evidence": {
+    "bytes": 24132,
+    "dependencies_unlocked": true,
+    "library_authority": false,
+    "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-077_semantic_audio_embeddings.json",
+    "row_complete": false,
+    "sha256": "a6ea1a177145635e49525cec2773712b0df0431610bf69a5ba895681dbbeb181",
+    "status": "HOLD_LIBRARY_EMBEDDING_MODEL_AND_INDEX_ABSENT_DEPS_UNLOCKED"
+  },
+  "docker_cvat": "not-needed",
+  "ec2": "EC2_DEFERRED",
+  "evidence_id": "W64-ROW077-SEMANTIC-AUDIO-EMBEDDING-CURRENT-DELTA-20260719",
+  "focused_validators": {
+    "exit_code": 0,
+    "library_compile_status": "HOLD_LIBRARY_EMBEDDING_MODEL_AND_INDEX_ABSENT_DEPS_UNLOCKED",
+    "test_command": "python -m pytest Plan/Instructions/QA/Scripts/test_row077_semantic_audio_embeddings.py -q",
+    "test_result": "11 passed"
+  },
+  "highest_proof_tier_achieved": "CONTRACT_PASS_BOUNDED",
+  "implementation_completion_claimed": false,
+  "implemented_slice": {
+    "compiler_bytes": 29482,
+    "compiler_path": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_semantic_audio_embeddings.py",
+    "compiler_sha256": "98e249421be556777b2d980bd70eede3da67ad251c1e39bb4343a1e2c8c24542",
+    "embedding_registry_path": "Plan/10_REGISTRIES/wave64_row077_semantic_audio_embedding_registry.json",
+    "embedding_registry_sha256": "1fa0a87c102350599f1f4474d60aaa201c2249a8c677e534ab90549b4123d150",
+    "schema_path": "Plan/08_SCHEMAS/semantic_audio_embedding_record.schema.json",
+    "schema_sha256": "0baf89b22072e255950a60a6d6d2fb2dbd0bbab2f2ec756343979524d8fdb105",
+    "test_bytes": 7352,
+    "test_path": "Plan/Instructions/QA/Scripts/test_row077_semantic_audio_embeddings.py",
+    "test_sha256": "63eb4789be81a48988b61155c4a05b98a683d4bd54a3d8dba6461c8bd5fc76e9"
+  },
+  "increment": {
+    "changed_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_semantic_audio_embeddings.py",
+      "Plan/Instructions/QA/Scripts/test_row077_semantic_audio_embeddings.py",
+      "Plan/10_REGISTRIES/wave64_row077_semantic_audio_embedding_registry.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-077_semantic_audio_embeddings.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-077_SEMANTIC_AUDIO_EMBEDDING_CURRENT_DELTA_20260719.json",
+      "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_TRACKER_ROWS.csv",
+      "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ITEM_ROWS.csv"
+    ],
+    "compiler_revision": "wave64_row077_semantic_audio_embedding_compiler_v0.1.0",
+    "kind": "dependency_unlock_and_ledger_vocabulary_sync",
+    "registry_revision": "wave64_row077_semantic_audio_embedding_registry_v0.1.0",
+    "summary": "Cleared Row069/070 dependency hold; admission now deps-unlocked. Remaining blockers are model/index/runtime only. No COMPLETE; no full-library embedding scan while Row075 owns library I/O."
+  },
+  "item_id": "ITEM-W64-077",
+  "ledger_status": "Blocked_Library_Embedding_Model_And_Index_Absent_Deps_Unlocked",
+  "library_authority": false,
+  "proof_tier": "CONTRACT_PASS_BOUNDED",
+  "qa_decision": "deps_unlocked_hold_model_selection_and_library_index_absent",
+  "row_complete": false,
+  "runtime_completion_claimed": false,
+  "schema_version": 1,
+  "source_commit": "PENDING_THIS_PASS",
+  "status": "HOLD_LIBRARY_EMBEDDING_MODEL_AND_INDEX_ABSENT_DEPS_UNLOCKED",
+  "test_and_runtime_boundary": {
+    "audio_opened_or_decoded": false,
+    "docker_invoked": false,
+    "ec2_invoked": false,
+    "embedding_model_loaded": false,
+    "full_library_scan_started": false,
+    "test_command": "python -m pytest Plan/Instructions/QA/Scripts/test_row077_semantic_audio_embeddings.py -q",
+    "test_result": "11 passed",
+    "tests_executed_for_this_delta": true
+  },
+  "tracker_id": "TRK-W64-077",
+  "updated_at": "2026-07-20T05:47:01.698653Z"
 }
