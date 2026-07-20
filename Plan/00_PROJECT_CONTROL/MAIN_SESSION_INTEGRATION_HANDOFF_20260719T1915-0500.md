@@ -5,6 +5,8 @@
 - Active integration platform: top-level interactive Cursor session with bounded Git/GitHub authority.
 - Branch: `codex/workflow_plan_update_improvements`
 - Pre-commit HEAD: reconstruct at shift start from prior Row070 tip `7e872ed3` / `8d4b2d93`; unrelated Row017 forehead sibling commits landed on the same branch afterward and remain DISJOINT.
+- Pushed commit: `4e764094` — Expand Row070 decode coverage and accept library PCM authority.
+- Upstream: `origin/codex/workflow_plan_update_improvements` (parity verified at `4e764094`)
 - Policy pivot obeyed: local retained-index runtime proof ladder; EC2 deferred; Docker/CVAT unused; no product COMPLETE claim.
 - Writable scope limited to Row070 decode + schema + tracker/items notes + this handoff.
 
