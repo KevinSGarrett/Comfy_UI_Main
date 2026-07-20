@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ROW017-LOCAL-RUNTIME-HISTORICAL-CANONICALIZATION-CLIMB-20260719T231500-0500",
+  "created_at": "2026-07-19T23:18:00-05:00",
+  "tracker_id": "TRK-W64-017",
+  "item_id": "ITEM-W64-017",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+  "decision": "Climbed Row017 with an independent local ComfyUI MF70 face_identity_critical runtime + direct whole-frame visual QA (canonical pass). Alignment caveat respected (Wave70 mask-alignment still fail-closed). Prior teeth / face_full_instance climbs retained. This does not complete historical normalization.",
+  "row_complete": false,
+  "local_only": true,
+  "generation_executed": true,
+  "canonical_reviews_this_pass": [
+    {
+      "path": "Plan\\Instructions\\QA\\Evidence\\Image_Artifact_QA\\Row017_Canonical_Global_Reviews\\ROW017_LOCAL_MF70_FACE_IDENTITY_CRITICAL_20260719T231500-0500_GLOBAL_REVIEW.json",
+      "decision": "pass"
+    }
+  ],
+  "retained_reviews": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_LOCAL_MF70_TEETH_20260719T224800-0500_GLOBAL_REVIEW.json",
+      "note": "prior_teeth_pass_retained"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_LOCAL_MF70_FACE_FULL_INSTANCE_20260719T223000-0500_GLOBAL_REVIEW.json",
+      "note": "prior_face_full_instance_pass_retained"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_FACE_IDENTITY_CRITICAL_SEED210801_VISUAL_QA_20260707T144000-0500.json",
+      "note": "historical_face_identity_critical_seed210801_pass_with_notes_retained"
+    }
+  ],
+  "runtime_execute": "Plan\\Instructions\\QA\\Evidence\\Workflow_Runtime\\W64_LOCAL_COMFYUI_ROW017_MF70_FACE_IDENTITY_CRITICAL_EXECUTE_20260719T231500-0500.json",
+  "visual_qa": "Plan\\Instructions\\QA\\Evidence\\Image_Artifact_QA\\ROW017_LOCAL_MF70_FACE_IDENTITY_CRITICAL_VISUAL_QA_20260719T231500-0500.json",
+  "remaining_blocker": "Row017 cannot complete until remaining historical localized visual-review records are classified into canonical pre/post, target, non-target, six-category, and global-rejection evidence, and future localized candidates continue to clear whole-frame rejection gates.",
+  "next_action": "Resume/finish Row072 retained-index onset reconcile under frozen thresholds (still in progress), then address library benchmark strata / threshold unfreeze; or climb next unused prepared MF70 lane if any remain; keep away from Row069-071 reopen; do not claim COMPLETE.",
+  "ec2": "EC2_DEFERRED",
+  "docker_cvat": "not-needed"
+}

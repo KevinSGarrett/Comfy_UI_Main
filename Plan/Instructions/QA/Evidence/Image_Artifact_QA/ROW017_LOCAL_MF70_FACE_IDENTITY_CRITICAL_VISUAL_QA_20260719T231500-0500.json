@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ROW017-LOCAL-MF70-FACE-IDENTITY-CRITICAL-VISUAL-QA-20260719T231500-0500",
+  "created_at": "2026-07-19T23:18:00-05:00",
+  "tracker_id": "TRK-W64-017",
+  "item_id": "ITEM-W64-017",
+  "localized_region": "face_identity_critical",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+  "qa_decision": "pass_bounded_localized_face_identity_critical_runtime_candidate",
+  "overall_decision": "pass",
+  "local_only": true,
+  "direct_visual_inspection": true,
+  "fixture_only": false,
+  "generation_executed": true,
+  "runtime_receipt": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_face_identity_critical_20260719T231500-0500\\LOCAL_RUNTIME_RECEIPT.json",
+  "source": {
+    "path": "ComfyUI\\input\\wave70_mf70_face_identity_source_canny_v3.png",
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d"
+  },
+  "artifact": {
+    "path": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_face_identity_critical_20260719T231500-0500\\images\\codex_row017_mf70_face_identity_critical_20260719T231500-0500_00001_.png",
+    "sha256": "21a0723a836c0a3912d6054794f462d0b01a5a82fe9ec79fe9ed91b1c82d0577"
+  },
+  "comparison_panel": {
+    "path": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_face_identity_critical_20260719T231500-0500\\images\\qa_full_side_by_side.png",
+    "sha256": "cc6cfa9414600d7c5a83781cc32e24375745c1fddf047bceca49d135d18acf79"
+  },
+  "face_crop_panel": {
+    "path": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_face_identity_critical_20260719T231500-0500\\images\\qa_face_crop_side_by_side.png",
+    "sha256": "4224718911d29fee5cecd5e415a93023d645fa0b17adc5840cfb8c425e2e1033"
+  },
+  "difference_metrics": {
+    "full_image_diff_bbox": [
+      171,
+      159,
+      597,
+      540
+    ],
+    "face_mask_bbox": [
+      175,
+      164,
+      593,
+      536
+    ],
+    "face_crop_box": [
+      135,
+      124,
+      633,
+      576
+    ],
+    "mean_rgb_abs_diff": [
+      0.9305,
+      0.8718,
+      0.8355
+    ],
+    "rms_rgb_abs_diff": [
+      3.1268,
+      2.9671,
+      2.8372
+    ],
+    "face_mask_region_mean_abs": [
+      3.3313
+    ],
+    "blazer_mean_abs": 0.0,
+    "background_corner_mean_abs": 0.0,
+    "changed_pixel_count": 63638,
+    "mask_pixel_count": 115146
+  },
+  "whole_frame_findings": [
+    "Fresh local ComfyUI MF70 face_identity_critical masked inpaint (seed 8842017401, RealVisXL baked VAE, denoise 0.06, FeatherMask 24px, cfg 3.6, steps 18) completed successfully (prompt_id d87a3083-7943-4cd6-a1dc-e92d726fb448).",
+    "Whole-frame identity, gaze pairing, iris/pupil/sclera/catchlights, hair silhouette, cream blazer, neck, lighting, and gray background remain stable versus Canny v3 identity source.",
+    "Pixel delta localized to face_identity_critical bbox [171, 159, 597, 540]; blazer mean abs 0.0; background corner mean abs 0.0; 63638 changed pixels vs mask 115146.",
+    "Direct whole-frame + face-crop inspection: subtle identity-critical preservation/microtexture refinement; mouth aperture remains slightly parted with upper-tooth edge visible (matching source); no hard seam, identity swap, smile expansion, clothing/background regression, or hair mutation.",
+    "Hands not in frame; no clothing/background/lighting regression observed."
+  ],
+  "global_defects": [],
+  "promotion_authorized": false,
+  "row_complete": false,
+  "ec2": "EC2_DEFERRED",
+  "docker_cvat": "not-needed",
+  "notes": [
+    "Alignment caveat respected: Wave70 mf70_face_identity_critical mask-alignment remains needs_revision / fail-closed; not overturned by this Row017 climb.",
+    "Denoise 0.14 first attempt rejected for mouth-aperture closure; accepted climb is denoise 0.06.",
+    "Prior mf70_teeth / face_full_instance / expression / eyes climbs retained.",
+    "Does not complete historical Row017 normalization backlog."
+  ]
+}
