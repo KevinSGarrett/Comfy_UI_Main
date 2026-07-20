@@ -1,12 +1,8 @@
 {
   "acceptance_gaps": [
     {
-      "code": "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT",
-      "detail": "Only limit=25 retained-index probe evidence exists; 39771-record coverage_complete reconcile remains deferred."
-    },
-    {
-      "code": "FULL_LIBRARY_RECONCILE_DEFERRED_OR_IN_PROGRESS",
-      "detail": "Full Row073 PCM reconcile deferred while healthy Row075 PID owns full-library index-retained PCM I/O."
+      "code": "FULL_LIBRARY_RECONCILE_IN_PROGRESS_TIME_BOUND",
+      "detail": "Healthy PID 20200 owns full-library index-retained resume without --limit; 6050/39771 (~15.2%) at sync; coverage_complete=false."
     },
     {
       "code": "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
@@ -43,8 +39,7 @@
     "summary_sha256": "9d182b6fb9da5454ae98a4c5f0e4144fcc027ffe61525549f489f9389585774f"
   },
   "blocker_codes": [
-    "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT",
-    "FULL_LIBRARY_RECONCILE_DEFERRED_OR_IN_PROGRESS",
+    "FULL_LIBRARY_RECONCILE_IN_PROGRESS_TIME_BOUND",
     "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
     "REPRESENTATIVE_STRATA_CALIBRATION_ABSENT"
   ],
@@ -98,9 +93,9 @@
     "fail_closed_probe_slice": "accepted_as_bounded_increment",
     "product_completion": false,
     "row073_acceptance": "held",
-    "row073_status": "Blocked_Library_Probe_Pass_Full_Reconcile_Deferred_Deps_Unlocked",
+    "row073_status": "Blocked_Library_Reconcile_In_Progress_Deps_Unlocked",
     "runtime_completion": false,
-    "safe_next_action": "After Row075 retained-index defect reconcile reaches coverage_complete, resume Row073 --mode index-retained without --limit to coverage_complete under frozen suggestion-only thresholds; keep thresholds/strata holds; do not claim COMPLETE. Serialized mutator may then sync sound ITEM/TRACKER CSV Notes from this evidence delta."
+    "safe_next_action": "Do not kill healthy PID 20200; finish retained-index usable-bounds reconcile to coverage_complete under frozen suggestion-only thresholds. Do not start Row074/076/077 library PCM scans in parallel. No product COMPLETE."
   },
   "dependency_authority": [
     {
@@ -188,14 +183,15 @@
     "writable_scope_note": "Disjoint from Row017 visuals, Row075 progress stamps, and Row077 dirty semantic-embedding work. Sound ITEM/TRACKER CSV deferred for serialized mutator."
   },
   "item_id": "ITEM-W64-073",
-  "ledger_status": "Blocked_Library_Probe_Pass_Full_Reconcile_Deferred_Deps_Unlocked",
+  "ledger_status": "Blocked_Library_Reconcile_In_Progress_Deps_Unlocked",
   "ledger_vocabulary_sync": {
-    "ledger_status": "Blocked_Library_Probe_Pass_Full_Reconcile_Deferred_Deps_Unlocked",
-    "note": "Triple-synced Tracker/Item from index-retained probe evidence ee01d041; full reconcile deferred; no COMPLETE.",
+    "ledger_status": "Blocked_Library_Reconcile_In_Progress_Deps_Unlocked",
+    "note": "Progress sync 6050/39771; PID 20200 left alone; prove stamp 8c9d88eb; no COMPLETE; no tip-SHA chain.",
     "product_completion": false,
-    "prove_commit": "ee01d041",
+    "progress_stamp": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_RECONCILE_PROGRESS_20260720T0949-0500.json",
+    "prove_commit": "8c9d88eb",
     "runtime_completion": false,
-    "synced_at": "2026-07-20T06:05:26.997160Z"
+    "synced_at": "2026-07-20T14:49:05.349368Z"
   },
   "library_authority": false,
   "preservation_boundary": {
@@ -230,7 +226,7 @@
     "priority": "P1",
     "risk": "HIGH",
     "runtime_proof_required": true,
-    "status": "Blocked_Library_Probe_Pass_Full_Reconcile_Deferred_Deps_Unlocked",
+    "status": "Blocked_Library_Reconcile_In_Progress_Deps_Unlocked",
     "validation_methods": [
       "silence_bounds",
       "attack_sustain_release",
@@ -242,7 +238,7 @@
   "runtime_completion_claimed": false,
   "schema_version": 1,
   "source_commit": "PENDING_THIS_PASS",
-  "status": "HOLD_LIBRARY_PROBE_PASS_FULL_RECONCILE_DEFERRED_DEPS_UNLOCKED",
+  "status": "HOLD_LIBRARY_RECONCILE_IN_PROGRESS_DEPS_UNLOCKED",
   "tracker_id": "TRK-W64-073",
-  "updated_at": "2026-07-20T06:05:26.997160Z"
+  "updated_at": "2026-07-20T14:49:05.349368Z"
 }
