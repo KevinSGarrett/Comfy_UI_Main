@@ -2,14 +2,12 @@
   "accepted_index_retained_runtime": {
     "authority": "accepted_index_retained_reconcile",
     "blocker_histogram": {
-      "DECODE_FAILED_CORRUPT_OR_UNREADABLE": 747,
-      "UNSUPPORTED_CODEC_OR_CONTAINER": 3576,
-      "UNSUPPORTED_SAMPLE_FORMAT": 25300
+      "DECODE_FAILED_CORRUPT_OR_UNREADABLE": 747
     },
     "coverage_complete": true,
-    "decode_blocked": 28876,
+    "decode_blocked": 0,
     "decode_failed": 747,
-    "decode_pass": 10148,
+    "decode_pass": 39024,
     "extension_histogram": {
       ".flac": 15,
       ".mp3": 3560,
@@ -20,10 +18,10 @@
     "library_authority": false,
     "proof_tier": "RUNTIME_PASS_BOUNDED",
     "receipt_path": "runtime_artifacts/audio_decode/row070_index_retained_20260719/retained_index_receipt.json",
-    "receipt_sha256": "2507c4a225fd895594defcac60601fa962c5d193a5d06a7751c76784ccf5f718",
+    "receipt_sha256": "de75be8cefbd6e654b6e787746daf5be470038223f5558b2a1fcd59c8b193ac3",
     "records_path": "runtime_artifacts/audio_decode/row070_index_retained_20260719/records.jsonl",
     "records_processed": 39771,
-    "records_sha256": "e5d96dbd093f9f6adc8ba61a83eb45ef294c819d7da73938e89ffd6c503874c7",
+    "records_sha256": "838748eddd32cd08db97a43d3dd70de6d32260e1e2cf980d31727bf9259c2884",
     "records_total": 39771,
     "source_immutability_fingerprint": {
       "fingerprint_complete": true,
@@ -32,9 +30,9 @@
       "records_processed": 39771,
       "source_immutable_all_processed": true
     },
-    "summary_bytes": 3358,
+    "summary_bytes": 3229,
     "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_ACCEPTED_INDEX_RETAINED_RUNTIME_SUMMARY_20260719.json",
-    "summary_sha256": "90886a0cc3e24cbdb65454f516895039d7d10f170d71be72c01bd9ae6890dc59"
+    "summary_sha256": "d33189b9c2b268f189cbdf8d74cbc67a9db90498924f10d879ef50313d8f6b30"
   },
   "accepted_index_strata_runtime": {
     "authority": "accepted_index_strata_bounded",
@@ -49,8 +47,8 @@
       ".ogg"
     ],
     "proof_tier": "RUNTIME_PASS_BOUNDED",
-    "receipt_path": null,
-    "receipt_sha256": null,
+    "receipt_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_ACCEPTED_INDEX_STRATA_BOUNDED_RUNTIME_SUMMARY_20260719.json",
+    "receipt_sha256": "9be8963d5fc48b2ef2fbd1f091934d3bd44fa9bdcaca90e27356d083f7a2661e",
     "sources_attempted": 9,
     "summary_bytes": null,
     "summary_path": null,
@@ -64,9 +62,7 @@
       "voice"
     ]
   },
-  "blocker_codes": [
-    "NON_WAV_CODEC_COVERAGE_ABSENT"
-  ],
+  "blocker_codes": [],
   "bounded_live_pcm_runtime": {
     "authority": "bounded_non_library",
     "decode_non_pass": 0,
@@ -90,17 +86,18 @@
   },
   "decision": {
     "bounded_runtime": "RUNTIME_PASS_BOUNDED",
+    "library_authority": true,
     "product_completion": false,
-    "row070_acceptance": "held",
-    "runtime_completion": false,
-    "safe_next_action": "Retained-index decode reconcile mapped every accepted record to PASS or an exact blocker. Add non-WAV decoder coverage beyond exact blockers, then reassess Row070 acceptance. Do not claim COMPLETE while NON_WAV_CODEC_COVERAGE_ABSENT.",
-    "status": "blocked"
+    "row070_acceptance": "accepted",
+    "runtime_completion": true,
+    "safe_next_action": "Row070 library PCM authority accepted on retained-index reconcile with 24-bit WAV + mp3/flac/ogg decode coverage. Residual inventory blockers remain exact fail-closed records only. Climb Row071 library feature reconcile next; do not claim product COMPLETE.",
+    "status": "pass"
   },
-  "decoder_revision": "wave64_row070_canonical_pcm_v0.1.0",
+  "decoder_revision": "wave64_row070_canonical_pcm_v0.2.0",
   "evidence_id": "TRK-W64-070_canonical_audio_decode",
   "fixture_calibration": {
     "authority": "synthetic_non_library",
-    "determinism_note": "Fixture WAV decode proves frozen f32le hash identity and fail-closed unsupported/corrupt blockers only; it does not accept Row070 library completion.",
+    "determinism_note": "Fixture WAV decode proves frozen f32le hash identity and fail-closed unsupported/corrupt blockers only; library acceptance requires retained-index reconcile with non-WAV and supported WAV sample-format coverage.",
     "records": [
       {
         "asset_id": "fixture:row070_tone_ramp",
@@ -128,7 +125,7 @@
           "status": "blocked"
         },
         "decode_status": "pass",
-        "decoder_revision": "wave64_row070_canonical_pcm_v0.1.0",
+        "decoder_revision": "wave64_row070_canonical_pcm_v0.2.0",
         "duration_seconds": 0.005333333333333333,
         "frame_count": 256,
         "item_id": "ITEM-W64-070",
@@ -141,11 +138,11 @@
         "tracker_id": "TRK-W64-070"
       },
       {
-        "asset_id": "fixture:unsupported.mp3",
+        "asset_id": "fixture:unsupported.aac",
         "bit_depth": 1,
         "blocker": {
           "code": "UNSUPPORTED_CODEC_OR_CONTAINER",
-          "detail": "MP3 is unsupported in the stdlib WAV Row070 slice."
+          "detail": "AAC remains outside the Row070 mp3/flac/ogg decode set."
         },
         "canonical_pcm_contract": {
           "channel_order_policy": "preserve_source_order",
@@ -160,7 +157,7 @@
         "canonical_pcm_sha256": null,
         "channel_layout": "mono",
         "channels": 1,
-        "codec": "mp3",
+        "codec": "aac",
         "decision": {
           "blocker_codes": [
             "UNSUPPORTED_CODEC_OR_CONTAINER"
@@ -169,7 +166,7 @@
           "status": "blocked"
         },
         "decode_status": "blocked",
-        "decoder_revision": "wave64_row070_canonical_pcm_v0.1.0",
+        "decoder_revision": "wave64_row070_canonical_pcm_v0.2.0",
         "duration_seconds": 0.0,
         "frame_count": 0,
         "item_id": "ITEM-W64-070",
@@ -177,8 +174,8 @@
         "schema_version": "1.0.0",
         "source_bytes": 13,
         "source_immutable": true,
-        "source_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row070_canonical_decode/unsupported.mp3",
-        "source_sha256": "796a1cf8511f9c1bd86245d24622aba9bdbac1cfc8c9dddabe9be198a819ce0f",
+        "source_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row070_canonical_decode/unsupported.aac",
+        "source_sha256": "cf0ab84ded0df44a00e95cee979bae24fe091ad24c974ee5f0d15fce0ab71d50",
         "tracker_id": "TRK-W64-070"
       },
       {
@@ -210,7 +207,7 @@
           "status": "failed"
         },
         "decode_status": "failed",
-        "decoder_revision": "wave64_row070_canonical_pcm_v0.1.0",
+        "decoder_revision": "wave64_row070_canonical_pcm_v0.2.0",
         "duration_seconds": 0.0,
         "frame_count": 0,
         "item_id": "ITEM-W64-070",
@@ -227,7 +224,8 @@
   "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
   "implementation_completion_claimed": false,
   "item_id": "ITEM-W64-070",
-  "library_authority": false,
+  "library_authority": true,
+  "product_completion_claimed": false,
   "row069_admission": {
     "blocker_codes": [],
     "bytes": 9834,
@@ -237,9 +235,9 @@
     "sha256": "3e506435f7ebe0a1e4efcd32f308c4e46f2bcc100158a9c14b9d454c612d9f7f",
     "status": "PASS_LIBRARY_INDEX_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION"
   },
-  "row_complete": false,
-  "runtime_completion_claimed": false,
+  "row_complete": true,
+  "runtime_completion_claimed": true,
   "schema_version": "1.0.0",
-  "status": "HOLD_NON_WAV_CODEC_WITH_RETAINED_INDEX_RECONCILE_RUNTIME",
+  "status": "PASS_LIBRARY_PCM_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION",
   "tracker_id": "TRK-W64-070"
 }

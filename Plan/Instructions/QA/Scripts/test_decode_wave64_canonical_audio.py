@@ -29,6 +29,28 @@ def _write_pcm16_wav(path: Path, *, frames: int = 128, sample_rate_hz: int = 480
         handle.writeframes(payload)
 
 
+def _write_pcm24_wav(path: Path, *, frames: int = 128, sample_rate_hz: int = 48000) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with wave.open(str(path), "wb") as handle:
+        handle.setnchannels(1)
+        handle.setsampwidth(3)
+        handle.setframerate(sample_rate_hz)
+        payload = bytearray()
+        for index in range(frames):
+            value = ((index * 97) % 200000) - 100000
+            payload.extend(int(value).to_bytes(3, "little", signed=True))
+        handle.writeframes(bytes(payload))
+
+
+def _write_tone_mp3(path: Path, *, frames: int = 2048, sample_rate_hz: int = 44100) -> None:
+    import numpy as np
+    import soundfile as sf
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tone = (np.linspace(-0.2, 0.2, frames, dtype=np.float32)).reshape(-1, 1)
+    sf.write(str(path), tone, sample_rate_hz, format="MP3")
+
+
 def test_row069_admission_accepts_current_library_index_authority():
     admission = MOD.evaluate_row069_admission(ROOT)
     assert admission["dependency_satisfied"] is True
@@ -186,14 +208,44 @@ def test_fixture_wav_decode_is_deterministic_and_schema_valid(tmp_path: Path):
 
 
 def test_unsupported_extension_fails_closed(tmp_path: Path):
-    path = tmp_path / "clip.mp3"
-    path.write_bytes(b"ID3fake")
-    record = MOD.decode_wav_file(ROOT, path, asset_id="fixture:mp3")
+    path = tmp_path / "clip.aac"
+    path.write_bytes(b"not-a-real-aac")
+    record = MOD.decode_wav_file(ROOT, path, asset_id="fixture:aac")
     MOD.validate_decode_record(ROOT, record)
     assert record["decode_status"] == "blocked"
     assert record["canonical_pcm_sha256"] is None
     assert record["blocker"]["code"] == "UNSUPPORTED_CODEC_OR_CONTAINER"
     assert record["decision"]["library_authority"] is False
+
+
+def test_corrupt_mp3_fails_closed(tmp_path: Path):
+    path = tmp_path / "clip.mp3"
+    path.write_bytes(b"ID3fake-not-decodable")
+    record = MOD.decode_wav_file(ROOT, path, asset_id="fixture:mp3-corrupt")
+    MOD.validate_decode_record(ROOT, record)
+    assert record["decode_status"] == "failed"
+    assert record["canonical_pcm_sha256"] is None
+    assert record["blocker"]["code"] == "DECODE_FAILED_CORRUPT_OR_UNREADABLE"
+    assert record["decision"]["library_authority"] is False
+
+
+def test_mp3_and_pcm24_decode_to_canonical_pcm(tmp_path: Path):
+    mp3_path = tmp_path / "tone.mp3"
+    wav24_path = tmp_path / "tone24.wav"
+    _write_tone_mp3(mp3_path)
+    _write_pcm24_wav(wav24_path)
+    mp3 = MOD.decode_wav_file(ROOT, mp3_path, asset_id="fixture:mp3")
+    wav24 = MOD.decode_wav_file(ROOT, wav24_path, asset_id="fixture:pcm24")
+    MOD.validate_decode_record(ROOT, mp3)
+    MOD.validate_decode_record(ROOT, wav24)
+    assert mp3["decode_status"] == "pass"
+    assert wav24["decode_status"] == "pass"
+    assert mp3["codec"] == "mp3"
+    assert wav24["codec"] == "pcm_s24le"
+    assert isinstance(mp3["canonical_pcm_sha256"], str)
+    assert len(mp3["canonical_pcm_sha256"]) == 64
+    assert isinstance(wav24["canonical_pcm_sha256"], str)
+    assert len(wav24["canonical_pcm_sha256"]) == 64
 
 
 def test_corrupt_wav_fails_closed(tmp_path: Path):
@@ -371,8 +423,8 @@ def test_retained_index_decode_maps_every_record(tmp_path: Path, monkeypatch):
     assert summary["row_complete"] is False
     assert summary["counts"]["records_processed"] == 2
     assert summary["counts"]["decode_pass"] == 1
-    assert summary["counts"]["decode_blocked"] == 1
-    assert summary["counts"]["non_wav_blocked"] == 1
+    assert summary["counts"]["decode_failed"] == 1
+    assert summary["counts"]["non_wav_failed"] == 1
     assert summary["source_immutability_fingerprint"]["fingerprint_complete"] is True
 
     packet = MOD.build_library_blocker_packet(ROOT, retained_index_runtime=summary)
@@ -382,6 +434,96 @@ def test_retained_index_decode_maps_every_record(tmp_path: Path, monkeypatch):
     assert "NON_WAV_CODEC_COVERAGE_ABSENT" in packet["blocker_codes"]
     assert packet["status"] == "HOLD_NON_WAV_CODEC_WITH_RETAINED_INDEX_RECONCILE_RUNTIME"
     assert packet["accepted_index_retained_runtime"]["coverage_complete"] is True
+
+
+def test_retained_index_with_mp3_clears_non_wav_gap(tmp_path: Path, monkeypatch):
+    source_root = tmp_path / "audio"
+    source_root.mkdir()
+    wav_path = source_root / "tone.wav"
+    mp3_path = source_root / "clip.mp3"
+    _write_pcm16_wav(wav_path, frames=256)
+    _write_tone_mp3(mp3_path)
+
+    index_path = tmp_path / "index.jsonl"
+    records = [
+        {
+            "relative_path": "tone.wav",
+            "absolute_path": str(wav_path),
+            "extension": ".wav",
+            "role": "body",
+            "event_type": "body_foley",
+            "duration_band": "short",
+            "channels": 1,
+            "bytes": wav_path.stat().st_size,
+            "sha256": MOD.sha256_file(wav_path),
+        },
+        {
+            "relative_path": "clip.mp3",
+            "absolute_path": str(mp3_path),
+            "extension": ".mp3",
+            "role": "effects",
+            "event_type": "action_sfx",
+            "duration_band": "short",
+            "channels": 1,
+            "bytes": mp3_path.stat().st_size,
+            "sha256": MOD.sha256_file(mp3_path),
+        },
+    ]
+    index_path.write_text(
+        "\n".join(json.dumps(record) for record in records) + "\n",
+        encoding="utf-8",
+    )
+
+    def fake_locator(_root: Path) -> dict:
+        return {
+            "registry_path": "Plan/10_REGISTRIES/audio_pack_functional_index_registry.json",
+            "runtime_path": str(index_path),
+            "index_path": index_path,
+            "index_sha256": MOD.sha256_file(index_path),
+            "index_bytes": index_path.stat().st_size,
+            "source_root": source_root,
+            "record_count": 2,
+            "row069_acceptance": "accepted",
+            "library_authority": True,
+        }
+
+    monkeypatch.setattr(MOD, "load_active_index_locator", fake_locator)
+    monkeypatch.setattr(
+        MOD,
+        "evaluate_row069_admission",
+        lambda _root, delta_path=None: {
+            "dependency_satisfied": True,
+            "blocker_codes": [],
+            "row_complete": True,
+            "status": "PASS_LIBRARY_INDEX_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION",
+            "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-069_FULL_AUDIO_LIBRARY_INDEX_CURRENT_DELTA_20260719.json",
+            "sha256": "a" * 64,
+            "bytes": 1,
+        },
+    )
+
+    runtime_dir = tmp_path / "retained_mp3"
+    summary = MOD.run_retained_index_decode(
+        ROOT,
+        runtime_dir=runtime_dir,
+        limit=None,
+        resume=False,
+        checkpoint_every=1,
+    )
+    assert summary["coverage_complete"] is True
+    assert summary["counts"]["decode_pass"] == 2
+    assert summary["counts"]["non_wav_pass"] == 1
+    assert summary["blocker_histogram"] == {}
+
+    packet = MOD.build_library_blocker_packet(ROOT, retained_index_runtime=summary)
+    assert "NON_WAV_CODEC_COVERAGE_ABSENT" not in packet["blocker_codes"]
+    assert "UNSUPPORTED_SAMPLE_FORMAT_WAV_COVERAGE_ABSENT" not in packet["blocker_codes"]
+    assert packet["blocker_codes"] == []
+    assert packet["row_complete"] is True
+    assert packet["library_authority"] is True
+    assert packet["decision"]["row070_acceptance"] == "accepted"
+    assert packet["decision"]["product_completion"] is False
+    assert packet["status"] == "PASS_LIBRARY_PCM_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION"
 
 
 def test_retained_index_respects_limit_without_false_complete(tmp_path: Path, monkeypatch):

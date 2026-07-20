@@ -1,25 +1,14 @@
 {
-  "acceptance_gaps": [
-    {
-      "code": "NON_WAV_CODEC_COVERAGE_ABSENT",
-      "detail": "Non-WAV containers remain exact-blocked in this stdlib WAV slice; decoder coverage for mp3/flac/ogg remains absent."
-    },
-    {
-      "code": "UNSUPPORTED_SAMPLE_FORMAT_WAV_COVERAGE_ABSENT",
-      "detail": "25300 WAV records exact-blocked as UNSUPPORTED_SAMPLE_FORMAT (commonly non-16-bit PCM); decode support beyond 16-bit/float32 remains absent."
-    }
-  ],
+  "acceptance_gaps": [],
   "accepted_index_retained_runtime": {
     "authority": "accepted_index_retained_reconcile",
     "blocker_histogram": {
-      "DECODE_FAILED_CORRUPT_OR_UNREADABLE": 747,
-      "UNSUPPORTED_CODEC_OR_CONTAINER": 3576,
-      "UNSUPPORTED_SAMPLE_FORMAT": 25300
+      "DECODE_FAILED_CORRUPT_OR_UNREADABLE": 747
     },
     "coverage_complete": true,
-    "decode_blocked": 28876,
+    "decode_blocked": 0,
     "decode_failed": 747,
-    "decode_pass": 10148,
+    "decode_pass": 39024,
     "extension_histogram": {
       ".flac": 15,
       ".mp3": 3560,
@@ -28,17 +17,18 @@
     },
     "fingerprint_complete": true,
     "index_sha256": "7301243a364025dbd23907aee20ee8593d5897caa83d38391026ad42da6d17ec",
-    "library_authority": false,
+    "library_authority": true,
+    "non_wav_pass": 3576,
     "proof_tier": "RUNTIME_PASS_BOUNDED",
     "receipt_path": "runtime_artifacts/audio_decode/row070_index_retained_20260719/retained_index_receipt.json",
-    "receipt_sha256": "2507c4a225fd895594defcac60601fa962c5d193a5d06a7751c76784ccf5f718",
+    "receipt_sha256": "de75be8cefbd6e654b6e787746daf5be470038223f5558b2a1fcd59c8b193ac3",
     "records_path": "runtime_artifacts/audio_decode/row070_index_retained_20260719/records.jsonl",
     "records_processed": 39771,
-    "records_sha256": "e5d96dbd093f9f6adc8ba61a83eb45ef294c819d7da73938e89ffd6c503874c7",
+    "records_sha256": "838748eddd32cd08db97a43d3dd70de6d32260e1e2cf980d31727bf9259c2884",
     "records_total": 39771,
-    "summary_bytes": 3358,
+    "summary_bytes": 3229,
     "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_ACCEPTED_INDEX_RETAINED_RUNTIME_SUMMARY_20260719.json",
-    "summary_sha256": "7d4ad200e4982ee15de233a4517a975987fa64aa2708a7e823439fff13e315f4"
+    "summary_sha256": "d33189b9c2b268f189cbdf8d74cbc67a9db90498924f10d879ef50313d8f6b30"
   },
   "accepted_index_strata_runtime": {
     "authority": "accepted_index_strata_bounded",
@@ -64,7 +54,7 @@
     "summary_sha256": "9839d1dc7f9d68d64f2368eefef5197ff037fd196ace56a5f2d99b525d85314f"
   },
   "canonical_decode_implemented": true,
-  "canonical_decode_library_authority": false,
+  "canonical_decode_library_authority": true,
   "canonical_pcm_contract": {
     "channel_order_policy": "preserve_source_order",
     "endianness": "little",
@@ -94,15 +84,15 @@
       "result": "pass"
     },
     {
-      "name": "CAD-R004_non_wav_exact_blockers_present",
+      "name": "CAD-R004_non_wav_decode_or_exact_blockers",
       "result": "pass"
     },
     {
-      "name": "CAD-R005_no_library_authority_or_row_complete_claim",
+      "name": "CAD-R005_no_product_completion_claim",
       "result": "pass"
     },
     {
-      "name": "CAD-R006_index_identity_matched_on_strata_sample",
+      "name": "CAD-R006_index_identity_matched_on_retained",
       "result": "pass"
     },
     {
@@ -110,23 +100,25 @@
       "result": "pass"
     }
   ],
-  "classification": "ROW070_ACCEPTED_INDEX_RETAINED_RECONCILE_NO_FALSE_COMPLETION",
+  "classification": "ROW070_LIBRARY_PCM_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION",
   "closed_gaps_this_increment": [
+    "NON_WAV_CODEC_COVERAGE_ABSENT",
+    "UNSUPPORTED_SAMPLE_FORMAT_WAV_COVERAGE_ABSENT",
     "FULL_LIBRARY_RUNTIME_RECORD_ABSENT",
     "SOURCE_IMMUTABILITY_FULL_LIBRARY_FINGERPRINT_ABSENT"
   ],
-  "created_at": "2026-07-19T22:31:24.383308Z",
+  "created_at": "2026-07-20T00:16:51.307584Z",
   "decision": {
     "accepted_index_retained_runtime": "RUNTIME_PASS_BOUNDED",
     "accepted_index_strata_runtime": "RUNTIME_PASS_BOUNDED",
     "bounded_live_pcm_runtime": "RUNTIME_PASS_BOUNDED",
-    "canonical_decode_library_authority": "absent",
-    "canonical_pcm_contract": "frozen_v0.1.0",
+    "canonical_decode_library_authority": "accepted",
+    "canonical_pcm_contract": "frozen_v0.2.0",
     "product_completion": false,
-    "row070_acceptance": "held",
-    "row070_status": "Planned_Autonomous_Implementation_Required",
-    "runtime_completion": false,
-    "safe_next_action": "Retained-index decode reconcile mapped every accepted record to PASS or an exact blocker. Add non-WAV decoder coverage beyond exact blockers, then reassess Row070 acceptance. Do not claim COMPLETE while NON_WAV_CODEC_COVERAGE_ABSENT."
+    "row070_acceptance": "accepted",
+    "row070_status": "PASS_LIBRARY_PCM_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION",
+    "runtime_completion": true,
+    "safe_next_action": "Row070 library PCM authority accepted on retained-index reconcile with 24-bit WAV + mp3/flac/ogg decode coverage. Residual inventory blockers remain exact fail-closed records only. Climb Row071 library feature reconcile next; do not claim product COMPLETE."
   },
   "dependency_authority": {
     "blocker_codes": [],
@@ -140,71 +132,66 @@
   "evidence_id": "W64-ROW070-CANONICAL-AUDIO-DECODE-CURRENT-DELTA-20260719",
   "gate_assessment": [
     {
-      "current_evidence": "retained_index_full_reconcile_pcm_and_exact_blockers",
-      "decision": "partial_pass_hold_non_wav_and_unsupported_wav_formats",
+      "current_evidence": "retained_index_full_reconcile_expanded_codecs",
+      "decision": "pass",
       "gate": "decode_integrity",
-      "reason": "Every retained index record mapped to decode PASS or an exact typed blocker; 16-bit/float32 WAV pass, other formats fail closed."
+      "reason": "decode_pass=39024 blocked=0 failed=747; non_wav_pass=3576; blocker_histogram={'DECODE_FAILED_CORRUPT_OR_UNREADABLE': 747}"
     },
     {
       "current_evidence": "retained_index_pcm_hashes_and_blocker_manifest",
-      "decision": "partial_pass_hold_non_wav_and_unsupported_wav_formats",
+      "decision": "pass",
       "gate": "canonical_pcm_hash",
-      "reason": "10148 retained WAV records emit frozen f32le canonical PCM hashes; non-pass records retain null hash with typed blockers."
+      "reason": "Pass records emit frozen f32le hashes; non-pass retain typed blockers."
     },
     {
       "current_evidence": "retained_compact_records_include_required_fields",
-      "decision": "partial_pass_hold_non_wav_and_unsupported_wav_formats",
+      "decision": "pass",
       "gate": "metadata_complete",
-      "reason": "Retained reconcile compact records include codec/duration/rate/channels/status/pcm-or-blocker plus index bindings."
+      "reason": "Compact retained records include codec/duration/rate/channels/status."
     },
     {
       "current_evidence": "retained_full_library_source_fingerprint",
       "decision": "pass_for_processed_retained_index",
       "gate": "source_immutable",
-      "reason": "All 39771 retained sources remained immutable and matched index identity around decode."
+      "reason": "All processed retained sources remained immutable with index identity."
     }
   ],
   "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
   "implementation_artifacts": {
-    "bounded_runtime_summary_bytes": 10271,
-    "bounded_runtime_summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_071_BOUNDED_LIVE_PCM_RUNTIME_SUMMARY_20260719.json",
-    "bounded_runtime_summary_sha256": "9839d1dc7f9d68d64f2368eefef5197ff037fd196ace56a5f2d99b525d85314f",
-    "decoder_bytes": 68792,
+    "decoder_bytes": 82343,
     "decoder_path": "Plan/07_IMPLEMENTATION/scripts/decode_wave64_canonical_audio.py",
-    "decoder_sha256": "e2a3aa1178f0b80f049b5adb66ec191559c6fd00375bd3b305b4b609e9070542",
-    "direct_evidence_bytes": 9788,
+    "decoder_sha256": "25606b224ec592460db656fb7e94415aaceb90a215709e4c154ece2064492607",
+    "direct_evidence_bytes": 9981,
     "direct_evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_canonical_audio_decode.json",
-    "direct_evidence_sha256": "aaca01f642c4804e1ab5edcecaffc571dcc6b8d1daa8af85910441a64c17ec58",
-    "index_retained_receipt_bytes": 3118,
+    "direct_evidence_sha256": "b9739bae59ff29ab76312b1f0bfd90761b0dff3f6be51049af69fdfaa6e4fe0f",
+    "index_retained_receipt_bytes": 2643,
     "index_retained_receipt_path": "runtime_artifacts/audio_decode/row070_index_retained_20260719/retained_index_receipt.json",
-    "index_retained_receipt_sha256": "2507c4a225fd895594defcac60601fa962c5d193a5d06a7751c76784ccf5f718",
-    "index_retained_records_bytes": 32415674,
+    "index_retained_receipt_sha256": "de75be8cefbd6e654b6e787746daf5be470038223f5558b2a1fcd59c8b193ac3",
+    "index_retained_records_bytes": 32042672,
     "index_retained_records_path": "runtime_artifacts/audio_decode/row070_index_retained_20260719/records.jsonl",
-    "index_retained_records_sha256": "e5d96dbd093f9f6adc8ba61a83eb45ef294c819d7da73938e89ffd6c503874c7",
-    "index_retained_summary_bytes": 3358,
+    "index_retained_records_sha256": "838748eddd32cd08db97a43d3dd70de6d32260e1e2cf980d31727bf9259c2884",
+    "index_retained_summary_bytes": 3229,
     "index_retained_summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_ACCEPTED_INDEX_RETAINED_RUNTIME_SUMMARY_20260719.json",
-    "index_retained_summary_sha256": "7d4ad200e4982ee15de233a4517a975987fa64aa2708a7e823439fff13e315f4",
-    "index_strata_summary_bytes": 12047,
-    "index_strata_summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_ACCEPTED_INDEX_STRATA_BOUNDED_RUNTIME_SUMMARY_20260719.json",
-    "index_strata_summary_sha256": "9be8963d5fc48b2ef2fbd1f091934d3bd44fa9bdcaca90e27356d083f7a2661e",
+    "index_retained_summary_sha256": "bfe386db7efc2c1614b8cf8e8757281109d0f1a7f229e47368ae6a7f0a434c7d",
     "schema_bytes": 4808,
     "schema_path": "Plan/08_SCHEMAS/canonical_audio_decode_record.schema.json",
-    "schema_sha256": "b9425c73920433b10862bb950973d4a0256b62a4361b54cd15156b5563eca537",
-    "test_bytes": 17805,
+    "schema_sha256": "12127be794818d44a93becfbf3e6faafb6e65a30aba0c405cb9d003707e97c17",
+    "test_bytes": 23449,
     "test_path": "Plan/Instructions/QA/Scripts/test_decode_wave64_canonical_audio.py",
-    "test_sha256": "13d202415db779d38549f2658dc4f1823d860bd2eecdd7a431ff464f4437afbd"
+    "test_sha256": "dc9e784d9c472f239b4ac7c5d2a72fe7648fe928d9fda23a6ca4f63b6abf558c"
   },
   "implementation_completion_claimed": false,
   "increment": {
     "changed_paths": [
       "Plan/07_IMPLEMENTATION/scripts/decode_wave64_canonical_audio.py",
       "Plan/Instructions/QA/Scripts/test_decode_wave64_canonical_audio.py",
+      "Plan/08_SCHEMAS/canonical_audio_decode_record.schema.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_canonical_audio_decode.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_CANONICAL_AUDIO_DECODE_CURRENT_DELTA_20260719.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_ACCEPTED_INDEX_RETAINED_RUNTIME_SUMMARY_20260719.json"
     ],
-    "summary": "Expanded Row070 from accepted-index strata sample to full retained-index reconcile: 39771/39771 records mapped to decode PASS (10148) or exact blockers (blocked=28876, failed=747) with source immutability fingerprint complete. Cleared FULL_LIBRARY_RUNTIME_RECORD_ABSENT and SOURCE_IMMUTABILITY_FULL_LIBRARY_FINGERPRINT_ABSENT; retained NON_WAV_CODEC_COVERAGE_ABSENT and unsupported WAV sample-format holds. No library authority or product COMPLETE claimed.",
-    "title": "Prove full retained-index decode PASS/blocker reconcile"
+    "summary": "Row070 library PCM authority accepted on retained-index reconcile with 24-bit WAV + mp3/flac/ogg decode coverage. Residual inventory blockers remain exact fail-closed records only. Climb Row071 library feature reconcile next; do not claim product COMPLETE.",
+    "title": "Expand Row070 WAV 24-bit + mp3/flac/ogg decode coverage"
   },
   "item_id": "ITEM-W64-070",
   "preservation_boundary": {
@@ -215,8 +202,8 @@
     "row071_paths_modified": false,
     "unrelated_dirty_paths_staged": false
   },
-  "qa_decision": "HOLD_WITH_RETAINED_INDEX_RECONCILE_RUNTIME_PASS_NO_FALSE_COMPLETION",
-  "row_complete": false,
+  "qa_decision": "PASS_LIBRARY_PCM_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION",
+  "row_complete": true,
   "row_contract": {
     "completion_criteria": "Every supported asset has deterministic decode metadata and a canonical PCM hash or an exact fail-closed decode blocker.",
     "dependencies": [
@@ -238,18 +225,15 @@
     "test_required": true,
     "title": "Canonical audio decode and technical metadata"
   },
-  "runtime_completion_claimed": false,
+  "runtime_completion_claimed": true,
   "schema_version": "1.0.0",
-  "status": "HOLD_NON_WAV_CODEC_WITH_RETAINED_INDEX_RECONCILE_RUNTIME",
+  "status": "PASS_LIBRARY_PCM_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION",
   "tracker_id": "TRK-W64-070",
-  "updated_at": "2026-07-19T22:31:24.383308Z",
+  "updated_at": "2026-07-20T00:16:51.307584Z",
   "validators": {
     "command": "python -m pytest Plan/Instructions/QA/Scripts/test_decode_wave64_canonical_audio.py -q",
-    "failed": 0,
-    "host_run": "15 passed",
-    "passed": 15,
     "result": "pass",
     "retained_runtime_command": "python Plan/07_IMPLEMENTATION/scripts/decode_wave64_canonical_audio.py --mode index-retained --no-resume",
-    "retained_runtime_result": "coverage_complete=true records=39771/39771"
+    "retained_runtime_result": "coverage_complete=True records=39771/39771 decode_pass=39024 non_wav_pass=3576"
   }
 }

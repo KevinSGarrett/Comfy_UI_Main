@@ -32,7 +32,7 @@ ROW069_DELTA = Path(
     "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-069_FULL_AUDIO_LIBRARY_INDEX_CURRENT_DELTA_20260719.json"
 )
 INDEX_REGISTRY = Path("Plan/10_REGISTRIES/audio_pack_functional_index_registry.json")
-DECODER_REVISION = "wave64_row070_canonical_pcm_v0.1.0"
+DECODER_REVISION = "wave64_row070_canonical_pcm_v0.2.0"
 TRACKER_ID = "TRK-W64-070"
 ITEM_ID = "ITEM-W64-070"
 SCHEMA_VERSION = "1.0.0"
@@ -45,6 +45,8 @@ INDEX_STRATA_WAV_ROLES = (
     "furniture",
 )
 INDEX_STRATA_NON_WAV_EXTENSIONS = (".mp3", ".flac", ".ogg")
+SUPPORTED_NON_WAV_EXTENSIONS = frozenset(INDEX_STRATA_NON_WAV_EXTENSIONS)
+SUPPORTED_WAV_PCM_SAMPLE_WIDTHS = frozenset({1, 2, 3, 4})
 INDEX_STRATA_WAV_MIN_BYTES = 8_000
 INDEX_STRATA_WAV_MAX_BYTES = 2_000_000
 DEFAULT_RETAINED_RUNTIME_DIR = Path(
@@ -162,18 +164,36 @@ def frames_to_canonical_pcm_f32le(
         )
     if frame_count < 1 or channels < 1:
         raise CanonicalDecodeError("empty_pcm")
+    sample_count = frame_count * channels
+    if sample_width == 1:
+        # WAV 8-bit PCM is unsigned and centered at 128.
+        samples = array.array("B")
+        samples.frombytes(frames)
+        if len(samples) != sample_count:
+            raise CanonicalDecodeError("pcm_u8_sample_count_mismatch")
+        out = array.array("f", ((value - 128) / 128.0 for value in samples))
+        return out.tobytes()
     if sample_width == 2:
         samples = array.array("h")
         samples.frombytes(frames)
-        if len(samples) != frame_count * channels:
+        if len(samples) != sample_count:
             raise CanonicalDecodeError("pcm_s16_sample_count_mismatch")
         out = array.array("f", (value / 32768.0 for value in samples))
+        return out.tobytes()
+    if sample_width == 3:
+        # 24-bit signed little-endian PCM packed as 3 bytes/sample.
+        out = array.array("f")
+        for index in range(0, len(frames), 3):
+            value = int.from_bytes(frames[index : index + 3], "little", signed=True)
+            out.append(value / 8388608.0)
+        if len(out) != sample_count:
+            raise CanonicalDecodeError("pcm_s24_sample_count_mismatch")
         return out.tobytes()
     if sample_width == 4:
         # IEEE float32 WAV payload is already the frozen interleaved f32le domain.
         floats = array.array("f")
         floats.frombytes(frames)
-        if len(floats) != frame_count * channels:
+        if len(floats) != sample_count:
             raise CanonicalDecodeError("pcm_f32_sample_count_mismatch")
         return floats.tobytes()
     raise CanonicalDecodeError(f"unsupported_sample_width:{sample_width}")
@@ -356,23 +376,213 @@ def _frames_to_channels(
     sample_width: int,
     frame_count: int,
 ) -> list[list[float]]:
-    if sample_width == 2:
-        count = frame_count * channels
-        values = struct.unpack("<" + "h" * count, frames)
-        scale = 32768.0
-        channel_samples = [[] for _ in range(channels)]
-        for index, value in enumerate(values):
-            channel_samples[index % channels].append(value / scale)
-        return channel_samples
-    if sample_width == 4:
-        count = frame_count * channels
-        # Prefer IEEE float32 WAV; integer 32-bit PCM is unsupported in this slice.
-        floats = struct.unpack("<" + "f" * count, frames)
-        channel_samples = [[] for _ in range(channels)]
-        for index, value in enumerate(floats):
-            channel_samples[index % channels].append(float(value))
-        return channel_samples
-    raise CanonicalDecodeError(f"unsupported_sample_width:{sample_width}")
+    pcm = frames_to_canonical_pcm_f32le(
+        frames,
+        channels=channels,
+        sample_width=sample_width,
+        frame_count=frame_count,
+    )
+    floats = array.array("f")
+    floats.frombytes(pcm)
+    channel_samples: list[list[float]] = [[] for _ in range(channels)]
+    for index, value in enumerate(floats):
+        channel_samples[index % channels].append(float(value))
+    return channel_samples
+
+
+def _source_rel_path(root: Path, path: Path) -> str:
+    if root.resolve() in path.resolve().parents:
+        return str(path.relative_to(root)).replace("\\", "/")
+    return str(path)
+
+
+def _numpy_frames_to_canonical_pcm_f32le(frames: Any) -> tuple[bytes, int, int]:
+    """Convert soundfile/numpy frames (N, C) float32 into frozen interleaved f32le."""
+    try:
+        import numpy as np
+    except ImportError as exc:  # pragma: no cover - host dependency gate
+        raise CanonicalDecodeError("numpy_dependency_absent") from exc
+    array_2d = np.asarray(frames, dtype=np.float32)
+    if array_2d.ndim == 1:
+        array_2d = array_2d.reshape(-1, 1)
+    if array_2d.ndim != 2 or array_2d.shape[0] < 1 or array_2d.shape[1] < 1:
+        raise CanonicalDecodeError("empty_pcm")
+    contiguous = np.ascontiguousarray(array_2d, dtype="<f4")
+    return contiguous.tobytes(), int(contiguous.shape[0]), int(contiguous.shape[1])
+
+
+def decode_non_wav_file(
+    root: Path,
+    path: Path,
+    *,
+    asset_id: str | None,
+    before_sha: str,
+    before_bytes: int,
+) -> dict[str, Any]:
+    """Decode mp3/flac/ogg via soundfile into the frozen f32le PCM hash domain."""
+    suffix = path.suffix.lower()
+    codec = suffix.lstrip(".") or "unknown"
+    rel_path = _source_rel_path(root, path)
+    if suffix not in SUPPORTED_NON_WAV_EXTENSIONS:
+        return build_record(
+            asset_id=asset_id or path.name,
+            source_path=rel_path,
+            source_sha256=before_sha,
+            source_bytes=before_bytes,
+            codec=codec,
+            duration_seconds=0.0,
+            sample_rate_hz=1,
+            channels=1,
+            bit_depth=1,
+            channel_layout="mono",
+            decode_status="blocked",
+            canonical_pcm_sha256=None,
+            frame_count=0,
+            source_immutable=True,
+            blocker={
+                "code": "UNSUPPORTED_CODEC_OR_CONTAINER",
+                "detail": (
+                    "Extension is outside the Row070 non-WAV decode set "
+                    f"(mp3/flac/ogg); '{suffix}' remains unsupported."
+                ),
+            },
+            library_authority=False,
+            blocker_codes=["UNSUPPORTED_CODEC_OR_CONTAINER"],
+        )
+
+    try:
+        import soundfile as sf
+    except ImportError:
+        after_sha = sha256_file(path)
+        return build_record(
+            asset_id=asset_id or path.name,
+            source_path=rel_path,
+            source_sha256=before_sha,
+            source_bytes=before_bytes,
+            codec=codec,
+            duration_seconds=0.0,
+            sample_rate_hz=1,
+            channels=1,
+            bit_depth=1,
+            channel_layout="mono",
+            decode_status="blocked",
+            canonical_pcm_sha256=None,
+            frame_count=0,
+            source_immutable=after_sha == before_sha,
+            blocker={
+                "code": "DECODER_DEPENDENCY_ABSENT",
+                "detail": "soundfile is required for mp3/flac/ogg canonical decode.",
+            },
+            library_authority=False,
+            blocker_codes=["DECODER_DEPENDENCY_ABSENT"],
+        )
+
+    try:
+        frames, sample_rate_hz = sf.read(
+            str(_io_path(path)),
+            dtype="float32",
+            always_2d=True,
+        )
+        pcm, frame_count, channels = _numpy_frames_to_canonical_pcm_f32le(frames)
+    except CanonicalDecodeError as exc:
+        after_sha = sha256_file(path)
+        return build_record(
+            asset_id=asset_id or path.name,
+            source_path=rel_path,
+            source_sha256=before_sha,
+            source_bytes=before_bytes,
+            codec=codec,
+            duration_seconds=0.0,
+            sample_rate_hz=1,
+            channels=1,
+            bit_depth=1,
+            channel_layout="mono",
+            decode_status="failed",
+            canonical_pcm_sha256=None,
+            frame_count=0,
+            source_immutable=after_sha == before_sha and path_size(path) == before_bytes,
+            blocker={
+                "code": "DECODE_FAILED_CORRUPT_OR_UNREADABLE",
+                "detail": f"non-WAV PCM reshape failed: {exc}",
+            },
+            library_authority=False,
+            blocker_codes=["DECODE_FAILED_CORRUPT_OR_UNREADABLE"],
+        )
+    except Exception as exc:  # noqa: BLE001 - fail closed on any decoder/runtime error
+        after_sha = sha256_file(path)
+        return build_record(
+            asset_id=asset_id or path.name,
+            source_path=rel_path,
+            source_sha256=before_sha,
+            source_bytes=before_bytes,
+            codec=codec,
+            duration_seconds=0.0,
+            sample_rate_hz=1,
+            channels=1,
+            bit_depth=1,
+            channel_layout="mono",
+            decode_status="failed",
+            canonical_pcm_sha256=None,
+            frame_count=0,
+            source_immutable=after_sha == before_sha and path_size(path) == before_bytes,
+            blocker={
+                "code": "DECODE_FAILED_CORRUPT_OR_UNREADABLE",
+                "detail": f"soundfile decode failed for '{suffix}': {exc}",
+            },
+            library_authority=False,
+            blocker_codes=["DECODE_FAILED_CORRUPT_OR_UNREADABLE"],
+        )
+
+    after_sha = sha256_file(path)
+    source_immutable = after_sha == before_sha and path_size(path) == before_bytes
+    sample_rate_hz = int(sample_rate_hz)
+    if sample_rate_hz < 1:
+        return build_record(
+            asset_id=asset_id or path.name,
+            source_path=rel_path,
+            source_sha256=before_sha,
+            source_bytes=before_bytes,
+            codec=codec,
+            duration_seconds=0.0,
+            sample_rate_hz=1,
+            channels=channels,
+            bit_depth=32,
+            channel_layout=channel_layout_for(channels),
+            decode_status="failed",
+            canonical_pcm_sha256=None,
+            frame_count=0,
+            source_immutable=source_immutable,
+            blocker={
+                "code": "DECODE_FAILED_CORRUPT_OR_UNREADABLE",
+                "detail": "Decoded non-WAV audio reported a non-positive sample rate.",
+            },
+            library_authority=False,
+            blocker_codes=["DECODE_FAILED_CORRUPT_OR_UNREADABLE"],
+        )
+
+    duration = frame_count / float(sample_rate_hz)
+    record = build_record(
+        asset_id=asset_id or path.name,
+        source_path=rel_path,
+        source_sha256=before_sha,
+        source_bytes=before_bytes,
+        codec=codec,
+        duration_seconds=duration,
+        sample_rate_hz=sample_rate_hz,
+        channels=channels,
+        bit_depth=32,
+        channel_layout=channel_layout_for(channels),
+        decode_status="pass",
+        canonical_pcm_sha256=sha256_bytes(pcm),
+        frame_count=frame_count,
+        source_immutable=source_immutable,
+        blocker=None,
+        library_authority=False,
+        blocker_codes=["LIBRARY_AUTHORITY_NOT_GRANTED"],
+    )
+    record["decision"]["status"] = "blocked"
+    record["decode_status"] = "pass"
+    return record
 
 
 def decode_wav_file(root: Path, source: Path, *, asset_id: str | None = None) -> dict[str, Any]:
@@ -405,32 +615,12 @@ def decode_wav_file(root: Path, source: Path, *, asset_id: str | None = None) ->
     before_bytes = path_size(path)
     suffix = path.suffix.lower()
     if suffix != ".wav":
-        return build_record(
-            asset_id=asset_id or path.name,
-            source_path=str(path.relative_to(root)).replace("\\", "/")
-            if root.resolve() in path.resolve().parents
-            else str(path),
-            source_sha256=before_sha,
-            source_bytes=before_bytes,
-            codec=suffix.lstrip(".") or "unknown",
-            duration_seconds=0.0,
-            sample_rate_hz=1,
-            channels=1,
-            bit_depth=1,
-            channel_layout="mono",
-            decode_status="blocked",
-            canonical_pcm_sha256=None,
-            frame_count=0,
-            source_immutable=True,
-            blocker={
-                "code": "UNSUPPORTED_CODEC_OR_CONTAINER",
-                "detail": (
-                    "This Row070 slice only decodes PCM WAV via the stdlib wave reader; "
-                    f"extension '{suffix}' is unsupported."
-                ),
-            },
-            library_authority=False,
-            blocker_codes=["UNSUPPORTED_CODEC_OR_CONTAINER"],
+        return decode_non_wav_file(
+            root,
+            path,
+            asset_id=asset_id,
+            before_sha=before_sha,
+            before_bytes=before_bytes,
         )
 
     try:
@@ -500,7 +690,33 @@ def decode_wav_file(root: Path, source: Path, *, asset_id: str | None = None) ->
             blocker_codes=["UNSUPPORTED_CODEC_OR_CONTAINER"],
         )
 
-    if sample_width not in {2, 4}:
+    peeked = _peek_wav_fmt_audio_format_and_bits(path)
+    # Reject integer 32-bit PCM (format 1 / 32-bit); only IEEE float32 uses width 4.
+    if sample_width == 4 and peeked is not None and peeked[0] == 1:
+        return build_record(
+            asset_id=asset_id or path.name,
+            source_path=rel_path,
+            source_sha256=before_sha,
+            source_bytes=before_bytes,
+            codec="pcm_s32le",
+            duration_seconds=0.0,
+            sample_rate_hz=sample_rate_hz,
+            channels=channels,
+            bit_depth=32,
+            channel_layout=channel_layout_for(channels),
+            decode_status="blocked",
+            canonical_pcm_sha256=None,
+            frame_count=0,
+            source_immutable=source_immutable,
+            blocker={
+                "code": "UNSUPPORTED_SAMPLE_FORMAT",
+                "detail": "Integer 32-bit PCM WAV remains unsupported; need 8/16/24-bit PCM or float32.",
+            },
+            library_authority=False,
+            blocker_codes=["UNSUPPORTED_SAMPLE_FORMAT"],
+        )
+
+    if sample_width not in SUPPORTED_WAV_PCM_SAMPLE_WIDTHS:
         return build_record(
             asset_id=asset_id or path.name,
             source_path=rel_path,
@@ -518,7 +734,10 @@ def decode_wav_file(root: Path, source: Path, *, asset_id: str | None = None) ->
             source_immutable=source_immutable,
             blocker={
                 "code": "UNSUPPORTED_SAMPLE_FORMAT",
-                "detail": f"Sample width {sample_width} bytes is unsupported; need 16-bit PCM or float32.",
+                "detail": (
+                    f"Sample width {sample_width} bytes is unsupported; "
+                    "need 8/16/24-bit PCM or float32."
+                ),
             },
             library_authority=False,
             blocker_codes=["UNSUPPORTED_SAMPLE_FORMAT"],
@@ -583,12 +802,18 @@ def decode_wav_file(root: Path, source: Path, *, asset_id: str | None = None) ->
         )
 
     duration = frame_count / float(sample_rate_hz) if sample_rate_hz else 0.0
+    codec_by_width = {
+        1: "pcm_u8",
+        2: "pcm_s16le",
+        3: "pcm_s24le",
+        4: "pcm_f32le",
+    }
     record = build_record(
         asset_id=asset_id or path.name,
         source_path=rel_path,
         source_sha256=before_sha,
         source_bytes=before_bytes,
-        codec="pcm_s16le" if sample_width == 2 else "pcm_f32le",
+        codec=codec_by_width.get(sample_width, "pcm_wav"),
         duration_seconds=duration,
         sample_rate_hz=sample_rate_hz,
         channels=channels,
@@ -692,14 +917,14 @@ def _peek_wav_fmt_audio_format_and_bits(path: Path) -> tuple[int, int] | None:
 
 
 def wav_is_supported_pcm(path: Path) -> bool:
-    """Return True when stdlib wave can decode this path as 16-bit or float32 PCM."""
+    """Return True when stdlib wave can decode 8/16/24-bit PCM or float32 WAV."""
     if not path_is_file(path):
         return False
     peeked = _peek_wav_fmt_audio_format_and_bits(path)
     if peeked is not None:
         audio_format, bits_per_sample = peeked
-        # 1=PCM, 3=IEEE float. Reject obvious unsupported bit depths early.
-        if audio_format == 1 and bits_per_sample not in {16}:
+        # 1=PCM, 3=IEEE float. Integer 32-bit PCM remains unsupported.
+        if audio_format == 1 and bits_per_sample not in {8, 16, 24}:
             return False
         if audio_format == 3 and bits_per_sample not in {32}:
             return False
@@ -709,7 +934,9 @@ def wav_is_supported_pcm(path: Path) -> bool:
         with wave.open(str(_io_path(path)), "rb") as handle:
             if handle.getcomptype() != "NONE":
                 return False
-            if handle.getsampwidth() not in {2, 4}:
+            if handle.getsampwidth() not in SUPPORTED_WAV_PCM_SAMPLE_WIDTHS:
+                return False
+            if handle.getsampwidth() == 4 and peeked is not None and peeked[0] == 1:
                 return False
             if handle.getnframes() < 1 or handle.getnchannels() < 1:
                 return False
@@ -962,7 +1189,9 @@ def _empty_retained_counts() -> dict[str, int]:
         "wav_pass": 0,
         "wav_blocked": 0,
         "wav_failed": 0,
+        "non_wav_pass": 0,
         "non_wav_blocked": 0,
+        "non_wav_failed": 0,
         "source_immutable_true": 0,
         "index_identity_true": 0,
         "index_identity_false": 0,
@@ -973,20 +1202,25 @@ def _bump_retained_counts(counts: dict[str, int], compact: dict[str, Any]) -> No
     counts["records_processed"] += 1
     status = str(compact.get("decode_status") or "")
     extension = str(compact.get("extension") or "").lower()
+    is_wav = extension == ".wav"
     if status == "pass":
         counts["decode_pass"] += 1
-        if extension == ".wav":
+        if is_wav:
             counts["wav_pass"] += 1
+        else:
+            counts["non_wav_pass"] += 1
     elif status == "blocked":
         counts["decode_blocked"] += 1
-        if extension == ".wav":
+        if is_wav:
             counts["wav_blocked"] += 1
         else:
             counts["non_wav_blocked"] += 1
     else:
         counts["decode_failed"] += 1
-        if extension == ".wav":
+        if is_wav:
             counts["wav_failed"] += 1
+        else:
+            counts["non_wav_failed"] += 1
     if compact.get("source_immutable") is True:
         counts["source_immutable_true"] += 1
     if (
@@ -1220,11 +1454,7 @@ def run_retained_index_decode(
         "progress_path": relpath_or_abs(root, progress_path),
         "explicit_non_claims": [
             "COMPLETE",
-            "library_authority",
             "product_completion",
-            "row070_acceptance",
-            # Even with coverage_complete, non-WAV remains exact-blocked in this slice.
-            "non_wav_decode_authority",
         ],
     }
     write_json(receipt_path, summary)
@@ -1249,21 +1479,34 @@ def build_library_blocker_packet(
     admission = evaluate_row069_admission(root)
     blocker_codes = list(admission["blocker_codes"])
     retained = retained_index_runtime or {}
+    retained_counts = retained.get("counts") or {}
     retained_complete = retained.get("coverage_complete") is True
     retained_fingerprint = (
         (retained.get("source_immutability_fingerprint") or {}).get("fingerprint_complete")
         is True
     )
+    blocker_histogram = retained.get("blocker_histogram") or {}
+    unsupported_codec_count = int(blocker_histogram.get("UNSUPPORTED_CODEC_OR_CONTAINER") or 0)
+    unsupported_sample_format_count = int(
+        blocker_histogram.get("UNSUPPORTED_SAMPLE_FORMAT") or 0
+    )
+    non_wav_pass = int(retained_counts.get("non_wav_pass") or 0)
     if not retained_complete:
         if "FULL_LIBRARY_RUNTIME_RECORD_ABSENT" not in blocker_codes:
             blocker_codes.append("FULL_LIBRARY_RUNTIME_RECORD_ABSENT")
     if not retained_fingerprint:
         if "SOURCE_IMMUTABILITY_FULL_LIBRARY_FINGERPRINT_ABSENT" not in blocker_codes:
             blocker_codes.append("SOURCE_IMMUTABILITY_FULL_LIBRARY_FINGERPRINT_ABSENT")
-    if "NON_WAV_CODEC_COVERAGE_ABSENT" not in blocker_codes:
-        blocker_codes.append("NON_WAV_CODEC_COVERAGE_ABSENT")
+    # Non-WAV coverage is proven only when retained reconcile decoded non-WAV passes and
+    # no inventory record remains exact-blocked solely for unsupported codec/container.
+    if (not retained_complete) or non_wav_pass < 1 or unsupported_codec_count > 0:
+        if "NON_WAV_CODEC_COVERAGE_ABSENT" not in blocker_codes:
+            blocker_codes.append("NON_WAV_CODEC_COVERAGE_ABSENT")
+    if retained_complete and unsupported_sample_format_count > 0:
+        if "UNSUPPORTED_SAMPLE_FORMAT_WAV_COVERAGE_ABSENT" not in blocker_codes:
+            blocker_codes.append("UNSUPPORTED_SAMPLE_FORMAT_WAV_COVERAGE_ABSENT")
     strata_pass = int((index_strata_runtime or {}).get("counts", {}).get("decode_pass") or 0)
-    retained_pass = int((retained.get("counts") or {}).get("decode_pass") or 0)
+    retained_pass = int(retained_counts.get("decode_pass") or 0)
     if not (
         (index_strata_runtime and strata_pass > 0)
         or retained_pass > 0
@@ -1278,11 +1521,11 @@ def build_library_blocker_packet(
     )
     fixture_record = decode_fixture_record(root, fixture_dir)
     unsupported = build_record(
-        asset_id="fixture:unsupported.mp3",
-        source_path="Plan/Instructions/QA/Evidence/Wave64/fixtures/row070_canonical_decode/unsupported.mp3",
-        source_sha256=sha256_bytes(b"not-a-real-mp3"),
+        asset_id="fixture:unsupported.aac",
+        source_path="Plan/Instructions/QA/Evidence/Wave64/fixtures/row070_canonical_decode/unsupported.aac",
+        source_sha256=sha256_bytes(b"not-a-real-aac"),
         source_bytes=13,
-        codec="mp3",
+        codec="aac",
         duration_seconds=0.0,
         sample_rate_hz=1,
         channels=1,
@@ -1294,7 +1537,7 @@ def build_library_blocker_packet(
         source_immutable=True,
         blocker={
             "code": "UNSUPPORTED_CODEC_OR_CONTAINER",
-            "detail": "MP3 is unsupported in the stdlib WAV Row070 slice.",
+            "detail": "AAC remains outside the Row070 mp3/flac/ogg decode set.",
         },
         library_authority=False,
         blocker_codes=["UNSUPPORTED_CODEC_OR_CONTAINER"],
@@ -1329,33 +1572,103 @@ def build_library_blocker_packet(
     bounded = bounded_live_pcm_runtime
     strata_pass = int((strata or {}).get("counts", {}).get("decode_pass") or 0)
     bounded_pass = int((bounded or {}).get("decode_pass") or 0)
-    retained_processed = int((retained.get("counts") or {}).get("records_processed") or 0)
+    retained_processed = int(retained_counts.get("records_processed") or 0)
+    acceptance_ready = (
+        admission.get("dependency_satisfied") is True
+        and retained_complete
+        and retained_fingerprint
+        and not blocker_codes
+        and retained_pass > 0
+    )
 
-    if admission.get("dependency_satisfied") and retained_complete:
+    if acceptance_ready:
+        status = "PASS_LIBRARY_PCM_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION"
+        bounded_runtime_label = "RUNTIME_PASS_BOUNDED"
+        safe_next = (
+            "Row070 library PCM authority accepted on retained-index reconcile with "
+            "24-bit WAV + mp3/flac/ogg decode coverage. Residual inventory blockers remain "
+            "exact fail-closed records only. Climb Row071 library feature reconcile next; "
+            "do not claim product COMPLETE."
+        )
+        decision_status = "pass"
+        row070_acceptance = "accepted"
+        row_complete = True
+        library_authority = True
+        runtime_completion_claimed = True
+    elif (
+        admission.get("dependency_satisfied")
+        and retained_complete
+        and "NON_WAV_CODEC_COVERAGE_ABSENT" in blocker_codes
+    ):
         status = "HOLD_NON_WAV_CODEC_WITH_RETAINED_INDEX_RECONCILE_RUNTIME"
         bounded_runtime_label = "RUNTIME_PASS_BOUNDED"
         safe_next = (
             "Retained-index decode reconcile mapped every accepted record to PASS or an "
-            "exact blocker. Add non-WAV decoder coverage beyond exact blockers, then "
-            "reassess Row070 acceptance. Do not claim COMPLETE while NON_WAV_CODEC_COVERAGE_ABSENT."
+            "exact blocker. Add or prove non-WAV decoder coverage beyond exact blockers, "
+            "then reassess Row070 acceptance. Do not claim COMPLETE while "
+            "NON_WAV_CODEC_COVERAGE_ABSENT."
         )
+        decision_status = "blocked"
+        row070_acceptance = "held"
+        row_complete = False
+        library_authority = False
+        runtime_completion_claimed = False
+    elif (
+        admission.get("dependency_satisfied")
+        and retained_complete
+        and "UNSUPPORTED_SAMPLE_FORMAT_WAV_COVERAGE_ABSENT" in blocker_codes
+    ):
+        status = "HOLD_UNSUPPORTED_WAV_SAMPLE_FORMAT_WITH_RETAINED_INDEX_RECONCILE_RUNTIME"
+        bounded_runtime_label = "RUNTIME_PASS_BOUNDED"
+        safe_next = (
+            "Non-WAV coverage is present, but unsupported WAV sample-format inventory "
+            "blockers remain. Expand WAV sample-format support or accept residual formats "
+            "as permanent fail-closed inventory before Row070 acceptance."
+        )
+        decision_status = "blocked"
+        row070_acceptance = "held"
+        row_complete = False
+        library_authority = False
+        runtime_completion_claimed = False
+    elif admission.get("dependency_satisfied") and retained_complete:
+        status = "HOLD_RETAINED_INDEX_RECONCILE_WITH_RESIDUAL_ACCEPTANCE_GAPS"
+        bounded_runtime_label = "RUNTIME_PASS_BOUNDED"
+        safe_next = (
+            "Retained-index reconcile is complete; close residual acceptance gaps in "
+            f"{blocker_codes}, then reassess Row070 acceptance without product COMPLETE."
+        )
+        decision_status = "blocked"
+        row070_acceptance = "held"
+        row_complete = False
+        library_authority = False
+        runtime_completion_claimed = False
     elif admission.get("dependency_satisfied") and retained_processed > 0:
         status = "HOLD_FULL_LIBRARY_DECODE_WITH_ACCEPTED_INDEX_RETAINED_PARTIAL_RUNTIME"
         bounded_runtime_label = "RUNTIME_PASS_BOUNDED"
         safe_next = (
             "Continue resumable retained-index decode until every accepted record maps to "
-            "PASS or an exact blocker, then add non-WAV decoder coverage. Do not claim "
-            "COMPLETE without full retained-index reconcile and non-WAV authority."
+            "PASS or an exact blocker with non-WAV and broader WAV sample-format coverage. "
+            "Do not claim COMPLETE without full retained-index reconcile."
         )
+        decision_status = "blocked"
+        row070_acceptance = "held"
+        row_complete = False
+        library_authority = False
+        runtime_completion_claimed = False
     elif admission.get("dependency_satisfied") and strata_pass > 0:
         status = "HOLD_FULL_LIBRARY_DECODE_WITH_ACCEPTED_INDEX_STRATA_BOUNDED_RUNTIME"
         bounded_runtime_label = "RUNTIME_PASS_BOUNDED"
         safe_next = (
             "Expand accepted-index decode from strata sample toward full retained-index "
-            "coverage (decode PASS or exact blocker per record), add non-WAV decoder "
-            "coverage beyond exact blockers, and prove full-library source immutability "
+            "coverage (decode PASS or exact blocker per record), prove non-WAV and broader "
+            "WAV sample-format coverage, and prove full-library source immutability "
             "before Row070 acceptance. Do not claim COMPLETE without full-library runtime."
         )
+        decision_status = "blocked"
+        row070_acceptance = "held"
+        row_complete = False
+        library_authority = False
+        runtime_completion_claimed = False
     elif admission.get("dependency_satisfied"):
         status = "HOLD_FULL_LIBRARY_DECODE_RUNTIME_ABSENT"
         bounded_runtime_label = "RUNTIME_PASS_BOUNDED" if bounded_pass > 0 else "STATIC_PASS"
@@ -1365,6 +1678,11 @@ def build_library_blocker_packet(
             "output/failure-manifest hashes, and prove full-library source immutability "
             "before Row070 acceptance."
         )
+        decision_status = "blocked"
+        row070_acceptance = "held"
+        row_complete = False
+        library_authority = False
+        runtime_completion_claimed = False
     else:
         status = "HOLD_ROW069_DEPENDENCY_AND_FULL_LIBRARY_DECODE_RUNTIME_ABSENT"
         bounded_runtime_label = "RUNTIME_PASS_BOUNDED" if bounded_pass > 0 else "STATIC_PASS"
@@ -1373,6 +1691,11 @@ def build_library_blocker_packet(
             "reconcile every accepted index record to decode PASS or an exact blocker with "
             "output/failure-manifest hashes, and prove full-library source immutability."
         )
+        decision_status = "blocked"
+        row070_acceptance = "held"
+        row_complete = False
+        library_authority = False
+        runtime_completion_claimed = False
 
     packet: dict[str, Any] = {
         "schema_version": SCHEMA_VERSION,
@@ -1381,10 +1704,11 @@ def build_library_blocker_packet(
         "item_id": ITEM_ID,
         "decoder_revision": DECODER_REVISION,
         "canonical_pcm_contract": dict(CANONICAL_PCM_CONTRACT),
-        "row_complete": False,
+        "row_complete": row_complete,
         "implementation_completion_claimed": False,
-        "runtime_completion_claimed": False,
-        "library_authority": False,
+        "runtime_completion_claimed": runtime_completion_claimed,
+        "library_authority": library_authority,
+        "product_completion_claimed": False,
         "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED"
         if (strata_pass > 0 or bounded_pass > 0 or retained_pass > 0)
         else "STATIC_PASS",
@@ -1394,16 +1718,18 @@ def build_library_blocker_packet(
             "authority": "synthetic_non_library",
             "determinism_note": (
                 "Fixture WAV decode proves frozen f32le hash identity and fail-closed "
-                "unsupported/corrupt blockers only; it does not accept Row070 library completion."
+                "unsupported/corrupt blockers only; library acceptance requires retained-"
+                "index reconcile with non-WAV and supported WAV sample-format coverage."
             ),
             "records": [fixture_record, unsupported, corrupt],
         },
         "blocker_codes": blocker_codes,
         "decision": {
-            "status": "blocked",
-            "row070_acceptance": "held",
+            "status": decision_status,
+            "row070_acceptance": row070_acceptance,
             "product_completion": False,
-            "runtime_completion": False,
+            "runtime_completion": runtime_completion_claimed,
+            "library_authority": library_authority,
             "bounded_runtime": bounded_runtime_label,
             "safe_next_action": safe_next,
         },
@@ -1594,10 +1920,20 @@ def main(argv: list[str] | None = None) -> int:
             index_strata_runtime=strata,
             retained_index_runtime=retained,
         )
-        if payload["decision"]["status"] != "blocked":
+        decision = payload.get("decision") if isinstance(payload.get("decision"), dict) else {}
+        if decision.get("product_completion") is True or payload.get("product_completion_claimed") is True:
+            raise CanonicalDecodeError("library_mode_must_never_claim_product_completion")
+        if decision.get("status") == "pass":
+            if payload.get("row_complete") is not True or payload.get("library_authority") is not True:
+                raise CanonicalDecodeError(
+                    "library_mode_pass_requires_row_complete_and_library_authority"
+                )
+            if payload.get("blocker_codes"):
+                raise CanonicalDecodeError("library_mode_pass_cannot_retain_blocker_codes")
+        elif decision.get("status") != "blocked":
             raise CanonicalDecodeError("library_mode_must_remain_fail_closed_until_dependencies_pass")
-        if payload.get("row_complete") is True:
-            raise CanonicalDecodeError("library_mode_must_not_claim_row_complete")
+        elif payload.get("row_complete") is True:
+            raise CanonicalDecodeError("library_mode_blocked_must_not_claim_row_complete")
         if "ROW069_DEPENDENCY_NOT_ACCEPTED" in payload.get("blocker_codes", []):
             # Library mode may still emit when admission is held; never silently drop it.
             pass
