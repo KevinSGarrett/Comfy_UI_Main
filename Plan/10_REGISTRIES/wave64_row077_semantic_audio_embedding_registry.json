@@ -4,11 +4,13 @@
   "registry_revision": "wave64_row077_semantic_audio_embedding_registry_v0.1.0",
   "compiler_revision": "wave64_row077_semantic_audio_embedding_compiler_v0.1.0",
   "tracker_id": "TRK-W64-077",
-  "authority": "planning_freeze_not_library_acceptance",
+  "authority": "model_selected_heldout_bound_not_library_acceptance",
   "notes": [
     "Frozen Row077 embedding-space, preprocessing, fixture vector, held-out metric, and non-certifying policy for fail-closed admission.",
-    "Fixture vectors are deterministic synthetic L2 unit vectors in a 16-d compatible audio/text space; they do not load or certify a production CLAP stack.",
-    "Rows069 and 070 library authority are now accepted; library embedding completion still requires one selected hash-reconciled model file-set, bound preprocessing, and held-out retrieval on real decoded audio."
+    "Fixture vectors remain deterministic synthetic L2 unit vectors in a 16-d compatible audio/text space; they do not load or certify a production CLAP stack.",
+    "Selected laion_clap_general with Apache-2.0 license binding and frozen expected key-file / preprocessing / taxonomy hashes.",
+    "Held-out binding is disjoint and bounded under runtime_artifacts/embeddings/row077_heldout_*; full-library embed/PCM scan remains forbidden while Row075 owns library I/O.",
+    "Weights are selected and license-bound but not installed; library embedding index and full-library reconciliation remain absent."
   ],
   "required_embedding_spaces": [
     "source_audio",
@@ -39,23 +41,54 @@
     "resampler": "fixture_identity_no_runtime_decode",
     "channel_mix": "mono_mean_when_stereo_else_passthrough"
   },
+  "frozen_hashes": {
+    "preprocessing_configuration_sha256": "457d0fa46b5a3de30386de273e08b61ce681b6ffd41c91ee17b368d27d4a6969",
+    "taxonomy_revision_sha256": "a1ec36bcb43d851ef592c618540ea2d8cb5352233ba10b13892ff7117b966327",
+    "freeze_policy": "exact_canonical_json_sha256",
+    "frozen": true
+  },
   "model_binding": {
-    "selected_for_library": false,
+    "selected_for_library": true,
     "production_ready": false,
-    "fixture_model_name": "wave64_row077_synthetic_clap_compatible_fixture",
-    "fixture_model_revision": "fixture_v0.1.0",
-    "fixture_model_code_revision": "wave64_row077_semantic_audio_embedding_compiler_v0.1.0",
+    "weights_installed": false,
+    "selected_asset_id": "laion_clap_general",
+    "selected_model_name": "laion/larger_clap_general",
+    "selected_model_revision": "ada0c23a36c4e8582805bb38fec3905903f18b41",
+    "selected_model_code_revision": "wave64_row077_semantic_audio_embedding_compiler_v0.1.0",
+    "expected_key_file": {
+      "filename": "pytorch_model.bin",
+      "bytes": 776444665,
+      "sha256": "314eb00cce6ad68d25237b8446b659ccdb136ed4672c1bca470f142f72455026"
+    },
+    "declared_local_path": "models/audio/embeddings/laion_clap_general/pytorch_model.bin",
     "acquisition_candidates_catalog": "Plan/10_REGISTRIES/wave64_hyperreal_audio_model_asset_acquisition_catalog.json",
     "candidate_asset_ids": [
       "laion_clap_general",
       "laion_clap_music_speech"
     ],
-    "notes": "Pinned LAION CLAP candidates remain acquisition identities only; neither is selected, installed, or runtime-qualified for Row077."
+    "license_binding": {
+      "spdx_id": "Apache-2.0",
+      "catalog_license": "apache-2.0",
+      "gated": false,
+      "acceptance_asserted": true,
+      "acceptance_scope": "local_inference_embedding_heldout_only",
+      "basis": "catalog_ungated_apache_2_0_official_asset",
+      "repo_id": "laion/larger_clap_general",
+      "revision": "ada0c23a36c4e8582805bb38fec3905903f18b41",
+      "binding_statement": "Accept Apache-2.0 terms for local held-out semantic audio embedding inference using laion_clap_general at pinned revision ada0c23a36c4e8582805bb38fec3905903f18b41; no redistribution or production eligibility claim.",
+      "binding_sha256": "b2d2cf1ddecefbf8b882fa774b62ebefaa5d7b523e195cee8896aa8656cb2c9b"
+    },
+    "fixture_model_name": "wave64_row077_synthetic_clap_compatible_fixture",
+    "fixture_model_revision": "fixture_v0.1.0",
+    "fixture_model_code_revision": "wave64_row077_semantic_audio_embedding_compiler_v0.1.0",
+    "notes": "laion_clap_general is selected and Apache-2.0 license-bound with frozen expected key-file hash; weights remain uninstalled. Fixture model remains the only vector emitter until weights are installed."
   },
   "embedding_index": {
     "fixture_revision": "wave64_row077_fixture_embedding_index_v0.1.0",
+    "heldout_revision": "wave64_row077_heldout_embedding_index_v0.1.0",
     "mixed_generations_forbidden": true,
-    "requires_complete_membership_reconciliation": true
+    "requires_complete_membership_reconciliation": true,
+    "full_library_scan_forbidden_while_row075_owns_io": true
   },
   "partition_policy": {
     "calibration_and_held_out_must_be_disjoint": true,
@@ -110,6 +143,7 @@
     "missing_preprocessing_hash_rejected": true,
     "partition_overlap_rejected": true,
     "unknown_or_ambiguous_must_abstain": true,
-    "similarity_cannot_grant_promotion": true
+    "similarity_cannot_grant_promotion": true,
+    "full_library_embed_forbidden_while_row075_owns_io": true
   }
 }

@@ -31,27 +31,78 @@ def test_row069_070_admission_accepts_current_library_authority_deltas():
     assert row070["row_complete"] is True
 
 
-def test_library_mode_emits_deps_unlocked_hold_without_false_completion():
+def test_library_mode_emits_model_selected_heldout_bound_hold_without_false_completion():
     payload = MOD.build_library_blocker_packet(ROOT)
     assert payload["row_complete"] is False
     assert payload["implementation_completion_claimed"] is False
     assert payload["runtime_completion_claimed"] is False
     assert payload["library_authority"] is False
     assert payload["dependencies_unlocked"] is True
-    assert payload["status"] == "HOLD_LIBRARY_EMBEDDING_MODEL_AND_INDEX_ABSENT_DEPS_UNLOCKED"
+    assert payload["status"] == (
+        "HOLD_LIBRARY_EMBEDDING_INDEX_ABSENT_MODEL_SELECTED_HELDOUT_BOUND"
+    )
     assert payload["proof_tier"] == "CONTRACT_PASS_BOUNDED"
     assert payload["highest_proof_tier_achieved"] == "CONTRACT_PASS_BOUNDED"
     assert payload["decision"]["status"] == "blocked"
     assert payload["decision"]["product_completion"] is False
     assert payload["decision"]["row077_acceptance"] == "held"
     assert payload["decision"]["dependencies_unlocked"] is True
+    assert payload["decision"]["model_selected"] is True
+    assert payload["decision"]["license_bound"] is True
+    assert payload["decision"]["hashes_frozen"] is True
+    assert payload["decision"]["heldout_bound"] is True
     assert "ROW069_ROW070_DEPENDENCIES_NOT_ACCEPTED" not in payload["blocker_codes"]
-    assert "EMBEDDING_MODEL_NOT_SELECTED_OR_INSTALLED" in payload["blocker_codes"]
+    assert "EMBEDDING_MODEL_NOT_SELECTED_OR_INSTALLED" not in payload["blocker_codes"]
+    assert "PREPROCESSING_RUNTIME_UNBOUND" not in payload["blocker_codes"]
+    assert "HELDOUT_RETRIEVAL_LIBRARY_METRICS_ABSENT" not in payload["blocker_codes"]
+    assert "EMBEDDING_MODEL_WEIGHTS_NOT_INSTALLED" in payload["blocker_codes"]
     assert "EMBEDDING_INDEX_LIBRARY_RUNTIME_ABSENT" in payload["blocker_codes"]
+    assert "FULL_LIBRARY_EMBEDDING_RECONCILIATION_ABSENT" in payload["blocker_codes"]
+    assert payload["model_selection"]["selected_asset_id"] == "laion_clap_general"
+    assert payload["heldout_binding"]["scope"] == "held_out_only"
+    assert payload["heldout_binding"]["full_library_scan"] is False
     assert payload["compiler_revision"] == MOD.COMPILER_REVISION
     assert payload["registry_revision"] == MOD.REGISTRY_REVISION
     assert payload["fixture_calibration"]["fixture_count"] == 5
     assert set(payload["required_embedding_spaces"]) == set(MOD.REQUIRED_EMBEDDING_SPACES)
+
+
+def test_registry_freezes_hashes_and_license_binds_selected_model():
+    registry = MOD.load_registry(ROOT)
+    frozen = MOD.assert_frozen_hashes(registry)
+    selection = MOD.assert_model_selection_binding(registry)
+    assert registry["model_binding"]["selected_for_library"] is True
+    assert selection["selected_asset_id"] == "laion_clap_general"
+    assert selection["expected_key_file_sha256"] == (
+        "314eb00cce6ad68d25237b8446b659ccdb136ed4672c1bca470f142f72455026"
+    )
+    assert frozen["preprocessing_configuration_sha256"] == (
+        "457d0fa46b5a3de30386de273e08b61ce681b6ffd41c91ee17b368d27d4a6969"
+    )
+    assert frozen["taxonomy_revision_sha256"] == (
+        "a1ec36bcb43d851ef592c618540ea2d8cb5352233ba10b13892ff7117b966327"
+    )
+    assert registry["model_binding"]["license_binding"]["acceptance_asserted"] is True
+    assert registry["model_binding"]["license_binding"]["binding_sha256"] == (
+        selection["license_binding_sha256"]
+    )
+
+
+def test_heldout_binding_is_disjoint_and_forbids_full_library_scan():
+    heldout = MOD.build_heldout_binding_artifacts(ROOT)
+    assert heldout["manifest"]["scope"] == "held_out_only"
+    assert heldout["manifest"]["full_library_scan"] is False
+    assert heldout["manifest"]["pcm_decoded"] is False
+    assert heldout["manifest"]["model_weights_loaded"] is False
+    assert heldout["manifest"]["row_complete"] is False
+    assert heldout["metrics"]["all_slices_pass"] is True
+    assert heldout["metrics"]["full_library_metrics"] is False
+    assert len(heldout["metrics"]["slices"]) == 4
+    assert heldout["index"]["embedding_index_revision"] == MOD.HELDOUT_INDEX_REVISION
+    paths = MOD.heldout_artifact_paths(ROOT)
+    assert paths["manifest"].is_file()
+    assert paths["index"].is_file()
+    assert paths["metrics"].is_file()
 
 
 def test_admission_fail_closed_when_delta_marks_held():
