@@ -1,0 +1,97 @@
+{
+  "schema_version": "row017.v1",
+  "artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_inpaint_detail_local_micro_v3_20260707T033500-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_v3_00001_.png",
+    "sha256": "ff1a87149083c84f52a4426b48c13bfef1dce67c9600e2bd0697eb50a46203d2"
+  },
+  "localized_change": {
+    "target_region": "face_skin_micro_detail_including_mouth_band",
+    "source_artifact": {
+      "path": "ComfyUI/input/sdxl_inpaint_detail_source_canny_v1.png",
+      "sha256": "7951e6a37e8e05bbf22604ac03eac38831875ed283206af8f6a99d874ad3e523"
+    }
+  },
+  "whole_frame_visual_scan": {
+    "status": "pass",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_MICRO_V3_VISUAL_QA_20260707T033500-0500.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_inpaint_detail_local_micro_v3_20260707T033500-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_v3_00001_.png"
+    ],
+    "pre_edit_status": "pass",
+    "post_edit_status": "pass"
+  },
+  "required_target_region_check": {
+    "status": "pass",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_MICRO_V3_VISUAL_QA_20260707T033500-0500.json"
+    ],
+    "target_region": "face_skin_micro_detail_including_mouth_band",
+    "findings": [
+      "Prior flat gray oval and full-face replacement failures are absent.",
+      "Micro-mask edit remains bounded; mouth/lip saturation and mild skin smoothing are notes, not global blockers."
+    ]
+  },
+  "required_non_target_region_scan": {
+    "status": "pass",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_MICRO_V3_VISUAL_QA_20260707T033500-0500.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_inpaint_detail_local_micro_v3_20260707T033500-0500/images/codex_sdxl_realvisxl_inpaint_detail_micro_v3_00001_.png"
+    ],
+    "regions_scanned": [
+      "eyes",
+      "hair",
+      "clothing",
+      "background",
+      "lighting",
+      "framing",
+      "face_identity"
+    ],
+    "findings": [
+      "Eye color, gaze, face shape, hair, clothing, background, lighting, and crop remain close to the source."
+    ]
+  },
+  "hands_face_body_background_contact_lighting_check": {
+    "hands": {
+      "visibility": "not_visible",
+      "inspected": true,
+      "status": "not_applicable",
+      "reason": "Hands are outside the portrait frame."
+    },
+    "face": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Identity, gaze, and facial features remain coherent for this localized candidate."
+    },
+    "body": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Visible neck/shoulders and clothing remain coherent."
+    },
+    "background": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Neutral background remains stable without seams or leakage."
+    },
+    "contact": {
+      "visibility": "not_applicable",
+      "inspected": true,
+      "status": "not_applicable",
+      "reason": "No contact interaction is required in this portrait."
+    },
+    "lighting": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Lighting remains coherent across the source/output pair."
+    }
+  },
+  "reject_on_any_global_defect": {
+    "status": "pass",
+    "global_defects": [],
+    "rejection_applied": false
+  },
+  "overall_decision": "pass"
+}

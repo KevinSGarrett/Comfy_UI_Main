@@ -16,7 +16,7 @@
     "target_only_override_forbidden": true,
     "global_defect_auto_reject": true
   },
-  "exact_blocker": "Historical localized QA records use ad hoc whole-image fields and do not consistently bind canonical pre-edit, target, non-target, post-edit, six-category coverage, and global-rejection evidence for every localized change.",
+  "exact_blocker": "Historical localized QA records remain incompletely classified; 51 focused W69/W70 local visual-QA candidates still lack canonical binding or fail-closed exclusion.",
   "legacy_evidence_reconciliation": {
     "representative_records_checked": [
       "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W69_LOCAL_INPAINT_DETAIL_NOMOUTH_V4_VISUAL_QA_20260707T035000-0500.json",
@@ -67,9 +67,23 @@
     "Plan/Instructions/QA/Evidence/Wave64/ROW017_LOCAL_RUNTIME_HISTORICAL_CANONICALIZATION_CLIMB_20260719T224800-0500.json",
     "Plan/Instructions/QA/Evidence/Image_Artifact_QA/ROW017_LOCAL_MF70_FACE_IDENTITY_CRITICAL_VISUAL_QA_20260719T231500-0500.json",
     "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_LOCAL_MF70_FACE_IDENTITY_CRITICAL_20260719T231500-0500_GLOBAL_REVIEW.json",
-    "Plan/Instructions/QA/Evidence/Wave64/ROW017_LOCAL_RUNTIME_HISTORICAL_CANONICALIZATION_CLIMB_20260719T231500-0500.json"
+    "Plan/Instructions/QA/Evidence/Wave64/ROW017_LOCAL_RUNTIME_HISTORICAL_CANONICALIZATION_CLIMB_20260719T231500-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/ROW017_CANONICAL_GLOBAL_REVIEW_NORMALIZATION_20260720T014824-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/ROW017_HISTORICAL_CANONICALIZATION_BACKLOG_LEDGER_20260720T014824-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-017_CLASS_C_HISTORICAL_CANONICALIZATION_DELTA_20260720T014824-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/ROW017_CANONICAL_GLOBAL_REVIEW_NORMALIZATION_20260718T163008-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_W69_INPAINT_DETAIL_MICRO_V3_GLOBAL_REVIEW_20260720.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_W69_INPAINT_NOMOUTH_V5_TEXTURE_GLOBAL_REVIEW_20260720.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_W70_FACE_IDENTITY_CRITICAL_SEED210801_GLOBAL_REVIEW_20260720.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_W70_EXPRESSION_REGION_SEED210803_GLOBAL_REVIEW_20260720.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_W70_FACE_FULL_INSTANCE_SEED210802_GLOBAL_REVIEW_20260720.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_W70_LEFT_EYE_SEED210809_GLOBAL_REVIEW_20260720.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_W70_RIGHT_EYE_SEED210810_GLOBAL_REVIEW_20260720.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_W70_TEETH_SEED210818_GLOBAL_REVIEW_20260720.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_W70_EYES_FULL_V3_SEED210822_GLOBAL_REVIEW_20260720.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_W70_NOSE_V2_SOURCE_LANDMARK_SEED210820_GLOBAL_REVIEW_20260720.json"
   ],
-  "next_action": "No unused prepared MF70 visual lane remains (eyes_full historically rejected; ears/tongue source-visibility blocked; face_skin policy-blocked). Row072 retained-index onset reconcile coverage_complete under frozen thresholds/strata holds. Let Row075 full-library index-retained defect reconcile finish (PID 45992; do not kill); keep away from Row069-071 reopen; do not claim COMPLETE.",
+  "next_action": "Continue Class C offline historical canonicalization on remaining uncovered W69/W70 localized records; do not resume MF70/W69 micro-climb treadmill unless a hard dependency names a specific region; leave Row075 alone; keep row_complete=false; no COMPLETE.",
   "bounded_climbs": [
     {
       "stamp": "20260719T181200-0500",
@@ -148,5 +162,17 @@
       "climb": "Plan/Tracker/Evidence/ROW017_LOCAL_RUNTIME_HISTORICAL_CANONICALIZATION_CLIMB_20260719T231500-0500.json",
       "row_complete": false
     }
-  ]
+  ],
+  "row_complete": false,
+  "proof_tier": "CONTRACT_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "CONTRACT_PASS_BOUNDED",
+  "class_c_campaign": {
+    "latest_delta": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-017_CLASS_C_HISTORICAL_CANONICALIZATION_DELTA_20260720T014824-0500.json",
+    "latest_normalization": "Plan/Instructions/QA/Evidence/Wave64/ROW017_CANONICAL_GLOBAL_REVIEW_NORMALIZATION_20260720T014824-0500.json",
+    "backlog_ledger": "Plan/Instructions/QA/Evidence/Wave64/ROW017_HISTORICAL_CANONICALIZATION_BACKLOG_LEDGER_20260720T014824-0500.json",
+    "this_batch_pass": 8,
+    "this_batch_reject": 2,
+    "focused_still_unclassified": 51,
+    "mf70_micro_climb_treadmill": "stopped"
+  }
 }
