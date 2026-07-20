@@ -78,6 +78,18 @@ class Row109AudioBenchmarkCorpusTests(unittest.TestCase):
             self.policy["revision"],
             "wave64_row109_audio_benchmark_corpus_policy_v0.1.0",
         )
+        self.assertEqual(
+            set(self.policy["media_policy"]["allowed_media_kinds"]),
+            {"synthetic_fixture_descriptor", "genuine_annotated_media_copy"},
+        )
+        self.assertEqual(
+            self.policy["media_policy"]["genuine_bind_requires"]["annotator_role"],
+            "human_gold",
+        )
+        self.assertEqual(
+            self.policy["media_policy"]["genuine_corpus_min_counts"]["calibration"],
+            11,
+        )
 
     def test_fixture_index_and_case_packets_present(self) -> None:
         index_path = FIXTURE_DIR / "corpus_case_index.json"
@@ -194,6 +206,100 @@ class Row109AudioBenchmarkCorpusTests(unittest.TestCase):
         self.assertFalse(evidence["fixture_corpus"]["pcm_decode_invoked"])
         self.assertFalse(evidence["fixture_corpus"]["live_full_library_scan"])
         MOD.verify_manifest_integrity(ROOT, manifest)
+
+    def test_genuine_corpus_gate_absent_on_synthetic_only_compile(self) -> None:
+        manifest = MOD.compile_corpus_manifest(ROOT)
+        gate = MOD.evaluate_genuine_annotated_media_corpus(manifest["cases"])
+        self.assertFalse(gate["present"])
+        self.assertEqual(gate["case_count"], 0)
+        self.assertEqual(gate["blocker_code"], "GENUINE_ANNOTATED_MEDIA_CORPUS_ABSENT")
+        self.assertIn("no_genuine_annotated_media_copy_cases", gate["reasons"])
+        self.assertTrue(manifest["is_synthetic"])
+        hold = MOD.build_hold_packet(ROOT, manifest)
+        self.assertIn("GENUINE_ANNOTATED_MEDIA_CORPUS_ABSENT", hold["blocker_codes"])
+        self.assertFalse(hold["genuine_annotated_media_corpus"]["present"])
+        self.assertFalse(hold["row_complete"])
+
+    def test_genuine_media_path_fails_closed_when_copy_absent(self) -> None:
+        cases = MOD.load_fixture_cases(ROOT)
+        raw = next(c for c in cases if c["partition"] == "train")
+        probe = {
+            k: v for k, v in raw.items() if not str(k).startswith("_")
+        }
+        probe["annotation"] = dict(probe["annotation"])
+        probe["annotation"]["annotator_role"] = "human_gold"
+        probe["media_locator"] = {
+            "kind": "genuine_annotated_media_copy",
+            "copy_path": (
+                "Plan/Instructions/QA/Evidence/Wave64/media/row109/"
+                "absent_step1_probe_clip.wav"
+            ),
+            "media_sha256": "0" * 64,
+            "rights_decision_sha256": "a" * 64,
+            "pcm_bytes": None,
+            "decode_invoked": False,
+            "live_full_library_scan": False,
+        }
+        probe["_source_fixture"] = raw["_source_fixture"]
+        probe["_source_fixture_path"] = raw["_source_fixture_path"]
+        with self.assertRaises(MOD.AudioBenchmarkCorpusError) as ctx:
+            MOD.compile_case(ROOT, probe)
+        self.assertIn("genuine_annotated_media_copy_absent", str(ctx.exception))
+
+    def test_genuine_media_requires_human_gold_and_rejects_pcm_decode(self) -> None:
+        cases = MOD.load_fixture_cases(ROOT)
+        raw = next(c for c in cases if c["partition"] == "calibration")
+        base = {
+            k: v for k, v in raw.items() if not str(k).startswith("_")
+        }
+        base["_source_fixture"] = raw["_source_fixture"]
+        base["_source_fixture_path"] = raw["_source_fixture_path"]
+        base["annotation"] = dict(base["annotation"])
+        base["annotation"]["annotator_role"] = "synthetic_fixture_authority"
+        base["media_locator"] = {
+            "kind": "genuine_annotated_media_copy",
+            "copy_path": (
+                "Plan/Instructions/QA/Evidence/Wave64/media/row109/"
+                "absent_step1_probe_clip.wav"
+            ),
+            "media_sha256": "0" * 64,
+            "rights_decision_sha256": "a" * 64,
+            "pcm_bytes": None,
+            "decode_invoked": False,
+            "live_full_library_scan": False,
+        }
+        with self.assertRaises(MOD.AudioBenchmarkCorpusError) as ctx:
+            MOD.compile_case(ROOT, base)
+        self.assertIn("genuine_media_requires_human_gold", str(ctx.exception))
+
+        base["annotation"]["annotator_role"] = "human_gold"
+        base["media_locator"]["decode_invoked"] = True
+        with self.assertRaises(MOD.AudioBenchmarkCorpusError) as ctx:
+            MOD.compile_case(ROOT, base)
+        self.assertIn("pcm_decode_forbidden", str(ctx.exception))
+
+    def test_schema_accepts_genuine_media_locator_shape(self) -> None:
+        locator = {
+            "kind": "genuine_annotated_media_copy",
+            "copy_path": (
+                "Plan/Instructions/QA/Evidence/Wave64/media/row109/example.wav"
+            ),
+            "media_sha256": "b" * 64,
+            "rights_decision_sha256": "c" * 64,
+            "pcm_bytes": None,
+            "decode_invoked": False,
+            "live_full_library_scan": False,
+        }
+        media_schema = self.schema["$defs"]["corpus_case"]["properties"]["media_locator"]
+        errors = sorted(
+            Draft202012Validator(media_schema).iter_errors(locator),
+            key=lambda err: list(err.path),
+        )
+        self.assertEqual(errors, [])
+        self.assertEqual(
+            self.schema["properties"]["is_synthetic"],
+            {"type": "boolean"},
+        )
 
 
 if __name__ == "__main__":

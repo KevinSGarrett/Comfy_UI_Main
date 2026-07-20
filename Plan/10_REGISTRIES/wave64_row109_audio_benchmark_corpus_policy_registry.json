@@ -7,7 +7,8 @@
   "authority": "synthetic_fixture_corpus_freeze_not_production_acceptance",
   "notes": [
     "Policy freezes Row109 coverage-matrix, annotation-authority, partition-separation, adversarial-case, and truth-integrity contracts for synthetic fixture corpus compilation.",
-    "It does not accept genuine annotated media runtime, combined frame/contact/audio review, production corpus authority, or row completion.",
+    "It also freezes the copies-only genuine_annotated_media_copy + human_gold production bind path (decode_invoked=false; no live full-library PCM).",
+    "Genuine media presence is required to clear GENUINE_ANNOTATED_MEDIA_CORPUS_ABSENT; this registry alone does not accept production corpus authority, combined visual/audio review, or row completion.",
     "Copies and fixtures only: no live full-library PCM decode is authorized by this registry."
   ],
   "required_gates": [
@@ -73,10 +74,33 @@
     "self_eval_pass_as_reference_truth"
   ],
   "media_policy": {
-    "allowed_media_kinds": ["synthetic_fixture_descriptor"],
+    "allowed_media_kinds": [
+      "synthetic_fixture_descriptor",
+      "genuine_annotated_media_copy"
+    ],
+    "genuine_media_tree": "Plan/Instructions/QA/Evidence/Wave64/media/row109",
+    "combined_review_tree": "Plan/Instructions/QA/Evidence/Wave64/reviews/row109",
     "pcm_decode_allowed": false,
     "live_full_library_scan_allowed": false,
-    "library_authority": false
+    "library_authority": false,
+    "genuine_bind_requires": {
+      "annotator_role": "human_gold",
+      "rights_bound": true,
+      "pcm_bytes": null,
+      "decode_invoked": false,
+      "live_full_library_scan": false,
+      "required_locator_fields": [
+        "copy_path",
+        "media_sha256",
+        "rights_decision_sha256"
+      ]
+    },
+    "genuine_corpus_min_counts": {
+      "train": 5,
+      "calibration": 11,
+      "held_out_test": 11,
+      "adversarial": 4
+    }
   },
   "annotation_authority_roles": [
     "synthetic_fixture_authority",

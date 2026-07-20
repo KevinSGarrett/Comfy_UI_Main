@@ -48,7 +48,7 @@
       "type": "string",
       "const": "wave64_row109_synthetic_benchmark_corpus_v0.1.0"
     },
-    "is_synthetic": { "type": "boolean", "const": true },
+    "is_synthetic": { "type": "boolean" },
     "library_authority": { "type": "boolean", "const": false },
     "pcm_decode_invoked": { "type": "boolean", "const": false },
     "live_full_library_scan": { "type": "boolean", "const": false },
@@ -317,28 +317,70 @@
           }
         },
         "media_locator": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "kind",
-            "descriptor_path",
-            "descriptor_sha256",
-            "pcm_bytes",
-            "decode_invoked"
-          ],
-          "properties": {
-            "kind": {
-              "type": "string",
-              "const": "synthetic_fixture_descriptor"
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "descriptor_path",
+                "descriptor_sha256",
+                "pcm_bytes",
+                "decode_invoked"
+              ],
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "synthetic_fixture_descriptor"
+                },
+                "descriptor_path": { "type": "string", "minLength": 1 },
+                "descriptor_sha256": {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                },
+                "pcm_bytes": { "type": "null" },
+                "decode_invoked": { "type": "boolean", "const": false }
+              }
             },
-            "descriptor_path": { "type": "string", "minLength": 1 },
-            "descriptor_sha256": {
-              "type": "string",
-              "pattern": "^[a-f0-9]{64}$"
-            },
-            "pcm_bytes": { "type": "null" },
-            "decode_invoked": { "type": "boolean", "const": false }
-          }
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "copy_path",
+                "media_sha256",
+                "rights_decision_sha256",
+                "pcm_bytes",
+                "decode_invoked",
+                "live_full_library_scan"
+              ],
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "genuine_annotated_media_copy"
+                },
+                "copy_path": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "^Plan/Instructions/QA/Evidence/Wave64/media/row109/"
+                },
+                "media_sha256": {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                },
+                "rights_decision_sha256": {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                },
+                "pcm_bytes": { "type": "null" },
+                "decode_invoked": { "type": "boolean", "const": false },
+                "live_full_library_scan": {
+                  "type": "boolean",
+                  "const": false
+                }
+              }
+            }
+          ]
         },
         "truth_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
         "source_fixture": { "type": "string", "minLength": 1 },

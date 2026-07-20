@@ -2,8 +2,10 @@
 """Fail-closed Wave64 Row109 audio benchmark/calibration/held-out/adversarial corpus.
 
 Fixture/copies-only slice: compile synthetic annotated descriptors into a partitioned
-corpus manifest with immutable truth bindings. No live full-library PCM decode.
-Production completion remains false until genuine annotated media + visual QA exist.
+corpus manifest with immutable truth bindings. Also supports a later
+genuine_annotated_media_copy + human_gold production bind under media/row109 with
+decode_invoked=false (no live full-library PCM). Production completion remains false
+until genuine annotated media + visual QA exist and remaining authority gates clear.
 """
 
 from __future__ import annotations
@@ -25,10 +27,20 @@ POLICY_PATH = Path(
 )
 FIXTURE_DIR = Path("Plan/Instructions/QA/Evidence/Wave64/fixtures/row109")
 BENCHMARK_DIR = Path("Plan/Instructions/QA/Evidence/Wave64/benchmarks/row109")
+GENUINE_MEDIA_DIR = Path("Plan/Instructions/QA/Evidence/Wave64/media/row109")
+COMBINED_REVIEW_DIR = Path("Plan/Instructions/QA/Evidence/Wave64/reviews/row109")
 DEFAULT_EVIDENCE = Path(
     "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-109_audio_benchmark_corpus.json"
 )
 DEFAULT_MANIFEST = BENCHMARK_DIR / "audio_benchmark_corpus_manifest.json"
+GENUINE_MEDIA_KIND = "genuine_annotated_media_copy"
+SYNTHETIC_MEDIA_KIND = "synthetic_fixture_descriptor"
+GENUINE_CORPUS_MIN_COUNTS = {
+    "train": 5,
+    "calibration": 11,
+    "held_out_test": 11,
+    "adversarial": 4,
+}
 DEPENDENCY_DELTAS: dict[str, Path] = {
     "TRK-W64-067": Path(
         "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-067_PLANNING_AUTHORITY_CURRENT_DELTA_20260719.json"
@@ -80,6 +92,30 @@ PARTITION_TRUTH_RULES = {
     "held_out_test": frozenset({"reference_truth"}),
     "adversarial": frozenset({"generated_candidate", "adversarial_decoy"}),
 }
+
+
+def media_identity(locator: dict[str, Any]) -> str:
+    kind = locator.get("kind")
+    if kind == SYNTHETIC_MEDIA_KIND:
+        digest = locator.get("descriptor_sha256")
+        if not isinstance(digest, str) or len(digest) != 64:
+            raise AudioBenchmarkCorpusError("synthetic_media_identity_missing")
+        return digest
+    if kind == GENUINE_MEDIA_KIND:
+        digest = locator.get("media_sha256")
+        if not isinstance(digest, str) or len(digest) != 64:
+            raise AudioBenchmarkCorpusError("genuine_media_identity_missing")
+        return digest
+    raise AudioBenchmarkCorpusError(f"unsupported_media_kind_for_identity:{kind}")
+
+
+def _assert_copies_only_bind_flags(case_id: str, media: dict[str, Any]) -> None:
+    if media.get("decode_invoked") is not False:
+        raise AudioBenchmarkCorpusError(f"pcm_decode_forbidden:{case_id}")
+    if media.get("pcm_bytes") is not None:
+        raise AudioBenchmarkCorpusError(f"pcm_bytes_forbidden:{case_id}")
+    if media.get("live_full_library_scan") is True:
+        raise AudioBenchmarkCorpusError(f"live_full_library_scan_forbidden:{case_id}")
 
 
 class AudioBenchmarkCorpusError(ValueError):
@@ -500,21 +536,77 @@ def compile_case(root: Path, raw: dict[str, Any]) -> dict[str, Any]:
         )
 
     media = spec.get("media_locator") or {}
-    if media.get("kind") != "synthetic_fixture_descriptor":
+    media_kind = media.get("kind")
+    _assert_copies_only_bind_flags(spec["case_id"], media)
+
+    if media_kind == SYNTHETIC_MEDIA_KIND:
+        descriptor_rel = Path(media["descriptor_path"])
+        descriptor_path = resolve_under(root, descriptor_rel, "descriptor")
+        if not descriptor_path.is_file():
+            raise AudioBenchmarkCorpusError(f"descriptor_absent:{spec['case_id']}")
+        descriptor = load_json(descriptor_path)
+        if descriptor.get("decode_invoked") is not False:
+            raise AudioBenchmarkCorpusError(f"descriptor_decode_forbidden:{spec['case_id']}")
+        if descriptor.get("pcm_bytes") is not None:
+            raise AudioBenchmarkCorpusError(f"descriptor_pcm_forbidden:{spec['case_id']}")
+        media_locator = {
+            "kind": SYNTHETIC_MEDIA_KIND,
+            "descriptor_path": str(descriptor_rel).replace("\\", "/"),
+            "descriptor_sha256": sha256_file(descriptor_path),
+            "pcm_bytes": None,
+            "decode_invoked": False,
+        }
+    elif media_kind == GENUINE_MEDIA_KIND:
+        if annotation.get("annotator_role") != "human_gold":
+            raise AudioBenchmarkCorpusError(
+                f"genuine_media_requires_human_gold:{spec['case_id']}"
+            )
+        if media.get("live_full_library_scan") is not False:
+            raise AudioBenchmarkCorpusError(
+                f"genuine_live_full_library_scan_must_be_false:{spec['case_id']}"
+            )
+        rights_sha = media.get("rights_decision_sha256")
+        if not isinstance(rights_sha, str) or len(rights_sha) != 64:
+            raise AudioBenchmarkCorpusError(
+                f"genuine_rights_decision_sha256_required:{spec['case_id']}"
+            )
+        claimed_media_sha = media.get("media_sha256")
+        if not isinstance(claimed_media_sha, str) or len(claimed_media_sha) != 64:
+            raise AudioBenchmarkCorpusError(
+                f"genuine_media_sha256_required:{spec['case_id']}"
+            )
+        copy_rel_raw = media.get("copy_path")
+        if not isinstance(copy_rel_raw, str) or not copy_rel_raw:
+            raise AudioBenchmarkCorpusError(f"genuine_copy_path_required:{spec['case_id']}")
+        copy_rel = Path(copy_rel_raw.replace("\\", "/"))
+        media_root = resolve_under(root, GENUINE_MEDIA_DIR, "genuine_media_dir")
+        copy_path = resolve_under(root, copy_rel, "genuine_media_copy")
+        try:
+            copy_path.relative_to(media_root)
+        except ValueError as exc:
+            raise AudioBenchmarkCorpusError(
+                f"genuine_copy_path_outside_media_tree:{spec['case_id']}"
+            ) from exc
+        if not copy_path.is_file():
+            raise AudioBenchmarkCorpusError(
+                f"genuine_annotated_media_copy_absent:{spec['case_id']}"
+            )
+        actual_sha = sha256_file(copy_path)
+        if actual_sha != claimed_media_sha:
+            raise AudioBenchmarkCorpusError(
+                f"genuine_media_sha256_mismatch:{spec['case_id']}"
+            )
+        media_locator = {
+            "kind": GENUINE_MEDIA_KIND,
+            "copy_path": str(copy_rel).replace("\\", "/"),
+            "media_sha256": actual_sha,
+            "rights_decision_sha256": rights_sha,
+            "pcm_bytes": None,
+            "decode_invoked": False,
+            "live_full_library_scan": False,
+        }
+    else:
         raise AudioBenchmarkCorpusError(f"unsupported_media_kind:{spec['case_id']}")
-    if media.get("decode_invoked") is not False:
-        raise AudioBenchmarkCorpusError(f"pcm_decode_forbidden:{spec['case_id']}")
-    if media.get("pcm_bytes") is not None:
-        raise AudioBenchmarkCorpusError(f"pcm_bytes_forbidden:{spec['case_id']}")
-    descriptor_rel = Path(media["descriptor_path"])
-    descriptor_path = resolve_under(root, descriptor_rel, "descriptor")
-    if not descriptor_path.is_file():
-        raise AudioBenchmarkCorpusError(f"descriptor_absent:{spec['case_id']}")
-    descriptor = load_json(descriptor_path)
-    if descriptor.get("decode_invoked") is not False:
-        raise AudioBenchmarkCorpusError(f"descriptor_decode_forbidden:{spec['case_id']}")
-    if descriptor.get("pcm_bytes") is not None:
-        raise AudioBenchmarkCorpusError(f"descriptor_pcm_forbidden:{spec['case_id']}")
 
     truth_sha = sha256_bytes(canonical_json_bytes(truth_payload_for_case(spec)))
     return {
@@ -529,13 +621,7 @@ def compile_case(root: Path, raw: dict[str, Any]) -> dict[str, Any]:
         "truth_class": spec["truth_class"],
         "adversarial_role": spec.get("adversarial_role"),
         "annotation": annotation,
-        "media_locator": {
-            "kind": "synthetic_fixture_descriptor",
-            "descriptor_path": str(descriptor_rel).replace("\\", "/"),
-            "descriptor_sha256": sha256_file(descriptor_path),
-            "pcm_bytes": None,
-            "decode_invoked": False,
-        },
+        "media_locator": media_locator,
         "truth_sha256": truth_sha,
         "source_fixture": source_fixture.replace("\\", "/"),
         "source_fixture_sha256": sha256_file(source_path),
@@ -584,11 +670,11 @@ def build_partition_manifest(cases: list[dict[str, Any]]) -> dict[str, Any]:
     if len(case_ids) != len(set(case_ids)):
         raise AudioBenchmarkCorpusError("partition_separation_case_id_collision")
 
-    # Held-out must not reuse calibration/train media descriptors.
+    # Held-out must not reuse calibration/train media identities.
     media_by_partition: dict[str, set[str]] = {}
     for partition, items in by_partition.items():
         media_by_partition[partition] = {
-            item["media_locator"]["descriptor_sha256"] for item in items
+            media_identity(item["media_locator"]) for item in items
         }
     leak = media_by_partition["held_out_test"] & (
         media_by_partition["train"] | media_by_partition["calibration"]
@@ -786,6 +872,97 @@ def verify_manifest_integrity(root: Path, manifest: dict[str, Any]) -> None:
     validate_manifest(root, manifest)
 
 
+def evaluate_genuine_annotated_media_corpus(
+    cases: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Fail-closed genuine corpus gate for copies-only binds (no PCM decode).
+
+    Returns present=True only when genuine_annotated_media_copy cases meet the
+    frozen min counts, human_gold + rights_bound rules, coverage floors, and
+    copies-only bind flags. Synthetic-only manifests remain absent.
+    """
+    genuine = [
+        c for c in cases if c.get("media_locator", {}).get("kind") == GENUINE_MEDIA_KIND
+    ]
+    counts = {partition: 0 for partition in REQUIRED_PARTITIONS}
+    for case in genuine:
+        counts[case["partition"]] = counts.get(case["partition"], 0) + 1
+
+    reasons: list[str] = []
+    if not genuine:
+        reasons.append("no_genuine_annotated_media_copy_cases")
+
+    for partition, minimum in GENUINE_CORPUS_MIN_COUNTS.items():
+        if counts.get(partition, 0) < minimum:
+            reasons.append(f"min_count_unmet:{partition}:{counts.get(partition, 0)}<{minimum}")
+
+    if any(
+        c["annotation"].get("annotator_role") != "human_gold"
+        or c["annotation"].get("rights_bound") is not True
+        for c in genuine
+    ):
+        reasons.append("human_gold_rights_bound_required")
+
+    if any(
+        c["media_locator"].get("decode_invoked") is not False
+        or c["media_locator"].get("pcm_bytes") is not None
+        or c["media_locator"].get("live_full_library_scan") is not False
+        for c in genuine
+    ):
+        reasons.append("copies_only_bind_flags_violated")
+
+    if any(
+        not isinstance(c["media_locator"].get("media_sha256"), str)
+        or len(c["media_locator"].get("media_sha256") or "") != 64
+        or not isinstance(c["media_locator"].get("rights_decision_sha256"), str)
+        or len(c["media_locator"].get("rights_decision_sha256") or "") != 64
+        for c in genuine
+    ):
+        reasons.append("media_or_rights_hash_missing")
+
+    truth_cases = [c for c in genuine if c["truth_class"] == "reference_truth"]
+    cal_families = {
+        c["event_family"] for c in truth_cases if c["partition"] == "calibration"
+    }
+    hold_families = {
+        c["event_family"] for c in truth_cases if c["partition"] == "held_out_test"
+    }
+    materials = {c["material"] for c in truth_cases}
+    footwear = {c["footwear"] for c in truth_cases}
+    if genuine and not set(REQUIRED_EVENT_FAMILIES).issubset(cal_families):
+        reasons.append("calibration_event_family_coverage_incomplete")
+    if genuine and not set(REQUIRED_EVENT_FAMILIES).issubset(hold_families):
+        reasons.append("held_out_event_family_coverage_incomplete")
+    if genuine and not set(REQUIRED_MATERIALS).issubset(materials):
+        reasons.append("material_coverage_incomplete")
+    if genuine and not set(REQUIRED_FOOTWEAR).issubset(footwear):
+        reasons.append("footwear_coverage_incomplete")
+
+    adv_roles = {
+        c.get("adversarial_role")
+        for c in genuine
+        if c["partition"] == "adversarial" and c.get("adversarial_role")
+    }
+    if genuine and not set(REQUIRED_ADVERSARIAL_ROLES).issubset(adv_roles):
+        reasons.append("adversarial_role_coverage_incomplete")
+
+    present = not reasons
+    return {
+        "present": present,
+        "case_count": len(genuine),
+        "partition_counts": counts,
+        "min_counts": dict(GENUINE_CORPUS_MIN_COUNTS),
+        "media_kind": GENUINE_MEDIA_KIND,
+        "annotator_role_required": "human_gold",
+        "pcm_decode_invoked": False,
+        "live_full_library_scan": False,
+        "media_tree": str(GENUINE_MEDIA_DIR).replace("\\", "/"),
+        "combined_review_tree": str(COMBINED_REVIEW_DIR).replace("\\", "/"),
+        "reasons": reasons,
+        "blocker_code": None if present else "GENUINE_ANNOTATED_MEDIA_CORPUS_ABSENT",
+    }
+
+
 def attempt_truth_contamination(root: Path) -> None:
     """Probe helper: promoting generated_from_eval_pass into reference_truth must fail."""
     cases = load_fixture_cases(root)
@@ -809,11 +986,14 @@ def attempt_truth_contamination(root: Path) -> None:
 
 def build_hold_packet(root: Path, manifest: dict[str, Any]) -> dict[str, Any]:
     admissions = manifest["dependency_admissions"]
+    genuine_gate = evaluate_genuine_annotated_media_corpus(manifest["cases"])
     blocker_codes: list[str] = []
     for admission in admissions.values():
         blocker_codes.extend(admission["blocker_codes"])
+    if not genuine_gate["present"]:
+        if "GENUINE_ANNOTATED_MEDIA_CORPUS_ABSENT" not in blocker_codes:
+            blocker_codes.append("GENUINE_ANNOTATED_MEDIA_CORPUS_ABSENT")
     for code in (
-        "GENUINE_ANNOTATED_MEDIA_CORPUS_ABSENT",
         "COMBINED_FRAME_CONTACT_AUDIO_REVIEW_ABSENT",
         "PRODUCTION_BENCHMARK_AUTHORITY_ABSENT",
         "HELD_OUT_RUNTIME_PROOF_ABSENT",
@@ -867,6 +1047,7 @@ def build_hold_packet(root: Path, manifest: dict[str, Any]) -> dict[str, Any]:
                 "truth hashes without decoding library PCM or claiming production completion."
             ),
         },
+        "genuine_annotated_media_corpus": genuine_gate,
         "gate_results": manifest["decision"]["gates_satisfied"],
         "coverage_matrix": manifest["coverage_matrix"],
         "partition_manifest": {
