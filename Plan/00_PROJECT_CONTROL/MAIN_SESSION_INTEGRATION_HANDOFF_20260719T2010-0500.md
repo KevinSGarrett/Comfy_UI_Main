@@ -15,8 +15,9 @@
 2. `53237e59` Stamp Row017 eyeonly handoff with primary commit id.
 3. `5e11441a` Finalize Row017 eyeonly handoff tip IDs.
 4. `b998bb64` Align Row017 eyeonly handoff tip to origin HEAD.
+5. `4194cd09` Correct Row017 eyeonly handoff tip commit id.
 
-Pushed tip verified on origin: `b998bb64`
+Pushed tip verified on origin: `4194cd09`
 
 ## Row-Scoped Increment Executed
 
