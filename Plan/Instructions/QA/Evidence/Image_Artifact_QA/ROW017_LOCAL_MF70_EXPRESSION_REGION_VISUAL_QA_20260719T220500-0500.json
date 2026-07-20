@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ROW017-LOCAL-MF70-EXPRESSION-REGION-VISUAL-QA-20260719T220500-0500",
+  "created_at": "2026-07-19T22:05:00-05:00",
+  "tracker_id": "TRK-W64-017",
+  "item_id": "ITEM-W64-017",
+  "localized_region": "expression_region",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+  "qa_decision": "pass_bounded_localized_expression_region_runtime_candidate",
+  "overall_decision": "pass",
+  "local_only": true,
+  "direct_visual_inspection": true,
+  "fixture_only": false,
+  "generation_executed": true,
+  "runtime_receipt": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_expression_region_20260719T220500-0500\\LOCAL_RUNTIME_RECEIPT.json",
+  "source": {
+    "path": "ComfyUI\\input\\wave70_mf70_face_identity_source_canny_v3.png",
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d"
+  },
+  "artifact": {
+    "path": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_expression_region_20260719T220500-0500\\images\\codex_row017_mf70_expression_region_20260719T220500-0500_00001_.png",
+    "sha256": "5e8d23c55a3079bf1e64d51926149ea4bcdc2080258aa9f71887737cf9e3b234"
+  },
+  "comparison_panel": {
+    "path": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_expression_region_20260719T220500-0500\\images\\qa_full_side_by_side.png",
+    "sha256": "6be1fcdcfaf57bd6396aa010b7f9425925ccb9b5dd0794993559479e8913314a"
+  },
+  "expression_region_crop_panel": {
+    "path": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_expression_region_20260719T220500-0500\\images\\qa_expression_region_crop_side_by_side.png",
+    "sha256": "d1144c18fdbd532e047574528a6cdf28a47c87e2e69d547b3d38fd905381c790"
+  },
+  "difference_metrics": {
+    "full_image_diff_bbox": [
+      240,
+      221,
+      539,
+      528
+    ],
+    "expression_mask_bbox": [
+      250,
+      231,
+      529,
+      518
+    ],
+    "expression_crop_box": [
+      210,
+      191,
+      569,
+      558
+    ],
+    "mean_rgb_abs_diff": [
+      0.5163828730583191,
+      0.4735683798789978,
+      0.4549204409122467
+    ],
+    "rms_rgb_abs_diff": [
+      2.355849504470825,
+      2.2108516693115234,
+      2.1278977394104004
+    ],
+    "expression_mask_region_mean_abs": [
+      5.046030044555664,
+      4.634578227996826,
+      4.443568229675293
+    ],
+    "mouth_region_mean_abs": 1.1658087968826294,
+    "blazer_mean_abs": 0.0,
+    "background_corner_mean_abs": 0.0,
+    "hair_region_mean_abs": 0.0,
+    "neck_region_mean_abs": 0.0,
+    "changed_pixel_count": 64613,
+    "mask_pixel_count": 59222
+  },
+  "whole_frame_findings": [
+    "Fresh local ComfyUI MF70 expression-region masked inpaint (seed 5840273911, RealVisXL baked VAE, denoise 0.05, FeatherMask 24px, cfg 3.4, steps 18) completed successfully (prompt_id a712517b-9f2a-4a34-b907-4afbc799c15a).",
+    "Whole-frame identity, gaze pairing, hair silhouette/occlusion, cream blazer, neck, lighting, and gray background remain stable versus Canny v3 identity source.",
+    "Pixel delta localized to expression-region bbox [240, 221, 539, 528]; blazer/background/hair/neck mean abs 0.0; 64613 changed pixels vs mask 59222.",
+    "Direct whole-frame + expression-region crop inspection: subtle expression-region microtexture preservation (brows/eyes/cheeks/nose/lips) without hard seam, identity drift, smile/teeth expansion, clothing/background regression, or hair mutation.",
+    "Hands not in frame; no clothing/background/lighting regression observed."
+  ],
+  "global_defects": [],
+  "promotion_authorized": false,
+  "row_complete": false,
+  "ec2": "EC2_DEFERRED",
+  "docker_cvat": "not-needed",
+  "notes": [
+    "Historical MF70 expression-region seed210803 pass retained separately; this is a fresh independent local runtime climb.",
+    "Prior MF70 right-eye/left-eye and W69 inpaint-nomouth/eyeonly/contact-shadow VISUAL_QA_PASS_BOUNDED climbs retained.",
+    "Historical canny eyeonly full-gen reject, contact-shadow seed210704 reject, fluid masked-inpaint reject, and eyes_full_v3b reject remain truthful and separate.",
+    "Does not complete historical Row017 normalization backlog."
+  ]
+}
