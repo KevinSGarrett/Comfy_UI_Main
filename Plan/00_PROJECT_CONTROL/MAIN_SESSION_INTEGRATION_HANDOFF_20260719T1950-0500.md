@@ -13,8 +13,9 @@
 
 1. `44a66459` Prove Row017 W69 contact-shadow local visual climb.
 2. `30e16dcc` Stamp Row017 contact-shadow handoff with primary commit id.
+3. `cb5cb836` Finalize Row017 contact-shadow handoff tip IDs.
 
-Pushed tip verified on origin: `30e16dcc`
+Pushed tip verified on origin: `cb5cb836`
 
 ## Row-Scoped Increment Executed
 
