@@ -3,35 +3,37 @@
 ## Integration Summary
 
 - Active integration platform: top-level interactive Cursor subagent under continuous autonomous shift plan / proof-tier pivot.
-- Branch: codex/workflow_plan_update_improvements
-- Prior tip: 10d525f4
+- Branch: `codex/workflow_plan_update_improvements`
+- Prior tip: `10d525f4`
+- Primary commit: `9f93c106` — Record completed full-library Row072 onset reconcile under frozen thresholds.
 - This pass: finalize completed full-library Row072 retained-index onset reconcile evidence (background run finished).
 - No COMPLETE / promotion claim.
 
 ## Commits Pushed This Pass
 
-1. $c Record completed full-library Row072 onset reconcile under frozen thresholds.
-2. Tip stamp aligns handoff commit ids.
+1. `9f93c106` Record completed full-library Row072 onset reconcile under frozen thresholds.
+2. `0357007a` Stamp Row072 full-library reconcile handoff with primary commit id.
+3. Tip finalize corrects handoff text corruption from PowerShell rewrite.
 
 ## Row-Scoped Increment Executed
 
-- Target: TRK-W64-072 onset/transient detection.
-- Highest proof tier: RUNTIME_PASS_BOUNDED
-- Status: HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE
+- Target: `TRK-W64-072` onset/transient detection.
+- Highest proof tier: `RUNTIME_PASS_BOUNDED`
+- Status: `HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE`
 - Coverage: **39771/39771** complete; onset_pass=6359; exact_blockers=33412
-- Remaining blockers: REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY, FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT
-- 
-ow_complete: false; library_authority: false
+- Remaining blockers: `REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY`, `FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT`
+- `row_complete`: false; library_authority: false
 
 ## Validators Run
 
-- Full library --mode index-retained --resume â†’ exit 0, coverage_complete true (~84 min)
-- EC2: EC2_DEFERRED; Docker/CVAT: not-needed
+- Full library `--mode index-retained --resume` → exit 0, coverage_complete true (~84 min)
+- `python -m pytest -q Plan/Instructions/QA/Scripts/test_detect_wave64_onset_transient_anchors.py` → **11 passed**
+- EC2: `EC2_DEFERRED`; Docker/CVAT: not-needed
 
 ## Dirty Ownership Boundary (Preserved)
 
 - Exact-path staging only for Row072 evidence/delta/summary + sound tracker/item Notes + this handoff.
-- No git add -A.
+- No `git add -A`.
 
 ## Blockers
 
