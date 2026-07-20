@@ -1,11 +1,12 @@
 {
   "artifact_id": "TRK-W64-084_canonical_video_timeline",
-  "artifact_sha256": "670422cc2d48efe85ca0706105436ca3e442a80225d0653c096ccad6f34d3d36",
+  "artifact_sha256": "6cbf071ccb7bff2ce71dd4d58ef5e60346de14e469e61051d5f7e2c605c569e6",
   "cleared_offline_checks": [
     "ROW084-014",
     "ROW084-016",
     "ROW084-018",
     "ROW084-019",
+    "ROW084-020",
     "ROW084-021",
     "ROW084-022"
   ],
@@ -13,12 +14,25 @@
     "RUNTIME_PASS_BOUNDED",
     "VISUAL_QA_PASS_BOUNDED"
   ],
-  "created_at": "2026-07-20T07:49:43Z",
-  "direct_runtime_receipt_sha256": "1ec6d7a12a72b8fe8b445478ceb604185f769e857a3de3ec50127c06842e1474",
-  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+  "combined_visual_audio_review_receipt_sha256": "7fc5a309796bce797c1571e667060240dcb3b11057d83b6513c4ff3a4a594986",
+  "created_at": "2026-07-20T08:01:31Z",
+  "direct_runtime_receipt_sha256": "c1c12775e338d51f33600b83116bd00c7547edad237ca2330a00d1988692ff2b",
+  "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+  "hold_reasons": [
+    "production_completion_blocked",
+    "row_complete_blocked",
+    "held_out_lavfi_visual_qa_only",
+    "COMPLETE_claim_forbidden_this_lane"
+  ],
   "implementation_completion_claimed": false,
   "item_id": "ITEM-W64-084",
   "offline_runtime_bindings": {
+    "combined_visual_audio_review_runtime": {
+      "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+      "receipt_sha256": "7fc5a309796bce797c1571e667060240dcb3b11057d83b6513c4ff3a4a594986",
+      "relative_path": "runtime/combined_visual_audio_review_runtime_receipt.json",
+      "row_complete": false
+    },
     "fixture_media_mux_runtime": {
       "proof_tier": "RUNTIME_PASS_BOUNDED",
       "receipt_sha256": "48789e9403878d82bfb3eac2ef4c9c779f78cd7753148628d88e21544be439d7",
@@ -51,29 +65,21 @@
     }
   },
   "production_completion_allowed": false,
-  "proof_tier": "RUNTIME_PASS_BOUNDED",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
   "provenance": {
+    "claims_visual_qa_pass_bounded_for_held_out_lavfi_only": true,
     "compiler": "compile_wave64_canonical_video_timeline.py",
     "compiler_revision": "row084_synthetic_runtime_climb_ledger_v9",
     "does_not_claim_row_complete": true,
-    "does_not_claim_visual_qa_pass_bounded": true,
     "does_not_use_comfyui_8188": true,
     "tracker_output_artifact_hold_only": true
   },
   "record_type": "canonical_video_timeline",
-  "remaining_complete_blockers": [
-    {
-      "blocker_id": "VISUAL_QA_AND_RUNTIME_GATES_ABSENT",
-      "check_ids": [
-        "ROW084-020"
-      ],
-      "detail": "ROW084-020 direct_combined_visual_audio_review_present requires combined frame/contact/audio visual review authority (VISUAL_QA_PASS_BOUNDED); cannot be claimed from digests or offline histogram proofs. Needs decoded-frame visual review and must not steal :8188 from ROW084-019/023 lanes."
-    }
-  ],
+  "remaining_complete_blockers": [],
   "row_complete": false,
   "runtime_completion_claimed": false,
   "schema_version": "1.0.0",
-  "status": "HOLD_RUNTIME_PASS_BOUNDED_VISUAL_QA_ABSENT",
+  "status": "HOLD_VISUAL_QA_PASS_BOUNDED_NO_COMPLETE",
   "tracker_id": "TRK-W64-084",
-  "visual_review_authority_granted": false
+  "visual_review_authority_granted": true
 }

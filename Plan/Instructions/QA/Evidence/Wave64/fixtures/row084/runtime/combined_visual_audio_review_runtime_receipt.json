@@ -1,0 +1,163 @@
+{
+  "authority": {
+    "combined_visual_review_present": true,
+    "direct_combined_visual_audio_review_present": true,
+    "fixture_protocol_only": false,
+    "production_completion_allowed": false,
+    "visual_review_authority_granted": true
+  },
+  "climb_targets": [
+    "RUNTIME_PASS_BOUNDED",
+    "VISUAL_QA_PASS_BOUNDED"
+  ],
+  "created_at": "2026-07-20T08:01:31Z",
+  "exported_review_frames": [
+    {
+      "byte_length": 207,
+      "frame_index": 0,
+      "relative_path": "runtime/combined_visual_review_frames/fixed_static_f000.png",
+      "sha256": "b4d0590d5654ab816a094eb24e369b68a44c6c6708ae46377576af9bcfb303d2"
+    },
+    {
+      "byte_length": 2100,
+      "frame_index": 0,
+      "relative_path": "runtime/combined_visual_review_frames/pan_f000.png",
+      "sha256": "bb30d46d9e5795bd04d17cc9aa8f23a895a929714f0aba7bc9bafd7171db0dc5"
+    },
+    {
+      "byte_length": 2397,
+      "frame_index": 7,
+      "relative_path": "runtime/combined_visual_review_frames/pan_f007.png",
+      "sha256": "dcc3e9deb01236b6aead4ff6c63d12712dc3dc2a269456dd81832a304f10ed24"
+    },
+    {
+      "byte_length": 2326,
+      "frame_index": 14,
+      "relative_path": "runtime/combined_visual_review_frames/pan_f014.png",
+      "sha256": "28fa0b6f86b7e634b6f8495c95826f28e6833ca8c05abbe6d7ffebbdca902626"
+    },
+    {
+      "byte_length": 207,
+      "frame_index": 12,
+      "relative_path": "runtime/combined_visual_review_frames/vfr_post_cut_f012.png",
+      "sha256": "47a0b11e6510f0207c9ad5797df9498690d76a7851ace5ba3b96acd068887191"
+    },
+    {
+      "byte_length": 207,
+      "frame_index": 11,
+      "relative_path": "runtime/combined_visual_review_frames/vfr_pre_cut_f011.png",
+      "sha256": "96aa439f30ce78fad880c214cd9a3d85fdb31f00e125165eb861f19a8c1a7db6"
+    }
+  ],
+  "ffmpeg": {
+    "comfyui_8188_invoked": false,
+    "ffprobe_path": "C:\\Users\\kevin\\AppData\\Local\\Programs\\ffmpeg\\ffmpeg-8.1.2-full_build\\bin\\ffprobe.exe",
+    "invoked": true,
+    "resolved_path": "C:\\Users\\kevin\\AppData\\Local\\Programs\\ffmpeg\\ffmpeg-8.1.2-full_build\\bin\\ffmpeg.exe",
+    "runtime_media_decode_invoked": true,
+    "version_line": "ffmpeg version 8.1.2-full_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers"
+  },
+  "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+  "hold_reasons": [
+    "production_completion_blocked",
+    "row_complete_blocked",
+    "held_out_lavfi_visual_qa_only"
+  ],
+  "production_completion_allowed": false,
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "protocol_id": "row084_combined_visual_review_fixture_protocol_v1",
+  "protocol_sha256": "f784f2f77774b88203e0dda5116ff028810eec05cc103a8d83db770af3b7450f",
+  "provenance": {
+    "claims_visual_qa_pass_bounded_for_held_out_lavfi_only": true,
+    "compiler": "compile_wave64_canonical_video_timeline.py",
+    "compiler_revision": "row084_synthetic_runtime_climb_ledger_v9",
+    "does_not_claim_row_complete": true,
+    "does_not_use_comfyui_8188": true,
+    "execution_mode": "ffmpeg_decoded_frame_combined_frame_contact_audio_review",
+    "runtime_revision": "row084_combined_visual_audio_review_runtime_v1"
+  },
+  "receipt_id": "row084_combined_visual_audio_review_runtime_receipt_v1",
+  "receipt_sha256": "7fc5a309796bce797c1571e667060240dcb3b11057d83b6513c4ff3a4a594986",
+  "record_type": "row084_combined_visual_audio_review_runtime_receipt",
+  "review_method": "combined_frame_contact_audio_review",
+  "revision": "row084_combined_visual_audio_review_runtime_v1",
+  "row_complete": false,
+  "schema_version": "1.0.0",
+  "status": "combined_visual_audio_review_pass_bounded",
+  "summary": {
+    "all_surfaces_visually_reviewed": true,
+    "audio_stream_binding_reviewed": true,
+    "comfyui_8188_invoked": false,
+    "contact_placeholder_hold_reviewed": true,
+    "decoded_frame_visual_inspection_executed": true,
+    "direct_combined_visual_audio_review_present": true,
+    "runtime_media_decode_invoked": true,
+    "surface_count": 5
+  },
+  "surface_reviews": [
+    {
+      "audio_channels": 1,
+      "audio_codec": "aac",
+      "audio_sample_rate_hz": 48000,
+      "decision": "pass_bounded",
+      "fixture_audio_stream_sha256": "f1d6de7662b6ee7e0e2b66e25412f4b25681b96c8dcc402fc777840ab22de657",
+      "mux_relative_path": "runtime/held_out_ffmpeg_mux/held_out_vfr_24_30_mux.mkv",
+      "mux_sha256": "5327faf9dc2406024dc1ee9763d50affc692057e2d41c542029573a6aa38338a",
+      "observation": "Held-out VFR mux audio stream probed (aac/48000/mono) and bound to fixture audio stream digest; combined with decoded-frame review.",
+      "surface": "audio_stream_binding",
+      "visual_review_executed": true
+    },
+    {
+      "decision": "pass_bounded",
+      "evidence_frames": [
+        "runtime/combined_visual_review_frames/pan_f000.png",
+        "runtime/combined_visual_review_frames/pan_f007.png",
+        "runtime/combined_visual_review_frames/pan_f014.png"
+      ],
+      "observation": "Camera pan testsrc shows continuous motion without hard cut; VFR hard_cut and fixed static classes visually distinguished.",
+      "observed_classes": {
+        "held_out_camera_pan_testsrc": "camera_motion",
+        "held_out_fixed_24": "static",
+        "held_out_vfr_24_30": "hard_cut"
+      },
+      "surface": "camera_motion_policy",
+      "visual_review_executed": true
+    },
+    {
+      "decision": "pass_bounded_placeholder_hold",
+      "observation": "Required surface is contact_placeholder by protocol; no contact media artifact exists; reviewed as intentional placeholder hold with no false contact claim.",
+      "source_fixture": "held_out_mux_dry_run_matrix.json",
+      "source_fixture_file_sha256": "ee12468242d46fe30c57f42de3bb290944840d496a06247c71759bb7b54ebc21",
+      "surface": "contact_placeholder",
+      "visual_review_executed": true
+    },
+    {
+      "cut_frame_index": 12,
+      "decision": "pass_bounded",
+      "observation": "Hard cut visually confirmed at destination frame 12 (blue->rust) matching held-out cut detector ledger.",
+      "post_cut_rgb": [
+        169,
+        66,
+        33
+      ],
+      "pre_cut_rgb": [
+        33,
+        66,
+        169
+      ],
+      "surface": "cut_epochs",
+      "visual_review_executed": true
+    },
+    {
+      "decision": "pass_bounded",
+      "evidence_frames": [
+        "runtime/combined_visual_review_frames/vfr_pre_cut_f011.png",
+        "runtime/combined_visual_review_frames/vfr_post_cut_f012.png",
+        "runtime/combined_visual_review_frames/fixed_static_f000.png"
+      ],
+      "observation": "Decoded held-out VFR/fixed frames inspected: pre-cut solid blue (33, 66, 169), post-cut solid rust (169, 66, 33); fixed control static.",
+      "surface": "frame_timeline",
+      "visual_review_executed": true
+    }
+  ]
+}

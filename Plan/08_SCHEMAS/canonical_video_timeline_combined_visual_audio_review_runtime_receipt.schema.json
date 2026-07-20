@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/row084-combined-visual-audio-review-runtime-receipt/1.0.0",
+  "title": "row084_combined_visual_audio_review_runtime_receipt",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "record_type",
+    "status",
+    "proof_tier",
+    "review_method",
+    "surface_reviews",
+    "summary",
+    "authority",
+    "row_complete",
+    "receipt_sha256"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_type": {
+      "const": "row084_combined_visual_audio_review_runtime_receipt"
+    },
+    "status": {
+      "const": "combined_visual_audio_review_pass_bounded"
+    },
+    "proof_tier": {
+      "const": "VISUAL_QA_PASS_BOUNDED"
+    },
+    "highest_proof_tier_achieved": {
+      "const": "VISUAL_QA_PASS_BOUNDED"
+    },
+    "review_method": {
+      "const": "combined_frame_contact_audio_review"
+    },
+    "row_complete": {
+      "const": false
+    },
+    "receipt_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "direct_combined_visual_audio_review_present": {
+          "const": true
+        },
+        "comfyui_8188_invoked": {
+          "const": false
+        },
+        "decoded_frame_visual_inspection_executed": {
+          "const": true
+        }
+      }
+    },
+    "authority": {
+      "type": "object",
+      "required": [
+        "combined_visual_review_present",
+        "visual_review_authority_granted",
+        "direct_combined_visual_audio_review_present"
+      ],
+      "properties": {
+        "combined_visual_review_present": {
+          "const": true
+        },
+        "visual_review_authority_granted": {
+          "const": true
+        },
+        "direct_combined_visual_audio_review_present": {
+          "const": true
+        },
+        "production_completion_allowed": {
+          "const": false
+        }
+      }
+    }
+  }
+}

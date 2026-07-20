@@ -65,6 +65,9 @@ HELD_OUT_CAMERA_MOTION_RUNTIME_SCHEMA = (
 DIRECT_ROW084_RUNTIME_RECEIPT_SCHEMA = (
     ROOT / "Plan/08_SCHEMAS/canonical_video_timeline_direct_runtime_receipt.schema.json"
 )
+COMBINED_VISUAL_AUDIO_REVIEW_RUNTIME_SCHEMA = (
+    ROOT / "Plan/08_SCHEMAS/canonical_video_timeline_combined_visual_audio_review_runtime_receipt.schema.json"
+)
 FIXTURE_DIR = ROOT / "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084"
 SYNTHETIC_CLIMB_LEDGER = FIXTURE_DIR / "synthetic_runtime_climb_ledger.json"
 FIXTURE_MUX_RUNTIME_RECEIPT = (
@@ -85,6 +88,9 @@ HELD_OUT_CAMERA_MOTION_RUNTIME_RECEIPT = (
 )
 DIRECT_ROW084_RUNTIME_RECEIPT = (
     FIXTURE_DIR / "runtime" / "direct_row084_runtime_receipt.json"
+)
+COMBINED_VISUAL_AUDIO_REVIEW_RUNTIME_RECEIPT = (
+    FIXTURE_DIR / "runtime" / "combined_visual_audio_review_runtime_receipt.json"
 )
 TRACKER_OUTPUT_ARTIFACT = (
     ROOT / "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_canonical_video_timeline.json"
@@ -550,6 +556,9 @@ class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
         )
         self.direct_row084_runtime_validator = Draft202012Validator(
             json.loads(DIRECT_ROW084_RUNTIME_RECEIPT_SCHEMA.read_text(encoding="utf-8"))
+        )
+        self.combined_visual_audio_review_runtime_validator = Draft202012Validator(
+            json.loads(COMBINED_VISUAL_AUDIO_REVIEW_RUNTIME_SCHEMA.read_text(encoding="utf-8"))
         )
         self.clock_span_schema = json.loads(CLOCK_SPAN_SCHEMA.read_text(encoding="utf-8"))
 
@@ -1429,18 +1438,22 @@ class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
         self.assertTrue(bench["authority"]["fixed_vfr_benchmark_pass"])
         self.assertTrue(camera["authority"]["camera_motion_normalization_complete"])
         self.assertTrue(direct["authority"]["direct_row084_runtime_receipt_present"])
-        self.assertEqual(tracker["status"], "HOLD_RUNTIME_PASS_BOUNDED_VISUAL_QA_ABSENT")
-        self.assertEqual(
-            [item["check_ids"] for item in tracker["remaining_complete_blockers"]],
-            [["ROW084-020"]],
+        # Checked-in tracker/direct may already include visual climb; offline receipts stay non-visual.
+        self.assertIn(
+            tracker["status"],
+            {
+                "HOLD_RUNTIME_PASS_BOUNDED_VISUAL_QA_ABSENT",
+                "HOLD_VISUAL_QA_PASS_BOUNDED_NO_COMPLETE",
+            },
         )
 
-        for payload in (cut, bench, camera, direct, tracker):
+        for payload in (cut, bench, camera):
             self.assertFalse(payload.get("row_complete"))
             self.assertFalse(
-                payload.get("visual_review_authority_granted")
-                or payload.get("authority", {}).get("visual_review_authority_granted")
+                payload.get("authority", {}).get("visual_review_authority_granted")
             )
+        self.assertFalse(direct.get("row_complete"))
+        self.assertFalse(tracker.get("row_complete"))
 
         verify_cut = COMPILER_MOD.verify_held_out_cut_detector_runtime_receipt()
         verify_bench = COMPILER_MOD.verify_held_out_roundtrip_benchmark_receipt()
@@ -1470,7 +1483,48 @@ class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
         self.assertEqual(live["cut_detector_receipt_sha256"], cut["receipt_sha256"])
         self.assertEqual(live["roundtrip_benchmark_receipt_sha256"], bench["receipt_sha256"])
         self.assertEqual(live["camera_motion_receipt_sha256"], camera["receipt_sha256"])
-        self.assertEqual(live["direct_runtime_receipt_sha256"], direct["receipt_sha256"])
+        # Direct receipt on disk may already bind visual climb (v2); offline climb
+        # live output remains the non-visual binder digest.
+        self.assertNotEqual(live["direct_runtime_receipt_sha256"], "")
+        if direct.get("proof_tier") == "RUNTIME_PASS_BOUNDED":
+            self.assertEqual(live["direct_runtime_receipt_sha256"], direct["receipt_sha256"])
+
+
+    def test_combined_visual_audio_review_clears_row084_020(self) -> None:
+        if not DEFAULT_ROW084_FFMPEG.is_file() and not shutil.which("ffmpeg"):
+            self.skipTest("ffmpeg unavailable for combined visual review test")
+        self.assertTrue(COMBINED_VISUAL_AUDIO_REVIEW_RUNTIME_RECEIPT.is_file())
+        visual = json.loads(
+            COMBINED_VISUAL_AUDIO_REVIEW_RUNTIME_RECEIPT.read_text(encoding="utf-8")
+        )
+        direct = json.loads(DIRECT_ROW084_RUNTIME_RECEIPT.read_text(encoding="utf-8"))
+        tracker = json.loads(TRACKER_OUTPUT_ARTIFACT.read_text(encoding="utf-8"))
+        self.combined_visual_audio_review_runtime_validator.validate(visual)
+        self.direct_row084_runtime_validator.validate(direct)
+        self.assertEqual(visual["proof_tier"], "VISUAL_QA_PASS_BOUNDED")
+        self.assertTrue(visual["authority"]["direct_combined_visual_audio_review_present"])
+        self.assertTrue(visual["summary"]["decoded_frame_visual_inspection_executed"])
+        self.assertFalse(visual["summary"]["comfyui_8188_invoked"])
+        self.assertFalse(visual["row_complete"])
+        self.assertEqual(direct["proof_tier"], "VISUAL_QA_PASS_BOUNDED")
+        self.assertTrue(direct["authority"]["visual_review_authority_granted"])
+        self.assertEqual(tracker["status"], "HOLD_VISUAL_QA_PASS_BOUNDED_NO_COMPLETE")
+        self.assertEqual(tracker["remaining_complete_blockers"], [])
+        self.assertTrue(tracker["visual_review_authority_granted"])
+        self.assertFalse(tracker["row_complete"])
+        verify = COMPILER_MOD.verify_combined_visual_audio_review_runtime_receipt()
+        self.assertEqual(verify["status"], "ok")
+        self.assertEqual(verify["proof_tier"], "VISUAL_QA_PASS_BOUNDED")
+        live = COMPILER_MOD.execute_combined_visual_audio_review_climb(
+            ffmpeg_path=DEFAULT_ROW084_FFMPEG if DEFAULT_ROW084_FFMPEG.is_file() else None,
+            write_outputs=False,
+        )
+        self.assertEqual(live["status"], "ok")
+        self.assertEqual(live["remaining_complete_blocker_checks"], [])
+        self.assertTrue(live["visual_review_authority_granted"])
+        self.assertFalse(live["row_complete"])
+        self.assertFalse(live["comfyui_8188_invoked"])
+        self.assertEqual(live["visual_receipt_sha256"], visual["receipt_sha256"])
 
 
 if __name__ == "__main__":

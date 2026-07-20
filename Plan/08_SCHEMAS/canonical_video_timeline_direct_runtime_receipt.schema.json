@@ -10,7 +10,7 @@
           "const": true
         },
         "visual_review_authority_granted": {
-          "const": false
+          "type": "boolean"
         }
       },
       "required": [
@@ -20,7 +20,10 @@
       "type": "object"
     },
     "proof_tier": {
-      "const": "RUNTIME_PASS_BOUNDED"
+      "enum": [
+        "RUNTIME_PASS_BOUNDED",
+        "VISUAL_QA_PASS_BOUNDED"
+      ]
     },
     "receipt_sha256": {
       "pattern": "^[a-f0-9]{64}$",

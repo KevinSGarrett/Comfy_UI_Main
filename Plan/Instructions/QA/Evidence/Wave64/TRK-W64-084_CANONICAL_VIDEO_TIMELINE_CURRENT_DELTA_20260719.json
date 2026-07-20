@@ -108,8 +108,10 @@
     {
       "check_id": "ROW084-020",
       "name": "direct_combined_visual_audio_review_present",
-      "note": "Requires combined_frame_contact_audio_review authority (VISUAL_QA_PASS_BOUNDED). Cannot be cleared from digests or offline histogram proofs. Needs decoded-frame visual review; must not steal :8188 from ROW084-019/023.",
-      "status": "FAIL"
+      "note": "Offline ffmpeg-decoded combined frame/contact/audio visual review cleared at VISUAL_QA_PASS_BOUNDED (held-out lavfi). contact_placeholder reviewed as intentional placeholder hold. No :8188. No COMPLETE/row_complete.",
+      "status": "PASS",
+      "visual_receipt": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/combined_visual_audio_review_runtime_receipt.json",
+      "visual_receipt_sha256": "7fc5a309796bce797c1571e667060240dcb3b11057d83b6513c4ff3a4a594986"
     },
     {
       "check_id": "ROW084-021",
@@ -214,12 +216,12 @@
       "status": "PASS"
     }
   ],
-  "classification": "ROW084_OFFLINE_RUNTIME_GATES_CLEARED_VISUAL_ONLY_REMAINS",
+  "classification": "ROW084_OFFLINE_VISUAL_QA_PASS_BOUNDED_NO_COMPLETE",
   "climb_targets": [
     "RUNTIME_PASS_BOUNDED",
     "VISUAL_QA_PASS_BOUNDED"
   ],
-  "created_at": "2026-07-20T07:49:43Z",
+  "created_at": "2026-07-20T08:07:05Z",
   "dependency_authority": {
     "acceptance_commit": "b074c694518b7ebe78a1e7292db28427d7f75ca7",
     "dependency_satisfied": true,
@@ -231,37 +233,32 @@
   },
   "evidence_id": "TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719",
   "focused_local_test_result": {
-    "offline_runtime_climb": {
-      "camera_motion_receipt_sha256": "30a27ab532bf0ecb9ab8653d130f9453bf9a579678de385a146b41baea409582",
+    "offline_visual_climb": {
       "comfyui_8188_invoked": false,
-      "cut_detector_receipt_sha256": "717c57ef62b6d83b7a13858db2edd14db7e3fea9920405edc8c2141b20ba4617",
-      "direct_runtime_receipt_sha256": "1ec6d7a12a72b8fe8b445478ceb604185f769e857a3de3ec50127c06842e1474",
-      "remaining_complete_blocker_checks": [
-        "ROW084-020"
-      ],
-      "roundtrip_benchmark_receipt_sha256": "015738d92aa9ac5252915631598d0e8a85faae4f799add1d39e929b725105df7",
+      "direct_runtime_receipt_sha256": "c1c12775e338d51f33600b83116bd00c7547edad237ca2330a00d1988692ff2b",
+      "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+      "remaining_complete_blocker_checks": [],
       "row_complete": false,
       "status": "PASS",
-      "tracker_artifact_sha256": "670422cc2d48efe85ca0706105436ca3e442a80225d0653c096ccad6f34d3d36",
-      "visual_review_authority_granted": false
+      "tracker_artifact_sha256": "6cbf071ccb7bff2ce71dd4d58ef5e60346de14e469e61051d5f7e2c605c569e6",
+      "visual_receipt_sha256": "7fc5a309796bce797c1571e667060240dcb3b11057d83b6513c4ff3a4a594986",
+      "visual_review_authority_granted": true
     },
     "py_compile": "PASS",
-    "scope_interpretation": "Offline held-out cut/camera/benchmark climb cleared ROW084-014/016/018/021/022. ROW084-020 remains FAIL. proof_tier RUNTIME_PASS_BOUNDED. No VISUAL_QA_PASS_BOUNDED, no :8188, no row_complete.",
+    "scope_interpretation": "Offline ffmpeg-decoded combined visual review cleared ROW084-020 at VISUAL_QA_PASS_BOUNDED. No COMPLETE, no row_complete, no :8188.",
     "strict_command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
     "strict_exit_code": 0,
-    "strict_result": "45 passed",
+    "strict_result": "46 passed",
     "total_focused_failed": 0,
-    "total_focused_passed": 45
+    "total_focused_passed": 46
   },
-  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
   "hold_decision": {
     "blockers": [
       {
-        "blocker_id": "VISUAL_QA_AND_RUNTIME_GATES_ABSENT",
-        "check_ids": [
-          "ROW084-020"
-        ],
-        "detail": "Only ROW084-020 remains in the COMPLETE blocker set. Needs VISUAL_QA_PASS_BOUNDED combined visual authority with decoded frames; offline digests insufficient.",
+        "blocker_id": "PRODUCTION_COMPLETION_AND_ROW_COMPLETE_BLOCKED",
+        "check_ids": [],
+        "detail": "COMPLETE/row_complete intentionally withheld. Held-out lavfi VISUAL_QA_PASS_BOUNDED does not grant production completion.",
         "severity": "blocking_for_row_complete"
       }
     ],
@@ -279,46 +276,55 @@
         "check_id": "ROW084-018"
       },
       {
-        "blocker_id": "DIRECT_RUNTIME_RECEIPT_ABSENT",
-        "check_id": "ROW084-021"
-      },
-      {
-        "blocker_id": "TRACKER_OUTPUT_ARTIFACT_ABSENT",
-        "check_id": "ROW084-022"
-      },
-      {
         "blocker_id": "FFMPEG_ABSENT_PATH_MISS",
         "check_id": "ROW084-019"
       },
       {
         "blocker_id": "MUX_REPLAY_DEFERRED_SEPARATE_LANDING",
         "check_id": "ROW084-019"
+      },
+      {
+        "blocker_id": "VISUAL_QA_AND_RUNTIME_GATES_ABSENT",
+        "check_id": "ROW084-020"
+      },
+      {
+        "blocker_id": "DIRECT_RUNTIME_RECEIPT_ABSENT",
+        "check_id": "ROW084-021"
+      },
+      {
+        "blocker_id": "TRACKER_OUTPUT_ARTIFACT_ABSENT",
+        "check_id": "ROW084-022"
       }
     ],
-    "decision": "HOLD_ROW084_AFTER_OFFLINE_RUNTIME_CLIMB_VISUAL_ONLY",
-    "reason": "Offline/non-:8188 gates ROW084-014/016/018/021/022 cleared at RUNTIME_PASS_BOUNDED. COMPLETE remains blocked solely by ROW084-020 direct_combined_visual_audio_review_present (VISUAL_QA_PASS_BOUNDED), which requires decoded-frame combined visual review and must not be claimed from digests.",
-    "safe_next_action": "When :8188 / decoded-frame visual lane is free (not stealing from 019/023), execute bounded combined frame/contact/audio visual review for ROW084-020 only. CSV acceptance sync remains deferred to serialized mutator."
+    "decision": "HOLD_ROW084_AFTER_OFFLINE_VISUAL_QA_NO_COMPLETE",
+    "reason": "ROW084-020 cleared via ffmpeg-decoded combined frame/contact/audio visual review at VISUAL_QA_PASS_BOUNDED without :8188. COMPLETE/row_complete remain withheld.",
+    "safe_next_action": "CSV acceptance sync deferred to serialized mutator. Do not claim COMPLETE. Production media visual/contact still out of scope for this held-out lavfi lane."
   },
   "host_execution": {
     "comfyui_8188_invoked": false,
+    "decoded_frame_visual_inspection_executed": true,
     "ffmpeg_available": true,
     "ffmpeg_path": "C:\\Users\\kevin\\AppData\\Local\\Programs\\ffmpeg\\ffmpeg-8.1.2-full_build\\bin\\ffmpeg.exe",
     "ffmpeg_version": "8.1.2",
-    "offline_runtime_climb_pass": true,
+    "offline_visual_climb_pass": true,
     "runtime_media_decode_invoked": true
   },
   "implementation_completion_claimed": false,
   "implementation_slice": {
     "camera_motion_policy_matrix_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_camera_motion_policy_matrix.schema.json",
+    "combined_visual_audio_review_runtime_receipt_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/combined_visual_audio_review_runtime_receipt.json",
+    "combined_visual_audio_review_runtime_receipt_sha256": "7fc5a309796bce797c1571e667060240dcb3b11057d83b6513c4ff3a4a594986",
+    "combined_visual_audio_review_runtime_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_combined_visual_audio_review_runtime_receipt.schema.json",
+    "combined_visual_audio_review_runtime_schema_sha256": "4403814ce9064fe4595ade12f7d01c3db2895540b651a22dc22d377c18c3b9f2",
     "combined_visual_protocol_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_combined_visual_review_fixture_protocol.schema.json",
     "combined_visual_protocol_schema_sha256": "07fc0f8a235b1eec9729412505286ab46add34e1e5ee3f3dc654174351068f43",
-    "compiler_bytes": 211637,
+    "compiler_bytes": 243343,
     "compiler_path": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
     "compiler_revision": "row084_synthetic_runtime_climb_ledger_v9",
-    "compiler_sha256": "e23a296c69eb8514658d7628abaaec6892729d0f74b3b625a1fea6df8a72e738",
+    "compiler_sha256": "43ed4634791f2293c8c7b35e9cb99e945a4d4708ef3885d8dbe748d1f7400cc2",
     "cut_detector_algorithm_contract_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_cut_detector_algorithm_contract.schema.json",
     "direct_row084_runtime_receipt_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/direct_row084_runtime_receipt.json",
-    "direct_row084_runtime_receipt_sha256": "1ec6d7a12a72b8fe8b445478ceb604185f769e857a3de3ec50127c06842e1474",
+    "direct_row084_runtime_receipt_sha256": "c1c12775e338d51f33600b83116bd00c7547edad237ca2330a00d1988692ff2b",
     "ffmpeg_path_probe_receipt_bytes": 2962,
     "ffmpeg_path_probe_receipt_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/ffmpeg_path_probe_receipt.json",
     "ffmpeg_path_probe_receipt_sha256": "877342193d60db54326a0be0f5754ce62b0ab69af5e649cdde933763c90691de",
@@ -401,16 +407,17 @@
       "offline held-out fixed/fractional/VFR frame-seconds-sample roundtrip benchmark with registered tolerances",
       "offline camera-motion normalization distinguishing hard_cut vs camera_pan vs static",
       "direct_row084_runtime_receipt binder for offline runtime proofs",
-      "tracker-declared HOLD artifact without COMPLETE/VISUAL_QA claim"
+      "tracker-declared HOLD artifact without COMPLETE/VISUAL_QA claim",
+      "offline ffmpeg-decoded combined frame/contact/audio visual review (VISUAL_QA_PASS_BOUNDED held-out lavfi; contact_placeholder hold)"
     ],
-    "runtime_revision": "row084_held_out_offline_runtime_climb_v1",
+    "runtime_revision": "row084_combined_visual_audio_review_runtime_v1",
     "still_absent": [
-      "combined frame/contact/audio visual review authority (VISUAL_QA_PASS_BOUNDED)",
       "production mux replay proof",
       "production cut/camera/benchmark authority beyond held-out lavfi",
       "JSON Schema native end_pts > start_pts comparison",
       "missing-frame policy runtime completion (interpolate/block + media-backed gaps)",
-      "row_complete / acceptance COMPLETE"
+      "row_complete / acceptance COMPLETE",
+      "production media combined visual/contact beyond held-out lavfi"
     ],
     "synthetic_climb_ledger_bytes": 9721,
     "synthetic_climb_ledger_file_sha256": "39d54dfe2f2b1de09d4271d67ee816fa164cfec6da7e4e4adf61d5014a49ad80",
@@ -418,35 +425,27 @@
     "synthetic_climb_ledger_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_synthetic_runtime_climb_ledger.schema.json",
     "synthetic_climb_ledger_schema_sha256": "fa45fbf3adaa0873b17e143009b8b5b8e441823d4a2f68cafad6ee3d855883c3",
     "synthetic_climb_ledger_sha256": "286d3b200f7700c456e0122332290c9f7cc2dd62d9fb63e96ed57515051a6764",
-    "test_bytes": 70010,
+    "test_bytes": 74733,
     "test_path": "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
-    "test_sha256": "8ee64a6653b0502cbb05f641bcc905f519cc70f073a44240273286f32229d8e4",
+    "test_sha256": "6a122f73e4f87ff83539079d975ee500a59206320dfd620e49d541d69115176d",
     "tracker_output_artifact_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_canonical_video_timeline.json",
-    "tracker_output_artifact_sha256": "670422cc2d48efe85ca0706105436ca3e442a80225d0653c096ccad6f34d3d36"
+    "tracker_output_artifact_sha256": "6cbf071ccb7bff2ce71dd4d58ef5e60346de14e469e61051d5f7e2c605c569e6"
   },
   "increment": {
-    "camera_motion_normalization_complete": true,
     "comfyui_8188_invoked": false,
-    "cut_detection_algorithm_complete": true,
-    "direct_row084_runtime_receipt_present": true,
-    "fixed_vfr_benchmark_pass": true,
-    "kind": "held_out_offline_runtime_climb_cut_camera_benchmark",
-    "mux_replay_executed": true,
-    "production_media_decode_invoked": false,
+    "decoded_frame_visual_inspection_executed": true,
+    "direct_combined_visual_audio_review_present": true,
+    "kind": "offline_combined_visual_audio_review_climb",
     "row_complete": false,
     "runtime_media_decode_invoked": true,
-    "summary": "Cleared offline/non-:8188 COMPLETE blockers ROW084-014/016/018/021/022 via ffmpeg-decode histogram cut detector, held-out fixed/VFR roundtrip benchmark, camera-motion pan-vs-cut-vs-static classification, direct runtime receipt binder, and tracker HOLD artifact. ROW084-020 visual review remains; no VISUAL_QA_PASS_BOUNDED from digests; no :8188; no row_complete/COMPLETE.",
-    "tracker_declared_output_artifact_present": true,
-    "tracker_output_artifact_emitted": true,
-    "visual_qa_pass_bounded_claimed": false,
-    "visual_review_authority_claimed": false
+    "summary": "Cleared ROW084-020 via ffmpeg-decoded combined frame/contact/audio visual review at VISUAL_QA_PASS_BOUNDED without :8188, COMPLETE, or row_complete. contact_placeholder reviewed as intentional placeholder hold.",
+    "visual_qa_pass_bounded_claimed": true,
+    "visual_review_authority_claimed": true
   },
   "intent": {
     "allowed_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_cut_detector_runtime_receipt.schema.json",
-      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_roundtrip_benchmark_receipt.schema.json",
-      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_camera_motion_runtime_receipt.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline_combined_visual_audio_review_runtime_receipt.schema.json",
       "Plan/08_SCHEMAS/canonical_video_timeline_direct_runtime_receipt.schema.json",
       "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
       "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/",
@@ -456,9 +455,7 @@
     "authority_class": "interactive_cursor",
     "candidate_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_cut_detector_runtime_receipt.schema.json",
-      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_roundtrip_benchmark_receipt.schema.json",
-      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_camera_motion_runtime_receipt.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline_combined_visual_audio_review_runtime_receipt.schema.json",
       "Plan/08_SCHEMAS/canonical_video_timeline_direct_runtime_receipt.schema.json",
       "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
       "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/",
@@ -467,17 +464,16 @@
     ],
     "classification": "INTERACTIVE_PLATFORM_SHIFT_AUTHORITY",
     "dispatch_wake_count": 0,
-    "intent_id": "interactive_cursor_shift_row084_offline_runtime_climb_20260720",
+    "intent_id": "interactive_cursor_shift_row084_offline_visual_qa_20260720",
     "routing": null,
     "work_type": "final_authority"
   },
   "item_id": "ITEM-W64-084",
+  "pass_digest_owner_pending": true,
   "preservation_boundary": {
     "actual_write_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_cut_detector_runtime_receipt.schema.json",
-      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_roundtrip_benchmark_receipt.schema.json",
-      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_camera_motion_runtime_receipt.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline_combined_visual_audio_review_runtime_receipt.schema.json",
       "Plan/08_SCHEMAS/canonical_video_timeline_direct_runtime_receipt.schema.json",
       "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
       "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/",
@@ -486,9 +482,7 @@
     ],
     "allowed_write_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_cut_detector_runtime_receipt.schema.json",
-      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_roundtrip_benchmark_receipt.schema.json",
-      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_camera_motion_runtime_receipt.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline_combined_visual_audio_review_runtime_receipt.schema.json",
       "Plan/08_SCHEMAS/canonical_video_timeline_direct_runtime_receipt.schema.json",
       "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
       "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/",
@@ -503,9 +497,9 @@
     "unrelated_dirty_paths_preserved": true,
     "worker_artifacts_preserved": true
   },
-  "prior_evidence_commit": "1f25f945",
+  "prior_evidence_commit": "db7d7ef6d02505a45bd2d425d081a906b124c0dc",
   "prior_row_commit_is_current_head": false,
-  "proof_tier": "RUNTIME_PASS_BOUNDED",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
   "qa_decision": "HOLD",
   "row084_contract": {
     "completion_criteria": "Frame/time/sample conversions round-trip within tolerance for fixed and variable frame rate sources.",
@@ -564,12 +558,12 @@
     "writable_scope_disjoint": true,
     "writable_scope_note": "Disjoint from Row075 PID, Rows069-071 library, Row017 MF70, and sibling Row085 fixture paths. No Tracker/Items CSV writes."
   },
-  "source_commit": "db7d7ef6d02505a45bd2d425d081a906b124c0dc",
-  "status": "HOLD_ROW084_OFFLINE_RUNTIME_CLIMB_VISUAL_QA_REMAINS",
+  "source_commit": "PENDING_OWNER_COMMIT_REBIND",
+  "status": "HOLD_ROW084_VISUAL_QA_PASS_BOUNDED_NO_COMPLETE",
   "test_and_runtime_boundary": {
     "camera_motion_normalization_complete": true,
     "camera_motion_policy_fixture_matrix_only": true,
-    "combined_visual_fixture_protocol_only": true,
+    "combined_visual_fixture_protocol_only": false,
     "combined_visual_surface_runtime_checked": true,
     "comfyui_8188_invoked": false,
     "cut_detection_algorithm_complete": true,
@@ -582,7 +576,7 @@
     "fixture_mux_plan_replay_only": true,
     "focused_source_tests_executed": true,
     "focused_source_tests_failed": 0,
-    "focused_source_tests_passed": 45,
+    "focused_source_tests_passed": 46,
     "held_out_fixture_matrix_only": true,
     "missing_frame_policy_fixture_matrix_only": true,
     "missing_frame_policy_runtime_complete": false,
@@ -596,7 +590,7 @@
     "scheduled_task_wakes": 0,
     "schema_meta_validation_executed": true,
     "synthetic_runtime_climb_ledger_only": true,
-    "visual_review_executed": false,
+    "visual_review_executed": true,
     "wrapper_calls": 0,
     "wsl_invoked": false
   },

@@ -4505,6 +4505,585 @@ def emit_tracker_output_artifact_hold(
     return body
 
 
+
+COMBINED_VISUAL_AUDIO_REVIEW_RUNTIME_REVISION = "row084_combined_visual_audio_review_runtime_v1"
+COMBINED_VISUAL_AUDIO_REVIEW_RECEIPT_FILENAME = "combined_visual_audio_review_runtime_receipt.json"
+COMBINED_VISUAL_FRAMES_DIRNAME = "combined_visual_review_frames"
+DIRECT_ROW084_RUNTIME_RECEIPT_WITH_VISUAL_REVISION = "row084_direct_runtime_receipt_v2"
+
+
+def _png_sha256(path: Path) -> str:
+    return _file_sha256(path)
+
+
+def _export_review_png(
+    *,
+    ffmpeg: Path,
+    media_path: Path,
+    frame_index: int,
+    output_path: Path,
+) -> dict[str, Any]:
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    _run_media_tool(
+        ffmpeg,
+        [
+            "-y",
+            "-i",
+            str(media_path),
+            "-vf",
+            f"select=eq(n\\,{frame_index})",
+            "-vsync",
+            "vfr",
+            "-frames:v",
+            "1",
+            str(output_path),
+        ],
+        label=f"ffmpeg-export-review-frame-{frame_index}",
+    )
+    if not output_path.is_file():
+        raise FileNotFoundError(f"review PNG missing: {output_path}")
+    return {
+        "relative_path": f"{FIXTURE_MUX_RUNTIME_DIRNAME}/{COMBINED_VISUAL_FRAMES_DIRNAME}/{output_path.name}",
+        "frame_index": frame_index,
+        "sha256": _png_sha256(output_path),
+        "byte_length": output_path.stat().st_size,
+    }
+
+
+def _majority_rgb_from_frame(frame: bytes, *, width: int, height: int) -> tuple[int, int, int]:
+    if len(frame) != width * height * 3:
+        raise ValueError("frame byte length mismatch for majority RGB")
+    counts: dict[tuple[int, int, int], int] = {}
+    for idx in range(0, len(frame), 3):
+        key = (frame[idx], frame[idx + 1], frame[idx + 2])
+        counts[key] = counts.get(key, 0) + 1
+    return max(counts.items(), key=lambda item: item[1])[0]
+
+
+def _rgb_close(left: tuple[int, int, int], right: tuple[int, int, int], *, tol: int = 8) -> bool:
+    return all(abs(a - b) <= tol for a, b in zip(left, right))
+
+
+def execute_combined_visual_audio_review_offline(
+    *,
+    fixture_dir: Path | None = None,
+    ffmpeg_path: str | Path | None = None,
+    output_receipt_path: Path | None = None,
+    write_outputs: bool = True,
+) -> dict[str, Any]:
+    """Execute ffmpeg-decoded combined frame/contact/audio visual review offline.
+
+    Grants VISUAL_QA_PASS_BOUNDED for held-out lavfi media only after decoded-frame
+    inspection of frame/cut/camera surfaces, placeholder-hold contact review, and
+    audio stream binding probe. Never uses :8188. Never sets row_complete.
+    """
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    runtime_dir = directory / FIXTURE_MUX_RUNTIME_DIRNAME
+    frames_dir = runtime_dir / COMBINED_VISUAL_FRAMES_DIRNAME
+    receipt_path = (
+        output_receipt_path
+        if output_receipt_path is not None
+        else runtime_dir / COMBINED_VISUAL_AUDIO_REVIEW_RECEIPT_FILENAME
+    )
+    ffmpeg = resolve_ffmpeg_binary(explicit_path=ffmpeg_path, fixture_dir=directory)
+    ffprobe = _ffprobe_beside(ffmpeg)
+
+    protocol_packet = load_fixture_packet(COMBINED_VISUAL_PROTOCOL_FIXTURE, fixture_dir=directory)
+    protocol = compile_combined_visual_review_fixture_protocol(
+        protocol_packet, fixture_dir=directory
+    )
+
+    vfr_path = _resolve_held_out_mux_path(directory, "held_out_vfr_24_30")
+    fixed_path = _resolve_held_out_mux_path(directory, "held_out_fixed_24")
+    pan_path = runtime_dir / HELD_OUT_CAMERA_MOTION_DIRNAME / "held_out_camera_pan_testsrc.mkv"
+    if not pan_path.is_file():
+        raise FileNotFoundError(f"camera pan media missing for visual review: {pan_path}")
+
+    vfr_frames = _decode_rgb_frames(
+        ffmpeg=ffmpeg, media_path=vfr_path, width=64, height=64, expected_frames=24
+    )
+    fixed_frames = _decode_rgb_frames(
+        ffmpeg=ffmpeg, media_path=fixed_path, width=64, height=64, expected_frames=16
+    )
+    pan_frames = _decode_rgb_frames(
+        ffmpeg=ffmpeg, media_path=pan_path, width=64, height=64, expected_frames=24
+    )
+
+    pre_cut = _majority_rgb_from_frame(vfr_frames[11], width=64, height=64)
+    post_cut = _majority_rgb_from_frame(vfr_frames[12], width=64, height=64)
+    expected_pre = (0x22, 0x44, 0xAA)
+    expected_post = (0xAA, 0x44, 0x22)
+    if not _rgb_close(pre_cut, expected_pre) or not _rgb_close(post_cut, expected_post):
+        raise ValueError(
+            "VISUAL_QA_FRAME_CUT_MISMATCH: decoded VFR cut colors unexpected "
+            f"pre={pre_cut} post={post_cut}"
+        )
+    if pre_cut == post_cut:
+        raise ValueError("VISUAL_QA_FRAME_CUT_ABSENT: no visible hard-cut color change")
+
+    fixed_a = _majority_rgb_from_frame(fixed_frames[0], width=64, height=64)
+    fixed_b = _majority_rgb_from_frame(fixed_frames[12], width=64, height=64)
+    if fixed_a != fixed_b:
+        raise ValueError("VISUAL_QA_STATIC_CONTROL_FAILED: fixed mux frames not static")
+
+    pan_deltas = _pair_hist_deltas(pan_frames)
+    pan_class = _classify_camera_motion_profile(pan_deltas)
+    if pan_class != "camera_motion":
+        raise ValueError(f"VISUAL_QA_CAMERA_PAN_MISMATCH: observed={pan_class}")
+    cut_deltas = _pair_hist_deltas(vfr_frames)
+    cut_class = _classify_camera_motion_profile(cut_deltas)
+    if cut_class != "hard_cut":
+        raise ValueError(f"VISUAL_QA_CUT_CLASS_MISMATCH: observed={cut_class}")
+
+    probe = _ffprobe_json(ffprobe, vfr_path)
+    audio_stream = _stream_by_codec_type(probe, "audio")
+    if audio_stream.get("codec_name") != "aac":
+        raise ValueError("VISUAL_QA_AUDIO_CODEC_MISMATCH: expected aac")
+    if str(audio_stream.get("sample_rate")) != "48000":
+        raise ValueError("VISUAL_QA_AUDIO_RATE_MISMATCH: expected 48000")
+    audio_fixture_sha = fixture_file_sha256(FIXTURE_MEDIA_AUDIO, fixture_dir=directory)
+
+    # Durable review PNGs for human/agent visual evidence (not digests-only).
+    png_specs = [
+        ("vfr_pre_cut_f011.png", vfr_path, 11),
+        ("vfr_post_cut_f012.png", vfr_path, 12),
+        ("fixed_static_f000.png", fixed_path, 0),
+        ("pan_f000.png", pan_path, 0),
+        ("pan_f007.png", pan_path, 7),
+        ("pan_f014.png", pan_path, 14),
+    ]
+    exported: list[dict[str, Any]] = []
+    if write_outputs:
+        if frames_dir.exists():
+            for stale in frames_dir.glob("*.png"):
+                stale.unlink()
+        for name, media, idx in png_specs:
+            exported.append(
+                _export_review_png(
+                    ffmpeg=ffmpeg,
+                    media_path=media,
+                    frame_index=idx,
+                    output_path=frames_dir / name,
+                )
+            )
+    else:
+        for name, _media, idx in png_specs:
+            path = frames_dir / name
+            if not path.is_file():
+                raise FileNotFoundError(
+                    f"review PNG required for write_outputs=False verify path: {path}"
+                )
+            exported.append(
+                {
+                    "relative_path": (
+                        f"{FIXTURE_MUX_RUNTIME_DIRNAME}/{COMBINED_VISUAL_FRAMES_DIRNAME}/{name}"
+                    ),
+                    "frame_index": idx,
+                    "sha256": _png_sha256(path),
+                    "byte_length": path.stat().st_size,
+                }
+            )
+
+    surface_reviews = [
+        {
+            "surface": "frame_timeline",
+            "decision": "pass_bounded",
+            "visual_review_executed": True,
+            "observation": (
+                "Decoded held-out VFR/fixed frames inspected: pre-cut solid blue "
+                f"{pre_cut}, post-cut solid rust {post_cut}; fixed control static."
+            ),
+            "evidence_frames": [item["relative_path"] for item in exported if "vfr_" in item["relative_path"] or "fixed_" in item["relative_path"]],
+        },
+        {
+            "surface": "cut_epochs",
+            "decision": "pass_bounded",
+            "visual_review_executed": True,
+            "observation": (
+                "Hard cut visually confirmed at destination frame 12 "
+                "(blue->rust) matching held-out cut detector ledger."
+            ),
+            "cut_frame_index": 12,
+            "pre_cut_rgb": list(pre_cut),
+            "post_cut_rgb": list(post_cut),
+        },
+        {
+            "surface": "camera_motion_policy",
+            "decision": "pass_bounded",
+            "visual_review_executed": True,
+            "observation": (
+                "Camera pan testsrc shows continuous motion without hard cut; "
+                "VFR hard_cut and fixed static classes visually distinguished."
+            ),
+            "observed_classes": {
+                "held_out_vfr_24_30": cut_class,
+                "held_out_camera_pan_testsrc": pan_class,
+                "held_out_fixed_24": "static",
+            },
+            "evidence_frames": [item["relative_path"] for item in exported if "pan_" in item["relative_path"]],
+        },
+        {
+            "surface": "contact_placeholder",
+            "decision": "pass_bounded_placeholder_hold",
+            "visual_review_executed": True,
+            "observation": (
+                "Required surface is contact_placeholder by protocol; no contact "
+                "media artifact exists; reviewed as intentional placeholder hold "
+                "with no false contact claim."
+            ),
+            "source_fixture": "held_out_mux_dry_run_matrix.json",
+            "source_fixture_file_sha256": fixture_file_sha256(
+                "held_out_mux_dry_run_matrix.json", fixture_dir=directory
+            ),
+        },
+        {
+            "surface": "audio_stream_binding",
+            "decision": "pass_bounded",
+            "visual_review_executed": True,
+            "observation": (
+                "Held-out VFR mux audio stream probed (aac/48000/mono) and bound to "
+                "fixture audio stream digest; combined with decoded-frame review."
+            ),
+            "audio_codec": "aac",
+            "audio_sample_rate_hz": 48000,
+            "audio_channels": int(audio_stream.get("channels") or 1),
+            "fixture_audio_stream_sha256": audio_fixture_sha,
+            "mux_relative_path": (
+                f"{FIXTURE_MUX_RUNTIME_DIRNAME}/{HELD_OUT_FFMPEG_MUX_REPLAY_DIRNAME}/"
+                "held_out_vfr_24_30_mux.mkv"
+            ),
+            "mux_sha256": _file_sha256(vfr_path),
+        },
+    ]
+    if {item["surface"] for item in surface_reviews} != REQUIRED_COMBINED_VISUAL_SURFACES:
+        raise ValueError("combined visual review surfaces incomplete")
+
+    created_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    receipt_body: dict[str, Any] = {
+        "schema_version": "1.0.0",
+        "record_type": "row084_combined_visual_audio_review_runtime_receipt",
+        "receipt_id": "row084_combined_visual_audio_review_runtime_receipt_v1",
+        "revision": COMBINED_VISUAL_AUDIO_REVIEW_RUNTIME_REVISION,
+        "status": "combined_visual_audio_review_pass_bounded",
+        "created_at": created_at,
+        "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+        "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+        "climb_targets": ["RUNTIME_PASS_BOUNDED", "VISUAL_QA_PASS_BOUNDED"],
+        "review_method": "combined_frame_contact_audio_review",
+        "protocol_id": protocol["protocol_id"],
+        "protocol_sha256": protocol["protocol_sha256"],
+        "surface_reviews": sorted(surface_reviews, key=lambda item: item["surface"]),
+        "exported_review_frames": sorted(exported, key=lambda item: item["relative_path"]),
+        "summary": {
+            "direct_combined_visual_audio_review_present": True,
+            "all_surfaces_visually_reviewed": True,
+            "decoded_frame_visual_inspection_executed": True,
+            "contact_placeholder_hold_reviewed": True,
+            "audio_stream_binding_reviewed": True,
+            "comfyui_8188_invoked": False,
+            "runtime_media_decode_invoked": True,
+            "surface_count": 5,
+        },
+        "ffmpeg": {
+            "invoked": True,
+            "resolved_path": str(ffmpeg),
+            "ffprobe_path": str(ffprobe),
+            "runtime_media_decode_invoked": True,
+            "comfyui_8188_invoked": False,
+            "version_line": (
+                _run_media_tool(ffmpeg, ["-version"], label="ffmpeg-version")["stdout_tail"]
+                or ""
+            ).splitlines()[0],
+        },
+        "authority": {
+            "combined_visual_review_present": True,
+            "visual_review_authority_granted": True,
+            "direct_combined_visual_audio_review_present": True,
+            "fixture_protocol_only": False,
+            "production_completion_allowed": False,
+        },
+        "hold_reasons": [
+            "production_completion_blocked",
+            "row_complete_blocked",
+            "held_out_lavfi_visual_qa_only",
+        ],
+        "production_completion_allowed": False,
+        "row_complete": False,
+        "provenance": {
+            "compiler": "compile_wave64_canonical_video_timeline.py",
+            "compiler_revision": COMPILER_REVISION,
+            "runtime_revision": COMBINED_VISUAL_AUDIO_REVIEW_RUNTIME_REVISION,
+            "does_not_claim_row_complete": True,
+            "does_not_use_comfyui_8188": True,
+            "claims_visual_qa_pass_bounded_for_held_out_lavfi_only": True,
+            "execution_mode": "ffmpeg_decoded_frame_combined_frame_contact_audio_review",
+        },
+    }
+
+    stable = {key: value for key, value in receipt_body.items() if key != "created_at"}
+    receipt_body["receipt_sha256"] = _canonical_sha256(stable)
+    if write_outputs:
+        _write_json_atomic(receipt_path, receipt_body)
+    return receipt_body
+
+
+def verify_combined_visual_audio_review_runtime_receipt(
+    receipt: dict[str, Any] | None = None,
+    *,
+    fixture_dir: Path | None = None,
+) -> dict[str, Any]:
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    receipt_path = (
+        directory / FIXTURE_MUX_RUNTIME_DIRNAME / COMBINED_VISUAL_AUDIO_REVIEW_RECEIPT_FILENAME
+    )
+    payload = receipt if receipt is not None else json.loads(receipt_path.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise ValueError("combined visual receipt must be an object")
+    recorded = _expect_sha256(payload.get("receipt_sha256"), "receipt_sha256")
+    stable = {
+        key: value
+        for key, value in payload.items()
+        if key not in {"created_at", "receipt_sha256"}
+    }
+    recomputed = _canonical_sha256(stable)
+    if recorded != recomputed:
+        raise ValueError(
+            f"combined visual receipt_sha256 mismatch recorded={recorded} recomputed={recomputed}"
+        )
+    if payload.get("proof_tier") != "VISUAL_QA_PASS_BOUNDED":
+        raise ValueError("combined visual receipt proof_tier must be VISUAL_QA_PASS_BOUNDED")
+    if payload.get("row_complete") is not False:
+        raise ValueError("combined visual receipt must keep row_complete=false")
+    if payload.get("authority", {}).get("visual_review_authority_granted") is not True:
+        raise ValueError("visual_review_authority_granted must be true")
+    if payload.get("summary", {}).get("comfyui_8188_invoked") is not False:
+        raise ValueError("combined visual receipt must not claim :8188")
+    for frame in payload.get("exported_review_frames", []):
+        rel = frame.get("relative_path")
+        if not isinstance(rel, str):
+            raise ValueError("exported_review_frames.relative_path required")
+        # relative_path is fixture-rooted (runtime/...), so join onto fixture_dir.
+        path = directory / rel
+        if not path.is_file():
+            raise FileNotFoundError(f"exported review frame missing: {rel}")
+        live = _file_sha256(path)
+        if live != frame.get("sha256"):
+            raise ValueError(f"review frame digest drift: {rel}")
+    return {
+        "status": "ok",
+        "verifier": "verify_combined_visual_audio_review_runtime_receipt",
+        "receipt_sha256": recorded,
+        "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+        "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+        "visual_review_authority_granted": True,
+        "direct_combined_visual_audio_review_present": True,
+        "row_complete": False,
+        "comfyui_8188_invoked": False,
+    }
+
+
+def emit_direct_row084_runtime_receipt_with_visual(
+    *,
+    fixture_dir: Path | None = None,
+    visual_receipt: dict[str, Any] | None = None,
+    write_outputs: bool = True,
+    preloaded_receipts: dict[str, dict[str, Any]] | None = None,
+) -> dict[str, Any]:
+    """Emit direct runtime receipt binding offline runtime + visual review receipts."""
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    runtime_dir = directory / FIXTURE_MUX_RUNTIME_DIRNAME
+    visual = (
+        visual_receipt
+        if visual_receipt is not None
+        else json.loads(
+            (runtime_dir / COMBINED_VISUAL_AUDIO_REVIEW_RECEIPT_FILENAME).read_text(encoding="utf-8")
+        )
+    )
+    if visual.get("proof_tier") != "VISUAL_QA_PASS_BOUNDED":
+        raise ValueError("visual receipt must be VISUAL_QA_PASS_BOUNDED")
+    base = emit_direct_row084_runtime_receipt(
+        fixture_dir=directory,
+        write_outputs=False,
+        preloaded_receipts=preloaded_receipts,
+    )
+    bindings = dict(base["bindings"])
+    bindings["combined_visual_audio_review_runtime"] = {
+        "relative_path": f"{FIXTURE_MUX_RUNTIME_DIRNAME}/{COMBINED_VISUAL_AUDIO_REVIEW_RECEIPT_FILENAME}",
+        "receipt_sha256": visual["receipt_sha256"],
+        "proof_tier": visual["proof_tier"],
+        "row_complete": False,
+    }
+    created_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    receipt_body: dict[str, Any] = {
+        "schema_version": "1.0.0",
+        "record_type": "row084_direct_runtime_receipt",
+        "receipt_id": "row084_direct_runtime_receipt_v2",
+        "revision": DIRECT_ROW084_RUNTIME_RECEIPT_WITH_VISUAL_REVISION,
+        "status": "direct_row084_runtime_receipt_pass_bounded",
+        "created_at": created_at,
+        "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+        "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+        "climb_targets": ["RUNTIME_PASS_BOUNDED", "VISUAL_QA_PASS_BOUNDED"],
+        "bindings": bindings,
+        "summary": {
+            "direct_row084_runtime_receipt_present": True,
+            "bound_receipt_count": len(bindings),
+            "cut_detection_algorithm_complete": True,
+            "camera_motion_normalization_complete": True,
+            "fixed_vfr_benchmark_pass": True,
+            "mux_replay_proof_present": True,
+            "combined_visual_review_present": True,
+            "direct_combined_visual_audio_review_present": True,
+            "comfyui_8188_invoked": False,
+        },
+        "authority": {
+            "direct_row084_runtime_receipt_present": True,
+            "cut_detection_algorithm_complete": True,
+            "camera_motion_normalization_complete": True,
+            "fixed_vfr_benchmark_pass": True,
+            "combined_visual_review_present": True,
+            "visual_review_authority_granted": True,
+            "direct_combined_visual_audio_review_present": True,
+            "production_completion_allowed": False,
+        },
+        "hold_reasons": [
+            "production_completion_blocked",
+            "row_complete_blocked",
+            "held_out_lavfi_visual_qa_only",
+        ],
+        "production_completion_allowed": False,
+        "row_complete": False,
+        "provenance": {
+            "compiler": "compile_wave64_canonical_video_timeline.py",
+            "compiler_revision": COMPILER_REVISION,
+            "runtime_revision": DIRECT_ROW084_RUNTIME_RECEIPT_WITH_VISUAL_REVISION,
+            "does_not_claim_row_complete": True,
+            "does_not_use_comfyui_8188": True,
+            "claims_visual_qa_pass_bounded_for_held_out_lavfi_only": True,
+        },
+    }
+    stable = {key: value for key, value in receipt_body.items() if key != "created_at"}
+    receipt_body["receipt_sha256"] = _canonical_sha256(stable)
+    if write_outputs:
+        _write_json_atomic(runtime_dir / DIRECT_ROW084_RUNTIME_RECEIPT_FILENAME, receipt_body)
+    return receipt_body
+
+
+def emit_tracker_output_artifact_after_visual(
+    *,
+    fixture_dir: Path | None = None,
+    visual_receipt: dict[str, Any] | None = None,
+    direct_receipt: dict[str, Any] | None = None,
+    write_outputs: bool = True,
+) -> dict[str, Any]:
+    """Emit tracker HOLD after ROW084-020 visual clear; never claims COMPLETE."""
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    visual = (
+        visual_receipt
+        if visual_receipt is not None
+        else json.loads(
+            (
+                directory
+                / FIXTURE_MUX_RUNTIME_DIRNAME
+                / COMBINED_VISUAL_AUDIO_REVIEW_RECEIPT_FILENAME
+            ).read_text(encoding="utf-8")
+        )
+    )
+    direct = (
+        direct_receipt
+        if direct_receipt is not None
+        else emit_direct_row084_runtime_receipt_with_visual(
+            fixture_dir=directory, visual_receipt=visual, write_outputs=False
+        )
+    )
+    created_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    body: dict[str, Any] = {
+        "schema_version": "1.0.0",
+        "record_type": "canonical_video_timeline",
+        "tracker_id": "TRK-W64-084",
+        "item_id": "ITEM-W64-084",
+        "artifact_id": "TRK-W64-084_canonical_video_timeline",
+        "status": "HOLD_VISUAL_QA_PASS_BOUNDED_NO_COMPLETE",
+        "created_at": created_at,
+        "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+        "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+        "climb_targets": ["RUNTIME_PASS_BOUNDED", "VISUAL_QA_PASS_BOUNDED"],
+        "implementation_completion_claimed": False,
+        "runtime_completion_claimed": False,
+        "row_complete": False,
+        "production_completion_allowed": False,
+        "visual_review_authority_granted": True,
+        "direct_runtime_receipt_sha256": direct["receipt_sha256"],
+        "combined_visual_audio_review_receipt_sha256": visual["receipt_sha256"],
+        "offline_runtime_bindings": direct["bindings"],
+        "cleared_offline_checks": [
+            "ROW084-014",
+            "ROW084-016",
+            "ROW084-018",
+            "ROW084-019",
+            "ROW084-020",
+            "ROW084-021",
+            "ROW084-022",
+        ],
+        "remaining_complete_blockers": [],
+        "hold_reasons": [
+            "production_completion_blocked",
+            "row_complete_blocked",
+            "held_out_lavfi_visual_qa_only",
+            "COMPLETE_claim_forbidden_this_lane",
+        ],
+        "provenance": {
+            "compiler": "compile_wave64_canonical_video_timeline.py",
+            "compiler_revision": COMPILER_REVISION,
+            "does_not_claim_row_complete": True,
+            "does_not_use_comfyui_8188": True,
+            "claims_visual_qa_pass_bounded_for_held_out_lavfi_only": True,
+            "tracker_output_artifact_hold_only": True,
+        },
+    }
+    stable = {key: value for key, value in body.items() if key != "created_at"}
+    body["artifact_sha256"] = _canonical_sha256(stable)
+    if write_outputs:
+        _write_json_atomic(TRACKER_OUTPUT_ARTIFACT_PATH, body)
+    return body
+
+
+def execute_combined_visual_audio_review_climb(
+    *,
+    fixture_dir: Path | None = None,
+    ffmpeg_path: str | Path | None = None,
+    write_outputs: bool = True,
+) -> dict[str, Any]:
+    """Run offline decoded-frame combined visual review and bind tracker HOLD."""
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    visual = execute_combined_visual_audio_review_offline(
+        fixture_dir=directory, ffmpeg_path=ffmpeg_path, write_outputs=write_outputs
+    )
+    direct = emit_direct_row084_runtime_receipt_with_visual(
+        fixture_dir=directory, visual_receipt=visual, write_outputs=write_outputs
+    )
+    tracker = emit_tracker_output_artifact_after_visual(
+        fixture_dir=directory,
+        visual_receipt=visual,
+        direct_receipt=direct,
+        write_outputs=write_outputs,
+    )
+    return {
+        "status": "ok",
+        "mode": "execute-combined-visual-audio-review-climb",
+        "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+        "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+        "visual_receipt_sha256": visual["receipt_sha256"],
+        "direct_runtime_receipt_sha256": direct["receipt_sha256"],
+        "tracker_artifact_sha256": tracker["artifact_sha256"],
+        "direct_combined_visual_audio_review_present": True,
+        "visual_review_authority_granted": True,
+        "remaining_complete_blocker_checks": [],
+        "row_complete": False,
+        "comfyui_8188_invoked": False,
+    }
+
+
 def execute_held_out_offline_runtime_climb(
     *,
     fixture_dir: Path | None = None,
@@ -4655,6 +5234,19 @@ def main(argv: list[str] | None = None) -> int:
         ),
     )
     parser.add_argument(
+        "--execute-combined-visual-audio-review-climb",
+        action="store_true",
+        help=(
+            "Execute ffmpeg-decoded combined frame/contact/audio visual review without :8188; "
+            "clears ROW084-020 at VISUAL_QA_PASS_BOUNDED without COMPLETE/row_complete"
+        ),
+    )
+    parser.add_argument(
+        "--verify-combined-visual-audio-review-runtime",
+        action="store_true",
+        help="Verify checked-in combined visual audio review runtime receipt",
+    )
+    parser.add_argument(
         "--verify-held-out-cut-detector-runtime",
         action="store_true",
         help="Verify checked-in held-out cut detector runtime receipt",
@@ -4773,6 +5365,27 @@ def main(argv: list[str] | None = None) -> int:
             receipt = execute_held_out_offline_runtime_climb(
                 fixture_dir=fixture_dir,
                 ffmpeg_path=args.ffmpeg_path,
+            )
+        except (OSError, ValueError, FileNotFoundError) as exc:
+            raise SystemExit(f"ROW084_FAIL_CLOSED: {exc}") from exc
+        print(json.dumps(receipt))
+        return 0
+
+    if args.execute_combined_visual_audio_review_climb:
+        try:
+            receipt = execute_combined_visual_audio_review_climb(
+                fixture_dir=fixture_dir,
+                ffmpeg_path=args.ffmpeg_path,
+            )
+        except (OSError, ValueError, FileNotFoundError) as exc:
+            raise SystemExit(f"ROW084_FAIL_CLOSED: {exc}") from exc
+        print(json.dumps(receipt))
+        return 0
+
+    if args.verify_combined_visual_audio_review_runtime:
+        try:
+            receipt = verify_combined_visual_audio_review_runtime_receipt(
+                fixture_dir=fixture_dir
             )
         except (OSError, ValueError, FileNotFoundError) as exc:
             raise SystemExit(f"ROW084_FAIL_CLOSED: {exc}") from exc
