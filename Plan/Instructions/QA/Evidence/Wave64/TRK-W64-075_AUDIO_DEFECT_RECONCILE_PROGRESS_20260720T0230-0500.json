@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-075-DEFECT-RECONCILE-PROGRESS-20260720T0230-0500",
+  "created_at": "2026-07-20T02:30:00-05:00",
+  "tracker_id": "TRK-W64-075",
+  "item_id": "ITEM-W64-075",
+  "status": "HOLD_LIBRARY_RECONCILE_IN_PROGRESS_DEPS_UNLOCKED",
+  "proof_tier": "RUNTIME_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+  "row_complete": false,
+  "library_authority": false,
+  "runtime_completion_claimed": false,
+  "process": {
+    "pid": 45992,
+    "alive": true,
+    "command": "classify_wave64_audio_defects.py --mode index-retained --resume --retained-runtime-dir runtime_artifacts/audio_defects/row075_index_retained_20260719",
+    "action": "no_intervention_healthy_long_run"
+  },
+  "progress": {
+    "records_processed": 8500,
+    "records_total": 39771,
+    "defect_pass": 6239,
+    "defect_blocked": 2261,
+    "exact_blockers": 2261,
+    "percent_complete": 21.37,
+    "limit": null,
+    "started_at": "2026-07-20T04:16:16.966679Z",
+    "full_reconcile_owner_started_at": "2026-07-20T05:22:57.939994+00:00",
+    "updated_at": "2026-07-20T07:30:30.393661Z",
+    "eta_hours_remaining_estimate": 7.8,
+    "rate_new_records_per_min_estimate": 66.6,
+    "eligibility_histogram": {
+      "eligible": 738,
+      "ineligible": 5495,
+      "limited": 6,
+      "unknown": 2261
+    },
+    "blocker_histogram": {
+      "DEFECT_CLASSIFICATION_AMBIGUOUS": 2261
+    }
+  },
+  "remaining_blockers": [
+    "FULL_LIBRARY_RECONCILE_IN_PROGRESS_TIME_BOUND",
+    "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+    "CALIBRATED_LIBRARY_DEFECT_STRATA_ABSENT"
+  ],
+  "safe_next_action": "Do not kill healthy PID 45992; finish retained-index defect reconcile to coverage_complete under frozen thresholds, then calibrate library defect strata / unfreeze thresholds before Row075 acceptance. No COMPLETE.",
+  "csv_stamp": "deferred_csv_owned_by_effd08aa"
+}

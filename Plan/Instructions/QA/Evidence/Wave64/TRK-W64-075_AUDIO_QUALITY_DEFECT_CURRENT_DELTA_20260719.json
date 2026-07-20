@@ -2,8 +2,8 @@
   "schema_version": 1,
   "evidence_id": "W64-ROW075-AUDIO-QUALITY-DEFECT-CURRENT-DELTA-20260719",
   "created_at": "2026-07-19T03:26:23.7207842Z",
-  "updated_at": "2026-07-20T01:28:00-05:00",
-  "source_commit": "50cec43b",
+  "updated_at": "2026-07-20T02:30:00-05:00",
+  "source_commit": "70e12e70",
   "tracker_id": "TRK-W64-075",
   "item_id": "ITEM-W64-075",
   "status": "HOLD_LIBRARY_RECONCILE_IN_PROGRESS_DEPS_UNLOCKED",
@@ -19,10 +19,10 @@
     "kind": "full_library_index_retained_defect_reconcile_progress_stamp",
     "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
     "threshold_registry_revision": "wave64_row075_audio_defect_thresholds_v0.1.0",
-    "summary": "Row075 full-library --mode index-retained --resume still healthy (PID 45992). Progress 4500/39771 (11.31%); defect_pass=3301; defect_blocked=1199; ETA ~8.2h at ~71.7/min. CSV Notes deferred (owned by effd08aa). No product COMPLETE.",
+    "summary": "Row075 full-library --mode index-retained --resume still healthy (PID 45992). Progress 8500/39771 (21.37%); defect_pass=6239; defect_blocked=2261; ETA ~7.8h at ~66.6/min. CSV Notes deferred (owned by effd08aa). No product COMPLETE.",
     "changed_paths": [
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_AUDIO_QUALITY_DEFECT_CURRENT_DELTA_20260719.json",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_AUDIO_DEFECT_RECONCILE_PROGRESS_20260720T0128-0500.json"
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_AUDIO_DEFECT_RECONCILE_PROGRESS_20260720T0230-0500.json"
     ]
   },
   "focused_validators": {
@@ -33,14 +33,14 @@
     "full_run_command": "python Plan/07_IMPLEMENTATION/scripts/classify_wave64_audio_defects.py --mode index-retained --resume --retained-runtime-dir runtime_artifacts/audio_defects/row075_index_retained_20260719",
     "full_run_pid": 45992,
     "full_run_alive": true,
-    "full_run_records_processed": 4500,
+    "full_run_records_processed": 8500,
     "full_run_records_total": 39771,
-    "full_run_percent_complete": 11.31,
-    "full_run_defect_pass": 3301,
-    "full_run_defect_blocked": 1199,
-    "full_run_eta_hours_remaining_estimate": 8.2,
+    "full_run_percent_complete": 21.37,
+    "full_run_defect_pass": 6239,
+    "full_run_defect_blocked": 2261,
+    "full_run_eta_hours_remaining_estimate": 7.8,
     "library_hold_packet_status": "HOLD_LIBRARY_RECONCILE_IN_PROGRESS_DEPS_UNLOCKED",
-    "progress_stamp": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_AUDIO_DEFECT_RECONCILE_PROGRESS_20260720T0128-0500.json"
+    "progress_stamp": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_AUDIO_DEFECT_RECONCILE_PROGRESS_20260720T0230-0500.json"
   },
   "implemented_slice": {
     "classifier_path": "Plan/07_IMPLEMENTATION/scripts/classify_wave64_audio_defects.py",
@@ -85,7 +85,7 @@
   "acceptance_gaps": [
     {
       "code": "FULL_LIBRARY_RECONCILE_IN_PROGRESS_TIME_BOUND",
-      "detail": "Full-library index-retained defect reconcile in progress at 4500/39771; ETA ~8.2h at current rate."
+      "detail": "Full-library index-retained defect reconcile in progress at 8500/39771; ETA ~7.8h at current rate."
     },
     {
       "code": "CALIBRATED_LIBRARY_DEFECT_STRATA_ABSENT",
@@ -153,26 +153,26 @@
     "action": "no_intervention_healthy_long_run"
   },
   "progress_snapshot": {
-    "records_processed": 4500,
+    "records_processed": 8500,
     "records_total": 39771,
-    "defect_pass": 3301,
-    "defect_blocked": 1199,
-    "exact_blockers": 1199,
-    "percent_complete": 11.31,
+    "defect_pass": 6239,
+    "defect_blocked": 2261,
+    "exact_blockers": 2261,
+    "percent_complete": 21.37,
     "limit": null,
     "started_at": "2026-07-20T04:16:16.966679Z",
     "full_reconcile_owner_started_at": "2026-07-20T05:22:57.939994+00:00",
-    "updated_at": "2026-07-20T06:25:43.459367Z",
-    "eta_hours_remaining_estimate": 8.2,
-    "rate_new_records_per_min_estimate": 71.7,
+    "updated_at": "2026-07-20T07:30:30.393661Z",
+    "eta_hours_remaining_estimate": 7.8,
+    "rate_new_records_per_min_estimate": 66.6,
     "eligibility_histogram": {
-      "eligible": 317,
-      "ineligible": 2983,
-      "limited": 1,
-      "unknown": 1199
+      "eligible": 738,
+      "ineligible": 5495,
+      "limited": 6,
+      "unknown": 2261
     },
     "blocker_histogram": {
-      "DEFECT_CLASSIFICATION_AMBIGUOUS": 1199
+      "DEFECT_CLASSIFICATION_AMBIGUOUS": 2261
     }
   },
   "ec2": "EC2_DEFERRED",
