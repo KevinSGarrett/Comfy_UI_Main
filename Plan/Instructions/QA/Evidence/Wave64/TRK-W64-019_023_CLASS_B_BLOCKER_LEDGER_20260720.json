@@ -1,0 +1,159 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-019_023_CLASS_B_BLOCKER_LEDGER_20260720",
+  "created_iso": "2026-07-20T01:52:00-05:00",
+  "classification": "Class_B_Failed_runtime_visual_QA",
+  "row_complete": false,
+  "production_video_complete_claimed": false,
+  "ec2": "EC2_DEFERRED",
+  "docker_cvat": "not_proof",
+  "gpu_serialization": {
+    "port": 8188,
+    "observed_busy_prompt_id": "1bb5d02c-279f-46f0-bee8-389469c6a103",
+    "observed_busy_job": "foreign_S01_Flux_cand_i33",
+    "steal_queue": false,
+    "row075_pid_left_alone": 45992
+  },
+  "rows": [
+    {
+      "tracker_id": "TRK-W64-019",
+      "item_id": "ITEM-W64-019",
+      "status": "Blocked_Keyframe_And_Repair_Visual_Acceptance_Missing_Bounded_Wan_Pass",
+      "blocker_codes": [
+        {
+          "blocker_id": "KEYFRAME_MANIFEST_INTEGRATION_MISSING",
+          "severity": true,
+          "evidence": [
+            "Plan/Instructions/QA/Evidence/Wave64/Video_Keyframes/normal_v4_wan22_keyframe_handoff_candidate.json",
+            "Plan/Instructions/QA/Evidence/Wave64/VIDEO_PIPELINE_BUILD_WAN_RECONCILIATION_20260715T123149-0500.json"
+          ],
+          "exact_defect": "Handoff candidate remains candidate_only; failed gates include refine_bridge_qa_passed, identity_camera_environment_continuity_passed, required_promoted_keyframes_exist, promotion_allowed, promoted_artifact."
+        },
+        {
+          "blocker_id": "FRAME_REPAIR_VISUAL_ACCEPTANCE_FAILED",
+          "severity": true,
+          "depends_on_row": "TRK-W64-023",
+          "evidence": [
+            "Plan/Instructions/QA/Evidence/Wave64/W64_ROW023_WAN_RERUN_RUNTIME_VISUAL_QA_20260715T121119-0500.json",
+            "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-023_WAN_REPAIR_CANDIDATE_REAFFIRM_CURRENT_DELTA_20260720.json"
+          ],
+          "exact_defect": "Row023 one-shot Wan rerun candidate remains visual REJECT; Row019 repair effectiveness gate stays false."
+        },
+        {
+          "blocker_id": "CONTACT_SOFT_BODY_VIDEO_SCOPE_BLOCKED_GOLD_MASKS",
+          "severity": true,
+          "scope": "contact_and_soft_body_subgates_only",
+          "exact_defect": "Trusted body/contact gold masks unavailable; contact/soft-body video claims remain out of scope."
+        }
+      ]
+    },
+    {
+      "tracker_id": "TRK-W64-023",
+      "item_id": "ITEM-W64-023",
+      "status": "Blocked_Video_Frame_Repair_Rerun_Candidate_Visual_QA_Failed",
+      "blocker_codes": [
+        {
+          "blocker_id": "FRAME_REPAIR_VISUAL_ACCEPTANCE_FAILED",
+          "severity": true,
+          "gates_failed": [
+            "recognizable_anchor_identity",
+            "symmetric_gray_side_lights"
+          ],
+          "evidence": [
+            "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260715T115203-0500/qa/direct_visual_qa.json",
+            "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-023_WAN_REPAIR_CANDIDATE_REAFFIRM_CURRENT_DELTA_20260720.json"
+          ],
+          "exact_defect": "Immutable seed 2272301 Wan candidate keeps facial identity drift through middle/terminal frames and side lights drift gray→violet-blue."
+        },
+        {
+          "blocker_id": "LOCAL_WAN_MODEL_PAYLOAD_MISSING",
+          "severity": true,
+          "runtime_proof_required": true,
+          "missing_assets": [
+            "wan2.2_ti2v_5B_fp16.safetensors",
+            "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+            "wan2.2_vae.safetensors"
+          ],
+          "exact_defect": "Local :8188 exposes Wan nodes but required TI2V 5B model payloads are absent; new local Wan regeneration cannot satisfy Runtime_Proof_Required."
+        },
+        {
+          "blocker_id": "SAME_SEED_RERUN_FORBIDDEN",
+          "severity": true,
+          "seed": 2272301,
+          "exact_defect": "Authorized one-shot seed 2272301 already completed and fail-closed; seed spam / identical retry is forbidden."
+        },
+        {
+          "blocker_id": "SHORT_SPAN_EXECUTOR_NOT_ELIGIBLE",
+          "severity": true,
+          "exact_defect": "AnimateDiff frames 5-7 routed to rerun_shot for persistent_shot_instability; OpenCV isolated-flicker short-span executor remains ineligible."
+        },
+        {
+          "blocker_id": "Blocked_Gold_Mask_Dependency_Missing",
+          "severity": true,
+          "scope": "contact_and_deformation_repair_subgates_only",
+          "exact_defect": "Body/contact deformation claims cannot consume candidate masks as trusted truth."
+        }
+      ]
+    }
+  ],
+  "immutable_reject_retained": {
+    "candidate_mp4": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260715T115203-0500/images/12_w64_row023_wan22_rerun_seed2272301_00001_.mp4",
+    "sha256": "29823555e23ac47d58fd83740952817c0b6ddf379523dc3b61f6e8088d34949a",
+    "seed": 2272301,
+    "prompt_id": "327cb0c8-53d5-4958-9025-8ab5d3feb636",
+    "technical_qa": "pass_49_of_49_frames",
+    "direct_visual_qa": "fail_closed_identity_and_side_light_drift",
+    "deleted_or_promoted": false
+  },
+  "offline_reaffirmation": {
+    "decoded_frames": 49,
+    "mp4_sha256_match": true,
+    "side_light_blue_excess_start": 2.3012129934210526,
+    "side_light_blue_excess_end": 12.655222039473685,
+    "blue_excess_delta_end_minus_start": 10.354009046052632,
+    "probe_record": "runtime_artifacts/wave64_row023_local_reaffirm_20260720/offline_chroma_probe.json",
+    "visual_decision": "REJECT_RETAINED",
+    "proof_tier": "EVIDENCE_DELTA_OFFLINE_REAFFIRM_NO_VISUAL_QA_PASS"
+  },
+  "repair_candidate_plan": {
+    "plan_id": "row023_material_method_change_local_flux_span_or_wan_payload",
+    "authorized_by": "BINDING_SHIFT_DIRECTIVE_PRIMARY_GPU_8188",
+    "forbid": [
+      "seed_2272301_identical_retry",
+      "seed_spam",
+      "EC2_generation_this_shift",
+      "steal_mid_queue_on_8188",
+      "false_COMPLETE"
+    ],
+    "options_ordered": [
+      {
+        "option_id": "A_FLUX_SPAN_REPAIR_LOCAL",
+        "material_method_change": true,
+        "requires_idle_8188": true,
+        "requires_wan_weights": false,
+        "description": "When :8188 idle, extract Wan candidate frames; lock identity from early coherent frames; apply bounded Flux fill/inpaint on mid/terminal face+side-light spans only; preserve byte-identical passing frames; reassemble; whole-frame+temporal QA.",
+        "acceptance_target": "VISUAL_QA_PASS_BOUNDED or remain BLOCKED with exact hard defects"
+      },
+      {
+        "option_id": "B_NEW_WAN_SEED_AFTER_LOCAL_PAYLOADS",
+        "material_method_change": true,
+        "requires_idle_8188": true,
+        "requires_wan_weights": true,
+        "description": "Install/hash-bind local Wan TI2V 5B payloads, then one new authorized seed (not 2272301) with strengthened gray-light and identity negatives; one generation only.",
+        "acceptance_target": "VISUAL_QA_PASS_BOUNDED or remain BLOCKED"
+      }
+    ],
+    "row019_keyframe_unblock": {
+      "blocker_id": "KEYFRAME_MANIFEST_INTEGRATION_MISSING",
+      "requires": [
+        "upstream_promoted_still_with_Row016_quality_authority",
+        "refine_bridge_qa_pass",
+        "multi_frame_identity_camera_environment_continuity",
+        "explicit_image_promotion_proof"
+      ],
+      "note": "Do not claim keyframe_manifest true from candidate-only normal_v4 handoff."
+    }
+  },
+  "csv_sync": "deferred_evidence_only_avoid_racing_designated_csv_mutator",
+  "next_action": "Wait for :8188 idle without stealing queue; execute Option A Flux span repair if Flux lane free, else install Wan payloads for Option B; keep REJECT candidate immutable; no COMPLETE."
+}

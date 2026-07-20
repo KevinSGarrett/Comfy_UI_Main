@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-019_KEYFRAME_REPAIR_GATES_CURRENT_DELTA_20260720",
+  "created_iso": "2026-07-20T01:52:45-05:00",
+  "tracker_id": "TRK-W64-019",
+  "item_id": "ITEM-W64-019",
+  "classification": "Class_B_Failed_runtime_visual_QA",
+  "proof_tier": "EVIDENCE_DELTA_OFFLINE_HOLD_NO_VISUAL_QA_PASS",
+  "highest_proof_tier_achieved": "BOUNDED_WAN_PIPELINE_PROOFS_PRIOR_JUL15_MINUS_KEYFRAME_AND_REPAIR",
+  "status": "Blocked_Keyframe_And_Repair_Visual_Acceptance_Missing_Bounded_Wan_Pass",
+  "row_complete": false,
+  "summary": "Row019 remains blocked on keyframe_manifest integration and repair visual acceptance. Jul 15 bounded Wan temporal/loop proofs stay preserved; the Row023 repair candidate reaffirmation keeps FRAME_REPAIR_VISUAL_ACCEPTANCE_FAILED active; keyframe handoff stays candidate-only.",
+  "blocker_codes": [
+    "KEYFRAME_MANIFEST_INTEGRATION_MISSING",
+    "FRAME_REPAIR_VISUAL_ACCEPTANCE_FAILED",
+    "CONTACT_SOFT_BODY_VIDEO_SCOPE_BLOCKED_GOLD_MASKS"
+  ],
+  "acceptance_gates_snapshot": {
+    "video_workflow_valid": true,
+    "keyframe_manifest": false,
+    "frame_sequence_manifest": true,
+    "loop_export_gate": true,
+    "frame_repair_effectiveness": false,
+    "repair_visual_acceptance": false,
+    "bounded_primary_clip_runtime": true,
+    "bounded_primary_clip_direct_temporal_review": true,
+    "bounded_gif_loop_export_certification": true,
+    "production_video_lane_certification": false
+  },
+  "keyframe_candidate": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/Video_Keyframes/normal_v4_wan22_keyframe_handoff_candidate.json",
+    "sha256": "e3fa7072c6f78f07bc4b8ba4f0ff3040b06ae03f0ae31ff6b895836c3126d203",
+    "status": "blocked_candidate_hash_bound_not_promotion_eligible",
+    "failed_gates": [
+      "refine_bridge_qa_passed",
+      "identity_camera_environment_continuity_passed",
+      "required_promoted_keyframes_exist",
+      "promotion_allowed",
+      "promoted_artifact"
+    ]
+  },
+  "linked_row023_delta": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-023_WAN_REPAIR_CANDIDATE_REAFFIRM_CURRENT_DELTA_20260720.json",
+  "blocker_ledger": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_CLASS_B_BLOCKER_LEDGER_20260720.json",
+  "boundaries": {
+    "production_video_complete_claimed": false,
+    "csv_mutated": false,
+    "ec2_started": false,
+    "queue_stolen": false
+  },
+  "csv_sync": "deferred_evidence_only",
+  "next_action": "Keep keyframe_manifest false until promoted still authority exists; clear FRAME_REPAIR_VISUAL_ACCEPTANCE_FAILED only after a material Row023 repair method passes strict visual+temporal QA on idle :8188."
+}

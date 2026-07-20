@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-023_WAN_REPAIR_CANDIDATE_REAFFIRM_CURRENT_DELTA_20260720",
+  "created_iso": "2026-07-20T01:52:30-05:00",
+  "tracker_id": "TRK-W64-023",
+  "item_id": "ITEM-W64-023",
+  "classification": "Class_B_Failed_runtime_visual_QA",
+  "proof_tier": "EVIDENCE_DELTA_OFFLINE_REAFFIRM_NO_VISUAL_QA_PASS",
+  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED_PRIOR_EC2_WAN_RERUN_TECHNICAL_ONLY",
+  "status": "Blocked_Video_Frame_Repair_Rerun_Candidate_Visual_QA_Failed",
+  "row_complete": false,
+  "summary": "Reaffirmed the immutable Jul 15 Wan repair candidate on local decode: 49/49 frames, hash-bound technical continuity, quantitative side-light blue drift (+10.35 blue_excess), and hard visual REJECT for identity + gray→violet-blue lights. Local Wan TI2V payloads remain missing, so a new local Wan Runtime_Proof cannot run until payloads or a material Flux span-repair method executes on idle :8188.",
+  "blocker_codes": [
+    "FRAME_REPAIR_VISUAL_ACCEPTANCE_FAILED",
+    "LOCAL_WAN_MODEL_PAYLOAD_MISSING",
+    "SAME_SEED_RERUN_FORBIDDEN",
+    "SHORT_SPAN_EXECUTOR_NOT_ELIGIBLE",
+    "Blocked_Gold_Mask_Dependency_Missing"
+  ],
+  "immutable_candidate": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260715T115203-0500/images/12_w64_row023_wan22_rerun_seed2272301_00001_.mp4",
+    "sha256": "29823555e23ac47d58fd83740952817c0b6ddf379523dc3b61f6e8088d34949a",
+    "seed": 2272301,
+    "prompt_id": "327cb0c8-53d5-4958-9025-8ab5d3feb636",
+    "prior_visual_qa": "Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260715T115203-0500/qa/direct_visual_qa.json",
+    "prior_visual_qa_sha256": "f49bc80795b8ac75c6edd6b54b554c35eec0e2671743a970c8f272ce66a22764",
+    "prior_technical_qa_sha256": "dc8b2852765f17996d8514c14c506c3b55e187e6af66ec9cc6bc7263c7e45edd"
+  },
+  "offline_checks": {
+    "decoded_frame_count": 49,
+    "mp4_sha256_match": true,
+    "side_light_blue_excess_trend": [
+      {"frame": 0, "mean_blue_excess": 2.3012129934210526},
+      {"frame": 12, "mean_blue_excess": 4.360526315789475},
+      {"frame": 24, "mean_blue_excess": 12.501829769736842},
+      {"frame": 36, "mean_blue_excess": 12.650472861842106},
+      {"frame": 48, "mean_blue_excess": 12.655222039473685}
+    ],
+    "blue_excess_delta_end_minus_start": 10.354009046052632,
+    "extracted_frames": {
+      "0": {
+        "path": "runtime_artifacts/wave64_row023_local_reaffirm_20260720/frames/frame_0000.png",
+        "sha256": "698ebd796789c8e39dc03d61b45c263e762712c4ef63a7778791bfa44e54606a"
+      },
+      "24": {
+        "path": "runtime_artifacts/wave64_row023_local_reaffirm_20260720/frames/frame_0024.png",
+        "sha256": "3dc576cedc723be8bb565f32cc569c7d118feffc18ef3b178b37a10c31921bc4"
+      },
+      "48": {
+        "path": "runtime_artifacts/wave64_row023_local_reaffirm_20260720/frames/frame_0048.png",
+        "sha256": "34b804823b1c4531fd48f8de9971ae87ed34e2f17a9f8d9e9ca6a710057337a5"
+      }
+    },
+    "local_wan_models_present": false,
+    "missing_wan_assets": [
+      "wan2.2_ti2v_5B_fp16.safetensors",
+      "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+      "wan2.2_vae.safetensors"
+    ]
+  },
+  "strict_qa": {
+    "decision": "REJECT_RETAINED",
+    "hard_defects": [
+      "Facial identity drift from start through middle and terminal frames versus medoid anchor frame_0002.",
+      "Symmetric side lights drift from near-neutral toward violet-blue (quantified blue_excess +10.35 end-start)."
+    ],
+    "passed_continuity_notes": [
+      "White collared blouse continuity retained at review level.",
+      "Black studio background / locked head-and-shoulders framing retained.",
+      "No terminal decode corruption; 49 frames decode."
+    ],
+    "visual_qa_pass_bounded": false,
+    "final_temporal_acceptance": false,
+    "final_promotion": false
+  },
+  "validators": {
+    "planned_command": "python -m unittest Plan.Instructions.QA.Scripts.test_validate_wave64_row023_local_reaffirm_20260720 -q",
+    "prior_ledger_tests": "Plan.Instructions.QA.Scripts.test_wave27_frame_repair_ledger_strict / test_execute_wave27_short_span_repair (29 historically green; reaffirm run in progress/serialized)",
+    "result": "offline_probe_recorded_validator_landing_with_delta"
+  },
+  "boundaries": {
+    "second_identical_seed_generated": false,
+    "ec2_started": false,
+    "queue_stolen": false,
+    "row075_pid_left_alone": true,
+    "csv_mutated": false,
+    "production_video_complete_claimed": false
+  },
+  "blocker_ledger": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_CLASS_B_BLOCKER_LEDGER_20260720.json",
+  "next_action": "On idle :8188 execute material Option A Flux span repair or Option B new Wan seed after local payloads; retain reject; no COMPLETE; CSV deferred."
+}
