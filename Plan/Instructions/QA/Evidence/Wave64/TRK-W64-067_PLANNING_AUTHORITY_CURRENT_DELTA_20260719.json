@@ -1,106 +1,8 @@
 {
-  "schema_version": 1,
-  "evidence_id": "W64-ROW067-SOUND-INTELLIGENCE-PLANNING-AUTHORITY-CURRENT-DELTA-20260719",
-  "created_at": "2026-07-19T19:44:25Z",
-  "source_commit": "791f961fc2085e148aa7dd349f41c106a06a9f53",
-  "prior_row_commit": "1247c551ace5734ed2b7f6881a754e0e440f8747",
-  "prior_row_commit_is_ancestor": true,
-  "tracker_id": "TRK-W64-067",
-  "item_id": "ITEM-W64-067",
-  "status": "PASS_PLANNING_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
-  "classification": "ROW067_PLANNING_AUTHORITY_VALIDATOR_AND_DIRECT_EVIDENCE_ACCEPTED",
-  "row_complete": true,
-  "planning_coverage_validated": true,
-  "planning_authority_accepted": true,
-  "implementation_completion_claimed": true,
-  "runtime_completion_claimed": false,
-  "product_completion_claimed": false,
-  "qa_decision": "planning_authority_accepted_for_dependency_unlock_no_runtime_completion",
-  "row067_contract": {
-    "status": "Planned_Autonomous_Implementation_Required",
-    "priority": "P0",
-    "risk": "CRITICAL",
-    "dependency_prerequisite": "none",
-    "validation_methods": [
-      "row_parity",
-      "dependency_dag",
-      "no_false_completion"
-    ],
-    "output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-067_sound_intelligence_planning_authority.json",
-    "output_artifact_exists": true,
-    "completion_criteria": "Items and Tracker contain exact Rows067-112, dependencies are acyclic, and planning cannot be classified as runtime completion.",
-    "final_render_gate": "PLANNING_AUTHORITY_PASS_DOWNSTREAM_ROWS_REMAIN_PLANNED"
-  },
-  "implementation_slice": {
-    "validator": {
-      "path": "Plan/07_IMPLEMENTATION/scripts/validate_wave64_sound_intelligence_planning_authority.py",
-      "sha256": "eab9e510563713c614aed7bcd77f0c51671e7af09e0c8cb2f2f54c93ca55db86",
-      "bytes": 20481
-    },
-    "validator_test": {
-      "path": "Plan/Instructions/QA/Scripts/test_row067_sound_intelligence_planning_authority.py",
-      "sha256": "0c4585e97af22daede11740b52d8e2d8bf444fc8c1c013c19b82c782cf2c6107",
-      "bytes": 6446
-    },
-    "control_package_builder": {
-      "path": "Plan/07_IMPLEMENTATION/scripts/build_wave64_autonomous_sound_intelligence_control_package.py",
-      "sha256": "62441dab915e5d277963aa58f579ee8a9190a4f3d58fcceab2b252426524f593",
-      "bytes": 37998
-    },
-    "control_package_test": {
-      "path": "Plan/Instructions/QA/Scripts/test_wave64_autonomous_sound_intelligence_control_package.py",
-      "sha256": "37e2f85f1e6bd18b7ae952c524d7e36d5244d6cedd769ef9841953c7213e158f",
-      "bytes": 2056
-    },
-    "direct_evidence": {
-      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-067_sound_intelligence_planning_authority.json",
-      "sha256": "565a751abf12dcb7f36e4c7753cc8148d52c85ef57a15a1236143853be2b52aa",
-      "bytes": 10569
-    },
-    "proven_capabilities": [
-      "exact Items/Tracker Rows067-112 parity",
-      "acyclic internal dependency DAG with sole root TRK-W64-067",
-      "fail-closed rejection of missing rows, cycles, and planning_complete_runtime_complete=true",
-      "direct evidence artifact with row_complete=true and runtime_completion_claimed=false",
-      "evaluate_row067_complete helper for downstream dependency unlock"
-    ],
-    "explicitly_not_claimed": [
-      "Row068 rights/provenance runtime authority",
-      "any Rows069-112 runtime/product completion",
-      "audio generation, decode, or playback runtime",
-      "EC2 or ComfyUI live execution"
-    ]
-  },
-  "focused_local_test_result": {
-    "strict_command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_row067_sound_intelligence_planning_authority.py Plan/Instructions/QA/Scripts/test_wave64_autonomous_sound_intelligence_control_package.py",
-    "strict_result": "9 passed",
-    "strict_exit_code": 0,
-    "validator_command": "python Plan/07_IMPLEMENTATION/scripts/validate_wave64_sound_intelligence_planning_authority.py --output Plan/Instructions/QA/Evidence/Wave64/TRK-W64-067_sound_intelligence_planning_authority.json",
-    "validator_row_complete": true,
-    "control_package_check": "PASS",
-    "scope_interpretation": "Focused tests and validator accept Row067 planning authority only. They do not accept downstream sound-intelligence runtime rows."
-  },
-  "dependency_unlock": {
-    "row067_complete": true,
-    "downstream_examples": [
-      "TRK-W64-068",
-      "TRK-W64-084",
-      "TRK-W64-109"
-    ],
-    "row084_effect": "Downstream compilers may set dependency_authority.row067_complete=true when binding this accepted direct evidence. Runtime/mux/visual gates remain independent holds."
-  },
-  "direct_evidence_decision": {
-    "planning_structure": "pass",
-    "product_completion": false,
-    "row067_acceptance": "accepted",
-    "runtime_completion": false,
-    "safe_next_action": "Treat Row067 planning authority as accepted for dependency unlock. Continue Row068 rights/provenance and Row084 runtime/VFR proof without reclassifying this planning pass as sound-system runtime completion."
-  },
-  "direct_evidence_check_summary": {
-    "advisory_failed": 1,
-    "checked": 17,
+  "check_summary": {
+    "checked": 7,
     "failed": 0,
-    "passed": 16
+    "passed": 7
   },
   "checks": [
     {
@@ -132,17 +34,124 @@
       "result": "pass"
     }
   ],
-  "check_summary": {
-    "checked": 7,
-    "passed": 7,
-    "failed": 0
-  },
+  "classification": "ROW067_PLANNING_AUTHORITY_VALIDATOR_AND_DIRECT_EVIDENCE_ACCEPTED",
+  "created_at": "2026-07-19T19:44:25Z",
   "decision": {
     "planning_structure": "accepted",
+    "product_completion": false,
+    "row067_acceptance": "accepted",
     "row067_status": "planning_authority_accepted",
+    "runtime_completion": false,
+    "safe_next_action": "Unlock Row068 rights/provenance implementation and allow Row084 packets to set row067_complete=true while continuing Row084 VFR/mux/visual proof on a disjoint lane."
+  },
+  "dependency_unlock": {
+    "downstream_examples": [
+      "TRK-W64-068",
+      "TRK-W64-084",
+      "TRK-W64-109"
+    ],
+    "row067_complete": true,
+    "row084_effect": "Downstream compilers may set dependency_authority.row067_complete=true when binding this accepted direct evidence. Runtime/mux/visual gates remain independent holds."
+  },
+  "direct_evidence_check_summary": {
+    "advisory_failed": 1,
+    "checked": 17,
+    "failed": 0,
+    "passed": 16
+  },
+  "direct_evidence_decision": {
+    "planning_structure": "pass",
+    "product_completion": false,
     "row067_acceptance": "accepted",
     "runtime_completion": false,
+    "safe_next_action": "Treat Row067 planning authority as accepted for dependency unlock. Continue Row068 rights/provenance and Row084 runtime/VFR proof without reclassifying this planning pass as sound-system runtime completion."
+  },
+  "evidence_id": "W64-ROW067-SOUND-INTELLIGENCE-PLANNING-AUTHORITY-CURRENT-DELTA-20260719",
+  "focused_local_test_result": {
+    "control_package_check": "PASS",
+    "scope_interpretation": "Focused tests and validator accept Row067 planning authority only. They do not accept downstream sound-intelligence runtime rows.",
+    "strict_command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_row067_sound_intelligence_planning_authority.py Plan/Instructions/QA/Scripts/test_wave64_autonomous_sound_intelligence_control_package.py",
+    "strict_exit_code": 0,
+    "strict_result": "9 passed",
+    "validator_command": "python Plan/07_IMPLEMENTATION/scripts/validate_wave64_sound_intelligence_planning_authority.py --output Plan/Instructions/QA/Evidence/Wave64/TRK-W64-067_sound_intelligence_planning_authority.json",
+    "validator_row_complete": true
+  },
+  "implementation_completion_claimed": true,
+  "implementation_slice": {
+    "control_package_builder": {
+      "bytes": 37998,
+      "path": "Plan/07_IMPLEMENTATION/scripts/build_wave64_autonomous_sound_intelligence_control_package.py",
+      "sha256": "62441dab915e5d277963aa58f579ee8a9190a4f3d58fcceab2b252426524f593"
+    },
+    "control_package_test": {
+      "bytes": 2056,
+      "path": "Plan/Instructions/QA/Scripts/test_wave64_autonomous_sound_intelligence_control_package.py",
+      "sha256": "37e2f85f1e6bd18b7ae952c524d7e36d5244d6cedd769ef9841953c7213e158f"
+    },
+    "direct_evidence": {
+      "bytes": 10569,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-067_sound_intelligence_planning_authority.json",
+      "sha256": "565a751abf12dcb7f36e4c7753cc8148d52c85ef57a15a1236143853be2b52aa"
+    },
+    "explicitly_not_claimed": [
+      "Row068 rights/provenance runtime authority",
+      "any Rows069-112 runtime/product completion",
+      "audio generation, decode, or playback runtime",
+      "EC2 or ComfyUI live execution"
+    ],
+    "proven_capabilities": [
+      "exact Items/Tracker Rows067-112 parity",
+      "acyclic internal dependency DAG with sole root TRK-W64-067",
+      "fail-closed rejection of missing rows, cycles, and planning_complete_runtime_complete=true",
+      "direct evidence artifact with row_complete=true and runtime_completion_claimed=false",
+      "evaluate_row067_complete helper for downstream dependency unlock"
+    ],
+    "validator": {
+      "bytes": 20481,
+      "path": "Plan/07_IMPLEMENTATION/scripts/validate_wave64_sound_intelligence_planning_authority.py",
+      "sha256": "eab9e510563713c614aed7bcd77f0c51671e7af09e0c8cb2f2f54c93ca55db86"
+    },
+    "validator_test": {
+      "bytes": 6446,
+      "path": "Plan/Instructions/QA/Scripts/test_row067_sound_intelligence_planning_authority.py",
+      "sha256": "0c4585e97af22daede11740b52d8e2d8bf444fc8c1c013c19b82c782cf2c6107"
+    }
+  },
+  "item_id": "ITEM-W64-067",
+  "ledger_status": "Accepted_Planning_Authority_No_Runtime_Completion",
+  "ledger_vocabulary_sync": {
+    "ledger_status": "Accepted_Planning_Authority_No_Runtime_Completion",
+    "note": "Cleared nested Planned_ dual-ledger for accepted planning authority; runtime COMPLETE false.",
     "product_completion": false,
-    "safe_next_action": "Unlock Row068 rights/provenance implementation and allow Row084 packets to set row067_complete=true while continuing Row084 VFR/mux/visual proof on a disjoint lane."
-  }
+    "runtime_completion": false,
+    "synced_at": "2026-07-20T06:00:32.632788Z"
+  },
+  "planning_authority_accepted": true,
+  "planning_coverage_validated": true,
+  "prior_row_commit": "1247c551ace5734ed2b7f6881a754e0e440f8747",
+  "prior_row_commit_is_ancestor": true,
+  "product_completion_claimed": false,
+  "qa_decision": "planning_authority_accepted_for_dependency_unlock_no_runtime_completion",
+  "row067_contract": {
+    "completion_criteria": "Items and Tracker contain exact Rows067-112, dependencies are acyclic, and planning cannot be classified as runtime completion.",
+    "dependency_prerequisite": "none",
+    "final_render_gate": "PLANNING_AUTHORITY_PASS_DOWNSTREAM_ROWS_REMAIN_PLANNED",
+    "output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-067_sound_intelligence_planning_authority.json",
+    "output_artifact_exists": true,
+    "priority": "P0",
+    "risk": "CRITICAL",
+    "status": "Accepted_Planning_Authority_No_Runtime_Completion",
+    "validation_methods": [
+      "row_parity",
+      "dependency_dag",
+      "no_false_completion"
+    ]
+  },
+  "row_complete": true,
+  "runtime_completion_claimed": false,
+  "schema_version": 1,
+  "source_commit": "791f961fc2085e148aa7dd349f41c106a06a9f53",
+  "status": "PASS_PLANNING_AUTHORITY_ACCEPTED_NO_RUNTIME_COMPLETION",
+  "tracker_id": "TRK-W64-067",
+  "updated_at": "2026-07-20T06:00:32.632788Z"
 }
