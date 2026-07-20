@@ -1,17 +1,50 @@
 {
+  "accepted_index_retained_defect_runtime": {
+    "blocker_histogram": {
+      "DEFECT_CLASSIFICATION_AMBIGUOUS": 12
+    },
+    "counts": {
+      "analysis_truncated": 0,
+      "defect_blocked": 12,
+      "defect_pass": 28,
+      "exact_blockers": 12,
+      "feature_non_pass_inputs": 0,
+      "feature_pass_inputs": 40,
+      "pcm_sha_verified": 40,
+      "production_ineligible": 24,
+      "records_processed": 40,
+      "records_total": 39771,
+      "severe_defect_present": 35,
+      "source_immutable_true": 40,
+      "visibility_preserved": 40
+    },
+    "coverage_complete": false,
+    "eligibility_histogram": {
+      "eligible": 4,
+      "ineligible": 24,
+      "unknown": 12
+    },
+    "limit": 40,
+    "present": true,
+    "progress_path": "runtime_artifacts/audio_defects/row075_index_retained_20260719/progress.json",
+    "receipt_path": "runtime_artifacts/audio_defects/row075_index_retained_20260719/retained_index_defect_receipt.json",
+    "records_path": "runtime_artifacts/audio_defects/row075_index_retained_20260719/records.jsonl",
+    "row072_contention_policy": "separate_runtime_dir_read_only_row071_records;full_library_deferred_while_row072_pcm_scan_active",
+    "status": "RUNTIME_PASS_BOUNDED_PROBE_LIMIT",
+    "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_ACCEPTED_INDEX_RETAINED_DEFECT_SUMMARY_20260719.json",
+    "summary_sha256": "9707e3a7cb6ba0bd9941d6c84210ee9ec8598b1fc73b6dc64557789641029c44"
+  },
   "blocker_codes": [
-    "ROW070_DEPENDENCY_NOT_ACCEPTED",
-    "ROW071_DEPENDENCY_NOT_ACCEPTED",
-    "ROW070_AND_ROW071_DEPENDENCIES_NOT_ACCEPTED",
-    "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT",
+    "FULL_LIBRARY_RECONCILE_DEFERRED_OR_IN_PROGRESS",
+    "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
     "CALIBRATED_LIBRARY_DEFECT_STRATA_ABSENT",
-    "FULL_LIBRARY_VISIBILITY_RECONCILIATION_ABSENT"
+    "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT"
   ],
   "decision": {
     "product_completion": false,
     "row075_acceptance": "held",
     "runtime_completion": false,
-    "safe_next_action": "Accept Row070 canonical PCM decode and Row071 waveform/spectral features, reconcile every retained inventory input to a calibrated defect decision with confidence/evidence spans while preserving visibility, and replace this hold packet with full-library runtime evidence for Row093 unlock.",
+    "safe_next_action": "Bounded index-retained defect probe passed under frozen thresholds. Defer full-library Row075 PCM reconcile until Row072 retained-index onset scan finishes (avoid dual PCM I/O contention), then resume --mode index-retained without --limit before claiming Row075 acceptance.",
     "status": "blocked"
   },
   "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
@@ -2886,9 +2919,11 @@
       }
     ]
   },
+  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
   "implementation_completion_claimed": false,
   "item_id": "ITEM-W64-075",
   "library_authority": false,
+  "proof_tier": "RUNTIME_PASS_BOUNDED",
   "required_defect_codes": [
     "clipping",
     "hiss",
@@ -2903,33 +2938,29 @@
     "unsuitable_background_layers"
   ],
   "row070_admission": {
-    "blocker_codes": [
-      "ROW070_DEPENDENCY_NOT_ACCEPTED"
-    ],
-    "bytes": 9348,
-    "dependency_satisfied": false,
+    "blocker_codes": [],
+    "bytes": 10002,
+    "dependency_satisfied": true,
     "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_CANONICAL_AUDIO_DECODE_CURRENT_DELTA_20260719.json",
-    "row_complete": false,
-    "sha256": "a1e3feaace3961f655a7272017db844768ea2b2c5a1f2390b542f57264d125d0",
-    "status": "HOLD_ROW069_DEPENDENCY_AND_FULL_LIBRARY_DECODE_RUNTIME_ABSENT",
+    "row_complete": true,
+    "sha256": "9fdced4244a95f6cb467a09ebe172fef06aff75b9a63b9cc1455c6bcae134c41",
+    "status": "PASS_LIBRARY_PCM_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION",
     "tracker_id": "TRK-W64-070"
   },
   "row071_admission": {
-    "blocker_codes": [
-      "ROW071_DEPENDENCY_NOT_ACCEPTED"
-    ],
-    "bytes": 7370,
-    "dependency_satisfied": false,
+    "blocker_codes": [],
+    "bytes": 5000,
+    "dependency_satisfied": true,
     "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-071_WAVEFORM_FEATURE_EXTRACTION_CURRENT_DELTA_20260719.json",
-    "row_complete": false,
-    "sha256": "4118ecf426dc54242b049e15e27981097a29044d954bd21992dce85aca432def",
-    "status": "HOLD_ROW070_CANONICAL_DECODE_AND_FULL_LIBRARY_FEATURE_RUNTIME_ABSENT",
+    "row_complete": true,
+    "sha256": "6e16ed12bf095644712d07a746f5b6c0c553180eaa27020fcaea7bf3a113a81d",
+    "status": "PASS_LIBRARY_FEATURE_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION",
     "tracker_id": "TRK-W64-071"
   },
   "row_complete": false,
   "runtime_completion_claimed": false,
   "schema_version": "1.0.0",
-  "status": "HOLD_ROW070_ROW071_DEPENDENCIES_AND_FULL_LIBRARY_DEFECT_RUNTIME_ABSENT",
+  "status": "HOLD_LIBRARY_PROBE_PASS_FULL_RECONCILE_DEFERRED_DEPS_UNLOCKED",
   "threshold_registry": {
     "authority": "planning_freeze_not_library_acceptance",
     "path": "Plan/10_REGISTRIES/wave64_row075_audio_defect_threshold_registry.json",

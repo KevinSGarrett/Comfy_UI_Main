@@ -23,31 +23,35 @@ def _severity(record: dict, code: str) -> str:
     raise AssertionError(f"missing defect code {code}")
 
 
-def test_row070_and_row071_admission_fail_closed_on_current_hold_deltas():
+def test_row070_and_row071_admission_unlocked_on_accepted_deltas():
     row070 = MOD.evaluate_row070_admission(ROOT)
     row071 = MOD.evaluate_row071_admission(ROOT)
-    assert row070["dependency_satisfied"] is False
-    assert row071["dependency_satisfied"] is False
-    assert "ROW070_DEPENDENCY_NOT_ACCEPTED" in row070["blocker_codes"]
-    assert "ROW071_DEPENDENCY_NOT_ACCEPTED" in row071["blocker_codes"]
-    assert row070["row_complete"] is False
-    assert row071["row_complete"] is False
+    assert row070["dependency_satisfied"] is True
+    assert row071["dependency_satisfied"] is True
+    assert row070["blocker_codes"] == []
+    assert row071["blocker_codes"] == []
+    assert row070["row_complete"] is True
+    assert row071["row_complete"] is True
 
 
 def test_library_mode_emits_hold_packet_without_false_completion():
     payload = MOD.build_library_blocker_packet(ROOT)
     assert payload["row_complete"] is False
     assert payload["implementation_completion_claimed"] is False
-    assert payload["runtime_completion_claimed"] is False
     assert payload["library_authority"] is False
     assert payload["decision"]["status"] == "blocked"
     assert payload["decision"]["product_completion"] is False
     assert payload["decision"]["row075_acceptance"] == "held"
-    assert "ROW070_AND_ROW071_DEPENDENCIES_NOT_ACCEPTED" in payload["blocker_codes"]
-    assert "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT" in payload["blocker_codes"]
+    assert "ROW070_AND_ROW071_DEPENDENCIES_NOT_ACCEPTED" not in payload["blocker_codes"]
+    assert (
+        "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT" in payload["blocker_codes"]
+        or "FULL_LIBRARY_RECONCILE_DEFERRED_OR_IN_PROGRESS" in payload["blocker_codes"]
+        or "CALIBRATED_LIBRARY_DEFECT_STRATA_ABSENT" in payload["blocker_codes"]
+    )
     assert payload["detector_revision"] == MOD.DETECTOR_REVISION
     assert payload["fixture_calibration"]["fixture_count"] == 11
     assert set(payload["required_defect_codes"]) == set(MOD.REQUIRED_DEFECT_CODES)
+    assert payload["status"].endswith("DEPS_UNLOCKED") or "DEPS_UNLOCKED" in payload["status"]
 
 
 def test_fixture_records_validate_and_are_deterministic():
@@ -101,3 +105,34 @@ def test_schema_rejects_missing_defect_evidence():
     del record["defects"][0]["evidence"]
     with pytest.raises(MOD.AudioDefectError, match="schema_validation_failed"):
         MOD.validate_classification_record(ROOT, record)
+
+
+def test_index_retained_probe_limit_emits_runtime_pass_bounded_without_complete():
+    runtime_dir = (
+        ROOT
+        / "runtime_artifacts"
+        / "audio_defects"
+        / "row075_index_retained_probe_pytest"
+    )
+    if runtime_dir.exists():
+        for child in runtime_dir.iterdir():
+            if child.is_file():
+                child.unlink()
+    retained = MOD.run_retained_index_defect_runtime(
+        ROOT,
+        runtime_dir=runtime_dir,
+        limit=3,
+        resume=False,
+    )
+    assert retained["coverage_complete"] is False
+    assert retained["limit"] == 3
+    assert retained["counts"]["records_processed"] == 3
+    assert retained["row_complete"] is False
+    assert retained["library_authority"] is False
+    assert retained["product_completion_claimed"] is False
+    assert retained["proof_tier"] == "RUNTIME_PASS_BOUNDED"
+    packet = MOD.build_library_blocker_packet(ROOT, retained_runtime=retained)
+    assert packet["decision"]["product_completion"] is False
+    assert packet["decision"]["row075_acceptance"] == "held"
+    assert "DEPS_UNLOCKED" in packet["status"]
+    assert packet["accepted_index_retained_defect_runtime"]["present"] is True

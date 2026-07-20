@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-072-ONSET-RECONCILE-PROGRESS-20260719T2335-0500",
+  "created_at": "2026-07-19T23:35:00-05:00",
+  "tracker_id": "TRK-W64-072",
+  "item_id": "ITEM-W64-072",
+  "status": "HOLD_LIBRARY_RECONCILE_IN_PROGRESS_DEPS_UNLOCKED",
+  "proof_tier": "RUNTIME_PASS_BOUNDED",
+  "row_complete": false,
+  "library_authority": false,
+  "process": {
+    "pid": 54864,
+    "alive": true,
+    "command": "detect_wave64_onset_transient_anchors.py --mode index-retained --resume --retained-runtime-dir runtime_artifacts/onset_anchors/row072_index_retained_20260719",
+    "action": "no_intervention_healthy_long_run"
+  },
+  "progress": {
+    "records_processed": 10750,
+    "records_total": 39771,
+    "onset_pass": 1338,
+    "onset_blocked": 9412,
+    "percent_complete": 27.0,
+    "started_at": "2026-07-20T03:56:53.367277Z",
+    "updated_at": "2026-07-20T04:17:57.473039Z",
+    "eta_hours_remaining_estimate": 0.95,
+    "blocker_histogram": {
+      "ANALYSIS_WINDOW_TRUNCATED": 5,
+      "DECODE_FAILED_CORRUPT_OR_UNREADABLE": 5,
+      "MULTI_CANDIDATE_ONSET_NO_FRAME_EXACT_CLAIM": 9402
+    }
+  },
+  "remaining_blockers": [
+    "FULL_LIBRARY_RECONCILE_IN_PROGRESS_TIME_BOUND",
+    "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+    "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT"
+  ],
+  "safe_next_action": "Do not kill healthy PID 54864; let retained-index reconcile continue to coverage_complete, then address frozen threshold authority and library benchmark strata before claiming Row072 acceptance.",
+  "mf70_visual_lanes": {
+    "unused_prepared_safe_lanes_remaining": false,
+    "exhausted_or_blocked": [
+      "all tip-passed face/eye/skin/mouth regions",
+      "eyes_full historically rejected",
+      "ears/tongue source-visibility blocked",
+      "face_skin policy-blocked"
+    ]
+  }
+}

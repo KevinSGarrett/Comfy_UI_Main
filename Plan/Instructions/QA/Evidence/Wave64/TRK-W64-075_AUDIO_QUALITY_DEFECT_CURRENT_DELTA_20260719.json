@@ -2,219 +2,149 @@
   "schema_version": 1,
   "evidence_id": "W64-ROW075-AUDIO-QUALITY-DEFECT-CURRENT-DELTA-20260719",
   "created_at": "2026-07-19T03:26:23.7207842Z",
-  "updated_at": "2026-07-19T19:59:22Z",
-  "source_commit": "e2b2e6634509a6d58311cacf43362e85de14ee61",
-  "prior_row_commit": "e2b2e6634509a6d58311cacf43362e85de14ee61",
-  "prior_row_commit_is_current_head": true,
+  "updated_at": "2026-07-19T23:18:05-05:00",
+  "source_commit": "PENDING_THIS_PASS",
   "tracker_id": "TRK-W64-075",
   "item_id": "ITEM-W64-075",
-  "status": "HOLD_ROW070_ROW071_DEPENDENCIES_AND_FULL_LIBRARY_DEFECT_RUNTIME_ABSENT",
-  "classification": "ROW075_FAIL_CLOSED_CONTRACT_SLICE_NO_FALSE_COMPLETION",
+  "status": "HOLD_LIBRARY_PROBE_PASS_FULL_RECONCILE_DEFERRED_DEPS_UNLOCKED",
+  "classification": "ROW075_INDEX_RETAINED_PROBE_RUNTIME_PASS_BOUNDED_NO_FALSE_COMPLETION",
+  "proof_tier": "RUNTIME_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
   "row_complete": false,
   "implementation_completion_claimed": false,
   "runtime_completion_claimed": false,
-  "qa_decision": "hold_with_fail_closed_defect_taxonomy_contract_and_synthetic_fixture_calibration_only",
+  "library_authority": false,
+  "qa_decision": "deps_unlocked_index_retained_probe_pass;full_library_deferred_to_avoid_row072_pcm_contention;frozen_thresholds_and_strata_still_block_acceptance",
   "increment": {
-    "kind": "fail_closed_contract_and_classifier_slice",
+    "kind": "index_retained_defect_reconcile_implement_and_bounded_probe",
     "detector_revision": "wave64_row075_audio_defect_classifier_v0.1.0",
     "threshold_registry_revision": "wave64_row075_audio_defect_thresholds_v0.1.0",
-    "commit": "e2b2e6634509a6d58311cacf43362e85de14ee61",
-    "summary": "Freeze Row075 defect taxonomy, severity/confidence/evidence bindings, threshold registry, and production-eligibility demotion with inventory visibility preserved; emit schema-validated synthetic fixture calibration; fail closed for library authority until Row070 and Row071 acceptance exists.",
-    "note_concurrent_staging": "Commit 63c29685 also carried concurrently staged Row076 reverb/dryness paths; this delta binds only Row075 authority."
+    "summary": "Unlocked Row075 against accepted Row070/071; implemented --mode index-retained over Row071 retained records into a separate runtime dir; proved limit-40 probe (RUNTIME_PASS_BOUNDED). Full-library PCM reconcile deferred while Row072 PID 54864 is healthy to avoid dual PCM I/O contention. No product COMPLETE.",
+    "changed_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/classify_wave64_audio_defects.py",
+      "Plan/Instructions/QA/Scripts/test_classify_wave64_audio_defects.py",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_audio_defect_classification.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_AUDIO_QUALITY_DEFECT_CURRENT_DELTA_20260719.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_ACCEPTED_INDEX_RETAINED_DEFECT_SUMMARY_20260719.json"
+    ]
   },
-  "row075_contract": {
-    "status": "Planned_Autonomous_Implementation_Required",
-    "priority": "P1",
-    "risk": "HIGH",
-    "dependency_prerequisites": [
-      "TRK-W64-070",
-      "TRK-W64-071"
-    ],
-    "validation_methods": [
-      "clipping",
-      "noise",
-      "dropout",
-      "truncation",
-      "codec_damage",
-      "visibility_preserved"
-    ],
-    "output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_audio_defect_classification.json",
-    "output_artifact_exists": true,
-    "output_artifact_authority": "fail_closed_hold_packet_not_library_acceptance",
-    "completion_criteria": "Severe technical defects are detected and remove production eligibility without hiding inventory records.",
-    "required_defect_classes": [
-      "clipping",
-      "hiss",
-      "hum",
-      "clicks",
-      "dropouts",
-      "codec_damage",
-      "excessive_noise",
-      "unintelligible_speech_contamination",
-      "severe_pre_reverb",
-      "truncation",
-      "unsuitable_background_layers"
-    ],
-    "runtime_proof_required": true,
-    "ec2_allowed": false,
-    "final_render_gate": "BLOCKED_UNTIL_EXACT_ROW_IMPLEMENTATION_RUNTIME_QA_AND_AUTHORITY_PASS"
+  "focused_validators": {
+    "command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_classify_wave64_audio_defects.py",
+    "exit_code": 0,
+    "passed": 9,
+    "probe_command": "python Plan/07_IMPLEMENTATION/scripts/classify_wave64_audio_defects.py --mode index-retained --limit 40 --no-resume --retained-runtime-dir runtime_artifacts/audio_defects/row075_index_retained_20260719",
+    "probe_records_processed": 40,
+    "probe_defect_pass": 28,
+    "probe_defect_blocked": 12,
+    "probe_eligibility_histogram": {
+      "eligible": 4,
+      "ineligible": 24,
+      "unknown": 12
+    },
+    "library_hold_packet_status": "HOLD_LIBRARY_PROBE_PASS_FULL_RECONCILE_DEFERRED_DEPS_UNLOCKED"
   },
   "implemented_slice": {
     "classifier_path": "Plan/07_IMPLEMENTATION/scripts/classify_wave64_audio_defects.py",
-    "classifier_sha256": "a566c44fcda23e8a0b2b5454676568c67bbc587840a3b4416f12b7393ccb44c2",
-    "classifier_bytes": 44035,
-    "schema_path": "Plan/08_SCHEMAS/audio_defect_classification_record.schema.json",
-    "schema_sha256": "e6cc4a2c3001640ce9fcabe01623bb8ac13d9ff72349455934831af21bf86c04",
-    "schema_bytes": 6920,
-    "threshold_registry_path": "Plan/10_REGISTRIES/wave64_row075_audio_defect_threshold_registry.json",
-    "threshold_registry_sha256": "c94303206856f363b529523ebbe71ba6dcfaacf4cd235bf9c4e0d42e906f1abd",
-    "threshold_registry_bytes": 1382,
+    "classifier_sha256": "ab1c3afbaa01dd9a357d008690926ae29589e847c9cc415f40de0d06bcc3b2d1",
+    "classifier_bytes": 71254,
     "test_path": "Plan/Instructions/QA/Scripts/test_classify_wave64_audio_defects.py",
-    "test_sha256": "d51d1a7b105b6d54f0bd2f269ee8505be95fa45d848c8757134a3a571319967d",
-    "test_bytes": 4709,
+    "test_sha256": "a31afb38f1a057f71e4814948a4e35077dbd1a17621cd97b563a8642d67e54e2",
+    "test_bytes": 6089,
     "direct_evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_audio_defect_classification.json",
-    "direct_evidence_sha256": "79f4153a6d100a3d88ac02462e2721c8ac7b642958515c9f3aad9a715ccbe533",
-    "direct_evidence_bytes": 131181,
+    "direct_evidence_sha256": "63274f9a4067c409276545bcb9f4d6f2a0af09ed684da8995d914e1e92f73a6a",
+    "direct_evidence_bytes": 132569,
     "capabilities_now_present": [
-      "frozen_detector_and_threshold_revisions",
-      "frozen_eleven_code_defect_taxonomy",
-      "schema_validated_defect_labels_with_severity_confidence_evidence",
-      "source_and_canonical_pcm_hash_binding",
-      "row070_and_row071_admission_fail_closed_gates",
-      "synthetic_fixture_determinism_for_positive_negative_and_boundary_cases",
-      "severe_defect_production_demotion_with_visibility_preserved",
-      "library_mode_hold_packet_without_false_completion"
+      "row070_row071_admission_unlocked",
+      "index_retained_defect_reconcile_mode",
+      "bounded_probe_runtime_pass_bounded",
+      "separate_runtime_dir_from_row072",
+      "visibility_preserved_eligibility_demotion",
+      "fail_closed_no_false_completion"
     ],
     "explicitly_not_claimed": [
-      "full_library_defect_classification_records",
-      "accepted_row070_canonical_pcm_authority",
-      "accepted_row071_waveform_feature_authority",
+      "full_library_defect_classification_coverage_complete",
       "calibrated_library_defect_strata",
+      "threshold_authority_unfrozen",
       "row075_product_completion",
-      "row075_runtime_completion",
-      "downstream_row078_row093_row103_row112_unblocking"
+      "row078_row093_unlock"
     ]
   },
   "dependency_authority": [
     {
       "tracker_id": "TRK-W64-070",
-      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_CANONICAL_AUDIO_DECODE_CURRENT_DELTA_20260719.json",
-      "current_delta_sha256": "a1e3feaace3961f655a7272017db844768ea2b2c5a1f2390b542f57264d125d0",
-      "current_delta_bytes": 9348,
-      "current_delta_status": "HOLD_ROW069_DEPENDENCY_AND_FULL_LIBRARY_DECODE_RUNTIME_ABSENT",
-      "row_complete": false,
-      "dependency_satisfied": false,
-      "reason": "Codec damage, clipping, noise, dropout, and truncation must be evaluated against deterministic canonical PCM and exact decode truth; Row070 remains unaccepted."
+      "dependency_satisfied": true,
+      "row_complete": true,
+      "reason": "Accepted library PCM authority; consumed read-only."
     },
     {
       "tracker_id": "TRK-W64-071",
-      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-071_WAVEFORM_FEATURE_EXTRACTION_CURRENT_DELTA_20260719.json",
-      "current_delta_sha256": "4118ecf426dc54242b049e15e27981097a29044d954bd21992dce85aca432def",
-      "current_delta_bytes": 7370,
-      "current_delta_status": "HOLD_ROW070_CANONICAL_DECODE_AND_FULL_LIBRARY_FEATURE_RUNTIME_ABSENT",
-      "row_complete": false,
-      "dependency_satisfied": false,
-      "reason": "Noise, hum, click, dropout, truncation, speech contamination, and pre-reverb classifiers require accepted versioned waveform and spectral features; Row071 remains unaccepted."
+      "dependency_satisfied": true,
+      "row_complete": true,
+      "reason": "Accepted library feature authority; retained records consumed read-only."
     }
   ],
-  "focused_validators": {
-    "command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_classify_wave64_audio_defects.py",
-    "exit_code": 0,
-    "passed": 8,
-    "failed": 0
-  },
   "acceptance_gaps": [
     {
-      "code": "ROW070_AND_ROW071_DEPENDENCIES_NOT_ACCEPTED",
-      "detail": "Both direct prerequisites remain row_complete=false, so accepted canonical PCM and waveform/spectral features are unavailable for library authority."
-    },
-    {
       "code": "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT",
-      "detail": "No runtime reconciles every retained inventory input to a calibrated defect decision or exact blocker."
+      "detail": "Only limit-40 probe reconciled; full-library deferred while Row072 PCM scan is active."
     },
     {
       "code": "CALIBRATED_LIBRARY_DEFECT_STRATA_ABSENT",
-      "detail": "Synthetic fixtures prove taxonomy identity and eligibility demotion only; library precision/recall strata remain unreconciled."
+      "detail": "Synthetic fixtures + probe do not accept library precision/recall strata."
     },
     {
-      "code": "FULL_LIBRARY_VISIBILITY_RECONCILIATION_ABSENT",
-      "detail": "Fixture visibility-preserved demotion does not substitute for retained-library inventory reconciliation."
+      "code": "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+      "detail": "Threshold registry remains frozen synthetic-only."
     }
   ],
-  "direct_downstream_hold": {
-    "count": 4,
-    "tracker_ids": [
-      "TRK-W64-078",
-      "TRK-W64-093",
-      "TRK-W64-103",
-      "TRK-W64-112"
-    ],
-    "reason": "Each row directly declares TRK-W64-075 as a prerequisite; synthetic fixture calibration and fail-closed hold packets cannot substitute for accepted library defect authority required for Row093 unlock."
+  "blocker_codes": [
+    "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT",
+    "FULL_LIBRARY_RECONCILE_DEFERRED_OR_IN_PROGRESS",
+    "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+    "CALIBRATED_LIBRARY_DEFECT_STRATA_ABSENT"
+  ],
+  "row072_contention_policy": "separate_runtime_dir_read_only_row071_records;full_library_deferred_while_row072_pcm_scan_active",
+  "direct_evidence": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_audio_defect_classification.json",
+    "sha256": "63274f9a4067c409276545bcb9f4d6f2a0af09ed684da8995d914e1e92f73a6a",
+    "bytes": 132569,
+    "status": "HOLD_LIBRARY_PROBE_PASS_FULL_RECONCILE_DEFERRED_DEPS_UNLOCKED",
+    "library_authority": false,
+    "row_complete": false
   },
-  "preservation_boundary": {
-    "row067_owned_paths_modified": false,
-    "row069_owned_paths_modified": false,
-    "row074_owned_paths_modified": false,
-    "row085_owned_paths_modified": false,
-    "unrelated_dirty_paths_modified": false,
-    "only_row075_intended_writable_paths": [
-      "Plan/07_IMPLEMENTATION/scripts/classify_wave64_audio_defects.py",
-      "Plan/08_SCHEMAS/audio_defect_classification_record.schema.json",
-      "Plan/10_REGISTRIES/wave64_row075_audio_defect_threshold_registry.json",
-      "Plan/Instructions/QA/Scripts/test_classify_wave64_audio_defects.py",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_audio_defect_classification.json",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_AUDIO_QUALITY_DEFECT_CURRENT_DELTA_20260719.json"
-    ]
+  "decision": {
+    "status": "blocked",
+    "row075_acceptance": "held",
+    "product_completion": false,
+    "runtime_completion": false,
+    "dependencies_unlocked": true,
+    "safe_next_action": "After Row072 retained-index onset reconcile finishes, resume Row075 --mode index-retained without --limit to coverage_complete under frozen thresholds; then calibrate library defect strata / unfreeze thresholds before acceptance. Keep Row069-071 closed."
   },
   "checks": [
     {
-      "name": "ADC-I001_detector_and_threshold_revisions_frozen",
+      "name": "ADC-R001_pytest_nine_passed",
       "result": "pass"
     },
     {
-      "name": "ADC-I002_schema_requires_taxonomy_severity_confidence_evidence_and_hash_binding",
+      "name": "ADC-R002_index_retained_limit40_probe",
       "result": "pass"
     },
     {
-      "name": "ADC-I003_row070_and_row071_admission_fails_closed",
+      "name": "ADC-R003_deps_unlocked_no_false_complete",
       "result": "pass"
     },
     {
-      "name": "ADC-I004_library_mode_hold_packet_emitted",
+      "name": "ADC-R004_row072_not_restarted",
       "result": "pass"
     },
     {
-      "name": "ADC-I005_fixture_records_deterministic_and_schema_valid",
-      "result": "pass"
-    },
-    {
-      "name": "ADC-I006_severe_defects_demote_eligibility_with_visibility_preserved",
-      "result": "pass"
-    },
-    {
-      "name": "ADC-I007_focused_pytest_8_passed",
-      "result": "pass"
-    },
-    {
-      "name": "ADC-I008_no_false_completion_claimed",
-      "result": "pass"
-    },
-    {
-      "name": "ADC-I009_row075_contract_paths_present_on_remote",
+      "name": "ADC-R005_no_mf70_lane_remaining_documented",
       "result": "pass"
     }
   ],
   "check_summary": {
-    "checked": 9,
-    "passed": 9,
+    "checked": 5,
+    "passed": 5,
     "failed": 0
-  },
-  "decision": {
-    "fail_closed_contract_slice": "accepted_as_bounded_increment",
-    "row075_status": "Planned_Autonomous_Implementation_Required",
-    "row075_acceptance": "held",
-    "runtime_completion": false,
-    "product_completion": false,
-    "safe_next_action": "Accept or complete Rows070-071 next; then extend Row075 library mode to consume accepted decode/feature records, reconcile every retained inventory input to a calibrated defect decision with confidence/evidence while preserving visibility, and only then mark Row075 complete for Row078/Row093/Row103/Row112 consumers."
   }
 }

@@ -4,7 +4,9 @@
 Library classification refuses authority without accepted Row070 canonical PCM
 decode and Row071 waveform/spectral features. Fixture mode may emit deterministic
 schema-validated defect labels from synthetic PCM without promoting library
-completion, and never mutates source bytes.
+completion, and never mutates source bytes. Index-retained mode reconciles
+accepted Row071 feature records into defect PASS/blocker compact records under
+frozen synthetic thresholds without claiming product COMPLETE.
 """
 
 from __future__ import annotations
@@ -14,6 +16,7 @@ import hashlib
 import json
 import math
 import struct
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -34,11 +37,22 @@ ROW070_DELTA = Path(
 ROW071_DELTA = Path(
     "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-071_WAVEFORM_FEATURE_EXTRACTION_CURRENT_DELTA_20260719.json"
 )
+DEFAULT_ROW071_RETAINED_RECORDS = Path(
+    "runtime_artifacts/audio_qa/row071_index_retained_20260719/records.jsonl"
+)
+DEFAULT_RETAINED_DEFECT_RUNTIME_DIR = Path(
+    "runtime_artifacts/audio_defects/row075_index_retained_20260719"
+)
 DETECTOR_REVISION = "wave64_row075_audio_defect_classifier_v0.1.0"
 THRESHOLD_REGISTRY_REVISION = "wave64_row075_audio_defect_thresholds_v0.1.0"
 TRACKER_ID = "TRK-W64-075"
 ITEM_ID = "ITEM-W64-075"
 SCHEMA_VERSION = "1.0.0"
+# Retained-library defect analysis caps PCM windows to keep CPU bounded while Row072
+# also scans the same source tree; fixture mode still uses synthetic short PCM.
+MAX_ANALYSIS_FRAMES = 48000 * 30
+RETAINED_CHECKPOINT_EVERY = 250
+_FEATURE_MOD: Any | None = None
 
 REQUIRED_DEFECT_CODES = (
     "clipping",
@@ -996,7 +1010,444 @@ def extract_fixture_record(root: Path, fixture_name: str) -> dict[str, Any]:
     return record
 
 
-def build_library_blocker_packet(root: Path) -> dict[str, Any]:
+def load_feature_module() -> Any:
+    global _FEATURE_MOD
+    if _FEATURE_MOD is not None:
+        return _FEATURE_MOD
+    import importlib.util
+
+    script = ROOT / "Plan/07_IMPLEMENTATION/scripts/extract_wave64_waveform_features.py"
+    spec = importlib.util.spec_from_file_location("wave64_row071_features_for_defects", script)
+    if spec is None or spec.loader is None:
+        raise AudioDefectError("feature_module_load_failed")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    _FEATURE_MOD = mod
+    return mod
+
+
+def _empty_retained_defect_counts() -> dict[str, int]:
+    return {
+        "records_processed": 0,
+        "records_total": 0,
+        "defect_pass": 0,
+        "defect_blocked": 0,
+        "exact_blockers": 0,
+        "feature_pass_inputs": 0,
+        "feature_non_pass_inputs": 0,
+        "pcm_sha_verified": 0,
+        "analysis_truncated": 0,
+        "source_immutable_true": 0,
+        "severe_defect_present": 0,
+        "production_ineligible": 0,
+        "visibility_preserved": 0,
+    }
+
+
+def _channels_from_frames_nc(frames_nc: Any) -> list[list[float]]:
+    channel_count = int(frames_nc.shape[1])
+    return [frames_nc[:, channel].astype(float, copy=False).tolist() for channel in range(channel_count)]
+
+
+def classify_library_compact_from_channels(
+    root: Path,
+    *,
+    channels: list[list[float]],
+    sample_rate_hz: int,
+    frame_count: int,
+    asset_id: str,
+    source_sha256: str,
+    canonical_pcm_sha256: str,
+    relative_path: str,
+    extension: str,
+    role: str,
+    event_type: str,
+    analysis_truncated: bool,
+) -> dict[str, Any]:
+    registry = load_threshold_registry(root)
+    defects = classify_channels(
+        channels,
+        sample_rate_hz=sample_rate_hz,
+        thresholds=registry["thresholds"],
+        source_sha256=source_sha256,
+        canonical_pcm_sha256=canonical_pcm_sha256,
+    )
+    eligibility, severe_present, unknown = production_eligibility_from_defects(defects)
+    severity_map = {label["defect_code"]: label["severity"] for label in defects}
+    severe_codes = sorted(
+        code for code, severity in severity_map.items() if severity == "severe"
+    )
+    blocker_codes: list[str] = ["LIBRARY_AUTHORITY_NOT_GRANTED"]
+    if unknown:
+        blocker_codes.append("UNKNOWN_OR_AMBIGUOUS_DEFECT_FAIL_CLOSED")
+    if analysis_truncated:
+        blocker_codes.append("ANALYSIS_WINDOW_TRUNCATED")
+    technical_pass = eligibility in {"eligible", "limited", "ineligible"} and not unknown
+    return {
+        "relative_path": relative_path,
+        "extension": extension,
+        "role": role,
+        "event_type": event_type,
+        "asset_id": asset_id,
+        "defect_status": "pass" if technical_pass else "blocked",
+        "technical_defect_pass": technical_pass,
+        "library_authority": False,
+        "production_eligibility": eligibility,
+        "severe_defect_present": severe_present,
+        "severe_defect_codes": severe_codes,
+        "defect_severity_map": severity_map,
+        "visibility_preserved": True,
+        "source_bytes_unchanged": True,
+        "blocker_code": None if technical_pass else "DEFECT_CLASSIFICATION_AMBIGUOUS",
+        "blocker_codes": blocker_codes if not technical_pass else ["LIBRARY_AUTHORITY_NOT_GRANTED"],
+        "canonical_pcm_sha256": canonical_pcm_sha256,
+        "source_sha256": source_sha256,
+        "sample_rate_hz": sample_rate_hz,
+        "channels": len(channels),
+        "frame_count": frame_count,
+        "analysis_truncated": analysis_truncated,
+        "detector_revision": DETECTOR_REVISION,
+        "threshold_registry_revision": THRESHOLD_REGISTRY_REVISION,
+    }
+
+
+def run_retained_index_defect_runtime(
+    root: Path,
+    *,
+    row071_records_path: Path | None = None,
+    runtime_dir: Path | None = None,
+    limit: int | None = None,
+    resume: bool = True,
+    checkpoint_every: int = RETAINED_CHECKPOINT_EVERY,
+) -> dict[str, Any]:
+    """Reconcile every Row071 retained feature record to defect PASS or exact blocker."""
+    row070 = evaluate_row070_admission(root)
+    row071 = evaluate_row071_admission(root)
+    if not row070.get("dependency_satisfied") or not row071.get("dependency_satisfied"):
+        raise AudioDefectError("index_retained_requires_row070_and_row071_admission")
+
+    feature_mod = load_feature_module()
+    decode = feature_mod.load_decode_module()
+    locator = decode.load_active_index_locator(root)
+    source_root = Path(locator["source_root"])
+    records_in = resolve_under(
+        root,
+        row071_records_path or DEFAULT_ROW071_RETAINED_RECORDS,
+        "row071_retained_records",
+    )
+    if not records_in.is_file():
+        raise AudioDefectError("row071_retained_records_absent")
+
+    out_dir = resolve_under(
+        root,
+        runtime_dir or DEFAULT_RETAINED_DEFECT_RUNTIME_DIR,
+        "retained_defect_runtime",
+    )
+    out_dir.mkdir(parents=True, exist_ok=True)
+    owner_marker = out_dir / "FULL_RECONCILE_OWNER.txt"
+    if limit is None:
+        owner_marker.write_text(
+            f"owner=classify_wave64_audio_defects.py\nstarted={datetime.now(timezone.utc).isoformat()}\n",
+            encoding="utf-8",
+        )
+    elif owner_marker.is_file():
+        raise AudioDefectError(
+            "retained_defect_runtime_full_reconcile_in_progress_limit_runs_refused"
+        )
+
+    records_path = out_dir / "records.jsonl"
+    progress_path = out_dir / "progress.json"
+    receipt_path = out_dir / "retained_index_defect_receipt.json"
+
+    total_lines = 0
+    with records_in.open("r", encoding="utf-8") as handle:
+        for line in handle:
+            if line.strip():
+                total_lines += 1
+
+    counts = _empty_retained_defect_counts()
+    counts["records_total"] = total_lines
+    blocker_histogram: dict[str, int] = {}
+    extension_histogram: dict[str, int] = {}
+    eligibility_histogram: dict[str, int] = {}
+    started_at = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+    processed_paths: set[str] = set()
+    next_index = 0
+
+    if resume and progress_path.is_file() and records_path.is_file():
+        progress = load_json(progress_path)
+        if str(progress.get("row071_records_sha256") or "") == sha256_file(records_in):
+            counts = dict(progress.get("counts") or counts)
+            blocker_histogram = {
+                str(key): int(value)
+                for key, value in (progress.get("blocker_histogram") or {}).items()
+            }
+            extension_histogram = {
+                str(key): int(value)
+                for key, value in (progress.get("extension_histogram") or {}).items()
+            }
+            eligibility_histogram = {
+                str(key): int(value)
+                for key, value in (progress.get("eligibility_histogram") or {}).items()
+            }
+            next_index = int(progress.get("next_record_index") or 0)
+            started_at = str(progress.get("started_at") or started_at)
+            with records_path.open("r", encoding="utf-8") as handle:
+                for line in handle:
+                    if not line.strip():
+                        continue
+                    compact = json.loads(line)
+                    processed_paths.add(str(compact.get("relative_path") or ""))
+        else:
+            records_path.write_text("", encoding="utf-8")
+            next_index = 0
+            processed_paths = set()
+            counts = _empty_retained_defect_counts()
+            counts["records_total"] = total_lines
+            blocker_histogram = {}
+            extension_histogram = {}
+            eligibility_histogram = {}
+    else:
+        records_path.write_text("", encoding="utf-8")
+        if progress_path.is_file() and not resume:
+            progress_path.unlink()
+
+    def write_progress(*, complete: bool) -> None:
+        payload = {
+            "schema_version": 1,
+            "tracker_id": TRACKER_ID,
+            "item_id": ITEM_ID,
+            "detector_revision": DETECTOR_REVISION,
+            "threshold_registry_revision": THRESHOLD_REGISTRY_REVISION,
+            "row071_records_path": str(records_in.relative_to(root)).replace("\\", "/"),
+            "row071_records_sha256": sha256_file(records_in),
+            "index_sha256": locator["index_sha256"],
+            "started_at": started_at,
+            "updated_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+            "next_record_index": next_index,
+            "limit": limit,
+            "complete": complete,
+            "counts": counts,
+            "blocker_histogram": blocker_histogram,
+            "extension_histogram": extension_histogram,
+            "eligibility_histogram": eligibility_histogram,
+            "records_path": str(records_path.relative_to(root)).replace("\\", "/"),
+        }
+        write_json(progress_path, payload)
+
+    with records_in.open("r", encoding="utf-8") as handle, records_path.open(
+        "a", encoding="utf-8"
+    ) as out_handle:
+        for line_index, line in enumerate(handle):
+            if line_index < next_index:
+                continue
+            stripped = line.strip()
+            if not stripped:
+                next_index = line_index + 1
+                continue
+            feature_rec = json.loads(stripped)
+            relative_path = str(feature_rec.get("relative_path") or "").replace("\\", "/")
+            if not relative_path:
+                next_index = line_index + 1
+                continue
+            if relative_path in processed_paths:
+                next_index = line_index + 1
+                continue
+            if limit is not None and counts["records_processed"] >= limit:
+                break
+
+            extension = str(feature_rec.get("extension") or Path(relative_path).suffix).lower()
+            feature_status = str(feature_rec.get("feature_status") or "")
+            role = str(feature_rec.get("role") or "")
+            event_type = str(feature_rec.get("event_type") or "")
+            asset_id = f"index:{relative_path}"
+
+            if feature_status != "pass":
+                blocker_code = str(feature_rec.get("blocker_code") or "FEATURE_NON_PASS")
+                compact = {
+                    "relative_path": relative_path,
+                    "extension": extension,
+                    "role": role,
+                    "event_type": event_type,
+                    "asset_id": asset_id,
+                    "feature_status": feature_status,
+                    "defect_status": "blocked",
+                    "technical_defect_pass": False,
+                    "library_authority": False,
+                    "production_eligibility": "unknown",
+                    "severe_defect_present": False,
+                    "severe_defect_codes": [],
+                    "visibility_preserved": True,
+                    "blocker_code": blocker_code,
+                    "blocker_codes": [blocker_code],
+                    "canonical_pcm_sha256": feature_rec.get("canonical_pcm_sha256"),
+                    "source_sha256": feature_rec.get("source_sha256"),
+                    "pcm_sha_verified": False,
+                    "source_immutable": feature_rec.get("source_immutable"),
+                    "analysis_truncated": False,
+                    "detector_revision": DETECTOR_REVISION,
+                    "threshold_registry_revision": THRESHOLD_REGISTRY_REVISION,
+                }
+                counts["feature_non_pass_inputs"] += 1
+            else:
+                absolute = source_root / relative_path
+                try:
+                    frames_nc, sample_rate_hz, source_sha, _source_bytes, pcm_sha = (
+                        feature_mod.load_canonical_float_channels(root, absolute)
+                    )
+                    after_sha = sha256_file(absolute)
+                    source_immutable = after_sha == source_sha
+                    if source_sha != feature_rec.get("source_sha256"):
+                        raise AudioDefectError(f"source_sha_mismatch:{relative_path}")
+                    if pcm_sha != feature_rec.get("canonical_pcm_sha256"):
+                        raise AudioDefectError(f"pcm_sha_mismatch:{relative_path}")
+                    frame_count = int(frames_nc.shape[0])
+                    analysis_truncated = frame_count > MAX_ANALYSIS_FRAMES
+                    if analysis_truncated:
+                        frames_nc = frames_nc[:MAX_ANALYSIS_FRAMES]
+                        counts["analysis_truncated"] += 1
+                    channels = _channels_from_frames_nc(frames_nc)
+                    compact = classify_library_compact_from_channels(
+                        root,
+                        channels=channels,
+                        sample_rate_hz=int(sample_rate_hz),
+                        frame_count=frame_count,
+                        asset_id=asset_id,
+                        source_sha256=source_sha,
+                        canonical_pcm_sha256=pcm_sha,
+                        relative_path=relative_path,
+                        extension=extension,
+                        role=role,
+                        event_type=event_type,
+                        analysis_truncated=analysis_truncated,
+                    )
+                    compact["feature_status"] = "pass"
+                    compact["pcm_sha_verified"] = True
+                    compact["source_immutable"] = source_immutable
+                    counts["feature_pass_inputs"] += 1
+                    counts["pcm_sha_verified"] += 1
+                    if source_immutable:
+                        counts["source_immutable_true"] += 1
+                    if compact.get("visibility_preserved"):
+                        counts["visibility_preserved"] += 1
+                    if compact.get("severe_defect_present"):
+                        counts["severe_defect_present"] += 1
+                    if compact.get("production_eligibility") == "ineligible":
+                        counts["production_ineligible"] += 1
+                except Exception as exc:  # noqa: BLE001 - exact blocker capture
+                    compact = {
+                        "relative_path": relative_path,
+                        "extension": extension,
+                        "role": role,
+                        "event_type": event_type,
+                        "asset_id": asset_id,
+                        "feature_status": "pass",
+                        "defect_status": "blocked",
+                        "technical_defect_pass": False,
+                        "library_authority": False,
+                        "production_eligibility": "unknown",
+                        "severe_defect_present": False,
+                        "severe_defect_codes": [],
+                        "visibility_preserved": True,
+                        "blocker_code": "DEFECT_EXTRACTION_FAILED",
+                        "blocker_codes": ["DEFECT_EXTRACTION_FAILED"],
+                        "blocker_detail": str(exc)[:500],
+                        "canonical_pcm_sha256": feature_rec.get("canonical_pcm_sha256"),
+                        "source_sha256": feature_rec.get("source_sha256"),
+                        "pcm_sha_verified": False,
+                        "source_immutable": feature_rec.get("source_immutable"),
+                        "analysis_truncated": False,
+                        "detector_revision": DETECTOR_REVISION,
+                        "threshold_registry_revision": THRESHOLD_REGISTRY_REVISION,
+                    }
+                    counts["feature_pass_inputs"] += 1
+
+            if compact.get("defect_status") == "pass":
+                counts["defect_pass"] += 1
+            else:
+                counts["defect_blocked"] += 1
+                counts["exact_blockers"] += 1
+                code = str(compact.get("blocker_code") or "DEFECT_BLOCKED")
+                blocker_histogram[code] = blocker_histogram.get(code, 0) + 1
+            eligibility = str(compact.get("production_eligibility") or "unknown")
+            eligibility_histogram[eligibility] = eligibility_histogram.get(eligibility, 0) + 1
+            extension_histogram[extension] = extension_histogram.get(extension, 0) + 1
+            counts["records_processed"] += 1
+            out_handle.write(json.dumps(compact, sort_keys=True) + "\n")
+            processed_paths.add(relative_path)
+            next_index = line_index + 1
+            if counts["records_processed"] % checkpoint_every == 0:
+                out_handle.flush()
+                write_progress(complete=False)
+
+    coverage_complete = limit is None and counts["records_processed"] == counts["records_total"]
+    write_progress(complete=coverage_complete)
+    proof_tier = "RUNTIME_PASS_BOUNDED"
+    receipt = {
+        "schema_version": 1,
+        "evidence_id": "W64-ROW075-ACCEPTED-INDEX-RETAINED-DEFECT-20260719",
+        "tracker_id": TRACKER_ID,
+        "item_id": ITEM_ID,
+        "authority": "accepted_index_retained_defect_reconcile",
+        "detector_revision": DETECTOR_REVISION,
+        "threshold_registry_revision": THRESHOLD_REGISTRY_REVISION,
+        "threshold_authority": "planning_freeze_not_library_acceptance",
+        "created_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "started_at": started_at,
+        "coverage_complete": coverage_complete,
+        "limit": limit,
+        "counts": counts,
+        "blocker_histogram": blocker_histogram,
+        "extension_histogram": extension_histogram,
+        "eligibility_histogram": eligibility_histogram,
+        "locator": {
+            "index_sha256": locator["index_sha256"],
+            "record_count": locator.get("record_count"),
+            "source_root": str(source_root),
+        },
+        "row070_admission": row070,
+        "row071_admission": row071,
+        "row071_records": {
+            "path": str(records_in.relative_to(root)).replace("\\", "/"),
+            "sha256": sha256_file(records_in),
+            "bytes": records_in.stat().st_size,
+        },
+        "records_path": str(records_path.relative_to(root)).replace("\\", "/"),
+        "records_sha256": sha256_file(records_path) if records_path.is_file() else None,
+        "records_bytes": records_path.stat().st_size if records_path.is_file() else 0,
+        "progress_path": str(progress_path.relative_to(root)).replace("\\", "/"),
+        "receipt_path": str(receipt_path.relative_to(root)).replace("\\", "/"),
+        "library_authority": False,
+        "row_complete": False,
+        "product_completion_claimed": False,
+        "runtime_completion_claimed": bool(coverage_complete),
+        "proof_tier": proof_tier,
+        "highest_proof_tier_achieved": proof_tier,
+        "explicit_non_claims": ["COMPLETE", "product_completion", "library_threshold_authority"],
+        "status": (
+            "RUNTIME_PASS_BOUNDED_LIBRARY_THRESHOLDS_FROZEN"
+            if coverage_complete
+            else "HOLD_LIBRARY_RECONCILE_IN_PROGRESS"
+            if limit is None
+            else "RUNTIME_PASS_BOUNDED_PROBE_LIMIT"
+        ),
+        "row072_contention_policy": (
+            "separate_runtime_dir_read_only_row071_records;"
+            "full_library_deferred_while_row072_pcm_scan_active"
+        ),
+    }
+    write_json(receipt_path, receipt)
+    receipt["receipt_sha256"] = sha256_file(receipt_path)
+    receipt["receipt_bytes"] = receipt_path.stat().st_size
+    write_json(receipt_path, receipt)
+    return receipt
+
+
+def build_library_blocker_packet(
+    root: Path,
+    *,
+    retained_runtime: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     row070 = evaluate_row070_admission(root)
     row071 = evaluate_row071_admission(root)
     blocker_codes: list[str] = []
@@ -1005,13 +1456,94 @@ def build_library_blocker_packet(root: Path) -> dict[str, Any]:
     if not row070["dependency_satisfied"] or not row071["dependency_satisfied"]:
         if "ROW070_AND_ROW071_DEPENDENCIES_NOT_ACCEPTED" not in blocker_codes:
             blocker_codes.append("ROW070_AND_ROW071_DEPENDENCIES_NOT_ACCEPTED")
-    for code in (
-        "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT",
-        "CALIBRATED_LIBRARY_DEFECT_STRATA_ABSENT",
-        "FULL_LIBRARY_VISIBILITY_RECONCILIATION_ABSENT",
-    ):
-        if code not in blocker_codes:
-            blocker_codes.append(code)
+
+    retained = retained_runtime or {}
+    coverage_complete = bool(retained.get("coverage_complete"))
+    reconcile_started = bool(retained)
+    probe_only = retained.get("limit") is not None and not coverage_complete
+
+    if not row070["dependency_satisfied"] or not row071["dependency_satisfied"]:
+        for code in (
+            "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT",
+            "CALIBRATED_LIBRARY_DEFECT_STRATA_ABSENT",
+            "FULL_LIBRARY_VISIBILITY_RECONCILIATION_ABSENT",
+        ):
+            if code not in blocker_codes:
+                blocker_codes.append(code)
+    elif coverage_complete:
+        for code in (
+            "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+            "CALIBRATED_LIBRARY_DEFECT_STRATA_ABSENT",
+        ):
+            if code not in blocker_codes:
+                blocker_codes.append(code)
+    elif reconcile_started:
+        for code in (
+            "FULL_LIBRARY_RECONCILE_DEFERRED_OR_IN_PROGRESS",
+            "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+            "CALIBRATED_LIBRARY_DEFECT_STRATA_ABSENT",
+        ):
+            if code not in blocker_codes:
+                blocker_codes.append(code)
+        if probe_only and "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT" not in blocker_codes:
+            blocker_codes.append("DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT")
+    else:
+        for code in (
+            "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT",
+            "CALIBRATED_LIBRARY_DEFECT_STRATA_ABSENT",
+            "FULL_LIBRARY_VISIBILITY_RECONCILIATION_ABSENT",
+        ):
+            if code not in blocker_codes:
+                blocker_codes.append(code)
+
+    deps_unlocked = bool(row070["dependency_satisfied"] and row071["dependency_satisfied"])
+    if coverage_complete and deps_unlocked:
+        status = "HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE"
+        safe_next = (
+            "Full-library defect reconcile covered retained Row071 records under frozen "
+            "synthetic thresholds. Calibrate representative library defect strata and unfreeze "
+            "threshold authority before Row075 acceptance or Row078/Row093 unlock."
+        )
+        proof_tier = "RUNTIME_PASS_BOUNDED"
+        runtime_completion = True
+    elif reconcile_started and deps_unlocked:
+        status = (
+            "HOLD_LIBRARY_PROBE_PASS_FULL_RECONCILE_DEFERRED_DEPS_UNLOCKED"
+            if probe_only
+            else "HOLD_LIBRARY_RECONCILE_IN_PROGRESS_DEPS_UNLOCKED"
+        )
+        safe_next = (
+            "Bounded index-retained defect probe passed under frozen thresholds. "
+            "Defer full-library Row075 PCM reconcile until Row072 retained-index onset "
+            "scan finishes (avoid dual PCM I/O contention), then resume --mode index-retained "
+            "without --limit before claiming Row075 acceptance."
+            if probe_only
+            else (
+                "Resume/finish retained-index defect reconcile to coverage_complete, then address "
+                "frozen threshold authority and library defect strata before claiming Row075 acceptance."
+            )
+        )
+        proof_tier = "RUNTIME_PASS_BOUNDED"
+        runtime_completion = False
+    elif deps_unlocked:
+        status = "HOLD_LIBRARY_RUNTIME_AND_BENCHMARK_STRATA_ABSENT_DEPS_UNLOCKED"
+        safe_next = (
+            "Rows070-071 library authority is accepted. Extend classifier to reconcile every "
+            "accepted PCM/feature record to defect PASS or an exact blocker under the frozen "
+            "threshold registry, then replace this hold packet with full-library runtime evidence."
+        )
+        proof_tier = "RUNTIME_PASS_BOUNDED"
+        runtime_completion = False
+    else:
+        status = "HOLD_ROW070_ROW071_DEPENDENCIES_AND_FULL_LIBRARY_DEFECT_RUNTIME_ABSENT"
+        safe_next = (
+            "Accept Row070 canonical PCM decode and Row071 waveform/spectral features, "
+            "reconcile every retained inventory input to a calibrated defect decision with "
+            "confidence/evidence spans while preserving visibility, and replace this hold "
+            "packet with full-library runtime evidence for Row093 unlock."
+        )
+        proof_tier = "CONTRACT_SLICE_BOUNDED"
+        runtime_completion = False
 
     fixture_names = [
         "clean_tone",
@@ -1037,13 +1569,28 @@ def build_library_blocker_packet(root: Path) -> dict[str, Any]:
         "threshold_registry_revision": THRESHOLD_REGISTRY_REVISION,
         "row_complete": False,
         "implementation_completion_claimed": False,
-        "runtime_completion_claimed": False,
+        "runtime_completion_claimed": runtime_completion,
         "library_authority": False,
-        "status": "HOLD_ROW070_ROW071_DEPENDENCIES_AND_FULL_LIBRARY_DEFECT_RUNTIME_ABSENT",
+        "proof_tier": proof_tier,
+        "highest_proof_tier_achieved": proof_tier,
+        "status": status,
         "thresholds": dict(registry["thresholds"]),
         "required_defect_codes": list(REQUIRED_DEFECT_CODES),
         "row070_admission": row070,
         "row071_admission": row071,
+        "accepted_index_retained_defect_runtime": {
+            "present": reconcile_started,
+            "coverage_complete": coverage_complete,
+            "limit": retained.get("limit"),
+            "counts": retained.get("counts"),
+            "blocker_histogram": retained.get("blocker_histogram"),
+            "eligibility_histogram": retained.get("eligibility_histogram"),
+            "records_path": retained.get("records_path"),
+            "progress_path": retained.get("progress_path"),
+            "receipt_path": retained.get("receipt_path"),
+            "status": retained.get("status"),
+            "row072_contention_policy": retained.get("row072_contention_policy"),
+        },
         "threshold_registry": {
             "path": str(THRESHOLD_REGISTRY_PATH).replace("\\", "/"),
             "revision": registry["revision"],
@@ -1065,13 +1612,8 @@ def build_library_blocker_packet(root: Path) -> dict[str, Any]:
             "status": "blocked",
             "row075_acceptance": "held",
             "product_completion": False,
-            "runtime_completion": False,
-            "safe_next_action": (
-                "Accept Row070 canonical PCM decode and Row071 waveform/spectral features, "
-                "reconcile every retained inventory input to a calibrated defect decision with "
-                "confidence/evidence spans while preserving visibility, and replace this hold "
-                "packet with full-library runtime evidence for Row093 unlock."
-            ),
+            "runtime_completion": runtime_completion,
+            "safe_next_action": safe_next,
         },
     }
 
@@ -1084,9 +1626,31 @@ def write_json(path: Path, payload: Any) -> None:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", default=str(ROOT))
-    parser.add_argument("--mode", choices=("library", "fixture"), default="library")
+    parser.add_argument(
+        "--mode",
+        choices=("library", "fixture", "index-retained"),
+        default="library",
+    )
     parser.add_argument("--fixture", default="clipping")
     parser.add_argument("--output", default=str(DEFAULT_EVIDENCE))
+    parser.add_argument(
+        "--row071-retained-records",
+        default=str(DEFAULT_ROW071_RETAINED_RECORDS),
+    )
+    parser.add_argument(
+        "--retained-runtime-dir",
+        default=str(DEFAULT_RETAINED_DEFECT_RUNTIME_DIR),
+    )
+    parser.add_argument(
+        "--write-retained-summary",
+        default=(
+            "Plan/Instructions/QA/Evidence/Wave64/"
+            "TRK-W64-075_ACCEPTED_INDEX_RETAINED_DEFECT_SUMMARY_20260719.json"
+        ),
+    )
+    parser.add_argument("--limit", type=int, default=None)
+    parser.add_argument("--resume", action="store_true", default=True)
+    parser.add_argument("--no-resume", action="store_false", dest="resume")
     args = parser.parse_args(argv)
     root = Path(args.root).resolve()
     if root != ROOT.resolve() and root != Path("C:/Comfy_UI_Main").resolve():
@@ -1094,16 +1658,46 @@ def main(argv: list[str] | None = None) -> int:
     output = resolve_under(root, Path(args.output), "output")
     if args.mode == "fixture":
         payload = extract_fixture_record(root, args.fixture)
+    elif args.mode == "index-retained":
+        retained = run_retained_index_defect_runtime(
+            root,
+            row071_records_path=Path(args.row071_retained_records),
+            runtime_dir=Path(args.retained_runtime_dir),
+            limit=args.limit,
+            resume=args.resume,
+        )
+        summary_path = resolve_under(root, Path(args.write_retained_summary), "retained_summary")
+        write_json(summary_path, retained)
+        payload = build_library_blocker_packet(root, retained_runtime=retained)
+        payload["accepted_index_retained_defect_runtime"]["summary_path"] = str(
+            summary_path.relative_to(root)
+        ).replace("\\", "/")
+        payload["accepted_index_retained_defect_runtime"]["summary_sha256"] = sha256_file(
+            summary_path
+        )
     else:
-        payload = build_library_blocker_packet(root)
+        retained = None
+        receipt_candidate = resolve_under(
+            root,
+            DEFAULT_RETAINED_DEFECT_RUNTIME_DIR / "retained_index_defect_receipt.json",
+            "retained_defect_receipt",
+        )
+        if receipt_candidate.is_file():
+            retained = load_json(receipt_candidate)
+        payload = build_library_blocker_packet(root, retained_runtime=retained)
         if payload["decision"]["status"] != "blocked":
-            raise AudioDefectError("library_mode_must_remain_fail_closed_until_dependencies_accepted")
+            raise AudioDefectError("library_mode_must_remain_fail_closed_until_acceptance")
     write_json(output, payload)
     print(
         json.dumps(
             {
                 "output": str(output),
                 "status": payload.get("status") or payload["decision"]["status"],
+                "coverage_complete": bool(
+                    (payload.get("accepted_index_retained_defect_runtime") or {}).get(
+                        "coverage_complete"
+                    )
+                ),
             },
             sort_keys=True,
         )
