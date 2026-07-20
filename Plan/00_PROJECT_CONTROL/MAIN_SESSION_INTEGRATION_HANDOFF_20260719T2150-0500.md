@@ -14,8 +14,9 @@
 1. `adb71b6e` Prove Row017 MF70 right-eye local visual climb.
 2. `c376312d` Stamp Row017 right-eye handoff with primary commit id.
 3. `1ca7c18b` Finalize Row017 right-eye handoff tip commit ids.
+4. `c9ac62f6` Align Row017 right-eye handoff tip to origin HEAD.
 
-Pushed tip verified on origin: `1ca7c18b`
+Pushed tip verified on origin: `c9ac62f6`
 
 ## Row-Scoped Increment Executed
 
