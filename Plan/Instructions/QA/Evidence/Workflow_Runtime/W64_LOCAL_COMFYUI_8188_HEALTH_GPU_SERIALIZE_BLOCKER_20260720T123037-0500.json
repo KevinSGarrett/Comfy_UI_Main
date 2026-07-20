@@ -1,0 +1,113 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64_LOCAL_COMFYUI_8188_HEALTH_GPU_SERIALIZE_BLOCKER_20260720T123037-0500",
+  "created_iso": "2026-07-20T12:30:37-05:00",
+  "operation": "probe_local_comfyui_8188_and_attempt_highest_value_real_generation",
+  "project_root": "C:\\Comfy_UI_Main",
+  "branch": "codex/workflow_plan_update_improvements",
+  "head_short": "5cae1f68",
+  "row_complete": false,
+  "product_completion_claimed": false,
+  "csv_mutated": false,
+  "generation_executed": false,
+  "comfyui_started": false,
+  "result": "blocked_comfyui_down_gpu_not_free_start_deferred",
+  "failure_category": "gpu_serialize_foreign_owner_active",
+  "health_probe": {
+    "endpoint": "http://127.0.0.1:8188/system_stats",
+    "queue_endpoint": "http://127.0.0.1:8188/queue",
+    "status": "DOWN",
+    "detail": "Unable to connect to the remote server",
+    "probes": [
+      {
+        "at_iso": "2026-07-20T12:28:00-05:00",
+        "system_stats": "DOWN",
+        "queue": "DOWN"
+      },
+      {
+        "at_iso": "2026-07-20T12:29:30-05:00",
+        "system_stats": "DOWN"
+      },
+      {
+        "at_iso": "2026-07-20T12:30:37-05:00",
+        "system_stats": "DOWN"
+      }
+    ]
+  },
+  "gpu_serialize": {
+    "rule": "serialize_:8188_GPU_this_pass_owns_only_if_free",
+    "gpu_free": false,
+    "snapshot_iso": "2026-07-20T12:30:37-05:00",
+    "nvidia_smi": {
+      "name": "NVIDIA GeForce RTX 5060 Laptop GPU",
+      "utilization_gpu_pct": 16,
+      "memory_used_mib": 1356,
+      "memory_free_mib": 6544,
+      "memory_total_mib": 8151
+    },
+    "foreign_gpu_owners": [
+      {
+        "pid": 53536,
+        "owner": "Comfy_UI_Main_Masking gold tournament batch_a",
+        "command_prefix": "run_multiprovider_gold_tournament.py --sample-set tournament_sample_set_batch_a_20260720T1652.json"
+      },
+      {
+        "pid": 50040,
+        "owner": "Comfy_UI_Main_Masking gold tournament 5family chunk_00",
+        "command_prefix": "run_multiprovider_gold_tournament.py --sample-set tournament_sample_set_remaining_uncovered_20260720T172614Z.json"
+      },
+      {
+        "pid": 48676,
+        "owner": "Comfy_UI_Main_Masking SAM2 server WSL",
+        "command_prefix": "run_sam2_server_wsl.py --checkpoint sam2.1_hiera_large.pt"
+      },
+      {
+        "pid": 39816,
+        "owner": "Comfy_UI_Main_Masking SAM2 server WSL",
+        "command_prefix": "run_sam2_server_wsl.py --checkpoint sam2.1_hiera_large.pt"
+      }
+    ],
+    "earlier_snapshot_note": "At ~12:28 local, utilization was 69% / 2756 MiB used with the same Masking tournament PIDs active; later idle dips do not clear serialize while compute apps remain."
+  },
+  "row073_pcm": {
+    "left_alone": true,
+    "pid": 27320,
+    "command_prefix": "analyze_wave64_usable_bounds_decay.py --mode index-retained --resume",
+    "action_taken": "none_kill_none_restart_none_contend"
+  },
+  "safe_local_start_path": {
+    "script": "tools/Start-LocalComfyUIDev.ps1",
+    "checkout_main_py_exists": true,
+    "local_comfy_root": "C:\\Comfy_UI_Main\\ComfyUI",
+    "execute_attempted": false,
+    "execute_deferred_reason": "GPU not free; foreign Masking SAM2/tournament owners active; serialize rule forbids contention",
+    "dry_run": {
+      "executed": true,
+      "result": "dry_run_local_comfyui_start_plan",
+      "outfile": "runtime_artifacts/run_manifests/LOCAL_COMFY_DEV_START_DRYRUN_20260720T1228-0500.json",
+      "sha256": "5e8b02cf580fb902d6655ebf72eb24e5c6e583b1955e73f5430d534ab46ea6ae",
+      "planned_command": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Scripts\\python.exe main.py --listen 127.0.0.1 --port 8188 --lowvram"
+    }
+  },
+  "deferred_highest_value_real_generation": {
+    "selected_when_gpu_and_8188_free": "Tracker-authorized local visual/character proof climb using existing prepared workflows/masks (prefer remaining Row017 W69/MF70-safe prepared lane or identity_reference_check binding once human/ref assets present); do not invent human media for Row010/109; do not thrash settled Row019/023 Flux/Wan dispositions; do not reopen settled HOLD Rows084-089.",
+    "not_run_because": [
+      "comfyui_8188_down",
+      "gpu_not_free_foreign_masking_owners",
+      "start_deferred_under_serialize"
+    ],
+    "blocked_on_missing_human_assets_lanes_skipped": [
+      "TRK-W64-010",
+      "TRK-W64-109"
+    ]
+  },
+  "boundaries_honored": [
+    "no_COMPLETE",
+    "no_CSV_mutation",
+    "row073_library_pcm_untouched",
+    "no_false_generation_claim",
+    "no_gpu_contention_start"
+  ],
+  "next_action": "When Masking gold/SAM2 GPU owners exit and nvidia-smi compute apps clear for Comfy_UI_Main, run Start-LocalComfyUIDev.ps1 -Execute -LowVram, re-probe :8188/system_stats, then execute the deferred prepared local visual/character proof (not COMPLETE).",
+  "errors": []
+}

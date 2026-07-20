@@ -1,36 +1,33 @@
 # Main Session Integration Handoff (rolling)
 
-Updated: 2026-07-20T12:20-05:00
+Updated: 2026-07-20T12:30-05:00
 
 ## Integration Summary
 
 - Active platform: interactive Cursor (integration authority)
 - Branch: `codex/workflow_plan_update_improvements`
-- This pass: Row089 HOLD declared artifact + post-wave Rows085/088 dependency/runtime/visual inventory deepen
-- Companion handoff: `Plan/00_PROJECT_CONTROL/MAIN_SESSION_INTEGRATION_HANDOFF_20260720T1220-0500.md`
-- Prior same-shift landings: Row088 HOLD artifact (`5ea03a92`), Row087 HOLD artifact (`d03952e0`), Row086 HOLD artifact (`c1d53b66`), Row085 HOLD artifact (`e00ff543`)
+- This pass: probe local ComfyUI `:8188` for highest-value real generation/proof
+- Companion handoff: `Plan/00_PROJECT_CONTROL/MAIN_SESSION_INTEGRATION_HANDOFF_20260720T1230-0500.md`
+- Prior same-shift landings: Row089 HOLD artifact (tip before this pass `5cae1f68` context), Rows085-088 HOLD artifacts
 - No COMPLETE / Status flip. CSV deferred to mutator.
 - Row073 PID 27320 left alone.
 
 ## This pass proof
 
-- HOLD artifact: `Plan/Instructions/QA/Evidence/Wave64/TRK-W64-089_visual_material_recognition.json`
-- Artifact SHA256: `5f0d17e4554db260be391dd488f8d257acd315c7fdac17d950114da18e7cc9a9`
-- Disposition: `Plan/Instructions/QA/Evidence/Wave64/TRK-W64-089_HOLD_ARTIFACT_AND_DEPENDENCY_DISPOSITION_PACKET_20260720.json`
-- Disposition SHA256: `c9b5f9c09fdfb6d495e96bee519ef250e3e9810c5f288acab1663a1a632f40e1`
-- Inventory: `Plan/Instructions/QA/Evidence/Wave64/TRK-W64-089_RUNTIME_VISUAL_DEPENDENCY_NEGATIVE_INVENTORY_20260720.json`
-- Inventory SHA256: `4592c241c830a8881466d1e151ce98580c0068507d4ad1b5bde65cd54f80f58f`
-- ROW089-022 cleared as HOLD-present; runtime/visual/Rows085+088-acceptance blockers retained
-- Proof tier: `CONTRACT_LEDGER_EXPECTATION_VERIFIER`
-- Status remains: `Blocked_Dependency_Runtime_Benchmark_And_Visual_Proof_Absent_Ledger_Expectation_Verifier_Slice_Present`
+- Blocker packet: `Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_LOCAL_COMFYUI_8188_HEALTH_GPU_SERIALIZE_BLOCKER_20260720T123037-0500.json`
+- Start dry-run: `runtime_artifacts/run_manifests/LOCAL_COMFY_DEV_START_DRYRUN_20260720T1228-0500.json` (SHA256 `5e8b02cf580fb902d6655ebf72eb24e5c6e583b1955e73f5430d534ab46ea6ae`)
+- Disposition: `:8188` DOWN; GPU serialize foreign Masking owners active; `Start-LocalComfyUIDev.ps1` dry-run OK; `-Execute` deferred
+- Generation executed: false
+- Proof tier: `RUNTIME_HEALTH_AND_GPU_SERIALIZE_BLOCKER`
+- Status remains: blocked pending free GPU + live `:8188` for real generation
 
 ## Exclusive ownership
 
 - Row073 full-library index-retained PCM (PID 27320) — do not kill/contend/restart this shift
-- Settled HOLDs Rows084/085/086/087/088 — do not thrash
+- Settled HOLDs Rows084/085/086/087/088/089 — do not thrash
 
 ## Exact next action
 
-1. Do not thrash Rows084-088 HOLDs; acceptance remains upstream for Row089 production authority.
-2. Optional next offline: Row089 CI/fixture ledger gate (digest-drift fail-closed) or Row090 HOLD declared artifact emit (same pattern).
-3. Leave Row073 alone; CSV via mutator only.
+1. When Masking gold/SAM2 GPU owners exit, start local ComfyUI via `tools/Start-LocalComfyUIDev.ps1 -Execute -LowVram`, then run deferred prepared visual/character proof.
+2. Leave Row073 alone; CSV via mutator only.
+3. Do not invent human media for Row010/109; do not thrash Row019/023 Flux/Wan.
