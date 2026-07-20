@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ROW017-LOCAL-W69-EYEONLY-VISUAL-QA-20260719T200500-0500",
+  "created_at": "2026-07-19T20:08:00-05:00",
+  "tracker_id": "TRK-W64-017",
+  "item_id": "ITEM-W64-017",
+  "localized_region": "eyes_and_eye_socket_readability",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+  "qa_decision": "pass_bounded_localized_w69_eyeonly_runtime_candidate",
+  "overall_decision": "pass",
+  "local_only": true,
+  "direct_visual_inspection": true,
+  "fixture_only": false,
+  "generation_executed": true,
+  "runtime_receipt": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_row017_w69_eyeonly_20260719T200500-0500/LOCAL_RUNTIME_RECEIPT.json",
+  "source": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sdxl_realvisxl_controlnet_canny_w69_matrix_softer_edges_seed711570102_20260707T065920-0500/images/canny_soft_seed711570102.png",
+    "sha256": "b0eb59492ae6e900d9cf9e9502a3c2529a68c2e23ed327f9f7295eae26bbac62"
+  },
+  "artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_row017_w69_eyeonly_20260719T200500-0500/images/codex_row017_w69_eyeonly_20260719T200500-0500_00001_.png",
+    "sha256": "a10df6216e7836877967dff86425290279b9ddeb488c5c8da44fdc556c680f54"
+  },
+  "comparison_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_row017_w69_eyeonly_20260719T200500-0500/images/qa_full_side_by_side.png",
+    "sha256": "d3bd573c7ea747cb46a36ad1973cbd2ef816babb8bba5d29dfb855bfc3356cd0"
+  },
+  "eye_crop_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_row017_w69_eyeonly_20260719T200500-0500/images/qa_eye_crop_side_by_side.png",
+    "sha256": "d9db0e5ae7ea900eb08b1668d85974d5307ba246480ab8bcb88fe5b78e4f7e63"
+  },
+  "difference_metrics": {
+    "full_image_diff_bbox": [231, 289, 462, 356],
+    "eyeonly_mask_bbox": [233, 291, 460, 354],
+    "eye_crop_box": [193, 251, 500, 394],
+    "mean_rgb_abs_diff": [0.0694, 0.0651, 0.0592],
+    "rms_rgb_abs_diff": [0.8426, 0.8203, 0.7559],
+    "eye_region_mean_abs": [4.4355, 4.17, 3.7639],
+    "mouth_region_mean_abs": 0.0,
+    "blazer_mean_abs": 0.0,
+    "background_corner_mean_abs": 0.0,
+    "hair_region_mean_abs": 0.0,
+    "changed_pixel_count": 9346,
+    "mask_pixel_count": 9126
+  },
+  "whole_frame_findings": [
+    "Fresh local ComfyUI W69 eyeonly masked inpaint on preferred softer-edges seed711570102 source (seed 5192847601, RealVisXL baked VAE, denoise 0.05, FeatherMask 12px, cfg 3.4, steps 18) completed successfully (prompt_id ff8da561-56a4-433e-8ba0-2ea15993a483).",
+    "Whole-frame identity, hair, facial hair, navy blazer, blue shirt, collar, background, lighting, and framing remain stable versus the softer-edges preferred source.",
+    "Pixel delta is localized to eye-mask bbox [231, 289, 462, 356]; mouth/blazer/background/hair region mean abs all 0.0; 9346 changed pixels inside/near 9126-pixel eye mask.",
+    "Direct whole-frame + eye-crop inspection: slightly cleaner catchlights and more readable iris/eye-socket detail without gaze drift, identity change, wardrobe rewrite, background change, or right-edge seam regression.",
+    "Hands are outside this head-and-shoulders crop (not applicable); no global style drift observed."
+  ],
+  "global_defects": [],
+  "promotion_authorized": false,
+  "row_complete": false,
+  "ec2": "EC2_DEFERRED",
+  "docker_cvat": "not-needed",
+  "notes": [
+    "Historical W69 canny eyeonly full-gen seed711570102 canonical reject retained separately; this is a fresh independent localized eyeonly climb on the preferred softer-edges source for Row017 whole-frame review.",
+    "Does not overturn historical eyes_full_v3b reject or claim COMPLETE.",
+    "Prior MF70 face-region and W69 contact-shadow VISUAL_QA_PASS_BOUNDED climbs retained.",
+    "Prior fluid tear-state reject remains truthful and separate.",
+    "Does not complete historical Row017 normalization backlog."
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "prompt": {
+    "3": {
+      "class_type": "KSampler",
+      "inputs": {
+        "seed": 5192847601,
+        "steps": 18,
+        "cfg": 3.4,
+        "sampler_name": "euler",
+        "scheduler": "normal",
+        "denoise": 0.05,
+        "model": [
+          "4",
+          0
+        ],
+        "positive": [
+          "8",
+          0
+        ],
+        "negative": [
+          "9",
+          0
+        ],
+        "latent_image": [
+          "12",
+          0
+        ]
+      }
+    },
+    "4": {
+      "class_type": "CheckpointLoaderSimple",
+      "inputs": {
+        "ckpt_name": "realvisxlV50_v50Bakedvae.safetensors"
+      }
+    },
+    "5": {
+      "class_type": "LoadImage",
+      "inputs": {
+        "image": "wave64_row017_w69_eyeonly_src_soft711570102.png"
+      }
+    },
+    "6": {
+      "class_type": "LoadImageMask",
+      "inputs": {
+        "image": "wave64_row017_w69_eyeonly_mask_soft711570102.png",
+        "channel": "red"
+      }
+    },
+    "7": {
+      "class_type": "VAEEncode",
+      "inputs": {
+        "pixels": [
+          "5",
+          0
+        ],
+        "vae": [
+          "4",
+          2
+        ]
+      }
+    },
+    "8": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "extremely subtle photoreal eye-only readability refinement, slightly cleaner catchlights and gently open eye-socket shadows, preserve exact person identity, gaze direction, iris color, pupil size, eyelid shape, eyelashes, eyebrows, facial hair, hair, skin texture, nose, mouth, jawline, navy blazer, blue shirt, collar, background, framing, and portrait composition unchanged",
+        "clip": [
+          "4",
+          1
+        ]
+      }
+    },
+    "9": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "identity change, different person, age change, gaze change, mismatched eyes, crossed eyes, asymmetrical eyes, swollen eyelids, droopy eyelids, makeup change, eyeshadow, eyeliner, false eyelashes, iris color change, glassy eyes, doll eyes, anime eyes, sclera discoloration, hair mutation, beard change, skin tone change, clothing change, blazer color change, background change, right-edge seam, window band, visible seam, watermark, text",
+        "clip": [
+          "4",
+          1
+        ]
+      }
+    },
+    "10": {
+      "class_type": "VAEDecode",
+      "inputs": {
+        "samples": [
+          "3",
+          0
+        ],
+        "vae": [
+          "4",
+          2
+        ]
+      }
+    },
+    "11": {
+      "class_type": "SaveImage",
+      "inputs": {
+        "filename_prefix": "codex_row017_w69_eyeonly_20260719T200500-0500",
+        "images": [
+          "14",
+          0
+        ]
+      }
+    },
+    "12": {
+      "class_type": "SetLatentNoiseMask",
+      "inputs": {
+        "samples": [
+          "7",
+          0
+        ],
+        "mask": [
+          "13",
+          0
+        ]
+      }
+    },
+    "13": {
+      "class_type": "FeatherMask",
+      "inputs": {
+        "mask": [
+          "6",
+          0
+        ],
+        "left": 12,
+        "top": 10,
+        "right": 12,
+        "bottom": 10
+      }
+    },
+    "14": {
+      "class_type": "ImageCompositeMasked",
+      "inputs": {
+        "destination": [
+          "5",
+          0
+        ],
+        "source": [
+          "10",
+          0
+        ],
+        "x": 0,
+        "y": 0,
+        "resize_source": false,
+        "mask": [
+          "13",
+          0
+        ]
+      }
+    },
+    "15": {
+      "class_type": "MaskToImage",
+      "inputs": {
+        "mask": [
+          "13",
+          0
+        ]
+      }
+    },
+    "16": {
+      "class_type": "SaveImage",
+      "inputs": {
+        "filename_prefix": "codex_row017_w69_eyeonly_20260719T200500-0500_mask_preview",
+        "images": [
+          "15",
+          0
+        ]
+      }
+    }
+  },
+  "client_id": "cursor-row017-eyeonly-af23df77"
+}
