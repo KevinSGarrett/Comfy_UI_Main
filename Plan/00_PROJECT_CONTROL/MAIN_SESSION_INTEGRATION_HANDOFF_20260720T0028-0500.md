@@ -5,14 +5,15 @@
 - Active integration platform: top-level interactive Cursor subagent under continuous autonomous shift plan / proof-tier pivot.
 - Branch: `codex/workflow_plan_update_improvements`
 - Prior tip: `667c959d` (Row072 coverage_complete already landed/pushed)
-- Primary commit: `PENDING_THIS_PASS` — Stamp Row075 full-library reconcile start after Row072 finish.
+- Primary commit: `50cec43b` — Stamp Row075 full-library reconcile start after Row072 finish.
 - This pass: monitored Row072 PID 54864 to coverage_complete (39771/39771); immediately started Row075 full `--mode index-retained --resume` without `--limit` (PID 45992 healthy past probe checkpoint).
 - No COMPLETE / promotion claim.
 
 ## Commits Pushed This Pass
 
 1. Prior lane: `9f93c106` / `0357007a` / `667c959d` — Row072 full-library reconcile + handoff (already on origin).
-2. This commit: Row075 full-library start stamp + tracker/item Notes + Item017 next_action + handoff.
+2. `50cec43b` Stamp Row075 full-library defect reconcile start after Row072 finish.
+3. `3913cbb4` Stamp Row075 evidence/progress with primary commit id (this handoff tip follow-up).
 
 ## Row-Scoped Increments
 
