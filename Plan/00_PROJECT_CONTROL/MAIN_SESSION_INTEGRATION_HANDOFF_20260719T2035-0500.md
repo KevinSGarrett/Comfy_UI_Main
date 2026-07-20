@@ -14,8 +14,9 @@
 1. `13481175` Prove Row017 W69 inpaint-nomouth local visual climb.
 2. `841320fd` Stamp Row017 inpaint-nomouth handoff with primary commit id.
 3. `51f7d2ab` Finalize Row017 inpaint-nomouth handoff tip IDs.
+4. `0a3830cb` Align Row017 inpaint-nomouth handoff tip to origin HEAD.
 
-Pushed tip verified on origin: `51f7d2ab`
+Pushed tip verified on origin: `0a3830cb`
 
 ## Row-Scoped Increment Executed
 
