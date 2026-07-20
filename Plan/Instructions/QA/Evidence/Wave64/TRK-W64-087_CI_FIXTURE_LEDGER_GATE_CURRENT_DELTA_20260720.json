@@ -97,13 +97,16 @@
   },
   "created_at": "2026-07-20T06:14:30Z",
   "dependency_audit": {
-    "notes": [
-      "CI/fixture ledger gating does not satisfy upstream Rows084-086 production authority.",
-      "Disjoint from Lane D (085/086) mutators; this increment only touches Row087 gate scripts/tests/evidence."
-    ],
     "row084_complete": false,
     "row085_complete": false,
-    "row086_complete": false
+    "row086_complete": false,
+    "row084_hold_artifact_present": true,
+    "row085_hold_artifact_present": true,
+    "row086_hold_artifact_present": true,
+    "notes": [
+      "Post-c1d53b66 rebind: Rows084/085/086 HOLD artifacts present but acceptance absent.",
+      "Row087 HOLD declared artifact emit clears ROW087-017 only; production authority remains blocked."
+    ]
   },
   "evidence_id": "TRK-W64-087_CI_FIXTURE_LEDGER_GATE_CURRENT_DELTA_20260720",
   "focused_local_test_result": {
@@ -133,9 +136,13 @@
   },
   "highest_proof_tier_achieved": "CONTRACT_FIXTURE_CI_GATE",
   "hold_decision": {
-    "decision": "HOLD_ROW087_NO_FALSE_COMPLETION",
-    "reason": "Row087 now has a CI/fixture ledger gate (--ci-gate) that fails closed when the checked-in synthetic ledger diverges from a live rebuild of fixture-packet digests, then runs the ledger-vs-compiled-manifest expectation verifier. Thirteen focused tests pass. Rows084-086 remain incomplete. Production optical-flow extraction, calibrated production benchmark pass, runtime receipts, combined visual review, and the tracker-declared output artifact remain absent. The compiler and gate never set row_complete or calibrated_trajectory_benchmark_pass true.",
-    "safe_next_action": "Keep Row087 on hold. Upstream continue Rows084/085/086 on disjoint lanes. Do not claim COMPLETE or mutate Tracker/Items CSV from this CI-gate slice."
+    "decision": "HOLD_ROW087_DECLARED_ARTIFACT_PRESENT_NO_FALSE_COMPLETION",
+    "reason": "Declared HOLD output artifact emitted and ROW087-017 cleared as HOLD-present. Synthetic calibrated trajectory fixtures + CI ledger gate still pass. Rows084/085/086 acceptance, production runtime benchmark, calibrated trajectory benchmark, combined visual review, and direct runtime receipt remain absent. No COMPLETE.",
+    "safe_next_action": "Keep Row087 blocked until Rows084/085/086 acceptance clear (do not thrash settled HOLDs). Then bind production optical-flow/runtime receipts under the calibrated trajectory + CI gate contracts, then combined visual review. Optional next offline: Row088 HOLD declared artifact emit (ROW088-019 FAIL). CSV Notes sync optional via mutator only. Leave Row073 alone.",
+    "disposition_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-087_HOLD_ARTIFACT_AND_DEPENDENCY_DISPOSITION_PACKET_20260720.json",
+    "disposition_packet_sha256": "8f9c843fb64a3246ad6cc164417ff6c476de80e3b633611d2ce73de2435a2b4b",
+    "hold_artifact_sha256": "ad057057bc06acf55c2bc54f426bb64893d63b09b599e4ab90b736c73f71c37a",
+    "negative_inventory_sha256": "1f0ad706f5139cb8c7a265ee3be4ec3008f3dfd5fb5e0f9569fd3ca47f40fce7"
   },
   "implementation_completion_claimed": false,
   "intent": {
@@ -176,7 +183,7 @@
   "proof_tier_detail": {
     "claims": [
       "checked-in synthetic ledger matches live fixture-packet rebuild",
-      "ledger\u2194fixture digest drift fail-closed",
+      "ledger↔fixture digest drift fail-closed",
       "CI --ci-gate wrapper"
     ],
     "non_claims": [
@@ -220,5 +227,55 @@
     "wsl_invoked": false
   },
   "tracker_id": "TRK-W64-087",
-  "updated_at": "2026-07-20T06:20:09.943506Z"
+  "updated_at": "2026-07-20T17:12:14.221742Z",
+  "dependency_authority": [
+    {
+      "dependency_satisfied": false,
+      "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json",
+      "evidence_sha256": "3a8b6ab2dae9158f520f3060573ed12a81f5717420c7e5862473fced220d3845",
+      "hold_artifact_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_canonical_video_timeline.json",
+      "hold_artifact_present": true,
+      "acceptance_claimed": false,
+      "row_complete": false,
+      "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+      "row087_effect": "Post-wave rebind: Row084 HOLD/VISUAL_QA_PASS_BOUNDED does not satisfy Row087 upstream acceptance. Camera-compensated motion remains uncertified.",
+      "tracker_id": "TRK-W64-084"
+    },
+    {
+      "dependency_satisfied": false,
+      "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719.json",
+      "evidence_sha256": "6b882a72192a7922f359c5cdd6a8dab5ce5a19123f19851bc312e2cb486a2e76",
+      "hold_artifact_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_actor_object_region_tracking.json",
+      "hold_artifact_present": true,
+      "acceptance_claimed": false,
+      "row_complete": false,
+      "highest_proof_tier_achieved": "CONTRACT_FIXTURE_CI_GATE",
+      "row087_effect": "Row085 HOLD artifact present does not grant ownership acceptance. Force cues remain unassignable without accepted persistent tracks.",
+      "tracker_id": "TRK-W64-085"
+    },
+    {
+      "dependency_satisfied": false,
+      "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-086_POSE_HAND_FOOT_GAIT_EXTRACTION_CURRENT_DELTA_20260719.json",
+      "evidence_sha256": "f19d81679c36d7cb0575d2663601d4e3f0b52ceaa11e24521b2565bcb8134df1",
+      "hold_artifact_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-086_pose_hand_foot_gait_extraction.json",
+      "hold_artifact_present": true,
+      "acceptance_claimed": false,
+      "row_complete": false,
+      "highest_proof_tier_achieved": "CONTRACT_FIXTURE_LEDGER_HARNESS",
+      "row087_effect": "Row086 HOLD artifact present does not grant pose/gait acceptance. Contact-phase force proxies remain uncertified without accepted landmarks.",
+      "tracker_id": "TRK-W64-086"
+    }
+  ],
+  "this_landing": {
+    "landing_id": "row087_hold_artifact_deepen_20260720T121214-0500",
+    "mutation": "hold_artifact_emit_and_dependency_inventory_deepen",
+    "primary_paths": [
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-087_motion_force_cues.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-087_HOLD_ARTIFACT_AND_DEPENDENCY_DISPOSITION_PACKET_20260720.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-087_RUNTIME_VISUAL_DEPENDENCY_NEGATIVE_INVENTORY_20260720.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-087_MOTION_FORCE_CUES_CURRENT_DELTA_20260719.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-087_CI_FIXTURE_LEDGER_GATE_CURRENT_DELTA_20260720.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-087_CALIBRATED_TRAJECTORY_FIXTURE_PACKET_CURRENT_DELTA_20260720.json"
+    ]
+  }
 }

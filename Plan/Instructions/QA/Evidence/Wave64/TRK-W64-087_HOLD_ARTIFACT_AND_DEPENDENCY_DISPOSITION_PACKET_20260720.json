@@ -1,0 +1,219 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-087_HOLD_ARTIFACT_AND_DEPENDENCY_DISPOSITION_PACKET_20260720T121214-0500",
+  "created_iso": "2026-07-20T12:12:14-05:00",
+  "tracker_id": "TRK-W64-087",
+  "item_id": "ITEM-W64-087",
+  "mutation_this_landing": "evidence_only_hold_artifact_and_dependency_deepen",
+  "row_complete": false,
+  "product_completion_claimed": false,
+  "csv_sync": "deferred_leave_to_serialized_mutator",
+  "proof_tier": "CONTRACT_FIXTURE_CI_GATE",
+  "highest_proof_tier_achieved": "CONTRACT_FIXTURE_CI_GATE",
+  "deepen_reason": "After Row086 HOLD artifact deepen (c1d53b66) and Rows084/085 HOLD landings, Row087 still lacked the tracker-declared HOLD output artifact and a hash-bound post-wave Rows084/085/086 dependency/runtime/visual absence inventory. Emit HOLD artifact (ROW087-017) without claiming Rows084/085/086 acceptance, calibrated trajectory benchmark, visual review, or COMPLETE.",
+  "blocker_classes": [
+    {
+      "class": "D",
+      "name": "ROWS084_085_086_ACCEPTANCE_ABSENT",
+      "primary_code": "ROWS084_085_086_ACCEPTANCE_ABSENT",
+      "codes": [
+        "ROWS084_085_086_ACCEPTANCE_ABSENT",
+        "DEPENDENCIES_RUNTIME_BENCHMARK_ABSENT"
+      ],
+      "cleared_by_this_packet": [],
+      "summary": "Rows084/085/086 each have declared HOLD artifacts but remain row_complete=false without acceptance. Row087 cannot certify camera-compensated motion/force cues without those upstream acceptances.",
+      "fail_closed_until": "Rows084/085/086 Status/acceptance clear production completion blockers under explicit authority (do not thrash settled HOLDs)"
+    },
+    {
+      "class": "B",
+      "name": "PRODUCTION_RUNTIME_AND_VISUAL_PROOF_ABSENT",
+      "primary_code": "VISUAL_PROOF_ABSENT",
+      "codes": [
+        "VISUAL_PROOF_ABSENT",
+        "DEPENDENCIES_RUNTIME_BENCHMARK_ABSENT",
+        "DIRECT_ROW087_RUNTIME_RECEIPT_ABSENT"
+      ],
+      "cleared_by_this_packet": [
+        "TRACKER_DECLARED_HOLD_ARTIFACT_ABSENT"
+      ],
+      "summary": "media/row087 and reviews/row087 absent; fixture/runtime tree absent; no direct_row087 runtime receipt; synthetic calibrated trajectory fixtures + CI ledger gate still pass.",
+      "fail_closed_until": "Calibrated trajectory benchmark + combined flow/track/contact/audio visual review + direct runtime receipt exist with Rows084/085/086 acceptance"
+    }
+  ],
+  "negative_inventory": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-087_RUNTIME_VISUAL_DEPENDENCY_NEGATIVE_INVENTORY_20260720.json",
+    "sha256": "1f0ad706f5139cb8c7a265ee3be4ec3008f3dfd5fb5e0f9569fd3ca47f40fce7",
+    "runtime_receipt": "runtime_artifacts/wave64_row087_hold_artifact_deepen_20260720/runtime_visual_dependency_negative_inventory.json",
+    "runtime_receipt_sha256": "1f0ad706f5139cb8c7a265ee3be4ec3008f3dfd5fb5e0f9569fd3ca47f40fce7",
+    "media_file_count": 0,
+    "reviews_file_count": 0,
+    "direct_runtime_receipt_candidates": 0,
+    "verdict": "ROW087_HOLD_ARTIFACT_EMIT_ALLOWED_RUNTIME_VISUAL_AND_ROWS084_085_086_ACCEPTANCE_ABSENT"
+  },
+  "hold_artifact": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-087_motion_force_cues.json",
+    "sha256": "ad057057bc06acf55c2bc54f426bb64893d63b09b599e4ab90b736c73f71c37a",
+    "bytes": 5451,
+    "clears_check": "ROW087-017",
+    "does_not_clear": [
+      "ROW087-009",
+      "ROW087-010",
+      "ROW087-011",
+      "ROW087-012",
+      "ROW087-013",
+      "ROW087-014",
+      "ROW087-015",
+      "ROW087-016"
+    ]
+  },
+  "authority_bindings": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-087_MOTION_FORCE_CUES_CURRENT_DELTA_20260719.json",
+      "exists": true,
+      "bytes": 15483,
+      "sha256": "b523dda8759b32572ae38e0d702017a0948d186d63d8d57dd5914c33a5000958"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-087_CI_FIXTURE_LEDGER_GATE_CURRENT_DELTA_20260720.json",
+      "exists": true,
+      "bytes": 13318,
+      "sha256": "e44d481694c11228d8ed3449b20ba49779d861999fa4f970086a999a4d2b2bf5"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-087_CALIBRATED_TRAJECTORY_FIXTURE_PACKET_CURRENT_DELTA_20260720.json",
+      "exists": true,
+      "bytes": 16164,
+      "sha256": "5f38cd42eea01a02299876a9edf93c0f986bf190957f1bf00cb8bd1460482d2a"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json",
+      "exists": true,
+      "bytes": 41466,
+      "sha256": "3a8b6ab2dae9158f520f3060573ed12a81f5717420c7e5862473fced220d3845"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_canonical_video_timeline.json",
+      "exists": true,
+      "bytes": 4203,
+      "sha256": "ca621e0d519850799096780ea481ad43d1b45c02976da24c5f1e27bf48323927"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719.json",
+      "exists": true,
+      "bytes": 20447,
+      "sha256": "6b882a72192a7922f359c5cdd6a8dab5ce5a19123f19851bc312e2cb486a2e76"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_actor_object_region_tracking.json",
+      "exists": true,
+      "bytes": 3998,
+      "sha256": "67f25196a7821547dbc481cd279df3016e800cf37a46577cfa2c9bad8d056fd7"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-086_POSE_HAND_FOOT_GAIT_EXTRACTION_CURRENT_DELTA_20260719.json",
+      "exists": true,
+      "bytes": 19412,
+      "sha256": "f19d81679c36d7cb0575d2663601d4e3f0b52ceaa11e24521b2565bcb8134df1"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-086_pose_hand_foot_gait_extraction.json",
+      "exists": true,
+      "bytes": 4541,
+      "sha256": "96518f1f9ff7b781d6be5d63f6e1e34af0921c05ee4b180241c24ea405c41591"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_motion_force_cues.py",
+      "exists": true,
+      "bytes": 55640,
+      "sha256": "703a98f72e763a0119ac6a3a3f760abd7551f84ff47447f54ebccacd7077270e"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row087/synthetic_calibrated_trajectory_benchmark_ledger.json",
+      "exists": true,
+      "bytes": 5514,
+      "sha256": "5f918f7da926f4a92d38cbe0d6993a4a6e84373dbaa844b810e596313fc63b2f"
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_row087_motion_force_cues_compiler.py",
+      "exists": true,
+      "bytes": 23700,
+      "sha256": "1aa94b63e1b4d8d739be0f57ca20dba3afd733b8b7178b9c0eb3179f1e260432"
+    }
+  ],
+  "validators": {
+    "ci_gate_exit_code": 0,
+    "pytest_exit_code": 0,
+    "ci_gate_row_complete": false
+  },
+  "boundaries": {
+    "comfyui_8188_used": false,
+    "gpu_used": false,
+    "row073_pcm_touched": false,
+    "sound_csv_mutated": false,
+    "end_to_end_csv_mutated": false,
+    "tip_sha_chain": false,
+    "complete_claimed": false,
+    "row084_hold_thrashed": false,
+    "row085_hold_thrashed": false,
+    "row086_hold_thrashed": false,
+    "human_media_invented": false,
+    "offline_only": true
+  },
+  "checks": [
+    {
+      "name": "R087-H001_ci_gate_pass",
+      "result": "pass"
+    },
+    {
+      "name": "R087-H002_pytest_pass",
+      "result": "pass"
+    },
+    {
+      "name": "R087-H003_status_unchanged_blocked",
+      "result": "pass"
+    },
+    {
+      "name": "R087-H004_row084_row_complete_false",
+      "result": "pass"
+    },
+    {
+      "name": "R087-H005_row085_row_complete_false",
+      "result": "pass"
+    },
+    {
+      "name": "R087-H006_row086_row_complete_false",
+      "result": "pass"
+    },
+    {
+      "name": "R087-H007_media_absent",
+      "result": "pass"
+    },
+    {
+      "name": "R087-H008_reviews_absent",
+      "result": "pass"
+    },
+    {
+      "name": "R087-H009_hold_artifact_emitted",
+      "result": "pass"
+    },
+    {
+      "name": "R087-H010_no_upstream_acceptance_claim",
+      "result": "pass"
+    },
+    {
+      "name": "R087-H011_csv_deferred",
+      "result": "pass"
+    },
+    {
+      "name": "R087-H012_no_complete_claim",
+      "result": "pass"
+    }
+  ],
+  "decision": {
+    "status": "blocked",
+    "row_complete": false,
+    "product_completion": false,
+    "safe_next_action": "Keep Row087 blocked until Rows084/085/086 acceptance clear (do not thrash settled HOLDs). Then bind production optical-flow/runtime receipts under the calibrated trajectory + CI gate contracts, then combined visual review. Optional next offline: Row088 HOLD declared artifact emit (ROW088-019 FAIL). CSV Notes sync optional via mutator only. Leave Row073 alone."
+  },
+  "ledger_status_unchanged": "Blocked_Dependencies_Runtime_Benchmark_And_Visual_Proof_Absent_CI_Fixture_Ledger_Gate_Present"
+}
