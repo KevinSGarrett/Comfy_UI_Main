@@ -1,255 +1,4 @@
 {
-  "schema_version": "1.0",
-  "evidence_id": "TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719",
-  "created_at": "2026-07-20T07:17:30Z",
-  "source_commit": "77f5f4538ea4763cc11a67757a4f68fc7fff758f",
-  "prior_evidence_commit": "f26b5e43",
-  "prior_row_commit_is_current_head": false,
-  "tracker_id": "TRK-W64-084",
-  "item_id": "ITEM-W64-084",
-  "status": "HOLD_ROW084_019_HELD_OUT_FFMPEG_MUX_REPLAY_PASS_RUNTIME_PASS_BOUNDED",
-  "classification": "ROW084_HELD_OUT_FFMPEG_MUX_REPLAY_PASS_NO_FALSE_COMPLETION",
-  "row_complete": false,
-  "implementation_completion_claimed": false,
-  "runtime_completion_claimed": false,
-  "qa_decision": "HOLD",
-  "proof_tier": "RUNTIME_PASS_BOUNDED",
-  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
-  "climb_targets": [
-    "RUNTIME_PASS_BOUNDED",
-    "VISUAL_QA_PASS_BOUNDED"
-  ],
-  "increment": {
-    "kind": "held_out_fixed_vfr_ffmpeg_mux_replay_executed",
-    "summary": "Executed ffmpeg-backed held-out fixed+fractional+VFR mux replay using explicit user-local Gyan.FFmpeg 8.1.2 path. ROW084-019 PASS with direct_row084_mux_replay_proof_present. proof_tier stays RUNTIME_PASS_BOUNDED. production_mux_replay_pass false. row_complete remains false. No COMPLETE claim.",
-    "production_media_decode_invoked": false,
-    "tracker_output_artifact_emitted": false,
-    "mux_replay_executed": true,
-    "mux_command_executed": true,
-    "ffmpeg_path_probe_executed": true,
-    "ffmpeg_available": true,
-    "ffmpeg_installed_this_landing": false,
-    "ffmpeg_resolved_path": "C:\\Users\\kevin\\AppData\\Local\\Programs\\ffmpeg\\ffmpeg-8.1.2-full_build\\bin\\ffmpeg.exe",
-    "ffmpeg_version": "8.1.2",
-    "held_out_fixed_vfr_mux_replay_attempted": true,
-    "held_out_fixed_vfr_mux_replay_pass": true,
-    "fixture_mux_plan_replay_executed": true,
-    "fixture_media_mux_runtime_executed": true,
-    "visual_review_authority_claimed": false,
-    "camera_motion_normalization_complete": false,
-    "missing_frame_policy_runtime_complete": false,
-    "cut_detection_algorithm_complete": false,
-    "comfyui_8188_required": false,
-    "row067_binding_commit": "b074c694518b7ebe78a1e7292db28427d7f75ca7",
-    "prior_runtime_pass_bounded_commit": "86dbb071",
-    "prior_ffmpeg_install_commits": [
-      "33d484c4",
-      "f26b5e43"
-    ]
-  },
-  "intent": {
-    "intent_id": "interactive_cursor_shift_row084_held_out_ffmpeg_mux_replay_20260720",
-    "classification": "INTERACTIVE_PLATFORM_SHIFT_AUTHORITY",
-    "work_type": "final_authority",
-    "authority_class": "interactive_cursor",
-    "routing": null,
-    "dispatch_wake_count": 0,
-    "candidate_paths": [
-      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_ffmpeg_mux_replay_receipt.schema.json",
-      "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
-      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
-    ],
-    "allowed_paths": [
-      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_ffmpeg_mux_replay_receipt.schema.json",
-      "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
-      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
-    ]
-  },
-  "row084_contract": {
-    "title": "Canonical video decode, cuts, frame timing, and sample-clock normalization",
-    "phase": "visual_event_intelligence",
-    "priority": "P1",
-    "risk": "HIGH",
-    "status": "Planned_Autonomous_Implementation_Required",
-    "completion_criteria": "Frame/time/sample conversions round-trip within tolerance for fixed and variable frame rate sources.",
-    "dependency": "TRK-W64-067",
-    "required_gates": [
-      "video_decode",
-      "time_base",
-      "cut_detection",
-      "frame_sample_roundtrip"
-    ],
-    "test_required": true,
-    "runtime_proof_required": true,
-    "visual_review_required": true,
-    "visual_review_method": "combined_frame_contact_audio_review",
-    "preview_required": true,
-    "ec2_allowed": false,
-    "tracker_output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_canonical_video_timeline.json",
-    "tracker_output_artifact_exists": false,
-    "current_delta_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
-  },
-  "dependency_authority": {
-    "tracker_id": "TRK-W64-067",
-    "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-067_PLANNING_AUTHORITY_CURRENT_DELTA_20260719.json",
-    "acceptance_commit": "b074c694518b7ebe78a1e7292db28427d7f75ca7",
-    "row_complete": true,
-    "row067_complete": true,
-    "dependency_satisfied": true,
-    "row084_effect": "Dependency remains unlocked. Synthetic climb ledger binds cut/camera/mux-plan-replay/combined-visual fixture digests at CONTRACT_PASS_BOUNDED without granting runtime cut detection, camera-motion normalization, executed mux replay, visual review, RUNTIME_PASS_BOUNDED, VISUAL_QA_PASS_BOUNDED, or row_complete."
-  },
-  "implementation_slice": {
-    "compiler_path": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-    "compiler_sha256": "4bc6b5135dd14c05efd370c9c0c9efac35d6c8e29d7b304c416a72519a60cc1d",
-    "compiler_bytes": 159501,
-    "compiler_revision": "row084_synthetic_runtime_climb_ledger_v9",
-    "synthetic_climb_ledger_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/synthetic_runtime_climb_ledger.json",
-    "synthetic_climb_ledger_sha256": "286d3b200f7700c456e0122332290c9f7cc2dd62d9fb63e96ed57515051a6764",
-    "synthetic_climb_ledger_file_sha256": "39d54dfe2f2b1de09d4271d67ee816fa164cfec6da7e4e4adf61d5014a49ad80",
-    "synthetic_climb_ledger_bytes": 9721,
-    "synthetic_climb_ledger_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_synthetic_runtime_climb_ledger.schema.json",
-    "synthetic_climb_ledger_schema_sha256": "fa45fbf3adaa0873b17e143009b8b5b8e441823d4a2f68cafad6ee3d855883c3",
-    "combined_visual_protocol_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_combined_visual_review_fixture_protocol.schema.json",
-    "combined_visual_protocol_schema_sha256": "07fc0f8a235b1eec9729412505286ab46add34e1e5ee3f3dc654174351068f43",
-    "cut_detector_algorithm_contract_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_cut_detector_algorithm_contract.schema.json",
-    "camera_motion_policy_matrix_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_camera_motion_policy_matrix.schema.json",
-    "mux_prep_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_mux_prep_receipt.schema.json",
-    "test_path": "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
-    "test_sha256": "88c6ca10a39aeba59f6691c1ec69ab2686d89dc1f3592263ced90f2b970d07aa",
-    "test_bytes": 64058,
-    "fixture_dir": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084",
-    "proven_capabilities": [
-      "fail-closed reversed PTS/frame/sample span rejection",
-      "required non-null frame and sample rates on clock-span schema",
-      "required frame and sample endpoint fields on clock-span schema",
-      "fixed 24/1 fixture frame-to-seconds-to-sample round trip",
-      "fractional 24000/1001 fixture round trip",
-      "VFR mode rejected without segment map",
-      "unsupported sample-rate rejection (non-48000)",
-      "non-monotonic PTS rejection",
-      "dependency hold keeps candidate ceiling and blocks production completion",
-      "declarative row084_roundtrip_tolerances registry binding",
-      "Row067 dependency unlock recorded (row067_complete=true)",
-      "dependency unlock raises authority_ceiling to technical_partial without granting production completion",
-      "fixture-backed contiguous VFR segment compilation with per-segment round-trip",
-      "fixture-backed cut-epoch ledger acceptance with unique IDs and strictly increasing frames",
-      "VFR segment gap rejection",
-      "non-monotonic cut-epoch rejection",
-      "mux-prep receipt scaffold with content-addressed digest and scaffold_hold status",
-      "mux-prep scaffold ignores upstream mux_replay claims and never grants mux authority",
-      "held-out fixed/fractional/VFR round-trip fixture matrix without benchmark authority",
-      "held-out matrix rejects missing VFR coverage and non-held_out partitions",
-      "audio/container stream identity binding into mux-prep (audio_stream_sha256 + container_sha256)",
-      "deterministic dry_run_mux_plan_sha256 excluding wall-clock via timeline_plan_sha256",
-      "held-out-mux-dry-run matrix mode with per-case deterministic hash check",
-      "held-out mux dry-run rejects missing stream identities",
-      "fixture-backed planned mux command envelope attached only when stream identities are bound",
-      "planned mux command envelope remains dry_run_non_executed / planned_only with execution_guards false",
-      "deterministic planned_mux_command_envelope_sha256 across rebuilds",
-      "held-out dry-run matrix asserts per-case envelope hash stability",
-      "fixture-backed missing-frame policy matrix covering preserve_gap and explicit_gap",
-      "fail-closed reject for block and interpolate missing-frame policies until runtime completion",
-      "fail-closed reject for duplicate and out-of-bounds missing-frame indices",
-      "missing-frame policy matrix rejects incomplete policy coverage and expected_policy mismatch",
-      "fixture-backed camera-motion policy matrix covering not_evaluated, blocked_until_calibrated, and distinguish_from_cuts",
-      "fail-closed reject for distinguish_from_cuts without non-empty cut_epochs",
-      "fail-closed reject for unknown camera_motion_policy values",
-      "camera-motion policy matrix rejects incomplete three-policy coverage and expected_policy mismatch",
-      "fixture-backed cut-detector algorithm contract covering fixture_ledger_v1 and fixture_histogram_diff_v1 with confidence calibration gates",
-      "fail-closed reject for confidence below algorithm min_confidence gate",
-      "fail-closed reject for unknown or unauthorized algorithm_id",
-      "fail-closed reject for uncalibrated algorithm registry entries",
-      "fail-closed reject for empty cut_epochs under cut-detector contract",
-      "cut-detector algorithm contract rejects incomplete two-algorithm coverage",
-      "fixtures/row084 synthetic runtime climb ledger binds cut/camera/mux/visual fixture digests",
-      "cut-detector precision/recall fixture expectations recorded without runtime detector completion",
-      "camera-motion policy bindings recorded without normalization completion",
-      "fixture mux-plan replay verifies dry-run/envelope hashes against content-addressed audio/container media blobs",
-      "combined visual review fixture protocol binds five required surfaces without visual authority",
-      "climb ledger proof_tier honest CONTRACT_PASS_BOUNDED with climb_targets RUNTIME_PASS_BOUNDED and VISUAL_QA_PASS_BOUNDED",
-      "pure-Python fixture media mux assembly with deterministic output digest",
-      "fixture media mux identity roundtrip for video/audio/container blobs",
-      "fixture media mux runtime bound to climb ledger audio/container digests",
-      "combined visual surface runtime digest checks without visual authority",
-      "RUNTIME_PASS_BOUNDED granted for fixture media mux runtime only",
-      "ffmpeg-backed held-out fixed+fractional+VFR mux replay with ffprobe frame/sample verification"
-    ],
-    "still_absent": [
-      "video decode integration",
-      "runtime cut detector algorithm beyond fixture algorithm_id/confidence contract and synthetic calibration ledger",
-      "camera-motion normalization beyond fixture policy distinction",
-      "missing-frame policy runtime completion (interpolate/block + media-backed gaps)",
-      "combined frame/contact/audio visual review authority (VISUAL_QA_PASS_BOUNDED)",
-      "tracker-declared runtime output artifact",
-      "JSON Schema native end_pts > start_pts comparison",
-      "production mux replay proof",
-      "row_complete / acceptance COMPLETE"
-    ],
-    "runtime_revision": "row084_held_out_ffmpeg_mux_replay_v1",
-    "fixture_media_mux_runtime_receipt_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/fixture_media_mux_runtime_receipt.json",
-    "fixture_media_mux_runtime_receipt_sha256": "48789e9403878d82bfb3eac2ef4c9c779f78cd7753148628d88e21544be439d7",
-    "fixture_media_mux_runtime_receipt_file_sha256": "4e247e184162bedf721e339c84f50bd7dd029c2c603c887f7906ef6d88fb198a",
-    "fixture_media_mux_output_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/fixture_media_mux_output.mux",
-    "fixture_media_mux_output_sha256": "0c45a087ecd2eeb86f0ab33a22b4e0a2264af69516b31260d74ea5fe92857bef",
-    "fixture_media_mux_runtime_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_fixture_media_mux_runtime_receipt.schema.json",
-    "fixture_media_mux_runtime_schema_sha256": "4d4bada967bf00c85e0cad4ddc9a39bfee4c3bc62d3814109d04e54b89270df4",
-    "ffmpeg_path_probe_receipt_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/ffmpeg_path_probe_receipt.json",
-    "ffmpeg_path_probe_receipt_sha256": "877342193d60db54326a0be0f5754ce62b0ab69af5e649cdde933763c90691de",
-    "ffmpeg_path_probe_receipt_bytes": 2962,
-    "held_out_ffmpeg_mux_replay_receipt_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/held_out_ffmpeg_mux_replay_receipt.json",
-    "held_out_ffmpeg_mux_replay_receipt_sha256": "79c47e734e0ea06b47fc1a6a1556fb932f3cc51d0570e5a236e6519102e74149",
-    "held_out_ffmpeg_mux_replay_receipt_file_sha256": "53e850f09f2560b94129d402c613342ff6150d027bba350c20982d6b0cd0b7c5",
-    "held_out_ffmpeg_mux_replay_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_held_out_ffmpeg_mux_replay_receipt.schema.json"
-  },
-  "focused_local_test_result": {
-    "py_compile": "PASS",
-    "strict_command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
-    "strict_result": "44 passed",
-    "strict_exit_code": 0,
-    "total_focused_passed": 44,
-    "total_focused_failed": 0,
-    "verify_fixture_media_mux_runtime": {
-      "status": "ok",
-      "verifier": "verify_fixture_media_mux_runtime_receipt",
-      "receipt_sha256": "48789e9403878d82bfb3eac2ef4c9c779f78cd7753148628d88e21544be439d7",
-      "mux_sha256": "0c45a087ecd2eeb86f0ab33a22b4e0a2264af69516b31260d74ea5fe92857bef",
-      "proof_tier": "RUNTIME_PASS_BOUNDED",
-      "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
-      "ffmpeg_invoked": false,
-      "visual_review_authority_granted": false,
-      "row_complete": false,
-      "production_completion_allowed": false
-    },
-    "scope_interpretation": "Held-out fixed+VFR ffmpeg mux replay executed and verified. ROW084-019 PASS. proof_tier remains RUNTIME_PASS_BOUNDED. No VISUAL_QA_PASS_BOUNDED, no production mux, no row_complete.",
-    "ffmpeg_path_probe": {
-      "status": "PASS",
-      "ffmpeg_available": true,
-      "ffmpeg_resolved_path": "C:\\Users\\kevin\\AppData\\Local\\Programs\\ffmpeg\\ffmpeg-8.1.2-full_build\\bin\\ffmpeg.exe",
-      "receipt_sha256": "877342193d60db54326a0be0f5754ce62b0ab69af5e649cdde933763c90691de",
-      "mux_replay_executed": true,
-      "proof_tier": "RUNTIME_PASS_BOUNDED",
-      "row_complete": false
-    },
-    "held_out_ffmpeg_mux_replay": {
-      "status": "PASS",
-      "receipt_sha256": "79c47e734e0ea06b47fc1a6a1556fb932f3cc51d0570e5a236e6519102e74149",
-      "case_count": 3,
-      "modes_covered": [
-        "fixed",
-        "fractional",
-        "vfr"
-      ],
-      "held_out_fixed_vfr_mux_replay_pass": true,
-      "direct_row084_mux_replay_proof_present": true,
-      "production_mux_replay_pass": false,
-      "proof_tier": "RUNTIME_PASS_BOUNDED",
-      "row_complete": false
-    }
-  },
   "checks": [
     {
       "check_id": "ROW084-001",
@@ -319,7 +68,8 @@
     {
       "check_id": "ROW084-014",
       "name": "cut_detection_algorithm_implemented_and_tested",
-      "status": "FAIL"
+      "note": "Offline ffmpeg-decode histogram-diff + ledger bind on held-out mux media. cut_detection_algorithm_complete=true at RUNTIME_PASS_BOUNDED. No VISUAL_QA.",
+      "status": "PASS"
     },
     {
       "check_id": "ROW084-015",
@@ -329,7 +79,8 @@
     {
       "check_id": "ROW084-016",
       "name": "camera_motion_normalization_implemented_and_tested",
-      "status": "FAIL"
+      "note": "Offline hard_cut vs camera_pan vs static classification on held-out/generated lavfi. camera_motion_normalization_complete=true at RUNTIME_PASS_BOUNDED. No VISUAL_QA.",
+      "status": "PASS"
     },
     {
       "check_id": "ROW084-017",
@@ -339,34 +90,38 @@
     {
       "check_id": "ROW084-018",
       "name": "fixed_and_vfr_frame_seconds_sample_roundtrip_benchmark_pass",
-      "status": "FAIL"
+      "note": "Media-backed held-out fixed/fractional/VFR roundtrip benchmark against DEFAULT_TOLERANCES. fixed_vfr_benchmark_pass=true; production_benchmark=false.",
+      "status": "PASS"
     },
     {
       "check_id": "ROW084-019",
+      "ffmpeg_resolved_path": "C:\\Users\\kevin\\AppData\\Local\\Programs\\ffmpeg\\ffmpeg-8.1.2-full_build\\bin\\ffmpeg.exe",
+      "ffmpeg_version": "8.1.2",
+      "mux_replay_receipt": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/held_out_ffmpeg_mux_replay_receipt.json",
+      "mux_replay_receipt_sha256": "79c47e734e0ea06b47fc1a6a1556fb932f3cc51d0570e5a236e6519102e74149",
       "name": "direct_row084_mux_replay_proof_present",
-      "status": "PASS",
       "note": "ffmpeg-backed held-out fixed+fractional+VFR mux replay executed and ffprobe-verified using user-local Gyan.FFmpeg 8.1.2. direct_row084_mux_replay_proof_present=true. production_mux_replay_pass remains false; proof_tier RUNTIME_PASS_BOUNDED; row_complete false.",
       "probe_receipt": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/ffmpeg_path_probe_receipt.json",
       "probe_receipt_sha256": "877342193d60db54326a0be0f5754ce62b0ab69af5e649cdde933763c90691de",
-      "mux_replay_receipt": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/held_out_ffmpeg_mux_replay_receipt.json",
-      "mux_replay_receipt_sha256": "79c47e734e0ea06b47fc1a6a1556fb932f3cc51d0570e5a236e6519102e74149",
-      "ffmpeg_resolved_path": "C:\\Users\\kevin\\AppData\\Local\\Programs\\ffmpeg\\ffmpeg-8.1.2-full_build\\bin\\ffmpeg.exe",
-      "ffmpeg_version": "8.1.2"
+      "status": "PASS"
     },
     {
       "check_id": "ROW084-020",
       "name": "direct_combined_visual_audio_review_present",
+      "note": "Requires combined_frame_contact_audio_review authority (VISUAL_QA_PASS_BOUNDED). Cannot be cleared from digests or offline histogram proofs. Needs decoded-frame visual review; must not steal :8188 from ROW084-019/023.",
       "status": "FAIL"
     },
     {
       "check_id": "ROW084-021",
       "name": "direct_row084_runtime_receipt_present",
-      "status": "FAIL"
+      "note": "direct_row084_runtime_receipt.json binds mux/cut/benchmark/camera/fixture runtime receipts.",
+      "status": "PASS"
     },
     {
       "check_id": "ROW084-022",
       "name": "tracker_declared_output_artifact_present",
-      "status": "FAIL"
+      "note": "TRK-W64-084_canonical_video_timeline.json HOLD artifact present; row_complete false; no COMPLETE.",
+      "status": "PASS"
     },
     {
       "check_id": "ROW084-023",
@@ -459,51 +214,327 @@
       "status": "PASS"
     }
   ],
-  "test_and_runtime_boundary": {
-    "schema_meta_validation_executed": true,
-    "focused_source_tests_executed": true,
-    "focused_source_tests_passed": 44,
-    "focused_source_tests_failed": 0,
-    "production_timeline_compilation_invoked": false,
-    "new_media_decode_or_mux_invoked": true,
-    "mux_prep_scaffold_only": true,
-    "mux_dry_run_plan_only": true,
-    "planned_mux_command_envelope_only": true,
-    "held_out_fixture_matrix_only": true,
-    "missing_frame_policy_fixture_matrix_only": true,
-    "camera_motion_policy_fixture_matrix_only": true,
-    "cut_detector_algorithm_fixture_contract_only": true,
-    "synthetic_runtime_climb_ledger_only": true,
-    "fixture_mux_plan_replay_only": true,
-    "combined_visual_fixture_protocol_only": true,
-    "direct_row084_runtime_benchmark_executed": false,
-    "missing_frame_policy_runtime_complete": false,
-    "camera_motion_normalization_complete": false,
-    "cut_detection_algorithm_complete": false,
-    "visual_review_executed": false,
-    "ffmpeg_available": true,
-    "ec2_invoked": false,
-    "docker_invoked": false,
-    "wsl_invoked": false,
-    "provider_calls": 0,
-    "wrapper_calls": 0,
-    "scheduled_task_wakes": 0,
-    "fixture_media_mux_runtime_executed": true,
-    "combined_visual_surface_runtime_checked": true
+  "classification": "ROW084_OFFLINE_RUNTIME_GATES_CLEARED_VISUAL_ONLY_REMAINS",
+  "climb_targets": [
+    "RUNTIME_PASS_BOUNDED",
+    "VISUAL_QA_PASS_BOUNDED"
+  ],
+  "created_at": "2026-07-20T07:49:43Z",
+  "dependency_authority": {
+    "acceptance_commit": "b074c694518b7ebe78a1e7292db28427d7f75ca7",
+    "dependency_satisfied": true,
+    "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-067_PLANNING_AUTHORITY_CURRENT_DELTA_20260719.json",
+    "row067_complete": true,
+    "row084_effect": "Dependency remains unlocked. Synthetic climb ledger binds cut/camera/mux-plan-replay/combined-visual fixture digests at CONTRACT_PASS_BOUNDED without granting runtime cut detection, camera-motion normalization, executed mux replay, visual review, RUNTIME_PASS_BOUNDED, VISUAL_QA_PASS_BOUNDED, or row_complete.",
+    "row_complete": true,
+    "tracker_id": "TRK-W64-067"
   },
-  "sibling_lane_boundary": {
-    "excluded_sibling_rows": [
-      "TRK-W64-069",
-      "TRK-W64-070",
-      "TRK-W64-071",
-      "TRK-W64-075",
-      "TRK-W64-017",
-      "TRK-W64-085",
-      "TRK-W64-095",
-      "TRK-W64-096",
-      "TRK-W64-097",
-      "TRK-W64-103"
+  "evidence_id": "TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719",
+  "focused_local_test_result": {
+    "offline_runtime_climb": {
+      "camera_motion_receipt_sha256": "30a27ab532bf0ecb9ab8653d130f9453bf9a579678de385a146b41baea409582",
+      "comfyui_8188_invoked": false,
+      "cut_detector_receipt_sha256": "717c57ef62b6d83b7a13858db2edd14db7e3fea9920405edc8c2141b20ba4617",
+      "direct_runtime_receipt_sha256": "1ec6d7a12a72b8fe8b445478ceb604185f769e857a3de3ec50127c06842e1474",
+      "remaining_complete_blocker_checks": [
+        "ROW084-020"
+      ],
+      "roundtrip_benchmark_receipt_sha256": "015738d92aa9ac5252915631598d0e8a85faae4f799add1d39e929b725105df7",
+      "row_complete": false,
+      "status": "PASS",
+      "tracker_artifact_sha256": "670422cc2d48efe85ca0706105436ca3e442a80225d0653c096ccad6f34d3d36",
+      "visual_review_authority_granted": false
+    },
+    "py_compile": "PASS",
+    "scope_interpretation": "Offline held-out cut/camera/benchmark climb cleared ROW084-014/016/018/021/022. ROW084-020 remains FAIL. proof_tier RUNTIME_PASS_BOUNDED. No VISUAL_QA_PASS_BOUNDED, no :8188, no row_complete.",
+    "strict_command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
+    "strict_exit_code": 0,
+    "strict_result": "45 passed",
+    "total_focused_failed": 0,
+    "total_focused_passed": 45
+  },
+  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+  "hold_decision": {
+    "blockers": [
+      {
+        "blocker_id": "VISUAL_QA_AND_RUNTIME_GATES_ABSENT",
+        "check_ids": [
+          "ROW084-020"
+        ],
+        "detail": "Only ROW084-020 remains in the COMPLETE blocker set. Needs VISUAL_QA_PASS_BOUNDED combined visual authority with decoded frames; offline digests insufficient.",
+        "severity": "blocking_for_row_complete"
+      }
     ],
+    "cleared_blockers": [
+      {
+        "blocker_id": "CUT_DETECTION_RUNTIME_ABSENT",
+        "check_id": "ROW084-014"
+      },
+      {
+        "blocker_id": "CAMERA_MOTION_NORMALIZATION_ABSENT",
+        "check_id": "ROW084-016"
+      },
+      {
+        "blocker_id": "FIXED_VFR_BENCHMARK_ABSENT",
+        "check_id": "ROW084-018"
+      },
+      {
+        "blocker_id": "DIRECT_RUNTIME_RECEIPT_ABSENT",
+        "check_id": "ROW084-021"
+      },
+      {
+        "blocker_id": "TRACKER_OUTPUT_ARTIFACT_ABSENT",
+        "check_id": "ROW084-022"
+      },
+      {
+        "blocker_id": "FFMPEG_ABSENT_PATH_MISS",
+        "check_id": "ROW084-019"
+      },
+      {
+        "blocker_id": "MUX_REPLAY_DEFERRED_SEPARATE_LANDING",
+        "check_id": "ROW084-019"
+      }
+    ],
+    "decision": "HOLD_ROW084_AFTER_OFFLINE_RUNTIME_CLIMB_VISUAL_ONLY",
+    "reason": "Offline/non-:8188 gates ROW084-014/016/018/021/022 cleared at RUNTIME_PASS_BOUNDED. COMPLETE remains blocked solely by ROW084-020 direct_combined_visual_audio_review_present (VISUAL_QA_PASS_BOUNDED), which requires decoded-frame combined visual review and must not be claimed from digests.",
+    "safe_next_action": "When :8188 / decoded-frame visual lane is free (not stealing from 019/023), execute bounded combined frame/contact/audio visual review for ROW084-020 only. CSV acceptance sync remains deferred to serialized mutator."
+  },
+  "host_execution": {
+    "comfyui_8188_invoked": false,
+    "ffmpeg_available": true,
+    "ffmpeg_path": "C:\\Users\\kevin\\AppData\\Local\\Programs\\ffmpeg\\ffmpeg-8.1.2-full_build\\bin\\ffmpeg.exe",
+    "ffmpeg_version": "8.1.2",
+    "offline_runtime_climb_pass": true,
+    "runtime_media_decode_invoked": true
+  },
+  "implementation_completion_claimed": false,
+  "implementation_slice": {
+    "camera_motion_policy_matrix_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_camera_motion_policy_matrix.schema.json",
+    "combined_visual_protocol_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_combined_visual_review_fixture_protocol.schema.json",
+    "combined_visual_protocol_schema_sha256": "07fc0f8a235b1eec9729412505286ab46add34e1e5ee3f3dc654174351068f43",
+    "compiler_bytes": 216503,
+    "compiler_path": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
+    "compiler_revision": "row084_synthetic_runtime_climb_ledger_v9",
+    "compiler_sha256": "daf8b605345db16749961789587a9f19b9156915c93695cb6f834da5d6750be4",
+    "cut_detector_algorithm_contract_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_cut_detector_algorithm_contract.schema.json",
+    "direct_row084_runtime_receipt_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/direct_row084_runtime_receipt.json",
+    "direct_row084_runtime_receipt_sha256": "1ec6d7a12a72b8fe8b445478ceb604185f769e857a3de3ec50127c06842e1474",
+    "ffmpeg_path_probe_receipt_bytes": 2962,
+    "ffmpeg_path_probe_receipt_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/ffmpeg_path_probe_receipt.json",
+    "ffmpeg_path_probe_receipt_sha256": "877342193d60db54326a0be0f5754ce62b0ab69af5e649cdde933763c90691de",
+    "fixture_dir": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084",
+    "fixture_media_mux_output_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/fixture_media_mux_output.mux",
+    "fixture_media_mux_output_sha256": "0c45a087ecd2eeb86f0ab33a22b4e0a2264af69516b31260d74ea5fe92857bef",
+    "fixture_media_mux_runtime_receipt_file_sha256": "4e247e184162bedf721e339c84f50bd7dd029c2c603c887f7906ef6d88fb198a",
+    "fixture_media_mux_runtime_receipt_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/fixture_media_mux_runtime_receipt.json",
+    "fixture_media_mux_runtime_receipt_sha256": "48789e9403878d82bfb3eac2ef4c9c779f78cd7753148628d88e21544be439d7",
+    "fixture_media_mux_runtime_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_fixture_media_mux_runtime_receipt.schema.json",
+    "fixture_media_mux_runtime_schema_sha256": "4d4bada967bf00c85e0cad4ddc9a39bfee4c3bc62d3814109d04e54b89270df4",
+    "held_out_camera_motion_runtime_receipt_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/held_out_camera_motion_runtime_receipt.json",
+    "held_out_camera_motion_runtime_receipt_sha256": "30a27ab532bf0ecb9ab8653d130f9453bf9a579678de385a146b41baea409582",
+    "held_out_cut_detector_runtime_receipt_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/held_out_cut_detector_runtime_receipt.json",
+    "held_out_cut_detector_runtime_receipt_sha256": "717c57ef62b6d83b7a13858db2edd14db7e3fea9920405edc8c2141b20ba4617",
+    "held_out_ffmpeg_mux_replay_receipt_file_sha256": "53e850f09f2560b94129d402c613342ff6150d027bba350c20982d6b0cd0b7c5",
+    "held_out_ffmpeg_mux_replay_receipt_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/held_out_ffmpeg_mux_replay_receipt.json",
+    "held_out_ffmpeg_mux_replay_receipt_sha256": "79c47e734e0ea06b47fc1a6a1556fb932f3cc51d0570e5a236e6519102e74149",
+    "held_out_ffmpeg_mux_replay_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_held_out_ffmpeg_mux_replay_receipt.schema.json",
+    "held_out_roundtrip_benchmark_receipt_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/held_out_roundtrip_benchmark_receipt.json",
+    "held_out_roundtrip_benchmark_receipt_sha256": "015738d92aa9ac5252915631598d0e8a85faae4f799add1d39e929b725105df7",
+    "mux_prep_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_mux_prep_receipt.schema.json",
+    "proven_capabilities": [
+      "fail-closed reversed PTS/frame/sample span rejection",
+      "required non-null frame and sample rates on clock-span schema",
+      "required frame and sample endpoint fields on clock-span schema",
+      "fixed 24/1 fixture frame-to-seconds-to-sample round trip",
+      "fractional 24000/1001 fixture round trip",
+      "VFR mode rejected without segment map",
+      "unsupported sample-rate rejection (non-48000)",
+      "non-monotonic PTS rejection",
+      "dependency hold keeps candidate ceiling and blocks production completion",
+      "declarative row084_roundtrip_tolerances registry binding",
+      "Row067 dependency unlock recorded (row067_complete=true)",
+      "dependency unlock raises authority_ceiling to technical_partial without granting production completion",
+      "fixture-backed contiguous VFR segment compilation with per-segment round-trip",
+      "fixture-backed cut-epoch ledger acceptance with unique IDs and strictly increasing frames",
+      "VFR segment gap rejection",
+      "non-monotonic cut-epoch rejection",
+      "mux-prep receipt scaffold with content-addressed digest and scaffold_hold status",
+      "mux-prep scaffold ignores upstream mux_replay claims and never grants mux authority",
+      "held-out fixed/fractional/VFR round-trip fixture matrix without benchmark authority",
+      "held-out matrix rejects missing VFR coverage and non-held_out partitions",
+      "audio/container stream identity binding into mux-prep (audio_stream_sha256 + container_sha256)",
+      "deterministic dry_run_mux_plan_sha256 excluding wall-clock via timeline_plan_sha256",
+      "held-out-mux-dry-run matrix mode with per-case deterministic hash check",
+      "held-out mux dry-run rejects missing stream identities",
+      "fixture-backed planned mux command envelope attached only when stream identities are bound",
+      "planned mux command envelope remains dry_run_non_executed / planned_only with execution_guards false",
+      "deterministic planned_mux_command_envelope_sha256 across rebuilds",
+      "held-out dry-run matrix asserts per-case envelope hash stability",
+      "fixture-backed missing-frame policy matrix covering preserve_gap and explicit_gap",
+      "fail-closed reject for block and interpolate missing-frame policies until runtime completion",
+      "fail-closed reject for duplicate and out-of-bounds missing-frame indices",
+      "missing-frame policy matrix rejects incomplete policy coverage and expected_policy mismatch",
+      "fixture-backed camera-motion policy matrix covering not_evaluated, blocked_until_calibrated, and distinguish_from_cuts",
+      "fail-closed reject for distinguish_from_cuts without non-empty cut_epochs",
+      "fail-closed reject for unknown camera_motion_policy values",
+      "camera-motion policy matrix rejects incomplete three-policy coverage and expected_policy mismatch",
+      "fixture-backed cut-detector algorithm contract covering fixture_ledger_v1 and fixture_histogram_diff_v1 with confidence calibration gates",
+      "fail-closed reject for confidence below algorithm min_confidence gate",
+      "fail-closed reject for unknown or unauthorized algorithm_id",
+      "fail-closed reject for uncalibrated algorithm registry entries",
+      "fail-closed reject for empty cut_epochs under cut-detector contract",
+      "cut-detector algorithm contract rejects incomplete two-algorithm coverage",
+      "fixtures/row084 synthetic runtime climb ledger binds cut/camera/mux/visual fixture digests",
+      "cut-detector precision/recall fixture expectations recorded without runtime detector completion",
+      "camera-motion policy bindings recorded without normalization completion",
+      "fixture mux-plan replay verifies dry-run/envelope hashes against content-addressed audio/container media blobs",
+      "combined visual review fixture protocol binds five required surfaces without visual authority",
+      "climb ledger proof_tier honest CONTRACT_PASS_BOUNDED with climb_targets RUNTIME_PASS_BOUNDED and VISUAL_QA_PASS_BOUNDED",
+      "pure-Python fixture media mux assembly with deterministic output digest",
+      "fixture media mux identity roundtrip for video/audio/container blobs",
+      "fixture media mux runtime bound to climb ledger audio/container digests",
+      "combined visual surface runtime digest checks without visual authority",
+      "RUNTIME_PASS_BOUNDED granted for fixture media mux runtime only",
+      "ffmpeg-backed held-out fixed+fractional+VFR mux replay with ffprobe frame/sample verification",
+      "offline ffmpeg-decode histogram-diff cut detector on held-out VFR mux (frame 12)",
+      "offline static negative-control cut detector on held-out fixed mux",
+      "offline held-out fixed/fractional/VFR frame-seconds-sample roundtrip benchmark with registered tolerances",
+      "offline camera-motion normalization distinguishing hard_cut vs camera_pan vs static",
+      "direct_row084_runtime_receipt binder for offline runtime proofs",
+      "tracker-declared HOLD artifact without COMPLETE/VISUAL_QA claim"
+    ],
+    "runtime_revision": "row084_held_out_offline_runtime_climb_v1",
+    "still_absent": [
+      "combined frame/contact/audio visual review authority (VISUAL_QA_PASS_BOUNDED)",
+      "production mux replay proof",
+      "production cut/camera/benchmark authority beyond held-out lavfi",
+      "JSON Schema native end_pts > start_pts comparison",
+      "missing-frame policy runtime completion (interpolate/block + media-backed gaps)",
+      "row_complete / acceptance COMPLETE"
+    ],
+    "synthetic_climb_ledger_bytes": 9721,
+    "synthetic_climb_ledger_file_sha256": "39d54dfe2f2b1de09d4271d67ee816fa164cfec6da7e4e4adf61d5014a49ad80",
+    "synthetic_climb_ledger_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/synthetic_runtime_climb_ledger.json",
+    "synthetic_climb_ledger_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_synthetic_runtime_climb_ledger.schema.json",
+    "synthetic_climb_ledger_schema_sha256": "fa45fbf3adaa0873b17e143009b8b5b8e441823d4a2f68cafad6ee3d855883c3",
+    "synthetic_climb_ledger_sha256": "286d3b200f7700c456e0122332290c9f7cc2dd62d9fb63e96ed57515051a6764",
+    "test_bytes": 70010,
+    "test_path": "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
+    "test_sha256": "8ee64a6653b0502cbb05f641bcc905f519cc70f073a44240273286f32229d8e4",
+    "tracker_output_artifact_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_canonical_video_timeline.json",
+    "tracker_output_artifact_sha256": "670422cc2d48efe85ca0706105436ca3e442a80225d0653c096ccad6f34d3d36"
+  },
+  "increment": {
+    "camera_motion_normalization_complete": true,
+    "comfyui_8188_invoked": false,
+    "cut_detection_algorithm_complete": true,
+    "direct_row084_runtime_receipt_present": true,
+    "fixed_vfr_benchmark_pass": true,
+    "kind": "held_out_offline_runtime_climb_cut_camera_benchmark",
+    "mux_replay_executed": true,
+    "production_media_decode_invoked": false,
+    "row_complete": false,
+    "runtime_media_decode_invoked": true,
+    "summary": "Cleared offline/non-:8188 COMPLETE blockers ROW084-014/016/018/021/022 via ffmpeg-decode histogram cut detector, held-out fixed/VFR roundtrip benchmark, camera-motion pan-vs-cut-vs-static classification, direct runtime receipt binder, and tracker HOLD artifact. ROW084-020 visual review remains; no VISUAL_QA_PASS_BOUNDED from digests; no :8188; no row_complete/COMPLETE.",
+    "tracker_declared_output_artifact_present": true,
+    "tracker_output_artifact_emitted": true,
+    "visual_qa_pass_bounded_claimed": false,
+    "visual_review_authority_claimed": false
+  },
+  "intent": {
+    "allowed_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
+      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_cut_detector_runtime_receipt.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_roundtrip_benchmark_receipt.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_camera_motion_runtime_receipt.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline_direct_runtime_receipt.schema.json",
+      "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_canonical_video_timeline.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
+    ],
+    "authority_class": "interactive_cursor",
+    "candidate_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
+      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_cut_detector_runtime_receipt.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_roundtrip_benchmark_receipt.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_camera_motion_runtime_receipt.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline_direct_runtime_receipt.schema.json",
+      "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_canonical_video_timeline.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
+    ],
+    "classification": "INTERACTIVE_PLATFORM_SHIFT_AUTHORITY",
+    "dispatch_wake_count": 0,
+    "intent_id": "interactive_cursor_shift_row084_offline_runtime_climb_20260720",
+    "routing": null,
+    "work_type": "final_authority"
+  },
+  "item_id": "ITEM-W64-084",
+  "preservation_boundary": {
+    "actual_write_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
+      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_cut_detector_runtime_receipt.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_roundtrip_benchmark_receipt.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_camera_motion_runtime_receipt.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline_direct_runtime_receipt.schema.json",
+      "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_canonical_video_timeline.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
+    ],
+    "allowed_write_paths": [
+      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
+      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_cut_detector_runtime_receipt.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_roundtrip_benchmark_receipt.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_camera_motion_runtime_receipt.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline_direct_runtime_receipt.schema.json",
+      "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_canonical_video_timeline.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
+    ],
+    "comfyui_8188_touched": false,
+    "row075_pid_left_alone": true,
+    "sibling_row_paths_preserved": true,
+    "tip_sha_chain_written": false,
+    "tracker_items_csv_writes": false,
+    "unrelated_dirty_paths_preserved": true,
+    "worker_artifacts_preserved": true
+  },
+  "prior_evidence_commit": "1f25f945",
+  "prior_row_commit_is_current_head": false,
+  "proof_tier": "RUNTIME_PASS_BOUNDED",
+  "qa_decision": "HOLD",
+  "row084_contract": {
+    "completion_criteria": "Frame/time/sample conversions round-trip within tolerance for fixed and variable frame rate sources.",
+    "current_delta_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json",
+    "dependency": "TRK-W64-067",
+    "ec2_allowed": false,
+    "phase": "visual_event_intelligence",
+    "preview_required": true,
+    "priority": "P1",
+    "required_gates": [
+      "video_decode",
+      "time_base",
+      "cut_detection",
+      "frame_sample_roundtrip"
+    ],
+    "risk": "HIGH",
+    "runtime_proof_required": true,
+    "status": "Planned_Autonomous_Implementation_Required",
+    "test_required": true,
+    "title": "Canonical video decode, cuts, frame timing, and sample-clock normalization",
+    "tracker_output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_canonical_video_timeline.json",
+    "tracker_output_artifact_exists": true,
+    "visual_review_method": "combined_frame_contact_audio_review",
+    "visual_review_required": true
+  },
+  "row_complete": false,
+  "runtime_completion_claimed": false,
+  "schema_version": "1.0",
+  "sibling_lane_boundary": {
     "excluded_path_globs": [
       "Plan/Tracker/Waves/Wave64/*TRACKER_ROWS.csv",
       "Plan/Items/Waves/Wave64/*ITEM_ROWS.csv",
@@ -518,71 +549,56 @@
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_*",
       "Plan/Instructions/QA/Evidence/Wave64/fixtures/row085/**"
     ],
+    "excluded_sibling_rows": [
+      "TRK-W64-069",
+      "TRK-W64-070",
+      "TRK-W64-071",
+      "TRK-W64-075",
+      "TRK-W64-017",
+      "TRK-W64-085",
+      "TRK-W64-095",
+      "TRK-W64-096",
+      "TRK-W64-097",
+      "TRK-W64-103"
+    ],
     "writable_scope_disjoint": true,
     "writable_scope_note": "Disjoint from Row075 PID, Rows069-071 library, Row017 MF70, and sibling Row085 fixture paths. No Tracker/Items CSV writes."
   },
-  "preservation_boundary": {
-    "allowed_write_paths": [
-      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_ffmpeg_mux_replay_receipt.schema.json",
-      "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
-      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
-    ],
-    "actual_write_paths": [
-      "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_ffmpeg_mux_replay_receipt.schema.json",
-      "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
-      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/held_out_ffmpeg_mux_replay_receipt.json",
-      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/held_out_ffmpeg_mux/",
-      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/ffmpeg_path_probe_receipt.json",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
-    ],
-    "unrelated_dirty_paths_preserved": true,
-    "worker_artifacts_preserved": true,
-    "sibling_row_paths_preserved": true,
-    "row075_pid_left_alone": true,
-    "tracker_items_csv_writes": false,
-    "tip_sha_chain_written": false,
-    "comfyui_8188_touched": false
-  },
-  "hold_decision": {
-    "decision": "HOLD_ROW084_AFTER_019_MUX_REPLAY_PASS_NO_COMPLETE",
-    "reason": "ROW084-019 PASS via held-out ffmpeg fixed+VFR mux replay. Fixture media mux and held-out ffmpeg mux remain RUNTIME_PASS_BOUNDED. row_complete stays false because runtime cut detector, camera-motion normalization, VISUAL_QA_PASS_BOUNDED combined visual authority, fixed/VFR benchmark authority, tracker runtime artifact, and production mux replay remain absent.",
-    "safe_next_action": "Next climb: runtime cut detector and/or camera-motion normalization and/or bounded combined visual review toward VISUAL_QA_PASS_BOUNDED without claiming row_complete. CSV acceptance sync remains with serialized mutator in a separate commit.",
-    "blockers": [
-      {
-        "blocker_id": "VISUAL_QA_AND_RUNTIME_GATES_ABSENT",
-        "check_ids": [
-          "ROW084-014",
-          "ROW084-016",
-          "ROW084-018",
-          "ROW084-020",
-          "ROW084-021",
-          "ROW084-022"
-        ],
-        "severity": "blocking_for_row_complete",
-        "detail": "ROW084-019 cleared; remaining runtime/visual/tracker gates block COMPLETE"
-      }
-    ],
-    "cleared_blockers": [
-      {
-        "blocker_id": "FFMPEG_ABSENT_PATH_MISS",
-        "check_id": "ROW084-019"
-      },
-      {
-        "blocker_id": "MUX_REPLAY_DEFERRED_SEPARATE_LANDING",
-        "check_id": "ROW084-019"
-      }
-    ]
-  },
-  "host_execution": {
+  "source_commit": "1f25f945",
+  "status": "HOLD_ROW084_OFFLINE_RUNTIME_CLIMB_VISUAL_QA_REMAINS",
+  "test_and_runtime_boundary": {
+    "camera_motion_normalization_complete": true,
+    "camera_motion_policy_fixture_matrix_only": true,
+    "combined_visual_fixture_protocol_only": true,
+    "combined_visual_surface_runtime_checked": true,
+    "comfyui_8188_invoked": false,
+    "cut_detection_algorithm_complete": true,
+    "cut_detector_algorithm_fixture_contract_only": true,
+    "direct_row084_runtime_benchmark_executed": true,
+    "docker_invoked": false,
+    "ec2_invoked": false,
     "ffmpeg_available": true,
-    "ffmpeg_path_probe_executed": true,
-    "ffmpeg_mux_replay_executed": true,
-    "ffmpeg_path": "C:\\Users\\kevin\\AppData\\Local\\Programs\\ffmpeg\\ffmpeg-8.1.2-full_build\\bin\\ffmpeg.exe",
-    "ffmpeg_version": "8.1.2",
-    "ffmpeg_installed_this_landing": false,
-    "held_out_fixed_vfr_mux_replay_pass": true
-  }
+    "fixture_media_mux_runtime_executed": true,
+    "fixture_mux_plan_replay_only": true,
+    "focused_source_tests_executed": true,
+    "focused_source_tests_failed": 0,
+    "focused_source_tests_passed": 44,
+    "held_out_fixture_matrix_only": true,
+    "missing_frame_policy_fixture_matrix_only": true,
+    "missing_frame_policy_runtime_complete": false,
+    "mux_dry_run_plan_only": true,
+    "mux_prep_scaffold_only": true,
+    "new_media_decode_or_mux_invoked": true,
+    "planned_mux_command_envelope_only": true,
+    "production_timeline_compilation_invoked": false,
+    "provider_calls": 0,
+    "runtime_media_decode_invoked": true,
+    "scheduled_task_wakes": 0,
+    "schema_meta_validation_executed": true,
+    "synthetic_runtime_climb_ledger_only": true,
+    "visual_review_executed": false,
+    "wrapper_calls": 0,
+    "wsl_invoked": false
+  },
+  "tracker_id": "TRK-W64-084"
 }

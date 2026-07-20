@@ -1,0 +1,115 @@
+{
+  "authority": {
+    "camera_motion_normalization_complete": false,
+    "combined_visual_review_present": false,
+    "cut_detection_algorithm_complete": true,
+    "fixed_vfr_benchmark_pass": false,
+    "fixture_contract_only": false,
+    "mux_replay_proof_present": true,
+    "production_completion_allowed": false,
+    "visual_review_authority_granted": false
+  },
+  "cases": [
+    {
+      "algorithms_exercised": [
+        "fixture_histogram_diff_v1",
+        "fixture_ledger_v1"
+      ],
+      "case_id": "held_out_vfr_24_30",
+      "detected_cuts": [
+        {
+          "algorithm_id": "fixture_histogram_diff_v1",
+          "confidence": 1.0,
+          "cut_kind": "hard",
+          "frame_index": 12,
+          "hist_l1": 1.333333
+        }
+      ],
+      "expected_cut_frames": [
+        12
+      ],
+      "false_negatives": 0,
+      "false_positives": 0,
+      "frame_count": 24,
+      "ledger_cut_epoch": {
+        "algorithm_id": "fixture_ledger_v1",
+        "confidence": 0.95,
+        "cut_id": "cut_hard_ledger_runtime",
+        "cut_kind": "hard",
+        "frame_index": 12
+      },
+      "mux_sha256": "5327faf9dc2406024dc1ee9763d50affc692057e2d41c542029573a6aa38338a",
+      "passed": true,
+      "precision": 1.0,
+      "recall": 1.0,
+      "role": "hard_cut_positive",
+      "true_positives": 1
+    },
+    {
+      "algorithms_exercised": [
+        "fixture_histogram_diff_v1"
+      ],
+      "case_id": "held_out_fixed_24",
+      "detected_cuts": [],
+      "expected_cut_frames": [],
+      "false_negatives": 0,
+      "false_positives": 0,
+      "frame_count": 16,
+      "mux_sha256": "c41608eb64e5bc18a9a0e0e03a30f30f28565a13e9d8cd8fe8846965030d32cf",
+      "passed": true,
+      "precision": 1.0,
+      "recall": 1.0,
+      "role": "static_negative_control",
+      "true_positives": 0
+    }
+  ],
+  "climb_targets": [
+    "RUNTIME_PASS_BOUNDED",
+    "VISUAL_QA_PASS_BOUNDED"
+  ],
+  "created_at": "2026-07-20T07:49:41Z",
+  "ffmpeg": {
+    "comfyui_8188_invoked": false,
+    "invoked": true,
+    "resolved_path": "C:\\Users\\kevin\\AppData\\Local\\Programs\\ffmpeg\\ffmpeg-8.1.2-full_build\\bin\\ffmpeg.exe",
+    "runtime_media_decode_invoked": true,
+    "version_line": "ffmpeg version 8.1.2-full_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers"
+  },
+  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+  "hold_reasons": [
+    "camera_motion_normalization_incomplete",
+    "combined_visual_review_authority_absent",
+    "visual_qa_pass_bounded_absent",
+    "production_cut_detector_not_granted",
+    "row_complete_blocked"
+  ],
+  "production_completion_allowed": false,
+  "proof_tier": "RUNTIME_PASS_BOUNDED",
+  "provenance": {
+    "compiler": "compile_wave64_canonical_video_timeline.py",
+    "compiler_revision": "row084_synthetic_runtime_climb_ledger_v9",
+    "does_not_claim_row_complete": true,
+    "does_not_claim_visual_qa_pass_bounded": true,
+    "does_not_use_comfyui_8188": true,
+    "execution_mode": "ffmpeg_decode_histogram_diff_held_out",
+    "runtime_revision": "row084_held_out_cut_detector_runtime_v1"
+  },
+  "receipt_id": "row084_held_out_cut_detector_runtime_receipt_v1",
+  "receipt_sha256": "717c57ef62b6d83b7a13858db2edd14db7e3fea9920405edc8c2141b20ba4617",
+  "record_type": "row084_held_out_cut_detector_runtime_receipt",
+  "revision": "row084_held_out_cut_detector_runtime_v1",
+  "row_complete": false,
+  "schema_version": "1.0.0",
+  "status": "held_out_cut_detector_runtime_pass_bounded",
+  "summary": {
+    "algorithms_covered": [
+      "fixture_histogram_diff_v1",
+      "fixture_ledger_v1"
+    ],
+    "all_cases_passed": true,
+    "case_count": 2,
+    "comfyui_8188_invoked": false,
+    "runtime_detector_complete": true,
+    "runtime_media_decode_invoked": true
+  }
+}

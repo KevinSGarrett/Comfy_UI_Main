@@ -1,0 +1,127 @@
+{
+  "authority": {
+    "benchmark_authority_granted": true,
+    "camera_motion_normalization_complete": false,
+    "combined_visual_review_present": false,
+    "cut_detection_algorithm_complete": false,
+    "fixed_vfr_benchmark_pass": true,
+    "fixture_matrix_only": false,
+    "production_benchmark": false,
+    "production_completion_allowed": false,
+    "visual_review_authority_granted": false
+  },
+  "cases": [
+    {
+      "benchmark_passed": true,
+      "case_id": "held_out_fixed_24",
+      "checked_frame_count": 16,
+      "frame_rate_mode": "fixed",
+      "max_observed_frame_residual": 0.0,
+      "max_observed_sample_residual": 0.0,
+      "max_observed_seconds_residual": 0.0,
+      "media_frame_count": 16,
+      "media_sample_rate_hz": 48000,
+      "mux_sha256": "c41608eb64e5bc18a9a0e0e03a30f30f28565a13e9d8cd8fe8846965030d32cf",
+      "timeline_stable_sha256": "ea8446a5755dce72775ae2b804c53ef6c773395ccc7c88a6634473f75d1a206c",
+      "tolerances": {
+        "max_frame_residual": 0.0,
+        "max_sample_residual": 1.0,
+        "max_seconds_residual": 2.0833333333333333e-05
+      },
+      "within_tolerance": true
+    },
+    {
+      "benchmark_passed": true,
+      "case_id": "held_out_fractional_ntsc",
+      "checked_frame_count": 10,
+      "frame_rate_mode": "fractional",
+      "max_observed_frame_residual": 0.0,
+      "max_observed_sample_residual": 0.0,
+      "max_observed_seconds_residual": 0.0,
+      "media_frame_count": 10,
+      "media_sample_rate_hz": 48000,
+      "mux_sha256": "dbcb70963a3a7eaa4e2a0d70550c14b953be316ffde0064e5f7b437f2e8c1e40",
+      "timeline_stable_sha256": "59600f1f95c8e0565c39286c3f7dc0d383d48b8bc4368460924936ae6bc2ca26",
+      "tolerances": {
+        "max_frame_residual": 0.0,
+        "max_sample_residual": 1.0,
+        "max_seconds_residual": 2.0833333333333333e-05
+      },
+      "within_tolerance": true
+    },
+    {
+      "benchmark_passed": true,
+      "case_id": "held_out_vfr_24_30",
+      "checked_frame_count": 24,
+      "frame_rate_mode": "vfr",
+      "max_observed_frame_residual": 0.0,
+      "max_observed_sample_residual": 0.0,
+      "max_observed_seconds_residual": 1.1102230246251565e-16,
+      "media_frame_count": 24,
+      "media_sample_rate_hz": 48000,
+      "mux_sha256": "5327faf9dc2406024dc1ee9763d50affc692057e2d41c542029573a6aa38338a",
+      "timeline_stable_sha256": "7cfa60a44ce39c5c0387ee864963c696d48d669d8b063f12396cc21ae17198f5",
+      "tolerances": {
+        "max_frame_residual": 0.0,
+        "max_sample_residual": 1.0,
+        "max_seconds_residual": 2.0833333333333333e-05
+      },
+      "within_tolerance": true
+    }
+  ],
+  "climb_targets": [
+    "RUNTIME_PASS_BOUNDED",
+    "VISUAL_QA_PASS_BOUNDED"
+  ],
+  "created_at": "2026-07-20T07:49:42Z",
+  "ffmpeg": {
+    "comfyui_8188_invoked": false,
+    "ffprobe_path": "C:\\Users\\kevin\\AppData\\Local\\Programs\\ffmpeg\\ffmpeg-8.1.2-full_build\\bin\\ffprobe.exe",
+    "invoked": true,
+    "resolved_path": "C:\\Users\\kevin\\AppData\\Local\\Programs\\ffmpeg\\ffmpeg-8.1.2-full_build\\bin\\ffmpeg.exe",
+    "version_line": "ffmpeg version 8.1.2-full_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers"
+  },
+  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+  "hold_reasons": [
+    "production_benchmark_not_granted",
+    "combined_visual_review_authority_absent",
+    "visual_qa_pass_bounded_absent",
+    "row_complete_blocked"
+  ],
+  "production_completion_allowed": false,
+  "proof_tier": "RUNTIME_PASS_BOUNDED",
+  "provenance": {
+    "compiler": "compile_wave64_canonical_video_timeline.py",
+    "compiler_revision": "row084_synthetic_runtime_climb_ledger_v9",
+    "does_not_claim_row_complete": true,
+    "does_not_claim_visual_qa_pass_bounded": true,
+    "does_not_use_comfyui_8188": true,
+    "execution_mode": "held_out_ffmpeg_mux_clock_roundtrip_benchmark",
+    "runtime_revision": "row084_held_out_roundtrip_benchmark_v1",
+    "tolerances_source": "DEFAULT_TOLERANCES"
+  },
+  "receipt_id": "row084_held_out_roundtrip_benchmark_receipt_v1",
+  "receipt_sha256": "015738d92aa9ac5252915631598d0e8a85faae4f799add1d39e929b725105df7",
+  "record_type": "row084_held_out_roundtrip_benchmark_receipt",
+  "revision": "row084_held_out_roundtrip_benchmark_v1",
+  "row_complete": false,
+  "schema_version": "1.0.0",
+  "status": "held_out_roundtrip_benchmark_pass_bounded",
+  "summary": {
+    "all_within_tolerance": true,
+    "benchmark_authority_granted": true,
+    "case_count": 3,
+    "comfyui_8188_invoked": false,
+    "fixed_covered": true,
+    "fixed_vfr_benchmark_pass": true,
+    "fractional_covered": true,
+    "modes_covered": [
+      "fixed",
+      "fractional",
+      "vfr"
+    ],
+    "production_benchmark": false,
+    "runtime_media_decode_invoked": false,
+    "vfr_covered": true
+  }
+}

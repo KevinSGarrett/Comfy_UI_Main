@@ -1,0 +1,107 @@
+{
+  "authority": {
+    "camera_motion_normalization_complete": true,
+    "combined_visual_review_present": false,
+    "cut_detection_algorithm_complete": false,
+    "fixed_vfr_benchmark_pass": false,
+    "fixture_matrix_only": false,
+    "production_completion_allowed": false,
+    "visual_review_authority_granted": false
+  },
+  "cases": [
+    {
+      "case_id": "held_out_vfr_24_30",
+      "expected_class": "hard_cut",
+      "expected_policy": "distinguish_from_cuts",
+      "frame_count": 24,
+      "generated_media": false,
+      "hard_cut_count": 1,
+      "max_hist_l1": 1.333333,
+      "mean_hist_l1": 0.057971,
+      "media_sha256": "5327faf9dc2406024dc1ee9763d50affc692057e2d41c542029573a6aa38338a",
+      "observed_class": "hard_cut",
+      "passed": true,
+      "role": "hard_cut"
+    },
+    {
+      "case_id": "held_out_camera_pan_testsrc",
+      "expected_class": "camera_motion",
+      "expected_policy": "distinguish_from_cuts",
+      "frame_count": 24,
+      "generated_media": true,
+      "hard_cut_count": 0,
+      "max_hist_l1": 0.190918,
+      "mean_hist_l1": 0.166108,
+      "media_sha256": "57711094b5496640bea5bbc83383cf6b708181101b9ff9be28187c895be19438",
+      "observed_class": "camera_motion",
+      "passed": true,
+      "role": "camera_pan"
+    },
+    {
+      "case_id": "held_out_fixed_24",
+      "expected_class": "static",
+      "expected_policy": "not_evaluated",
+      "frame_count": 16,
+      "generated_media": false,
+      "hard_cut_count": 0,
+      "max_hist_l1": 0.0,
+      "mean_hist_l1": 0.0,
+      "media_sha256": "c41608eb64e5bc18a9a0e0e03a30f30f28565a13e9d8cd8fe8846965030d32cf",
+      "observed_class": "static",
+      "passed": true,
+      "role": "static"
+    }
+  ],
+  "climb_targets": [
+    "RUNTIME_PASS_BOUNDED",
+    "VISUAL_QA_PASS_BOUNDED"
+  ],
+  "created_at": "2026-07-20T07:49:43Z",
+  "ffmpeg": {
+    "comfyui_8188_invoked": false,
+    "invoked": true,
+    "resolved_path": "C:\\Users\\kevin\\AppData\\Local\\Programs\\ffmpeg\\ffmpeg-8.1.2-full_build\\bin\\ffmpeg.exe",
+    "runtime_media_decode_invoked": true,
+    "version_line": "ffmpeg version 8.1.2-full_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers"
+  },
+  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+  "hold_reasons": [
+    "combined_visual_review_authority_absent",
+    "visual_qa_pass_bounded_absent",
+    "production_camera_motion_not_granted",
+    "row_complete_blocked"
+  ],
+  "production_completion_allowed": false,
+  "proof_tier": "RUNTIME_PASS_BOUNDED",
+  "provenance": {
+    "compiler": "compile_wave64_canonical_video_timeline.py",
+    "compiler_revision": "row084_synthetic_runtime_climb_ledger_v9",
+    "does_not_claim_row_complete": true,
+    "does_not_claim_visual_qa_pass_bounded": true,
+    "does_not_use_comfyui_8188": true,
+    "execution_mode": "ffmpeg_decode_hist_profile_cut_vs_pan_vs_static",
+    "runtime_revision": "row084_held_out_camera_motion_runtime_v1"
+  },
+  "receipt_id": "row084_held_out_camera_motion_runtime_receipt_v1",
+  "receipt_sha256": "30a27ab532bf0ecb9ab8653d130f9453bf9a579678de385a146b41baea409582",
+  "record_type": "row084_held_out_camera_motion_runtime_receipt",
+  "revision": "row084_held_out_camera_motion_runtime_v1",
+  "row_complete": false,
+  "schema_version": "1.0.0",
+  "status": "held_out_camera_motion_runtime_pass_bounded",
+  "summary": {
+    "all_cases_passed": true,
+    "camera_motion_covered": true,
+    "camera_motion_normalization_complete": true,
+    "case_count": 3,
+    "classes_covered": [
+      "camera_motion",
+      "hard_cut",
+      "static"
+    ],
+    "comfyui_8188_invoked": false,
+    "hard_cut_covered": true,
+    "runtime_media_decode_invoked": true,
+    "static_covered": true
+  }
+}

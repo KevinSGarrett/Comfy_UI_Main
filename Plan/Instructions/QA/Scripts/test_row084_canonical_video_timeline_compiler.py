@@ -50,6 +50,21 @@ HELD_OUT_FFMPEG_MUX_REPLAY_SCHEMA = (
     ROOT
     / "Plan/08_SCHEMAS/canonical_video_timeline_held_out_ffmpeg_mux_replay_receipt.schema.json"
 )
+HELD_OUT_CUT_DETECTOR_RUNTIME_SCHEMA = (
+    ROOT
+    / "Plan/08_SCHEMAS/canonical_video_timeline_held_out_cut_detector_runtime_receipt.schema.json"
+)
+HELD_OUT_ROUNDTRIP_BENCHMARK_SCHEMA = (
+    ROOT
+    / "Plan/08_SCHEMAS/canonical_video_timeline_held_out_roundtrip_benchmark_receipt.schema.json"
+)
+HELD_OUT_CAMERA_MOTION_RUNTIME_SCHEMA = (
+    ROOT
+    / "Plan/08_SCHEMAS/canonical_video_timeline_held_out_camera_motion_runtime_receipt.schema.json"
+)
+DIRECT_ROW084_RUNTIME_RECEIPT_SCHEMA = (
+    ROOT / "Plan/08_SCHEMAS/canonical_video_timeline_direct_runtime_receipt.schema.json"
+)
 FIXTURE_DIR = ROOT / "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084"
 SYNTHETIC_CLIMB_LEDGER = FIXTURE_DIR / "synthetic_runtime_climb_ledger.json"
 FIXTURE_MUX_RUNTIME_RECEIPT = (
@@ -58,6 +73,21 @@ FIXTURE_MUX_RUNTIME_RECEIPT = (
 FIXTURE_MUX_OUTPUT = FIXTURE_DIR / "runtime" / "fixture_media_mux_output.mux"
 HELD_OUT_FFMPEG_MUX_REPLAY_RECEIPT = (
     FIXTURE_DIR / "runtime" / "held_out_ffmpeg_mux_replay_receipt.json"
+)
+HELD_OUT_CUT_DETECTOR_RUNTIME_RECEIPT = (
+    FIXTURE_DIR / "runtime" / "held_out_cut_detector_runtime_receipt.json"
+)
+HELD_OUT_ROUNDTRIP_BENCHMARK_RECEIPT = (
+    FIXTURE_DIR / "runtime" / "held_out_roundtrip_benchmark_receipt.json"
+)
+HELD_OUT_CAMERA_MOTION_RUNTIME_RECEIPT = (
+    FIXTURE_DIR / "runtime" / "held_out_camera_motion_runtime_receipt.json"
+)
+DIRECT_ROW084_RUNTIME_RECEIPT = (
+    FIXTURE_DIR / "runtime" / "direct_row084_runtime_receipt.json"
+)
+TRACKER_OUTPUT_ARTIFACT = (
+    ROOT / "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_canonical_video_timeline.json"
 )
 DEFAULT_ROW084_FFMPEG = Path(
     r"C:\Users\kevin\AppData\Local\Programs\ffmpeg\ffmpeg-8.1.2-full_build\bin\ffmpeg.exe"
@@ -508,6 +538,18 @@ class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
         )
         self.held_out_ffmpeg_mux_replay_validator = Draft202012Validator(
             json.loads(HELD_OUT_FFMPEG_MUX_REPLAY_SCHEMA.read_text(encoding="utf-8"))
+        )
+        self.held_out_cut_detector_runtime_validator = Draft202012Validator(
+            json.loads(HELD_OUT_CUT_DETECTOR_RUNTIME_SCHEMA.read_text(encoding="utf-8"))
+        )
+        self.held_out_roundtrip_benchmark_validator = Draft202012Validator(
+            json.loads(HELD_OUT_ROUNDTRIP_BENCHMARK_SCHEMA.read_text(encoding="utf-8"))
+        )
+        self.held_out_camera_motion_runtime_validator = Draft202012Validator(
+            json.loads(HELD_OUT_CAMERA_MOTION_RUNTIME_SCHEMA.read_text(encoding="utf-8"))
+        )
+        self.direct_row084_runtime_validator = Draft202012Validator(
+            json.loads(DIRECT_ROW084_RUNTIME_RECEIPT_SCHEMA.read_text(encoding="utf-8"))
         )
         self.clock_span_schema = json.loads(CLOCK_SPAN_SCHEMA.read_text(encoding="utf-8"))
 
@@ -1362,6 +1404,73 @@ class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
         cli_receipt = json.loads(cli.stdout)
         self.assertEqual(cli_receipt["receipt_sha256"], checked_in["receipt_sha256"])
         self.assertEqual(cli_receipt["proof_tier"], "RUNTIME_PASS_BOUNDED")
+
+    def test_held_out_offline_runtime_climb_clears_non_visual_gates(self) -> None:
+        if not DEFAULT_ROW084_FFMPEG.is_file() and not shutil.which("ffmpeg"):
+            self.skipTest("ffmpeg unavailable for offline runtime climb test")
+        self.assertTrue(HELD_OUT_CUT_DETECTOR_RUNTIME_RECEIPT.is_file())
+        self.assertTrue(HELD_OUT_ROUNDTRIP_BENCHMARK_RECEIPT.is_file())
+        self.assertTrue(HELD_OUT_CAMERA_MOTION_RUNTIME_RECEIPT.is_file())
+        self.assertTrue(DIRECT_ROW084_RUNTIME_RECEIPT.is_file())
+        self.assertTrue(TRACKER_OUTPUT_ARTIFACT.is_file())
+
+        cut = json.loads(HELD_OUT_CUT_DETECTOR_RUNTIME_RECEIPT.read_text(encoding="utf-8"))
+        bench = json.loads(HELD_OUT_ROUNDTRIP_BENCHMARK_RECEIPT.read_text(encoding="utf-8"))
+        camera = json.loads(HELD_OUT_CAMERA_MOTION_RUNTIME_RECEIPT.read_text(encoding="utf-8"))
+        direct = json.loads(DIRECT_ROW084_RUNTIME_RECEIPT.read_text(encoding="utf-8"))
+        tracker = json.loads(TRACKER_OUTPUT_ARTIFACT.read_text(encoding="utf-8"))
+
+        self.held_out_cut_detector_runtime_validator.validate(cut)
+        self.held_out_roundtrip_benchmark_validator.validate(bench)
+        self.held_out_camera_motion_runtime_validator.validate(camera)
+        self.direct_row084_runtime_validator.validate(direct)
+
+        self.assertTrue(cut["authority"]["cut_detection_algorithm_complete"])
+        self.assertTrue(bench["authority"]["fixed_vfr_benchmark_pass"])
+        self.assertTrue(camera["authority"]["camera_motion_normalization_complete"])
+        self.assertTrue(direct["authority"]["direct_row084_runtime_receipt_present"])
+        self.assertEqual(tracker["status"], "HOLD_RUNTIME_PASS_BOUNDED_VISUAL_QA_ABSENT")
+        self.assertEqual(
+            [item["check_ids"] for item in tracker["remaining_complete_blockers"]],
+            [["ROW084-020"]],
+        )
+
+        for payload in (cut, bench, camera, direct, tracker):
+            self.assertFalse(payload.get("row_complete"))
+            self.assertFalse(
+                payload.get("visual_review_authority_granted")
+                or payload.get("authority", {}).get("visual_review_authority_granted")
+            )
+
+        verify_cut = COMPILER_MOD.verify_held_out_cut_detector_runtime_receipt()
+        verify_bench = COMPILER_MOD.verify_held_out_roundtrip_benchmark_receipt()
+        verify_camera = COMPILER_MOD.verify_held_out_camera_motion_runtime_receipt()
+        self.assertEqual(verify_cut["status"], "ok")
+        self.assertEqual(verify_bench["status"], "ok")
+        self.assertEqual(verify_camera["status"], "ok")
+        self.assertTrue(verify_cut["cut_detection_algorithm_complete"])
+        self.assertTrue(verify_bench["fixed_vfr_benchmark_pass"])
+        self.assertTrue(verify_camera["camera_motion_normalization_complete"])
+
+        live = COMPILER_MOD.execute_held_out_offline_runtime_climb(
+            ffmpeg_path=DEFAULT_ROW084_FFMPEG if DEFAULT_ROW084_FFMPEG.is_file() else None,
+            write_outputs=False,
+        )
+        self.assertEqual(live["status"], "ok")
+        self.assertEqual(live["remaining_complete_blocker_checks"], ["ROW084-020"])
+        self.assertFalse(live["visual_review_authority_granted"])
+        self.assertFalse(live["row_complete"])
+        self.assertFalse(live["comfyui_8188_invoked"])
+        self.assertTrue(live["cut_detection_algorithm_complete"])
+        self.assertTrue(live["camera_motion_normalization_complete"])
+        self.assertTrue(live["fixed_vfr_benchmark_pass"])
+        self.assertTrue(live["direct_row084_runtime_receipt_present"])
+        self.assertTrue(live["tracker_declared_output_artifact_present"])
+        # Digest-stable vs checked-in when durable pan/mux media are reused.
+        self.assertEqual(live["cut_detector_receipt_sha256"], cut["receipt_sha256"])
+        self.assertEqual(live["roundtrip_benchmark_receipt_sha256"], bench["receipt_sha256"])
+        self.assertEqual(live["camera_motion_receipt_sha256"], camera["receipt_sha256"])
+        self.assertEqual(live["direct_runtime_receipt_sha256"], direct["receipt_sha256"])
 
 
 if __name__ == "__main__":

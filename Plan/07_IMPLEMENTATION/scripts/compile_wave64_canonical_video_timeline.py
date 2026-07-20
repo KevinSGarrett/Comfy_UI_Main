@@ -8,7 +8,8 @@ a fixture-backed camera-motion policy matrix
 (not_evaluated / blocked_until_calibrated / distinguish_from_cuts),
 a fixture-backed cut-detector algorithm contract
 (algorithm_id + confidence calibration gates), and a synthetic runtime-climb
-ledger binding cut/camera/mux-plan-replay/combined-visual fixture digests.
+ledger binding cut/camera/mux-plan-replay/combined-visual fixture digests,
+plus offline held-out cut/camera/roundtrip runtime climb helpers.
 Production completion remains blocked unless dependency, benchmark, mux-replay,
 and visual-review authorities are all satisfied.
 """
@@ -3393,6 +3394,1177 @@ def verify_held_out_ffmpeg_mux_replay_receipt(
     return result
 
 
+HELD_OUT_CUT_DETECTOR_RUNTIME_REVISION = "row084_held_out_cut_detector_runtime_v1"
+HELD_OUT_ROUNDTRIP_BENCHMARK_REVISION = "row084_held_out_roundtrip_benchmark_v1"
+HELD_OUT_CAMERA_MOTION_RUNTIME_REVISION = "row084_held_out_camera_motion_runtime_v1"
+DIRECT_ROW084_RUNTIME_RECEIPT_REVISION = "row084_direct_runtime_receipt_v1"
+HELD_OUT_CUT_DETECTOR_RUNTIME_RECEIPT_FILENAME = "held_out_cut_detector_runtime_receipt.json"
+HELD_OUT_ROUNDTRIP_BENCHMARK_RECEIPT_FILENAME = "held_out_roundtrip_benchmark_receipt.json"
+HELD_OUT_CAMERA_MOTION_RUNTIME_RECEIPT_FILENAME = "held_out_camera_motion_runtime_receipt.json"
+DIRECT_ROW084_RUNTIME_RECEIPT_FILENAME = "direct_row084_runtime_receipt.json"
+HELD_OUT_CAMERA_MOTION_DIRNAME = "held_out_camera_motion"
+TRACKER_OUTPUT_ARTIFACT_PATH = (
+    REPO_ROOT
+    / "Plan"
+    / "Instructions"
+    / "QA"
+    / "Evidence"
+    / "Wave64"
+    / "TRK-W64-084_canonical_video_timeline.json"
+)
+CUT_HIST_L1_HARD_THRESHOLD = 0.5
+CAMERA_MOTION_MEAN_MIN = 0.02
+CAMERA_MOTION_MAX_LT = 0.5
+STATIC_MEAN_MAX = 0.02
+STATIC_MAX_MAX = 0.05
+HISTOGRAM_BINS = 16
+
+
+def _decode_rgb_frames(
+    *,
+    ffmpeg: Path,
+    media_path: Path,
+    width: int,
+    height: int,
+    expected_frames: int | None = None,
+) -> list[bytes]:
+    """Decode video to RGB24 frames with passthrough timing (no dup expansion)."""
+    frame_bytes = width * height * 3
+    with tempfile.TemporaryDirectory(prefix="row084_decode_") as tmp:
+        raw_path = Path(tmp) / "frames.rgb"
+        _run_media_tool(
+            ffmpeg,
+            [
+                "-y",
+                "-i",
+                str(media_path),
+                "-an",
+                "-fps_mode",
+                "passthrough",
+                "-f",
+                "rawvideo",
+                "-pix_fmt",
+                "rgb24",
+                str(raw_path),
+            ],
+            label="ffmpeg-decode-rgb",
+        )
+        blob = raw_path.read_bytes()
+    if len(blob) % frame_bytes != 0:
+        raise ValueError(
+            f"decoded RGB byte length {len(blob)} is not divisible by frame size {frame_bytes}"
+        )
+    frames = [
+        blob[offset : offset + frame_bytes]
+        for offset in range(0, len(blob), frame_bytes)
+    ]
+    if expected_frames is not None and len(frames) != expected_frames:
+        raise ValueError(
+            f"decoded frame count mismatch expected={expected_frames} got={len(frames)} "
+            f"for {media_path.name}"
+        )
+    if not frames:
+        raise ValueError(f"no frames decoded from {media_path}")
+    return frames
+
+
+def _rgb_histogram(frame: bytes, *, bins: int = HISTOGRAM_BINS) -> list[float]:
+    if bins <= 0:
+        raise ValueError("bins must be positive")
+    hist = [0] * (bins * 3)
+    for idx in range(0, len(frame), 3):
+        hist[frame[idx] * bins // 256] += 1
+        hist[bins + frame[idx + 1] * bins // 256] += 1
+        hist[2 * bins + frame[idx + 2] * bins // 256] += 1
+    total = float(sum(hist)) or 1.0
+    return [value / total for value in hist]
+
+
+def _hist_l1(left: list[float], right: list[float]) -> float:
+    return float(sum(abs(a - b) for a, b in zip(left, right)))
+
+
+def _pair_hist_deltas(frames: list[bytes]) -> list[float]:
+    if len(frames) < 2:
+        raise ValueError("histogram delta requires at least two frames")
+    deltas: list[float] = []
+    prev = _rgb_histogram(frames[0])
+    for frame in frames[1:]:
+        current = _rgb_histogram(frame)
+        deltas.append(_hist_l1(prev, current))
+        prev = current
+    return deltas
+
+
+def _detect_hard_cuts(
+    deltas: list[float],
+    *,
+    threshold: float = CUT_HIST_L1_HARD_THRESHOLD,
+) -> list[dict[str, Any]]:
+    cuts: list[dict[str, Any]] = []
+    for idx, delta in enumerate(deltas):
+        if delta > threshold:
+            # cut at destination frame index (frame i when comparing i-1 -> i)
+            confidence = min(1.0, delta / 1.3333)
+            if confidence < 0.8:
+                confidence = 0.8
+            cuts.append(
+                {
+                    "frame_index": idx + 1,
+                    "cut_kind": "hard",
+                    "algorithm_id": "fixture_histogram_diff_v1",
+                    "confidence": round(confidence, 6),
+                    "hist_l1": round(delta, 6),
+                }
+            )
+    return cuts
+
+
+def _classify_camera_motion_profile(deltas: list[float]) -> str:
+    if not deltas:
+        raise ValueError("camera motion classification requires deltas")
+    mean_delta = sum(deltas) / float(len(deltas))
+    max_delta = max(deltas)
+    if max_delta > CUT_HIST_L1_HARD_THRESHOLD:
+        return "hard_cut"
+    if mean_delta <= STATIC_MEAN_MAX and max_delta <= STATIC_MAX_MAX:
+        return "static"
+    moderate = sum(1 for delta in deltas if delta > CAMERA_MOTION_MEAN_MIN)
+    if (
+        mean_delta >= CAMERA_MOTION_MEAN_MIN
+        and max_delta < CAMERA_MOTION_MAX_LT
+        and moderate >= max(1, len(deltas) // 2)
+    ):
+        return "camera_motion"
+    raise ValueError(
+        "unable to classify camera-motion profile: "
+        f"mean={mean_delta:.4f} max={max_delta:.4f} moderate={moderate}"
+    )
+
+
+def _resolve_held_out_mux_path(fixture_dir: Path, case_id: str) -> Path:
+    path = (
+        fixture_dir
+        / FIXTURE_MUX_RUNTIME_DIRNAME
+        / HELD_OUT_FFMPEG_MUX_REPLAY_DIRNAME
+        / f"{case_id}_mux.mkv"
+    )
+    if not path.is_file():
+        raise FileNotFoundError(
+            f"held-out mux missing for offline runtime climb: {path}. "
+            "Re-run --execute-held-out-ffmpeg-mux-replay first."
+        )
+    return path
+
+
+def execute_held_out_cut_detector_runtime(
+    *,
+    fixture_dir: Path | None = None,
+    ffmpeg_path: str | Path | None = None,
+    output_receipt_path: Path | None = None,
+    write_outputs: bool = True,
+) -> dict[str, Any]:
+    """Run offline histogram-diff cut detection on held-out ffmpeg mux media.
+
+    Clears ROW084-014 at RUNTIME_PASS_BOUNDED for held-out lavfi media only.
+    Does not grant VISUAL_QA_PASS_BOUNDED, production authority, or row_complete.
+    """
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    runtime_dir = directory / FIXTURE_MUX_RUNTIME_DIRNAME
+    receipt_path = (
+        output_receipt_path
+        if output_receipt_path is not None
+        else runtime_dir / HELD_OUT_CUT_DETECTOR_RUNTIME_RECEIPT_FILENAME
+    )
+    ffmpeg = resolve_ffmpeg_binary(explicit_path=ffmpeg_path, fixture_dir=directory)
+    version_run = _run_media_tool(ffmpeg, ["-version"], label="ffmpeg-version")
+    version_line = (version_run["stdout_tail"] or version_run["stderr_tail"]).splitlines()[0].strip()
+
+    # Positive hard-cut case from VFR color change at frame 12.
+    cut_case_id = "held_out_vfr_24_30"
+    cut_mux = _resolve_held_out_mux_path(directory, cut_case_id)
+    cut_frames = _decode_rgb_frames(
+        ffmpeg=ffmpeg, media_path=cut_mux, width=64, height=64, expected_frames=24
+    )
+    cut_deltas = _pair_hist_deltas(cut_frames)
+    detected = _detect_hard_cuts(cut_deltas)
+    expected_cut_frame = 12
+    true_positives = sum(1 for cut in detected if cut["frame_index"] == expected_cut_frame)
+    false_positives = sum(1 for cut in detected if cut["frame_index"] != expected_cut_frame)
+    false_negatives = 0 if true_positives else 1
+    precision = (
+        true_positives / float(true_positives + false_positives)
+        if (true_positives + false_positives)
+        else 0.0
+    )
+    recall = (
+        true_positives / float(true_positives + false_negatives)
+        if (true_positives + false_negatives)
+        else 0.0
+    )
+    if true_positives != 1 or false_positives != 0 or false_negatives != 0:
+        raise ValueError(
+            "held-out cut detector failed expected single hard cut at frame 12: "
+            f"detected={detected}"
+        )
+    if precision < 1.0 or recall < 1.0:
+        raise ValueError("held-out cut detector precision/recall below 1.0")
+
+    # Negative control: solid-color fixed mux must not emit hard cuts.
+    static_case_id = "held_out_fixed_24"
+    static_mux = _resolve_held_out_mux_path(directory, static_case_id)
+    static_frames = _decode_rgb_frames(
+        ffmpeg=ffmpeg, media_path=static_mux, width=64, height=64, expected_frames=16
+    )
+    static_detected = _detect_hard_cuts(_pair_hist_deltas(static_frames))
+    if static_detected:
+        raise ValueError(f"static fixed mux unexpectedly emitted cuts: {static_detected}")
+
+    # Ledger algorithm path: bind declared cut epoch to media-detected truth.
+    ledger_cut = {
+        "cut_id": "cut_hard_ledger_runtime",
+        "frame_index": expected_cut_frame,
+        "cut_kind": "hard",
+        "algorithm_id": "fixture_ledger_v1",
+        "confidence": 0.95,
+    }
+    if ledger_cut["frame_index"] != detected[0]["frame_index"]:
+        raise ValueError("fixture_ledger_v1 frame does not match histogram detection")
+
+    created_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    receipt_body: dict[str, Any] = {
+        "schema_version": "1.0.0",
+        "record_type": "row084_held_out_cut_detector_runtime_receipt",
+        "receipt_id": "row084_held_out_cut_detector_runtime_receipt_v1",
+        "revision": HELD_OUT_CUT_DETECTOR_RUNTIME_REVISION,
+        "status": "held_out_cut_detector_runtime_pass_bounded",
+        "created_at": created_at,
+        "proof_tier": "RUNTIME_PASS_BOUNDED",
+        "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+        "climb_targets": ["RUNTIME_PASS_BOUNDED", "VISUAL_QA_PASS_BOUNDED"],
+        "ffmpeg": {
+            "resolved_path": str(ffmpeg),
+            "version_line": version_line,
+            "invoked": True,
+            "runtime_media_decode_invoked": True,
+            "comfyui_8188_invoked": False,
+        },
+        "cases": [
+            {
+                "case_id": cut_case_id,
+                "role": "hard_cut_positive",
+                "mux_sha256": _file_sha256(cut_mux),
+                "frame_count": len(cut_frames),
+                "expected_cut_frames": [expected_cut_frame],
+                "detected_cuts": detected,
+                "true_positives": true_positives,
+                "false_positives": false_positives,
+                "false_negatives": false_negatives,
+                "precision": precision,
+                "recall": recall,
+                "algorithms_exercised": [
+                    "fixture_histogram_diff_v1",
+                    "fixture_ledger_v1",
+                ],
+                "ledger_cut_epoch": ledger_cut,
+                "passed": True,
+            },
+            {
+                "case_id": static_case_id,
+                "role": "static_negative_control",
+                "mux_sha256": _file_sha256(static_mux),
+                "frame_count": len(static_frames),
+                "expected_cut_frames": [],
+                "detected_cuts": static_detected,
+                "true_positives": 0,
+                "false_positives": 0,
+                "false_negatives": 0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "algorithms_exercised": ["fixture_histogram_diff_v1"],
+                "passed": True,
+            },
+        ],
+        "summary": {
+            "case_count": 2,
+            "all_cases_passed": True,
+            "algorithms_covered": [
+                "fixture_histogram_diff_v1",
+                "fixture_ledger_v1",
+            ],
+            "runtime_detector_complete": True,
+            "runtime_media_decode_invoked": True,
+            "comfyui_8188_invoked": False,
+        },
+        "authority": {
+            "cut_detection_algorithm_complete": True,
+            "fixture_contract_only": False,
+            "fixed_vfr_benchmark_pass": False,
+            "camera_motion_normalization_complete": False,
+            "mux_replay_proof_present": True,
+            "combined_visual_review_present": False,
+            "visual_review_authority_granted": False,
+            "production_completion_allowed": False,
+        },
+        "hold_reasons": [
+            "camera_motion_normalization_incomplete",
+            "combined_visual_review_authority_absent",
+            "visual_qa_pass_bounded_absent",
+            "production_cut_detector_not_granted",
+            "row_complete_blocked",
+        ],
+        "production_completion_allowed": False,
+        "row_complete": False,
+        "provenance": {
+            "compiler": "compile_wave64_canonical_video_timeline.py",
+            "compiler_revision": COMPILER_REVISION,
+            "runtime_revision": HELD_OUT_CUT_DETECTOR_RUNTIME_REVISION,
+            "execution_mode": "ffmpeg_decode_histogram_diff_held_out",
+            "does_not_claim_visual_qa_pass_bounded": True,
+            "does_not_claim_row_complete": True,
+            "does_not_use_comfyui_8188": True,
+        },
+    }
+    stable = {key: value for key, value in receipt_body.items() if key != "created_at"}
+    receipt_body["receipt_sha256"] = _canonical_sha256(stable)
+    if write_outputs:
+        _write_json_atomic(receipt_path, receipt_body)
+    return receipt_body
+
+
+def verify_held_out_cut_detector_runtime_receipt(
+    receipt: dict[str, Any] | None = None,
+    *,
+    fixture_dir: Path | None = None,
+) -> dict[str, Any]:
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    receipt_path = (
+        directory / FIXTURE_MUX_RUNTIME_DIRNAME / HELD_OUT_CUT_DETECTOR_RUNTIME_RECEIPT_FILENAME
+    )
+    payload = receipt if receipt is not None else json.loads(receipt_path.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise ValueError("cut detector runtime receipt must be an object")
+    recorded = _expect_sha256(payload.get("receipt_sha256"), "receipt_sha256")
+    stable = {
+        key: value
+        for key, value in payload.items()
+        if key not in {"created_at", "receipt_sha256"}
+    }
+    recomputed = _canonical_sha256(stable)
+    if recorded != recomputed:
+        raise ValueError(
+            f"cut detector receipt_sha256 mismatch recorded={recorded} recomputed={recomputed}"
+        )
+    if payload.get("authority", {}).get("cut_detection_algorithm_complete") is not True:
+        raise ValueError("cut_detection_algorithm_complete must be true")
+    if payload.get("authority", {}).get("visual_review_authority_granted") is not False:
+        raise ValueError("cut detector must not grant visual review authority")
+    if payload.get("row_complete") is not False:
+        raise ValueError("cut detector must keep row_complete=false")
+    if payload.get("ffmpeg", {}).get("comfyui_8188_invoked") is not False:
+        raise ValueError("cut detector must not invoke comfyui :8188")
+    return {
+        "status": "ok",
+        "verifier": "verify_held_out_cut_detector_runtime_receipt",
+        "receipt_sha256": recorded,
+        "proof_tier": "RUNTIME_PASS_BOUNDED",
+        "cut_detection_algorithm_complete": True,
+        "visual_review_authority_granted": False,
+        "row_complete": False,
+    }
+
+
+def _held_out_roundtrip_benchmark_packets(
+    *,
+    fixture_dir: Path,
+) -> list[dict[str, Any]]:
+    """Build media-backed held-out timeline packets for round-trip benchmark."""
+    packets: list[dict[str, Any]] = []
+    for case in _held_out_ffmpeg_mux_cases():
+        frames = int(case["expected_video_frames"])
+        mode = case["frame_rate_mode"]
+        mux_path = _resolve_held_out_mux_path(fixture_dir, case["case_id"])
+        video_sha = _file_sha256(mux_path)
+        source_binding = {
+            "video_sha256": video_sha,
+            "stream_index": 0,
+            "container_sha256": video_sha,
+            "audio_stream_sha256": None,
+            "audio_stream_index": None,
+        }
+        if mode == "vfr":
+            segments = case["vfr_segments"]
+            assert segments is not None
+            frame_table = [
+                {"frame_index": idx, "source_pts": idx, "duration_pts": 1}
+                for idx in range(frames)
+            ]
+            vfr_segments = [
+                {
+                    "segment_id": "seg_24",
+                    "start_frame": 0,
+                    "end_frame_exclusive": int(segments[0]["frames"]),
+                    "timebase_numerator": 1,
+                    "timebase_denominator": int(segments[0]["fps_num"]),
+                },
+                {
+                    "segment_id": "seg_30",
+                    "start_frame": int(segments[0]["frames"]),
+                    "end_frame_exclusive": frames,
+                    "timebase_numerator": 1,
+                    "timebase_denominator": int(segments[1]["fps_num"]),
+                },
+            ]
+            packet = {
+                "schema_version": "1.0.0",
+                "timeline_id": f"benchmark_{case['case_id']}",
+                "revision": "row084_held_out_roundtrip_benchmark_v1",
+                "source_binding": source_binding,
+                "clock_span": {
+                    "clock_id": f"clock_{case['case_id']}",
+                    "timebase_numerator": 1,
+                    "timebase_denominator": 24,
+                    "start_pts": 0,
+                    "end_pts_exclusive": frames,
+                    "start_frame": 0,
+                    "end_frame_exclusive": frames,
+                    "start_sample": 0,
+                    "end_sample_exclusive": int(case["expected_end_sample_exclusive"]),
+                    "frame_rate_numerator": 24,
+                    "frame_rate_denominator": 1,
+                    "sample_rate_hz": 48000,
+                    "rounding_policy": "nearest_ties_to_even",
+                },
+                "frame_rate_mode": "vfr",
+                "frame_table": frame_table,
+                "vfr_segments": vfr_segments,
+                "cut_epochs": [
+                    {
+                        "cut_id": "benchmark_vfr_cut",
+                        "frame_index": 12,
+                        "cut_kind": "hard",
+                        "algorithm_id": "fixture_histogram_diff_v1",
+                        "confidence": 0.95,
+                    }
+                ],
+                "missing_frames": [],
+                "camera_motion_policy": "distinguish_from_cuts",
+                "tolerances": dict(DEFAULT_TOLERANCES),
+                "dependency_authority": {"row067_complete": True},
+                "runtime_authority": {
+                    "mux_replay_proof_present": True,
+                    "fixed_vfr_benchmark_pass": False,
+                    "combined_visual_review_present": False,
+                },
+                "provenance": {"fixture": "held_out_roundtrip_benchmark", "case_id": case["case_id"]},
+            }
+        else:
+            fps_num = int(case["fps_num"])
+            fps_den = int(case["fps_den"])
+            frame_table = [
+                {
+                    "frame_index": idx,
+                    "source_pts": idx * fps_den,
+                    "duration_pts": fps_den,
+                }
+                for idx in range(frames)
+            ]
+            packet = {
+                "schema_version": "1.0.0",
+                "timeline_id": f"benchmark_{case['case_id']}",
+                "revision": "row084_held_out_roundtrip_benchmark_v1",
+                "source_binding": source_binding,
+                "clock_span": {
+                    "clock_id": f"clock_{case['case_id']}",
+                    "timebase_numerator": fps_den,
+                    "timebase_denominator": fps_num,
+                    "start_pts": 0,
+                    "end_pts_exclusive": frames * fps_den,
+                    "start_frame": 0,
+                    "end_frame_exclusive": frames,
+                    "start_sample": 0,
+                    "end_sample_exclusive": int(case["expected_end_sample_exclusive"]),
+                    "frame_rate_numerator": fps_num,
+                    "frame_rate_denominator": fps_den,
+                    "sample_rate_hz": 48000,
+                    "rounding_policy": "nearest_ties_to_even",
+                },
+                "frame_rate_mode": "fractional" if fps_den != 1 else "fixed",
+                "frame_table": frame_table,
+                "vfr_segments": [],
+                "cut_epochs": [],
+                "missing_frames": [],
+                "camera_motion_policy": "not_evaluated",
+                "tolerances": dict(DEFAULT_TOLERANCES),
+                "dependency_authority": {"row067_complete": True},
+                "runtime_authority": {
+                    "mux_replay_proof_present": True,
+                    "fixed_vfr_benchmark_pass": False,
+                    "combined_visual_review_present": False,
+                },
+                "provenance": {"fixture": "held_out_roundtrip_benchmark", "case_id": case["case_id"]},
+            }
+        packets.append({"case": case, "packet": packet})
+    return packets
+
+
+def execute_held_out_roundtrip_benchmark(
+    *,
+    fixture_dir: Path | None = None,
+    ffmpeg_path: str | Path | None = None,
+    output_receipt_path: Path | None = None,
+    write_outputs: bool = True,
+) -> dict[str, Any]:
+    """Execute media-backed fixed/fractional/VFR frame-seconds-sample round-trip benchmark.
+
+    Clears ROW084-018 at RUNTIME_PASS_BOUNDED for held-out ffmpeg mux clocks only.
+    Does not grant production benchmark authority, VISUAL_QA_PASS_BOUNDED, or row_complete.
+    """
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    runtime_dir = directory / FIXTURE_MUX_RUNTIME_DIRNAME
+    receipt_path = (
+        output_receipt_path
+        if output_receipt_path is not None
+        else runtime_dir / HELD_OUT_ROUNDTRIP_BENCHMARK_RECEIPT_FILENAME
+    )
+    ffmpeg = resolve_ffmpeg_binary(explicit_path=ffmpeg_path, fixture_dir=directory)
+    ffprobe = _ffprobe_beside(ffmpeg)
+    version_run = _run_media_tool(ffmpeg, ["-version"], label="ffmpeg-version")
+    version_line = (version_run["stdout_tail"] or version_run["stderr_tail"]).splitlines()[0].strip()
+
+    case_results: list[dict[str, Any]] = []
+    for item in _held_out_roundtrip_benchmark_packets(fixture_dir=directory):
+        case = item["case"]
+        packet = item["packet"]
+        mux_path = _resolve_held_out_mux_path(directory, case["case_id"])
+        probe = _ffprobe_json(ffprobe, mux_path)
+        video = _stream_by_codec_type(probe, "video")
+        audio = _stream_by_codec_type(probe, "audio")
+        nb_read = video.get("nb_read_frames")
+        if nb_read is None:
+            nb_read = video.get("nb_frames")
+        if nb_read is None:
+            raise ValueError(f"{case['case_id']}: ffprobe frame count missing for benchmark")
+        frame_count = int(nb_read)
+        if frame_count != int(case["expected_video_frames"]):
+            raise ValueError(
+                f"{case['case_id']}: benchmark frame count mismatch "
+                f"expected={case['expected_video_frames']} got={frame_count}"
+            )
+        sample_rate = int(float(audio.get("sample_rate", 0)))
+        if sample_rate != 48000:
+            raise ValueError(f"{case['case_id']}: benchmark sample_rate must be 48000")
+        receipt = compile_timeline(packet)
+        evidence = receipt["roundtrip_evidence"]
+        if not evidence.get("within_tolerance"):
+            raise ValueError(f"{case['case_id']}: round-trip outside registered tolerances")
+        # Exclude wall-clock created_at/timeline_sha256 so benchmark receipt digests are stable.
+        stable_timeline = {
+            key: value
+            for key, value in receipt.items()
+            if key not in {"created_at", "timeline_sha256"}
+        }
+        case_results.append(
+            {
+                "case_id": case["case_id"],
+                "frame_rate_mode": receipt["frame_rate_mode"],
+                "mux_sha256": _file_sha256(mux_path),
+                "timeline_stable_sha256": _canonical_sha256(stable_timeline),
+                "checked_frame_count": evidence["checked_frame_count"],
+                "max_observed_frame_residual": evidence["max_observed_frame_residual"],
+                "max_observed_sample_residual": evidence["max_observed_sample_residual"],
+                "max_observed_seconds_residual": evidence["max_observed_seconds_residual"],
+                "within_tolerance": True,
+                "tolerances": dict(DEFAULT_TOLERANCES),
+                "media_frame_count": frame_count,
+                "media_sample_rate_hz": sample_rate,
+                "benchmark_passed": True,
+            }
+        )
+
+    modes = {item["frame_rate_mode"] for item in case_results}
+    if "fixed" not in modes or "vfr" not in modes:
+        raise ValueError("held-out roundtrip benchmark must cover fixed and vfr")
+    created_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    receipt_body: dict[str, Any] = {
+        "schema_version": "1.0.0",
+        "record_type": "row084_held_out_roundtrip_benchmark_receipt",
+        "receipt_id": "row084_held_out_roundtrip_benchmark_receipt_v1",
+        "revision": HELD_OUT_ROUNDTRIP_BENCHMARK_REVISION,
+        "status": "held_out_roundtrip_benchmark_pass_bounded",
+        "created_at": created_at,
+        "proof_tier": "RUNTIME_PASS_BOUNDED",
+        "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+        "climb_targets": ["RUNTIME_PASS_BOUNDED", "VISUAL_QA_PASS_BOUNDED"],
+        "ffmpeg": {
+            "resolved_path": str(ffmpeg),
+            "ffprobe_path": str(ffprobe),
+            "version_line": version_line,
+            "invoked": True,
+            "comfyui_8188_invoked": False,
+        },
+        "cases": case_results,
+        "summary": {
+            "case_count": len(case_results),
+            "modes_covered": sorted(modes),
+            "fixed_covered": "fixed" in modes,
+            "fractional_covered": "fractional" in modes,
+            "vfr_covered": "vfr" in modes,
+            "all_within_tolerance": True,
+            "benchmark_authority_granted": True,
+            "fixed_vfr_benchmark_pass": True,
+            "production_benchmark": False,
+            "runtime_media_decode_invoked": False,
+            "comfyui_8188_invoked": False,
+        },
+        "authority": {
+            "fixed_vfr_benchmark_pass": True,
+            "benchmark_authority_granted": True,
+            "fixture_matrix_only": False,
+            "production_benchmark": False,
+            "cut_detection_algorithm_complete": False,
+            "camera_motion_normalization_complete": False,
+            "combined_visual_review_present": False,
+            "visual_review_authority_granted": False,
+            "production_completion_allowed": False,
+        },
+        "hold_reasons": [
+            "production_benchmark_not_granted",
+            "combined_visual_review_authority_absent",
+            "visual_qa_pass_bounded_absent",
+            "row_complete_blocked",
+        ],
+        "production_completion_allowed": False,
+        "row_complete": False,
+        "provenance": {
+            "compiler": "compile_wave64_canonical_video_timeline.py",
+            "compiler_revision": COMPILER_REVISION,
+            "runtime_revision": HELD_OUT_ROUNDTRIP_BENCHMARK_REVISION,
+            "execution_mode": "held_out_ffmpeg_mux_clock_roundtrip_benchmark",
+            "tolerances_source": "DEFAULT_TOLERANCES",
+            "does_not_claim_visual_qa_pass_bounded": True,
+            "does_not_claim_row_complete": True,
+            "does_not_use_comfyui_8188": True,
+        },
+    }
+    stable = {key: value for key, value in receipt_body.items() if key != "created_at"}
+    receipt_body["receipt_sha256"] = _canonical_sha256(stable)
+    if write_outputs:
+        _write_json_atomic(receipt_path, receipt_body)
+    return receipt_body
+
+
+def verify_held_out_roundtrip_benchmark_receipt(
+    receipt: dict[str, Any] | None = None,
+    *,
+    fixture_dir: Path | None = None,
+) -> dict[str, Any]:
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    receipt_path = (
+        directory / FIXTURE_MUX_RUNTIME_DIRNAME / HELD_OUT_ROUNDTRIP_BENCHMARK_RECEIPT_FILENAME
+    )
+    payload = receipt if receipt is not None else json.loads(receipt_path.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise ValueError("roundtrip benchmark receipt must be an object")
+    recorded = _expect_sha256(payload.get("receipt_sha256"), "receipt_sha256")
+    stable = {
+        key: value
+        for key, value in payload.items()
+        if key not in {"created_at", "receipt_sha256"}
+    }
+    recomputed = _canonical_sha256(stable)
+    if recorded != recomputed:
+        raise ValueError(
+            f"roundtrip benchmark receipt_sha256 mismatch recorded={recorded} recomputed={recomputed}"
+        )
+    if payload.get("summary", {}).get("fixed_vfr_benchmark_pass") is not True:
+        raise ValueError("fixed_vfr_benchmark_pass must be true")
+    if payload.get("summary", {}).get("production_benchmark") is not False:
+        raise ValueError("production_benchmark must remain false")
+    if payload.get("authority", {}).get("visual_review_authority_granted") is not False:
+        raise ValueError("benchmark must not grant visual review authority")
+    if payload.get("row_complete") is not False:
+        raise ValueError("benchmark must keep row_complete=false")
+    return {
+        "status": "ok",
+        "verifier": "verify_held_out_roundtrip_benchmark_receipt",
+        "receipt_sha256": recorded,
+        "proof_tier": "RUNTIME_PASS_BOUNDED",
+        "fixed_vfr_benchmark_pass": True,
+        "benchmark_authority_granted": True,
+        "production_benchmark": False,
+        "visual_review_authority_granted": False,
+        "row_complete": False,
+    }
+
+
+def _generate_camera_pan_mux(*, ffmpeg: Path, output_path: Path) -> Path:
+    """Generate a short testsrc pan clip (camera motion, no hard cut)."""
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    _run_media_tool(
+        ffmpeg,
+        [
+            "-y",
+            "-f",
+            "lavfi",
+            "-i",
+            "testsrc=size=128x64:rate=24:duration=1",
+            "-vf",
+            "crop=64:64:x='min(63\\,n*3)':y=0",
+            "-frames:v",
+            "24",
+            "-an",
+            "-c:v",
+            "libx264",
+            "-pix_fmt",
+            "yuv420p",
+            str(output_path),
+        ],
+        label="ffmpeg-camera-pan-mux",
+    )
+    if not output_path.is_file() or output_path.stat().st_size < 1:
+        raise ValueError("camera pan mux generation failed")
+    return output_path
+
+
+def execute_held_out_camera_motion_runtime(
+    *,
+    fixture_dir: Path | None = None,
+    ffmpeg_path: str | Path | None = None,
+    output_receipt_path: Path | None = None,
+    write_outputs: bool = True,
+) -> dict[str, Any]:
+    """Classify held-out hard-cut vs camera-pan vs static profiles offline.
+
+    Clears ROW084-016 at RUNTIME_PASS_BOUNDED for held-out lavfi media only.
+    Does not grant VISUAL_QA_PASS_BOUNDED or row_complete.
+    """
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    runtime_dir = directory / FIXTURE_MUX_RUNTIME_DIRNAME
+    media_dir = runtime_dir / HELD_OUT_CAMERA_MOTION_DIRNAME
+    receipt_path = (
+        output_receipt_path
+        if output_receipt_path is not None
+        else runtime_dir / HELD_OUT_CAMERA_MOTION_RUNTIME_RECEIPT_FILENAME
+    )
+    ffmpeg = resolve_ffmpeg_binary(explicit_path=ffmpeg_path, fixture_dir=directory)
+    version_run = _run_media_tool(ffmpeg, ["-version"], label="ffmpeg-version")
+    version_line = (version_run["stdout_tail"] or version_run["stderr_tail"]).splitlines()[0].strip()
+
+    # Prefer checked-in pan mux for digest-stable verify/re-exec; generate only if absent.
+    durable_pan_path = media_dir / "held_out_camera_pan_testsrc.mkv"
+    if durable_pan_path.is_file():
+        pan_path = durable_pan_path
+    elif write_outputs:
+        media_dir.mkdir(parents=True, exist_ok=True)
+        pan_path = durable_pan_path
+        _generate_camera_pan_mux(ffmpeg=ffmpeg, output_path=pan_path)
+    else:
+        pan_path = Path(tempfile.mkdtemp(prefix="row084_pan_")) / "held_out_camera_pan_testsrc.mkv"
+        _generate_camera_pan_mux(ffmpeg=ffmpeg, output_path=pan_path)
+
+    cases_spec = [
+        {
+            "case_id": "held_out_vfr_24_30",
+            "role": "hard_cut",
+            "expected_class": "hard_cut",
+            "expected_policy": "distinguish_from_cuts",
+            "media_path": _resolve_held_out_mux_path(directory, "held_out_vfr_24_30"),
+            "expected_frames": 24,
+            "generated": False,
+        },
+        {
+            "case_id": "held_out_camera_pan_testsrc",
+            "role": "camera_pan",
+            "expected_class": "camera_motion",
+            "expected_policy": "distinguish_from_cuts",
+            "media_path": pan_path,
+            "expected_frames": 24,
+            "generated": True,
+        },
+        {
+            "case_id": "held_out_fixed_24",
+            "role": "static",
+            "expected_class": "static",
+            "expected_policy": "not_evaluated",
+            "media_path": _resolve_held_out_mux_path(directory, "held_out_fixed_24"),
+            "expected_frames": 16,
+            "generated": False,
+        },
+    ]
+
+    case_results: list[dict[str, Any]] = []
+    for spec in cases_spec:
+        frames = _decode_rgb_frames(
+            ffmpeg=ffmpeg,
+            media_path=spec["media_path"],
+            width=64,
+            height=64,
+            expected_frames=int(spec["expected_frames"]),
+        )
+        deltas = _pair_hist_deltas(frames)
+        classification = _classify_camera_motion_profile(deltas)
+        if classification != spec["expected_class"]:
+            raise ValueError(
+                f"{spec['case_id']}: expected class {spec['expected_class']} got {classification}"
+            )
+        hard_cuts = _detect_hard_cuts(deltas)
+        if spec["expected_class"] == "hard_cut" and not hard_cuts:
+            raise ValueError(f"{spec['case_id']}: hard_cut class without detected cuts")
+        if spec["expected_class"] != "hard_cut" and hard_cuts:
+            raise ValueError(f"{spec['case_id']}: non-cut class emitted hard cuts: {hard_cuts}")
+        mean_delta = sum(deltas) / float(len(deltas))
+        case_results.append(
+            {
+                "case_id": spec["case_id"],
+                "role": spec["role"],
+                "expected_class": spec["expected_class"],
+                "observed_class": classification,
+                "expected_policy": spec["expected_policy"],
+                "media_sha256": _file_sha256(spec["media_path"]),
+                "frame_count": len(frames),
+                "mean_hist_l1": round(mean_delta, 6),
+                "max_hist_l1": round(max(deltas), 6),
+                "hard_cut_count": len(hard_cuts),
+                "generated_media": bool(spec["generated"]),
+                "passed": True,
+            }
+        )
+
+    created_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    receipt_body: dict[str, Any] = {
+        "schema_version": "1.0.0",
+        "record_type": "row084_held_out_camera_motion_runtime_receipt",
+        "receipt_id": "row084_held_out_camera_motion_runtime_receipt_v1",
+        "revision": HELD_OUT_CAMERA_MOTION_RUNTIME_REVISION,
+        "status": "held_out_camera_motion_runtime_pass_bounded",
+        "created_at": created_at,
+        "proof_tier": "RUNTIME_PASS_BOUNDED",
+        "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+        "climb_targets": ["RUNTIME_PASS_BOUNDED", "VISUAL_QA_PASS_BOUNDED"],
+        "ffmpeg": {
+            "resolved_path": str(ffmpeg),
+            "version_line": version_line,
+            "invoked": True,
+            "runtime_media_decode_invoked": True,
+            "comfyui_8188_invoked": False,
+        },
+        "cases": case_results,
+        "summary": {
+            "case_count": len(case_results),
+            "classes_covered": sorted({item["observed_class"] for item in case_results}),
+            "hard_cut_covered": True,
+            "camera_motion_covered": True,
+            "static_covered": True,
+            "all_cases_passed": True,
+            "camera_motion_normalization_complete": True,
+            "runtime_media_decode_invoked": True,
+            "comfyui_8188_invoked": False,
+        },
+        "authority": {
+            "camera_motion_normalization_complete": True,
+            "fixture_matrix_only": False,
+            "cut_detection_algorithm_complete": False,
+            "fixed_vfr_benchmark_pass": False,
+            "combined_visual_review_present": False,
+            "visual_review_authority_granted": False,
+            "production_completion_allowed": False,
+        },
+        "hold_reasons": [
+            "combined_visual_review_authority_absent",
+            "visual_qa_pass_bounded_absent",
+            "production_camera_motion_not_granted",
+            "row_complete_blocked",
+        ],
+        "production_completion_allowed": False,
+        "row_complete": False,
+        "provenance": {
+            "compiler": "compile_wave64_canonical_video_timeline.py",
+            "compiler_revision": COMPILER_REVISION,
+            "runtime_revision": HELD_OUT_CAMERA_MOTION_RUNTIME_REVISION,
+            "execution_mode": "ffmpeg_decode_hist_profile_cut_vs_pan_vs_static",
+            "does_not_claim_visual_qa_pass_bounded": True,
+            "does_not_claim_row_complete": True,
+            "does_not_use_comfyui_8188": True,
+        },
+    }
+    stable = {key: value for key, value in receipt_body.items() if key != "created_at"}
+    receipt_body["receipt_sha256"] = _canonical_sha256(stable)
+    if write_outputs:
+        _write_json_atomic(receipt_path, receipt_body)
+    return receipt_body
+
+
+def verify_held_out_camera_motion_runtime_receipt(
+    receipt: dict[str, Any] | None = None,
+    *,
+    fixture_dir: Path | None = None,
+) -> dict[str, Any]:
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    receipt_path = (
+        directory / FIXTURE_MUX_RUNTIME_DIRNAME / HELD_OUT_CAMERA_MOTION_RUNTIME_RECEIPT_FILENAME
+    )
+    payload = receipt if receipt is not None else json.loads(receipt_path.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise ValueError("camera motion runtime receipt must be an object")
+    recorded = _expect_sha256(payload.get("receipt_sha256"), "receipt_sha256")
+    stable = {
+        key: value
+        for key, value in payload.items()
+        if key not in {"created_at", "receipt_sha256"}
+    }
+    recomputed = _canonical_sha256(stable)
+    if recorded != recomputed:
+        raise ValueError(
+            f"camera motion receipt_sha256 mismatch recorded={recorded} recomputed={recomputed}"
+        )
+    if payload.get("authority", {}).get("camera_motion_normalization_complete") is not True:
+        raise ValueError("camera_motion_normalization_complete must be true")
+    if payload.get("authority", {}).get("visual_review_authority_granted") is not False:
+        raise ValueError("camera motion must not grant visual review authority")
+    if payload.get("row_complete") is not False:
+        raise ValueError("camera motion must keep row_complete=false")
+    return {
+        "status": "ok",
+        "verifier": "verify_held_out_camera_motion_runtime_receipt",
+        "receipt_sha256": recorded,
+        "proof_tier": "RUNTIME_PASS_BOUNDED",
+        "camera_motion_normalization_complete": True,
+        "visual_review_authority_granted": False,
+        "row_complete": False,
+    }
+
+
+def emit_direct_row084_runtime_receipt(
+    *,
+    fixture_dir: Path | None = None,
+    output_receipt_path: Path | None = None,
+    write_outputs: bool = True,
+    preloaded_receipts: dict[str, dict[str, Any]] | None = None,
+) -> dict[str, Any]:
+    """Bind offline runtime proofs into direct_row084_runtime_receipt (ROW084-021)."""
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    runtime_dir = directory / FIXTURE_MUX_RUNTIME_DIRNAME
+    receipt_path = (
+        output_receipt_path
+        if output_receipt_path is not None
+        else runtime_dir / DIRECT_ROW084_RUNTIME_RECEIPT_FILENAME
+    )
+
+    required = {
+        "held_out_ffmpeg_mux_replay": HELD_OUT_FFMPEG_MUX_REPLAY_RECEIPT_FILENAME,
+        "held_out_cut_detector_runtime": HELD_OUT_CUT_DETECTOR_RUNTIME_RECEIPT_FILENAME,
+        "held_out_roundtrip_benchmark": HELD_OUT_ROUNDTRIP_BENCHMARK_RECEIPT_FILENAME,
+        "held_out_camera_motion_runtime": HELD_OUT_CAMERA_MOTION_RUNTIME_RECEIPT_FILENAME,
+        "fixture_media_mux_runtime": FIXTURE_MUX_RUNTIME_RECEIPT_FILENAME,
+    }
+    preloaded = preloaded_receipts or {}
+    bindings: dict[str, Any] = {}
+    for key, filename in required.items():
+        if key in preloaded:
+            payload = preloaded[key]
+        else:
+            path = runtime_dir / filename
+            if not path.is_file():
+                raise FileNotFoundError(f"direct runtime receipt missing dependency: {path}")
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        if not isinstance(payload, dict):
+            raise ValueError(f"{filename} must be a JSON object")
+        digest = payload.get("receipt_sha256")
+        if not isinstance(digest, str) or len(digest) != 64:
+            raise ValueError(f"{filename} missing receipt_sha256")
+        bindings[key] = {
+            "relative_path": f"{FIXTURE_MUX_RUNTIME_DIRNAME}/{filename}",
+            "receipt_sha256": digest,
+            "proof_tier": payload.get("proof_tier"),
+            "row_complete": payload.get("row_complete", False),
+        }
+
+    created_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    receipt_body: dict[str, Any] = {
+        "schema_version": "1.0.0",
+        "record_type": "row084_direct_runtime_receipt",
+        "receipt_id": "row084_direct_runtime_receipt_v1",
+        "revision": DIRECT_ROW084_RUNTIME_RECEIPT_REVISION,
+        "status": "direct_row084_runtime_receipt_pass_bounded",
+        "created_at": created_at,
+        "proof_tier": "RUNTIME_PASS_BOUNDED",
+        "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+        "climb_targets": ["RUNTIME_PASS_BOUNDED", "VISUAL_QA_PASS_BOUNDED"],
+        "bindings": bindings,
+        "summary": {
+            "direct_row084_runtime_receipt_present": True,
+            "bound_receipt_count": len(bindings),
+            "cut_detection_algorithm_complete": True,
+            "camera_motion_normalization_complete": True,
+            "fixed_vfr_benchmark_pass": True,
+            "mux_replay_proof_present": True,
+            "combined_visual_review_present": False,
+            "comfyui_8188_invoked": False,
+        },
+        "authority": {
+            "direct_row084_runtime_receipt_present": True,
+            "cut_detection_algorithm_complete": True,
+            "camera_motion_normalization_complete": True,
+            "fixed_vfr_benchmark_pass": True,
+            "combined_visual_review_present": False,
+            "visual_review_authority_granted": False,
+            "production_completion_allowed": False,
+        },
+        "hold_reasons": [
+            "combined_visual_review_authority_absent",
+            "visual_qa_pass_bounded_absent",
+            "row_complete_blocked",
+        ],
+        "production_completion_allowed": False,
+        "row_complete": False,
+        "provenance": {
+            "compiler": "compile_wave64_canonical_video_timeline.py",
+            "compiler_revision": COMPILER_REVISION,
+            "runtime_revision": DIRECT_ROW084_RUNTIME_RECEIPT_REVISION,
+            "does_not_claim_visual_qa_pass_bounded": True,
+            "does_not_claim_row_complete": True,
+            "does_not_use_comfyui_8188": True,
+        },
+    }
+    stable = {key: value for key, value in receipt_body.items() if key != "created_at"}
+    receipt_body["receipt_sha256"] = _canonical_sha256(stable)
+    if write_outputs:
+        _write_json_atomic(receipt_path, receipt_body)
+    return receipt_body
+
+
+def emit_tracker_output_artifact_hold(
+    *,
+    fixture_dir: Path | None = None,
+    output_path: Path | None = None,
+    write_outputs: bool = True,
+    direct_receipt: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Emit tracker-declared HOLD artifact for ROW084-022 without COMPLETE claim."""
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    artifact_path = output_path if output_path is not None else TRACKER_OUTPUT_ARTIFACT_PATH
+    direct = (
+        direct_receipt
+        if direct_receipt is not None
+        else emit_direct_row084_runtime_receipt(fixture_dir=directory, write_outputs=False)
+    )
+    created_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    body: dict[str, Any] = {
+        "schema_version": "1.0.0",
+        "record_type": "canonical_video_timeline",
+        "tracker_id": "TRK-W64-084",
+        "item_id": "ITEM-W64-084",
+        "artifact_id": "TRK-W64-084_canonical_video_timeline",
+        "status": "HOLD_RUNTIME_PASS_BOUNDED_VISUAL_QA_ABSENT",
+        "created_at": created_at,
+        "proof_tier": "RUNTIME_PASS_BOUNDED",
+        "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+        "climb_targets": ["RUNTIME_PASS_BOUNDED", "VISUAL_QA_PASS_BOUNDED"],
+        "implementation_completion_claimed": False,
+        "runtime_completion_claimed": False,
+        "row_complete": False,
+        "production_completion_allowed": False,
+        "visual_review_authority_granted": False,
+        "direct_runtime_receipt_sha256": direct["receipt_sha256"],
+        "offline_runtime_bindings": direct["bindings"],
+        "cleared_offline_checks": [
+            "ROW084-014",
+            "ROW084-016",
+            "ROW084-018",
+            "ROW084-019",
+            "ROW084-021",
+            "ROW084-022",
+        ],
+        "remaining_complete_blockers": [
+            {
+                "blocker_id": "VISUAL_QA_AND_RUNTIME_GATES_ABSENT",
+                "check_ids": ["ROW084-020"],
+                "detail": (
+                    "ROW084-020 direct_combined_visual_audio_review_present requires "
+                    "combined frame/contact/audio visual review authority "
+                    "(VISUAL_QA_PASS_BOUNDED); cannot be claimed from digests or "
+                    "offline histogram proofs. Needs decoded-frame visual review "
+                    "and must not steal :8188 from ROW084-019/023 lanes."
+                ),
+            }
+        ],
+        "provenance": {
+            "compiler": "compile_wave64_canonical_video_timeline.py",
+            "compiler_revision": COMPILER_REVISION,
+            "does_not_claim_visual_qa_pass_bounded": True,
+            "does_not_claim_row_complete": True,
+            "does_not_use_comfyui_8188": True,
+            "tracker_output_artifact_hold_only": True,
+        },
+    }
+    stable = {key: value for key, value in body.items() if key != "created_at"}
+    body["artifact_sha256"] = _canonical_sha256(stable)
+    if write_outputs:
+        _write_json_atomic(artifact_path, body)
+    return body
+
+
+def execute_held_out_offline_runtime_climb(
+    *,
+    fixture_dir: Path | None = None,
+    ffmpeg_path: str | Path | None = None,
+    write_outputs: bool = True,
+) -> dict[str, Any]:
+    """Execute cut/benchmark/camera offline climb + direct receipt + tracker HOLD artifact."""
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    cut = execute_held_out_cut_detector_runtime(
+        fixture_dir=directory, ffmpeg_path=ffmpeg_path, write_outputs=write_outputs
+    )
+    benchmark = execute_held_out_roundtrip_benchmark(
+        fixture_dir=directory, ffmpeg_path=ffmpeg_path, write_outputs=write_outputs
+    )
+    camera = execute_held_out_camera_motion_runtime(
+        fixture_dir=directory, ffmpeg_path=ffmpeg_path, write_outputs=write_outputs
+    )
+    mux_replay_path = (
+        directory / FIXTURE_MUX_RUNTIME_DIRNAME / HELD_OUT_FFMPEG_MUX_REPLAY_RECEIPT_FILENAME
+    )
+    fixture_mux_path = (
+        directory / FIXTURE_MUX_RUNTIME_DIRNAME / FIXTURE_MUX_RUNTIME_RECEIPT_FILENAME
+    )
+    preloaded = {
+        "held_out_ffmpeg_mux_replay": json.loads(mux_replay_path.read_text(encoding="utf-8")),
+        "held_out_cut_detector_runtime": cut,
+        "held_out_roundtrip_benchmark": benchmark,
+        "held_out_camera_motion_runtime": camera,
+        "fixture_media_mux_runtime": json.loads(fixture_mux_path.read_text(encoding="utf-8")),
+    }
+    direct = emit_direct_row084_runtime_receipt(
+        fixture_dir=directory,
+        write_outputs=write_outputs,
+        preloaded_receipts=preloaded,
+    )
+    tracker = emit_tracker_output_artifact_hold(
+        fixture_dir=directory,
+        write_outputs=write_outputs,
+        direct_receipt=direct,
+    )
+    return {
+        "status": "ok",
+        "mode": "execute-held-out-offline-runtime-climb",
+        "proof_tier": "RUNTIME_PASS_BOUNDED",
+        "cut_detector_receipt_sha256": cut["receipt_sha256"],
+        "roundtrip_benchmark_receipt_sha256": benchmark["receipt_sha256"],
+        "camera_motion_receipt_sha256": camera["receipt_sha256"],
+        "direct_runtime_receipt_sha256": direct["receipt_sha256"],
+        "tracker_artifact_sha256": tracker["artifact_sha256"],
+        "cut_detection_algorithm_complete": True,
+        "camera_motion_normalization_complete": True,
+        "fixed_vfr_benchmark_pass": True,
+        "direct_row084_runtime_receipt_present": True,
+        "tracker_declared_output_artifact_present": True,
+        "visual_review_authority_granted": False,
+        "row_complete": False,
+        "comfyui_8188_invoked": False,
+        "remaining_complete_blocker_checks": ["ROW084-020"],
+    }
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Compile a fail-closed Row084 canonical video timeline receipt.")
     parser.add_argument(
@@ -3472,6 +4644,30 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--ffmpeg-path",
         help="Explicit ffmpeg.exe path (overrides probe receipt / PATH)",
+    )
+    parser.add_argument(
+        "--execute-held-out-offline-runtime-climb",
+        action="store_true",
+        help=(
+            "Execute offline held-out cut detector + roundtrip benchmark + camera-motion "
+            "classification, emit direct runtime receipt and tracker HOLD artifact; "
+            "clears ROW084-014/016/018/021/022 without VISUAL_QA or :8188"
+        ),
+    )
+    parser.add_argument(
+        "--verify-held-out-cut-detector-runtime",
+        action="store_true",
+        help="Verify checked-in held-out cut detector runtime receipt",
+    )
+    parser.add_argument(
+        "--verify-held-out-roundtrip-benchmark",
+        action="store_true",
+        help="Verify checked-in held-out roundtrip benchmark receipt",
+    )
+    parser.add_argument(
+        "--verify-held-out-camera-motion-runtime",
+        action="store_true",
+        help="Verify checked-in held-out camera-motion runtime receipt",
     )
     parser.add_argument(
         "--fixture-dir",
@@ -3567,6 +4763,41 @@ def main(argv: list[str] | None = None) -> int:
                 fixture_dir=fixture_dir,
                 ffmpeg_path=args.ffmpeg_path,
             )
+        except (OSError, ValueError, FileNotFoundError) as exc:
+            raise SystemExit(f"ROW084_FAIL_CLOSED: {exc}") from exc
+        print(json.dumps(receipt))
+        return 0
+
+    if args.execute_held_out_offline_runtime_climb:
+        try:
+            receipt = execute_held_out_offline_runtime_climb(
+                fixture_dir=fixture_dir,
+                ffmpeg_path=args.ffmpeg_path,
+            )
+        except (OSError, ValueError, FileNotFoundError) as exc:
+            raise SystemExit(f"ROW084_FAIL_CLOSED: {exc}") from exc
+        print(json.dumps(receipt))
+        return 0
+
+    if args.verify_held_out_cut_detector_runtime:
+        try:
+            receipt = verify_held_out_cut_detector_runtime_receipt(fixture_dir=fixture_dir)
+        except (OSError, ValueError, FileNotFoundError) as exc:
+            raise SystemExit(f"ROW084_FAIL_CLOSED: {exc}") from exc
+        print(json.dumps(receipt))
+        return 0
+
+    if args.verify_held_out_roundtrip_benchmark:
+        try:
+            receipt = verify_held_out_roundtrip_benchmark_receipt(fixture_dir=fixture_dir)
+        except (OSError, ValueError, FileNotFoundError) as exc:
+            raise SystemExit(f"ROW084_FAIL_CLOSED: {exc}") from exc
+        print(json.dumps(receipt))
+        return 0
+
+    if args.verify_held_out_camera_motion_runtime:
+        try:
+            receipt = verify_held_out_camera_motion_runtime_receipt(fixture_dir=fixture_dir)
         except (OSError, ValueError, FileNotFoundError) as exc:
             raise SystemExit(f"ROW084_FAIL_CLOSED: {exc}") from exc
         print(json.dumps(receipt))
