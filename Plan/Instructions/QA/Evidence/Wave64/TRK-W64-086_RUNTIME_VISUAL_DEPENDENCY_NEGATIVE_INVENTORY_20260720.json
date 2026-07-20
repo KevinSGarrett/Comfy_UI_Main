@@ -1,0 +1,138 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-086_RUNTIME_VISUAL_DEPENDENCY_NEGATIVE_INVENTORY_20260720T120623-0500",
+  "created_iso": "2026-07-20T12:06:23-05:00",
+  "tracker_id": "TRK-W64-086",
+  "item_id": "ITEM-W64-086",
+  "proof_tier": "OFFLINE_INVENTORY_BLOCKER_BOUNDED",
+  "row_complete": false,
+  "product_completion_claimed": false,
+  "pre_hold_artifact_exists": false,
+  "media_row086": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/media/row086",
+    "exists": false,
+    "file_count": 0,
+    "dir_count": 0,
+    "files": [],
+    "classification": "tree_absent"
+  },
+  "reviews_row086": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/reviews/row086",
+    "exists": false,
+    "file_count": 0,
+    "dir_count": 0,
+    "files": [],
+    "classification": "tree_absent"
+  },
+  "fixture_runtime_tree": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row086/runtime",
+    "exists": false,
+    "file_count": 0,
+    "dir_count": 0,
+    "files": [],
+    "classification": "tree_absent"
+  },
+  "annotated_or_visual_named_fixture_hits": [],
+  "direct_runtime_receipt_candidates": [],
+  "row084_post_wave_bind": {
+    "delta": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json",
+      "exists": true,
+      "bytes": 41466,
+      "sha256": "3a8b6ab2dae9158f520f3060573ed12a81f5717420c7e5862473fced220d3845"
+    },
+    "hold_artifact": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_canonical_video_timeline.json",
+      "exists": true,
+      "bytes": 4203,
+      "sha256": "ca621e0d519850799096780ea481ad43d1b45c02976da24c5f1e27bf48323927"
+    },
+    "row_complete": false,
+    "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+    "qa_decision": "HOLD",
+    "ledger_status": "HOLD_ROW084_VISUAL_QA_PASS_BOUNDED_CLASS_C_SCHEMA_NATIVE_HOLD_DEEPENED_NO_COMPLETE",
+    "blocker_classification": {
+      "MISSING_FRAME_POLICY_RUNTIME_ABSENT": {
+        "class": "B",
+        "status": "CLEARED"
+      },
+      "PRODUCTION_COMPLETION_AND_ROW_COMPLETE_BLOCKED": {
+        "class": "E",
+        "status": "OPEN"
+      },
+      "REGISTERED_ROUNDTRIP_TOLERANCES_NOT_RUNTIME_AUTHORITATIVE": {
+        "class": "D",
+        "status": "CLEARED"
+      },
+      "VFR_SEGMENT_MAP_BENCHMARK_ABSENT": {
+        "class": "B",
+        "status": "CLEARED"
+      },
+      "CLOCK_SPAN_REVERSED_PTS_JSON_SCHEMA_NATIVE_ABSENT": {
+        "class": "C",
+        "status": "OPEN_HOLD"
+      }
+    }
+  },
+  "row085_post_hold_bind": {
+    "delta": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719.json",
+      "exists": true,
+      "bytes": 20447,
+      "sha256": "6b882a72192a7922f359c5cdd6a8dab5ce5a19123f19851bc312e2cb486a2e76"
+    },
+    "hold_artifact": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_actor_object_region_tracking.json",
+      "exists": true,
+      "bytes": 3998,
+      "sha256": "67f25196a7821547dbc481cd279df3016e800cf37a46577cfa2c9bad8d056fd7"
+    },
+    "row_complete": false,
+    "proof_tier": "CONTRACT_FIXTURE_CI_GATE",
+    "qa_decision": "HOLD",
+    "ledger_status": "Blocked_Dependency_Runtime_Benchmark_And_Visual_Proof_Absent_CI_Fixture_Ledger_Gate_Present",
+    "hold_artifact_present": true,
+    "acceptance_claimed": false,
+    "note": "Row085 declared HOLD artifact exists after e00ff543 deepen; does not constitute Row085 acceptance for Row086 authority."
+  },
+  "tracker_status_observed_read_only": "Blocked_Dependency_Runtime_Benchmark_And_Visual_Proof_Absent_Synthetic_Landmark_Phase_Ledger_Harness_Present",
+  "ci_gate": {
+    "exit_code": 0,
+    "payload": {
+      "status": "ok",
+      "gate": "row086_ci_fixture_ledger_gate",
+      "verifier": "run_ci_fixture_ledger_gate",
+      "checked_in_matches_rebuild": true,
+      "ledger_sha256": "1411d7cdb7cdb7387ca7058a0e4102cc621693483887a3a19a604016c7e7dd17",
+      "fixture_binding_count": 3,
+      "landmark_phase_expectation_count": 3,
+      "digest_drift_rejected": true,
+      "production_benchmark": false,
+      "annotated_benchmark_pass": false,
+      "annotated_clip_harness_production_pass": false,
+      "visual_review_claimed": false,
+      "rows084_085_acceptance_claimed": false,
+      "row_complete": false,
+      "authority_ceiling": "fixture_synthetic_only",
+      "annotated_clip_harness": "row086_annotated_clip_harness",
+      "expectation_verifier": "verify_synthetic_ledger_vs_compiled_manifest_expectations"
+    }
+  },
+  "pytest": {
+    "exit_code": 0,
+    "stdout_tail": ".............                                                            [100%]\n13 passed in 10.10s\n"
+  },
+  "verdict": "ROW086_HOLD_ARTIFACT_EMIT_ALLOWED_RUNTIME_VISUAL_AND_ROWS084_085_ACCEPTANCE_ABSENT",
+  "do_not": [
+    "claim_COMPLETE",
+    "claim_row084_acceptance",
+    "claim_row085_acceptance",
+    "claim_annotated_landmark_benchmark_pass",
+    "claim_visual_review",
+    "invent_human_media_or_faces",
+    "touch_row073_pcm",
+    "mutate_shared_csv_this_landing",
+    "thrash_row084_012_hold",
+    "thrash_row085_just_deepened"
+  ]
+}

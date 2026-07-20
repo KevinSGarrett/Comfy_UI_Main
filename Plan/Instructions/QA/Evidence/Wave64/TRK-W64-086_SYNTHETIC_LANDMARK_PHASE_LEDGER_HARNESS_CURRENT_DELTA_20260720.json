@@ -94,7 +94,10 @@
     {
       "check_id": "ROW086-019",
       "name": "tracker_declared_output_artifact_present",
-      "status": "FAIL"
+      "status": "PASS",
+      "note": "Tracker-declared HOLD artifact present (TRK-W64-086_pose_hand_foot_gait_extraction.json). HOLD only; row_complete false; no COMPLETE; does not grant runtime/visual authority.",
+      "hold_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-086_pose_hand_foot_gait_extraction.json",
+      "hold_artifact_sha256": "96518f1f9ff7b781d6be5d63f6e1e34af0921c05ee4b180241c24ea405c41591"
     }
   ],
   "classification": "ROW086_CURRENT_DELTA_SYNTHETIC_LANDMARK_PHASE_LEDGER_AND_ANNOTATED_CLIP_HARNESS_SLICE_NO_FALSE_COMPLETION",
@@ -162,17 +165,20 @@
     {
       "dependency_satisfied": false,
       "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json",
+      "evidence_sha256": "3a8b6ab2dae9158f520f3060573ed12a81f5717420c7e5862473fced220d3845",
       "row084_acceptance_claimed": false,
-      "row086_effect": "Frame-level trajectories and phases cannot be certified without an accepted canonical timebase.",
       "row_complete": false,
+      "row086_effect": "Post-wave rebind: Row084 VISUAL_QA_PASS_BOUNDED does not satisfy Row086 upstream acceptance. Frame-level trajectories remain uncertified.",
       "tracker_id": "TRK-W64-084"
     },
     {
       "dependency_satisfied": false,
       "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719.json",
+      "evidence_sha256": "6b882a72192a7922f359c5cdd6a8dab5ce5a19123f19851bc312e2cb486a2e76",
+      "row085_hold_artifact_present": true,
       "row085_acceptance_claimed": false,
-      "row086_effect": "Landmarks and contact phases cannot be assigned safely without accepted persistent owner/track identities. Synthetic harness does not satisfy that ownership authority.",
       "row_complete": false,
+      "row086_effect": "Row085 HOLD artifact present does not grant ownership acceptance. Landmarks and contact phases remain unassignable without accepted persistent tracks.",
       "tracker_id": "TRK-W64-085"
     }
   ],
@@ -208,9 +214,13 @@
   },
   "highest_proof_tier_achieved": "CONTRACT_FIXTURE_LEDGER_HARNESS",
   "hold_decision": {
-    "decision": "HOLD_ROW086_NO_FALSE_COMPLETION",
-    "reason": "Row086 now freezes a synthetic landmark/phase ledger bound to the three checked-in fixture digests, plus a non-production annotated-clip harness and CI ledger gate. Thirteen focused tests pass. Rows084 and 085 remain incomplete and are not claimed accepted. Annotated production landmark/phase benchmarks, production runtime receipts, combined landmark/track/contact/audio review, and the tracker-declared runtime artifact remain absent. The compiler never sets row_complete or production_completion_allowed true in this increment.",
-    "safe_next_action": "Keep Row086 on hold for runtime completion. After Rows084/085 acceptance: bind real annotated clips under the same ledger/harness contracts, run production pose/gait extraction with runtime receipts, then combined visual review. Downstream Rows087/090 remain blocked on measured pose/gait and contact-phase authority."
+    "decision": "HOLD_ROW086_DECLARED_ARTIFACT_PRESENT_NO_FALSE_COMPLETION",
+    "reason": "Declared HOLD output artifact emitted and ROW086-019 cleared as HOLD-present. Synthetic landmark/phase ledger harness + CI gate still pass. Rows084/085 acceptance, production runtime benchmark, annotated landmark/phase benchmark, combined visual review, and direct runtime receipt remain absent. No COMPLETE.",
+    "safe_next_action": "Keep Row086 blocked until Rows084/085 acceptance clear (do not thrash ROW084-012 Class C HOLD; do not re-deepen Row085). Then bind real annotated clips under the ledger/harness contracts, run production pose/gait extraction with runtime receipts, then combined visual review. CSV Notes sync optional via mutator only. Leave Row073 alone. Optional next offline: Row087/088 HOLD declared artifact emit (same pattern).",
+    "disposition_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-086_HOLD_ARTIFACT_AND_DEPENDENCY_DISPOSITION_PACKET_20260720.json",
+    "hold_artifact_sha256": "96518f1f9ff7b781d6be5d63f6e1e34af0921c05ee4b180241c24ea405c41591",
+    "negative_inventory_sha256": "7e4f61ad5a9f8ee585b25bc74f5062002dbee5da677fef9000b588df1cd448fe",
+    "disposition_packet_sha256": "c9dcf99f76f4340cc29c9899c16877904d7cb34aa2040af3d8ad02a45900da58"
   },
   "implementation_completion_claimed": false,
   "intent": {
@@ -285,5 +295,16 @@
     "wsl_invoked": false
   },
   "tracker_id": "TRK-W64-086",
-  "updated_at": "2026-07-20T06:42:00Z"
+  "updated_at": "2026-07-20T17:06:23.641903Z",
+  "this_landing": {
+    "landing_id": "row086_hold_artifact_deepen_20260720T120623-0500",
+    "mutation": "hold_artifact_emit_and_dependency_inventory_deepen",
+    "primary_paths": [
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-086_pose_hand_foot_gait_extraction.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-086_HOLD_ARTIFACT_AND_DEPENDENCY_DISPOSITION_PACKET_20260720.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-086_RUNTIME_VISUAL_DEPENDENCY_NEGATIVE_INVENTORY_20260720.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-086_POSE_HAND_FOOT_GAIT_EXTRACTION_CURRENT_DELTA_20260719.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-086_SYNTHETIC_LANDMARK_PHASE_LEDGER_HARNESS_CURRENT_DELTA_20260720.json"
+    ]
+  }
 }
