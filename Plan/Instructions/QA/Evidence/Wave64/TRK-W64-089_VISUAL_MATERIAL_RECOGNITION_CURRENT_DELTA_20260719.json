@@ -72,7 +72,7 @@
     "preview_required": true,
     "ec2_allowed": true,
     "tracker_output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-089_visual_material_recognition.json",
-    "tracker_output_artifact_exists": false,
+    "tracker_output_artifact_exists": true,
     "current_delta_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-089_VISUAL_MATERIAL_RECOGNITION_CURRENT_DELTA_20260719.json"
   },
   "compiler_slice": {
@@ -129,11 +129,40 @@
     "decision": "USEFUL_LEDGER_EXPECTATION_VERIFIER_SLICE_NOT_PRODUCTION_MATERIAL_AUTHORITY"
   },
   "dependency_authority": {
-    "tracker_ids": ["TRK-W64-085", "TRK-W64-088"],
+    "tracker_ids": [
+      "TRK-W64-085",
+      "TRK-W64-088"
+    ],
     "row085_complete": false,
     "row088_complete": false,
     "dependency_satisfied": false,
-    "row089_effect": "Owner-aware region binding and depth/source-position context cannot be certified without accepted Row085 tracking and Row088 spatial authority. Fixture packets, replay/tamper checks, the synthetic per-class ledger, and the ledger expectation verifier do not satisfy those upstream authorities."
+    "bindings": [
+      {
+        "dependency_satisfied": false,
+        "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719.json",
+        "evidence_sha256": "6b882a72192a7922f359c5cdd6a8dab5ce5a19123f19851bc312e2cb486a2e76",
+        "hold_artifact_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_actor_object_region_tracking.json",
+        "hold_artifact_present": true,
+        "acceptance_claimed": false,
+        "row_complete": false,
+        "highest_proof_tier_achieved": "CONTRACT_FIXTURE_CI_GATE",
+        "row089_effect": "Row085 HOLD artifact present does not grant ownership acceptance. Owner-aware material region binding remains uncertified without accepted persistent tracks.",
+        "tracker_id": "TRK-W64-085"
+      },
+      {
+        "dependency_satisfied": false,
+        "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_DEPTH_CAMERA_SOURCE_POSITION_CURRENT_DELTA_20260719.json",
+        "evidence_sha256": "736289435815303ea002a0bd73bf899b843b329a7418d21e5a83294366f3417d",
+        "hold_artifact_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_depth_camera_source_position.json",
+        "hold_artifact_present": true,
+        "acceptance_claimed": false,
+        "row_complete": false,
+        "highest_proof_tier_achieved": null,
+        "row089_effect": "Post-wave rebind: Row088 HOLD/CONTRACT_FIXTURE_CI_GATE does not satisfy Row089 upstream spatial acceptance. Depth/source-position material context remains uncertified.",
+        "tracker_id": "TRK-W64-088"
+      }
+    ],
+    "row089_effect": "Owner-aware region binding and depth/source-position context cannot be certified without accepted Row085 tracking and Row088 spatial authority. HOLD artifact emit clears ROW089-022 only; production authority remains blocked."
   },
   "focused_local_test_result": {
     "py_compile": "PASS",
@@ -147,30 +176,129 @@
     "scope_interpretation": "Focused tests prove the fail-closed compiler, fixture packets, replay/tamper integrity, synthetic per-class ledger binding, and the ledger-vs-compiled-manifest expectation verifier that rejects digest drift. They do not grant Row089 completion, production classifier runtime, material benchmark pass, runtime receipt, Rows085/088 acceptance, or combined visual review."
   },
   "checks": [
-    {"check_id": "ROW089-001", "name": "tracker_item_requirements_parity", "status": "PASS"},
-    {"check_id": "ROW089-002", "name": "dependency_audit_complete", "status": "PASS"},
-    {"check_id": "ROW089-003", "name": "fail_closed_material_compiler_present", "status": "PASS"},
-    {"check_id": "ROW089-004", "name": "visual_material_recognition_manifest_schema_present", "status": "PASS"},
-    {"check_id": "ROW089-005", "name": "focused_compiler_tests_pass", "status": "PASS"},
-    {"check_id": "ROW089-006", "name": "governed_alias_and_taxonomy_enforced", "status": "PASS"},
-    {"check_id": "ROW089-007", "name": "independent_evidence_fusion_and_disagreement_gate", "status": "PASS"},
-    {"check_id": "ROW089-008", "name": "abstention_and_broader_class_contract_present", "status": "PASS"},
-    {"check_id": "ROW089-009", "name": "contact_ownership_gate_for_contact_region", "status": "PASS"},
-    {"check_id": "ROW089-010", "name": "confidence_and_min_agreeing_source_thresholds", "status": "PASS"},
-    {"check_id": "ROW089-011", "name": "classifier_identity_and_scene_registry_binding_present", "status": "PASS"},
-    {"check_id": "ROW089-012", "name": "codex_or_interactive_scope_and_zero_wake_boundary", "status": "PASS"},
-    {"check_id": "ROW089-013", "name": "fixture_packets_cover_eight_required_materials", "status": "PASS"},
-    {"check_id": "ROW089-014", "name": "fixture_packets_cover_occlusion_ambiguity_false_positive", "status": "PASS"},
-    {"check_id": "ROW089-015", "name": "deterministic_replay_and_tamper_hash_check", "status": "PASS"},
-    {"check_id": "ROW089-016", "name": "dependency_row085_complete", "status": "FAIL"},
-    {"check_id": "ROW089-017", "name": "dependency_row088_complete", "status": "FAIL"},
-    {"check_id": "ROW089-018", "name": "production_visual_material_classifier_runtime_complete", "status": "FAIL"},
-    {"check_id": "ROW089-019", "name": "material_benchmark_pass", "status": "FAIL"},
-    {"check_id": "ROW089-020", "name": "direct_row089_runtime_receipt_present", "status": "FAIL"},
-    {"check_id": "ROW089-021", "name": "combined_frame_contact_audio_visual_review_present", "status": "FAIL"},
-    {"check_id": "ROW089-022", "name": "tracker_declared_output_artifact_present", "status": "FAIL"},
-    {"check_id": "ROW089-023", "name": "synthetic_per_class_benchmark_ledger_binds_fixture_digests", "status": "PASS"},
-    {"check_id": "ROW089-024", "name": "ledger_vs_compiled_manifest_expectation_verifier_rejects_digest_drift", "status": "PASS"}
+    {
+      "check_id": "ROW089-001",
+      "name": "tracker_item_requirements_parity",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW089-002",
+      "name": "dependency_audit_complete",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW089-003",
+      "name": "fail_closed_material_compiler_present",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW089-004",
+      "name": "visual_material_recognition_manifest_schema_present",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW089-005",
+      "name": "focused_compiler_tests_pass",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW089-006",
+      "name": "governed_alias_and_taxonomy_enforced",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW089-007",
+      "name": "independent_evidence_fusion_and_disagreement_gate",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW089-008",
+      "name": "abstention_and_broader_class_contract_present",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW089-009",
+      "name": "contact_ownership_gate_for_contact_region",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW089-010",
+      "name": "confidence_and_min_agreeing_source_thresholds",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW089-011",
+      "name": "classifier_identity_and_scene_registry_binding_present",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW089-012",
+      "name": "codex_or_interactive_scope_and_zero_wake_boundary",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW089-013",
+      "name": "fixture_packets_cover_eight_required_materials",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW089-014",
+      "name": "fixture_packets_cover_occlusion_ambiguity_false_positive",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW089-015",
+      "name": "deterministic_replay_and_tamper_hash_check",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW089-016",
+      "name": "dependency_row085_complete",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW089-017",
+      "name": "dependency_row088_complete",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW089-018",
+      "name": "production_visual_material_classifier_runtime_complete",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW089-019",
+      "name": "material_benchmark_pass",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW089-020",
+      "name": "direct_row089_runtime_receipt_present",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW089-021",
+      "name": "combined_frame_contact_audio_visual_review_present",
+      "status": "FAIL"
+    },
+    {
+      "check_id": "ROW089-022",
+      "name": "tracker_declared_output_artifact_present",
+      "status": "PASS",
+      "note": "Tracker-declared HOLD artifact present (TRK-W64-089_visual_material_recognition.json). HOLD only; row_complete false; no COMPLETE; does not grant runtime/visual authority.",
+      "hold_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-089_visual_material_recognition.json",
+      "hold_artifact_sha256": "5f0d17e4554db260be391dd488f8d257acd315c7fdac17d950114da18e7cc9a9"
+    },
+    {
+      "check_id": "ROW089-023",
+      "name": "synthetic_per_class_benchmark_ledger_binds_fixture_digests",
+      "status": "PASS"
+    },
+    {
+      "check_id": "ROW089-024",
+      "name": "ledger_vs_compiled_manifest_expectation_verifier_rejects_digest_drift",
+      "status": "PASS"
+    }
   ],
   "test_and_runtime_boundary": {
     "schema_meta_validation_executed": true,
@@ -245,8 +373,25 @@
     "sibling_row069_row077_row083_row084_row092_row094_paths_preserved": true
   },
   "hold_decision": {
-    "decision": "HOLD_ROW089_NO_FALSE_COMPLETION",
-    "reason": "Row089 now includes a fail-closed ledger-vs-compiled-manifest expectation verifier that recompiles every ledger-bound fixture packet, checks fixture-file and compiled-manifest digests, and rejects decision-field expectation drift. The verifier and ledger explicitly keep material_benchmark_pass, production_benchmark, visual_review_claimed, rows085_088_acceptance_claimed, and row_complete false. Rows085 and 088 remain incomplete. Production classifier runtime receipts, calibrated material benchmarks, combined frame/contact/audio review, and the tracker-declared runtime artifact remain absent.",
-    "safe_next_action": "Keep Row089 on hold for runtime completion. Next useful Row089 write: add a CLI/CI gate that fails closed when checked-in ledger digests diverge from fixture packets on CI without claiming production benchmark pass or Rows085/088 acceptance. Upstream, continue advancing Row085 ownership and Row088 measured spatial authority."
-  }
+    "decision": "HOLD_ROW089_DECLARED_ARTIFACT_PRESENT_NO_FALSE_COMPLETION",
+    "reason": "Declared HOLD output artifact emitted and ROW089-022 cleared as HOLD-present. Synthetic per-class ledger + expectation verifier still pass. Rows085/088 acceptance, production classifier runtime, material benchmark pass, combined visual review, and direct runtime receipt remain absent. No COMPLETE.",
+    "safe_next_action": "Keep Row089 blocked until Rows085/088 acceptance clear (do not thrash settled HOLDs Rows084-088). Then bind production classifier/runtime receipts under the ledger expectation verifier contract, then combined visual review. Optional next offline: Row089 CI/fixture ledger gate or Row090 HOLD declared artifact emit (same pattern). CSV Notes sync optional via mutator only. Leave Row073 alone.",
+    "disposition_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-089_HOLD_ARTIFACT_AND_DEPENDENCY_DISPOSITION_PACKET_20260720.json",
+    "disposition_packet_sha256": "c9b5f9c09fdfb6d495e96bee519ef250e3e9810c5f288acab1663a1a632f40e1",
+    "hold_artifact_sha256": "5f0d17e4554db260be391dd488f8d257acd315c7fdac17d950114da18e7cc9a9",
+    "negative_inventory_sha256": "4592c241c830a8881466d1e151ce98580c0068507d4ad1b5bde65cd54f80f58f"
+  },
+  "updated_at": "2026-07-20T17:20:13.601232Z",
+  "this_landing": {
+    "landing_id": "row089_hold_artifact_deepen_20260720T122013-0500",
+    "mutation": "hold_artifact_emit_and_dependency_inventory_deepen",
+    "primary_paths": [
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-089_visual_material_recognition.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-089_HOLD_ARTIFACT_AND_DEPENDENCY_DISPOSITION_PACKET_20260720.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-089_RUNTIME_VISUAL_DEPENDENCY_NEGATIVE_INVENTORY_20260720.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-089_VISUAL_MATERIAL_RECOGNITION_CURRENT_DELTA_20260719.json"
+    ]
+  },
+  "highest_proof_tier_achieved": "CONTRACT_LEDGER_EXPECTATION_VERIFIER",
+  "proof_tier": "CONTRACT_LEDGER_EXPECTATION_VERIFIER"
 }

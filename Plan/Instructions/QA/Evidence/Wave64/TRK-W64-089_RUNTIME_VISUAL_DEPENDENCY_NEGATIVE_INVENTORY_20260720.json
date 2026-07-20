@@ -1,0 +1,124 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-089_RUNTIME_VISUAL_DEPENDENCY_NEGATIVE_INVENTORY_20260720T122013-0500",
+  "created_iso": "2026-07-20T12:20:13-05:00",
+  "tracker_id": "TRK-W64-089",
+  "item_id": "ITEM-W64-089",
+  "proof_tier": "OFFLINE_INVENTORY_BLOCKER_BOUNDED",
+  "row_complete": false,
+  "product_completion_claimed": false,
+  "pre_hold_artifact_exists": false,
+  "media_row089": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/media/row089",
+    "exists": false,
+    "file_count": 0,
+    "dir_count": 0,
+    "files": [],
+    "classification": "tree_absent"
+  },
+  "reviews_row089": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/reviews/row089",
+    "exists": false,
+    "file_count": 0,
+    "dir_count": 0,
+    "files": [],
+    "classification": "tree_absent"
+  },
+  "fixture_runtime_tree": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row089/runtime",
+    "exists": false,
+    "file_count": 0,
+    "dir_count": 0,
+    "files": [],
+    "classification": "tree_absent"
+  },
+  "annotated_or_visual_named_fixture_hits": [],
+  "direct_runtime_receipt_candidates": [],
+  "row085_post_hold_bind": {
+    "delta": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719.json",
+      "exists": true,
+      "bytes": 20447,
+      "sha256": "6b882a72192a7922f359c5cdd6a8dab5ce5a19123f19851bc312e2cb486a2e76"
+    },
+    "hold_artifact": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_actor_object_region_tracking.json",
+      "exists": true,
+      "bytes": 3998,
+      "sha256": "67f25196a7821547dbc481cd279df3016e800cf37a46577cfa2c9bad8d056fd7"
+    },
+    "row_complete": false,
+    "proof_tier": "CONTRACT_FIXTURE_CI_GATE",
+    "qa_decision": "HOLD",
+    "hold_artifact_present": true,
+    "acceptance_claimed": false,
+    "note": "Row085 declared HOLD artifact exists after e00ff543; does not grant tracking acceptance for Row089 owner-aware material region binding."
+  },
+  "row088_post_hold_bind": {
+    "delta": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_DEPTH_CAMERA_SOURCE_POSITION_CURRENT_DELTA_20260719.json",
+      "exists": true,
+      "bytes": 15568,
+      "sha256": "736289435815303ea002a0bd73bf899b843b329a7418d21e5a83294366f3417d"
+    },
+    "hold_artifact": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_depth_camera_source_position.json",
+      "exists": true,
+      "bytes": 4445,
+      "sha256": "3e585176444b7359e7148c32e451a721068c77aaf6f6c95ca215a6a97bf2a71f"
+    },
+    "row_complete": false,
+    "proof_tier": null,
+    "qa_decision": "HOLD",
+    "hold_artifact_present": true,
+    "acceptance_claimed": false,
+    "note": "Row088 declared HOLD artifact exists after 5ea03a92; does not grant spatial acceptance for Row089 depth/source-position material context."
+  },
+  "settled_sibling_holds_read_only": {
+    "row084_hold_artifact_present": true,
+    "row085_hold_artifact_present": true,
+    "row086_hold_artifact_present": true,
+    "row087_hold_artifact_present": true,
+    "row088_hold_artifact_present": true,
+    "note": "Settled HOLDs left untouched; not thrash targets this landing."
+  },
+  "tracker_status_observed_read_only": "Blocked_Dependency_Runtime_Benchmark_And_Visual_Proof_Absent_Ledger_Expectation_Verifier_Slice_Present",
+  "ledger_verify": {
+    "exit_code": 0,
+    "payload": {
+      "status": "ok",
+      "verifier": "verify_synthetic_ledger_vs_compiled_manifest_expectations",
+      "ledger_sha256": "668187a5920eaecb91b389c8bf1fbcf243ac1c21345e68c325fb004b5b623acf",
+      "fixture_binding_count": 4,
+      "per_class_expectation_count": 8,
+      "edge_case_expectation_count": 3,
+      "digest_drift_rejected": true,
+      "production_benchmark": false,
+      "material_benchmark_pass": false,
+      "visual_review_claimed": false,
+      "rows085_088_acceptance_claimed": false,
+      "row_complete": false,
+      "authority_ceiling": "fixture_synthetic_only"
+    }
+  },
+  "pytest": {
+    "exit_code": 0,
+    "stdout_tail": ".............                                                            [100%]\n13 passed in 18.08s\n"
+  },
+  "verdict": "ROW089_HOLD_ARTIFACT_EMIT_ALLOWED_RUNTIME_VISUAL_AND_ROWS085_088_ACCEPTANCE_ABSENT",
+  "do_not": [
+    "claim_COMPLETE",
+    "claim_row085_acceptance",
+    "claim_row088_acceptance",
+    "claim_material_benchmark_pass",
+    "claim_visual_review",
+    "invent_human_media_or_faces",
+    "touch_row073_pcm",
+    "mutate_shared_csv_this_landing",
+    "thrash_row084_hold",
+    "thrash_row085_hold",
+    "thrash_row086_hold",
+    "thrash_row087_hold",
+    "thrash_row088_hold"
+  ]
+}

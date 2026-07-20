@@ -1,0 +1,132 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "visual_material_recognition",
+  "artifact_id": "TRK-W64-089_visual_material_recognition",
+  "tracker_id": "TRK-W64-089",
+  "item_id": "ITEM-W64-089",
+  "created_at": "2026-07-20T17:20:13.601232Z",
+  "updated_at": "2026-07-20T17:20:13.601232Z",
+  "status": "HOLD_LEDGER_EXPECTATION_VERIFIER_NO_COMPLETE",
+  "proof_tier": "CONTRACT_LEDGER_EXPECTATION_VERIFIER",
+  "highest_proof_tier_achieved": "CONTRACT_LEDGER_EXPECTATION_VERIFIER",
+  "row_complete": false,
+  "production_completion_allowed": false,
+  "implementation_completion_claimed": false,
+  "runtime_completion_claimed": false,
+  "material_benchmark_pass": false,
+  "visual_review_authority_granted": false,
+  "row085_acceptance_claimed": false,
+  "row088_acceptance_claimed": false,
+  "production_classifier_authority_granted": false,
+  "hold_reasons": [
+    "row085_acceptance_absent",
+    "row088_acceptance_absent",
+    "production_runtime_benchmark_absent",
+    "material_benchmark_pass_absent",
+    "combined_visual_review_absent",
+    "direct_runtime_receipt_absent",
+    "COMPLETE_claim_forbidden_this_lane"
+  ],
+  "cleared_offline_checks": [
+    "ROW089-001",
+    "ROW089-002",
+    "ROW089-003",
+    "ROW089-004",
+    "ROW089-005",
+    "ROW089-006",
+    "ROW089-007",
+    "ROW089-008",
+    "ROW089-009",
+    "ROW089-010",
+    "ROW089-011",
+    "ROW089-012",
+    "ROW089-013",
+    "ROW089-014",
+    "ROW089-015",
+    "ROW089-022",
+    "ROW089-023",
+    "ROW089-024"
+  ],
+  "remaining_fail_checks": [
+    "ROW089-016",
+    "ROW089-017",
+    "ROW089-018",
+    "ROW089-019",
+    "ROW089-020",
+    "ROW089-021"
+  ],
+  "offline_bindings": {
+    "ledger_expectation_verifier": {
+      "proof_tier": "CONTRACT_LEDGER_EXPECTATION_VERIFIER",
+      "compiler": "compile_wave64_visual_material_recognition.py",
+      "cli": "--verify-synthetic-benchmark-ledger",
+      "exit_code": 0,
+      "ledger": {
+        "path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row089/synthetic_per_class_benchmark_ledger.json",
+        "exists": true,
+        "bytes": 9176,
+        "sha256": "94604ea413ae0cf3c498bf54dff1c1707940d00a137d14356da90a6989ec4c6b"
+      },
+      "row_complete": false
+    },
+    "synthetic_fixture_packets": [
+      {
+        "path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row089/materials_all_eight_required.json",
+        "exists": true,
+        "bytes": 16220,
+        "sha256": "bbccf1e08310dc6ce2fecbb2e2c9546d68f221784fd517e6996c36dcaa1fdac4"
+      },
+      {
+        "path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row089/case_occlusion_abstain.json",
+        "exists": true,
+        "bytes": 3758,
+        "sha256": "3489a9f67dcc0f61b5208e0d6b160ba0d3a18ee5eb90675f7be5dd0a09ab4b28"
+      },
+      {
+        "path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row089/case_ambiguity_broader_class.json",
+        "exists": true,
+        "bytes": 3764,
+        "sha256": "dd70ae5e9e298f0990baef558aee6422bd75a5134994095f93510b34adf89896"
+      },
+      {
+        "path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row089/case_false_positive_disagreement_abstain.json",
+        "exists": true,
+        "bytes": 3827,
+        "sha256": "8c9b9c3332f827dd55a0e1a5991ea1f0d7885d8b26491b6aa2867f78628831ed"
+      }
+    ],
+    "negative_inventory": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-089_RUNTIME_VISUAL_DEPENDENCY_NEGATIVE_INVENTORY_20260720.json",
+      "sha256": "4592c241c830a8881466d1e151ce98580c0068507d4ad1b5bde65cd54f80f58f"
+    },
+    "row085_dependency": {
+      "delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_ACTOR_OBJECT_REGION_TRACKING_CURRENT_DELTA_20260719.json",
+      "delta_sha256": "6b882a72192a7922f359c5cdd6a8dab5ce5a19123f19851bc312e2cb486a2e76",
+      "hold_artifact_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-085_actor_object_region_tracking.json",
+      "hold_artifact_present": true,
+      "row_complete": false,
+      "acceptance_claimed": false,
+      "highest_proof_tier_achieved": "CONTRACT_FIXTURE_CI_GATE"
+    },
+    "row088_dependency": {
+      "delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_DEPTH_CAMERA_SOURCE_POSITION_CURRENT_DELTA_20260719.json",
+      "delta_sha256": "736289435815303ea002a0bd73bf899b843b329a7418d21e5a83294366f3417d",
+      "hold_artifact_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_depth_camera_source_position.json",
+      "hold_artifact_present": true,
+      "row_complete": false,
+      "acceptance_claimed": false,
+      "highest_proof_tier_achieved": null
+    }
+  },
+  "provenance": {
+    "compiler": "compile_wave64_visual_material_recognition.py",
+    "compiler_revision": "row089_hold_declared_artifact_v1",
+    "tracker_output_artifact_hold_only": true,
+    "does_not_claim_row_complete": true,
+    "does_not_claim_row085_acceptance": true,
+    "does_not_claim_row088_acceptance": true,
+    "does_not_use_comfyui_8188": true,
+    "does_not_invent_human_media": true
+  },
+  "artifact_sha256": "dbf9556644c26c4ca579f6a77de6970297c48a0141f93448568f5994ad314bef"
+}
