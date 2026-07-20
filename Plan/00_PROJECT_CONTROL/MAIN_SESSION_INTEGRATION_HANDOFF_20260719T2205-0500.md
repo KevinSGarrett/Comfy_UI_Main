@@ -4,6 +4,7 @@
 
 - Active integration platform: top-level interactive Cursor subagent under continuous autonomous shift plan.
 - Branch: `codex/workflow_plan_update_improvements`
+- Primary commit: `b50dc95a` — Harden Row070 retained decode resume and re-prove acceptance.
 - Status check found no non-WAV tip after anchors `8d4b2d93` / `7e872ed3` at shift start; dirty v0.2.0 WIP was present and resumed.
 - Parallel tip already carried acceptance climb `4e764094` (+ strata/tip stamps through `10f8232c`) while this lane re-ran retained reconcile.
 - This pass hardens fail-closed retained decode (MemoryError + resume count rebuild) and re-proves identical retained receipt hash under `row070_index_retained_nonwav_v020_20260719`.
