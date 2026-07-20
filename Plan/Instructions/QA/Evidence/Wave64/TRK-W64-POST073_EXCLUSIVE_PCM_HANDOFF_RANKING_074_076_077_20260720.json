@@ -1,0 +1,398 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-POST073-EXCLUSIVE-PCM-HANDOFF-RANKING-074-076-077-20260720T1230-0500",
+  "created_at": "2026-07-20T12:30:00-05:00",
+  "updated_at": "2026-07-20T12:30:00-05:00",
+  "source_commit_at_packet": "5cae1f6828e542a94b92868e0ebad7effb3fa96f",
+  "branch": "codex/workflow_plan_update_improvements",
+  "packet_kind": "post_073_exclusive_pcm_handoff_ranking",
+  "mutation_this_landing": "evidence_only_hash_bound_ranking_packet",
+  "row_complete": false,
+  "product_completion_claimed": false,
+  "runtime_completion_claimed": false,
+  "library_authority": false,
+  "csv_sync": "deferred_leave_to_serialized_mutator",
+  "pcm_job_started_this_packet": false,
+  "explicit_non_claims": [
+    "COMPLETE",
+    "product_completion",
+    "library_authority",
+    "row073_acceptance",
+    "row074_acceptance",
+    "row076_acceptance",
+    "row077_acceptance",
+    "any_library_pcm_job_start"
+  ],
+  "exclusive_lane_now": {
+    "owner_row": "TRK-W64-073",
+    "lane": "library_pcm_exclusive",
+    "pid": 27320,
+    "alive_at_packet": true,
+    "command": "analyze_wave64_usable_bounds_decay.py --mode index-retained --resume --retained-runtime-dir runtime_artifacts/usable_bounds/row073_index_retained_20260720",
+    "runtime_dir": "runtime_artifacts/usable_bounds/row073_index_retained_20260720",
+    "owner_marker": "runtime_artifacts/usable_bounds/row073_index_retained_20260720/FULL_RECONCILE_OWNER.txt",
+    "progress_observed": {
+      "records_processed": 28900,
+      "records_total": 39771,
+      "next_record_index": 28900,
+      "percent_complete": 72.67,
+      "coverage_complete": false,
+      "complete": false,
+      "updated_at": "2026-07-20T17:29:09.881998Z",
+      "elapsed_hours_approx": 11.54,
+      "rate_records_per_hour_approx": 2505,
+      "eta_hours_remaining_approx": 4.34
+    },
+    "policy": "Do not kill, contend, restart, or start Row074/076/077 library PCM while healthy PID 27320 owns the exclusive lane."
+  },
+  "admission_gate_before_any_post073_owner": {
+    "required_all_true": [
+      "Row073 progress.coverage_complete == true (or equivalent: records_processed == records_total and limit is null)",
+      "Row073 FULL_RECONCILE_OWNER.txt absent or marks complete/released; PID 27320 not alive as library_pcm owner",
+      "No other FULL_RECONCILE_OWNER.txt under runtime_artifacts/{multi_event_segmentation,reverb_dryness,usable_bounds,embeddings} claiming library_pcm_exclusive",
+      "Operator/session explicitly claims exactly one next exclusive owner from this ranking"
+    ],
+    "fail_closed_if": [
+      "Row073 coverage_complete still false",
+      "Any parallel 074/076/077 library PCM or embed decode started",
+      "Product COMPLETE or Status flip attempted from coverage_complete alone",
+      "Shared ITEM/TRACKER CSV mutated outside serialized mutator"
+    ]
+  },
+  "recommendation": {
+    "first_exclusive_owner_after_row073_coverage_complete": "TRK-W64-074",
+    "rank_order": [
+      "TRK-W64-074",
+      "TRK-W64-076",
+      "TRK-W64-077"
+    ],
+    "rationale": [
+      "Row074 is P0/CRITICAL with deps already probe-unlocked (072 runtime_unlocked + 073 probe_unlocked) and a working --mode index-retained full-reconcile path (omit --limit).",
+      "Row074 is the contiguous post-bounds segment authority and unlocks downstream Rows079/082; coverage_complete on 073 releases the exclusive PCM lane that 074's safe_next_action already waits for.",
+      "Row076 is P1/HIGH and equally runnable via index-retained without --limit, but lower priority and should not race 074 for the same exclusive PCM lane.",
+      "Row077 already YIELDed for Row073 exclusive PCM; held-out weights RUNTIME_PASS_BOUNDED is bound, but --mode library currently only emits a fail-closed blocker packet and has no full-library embed/resume runner yet — not first exclusive owner until that runner exists."
+    ],
+    "safe_next_action_now": "Leave Row073 PID 27320 alone until coverage_complete. Do not start 074/076/077 library PCM. After coverage_complete, claim Row074 as sole exclusive owner and start its index-retained full reconcile without --limit. No COMPLETE; CSV deferred.",
+    "safe_next_action_after_074_coverage_complete": "Release Row074 exclusive owner marker; then optionally claim Row076 exclusive index-retained full reconcile. Keep Row077 yielded until a resume-capable full-library embed path is implemented and PCM lane is free."
+  },
+  "ranking": [
+    {
+      "rank": 1,
+      "tracker_id": "TRK-W64-074",
+      "item_id": "ITEM-W64-074",
+      "priority": "P0",
+      "risk": "CRITICAL",
+      "first_exclusive_owner": true,
+      "ready_for_exclusive_pcm_after_073_coverage_complete": true,
+      "deps": {
+        "dependency_prerequisites": [
+          "TRK-W64-072",
+          "TRK-W64-073"
+        ],
+        "dependency_authority": [
+          {
+            "tracker_id": "TRK-W64-072",
+            "admission_mode": "runtime_unlocked",
+            "dependency_satisfied": true,
+            "row_complete": false,
+            "note": "coverage_complete under frozen thresholds; unlocks probes without Row072 acceptance"
+          },
+          {
+            "tracker_id": "TRK-W64-073",
+            "admission_mode": "probe_unlocked",
+            "dependency_satisfied": true,
+            "row_complete": false,
+            "exclusive_pcm_release_required": true,
+            "note": "probe unlocked; full exclusive PCM reconcile still in progress on PID 27320"
+          }
+        ],
+        "downstream_consumers": [
+          "TRK-W64-079",
+          "TRK-W64-082"
+        ]
+      },
+      "blockers": [
+        "BLOCKED_CONTENTION_ROW073_EXCLUSIVE_PCM_IO",
+        "FULL_LIBRARY_RECONCILE_DEFERRED_OR_IN_PROGRESS",
+        "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+        "EVENT_COUNT_CALIBRATION_STRATA_ABSENT",
+        "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT"
+      ],
+      "blocker_notes": {
+        "cleared_by_073_coverage_complete_only": [
+          "BLOCKED_CONTENTION_ROW073_EXCLUSIVE_PCM_IO",
+          "FULL_LIBRARY_RECONCILE_DEFERRED_OR_IN_PROGRESS",
+          "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT"
+        ],
+        "remain_after_full_reconcile": [
+          "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+          "EVENT_COUNT_CALIBRATION_STRATA_ABSENT"
+        ]
+      },
+      "commands": {
+        "preflight_pytest": "python -m pytest -q Plan/Instructions/QA/Scripts/test_segment_wave64_multi_event_audio.py",
+        "start_exclusive_full_reconcile": "python Plan/07_IMPLEMENTATION/scripts/segment_wave64_multi_event_audio.py --mode index-retained --resume --retained-runtime-dir runtime_artifacts/multi_event_segmentation/row074_index_retained_20260720",
+        "forbidden_while_073_owns_lane": "python Plan/07_IMPLEMENTATION/scripts/segment_wave64_multi_event_audio.py --mode index-retained --limit 25",
+        "notes": [
+          "Omit --limit for full reconcile (limit=null).",
+          "Do not use --mode library (fail-closed until acceptance).",
+          "Resume into existing probe runtime tree; do not --no-resume unless intentionally discarding probe receipts.",
+          "Do not start until Row073 coverage_complete and owner released."
+        ]
+      },
+      "expected_runtime": {
+        "records_total": 39771,
+        "probe_already_processed": 25,
+        "basis": "Row073 observed ~2505 records/hour over ~11.5h wall for same retained index PCM class",
+        "full_reconcile_wall_hours_estimate": "12-18",
+        "confidence": "MEDIUM"
+      },
+      "fail_closed_gates": [
+        "Refuse start if Row073 coverage_complete is false or PID 27320 still owns library_pcm_exclusive",
+        "Refuse --mode library until acceptance authority",
+        "Refuse parallel 076/077 library PCM/embed",
+        "coverage_complete under frozen suggestion-only thresholds is not Row074 acceptance or COMPLETE",
+        "No ITEM/TRACKER CSV mutation; mutator-only Notes sync later",
+        "Disjoint runtime tree only under runtime_artifacts/multi_event_segmentation/row074_index_retained_20260720"
+      ],
+      "script_sha256": "584e873cf951a0a415d19c0f9c34b619e23b56223f69dc28de70b6a3e2087ee9",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_MULTI_EVENT_SEGMENTATION_CURRENT_DELTA_20260719.json",
+      "current_delta_sha256": "3bace228463b33256c4e14c318e5c42322da83407e03e9145d3cb36f31f0c510",
+      "retained_summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_ACCEPTED_INDEX_RETAINED_SEGMENT_SUMMARY_20260720.json",
+      "retained_summary_sha256": "284229426ccee2d41fcb50eefd7604a564c4c01fca00e681c91fe66c7f6bce1f",
+      "runtime_dir": "runtime_artifacts/multi_event_segmentation/row074_index_retained_20260720",
+      "ledger_status": "Blocked_Library_Probe_Pass_Full_Reconcile_Deferred_Deps_Unlocked"
+    },
+    {
+      "rank": 2,
+      "tracker_id": "TRK-W64-076",
+      "item_id": "ITEM-W64-076",
+      "priority": "P1",
+      "risk": "HIGH",
+      "first_exclusive_owner": false,
+      "ready_for_exclusive_pcm_after_073_coverage_complete": true,
+      "ready_note": "Runnable, but yield exclusive lane to Row074 first.",
+      "deps": {
+        "dependency_prerequisites": [
+          "TRK-W64-071",
+          "TRK-W64-073"
+        ],
+        "dependency_authority": [
+          {
+            "tracker_id": "TRK-W64-071",
+            "admission_mode": "accepted",
+            "dependency_satisfied": true,
+            "row_complete": true
+          },
+          {
+            "tracker_id": "TRK-W64-073",
+            "admission_mode": "probe_unlocked",
+            "dependency_satisfied": true,
+            "row_complete": false,
+            "exclusive_pcm_release_required": true
+          }
+        ],
+        "downstream_consumers": [
+          "TRK-W64-079",
+          "TRK-W64-096",
+          "TRK-W64-103"
+        ]
+      },
+      "blockers": [
+        "BLOCKED_CONTENTION_ROW073_EXCLUSIVE_PCM_IO",
+        "FULL_LIBRARY_RECONCILE_DEFERRED_OR_IN_PROGRESS",
+        "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+        "REPRESENTATIVE_ROOM_SOURCE_CALIBRATION_ABSENT",
+        "DOUBLE_REVERB_GUARD_LIBRARY_ENFORCEMENT_ABSENT",
+        "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT"
+      ],
+      "blocker_notes": {
+        "cleared_by_073_coverage_complete_only": [
+          "BLOCKED_CONTENTION_ROW073_EXCLUSIVE_PCM_IO",
+          "FULL_LIBRARY_RECONCILE_DEFERRED_OR_IN_PROGRESS",
+          "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT"
+        ],
+        "remain_after_full_reconcile": [
+          "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+          "REPRESENTATIVE_ROOM_SOURCE_CALIBRATION_ABSENT",
+          "DOUBLE_REVERB_GUARD_LIBRARY_ENFORCEMENT_ABSENT"
+        ]
+      },
+      "commands": {
+        "preflight_pytest": "python -m pytest -q Plan/Instructions/QA/Scripts/test_analyze_wave64_audio_reverb_dryness.py",
+        "start_exclusive_full_reconcile": "python Plan/07_IMPLEMENTATION/scripts/analyze_wave64_audio_reverb_dryness.py --mode index-retained --resume --retained-runtime-dir runtime_artifacts/reverb_dryness/row076_index_retained_20260720",
+        "notes": [
+          "Start only after Row074 releases exclusive library_pcm lane (or if operator explicitly re-ranks).",
+          "Omit --limit; do not use --mode library.",
+          "Resume into existing probe runtime tree."
+        ]
+      },
+      "expected_runtime": {
+        "records_total": 39771,
+        "probe_already_processed": 25,
+        "basis": "Same retained-index PCM class as Row073/074; reverb feature cost similar order",
+        "full_reconcile_wall_hours_estimate": "12-18",
+        "confidence": "MEDIUM"
+      },
+      "fail_closed_gates": [
+        "Refuse start while Row073 or Row074 owns library_pcm_exclusive",
+        "Refuse --mode library until acceptance authority",
+        "coverage_complete is not Row076 acceptance or COMPLETE",
+        "Keep room-calibration and double-reverb library enforcement holds",
+        "No CSV mutation; disjoint runtime under runtime_artifacts/reverb_dryness/row076_index_retained_20260720"
+      ],
+      "script_sha256": "3391d86d20edbd749d12c69ada7c2c0610f8d3c72c3e3240024e2318e8a361d9",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_REVERB_DRYNESS_CURRENT_DELTA_20260719.json",
+      "current_delta_sha256": "bb798445b0823049455a538be770a3a07a960524693e82f284c7d2df7ff0dd57",
+      "retained_summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_ACCEPTED_INDEX_RETAINED_REVERB_SUMMARY_20260720.json",
+      "retained_summary_sha256": "4ec494e181c445a57ff02e5b99918ac9d032a99975291a594a9719b3ee37a149",
+      "runtime_dir": "runtime_artifacts/reverb_dryness/row076_index_retained_20260720",
+      "ledger_status": "Blocked_Library_Probe_Pass_Full_Reconcile_Deferred_Deps_Unlocked"
+    },
+    {
+      "rank": 3,
+      "tracker_id": "TRK-W64-077",
+      "item_id": "ITEM-W64-077",
+      "priority": "P1",
+      "risk": "HIGH",
+      "first_exclusive_owner": false,
+      "ready_for_exclusive_pcm_after_073_coverage_complete": false,
+      "ready_note": "YIELD remains correct: held-out bound, but full-library embed/resume runner absent; --mode library only writes fail-closed blocker packet.",
+      "deps": {
+        "dependency_prerequisites": [
+          "TRK-W64-069",
+          "TRK-W64-070"
+        ],
+        "dependency_authority": [
+          {
+            "tracker_id": "TRK-W64-069",
+            "dependency_satisfied": true,
+            "row_complete": true
+          },
+          {
+            "tracker_id": "TRK-W64-070",
+            "dependency_satisfied": true,
+            "row_complete": true
+          }
+        ],
+        "contention_dependency": {
+          "tracker_id": "TRK-W64-073",
+          "exclusive_pcm_release_required": true,
+          "decision_code": "YIELD"
+        },
+        "downstream_consumers": [
+          "TRK-W64-078",
+          "TRK-W64-080",
+          "TRK-W64-092",
+          "TRK-W64-109"
+        ]
+      },
+      "blockers": [
+        "BLOCKED_CONTENTION_ROW073_EXCLUSIVE_PCM_IO",
+        "EMBEDDING_INDEX_LIBRARY_RUNTIME_ABSENT",
+        "FULL_LIBRARY_EMBEDDING_RECONCILIATION_ABSENT",
+        "FULL_LIBRARY_EMBED_RESUME_RUNNER_ABSENT"
+      ],
+      "blocker_notes": {
+        "cleared_by_073_coverage_complete_only": [
+          "BLOCKED_CONTENTION_ROW073_EXCLUSIVE_PCM_IO"
+        ],
+        "remain_after_073_coverage_complete": [
+          "EMBEDDING_INDEX_LIBRARY_RUNTIME_ABSENT",
+          "FULL_LIBRARY_EMBEDDING_RECONCILIATION_ABSENT",
+          "FULL_LIBRARY_EMBED_RESUME_RUNNER_ABSENT"
+        ]
+      },
+      "commands": {
+        "preflight_pytest": "python -m pytest -q Plan/Instructions/QA/Scripts/test_row077_semantic_audio_embeddings.py",
+        "heldout_already_bound": "python Plan/07_IMPLEMENTATION/scripts/compile_wave64_semantic_audio_embeddings.py --mode heldout --emitter weights_runtime",
+        "library_mode_current_behavior": "python Plan/07_IMPLEMENTATION/scripts/compile_wave64_semantic_audio_embeddings.py --mode library",
+        "library_mode_note": "Fail-closed blocker emit only; must not be treated as exclusive PCM job start.",
+        "required_before_exclusive_claim": "Implement resume-capable full-library embed path in a disjoint runtime tree (not present in compile_wave64_semantic_audio_embeddings.py at packet time), then start only when library_pcm lane is free.",
+        "do_not_start_now": true
+      },
+      "expected_runtime": {
+        "records_total": 39771,
+        "basis": "No full-library embed runner yet; when implemented expect GPU/model-bound wall time greater than PCM-only rows",
+        "full_reconcile_wall_hours_estimate": "N/A_until_runner_exists_then_likely_gt_18",
+        "confidence": "LOW"
+      },
+      "fail_closed_gates": [
+        "Refuse any library PCM/embed start while Row073 owns exclusive lane",
+        "Refuse treating --mode library blocker emit as embed progress",
+        "Refuse claiming full_library_scan or row_complete from held-out artifacts",
+        "No COMPLETE; CSV deferred",
+        "Do not race Row074/076 for exclusive PCM after 073 releases"
+      ],
+      "script_sha256": "bdca3492674dd25b5fce8e78bee954594f26dc7f8ecf16af33c01b2ee96f1e00",
+      "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-077_SEMANTIC_AUDIO_EMBEDDING_CURRENT_DELTA_20260719.json",
+      "current_delta_sha256": "0d1e340cacc46818321e71fdacf8e521aa005807df1a88e5b00a974feab4c808",
+      "yield_stamp_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-077_LIBRARY_EMBED_YIELD_ROW073_CONTENTION_20260720T0934-0500.json",
+      "yield_stamp_sha256": "a9b8842a056e92b54a903d37ab507e2ee109838f2001442808f1d5ae23a24904",
+      "heldout_runtime_dir": "runtime_artifacts/embeddings/row077_heldout_20260720",
+      "ledger_status": "Blocked_Library_Embedding_Yield_Row073_Exclusive_Pcm_Heldout_Runtime_Bound"
+    }
+  ],
+  "hash_bound_authority": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_CURRENT_DELTA_20260719.json",
+      "sha256": "b08b7b0a63d5d1845189c31384ef2b7486ff9d5cbcf8b0eee99932881e3ff700",
+      "bytes": 12238
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_RECONCILE_PROGRESS_20260720T1152-0500.json",
+      "sha256": "14057cfbceb9803ae56e376a09abc02fa55e207a1c04b8588ada5f5ccd7d0fbc",
+      "bytes": 3715,
+      "note": "Progress stamp lagged vs live progress.json; live cursor used for exclusive_lane_now.progress_observed"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_ACCEPTED_INDEX_RETAINED_BOUNDS_SUMMARY_20260720.json",
+      "sha256": "9d182b6fb9da5454ae98a4c5f0e4144fcc027ffe61525549f489f9389585774f",
+      "bytes": 3545
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/analyze_wave64_usable_bounds_decay.py",
+      "sha256": "c5ac459c48974c2a15db87a7744efba2ec284a200fed8a022a6cccc66c65e5a6"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/segment_wave64_multi_event_audio.py",
+      "sha256": "584e873cf951a0a415d19c0f9c34b619e23b56223f69dc28de70b6a3e2087ee9"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/analyze_wave64_audio_reverb_dryness.py",
+      "sha256": "3391d86d20edbd749d12c69ada7c2c0610f8d3c72c3e3240024e2318e8a361d9"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_semantic_audio_embeddings.py",
+      "sha256": "bdca3492674dd25b5fce8e78bee954594f26dc7f8ecf16af33c01b2ee96f1e00"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_MULTI_EVENT_SEGMENTATION_CURRENT_DELTA_20260719.json",
+      "sha256": "3bace228463b33256c4e14c318e5c42322da83407e03e9145d3cb36f31f0c510",
+      "bytes": 10691
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_REVERB_DRYNESS_CURRENT_DELTA_20260719.json",
+      "sha256": "bb798445b0823049455a538be770a3a07a960524693e82f284c7d2df7ff0dd57",
+      "bytes": 10862
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-077_SEMANTIC_AUDIO_EMBEDDING_CURRENT_DELTA_20260719.json",
+      "sha256": "0d1e340cacc46818321e71fdacf8e521aa005807df1a88e5b00a974feab4c808",
+      "bytes": 11362
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-077_LIBRARY_EMBED_YIELD_ROW073_CONTENTION_20260720T0934-0500.json",
+      "sha256": "a9b8842a056e92b54a903d37ab507e2ee109838f2001442808f1d5ae23a24904",
+      "bytes": 2633
+    }
+  ],
+  "operator_checklist_at_073_coverage_complete": [
+    "Confirm progress.json coverage_complete/complete and owner marker released; PID 27320 gone",
+    "Claim TRK-W64-074 as sole exclusive owner",
+    "Run Row074 preflight pytest",
+    "Start Row074 index-retained full reconcile without --limit (command above)",
+    "Leave 076/077 idle until 074 coverage_complete or explicit re-rank",
+    "Do not claim COMPLETE; CSV via mutator only"
+  ]
+}

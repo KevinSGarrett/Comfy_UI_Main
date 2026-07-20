@@ -1,39 +1,31 @@
-# Main Session Integration Handoff — 20260720T123118-0500
+# Main Session Integration Handoff (rolling)
+
+Updated: 2026-07-20T12:30-05:00
 
 ## Integration Summary
 
 - Active platform: interactive Cursor (integration authority)
 - Branch: `codex/workflow_plan_update_improvements`
-- Tip before this landing: `671082c5`
-- This pass: deepen TRK-W64-109 Class F step2 genuine annotated media acquisition/rights checklist (step2 still blocked)
-- No COMPLETE / Status flip / shared CSV mutation / HOLD090+
-- Row073 left alone (no PCM decode / contend / restart)
+- This pass: hash-bound post-073 exclusive PCM handoff ranking 074 vs 076 vs 077 (evidence only; no PCM start)
+- Companion handoff: `Plan/00_PROJECT_CONTROL/MAIN_SESSION_INTEGRATION_HANDOFF_20260720T1230-0500.md`
+- Tip at packet: `5cae1f6828e542a94b92868e0ebad7effb3fa96f`
+- No COMPLETE / Status flip. CSV deferred to mutator.
+- Row073 PID 27320 left alone (~72.7% at packet; coverage_complete=false).
 
 ## This pass proof
 
-- Checklist: `Plan/Instructions/QA/Evidence/Wave64/TRK-W64-109_CLASS_F_STEP2_GENUINE_MEDIA_ACQUISITION_RIGHTS_CHECKLIST_PACKET_20260720.json`
-- Inventory: `Plan/Instructions/QA/Evidence/Wave64/TRK-W64-109_CLASS_F_STEP2_ACQUISITION_RIGHTS_INVENTORY_20260720.json`
-- Receipt SHA256: `976dc5cd8aa789738b859a5d6a66c9886463c3ed953160efadfb1ff7dd93ba6d`
-- Checklist counts: open=14, satisfied=1 (AR-15 completion guard only)
-- media/row109 file_count: 0; reviews/row109 file_count: 0
-- genuine_annotated_media_copy cases: 0; rights decision files under media: 0
-- Validators: hold CLI row_complete=false; pytest `test_row109_audio_benchmark_corpus.py` exit=0
-- Row068 rights authority bound (accepted) but does not clear Row109 media
-- Proof tier: `OFFLINE_ACQUISITION_RIGHTS_CHECKLIST_BOUNDED`
-- `row_complete=false`; step2_still_blocked=true; no media invented
+- Ranking packet: `Plan/Instructions/QA/Evidence/Wave64/TRK-W64-POST073_EXCLUSIVE_PCM_HANDOFF_RANKING_074_076_077_20260720.json`
+- Packet SHA256: `9eff1fd1b682b20ab3d49532f56832b2933f8de9250b4d7a50151b5d353f0727`
+- Recommendation: first exclusive owner after Row073 coverage_complete = **TRK-W64-074**, then 076, then 077
+- No library PCM job started
 
-## Boundaries honored
+## Exclusive ownership
 
-- No :8188 / GPU
-- No genuine annotated media invention
-- No fabricated rights_decision_sha256
-- No library PCM decode / full-library scan
-- No Row073 PCM touch; no 074/076/077 library start
-- No shared CSV mutation; no HOLD090+
-- No tip-SHA chain; no false COMPLETE
+- Row073 full-library index-retained PCM (PID 27320) — do not kill/contend/restart
+- Do not start Row074/076/077 library PCM while 073 owns the lane
 
 ## Exact next action
 
-1. Human/external: execute AR-01..AR-14 — stage rights-cleared annotated copies under `Plan/Instructions/QA/Evidence/Wave64/media/row109` with `human_gold` + Row068 `rights_decision_sha256` (`decode_invoked=false`); recompile; then combined frame/contact/audio review.
-2. Leave Row073 alone; CSV Notes sync for Row109 optional via mutator only.
-3. Do not invent clips or fabricate rights hashes to clear Class F.
+1. Leave Row073 alone until coverage_complete.
+2. After coverage_complete, claim Row074 exclusive index-retained full reconcile (omit `--limit`); keep 076/077 idle.
+3. CSV via mutator only; no COMPLETE.

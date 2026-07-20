@@ -6,25 +6,25 @@ Updated: 2026-07-20T12:30-05:00
 
 - Active platform: interactive Cursor (integration authority)
 - Branch: `codex/workflow_plan_update_improvements`
-- This pass: probe local ComfyUI `:8188` for highest-value real generation/proof
-- Result: **blocked** — `:8188` DOWN; GPU not free (Masking gold tournament + SAM2); safe start script dry-run only; no Execute
+- This pass: hash-bound post-073 exclusive PCM handoff ranking 074 vs 076 vs 077 (evidence only; no PCM start)
+- Tip at packet: `5cae1f6828e542a94b92868e0ebad7effb3fa96f`
 - No COMPLETE / Status flip. CSV deferred to mutator.
-- Row073 PID 27320 left alone.
+- Row073 PID 27320 left alone (~72.7% at packet; coverage_complete=false).
 
 ## This pass proof
 
-- Blocker packet: `Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_LOCAL_COMFYUI_8188_HEALTH_GPU_SERIALIZE_BLOCKER_20260720T123037-0500.json`
-- Start dry-run: `runtime_artifacts/run_manifests/LOCAL_COMFY_DEV_START_DRYRUN_20260720T1228-0500.json`
-- Generation executed: **false**
-- ComfyUI started: **false**
+- Ranking packet: `Plan/Instructions/QA/Evidence/Wave64/TRK-W64-POST073_EXCLUSIVE_PCM_HANDOFF_RANKING_074_076_077_20260720.json`
+- Packet SHA256: `9eff1fd1b682b20ab3d49532f56832b2933f8de9250b4d7a50151b5d353f0727`
+- Recommendation: first exclusive owner after Row073 coverage_complete = **TRK-W64-074**, then 076, then 077
+- No library PCM job started
 
 ## Exclusive ownership
 
-- Row073 full-library index-retained PCM (PID 27320) — do not kill/contend/restart this shift
-- Foreign GPU: Masking `run_multiprovider_gold_tournament.py` PIDs 53536/50040 + `run_sam2_server_wsl.py` — serialize; do not steal
+- Row073 full-library index-retained PCM (PID 27320) — do not kill/contend/restart
+- Do not start Row074/076/077 library PCM while 073 owns the lane
 
 ## Exact next action
 
-1. Wait until Masking GPU owners clear; then `Start-LocalComfyUIDev.ps1 -Execute -LowVram` and climb deferred prepared visual/character proof.
-2. Leave Row073 alone; CSV via mutator only.
-3. Do not thrash settled HOLD Rows084-089 or invent human media for Row010/109.
+1. Leave Row073 alone until coverage_complete.
+2. After coverage_complete, claim Row074 exclusive index-retained full reconcile (omit `--limit`); keep 076/077 idle.
+3. CSV via mutator only; no COMPLETE.
