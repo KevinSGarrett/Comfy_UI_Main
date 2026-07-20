@@ -5,13 +5,13 @@
 - Active integration platform: top-level interactive Cursor subagent under continuous autonomous shift plan / proof-tier pivot.
 - Branch: `codex/workflow_plan_update_improvements`
 - Prior tip: `b36001b9`
-- Primary commit: `PENDING_THIS_PASS` — Unlock Row075 index-retained defect probe + Row072 progress stamp.
+- Primary commit: `8236c545` — Unlock Row075 index-retained defect probe + Row072 progress stamp.
 - This pass: Row072 healthy long-run verified (no restart); prepared MF70 visual lanes exhausted; climbed dependency-ready Row075 audio defect lane with bounded probe (deferred full PCM reconcile to avoid fighting Row072).
 - No COMPLETE / promotion claim.
 
 ## Commits Pushed This Pass
 
-1. `PENDING_THIS_PASS` Implement Row075 index-retained defect probe + Row072 progress stamp + handoff.
+1. `8236c545` Implement Row075 index-retained defect probe + Row072 progress stamp + handoff.
 
 ## Row-Scoped Increments Executed
 
