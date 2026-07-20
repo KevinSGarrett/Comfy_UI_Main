@@ -1,28 +1,30 @@
 {
   "blocker_codes": [
     "EMBEDDING_INDEX_LIBRARY_RUNTIME_ABSENT",
-    "EMBEDDING_MODEL_NOT_SELECTED_OR_INSTALLED",
-    "FULL_LIBRARY_EMBEDDING_RECONCILIATION_ABSENT",
-    "HELDOUT_RETRIEVAL_LIBRARY_METRICS_ABSENT",
-    "PREPROCESSING_RUNTIME_UNBOUND"
+    "EMBEDDING_MODEL_WEIGHTS_NOT_INSTALLED",
+    "FULL_LIBRARY_EMBEDDING_RECONCILIATION_ABSENT"
   ],
   "compiler_revision": "wave64_row077_semantic_audio_embedding_compiler_v0.1.0",
   "decision": {
     "dependencies_unlocked": true,
+    "hashes_frozen": true,
+    "heldout_bound": true,
+    "license_bound": true,
+    "model_selected": true,
     "product_completion": false,
     "row077_acceptance": "held",
     "runtime_completion": false,
-    "safe_next_action": "Rows069-070 library authority is accepted. Select and license-bind one exact embedding model file-set; freeze preprocessing and taxonomy serialization hashes; build a hash-bound embedding index; prove exact or tolerance-bound determinism and disjoint held-out retrieval across required slices; then replace this hold packet with library embedding evidence. Do not start a full-library PCM/embedding scan while Row075 retained-index defect reconcile owns library I/O.",
+    "safe_next_action": "Model laion_clap_general is selected, Apache-2.0 license-bound, and hash-frozen; held-out-only index/metrics are bound under runtime_artifacts/embeddings/row077_heldout_*. Install and hash-reconcile the selected weights, then build the full-library embedding index only after Row075 releases library I/O. Do not start a full-library PCM/embedding scan while Row075 owns library I/O.",
     "status": "blocked"
   },
   "dependencies_unlocked": true,
   "embedding_registry": {
-    "authority": "planning_freeze_not_library_acceptance",
-    "model_selected_for_library": false,
+    "authority": "model_selected_heldout_bound_not_library_acceptance",
+    "model_selected_for_library": true,
     "path": "Plan/10_REGISTRIES/wave64_row077_semantic_audio_embedding_registry.json",
     "preprocessing_configuration_sha256": "457d0fa46b5a3de30386de273e08b61ce681b6ffd41c91ee17b368d27d4a6969",
     "registry_revision": "wave64_row077_semantic_audio_embedding_registry_v0.1.0",
-    "sha256": "1fa0a87c102350599f1f4474d60aaa201c2249a8c677e534ab90549b4123d150"
+    "sha256": "fbd18c1999962b0b7e8a4058796408500ff70b7f756f474465c1632f768e5cfd"
   },
   "evidence_id": "TRK-W64-077_semantic_audio_embeddings",
   "fixture_calibration": {
@@ -537,10 +539,39 @@
       }
     ]
   },
+  "frozen_hashes": {
+    "preprocessing_configuration_sha256": "457d0fa46b5a3de30386de273e08b61ce681b6ffd41c91ee17b368d27d4a6969",
+    "taxonomy_revision_sha256": "a1ec36bcb43d851ef592c618540ea2d8cb5352233ba10b13892ff7117b966327"
+  },
+  "heldout_binding": {
+    "all_slices_pass": true,
+    "embedding_index_revision": "wave64_row077_heldout_embedding_index_v0.1.0",
+    "full_library_scan": false,
+    "manifest_sha256": "461624d1cbee3e4a483d491be8deb1b443d85acf14070f89ab29f1e6997e19f7",
+    "metrics_sha256": "a251315a1e49b0da9abaa7260f787b1a52addf75d97cc132bdbeeb12826b2e84",
+    "paths": {
+      "dir": "runtime_artifacts/embeddings/row077_heldout_20260720",
+      "index": "runtime_artifacts/embeddings/row077_heldout_20260720/row077_heldout_embedding_index.json",
+      "manifest": "runtime_artifacts/embeddings/row077_heldout_20260720/row077_heldout_manifest.json",
+      "metrics": "runtime_artifacts/embeddings/row077_heldout_20260720/row077_heldout_retrieval_metrics.json"
+    },
+    "present": true,
+    "scope": "held_out_only"
+  },
   "highest_proof_tier_achieved": "CONTRACT_PASS_BOUNDED",
   "implementation_completion_claimed": false,
   "item_id": "ITEM-W64-077",
   "library_authority": false,
+  "model_selection": {
+    "declared_local_path": "models/audio/embeddings/laion_clap_general/pytorch_model.bin",
+    "expected_key_file_sha256": "314eb00cce6ad68d25237b8446b659ccdb136ed4672c1bca470f142f72455026",
+    "license_acceptance_asserted": true,
+    "license_binding_sha256": "b2d2cf1ddecefbf8b882fa774b62ebefaa5d7b523e195cee8896aa8656cb2c9b",
+    "selected_asset_id": "laion_clap_general",
+    "selected_for_library": true,
+    "selected_model_revision": "ada0c23a36c4e8582805bb38fec3905903f18b41",
+    "weights_installed": false
+  },
   "proof_tier": "CONTRACT_PASS_BOUNDED",
   "registry_revision": "wave64_row077_semantic_audio_embedding_registry_v0.1.0",
   "required_embedding_spaces": [
@@ -557,28 +588,28 @@
   ],
   "row069_admission": {
     "blocker_codes": [],
-    "bytes": 9834,
+    "bytes": 10417,
     "dependency_satisfied": true,
     "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-069_FULL_AUDIO_LIBRARY_INDEX_CURRENT_DELTA_20260719.json",
     "row_complete": true,
-    "sha256": "3e506435f7ebe0a1e4efcd32f308c4e46f2bcc100158a9c14b9d454c612d9f7f",
+    "sha256": "4fa5de1ee6eedb7bf96833b4422eaefac2aaaba69603805c0c235c1e35714b37",
     "status": "PASS_LIBRARY_INDEX_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION",
     "tracker_id": "TRK-W64-069"
   },
   "row070_admission": {
     "blocker_codes": [],
-    "bytes": 10002,
+    "bytes": 10472,
     "dependency_satisfied": true,
     "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_CANONICAL_AUDIO_DECODE_CURRENT_DELTA_20260719.json",
     "row_complete": true,
-    "sha256": "9fdced4244a95f6cb467a09ebe172fef06aff75b9a63b9cc1455c6bcae134c41",
+    "sha256": "6b127ea819f910197418165e65508854a2c94c951cc7729c2cd91fa41df09146",
     "status": "PASS_LIBRARY_PCM_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION",
     "tracker_id": "TRK-W64-070"
   },
   "row_complete": false,
   "runtime_completion_claimed": false,
   "schema_version": "1.0.0",
-  "status": "HOLD_LIBRARY_EMBEDDING_MODEL_AND_INDEX_ABSENT_DEPS_UNLOCKED",
+  "status": "HOLD_LIBRARY_EMBEDDING_INDEX_ABSENT_MODEL_SELECTED_HELDOUT_BOUND",
   "tracker_id": "TRK-W64-077",
   "validation_methods": [
     "model_hash",

@@ -2,31 +2,21 @@
   "acceptance_gaps": [
     {
       "code": "EMBEDDING_INDEX_LIBRARY_RUNTIME_ABSENT",
-      "detail": "Remaining after Rows069/070 unlock."
+      "detail": "Full-library embedding index still absent; held-out-only bind does not grant library authority."
     },
     {
-      "code": "EMBEDDING_MODEL_NOT_SELECTED_OR_INSTALLED",
-      "detail": "Remaining after Rows069/070 unlock."
+      "code": "EMBEDDING_MODEL_WEIGHTS_NOT_INSTALLED",
+      "detail": "laion_clap_general selected+license-bound with frozen expected hash; local weights file absent."
     },
     {
       "code": "FULL_LIBRARY_EMBEDDING_RECONCILIATION_ABSENT",
-      "detail": "Remaining after Rows069/070 unlock."
-    },
-    {
-      "code": "HELDOUT_RETRIEVAL_LIBRARY_METRICS_ABSENT",
-      "detail": "Remaining after Rows069/070 unlock."
-    },
-    {
-      "code": "PREPROCESSING_RUNTIME_UNBOUND",
-      "detail": "Remaining after Rows069/070 unlock."
+      "detail": "Forbidden while Row075 owns library I/O; not started."
     }
   ],
   "blocker_codes": [
     "EMBEDDING_INDEX_LIBRARY_RUNTIME_ABSENT",
-    "EMBEDDING_MODEL_NOT_SELECTED_OR_INSTALLED",
-    "FULL_LIBRARY_EMBEDDING_RECONCILIATION_ABSENT",
-    "HELDOUT_RETRIEVAL_LIBRARY_METRICS_ABSENT",
-    "PREPROCESSING_RUNTIME_UNBOUND"
+    "EMBEDDING_MODEL_WEIGHTS_NOT_INSTALLED",
+    "FULL_LIBRARY_EMBEDDING_RECONCILIATION_ABSENT"
   ],
   "checks": [
     {
@@ -39,15 +29,33 @@
     },
     {
       "name": "production_model_selected",
-      "status": "FAIL"
+      "observed": "laion_clap_general",
+      "status": "PASS"
+    },
+    {
+      "name": "license_bound_apache_2_0",
+      "status": "PASS"
+    },
+    {
+      "name": "preprocessing_and_taxonomy_hashes_frozen",
+      "status": "PASS"
+    },
+    {
+      "name": "heldout_only_index_and_metrics_bound",
+      "observed": "4/4 slices pass",
+      "status": "PASS"
     },
     {
       "name": "full_library_embedding_index_present",
       "status": "FAIL"
     },
     {
+      "name": "model_weights_installed",
+      "status": "FAIL"
+    },
+    {
       "name": "focused_row077_validators",
-      "observed": "11 passed",
+      "observed": "13 passed",
       "status": "PASS"
     },
     {
@@ -59,15 +67,19 @@
       "status": "PASS"
     }
   ],
-  "classification": "ROW077_DEPS_UNLOCKED_MODEL_AND_INDEX_ABSENT_NO_FALSE_COMPLETION",
+  "classification": "ROW077_MODEL_SELECTED_HELDOUT_BOUND_LIBRARY_INDEX_ABSENT_NO_FALSE_COMPLETION",
   "created_at": "2026-07-19T03:39:26.4338328Z",
   "decision": {
     "dependencies_unlocked": true,
+    "hashes_frozen": true,
+    "heldout_bound": true,
     "library_authority": false,
+    "license_bound": true,
+    "model_selected": true,
     "product_completion": false,
     "row077_acceptance": "held",
     "runtime_completion": false,
-    "safe_next_action": "Rows069-070 library authority is accepted. Select and license-bind one exact embedding model file-set; freeze preprocessing and taxonomy serialization hashes; build a hash-bound embedding index; prove exact or tolerance-bound determinism and disjoint held-out retrieval across required slices; then replace this hold packet with library embedding evidence. Do not start a full-library PCM/embedding scan while Row075 retained-index defect reconcile owns library I/O.",
+    "safe_next_action": "Model laion_clap_general is selected, Apache-2.0 license-bound, and hash-frozen; held-out-only index/metrics are bound under runtime_artifacts/embeddings/row077_heldout_*. Install and hash-reconcile the selected weights, then build the full-library embedding index only after Row075 releases library I/O. Do not start a full-library PCM/embedding scan while Row075 owns library I/O.",
     "status": "blocked"
   },
   "dependency_authority": [
@@ -85,36 +97,67 @@
     }
   ],
   "direct_evidence": {
-    "bytes": 24132,
+    "bytes": 25708,
     "dependencies_unlocked": true,
+    "heldout_bound": true,
     "library_authority": false,
+    "model_selected": true,
     "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-077_semantic_audio_embeddings.json",
     "row_complete": false,
-    "sha256": "a6ea1a177145635e49525cec2773712b0df0431610bf69a5ba895681dbbeb181",
-    "status": "HOLD_LIBRARY_EMBEDDING_MODEL_AND_INDEX_ABSENT_DEPS_UNLOCKED"
+    "sha256": "23decfbe22b0a76cf027659bdaeb6159a27242f247650ae21e8d72fab58a9f75",
+    "status": "HOLD_LIBRARY_EMBEDDING_INDEX_ABSENT_MODEL_SELECTED_HELDOUT_BOUND"
   },
   "docker_cvat": "not-needed",
   "ec2": "EC2_DEFERRED",
   "evidence_id": "W64-ROW077-SEMANTIC-AUDIO-EMBEDDING-CURRENT-DELTA-20260719",
   "focused_validators": {
     "exit_code": 0,
-    "library_compile_status": "HOLD_LIBRARY_EMBEDDING_MODEL_AND_INDEX_ABSENT_DEPS_UNLOCKED",
+    "library_compile_status": "HOLD_LIBRARY_EMBEDDING_INDEX_ABSENT_MODEL_SELECTED_HELDOUT_BOUND",
     "test_command": "python -m pytest Plan/Instructions/QA/Scripts/test_row077_semantic_audio_embeddings.py -q",
-    "test_result": "11 passed"
+    "test_result": "13 passed"
+  },
+  "frozen_hashes": {
+    "preprocessing_configuration_sha256": "457d0fa46b5a3de30386de273e08b61ce681b6ffd41c91ee17b368d27d4a6969",
+    "taxonomy_revision_sha256": "a1ec36bcb43d851ef592c618540ea2d8cb5352233ba10b13892ff7117b966327"
+  },
+  "heldout_artifacts": {
+    "dir": "runtime_artifacts/embeddings/row077_heldout_20260720",
+    "full_library_scan": false,
+    "index_sha256": "236fabfeca3e1a360771e905beb4015ae334df6fddfd6b7459d0f0b45050747e",
+    "manifest_sha256": "9c086c86301eb45e92e46fd68c663ab9fd8711b467c9e4071980200c07e7f700",
+    "metrics_sha256": "0d9bc8ae314bebd5844d0faa9e9c99770c756e8198b9f509612552148cb02a4f",
+    "pcm_decoded": false,
+    "scope": "held_out_only"
+  },
+  "heldout_binding": {
+    "all_slices_pass": true,
+    "embedding_index_revision": "wave64_row077_heldout_embedding_index_v0.1.0",
+    "full_library_scan": false,
+    "manifest_sha256": "461624d1cbee3e4a483d491be8deb1b443d85acf14070f89ab29f1e6997e19f7",
+    "metrics_sha256": "a251315a1e49b0da9abaa7260f787b1a52addf75d97cc132bdbeeb12826b2e84",
+    "paths": {
+      "dir": "runtime_artifacts/embeddings/row077_heldout_20260720",
+      "index": "runtime_artifacts/embeddings/row077_heldout_20260720/row077_heldout_embedding_index.json",
+      "manifest": "runtime_artifacts/embeddings/row077_heldout_20260720/row077_heldout_manifest.json",
+      "metrics": "runtime_artifacts/embeddings/row077_heldout_20260720/row077_heldout_retrieval_metrics.json"
+    },
+    "present": true,
+    "scope": "held_out_only"
   },
   "highest_proof_tier_achieved": "CONTRACT_PASS_BOUNDED",
+  "implementation_commit": "3c00d3daced83a286a574bf4a2e4d34305376677",
   "implementation_completion_claimed": false,
   "implemented_slice": {
-    "compiler_bytes": 29482,
+    "compiler_bytes": 49489,
     "compiler_path": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_semantic_audio_embeddings.py",
-    "compiler_sha256": "98e249421be556777b2d980bd70eede3da67ad251c1e39bb4343a1e2c8c24542",
+    "compiler_sha256": "e6ba0d2b411b5326802aa010a4de61abaabdda42939ccd1e470e100c5c4c27d6",
     "embedding_registry_path": "Plan/10_REGISTRIES/wave64_row077_semantic_audio_embedding_registry.json",
-    "embedding_registry_sha256": "1fa0a87c102350599f1f4474d60aaa201c2249a8c677e534ab90549b4123d150",
+    "embedding_registry_sha256": "fbd18c1999962b0b7e8a4058796408500ff70b7f756f474465c1632f768e5cfd",
     "schema_path": "Plan/08_SCHEMAS/semantic_audio_embedding_record.schema.json",
     "schema_sha256": "0baf89b22072e255950a60a6d6d2fb2dbd0bbab2f2ec756343979524d8fdb105",
-    "test_bytes": 7352,
+    "test_bytes": 10027,
     "test_path": "Plan/Instructions/QA/Scripts/test_row077_semantic_audio_embeddings.py",
-    "test_sha256": "63eb4789be81a48988b61155c4a05b98a683d4bd54a3d8dba6461c8bd5fc76e9"
+    "test_sha256": "865b52b02dbe4dbd5375347bb0daa05d5d81e04e34c563decb562e05aaa11ee7"
   },
   "increment": {
     "changed_paths": [
@@ -123,34 +166,46 @@
       "Plan/10_REGISTRIES/wave64_row077_semantic_audio_embedding_registry.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-077_semantic_audio_embeddings.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-077_SEMANTIC_AUDIO_EMBEDDING_CURRENT_DELTA_20260719.json",
-      "Plan/Tracker/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_TRACKER_ROWS.csv",
-      "Plan/Items/Waves/Wave64/WAVE64_AUTONOMOUS_SOUND_INTELLIGENCE_ITEM_ROWS.csv"
+      "runtime_artifacts/embeddings/row077_heldout_20260720/row077_heldout_manifest.json",
+      "runtime_artifacts/embeddings/row077_heldout_20260720/row077_heldout_embedding_index.json",
+      "runtime_artifacts/embeddings/row077_heldout_20260720/row077_heldout_retrieval_metrics.json"
     ],
     "compiler_revision": "wave64_row077_semantic_audio_embedding_compiler_v0.1.0",
-    "kind": "dependency_unlock_and_ledger_vocabulary_sync",
+    "kind": "model_select_license_bind_hash_freeze_heldout_only",
     "registry_revision": "wave64_row077_semantic_audio_embedding_registry_v0.1.0",
-    "summary": "Cleared Row069/070 dependency hold; admission now deps-unlocked. Remaining blockers are model/index/runtime only. No COMPLETE; no full-library embedding scan while Row075 owns library I/O."
+    "summary": "Selected+Apache-2.0 license-bound laion_clap_general; froze preprocessing/taxonomy/key-file hashes; bound held-out-only index/metrics. No COMPLETE; no full-library embed/PCM scan; no shared CSV writes; Row075 left alone."
   },
   "item_id": "ITEM-W64-077",
-  "ledger_status": "Blocked_Library_Embedding_Model_And_Index_Absent_Deps_Unlocked",
+  "ledger_status": "Blocked_Library_Embedding_Index_Absent_Model_Selected_Heldout_Bound",
   "library_authority": false,
+  "model_selection": {
+    "declared_local_path": "models/audio/embeddings/laion_clap_general/pytorch_model.bin",
+    "expected_key_file_sha256": "314eb00cce6ad68d25237b8446b659ccdb136ed4672c1bca470f142f72455026",
+    "license_acceptance_asserted": true,
+    "license_binding_sha256": "b2d2cf1ddecefbf8b882fa774b62ebefaa5d7b523e195cee8896aa8656cb2c9b",
+    "selected_asset_id": "laion_clap_general",
+    "selected_for_library": true,
+    "selected_model_revision": "ada0c23a36c4e8582805bb38fec3905903f18b41",
+    "weights_installed": false
+  },
   "proof_tier": "CONTRACT_PASS_BOUNDED",
-  "qa_decision": "deps_unlocked_hold_model_selection_and_library_index_absent",
+  "qa_decision": "model_selected_heldout_bound_hold_library_index_and_weights_absent",
   "row_complete": false,
   "runtime_completion_claimed": false,
   "schema_version": 1,
-  "source_commit": "PENDING_THIS_PASS",
-  "status": "HOLD_LIBRARY_EMBEDDING_MODEL_AND_INDEX_ABSENT_DEPS_UNLOCKED",
+  "source_commit": "3c00d3da",
+  "status": "HOLD_LIBRARY_EMBEDDING_INDEX_ABSENT_MODEL_SELECTED_HELDOUT_BOUND",
   "test_and_runtime_boundary": {
     "audio_opened_or_decoded": false,
     "docker_invoked": false,
     "ec2_invoked": false,
     "embedding_model_loaded": false,
     "full_library_scan_started": false,
+    "heldout_only_artifacts_written": true,
     "test_command": "python -m pytest Plan/Instructions/QA/Scripts/test_row077_semantic_audio_embeddings.py -q",
-    "test_result": "11 passed",
+    "test_result": "13 passed",
     "tests_executed_for_this_delta": true
   },
   "tracker_id": "TRK-W64-077",
-  "updated_at": "2026-07-20T05:47:01.698653Z"
+  "updated_at": "2026-07-20T06:08:36.945603Z"
 }
