@@ -4,7 +4,7 @@
 
 - Active integration platform: top-level interactive Cursor subagent under continuous autonomous shift plan / proof-tier pivot.
 - Branch: `codex/workflow_plan_update_improvements`
-- Primary commit: `PENDING_STAMP` — Accept Row071 retained-index feature/audio-QA library authority.
+- Primary commit: `1724d230` — Accept Row071 retained-index feature/audio-QA library authority.
 - Prior tip at shift reconstruct: `3985ca1d` (Row070 hardening stamp). Dirty Row071 v0.2.0 retained-reconcile WIP was present and finalized.
 - Writable scope limited to Row071 feature/audio-QA surfaces + sound-intelligence tracker/item Notes + this handoff.
 - Avoided Row017 visual paths in this commit; EC2 deferred; no product COMPLETE claim.
