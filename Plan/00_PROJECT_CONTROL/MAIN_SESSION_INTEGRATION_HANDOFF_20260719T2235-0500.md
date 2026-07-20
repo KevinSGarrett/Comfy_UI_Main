@@ -4,15 +4,15 @@
 
 - Active integration platform: top-level interactive Cursor subagent under continuous autonomous shift plan / proof-tier pivot.
 - Branch: `codex/workflow_plan_update_improvements`
-- Primary commit: `(pending)` — Prove Row017 MF70 face_full_instance local visual climb.
+- Primary commit: `b03c549e` — Prove Row017 MF70 face_full_instance local visual climb.
 - Prior tip: `298cc5a1` (Row017 expression-region finalize). Under-eye and mouth_lips already VISUAL_QA_PASS_BOUNDED on tip; next unused prepared MF70 face lane climbed.
 - Writable scope kept DISJOINT from Row069/070/071 sound/feature surfaces.
 - No COMPLETE / promotion claim.
 
 ## Commits Pushed This Pass
 
-1. `(pending)` Prove Row017 MF70 face_full_instance local visual climb.
-2. Stamp / tip finalize commits follow after primary lands.
+1. `b03c549e` Prove Row017 MF70 face_full_instance local visual climb.
+2. Stamp commit aligns handoff primary id; tip finalize follows push.
 
 ## Row-Scoped Increment Executed
 
