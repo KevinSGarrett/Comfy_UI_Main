@@ -227,7 +227,7 @@
     "dependency_satisfied": true,
     "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-067_PLANNING_AUTHORITY_CURRENT_DELTA_20260719.json",
     "row067_complete": true,
-    "row084_effect": "Dependency remains unlocked. Synthetic climb ledger binds cut/camera/mux-plan-replay/combined-visual fixture digests at CONTRACT_PASS_BOUNDED without granting runtime cut detection, camera-motion normalization, executed mux replay, visual review, RUNTIME_PASS_BOUNDED, VISUAL_QA_PASS_BOUNDED, or row_complete.",
+    "row084_effect": "Dependency remains unlocked. Offline ffmpeg-decoded combined visual review at 77dd5fbe/1df396c3 grants VISUAL_QA_PASS_BOUNDED (visual_review_authority_granted=true, bounded held-out lavfi). Runtime cut/camera/mux climb already cleared; COMPLETE and row_complete remain withheld.",
     "row_complete": true,
     "tracker_id": "TRK-W64-067"
   },
@@ -298,7 +298,7 @@
     ],
     "decision": "HOLD_ROW084_AFTER_OFFLINE_VISUAL_QA_NO_COMPLETE",
     "reason": "ROW084-020 cleared via ffmpeg-decoded combined frame/contact/audio visual review at VISUAL_QA_PASS_BOUNDED without :8188. COMPLETE/row_complete remain withheld.",
-    "safe_next_action": "CSV acceptance sync deferred to serialized mutator. Do not claim COMPLETE. Production media visual/contact still out of scope for this held-out lavfi lane."
+    "safe_next_action": "CSV already synced (139b4309). Next: production completion and row_complete remain withheld on this held-out lavfi VISUAL_QA_PASS_BOUNDED lane. Do not claim COMPLETE."
   },
   "host_execution": {
     "comfyui_8188_invoked": false,
@@ -519,7 +519,7 @@
     ],
     "risk": "HIGH",
     "runtime_proof_required": true,
-    "status": "Planned_Autonomous_Implementation_Required",
+    "status": "Blocked_Visual_Qa_Pass_Bounded_Production_Completion_And_Row_Complete_Blocked",
     "test_required": true,
     "title": "Canonical video decode, cuts, frame timing, and sample-clock normalization",
     "tracker_output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_canonical_video_timeline.json",
