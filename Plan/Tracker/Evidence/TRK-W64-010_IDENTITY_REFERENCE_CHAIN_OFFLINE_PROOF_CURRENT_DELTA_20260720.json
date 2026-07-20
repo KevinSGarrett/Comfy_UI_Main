@@ -1,0 +1,242 @@
+{
+  "schema_version": "1.0",
+  "artifact_type": "wave64_row010_identity_reference_chain_offline_proof_current_delta",
+  "evidence_id": "TRK-W64-010_IDENTITY_REFERENCE_CHAIN_OFFLINE_PROOF_CURRENT_DELTA_20260720",
+  "created_at": "2026-07-20T06:50:30Z",
+  "created_iso_chicago_stamp": "20260720T014500-0500",
+  "tracker_id": "TRK-W64-010",
+  "item_id": "ITEM-W64-010",
+  "lane": "Class_A_identity_reference_authority_offline_proof",
+  "status": "BLOCKED_CLASS_F_A_USER_AUTHORITY_REFERENCE_CHAIN_ABSENT",
+  "row_complete": false,
+  "proof_tier": "OFFLINE_INVENTORY_BLOCKER_BOUNDED",
+  "highest_proof_tier_achieved": "OFFLINE_INVENTORY_BLOCKER_BOUNDED",
+  "implementation_completion_claimed": false,
+  "gate_snapshot": {
+    "identity_reference_check": "blocked_missing_per_character_reference_chain",
+    "multi_instance_check": "pass_reused_local_evidence",
+    "occlusion_depth_check": "pass_with_local_limits",
+    "visual_reject_on_merge": "pass_reject_logic_demonstrated",
+    "row_complete": false
+  },
+  "imc_identity_reference_checks": [
+    "IMC-002",
+    "IMC-003",
+    "IMC-017",
+    "IMC-018",
+    "IMC-020"
+  ],
+  "blocker_classes": [
+    {
+      "class": "A",
+      "name": "IDENTITY_REFERENCE_AUTHORITY",
+      "codes": [
+        "USER_AUTHORITY_PER_CHARACTER_REFERENCE_CROPS_ABSENT",
+        "PORTABLE_MULTI_CHARACTER_ID_REFERENCE_PACKET_ABSENT",
+        "PER_CHARACTER_COMPARISON_CROP_BINDING_ABSENT"
+      ],
+      "cleared_by_this_packet": [],
+      "summary": "Class A offline inventory finds no portable per-character_id USER_AUTHORITY reference crops, hashes, or comparison-crop bindings that can clear identity_reference_check."
+    },
+    {
+      "class": "F",
+      "name": "EXTERNAL_HUMAN_AUTHORITY_MEDIA_GATE",
+      "codes": [
+        "USER_AUTHORITY_FACE_BODY_REFERENCES_NOT_INVENTABLE",
+        "PERSONAL_CALIBRATION_CHARACTER1_EXCLUDED_NONCANONICAL"
+      ],
+      "cleared_by_this_packet": [],
+      "summary": "Class F fail-closed: faces/reference crops cannot be invented; untracked character1_*/ztest assets remain personal_calibration_noncanonical and are excluded without an explicit tracker include list."
+    }
+  ],
+  "blocker_codes": [
+    "USER_AUTHORITY_PER_CHARACTER_REFERENCE_CROPS_ABSENT",
+    "PORTABLE_MULTI_CHARACTER_ID_REFERENCE_PACKET_ABSENT",
+    "PER_CHARACTER_COMPARISON_CROP_BINDING_ABSENT",
+    "USER_AUTHORITY_FACE_BODY_REFERENCES_NOT_INVENTABLE",
+    "PERSONAL_CALIBRATION_CHARACTER1_EXCLUDED_NONCANONICAL",
+    "blocked_missing_per_character_reference_chain"
+  ],
+  "inventory": {
+    "user_authority_filename_hits": [],
+    "character_packs_root_exists": false,
+    "portable_character_reference_pack_runtime_assets": [],
+    "tracked_identity_or_comparison_crops": [
+      {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_row017_mf70_face_identity_critical_20260719T231500-0500/images/qa_face_crop_side_by_side.png",
+        "eligible_for_row010_generic_authority": false,
+        "reason": "Row017 single-character local face climb crop; not a multi-character per-character_id USER_AUTHORITY reference chain."
+      }
+    ],
+    "schema_example_only": [
+      {
+        "path": "Plan/09_EXAMPLES/wave08_reference_pack_manifest.example.json",
+        "sha256": "dcf6ad1e4e43f398bbd70068051b459124d2386478370e05a9768cdbf0a802c4",
+        "bytes": 1461,
+        "eligible_for_row010_generic_authority": false,
+        "reason": "Example manifest with REPLACE_WITH_SHA256 placeholders; not runtime USER_AUTHORITY media."
+      },
+      {
+        "path": "Plan/08_SCHEMAS/examples/wave64_two_character_ownership_and_mask_binding.example.json",
+        "sha256": "2e195532802120ffd229a79bd52c60393450c3acfb3de7832fccd9043cbd24a0",
+        "bytes": 6619,
+        "eligible_for_row010_generic_authority": false,
+        "reason": "contract_fixture_not_runtime_evidence; placeholder hashes only."
+      }
+    ],
+    "wave70_canonical_body_dropzone": {
+      "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/canonical_reference_package_intake_validation.json",
+      "sha256": "2bbb71e003d7f55a84484fdf20c3e7a8b222ce00770a7875d1415642bc7732bc",
+      "bytes": 22278,
+      "qa_decision": "canonical_reference_package_intake_blocked_missing_required_slots_no_promotion",
+      "eligible_for_row010_generic_authority": false,
+      "reason": "Body/mask intake dropzone is not a portable multi-character identity reference packet binding distinct character_ids to isolated face/body refs and generated comparison crops."
+    },
+    "personal_calibration_excluded": {
+      "classification": "personal_calibration_noncanonical",
+      "protocol": "Plan/Instructions/PERSONAL_CALIBRATION_ASSET_BOUNDARY_AND_ROW_SELECTION_PROTOCOL.md",
+      "protocol_sha256": "da80bfd4d597420389838bf51551badb1bda4009b1ab1aa41d2f3c0ab713fb6c",
+      "untracked_character1_path_count_observed": 114,
+      "ztest_present_untracked": true,
+      "bulk_adopted": false,
+      "include_list_present_in_tracker": false
+    }
+  },
+  "prior_row010_boundary": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/image_identity_multicharacter.json",
+    "sha256": "db92ac2bc26b5343f61d6da1926479e844a142252cf8bdbb04fa408fbb3e762e",
+    "bytes": 9971,
+    "status": "Blocked_Identity_Reference_Proof_Missing_Separation_And_Merge_Rejection_Pass",
+    "exact_blocker_preserved": "No supplied artifact binds each generated person to a unique character_id, isolated identity references, and a per-character comparison crop.",
+    "gates_not_rewritten": true
+  },
+  "source_bindings": [
+    {
+      "path": "Plan/03_IMAGE_SYSTEM/CHARACTER_IDENTITY_AND_MULTICHARACTER_SPEC.md",
+      "sha256": "7bd986be8be4ca4a6eae7790afaf6aa569fb687e24a0ed2489687f384e46a648",
+      "bytes": 1493
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/image_identity_multicharacter.json",
+      "sha256": "db92ac2bc26b5343f61d6da1926479e844a142252cf8bdbb04fa408fbb3e762e",
+      "bytes": 9971
+    },
+    {
+      "path": "Plan/Instructions/PERSONAL_CALIBRATION_ASSET_BOUNDARY_AND_ROW_SELECTION_PROTOCOL.md",
+      "sha256": "da80bfd4d597420389838bf51551badb1bda4009b1ab1aa41d2f3c0ab713fb6c",
+      "bytes": 3301
+    },
+    {
+      "path": "Plan/Items/Reports/ITEM-W64-010_image_identity_multicharacter.json",
+      "sha256": "019ffe2a7ae54c6dee00664a7baecc2f28f15b5d119bb14628f23d62b077cae5",
+      "bytes": 4269
+    }
+  ],
+  "boundaries": {
+    "comfyui_8188_used": false,
+    "comfyui_8188_owned_by": "TRK-W64-019/TRK-W64-023",
+    "gpu_used": false,
+    "faces_invented": false,
+    "character1_bulk_adopted": false,
+    "builders_012_014_015_008_016_thrashed": false,
+    "row075_touched": false,
+    "audio_co_staged": false,
+    "tip_sha_chain": false,
+    "csv_sync_performed": false,
+    "csv_sync_deferred_reason": "race_avoidance_with_active_parallel_lanes",
+    "complete_claimed": false,
+    "aws_or_ec2_used": false,
+    "offline_only": true
+  },
+  "checks": [
+    {
+      "name": "R010-A001_prior_identity_evidence_bound",
+      "result": "pass"
+    },
+    {
+      "name": "R010-A002_spec_requires_per_character_reference_chain",
+      "result": "pass",
+      "imc": "IMC-002"
+    },
+    {
+      "name": "R010-A003_identity_separated_from_instance_proof",
+      "result": "pass",
+      "imc": "IMC-003"
+    },
+    {
+      "name": "R010-A004_user_authority_reference_crops_present",
+      "result": "fail",
+      "blocker_code": "USER_AUTHORITY_PER_CHARACTER_REFERENCE_CROPS_ABSENT",
+      "imc": "IMC-018"
+    },
+    {
+      "name": "R010-A005_portable_multi_character_id_packet_present",
+      "result": "fail",
+      "blocker_code": "PORTABLE_MULTI_CHARACTER_ID_REFERENCE_PACKET_ABSENT",
+      "imc": "IMC-017"
+    },
+    {
+      "name": "R010-A006_per_character_comparison_crop_binding_present",
+      "result": "fail",
+      "blocker_code": "PER_CHARACTER_COMPARISON_CROP_BINDING_ABSENT",
+      "imc": "IMC-018"
+    },
+    {
+      "name": "R010-A007_no_face_invention",
+      "result": "pass",
+      "blocker_code_honored": "USER_AUTHORITY_FACE_BODY_REFERENCES_NOT_INVENTABLE"
+    },
+    {
+      "name": "R010-A008_character1_not_bulk_adopted",
+      "result": "pass",
+      "blocker_code_honored": "PERSONAL_CALIBRATION_CHARACTER1_EXCLUDED_NONCANONICAL"
+    },
+    {
+      "name": "R010-A009_no_comfy_8188_climb",
+      "result": "pass"
+    },
+    {
+      "name": "R010-A010_no_complete_claim",
+      "result": "pass",
+      "imc": "IMC-020"
+    },
+    {
+      "name": "R010-A011_row075_left_alone",
+      "result": "pass"
+    },
+    {
+      "name": "R010-A012_csv_sync_deferred",
+      "result": "pass"
+    }
+  ],
+  "check_summary": {
+    "checked": 12,
+    "passed": 9,
+    "failed": 3
+  },
+  "cleared_or_shrunk": {
+    "identity_reference_check_cleared": false,
+    "uncertainty_shrunk": true,
+    "shrink_detail": "Exact Class A/F codes and filesystem inventory now pin the missing authority media; separation/merge gates remain previously supported and were not reopened."
+  },
+  "decision": {
+    "status": "blocked",
+    "row_complete": false,
+    "product_completion": false,
+    "identity_reference_check": "blocked_missing_per_character_reference_chain",
+    "safe_next_action": "When USER_AUTHORITY per-character_id face/body reference crops exist for at least two distinct character_ids, bind hashes into portable character_reference_pack records and per-character comparison crops against one shared multi-character output; then climb identity_reference_check visually when :8188 is free from 019/023. Do not invent faces, bulk-adopt character1_*/ztest, thrash builders 012/014/015/008/016, touch Row075, or claim COMPLETE."
+  },
+  "remaining_gaps_for_still_climb_when_gpu_free": [
+    "Acquire or promote >=2 distinct character_id USER_AUTHORITY approved face (and supporting body) reference crops with immutable sha256.",
+    "Publish portable character_reference_pack assets under a project path (not personal_calibration_noncanonical character1_*/ztest) with explicit tracker include list if any local calibration is promoted.",
+    "Bind each generated person in one multi-character frame to character_id + isolated reference hash + per-character comparison crop.",
+    "Re-run identity_reference_check (IMC-002/003/017/018/020) offline bind then visual QA on :8188 only when 019/023 release the port.",
+    "Keep multi_instance/occlusion/merge-rejection evidence reused; do not regenerate that scope unless binding requires a fresh shared output."
+  ],
+  "evidence_paths": [
+    "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_IDENTITY_REFERENCE_CHAIN_OFFLINE_PROOF_CURRENT_DELTA_20260720.json",
+    "Plan/Tracker/Evidence/TRK-W64-010_IDENTITY_REFERENCE_CHAIN_OFFLINE_PROOF_CURRENT_DELTA_20260720.json",
+    "Plan/Items/Reports/ITEM-W64-010_image_identity_multicharacter.json",
+    "Plan/Instructions/QA/Evidence/Wave64/image_identity_multicharacter.json"
+  ]
+}
