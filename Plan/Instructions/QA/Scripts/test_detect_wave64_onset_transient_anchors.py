@@ -114,3 +114,52 @@ def test_threshold_registry_revision_is_frozen():
     assert registry["revision"] == MOD.THRESHOLD_REGISTRY_REVISION
     assert "impulse" in registry["event_families"]
     assert registry["event_families"]["impulse"]["max_sample_error"] == 2
+
+
+def test_numpy_methods_agree_on_impulse_fixture():
+    import numpy as np
+
+    fixture = MOD.synthesize_fixture("impulse")
+    left = np.asarray(fixture["channel_samples"][0], dtype=np.float32)
+    right = np.asarray(fixture["channel_samples"][1], dtype=np.float32)
+    mono = ((left + right) / 2.0).astype(np.float32)
+    compact = MOD.detect_library_compact_from_mono(
+        ROOT,
+        mono=mono,
+        sample_rate_hz=fixture["sample_rate_hz"],
+        channels=2,
+        frame_count=fixture["frame_count"],
+        asset_id="fixture:impulse",
+        source_sha256=fixture["source_sha256"],
+        canonical_pcm_sha256=fixture["canonical_pcm_sha256"],
+        relative_path="fixture/impulse.wav",
+        extension=".wav",
+        role="fixture",
+        event_type="impulse",
+        analysis_truncated=False,
+    )
+    assert compact["multi_method_agreement"] == "agree"
+    assert compact["technical_onset_pass"] is True
+    assert compact["onset_status"] == "pass"
+    assert compact["library_authority"] is False
+    assert abs(int(compact["onset_sample"]) - 512) <= 2
+
+
+def test_library_packet_marks_reconcile_in_progress_when_retained_present():
+    retained = {
+        "authority": "accepted_index_retained_onset_reconcile",
+        "coverage_complete": False,
+        "counts": {"records_processed": 10, "records_total": 100, "onset_pass": 4},
+        "receipt_path": "runtime_artifacts/onset_anchors/row072_index_retained_20260719/retained_index_onset_receipt.json",
+        "records_path": "runtime_artifacts/onset_anchors/row072_index_retained_20260719/records.jsonl",
+        "proof_tier": "RUNTIME_PASS_BOUNDED",
+        "status": "HOLD_LIBRARY_RECONCILE_IN_PROGRESS",
+    }
+    payload = MOD.build_library_blocker_packet(ROOT, retained_runtime=retained)
+    assert payload["decision"]["dependencies_unlocked"] is True
+    assert payload["status"] == "HOLD_LIBRARY_RECONCILE_IN_PROGRESS_DEPS_UNLOCKED"
+    assert "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT" not in payload["blocker_codes"]
+    assert "FULL_LIBRARY_RECONCILE_IN_PROGRESS_TIME_BOUND" in payload["blocker_codes"]
+    assert "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY" in payload["blocker_codes"]
+    assert payload["row_complete"] is False
+    assert payload["library_authority"] is False

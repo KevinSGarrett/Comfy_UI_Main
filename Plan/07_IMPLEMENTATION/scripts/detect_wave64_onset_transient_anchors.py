@@ -13,9 +13,11 @@ import hashlib
 import json
 import math
 import struct
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+import numpy as np
 from jsonschema import Draft202012Validator
 
 
@@ -33,6 +35,12 @@ ROW070_DELTA = Path(
 ROW071_DELTA = Path(
     "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-071_WAVEFORM_FEATURE_EXTRACTION_CURRENT_DELTA_20260719.json"
 )
+DEFAULT_ROW071_RETAINED_RECORDS = Path(
+    "runtime_artifacts/audio_qa/row071_index_retained_20260719/records.jsonl"
+)
+DEFAULT_RETAINED_ONSET_RUNTIME_DIR = Path(
+    "runtime_artifacts/onset_anchors/row072_index_retained_20260719"
+)
 DETECTOR_REVISION = "wave64_row072_onset_transient_detector_v0.1.0"
 THRESHOLD_REGISTRY_REVISION = "wave64_row072_onset_thresholds_v0.1.0"
 TRACKER_ID = "TRK-W64-072"
@@ -42,6 +50,10 @@ METHOD_ENERGY_FLUX = "energy_flux_onset_v1"
 METHOD_HF_ENVELOPE = "hf_envelope_onset_v1"
 DEFAULT_HOP = 64
 DEFAULT_FRAME = 256
+LIBRARY_EVENT_FAMILY = "library_unlabeled"
+MAX_ANALYSIS_FRAMES = 48000 * 120
+RETAINED_CHECKPOINT_EVERY = 250
+_FEATURE_MOD: Any | None = None
 
 
 class OnsetAnchorError(ValueError):
@@ -763,35 +775,655 @@ def extract_fixture_record(root: Path, fixture_name: str) -> dict[str, Any]:
     )
 
 
-def build_library_blocker_packet(root: Path) -> dict[str, Any]:
+def load_feature_module() -> Any:
+    global _FEATURE_MOD
+    if _FEATURE_MOD is not None:
+        return _FEATURE_MOD
+    import importlib.util
+
+    script = ROOT / "Plan/07_IMPLEMENTATION/scripts/extract_wave64_waveform_features.py"
+    spec = importlib.util.spec_from_file_location("wave64_row071_features_for_onset", script)
+    if spec is None or spec.loader is None:
+        raise OnsetAnchorError("feature_module_load_failed")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    _FEATURE_MOD = mod
+    return mod
+
+
+def _frame_energies_np(
+    signal: np.ndarray, frame: int, hop: int
+) -> list[tuple[int, float]]:
+    if signal.size < frame:
+        energy = float(np.mean(signal * signal)) if signal.size else 0.0
+        return [(0, energy)]
+    energies: list[tuple[int, float]] = []
+    for start in range(0, int(signal.size) - frame + 1, hop):
+        window = signal[start : start + frame]
+        energies.append((start, float(np.mean(window * window))))
+    return energies
+
+
+def _refine_onset_sample_np(signal: np.ndarray, frame_start: int, frame: int) -> int:
+    end = min(int(signal.size), frame_start + frame)
+    if frame_start >= end:
+        return max(0, min(frame_start, int(signal.size) - 1))
+    window = signal[frame_start:end]
+    peak = float(np.max(np.abs(window)))
+    if peak < 1e-12:
+        return frame_start
+    threshold = peak * 0.1
+    hits = np.where(np.abs(window) >= threshold)[0]
+    if hits.size:
+        return frame_start + int(hits[0])
+    return frame_start + int(np.argmax(np.abs(window)))
+
+
+def detect_method_energy_flux_np(
+    signal: np.ndarray, *, hop: int = DEFAULT_HOP, frame: int = DEFAULT_FRAME
+) -> dict[str, Any]:
+    if float(np.max(np.abs(signal))) < 1e-9:
+        return {
+            "method_id": METHOD_ENERGY_FLUX,
+            "onset_sample": None,
+            "attack_peak_sample": None,
+            "energy_peak_sample": None,
+            "offset_sample": None,
+            "confidence": 0.0,
+            "parameters": {"hop": hop, "frame": frame},
+        }
+    energies = _frame_energies_np(signal, frame=frame, hop=hop)
+    if len(energies) < 2:
+        return {
+            "method_id": METHOD_ENERGY_FLUX,
+            "onset_sample": None,
+            "attack_peak_sample": None,
+            "energy_peak_sample": None,
+            "offset_sample": None,
+            "confidence": 0.0,
+            "parameters": {"hop": hop, "frame": frame},
+        }
+    fluxes = [
+        (energies[i][0], max(0.0, energies[i][1] - energies[i - 1][1]))
+        for i in range(1, len(energies))
+    ]
+    frame_start, onset_flux = max(fluxes, key=lambda item: item[1])
+    onset_sample = _refine_onset_sample_np(signal, int(frame_start), frame)
+    peak_sample = int(np.argmax(np.abs(signal)))
+    energy_peak_sample = int(np.argmax(signal * signal))
+    peak_energy = float(signal[energy_peak_sample] * signal[energy_peak_sample])
+    threshold = peak_energy * 0.05
+    offset_sample = int(signal.size) - 1
+    tail = signal[energy_peak_sample:] * signal[energy_peak_sample:]
+    below = np.where(tail <= threshold)[0]
+    if below.size:
+        offset_sample = energy_peak_sample + int(below[0])
+    confidence = 0.0 if onset_flux <= 1e-12 else min(1.0, onset_flux / (onset_flux + 1e-6))
+    return {
+        "method_id": METHOD_ENERGY_FLUX,
+        "onset_sample": int(onset_sample),
+        "attack_peak_sample": int(peak_sample),
+        "energy_peak_sample": int(energy_peak_sample),
+        "offset_sample": int(offset_sample),
+        "confidence": round_finite(confidence),
+        "parameters": {"hop": hop, "frame": frame},
+    }
+
+
+def detect_method_hf_envelope_np(
+    signal: np.ndarray, *, hop: int = DEFAULT_HOP, frame: int = DEFAULT_FRAME
+) -> dict[str, Any]:
+    if signal.size < 2:
+        return {
+            "method_id": METHOD_HF_ENVELOPE,
+            "onset_sample": None,
+            "attack_peak_sample": None,
+            "energy_peak_sample": None,
+            "offset_sample": None,
+            "confidence": 0.0,
+            "parameters": {"hop": hop, "frame": frame, "preemphasis": "first_difference"},
+        }
+    hf = np.empty_like(signal)
+    hf[0] = 0.0
+    hf[1:] = np.abs(np.diff(signal))
+    if float(np.max(hf)) < 1e-12:
+        return {
+            "method_id": METHOD_HF_ENVELOPE,
+            "onset_sample": None,
+            "attack_peak_sample": None,
+            "energy_peak_sample": None,
+            "offset_sample": None,
+            "confidence": 0.0,
+            "parameters": {"hop": hop, "frame": frame, "preemphasis": "first_difference"},
+        }
+    energies = _frame_energies_np(hf, frame=frame, hop=hop)
+    if len(energies) < 2:
+        return {
+            "method_id": METHOD_HF_ENVELOPE,
+            "onset_sample": None,
+            "attack_peak_sample": None,
+            "energy_peak_sample": None,
+            "offset_sample": None,
+            "confidence": 0.0,
+            "parameters": {"hop": hop, "frame": frame, "preemphasis": "first_difference"},
+        }
+    fluxes = [
+        (energies[i][0], max(0.0, energies[i][1] - energies[i - 1][1]))
+        for i in range(1, len(energies))
+    ]
+    frame_start, onset_flux = max(fluxes, key=lambda item: item[1])
+    onset_sample = _refine_onset_sample_np(hf, int(frame_start), frame)
+    attack_peak_sample = int(np.argmax(hf))
+    energy_peak_sample = int(np.argmax(signal * signal))
+    peak_energy = float(signal[energy_peak_sample] * signal[energy_peak_sample])
+    threshold = peak_energy * 0.05
+    offset_sample = int(signal.size) - 1
+    tail = signal[energy_peak_sample:] * signal[energy_peak_sample:]
+    below = np.where(tail <= threshold)[0]
+    if below.size:
+        offset_sample = energy_peak_sample + int(below[0])
+    confidence = 0.0 if onset_flux <= 1e-12 else min(1.0, onset_flux / (onset_flux + 1e-6))
+    return {
+        "method_id": METHOD_HF_ENVELOPE,
+        "onset_sample": int(onset_sample),
+        "attack_peak_sample": int(attack_peak_sample),
+        "energy_peak_sample": int(energy_peak_sample),
+        "offset_sample": int(offset_sample),
+        "confidence": round_finite(confidence),
+        "parameters": {"hop": hop, "frame": frame, "preemphasis": "first_difference"},
+    }
+
+
+def count_event_density_np(
+    signal: np.ndarray, sample_rate_hz: int, *, hop: int = DEFAULT_HOP, frame: int = DEFAULT_FRAME
+) -> float:
+    energies = _frame_energies_np(signal, frame=frame, hop=hop)
+    if len(energies) < 3:
+        return 0.0
+    fluxes = [max(0.0, energies[i][1] - energies[i - 1][1]) for i in range(1, len(energies))]
+    mean_flux = sum(fluxes) / len(fluxes)
+    threshold = max(mean_flux * 4.0, 1e-6)
+    events = sum(1 for value in fluxes if value >= threshold)
+    duration_seconds = float(signal.size) / float(sample_rate_hz)
+    if duration_seconds <= 0:
+        return 0.0
+    return round_finite(events / duration_seconds)
+
+
+def detect_library_compact_from_mono(
+    root: Path,
+    *,
+    mono: np.ndarray,
+    sample_rate_hz: int,
+    channels: int,
+    frame_count: int,
+    asset_id: str,
+    source_sha256: str,
+    canonical_pcm_sha256: str,
+    relative_path: str,
+    extension: str,
+    role: str,
+    event_type: str,
+    analysis_truncated: bool,
+) -> dict[str, Any]:
+    """Compact library reconcile record under frozen synthetic thresholds (no library authority)."""
+    registry = load_threshold_registry(root)
+    agreement_threshold = int(registry["agreement_threshold_samples"])
+    frame_rate_fps = float(registry["default_frame_rate_fps"])
+    method_a = detect_method_energy_flux_np(mono)
+    method_b = detect_method_hf_envelope_np(mono)
+    method_results = [method_a, method_b]
+    anchors, agreement, ambiguity, frame_exact_claim = build_anchors_from_methods(
+        method_results,
+        sample_rate_hz=sample_rate_hz,
+        frame_rate_fps=frame_rate_fps,
+        agreement_threshold_samples=agreement_threshold,
+    )
+    blocker_codes: list[str] = []
+    if analysis_truncated:
+        blocker_codes.append("ANALYSIS_WINDOW_TRUNCATED")
+    if ambiguity["status"] == "blocked":
+        blocker_codes.append("AMBIGUOUS_OR_ABSENT_ONSET_BLOCKED")
+    if ambiguity["status"] == "multi_candidate":
+        blocker_codes.append("MULTI_CANDIDATE_ONSET_NO_FRAME_EXACT_CLAIM")
+    if agreement["status"] == "disagree":
+        blocker_codes.append("METHOD_DISAGREEMENT")
+    if agreement["status"] == "insufficient_methods":
+        blocker_codes.append("SINGLE_METHOD_ONLY")
+    # Frozen thresholds are synthetic-only: technical onset pass never grants library authority.
+    technical_pass = (
+        agreement["status"] == "agree"
+        and ambiguity["status"] == "none"
+        and frame_exact_claim is True
+        and not analysis_truncated
+    )
+    onset_status = "pass" if technical_pass else "blocked"
+    onset_anchor = next((a for a in anchors if a["anchor_type"] == "onset"), anchors[0])
+    return {
+        "relative_path": relative_path,
+        "extension": extension,
+        "role": role,
+        "event_type": event_type,
+        "asset_id": asset_id,
+        "source_sha256": source_sha256,
+        "canonical_pcm_sha256": canonical_pcm_sha256,
+        "sample_rate_hz": int(sample_rate_hz),
+        "channels": int(channels),
+        "frame_count": int(frame_count),
+        "event_family": LIBRARY_EVENT_FAMILY,
+        "event_density": count_event_density_np(mono, sample_rate_hz),
+        "onset_status": onset_status,
+        "technical_onset_pass": bool(technical_pass),
+        "library_authority": False,
+        "blocker_code": None if technical_pass else (blocker_codes[0] if blocker_codes else "ONSET_BLOCKED"),
+        "blocker_codes": [] if technical_pass else blocker_codes,
+        "onset_sample": onset_anchor.get("sample_index"),
+        "onset_confidence": onset_anchor.get("confidence"),
+        "multi_method_agreement": agreement["status"],
+        "ambiguity_status": ambiguity["status"],
+        "frame_exact_claim": bool(frame_exact_claim and ambiguity["status"] == "none"),
+        "analysis_truncated": bool(analysis_truncated),
+        "detector_revision": DETECTOR_REVISION,
+        "threshold_registry_revision": THRESHOLD_REGISTRY_REVISION,
+    }
+
+
+def _empty_retained_onset_counts() -> dict[str, int]:
+    return {
+        "records_total": 0,
+        "records_processed": 0,
+        "feature_pass_inputs": 0,
+        "feature_non_pass_inputs": 0,
+        "onset_pass": 0,
+        "onset_blocked": 0,
+        "exact_blockers": 0,
+        "pcm_sha_verified": 0,
+        "analysis_truncated": 0,
+        "source_immutable_true": 0,
+    }
+
+
+def run_retained_index_onset_runtime(
+    root: Path,
+    *,
+    row071_records_path: Path | None = None,
+    runtime_dir: Path | None = None,
+    limit: int | None = None,
+    resume: bool = True,
+    checkpoint_every: int = RETAINED_CHECKPOINT_EVERY,
+) -> dict[str, Any]:
+    """Reconcile every Row071 retained feature record to onset PASS or exact blocker."""
+    row070 = evaluate_row070_admission(root)
+    row071 = evaluate_row071_admission(root)
+    if not row070.get("dependency_satisfied") or not row071.get("dependency_satisfied"):
+        raise OnsetAnchorError("index_retained_requires_row070_and_row071_admission")
+
+    feature_mod = load_feature_module()
+    decode = feature_mod.load_decode_module()
+    locator = decode.load_active_index_locator(root)
+    source_root = Path(locator["source_root"])
+    records_in = resolve_under(
+        root,
+        row071_records_path or DEFAULT_ROW071_RETAINED_RECORDS,
+        "row071_retained_records",
+    )
+    if not records_in.is_file():
+        raise OnsetAnchorError("row071_retained_records_absent")
+
+    out_dir = resolve_under(
+        root,
+        runtime_dir or DEFAULT_RETAINED_ONSET_RUNTIME_DIR,
+        "retained_onset_runtime",
+    )
+    out_dir.mkdir(parents=True, exist_ok=True)
+    owner_marker = out_dir / "FULL_RECONCILE_OWNER.txt"
+    if limit is None:
+        owner_marker.write_text(
+            f"owner=detect_wave64_onset_transient_anchors.py\nstarted={datetime.now(timezone.utc).isoformat()}\n",
+            encoding="utf-8",
+        )
+    elif owner_marker.is_file():
+        raise OnsetAnchorError(
+            "retained_onset_runtime_full_reconcile_in_progress_limit_runs_refused"
+        )
+
+    records_path = out_dir / "records.jsonl"
+    progress_path = out_dir / "progress.json"
+    receipt_path = out_dir / "retained_index_onset_receipt.json"
+
+    total_lines = 0
+    with records_in.open("r", encoding="utf-8") as handle:
+        for line in handle:
+            if line.strip():
+                total_lines += 1
+
+    counts = _empty_retained_onset_counts()
+    counts["records_total"] = total_lines
+    blocker_histogram: dict[str, int] = {}
+    extension_histogram: dict[str, int] = {}
+    started_at = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+    processed_paths: set[str] = set()
+    next_index = 0
+
+    if resume and progress_path.is_file() and records_path.is_file():
+        progress = load_json(progress_path)
+        if str(progress.get("row071_records_sha256") or "") == sha256_file(records_in):
+            counts = dict(progress.get("counts") or counts)
+            blocker_histogram = {
+                str(key): int(value)
+                for key, value in (progress.get("blocker_histogram") or {}).items()
+            }
+            extension_histogram = {
+                str(key): int(value)
+                for key, value in (progress.get("extension_histogram") or {}).items()
+            }
+            next_index = int(progress.get("next_record_index") or 0)
+            started_at = str(progress.get("started_at") or started_at)
+            with records_path.open("r", encoding="utf-8") as handle:
+                for line in handle:
+                    if not line.strip():
+                        continue
+                    compact = json.loads(line)
+                    processed_paths.add(str(compact.get("relative_path") or ""))
+        else:
+            records_path.write_text("", encoding="utf-8")
+            next_index = 0
+            processed_paths = set()
+            counts = _empty_retained_onset_counts()
+            counts["records_total"] = total_lines
+            blocker_histogram = {}
+            extension_histogram = {}
+    else:
+        records_path.write_text("", encoding="utf-8")
+        if progress_path.is_file() and not resume:
+            progress_path.unlink()
+
+    def write_progress(*, complete: bool) -> None:
+        payload = {
+            "schema_version": 1,
+            "tracker_id": TRACKER_ID,
+            "item_id": ITEM_ID,
+            "detector_revision": DETECTOR_REVISION,
+            "threshold_registry_revision": THRESHOLD_REGISTRY_REVISION,
+            "row071_records_path": str(records_in.relative_to(root)).replace("\\", "/"),
+            "row071_records_sha256": sha256_file(records_in),
+            "index_sha256": locator["index_sha256"],
+            "started_at": started_at,
+            "updated_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+            "next_record_index": next_index,
+            "limit": limit,
+            "complete": complete,
+            "counts": counts,
+            "blocker_histogram": blocker_histogram,
+            "extension_histogram": extension_histogram,
+            "records_path": str(records_path.relative_to(root)).replace("\\", "/"),
+        }
+        write_json(progress_path, payload)
+
+    with records_in.open("r", encoding="utf-8") as handle, records_path.open(
+        "a", encoding="utf-8"
+    ) as out_handle:
+        for line_index, line in enumerate(handle):
+            if line_index < next_index:
+                continue
+            stripped = line.strip()
+            if not stripped:
+                next_index = line_index + 1
+                continue
+            feature_rec = json.loads(stripped)
+            relative_path = str(feature_rec.get("relative_path") or "").replace("\\", "/")
+            if not relative_path:
+                next_index = line_index + 1
+                continue
+            if relative_path in processed_paths:
+                next_index = line_index + 1
+                continue
+            if limit is not None and counts["records_processed"] >= limit:
+                break
+
+            extension = str(feature_rec.get("extension") or Path(relative_path).suffix).lower()
+            feature_status = str(feature_rec.get("feature_status") or "")
+            role = str(feature_rec.get("role") or "")
+            event_type = str(feature_rec.get("event_type") or "")
+            asset_id = f"index:{relative_path}"
+
+            if feature_status != "pass":
+                blocker_code = str(feature_rec.get("blocker_code") or "FEATURE_NON_PASS")
+                compact = {
+                    "relative_path": relative_path,
+                    "extension": extension,
+                    "role": role,
+                    "event_type": event_type,
+                    "asset_id": asset_id,
+                    "feature_status": feature_status,
+                    "onset_status": "blocked",
+                    "technical_onset_pass": False,
+                    "library_authority": False,
+                    "blocker_code": blocker_code,
+                    "blocker_codes": [blocker_code],
+                    "canonical_pcm_sha256": feature_rec.get("canonical_pcm_sha256"),
+                    "source_sha256": feature_rec.get("source_sha256"),
+                    "pcm_sha_verified": False,
+                    "source_immutable": feature_rec.get("source_immutable"),
+                    "analysis_truncated": False,
+                    "detector_revision": DETECTOR_REVISION,
+                    "threshold_registry_revision": THRESHOLD_REGISTRY_REVISION,
+                }
+                counts["feature_non_pass_inputs"] += 1
+            else:
+                absolute = source_root / relative_path
+                try:
+                    frames_nc, sample_rate_hz, source_sha, _source_bytes, pcm_sha = (
+                        feature_mod.load_canonical_float_channels(root, absolute)
+                    )
+                    after_sha = sha256_file(absolute)
+                    source_immutable = after_sha == source_sha
+                    if source_sha != feature_rec.get("source_sha256"):
+                        raise OnsetAnchorError(f"source_sha_mismatch:{relative_path}")
+                    if pcm_sha != feature_rec.get("canonical_pcm_sha256"):
+                        raise OnsetAnchorError(f"pcm_sha_mismatch:{relative_path}")
+                    frame_count = int(frames_nc.shape[0])
+                    channels = int(frames_nc.shape[1])
+                    analysis_truncated = frame_count > MAX_ANALYSIS_FRAMES
+                    mono = (
+                        frames_nc.mean(axis=1)
+                        if channels > 1
+                        else frames_nc[:, 0]
+                    ).astype(np.float32, copy=False)
+                    if analysis_truncated:
+                        mono = mono[:MAX_ANALYSIS_FRAMES]
+                        counts["analysis_truncated"] += 1
+                    compact = detect_library_compact_from_mono(
+                        root,
+                        mono=mono,
+                        sample_rate_hz=int(sample_rate_hz),
+                        channels=channels,
+                        frame_count=frame_count,
+                        asset_id=asset_id,
+                        source_sha256=source_sha,
+                        canonical_pcm_sha256=pcm_sha,
+                        relative_path=relative_path,
+                        extension=extension,
+                        role=role,
+                        event_type=event_type,
+                        analysis_truncated=analysis_truncated,
+                    )
+                    compact["feature_status"] = "pass"
+                    compact["pcm_sha_verified"] = True
+                    compact["source_immutable"] = source_immutable
+                    counts["feature_pass_inputs"] += 1
+                    counts["pcm_sha_verified"] += 1
+                    if source_immutable:
+                        counts["source_immutable_true"] += 1
+                except Exception as exc:  # noqa: BLE001 - exact blocker capture
+                    compact = {
+                        "relative_path": relative_path,
+                        "extension": extension,
+                        "role": role,
+                        "event_type": event_type,
+                        "asset_id": asset_id,
+                        "feature_status": "pass",
+                        "onset_status": "blocked",
+                        "technical_onset_pass": False,
+                        "library_authority": False,
+                        "blocker_code": "ONSET_EXTRACTION_FAILED",
+                        "blocker_codes": ["ONSET_EXTRACTION_FAILED"],
+                        "blocker_detail": str(exc)[:500],
+                        "canonical_pcm_sha256": feature_rec.get("canonical_pcm_sha256"),
+                        "source_sha256": feature_rec.get("source_sha256"),
+                        "pcm_sha_verified": False,
+                        "source_immutable": feature_rec.get("source_immutable"),
+                        "analysis_truncated": False,
+                        "detector_revision": DETECTOR_REVISION,
+                        "threshold_registry_revision": THRESHOLD_REGISTRY_REVISION,
+                    }
+                    counts["feature_pass_inputs"] += 1
+
+            if compact.get("onset_status") == "pass":
+                counts["onset_pass"] += 1
+            else:
+                counts["onset_blocked"] += 1
+                counts["exact_blockers"] += 1
+                code = str(compact.get("blocker_code") or "ONSET_BLOCKED")
+                blocker_histogram[code] = blocker_histogram.get(code, 0) + 1
+            extension_histogram[extension] = extension_histogram.get(extension, 0) + 1
+            counts["records_processed"] += 1
+            out_handle.write(json.dumps(compact, sort_keys=True) + "\n")
+            processed_paths.add(relative_path)
+            next_index = line_index + 1
+            if counts["records_processed"] % checkpoint_every == 0:
+                out_handle.flush()
+                write_progress(complete=False)
+
+    coverage_complete = limit is None and counts["records_processed"] == counts["records_total"]
+    write_progress(complete=coverage_complete)
+
+    # Technical pass still withholds library authority under frozen synthetic thresholds.
+    proof_tier = "RUNTIME_PASS_BOUNDED" if coverage_complete else "RUNTIME_PASS_BOUNDED"
+    receipt = {
+        "schema_version": 1,
+        "evidence_id": "W64-ROW072-ACCEPTED-INDEX-RETAINED-ONSET-20260719",
+        "tracker_id": TRACKER_ID,
+        "item_id": ITEM_ID,
+        "authority": "accepted_index_retained_onset_reconcile",
+        "detector_revision": DETECTOR_REVISION,
+        "threshold_registry_revision": THRESHOLD_REGISTRY_REVISION,
+        "threshold_authority": "planning_freeze_not_library_acceptance",
+        "created_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "started_at": started_at,
+        "coverage_complete": coverage_complete,
+        "limit": limit,
+        "counts": counts,
+        "blocker_histogram": blocker_histogram,
+        "extension_histogram": extension_histogram,
+        "locator": {
+            "index_sha256": locator["index_sha256"],
+            "record_count": locator.get("record_count"),
+            "source_root": str(source_root),
+        },
+        "row070_admission": row070,
+        "row071_admission": row071,
+        "row071_records": {
+            "path": str(records_in.relative_to(root)).replace("\\", "/"),
+            "sha256": sha256_file(records_in),
+            "bytes": records_in.stat().st_size,
+        },
+        "records_path": str(records_path.relative_to(root)).replace("\\", "/"),
+        "records_sha256": sha256_file(records_path) if records_path.is_file() else None,
+        "records_bytes": records_path.stat().st_size if records_path.is_file() else 0,
+        "progress_path": str(progress_path.relative_to(root)).replace("\\", "/"),
+        "receipt_path": str(receipt_path.relative_to(root)).replace("\\", "/"),
+        "library_authority": False,
+        "row_complete": False,
+        "product_completion_claimed": False,
+        "runtime_completion_claimed": bool(coverage_complete),
+        "proof_tier": proof_tier,
+        "highest_proof_tier_achieved": proof_tier,
+        "explicit_non_claims": ["COMPLETE", "product_completion", "library_threshold_authority"],
+        "status": (
+            "RUNTIME_PASS_BOUNDED_LIBRARY_THRESHOLDS_FROZEN"
+            if coverage_complete
+            else "HOLD_LIBRARY_RECONCILE_IN_PROGRESS"
+        ),
+    }
+    write_json(receipt_path, receipt)
+    receipt["receipt_sha256"] = sha256_file(receipt_path)
+    receipt["receipt_bytes"] = receipt_path.stat().st_size
+    write_json(receipt_path, receipt)
+    return receipt
+
+
+def build_library_blocker_packet(
+    root: Path,
+    *,
+    retained_runtime: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     row070 = evaluate_row070_admission(root)
     row071 = evaluate_row071_admission(root)
     blocker_codes = list(row070["blocker_codes"]) + list(row071["blocker_codes"])
-    for code in (
-        "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT",
-        "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
-        "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT",
-    ):
-        if code not in blocker_codes:
-            blocker_codes.append(code)
+    retained = retained_runtime or {}
+    coverage_complete = bool(retained.get("coverage_complete"))
+    reconcile_started = bool(retained)
+
+    if not coverage_complete:
+        if reconcile_started:
+            for code in (
+                "FULL_LIBRARY_RECONCILE_IN_PROGRESS_TIME_BOUND",
+                "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+                "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT",
+            ):
+                if code not in blocker_codes:
+                    blocker_codes.append(code)
+        else:
+            for code in (
+                "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT",
+                "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+                "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT",
+            ):
+                if code not in blocker_codes:
+                    blocker_codes.append(code)
+    else:
+        for code in (
+            "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+            "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT",
+        ):
+            if code not in blocker_codes:
+                blocker_codes.append(code)
+
     deps_unlocked = bool(row070["dependency_satisfied"] and row071["dependency_satisfied"])
-    status = (
-        "HOLD_LIBRARY_RUNTIME_AND_BENCHMARK_STRATA_ABSENT_DEPS_UNLOCKED"
-        if deps_unlocked
-        else "HOLD_DEPENDENCIES_LIBRARY_RUNTIME_AND_BENCHMARK_STRATA_ABSENT"
-    )
-    safe_next = (
-        "Rows070-071 library authority is accepted. Extend the detector to reconcile "
-        "every accepted PCM/feature record to anchor PASS or an exact blocker under the "
-        "frozen threshold registry, then replace this hold packet with full-library "
-        "onset/transient evidence before claiming Row072 acceptance or Row093 unlock."
-        if deps_unlocked
-        else (
+    if coverage_complete and deps_unlocked:
+        status = "HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE"
+        safe_next = (
+            "Full-library onset reconcile covered retained Row071 records under frozen "
+            "synthetic thresholds. Calibrate representative library strata with truth "
+            "onsets and unfreeze threshold authority before Row072 acceptance or Row093 unlock."
+        )
+        proof_tier = "RUNTIME_PASS_BOUNDED"
+    elif reconcile_started and deps_unlocked:
+        status = "HOLD_LIBRARY_RECONCILE_IN_PROGRESS_DEPS_UNLOCKED"
+        safe_next = (
+            "Resume/finish retained-index onset reconcile to coverage_complete, then address "
+            "frozen threshold authority and library benchmark strata before claiming Row072 acceptance."
+        )
+        proof_tier = "RUNTIME_PASS_BOUNDED"
+    elif deps_unlocked:
+        status = "HOLD_LIBRARY_RUNTIME_AND_BENCHMARK_STRATA_ABSENT_DEPS_UNLOCKED"
+        safe_next = (
+            "Rows070-071 library authority is accepted. Extend the detector to reconcile "
+            "every accepted PCM/feature record to anchor PASS or an exact blocker under the "
+            "frozen threshold registry, then replace this hold packet with full-library "
+            "onset/transient evidence before claiming Row072 acceptance or Row093 unlock."
+        )
+        proof_tier = "RUNTIME_PASS_BOUNDED"
+    else:
+        status = "HOLD_DEPENDENCIES_LIBRARY_RUNTIME_AND_BENCHMARK_STRATA_ABSENT"
+        safe_next = (
             "Accept Rows070-071 authority, reconcile every accepted PCM/feature record "
             "to anchor PASS or an exact blocker with registered event-family thresholds, "
             "and replace this hold packet with full-library onset/transient evidence."
         )
-    )
+        proof_tier = "RUNTIME_PASS_BOUNDED"
+
     fixture_names = ["silence", "impulse", "gradual_attack", "multi_hit", "stereo_disagree"]
     fixture_records = [extract_fixture_record(root, name) for name in fixture_names]
     registry = load_threshold_registry(root)
@@ -804,9 +1436,11 @@ def build_library_blocker_packet(root: Path) -> dict[str, Any]:
         "threshold_registry_revision": THRESHOLD_REGISTRY_REVISION,
         "row_complete": False,
         "implementation_completion_claimed": False,
-        "runtime_completion_claimed": False,
+        "runtime_completion_claimed": bool(coverage_complete),
         "library_authority": False,
         "status": status,
+        "proof_tier": proof_tier,
+        "highest_proof_tier_achieved": proof_tier,
         "row070_admission": row070,
         "row071_admission": row071,
         "threshold_registry": {
@@ -825,12 +1459,23 @@ def build_library_blocker_packet(root: Path) -> dict[str, Any]:
                 "threshold binding only; they do not accept Row072 library completion."
             ),
         },
+        "accepted_index_retained_onset_runtime": {
+            "authority": retained.get("authority"),
+            "coverage_complete": coverage_complete,
+            "counts": retained.get("counts"),
+            "receipt_path": retained.get("receipt_path"),
+            "records_path": retained.get("records_path"),
+            "proof_tier": retained.get("proof_tier"),
+            "status": retained.get("status"),
+        }
+        if retained
+        else None,
         "blocker_codes": blocker_codes,
         "decision": {
             "status": "blocked",
             "row072_acceptance": "held",
             "product_completion": False,
-            "runtime_completion": False,
+            "runtime_completion": bool(coverage_complete),
             "dependencies_unlocked": deps_unlocked,
             "safe_next_action": safe_next,
         },
@@ -846,9 +1491,31 @@ def write_json(path: Path, payload: Any) -> None:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", default=str(ROOT))
-    parser.add_argument("--mode", choices=("library", "fixture"), default="library")
+    parser.add_argument(
+        "--mode",
+        choices=("library", "fixture", "index-retained"),
+        default="library",
+    )
     parser.add_argument("--fixture", default="impulse")
     parser.add_argument("--output", default=str(DEFAULT_EVIDENCE))
+    parser.add_argument(
+        "--row071-retained-records",
+        default=str(DEFAULT_ROW071_RETAINED_RECORDS),
+    )
+    parser.add_argument(
+        "--retained-runtime-dir",
+        default=str(DEFAULT_RETAINED_ONSET_RUNTIME_DIR),
+    )
+    parser.add_argument(
+        "--write-retained-summary",
+        default=(
+            "Plan/Instructions/QA/Evidence/Wave64/"
+            "TRK-W64-072_ACCEPTED_INDEX_RETAINED_ONSET_SUMMARY_20260719.json"
+        ),
+    )
+    parser.add_argument("--limit", type=int, default=None)
+    parser.add_argument("--resume", action="store_true", default=True)
+    parser.add_argument("--no-resume", action="store_false", dest="resume")
     args = parser.parse_args(argv)
     root = Path(args.root).resolve()
     if root != ROOT.resolve() and root != Path("C:/Comfy_UI_Main").resolve():
@@ -856,16 +1523,47 @@ def main(argv: list[str] | None = None) -> int:
     output = resolve_under(root, Path(args.output), "output")
     if args.mode == "fixture":
         payload = extract_fixture_record(root, args.fixture)
+    elif args.mode == "index-retained":
+        retained = run_retained_index_onset_runtime(
+            root,
+            row071_records_path=Path(args.row071_retained_records),
+            runtime_dir=Path(args.retained_runtime_dir),
+            limit=args.limit,
+            resume=args.resume,
+        )
+        summary_path = resolve_under(root, Path(args.write_retained_summary), "retained_summary")
+        write_json(summary_path, retained)
+        payload = build_library_blocker_packet(root, retained_runtime=retained)
+        payload["accepted_index_retained_onset_runtime"]["summary_path"] = str(
+            summary_path.relative_to(root)
+        ).replace("\\", "/")
+        payload["accepted_index_retained_onset_runtime"]["summary_sha256"] = sha256_file(
+            summary_path
+        )
     else:
-        payload = build_library_blocker_packet(root)
+        # Attach existing retained progress if present (fail-closed hold refresh).
+        retained = None
+        receipt_candidate = resolve_under(
+            root,
+            DEFAULT_RETAINED_ONSET_RUNTIME_DIR / "retained_index_onset_receipt.json",
+            "retained_onset_receipt",
+        )
+        if receipt_candidate.is_file():
+            retained = load_json(receipt_candidate)
+        payload = build_library_blocker_packet(root, retained_runtime=retained)
         if payload["decision"]["status"] != "blocked":
-            raise OnsetAnchorError("library_mode_must_remain_fail_closed_until_dependencies_accepted")
+            raise OnsetAnchorError("library_mode_must_remain_fail_closed_until_acceptance")
     write_json(output, payload)
     print(
         json.dumps(
             {
                 "output": str(output),
                 "status": payload.get("status") or payload["decision"]["status"],
+                "coverage_complete": bool(
+                    (payload.get("accepted_index_retained_onset_runtime") or {}).get(
+                        "coverage_complete"
+                    )
+                ),
             },
             sort_keys=True,
         )

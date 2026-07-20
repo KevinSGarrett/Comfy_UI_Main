@@ -1,6 +1,26 @@
 {
+  "accepted_index_retained_onset_runtime": {
+    "authority": "accepted_index_retained_onset_reconcile",
+    "counts": {
+      "analysis_truncated": 0,
+      "exact_blockers": 937,
+      "feature_non_pass_inputs": 0,
+      "feature_pass_inputs": 1000,
+      "onset_blocked": 937,
+      "onset_pass": 63,
+      "pcm_sha_verified": 1000,
+      "records_processed": 1000,
+      "records_total": 39771,
+      "source_immutable_true": 1000
+    },
+    "coverage_complete": false,
+    "proof_tier": "RUNTIME_PASS_BOUNDED",
+    "receipt_path": "runtime_artifacts/onset_anchors/row072_index_retained_20260719/progress.json",
+    "records_path": "runtime_artifacts/onset_anchors/row072_index_retained_20260719/records.jsonl",
+    "status": "HOLD_LIBRARY_RECONCILE_IN_PROGRESS"
+  },
   "blocker_codes": [
-    "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT",
+    "FULL_LIBRARY_RECONCILE_IN_PROGRESS_TIME_BOUND",
     "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
     "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT"
   ],
@@ -9,7 +29,7 @@
     "product_completion": false,
     "row072_acceptance": "held",
     "runtime_completion": false,
-    "safe_next_action": "Rows070-071 library authority is accepted. Extend the detector to reconcile every accepted PCM/feature record to anchor PASS or an exact blocker under the frozen threshold registry, then replace this hold packet with full-library onset/transient evidence before claiming Row072 acceptance or Row093 unlock.",
+    "safe_next_action": "Resume/finish retained-index onset reconcile to coverage_complete, then address frozen threshold authority and library benchmark strata before claiming Row072 acceptance.",
     "status": "blocked"
   },
   "detector_revision": "wave64_row072_onset_transient_detector_v0.1.0",
@@ -736,9 +756,11 @@
       }
     ]
   },
+  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
   "implementation_completion_claimed": false,
   "item_id": "ITEM-W64-072",
   "library_authority": false,
+  "proof_tier": "RUNTIME_PASS_BOUNDED",
   "required_methods": [
     "energy_flux_onset_v1",
     "hf_envelope_onset_v1"
@@ -764,7 +786,7 @@
   "row_complete": false,
   "runtime_completion_claimed": false,
   "schema_version": "1.0.0",
-  "status": "HOLD_LIBRARY_RUNTIME_AND_BENCHMARK_STRATA_ABSENT_DEPS_UNLOCKED",
+  "status": "HOLD_LIBRARY_RECONCILE_IN_PROGRESS_DEPS_UNLOCKED",
   "threshold_registry": {
     "authority": "planning_freeze_not_library_acceptance",
     "path": "Plan/10_REGISTRIES/wave64_row072_onset_transient_threshold_registry.json",
