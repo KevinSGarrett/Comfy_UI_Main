@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-023_FLUX_SPAN_REPAIR_V2_RUNTIME_VISUAL_QA_CURRENT_DELTA_20260720",
+  "created_iso": "2026-07-20T02:42:00-05:00",
+  "tracker_id": "TRK-W64-023",
+  "item_id": "ITEM-W64-023",
+  "classification": "Class_B_Failed_runtime_visual_QA",
+  "proof_tier": "RUNTIME_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+  "visual_proof_tier": "VISUAL_QA_REJECT_RETAINED",
+  "status": "Blocked_Video_Frame_Repair_Flux_Span_V2_Visual_QA_Failed",
+  "row_complete": false,
+  "summary": "After confirming LOCAL_WAN_MODEL_PAYLOAD_MISSING (0 exact hits across models/HF/Downloads/Comfy_UI), executed one refined lights-first Flux fill on idle :8188 (seed 2272507). Runtime succeeded, but strict visual QA REJECTS: violet side lights remain (blue_excess ~13.3), identity unrecovered, yellow/gold hard artifacts persist. Prior Wan 2272301 and Flux 2272401 rejects retained. No COMPLETE.",
+  "blocker_codes": [
+    "FRAME_REPAIR_VISUAL_ACCEPTANCE_FAILED",
+    "FLUX_SPAN_REPAIR_VISUAL_QA_FAILED",
+    "FLUX_SPAN_REPAIR_V2_VISUAL_QA_FAILED",
+    "SIDE_LIGHT_GRAY_NOT_RESTORED",
+    "HARD_ARTIFACTS_RETAINED",
+    "LOCAL_WAN_MODEL_PAYLOAD_MISSING",
+    "SAME_SEED_RERUN_FORBIDDEN",
+    "Blocked_Gold_Mask_Dependency_Missing"
+  ],
+  "wan_payload_search": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-023_LOCAL_WAN_MODEL_PAYLOAD_SEARCH_20260720.json",
+  "runtime": {
+    "port": 8188,
+    "queue_stolen": false,
+    "prompt_id": "570f705e-1730-44e4-84d1-5ea3e2d64229",
+    "seed": 2272507,
+    "status": "success",
+    "material_method": "flux_fill_span_repair_midframe_lights_first_v2",
+    "refinements": {
+      "mask": "side_lights_only_with_central_face_protect",
+      "denoise": 0.48,
+      "guidance": 28.0,
+      "steps": 24
+    },
+    "pullback": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_row023_flux_span_repair_v2_20260720T023049-0500"
+  },
+  "strict_qa": {
+    "decision": "REJECT_RETAINED",
+    "visual_qa_pass_bounded": false,
+    "direct_visual_qa": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_row023_flux_span_repair_v2_20260720T023049-0500/qa/direct_visual_qa.json",
+    "hard_defects": [
+      "Symmetric gray side lights not restored; violet/purple orbs remain.",
+      "Exact recognizable identity not recovered.",
+      "Yellow/gold top-of-head blob and warm cheek smear hard artifacts remain."
+    ]
+  },
+  "prior_rejects_retained": [
+    {
+      "method": "wan_ti2v",
+      "seed": 2272301,
+      "delta": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-023_WAN_REPAIR_CANDIDATE_REAFFIRM_CURRENT_DELTA_20260720.json"
+    },
+    {
+      "method": "flux_fill_span_repair_v1",
+      "seed": 2272401,
+      "delta": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-023_FLUX_SPAN_REPAIR_RUNTIME_VISUAL_QA_CURRENT_DELTA_20260720.json"
+    }
+  ],
+  "blocker_ledger": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_CLASS_B_BLOCKER_LEDGER_20260720.json",
+  "boundaries": {
+    "wan_identical_seed_2272301_regenerated": false,
+    "flux_identical_seed_2272401_regenerated": false,
+    "ec2_started": false,
+    "csv_mutated": false,
+    "production_video_complete_claimed": false,
+    "row075_pid_left_alone": true,
+    "queue_stolen": false,
+    "seeds_used_this_landing": [2272507]
+  },
+  "csv_sync": "deferred_evidence_only",
+  "next_action": "Keep all rejects immutable. Install local Wan TI2V 5B payloads before any new Wan seed; do not seed-spam Flux. Row019 keyframe_manifest remains blocked."
+}

@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "W64-ROW023-FLUX-SPAN-REPAIR-V2-DIRECT-VISUAL-QA-20260720T023049-0500",
+  "timestamp": "2026-07-20T02:41:30-05:00",
+  "tracker_id": "TRK-W64-023",
+  "item_id": "ITEM-W64-023",
+  "review_authority": "Cursor interactive primary GPU shift direct visual QA",
+  "material_method": "flux_fill_span_repair_midframe_lights_first_v2",
+  "prompt_id": "570f705e-1730-44e4-84d1-5ea3e2d64229",
+  "seed": 2272507,
+  "source": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_row023_flux_span_repair_v2_20260720T023049-0500/images/source_mid_frame_0024.png",
+    "sha256": "3dc576cedc723be8bb565f32cc569c7d118feffc18ef3b178b37a10c31921bc4"
+  },
+  "candidate": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_row023_flux_span_repair_v2_20260720T023049-0500/images/midframe_seed2272507_00001_.png",
+    "sha256": "4278930d9ebb7748f63a06824567c17eafc7308627e7bbb8b94cf9beb186864d"
+  },
+  "metrics": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave64_row023_flux_span_repair_v2_20260720T023049-0500/qa/compare_metrics.json",
+    "source_blue_excess": 14.739189281798245,
+    "repaired_blue_excess": 13.34398985745614,
+    "blue_excess_delta_repaired_minus_source": -1.3951994243421044,
+    "face_region_mad": 1.4405201099537037
+  },
+  "gates": {
+    "runtime_generation_completed": {
+      "pass": true,
+      "observation": "Local :8188 Flux fill v2 completed successfully once after idle confirm; no queue steal."
+    },
+    "material_method_change_from_prior_rejects": {
+      "pass": true,
+      "observation": "Lights-first mask + denoise 0.48 + seed 2272507; not Wan 2272301 and not prior Flux 2272401."
+    },
+    "symmetric_gray_side_lights_restored": {
+      "pass": false,
+      "observation": "Violet/purple side orbs remain dominant; blue_excess only fell ~1.4 and stays ~13.3."
+    },
+    "recognizable_anchor_identity_improved": {
+      "pass": false,
+      "observation": "Central face protect kept MAD~1.44; identity remains soft/unrecoverable versus AnimateDiff medoid anchor."
+    },
+    "no_new_hard_artifacts": {
+      "pass": false,
+      "observation": "Yellow/gold top-of-head blob and warm cheek smear remain hard defects; violet orbs unrepaired."
+    },
+    "white_blouse_and_black_studio_retained": {
+      "pass": true,
+      "observation": "Blouse/background class retained at review level."
+    }
+  },
+  "passed_gate_count": 3,
+  "failed_gate_count": 3,
+  "direct_visual_acceptance_pass": false,
+  "classification": "Blocked_Video_Frame_Repair_Flux_Span_V2_Visual_QA_Failed",
+  "result": "fail_closed_side_lights_identity_and_hard_artifacts",
+  "generation_retry_allowed": false,
+  "next_action": "Retain Wan+Flux v1+v2 rejects. Do not seed-spam. Next climb needs local Wan TI2V payloads or a materially different repair stack; CSV deferred; no COMPLETE."
+}
