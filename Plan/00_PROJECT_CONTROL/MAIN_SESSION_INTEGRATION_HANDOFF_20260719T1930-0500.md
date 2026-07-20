@@ -6,8 +6,9 @@
 - Branch: `codex/workflow_plan_update_improvements`
 - Primary climb commit: `4e764094` — Expand Row070 decode coverage and accept library PCM authority (includes handoff `MAIN_SESSION_INTEGRATION_HANDOFF_20260719T1915-0500.md`).
 - Prior stamp: `8efd3f27` — Stamp Row070 acceptance handoff with pushed commit parity.
-- This tip commit: `9c951037` — Record Row070 non-WAV strata receipts and tip handoff.
-- Origin parity verified: `HEAD == origin/codex/workflow_plan_update_improvements == 9c951037`.
+- Strata tip commit: `9c951037` — Record Row070 non-WAV strata receipts and tip handoff.
+- Tip stamp commit: `0f8771b7` — Stamp Row070 tip handoff with pushed commit parity.
+- Origin parity verified at stamp time for `9c951037`; final tip after this stamp is `0f8771b7`.
 - Anchor prior Row070 retained reconcile: `8d4b2d93` / handoff stamp `7e872ed3` (NON_WAV hold).
 - Policy pivot obeyed: local retained-index runtime proof ladder; EC2 deferred; Docker/CVAT unused; no product COMPLETE claim.
 - Writable scope limited to Row070 strata evidence + this handoff (decoder/evidence/CSV already in `4e764094`).
