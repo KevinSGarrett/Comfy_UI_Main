@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ROW017-LOCAL-RUNTIME-HISTORICAL-CANONICALIZATION-CLIMB-20260719T223000-0500",
+  "created_at": "2026-07-19T22:33:00-05:00",
+  "tracker_id": "TRK-W64-017",
+  "item_id": "ITEM-W64-017",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+  "decision": "Climbed Row017 with an independent local ComfyUI MF70 face_full_instance runtime + direct whole-frame visual QA (canonical pass). Under-eye and mouth_lips already VISUAL_QA_PASS_BOUNDED on tip; ears/tongue remain source-visibility blocked. Historical face_full_instance seed210802 pass_with_notes retained. Prior MF70 expression-region/right-eye/left-eye and W69 climbs retained. This does not complete historical normalization.",
+  "row_complete": false,
+  "local_only": true,
+  "generation_executed": true,
+  "canonical_reviews_this_pass": [
+    {
+      "path": "Plan\\Instructions\\QA\\Evidence\\Image_Artifact_QA\\Row017_Canonical_Global_Reviews\\ROW017_LOCAL_MF70_FACE_FULL_INSTANCE_20260719T223000-0500_GLOBAL_REVIEW.json",
+      "decision": "pass"
+    }
+  ],
+  "retained_reviews": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_LOCAL_MF70_EXPRESSION_REGION_20260719T220500-0500_GLOBAL_REVIEW.json",
+      "note": "prior_expression_region_pass_retained"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_LOCAL_MF70_UNDER_EYE_20260719T170600-0500_GLOBAL_REVIEW.json",
+      "note": "prior_under_eye_pass_retained"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_LOCAL_MF70_MOUTH_LIPS_20260719T171611-0500_GLOBAL_REVIEW.json",
+      "note": "prior_mouth_lips_pass_retained"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W70_LOCAL_MF70_FACE_FULL_INSTANCE_SEED210802_VISUAL_QA_20260707T150500-0500.json",
+      "note": "historical_face_full_instance_seed210802_pass_with_notes_retained"
+    }
+  ],
+  "historical_canny_eyeonly_reject_retained": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_W69_CANNY_EYEONLY_GLOBAL_REVIEW_20260718.json",
+  "historical_contact_shadow_seed210704_reject_retained": "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_W69_CONTACT_SHADOW_PRESSURE_GLOBAL_REVIEW_20260718.json",
+  "runtime_execute": "Plan\\Instructions\\QA\\Evidence\\Workflow_Runtime\\W64_LOCAL_COMFYUI_ROW017_MF70_FACE_FULL_INSTANCE_EXECUTE_20260719T223000-0500.json",
+  "visual_qa": "Plan\\Instructions\\QA\\Evidence\\Image_Artifact_QA\\ROW017_LOCAL_MF70_FACE_FULL_INSTANCE_VISUAL_QA_20260719T223000-0500.json",
+  "remaining_blocker": "Row017 cannot complete until remaining historical localized visual-review records are classified into canonical pre/post, target, non-target, six-category, and global-rejection evidence, and future localized candidates continue to clear whole-frame rejection gates.",
+  "next_action": "Continue bounded Row017 historical localized canonicalization with mf70_face_identity_critical (alignment caveat) or mf70_teeth, or climb dependency-unlocked Row072 onset/transient library reconcile under proof-tier pivot; keep away from Row069-071 reopen; do not claim COMPLETE.",
+  "ec2": "EC2_DEFERRED",
+  "docker_cvat": "not-needed"
+}

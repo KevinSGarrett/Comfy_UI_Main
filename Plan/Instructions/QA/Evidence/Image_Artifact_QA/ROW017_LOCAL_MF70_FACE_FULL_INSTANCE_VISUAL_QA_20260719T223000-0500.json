@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ROW017-LOCAL-MF70-FACE-FULL-INSTANCE-VISUAL-QA-20260719T223000-0500",
+  "created_at": "2026-07-19T22:33:00-05:00",
+  "tracker_id": "TRK-W64-017",
+  "item_id": "ITEM-W64-017",
+  "localized_region": "face_full_instance",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+  "qa_decision": "pass_bounded_localized_face_full_instance_runtime_candidate",
+  "overall_decision": "pass",
+  "local_only": true,
+  "direct_visual_inspection": true,
+  "fixture_only": false,
+  "generation_executed": true,
+  "runtime_receipt": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_face_full_instance_20260719T223000-0500\\LOCAL_RUNTIME_RECEIPT.json",
+  "source": {
+    "path": "ComfyUI\\input\\wave70_mf70_face_identity_source_canny_v3.png",
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d"
+  },
+  "artifact": {
+    "path": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_face_full_instance_20260719T223000-0500\\images\\codex_row017_mf70_face_full_instance_20260719T223000-0500_00001_.png",
+    "sha256": "91477ee59d7888af112c881f5285a36767f2f8614ead85921622eca81d7b244c"
+  },
+  "comparison_panel": {
+    "path": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_face_full_instance_20260719T223000-0500\\images\\qa_full_side_by_side.png",
+    "sha256": "4d74a069e368fbd58f40898b79e626e0f0b5f443e315163c912b594b0b05fced"
+  },
+  "face_full_instance_crop_panel": {
+    "path": "Plan\\Instructions\\Operations\\Pulled_Back_Artifacts\\local_comfyui_row017_mf70_face_full_instance_20260719T223000-0500\\images\\qa_face_full_instance_crop_side_by_side.png",
+    "sha256": "f591b210c8ff96233f09e870c95f137000d29e6cf917cacb3d9d021c931479f1"
+  },
+  "difference_metrics": {
+    "full_image_diff_bbox": [
+      235,
+      156,
+      555,
+      566
+    ],
+    "face_mask_bbox": [
+      239,
+      160,
+      551,
+      561
+    ],
+    "face_crop_box": [
+      199,
+      120,
+      591,
+      601
+    ],
+    "mean_rgb_abs_diff": [
+      0.7868635389539931,
+      0.7285291883680556,
+      0.6928999159071181
+    ],
+    "rms_rgb_abs_diff": [
+      3.029672043736719,
+      2.8216461287845913,
+      2.6724038397000514
+    ],
+    "face_mask_region_mean_abs": 3.4691849436238464,
+    "blazer_mean_abs": 0.0,
+    "background_corner_mean_abs": 0.0,
+    "hair_region_mean_abs": 0.039103641456582634,
+    "neck_region_mean_abs": 0.0018981481481481482,
+    "changed_pixel_count": 52757,
+    "mask_pixel_count": 90685
+  },
+  "whole_frame_findings": [
+    "Fresh local ComfyUI MF70 face_full_instance masked inpaint (seed 8821047315, RealVisXL baked VAE, denoise 0.08, FeatherMask 24px, cfg 3.6, steps 18) completed successfully (prompt_id e970628d-f41c-431f-8525-43a6d1fbb30e).",
+    "Whole-frame identity, gaze pairing, hair silhouette/occlusion, cream blazer, neck, lighting, and gray background remain stable versus Canny v3 identity source.",
+    "Pixel delta localized to face_full_instance bbox [235, 156, 555, 566]; blazer/background mean abs 0.0; hair_region_mean_abs 0.0391; neck_region_mean_abs 0.0019; 52757 changed pixels vs mask 90685.",
+    "Direct whole-frame + face crop inspection: subtle full-face preservation/microtexture refinement without hard seam, identity drift, smile/teeth expansion, clothing/background regression, or hair mutation.",
+    "Hands not in frame; no clothing/background/lighting regression observed."
+  ],
+  "global_defects": [],
+  "promotion_authorized": false,
+  "row_complete": false,
+  "ec2": "EC2_DEFERRED",
+  "docker_cvat": "not-needed",
+  "notes": [
+    "Historical MF70 face_full_instance seed210802 pass_with_notes retained separately; this is a fresh independent local runtime climb.",
+    "Prior MF70 expression-region/right-eye/left-eye/under-eye/mouth_lips and W69 climbs retained.",
+    "Under-eye and mouth_lips already VISUAL_QA_PASS_BOUNDED on tip; this climb is the next unused prepared MF70 face lane (ears/tongue remain source-visibility blocked).",
+    "Historical canny eyeonly full-gen reject, contact-shadow seed210704 reject, fluid masked-inpaint reject, and eyes_full_v3b reject remain truthful and separate.",
+    "Does not complete historical Row017 normalization backlog."
+  ]
+}
