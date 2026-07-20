@@ -15,8 +15,9 @@
 2. `841320fd` Stamp Row017 inpaint-nomouth handoff with primary commit id.
 3. `51f7d2ab` Finalize Row017 inpaint-nomouth handoff tip IDs.
 4. `0a3830cb` Align Row017 inpaint-nomouth handoff tip to origin HEAD.
+5. `a15c80e3` Correct Row017 inpaint-nomouth handoff tip commit id.
 
-Pushed tip verified on origin: `0a3830cb`
+Pushed tip verified on origin: `a15c80e3`
 
 ## Row-Scoped Increment Executed
 
