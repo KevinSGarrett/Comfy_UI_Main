@@ -534,6 +534,50 @@ def verify_synthetic_ledger_vs_compiled_manifest_expectations(
     }
 
 
+def run_ci_fixture_ledger_gate(*, fixture_dir: Path | None = None) -> dict[str, Any]:
+    """CI/fixture gate: checked-in ledger must match rebuild and fixture digests.
+
+    Fail-closed when the checked-in synthetic ledger diverges from a live rebuild
+    from fixture packets, or when ledger-bound digests/metrics drift. Explicitly
+    refuses calibrated trajectory benchmark pass, visual-review, Rows084-086
+    acceptance, and row completion claims.
+    """
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    rebuilt = build_synthetic_calibrated_trajectory_benchmark_ledger(fixture_dir=directory)
+    checked_in = load_synthetic_benchmark_ledger(fixture_dir=directory)
+    rebuilt_digest = verify_synthetic_benchmark_ledger_integrity(rebuilt)
+    checked_digest = verify_synthetic_benchmark_ledger_integrity(checked_in)
+    if rebuilt != checked_in or rebuilt_digest != checked_digest:
+        raise ValueError(
+            "CI gate: checked-in synthetic ledger digests diverge from rebuild "
+            f"from fixture packets (checked_in={checked_digest} rebuilt={rebuilt_digest})"
+        )
+
+    expectation_receipt = verify_synthetic_ledger_vs_compiled_manifest_expectations(
+        checked_in,
+        fixture_dir=directory,
+    )
+    return {
+        "status": "ok",
+        "gate": "row087_ci_fixture_ledger_gate",
+        "verifier": "run_ci_fixture_ledger_gate",
+        "checked_in_matches_rebuild": True,
+        "ledger_sha256": checked_digest,
+        "fixture_binding_count": expectation_receipt["fixture_binding_count"],
+        "trajectory_metric_expectation_count": expectation_receipt[
+            "trajectory_metric_expectation_count"
+        ],
+        "digest_drift_rejected": True,
+        "production_benchmark": False,
+        "calibrated_trajectory_benchmark_pass": False,
+        "visual_review_claimed": False,
+        "rows084_085_086_acceptance_claimed": False,
+        "row_complete": False,
+        "authority_ceiling": "fixture_synthetic_only",
+        "expectation_verifier": expectation_receipt["verifier"],
+    }
+
+
 def build_synthetic_calibrated_trajectory_benchmark_ledger(
     *,
     fixture_dir: Path | None = None,
@@ -1153,11 +1197,29 @@ def main(argv: list[str] | None = None) -> int:
         ),
     )
     parser.add_argument(
+        "--ci-gate",
+        action="store_true",
+        help=(
+            "CI/fixture gate: fail closed when checked-in ledger digests diverge "
+            "from fixture-packet rebuild or compiled expectations; never claims "
+            "calibrated trajectory benchmark pass, visual review, or Rows084-086 "
+            "acceptance"
+        ),
+    )
+    parser.add_argument(
         "--fixture-dir",
         default=str(DEFAULT_FIXTURE_DIR),
         help="Fixture directory for synthetic ledger emission (default: checked-in row087 fixtures)",
     )
     args = parser.parse_args(argv)
+
+    if args.ci_gate:
+        try:
+            receipt = run_ci_fixture_ledger_gate(fixture_dir=Path(args.fixture_dir))
+        except (OSError, ValueError, FileNotFoundError) as exc:
+            raise SystemExit(f"ROW087_FAIL_CLOSED: {exc}") from exc
+        print(json.dumps(receipt))
+        return 0
 
     if args.emit_synthetic_benchmark_ledger:
         try:
@@ -1199,8 +1261,8 @@ def main(argv: list[str] | None = None) -> int:
 
     if not args.input or not args.output:
         raise SystemExit(
-            "ROW087_FAIL_CLOSED: --input and --output are required unless emitting "
-            "or verifying the synthetic ledger"
+            "ROW087_FAIL_CLOSED: --input and --output are required unless emitting, "
+            "verifying, or CI-gating the synthetic ledger"
         )
 
     input_path = Path(args.input)

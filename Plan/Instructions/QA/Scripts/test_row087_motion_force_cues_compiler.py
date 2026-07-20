@@ -454,6 +454,44 @@ class Row087MotionForceCuesCompilerTests(unittest.TestCase):
             COMPILER_MOD.verify_synthetic_ledger_vs_compiled_manifest_expectations(pass_claimed)
         self.assertIn("calibrated_trajectory_benchmark_pass=false", str(ctx3.exception))
 
+    def test_ci_fixture_ledger_gate_rejects_checked_in_divergence(self) -> None:
+        receipt = COMPILER_MOD.run_ci_fixture_ledger_gate()
+        self.assertEqual(receipt["status"], "ok")
+        self.assertEqual(receipt["gate"], "row087_ci_fixture_ledger_gate")
+        self.assertTrue(receipt["checked_in_matches_rebuild"])
+        self.assertTrue(receipt["digest_drift_rejected"])
+        self.assertFalse(receipt["row_complete"])
+        self.assertFalse(receipt["calibrated_trajectory_benchmark_pass"])
+        self.assertFalse(receipt["visual_review_claimed"])
+        self.assertFalse(receipt["rows084_085_086_acceptance_claimed"])
+        self.assertFalse(receipt["production_benchmark"])
+        self.assertEqual(receipt["authority_ceiling"], "fixture_synthetic_only")
+
+        cli = subprocess.run(
+            [sys.executable, str(COMPILER), "--ci-gate"],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        self.assertEqual(cli.returncode, 0, msg=cli.stderr + cli.stdout)
+        cli_receipt = json.loads(cli.stdout)
+        self.assertEqual(cli_receipt["ledger_sha256"], receipt["ledger_sha256"])
+        self.assertFalse(cli_receipt["rows084_085_086_acceptance_claimed"])
+
+        with tempfile.TemporaryDirectory() as tmp:
+            tmpdir = Path(tmp)
+            for name in FIXTURE_PACKETS:
+                (tmpdir / name).write_bytes((FIXTURE_DIR / name).read_bytes())
+            drifted = json.loads(SYNTHETIC_LEDGER.read_text(encoding="utf-8"))
+            drifted["fixture_bindings"][0]["compiled_manifest_sha256"] = "0" * 64
+            body = {key: value for key, value in drifted.items() if key != "ledger_sha256"}
+            drifted["ledger_sha256"] = COMPILER_MOD._canonical_sha256(body)
+            _write_json(tmpdir / "synthetic_calibrated_trajectory_benchmark_ledger.json", drifted)
+            with self.assertRaises(ValueError) as ctx:
+                COMPILER_MOD.run_ci_fixture_ledger_gate(fixture_dir=tmpdir)
+            self.assertIn("diverge from rebuild", str(ctx.exception))
+
 
 if __name__ == "__main__":
     unittest.main()
