@@ -169,3 +169,266 @@ def test_index_retained_probe_limit_emits_runtime_pass_bounded_without_complete(
     assert packet["decision"]["row075_acceptance"] == "held"
     assert "DEPS_UNLOCKED" in packet["status"]
     assert packet["accepted_index_retained_defect_runtime"]["present"] is True
+
+
+def _write_row075_retained_strata_fixture(path: Path) -> None:
+    rows = [
+        {
+            "relative_path": "lib/body_pass.wav",
+            "asset_id": "index:lib/body_pass.wav",
+            "role": "body",
+            "event_type": "body_foley",
+            "extension": ".wav",
+            "defect_status": "pass",
+            "technical_defect_pass": True,
+            "production_eligibility": "eligible",
+            "severe_defect_codes": [],
+            "sample_rate_hz": 48000,
+            "channels": 1,
+            "frame_count": 1000,
+            "source_sha256": "a" * 64,
+            "canonical_pcm_sha256": "b" * 64,
+            "blocker_code": None,
+        },
+        {
+            "relative_path": "lib/body_blocked.wav",
+            "asset_id": "index:lib/body_blocked.wav",
+            "role": "body",
+            "event_type": "body_foley",
+            "extension": ".wav",
+            "defect_status": "blocked",
+            "technical_defect_pass": False,
+            "production_eligibility": "unknown",
+            "severe_defect_codes": [],
+            "sample_rate_hz": 48000,
+            "channels": 1,
+            "frame_count": 1000,
+            "source_sha256": "c" * 64,
+            "canonical_pcm_sha256": "d" * 64,
+            "blocker_code": "DEFECT_EXTRACTION_FAILED",
+        },
+        {
+            "relative_path": "lib/action_pass.wav",
+            "asset_id": "index:lib/action_pass.wav",
+            "role": "effects",
+            "event_type": "action_sfx",
+            "extension": ".wav",
+            "defect_status": "pass",
+            "technical_defect_pass": True,
+            "production_eligibility": "ineligible",
+            "severe_defect_codes": ["clicks"],
+            "sample_rate_hz": 48000,
+            "channels": 1,
+            "frame_count": 2000,
+            "source_sha256": "e" * 64,
+            "canonical_pcm_sha256": "f" * 64,
+            "blocker_code": None,
+        },
+        {
+            "relative_path": "lib/impact_pass.wav",
+            "asset_id": "index:lib/impact_pass.wav",
+            "role": "effects",
+            "event_type": "impact",
+            "extension": ".wav",
+            "defect_status": "pass",
+            "technical_defect_pass": True,
+            "production_eligibility": "eligible",
+            "severe_defect_codes": [],
+            "sample_rate_hz": 48000,
+            "channels": 2,
+            "frame_count": 3000,
+            "source_sha256": "1" * 64,
+            "canonical_pcm_sha256": "2" * 64,
+            "blocker_code": None,
+        },
+        {
+            "relative_path": "lib/clothing_pass.wav",
+            "asset_id": "index:lib/clothing_pass.wav",
+            "role": "clothing",
+            "event_type": "clothing_foley",
+            "extension": ".wav",
+            "defect_status": "pass",
+            "technical_defect_pass": True,
+            "production_eligibility": "limited",
+            "severe_defect_codes": [],
+            "sample_rate_hz": 44100,
+            "channels": 1,
+            "frame_count": 1500,
+            "source_sha256": "3" * 64,
+            "canonical_pcm_sha256": "4" * 64,
+            "blocker_code": None,
+        },
+        {
+            "relative_path": "lib/furniture_pass.wav",
+            "asset_id": "index:lib/furniture_pass.wav",
+            "role": "furniture",
+            "event_type": "furniture_foley",
+            "extension": ".wav",
+            "defect_status": "pass",
+            "technical_defect_pass": True,
+            "production_eligibility": "eligible",
+            "severe_defect_codes": [],
+            "sample_rate_hz": 48000,
+            "channels": 1,
+            "frame_count": 1800,
+            "source_sha256": "5" * 64,
+            "canonical_pcm_sha256": "6" * 64,
+            "blocker_code": None,
+        },
+        {
+            "relative_path": "lib/eval_pass.wav",
+            "asset_id": "index:lib/eval_pass.wav",
+            "role": "evaluation",
+            "event_type": "evaluation_reference",
+            "extension": ".wav",
+            "defect_status": "pass",
+            "technical_defect_pass": True,
+            "production_eligibility": "ineligible",
+            "severe_defect_codes": ["severe_pre_reverb"],
+            "sample_rate_hz": 16000,
+            "channels": 1,
+            "frame_count": 8000,
+            "source_sha256": "7" * 64,
+            "canonical_pcm_sha256": "8" * 64,
+            "blocker_code": None,
+        },
+        {
+            "relative_path": "lib/unclassified_blocked.mp3",
+            "asset_id": "index:lib/unclassified_blocked.mp3",
+            "role": "effects",
+            "event_type": "unclassified",
+            "extension": ".mp3",
+            "defect_status": "blocked",
+            "technical_defect_pass": False,
+            "production_eligibility": "unknown",
+            "severe_defect_codes": [],
+            "sample_rate_hz": 44100,
+            "channels": 2,
+            "frame_count": 4000,
+            "source_sha256": "9" * 64,
+            "canonical_pcm_sha256": "0" * 64,
+            "blocker_code": "DEFECT_EXTRACTION_FAILED",
+        },
+    ]
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        "\n".join(json.dumps(row, sort_keys=True) for row in rows) + "\n",
+        encoding="utf-8",
+    )
+
+
+def test_library_strata_labels_synthetic_truth_and_holds_library_pending():
+    retained_path = (
+        ROOT
+        / "runtime_artifacts"
+        / "_pytest_row075_library_strata"
+        / "select_records.jsonl"
+    )
+    _write_row075_retained_strata_fixture(retained_path)
+    try:
+        strata = MOD.select_library_strata_candidates_from_retained(
+            ROOT,
+            retained_records_path=retained_path,
+        )
+        assert strata["authority"] == "candidate_shortlist_pending_truth_defects"
+        assert strata["selection_policy"] == MOD.SELECTION_POLICY
+        assert strata["counts"]["candidates_selected"] == 13
+        assert strata["counts"]["strata_filled"] == 13
+        assert strata["counts"]["truth_labeled"] == 5
+        assert strata["counts"]["truth_pending"] == 6
+        assert strata["counts"]["truth_blocked"] == 2
+        assert strata["counts"]["truth_unlabeled"] == 8
+        assert strata["truth_defect_status"] == "partial"
+        assert strata["decision"]["status"] == "blocked"
+        assert strata["decision"]["library_authority"] is False
+        assert strata["decision"]["row_complete"] is False
+        assert strata["decision"]["product_completion"] is False
+        assert strata["decision"]["threshold_authority_unfrozen"] is False
+        assert strata["decision"]["benchmark_strata_calibrated"] is False
+        assert MOD.BLOCKER_THRESHOLD_FROZEN in strata["blocker_codes"]
+        assert MOD.BLOCKER_STRATA_ABSENT in strata["blocker_codes"]
+        labeled = [item for item in strata["candidates"] if item["truth_label_status"] == "labeled"]
+        library = [item for item in strata["candidates"] if item["role"] != "fixture"]
+        assert {item["event_type"] for item in labeled} == {
+            "clipping",
+            "clicks",
+            "dropout",
+            "truncation",
+            "hum",
+        }
+        assert all(isinstance(item["truth_severe_defect_codes"], list) for item in labeled)
+        assert all(item["truth_label_status"] in {"pending", "blocked"} for item in library)
+        assert all(item["truth_severe_defect_codes"] is None for item in library)
+        refs = strata["row109_synthetic_partition_references"]
+        assert refs["partition_ids"] == [
+            "train",
+            "calibration",
+            "held_out_test",
+            "adversarial",
+        ]
+        assert refs["pcm_decode_authorized"] is False
+        assert refs["library_authority"] is False
+        MOD.validate_strata_manifest(ROOT, strata)
+    finally:
+        if retained_path.is_file():
+            retained_path.unlink()
+        parent = retained_path.parent
+        if parent.is_dir() and not any(parent.iterdir()):
+            parent.rmdir()
+
+
+def test_library_strata_hold_packet_keeps_blockers_without_complete():
+    retained_path = (
+        ROOT
+        / "runtime_artifacts"
+        / "_pytest_row075_library_strata"
+        / "coverage_complete_records.jsonl"
+    )
+    _write_row075_retained_strata_fixture(retained_path)
+    try:
+        strata = MOD.select_library_strata_candidates_from_retained(
+            ROOT,
+            retained_records_path=retained_path,
+        )
+    finally:
+        if retained_path.is_file():
+            retained_path.unlink()
+        parent = retained_path.parent
+        if parent.is_dir() and not any(parent.iterdir()):
+            parent.rmdir()
+    retained = {
+        "authority": "accepted_index_retained_defect_reconcile",
+        "coverage_complete": True,
+        "counts": {
+            "records_processed": 39771,
+            "records_total": 39771,
+            "defect_pass": 8128,
+            "defect_blocked": 31643,
+        },
+        "receipt_path": (
+            "runtime_artifacts/audio_defects/row075_index_retained_20260719/"
+            "retained_index_defect_receipt.json"
+        ),
+        "records_path": (
+            "runtime_artifacts/audio_defects/row075_index_retained_20260719/records.jsonl"
+        ),
+        "proof_tier": "RUNTIME_PASS_BOUNDED",
+        "status": "RUNTIME_PASS_BOUNDED_LIBRARY_THRESHOLDS_FROZEN",
+    }
+    payload = MOD.build_library_blocker_packet(
+        ROOT,
+        retained_runtime=retained,
+        strata_manifest=strata,
+    )
+    assert payload["status"] == (
+        "HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE"
+    )
+    assert payload["row_complete"] is False
+    assert payload["library_authority"] is False
+    assert payload["decision"]["product_completion"] is False
+    assert payload["runtime_completion_claimed"] is True
+    assert "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY" in payload["blocker_codes"]
+    assert "CALIBRATED_LIBRARY_DEFECT_STRATA_ABSENT" in payload["blocker_codes"]
+    assert payload["library_benchmark_strata"]["candidates_selected"] == 13
+    assert payload["library_benchmark_strata"]["truth_defect_status"] == "partial"
+    assert payload["library_benchmark_strata"]["benchmark_strata_calibrated"] is False

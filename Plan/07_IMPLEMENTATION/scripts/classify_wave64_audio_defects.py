@@ -28,6 +28,29 @@ SCHEMA_PATH = Path("Plan/08_SCHEMAS/audio_defect_classification_record.schema.js
 THRESHOLD_REGISTRY_PATH = Path(
     "Plan/10_REGISTRIES/wave64_row075_audio_defect_threshold_registry.json"
 )
+STRATA_REGISTRY_PATH = Path(
+    "Plan/10_REGISTRIES/wave64_row075_audio_defect_library_benchmark_strata_v0.1.0.json"
+)
+STRATA_MANIFEST_SCHEMA_PATH = Path(
+    "Plan/08_SCHEMAS/audio_defect_library_benchmark_strata_manifest.schema.json"
+)
+DEFAULT_STRATA_PACKET = Path(
+    "Plan/Instructions/QA/Evidence/Wave64/"
+    "TRK-W64-075_LIBRARY_BENCHMARK_STRATA_CANDIDATE_PACKET_20260720.json"
+)
+ROW109_POLICY_REGISTRY_PATH = Path(
+    "Plan/10_REGISTRIES/wave64_row109_audio_benchmark_corpus_policy_registry.json"
+)
+ROW109_CORPUS_CASE_INDEX_PATH = Path(
+    "Plan/Instructions/QA/Evidence/Wave64/fixtures/row109/corpus_case_index.json"
+)
+ROW109_POLICY_REGISTRY_REVISION = "wave64_row109_audio_benchmark_corpus_policy_v0.1.0"
+ROW109_REQUIRED_PARTITION_IDS = (
+    "train",
+    "calibration",
+    "held_out_test",
+    "adversarial",
+)
 DEFAULT_EVIDENCE = Path(
     "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_audio_defect_classification.json"
 )
@@ -45,6 +68,10 @@ DEFAULT_RETAINED_DEFECT_RUNTIME_DIR = Path(
 )
 DETECTOR_REVISION = "wave64_row075_audio_defect_classifier_v0.1.0"
 THRESHOLD_REGISTRY_REVISION = "wave64_row075_audio_defect_thresholds_v0.1.0"
+STRATA_REGISTRY_REVISION = "wave64_row075_audio_defect_library_benchmark_strata_v0.1.0"
+SELECTION_POLICY = "retained_shortlist_synthetic_fixture_truth_no_pcm_library_decode"
+BLOCKER_THRESHOLD_FROZEN = "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY"
+BLOCKER_STRATA_ABSENT = "CALIBRATED_LIBRARY_DEFECT_STRATA_ABSENT"
 TRACKER_ID = "TRK-W64-075"
 ITEM_ID = "ITEM-W64-075"
 SCHEMA_VERSION = "1.0.0"
@@ -1529,10 +1556,435 @@ def run_retained_index_defect_runtime(
     return receipt
 
 
+def _sha256_or_none(value: Any) -> str | None:
+    if value is None:
+        return None
+    text = str(value).strip().lower()
+    if len(text) == 64 and all(ch in "0123456789abcdef" for ch in text):
+        return text
+    return None
+
+
+def load_strata_registry(root: Path) -> dict[str, Any]:
+    path = resolve_under(root, STRATA_REGISTRY_PATH, "strata_registry")
+    registry = load_json(path)
+    if registry.get("revision") != STRATA_REGISTRY_REVISION:
+        raise AudioDefectError("strata_registry_revision_mismatch")
+    if registry.get("authority") != "candidate_shortlist_pending_truth_defects":
+        raise AudioDefectError("strata_registry_authority_must_remain_pending_truth")
+    if registry.get("library_authority") is True or registry.get("row_complete") is True:
+        raise AudioDefectError("strata_registry_must_refuse_library_authority_and_complete")
+    if registry.get("threshold_authority_unfrozen") is True:
+        raise AudioDefectError("strata_registry_must_not_unfreeze_thresholds")
+    return registry
+
+
+def validate_strata_manifest(root: Path, manifest: dict[str, Any]) -> None:
+    schema = load_json(resolve_under(root, STRATA_MANIFEST_SCHEMA_PATH, "strata_schema"))
+    errors = sorted(
+        Draft202012Validator(schema).iter_errors(manifest),
+        key=lambda error: list(error.absolute_path),
+    )
+    if errors:
+        first = errors[0]
+        location = ".".join(str(part) for part in first.absolute_path) or "$"
+        raise AudioDefectError(f"strata_schema_validation_failed:{location}:{first.message}")
+
+
+def build_row109_synthetic_partition_references(
+    root: Path,
+    *,
+    strata_registry: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Bind Row109 partition IDs as synthetic references only (no PCM / no authority)."""
+    registry = strata_registry or load_strata_registry(root)
+    configured = dict(registry.get("row109_synthetic_partition_references") or {})
+    policy_path = resolve_under(
+        root,
+        Path(str(configured.get("policy_registry_path") or ROW109_POLICY_REGISTRY_PATH)),
+        "row109_policy_registry",
+    )
+    index_path = resolve_under(
+        root,
+        Path(str(configured.get("corpus_case_index_path") or ROW109_CORPUS_CASE_INDEX_PATH)),
+        "row109_corpus_case_index",
+    )
+    if not policy_path.is_file():
+        raise AudioDefectError("row109_policy_registry_absent_for_partition_binding")
+    if not index_path.is_file():
+        raise AudioDefectError("row109_corpus_case_index_absent_for_partition_binding")
+
+    policy = load_json(policy_path)
+    if policy.get("revision") != ROW109_POLICY_REGISTRY_REVISION:
+        raise AudioDefectError("row109_policy_registry_revision_mismatch")
+    policy_partitions = [str(item) for item in (policy.get("required_partitions") or [])]
+    if list(policy_partitions) != list(ROW109_REQUIRED_PARTITION_IDS):
+        raise AudioDefectError("row109_required_partitions_mismatch")
+
+    index_payload = load_json(index_path)
+    index_partitions = sorted(
+        {
+            str(case.get("partition") or "")
+            for case in (index_payload.get("cases") or [])
+            if str(case.get("partition") or "")
+        }
+    )
+    if index_partitions != sorted(ROW109_REQUIRED_PARTITION_IDS):
+        raise AudioDefectError("row109_corpus_case_index_partitions_incomplete")
+
+    partition_ids = [
+        str(item)
+        for item in (configured.get("partition_ids") or list(ROW109_REQUIRED_PARTITION_IDS))
+    ]
+    if partition_ids != list(ROW109_REQUIRED_PARTITION_IDS):
+        raise AudioDefectError("row109_partition_ids_must_match_required_set")
+
+    refs = {
+        "authority": "synthetic_fixture_partition_references_only",
+        "tracker_id": "TRK-W64-109",
+        "item_id": "ITEM-W64-109",
+        "policy_registry_path": str(policy_path.relative_to(root)).replace("\\", "/"),
+        "policy_registry_revision": ROW109_POLICY_REGISTRY_REVISION,
+        "corpus_case_index_path": str(index_path.relative_to(root)).replace("\\", "/"),
+        "partition_ids": partition_ids,
+        "binding_scope": "synthetic_partition_ids_only",
+        "pcm_decode_authorized": False,
+        "threshold_authority_unfrozen": False,
+        "library_authority": False,
+        "notes": list(
+            configured.get("notes")
+            or [
+                "Bind Row109 train/calibration/held_out_test/adversarial partition IDs as synthetic references only.",
+                "Does not decode PCM, import Row109 truth onto library retained candidates, unfreeze thresholds, or claim COMPLETE.",
+            ]
+        ),
+    }
+    if (
+        refs["pcm_decode_authorized"]
+        or refs["threshold_authority_unfrozen"]
+        or refs["library_authority"]
+    ):
+        raise AudioDefectError("row109_partition_refs_must_refuse_pcm_and_authority")
+    return refs
+
+
+def resolve_retained_defect_truth_label(
+    record: dict[str, Any],
+) -> tuple[list[str] | None, str]:
+    """Resolve truth defect labels from retained metadata only (no library PCM decode).
+
+    library_unlabeled retained rows never invent truth from measured severities; they stay
+    pending (technical pass) or blocked (technical/defect blocker).
+    """
+    explicit = record.get("truth_label_status")
+    truth_codes = record.get("truth_severe_defect_codes")
+    if isinstance(truth_codes, list) and all(isinstance(item, str) for item in truth_codes):
+        return [str(item) for item in truth_codes], "labeled"
+
+    role = str(record.get("role") or "")
+    library_unlabeled = role != "fixture" or explicit in {"pending", "unlabeled", "blocked"}
+    if explicit in {"pending", "blocked"} and role == "fixture":
+        return None, str(explicit)
+    if library_unlabeled or explicit == "unlabeled":
+        defect_status = str(record.get("defect_status") or "")
+        if defect_status == "blocked" or record.get("blocker_code"):
+            return None, "blocked"
+        return None, "pending"
+    if explicit == "labeled":
+        return None, "pending"
+    return None, "pending"
+
+
+def build_synthetic_fixture_strata_candidate(
+    root: Path,
+    *,
+    stratum_id: str,
+    fixture_name: str,
+    candidate_index: int,
+) -> dict[str, Any]:
+    """Label determinable synthetic fixture truth without library PCM decode."""
+    record = extract_fixture_record(root, fixture_name)
+    severe = sorted(
+        str(label["defect_code"])
+        for label in record.get("defects") or []
+        if str(label.get("severity") or "") == "severe"
+    )
+    return {
+        "candidate_id": f"{stratum_id}_{candidate_index:02d}",
+        "stratum_id": stratum_id,
+        "relative_path": f"row075_synthetic/{fixture_name}.wav",
+        "asset_id": f"fixture:{fixture_name}",
+        "role": "fixture",
+        "event_type": fixture_name,
+        "extension": ".wav",
+        "defect_status": "pass",
+        "technical_defect_pass": True,
+        "production_eligibility": record["decision"].get("production_eligibility"),
+        "severe_defect_codes": severe,
+        "sample_rate_hz": record.get("sample_rate_hz"),
+        "channels": record.get("channels"),
+        "frame_count": record.get("frame_count"),
+        "source_sha256": _sha256_or_none(record.get("source_sha256")),
+        "canonical_pcm_sha256": _sha256_or_none(record.get("canonical_pcm_sha256")),
+        "truth_severe_defect_codes": severe,
+        "truth_label_status": "labeled",
+        "blocker_code": None,
+    }
+
+
+def select_library_strata_candidates_from_retained(
+    root: Path,
+    *,
+    retained_records_path: Path | None = None,
+    strata_registry: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Select benchmark strata candidates and label determinable synthetic truth.
+
+    Library retained rows are metadata-only (no PCM decode / no full re-scan).
+    Determinable truth binds from Row075 synthetic fixtures; library_unlabeled
+    retained candidates stay pending/blocked. Does not grant authority or COMPLETE.
+    """
+    registry = strata_registry or load_strata_registry(root)
+    records_path = resolve_under(
+        root,
+        retained_records_path
+        or Path(
+            str(
+                (registry.get("source_retained_records") or {}).get("path")
+                or (DEFAULT_RETAINED_DEFECT_RUNTIME_DIR / "records.jsonl")
+            )
+        ),
+        "retained_defect_records",
+    )
+    if not records_path.is_file():
+        raise AudioDefectError("retained_defect_records_absent_for_library_strata")
+
+    targets = list(registry.get("strata_targets") or [])
+    if not targets:
+        raise AudioDefectError("strata_targets_absent")
+
+    buckets: dict[str, list[dict[str, Any]]] = {
+        str(target["stratum_id"]): [] for target in targets
+    }
+    limits: dict[str, int] = {
+        str(target["stratum_id"]): int(target.get("max_candidates") or 1)
+        for target in targets
+    }
+    target_by_id = {str(target["stratum_id"]): target for target in targets}
+    records_scanned = 0
+    early_exit = bool(
+        (registry.get("selection") or {}).get("early_exit_when_targets_filled", True)
+    )
+
+    for target in targets:
+        stratum_id = str(target["stratum_id"])
+        if str(target.get("role")) != "fixture":
+            continue
+        fixture_name = str(target.get("event_type") or "")
+        while len(buckets[stratum_id]) < limits[stratum_id]:
+            buckets[stratum_id].append(
+                build_synthetic_fixture_strata_candidate(
+                    root,
+                    stratum_id=stratum_id,
+                    fixture_name=fixture_name,
+                    candidate_index=len(buckets[stratum_id]) + 1,
+                )
+            )
+
+    library_targets = [target for target in targets if str(target.get("role")) != "fixture"]
+    with records_path.open("r", encoding="utf-8") as handle:
+        for line in handle:
+            stripped = line.strip()
+            if not stripped:
+                continue
+            records_scanned += 1
+            record = json.loads(stripped)
+            role = str(record.get("role") or "")
+            event_type = str(record.get("event_type") or "")
+            extension = str(
+                record.get("extension") or Path(str(record.get("relative_path") or "")).suffix
+            ).lower()
+            defect_status = str(record.get("defect_status") or "")
+            relative_path = str(record.get("relative_path") or "").replace("\\", "/")
+            if not relative_path:
+                continue
+            for target in library_targets:
+                stratum_id = str(target["stratum_id"])
+                if len(buckets[stratum_id]) >= limits[stratum_id]:
+                    continue
+                if (
+                    role == str(target["role"])
+                    and event_type == str(target["event_type"])
+                    and extension == str(target["extension"]).lower()
+                    and defect_status == str(target["defect_status"])
+                ):
+                    truth_codes, truth_label_status = resolve_retained_defect_truth_label(record)
+                    severe_codes = [
+                        str(item)
+                        for item in (record.get("severe_defect_codes") or [])
+                        if isinstance(item, str)
+                    ]
+                    candidate_index = len(buckets[stratum_id]) + 1
+                    buckets[stratum_id].append(
+                        {
+                            "candidate_id": f"{stratum_id}_{candidate_index:02d}",
+                            "stratum_id": stratum_id,
+                            "relative_path": relative_path,
+                            "asset_id": str(record.get("asset_id") or f"index:{relative_path}"),
+                            "role": role,
+                            "event_type": event_type,
+                            "extension": extension,
+                            "defect_status": defect_status,
+                            "technical_defect_pass": bool(record.get("technical_defect_pass")),
+                            "production_eligibility": record.get("production_eligibility"),
+                            "severe_defect_codes": severe_codes,
+                            "sample_rate_hz": record.get("sample_rate_hz"),
+                            "channels": record.get("channels"),
+                            "frame_count": record.get("frame_count"),
+                            "source_sha256": _sha256_or_none(record.get("source_sha256")),
+                            "canonical_pcm_sha256": _sha256_or_none(
+                                record.get("canonical_pcm_sha256")
+                            ),
+                            "truth_severe_defect_codes": truth_codes,
+                            "truth_label_status": truth_label_status,
+                            "blocker_code": record.get("blocker_code"),
+                        }
+                    )
+                    break
+            if early_exit and all(
+                len(buckets[stratum_id]) >= limits[stratum_id] for stratum_id in buckets
+            ):
+                break
+
+    candidates: list[dict[str, Any]] = []
+    for target in targets:
+        stratum_id = str(target["stratum_id"])
+        candidates.extend(buckets[stratum_id])
+
+    truth_labeled = sum(1 for item in candidates if item["truth_label_status"] == "labeled")
+    truth_pending = sum(1 for item in candidates if item["truth_label_status"] == "pending")
+    truth_blocked = sum(1 for item in candidates if item["truth_label_status"] == "blocked")
+    truth_unlabeled = len(candidates) - truth_labeled
+    strata_filled = sum(
+        1 for stratum_id, items in buckets.items() if len(items) >= limits[stratum_id]
+    )
+    strata_unfilled = len(targets) - strata_filled
+
+    if truth_labeled == 0:
+        truth_defect_status = "absent"
+    elif truth_unlabeled > 0 or strata_unfilled > 0:
+        truth_defect_status = "partial"
+    else:
+        truth_defect_status = "complete"
+
+    blocker_codes = [BLOCKER_THRESHOLD_FROZEN, BLOCKER_STRATA_ABSENT]
+    calibrated = False
+    row109_refs = build_row109_synthetic_partition_references(root, strata_registry=registry)
+    if truth_defect_status == "absent":
+        safe_next = (
+            "Label truth defect codes on the retained-record shortlist, then calibrate "
+            "registered defect thresholds before claiming Row075 acceptance. "
+            "Row109 partition IDs are synthetic references only. Do not decode library PCM "
+            "or re-scan the full library in this mode; do not claim COMPLETE."
+        )
+    elif truth_defect_status == "partial":
+        safe_next = (
+            "Synthetic fixture truth defect codes are labeled; library_unlabeled retained "
+            "candidates remain pending/blocked. Keep CALIBRATED_LIBRARY_DEFECT_STRATA_ABSENT "
+            "and frozen synthetic thresholds until library truth exists. "
+            "Row109 partition IDs remain synthetic references only. Do not decode library PCM "
+            "or fight Row073 PCM I/O; do not claim COMPLETE."
+        )
+    else:
+        safe_next = (
+            "Shortlist truth defect codes are labeled, but threshold authority remains frozen "
+            "synthetic-only and library strata truth is still absent. Keep both blockers; "
+            "do not decode library PCM or claim COMPLETE."
+        )
+
+    manifest = {
+        "schema_version": SCHEMA_VERSION,
+        "artifact_type": "audio_defect_library_benchmark_strata_manifest",
+        "tracker_id": TRACKER_ID,
+        "item_id": ITEM_ID,
+        "strata_registry_revision": STRATA_REGISTRY_REVISION,
+        "threshold_registry_revision": THRESHOLD_REGISTRY_REVISION,
+        "detector_revision": DETECTOR_REVISION,
+        "authority": "candidate_shortlist_pending_truth_defects",
+        "selection_policy": SELECTION_POLICY,
+        "source_retained_records": {
+            "path": str(records_path.relative_to(root)).replace("\\", "/"),
+            "sha256": sha256_file(records_path),
+            "bytes": records_path.stat().st_size,
+            "records_scanned": records_scanned,
+        },
+        "strata_targets": [
+            {
+                "stratum_id": str(target_by_id[sid]["stratum_id"]),
+                "role": str(target_by_id[sid]["role"]),
+                "event_type": str(target_by_id[sid]["event_type"]),
+                "extension": str(target_by_id[sid]["extension"]),
+                "defect_status": str(target_by_id[sid]["defect_status"]),
+                "max_candidates": int(limits[sid]),
+            }
+            for sid in (str(t["stratum_id"]) for t in targets)
+        ],
+        "candidates": candidates,
+        "counts": {
+            "strata_targets": len(targets),
+            "strata_filled": strata_filled,
+            "strata_unfilled": strata_unfilled,
+            "candidates_selected": len(candidates),
+            "truth_labeled": truth_labeled,
+            "truth_unlabeled": truth_unlabeled,
+            "truth_pending": truth_pending,
+            "truth_blocked": truth_blocked,
+        },
+        "truth_defect_status": truth_defect_status,
+        "row109_synthetic_partition_references": row109_refs,
+        "blocker_codes": blocker_codes,
+        "decision": {
+            "status": "blocked",
+            "library_authority": False,
+            "row_complete": False,
+            "product_completion": False,
+            "threshold_authority_unfrozen": False,
+            "benchmark_strata_calibrated": calibrated,
+            "safe_next_action": safe_next,
+        },
+        "created_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "notes": [
+            "Library candidates selected from retained Row075 defect records only; no library PCM decode and no full-library re-scan.",
+            "Determinable truth defect codes bind from Row075 synthetic fixtures.",
+            "library_unlabeled retained candidates remain pending/blocked; measured severities are never promoted to truth.",
+            "Row109 descriptors remain synthetic partition references only.",
+            "Candidate shortlist does not grant library authority or clear frozen synthetic thresholds.",
+            "CALIBRATED_LIBRARY_DEFECT_STRATA_ABSENT remains until library truth is calibrated.",
+            "Mode is metadata-only and must not fight Row073 PCM I/O.",
+        ],
+    }
+    if (
+        manifest["decision"]["library_authority"]
+        or manifest["decision"]["row_complete"]
+        or manifest["decision"]["product_completion"]
+        or manifest["decision"]["threshold_authority_unfrozen"]
+        or manifest["decision"]["benchmark_strata_calibrated"]
+        or manifest["decision"]["status"] != "blocked"
+    ):
+        raise AudioDefectError("library_strata_mode_must_refuse_authority_and_completion")
+    if BLOCKER_THRESHOLD_FROZEN not in manifest["blocker_codes"]:
+        raise AudioDefectError("library_strata_must_emit_frozen_threshold_blocker")
+    if BLOCKER_STRATA_ABSENT not in manifest["blocker_codes"]:
+        raise AudioDefectError("library_strata_must_emit_strata_absent_blocker_until_truth")
+    validate_strata_manifest(root, manifest)
+    return manifest
+
+
 def build_library_blocker_packet(
     root: Path,
     *,
     retained_runtime: dict[str, Any] | None = None,
+    strata_manifest: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     row070 = evaluate_row070_admission(root)
     row071 = evaluate_row071_admission(root)
@@ -1583,13 +2035,24 @@ def build_library_blocker_packet(
                 blocker_codes.append(code)
 
     deps_unlocked = bool(row070["dependency_satisfied"] and row071["dependency_satisfied"])
+    strata = strata_manifest or {}
+    strata_present = bool(strata)
     if coverage_complete and deps_unlocked:
         status = "HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE"
-        safe_next = (
-            "Full-library defect reconcile covered retained Row071 records under frozen "
-            "synthetic thresholds. Calibrate representative library defect strata and unfreeze "
-            "threshold authority before Row075 acceptance or Row078/Row093 unlock."
-        )
+        if strata_present:
+            safe_next = (
+                "Full-library defect reconcile is coverage_complete. Synthetic fixture truth "
+                "defects are labeled on the retained shortlist, but library_unlabeled candidates "
+                "remain pending/blocked and threshold authority stays frozen at "
+                f"{THRESHOLD_REGISTRY_REVISION}. Obtain library strata truth before unfreezing "
+                "thresholds or claiming Row075 acceptance. Do not decode library PCM or claim COMPLETE."
+            )
+        else:
+            safe_next = (
+                "Full-library defect reconcile covered retained Row071 records under frozen "
+                "synthetic thresholds. Calibrate representative library defect strata and unfreeze "
+                "threshold authority before Row075 acceptance or Row078/Row093 unlock."
+            )
         proof_tier = "RUNTIME_PASS_BOUNDED"
         runtime_completion = True
     elif reconcile_started and deps_unlocked:
@@ -1677,6 +2140,24 @@ def build_library_blocker_packet(
             "status": retained.get("status"),
             "row072_contention_policy": retained.get("row072_contention_policy"),
         },
+        "library_benchmark_strata": {
+            "present": strata_present,
+            "strata_registry_revision": STRATA_REGISTRY_REVISION,
+            "authority": strata.get("authority"),
+            "selection_policy": strata.get("selection_policy"),
+            "truth_defect_status": strata.get("truth_defect_status"),
+            "candidates_selected": (strata.get("counts") or {}).get("candidates_selected"),
+            "truth_labeled": (strata.get("counts") or {}).get("truth_labeled"),
+            "truth_pending": (strata.get("counts") or {}).get("truth_pending"),
+            "truth_blocked": (strata.get("counts") or {}).get("truth_blocked"),
+            "benchmark_strata_calibrated": bool(
+                (strata.get("decision") or {}).get("benchmark_strata_calibrated")
+            ),
+            "threshold_authority_unfrozen": False,
+            "library_authority": False,
+            "packet_path": None,
+            "blocker_codes": list(strata.get("blocker_codes") or []),
+        },
         "threshold_registry": {
             "path": str(THRESHOLD_REGISTRY_PATH).replace("\\", "/"),
             "revision": registry["revision"],
@@ -1714,7 +2195,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--root", default=str(ROOT))
     parser.add_argument(
         "--mode",
-        choices=("library", "fixture", "index-retained"),
+        choices=("library", "fixture", "index-retained", "library-strata"),
         default="library",
     )
     parser.add_argument("--fixture", default="clipping")
@@ -1733,6 +2214,10 @@ def main(argv: list[str] | None = None) -> int:
             "Plan/Instructions/QA/Evidence/Wave64/"
             "TRK-W64-075_ACCEPTED_INDEX_RETAINED_DEFECT_SUMMARY_20260719.json"
         ),
+    )
+    parser.add_argument(
+        "--write-strata-packet",
+        default=str(DEFAULT_STRATA_PACKET),
     )
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument("--resume", action="store_true", default=True)
@@ -1761,6 +2246,34 @@ def main(argv: list[str] | None = None) -> int:
         payload["accepted_index_retained_defect_runtime"]["summary_sha256"] = sha256_file(
             summary_path
         )
+    elif args.mode == "library-strata":
+        retained_records = Path(args.retained_runtime_dir) / "records.jsonl"
+        strata = select_library_strata_candidates_from_retained(
+            root,
+            retained_records_path=retained_records,
+        )
+        strata_path = resolve_under(root, Path(args.write_strata_packet), "strata_packet")
+        write_json(strata_path, strata)
+        retained = None
+        receipt_candidate = resolve_under(
+            root,
+            Path(args.retained_runtime_dir) / "retained_index_defect_receipt.json",
+            "retained_defect_receipt",
+        )
+        if receipt_candidate.is_file():
+            retained = load_json(receipt_candidate)
+        payload = build_library_blocker_packet(
+            root,
+            retained_runtime=retained,
+            strata_manifest=strata,
+        )
+        packet_rel = str(strata_path.relative_to(root)).replace("\\", "/")
+        payload["library_benchmark_strata"]["packet_path"] = packet_rel
+        payload["library_benchmark_strata"]["packet_sha256"] = sha256_file(strata_path)
+        if payload["decision"]["status"] != "blocked":
+            raise AudioDefectError("library_strata_mode_must_remain_fail_closed")
+        if payload["decision"]["product_completion"] is True:
+            raise AudioDefectError("library_strata_mode_must_refuse_product_completion")
     else:
         retained = None
         receipt_candidate = resolve_under(
@@ -1783,6 +2296,12 @@ def main(argv: list[str] | None = None) -> int:
                     (payload.get("accepted_index_retained_defect_runtime") or {}).get(
                         "coverage_complete"
                     )
+                ),
+                "truth_defect_status": (
+                    (payload.get("library_benchmark_strata") or {}).get("truth_defect_status")
+                ),
+                "candidates_selected": (
+                    (payload.get("library_benchmark_strata") or {}).get("candidates_selected")
                 ),
             },
             sort_keys=True,
