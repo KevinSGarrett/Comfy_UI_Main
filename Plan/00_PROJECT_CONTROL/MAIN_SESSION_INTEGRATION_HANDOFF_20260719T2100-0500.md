@@ -1,4 +1,4 @@
-# Main Session Integration Handoff - 2026-07-19T21:00-05:00
+﻿# Main Session Integration Handoff - 2026-07-19T21:00-05:00
 
 ## Integration Summary
 
@@ -11,7 +11,7 @@
 
 ## Commits Pushed This Pass
 
-1. `PRIMARY_COMMIT_PLACEHOLDER` Prove Row017 MF70 left-eye local visual climb.
+1. `df5a0f9d` Prove Row017 MF70 left-eye local visual climb.
 2. `TIP_COMMIT_PLACEHOLDER` Stamp Row017 left-eye handoff with primary/tip commit ids.
 
 Pushed tip verified on origin: `TIP_COMMIT_PLACEHOLDER`
