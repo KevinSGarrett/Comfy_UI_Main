@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-075-DEFECT-RECONCILE-COVERAGE-COMPLETE-20260720T0929-0500",
+  "created_at": "2026-07-20T09:29:23-05:00",
+  "tracker_id": "TRK-W64-075",
+  "item_id": "ITEM-W64-075",
+  "status": "HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE",
+  "proof_tier": "RUNTIME_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+  "row_complete": false,
+  "library_authority": false,
+  "runtime_completion_claimed": true,
+  "product_completion_claimed": false,
+  "process": {
+    "prior_dead_pid": 45992,
+    "brief_resume_pid": 40588,
+    "finalize_resume_pid": 38616,
+    "alive": false,
+    "command": "classify_wave64_audio_defects.py --mode index-retained --resume --retained-runtime-dir runtime_artifacts/audio_defects/row075_index_retained_20260719",
+    "action": "resume_undercount_fix_then_finalize_coverage_complete",
+    "exit_cause": "clean_exit_coverage_complete_after_records_jsonl_recount_fix"
+  },
+  "progress": {
+    "records_processed": 39771,
+    "records_total": 39771,
+    "defect_pass": 8128,
+    "defect_blocked": 31643,
+    "exact_blockers": 31643,
+    "percent_complete": 100.0,
+    "limit": null,
+    "coverage_complete": true,
+    "complete": true,
+    "started_at": "2026-07-20T04:16:16.966679Z",
+    "updated_at": "2026-07-20T14:28:52.420941Z",
+    "next_record_index": 39771,
+    "eligibility_histogram": {
+      "eligible": 1516,
+      "ineligible": 6604,
+      "limited": 8,
+      "unknown": 31643
+    },
+    "blocker_histogram": {
+      "DECODE_FAILED_CORRUPT_OR_UNREADABLE": 747,
+      "DEFECT_CLASSIFICATION_AMBIGUOUS": 5423,
+      "DEFECT_EXTRACTION_FAILED": 25460,
+      "FEATURE_EXTRACTION_FAILED": 13
+    }
+  },
+  "checkpoint_before_fix": {
+    "records_processed": 39596,
+    "records_total": 39771,
+    "next_record_index": 39771,
+    "complete": false,
+    "unique_records_jsonl_paths": 39771,
+    "root_cause": "resume_skipped_already_written_prefix_without_recounting_progress_counts"
+  },
+  "remaining_blockers": [
+    "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+    "CALIBRATED_LIBRARY_DEFECT_STRATA_ABSENT"
+  ],
+  "safe_next_action": "Full-library defect reconcile is coverage_complete under frozen synthetic thresholds. Calibrate library defect strata / unfreeze threshold authority before Row075 acceptance. No product COMPLETE. CSV Notes sync owned by mutator.",
+  "csv_stamp": "deferred_csv_mutator_sync"
+}
