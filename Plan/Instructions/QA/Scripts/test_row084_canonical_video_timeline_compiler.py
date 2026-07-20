@@ -1580,6 +1580,59 @@ class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
             live["missing_frame_policy_runtime_receipt_sha256"], receipt["receipt_sha256"]
         )
 
+    def test_registered_roundtrip_tolerances_runtime_clears_row084_017(self) -> None:
+        if not DEFAULT_ROW084_FFMPEG.is_file() and not shutil.which("ffmpeg"):
+            self.skipTest("ffmpeg unavailable for registered-tolerances runtime test")
+        registered = COMPILER_MOD.load_registered_roundtrip_tolerances()
+        self.assertEqual(
+            registered["status"],
+            COMPILER_MOD.RUNTIME_AUTHORITATIVE_ROUNDTRIP_TOLERANCE_STATUS,
+        )
+        self.assertEqual(
+            registered["tolerances_source"],
+            COMPILER_MOD.REGISTERED_ROUNDTRIP_TOLERANCES_SOURCE,
+        )
+        self.assertTrue(HELD_OUT_ROUNDTRIP_BENCHMARK_RECEIPT.is_file())
+        bench = json.loads(HELD_OUT_ROUNDTRIP_BENCHMARK_RECEIPT.read_text(encoding="utf-8"))
+        direct = json.loads(DIRECT_ROW084_RUNTIME_RECEIPT.read_text(encoding="utf-8"))
+        tracker = json.loads(TRACKER_OUTPUT_ARTIFACT.read_text(encoding="utf-8"))
+        self.held_out_roundtrip_benchmark_validator.validate(bench)
+        self.assertTrue(
+            bench["authority"]["registered_roundtrip_tolerances_runtime_authoritative"]
+        )
+        self.assertEqual(
+            bench["provenance"]["tolerances_source"],
+            COMPILER_MOD.REGISTERED_ROUNDTRIP_TOLERANCES_SOURCE,
+        )
+        self.assertEqual(
+            bench["registered_tolerances"]["registry_sha256"],
+            registered["registry_sha256"],
+        )
+        self.assertFalse(bench["row_complete"])
+        self.assertFalse(bench["production_completion_allowed"])
+        self.assertTrue(
+            direct["authority"].get("registered_roundtrip_tolerances_runtime_authoritative")
+        )
+        self.assertIn("ROW084-017", tracker.get("cleared_offline_checks", []))
+        self.assertFalse(tracker.get("row_complete"))
+        self.assertNotEqual(tracker.get("status"), "COMPLETE")
+        verify = COMPILER_MOD.verify_held_out_roundtrip_benchmark_receipt()
+        self.assertEqual(verify["status"], "ok")
+        self.assertTrue(verify["registered_roundtrip_tolerances_runtime_authoritative"])
+        live = COMPILER_MOD.execute_registered_roundtrip_tolerances_runtime_climb(
+            ffmpeg_path=DEFAULT_ROW084_FFMPEG if DEFAULT_ROW084_FFMPEG.is_file() else None,
+            write_outputs=False,
+        )
+        self.assertEqual(live["status"], "ok")
+        self.assertEqual(live["cleared_check"], "ROW084-017")
+        self.assertTrue(live["registered_roundtrip_tolerances_runtime_authoritative"])
+        self.assertFalse(live["row_complete"])
+        self.assertFalse(live["production_completion_allowed"])
+        self.assertFalse(live["comfyui_8188_invoked"])
+        self.assertEqual(
+            live["roundtrip_benchmark_receipt_sha256"], bench["receipt_sha256"]
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

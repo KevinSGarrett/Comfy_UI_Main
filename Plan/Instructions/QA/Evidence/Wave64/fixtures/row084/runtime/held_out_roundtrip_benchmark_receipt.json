@@ -8,6 +8,7 @@
     "fixture_matrix_only": false,
     "production_benchmark": false,
     "production_completion_allowed": false,
+    "registered_roundtrip_tolerances_runtime_authoritative": true,
     "visual_review_authority_granted": false
   },
   "cases": [
@@ -73,7 +74,7 @@
     "RUNTIME_PASS_BOUNDED",
     "VISUAL_QA_PASS_BOUNDED"
   ],
-  "created_at": "2026-07-20T07:49:42Z",
+  "created_at": "2026-07-20T14:37:33Z",
   "ffmpeg": {
     "comfyui_8188_invoked": false,
     "ffprobe_path": "C:\\Users\\kevin\\AppData\\Local\\Programs\\ffmpeg\\ffmpeg-8.1.2-full_build\\bin\\ffprobe.exe",
@@ -86,24 +87,47 @@
     "production_benchmark_not_granted",
     "combined_visual_review_authority_absent",
     "visual_qa_pass_bounded_absent",
-    "row_complete_blocked"
+    "row_complete_blocked",
+    "production_completion_blocked"
   ],
   "production_completion_allowed": false,
   "proof_tier": "RUNTIME_PASS_BOUNDED",
   "provenance": {
+    "blocker_codes_cleared": [
+      "REGISTERED_ROUNDTRIP_TOLERANCES_NOT_RUNTIME_AUTHORITATIVE"
+    ],
     "compiler": "compile_wave64_canonical_video_timeline.py",
     "compiler_revision": "row084_synthetic_runtime_climb_ledger_v9",
     "does_not_claim_row_complete": true,
     "does_not_claim_visual_qa_pass_bounded": true,
     "does_not_use_comfyui_8188": true,
-    "execution_mode": "held_out_ffmpeg_mux_clock_roundtrip_benchmark",
-    "runtime_revision": "row084_held_out_roundtrip_benchmark_v1",
-    "tolerances_source": "DEFAULT_TOLERANCES"
+    "execution_mode": "held_out_ffmpeg_mux_clock_roundtrip_benchmark_registered_tolerances",
+    "registry_relative_path": "Plan/10_REGISTRIES/wave64_audio_delivery_and_clock_profile_registry.json",
+    "registry_sha256": "078d4d8637588bdfcc6febd9416040ce6250b4cc90903df83d85aa59f6ee6d74",
+    "remaining_blocker_codes": [
+      "PRODUCTION_COMPLETION_AND_ROW_COMPLETE_BLOCKED"
+    ],
+    "runtime_revision": "row084_held_out_roundtrip_benchmark_v2",
+    "tolerances_source": "wave64_audio_delivery_and_clock_profile_registry.row084_roundtrip_tolerances"
   },
-  "receipt_id": "row084_held_out_roundtrip_benchmark_receipt_v1",
-  "receipt_sha256": "015738d92aa9ac5252915631598d0e8a85faae4f799add1d39e929b725105df7",
+  "receipt_id": "row084_held_out_roundtrip_benchmark_receipt_v2",
+  "receipt_sha256": "ef027b15de4fd30a70060077563cb7a2432d1dd63dbfbb38f24cdbe942c3c669",
   "record_type": "row084_held_out_roundtrip_benchmark_receipt",
-  "revision": "row084_held_out_roundtrip_benchmark_v1",
+  "registered_tolerances": {
+    "registry_relative_path": "Plan/10_REGISTRIES/wave64_audio_delivery_and_clock_profile_registry.json",
+    "registry_sha256": "078d4d8637588bdfcc6febd9416040ce6250b4cc90903df83d85aa59f6ee6d74",
+    "status": "runtime_authoritative_offline_bounded",
+    "supported_sample_rate_hz": [
+      48000
+    ],
+    "tolerances": {
+      "max_frame_residual": 0.0,
+      "max_sample_residual": 1.0,
+      "max_seconds_residual": 2.0833333333333333e-05
+    },
+    "tolerances_source": "wave64_audio_delivery_and_clock_profile_registry.row084_roundtrip_tolerances"
+  },
+  "revision": "row084_held_out_roundtrip_benchmark_v2",
   "row_complete": false,
   "schema_version": "1.0.0",
   "status": "held_out_roundtrip_benchmark_pass_bounded",
@@ -121,6 +145,7 @@
       "vfr"
     ],
     "production_benchmark": false,
+    "registered_roundtrip_tolerances_runtime_authoritative": true,
     "runtime_media_decode_invoked": false,
     "vfr_covered": true
   }

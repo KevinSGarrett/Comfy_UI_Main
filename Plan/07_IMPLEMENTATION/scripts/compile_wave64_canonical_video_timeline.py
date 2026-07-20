@@ -168,6 +168,14 @@ DEFAULT_TOLERANCES = {
     "max_sample_residual": 1.0,
     "max_seconds_residual": 1.0 / 48000.0,
 }
+CLOCK_PROFILE_REGISTRY_RELATIVE = (
+    "Plan/10_REGISTRIES/wave64_audio_delivery_and_clock_profile_registry.json"
+)
+CLOCK_PROFILE_REGISTRY_PATH = REPO_ROOT / CLOCK_PROFILE_REGISTRY_RELATIVE
+RUNTIME_AUTHORITATIVE_ROUNDTRIP_TOLERANCE_STATUS = "runtime_authoritative_offline_bounded"
+REGISTERED_ROUNDTRIP_TOLERANCES_SOURCE = (
+    "wave64_audio_delivery_and_clock_profile_registry.row084_roundtrip_tolerances"
+)
 
 
 def _assert_keys_exact(obj: dict[str, Any], allowed: set[str], label: str) -> None:
@@ -3404,7 +3412,7 @@ def verify_held_out_ffmpeg_mux_replay_receipt(
 
 
 HELD_OUT_CUT_DETECTOR_RUNTIME_REVISION = "row084_held_out_cut_detector_runtime_v1"
-HELD_OUT_ROUNDTRIP_BENCHMARK_REVISION = "row084_held_out_roundtrip_benchmark_v1"
+HELD_OUT_ROUNDTRIP_BENCHMARK_REVISION = "row084_held_out_roundtrip_benchmark_v2"
 HELD_OUT_CAMERA_MOTION_RUNTIME_REVISION = "row084_held_out_camera_motion_runtime_v1"
 HELD_OUT_MISSING_FRAME_POLICY_RUNTIME_REVISION = "row084_held_out_missing_frame_policy_runtime_v1"
 DIRECT_ROW084_RUNTIME_RECEIPT_REVISION = "row084_direct_runtime_receipt_v1"
@@ -3791,11 +3799,72 @@ def verify_held_out_cut_detector_runtime_receipt(
     }
 
 
+def load_registered_roundtrip_tolerances(
+    *,
+    registry_path: Path | None = None,
+) -> dict[str, Any]:
+    """Load Row084 roundtrip tolerances as offline runtime authority from registry.
+
+    Fail-closed unless status is runtime_authoritative_offline_bounded and values
+    stay synchronized with DEFAULT_TOLERANCES. Never grants production/row_complete.
+    """
+    path = registry_path if registry_path is not None else CLOCK_PROFILE_REGISTRY_PATH
+    if not path.is_file():
+        raise FileNotFoundError(f"clock profile registry missing: {path}")
+    registry = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(registry, dict):
+        raise ValueError("clock profile registry must be an object")
+    block = registry.get("row084_roundtrip_tolerances")
+    if not isinstance(block, dict):
+        raise ValueError("row084_roundtrip_tolerances missing from registry")
+    status = _expect_non_empty_string(block.get("status"), "row084_roundtrip_tolerances.status")
+    if status != RUNTIME_AUTHORITATIVE_ROUNDTRIP_TOLERANCE_STATUS:
+        raise ValueError(
+            "row084_roundtrip_tolerances.status is not runtime-authoritative offline "
+            f"(got {status!r}; need {RUNTIME_AUTHORITATIVE_ROUNDTRIP_TOLERANCE_STATUS!r})"
+        )
+    rates_raw = block.get("supported_sample_rate_hz")
+    if not isinstance(rates_raw, list) or not rates_raw:
+        raise ValueError("row084_roundtrip_tolerances.supported_sample_rate_hz must be a non-empty list")
+    rates = sorted({int(rate) for rate in rates_raw})
+    if 48000 not in rates:
+        raise ValueError("row084_roundtrip_tolerances.supported_sample_rate_hz must include 48000")
+    tolerances = _validate_tolerances(
+        {
+            "max_frame_residual": block.get("max_frame_residual"),
+            "max_sample_residual": block.get("max_sample_residual"),
+            "max_seconds_residual": block.get("max_seconds_residual"),
+        }
+    )
+    for key, expected in DEFAULT_TOLERANCES.items():
+        if tolerances[key] != expected:
+            raise ValueError(
+                f"registered tolerance {key}={tolerances[key]!r} diverges from "
+                f"DEFAULT_TOLERANCES[{key}]={expected!r}"
+            )
+    return {
+        "tolerances": tolerances,
+        "status": status,
+        "supported_sample_rate_hz": rates,
+        "registry_relative_path": CLOCK_PROFILE_REGISTRY_RELATIVE.replace("\\", "/"),
+        "registry_path": str(path),
+        "registry_sha256": _file_sha256(path),
+        "tolerances_source": REGISTERED_ROUNDTRIP_TOLERANCES_SOURCE,
+        "runtime_authoritative": True,
+        "production_authority_granted": False,
+        "row_complete_granted": False,
+    }
+
+
 def _held_out_roundtrip_benchmark_packets(
     *,
     fixture_dir: Path,
+    tolerances: dict[str, float] | None = None,
 ) -> list[dict[str, Any]]:
     """Build media-backed held-out timeline packets for round-trip benchmark."""
+    active_tolerances = (
+        dict(tolerances) if tolerances is not None else dict(load_registered_roundtrip_tolerances()["tolerances"])
+    )
     packets: list[dict[str, Any]] = []
     for case in _held_out_ffmpeg_mux_cases():
         frames = int(case["expected_video_frames"])
@@ -3866,7 +3935,7 @@ def _held_out_roundtrip_benchmark_packets(
                 ],
                 "missing_frames": [],
                 "camera_motion_policy": "distinguish_from_cuts",
-                "tolerances": dict(DEFAULT_TOLERANCES),
+                "tolerances": dict(active_tolerances),
                 "dependency_authority": {"row067_complete": True},
                 "runtime_authority": {
                     "mux_replay_proof_present": True,
@@ -3912,7 +3981,7 @@ def _held_out_roundtrip_benchmark_packets(
                 "cut_epochs": [],
                 "missing_frames": [],
                 "camera_motion_policy": "not_evaluated",
-                "tolerances": dict(DEFAULT_TOLERANCES),
+                "tolerances": dict(active_tolerances),
                 "dependency_authority": {"row067_complete": True},
                 "runtime_authority": {
                     "mux_replay_proof_present": True,
@@ -3934,7 +4003,8 @@ def execute_held_out_roundtrip_benchmark(
 ) -> dict[str, Any]:
     """Execute media-backed fixed/fractional/VFR frame-seconds-sample round-trip benchmark.
 
-    Clears ROW084-018 at RUNTIME_PASS_BOUNDED for held-out ffmpeg mux clocks only.
+    Clears ROW084-018 and binds ROW084-017 registered tolerances as offline runtime
+    authority at RUNTIME_PASS_BOUNDED for held-out ffmpeg mux clocks only.
     Does not grant production benchmark authority, VISUAL_QA_PASS_BOUNDED, or row_complete.
     """
     directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
@@ -3944,13 +4014,17 @@ def execute_held_out_roundtrip_benchmark(
         if output_receipt_path is not None
         else runtime_dir / HELD_OUT_ROUNDTRIP_BENCHMARK_RECEIPT_FILENAME
     )
+    registered = load_registered_roundtrip_tolerances()
+    tolerances = dict(registered["tolerances"])
     ffmpeg = resolve_ffmpeg_binary(explicit_path=ffmpeg_path, fixture_dir=directory)
     ffprobe = _ffprobe_beside(ffmpeg)
     version_run = _run_media_tool(ffmpeg, ["-version"], label="ffmpeg-version")
     version_line = (version_run["stdout_tail"] or version_run["stderr_tail"]).splitlines()[0].strip()
 
     case_results: list[dict[str, Any]] = []
-    for item in _held_out_roundtrip_benchmark_packets(fixture_dir=directory):
+    for item in _held_out_roundtrip_benchmark_packets(
+        fixture_dir=directory, tolerances=tolerances
+    ):
         case = item["case"]
         packet = item["packet"]
         mux_path = _resolve_held_out_mux_path(directory, case["case_id"])
@@ -3992,7 +4066,7 @@ def execute_held_out_roundtrip_benchmark(
                 "max_observed_sample_residual": evidence["max_observed_sample_residual"],
                 "max_observed_seconds_residual": evidence["max_observed_seconds_residual"],
                 "within_tolerance": True,
-                "tolerances": dict(DEFAULT_TOLERANCES),
+                "tolerances": dict(tolerances),
                 "media_frame_count": frame_count,
                 "media_sample_rate_hz": sample_rate,
                 "benchmark_passed": True,
@@ -4006,7 +4080,7 @@ def execute_held_out_roundtrip_benchmark(
     receipt_body: dict[str, Any] = {
         "schema_version": "1.0.0",
         "record_type": "row084_held_out_roundtrip_benchmark_receipt",
-        "receipt_id": "row084_held_out_roundtrip_benchmark_receipt_v1",
+        "receipt_id": "row084_held_out_roundtrip_benchmark_receipt_v2",
         "revision": HELD_OUT_ROUNDTRIP_BENCHMARK_REVISION,
         "status": "held_out_roundtrip_benchmark_pass_bounded",
         "created_at": created_at,
@@ -4020,6 +4094,14 @@ def execute_held_out_roundtrip_benchmark(
             "invoked": True,
             "comfyui_8188_invoked": False,
         },
+        "registered_tolerances": {
+            "tolerances": dict(tolerances),
+            "status": registered["status"],
+            "supported_sample_rate_hz": list(registered["supported_sample_rate_hz"]),
+            "registry_relative_path": registered["registry_relative_path"],
+            "registry_sha256": registered["registry_sha256"],
+            "tolerances_source": registered["tolerances_source"],
+        },
         "cases": case_results,
         "summary": {
             "case_count": len(case_results),
@@ -4030,6 +4112,7 @@ def execute_held_out_roundtrip_benchmark(
             "all_within_tolerance": True,
             "benchmark_authority_granted": True,
             "fixed_vfr_benchmark_pass": True,
+            "registered_roundtrip_tolerances_runtime_authoritative": True,
             "production_benchmark": False,
             "runtime_media_decode_invoked": False,
             "comfyui_8188_invoked": False,
@@ -4037,6 +4120,7 @@ def execute_held_out_roundtrip_benchmark(
         "authority": {
             "fixed_vfr_benchmark_pass": True,
             "benchmark_authority_granted": True,
+            "registered_roundtrip_tolerances_runtime_authoritative": True,
             "fixture_matrix_only": False,
             "production_benchmark": False,
             "cut_detection_algorithm_complete": False,
@@ -4050,6 +4134,7 @@ def execute_held_out_roundtrip_benchmark(
             "combined_visual_review_authority_absent",
             "visual_qa_pass_bounded_absent",
             "row_complete_blocked",
+            "production_completion_blocked",
         ],
         "production_completion_allowed": False,
         "row_complete": False,
@@ -4057,8 +4142,16 @@ def execute_held_out_roundtrip_benchmark(
             "compiler": "compile_wave64_canonical_video_timeline.py",
             "compiler_revision": COMPILER_REVISION,
             "runtime_revision": HELD_OUT_ROUNDTRIP_BENCHMARK_REVISION,
-            "execution_mode": "held_out_ffmpeg_mux_clock_roundtrip_benchmark",
-            "tolerances_source": "DEFAULT_TOLERANCES",
+            "execution_mode": "held_out_ffmpeg_mux_clock_roundtrip_benchmark_registered_tolerances",
+            "tolerances_source": registered["tolerances_source"],
+            "registry_relative_path": registered["registry_relative_path"],
+            "registry_sha256": registered["registry_sha256"],
+            "blocker_codes_cleared": [
+                "REGISTERED_ROUNDTRIP_TOLERANCES_NOT_RUNTIME_AUTHORITATIVE",
+            ],
+            "remaining_blocker_codes": [
+                "PRODUCTION_COMPLETION_AND_ROW_COMPLETE_BLOCKED",
+            ],
             "does_not_claim_visual_qa_pass_bounded": True,
             "does_not_claim_row_complete": True,
             "does_not_use_comfyui_8188": True,
@@ -4098,10 +4191,27 @@ def verify_held_out_roundtrip_benchmark_receipt(
         raise ValueError("fixed_vfr_benchmark_pass must be true")
     if payload.get("summary", {}).get("production_benchmark") is not False:
         raise ValueError("production_benchmark must remain false")
+    if (
+        payload.get("authority", {}).get("registered_roundtrip_tolerances_runtime_authoritative")
+        is not True
+    ):
+        raise ValueError("registered_roundtrip_tolerances_runtime_authoritative must be true")
+    if payload.get("provenance", {}).get("tolerances_source") != REGISTERED_ROUNDTRIP_TOLERANCES_SOURCE:
+        raise ValueError("benchmark tolerances_source must be registered registry path")
+    registered_live = load_registered_roundtrip_tolerances()
+    bound = payload.get("registered_tolerances")
+    if not isinstance(bound, dict):
+        raise ValueError("registered_tolerances block missing from benchmark receipt")
+    if bound.get("registry_sha256") != registered_live["registry_sha256"]:
+        raise ValueError("benchmark registry_sha256 does not match live registry")
+    if bound.get("tolerances") != registered_live["tolerances"]:
+        raise ValueError("benchmark registered tolerances diverge from live registry")
     if payload.get("authority", {}).get("visual_review_authority_granted") is not False:
         raise ValueError("benchmark must not grant visual review authority")
     if payload.get("row_complete") is not False:
         raise ValueError("benchmark must keep row_complete=false")
+    if payload.get("production_completion_allowed") is not False:
+        raise ValueError("benchmark must keep production_completion_allowed=false")
     return {
         "status": "ok",
         "verifier": "verify_held_out_roundtrip_benchmark_receipt",
@@ -4109,6 +4219,9 @@ def verify_held_out_roundtrip_benchmark_receipt(
         "proof_tier": "RUNTIME_PASS_BOUNDED",
         "fixed_vfr_benchmark_pass": True,
         "benchmark_authority_granted": True,
+        "registered_roundtrip_tolerances_runtime_authoritative": True,
+        "tolerances_source": REGISTERED_ROUNDTRIP_TOLERANCES_SOURCE,
+        "registry_sha256": registered_live["registry_sha256"],
         "production_benchmark": False,
         "visual_review_authority_granted": False,
         "row_complete": False,
@@ -5442,6 +5555,19 @@ def emit_direct_row084_runtime_receipt_with_visual(
             "row_complete": False,
         }
         missing_frame_runtime_complete = True
+    registered_tolerances_runtime_authoritative = False
+    bench_payload = preloaded.get("held_out_roundtrip_benchmark")
+    if bench_payload is None:
+        bench_path = runtime_dir / HELD_OUT_ROUNDTRIP_BENCHMARK_RECEIPT_FILENAME
+        if bench_path.is_file():
+            bench_payload = json.loads(bench_path.read_text(encoding="utf-8"))
+    if isinstance(bench_payload, dict):
+        registered_tolerances_runtime_authoritative = (
+            bench_payload.get("authority", {}).get(
+                "registered_roundtrip_tolerances_runtime_authoritative"
+            )
+            is True
+        )
     created_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
     receipt_body: dict[str, Any] = {
         "schema_version": "1.0.0",
@@ -5462,6 +5588,9 @@ def emit_direct_row084_runtime_receipt_with_visual(
             "fixed_vfr_benchmark_pass": True,
             "mux_replay_proof_present": True,
             "missing_frame_policy_runtime_complete": missing_frame_runtime_complete,
+            "registered_roundtrip_tolerances_runtime_authoritative": (
+                registered_tolerances_runtime_authoritative
+            ),
             "combined_visual_review_present": True,
             "direct_combined_visual_audio_review_present": True,
             "comfyui_8188_invoked": False,
@@ -5472,6 +5601,9 @@ def emit_direct_row084_runtime_receipt_with_visual(
             "camera_motion_normalization_complete": True,
             "fixed_vfr_benchmark_pass": True,
             "missing_frame_policy_runtime_complete": missing_frame_runtime_complete,
+            "registered_roundtrip_tolerances_runtime_authoritative": (
+                registered_tolerances_runtime_authoritative
+            ),
             "combined_visual_review_present": True,
             "visual_review_authority_granted": True,
             "direct_combined_visual_audio_review_present": True,
@@ -5560,6 +5692,13 @@ def emit_tracker_output_artifact_after_visual(
                 if direct.get("authority", {}).get("missing_frame_policy_runtime_complete")
                 else []
             ),
+            *(
+                ["ROW084-017"]
+                if direct.get("authority", {}).get(
+                    "registered_roundtrip_tolerances_runtime_authoritative"
+                )
+                else []
+            ),
         ],
         "remaining_complete_blockers": [],
         "hold_reasons": [
@@ -5582,6 +5721,72 @@ def emit_tracker_output_artifact_after_visual(
     if write_outputs:
         _write_json_atomic(TRACKER_OUTPUT_ARTIFACT_PATH, body)
     return body
+
+
+def execute_registered_roundtrip_tolerances_runtime_climb(
+    *,
+    fixture_dir: Path | None = None,
+    ffmpeg_path: str | Path | None = None,
+    write_outputs: bool = True,
+) -> dict[str, Any]:
+    """Clear ROW084-017 offline via registry-backed roundtrip benchmark rebind.
+
+    Never claims COMPLETE/row_complete or production completion. No :8188.
+    """
+    directory = fixture_dir if fixture_dir is not None else DEFAULT_FIXTURE_DIR
+    registered = load_registered_roundtrip_tolerances()
+    benchmark = execute_held_out_roundtrip_benchmark(
+        fixture_dir=directory, ffmpeg_path=ffmpeg_path, write_outputs=write_outputs
+    )
+    if (
+        benchmark.get("authority", {}).get(
+            "registered_roundtrip_tolerances_runtime_authoritative"
+        )
+        is not True
+    ):
+        raise ValueError("registered roundtrip climb failed authority bind")
+    visual_path = (
+        directory / FIXTURE_MUX_RUNTIME_DIRNAME / COMBINED_VISUAL_AUDIO_REVIEW_RECEIPT_FILENAME
+    )
+    if not visual_path.is_file():
+        raise FileNotFoundError(
+            "registered-tolerances climb requires existing combined visual receipt; "
+            "run --execute-combined-visual-audio-review-climb first"
+        )
+    visual = json.loads(visual_path.read_text(encoding="utf-8"))
+    direct = emit_direct_row084_runtime_receipt_with_visual(
+        fixture_dir=directory,
+        visual_receipt=visual,
+        write_outputs=write_outputs,
+        preloaded_receipts={"held_out_roundtrip_benchmark": benchmark},
+    )
+    tracker = emit_tracker_output_artifact_after_visual(
+        fixture_dir=directory,
+        visual_receipt=visual,
+        direct_receipt=direct,
+        write_outputs=write_outputs,
+    )
+    if "ROW084-017" not in tracker.get("cleared_offline_checks", []):
+        raise ValueError("tracker HOLD must clear ROW084-017 after registered-tolerances climb")
+    if tracker.get("row_complete") is not False or tracker.get("status") == "COMPLETE":
+        raise ValueError("registered-tolerances climb must not claim COMPLETE/row_complete")
+    return {
+        "status": "ok",
+        "mode": "execute-registered-roundtrip-tolerances-runtime-climb",
+        "proof_tier": "RUNTIME_PASS_BOUNDED",
+        "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+        "roundtrip_benchmark_receipt_sha256": benchmark["receipt_sha256"],
+        "direct_runtime_receipt_sha256": direct["receipt_sha256"],
+        "tracker_artifact_sha256": tracker["artifact_sha256"],
+        "registry_sha256": registered["registry_sha256"],
+        "tolerances_source": registered["tolerances_source"],
+        "registered_roundtrip_tolerances_runtime_authoritative": True,
+        "fixed_vfr_benchmark_pass": True,
+        "cleared_check": "ROW084-017",
+        "row_complete": False,
+        "production_completion_allowed": False,
+        "comfyui_8188_invoked": False,
+    }
 
 
 def execute_missing_frame_policy_runtime_climb(
@@ -5869,6 +6074,15 @@ def main(argv: list[str] | None = None) -> int:
         help="Verify checked-in held-out missing-frame policy runtime receipt",
     )
     parser.add_argument(
+        "--execute-registered-roundtrip-tolerances-runtime-climb",
+        action="store_true",
+        help=(
+            "Bind registry row084_roundtrip_tolerances as offline runtime authority "
+            "via held-out roundtrip benchmark; clears ROW084-017 without "
+            "COMPLETE/row_complete or :8188"
+        ),
+    )
+    parser.add_argument(
         "--fixture-dir",
         default=str(DEFAULT_FIXTURE_DIR),
         help="Fixture directory for synthetic climb ledger (default: checked-in row084 fixtures)",
@@ -6060,6 +6274,17 @@ def main(argv: list[str] | None = None) -> int:
         try:
             receipt = verify_held_out_missing_frame_policy_runtime_receipt(
                 fixture_dir=fixture_dir
+            )
+        except (OSError, ValueError, FileNotFoundError) as exc:
+            raise SystemExit(f"ROW084_FAIL_CLOSED: {exc}") from exc
+        print(json.dumps(receipt))
+        return 0
+
+    if args.execute_registered_roundtrip_tolerances_runtime_climb:
+        try:
+            receipt = execute_registered_roundtrip_tolerances_runtime_climb(
+                fixture_dir=fixture_dir,
+                ffmpeg_path=args.ffmpeg_path,
             )
         except (OSError, ValueError, FileNotFoundError) as exc:
             raise SystemExit(f"ROW084_FAIL_CLOSED: {exc}") from exc
