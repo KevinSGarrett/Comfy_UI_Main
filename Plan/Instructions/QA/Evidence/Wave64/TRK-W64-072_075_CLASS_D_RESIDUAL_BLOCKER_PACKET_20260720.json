@@ -1,0 +1,212 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-072_075_CLASS_D_RESIDUAL_BLOCKER_PACKET_20260720T123330-0500",
+  "created_iso": "2026-07-20T12:33:30-05:00",
+  "created_utc": "2026-07-20T17:33:30.555Z",
+  "tracker_ids": [
+    "TRK-W64-072",
+    "TRK-W64-075"
+  ],
+  "item_ids": [
+    "ITEM-W64-072",
+    "ITEM-W64-075"
+  ],
+  "mutation_this_landing": "evidence_only_class_d_residual_blocker_no_safe_metadata_increment",
+  "proof_tier": "OFFLINE_INVENTORY_BLOCKER_BOUNDED",
+  "highest_proof_tier_achieved": "OFFLINE_INVENTORY_BLOCKER_BOUNDED",
+  "row_complete": false,
+  "product_completion_claimed": false,
+  "threshold_authority_unfrozen": false,
+  "csv_sync": "deferred_leave_to_serialized_mutator",
+  "verdict": "NO_SAFE_CLASS_D_METADATA_PLANNING_INCREMENT_REMAINS",
+  "deepen_reason": "Row072 Class D planning-freeze thresholds/shortlist and Row075 Class F/D shortlist stop are already hash-bound. Remaining Class D clearance requires human-gold library truth and/or authorized PCM after Row073 frees the exclusive lane. No offline threshold/strata authority deepen is safe without inventing truth, unfreezing thresholds, touching Row073 PCM, or falsely Accept/COMPLETE on synthetic-only.",
+  "already_landed": {
+    "row072": {
+      "classification": "ROW072_SYNTHETIC_THRESHOLD_CANDIDATE_CALIBRATED_LIBRARY_STRATA_ABSENT_THRESHOLDS_HELD_NO_FALSE_COMPLETION",
+      "active_threshold_revision": "wave64_row072_onset_thresholds_v0.1.0",
+      "candidate_threshold_revision": "wave64_row072_onset_thresholds_v0.2.0",
+      "candidate_authority": "planning_freeze_suggestion_only_not_library_acceptance",
+      "strata_counts": {
+        "truth_labeled": 3,
+        "truth_pending": 7,
+        "truth_blocked": 3,
+        "truth_unlabeled": 10
+      },
+      "prove_commits": [
+        "a9b2b307",
+        "57bb7550",
+        "505b1027"
+      ],
+      "blocker_codes": [
+        "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+        "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT"
+      ]
+    },
+    "row075": {
+      "classification": "ROW075_LIBRARY_STRATA_METADATA_FIRST_CLASS_F_D_STOP_PARTIAL_TRUTH_THRESHOLDS_STILL_FROZEN",
+      "active_threshold_revision": "wave64_row075_audio_defect_thresholds_v0.1.0",
+      "strata_counts": {
+        "truth_labeled": 5,
+        "truth_pending": 6,
+        "truth_blocked": 2,
+        "truth_label_stops": 8
+      },
+      "prove_commits": [
+        "d71ec94d",
+        "dce0fd1a",
+        "0312653b"
+      ],
+      "blocker_codes": [
+        "CALIBRATED_LIBRARY_DEFECT_STRATA_ABSENT",
+        "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+        "LIBRARY_DEFECT_TRUTH_HUMAN_GOLD_LABELS_ABSENT"
+      ]
+    }
+  },
+  "rejected_unsafe_increments_this_pass": [
+    {
+      "action": "adopt_row072_v0_2_0_as_active_threshold_authority",
+      "reason": "unfreeze_forbidden_until_library_strata_truth"
+    },
+    {
+      "action": "unfreeze_row075_synthetic_thresholds",
+      "reason": "unfreeze_forbidden_until_library_defect_truth"
+    },
+    {
+      "action": "invent_library_truth_labels_for_pending_shortlist",
+      "reason": "class_d_cannot_mint_human_gold_offline"
+    },
+    {
+      "action": "decode_or_relisten_library_pcm",
+      "reason": "row073_exclusive_pcm_lane"
+    },
+    {
+      "action": "accept_or_complete_on_synthetic_only",
+      "reason": "explicitly_forbidden"
+    },
+    {
+      "action": "shared_csv_notes_mutation",
+      "reason": "no_csv_this_binding"
+    },
+    {
+      "action": "restamp_identical_shortlist_or_planning_freeze",
+      "reason": "thrash_not_deepen_already_settled"
+    }
+  ],
+  "residual_blockers": [
+    {
+      "tracker_id": "TRK-W64-072",
+      "class": "D",
+      "name": "ONSET_THRESHOLD_AND_LIBRARY_STRATA_AUTHORITY",
+      "codes": [
+        "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+        "FRAME_SAMPLE_BENCHMARK_LIBRARY_STRATA_ABSENT"
+      ],
+      "fail_closed_until": "Human-gold onset truth labels exist for retained shortlist pending/blocked candidates; active evaluation may then consider unfreezing beyond v0.1.0. Candidate v0.2.0 stays planning-freeze only until then."
+    },
+    {
+      "tracker_id": "TRK-W64-075",
+      "class": "D",
+      "name": "DEFECT_THRESHOLD_AND_LIBRARY_STRATA_AUTHORITY",
+      "codes": [
+        "CALIBRATED_LIBRARY_DEFECT_STRATA_ABSENT",
+        "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+        "LIBRARY_DEFECT_TRUTH_HUMAN_GOLD_LABELS_ABSENT"
+      ],
+      "fail_closed_until": "Human-gold library defect truth clears the 8 Class F/D label stops; calibrated library defect strata may then exist and threshold unfreeze may be considered. Synthetic-only remains insufficient for Accept/COMPLETE."
+    }
+  ],
+  "row073_contention": {
+    "exclusive_pcm_lane": true,
+    "progress_path": "runtime_artifacts/usable_bounds/row073_index_retained_20260720/progress.json",
+    "progress_exists": true,
+    "this_pass_pcm_touched": false,
+    "records_processed": 29500,
+    "records_total": 39771,
+    "complete": false,
+    "progress_sha256": "375434bdc9fe250d950ba6bda85e593b7412608ea62a6bfd4395739aa90a28f3"
+  },
+  "authority_bindings": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ONSET_TRANSIENT_ANCHOR_CURRENT_DELTA_20260719.json",
+      "exists": true,
+      "bytes": 8684,
+      "sha256": "37fea0634ab318e8850a6cf667414529b5a2bd465267b5767f1b3fe5d601ab2d"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_LIBRARY_BENCHMARK_STRATA_CANDIDATE_PACKET_20260719.json",
+      "exists": true,
+      "bytes": 18958,
+      "sha256": "e3bb39c9ac44caed3cd7d871845493fd20254eaf9e756fa784bd3f3b010d9464"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_SYNTHETIC_THRESHOLD_CALIBRATION_CANDIDATE_20260720.json",
+      "exists": true,
+      "bytes": 7753,
+      "sha256": "4367e0f381f398c9424e451d051a5b2bafd9a70678c33a1dff5b9cf6a0909b49"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave64_row072_onset_transient_threshold_registry.json",
+      "exists": true,
+      "bytes": 1477,
+      "sha256": "abd468aee81ff1d0e01e3504f78e1d083a38ff93ee502a21561bda797c0586ff"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave64_row072_onset_thresholds_v0.2.0.json",
+      "exists": true,
+      "bytes": 2295,
+      "sha256": "301d108c0780e06b852aaced03e3afd22917c197714a541a9b84b6a6ef2a2bbb"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave64_row072_onset_library_benchmark_strata_v0.1.0.json",
+      "exists": true,
+      "bytes": 6083,
+      "sha256": "5bea35eb4ae1bc8cc183682c43c7c78b7dafa5db9aefc4de47ab77283733b851"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_AUDIO_QUALITY_DEFECT_CURRENT_DELTA_20260719.json",
+      "exists": true,
+      "bytes": 11415,
+      "sha256": "cd97d1d893e46c04591c77bf2ea9785706bb30fe0191c7c744a632aee1712c50"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-075_LIBRARY_BENCHMARK_STRATA_CANDIDATE_PACKET_20260720.json",
+      "exists": true,
+      "bytes": 26234,
+      "sha256": "22edc7fa564e0f8917825c26bc92f893f9d962eb64a9cf07eed924abf706fcae"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave64_row075_audio_defect_threshold_registry.json",
+      "exists": true,
+      "bytes": 1382,
+      "sha256": "c94303206856f363b529523ebbe71ba6dcfaacf4cd235bf9c4e0d42e906f1abd"
+    },
+    {
+      "path": "Plan/10_REGISTRIES/wave64_row075_audio_defect_library_benchmark_strata_v0.1.0.json",
+      "exists": true,
+      "bytes": 5845,
+      "sha256": "22ce4f5fd70cca625a41f3f42dd57af1001b7c72ebbaa43b896c3335eed5e346"
+    }
+  ],
+  "clearance_contract": [
+    "Do not unfreeze Row072/075 threshold authority from synthetic-only evidence",
+    "Do not Accept/COMPLETE Row072 or Row075 on synthetic fixture truth alone",
+    "Do not decode library PCM while Row073 owns the exclusive index-retained lane",
+    "Obtain human-gold library truth (onset for 072; defect for 075) or authorized post-Row073 PCM re-listen before any Class D clearance claim",
+    "Shared Tracker/Item CSV Notes sync remains deferred to the serialized mutator",
+    "row_complete stays false for both rows under this residual packet"
+  ],
+  "boundaries": {
+    "comfyui_8188_used": false,
+    "gpu_used": false,
+    "row073_pcm_touched": false,
+    "library_pcm_decoded": false,
+    "thresholds_unfrozen": false,
+    "sound_csv_mutated": false,
+    "hold090_plus_touched": false,
+    "accept_or_complete_claimed": false,
+    "tip_sha_chained": false
+  },
+  "safe_next_action": "STOP Class D offline deepen for Row072/075. Wait for human-gold library truth and/or Row073 coverage_complete before any PCM re-listen or threshold unfreeze. Prefer unrelated offline rows; optional CSV Notes sync via mutator only.",
+  "recommended_codex_follow_up": "Leave Row072/075 blocked under frozen thresholds. Do not contend Row073 PCM. After human-gold labels exist, reopen Class D unfreeze as a separate accepted work unit — never from synthetic-only."
+}
