@@ -16,18 +16,19 @@ sys.modules[SPEC.name] = MOD
 SPEC.loader.exec_module(MOD)
 
 
-def test_row071_and_row072_admission_fail_closed_on_current_hold_deltas():
+def test_row071_accepted_and_row072_runtime_unlocked_for_probe_gate():
     row071 = MOD.evaluate_row071_admission(ROOT)
     row072 = MOD.evaluate_row072_admission(ROOT)
-    assert row071["dependency_satisfied"] is False
-    assert row072["dependency_satisfied"] is False
-    assert "ROW071_DEPENDENCY_NOT_ACCEPTED" in row071["blocker_codes"]
-    assert "ROW072_DEPENDENCY_NOT_ACCEPTED" in row072["blocker_codes"]
-    assert row071["row_complete"] is False
+    assert row071["dependency_satisfied"] is True
+    assert row071["row_complete"] is True
+    assert row072["dependency_satisfied"] is True
+    assert row072["admission_mode"] == "runtime_unlocked"
     assert row072["row_complete"] is False
+    assert row072["row072_acceptance"] == "held"
+    assert row072["proof_tier"] == "RUNTIME_PASS_BOUNDED"
 
 
-def test_library_mode_emits_hold_packet_without_false_completion():
+def test_library_mode_emits_deps_unlocked_hold_without_false_completion():
     payload = MOD.build_library_blocker_packet(ROOT)
     assert payload["row_complete"] is False
     assert payload["implementation_completion_claimed"] is False
@@ -36,12 +37,35 @@ def test_library_mode_emits_hold_packet_without_false_completion():
     assert payload["decision"]["status"] == "blocked"
     assert payload["decision"]["product_completion"] is False
     assert payload["decision"]["row073_acceptance"] == "held"
-    assert "ROW071_AND_ROW072_DEPENDENCIES_NOT_ACCEPTED" in payload["blocker_codes"]
+    assert "ROW071_AND_ROW072_DEPENDENCIES_NOT_ACCEPTED" not in payload["blocker_codes"]
     assert "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT" in payload["blocker_codes"]
+    assert payload["status"] == "HOLD_LIBRARY_RUNTIME_AND_STRATA_ABSENT_DEPS_UNLOCKED"
+    assert payload["proof_tier"] == "RUNTIME_PASS_BOUNDED"
     assert payload["analysis_pipeline_revision"] == MOD.ANALYSIS_PIPELINE_REVISION
     assert payload["thresholds"]["suggestion_only"] is True
     assert payload["thresholds"]["destructive_trim_allowed"] is False
     assert payload["fixture_calibration"]["fixture_count"] == 5
+
+
+def test_library_mode_with_probe_runtime_marks_probe_hold():
+    retained = {
+        "coverage_complete": False,
+        "limit": 25,
+        "counts": {"records_processed": 25, "bounds_pass": 20, "bounds_blocked": 5},
+        "blocker_histogram": {"BOUNDS_EXTRACTION_FAILED": 5},
+        "records_path": "runtime_artifacts/usable_bounds/row073_index_retained_20260720/records.jsonl",
+        "progress_path": "runtime_artifacts/usable_bounds/row073_index_retained_20260720/progress.json",
+        "receipt_path": "runtime_artifacts/usable_bounds/row073_index_retained_20260720/retained_index_bounds_receipt.json",
+        "status": "RUNTIME_PASS_BOUNDED_PROBE_LIMIT",
+        "row075_contention_policy": "limited_probe_only_while_row075_full_reconcile_owns_pcm_io",
+    }
+    payload = MOD.build_library_blocker_packet(ROOT, retained_runtime=retained)
+    assert payload["status"] == "HOLD_LIBRARY_PROBE_PASS_FULL_RECONCILE_DEFERRED_DEPS_UNLOCKED"
+    assert payload["proof_tier"] == "RUNTIME_PASS_BOUNDED"
+    assert payload["runtime_completion_claimed"] is False
+    assert payload["accepted_index_retained_bounds_runtime"]["present"] is True
+    assert payload["accepted_index_retained_bounds_runtime"]["limit"] == 25
+    assert payload["decision"]["product_completion"] is False
 
 
 def test_fixture_records_validate_and_are_deterministic():
@@ -104,3 +128,42 @@ def test_schema_rejects_missing_usable_bounds():
     del record["measurements"]["usable_start_sample"]
     with pytest.raises(MOD.UsableBoundsDecayError, match="schema_validation_failed"):
         MOD.validate_analysis_record(ROOT, record)
+
+
+def test_compact_bounds_pass_withholds_library_authority():
+    compact = MOD.build_compact_bounds_record(
+        relative_path="demo/a.wav",
+        extension=".wav",
+        role="evaluation",
+        event_type="evaluation_reference",
+        asset_id="index:demo/a.wav",
+        feature_status="pass",
+        measurements={
+            "leading_silence_samples": 10,
+            "trailing_silence_samples": 10,
+            "usable_start_sample": 10,
+            "usable_end_sample": 100,
+            "attack_seconds": 0.01,
+            "sustain_seconds": 0.02,
+            "release_seconds": 0.03,
+            "noise_only_tail": False,
+            "natural_decay_end_sample": 100,
+            "onset_preservation_ok": True,
+            "tail_preservation_ok": True,
+        },
+        source_sha256="a" * 64,
+        canonical_pcm_sha256="b" * 64,
+        sample_rate_hz=48000,
+        channels=2,
+        frame_count=200,
+        pcm_sha_verified=True,
+        source_immutable=True,
+        analysis_truncated=False,
+        blocker_code=None,
+        blocker_codes=[],
+    )
+    assert compact["bounds_status"] == "pass"
+    assert compact["technical_bounds_pass"] is True
+    assert compact["library_authority"] is False
+    assert compact["suggestion_only"] is True
+    assert compact["blocker_codes"] == ["LIBRARY_AUTHORITY_NOT_GRANTED"]

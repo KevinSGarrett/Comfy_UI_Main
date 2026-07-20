@@ -1,17 +1,43 @@
 {
-  "analysis_pipeline_revision": "wave64_row073_usable_bounds_decay_v0.1.0",
+  "accepted_index_retained_bounds_runtime": {
+    "blocker_histogram": {},
+    "counts": {
+      "analysis_truncated": 0,
+      "bounds_blocked": 0,
+      "bounds_pass": 25,
+      "exact_blockers": 0,
+      "feature_non_pass_inputs": 0,
+      "feature_pass_inputs": 25,
+      "onset_preservation_ok": 25,
+      "pcm_sha_verified": 25,
+      "records_processed": 25,
+      "records_total": 39771,
+      "source_immutable_true": 25,
+      "tail_preservation_ok": 25
+    },
+    "coverage_complete": false,
+    "limit": 25,
+    "present": true,
+    "progress_path": "runtime_artifacts/usable_bounds/row073_index_retained_20260720/progress.json",
+    "receipt_path": "runtime_artifacts/usable_bounds/row073_index_retained_20260720/retained_index_bounds_receipt.json",
+    "records_path": "runtime_artifacts/usable_bounds/row073_index_retained_20260720/records.jsonl",
+    "row075_contention_policy": "limited_probe_only_while_row075_full_reconcile_owns_pcm_io",
+    "status": "RUNTIME_PASS_BOUNDED_PROBE_LIMIT",
+    "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_ACCEPTED_INDEX_RETAINED_BOUNDS_SUMMARY_20260720.json",
+    "summary_sha256": "9d182b6fb9da5454ae98a4c5f0e4144fcc027ffe61525549f489f9389585774f"
+  },
+  "analysis_pipeline_revision": "wave64_row073_usable_bounds_decay_v0.2.0",
   "blocker_codes": [
-    "ROW071_DEPENDENCY_NOT_ACCEPTED",
-    "ROW072_DEPENDENCY_NOT_ACCEPTED",
-    "ROW071_AND_ROW072_DEPENDENCIES_NOT_ACCEPTED",
-    "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT",
-    "FULL_LIBRARY_SOURCE_IMMUTABILITY_PROOF_ABSENT"
+    "FULL_LIBRARY_RECONCILE_DEFERRED_OR_IN_PROGRESS",
+    "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+    "REPRESENTATIVE_STRATA_CALIBRATION_ABSENT",
+    "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT"
   ],
   "decision": {
     "product_completion": false,
     "row073_acceptance": "held",
     "runtime_completion": false,
-    "safe_next_action": "Accept Row071 waveform features and Row072 onset/offset anchors, reconcile every accepted input to suggestion-only bounds/decay PASS or an exact blocker with before/after source hashes, and replace this hold packet with full-library runtime evidence.",
+    "safe_next_action": "Bounded index-retained bounds probe passed under frozen suggestion-only thresholds. Defer full-library Row073 PCM reconcile until Row075 retained-index defect scan finishes (avoid dual PCM I/O contention), then resume --mode index-retained without --limit before claiming Row073 acceptance.",
     "status": "blocked"
   },
   "evidence_id": "TRK-W64-073_usable_bounds_decay_analysis",
@@ -21,7 +47,7 @@
     "fixture_count": 5,
     "records": [
       {
-        "analysis_pipeline_revision": "wave64_row073_usable_bounds_decay_v0.1.0",
+        "analysis_pipeline_revision": "wave64_row073_usable_bounds_decay_v0.2.0",
         "asset_id": "fixture:silence",
         "canonical_pcm_sha256": "5c9b37300155c1f3338bc88f17d69c51fb248b0de0155630962ca6504d789bba",
         "channels": 2,
@@ -109,7 +135,7 @@
         "tracker_id": "TRK-W64-073"
       },
       {
-        "analysis_pipeline_revision": "wave64_row073_usable_bounds_decay_v0.1.0",
+        "analysis_pipeline_revision": "wave64_row073_usable_bounds_decay_v0.2.0",
         "asset_id": "fixture:padded_tone",
         "canonical_pcm_sha256": "7ac1e6d4d72d83ff43a270b1ebb0d8bdbc9deae31ec039aa4eb5f229a21279b4",
         "channels": 2,
@@ -197,7 +223,7 @@
         "tracker_id": "TRK-W64-073"
       },
       {
-        "analysis_pipeline_revision": "wave64_row073_usable_bounds_decay_v0.1.0",
+        "analysis_pipeline_revision": "wave64_row073_usable_bounds_decay_v0.2.0",
         "asset_id": "fixture:impulse_decay",
         "canonical_pcm_sha256": "16b6fc1decb95607c3b4c0ebe1a76aff896f1f876a57db25577d69fa5348e88f",
         "channels": 2,
@@ -285,7 +311,7 @@
         "tracker_id": "TRK-W64-073"
       },
       {
-        "analysis_pipeline_revision": "wave64_row073_usable_bounds_decay_v0.1.0",
+        "analysis_pipeline_revision": "wave64_row073_usable_bounds_decay_v0.2.0",
         "asset_id": "fixture:noisy_tail",
         "canonical_pcm_sha256": "3c0af2a0ccc78a2f41dd20262a0659a3034484645006e0d645d815816a748801",
         "channels": 2,
@@ -373,7 +399,7 @@
         "tracker_id": "TRK-W64-073"
       },
       {
-        "analysis_pipeline_revision": "wave64_row073_usable_bounds_decay_v0.1.0",
+        "analysis_pipeline_revision": "wave64_row073_usable_bounds_decay_v0.2.0",
         "asset_id": "fixture:gradual_attack",
         "canonical_pcm_sha256": "48b43c95aa2fa1a1eadfd94b31fb3a0770dcaf26ea05bc2b1904b5ae643e6beb",
         "channels": 2,
@@ -462,6 +488,7 @@
       }
     ]
   },
+  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
   "implementation_completion_claimed": false,
   "item_id": "ITEM-W64-073",
   "library_authority": false,
@@ -507,34 +534,35 @@
       "window": "first_to_last_non_silence"
     }
   },
+  "proof_tier": "RUNTIME_PASS_BOUNDED",
   "row071_admission": {
-    "blocker_codes": [
-      "ROW071_DEPENDENCY_NOT_ACCEPTED"
-    ],
-    "bytes": 7370,
-    "dependency_satisfied": false,
+    "blocker_codes": [],
+    "bytes": 5456,
+    "dependency_satisfied": true,
     "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-071_WAVEFORM_FEATURE_EXTRACTION_CURRENT_DELTA_20260719.json",
-    "row_complete": false,
-    "sha256": "4118ecf426dc54242b049e15e27981097a29044d954bd21992dce85aca432def",
-    "status": "HOLD_ROW070_CANONICAL_DECODE_AND_FULL_LIBRARY_FEATURE_RUNTIME_ABSENT",
+    "row_complete": true,
+    "sha256": "4cf0cc5e0f8757bfd5e2d2af02fda6169fecd240ffa31cf0157c5b0550025350",
+    "status": "PASS_LIBRARY_FEATURE_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION",
     "tracker_id": "TRK-W64-071"
   },
   "row072_admission": {
-    "blocker_codes": [
-      "ROW072_DEPENDENCY_NOT_ACCEPTED"
-    ],
-    "bytes": 18358,
-    "dependency_satisfied": false,
+    "admission_mode": "runtime_unlocked",
+    "blocker_codes": [],
+    "bytes": 5140,
+    "dependencies_unlocked": true,
+    "dependency_satisfied": true,
     "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ONSET_TRANSIENT_ANCHOR_CURRENT_DELTA_20260719.json",
+    "proof_tier": "RUNTIME_PASS_BOUNDED",
+    "row072_acceptance": "held",
     "row_complete": false,
-    "sha256": "c116e844619e320341e4dd1707b8c0711288784984f858bc17585b3a2b694778",
-    "status": "HOLD_DEPENDENCIES_DETECTOR_THRESHOLD_REGISTRY_AND_BENCHMARK_AUTHORITY_ABSENT",
+    "sha256": "c93ac41ecdb2c8d8a70dae4643e82afb970d28ae86b4ced16dd7190838f1f60b",
+    "status": "HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE",
     "tracker_id": "TRK-W64-072"
   },
   "row_complete": false,
   "runtime_completion_claimed": false,
   "schema_version": "1.0.0",
-  "status": "HOLD_ROW071_ROW072_DEPENDENCIES_AND_FULL_LIBRARY_BOUNDS_RUNTIME_ABSENT",
+  "status": "HOLD_LIBRARY_PROBE_PASS_FULL_RECONCILE_DEFERRED_DEPS_UNLOCKED",
   "thresholds": {
     "channel_policy": "max_abs_mono",
     "destructive_trim_allowed": false,

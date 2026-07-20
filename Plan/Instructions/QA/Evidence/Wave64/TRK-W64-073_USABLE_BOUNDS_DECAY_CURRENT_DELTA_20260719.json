@@ -1,25 +1,29 @@
 {
   "schema_version": 1,
-  "evidence_id": "W64-ROW073-USABLE-BOUNDS-DECAY-CURRENT-DELTA-20260719",
+  "evidence_id": "W64-ROW073-USABLE-BOUNDS-DECAY-CURRENT-DELTA-20260720",
   "created_at": "2026-07-19T19:40:10Z",
-  "source_commit": "963b2befe94bc047a02442a6b423b891a1277983",
-  "prior_row_commit": "f3598905c6f2b2e1dfa64aa053074e7bd320392f",
-  "prior_row_commit_is_current_head": false,
+  "updated_at": "2026-07-20T05:57:30Z",
+  "source_commit": "PENDING_THIS_PASS",
   "tracker_id": "TRK-W64-073",
   "item_id": "ITEM-W64-073",
-  "status": "HOLD_ROW071_ROW072_DEPENDENCIES_AND_FULL_LIBRARY_BOUNDS_RUNTIME_ABSENT",
-  "classification": "ROW073_FAIL_CLOSED_CONTRACT_SLICE_NO_FALSE_COMPLETION",
+  "status": "HOLD_LIBRARY_PROBE_PASS_FULL_RECONCILE_DEFERRED_DEPS_UNLOCKED",
+  "classification": "ROW073_INDEX_RETAINED_LIMITED_PROBE_DEPS_UNLOCKED_NO_FALSE_COMPLETION",
   "row_complete": false,
   "implementation_completion_claimed": false,
   "runtime_completion_claimed": false,
-  "qa_decision": "hold_with_fail_closed_bounds_decay_contract_and_synthetic_fixture_calibration_only",
+  "library_authority": false,
+  "proof_tier": "RUNTIME_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+  "qa_decision": "deps_unlocked_index_retained_limit_25_probe_pass_full_reconcile_deferred_for_row075_pcm_contention",
+  "ledger_status": "Blocked_Library_Probe_Pass_Full_Reconcile_Deferred_Deps_Unlocked",
   "increment": {
-    "kind": "fail_closed_contract_and_analyzer_slice",
-    "analysis_pipeline_revision": "wave64_row073_usable_bounds_decay_v0.1.0",
-    "summary": "Freeze Row073 silence/hysteresis/channel/suggestion-only thresholds, emit schema-validated fixture calibration records with non-destructive before/after source bindings, and fail closed for library authority until Row071 and Row072 acceptance exists."
+    "kind": "index_retained_limited_probe_and_runtime_unlock",
+    "analysis_pipeline_revision": "wave64_row073_usable_bounds_decay_v0.2.0",
+    "summary": "Unlocked Row073 index-retained probe gate via Row071 acceptance + Row072 RUNTIME_PASS_BOUNDED dependencies_unlocked; added --mode index-retained with --limit; ran limit=25 probe (bounds_pass=25/25) in a disjoint runtime tree while leaving healthy Row075 PID alone. No product COMPLETE; full-library reconcile deferred until Row075 finishes PCM I/O.",
+    "writable_scope_note": "Disjoint from Row017 visuals, Row075 progress stamps, and Row077 dirty semantic-embedding work. Sound ITEM/TRACKER CSV deferred for serialized mutator."
   },
   "row073_contract": {
-    "status": "Planned_Autonomous_Implementation_Required",
+    "status": "Blocked_Library_Probe_Pass_Full_Reconcile_Deferred_Deps_Unlocked",
     "priority": "P1",
     "risk": "HIGH",
     "dependency_prerequisites": [
@@ -34,147 +38,176 @@
     ],
     "output_artifact": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_usable_bounds_decay_analysis.json",
     "output_artifact_exists": true,
-    "output_artifact_authority": "fail_closed_hold_packet_not_library_acceptance",
+    "output_artifact_authority": "fail_closed_probe_hold_packet_not_library_acceptance",
     "completion_criteria": "Suggested bounds preserve primary onset and audible natural decay without changing source bytes.",
-    "required_behavior": [
-      "measure leading silence",
-      "measure trailing silence",
-      "suggest usable start and end bounds",
-      "measure attack",
-      "measure sustain",
-      "measure release",
-      "classify noise-only tails",
-      "locate natural decay boundaries",
-      "preserve measured primary onset",
-      "preserve audible natural tails",
-      "never destructively trim source bytes"
-    ],
-    "frozen_thresholds": {
-      "silence_threshold_dbfs": -50.0,
-      "hysteresis_db": 6.0,
-      "min_silence_ms": 5.0,
-      "channel_policy": "max_abs_mono",
-      "suggestion_only": true,
-      "destructive_trim_allowed": false
-    },
     "runtime_proof_required": true,
     "ec2_allowed": false,
     "final_render_gate": "BLOCKED_UNTIL_EXACT_ROW_IMPLEMENTATION_RUNTIME_QA_AND_AUTHORITY_PASS"
-  },
-  "implemented_slice": {
-    "analyzer_path": "Plan/07_IMPLEMENTATION/scripts/analyze_wave64_usable_bounds_decay.py",
-    "analyzer_sha256": "130af99501b8e25f345e0b7b5ecf82f0eaed46b53fdb5f730cb6692c2964d98d",
-    "analyzer_bytes": 20630,
-    "schema_path": "Plan/08_SCHEMAS/usable_bounds_decay_record.schema.json",
-    "schema_sha256": "2e300caef18f69aa93d218726a909270091896f13163dd42de3a56414f2d83ad",
-    "schema_bytes": 5570,
-    "test_path": "Plan/Instructions/QA/Scripts/test_analyze_wave64_usable_bounds_decay.py",
-    "test_sha256": "3045b6855dff61ddefeecddf6b659b5959af73fca23a8cbf4527648faaa8f986",
-    "test_bytes": 4725,
-    "direct_evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_usable_bounds_decay_analysis.json",
-    "direct_evidence_sha256": "6da79fb9ccea0bb11c1e233f8d852b1f7122216348f1c5c7ed35a69bd7e9771f",
-    "direct_evidence_bytes": 21179,
-    "capabilities_now_present": [
-      "frozen_analysis_pipeline_revision",
-      "frozen_silence_hysteresis_channel_and_suggestion_only_thresholds",
-      "method_unit_window_provenance_for_silence_bounds_envelope_and_decay",
-      "schema_validated_usable_bounds_decay_records",
-      "row071_and_row072_admission_fail_closed_gates",
-      "synthetic_fixture_determinism_for_silence_padded_tone_impulse_noisy_tail_gradual_attack",
-      "non_destructive_source_before_after_sha256_binding",
-      "library_mode_hold_packet_without_false_completion"
-    ],
-    "explicitly_not_claimed": [
-      "full_library_bounds_decay_records",
-      "accepted_row071_waveform_feature_authority",
-      "accepted_row072_onset_offset_anchor_authority",
-      "row073_product_completion",
-      "row073_runtime_completion",
-      "downstream_row074_row076_row093_unblocking"
-    ]
   },
   "dependency_authority": [
     {
       "tracker_id": "TRK-W64-071",
       "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-071_WAVEFORM_FEATURE_EXTRACTION_CURRENT_DELTA_20260719.json",
-      "current_delta_sha256": "4118ecf426dc54242b049e15e27981097a29044d954bd21992dce85aca432def",
-      "current_delta_bytes": 7370,
-      "current_delta_status": "HOLD_ROW070_CANONICAL_DECODE_AND_FULL_LIBRARY_FEATURE_RUNTIME_ABSENT",
-      "row_complete": false,
-      "dependency_satisfied": false,
-      "reason": "Silence, envelope, noise-floor, and decay decisions still require accepted waveform and acoustic feature authority."
+      "dependency_satisfied": true,
+      "admission_mode": "accepted",
+      "row_complete": true,
+      "reason": "Row071 library feature authority accepted; retained-index feature records are the Row073 probe input domain."
     },
     {
       "tracker_id": "TRK-W64-072",
       "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ONSET_TRANSIENT_ANCHOR_CURRENT_DELTA_20260719.json",
-      "current_delta_sha256": "c116e844619e320341e4dd1707b8c0711288784984f858bc17585b3a2b694778",
-      "current_delta_bytes": 18358,
-      "current_delta_status": "HOLD_DEPENDENCIES_DETECTOR_THRESHOLD_REGISTRY_AND_BENCHMARK_AUTHORITY_ABSENT",
+      "dependency_satisfied": true,
+      "admission_mode": "runtime_unlocked",
       "row_complete": false,
-      "dependency_satisfied": false,
-      "reason": "Usable trim bounds cannot prove onset or tail preservation without accepted onset, peak, offset, and ambiguity authority."
+      "row072_acceptance": "held",
+      "proof_tier": "RUNTIME_PASS_BOUNDED",
+      "reason": "Row072 coverage_complete under frozen thresholds with decision.dependencies_unlocked=true unlocks dependency-safe Row073 probes without claiming Row072 acceptance."
     }
   ],
+  "implemented_slice": {
+    "analyzer_path": "Plan/07_IMPLEMENTATION/scripts/analyze_wave64_usable_bounds_decay.py",
+    "analyzer_sha256": "87a07fc70dc8f5c9c7b5b1548e215a34dc5d9447ae14c71e33cf9c52a896ecfa",
+    "analyzer_bytes": 49713,
+    "schema_path": "Plan/08_SCHEMAS/usable_bounds_decay_record.schema.json",
+    "schema_sha256": "ba3bd874cc45244d11b739f1f30d5fdba5c3a5b6deadf9bb474c68a151ea5d6a",
+    "schema_bytes": 5570,
+    "test_path": "Plan/Instructions/QA/Scripts/test_analyze_wave64_usable_bounds_decay.py",
+    "test_sha256": "161015cb158ee5f6b5d595d585eec25f39b688134b95ed0dd5a4b11cc8d49469",
+    "test_bytes": 7600,
+    "direct_evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_usable_bounds_decay_analysis.json",
+    "direct_evidence_sha256": "ae67a7c8cb0c454d27a326cd91bd37d19e4f2c0282273565fcdb305d1dd329c2",
+    "direct_evidence_bytes": 22590,
+    "retained_summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_ACCEPTED_INDEX_RETAINED_BOUNDS_SUMMARY_20260720.json",
+    "retained_summary_sha256": "9d182b6fb9da5454ae98a4c5f0e4144fcc027ffe61525549f489f9389585774f",
+    "retained_summary_bytes": 3545,
+    "runtime_dir": "runtime_artifacts/usable_bounds/row073_index_retained_20260720",
+    "runtime_records_sha256": "fa5692064e0aa0929abaeb67930999474981a00f5951794c36fbf4be2c1ddec9",
+    "runtime_records_bytes": 45002,
+    "capabilities_now_present": [
+      "row072_runtime_unlock_admission_gate",
+      "index_retained_mode_with_limit_and_resume",
+      "bounded_limit_25_probe_over_retained_row071_records",
+      "suggestion_only_bounds_pass_with_onset_and_tail_preservation",
+      "non_destructive_source_before_after_sha256_binding",
+      "row075_contention_policy_limited_probe_only",
+      "disjoint_runtime_tree_from_row075_and_row017"
+    ],
+    "explicitly_not_claimed": [
+      "full_library_bounds_decay_coverage",
+      "row073_product_completion",
+      "row073_runtime_completion",
+      "library_threshold_authority",
+      "row072_acceptance",
+      "row074_row076_unlock"
+    ]
+  },
+  "accepted_index_retained_bounds_runtime": {
+    "authority": "accepted_index_retained_bounds_probe",
+    "coverage_complete": false,
+    "limit": 25,
+    "proof_tier": "RUNTIME_PASS_BOUNDED",
+    "status": "RUNTIME_PASS_BOUNDED_PROBE_LIMIT",
+    "counts": {
+      "records_processed": 25,
+      "records_total": 39771,
+      "bounds_pass": 25,
+      "bounds_blocked": 0,
+      "exact_blockers": 0,
+      "feature_pass_inputs": 25,
+      "feature_non_pass_inputs": 0,
+      "pcm_sha_verified": 25,
+      "source_immutable_true": 25,
+      "onset_preservation_ok": 25,
+      "tail_preservation_ok": 25,
+      "analysis_truncated": 0
+    },
+    "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_ACCEPTED_INDEX_RETAINED_BOUNDS_SUMMARY_20260720.json",
+    "summary_sha256": "9d182b6fb9da5454ae98a4c5f0e4144fcc027ffe61525549f489f9389585774f",
+    "runtime_receipt_path": "runtime_artifacts/usable_bounds/row073_index_retained_20260720/retained_index_bounds_receipt.json",
+    "row075_contention_policy": "limited_probe_only_while_row075_full_reconcile_owns_pcm_io"
+  },
   "focused_validators": {
-    "command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_analyze_wave64_usable_bounds_decay.py",
-    "exit_code": 0,
-    "passed": 8,
-    "failed": 0
+    "pytest_command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_analyze_wave64_usable_bounds_decay.py",
+    "pytest_exit_code": 0,
+    "pytest_passed": 10,
+    "pytest_failed": 0,
+    "probe_command": "python Plan/07_IMPLEMENTATION/scripts/analyze_wave64_usable_bounds_decay.py --mode index-retained --limit 25 --no-resume",
+    "probe_exit_code": 0,
+    "probe_status": "HOLD_LIBRARY_PROBE_PASS_FULL_RECONCILE_DEFERRED_DEPS_UNLOCKED",
+    "row075_left_alone": true,
+    "row075_progress_after_probe": "2750/39771"
   },
   "acceptance_gaps": [
     {
-      "code": "ROW071_AND_ROW072_DEPENDENCIES_NOT_ACCEPTED",
-      "detail": "Both direct prerequisites remain row_complete=false, so accepted waveform features and onset/offset anchors are unavailable for library authority."
-    },
-    {
       "code": "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT",
-      "detail": "No runtime reconciles every accepted Row071/Row072 input to suggestion-only bounds/decay PASS or an exact blocker with output and failure-manifest hashes."
+      "detail": "Only limit=25 retained-index probe evidence exists; 39771-record coverage_complete reconcile remains deferred."
     },
     {
-      "code": "FULL_LIBRARY_SOURCE_IMMUTABILITY_PROOF_ABSENT",
-      "detail": "Fixture before/after source bindings prove the non-destructive contract for synthetic assets only; full-library path-size-hash immutability remains unproven."
+      "code": "FULL_LIBRARY_RECONCILE_DEFERRED_OR_IN_PROGRESS",
+      "detail": "Full Row073 PCM reconcile deferred while healthy Row075 PID owns full-library index-retained PCM I/O."
+    },
+    {
+      "code": "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+      "detail": "Silence/hysteresis/suggestion-only thresholds remain planning-freeze identity, not production library acceptance."
     },
     {
       "code": "REPRESENTATIVE_STRATA_CALIBRATION_ABSENT",
-      "detail": "Synthetic fixtures prove method identity and determinism only; format/duration/event/channel library strata remain unreconciled."
+      "detail": "No representative library strata with truth usable bounds/decay labels; probe proves method identity on retained index only."
     }
   ],
+  "blocker_codes": [
+    "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT",
+    "FULL_LIBRARY_RECONCILE_DEFERRED_OR_IN_PROGRESS",
+    "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+    "REPRESENTATIVE_STRATA_CALIBRATION_ABSENT"
+  ],
   "preservation_boundary": {
-    "row070_owned_paths_modified": false,
-    "row072_owned_paths_modified": false,
-    "row084_owned_paths_modified": false,
-    "row090_owned_paths_modified": false,
-    "row071_files_modified": false,
-    "unrelated_dirty_paths_modified": false,
+    "row017_visual_paths_modified": false,
+    "row075_progress_paths_modified": false,
+    "row075_pid_left_alone": true,
+    "row077_dirty_paths_modified": false,
+    "sound_item_tracker_csv_modified": false,
+    "sound_item_tracker_csv_deferred_reason": "contention_risk_with_parallel_agents_evidence_code_only_landing",
     "only_row073_writable_paths": [
       "Plan/07_IMPLEMENTATION/scripts/analyze_wave64_usable_bounds_decay.py",
       "Plan/08_SCHEMAS/usable_bounds_decay_record.schema.json",
       "Plan/Instructions/QA/Scripts/test_analyze_wave64_usable_bounds_decay.py",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_usable_bounds_decay_analysis.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_ACCEPTED_INDEX_RETAINED_BOUNDS_SUMMARY_20260720.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_CURRENT_DELTA_20260719.json"
     ]
   },
   "checks": [
-    {"name": "UBD-I001_analysis_pipeline_revision_frozen", "result": "pass"},
-    {"name": "UBD-I002_schema_requires_bounds_envelope_decay_and_non_destructive_bindings", "result": "pass"},
-    {"name": "UBD-I003_row071_and_row072_admission_fails_closed", "result": "pass"},
-    {"name": "UBD-I004_library_mode_hold_packet_emitted", "result": "pass"},
-    {"name": "UBD-I005_fixture_records_deterministic_schema_valid_and_suggestion_only", "result": "pass"},
-    {"name": "UBD-I006_focused_pytest_8_passed", "result": "pass"},
-    {"name": "UBD-I007_no_false_completion_claimed", "result": "pass"},
-    {"name": "UBD-I008_disjoint_from_row070_row072_row084_row090_owned_paths", "result": "pass"}
+    {"name": "UBD-P001_row071_accepted_and_row072_runtime_unlocked", "result": "pass"},
+    {"name": "UBD-P002_index_retained_mode_unlocked_with_limit", "result": "pass"},
+    {"name": "UBD-P003_limit_25_probe_bounds_pass_25", "result": "pass"},
+    {"name": "UBD-P004_onset_and_tail_preservation_25_25", "result": "pass"},
+    {"name": "UBD-P005_source_immutable_pcm_sha_verified_25_25", "result": "pass"},
+    {"name": "UBD-P006_focused_pytest_10_passed", "result": "pass"},
+    {"name": "UBD-P007_no_false_completion_or_library_authority", "result": "pass"},
+    {"name": "UBD-P008_row075_pid_left_alone_and_disjoint_runtime_tree", "result": "pass"},
+    {"name": "UBD-P009_sound_csv_deferred_evidence_code_only", "result": "pass"}
   ],
   "check_summary": {
-    "checked": 8,
-    "passed": 8,
+    "checked": 9,
+    "passed": 9,
     "failed": 0
   },
   "decision": {
-    "fail_closed_contract_slice": "accepted_as_bounded_increment",
-    "row073_status": "Planned_Autonomous_Implementation_Required",
+    "fail_closed_probe_slice": "accepted_as_bounded_increment",
+    "row073_status": "Blocked_Library_Probe_Pass_Full_Reconcile_Deferred_Deps_Unlocked",
     "row073_acceptance": "held",
     "runtime_completion": false,
     "product_completion": false,
-    "safe_next_action": "Accept or complete Rows071-072 next; then extend Row073 library mode to consume accepted feature/anchor records, reconcile full-library suggestion-only PASS/blocker counts with before/after source immutability proofs, and only then mark Row073 complete for Row076/Row093 consumers."
-  }
+    "dependencies_unlocked": true,
+    "safe_next_action": "After Row075 retained-index defect reconcile reaches coverage_complete, resume Row073 --mode index-retained without --limit to coverage_complete under frozen suggestion-only thresholds; keep thresholds/strata holds; do not claim COMPLETE. Serialized mutator may then sync sound ITEM/TRACKER CSV Notes from this evidence delta."
+  },
+  "docker_cvat": "not-needed",
+  "ec2": "EC2_DEFERRED",
+  "explicit_non_claims": [
+    "COMPLETE",
+    "product_completion",
+    "library_authority",
+    "full_library_coverage"
+  ]
 }
