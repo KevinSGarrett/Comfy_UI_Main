@@ -15,6 +15,7 @@ import argparse
 import hashlib
 import json
 import math
+import os
 import struct
 from datetime import datetime, timezone
 from pathlib import Path
@@ -535,6 +536,58 @@ def _empty_retained_bounds_counts() -> dict[str, int]:
     }
 
 
+def _rebuild_retained_bounds_aggregates_from_records(
+    records_path: Path,
+) -> tuple[dict[str, int], dict[str, int], dict[str, int], set[str]]:
+    """Rebuild counters from records.jsonl after crashy resume undercount.
+
+    Progress checkpoints can lag written records. On --resume, records.jsonl is
+    authoritative for already-emitted compact rows; trusting stale progress counts
+    leaves coverage_complete false after the index cursor reaches EOF.
+    """
+    counts = _empty_retained_bounds_counts()
+    blocker_histogram: dict[str, int] = {}
+    extension_histogram: dict[str, int] = {}
+    processed_paths: set[str] = set()
+    if not records_path.is_file():
+        return counts, blocker_histogram, extension_histogram, processed_paths
+    with records_path.open("r", encoding="utf-8") as handle:
+        for line in handle:
+            if not line.strip():
+                continue
+            compact = json.loads(line)
+            relative_path = str(compact.get("relative_path") or "").replace("\\", "/")
+            if not relative_path or relative_path in processed_paths:
+                continue
+            processed_paths.add(relative_path)
+            extension = str(compact.get("extension") or Path(relative_path).suffix).lower()
+            feature_status = str(compact.get("feature_status") or "")
+            if feature_status != "pass":
+                counts["feature_non_pass_inputs"] += 1
+            else:
+                counts["feature_pass_inputs"] += 1
+                if compact.get("pcm_sha_verified"):
+                    counts["pcm_sha_verified"] += 1
+                    if compact.get("source_immutable"):
+                        counts["source_immutable_true"] += 1
+                    if compact.get("onset_preservation_ok"):
+                        counts["onset_preservation_ok"] += 1
+                    if compact.get("tail_preservation_ok"):
+                        counts["tail_preservation_ok"] += 1
+                if compact.get("analysis_truncated"):
+                    counts["analysis_truncated"] += 1
+            if compact.get("bounds_status") == "pass":
+                counts["bounds_pass"] += 1
+            else:
+                counts["bounds_blocked"] += 1
+                counts["exact_blockers"] += 1
+                code = str(compact.get("blocker_code") or "BOUNDS_BLOCKED")
+                blocker_histogram[code] = blocker_histogram.get(code, 0) + 1
+            extension_histogram[extension] = extension_histogram.get(extension, 0) + 1
+            counts["records_processed"] += 1
+    return counts, blocker_histogram, extension_histogram, processed_paths
+
+
 def _channels_from_frames_nc(frames_nc: Any) -> list[list[float]]:
     """Collapse N×C float frames to a single max-abs mono channel for analyze_channels.
 
@@ -658,7 +711,10 @@ def run_retained_index_bounds_runtime(
     owner_marker = out_dir / "FULL_RECONCILE_OWNER.txt"
     if limit is None:
         owner_marker.write_text(
-            f"owner=analyze_wave64_usable_bounds_decay.py\nstarted={datetime.now(timezone.utc).isoformat()}\n",
+            "owner=analyze_wave64_usable_bounds_decay.py\n"
+            f"started={datetime.now(timezone.utc).isoformat()}\n"
+            f"pid={os.getpid()}\n"
+            "lane=library_pcm_exclusive\n",
             encoding="utf-8",
         )
     elif owner_marker.is_file():
@@ -687,23 +743,19 @@ def run_retained_index_bounds_runtime(
     if resume and progress_path.is_file() and records_path.is_file():
         progress = load_json(progress_path)
         if str(progress.get("row071_records_sha256") or "") == sha256_file(records_in):
-            counts = dict(progress.get("counts") or counts)
-            blocker_histogram = {
-                str(key): int(value)
-                for key, value in (progress.get("blocker_histogram") or {}).items()
-            }
-            extension_histogram = {
-                str(key): int(value)
-                for key, value in (progress.get("extension_histogram") or {}).items()
-            }
             next_index = int(progress.get("next_record_index") or 0)
             started_at = str(progress.get("started_at") or started_at)
-            with records_path.open("r", encoding="utf-8") as handle:
-                for line in handle:
-                    if not line.strip():
-                        continue
-                    compact = json.loads(line)
-                    processed_paths.add(str(compact.get("relative_path") or ""))
+            (
+                counts,
+                blocker_histogram,
+                extension_histogram,
+                processed_paths,
+            ) = _rebuild_retained_bounds_aggregates_from_records(records_path)
+            counts["records_total"] = total_lines
+            # Cursor may already be at EOF while stale progress undercounted; keep
+            # next_index from progress but never rewind past written coverage.
+            if next_index < len(processed_paths):
+                next_index = len(processed_paths)
         else:
             records_path.write_text("", encoding="utf-8")
             next_index = 0
