@@ -1,4 +1,22 @@
 {
+  "blocker_classification": {
+    "MISSING_FRAME_POLICY_RUNTIME_ABSENT": {
+      "class": "B",
+      "detail": "Held-out ffmpeg PTS-gap detect + four-policy runtime bind complete.",
+      "status": "CLEARED"
+    },
+    "PRODUCTION_COMPLETION_AND_ROW_COMPLETE_BLOCKED": {
+      "class": "E",
+      "detail": "COMPLETE/row_complete intentionally withheld on held-out lavfi lane.",
+      "status": "OPEN"
+    },
+    "REGISTERED_ROUNDTRIP_TOLERANCES_NOT_RUNTIME_AUTHORITATIVE": {
+      "check_id": "ROW084-017",
+      "class": "D",
+      "detail": "row084_roundtrip_tolerances remain declarative_partial_not_runtime_authority.",
+      "status": "OPEN"
+    }
+  },
   "checks": [
     {
       "check_id": "ROW084-001",
@@ -74,7 +92,10 @@
     {
       "check_id": "ROW084-015",
       "name": "missing_frame_policy_runtime_complete",
-      "status": "FAIL"
+      "note": "Offline ffmpeg media-backed missing-frame policy runtime cleared at RUNTIME_PASS_BOUNDED (preserve_gap/explicit_gap/interpolate/block on held-out fixed mux gaps 5,10). No :8188. No COMPLETE/row_complete.",
+      "runtime_receipt": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/held_out_missing_frame_policy_runtime_receipt.json",
+      "runtime_receipt_sha256": "03ed45d9924fec7539a04b384430fdf0d14853cddac3722dccdd1fbeaddef55a",
+      "status": "PASS"
     },
     {
       "check_id": "ROW084-016",
@@ -216,12 +237,12 @@
       "status": "PASS"
     }
   ],
-  "classification": "ROW084_OFFLINE_VISUAL_QA_PASS_BOUNDED_NO_COMPLETE",
+  "classification": "ROW084_OFFLINE_MISSING_FRAME_RUNTIME_PASS_BOUNDED_NO_COMPLETE",
   "climb_targets": [
     "RUNTIME_PASS_BOUNDED",
     "VISUAL_QA_PASS_BOUNDED"
   ],
-  "created_at": "2026-07-20T08:07:05Z",
+  "created_at": "2026-07-20T14:29:47Z",
   "dependency_authority": {
     "acceptance_commit": "b074c694518b7ebe78a1e7292db28427d7f75ca7",
     "dependency_satisfied": true,
@@ -233,6 +254,18 @@
   },
   "evidence_id": "TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719",
   "focused_local_test_result": {
+    "missing_frame_runtime_climb": {
+      "blocker_class": "B",
+      "blocker_codes_cleared": [
+        "MISSING_FRAME_POLICY_RUNTIME_ABSENT"
+      ],
+      "comfyui_8188_invoked": false,
+      "missing_frame_policy_runtime_complete": true,
+      "proof_tier": "RUNTIME_PASS_BOUNDED",
+      "receipt_sha256": "03ed45d9924fec7539a04b384430fdf0d14853cddac3722dccdd1fbeaddef55a",
+      "row_complete": false,
+      "status": "PASS"
+    },
     "offline_visual_climb": {
       "comfyui_8188_invoked": false,
       "direct_runtime_receipt_sha256": "c1c12775e338d51f33600b83116bd00c7547edad237ca2330a00d1988692ff2b",
@@ -245,12 +278,19 @@
       "visual_review_authority_granted": true
     },
     "py_compile": "PASS",
-    "scope_interpretation": "Offline ffmpeg-decoded combined visual review cleared ROW084-020 at VISUAL_QA_PASS_BOUNDED. No COMPLETE, no row_complete, no :8188.",
+    "scope_interpretation": "Offline missing-frame policy runtime cleared ROW084-015 at RUNTIME_PASS_BOUNDED while retaining VISUAL_QA_PASS_BOUNDED. No COMPLETE, no row_complete, no :8188.",
     "strict_command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
     "strict_exit_code": 0,
     "strict_result": "46 passed",
     "total_focused_failed": 0,
     "total_focused_passed": 46
+  },
+  "focused_source_tests": {
+    "command": "python -m unittest Plan.Instructions.QA.Scripts.test_row084_canonical_video_timeline_compiler",
+    "strict_exit_code": 0,
+    "strict_result": "47 passed",
+    "total_focused_failed": 0,
+    "total_focused_passed": 47
   },
   "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
   "hold_decision": {
@@ -294,11 +334,15 @@
       {
         "blocker_id": "TRACKER_OUTPUT_ARTIFACT_ABSENT",
         "check_id": "ROW084-022"
+      },
+      {
+        "blocker_id": "MISSING_FRAME_POLICY_RUNTIME_ABSENT",
+        "check_id": "ROW084-015"
       }
     ],
-    "decision": "HOLD_ROW084_AFTER_OFFLINE_VISUAL_QA_NO_COMPLETE",
-    "reason": "ROW084-020 cleared via ffmpeg-decoded combined frame/contact/audio visual review at VISUAL_QA_PASS_BOUNDED without :8188. COMPLETE/row_complete remain withheld.",
-    "safe_next_action": "CSV already synced (139b4309). Next: production completion and row_complete remain withheld on this held-out lavfi VISUAL_QA_PASS_BOUNDED lane. Do not claim COMPLETE."
+    "decision": "HOLD_ROW084_AFTER_MISSING_FRAME_RUNTIME_NO_COMPLETE",
+    "reason": "ROW084-015 cleared via offline ffmpeg media-backed missing-frame policy runtime (interpolate/block unlocked) without :8188. COMPLETE/row_complete remain withheld.",
+    "safe_next_action": "CSV deferred. Next: production completion and remaining FAIL checks (ROW084-011/012/013/017) remain; do not claim COMPLETE/row_complete."
   },
   "host_execution": {
     "comfyui_8188_invoked": false,
@@ -318,13 +362,13 @@
     "combined_visual_audio_review_runtime_schema_sha256": "4403814ce9064fe4595ade12f7d01c3db2895540b651a22dc22d377c18c3b9f2",
     "combined_visual_protocol_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_combined_visual_review_fixture_protocol.schema.json",
     "combined_visual_protocol_schema_sha256": "07fc0f8a235b1eec9729412505286ab46add34e1e5ee3f3dc654174351068f43",
-    "compiler_bytes": 237864,
+    "compiler_bytes": 270837,
     "compiler_path": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
     "compiler_revision": "row084_synthetic_runtime_climb_ledger_v9",
-    "compiler_sha256": "fa6ac8019ee1f6c74defc188bb8b29ce639f53b37acbae8dda0f0655613a1e34",
+    "compiler_sha256": "f7552d22d8659cbcbe897da14aa1842cd89966085a3dec2f03f382a2d9828fec",
     "cut_detector_algorithm_contract_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_cut_detector_algorithm_contract.schema.json",
     "direct_row084_runtime_receipt_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/direct_row084_runtime_receipt.json",
-    "direct_row084_runtime_receipt_sha256": "c1c12775e338d51f33600b83116bd00c7547edad237ca2330a00d1988692ff2b",
+    "direct_row084_runtime_receipt_sha256": "3cc621100f9a02a9b98df711e10e191d03a24f63f87a59377226654199f9829f",
     "ffmpeg_path_probe_receipt_bytes": 2962,
     "ffmpeg_path_probe_receipt_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/ffmpeg_path_probe_receipt.json",
     "ffmpeg_path_probe_receipt_sha256": "877342193d60db54326a0be0f5754ce62b0ab69af5e649cdde933763c90691de",
@@ -344,11 +388,15 @@
     "held_out_ffmpeg_mux_replay_receipt_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/held_out_ffmpeg_mux_replay_receipt.json",
     "held_out_ffmpeg_mux_replay_receipt_sha256": "79c47e734e0ea06b47fc1a6a1556fb932f3cc51d0570e5a236e6519102e74149",
     "held_out_ffmpeg_mux_replay_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_held_out_ffmpeg_mux_replay_receipt.schema.json",
+    "held_out_missing_frame_policy_runtime_receipt_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/held_out_missing_frame_policy_runtime_receipt.json",
+    "held_out_missing_frame_policy_runtime_receipt_sha256": "03ed45d9924fec7539a04b384430fdf0d14853cddac3722dccdd1fbeaddef55a",
+    "held_out_missing_frame_policy_runtime_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_held_out_missing_frame_policy_runtime_receipt.schema.json",
+    "held_out_missing_frame_policy_runtime_schema_sha256": "2a6427beae8a5079ef218f6261354af4a78fcf46cd98a7bb78c260d204f53906",
     "held_out_roundtrip_benchmark_receipt_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/held_out_roundtrip_benchmark_receipt.json",
     "held_out_roundtrip_benchmark_receipt_sha256": "015738d92aa9ac5252915631598d0e8a85faae4f799add1d39e929b725105df7",
     "mux_prep_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_mux_prep_receipt.schema.json",
-    "owner_commit": "77dd5fbe197093b59368e97c0521d8832bc6d8ce",
-    "pass_digest_owner_commit": "77dd5fbe197093b59368e97c0521d8832bc6d8ce",
+    "owner_commit": "PENDING_LANDING",
+    "pass_digest_owner_commit": "PENDING_LANDING",
     "proven_capabilities": [
       "fail-closed reversed PTS/frame/sample span rejection",
       "required non-null frame and sample rates on clock-span schema",
@@ -410,14 +458,18 @@
       "offline camera-motion normalization distinguishing hard_cut vs camera_pan vs static",
       "direct_row084_runtime_receipt binder for offline runtime proofs",
       "tracker-declared HOLD artifact without COMPLETE/VISUAL_QA claim",
-      "offline ffmpeg-decoded combined frame/contact/audio visual review (VISUAL_QA_PASS_BOUNDED held-out lavfi; contact_placeholder hold)"
+      "offline ffmpeg-decoded combined frame/contact/audio visual review (VISUAL_QA_PASS_BOUNDED held-out lavfi; contact_placeholder hold)",
+      "held-out missing-frame policy runtime (ROW084-015)",
+      "offline ffmpeg media-backed missing-frame gap detection (drop frames 5,10 on held-out fixed mux)",
+      "missing-frame policy runtime covering preserve_gap, explicit_gap, interpolate, and block",
+      "interpolate synthesizes neighbor-weighted sample/seconds overlays for media gaps",
+      "block marks downstream_blocked dispositions for media gaps"
     ],
-    "runtime_revision": "row084_combined_visual_audio_review_runtime_v1",
+    "runtime_revision": "row084_held_out_missing_frame_policy_runtime_v1",
     "still_absent": [
       "production mux replay proof",
       "production cut/camera/benchmark authority beyond held-out lavfi",
       "JSON Schema native end_pts > start_pts comparison",
-      "missing-frame policy runtime completion (interpolate/block + media-backed gaps)",
       "row_complete / acceptance COMPLETE",
       "production media combined visual/contact beyond held-out lavfi"
     ],
@@ -427,28 +479,25 @@
     "synthetic_climb_ledger_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_synthetic_runtime_climb_ledger.schema.json",
     "synthetic_climb_ledger_schema_sha256": "fa45fbf3adaa0873b17e143009b8b5b8e441823d4a2f68cafad6ee3d855883c3",
     "synthetic_climb_ledger_sha256": "286d3b200f7700c456e0122332290c9f7cc2dd62d9fb63e96ed57515051a6764",
-    "test_bytes": 73202,
+    "test_bytes": 77701,
     "test_path": "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
-    "test_sha256": "2743ea69a39a69268e7239da076c98d5884d640f151f1af57a48f62645409fcc",
+    "test_sha256": "cf22f517dd25e15c73e83af3f3a1b48ea3ce37eae09989ade0da7ca0eceb1044",
     "tracker_output_artifact_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_canonical_video_timeline.json",
-    "tracker_output_artifact_sha256": "6cbf071ccb7bff2ce71dd4d58ef5e60346de14e469e61051d5f7e2c605c569e6"
+    "tracker_output_artifact_sha256": "7a652ac02b7f4fc718e5a8a8c0c1bb93316f52fcfc01900b0fbfe01a349a2ef9"
   },
   "increment": {
     "comfyui_8188_invoked": false,
-    "decoded_frame_visual_inspection_executed": true,
-    "direct_combined_visual_audio_review_present": true,
-    "kind": "offline_combined_visual_audio_review_climb",
+    "kind": "offline_missing_frame_policy_runtime_climb",
     "row_complete": false,
     "runtime_media_decode_invoked": true,
-    "summary": "Cleared ROW084-020 via ffmpeg-decoded combined frame/contact/audio visual review at VISUAL_QA_PASS_BOUNDED without :8188, COMPLETE, or row_complete. contact_placeholder reviewed as intentional placeholder hold.",
-    "visual_qa_pass_bounded_claimed": true,
-    "visual_review_authority_claimed": true
+    "summary": "Cleared ROW084-015 via offline ffmpeg media-backed missing-frame policy runtime (preserve/explicit/interpolate/block) without :8188, COMPLETE, or row_complete.",
+    "missing_frame_policy_runtime_complete": true,
+    "visual_qa_pass_bounded_claimed": true
   },
   "intent": {
     "allowed_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-      "Plan/08_SCHEMAS/canonical_video_timeline_combined_visual_audio_review_runtime_receipt.schema.json",
-      "Plan/08_SCHEMAS/canonical_video_timeline_direct_runtime_receipt.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_missing_frame_policy_runtime_receipt.schema.json",
       "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
       "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_canonical_video_timeline.json",
@@ -457,8 +506,7 @@
     "authority_class": "interactive_cursor",
     "candidate_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-      "Plan/08_SCHEMAS/canonical_video_timeline_combined_visual_audio_review_runtime_receipt.schema.json",
-      "Plan/08_SCHEMAS/canonical_video_timeline_direct_runtime_receipt.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_missing_frame_policy_runtime_receipt.schema.json",
       "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
       "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_canonical_video_timeline.json",
@@ -466,17 +514,16 @@
     ],
     "classification": "INTERACTIVE_PLATFORM_SHIFT_AUTHORITY",
     "dispatch_wake_count": 0,
-    "intent_id": "interactive_cursor_shift_row084_offline_visual_qa_20260720",
+    "intent_id": "interactive_cursor_shift_row084_missing_frame_runtime_20260720",
     "routing": null,
     "work_type": "final_authority"
   },
   "item_id": "ITEM-W64-084",
-  "pass_digest_owner_pending": false,
+  "pass_digest_owner_pending": true,
   "preservation_boundary": {
     "actual_write_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-      "Plan/08_SCHEMAS/canonical_video_timeline_combined_visual_audio_review_runtime_receipt.schema.json",
-      "Plan/08_SCHEMAS/canonical_video_timeline_direct_runtime_receipt.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_missing_frame_policy_runtime_receipt.schema.json",
       "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
       "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_canonical_video_timeline.json",
@@ -484,8 +531,7 @@
     ],
     "allowed_write_paths": [
       "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
-      "Plan/08_SCHEMAS/canonical_video_timeline_combined_visual_audio_review_runtime_receipt.schema.json",
-      "Plan/08_SCHEMAS/canonical_video_timeline_direct_runtime_receipt.schema.json",
+      "Plan/08_SCHEMAS/canonical_video_timeline_held_out_missing_frame_policy_runtime_receipt.schema.json",
       "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
       "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_canonical_video_timeline.json",
@@ -499,7 +545,7 @@
     "unrelated_dirty_paths_preserved": true,
     "worker_artifacts_preserved": true
   },
-  "prior_evidence_commit": "db7d7ef6d02505a45bd2d425d081a906b124c0dc",
+  "prior_evidence_commit": "00b587af2a3aeab949b582d9a2072f2c1be3fff9",
   "prior_row_commit_is_current_head": false,
   "proof_tier": "VISUAL_QA_PASS_BOUNDED",
   "qa_decision": "HOLD",
@@ -560,8 +606,8 @@
     "writable_scope_disjoint": true,
     "writable_scope_note": "Disjoint from Row075 PID, Rows069-071 library, Row017 MF70, and sibling Row085 fixture paths. No Tracker/Items CSV writes."
   },
-  "source_commit": "77dd5fbe197093b59368e97c0521d8832bc6d8ce",
-  "status": "HOLD_ROW084_VISUAL_QA_PASS_BOUNDED_NO_COMPLETE",
+  "source_commit": "PENDING_LANDING",
+  "status": "HOLD_ROW084_VISUAL_QA_PASS_BOUNDED_MISSING_FRAME_RUNTIME_CLEARED_NO_COMPLETE",
   "test_and_runtime_boundary": {
     "camera_motion_normalization_complete": true,
     "camera_motion_policy_fixture_matrix_only": true,
@@ -578,10 +624,10 @@
     "fixture_mux_plan_replay_only": true,
     "focused_source_tests_executed": true,
     "focused_source_tests_failed": 0,
-    "focused_source_tests_passed": 46,
+    "focused_source_tests_passed": 47,
     "held_out_fixture_matrix_only": true,
-    "missing_frame_policy_fixture_matrix_only": true,
-    "missing_frame_policy_runtime_complete": false,
+    "missing_frame_policy_fixture_matrix_only": false,
+    "missing_frame_policy_runtime_complete": true,
     "mux_dry_run_plan_only": true,
     "mux_prep_scaffold_only": true,
     "new_media_decode_or_mux_invoked": true,
