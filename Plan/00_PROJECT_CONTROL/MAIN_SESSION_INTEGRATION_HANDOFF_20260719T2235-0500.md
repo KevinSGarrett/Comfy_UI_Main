@@ -12,7 +12,8 @@
 ## Commits Pushed This Pass
 
 1. `b03c549e` Prove Row017 MF70 face_full_instance local visual climb.
-2. Stamp commit aligns handoff primary id; tip finalize follows push.
+2. `c791af4b` Stamp Row017 face_full_instance handoff with primary commit id.
+3. This tip finalize aligns handoff commit list; chained Row072 landed after.
 
 ## Row-Scoped Increment Executed
 

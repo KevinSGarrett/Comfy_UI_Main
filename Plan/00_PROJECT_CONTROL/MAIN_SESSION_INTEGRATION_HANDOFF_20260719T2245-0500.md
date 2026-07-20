@@ -4,6 +4,7 @@
 
 - Active integration platform: top-level interactive Cursor subagent under continuous autonomous shift plan / proof-tier pivot.
 - Branch: `codex/workflow_plan_update_improvements`
+- Primary commit: `961df239` — Unlock Row072 deps after accepted Rows070-071 hold refresh.
 - Chained after Row017 MF70 face_full_instance (`b03c549e` / stamp `c791af4b`).
 - This pass: dependency-unlocked Row072 onset/transient library hold refresh (no Row069-071 reopen).
 - No COMPLETE / promotion claim.
@@ -11,7 +12,8 @@
 ## Commits Pushed This Pass
 
 1. `961df239` Unlock Row072 deps after accepted Rows070-071; refresh hold packet.
-2. Stamp commit aligns handoff primary id to tip.
+2. `9bb6a067` Stamp Row072 deps-unlock handoff with primary commit id.
+3. This tip finalize aligns handoff commit list to origin HEAD.
 
 ## Row-Scoped Increment Executed
 
