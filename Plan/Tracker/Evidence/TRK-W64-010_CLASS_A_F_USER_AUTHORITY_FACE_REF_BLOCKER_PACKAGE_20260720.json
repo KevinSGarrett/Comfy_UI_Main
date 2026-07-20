@@ -1,0 +1,336 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-010_CLASS_A_F_USER_AUTHORITY_FACE_REF_BLOCKER_PACKAGE_20260720T123125-0500",
+  "artifact_type": "wave64_row010_class_a_f_user_authority_face_ref_blocker_package",
+  "created_iso": "2026-07-20T12:31:25-05:00",
+  "created_at": "2026-07-20T17:31:25.052672Z",
+  "tracker_id": "TRK-W64-010",
+  "item_id": "ITEM-W64-010",
+  "mutation_this_landing": "evidence_only_class_a_f_face_ref_blocker_package_deepen",
+  "row_complete": false,
+  "product_completion_claimed": false,
+  "csv_sync": "deferred_leave_to_serialized_mutator",
+  "proof_tier": "OFFLINE_FACE_REF_BLOCKER_BOUNDED",
+  "highest_proof_tier_achieved": "OFFLINE_FACE_REF_BLOCKER_BOUNDED",
+  "deepen_reason": "Prior Class A/F disposition + negative inventory pinned identity-reference absence; this landing deepens a dedicated USER_AUTHORITY face-ref blocker package with required ABSENT slot contracts, live face-pattern negative scan, and hash-bound near-miss catalog without inventing face/body reference media.",
+  "prior_bindings": {
+    "disposition_packet": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_CLASS_A_F_IDENTITY_REFERENCE_DISPOSITION_PACKET_20260720.json",
+      "exists": true,
+      "bytes": 8298,
+      "sha256": "1cde8c3b8890cfecf5b3075f9edfd347242333346646becfa60e14cc34cf3819"
+    },
+    "negative_inventory": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_IDENTITY_REFERENCE_NEGATIVE_INVENTORY_20260720.json",
+      "exists": true,
+      "bytes": 7332,
+      "sha256": "96a1c47cc7630ce8a6521b23f083954b647fadf74cfe391ec938a76392809774"
+    },
+    "offline_current_delta": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_IDENTITY_REFERENCE_CHAIN_OFFLINE_PROOF_CURRENT_DELTA_20260720.json",
+      "exists": true,
+      "bytes": 11763,
+      "sha256": "993233f28a54b686c55fd0b6612038cfb39440d255bae217f7d771d11b69c7c4"
+    },
+    "disposition_commit": "642f831a",
+    "offline_prove_commit": "db81ab66"
+  },
+  "blocker_classes": [
+    {
+      "class": "A",
+      "name": "IDENTITY_REFERENCE_AUTHORITY",
+      "primary_code": "USER_AUTHORITY_PER_CHARACTER_REFERENCE_CROPS_ABSENT",
+      "codes": [
+        "USER_AUTHORITY_PER_CHARACTER_REFERENCE_CROPS_ABSENT",
+        "PORTABLE_MULTI_CHARACTER_ID_REFERENCE_PACKET_ABSENT",
+        "PER_CHARACTER_COMPARISON_CROP_BINDING_ABSENT",
+        "blocked_missing_per_character_reference_chain"
+      ],
+      "cleared_by_this_packet": [],
+      "summary": "Face-ref slot contract: 6/6 required slots ABSENT. Live face-pattern scan scanned 2598 files; 0 eligible USER_AUTHORITY face refs; 3 non-eligible name hits.",
+      "fail_closed_until": ">=2 distinct character_ids have hash-bound face (and supporting body) USER_AUTHORITY refs in a portable tracked character_reference_pack plus per-character comparison crops against one shared multi-character output"
+    },
+    {
+      "class": "F",
+      "name": "EXTERNAL_HUMAN_AUTHORITY_MEDIA_GATE",
+      "primary_code": "USER_AUTHORITY_FACE_BODY_REFERENCES_NOT_INVENTABLE",
+      "codes": [
+        "USER_AUTHORITY_FACE_BODY_REFERENCES_NOT_INVENTABLE",
+        "PERSONAL_CALIBRATION_CHARACTER1_EXCLUDED_NONCANONICAL"
+      ],
+      "cleared_by_this_packet": [],
+      "summary": "Agents must not invent face/body refs. Required slots remain ABSENT with path_local=null and sha256=null. character1_*/ztest stay personal_calibration_noncanonical.",
+      "fail_closed_until": "human/operator supplies or explicitly promotes portable USER_AUTHORITY face media with tracker include list"
+    }
+  ],
+  "required_face_ref_slots": [
+    {
+      "slot_id": "char_a_face_front",
+      "character_slot": "character_id_A",
+      "asset_type": "approved_face_reference",
+      "required_views": [
+        "face_front"
+      ],
+      "status": "ABSENT",
+      "path_local": null,
+      "sha256": null,
+      "invented": false,
+      "clearance_requires": "human_or_operator_supplied_USER_AUTHORITY_media"
+    },
+    {
+      "slot_id": "char_b_face_front",
+      "character_slot": "character_id_B",
+      "asset_type": "approved_face_reference",
+      "required_views": [
+        "face_front"
+      ],
+      "status": "ABSENT",
+      "path_local": null,
+      "sha256": null,
+      "invented": false,
+      "clearance_requires": "human_or_operator_supplied_USER_AUTHORITY_media"
+    },
+    {
+      "slot_id": "char_a_body_supporting",
+      "character_slot": "character_id_A",
+      "asset_type": "approved_body_reference",
+      "required_views": [
+        "body_full_or_upper"
+      ],
+      "status": "ABSENT",
+      "path_local": null,
+      "sha256": null,
+      "invented": false,
+      "clearance_requires": "human_or_operator_supplied_USER_AUTHORITY_media"
+    },
+    {
+      "slot_id": "char_b_body_supporting",
+      "character_slot": "character_id_B",
+      "asset_type": "approved_body_reference",
+      "required_views": [
+        "body_full_or_upper"
+      ],
+      "status": "ABSENT",
+      "path_local": null,
+      "sha256": null,
+      "invented": false,
+      "clearance_requires": "human_or_operator_supplied_USER_AUTHORITY_media"
+    },
+    {
+      "slot_id": "portable_multi_character_reference_pack",
+      "character_slot": "pack_envelope",
+      "asset_type": "character_reference_pack",
+      "required_views": [
+        "manifest_plus_per_character_assets"
+      ],
+      "status": "ABSENT",
+      "path_local": null,
+      "sha256": null,
+      "invented": false,
+      "expected_roots_absent": [
+        "character_packs",
+        "CharacterPacks",
+        "character_reference_packs",
+        "media/character_reference"
+      ],
+      "clearance_requires": "tracked_portable_pack_with_ge_2_character_ids"
+    },
+    {
+      "slot_id": "per_character_comparison_crop_binding",
+      "character_slot": "shared_multi_character_output",
+      "asset_type": "per_character_comparison_crop",
+      "required_views": [
+        "one_crop_per_character_id_bound_to_ref_hash"
+      ],
+      "status": "ABSENT",
+      "path_local": null,
+      "sha256": null,
+      "invented": false,
+      "clearance_requires": "bind_after_USER_AUTHORITY_face_refs_exist"
+    }
+  ],
+  "face_ref_negative_scan": {
+    "runtime_receipt": "runtime_artifacts/wave64_row010_face_ref_blocker_20260720/user_authority_face_ref_negative_scan.json",
+    "runtime_receipt_sha256": "f07a04e2b2bf6498d634753d3e54a32d0c5620529179443eb13a689435208570",
+    "files_scanned": 2598,
+    "eligible_user_authority_face_refs": 0,
+    "name_pattern_hits_non_eligible": 3,
+    "pack_roots": [
+      {
+        "path": "character_packs",
+        "exists": false,
+        "portable_character_reference_pack_present": false
+      },
+      {
+        "path": "CharacterPacks",
+        "exists": false,
+        "portable_character_reference_pack_present": false
+      },
+      {
+        "path": "character_reference_packs",
+        "exists": false,
+        "portable_character_reference_pack_present": false
+      },
+      {
+        "path": "media/character_reference",
+        "exists": false,
+        "portable_character_reference_pack_present": false
+      }
+    ],
+    "near_misses_non_eligible": [
+      {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/local_comfyui_row017_mf70_face_identity_critical_20260719T231500-0500/images/qa_face_crop_side_by_side.png",
+        "exists": true,
+        "bytes": 493461,
+        "sha256": "4224718911d29fee5cecd5e415a93023d645fa0b17adc5840cfb8c425e2e1033",
+        "eligible_for_row010_user_authority_face_ref": false,
+        "reason": "row017_local_face_climb_crop_not_multi_character_USER_AUTHORITY_chain"
+      },
+      {
+        "path": "Plan/09_EXAMPLES/wave08_reference_pack_manifest.example.json",
+        "exists": true,
+        "bytes": 1461,
+        "sha256": "dcf6ad1e4e43f398bbd70068051b459124d2386478370e05a9768cdbf0a802c4",
+        "eligible_for_row010_user_authority_face_ref": false,
+        "reason": "example_or_schema_fixture_placeholder_sha_not_runtime_media"
+      },
+      {
+        "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/canonical_reference_package_intake_validation.json",
+        "exists": true,
+        "bytes": 22278,
+        "sha256": "2bbb71e003d7f55a84484fdf20c3e7a8b222ce00770a7875d1415642bc7732bc",
+        "eligible_for_row010_user_authority_face_ref": false,
+        "reason": "wave70_body_mask_intake_not_portable_multi_character_face_ref_packet"
+      },
+      {
+        "path": "Plan/08_SCHEMAS/examples/wave64_two_character_ownership_and_mask_binding.example.json",
+        "exists": true,
+        "bytes": 6619,
+        "sha256": "2e195532802120ffd229a79bd52c60393450c3acfb3de7832fccd9043cbd24a0",
+        "eligible_for_row010_user_authority_face_ref": false,
+        "reason": "example_or_schema_fixture_placeholder_sha_not_runtime_media"
+      }
+    ],
+    "personal_calibration_excluded": {
+      "character1_prefix_present_under_PromptProfiles_or_Workflows": true,
+      "ztest_present": true,
+      "bulk_adopted": false,
+      "include_list_present_in_tracker": false,
+      "classification": "personal_calibration_noncanonical",
+      "protocol": "Plan/Instructions/PERSONAL_CALIBRATION_ASSET_BOUNDARY_AND_ROW_SELECTION_PROTOCOL.md"
+    }
+  },
+  "clearance_contract": {
+    "rename_or_status_flip_forbidden_until": [
+      "Portable character_reference_pack exists under a tracked project path (not character1_*/ztest) with >=2 character_ids",
+      "Each character_id has immutable sha256-bound face_front (and supporting body) USER_AUTHORITY approved_face_reference / approved_body_reference",
+      "One shared multi-character generated output binds each person to character_id + reference hash + per-character comparison crop",
+      "identity_reference_check (IMC-002/003/017/018/020) re-run offline bind then visual QA only when :8188 free from 019/023"
+    ],
+    "slot_fill_steps_human_external": [
+      "1. Operator stages real face/body reference crops for >=2 distinct character_ids (do not ask agents to invent).",
+      "2. Place under a tracked portable root such as character_packs/<character_id>/vNNN/references/approved/.",
+      "3. Write pack manifests with real sha256 (never REPLACE_WITH_SHA256 placeholders).",
+      "4. If promoting any local calibration, attach an explicit tracker include list; never bulk-adopt character1_*/ztest.",
+      "5. Bind per-character comparison crops to the shared multi-character output + reference hashes.",
+      "6. Re-open Class A/F only after slot statuses flip from ABSENT to PRESENT with verified hashes."
+    ],
+    "never_complete_from_this_packet": true,
+    "do_not": [
+      "invent_faces_or_body_refs",
+      "fill_slots_with_placeholder_or_synthetic_media",
+      "bulk_adopt_character1_or_ztest",
+      "thrash_builders_012_014_015_008_016",
+      "download_or_stage_wan_payloads",
+      "invent_gold_masks",
+      "touch_row073_pcm",
+      "mutate_shared_csv_in_this_lane",
+      "claim_COMPLETE_or_row_complete",
+      "open_HOLD090_plus"
+    ]
+  },
+  "boundaries": {
+    "comfyui_8188_used": false,
+    "gpu_used": false,
+    "faces_invented": false,
+    "character1_bulk_adopted": false,
+    "wan_download": false,
+    "gold_masks_invented": false,
+    "row073_pcm_touched": false,
+    "row075_touched": false,
+    "hold090_plus_opened": false,
+    "sound_csv_mutated": false,
+    "tip_sha_chain": false,
+    "csv_sync_performed": false,
+    "complete_claimed": false,
+    "offline_only": true
+  },
+  "checks": [
+    {
+      "name": "R010-F001_prior_disposition_bound",
+      "result": "pass"
+    },
+    {
+      "name": "R010-F002_prior_negative_inventory_bound",
+      "result": "pass"
+    },
+    {
+      "name": "R010-F003_face_ref_negative_scan_executed",
+      "result": "pass"
+    },
+    {
+      "name": "R010-F004_eligible_user_authority_face_refs_zero",
+      "result": "pass"
+    },
+    {
+      "name": "R010-F005_all_required_face_ref_slots_absent",
+      "result": "pass"
+    },
+    {
+      "name": "R010-F006_pack_roots_absent",
+      "result": "pass"
+    },
+    {
+      "name": "R010-F007_no_face_invention",
+      "result": "pass"
+    },
+    {
+      "name": "R010-F008_character1_not_bulk_adopted",
+      "result": "pass"
+    },
+    {
+      "name": "R010-F009_csv_deferred",
+      "result": "pass"
+    },
+    {
+      "name": "R010-F010_row073_pcm_left_alone",
+      "result": "pass"
+    },
+    {
+      "name": "R010-F011_no_complete_claim",
+      "result": "pass"
+    },
+    {
+      "name": "R010-F012_hold090_plus_not_opened",
+      "result": "pass"
+    }
+  ],
+  "decision": {
+    "status": "blocked",
+    "row_complete": false,
+    "product_completion": false,
+    "identity_reference_check": "blocked_missing_per_character_reference_chain",
+    "safe_next_action": "Human/external: fill ABSENT USER_AUTHORITY face_front (+ supporting body) slots for >=2 distinct character_ids into a portable tracked character_reference_pack with real sha256 binds; then authorize comparison-crop binding + identity_reference_check visual climb when :8188 is free. Agents must not invent faces, adopt character1_*/ztest, touch Row073 PCM, mutate shared CSVs, open HOLD090+, or claim COMPLETE."
+  },
+  "next_human_external_action": "Supply or promote portable USER_AUTHORITY face (and supporting body) reference media for at least two character_ids. Do not ask agents to invent faces.",
+  "ledger_status_unchanged": "Blocked_Identity_Reference_Proof_Missing_Separation_And_Merge_Rejection_Pass",
+  "this_landing_actions": {
+    "wrote_face_ref_blocker_package": true,
+    "wrote_face_ref_negative_scan": true,
+    "touched_csv": false,
+    "touched_row073": false,
+    "invented_faces": false,
+    "claimed_complete": false,
+    "opened_hold090_plus": false
+  }
+}
