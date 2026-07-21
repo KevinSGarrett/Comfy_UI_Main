@@ -239,6 +239,10 @@ foreground completeness, leakage, topology, boundary distance, fine structures,
 occlusion consistency, and temporal stability. SAM, matting, or refinement
 models remain proposals until exact producer and evaluator certificates exist.
 Model consensus is evidence of disagreement, not automatic ground truth.
+Every external package first compiles into a read-only consumer contract binding
+the exact source, candidate, integration-accepted golden, target overlay,
+geometry, and target instance. That contract is candidate-only and cannot grant
+MaskFactory write, runtime, golden-reference, or promotion authority.
 
 ### Workflow review and correction
 
@@ -298,7 +302,9 @@ also not product acceptance.
 5. Prove targeted repair, revert, attempt ceilings, and crash recovery.
 6. Qualify image and sampled-video scopes for the current 32B reviewer.
 7. Qualify deterministic audio/AV gates; add semantic audio only after evidence.
-8. Admit MaskFactory contracts and golden-mask fixtures without cross-repo writes.
+8. Admit MaskFactory contracts and golden-mask fixtures without cross-repo writes;
+   bind exact source, candidate, accepted-golden, and overlay artifacts while
+   retaining candidate-only/no-promotion authority.
 9. Qualify the workflow diagnosis/patch service and sandbox regression suite.
 10. Install and independently qualify the primary and InternVL juror packages on
     the existing pod using measured quantization/offload envelopes.

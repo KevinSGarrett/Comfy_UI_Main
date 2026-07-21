@@ -58,6 +58,11 @@ Measure completeness, leakage, boundary distance, fine-detail preservation,
 holes/islands, target-instance isolation, occlusion, alpha quality, overlay
 appearance, and temporal stability. Multiple producer agreement is not ground
 truth; disagreements become an uncertainty map and targeted refinement request.
+Before measurement, compile a read-only consumer contract binding the source,
+candidate mask, integration-accepted golden reference, and target overlay by
+hash, geometry, relative path, and target instance. The contract is
+candidate-only, forbids MaskFactory writes and product promotion, and grants no
+runtime authority even when deterministic gates pass.
 
 ## Gate AQA-06W: workflow integrity and correction
 

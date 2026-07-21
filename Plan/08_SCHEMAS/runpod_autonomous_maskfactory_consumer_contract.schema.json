@@ -1,0 +1,96 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_maskfactory_consumer_contract.schema.json",
+  "title": "Wave64 Read-Only MaskFactory Consumer Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "contract_id", "producer", "target_binding", "artifacts",
+    "authority", "quality_contract", "admission_disposition", "runtime_authority_granted",
+    "promotion_eligible"
+  ],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.maskfactory_consumer_contract.v1"},
+    "contract_id": {"$ref": "#/definitions/sha256"},
+    "producer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "producer_id", "repository_class", "root_binding", "pipeline_fingerprint",
+        "runtime_fingerprint", "qualification_state"
+      ],
+      "properties": {
+        "producer_id": {"const": "MaskFactory"},
+        "repository_class": {"const": "external_read_only"},
+        "root_binding": {"type": "string", "minLength": 1, "maxLength": 128},
+        "pipeline_fingerprint": {"$ref": "#/definitions/sha256"},
+        "runtime_fingerprint": {"$ref": "#/definitions/sha256"},
+        "qualification_state": {"enum": ["UNQUALIFIED", "QUALIFIED_EXACT_SCOPE"]}
+      }
+    },
+    "target_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["subject_id", "instance_id", "target_label", "coordinate_space", "source_artifact_id"],
+      "properties": {
+        "subject_id": {"type": "string", "minLength": 1, "maxLength": 128},
+        "instance_id": {"type": "string", "minLength": 1, "maxLength": 128},
+        "target_label": {"type": "string", "minLength": 1, "maxLength": 128},
+        "coordinate_space": {"const": "source_pixels"},
+        "source_artifact_id": {"type": "string", "minLength": 1, "maxLength": 128}
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["artifact_id", "role", "relative_path", "sha256", "byte_size", "width", "height"],
+        "properties": {
+          "artifact_id": {"type": "string", "minLength": 1, "maxLength": 128},
+          "role": {"enum": ["source_media", "candidate_mask", "accepted_golden_reference", "target_overlay"]},
+          "relative_path": {"type": "string", "minLength": 1, "maxLength": 1024},
+          "sha256": {"$ref": "#/definitions/sha256"},
+          "byte_size": {"type": "integer", "minimum": 1},
+          "width": {"type": "integer", "minimum": 1},
+          "height": {"type": "integer", "minimum": 1}
+        }
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "external_writes_allowed", "candidate_only", "golden_authority",
+        "product_promotion_allowed"
+      ],
+      "properties": {
+        "external_writes_allowed": {"const": false},
+        "candidate_only": {"const": true},
+        "golden_authority": {"const": "integration_accepted_hash_only"},
+        "product_promotion_allowed": {"const": false}
+      }
+    },
+    "quality_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["golden_reference_artifact_id", "required_gates"],
+      "properties": {
+        "golden_reference_artifact_id": {"type": "string", "minLength": 1, "maxLength": 128},
+        "required_gates": {
+          "type": "array",
+          "minItems": 9,
+          "uniqueItems": true,
+          "items": {"enum": ["geometry", "golden_hash", "target_binding", "completeness", "leakage", "boundary", "alpha", "topology", "overlay"]}
+        }
+      }
+    },
+    "admission_disposition": {"const": "READY_FOR_DETERMINISTIC_MASK_QA"},
+    "runtime_authority_granted": {"const": false},
+    "promotion_eligible": {"const": false}
+  },
+  "definitions": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

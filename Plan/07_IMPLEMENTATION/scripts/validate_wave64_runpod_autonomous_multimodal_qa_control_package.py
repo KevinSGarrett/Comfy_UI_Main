@@ -66,6 +66,10 @@ PATHS = {
     / "Plan/08_SCHEMAS/runpod_autonomous_mask_measurement.schema.json",
     "mask_measurement": ROOT
     / "Plan/07_IMPLEMENTATION/scripts/measure_wave64_runpod_autonomous_mask_quality.py",
+    "maskfactory_consumer_contract_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_maskfactory_consumer_contract.schema.json",
+    "maskfactory_consumer_contract_compiler": ROOT
+    / "Plan/07_IMPLEMENTATION/scripts/compile_wave64_runpod_autonomous_maskfactory_consumer_contract.py",
     "tool_gateway_request_schema": ROOT
     / "Plan/08_SCHEMAS/runpod_autonomous_tool_gateway_request.schema.json",
     "tool_gateway_decision_schema": ROOT
@@ -167,6 +171,9 @@ def collect_errors() -> list[str]:
         video_measurement_schema = load_json(PATHS["video_measurement_schema"])
         audio_measurement_schema = load_json(PATHS["audio_measurement_schema"])
         mask_measurement_schema = load_json(PATHS["mask_measurement_schema"])
+        maskfactory_consumer_contract_schema = load_json(
+            PATHS["maskfactory_consumer_contract_schema"]
+        )
         tool_gateway_request_schema = load_json(PATHS["tool_gateway_request_schema"])
         tool_gateway_decision_schema = load_json(PATHS["tool_gateway_decision_schema"])
         tool_gateway_policy = load_json(PATHS["tool_gateway_policy"])
@@ -388,6 +395,7 @@ def collect_errors() -> list[str]:
         jsonschema.Draft7Validator.check_schema(video_measurement_schema)
         jsonschema.Draft7Validator.check_schema(audio_measurement_schema)
         jsonschema.Draft7Validator.check_schema(mask_measurement_schema)
+        jsonschema.Draft7Validator.check_schema(maskfactory_consumer_contract_schema)
         jsonschema.Draft7Validator.check_schema(tool_gateway_request_schema)
         jsonschema.Draft7Validator.check_schema(tool_gateway_decision_schema)
         jsonschema.Draft7Validator.check_schema(workflow_patch_schema)

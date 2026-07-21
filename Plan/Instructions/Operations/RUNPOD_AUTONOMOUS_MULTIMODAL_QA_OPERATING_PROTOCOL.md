@@ -115,6 +115,18 @@ quantization/offload package, run its bounded phase, retain the receipt, and unl
    integration authority when the candidate improves with no invariant regression.
 7. Revert automatically on validation, execution, QA, cost, or regression failure.
 
+### Read-only MaskFactory intake
+
+Compile every external mask package with
+`compile_wave64_runpod_autonomous_maskfactory_consumer_contract.py` before QA.
+The contract binds exact source, candidate mask, integration-accepted golden
+reference, and target-overlay hashes; common geometry; and one target instance.
+MaskFactory remains an external read-only candidate producer. The contract
+never grants runtime, golden-reference, product-promotion, tracker, or
+cross-repository write authority. Missing artifacts, unsafe relative paths,
+geometry mismatch, incomplete gates, or an attempted authority expansion fail
+closed while non-mask lanes continue.
+
 ## 7. Secrets and external systems
 
 - Never display or store `.env` values, API keys, tokens, SSH private keys, or
