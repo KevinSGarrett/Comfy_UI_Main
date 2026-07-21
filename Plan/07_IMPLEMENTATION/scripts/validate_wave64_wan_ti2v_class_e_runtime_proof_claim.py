@@ -82,10 +82,30 @@ def evaluate_claim(packet: dict[str, Any], *, artifact_bytes: int | None = None)
 
     vlm = packet.get("vlm_review") if isinstance(packet.get("vlm_review"), dict) else {}
     visual = packet.get("visual_qa") if isinstance(packet.get("visual_qa"), dict) else {}
-    visual_performed = bool(vlm.get("performed")) or bool(visual.get("performed"))
-    visual_pass = bool(vlm.get("pass")) or bool(visual.get("pass")) or (
-        str(visual.get("result", "")).lower() in {"pass", "passed", "ok"}
+    human = (
+        packet.get("human_frame_read")
+        if isinstance(packet.get("human_frame_read"), dict)
+        else {}
     )
+    # VLM alone is never enough for Proof_Landed — human Cursor frame Read is required.
+    human_frame_performed = bool(human.get("performed")) or bool(visual.get("performed"))
+    human_frame_pass = (
+        str(human.get("verdict", "")).strip().lower() in {"pass", "passed", "ok"}
+        or human.get("pass") is True
+        or visual.get("pass") is True
+        or str(visual.get("result", "")).lower()
+        in {"pass", "passed", "ok", "pass_human_frame_review"}
+    )
+    # Explicit FAIL/REJECT on human or visual_qa overrides any VLM PASS.
+    if human.get("pass") is False or visual.get("pass") is False:
+        human_frame_pass = False
+    if str(human.get("verdict", "")).strip().lower() in {"fail", "failed", "reject"}:
+        human_frame_pass = False
+    vlm_performed = bool(vlm.get("performed"))
+    vlm_pass = bool(vlm.get("pass")) or str(vlm.get("verdict", "")).strip().upper() == "PASS"
+    visual_performed = human_frame_performed or vlm_performed
+    # Legacy OR kept only for fail-attempt "a visual/VLM gate ran"; proof success uses human gate.
+    visual_pass = human_frame_pass or vlm_pass
 
     claim_tier = str(packet.get("claim_tier") or "").strip().lower()
     blob = _claim_language_blob(packet)
@@ -118,15 +138,21 @@ def evaluate_claim(packet: dict[str, Any], *, artifact_bytes: int | None = None)
     # Explicit FAIL/REJECT attempt claims are allowed when proof-success language is absent.
     if uses_proof_success_language and not uses_smoke_language and not uses_fail_language:
         mark("class_e_proof_min_bytes", bytes_value >= CLASS_E_PROOF_MIN_BYTES)
-        mark("visual_review_performed_for_proof_success", visual_performed)
         mark("claim_tier_not_smoke_when_proof_success", claim_tier not in {"", "smoke_emission"})
         # claim_tier must explicitly be class_e_runtime_proof for success language
         mark(
             "claim_tier_is_class_e_runtime_proof",
             claim_tier == "class_e_runtime_proof",
         )
-        if visual_performed:
-            mark("visual_review_pass_for_proof_success", visual_pass)
+        # Proof_Landed requires human_frame_read=pass (visual_qa.pass / human_frame_read.pass).
+        # Ollama VLM PASS alone is NOT sufficient.
+        mark("human_frame_read_performed_for_proof_success", human_frame_performed)
+        mark("human_frame_read_pass_for_proof_success", human_frame_pass)
+        # Legacy aliases for older receipts that key on visual_review_*.
+        mark("visual_review_performed_for_proof_success", human_frame_performed)
+        mark("visual_review_pass_for_proof_success", human_frame_pass)
+        if vlm_pass and not human_frame_pass:
+            mark("vlm_pass_alone_insufficient_for_proof_landed", False)
     elif uses_fail_language:
         mark("fail_claim_forbids_proof_success_language", not uses_proof_success_language)
         mark(
@@ -171,6 +197,10 @@ def evaluate_claim(packet: dict[str, Any], *, artifact_bytes: int | None = None)
         "visual_review": {
             "performed": visual_performed,
             "pass": visual_pass,
+            "human_frame_performed": human_frame_performed,
+            "human_frame_pass": human_frame_pass,
+            "vlm_performed": vlm_performed,
+            "vlm_pass": vlm_pass,
         },
         "checks": checks,
         "failed_checks": failed,
@@ -180,10 +210,13 @@ def evaluate_claim(packet: dict[str, Any], *, artifact_bytes: int | None = None)
             "smoke_emission_is_not_class_e_proof_success": True,
             "product_visual_qa_required_before_proof_landed_status": True,
             "technical_decode_pass_is_not_identity_or_product_pass": True,
+            "proof_landed_requires_human_frame_read_pass": True,
+            "vlm_pass_alone_is_not_proof_landed": True,
         },
         "next_action": (
             "Keep Status as Runtime_Smoke_Emitted / product visual QA open until a non-degenerate "
-            "clip clears visual/VLM review; never promote Comfy success alone to Class E proof."
+            "clip clears human frame Read (and preferably VLM); never promote Comfy success or "
+            "VLM-only PASS to Class E Proof_Landed."
             if not ok
             else "Claim language matches smoke-vs-proof policy."
         ),
