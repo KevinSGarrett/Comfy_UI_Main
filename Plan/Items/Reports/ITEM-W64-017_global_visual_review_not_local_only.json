@@ -122,8 +122,8 @@
     "status": "Blocked_Canonical_Future_Localized_Producer_Global_Review_Contract_Pending"
   },
   "created_iso": "2026-07-12T13:37:49-05:00",
-  "csv_sync": "synced_by_primary_csv_mutator_row017_mf70_eyes_full_tournament_blocker",
-  "csv_sync_tip": "e00a825f",
+  "csv_sync": "synced_by_primary_csv_mutator_row017_micro_mask_v2_vlm",
+  "csv_sync_tip": "12b378b4",
   "evidence": [
     "Plan/Instructions/QA/Evidence/Wave64/global_visual_review_not_local_only.json",
     "Plan/Instructions/QA/Evidence/Wave64/GLOBAL_VISUAL_REVIEW_NOT_LOCAL_ONLY_20260712T133749-0500.json",
@@ -313,21 +313,22 @@
     "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-017_RUNPOD_FUTURE_PRODUCER_EMISSION_PACKET_20260721T015512-0500.json",
     "Plan/Instructions/QA/Evidence/Wave64/ROW017_RUNPOD_MF70_RIGHT_EYE_VLM_DEEPEN_20260721T015606-0500.json",
     "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-017_RUNPOD_MF70_RIGHT_EYE_VLM_OBSERVATION_20260721T015606-0500.json",
-    "Plan/Instructions/QA/Evidence/Wave64/ROW017_RUNPOD_PREPARED_LOCALIZED_LANE_INVENTORY_20260721T022347-0500.json",
-    "Plan/Instructions/QA/Evidence/Wave64/ROW017_RUNPOD_MF70_EYES_FULL_TOURNAMENT_GPU_BLOCKER_20260721T022347-0500.json",
-    "Plan/Tracker/Evidence/ROW017_RUNPOD_PREPARED_LOCALIZED_LANE_INVENTORY_20260721T022347-0500.json",
-    "Plan/Tracker/Evidence/ROW017_RUNPOD_MF70_EYES_FULL_TOURNAMENT_GPU_BLOCKER_20260721T022347-0500.json"
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_RUNPOD_MF70_EYES_FULL_20260721T033156-0500_GLOBAL_REVIEW.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/ROW017_RUNPOD_MF70_EYES_FULL_VISUAL_QA_20260721T033156-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-017_RUNPOD_FUTURE_PRODUCER_EMISSION_PACKET_20260721T033156-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/ROW017_RUNPOD_MF70_EYES_FULL_VLM_DEEPEN_20260721T033306-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-017_RUNPOD_MF70_EYES_FULL_VLM_OBSERVATION_20260721T033306-0500.json"
   ],
-  "exact_blocker": "Class E residual active \u2014 preferred unused prepared lane mf70_eyes_full is ready on RunPod 1q4ji0gg1fkhvt but blocked by active gold-tournament grow wave GPU hold (mf_gpu_tournament.lockdir / _run_mp_gold_tournament_pod_safe.py); prior tip remains mf70_right_eye bd7120ab; not COMPLETE.",
+  "exact_blocker": "Class E residual active \u2014 future localized producer GLOBAL_REVIEW contract now has RunPod mf70_eyes_full emission packaging + bounded VLM observation, but product campaign acceptance still pending; not COMPLETE.",
   "future_producer_emission_proof_readiness": {
     "future_producer_emission_proof_package_present": true,
-    "latest_producer_stamp": "20260721T015512-0500",
-    "latest_region": "mf70_right_eye",
-    "latest_vlm_stamp": "20260721T015606-0500",
-    "preferred_next_blocked_by": "active_gold_tournament_gpu_hold",
-    "preferred_next_region": "mf70_eyes_full",
-    "row_complete": false,
-    "runtime_host": "runpod"
+    "runtime_host": "runpod",
+    "latest_producer_stamp": "20260721T033156-0500",
+    "latest_vlm_stamp": "20260721T033306-0500",
+    "latest_region": "mf70_eyes_full",
+    "vlm_model": "qwen2.5vl:7b",
+    "output_sha256": "89d117bd8b77656e21b7f55a76be025339229582d9741a68085ede2a8dc8f436",
+    "row_complete": false
   },
   "highest_proof_tier_achieved": "CONTRACT_PASS_BOUNDED",
   "implementation": {
@@ -343,15 +344,6 @@
     "target_only_override_forbidden": true
   },
   "item_id": "ITEM-W64-017",
-  "latest_region": "mf70_eyes_full",
-  "ledger_vocabulary_sync": {
-    "note": "Mechanical CSV mutator Row017 mf70_eyes_full tournament-blocker tip sync from e00a825f; no COMPLETE; leave Row074 alone.",
-    "product_completion": false,
-    "prove_commits": [
-      "e00a825f"
-    ],
-    "synced_at": "2026-07-21T07:24:20.853669Z"
-  },
   "legacy_evidence_reconciliation": {
     "finding": "Local pass-with-notes semantics can coexist with visibility gaps, placement blockers, bounded scope, or missing final authority; none is silently normalized into a Row017 pass.",
     "new_contract_applies_to_future_or_explicitly_normalized_localized_reviews": true,
@@ -364,8 +356,8 @@
       "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_FINAL_QA_CERTIFICATION_20260706T201000-0500.json"
     ]
   },
-  "next_action": "Keep Row017 blocked/non-complete; when grow-wave tournament releases mf_gpu_tournament.lockdir and :8188 is idle/healthy, climb unused prepared mf70_eyes_full with producer+GLOBAL_REVIEW+Ollama VLM; leave Row074 alone; no HOLD 090+; no COMPLETE.",
-  "notes": "RunPod mf70_eyes_full climb blocked 20260721T022347-0500: prepared mask present (sha f976cdfaea79...); active grow_wave tournament holds GPU; :8188 down/contested; did not kill foreign jobs; inventory landed; Status remains Blocked_Canonical_Future_Localized_Producer_Global_Review_Contract_Pending; row_complete=false; NEVER Complete.",
+  "next_action": "Keep Row017 blocked/non-complete; prefer next unused prepared localized lane (e.g. eyelids or next unused prepared localized lane) when queue idle, or Row010 face-tighter personal-calib re-VLM; leave Row074 alone; no HOLD 090+; no COMPLETE.",
+  "notes": "RunPod mf70_eyes_full producer+VLM 20260721T033156-0500/20260721T033306-0500: Ollama qwen2.5vl:7b; output sha 89d117bd8b77...; Status remains Blocked_Canonical_Future_Localized_Producer_Global_Review_Contract_Pending; not COMPLETE.",
   "product_completion_claimed": false,
   "proof_tier": "RUNTIME_PROBE_BLOCKER_BOUNDED",
   "row_complete": false,
