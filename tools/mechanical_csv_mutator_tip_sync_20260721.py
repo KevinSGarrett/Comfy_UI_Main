@@ -199,10 +199,13 @@ def main() -> None:
     row010_notes = (
         "Class A/F USER_AUTHORITY face-ref blocker (b9085976/db81ab66): per-character reference "
         "crops absent and not inventable; proof_tier=OFFLINE_INVENTORY_BLOCKER_BOUNDED; "
-        "RunPod personal-calibration RUNTIME_PASS_BOUNDED noncanonical: C1 lock+LoRA calib "
-        "(035348Z/cf72e756) + side-by-side VLM identity RUNTIME_PASS_BOUNDED (73f185c5/041746Z) "
-        f"via {VLM_ENDPOINT} does NOT clear generic multi-character USER_AUTHORITY chain; "
-        "row_complete=false; never Complete. Blockers: USER_AUTHORITY_PER_CHARACTER_REFERENCE_CROPS_ABSENT|"
+        "RunPod personal-calibration panel-v2 VLM GATE CLEARED "
+        "(f7081a0d/041746Z): qwen2.5vl:7b side_by_side_panel_v2 face_consistency_mean 0.5625 "
+        "(n=4)/body_silhouette_mean 0.9/solo_lock_trait_alignment 0.95; runtime_pass_bounded=true; "
+        "still NONCANONICAL; C1 lock+LoRA calib (035348Z/cf72e756) retained; "
+        "multi-character USER_AUTHORITY retained blocked; does NOT clear generic "
+        "multi-character USER_AUTHORITY chain; row_complete=false; NEVER Complete. Blockers: "
+        "USER_AUTHORITY_PER_CHARACTER_REFERENCE_CROPS_ABSENT|"
         "USER_AUTHORITY_FACE_BODY_REFERENCES_NOT_INVENTABLE|"
         "PORTABLE_MULTI_CHARACTER_REFERENCE_CHAIN_ABSENT|PERSONAL_CALIBRATION_CHARACTER1_EXCLUDED. "
         f"Evidence: {ROW010_BLOCKER}; {ROW010_CALIB}; {ROW010_VLM_IDENTITY}; {OLLAMA_VLM_SMOKE}"
@@ -246,22 +249,17 @@ def main() -> None:
     row084_decision = "row084_class_e_runpod_readiness_vlm_probed_no_complete"
     row084_proof = "RUNTIME_PROBE_VISUAL_BOUNDED_WITH_VLM_REVIEW"
     row084_notes = (
-        "Class E continue (c44d1dd9/83da2a63): RunPod Comfy :8188 re-probe "
-        f"{row084_proof}; Ollama qwen2.5vl:7b 3/3 frames reviewed. "
+        "Class E continue (c44d1dd9/83da2a63/e1401895): RunPod Comfy :8188 re-probe "
+        f"{row084_proof}; Ollama qwen2.5vl:7b 3/3 frames reviewed via {VLM_ENDPOINT} "
+        f"({VLM_MODELS}; durable e1401895/{tip}). "
         "ROW084-011 Class E FAIL/OPEN retained (production COMPLETE withheld); "
         "ROW084-012 Class C OPEN_HOLD unchanged (0e0c3d86); ROW084-015/017/013 PASS retained; "
         f"row_complete=false; NEVER Complete; Row074 left alone. Evidence: {ROW084_PACKET}; "
-        f"{ROW084_VLM_REVIEW}; {ROW084_DELTA}; {ROW084_HOLD_012}"
+        f"{ROW084_VLM_REVIEW}; {OLLAMA_VLM_SMOKE}; {ROW084_DELTA}; {ROW084_HOLD_012}"
     )
     row084_evidence = (
         f"{ROW084_ARTIFACT}; {ROW084_DELTA}; {ROW084_PACKET}; "
-        f"{ROW084_VLM_REVIEW}; {ROW084_HOLD_012}"
-    )
-
-    autonomy_vlm_note = (
-        f"Autonomy/VLM bounded RunPod probe continue (c44d1dd9/83da2a63): ROW084-011 Class E "
-        f"{row084_proof}; Ollama qwen2.5vl:7b 3/3; ROW084-011 remains FAIL/OPEN; "
-        f"no product COMPLETE. Evidence: {ROW084_PACKET}"
+        f"{ROW084_VLM_REVIEW}; {OLLAMA_VLM_SMOKE}; {ROW084_HOLD_012}"
     )
 
     sound_tracker_updates = {
@@ -270,12 +268,6 @@ def main() -> None:
             "Status_Decision": row073_decision,
             "Notes": row073_notes,
             "Evidence_Path": row073_evidence,
-        },
-        "TRK-W64-074": {
-            "Notes": row074_notes,
-            "Evidence_Path": (
-                f"{EVID}/TRK-W64-074_multi_event_segmentation.json; {POST073_RANK}"
-            ),
         },
         "TRK-W64-075": {"Notes": row075_notes},
         "TRK-W64-109": {
@@ -293,7 +285,6 @@ def main() -> None:
     }
     sound_item_updates = {
         "ITEM-W64-073": {"Status": row073_status, "Notes": row073_notes},
-        "ITEM-W64-074": {"Notes": row074_notes},
         "ITEM-W64-075": {"Notes": row075_notes},
         "ITEM-W64-109": {
             "Status": "Blocked_Synthetic_Fixture_Corpus_Present_Genuine_Media_And_Visual_QA_Absent",
@@ -318,13 +309,16 @@ def main() -> None:
     e2e_tracker_updates = {
         "TRK-W64-010": {
             "Status": "Blocked_Identity_Reference_Proof_Missing_Separation_And_Merge_Rejection_Pass",
-            "Notes": row010_notes + " " + autonomy_vlm_note,
-            "Evidence_Path": f"{ROW010_BLOCKER}; {ROW010_CALIB}; {FLUX_CANARY}",
+            "Notes": row010_notes + " " + vlm_endpoint_note,
+            "Evidence_Path": (
+                f"{ROW010_BLOCKER}; {ROW010_CALIB}; {ROW010_VLM_IDENTITY}; {OLLAMA_VLM_SMOKE}"
+            ),
         },
         "TRK-W64-017": {
-            "Notes": row017_notes + " " + autonomy_vlm_note,
+            "Notes": row017_notes + " " + vlm_endpoint_note,
             "Evidence_Path": (
-                f"{ROW017_READINESS}; {ROW017_EMISSION}; {RUNPOD_SMOKE}; {FLUX_CANARY}"
+                f"{ROW017_READINESS}; {ROW017_EMISSION}; {RUNPOD_SMOKE}; "
+                f"{FLUX_CANARY}; {OLLAMA_VLM_SMOKE}"
             ),
         },
         "TRK-W64-019": {"Notes": row019_notes},
@@ -333,9 +327,9 @@ def main() -> None:
     e2e_item_updates = {
         "ITEM-W64-010": {
             "Status": "Blocked_Identity_Reference_Proof_Missing_Separation_And_Merge_Rejection_Pass",
-            "Notes": row010_notes,
+            "Notes": row010_notes + " " + vlm_endpoint_note,
         },
-        "ITEM-W64-017": {"Notes": row017_notes},
+        "ITEM-W64-017": {"Notes": row017_notes + " " + vlm_endpoint_note},
         "ITEM-W64-019": {"Notes": row019_notes},
         "ITEM-W64-023": {"Notes": row023_notes},
     }
@@ -391,8 +385,8 @@ def main() -> None:
 
     print("tip", tip)
     print("synced Row073", p073, t073)
-    print("synced Row074 read-only", p074, t074, "complete=", row074_complete)
-    print("synced Flux canary + autonomy/VLM packet refs")
+    print("Row074 left alone (no CSV writes)")
+    print("synced Ollama VLM endpoint e1401895 + 010/084 tip Notes")
     print("synced 010/017/019/023/075/084/109/124")
 
 
