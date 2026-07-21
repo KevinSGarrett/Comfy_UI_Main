@@ -1,0 +1,45 @@
+{
+  "created_at": "2026-07-21T11:19:31-05:00",
+  "csv_stamp": "synced_by_primary_csv_mutator_row076_coverage_complete_sync",
+  "csv_sync_tip": "b909b291",
+  "evidence_id": "TRK-W64-077-LIBRARY-EMBED-RUNNER-ABSENT-20260721T1119-0500",
+  "explicit_non_claims": [
+    "COMPLETE",
+    "product_completion",
+    "library_authority",
+    "full_library_embedding_index_started",
+    "invented_library_embed_command"
+  ],
+  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+  "item_id": "ITEM-W64-077",
+  "library_authority": false,
+  "full_library_embedding_index_started": false,
+  "preconditions": {
+    "row076_coverage_complete": true,
+    "row076_alive": false,
+    "row076_records": "39771/39771",
+    "row076_status": "HOLD_LIBRARY_THRESHOLDS_AND_ROOM_CALIBRATION_ABSENT_RECONCILE_COMPLETE",
+    "row076_evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_REVERB_DRYNESS_RECONCILE_PROGRESS_20260721T1119-0500.json",
+    "row077_heldout_runtime_bound": true,
+    "established_library_command": "python Plan/07_IMPLEMENTATION/scripts/compile_wave64_semantic_audio_embeddings.py --mode library",
+    "library_mode_behavior": "build_library_blocker_packet_only_no_resume_runner"
+  },
+  "action_taken": {
+    "started_row077_full_library_embed": false,
+    "reason": "Post-073 exclusive ranking clears Row076, but compile_wave64_semantic_audio_embeddings.py --mode library still emits build_library_blocker_packet only; no --resume / index-retained full-library embed runner exists.",
+    "product_complete_claimed": false
+  },
+  "blocker_codes": [
+    "EMBEDDING_INDEX_LIBRARY_RUNTIME_ABSENT",
+    "FULL_LIBRARY_EMBEDDING_RECONCILIATION_ABSENT"
+  ],
+  "prior_yield": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-077_LIBRARY_EMBED_YIELD_ROW073_CONTENTION_20260720T0934-0500.json",
+  "proof_tier": "RUNTIME_PASS_BOUNDED",
+  "row_complete": false,
+  "runtime_completion_claimed": false,
+  "safe_next_action": "Do not invent a Row077 library PCM command. Land a real --resume / index-retained library embed runner (disjoint tree runtime_artifacts/embeddings/row077_library_20260720) before starting. Held-out RUNTIME_PASS_BOUNDED remains bound. No COMPLETE.",
+  "schema_version": "1.0",
+  "source_commit": "b909b291",
+  "status": "HOLD_LIBRARY_EMBEDDING_RUNNER_ABSENT_HELDOUT_RUNTIME_BOUND",
+  "tracker_id": "TRK-W64-077"
+}

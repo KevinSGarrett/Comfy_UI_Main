@@ -1,34 +1,31 @@
 {
   "accepted_index_retained_reverb_runtime": {
-    "authority": "accepted_index_retained_reverb_probe",
+    "authority": "accepted_index_retained_reverb_reconcile",
     "counts": {
-      "analysis_truncated": 0,
-      "classification_ambiguous": 25,
-      "classification_dry": 0,
+      "analysis_truncated": 131,
+      "classification_ambiguous": 30405,
+      "classification_dry": 4051,
       "classification_environment_specific": 0,
-      "classification_wet": 0,
-      "double_reverb_guard_enforced": 25,
-      "exact_blockers": 0,
-      "feature_non_pass_inputs": 0,
-      "feature_pass_inputs": 25,
-      "pcm_sha_verified": 25,
-      "records_processed": 25,
+      "classification_wet": 313,
+      "double_reverb_guard_enforced": 34769,
+      "exact_blockers": 5002,
+      "feature_non_pass_inputs": 760,
+      "feature_pass_inputs": 39011,
+      "pcm_sha_verified": 34769,
+      "records_processed": 39771,
       "records_total": 39771,
-      "reverb_blocked": 0,
-      "reverb_pass": 25,
-      "source_immutable_true": 25
+      "reverb_blocked": 5002,
+      "reverb_pass": 34769,
+      "source_immutable_true": 34769
     },
-    "coverage_complete": false,
-    "limit": 25,
+    "coverage_complete": true,
+    "limit": null,
     "proof_tier": "RUNTIME_PASS_BOUNDED",
-    "row075_contention_policy": "limited_probe_only_while_row075_full_reconcile_owns_pcm_io",
     "runtime_receipt_path": "runtime_artifacts/reverb_dryness/row076_index_retained_20260720/retained_index_reverb_receipt.json",
-    "status": "RUNTIME_PASS_BOUNDED_PROBE_LIMIT",
-    "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_ACCEPTED_INDEX_RETAINED_REVERB_SUMMARY_20260720.json",
-    "summary_sha256": "4ec494e181c445a57ff02e5b99918ac9d032a99975291a594a9719b3ee37a149"
+    "status": "RUNTIME_PASS_BOUNDED_LIBRARY_THRESHOLDS_FROZEN",
+    "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_ACCEPTED_INDEX_RETAINED_REVERB_SUMMARY_20260720.json"
   },
   "blocker_codes": [
-    "FULL_LIBRARY_RECONCILE_IN_PROGRESS_TIME_BOUND",
     "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
     "REPRESENTATIVE_ROOM_SOURCE_CALIBRATION_ABSENT",
     "DOUBLE_REVERB_GUARD_LIBRARY_ENFORCEMENT_ABSENT"
@@ -71,18 +68,18 @@
       "result": "pass"
     }
   ],
-  "classification": "ROW076_INDEX_RETAINED_LIMITED_PROBE_DEPS_UNLOCKED_NO_FALSE_COMPLETION",
+  "classification": "ROW076_INDEX_RETAINED_COVERAGE_COMPLETE_THRESHOLDS_AND_ROOM_CALIBRATION_HELD",
   "created_at": "2026-07-19T03:33:26.4267538Z",
-  "csv_sync": "synced_by_primary_csv_mutator_row076_reconcile_progress_sync",
-  "csv_sync_tip": "7709ec8e",
+  "csv_sync": "synced_by_primary_csv_mutator_row076_coverage_complete_sync",
+  "csv_sync_tip": "b909b291",
   "decision": {
     "dependencies_unlocked": true,
     "fail_closed_probe_slice": "accepted_as_bounded_increment",
     "product_completion": false,
     "row076_acceptance": "held",
-    "row076_status": "Blocked_Library_Reconcile_In_Progress_Deps_Unlocked",
-    "runtime_completion": false,
-    "safe_next_action": "Do not kill healthy PID 31808; finish retained-index reverb/dryness reconcile to coverage_complete under frozen suggestion-only thresholds. Do not start Row077 library PCM until Row076 coverage_complete. No product COMPLETE. Avoid another Row010 PuLID lock-trait envelope (FACE/SIDE/BODYFORWARD/REAR already solo_lock=0.0). Row084 remains blocked on external gold masks."
+    "row076_status": "Blocked_Library_Thresholds_And_Room_Calibration_Absent_Reconcile_Complete",
+    "runtime_completion": true,
+    "safe_next_action": "Full-library reverb/dryness reconcile is coverage_complete under frozen suggestion-only thresholds. Calibrate representative room/source strata and unfreeze threshold authority before Row076 acceptance or Row079 unlock. Row077 library embed runner remains absent \u2014 do not invent a start command. No product COMPLETE. Leave Row074 HOLD alone."
   },
   "dependency_authority": [
     {
@@ -171,15 +168,16 @@
     "writable_scope_note": "Disjoint from Row017 visuals, Row075 progress stamps, Row073 bounds runtime, and Row077/078/079 paths. Sound ITEM/TRACKER CSV deferred for serialized mutator."
   },
   "item_id": "ITEM-W64-076",
-  "ledger_status": "Blocked_Library_Reconcile_In_Progress_Deps_Unlocked",
+  "ledger_status": "Blocked_Library_Thresholds_And_Room_Calibration_Absent_Reconcile_Complete",
   "ledger_vocabulary_sync": {
-    "ledger_status": "Blocked_Library_Reconcile_In_Progress_Deps_Unlocked",
-    "note": "Reconcile progress sync 23325/39771; PID 31808 left alone; prove tip 7709ec8e; no COMPLETE; 077 not started.",
+    "ledger_status": "Blocked_Library_Thresholds_And_Room_Calibration_Absent_Reconcile_Complete",
+    "note": "Coverage complete 39771/39771; PID 31808 exited clean; prove tip b909b291; no COMPLETE; 077 blocker landed (runner absent).",
     "product_completion": false,
-    "progress_stamp": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_REVERB_DRYNESS_RECONCILE_PROGRESS_20260721T1045-0500.json",
-    "prove_commit": "7709ec8e",
-    "runtime_completion": false,
-    "synced_at": "2026-07-21T15:45:19.101658Z"
+    "progress_stamp": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_REVERB_DRYNESS_RECONCILE_PROGRESS_20260721T1119-0500.json",
+    "prove_commit": "b909b291",
+    "row077_blocker_stamp": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-077_LIBRARY_EMBED_RUNNER_ABSENT_AFTER_076_20260721T1119-0500.json",
+    "runtime_completion": true,
+    "synced_at": "2026-07-21T16:19:31.801682Z"
   },
   "library_authority": false,
   "preservation_boundary": {
@@ -223,9 +221,9 @@
     ]
   },
   "row_complete": false,
-  "runtime_completion_claimed": false,
+  "runtime_completion_claimed": true,
   "schema_version": 1,
-  "status": "HOLD_LIBRARY_RECONCILE_IN_PROGRESS_DEPS_UNLOCKED",
+  "status": "HOLD_LIBRARY_THRESHOLDS_AND_ROOM_CALIBRATION_ABSENT_RECONCILE_COMPLETE",
   "tracker_id": "TRK-W64-076",
-  "updated_at": "2026-07-21T15:45:19.101658Z"
+  "updated_at": "2026-07-21T16:19:31.801682Z"
 }

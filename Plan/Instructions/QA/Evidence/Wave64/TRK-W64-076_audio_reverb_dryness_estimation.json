@@ -1,47 +1,49 @@
 {
   "accepted_index_retained_reverb_runtime": {
-    "blocker_histogram": {},
-    "counts": {
-      "analysis_truncated": 0,
-      "classification_ambiguous": 25,
-      "classification_dry": 0,
-      "classification_environment_specific": 0,
-      "classification_wet": 0,
-      "double_reverb_guard_enforced": 25,
-      "exact_blockers": 0,
-      "feature_non_pass_inputs": 0,
-      "feature_pass_inputs": 25,
-      "pcm_sha_verified": 25,
-      "records_processed": 25,
-      "records_total": 39771,
-      "reverb_blocked": 0,
-      "reverb_pass": 25,
-      "source_immutable_true": 25
+    "blocker_histogram": {
+      "DECODE_FAILED_CORRUPT_OR_UNREADABLE": 747,
+      "FEATURE_EXTRACTION_FAILED": 13,
+      "REVERB_EXTRACTION_FAILED": 4242
     },
-    "coverage_complete": false,
-    "limit": 25,
+    "counts": {
+      "analysis_truncated": 131,
+      "classification_ambiguous": 30405,
+      "classification_dry": 4051,
+      "classification_environment_specific": 0,
+      "classification_wet": 313,
+      "double_reverb_guard_enforced": 34769,
+      "exact_blockers": 5002,
+      "feature_non_pass_inputs": 760,
+      "feature_pass_inputs": 39011,
+      "pcm_sha_verified": 34769,
+      "records_processed": 39771,
+      "records_total": 39771,
+      "reverb_blocked": 5002,
+      "reverb_pass": 34769,
+      "source_immutable_true": 34769
+    },
+    "coverage_complete": true,
+    "limit": null,
     "present": true,
     "progress_path": "runtime_artifacts/reverb_dryness/row076_index_retained_20260720/progress.json",
     "receipt_path": "runtime_artifacts/reverb_dryness/row076_index_retained_20260720/retained_index_reverb_receipt.json",
     "records_path": "runtime_artifacts/reverb_dryness/row076_index_retained_20260720/records.jsonl",
     "row075_contention_policy": "limited_probe_only_while_row075_full_reconcile_owns_pcm_io",
-    "status": "RUNTIME_PASS_BOUNDED_PROBE_LIMIT",
+    "status": "RUNTIME_PASS_BOUNDED_LIBRARY_THRESHOLDS_FROZEN",
     "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_ACCEPTED_INDEX_RETAINED_REVERB_SUMMARY_20260720.json",
-    "summary_sha256": "4ec494e181c445a57ff02e5b99918ac9d032a99975291a594a9719b3ee37a149"
+    "summary_sha256": "f7d58188feacace64485158952da7248bd1981e457c31ad0d8ff3b90e6d7b295"
   },
   "analysis_pipeline_revision": "wave64_row076_audio_reverb_dryness_v0.2.0",
   "blocker_codes": [
-    "FULL_LIBRARY_RECONCILE_DEFERRED_OR_IN_PROGRESS",
     "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
     "REPRESENTATIVE_ROOM_SOURCE_CALIBRATION_ABSENT",
-    "DOUBLE_REVERB_GUARD_LIBRARY_ENFORCEMENT_ABSENT",
-    "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT"
+    "DOUBLE_REVERB_GUARD_LIBRARY_ENFORCEMENT_ABSENT"
   ],
   "decision": {
     "product_completion": false,
     "row076_acceptance": "held",
-    "runtime_completion": false,
-    "safe_next_action": "Bounded index-retained reverb probe passed under frozen suggestion-only thresholds. Defer full-library Row076 PCM reconcile until Row075 retained-index defect scan finishes (avoid dual PCM I/O contention), then resume --mode index-retained without --limit before claiming Row076 acceptance.",
+    "runtime_completion": true,
+    "safe_next_action": "Full-library reverb/dryness reconcile covered retained Row071 records under frozen suggestion-only thresholds. Calibrate representative room/source strata and unfreeze threshold authority before Row076 acceptance or Row079 unlock.",
     "status": "blocked"
   },
   "evidence_id": "TRK-W64-076_audio_reverb_dryness_estimation",
@@ -622,24 +624,24 @@
     "tracker_id": "TRK-W64-071"
   },
   "row073_admission": {
-    "admission_mode": "probe_unlocked",
+    "admission_mode": "runtime_unlocked",
     "blocker_codes": [],
-    "bytes": 11685,
+    "bytes": 12195,
     "dependencies_unlocked": true,
     "dependency_satisfied": true,
     "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_CURRENT_DELTA_20260719.json",
-    "probe_authority": "accepted_index_retained_bounds_probe",
+    "probe_authority": "accepted_index_retained_bounds_reconcile",
     "proof_tier": "RUNTIME_PASS_BOUNDED",
     "row073_acceptance": "held",
     "row_complete": false,
-    "sha256": "5ab04bac83498ef9f97a55e39dd3b2abae144c53632eac8a9589ac4b3fdb26c5",
-    "status": "HOLD_LIBRARY_PROBE_PASS_FULL_RECONCILE_DEFERRED_DEPS_UNLOCKED",
+    "sha256": "28b04ca12452b2cd1bc44252cbff9ea5133a8337de57cff2b236d1943f318676",
+    "status": "HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE",
     "tracker_id": "TRK-W64-073"
   },
   "row_complete": false,
-  "runtime_completion_claimed": false,
+  "runtime_completion_claimed": true,
   "schema_version": "1.0.0",
-  "status": "HOLD_LIBRARY_PROBE_PASS_FULL_RECONCILE_DEFERRED_DEPS_UNLOCKED",
+  "status": "HOLD_LIBRARY_THRESHOLDS_AND_ROOM_CALIBRATION_ABSENT_RECONCILE_COMPLETE",
   "thresholds": {
     "channel_policy": "max_abs_mono_plus_stereo_imprint",
     "compatible_room_passthrough_requires_rule_id": true,

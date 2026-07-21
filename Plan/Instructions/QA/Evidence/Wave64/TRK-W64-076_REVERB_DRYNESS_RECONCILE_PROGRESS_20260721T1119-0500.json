@@ -1,0 +1,82 @@
+{
+  "created_at": "2026-07-21T11:19:31-05:00",
+  "csv_stamp": "synced_by_primary_csv_mutator_row076_coverage_complete_sync",
+  "csv_sync_tip": "b909b291",
+  "evidence_id": "TRK-W64-076-REVERB-RECONCILE-COVERAGE-COMPLETE-20260721T1119-0500",
+  "explicit_non_claims": [
+    "COMPLETE",
+    "product_completion",
+    "library_authority",
+    "library_threshold_authority"
+  ],
+  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+  "item_id": "ITEM-W64-076",
+  "library_authority": false,
+  "process": {
+    "action": "finalize_full_library_index_retained_coverage_complete",
+    "alive": false,
+    "command": "analyze_wave64_audio_reverb_dryness.py --mode index-retained --resume --retained-runtime-dir runtime_artifacts/reverb_dryness/row076_index_retained_20260720",
+    "exclusive_lane": "library_pcm",
+    "exit_cause": "clean_exit_coverage_complete",
+    "pid": 31808,
+    "prior_row074_gate": {
+      "coverage_complete": true,
+      "guardian_mode": "done_hold_stamped",
+      "records": "39771/39771",
+      "evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_MULTI_EVENT_SEGMENTATION_RECONCILE_PROGRESS_20260721T0252-0500.json"
+    },
+    "prior_progress_stamp": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_REVERB_DRYNESS_RECONCILE_PROGRESS_20260721T1045-0500.json"
+  },
+  "product_completion_claimed": false,
+  "progress": {
+    "blocker_histogram": {
+      "DECODE_FAILED_CORRUPT_OR_UNREADABLE": 747,
+      "FEATURE_EXTRACTION_FAILED": 13,
+      "REVERB_EXTRACTION_FAILED": 4242
+    },
+    "classification_ambiguous": 30405,
+    "classification_dry": 4051,
+    "classification_wet": 313,
+    "complete": true,
+    "coverage_complete": true,
+    "double_reverb_guard_enforced": 34769,
+    "exact_blockers": 5002,
+    "extension_histogram": {
+      ".flac": 15,
+      ".mp3": 3560,
+      ".ogg": 1,
+      ".wav": 36195
+    },
+    "feature_pass_inputs": 39011,
+    "limit": null,
+    "next_record_index": 39771,
+    "pcm_sha_verified": 34769,
+    "percent_complete": 100.0,
+    "records_processed": 39771,
+    "records_total": 39771,
+    "reverb_pass": 34769,
+    "source_immutable_true": 34769,
+    "started_at": "2026-07-20T06:14:32.216741Z",
+    "updated_at": "2026-07-21T16:16:02.678619Z"
+  },
+  "proof_tier": "RUNTIME_PASS_BOUNDED",
+  "remaining_blockers": [
+    "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+    "REPRESENTATIVE_ROOM_SOURCE_CALIBRATION_ABSENT",
+    "DOUBLE_REVERB_GUARD_LIBRARY_ENFORCEMENT_ABSENT"
+  ],
+  "row_complete": false,
+  "runtime_completion_claimed": true,
+  "runtime_paths": {
+    "owner_path": "runtime_artifacts/reverb_dryness/row076_index_retained_20260720/FULL_RECONCILE_OWNER.txt",
+    "progress_path": "runtime_artifacts/reverb_dryness/row076_index_retained_20260720/progress.json",
+    "receipt_path": "runtime_artifacts/reverb_dryness/row076_index_retained_20260720/retained_index_reverb_receipt.json",
+    "records_path": "runtime_artifacts/reverb_dryness/row076_index_retained_20260720/records.jsonl",
+    "retained_runtime_dir": "runtime_artifacts/reverb_dryness/row076_index_retained_20260720"
+  },
+  "safe_next_action": "Full-library reverb/dryness reconcile is coverage_complete under frozen suggestion-only thresholds. Calibrate representative room/source strata and unfreeze threshold authority before Row076 acceptance or Row079 unlock. Row077 library embed runner remains absent \u2014 do not invent a start command. No product COMPLETE. Leave Row074 HOLD alone.",
+  "schema_version": "1.0",
+  "source_commit": "b909b291",
+  "status": "HOLD_LIBRARY_THRESHOLDS_AND_ROOM_CALIBRATION_ABSENT_RECONCILE_COMPLETE",
+  "tracker_id": "TRK-W64-076"
+}
