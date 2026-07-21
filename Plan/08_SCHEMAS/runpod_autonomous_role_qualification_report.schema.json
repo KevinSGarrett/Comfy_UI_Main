@@ -1,0 +1,93 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_role_qualification_report.schema.json",
+  "title": "Wave64 Autonomous Role Qualification Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "report_id", "role_id", "model_id", "checkpoint_sha256",
+    "runtime_digest", "prompt_sha256", "corpus_sha256", "issued_at", "expires_at",
+    "scope", "capacity", "thresholds", "fixtures"
+  ],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.role_qualification_report.v1"},
+    "report_id": {"type": "string", "pattern": "^W64-AQA-QUAL-[A-Za-z0-9._-]{1,96}$"},
+    "role_id": {"type": "string", "pattern": "^W64-AQA-ROLE-[A-Z0-9-]+$"},
+    "model_id": {"type": "string", "minLength": 1, "maxLength": 200},
+    "checkpoint_sha256": {"$ref": "#/definitions/sha256"},
+    "runtime_digest": {"$ref": "#/definitions/sha256"},
+    "prompt_sha256": {"$ref": "#/definitions/sha256"},
+    "corpus_sha256": {"$ref": "#/definitions/sha256"},
+    "issued_at": {"type": "string", "format": "date-time"},
+    "expires_at": {"type": "string", "format": "date-time"},
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["modalities", "max_width", "max_height", "max_duration_seconds", "quantization", "gpu_profile"],
+      "properties": {
+        "modalities": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["image", "video", "audio", "av", "mask", "workflow"]}},
+        "max_width": {"type": "integer", "minimum": 0},
+        "max_height": {"type": "integer", "minimum": 0},
+        "max_duration_seconds": {"type": "number", "minimum": 0},
+        "quantization": {"type": "string", "minLength": 1},
+        "gpu_profile": {"type": "string", "minLength": 1}
+      }
+    },
+    "capacity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["passed", "peak_vram_gb", "max_vram_gb", "peak_ram_gb", "max_ram_gb", "p95_latency_seconds", "max_latency_seconds"],
+      "properties": {
+        "passed": {"type": "boolean"},
+        "peak_vram_gb": {"type": "number", "minimum": 0},
+        "max_vram_gb": {"type": "number", "exclusiveMinimum": 0},
+        "peak_ram_gb": {"type": "number", "minimum": 0},
+        "max_ram_gb": {"type": "number", "exclusiveMinimum": 0},
+        "p95_latency_seconds": {"type": "number", "minimum": 0},
+        "max_latency_seconds": {"type": "number", "exclusiveMinimum": 0}
+      }
+    },
+    "thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["max_false_accept_rate", "max_false_reject_rate", "max_invalid_schema_rate", "min_repeatability_rate", "min_refusal_correctness_rate", "max_behavior_metric_delta"],
+      "properties": {
+        "max_false_accept_rate": {"type": "number", "minimum": 0, "maximum": 1},
+        "max_false_reject_rate": {"type": "number", "minimum": 0, "maximum": 1},
+        "max_invalid_schema_rate": {"type": "number", "minimum": 0, "maximum": 1},
+        "min_repeatability_rate": {"type": "number", "minimum": 0, "maximum": 1},
+        "min_refusal_correctness_rate": {"type": "number", "minimum": 0, "maximum": 1},
+        "max_behavior_metric_delta": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "fixtures": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["fixture_id", "category", "expected_disposition", "runs"],
+        "properties": {
+          "fixture_id": {"type": "string", "minLength": 1, "maxLength": 160},
+          "category": {"enum": ["known_good", "known_bad", "borderline", "adversarial", "refusal", "identity", "temporal", "audio_mask", "workflow"]},
+          "expected_disposition": {"enum": ["PASS", "FAIL", "REFUSE"]},
+          "runs": {
+            "type": "array", "minItems": 2,
+            "items": {
+              "type": "object", "additionalProperties": false,
+              "required": ["disposition", "schema_valid", "output_sha256"],
+              "properties": {
+                "disposition": {"enum": ["PASS", "FAIL", "REFUSE", "BLOCKED"]},
+                "schema_valid": {"type": "boolean"},
+                "output_sha256": {"$ref": "#/definitions/sha256"}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

@@ -92,6 +92,14 @@ PATHS = {
     / "Plan/08_SCHEMAS/runpod_autonomous_promotion_transaction.schema.json",
     "evidence_bundle_compiler": ROOT
     / "Plan/07_IMPLEMENTATION/scripts/compile_and_replay_wave64_runpod_autonomous_evidence_bundle.py",
+    "role_qualification_report_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_role_qualification_report.schema.json",
+    "role_qualification_certificate_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_role_qualification_certificate.schema.json",
+    "role_drift_decision_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_role_drift_decision.schema.json",
+    "role_qualification_compiler": ROOT
+    / "Plan/07_IMPLEMENTATION/scripts/compile_and_evaluate_wave64_runpod_autonomous_role_qualification.py",
 }
 
 SECRET_PATTERNS = {
@@ -144,6 +152,9 @@ def collect_errors() -> list[str]:
         correction_state_schema = load_json(PATHS["correction_state_schema"])
         evidence_bundle_schema = load_json(PATHS["evidence_bundle_schema"])
         promotion_transaction_schema = load_json(PATHS["promotion_transaction_schema"])
+        role_qualification_report_schema = load_json(PATHS["role_qualification_report_schema"])
+        role_qualification_certificate_schema = load_json(PATHS["role_qualification_certificate_schema"])
+        role_drift_decision_schema = load_json(PATHS["role_drift_decision_schema"])
     except (csv.Error, json.JSONDecodeError, OSError) as exc:
         return [f"parse failure: {exc}"]
 
@@ -324,6 +335,9 @@ def collect_errors() -> list[str]:
         jsonschema.Draft7Validator.check_schema(correction_state_schema)
         jsonschema.Draft7Validator.check_schema(evidence_bundle_schema)
         jsonschema.Draft7Validator.check_schema(promotion_transaction_schema)
+        jsonschema.Draft7Validator.check_schema(role_qualification_report_schema)
+        jsonschema.Draft7Validator.check_schema(role_qualification_certificate_schema)
+        jsonschema.Draft7Validator.check_schema(role_drift_decision_schema)
     except ImportError:
         pass
     except Exception as exc:  # pragma: no cover - library supplies exact detail
