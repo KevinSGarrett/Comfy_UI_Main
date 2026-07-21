@@ -1,4 +1,4 @@
-# Main Session Integration Handoff — CURRENT (2026-07-21T12:28-0500)
+# Main Session Integration Handoff — CURRENT (2026-07-21T12:30-0500)
 
 ## Continuous autonomy binding (do not false-stop)
 
@@ -16,21 +16,20 @@
 - **Ollama on pod:** must run with `OLLAMA_MODELS=/workspace/ollama` (54G blobs). Empty `ollama list` usually means serve started without that env — restart with paths.env, do not pull onto 20G root overlay.
 - Row074: coverage_complete HOLD — **leave alone**
 - Row076: coverage_complete HOLD — **leave alone**
-- Row077: **library embed IN PROGRESS** — exclusive owner PID **41608**; peek ~18k+/39771; **do not kill / do not invent COMPLETE**
+- Row077: **library embed RESUMED** — exclusive owner PID **19488** (resumed from dead 41608 at ~18350/39771); **do not kill / do not invent COMPLETE**
+- Row019/023: next Class A climb **IN FLIGHT** `prompt_id=f19ac102-2274-442a-9439-cd87a93087cd` stamp `20260721T172950Z` (STATIC_MOTION+MUSHY_HANDS retry); wait_extract_strict bg on pod
 - `row_complete=false`; no COMPLETE; no HOLD 090+; no invented faces / 084 gold
 
 ## This increment (landed)
 
 1. Created continuous-autonomy Cursor rule + AGENTS one-liner; pushed `31417dff`.
-2. Peeked Row077: PID 41608 ALIVE throughout; advancing (~10.9k → ~18k/39771). No resume needed.
-3. Prior Class A climb `6a5e81b8` / `164856Z` → honest `REJECT` (motion≈40; MUSHY_HANDS; PLASTIC_SKIN) — already evidenced.
-4. Corrected follow-up Class A climb (no Wan re-fetch):
-   - prompt_id `af3d4927-db7c-4d53-9530-70fbab245df0`
-   - stamp `20260721T171649Z` / seed `2273017` / steps 42 / cfg 6.0
-   - amplified hands/skin/motion prompt from prior REJECT cues
+2. Row077: was ALIVE → later found DEAD at ~18350/39771 → **resumed** exclusive owner PID **19488** (same `--mode index-retained --resume` command). Leave alone.
+3. Prior Class A climb `6a5e81b8` / `164856Z` → honest `REJECT` (motion≈40; MUSHY_HANDS; PLASTIC_SKIN).
+4. Corrected follow-up Class A climb (no Wan re-fetch) `af3d4927` / `171649Z` / seed `2273017`:
    - Ollama models path restored (`OLLAMA_MODELS=/workspace/ollama`) after empty list blocked gate
-   - **Honest verdict: `strict_pod_llm_review=REJECT`** via `qwen2.5vl:32b` — defects `MUSHY_HANDS` + `STATIC_MOTION`; rubric motion 65 / skin 70 / hands 80 / identity 95 (improved vs prior, still fail). No COMPLETE.
-5. Landed fail-closed Row010 portable multi-char pack intake gate → still **ABSENT** (0 qualifying character_ids). No invent faces.
+   - **Honest verdict: `strict_pod_llm_review=REJECT`** via `qwen2.5vl:32b` — `MUSHY_HANDS` + `STATIC_MOTION`; rubric motion 65 / skin 70 / hands 80 / identity 95. No COMPLETE. Pushed `7972ab7e`.
+5. Landed fail-closed Row010 portable multi-char pack intake gate → still **ABSENT**. No invent faces.
+6. Launched next Class A retry `f19ac102` / `172950Z` (stronger motion/hands; still no Wan re-fetch) with pod wait_extract_strict background — monitoring.
 
 Evidence:
 - `Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_MOTION_STRONGER_STRICT_CLASS_A_REJECT_20260721T171649Z.json`
