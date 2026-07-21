@@ -21,3 +21,5 @@ At shift start, reconstruct branch, HEAD, upstream, worktree ownership, active r
 Pre-existing dirty or untracked paths are preserved and outside the active session's commit unless explicitly assigned, newly changed by that session from a clean baseline, owned by a signed retained diff, or tied to the current work item by repository evidence. A large dirty worktree does not block exact-path work. Never use `git add -A` or `git add .`; stage only reviewed paths with `git add -- <exact paths>`, inspect the staged diff, and commit a bounded increment. Never read or expose `.env` values or tokens; use configured Git/GitHub authentication through normal commands.
 
 The signed pipeline is mandatory for dispatched worker work. It is not a requirement for the active top-level interactive Cursor session to dispatch its own direct analysis or implementation back to itself.
+
+Interactive Cursor shifts must not false-stop: continue autonomously until end-to-end project/tracker complete per `.cursor/rules/continuous-autonomous-until-project-complete.mdc` (switch lanes on blockers; never treat one row as shift-complete).

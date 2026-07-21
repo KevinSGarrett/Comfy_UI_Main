@@ -1,0 +1,41 @@
+---
+description: Never stop autonomous Comfy_UI_Main work until end-to-end project complete
+alwaysApply: true
+---
+
+# Continuous Autonomous Until Project Complete
+
+## Binding scope
+
+During an interactive Cursor integration shift, continue autonomously until tracker/project work is **end-to-end complete** — not until one row finishes, one blocker appears, or one successful increment lands.
+
+## Forbidden (false stops)
+
+- Declaring "no further action", "shift complete", or idling after a successful commit/push/increment.
+- Treating a single-lane external blocker as session-complete.
+- Waiting for the user to nudge with "why stopped" / "keep going".
+- Stopping because Row074/076/077 (or any exclusive owner) is HOLD or long-running.
+
+## Required when one lane is blocked
+
+1. Switch **immediately** to the next highest-value **unblocked** work.
+2. Leave exclusive owners running (do not kill Row074/076/077 or other serialized CSV/PCM owners).
+3. Land exact blockers in handoff/tracker Notes; keep working elsewhere.
+4. Prefer monitoring/resume of long jobs over silence.
+
+## Hard runtime / QA / Git bindings
+
+- GPU = **RunPod only**; never EC2; never local Comfy for product climbs.
+- Product visual QA = strict pod LLM gate only (`qwen2.5vl:32b` via `wave64_climb_strict_visual_gate`); weak 7b/llava is SMOKE/observation only.
+- No false `COMPLETE`; no inventing Row084 gold / faces / missing assets.
+- Exact-path commits only (`git add -- <paths>`); never `git add -A` / `git add .`.
+- Serialize shared CSV/PCM owners; do not fight or kill exclusive Row074/076/077 processes.
+
+## Genuine stop conditions (only)
+
+Stop the autonomous loop **only** if:
+
+1. The user explicitly ends the shift, **or**
+2. Zero unblocked work remains **and** every blocker is recorded with the next external authority needed **and** `MAIN_SESSION_INTEGRATION_HANDOFF_CURRENT.md` is updated.
+
+Even then, prefer monitoring/resume of long-running exclusive jobs over going silent.
