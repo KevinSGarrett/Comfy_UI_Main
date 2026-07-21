@@ -1,44 +1,52 @@
 {
-  "schema_version": "1.0",
-  "created_iso": "2026-07-12T11:46:33-05:00",
-  "tracker_id": "TRK-W64-010",
-  "item_id": "ITEM-W64-010",
-  "status": "Blocked_Identity_Reference_Proof_Missing_Separation_And_Merge_Rejection_Pass",
-  "exact_blocker": "No supplied artifact binds each generated person to a unique character_id, isolated identity references, and a per-character comparison crop.",
-  "runpod_personal_calibration_bounded": {
-    "status": "RUNTIME_PASS_BOUNDED_PERSONAL_CALIBRATION_NONCANONICAL",
+  "class_a_f_disposition_deepen": {
+    "csv_sync": "deferred",
+    "disposition_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_CLASS_A_F_IDENTITY_REFERENCE_DISPOSITION_PACKET_20260720.json",
+    "eligible_user_authority_runtime_hits": 0,
+    "negative_inventory_sha256": "96a1c47cc7630ce8a6521b23f083954b647fadf74cfe391ec938a76392809774",
+    "proof_tier": "OFFLINE_INVENTORY_BLOCKER_BOUNDED",
     "row_complete": false,
-    "faces_invented": false,
-    "evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_LOCK_LORA_CALIB_20260721T035348Z.json",
-    "pullback": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_lock_lora_calib_20260721T035348Z",
-    "note": "Scenes lock text + already-synced character1_flux_calibration/balhaw_test LoRAs on RunPod; does not clear generic Row010 USER_AUTHORITY multi-character reference chain."
+    "status": "BLOCKED_CLASS_F_A_USER_AUTHORITY_REFERENCE_CHAIN_ABSENT"
   },
-  "runpod_personal_calibration_vlm_identity": {
-    "status": "RUNTIME_SCORED_PERSONAL_CALIBRATION_VLM_BELOW_GATE_NONCANONICAL",
-    "row_complete": false,
+  "class_a_f_face_ref_blocker_deepen": {
+    "blocker_package": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_CLASS_A_F_USER_AUTHORITY_FACE_REF_BLOCKER_PACKAGE_20260720.json",
+    "csv_sync": "deferred",
+    "eligible_user_authority_face_refs": 0,
+    "face_ref_negative_scan_sha256": "f07a04e2b2bf6498d634753d3e54a32d0c5620529179443eb13a689435208570",
     "faces_invented": false,
-    "vlm_model": "qwen2.5vl:7b",
-    "candidate_sha256": "990ebe2730b228d500ca158087edb19475736a72371d864b2ed6c93b1ffc1784",
-    "aggregate_scores": {
-      "face_consistency_mean": 0.4375,
-      "body_silhouette_consistency_mean": 0.45,
-      "same_person_likelihood_mean": 0.1333,
-      "solo_lock_trait_alignment_score": 0.95
-    },
-    "gate": {
-      "face_consistency_mean_min": 0.55,
-      "faces_ok": false,
-      "body_ok": false,
-      "lock_ok": true,
-      "runtime_pass_bounded": false
-    },
-    "evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_LOCK_LORA_VLM_IDENTITY_20260721T041518Z.json",
-    "pullback": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_lock_lora_vlm_identity_20260721T041518Z",
-    "note": "Scored lock+LoRA calib PNG vs existing C1 USER_AUTHORITY face/body refs on RunPod; below face/body gate; lock traits align; does not clear multi-character USER_AUTHORITY chain or claim COMPLETE."
+    "proof_tier": "OFFLINE_FACE_REF_BLOCKER_BOUNDED",
+    "required_slots_absent": 6,
+    "row_complete": false,
+    "status": "BLOCKED_CLASS_F_A_USER_AUTHORITY_REFERENCE_CHAIN_ABSENT"
+  },
+  "class_a_offline_proof": {
+    "blocker_classes": [
+      "A",
+      "F"
+    ],
+    "blocker_codes": [
+      "USER_AUTHORITY_PER_CHARACTER_REFERENCE_CROPS_ABSENT",
+      "PORTABLE_MULTI_CHARACTER_ID_REFERENCE_PACKET_ABSENT",
+      "PER_CHARACTER_COMPARISON_CROP_BINDING_ABSENT",
+      "USER_AUTHORITY_FACE_BODY_REFERENCES_NOT_INVENTABLE",
+      "PERSONAL_CALIBRATION_CHARACTER1_EXCLUDED_NONCANONICAL",
+      "blocked_missing_per_character_reference_chain"
+    ],
+    "csv_sync_deferred": true,
+    "evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_IDENTITY_REFERENCE_CHAIN_OFFLINE_PROOF_CURRENT_DELTA_20260720.json",
+    "faces_invented": false,
+    "lane": "Class_A_identity_reference_authority_offline_proof",
+    "proof_tier": "OFFLINE_INVENTORY_BLOCKER_BOUNDED",
+    "row_complete": false,
+    "status": "BLOCKED_CLASS_F_A_USER_AUTHORITY_REFERENCE_CHAIN_ABSENT"
   },
   "codex_visual_review": {
-    "reviewed_by": "Codex Desktop",
-    "reviewed_existing_images_only": true,
+    "findings": [
+      "Exactly two visually distinct adults remain spatially separated in the baseline and failure exemplars.",
+      "The two W66 failures correctly reject handshake/clasp interactions instead of the requested one-way upper-arm contact.",
+      "The W69 contact crops preserve a stable open hand and separate sleeve/body boundary across three seeds.",
+      "No reviewed image is paired to independent per-character identity references, so identity preservation is not certifiable."
+    ],
     "images": [
       "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_two_character_hand_to_body_w69_seed7152026252_20260707T113434-0500/images/codex_realvisxl_two_character_hand_to_body_seed7152026252_00001_.png",
       "Plan/Instructions/Operations/Pulled_Back_Artifacts/realvisxl_two_character_contact_robustness_seed7152026253_20260711T034617-0500/images/rvxl_twochar_contact_robust_7152026253_00001_.png",
@@ -46,18 +54,10 @@
       "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave25_two_character_contact_refine_seed210702_20260707T115721-0500/images/codex_wave25_two_character_contact_refine_seed210702_00001_.png",
       "Plan/Instructions/Operations/Pulled_Back_Artifacts/wave25_two_character_contact_refine_seed210703_20260707T115814-0500/images/codex_wave25_two_character_contact_refine_seed210703_00001_.png"
     ],
-    "findings": [
-      "Exactly two visually distinct adults remain spatially separated in the baseline and failure exemplars.",
-      "The two W66 failures correctly reject handshake/clasp interactions instead of the requested one-way upper-arm contact.",
-      "The W69 contact crops preserve a stable open hand and separate sleeve/body boundary across three seeds.",
-      "No reviewed image is paired to independent per-character identity references, so identity preservation is not certifiable."
-    ]
+    "reviewed_by": "Codex Desktop",
+    "reviewed_existing_images_only": true
   },
-  "project_completion": {
-    "level": "BELOW_LEVEL_7",
-    "full_project_complete": false,
-    "final_certification_decision": "blocked"
-  },
+  "created_iso": "2026-07-12T11:46:33-05:00",
   "evidence": [
     "Plan/Tracker/Evidence/TRK-W64-010_IDENTITY_REFERENCE_CHAIN_OFFLINE_PROOF_CURRENT_DELTA_20260720.json",
     "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_IDENTITY_REFERENCE_CHAIN_OFFLINE_PROOF_CURRENT_DELTA_20260720.json",
@@ -92,130 +92,133 @@
     "Plan/Tracker/Evidence/TRK-W64-010_RUNPOD_C1_PULID_FACE03_CALIB_20260721T045449Z.json",
     "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_PULID_FACE03_VLM_20260721T045654Z.json",
     "Plan/Tracker/Evidence/TRK-W64-010_RUNPOD_C1_PULID_FACE03_VLM_20260721T045654Z.json",
-    "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_pulid_face03_vlm_20260721T045654Z/LOCAL_RUNTIME_RECEIPT.json"
+    "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_pulid_face03_vlm_20260721T045654Z/LOCAL_RUNTIME_RECEIPT.json",
+    "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_C1_NAMED_AUTHORITY_PROMOTION_BINDINGS_20260721T0039-0500.json",
+    "Plan/Tracker/Evidence/TRK-W64-010_C1_NAMED_AUTHORITY_PROMOTION_BINDINGS_20260721T0039-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_PULID_FACE01_CALIB_20260721T055534Z.json",
+    "Plan/Tracker/Evidence/TRK-W64-010_RUNPOD_C1_PULID_FACE01_CALIB_20260721T055534Z.json",
+    "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_PULID_FACE01_VLM_20260721T055828Z.json",
+    "Plan/Tracker/Evidence/TRK-W64-010_RUNPOD_C1_PULID_FACE01_VLM_20260721T055828Z.json",
+    "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_pulid_face01_vlm_20260721T055828Z/LOCAL_RUNTIME_RECEIPT.json"
   ],
-  "next_action": "Continue autonomous personal-calibration climb on RunPod (Scenes locks + LoRAs + PuLID face lock) without inventing faces; optional lock-trait prompt tighten if solo_lock remains 0.0; keep row blocked for generic multi-character portable reference packet; do not claim COMPLETE; leave Row074 alone; CSV via mutator only.",
-  "class_a_offline_proof": {
-    "lane": "Class_A_identity_reference_authority_offline_proof",
-    "status": "BLOCKED_CLASS_F_A_USER_AUTHORITY_REFERENCE_CHAIN_ABSENT",
-    "proof_tier": "OFFLINE_INVENTORY_BLOCKER_BOUNDED",
-    "blocker_classes": [
-      "A",
-      "F"
-    ],
-    "blocker_codes": [
-      "USER_AUTHORITY_PER_CHARACTER_REFERENCE_CROPS_ABSENT",
-      "PORTABLE_MULTI_CHARACTER_ID_REFERENCE_PACKET_ABSENT",
-      "PER_CHARACTER_COMPARISON_CROP_BINDING_ABSENT",
-      "USER_AUTHORITY_FACE_BODY_REFERENCES_NOT_INVENTABLE",
-      "PERSONAL_CALIBRATION_CHARACTER1_EXCLUDED_NONCANONICAL",
-      "blocked_missing_per_character_reference_chain"
-    ],
-    "evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_IDENTITY_REFERENCE_CHAIN_OFFLINE_PROOF_CURRENT_DELTA_20260720.json",
-    "row_complete": false,
-    "faces_invented": false,
-    "csv_sync_deferred": true
+  "exact_blocker": "No supplied artifact binds each generated person to a unique character_id, isolated identity references, and a per-character comparison crop.",
+  "item_id": "ITEM-W64-010",
+  "named_authority_promotion_c1": {
+    "character_id_count": 1,
+    "evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_C1_NAMED_AUTHORITY_PROMOTION_BINDINGS_20260721T0039-0500.json",
+    "portable_multi_character_pack": false,
+    "promoted_file_count": 14,
+    "row_complete": false
   },
-  "class_a_f_disposition_deepen": {
-    "status": "BLOCKED_CLASS_F_A_USER_AUTHORITY_REFERENCE_CHAIN_ABSENT",
-    "proof_tier": "OFFLINE_INVENTORY_BLOCKER_BOUNDED",
-    "disposition_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_CLASS_A_F_IDENTITY_REFERENCE_DISPOSITION_PACKET_20260720.json",
-    "negative_inventory_sha256": "96a1c47cc7630ce8a6521b23f083954b647fadf74cfe391ec938a76392809774",
-    "eligible_user_authority_runtime_hits": 0,
-    "row_complete": false,
-    "csv_sync": "deferred"
+  "next_action": "Continue personal-calibration climb on RunPod without inventing faces or a second character; keep Row010 blocked for portable multi-character pack; do not claim COMPLETE; leave Row074 alone; CSV via mutator only.",
+  "project_completion": {
+    "final_certification_decision": "blocked",
+    "full_project_complete": false,
+    "level": "BELOW_LEVEL_7"
   },
-  "class_a_f_face_ref_blocker_deepen": {
-    "status": "BLOCKED_CLASS_F_A_USER_AUTHORITY_REFERENCE_CHAIN_ABSENT",
-    "proof_tier": "OFFLINE_FACE_REF_BLOCKER_BOUNDED",
-    "blocker_package": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_CLASS_A_F_USER_AUTHORITY_FACE_REF_BLOCKER_PACKAGE_20260720.json",
-    "face_ref_negative_scan_sha256": "f07a04e2b2bf6498d634753d3e54a32d0c5620529179443eb13a689435208570",
-    "eligible_user_authority_face_refs": 0,
-    "required_slots_absent": 6,
+  "runpod_personal_calibration_bounded": {
+    "evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_LOCK_LORA_CALIB_20260721T035348Z.json",
     "faces_invented": false,
+    "note": "Scenes lock text + already-synced character1_flux_calibration/balhaw_test LoRAs on RunPod; does not clear generic Row010 USER_AUTHORITY multi-character reference chain.",
+    "pullback": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_lock_lora_calib_20260721T035348Z",
     "row_complete": false,
-    "csv_sync": "deferred"
-  },
-  "runpod_personal_calibration_vlm_bounded": {
-    "status": "RUNTIME_PASS_BOUNDED_PERSONAL_CALIBRATION_VLM_NONCANONICAL",
-    "row_complete": false,
-    "faces_invented": false,
-    "vlm_model": "qwen2.5vl:7b",
-    "method": "side_by_side_panel_v2",
-    "aggregate_scores": {
-      "face_consistency_mean": 0.5625,
-      "face_consistency_n": 4,
-      "body_silhouette_consistency_mean": 0.9,
-      "body_silhouette_consistency_n": 2,
-      "same_person_likelihood_mean": 0.5,
-      "solo_lock_trait_alignment_score": 0.95
-    },
-    "evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_LOCK_LORA_VLM_IDENTITY_20260721T041746Z.json",
-    "pullback": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_lock_lora_vlm_identity_20260721T041746Z",
-    "prior_below_gate_evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_LOCK_LORA_VLM_IDENTITY_20260721T041518Z.json",
-    "prior_lock_lora_calib": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_LOCK_LORA_CALIB_20260721T035348Z.json",
-    "note": "Panel-v2 qwen2.5vl:7b scores against existing Scenes C1 refs + lock text; bounded personal-calibration VLM PASS; does not clear generic multi-character USER_AUTHORITY chain; no COMPLETE."
+    "status": "RUNTIME_PASS_BOUNDED_PERSONAL_CALIBRATION_NONCANONICAL"
   },
   "runpod_personal_calibration_face_tighter": {
-    "status": "RUNTIME_SCORED_PERSONAL_CALIBRATION_FACE_TIGHTER_VLM_BELOW_GATE_NONCANONICAL",
-    "row_complete": false,
-    "faces_invented": false,
-    "vlm_model": "qwen2.5vl:7b",
-    "method": "side_by_side_panel_v2",
-    "candidate_sha256": "c682a820239d344544e251f34338d0230ef56d16c143b803f39814c8e08a2c5b",
     "aggregate_scores": {
-      "face_consistency_mean": 0.475,
-      "face_consistency_n": 4,
       "body_silhouette_consistency_mean": 0.9,
       "body_silhouette_consistency_n": 2,
+      "face_consistency_mean": 0.475,
+      "face_consistency_n": 4,
       "same_person_likelihood_mean": 0.4167,
       "solo_lock_trait_alignment_score": 0.95
     },
+    "calib_evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_FACE_TIGHTER_CALIB_20260721T043424Z.json",
+    "candidate_sha256": "c682a820239d344544e251f34338d0230ef56d16c143b803f39814c8e08a2c5b",
+    "faces_invented": false,
     "gate": {
+      "body_ok": true,
       "face_consistency_mean_min": 0.55,
       "faces_ok": false,
-      "body_ok": true,
       "lock_ok": true,
       "runtime_pass_bounded": false
     },
-    "calib_evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_FACE_TIGHTER_CALIB_20260721T043424Z.json",
-    "vlm_evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_FACE_TIGHTER_VLM_20260721T043808Z.json",
-    "pullback": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_face_tighter_vlm_20260721T043808Z",
-    "note": "Flux face-tighter follow-on (boosted Latina_milf + face-dominant lock prefix) rescored with qwen2.5vl:7b; face 0.475 below gate 0.55; body/lock ok; no COMPLETE; does not clear multi-character USER_AUTHORITY chain."
-  },
-  "runpod_personal_calibration_pulid_face03": {
-    "status": "RUNTIME_PASS_BOUNDED_PERSONAL_CALIBRATION_PULID_FACE03_VLM_NONCANONICAL",
-    "row_complete": false,
-    "faces_invented": false,
-    "vlm_model": "qwen2.5vl:7b",
     "method": "side_by_side_panel_v2",
-    "candidate_sha256": "7fe521c083a0dca03a274820f6fc0c1c814dd385475a0e2fc906f58624825573",
+    "note": "Flux face-tighter follow-on (boosted Latina_milf + face-dominant lock prefix) rescored with qwen2.5vl:7b; face 0.475 below gate 0.55; body/lock ok; no COMPLETE; does not clear multi-character USER_AUTHORITY chain.",
+    "pullback": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_face_tighter_vlm_20260721T043808Z",
+    "row_complete": false,
+    "status": "RUNTIME_SCORED_PERSONAL_CALIBRATION_FACE_TIGHTER_VLM_BELOW_GATE_NONCANONICAL",
+    "vlm_evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_FACE_TIGHTER_VLM_20260721T043808Z.json",
+    "vlm_model": "qwen2.5vl:7b"
+  },
+  "runpod_personal_calibration_pulid_face01": {
     "aggregate_scores": {
-      "face_consistency_mean": 0.775,
-      "face_consistency_n": 4,
       "body_silhouette_consistency_mean": 0.9,
       "body_silhouette_consistency_n": 2,
-      "same_person_likelihood_mean": 0.6667,
-      "solo_lock_trait_alignment_score": 0.0,
+      "face_consistency_mean": 0.7375,
+      "face_consistency_n": 4,
+      "per_face_scores": {
+        "face_01": 0.6,
+        "face_02": 0.8,
+        "face_03": 0.7,
+        "face_04": 0.85
+      },
+      "same_person_likelihood_mean": 0.6333,
+      "same_person_likelihood_n": 6,
+      "solo_lock_trait_alignment_score": 0.0
+    },
+    "calib_evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_PULID_FACE01_CALIB_20260721T055534Z.json",
+    "candidate_sha256": "736fdf8b564e1203bb78485522ea6e9565dcf9997b7dc68c93f9dc33c60f7fd4",
+    "faces_invented": false,
+    "gate": {
+      "body_ok": true,
+      "body_or_lock_min": 0.5,
+      "face_consistency_mean_min": 0.55,
+      "faces_ok": true,
+      "lock_ok": false,
+      "runtime_pass_bounded": true
+    },
+    "method": "side_by_side_panel_v2",
+    "named_authority_promotion": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_C1_NAMED_AUTHORITY_PROMOTION_BINDINGS_20260721T0039-0500.json",
+    "note": "PuLID FACE_01 after named-authority promotion; face 0.7375 clears 0.55; solo lock 0.0; NONCANONICAL; no COMPLETE; does not clear multi-character USER_AUTHORITY chain (character_id_count=1).",
+    "prompt_id": "ced8bb2f-c0e1-470e-a319-68927c8a1885",
+    "pulid": {
+      "enabled": true,
+      "face_ref": "C1_USER_AUTHORITY_FACE_01.png",
+      "face_ref_sha256": "eae4bc45cd029a812df8f8530d5c296eede73800b7ad9eeab35665468742602c",
+      "pulid_file": "pulid_flux_v0.9.1.safetensors",
+      "weight": 1.05
+    },
+    "pullback": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_pulid_face01_vlm_20260721T055828Z",
+    "row_complete": false,
+    "status": "RUNTIME_PASS_BOUNDED_PERSONAL_CALIBRATION_PULID_FACE01_VLM_NONCANONICAL",
+    "vlm_evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_PULID_FACE01_VLM_20260721T055828Z.json",
+    "vlm_model": "qwen2.5vl:7b"
+  },
+  "runpod_personal_calibration_pulid_face03": {
+    "aggregate_scores": {
+      "body_silhouette_consistency_mean": 0.9,
+      "body_silhouette_consistency_n": 2,
+      "face_consistency_mean": 0.775,
+      "face_consistency_n": 4,
       "per_face_scores": {
         "face_01": 0.8,
         "face_02": 0.85,
         "face_03": 0.85,
         "face_04": 0.6
-      }
+      },
+      "same_person_likelihood_mean": 0.6667,
+      "solo_lock_trait_alignment_score": 0.0
     },
+    "calib_evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_PULID_FACE03_CALIB_20260721T045449Z.json",
+    "candidate_sha256": "7fe521c083a0dca03a274820f6fc0c1c814dd385475a0e2fc906f58624825573",
+    "faces_invented": false,
     "gate": {
+      "body_ok": true,
       "face_consistency_mean_min": 0.55,
       "faces_ok": true,
-      "body_ok": true,
       "lock_ok": false,
       "runtime_pass_bounded": true
-    },
-    "pulid": {
-      "enabled": true,
-      "pulid_file": "pulid_flux_v0.9.1.safetensors",
-      "weight": 1.05,
-      "face_ref": "C1_USER_AUTHORITY_FACE_03.png"
     },
     "loras_used": [
       "character1_flux_calibration/Latina_milf_flux.safetensors",
@@ -223,9 +226,64 @@
       "character1_flux_calibration/FLUX_FD-LargeButt-SkinnyWaist-FP8.safetensors",
       "balhaw_test/Thick_Body_Flux.safetensors"
     ],
-    "calib_evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_PULID_FACE03_CALIB_20260721T045449Z.json",
-    "vlm_evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_PULID_FACE03_VLM_20260721T045654Z.json",
+    "method": "side_by_side_panel_v2",
+    "note": "PuLID FACE_03 + Scenes locks + calibration/balhaw LoRAs; face 0.775 clears 0.55; solo lock 0.0; NONCANONICAL; no COMPLETE; does not clear multi-character USER_AUTHORITY chain.",
+    "pulid": {
+      "enabled": true,
+      "face_ref": "C1_USER_AUTHORITY_FACE_03.png",
+      "pulid_file": "pulid_flux_v0.9.1.safetensors",
+      "weight": 1.05
+    },
     "pullback": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_pulid_face03_vlm_20260721T045654Z",
-    "note": "PuLID FACE_03 + Scenes locks + calibration/balhaw LoRAs; face 0.775 clears 0.55; solo lock 0.0; NONCANONICAL; no COMPLETE; does not clear multi-character USER_AUTHORITY chain."
-  }
+    "row_complete": false,
+    "status": "RUNTIME_PASS_BOUNDED_PERSONAL_CALIBRATION_PULID_FACE03_VLM_NONCANONICAL",
+    "vlm_evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_PULID_FACE03_VLM_20260721T045654Z.json",
+    "vlm_model": "qwen2.5vl:7b"
+  },
+  "runpod_personal_calibration_vlm_bounded": {
+    "aggregate_scores": {
+      "body_silhouette_consistency_mean": 0.9,
+      "body_silhouette_consistency_n": 2,
+      "face_consistency_mean": 0.5625,
+      "face_consistency_n": 4,
+      "same_person_likelihood_mean": 0.5,
+      "solo_lock_trait_alignment_score": 0.95
+    },
+    "evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_LOCK_LORA_VLM_IDENTITY_20260721T041746Z.json",
+    "faces_invented": false,
+    "method": "side_by_side_panel_v2",
+    "note": "Panel-v2 qwen2.5vl:7b scores against existing Scenes C1 refs + lock text; bounded personal-calibration VLM PASS; does not clear generic multi-character USER_AUTHORITY chain; no COMPLETE.",
+    "prior_below_gate_evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_LOCK_LORA_VLM_IDENTITY_20260721T041518Z.json",
+    "prior_lock_lora_calib": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_LOCK_LORA_CALIB_20260721T035348Z.json",
+    "pullback": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_lock_lora_vlm_identity_20260721T041746Z",
+    "row_complete": false,
+    "status": "RUNTIME_PASS_BOUNDED_PERSONAL_CALIBRATION_VLM_NONCANONICAL",
+    "vlm_model": "qwen2.5vl:7b"
+  },
+  "runpod_personal_calibration_vlm_identity": {
+    "aggregate_scores": {
+      "body_silhouette_consistency_mean": 0.45,
+      "face_consistency_mean": 0.4375,
+      "same_person_likelihood_mean": 0.1333,
+      "solo_lock_trait_alignment_score": 0.95
+    },
+    "candidate_sha256": "990ebe2730b228d500ca158087edb19475736a72371d864b2ed6c93b1ffc1784",
+    "evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_LOCK_LORA_VLM_IDENTITY_20260721T041518Z.json",
+    "faces_invented": false,
+    "gate": {
+      "body_ok": false,
+      "face_consistency_mean_min": 0.55,
+      "faces_ok": false,
+      "lock_ok": true,
+      "runtime_pass_bounded": false
+    },
+    "note": "Scored lock+LoRA calib PNG vs existing C1 USER_AUTHORITY face/body refs on RunPod; below face/body gate; lock traits align; does not clear multi-character USER_AUTHORITY chain or claim COMPLETE.",
+    "pullback": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_lock_lora_vlm_identity_20260721T041518Z",
+    "row_complete": false,
+    "status": "RUNTIME_SCORED_PERSONAL_CALIBRATION_VLM_BELOW_GATE_NONCANONICAL",
+    "vlm_model": "qwen2.5vl:7b"
+  },
+  "schema_version": "1.0",
+  "status": "Blocked_Identity_Reference_Proof_Missing_Separation_And_Merge_Rejection_Pass",
+  "tracker_id": "TRK-W64-010"
 }
