@@ -179,6 +179,14 @@ PATHS = {
     / "Plan/Tracker/Evidence/W64_AQA_S3_BUNDLE_TRANSACTION_20260721T234740Z/transaction.receipt.json",
     "s3_bundle_transaction_replay_receipt": ROOT
     / "Plan/Tracker/Evidence/W64_AQA_S3_BUNDLE_TRANSACTION_20260721T234740Z/transaction.replay.receipt.json",
+    "s3_git_binding_receipt_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_s3_git_binding_receipt.schema.json",
+    "s3_git_binding_policy": ROOT
+    / "Plan/10_REGISTRIES/wave64_runpod_autonomous_s3_git_binding_policy.json",
+    "s3_git_binding_payload": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_S3_GIT_BINDING_PAYLOAD_20260721T235517Z.json",
+    "s3_git_binding_receipt": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_S3_GIT_BINDING_RECEIPT_20260721T235517Z.json",
     "correction_attempt_schema": ROOT
     / "Plan/08_SCHEMAS/runpod_autonomous_correction_attempt.schema.json",
     "correction_state_schema": ROOT
@@ -325,6 +333,10 @@ def collect_errors() -> list[str]:
         s3_bundle_transaction_evidence = load_json(PATHS["s3_bundle_transaction_evidence"])
         s3_bundle_transaction_receipt = load_json(PATHS["s3_bundle_transaction_receipt"])
         s3_bundle_transaction_replay_receipt = load_json(PATHS["s3_bundle_transaction_replay_receipt"])
+        s3_git_binding_receipt_schema = load_json(PATHS["s3_git_binding_receipt_schema"])
+        s3_git_binding_policy = load_json(PATHS["s3_git_binding_policy"])
+        s3_git_binding_payload = load_json(PATHS["s3_git_binding_payload"])
+        s3_git_binding_receipt = load_json(PATHS["s3_git_binding_receipt"])
         correction_attempt_schema = load_json(PATHS["correction_attempt_schema"])
         correction_state_schema = load_json(PATHS["correction_state_schema"])
         evidence_bundle_schema = load_json(PATHS["evidence_bundle_schema"])
@@ -372,6 +384,8 @@ def collect_errors() -> list[str]:
         infrastructure_reconciliation_payload,
         s3_object_staging_receipt,
         s3_bundle_transaction_evidence,
+        s3_git_binding_payload,
+        s3_git_binding_receipt,
         registry,
     )
     for document in json_docs:
@@ -942,6 +956,41 @@ def collect_errors() -> list[str]:
             errors.append(f"S3 bundle evidence manifest path missing: {relative_path}")
         elif hashlib.sha256(bound_path.read_bytes()).hexdigest() != expected_sha256:
             errors.append(f"S3 bundle evidence manifest hash mismatch: {relative_path}")
+    s3_binding_required = {
+        "execution_authority": "CODEX_INTEGRATION_ONLY",
+        "pushed_commit_required": True,
+        "commit_must_contain_retained_bundle_evidence": True,
+        "content_addressed_binding_required": True,
+        "conditional_create_required": True,
+        "checksum_head_replay_required": True,
+        "overwrite_allowed": False,
+        "delete_allowed": False,
+        "s3_presence_is_acceptance": False,
+        "product_promotion_allowed": False,
+        "all_other_buckets_or_prefixes": "UNQUALIFIED_DENY",
+    }
+    if any(s3_git_binding_policy.get(key) != expected for key, expected in s3_binding_required.items()):
+        errors.append("S3 Git binding policy is incomplete or weakened")
+    binding_payload_sha256 = hashlib.sha256(PATHS["s3_git_binding_payload"].read_bytes()).hexdigest()
+    if s3_git_binding_receipt.get("content_sha256") != binding_payload_sha256:
+        errors.append("S3 Git binding receipt does not bind payload bytes")
+    if s3_git_binding_receipt.get("receipt_id") != recompute_self_hash(s3_git_binding_receipt, "receipt_id"):
+        errors.append("S3 Git binding receipt self-hash mismatch")
+    if s3_git_binding_payload.get("evidence_commit") != s3_git_binding_receipt.get("evidence_commit"):
+        errors.append("S3 Git binding commit mismatch")
+    if s3_git_binding_payload.get("bundle_id") != s3_git_binding_receipt.get("bundle_id"):
+        errors.append("S3 Git binding bundle mismatch")
+    for key, expected in {
+        "conditional_create_used": True,
+        "head_verification_passed": True,
+        "overwrite_performed": False,
+        "delete_performed": False,
+        "s3_presence_is_acceptance": False,
+        "product_promotion_granted": False,
+        "disposition": "PASS_PUSHED_GIT_COMMIT_TO_VERIFIED_S3_BUNDLE_BINDING_ONLY",
+    }.items():
+        if s3_git_binding_receipt.get(key) != expected:
+            errors.append(f"S3 Git binding receipt {key} mismatch")
     if migration_policy.get("decision_only") is not True:
         errors.append("migration controller must remain decision-only")
     if migration_policy.get("old_pod_stops_only_after_integration_switch") is not True:
@@ -1056,6 +1105,8 @@ def collect_errors() -> list[str]:
         jsonschema.Draft7Validator(s3_bundle_transaction_receipt_schema).validate(
             s3_bundle_transaction_replay_receipt
         )
+        jsonschema.Draft7Validator.check_schema(s3_git_binding_receipt_schema)
+        jsonschema.Draft7Validator(s3_git_binding_receipt_schema).validate(s3_git_binding_receipt)
         jsonschema.Draft7Validator.check_schema(correction_attempt_schema)
         jsonschema.Draft7Validator.check_schema(correction_state_schema)
         jsonschema.Draft7Validator.check_schema(evidence_bundle_schema)

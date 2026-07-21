@@ -40,6 +40,10 @@ Program: `W64-AQA`
   and write `bundle.json` last. On interruption, retain the immutable records
   and resume by checksum-enabled head verification. Rollback is nonpublication,
   never object deletion. A complete staged bundle still grants no acceptance.
+- After the evidence commit is pushed, stage one content-addressed binding under
+  `evidence/w64-aqa/qualification/bindings/{commit}` containing the exact commit,
+  bundle ID, manifest key/version, and transaction receipt IDs. Verify it by
+  checksum-enabled head replay and retain the non-promotional receipt in Git.
 - Every required role package is installed on the primary pod's durable volume.
   Installation is not activation; only an exact capacity-and-quality certificate
   can mark the package operational.

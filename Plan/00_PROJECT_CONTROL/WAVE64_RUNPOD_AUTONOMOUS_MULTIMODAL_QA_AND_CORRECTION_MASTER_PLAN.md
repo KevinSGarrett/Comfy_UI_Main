@@ -372,6 +372,11 @@ ten, proving restart-safe idempotence. The bundle decision is deliberately
 `BLOCKED`; no RunPod, GPU, ComfyUI, semantic review, overwrite, delete, or
 promotion claim is made.
 
+Commit `372bc28ac1af30a496da71c72bb1dac6308b1993`, which contains the retained
+bundle evidence, is named by a separate content-addressed S3 binding object.
+Its conditional-create receipt verifies checksum, AES-256, version, length, and
+head replay. The binding is evidence lineage only and grants no acceptance.
+
 ## Security and cost controls
 
 - Secrets remain in process/credential stores and are never written to Plans,

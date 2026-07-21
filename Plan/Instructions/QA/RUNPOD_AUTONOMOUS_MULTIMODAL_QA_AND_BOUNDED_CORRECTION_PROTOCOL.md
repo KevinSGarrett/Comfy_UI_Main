@@ -175,6 +175,11 @@ manifest verified. Tampered metadata, missing checksums or versions, changed
 local records, policy weakening, overwrite, delete, and manifest-first ordering
 must fail closed.
 
+Git/S3 lineage qualification requires a pushed commit that contains the retained
+bundle evidence, followed by one conditional content-addressed S3 binding object
+that names that commit and exact manifest version. The subsequent Git receipt
+must bind the payload hash and remote version. This is provenance, not promotion.
+
 The proposed repair must identify exact defects, targets, allowed patch class,
 expected benefit, risks, protected checks, parent hash, and rollback. Arbitrary
 node creation, shell, secret access, cloud mutation, threshold change, or model
