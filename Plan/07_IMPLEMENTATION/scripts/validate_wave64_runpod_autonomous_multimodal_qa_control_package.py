@@ -108,6 +108,12 @@ PATHS = {
     / "Plan/10_REGISTRIES/wave64_runpod_autonomous_one_pod_migration_policy.json",
     "migration_controller": ROOT
     / "Plan/07_IMPLEMENTATION/scripts/run_wave64_runpod_autonomous_one_pod_migration_controller.py",
+    "reviewer_observation_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_reviewer_observation.schema.json",
+    "review_authority_decision_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_review_authority_decision.schema.json",
+    "review_authority_evaluator": ROOT
+    / "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_runpod_autonomous_review_authority.py",
 }
 
 SECRET_PATTERNS = {
@@ -166,6 +172,8 @@ def collect_errors() -> list[str]:
         migration_event_schema = load_json(PATHS["migration_event_schema"])
         migration_state_schema = load_json(PATHS["migration_state_schema"])
         migration_policy = load_json(PATHS["migration_policy"])
+        reviewer_observation_schema = load_json(PATHS["reviewer_observation_schema"])
+        review_authority_decision_schema = load_json(PATHS["review_authority_decision_schema"])
     except (csv.Error, json.JSONDecodeError, OSError) as exc:
         return [f"parse failure: {exc}"]
 
@@ -360,6 +368,8 @@ def collect_errors() -> list[str]:
         jsonschema.Draft7Validator.check_schema(role_drift_decision_schema)
         jsonschema.Draft7Validator.check_schema(migration_event_schema)
         jsonschema.Draft7Validator.check_schema(migration_state_schema)
+        jsonschema.Draft7Validator.check_schema(reviewer_observation_schema)
+        jsonschema.Draft7Validator.check_schema(review_authority_decision_schema)
     except ImportError:
         pass
     except Exception as exc:  # pragma: no cover - library supplies exact detail

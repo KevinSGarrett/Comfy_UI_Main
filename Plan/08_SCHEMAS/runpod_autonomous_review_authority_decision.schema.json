@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_review_authority_decision.schema.json",
+  "title": "Wave64 Autonomous Review Authority Decision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "decision_id", "job_id", "contract_id", "evaluated_at",
+    "required_roles", "role_results", "review_disposition", "evidence_only",
+    "promotion_authorized", "reason_codes"
+  ],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.review_authority_decision.v1"},
+    "decision_id": {"$ref": "#/definitions/sha256"},
+    "job_id": {"type": "string", "minLength": 1},
+    "contract_id": {"$ref": "#/definitions/sha256"},
+    "evaluated_at": {"type": "string", "format": "date-time"},
+    "required_roles": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+    "role_results": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["role_id", "required", "observation_id", "certificate_id", "status", "reason_codes"],
+        "properties": {
+          "role_id": {"type": "string"},
+          "required": {"type": "boolean"},
+          "observation_id": {"type": ["string", "null"]},
+          "certificate_id": {"type": ["string", "null"]},
+          "status": {"enum": ["PASS", "FAIL", "BLOCKED", "IGNORED_TRIAGE_ONLY"]},
+          "reason_codes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}}
+        }
+      }
+    },
+    "review_disposition": {"enum": ["PASS_REQUIRED_AUTHORITIES", "FAIL_REQUIRED_AUTHORITY", "BLOCKED_REQUIRED_AUTHORITY"]},
+    "evidence_only": {"type": "boolean"},
+    "promotion_authorized": {"const": false},
+    "reason_codes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^[A-Z0-9_]+$"}}
+  },
+  "definitions": {"sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+}
