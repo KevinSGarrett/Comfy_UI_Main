@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ROW017-RUNPOD-MF70-EYES-FULL-VISUAL-QA-20260721T034108-0500",
+  "created_at": "2026-07-21T03:41:08-05:00",
+  "tracker_id": "TRK-W64-017",
+  "item_id": "ITEM-W64-017",
+  "localized_region": "mf70_eyelids",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+  "qa_decision": "pass_bounded_localized_mf70_eyelids_runpod_runtime_candidate",
+  "overall_decision": "pass",
+  "local_only": false,
+  "runtime_host": "runpod",
+  "direct_visual_inspection": true,
+  "fixture_only": false,
+  "generation_executed": true,
+  "runtime_receipt": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_eyelids_20260721T034108-0500/LOCAL_RUNTIME_RECEIPT.json",
+  "source": {
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_skin_tone_continuity_20260707T163000-0500/wave70_mf70_face_identity_source_canny_v3.png",
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d"
+  },
+  "mask": {
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_eyelids_20260707T181500-0500/wave70_mf70_eyelids_mask.png",
+    "sha256": "d24720d764255ee2eef0b2e3c00cf47220323c27eb2cd6090c551e5de43ac6c6",
+    "filename": "wave70_mf70_eyelids_mask.png"
+  },
+  "artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_eyelids_20260721T034108-0500/images/codex_row017_mf70_eyelids_20260721T034108-0500_00001_.png",
+    "sha256": "3d569be314f92476009a55affa8abbca925f52c40ec38f7da755ab004c6144aa"
+  },
+  "comparison_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_eyelids_20260721T034108-0500/images/qa_full_side_by_side.png",
+    "sha256": "7ccb85cd6706ccdedfed933cdc92b21dae33cccaafe317c0e52b423afde217be"
+  },
+  "face_crop_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_eyelids_20260721T034108-0500/images/qa_face_crop_side_by_side.png",
+    "sha256": "8f9295c03f2956ae07111d92c111778dfe71fc8edd3db43ae2fc787d72550d37"
+  },
+  "eye_crop_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_eyelids_20260721T034108-0500/images/qa_eye_crop_side_by_side.png",
+    "sha256": "c980cb0990ae6bd3208458241c73a3f96009c749ddf8a436a3afb42ba7694a1f"
+  },
+  "mouth_crop_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_eyelids_20260721T034108-0500/images/qa_mouth_crop_side_by_side.png",
+    "sha256": "8fb2c339e3f5a473f6f96c84cab3492d175e59f4e9f9df44cf45d64dfa798c29"
+  },
+  "difference_metrics": {
+    "full_image_diff_bbox": [
+      277,
+      297,
+      472,
+      360
+    ],
+    "face_mask_bbox": [
+      280,
+      300,
+      469,
+      357
+    ],
+    "face_crop_box": [
+      260,
+      280,
+      489,
+      377
+    ],
+    "mean_rgb_abs_diff": [
+      0.011642,
+      0.011124,
+      0.010698
+    ],
+    "rms_rgb_abs_diff": [
+      0.274264,
+      0.270254,
+      0.254863
+    ],
+    "face_region_mean_abs": 0.607259,
+    "eye_region_mean_abs": 0.176864,
+    "mouth_region_mean_abs": 0.0,
+    "clothing_mean_abs": 0.0,
+    "background_corner_mean_abs": 0.0,
+    "changed_pixel_count": 717,
+    "mask_pixel_count": 3159
+  },
+  "whole_frame_findings": [
+    "Fresh RunPod ComfyUI mf70 eyelids masked inpaint on wave70_mf70_face_identity_source_canny_v3 (seed 210812, RealVisXL baked VAE, denoise 0.05, FeatherMask 24px, cfg 3.5, steps 18) completed successfully (prompt_id 058ae809-ce05-4a9a-b7da-36d570cbb772).",
+    "Whole-frame identity, hair, navy blazer, patterned shirt, collar, dark studio background, lighting, and framing remain stable versus source.",
+    "Pixel delta is localized to mf70 eyelids bbox [280, 300, 469, 357]; clothing mean abs 0.0; background corner mean abs 0.0; 717 changed pixels vs 3159-pixel eyelids mask.",
+    "Direct whole-frame + face/eye/mouth crop inspection: subtle eyelid skin preservation refinement without gray-mask failure, identity drift, wardrobe rewrite, background change, hard mask-edge seam, or gaze/iris rewrite.",
+    "Hands are outside this head-and-shoulders crop (not applicable); no global style drift observed."
+  ],
+  "global_defects": [],
+  "promotion_authorized": false,
+  "row_complete": false,
+  "product_completion_claimed": false,
+  "ec2": "RUNPOD_USED",
+  "docker_cvat": "not-needed",
+  "notes": [
+    "Class E future-producer emission proof via RunPod Comfy runtime after local :8188 was unreachable.",
+    "Does not claim COMPLETE; CSV deferred; Row074 left alone; HOLD 090+ untouched."
+  ],
+  "csv_update_deferred": true
+}
