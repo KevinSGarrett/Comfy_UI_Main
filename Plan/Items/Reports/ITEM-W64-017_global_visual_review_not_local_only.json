@@ -84,6 +84,14 @@
       "row_complete": false,
       "stamp": "20260720T232259-0500",
       "vlm_deepen": "Plan/Instructions/QA/Evidence/Wave64/ROW017_RUNPOD_MICRO_NOMOUTH_V4_VLM_DEEPEN_20260720T232543-0500.json"
+    },
+    {
+      "stamp": "20260720T232950-0500",
+      "region": "w69_inpaint_micro_nomouth_v4",
+      "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+      "vlm_deepen": "Plan/Instructions/QA/Evidence/Wave64/ROW017_RUNPOD_MICRO_NOMOUTH_V4_VLM_DEEPEN_20260720T232956-0500.json",
+      "climb": "Plan/Tracker/Evidence/ROW017_RUNPOD_FUTURE_PRODUCER_EMISSION_CLIMB_20260720T232950-0500.json",
+      "row_complete": false
     }
   ],
   "class_c_campaign": {
@@ -114,8 +122,8 @@
     "status": "Blocked_Canonical_Future_Localized_Producer_Global_Review_Contract_Pending"
   },
   "created_iso": "2026-07-12T13:37:49-05:00",
-  "csv_sync": "synced_by_primary_csv_mutator_row017_face_mask_v1_vlm",
-  "csv_sync_tip": "301c28b1",
+  "csv_sync": "synced_by_primary_csv_mutator_row017_micro_nomouth_v4_vlm",
+  "csv_sync_tip": "b8eaec66",
   "evidence": [
     "Plan/Instructions/QA/Evidence/Wave64/global_visual_review_not_local_only.json",
     "Plan/Instructions/QA/Evidence/Wave64/GLOBAL_VISUAL_REVIEW_NOT_LOCAL_ONLY_20260712T133749-0500.json",
@@ -232,17 +240,26 @@
     "Plan/Instructions/QA/Evidence/Wave64/ROW017_RUNPOD_FUTURE_PRODUCER_EMISSION_CLIMB_20260720T232259-0500.json",
     "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-017_RUNPOD_FUTURE_PRODUCER_EMISSION_PACKET_20260720T232259-0500.json",
     "Plan/Instructions/QA/Evidence/Wave64/ROW017_RUNPOD_MICRO_NOMOUTH_V4_VLM_DEEPEN_20260720T232543-0500.json",
-    "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-017_RUNPOD_MICRO_NOMOUTH_V4_VLM_OBSERVATION_20260720T232543-0500.json"
+    "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-017_RUNPOD_MICRO_NOMOUTH_V4_VLM_OBSERVATION_20260720T232543-0500.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_RUNPOD_W69_INPAINT_MICRO_NOMOUTH_V4_20260720T232950-0500_GLOBAL_REVIEW.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/ROW017_RUNPOD_W69_INPAINT_MICRO_NOMOUTH_V4_VISUAL_QA_20260720T232950-0500.json",
+    "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_RUNPOD_COMFYUI_ROW017_W69_INPAINT_MICRO_NOMOUTH_V4_EXECUTE_20260720T232950-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/ROW017_RUNPOD_FUTURE_PRODUCER_EMISSION_CLIMB_20260720T232950-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-017_RUNPOD_FUTURE_PRODUCER_EMISSION_PACKET_20260720T232950-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/ROW017_RUNPOD_MICRO_NOMOUTH_V4_VLM_DEEPEN_20260720T232956-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-017_RUNPOD_MICRO_NOMOUTH_V4_VLM_OBSERVATION_20260720T232956-0500.json"
   ],
-  "exact_blocker": "Class E residual active \u2014 future localized producer GLOBAL_REVIEW contract now has RunPod emission packaging + bounded VLM observation, but product campaign acceptance still pending; not COMPLETE.",
+  "exact_blocker": "Class E residual active \u2014 future localized producer GLOBAL_REVIEW contract now has RunPod micro_nomouth_v4 emission packaging + bounded VLM observation, but product campaign acceptance still pending; not COMPLETE.",
   "future_producer_emission_proof_readiness": {
     "future_producer_emission_proof_package_present": true,
-    "latest_producer_stamp": "20260720T230123-0500",
-    "latest_vlm_stamp": "20260720T231741-0500",
-    "output_sha256": "ccae9713fa689e6622ad4adc9f330c8557e4b92c24a91cea4b98bf4b898a1bbd",
-    "row_complete": false,
     "runtime_host": "runpod",
-    "vlm_model": "qwen2.5vl:7b"
+    "latest_producer_stamp": "20260720T232950-0500",
+    "latest_vlm_stamp": "20260720T232956-0500",
+    "latest_region": "w69_inpaint_micro_nomouth_v4",
+    "vlm_model": "qwen2.5vl:7b",
+    "output_sha256": "36a42a4433b6046cac758ae261984b5190b04d684283f095526f6d1cb029473a",
+    "prompt_id": "2aa9e734-6813-4447-835f-089998e771f1",
+    "row_complete": false
   },
   "highest_proof_tier_achieved": "CONTRACT_PASS_BOUNDED",
   "implementation": {
@@ -270,8 +287,8 @@
       "Plan/Instructions/QA/Evidence/Image_Artifact_QA/W66_REALVISXL_MATRIX_FINAL_QA_CERTIFICATION_20260706T201000-0500.json"
     ]
   },
-  "next_action": "Keep Row017 blocked/non-complete; prefer additional unused prepared localized lanes when GPU/queue free; leave Row074 alone; no HOLD 090+; no COMPLETE.",
-  "notes": "RunPod face_mask_v1 mid-flight deepen 20260720T230123-0500/20260720T231741-0500: producer packaged + Ollama qwen2.5vl:7b VLM observation vlm_ok; output sha ccae9713fa68...; Status remains Blocked_Canonical_Future_Localized_Producer_Global_Review_Contract_Pending; not COMPLETE.",
+  "next_action": "Keep Row017 blocked/non-complete; prefer next unused prepared localized lane (e.g. micro_mask_v2) when queue idle, or Row010 face-tighter personal-calib re-VLM; leave Row074 alone; no HOLD 090+; no COMPLETE.",
+  "notes": "RunPod micro_nomouth_v4 producer+VLM 20260720T232950-0500/20260720T232956-0500: Ollama qwen2.5vl:7b; output sha 36a42a4433b6...; Status remains Blocked_Canonical_Future_Localized_Producer_Global_Review_Contract_Pending; not COMPLETE.",
   "product_completion_claimed": false,
   "proof_tier": "RUNTIME_PROBE_BLOCKER_BOUNDED",
   "row_complete": false,
