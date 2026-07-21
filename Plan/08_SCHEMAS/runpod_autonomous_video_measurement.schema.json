@@ -1,0 +1,108 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_video_measurement.schema.json",
+  "title": "Wave64 Autonomous Video Measurement",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "measurement_id", "contract_id", "artifact_sha256",
+    "evaluator_version", "container", "video_stream", "audio_stream_present",
+    "sample_manifest", "metric_selected_spans", "metrics", "gate_results", "disposition"
+  ],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.video_measurement.v1"},
+    "measurement_id": {"$ref": "#/definitions/sha256"},
+    "contract_id": {"$ref": "#/definitions/sha256"},
+    "artifact_sha256": {"$ref": "#/definitions/sha256"},
+    "evaluator_version": {"const": "w64-aqa-video-measure-v1"},
+    "container": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["format_name", "duration_seconds", "size_bytes", "full_decode_pass"],
+      "properties": {
+        "format_name": {"type": "string", "minLength": 1},
+        "duration_seconds": {"type": "number", "exclusiveMinimum": 0},
+        "size_bytes": {"type": "integer", "minimum": 1},
+        "full_decode_pass": {"const": true}
+      }
+    },
+    "video_stream": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["codec_name", "pixel_format", "width", "height", "fps", "frame_count"],
+      "properties": {
+        "codec_name": {"type": "string", "minLength": 1},
+        "pixel_format": {"type": "string", "minLength": 1},
+        "width": {"type": "integer", "minimum": 1},
+        "height": {"type": "integer", "minimum": 1},
+        "fps": {"type": "number", "exclusiveMinimum": 0},
+        "frame_count": {"type": "integer", "minimum": 1}
+      }
+    },
+    "audio_stream_present": {"type": "boolean"},
+    "sample_manifest": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["frame_index", "timestamp_seconds", "frame_sha256", "luminance_mean", "sharpness_laplacian_variance"],
+        "properties": {
+          "frame_index": {"type": "integer", "minimum": 0},
+          "timestamp_seconds": {"type": "number", "minimum": 0},
+          "frame_sha256": {"$ref": "#/definitions/sha256"},
+          "luminance_mean": {"type": "number", "minimum": 0, "maximum": 255},
+          "sharpness_laplacian_variance": {"type": "number", "minimum": 0}
+        }
+      }
+    },
+    "metric_selected_spans": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["category", "frame_start", "frame_end", "severity_value"],
+        "properties": {
+          "category": {"enum": ["largest_motion", "largest_exposure_jump", "lowest_sharpness"]},
+          "frame_start": {"type": "integer", "minimum": 0},
+          "frame_end": {"type": "integer", "minimum": 0},
+          "severity_value": {"type": "number", "minimum": 0}
+        }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": {"type": ["number", "integer", "boolean", "string"]},
+      "required": [
+        "decode_success", "width", "height", "fps", "duration_seconds", "frame_count",
+        "fps_delta", "duration_delta_seconds", "frame_count_delta", "sample_count",
+        "duplicate_sample_fraction", "sampled_motion_mean", "sampled_motion_max",
+        "sampled_luminance_jump_max", "sampled_luminance_std",
+        "sampled_sharpness_min", "audio_stream_present"
+      ]
+    },
+    "gate_results": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["gate_id", "metric", "status", "observed", "operator", "threshold", "on_failure"],
+        "properties": {
+          "gate_id": {"type": "string", "minLength": 1},
+          "metric": {"type": "string", "minLength": 1},
+          "status": {"enum": ["PASS", "FAIL", "MEASUREMENT_UNAVAILABLE"]},
+          "observed": {},
+          "operator": {"type": "string"},
+          "threshold": {},
+          "on_failure": {"enum": ["HOLD", "REPAIR", "REJECT"]}
+        }
+      }
+    },
+    "disposition": {"enum": ["PASS_DETERMINISTIC_GATES", "FAIL_DETERMINISTIC_GATES"]}
+  },
+  "definitions": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

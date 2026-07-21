@@ -52,6 +52,10 @@ PATHS = {
     / "Plan/08_SCHEMAS/runpod_autonomous_image_measurement.schema.json",
     "image_measurement": ROOT
     / "Plan/07_IMPLEMENTATION/scripts/measure_wave64_runpod_autonomous_image_quality.py",
+    "video_measurement_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_video_measurement.schema.json",
+    "video_measurement": ROOT
+    / "Plan/07_IMPLEMENTATION/scripts/measure_wave64_runpod_autonomous_video_quality.py",
 }
 
 SECRET_PATTERNS = {
@@ -91,6 +95,7 @@ def collect_errors() -> list[str]:
         job_contract_schema = load_json(PATHS["job_contract_schema"])
         phase_lease_schema = load_json(PATHS["phase_lease_schema"])
         image_measurement_schema = load_json(PATHS["image_measurement_schema"])
+        video_measurement_schema = load_json(PATHS["video_measurement_schema"])
     except (csv.Error, json.JSONDecodeError, OSError) as exc:
         return [f"parse failure: {exc}"]
 
@@ -239,6 +244,7 @@ def collect_errors() -> list[str]:
         jsonschema.Draft7Validator.check_schema(job_contract_schema)
         jsonschema.Draft7Validator.check_schema(phase_lease_schema)
         jsonschema.Draft7Validator.check_schema(image_measurement_schema)
+        jsonschema.Draft7Validator.check_schema(video_measurement_schema)
     except ImportError:
         pass
     except Exception as exc:  # pragma: no cover - library supplies exact detail
