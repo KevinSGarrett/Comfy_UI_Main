@@ -1,0 +1,246 @@
+{
+  "created_at": "2026-07-21T10:33:07Z",
+  "cut_camera_eval": {
+    "blocker_detail": "Sparse_motion single-candidate reclass PASS retained, but production cut/camera benchmark authority requires non-lavfi gold media for roles=['hard_cut', 'camera_motion', 'static', 'sparse_motion']; absent=['hard_cut', 'camera_motion', 'static']. Do not invent gold media; do not promote held-out lavfi as production.",
+    "blocker_id": "production_cut_camera_benchmark_authority_beyond_held_out_lavfi_absent",
+    "candidate_probe": {
+      "algorithm_id": "fixture_histogram_diff_v1",
+      "classification_profile": "production",
+      "decode_scale": "64x64",
+      "frame_count": 49,
+      "gold_invented": false,
+      "hard_cut_count": 0,
+      "hard_cuts": [],
+      "held_out_classification_error": "unable to classify camera-motion profile: mean=0.0297 max=0.3770 moderate=14 moderate_fraction=0.2917 profile=held_out",
+      "max_hist_l1": 0.376953,
+      "mean_hist_l1": 0.029653,
+      "moderate_count_gt_mean_min": 14,
+      "moderate_fraction": 0.2917,
+      "moderate_required_for_camera_motion": 24,
+      "observed_class": "sparse_motion",
+      "observed_class_held_out": null,
+      "p50_hist_l1": 0.013835,
+      "p90_hist_l1": 0.047103,
+      "p95_hist_l1": 0.065055,
+      "pair_delta_count": 48
+    },
+    "contract_scripts": {
+      "compiler": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
+      "held_out_camera_motion": "execute_held_out_camera_motion_runtime",
+      "held_out_cut_detector": "execute_held_out_cut_detector_runtime",
+      "note": "No execute_production_cut_camera_benchmark API exists; authority bind requires non-lavfi multi-role matrix beyond held-out lavfi receipts.",
+      "production_classifier": "_classify_camera_motion_profile(profile=production)"
+    },
+    "held_out_ceiling_reference": {
+      "camera_motion_receipt": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/held_out_camera_motion_runtime_receipt.json",
+      "camera_motion_receipt_sha256": "8a5a1e83b7a8f1c4114ed81967e1f1c0ac6112a138baae4eb650e271880a2e09",
+      "cut_detector_receipt": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/held_out_cut_detector_runtime_receipt.json",
+      "cut_detector_receipt_sha256": "48097782523a162a767ff54d3002a6456dd78e2b2212c78bf6c463096aacef2a",
+      "lavfi_as_production_forbidden": true,
+      "production_benchmark_granted_by_held_out": false
+    },
+    "matrix_cases": [
+      {
+        "blocker": "No non-lavfi production gold media registered for role=hard_cut; held-out lavfi fixtures refuse production_benchmark authority.",
+        "expected_class": "hard_cut",
+        "gold_invented": false,
+        "media_kind": null,
+        "media_sha256": null,
+        "observed_class": null,
+        "passed": false,
+        "role": "hard_cut",
+        "status": "ABSENT_PRODUCTION_GOLD_MEDIA"
+      },
+      {
+        "blocker": "No non-lavfi production gold media registered for role=camera_motion; held-out lavfi fixtures refuse production_benchmark authority.",
+        "expected_class": "camera_motion",
+        "gold_invented": false,
+        "media_kind": null,
+        "media_sha256": null,
+        "observed_class": null,
+        "passed": false,
+        "role": "camera_motion",
+        "status": "ABSENT_PRODUCTION_GOLD_MEDIA"
+      },
+      {
+        "blocker": "No non-lavfi production gold media registered for role=static; held-out lavfi fixtures refuse production_benchmark authority.",
+        "expected_class": "static",
+        "gold_invented": false,
+        "media_kind": null,
+        "media_sha256": null,
+        "observed_class": null,
+        "passed": false,
+        "role": "static",
+        "status": "ABSENT_PRODUCTION_GOLD_MEDIA"
+      },
+      {
+        "expected_class": "sparse_motion",
+        "gold_invented": false,
+        "media_kind": "pulled_back_genuine_av_sync_mkv",
+        "media_sha256": "0c1153e675bd9209ce9c56d6c6694d9fb93118d69e3935fedcf77e626fed998a",
+        "observed_class": "sparse_motion",
+        "passed": true,
+        "role": "sparse_motion",
+        "status": "PASS_SINGLE_CANDIDATE"
+      }
+    ],
+    "production_cut_camera_authority_granted": false,
+    "production_cut_camera_benchmark_pass": false,
+    "required_roles": [
+      "hard_cut",
+      "camera_motion",
+      "static",
+      "sparse_motion"
+    ],
+    "roles_absent": [
+      "hard_cut",
+      "camera_motion",
+      "static"
+    ],
+    "roles_passed": [
+      "sparse_motion"
+    ],
+    "verdict": "FAIL"
+  },
+  "media_sha256": "0c1153e675bd9209ce9c56d6c6694d9fb93118d69e3935fedcf77e626fed998a",
+  "visual_contact_eval": {
+    "audio_stream_probe": {
+      "channels": 1,
+      "codec_name": "pcm_s16le",
+      "nb_frames": null,
+      "sample_rate": "16000",
+      "video_codec_name": "ffv1"
+    },
+    "blocker_detail": "Production combined visual/contact cannot bind without body/contact gold masks (local 7/7 ABSENT; RunPod 7/7 ABSENT). contact_placeholder held-out PASS is not production.",
+    "blocker_id": "production_media_combined_visual_contact_beyond_held_out_lavfi_absent",
+    "contract_scripts": {
+      "compiler": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py",
+      "held_out_combined_visual": "execute_combined_visual_audio_review_offline",
+      "held_out_visual_receipt": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/combined_visual_audio_review_runtime_receipt.json",
+      "held_out_visual_receipt_sha256": "45e7570cebbb7b88462e9d4d4f97536ff752eea65c3cf9784bc845552857753c",
+      "note": "Held-out VISUAL_QA_PASS_BOUNDED uses contact_placeholder only; production combined visual/contact requires real body/contact gold masks."
+    },
+    "decoded_frame_visual_inspection_executed": true,
+    "exported_review_frames": [
+      {
+        "bytes": 29454,
+        "frame_index": 0,
+        "path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/local_class_e_prod_cut_camera_visual_contact_20260721T104800Z/review_frames/prod_av_sync_f000.png",
+        "sha256": "f755b4f5e17df00983c3f3868e8c7a5081596af04df434a4ccf837ff42669871"
+      },
+      {
+        "bytes": 31965,
+        "frame_index": 24,
+        "path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/local_class_e_prod_cut_camera_visual_contact_20260721T104800Z/review_frames/prod_av_sync_f024.png",
+        "sha256": "7505ee26b77267d0d9807623e7b8b3a98e45ec707526c08ba43d5ca17d25828a"
+      },
+      {
+        "bytes": 32368,
+        "frame_index": 48,
+        "path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/local_class_e_prod_cut_camera_visual_contact_20260721T104800Z/review_frames/prod_av_sync_f048.png",
+        "sha256": "6d8ecc49b374203704ba56db6c4c9a65e5cbe9afddcbf7702ea5f68590b67caa"
+      }
+    ],
+    "local_gold_inventory": {
+      "absent_count": 7,
+      "binding": "local_C_Comfy_UI_Main",
+      "gold_authority_paths_absent": "7/7",
+      "gold_invented": false,
+      "paths": [
+        {
+          "exists": false,
+          "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Body_Contact_Gold_Standards",
+          "role": "canonical_body_contact_gold_standards_tree",
+          "status": "ABSENT"
+        },
+        {
+          "exists": false,
+          "path": "Plan/Instructions/QA/Evidence/Mask_Factory/promoted_body_contact",
+          "role": "promoted_body_contact_mask_tree",
+          "status": "ABSENT"
+        },
+        {
+          "exists": false,
+          "path": "masks/gold_standard/body_contact",
+          "role": "runtime_masks_gold_standard_body_contact",
+          "status": "ABSENT"
+        },
+        {
+          "exists": false,
+          "path": "MaskedWarehouse/gold_standard/body_contact",
+          "role": "warehouse_gold_standard_body_contact",
+          "status": "ABSENT"
+        },
+        {
+          "exists": false,
+          "path": "maskfactory_data/gold_standard/body_contact",
+          "role": "maskfactory_data_gold_standard_body_contact",
+          "status": "ABSENT"
+        },
+        {
+          "exists": false,
+          "path": "assets/gold_standard/body_contact",
+          "role": "assets_gold_standard_body_contact",
+          "status": "ABSENT"
+        },
+        {
+          "exists": false,
+          "path": "maskfactory/gold_standard/body_contact",
+          "role": "maskfactory_gold_standard_body_contact",
+          "status": "ABSENT"
+        }
+      ],
+      "present_count": 0
+    },
+    "media": {
+      "bytes": 2073838,
+      "kind": "pulled_back_genuine_av_sync_mkv",
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_av_sync_frame_aligned_20260714T202000-0500/strict_sync_mux_ffv1_pcm16_mono_frame_aligned.mkv",
+      "sha256": "0c1153e675bd9209ce9c56d6c6694d9fb93118d69e3935fedcf77e626fed998a"
+    },
+    "production_combined_visual_contact_pass": false,
+    "production_visual_contact_authority_granted": false,
+    "runpod_gold_inventory_cite": {
+      "gold_authority_paths_absent": "7/7",
+      "note": "Anti-dupe: reuse prior RunPod 7/7 ABSENT inventory; do not invent gold masks.",
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_POD_CLASS_A_F_NEGATIVE_INVENTORY_20260720.json",
+      "re_sshed": false,
+      "sha256": "bc6fab0e5f60d146c42ecc869ef6d02ee728d2d540272230e962e9f711ed7646"
+    },
+    "surfaces": [
+      {
+        "decision": "pass_bounded_candidate_only",
+        "observation": "Decoded/exported genuine AV-sync frames f0/f24/f48 for production candidate review; not held-out lavfi.",
+        "surface": "frame_timeline",
+        "visual_review_executed": true
+      },
+      {
+        "decision": "pass_bounded_candidate_only",
+        "observation": "Production profile cut detector: hard_cut_count=0; observed_class=sparse_motion.",
+        "surface": "cut_epochs",
+        "visual_review_executed": true
+      },
+      {
+        "decision": "pass_bounded_candidate_only",
+        "observation": "Production classifier observed_class=sparse_motion; held-out class remains null.",
+        "surface": "camera_motion_policy",
+        "visual_review_executed": true
+      },
+      {
+        "contact_placeholder_not_accepted_as_production": true,
+        "decision": "FAIL",
+        "gold_invented": false,
+        "observation": "Production contact surface blocked: local body/contact gold 7/7 ABSENT; RunPod inventory 7/7 ABSENT (anti-dupe cite, no invent).",
+        "surface": "contact",
+        "visual_review_executed": true
+      },
+      {
+        "decision": "pass_bounded_candidate_only",
+        "observation": "ffprobe audio codec=pcm_s16le rate=16000 channels=1.",
+        "surface": "audio_stream_binding",
+        "visual_review_executed": true
+      }
+    ],
+    "verdict": "FAIL"
+  }
+}

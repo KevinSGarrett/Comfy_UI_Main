@@ -64,13 +64,13 @@
     },
     {
       "id": "production_cut_camera_benchmark_authority",
-      "note": "observed_class=sparse_motion under production profile (mean=0.029653 max=0.376953 moderate=14/24). Held-out still null. Benchmark authority beyond lavfi still ABSENT; do not grant production_cut_camera_authority.",
-      "status": "PARTIAL_RECLASS_ONLY"
+      "note": "Candidate sparse_motion PASS retained (mean=0.029653 max=0.376953 mod_frac=0.2917). Production benchmark matrix incomplete: passed=['sparse_motion'] absent=['hard_cut', 'camera_motion', 'static']. Authority NOT granted.",
+      "status": "ABSENT_MATRIX_INCOMPLETE"
     },
     {
       "id": "production_media_combined_visual_contact",
-      "note": "VISUAL_QA_PASS_BOUNDED is held-out lavfi only",
-      "status": "ABSENT"
+      "note": "Production visual/contact FAIL: local gold 7/7 ABSENT; RunPod 7/7 ABSENT (cited inventory). Do not invent gold masks; held-out contact_placeholder is not production.",
+      "status": "ABSENT_GOLD_CONTACT_MASKS"
     },
     {
       "id": "compiler_hard_fail_close_removal_authority",
@@ -94,8 +94,8 @@
   "production_completion_allowed": false,
   "production_cut_camera_authority_granted": false,
   "production_mux_replay_pass": true,
-  "related_climb_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_PROD_SPARSE_MOTION_RECLASS_20260721.json",
-  "related_climb_packet_sha256": "ffd6f2e5f4ff6bb94a2a95bb0d16020bdeac1aec2112faa3fae2c23e8b036768",
+  "related_climb_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_PROD_CUT_CAMERA_VISUAL_CONTACT_BLOCKER_20260721.json",
+  "related_climb_packet_sha256": "f54b6d70a25f24f5d9381729b50c36829bf67b47cee0eaf641fe72dd551733ba",
   "row_complete": false,
   "runtime_authority_predicates": {
     "held_out_direct_receipt": {
@@ -120,18 +120,18 @@
       "roundtrip_evidence.within_tolerance"
     ]
   },
-  "safe_next_action": "Keep ROW084-011 FAIL/OPEN. Keep ROW084-012 OPEN_HOLD. Do not COMPLETE. Production sparse_motion reclass succeeded for genuine AV-sync candidate; still need production cut/camera benchmark authority beyond held-out lavfi + production combined visual/contact; do not remove compiler hard-fail until those co-requisites bind.",
+  "safe_next_action": "Keep ROW084-011 FAIL/OPEN. Keep ROW084-012 OPEN_HOLD. Do not COMPLETE. Production sparse_motion candidate reclass retained, but cut/camera benchmark authority still ABSENT (missing non-lavfi hard_cut/camera_motion/static gold) and production visual/contact blocked on body/contact gold 7/7 ABSENT (local+RunPod). Do not invent gold masks; do not remove compiler hard-fail until both co-requisites bind.",
   "schema_version": "1.0",
-  "summary": "Gate COMPILER_HARD_FAIL_CLOSES_PRODUCTION_COMPLETION_ALLOWED remains correctly FAIL/OPEN. Production sparse_motion reclass observed_class=sparse_motion, but cut/camera benchmark authority + production visual still absent; do not remove hard-fail. ROW084-012 OPEN_HOLD untouched; row_complete=false.",
+  "summary": "Gate COMPILER_HARD_FAIL_CLOSES_PRODUCTION_COMPLETION_ALLOWED remains correctly FAIL/OPEN. Production cut/camera benchmark + visual/contact authority climb FAIL (matrix incomplete; gold 7/7 ABSENT). Do not remove hard-fail. ROW084-012 OPEN_HOLD untouched; row_complete=false.",
   "tip_at_probe": "e8a61d46",
   "tracker_id": "TRK-W64-084",
-  "updated_at": "2026-07-21T10:29:03Z",
+  "updated_at": "2026-07-21T10:33:07Z",
   "why_not_clearable_now": {
     "reasons": [
       "Removing compile_wave64_canonical_video_timeline.py:845-847 alone would enable claim cheat without full production predicates.",
-      "Production mux replay PASS retained; sparse_motion reclass climbed observed_class null\u2192sparse_motion \u2014 necessary but not sufficient.",
-      "production_cut_camera_authority_granted=false (benchmark beyond held-out lavfi still absent).",
-      "Combined visual QA remains held_out_lavfi_visual_qa_only; inventing lavfi-as-production is forbidden.",
+      "Production mux replay PASS + sparse_motion reclass retained \u2014 necessary but not sufficient.",
+      "production_cut_camera_authority_granted=false (benchmark matrix absent roles=['hard_cut', 'camera_motion', 'static']).",
+      "Production combined visual/contact blocked on gold/contact masks local=7/7 RunPod=7/7.",
       "ROW084-012 Class C OPEN_HOLD stays; orthogonal schema-native cheat forbidden.",
       "Hard-fail removal remains a co-requisite after cut/camera + visual production authority bind."
     ],
