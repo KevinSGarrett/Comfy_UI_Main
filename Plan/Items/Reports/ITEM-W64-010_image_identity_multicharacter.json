@@ -82,9 +82,14 @@
     "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_lock_lora_vlm_identity_20260721T041518Z/SUMMARY.json",
     "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_LOCK_LORA_VLM_IDENTITY_20260721T041746Z.json",
     "Plan/Tracker/Evidence/TRK-W64-010_RUNPOD_C1_LOCK_LORA_VLM_IDENTITY_20260721T041746Z.json",
-    "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_lock_lora_vlm_identity_20260721T041746Z/LOCAL_RUNTIME_RECEIPT.json"
+    "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_lock_lora_vlm_identity_20260721T041746Z/LOCAL_RUNTIME_RECEIPT.json",
+    "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_FACE_TIGHTER_CALIB_20260721T043424Z.json",
+    "Plan/Tracker/Evidence/TRK-W64-010_RUNPOD_C1_FACE_TIGHTER_CALIB_20260721T043424Z.json",
+    "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_FACE_TIGHTER_VLM_20260721T043808Z.json",
+    "Plan/Tracker/Evidence/TRK-W64-010_RUNPOD_C1_FACE_TIGHTER_VLM_20260721T043808Z.json",
+    "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_face_tighter_vlm_20260721T043808Z/LOCAL_RUNTIME_RECEIPT.json"
   ],
-  "next_action": "Continue autonomous personal-calibration climb on RunPod (Scenes locks + LoRAs + VLM) without waiting for new human USER_AUTHORITY media; keep row blocked for generic multi-character portable reference packet; do not invent faces; do not claim COMPLETE; leave Row074 alone; CSV deferred.",
+  "next_action": "Continue autonomous personal-calibration climb on RunPod (Scenes locks + LoRAs + optional PuLID face lock when VRAM free) without waiting for new human USER_AUTHORITY media; keep row blocked for generic multi-character portable reference packet; do not invent faces; do not claim COMPLETE; leave Row074 alone; CSV deferred.",
   "class_a_offline_proof": {
     "lane": "Class_A_identity_reference_authority_offline_proof",
     "status": "BLOCKED_CLASS_F_A_USER_AUTHORITY_REFERENCE_CHAIN_ABSENT",
@@ -145,5 +150,32 @@
     "prior_below_gate_evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_LOCK_LORA_VLM_IDENTITY_20260721T041518Z.json",
     "prior_lock_lora_calib": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_LOCK_LORA_CALIB_20260721T035348Z.json",
     "note": "Panel-v2 qwen2.5vl:7b scores against existing Scenes C1 refs + lock text; bounded personal-calibration VLM PASS; does not clear generic multi-character USER_AUTHORITY chain; no COMPLETE."
+  },
+  "runpod_personal_calibration_face_tighter": {
+    "status": "RUNTIME_SCORED_PERSONAL_CALIBRATION_FACE_TIGHTER_VLM_BELOW_GATE_NONCANONICAL",
+    "row_complete": false,
+    "faces_invented": false,
+    "vlm_model": "qwen2.5vl:7b",
+    "method": "side_by_side_panel_v2",
+    "candidate_sha256": "c682a820239d344544e251f34338d0230ef56d16c143b803f39814c8e08a2c5b",
+    "aggregate_scores": {
+      "face_consistency_mean": 0.475,
+      "face_consistency_n": 4,
+      "body_silhouette_consistency_mean": 0.9,
+      "body_silhouette_consistency_n": 2,
+      "same_person_likelihood_mean": 0.4167,
+      "solo_lock_trait_alignment_score": 0.95
+    },
+    "gate": {
+      "face_consistency_mean_min": 0.55,
+      "faces_ok": false,
+      "body_ok": true,
+      "lock_ok": true,
+      "runtime_pass_bounded": false
+    },
+    "calib_evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_FACE_TIGHTER_CALIB_20260721T043424Z.json",
+    "vlm_evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_FACE_TIGHTER_VLM_20260721T043808Z.json",
+    "pullback": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_face_tighter_vlm_20260721T043808Z",
+    "note": "Flux face-tighter follow-on (boosted Latina_milf + face-dominant lock prefix) rescored with qwen2.5vl:7b; face 0.475 below gate 0.55; body/lock ok; no COMPLETE; does not clear multi-character USER_AUTHORITY chain."
   }
 }

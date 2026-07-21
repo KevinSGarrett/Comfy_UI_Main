@@ -1,20 +1,18 @@
-# Main Session Integration Handoff — 2026-07-20T23:38:30-05:00
+# Main Session Integration Handoff — 2026-07-20T23:42-05:00
 
 ## Integration Summary
 
 - Active platform: interactive Cursor (integration authority)
 - Branch: `codex/workflow_plan_update_improvements`
-- This pass: Row017 RunPod `micro_mask_v2` producer acceptance + Ollama VLM deepen
-- Tip evidence: `Plan/Instructions/QA/Evidence/Wave64/ROW017_RUNPOD_MICRO_MASK_V2_VLM_DEEPEN_20260720T233740-0500.json`
-- Producer stamps: `20260720T233704-0500` (tip) and `20260720T233722-0500` (bounded duplicate climb)
-- Tip artifact sha256: `0925722a9f8ec49e1cf7275fa9d77d41696fba9d15559e38dc6f20b6477c74fa`
-- Secondary artifact sha256: `fa6c421577085a7034cefae4e0e023d587ca3ecc9372fac533e265121cf1cedb`
-- GLOBAL_REVIEW validator: pass; VLM: ok; row_complete: false
-- Prepared SDXL inpaint detail lanes exhausted on RunPod (`face_mask_v1`, `micro_nomouth_v4`, `micro_mask_v2`)
-- Row074 left alone; no HOLD 090+; CSV deferred; no COMPLETE
+- This pass: Row010 RunPod Flux **face-tighter** personal-calib + qwen2.5vl:7b panel-v2 re-score (below face gate; noncanonical)
+- Tip evidence: `Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_FACE_TIGHTER_VLM_20260721T043808Z.json`
+- Calib: `Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_FACE_TIGHTER_CALIB_20260721T043424Z.json`
+- Pullback: `Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_face_tighter_vlm_20260721T043808Z`
+- Aggregate: face_consistency_mean **0.475** (gate 0.55 fail), body **0.9**, solo lock **0.95** → `RUNTIME_SCORED_PERSONAL_CALIBRATION_FACE_TIGHTER_VLM_BELOW_GATE_NONCANONICAL`
+- `row_complete=false`; no COMPLETE; no invented faces; Row074 untouched; no HOLD 090+; CSV deferred
+- Does **not** clear generic multi-character USER_AUTHORITY portable reference chain
 
 ## Exact next action
 
-1. Prepared SDXL inpaint detail lanes exhausted; next highest autonomous pod climb: `fluid_masked_inpaint` (or mf70 face prepared assets) when `:8188` idle.
-2. Optional: Row010 face-tighter personal-calib re-VLM when queue free (still noncanonical).
-3. Leave Row074 alone; no COMPLETE; no HOLD 090+.
+1. Prefer PuLID+Scenes face-ref personal-calib follow-on on RunPod when GPU free (still noncanonical).
+2. Leave Row074 alone; CSV via mutator only; do not claim Row010 COMPLETE.
