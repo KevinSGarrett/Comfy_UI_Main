@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ROW017-RUNPOD-MF70-JAWLINE-CHIN-VISUAL-QA-20260721T005235-0500",
+  "created_at": "2026-07-21T00:52:35-05:00",
+  "tracker_id": "TRK-W64-017",
+  "item_id": "ITEM-W64-017",
+  "localized_region": "mf70_jawline_chin",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+  "qa_decision": "pass_bounded_localized_mf70_jawline_chin_runpod_runtime_candidate",
+  "overall_decision": "pass",
+  "local_only": false,
+  "runtime_host": "runpod",
+  "direct_visual_inspection": true,
+  "fixture_only": false,
+  "generation_executed": true,
+  "runtime_receipt": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_jawline_chin_20260721T005235-0500/LOCAL_RUNTIME_RECEIPT.json",
+  "source": {
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_jawline_chin_20260707T160000-0500/wave70_mf70_face_identity_source_canny_v3.png",
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d"
+  },
+  "mask": {
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_jawline_chin_20260707T160000-0500/wave70_mf70_jawline_chin_mask.png",
+    "sha256": "d3360c3ceca5ec738ea51bcd5dbe6f21029f859b2e97500b3baa3b2593fdcdd2",
+    "filename": "wave70_mf70_jawline_chin_mask.png"
+  },
+  "artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_jawline_chin_20260721T005235-0500/images/codex_row017_mf70_jawline_chin_20260721T005235-0500_00001_.png",
+    "sha256": "d98254c19824b11da9079f8be73996ea82367227a4357d9faca46b47ef664d11"
+  },
+  "comparison_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_jawline_chin_20260721T005235-0500/images/qa_full_side_by_side.png",
+    "sha256": "28775a1956c86e4da4fc986056e7ffe17f6b150d7b3b319e658e7592cddcd461"
+  },
+  "face_crop_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_jawline_chin_20260721T005235-0500/images/qa_face_crop_side_by_side.png",
+    "sha256": "e339cc4a07596a2452a7c8a842a610d997df57e89874b5431a00534c1297e954"
+  },
+  "eye_crop_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_jawline_chin_20260721T005235-0500/images/qa_eye_crop_side_by_side.png",
+    "sha256": "32f7e29493735b022a11cdb126c8ce9046ca85ea3a9c4964d1338564f99fa3a8"
+  },
+  "mouth_crop_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_jawline_chin_20260721T005235-0500/images/qa_mouth_crop_side_by_side.png",
+    "sha256": "65bad9fd61a55a6b722e779300cee8d4a2c0d30b98e8d79211fe5753af47601e"
+  },
+  "difference_metrics": {
+    "full_image_diff_bbox": [
+      292,
+      463,
+      486,
+      556
+    ],
+    "face_mask_bbox": [
+      297,
+      469,
+      481,
+      552
+    ],
+    "face_crop_box": [
+      277,
+      449,
+      501,
+      572
+    ],
+    "mean_rgb_abs_diff": [
+      0.04351,
+      0.043649,
+      0.041787
+    ],
+    "rms_rgb_abs_diff": [
+      0.602479,
+      0.601891,
+      0.567199
+    ],
+    "face_region_mean_abs": 1.650668,
+    "eye_region_mean_abs": 0.0,
+    "mouth_region_mean_abs": 0.989553,
+    "clothing_mean_abs": 0.0,
+    "background_corner_mean_abs": 0.0,
+    "changed_pixel_count": 3051,
+    "mask_pixel_count": 8487
+  },
+  "whole_frame_findings": [
+    "Fresh RunPod ComfyUI mf70 jawline_chin masked inpaint on wave70_mf70_face_identity_source_canny_v3 (seed 6621048820, RealVisXL baked VAE, denoise 0.09, FeatherMask 24px, cfg 4.0, steps 18) completed successfully (prompt_id ececd2d5-4c29-4d15-984b-683b49a4b177).",
+    "Whole-frame identity, hair, navy blazer, patterned shirt, collar, dark studio background, lighting, and framing remain stable versus source.",
+    "Pixel delta is localized to mf70 jawline_chin bbox [297, 469, 481, 552]; clothing mean abs 0.0; background corner mean abs 0.0; 3051 changed pixels vs 8487-pixel jawline_chin mask.",
+    "Direct whole-frame + face/eye/mouth crop inspection: subtle jawline/chin contour preservation refinement without gray-mask failure, identity drift, wardrobe rewrite, background change, hard mask-edge seam, or gaze/iris rewrite.",
+    "Hands are outside this head-and-shoulders crop (not applicable); no global style drift observed."
+  ],
+  "global_defects": [],
+  "promotion_authorized": false,
+  "row_complete": false,
+  "product_completion_claimed": false,
+  "ec2": "RUNPOD_USED",
+  "docker_cvat": "not-needed",
+  "notes": [
+    "Class E future-producer emission proof via RunPod Comfy runtime after local :8188 was unreachable.",
+    "Does not claim COMPLETE; CSV deferred; Row074 left alone; HOLD 090+ untouched."
+  ],
+  "csv_update_deferred": true
+}
