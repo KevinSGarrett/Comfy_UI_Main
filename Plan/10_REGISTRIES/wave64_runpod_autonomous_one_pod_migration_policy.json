@@ -1,0 +1,25 @@
+{
+  "schema_version": "wave64.aqa.one_pod_migration_policy.v1",
+  "program_id": "W64-AQA",
+  "preferred_profile": {
+    "profile_id": "preferred_2xa40", "gpu_type": "NVIDIA A40", "gpu_count": 2,
+    "minimum_aggregate_vram_gb": 96, "minimum_ram_gb": 100, "minimum_vcpu": 18,
+    "maximum_hourly_usd": 0.70, "aggregate_vram_is_single_allocation": false,
+    "fallback_approval_required": false
+  },
+  "performance_fallback_profile": {
+    "profile_id": "performance_fallback_blackwell96",
+    "gpu_type": "NVIDIA RTX PRO 6000 Blackwell Server Edition", "gpu_count": 1,
+    "minimum_aggregate_vram_gb": 96, "minimum_ram_gb": 124, "minimum_vcpu": 32,
+    "maximum_hourly_usd": 1.69, "aggregate_vram_is_single_allocation": true,
+    "fallback_approval_required": true
+  },
+  "required_qualification_gates": [
+    "storage_binding", "runtime_health", "gpu_topology", "model_residency",
+    "failure_recovery", "quality_equivalence", "cost_ceiling", "rollback_readiness"
+  ],
+  "candidate_creation_requires_idle_queue": true,
+  "candidate_creation_requires_same_network_volume": true,
+  "old_pod_stops_only_after_integration_switch": true,
+  "decision_only": true
+}

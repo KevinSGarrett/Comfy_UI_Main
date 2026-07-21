@@ -100,6 +100,14 @@ PATHS = {
     / "Plan/08_SCHEMAS/runpod_autonomous_role_drift_decision.schema.json",
     "role_qualification_compiler": ROOT
     / "Plan/07_IMPLEMENTATION/scripts/compile_and_evaluate_wave64_runpod_autonomous_role_qualification.py",
+    "migration_event_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_one_pod_migration_event.schema.json",
+    "migration_state_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_one_pod_migration_state.schema.json",
+    "migration_policy": ROOT
+    / "Plan/10_REGISTRIES/wave64_runpod_autonomous_one_pod_migration_policy.json",
+    "migration_controller": ROOT
+    / "Plan/07_IMPLEMENTATION/scripts/run_wave64_runpod_autonomous_one_pod_migration_controller.py",
 }
 
 SECRET_PATTERNS = {
@@ -155,6 +163,9 @@ def collect_errors() -> list[str]:
         role_qualification_report_schema = load_json(PATHS["role_qualification_report_schema"])
         role_qualification_certificate_schema = load_json(PATHS["role_qualification_certificate_schema"])
         role_drift_decision_schema = load_json(PATHS["role_drift_decision_schema"])
+        migration_event_schema = load_json(PATHS["migration_event_schema"])
+        migration_state_schema = load_json(PATHS["migration_state_schema"])
+        migration_policy = load_json(PATHS["migration_policy"])
     except (csv.Error, json.JSONDecodeError, OSError) as exc:
         return [f"parse failure: {exc}"]
 
@@ -282,6 +293,15 @@ def collect_errors() -> list[str]:
         errors.append("workflow graph mutation must remain forbidden")
     if workflow_patch_policy.get("threshold_mutation_allowed") is not False:
         errors.append("workflow threshold mutation must remain forbidden")
+    if migration_policy.get("decision_only") is not True:
+        errors.append("migration controller must remain decision-only")
+    if migration_policy.get("old_pod_stops_only_after_integration_switch") is not True:
+        errors.append("migration policy must forbid old-pod stop before integration switch")
+    migration_preferred = migration_policy.get("preferred_profile", {})
+    if migration_preferred.get("gpu_type") != "NVIDIA A40" or migration_preferred.get("gpu_count") != 2:
+        errors.append("migration preferred profile must remain exact 2x A40")
+    if migration_preferred.get("maximum_hourly_usd") != 0.70:
+        errors.append("migration preferred 2x A40 price ceiling must remain 0.70 USD/hour")
 
     modalities = set(schema.get("properties", {}).get("modality", {}).get("enum", []))
     required_modalities = {"image", "video", "audio", "av", "mask", "workflow"}
@@ -338,6 +358,8 @@ def collect_errors() -> list[str]:
         jsonschema.Draft7Validator.check_schema(role_qualification_report_schema)
         jsonschema.Draft7Validator.check_schema(role_qualification_certificate_schema)
         jsonschema.Draft7Validator.check_schema(role_drift_decision_schema)
+        jsonschema.Draft7Validator.check_schema(migration_event_schema)
+        jsonschema.Draft7Validator.check_schema(migration_state_schema)
     except ImportError:
         pass
     except Exception as exc:  # pragma: no cover - library supplies exact detail

@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_one_pod_migration_event.schema.json",
+  "title": "Wave64 Autonomous One-Pod Migration Event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "event_id", "event_type", "profile_id", "candidate_pod_id",
+    "observed_profile", "gate_id", "passed", "queue_idle", "network_volume_id",
+    "integration_authority_approval_sha256", "evidence_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.one_pod_migration_event.v1"},
+    "event_id": {"type": "string", "pattern": "^W64-AQA-MIG-[A-Za-z0-9._-]{1,96}$"},
+    "event_type": {"enum": ["STOCK_UNAVAILABLE", "CANDIDATE_CREATED", "QUALIFICATION_GATE", "INTEGRATION_SWITCH_COMMITTED", "REQUEST_OLD_POD_STOP", "CANDIDATE_TERMINATED"]},
+    "profile_id": {"enum": ["preferred_2xa40", "performance_fallback_blackwell96"]},
+    "candidate_pod_id": {"type": ["string", "null"]},
+    "observed_profile": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object", "additionalProperties": false,
+          "required": ["gpu_type", "gpu_count", "aggregate_vram_gb", "ram_gb", "vcpu", "hourly_usd"],
+          "properties": {
+            "gpu_type": {"type": "string", "minLength": 1},
+            "gpu_count": {"type": "integer", "minimum": 1},
+            "aggregate_vram_gb": {"type": "number", "exclusiveMinimum": 0},
+            "ram_gb": {"type": "number", "exclusiveMinimum": 0},
+            "vcpu": {"type": "integer", "minimum": 1},
+            "hourly_usd": {"type": "number", "minimum": 0}
+          }
+        }
+      ]
+    },
+    "gate_id": {"type": ["string", "null"]},
+    "passed": {"type": ["boolean", "null"]},
+    "queue_idle": {"type": ["boolean", "null"]},
+    "network_volume_id": {"type": ["string", "null"]},
+    "integration_authority_approval_sha256": {"oneOf": [{"$ref": "#/definitions/sha256"}, {"type": "null"}]},
+    "evidence_sha256": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/definitions/sha256"}}
+  },
+  "definitions": {"sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+}
