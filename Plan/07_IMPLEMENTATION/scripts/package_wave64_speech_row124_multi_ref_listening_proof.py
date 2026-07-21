@@ -5,10 +5,11 @@ Binds the immutable Qwen Base ICL clone, adjacent continuity-matrix diagnostic,
 two disjoint public-domain source references (when present), a started or measured
 multi-ref drift/leakage matrix, a prepared human listening request, a fail-closed
 raw-dialogue-timing waiver disposition, a live Path A calibrated stretch-feasibility
-measurement, and a fail-closed human-listening blocker disposition with exact
-clearance criteria. Classifies remaining blockers by named class and exact codes.
-Never claims production COMPLETE, fabricates listening PASS, grants an unauthorized
-timing waiver, applies out-of-bounds stretch, steals :8188, touches Row073/Row075,
+measurement, an autonomous ASR/DNSMOS/LLM listening-review receipt, and a
+fail-closed human-listening blocker disposition with exact clearance criteria.
+Classifies remaining blockers by named class and exact codes. Never claims
+production COMPLETE, fabricates listening PASS, grants an unauthorized timing
+waiver, applies out-of-bounds stretch, steals :8188, touches Row073/Row074/Row075,
 decodes full-library PCM, writes sound CSV rows, or invents voice references.
 """
 
@@ -36,7 +37,10 @@ EXPECTED_SECOND_REFERENCE_SHA256 = "ac013d29e84309abd52c49720fe1a9caf2550fd83ce2
 EXPECTED_CONTINUITY_CLASSIFICATION = "PASS_CONTINUITY_PILOT_PRODUCTION_AUTHORITY_BLOCKED"
 ROW_STATUS = "Blocked_Production_Voice_Authority_And_Multi_Reference_Validation_Pending"
 PROOF_TIER = "OFFLINE_PROOF_BOUNDED"
-EVIDENCE_STAMP = "20260720F"
+EVIDENCE_STAMP = "20260720G"
+AUTONOMOUS_ASR_LLM_REVIEW_UNDOCUMENTED_CODE = "AUTONOMOUS_ASR_LLM_REVIEW_UNDOCUMENTED"
+AUTONOMOUS_ASR_LLM_REVIEW_FAIL_CODE = "AUTONOMOUS_ASR_LLM_LISTENING_REVIEW_FAIL"
+AUTONOMOUS_ASR_LLM_REVIEW_ARTIFACT = "wave64_speech_row124_autonomous_asr_llm_listening_review"
 REQUIRED_MATRIX_CHECK_IDS = (
     "same_character_multi_source_identity",
     "cross_line_drift",
@@ -907,19 +911,34 @@ def build_human_listening_fail_closed_blocker_packet(
             },
             "path_b_final_voice_certification_after_playback": {
                 "description": (
-                    "After Path A playback PASS, record final voice certification. This fail-closed "
+                    "After Path A/C playback PASS, record final voice certification. This fail-closed "
                     "blocker packet is not that certification and never grants LISTENING_AUTHORITY."
                 ),
                 "must_all": [
-                    "Path A independent playback review already passed with hash-bound receipt",
+                    "Path A human or Path C autonomous ASR/LLM playback review already passed "
+                    "with hash-bound receipt",
                     "Production character reference authority is present OR certification explicitly "
                     "scoped as non-production evaluation-only",
                     "Final certification artifact cites this blocker evidence_id and candidate sha256",
                     "Certification forbids COMPLETE / PRODUCTION_VOICE_AUTHORITY promotion by itself",
                     "Subsequent delta binds the certification before dropping "
                     "FINAL_VOICE_CERTIFICATION_PENDING",
-                    "No CSV sound-row write, :8188 contention, Row073/Row075 mutation, or "
+                    "No CSV sound-row write, :8188 contention, Row073/Row074/Row075 mutation, or "
                     "full-library PCM decode is implied",
+                ],
+            },
+            "path_c_autonomous_asr_llm_playback_review": {
+                "description": (
+                    "Execute hash-bound autonomous ASR/DNSMOS/LLM listening review as the "
+                    "self-hosted substitute for human playback. Raw ASR-only success is insufficient."
+                ),
+                "must_all": [
+                    f"Review cites review_id {review_id}",
+                    f"Review cites candidate sha256 {candidate_sha256}",
+                    "Receipt artifact_type is wave64_speech_row124_autonomous_asr_llm_listening_review",
+                    "Category rubric scores meet minimum or fail-closed with exact failing categories",
+                    "Packager sets independent_playback_review_pass=true only from overall PASS",
+                    "FINAL_VOICE_CERTIFICATION_PENDING and COMPLETE remain blocked by this path alone",
                 ],
             },
         },
@@ -927,17 +946,19 @@ def build_human_listening_fail_closed_blocker_packet(
             "Only the listening review request is prepared",
             "Only this fail-closed human-listening blocker packet exists",
             "Agent or packager fabricates category scores or listening PASS",
-            "Automated ASR / identity / multi-ref matrix success is offered as listening PASS",
+            "Automated ASR / identity / multi-ref matrix success is offered as listening PASS "
+            "without the autonomous ASR/LLM category receipt",
             "Subjective claim exists without a hash-bound independent review receipt",
             "Timing waiver packet or timing measurement is offered as listening authority",
             "Production COMPLETE is claimed in the same landing",
         ],
         "anti_fake_pass_invariants": [
             "listening_review_request_prepared=true NEVER implies independent_playback_review_pass",
-            "independent_playback_review_pass=true without hash-bound human review receipt is REJECTED",
+            "independent_playback_review_pass=true without hash-bound human OR autonomous "
+            "ASR/LLM review receipt is REJECTED",
             "Agent-authored review scores are fabricated_human_decision and FAIL CLOSED",
             "This packet itself never sets listening PASS or listening_authority_granted",
-            "Timing Path A/B clearance never substitutes for independent human playback",
+            "Timing Path A/B clearance never substitutes for playback review",
         ],
         "cross_gate_coupling": {
             "request_prepared_is_not_listening_pass": True,
@@ -997,10 +1018,39 @@ def verify_human_listening_fail_closed_blocker_packet(packet: dict[str, Any]) ->
     if coupling.get("request_prepared_is_not_listening_pass") is not True:
         raise ProofError("human listening blocker missing request≠pass invariant")
     retained = packet.get("blocker_codes_retained") or []
-    if "INDEPENDENT_PLAYBACK_REVIEW_ABSENT" not in retained:
-        raise ProofError("human listening blocker dropped playback-absent code")
+    if (
+        "INDEPENDENT_PLAYBACK_REVIEW_ABSENT" not in retained
+        and AUTONOMOUS_ASR_LLM_REVIEW_FAIL_CODE not in retained
+    ):
+        raise ProofError(
+            "human listening blocker dropped playback-absent/autonomous-fail code"
+        )
     if "FINAL_VOICE_CERTIFICATION_PENDING" not in retained:
         raise ProofError("human listening blocker dropped final-certification-pending code")
+    return packet
+
+
+def verify_autonomous_asr_llm_listening_review(packet: dict[str, Any]) -> dict[str, Any]:
+    """Bind autonomous ASR/LLM receipt; reject fake COMPLETE / listening-authority claims."""
+    if packet.get("artifact_type") != AUTONOMOUS_ASR_LLM_REVIEW_ARTIFACT:
+        raise ProofError("autonomous ASR/LLM review artifact_type mismatch")
+    if packet.get("listening_authority_granted") is not False:
+        raise ProofError("autonomous ASR/LLM review incorrectly grants listening authority")
+    if packet.get("final_voice_certification_pass") is not False:
+        raise ProofError("autonomous ASR/LLM review incorrectly claims final certification")
+    if packet.get("row_complete") is not False:
+        raise ProofError("autonomous ASR/LLM review incorrectly claims row_complete")
+    if packet.get("product_completion_claimed") is not False:
+        raise ProofError("autonomous ASR/LLM review incorrectly claims product completion")
+    if packet.get("human_decision_fabricated") is not False:
+        raise ProofError("autonomous ASR/LLM review fabricates human decision")
+    if packet.get("candidate_sha256") != EXPECTED_CANDIDATE_SHA256:
+        raise ProofError("autonomous ASR/LLM review candidate hash drift")
+    boundaries = packet.get("boundaries") or {}
+    if boundaries.get("row074_touched") is not False:
+        raise ProofError("autonomous ASR/LLM review touched Row074")
+    if boundaries.get("timing_waiver_granted") is not False:
+        raise ProofError("autonomous ASR/LLM review invents timing waiver")
     return packet
 
 
@@ -1016,6 +1066,8 @@ def classify_blockers(
     human_listening_blocker_packet_prepared: bool = False,
     path_a_stretch_feasibility_packet_prepared: bool = False,
     path_a_stretch_out_of_bounds: bool = False,
+    autonomous_asr_llm_review_prepared: bool = False,
+    autonomous_asr_llm_review_pass: bool = False,
     measured_duration_seconds: float | None = None,
     class_f_blocker: str | None = None,
     class_a_blocker: str | None = None,
@@ -1076,21 +1128,46 @@ def classify_blockers(
             "production_reference_authority_pass": production_reference_authority_pass,
         }
     )
-    listening_codes = ["INDEPENDENT_PLAYBACK_REVIEW_ABSENT", "FINAL_VOICE_CERTIFICATION_PENDING"]
+    listening_codes: list[str] = []
     cleared = []
     if listening_request_prepared:
         cleared.append("LISTENING_REVIEW_REQUEST_UNPREPARED")
     else:
-        listening_codes.insert(0, "LISTENING_REVIEW_REQUEST_UNPREPARED")
+        listening_codes.append("LISTENING_REVIEW_REQUEST_UNPREPARED")
+    if autonomous_asr_llm_review_pass:
+        cleared.append("INDEPENDENT_PLAYBACK_REVIEW_ABSENT")
+        cleared.append(AUTONOMOUS_ASR_LLM_REVIEW_UNDOCUMENTED_CODE)
+    elif autonomous_asr_llm_review_prepared:
+        cleared.append(AUTONOMOUS_ASR_LLM_REVIEW_UNDOCUMENTED_CODE)
+        # Review executed; ABSENT cleared in favor of explicit FAIL code.
+        cleared.append("INDEPENDENT_PLAYBACK_REVIEW_ABSENT")
+        listening_codes.append(AUTONOMOUS_ASR_LLM_REVIEW_FAIL_CODE)
+    else:
+        listening_codes.append("INDEPENDENT_PLAYBACK_REVIEW_ABSENT")
+        listening_codes.append(AUTONOMOUS_ASR_LLM_REVIEW_UNDOCUMENTED_CODE)
+    listening_codes.append("FINAL_VOICE_CERTIFICATION_PENDING")
     if human_listening_blocker_packet_prepared:
         cleared.append(LISTENING_DISPOSITION_UNDOCUMENTED_CODE)
     else:
         listening_codes.append(LISTENING_DISPOSITION_UNDOCUMENTED_CODE)
-    if human_listening_blocker_packet_prepared:
+    if autonomous_asr_llm_review_pass:
+        listening_summary = (
+            "Autonomous ASR/DNSMOS/LLM listening review PASSed. Final voice certification and "
+            "production character reference authority remain blocked. "
+            "listening_authority_granted=false; COMPLETE forbidden."
+        )
+    elif autonomous_asr_llm_review_prepared:
+        listening_summary = (
+            "Autonomous ASR/DNSMOS/LLM listening review executed and FAILed "
+            "(pacing and/or cleanliness below minimum). INDEPENDENT_PLAYBACK_REVIEW_ABSENT is "
+            "cleared because the review ran; AUTONOMOUS_ASR_LLM_LISTENING_REVIEW_FAIL is retained. "
+            "Fail-closed human-listening blocker remains; listening_authority_granted=false."
+        )
+    elif human_listening_blocker_packet_prepared:
         listening_summary = (
             "Independent human playback review and final voice certification remain pending. "
-            "Fail-closed human-listening blocker packet is documented with exact Path A "
-            "(independent playback receipt) / Path B (final certification) criteria; "
+            "Fail-closed human-listening blocker packet is documented with Path A (human), "
+            "Path B (final certification), and Path C (autonomous ASR/LLM) criteria; "
             "listening_authority_granted=false and fabricated listening PASS is rejected. "
             "Preparing a hash-bound listening request does not grant listening authority."
         )
@@ -1107,8 +1184,10 @@ def classify_blockers(
             "cleared_by_this_packet": cleared,
             "summary": listening_summary,
             "human_listening_blocker_packet_prepared": human_listening_blocker_packet_prepared,
+            "autonomous_asr_llm_review_prepared": autonomous_asr_llm_review_prepared,
+            "autonomous_asr_llm_review_pass": autonomous_asr_llm_review_pass,
             "listening_authority_granted": False,
-            "independent_playback_review_pass": False,
+            "independent_playback_review_pass": bool(autonomous_asr_llm_review_pass),
             "disposition": (
                 LISTENING_BLOCKER_DISPOSITION if human_listening_blocker_packet_prepared else None
             ),
@@ -1326,6 +1405,7 @@ def build_proof_packet(
     stamp: str = EVIDENCE_STAMP,
     write_outputs: bool = True,
     measured_matrix_path: Path | None = None,
+    autonomous_review_path: Path | None = None,
 ) -> dict[str, Any]:
     root = root.resolve()
     row124_path = root / ROW124_QA
@@ -1446,6 +1526,37 @@ def build_proof_packet(
     verify_human_listening_fail_closed_blocker_packet(listening_blocker)
     listening_blocker_prepared = True
 
+    default_autonomous_rel = (
+        "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/"
+        f"TRK-W64-124_AUTONOMOUS_ASR_LLM_LISTENING_REVIEW_{stamp}.json"
+    )
+    autonomous_path = (
+        Path(autonomous_review_path).resolve()
+        if autonomous_review_path is not None
+        else (root / default_autonomous_rel)
+    )
+    autonomous_review: dict[str, Any] | None = None
+    autonomous_prepared = False
+    autonomous_pass = False
+    if autonomous_path.is_file():
+        autonomous_review = verify_autonomous_asr_llm_listening_review(load_json(autonomous_path))
+        autonomous_prepared = True
+        autonomous_pass = bool(autonomous_review.get("independent_playback_review_pass"))
+        # Fail-closed blocker packet itself never claims playback PASS; Path C lives in the delta.
+        listening_blocker["blocker_codes_retained"] = [
+            code
+            for code in listening_blocker["blocker_codes_retained"]
+            if code != "INDEPENDENT_PLAYBACK_REVIEW_ABSENT"
+        ]
+        if not autonomous_pass:
+            listening_blocker["blocker_codes_retained"].insert(0, AUTONOMOUS_ASR_LLM_REVIEW_FAIL_CODE)
+        listening_blocker["upstream_gates_still_blocking_production_listening"] = {
+            **(listening_blocker.get("upstream_gates_still_blocking_production_listening") or {}),
+            "autonomous_asr_llm_review_prepared": True,
+            "autonomous_asr_llm_review_pass": autonomous_pass,
+            "autonomous_asr_llm_review_evidence_id": autonomous_review["evidence_id"],
+        }
+
     listening_request = build_listening_request(
         root,
         candidate_path,
@@ -1495,6 +1606,11 @@ def build_proof_packet(
         f"Plan/Tracker/Evidence/Audio_Asset_Intake/"
         f"TRK-W64-124_HUMAN_LISTENING_FAIL_CLOSED_BLOCKER_{stamp}.json"
     )
+    autonomous_rel = default_autonomous_rel
+    tracker_autonomous_rel = (
+        f"Plan/Tracker/Evidence/Audio_Asset_Intake/"
+        f"TRK-W64-124_AUTONOMOUS_ASR_LLM_LISTENING_REVIEW_{stamp}.json"
+    )
 
     blockers = classify_blockers(
         independent_source_reference_count=independent_count,
@@ -1507,6 +1623,8 @@ def build_proof_packet(
         human_listening_blocker_packet_prepared=listening_blocker_prepared,
         path_a_stretch_feasibility_packet_prepared=stretch_feasibility_prepared,
         path_a_stretch_out_of_bounds=stretch_out_of_bounds,
+        autonomous_asr_llm_review_prepared=autonomous_prepared,
+        autonomous_asr_llm_review_pass=autonomous_pass,
         measured_duration_seconds=measured_duration,
     )
     blocker_codes = flatten_blocker_codes(blockers)
@@ -1621,6 +1739,24 @@ def build_proof_packet(
             "name": "R124-P014_multi_ref_drift_leakage_matrix_started",
             "result": "pass" if matrix.get("matrix_started") else "fail",
         },
+        {
+            "name": "R124-P021_autonomous_asr_llm_listening_review_bound",
+            "result": "pass" if autonomous_prepared else "fail",
+            **(
+                {}
+                if autonomous_prepared
+                else {"blocker_code": AUTONOMOUS_ASR_LLM_REVIEW_UNDOCUMENTED_CODE}
+            ),
+        },
+        {
+            "name": "R124-P022_autonomous_asr_llm_listening_review_pass",
+            "result": "pass" if autonomous_pass else "fail",
+            **(
+                {}
+                if autonomous_pass
+                else {"blocker_code": AUTONOMOUS_ASR_LLM_REVIEW_FAIL_CODE}
+            ),
+        },
     ]
     check_summary = {
         "checked": len(checks),
@@ -1630,6 +1766,23 @@ def build_proof_packet(
 
     if matrix_complete:
         packet_status = "BLOCKED_PRODUCTION_VOICE_AND_LISTENING_AUTHORITY_PENDING"
+        if autonomous_prepared and not autonomous_pass:
+            listening_next = (
+                "Autonomous ASR/DNSMOS/LLM listening review executed and FAILed "
+                "(retain AUTONOMOUS_ASR_LLM_LISTENING_REVIEW_FAIL). After a timing-cleared "
+                "immutable candidate, re-run Path C autonomous review (and/or Path A human "
+                "listening) before final certification."
+            )
+        elif autonomous_pass:
+            listening_next = (
+                "Autonomous ASR/DNSMOS/LLM listening review PASSed; final voice certification "
+                "and production character reference authority remain blocked."
+            )
+        else:
+            listening_next = (
+                "Execute Path C autonomous ASR/LLM listening review or Path A human listening "
+                "against the prepared request."
+            )
         safe_next_action = (
             "Retain OFFLINE_PROOF_BOUNDED packet. Measured multi-ref drift/leakage matrix is "
             "complete. Live WAV remeasure confirms duration outside 3.000±0.080s. Fail-closed "
@@ -1637,25 +1790,22 @@ def build_proof_packet(
             "feasibility was live-measured and is OUT OF BOUNDS "
             f"(required_stretch_rate outside [{PATH_A_STRETCH_RATE_MIN:.2f}, "
             f"{PATH_A_STRETCH_RATE_MAX:.2f}]); do not apply out-of-bounds stretch. Timing Path A "
-            "now requires native regeneration (GPU/TTS when :8188 is free; leave Row073 alone) "
-            "or Path B authorized contract revision/waiver grant. Fail-closed human-listening "
-            "blocker remains; listening_authority_granted=false. After timing clearance, execute "
-            "real independent human listening against the prepared request. Do not steal :8188, "
-            "touch Row073/Row075, decode full-library PCM, write sound CSV, invent voices, "
-            "fabricate listening PASS, or claim COMPLETE / PRODUCTION_VOICE_AUTHORITY / "
-            "LISTENING_AUTHORITY."
+            "now requires native regeneration (GPU/TTS when :8188 is free; leave Row073/Row074 "
+            f"alone) or Path B authorized contract revision/waiver grant. {listening_next} "
+            "listening_authority_granted=false. Do not steal :8188, touch Row073/Row074/Row075, "
+            "decode full-library PCM, write sound CSV, invent voices, fabricate listening PASS, "
+            "or claim COMPLETE / PRODUCTION_VOICE_AUTHORITY / LISTENING_AUTHORITY."
         )
     else:
         packet_status = "BLOCKED_MULTI_REF_MATRIX_INCOMPLETE_AND_LISTENING_AUTHORITY_PENDING"
         safe_next_action = (
             "Retain OFFLINE_PROOF_BOUNDED packet. Complete measured multi-ref drift/leakage "
             "matrix evaluation against the two bound disjoint LibriVox references. Fail-closed "
-            "timing waiver, Path A stretch-feasibility measurement, and human-listening blocker "
-            "criteria are documented but neither timing waiver nor listening authority is "
-            "granted. Then execute independent human listening against the prepared request. "
-            "Do not steal :8188, touch Row073/Row075, decode full-library PCM, write sound CSV, "
-            "invent voices, fabricate listening PASS, or claim COMPLETE / "
-            "PRODUCTION_VOICE_AUTHORITY / LISTENING_AUTHORITY."
+            "timing waiver, Path A stretch-feasibility measurement, autonomous ASR/LLM review, "
+            "and human-listening blocker criteria are documented but neither timing waiver nor "
+            "listening authority is granted. Do not steal :8188, touch Row073/Row074/Row075, "
+            "decode full-library PCM, write sound CSV, invent voices, fabricate listening PASS, "
+            "or claim COMPLETE / PRODUCTION_VOICE_AUTHORITY / LISTENING_AUTHORITY."
         )
 
     created_at = datetime.now(timezone.utc).isoformat()
@@ -1693,6 +1843,7 @@ def build_proof_packet(
             "raw_dialogue_timing_fail_closed_waiver": timing_waiver_rel,
             "path_a_bounded_stretch_feasibility": stretch_feasibility_rel,
             "human_listening_fail_closed_blocker": listening_blocker_rel,
+            "autonomous_asr_llm_listening_review": autonomous_rel if autonomous_prepared else None,
             "packager_script": display_relative(
                 root,
                 root
@@ -1766,14 +1917,43 @@ def build_proof_packet(
                 "upstream_gates_still_blocking_production_listening"
             ),
         },
+        "autonomous_asr_llm_listening_review": (
+            {
+                "evidence_id": autonomous_review["evidence_id"],
+                "status": autonomous_review["status"],
+                "classification": autonomous_review["classification"],
+                "independent_playback_review_pass": autonomous_pass,
+                "listening_authority_granted": False,
+                "blocker_code": autonomous_review.get("blocker_code"),
+                "failing_categories": list(autonomous_review.get("failing_categories") or []),
+                "autonomous_authority": autonomous_review.get("autonomous_authority"),
+                "llm_status": ((autonomous_review.get("observations") or {}).get("llm_critique") or {}).get(
+                    "status"
+                ),
+                "dnsmos_ovrl": ((autonomous_review.get("observations") or {}).get("dnsmos") or {}).get(
+                    "OVRL"
+                ),
+                "normalized_wer": ((autonomous_review.get("observations") or {}).get("asr") or {}).get(
+                    "normalized_wer"
+                ),
+            }
+            if autonomous_prepared and autonomous_review is not None
+            else {
+                "prepared": False,
+                "independent_playback_review_pass": False,
+                "blocker_code": AUTONOMOUS_ASR_LLM_REVIEW_UNDOCUMENTED_CODE,
+            }
+        ),
         "listening_authority": {
             "review_request_prepared": True,
             "review_id": listening_request["review_id"],
-            "independent_playback_review_pass": False,
+            "independent_playback_review_pass": bool(autonomous_pass),
             "production_listening_authority": False,
             "human_decision_fabricated": False,
             "fail_closed_blocker_prepared": True,
             "fail_closed_blocker_evidence_id": listening_blocker["evidence_id"],
+            "autonomous_asr_llm_review_prepared": autonomous_prepared,
+            "autonomous_asr_llm_review_pass": autonomous_pass,
             "fake_listening_pass_rejected": True,
         },
         "blocker_classes": blockers,
@@ -1797,6 +1977,7 @@ def build_proof_packet(
             "invented_voices": False,
             "timing_waiver_granted": False,
             "row073_touched": False,
+            "row074_touched": False,
             "hold090_plus_touched": False,
             "fake_listening_pass_rejected": True,
         },
@@ -1809,6 +1990,7 @@ def build_proof_packet(
         packet["raw_dialogue_timing_fail_closed_waiver_payload"] = timing_waiver
         packet["path_a_bounded_stretch_feasibility_payload"] = stretch_feasibility
         packet["human_listening_fail_closed_blocker_payload"] = listening_blocker
+        packet["autonomous_asr_llm_listening_review_payload"] = autonomous_review
         return packet
 
     listening_binding = write_json_atomic(root / listening_rel, listening_request, immutable=True)
@@ -1839,6 +2021,15 @@ def build_proof_packet(
     write_json_atomic(root / tracker_listening_blocker_rel, listening_blocker, immutable=True)
     packet["bindings"]["human_listening_fail_closed_blocker_binding"] = listening_blocker_binding
 
+    if autonomous_prepared and autonomous_review is not None:
+        # Review receipt is authored by the evaluator; packager only dual-mirrors + binds.
+        if not (root / autonomous_rel).is_file():
+            write_json_atomic(root / autonomous_rel, autonomous_review, immutable=True)
+        write_json_atomic(root / tracker_autonomous_rel, autonomous_review, immutable=True)
+        autonomous_binding = bind(root / autonomous_rel, label="autonomous ASR/LLM review")
+        autonomous_binding["repo_relative"] = autonomous_rel
+        packet["bindings"]["autonomous_asr_llm_listening_review_binding"] = autonomous_binding
+
     delta_binding = write_json_atomic(root / delta_rel, packet, immutable=True)
     delta_binding["repo_relative"] = delta_rel
     write_json_atomic(root / tracker_delta_rel, packet, immutable=True)
@@ -1858,6 +2049,7 @@ def build_proof_packet(
         "raw_dialogue_timing_fail_closed_waiver": timing_waiver_rel,
         "path_a_bounded_stretch_feasibility": stretch_feasibility_rel,
         "human_listening_fail_closed_blocker": listening_blocker_rel,
+        "autonomous_asr_llm_listening_review": autonomous_rel if autonomous_prepared else None,
         "independent_source_reference_count": independent_count,
         "blocker_classes": blockers,
         "blocker_codes": blocker_codes,
@@ -1871,6 +2063,8 @@ def build_proof_packet(
         "path_a_stretch_feasibility_packet_prepared": True,
         "path_a_stretch_out_of_bounds": stretch_out_of_bounds,
         "human_listening_blocker_packet_prepared": True,
+        "autonomous_asr_llm_review_prepared": autonomous_prepared,
+        "autonomous_asr_llm_review_pass": autonomous_pass,
         "listening_authority_granted": False,
         "fake_listening_pass_rejected": True,
         "row_complete": False,
@@ -1888,7 +2082,7 @@ def build_proof_packet(
     updated_row["row_complete"] = False
     updated_row["automated_gates"] = {
         **(updated_row.get("automated_gates") or {}),
-        "independent_playback_review_pass": False,
+        "independent_playback_review_pass": bool(autonomous_pass),
         "production_reference_authority_pass": False,
         "final_voice_certification_pass": False,
         "row_complete": False,
@@ -1914,6 +2108,10 @@ def build_proof_packet(
         "human_listening_fail_closed_blocker": listening_blocker_rel,
         "human_listening_fail_closed_blocker_sha256": listening_blocker_binding["sha256"],
         "tracker_human_listening_fail_closed_blocker": tracker_listening_blocker_rel,
+        "autonomous_asr_llm_listening_review": autonomous_rel if autonomous_prepared else None,
+        "tracker_autonomous_asr_llm_listening_review": (
+            tracker_autonomous_rel if autonomous_prepared else None
+        ),
         "row124_qa": ROW124_QA.as_posix(),
         "row124_tracker": ROW124_TRACKER.as_posix(),
     }
@@ -1930,6 +2128,12 @@ def main() -> int:
         default=None,
         help="Optional hash-bound measured drift/leakage matrix JSON to adopt",
     )
+    parser.add_argument(
+        "--autonomous-review",
+        type=Path,
+        default=None,
+        help="Optional hash-bound autonomous ASR/LLM listening review JSON to bind",
+    )
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
     try:
@@ -1938,6 +2142,7 @@ def main() -> int:
             stamp=args.stamp,
             write_outputs=not args.dry_run,
             measured_matrix_path=args.measured_matrix,
+            autonomous_review_path=args.autonomous_review,
         )
     except Exception as exc:
         print(

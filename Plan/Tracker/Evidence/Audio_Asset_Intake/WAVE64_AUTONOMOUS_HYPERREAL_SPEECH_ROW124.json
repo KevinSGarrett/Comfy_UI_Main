@@ -119,6 +119,9 @@
     }
   },
   "multi_ref_listening_proof": {
+    "autonomous_asr_llm_listening_review": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/TRK-W64-124_AUTONOMOUS_ASR_LLM_LISTENING_REVIEW_20260720G.json",
+    "autonomous_asr_llm_review_pass": false,
+    "autonomous_asr_llm_review_prepared": true,
     "blocker_classes": [
       {
         "class": "MULTI_REFERENCE_CONTINUITY",
@@ -139,20 +142,24 @@
         "summary": "The public-domain evaluation references are not a locked production character identity authority."
       },
       {
+        "autonomous_asr_llm_review_pass": false,
+        "autonomous_asr_llm_review_prepared": true,
         "class": "LISTENING_AUTHORITY",
         "cleared_by_this_packet": [
           "LISTENING_REVIEW_REQUEST_UNPREPARED",
+          "AUTONOMOUS_ASR_LLM_REVIEW_UNDOCUMENTED",
+          "INDEPENDENT_PLAYBACK_REVIEW_ABSENT",
           "HUMAN_LISTENING_AUTHORITY_DISPOSITION_UNDOCUMENTED"
         ],
         "codes": [
-          "INDEPENDENT_PLAYBACK_REVIEW_ABSENT",
+          "AUTONOMOUS_ASR_LLM_LISTENING_REVIEW_FAIL",
           "FINAL_VOICE_CERTIFICATION_PENDING"
         ],
         "disposition": "FAIL_CLOSED_HUMAN_LISTENING_AUTHORITY_NOT_GRANTED",
         "human_listening_blocker_packet_prepared": true,
         "independent_playback_review_pass": false,
         "listening_authority_granted": false,
-        "summary": "Independent human playback review and final voice certification remain pending. Fail-closed human-listening blocker packet is documented with exact Path A (independent playback receipt) / Path B (final certification) criteria; listening_authority_granted=false and fabricated listening PASS is rejected. Preparing a hash-bound listening request does not grant listening authority."
+        "summary": "Autonomous ASR/DNSMOS/LLM listening review executed and FAILed (pacing and/or cleanliness below minimum). INDEPENDENT_PLAYBACK_REVIEW_ABSENT is cleared because the review ran; AUTONOMOUS_ASR_LLM_LISTENING_REVIEW_FAIL is retained. Fail-closed human-listening blocker remains; listening_authority_granted=false."
       },
       {
         "class": "DIALOGUE_TIMING",
@@ -174,7 +181,7 @@
     ],
     "blocker_codes": [
       "PRODUCTION_CHARACTER_REFERENCE_AUTHORITY_ABSENT",
-      "INDEPENDENT_PLAYBACK_REVIEW_ABSENT",
+      "AUTONOMOUS_ASR_LLM_LISTENING_REVIEW_FAIL",
       "FINAL_VOICE_CERTIFICATION_PENDING",
       "RAW_DIALOGUE_TIMING_OUT_OF_TOLERANCE",
       "PATH_A_CALIBRATED_BOUNDED_STRETCH_OUT_OF_BOUNDS"
@@ -186,28 +193,30 @@
       "RAW_DIALOGUE_TIMING_DISPOSITION_UNDOCUMENTED",
       "PATH_A_BOUNDED_STRETCH_FEASIBILITY_UNDOCUMENTED",
       "LISTENING_REVIEW_REQUEST_UNPREPARED",
+      "AUTONOMOUS_ASR_LLM_REVIEW_UNDOCUMENTED",
+      "INDEPENDENT_PLAYBACK_REVIEW_ABSENT",
       "HUMAN_LISTENING_AUTHORITY_DISPOSITION_UNDOCUMENTED"
     ],
     "continuity_diagnostic_bound": true,
-    "current_delta": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-124_MULTI_REF_LISTENING_CURRENT_DELTA_20260720F.json",
+    "current_delta": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-124_MULTI_REF_LISTENING_CURRENT_DELTA_20260720G.json",
     "drift_leakage_matrix_complete": true,
     "drift_leakage_matrix_started": true,
-    "evidence_id": "TRK-W64-124_MULTI_REF_LISTENING_CURRENT_DELTA_20260720F",
+    "evidence_id": "TRK-W64-124_MULTI_REF_LISTENING_CURRENT_DELTA_20260720G",
     "fake_listening_pass_rejected": true,
     "human_listening_blocker_packet_prepared": true,
-    "human_listening_fail_closed_blocker": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/TRK-W64-124_HUMAN_LISTENING_FAIL_CLOSED_BLOCKER_20260720F.json",
+    "human_listening_fail_closed_blocker": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/TRK-W64-124_HUMAN_LISTENING_FAIL_CLOSED_BLOCKER_20260720G.json",
     "independent_source_reference_count": 2,
     "listening_authority_claimed": false,
     "listening_authority_granted": false,
-    "listening_review_request": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/TRK-W64-124_LISTENING_REVIEW_REQUEST_20260720F.json",
-    "multi_ref_drift_leakage_matrix": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/TRK-W64-124_MULTI_REF_DRIFT_LEAKAGE_MATRIX_20260720F.json",
-    "path_a_bounded_stretch_feasibility": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/TRK-W64-124_PATH_A_BOUNDED_STRETCH_FEASIBILITY_20260720F.json",
+    "listening_review_request": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/TRK-W64-124_LISTENING_REVIEW_REQUEST_20260720G.json",
+    "multi_ref_drift_leakage_matrix": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/TRK-W64-124_MULTI_REF_DRIFT_LEAKAGE_MATRIX_20260720G.json",
+    "path_a_bounded_stretch_feasibility": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/TRK-W64-124_PATH_A_BOUNDED_STRETCH_FEASIBILITY_20260720G.json",
     "path_a_stretch_feasibility_packet_prepared": true,
     "path_a_stretch_out_of_bounds": true,
     "product_completion": false,
     "production_voice_authority_claimed": false,
     "proof_tier": "OFFLINE_PROOF_BOUNDED",
-    "raw_dialogue_timing_fail_closed_waiver": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/TRK-W64-124_RAW_DIALOGUE_TIMING_FAIL_CLOSED_WAIVER_20260720F.json",
+    "raw_dialogue_timing_fail_closed_waiver": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/TRK-W64-124_RAW_DIALOGUE_TIMING_FAIL_CLOSED_WAIVER_20260720G.json",
     "row_complete": false,
     "second_source_reference_bound": true,
     "status": "BLOCKED_PRODUCTION_VOICE_AND_LISTENING_AUTHORITY_PENDING",
@@ -217,7 +226,7 @@
   "row": {
     "blockers": [
       "PRODUCTION_VOICE_AUTHORITY: PRODUCTION_CHARACTER_REFERENCE_AUTHORITY_ABSENT",
-      "LISTENING_AUTHORITY: INDEPENDENT_PLAYBACK_REVIEW_ABSENT, FINAL_VOICE_CERTIFICATION_PENDING",
+      "LISTENING_AUTHORITY: AUTONOMOUS_ASR_LLM_LISTENING_REVIEW_FAIL, FINAL_VOICE_CERTIFICATION_PENDING",
       "DIALOGUE_TIMING: RAW_DIALOGUE_TIMING_OUT_OF_TOLERANCE, PATH_A_CALIBRATED_BOUNDED_STRETCH_OUT_OF_BOUNDS"
     ],
     "implemented_capability": "pinned Qwen3-TTS Base ICL reference-conditioned cloning with exact reference/model/package lineage and calibrated identity evaluation",

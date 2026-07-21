@@ -1,0 +1,261 @@
+{
+  "artifact_type": "wave64_speech_row124_multi_ref_drift_leakage_matrix",
+  "boundaries": {
+    "comfyui_8188_used": false,
+    "gpu_used": false,
+    "invented_voices": false,
+    "listening_authority_granted": false,
+    "media_mutated": false,
+    "offline_only": true,
+    "production_promotion_claimed": false,
+    "row075_touched": false,
+    "sound_csv_written": false,
+    "speech_csv_written": false,
+    "tip_sha_chain": false
+  },
+  "candidate_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_qwen3_tts_base_icl_clone_20260715T195516-0500/qwen3_tts_base_icl_clone_seed12401.wav",
+  "candidate_sha256": "ff8325a1c2f8613d599af69284f5c4693d996a581230ccbbbb1aeba7affa9815",
+  "check_summary": {
+    "checked": 4,
+    "failed": 0,
+    "failed_check_ids": [],
+    "passed_measured": 3,
+    "passed_structural": 1,
+    "pending_measured": 0
+  },
+  "checks": [
+    {
+      "id": "same_character_multi_source_identity",
+      "measurement": "calibrated_eres2net_cosine_ref1_ref2",
+      "note": "Measured same-character concordance across two disjoint LibriVox windows using the OpenSLR31-validated ERes2Net threshold.",
+      "similarity_ref1_ref2": 0.827733874,
+      "status": "PASS_MEASURED",
+      "threshold": 0.33445611596107483
+    },
+    {
+      "id": "cross_line_drift",
+      "measurement": "calibrated_speaker_embedding_cross_line_drift",
+      "note": "Cross-line drift scored as ref1\u2194ref2 identity continuity under the calibrated threshold; candidate-to-each-ref similarities recorded for diagnostics.",
+      "similarity_candidate_ref1": 0.764496803,
+      "similarity_candidate_ref2": 0.697220087,
+      "similarity_ref1_ref2": 0.827733874,
+      "status": "PASS_MEASURED",
+      "threshold": 0.33445611596107483
+    },
+    {
+      "false_accept_count": 0,
+      "id": "non_target_speaker_leakage_rejection",
+      "max_non_target_similarity": 0.26630792,
+      "measurement": "calibrated_non_target_rejector_against_openslr31_authority",
+      "note": "OpenSLR31 validation-partition speakers used as non-target rejectors; each clip must stay below the calibrated threshold versus both refs and the candidate.",
+      "planned_rejector_authority": "Plan/Instructions/QA/Evidence/Wave64/W64_OPENSLR31_SPEAKER_IDENTITY_VALIDATION_20260715T035744-0500.json",
+      "rejected_count": 13,
+      "rejector_count": 13,
+      "status": "PASS_MEASURED",
+      "threshold": 0.33445611596107483
+    },
+    {
+      "id": "reference_separation_from_candidate",
+      "measurement": "sha256_inequality_refs_vs_candidate",
+      "note": "Candidate wav hash is distinct from both source reference hashes.",
+      "status": "PASS_STRUCTURAL_OFFLINE"
+    }
+  ],
+  "created_at": "2026-07-20T07:26:54.648599+00:00",
+  "embedding_route": {
+    "checkpoint": {
+      "bytes": 26725867,
+      "path": "F:/Len_Transfer/Audio_Downloads/CV3-Eval-main/CV3-Eval-main/utils/3D-Speaker/pretrained/speech_eres2net_sv_en_voxceleb_16k/pretrained_eres2net.ckpt",
+      "sha256": "d8941f5952e31820173c8854562cb6d7897aaa58cd65c18f30d5a2e52d30847d"
+    },
+    "cv3_adapter": {
+      "path": "Plan/07_IMPLEMENTATION/scripts/run_wave64_cv3_eval_calibration.py",
+      "sha256": "f3810a26e129021c8179c982eb0901c5f8f3f07b6508ab4c56cace6bfb3862c8"
+    },
+    "cv3_root": "F:/Len_Transfer/Audio_Downloads/CV3-Eval-main/CV3-Eval-main",
+    "device": "cpu",
+    "name": "ERes2Net",
+    "threshold_authority": {
+      "repo_relative": "Plan/Instructions/QA/Evidence/Wave64/W64_OPENSLR31_SPEAKER_IDENTITY_VALIDATION_20260715T035744-0500.json",
+      "sha256": "cdd7f0c8a0af54ec82c307cc4cea1492976ae1fbbded8712822d4329103ca0a9",
+      "threshold": 0.33445611596107483
+    }
+  },
+  "evidence_id": "TRK-W64-124_MULTI_REF_DRIFT_LEAKAGE_MATRIX_20260720G",
+  "item_id": "ITEM-W64-124",
+  "matrix_complete": true,
+  "matrix_started": true,
+  "measured_scores": {
+    "non_target_leakage": [
+      {
+        "max_similarity_to_bound_set": 0.225822538,
+        "rejected_as_non_target": true,
+        "relative_path": "174/168635/174-168635-0000.flac",
+        "sha256": "dbb765967c6a51c8e794fb0098240b1e070c6b1bf0594b218570631604aab38f",
+        "similarity_to_candidate": 0.196311861,
+        "similarity_to_ref1": 0.225822538,
+        "similarity_to_ref2": 0.131281883,
+        "speaker_id": "174"
+      },
+      {
+        "max_similarity_to_bound_set": 0.098295808,
+        "rejected_as_non_target": true,
+        "relative_path": "777/126732/777-126732-0000.flac",
+        "sha256": "6dfb2d28b03b4f6d0039a187545349cdec13afad0bf5ba734cc8e4c6c536ac4a",
+        "similarity_to_candidate": 0.05497025,
+        "similarity_to_ref1": 0.095192306,
+        "similarity_to_ref2": 0.098295808,
+        "speaker_id": "777"
+      },
+      {
+        "max_similarity_to_bound_set": 0.105306543,
+        "rejected_as_non_target": true,
+        "relative_path": "1462/170142/1462-170142-0000.flac",
+        "sha256": "08c17c6a59de702386a5c79b49b9d8f7fce1870b2d89b68607523f11d07b61ce",
+        "similarity_to_candidate": 0.051440112,
+        "similarity_to_ref1": 0.105306543,
+        "similarity_to_ref2": 0.017828278,
+        "speaker_id": "1462"
+      },
+      {
+        "max_similarity_to_bound_set": 0.077510208,
+        "rejected_as_non_target": true,
+        "relative_path": "1993/147964/1993-147964-0000.flac",
+        "sha256": "b90879ba30dc9a4ed1fb9669a315a7eab8b7c2365afa44e3b9b92d0d925624d3",
+        "similarity_to_candidate": 0.077510208,
+        "similarity_to_ref1": 0.018387266,
+        "similarity_to_ref2": -0.067807533,
+        "speaker_id": "1993"
+      },
+      {
+        "max_similarity_to_bound_set": 0.083565563,
+        "rejected_as_non_target": true,
+        "relative_path": "2412/153948/2412-153948-0000.flac",
+        "sha256": "47ced4dfe4fc60d8335cd37fb80d632039731679004d6568bf7430f007630b3a",
+        "similarity_to_candidate": 0.072136573,
+        "similarity_to_ref1": 0.083565563,
+        "similarity_to_ref2": 0.043338764,
+        "speaker_id": "2412"
+      },
+      {
+        "max_similarity_to_bound_set": -0.021640785,
+        "rejected_as_non_target": true,
+        "relative_path": "2803/154320/2803-154320-0000.flac",
+        "sha256": "c03cf32b36cc772a1448763e7856e53dbfa6b1679c2f4aeba20dd55d85953075",
+        "similarity_to_candidate": -0.021640785,
+        "similarity_to_ref1": -0.043834716,
+        "similarity_to_ref2": -0.046564005,
+        "speaker_id": "2803"
+      },
+      {
+        "max_similarity_to_bound_set": 0.063736245,
+        "rejected_as_non_target": true,
+        "relative_path": "3536/23268/3536-23268-0000.flac",
+        "sha256": "1608b339566e5503b7da1907925d4f0ea08a2d1fe1ee41152060e7b5d09e5bbf",
+        "similarity_to_candidate": -0.027178977,
+        "similarity_to_ref1": 0.063736245,
+        "similarity_to_ref2": -0.008559838,
+        "speaker_id": "3536"
+      },
+      {
+        "max_similarity_to_bound_set": 0.139273256,
+        "rejected_as_non_target": true,
+        "relative_path": "3752/4944/3752-4944-0000.flac",
+        "sha256": "98bac3595753e97a2c8eebbdffebdb69d71a71f09cade3ba6dc412e6ed025b5c",
+        "similarity_to_candidate": 0.139273256,
+        "similarity_to_ref1": 0.068844348,
+        "similarity_to_ref2": 0.072535157,
+        "speaker_id": "3752"
+      },
+      {
+        "max_similarity_to_bound_set": 0.26630792,
+        "rejected_as_non_target": true,
+        "relative_path": "5694/64038/5694-64038-0000.flac",
+        "sha256": "c0cf765503cfa888a759069ea8299a125972ddea709710835c5f4e2c44a6a188",
+        "similarity_to_candidate": 0.162494659,
+        "similarity_to_ref1": 0.26630792,
+        "similarity_to_ref2": 0.150111824,
+        "speaker_id": "5694"
+      },
+      {
+        "max_similarity_to_bound_set": 0.076410547,
+        "rejected_as_non_target": true,
+        "relative_path": "6241/61943/6241-61943-0000.flac",
+        "sha256": "a87ff71b48e5c43b62c67615b42b5f0fb781decc85d5c890b3d8fa1219cb14e5",
+        "similarity_to_candidate": 0.013775684,
+        "similarity_to_ref1": 0.02787761,
+        "similarity_to_ref2": 0.076410547,
+        "speaker_id": "6241"
+      },
+      {
+        "max_similarity_to_bound_set": 0.023637451,
+        "rejected_as_non_target": true,
+        "relative_path": "6319/57405/6319-57405-0000.flac",
+        "sha256": "9a9675d31b8efcc3377910fa1aa86ae9eda393cb3c05025fa1473c0ee5bf0f89",
+        "similarity_to_candidate": -0.073479682,
+        "similarity_to_ref1": 0.023637451,
+        "similarity_to_ref2": -0.025463967,
+        "speaker_id": "6319"
+      },
+      {
+        "max_similarity_to_bound_set": 0.022917738,
+        "rejected_as_non_target": true,
+        "relative_path": "7976/110523/7976-110523-0000.flac",
+        "sha256": "34d01fbe28d340065726a8eec93dc4d2f6116847d0f041b52c92cd4d86f1a9ec",
+        "similarity_to_candidate": -0.027281398,
+        "similarity_to_ref1": 0.022917738,
+        "similarity_to_ref2": -0.019718084,
+        "speaker_id": "7976"
+      },
+      {
+        "max_similarity_to_bound_set": -0.021959029,
+        "rejected_as_non_target": true,
+        "relative_path": "8842/304647/8842-304647-0000.flac",
+        "sha256": "37757af3c90b911c76d143af4521f908839cda4a3b6a8786b5fb3a6d8cf9b2cc",
+        "similarity_to_candidate": -0.037673064,
+        "similarity_to_ref1": -0.021959029,
+        "similarity_to_ref2": -0.095106579,
+        "speaker_id": "8842"
+      }
+    ],
+    "similarity_candidate_ref1": 0.764496803,
+    "similarity_candidate_ref2": 0.697220087,
+    "similarity_ref1_ref2": 0.827733874,
+    "threshold": 0.33445611596107483
+  },
+  "openslr_rejector_authority": {
+    "bytes": 6802,
+    "manifest_repo_relative": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_openslr31_speaker_identity_20260715T035744-0500/openslr31_speaker_identity_validation_manifest.json",
+    "manifest_sha256": "185f5bc88acbb6f37f747532da74d7e9323d6cb45e4b64bde46a856cc36907c7",
+    "path": "C:/Comfy_UI_Main/Plan/Instructions/QA/Evidence/Wave64/W64_OPENSLR31_SPEAKER_IDENTITY_VALIDATION_20260715T035744-0500.json",
+    "repo_relative": "Plan/Instructions/QA/Evidence/Wave64/W64_OPENSLR31_SPEAKER_IDENTITY_VALIDATION_20260715T035744-0500.json",
+    "sha256": "cdd7f0c8a0af54ec82c307cc4cea1492976ae1fbbded8712822d4329103ca0a9"
+  },
+  "proof_tier": "OFFLINE_PROOF_BOUNDED",
+  "references_bound": [
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_chatterbox_dialogue_20260715T092901-0500/librivox_reference_5.0s.wav",
+      "reference_id": "REF-LIBRIVOX-CHRIS-GORINGE-001",
+      "role": "primary_source_reference",
+      "sha256": "f1e5f767d775c514cf94cdedfdf0010961102a3358e095812301e5da72e6d932",
+      "window_seconds": {
+        "end": 5.0,
+        "start": 0.0
+      }
+    },
+    {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_cv3_speaker_identity_20260715T030600-0500/librivox_reference_excerpt.wav",
+      "reference_id": "REF-LIBRIVOX-CHRIS-GORINGE-002-EXCERPT-20P4",
+      "role": "second_independent_source_reference",
+      "sha256": "ac013d29e84309abd52c49720fe1a9caf2550fd83ce2f8e248be6e4329145f48",
+      "window_seconds": {
+        "end": 21.8,
+        "start": 20.4
+      }
+    }
+  ],
+  "row_complete": false,
+  "schema_version": "1.0",
+  "status": "COMPLETE_OFFLINE_STRUCTURAL_AND_MEASURED",
+  "tracker_id": "TRK-W64-124"
+}
