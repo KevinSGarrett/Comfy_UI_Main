@@ -7,8 +7,13 @@
     },
     "PRODUCTION_COMPLETION_AND_ROW_COMPLETE_BLOCKED": {
       "class": "E",
-      "detail": "COMPLETE/row_complete intentionally withheld on held-out lavfi lane.",
-      "status": "OPEN"
+      "detail": "COMPLETE/row_complete intentionally withheld. RunPod Comfy Class E readiness/runtime re-probe + Ollama VLM review succeeded without granting production_completion_allowed.",
+      "status": "OPEN",
+      "readiness_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_PRODUCTION_READINESS_PACKET_20260721.json",
+      "readiness_packet_sha256": "cafe15b09d911b7f0428e19be81c8ee28e53a99066597568a9f9ea20e28498fc",
+      "readiness_proof_tier": "RUNTIME_PROBE_VISUAL_BOUNDED_WITH_VLM_REVIEW",
+      "vlm_review_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_VLM_REVIEW_20260721.json",
+      "vlm_review_packet_sha256": "7a39fb1fe2261e3c7d66a2c8a6f8e2710f9c6aa5def35c51043ad4a444cab4ad"
     },
     "REGISTERED_ROUNDTRIP_TOLERANCES_NOT_RUNTIME_AUTHORITATIVE": {
       "check_id": "ROW084-017",
@@ -86,7 +91,13 @@
       "check_id": "ROW084-011",
       "name": "canonical_timeline_compiler_production_complete",
       "status": "FAIL",
-      "note": "Class E HOLD: production compiler completion / COMPLETE intentionally withheld. Do not clear."
+      "note": "Class E HOLD: production compiler completion / COMPLETE intentionally withheld. RunPod Comfy readiness/runtime re-probe + Ollama qwen2.5vl:7b VLM review (3/3 frames) at RUNTIME_PROBE_VISUAL_BOUNDED_WITH_VLM_REVIEW recorded; do not clear.",
+      "class_e_readiness_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_PRODUCTION_READINESS_PACKET_20260721.json",
+      "class_e_readiness_packet_sha256": "cafe15b09d911b7f0428e19be81c8ee28e53a99066597568a9f9ea20e28498fc",
+      "runtime_receipt": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/runpod_class_e_20260721T041251Z/class_e_runtime_receipt.json",
+      "runtime_receipt_sha256": "e28b237b26973b46fc5e2c44a7613677aadc5946a36bdbec02dc60ccfa8ef066",
+      "vlm_review_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_VLM_REVIEW_20260721.json",
+      "vlm_review_packet_sha256": "7a39fb1fe2261e3c7d66a2c8a6f8e2710f9c6aa5def35c51043ad4a444cab4ad"
     },
     {
       "check_id": "ROW084-012",
@@ -263,12 +274,12 @@
       "status": "PASS"
     }
   ],
-  "classification": "ROW084_CLASS_C_SCHEMA_NATIVE_REVERSED_PTS_HOLD_DEEPENED_NO_COMPLETE",
+  "classification": "ROW084_CLASS_E_RUNPOD_PRODUCTION_READINESS_RUNTIME_AND_VLM_REVIEW_BOUNDED_NO_COMPLETE",
   "climb_targets": [
     "RUNTIME_PASS_BOUNDED",
     "VISUAL_QA_PASS_BOUNDED"
   ],
-  "created_at": "2026-07-20T15:16:00Z",
+  "created_at": "2026-07-21T04:17:47Z",
   "dependency_authority": {
     "acceptance_commit": "b074c694518b7ebe78a1e7292db28427d7f75ca7",
     "dependency_satisfied": true,
@@ -304,7 +315,7 @@
       "visual_review_authority_granted": true
     },
     "py_compile": "PASS",
-    "scope_interpretation": "ROW084-012 Class C HOLD deepened via offline schema-native probe + focused proof test without inventing Ajv/ or custom vocabulary authority. ROW084-013/017 remain cleared. Class E PRODUCTION_COMPLETION (ROW084-011) remains open FAIL. No COMPLETE/row_complete.",
+    "scope_interpretation": "RunPod Comfy Class E production-completion readiness/runtime re-probed and Ollama qwen2.5vl:7b VLM-reviewed 3 visual frames. ROW084-011 remains FAIL/OPEN. ROW084-012 Class C OPEN_HOLD unchanged. Row074 left alone. No COMPLETE/row_complete.",
     "strict_command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
     "strict_exit_code": 0,
     "strict_result": "50 passed",
@@ -352,6 +363,31 @@
       "hold_packet_sha256": "0e0c3d8648f939f24684be7a9b7ad70aef20b1289f6fadd30d90256dbdeb1ff7",
       "clock_span_schema_sha256": "eb203bdae6a8b99df08e23e888dcd94f98b9991804603913ad14e8bf3f377d20",
       "focused_proof_test": "test_clock_span_schema_alone_cannot_reject_reversed_pts",
+      "row_complete": false,
+      "production_completion_allowed": false,
+      "status": "HOLD"
+    },
+    "class_e_runpod_readiness_climb": {
+      "blocker_class": "E",
+      "blocker_codes_held": [
+        "PRODUCTION_COMPLETION_AND_ROW_COMPLETE_BLOCKED"
+      ],
+      "blocker_codes_cleared": [],
+      "cleared": false,
+      "comfyui_8188_serving": true,
+      "comfyui_new_generation_submitted": false,
+      "paths_env_sourced": true,
+      "proof_tier": "RUNTIME_PROBE_VISUAL_BOUNDED_WITH_VLM_REVIEW",
+      "packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_PRODUCTION_READINESS_PACKET_20260721.json",
+      "packet_sha256": "cafe15b09d911b7f0428e19be81c8ee28e53a99066597568a9f9ea20e28498fc",
+      "runtime_receipt_sha256": "e28b237b26973b46fc5e2c44a7613677aadc5946a36bdbec02dc60ccfa8ef066",
+      "vlm_review_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_VLM_REVIEW_20260721.json",
+      "vlm_review_packet_sha256": "7a39fb1fe2261e3c7d66a2c8a6f8e2710f9c6aa5def35c51043ad4a444cab4ad",
+      "vlm_model": "qwen2.5vl:7b",
+      "vlm_ok_frame_count": 3,
+      "media_kind": "pulled_back_genuine_av_sync_mkv",
+      "media_sha256": "0c1153e675bd9209ce9c56d6c6694d9fb93118d69e3935fedcf77e626fed998a",
+      "visual_frame_count": 3,
       "row_complete": false,
       "production_completion_allowed": false,
       "status": "HOLD"
@@ -432,9 +468,9 @@
         "check_id": "ROW084-013"
       }
     ],
-    "decision": "HOLD_ROW084_CLASS_C_SCHEMA_NATIVE_REVERSED_PTS_DEEPENED_NO_COMPLETE",
-    "reason": "ROW084-012 Class C HOLD deepened with offline Draft 2020-12 probe evidence and focused schema-alone proof test. Schema-native clearance not feasible without inventing non-Draft authority. ROW084-011 Class E FAIL remains. COMPLETE/row_complete withheld.",
-    "safe_next_action": "CSV deferred. Class E PRODUCTION_COMPLETION_AND_ROW_COMPLETE_BLOCKED remains; ROW084-011 FAIL (do not clear); ROW084-012 Class C OPEN_HOLD deepened (do not fake PASS). Do not claim COMPLETE/row_complete."
+    "decision": "HOLD_ROW084_CLASS_E_RUNPOD_READINESS_VLM_PROBED_NO_COMPLETE",
+    "reason": "Class E RunPod readiness/runtime + VLM deepen only. ROW084-011 FAIL remains; ROW084-012 Class C OPEN_HOLD not thrashed; COMPLETE/row_complete withheld; Row074 untouched.",
+    "safe_next_action": "Keep ROW084-011 FAIL/OPEN. Keep ROW084-012 OPEN_HOLD. Do not claim COMPLETE. Future Class E clearance requires production mux/cut/camera/visual authority beyond held-out lavfi AND removal of compiler hard fail-close \u2014 not this readiness/VLM packet."
   },
   "host_execution": {
     "comfyui_8188_invoked": false,
@@ -569,7 +605,8 @@
       "production cut/camera/benchmark authority beyond held-out lavfi",
       "JSON Schema native end_pts > start_pts comparison",
       "row_complete / acceptance COMPLETE",
-      "production media combined visual/contact beyond held-out lavfi"
+      "production media combined visual/contact beyond held-out lavfi",
+      "compiler production_completion_allowed hard fail-close removal"
     ],
     "synthetic_climb_ledger_bytes": 9721,
     "synthetic_climb_ledger_file_sha256": "39d54dfe2f2b1de09d4271d67ee816fa164cfec6da7e4e4adf61d5014a49ad80",
@@ -593,14 +630,20 @@
     "class_c_schema_native_hold_packet_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-012_CLASS_C_SCHEMA_NATIVE_REVERSED_PTS_HOLD_PACKET_20260720.json",
     "class_c_schema_native_hold_packet_sha256": "0e0c3d8648f939f24684be7a9b7ad70aef20b1289f6fadd30d90256dbdeb1ff7",
     "clock_span_schema_path": "Plan/08_SCHEMAS/canonical_media_clock_span.schema.json",
-    "clock_span_schema_sha256": "eb203bdae6a8b99df08e23e888dcd94f98b9991804603913ad14e8bf3f377d20"
+    "clock_span_schema_sha256": "eb203bdae6a8b99df08e23e888dcd94f98b9991804603913ad14e8bf3f377d20",
+    "class_e_runpod_readiness_packet_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_PRODUCTION_READINESS_PACKET_20260721.json",
+    "class_e_runpod_readiness_packet_sha256": "cafe15b09d911b7f0428e19be81c8ee28e53a99066597568a9f9ea20e28498fc",
+    "class_e_runpod_runtime_receipt_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/runpod_class_e_20260721T041251Z/class_e_runtime_receipt.json",
+    "class_e_runpod_runtime_receipt_sha256": "e28b237b26973b46fc5e2c44a7613677aadc5946a36bdbec02dc60ccfa8ef066",
+    "class_e_runpod_vlm_review_packet_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_VLM_REVIEW_20260721.json",
+    "class_e_runpod_vlm_review_packet_sha256": "7a39fb1fe2261e3c7d66a2c8a6f8e2710f9c6aa5def35c51043ad4a444cab4ad"
   },
   "increment": {
     "comfyui_8188_invoked": false,
-    "kind": "class_c_schema_native_reversed_pts_hold_deepen",
+    "kind": "class_e_runpod_production_readiness_runtime_and_vlm_continue",
     "row_complete": false,
     "runtime_media_decode_invoked": false,
-    "summary": "Deepened ROW084-012 Class C HOLD with offline schema-native probe packet and focused proof test; no PASS/COMPLETE.",
+    "summary": "Re-probed RunPod Comfy Class E readiness with real media ffprobe/visual proof and Ollama qwen2.5vl:7b VLM review; ROW084-011 not cleared; ROW084-012 HOLD not thrashed.",
     "schema_alone_enforcement_present": false,
     "visual_qa_pass_bounded_claimed": true
   },
@@ -627,15 +670,21 @@
   "pass_digest_owner_pending": true,
   "preservation_boundary": {
     "actual_write_paths": [
-      "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-012_CLASS_C_SCHEMA_NATIVE_REVERSED_PTS_HOLD_PACKET_20260720.json",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_PRODUCTION_READINESS_PACKET_20260721.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_VLM_REVIEW_20260721.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_canonical_video_timeline.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/runpod_class_e_20260721T041251Z/class_e_runtime_receipt.json"
     ],
     "allowed_write_paths": [
-      "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-012_CLASS_C_SCHEMA_NATIVE_REVERSED_PTS_HOLD_PACKET_20260720.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_PRODUCTION_READINESS_PACKET_20260721.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_VLM_REVIEW_20260721.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_canonical_video_timeline.json"
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_canonical_video_timeline.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/runpod_class_e_20260721T041251Z/class_e_runtime_receipt.json",
+      "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/runpod_class_e_20260721T041251Z/",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-012_CLASS_C_SCHEMA_NATIVE_REVERSED_PTS_HOLD_PACKET_20260720.json",
+      "Plan/00_PROJECT_CONTROL/MAIN_SESSION_INTEGRATION_HANDOFF_CURRENT.md"
     ],
     "comfyui_8188_touched": false,
     "row073_pcm_left_alone": true,
@@ -644,7 +693,8 @@
     "tip_sha_chain_written": false,
     "tracker_items_csv_writes": false,
     "unrelated_dirty_paths_preserved": true,
-    "worker_artifacts_preserved": true
+    "worker_artifacts_preserved": true,
+    "row074_left_alone": true
   },
   "prior_evidence_commit": "b2d23937daf595ec83ff4912c890b10cfda2828a",
   "prior_row_commit_is_current_head": true,
@@ -708,7 +758,7 @@
     "writable_scope_note": "Disjoint from Row075 PID, Rows069-071 library, Row017 MF70, and sibling Row085 fixture paths. No Tracker/Items CSV writes."
   },
   "source_commit": "PENDING_LANDING",
-  "status": "HOLD_ROW084_VISUAL_QA_PASS_BOUNDED_CLASS_C_SCHEMA_NATIVE_HOLD_DEEPENED_NO_COMPLETE",
+  "status": "HOLD_ROW084_VISUAL_QA_PASS_BOUNDED_CLASS_E_RUNPOD_READINESS_VLM_PROBED_NO_COMPLETE",
   "test_and_runtime_boundary": {
     "camera_motion_normalization_complete": true,
     "camera_motion_policy_fixture_matrix_only": true,

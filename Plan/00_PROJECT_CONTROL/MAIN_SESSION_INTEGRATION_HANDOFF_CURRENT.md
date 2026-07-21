@@ -1,17 +1,19 @@
-# Main Session Integration Handoff — 2026-07-20T23:12-05:00
+# Main Session Integration Handoff — 2026-07-20T23:15-05:00
 
 ## Integration Summary
 
 - Active platform: interactive Cursor (integration authority)
 - Branch: `codex/workflow_plan_update_improvements`
-- This pass: pod `/workspace/wave64` **ff-only sync** to local tip (hash-bound)
-- Tip evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/RUNPOD_WAVE64_POD_GIT_SYNC_FF_ONLY_HANDOFF_20260720T2312-0500.json`
-- Evidence SHA256: `9422831ca0fc78cc38f391158f244664c0864337d7ef9d45460a59a39d62d141`
-- Pod + local tip: `d11cd9b8` — **match**; **Runtime_Data preserved**; prior pod `main@a3bff6b`
-- No COMPLETE / Row074 left alone / no reset --hard wipe
+- This pass: Row084 Class E RunPod Comfy readiness/runtime **continue** + Ollama `qwen2.5vl:7b` VLM review (3/3 frames)
+- Tip evidence: `Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_PRODUCTION_READINESS_PACKET_20260721.json`
+- VLM packet: `Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_VLM_REVIEW_20260721.json`
+- Runtime: `Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/runpod_class_e_20260721T041251Z`
+- ROW084-011 Class E: **FAIL/OPEN** (not cleared)
+- ROW084-012 Class C: **OPEN_HOLD** unchanged (`0e0c3d8648f939f24684be7a9b7ad70aef20b1289f6fadd30d90256dbdeb1ff7`)
+- Row074 left alone; no COMPLETE/row_complete; no CSV mutator
 
 ## Exact next action
 
-1. Use RunPod `/workspace/wave64` on `codex/workflow_plan_update_improvements@d11cd9b8` as runtime authority.
-2. Keep git commits local; pod follows via ff-only sync only.
-3. Leave Row074 alone; no COMPLETE.
+1. Keep ROW084-011 FAIL/OPEN and ROW084-012 OPEN_HOLD.
+2. Future Class E clearance needs production mux/cut/camera authority beyond held-out lavfi + compiler hard fail-close removal — not this packet.
+3. Leave Row074 alone until explicitly authorized.

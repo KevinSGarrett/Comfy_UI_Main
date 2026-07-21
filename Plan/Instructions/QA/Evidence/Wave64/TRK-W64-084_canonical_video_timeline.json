@@ -1,6 +1,6 @@
 {
   "artifact_id": "TRK-W64-084_canonical_video_timeline",
-  "artifact_sha256": "4316bad64f2e1f2d77c8d5a96fba724527ae0648d740db4d14f965b0cbdfcbca",
+  "artifact_sha256": "545b34e00e138e1473d2931dbaecf7a08ab50071580ad43bd6a3f5c804869dbb",
   "cleared_offline_checks": [
     "ROW084-014",
     "ROW084-016",
@@ -25,7 +25,9 @@
     "production_completion_blocked",
     "row_complete_blocked",
     "held_out_lavfi_visual_qa_only",
-    "COMPLETE_claim_forbidden_this_lane"
+    "COMPLETE_claim_forbidden_this_lane",
+    "class_e_runpod_readiness_probed_not_cleared",
+    "class_e_vlm_reviewed_not_cleared"
   ],
   "implementation_completion_claimed": false,
   "item_id": "ITEM-W64-084",
@@ -94,7 +96,20 @@
   "row_complete": false,
   "runtime_completion_claimed": false,
   "schema_version": "1.0.0",
-  "status": "HOLD_VISUAL_QA_PASS_BOUNDED_NO_COMPLETE",
+  "status": "HOLD_VISUAL_QA_PASS_BOUNDED_CLASS_E_RUNPOD_READINESS_VLM_PROBED_NO_COMPLETE",
   "tracker_id": "TRK-W64-084",
-  "visual_review_authority_granted": true
+  "visual_review_authority_granted": true,
+  "class_e_runpod_readiness": {
+    "proof_tier": "RUNTIME_PROBE_VISUAL_BOUNDED_WITH_VLM_REVIEW",
+    "cleared": false,
+    "packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_PRODUCTION_READINESS_PACKET_20260721.json",
+    "packet_sha256": "cafe15b09d911b7f0428e19be81c8ee28e53a99066597568a9f9ea20e28498fc",
+    "runtime_receipt_sha256": "e28b237b26973b46fc5e2c44a7613677aadc5946a36bdbec02dc60ccfa8ef066",
+    "vlm_review_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_VLM_REVIEW_20260721.json",
+    "vlm_review_packet_sha256": "7a39fb1fe2261e3c7d66a2c8a6f8e2710f9c6aa5def35c51043ad4a444cab4ad",
+    "vlm_model": "qwen2.5vl:7b",
+    "row084_011_status": "FAIL",
+    "row084_012_hold_unchanged": true,
+    "row074_left_alone": true
+  }
 }

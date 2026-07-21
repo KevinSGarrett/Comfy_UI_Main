@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "evidence_id": "TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_PRODUCTION_READINESS_PACKET_20260721",
-  "created_at": "2026-07-21T03:59:57Z",
+  "created_at": "2026-07-21T04:17:47Z",
   "tracker_id": "TRK-W64-084",
   "item_id": "ITEM-W64-084",
   "check_id": "ROW084-011",
@@ -14,9 +14,9 @@
   "implementation_completion_claimed": false,
   "product_completion_claimed": false,
   "csv_sync": "deferred_leave_to_serialized_mutator",
-  "mutation_this_landing": "evidence_only_class_e_runpod_production_readiness_runtime",
-  "proof_tier": "RUNTIME_PROBE_VISUAL_BOUNDED",
-  "highest_proof_tier_achieved": "RUNTIME_PROBE_VISUAL_BOUNDED",
+  "mutation_this_landing": "evidence_only_class_e_runpod_readiness_runtime_and_vlm_continue",
+  "proof_tier": "RUNTIME_PROBE_VISUAL_BOUNDED_WITH_VLM_REVIEW",
+  "highest_proof_tier_achieved": "RUNTIME_PROBE_VISUAL_BOUNDED_WITH_VLM_REVIEW",
   "do_not_clear": [
     "ROW084-011"
   ],
@@ -24,6 +24,7 @@
     "ROW084-012"
   ],
   "row073_left_alone": true,
+  "row074_left_alone": true,
   "pod": {
     "id": "1q4ji0gg1fkhvt",
     "name": "hyperreal-flux",
@@ -31,28 +32,34 @@
     "ssh_port": 52077,
     "paths_env": "/workspace/paths.env"
   },
-  "runtime_receipt": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/runpod_class_e_20260721T035339Z/class_e_runtime_receipt.json",
-  "runtime_receipt_sha256": "90b32ebd69e078835a325e0c59e8778afb01326d6b9ee7bb5286864ce4706af0",
-  "runtime_dir": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/runpod_class_e_20260721T035339Z",
+  "prior_runtime_dir": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/runpod_class_e_20260721T035339Z",
+  "runtime_receipt": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/runpod_class_e_20260721T041251Z/class_e_runtime_receipt.json",
+  "runtime_receipt_sha256": "e28b237b26973b46fc5e2c44a7613677aadc5946a36bdbec02dc60ccfa8ef066",
+  "runtime_dir": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/runpod_class_e_20260721T041251Z",
   "visual_frames": [
     {
-      "path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/runpod_class_e_20260721T035339Z/visual_frames/frame_01.png",
+      "path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/runpod_class_e_20260721T041251Z/visual_frames/frame_01.png",
       "sha256": "287a7d02685f762756509835ab4b59f20681900a5abb4d6d6febe783bccf161b",
       "bytes": 122097
     },
     {
-      "path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/runpod_class_e_20260721T035339Z/visual_frames/frame_02.png",
+      "path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/runpod_class_e_20260721T041251Z/visual_frames/frame_02.png",
       "sha256": "fe390ca1f9623fd9dfb447d2cfe4a7409d880319c91d5807e22dd13018a5f586",
       "bytes": 141617
     },
     {
-      "path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/runpod_class_e_20260721T035339Z/visual_frames/frame_03.png",
+      "path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/runpod_class_e_20260721T041251Z/visual_frames/frame_03.png",
       "sha256": "dbd7718ed0a0e53d53d7cfe2990599f7aebb2fb705eebc6b76cc9f7afae701fc",
       "bytes": 146296
     }
   ],
+  "vlm_review_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_VLM_REVIEW_20260721.json",
+  "vlm_review_packet_sha256": "7a39fb1fe2261e3c7d66a2c8a6f8e2710f9c6aa5def35c51043ad4a444cab4ad",
+  "vlm_model": "qwen2.5vl:7b",
+  "vlm_status": "VLM_REVIEW_BOUNDED_HOLD",
+  "vlm_ok_frame_count": 3,
   "comfy_probe": {
-    "created_at": "2026-07-21T03:53:39Z",
+    "created_at": "2026-07-21T04:12:51Z",
     "paths_env_sourced": true,
     "SCENES_ROOT": "/workspace/Characters/Scenes_xxx_001",
     "COMFY_URL": "http://127.0.0.1:8188",
@@ -63,7 +70,7 @@
     "queue_pending": 0,
     "comfyui_version": "0.28.0",
     "gpu_name": "cuda:0 NVIDIA RTX 6000 Ada Generation : cudaMallocAsync",
-    "vram_free": 17217153460,
+    "vram_free": 33577959424,
     "vram_total": 51002867712
   },
   "inventory_highlights": {
@@ -111,10 +118,11 @@
     "thrashed": false
   },
   "row084_011_status": "FAIL",
-  "summary": "RunPod Comfy serving; paths.env sourced; production/pulled-back or scene-derived media ffprobe+frame extract succeeded. ROW084-011 Class E remains OPEN (not cleared); ROW084-012 Class C HOLD untouched; no COMPLETE/row_complete.",
-  "safe_next_action": "Keep ROW084-011 FAIL/OPEN. Keep ROW084-012 OPEN_HOLD. Do not claim COMPLETE. Future Class E clearance requires production mux/cut/camera/visual authority beyond held-out lavfi AND removal of compiler hard fail-close \u2014 not this readiness packet.",
+  "summary": "RunPod Comfy serving (idle :8188); Class E readiness/runtime re-probe RUNTIME_PROBE_VISUAL_BOUNDED; Ollama qwen2.5vl:7b reviewed 3/3 visual frames. ROW084-011 Class E remains OPEN (not cleared); ROW084-012 Class C HOLD untouched; no COMPLETE/row_complete; Row074 left alone.",
+  "safe_next_action": "Keep ROW084-011 FAIL/OPEN. Keep ROW084-012 OPEN_HOLD. Do not claim COMPLETE. Future Class E clearance requires production mux/cut/camera/visual authority beyond held-out lavfi AND removal of compiler hard fail-close \u2014 not this readiness/VLM packet.",
   "preservation_boundary": {
     "row073_pcm_left_alone": true,
+    "row074_left_alone": true,
     "row075_pid_left_alone": true,
     "tracker_items_csv_writes": false,
     "tip_sha_chain_written": false,
