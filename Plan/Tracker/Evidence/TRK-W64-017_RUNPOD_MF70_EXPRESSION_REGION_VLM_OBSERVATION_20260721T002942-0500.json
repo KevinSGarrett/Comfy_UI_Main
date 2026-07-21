@@ -1,67 +1,77 @@
 {
-  "schema_version": "1.0.0",
-  "record_type": "autonomous_reviewer_observation",
-  "reviewer_observation_id": "row017_runpod_mf70_expression_region_vlm_20260721T002942-0500",
-  "revision": "1",
-  "status": "candidate_observation",
-  "created_at": "2026-07-21T00:29:42-05:00",
-  "role": "vlm_critic",
-  "model": "qwen2.5vl:7b",
-  "runtime_host": "runpod",
-  "endpoint": "http://127.0.0.1:11434/api/chat",
-  "artifact_ids": [
-    "eefaa33584c268c9852aa719eb0acfd0c490ad3991483179129cbff7bd8816d5"
-  ],
   "artifact": {
     "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_expression_region_20260721T002922-0500/images/codex_row017_mf70_expression_region_20260721T002922-0500_00001_.png",
     "sha256": "eefaa33584c268c9852aa719eb0acfd0c490ad3991483179129cbff7bd8816d5"
   },
-  "scope_bindings": [
-    {
-      "region": "mf70_expression_region",
-      "owner": "character_instance_row017"
-    }
+  "artifact_ids": [
+    "eefaa33584c268c9852aa719eb0acfd0c490ad3991483179129cbff7bd8816d5"
   ],
+  "created_at": "2026-07-21T00:29:42-05:00",
+  "csv_sync": "synced_by_primary_csv_mutator_row017_mf70_expression_region_vlm",
+  "csv_sync_tip": "699f6d68",
+  "endpoint": "http://127.0.0.1:11434/api/chat",
+  "evidence_ids": [
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_RUNPOD_MF70_EXPRESSION_REGION_20260721T002922-0500_GLOBAL_REVIEW.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/ROW017_RUNPOD_MF70_EXPRESSION_REGION_VISUAL_QA_20260721T002922-0500.json"
+  ],
+  "ledger_vocabulary_sync": {
+    "note": "Mechanical CSV mutator Row017 mf70_expression_region tip sync from 699f6d68; GLOBAL_REVIEW pass; vlm_ok; future-producer pending; no COMPLETE.",
+    "product_completion": false,
+    "prove_commits": [
+      "699f6d68"
+    ],
+    "synced_at": "2026-07-21T05:30:45.483922Z"
+  },
+  "metric_observations": [],
+  "model": "qwen2.5vl:7b",
   "observations": [
     {
       "defect": "Expression region appears slightly altered",
       "region": "whole_frame"
     }
   ],
-  "metric_observations": [],
-  "uncertainty": 0.2,
   "parsed_review": {
-    "frame_ok": true,
-    "identity_preserved": true,
-    "eyes_ok": true,
-    "mouth_ok": true,
     "background_ok": true,
-    "hard_mask_edge": false,
-    "target_region_refined": true,
+    "eyes_ok": true,
+    "frame_ok": true,
     "global_defects": [
       "Expression region appears slightly altered"
     ],
-    "summary": "The image shows a subtle expression-region preservation pass with identity preserved. Eyes and mouth are stable, but the expression area seems marginally refined.",
+    "hard_mask_edge": false,
+    "identity_preserved": true,
+    "mouth_ok": true,
     "promotion_allowed": false,
     "row_complete_allowed": false,
+    "summary": "The image shows a subtle expression-region preservation pass with identity preserved. Eyes and mouth are stable, but the expression area seems marginally refined.",
+    "target_region_refined": true,
     "uncertainty": 0.2
   },
-  "promotion_authority": "none",
   "promotion_allowed": false,
-  "row_complete_allowed": false,
-  "evidence_ids": [
-    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_RUNPOD_MF70_EXPRESSION_REGION_20260721T002922-0500_GLOBAL_REVIEW.json",
-    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/ROW017_RUNPOD_MF70_EXPRESSION_REGION_VISUAL_QA_20260721T002922-0500.json"
-  ],
+  "promotion_authority": "none",
   "provenance": {
+    "evidence_refs": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_RUNPOD_MF70_EXPRESSION_REGION_20260721T002922-0500_GLOBAL_REVIEW.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-017_RUNPOD_FUTURE_PRODUCER_EMISSION_PACKET_20260721T002922-0500.json"
+    ],
     "producer": "tmp_row017_runpod_mf70_expression_region_vlm_deepen.py",
     "source_refs": [
       "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_expression_region_20260721T002922-0500/LOCAL_RUNTIME_RECEIPT.json",
       "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_expression_region_20260721T002922-0500/images/codex_row017_mf70_expression_region_20260721T002922-0500_00001_.png"
-    ],
-    "evidence_refs": [
-      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_RUNPOD_MF70_EXPRESSION_REGION_20260721T002922-0500_GLOBAL_REVIEW.json",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-017_RUNPOD_FUTURE_PRODUCER_EMISSION_PACKET_20260721T002922-0500.json"
     ]
-  }
+  },
+  "record_type": "autonomous_reviewer_observation",
+  "reviewer_observation_id": "row017_runpod_mf70_expression_region_vlm_20260721T002942-0500",
+  "revision": "1",
+  "role": "vlm_critic",
+  "row_complete_allowed": false,
+  "runtime_host": "runpod",
+  "schema_version": "1.0.0",
+  "scope_bindings": [
+    {
+      "owner": "character_instance_row017",
+      "region": "mf70_expression_region"
+    }
+  ],
+  "status": "candidate_observation",
+  "uncertainty": 0.2
 }
