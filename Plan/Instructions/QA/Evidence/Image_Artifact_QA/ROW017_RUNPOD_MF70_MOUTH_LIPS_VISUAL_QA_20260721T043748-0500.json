@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ROW017-RUNPOD-MF70-NOSE-VISUAL-QA-20260721T043748-0500",
+  "created_at": "2026-07-21T04:37:48-05:00",
+  "tracker_id": "TRK-W64-017",
+  "item_id": "ITEM-W64-017",
+  "localized_region": "mf70_mouth_lips",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+  "qa_decision": "pass_bounded_localized_mf70_mouth_lips_runpod_runtime_candidate",
+  "overall_decision": "pass",
+  "local_only": false,
+  "runtime_host": "runpod",
+  "direct_visual_inspection": true,
+  "fixture_only": false,
+  "generation_executed": true,
+  "runtime_receipt": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_mouth_lips_20260721T043748-0500/LOCAL_RUNTIME_RECEIPT.json",
+  "source": {
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_skin_tone_continuity_20260707T163000-0500/wave70_mf70_face_identity_source_canny_v3.png",
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d"
+  },
+  "mask": {
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_mouth_lips_source_landmark_v2_20260707T223500-0500/wave70_mf70_mouth_lips_mask.png",
+    "sha256": "af3aa21d71625a68087440874afbf30e060a813f218265054a7cce79fee6f0d9",
+    "filename": "wave70_mf70_mouth_lips_mask.png"
+  },
+  "artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_mouth_lips_20260721T043748-0500/images/codex_row017_mf70_mouth_lips_20260721T043748-0500_00001_.png",
+    "sha256": "ec83cedf8b16294d37a453513590105fde5719e23117efbc55ac253e753ecdec"
+  },
+  "comparison_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_mouth_lips_20260721T043748-0500/images/qa_full_side_by_side.png",
+    "sha256": "08f556d3ac4f4741a4d604c048f884b94badf86eac4aef5808de804cd5d8e776"
+  },
+  "face_crop_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_mouth_lips_20260721T043748-0500/images/qa_face_crop_side_by_side.png",
+    "sha256": "2ca556db301017b4c76c58a0f6785c6c7b2b91ecafe29eaa51ca0398aa3f4eaf"
+  },
+  "eye_crop_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_mouth_lips_20260721T043748-0500/images/qa_eye_crop_side_by_side.png",
+    "sha256": "b9857b6bf17edff14c382b1324e2f0fad1e7bc7759e6977c30d6c432ae1f9abe"
+  },
+  "mouth_crop_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_mouth_lips_20260721T043748-0500/images/qa_mouth_crop_side_by_side.png",
+    "sha256": "a2dbaa4cbaac2c5675de454645c292f576b8b120eabeea88695d2e02027371cd"
+  },
+  "difference_metrics": {
+    "full_image_diff_bbox": [
+      304,
+      444,
+      439,
+      478
+    ],
+    "face_mask_bbox": [
+      304,
+      444,
+      439,
+      477
+    ],
+    "face_crop_box": [
+      284,
+      424,
+      459,
+      497
+    ],
+    "mean_rgb_abs_diff": [
+      0.009979,
+      0.009152,
+      0.009015
+    ],
+    "rms_rgb_abs_diff": [
+      0.317025,
+      0.316837,
+      0.301294
+    ],
+    "face_region_mean_abs": 1.2419,
+    "eye_region_mean_abs": 0.0,
+    "mouth_region_mean_abs": 0.264769,
+    "clothing_mean_abs": 0.0,
+    "background_corner_mean_abs": 0.0,
+    "changed_pixel_count": 704,
+    "mask_pixel_count": 1261
+  },
+  "whole_frame_findings": [
+    "Fresh RunPod ComfyUI mf70_mouth_lips masked inpaint on wave70_mf70_face_identity_source_canny_v3 (seed 210827, RealVisXL baked VAE, denoise 0.03, FeatherMask 24px, cfg 3.1, steps 18) completed successfully (prompt_id 7099f147-aabb-4beb-9f7f-985a1c412328).",
+    "Whole-frame identity, hair, white blazer, dark studio background, lighting, and framing remain stable versus source.",
+    "Pixel delta is localized to mf70_mouth_lips bbox [304, 444, 439, 477]; clothing mean abs 0.0; background corner mean abs 0.0; 704 changed pixels vs 1261-pixel mouth_lips mask.",
+    "Direct whole-frame + face/eye/mouth crop inspection: subtle outer lip texture/contour preservation refinement without gray-mask failure, identity drift, wardrobe rewrite, background change, hard mask-edge seam, or gaze/iris rewrite.",
+    "Hands are outside this head-and-shoulders crop (not applicable); no global style drift observed."
+  ],
+  "global_defects": [],
+  "promotion_authorized": false,
+  "row_complete": false,
+  "product_completion_claimed": false,
+  "ec2": "RUNPOD_USED",
+  "docker_cvat": "not-needed",
+  "notes": [
+    "Class E future-producer emission proof via RunPod Comfy runtime after local :8188 was unreachable.",
+    "Does not claim COMPLETE; CSV deferred; Row074 left alone; HOLD 090+ untouched."
+  ],
+  "csv_update_deferred": true
+}
