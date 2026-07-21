@@ -1,0 +1,245 @@
+{
+  "prompt": [
+    0,
+    "0421e051-5377-4971-add5-cce9a7fc6b2b",
+    {
+      "3": {
+        "class_type": "KSampler",
+        "inputs": {
+          "seed": 7712038803,
+          "steps": 18,
+          "cfg": 4.0,
+          "sampler_name": "euler",
+          "scheduler": "normal",
+          "denoise": 0.1,
+          "model": [
+            "4",
+            0
+          ],
+          "positive": [
+            "8",
+            0
+          ],
+          "negative": [
+            "9",
+            0
+          ],
+          "latent_image": [
+            "12",
+            0
+          ]
+        }
+      },
+      "4": {
+        "class_type": "CheckpointLoaderSimple",
+        "inputs": {
+          "ckpt_name": "realvisxlV50_v50Bakedvae.safetensors"
+        }
+      },
+      "5": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "wave64_row017_mf70_expr_src_20260721T002922-0500.png"
+        }
+      },
+      "6": {
+        "class_type": "LoadImageMask",
+        "inputs": {
+          "image": "wave64_row017_mf70_expr_mask_20260721T002922-0500.png",
+          "channel": "red"
+        }
+      },
+      "7": {
+        "class_type": "VAEEncode",
+        "inputs": {
+          "pixels": [
+            "5",
+            0
+          ],
+          "vae": [
+            "4",
+            2
+          ]
+        }
+      },
+      "8": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "text": "very subtle photoreal expression-region preservation pass, preserve exact face identity, preserve both eyes, gaze direction, brow shape, nose bridge and nose tip, cheek structure, lip shape, mouth closure, skin tone, natural skin texture, and consistent portrait lighting, no hair, background, neck, clothing, teeth, or face outline change",
+          "clip": [
+            "4",
+            1
+          ]
+        }
+      },
+      "9": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "text": "identity change, different person, age change, gender presentation change, face shape drift, skin tone change, eye color change, gaze drift, distorted eyes, crossed eyes, asymmetrical eyes, brow deformation, nose deformation, changed lips, open mouth, visible teeth, extra teeth, smile change, hairline change, hair volume change, neck change, clothing change, background change, plastic skin, waxy skin, over-smoothed face, watermark, text",
+          "clip": [
+            "4",
+            1
+          ]
+        }
+      },
+      "10": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "3",
+            0
+          ],
+          "vae": [
+            "4",
+            2
+          ]
+        }
+      },
+      "11": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "filename_prefix": "codex_row017_mf70_expression_region_20260721T002922-0500",
+          "images": [
+            "14",
+            0
+          ]
+        }
+      },
+      "12": {
+        "class_type": "SetLatentNoiseMask",
+        "inputs": {
+          "samples": [
+            "7",
+            0
+          ],
+          "mask": [
+            "13",
+            0
+          ]
+        }
+      },
+      "13": {
+        "class_type": "FeatherMask",
+        "inputs": {
+          "mask": [
+            "6",
+            0
+          ],
+          "left": 24,
+          "top": 24,
+          "right": 24,
+          "bottom": 24
+        }
+      },
+      "14": {
+        "class_type": "ImageCompositeMasked",
+        "inputs": {
+          "destination": [
+            "5",
+            0
+          ],
+          "source": [
+            "10",
+            0
+          ],
+          "x": 0,
+          "y": 0,
+          "resize_source": false,
+          "mask": [
+            "13",
+            0
+          ]
+        }
+      },
+      "15": {
+        "class_type": "MaskToImage",
+        "inputs": {
+          "mask": [
+            "13",
+            0
+          ]
+        }
+      },
+      "16": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "filename_prefix": "codex_row017_mf70_expression_region_20260721T002922-0500_mask_preview",
+          "images": [
+            "15",
+            0
+          ]
+        }
+      }
+    },
+    {
+      "client_id": "cursor-row017-mf70-expr-runpod-bfd998e6",
+      "create_time": 1784611762857
+    },
+    [
+      "11",
+      "16"
+    ]
+  ],
+  "outputs": {
+    "16": {
+      "images": [
+        {
+          "filename": "codex_row017_mf70_expression_region_20260721T002922-0500_mask_preview_00001_.png",
+          "subfolder": "",
+          "type": "output"
+        }
+      ]
+    },
+    "11": {
+      "images": [
+        {
+          "filename": "codex_row017_mf70_expression_region_20260721T002922-0500_00001_.png",
+          "subfolder": "",
+          "type": "output"
+        }
+      ]
+    }
+  },
+  "status": {
+    "status_str": "success",
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "0421e051-5377-4971-add5-cce9a7fc6b2b",
+          "timestamp": 1784611762860
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [],
+          "prompt_id": "0421e051-5377-4971-add5-cce9a7fc6b2b",
+          "timestamp": 1784611764250
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "0421e051-5377-4971-add5-cce9a7fc6b2b",
+          "timestamp": 1784611780064
+        }
+      ]
+    ]
+  },
+  "meta": {
+    "16": {
+      "node_id": "16",
+      "display_node": "16",
+      "parent_node": null,
+      "real_node_id": "16"
+    },
+    "11": {
+      "node_id": "11",
+      "display_node": "11",
+      "parent_node": null,
+      "real_node_id": "11"
+    }
+  }
+}

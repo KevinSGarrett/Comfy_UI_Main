@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ROW017-RUNPOD-MF70-EXPRESSION-REGION-VISUAL-QA-20260721T002922-0500",
+  "created_at": "2026-07-21T00:29:22-05:00",
+  "tracker_id": "TRK-W64-017",
+  "item_id": "ITEM-W64-017",
+  "localized_region": "mf70_expression_region",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+  "qa_decision": "pass_bounded_localized_mf70_expression_region_runpod_runtime_candidate",
+  "overall_decision": "pass",
+  "local_only": false,
+  "runtime_host": "runpod",
+  "direct_visual_inspection": true,
+  "fixture_only": false,
+  "generation_executed": true,
+  "runtime_receipt": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_expression_region_20260721T002922-0500/LOCAL_RUNTIME_RECEIPT.json",
+  "source": {
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_expression_region_20260707T151500-0500/wave70_mf70_face_identity_source_canny_v3.png",
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d"
+  },
+  "mask": {
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_expression_region_20260707T151500-0500/wave70_mf70_expression_region_mask.png",
+    "sha256": "90092e845099ca51143dc678c3376cb3ce9bca047337aeed92406ec52116f39b",
+    "filename": "wave70_mf70_expression_region_mask.png"
+  },
+  "artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_expression_region_20260721T002922-0500/images/codex_row017_mf70_expression_region_20260721T002922-0500_00001_.png",
+    "sha256": "eefaa33584c268c9852aa719eb0acfd0c490ad3991483179129cbff7bd8816d5"
+  },
+  "comparison_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_expression_region_20260721T002922-0500/images/qa_full_side_by_side.png",
+    "sha256": "fcd1c2bf3363a54f83a120fe1515d3360395b5fbe46073cccd294c0e884fa23c"
+  },
+  "face_crop_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_expression_region_20260721T002922-0500/images/qa_face_crop_side_by_side.png",
+    "sha256": "3515225753fb48a67cd661ae7a92f0b2a5e162c43f2f4303b3ba317b35f012c4"
+  },
+  "eye_crop_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_expression_region_20260721T002922-0500/images/qa_eye_crop_side_by_side.png",
+    "sha256": "2f44f77d6453dbdabcdf191239b8762119d9e2742f5ff0cfab90cad7a1df7047"
+  },
+  "mouth_crop_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_expression_region_20260721T002922-0500/images/qa_mouth_crop_side_by_side.png",
+    "sha256": "207f4d63f49e895f9e89e85f769f2597e4bd4f3faa337cb79b927288c668e646"
+  },
+  "difference_metrics": {
+    "full_image_diff_bbox": [
+      240,
+      221,
+      539,
+      528
+    ],
+    "face_mask_bbox": [
+      244,
+      225,
+      535,
+      524
+    ],
+    "face_crop_box": [
+      224,
+      205,
+      555,
+      544
+    ],
+    "mean_rgb_abs_diff": [
+      0.589834,
+      0.55227,
+      0.518217
+    ],
+    "rms_rgb_abs_diff": [
+      2.676957,
+      2.525151,
+      2.38828
+    ],
+    "face_region_mean_abs": 3.750397,
+    "eye_region_mean_abs": 4.752962,
+    "mouth_region_mean_abs": 3.817448,
+    "clothing_mean_abs": 0.0,
+    "background_corner_mean_abs": 0.0,
+    "changed_pixel_count": 38503,
+    "mask_pixel_count": 64758
+  },
+  "whole_frame_findings": [
+    "Fresh RunPod ComfyUI mf70 expression_region masked inpaint on wave70_mf70_face_identity_source_canny_v3 (seed 7712038803, RealVisXL baked VAE, denoise 0.1, FeatherMask 24px, cfg 4.0, steps 18) completed successfully (prompt_id 0421e051-5377-4971-add5-cce9a7fc6b2b).",
+    "Whole-frame identity, hair, navy blazer, patterned shirt, collar, dark studio background, lighting, and framing remain stable versus source.",
+    "Pixel delta is localized to mf70 expression_region bbox [244, 225, 535, 524]; clothing mean abs 0.0; background corner mean abs 0.0; 38503 changed pixels vs 64758-pixel expression_region mask.",
+    "Direct whole-frame + face/eye/mouth crop inspection: subtle expression-region preservation refinement without gray-mask failure, identity drift, wardrobe rewrite, background change, hard mask-edge seam, or gaze/iris rewrite.",
+    "Hands are outside this head-and-shoulders crop (not applicable); no global style drift observed."
+  ],
+  "global_defects": [],
+  "promotion_authorized": false,
+  "row_complete": false,
+  "product_completion_claimed": false,
+  "ec2": "RUNPOD_USED",
+  "docker_cvat": "not-needed",
+  "notes": [
+    "Class E future-producer emission proof via RunPod Comfy runtime after local :8188 was unreachable.",
+    "Does not claim COMPLETE; CSV deferred; Row074 left alone; HOLD 090+ untouched."
+  ],
+  "csv_update_deferred": true
+}
