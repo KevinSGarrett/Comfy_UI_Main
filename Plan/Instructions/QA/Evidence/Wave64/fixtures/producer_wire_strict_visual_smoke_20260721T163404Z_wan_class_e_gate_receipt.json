@@ -1,0 +1,197 @@
+{
+  "artifact": {
+    "bytes": null,
+    "media_kind": "video_frames",
+    "paths": [
+      "/workspace/comfy_output/video/w64_019_023_motion_20260721T083156Z_frames/frame_01.png",
+      "/workspace/comfy_output/video/w64_019_023_motion_20260721T083156Z_frames/frame_03.png",
+      "/workspace/comfy_output/video/w64_019_023_motion_20260721T083156Z_frames/frame_05.png"
+    ],
+    "prompt_id": null,
+    "sha256": null
+  },
+  "authority": {
+    "ec2_forbidden": true,
+    "endpoint": "http://127.0.0.1:11434",
+    "fail_closed": true,
+    "host": "runpod",
+    "local_comfy_runtime_forbidden": true,
+    "pod_id": "1q4ji0gg1fkhvt",
+    "runtime": "ollama_self_hosted"
+  },
+  "blocking_defects": [
+    {
+      "code": "MUSHY_HANDS",
+      "detail": "Fingers show fusion or mushiness, impacting overall realism.",
+      "region": "Hands",
+      "severity": "major"
+    }
+  ],
+  "climb_kind": "wan_ti2v_class_e",
+  "correction_guidance": [
+    "Improve hand detail to ensure fingers are distinct and natural-looking.",
+    "Enhance skin texture to reduce plastic/waxy appearance for greater realism."
+  ],
+  "forbidden_rubber_stamp_signals": {
+    "generation_receipt_is_not_pass": true,
+    "pipeline_ran_is_not_pass": true,
+    "smoke_model_forbidden_for_product": true,
+    "weak_vlm_pass_alone_is_not_product_pass": true
+  },
+  "generation_receipt_is_not_visual_approval": true,
+  "human_frame_read_retained": {
+    "required_when_already_gated": true,
+    "status": "fail"
+  },
+  "lane": "PROOF_LANDED",
+  "model": {
+    "approved_for_product": true,
+    "name": "qwen2.5vl:32b",
+    "ollama_show": {
+      "details": {
+        "families": [
+          "qwen25vl"
+        ],
+        "family": "qwen25vl",
+        "format": "gguf",
+        "parameter_size": "33.5B",
+        "parent_model": "",
+        "quantization_level": "Q4_K_M"
+      },
+      "model_info_keys": [
+        "general.architecture",
+        "general.file_type",
+        "general.parameter_count",
+        "general.quantization_version",
+        "qwen25vl.attention.head_count",
+        "qwen25vl.attention.head_count_kv",
+        "qwen25vl.attention.layer_norm_rms_epsilon",
+        "qwen25vl.block_count",
+        "qwen25vl.context_length",
+        "qwen25vl.embedding_length",
+        "qwen25vl.feed_forward_length",
+        "qwen25vl.rope.freq_base",
+        "qwen25vl.rope.mrope_section",
+        "qwen25vl.vision.attention.head_count",
+        "qwen25vl.vision.attention.layer_norm_epsilon",
+        "qwen25vl.vision.block_count",
+        "qwen25vl.vision.embedding_length",
+        "qwen25vl.vision.fullatt_block_indexes",
+        "qwen25vl.vision.num_channels",
+        "qwen25vl.vision.patch_size",
+        "qwen25vl.vision.rope.freq_base",
+        "qwen25vl.vision.spatial_merge_size",
+        "qwen25vl.vision.spatial_patch_size",
+        "qwen25vl.vision.temporal_patch_size",
+        "qwen25vl.vision.window_size",
+        "tokenizer.ggml.add_eos_token",
+        "tokenizer.ggml.add_padding_token",
+        "tokenizer.ggml.eos_token_id",
+        "tokenizer.ggml.merges",
+        "tokenizer.ggml.model",
+        "tokenizer.ggml.padding_token_id",
+        "tokenizer.ggml.pre",
+        "tokenizer.ggml.scores",
+        "tokenizer.ggml.token_type",
+        "tokenizer.ggml.tokens"
+      ]
+    },
+    "ollama_show_digest": "",
+    "ollama_show_family": "qwen25vl",
+    "parameter_size": "33.5B",
+    "role": "strict_product_reviewer"
+  },
+  "model_summary": "While there is a clear attempt at depicting motion and maintaining identity consistency, the presence of mushy/fused hands and slightly oversmooth skin texture are significant issues that prevent approval. The prompt adherence could also be improved to better match the stated intent.",
+  "overall_decision": "REJECT",
+  "producer_gate": "wave64_climb_strict_visual_gate",
+  "product_completion_claimed": false,
+  "raw_model_response": "{\n  \"anatomy_hands_fingers\": {\n    \"score\": 75,\n    \"applicable\": true,\n    \"notes\": \"Finger count and separation are mostly accurate, but there is slight fusion or mushiness visible in the fingers of both hands.\"\n  },\n  \"identity_consistency\": {\n    \"score\": 90,\n    \"applicable\": true,\n    \"notes\": \"The identity remains consistent across frames with no significant changes to facial features or body structure. The intent appears to be maintaining a single subject throughout.\"\n  },\n  \"skin_realism\": {\n    \"score\": 65,\n    \"applicable\": true,\n    \"notes\": \"Skin shows some plastic/waxy qualities, lacking natural microdetails and texture. There is an oversmooth appearance in certain areas.\"\n  },\n  \"motion_temporal\": {\n    \"score\": 80,\n    \"applicable\": true,\n    \"notes\": \"There is a clear shift in posture between frames indicating motion. Weight-shift and slight changes in stance suggest living motion, though the movement is not highly dynamic.\"\n  },\n  \"artifacts_cleanliness\": {\n    \"score\": 95,\n    \"applicable\": true,\n    \"notes\": \"No significant warping, mush, compression, or limb melt observed. Background remains clean with no tears or distortions.\"\n  },\n  \"prompt_adherence\": {\n    \"score\": 70,\n    \"applicable\": true,\n    \"notes\": \"The frames show a person in motion, but the specific intent of 'climb gate' is not clearly depicted. The action does not align perfectly with the stated intent.\"\n  },\n  \"policy_project\": {\n    \"score\": 100,\n    \"applicable\": true,\n    \"notes\": \"No NSFW content detected; project policy appears coherent and adhered to.\"\n  },\n  \"blocking_defects\": [\n    {\n      \"code\": \"MUSHY_HANDS\",\n      \"severity\": \"major\",\n      \"detail\": \"Fingers show fusion or mushiness, impacting overall realism.\",\n      \"region\": \"Hands\"\n    }\n  ],\n  \"correction_guidance\": [\n    \"Improve hand detail to ensure fingers are distinct and natural-looking.\",\n    \"Enhance skin texture to reduce plastic/waxy appearance for greater realism.\"\n  ],\n  \"reviewer_confidence\": 0.8,\n  \"proposed_decision\": \"REJECT\",\n  \"summary\": \"While there is a clear attempt at depicting motion and maintaining identity consistency, the presence of mushy/fused hands and slightly oversmooth skin texture are significant issues that prevent approval. The prompt adherence could also be improved to better match the stated intent.\"\n}",
+  "reviewer_confidence": 0.8,
+  "row074_pcm_left_alone": true,
+  "rubric_scores": {
+    "anatomy_hands_fingers": {
+      "applicable": true,
+      "notes": "Finger count and separation are mostly accurate, but there is slight fusion or mushiness visible in the fingers of both hands.",
+      "pass": false,
+      "score": 75
+    },
+    "artifacts_cleanliness": {
+      "applicable": true,
+      "notes": "No significant warping, mush, compression, or limb melt observed. Background remains clean with no tears or distortions.",
+      "pass": true,
+      "score": 95
+    },
+    "identity_consistency": {
+      "applicable": true,
+      "notes": "The identity remains consistent across frames with no significant changes to facial features or body structure. The intent appears to be maintaining a single subject throughout.",
+      "pass": true,
+      "score": 90
+    },
+    "motion_temporal": {
+      "applicable": true,
+      "notes": "There is a clear shift in posture between frames indicating motion. Weight-shift and slight changes in stance suggest living motion, though the movement is not highly dynamic.",
+      "pass": false,
+      "score": 80
+    },
+    "policy_project": {
+      "applicable": true,
+      "notes": "No NSFW content detected; project policy appears coherent and adhered to.",
+      "pass": true,
+      "score": 100
+    },
+    "prompt_adherence": {
+      "applicable": true,
+      "notes": "The frames show a person in motion, but the specific intent of 'climb gate' is not clearly depicted. The action does not align perfectly with the stated intent.",
+      "pass": false,
+      "score": 70
+    },
+    "skin_realism": {
+      "applicable": true,
+      "notes": "Skin shows some plastic/waxy qualities, lacking natural microdetails and texture. There is an oversmooth appearance in certain areas.",
+      "pass": false,
+      "score": 65
+    }
+  },
+  "schema_version": "wave64.pod_strict_visual_qa.v1",
+  "self_test": {
+    "expectation_met": null,
+    "expected_decision": null,
+    "fixture_role": "live_climb"
+  },
+  "strict_pod_llm_review": "REJECT",
+  "thresholds": {
+    "anatomy_hands_fingers_min": 90,
+    "artifacts_cleanliness_min": 85,
+    "default_decision": "REJECT",
+    "identity_consistency_min": 85,
+    "motion_temporal_min": 90,
+    "policy_project_min": 90,
+    "prompt_adherence_min": 85,
+    "reviewer_confidence_min": 0.75,
+    "skin_realism_min": 85
+  },
+  "vram_arbitration": {
+    "comfy_queue_idle_required": true,
+    "comfy_unload_before_review": true,
+    "comfy_unload_receipt": {
+      "after": {
+        "free_mib": 48001.0,
+        "total_mib": 49140.0,
+        "used_mib": 640.0
+      },
+      "before": {
+        "free_mib": 48001.0,
+        "total_mib": 49140.0,
+        "used_mib": 640.0
+      },
+      "comfy_url": "http://127.0.0.1:8188",
+      "error": null,
+      "ok": true
+    },
+    "gpu_memory_free_mib_after_unload": 48001.0,
+    "gpu_memory_free_mib_before": 48001.0,
+    "notes": "Comfy and qwen2.5vl:32b must not co-reside on RTX 6000 Ada ~48GB when Wan/Flux weights are loaded; unload Comfy via /free before strict review, then unload VLM (keep_alive=0) before the next generation.",
+    "ollama_keep_alive": "0",
+    "unload_vlm_after_review": true
+  }
+}
