@@ -32,6 +32,8 @@ PATHS = {
     / "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_MULTIMODAL_QA_CAPACITY_OPTIONS_20260721.json",
     "phase_lease_shadow_evidence": ROOT
     / "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_PHASE_LEASE_SHADOW_20260721.json",
+    "phase_lease_runtime_canary_evidence": ROOT
+    / "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_PHASE_LEASE_RUNTIME_CANARY_20260721T213703Z.json",
     "operations": ROOT
     / "Plan/Instructions/Operations/RUNPOD_AUTONOMOUS_MULTIMODAL_QA_OPERATING_PROTOCOL.md",
     "qa": ROOT
@@ -118,6 +120,8 @@ PATHS = {
     / "Plan/08_SCHEMAS/runpod_autonomous_review_disagreement_decision.schema.json",
     "review_disagreement_resolver": ROOT
     / "Plan/07_IMPLEMENTATION/scripts/resolve_wave64_runpod_autonomous_review_disagreement.py",
+    "phase_lease_runtime_canary_producer": ROOT
+    / "Plan/07_IMPLEMENTATION/scripts/produce_wave64_runpod_autonomous_phase_lease_runtime_canary.py",
 }
 
 SECRET_PATTERNS = {
@@ -152,6 +156,9 @@ def collect_errors() -> list[str]:
         evidence = load_json(PATHS["evidence"])
         capacity_evidence = load_json(PATHS["capacity_evidence"])
         phase_lease_shadow_evidence = load_json(PATHS["phase_lease_shadow_evidence"])
+        phase_lease_runtime_canary_evidence = load_json(
+            PATHS["phase_lease_runtime_canary_evidence"]
+        )
         registry = load_json(PATHS["registry"])
         schema = load_json(PATHS["schema"])
         job_contract_schema = load_json(PATHS["job_contract_schema"])
@@ -204,11 +211,32 @@ def collect_errors() -> list[str]:
         evidence,
         capacity_evidence,
         phase_lease_shadow_evidence,
+        phase_lease_runtime_canary_evidence,
         registry,
     )
     for document in json_docs:
         if document.get("program_id") != PROGRAM:
             errors.append("JSON document has the wrong program_id")
+
+    if (
+        phase_lease_runtime_canary_evidence.get("canary_disposition")
+        != "PASS_ADMISSION_AND_RELEASE_NO_GENERATION"
+    ):
+        errors.append("phase lease runtime canary must pass admission and release")
+    final_canary_state = phase_lease_runtime_canary_evidence.get(
+        "final_controller_state", {}
+    )
+    if final_canary_state.get("state") != "IDLE" or final_canary_state.get("lease") is not None:
+        errors.append("phase lease runtime canary must finish IDLE without a lease")
+    if (
+        phase_lease_runtime_canary_evidence.get("strict_model_inventory", {}).get(
+            "inference_executed"
+        )
+        is not False
+    ):
+        errors.append("phase lease admission canary must not claim model inference")
+    if phase_lease_runtime_canary_evidence.get("resource_mutations") != []:
+        errors.append("phase lease admission canary must not contain resource mutations")
 
     runtime = registry.get("runtime_policy", {})
     expected_limits = {

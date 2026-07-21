@@ -1,0 +1,229 @@
+{
+  "acquired_lease": {
+    "acquired_at": "2026-07-21T21:37:05.417977Z",
+    "contract_id": "0c05fb35e7972c889688793e045314284cc7e3e1490b6fbea07b90b200003da6",
+    "estimated_cost_usd": 0.006416666666666667,
+    "expires_at": "2026-07-21T21:37:35.417977Z",
+    "heartbeat_at": "2026-07-21T21:37:05.417977Z",
+    "lease_id": "W64-AQA-LEASE-3657414e7a214e9ba3aba43e",
+    "max_cost_usd": 0.02,
+    "owner": "W64-AQA-JOB-phase-lease-runtime-canary-20260721",
+    "phase": "migration_canary",
+    "resource_snapshot_sha256": "0152738f8389617e2400f15c67367416125a1b609c8022cf3459f390b5e600b5"
+  },
+  "canary_disposition": "PASS_ADMISSION_AND_RELEASE_NO_GENERATION",
+  "claims_not_proven": [
+    "model inference quality",
+    "model unload or reload",
+    "OOM or crash recovery",
+    "semantic reviewer authority",
+    "artifact promotion",
+    "2x A40 availability or migration"
+  ],
+  "claims_proven": [
+    "fresh queue storage and GPU snapshot passed admission",
+    "one evidence-only exclusive lease acquired and released",
+    "lease journal hash chain verified after release",
+    "current pod remained authoritative"
+  ],
+  "final_controller_state": {
+    "blocked_reasons": [],
+    "controller_id": "W64-AQA-CTRL-primary",
+    "journal": [
+      {
+        "details": {
+          "controller_id": "W64-AQA-CTRL-primary"
+        },
+        "event": "CONTROLLER_INITIALIZED",
+        "event_hash": "d83f34ed1a0267cfb4c1d3ca1c663d7776e6937dfc0d88616c43315fbf31869a",
+        "previous_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "sequence": 0,
+        "timestamp": "2026-07-21T21:37:05.415825Z"
+      },
+      {
+        "details": {
+          "lease_id": "W64-AQA-LEASE-3657414e7a214e9ba3aba43e",
+          "phase": "migration_canary"
+        },
+        "event": "LEASE_ACQUIRED",
+        "event_hash": "575922e5a073e212a28ea27f602bb7149088a0bf42b2cfbebf1153f87961e19e",
+        "previous_hash": "d83f34ed1a0267cfb4c1d3ca1c663d7776e6937dfc0d88616c43315fbf31869a",
+        "sequence": 1,
+        "timestamp": "2026-07-21T21:37:05.417977Z"
+      },
+      {
+        "details": {
+          "lease_id": "W64-AQA-LEASE-3657414e7a214e9ba3aba43e"
+        },
+        "event": "LEASE_DRAINING",
+        "event_hash": "96c1c7488c0c648a0f18fc2dbe712d6df9102094b11aca96035c0a4756f34292",
+        "previous_hash": "575922e5a073e212a28ea27f602bb7149088a0bf42b2cfbebf1153f87961e19e",
+        "sequence": 2,
+        "timestamp": "2026-07-21T21:37:05.419980Z"
+      },
+      {
+        "details": {
+          "actual_cost_usd": 0.006416666666666667,
+          "lease_id": "W64-AQA-LEASE-3657414e7a214e9ba3aba43e"
+        },
+        "event": "LEASE_RELEASED",
+        "event_hash": "5fe844100c8768f55b9c7a349c360838adb7ad53e646a085331a7dfd31d201c5",
+        "previous_hash": "96c1c7488c0c648a0f18fc2dbe712d6df9102094b11aca96035c0a4756f34292",
+        "sequence": 3,
+        "timestamp": "2026-07-21T21:37:05.419980Z"
+      }
+    ],
+    "lease": null,
+    "revision": 4,
+    "schema_version": "wave64.aqa.phase_lease.v1",
+    "state": "IDLE"
+  },
+  "observed_at": "2026-07-21T21:37:03Z",
+  "produced_at": "2026-07-21T21:37:05.421978Z",
+  "program_id": "W64-AQA",
+  "read_only_resource_snapshot": {
+    "comfyui_system_stats_healthy": true,
+    "cost_per_hour_usd": 0.77,
+    "estimated_phase_seconds": 30,
+    "foreign_jobs": 0,
+    "overlay_used_percent": 79.0,
+    "queue_pending": 0,
+    "queue_running": 0,
+    "required_free_vram_mib": 1024,
+    "vram_free_mib": 47993,
+    "vram_total_mib": 49140,
+    "workspace_used_percent": 74.0
+  },
+  "resource_mutations": [],
+  "runtime": {
+    "gpu_profile": "1x RTX 6000 Ada 48GB",
+    "hourly_compute_usd": 0.77,
+    "network_volume_id": "o9qv2ld91c",
+    "pod_id": "1q4ji0gg1fkhvt"
+  },
+  "schema_version": "wave64.aqa.phase_lease_runtime_canary.v1",
+  "shadow_contract": {
+    "attempt_policy": {
+      "max_no_progress_cycles": 0,
+      "max_repairs_per_defect": 0,
+      "max_total_generations": 1
+    },
+    "authority_policy": {
+      "ec2_allowed": false,
+      "external_inference_allowed": false,
+      "generation_host": "runpod_only",
+      "local_comfyui_allowed": false,
+      "model_can_promote": false,
+      "secrets_visible_to_models": false,
+      "triage_can_approve": false,
+      "workflow_model_proposal_only": true
+    },
+    "contract_id": "0c05fb35e7972c889688793e045314284cc7e3e1490b6fbea07b90b200003da6",
+    "created_at": "2026-07-21T21:37:03Z",
+    "execution_mode": "shadow_qualification",
+    "image_spec": {
+      "alpha_required": false,
+      "color_space": "sRGB",
+      "height": 1024,
+      "width": 1024
+    },
+    "job_id": "W64-AQA-JOB-phase-lease-runtime-canary-20260721",
+    "modality": "image",
+    "preflight_disposition": "READY_FOR_LEASE",
+    "promotion_disposition": "EVIDENCE_ONLY",
+    "provenance": {
+      "calibration_ids": [
+        "existing-strict-scoped-inventory-control-canary-no-model-inference"
+      ],
+      "input_artifacts": [],
+      "model_bindings": [
+        {
+          "checkpoint_sha256": "a6b935cc253de0454739c73414841036cf0ed3c8ffdacf5950c3c814f635e014",
+          "model_id": "measure_wave64_runpod_autonomous_image_quality.py",
+          "qualification_state": "QUALIFIED",
+          "role_id": "W64-AQA-ROLE-DETERMINISTIC",
+          "runtime_digest": "python-3.11.9-canonical-root"
+        },
+        {
+          "checkpoint_sha256": "3edc3a52fe988de3e8ba4f99ac1f21a1bbc35e1af32a74983fe4e1667d6b6188",
+          "model_id": "qwen2.5vl:32b",
+          "qualification_state": "QUALIFIED",
+          "role_id": "W64-AQA-ROLE-STRICT-VISUAL",
+          "runtime_digest": "ollama-0.32.1"
+        }
+      ],
+      "workflow_sha256": "a6b935cc253de0454739c73414841036cf0ed3c8ffdacf5950c3c814f635e014"
+    },
+    "quality_profile": {
+      "hard_gates": [
+        {
+          "gate_id": "no-generation",
+          "metric": "generation_executed",
+          "on_failure": "REJECT",
+          "operator": "eq",
+          "threshold": false
+        }
+      ],
+      "profile_id": "w64-aqa-phase-lease-control-canary-v1",
+      "required_approval_roles": [
+        "W64-AQA-ROLE-DETERMINISTIC",
+        "W64-AQA-ROLE-STRICT-VISUAL"
+      ],
+      "review_roles": [
+        {
+          "authority": "deterministic",
+          "can_approve": true,
+          "required": true,
+          "role_id": "W64-AQA-ROLE-DETERMINISTIC"
+        },
+        {
+          "authority": "strict",
+          "can_approve": true,
+          "required": true,
+          "role_id": "W64-AQA-ROLE-STRICT-VISUAL"
+        },
+        {
+          "authority": "triage",
+          "can_approve": false,
+          "required": false,
+          "role_id": "W64-AQA-ROLE-FAST-TRIAGE"
+        }
+      ]
+    },
+    "requested_outputs": [
+      {
+        "durable_relative_path": "aqa/runtime/phase-lease-runtime-canary-20260721.json",
+        "media_type": "application/json",
+        "output_id": "lease-receipt"
+      }
+    ],
+    "resource_budget": {
+      "deadline_seconds": 60,
+      "max_gpu_hour_usd": 0.02,
+      "max_gpu_seconds": 30,
+      "max_output_bytes": 1048576,
+      "secondary_burst": {
+        "eligible_gpu_classes": [],
+        "enabled": false,
+        "idle_ttl_seconds": 0,
+        "max_cost_usd": 0,
+        "max_seconds": 0
+      }
+    },
+    "revision": 1,
+    "rollback_policy": {
+      "previous_accepted_artifact_sha256": null,
+      "promotion_requires_replay": true,
+      "retain_failed_evidence": true,
+      "revert_on_regression": true
+    },
+    "schema_version": "wave64.aqa.job_contract.v1"
+  },
+  "strict_model_inventory": {
+    "inference_executed": false,
+    "model_id": "qwen2.5vl:32b",
+    "ollama_digest": "3edc3a52fe988de3e8ba4f99ac1f21a1bbc35e1af32a74983fe4e1667d6b6188",
+    "runtime": "ollama-0.32.1"
+  },
+  "tracker_id": "W64-AQA-003"
+}
