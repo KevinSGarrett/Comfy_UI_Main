@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "autonomous_reviewer_observation",
+  "reviewer_observation_id": "row017_runpod_micro_mask_v2_vlm_20260720T233740-0500",
+  "revision": "1",
+  "status": "candidate_observation",
+  "created_at": "2026-07-20T23:37:40-05:00",
+  "role": "vlm_critic",
+  "model": "qwen2.5vl:7b",
+  "runtime_host": "runpod",
+  "endpoint": "http://127.0.0.1:11434/api/chat",
+  "artifact_ids": [
+    "0925722a9f8ec49e1cf7275fa9d77d41696fba9d15559e38dc6f20b6477c74fa"
+  ],
+  "artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_w69_inpaint_micro_mask_v2_20260720T233704-0500/images/codex_row017_w69_inpaint_micro_mask_v2_20260720T233704-0500_00001_.png",
+    "sha256": "0925722a9f8ec49e1cf7275fa9d77d41696fba9d15559e38dc6f20b6477c74fa"
+  },
+  "scope_bindings": [
+    {
+      "region": "w69_inpaint_micro_mask_v2",
+      "owner": "character_instance_row017"
+    }
+  ],
+  "observations": [
+    {
+      "defect": "The left eye appears slightly more prominent in the red mask compared to the green one, indicating a minor difference in focus or intensity.",
+      "region": "whole_frame"
+    }
+  ],
+  "metric_observations": [],
+  "uncertainty": 0.1,
+  "parsed_review": {
+    "frame_ok": true,
+    "identity_preserved": true,
+    "eyes_ok": true,
+    "mouth_ok": true,
+    "background_ok": true,
+    "hard_mask_edge": false,
+    "target_region_refined": true,
+    "global_defects": [
+      "The left eye appears slightly more prominent in the red mask compared to the green one, indicating a minor difference in focus or intensity."
+    ],
+    "summary": "The image shows a person with consistent identity preservation across both masks. Eyes and mouth boundaries are maintained well within their respective regions. The background remains unchanged, and there is no significant hard edge at the mask boundary.",
+    "promotion_allowed": false,
+    "row_complete_allowed": false,
+    "uncertainty": 0.1
+  },
+  "promotion_authority": "none",
+  "promotion_allowed": false,
+  "row_complete_allowed": false,
+  "evidence_ids": [
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_RUNPOD_W69_INPAINT_MICRO_MASK_V2_20260720T233704-0500_GLOBAL_REVIEW.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/ROW017_RUNPOD_W69_INPAINT_MICRO_MASK_V2_VISUAL_QA_20260720T233704-0500.json"
+  ],
+  "provenance": {
+    "producer": "tmp_row017_runpod_micro_mask_v2_vlm_deepen.py",
+    "source_refs": [
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_w69_inpaint_micro_mask_v2_20260720T233704-0500/LOCAL_RUNTIME_RECEIPT.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_w69_inpaint_micro_mask_v2_20260720T233704-0500/images/codex_row017_w69_inpaint_micro_mask_v2_20260720T233704-0500_00001_.png"
+    ],
+    "evidence_refs": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_RUNPOD_W69_INPAINT_MICRO_MASK_V2_20260720T233704-0500_GLOBAL_REVIEW.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-017_RUNPOD_FUTURE_PRODUCER_EMISSION_PACKET_20260720T233704-0500.json"
+    ]
+  }
+}
