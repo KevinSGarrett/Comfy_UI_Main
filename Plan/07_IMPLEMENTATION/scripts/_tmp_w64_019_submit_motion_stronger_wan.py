@@ -47,10 +47,10 @@ def main() -> None:
 
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     prefix = f"video/w64_019_023_runpod_wan_ti2v_motion_stronger_{stamp}"
-    # Distinct seed from near-static sharp_hand_climb (2272711 / fa05a902)
-    seed = 2272893
-    steps = 40
-    cfg = 6.5
+    # New seed after 2272893 Class A REJECT (MUSHY_HANDS / PLASTIC_SKIN / motion_temporal=40)
+    seed = 2273017
+    steps = 42
+    cfg = 6.0
     width, height, length = 704, 1280, 81
     bit_depth = 10
     wf = json.loads(WF.read_text(encoding="utf-8"))
@@ -60,25 +60,28 @@ def main() -> None:
     pos = (
         "photoreal cinematic medium waist-up studio video of one fully clothed adult woman, "
         "preserve exact face identity hairstyle clothing proportions and neutral gray studio background, "
-        "preserve sharp anatomically correct hands with clearly separated fingers knuckles and nails toward camera, "
-        "natural human skin with visible pores freckles microtexture not plastic, "
-        "STRONG clear continuous natural human motion throughout the whole clip: "
-        "obvious rhythmic chest breathing with clear rise and fall of ribs and sternum twice, "
+        "CRITICAL: razor-sharp anatomically correct hands with five distinct fully separated fingers, "
+        "visible knuckles nail beds finger gaps and natural tendon lines, palms and fingertips crisp toward camera, "
+        "CRITICAL: natural living human skin with visible pores freckles subsurface scatter fine peach fuzz "
+        "and uneven microtexture, never plastic never waxy never airbrushed, "
+        "VERY STRONG unmistakable continuous living human motion across the whole clip (not subtle): "
+        "large rhythmic chest breathing with obvious ribcage and sternum rise-fall at least twice, "
         "one unmistakable slow full blink with eyelids fully closing then fully reopening mid-clip, "
-        "clear relaxed weight shift transferring balance with visible hip sway and shoulder settle, "
+        "clear weight transfer with visible hip sway torso torque and shoulder settle, "
         "soft fabric micro-movement on sleeves and collar responding to breath and weight shift, "
-        "subtle chin dip then recover, hands stay sharp and coherent no mush no fuse, "
+        "subtle chin dip then recover, head micro-turn, hands stay sharp coherent no mush no fuse, "
         "locked static camera, stable framing, physically coherent continuous living motion, not a still photo"
     )
     neg = (
         "camera movement, zoom, pan, cut, scene change, identity drift, face morphing, age change, "
         "hairstyle change, clothing change, background change, body warping, limb deformation, "
         "extra limbs, deformed hands, fused fingers, mushy hands, melted fingers, blob hands, "
-        "poorly separated fingers, missing fingers, extra fingers, foot sliding, jitter, flicker, "
-        "temporal inconsistency, near-static freeze, frozen pose, statue, mannequin, no motion, "
-        "almost no movement, locked still frame, athletic crouch, deep squat, "
+        "poorly separated fingers, missing fingers, extra fingers, webbed fingers, sausage fingers, "
+        "foot sliding, jitter, flicker, temporal inconsistency, near-static freeze, frozen pose, "
+        "statue, mannequin, no motion, almost no movement, locked still frame, posed photograph, "
+        "minimal motion, subtle-only motion, athletic crouch, deep squat, "
         "oversmoothed skin, plastic skin, waxy skin, wax figure, doll skin, airbrushed skin, "
-        "blur, low quality, watermark, text, nude, nsfw, explicit"
+        "porcelain skin, blur, low quality, watermark, text, nude, nsfw, explicit"
     )
     wf["4"]["inputs"]["text"] = pos
     wf["5"]["inputs"]["text"] = neg
@@ -123,10 +126,11 @@ def main() -> None:
         "positive": pos,
         "negative": neg,
         "intent": (
-            "class_a_motion_stronger_followup_bit_depth10_steps40_"
-            "breath_blink_weightshift_from_fa05a902_near_static_fail"
+            "class_a_motion_stronger_hands_skin_motion_retry_bit_depth10_steps42_"
+            "from_6a5e81b8_strict32b_reject_mushy_hands_plastic_skin_weak_motion"
         ),
-        "prior_class_a_fail_prompt_id": "fa05a902-46bf-4e96-8024-d13f74e9eada",
+        "prior_class_a_fail_prompt_id": "6a5e81b8-b751-459e-a3cc-b9cb257a08f1",
+        "prior_strict_reject": "MUSHY_HANDS|PLASTIC_SKIN|motion_temporal=40",
         "flux_loras_attached": False,
         "wan_refetch": False,
         "row017_redo": False,

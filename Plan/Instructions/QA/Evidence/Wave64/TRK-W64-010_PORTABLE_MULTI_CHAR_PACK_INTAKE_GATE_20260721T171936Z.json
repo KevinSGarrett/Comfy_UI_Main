@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-010_PORTABLE_MULTI_CHAR_PACK_INTAKE_GATE_20260721T171936Z",
+  "tracker_id": "TRK-W64-010",
+  "item_id": "ITEM-W64-010",
+  "created_at": "2026-07-21T17:19:36.290819Z",
+  "status": "ABSENT_OR_INCOMPLETE",
+  "row_complete": false,
+  "product_completion_claimed": false,
+  "gate_cleared": false,
+  "exact_blocker": "PORTABLE_MULTI_CHARACTER_REFERENCE_PACK_ABSENT|NEED_GE_2_CHARACTER_IDS_WITH_HASH_BOUND_USER_AUTHORITY_FACE",
+  "requirement": {
+    "min_character_ids": 2,
+    "required_per_character": [
+      "USER_AUTHORITY face_front (or face_ref) with sha256"
+    ],
+    "optional_per_character": [
+      "supporting body/side/rear USER_AUTHORITY refs"
+    ],
+    "forbidden": [
+      "invented faces",
+      "character1_*",
+      "ztest",
+      "personal_calibration_noncanonical alone"
+    ]
+  },
+  "scanned_roots": [
+    {
+      "path": "character_reference_packs",
+      "exists": false
+    },
+    {
+      "path": "character_packs",
+      "exists": false
+    },
+    {
+      "path": "CharacterPacks",
+      "exists": false
+    },
+    {
+      "path": "media/character_reference",
+      "exists": false
+    }
+  ],
+  "character_count": 0,
+  "qualifying_character_count": 0,
+  "characters": {},
+  "rejected_paths": [],
+  "explicit_non_claims": [
+    "COMPLETE",
+    "GATE_CLEARED",
+    "invented_assets"
+  ],
+  "safe_next_action": "Human/external: stage >=2 distinct character_id USER_AUTHORITY face/body refs under character_reference_packs/<character_id>/ with real files; re-run this gate; then authorize comparison-crop binding + strict 32b identity climb on RunPod."
+}
