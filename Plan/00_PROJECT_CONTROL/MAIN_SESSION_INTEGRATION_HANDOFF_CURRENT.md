@@ -1,16 +1,18 @@
-﻿# Main Session Integration Handoff — 2026-07-20T22:44-05:00
+﻿# Main Session Integration Handoff — 2026-07-20T22:50-05:00
 
 ## Integration Summary
 
 - Active platform: interactive Cursor (integration authority)
 - Branch: `codex/workflow_plan_update_improvements`
-- This pass: RunPod `1q4ji0gg1fkhvt` mechanical smoke **PASS** (evidence-only)
-- Tip evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/RUNPOD_1q4ji0gg1fkhvt_MECHANICAL_SMOKE_PASS_20260720T2244-0500.json`
-- Tip SHA256: `0144FF7DAD52058E021F29CD4FDF69DAA02506CEBEF29BF44D5C7D98747D033D`
-- ComfyUI v0.28.0 UP on pod loopback; models symlink → `/workspace/ComfyUI/models`; RTX 6000 Ada; **no restart**
-- No local Comfy / Row073 PCM / CSV / COMPLETE / HOLD 090+
+- This pass: local vs pod `/workspace/wave64` **git divergence** handoff (hash-bound)
+- Evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/RUNPOD_WAVE64_LOCAL_POD_GIT_DIVERGENCE_HANDOFF_20260720T2250-0500.json`
+- Evidence SHA256: `d45a6d501299b8de63abd8437811625c2206278030c54258189a8bf36f5c505f`
+- SHAs: pod `main@a3bff6b` · local cited `e3b9cbaf` · measurement `afcd084d` · merge-base `567117f3`
+- Counts at cited tip: **425** local-not-on-pod / **99** pod-not-in-local
+- Recommend: keep git local; pod **(A)** fetch+checkout feature branch (Runtime_Data-safe) or **(B)** Plan/scripts rsync — **no reset --hard wipe**
+- No COMPLETE / Row073 leave alone
 
 ## Exact next action
 
-1. Use RunPod as runtime authority for ComfyUI API and GPU work.
+1. Keep git commits local; sync pod via (A) or (B) only.
 2. Leave Row073 alone; CSV via mutator only.

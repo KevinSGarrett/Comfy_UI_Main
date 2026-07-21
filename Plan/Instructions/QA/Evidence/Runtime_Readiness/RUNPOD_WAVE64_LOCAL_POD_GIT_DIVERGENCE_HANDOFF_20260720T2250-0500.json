@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "RUNPOD_WAVE64_LOCAL_POD_GIT_DIVERGENCE_HANDOFF_20260720T2250-0500",
+  "created_iso": "2026-07-20T22:50:12-05:00",
+  "classification": "LOCAL_POD_GIT_DIVERGENCE_HANDOFF",
+  "scope": "Hash-bound local C:\\Comfy_UI_Main vs pod /workspace/wave64 git divergence; runtime sync recommendation only — no COMPLETE, no Row073 touch",
+  "local_authority": "C:\\Comfy_UI_Main",
+  "pod_workspace": "/workspace/wave64",
+  "runtime_authority": "runpod_remote_for_comfyui_gpu",
+  "git_authority": "local_only",
+  "row073_pcm_touched": false,
+  "row_complete": false,
+  "product_completion_claimed": false,
+  "csv_sync": "deferred_evidence_only",
+  "proof_tier": "GIT_DIVERGENCE_MEASUREMENT_BOUNDED",
+  "highest_proof_tier_achieved": "GIT_DIVERGENCE_MEASUREMENT_BOUNDED",
+  "git": {
+    "local_branch": "codex/workflow_plan_update_improvements",
+    "pod_ref_reported": "main",
+    "merge_base_full": "567117f3cdd151fd504475eb35dd0ff800bfe9f5",
+    "merge_base_short": "567117f3",
+    "pod_main_full": "a3bff6b35d7a54667876d2c2016c5a40542b4e94",
+    "pod_main_short": "a3bff6b",
+    "user_cited_local_tip_full": "e3b9cbaf863786ff2114150a74604959cef0d669",
+    "user_cited_local_tip_short": "e3b9cbaf",
+    "measurement_local_tip_full": "afcd084db2a0fcad26abd991ec842461b73c9613",
+    "measurement_local_tip_short": "afcd084d",
+    "symmetric_rev_list_left_right": {
+      "notation": "git rev-list --left-right --count <pod>...<local>",
+      "at_user_cited_tip_e3b9cbaf": {
+        "pod_main_not_in_local": 99,
+        "local_not_on_pod": 425,
+        "approx_user_brief": "~426 local-not-on-pod / ~99 pod-main-not-in-local"
+      },
+      "at_measurement_tip_afcd084d": {
+        "pod_main_not_in_local": 99,
+        "local_not_on_pod": 430
+      }
+    },
+    "measurement_notes": [
+      "PowerShell unquoted A..B range-operator can corrupt two-dot rev-list args; use quoted three-dot left-right counts.",
+      "Local tip advanced past e3b9cbaf before landing; divergence recorded at both cited and measurement tips.",
+      "Keep git commits authoritative on local; do not treat pod main as integration tip."
+    ]
+  },
+  "recommendation": {
+    "keep_git_commits_local": true,
+    "forbid_reset_hard_wipe": true,
+    "pod_runtime_options": [
+      {
+        "id": "A",
+        "name": "fetch_checkout_feature_branch",
+        "summary": "On pod: fetch origin and checkout codex/workflow_plan_update_improvements with care for Runtime_Data untracked/runtime state; do not reset --hard wipe.",
+        "care": [
+          "Preserve Runtime_Data untracked and models symlink",
+          "No git reset --hard",
+          "No workspace wipe / bulk re-upload"
+        ]
+      },
+      {
+        "id": "B",
+        "name": "bounded_rsync_plan_scripts_only",
+        "summary": "Bounded rsync of Plan/ and scripts only from local authority into /workspace/wave64; leave git history on pod as-is for runtime.",
+        "care": [
+          "Exact Plan/scripts path include list only",
+          "Do not sync Runtime_Data models bulk",
+          "No reset --hard wipe"
+        ]
+      }
+    ],
+    "preferred_note": "Prefer A when feature-branch checkout is safe around Runtime_Data; otherwise B for Plan/scripts runtime parity without rewriting pod git."
+  },
+  "boundaries": {
+    "workspace_wipe": false,
+    "git_reset_hard": false,
+    "local_comfyui_start": false,
+    "row073_pcm_touch": false,
+    "shared_csv_mutation": false,
+    "complete_status": false
+  },
+  "exact_next_action": [
+    "Keep git commits local on C:\\Comfy_UI_Main (codex/workflow_plan_update_improvements).",
+    "For pod runtime sync choose A (fetch+checkout feature branch, Runtime_Data-safe) or B (bounded Plan/scripts rsync); never reset --hard wipe.",
+    "Leave Row073 alone; no COMPLETE."
+  ]
+}
