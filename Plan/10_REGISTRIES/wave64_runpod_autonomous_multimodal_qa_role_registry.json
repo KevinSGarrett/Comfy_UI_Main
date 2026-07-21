@@ -9,13 +9,61 @@
     "gpu": "NVIDIA RTX 6000 Ada Generation",
     "vram_mib": 49140,
     "phase_safe_exclusive_gpu": true,
+    "primary_pod_first_for_every_role": true,
+    "external_inference_forbidden": true,
+    "role_residency_strategy": ["unload", "reload", "same_host_tensor_parallel", "quantize", "cpu_offload", "nvme_offload", "sequential_execute"],
     "durable_root": "/workspace",
     "ollama_models_root": "/workspace/ollama",
+    "one_pod_capacity_policy": {
+      "state": "BLOCKED_NO_US_WA_1_2XA40_STOCK_CANDIDATE_NOT_CREATED",
+      "current_profile": "1x RTX 6000 Ada 48GB",
+      "preferred_profile": {
+        "gpu_type": "NVIDIA A40",
+        "gpu_count": 2,
+        "aggregate_vram_gib": 96,
+        "minimum_ram_gib": 100,
+        "minimum_vcpu": 18,
+        "aggregate_vram_is_single_allocation": false,
+        "requires_same_host_topology_certificate": true
+      },
+      "performance_fallback_profile": {
+        "gpu_type": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+        "gpu_count": 1,
+        "aggregate_vram_gib": 96,
+        "minimum_ram_gib": 124,
+        "minimum_vcpu": 32,
+        "aggregate_vram_is_single_allocation": true,
+        "requires_blackwell_runtime_certificate": true
+      },
+      "old_pod_stops_only_after_candidate_acceptance": true,
+      "candidate_failure_returns_to_current_pod": true
+    },
+    "secondary_burst_policy": {
+      "state": "DISABLED_REQUIRES_FUTURE_USER_APPROVAL",
+      "default_power_state": "STOPPED",
+      "eligible_gpu_classes": ["A40", "RTX A6000"],
+      "minimum_vram_gib": 48,
+      "minimum_ram_gib": 50,
+      "minimum_vcpu": 9,
+      "requires_per_job_cost_ceiling": true,
+      "requires_idle_ttl": true,
+      "requires_fail_safe_stop": true,
+      "shared_vram_assumed": false,
+      "shared_writable_volume_assumed": false
+    },
     "max_repair_attempts_per_defect": 2,
     "max_total_generation_attempts": 4,
     "max_no_progress_cycles": 2
   },
   "roles": [
+    {
+      "role_id": "W64-AQA-ROLE-GENERATION",
+      "kind": "comfyui_generation_and_targeted_regeneration",
+      "deployment_target": "primary_pod",
+      "state": "RUNTIME_PRESENT_AQA_QUALIFICATION_PENDING",
+      "operational": false,
+      "activation_requires": ["workflow_hash", "model_hashes", "phase_lease", "capacity", "quality", "rollback", "failure_injection"]
+    },
     {
       "role_id": "W64-AQA-ROLE-DETERMINISTIC",
       "kind": "deterministic_measurement",
@@ -63,16 +111,47 @@
       "forbidden_authority": ["visual_review", "audio_review", "mask_review", "promotion", "tool_authorization"]
     },
     {
-      "role_id": "W64-AQA-ROLE-INDEPENDENT-JUROR",
-      "kind": "independent_multimodal_juror",
+      "role_id": "W64-AQA-ROLE-CONTROLLER",
+      "kind": "fast_review_correction_planning_and_routing",
+      "target_model": "Qwen3.6-35B-A3B",
+      "deployment_target": "primary_pod",
+      "residency": "sequential_quantized_or_offloaded",
       "state": "BLOCKED_UNQUALIFIED",
+      "operational": false,
       "product_approval_sufficient": false,
       "activation_requires": ["checkpoint_hash", "license", "capacity", "calibration", "runtime", "cost", "failure_injection"]
     },
     {
+      "role_id": "W64-AQA-ROLE-PRIMARY-VISUAL",
+      "kind": "primary_image_video_and_candidate_reviewer",
+      "target_model": "Qwen3.5-122B-A10B",
+      "deployment_target": "primary_pod",
+      "residency": "sequential_quantized_and_cpu_nvme_offloaded",
+      "state": "BLOCKED_UNQUALIFIED",
+      "operational": false,
+      "product_approval_sufficient": false,
+      "activation_requires": ["checkpoint_hash", "license", "quantization", "capacity", "calibration", "runtime", "latency", "quality", "cost"]
+    },
+    {
+      "role_id": "W64-AQA-ROLE-INDEPENDENT-JUROR",
+      "kind": "independent_multimodal_juror",
+      "target_model": "InternVL3.5-241B-A28B",
+      "deployment_target": "primary_pod",
+      "residency": "sequential_quantized_and_cpu_nvme_offloaded",
+      "state": "BLOCKED_UNQUALIFIED",
+      "operational": false,
+      "product_approval_sufficient": false,
+      "activation_requires": ["checkpoint_hash", "license", "quantization", "capacity", "calibration", "runtime", "latency", "quality", "cost", "failure_injection"]
+    },
+    {
       "role_id": "W64-AQA-ROLE-AUDIO-SEMANTIC",
       "kind": "audio_av_semantic_reviewer",
+      "target_models": ["Qwen3-Omni-30B-A3B-Thinking", "Qwen3-ASR"],
+      "supporting_components": ["forced_alignment", "NISQA", "DNSMOS", "CLAP", "speaker_embedding", "onset_detection", "audio_event_detection"],
+      "deployment_target": "primary_pod",
+      "residency": "sequential_quantized_or_offloaded",
       "state": "BLOCKED_UNQUALIFIED",
+      "operational": false,
       "product_approval_sufficient": false,
       "activation_requires": ["checkpoint_hash", "license", "duration_envelope", "calibration", "runtime", "cost"]
     },
@@ -80,7 +159,10 @@
       "role_id": "W64-AQA-ROLE-WORKFLOW-ENGINEER",
       "kind": "comfyui_workflow_diagnosis_and_patch_proposal",
       "target_model": "Qwen3-Coder-Next",
+      "deployment_target": "primary_pod",
+      "residency": "sequential_quantized_or_offloaded",
       "state": "BLOCKED_UNQUALIFIED",
+      "operational": false,
       "product_approval_sufficient": false,
       "proposal_only": true,
       "forbidden_authority": ["arbitrary_shell", "credentials", "direct_workflow_promotion", "tracker_write", "git"],
@@ -89,19 +171,25 @@
     {
       "role_id": "W64-AQA-ROLE-GOLDEN-MASK",
       "kind": "segmentation_matting_ensemble",
+      "target_models": ["SAM 3", "SAM2Matting", "MatAnyone2", "PDFNet", "BiRefNet HR-Matting", "MODNet", "Robust Video Matting"],
+      "deployment_target": "primary_pod",
+      "residency": "sequential_or_qualified_combination",
       "state": "BLOCKED_UNQUALIFIED",
+      "operational": false,
       "product_approval_sufficient": false,
       "external_producer": "MaskFactory",
       "activation_requires": ["producer_contract", "model_hashes", "target_binding", "calibration", "runtime", "rollback"]
     },
     {
-      "role_id": "W64-AQA-ROLE-MULTIGPU-ARBITER",
-      "kind": "optional_senior_arbitration",
-      "candidate_classes": ["Qwen3.5-122B", "InternVL3.5-241B", "Qwen3.5-397B"],
-      "state": "DISABLED_REQUIRES_SEPARATE_MULTIGPU_ENDPOINT",
-      "current_48gb_pod_eligible": false,
+      "role_id": "W64-AQA-ROLE-SENIOR-ARBITER",
+      "kind": "senior_image_video_mask_and_disagreement_arbitration",
+      "target_model": "Qwen3.5-397B-A17B",
+      "deployment_target": "primary_one_pod_only",
+      "residency": "on_demand_sequential_quantized_and_cpu_nvme_offloaded",
+      "state": "BLOCKED_UNQUALIFIED",
+      "operational": false,
       "product_approval_sufficient": false,
-      "activation_requires": ["explicit_cost_authority", "endpoint_identity", "checkpoint_hash", "license", "capacity", "calibration", "runtime", "rollback"]
+      "activation_requires": ["checkpoint_hash", "license", "quantization", "capacity", "calibration", "runtime", "latency", "quality", "cost", "rollback"]
     }
   ]
 }

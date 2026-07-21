@@ -126,8 +126,14 @@ A reviewer role may be `ACTIVE_STRICT`, `ACTIVE_TRIAGE`, `SHADOW`,
 - latency and monetary-cost envelope;
 - known limitations, fallback, expiry, and rollback.
 
-The current 48 GB pod cannot activate the 122B, 241B, or 397B classes. A future
-multi-GPU endpoint is a separate runtime identity and must qualify independently.
+The current 48 GB pod remains the first qualification and rollback target. The
+122B, 241B, and 397B packages must declare exact precision, quantization,
+CPU/NVMe offload, peak VRAM/RAM/storage, latency, and quality envelopes. A model
+that downloads or starts but misses any floor remains blocked. The preferred
+single-pod successor is 2x A40 (96 GB aggregate); it must prove same-host GPU
+topology and tensor-parallel/NCCL behavior because aggregate VRAM is not one
+allocation. The fallback is one RTX PRO 6000 Blackwell with 96 GB contiguous
+VRAM. Either successor is a new runtime identity and qualifies independently.
 
 ## Decision order
 
@@ -156,19 +162,24 @@ multi-GPU endpoint is a separate runtime identity and must qualify independently
 
 ## Autonomous service pool
 
-The deterministic controller selects among isolated endpoints:
+The deterministic controller selects among isolated, sequential role packages:
 
 - fast planner/triage: target Qwen3.6-35B-A3B class;
 - current strict visual: calibrated `qwen2.5vl:32b`;
-- target primary visual: Qwen3.5-122B-A10B on separate capacity;
-- independent juror: capacity-qualified InternVL family;
-- senior arbitration: on-demand Qwen3.5-397B-A17B multi-GPU endpoint;
+- target primary visual: quantized/offloaded Qwen3.5-122B-A10B on the primary pod;
+- independent juror: quantized/offloaded InternVL3.5-241B-A28B on the primary pod;
+- senior arbitration: on-demand quantized/offloaded Qwen3.5-397B-A17B role;
 - semantic audio/AV: Qwen3-Omni plus ASR/alignment and quantitative scorers;
 - workflow engineer: Qwen3-Coder-Next proposal service behind patch gateway;
-- golden masks: MaskFactory-contracted segmentation/matting ensemble.
+- golden masks: primary-pod SAM 3, SAM2Matting, MatAnyone2, PDFNet, BiRefNet
+  HR-Matting, MODNet, and Robust Video Matting role packages under MaskFactory contracts.
 
-Endpoint absence degrades to a typed blocker, smaller certified scope, or human
-exception. It never grants a weaker model more authority.
+Package absence or failed capacity/quality qualification degrades to a typed
+blocker, smaller certified scope, or human exception. It never grants a weaker
+model more authority. Migration uses a bounded overlap: create the candidate,
+attach or copy durable state by verified hashes, run canaries, drain the current
+pod, switch the runtime identity, then stop the old pod. Failure destroys only
+the candidate and returns to the proven current pod without weakening gates.
 
 ## Storage and deployment
 

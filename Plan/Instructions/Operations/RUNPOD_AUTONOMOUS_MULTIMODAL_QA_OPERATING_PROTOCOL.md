@@ -23,6 +23,9 @@ Program: `W64-AQA`
 - Warn at 75% overlay use; block new downloads at 85% until reconciled.
 - S3 writes require an exact bucket/prefix, content hash, manifest, encryption
   policy, cost posture, and a non-secret receipt.
+- Every required role package is installed on the primary pod's durable volume.
+  Installation is not activation; only an exact capacity-and-quality certificate
+  can mark the package operational.
 
 ## 3. Exclusive GPU phases
 
@@ -44,8 +47,10 @@ Program: `W64-AQA`
 6. Record raw-response hash, latency, VRAM, and disposition.
 7. Unload the reviewer before returning to generation.
 
-Never run the strict 32B reviewer concurrently with generation without a later
-exact combination certificate.
+Never run generation and a reviewer concurrently without an exact combination
+certificate. Before each sequential role transition, stop accepting work, drain
+the owned queue, unload the prior model, reconcile VRAM/RAM, load the pinned
+quantization/offload package, run its bounded phase, retain the receipt, and unload it.
 
 ## 4. Reviewer roles
 
@@ -55,8 +60,32 @@ exact combination certificate.
   and known-bad smoke tests only.
 - Text-only models: summarization or correction-plan formatting only; no visual,
   audio, mask, promotion, or runtime authority.
-- Future audio, independent-juror, matting, and giant-model roles: blocked until
-  the registry activation contract is satisfied.
+- Qwen3.5-122B, InternVL3.5-241B, Qwen3.5-397B, Qwen3-Omni, Qwen3-ASR,
+  Qwen3-Coder-Next, and the complete golden-mask ensemble: install to the primary
+  durable volume, then keep each role blocked until its own registry activation
+  contract is satisfied.
+
+## 4A. One-pod capacity migration
+
+1. Preferred profile: one pod with 2x A40, 96 GB aggregate VRAM, at least 100 GB
+   RAM and 18 vCPU. Require same-host topology, peer access, NCCL/tensor-parallel,
+   per-GPU OOM, aggregate throughput, and role-quality canaries.
+2. Performance fallback: one RTX PRO 6000 Blackwell 96 GB pod with at least
+   124 GB RAM and 32 vCPU. Treat its contiguous VRAM and Blackwell runtime as a
+   different execution envelope; never reuse A40 certificates.
+3. Capture live price, stock, datacenter, storage compatibility, CUDA/container,
+   and bounded migration cost before creation. No candidate starts without a
+   maximum overlap duration and automatic failure teardown.
+4. Do not assume simultaneous writable access to one network volume. Attach only
+   where the provider guarantees it, otherwise transfer immutable packages and
+   artifacts by hash through approved durable storage.
+5. Keep the current pod unchanged while the candidate proves ComfyUI, model
+   inventory, generation, every claimed role, evidence replay, crash recovery,
+   queue drain, and rollback. A model role can remain blocked after migration.
+6. Drain the current pod, switch runtime identity, and stop the old pod only after
+   all migration gates pass. Candidate failure returns to the current pod.
+7. A second long-lived inference pod remains forbidden unless the user later
+   approves a separate burst policy and dollar ceiling.
 
 ## 5. Bounded repair execution
 

@@ -57,8 +57,16 @@ def test_current_and_future_authority_are_separated() -> None:
     roles = {role["role_id"]: role for role in registry["roles"]}
     assert roles["W64-AQA-ROLE-STRICT-VISUAL"]["model"] == "qwen2.5vl:32b"
     assert not roles["W64-AQA-ROLE-FAST-TRIAGE"]["product_approval_sufficient"]
-    assert not roles["W64-AQA-ROLE-MULTIGPU-ARBITER"]["current_48gb_pod_eligible"]
+    assert not roles["W64-AQA-ROLE-SENIOR-ARBITER"]["operational"]
+    assert roles["W64-AQA-ROLE-SENIOR-ARBITER"]["deployment_target"] == "primary_one_pod_only"
     assert roles["W64-AQA-ROLE-WORKFLOW-ENGINEER"]["proposal_only"]
+    assert registry["runtime_policy"]["primary_pod_first_for_every_role"]
+    assert registry["runtime_policy"]["secondary_burst_policy"]["default_power_state"] == "STOPPED"
+    one_pod = registry["runtime_policy"]["one_pod_capacity_policy"]
+    assert one_pod["preferred_profile"]["gpu_type"] == "NVIDIA A40"
+    assert one_pod["preferred_profile"]["gpu_count"] == 2
+    assert not one_pod["preferred_profile"]["aggregate_vram_is_single_allocation"]
+    assert one_pod["old_pod_stops_only_after_candidate_acceptance"]
 
 
 def test_attempt_ceilings_are_fail_closed() -> None:
@@ -82,3 +90,18 @@ def test_schema_covers_all_required_modalities() -> None:
         "mask",
         "workflow",
     }
+
+
+def test_job_contract_schema_is_fail_closed() -> None:
+    schema_path = ROOT / "Plan/08_SCHEMAS/runpod_autonomous_multimodal_job_contract.schema.json"
+    schema = json.loads(schema_path.read_text(encoding="utf-8"))
+    assert schema["additionalProperties"] is False
+    authority = schema["properties"]["authority_policy"]["properties"]
+    assert authority["generation_host"]["const"] == "runpod_only"
+    assert authority["ec2_allowed"]["const"] is False
+    assert authority["model_can_promote"]["const"] is False
+    assert authority["external_inference_allowed"]["const"] is False
+    attempts = schema["properties"]["attempt_policy"]["properties"]
+    assert attempts["max_repairs_per_defect"]["maximum"] == 2
+    assert attempts["max_total_generations"]["maximum"] == 4
+    assert attempts["max_no_progress_cycles"]["maximum"] == 2

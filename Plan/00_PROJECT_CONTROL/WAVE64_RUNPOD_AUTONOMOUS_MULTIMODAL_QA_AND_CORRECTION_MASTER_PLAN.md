@@ -6,10 +6,14 @@ Program ID: `W64-AQA`
 ## Decision
 
 The project will use a fail-closed, evidence-producing QA controller rather than
-one unrestricted "master LLM." The current production-capable tier is sized for
-the live single RTX 6000 Ada 48 GB RunPod and runs generation and review in
-separate GPU phases. Larger reviewers are optional future services, not current
-runtime authority.
+one unrestricted "master LLM." Every required Qwen, InternVL, Omni, Coder,
+generation, QA, and golden-mask role is targeted to one self-hosted RunPod. The
+current RTX 6000 Ada 48 GB pod remains authoritative during migration. The
+preferred budget target is one pod with 2x A40 GPUs (96 GB aggregate VRAM,
+at least 100 GB RAM and 18 vCPU); the performance fallback is one RTX PRO 6000
+Blackwell 96 GB pod with at least 124 GB RAM and 32 vCPU. The controller runs
+roles sequentially and may unload, reload, tensor-parallelize, quantize, or
+CPU/NVMe-offload models under an exclusive phase lease.
 
 This package is additive to the existing Wave64 autonomous model-intelligence,
 image, video, audio, speech, and MaskFactory programs. It does not promote their
@@ -81,13 +85,17 @@ currently certified by this package. Each remains `BLOCKED_UNQUALIFIED` until
 the exact checkpoint, license, hash, runtime envelope, calibration corpus,
 failure rate, structured-output reliability, and cost ceiling are evidenced.
 
-### Tier P4: optional multi-GPU arbitration
+### Tier P4: large-model role qualification
 
-Qwen3.5 122B/397B, InternVL 241B, Qwen3-Omni, Qwen3-Coder-Next, or comparable
-models may be evaluated only as separate capacity-qualified endpoints. The
-122B, 241B, and 397B classes are explicitly forbidden from being claimed as
-runnable on the current single 48 GB pod. Absence or cost rejection of P4 never
-weakens P0-P2 gates; it produces abstention, hold, or human exception review.
+Qwen3.5 122B/397B, InternVL 241B, Qwen3-Omni, and Qwen3-Coder-Next are installed
+to durable primary-pod storage and evaluated one at a time with checkpoint-
+specific quantization and CPU/NVMe offload. No large role is operational merely
+because its files exist: the exact quantization must pass memory, latency,
+structured-output, calibration, and quality floors. A capacity failure leaves
+that role blocked. A secondary 48 GB pod may accept an independently packaged
+burst phase after its per-job budget gate passes; the design does not pretend
+that aggregate VRAM behaves as one allocation: the 2x A40 target requires an
+exact same-host tensor-parallel/NCCL topology certificate.
 
 ## Phase-safe GPU protocol
 
@@ -130,13 +138,15 @@ The target controller owns the whole closed loop, not only visual scoring:
     report cards, and future routing without self-promotion.
 
 The loop handles failures, restarts, and blocked roles autonomously. Human input
-is reserved for missing licensed assets, new paid capacity, subjective intent
-changes, policy exceptions, and genuinely unresolved adjudication.
+is reserved for missing licensed assets, setting or changing paid burst limits,
+subjective intent changes, policy exceptions, and genuinely unresolved adjudication.
 
 ## Target self-hosted service topology
 
-The best architecture is a pool of isolated services with one deterministic
-policy authority. Services load on demand and need not be resident together.
+The best architecture is a pool of isolated role packages with one deterministic
+policy authority on one pod. Packages load on demand and are never assumed to
+be resident together. The current pod is replaced only after the candidate
+one-pod profile passes storage, runtime, role, rollback, and cost canaries.
 
 ### Controller and fast planner
 
@@ -147,31 +157,35 @@ small models provide bounded triage and deterministic code owns decisions.
 
 ### Primary visual reviewer
 
-The current `qwen2.5vl:32b` strict lane remains active while a
-Qwen3.5-122B-A10B service is evaluated as the high-accuracy primary reviewer on
-separate capacity. It must demonstrate enough calibrated improvement to justify
-its runtime and cost.
+The current `qwen2.5vl:32b` strict lane remains active while a quantized/offloaded
+Qwen3.5-122B-A10B package is installed and evaluated as the high-accuracy primary
+reviewer on the existing pod. It must demonstrate enough calibrated improvement
+to justify its latency, storage, memory, and cost.
 
 ### Independent visual juror
 
-An InternVL-family checkpoint supplies genuinely independent review. Select the
-smallest checkpoint meeting project calibration floors; InternVL 241B is the
-no-compromise target only when a multi-GPU cost/capacity gate passes.
+InternVL3.5-241B-A28B is the target independent review package. It is tested on
+the existing pod through an exact quantized/offloaded envelope and remains
+blocked if that envelope cannot meet the declared latency and quality floors.
 Disagreement is preserved and arbitrated rather than averaged.
 
 ### Senior visual arbitration
 
-Qwen3.5-397B-A17B FP8 is an optional on-demand multi-GPU endpoint for borderline
-masters, persistent anatomy/identity failures, complex temporal defects, or
-reviewer disagreement. It never reviews every candidate and never runs on the
-current 48 GB pod.
+Qwen3.5-397B-A17B is the senior target for borderline masters, persistent
+anatomy/identity failures, complex temporal defects, or reviewer disagreement.
+Its primary-pod package may use a qualified lower precision plus CPU/NVMe
+offload, and it never reviews every candidate. If the exact package cannot meet
+capacity or quality floors, senior arbitration remains blocked; no smaller model
+inherits its authority. The 2x A40 profile may use same-host tensor parallelism;
+the single 96 GB Blackwell profile uses contiguous VRAM. Both must independently
+prove the exact senior quantization/offload package and acceptable latency.
 
 ### Audio and audiovisual authority
 
 Qwen3-Omni-30B-A3B-Thinking is the target semantic audio/AV judge, paired with
 Qwen3-ASR, forced alignment, NISQA, DNSMOS, CLAP, speaker embeddings, onset and
 event detectors, and deterministic loudness/peak/phase/sync checks. Clip
-duration determines the qualified single- or multi-GPU envelope.
+duration determines the qualified sequential/offload envelope on the primary pod.
 
 ### Workflow engineering authority
 
@@ -268,8 +282,9 @@ also not product acceptance.
   receipts, prompts, logs, tests, tracker notes, or worker packets.
 - Reviewer and repair services receive only allowlisted tools and paths.
 - Model cards, prompts, metadata, archives, and generated text are untrusted.
-- New paid endpoints, downloads, or pod resizing require an explicit cost
-  decision and a reversible rollout plan.
+- Model downloads and pod migration require an exact storage/cost receipt and a
+  reversible rollout plan. The current pod stays intact until the candidate
+  one-pod profile passes canary and rollback gates.
 - Record pod cost, run duration, storage target, and unexpected overlay growth.
 - Fail closed on missing hashes, unknown model identity, invalid JSON, stale
   calibration, unavailable reviewer, queue conflict, or budget exhaustion.
@@ -285,10 +300,13 @@ also not product acceptance.
 7. Qualify deterministic audio/AV gates; add semantic audio only after evidence.
 8. Admit MaskFactory contracts and golden-mask fixtures without cross-repo writes.
 9. Qualify the workflow diagnosis/patch service and sandbox regression suite.
-10. Evaluate an independent juror only if it adds measured value within budget.
-11. Qualify semantic audio/AV roles and duration-specific capacity envelopes.
-12. Provision on-demand multi-GPU primary/arbitration endpoints only after an
-    explicit capacity and cost decision.
+10. Install and independently qualify the primary and InternVL juror packages on
+    the existing pod using measured quantization/offload envelopes.
+11. Qualify Omni, ASR, Coder, and golden-mask roles independently by modality,
+    duration, resolution, memory, latency, and quality scope.
+12. Canary a one-pod 2x A40 profile first and a single 96 GB Blackwell profile
+    only if A40 capacity/latency fails; migrate after volume, tensor topology,
+    model residency, failure recovery, cost, and quality-equivalence gates pass.
 
 ## Pursuing-goal strategy
 

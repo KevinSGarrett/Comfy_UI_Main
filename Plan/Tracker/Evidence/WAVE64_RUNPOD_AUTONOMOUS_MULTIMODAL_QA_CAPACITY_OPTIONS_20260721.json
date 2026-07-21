@@ -1,0 +1,87 @@
+{
+  "schema_version": "wave64.aqa.capacity_options.v1",
+  "program_id": "W64-AQA",
+  "observed_at": "2026-07-21T14:14:50-05:00",
+  "source": "RunPod authenticated GraphQL gpuTypes lowestPrice query",
+  "point_in_time_only": true,
+  "current_runtime": {
+    "pod_id": "1q4ji0gg1fkhvt",
+    "gpu_profile": "1x RTX 6000 Ada",
+    "aggregate_vram_gib": 48,
+    "hourly_compute_usd": 0.77,
+    "state": "AUTHORITATIVE_RUNNING_ROLLBACK_TARGET"
+  },
+  "candidates": [
+    {
+      "priority": 1,
+      "gpu_type_id": "NVIDIA A40",
+      "profile": "2x A40 in one pod",
+      "aggregate_vram_gib": 96,
+      "minimum_ram_gib": 100,
+      "minimum_vcpu": 18,
+      "hourly_compute_usd": 0.70,
+      "stock_status": "Low",
+      "secure_cloud": true,
+      "thirty_day_continuous_compute_usd": 504.00,
+      "state": "BLOCKED_NO_US_WA_1_INSTANCE_AT_AUTHORIZED_CREATE_ATTEMPT",
+      "required_proof": [
+        "same_host_two_gpu_identity",
+        "datacenter_and_network_volume_compatibility",
+        "peer_access_and_nccl",
+        "tensor_parallel_runtime",
+        "per_role_capacity_latency_and_quality",
+        "failure_recovery_and_rollback"
+      ]
+    },
+    {
+      "priority": 2,
+      "gpu_type_id": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+      "profile": "1x RTX PRO 6000 Blackwell Server",
+      "aggregate_vram_gib": 96,
+      "minimum_ram_gib": 124,
+      "minimum_vcpu": 32,
+      "hourly_compute_usd": 1.69,
+      "stock_status": "Medium",
+      "secure_cloud": true,
+      "thirty_day_continuous_compute_usd": 1216.80,
+      "state": "PERFORMANCE_FALLBACK_UNPROVEN",
+      "required_proof": [
+        "datacenter_and_network_volume_compatibility",
+        "blackwell_cuda_container_compatibility",
+        "per_role_capacity_latency_and_quality",
+        "failure_recovery_and_rollback",
+        "measured_value_justifies_cost"
+      ]
+    }
+  ],
+  "comparison": {
+    "current_thirty_day_continuous_compute_usd": 554.40,
+    "preferred_monthly_compute_delta_usd": -50.40,
+    "blackwell_monthly_compute_delta_usd": 662.40,
+    "storage_and_transfer_costs_excluded": true
+  },
+  "decision": "Prefer one 2x A40 pod after reversible canary; keep current pod until green. Use one 96 GB Blackwell pod only when A40 capacity or latency fails and measured value justifies the higher price.",
+  "authorized_create_attempt": {
+    "attempted_at": "2026-07-21T14:14:50-05:00",
+    "target_data_center": "US-WA-1",
+    "network_volume_id": "o9qv2ld91c",
+    "gpu_type": "NVIDIA A40",
+    "gpu_count": 2,
+    "minimum_ram_gib": 100,
+    "minimum_vcpu": 18,
+    "cloud_type": "SECURE",
+    "result": "NO_INSTANCE_AVAILABLE",
+    "http_status": 500,
+    "candidate_pod_created": false,
+    "existing_pod_changed": false,
+    "retry_policy": "No unchanged loop; retry only after stock-state change or explicit operator action."
+  },
+  "claims_not_established": [
+    "candidate availability in the current network-volume datacenter",
+    "network-volume attachment or transfer behavior",
+    "same-host A40 interconnect topology",
+    "any target model role capacity or quality qualification",
+    "Qwen3.5-397B acceptable latency on either candidate",
+    "successful candidate creation"
+  ]
+}

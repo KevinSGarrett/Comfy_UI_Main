@@ -28,6 +28,8 @@ PATHS = {
     / "Plan/Tracker/Waves/Wave64/WAVE64_RUNPOD_AUTONOMOUS_MULTIMODAL_QA_REQUIREMENTS.json",
     "evidence": ROOT
     / "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_MULTIMODAL_QA_EXTERNAL_STATE_RECONCILIATION_20260721.json",
+    "capacity_evidence": ROOT
+    / "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_MULTIMODAL_QA_CAPACITY_OPTIONS_20260721.json",
     "operations": ROOT
     / "Plan/Instructions/Operations/RUNPOD_AUTONOMOUS_MULTIMODAL_QA_OPERATING_PROTOCOL.md",
     "qa": ROOT
@@ -36,6 +38,10 @@ PATHS = {
     / "Plan/10_REGISTRIES/wave64_runpod_autonomous_multimodal_qa_role_registry.json",
     "schema": ROOT
     / "Plan/08_SCHEMAS/runpod_autonomous_multimodal_qa_decision.schema.json",
+    "job_contract_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_multimodal_job_contract.schema.json",
+    "job_contract_compiler": ROOT
+    / "Plan/07_IMPLEMENTATION/scripts/compile_wave64_runpod_autonomous_multimodal_job_contract.py",
 }
 
 SECRET_PATTERNS = {
@@ -68,8 +74,10 @@ def collect_errors() -> list[str]:
         tracker = load_csv(PATHS["tracker"])
         requirements = load_json(PATHS["requirements"])
         evidence = load_json(PATHS["evidence"])
+        capacity_evidence = load_json(PATHS["capacity_evidence"])
         registry = load_json(PATHS["registry"])
         schema = load_json(PATHS["schema"])
+        job_contract_schema = load_json(PATHS["job_contract_schema"])
     except (csv.Error, json.JSONDecodeError, OSError) as exc:
         return [f"parse failure: {exc}"]
 
@@ -90,7 +98,7 @@ def collect_errors() -> list[str]:
     if {row.get("Item_ID") for row in tracker} != EXPECTED_IDS:
         errors.append("tracker Item_ID references do not match the W64-AQA item set")
 
-    json_docs = (requirements, evidence, registry)
+    json_docs = (requirements, evidence, capacity_evidence, registry)
     for document in json_docs:
         if document.get("program_id") != PROGRAM:
             errors.append("JSON document has the wrong program_id")
@@ -110,18 +118,41 @@ def collect_errors() -> list[str]:
         errors.append("registry must explicitly forbid EC2")
     if runtime.get("phase_safe_exclusive_gpu") is not True:
         errors.append("registry must require phase-safe exclusive GPU use")
+    if runtime.get("primary_pod_first_for_every_role") is not True:
+        errors.append("registry must target every role to the primary pod first")
+    if runtime.get("external_inference_forbidden") is not True:
+        errors.append("registry must forbid external inference")
+    one_pod = runtime.get("one_pod_capacity_policy", {})
+    preferred = one_pod.get("preferred_profile", {})
+    fallback = one_pod.get("performance_fallback_profile", {})
+    if preferred.get("gpu_type") != "NVIDIA A40" or preferred.get("gpu_count") != 2:
+        errors.append("preferred one-pod profile must be 2x NVIDIA A40")
+    if preferred.get("aggregate_vram_is_single_allocation") is not False:
+        errors.append("2x A40 aggregate VRAM must not be treated as one allocation")
+    if fallback.get("gpu_type") != "NVIDIA RTX PRO 6000 Blackwell Server Edition":
+        errors.append("one-pod performance fallback must be RTX PRO 6000 Blackwell Server")
+    if one_pod.get("old_pod_stops_only_after_candidate_acceptance") is not True:
+        errors.append("current pod must remain until candidate acceptance")
+    burst = runtime.get("secondary_burst_policy", {})
+    if burst.get("default_power_state") != "STOPPED":
+        errors.append("secondary burst pod must be stopped by default")
+    if burst.get("shared_vram_assumed") is not False:
+        errors.append("secondary burst policy must not assume cross-pod shared VRAM")
 
     roles = {entry.get("role_id"): entry for entry in registry.get("roles", [])}
     required_roles = {
+        "W64-AQA-ROLE-GENERATION",
         "W64-AQA-ROLE-DETERMINISTIC",
         "W64-AQA-ROLE-STRICT-VISUAL",
         "W64-AQA-ROLE-FAST-TRIAGE",
         "W64-AQA-ROLE-TEXT-PLANNER",
+        "W64-AQA-ROLE-CONTROLLER",
+        "W64-AQA-ROLE-PRIMARY-VISUAL",
         "W64-AQA-ROLE-INDEPENDENT-JUROR",
         "W64-AQA-ROLE-AUDIO-SEMANTIC",
         "W64-AQA-ROLE-WORKFLOW-ENGINEER",
         "W64-AQA-ROLE-GOLDEN-MASK",
-        "W64-AQA-ROLE-MULTIGPU-ARBITER",
+        "W64-AQA-ROLE-SENIOR-ARBITER",
     }
     if not required_roles.issubset(roles):
         errors.append(f"missing roles: {sorted(required_roles - roles.keys())}")
@@ -138,9 +169,11 @@ def collect_errors() -> list[str]:
     if "PASS_PRODUCT" not in triage.get("forbidden_decisions", []):
         errors.append("triage role must explicitly forbid PASS_PRODUCT")
 
-    arbiter = roles.get("W64-AQA-ROLE-MULTIGPU-ARBITER", {})
-    if arbiter.get("current_48gb_pod_eligible") is not False:
-        errors.append("multi-GPU arbiter must be ineligible on the current 48 GB pod")
+    arbiter = roles.get("W64-AQA-ROLE-SENIOR-ARBITER", {})
+    if arbiter.get("deployment_target") != "primary_one_pod_only":
+        errors.append("senior arbiter must target the one primary pod")
+    if arbiter.get("operational") is not False:
+        errors.append("unqualified senior arbiter must not be operational")
 
     workflow = roles.get("W64-AQA-ROLE-WORKFLOW-ENGINEER", {})
     if workflow.get("proposal_only") is not True:
@@ -155,7 +188,10 @@ def collect_errors() -> list[str]:
     required_phrases = (
         "Qwen3-Coder-Next",
         "Qwen3-Omni",
+        "Qwen3-ASR",
         "Qwen3.5-397B",
+        "Qwen3.5-122B",
+        "InternVL3.5-241B",
         "InternVL",
         "golden-mask",
         "MaskFactory",
@@ -165,6 +201,8 @@ def collect_errors() -> list[str]:
         "two no-progress",
         "EC2",
         "RunPod",
+        "A40",
+        "RTX A6000",
     )
     lowered = all_text.lower()
     for phrase in required_phrases:
@@ -179,6 +217,7 @@ def collect_errors() -> list[str]:
         import jsonschema
 
         jsonschema.Draft7Validator.check_schema(schema)
+        jsonschema.Draft7Validator.check_schema(job_contract_schema)
     except ImportError:
         pass
     except Exception as exc:  # pragma: no cover - library supplies exact detail
