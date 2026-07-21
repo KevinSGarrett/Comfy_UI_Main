@@ -62,7 +62,7 @@ class WanTi2vClassEClaimPolicyTest(unittest.TestCase):
         result = module.evaluate_claim(packet)
         self.assertTrue(result["policy_pass"], result["failed_checks"])
 
-    def test_class_e_proof_requires_bytes_and_human_frame_pass(self) -> None:
+    def test_class_e_proof_requires_bytes_human_and_strict_pod_llm(self) -> None:
         packet = {
             "claim_tier": "class_e_runtime_proof",
             "status": "Blocked_Product_Visual_Qa_Open_Bounded_Wan_Ti2v_Class_E_Runtime_Proof_Landed",
@@ -75,10 +75,39 @@ class WanTi2vClassEClaimPolicyTest(unittest.TestCase):
             "vlm_review": {"performed": True, "pass": True},
             "visual_qa": {"performed": True, "pass": True, "result": "pass_human_frame_review"},
             "human_frame_read": {"performed": True, "pass": True, "verdict": "pass"},
+            "strict_pod_llm_review": {
+                "performed": True,
+                "pass": True,
+                "verdict": "PASS",
+                "model": "qwen2.5vl:32b",
+            },
             "generation": {"artifact": {"bytes": 400_000}},
         }
         result = module.evaluate_claim(packet)
         self.assertTrue(result["policy_pass"], result["failed_checks"])
+
+    def test_weak_vlm_pass_without_strict_pod_llm_fails_proof_landed(self) -> None:
+        packet = {
+            "claim_tier": "class_e_runtime_proof",
+            "status": "Blocked_Product_Visual_Qa_Open_Bounded_Wan_Ti2v_Class_E_Runtime_Proof_Landed",
+            "verdict": "WAN_TI2V_BOUNDED_RUNTIME_GENERATION_PROOF_ON_RUNPOD",
+            "row_complete": False,
+            "production_completion_allowed": False,
+            "production_video_complete_claimed": False,
+            "row074_touched": False,
+            "ec2_touched": False,
+            "vlm_review": {"performed": True, "pass": True, "verdict": "PASS", "model": "qwen2.5vl:7b"},
+            "visual_qa": {"performed": True, "pass": True, "result": "pass_human_frame_review"},
+            "human_frame_read": {"performed": True, "pass": True, "verdict": "pass"},
+            "generation": {"artifact": {"bytes": 400_000}},
+        }
+        result = module.evaluate_claim(packet)
+        self.assertFalse(result["policy_pass"])
+        self.assertIn("strict_pod_llm_review_pass_for_proof_success", result["failed_checks"])
+        self.assertIn(
+            "weak_vlm_pass_alone_insufficient_without_strict_pod_llm",
+            result["failed_checks"],
+        )
 
     def test_vlm_pass_alone_insufficient_for_proof_landed(self) -> None:
         packet = {

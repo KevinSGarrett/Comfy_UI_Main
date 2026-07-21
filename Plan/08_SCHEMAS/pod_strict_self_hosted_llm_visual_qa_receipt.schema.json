@@ -1,0 +1,183 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PodStrictSelfHostedLlmVisualQaReceipt",
+  "description": "Fail-closed receipt for RunPod self-hosted high-end LLM visual QA. Generation completion is never visual approval. Default decision is REJECT unless all high bars clear.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "authority",
+    "lane",
+    "model",
+    "artifact",
+    "rubric_scores",
+    "blocking_defects",
+    "correction_guidance",
+    "overall_decision",
+    "strict_pod_llm_review",
+    "product_completion_claimed",
+    "generation_receipt_is_not_visual_approval"
+  ],
+  "properties": {
+    "schema_version": {"const": "wave64.pod_strict_visual_qa.v1"},
+    "authority": {
+      "type": "object",
+      "required": ["host", "runtime", "endpoint", "fail_closed"],
+      "properties": {
+        "host": {"const": "runpod"},
+        "runtime": {"const": "ollama_self_hosted"},
+        "pod_id": {"type": "string", "minLength": 1},
+        "endpoint": {"type": "string", "minLength": 1},
+        "fail_closed": {"const": true},
+        "ec2_forbidden": {"const": true},
+        "local_comfy_runtime_forbidden": {"const": true}
+      },
+      "additionalProperties": true
+    },
+    "lane": {"enum": ["PRODUCT", "CLASS_A", "PROOF_LANDED", "IDENTITY_GATE", "SMOKE"]},
+    "model": {
+      "type": "object",
+      "required": ["name", "role", "approved_for_product"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "role": {"enum": ["strict_product_reviewer", "smoke_only_reviewer"]},
+        "approved_for_product": {"type": "boolean"},
+        "ollama_show_digest": {"type": ["string", "null"]},
+        "ollama_show_family": {"type": ["string", "null"]},
+        "parameter_size": {"type": ["string", "null"]}
+      },
+      "additionalProperties": true
+    },
+    "artifact": {
+      "type": "object",
+      "required": ["paths", "media_kind"],
+      "properties": {
+        "paths": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "media_kind": {"enum": ["still", "video_frames", "video"]},
+        "prompt_id": {"type": ["string", "null"]},
+        "bytes": {"type": ["integer", "null"], "minimum": 0}
+      },
+      "additionalProperties": true
+    },
+    "vram_arbitration": {
+      "type": "object",
+      "properties": {
+        "comfy_unload_before_review": {"type": "boolean"},
+        "comfy_queue_idle_required": {"type": "boolean"},
+        "gpu_memory_free_mib_before": {"type": ["number", "null"]},
+        "gpu_memory_free_mib_after_unload": {"type": ["number", "null"]},
+        "ollama_keep_alive": {"type": ["string", "null"]},
+        "unload_vlm_after_review": {"type": "boolean"},
+        "notes": {"type": "string"}
+      },
+      "additionalProperties": true
+    },
+    "rubric_scores": {
+      "type": "object",
+      "required": [
+        "anatomy_hands_fingers",
+        "identity_consistency",
+        "skin_realism",
+        "motion_temporal",
+        "artifacts_cleanliness",
+        "prompt_adherence",
+        "policy_project"
+      ],
+      "properties": {
+        "anatomy_hands_fingers": {"$ref": "#/definitions/score_cell"},
+        "identity_consistency": {"$ref": "#/definitions/score_cell"},
+        "skin_realism": {"$ref": "#/definitions/score_cell"},
+        "motion_temporal": {"$ref": "#/definitions/score_cell"},
+        "artifacts_cleanliness": {"$ref": "#/definitions/score_cell"},
+        "prompt_adherence": {"$ref": "#/definitions/score_cell"},
+        "policy_project": {"$ref": "#/definitions/score_cell"}
+      },
+      "additionalProperties": false
+    },
+    "thresholds": {
+      "type": "object",
+      "properties": {
+        "anatomy_hands_fingers_min": {"type": "integer", "minimum": 0, "maximum": 100},
+        "identity_consistency_min": {"type": "integer", "minimum": 0, "maximum": 100},
+        "skin_realism_min": {"type": "integer", "minimum": 0, "maximum": 100},
+        "motion_temporal_min": {"type": "integer", "minimum": 0, "maximum": 100},
+        "artifacts_cleanliness_min": {"type": "integer", "minimum": 0, "maximum": 100},
+        "prompt_adherence_min": {"type": "integer", "minimum": 0, "maximum": 100},
+        "policy_project_min": {"type": "integer", "minimum": 0, "maximum": 100},
+        "reviewer_confidence_min": {"type": "number", "minimum": 0, "maximum": 1},
+        "default_decision": {"const": "REJECT"}
+      },
+      "additionalProperties": true
+    },
+    "blocking_defects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "severity", "detail"],
+        "properties": {
+          "code": {"type": "string", "minLength": 1},
+          "severity": {"enum": ["blocking", "major", "minor"]},
+          "detail": {"type": "string", "minLength": 1},
+          "region": {"type": "string"}
+        },
+        "additionalProperties": true
+      }
+    },
+    "correction_guidance": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    },
+    "reviewer_confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "raw_model_response": {"type": ["string", "null"]},
+    "overall_decision": {"enum": ["PASS", "REJECT", "BLOCKED"]},
+    "strict_pod_llm_review": {"enum": ["PASS", "REJECT", "BLOCKED"]},
+    "forbidden_rubber_stamp_signals": {
+      "type": "object",
+      "properties": {
+        "pipeline_ran_is_not_pass": {"const": true},
+        "generation_receipt_is_not_pass": {"const": true},
+        "weak_vlm_pass_alone_is_not_product_pass": {"const": true},
+        "smoke_model_forbidden_for_product": {"const": true}
+      },
+      "additionalProperties": true
+    },
+    "generation_receipt_is_not_visual_approval": {"const": true},
+    "product_completion_claimed": {"const": false},
+    "row074_pcm_left_alone": {"type": "boolean"},
+    "human_frame_read_retained": {
+      "type": "object",
+      "properties": {
+        "required_when_already_gated": {"type": "boolean"},
+        "status": {"enum": ["pass", "fail", "not_run", "not_applicable"]}
+      },
+      "additionalProperties": true
+    },
+    "self_test": {
+      "type": "object",
+      "properties": {
+        "fixture_role": {"enum": ["known_bad", "known_better", "live_climb", "none"]},
+        "expected_decision": {"enum": ["PASS", "REJECT", "BLOCKED", null]},
+        "expectation_met": {"type": ["boolean", "null"]}
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true,
+  "definitions": {
+    "score_cell": {
+      "type": "object",
+      "required": ["score", "applicable", "pass"],
+      "properties": {
+        "score": {"type": ["integer", "null"], "minimum": 0, "maximum": 100},
+        "applicable": {"type": "boolean"},
+        "pass": {"type": "boolean"},
+        "notes": {"type": "string"}
+      },
+      "additionalProperties": true
+    }
+  }
+}

@@ -4,11 +4,21 @@
 Env precedence (URL):
   WAVE64_VLM_URL → OLLAMA_HOST → http://127.0.0.1:11434
 
-Env precedence (vision model):
+Env precedence (legacy/smoke vision model):
   WAVE64_VLM_MODEL → llava:13b
+
+Env precedence (STRICT product visual QA model — RunPod self-hosted):
+  WAVE64_STRICT_VLM_MODEL → qwen2.5vl:32b
+
+Env precedence (explicit smoke-only vision model):
+  WAVE64_VLM_SMOKE_MODEL → qwen2.5vl:7b
 
 Env precedence (text/LLM model):
   WAVE64_LLM_MODEL → qwen2.5:7b-instruct
+
+Product / Class A / Proof_Landed / identity GATE CLEARED must use the STRICT
+model path (wave64_pod_strict_visual_qa.py). Legacy WAVE64_VLM_MODEL helpers are
+observation/smoke only and MUST NOT rubber-stamp product approval.
 
 Never promotes VLM output to human_gold, threshold unfreeze, or product COMPLETE.
 Never touches Row074 exclusive PCM.
@@ -24,6 +34,8 @@ from typing import Any
 
 
 DEFAULT_VLM_MODEL = "llava:13b"
+DEFAULT_STRICT_VLM_MODEL = "qwen2.5vl:32b"
+DEFAULT_SMOKE_VLM_MODEL = "qwen2.5vl:7b"
 DEFAULT_LLM_MODEL = "qwen2.5:7b-instruct"
 DEFAULT_MODEL = DEFAULT_LLM_MODEL  # back-compat alias for text helpers
 DEFAULT_TIMEOUT_S = 120
@@ -48,10 +60,32 @@ def resolve_base_url(explicit: str | None = None) -> str:
 
 
 def resolve_vlm_model(explicit: str | None = None) -> str:
-    """Resolve pod vision model for whole-image / visual review."""
+    """Resolve legacy/smoke pod vision model (NOT product authority)."""
     raw = explicit or os.environ.get("WAVE64_VLM_MODEL") or DEFAULT_VLM_MODEL
     text = str(raw).strip()
     return text or DEFAULT_VLM_MODEL
+
+
+def resolve_strict_vlm_model(explicit: str | None = None) -> str:
+    """Resolve RunPod high-end strict product visual QA model (fail closed if missing)."""
+    raw = (
+        explicit
+        or os.environ.get("WAVE64_STRICT_VLM_MODEL")
+        or DEFAULT_STRICT_VLM_MODEL
+    )
+    text = str(raw).strip()
+    return text or DEFAULT_STRICT_VLM_MODEL
+
+
+def resolve_smoke_vlm_model(explicit: str | None = None) -> str:
+    """Resolve smoke-only vision model; never authorizes product PASS."""
+    raw = (
+        explicit
+        or os.environ.get("WAVE64_VLM_SMOKE_MODEL")
+        or DEFAULT_SMOKE_VLM_MODEL
+    )
+    text = str(raw).strip()
+    return text or DEFAULT_SMOKE_VLM_MODEL
 
 
 def resolve_llm_model(explicit: str | None = None) -> str:
@@ -70,8 +104,14 @@ def resolve_vlm_endpoint(
     return {
         "WAVE64_VLM_URL": resolve_base_url(base_url),
         "WAVE64_VLM_MODEL": resolve_vlm_model(model),
+        "WAVE64_STRICT_VLM_MODEL": resolve_strict_vlm_model(),
+        "WAVE64_VLM_SMOKE_MODEL": resolve_smoke_vlm_model(),
         "WAVE64_LLM_MODEL": resolve_llm_model(),
         "default_vlm_model": DEFAULT_VLM_MODEL,
+        "default_strict_vlm_model": DEFAULT_STRICT_VLM_MODEL,
+        "default_smoke_vlm_model": DEFAULT_SMOKE_VLM_MODEL,
+        "product_authority_requires_strict_model": True,
+        "generation_receipt_is_not_visual_approval": True,
         "product_completion_claimed": False,
         "row074_pcm_left_alone": True,
     }
@@ -121,6 +161,8 @@ def probe_endpoint(base_url: str | None = None, *, timeout_s: float = 5.0) -> di
         "models": models,
         "reachable": True,
         "vlm_model": resolve_vlm_model(),
+        "strict_vlm_model": resolve_strict_vlm_model(),
+        "smoke_vlm_model": resolve_smoke_vlm_model(),
         "llm_model": resolve_llm_model(),
     }
 
@@ -184,6 +226,7 @@ def chat_with_images(
     format_json: bool = True,
     seed: int | None = None,
     num_predict: int = 512,
+    num_ctx: int | None = None,
 ) -> dict[str, Any]:
     """Ollama /api/chat vision path for whole-image visual review helpers."""
     if not images_b64:
@@ -193,6 +236,8 @@ def chat_with_images(
     options: dict[str, Any] = {"temperature": temperature, "num_predict": num_predict}
     if seed is not None:
         options["seed"] = seed
+    if num_ctx is not None:
+        options["num_ctx"] = int(num_ctx)
     payload: dict[str, Any] = {
         "model": resolved_model,
         "stream": False,
@@ -220,6 +265,7 @@ def chat_with_images(
         "parsed_json": parsed,
         "eval_count": response.get("eval_count"),
         "total_duration_ns": response.get("total_duration"),
+        "options": options,
         "product_completion_claimed": False,
         "row074_pcm_left_alone": True,
     }

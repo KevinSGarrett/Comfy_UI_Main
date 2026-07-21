@@ -1,0 +1,94 @@
+{
+  "schema_version": "wave64.pod_strict_visual_qa.v1",
+  "authority": {
+    "host": "runpod",
+    "runtime": "ollama_self_hosted",
+    "pod_id": "1q4ji0gg1fkhvt",
+    "endpoint": "http://127.0.0.1:11434",
+    "fail_closed": true,
+    "ec2_forbidden": true,
+    "local_comfy_runtime_forbidden": true
+  },
+  "lane": "PROOF_LANDED",
+  "model": {
+    "name": "qwen2.5vl:32b",
+    "role": "strict_product_reviewer",
+    "approved_for_product": true,
+    "ollama_show_digest": null,
+    "ollama_show_family": "qwen2.5vl",
+    "parameter_size": "32B"
+  },
+  "artifact": {
+    "paths": [
+      "/workspace/comfy_output/video/example_frame_01.png",
+      "/workspace/comfy_output/video/example_frame_05.png"
+    ],
+    "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+    "media_kind": "video_frames",
+    "prompt_id": "00000000-0000-0000-0000-000000000000",
+    "bytes": null
+  },
+  "vram_arbitration": {
+    "comfy_unload_before_review": true,
+    "comfy_queue_idle_required": true,
+    "gpu_memory_free_mib_before": 19153.0,
+    "gpu_memory_free_mib_after_unload": 45000.0,
+    "ollama_keep_alive": "0",
+    "unload_vlm_after_review": true,
+    "notes": "Unload Comfy before qwen2.5vl:32b; unload VLM before next generation."
+  },
+  "rubric_scores": {
+    "anatomy_hands_fingers": {"score": 40, "applicable": true, "pass": false, "notes": "Fingers fused"},
+    "identity_consistency": {"score": 80, "applicable": true, "pass": false, "notes": "Below bar"},
+    "skin_realism": {"score": 55, "applicable": true, "pass": false, "notes": "Plastic skin"},
+    "motion_temporal": {"score": 20, "applicable": true, "pass": false, "notes": "Near-static"},
+    "artifacts_cleanliness": {"score": 50, "applicable": true, "pass": false, "notes": "Mush"},
+    "prompt_adherence": {"score": 45, "applicable": true, "pass": false, "notes": "Motion intent unmet"},
+    "policy_project": {"score": 90, "applicable": true, "pass": true, "notes": "ok"}
+  },
+  "thresholds": {
+    "anatomy_hands_fingers_min": 90,
+    "identity_consistency_min": 85,
+    "skin_realism_min": 85,
+    "motion_temporal_min": 90,
+    "artifacts_cleanliness_min": 85,
+    "prompt_adherence_min": 85,
+    "policy_project_min": 90,
+    "reviewer_confidence_min": 0.75,
+    "default_decision": "REJECT"
+  },
+  "blocking_defects": [
+    {
+      "code": "near_static_motion",
+      "severity": "blocking",
+      "detail": "Clip is near-static despite living-motion intent",
+      "region": "temporal"
+    }
+  ],
+  "correction_guidance": [
+    "Increase temporal strength / motion LoRA; require visible breath+blink+weight-shift.",
+    "Regenerate with sharper hand negatives and higher hand-detail guidance."
+  ],
+  "reviewer_confidence": 0.91,
+  "raw_model_response": null,
+  "overall_decision": "REJECT",
+  "strict_pod_llm_review": "REJECT",
+  "forbidden_rubber_stamp_signals": {
+    "pipeline_ran_is_not_pass": true,
+    "generation_receipt_is_not_pass": true,
+    "weak_vlm_pass_alone_is_not_product_pass": true,
+    "smoke_model_forbidden_for_product": true
+  },
+  "generation_receipt_is_not_visual_approval": true,
+  "product_completion_claimed": false,
+  "row074_pcm_left_alone": true,
+  "human_frame_read_retained": {
+    "required_when_already_gated": true,
+    "status": "fail"
+  },
+  "self_test": {
+    "fixture_role": "known_bad",
+    "expected_decision": "REJECT",
+    "expectation_met": true
+  }
+}

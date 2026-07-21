@@ -4,8 +4,15 @@
 Schema validation is offline/deterministic. Live pod Ollama visual observation
 uses the shared Wave64 VLM env contract (never COMPLETE / never Row074 PCM):
 
-  WAVE64_VLM_URL   → OLLAMA_HOST → http://127.0.0.1:11434
-  WAVE64_VLM_MODEL → llava:13b
+  WAVE64_VLM_URL          → OLLAMA_HOST → http://127.0.0.1:11434
+  WAVE64_VLM_MODEL        → llava:13b          (legacy/smoke observation)
+  WAVE64_STRICT_VLM_MODEL → qwen2.5vl:32b      (product visual authority)
+  WAVE64_VLM_SMOKE_MODEL  → qwen2.5vl:7b       (SMOKE lane only)
+
+Product / Proof_Landed / Class A / identity GATE CLEARED must use
+wave64_pod_strict_visual_qa.py (strict_pod_llm_review). This helper's
+--print-vlm-env receipt is observation wiring only and must not be treated as
+product approval. See Plan/Instructions/POD_STRICT_SELF_HOSTED_LLM_VISUAL_QA_STRATEGY.md.
 
 Use --print-vlm-env to emit the resolved endpoint receipt without scoring.
 """

@@ -87,7 +87,18 @@ def evaluate_claim(packet: dict[str, Any], *, artifact_bytes: int | None = None)
         if isinstance(packet.get("human_frame_read"), dict)
         else {}
     )
+    strict = (
+        packet.get("strict_pod_llm_review")
+        if isinstance(packet.get("strict_pod_llm_review"), dict)
+        else {}
+    )
+    # Flat string form also accepted: "PASS" | "REJECT" | "BLOCKED"
+    strict_flat = packet.get("strict_pod_llm_review")
+    if isinstance(strict_flat, str) and not strict:
+        strict = {"verdict": strict_flat, "performed": True}
+
     # VLM alone is never enough for Proof_Landed — human Cursor frame Read is required.
+    # Weak Ollama (qwen2.5vl:7b etc.) is never product authority; require strict_pod_llm_review.
     human_frame_performed = bool(human.get("performed")) or bool(visual.get("performed"))
     human_frame_pass = (
         str(human.get("verdict", "")).strip().lower() in {"pass", "passed", "ok"}
@@ -103,9 +114,21 @@ def evaluate_claim(packet: dict[str, Any], *, artifact_bytes: int | None = None)
         human_frame_pass = False
     vlm_performed = bool(vlm.get("performed"))
     vlm_pass = bool(vlm.get("pass")) or str(vlm.get("verdict", "")).strip().upper() == "PASS"
-    visual_performed = human_frame_performed or vlm_performed
-    # Legacy OR kept only for fail-attempt "a visual/VLM gate ran"; proof success uses human gate.
-    visual_pass = human_frame_pass or vlm_pass
+    strict_performed = bool(strict.get("performed")) or bool(
+        str(strict.get("verdict", "") or strict.get("strict_pod_llm_review", "")).strip()
+    )
+    strict_verdict = str(
+        strict.get("verdict")
+        or strict.get("strict_pod_llm_review")
+        or strict.get("overall_decision")
+        or ""
+    ).strip().upper()
+    strict_pass = strict_verdict == "PASS" or strict.get("pass") is True
+    if strict_verdict in {"REJECT", "FAIL", "BLOCKED"} or strict.get("pass") is False:
+        strict_pass = False
+    visual_performed = human_frame_performed or vlm_performed or strict_performed
+    # Legacy OR kept only for fail-attempt "a visual/VLM gate ran"; proof success uses dual gate.
+    visual_pass = human_frame_pass or vlm_pass or strict_pass
 
     claim_tier = str(packet.get("claim_tier") or "").strip().lower()
     blob = _claim_language_blob(packet)
@@ -144,15 +167,21 @@ def evaluate_claim(packet: dict[str, Any], *, artifact_bytes: int | None = None)
             "claim_tier_is_class_e_runtime_proof",
             claim_tier == "class_e_runtime_proof",
         )
-        # Proof_Landed requires human_frame_read=pass (visual_qa.pass / human_frame_read.pass).
-        # Ollama VLM PASS alone is NOT sufficient.
+        # Proof_Landed dual gate:
+        #   1) human_frame_read=pass (Cursor frame Read)
+        #   2) strict_pod_llm_review=PASS (high-end RunPod self-hosted LLM)
+        # Weak Ollama VLM PASS alone is NOT sufficient.
         mark("human_frame_read_performed_for_proof_success", human_frame_performed)
         mark("human_frame_read_pass_for_proof_success", human_frame_pass)
+        mark("strict_pod_llm_review_performed_for_proof_success", strict_performed)
+        mark("strict_pod_llm_review_pass_for_proof_success", strict_pass)
         # Legacy aliases for older receipts that key on visual_review_*.
         mark("visual_review_performed_for_proof_success", human_frame_performed)
         mark("visual_review_pass_for_proof_success", human_frame_pass)
         if vlm_pass and not human_frame_pass:
             mark("vlm_pass_alone_insufficient_for_proof_landed", False)
+        if vlm_pass and not strict_pass:
+            mark("weak_vlm_pass_alone_insufficient_without_strict_pod_llm", False)
     elif uses_fail_language:
         mark("fail_claim_forbids_proof_success_language", not uses_proof_success_language)
         mark(
@@ -201,6 +230,9 @@ def evaluate_claim(packet: dict[str, Any], *, artifact_bytes: int | None = None)
             "human_frame_pass": human_frame_pass,
             "vlm_performed": vlm_performed,
             "vlm_pass": vlm_pass,
+            "strict_pod_llm_performed": strict_performed,
+            "strict_pod_llm_pass": strict_pass,
+            "strict_pod_llm_verdict": strict_verdict or None,
         },
         "checks": checks,
         "failed_checks": failed,
@@ -211,14 +243,17 @@ def evaluate_claim(packet: dict[str, Any], *, artifact_bytes: int | None = None)
             "product_visual_qa_required_before_proof_landed_status": True,
             "technical_decode_pass_is_not_identity_or_product_pass": True,
             "proof_landed_requires_human_frame_read_pass": True,
+            "proof_landed_requires_strict_pod_llm_review_pass": True,
             "vlm_pass_alone_is_not_proof_landed": True,
+            "generation_receipt_is_not_visual_approval": True,
+            "weak_qwen25vl_7b_is_not_product_authority": True,
         },
         "next_action": (
             "Keep Status as Runtime_Smoke_Emitted / product visual QA open until a non-degenerate "
-            "clip clears human frame Read (and preferably VLM); never promote Comfy success or "
-            "VLM-only PASS to Class E Proof_Landed."
+            "clip clears human frame Read AND strict_pod_llm_review=PASS (qwen2.5vl:32b or approved "
+            "high-end); never promote Comfy success or weak VLM-only PASS to Class E Proof_Landed."
             if not ok
-            else "Claim language matches smoke-vs-proof policy."
+            else "Claim language matches smoke-vs-proof dual-gate policy."
         ),
     }
 
