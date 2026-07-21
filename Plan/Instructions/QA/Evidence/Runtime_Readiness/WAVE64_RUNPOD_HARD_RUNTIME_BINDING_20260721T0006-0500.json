@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "WAVE64_RUNPOD_HARD_RUNTIME_BINDING_20260721T0006-0500",
+  "created_iso": "2026-07-21T00:06:00-05:00",
+  "classification": "WAVE64_RUNPOD_HARD_RUNTIME_BINDING",
+  "scope": "Hard-bind Wave64/ComfyUI/GPU generation and model recovery to RunPod 1q4ji0gg1fkhvt only; forbid EC2 start/use for Wave64/Comfy/GPU/model recovery",
+  "decision": "NEVER start or use EC2 for Wave64, ComfyUI, GPU generation, or model recovery. Sole authorized runtime is RunPod pod 1q4ji0gg1fkhvt with /workspace/wave64, /workspace/ComfyUI, and source /workspace/paths.env.",
+  "runtime_authority": "runpod_remote_only",
+  "binding_runtime": {
+    "pod_id": "1q4ji0gg1fkhvt",
+    "WAVE64_ROOT": "/workspace/wave64",
+    "COMFYUI_ROOT": "/workspace/ComfyUI",
+    "paths_env": "/workspace/paths.env",
+    "paths_env_source_command": "source /workspace/paths.env",
+    "COMFY_URL": "http://127.0.0.1:8188",
+    "models_dir": "/workspace/ComfyUI/models",
+    "ssh": "root@195.26.233.100 -p 52077"
+  },
+  "ec2_authority": {
+    "status": "EC2_FORBIDDEN_FOR_WAVE64_COMFY_GPU_MODEL_RECOVERY",
+    "start_forbidden": true,
+    "generation_authorized": false,
+    "model_recovery_authorized": false,
+    "comfyui_runtime_authorized": false,
+    "gpu_work_authorized": false,
+    "note": "EC2 i-0560bf8d143f93bb1 remains stopped; historical read-only citations retained but confer no live recovery or generation authority."
+  },
+  "forbidden_actions": [
+    "EC2 start for Wave64 work",
+    "EC2 start for ComfyUI runtime",
+    "EC2 start for GPU generation",
+    "EC2 start or use for model recovery",
+    "EC2-mediated copy for model recovery",
+    "Inventing EC2 recovery paths after RunPod hard binding"
+  ],
+  "allowed_actions": [
+    "RunPod pod 1q4ji0gg1fkhvt SSH/tunnel for ComfyUI GPU generation",
+    "Pod-local model install under /workspace/ComfyUI/models",
+    "User-authorized pod-direct fetch with zero EC2 involvement",
+    "Local repo/plan/evidence work at C:\\Comfy_UI_Main"
+  ],
+  "supporting_citations": {
+    "runpod_binding_authority_correction": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_RUNPOD_BINDING_AUTHORITY_CORRECTION_20260721T0004-0500.json"
+    },
+    "ec2_unauthorized_abort": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_EC2_UNAUTHORIZED_ABORT_RUNPOD_ONLY_CORRECTION_20260721T000558-0500.json"
+    },
+    "runpod_mechanical_smoke": {
+      "path": "Plan/Instructions/QA/Evidence/Runtime_Readiness/RUNPOD_1q4ji0gg1fkhvt_MECHANICAL_SMOKE_PASS_20260720T2244-0500.json"
+    }
+  },
+  "row_complete": false,
+  "product_completion_claimed": false,
+  "constraints": {
+    "no_complete": true,
+    "row074_untouched": true,
+    "ec2_start_forbidden": true,
+    "ec2_wave64_comfy_gpu_model_recovery_forbidden": true,
+    "csv_sync": "deferred_evidence_only"
+  },
+  "proof_tier": "WAVE64_RUNPOD_HARD_RUNTIME_BINDING_BOUNDED",
+  "highest_proof_tier_achieved": "WAVE64_RUNPOD_HARD_RUNTIME_BINDING_BOUNDED",
+  "mutation_this_landing": "hard_runtime_binding_authority_only_no_runtime_mutation",
+  "source_commit": "bbabad86dffb941dc91af7950cf67b5b3be3bed7",
+  "next_action": "Route all Wave64/Comfy/GPU generation and model recovery through RunPod 1q4ji0gg1fkhvt only (source /workspace/paths.env). Do not start or use EC2. Leave Row074 alone. CSV deferred. No COMPLETE.",
+  "summary": "Hard binding: NEVER start/use EC2 for Wave64/Comfy/GPU/model recovery. Sole runtime = RunPod 1q4ji0gg1fkhvt (/workspace/wave64, /workspace/ComfyUI, source /workspace/paths.env). Row074 untouched. No COMPLETE."
+}
