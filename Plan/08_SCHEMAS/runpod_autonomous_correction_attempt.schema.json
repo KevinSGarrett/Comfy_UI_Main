@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_correction_attempt.schema.json",
+  "title": "Wave64 Autonomous Bounded Correction Attempt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "attempt_id", "job_id", "contract_id", "parent_artifact_sha256",
+    "candidate_artifact_sha256", "defect_id", "generation_consumed", "hard_gates_pass",
+    "candidate_total_score", "candidate_protected_scores", "evidence_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.correction_attempt.v1"},
+    "attempt_id": {"type": "string", "pattern": "^W64-AQA-REPAIR-[A-Za-z0-9._-]{1,96}$"},
+    "job_id": {"type": "string", "pattern": "^W64-AQA-JOB-[A-Za-z0-9._-]{1,96}$"},
+    "contract_id": {"$ref": "#/definitions/sha256"},
+    "parent_artifact_sha256": {"$ref": "#/definitions/sha256"},
+    "candidate_artifact_sha256": {"$ref": "#/definitions/sha256"},
+    "defect_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]{1,128}$"},
+    "generation_consumed": {"type": "boolean"},
+    "hard_gates_pass": {"type": "boolean"},
+    "candidate_total_score": {"type": "number", "minimum": 0, "maximum": 1},
+    "candidate_protected_scores": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"type": "number", "minimum": 0, "maximum": 1}
+    },
+    "evidence_sha256": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/definitions/sha256"}
+    }
+  },
+  "definitions": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

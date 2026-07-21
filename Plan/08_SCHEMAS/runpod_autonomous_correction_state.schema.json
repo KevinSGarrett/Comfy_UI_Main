@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_correction_state.schema.json",
+  "title": "Wave64 Autonomous Bounded Correction State",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "state_id", "previous_state_id", "sequence", "job_id", "contract_id",
+    "accepted_artifact_sha256", "accepted_total_score", "accepted_protected_scores",
+    "total_generation_attempts", "repairs_by_defect", "consecutive_no_progress",
+    "last_attempt_id", "last_candidate_artifact_sha256", "last_evidence_sha256",
+    "disposition", "terminal", "promotion_authorized", "reason_codes"
+  ],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.correction_state.v1"},
+    "state_id": {"$ref": "#/definitions/sha256"},
+    "previous_state_id": {"oneOf": [{"$ref": "#/definitions/sha256"}, {"type": "null"}]},
+    "sequence": {"type": "integer", "minimum": 0},
+    "job_id": {"type": "string", "pattern": "^W64-AQA-JOB-[A-Za-z0-9._-]{1,96}$"},
+    "contract_id": {"$ref": "#/definitions/sha256"},
+    "accepted_artifact_sha256": {"$ref": "#/definitions/sha256"},
+    "accepted_total_score": {"type": "number", "minimum": 0, "maximum": 1},
+    "accepted_protected_scores": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"type": "number", "minimum": 0, "maximum": 1}
+    },
+    "total_generation_attempts": {"type": "integer", "minimum": 1, "maximum": 4},
+    "repairs_by_defect": {
+      "type": "object",
+      "additionalProperties": {"type": "integer", "minimum": 0, "maximum": 2}
+    },
+    "consecutive_no_progress": {"type": "integer", "minimum": 0, "maximum": 2},
+    "last_attempt_id": {"type": ["string", "null"]},
+    "last_candidate_artifact_sha256": {"oneOf": [{"$ref": "#/definitions/sha256"}, {"type": "null"}]},
+    "last_evidence_sha256": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/definitions/sha256"}
+    },
+    "disposition": {"enum": ["BASELINE_ACCEPTED", "RETAIN_CANDIDATE_EXIT_REPAIR_LOOP", "REVERT_CANDIDATE_CONTINUE", "EXHAUSTED_BLOCKED"]},
+    "terminal": {"type": "boolean"},
+    "promotion_authorized": {"const": false},
+    "reason_codes": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[A-Z0-9_]+$"}
+    }
+  },
+  "definitions": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}
