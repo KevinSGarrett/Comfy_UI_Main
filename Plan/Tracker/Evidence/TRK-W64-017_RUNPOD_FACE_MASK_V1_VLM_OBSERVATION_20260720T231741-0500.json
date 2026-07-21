@@ -1,27 +1,30 @@
 {
-  "schema_version": "1.0.0",
-  "record_type": "autonomous_reviewer_observation",
-  "reviewer_observation_id": "row017_runpod_face_mask_v1_vlm_20260720T231741-0500",
-  "revision": "1",
-  "status": "candidate_observation",
-  "created_at": "2026-07-20T23:17:41-05:00",
-  "role": "vlm_critic",
-  "model": "qwen2.5vl:7b",
-  "runtime_host": "runpod",
-  "endpoint": "http://127.0.0.1:11434/api/chat",
-  "artifact_ids": [
-    "ccae9713fa689e6622ad4adc9f330c8557e4b92c24a91cea4b98bf4b898a1bbd"
-  ],
   "artifact": {
     "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_w69_inpaint_face_mask_v1_20260720T230123-0500/images/codex_row017_w69_inpaint_face_mask_v1_20260720T230123-0500_00001_.png",
     "sha256": "ccae9713fa689e6622ad4adc9f330c8557e4b92c24a91cea4b98bf4b898a1bbd"
   },
-  "scope_bindings": [
-    {
-      "region": "w69_inpaint_face_mask_v1",
-      "owner": "character_instance_row017"
-    }
+  "artifact_ids": [
+    "ccae9713fa689e6622ad4adc9f330c8557e4b92c24a91cea4b98bf4b898a1bbd"
   ],
+  "created_at": "2026-07-20T23:17:41-05:00",
+  "csv_sync": "synced_by_primary_csv_mutator_row017_face_mask_v1_vlm",
+  "csv_sync_tip": "301c28b1",
+  "endpoint": "http://127.0.0.1:11434/api/chat",
+  "evidence_ids": [
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_RUNPOD_W69_INPAINT_FACE_MASK_V1_20260720T230123-0500_GLOBAL_REVIEW.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/ROW017_RUNPOD_W69_INPAINT_FACE_MASK_V1_VISUAL_QA_20260720T230123-0500.json"
+  ],
+  "ledger_vocabulary_sync": {
+    "note": "Mechanical CSV mutator Row017 face_mask_v1 VLM sync from edda4400,301c28b1; vlm_ok; future-producer pending; no COMPLETE.",
+    "product_completion": false,
+    "prove_commits": [
+      "edda4400",
+      "301c28b1"
+    ],
+    "synced_at": "2026-07-21T04:30:20.719840Z"
+  },
+  "metric_observations": [],
+  "model": "qwen2.5vl:7b",
   "observations": [
     {
       "defect": "Hard mask edges are not clearly defined.",
@@ -32,41 +35,49 @@
       "region": "whole_frame"
     }
   ],
-  "metric_observations": [],
-  "uncertainty": 0.3,
   "parsed_review": {
-    "frame_ok": true,
-    "identity_preserved": true,
-    "eyes_ok": true,
-    "mouth_ok": true,
     "background_ok": true,
-    "hard_mask_edge": false,
-    "target_region_refined": true,
+    "eyes_ok": true,
+    "frame_ok": true,
     "global_defects": [
       "Hard mask edges are not clearly defined.",
       "The edit appears to stay within the face oval but may need refinement for a more seamless transition."
     ],
-    "summary": "The frame and identity preservation appear satisfactory. Eyes, mouth, hair, clothing, background, lighting, framing, and hard mask edge issues suggest some room for improvement in refining the edit.",
+    "hard_mask_edge": false,
+    "identity_preserved": true,
+    "mouth_ok": true,
     "promotion_allowed": false,
     "row_complete_allowed": false,
+    "summary": "The frame and identity preservation appear satisfactory. Eyes, mouth, hair, clothing, background, lighting, framing, and hard mask edge issues suggest some room for improvement in refining the edit.",
+    "target_region_refined": true,
     "uncertainty": 0.3
   },
-  "promotion_authority": "none",
   "promotion_allowed": false,
-  "row_complete_allowed": false,
-  "evidence_ids": [
-    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_RUNPOD_W69_INPAINT_FACE_MASK_V1_20260720T230123-0500_GLOBAL_REVIEW.json",
-    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/ROW017_RUNPOD_W69_INPAINT_FACE_MASK_V1_VISUAL_QA_20260720T230123-0500.json"
-  ],
+  "promotion_authority": "none",
   "provenance": {
+    "evidence_refs": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_RUNPOD_W69_INPAINT_FACE_MASK_V1_20260720T230123-0500_GLOBAL_REVIEW.json",
+      "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_RUNPOD_COMFYUI_ROW017_W69_INPAINT_FACE_MASK_V1_EXECUTE_20260720T230123-0500.json"
+    ],
     "producer": "tmp_row017_runpod_face_mask_vlm_deepen.py",
     "source_refs": [
       "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_w69_inpaint_face_mask_v1_20260720T230123-0500/LOCAL_RUNTIME_RECEIPT.json",
       "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_w69_inpaint_face_mask_v1_20260720T230123-0500/images/codex_row017_w69_inpaint_face_mask_v1_20260720T230123-0500_00001_.png"
-    ],
-    "evidence_refs": [
-      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_RUNPOD_W69_INPAINT_FACE_MASK_V1_20260720T230123-0500_GLOBAL_REVIEW.json",
-      "Plan/Instructions/QA/Evidence/Workflow_Runtime/W64_RUNPOD_COMFYUI_ROW017_W69_INPAINT_FACE_MASK_V1_EXECUTE_20260720T230123-0500.json"
     ]
-  }
+  },
+  "record_type": "autonomous_reviewer_observation",
+  "reviewer_observation_id": "row017_runpod_face_mask_v1_vlm_20260720T231741-0500",
+  "revision": "1",
+  "role": "vlm_critic",
+  "row_complete_allowed": false,
+  "runtime_host": "runpod",
+  "schema_version": "1.0.0",
+  "scope_bindings": [
+    {
+      "owner": "character_instance_row017",
+      "region": "w69_inpaint_face_mask_v1"
+    }
+  ],
+  "status": "candidate_observation",
+  "uncertainty": 0.3
 }
