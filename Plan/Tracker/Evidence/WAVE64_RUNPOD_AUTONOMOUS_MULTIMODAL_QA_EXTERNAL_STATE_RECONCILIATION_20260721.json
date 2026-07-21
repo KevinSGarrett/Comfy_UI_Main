@@ -1,0 +1,118 @@
+{
+  "schema_version": "wave64.aqa.external_state_reconciliation.v1",
+  "program_id": "W64-AQA",
+  "captured_at": "2026-07-21T13:43:12-05:00",
+  "authority": "Codex Desktop integration authority",
+  "scope": "Read-only reconciliation of repository, supplied local paths, GitHub, AWS/S3, and RunPod; no secret values retained.",
+  "repository": {
+    "authoritative_root": "C:/Comfy_UI_Main",
+    "branch": "codex/workflow_plan_update_improvements",
+    "head": "fa21feb5a4d72adf3efc1686312c0ea36c8a51d9",
+    "upstream": "origin/codex/workflow_plan_update_improvements",
+    "ahead": 0,
+    "behind": 0,
+    "tracked_dirty_count_at_capture": 7,
+    "untracked_count_at_capture": 737,
+    "dirty_ownership_rule": "All pre-existing tracked and untracked paths remain outside this package unless explicitly listed in its bounded commit."
+  },
+  "github": {
+    "repository": "KevinSGarrett/Comfy_UI_Main",
+    "default_branch": "main",
+    "current_branch_remote_head": "fa21feb5a4d72adf3efc1686312c0ea36c8a51d9",
+    "current_branch_pull_request": null,
+    "open_pull_requests": [133],
+    "origin_main_head": "a3bff6b35d7a54667876d2c2016c5a40542b4e94",
+    "origin_main_unique_commits_against_current": 99,
+    "current_unique_commits_against_origin_main": 598,
+    "finding": "The working branch is pushed but has no PR and has major two-way divergence from main. A normal blind merge is not authorized; integration requires dedicated reconciliation."
+  },
+  "aws": {
+    "authentication": "assumed_role_confirmed",
+    "account_id": "029530099913",
+    "role": "ComfyUIMainSessionRole",
+    "region": "us-east-1",
+    "configured_project_bucket": "comfy-ui-main-runtime-029530099913-us-east-1",
+    "project_bucket_access": "PASS",
+    "account_wide_bucket_listing": "DENIED_BY_DESIGN",
+    "observed_prefixes": ["artifact-output/", "deploy-bundles/"],
+    "finding": "The project bucket contains deploy bundles, character packages, render evidence, and historical EC2-era paths. Those names remain artifact lineage and do not authorize EC2 runtime use."
+  },
+  "runpod": {
+    "authentication": {
+      "status": "PASS",
+      "source": "RUNPOD_API_KEY available to the process and represented in the project .env using colon syntax",
+      "secret_value_recorded": false
+    },
+    "pod": {
+      "id": "1q4ji0gg1fkhvt",
+      "name": "hyperreal-flux",
+      "desired_status": "RUNNING",
+      "gpu_count": 1,
+      "gpu": "NVIDIA RTX 6000 Ada Generation",
+      "vram_mib": 49140,
+      "cost_per_hour_usd": 0.77,
+      "container_disk_gb": 20,
+      "image": "runpod/pytorch:2.4.0-py3.11-cuda12.4.1-devel-ubuntu22.04",
+      "last_started_at": "2026-07-20T23:00:54.518Z"
+    },
+    "network_volume": {
+      "id": "o9qv2ld91c",
+      "name": "hyperreal-maskfactory-nv",
+      "size_gb": 600,
+      "data_center": "US-WA-1",
+      "mount": "/workspace"
+    },
+    "runtime_probe": {
+      "comfyui_directory": "present",
+      "comfyui_system_stats_http": 200,
+      "ollama_tags_http": 200,
+      "overlay_used_percent": 79,
+      "gpu_used_mib_at_probe": 26806,
+      "gpu_utilization_percent_at_probe": 91,
+      "finding": "Generation and strict review require exclusive phase arbitration; the overlay needs active pressure controls."
+    },
+    "installed_ollama_inventory": [
+      {"model": "qwen2.5vl:32b", "size": "21 GB", "authority": "strict scoped visual reviewer"},
+      {"model": "qwen3-vl:8b-instruct-q4_K_M", "size": "6.1 GB", "authority": "triage/smoke only"},
+      {"model": "qwen3-vl:4b-instruct-q4_K_M", "size": "3.3 GB", "authority": "triage/smoke only"},
+      {"model": "qwen2.5vl:7b", "size": "6.0 GB", "authority": "smoke only"},
+      {"model": "llava:13b", "size": "8.0 GB", "authority": "smoke only"},
+      {"model": "qwen2.5:7b-instruct", "size": "4.7 GB", "authority": "nonvisual formatting only"},
+      {"model": "llama3.2-vision:11b", "size": "7.8 GB", "authority": "smoke only"}
+    ]
+  },
+  "local_locations": [
+    {"path": "C:/Comfy_UI_Main", "classification": "AUTHORITATIVE_PROJECT", "git_head": "fa21feb5a4d72adf3efc1686312c0ea36c8a51d9"},
+    {"path": "C:/CUI_W64_261", "classification": "SPECIALIST_WORKTREE_READ_ONLY_EVIDENCE", "git_head": "d9500d324dd95e86d9d141bcb2d55ce17854af90"},
+    {"path": "C:/Comfy_UI_Main_Kokoro_20260715", "classification": "SPECIALIST_AUDIO_CHECKOUT_READ_ONLY_EVIDENCE", "git_head": "726f6574711993f5063416aa66280b6503cf8706"},
+    {"path": "C:/Comfy_UI_Main_W64_WAN", "classification": "SPECIALIST_VIDEO_CHECKOUT_READ_ONLY_EVIDENCE", "git_head": "ae7be9c1ed9b4d446e8cd0e9bbef7c7200802968"},
+    {"path": "C:/Comfy_UI_Main_recovery_20260713", "classification": "RECOVERY_CHECKOUT_NOT_AUTHORITY", "git_head": "0069010a9e967df3a85f94740f66b588f0a4ba31"},
+    {"path": "C:/Comfy_UI_Main_row072_split", "classification": "DETACHED_ROW_WORKTREE_NOT_AUTHORITY", "git_head": "6525d2c33b55c41a46c5b9b07d30977e974a3c9e"},
+    {"path": "F:/Len_Transfer/Comfy_UI_Main_W64_WAN", "classification": "TRANSFER_COPY_NOT_AUTHORITY", "git_head": "ae7be9c1ed9b4d446e8cd0e9bbef7c7200802968"},
+    {"path": "F:/Len_Transfer/Comfy_UI_Main_Kokoro_20260715", "classification": "TRANSFER_COPY_NOT_AUTHORITY", "git_head": "726f6574711993f5063416aa66280b6503cf8706"},
+    {"path": "F:/Len_Transfer/Comfy_UI_Main_recovery_20260713", "classification": "TRANSFER_RECOVERY_COPY_NOT_AUTHORITY", "git_head": "0069010a9e967df3a85f94740f66b588f0a4ba31"},
+    {"path": "C:/Comfy_UI_Main_Masking", "classification": "MASKFACTORY_PRODUCER_REPOSITORY_EXTERNAL_AUTHORITY", "git_head": "1240fbf0d6ac89cae6c588ab84fb354c75197ee7"},
+    {"path": "C:/Comfy_UI_Main_MaskFactory_Consumer", "classification": "MASKFACTORY_CONSUMER_REPOSITORY_EXTERNAL_AUTHORITY", "git_head": "1091a9c8cc01ff554907b97a7e754c6c884cee01"},
+    {"path": "F:/MaskFactory_DataRelocated", "classification": "MASKFACTORY_DATA_STORE_EXTERNAL_AUTHORITY"},
+    {"path": "F:/MaskFactory_RuntimeRelocated", "classification": "MASKFACTORY_RUNTIME_BACKUP_EXTERNAL_AUTHORITY"},
+    {"path": "F:/MaskFactory_Offload_20260714", "classification": "OFFLOAD_BACKUP_NOT_AUTHORITY"},
+    {"path": "F:/MaskFactory_WSL_VHD_BACKUPS", "classification": "WSL_BACKUP_NOT_AUTHORITY"},
+    {"path": "C:/MaskFactory_WSL_Backup", "classification": "WSL_BACKUP_NOT_AUTHORITY"},
+    {"path": "C:/MaskFactory_ExternalSupervision", "classification": "MASKFACTORY_SUPERVISION_EVIDENCE_EXTERNAL_AUTHORITY"},
+    {"path": "C:/MaskFactory_FailureCampaigns", "classification": "MASKFACTORY_FAILURE_EVIDENCE_EXTERNAL_AUTHORITY"},
+    {"path": "C:/MaskFactory_TierA_Backups", "classification": "MASKFACTORY_BACKUP_NOT_AUTHORITY"},
+    {"path": "C:/MaskFactory_TierA_RestoreTests", "classification": "MASKFACTORY_RESTORE_EVIDENCE_EXTERNAL_AUTHORITY"},
+    {"path": "F:/Models", "classification": "MODEL_DISCOVERY_AND_STAGING_NOT_PROMOTION_AUTHORITY"}
+  ],
+  "worker_coordination": {
+    "recurring_tasks": "DISABLED",
+    "new_handoffs_after_user_direction": "CANCELED",
+    "codex_only_integration_authority": true
+  },
+  "limitations": [
+    "This capture does not assert semantic correctness of every historical artifact or every byte in sibling repositories.",
+    "RunPod runtime facts are point-in-time and must be refreshed before deployment or release claims.",
+    "AWS access is intentionally scoped and cannot enumerate unrelated account buckets.",
+    "Major GitHub main/current-branch divergence requires a separate integration reconciliation."
+  ]
+}

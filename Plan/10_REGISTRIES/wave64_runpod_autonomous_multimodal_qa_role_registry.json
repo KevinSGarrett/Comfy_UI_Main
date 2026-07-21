@@ -1,0 +1,107 @@
+{
+  "schema_version": "wave64.aqa.role_registry.v1",
+  "program_id": "W64-AQA",
+  "runtime_policy": {
+    "generation_host": "runpod_only",
+    "ec2_forbidden": true,
+    "local_comfyui_forbidden": true,
+    "current_pod_id": "1q4ji0gg1fkhvt",
+    "gpu": "NVIDIA RTX 6000 Ada Generation",
+    "vram_mib": 49140,
+    "phase_safe_exclusive_gpu": true,
+    "durable_root": "/workspace",
+    "ollama_models_root": "/workspace/ollama",
+    "max_repair_attempts_per_defect": 2,
+    "max_total_generation_attempts": 4,
+    "max_no_progress_cycles": 2
+  },
+  "roles": [
+    {
+      "role_id": "W64-AQA-ROLE-DETERMINISTIC",
+      "kind": "deterministic_measurement",
+      "state": "ACTIVE_REQUIRED",
+      "product_approval_sufficient": false,
+      "modalities": ["image", "video", "audio", "av", "mask"]
+    },
+    {
+      "role_id": "W64-AQA-ROLE-STRICT-VISUAL",
+      "kind": "visual_product_reviewer",
+      "model": "qwen2.5vl:32b",
+      "state": "ACTIVE_STRICT_SCOPED",
+      "product_approval_sufficient": false,
+      "requires_deterministic_gates": true,
+      "modalities": ["image", "sampled_video"],
+      "required_evidence": [
+        "ollama_digest",
+        "runtime_receipt",
+        "calibration_id",
+        "prompt_rubric_version",
+        "decision_schema_version",
+        "artifact_hashes",
+        "vram_arbitration_receipt"
+      ]
+    },
+    {
+      "role_id": "W64-AQA-ROLE-FAST-TRIAGE",
+      "kind": "triage_and_crop_selector",
+      "models": [
+        "qwen3-vl:4b-instruct-q4_K_M",
+        "qwen3-vl:8b-instruct-q4_K_M",
+        "qwen2.5vl:7b",
+        "llava:13b"
+      ],
+      "state": "ACTIVE_TRIAGE_ONLY",
+      "product_approval_sufficient": false,
+      "forbidden_decisions": ["PASS_PRODUCT", "PROMOTE"]
+    },
+    {
+      "role_id": "W64-AQA-ROLE-TEXT-PLANNER",
+      "kind": "structured_summary_and_repair_formatting",
+      "models": ["qwen2.5:7b-instruct"],
+      "state": "ACTIVE_NONVISUAL_ONLY",
+      "product_approval_sufficient": false,
+      "forbidden_authority": ["visual_review", "audio_review", "mask_review", "promotion", "tool_authorization"]
+    },
+    {
+      "role_id": "W64-AQA-ROLE-INDEPENDENT-JUROR",
+      "kind": "independent_multimodal_juror",
+      "state": "BLOCKED_UNQUALIFIED",
+      "product_approval_sufficient": false,
+      "activation_requires": ["checkpoint_hash", "license", "capacity", "calibration", "runtime", "cost", "failure_injection"]
+    },
+    {
+      "role_id": "W64-AQA-ROLE-AUDIO-SEMANTIC",
+      "kind": "audio_av_semantic_reviewer",
+      "state": "BLOCKED_UNQUALIFIED",
+      "product_approval_sufficient": false,
+      "activation_requires": ["checkpoint_hash", "license", "duration_envelope", "calibration", "runtime", "cost"]
+    },
+    {
+      "role_id": "W64-AQA-ROLE-WORKFLOW-ENGINEER",
+      "kind": "comfyui_workflow_diagnosis_and_patch_proposal",
+      "target_model": "Qwen3-Coder-Next",
+      "state": "BLOCKED_UNQUALIFIED",
+      "product_approval_sufficient": false,
+      "proposal_only": true,
+      "forbidden_authority": ["arbitrary_shell", "credentials", "direct_workflow_promotion", "tracker_write", "git"],
+      "activation_requires": ["checkpoint_hash", "license", "node_schema_suite", "patch_allowlist", "sandbox", "regression_suite", "calibration", "runtime", "cost"]
+    },
+    {
+      "role_id": "W64-AQA-ROLE-GOLDEN-MASK",
+      "kind": "segmentation_matting_ensemble",
+      "state": "BLOCKED_UNQUALIFIED",
+      "product_approval_sufficient": false,
+      "external_producer": "MaskFactory",
+      "activation_requires": ["producer_contract", "model_hashes", "target_binding", "calibration", "runtime", "rollback"]
+    },
+    {
+      "role_id": "W64-AQA-ROLE-MULTIGPU-ARBITER",
+      "kind": "optional_senior_arbitration",
+      "candidate_classes": ["Qwen3.5-122B", "InternVL3.5-241B", "Qwen3.5-397B"],
+      "state": "DISABLED_REQUIRES_SEPARATE_MULTIGPU_ENDPOINT",
+      "current_48gb_pod_eligible": false,
+      "product_approval_sufficient": false,
+      "activation_requires": ["explicit_cost_authority", "endpoint_identity", "checkpoint_hash", "license", "capacity", "calibration", "runtime", "rollback"]
+    }
+  ]
+}
