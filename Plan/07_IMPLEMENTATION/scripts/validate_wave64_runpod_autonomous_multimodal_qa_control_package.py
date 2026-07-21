@@ -30,6 +30,8 @@ PATHS = {
     / "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_MULTIMODAL_QA_EXTERNAL_STATE_RECONCILIATION_20260721.json",
     "capacity_evidence": ROOT
     / "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_MULTIMODAL_QA_CAPACITY_OPTIONS_20260721.json",
+    "phase_lease_shadow_evidence": ROOT
+    / "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_PHASE_LEASE_SHADOW_20260721.json",
     "operations": ROOT
     / "Plan/Instructions/Operations/RUNPOD_AUTONOMOUS_MULTIMODAL_QA_OPERATING_PROTOCOL.md",
     "qa": ROOT
@@ -42,6 +44,10 @@ PATHS = {
     / "Plan/08_SCHEMAS/runpod_autonomous_multimodal_job_contract.schema.json",
     "job_contract_compiler": ROOT
     / "Plan/07_IMPLEMENTATION/scripts/compile_wave64_runpod_autonomous_multimodal_job_contract.py",
+    "phase_lease_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_multimodal_phase_lease.schema.json",
+    "phase_lease_controller": ROOT
+    / "Plan/07_IMPLEMENTATION/scripts/run_wave64_runpod_autonomous_phase_lease_controller.py",
 }
 
 SECRET_PATTERNS = {
@@ -75,9 +81,11 @@ def collect_errors() -> list[str]:
         requirements = load_json(PATHS["requirements"])
         evidence = load_json(PATHS["evidence"])
         capacity_evidence = load_json(PATHS["capacity_evidence"])
+        phase_lease_shadow_evidence = load_json(PATHS["phase_lease_shadow_evidence"])
         registry = load_json(PATHS["registry"])
         schema = load_json(PATHS["schema"])
         job_contract_schema = load_json(PATHS["job_contract_schema"])
+        phase_lease_schema = load_json(PATHS["phase_lease_schema"])
     except (csv.Error, json.JSONDecodeError, OSError) as exc:
         return [f"parse failure: {exc}"]
 
@@ -98,7 +106,13 @@ def collect_errors() -> list[str]:
     if {row.get("Item_ID") for row in tracker} != EXPECTED_IDS:
         errors.append("tracker Item_ID references do not match the W64-AQA item set")
 
-    json_docs = (requirements, evidence, capacity_evidence, registry)
+    json_docs = (
+        requirements,
+        evidence,
+        capacity_evidence,
+        phase_lease_shadow_evidence,
+        registry,
+    )
     for document in json_docs:
         if document.get("program_id") != PROGRAM:
             errors.append("JSON document has the wrong program_id")
@@ -218,6 +232,7 @@ def collect_errors() -> list[str]:
 
         jsonschema.Draft7Validator.check_schema(schema)
         jsonschema.Draft7Validator.check_schema(job_contract_schema)
+        jsonschema.Draft7Validator.check_schema(phase_lease_schema)
     except ImportError:
         pass
     except Exception as exc:  # pragma: no cover - library supplies exact detail

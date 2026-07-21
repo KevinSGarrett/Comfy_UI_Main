@@ -69,6 +69,7 @@ def valid_draft(modality: str = "image") -> dict:
         "revision": 1,
         "created_at": "2026-07-21T19:00:00Z",
         "modality": modality,
+        "execution_mode": "production_release",
         "requested_outputs": [
             {
                 "output_id": "primary",
@@ -160,6 +161,39 @@ def test_unqualified_required_role_compiles_to_hold() -> None:
     compiler.verify_contract(contract)
 
 
+def test_current_32b_lane_can_run_shadow_without_product_authority() -> None:
+    compiler = load_compiler()
+    draft = valid_draft()
+    strict_role = {
+        "role_id": "W64-AQA-ROLE-STRICT-VISUAL",
+        "authority": "strict",
+        "can_approve": True,
+        "required": True,
+    }
+    deterministic = draft["quality_profile"]["review_roles"][0]
+    triage = draft["quality_profile"]["review_roles"][3]
+    draft["execution_mode"] = "shadow_qualification"
+    draft["quality_profile"]["review_roles"] = [deterministic, strict_role, triage]
+    draft["quality_profile"]["required_approval_roles"] = [
+        "W64-AQA-ROLE-DETERMINISTIC",
+        "W64-AQA-ROLE-STRICT-VISUAL",
+    ]
+    draft["provenance"]["model_bindings"] = [
+        draft["provenance"]["model_bindings"][0],
+        {
+            "role_id": "W64-AQA-ROLE-STRICT-VISUAL",
+            "model_id": "qwen2.5vl:32b",
+            "checkpoint_sha256": SHA_C,
+            "runtime_digest": "synthetic-current-pod-fixture",
+            "qualification_state": "QUALIFIED",
+        },
+    ]
+    contract = compiler.compile_contract(draft)
+    assert contract["preflight_disposition"] == "READY_FOR_LEASE"
+    assert contract["promotion_disposition"] == "EVIDENCE_ONLY"
+    compiler.verify_contract(contract)
+
+
 def test_tampering_breaks_immutable_identity() -> None:
     compiler = load_compiler()
     contract = compiler.compile_contract(valid_draft())
@@ -181,7 +215,7 @@ def test_tampering_breaks_immutable_identity() -> None:
             lambda draft: draft["quality_profile"].update(
                 {"required_approval_roles": ["W64-AQA-ROLE-DETERMINISTIC", "W64-AQA-ROLE-PRIMARY-VISUAL"]}
             ),
-            "independent juror",
+                "selected execution mode",
         ),
         (
             lambda draft: draft["requested_outputs"][0].update(

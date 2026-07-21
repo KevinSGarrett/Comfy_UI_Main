@@ -12,6 +12,7 @@
     "revision",
     "created_at",
     "modality",
+    "execution_mode",
     "requested_outputs",
     "quality_profile",
     "resource_budget",
@@ -19,7 +20,8 @@
     "authority_policy",
     "rollback_policy",
     "provenance",
-    "preflight_disposition"
+    "preflight_disposition",
+    "promotion_disposition"
   ],
   "properties": {
     "schema_version": {"const": "wave64.aqa.job_contract.v1"},
@@ -30,6 +32,10 @@
     "modality": {
       "type": "string",
       "enum": ["image", "video", "audio", "av", "mask", "workflow"]
+    },
+    "execution_mode": {
+      "type": "string",
+      "enum": ["shadow_qualification", "production_release"]
     },
     "requested_outputs": {
       "type": "array",
@@ -158,6 +164,10 @@
     "preflight_disposition": {
       "type": "string",
       "enum": ["READY_FOR_LEASE", "HOLD_UNQUALIFIED_REQUIRED_ROLE"]
+    },
+    "promotion_disposition": {
+      "type": "string",
+      "enum": ["EVIDENCE_ONLY", "PRODUCTION_ELIGIBLE_IF_ALL_GATES_PASS"]
     },
     "image_spec": {"$ref": "#/definitions/image_spec"},
     "video_spec": {"$ref": "#/definitions/video_spec"},

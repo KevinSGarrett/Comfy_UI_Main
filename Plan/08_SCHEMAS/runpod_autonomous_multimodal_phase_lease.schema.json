@@ -1,0 +1,88 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_multimodal_phase_lease.schema.json",
+  "title": "Wave64 RunPod Autonomous Multimodal Phase Lease",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "controller_id", "revision", "state", "lease", "blocked_reasons", "journal"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.phase_lease.v1"},
+    "controller_id": {"type": "string", "pattern": "^W64-AQA-CTRL-[A-Za-z0-9._-]{1,96}$"},
+    "revision": {"type": "integer", "minimum": 0},
+    "state": {"enum": ["IDLE", "ACTIVE", "DRAINING", "RECOVERING", "BLOCKED"]},
+    "lease": {
+      "anyOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "lease_id", "phase", "owner", "contract_id", "acquired_at",
+            "heartbeat_at", "expires_at", "max_cost_usd", "estimated_cost_usd",
+            "resource_snapshot_sha256"
+          ],
+          "properties": {
+            "lease_id": {"type": "string", "pattern": "^W64-AQA-LEASE-[a-f0-9]{24}$"},
+            "phase": {"enum": ["generation", "review", "audio", "mask", "workflow", "model_load", "migration_canary"]},
+            "owner": {"type": "string", "pattern": "^[A-Za-z0-9._-]{1,128}$"},
+            "contract_id": {"$ref": "#/definitions/sha256"},
+            "acquired_at": {"type": "string", "format": "date-time"},
+            "heartbeat_at": {"type": "string", "format": "date-time"},
+            "expires_at": {"type": "string", "format": "date-time"},
+            "max_cost_usd": {"type": "number", "exclusiveMinimum": 0},
+            "estimated_cost_usd": {"type": "number", "minimum": 0},
+            "resource_snapshot_sha256": {"$ref": "#/definitions/sha256"}
+          }
+        }
+      ]
+    },
+    "blocked_reasons": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "ACTIVE_LEASE_CONFLICT", "FOREIGN_JOB_PRESENT", "QUEUE_NOT_IDLE",
+          "INSUFFICIENT_FREE_VRAM", "OVERLAY_PRESSURE", "COST_BUDGET_EXCEEDED",
+          "INVALID_RESOURCE_SNAPSHOT", "LEASE_EXPIRED", "OOM", "PROCESS_CRASH",
+          "PRICE_DRIFT", "STORAGE_UNAVAILABLE", "OWNERSHIP_UNPROVEN"
+        ]
+      }
+    },
+    "journal": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["sequence", "timestamp", "event", "details", "previous_hash", "event_hash"],
+        "properties": {
+          "sequence": {"type": "integer", "minimum": 0},
+          "timestamp": {"type": "string", "format": "date-time"},
+          "event": {
+            "enum": [
+              "CONTROLLER_INITIALIZED", "LEASE_ACQUIRED", "LEASE_HEARTBEAT",
+              "LEASE_DRAINING", "LEASE_RELEASED", "LEASE_BLOCKED",
+              "RECOVERY_STARTED", "RECOVERY_RELEASED", "BLOCK_CLEARED"
+            ]
+          },
+          "details": {"type": "object"},
+          "previous_hash": {"$ref": "#/definitions/sha256"},
+          "event_hash": {"$ref": "#/definitions/sha256"}
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"state": {"enum": ["ACTIVE", "DRAINING", "RECOVERING"]}}},
+      "then": {"properties": {"lease": {"type": "object"}}}
+    },
+    {
+      "if": {"properties": {"state": {"const": "IDLE"}}},
+      "then": {"properties": {"lease": {"type": "null"}, "blocked_reasons": {"maxItems": 0}}}
+    }
+  ],
+  "definitions": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

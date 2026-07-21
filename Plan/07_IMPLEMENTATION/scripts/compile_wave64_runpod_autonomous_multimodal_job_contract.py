@@ -17,10 +17,14 @@ import jsonschema
 ROOT = Path(__file__).resolve().parents[3]
 SCHEMA_PATH = ROOT / "Plan/08_SCHEMAS/runpod_autonomous_multimodal_job_contract.schema.json"
 CONTRACT_ID_PLACEHOLDER = "0" * 64
-REQUIRED_BASE_ROLES = {
+PRODUCTION_REQUIRED_ROLES = {
     "W64-AQA-ROLE-DETERMINISTIC",
     "W64-AQA-ROLE-PRIMARY-VISUAL",
     "W64-AQA-ROLE-INDEPENDENT-JUROR",
+}
+SHADOW_REQUIRED_ROLES = {
+    "W64-AQA-ROLE-DETERMINISTIC",
+    "W64-AQA-ROLE-STRICT-VISUAL",
 }
 
 
@@ -45,11 +49,19 @@ def _semantic_errors(contract: dict[str, Any]) -> list[str]:
     role_ids = [role["role_id"] for role in roles]
     role_map = {role["role_id"]: role for role in roles}
     required = set(profile["required_approval_roles"])
+    expected_required = (
+        PRODUCTION_REQUIRED_ROLES
+        if contract["execution_mode"] == "production_release"
+        else SHADOW_REQUIRED_ROLES
+    )
 
     if len(role_ids) != len(set(role_ids)):
         errors.append("review role IDs must be unique")
-    if not REQUIRED_BASE_ROLES.issubset(required):
-        errors.append("required approvals must include deterministic, primary visual, and independent juror")
+    if not expected_required.issubset(required):
+        errors.append(
+            "required approvals do not satisfy the selected execution mode: "
+            f"missing {sorted(expected_required - required)}"
+        )
     if not required.issubset(role_map):
         errors.append("every required approval role must have a review role declaration")
     for role_id in required & set(role_map):
@@ -66,6 +78,21 @@ def _semantic_errors(contract: dict[str, Any]) -> list[str]:
     missing_bindings = required - set(binding_ids)
     if missing_bindings:
         errors.append(f"required approval roles lack model bindings: {sorted(missing_bindings)}")
+    qualification = {item["role_id"]: item["qualification_state"] for item in bindings}
+    expected_preflight = (
+        "READY_FOR_LEASE"
+        if required and all(qualification.get(role_id) == "QUALIFIED" for role_id in required)
+        else "HOLD_UNQUALIFIED_REQUIRED_ROLE"
+    )
+    if contract["preflight_disposition"] != expected_preflight:
+        errors.append("preflight disposition does not match required-role qualification")
+    expected_promotion = (
+        "PRODUCTION_ELIGIBLE_IF_ALL_GATES_PASS"
+        if contract["execution_mode"] == "production_release"
+        else "EVIDENCE_ONLY"
+    )
+    if contract["promotion_disposition"] != expected_promotion:
+        errors.append("promotion disposition does not match execution mode")
 
     gate_ids = [gate["gate_id"] for gate in profile["hard_gates"]]
     if len(gate_ids) != len(set(gate_ids)):
@@ -89,6 +116,8 @@ def compile_contract(draft: dict[str, Any]) -> dict[str, Any]:
         raise ContractError("draft must not supply contract_id")
     if "preflight_disposition" in draft:
         raise ContractError("draft must not supply preflight_disposition")
+    if "promotion_disposition" in draft:
+        raise ContractError("draft must not supply promotion_disposition")
 
     contract = copy.deepcopy(draft)
     bindings = contract.get("provenance", {}).get("model_bindings", [])
@@ -98,6 +127,11 @@ def compile_contract(draft: dict[str, Any]) -> dict[str, Any]:
         "READY_FOR_LEASE"
         if required and all(qualification.get(role_id) == "QUALIFIED" for role_id in required)
         else "HOLD_UNQUALIFIED_REQUIRED_ROLE"
+    )
+    contract["promotion_disposition"] = (
+        "PRODUCTION_ELIGIBLE_IF_ALL_GATES_PASS"
+        if contract.get("execution_mode") == "production_release"
+        else "EVIDENCE_ONLY"
     )
     contract["contract_id"] = CONTRACT_ID_PLACEHOLDER
 

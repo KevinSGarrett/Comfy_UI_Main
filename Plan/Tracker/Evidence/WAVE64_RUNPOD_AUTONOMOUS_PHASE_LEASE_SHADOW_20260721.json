@@ -1,0 +1,42 @@
+{
+  "schema_version": "wave64.aqa.phase_lease_shadow.v1",
+  "program_id": "W64-AQA",
+  "tracker_id": "W64-AQA-003",
+  "observed_at": "2026-07-21T19:24:44.186427Z",
+  "runtime": {
+    "pod_id": "1q4ji0gg1fkhvt",
+    "gpu_profile": "1x RTX 6000 Ada 48GB",
+    "hourly_compute_usd": 0.77,
+    "memory_gib": 62,
+    "vcpu_count": 16,
+    "network_volume_id": "o9qv2ld91c"
+  },
+  "read_only_observations": {
+    "comfyui_queue_http_status": 200,
+    "comfyui_system_stats_http_status": 200,
+    "queue_running_count": 0,
+    "queue_pending_count": 0,
+    "device_count": 1,
+    "vram_total_bytes": 51002867712,
+    "vram_free_bytes": 50382110720,
+    "ssh_resource_probe": "TIMED_OUT",
+    "fresh_overlay_used_percent": null
+  },
+  "lease_disposition": "NOT_ACQUIRED_INCOMPLETE_RESOURCE_SNAPSHOT",
+  "blocking_reason": "Fresh overlay/storage pressure could not be read after the exact SSH endpoint timed out. The earlier 79 percent observation was not reused as current evidence.",
+  "resource_mutations": [],
+  "claims_proven": [
+    "ComfyUI proxy was healthy at observation time",
+    "ComfyUI queue was idle at observation time",
+    "GPU reported sufficient free VRAM for a small shadow phase at observation time",
+    "controller policy fails closed when a required resource field is unavailable"
+  ],
+  "claims_not_proven": [
+    "current overlay pressure",
+    "runtime phase-lease acquisition",
+    "model unload/reload behavior",
+    "runtime OOM crash or recovery",
+    "any model quality or product promotion"
+  ],
+  "next_action": "Restore a bounded command path or equivalent storage metric, then bind an evidence-only compiled contract to one no-generation shadow lease."
+}
