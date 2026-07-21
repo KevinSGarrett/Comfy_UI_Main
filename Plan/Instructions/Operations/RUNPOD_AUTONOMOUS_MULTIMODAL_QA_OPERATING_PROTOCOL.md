@@ -13,6 +13,11 @@ Program: `W64-AQA`
 5. Treat all supplied sibling repositories, transfers, backups, WSL images,
    MaskFactory stores, and `F:/Models` as read-only evidence unless a separate
    exact-path reconciliation authorizes bytes.
+6. An idle ComfyUI queue and empty Ollama residency are necessary but not
+   sufficient. Classify active foreign GPU workloads immediately before lease
+   acquisition and again before inference. If one is present, emit a no-action
+   hold receipt, preserve it, and switch tracker lanes; never kill, unload, or
+   delay the foreign owner through an uncoordinated lock.
 
 ## 2. Storage rules
 

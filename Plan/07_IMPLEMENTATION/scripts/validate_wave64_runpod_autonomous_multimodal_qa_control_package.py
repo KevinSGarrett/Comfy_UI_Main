@@ -34,6 +34,8 @@ PATHS = {
     / "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_PHASE_LEASE_SHADOW_20260721.json",
     "phase_lease_runtime_canary_evidence": ROOT
     / "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_PHASE_LEASE_RUNTIME_CANARY_20260721T213703Z.json",
+    "strict_model_admission_hold_evidence": ROOT
+    / "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_STRICT_MODEL_ADMISSION_HOLD_20260721T215000Z.json",
     "operations": ROOT
     / "Plan/Instructions/Operations/RUNPOD_AUTONOMOUS_MULTIMODAL_QA_OPERATING_PROTOCOL.md",
     "qa": ROOT
@@ -126,6 +128,8 @@ PATHS = {
     / "Plan/07_IMPLEMENTATION/scripts/resolve_wave64_runpod_autonomous_review_disagreement.py",
     "phase_lease_runtime_canary_producer": ROOT
     / "Plan/07_IMPLEMENTATION/scripts/produce_wave64_runpod_autonomous_phase_lease_runtime_canary.py",
+    "strict_model_runtime_canary_producer": ROOT
+    / "Plan/07_IMPLEMENTATION/scripts/produce_wave64_runpod_autonomous_strict_model_runtime_canary.py",
 }
 
 SECRET_PATTERNS = {
@@ -162,6 +166,9 @@ def collect_errors() -> list[str]:
         phase_lease_shadow_evidence = load_json(PATHS["phase_lease_shadow_evidence"])
         phase_lease_runtime_canary_evidence = load_json(
             PATHS["phase_lease_runtime_canary_evidence"]
+        )
+        strict_model_admission_hold_evidence = load_json(
+            PATHS["strict_model_admission_hold_evidence"]
         )
         registry = load_json(PATHS["registry"])
         schema = load_json(PATHS["schema"])
@@ -219,6 +226,7 @@ def collect_errors() -> list[str]:
         capacity_evidence,
         phase_lease_shadow_evidence,
         phase_lease_runtime_canary_evidence,
+        strict_model_admission_hold_evidence,
         registry,
     )
     for document in json_docs:
@@ -244,6 +252,23 @@ def collect_errors() -> list[str]:
         errors.append("phase lease admission canary must not claim model inference")
     if phase_lease_runtime_canary_evidence.get("resource_mutations") != []:
         errors.append("phase lease admission canary must not contain resource mutations")
+    if strict_model_admission_hold_evidence.get("admission_disposition") != "BLOCKED_NO_ACTION":
+        errors.append("strict model admission hold must remain a no-action block")
+    required_hold_flags = {
+        "inference_executed": False,
+        "model_load_executed": False,
+        "lease_acquired": False,
+        "product_approval_granted": False,
+    }
+    for key, expected in required_hold_flags.items():
+        if strict_model_admission_hold_evidence.get(key) is not expected:
+            errors.append(f"strict model admission hold {key} must be {expected}")
+    if strict_model_admission_hold_evidence.get("resource_mutations") != []:
+        errors.append("strict model admission hold must not contain resource mutations")
+    if "ACTIVE_FOREIGN_GPU_WORKLOAD_PRESENT" not in strict_model_admission_hold_evidence.get(
+        "blocker_codes", []
+    ):
+        errors.append("strict model admission hold must bind the observed foreign workload")
 
     runtime = registry.get("runtime_policy", {})
     expected_limits = {
