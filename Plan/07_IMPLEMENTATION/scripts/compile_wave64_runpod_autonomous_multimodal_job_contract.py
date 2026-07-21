@@ -40,7 +40,7 @@ DETERMINISTIC_SHADOW_REQUIRED_ROLES = {"W64-AQA-ROLE-DETERMINISTIC"}
 def _expected_required_roles(contract: dict[str, Any]) -> set[str]:
     modality = contract["modality"]
     if contract["execution_mode"] == "shadow_qualification":
-        if modality in {"audio", "workflow"}:
+        if modality in {"audio", "av", "workflow"}:
             return DETERMINISTIC_SHADOW_REQUIRED_ROLES
         return VISUAL_SHADOW_REQUIRED_ROLES
     if modality == "audio":

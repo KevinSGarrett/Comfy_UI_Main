@@ -1,0 +1,105 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_av_shadow_evidence.schema.json",
+  "title": "Wave64 Autonomous AV Shadow Evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "evidence_id", "generated_at", "row_id", "source",
+    "technical_contract", "measurement", "decoded_frame_review", "release_gates",
+    "product_promotion_eligible", "overall_disposition"
+  ],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.av_shadow_evidence.v1"},
+    "evidence_id": {"$ref": "#/definitions/sha256"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "row_id": {"const": "W64-AQA-006"},
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mux_relative_path", "mux_sha256", "source_video_relative_path",
+        "source_video_sha256", "manifest_relative_path", "manifest_sha256",
+        "manifest_hashes_match"
+      ],
+      "properties": {
+        "mux_relative_path": {"$ref": "#/definitions/relative_path"},
+        "mux_sha256": {"$ref": "#/definitions/sha256"},
+        "source_video_relative_path": {"$ref": "#/definitions/relative_path"},
+        "source_video_sha256": {"$ref": "#/definitions/sha256"},
+        "manifest_relative_path": {"$ref": "#/definitions/relative_path"},
+        "manifest_sha256": {"$ref": "#/definitions/sha256"},
+        "manifest_hashes_match": {"const": true}
+      }
+    },
+    "technical_contract": {
+      "type": "object",
+      "required": ["schema_version", "contract_id", "modality", "preflight_disposition", "promotion_disposition"],
+      "properties": {
+        "schema_version": {"const": "wave64.aqa.job_contract.v1"},
+        "modality": {"const": "av"},
+        "preflight_disposition": {"const": "READY_FOR_LEASE"},
+        "promotion_disposition": {"const": "EVIDENCE_ONLY"}
+      }
+    },
+    "measurement": {
+      "type": "object",
+      "required": ["schema_version", "measurement_id", "artifact_sha256", "av_container", "disposition"],
+      "properties": {
+        "schema_version": {"const": "wave64.aqa.audio_measurement.v1"},
+        "artifact_sha256": {"$ref": "#/definitions/sha256"},
+        "av_container": {"type": "object"},
+        "disposition": {"enum": ["PASS_DETERMINISTIC_GATES", "FAIL_DETERMINISTIC_GATES"]}
+      }
+    },
+    "decoded_frame_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "timestamp_seconds", "frame_sha256", "observations", "single_frame_only",
+        "motion_review_claimed", "av_sync_review_claimed", "product_visual_approval_claimed"
+      ],
+      "properties": {
+        "timestamp_seconds": {"type": "number", "minimum": 0},
+        "frame_sha256": {"$ref": "#/definitions/sha256"},
+        "observations": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "single_frame_only": {"const": true},
+        "motion_review_claimed": {"const": false},
+        "av_sync_review_claimed": {"const": false},
+        "product_visual_approval_claimed": {"const": false}
+      }
+    },
+    "release_gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["strict_visual", "audio_semantic", "independent_juror"],
+      "properties": {
+        "strict_visual": {"$ref": "#/definitions/release_gate"},
+        "audio_semantic": {"$ref": "#/definitions/release_gate"},
+        "independent_juror": {"$ref": "#/definitions/release_gate"}
+      }
+    },
+    "product_promotion_eligible": {"const": false},
+    "overall_disposition": {
+      "enum": [
+        "PASS_DETERMINISTIC_AV_SHADOW_BLOCKED_SEMANTIC_AUTHORITIES",
+        "FAIL_DETERMINISTIC_AV_SHADOW"
+      ]
+    }
+  },
+  "definitions": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "relative_path": {"type": "string", "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).{1,512}$"},
+    "release_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role_id", "registry_state", "runtime_executed", "disposition"],
+      "properties": {
+        "role_id": {"type": "string", "pattern": "^W64-AQA-ROLE-[A-Z0-9-]+$"},
+        "registry_state": {"type": "string", "minLength": 1},
+        "runtime_executed": {"const": false},
+        "disposition": {"enum": ["RUNTIME_NOT_EXECUTED", "BLOCKED_UNQUALIFIED"]}
+      }
+    }
+  }
+}

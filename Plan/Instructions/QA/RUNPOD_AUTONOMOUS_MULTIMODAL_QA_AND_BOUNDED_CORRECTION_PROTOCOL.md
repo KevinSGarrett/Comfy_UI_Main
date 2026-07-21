@@ -61,6 +61,11 @@ spectrogram inspection is technical diagnostic review, never listening, ASR,
 speaker, event-semantic, perceptual, or AV-sync approval. The canonical retained
 mix proof is
 `Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_AUDIO_SHADOW_20260721T221732Z.json`.
+The paired lossless AV-mux proof is
+`Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_AV_SHADOW_20260721T222452Z.json`.
+It adds full decode, stream-start, and audio/video duration alignment, but its
+single decoded-frame diagnostic grants no motion, continuity, AV-sync semantic,
+perceptual-audio, or product-visual authority.
 
 ## Gate AQA-06: golden masks
 

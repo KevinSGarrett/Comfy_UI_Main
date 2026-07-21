@@ -78,6 +78,12 @@ visual reviewer for audio authority and never interpret waveform/spectrogram
 inspection as perceptual playback. The current canonical receipt is
 `Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_AUDIO_SHADOW_20260721T221732Z.json`;
 it passes deterministic gates only and cannot promote product.
+For AV technical shadowing, use the same deterministic-only stage and require
+zero-tolerance lineage plus bounded container start/duration alignment. A
+decoded still proves decode and gross frame structure only. The paired receipt
+`Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_AV_SHADOW_20260721T222452Z.json`
+has zero stream-start and duration deltas, but strict motion, semantic audio,
+AV-sync, and independent-juror gates remain unexecuted or unqualified.
 
 ## 4A. One-pod capacity migration
 

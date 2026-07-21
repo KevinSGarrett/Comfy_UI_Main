@@ -298,6 +298,61 @@ def test_audio_production_requires_semantic_audio_and_independent_juror() -> Non
         compiler.compile_contract(missing_semantic)
 
 
+def test_av_technical_shadow_is_deterministic_without_fabricated_semantics() -> None:
+    compiler = load_compiler()
+    draft = valid_draft("av")
+    deterministic = draft["quality_profile"]["review_roles"][0]
+    strict_visual = {
+        "role_id": "W64-AQA-ROLE-STRICT-VISUAL",
+        "authority": "strict",
+        "can_approve": False,
+        "required": False,
+    }
+    audio_semantic = {
+        "role_id": "W64-AQA-ROLE-AUDIO-SEMANTIC",
+        "authority": "audio_semantic",
+        "can_approve": False,
+        "required": False,
+    }
+    draft["execution_mode"] = "shadow_qualification"
+    draft["quality_profile"]["review_roles"] = [
+        deterministic,
+        strict_visual,
+        audio_semantic,
+    ]
+    draft["quality_profile"]["required_approval_roles"] = [
+        "W64-AQA-ROLE-DETERMINISTIC"
+    ]
+    draft["provenance"]["model_bindings"] = [
+        draft["provenance"]["model_bindings"][0]
+    ]
+    draft["video_spec"] = {
+        "width": 480,
+        "height": 640,
+        "fps": 24.0,
+        "duration_seconds": 2.04,
+        "sample_policy": "all_frames",
+    }
+    draft["audio_spec"] = {
+        "sample_rate_hz": 48000,
+        "channels": 2,
+        "duration_seconds": 2.04,
+        "lufs_target": -18.0,
+    }
+    draft["av_spec"] = {"max_sync_error_ms": 50.0, "alignment_required": True}
+    contract = compiler.compile_contract(draft)
+    assert contract["preflight_disposition"] == "READY_FOR_LEASE"
+    assert contract["quality_profile"]["required_approval_roles"] == [
+        "W64-AQA-ROLE-DETERMINISTIC"
+    ]
+    assert all(
+        role["can_approve"] is False
+        for role in contract["quality_profile"]["review_roles"]
+        if role["role_id"] != "W64-AQA-ROLE-DETERMINISTIC"
+    )
+    compiler.verify_contract(contract)
+
+
 def test_tampering_breaks_immutable_identity() -> None:
     compiler = load_compiler()
     contract = compiler.compile_contract(valid_draft())

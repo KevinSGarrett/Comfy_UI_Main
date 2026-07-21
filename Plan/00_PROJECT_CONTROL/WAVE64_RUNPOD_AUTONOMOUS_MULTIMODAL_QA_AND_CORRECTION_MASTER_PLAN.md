@@ -243,6 +243,14 @@ therefore product promotion remains false and the semantic audio gate stays
 `BLOCKED_UNQUALIFIED`. This lane is non-GPU and does not wait for 2x A40 stock or
 compete with a MaskFactory GPU lease.
 
+The paired lossless AV review mux is retained at
+`Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_AV_SHADOW_20260721T222452Z.json`.
+Its FFV1 video and PCM stereo audio fully decode, and both stream-start and
+audio/video duration deltas measure 0 ms. A decoded 1.20-second frame was
+inspected for gross structure only. Strict motion/continuity review, listening,
+semantic AV sync, and independent-juror approval did not execute, so this second
+real shadow also remains evidence-only and cannot promote product.
+
 ### Golden masks
 
 MaskFactory or another admitted producer may supply candidate masks and alpha

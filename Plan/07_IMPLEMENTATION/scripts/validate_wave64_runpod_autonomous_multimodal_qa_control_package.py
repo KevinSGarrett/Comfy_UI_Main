@@ -70,6 +70,12 @@ PATHS = {
     / "Plan/07_IMPLEMENTATION/scripts/produce_wave64_runpod_autonomous_audio_shadow_evidence.py",
     "audio_shadow_evidence": ROOT
     / "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_AUDIO_SHADOW_20260721T221732Z.json",
+    "av_shadow_evidence_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_av_shadow_evidence.schema.json",
+    "av_shadow_evidence_producer": ROOT
+    / "Plan/07_IMPLEMENTATION/scripts/produce_wave64_runpod_autonomous_av_shadow_evidence.py",
+    "av_shadow_evidence": ROOT
+    / "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_AV_SHADOW_20260721T222452Z.json",
     "mask_measurement_schema": ROOT
     / "Plan/08_SCHEMAS/runpod_autonomous_mask_measurement.schema.json",
     "mask_measurement": ROOT
@@ -187,6 +193,8 @@ def collect_errors() -> list[str]:
         audio_measurement_schema = load_json(PATHS["audio_measurement_schema"])
         audio_shadow_evidence_schema = load_json(PATHS["audio_shadow_evidence_schema"])
         audio_shadow_evidence = load_json(PATHS["audio_shadow_evidence"])
+        av_shadow_evidence_schema = load_json(PATHS["av_shadow_evidence_schema"])
+        av_shadow_evidence = load_json(PATHS["av_shadow_evidence"])
         mask_measurement_schema = load_json(PATHS["mask_measurement_schema"])
         maskfactory_consumer_contract_schema = load_json(
             PATHS["maskfactory_consumer_contract_schema"]
@@ -300,6 +308,29 @@ def collect_errors() -> list[str]:
     )
     if audio_required_roles != {"W64-AQA-ROLE-DETERMINISTIC"}:
         errors.append("audio technical shadow must require deterministic authority only")
+    if (
+        av_shadow_evidence.get("overall_disposition")
+        != "PASS_DETERMINISTIC_AV_SHADOW_BLOCKED_SEMANTIC_AUTHORITIES"
+    ):
+        errors.append("canonical AV shadow must pass deterministic gates and block semantic authorities")
+    if av_shadow_evidence.get("product_promotion_eligible") is not False:
+        errors.append("canonical AV shadow must not grant product promotion")
+    if av_shadow_evidence.get("measurement", {}).get("disposition") != "PASS_DETERMINISTIC_GATES":
+        errors.append("canonical AV shadow deterministic measurement must pass")
+    if av_shadow_evidence.get("decoded_frame_review", {}).get("motion_review_claimed") is not False:
+        errors.append("single decoded AV frame must not claim motion review")
+    av_metrics = av_shadow_evidence.get("measurement", {}).get("metrics", {})
+    if av_metrics.get("av_stream_start_offset_ms") != 0.0:
+        errors.append("canonical AV shadow stream start offset must be zero")
+    if av_metrics.get("av_stream_duration_delta_ms") != 0.0:
+        errors.append("canonical AV shadow stream duration delta must be zero")
+    av_required_roles = set(
+        av_shadow_evidence.get("technical_contract", {})
+        .get("quality_profile", {})
+        .get("required_approval_roles", [])
+    )
+    if av_required_roles != {"W64-AQA-ROLE-DETERMINISTIC"}:
+        errors.append("AV technical shadow must require deterministic authority only")
 
     runtime = registry.get("runtime_policy", {})
     expected_limits = {
@@ -455,6 +486,11 @@ def collect_errors() -> list[str]:
             audio_shadow_evidence_schema,
             format_checker=jsonschema.FormatChecker(),
         ).validate(audio_shadow_evidence)
+        jsonschema.Draft7Validator.check_schema(av_shadow_evidence_schema)
+        jsonschema.Draft7Validator(
+            av_shadow_evidence_schema,
+            format_checker=jsonschema.FormatChecker(),
+        ).validate(av_shadow_evidence)
         jsonschema.Draft7Validator.check_schema(mask_measurement_schema)
         jsonschema.Draft7Validator.check_schema(maskfactory_consumer_contract_schema)
         jsonschema.Draft7Validator.check_schema(tool_gateway_request_schema)

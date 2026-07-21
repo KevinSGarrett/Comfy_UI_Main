@@ -1,0 +1,409 @@
+{
+  "decoded_frame_review": {
+    "av_sync_review_claimed": false,
+    "frame_sha256": "ff48edbc0bf8af4f37caa20ebf2ae231141d3a0691e9ac505d48d0bb707f67ae",
+    "motion_review_claimed": false,
+    "observations": [
+      "The decoded 1.20-second frame is structurally intact at portrait geometry and shows the intended full-body subject without visible decode corruption.",
+      "One still frame cannot establish motion quality, temporal continuity, event alignment, lip sync, perceptual audio quality, or product approval."
+    ],
+    "product_visual_approval_claimed": false,
+    "single_frame_only": true,
+    "timestamp_seconds": 1.2
+  },
+  "evidence_id": "3e0b116302dcce6f2463904c7178563c120e5f1881442ddd703fbdf8b6a633f2",
+  "generated_at": "2026-07-21T22:24:52Z",
+  "measurement": {
+    "artifact_sha256": "03b5b55f871d7460c37e97bacd53968d183b0e1adc3022fb2daffc5e056a9b7d",
+    "audio_stream": {
+      "channels": 2,
+      "codec_name": "pcm_s16le",
+      "sample_count": 97920,
+      "sample_format": "s16",
+      "sample_rate_hz": 48000,
+      "start_time_seconds": 0.0
+    },
+    "av_container": {
+      "video_codec_name": "ffv1",
+      "video_duration_seconds": 2.04,
+      "video_start_time_seconds": 0.0
+    },
+    "container": {
+      "duration_seconds": 2.04,
+      "format_name": "matroska,webm",
+      "full_decode_pass": true,
+      "size_bytes": 2359402
+    },
+    "contract_id": "99dfbc93ed0474901993fc260979b4ad2eea967d65046ed38a48e10c98d620ea",
+    "disposition": "PASS_DETERMINISTIC_GATES",
+    "evaluator_version": "w64-aqa-audio-measure-v1",
+    "gate_results": [
+      {
+        "gate_id": "contract-sample-rate",
+        "metric": "sample_rate_delta_hz",
+        "observed": 0,
+        "on_failure": "REJECT",
+        "operator": "eq",
+        "status": "PASS",
+        "threshold": 0
+      },
+      {
+        "gate_id": "contract-channels",
+        "metric": "channel_delta",
+        "observed": 0,
+        "on_failure": "REJECT",
+        "operator": "eq",
+        "status": "PASS",
+        "threshold": 0
+      },
+      {
+        "gate_id": "contract-duration",
+        "metric": "duration_delta_seconds",
+        "observed": 0.0,
+        "on_failure": "REJECT",
+        "operator": "lte",
+        "status": "PASS",
+        "threshold": 0.05
+      },
+      {
+        "gate_id": "contract-loudness",
+        "metric": "integrated_lufs_delta",
+        "observed": 0.0,
+        "on_failure": "REPAIR",
+        "operator": "lte",
+        "status": "PASS",
+        "threshold": 2.0
+      },
+      {
+        "gate_id": "contract-av-stream-start-offset",
+        "metric": "av_stream_start_offset_ms",
+        "observed": 0.0,
+        "on_failure": "REJECT",
+        "operator": "lte",
+        "status": "PASS",
+        "threshold": 50.0
+      },
+      {
+        "gate_id": "decode",
+        "metric": "decode_success",
+        "observed": true,
+        "on_failure": "REJECT",
+        "operator": "eq",
+        "status": "PASS",
+        "threshold": true
+      },
+      {
+        "gate_id": "clipping",
+        "metric": "clipped_sample_fraction",
+        "observed": 0.0,
+        "on_failure": "REPAIR",
+        "operator": "lte",
+        "status": "PASS",
+        "threshold": 0.0
+      },
+      {
+        "gate_id": "dc-offset",
+        "metric": "max_abs_dc_offset",
+        "observed": 0.00010783220428267336,
+        "on_failure": "REPAIR",
+        "operator": "lte",
+        "status": "PASS",
+        "threshold": 0.01
+      },
+      {
+        "gate_id": "silence",
+        "metric": "silence_frame_fraction",
+        "observed": 0.0,
+        "on_failure": "REPAIR",
+        "operator": "lt",
+        "status": "PASS",
+        "threshold": 0.9
+      },
+      {
+        "gate_id": "true-peak",
+        "metric": "true_peak_dbfs",
+        "observed": -3.1,
+        "on_failure": "REPAIR",
+        "operator": "lte",
+        "status": "PASS",
+        "threshold": -1.0
+      },
+      {
+        "gate_id": "stereo-phase",
+        "metric": "stereo_phase_correlation",
+        "observed": 0.9993507306901861,
+        "on_failure": "REPAIR",
+        "operator": "gte",
+        "status": "PASS",
+        "threshold": -0.9
+      },
+      {
+        "gate_id": "av-duration-alignment",
+        "metric": "av_stream_duration_delta_ms",
+        "observed": 0.0,
+        "on_failure": "HOLD",
+        "operator": "lte",
+        "status": "PASS",
+        "threshold": 50.0
+      }
+    ],
+    "loudness": {
+      "integrated_lufs": -18.0,
+      "measurement_standard": "FFmpeg ebur128 peak=true",
+      "true_peak_dbfs": -3.1
+    },
+    "measurement_id": "7bfca08bc46988c12cfbade18ae5848417779dae2e004e2db7ff13030f070de8",
+    "metric_selected_spans": [
+      {
+        "category": "absolute_peak",
+        "end_seconds": 0.2641875,
+        "severity_value": 0.697418212890625,
+        "start_seconds": 0.26416666666666666
+      },
+      {
+        "category": "largest_discontinuity",
+        "end_seconds": 0.5084375,
+        "severity_value": 0.17010498046875,
+        "start_seconds": 0.5084166666666666
+      }
+    ],
+    "metrics": {
+      "absolute_peak": 0.697418212890625,
+      "av_stream_duration_delta_ms": 0.0,
+      "av_stream_start_offset_ms": 0.0,
+      "channel_delta": 0,
+      "channels": 2,
+      "clipped_sample_fraction": 0.0,
+      "decode_success": true,
+      "duplicate_segment_fraction": 0.0,
+      "duration_delta_seconds": 0.0,
+      "duration_seconds": 2.04,
+      "integrated_lufs": -18.0,
+      "integrated_lufs_delta": 0.0,
+      "max_abs_dc_offset": 0.00010783220428267336,
+      "max_channel_rms_db_delta": 0.001599278512621538,
+      "max_sample_discontinuity": 0.17010498046875,
+      "peak_dbfs": -3.1301343065476637,
+      "rms_dbfs": -21.741567159980015,
+      "sample_count": 97920,
+      "sample_rate_delta_hz": 0,
+      "sample_rate_hz": 48000,
+      "silence_frame_fraction": 0.0,
+      "spectral_centroid_hz": 2611.535917785715,
+      "stereo_phase_correlation": 0.9993507306901861,
+      "true_peak_dbfs": -3.1
+    },
+    "schema_version": "wave64.aqa.audio_measurement.v1"
+  },
+  "overall_disposition": "PASS_DETERMINISTIC_AV_SHADOW_BLOCKED_SEMANTIC_AUTHORITIES",
+  "product_promotion_eligible": false,
+  "release_gates": {
+    "audio_semantic": {
+      "disposition": "BLOCKED_UNQUALIFIED",
+      "registry_state": "BLOCKED_UNQUALIFIED",
+      "role_id": "W64-AQA-ROLE-AUDIO-SEMANTIC",
+      "runtime_executed": false
+    },
+    "independent_juror": {
+      "disposition": "BLOCKED_UNQUALIFIED",
+      "registry_state": "BLOCKED_UNQUALIFIED",
+      "role_id": "W64-AQA-ROLE-INDEPENDENT-JUROR",
+      "runtime_executed": false
+    },
+    "strict_visual": {
+      "disposition": "RUNTIME_NOT_EXECUTED",
+      "registry_state": "ACTIVE_STRICT_SCOPED",
+      "role_id": "W64-AQA-ROLE-STRICT-VISUAL",
+      "runtime_executed": false
+    }
+  },
+  "row_id": "W64-AQA-006",
+  "schema_version": "wave64.aqa.av_shadow_evidence.v1",
+  "source": {
+    "manifest_hashes_match": true,
+    "manifest_relative_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_audio_chain_20260714T163400-0500/delivery_manifest.json",
+    "manifest_sha256": "9eb91fb2c84105b470a27c939babd9ca8537045f3818f01f3187779e354c0a07",
+    "mux_relative_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_audio_chain_20260714T163400-0500/review_mux_ffv1_pcm48_stereo.mkv",
+    "mux_sha256": "03b5b55f871d7460c37e97bacd53968d183b0e1adc3022fb2daffc5e056a9b7d",
+    "source_video_relative_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_audio_chain_20260714T163400-0500/source_video_ffv1.mkv",
+    "source_video_sha256": "671c3b064effbc1081ffc11f22d910402bbd229eebb0d2bd49c8a2b280db27d5"
+  },
+  "technical_contract": {
+    "attempt_policy": {
+      "max_no_progress_cycles": 0,
+      "max_repairs_per_defect": 0,
+      "max_total_generations": 1
+    },
+    "audio_spec": {
+      "channels": 2,
+      "duration_seconds": 2.04,
+      "lufs_target": -18.0,
+      "sample_rate_hz": 48000
+    },
+    "authority_policy": {
+      "ec2_allowed": false,
+      "external_inference_allowed": false,
+      "generation_host": "runpod_only",
+      "local_comfyui_allowed": false,
+      "model_can_promote": false,
+      "secrets_visible_to_models": false,
+      "triage_can_approve": false,
+      "workflow_model_proposal_only": true
+    },
+    "av_spec": {
+      "alignment_required": true,
+      "max_sync_error_ms": 50.0
+    },
+    "contract_id": "99dfbc93ed0474901993fc260979b4ad2eea967d65046ed38a48e10c98d620ea",
+    "created_at": "2026-07-21T22:24:52Z",
+    "execution_mode": "shadow_qualification",
+    "job_id": "W64-AQA-JOB-row006-canonical-av-shadow-v1",
+    "modality": "av",
+    "preflight_disposition": "READY_FOR_LEASE",
+    "promotion_disposition": "EVIDENCE_ONLY",
+    "provenance": {
+      "calibration_ids": [
+        "W64-AQA-CAL-row006-av-9eb91fb2c84105b4"
+      ],
+      "input_artifacts": [
+        {
+          "artifact_id": "delivery-manifest",
+          "durable_relative_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_audio_chain_20260714T163400-0500/delivery_manifest.json",
+          "sha256": "9eb91fb2c84105b470a27c939babd9ca8537045f3818f01f3187779e354c0a07"
+        },
+        {
+          "artifact_id": "source-video",
+          "durable_relative_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_audio_chain_20260714T163400-0500/source_video_ffv1.mkv",
+          "sha256": "671c3b064effbc1081ffc11f22d910402bbd229eebb0d2bd49c8a2b280db27d5"
+        },
+        {
+          "artifact_id": "review-mux",
+          "durable_relative_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_audio_chain_20260714T163400-0500/review_mux_ffv1_pcm48_stereo.mkv",
+          "sha256": "03b5b55f871d7460c37e97bacd53968d183b0e1adc3022fb2daffc5e056a9b7d"
+        }
+      ],
+      "model_bindings": [
+        {
+          "checkpoint_sha256": "79ad6f18c907f478894c3771d3c3c02c987e5bf80ac8c111f819ddbf3d98b323",
+          "model_id": "deterministic-tool/measure_wave64_runpod_autonomous_audio_quality.py",
+          "qualification_state": "QUALIFIED",
+          "role_id": "W64-AQA-ROLE-DETERMINISTIC",
+          "runtime_digest": "ffmpeg-version-sha256:1c02a15d2016905bddffb298be36e9c05c87d95ddd94f7ce98c3622015d3f3a0"
+        }
+      ],
+      "workflow_sha256": "9eb91fb2c84105b470a27c939babd9ca8537045f3818f01f3187779e354c0a07"
+    },
+    "quality_profile": {
+      "hard_gates": [
+        {
+          "gate_id": "decode",
+          "metric": "decode_success",
+          "on_failure": "REJECT",
+          "operator": "eq",
+          "threshold": true
+        },
+        {
+          "gate_id": "clipping",
+          "metric": "clipped_sample_fraction",
+          "on_failure": "REPAIR",
+          "operator": "lte",
+          "threshold": 0.0
+        },
+        {
+          "gate_id": "dc-offset",
+          "metric": "max_abs_dc_offset",
+          "on_failure": "REPAIR",
+          "operator": "lte",
+          "threshold": 0.01
+        },
+        {
+          "gate_id": "silence",
+          "metric": "silence_frame_fraction",
+          "on_failure": "REPAIR",
+          "operator": "lt",
+          "threshold": 0.9
+        },
+        {
+          "gate_id": "true-peak",
+          "metric": "true_peak_dbfs",
+          "on_failure": "REPAIR",
+          "operator": "lte",
+          "threshold": -1.0
+        },
+        {
+          "gate_id": "stereo-phase",
+          "metric": "stereo_phase_correlation",
+          "on_failure": "REPAIR",
+          "operator": "gte",
+          "threshold": -0.9
+        },
+        {
+          "gate_id": "av-duration-alignment",
+          "metric": "av_stream_duration_delta_ms",
+          "on_failure": "HOLD",
+          "operator": "lte",
+          "threshold": 50.0
+        }
+      ],
+      "profile_id": "w64-aqa-row006-canonical-av-technical-v1",
+      "required_approval_roles": [
+        "W64-AQA-ROLE-DETERMINISTIC"
+      ],
+      "review_roles": [
+        {
+          "authority": "deterministic",
+          "can_approve": true,
+          "required": true,
+          "role_id": "W64-AQA-ROLE-DETERMINISTIC"
+        },
+        {
+          "authority": "strict",
+          "can_approve": false,
+          "required": false,
+          "role_id": "W64-AQA-ROLE-STRICT-VISUAL"
+        },
+        {
+          "authority": "audio_semantic",
+          "can_approve": false,
+          "required": false,
+          "role_id": "W64-AQA-ROLE-AUDIO-SEMANTIC"
+        }
+      ]
+    },
+    "requested_outputs": [
+      {
+        "durable_relative_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_audio_chain_20260714T163400-0500/review_mux_ffv1_pcm48_stereo.mkv",
+        "media_type": "video/x-matroska",
+        "output_id": "retained-review-mux"
+      }
+    ],
+    "resource_budget": {
+      "deadline_seconds": 120,
+      "max_gpu_hour_usd": 0.01,
+      "max_gpu_seconds": 1,
+      "max_output_bytes": 2359402,
+      "secondary_burst": {
+        "eligible_gpu_classes": [],
+        "enabled": false,
+        "idle_ttl_seconds": 0,
+        "max_cost_usd": 0,
+        "max_seconds": 0
+      }
+    },
+    "revision": 1,
+    "rollback_policy": {
+      "previous_accepted_artifact_sha256": null,
+      "promotion_requires_replay": true,
+      "retain_failed_evidence": true,
+      "revert_on_regression": true
+    },
+    "schema_version": "wave64.aqa.job_contract.v1",
+    "video_spec": {
+      "duration_seconds": 2.04,
+      "fps": 24.0,
+      "height": 640,
+      "sample_policy": "all_frames",
+      "width": 480
+    }
+  }
+}
