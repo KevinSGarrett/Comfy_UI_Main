@@ -1,0 +1,77 @@
+{
+  "created_at": "2026-07-21T00:10:00-05:00",
+  "csv_stamp": "deferred_resume_evidence_only_no_csv_mutator",
+  "evidence_id": "TRK-W64-074-SEGMENT-RECONCILE-RESUME-20260721T0010-0500",
+  "explicit_non_claims": [
+    "COMPLETE",
+    "product_completion",
+    "library_authority",
+    "full_library_coverage"
+  ],
+  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+  "item_id": "ITEM-W64-074",
+  "library_authority": false,
+  "process": {
+    "action": "safe_resume_after_worker_and_guardian_death",
+    "alive": true,
+    "command": "powershell -NoProfile -ExecutionPolicy Bypass -File ztest/guard_row074_full_reconcile.ps1",
+    "exclusive_lane": "library_pcm",
+    "guardian_pid": 18168,
+    "parallel_076_077_refused": true,
+    "prior_dead_pid": 40256,
+    "resume_worker_command": "python Plan/07_IMPLEMENTATION/scripts/segment_wave64_multi_event_audio.py --mode index-retained --resume --retained-runtime-dir runtime_artifacts/multi_event_segmentation/row074_index_retained_20260720",
+    "resumes": 1,
+    "worker_pid": 38680
+  },
+  "product_completion_claimed": false,
+  "progress": {
+    "bit_exact_reconstruction_ok": 1925,
+    "blocker_histogram": {},
+    "complete": false,
+    "coverage_complete": false,
+    "exact_blockers": 0,
+    "extension_histogram": {
+      ".wav": 1925
+    },
+    "feature_pass_inputs": 1925,
+    "limit": null,
+    "multi_event_assets": 1850,
+    "next_record_index": 1925,
+    "pcm_sha_verified": 1925,
+    "percent_complete": 4.84,
+    "records_processed": 1925,
+    "records_total": 39771,
+    "resume_from": {
+      "prior_dead_pid": 40256,
+      "prior_records_processed": 1325,
+      "prior_stall_at": "2026-07-21T04:57:53.273835Z"
+    },
+    "segment_pass": 1925,
+    "single_event_assets": 55,
+    "source_immutable_true": 1925,
+    "started_at": "2026-07-20T06:30:24.154873Z",
+    "updated_at": "2026-07-21T05:10:01.854059Z",
+    "zero_event_assets": 20
+  },
+  "proof_tier": "RUNTIME_PASS_BOUNDED",
+  "remaining_blockers": [
+    "FULL_LIBRARY_RECONCILE_IN_PROGRESS_TIME_BOUND",
+    "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+    "EVENT_COUNT_CALIBRATION_STRATA_ABSENT"
+  ],
+  "row_complete": false,
+  "runtime_completion_claimed": false,
+  "runtime_paths": {
+    "guardian_script": "ztest/guard_row074_full_reconcile.ps1",
+    "guardian_state_path": "runtime_artifacts/multi_event_segmentation/row074_index_retained_20260720/guardian_poll_state.json",
+    "owner_path": "runtime_artifacts/multi_event_segmentation/row074_index_retained_20260720/FULL_RECONCILE_OWNER.txt",
+    "progress_path": "runtime_artifacts/multi_event_segmentation/row074_index_retained_20260720/progress.json",
+    "records_path": "runtime_artifacts/multi_event_segmentation/row074_index_retained_20260720/records.jsonl",
+    "retained_runtime_dir": "runtime_artifacts/multi_event_segmentation/row074_index_retained_20260720"
+  },
+  "safe_next_action": "Do not kill healthy worker PID 38680 or guardian PID 18168; let index-retained --resume finish to coverage_complete. Do not start Row076/Row077 library PCM. No product COMPLETE.",
+  "schema_version": "1.0",
+  "source_commit": "40f1e417",
+  "status": "HOLD_LIBRARY_RECONCILE_IN_PROGRESS_DEPS_UNLOCKED",
+  "tracker_id": "TRK-W64-074"
+}
