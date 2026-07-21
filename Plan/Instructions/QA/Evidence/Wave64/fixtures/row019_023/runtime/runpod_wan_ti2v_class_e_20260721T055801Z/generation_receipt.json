@@ -1,0 +1,105 @@
+{
+  "stamp_utc": "20260721T055801Z",
+  "base": "http://127.0.0.1:8188",
+  "prompt_id": "19c76cc5-a107-4b56-892a-29c9918316fb",
+  "client_id": "trk_w64_019_023_wan_ti2v_class_e_20260721T055801Z",
+  "workflow": "/workspace/wave64/Workflows/video_generation/wan_2_2_ti2v_5b_primary_lane/workflow.api.json",
+  "params": {
+    "width": 704,
+    "height": 1280,
+    "length": 81,
+    "steps": 36,
+    "cfg": 6.0,
+    "fps": 24,
+    "seed": 2271401
+  },
+  "source_image": {
+    "path": "/workspace/comfy_input/wan22_ti2v_fullbody_seed711670301.png",
+    "sha256": "b01b694125e08027195baf3c5a4eeac472eba242bfb4bbe69473625844134fc1",
+    "bytes": 800700
+  },
+  "filename_prefix": "video/w64_019_023_runpod_wan_ti2v_class_e_20260721T055801Z",
+  "status": {
+    "status_str": "success",
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "19c76cc5-a107-4b56-892a-29c9918316fb",
+          "timestamp": 1784613523089
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [],
+          "prompt_id": "19c76cc5-a107-4b56-892a-29c9918316fb",
+          "timestamp": 1784613523328
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "19c76cc5-a107-4b56-892a-29c9918316fb",
+          "timestamp": 1784613824966
+        }
+      ]
+    ]
+  },
+  "artifact": {
+    "pod_path": "/workspace/comfy_output/video/w64_019_023_runpod_wan_ti2v_class_e_20260721T055801Z_00001_.mp4",
+    "work_copy": "/workspace/runtime_artifacts/row019_023_wan_ti2v_class_e_proof/20260721T055801Z/w64_019_023_runpod_wan_ti2v_class_e_20260721T055801Z_00001_.mp4",
+    "filename": "w64_019_023_runpod_wan_ti2v_class_e_20260721T055801Z_00001_.mp4",
+    "bytes": 194351,
+    "sha256": "89c7f671604a19736722aa9bba65d545ccbee7575726b099a69fc68211693c24",
+    "ffprobe": {
+      "codec": "h264",
+      "width": 704,
+      "height": 1280,
+      "nb_frames": "81",
+      "r_frame_rate": "24/1",
+      "duration_seconds": 3.375,
+      "bit_rate": 460683,
+      "format_size": 194351
+    }
+  },
+  "bytes_gate": {
+    "min": 250000,
+    "ok": false
+  },
+  "vlm_review": {
+    "performed": true,
+    "pass": true,
+    "verdict": "PASS",
+    "model": "qwen2.5vl:7b",
+    "parsed": {
+      "verdict": "PASS",
+      "identity_stable": true,
+      "motion_plausible": true,
+      "hands_ok": true,
+      "garment_ok": true,
+      "plastic_skin": false,
+      "near_static": false,
+      "defects": [],
+      "summary": "The clip shows a fully clothed adult woman with stable identity, subtle breathing and fabric motion, realistic skin texture, coherent limbs/hands, and no visible defects."
+    },
+    "raw_response": "{\n  \"verdict\": \"PASS\",\n  \"identity_stable\": true,\n  \"motion_plausible\": true,\n  \"hands_ok\": true,\n  \"garment_ok\": true,\n  \"plastic_skin\": false,\n  \"near_static\": false,\n  \"defects\": [],\n  \"summary\": \"The clip shows a fully clothed adult woman with stable identity, subtle breathing and fabric motion, realistic skin texture, coherent limbs/hands, and no visible defects.\"\n}",
+    "frames_reviewed": [
+      "/workspace/runtime_artifacts/row019_023_wan_ti2v_class_e_proof/20260721T055801Z/frames/frame_00.jpg",
+      "/workspace/runtime_artifacts/row019_023_wan_ti2v_class_e_proof/20260721T055801Z/frames/frame_01.jpg",
+      "/workspace/runtime_artifacts/row019_023_wan_ti2v_class_e_proof/20260721T055801Z/frames/frame_02.jpg",
+      "/workspace/runtime_artifacts/row019_023_wan_ti2v_class_e_proof/20260721T055801Z/frames/frame_03.jpg"
+    ]
+  },
+  "visual_pass": true,
+  "claim_tier": "class_e_attempt_fail",
+  "status_label": "Blocked_Product_Visual_Qa_Open_Bounded_Wan_Ti2v_Class_E_Proof_Attempt_FAIL",
+  "verdict": "WAN_TI2V_BOUNDED_CLASS_E_PROOF_ATTEMPT_FAIL_REJECT",
+  "proof_tier": "RUNPOD_WAN_TI2V_BOUNDED_CLASS_E_PROOF_ATTEMPT_FAIL",
+  "completed": true,
+  "row_complete": false,
+  "production_completion_allowed": false,
+  "high_end_note": "Local Ollama qwen2.5vl:7b is the required minimum visual gate for this climb. Product visual accept still needs human/Claude when available; do not treat local VLM PASS as final product COMPLETE.",
+  "next_fix_advice": "If FAIL: keep identity-safe clothed prompt; try stronger temporal motion cue (clearer blink/weight-shift), raise steps toward 40, CFG ~5.5-6.5, ensure 704x1280+/81f, consider better fullbody start image / light LoRA only if identity-safe; re-run VLM before any Proof_Landed Status."
+}
