@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "RUNPOD_1q4ji0gg1fkhvt_OLLAMA_VLM_FLUX_CANARY_SMOKE_PASS_20260721T041729Z",
+  "created_iso": "2026-07-21T04:17:29Z",
+  "classification": "RUNPOD_SELF_HOSTED_VLM_LLM_REVIEWER_UP_AND_FLUX_CANARY_SMOKE",
+  "scope": "RunPod pod 1q4ji0gg1fkhvt durable self-hosted Ollama VLM/LLM reviewer UP; WAVE64_VLM_URL wired; Flux canary PNG smoke-scored",
+  "runtime_authority": "runpod_remote",
+  "local_comfyui_touched": false,
+  "row074_pcm_touched": false,
+  "row073_pcm_touched": false,
+  "row_complete": false,
+  "product_completion_claimed": false,
+  "csv_sync": "deferred_evidence_only",
+  "proof_tier": "RUNTIME_VLM_REVIEWER_UP_AND_CANARY_SMOKE_HASH_BOUND",
+  "highest_proof_tier_achieved": "RUNTIME_VLM_REVIEWER_UP_AND_CANARY_SMOKE_HASH_BOUND",
+  "pod": {
+    "id": "1q4ji0gg1fkhvt",
+    "name": "hyperreal-flux",
+    "public_ip": "195.26.233.100",
+    "ssh_port": 52077,
+    "volume_mount_path": "/workspace",
+    "gpu": "NVIDIA RTX 6000 Ada Generation"
+  },
+  "endpoint": {
+    "WAVE64_VLM_URL": "http://127.0.0.1:11434",
+    "WAVE64_VLM_MODEL": "llava:13b",
+    "WAVE64_LLM_MODEL": "qwen2.5:7b-instruct",
+    "ollama_version": "0.32.1",
+    "models_dir": "/workspace/ollama",
+    "durable": true,
+    "durability_mechanism": "nohup_plus_watchdog_loop_plus_start_sh_hook",
+    "start_script": "/workspace/runtime_artifacts/start_ollama_durable.sh",
+    "watchdog_loop": "/workspace/runtime_artifacts/ollama_watchdog_loop.sh",
+    "note": "Pod PID1 is docker-init; systemd/cron unavailable on this image."
+  },
+  "installed_models": [
+    "llava:13b",
+    "qwen2.5vl:7b",
+    "llama3.2-vision:11b",
+    "qwen2.5:7b-instruct"
+  ],
+  "wiring": {
+    "paths_env": "/workspace/paths.env",
+    "WAVE64_VLM_URL": "http://127.0.0.1:11434",
+    "WAVE64_VLM_MODEL": "llava:13b",
+    "WAVE64_LLM_MODEL": "qwen2.5:7b-instruct",
+    "OLLAMA_HOST": "127.0.0.1:11434",
+    "ultimate_lane_script_patched": "/workspace/runtime_artifacts/_pod_run_ultimate_vlm_lane.py",
+    "smoke_script": "/workspace/runtime_artifacts/smoke_score_flux_canary_vlm.py"
+  },
+  "flux_canary_smoke": {
+    "image_pod_path": "/workspace/comfy_output/Scenes_xxx_001/canary/FLUX_CANARY_20260721_034826_00001_.png",
+    "sha256": "786884e5c8fe5369d11ba2e91769b2f88919977dc4cdaf4981c6edbf42f2a14e",
+    "bytes": 378949,
+    "model": "llava:13b",
+    "latency_s": 129.347,
+    "overall_score": 0.54,
+    "verdict": "pass",
+    "smoke_verdict": "PASS_WITH_NOTES",
+    "subject_description": "Woman wearing pink bikini",
+    "framing": "full_body",
+    "anatomy_ok": true,
+    "face_ok": true,
+    "hands_ok": true,
+    "artifacts": ["blur"]
+  },
+  "llm_text_smoke": {
+    "model": "qwen2.5:7b-instruct",
+    "response": "WAVE64_LLM_OK",
+    "verdict": "PASS",
+    "latency_s": 22.478
+  },
+  "local_retention": {
+    "receipt_dir": "Plan/Instructions/QA/Evidence/Runtime_Readiness/RunPod_1q4ji0gg1fkhvt",
+    "files": [
+      "OLLAMA_VLM_FLUX_CANARY_SMOKE_RECEIPT_20260721T041411Z.json",
+      "FLUX_CANARY_VLM_SMOKE_20260721T041411Z.json",
+      "LLM_TEXT_SMOKE_20260721T041411Z.json",
+      "wave64_vlm_endpoint.env",
+      "paths.env.WAVE64_VLM_WIRED",
+      "start_ollama_durable.sh",
+      "ollama_watchdog_loop.sh",
+      "smoke_score_flux_canary_vlm.py",
+      "FLUX_CANARY_20260721_034826_00001_.png"
+    ]
+  },
+  "prior_evidence": {
+    "flux_canary_generation_pass": "Plan/Instructions/QA/Evidence/Runtime_Readiness/RUNPOD_1q4ji0gg1fkhvt_FLUX_CANARY_GENERATION_PASS_20260721T034826Z.json"
+  },
+  "overall_verdict": "PASS",
+  "operational_verdict": "PASS_REVIEWER_UP_AND_SCORED",
+  "boundaries": {
+    "local_comfyui_start": false,
+    "row074_pcm_touch": false,
+    "row073_pcm_touch": false,
+    "shared_csv_mutation": false,
+    "complete_claim": false,
+    "workspace_wipe": false,
+    "daz_touch": false
+  },
+  "next_action": "Use WAVE64_VLM_URL=http://127.0.0.1:11434 on pod 1q4ji0gg1fkhvt for Wave64 visual review; keep local C:\\Comfy_UI_Main as git/tracker authority."
+}

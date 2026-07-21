@@ -52,12 +52,14 @@ class PackageWave64SpeechRow124MultiRefListeningProofTests(unittest.TestCase):
             [
                 "RAW_DIALOGUE_TIMING_OUT_OF_TOLERANCE",
                 MODULE.TIMING_DISPOSITION_UNDOCUMENTED_CODE,
+                MODULE.PATH_A_STRETCH_FEASIBILITY_UNDOCUMENTED_CODE,
             ],
         )
         codes = MODULE.flatten_blocker_codes(blockers)
         self.assertNotIn("LISTENING_REVIEW_REQUEST_UNPREPARED", codes)
         self.assertIn(MODULE.LISTENING_DISPOSITION_UNDOCUMENTED_CODE, codes)
         self.assertIn("INDEPENDENT_SOURCE_REFERENCE_COUNT_BELOW_TWO", codes)
+        self.assertIn(MODULE.PATH_A_STRETCH_FEASIBILITY_UNDOCUMENTED_CODE, codes)
 
     def test_classify_blockers_clears_independent_ref_count_when_two_bound(self) -> None:
         blockers = MODULE.classify_blockers(
@@ -109,18 +111,32 @@ class PackageWave64SpeechRow124MultiRefListeningProofTests(unittest.TestCase):
             matrix_complete=True,
             timing_waiver_packet_prepared=True,
             timing_waiver_granted=False,
+            path_a_stretch_feasibility_packet_prepared=True,
+            path_a_stretch_out_of_bounds=True,
+            measured_duration_seconds=MODULE.TIMING_MEASURED_DURATION_SECONDS,
         )
         timing = next(item for item in blockers if item["class"] == "DIALOGUE_TIMING")
-        self.assertEqual(timing["codes"], ["RAW_DIALOGUE_TIMING_OUT_OF_TOLERANCE"])
+        self.assertEqual(
+            timing["codes"],
+            [
+                "RAW_DIALOGUE_TIMING_OUT_OF_TOLERANCE",
+                MODULE.PATH_A_STRETCH_OUT_OF_BOUNDS_CODE,
+            ],
+        )
         self.assertEqual(
             timing["cleared_by_this_packet"],
-            [MODULE.TIMING_DISPOSITION_UNDOCUMENTED_CODE],
+            [
+                MODULE.TIMING_DISPOSITION_UNDOCUMENTED_CODE,
+                MODULE.PATH_A_STRETCH_FEASIBILITY_UNDOCUMENTED_CODE,
+            ],
         )
-        self.assertEqual(timing["disposition"], MODULE.TIMING_WAIVER_DISPOSITION)
+        self.assertEqual(timing["disposition"], MODULE.PATH_A_STRETCH_DISPOSITION)
         self.assertFalse(timing["timing_waiver_granted"])
         codes = MODULE.flatten_blocker_codes(blockers)
         self.assertIn("RAW_DIALOGUE_TIMING_OUT_OF_TOLERANCE", codes)
+        self.assertIn(MODULE.PATH_A_STRETCH_OUT_OF_BOUNDS_CODE, codes)
         self.assertNotIn(MODULE.TIMING_DISPOSITION_UNDOCUMENTED_CODE, codes)
+        self.assertNotIn(MODULE.PATH_A_STRETCH_FEASIBILITY_UNDOCUMENTED_CODE, codes)
 
     def test_build_fail_closed_timing_waiver_packet_exact_criteria(self) -> None:
         packet = MODULE.build_raw_dialogue_timing_fail_closed_waiver_packet(
@@ -142,6 +158,27 @@ class PackageWave64SpeechRow124MultiRefListeningProofTests(unittest.TestCase):
         self.assertTrue(packet["cross_gate_coupling"]["listening_cannot_clear_timing"])
         self.assertFalse(packet["boundaries"]["row073_touched"])
         self.assertFalse(packet["boundaries"]["hold090_plus_touched"])
+
+    def test_build_path_a_stretch_feasibility_out_of_bounds(self) -> None:
+        measured = MODULE.measure_wav_duration(ROOT / MODULE.DURABLE_CANDIDATE)
+        self.assertEqual(measured["sha256"], MODULE.EXPECTED_CANDIDATE_SHA256)
+        packet = MODULE.build_path_a_bounded_stretch_feasibility_packet(
+            stamp="UNITTEST",
+            candidate_sha256=MODULE.EXPECTED_CANDIDATE_SHA256,
+            measured_duration_seconds=measured["duration_seconds"],
+            measurement=measured,
+        )
+        self.assertEqual(packet["disposition"], MODULE.PATH_A_STRETCH_DISPOSITION)
+        self.assertEqual(packet["blocker_code_retained"], MODULE.PATH_A_STRETCH_OUT_OF_BOUNDS_CODE)
+        self.assertFalse(packet["measured"]["within_calibrated_stretch_bounds"])
+        self.assertGreater(packet["measured"]["required_stretch_rate"], MODULE.PATH_A_STRETCH_RATE_MAX)
+        self.assertFalse(packet["stretch_applied"])
+        self.assertFalse(packet["media_mutated"])
+        self.assertFalse(packet["raw_dialogue_timing_pass"])
+        self.assertFalse(packet["row_complete"])
+        self.assertFalse(packet["boundaries"]["row073_touched"])
+        self.assertFalse(packet["boundaries"]["hold090_plus_touched"])
+        self.assertTrue(packet["cross_gate_coupling"]["stretch_feasibility_cannot_grant_timing_pass"])
 
     def test_classify_blockers_fail_closed_listening_blocker_retains_playback_absent(self) -> None:
         blockers = MODULE.classify_blockers(
@@ -287,7 +324,7 @@ class PackageWave64SpeechRow124MultiRefListeningProofTests(unittest.TestCase):
         )
 
     def test_dry_run_builds_offline_packet_without_writes(self) -> None:
-        packet = MODULE.build_proof_packet(ROOT, stamp="DRYRUNTESTE", write_outputs=False)
+        packet = MODULE.build_proof_packet(ROOT, stamp="DRYRUNTESTF", write_outputs=False)
         self.assertEqual(packet["proof_tier"], "OFFLINE_PROOF_BOUNDED")
         self.assertFalse(packet["row_complete"])
         self.assertFalse(packet["decision"]["product_completion"])
@@ -302,8 +339,14 @@ class PackageWave64SpeechRow124MultiRefListeningProofTests(unittest.TestCase):
         self.assertIn("listening_review_request_payload", packet)
         self.assertIn("multi_ref_drift_leakage_matrix_payload", packet)
         self.assertIn("raw_dialogue_timing_fail_closed_waiver_payload", packet)
+        self.assertIn("path_a_bounded_stretch_feasibility_payload", packet)
         self.assertIn("human_listening_fail_closed_blocker_payload", packet)
         self.assertFalse(packet["raw_dialogue_timing_fail_closed_waiver_payload"]["waiver_granted"])
+        self.assertEqual(
+            packet["path_a_bounded_stretch_feasibility_payload"]["disposition"],
+            MODULE.PATH_A_STRETCH_DISPOSITION,
+        )
+        self.assertFalse(packet["path_a_bounded_stretch_feasibility_payload"]["stretch_applied"])
         self.assertFalse(
             packet["human_listening_fail_closed_blocker_payload"]["listening_authority_granted"]
         )
@@ -313,8 +356,10 @@ class PackageWave64SpeechRow124MultiRefListeningProofTests(unittest.TestCase):
         self.assertNotIn("INDEPENDENT_SOURCE_REFERENCE_COUNT_BELOW_TWO", packet["blocker_codes"])
         self.assertIn("MULTI_REF_DRIFT_LEAKAGE_MATRIX_INCOMPLETE", packet["blocker_codes"])
         self.assertIn("RAW_DIALOGUE_TIMING_OUT_OF_TOLERANCE", packet["blocker_codes"])
+        self.assertIn(MODULE.PATH_A_STRETCH_OUT_OF_BOUNDS_CODE, packet["blocker_codes"])
         self.assertIn("INDEPENDENT_PLAYBACK_REVIEW_ABSENT", packet["blocker_codes"])
         self.assertNotIn(MODULE.TIMING_DISPOSITION_UNDOCUMENTED_CODE, packet["blocker_codes"])
+        self.assertNotIn(MODULE.PATH_A_STRETCH_FEASIBILITY_UNDOCUMENTED_CODE, packet["blocker_codes"])
         self.assertNotIn(MODULE.LISTENING_DISPOSITION_UNDOCUMENTED_CODE, packet["blocker_codes"])
         self.assertEqual(
             packet["independent_source_references"]["independent_source_reference_count"],
@@ -323,7 +368,7 @@ class PackageWave64SpeechRow124MultiRefListeningProofTests(unittest.TestCase):
         self.assertFalse(
             (
                 ROOT
-                / "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-124_MULTI_REF_LISTENING_CURRENT_DELTA_DRYRUNTESTE.json"
+                / "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-124_MULTI_REF_LISTENING_CURRENT_DELTA_DRYRUNTESTF.json"
             ).exists()
         )
 

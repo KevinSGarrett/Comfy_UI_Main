@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "RUNPOD_1q4ji0gg1fkhvt_OLLAMA_VLM_FLUX_CANARY_SMOKE_20260721T041729Z",
+  "created_iso": "2026-07-21T04:17:29.922719+00:00",
+  "classification": "RUNPOD_SELF_HOSTED_VLM_LLM_REVIEWER_UP_AND_FLUX_CANARY_SMOKE",
+  "pod": {
+    "id": "1q4ji0gg1fkhvt",
+    "public_ip": "195.26.233.100",
+    "ssh_port": 52077
+  },
+  "endpoint": {
+    "WAVE64_VLM_URL": "http://127.0.0.1:11434",
+    "WAVE64_VLM_MODEL": "llava:13b",
+    "WAVE64_LLM_MODEL": "qwen2.5:7b-instruct",
+    "loopback": "http://127.0.0.1:11434",
+    "durable": true,
+    "durability_mechanism": "nohup_plus_watchdog_loop_plus_start_sh_hook"
+  },
+  "durability": {
+    "start_script": "/workspace/runtime_artifacts/start_ollama_durable.sh",
+    "watchdog_loop": "/workspace/runtime_artifacts/ollama_watchdog_loop.sh",
+    "watchdog_pid": "62346",
+    "models_dir": "/workspace/ollama",
+    "note": "Pod PID1 is docker-init; systemd/cron unavailable. Watchdog loop + /start.sh hook keep reviewer up."
+  },
+  "flux_canary_smoke": {
+    "schema_version": "1.0",
+    "created_iso": "2026-07-21T04:17:29.867700+00:00",
+    "endpoint": "http://127.0.0.1:11434",
+    "model": "llava:13b",
+    "image": {
+      "path": "/workspace/comfy_output/Scenes_xxx_001/canary/FLUX_CANARY_20260721_034826_00001_.png",
+      "sha256": "786884e5c8fe5369d11ba2e91769b2f88919977dc4cdaf4981c6edbf42f2a14e",
+      "bytes": 378949
+    },
+    "latency_s": 129.347,
+    "parsed": {
+      "subject_description": "Woman wearing pink bikini",
+      "framing": "full_body",
+      "anatomy_ok": true,
+      "face_ok": true,
+      "hands_ok": true,
+      "artifacts": [
+        "blur"
+      ],
+      "identity_plausibility": 0.0,
+      "hyperreal_score": 0.0,
+      "overall_score": 0.54,
+      "verdict": "pass",
+      "notes": "The image is a full-body shot of a woman wearing a pink bikini. The anatomy appears correct and the face and hands are also well-rendered. There is some blur in the background which could be improved upon."
+    },
+    "raw_content": "{\n\"subject_description\": \"Woman wearing pink bikini\",\n\"framing\": \"full_body\",\n\"anatomy_ok\": true,\n\"face_ok\": true,\n\"hands_ok\": true,\n\"artifacts\": [\"blur\"],\n\"identity_plausibility\": 0.0,\n\"hyperreal_score\": 0.0,\n\"overall_score\": 0.54,\n\"verdict\": \"pass\",\n\"notes\": \"The image is a full-body shot of a woman wearing a pink bikini. The anatomy appears correct and the face and hands are also well-rendered. There is some blur in the background which could be improved upon.\"\n}",
+    "parse_ok": true,
+    "smoke_verdict": "PASS_WITH_NOTES",
+    "eval_count": 170,
+    "prompt_eval_count": 905,
+    "prompt_mode": "flux_canary_generation_qa_v2"
+  },
+  "llm_text_smoke": {
+    "model": "qwen2.5:7b-instruct",
+    "latency_s": 22.478,
+    "response": "WAVE64_LLM_OK",
+    "verdict": "PASS"
+  },
+  "boundaries": {
+    "row074_pcm_touch": false,
+    "row073_pcm_touch": false,
+    "workspace_wipe": false,
+    "daz_touch": false,
+    "local_comfyui_start": false
+  },
+  "artifact_dir": "/workspace/runtime_artifacts/ollama_vlm_flux_canary_smoke_20260721T041411Z",
+  "overall_verdict": "PASS",
+  "operational_verdict": "PASS_REVIEWER_UP_AND_SCORED"
+}

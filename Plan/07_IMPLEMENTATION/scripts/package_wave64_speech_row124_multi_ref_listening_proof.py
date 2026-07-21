@@ -4,11 +4,12 @@
 Binds the immutable Qwen Base ICL clone, adjacent continuity-matrix diagnostic,
 two disjoint public-domain source references (when present), a started or measured
 multi-ref drift/leakage matrix, a prepared human listening request, a fail-closed
-raw-dialogue-timing waiver disposition, and a fail-closed human-listening blocker
-disposition with exact clearance criteria. Classifies remaining blockers by named
-class and exact codes. Never claims production COMPLETE, fabricates listening PASS,
-grants an unauthorized timing waiver, steals :8188, touches Row075, decodes
-full-library PCM, writes sound CSV rows, or invents voice references.
+raw-dialogue-timing waiver disposition, a live Path A calibrated stretch-feasibility
+measurement, and a fail-closed human-listening blocker disposition with exact
+clearance criteria. Classifies remaining blockers by named class and exact codes.
+Never claims production COMPLETE, fabricates listening PASS, grants an unauthorized
+timing waiver, applies out-of-bounds stretch, steals :8188, touches Row073/Row075,
+decodes full-library PCM, writes sound CSV rows, or invents voice references.
 """
 
 from __future__ import annotations
@@ -19,6 +20,7 @@ import importlib.util
 import json
 import os
 import tempfile
+import wave
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -34,7 +36,7 @@ EXPECTED_SECOND_REFERENCE_SHA256 = "ac013d29e84309abd52c49720fe1a9caf2550fd83ce2
 EXPECTED_CONTINUITY_CLASSIFICATION = "PASS_CONTINUITY_PILOT_PRODUCTION_AUTHORITY_BLOCKED"
 ROW_STATUS = "Blocked_Production_Voice_Authority_And_Multi_Reference_Validation_Pending"
 PROOF_TIER = "OFFLINE_PROOF_BOUNDED"
-EVIDENCE_STAMP = "20260720E"
+EVIDENCE_STAMP = "20260720F"
 REQUIRED_MATRIX_CHECK_IDS = (
     "same_character_multi_source_identity",
     "cross_line_drift",
@@ -47,6 +49,12 @@ TIMING_MEASURED_DURATION_SECONDS = 3.200041667
 TIMING_DURATION_DELTA_SECONDS = 0.200041667
 TIMING_WAIVER_DISPOSITION = "FAIL_CLOSED_WAIVER_NOT_GRANTED"
 TIMING_DISPOSITION_UNDOCUMENTED_CODE = "RAW_DIALOGUE_TIMING_DISPOSITION_UNDOCUMENTED"
+PATH_A_STRETCH_FEASIBILITY_UNDOCUMENTED_CODE = "PATH_A_BOUNDED_STRETCH_FEASIBILITY_UNDOCUMENTED"
+PATH_A_STRETCH_OUT_OF_BOUNDS_CODE = "PATH_A_CALIBRATED_BOUNDED_STRETCH_OUT_OF_BOUNDS"
+PATH_A_STRETCH_DISPOSITION = "FAIL_CLOSED_PATH_A_BOUNDED_STRETCH_OUT_OF_BOUNDS"
+# Calibrated local time-stretch bounds from hyperreal AV repair / third-pass media contracts.
+PATH_A_STRETCH_RATE_MIN = 0.95
+PATH_A_STRETCH_RATE_MAX = 1.05
 LISTENING_BLOCKER_DISPOSITION = "FAIL_CLOSED_HUMAN_LISTENING_AUTHORITY_NOT_GRANTED"
 LISTENING_DISPOSITION_UNDOCUMENTED_CODE = "HUMAN_LISTENING_AUTHORITY_DISPOSITION_UNDOCUMENTED"
 LISTENING_REVIEW_ID = "W64-ROW124-QWEN3-BASE-ICL-CLONE-LISTENING-001"
@@ -114,6 +122,32 @@ def sha256_file(path: Path) -> str:
         for chunk in iter(lambda: handle.read(8 * 1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def measure_wav_duration(path: Path) -> dict[str, Any]:
+    """Live PCM container duration from immutable WAV (stdlib wave; no GPU/Comfy)."""
+    path = path.resolve()
+    if not path.is_file():
+        raise ProofError(f"candidate wav missing for duration measurement: {path}")
+    with wave.open(str(path), "rb") as handle:
+        frames = int(handle.getnframes())
+        sample_rate = int(handle.getframerate())
+        channels = int(handle.getnchannels())
+        sample_width = int(handle.getsampwidth())
+    if sample_rate <= 0 or frames <= 0:
+        raise ProofError(f"invalid wav timing metadata: frames={frames} sample_rate={sample_rate}")
+    duration_seconds = frames / float(sample_rate)
+    return {
+        "path": str(path).replace("\\", "/"),
+        "sha256": sha256_file(path),
+        "bytes": path.stat().st_size,
+        "frames": frames,
+        "sample_rate_hz": sample_rate,
+        "channels": channels,
+        "sample_width_bytes": sample_width,
+        "duration_seconds": duration_seconds,
+        "method": "stdlib_wave_nframes_over_framerate",
+    }
 
 
 def bind(path: Path, expected_sha256: str | None = None, label: str = "file") -> dict[str, Any]:
@@ -645,6 +679,7 @@ def build_raw_dialogue_timing_fail_closed_waiver_packet(
             "A prepared listening review request is offered as timing clearance",
             "A human-listening fail-closed blocker packet is offered as timing clearance",
             "Agent-fabricated listening PASS is offered as timing clearance",
+            "A Path A stretch-feasibility measurement alone is offered as timing PASS",
             "Production or listening authority is claimed in the same landing",
         ],
         "anti_fake_pass_invariants": [
@@ -657,6 +692,7 @@ def build_raw_dialogue_timing_fail_closed_waiver_packet(
             "listening_cannot_clear_timing": True,
             "timing_waiver_cannot_grant_listening": True,
             "fake_listening_pass_rejected": True,
+            "stretch_feasibility_cannot_grant_timing_pass": True,
         },
         "boundaries": {
             "offline_only": True,
@@ -668,6 +704,139 @@ def build_raw_dialogue_timing_fail_closed_waiver_packet(
             "sound_csv_written": False,
             "speech_csv_written": False,
             "media_mutated": False,
+            "timing_waiver_granted": False,
+            "listening_authority_granted": False,
+            "production_promotion_claimed": False,
+            "invented_voices": False,
+            "tip_sha_chain": False,
+            "hold090_plus_touched": False,
+        },
+        "row_complete": False,
+        "product_completion_claimed": False,
+    }
+
+
+def build_path_a_bounded_stretch_feasibility_packet(
+    *,
+    stamp: str,
+    candidate_sha256: str,
+    measured_duration_seconds: float,
+    target_duration_seconds: float = TIMING_TARGET_SECONDS,
+    tolerance_seconds: float = TIMING_TOLERANCE_SECONDS,
+    stretch_rate_min: float = PATH_A_STRETCH_RATE_MIN,
+    stretch_rate_max: float = PATH_A_STRETCH_RATE_MAX,
+    measurement: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Measure Path A calibrated stretch feasibility; never mutates media or grants timing PASS."""
+    if measured_duration_seconds <= 0:
+        raise ProofError("Path A stretch feasibility requires positive measured duration")
+    # librosa.effects.time_stretch rate>1 shortens; rate = source_duration / target_duration
+    required_stretch_rate = measured_duration_seconds / float(target_duration_seconds)
+    within_calibrated_bounds = stretch_rate_min <= required_stretch_rate <= stretch_rate_max
+    lower = target_duration_seconds - tolerance_seconds
+    upper = target_duration_seconds + tolerance_seconds
+    within_timing_contract = lower <= measured_duration_seconds <= upper
+    if within_timing_contract:
+        raise ProofError("Path A stretch feasibility packet requires out-of-tolerance duration")
+    if within_calibrated_bounds:
+        disposition = "PATH_A_BOUNDED_STRETCH_FEASIBLE_NOT_APPLIED"
+        status = disposition
+        blocker_retained = None
+    else:
+        disposition = PATH_A_STRETCH_DISPOSITION
+        status = PATH_A_STRETCH_DISPOSITION
+        blocker_retained = PATH_A_STRETCH_OUT_OF_BOUNDS_CODE
+    return {
+        "schema_version": "1.0",
+        "artifact_type": "wave64_speech_row124_path_a_bounded_stretch_feasibility_packet",
+        "evidence_id": f"TRK-W64-124_PATH_A_BOUNDED_STRETCH_FEASIBILITY_{stamp}",
+        "tracker_id": TRACKER_ID,
+        "item_id": ITEM_ID,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "proof_tier": PROOF_TIER,
+        "status": status,
+        "disposition": disposition,
+        "candidate_sha256": candidate_sha256,
+        "raw_dialogue_timing_pass": False,
+        "timing_waiver_granted": False,
+        "media_mutated": False,
+        "stretch_applied": False,
+        "blocker_code_retained": blocker_retained,
+        "contract": {
+            "target_duration_seconds": target_duration_seconds,
+            "tolerance_seconds": tolerance_seconds,
+            "lower_bound_seconds": lower,
+            "upper_bound_seconds": upper,
+            "calibrated_stretch_rate_min": stretch_rate_min,
+            "calibrated_stretch_rate_max": stretch_rate_max,
+            "stretch_rate_definition": (
+                "required_stretch_rate = measured_duration_seconds / target_duration_seconds "
+                "(librosa.effects.time_stretch convention: rate>1 shortens output)"
+            ),
+            "authority": (
+                "Plan/08_SCHEMAS/hyperreal_av_local_repair_plan.schema.json"
+                "#maximum_time_stretch_ratio_[0.95,1.05]"
+            ),
+        },
+        "measured": {
+            "duration_seconds": measured_duration_seconds,
+            "duration_delta_seconds": abs(measured_duration_seconds - target_duration_seconds),
+            "out_of_tolerance_by_seconds": measured_duration_seconds - upper,
+            "required_stretch_rate": required_stretch_rate,
+            "within_calibrated_stretch_bounds": within_calibrated_bounds,
+            "live_wav_measurement": measurement,
+        },
+        "clearance_paths_remaining": {
+            "path_a_native_regeneration": {
+                "description": (
+                    "Produce a new immutable native candidate whose measured duration falls "
+                    "inside [2.920, 3.080] without relying on out-of-bounds stretch."
+                ),
+                "requires": [
+                    "GPU/TTS native regeneration or another in-bounds retimed immutable candidate",
+                    "Re-run identity/ASR/technical gates on the new hash",
+                    "Do not steal :8188 while Row073 PCM owns the host",
+                ],
+            },
+            "path_b_authorized_timing_contract_revision_or_waiver_grant": {
+                "description": (
+                    "Integration-authority contract revision or hash-bound waiver grant. "
+                    "This feasibility packet is not that grant."
+                ),
+            },
+        },
+        "do_not_clear_blocker_when": [
+            "Only this feasibility packet exists",
+            "Required stretch rate is outside calibrated [0.95, 1.05]",
+            "Out-of-bounds stretch is applied anyway and offered as timing PASS",
+            "Silence pad/trim is offered as a substitute for stretch or native retime",
+            "Listening PASS is offered as timing clearance",
+            "COMPLETE / PRODUCTION_VOICE_AUTHORITY / LISTENING_AUTHORITY is claimed",
+        ],
+        "anti_fake_pass_invariants": [
+            "stretch_applied remains false in this offline measurement packet",
+            "raw_dialogue_timing_pass remains false unless a new measured candidate is in tolerance "
+            "or Path B grant is bound",
+            "Feasibility measurement never mutates the immutable seed12401 candidate",
+            "Out-of-bounds stretch must not be coerced into PASS",
+        ],
+        "cross_gate_coupling": {
+            "listening_cannot_clear_timing": True,
+            "stretch_feasibility_cannot_grant_listening": True,
+            "stretch_feasibility_cannot_grant_timing_pass": True,
+            "fake_listening_pass_rejected": True,
+        },
+        "boundaries": {
+            "offline_only": True,
+            "gpu_used": False,
+            "comfyui_8188_used": False,
+            "row075_touched": False,
+            "row073_touched": False,
+            "full_library_pcm_decoded": False,
+            "sound_csv_written": False,
+            "speech_csv_written": False,
+            "media_mutated": False,
+            "stretch_applied": False,
             "timing_waiver_granted": False,
             "listening_authority_granted": False,
             "production_promotion_claimed": False,
@@ -845,6 +1014,9 @@ def classify_blockers(
     timing_waiver_packet_prepared: bool = False,
     timing_waiver_granted: bool = False,
     human_listening_blocker_packet_prepared: bool = False,
+    path_a_stretch_feasibility_packet_prepared: bool = False,
+    path_a_stretch_out_of_bounds: bool = False,
+    measured_duration_seconds: float | None = None,
     class_f_blocker: str | None = None,
     class_a_blocker: str | None = None,
 ) -> list[dict[str, Any]]:
@@ -945,6 +1117,11 @@ def classify_blockers(
     timing_codes: list[str] = []
     timing_cleared: list[str] = []
     timing_gate_satisfied = bool(raw_dialogue_timing_pass or timing_waiver_granted)
+    measured = (
+        float(measured_duration_seconds)
+        if measured_duration_seconds is not None
+        else TIMING_MEASURED_DURATION_SECONDS
+    )
     if timing_gate_satisfied:
         timing_cleared.append("RAW_DIALOGUE_TIMING_OUT_OF_TOLERANCE")
     else:
@@ -953,15 +1130,34 @@ def classify_blockers(
         timing_cleared.append(TIMING_DISPOSITION_UNDOCUMENTED_CODE)
     elif not timing_gate_satisfied:
         timing_codes.append(TIMING_DISPOSITION_UNDOCUMENTED_CODE)
+    if path_a_stretch_feasibility_packet_prepared:
+        timing_cleared.append(PATH_A_STRETCH_FEASIBILITY_UNDOCUMENTED_CODE)
+        if path_a_stretch_out_of_bounds and not timing_gate_satisfied:
+            timing_codes.append(PATH_A_STRETCH_OUT_OF_BOUNDS_CODE)
+    elif not timing_gate_satisfied:
+        timing_codes.append(PATH_A_STRETCH_FEASIBILITY_UNDOCUMENTED_CODE)
     if timing_waiver_granted and not raw_dialogue_timing_pass:
         summary = (
             "Authorized timing-contract revision/waiver grant is bound while measured duration "
             "remains outside native tolerance; listening/production authority stay separate."
         )
+    elif (
+        path_a_stretch_feasibility_packet_prepared
+        and path_a_stretch_out_of_bounds
+        and timing_codes
+    ):
+        summary = (
+            "Raw dialogue timing remains outside the 3.000±0.080s contract "
+            f"({measured:.6f}s live-measured). Fail-closed waiver packet is documented; "
+            "Path A calibrated bounded stretch is measured out of bounds "
+            f"(required rate outside [{PATH_A_STRETCH_RATE_MIN:.2f}, {PATH_A_STRETCH_RATE_MAX:.2f}]). "
+            "waiver_granted=false; offline Path A stretch is not available; native regeneration "
+            "or Path B grant remains required. Listening authority stays separate."
+        )
     elif timing_waiver_packet_prepared and timing_codes:
         summary = (
             "Raw dialogue timing remains outside the 3.000±0.080s contract "
-            f"({TIMING_MEASURED_DURATION_SECONDS:.6f}s measured). Fail-closed waiver packet is "
+            f"({measured:.6f}s measured). Fail-closed waiver packet is "
             "documented with exact Path A/B clearance criteria; waiver_granted=false so "
             "RAW_DIALOGUE_TIMING_OUT_OF_TOLERANCE is retained."
         )
@@ -972,6 +1168,17 @@ def classify_blockers(
         )
     else:
         summary = "Raw dialogue timing gate currently passes."
+    timing_disposition = None
+    if timing_waiver_granted:
+        timing_disposition = "AUTHORIZED_TIMING_WAIVER_GRANTED"
+    elif (
+        path_a_stretch_feasibility_packet_prepared
+        and path_a_stretch_out_of_bounds
+        and not raw_dialogue_timing_pass
+    ):
+        timing_disposition = PATH_A_STRETCH_DISPOSITION
+    elif timing_waiver_packet_prepared and not timing_waiver_granted and not raw_dialogue_timing_pass:
+        timing_disposition = TIMING_WAIVER_DISPOSITION
     blockers.append(
         {
             "class": "DIALOGUE_TIMING",
@@ -980,11 +1187,9 @@ def classify_blockers(
             "summary": summary,
             "timing_waiver_packet_prepared": timing_waiver_packet_prepared,
             "timing_waiver_granted": bool(timing_waiver_granted),
-            "disposition": (
-                TIMING_WAIVER_DISPOSITION
-                if timing_waiver_packet_prepared and not timing_waiver_granted and not raw_dialogue_timing_pass
-                else ("AUTHORIZED_TIMING_WAIVER_GRANTED" if timing_waiver_granted else None)
-            ),
+            "path_a_stretch_feasibility_packet_prepared": path_a_stretch_feasibility_packet_prepared,
+            "path_a_stretch_out_of_bounds": bool(path_a_stretch_out_of_bounds),
+            "disposition": timing_disposition,
         }
     )
     return blockers
@@ -1195,12 +1400,34 @@ def build_proof_packet(
         )
     matrix_complete = bool(matrix.get("matrix_complete"))
     independent_count = int(source_bind["independent_source_reference_count"])
+    live_duration = measure_wav_duration(candidate_path)
+    if live_duration["sha256"] != EXPECTED_CANDIDATE_SHA256:
+        raise ProofError("live duration measurement candidate hash drift")
+    measured_duration = float(live_duration["duration_seconds"])
+    measured_delta = abs(measured_duration - TIMING_TARGET_SECONDS)
     timing_waiver = build_raw_dialogue_timing_fail_closed_waiver_packet(
         stamp=stamp,
         candidate_sha256=EXPECTED_CANDIDATE_SHA256,
+        measured_duration_seconds=measured_duration,
+        duration_delta_seconds=measured_delta,
     )
+    timing_waiver["measured"]["live_wav_measurement"] = {
+        "method": live_duration["method"],
+        "frames": live_duration["frames"],
+        "sample_rate_hz": live_duration["sample_rate_hz"],
+        "channels": live_duration["channels"],
+        "sample_width_bytes": live_duration["sample_width_bytes"],
+    }
     timing_waiver_prepared = True
     timing_waiver_granted = False
+    stretch_feasibility = build_path_a_bounded_stretch_feasibility_packet(
+        stamp=stamp,
+        candidate_sha256=EXPECTED_CANDIDATE_SHA256,
+        measured_duration_seconds=measured_duration,
+        measurement=live_duration,
+    )
+    stretch_feasibility_prepared = True
+    stretch_out_of_bounds = stretch_feasibility["disposition"] == PATH_A_STRETCH_DISPOSITION
     listening_blocker = build_human_listening_fail_closed_blocker_packet(
         stamp=stamp,
         candidate_sha256=EXPECTED_CANDIDATE_SHA256,
@@ -1208,6 +1435,14 @@ def build_proof_packet(
         timing_waiver_granted=timing_waiver_granted,
         raw_dialogue_timing_pass=gate_snapshot["raw_dialogue_timing_pass"],
     )
+    listening_blocker["upstream_gates_still_blocking_production_listening"] = {
+        **(listening_blocker.get("upstream_gates_still_blocking_production_listening") or {}),
+        "production_character_reference_authority_pass": False,
+        "raw_dialogue_timing_pass": False,
+        "timing_waiver_granted": False,
+        "path_a_calibrated_bounded_stretch_feasible": (not stretch_out_of_bounds),
+        "path_a_stretch_feasibility_evidence_id": stretch_feasibility["evidence_id"],
+    }
     verify_human_listening_fail_closed_blocker_packet(listening_blocker)
     listening_blocker_prepared = True
 
@@ -1244,6 +1479,14 @@ def build_proof_packet(
         f"Plan/Tracker/Evidence/Audio_Asset_Intake/"
         f"TRK-W64-124_RAW_DIALOGUE_TIMING_FAIL_CLOSED_WAIVER_{stamp}.json"
     )
+    stretch_feasibility_rel = (
+        f"Plan/Instructions/QA/Evidence/Audio_Asset_Intake/"
+        f"TRK-W64-124_PATH_A_BOUNDED_STRETCH_FEASIBILITY_{stamp}.json"
+    )
+    tracker_stretch_feasibility_rel = (
+        f"Plan/Tracker/Evidence/Audio_Asset_Intake/"
+        f"TRK-W64-124_PATH_A_BOUNDED_STRETCH_FEASIBILITY_{stamp}.json"
+    )
     listening_blocker_rel = (
         f"Plan/Instructions/QA/Evidence/Audio_Asset_Intake/"
         f"TRK-W64-124_HUMAN_LISTENING_FAIL_CLOSED_BLOCKER_{stamp}.json"
@@ -1262,6 +1505,9 @@ def build_proof_packet(
         timing_waiver_packet_prepared=timing_waiver_prepared,
         timing_waiver_granted=timing_waiver_granted,
         human_listening_blocker_packet_prepared=listening_blocker_prepared,
+        path_a_stretch_feasibility_packet_prepared=stretch_feasibility_prepared,
+        path_a_stretch_out_of_bounds=stretch_out_of_bounds,
+        measured_duration_seconds=measured_duration,
     )
     blocker_codes = flatten_blocker_codes(blockers)
     multi_ref_cleared = next(
@@ -1342,6 +1588,27 @@ def build_proof_packet(
                 else {"blocker_code": "FABRICATED_LISTENING_PASS_REJECTED"}
             ),
         },
+        {
+            "name": "R124-P018_path_a_bounded_stretch_feasibility_measured",
+            "result": "pass" if stretch_feasibility_prepared else "fail",
+        },
+        {
+            "name": "R124-P019_live_wav_duration_remeasured",
+            "result": (
+                "pass"
+                if abs(measured_duration - TIMING_MEASURED_DURATION_SECONDS) < 1e-6
+                else "fail"
+            ),
+        },
+        {
+            "name": "R124-P020_path_a_calibrated_stretch_within_bounds",
+            "result": "fail" if stretch_out_of_bounds else "pass",
+            **(
+                {"blocker_code": PATH_A_STRETCH_OUT_OF_BOUNDS_CODE}
+                if stretch_out_of_bounds
+                else {}
+            ),
+        },
         {"name": "R124-P009_no_product_complete_claim", "result": "pass"},
         {"name": "R124-P010_no_sound_csv_write", "result": "pass"},
         {"name": "R124-P011_row075_left_alone", "result": "pass"},
@@ -1365,14 +1632,15 @@ def build_proof_packet(
         packet_status = "BLOCKED_PRODUCTION_VOICE_AND_LISTENING_AUTHORITY_PENDING"
         safe_next_action = (
             "Retain OFFLINE_PROOF_BOUNDED packet. Measured multi-ref drift/leakage matrix is "
-            "complete. Fail-closed raw-dialogue-timing waiver packet is recorded with exact "
-            "Path A (retimed immutable candidate) / Path B (authorized contract revision or "
-            "waiver grant) criteria; waiver_granted=false and "
-            "RAW_DIALOGUE_TIMING_OUT_OF_TOLERANCE remains. Fail-closed human-listening blocker "
-            "packet is recorded with exact Path A (independent playback receipt) / Path B "
-            "(final certification) criteria; listening_authority_granted=false and fabricated "
-            "listening PASS is rejected. Satisfy timing Path A or B, then execute real "
-            "independent human listening against the prepared request. Do not steal :8188, "
+            "complete. Live WAV remeasure confirms duration outside 3.000±0.080s. Fail-closed "
+            "timing waiver remains (waiver_granted=false). Path A calibrated bounded stretch "
+            "feasibility was live-measured and is OUT OF BOUNDS "
+            f"(required_stretch_rate outside [{PATH_A_STRETCH_RATE_MIN:.2f}, "
+            f"{PATH_A_STRETCH_RATE_MAX:.2f}]); do not apply out-of-bounds stretch. Timing Path A "
+            "now requires native regeneration (GPU/TTS when :8188 is free; leave Row073 alone) "
+            "or Path B authorized contract revision/waiver grant. Fail-closed human-listening "
+            "blocker remains; listening_authority_granted=false. After timing clearance, execute "
+            "real independent human listening against the prepared request. Do not steal :8188, "
             "touch Row073/Row075, decode full-library PCM, write sound CSV, invent voices, "
             "fabricate listening PASS, or claim COMPLETE / PRODUCTION_VOICE_AUTHORITY / "
             "LISTENING_AUTHORITY."
@@ -1382,11 +1650,12 @@ def build_proof_packet(
         safe_next_action = (
             "Retain OFFLINE_PROOF_BOUNDED packet. Complete measured multi-ref drift/leakage "
             "matrix evaluation against the two bound disjoint LibriVox references. Fail-closed "
-            "timing waiver and human-listening blocker criteria are documented but neither "
-            "timing waiver nor listening authority is granted. Then execute independent human "
-            "listening against the prepared request. Do not steal :8188, touch Row073/Row075, "
-            "decode full-library PCM, write sound CSV, invent voices, fabricate listening PASS, "
-            "or claim COMPLETE / PRODUCTION_VOICE_AUTHORITY / LISTENING_AUTHORITY."
+            "timing waiver, Path A stretch-feasibility measurement, and human-listening blocker "
+            "criteria are documented but neither timing waiver nor listening authority is "
+            "granted. Then execute independent human listening against the prepared request. "
+            "Do not steal :8188, touch Row073/Row075, decode full-library PCM, write sound CSV, "
+            "invent voices, fabricate listening PASS, or claim COMPLETE / "
+            "PRODUCTION_VOICE_AUTHORITY / LISTENING_AUTHORITY."
         )
 
     created_at = datetime.now(timezone.utc).isoformat()
@@ -1422,6 +1691,7 @@ def build_proof_packet(
             "listening_review_request": listening_rel,
             "multi_ref_drift_leakage_matrix": matrix_rel,
             "raw_dialogue_timing_fail_closed_waiver": timing_waiver_rel,
+            "path_a_bounded_stretch_feasibility": stretch_feasibility_rel,
             "human_listening_fail_closed_blocker": listening_blocker_rel,
             "packager_script": display_relative(
                 root,
@@ -1460,6 +1730,26 @@ def build_proof_packet(
             "clearance_paths": list(timing_waiver["clearance_paths"].keys()),
             "cross_gate_coupling": timing_waiver.get("cross_gate_coupling"),
             "anti_fake_pass_invariants": timing_waiver.get("anti_fake_pass_invariants"),
+            "live_remeasured": True,
+        },
+        "path_a_stretch_feasibility": {
+            "evidence_id": stretch_feasibility["evidence_id"],
+            "status": stretch_feasibility["status"],
+            "disposition": stretch_feasibility["disposition"],
+            "stretch_applied": False,
+            "media_mutated": False,
+            "required_stretch_rate": stretch_feasibility["measured"]["required_stretch_rate"],
+            "within_calibrated_stretch_bounds": stretch_feasibility["measured"][
+                "within_calibrated_stretch_bounds"
+            ],
+            "calibrated_stretch_rate_min": PATH_A_STRETCH_RATE_MIN,
+            "calibrated_stretch_rate_max": PATH_A_STRETCH_RATE_MAX,
+            "blocker_code_retained": stretch_feasibility.get("blocker_code_retained"),
+            "clearance_paths_remaining": list(
+                stretch_feasibility["clearance_paths_remaining"].keys()
+            ),
+            "cross_gate_coupling": stretch_feasibility.get("cross_gate_coupling"),
+            "anti_fake_pass_invariants": stretch_feasibility.get("anti_fake_pass_invariants"),
         },
         "human_listening_disposition": {
             "evidence_id": listening_blocker["evidence_id"],
@@ -1472,6 +1762,9 @@ def build_proof_packet(
             "clearance_paths": list(listening_blocker["clearance_paths"].keys()),
             "cross_gate_coupling": listening_blocker.get("cross_gate_coupling"),
             "anti_fake_pass_invariants": listening_blocker.get("anti_fake_pass_invariants"),
+            "upstream_gates_still_blocking_production_listening": listening_blocker.get(
+                "upstream_gates_still_blocking_production_listening"
+            ),
         },
         "listening_authority": {
             "review_request_prepared": True,
@@ -1514,6 +1807,7 @@ def build_proof_packet(
         packet["listening_review_request_payload"] = listening_request
         packet["multi_ref_drift_leakage_matrix_payload"] = matrix
         packet["raw_dialogue_timing_fail_closed_waiver_payload"] = timing_waiver
+        packet["path_a_bounded_stretch_feasibility_payload"] = stretch_feasibility
         packet["human_listening_fail_closed_blocker_payload"] = listening_blocker
         return packet
 
@@ -1530,6 +1824,13 @@ def build_proof_packet(
     timing_binding["repo_relative"] = timing_waiver_rel
     write_json_atomic(root / tracker_timing_waiver_rel, timing_waiver, immutable=True)
     packet["bindings"]["raw_dialogue_timing_fail_closed_waiver_binding"] = timing_binding
+
+    stretch_binding = write_json_atomic(
+        root / stretch_feasibility_rel, stretch_feasibility, immutable=True
+    )
+    stretch_binding["repo_relative"] = stretch_feasibility_rel
+    write_json_atomic(root / tracker_stretch_feasibility_rel, stretch_feasibility, immutable=True)
+    packet["bindings"]["path_a_bounded_stretch_feasibility_binding"] = stretch_binding
 
     listening_blocker_binding = write_json_atomic(
         root / listening_blocker_rel, listening_blocker, immutable=True
@@ -1555,6 +1856,7 @@ def build_proof_packet(
         "listening_review_request": listening_rel,
         "multi_ref_drift_leakage_matrix": matrix_rel,
         "raw_dialogue_timing_fail_closed_waiver": timing_waiver_rel,
+        "path_a_bounded_stretch_feasibility": stretch_feasibility_rel,
         "human_listening_fail_closed_blocker": listening_blocker_rel,
         "independent_source_reference_count": independent_count,
         "blocker_classes": blockers,
@@ -1566,6 +1868,8 @@ def build_proof_packet(
         "drift_leakage_matrix_complete": matrix_complete,
         "timing_waiver_packet_prepared": True,
         "timing_waiver_granted": False,
+        "path_a_stretch_feasibility_packet_prepared": True,
+        "path_a_stretch_out_of_bounds": stretch_out_of_bounds,
         "human_listening_blocker_packet_prepared": True,
         "listening_authority_granted": False,
         "fake_listening_pass_rejected": True,
@@ -1604,6 +1908,9 @@ def build_proof_packet(
         "raw_dialogue_timing_fail_closed_waiver": timing_waiver_rel,
         "raw_dialogue_timing_fail_closed_waiver_sha256": timing_binding["sha256"],
         "tracker_raw_dialogue_timing_fail_closed_waiver": tracker_timing_waiver_rel,
+        "path_a_bounded_stretch_feasibility": stretch_feasibility_rel,
+        "path_a_bounded_stretch_feasibility_sha256": stretch_binding["sha256"],
+        "tracker_path_a_bounded_stretch_feasibility": tracker_stretch_feasibility_rel,
         "human_listening_fail_closed_blocker": listening_blocker_rel,
         "human_listening_fail_closed_blocker_sha256": listening_blocker_binding["sha256"],
         "tracker_human_listening_fail_closed_blocker": tracker_listening_blocker_rel,
