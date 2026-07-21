@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "evidence_id": "TRK-W64-019_023_CLASS_B_BLOCKER_LEDGER_20260720",
   "created_iso": "2026-07-20T01:52:00-05:00",
-  "updated_iso": "2026-07-20T12:33:55-05:00",
+  "updated_iso": "2026-07-20T22:55:45-05:00",
   "classification": "Class_B_Failed_runtime_visual_QA",
   "row_complete": false,
   "production_video_complete_claimed": false,
@@ -116,7 +116,7 @@
             "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-023_WAN_REPAIR_CANDIDATE_REAFFIRM_CURRENT_DELTA_20260720.json",
             "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-023_FLUX_SPAN_REPAIR_V2_RUNTIME_VISUAL_QA_CURRENT_DELTA_20260720.json"
           ],
-          "exact_defect": "Immutable seed 2272301 Wan candidate keeps facial identity drift and side lights gray→violet-blue; Flux repair climb also fail-closed."
+          "exact_defect": "Immutable seed 2272301 Wan candidate keeps facial identity drift and side lights gray\u2192violet-blue; Flux repair climb also fail-closed."
         },
         {
           "blocker_id": "LOCAL_WAN_MODEL_PAYLOAD_MISSING",
@@ -249,7 +249,7 @@
     }
   },
   "csv_sync": "deferred_evidence_only_avoid_racing_designated_csv_mutator",
-  "next_action": "STOP Flux seed retries (cap reached). Class F Wan TI2V still 0/3 by live inventory. Class A body/contact gold authority paths all ABSENT. Human/external stage payloads/masks. No HOLD treadmill. CSV deferred. No COMPLETE.",
+  "next_action": "RunPod live inventory: Wan TI2V still 0/3; body/contact gold authority 7/7 ABSENT. STOP Flux seed retries (cap reached). Stage POD Wan payloads + gold masks externally. No HOLD treadmill. CSV deferred. No COMPLETE. Row073 left alone.",
   "class_a_f_disposition_deepen": {
     "disposition_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_CLASS_A_F_BLOCKER_DISPOSITION_PACKET_20260720T123355-0500.json",
     "disposition_packet_sha256": "B8109CE42D954E10B0A3A6A811FB68D738B2DC18317C216926A51E036D58ADA1",
@@ -258,5 +258,22 @@
     "gold_authority_paths_absent": "4/4",
     "hold_emitted": false,
     "class_b_gpu_climb_this_landing": false
+  },
+  "runpod_class_a_f_disposition": {
+    "disposition_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_POD_CLASS_A_F_BLOCKER_DISPOSITION_PACKET_20260720T225545-0500.json",
+    "disposition_packet_sha256": "F891E7FDFE67419D799950FF8162CB9E5CD5EA80915E8347248665B390FF3330",
+    "negative_inventory": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_POD_CLASS_A_F_NEGATIVE_INVENTORY_20260720T225545-0500.json",
+    "negative_inventory_sha256": "BC6FAB0E5F60D146C42ECC869EF6D02EE728D2D540272230E962E9F711ED7646",
+    "runtime_inventory_sha256": "09ABCA6F6368813872A25DFE5B8F8D496174F70461A7F7EB6196417D31C571CF",
+    "pod_id": "1q4ji0gg1fkhvt",
+    "pod_ssh": "195.26.233.100:52077",
+    "wan_ti2v_present_ratio": "0/3",
+    "gold_authority_paths_absent": "7/7",
+    "comfyui_8188_reachable": true,
+    "comfyui_8188_idle": true,
+    "hold_emitted": false,
+    "class_b_gpu_climb_this_landing": false,
+    "flux_seed_spam_this_landing": false,
+    "wan_download_this_landing": false
   }
 }

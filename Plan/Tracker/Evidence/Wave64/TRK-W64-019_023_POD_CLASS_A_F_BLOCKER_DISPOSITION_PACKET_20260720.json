@@ -1,0 +1,375 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-019_023_POD_CLASS_A_F_BLOCKER_DISPOSITION_PACKET_20260720T225545-0500",
+  "created_iso": "2026-07-20T22:55:45-05:00",
+  "created_utc": "2026-07-21T03:55:45.877396Z",
+  "tracker_ids": [
+    "TRK-W64-019",
+    "TRK-W64-023"
+  ],
+  "item_ids": [
+    "ITEM-W64-019",
+    "ITEM-W64-023"
+  ],
+  "mutation_this_landing": "evidence_only_pod_class_a_f_disposition",
+  "row_complete": false,
+  "production_video_complete_claimed": false,
+  "csv_sync": "deferred_evidence_only_avoid_racing_designated_csv_mutator",
+  "proof_tier": "POD_LIVE_INVENTORY_BLOCKER_BOUNDED",
+  "highest_proof_tier_achieved": "POD_LIVE_INVENTORY_BLOCKER_BOUNDED",
+  "runtime_target": "runpod_comfy_not_local_gpu",
+  "deepen_reason": "Advance 019/023 Class B repair authority to live RunPod Comfy: SSH pod, source /workspace/paths.env, inventory Wan TI2V + body/contact gold masks. Payloads absent (0/3) and gold authority absent (7/7) \u2192 Class F/A disposition with POD paths. No Wan download invented; no Flux forbidden-seed spam despite idle :8188.",
+  "prior_disposition_packet": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_CLASS_A_F_BLOCKER_DISPOSITION_PACKET_20260720T123355-0500.json",
+    "exists": true,
+    "bytes": 15869,
+    "sha256": "B8109CE42D954E10B0A3A6A811FB68D738B2DC18317C216926A51E036D58ADA1"
+  },
+  "negative_inventory": {
+    "qa_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_POD_CLASS_A_F_NEGATIVE_INVENTORY_20260720T225545-0500.json",
+    "qa_sha256": "BC6FAB0E5F60D146C42ECC869EF6D02EE728D2D540272230E962E9F711ED7646",
+    "stable_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_POD_CLASS_A_F_NEGATIVE_INVENTORY_20260720.json",
+    "runtime_receipt": "runtime_artifacts/wave64_row019_023_pod_inventory_20260720/pod_inventory_receipt.json",
+    "runtime_receipt_sha256": "09ABCA6F6368813872A25DFE5B8F8D496174F70461A7F7EB6196417D31C571CF",
+    "wan_ti2v_present_ratio": "0/3",
+    "wan_recursive_exact_hits": 0,
+    "gold_authority_paths_absent": "7/7",
+    "comfyui_8188_reachable": true,
+    "comfyui_8188_idle": true
+  },
+  "blocker_classes": [
+    {
+      "class": "F",
+      "name": "EXTERNAL_POD_MODEL_PAYLOAD_GATE",
+      "primary_code": "LOCAL_WAN_MODEL_PAYLOAD_MISSING",
+      "codes": [
+        "LOCAL_WAN_MODEL_PAYLOAD_MISSING"
+      ],
+      "applies_to": [
+        "TRK-W64-023"
+      ],
+      "fail_closed_until": "all_three_exact_payloads_present_hash_bound_under_pod_comfy_model_roots",
+      "summary": "Class F fail-closed on RunPod: Wan 2.2 TI2V 5B payloads 0/3 at expected POD paths; recursive /workspace exact-filename hits=0. No download invented this landing.",
+      "required_assets": [
+        {
+          "filename": "wan2.2_ti2v_5B_fp16.safetensors",
+          "role": "diffusion_model",
+          "comfyui_model_subdir": "diffusion_models",
+          "bytes": 9999658848,
+          "sha256": "456f901338bd9eadbded3828b819109a9b68e8a525ca5cf8d0049a69fcfeca1e",
+          "expected_pod_path": "/workspace/ComfyUI/models/diffusion_models/wan2.2_ti2v_5B_fp16.safetensors",
+          "alt_expected_pod_path": "/workspace/models/diffusion_models/wan2.2_ti2v_5B_fp16.safetensors",
+          "source_url_reference_only_do_not_auto_download": "https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/resolve/fb1388adc906ab39ffc26ee40e96b22886b56bc4/split_files/diffusion_models/wan2.2_ti2v_5B_fp16.safetensors",
+          "live_status": "ABSENT",
+          "recursive_hits_on_workspace": 0,
+          "observed_bytes": null,
+          "present_at": null
+        },
+        {
+          "filename": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+          "role": "text_encoder",
+          "comfyui_model_subdir": "text_encoders",
+          "bytes": 6735906897,
+          "sha256": "c3355d30191f1f066b26d93fba017ae9809dce6c627dda5f6a66eaa651204f68",
+          "expected_pod_path": "/workspace/ComfyUI/models/text_encoders/umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+          "alt_expected_pod_path": "/workspace/models/text_encoders/umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+          "source_url_reference_only_do_not_auto_download": "https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/resolve/fb1388adc906ab39ffc26ee40e96b22886b56bc4/split_files/text_encoders/umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+          "live_status": "ABSENT",
+          "recursive_hits_on_workspace": 0,
+          "observed_bytes": null,
+          "present_at": null
+        },
+        {
+          "filename": "wan2.2_vae.safetensors",
+          "role": "vae",
+          "comfyui_model_subdir": "vae",
+          "bytes": 1409400960,
+          "sha256": "e40321bd36b9709991dae2530eb4ac303dd168276980d3e9bc4b6e2b75fed156",
+          "expected_pod_path": "/workspace/ComfyUI/models/vae/wan2.2_vae.safetensors",
+          "alt_expected_pod_path": "/workspace/models/vae/wan2.2_vae.safetensors",
+          "source_url_reference_only_do_not_auto_download": "https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/resolve/fb1388adc906ab39ffc26ee40e96b22886b56bc4/split_files/vae/wan2.2_vae.safetensors",
+          "live_status": "ABSENT",
+          "recursive_hits_on_workspace": 0,
+          "observed_bytes": null,
+          "present_at": null
+        }
+      ],
+      "search_roots_pod": [
+        {
+          "root": "/workspace/ComfyUI/models",
+          "exists": true,
+          "exact_hits": 0
+        },
+        {
+          "root": "/workspace/models",
+          "exists": false,
+          "exact_hits": 0
+        },
+        {
+          "root": "/workspace/wave64/models",
+          "exists": true,
+          "exact_hits": 0,
+          "note": "gitkeep stubs only"
+        },
+        {
+          "root": "/workspace",
+          "exists": true,
+          "exact_hits": 0
+        }
+      ],
+      "total_exact_filename_hits": 0,
+      "authority_runtime_requirements": "Plan/07_IMPLEMENTATION/workflow_templates/video_generation/wan_2_2_ti2v_5b_primary_lane/runtime_requirements.json",
+      "download_attempted_this_landing": false,
+      "install_attempted_this_landing": false,
+      "wan_generation_authorized_this_landing": false
+    },
+    {
+      "class": "A",
+      "name": "GOLD_MASK_CONTACT_SOFT_BODY_AUTHORITY",
+      "codes": [
+        "CONTACT_SOFT_BODY_VIDEO_SCOPE_BLOCKED_GOLD_MASKS",
+        "Blocked_Gold_Mask_Dependency_Missing"
+      ],
+      "applies_to": {
+        "CONTACT_SOFT_BODY_VIDEO_SCOPE_BLOCKED_GOLD_MASKS": [
+          "TRK-W64-019"
+        ],
+        "Blocked_Gold_Mask_Dependency_Missing": [
+          "TRK-W64-023"
+        ]
+      },
+      "scope": "contact_and_soft_body_and_deformation_repair_subgates_only",
+      "protocol": "Plan/Instructions/QA/GOLD_STANDARD_MASK_DEPENDENCY_GATE_PROTOCOL.md",
+      "summary": "Class A authority gap on RunPod: all exact body/contact gold-mask authority POD paths ABSENT (7/7). Facial gold under wave64 tree does not clear contact/soft-body claims.",
+      "exact_missing_authority_paths": [
+        {
+          "path": "/workspace/Plan/Instructions/QA/Evidence/Mask_Factory/Body_Contact_Gold_Standards",
+          "role": "canonical_body_contact_gold_standards_tree",
+          "status": "ABSENT"
+        },
+        {
+          "path": "/workspace/Plan/Instructions/QA/Evidence/Mask_Factory/promoted_body_contact",
+          "role": "promoted_body_contact_mask_tree",
+          "status": "ABSENT"
+        },
+        {
+          "path": "/workspace/masks/gold_standard/body_contact",
+          "role": "runtime_masks_gold_standard_body_contact",
+          "status": "ABSENT"
+        },
+        {
+          "path": "/workspace/MaskedWarehouse/gold_standard/body_contact",
+          "role": "warehouse_gold_standard_body_contact",
+          "status": "ABSENT"
+        },
+        {
+          "path": "/workspace/maskfactory_data/gold_standard/body_contact",
+          "role": "maskfactory_data_gold_standard_body_contact",
+          "status": "ABSENT"
+        },
+        {
+          "path": "/workspace/assets/gold_standard/body_contact",
+          "role": "assets_gold_standard_body_contact",
+          "status": "ABSENT"
+        },
+        {
+          "path": "/workspace/maskfactory/gold_standard/body_contact",
+          "role": "maskfactory_gold_standard_body_contact",
+          "status": "ABSENT"
+        }
+      ],
+      "non_clearing_present_assets": [
+        {
+          "path": "/workspace/wave64/Plan/Instructions/QA/Evidence/Mask_Factory/Facial_Gold_Standards",
+          "classification": "facial_neck_hair_exception_only_does_not_clear_body_contact",
+          "status": "PRESENT_ON_POD_TREE"
+        },
+        {
+          "path": "/workspace/ComfyUI/models/diffusion_models/flux1-fill-dev-fp8.safetensors",
+          "classification": "flux_fill_present_but_forbidden_seed_cap_reached_not_wan_ti2v",
+          "status": "PRESENT",
+          "note": "Flux fill on pod does not clear Class F Wan TI2V; identical seeds 2272301/2272401/2272507 forbidden"
+        }
+      ],
+      "cleared_only_when": [
+        "User stages trusted body/contact gold masks under a required POD authority path",
+        "Canonical intake/QA/geometry/promotion evidence passes for those exact masks",
+        "Row scope no longer depends on missing gold-mask truth for contact/soft-body claims"
+      ],
+      "facial_neck_hair_dataset_exception_does_not_clear_body_contact": true,
+      "invented_this_landing": false
+    }
+  ],
+  "retained_class_b_visual_qa_not_reclassified_here": {
+    "note": "Prior Flux/Wan visual REJECT codes remain Class B. This landing only reaffirms Class F payload absence and Class A gold-mask authority gap on the live RunPod runtime.",
+    "codes_remain_class_b": [
+      "FRAME_REPAIR_VISUAL_ACCEPTANCE_FAILED",
+      "FLUX_SPAN_REPAIR_VISUAL_QA_FAILED",
+      "FLUX_SPAN_REPAIR_V2_VISUAL_QA_FAILED",
+      "SIDE_LIGHT_GRAY_NOT_RESTORED",
+      "HARD_ARTIFACTS_RETAINED",
+      "KEYFRAME_MANIFEST_INTEGRATION_MISSING",
+      "SAME_SEED_RERUN_FORBIDDEN",
+      "SHORT_SPAN_EXECUTOR_NOT_ELIGIBLE"
+    ],
+    "class_b_ledger": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_CLASS_B_BLOCKER_LEDGER_20260720.json",
+    "flux_seed_retries": "CAP_REACHED_STOP",
+    "forbidden_identical_retries": [
+      2272301,
+      2272401,
+      2272507
+    ]
+  },
+  "authority_bindings": [
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_CLASS_A_F_BLOCKER_DISPOSITION_PACKET_20260720T123355-0500.json",
+      "exists": true,
+      "bytes": 15869,
+      "sha256": "B8109CE42D954E10B0A3A6A811FB68D738B2DC18317C216926A51E036D58ADA1"
+    },
+    {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_CLASS_B_BLOCKER_LEDGER_20260720.json",
+      "exists": true,
+      "bytes": 12748,
+      "sha256": "2BB9FFD07D7ED4A7DE36FAD120591EDCE1E59DBEBFDCF95A27123FDE31CA019C"
+    },
+    {
+      "path": "Plan/07_IMPLEMENTATION/workflow_templates/video_generation/wan_2_2_ti2v_5b_primary_lane/runtime_requirements.json",
+      "exists": true,
+      "bytes": 5720,
+      "sha256": "30137AC9509439012804C36916BD89EF425DBD7063D730EE771C82C0633D374A"
+    },
+    {
+      "path": "Plan/Instructions/QA/GOLD_STANDARD_MASK_DEPENDENCY_GATE_PROTOCOL.md",
+      "exists": true,
+      "bytes": 4070,
+      "sha256": "659FD3C21C084B0E3EBDBF8E8378EBA2CD845186089A7B824FF4297403727CD3"
+    },
+    {
+      "path": "Plan/Items/Reports/ITEM-W64-019_video_pipeline_build.json",
+      "exists": true,
+      "bytes": 4266,
+      "sha256": "94DDA9BC6834CCE16CC3A05F99C3FAEABDFE28876DF90937958FE62449512F0A"
+    },
+    {
+      "path": "Plan/Items/Reports/ITEM-W64-023_video_frame_repair.json",
+      "exists": true,
+      "bytes": 5828,
+      "sha256": "0703515882C3760DE00E8B4103C5A7D3AD977488DE2010E218C84A3AA541CA0C"
+    },
+    {
+      "path": "runtime_artifacts/wave64_row019_023_pod_inventory_20260720/pod_inventory_receipt.json",
+      "exists": true,
+      "bytes": 1461,
+      "sha256": "09ABCA6F6368813872A25DFE5B8F8D496174F70461A7F7EB6196417D31C571CF"
+    }
+  ],
+  "clearance_contract": {
+    "class_f_cleared_only_when": [
+      "All three Wan TI2V filenames present at expected_pod_path or alt_expected_pod_path",
+      "Each file matches required bytes and sha256 from runtime_requirements.json",
+      "Live pod re-inventory shows present_count==3 and recursive exact hits>=3",
+      "Then at most one new authorized Wan seed (not 2272301/2272401/2272507) on idle pod :8188"
+    ],
+    "class_a_cleared_only_when": [
+      "At least one required body/contact gold authority POD path exists with intake-validated masks",
+      "User signals ready-for-intake; protocol QA/geometry/promotion gates pass",
+      "Facial gold exception alone never clears these codes"
+    ],
+    "never_complete_from_this_packet": true,
+    "do_not": [
+      "emit_HOLD_declared_artifact_treadmill",
+      "flux_seed_spam_2272301_2272401_2272507",
+      "auto_download_or_invent_wan_payloads",
+      "invent_or_promote_gold_masks",
+      "touch_row073_pcm",
+      "mutate_shared_csv",
+      "claim_COMPLETE_or_row_complete",
+      "spam_8188_while_wan_payloads_missing"
+    ]
+  },
+  "checks": [
+    {
+      "name": "R019023-P001_ssh_pod_paths_env_sourced",
+      "result": "pass"
+    },
+    {
+      "name": "R019023-P002_live_wan_exact_path_probe_pod",
+      "result": "pass"
+    },
+    {
+      "name": "R019023-P003_wan_present_zero_of_three_pod",
+      "result": "pass"
+    },
+    {
+      "name": "R019023-P004_wan_recursive_hits_zero_pod",
+      "result": "pass"
+    },
+    {
+      "name": "R019023-P005_gold_authority_paths_all_absent_pod",
+      "result": "pass"
+    },
+    {
+      "name": "R019023-P006_no_hold_emit",
+      "result": "pass"
+    },
+    {
+      "name": "R019023-P007_no_wan_download",
+      "result": "pass"
+    },
+    {
+      "name": "R019023-P008_no_gold_invention",
+      "result": "pass"
+    },
+    {
+      "name": "R019023-P009_no_flux_forbidden_seed",
+      "result": "pass"
+    },
+    {
+      "name": "R019023-P010_csv_deferred",
+      "result": "pass"
+    },
+    {
+      "name": "R019023-P011_row073_left_alone",
+      "result": "pass"
+    },
+    {
+      "name": "R019023-P012_no_complete_claim",
+      "result": "pass"
+    },
+    {
+      "name": "R019023-P013_8188_idle_no_class_b_climb_without_wan",
+      "result": "pass"
+    }
+  ],
+  "boundaries": {
+    "flux_seed_retries_stopped": true,
+    "comfyui_8188_spam": false,
+    "comfyui_8188_reachable": true,
+    "comfyui_8188_idle": true,
+    "row073_left_alone": true,
+    "csv_mutated": false,
+    "complete_claimed": false,
+    "ec2_started": false,
+    "local_gpu_used": false,
+    "huge_model_download_attempted": false,
+    "gold_masks_invented": false,
+    "hold_artifact_emitted": false,
+    "class_b_gpu_climb_this_landing": false,
+    "runtime": "runpod"
+  },
+  "decision": {
+    "status": "blocked",
+    "row_complete": false,
+    "product_completion": false,
+    "class_f": "LOCAL_WAN_MODEL_PAYLOAD_MISSING",
+    "class_a": [
+      "CONTACT_SOFT_BODY_VIDEO_SCOPE_BLOCKED_GOLD_MASKS",
+      "Blocked_Gold_Mask_Dependency_Missing"
+    ],
+    "class_b_retained": true,
+    "safe_next_action": "Human/external on RunPod: stage the three exact Wan TI2V payloads under /workspace/ComfyUI/models/{diffusion_models,text_encoders,vae}/ with sha256 bind; separately intake trusted body/contact gold masks under a required POD authority path. Only then authorize one new non-forbidden Wan seed on idle pod :8188. Do not emit HOLD, spam Flux seeds, touch Row073, mutate CSV, or claim COMPLETE."
+  },
+  "next_human_external_action": "Stage Wan TI2V 0/3\u21923/3 at exact POD expected paths with sha256 bind; supply body/contact gold masks under a POD authority path; then one authorized Wan repair seed. No HOLD treadmill; CSV deferred; no COMPLETE.",
+  "tracker_mirror": "Plan/Tracker/Evidence/Wave64/TRK-W64-019_023_POD_CLASS_A_F_BLOCKER_DISPOSITION_PACKET_20260720T225545-0500.json"
+}
