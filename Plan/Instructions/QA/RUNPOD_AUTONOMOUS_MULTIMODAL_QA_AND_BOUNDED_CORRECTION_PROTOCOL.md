@@ -110,6 +110,15 @@ operations and patch points, apply to a candidate copy, pass static validation,
 run in a bounded sandbox, and improve downstream QA without workflow or media
 regression. Coding-model prose or a syntactically valid graph is not acceptance.
 
+Before static inspection, independently bind the raw bytes for workflow,
+object-info, immutable contract, and model inventory through four distinct
+qualified digest-only executor receipts. Recompute the receipt-bundle identity,
+each receipt identity and current gateway/executor policy hash, require one job
+and contract-ID authority binding, and reject any raw-byte hash change. An
+unbound validation is `UNBOUND_STATIC_TEST_ONLY` and cannot support runtime or
+acceptance evidence. Receipt-bound static PASS still grants no sandbox,
+generation, patch-write, Coder, or promotion authority.
+
 ## Gate AQA-07: reviewer response integrity
 
 Reject empty, generic, incomplete, unrelated, non-JSON, schema-invalid,

@@ -138,19 +138,27 @@ video and whole-clip temporal review execute after the typed GPU hold clears.
 
 ## 6. Workflow review and patch execution
 
-1. Snapshot the accepted workflow JSON, object-info/node inventory, installed
-   models, custom-node lock, runtime policy, and accepted output receipt.
-2. Run graph schema, node existence, connection type, required input, model
+1. Snapshot the accepted workflow JSON, object-info/node inventory, immutable
+   job contract, installed models, custom-node lock, runtime policy, and
+   accepted output receipt.
+2. Obtain four distinct qualified `artifact_read` receipts for the workflow,
+   object-info, contract, and model-inventory bytes. The contract ID is the
+   shared authority binding and its job ID must match every receipt.
+3. Run graph schema, node existence, connection type, required input, model
    identity, compatibility, path, parameter range, and resource validation.
-3. Provide only these snapshots, defect JSON, logs, and approved patch points to
+4. Provide only these snapshots, defect JSON, logs, and approved patch points to
    the qualified workflow-engineer service.
-4. Require a typed patch with rationale, expected effect, risks, target nodes,
+5. Require a typed patch with rationale, expected effect, risks, target nodes,
    protected invariants, and rollback parent; reject arbitrary code or shell.
-5. Apply the patch to a candidate copy, rerun static validation, and execute one
+6. Apply the patch to a candidate copy, rerun static validation, and execute one
    bounded sandbox job under the phase lease.
-6. Run applicable media/mask QA and workflow regressions. Promote only through
+7. Run applicable media/mask QA and workflow regressions. Promote only through
    integration authority when the candidate improves with no invariant regression.
-7. Revert automatically on validation, execution, QA, cost, or regression failure.
+8. Revert automatically on validation, execution, QA, cost, or regression failure.
+
+CLI workflow validation fails closed without the four-receipt bundle. The
+`--allow-unbound-static-test` escape hatch is limited to unit fixtures and must
+never support a runtime, candidate, acceptance, or promotion claim.
 
 ### Read-only MaskFactory intake
 

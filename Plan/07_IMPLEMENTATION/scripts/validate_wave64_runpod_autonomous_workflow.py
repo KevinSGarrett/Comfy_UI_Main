@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import copy
 import hashlib
+import importlib.util
 import json
 import math
 import re
@@ -20,7 +21,13 @@ ROOT = Path(__file__).resolve().parents[3]
 VALIDATION_SCHEMA_PATH = ROOT / "Plan/08_SCHEMAS/runpod_autonomous_workflow_validation.schema.json"
 PATCH_SCHEMA_PATH = ROOT / "Plan/08_SCHEMAS/runpod_autonomous_workflow_patch.schema.json"
 PATCH_POLICY_PATH = ROOT / "Plan/10_REGISTRIES/wave64_runpod_autonomous_workflow_patch_policy.json"
+TOOL_RECEIPT_SCHEMA_PATH = ROOT / "Plan/08_SCHEMAS/runpod_autonomous_tool_executor_receipt.schema.json"
+INPUT_RECEIPT_BUNDLE_SCHEMA_PATH = ROOT / "Plan/08_SCHEMAS/runpod_autonomous_workflow_input_receipt_bundle.schema.json"
+TOOL_GATEWAY_POLICY_PATH = ROOT / "Plan/10_REGISTRIES/wave64_runpod_autonomous_tool_gateway_policy.json"
+TOOL_EXECUTOR_POLICY_PATH = ROOT / "Plan/10_REGISTRIES/wave64_runpod_autonomous_tool_executor_policy.json"
+CONTRACT_COMPILER_PATH = ROOT / "Plan/07_IMPLEMENTATION/scripts/compile_wave64_runpod_autonomous_multimodal_job_contract.py"
 ZERO_HASH = "0" * 64
+INPUT_KINDS = ("workflow", "object_info", "contract", "model_inventory")
 HOST_PATH_OR_URI = re.compile(r"(?i)(?:[a-z][a-z0-9+.-]*://|^[a-z]:[\\/]|^\\\\|^/)")
 
 
@@ -44,6 +51,103 @@ def _load_json(path: Path) -> dict[str, Any]:
     if not isinstance(value, dict):
         raise WorkflowValidationError(f"JSON root must be an object: {path}")
     return value
+
+
+def _load_json_with_raw_bytes(path: Path) -> tuple[dict[str, Any], bytes]:
+    try:
+        raw = path.read_bytes()
+        value = json.loads(raw)
+    except (OSError, json.JSONDecodeError, UnicodeDecodeError) as exc:
+        raise WorkflowValidationError(f"cannot load JSON {path}: {exc}") from exc
+    if not isinstance(value, dict):
+        raise WorkflowValidationError(f"JSON root must be an object: {path}")
+    return value, raw
+
+
+def _load_contract_compiler():
+    spec = importlib.util.spec_from_file_location("w64_aqa_contract_compiler_for_workflow", CONTRACT_COMPILER_PATH)
+    if spec is None or spec.loader is None:
+        raise WorkflowValidationError("cannot load immutable contract verifier")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def _self_hash(document: dict[str, Any], field: str) -> str:
+    candidate = copy.deepcopy(document)
+    candidate[field] = ZERO_HASH
+    return content_hash(candidate)
+
+
+def validate_input_receipt_bundle(
+    bundle: dict[str, Any],
+    raw_inputs: dict[str, bytes],
+    parsed_inputs: dict[str, dict[str, Any]],
+    contract: dict[str, Any],
+) -> dict[str, str]:
+    try:
+        jsonschema.Draft7Validator(_load_json(INPUT_RECEIPT_BUNDLE_SCHEMA_PATH)).validate(bundle)
+    except jsonschema.ValidationError as exc:
+        raise WorkflowValidationError(f"input receipt bundle schema invalid: {exc.message}") from exc
+    if bundle["bundle_id"] != _self_hash(bundle, "bundle_id"):
+        raise WorkflowValidationError("input receipt bundle identity mismatch")
+    if set(raw_inputs) != set(INPUT_KINDS) or set(parsed_inputs) != set(INPUT_KINDS):
+        raise WorkflowValidationError("raw and parsed inputs must cover every workflow inspector input")
+    raw_sha256: dict[str, str] = {}
+    for kind in INPUT_KINDS:
+        raw = raw_inputs[kind]
+        if not isinstance(raw, bytes):
+            raise WorkflowValidationError(f"{kind} raw input must be bytes")
+        try:
+            reparsed = json.loads(raw)
+        except (json.JSONDecodeError, UnicodeDecodeError) as exc:
+            raise WorkflowValidationError(f"{kind} raw input is not valid JSON") from exc
+        if reparsed != parsed_inputs[kind]:
+            raise WorkflowValidationError(f"{kind} parsed object does not match its receipt-bound raw bytes")
+        raw_sha256[kind] = hashlib.sha256(raw).hexdigest()
+    if contract.get("job_id") != bundle["job_id"]:
+        raise WorkflowValidationError("contract job_id does not match input receipt bundle")
+    if contract.get("contract_id") != bundle["authority_binding_sha256"]:
+        raise WorkflowValidationError("contract identity does not match input receipt authority binding")
+    try:
+        _load_contract_compiler().verify_contract(contract)
+    except Exception as exc:
+        raise WorkflowValidationError(f"immutable contract verification failed: {exc}") from exc
+
+    receipt_schema = _load_json(TOOL_RECEIPT_SCHEMA_PATH)
+    gateway_policy_sha256 = content_hash(_load_json(TOOL_GATEWAY_POLICY_PATH))
+    executor_policy_sha256 = content_hash(_load_json(TOOL_EXECUTOR_POLICY_PATH))
+    receipt_ids: dict[str, str] = {}
+    for kind in INPUT_KINDS:
+        receipt = bundle["receipts"][kind]
+        try:
+            jsonschema.Draft7Validator(receipt_schema).validate(receipt)
+        except jsonschema.ValidationError as exc:
+            raise WorkflowValidationError(f"{kind} executor receipt schema invalid: {exc.message}") from exc
+        expected_target = f"jobs/{bundle['job_id']}/inputs/{kind}.json"
+        required_values = {
+            "job_id": bundle["job_id"],
+            "authority_binding_sha256": bundle["authority_binding_sha256"],
+            "action_type": "artifact_read",
+            "normalized_target": expected_target,
+            "disposition": "PASS_READ_ONLY_ARTIFACT_DIGEST",
+            "execution_performed": True,
+            "content_exposed": False,
+            "target_write_performed": False,
+            "network_used": False,
+            "gateway_policy_sha256": gateway_policy_sha256,
+            "executor_policy_sha256": executor_policy_sha256,
+            "artifact_sha256": raw_sha256[kind],
+        }
+        for field, expected in required_values.items():
+            if receipt.get(field) != expected:
+                raise WorkflowValidationError(f"{kind} executor receipt {field} binding mismatch")
+        if receipt["receipt_id"] != _self_hash(receipt, "receipt_id"):
+            raise WorkflowValidationError(f"{kind} executor receipt identity mismatch")
+        receipt_ids[kind] = receipt["receipt_id"]
+    if len(set(receipt_ids.values())) != len(INPUT_KINDS):
+        raise WorkflowValidationError("workflow inspector executor receipt IDs must be distinct")
+    return receipt_ids
 
 
 def _finding(code: str, detail: str, node_id: str | None = None, input_name: str | None = None) -> dict[str, Any]:
@@ -159,6 +263,8 @@ def _apply_patch(
 def validate_workflow(
     workflow: dict[str, Any], object_info: dict[str, Any], contract: dict[str, Any],
     model_inventory: dict[str, Any], patch: dict[str, Any] | None = None,
+    input_receipt_bundle: dict[str, Any] | None = None,
+    input_raw_bytes: dict[str, bytes] | None = None,
 ) -> dict[str, Any]:
     if contract.get("schema_version") != "wave64.aqa.job_contract.v1" or contract.get("modality") != "workflow":
         raise WorkflowValidationError("workflow validation requires a W64-AQA workflow contract")
@@ -179,6 +285,23 @@ def validate_workflow(
     if len(eligible_models) != len(model_inventory["eligible_model_names"]):
         raise WorkflowValidationError("model inventory contains duplicates")
     base_hash = content_hash(workflow)
+    input_binding_disposition = "UNBOUND_STATIC_TEST_ONLY"
+    input_executor_receipt_ids: dict[str, str] = {}
+    if input_receipt_bundle is not None or input_raw_bytes is not None:
+        if input_receipt_bundle is None or input_raw_bytes is None:
+            raise WorkflowValidationError("receipt bundle and raw input bytes must be supplied together")
+        input_executor_receipt_ids = validate_input_receipt_bundle(
+            input_receipt_bundle,
+            input_raw_bytes,
+            {
+                "workflow": workflow,
+                "object_info": object_info,
+                "contract": contract,
+                "model_inventory": model_inventory,
+            },
+            contract,
+        )
+        input_binding_disposition = "PASS_EXECUTOR_RECEIPT_BOUND"
     findings: list[dict[str, Any]] = []
     candidate, patch_accepted = (copy.deepcopy(workflow), True)
     patch_disposition = "NOT_REQUESTED"
@@ -260,6 +383,8 @@ def validate_workflow(
         "object_info_sha256": object_info_hash,
         "model_inventory_sha256": content_hash(model_inventory),
         "patch_policy_sha256": content_hash(policy),
+        "input_binding_disposition": input_binding_disposition,
+        "input_executor_receipt_ids": input_executor_receipt_ids,
         "graph_summary": {
             "node_count": len(candidate), "edge_count": len(edges),
             "output_node_count": output_nodes, "acyclic": acyclic,
@@ -281,12 +406,29 @@ def main() -> int:
     parser.add_argument("contract", type=Path)
     parser.add_argument("model_inventory", type=Path)
     parser.add_argument("--patch", type=Path)
+    parser.add_argument("--input-receipt-bundle", type=Path)
+    parser.add_argument("--allow-unbound-static-test", action="store_true")
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     try:
+        if args.input_receipt_bundle is None and not args.allow_unbound_static_test:
+            raise WorkflowValidationError(
+                "CLI validation requires --input-receipt-bundle; unbound mode is test-only"
+            )
+        loaded = {
+            "workflow": _load_json_with_raw_bytes(args.workflow),
+            "object_info": _load_json_with_raw_bytes(args.object_info),
+            "contract": _load_json_with_raw_bytes(args.contract),
+            "model_inventory": _load_json_with_raw_bytes(args.model_inventory),
+        }
         result = validate_workflow(
-            _load_json(args.workflow), _load_json(args.object_info), _load_json(args.contract),
-            _load_json(args.model_inventory), _load_json(args.patch) if args.patch else None,
+            loaded["workflow"][0],
+            loaded["object_info"][0],
+            loaded["contract"][0],
+            loaded["model_inventory"][0],
+            _load_json(args.patch) if args.patch else None,
+            _load_json(args.input_receipt_bundle) if args.input_receipt_bundle else None,
+            {kind: loaded[kind][1] for kind in INPUT_KINDS} if args.input_receipt_bundle else None,
         )
         rendered = json.dumps(result, indent=2, sort_keys=True) + "\n"
         if args.output:

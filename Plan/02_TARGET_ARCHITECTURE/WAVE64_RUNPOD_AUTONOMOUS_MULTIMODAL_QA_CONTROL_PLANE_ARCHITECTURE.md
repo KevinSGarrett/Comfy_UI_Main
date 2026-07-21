@@ -85,6 +85,12 @@ typed graph operations, but this service applies them only to a candidate copy.
 The candidate must pass static validation, bounded sandbox execution, artifact
 capture, applicable media QA, and regression comparison before promotion.
 
+The inspector accepts production-shaped inputs only after four independent
+digest receipts bind workflow, object info, immutable contract, and model
+inventory to one job and contract authority. The CLI has no permissive default:
+unbound input is an explicit unit-test-only mode. This binding does not qualify
+the later validator-run, workflow-inspect, candidate-write, or generation tools.
+
 ### Policy engine
 
 Applies hard gates before weighted scores. It owns retry/no-progress ceilings,

@@ -125,10 +125,20 @@ PATHS = {
     / "Plan/08_SCHEMAS/runpod_autonomous_workflow_patch.schema.json",
     "workflow_validation_schema": ROOT
     / "Plan/08_SCHEMAS/runpod_autonomous_workflow_validation.schema.json",
+    "workflow_input_receipt_bundle_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_workflow_input_receipt_bundle.schema.json",
     "workflow_patch_policy": ROOT
     / "Plan/10_REGISTRIES/wave64_runpod_autonomous_workflow_patch_policy.json",
     "workflow_validator": ROOT
     / "Plan/07_IMPLEMENTATION/scripts/validate_wave64_runpod_autonomous_workflow.py",
+    "workflow_receipt_shadow_producer": ROOT
+    / "Plan/07_IMPLEMENTATION/scripts/produce_wave64_runpod_autonomous_workflow_receipt_shadow.py",
+    "workflow_receipt_shadow_bundle": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_WORKFLOW_RECEIPT_BOUND_SHADOW_20260721T231000Z/input_receipt_bundle.json",
+    "workflow_receipt_shadow_validation": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_WORKFLOW_RECEIPT_BOUND_SHADOW_20260721T231000Z/workflow_validation.json",
+    "workflow_receipt_shadow_evidence": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_WORKFLOW_RECEIPT_BOUND_SHADOW_20260721T231000Z/evidence.json",
     "correction_attempt_schema": ROOT
     / "Plan/08_SCHEMAS/runpod_autonomous_correction_attempt.schema.json",
     "correction_state_schema": ROOT
@@ -252,7 +262,11 @@ def collect_errors() -> list[str]:
         tool_executor_qualification = load_json(PATHS["tool_executor_qualification"])
         workflow_patch_schema = load_json(PATHS["workflow_patch_schema"])
         workflow_validation_schema = load_json(PATHS["workflow_validation_schema"])
+        workflow_input_receipt_bundle_schema = load_json(PATHS["workflow_input_receipt_bundle_schema"])
         workflow_patch_policy = load_json(PATHS["workflow_patch_policy"])
+        workflow_receipt_shadow_bundle = load_json(PATHS["workflow_receipt_shadow_bundle"])
+        workflow_receipt_shadow_validation = load_json(PATHS["workflow_receipt_shadow_validation"])
+        workflow_receipt_shadow_evidence = load_json(PATHS["workflow_receipt_shadow_evidence"])
         correction_attempt_schema = load_json(PATHS["correction_attempt_schema"])
         correction_state_schema = load_json(PATHS["correction_state_schema"])
         evidence_bundle_schema = load_json(PATHS["evidence_bundle_schema"])
@@ -294,6 +308,7 @@ def collect_errors() -> list[str]:
         phase_lease_runtime_canary_evidence,
         strict_model_admission_hold_evidence,
         tool_executor_qualification,
+        workflow_receipt_shadow_evidence,
         registry,
     )
     for document in json_docs:
@@ -585,6 +600,41 @@ def collect_errors() -> list[str]:
         errors.append("workflow graph mutation must remain forbidden")
     if workflow_patch_policy.get("threshold_mutation_allowed") is not False:
         errors.append("workflow threshold mutation must remain forbidden")
+    if workflow_receipt_shadow_bundle.get("bundle_id") != recompute_self_hash(
+        workflow_receipt_shadow_bundle, "bundle_id"
+    ):
+        errors.append("canonical workflow input receipt bundle self-hash mismatch")
+    if workflow_receipt_shadow_validation.get("validation_id") != recompute_self_hash(
+        workflow_receipt_shadow_validation, "validation_id"
+    ):
+        errors.append("canonical receipt-bound workflow validation self-hash mismatch")
+    if workflow_receipt_shadow_validation.get("input_binding_disposition") != "PASS_EXECUTOR_RECEIPT_BOUND":
+        errors.append("canonical workflow validation must be executor-receipt bound")
+    if set(workflow_receipt_shadow_validation.get("input_executor_receipt_ids", {})) != {
+        "workflow", "object_info", "contract", "model_inventory"
+    }:
+        errors.append("canonical workflow validation must bind all four inspector inputs")
+    if workflow_receipt_shadow_validation.get("disposition") != "PASS_STATIC_VALIDATION":
+        errors.append("canonical receipt-bound workflow validation must pass static gates")
+    if workflow_receipt_shadow_validation.get("sandbox_execution_performed") is not False:
+        errors.append("canonical receipt-bound workflow shadow must not claim sandbox execution")
+    if workflow_receipt_shadow_evidence.get("disposition") != "PASS_RECEIPT_BOUND_STATIC_WORKFLOW_INSPECTION_ONLY":
+        errors.append("canonical workflow shadow disposition must remain static-inspection only")
+    workflow_runtime_claims = workflow_receipt_shadow_evidence.get("runtime_claims", {})
+    if any(workflow_runtime_claims.get(key) is not False for key in (
+        "runpod_contacted", "gpu_used", "comfyui_execution_performed",
+        "model_inference_performed", "candidate_write_performed", "product_promotion_granted",
+    )):
+        errors.append("canonical workflow receipt shadow must not claim runtime or promotion authority")
+    workflow_shadow_root = PATHS["workflow_receipt_shadow_evidence"].parent
+    for relative_path, expected_sha256 in workflow_receipt_shadow_evidence.get(
+        "file_manifest_sha256", {}
+    ).items():
+        bound_path = workflow_shadow_root / relative_path
+        if not bound_path.is_file():
+            errors.append(f"workflow receipt shadow manifest path missing: {relative_path}")
+        elif hashlib.sha256(bound_path.read_bytes()).hexdigest() != expected_sha256:
+            errors.append(f"workflow receipt shadow manifest hash mismatch: {relative_path}")
     if migration_policy.get("decision_only") is not True:
         errors.append("migration controller must remain decision-only")
     if migration_policy.get("old_pod_stops_only_after_integration_switch") is not True:
@@ -668,6 +718,15 @@ def collect_errors() -> list[str]:
         jsonschema.Draft7Validator(tool_executor_receipt_schema).validate(tool_executor_receipt)
         jsonschema.Draft7Validator.check_schema(workflow_patch_schema)
         jsonschema.Draft7Validator.check_schema(workflow_validation_schema)
+        jsonschema.Draft7Validator.check_schema(workflow_input_receipt_bundle_schema)
+        jsonschema.Draft7Validator(workflow_input_receipt_bundle_schema).validate(
+            workflow_receipt_shadow_bundle
+        )
+        jsonschema.Draft7Validator(workflow_validation_schema).validate(
+            workflow_receipt_shadow_validation
+        )
+        for receipt in workflow_receipt_shadow_bundle.get("receipts", {}).values():
+            jsonschema.Draft7Validator(tool_executor_receipt_schema).validate(receipt)
         jsonschema.Draft7Validator.check_schema(correction_attempt_schema)
         jsonschema.Draft7Validator.check_schema(correction_state_schema)
         jsonschema.Draft7Validator.check_schema(evidence_bundle_schema)

@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_workflow_input_receipt_bundle.schema.json",
+  "title": "Wave64 Receipt-Bound Workflow Inspector Inputs",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "bundle_id", "job_id", "authority_binding_sha256", "receipts"
+  ],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.workflow_input_receipt_bundle.v1"},
+    "bundle_id": {"$ref": "#/definitions/sha256"},
+    "job_id": {"type": "string", "pattern": "^W64-AQA-JOB-[A-Za-z0-9._-]{1,96}$"},
+    "authority_binding_sha256": {"$ref": "#/definitions/sha256"},
+    "receipts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["workflow", "object_info", "contract", "model_inventory"],
+      "properties": {
+        "workflow": {"type": "object"},
+        "object_info": {"type": "object"},
+        "contract": {"type": "object"},
+        "model_inventory": {"type": "object"}
+      }
+    }
+  },
+  "definitions": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

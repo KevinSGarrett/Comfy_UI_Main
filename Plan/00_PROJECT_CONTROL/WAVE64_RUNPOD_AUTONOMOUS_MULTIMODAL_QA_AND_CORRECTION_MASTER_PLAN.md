@@ -298,6 +298,16 @@ approved patch points. Patch a candidate graph, run static validation and one
 bounded sandbox generation, compare with the accepted graph, then promote or
 revert through the same evidence policy used for media artifacts.
 
+The first retained workflow-inspection shadow is
+`Plan/Tracker/Evidence/W64_AQA_WORKFLOW_RECEIPT_BOUND_SHADOW_20260721T231000Z/evidence.json`.
+Four distinct qualified `artifact_read` receipts bind the exact workflow,
+object-info snapshot, immutable verified contract, and model inventory before
+the graph validator runs. The synthetic graph passes node, edge, model, path,
+range, output, and acyclicity checks. This is static inspection only: no
+RunPod contact, ComfyUI sandbox, candidate write, model inference, Coder
+proposal authority, or product promotion occurred. Those capabilities remain
+separately unqualified and cannot inherit authority from this PASS.
+
 ## Bounded correction policy
 
 - Preserve the accepted parent and immutable baseline before every repair.

@@ -69,6 +69,8 @@ def test_valid_api_workflow_is_deterministic_and_passes_without_execution() -> N
     second = module.validate_workflow(workflow(), object_info(), contract(module), inventory())
     assert first == second
     assert first["disposition"] == "PASS_STATIC_VALIDATION"
+    assert first["input_binding_disposition"] == "UNBOUND_STATIC_TEST_ONLY"
+    assert first["input_executor_receipt_ids"] == {}
     assert first["graph_summary"] == {"node_count": 3, "edge_count": 2, "output_node_count": 1, "acyclic": True}
     assert first["sandbox_execution_performed"] is False
 

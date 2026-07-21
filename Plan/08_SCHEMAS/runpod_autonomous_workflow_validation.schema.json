@@ -7,7 +7,8 @@
   "required": [
     "schema_version", "validation_id", "contract_id", "base_workflow_sha256",
     "candidate_workflow_sha256", "object_info_sha256", "model_inventory_sha256",
-    "patch_policy_sha256", "graph_summary", "findings", "patch_disposition",
+    "patch_policy_sha256", "input_binding_disposition", "input_executor_receipt_ids",
+    "graph_summary", "findings", "patch_disposition",
     "sandbox_execution_performed", "disposition"
   ],
   "properties": {
@@ -19,6 +20,19 @@
     "object_info_sha256": {"$ref": "#/definitions/sha256"},
     "model_inventory_sha256": {"$ref": "#/definitions/sha256"},
     "patch_policy_sha256": {"$ref": "#/definitions/sha256"},
+    "input_binding_disposition": {
+      "enum": ["UNBOUND_STATIC_TEST_ONLY", "PASS_EXECUTOR_RECEIPT_BOUND"]
+    },
+    "input_executor_receipt_ids": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "workflow": {"$ref": "#/definitions/sha256"},
+        "object_info": {"$ref": "#/definitions/sha256"},
+        "contract": {"$ref": "#/definitions/sha256"},
+        "model_inventory": {"$ref": "#/definitions/sha256"}
+      }
+    },
     "graph_summary": {
       "type": "object",
       "additionalProperties": false,
@@ -49,6 +63,24 @@
     "sandbox_execution_performed": {"const": false},
     "disposition": {"enum": ["PASS_STATIC_VALIDATION", "FAIL_STATIC_VALIDATION"]}
   },
+  "allOf": [
+    {
+      "if": {"properties": {"input_binding_disposition": {"const": "UNBOUND_STATIC_TEST_ONLY"}}},
+      "then": {"properties": {"input_executor_receipt_ids": {"maxProperties": 0}}}
+    },
+    {
+      "if": {"properties": {"input_binding_disposition": {"const": "PASS_EXECUTOR_RECEIPT_BOUND"}}},
+      "then": {
+        "properties": {
+          "input_executor_receipt_ids": {
+            "required": ["workflow", "object_info", "contract", "model_inventory"],
+            "minProperties": 4,
+            "maxProperties": 4
+          }
+        }
+      }
+    }
+  ],
   "definitions": {
     "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
   }
