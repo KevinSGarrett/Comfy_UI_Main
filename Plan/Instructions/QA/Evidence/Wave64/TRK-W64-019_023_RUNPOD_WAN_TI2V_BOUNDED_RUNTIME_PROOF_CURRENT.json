@@ -6,21 +6,18 @@
       "Row074",
       "COMPLETE",
       "Wan_refetch",
-      "017_redo"
+      "017_redo",
+      "Wan_I2V_this_landing"
     ],
     "pod_id": "1q4ji0gg1fkhvt",
     "sole_runtime": "RunPod",
     "ssh": "root@195.26.233.100:52077"
   },
-  "blocker_id": "NO_SHARP_HAND_START_STILL",
-  "bytes_gate": {
-    "note": "N/A \u2014 no mp4 generated this landing",
-    "ok": false
-  },
-  "claim_tier": "class_e_start_still_blocker",
+  "blocker_id_cleared": "NO_SHARP_HAND_START_STILL",
+  "claim_tier": "class_e_start_still_available_wan_climb_deferred",
   "class_ladder": {
     "class_a": "product_visual_qa_open_human_claude_still_required",
-    "class_e": "prior hands/skin climb FAIL retained; new climb blocked by NO_SHARP_HAND_START_STILL",
+    "class_e": "start still NOW AVAILABLE; Wan Class E climb deferred to later landing (not this commit)",
     "class_f": "ASSET_PRESENT retained",
     "not_claimed": [
       "row_complete",
@@ -31,179 +28,93 @@
       "production_video_lane_certification"
     ]
   },
-  "comfy_regen": {
-    "attempted": false,
-    "did_not_kill_foreign_jobs": true,
-    "did_not_refetch_wan": true,
-    "did_not_touch_row017": true,
-    "did_not_touch_row074": true,
-    "note": "Prefer stop-with-blocker over another soft-start FAIL. No I2V Wan submit this landing.",
-    "queue_at_scan": "idle",
-    "reason": "NO_SHARP_HAND_START_STILL"
-  },
-  "created_iso": "2026-07-21T03:55:30-05:00",
-  "created_utc": "2026-07-21T08:55:30Z",
-  "csv_sync": "synced_by_primary_csv_mutator_row019_023_wan_ti2v_no_sharp_hand_start_still",
-  "detail_lora_note": {
-    "flux_hand_skin_loras_present_on_pod": true,
-    "note": "Do not wire Flux hand/skin LoRAs into Wan. Need a sharp-hand start still (medium/hands-forward) or Wan-native detail LoRA.",
-    "wan_compatible_detail_lora_found": false
-  },
+  "created_iso": "2026-07-21T04:22:30-05:00",
+  "created_utc": "2026-07-21T09:22:30Z",
+  "csv_sync": "synced_by_primary_csv_mutator_row019_023_sharp_hand_start_still_available",
   "ec2_touched": false,
-  "evidence_id": "TRK-W64-019_023_NO_SHARP_HAND_START_STILL_20260721T035530-0500",
-  "highest_proof_tier_achieved": "RUNPOD_WAN_TI2V_BOUNDED_HANDS_SKIN_HUMAN_VISUAL_FAIL",
+  "evidence_id": "TRK-W64-019_023_SHARP_HAND_START_STILL_AVAILABLE_20260721T042230-0500",
+  "generation": {
+    "attempt": 1,
+    "checkpoint": "flux1-dev-fp8.safetensors",
+    "composition": "medium_hands_forward_waist_up",
+    "engine": "Flux+PuLID",
+    "face_ref": "/workspace/Characters/Scenes_xxx_001/01_CHARACTER_LOCKS/C1_female/refs/C1_USER_AUTHORITY_FACE_01.png",
+    "face_sha256": "eae4bc45cd029a812df8f8530d5c296eede73800b7ad9eeab35665468742602c",
+    "loras_flux_only": [
+      "character1_flux_calibration/Latina_milf_flux.safetensors",
+      "character1_flux_calibration/saggy_flux.safetensors",
+      "character1_flux_calibration/FLUX_FD-LargeButt-SkinnyWaist-FP8.safetensors",
+      "scenes_xxx_session/09_hands_feet/Realistic_Hands_Flux_v1.safetensors",
+      "scenes_xxx_session/05_skin_hyperreal/Skin_Pore_Flux1D_v1.2.safetensors",
+      "scenes_xxx_session/05_skin_hyperreal/Flux_Skin_Detailer.safetensors"
+    ],
+    "note": "Flux hand/skin LoRAs used for still only; NEVER wire into Wan.",
+    "prior_runtime_interrupt_discarded": "ce7eb9fb-e446-4445-83f7-e9ed33d7cc7d global_/interrupt storm",
+    "prompt_id": "2f011290-0463-4135-aa4a-da0ea0d2a8b8",
+    "pulid_file": "pulid_flux_v0.9.1.safetensors",
+    "pulid_weight": 1.0,
+    "resolution": [
+      832,
+      1152
+    ],
+    "seed": 17721261901,
+    "steps": 30
+  },
+  "highest_proof_tier_achieved": "RUNPOD_FLUX_PULID_SHARP_HAND_START_STILL_HUMAN_PASS",
   "human_frame_read": {
-    "blunt_human_verdict": "No C1 USER_AUTHORITY face/front/body still shows already-sharp separated fingers with pore microtexture suitable as Wan I2V start. Face refs have no hands. FRONT left hip hand soft/mushy. SIDE better separation but soft studio skin. Prior athletic still already rejected. Hand topology crop is not a start still. Stop; do not Wan climb.",
-    "pass": false,
+    "blunt_human_verdict": "PASS. Medium/hands-forward C1 still with both palms toward camera; all five digits per hand clearly separated with visible knuckle creases and nail beds; hand/palm skin shows pore grain and fine lines (not mushy/fused, not plastic). Suitable as Wan I2V start still. Wan climb NOT run this landing.",
+    "fail_conditions_checked": [
+      "mushy_fused_fingers",
+      "plastic_skin"
+    ],
+    "fail_conditions_observed": [],
+    "pass": true,
     "performed": true,
-    "scope": "start_still_candidates_only_no_video_frames",
-    "verdict": "blocker"
+    "scope": "full_still_plus_hand_crops"
   },
   "item_ids": [
     "ITEM-W64-019",
     "ITEM-W64-023"
   ],
   "local_comfy_touched": false,
-  "mutation_this_landing": "bounded_runpod_wan_ti2v_no_sharp_hand_start_still",
-  "next_action": "Keep row_complete=false; Status FAIL open with NO_SHARP_HAND_START_STILL; no COMPLETE; Row074 alone; acquire sharp-hand start still before any Wan TI2V attempt.",
-  "next_fix_advice": "1) Produce or promote a medium/hands-forward C1 still with already-sharp separated fingers and visible pore microtexture (do not invent identity). 2) Do not re-use wan22_ti2v_fullbody_seed711670301.png or soft USER_AUTHORITY FRONT. 3) Never attach Flux hand/skin LoRAs to Wan. 4) Only then one I2V Wan climb \u2265704x1280/81f/36-40 steps simple breathing/blink; human_frame_read required.",
-  "prior_fail": {
-    "commit": "37f03e3a",
-    "defects": [
-      "mushy_fused_hands",
-      "plastic_skin",
-      "soft_start_still_tips"
-    ],
-    "evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_WAN_TI2V_HANDS_SKIN_HUMAN_VISUAL_FAIL_20260721T035115-0500.json",
-    "prompt_id": "5d9adb26-ce70-46a4-8824-1ba048982cc2"
-  },
+  "mutation_this_landing": "bounded_runpod_flux_pulid_sharp_hand_start_still",
+  "next_action": "Keep row_complete=false; Status FAIL/open with SHARP_HAND_START_STILL_AVAILABLE; no COMPLETE; Row074 alone; later one Wan I2V climb from staged still c1_sharp_hand_start_still_20260721T092218Z_a1.png (sha=ac43980940f3ae31...) \u2264704x1280/81f/36-40 steps simple breathing/blink; human_frame_read required; never attach Flux hand/skin LoRAs to Wan.",
+  "next_fix_advice": "1) Use staged comfy_input still as Wan I2V start. 2) Do not re-fetch Wan weights. 3) Never attach Flux hand/skin LoRAs to Wan. 4) Do not redo consumed 017 lanes. 5) Leave Row074 alone; no COMPLETE until Class E human pass.",
+  "prior_blocker": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_NO_SHARP_HAND_START_STILL_20260721T035530-0500.json",
   "production_completion_allowed": false,
   "production_video_complete_claimed": false,
-  "proof_tier": "RUNPOD_WAN_TI2V_BOUNDED_NO_SHARP_HAND_START_STILL",
+  "proof_tier": "RUNPOD_FLUX_PULID_SHARP_HAND_START_STILL_HUMAN_PASS",
   "row017_touched": false,
   "row074_touched": false,
   "row_complete": false,
   "schema_version": "1.0",
-  "start_still_search": {
-    "candidates_reviewed": [
-      {
-        "hands": "absent_face_crop",
-        "path": "/workspace/comfy_input/C1_USER_AUTHORITY_FACE_01.png",
-        "role": "C1_USER_AUTHORITY_face",
-        "viable_i2v_start": false
-      },
-      {
-        "hands": "absent_face_crop",
-        "path": "/workspace/comfy_input/C1_USER_AUTHORITY_FACE_02.png",
-        "role": "C1_USER_AUTHORITY_face",
-        "viable_i2v_start": false
-      },
-      {
-        "hands": "absent_shoulders_up",
-        "path": "/workspace/comfy_input/C1_USER_AUTHORITY_FACE_03.png",
-        "role": "C1_USER_AUTHORITY_face",
-        "viable_i2v_start": false
-      },
-      {
-        "hands": "absent_face_crop",
-        "path": "/workspace/comfy_input/C1_USER_AUTHORITY_FACE_04.png",
-        "role": "C1_USER_AUTHORITY_face",
-        "viable_i2v_start": false
-      },
-      {
-        "hands": "visible_but_left_hip_hand_soft_mushy; no_sharp_pore_microtexture_on_hands",
-        "path": "/workspace/comfy_input/C1_USER_AUTHORITY_FRONT_20260719.png",
-        "role": "C1_USER_AUTHORITY_front_body",
-        "viable_i2v_start": false
-      },
-      {
-        "hands": "separated_fingers_better_but_soft_studio_skin; pore_microtexture_not_sharp_enough_for_I2V_start",
-        "path": "/workspace/comfy_input/C1_USER_AUTHORITY_SIDE_20260719.png",
-        "role": "C1_USER_AUTHORITY_side_body",
-        "viable_i2v_start": false
-      },
-      {
-        "hands": "soft_tips_already_rejected_by_prior_FAIL",
-        "path": "/workspace/comfy_input/wan22_ti2v_fullbody_seed711670301.png",
-        "role": "prior_fail_athletic_start",
-        "viable_i2v_start": false
-      },
-      {
-        "hands": "separated_left_fingers_but_no_hand_pore_texture",
-        "path": "/workspace/Characters/Scenes_xxx_001/01_CHARACTER_LOCKS/C1_female/refs/LOCK_FRONT_passA.png",
-        "role": "promoted_front_lock",
-        "viable_i2v_start": false
-      },
-      {
-        "hands": "semi_fists_soft_mushy_no_separated_sharp_fingers",
-        "path": "/workspace/Characters/Scenes_xxx_001/01_CHARACTER_LOCKS/C1_female/refs/C1_METHOD_V177_FRONT_ECBD18E86514.png",
-        "role": "method_front",
-        "viable_i2v_start": false
-      },
-      {
-        "hands": "soft_blurry_hands",
-        "path": "/workspace/Characters/Scenes_xxx_001/01_CHARACTER_LOCKS/C1_female/refs/stack_proof_C1_SOLO_FRONT_00001_.png",
-        "role": "stack_proof_front",
-        "viable_i2v_start": false
-      },
-      {
-        "hands": "separated_left_but_plastic_smooth_hands",
-        "path": "/workspace/Characters/Scenes_xxx_001/01_CHARACTER_LOCKS/C1_female/refs/reference_front_body.jpg",
-        "role": "reference_front_body",
-        "viable_i2v_start": false
-      },
-      {
-        "hands": "fingertips_soft_plastic_vs_body_texture",
-        "path": "/workspace/comfy_input/character1_hand_v79_user_reference.png",
-        "role": "hand_lane_full_ref",
-        "viable_i2v_start": false
-      },
-      {
-        "hands": "fingertips_soft_not_razor_sharp",
-        "path": "/workspace/comfy_input/character1_hand_v67_user_reference_full.png",
-        "role": "hand_lane_full_ref",
-        "viable_i2v_start": false
-      },
-      {
-        "hands": "crop_has_separated_fingers_and_pores_but_512x512_crop_not_a_medium_or_full_I2V_start_still",
-        "note": "topology crop cannot substitute for framed start still",
-        "path": "/workspace/comfy_input/character1_user_hand_topology_reference_crop_v12.png",
-        "role": "hand_topology_crop_only",
-        "viable_i2v_start": false
-      },
-      {
-        "hands": "absent_headshot",
-        "path": "/workspace/comfy_input/character1_v231_front_flux_source_for_detail.png",
-        "role": "face_detail_source",
-        "viable_i2v_start": false
-      }
+  "staged_start_still": {
+    "bytes": 902892,
+    "filename": "c1_sharp_hand_start_still_20260721T092218Z_a1.png",
+    "hand_crops": [
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/sharp_hand_start_still_20260721T092218Z/hand_crop_left.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/sharp_hand_start_still_20260721T092218Z/hand_crop_right.png"
     ],
-    "decision": "do_not_generate",
-    "local_pullback_scan": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sharp_hand_start_still_scan_20260721",
-    "paths_env_sourced": true,
-    "performed": true,
-    "prefer": "C1 USER_AUTHORITY face/front/body showing hands clearly with already-sharp separated fingers + pore texture; medium/hands-forward",
-    "runtime": "runpod",
-    "viable_count": 0
+    "local_pullback": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sharp_hand_start_still_20260721T092218Z/c1_sharp_hand_start_still_20260721T092218Z_a1.png",
+    "output_path": "/workspace/comfy_output/Scenes_xxx_001/C1_sharp_hand_start/RUNPOD_C1_SHARP_HAND_START_a1_20260721T092218Z_00001_.png",
+    "pod_path": "/workspace/comfy_input/c1_sharp_hand_start_still_20260721T092218Z_a1.png",
+    "sha256": "ac43980940f3ae3187249f485bdd94ec69550a9cb96d4df3ebf163c8712cbcc4"
   },
-  "status": "CLASS_E_PROOF_ATTEMPT_FAIL_OPEN_NO_SHARP_HAND_START_STILL",
-  "summary": "NO_SHARP_HAND_START_STILL after prior FAIL prompt_id=5d9adb26-ce70-46a4-8824-1ba048982cc2. Scanned RunPod C1 USER_AUTHORITY face/front/side + comfy_input hand/front plates; viable_count=0 for already-sharp separated fingers + pore texture I2V start. No Wan submit. Status FAIL/open not Proof_Landed. row_complete=false; no COMPLETE; Row074 untouched; EC2 untouched; no 017 redo; no Wan re-fetch. tip=023facf6.",
-  "tip": "023facf6",
+  "status": "SHARP_HAND_START_STILL_AVAILABLE_WAN_CLIMB_DEFERRED",
+  "summary": "SHARP_HAND_START_STILL_AVAILABLE tip=d9df3d8a. Flux+PuLID prompt_id=2f011290-0463-4135-aa4a-da0ea0d2a8b8 seed=17721261901 staged /workspace/comfy_input/c1_sharp_hand_start_still_20260721T092218Z_a1.png sha256=ac43980940f3ae3187249f485bdd94ec69550a9cb96d4df3ebf163c8712cbcc4. Human gate PASS (separated fingers + pore microtexture). No Wan I2V this landing; Class E climb may resume later. row_complete=false; no COMPLETE; Row074 untouched; EC2 untouched; no 017 redo; no Wan re-fetch.",
+  "tip": "d9df3d8a",
   "tracker_ids": [
     "TRK-W64-019",
     "TRK-W64-023"
   ],
-  "verdict": "NO_SHARP_HAND_START_STILL",
+  "verdict": "SHARP_HAND_START_STILL_AVAILABLE",
   "visual_qa": {
-    "note": "No video generated; VLM deferred. human start-still gate failed.",
+    "note": "Human Read gate on full still + hand crops; VLM not required.",
     "ollama_vlm_in_loop": false,
-    "pass": false,
+    "pass": true,
     "performed": true,
-    "result": "blocker_no_sharp_hand_start_still"
+    "result": "sharp_hand_start_still_human_pass"
   },
-  "vlm_review": {
-    "performed": false,
-    "reason": "no_video_artifact_no_submit"
-  },
+  "wan_i2v_submitted": false,
   "wan_refetch": false
 }
