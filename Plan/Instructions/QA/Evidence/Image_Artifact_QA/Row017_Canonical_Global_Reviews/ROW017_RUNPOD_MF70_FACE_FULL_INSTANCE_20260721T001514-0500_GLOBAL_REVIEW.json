@@ -1,0 +1,106 @@
+{
+  "schema_version": "row017.v1",
+  "artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_face_full_instance_20260721T001514-0500/images/codex_row017_mf70_face_full_instance_20260721T001514-0500_00001_.png",
+    "sha256": "19f8cd74499af1e514b6cc5c60f40bc2c006d99528ac099c1d236ebf243e9daf"
+  },
+  "localized_change": {
+    "target_region": "mf70_face_full_instance",
+    "source_artifact": {
+      "path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_face_full_instance_20260707T145500-0500/wave70_mf70_face_identity_source_canny_v3.png",
+      "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d"
+    },
+    "mask_artifact": {
+      "path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_face_full_instance_20260707T145500-0500/wave70_mf70_face_full_instance_mask.png",
+      "sha256": "dd6857bdbd32a7b26b0aca6454418753f19440295bc81edbe7b28845c8212895"
+    }
+  },
+  "whole_frame_visual_scan": {
+    "status": "pass",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/ROW017_RUNPOD_MF70_FACE_FULL_INSTANCE_VISUAL_QA_20260721T001514-0500.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_face_full_instance_20260721T001514-0500/images/codex_row017_mf70_face_full_instance_20260721T001514-0500_00001_.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_face_full_instance_20260721T001514-0500/images/qa_full_side_by_side.png"
+    ],
+    "pre_edit_status": "pass",
+    "post_edit_status": "pass"
+  },
+  "required_target_region_check": {
+    "status": "pass",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/ROW017_RUNPOD_MF70_FACE_FULL_INSTANCE_VISUAL_QA_20260721T001514-0500.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_face_full_instance_20260721T001514-0500/images/qa_face_crop_side_by_side.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_face_full_instance_20260721T001514-0500/images/qa_mouth_crop_side_by_side.png"
+    ],
+    "target_region": "mf70_face_full_instance",
+    "findings": [
+      "Fresh RunPod mf70 face_full_instance climb remains a bounded full-face preservation refinement with no gray-mask, face-replacement, or hard-edge failure."
+    ]
+  },
+  "required_non_target_region_scan": {
+    "status": "pass",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/ROW017_RUNPOD_MF70_FACE_FULL_INSTANCE_VISUAL_QA_20260721T001514-0500.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_face_full_instance_20260721T001514-0500/images/qa_full_side_by_side.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_face_full_instance_20260721T001514-0500/images/qa_eye_crop_side_by_side.png"
+    ],
+    "regions_scanned": [
+      "eyes",
+      "face_identity",
+      "hair",
+      "wardrobe",
+      "background",
+      "lighting",
+      "framing"
+    ],
+    "findings": [
+      "Identity, hair, wardrobe, background, lighting, and framing remain stable; eyes/gaze preserved on direct inspection."
+    ]
+  },
+  "hands_face_body_background_contact_lighting_check": {
+    "hands": {
+      "visibility": "not_visible",
+      "inspected": true,
+      "status": "not_applicable",
+      "reason": "Hands are outside this head-and-shoulders crop."
+    },
+    "face": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Face identity and eyes remain stable; only face_full_instance mask is refined."
+    },
+    "body": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Visible shoulders/clothing remain stable versus source."
+    },
+    "background": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Background corner remains stable; no seam regression."
+    },
+    "contact": {
+      "visibility": "not_applicable",
+      "inspected": true,
+      "status": "not_applicable",
+      "reason": "No multi-character contact interaction is required in this portrait."
+    },
+    "lighting": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Soft directional lighting remains coherent across the frame."
+    }
+  },
+  "reject_on_any_global_defect": {
+    "status": "pass",
+    "global_defects": [],
+    "rejection_applied": false
+  },
+  "overall_decision": "pass",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "row_complete": false
+}
