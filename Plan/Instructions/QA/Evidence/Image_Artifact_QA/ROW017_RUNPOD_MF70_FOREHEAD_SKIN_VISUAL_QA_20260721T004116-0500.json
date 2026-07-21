@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ROW017-RUNPOD-MF70-FOREHEAD-SKIN-VISUAL-QA-20260721T004116-0500",
+  "created_at": "2026-07-21T00:41:16-05:00",
+  "tracker_id": "TRK-W64-017",
+  "item_id": "ITEM-W64-017",
+  "localized_region": "mf70_forehead_skin",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+  "qa_decision": "pass_bounded_localized_mf70_forehead_skin_runpod_runtime_candidate",
+  "overall_decision": "pass",
+  "local_only": false,
+  "runtime_host": "runpod",
+  "direct_visual_inspection": true,
+  "fixture_only": false,
+  "generation_executed": true,
+  "runtime_receipt": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_forehead_skin_20260721T004116-0500/LOCAL_RUNTIME_RECEIPT.json",
+  "source": {
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_forehead_skin_20260707T153000-0500/wave70_mf70_face_identity_source_canny_v3.png",
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d"
+  },
+  "mask": {
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_forehead_skin_20260707T153000-0500/wave70_mf70_forehead_skin_mask.png",
+    "sha256": "ad925d9a2f8f7df8f4628d690d7bd78efccef2fd7ae43c61046bd2bea136c506",
+    "filename": "wave70_mf70_forehead_skin_mask.png"
+  },
+  "artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_forehead_skin_20260721T004116-0500/images/codex_row017_mf70_forehead_skin_20260721T004116-0500_00001_.png",
+    "sha256": "e1b07f7867daddfc4673dc5d831c4e4fae9c7c2442c9d17a9cc01ac0486d4c3d"
+  },
+  "comparison_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_forehead_skin_20260721T004116-0500/images/qa_full_side_by_side.png",
+    "sha256": "23b06bce7b750b6fa35b3ab796fc708c9a3fd4ebe46b66ed38f107e639775632"
+  },
+  "face_crop_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_forehead_skin_20260721T004116-0500/images/qa_face_crop_side_by_side.png",
+    "sha256": "101042744d0e0189816e0475b0e7d7b61378164b9dac19099b60e0feca435c97"
+  },
+  "eye_crop_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_forehead_skin_20260721T004116-0500/images/qa_eye_crop_side_by_side.png",
+    "sha256": "34f857054763d69760a14d41964d180e52da7eee1f93c319e2c396025f5e91f4"
+  },
+  "mouth_crop_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_forehead_skin_20260721T004116-0500/images/qa_mouth_crop_side_by_side.png",
+    "sha256": "8fb2c339e3f5a473f6f96c84cab3492d175e59f4e9f9df44cf45d64dfa798c29"
+  },
+  "difference_metrics": {
+    "full_image_diff_bbox": [
+      295,
+      190,
+      482,
+      304
+    ],
+    "face_mask_bbox": [
+      299,
+      194,
+      478,
+      300
+    ],
+    "face_crop_box": [
+      279,
+      174,
+      498,
+      320
+    ],
+    "mean_rgb_abs_diff": [
+      0.11037,
+      0.113061,
+      0.111231
+    ],
+    "rms_rgb_abs_diff": [
+      0.956948,
+      0.987496,
+      0.966836
+    ],
+    "face_region_mean_abs": 3.455992,
+    "eye_region_mean_abs": 1.000127,
+    "mouth_region_mean_abs": 0.0,
+    "clothing_mean_abs": 0.0,
+    "background_corner_mean_abs": 0.0,
+    "changed_pixel_count": 8327,
+    "mask_pixel_count": 14838
+  },
+  "whole_frame_findings": [
+    "Fresh RunPod ComfyUI mf70 forehead_skin masked inpaint on wave70_mf70_face_identity_source_canny_v3 (seed 6621048816, RealVisXL baked VAE, denoise 0.09, FeatherMask 24px, cfg 4.0, steps 18) completed successfully (prompt_id e9fc696b-19ac-4196-bc91-d32a17b5fb92).",
+    "Whole-frame identity, hair, navy blazer, patterned shirt, collar, dark studio background, lighting, and framing remain stable versus source.",
+    "Pixel delta is localized to mf70 forehead_skin bbox [299, 194, 478, 300]; clothing mean abs 0.0; background corner mean abs 0.0; 8327 changed pixels vs 14838-pixel forehead_skin mask.",
+    "Direct whole-frame + face/eye/mouth crop inspection: subtle forehead-skin preservation refinement without gray-mask failure, identity drift, wardrobe rewrite, background change, hard mask-edge seam, or gaze/iris rewrite.",
+    "Hands are outside this head-and-shoulders crop (not applicable); no global style drift observed."
+  ],
+  "global_defects": [],
+  "promotion_authorized": false,
+  "row_complete": false,
+  "product_completion_claimed": false,
+  "ec2": "RUNPOD_USED",
+  "docker_cvat": "not-needed",
+  "notes": [
+    "Class E future-producer emission proof via RunPod Comfy runtime after local :8188 was unreachable.",
+    "Does not claim COMPLETE; CSV deferred; Row074 left alone; HOLD 090+ untouched."
+  ],
+  "csv_update_deferred": true
+}
