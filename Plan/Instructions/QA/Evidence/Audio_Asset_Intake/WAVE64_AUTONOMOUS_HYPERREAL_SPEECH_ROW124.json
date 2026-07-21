@@ -157,13 +157,17 @@
       {
         "class": "DIALOGUE_TIMING",
         "cleared_by_this_packet": [
-          "RAW_DIALOGUE_TIMING_DISPOSITION_UNDOCUMENTED"
+          "RAW_DIALOGUE_TIMING_DISPOSITION_UNDOCUMENTED",
+          "PATH_A_BOUNDED_STRETCH_FEASIBILITY_UNDOCUMENTED"
         ],
         "codes": [
-          "RAW_DIALOGUE_TIMING_OUT_OF_TOLERANCE"
+          "RAW_DIALOGUE_TIMING_OUT_OF_TOLERANCE",
+          "PATH_A_CALIBRATED_BOUNDED_STRETCH_OUT_OF_BOUNDS"
         ],
-        "disposition": "FAIL_CLOSED_WAIVER_NOT_GRANTED",
-        "summary": "Raw dialogue timing remains outside the 3.000\u00b10.080s contract (3.200042s measured). Fail-closed waiver packet is documented with exact Path A/B clearance criteria; waiver_granted=false so RAW_DIALOGUE_TIMING_OUT_OF_TOLERANCE is retained.",
+        "disposition": "FAIL_CLOSED_PATH_A_BOUNDED_STRETCH_OUT_OF_BOUNDS",
+        "path_a_stretch_feasibility_packet_prepared": true,
+        "path_a_stretch_out_of_bounds": true,
+        "summary": "Raw dialogue timing remains outside the 3.000\u00b10.080s contract (3.200042s live-measured). Fail-closed waiver packet is documented; Path A calibrated bounded stretch is measured out of bounds (required rate outside [0.95, 1.05]). waiver_granted=false; offline Path A stretch is not available; native regeneration or Path B grant remains required. Listening authority stays separate.",
         "timing_waiver_granted": false,
         "timing_waiver_packet_prepared": true
       }
@@ -172,33 +176,38 @@
       "PRODUCTION_CHARACTER_REFERENCE_AUTHORITY_ABSENT",
       "INDEPENDENT_PLAYBACK_REVIEW_ABSENT",
       "FINAL_VOICE_CERTIFICATION_PENDING",
-      "RAW_DIALOGUE_TIMING_OUT_OF_TOLERANCE"
+      "RAW_DIALOGUE_TIMING_OUT_OF_TOLERANCE",
+      "PATH_A_CALIBRATED_BOUNDED_STRETCH_OUT_OF_BOUNDS"
     ],
     "cleared_partial": [
       "LISTENING_REVIEW_REQUEST_UNPREPARED",
       "INDEPENDENT_SOURCE_REFERENCE_COUNT_BELOW_TWO",
       "MULTI_REF_DRIFT_LEAKAGE_MATRIX_INCOMPLETE",
       "RAW_DIALOGUE_TIMING_DISPOSITION_UNDOCUMENTED",
+      "PATH_A_BOUNDED_STRETCH_FEASIBILITY_UNDOCUMENTED",
       "LISTENING_REVIEW_REQUEST_UNPREPARED",
       "HUMAN_LISTENING_AUTHORITY_DISPOSITION_UNDOCUMENTED"
     ],
     "continuity_diagnostic_bound": true,
-    "current_delta": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-124_MULTI_REF_LISTENING_CURRENT_DELTA_20260720E.json",
+    "current_delta": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-124_MULTI_REF_LISTENING_CURRENT_DELTA_20260720F.json",
     "drift_leakage_matrix_complete": true,
     "drift_leakage_matrix_started": true,
-    "evidence_id": "TRK-W64-124_MULTI_REF_LISTENING_CURRENT_DELTA_20260720E",
+    "evidence_id": "TRK-W64-124_MULTI_REF_LISTENING_CURRENT_DELTA_20260720F",
     "fake_listening_pass_rejected": true,
     "human_listening_blocker_packet_prepared": true,
-    "human_listening_fail_closed_blocker": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/TRK-W64-124_HUMAN_LISTENING_FAIL_CLOSED_BLOCKER_20260720E.json",
+    "human_listening_fail_closed_blocker": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/TRK-W64-124_HUMAN_LISTENING_FAIL_CLOSED_BLOCKER_20260720F.json",
     "independent_source_reference_count": 2,
     "listening_authority_claimed": false,
     "listening_authority_granted": false,
-    "listening_review_request": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/TRK-W64-124_LISTENING_REVIEW_REQUEST_20260720E.json",
-    "multi_ref_drift_leakage_matrix": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/TRK-W64-124_MULTI_REF_DRIFT_LEAKAGE_MATRIX_20260720E.json",
+    "listening_review_request": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/TRK-W64-124_LISTENING_REVIEW_REQUEST_20260720F.json",
+    "multi_ref_drift_leakage_matrix": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/TRK-W64-124_MULTI_REF_DRIFT_LEAKAGE_MATRIX_20260720F.json",
+    "path_a_bounded_stretch_feasibility": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/TRK-W64-124_PATH_A_BOUNDED_STRETCH_FEASIBILITY_20260720F.json",
+    "path_a_stretch_feasibility_packet_prepared": true,
+    "path_a_stretch_out_of_bounds": true,
     "product_completion": false,
     "production_voice_authority_claimed": false,
     "proof_tier": "OFFLINE_PROOF_BOUNDED",
-    "raw_dialogue_timing_fail_closed_waiver": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/TRK-W64-124_RAW_DIALOGUE_TIMING_FAIL_CLOSED_WAIVER_20260720E.json",
+    "raw_dialogue_timing_fail_closed_waiver": "Plan/Instructions/QA/Evidence/Audio_Asset_Intake/TRK-W64-124_RAW_DIALOGUE_TIMING_FAIL_CLOSED_WAIVER_20260720F.json",
     "row_complete": false,
     "second_source_reference_bound": true,
     "status": "BLOCKED_PRODUCTION_VOICE_AND_LISTENING_AUTHORITY_PENDING",
@@ -209,7 +218,7 @@
     "blockers": [
       "PRODUCTION_VOICE_AUTHORITY: PRODUCTION_CHARACTER_REFERENCE_AUTHORITY_ABSENT",
       "LISTENING_AUTHORITY: INDEPENDENT_PLAYBACK_REVIEW_ABSENT, FINAL_VOICE_CERTIFICATION_PENDING",
-      "DIALOGUE_TIMING: RAW_DIALOGUE_TIMING_OUT_OF_TOLERANCE"
+      "DIALOGUE_TIMING: RAW_DIALOGUE_TIMING_OUT_OF_TOLERANCE, PATH_A_CALIBRATED_BOUNDED_STRETCH_OUT_OF_BOUNDS"
     ],
     "implemented_capability": "pinned Qwen3-TTS Base ICL reference-conditioned cloning with exact reference/model/package lineage and calibrated identity evaluation",
     "item_id": "ITEM-W64-124",

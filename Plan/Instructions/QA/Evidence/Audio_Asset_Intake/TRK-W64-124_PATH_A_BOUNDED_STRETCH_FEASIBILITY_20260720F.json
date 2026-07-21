@@ -1,0 +1,98 @@
+{
+  "anti_fake_pass_invariants": [
+    "stretch_applied remains false in this offline measurement packet",
+    "raw_dialogue_timing_pass remains false unless a new measured candidate is in tolerance or Path B grant is bound",
+    "Feasibility measurement never mutates the immutable seed12401 candidate",
+    "Out-of-bounds stretch must not be coerced into PASS"
+  ],
+  "artifact_type": "wave64_speech_row124_path_a_bounded_stretch_feasibility_packet",
+  "blocker_code_retained": "PATH_A_CALIBRATED_BOUNDED_STRETCH_OUT_OF_BOUNDS",
+  "boundaries": {
+    "comfyui_8188_used": false,
+    "full_library_pcm_decoded": false,
+    "gpu_used": false,
+    "hold090_plus_touched": false,
+    "invented_voices": false,
+    "listening_authority_granted": false,
+    "media_mutated": false,
+    "offline_only": true,
+    "production_promotion_claimed": false,
+    "row073_touched": false,
+    "row075_touched": false,
+    "sound_csv_written": false,
+    "speech_csv_written": false,
+    "stretch_applied": false,
+    "timing_waiver_granted": false,
+    "tip_sha_chain": false
+  },
+  "candidate_sha256": "ff8325a1c2f8613d599af69284f5c4693d996a581230ccbbbb1aeba7affa9815",
+  "clearance_paths_remaining": {
+    "path_a_native_regeneration": {
+      "description": "Produce a new immutable native candidate whose measured duration falls inside [2.920, 3.080] without relying on out-of-bounds stretch.",
+      "requires": [
+        "GPU/TTS native regeneration or another in-bounds retimed immutable candidate",
+        "Re-run identity/ASR/technical gates on the new hash",
+        "Do not steal :8188 while Row073 PCM owns the host"
+      ]
+    },
+    "path_b_authorized_timing_contract_revision_or_waiver_grant": {
+      "description": "Integration-authority contract revision or hash-bound waiver grant. This feasibility packet is not that grant."
+    }
+  },
+  "contract": {
+    "authority": "Plan/08_SCHEMAS/hyperreal_av_local_repair_plan.schema.json#maximum_time_stretch_ratio_[0.95,1.05]",
+    "calibrated_stretch_rate_max": 1.05,
+    "calibrated_stretch_rate_min": 0.95,
+    "lower_bound_seconds": 2.92,
+    "stretch_rate_definition": "required_stretch_rate = measured_duration_seconds / target_duration_seconds (librosa.effects.time_stretch convention: rate>1 shortens output)",
+    "target_duration_seconds": 3.0,
+    "tolerance_seconds": 0.08,
+    "upper_bound_seconds": 3.08
+  },
+  "created_at": "2026-07-21T03:59:07.414488+00:00",
+  "cross_gate_coupling": {
+    "fake_listening_pass_rejected": true,
+    "listening_cannot_clear_timing": true,
+    "stretch_feasibility_cannot_grant_listening": true,
+    "stretch_feasibility_cannot_grant_timing_pass": true
+  },
+  "disposition": "FAIL_CLOSED_PATH_A_BOUNDED_STRETCH_OUT_OF_BOUNDS",
+  "do_not_clear_blocker_when": [
+    "Only this feasibility packet exists",
+    "Required stretch rate is outside calibrated [0.95, 1.05]",
+    "Out-of-bounds stretch is applied anyway and offered as timing PASS",
+    "Silence pad/trim is offered as a substitute for stretch or native retime",
+    "Listening PASS is offered as timing clearance",
+    "COMPLETE / PRODUCTION_VOICE_AUTHORITY / LISTENING_AUTHORITY is claimed"
+  ],
+  "evidence_id": "TRK-W64-124_PATH_A_BOUNDED_STRETCH_FEASIBILITY_20260720F",
+  "item_id": "ITEM-W64-124",
+  "measured": {
+    "duration_delta_seconds": 0.20004166666666645,
+    "duration_seconds": 3.2000416666666665,
+    "live_wav_measurement": {
+      "bytes": 153646,
+      "channels": 1,
+      "duration_seconds": 3.2000416666666665,
+      "frames": 76801,
+      "method": "stdlib_wave_nframes_over_framerate",
+      "path": "C:/Comfy_UI_Main/Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_qwen3_tts_base_icl_clone_20260715T195516-0500/qwen3_tts_base_icl_clone_seed12401.wav",
+      "sample_rate_hz": 24000,
+      "sample_width_bytes": 2,
+      "sha256": "ff8325a1c2f8613d599af69284f5c4693d996a581230ccbbbb1aeba7affa9815"
+    },
+    "out_of_tolerance_by_seconds": 0.12004166666666638,
+    "required_stretch_rate": 1.0666805555555554,
+    "within_calibrated_stretch_bounds": false
+  },
+  "media_mutated": false,
+  "product_completion_claimed": false,
+  "proof_tier": "OFFLINE_PROOF_BOUNDED",
+  "raw_dialogue_timing_pass": false,
+  "row_complete": false,
+  "schema_version": "1.0",
+  "status": "FAIL_CLOSED_PATH_A_BOUNDED_STRETCH_OUT_OF_BOUNDS",
+  "stretch_applied": false,
+  "timing_waiver_granted": false,
+  "tracker_id": "TRK-W64-124"
+}

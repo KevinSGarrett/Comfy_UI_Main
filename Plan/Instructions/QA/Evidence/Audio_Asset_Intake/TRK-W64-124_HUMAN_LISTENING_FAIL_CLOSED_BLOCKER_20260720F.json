@@ -1,0 +1,97 @@
+{
+  "anti_fake_pass_invariants": [
+    "listening_review_request_prepared=true NEVER implies independent_playback_review_pass",
+    "independent_playback_review_pass=true without hash-bound human review receipt is REJECTED",
+    "Agent-authored review scores are fabricated_human_decision and FAIL CLOSED",
+    "This packet itself never sets listening PASS or listening_authority_granted",
+    "Timing Path A/B clearance never substitutes for independent human playback"
+  ],
+  "artifact_type": "wave64_speech_row124_human_listening_fail_closed_blocker_packet",
+  "blocker_codes_retained": [
+    "INDEPENDENT_PLAYBACK_REVIEW_ABSENT",
+    "FINAL_VOICE_CERTIFICATION_PENDING"
+  ],
+  "boundaries": {
+    "comfyui_8188_used": false,
+    "full_library_pcm_decoded": false,
+    "gpu_used": false,
+    "hold090_plus_touched": false,
+    "invented_voices": false,
+    "listening_authority_granted": false,
+    "media_mutated": false,
+    "offline_only": true,
+    "production_promotion_claimed": false,
+    "row073_touched": false,
+    "row075_touched": false,
+    "sound_csv_written": false,
+    "speech_csv_written": false,
+    "subjective_review_fabricated": false,
+    "timing_waiver_granted": false,
+    "tip_sha_chain": false
+  },
+  "candidate_sha256": "ff8325a1c2f8613d599af69284f5c4693d996a581230ccbbbb1aeba7affa9815",
+  "clearance_paths": {
+    "path_a_independent_human_playback_review": {
+      "description": "Execute a real independent human playback review against the prepared hash-bound listening request. Agent/packager self-scores are prohibited.",
+      "must_all": [
+        "Review cites review_id W64-ROW124-QWEN3-BASE-ICL-CLONE-LISTENING-001",
+        "Review cites candidate sha256 ff8325a1c2f8613d599af69284f5c4693d996a581230ccbbbb1aeba7affa9815",
+        "Named independent human reviewer performs actual playback",
+        "Reviewer is not the packaging/automation agent that authored this packet",
+        "Category/section scores meet the prepared request minimum without fabrication",
+        "Hash-bound review receipt is recorded under the human-audio review authority",
+        "Packager/ROW124 automated_gates.independent_playback_review_pass becomes true only from that receipt, never from this blocker packet",
+        "Preparing or re-emitting the listening request alone is insufficient"
+      ]
+    },
+    "path_b_final_voice_certification_after_playback": {
+      "description": "After Path A playback PASS, record final voice certification. This fail-closed blocker packet is not that certification and never grants LISTENING_AUTHORITY.",
+      "must_all": [
+        "Path A independent playback review already passed with hash-bound receipt",
+        "Production character reference authority is present OR certification explicitly scoped as non-production evaluation-only",
+        "Final certification artifact cites this blocker evidence_id and candidate sha256",
+        "Certification forbids COMPLETE / PRODUCTION_VOICE_AUTHORITY promotion by itself",
+        "Subsequent delta binds the certification before dropping FINAL_VOICE_CERTIFICATION_PENDING",
+        "No CSV sound-row write, :8188 contention, Row073/Row075 mutation, or full-library PCM decode is implied"
+      ]
+    }
+  },
+  "created_at": "2026-07-21T03:59:07.414488+00:00",
+  "cross_gate_coupling": {
+    "fake_listening_pass_rejected": true,
+    "listening_cannot_clear_timing": true,
+    "request_prepared_is_not_listening_pass": true,
+    "timing_cannot_grant_listening": true
+  },
+  "disposition": "FAIL_CLOSED_HUMAN_LISTENING_AUTHORITY_NOT_GRANTED",
+  "do_not_clear_blocker_when": [
+    "Only the listening review request is prepared",
+    "Only this fail-closed human-listening blocker packet exists",
+    "Agent or packager fabricates category scores or listening PASS",
+    "Automated ASR / identity / multi-ref matrix success is offered as listening PASS",
+    "Subjective claim exists without a hash-bound independent review receipt",
+    "Timing waiver packet or timing measurement is offered as listening authority",
+    "Production COMPLETE is claimed in the same landing"
+  ],
+  "evidence_id": "TRK-W64-124_HUMAN_LISTENING_FAIL_CLOSED_BLOCKER_20260720F",
+  "final_voice_certification_pass": false,
+  "human_decision_fabricated": false,
+  "independent_playback_review_pass": false,
+  "item_id": "ITEM-W64-124",
+  "listening_authority_granted": false,
+  "listening_review_request_prepared": true,
+  "product_completion_claimed": false,
+  "proof_tier": "OFFLINE_PROOF_BOUNDED",
+  "review_id": "W64-ROW124-QWEN3-BASE-ICL-CLONE-LISTENING-001",
+  "row_complete": false,
+  "schema_version": "1.0",
+  "status": "FAIL_CLOSED_HUMAN_LISTENING_AUTHORITY_NOT_GRANTED",
+  "tracker_id": "TRK-W64-124",
+  "upstream_gates_still_blocking_production_listening": {
+    "path_a_calibrated_bounded_stretch_feasible": false,
+    "path_a_stretch_feasibility_evidence_id": "TRK-W64-124_PATH_A_BOUNDED_STRETCH_FEASIBILITY_20260720F",
+    "production_character_reference_authority_pass": false,
+    "raw_dialogue_timing_pass": false,
+    "timing_waiver_granted": false
+  }
+}
