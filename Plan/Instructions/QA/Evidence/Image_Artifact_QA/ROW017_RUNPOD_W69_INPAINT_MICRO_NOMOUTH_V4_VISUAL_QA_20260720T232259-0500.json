@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ROW017-RUNPOD-W69-INPAINT-MICRO-NOMOUTH-V4-VISUAL-QA-20260720T232259-0500",
+  "created_at": "2026-07-20T23:22:59-05:00",
+  "tracker_id": "TRK-W64-017",
+  "item_id": "ITEM-W64-017",
+  "localized_region": "w69_inpaint_micro_nomouth_v4",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+  "qa_decision": "pass_bounded_localized_w69_inpaint_micro_nomouth_v4_runpod_runtime_candidate",
+  "overall_decision": "pass",
+  "local_only": false,
+  "runtime_host": "runpod",
+  "direct_visual_inspection": true,
+  "fixture_only": false,
+  "generation_executed": true,
+  "runtime_receipt": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_w69_inpaint_micro_nomouth_v4_20260720T232259-0500/LOCAL_RUNTIME_RECEIPT.json",
+  "source": {
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/sdxl_inpaint_detail_micro_nomouth_v4_20260707T034500-0500/sdxl_inpaint_detail_source_canny_v1.png",
+    "sha256": "7951e6a37e8e05bbf22604ac03eac38831875ed283206af8f6a99d874ad3e523"
+  },
+  "mask": {
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/sdxl_inpaint_detail_micro_nomouth_v4_20260707T034500-0500/sdxl_inpaint_detail_micro_nomouth_v4.png",
+    "sha256": "9bfbbda24b0f4915282649bb8c2b3e5a39b5a057dacbce6278683e9b531ec92d",
+    "filename": "sdxl_inpaint_detail_micro_nomouth_v4.png"
+  },
+  "artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_w69_inpaint_micro_nomouth_v4_20260720T232259-0500/images/codex_row017_w69_inpaint_micro_nomouth_v4_20260720T232259-0500_00001_.png",
+    "sha256": "87e6841f4c1c78f87881c312f7c5123ada0fd15b6906f8ae0c77dbd9f98aff56"
+  },
+  "comparison_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_w69_inpaint_micro_nomouth_v4_20260720T232259-0500/images/qa_full_side_by_side.png",
+    "sha256": "1b03fe56a6e7e690941b8ebb0a29dfc2cfb7ff04239873c240d6c61139d0eb36"
+  },
+  "face_crop_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_w69_inpaint_micro_nomouth_v4_20260720T232259-0500/images/qa_face_crop_side_by_side.png",
+    "sha256": "b9dd2ec2f58a9afc6b919ffa5902f9b7ed3cd1860b356add184657b2985bee86"
+  },
+  "eye_crop_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_w69_inpaint_micro_nomouth_v4_20260720T232259-0500/images/qa_eye_crop_side_by_side.png",
+    "sha256": "78ac8e914249a6ca8adfc90d40e5d0a7f73c832f17c5258908e8b40f3b19e02f"
+  },
+  "mouth_crop_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_w69_inpaint_micro_nomouth_v4_20260720T232259-0500/images/qa_mouth_crop_side_by_side.png",
+    "sha256": "fe4f5196571c323892d52894abaf0061f4e4baa2203690c240400754ddd843d0"
+  },
+  "difference_metrics": {
+    "full_image_diff_bbox": [
+      280,
+      250,
+      489,
+      421
+    ],
+    "nomouth_mask_bbox": [
+      280,
+      250,
+      489,
+      421
+    ],
+    "face_crop_box": [
+      260,
+      230,
+      509,
+      441
+    ],
+    "mean_rgb_abs_diff": [
+      0.136151,
+      0.152954,
+      0.166282
+    ],
+    "rms_rgb_abs_diff": [
+      1.092549,
+      1.204397,
+      1.306759
+    ],
+    "face_skin_region_mean_abs": 2.505181,
+    "eye_region_mean_abs": 1.575015,
+    "mouth_region_mean_abs": 0.001212,
+    "clothing_mean_abs": 0.0,
+    "background_corner_mean_abs": 0.0,
+    "changed_pixel_count": 11266,
+    "mask_pixel_count": 16986
+  },
+  "whole_frame_findings": [
+    "Fresh RunPod ComfyUI W69 inpaint micro_nomouth_v4 masked inpaint on sdxl_inpaint_detail_source_canny_v1 (seed 6521847404, RealVisXL baked VAE, denoise 0.18, FeatherMask 10px, cfg 4.0, steps 18) completed successfully (prompt_id 14dd281a-d16c-410e-a333-1a71bc902b95).",
+    "Whole-frame identity, hair, navy blazer, patterned shirt, collar, dark studio background, lighting, and framing remain stable versus source.",
+    "Pixel delta is localized to nomouth-mask bbox [280, 250, 489, 421]; clothing mean abs 0.0; background corner mean abs 0.0; 11266 changed pixels vs 16986-pixel nomouth mask.",
+    "Direct whole-frame + face/eye/mouth crop inspection: subtle facial skin continuity refinement without gray-mask failure, identity drift, wardrobe rewrite, background change, hard mask-edge seam, or gaze/iris rewrite.",
+    "Hands are outside this head-and-shoulders crop (not applicable); no global style drift observed."
+  ],
+  "global_defects": [],
+  "promotion_authorized": false,
+  "row_complete": false,
+  "product_completion_claimed": false,
+  "ec2": "RUNPOD_USED",
+  "docker_cvat": "not-needed",
+  "notes": [
+    "Class E future-producer emission proof via RunPod Comfy runtime after local :8188 was unreachable.",
+    "Does not claim COMPLETE; CSV deferred; Row073 PCM left alone; HOLD 090+ untouched."
+  ],
+  "csv_update_deferred": true
+}
