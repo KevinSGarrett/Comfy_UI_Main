@@ -1,0 +1,74 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_image_measurement.schema.json",
+  "title": "Wave64 Autonomous Image Measurement",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "measurement_id", "contract_id", "artifact_sha256",
+    "evaluator_version", "decode", "geometry", "metrics", "gate_results", "disposition"
+  ],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.image_measurement.v1"},
+    "measurement_id": {"$ref": "#/definitions/sha256"},
+    "contract_id": {"$ref": "#/definitions/sha256"},
+    "artifact_sha256": {"$ref": "#/definitions/sha256"},
+    "evaluator_version": {"const": "w64-aqa-image-measure-v1"},
+    "decode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["success", "format", "mode", "frame_count"],
+      "properties": {
+        "success": {"const": true},
+        "format": {"type": "string", "minLength": 1, "maxLength": 32},
+        "mode": {"type": "string", "minLength": 1, "maxLength": 16},
+        "frame_count": {"type": "integer", "minimum": 1}
+      }
+    },
+    "geometry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["width", "height", "aspect_ratio", "expected_width", "expected_height"],
+      "properties": {
+        "width": {"type": "integer", "minimum": 1},
+        "height": {"type": "integer", "minimum": 1},
+        "aspect_ratio": {"type": "number", "exclusiveMinimum": 0},
+        "expected_width": {"type": "integer", "minimum": 1},
+        "expected_height": {"type": "integer", "minimum": 1}
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": {"type": ["number", "integer", "boolean", "string"]},
+      "required": [
+        "decode_success", "width", "height", "aspect_ratio", "file_size_bytes",
+        "luminance_mean", "luminance_p01", "luminance_p99", "dynamic_range",
+        "black_clip_fraction", "white_clip_fraction", "entropy_bits",
+        "sharpness_laplacian_variance", "noise_high_frequency_mad",
+        "alpha_present", "alpha_coverage_fraction", "alpha_opaque_fraction"
+      ]
+    },
+    "gate_results": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["gate_id", "metric", "status", "observed", "operator", "threshold", "on_failure"],
+        "properties": {
+          "gate_id": {"type": "string", "minLength": 1},
+          "metric": {"type": "string", "minLength": 1},
+          "status": {"enum": ["PASS", "FAIL", "MEASUREMENT_UNAVAILABLE"]},
+          "observed": {},
+          "operator": {"type": "string"},
+          "threshold": {},
+          "on_failure": {"enum": ["HOLD", "REPAIR", "REJECT"]}
+        }
+      }
+    },
+    "disposition": {"enum": ["PASS_DETERMINISTIC_GATES", "FAIL_DETERMINISTIC_GATES"]}
+  },
+  "definitions": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}
