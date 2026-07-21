@@ -1,0 +1,249 @@
+{
+  "prompt": [
+    2,
+    "23bdd281-ca07-4a12-b3a6-bd3309b2ba33",
+    {
+      "3": {
+        "class_type": "KSampler",
+        "inputs": {
+          "seed": 210809,
+          "steps": 18,
+          "cfg": 3.5,
+          "sampler_name": "euler",
+          "scheduler": "normal",
+          "denoise": 0.055,
+          "model": [
+            "4",
+            0
+          ],
+          "positive": [
+            "8",
+            0
+          ],
+          "negative": [
+            "9",
+            0
+          ],
+          "latent_image": [
+            "12",
+            0
+          ]
+        }
+      },
+      "4": {
+        "class_type": "CheckpointLoaderSimple",
+        "inputs": {
+          "ckpt_name": "realvisxlV50_v50Bakedvae.safetensors"
+        }
+      },
+      "5": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "wave64_row017_mf70_lefteye_src_20260721T014408-0500.png"
+        }
+      },
+      "6": {
+        "class_type": "LoadImageMask",
+        "inputs": {
+          "image": "wave64_row017_mf70_lefteye_mask_20260721T014408-0500.png",
+          "channel": "red"
+        }
+      },
+      "7": {
+        "class_type": "VAEEncode",
+        "inputs": {
+          "pixels": [
+            "5",
+            0
+          ],
+          "vae": [
+            "4",
+            2
+          ]
+        }
+      },
+      "8": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "text": "extremely subtle photoreal subject-left eye detail preservation pass, preserve exact person identity, gaze direction, eye shape, eyelid fold, eyelashes, iris color, catchlight, eyebrow position, surrounding skin texture, nose bridge, face lighting, hair silhouette, white blazer, background, and portrait composition unchanged",
+          "clip": [
+            "4",
+            1
+          ]
+        }
+      },
+      "9": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "text": "identity change, different person, gaze change, mismatched eyes, asymmetrical gaze, crossed eyes, enlarged eye, anime eye, doll eye, glassy eye, iris color change, catchlight change, eyelid deformation, eyelash mutation, eyebrow change, nose bridge change, face shape drift, skin tone change, visible seam, clothing change, background change, watermark, text",
+          "clip": [
+            "4",
+            1
+          ]
+        }
+      },
+      "10": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "3",
+            0
+          ],
+          "vae": [
+            "4",
+            2
+          ]
+        }
+      },
+      "11": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "filename_prefix": "codex_row017_mf70_left_eye_20260721T014408-0500",
+          "images": [
+            "14",
+            0
+          ]
+        }
+      },
+      "12": {
+        "class_type": "SetLatentNoiseMask",
+        "inputs": {
+          "samples": [
+            "7",
+            0
+          ],
+          "mask": [
+            "13",
+            0
+          ]
+        }
+      },
+      "13": {
+        "class_type": "FeatherMask",
+        "inputs": {
+          "mask": [
+            "6",
+            0
+          ],
+          "left": 24,
+          "top": 24,
+          "right": 24,
+          "bottom": 24
+        }
+      },
+      "14": {
+        "class_type": "ImageCompositeMasked",
+        "inputs": {
+          "destination": [
+            "5",
+            0
+          ],
+          "source": [
+            "10",
+            0
+          ],
+          "x": 0,
+          "y": 0,
+          "resize_source": false,
+          "mask": [
+            "13",
+            0
+          ]
+        }
+      },
+      "15": {
+        "class_type": "MaskToImage",
+        "inputs": {
+          "mask": [
+            "13",
+            0
+          ]
+        }
+      },
+      "16": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "filename_prefix": "codex_row017_mf70_left_eye_20260721T014408-0500_mask_preview",
+          "images": [
+            "15",
+            0
+          ]
+        }
+      }
+    },
+    {
+      "client_id": "cursor-row017-mf70-lefteye-runpod-eb202458",
+      "create_time": 1784616344309
+    },
+    [
+      "11",
+      "16"
+    ]
+  ],
+  "outputs": {
+    "16": {
+      "images": [
+        {
+          "filename": "codex_row017_mf70_left_eye_20260721T014408-0500_mask_preview_00001_.png",
+          "subfolder": "",
+          "type": "output"
+        }
+      ]
+    },
+    "11": {
+      "images": [
+        {
+          "filename": "codex_row017_mf70_left_eye_20260721T014408-0500_00001_.png",
+          "subfolder": "",
+          "type": "output"
+        }
+      ]
+    }
+  },
+  "status": {
+    "status_str": "success",
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "23bdd281-ca07-4a12-b3a6-bd3309b2ba33",
+          "timestamp": 1784616344311
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [
+            "4",
+            "8",
+            "9"
+          ],
+          "prompt_id": "23bdd281-ca07-4a12-b3a6-bd3309b2ba33",
+          "timestamp": 1784616344792
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "23bdd281-ca07-4a12-b3a6-bd3309b2ba33",
+          "timestamp": 1784616348039
+        }
+      ]
+    ]
+  },
+  "meta": {
+    "16": {
+      "node_id": "16",
+      "display_node": "16",
+      "parent_node": null,
+      "real_node_id": "16"
+    },
+    "11": {
+      "node_id": "11",
+      "display_node": "11",
+      "parent_node": null,
+      "real_node_id": "11"
+    }
+  }
+}
