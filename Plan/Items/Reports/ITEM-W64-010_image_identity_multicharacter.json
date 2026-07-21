@@ -112,7 +112,11 @@
     "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_PULID_BODYFORWARD_CALIB_20260721T145336Z.json",
     "Plan/Tracker/Evidence/TRK-W64-010_RUNPOD_C1_PULID_BODYFORWARD_CALIB_20260721T145336Z.json",
     "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_PULID_BODYFORWARD_VLM_20260721T145516Z.json",
-    "Plan/Tracker/Evidence/TRK-W64-010_RUNPOD_C1_PULID_BODYFORWARD_VLM_20260721T145516Z.json"
+    "Plan/Tracker/Evidence/TRK-W64-010_RUNPOD_C1_PULID_BODYFORWARD_VLM_20260721T145516Z.json",
+    "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_PULID_SIDE_CALIB_20260721T151540Z.json",
+    "Plan/Tracker/Evidence/TRK-W64-010_RUNPOD_C1_PULID_SIDE_CALIB_20260721T151540Z.json",
+    "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_PULID_SIDE_VLM_20260721T151831Z.json",
+    "Plan/Tracker/Evidence/TRK-W64-010_RUNPOD_C1_PULID_SIDE_VLM_20260721T151831Z.json"
   ],
   "exact_blocker": "No supplied artifact binds each generated person to a unique character_id, isolated identity references, and a per-character comparison crop.",
   "item_id": "ITEM-W64-010",
@@ -400,5 +404,45 @@
     "pullback": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_pulid_bodyforward_vlm_20260721T145516Z",
     "note": "FACE_04 PuLID + FRONT body-forward; NONCANONICAL; no COMPLETE."
   },
-  "row_complete": false
+  "row_complete": false,
+  "runpod_personal_calibration_pulid_side": {
+    "aggregate_scores": {
+      "face_consistency_mean": 0.7,
+      "face_consistency_n": 4,
+      "body_silhouette_consistency_mean": 0.8667,
+      "body_silhouette_consistency_n": 3,
+      "same_person_likelihood_mean": 0.6286,
+      "same_person_likelihood_n": 7,
+      "solo_lock_trait_alignment_score": 0.0,
+      "per_face_scores": {
+        "face_01": 0.6,
+        "face_02": 0.6,
+        "face_03": 0.7,
+        "face_04": 0.9
+      },
+      "prior_pulid_face04_solo_lock": 0.0,
+      "prior_pulid_face04_face_mean": 0.7375,
+      "prior_bodyforward_solo_lock": 0.0,
+      "prior_bodyforward_face_mean": 0.6,
+      "prior_lockfront_solo_lock": 0.0
+    },
+    "calib_evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_PULID_SIDE_CALIB_20260721T151540Z.json",
+    "vlm_evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_PULID_SIDE_VLM_20260721T151831Z.json",
+    "faces_invented": false,
+    "gate": {
+      "face_consistency_mean_min": 0.55,
+      "body_or_lock_min": 0.5,
+      "faces_ok": true,
+      "body_ok": true,
+      "lock_ok": false,
+      "lock_improved_vs_prior_zero": false,
+      "runtime_pass_bounded": false
+    },
+    "row_complete": false,
+    "status": "RUNTIME_FAIL_LOCK_TRAIT_NOT_IMPROVED_PULID_SIDE_VLM_NONCANONICAL",
+    "updated_at": "2026-07-21T15:21:25.770149Z",
+    "pullback": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_pulid_side_vlm_20260721T151831Z",
+    "prompt_id": "ada7b36f-f85d-4f24-b860-7c70fb768bda",
+    "note": "FACE_04 PuLID + SIDE authority; NONCANONICAL; no COMPLETE."
+  }
 }
