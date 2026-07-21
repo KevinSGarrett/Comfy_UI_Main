@@ -1,45 +1,42 @@
 {
   "acceptance_gaps": [
     {
-      "code": "FULL_LIBRARY_RECONCILE_IN_PROGRESS_TIME_BOUND",
-      "detail": "PID 20200 died mid-run (progress 17525 vs records.jsonl 17541). Recount-from-records reconcile advanced next_record_index/counts to 17541; healthy PID 27320 resumed exclusive full-library index-retained without --limit and advanced past 17541; coverage_complete=false."
-    },
-    {
       "code": "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
       "detail": "Silence/hysteresis/suggestion-only thresholds remain planning-freeze identity, not production library acceptance."
     },
     {
       "code": "REPRESENTATIVE_STRATA_CALIBRATION_ABSENT",
-      "detail": "No representative library strata with truth usable bounds/decay labels; probe proves method identity on retained index only."
+      "detail": "No representative library strata with truth usable bounds/decay labels; full-library coverage proves method identity on retained index only."
     }
   ],
   "accepted_index_retained_bounds_runtime": {
-    "authority": "accepted_index_retained_bounds_probe",
+    "authority": "accepted_index_retained_bounds_reconcile",
     "counts": {
-      "analysis_truncated": 0,
-      "bounds_blocked": 0,
-      "bounds_pass": 25,
-      "exact_blockers": 0,
-      "feature_non_pass_inputs": 0,
-      "feature_pass_inputs": 25,
-      "onset_preservation_ok": 25,
-      "pcm_sha_verified": 25,
-      "records_processed": 25,
+      "analysis_truncated": 139,
+      "bounds_blocked": 9029,
+      "bounds_pass": 30742,
+      "exact_blockers": 9029,
+      "feature_non_pass_inputs": 760,
+      "feature_pass_inputs": 39011,
+      "onset_preservation_ok": 30742,
+      "pcm_sha_verified": 30742,
+      "records_processed": 39771,
       "records_total": 39771,
-      "source_immutable_true": 25,
-      "tail_preservation_ok": 25
+      "source_immutable_true": 30742,
+      "tail_preservation_ok": 30742
     },
-    "coverage_complete": false,
-    "limit": 25,
+    "coverage_complete": true,
+    "finalize_pid": 27320,
+    "limit": null,
     "proof_tier": "RUNTIME_PASS_BOUNDED",
-    "row075_contention_policy": "limited_probe_only_while_row075_full_reconcile_owns_pcm_io",
+    "receipt_sha256": "168ea0d73132a5a6a99e4ada5efccd134de7d756f6c6325419967b13cb64d137",
+    "records_sha256": "6adb8fe5cc48eac8d2dc12fca52caa63b8689946d9471790b0e42a8b52a07cba",
     "runtime_receipt_path": "runtime_artifacts/usable_bounds/row073_index_retained_20260720/retained_index_bounds_receipt.json",
-    "status": "RUNTIME_PASS_BOUNDED_PROBE_LIMIT",
+    "status": "RUNTIME_PASS_BOUNDED_LIBRARY_THRESHOLDS_FROZEN",
     "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_ACCEPTED_INDEX_RETAINED_BOUNDS_SUMMARY_20260720.json",
-    "summary_sha256": "9d182b6fb9da5454ae98a4c5f0e4144fcc027ffe61525549f489f9389585774f"
+    "summary_sha256": "42173d7c1f9dd980f37de09922ee3348c182f4e49cdffbdf1a807559751a0902"
   },
   "blocker_codes": [
-    "FULL_LIBRARY_RECONCILE_IN_PROGRESS_TIME_BOUND",
     "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
     "REPRESENTATIVE_STRATA_CALIBRATION_ABSENT"
   ],
@@ -104,9 +101,9 @@
     "fail_closed_probe_slice": "accepted_as_bounded_increment",
     "product_completion": false,
     "row073_acceptance": "held",
-    "row073_status": "Blocked_Library_Reconcile_In_Progress_Deps_Unlocked",
-    "runtime_completion": false,
-    "safe_next_action": "Do not kill healthy PID 27320; finish retained-index usable-bounds reconcile to coverage_complete under frozen suggestion-only thresholds. Do not start Row074/076/077 library PCM scans in parallel. No product COMPLETE. CSV Notes sync deferred to mutator."
+    "row073_status": "Blocked_Library_Thresholds_And_Benchmark_Strata_Absent_Reconcile_Complete",
+    "runtime_completion": true,
+    "safe_next_action": "Full-library usable-bounds reconcile is coverage_complete under frozen suggestion-only thresholds. Next exclusive library PCM owner: recommend Row074 (multi_event_segmentation; P0; deps Row072+Row073). Do not start 074/076/077 until this stamp is accepted. No product COMPLETE. CSV Notes sync deferred to mutator."
   },
   "dependency_authority": [
     {
@@ -194,34 +191,33 @@
     "writable_scope_note": "Disjoint from Row017 visuals, Row075 progress stamps, and Row077 dirty semantic-embedding work. Sound ITEM/TRACKER CSV deferred for serialized mutator."
   },
   "item_id": "ITEM-W64-073",
-  "ledger_status": "Blocked_Library_Reconcile_In_Progress_Deps_Unlocked",
+  "ledger_status": "Blocked_Library_Thresholds_And_Benchmark_Strata_Absent_Reconcile_Complete",
   "ledger_vocabulary_sync": {
-    "ledger_status": "Blocked_Library_Reconcile_In_Progress_Deps_Unlocked",
-    "note": "PID 20200 death + recount reconcile + PID 27320 resume; progress advancing past 17541; stamp 20260720T1152; no COMPLETE; CSV deferred to mutator.",
+    "ledger_status": "Blocked_Library_Thresholds_And_Benchmark_Strata_Absent_Reconcile_Complete",
+    "note": "PID 27320 clean exit coverage_complete 39771/39771; stamp 20260720T2246-0500; runtime_completion=true; product COMPLETE=false; CSV deferred to mutator.",
     "product_completion": false,
-    "progress_stamp": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_RECONCILE_PROGRESS_20260720T1152-0500.json",
-    "prove_commit": "525e29c7",
-    "runtime_completion": false,
-    "synced_at": "2026-07-20T16:52:00Z"
+    "progress_stamp": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_RECONCILE_PROGRESS_20260720T2246-0500.json",
+    "runtime_completion": true,
+    "synced_at": "2026-07-21T03:46:13.462178Z"
   },
   "library_authority": false,
   "preservation_boundary": {
     "only_row073_writable_paths": [
-      "Plan/07_IMPLEMENTATION/scripts/analyze_wave64_usable_bounds_decay.py",
-      "Plan/08_SCHEMAS/usable_bounds_decay_record.schema.json",
-      "Plan/Instructions/QA/Scripts/test_analyze_wave64_usable_bounds_decay.py",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_usable_bounds_decay_analysis.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_ACCEPTED_INDEX_RETAINED_BOUNDS_SUMMARY_20260720.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_CURRENT_DELTA_20260719.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_RECONCILE_PROGRESS_20260720T2246-0500.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_RECONCILE_PROGRESS_20260720T1152-0500.json"
     ],
     "row017_visual_paths_modified": false,
+    "row074_076_077_not_started": true,
     "row075_pid_left_alone": true,
     "row075_progress_paths_modified": false,
     "row077_dirty_paths_modified": false,
     "sound_item_tracker_csv_deferred_reason": "contention_risk_with_parallel_agents_evidence_code_only_landing",
     "sound_item_tracker_csv_modified": false
   },
+  "product_completion_claimed": false,
   "proof_tier": "RUNTIME_PASS_BOUNDED",
   "qa_decision": "deps_unlocked_index_retained_limit_25_probe_pass_full_reconcile_deferred_for_row075_pcm_contention",
   "row073_contract": {
@@ -247,10 +243,10 @@
     ]
   },
   "row_complete": false,
-  "runtime_completion_claimed": false,
+  "runtime_completion_claimed": true,
   "schema_version": 1,
   "source_commit": "PENDING_THIS_PASS",
-  "status": "HOLD_LIBRARY_RECONCILE_IN_PROGRESS_DEPS_UNLOCKED",
+  "status": "HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE",
   "tracker_id": "TRK-W64-073",
-  "updated_at": "2026-07-20T14:49:05.349368Z"
+  "updated_at": "2026-07-21T03:46:13.462178Z"
 }

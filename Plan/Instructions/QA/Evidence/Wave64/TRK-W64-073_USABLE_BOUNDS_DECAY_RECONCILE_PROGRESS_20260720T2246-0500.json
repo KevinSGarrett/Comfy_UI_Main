@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-073-BOUNDS-RECONCILE-COVERAGE-COMPLETE-20260720T2246-0500",
+  "created_at": "2026-07-20T22:46:13-05:00",
+  "tracker_id": "TRK-W64-073",
+  "item_id": "ITEM-W64-073",
+  "status": "HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE",
+  "proof_tier": "RUNTIME_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+  "row_complete": false,
+  "library_authority": false,
+  "runtime_completion_claimed": true,
+  "product_completion_claimed": false,
+  "csv_stamp": "deferred_to_primary_csv_mutator",
+  "process": {
+    "action": "finalize_full_library_index_retained_coverage_complete",
+    "alive": false,
+    "command": "analyze_wave64_usable_bounds_decay.py --mode index-retained --resume --retained-runtime-dir runtime_artifacts/usable_bounds/row073_index_retained_20260720",
+    "exclusive_lane": "library_pcm",
+    "parallel_074_076_077_refused": true,
+    "pid": 27320,
+    "prior_dead_pid": 20200,
+    "exit_cause": "clean_exit_coverage_complete"
+  },
+  "progress": {
+    "blocker_histogram": {
+      "BOUNDS_EXTRACTION_FAILED": 8269,
+      "DECODE_FAILED_CORRUPT_OR_UNREADABLE": 747,
+      "FEATURE_EXTRACTION_FAILED": 13
+    },
+    "bounds_blocked": 9029,
+    "bounds_pass": 30742,
+    "complete": true,
+    "coverage_complete": true,
+    "exact_blockers": 9029,
+    "extension_histogram": {
+      ".flac": 15,
+      ".mp3": 3560,
+      ".ogg": 1,
+      ".wav": 36195
+    },
+    "feature_non_pass_inputs": 760,
+    "feature_pass_inputs": 39011,
+    "limit": null,
+    "next_record_index": 39771,
+    "onset_preservation_ok": 30742,
+    "pcm_sha_verified": 30742,
+    "percent_complete": 100.0,
+    "records_processed": 39771,
+    "records_total": 39771,
+    "source_immutable_true": 30742,
+    "started_at": "2026-07-20T05:57:57.504721Z",
+    "tail_preservation_ok": 30742,
+    "updated_at": "2026-07-20T17:56:44.789496Z"
+  },
+  "remaining_blockers": [
+    "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+    "REPRESENTATIVE_STRATA_CALIBRATION_ABSENT"
+  ],
+  "runtime_paths": {
+    "owner_path": "runtime_artifacts/usable_bounds/row073_index_retained_20260720/FULL_RECONCILE_OWNER.txt",
+    "progress_path": "runtime_artifacts/usable_bounds/row073_index_retained_20260720/progress.json",
+    "records_path": "runtime_artifacts/usable_bounds/row073_index_retained_20260720/records.jsonl",
+    "receipt_path": "runtime_artifacts/usable_bounds/row073_index_retained_20260720/retained_index_bounds_receipt.json",
+    "retained_runtime_dir": "runtime_artifacts/usable_bounds/row073_index_retained_20260720"
+  },
+  "safe_next_action": "Full-library usable-bounds reconcile is coverage_complete under frozen suggestion-only thresholds. Next exclusive library PCM owner: recommend Row074 (multi_event_segmentation; P0; deps Row072+Row073). Do not start 074/076/077 until this stamp is accepted. No product COMPLETE. CSV Notes sync deferred to mutator.",
+  "explicit_non_claims": [
+    "COMPLETE",
+    "product_completion",
+    "library_authority",
+    "library_threshold_authority"
+  ],
+  "next_exclusive_pcm_recommendation": "TRK-W64-074"
+}

@@ -1,575 +1,93 @@
 {
-  "accepted_index_retained_bounds_runtime": {
-    "blocker_histogram": {},
-    "counts": {
-      "analysis_truncated": 0,
-      "bounds_blocked": 0,
-      "bounds_pass": 25,
-      "exact_blockers": 0,
-      "feature_non_pass_inputs": 0,
-      "feature_pass_inputs": 25,
-      "onset_preservation_ok": 25,
-      "pcm_sha_verified": 25,
-      "records_processed": 25,
-      "records_total": 39771,
-      "source_immutable_true": 25,
-      "tail_preservation_ok": 25
-    },
-    "coverage_complete": false,
-    "limit": 25,
-    "present": true,
-    "progress_path": "runtime_artifacts/usable_bounds/row073_index_retained_20260720/progress.json",
-    "receipt_path": "runtime_artifacts/usable_bounds/row073_index_retained_20260720/retained_index_bounds_receipt.json",
-    "records_path": "runtime_artifacts/usable_bounds/row073_index_retained_20260720/records.jsonl",
-    "row075_contention_policy": "limited_probe_only_while_row075_full_reconcile_owns_pcm_io",
-    "status": "RUNTIME_PASS_BOUNDED_PROBE_LIMIT",
-    "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_ACCEPTED_INDEX_RETAINED_BOUNDS_SUMMARY_20260720.json",
-    "summary_sha256": "9d182b6fb9da5454ae98a4c5f0e4144fcc027ffe61525549f489f9389585774f"
-  },
   "analysis_pipeline_revision": "wave64_row073_usable_bounds_decay_v0.2.0",
-  "blocker_codes": [
-    "FULL_LIBRARY_RECONCILE_DEFERRED_OR_IN_PROGRESS",
-    "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
-    "REPRESENTATIVE_STRATA_CALIBRATION_ABSENT",
-    "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT"
-  ],
-  "decision": {
-    "product_completion": false,
-    "row073_acceptance": "held",
-    "runtime_completion": false,
-    "safe_next_action": "Bounded index-retained bounds probe passed under frozen suggestion-only thresholds. Defer full-library Row073 PCM reconcile until Row075 retained-index defect scan finishes (avoid dual PCM I/O contention), then resume --mode index-retained without --limit before claiming Row073 acceptance.",
-    "status": "blocked"
+  "authority": "accepted_index_retained_bounds_reconcile",
+  "blocker_histogram": {
+    "BOUNDS_EXTRACTION_FAILED": 8269,
+    "DECODE_FAILED_CORRUPT_OR_UNREADABLE": 747,
+    "FEATURE_EXTRACTION_FAILED": 13
   },
-  "evidence_id": "TRK-W64-073_usable_bounds_decay_analysis",
-  "fixture_calibration": {
-    "authority": "synthetic_non_library",
-    "determinism_note": "Fixture records prove silence/usable-bound/envelope/decay method identity only; they do not accept Row073 library completion.",
-    "fixture_count": 5,
-    "records": [
-      {
-        "analysis_pipeline_revision": "wave64_row073_usable_bounds_decay_v0.2.0",
-        "asset_id": "fixture:silence",
-        "canonical_pcm_sha256": "5c9b37300155c1f3338bc88f17d69c51fb248b0de0155630962ca6504d789bba",
-        "channels": 2,
-        "decision": {
-          "blocker_codes": [
-            "LIBRARY_AUTHORITY_NOT_GRANTED"
-          ],
-          "library_authority": false,
-          "source_bytes_unchanged": true,
-          "status": "blocked",
-          "suggestion_only": true
-        },
-        "frame_count": 4800,
-        "item_id": "ITEM-W64-073",
-        "measurements": {
-          "attack_seconds": 0.0,
-          "leading_silence_samples": 4800,
-          "leading_silence_seconds": 0.1,
-          "natural_decay_end_sample": 0,
-          "noise_only_tail": false,
-          "onset_preservation_ok": true,
-          "release_seconds": 0.0,
-          "sustain_seconds": 0.0,
-          "tail_preservation_ok": true,
-          "trailing_silence_samples": 4800,
-          "trailing_silence_seconds": 0.1,
-          "usable_end_sample": 0,
-          "usable_start_sample": 0
-        },
-        "method_provenance": {
-          "attack": {
-            "method_id": "pcm_attack_to_peak_v1",
-            "unit": "seconds",
-            "window": "usable_start_to_peak"
-          },
-          "leading_silence": {
-            "method_id": "pcm_leading_silence_hysteresis_v1",
-            "unit": "samples_and_seconds",
-            "window": "prefix_until_enter_threshold"
-          },
-          "natural_decay": {
-            "method_id": "pcm_natural_decay_end_v1",
-            "unit": "sample_index",
-            "window": "usable_region_envelope"
-          },
-          "noise_only_tail": {
-            "method_id": "pcm_noise_only_tail_classifier_v1",
-            "unit": "boolean",
-            "window": "post_release_to_usable_end"
-          },
-          "release": {
-            "method_id": "pcm_release_to_natural_decay_v1",
-            "unit": "seconds",
-            "window": "release_start_to_natural_decay_end"
-          },
-          "sustain": {
-            "method_id": "pcm_sustain_above_release_floor_v1",
-            "unit": "seconds",
-            "window": "peak_to_release_start"
-          },
-          "trailing_silence": {
-            "method_id": "pcm_trailing_silence_hysteresis_v1",
-            "unit": "samples_and_seconds",
-            "window": "suffix_until_enter_threshold"
-          },
-          "usable_bounds": {
-            "method_id": "pcm_usable_bounds_from_silence_v1",
-            "unit": "sample_index",
-            "window": "first_to_last_non_silence"
-          }
-        },
-        "sample_rate_hz": 48000,
-        "schema_version": "1.0.0",
-        "source_after_sha256": "9a36c66893f6a060c6fe07fb7c0395813f65e6ae8e81d66c28641a14e71d6c39",
-        "source_before_sha256": "9a36c66893f6a060c6fe07fb7c0395813f65e6ae8e81d66c28641a14e71d6c39",
-        "source_sha256": "9a36c66893f6a060c6fe07fb7c0395813f65e6ae8e81d66c28641a14e71d6c39",
-        "thresholds": {
-          "channel_policy": "max_abs_mono",
-          "destructive_trim_allowed": false,
-          "hysteresis_db": 6.0,
-          "min_silence_ms": 5.0,
-          "silence_threshold_dbfs": -50.0,
-          "suggestion_only": true
-        },
-        "tracker_id": "TRK-W64-073"
-      },
-      {
-        "analysis_pipeline_revision": "wave64_row073_usable_bounds_decay_v0.2.0",
-        "asset_id": "fixture:padded_tone",
-        "canonical_pcm_sha256": "7ac1e6d4d72d83ff43a270b1ebb0d8bdbc9deae31ec039aa4eb5f229a21279b4",
-        "channels": 2,
-        "decision": {
-          "blocker_codes": [
-            "LIBRARY_AUTHORITY_NOT_GRANTED"
-          ],
-          "library_authority": false,
-          "source_bytes_unchanged": true,
-          "status": "blocked",
-          "suggestion_only": true
-        },
-        "frame_count": 4800,
-        "item_id": "ITEM-W64-073",
-        "measurements": {
-          "attack_seconds": 0.000229167,
-          "leading_silence_samples": 801,
-          "leading_silence_seconds": 0.0166875,
-          "natural_decay_end_sample": 4000,
-          "noise_only_tail": false,
-          "onset_preservation_ok": true,
-          "release_seconds": 0.0661875,
-          "sustain_seconds": 0.000229167,
-          "tail_preservation_ok": true,
-          "trailing_silence_samples": 800,
-          "trailing_silence_seconds": 0.016666667,
-          "usable_end_sample": 4000,
-          "usable_start_sample": 801
-        },
-        "method_provenance": {
-          "attack": {
-            "method_id": "pcm_attack_to_peak_v1",
-            "unit": "seconds",
-            "window": "usable_start_to_peak"
-          },
-          "leading_silence": {
-            "method_id": "pcm_leading_silence_hysteresis_v1",
-            "unit": "samples_and_seconds",
-            "window": "prefix_until_enter_threshold"
-          },
-          "natural_decay": {
-            "method_id": "pcm_natural_decay_end_v1",
-            "unit": "sample_index",
-            "window": "usable_region_envelope"
-          },
-          "noise_only_tail": {
-            "method_id": "pcm_noise_only_tail_classifier_v1",
-            "unit": "boolean",
-            "window": "post_release_to_usable_end"
-          },
-          "release": {
-            "method_id": "pcm_release_to_natural_decay_v1",
-            "unit": "seconds",
-            "window": "release_start_to_natural_decay_end"
-          },
-          "sustain": {
-            "method_id": "pcm_sustain_above_release_floor_v1",
-            "unit": "seconds",
-            "window": "peak_to_release_start"
-          },
-          "trailing_silence": {
-            "method_id": "pcm_trailing_silence_hysteresis_v1",
-            "unit": "samples_and_seconds",
-            "window": "suffix_until_enter_threshold"
-          },
-          "usable_bounds": {
-            "method_id": "pcm_usable_bounds_from_silence_v1",
-            "unit": "sample_index",
-            "window": "first_to_last_non_silence"
-          }
-        },
-        "sample_rate_hz": 48000,
-        "schema_version": "1.0.0",
-        "source_after_sha256": "0f1272625b399a27c820889248c97e9833910db1baf0714d88ff4d01493f655a",
-        "source_before_sha256": "0f1272625b399a27c820889248c97e9833910db1baf0714d88ff4d01493f655a",
-        "source_sha256": "0f1272625b399a27c820889248c97e9833910db1baf0714d88ff4d01493f655a",
-        "thresholds": {
-          "channel_policy": "max_abs_mono",
-          "destructive_trim_allowed": false,
-          "hysteresis_db": 6.0,
-          "min_silence_ms": 5.0,
-          "silence_threshold_dbfs": -50.0,
-          "suggestion_only": true
-        },
-        "tracker_id": "TRK-W64-073"
-      },
-      {
-        "analysis_pipeline_revision": "wave64_row073_usable_bounds_decay_v0.2.0",
-        "asset_id": "fixture:impulse_decay",
-        "canonical_pcm_sha256": "16b6fc1decb95607c3b4c0ebe1a76aff896f1f876a57db25577d69fa5348e88f",
-        "channels": 2,
-        "decision": {
-          "blocker_codes": [
-            "LIBRARY_AUTHORITY_NOT_GRANTED"
-          ],
-          "library_authority": false,
-          "source_bytes_unchanged": true,
-          "status": "blocked",
-          "suggestion_only": true
-        },
-        "frame_count": 4800,
-        "item_id": "ITEM-W64-073",
-        "measurements": {
-          "attack_seconds": 0.0,
-          "leading_silence_samples": 0,
-          "leading_silence_seconds": 0.0,
-          "natural_decay_end_sample": 1357,
-          "noise_only_tail": false,
-          "onset_preservation_ok": true,
-          "release_seconds": 0.021354167,
-          "sustain_seconds": 0.006916667,
-          "tail_preservation_ok": true,
-          "trailing_silence_samples": 3443,
-          "trailing_silence_seconds": 0.071729167,
-          "usable_end_sample": 1357,
-          "usable_start_sample": 0
-        },
-        "method_provenance": {
-          "attack": {
-            "method_id": "pcm_attack_to_peak_v1",
-            "unit": "seconds",
-            "window": "usable_start_to_peak"
-          },
-          "leading_silence": {
-            "method_id": "pcm_leading_silence_hysteresis_v1",
-            "unit": "samples_and_seconds",
-            "window": "prefix_until_enter_threshold"
-          },
-          "natural_decay": {
-            "method_id": "pcm_natural_decay_end_v1",
-            "unit": "sample_index",
-            "window": "usable_region_envelope"
-          },
-          "noise_only_tail": {
-            "method_id": "pcm_noise_only_tail_classifier_v1",
-            "unit": "boolean",
-            "window": "post_release_to_usable_end"
-          },
-          "release": {
-            "method_id": "pcm_release_to_natural_decay_v1",
-            "unit": "seconds",
-            "window": "release_start_to_natural_decay_end"
-          },
-          "sustain": {
-            "method_id": "pcm_sustain_above_release_floor_v1",
-            "unit": "seconds",
-            "window": "peak_to_release_start"
-          },
-          "trailing_silence": {
-            "method_id": "pcm_trailing_silence_hysteresis_v1",
-            "unit": "samples_and_seconds",
-            "window": "suffix_until_enter_threshold"
-          },
-          "usable_bounds": {
-            "method_id": "pcm_usable_bounds_from_silence_v1",
-            "unit": "sample_index",
-            "window": "first_to_last_non_silence"
-          }
-        },
-        "sample_rate_hz": 48000,
-        "schema_version": "1.0.0",
-        "source_after_sha256": "2d6f5d1d3f5eb28d80d188c89e07ff82a52c4927ff8b03351fbc081025e57dad",
-        "source_before_sha256": "2d6f5d1d3f5eb28d80d188c89e07ff82a52c4927ff8b03351fbc081025e57dad",
-        "source_sha256": "2d6f5d1d3f5eb28d80d188c89e07ff82a52c4927ff8b03351fbc081025e57dad",
-        "thresholds": {
-          "channel_policy": "max_abs_mono",
-          "destructive_trim_allowed": false,
-          "hysteresis_db": 6.0,
-          "min_silence_ms": 5.0,
-          "silence_threshold_dbfs": -50.0,
-          "suggestion_only": true
-        },
-        "tracker_id": "TRK-W64-073"
-      },
-      {
-        "analysis_pipeline_revision": "wave64_row073_usable_bounds_decay_v0.2.0",
-        "asset_id": "fixture:noisy_tail",
-        "canonical_pcm_sha256": "3c0af2a0ccc78a2f41dd20262a0659a3034484645006e0d645d815816a748801",
-        "channels": 2,
-        "decision": {
-          "blocker_codes": [
-            "LIBRARY_AUTHORITY_NOT_GRANTED"
-          ],
-          "library_authority": false,
-          "source_bytes_unchanged": true,
-          "status": "blocked",
-          "suggestion_only": true
-        },
-        "frame_count": 4800,
-        "item_id": "ITEM-W64-073",
-        "measurements": {
-          "attack_seconds": 0.003104167,
-          "leading_silence_samples": 401,
-          "leading_silence_seconds": 0.008354167,
-          "natural_decay_end_sample": 4799,
-          "noise_only_tail": false,
-          "onset_preservation_ok": true,
-          "release_seconds": 0.088270833,
-          "sustain_seconds": 0.00025,
-          "tail_preservation_ok": true,
-          "trailing_silence_samples": 1,
-          "trailing_silence_seconds": 2.0833e-05,
-          "usable_end_sample": 4799,
-          "usable_start_sample": 401
-        },
-        "method_provenance": {
-          "attack": {
-            "method_id": "pcm_attack_to_peak_v1",
-            "unit": "seconds",
-            "window": "usable_start_to_peak"
-          },
-          "leading_silence": {
-            "method_id": "pcm_leading_silence_hysteresis_v1",
-            "unit": "samples_and_seconds",
-            "window": "prefix_until_enter_threshold"
-          },
-          "natural_decay": {
-            "method_id": "pcm_natural_decay_end_v1",
-            "unit": "sample_index",
-            "window": "usable_region_envelope"
-          },
-          "noise_only_tail": {
-            "method_id": "pcm_noise_only_tail_classifier_v1",
-            "unit": "boolean",
-            "window": "post_release_to_usable_end"
-          },
-          "release": {
-            "method_id": "pcm_release_to_natural_decay_v1",
-            "unit": "seconds",
-            "window": "release_start_to_natural_decay_end"
-          },
-          "sustain": {
-            "method_id": "pcm_sustain_above_release_floor_v1",
-            "unit": "seconds",
-            "window": "peak_to_release_start"
-          },
-          "trailing_silence": {
-            "method_id": "pcm_trailing_silence_hysteresis_v1",
-            "unit": "samples_and_seconds",
-            "window": "suffix_until_enter_threshold"
-          },
-          "usable_bounds": {
-            "method_id": "pcm_usable_bounds_from_silence_v1",
-            "unit": "sample_index",
-            "window": "first_to_last_non_silence"
-          }
-        },
-        "sample_rate_hz": 48000,
-        "schema_version": "1.0.0",
-        "source_after_sha256": "346ad3880f0b431e24ddd9c2691926d55d6ccb570319e0a51234fe5d75d37128",
-        "source_before_sha256": "346ad3880f0b431e24ddd9c2691926d55d6ccb570319e0a51234fe5d75d37128",
-        "source_sha256": "346ad3880f0b431e24ddd9c2691926d55d6ccb570319e0a51234fe5d75d37128",
-        "thresholds": {
-          "channel_policy": "max_abs_mono",
-          "destructive_trim_allowed": false,
-          "hysteresis_db": 6.0,
-          "min_silence_ms": 5.0,
-          "silence_threshold_dbfs": -50.0,
-          "suggestion_only": true
-        },
-        "tracker_id": "TRK-W64-073"
-      },
-      {
-        "analysis_pipeline_revision": "wave64_row073_usable_bounds_decay_v0.2.0",
-        "asset_id": "fixture:gradual_attack",
-        "canonical_pcm_sha256": "48b43c95aa2fa1a1eadfd94b31fb3a0770dcaf26ea05bc2b1904b5ae643e6beb",
-        "channels": 2,
-        "decision": {
-          "blocker_codes": [
-            "LIBRARY_AUTHORITY_NOT_GRANTED"
-          ],
-          "library_authority": false,
-          "source_bytes_unchanged": true,
-          "status": "blocked",
-          "suggestion_only": true
-        },
-        "frame_count": 4800,
-        "item_id": "ITEM-W64-073",
-        "measurements": {
-          "attack_seconds": 0.028958333,
-          "leading_silence_samples": 610,
-          "leading_silence_seconds": 0.012708333,
-          "natural_decay_end_sample": 4194,
-          "noise_only_tail": false,
-          "onset_preservation_ok": true,
-          "release_seconds": 0.045375,
-          "sustain_seconds": 0.000333333,
-          "tail_preservation_ok": true,
-          "trailing_silence_samples": 606,
-          "trailing_silence_seconds": 0.012625,
-          "usable_end_sample": 4194,
-          "usable_start_sample": 610
-        },
-        "method_provenance": {
-          "attack": {
-            "method_id": "pcm_attack_to_peak_v1",
-            "unit": "seconds",
-            "window": "usable_start_to_peak"
-          },
-          "leading_silence": {
-            "method_id": "pcm_leading_silence_hysteresis_v1",
-            "unit": "samples_and_seconds",
-            "window": "prefix_until_enter_threshold"
-          },
-          "natural_decay": {
-            "method_id": "pcm_natural_decay_end_v1",
-            "unit": "sample_index",
-            "window": "usable_region_envelope"
-          },
-          "noise_only_tail": {
-            "method_id": "pcm_noise_only_tail_classifier_v1",
-            "unit": "boolean",
-            "window": "post_release_to_usable_end"
-          },
-          "release": {
-            "method_id": "pcm_release_to_natural_decay_v1",
-            "unit": "seconds",
-            "window": "release_start_to_natural_decay_end"
-          },
-          "sustain": {
-            "method_id": "pcm_sustain_above_release_floor_v1",
-            "unit": "seconds",
-            "window": "peak_to_release_start"
-          },
-          "trailing_silence": {
-            "method_id": "pcm_trailing_silence_hysteresis_v1",
-            "unit": "samples_and_seconds",
-            "window": "suffix_until_enter_threshold"
-          },
-          "usable_bounds": {
-            "method_id": "pcm_usable_bounds_from_silence_v1",
-            "unit": "sample_index",
-            "window": "first_to_last_non_silence"
-          }
-        },
-        "sample_rate_hz": 48000,
-        "schema_version": "1.0.0",
-        "source_after_sha256": "b2d7e844fd67d8e8f0ac71f0613c1e24b3f0fb71befbe02880a95bb730e61049",
-        "source_before_sha256": "b2d7e844fd67d8e8f0ac71f0613c1e24b3f0fb71befbe02880a95bb730e61049",
-        "source_sha256": "b2d7e844fd67d8e8f0ac71f0613c1e24b3f0fb71befbe02880a95bb730e61049",
-        "thresholds": {
-          "channel_policy": "max_abs_mono",
-          "destructive_trim_allowed": false,
-          "hysteresis_db": 6.0,
-          "min_silence_ms": 5.0,
-          "silence_threshold_dbfs": -50.0,
-          "suggestion_only": true
-        },
-        "tracker_id": "TRK-W64-073"
-      }
-    ]
+  "counts": {
+    "analysis_truncated": 139,
+    "bounds_blocked": 9029,
+    "bounds_pass": 30742,
+    "exact_blockers": 9029,
+    "feature_non_pass_inputs": 760,
+    "feature_pass_inputs": 39011,
+    "onset_preservation_ok": 30742,
+    "pcm_sha_verified": 30742,
+    "records_processed": 39771,
+    "records_total": 39771,
+    "source_immutable_true": 30742,
+    "tail_preservation_ok": 30742
+  },
+  "coverage_complete": true,
+  "created_at": "2026-07-20T17:56:44.790572Z",
+  "evidence_id": "W64-ROW073-ACCEPTED-INDEX-RETAINED-BOUNDS-20260720",
+  "explicit_non_claims": [
+    "COMPLETE",
+    "product_completion",
+    "library_threshold_authority",
+    "full_library_coverage"
+  ],
+  "extension_histogram": {
+    ".flac": 15,
+    ".mp3": 3560,
+    ".ogg": 1,
+    ".wav": 36195
   },
   "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
-  "implementation_completion_claimed": false,
   "item_id": "ITEM-W64-073",
   "library_authority": false,
-  "method_provenance": {
-    "attack": {
-      "method_id": "pcm_attack_to_peak_v1",
-      "unit": "seconds",
-      "window": "usable_start_to_peak"
-    },
-    "leading_silence": {
-      "method_id": "pcm_leading_silence_hysteresis_v1",
-      "unit": "samples_and_seconds",
-      "window": "prefix_until_enter_threshold"
-    },
-    "natural_decay": {
-      "method_id": "pcm_natural_decay_end_v1",
-      "unit": "sample_index",
-      "window": "usable_region_envelope"
-    },
-    "noise_only_tail": {
-      "method_id": "pcm_noise_only_tail_classifier_v1",
-      "unit": "boolean",
-      "window": "post_release_to_usable_end"
-    },
-    "release": {
-      "method_id": "pcm_release_to_natural_decay_v1",
-      "unit": "seconds",
-      "window": "release_start_to_natural_decay_end"
-    },
-    "sustain": {
-      "method_id": "pcm_sustain_above_release_floor_v1",
-      "unit": "seconds",
-      "window": "peak_to_release_start"
-    },
-    "trailing_silence": {
-      "method_id": "pcm_trailing_silence_hysteresis_v1",
-      "unit": "samples_and_seconds",
-      "window": "suffix_until_enter_threshold"
-    },
-    "usable_bounds": {
-      "method_id": "pcm_usable_bounds_from_silence_v1",
-      "unit": "sample_index",
-      "window": "first_to_last_non_silence"
-    }
+  "limit": null,
+  "locator": {
+    "index_sha256": "7301243a364025dbd23907aee20ee8593d5897caa83d38391026ad42da6d17ec",
+    "record_count": 39771,
+    "source_root": "F:\\Len_Transfer\\Audio_Downloads"
   },
+  "product_completion_claimed": false,
+  "progress_path": "runtime_artifacts/usable_bounds/row073_index_retained_20260720/progress.json",
   "proof_tier": "RUNTIME_PASS_BOUNDED",
+  "receipt_bytes": 3667,
+  "receipt_path": "runtime_artifacts/usable_bounds/row073_index_retained_20260720/retained_index_bounds_receipt.json",
+  "receipt_sha256": "386d25a78809848addfb69218b609f26755cf553acd102d1e0933ce8858d29ab",
+  "records_bytes": 71340051,
+  "records_path": "runtime_artifacts/usable_bounds/row073_index_retained_20260720/records.jsonl",
+  "records_sha256": "6adb8fe5cc48eac8d2dc12fca52caa63b8689946d9471790b0e42a8b52a07cba",
   "row071_admission": {
     "blocker_codes": [],
-    "bytes": 5456,
+    "bytes": 5898,
     "dependency_satisfied": true,
     "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-071_WAVEFORM_FEATURE_EXTRACTION_CURRENT_DELTA_20260719.json",
     "row_complete": true,
-    "sha256": "4cf0cc5e0f8757bfd5e2d2af02fda6169fecd240ffa31cf0157c5b0550025350",
+    "sha256": "03640e949fa38f3687fe31052801ddd9b02dbfd4a76ffac06f3002970e034cd0",
     "status": "PASS_LIBRARY_FEATURE_AUTHORITY_ACCEPTED_NO_PRODUCT_COMPLETION",
     "tracker_id": "TRK-W64-071"
+  },
+  "row071_records": {
+    "bytes": 57007894,
+    "path": "runtime_artifacts/audio_qa/row071_index_retained_20260719/records.jsonl",
+    "sha256": "8ce3d073cc9a59b703ffc188da93cdb0dcbc6abe6ba72481b29683f4aba4dfdb"
   },
   "row072_admission": {
     "admission_mode": "runtime_unlocked",
     "blocker_codes": [],
-    "bytes": 5140,
+    "bytes": 8684,
     "dependencies_unlocked": true,
     "dependency_satisfied": true,
     "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ONSET_TRANSIENT_ANCHOR_CURRENT_DELTA_20260719.json",
     "proof_tier": "RUNTIME_PASS_BOUNDED",
     "row072_acceptance": "held",
     "row_complete": false,
-    "sha256": "c93ac41ecdb2c8d8a70dae4643e82afb970d28ae86b4ced16dd7190838f1f60b",
+    "sha256": "37fea0634ab318e8850a6cf667414529b5a2bd465267b5767f1b3fe5d601ab2d",
     "status": "HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE",
     "tracker_id": "TRK-W64-072"
   },
+  "row075_contention_policy": "limited_probe_only_while_row075_full_reconcile_owns_pcm_io",
   "row_complete": false,
-  "runtime_completion_claimed": false,
-  "schema_version": "1.0.0",
-  "status": "HOLD_LIBRARY_PROBE_PASS_FULL_RECONCILE_DEFERRED_DEPS_UNLOCKED",
-  "thresholds": {
-    "channel_policy": "max_abs_mono",
-    "destructive_trim_allowed": false,
-    "hysteresis_db": 6.0,
-    "min_silence_ms": 5.0,
-    "silence_threshold_dbfs": -50.0,
-    "suggestion_only": true
-  },
+  "runtime_completion_claimed": true,
+  "schema_version": 1,
+  "started_at": "2026-07-20T05:57:57.504721Z",
+  "status": "RUNTIME_PASS_BOUNDED_LIBRARY_THRESHOLDS_FROZEN",
+  "threshold_authority": "planning_freeze_suggestion_only_not_library_acceptance",
   "tracker_id": "TRK-W64-073"
 }
