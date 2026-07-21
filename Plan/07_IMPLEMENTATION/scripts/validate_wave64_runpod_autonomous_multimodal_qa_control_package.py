@@ -72,6 +72,14 @@ PATHS = {
     / "Plan/10_REGISTRIES/wave64_runpod_autonomous_tool_gateway_policy.json",
     "tool_gateway": ROOT
     / "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_runpod_autonomous_tool_gateway.py",
+    "workflow_patch_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_workflow_patch.schema.json",
+    "workflow_validation_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_workflow_validation.schema.json",
+    "workflow_patch_policy": ROOT
+    / "Plan/10_REGISTRIES/wave64_runpod_autonomous_workflow_patch_policy.json",
+    "workflow_validator": ROOT
+    / "Plan/07_IMPLEMENTATION/scripts/validate_wave64_runpod_autonomous_workflow.py",
 }
 
 SECRET_PATTERNS = {
@@ -117,6 +125,9 @@ def collect_errors() -> list[str]:
         tool_gateway_request_schema = load_json(PATHS["tool_gateway_request_schema"])
         tool_gateway_decision_schema = load_json(PATHS["tool_gateway_decision_schema"])
         tool_gateway_policy = load_json(PATHS["tool_gateway_policy"])
+        workflow_patch_schema = load_json(PATHS["workflow_patch_schema"])
+        workflow_validation_schema = load_json(PATHS["workflow_validation_schema"])
+        workflow_patch_policy = load_json(PATHS["workflow_patch_policy"])
     except (csv.Error, json.JSONDecodeError, OSError) as exc:
         return [f"parse failure: {exc}"]
 
@@ -238,6 +249,12 @@ def collect_errors() -> list[str]:
     }
     if {"candidate_write", "evidence_append", "shadow_generation_submit"} & workflow_actions:
         errors.append("workflow engineer must not write candidates/evidence or submit generation")
+    if workflow_patch_policy.get("copy_on_write_required") is not True:
+        errors.append("workflow patching must be copy-on-write")
+    if workflow_patch_policy.get("graph_mutation_allowed") is not False:
+        errors.append("workflow graph mutation must remain forbidden")
+    if workflow_patch_policy.get("threshold_mutation_allowed") is not False:
+        errors.append("workflow threshold mutation must remain forbidden")
 
     modalities = set(schema.get("properties", {}).get("modality", {}).get("enum", []))
     required_modalities = {"image", "video", "audio", "av", "mask", "workflow"}
@@ -285,6 +302,8 @@ def collect_errors() -> list[str]:
         jsonschema.Draft7Validator.check_schema(mask_measurement_schema)
         jsonschema.Draft7Validator.check_schema(tool_gateway_request_schema)
         jsonschema.Draft7Validator.check_schema(tool_gateway_decision_schema)
+        jsonschema.Draft7Validator.check_schema(workflow_patch_schema)
+        jsonschema.Draft7Validator.check_schema(workflow_validation_schema)
     except ImportError:
         pass
     except Exception as exc:  # pragma: no cover - library supplies exact detail

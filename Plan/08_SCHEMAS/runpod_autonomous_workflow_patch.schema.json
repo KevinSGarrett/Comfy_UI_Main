@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_workflow_patch.schema.json",
+  "title": "Wave64 Autonomous Typed Workflow Patch Proposal",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "patch_id", "base_workflow_sha256", "patch_allowlist_id", "operations"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.workflow_patch.v1"},
+    "patch_id": {"type": "string", "pattern": "^W64-AQA-PATCH-[A-Za-z0-9._-]{1,96}$"},
+    "base_workflow_sha256": {"$ref": "#/definitions/sha256"},
+    "patch_allowlist_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]{1,160}$"},
+    "operations": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["operation", "node_id", "input_name", "expected_old_value", "new_value"],
+        "properties": {
+          "operation": {"enum": ["replace_bounded_numeric", "replace_model", "replace_prompt_fragment", "replace_declared_literal"]},
+          "node_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]{1,96}$"},
+          "input_name": {"type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,127}$"},
+          "expected_old_value": {"$ref": "#/definitions/scalar"},
+          "new_value": {"$ref": "#/definitions/scalar"}
+        }
+      }
+    }
+  },
+  "definitions": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "scalar": {"type": ["string", "number", "integer", "boolean"]}
+  }
+}

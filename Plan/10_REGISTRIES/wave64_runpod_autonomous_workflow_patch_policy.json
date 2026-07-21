@@ -1,0 +1,27 @@
+{
+  "schema_version": "wave64.aqa.workflow_patch_policy.v1",
+  "program_id": "W64-AQA",
+  "patch_allowlist_id": "W64-AQA-WORKFLOW-PATCH-ALLOWLIST-001",
+  "copy_on_write_required": true,
+  "graph_mutation_allowed": false,
+  "threshold_mutation_allowed": false,
+  "shell_allowed": false,
+  "bounded_numeric_inputs": {
+    "steps": {"minimum": 1, "maximum": 200},
+    "cfg": {"minimum": 0, "maximum": 30},
+    "denoise": {"minimum": 0, "maximum": 1},
+    "width": {"minimum": 64, "maximum": 8192},
+    "height": {"minimum": 64, "maximum": 8192},
+    "batch_size": {"minimum": 1, "maximum": 16},
+    "seed": {"minimum": 0, "maximum": 18446744073709551615}
+  },
+  "prompt_inputs": ["text", "positive", "negative", "prompt"],
+  "model_inputs": ["ckpt_name", "vae_name", "lora_name", "control_net_name", "model_name"],
+  "declared_literal_inputs": ["sampler_name", "scheduler"],
+  "path_input_fragments": ["path", "filename", "directory", "folder"],
+  "max_prompt_characters": 4096,
+  "forbidden_input_names": [
+    "api_key", "authorization", "command", "credential", "env", "password",
+    "private_key", "secret", "shell", "token"
+  ]
+}

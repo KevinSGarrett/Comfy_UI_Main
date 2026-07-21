@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_workflow_validation.schema.json",
+  "title": "Wave64 Autonomous Workflow Static Validation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "validation_id", "contract_id", "base_workflow_sha256",
+    "candidate_workflow_sha256", "object_info_sha256", "model_inventory_sha256",
+    "patch_policy_sha256", "graph_summary", "findings", "patch_disposition",
+    "sandbox_execution_performed", "disposition"
+  ],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.workflow_validation.v1"},
+    "validation_id": {"$ref": "#/definitions/sha256"},
+    "contract_id": {"$ref": "#/definitions/sha256"},
+    "base_workflow_sha256": {"$ref": "#/definitions/sha256"},
+    "candidate_workflow_sha256": {"$ref": "#/definitions/sha256"},
+    "object_info_sha256": {"$ref": "#/definitions/sha256"},
+    "model_inventory_sha256": {"$ref": "#/definitions/sha256"},
+    "patch_policy_sha256": {"$ref": "#/definitions/sha256"},
+    "graph_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["node_count", "edge_count", "output_node_count", "acyclic"],
+      "properties": {
+        "node_count": {"type": "integer", "minimum": 0},
+        "edge_count": {"type": "integer", "minimum": 0},
+        "output_node_count": {"type": "integer", "minimum": 0},
+        "acyclic": {"type": "boolean"}
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "severity", "node_id", "input_name", "detail"],
+        "properties": {
+          "code": {"type": "string", "pattern": "^[A-Z0-9_]+$"},
+          "severity": {"enum": ["ERROR", "WARNING"]},
+          "node_id": {"type": ["string", "null"]},
+          "input_name": {"type": ["string", "null"]},
+          "detail": {"type": "string", "minLength": 1, "maxLength": 512}
+        }
+      }
+    },
+    "patch_disposition": {"enum": ["NOT_REQUESTED", "TYPED_PATCH_ACCEPTED_FOR_SANDBOX", "TYPED_PATCH_REJECTED"]},
+    "sandbox_execution_performed": {"const": false},
+    "disposition": {"enum": ["PASS_STATIC_VALIDATION", "FAIL_STATIC_VALIDATION"]}
+  },
+  "definitions": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}
