@@ -67,7 +67,8 @@ def build_notes(prove: list[str], output_sha: str, face_mean: float) -> str:
         "Class C cleared (70e12e70); Class E emission-proof readiness (cc68fd5a); RunPod "
         "w69_inpaint micro_mask_v2 future-producer GLOBAL_REVIEW pass "
         f"VISUAL_QA_PASS_BOUNDED ({PRODUCER_STAMP}) + Ollama qwen2.5vl:7b VLM observation "
-        f"vlm_ok ({prove[0]}/{VLM_STAMP}); face_skin_region_mean_abs {face_mean:.6f}; "
+        f"vlm_ok ({prove[0]}/{prove[1]}/{prove[2]}/{VLM_STAMP}); "
+        f"face_skin_region_mean_abs {face_mean:.6f}; "
         f"output sha {output_sha}...; Status remains {ROW017_STATUS}; row_complete=false; "
         "NEVER Complete; leave Row074 alone. Blockers: "
         "CLASS_E_FUTURE_PRODUCER_GLOBAL_REVIEW_CONTRACT_PENDING|"
@@ -90,6 +91,8 @@ def already_synced(notes: str, prove: list[str]) -> bool:
         and PRODUCER_STAMP in notes
         and VLM_STAMP in notes
         and prove[0] in notes
+        and prove[1] in notes
+        and prove[2] in notes
         and "NEVER Complete" in notes
     )
 
@@ -114,7 +117,7 @@ def rewrite_csv(path: Path, id_col: str, updates: dict[str, dict[str, str]]) -> 
 
 def main() -> None:
     tip = git_short()
-    prove = [tip]
+    prove = ["89656c93", "de9fd957", "12b378b4"]
     notes = read_row017_notes()
     if already_synced(notes, prove):
         print("tip", tip)
