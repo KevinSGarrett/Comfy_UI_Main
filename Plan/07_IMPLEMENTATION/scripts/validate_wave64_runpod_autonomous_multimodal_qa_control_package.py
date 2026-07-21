@@ -60,6 +60,10 @@ PATHS = {
     / "Plan/08_SCHEMAS/runpod_autonomous_audio_measurement.schema.json",
     "audio_measurement": ROOT
     / "Plan/07_IMPLEMENTATION/scripts/measure_wave64_runpod_autonomous_audio_quality.py",
+    "mask_measurement_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_mask_measurement.schema.json",
+    "mask_measurement": ROOT
+    / "Plan/07_IMPLEMENTATION/scripts/measure_wave64_runpod_autonomous_mask_quality.py",
 }
 
 SECRET_PATTERNS = {
@@ -101,6 +105,7 @@ def collect_errors() -> list[str]:
         image_measurement_schema = load_json(PATHS["image_measurement_schema"])
         video_measurement_schema = load_json(PATHS["video_measurement_schema"])
         audio_measurement_schema = load_json(PATHS["audio_measurement_schema"])
+        mask_measurement_schema = load_json(PATHS["mask_measurement_schema"])
     except (csv.Error, json.JSONDecodeError, OSError) as exc:
         return [f"parse failure: {exc}"]
 
@@ -251,6 +256,7 @@ def collect_errors() -> list[str]:
         jsonschema.Draft7Validator.check_schema(image_measurement_schema)
         jsonschema.Draft7Validator.check_schema(video_measurement_schema)
         jsonschema.Draft7Validator.check_schema(audio_measurement_schema)
+        jsonschema.Draft7Validator.check_schema(mask_measurement_schema)
     except ImportError:
         pass
     except Exception as exc:  # pragma: no cover - library supplies exact detail
