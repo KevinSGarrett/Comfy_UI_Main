@@ -27,11 +27,15 @@
     "summary_sha256": "284229426ccee2d41fcb50eefd7604a564c4c01fca00e681c91fe66c7f6bce1f"
   },
   "blocker_codes": [
-    "FULL_LIBRARY_RECONCILE_DEFERRED_OR_IN_PROGRESS",
+    "FULL_LIBRARY_RECONCILE_IN_PROGRESS_TIME_BOUND",
     "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
-    "EVENT_COUNT_CALIBRATION_STRATA_ABSENT",
-    "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT"
+    "EVENT_COUNT_CALIBRATION_STRATA_ABSENT"
   ],
+  "check_summary": {
+    "checked": 10,
+    "failed": 0,
+    "passed": 10
+  },
   "checks": [
     {
       "name": "MES-P001_row072_runtime_unlocked_admission",
@@ -74,21 +78,18 @@
       "result": "pass"
     }
   ],
-  "check_summary": {
-    "checked": 10,
-    "failed": 0,
-    "passed": 10
-  },
   "classification": "ROW074_INDEX_RETAINED_LIMITED_PROBE_DEPS_UNLOCKED_NO_FALSE_COMPLETION",
   "created_at": "2026-07-19T03:19:23.1173944Z",
+  "csv_sync": "synced_by_primary_csv_mutator_row074_reconcile_progress_sync",
+  "csv_sync_tip": "85839664",
   "decision": {
     "dependencies_unlocked": true,
     "fail_closed_probe_slice": "accepted_as_bounded_increment",
     "product_completion": false,
     "row074_acceptance": "held",
-    "row074_status": "Blocked_Library_Probe_Pass_Full_Reconcile_Deferred_Deps_Unlocked",
+    "row074_status": "Blocked_Library_Reconcile_In_Progress_Deps_Unlocked",
     "runtime_completion": false,
-    "safe_next_action": "After Row075 retained-index defect reconcile reaches coverage_complete, resume Row074 --mode index-retained without --limit to coverage_complete under frozen suggestion-only thresholds; keep event-count calibration holds; do not claim COMPLETE. Serialized mutator may then sync sound ITEM/TRACKER CSV Notes from this evidence delta."
+    "safe_next_action": "Do not kill healthy PID 40256 or guardian; finish retained-index multi-event segmentation reconcile to coverage_complete under frozen suggestion-only thresholds. Do not start Row076/Row077 library PCM scans in parallel. No product COMPLETE."
   },
   "dependency_authority": [
     {
@@ -181,7 +182,16 @@
     "writable_scope_note": "Disjoint from Row017 visuals, Row075 progress stamps, Row073/076 runtime trees, and Row077/078/079 paths. Sound ITEM/TRACKER CSV deferred for serialized mutator."
   },
   "item_id": "ITEM-W64-074",
-  "ledger_status": "Blocked_Library_Probe_Pass_Full_Reconcile_Deferred_Deps_Unlocked",
+  "ledger_status": "Blocked_Library_Reconcile_In_Progress_Deps_Unlocked",
+  "ledger_vocabulary_sync": {
+    "ledger_status": "Blocked_Library_Reconcile_In_Progress_Deps_Unlocked",
+    "note": "Progress sync 750/39771; PID 40256 and guardian left alone; prove tip 85839664; no COMPLETE.",
+    "product_completion": false,
+    "progress_stamp": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_MULTI_EVENT_SEGMENTATION_RECONCILE_PROGRESS_20260720T2334-0500.json",
+    "prove_commit": "85839664",
+    "runtime_completion": false,
+    "synced_at": "2026-07-21T04:34:35.753297Z"
+  },
   "library_authority": false,
   "preservation_boundary": {
     "only_row074_writable_paths": [
@@ -216,7 +226,7 @@
     "priority": "P0",
     "risk": "CRITICAL",
     "runtime_proof_required": true,
-    "status": "Blocked_Library_Probe_Pass_Full_Reconcile_Deferred_Deps_Unlocked",
+    "status": "Blocked_Library_Reconcile_In_Progress_Deps_Unlocked",
     "validation_methods": [
       "event_count",
       "segment_bounds",
@@ -227,7 +237,7 @@
   "row_complete": false,
   "runtime_completion_claimed": false,
   "schema_version": 1,
-  "status": "HOLD_LIBRARY_PROBE_PASS_FULL_RECONCILE_DEFERRED_DEPS_UNLOCKED",
+  "status": "HOLD_LIBRARY_RECONCILE_IN_PROGRESS_DEPS_UNLOCKED",
   "tracker_id": "TRK-W64-074",
-  "updated_at": "2026-07-20T06:31:30Z"
+  "updated_at": "2026-07-21T04:34:35.753297Z"
 }
