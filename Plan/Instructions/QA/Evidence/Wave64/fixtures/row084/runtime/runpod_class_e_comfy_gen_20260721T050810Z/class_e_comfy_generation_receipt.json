@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-084_ROW084_CLASS_E_RUNPOD_COMFY_GENERATION_RECEIPT",
+  "record_type": "row084_class_e_comfy_generation_receipt",
+  "tracker_id": "TRK-W64-084",
+  "item_id": "ITEM-W64-084",
+  "check_id": "ROW084-011",
+  "blocker_class": "E",
+  "blocker_id": "PRODUCTION_COMPLETION_AND_ROW_COMPLETE_BLOCKED",
+  "decision": "HOLD",
+  "cleared": false,
+  "row_complete": false,
+  "production_completion_allowed": false,
+  "implementation_completion_claimed": false,
+  "do_not_clear": [
+    "ROW084-011"
+  ],
+  "do_not_thrash": [
+    "ROW084-012"
+  ],
+  "row074_left_alone": true,
+  "created_at": "2026-07-21T05:10:39Z",
+  "pod": {
+    "id": "1q4ji0gg1fkhvt",
+    "name": "hyperreal-flux",
+    "public_ip": "195.26.233.100",
+    "ssh_port": 52077,
+    "paths_env": "/workspace/paths.env"
+  },
+  "comfy_probe": {
+    "created_at": "2026-07-21T05:08:10Z",
+    "COMFY_URL": "http://127.0.0.1:8188",
+    "COMFYUI_ROOT": "/workspace/ComfyUI",
+    "comfyui_serving": true,
+    "comfyui_version": "0.28.0",
+    "gpu_name": "cuda:0 NVIDIA RTX 6000 Ada Generation : cudaMallocAsync",
+    "vram_free": 33334951936,
+    "vram_total": 51002867712,
+    "queue_running": 0,
+    "queue_pending": 0
+  },
+  "generation": {
+    "client_id": "row084-class-e-27a27aaac6eb",
+    "prompt_id": "8681ba01-58a4-4a92-92cf-171d5c2daaf3",
+    "checkpoint": "realvisxlV50_v50Bakedvae.safetensors",
+    "workflow_api_path": "/workspace/tmp/row084_class_e_comfy_gen_20260721T050810Z/workflow.api.json",
+    "workflow_sha256": "0209d57d87aa18c02d5ae4e7877053b9311ada5d51413fef18a72e74671ae584",
+    "submit_http_ok": true,
+    "number": 8,
+    "node_errors": {},
+    "elapsed_seconds": 56.2,
+    "status_str": "success",
+    "completed": true,
+    "history_or_job_snapshot_sha256": "0ee1a5b3ae7b89fd4283ece34f05858081c0fe32fab6f37aa43d2d02223fc7d5",
+    "outputs_image_count": 1,
+    "on_disk_output_sample": [],
+    "visual_frames": [
+      {
+        "path": "/workspace/tmp/row084_class_e_comfy_gen_20260721T050810Z/visual_frames/frame_01.png",
+        "name": "frame_01.png",
+        "sha256": "9cfdfe40bb5015746388df6f44919be2db060056be1b51252026ef568280996e",
+        "bytes": 894945,
+        "comfy_filename": "row084_class_e_gen_00001_.png",
+        "comfy_subfolder": "",
+        "comfy_type": "output",
+        "node_id": "9",
+        "local_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/runpod_class_e_comfy_gen_20260721T050810Z/visual_frames/frame_01.png"
+      }
+    ]
+  },
+  "vlm": {
+    "model": "qwen2.5vl:7b",
+    "ok_frame_count": 1,
+    "reviews": [
+      {
+        "frame": "/workspace/tmp/row084_class_e_comfy_gen_20260721T050810Z/visual_frames/frame_01.png",
+        "name": "frame_01.png",
+        "sha256": "9cfdfe40bb5015746388df6f44919be2db060056be1b51252026ef568280996e",
+        "bytes": 894945,
+        "ok": true,
+        "seconds": 5.97,
+        "raw_response": "```json\n{\n  \"frame_ok\": true,\n  \"subject\": \"A person wearing a black one-piece swimsuit with cutouts on the sides.\",\n  \"setting\": \"Neutral gray background, likely for product photography or fashion display.\",\n  \"decode_or_artifact_issues\": null,\n  \"generation_receipt_corroborated\": false,\n  \"production_completion_allowed\": false,\n  \"row_complete\": false\n}\n```",
+        "parsed": {
+          "frame_ok": true,
+          "subject": "A person wearing a black one-piece swimsuit with cutouts on the sides.",
+          "setting": "Neutral gray background, likely for product photography or fashion display.",
+          "decode_or_artifact_issues": null,
+          "generation_receipt_corroborated": false,
+          "production_completion_allowed": false,
+          "row_complete": false
+        },
+        "local_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/runpod_class_e_comfy_gen_20260721T050810Z/visual_frames/frame_01.png"
+      }
+    ],
+    "status": "VLM_REVIEW_BOUNDED_HOLD"
+  },
+  "proof_tier": "RUNTIME_COMFY_GENERATION_RECEIPT_WITH_VLM_REVIEW",
+  "highest_proof_tier_achieved": "RUNTIME_COMFY_GENERATION_RECEIPT_WITH_VLM_REVIEW",
+  "remaining_blockers": [
+    "COMPILER_HARD_FAIL_CLOSES_PRODUCTION_COMPLETION_ALLOWED",
+    "ROW084-011_CLASS_E_INTENTIONALLY_OPEN",
+    "ROW084-012_CLASS_C_OPEN_HOLD_UNCHANGED",
+    "SINGLE_IMAGE_GEN_IS_NOT_PRODUCTION_MUX_CUT_CAMERA_AUTHORITY"
+  ],
+  "safe_next_action": "Keep ROW084-011 FAIL/OPEN. Keep ROW084-012 OPEN_HOLD. Do not claim COMPLETE. Real Comfy generation receipt + VLM deepen Class E readiness only; production clearance still requires mux/cut/camera/visual authority and compiler hard-fail removal.",
+  "summary": "RunPod Comfy real generation prompt_id=8681ba01-58a4-4a92-92cf-171d5c2daaf3 ckpt=realvisxlV50_v50Bakedvae.safetensors; VLM qwen2.5vl:7b reviewed 1/1 frames. ROW084-011 Class E remains OPEN (not cleared); ROW084-012 HOLD untouched; no COMPLETE/row_complete; Row074 left alone.",
+  "local_runtime_dir": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/runpod_class_e_comfy_gen_20260721T050810Z",
+  "workflow_api_local": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/runpod_class_e_comfy_gen_20260721T050810Z/workflow.api.json",
+  "workflow_sha256": "0209d57d87aa18c02d5ae4e7877053b9311ada5d51413fef18a72e74671ae584",
+  "history_entry_local": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/runpod_class_e_comfy_gen_20260721T050810Z/history_entry.json",
+  "history_entry_sha256": "70567e120d0cba099cf885e4a9318f9f9fd26b40ae90b4e8646c7a99f3157b11",
+  "submit_response_local": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/runpod_class_e_comfy_gen_20260721T050810Z/submit_response.json",
+  "mutation_this_landing": "evidence_only_class_e_runpod_comfy_generation_and_vlm",
+  "csv_sync": "deferred_leave_to_serialized_mutator"
+}
