@@ -1,0 +1,245 @@
+{
+  "prompt": [
+    1,
+    "3c2fdce0-ddc4-4a20-92f5-7bd73b103f5c",
+    {
+      "3": {
+        "class_type": "KSampler",
+        "inputs": {
+          "seed": 210811,
+          "steps": 18,
+          "cfg": 3.4,
+          "sampler_name": "euler",
+          "scheduler": "normal",
+          "denoise": 0.035,
+          "model": [
+            "4",
+            0
+          ],
+          "positive": [
+            "8",
+            0
+          ],
+          "negative": [
+            "9",
+            0
+          ],
+          "latent_image": [
+            "12",
+            0
+          ]
+        }
+      },
+      "4": {
+        "class_type": "CheckpointLoaderSimple",
+        "inputs": {
+          "ckpt_name": "realvisxlV50_v50Bakedvae.safetensors"
+        }
+      },
+      "5": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "wave64_row017_mf70_pupils_src_20260721T040603-0500.png"
+        }
+      },
+      "6": {
+        "class_type": "LoadImageMask",
+        "inputs": {
+          "image": "wave64_row017_mf70_pupils_mask_20260721T040603-0500.png",
+          "channel": "red"
+        }
+      },
+      "7": {
+        "class_type": "VAEEncode",
+        "inputs": {
+          "pixels": [
+            "5",
+            0
+          ],
+          "vae": [
+            "4",
+            2
+          ]
+        }
+      },
+      "8": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "text": "extremely subtle photoreal pupil iris sclera preservation pass, preserve exact person identity, gaze direction, eye symmetry, iris color, pupil size, sclera tone, catchlights, eyelids, eyelashes, eyebrow position, nearby hair occlusion, surrounding skin texture, face lighting, white blazer, background, and portrait composition unchanged",
+          "clip": [
+            "4",
+            1
+          ]
+        }
+      },
+      "9": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "text": "identity change, different person, gaze change, mismatched eyes, crossed eyes, asymmetrical pupils, enlarged pupils, blown catchlights, missing catchlights, iris color change, glassy eyes, doll eyes, anime eyes, red eyes, sclera discoloration, eyelid deformation, eyelash mutation, eyebrow change, hair mutation, visible seam, skin tone change, clothing change, background change, watermark, text",
+          "clip": [
+            "4",
+            1
+          ]
+        }
+      },
+      "10": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "3",
+            0
+          ],
+          "vae": [
+            "4",
+            2
+          ]
+        }
+      },
+      "11": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "filename_prefix": "codex_row017_mf70_pupils_iris_sclera_20260721T040603-0500",
+          "images": [
+            "14",
+            0
+          ]
+        }
+      },
+      "12": {
+        "class_type": "SetLatentNoiseMask",
+        "inputs": {
+          "samples": [
+            "7",
+            0
+          ],
+          "mask": [
+            "13",
+            0
+          ]
+        }
+      },
+      "13": {
+        "class_type": "FeatherMask",
+        "inputs": {
+          "mask": [
+            "6",
+            0
+          ],
+          "left": 24,
+          "top": 24,
+          "right": 24,
+          "bottom": 24
+        }
+      },
+      "14": {
+        "class_type": "ImageCompositeMasked",
+        "inputs": {
+          "destination": [
+            "5",
+            0
+          ],
+          "source": [
+            "10",
+            0
+          ],
+          "x": 0,
+          "y": 0,
+          "resize_source": false,
+          "mask": [
+            "13",
+            0
+          ]
+        }
+      },
+      "15": {
+        "class_type": "MaskToImage",
+        "inputs": {
+          "mask": [
+            "13",
+            0
+          ]
+        }
+      },
+      "16": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "filename_prefix": "codex_row017_mf70_pupils_iris_sclera_20260721T040603-0500_mask_preview",
+          "images": [
+            "15",
+            0
+          ]
+        }
+      }
+    },
+    {
+      "client_id": "cursor-row017-mf70-pupils-runpod-02e8ee37",
+      "create_time": 1784624764458
+    },
+    [
+      "11",
+      "16"
+    ]
+  ],
+  "outputs": {
+    "16": {
+      "images": [
+        {
+          "filename": "codex_row017_mf70_pupils_iris_sclera_20260721T040603-0500_mask_preview_00001_.png",
+          "subfolder": "",
+          "type": "output"
+        }
+      ]
+    },
+    "11": {
+      "images": [
+        {
+          "filename": "codex_row017_mf70_pupils_iris_sclera_20260721T040603-0500_00001_.png",
+          "subfolder": "",
+          "type": "output"
+        }
+      ]
+    }
+  },
+  "status": {
+    "status_str": "success",
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "3c2fdce0-ddc4-4a20-92f5-7bd73b103f5c",
+          "timestamp": 1784624764459
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [],
+          "prompt_id": "3c2fdce0-ddc4-4a20-92f5-7bd73b103f5c",
+          "timestamp": 1784624765087
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "3c2fdce0-ddc4-4a20-92f5-7bd73b103f5c",
+          "timestamp": 1784624814433
+        }
+      ]
+    ]
+  },
+  "meta": {
+    "16": {
+      "node_id": "16",
+      "display_node": "16",
+      "parent_node": null,
+      "real_node_id": "16"
+    },
+    "11": {
+      "node_id": "11",
+      "display_node": "11",
+      "parent_node": null,
+      "real_node_id": "11"
+    }
+  }
+}

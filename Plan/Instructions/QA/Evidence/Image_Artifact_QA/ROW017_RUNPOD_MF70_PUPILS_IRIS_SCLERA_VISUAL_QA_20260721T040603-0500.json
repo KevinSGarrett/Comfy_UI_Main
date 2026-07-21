@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ROW017-RUNPOD-MF70-PUPILS-IRIS-SCLERA-VISUAL-QA-20260721T040603-0500",
+  "created_at": "2026-07-21T04:06:03-05:00",
+  "tracker_id": "TRK-W64-017",
+  "item_id": "ITEM-W64-017",
+  "localized_region": "mf70_pupils_iris_sclera",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+  "qa_decision": "pass_bounded_localized_mf70_pupils_iris_sclera_runpod_runtime_candidate",
+  "overall_decision": "pass",
+  "local_only": false,
+  "runtime_host": "runpod",
+  "direct_visual_inspection": true,
+  "fixture_only": false,
+  "generation_executed": true,
+  "runtime_receipt": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_pupils_iris_sclera_20260721T040603-0500/LOCAL_RUNTIME_RECEIPT.json",
+  "source": {
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_skin_tone_continuity_20260707T163000-0500/wave70_mf70_face_identity_source_canny_v3.png",
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d"
+  },
+  "mask": {
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_pupils_iris_sclera_v3_20260708T005000-0500/wave70_mf70_pupils_iris_sclera_v3_mask.png",
+    "sha256": "41a38bdf59632005231828cdc3ba6d2ac8da913787b1fd30759a1e00ac39f82d",
+    "filename": "wave70_mf70_pupils_iris_sclera_v3_mask.png"
+  },
+  "artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_pupils_iris_sclera_20260721T040603-0500/images/codex_row017_mf70_pupils_iris_sclera_20260721T040603-0500_00001_.png",
+    "sha256": "2268e1963dbd0a175e5250a478a301cdf57a23daf7f98cd05c5a0dfabd5c1fd2"
+  },
+  "comparison_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_pupils_iris_sclera_20260721T040603-0500/images/qa_full_side_by_side.png",
+    "sha256": "ba7d2d67a1de6868ef8a3255665bef3a4db20957341765d56b13b74366e2ef63"
+  },
+  "face_crop_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_pupils_iris_sclera_20260721T040603-0500/images/qa_face_crop_side_by_side.png",
+    "sha256": "00044f75c02927c87b9696aec3a1ea764f0b530b824f8898865d80314e5788c8"
+  },
+  "eye_crop_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_pupils_iris_sclera_20260721T040603-0500/images/qa_eye_crop_side_by_side.png",
+    "sha256": "378b61ab7647077b6bac9d09b9d545009bd6143ab6167575c4ba31f2bd463f83"
+  },
+  "mouth_crop_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_pupils_iris_sclera_20260721T040603-0500/images/qa_mouth_crop_side_by_side.png",
+    "sha256": "8fb2c339e3f5a473f6f96c84cab3492d175e59f4e9f9df44cf45d64dfa798c29"
+  },
+  "difference_metrics": {
+    "full_image_diff_bbox": [
+      259,
+      310,
+      504,
+      331
+    ],
+    "face_mask_bbox": [
+      258,
+      310,
+      504,
+      331
+    ],
+    "face_crop_box": [
+      238,
+      290,
+      524,
+      351
+    ],
+    "mean_rgb_abs_diff": [
+      0.016669,
+      0.015518,
+      0.014799
+    ],
+    "rms_rgb_abs_diff": [
+      0.473565,
+      0.440199,
+      0.427518
+    ],
+    "face_region_mean_abs": 1.788231,
+    "eye_region_mean_abs": 0.248333,
+    "mouth_region_mean_abs": 0.0,
+    "clothing_mean_abs": 0.0,
+    "background_corner_mean_abs": 0.0,
+    "changed_pixel_count": 1004,
+    "mask_pixel_count": 1768
+  },
+  "whole_frame_findings": [
+    "Fresh RunPod ComfyUI mf70 eyebrows masked inpaint on wave70_mf70_face_identity_source_canny_v3 (seed 210811, RealVisXL baked VAE, denoise 0.035, FeatherMask 24px, cfg 3.4, steps 18) completed successfully (prompt_id 3c2fdce0-ddc4-4a20-92f5-7bd73b103f5c).",
+    "Whole-frame identity, hair, navy blazer, patterned shirt, collar, dark studio background, lighting, and framing remain stable versus source.",
+    "Pixel delta is localized to mf70 eyebrows bbox [258, 310, 504, 331]; clothing mean abs 0.0; background corner mean abs 0.0; 1004 changed pixels vs 1768-pixel eyebrows mask.",
+    "Direct whole-frame + face/eye/mouth crop inspection: subtle eyebrow hair-stroke preservation refinement without gray-mask failure, identity drift, wardrobe rewrite, background change, hard mask-edge seam, or gaze/iris rewrite.",
+    "Hands are outside this head-and-shoulders crop (not applicable); no global style drift observed."
+  ],
+  "global_defects": [],
+  "promotion_authorized": false,
+  "row_complete": false,
+  "product_completion_claimed": false,
+  "ec2": "RUNPOD_USED",
+  "docker_cvat": "not-needed",
+  "notes": [
+    "Class E future-producer emission proof via RunPod Comfy runtime after local :8188 was unreachable.",
+    "Does not claim COMPLETE; CSV deferred; Row074 left alone; HOLD 090+ untouched."
+  ],
+  "csv_update_deferred": true
+}
