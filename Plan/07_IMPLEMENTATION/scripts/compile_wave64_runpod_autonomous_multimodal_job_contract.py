@@ -26,6 +26,7 @@ SHADOW_REQUIRED_ROLES = {
     "W64-AQA-ROLE-DETERMINISTIC",
     "W64-AQA-ROLE-STRICT-VISUAL",
 }
+WORKFLOW_SHADOW_REQUIRED_ROLES = {"W64-AQA-ROLE-DETERMINISTIC"}
 
 
 class ContractError(ValueError):
@@ -49,11 +50,12 @@ def _semantic_errors(contract: dict[str, Any]) -> list[str]:
     role_ids = [role["role_id"] for role in roles]
     role_map = {role["role_id"]: role for role in roles}
     required = set(profile["required_approval_roles"])
-    expected_required = (
-        PRODUCTION_REQUIRED_ROLES
-        if contract["execution_mode"] == "production_release"
-        else SHADOW_REQUIRED_ROLES
-    )
+    if contract["execution_mode"] == "production_release":
+        expected_required = PRODUCTION_REQUIRED_ROLES
+    elif contract["modality"] == "workflow":
+        expected_required = WORKFLOW_SHADOW_REQUIRED_ROLES
+    else:
+        expected_required = SHADOW_REQUIRED_ROLES
 
     if len(role_ids) != len(set(role_ids)):
         errors.append("review role IDs must be unique")

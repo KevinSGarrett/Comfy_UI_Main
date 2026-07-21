@@ -93,8 +93,8 @@ def _compare(observed: Any, operator: str, threshold: Any) -> bool:
 def _validate_contract(contract: dict[str, Any]) -> None:
     if contract.get("schema_version") != "wave64.aqa.job_contract.v1":
         raise MeasurementError("unsupported contract schema_version")
-    if contract.get("modality") not in {"image", "mask"}:
-        raise MeasurementError("image measurement requires image or mask modality")
+    if contract.get("modality") not in {"image", "mask", "workflow"}:
+        raise MeasurementError("image measurement requires image, mask, or workflow modality")
     if contract.get("preflight_disposition") != "READY_FOR_LEASE":
         raise MeasurementError("contract is not ready for a lease")
     if not isinstance(contract.get("image_spec"), dict):

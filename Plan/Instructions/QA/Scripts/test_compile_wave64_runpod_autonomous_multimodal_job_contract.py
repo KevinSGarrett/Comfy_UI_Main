@@ -194,6 +194,39 @@ def test_current_32b_lane_can_run_shadow_without_product_authority() -> None:
     compiler.verify_contract(contract)
 
 
+def test_workflow_shadow_requires_deterministic_role_without_visual_semantic_authority() -> None:
+    compiler = load_compiler()
+    draft = valid_draft("workflow")
+    deterministic = draft["quality_profile"]["review_roles"][0]
+    workflow_engineer = {
+        "role_id": "W64-AQA-ROLE-WORKFLOW-ENGINEER",
+        "authority": "workflow",
+        "can_approve": False,
+        "required": False,
+    }
+    draft["execution_mode"] = "shadow_qualification"
+    draft["quality_profile"]["review_roles"] = [deterministic, workflow_engineer]
+    draft["quality_profile"]["required_approval_roles"] = [
+        "W64-AQA-ROLE-DETERMINISTIC"
+    ]
+    draft["provenance"]["model_bindings"] = [
+        draft["provenance"]["model_bindings"][0]
+    ]
+    draft["workflow_spec"] = {
+        "object_info_sha256": SHA_C,
+        "patch_allowlist_id": "W64-AQA-WORKFLOW-PATCH-ALLOWLIST-001",
+        "sandbox_required": True,
+        "regression_suite_id": "w64-aqa-shadow-resize-v1",
+    }
+    contract = compiler.compile_contract(draft)
+    assert contract["preflight_disposition"] == "READY_FOR_LEASE"
+    assert contract["promotion_disposition"] == "EVIDENCE_ONLY"
+    assert contract["quality_profile"]["required_approval_roles"] == [
+        "W64-AQA-ROLE-DETERMINISTIC"
+    ]
+    compiler.verify_contract(contract)
+
+
 def test_tampering_breaks_immutable_identity() -> None:
     compiler = load_compiler()
     contract = compiler.compile_contract(valid_draft())

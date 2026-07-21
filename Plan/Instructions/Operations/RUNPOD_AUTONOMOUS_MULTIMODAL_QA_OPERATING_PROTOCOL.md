@@ -132,6 +132,17 @@ cross-repository write authority. Missing artifacts, unsafe relative paths,
 geometry mismatch, incomplete gates, or an attempted authority expansion fail
 closed while non-mask lanes continue.
 
+MaskFactory task `019f4cfc-60c3-7500-8626-261dcf70db5d` is the sole producer-side
+masking authority while active. Comfy_UI_Main must not implement candidate-mask
+generation/refinement, tournaments, human-review/CVAT flow, accepted-golden
+creation, training datasets, segmentation or matting training, serving,
+producer qualification, or masking-specific RunPod runtime. Resume integration
+only from a versioned release containing exact model/artifact hashes, API and
+input/output schemas, target-instance semantics, runtime/resource envelopes,
+qualification evidence, representative fixtures, licensing/provenance, and
+rollback instructions. A live MaskFactory lease is recorded once as a transient
+hold; switch to a non-mask lane without polling, competing, or stopping it.
+
 ## 7. Secrets and external systems
 
 - Never display or store `.env` values, API keys, tokens, SSH private keys, or

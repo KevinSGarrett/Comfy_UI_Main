@@ -79,6 +79,16 @@ def test_measurement_is_deterministic_and_schema_valid(tmp_path: Path) -> None:
     assert first["metrics"]["entropy_bits"] > 4
 
 
+def test_workflow_shadow_output_can_use_deterministic_image_gates(tmp_path: Path) -> None:
+    module = load_measurer()
+    path = tmp_path / "pattern.png"
+    write_pattern(path)
+    workflow_contract = contract()
+    workflow_contract["modality"] = "workflow"
+    result = module.measure_image(path, workflow_contract)
+    assert result["disposition"] == "PASS_DETERMINISTIC_GATES"
+
+
 def test_geometry_mismatch_is_hard_failure(tmp_path: Path) -> None:
     module = load_measurer()
     path = tmp_path / "pattern.png"

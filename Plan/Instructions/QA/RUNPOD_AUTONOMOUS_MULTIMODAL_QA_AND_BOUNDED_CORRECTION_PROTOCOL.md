@@ -63,6 +63,11 @@ candidate mask, integration-accepted golden reference, and target overlay by
 hash, geometry, relative path, and target instance. The contract is
 candidate-only, forbids MaskFactory writes and product promotion, and grants no
 runtime authority even when deterministic gates pass.
+Producer-side mask quality, training, golden creation, and runtime qualification
+remain outside this repository until MaskFactory supplies its versioned release.
+This repository may then validate the immutable consumer boundary, run retained
+ComfyUI workflows, measure downstream mask/image/video behavior, and accept or
+reject the external release; it may not recreate the producer.
 
 ## Gate AQA-06W: workflow integrity and correction
 

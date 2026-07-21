@@ -243,6 +243,11 @@ Every external package first compiles into a read-only consumer contract binding
 the exact source, candidate, integration-accepted golden, target overlay,
 geometry, and target instance. That contract is candidate-only and cannot grant
 MaskFactory write, runtime, golden-reference, or promotion authority.
+Producer-side masking remains exclusively owned by MaskFactory task
+`019f4cfc-60c3-7500-8626-261dcf70db5d`. W64-AQA-007 is deferred until that task
+publishes a versioned integration release with exact model/artifact hashes,
+schemas, target semantics, runtime envelopes, qualification evidence, fixtures,
+licensing/provenance, and rollback instructions. Non-mask lanes continue.
 
 ### Workflow review and correction
 
@@ -331,3 +336,12 @@ completion additionally requires reproducible calibration, failure-injection,
 recovery, resource, cost, security, drift, and modality evidence for every role
 claimed active. Until then, unqualified roles remain blocked and the project
 continues through other actionable rows.
+
+The infrastructure phase exits earlier and without weakening those role gates:
+one retained current-pod shadow job must pass admission, workflow execution or
+generation, deterministic and contract-applicable semantic QA, one bounded
+correction, evidence replay, owned cleanup, and fail-closed evidence-only
+acceptance. Remaining optional roles, deferred MaskFactory integration, and
+2x A40 migration stay explicit tracker limitations. After this exit, selection
+defaults permanently to dependency-unblocked functional ComfyUI delivery rather
+than another broad infrastructure or inventory cycle.

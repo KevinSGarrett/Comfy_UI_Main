@@ -130,6 +130,8 @@ PATHS = {
     / "Plan/07_IMPLEMENTATION/scripts/produce_wave64_runpod_autonomous_phase_lease_runtime_canary.py",
     "strict_model_runtime_canary_producer": ROOT
     / "Plan/07_IMPLEMENTATION/scripts/produce_wave64_runpod_autonomous_strict_model_runtime_canary.py",
+    "e2e_shadow_job_runner": ROOT
+    / "Plan/07_IMPLEMENTATION/scripts/run_wave64_runpod_autonomous_e2e_shadow_job.py",
 }
 
 SECRET_PATTERNS = {
