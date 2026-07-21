@@ -1,0 +1,207 @@
+{
+  "artifact": {
+    "bytes": null,
+    "media_kind": "video_frames",
+    "paths": [
+      "/workspace/comfy_output/video/w64_019_023_runpod_wan_ti2v_motion_stronger_20260721T164856Z_frames8/frame_01.png",
+      "/workspace/comfy_output/video/w64_019_023_runpod_wan_ti2v_motion_stronger_20260721T164856Z_frames8/frame_02.png",
+      "/workspace/comfy_output/video/w64_019_023_runpod_wan_ti2v_motion_stronger_20260721T164856Z_frames8/frame_03.png",
+      "/workspace/comfy_output/video/w64_019_023_runpod_wan_ti2v_motion_stronger_20260721T164856Z_frames8/frame_04.png",
+      "/workspace/comfy_output/video/w64_019_023_runpod_wan_ti2v_motion_stronger_20260721T164856Z_frames8/frame_05.png",
+      "/workspace/comfy_output/video/w64_019_023_runpod_wan_ti2v_motion_stronger_20260721T164856Z_frames8/hand_crop_center.png",
+      "/workspace/comfy_output/video/w64_019_023_runpod_wan_ti2v_motion_stronger_20260721T164856Z_frames8/skin_crop_face_shoulder.png"
+    ],
+    "prompt_id": "6a5e81b8-b751-459e-a3cc-b9cb257a08f1",
+    "sha256": null
+  },
+  "authority": {
+    "ec2_forbidden": true,
+    "endpoint": "http://127.0.0.1:11434",
+    "fail_closed": true,
+    "host": "runpod",
+    "local_comfy_runtime_forbidden": true,
+    "pod_id": "1q4ji0gg1fkhvt",
+    "runtime": "ollama_self_hosted"
+  },
+  "blocking_defects": [
+    {
+      "code": "MUSHY_HANDS",
+      "detail": "Fingers show some fusion and lack of natural separation, impacting the realism of hand anatomy.",
+      "region": "Hands in frames 1-3",
+      "severity": "major"
+    },
+    {
+      "code": "PLASTIC_SKIN",
+      "detail": "Skin lacks natural microdetails, appearing somewhat waxy or smooth, particularly noticeable in close-up shots.",
+      "region": "Entire body across all frames",
+      "severity": "minor"
+    }
+  ],
+  "climb_kind": "wan_ti2v_class_a",
+  "correction_guidance": [
+    "Enhance hand detail to ensure fingers are distinct and naturally separated.",
+    "Improve skin texture to include natural microdetails such as pores and subtle variations for increased realism."
+  ],
+  "forbidden_rubber_stamp_signals": {
+    "generation_receipt_is_not_pass": true,
+    "pipeline_ran_is_not_pass": true,
+    "smoke_model_forbidden_for_product": true,
+    "weak_vlm_pass_alone_is_not_product_pass": true
+  },
+  "generation_receipt_is_not_visual_approval": true,
+  "human_frame_read_retained": {
+    "required_when_already_gated": true,
+    "status": "not_run"
+  },
+  "lane": "CLASS_A",
+  "model": {
+    "approved_for_product": true,
+    "name": "qwen2.5vl:32b",
+    "ollama_show": {
+      "details": {
+        "families": [
+          "qwen25vl"
+        ],
+        "family": "qwen25vl",
+        "format": "gguf",
+        "parameter_size": "33.5B",
+        "parent_model": "",
+        "quantization_level": "Q4_K_M"
+      },
+      "model_info_keys": [
+        "general.architecture",
+        "general.file_type",
+        "general.parameter_count",
+        "general.quantization_version",
+        "qwen25vl.attention.head_count",
+        "qwen25vl.attention.head_count_kv",
+        "qwen25vl.attention.layer_norm_rms_epsilon",
+        "qwen25vl.block_count",
+        "qwen25vl.context_length",
+        "qwen25vl.embedding_length",
+        "qwen25vl.feed_forward_length",
+        "qwen25vl.rope.freq_base",
+        "qwen25vl.rope.mrope_section",
+        "qwen25vl.vision.attention.head_count",
+        "qwen25vl.vision.attention.layer_norm_epsilon",
+        "qwen25vl.vision.block_count",
+        "qwen25vl.vision.embedding_length",
+        "qwen25vl.vision.fullatt_block_indexes",
+        "qwen25vl.vision.num_channels",
+        "qwen25vl.vision.patch_size",
+        "qwen25vl.vision.rope.freq_base",
+        "qwen25vl.vision.spatial_merge_size",
+        "qwen25vl.vision.spatial_patch_size",
+        "qwen25vl.vision.temporal_patch_size",
+        "qwen25vl.vision.window_size",
+        "tokenizer.ggml.add_eos_token",
+        "tokenizer.ggml.add_padding_token",
+        "tokenizer.ggml.eos_token_id",
+        "tokenizer.ggml.merges",
+        "tokenizer.ggml.model",
+        "tokenizer.ggml.padding_token_id",
+        "tokenizer.ggml.pre",
+        "tokenizer.ggml.scores",
+        "tokenizer.ggml.token_type",
+        "tokenizer.ggml.tokens"
+      ]
+    },
+    "ollama_show_digest": "",
+    "ollama_show_family": "qwen25vl",
+    "parameter_size": "33.5B",
+    "role": "strict_product_reviewer"
+  },
+  "model_summary": "The video frames show some issues with hand anatomy, skin realism, and motion dynamics that prevent a PASS decision. While identity consistency is strong and there are no major artifacts, the lack of natural movement and somewhat plastic appearance of the skin warrant rejection.",
+  "overall_decision": "REJECT",
+  "producer_gate": "wave64_climb_strict_visual_gate",
+  "product_completion_claimed": false,
+  "raw_model_response": "{\n  \"anatomy_hands_fingers\": {\n    \"score\": 70,\n    \"applicable\": true,\n    \"notes\": \"Finger count and separation are mostly accurate, but there is some slight fusion or mushiness in the fingers, particularly in frames where hands are extended.\"\n  },\n  \"identity_consistency\": {\n    \"score\": 95,\n    \"applicable\": true,\n    \"notes\": \"The identity of the subject remains consistent across all frames. The face and body features match well with no noticeable inconsistencies.\"\n  },\n  \"skin_realism\": {\n    \"score\": 60,\n    \"applicable\": true,\n    \"notes\": \"Skin appears somewhat plastic or waxy, lacking natural microdetails such as pores or subtle texture variations. This is particularly noticeable in the close-up frames of the skin and face.\"\n  },\n  \"motion_temporal\": {\n    \"score\": 40,\n    \"applicable\": true,\n    \"notes\": \"The video claims strong motion but shows minimal dynamic changes between frames. The subject's posture shifts slightly, but there is no significant breath, blink, or weight-shift movement to indicate living motion.\"\n  },\n  \"artifacts_cleanliness\": {\n    \"score\": 85,\n    \"applicable\": true,\n    \"notes\": \"No major warping, mush, compression, limb melt, or background tears are observed. The image quality is generally clean with minor artifacts that do not significantly detract from the overall presentation.\"\n  },\n  \"prompt_adherence\": {\n    \"score\": 75,\n    \"applicable\": true,\n    \"notes\": \"The images mostly adhere to the stated intent of strong motion, but the actual motion depicted is minimal. The subject's pose and expressions are consistent with a posed photograph rather than dynamic video footage.\"\n  },\n  \"policy_project\": {\n    \"score\": 90,\n    \"applicable\": true,\n    \"notes\": \"The content adheres to project/NSFW policy coherence, as the images do not contain explicit or overly graphic elements that would violate typical NSFW guidelines for this context.\"\n  },\n  \"blocking_defects\": [\n    {\n      \"code\": \"MUSHY_HANDS\",\n      \"severity\": \"major\",\n      \"detail\": \"Fingers show some fusion and lack of natural separation, impacting the realism of hand anatomy.\",\n      \"region\": \"Hands in frames 1-3\"\n    },\n    {\n      \"code\": \"PLASTIC_SKIN\",\n      \"severity\": \"minor\",\n      \"detail\": \"Skin lacks natural microdetails, appearing somewhat waxy or smooth, particularly noticeable in close-up shots.\",\n      \"region\": \"Entire body across all frames\"\n    }\n  ],\n  \"correction_guidance\": [\n    \"Enhance hand detail to ensure fingers are distinct and naturally separated.\",\n    \"Improve skin texture to include natural microdetails such as pores and subtle variations for increased realism.\"\n  ],\n  \"reviewer_confidence\": 0.8,\n  \"proposed_decision\": \"REJECT\",\n  \"summary\": \"The video frames show some issues with hand anatomy, skin realism, and motion dynamics that prevent a PASS decision. While identity consistency is strong and there are no major artifacts, the lack of natural movement and somewhat plastic appearance of the skin warrant rejection.\"\n}",
+  "reviewer_confidence": 0.8,
+  "row074_pcm_left_alone": true,
+  "rubric_scores": {
+    "anatomy_hands_fingers": {
+      "applicable": true,
+      "notes": "Finger count and separation are mostly accurate, but there is some slight fusion or mushiness in the fingers, particularly in frames where hands are extended.",
+      "pass": false,
+      "score": 70
+    },
+    "artifacts_cleanliness": {
+      "applicable": true,
+      "notes": "No major warping, mush, compression, limb melt, or background tears are observed. The image quality is generally clean with minor artifacts that do not significantly detract from the overall presentation.",
+      "pass": true,
+      "score": 85
+    },
+    "identity_consistency": {
+      "applicable": true,
+      "notes": "The identity of the subject remains consistent across all frames. The face and body features match well with no noticeable inconsistencies.",
+      "pass": true,
+      "score": 95
+    },
+    "motion_temporal": {
+      "applicable": true,
+      "notes": "The video claims strong motion but shows minimal dynamic changes between frames. The subject's posture shifts slightly, but there is no significant breath, blink, or weight-shift movement to indicate living motion.",
+      "pass": false,
+      "score": 40
+    },
+    "policy_project": {
+      "applicable": true,
+      "notes": "The content adheres to project/NSFW policy coherence, as the images do not contain explicit or overly graphic elements that would violate typical NSFW guidelines for this context.",
+      "pass": true,
+      "score": 90
+    },
+    "prompt_adherence": {
+      "applicable": true,
+      "notes": "The images mostly adhere to the stated intent of strong motion, but the actual motion depicted is minimal. The subject's pose and expressions are consistent with a posed photograph rather than dynamic video footage.",
+      "pass": false,
+      "score": 75
+    },
+    "skin_realism": {
+      "applicable": true,
+      "notes": "Skin appears somewhat plastic or waxy, lacking natural microdetails such as pores or subtle texture variations. This is particularly noticeable in the close-up frames of the skin and face.",
+      "pass": false,
+      "score": 60
+    }
+  },
+  "schema_version": "wave64.pod_strict_visual_qa.v1",
+  "self_test": {
+    "expectation_met": null,
+    "expected_decision": null,
+    "fixture_role": "live_climb"
+  },
+  "strict_pod_llm_review": "REJECT",
+  "thresholds": {
+    "anatomy_hands_fingers_min": 90,
+    "artifacts_cleanliness_min": 85,
+    "default_decision": "REJECT",
+    "identity_consistency_min": 85,
+    "motion_temporal_min": 90,
+    "policy_project_min": 90,
+    "prompt_adherence_min": 85,
+    "reviewer_confidence_min": 0.75,
+    "skin_realism_min": 85
+  },
+  "vram_arbitration": {
+    "comfy_queue_idle_required": true,
+    "comfy_unload_before_review": true,
+    "comfy_unload_receipt": {
+      "after": {
+        "free_mib": 45737.0,
+        "total_mib": 49140.0,
+        "used_mib": 2904.0
+      },
+      "before": {
+        "free_mib": 47299.0,
+        "total_mib": 49140.0,
+        "used_mib": 1342.0
+      },
+      "comfy_url": "http://127.0.0.1:8188",
+      "error": null,
+      "ok": true
+    },
+    "gpu_memory_free_mib_after_unload": 45737.0,
+    "gpu_memory_free_mib_before": 47299.0,
+    "notes": "Comfy and qwen2.5vl:32b must not co-reside on RTX 6000 Ada ~48GB when Wan/Flux weights are loaded; unload Comfy via /free before strict review, then unload VLM (keep_alive=0) before the next generation.",
+    "ollama_keep_alive": "0",
+    "unload_vlm_after_review": true
+  }
+}
