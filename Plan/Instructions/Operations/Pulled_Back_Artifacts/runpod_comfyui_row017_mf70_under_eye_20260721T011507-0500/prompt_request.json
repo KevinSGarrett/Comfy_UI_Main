@@ -1,0 +1,172 @@
+{
+  "prompt": {
+    "3": {
+      "class_type": "KSampler",
+      "inputs": {
+        "seed": 210814,
+        "steps": 18,
+        "cfg": 3.3,
+        "sampler_name": "euler",
+        "scheduler": "normal",
+        "denoise": 0.045,
+        "model": [
+          "4",
+          0
+        ],
+        "positive": [
+          "8",
+          0
+        ],
+        "negative": [
+          "9",
+          0
+        ],
+        "latent_image": [
+          "12",
+          0
+        ]
+      }
+    },
+    "4": {
+      "class_type": "CheckpointLoaderSimple",
+      "inputs": {
+        "ckpt_name": "realvisxlV50_v50Bakedvae.safetensors"
+      }
+    },
+    "5": {
+      "class_type": "LoadImage",
+      "inputs": {
+        "image": "wave64_row017_mf70_undereye_src_20260721T011507-0500.png"
+      }
+    },
+    "6": {
+      "class_type": "LoadImageMask",
+      "inputs": {
+        "image": "wave64_row017_mf70_undereye_mask_20260721T011507-0500.png",
+        "channel": "red"
+      }
+    },
+    "7": {
+      "class_type": "VAEEncode",
+      "inputs": {
+        "pixels": [
+          "5",
+          0
+        ],
+        "vae": [
+          "4",
+          2
+        ]
+      }
+    },
+    "8": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "extremely subtle photoreal under-eye skin texture preservation pass, preserve exact person identity, gaze direction, eye shape, lower eyelid edge, natural under-eye skin texture, iris color, pupil size, sclera tone, catchlights, eyelashes, eyebrows, nose bridge, cheeks, nearby hair occlusion, face lighting, white blazer, background, and portrait composition unchanged",
+        "clip": [
+          "4",
+          1
+        ]
+      }
+    },
+    "9": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "identity change, different person, gaze change, mismatched eyes, crossed eyes, asymmetrical eyes, heavy bags, swollen under eyes, dark circles, plastic skin, waxy skin, over-smoothed skin, lower eyelid deformation, eyelash mutation, eyebrow change, iris color change, glassy eyes, sclera discoloration, catchlight change, nose bridge change, cheek shape change, skin tone change, visible seam, hair mutation, clothing change, background change, watermark, text",
+        "clip": [
+          "4",
+          1
+        ]
+      }
+    },
+    "10": {
+      "class_type": "VAEDecode",
+      "inputs": {
+        "samples": [
+          "3",
+          0
+        ],
+        "vae": [
+          "4",
+          2
+        ]
+      }
+    },
+    "11": {
+      "class_type": "SaveImage",
+      "inputs": {
+        "filename_prefix": "codex_row017_mf70_under_eye_20260721T011507-0500",
+        "images": [
+          "14",
+          0
+        ]
+      }
+    },
+    "12": {
+      "class_type": "SetLatentNoiseMask",
+      "inputs": {
+        "samples": [
+          "7",
+          0
+        ],
+        "mask": [
+          "13",
+          0
+        ]
+      }
+    },
+    "13": {
+      "class_type": "FeatherMask",
+      "inputs": {
+        "mask": [
+          "6",
+          0
+        ],
+        "left": 24,
+        "top": 24,
+        "right": 24,
+        "bottom": 24
+      }
+    },
+    "14": {
+      "class_type": "ImageCompositeMasked",
+      "inputs": {
+        "destination": [
+          "5",
+          0
+        ],
+        "source": [
+          "10",
+          0
+        ],
+        "x": 0,
+        "y": 0,
+        "resize_source": false,
+        "mask": [
+          "13",
+          0
+        ]
+      }
+    },
+    "15": {
+      "class_type": "MaskToImage",
+      "inputs": {
+        "mask": [
+          "13",
+          0
+        ]
+      }
+    },
+    "16": {
+      "class_type": "SaveImage",
+      "inputs": {
+        "filename_prefix": "codex_row017_mf70_under_eye_20260721T011507-0500_mask_preview",
+        "images": [
+          "15",
+          0
+        ]
+      }
+    }
+  },
+  "client_id": "cursor-row017-mf70-undereye-runpod-19f0fff6"
+}
