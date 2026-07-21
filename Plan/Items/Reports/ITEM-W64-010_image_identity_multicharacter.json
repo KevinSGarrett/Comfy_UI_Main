@@ -104,7 +104,11 @@
     "Plan/Tracker/Evidence/TRK-W64-010_RUNPOD_C1_PULID_LOCKFRONT_CALIB_20260721T061101Z.json",
     "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_PULID_LOCKFRONT_VLM_20260721T061340Z.json",
     "Plan/Tracker/Evidence/TRK-W64-010_RUNPOD_C1_PULID_LOCKFRONT_VLM_20260721T061340Z.json",
-    "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_pulid_lockfront_vlm_20260721T061340Z/SUMMARY.json"
+    "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_pulid_lockfront_vlm_20260721T061340Z/SUMMARY.json",
+    "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_PULID_FACE04_CALIB_20260721T142217Z.json",
+    "Plan/Tracker/Evidence/TRK-W64-010_RUNPOD_C1_PULID_FACE04_CALIB_20260721T142217Z.json",
+    "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_PULID_FACE04_VLM_20260721T142428Z.json",
+    "Plan/Tracker/Evidence/TRK-W64-010_RUNPOD_C1_PULID_FACE04_VLM_20260721T142428Z.json"
   ],
   "exact_blocker": "No supplied artifact binds each generated person to a unique character_id, isolated identity references, and a per-character comparison crop.",
   "item_id": "ITEM-W64-010",
@@ -115,7 +119,7 @@
     "promoted_file_count": 14,
     "row_complete": false
   },
-  "next_action": "Continue personal-calibration climb on RunPod without inventing faces or a second character; keep Row010 blocked for portable multi-character pack; do not claim COMPLETE; leave Row074 alone; CSV via mutator only.",
+  "next_action": "Continue personal-calibration climb on RunPod without inventing faces or a second character; keep Row010 blocked for portable multi-character pack; do not claim COMPLETE; Row074 HOLD coverage_complete leave alone; CSV via mutator only.",
   "project_completion": {
     "final_certification_decision": "blocked",
     "full_project_complete": false,
@@ -259,6 +263,54 @@
     "row_complete": false,
     "status": "RUNTIME_PASS_BOUNDED_PERSONAL_CALIBRATION_PULID_FACE03_VLM_NONCANONICAL",
     "vlm_evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_PULID_FACE03_VLM_20260721T045654Z.json",
+    "vlm_model": "qwen2.5vl:7b"
+  },
+  "runpod_personal_calibration_pulid_face04": {
+    "aggregate_scores": {
+      "body_silhouette_consistency_mean": 0.9,
+      "body_silhouette_consistency_n": 2,
+      "face_consistency_mean": 0.7375,
+      "face_consistency_n": 4,
+      "per_face_scores": {
+        "face_01": 0.6,
+        "face_02": 0.85,
+        "face_03": 0.6,
+        "face_04": 0.9
+      },
+      "prior_lora_only_face_tighter_face_mean": 0.475,
+      "prior_pulid_face01_face_mean": 0.7375,
+      "prior_pulid_face03_face_mean": 0.775,
+      "prior_pulid_face_tighter_v2_face04_panel": 0.6,
+      "prior_pulid_face_tighter_v2_face_mean": 0.75,
+      "same_person_likelihood_mean": 0.6833,
+      "same_person_likelihood_n": 6,
+      "solo_lock_trait_alignment_score": 0.0
+    },
+    "calib_evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_PULID_FACE04_CALIB_20260721T142217Z.json",
+    "candidate_sha256": "8ac7f26311886b9ccdf33d6872644baa962b4b6122fafd8e21249100bd67fc8a",
+    "faces_invented": false,
+    "gate": {
+      "body_ok": true,
+      "body_or_lock_min": 0.5,
+      "face_consistency_mean_min": 0.55,
+      "faces_ok": true,
+      "lock_ok": false,
+      "runtime_pass_bounded": true
+    },
+    "method": "side_by_side_panel_v2",
+    "note": "PuLID FACE_04 + face-tighter strengths clears face gate at face_consistency_mean 0.7375; face_04 panel improved 0.6->0.9 vs prior FACE_TIGHTER_V2; solo_lock_trait still 0.0; NONCANONICAL; no COMPLETE; distinct from exhausted FACE_01/03/FACE_02-tighter-v2.",
+    "prompt_id": "b4be5abf-ae94-40cc-838b-4ff377484966",
+    "pulid": {
+      "enabled": true,
+      "face_ref": "C1_USER_AUTHORITY_FACE_04.png",
+      "face_ref_sha256": "a5175250987c45d71d6eb898f920ced6fb4229506a296853620e0863e98aa419",
+      "pulid_file": "pulid_flux_v0.9.1.safetensors",
+      "weight": 1.12
+    },
+    "pullback": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_pulid_face04_vlm_20260721T142428Z",
+    "row_complete": false,
+    "status": "RUNTIME_PASS_BOUNDED_PERSONAL_CALIBRATION_PULID_FACE04_VLM_NONCANONICAL",
+    "vlm_evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_PULID_FACE04_VLM_20260721T142428Z.json",
     "vlm_model": "qwen2.5vl:7b"
   },
   "runpod_personal_calibration_vlm_bounded": {
