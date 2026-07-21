@@ -11,15 +11,15 @@
     "ssh": "root@195.26.233.100:52077"
   },
   "bytes_gate": {
-    "artifact_bytes": 194351,
-    "fail_reason": "artifact_bytes_194351_below_250000_class_e_proof_floor",
+    "artifact_bytes": 328645,
     "min_class_e_proof_bytes": 250000,
-    "ok": false
+    "note": "bytes floor cleared by reencode; human visual still FAIL",
+    "ok": true
   },
   "claim_tier": "class_e_attempt_fail",
   "class_ladder": {
     "class_a": "product_visual_qa_open_human_claude_still_required",
-    "class_e": "attempted raised-quality TI2V (704x1280/81f/36steps/cfg6); FAIL/REJECT on bytes gate (<250KB) \u2014 not Proof_Landed",
+    "class_e": "reencode250k cleared \u2265250KB + VLM PASS, but HUMAN visual FAIL/REJECT \u2014 not Proof_Landed",
     "class_f": "ASSET_PRESENT retained",
     "not_claimed": [
       "row_complete",
@@ -29,26 +29,30 @@
       "production_video_lane_certification"
     ]
   },
-  "created_iso": "2026-07-21T01:10:00-05:00",
-  "created_utc": "2026-07-21T06:10:00Z",
-  "csv_sync": "synced_by_primary_csv_mutator_row019_023_wan_ti2v_class_e_proof_attempt_fail",
+  "comfy_regen_optional": {
+    "attempted": false,
+    "reason": ":8188 busy with foreign Pulid/lockfront job 9f6e26ff-f886-4781-95cd-b4a1973cd1f4; did not kill foreign work (lock-trait/017/row010). Optional sharper regen deferred."
+  },
+  "created_iso": "2026-07-21T01:13:00-05:00",
+  "created_utc": "2026-07-21T06:13:00Z",
+  "csv_sync": "synced_by_primary_csv_mutator_row019_023_wan_ti2v_class_e_reencode250k_visual_fail",
   "ec2_touched": false,
-  "evidence_id": "TRK-W64-019_023_WAN_TI2V_CLASS_E_PROOF_ATTEMPT_FAIL_20260721T011000-0500",
+  "evidence_id": "TRK-W64-019_023_WAN_TI2V_CLASS_E_REENCODE250K_VISUAL_FAIL_20260721T011300-0500",
   "generation": {
     "artifact": {
-      "bytes": 194351,
+      "bytes": 328645,
       "ffprobe": {
-        "bit_rate": 460683,
+        "bit_rate": 774672,
         "codec": "h264",
         "duration_seconds": 3.375,
         "height": 1280,
         "nb_frames": 81,
         "width": 704
       },
-      "filename": "w64_019_023_runpod_wan_ti2v_class_e_20260721T055801Z_00001_.mp4",
-      "local_pullback": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_wan_ti2v_class_e_20260721T055801Z/w64_019_023_runpod_wan_ti2v_class_e_20260721T055801Z_00001_.mp4",
-      "pod_path": "/workspace/comfy_output/video/w64_019_023_runpod_wan_ti2v_class_e_20260721T055801Z_00001_.mp4",
-      "sha256": "89c7f671604a19736722aa9bba65d545ccbee7575726b099a69fc68211693c24"
+      "filename": "w64_019_023_runpod_wan_ti2v_class_e_reencode250k_20260721T061204Z.mp4",
+      "local_pullback": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_wan_ti2v_class_e_reencode250k_20260721T061204Z/w64_019_023_runpod_wan_ti2v_class_e_reencode250k_20260721T061204Z.mp4",
+      "pod_path": "/workspace/comfy_output/video/w64_019_023_runpod_wan_ti2v_class_e_reencode250k_20260721T061204Z.mp4",
+      "sha256": "f86a841f13943ec1a225a6753625a71faa46b5cd270cf90020a61930e3fd7bac"
     },
     "cfg": 6.0,
     "completed": true,
@@ -61,8 +65,8 @@
     "steps": 36,
     "width": 704
   },
-  "high_end_note": "Local Ollama qwen2.5vl:7b is the required minimum visual gate for this climb. Product visual accept still needs human/Claude when available; do not treat local VLM PASS as final product COMPLETE.",
-  "highest_proof_tier_achieved": "RUNPOD_WAN_TI2V_BOUNDED_CLASS_E_PROOF_ATTEMPT_FAIL",
+  "high_end_note": "Local Ollama qwen2.5vl:7b is necessary but not sufficient. Human Cursor frame Read may OVERRIDE VLM PASS. Product visual accept still needs human/Claude; no COMPLETE.",
+  "highest_proof_tier_achieved": "RUNPOD_WAN_TI2V_BOUNDED_CLASS_E_REENCODE250K_VISUAL_FAIL",
   "item_ids": [
     "ITEM-W64-019",
     "ITEM-W64-023"
@@ -75,20 +79,38 @@
     "source_image": "wan22_ti2v_fullbody_seed711670301.png"
   },
   "local_comfy_touched": false,
-  "mutation_this_landing": "bounded_runpod_wan_ti2v_class_e_proof_attempt_fail_bytes_gate",
-  "next_action": "Raise encode bitrate / entropy so artifact \u2265250KB with VLM still PASS; only then claim Runtime_Proof_Landed. Keep product visual QA open. No COMPLETE.",
-  "next_fix_advice": "Re-encode/remux with higher H.264 bitrate (or CRF that yields \u2265250KB) while keeping 704x1280+/81f/30\u201340 steps/CFG~5.5\u20136.5 identity-safe clothed prompt; optional stronger blink/weight-shift cue; re-run qwen2.5vl:7b before any Proof_Landed Status; still require human/Claude for product accept.",
+  "mutation_this_landing": "bounded_runpod_wan_ti2v_class_e_reencode250k_human_visual_fail",
+  "next_action": "Wait for idle Comfy; regenerate better motion/sharpness; keep row_complete=false; no COMPLETE; Row074 alone.",
+  "next_fix_advice": "When :8188 idle (do not kill lock-trait/017/Pulid jobs), run one sharper Wan TI2V regen with stronger blink/weight-shift cue, steps~40, CFG~5.5-6.5, higher save bitrate; re-run human frame Read + qwen2.5vl before any Proof_Landed claim. Do not bitrate-pad junk into a proof.",
   "policy_validator": "Plan/07_IMPLEMENTATION/scripts/validate_wave64_wan_ti2v_class_e_runtime_proof_claim.py",
   "production_completion_allowed": false,
   "production_video_complete_claimed": false,
-  "proof_tier": "RUNPOD_WAN_TI2V_BOUNDED_CLASS_E_PROOF_ATTEMPT_FAIL",
+  "proof_tier": "RUNPOD_WAN_TI2V_BOUNDED_CLASS_E_REENCODE250K_VISUAL_FAIL",
+  "reencode": {
+    "filename": "w64_019_023_runpod_wan_ti2v_class_e_reencode250k_20260721T061204Z.mp4",
+    "kept_resolution_and_frame_count": true,
+    "local_pullback": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_wan_ti2v_class_e_reencode250k_20260721T061204Z/w64_019_023_runpod_wan_ti2v_class_e_reencode250k_20260721T061204Z.mp4",
+    "method": "ffmpeg_libx264_b_v_2M",
+    "note": "Bitrate pad clears Class E \u2265250KB floor but does not improve generation content quality; human frame review still rejects.",
+    "output_bytes": 328645,
+    "pod_path": "/workspace/comfy_output/video/w64_019_023_runpod_wan_ti2v_class_e_reencode250k_20260721T061204Z.mp4",
+    "sha256": "f86a841f13943ec1a225a6753625a71faa46b5cd270cf90020a61930e3fd7bac",
+    "source_bytes": 194351
+  },
   "row074_touched": false,
   "row_complete": false,
   "schema_version": "1.0",
-  "status": "CLASS_E_PROOF_ATTEMPT_FAIL_REJECT_BYTES_GATE",
-  "summary": "prompt_id=19c76cc5-a107-4b56-892a-29c9918316fb raised-quality Wan TI2V Class E attempt on RunPod (704x1280/81f/36steps/cfg6.0) produced 194351-byte mp4. Ollama qwen2.5vl:7b VLM PASS, but Class E proof floor requires \u2265250KB \u2014 Status is FAIL/REJECT not Proof_Landed. row_complete=false; no COMPLETE; Row074 untouched; EC2 untouched. tip=8a99678d.",
+  "source_generation": {
+    "bytes": 194351,
+    "params": "704x1280/81f/36steps/cfg6.0/seed2271401",
+    "pod_path": "/workspace/comfy_output/video/w64_019_023_runpod_wan_ti2v_class_e_20260721T055801Z_00001_.mp4",
+    "prompt_id": "19c76cc5-a107-4b56-892a-29c9918316fb",
+    "sha256": "89c7f671604a19736722aa9bba65d545ccbee7575726b099a69fc68211693c24"
+  },
+  "status": "CLASS_E_PROOF_ATTEMPT_FAIL_REJECT_HUMAN_VISUAL",
+  "summary": "Re-encoded prompt_id=19c76cc5-a107-4b56-892a-29c9918316fb source 194351B \u2192 328645B libx264 -b:v 2M (w64_019_023_runpod_wan_ti2v_class_e_reencode250k_20260721T061204Z.mp4). Bytes gate OK; Ollama qwen2.5vl:7b PASS; HUMAN Cursor frame Read FAIL (mushy hands/plastic skin/near-static). Status FAIL/REJECT not Proof_Landed. row_complete=false; no COMPLETE; Row074 untouched; EC2 untouched; Comfy busy foreign job so no regen. tip=4cfe4eae.",
   "technical_qa": {
-    "note": "ffprobe decode OK (704x1280/81f/h264/3.375s). Technical decode is NOT product COMPLETE and does NOT clear the Class E \u2265250KB proof floor.",
+    "note": "ffprobe OK 704x1280/81f/h264/3.375s/bit_rate~775kbps. Technical decode and \u2265250KB do NOT authorize Proof_Landed when human frames look bad.",
     "performed": true,
     "result": "pass_bounded_video_technical_qa",
     "technical_pass": true
@@ -97,21 +119,31 @@
     "TRK-W64-019",
     "TRK-W64-023"
   ],
-  "verdict": "WAN_TI2V_BOUNDED_CLASS_E_PROOF_ATTEMPT_FAIL_REJECT",
+  "verdict": "WAN_TI2V_BOUNDED_CLASS_E_REENCODE250K_HUMAN_VISUAL_FAIL_REJECT",
   "visual_qa": {
-    "blunt_defects": [],
-    "global_review_note": "Row017 GLOBAL_REVIEW schema is localized-image producer specific; not applied to this TI2V motion clip. Frame VLM substitute used.",
+    "blunt_defects": [
+      "mushy_blurred_hands_fingers_poorly_defined",
+      "plastic_waxy_oversmoothed_skin",
+      "near_static_pose_across_sampled_frames_little_real_motion",
+      "soft_muddy_garment_join_at_pelvis_v_seam",
+      "bitrate_pad_only_does_not_fix_generation_quality"
+    ],
+    "blunt_human_verdict": "Looks like soft mid-tier AI junk: mushy hands, waxy plastic skin, near-static standing pose across 5 sampled frames, muddy V-seam at pelvis. Re-encode only padded bitrate \u2014 content still shit. Do not Proof_Landed. Do not COMPLETE.",
+    "global_review_note": "Row017 GLOBAL_REVIEW schema is localized-image producer specific; not applied to this TI2V motion clip.",
     "global_review_stamp": null,
     "high_end_llm_in_loop": false,
-    "note": "Local VLM PASS on sampled frames; product visual accept still needs human/Claude when available. Bytes gate FAIL blocks Proof_Landed.",
+    "note": "VLM PASS ignored for Proof_Landed because human Cursor frame Read rejects. Bytes gate cleared; visual gate FAIL.",
     "ollama_vlm_in_loop": true,
-    "pass": true,
+    "pass": false,
     "performed": true,
-    "result": "pass_local_vlm_minimum_not_product_complete",
-    "reviewer": "ollama_qwen2.5vl_7b_plus_cursor_frame_spotcheck"
+    "result": "fail_human_frame_review_reject_despite_vlm_pass",
+    "reviewer": "cursor_human_frame_read_overrides_ollama_vlm"
   },
   "vlm_review": {
+    "local_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_wan_ti2v_class_e_reencode250k_20260721T061204Z/vlm_review.json",
     "model": "qwen2.5vl:7b",
+    "overridden_by_human": true,
+    "override_reason": "prior smoke looked like shit; do not trust VLM alone; human Read shows mushy hands / plastic skin / near-static",
     "parsed": {
       "defects": [],
       "garment_ok": true,
@@ -120,7 +152,7 @@
       "motion_plausible": true,
       "near_static": false,
       "plastic_skin": false,
-      "summary": "The clip shows a fully clothed adult woman with stable identity, subtle breathing and fabric motion, realistic skin texture, coherent limbs/hands, and no visible defects.",
+      "summary": "The video clip features a stable adult with coherent limbs and hands, subtle motion, and no visible defects.",
       "verdict": "PASS"
     },
     "pass": true,
