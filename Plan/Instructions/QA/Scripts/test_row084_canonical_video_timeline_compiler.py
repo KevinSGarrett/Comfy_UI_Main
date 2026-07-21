@@ -1706,6 +1706,54 @@ class Row084CanonicalVideoTimelineCompilerTests(unittest.TestCase):
             live["vfr_segment_map_benchmark_receipt_sha256"], receipt["receipt_sha256"]
         )
 
+    def test_classify_camera_motion_held_out_profiles(self) -> None:
+        """Held-out lavfi expectations: static / camera_motion / hard_cut only."""
+        static = [0.01] * 24
+        self.assertEqual(
+            COMPILER_MOD._classify_camera_motion_profile(static), "static"
+        )
+        pan = [0.05] * 24
+        self.assertEqual(
+            COMPILER_MOD._classify_camera_motion_profile(pan), "camera_motion"
+        )
+        cut = [0.01] * 23 + [0.75]
+        self.assertEqual(
+            COMPILER_MOD._classify_camera_motion_profile(cut), "hard_cut"
+        )
+
+    def test_classify_camera_motion_production_sparse_motion(self) -> None:
+        """Production profile fills null zone; held-out stays fail-closed."""
+        # Genuine AV-sync-like: mean>STATIC_MEAN_MAX, max<CUT, mod_frac≈0.292.
+        deltas = [0.014] * 34 + [0.03] * 12 + [0.377, 0.164]
+        self.assertEqual(len(deltas), 48)
+        moderate = sum(
+            1 for d in deltas if d > COMPILER_MOD.CAMERA_MOTION_MEAN_MIN
+        )
+        self.assertAlmostEqual(moderate / 48.0, 14 / 48.0, places=3)
+        with self.assertRaises(ValueError):
+            COMPILER_MOD._classify_camera_motion_profile(
+                deltas, profile=COMPILER_MOD.CAMERA_MOTION_PROFILE_HELD_OUT
+            )
+        self.assertEqual(
+            COMPILER_MOD._classify_camera_motion_profile(
+                deltas, profile=COMPILER_MOD.CAMERA_MOTION_PROFILE_PRODUCTION
+            ),
+            "sparse_motion",
+        )
+
+    def test_classify_camera_motion_rejects_static_max_inflation(self) -> None:
+        """Sparse spike must not become static even under production profile."""
+        deltas = [0.01] * 47 + [0.377]
+        with self.assertRaises(ValueError):
+            COMPILER_MOD._classify_camera_motion_profile(
+                deltas, profile=COMPILER_MOD.CAMERA_MOTION_PROFILE_HELD_OUT
+            )
+        # max spike alone with low moderate_fraction (<0.15) stays unclassified.
+        with self.assertRaises(ValueError):
+            COMPILER_MOD._classify_camera_motion_profile(
+                deltas, profile=COMPILER_MOD.CAMERA_MOTION_PROFILE_PRODUCTION
+            )
+
 
 if __name__ == "__main__":
     unittest.main()

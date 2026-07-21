@@ -64,8 +64,8 @@
     },
     {
       "id": "production_cut_camera_benchmark_authority",
-      "note": "observed_class=null under held-out thresholds (mean=0.0297 max=0.3770 moderate=14/24). Recommend sparse_motion class or production CAMERA_MOTION_MODERATE_MIN_FRAC\u22480.28; do not relabel lavfi.",
-      "status": "ABSENT"
+      "note": "observed_class=sparse_motion under production profile (mean=0.029653 max=0.376953 moderate=14/24). Held-out still null. Benchmark authority beyond lavfi still ABSENT; do not grant production_cut_camera_authority.",
+      "status": "PARTIAL_RECLASS_ONLY"
     },
     {
       "id": "production_media_combined_visual_contact",
@@ -79,6 +79,7 @@
     }
   ],
   "mutation_this_landing": "evidence_only_compiler_hard_fail_not_clearable_blocker_packet",
+  "observed_class": "sparse_motion",
   "preservation_boundary": {
     "class_e_011_not_cleared": true,
     "compiler_hard_fail_not_removed": true,
@@ -93,8 +94,8 @@
   "production_completion_allowed": false,
   "production_cut_camera_authority_granted": false,
   "production_mux_replay_pass": true,
-  "related_climb_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_PROD_MUX_REPLAY_CUT_CAMERA_CALIB_20260721.json",
-  "related_climb_packet_sha256": "def604cfca906ceceda40c42bb45051b6f62412ec73c6a86baa8da8112d282b2",
+  "related_climb_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_PROD_SPARSE_MOTION_RECLASS_20260721.json",
+  "related_climb_packet_sha256": "ffd6f2e5f4ff6bb94a2a95bb0d16020bdeac1aec2112faa3fae2c23e8b036768",
   "row_complete": false,
   "runtime_authority_predicates": {
     "held_out_direct_receipt": {
@@ -119,20 +120,20 @@
       "roundtrip_evidence.within_tolerance"
     ]
   },
-  "safe_next_action": "Keep ROW084-011 FAIL/OPEN. Keep ROW084-012 OPEN_HOLD. Do not COMPLETE. Mux replay climbed to PASS; cut/camera still blocked on null observed_class. Next: implement sparse_motion class or production CAMERA_MOTION_MODERATE_MIN_FRAC profile (held-out keep 0.5), then re-classify genuine candidate; do not remove compiler hard-fail until cut/camera + visual production authority also bind.",
+  "safe_next_action": "Keep ROW084-011 FAIL/OPEN. Keep ROW084-012 OPEN_HOLD. Do not COMPLETE. Production sparse_motion reclass succeeded for genuine AV-sync candidate; still need production cut/camera benchmark authority beyond held-out lavfi + production combined visual/contact; do not remove compiler hard-fail until those co-requisites bind.",
   "schema_version": "1.0",
-  "summary": "Gate COMPILER_HARD_FAIL_CLOSES_PRODUCTION_COMPLETION_ALLOWED remains correctly FAIL/OPEN. Production mux replay now PASS on genuine AV-sync sources, but cut/camera observed_class=null and production visual authority still absent; do not remove hard-fail. ROW084-012 OPEN_HOLD untouched; row_complete=false.",
+  "summary": "Gate COMPILER_HARD_FAIL_CLOSES_PRODUCTION_COMPLETION_ALLOWED remains correctly FAIL/OPEN. Production sparse_motion reclass observed_class=sparse_motion, but cut/camera benchmark authority + production visual still absent; do not remove hard-fail. ROW084-012 OPEN_HOLD untouched; row_complete=false.",
   "tip_at_probe": "e8a61d46",
   "tracker_id": "TRK-W64-084",
-  "updated_at": "2026-07-21T10:25:22Z",
+  "updated_at": "2026-07-21T10:29:03Z",
   "why_not_clearable_now": {
     "reasons": [
       "Removing compile_wave64_canonical_video_timeline.py:845-847 alone would enable claim cheat without full production predicates.",
-      "Production mux replay now PASS on genuine AV-sync sources (frame-preserve recipe; 49f/32640smp/2.041s; decode-hash match) \u2014 necessary but not sufficient.",
-      "Cut/camera observed_class remains null (mean=0.0297 max=0.3770 moderate=14/24); production_cut_camera_authority_granted=false.",
+      "Production mux replay PASS retained; sparse_motion reclass climbed observed_class null\u2192sparse_motion \u2014 necessary but not sufficient.",
+      "production_cut_camera_authority_granted=false (benchmark beyond held-out lavfi still absent).",
       "Combined visual QA remains held_out_lavfi_visual_qa_only; inventing lavfi-as-production is forbidden.",
       "ROW084-012 Class C OPEN_HOLD stays; orthogonal schema-native cheat forbidden.",
-      "Hard-fail removal remains a co-requisite after cut/camera + visual production authority bind \u2014 not a solo unlock after mux replay alone."
+      "Hard-fail removal remains a co-requisite after cut/camera + visual production authority bind."
     ],
     "verdict": "NOT_CLEARABLE_BY_BOUNDED_FIX_ON_CURRENT_EVIDENCE"
   }

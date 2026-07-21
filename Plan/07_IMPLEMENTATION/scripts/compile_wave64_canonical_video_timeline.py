@@ -3446,6 +3446,15 @@ CAMERA_MOTION_MEAN_MIN = 0.02
 CAMERA_MOTION_MAX_LT = 0.5
 STATIC_MEAN_MAX = 0.02
 STATIC_MAX_MAX = 0.05
+# Held-out lavfi keeps moderate_fraction >= 0.5 (len//2). Production may classify
+# the sparse-spike null zone without lowering held-out camera_motion expectations
+# or inflating STATIC_MAX_MAX.
+CAMERA_MOTION_PROFILE_HELD_OUT = "held_out"
+CAMERA_MOTION_PROFILE_PRODUCTION = "production"
+CAMERA_MOTION_MODERATE_MIN_FRAC_HELD_OUT = 0.5
+CAMERA_MOTION_MODERATE_MIN_FRAC_PRODUCTION = 0.28
+SPARSE_MOTION_MODERATE_FRAC_MIN = 0.15
+SPARSE_MOTION_MODERATE_FRAC_MAX = 0.50
 HISTOGRAM_BINS = 16
 
 
@@ -3456,26 +3465,42 @@ def _decode_rgb_frames(
     width: int,
     height: int,
     expected_frames: int | None = None,
+    scale_to: tuple[int, int] | None = None,
 ) -> list[bytes]:
-    """Decode video to RGB24 frames with passthrough timing (no dup expansion)."""
-    frame_bytes = width * height * 3
+    """Decode video to RGB24 frames with passthrough timing (no dup expansion).
+
+    When scale_to is set, ffmpeg applies vf scale=W:H and width/height must match
+    the scaled dimensions (production cut/camera probes use 64x64).
+    """
+    out_w, out_h = scale_to if scale_to is not None else (width, height)
+    if scale_to is not None and (width, height) != scale_to:
+        raise ValueError(
+            f"width/height {(width, height)} must match scale_to {scale_to} when scaling"
+        )
+    frame_bytes = out_w * out_h * 3
+    cmd = [
+        "-y",
+        "-i",
+        str(media_path),
+        "-an",
+        "-fps_mode",
+        "passthrough",
+    ]
+    if scale_to is not None:
+        cmd.extend(["-vf", f"scale={scale_to[0]}:{scale_to[1]}"])
+    cmd.extend(
+        [
+            "-f",
+            "rawvideo",
+            "-pix_fmt",
+            "rgb24",
+        ]
+    )
     with tempfile.TemporaryDirectory(prefix="row084_decode_") as tmp:
         raw_path = Path(tmp) / "frames.rgb"
         _run_media_tool(
             ffmpeg,
-            [
-                "-y",
-                "-i",
-                str(media_path),
-                "-an",
-                "-fps_mode",
-                "passthrough",
-                "-f",
-                "rawvideo",
-                "-pix_fmt",
-                "rgb24",
-                str(raw_path),
-            ],
+            cmd + [str(raw_path)],
             label="ffmpeg-decode-rgb",
         )
         blob = raw_path.read_bytes()
@@ -3549,9 +3574,26 @@ def _detect_hard_cuts(
     return cuts
 
 
-def _classify_camera_motion_profile(deltas: list[float]) -> str:
+def _classify_camera_motion_profile(
+    deltas: list[float],
+    *,
+    profile: str = CAMERA_MOTION_PROFILE_HELD_OUT,
+) -> str:
+    """Classify histogram-diff motion profile.
+
+    Held-out profile preserves lavfi pan/cut/static expectations
+    (camera_motion requires moderate_fraction >= 0.5). Production profile keeps
+    that camera_motion bar and adds sparse_motion for moderate_fraction in
+    [0.15, 0.50) when mean exceeds STATIC_MEAN_MAX and max stays below the hard
+    cut threshold — without inflating STATIC_MAX_MAX.
+    """
     if not deltas:
         raise ValueError("camera motion classification requires deltas")
+    if profile not in {
+        CAMERA_MOTION_PROFILE_HELD_OUT,
+        CAMERA_MOTION_PROFILE_PRODUCTION,
+    }:
+        raise ValueError(f"unsupported camera-motion profile: {profile}")
     mean_delta = sum(deltas) / float(len(deltas))
     max_delta = max(deltas)
     if max_delta > CUT_HIST_L1_HARD_THRESHOLD:
@@ -3559,15 +3601,31 @@ def _classify_camera_motion_profile(deltas: list[float]) -> str:
     if mean_delta <= STATIC_MEAN_MAX and max_delta <= STATIC_MAX_MAX:
         return "static"
     moderate = sum(1 for delta in deltas if delta > CAMERA_MOTION_MEAN_MIN)
+    moderate_fraction = moderate / float(len(deltas))
+    # Held-out and production share the same camera_motion bar so production
+    # does not silently widen camera_motion into sparse-spike media.
+    # (CAMERA_MOTION_MODERATE_MIN_FRAC_PRODUCTION is reserved/documented as the
+    # alternate climb; sparse_motion is the safer production fill.)
+    moderate_required = max(1, int(len(deltas) * CAMERA_MOTION_MODERATE_MIN_FRAC_HELD_OUT))
     if (
         mean_delta >= CAMERA_MOTION_MEAN_MIN
         and max_delta < CAMERA_MOTION_MAX_LT
-        and moderate >= max(1, len(deltas) // 2)
+        and moderate >= moderate_required
     ):
         return "camera_motion"
+    if (
+        profile == CAMERA_MOTION_PROFILE_PRODUCTION
+        and mean_delta > STATIC_MEAN_MAX
+        and max_delta < CUT_HIST_L1_HARD_THRESHOLD
+        and SPARSE_MOTION_MODERATE_FRAC_MIN
+        <= moderate_fraction
+        < SPARSE_MOTION_MODERATE_FRAC_MAX
+    ):
+        return "sparse_motion"
     raise ValueError(
         "unable to classify camera-motion profile: "
-        f"mean={mean_delta:.4f} max={max_delta:.4f} moderate={moderate}"
+        f"mean={mean_delta:.4f} max={max_delta:.4f} moderate={moderate} "
+        f"moderate_fraction={moderate_fraction:.4f} profile={profile}"
     )
 
 

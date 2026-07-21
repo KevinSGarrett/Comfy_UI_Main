@@ -1,0 +1,93 @@
+{
+  "blocker_class": "E",
+  "blocker_id": "PRODUCTION_COMPLETION_AND_ROW_COMPLETE_BLOCKED",
+  "check_id": "ROW084-011",
+  "cleared": false,
+  "comfyui_8188_invoked_for_new_generation": false,
+  "compiler_change": {
+    "STATIC_MAX_MAX_inflated": false,
+    "change": "_classify_camera_motion_profile(profile=held_out|production); production adds sparse_motion for mod_frac in [0.15,0.50)",
+    "compiler_hard_fail_removed": false,
+    "held_out_camera_motion_bar_changed": false,
+    "path": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py"
+  },
+  "created_at": "2026-07-21T10:29:03Z",
+  "cut_camera_probe": {
+    "algorithm_id": "fixture_histogram_diff_v1",
+    "calibration_json": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/local_class_e_prod_sparse_motion_reclass_20260721T103500Z/cut_camera_calibration.json",
+    "classification_profile": "production",
+    "decode_scale": "64x64",
+    "frame_count": 49,
+    "gold_invented": false,
+    "hard_cut_count": 0,
+    "hard_cuts": [],
+    "held_out_classification_error": "unable to classify camera-motion profile: mean=0.0297 max=0.3770 moderate=14 moderate_fraction=0.2917 profile=held_out",
+    "max_hist_l1": 0.376953,
+    "mean_hist_l1": 0.029653,
+    "moderate_count_gt_mean_min": 14,
+    "moderate_fraction": 0.2917,
+    "moderate_required_for_camera_motion": 24,
+    "note": "Production profile classifies genuine AV-sync as sparse_motion. Held-out lavfi bar unchanged (still null). Authority NOT granted \u2014 benchmark/visual production co-requisites still absent.",
+    "observed_class": "sparse_motion",
+    "observed_class_held_out": null,
+    "p50_hist_l1": 0.013835,
+    "p90_hist_l1": 0.047103,
+    "p95_hist_l1": 0.065055,
+    "pair_delta_count": 48,
+    "profile_note": "Held-out keeps camera_motion moderate_fraction>=0.5. Production adds sparse_motion for moderate_fraction in [0.15,0.50) without inflating STATIC_MAX_MAX. CAMERA_MOTION_MODERATE_MIN_FRAC_PRODUCTION=0.28 remains documented alternate (not applied to camera_motion bar).",
+    "thresholds": {
+      "CAMERA_MOTION_MAX_LT": 0.5,
+      "CAMERA_MOTION_MEAN_MIN": 0.02,
+      "CAMERA_MOTION_MODERATE_MIN_FRAC_HELD_OUT": 0.5,
+      "CAMERA_MOTION_MODERATE_MIN_FRAC_PRODUCTION": 0.28,
+      "CUT_HIST_L1_HARD_THRESHOLD": 0.5,
+      "SPARSE_MOTION_MODERATE_FRAC_MAX": 0.5,
+      "SPARSE_MOTION_MODERATE_FRAC_MIN": 0.15,
+      "STATIC_MAX_MAX": 0.05,
+      "STATIC_MEAN_MAX": 0.02
+    }
+  },
+  "decision": "HOLD",
+  "do_not_clear": [
+    "ROW084-011"
+  ],
+  "do_not_thrash": [
+    "ROW084-012"
+  ],
+  "evidence_id": "TRK-W64-084_ROW084_CLASS_E_PROD_SPARSE_MOTION_RECLASS",
+  "ffmpeg_version_line": "ffmpeg version 8.1.2-full_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers",
+  "implementation_completion_claimed": false,
+  "item_id": "ITEM-W64-084",
+  "media": {
+    "bytes": 2073838,
+    "expected_sha256": "0c1153e675bd9209ce9c56d6c6694d9fb93118d69e3935fedcf77e626fed998a",
+    "kind": "pulled_back_genuine_av_sync_mkv",
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_av_sync_frame_aligned_20260714T202000-0500/strict_sync_mux_ffv1_pcm16_mono_frame_aligned.mkv",
+    "sha256": "0c1153e675bd9209ce9c56d6c6694d9fb93118d69e3935fedcf77e626fed998a",
+    "sha256_matches_prior_probe": true
+  },
+  "prior_mux_replay_retained": {
+    "note": "No Wan re-fetch; no 017 redo; mux replay not re-executed this climb.",
+    "packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_PROD_MUX_REPLAY_CUT_CAMERA_CALIB_20260721.json",
+    "pass": true,
+    "proof_tier": "RUNTIME_PROD_MUX_REPLAY_CUT_CAMERA_CALIB_BOUNDED"
+  },
+  "product_completion_claimed": false,
+  "production_completion_allowed": false,
+  "production_cut_camera_authority_granted": false,
+  "production_mux_replay_pass": true,
+  "remaining_gates_exact": [
+    "COMPILER_HARD_FAIL_CLOSES_PRODUCTION_COMPLETION_ALLOWED",
+    "production_cut_camera_benchmark_authority_beyond_held_out_lavfi_absent",
+    "ROW084-012_CLASS_C_OPEN_HOLD_SCHEMA_NATIVE_REVERSED_PTS",
+    "row_complete_acceptance_COMPLETE_withheld",
+    "production_media_combined_visual_contact_beyond_held_out_lavfi_absent"
+  ],
+  "row074_left_alone": true,
+  "row_complete": false,
+  "runtime_host": "local_windows_ffmpeg_8.1.2",
+  "safe_next_action": "Keep ROW084-011 FAIL/OPEN. Keep ROW084-012 OPEN_HOLD. Do not COMPLETE. Production sparse_motion reclass succeeded for genuine AV-sync candidate; still need production cut/camera benchmark authority beyond held-out lavfi + production combined visual/contact; do not remove compiler hard-fail until those co-requisites bind.",
+  "schema_version": "1.0",
+  "summary": "Production-scoped sparse_motion reclass PASS on genuine AV-sync (sha=0c1153e675bd; observed_class=sparse_motion; mean=0.029653 max=0.376953 moderate=14/24; mod_frac=0.2917). Held-out profile still null (frac>=0.5 retained). Prior mux replay PASS retained. ROW084-011 Class E remains FAIL/OPEN; compiler hard-fail retained; row_complete=false.",
+  "tracker_id": "TRK-W64-084"
+}
