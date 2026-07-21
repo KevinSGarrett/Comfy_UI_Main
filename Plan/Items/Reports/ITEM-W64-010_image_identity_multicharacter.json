@@ -13,6 +13,29 @@
     "pullback": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_lock_lora_calib_20260721T035348Z",
     "note": "Scenes lock text + already-synced character1_flux_calibration/balhaw_test LoRAs on RunPod; does not clear generic Row010 USER_AUTHORITY multi-character reference chain."
   },
+  "runpod_personal_calibration_vlm_identity": {
+    "status": "RUNTIME_SCORED_PERSONAL_CALIBRATION_VLM_BELOW_GATE_NONCANONICAL",
+    "row_complete": false,
+    "faces_invented": false,
+    "vlm_model": "qwen2.5vl:7b",
+    "candidate_sha256": "990ebe2730b228d500ca158087edb19475736a72371d864b2ed6c93b1ffc1784",
+    "aggregate_scores": {
+      "face_consistency_mean": 0.4375,
+      "body_silhouette_consistency_mean": 0.45,
+      "same_person_likelihood_mean": 0.1333,
+      "solo_lock_trait_alignment_score": 0.95
+    },
+    "gate": {
+      "face_consistency_mean_min": 0.55,
+      "faces_ok": false,
+      "body_ok": false,
+      "lock_ok": true,
+      "runtime_pass_bounded": false
+    },
+    "evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_LOCK_LORA_VLM_IDENTITY_20260721T041518Z.json",
+    "pullback": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_lock_lora_vlm_identity_20260721T041518Z",
+    "note": "Scored lock+LoRA calib PNG vs existing C1 USER_AUTHORITY face/body refs on RunPod; below face/body gate; lock traits align; does not clear multi-character USER_AUTHORITY chain or claim COMPLETE."
+  },
   "codex_visual_review": {
     "reviewed_by": "Codex Desktop",
     "reviewed_existing_images_only": true,
@@ -53,9 +76,15 @@
     "Plan/Tracker/Evidence/TRK-W64-010_USER_AUTHORITY_FACE_REF_NEGATIVE_SCAN_20260720.json",
     "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_LOCK_LORA_CALIB_20260721T035348Z.json",
     "Plan/Tracker/Evidence/TRK-W64-010_RUNPOD_C1_LOCK_LORA_CALIB_20260721T035348Z.json",
-    "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_lock_lora_calib_20260721T035348Z/LOCAL_RUNTIME_RECEIPT.json"
+    "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_lock_lora_calib_20260721T035348Z/LOCAL_RUNTIME_RECEIPT.json",
+    "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_LOCK_LORA_VLM_IDENTITY_20260721T041518Z.json",
+    "Plan/Tracker/Evidence/TRK-W64-010_RUNPOD_C1_LOCK_LORA_VLM_IDENTITY_20260721T041518Z.json",
+    "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_lock_lora_vlm_identity_20260721T041518Z/SUMMARY.json",
+    "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_LOCK_LORA_VLM_IDENTITY_20260721T041746Z.json",
+    "Plan/Tracker/Evidence/TRK-W64-010_RUNPOD_C1_LOCK_LORA_VLM_IDENTITY_20260721T041746Z.json",
+    "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_lock_lora_vlm_identity_20260721T041746Z/LOCAL_RUNTIME_RECEIPT.json"
   ],
-  "next_action": "Human/external: fill ABSENT USER_AUTHORITY face_front (+ supporting body) slots for >=2 distinct character_ids into a portable tracked character_reference_pack with real sha256 binds; then authorize comparison-crop binding + identity_reference_check visual climb when :8188 is free. Agents must not invent faces, adopt character1_*/ztest, touch Row073 PCM, mutate shared CSVs, open HOLD090+, or claim COMPLETE.",
+  "next_action": "Continue autonomous personal-calibration climb on RunPod (Scenes locks + LoRAs + VLM) without waiting for new human USER_AUTHORITY media; keep row blocked for generic multi-character portable reference packet; do not invent faces; do not claim COMPLETE; leave Row074 alone; CSV deferred.",
   "class_a_offline_proof": {
     "lane": "Class_A_identity_reference_authority_offline_proof",
     "status": "BLOCKED_CLASS_F_A_USER_AUTHORITY_REFERENCE_CHAIN_ABSENT",
@@ -96,5 +125,24 @@
     "faces_invented": false,
     "row_complete": false,
     "csv_sync": "deferred"
+  },
+  "runpod_personal_calibration_vlm_bounded": {
+    "status": "RUNTIME_PASS_BOUNDED_PERSONAL_CALIBRATION_VLM_NONCANONICAL",
+    "row_complete": false,
+    "faces_invented": false,
+    "vlm_model": "qwen2.5vl:7b",
+    "method": "side_by_side_panel_v2",
+    "aggregate_scores": {
+      "face_consistency_mean": 0.5625,
+      "face_consistency_n": 4,
+      "body_silhouette_consistency_mean": 0.9,
+      "body_silhouette_consistency_n": 2,
+      "same_person_likelihood_mean": 0.5,
+      "solo_lock_trait_alignment_score": 0.95
+    },
+    "evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_LOCK_LORA_VLM_IDENTITY_20260721T041746Z.json",
+    "pullback": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_lock_lora_vlm_identity_20260721T041746Z",
+    "prior_lock_lora_calib": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_LOCK_LORA_CALIB_20260721T035348Z.json",
+    "note": "Scenes lock text + existing C1 USER_AUTHORITY refs + lock/LoRA calib PNG scored by pod qwen2.5vl:7b; bounded personal-calibration VLM pass; does not clear generic multi-character USER_AUTHORITY chain; no COMPLETE."
   }
 }
