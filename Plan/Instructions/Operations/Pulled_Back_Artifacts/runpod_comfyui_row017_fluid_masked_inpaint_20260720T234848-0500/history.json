@@ -1,0 +1,204 @@
+{
+  "prompt": [
+    6,
+    "65c6317c-9185-437f-a9f1-c26b57d05bdc",
+    {
+      "1": {
+        "class_type": "CheckpointLoaderSimple",
+        "inputs": {
+          "ckpt_name": "realvisxlV50_v50Bakedvae.safetensors"
+        }
+      },
+      "3": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "text": "the exact same adult woman and portrait, dark mascara visibly running from both lower eyelashes, two realistic wet tear tracks continuing down both cheeks, subtle damp skin immediately below both eyes, preserve the exact eyes face identity hair bun black V-neck top camera background and lighting",
+          "clip": [
+            "1",
+            1
+          ]
+        }
+      },
+      "4": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "text": "different person, identity change, eye shape change, hairstyle change, wardrobe change, camera change, background change, lighting change, bruises, wounds, blood, low quality, blurry, plastic skin, cartoon, anime, CGI, distorted face, watermark, text, logo, gray mask, hard mask edge",
+          "clip": [
+            "1",
+            1
+          ]
+        }
+      },
+      "5": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "wave64_row017_fluid_baseline_20260720T234848-0500.png"
+        }
+      },
+      "6": {
+        "class_type": "LoadImageMask",
+        "inputs": {
+          "image": "wave64_row017_fluid_undereye_mask_20260720T234848-0500.png",
+          "channel": "red"
+        }
+      },
+      "7": {
+        "class_type": "VAEEncodeForInpaint",
+        "inputs": {
+          "pixels": [
+            "5",
+            0
+          ],
+          "vae": [
+            "1",
+            2
+          ],
+          "mask": [
+            "6",
+            0
+          ],
+          "grow_mask_by": 6
+        }
+      },
+      "8": {
+        "class_type": "KSampler",
+        "inputs": {
+          "seed": 6607051314,
+          "steps": 24,
+          "cfg": 5.0,
+          "sampler_name": "euler",
+          "scheduler": "normal",
+          "denoise": 0.65,
+          "model": [
+            "1",
+            0
+          ],
+          "positive": [
+            "3",
+            0
+          ],
+          "negative": [
+            "4",
+            0
+          ],
+          "latent_image": [
+            "7",
+            0
+          ]
+        }
+      },
+      "9": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "8",
+            0
+          ],
+          "vae": [
+            "1",
+            2
+          ]
+        }
+      },
+      "10": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "filename_prefix": "codex_row017_fluid_masked_inpaint_20260720T234848-0500",
+          "images": [
+            "9",
+            0
+          ]
+        }
+      },
+      "15": {
+        "class_type": "MaskToImage",
+        "inputs": {
+          "mask": [
+            "6",
+            0
+          ]
+        }
+      },
+      "16": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "filename_prefix": "codex_row017_fluid_masked_inpaint_20260720T234848-0500_mask_preview",
+          "images": [
+            "15",
+            0
+          ]
+        }
+      }
+    },
+    {
+      "client_id": "cursor-row017-fluid-runpod-bbf39b2c",
+      "create_time": 1784609329377
+    },
+    [
+      "16",
+      "10"
+    ]
+  ],
+  "outputs": {
+    "16": {
+      "images": [
+        {
+          "filename": "codex_row017_fluid_masked_inpaint_20260720T234848-0500_mask_preview_00001_.png",
+          "subfolder": "",
+          "type": "output"
+        }
+      ]
+    },
+    "10": {
+      "images": [
+        {
+          "filename": "codex_row017_fluid_masked_inpaint_20260720T234848-0500_00001_.png",
+          "subfolder": "",
+          "type": "output"
+        }
+      ]
+    }
+  },
+  "status": {
+    "status_str": "success",
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "65c6317c-9185-437f-a9f1-c26b57d05bdc",
+          "timestamp": 1784609329379
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [],
+          "prompt_id": "65c6317c-9185-437f-a9f1-c26b57d05bdc",
+          "timestamp": 1784609329896
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "65c6317c-9185-437f-a9f1-c26b57d05bdc",
+          "timestamp": 1784609378437
+        }
+      ]
+    ]
+  },
+  "meta": {
+    "16": {
+      "node_id": "16",
+      "display_node": "16",
+      "parent_node": null,
+      "real_node_id": "16"
+    },
+    "10": {
+      "node_id": "10",
+      "display_node": "10",
+      "parent_node": null,
+      "real_node_id": "10"
+    }
+  }
+}

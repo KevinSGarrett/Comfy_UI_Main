@@ -1,0 +1,106 @@
+{
+  "schema_version": "row017.v1",
+  "artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_fluid_masked_inpaint_20260720T234848-0500/images/codex_row017_fluid_masked_inpaint_20260720T234848-0500_00001_.png",
+    "sha256": "4f089756c400d12fe2e91800e5dbea53c2b034d55876f9efdf56ef5a663460b3"
+  },
+  "localized_change": {
+    "target_region": "fluid_masked_inpaint",
+    "source_artifact": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_fluid_state_continuity_20260715T100719-0500/baseline_dry_state.png",
+      "sha256": "acfc3598b059979a0c43af40a91e9305ffc86015af030f4543bb15c6798e881f"
+    },
+    "mask_artifact": {
+      "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_fluid_state_continuity_20260715T100719-0500/under_eye_edit_region_mask.png",
+      "sha256": "27a2f999307a2be4785e86a5b987bfb650058f49983282fa5ac112de045182b5"
+    }
+  },
+  "whole_frame_visual_scan": {
+    "status": "pass",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/ROW017_RUNPOD_FLUID_MASKED_INPAINT_VISUAL_QA_20260720T234848-0500.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_fluid_masked_inpaint_20260720T234848-0500/images/codex_row017_fluid_masked_inpaint_20260720T234848-0500_00001_.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_fluid_masked_inpaint_20260720T234848-0500/images/qa_full_side_by_side.png"
+    ],
+    "pre_edit_status": "pass",
+    "post_edit_status": "pass"
+  },
+  "required_target_region_check": {
+    "status": "pass",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/ROW017_RUNPOD_FLUID_MASKED_INPAINT_VISUAL_QA_20260720T234848-0500.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_fluid_masked_inpaint_20260720T234848-0500/images/qa_face_crop_side_by_side.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_fluid_masked_inpaint_20260720T234848-0500/images/qa_mouth_crop_side_by_side.png"
+    ],
+    "target_region": "fluid_masked_inpaint",
+    "findings": [
+      "Fresh RunPod W69 fluid_masked_inpaint climb remains a bounded no-mouth micro skin continuity refinement with mouth/eyes frozen and no gray-mask, face-replacement, or hard-edge failure."
+    ]
+  },
+  "required_non_target_region_scan": {
+    "status": "pass",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/ROW017_RUNPOD_FLUID_MASKED_INPAINT_VISUAL_QA_20260720T234848-0500.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_fluid_masked_inpaint_20260720T234848-0500/images/qa_full_side_by_side.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_fluid_masked_inpaint_20260720T234848-0500/images/qa_eye_crop_side_by_side.png"
+    ],
+    "regions_scanned": [
+      "eyes",
+      "face_identity",
+      "hair",
+      "wardrobe",
+      "background",
+      "lighting",
+      "framing"
+    ],
+    "findings": [
+      "Identity, hair, wardrobe, background, lighting, and framing remain stable; eyes/gaze preserved on direct inspection."
+    ]
+  },
+  "hands_face_body_background_contact_lighting_check": {
+    "hands": {
+      "visibility": "not_visible",
+      "inspected": true,
+      "status": "not_applicable",
+      "reason": "Hands are outside this head-and-shoulders crop."
+    },
+    "face": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Face identity and eyes remain stable; only face-mask oval is refined."
+    },
+    "body": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Visible shoulders/clothing remain stable versus source."
+    },
+    "background": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Background corner remains stable; no seam regression."
+    },
+    "contact": {
+      "visibility": "not_applicable",
+      "inspected": true,
+      "status": "not_applicable",
+      "reason": "No multi-character contact interaction is required in this portrait."
+    },
+    "lighting": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Soft directional lighting remains coherent across the frame."
+    }
+  },
+  "reject_on_any_global_defect": {
+    "status": "pass",
+    "global_defects": [],
+    "rejection_applied": false
+  },
+  "overall_decision": "pass",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "row_complete": false
+}

@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ROW017-RUNPOD-FLUID-MASKED-INPAINT-VISUAL-QA-20260720T234848-0500",
+  "created_at": "2026-07-20T23:48:48-05:00",
+  "tracker_id": "TRK-W64-017",
+  "item_id": "ITEM-W64-017",
+  "localized_region": "fluid_masked_inpaint",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+  "qa_decision": "pass_bounded_localized_fluid_masked_inpaint_runpod_runtime_candidate",
+  "overall_decision": "pass",
+  "local_only": false,
+  "runtime_host": "runpod",
+  "direct_visual_inspection": true,
+  "fixture_only": false,
+  "generation_executed": true,
+  "runtime_receipt": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_fluid_masked_inpaint_20260720T234848-0500/LOCAL_RUNTIME_RECEIPT.json",
+  "source": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_fluid_state_continuity_20260715T100719-0500/baseline_dry_state.png",
+    "sha256": "acfc3598b059979a0c43af40a91e9305ffc86015af030f4543bb15c6798e881f"
+  },
+  "mask": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_fluid_state_continuity_20260715T100719-0500/under_eye_edit_region_mask.png",
+    "sha256": "27a2f999307a2be4785e86a5b987bfb650058f49983282fa5ac112de045182b5",
+    "filename": "sdxl_inpaint_detail_fluid_masked_inpaint.png"
+  },
+  "artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_fluid_masked_inpaint_20260720T234848-0500/images/codex_row017_fluid_masked_inpaint_20260720T234848-0500_00001_.png",
+    "sha256": "4f089756c400d12fe2e91800e5dbea53c2b034d55876f9efdf56ef5a663460b3"
+  },
+  "comparison_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_fluid_masked_inpaint_20260720T234848-0500/images/qa_full_side_by_side.png",
+    "sha256": "91f6abccc94709b0f5b5dc59246b29a06c1b5e0ffb1fdb588135723316101dda"
+  },
+  "face_crop_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_fluid_masked_inpaint_20260720T234848-0500/images/qa_face_crop_side_by_side.png",
+    "sha256": "680300bdc9e6bc4eca1764712186fcdb471dd594e5e07499de8caf3d2922ccab"
+  },
+  "eye_crop_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_fluid_masked_inpaint_20260720T234848-0500/images/qa_eye_crop_side_by_side.png",
+    "sha256": "d22b4b1e4e4746ab72e1e8121a13478669b78226f09b80340f511e41ce132196"
+  },
+  "mouth_crop_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_fluid_masked_inpaint_20260720T234848-0500/images/qa_mouth_crop_side_by_side.png",
+    "sha256": "d346761b1b8d1508414f2a91578fb1f41204a2de71213a81a48ad81eebf894c7"
+  },
+  "difference_metrics": {
+    "full_image_diff_bbox": [
+      0,
+      0,
+      768,
+      1024
+    ],
+    "under_eye_mask_bbox": [
+      226,
+      410,
+      543,
+      594
+    ],
+    "face_crop_box": [
+      206,
+      390,
+      563,
+      614
+    ],
+    "mean_rgb_abs_diff": [
+      1.982324,
+      2.017766,
+      2.004555
+    ],
+    "rms_rgb_abs_diff": [
+      4.37653,
+      4.311174,
+      4.267558
+    ],
+    "face_skin_region_mean_abs": 7.171284,
+    "eye_region_mean_abs": 9.535924,
+    "mouth_region_mean_abs": 2.361881,
+    "clothing_mean_abs": 2.314352,
+    "background_corner_mean_abs": 1.044745,
+    "changed_pixel_count": 160018,
+    "mask_pixel_count": 37287
+  },
+  "whole_frame_findings": [
+    "Fresh RunPod ComfyUI fluid_masked_inpaint masked inpaint on baseline_dry_state (seed 6607051314, RealVisXL baked VAE, denoise 0.65, FeatherMask 6px, cfg 5.0, steps 24) completed successfully (prompt_id 65c6317c-9185-437f-a9f1-c26b57d05bdc).",
+    "Whole-frame identity, hair, black V-neck top, hair bun, dark gray studio background, lighting, and framing remain stable versus source.",
+    "Pixel delta is localized to under-eye mask bbox [226, 410, 543, 594]; clothing mean abs 2.314352; background corner mean abs 1.044745; 160018 changed pixels vs 37287-pixel nomouth mask.",
+    "Direct whole-frame + face/eye/mouth crop inspection: bounded under-eye tear/mascara-state masked inpaint without gray-mask failure, identity drift, wardrobe rewrite, background change, hard mask-edge seam, or gaze/iris rewrite.",
+    "Hands are outside this head-and-shoulders crop (not applicable); no global style drift observed."
+  ],
+  "global_defects": [],
+  "promotion_authorized": false,
+  "row_complete": false,
+  "product_completion_claimed": false,
+  "ec2": "RUNPOD_USED",
+  "docker_cvat": "not-needed",
+  "notes": [
+    "Class E future-producer emission proof via RunPod Comfy runtime after local :8188 was unreachable.",
+    "Does not claim COMPLETE; CSV deferred; Row074 left alone; HOLD 090+ untouched.",
+    "Wet_Makeup LoRA absent on pod; climb uses RealVisXL baked VAE + VAEEncodeForInpaint seed 6607051314."
+  ],
+  "csv_update_deferred": true
+}
