@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Submit one Wan 2.2 TI2V climb from the sharp-hand start still (RunPod only)."""
+"""Submit one Wan 2.2 TI2V climb from the sharp-hand start still (RunPod only).
+
+Raises raw Comfy CreateVideo bit_depth (feeds SaveVideo) + clearer motion;
+no pad remux; no Flux LoRAs on Wan.
+"""
 from __future__ import annotations
 
 import hashlib
@@ -32,10 +36,11 @@ def main() -> None:
 
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     prefix = f"video/w64_019_023_runpod_wan_ti2v_sharp_hand_climb_{stamp}"
-    seed = 2272611
-    steps = 38
+    seed = 2272711
+    steps = 40
     cfg = 6.0
     width, height, length = 704, 1280, 81
+    bit_depth = 10  # CreateVideo quality → larger raw SaveVideo mp4 (not remux pad)
     wf = json.loads(WF.read_text(encoding="utf-8"))
     if any("lora" in v.get("class_type", "").lower() for v in wf.values()):
         raise SystemExit("FLUX_LORA_FORBIDDEN_ON_WAN")
@@ -45,9 +50,10 @@ def main() -> None:
         "preserve exact face identity hairstyle clothing proportions and neutral gray studio background, "
         "preserve sharp anatomically correct hands with clearly separated fingers knuckles and nails toward camera, "
         "natural human skin with visible pores freckles microtexture not plastic, "
-        "CLEAR simple natural motion: gentle chest breathing rise and fall, "
-        "one full blink eyelids close then open, small relaxed weight shift with subtle hip settle, "
-        "soft fabric micro-movement, hands stay sharp and coherent no mush no fuse, "
+        "CLEAR continuous natural motion throughout: visible chest breathing rise and fall every breath, "
+        "one unmistakable full blink with eyelids fully closing then reopening, "
+        "small relaxed weight shift with subtle hip and shoulder settle, "
+        "soft fabric micro-movement on sleeves, hands stay sharp and coherent no mush no fuse, "
         "locked static camera, stable framing, physically coherent continuous motion"
     )
     neg = (
@@ -75,7 +81,7 @@ def main() -> None:
             "denoise": 1.0,
         }
     )
-    wf["11"]["inputs"]["fps"] = 24
+    wf["11"]["inputs"].update({"fps": 24, "bit_depth": bit_depth})
     wf["12"]["inputs"].update(
         {"filename_prefix": prefix, "format": "mp4", "codec": "h264"}
     )
@@ -96,25 +102,35 @@ def main() -> None:
         "width": width,
         "height": height,
         "length": length,
+        "bit_depth": bit_depth,
         "source_image": SRC,
         "source_sha256": sha,
         "positive": pos,
         "negative": neg,
-        "intent": "sharp_hand_start_still_wan_ti2v_climb_breathing_blink_weightshift",
+        "intent": (
+            "sharp_hand_bitrate_retry_bit_depth10_steps40_"
+            "breathing_blink_weightshift"
+        ),
         "flux_loras_attached": False,
         "wan_refetch": False,
         "row017_redo": False,
+        "reencode_pad": False,
         "node_errors": resp.get("node_errors") or {},
     }
-    out = Path(f"/workspace/comfy_output/video/w64_019_023_sharp_hand_climb_submit_{stamp}.json")
+    out = Path(
+        f"/workspace/comfy_output/video/w64_019_023_sharp_hand_climb_submit_{stamp}.json"
+    )
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(meta, indent=2) + "\n", encoding="utf-8")
-    Path("/workspace/comfy_output/video/w64_019_023_sharp_hand_climb_latest_prompt_id.txt").write_text(
-        resp["prompt_id"] + "\n", encoding="utf-8"
-    )
-    Path("/workspace/comfy_output/video/w64_019_023_sharp_hand_climb_latest_prefix.txt").write_text(
-        prefix + "\n", encoding="utf-8"
-    )
+    Path(
+        "/workspace/comfy_output/video/w64_019_023_sharp_hand_climb_latest_prompt_id.txt"
+    ).write_text(resp["prompt_id"] + "\n", encoding="utf-8")
+    Path(
+        "/workspace/comfy_output/video/w64_019_023_sharp_hand_climb_latest_prefix.txt"
+    ).write_text(prefix + "\n", encoding="utf-8")
+    Path(
+        "/workspace/comfy_output/video/w64_019_023_sharp_hand_climb_latest_stamp.txt"
+    ).write_text(stamp + "\n", encoding="utf-8")
     print(resp["prompt_id"])
     print(prefix)
     print(str(out))
