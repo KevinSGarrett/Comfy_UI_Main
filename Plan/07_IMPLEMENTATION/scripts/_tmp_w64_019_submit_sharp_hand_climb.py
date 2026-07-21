@@ -3,6 +3,11 @@
 
 Raises raw Comfy CreateVideo bit_depth (feeds SaveVideo) + clearer motion;
 no pad remux; no Flux LoRAs on Wan.
+
+POST-CLIMB (required before Proof_Landed claim):
+  python3 wave64_wan_ti2v_climb_visual.py --class-ladder class_e \\
+    --images <frames...> --out <strict_receipt.json> --prompt-id <id>
+  Fail closed without strict_pod_llm_review=PASS (qwen2.5vl:32b).
 """
 from __future__ import annotations
 
@@ -11,6 +16,9 @@ import json
 import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
+
+STRICT_VISUAL_GATE = "wave64_wan_ti2v_climb_visual.py"
+STRICT_CLIMB_KIND = "wan_ti2v_class_e"
 
 COMFY = "http://127.0.0.1:8188"
 WF = Path(
@@ -115,6 +123,17 @@ def main() -> None:
         "wan_refetch": False,
         "row017_redo": False,
         "reencode_pad": False,
+        "generation_receipt_is_not_visual_approval": True,
+        "strict_visual_gate_required": True,
+        "strict_visual_gate_script": STRICT_VISUAL_GATE,
+        "strict_climb_kind": STRICT_CLIMB_KIND,
+        "strict_pod_llm_review_required_for_product": True,
+        "weak_vlm_7b_is_smoke_only": True,
+        "required_next_step": (
+            f"After frame extract: python3 {STRICT_VISUAL_GATE} "
+            f"--class-ladder class_e --images <frames> "
+            f"--out strict_receipt.json --prompt-id {resp['prompt_id']}"
+        ),
         "node_errors": resp.get("node_errors") or {},
     }
     out = Path(

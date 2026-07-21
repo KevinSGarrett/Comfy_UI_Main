@@ -100,10 +100,15 @@ unload contract and update `WAVE64_STRICT_VLM_MODEL` plus the approved-model all
 
 | Path | Required |
 | --- | --- |
-| Wan Class E Proof_Landed / Class A product climbs | `strict_pod_llm_review` dual-gate + human_frame_read where gated |
-| Row017 GLOBAL_REVIEW product promotion | Prefer strict receipt; schema validator remains; weak VLM observation ≠ pass |
-| Row010 identity GATE CLEARED (product campaign) | Strict model for product approval; panel-v2 7b remains calib/SMOKE-labeled only |
-| Smoke / canary | `lane=SMOKE` allowed on weak model; never claim product COMPLETE |
+| Shared producer helper | `wave64_climb_strict_visual_gate.py` (`invoke_climb_strict_visual_qa`) |
+| Wan Class E Proof_Landed / Class A product climbs | `wave64_wan_ti2v_climb_visual.py` → `strict_pod_llm_review` dual-gate + human_frame_read where gated |
+| Row017 GLOBAL_REVIEW product promotion | `wave64_row017_global_review_deepen_visual.py` + `validate_global_whole_image_visual_review.py --require-strict-receipt`; weak VLM observation ≠ pass |
+| Row010 identity GATE CLEARED (product campaign) | `wave64_row010_pulid_identity_climb_visual.py`; panel-v2 7b remains calib/SMOKE-labeled only |
+| Smoke / canary | `lane=SMOKE` / `--smoke` allowed on weak model; never claim product COMPLETE |
+
+Submit templates `_tmp_w64_019_submit_*_wan.py` / `_tmp_w64_019_submit_sharp_hand_climb.py`
+now stamp `strict_visual_gate_required=true` and `required_next_step` pointing at the
+Wan climb visual gate. Generation receipt alone is never visual approval.
 
 ## Operator commands (pod)
 

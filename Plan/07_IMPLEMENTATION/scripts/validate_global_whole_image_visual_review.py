@@ -10,9 +10,13 @@ uses the shared Wave64 VLM env contract (never COMPLETE / never Row074 PCM):
   WAVE64_VLM_SMOKE_MODEL  → qwen2.5vl:7b       (SMOKE lane only)
 
 Product / Proof_Landed / Class A / identity GATE CLEARED must use
-wave64_pod_strict_visual_qa.py (strict_pod_llm_review). This helper's
---print-vlm-env receipt is observation wiring only and must not be treated as
-product approval. See Plan/Instructions/POD_STRICT_SELF_HOSTED_LLM_VISUAL_QA_STRATEGY.md.
+wave64_pod_strict_visual_qa.py via wave64_climb_strict_visual_gate.py /
+wave64_row017_global_review_deepen_visual.py (strict_pod_llm_review=PASS).
+This helper's --print-vlm-env receipt is observation wiring only and must not
+be treated as product approval. Use --require-strict-receipt to fail closed
+unless a bound strict receipt is PASS.
+
+See Plan/Instructions/POD_STRICT_SELF_HOSTED_LLM_VISUAL_QA_STRATEGY.md.
 
 Use --print-vlm-env to emit the resolved endpoint receipt without scoring.
 """
@@ -37,6 +41,10 @@ from wave64_autonomous_vlm_client import (  # noqa: E402
     resolve_base_url,
     resolve_vlm_endpoint,
     resolve_vlm_model,
+)
+from wave64_climb_strict_visual_gate import (  # noqa: E402
+    ClimbStrictVisualGateError,
+    require_strict_pod_llm_pass,
 )
 
 # Re-export for related Wave64 visual-review helpers.
@@ -147,6 +155,15 @@ def main() -> int:
         action='store_true',
         help='Print resolved WAVE64_VLM_URL / WAVE64_VLM_MODEL receipt and exit',
     )
+    parser.add_argument(
+        '--require-strict-receipt',
+        type=Path,
+        default=None,
+        help=(
+            'Fail closed unless this strict_pod_llm_review receipt is PASS '
+            '(product deepen / promotion path). Smoke observation may omit.'
+        ),
+    )
     args = parser.parse_args()
     if args.print_vlm_env:
         print(json.dumps(vlm_env_receipt(), indent=2, sort_keys=True))
@@ -155,6 +172,18 @@ def main() -> int:
         parser.error('--input is required unless --print-vlm-env is set')
     obj = load(Path(args.input))
     errors = validate_review(obj)
+    if args.require_strict_receipt is not None:
+        try:
+            require_strict_pod_llm_pass(
+                args.require_strict_receipt,
+                climb_kind='global_review_product',
+            )
+        except ClimbStrictVisualGateError as exc:
+            errors.append(f'strict_pod_llm_review gate: {exc}')
+        except OSError as exc:
+            errors.append(f'strict_pod_llm_review receipt unreadable: {exc}')
+        except json.JSONDecodeError as exc:
+            errors.append(f'strict_pod_llm_review receipt invalid JSON: {exc}')
     if errors:
         print('FAIL')
         for error in errors:
