@@ -1,19 +1,4 @@
 {
-  "schema_version": "1.0",
-  "evidence_id": "ROW017-RUNPOD-MF70-EYES-FULL-TOURNAMENT-GPU-BLOCKER-20260721T022347-0500",
-  "created_iso": "2026-07-21T02:23:47-05:00",
-  "tracker_id": "TRK-W64-017",
-  "item_id": "ITEM-W64-017",
-  "runtime_host": "runpod",
-  "pod_binding": "1q4ji0gg1fkhvt",
-  "ssh": "root@195.26.233.100 -p 52077",
-  "preferred_lane": "mf70_eyes_full",
-  "row_complete": false,
-  "product_completion_claimed": false,
-  "blocker_class": "EXTERNAL_GPU_TOURNAMENT_HOLD",
-  "proof_tier": "RUNTIME_BLOCKER_INVENTORY_BOUNDED",
-  "lock_path": "/workspace/tmp/mf_gpu_tournament.lockdir",
-  "lock_holder": "464238 grow_wave_1_20260721T071937Z",
   "active_processes": [
     "bash runtime_artifacts/_pod_wave_grow_real_fp_338.sh",
     "python3 -u tools/_run_mp_gold_tournament_pod_safe.py --limit 64 ...",
@@ -21,26 +6,51 @@
     "python3 .../run_sam2_server_wsl.py ...",
     "python3 .../_gpu_wait_tournament_then_r3_noface.py (waiting; no fight)"
   ],
-  "comfy_status": {
-    "listen_8188": false,
-    "start_script_present": true,
-    "start_script_path": "/workspace/04_start_comfy.sh",
-    "partial_eyes_full_mask_previews_only": true,
-    "do_not_kill_foreign_jobs": true
-  },
-  "decision": {
-    "status": "blocked_external_gpu_hold",
-    "row_complete": false,
-    "product_completion": false,
-    "safe_next_action": "Keep Row017 blocked/non-complete; when grow-wave tournament releases mf_gpu_tournament.lockdir and :8188 is idle/healthy, climb unused prepared mf70_eyes_full with producer+GLOBAL_REVIEW+Ollama VLM; leave Row074 alone; no HOLD 090+; no COMPLETE."
-  },
+  "blocker_class": "EXTERNAL_GPU_TOURNAMENT_HOLD",
   "boundaries": {
     "complete_claimed": false,
+    "ec2_or_local_comfy_used": false,
     "hold_090_plus_touched": false,
     "row074_touched": false,
-    "ec2_or_local_comfy_used": false,
     "tournament_or_foreign_gpu_jobs_killed": false
   },
+  "comfy_status": {
+    "do_not_kill_foreign_jobs": true,
+    "listen_8188": false,
+    "partial_eyes_full_mask_previews_only": true,
+    "start_script_path": "/workspace/04_start_comfy.sh",
+    "start_script_present": true
+  },
+  "created_iso": "2026-07-21T02:23:47-05:00",
+  "csv_sync": "synced_by_primary_csv_mutator_row017_mf70_eyes_full_tournament_blocker",
+  "csv_sync_tip": "e00a825f",
+  "decision": {
+    "product_completion": false,
+    "row_complete": false,
+    "safe_next_action": "Keep Row017 blocked/non-complete; when grow-wave tournament releases mf_gpu_tournament.lockdir and :8188 is idle/healthy, climb unused prepared mf70_eyes_full with producer+GLOBAL_REVIEW+Ollama VLM; leave Row074 alone; no HOLD 090+; no COMPLETE.",
+    "status": "blocked_external_gpu_hold"
+  },
+  "evidence_id": "ROW017-RUNPOD-MF70-EYES-FULL-TOURNAMENT-GPU-BLOCKER-20260721T022347-0500",
+  "inventory": "Plan/Tracker/Evidence/ROW017_RUNPOD_PREPARED_LOCALIZED_LANE_INVENTORY_20260721T022347-0500.json",
+  "item_id": "ITEM-W64-017",
   "ledger_status_unchanged": "Blocked_Canonical_Future_Localized_Producer_Global_Review_Contract_Pending",
-  "inventory": "Plan/Tracker/Evidence/ROW017_RUNPOD_PREPARED_LOCALIZED_LANE_INVENTORY_20260721T022347-0500.json"
+  "ledger_vocabulary_sync": {
+    "note": "Mechanical CSV mutator Row017 mf70_eyes_full tournament-blocker tip sync from e00a825f; no COMPLETE; leave Row074 alone.",
+    "product_completion": false,
+    "prove_commits": [
+      "e00a825f"
+    ],
+    "synced_at": "2026-07-21T07:24:20.853669Z"
+  },
+  "lock_holder": "464238 grow_wave_1_20260721T071937Z",
+  "lock_path": "/workspace/tmp/mf_gpu_tournament.lockdir",
+  "pod_binding": "1q4ji0gg1fkhvt",
+  "preferred_lane": "mf70_eyes_full",
+  "product_completion_claimed": false,
+  "proof_tier": "RUNTIME_BLOCKER_INVENTORY_BOUNDED",
+  "row_complete": false,
+  "runtime_host": "runpod",
+  "schema_version": "1.0",
+  "ssh": "root@195.26.233.100 -p 52077",
+  "tracker_id": "TRK-W64-017"
 }
