@@ -1,39 +1,39 @@
 {
   "accepted_index_retained_segment_runtime": {
-    "authority": "accepted_index_retained_segment_probe",
-    "blocker_histogram": {},
-    "counts": {
-      "analysis_truncated": 0,
-      "bit_exact_reconstruction_ok": 25,
-      "exact_blockers": 0,
-      "feature_non_pass_inputs": 0,
-      "feature_pass_inputs": 25,
-      "multi_event_assets": 25,
-      "pcm_sha_verified": 25,
-      "records_processed": 25,
-      "records_total": 39771,
-      "segment_blocked": 0,
-      "segment_pass": 25,
-      "single_event_assets": 0,
-      "source_immutable_true": 25,
-      "zero_event_assets": 0
+    "authority": "accepted_index_retained_segment_reconcile",
+    "blocker_histogram": {
+      "DECODE_FAILED_CORRUPT_OR_UNREADABLE": 747,
+      "FEATURE_EXTRACTION_FAILED": 13
     },
-    "coverage_complete": false,
-    "limit": 25,
+    "counts": {
+      "analysis_truncated": 145,
+      "bit_exact_reconstruction_ok": 39011,
+      "exact_blockers": 760,
+      "feature_non_pass_inputs": 760,
+      "feature_pass_inputs": 39011,
+      "multi_event_assets": 25043,
+      "pcm_sha_verified": 39011,
+      "records_processed": 39771,
+      "records_total": 39771,
+      "segment_blocked": 760,
+      "segment_pass": 39011,
+      "single_event_assets": 13704,
+      "source_immutable_true": 39011,
+      "zero_event_assets": 264
+    },
+    "coverage_complete": true,
+    "limit": null,
     "present": true,
     "progress_path": "runtime_artifacts/multi_event_segmentation/row074_index_retained_20260720/progress.json",
     "receipt_path": "runtime_artifacts/multi_event_segmentation/row074_index_retained_20260720/retained_index_segment_receipt.json",
     "records_path": "runtime_artifacts/multi_event_segmentation/row074_index_retained_20260720/records.jsonl",
-    "row075_contention_policy": "limited_probe_only_while_row075_full_reconcile_owns_pcm_io",
-    "status": "RUNTIME_PASS_BOUNDED_PROBE_LIMIT",
+    "status": "RUNTIME_PASS_BOUNDED_LIBRARY_THRESHOLDS_FROZEN",
     "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_ACCEPTED_INDEX_RETAINED_SEGMENT_SUMMARY_20260720.json",
-    "summary_sha256": "284229426ccee2d41fcb50eefd7604a564c4c01fca00e681c91fe66c7f6bce1f"
+    "summary_sha256": "280518b33610cc1f1a9a1055b303d861f47303129a20684f68664c66b50f452a"
   },
   "blocker_codes": [
-    "FULL_LIBRARY_RECONCILE_DEFERRED_OR_IN_PROGRESS",
     "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
-    "EVENT_COUNT_CALIBRATION_STRATA_ABSENT",
-    "DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT"
+    "EVENT_COUNT_CALIBRATION_STRATA_ABSENT"
   ],
   "boundary_convention": {
     "exclusive_end": true,
@@ -44,9 +44,9 @@
     "dependencies_unlocked": true,
     "product_completion": false,
     "row074_acceptance": "held",
-    "runtime_completion": false,
-    "safe_next_action": "Bounded index-retained segment probe passed under frozen suggestion-only thresholds. Defer full-library Row074 PCM reconcile until Row075 retained-index defect scan finishes (avoid dual PCM I/O contention), then resume --mode index-retained without --limit before claiming Row074 acceptance.",
-    "status": "blocked"
+    "runtime_completion": true,
+    "safe_next_action": "Full-library multi-event segmentation reconcile is coverage_complete under frozen suggestion-only thresholds. Do not start Row076/Row077 from this stamp. No product COMPLETE. CSV Notes sync deferred to mutator. Event-count calibration strata remain HOLD.",
+    "status": "hold"
   },
   "evidence_id": "TRK-W64-074_multi_event_segmentation",
   "fixture_calibration": {
@@ -443,37 +443,37 @@
   "row072_admission": {
     "admission_mode": "runtime_unlocked",
     "blocker_codes": [],
-    "bytes": 6766,
+    "bytes": 9859,
     "dependencies_unlocked": true,
     "dependency_satisfied": true,
     "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_ONSET_TRANSIENT_ANCHOR_CURRENT_DELTA_20260719.json",
     "proof_tier": "RUNTIME_PASS_BOUNDED",
     "row072_acceptance": "held",
     "row_complete": false,
-    "sha256": "c64ea2e90666a45e81b2f0ee33a72cc5102b4935030f048cb4a0941de825af8a",
+    "sha256": "d95631ea50d104f78f77c81b85777e69cfde8f8551260e4c7063a71324e6baa8",
     "status": "HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE",
     "tracker_id": "TRK-W64-072"
   },
   "row073_admission": {
-    "admission_mode": "probe_unlocked",
+    "admission_mode": "runtime_unlocked",
     "blocker_codes": [],
-    "bytes": 11685,
+    "bytes": 12195,
     "dependencies_unlocked": true,
     "dependency_satisfied": true,
     "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-073_USABLE_BOUNDS_DECAY_CURRENT_DELTA_20260719.json",
-    "probe_authority": "accepted_index_retained_bounds_probe",
+    "probe_authority": "accepted_index_retained_bounds_reconcile",
     "proof_tier": "RUNTIME_PASS_BOUNDED",
     "row073_acceptance": "held",
     "row_complete": false,
-    "sha256": "5ab04bac83498ef9f97a55e39dd3b2abae144c53632eac8a9589ac4b3fdb26c5",
-    "status": "HOLD_LIBRARY_PROBE_PASS_FULL_RECONCILE_DEFERRED_DEPS_UNLOCKED",
+    "sha256": "28b04ca12452b2cd1bc44252cbff9ea5133a8337de57cff2b236d1943f318676",
+    "status": "HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE",
     "tracker_id": "TRK-W64-073"
   },
   "row_complete": false,
-  "runtime_completion_claimed": false,
+  "runtime_completion_claimed": true,
   "schema_version": "1.0.0",
   "segmentation_pipeline_revision": "wave64_row074_multi_event_segmentation_v0.2.0",
-  "status": "HOLD_LIBRARY_PROBE_PASS_FULL_RECONCILE_DEFERRED_DEPS_UNLOCKED",
+  "status": "HOLD_LIBRARY_THRESHOLDS_AND_EVENT_COUNT_CALIBRATION_ABSENT_RECONCILE_COMPLETE",
   "thresholds": {
     "channel_policy": "max_abs_mono",
     "energy_threshold_dbfs": -40.0,

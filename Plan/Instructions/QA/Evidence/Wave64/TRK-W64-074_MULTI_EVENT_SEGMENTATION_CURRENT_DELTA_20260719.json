@@ -1,33 +1,44 @@
 {
-  "accepted_index_retained_segment_runtime": {
-    "authority": "accepted_index_retained_segment_probe",
-    "counts": {
-      "analysis_truncated": 0,
-      "bit_exact_reconstruction_ok": 25,
-      "exact_blockers": 0,
-      "feature_non_pass_inputs": 0,
-      "feature_pass_inputs": 25,
-      "multi_event_assets": 25,
-      "pcm_sha_verified": 25,
-      "records_processed": 25,
-      "records_total": 39771,
-      "segment_blocked": 0,
-      "segment_pass": 25,
-      "single_event_assets": 0,
-      "source_immutable_true": 25,
-      "zero_event_assets": 0
+  "acceptance_gaps": [
+    {
+      "code": "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+      "detail": "Segmentation thresholds remain planning-freeze suggestion-only identity, not production library acceptance."
     },
-    "coverage_complete": false,
-    "limit": 25,
+    {
+      "code": "EVENT_COUNT_CALIBRATION_STRATA_ABSENT",
+      "detail": "No representative library strata with truth event-count labels; full-library coverage proves method identity on retained index only."
+    }
+  ],
+  "accepted_index_retained_segment_runtime": {
+    "authority": "accepted_index_retained_segment_reconcile",
+    "counts": {
+      "analysis_truncated": 145,
+      "bit_exact_reconstruction_ok": 39011,
+      "exact_blockers": 760,
+      "feature_non_pass_inputs": 760,
+      "feature_pass_inputs": 39011,
+      "multi_event_assets": 25043,
+      "pcm_sha_verified": 39011,
+      "records_processed": 39771,
+      "records_total": 39771,
+      "segment_blocked": 760,
+      "segment_pass": 39011,
+      "single_event_assets": 13704,
+      "source_immutable_true": 39011,
+      "zero_event_assets": 264
+    },
+    "coverage_complete": true,
+    "finalize_pid": 38680,
+    "limit": null,
     "proof_tier": "RUNTIME_PASS_BOUNDED",
-    "row075_contention_policy": "limited_probe_only_while_row075_full_reconcile_owns_pcm_io",
+    "receipt_sha256": "b077436d0492e21a200d1e74fbb6c70c60a5681597cbc89ed667f986f2a84842",
+    "records_sha256": "cf58feaa5f1858cd32adfe9281cf9bb0676b3916cd9097dac2bb037e86b5dd2e",
     "runtime_receipt_path": "runtime_artifacts/multi_event_segmentation/row074_index_retained_20260720/retained_index_segment_receipt.json",
-    "status": "RUNTIME_PASS_BOUNDED_PROBE_LIMIT",
+    "status": "RUNTIME_PASS_BOUNDED_LIBRARY_THRESHOLDS_FROZEN",
     "summary_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_ACCEPTED_INDEX_RETAINED_SEGMENT_SUMMARY_20260720.json",
-    "summary_sha256": "284229426ccee2d41fcb50eefd7604a564c4c01fca00e681c91fe66c7f6bce1f"
+    "summary_sha256": "280518b33610cc1f1a9a1055b303d861f47303129a20684f68664c66b50f452a"
   },
   "blocker_codes": [
-    "FULL_LIBRARY_RECONCILE_IN_PROGRESS_TIME_BOUND",
     "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
     "EVENT_COUNT_CALIBRATION_STRATA_ABSENT"
   ],
@@ -87,9 +98,9 @@
     "fail_closed_probe_slice": "accepted_as_bounded_increment",
     "product_completion": false,
     "row074_acceptance": "held",
-    "row074_status": "Blocked_Library_Reconcile_In_Progress_Deps_Unlocked",
-    "runtime_completion": false,
-    "safe_next_action": "Do not kill healthy worker PID 38680 or guardian PID 18168; finish retained-index multi-event segmentation reconcile to coverage_complete under frozen suggestion-only thresholds. Do not start Row076/Row077 library PCM scans in parallel. No product COMPLETE."
+    "row074_status": "Blocked_Library_Thresholds_And_Event_Count_Calibration_Absent_Reconcile_Complete",
+    "runtime_completion": true,
+    "safe_next_action": "Full-library multi-event segmentation reconcile is coverage_complete under frozen suggestion-only thresholds. Do not start Row076/Row077 from this stamp. No product COMPLETE. CSV Notes sync deferred to mutator. Event-count calibration strata remain HOLD."
   },
   "dependency_authority": [
     {
@@ -182,37 +193,34 @@
     "writable_scope_note": "Disjoint from Row017 visuals, Row075 progress stamps, Row073/076 runtime trees, and Row077/078/079 paths. Sound ITEM/TRACKER CSV deferred for serialized mutator."
   },
   "item_id": "ITEM-W64-074",
-  "ledger_status": "Blocked_Library_Reconcile_In_Progress_Deps_Unlocked",
+  "ledger_status": "Blocked_Library_Thresholds_And_Event_Count_Calibration_Absent_Reconcile_Complete",
   "ledger_vocabulary_sync": {
-    "ledger_status": "Blocked_Library_Reconcile_In_Progress_Deps_Unlocked",
-    "note": "Resume Notes sync 3025/39771; worker PID 38680 guardian PID 18168; prove 94dc77dc,2e42c23a; no COMPLETE.",
+    "ledger_status": "Blocked_Library_Thresholds_And_Event_Count_Calibration_Absent_Reconcile_Complete",
+    "note": "PID 38680 clean exit coverage_complete 39771/39771; stamp 20260721T0252-0500; runtime_completion=true; product COMPLETE=false; CSV deferred to mutator; 076/077 not started.",
     "product_completion": false,
-    "progress_stamp": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_MULTI_EVENT_SEGMENTATION_RECONCILE_PROGRESS_20260721T0010-0500.json",
-    "prove_commits": [
-      "94dc77dc",
-      "2e42c23a"
-    ],
-    "runtime_completion": false,
-    "synced_at": "2026-07-21T05:15:46.538807Z"
+    "progress_stamp": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_MULTI_EVENT_SEGMENTATION_RECONCILE_PROGRESS_20260721T0252-0500.json",
+    "runtime_completion": true,
+    "synced_at": "2026-07-21T07:52:32.230454Z"
   },
   "library_authority": false,
   "preservation_boundary": {
     "only_row074_writable_paths": [
-      "Plan/07_IMPLEMENTATION/scripts/segment_wave64_multi_event_audio.py",
-      "Plan/08_SCHEMAS/multi_event_segmentation_record.schema.json",
-      "Plan/Instructions/QA/Scripts/test_segment_wave64_multi_event_audio.py",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_multi_event_segmentation.json",
       "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_ACCEPTED_INDEX_RETAINED_SEGMENT_SUMMARY_20260720.json",
-      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_MULTI_EVENT_SEGMENTATION_CURRENT_DELTA_20260719.json"
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_MULTI_EVENT_SEGMENTATION_CURRENT_DELTA_20260719.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_MULTI_EVENT_SEGMENTATION_RECONCILE_PROGRESS_20260721T0252-0500.json",
+      "ztest/stamp_row074_coverage_complete.py"
     ],
     "row017_visual_paths_modified": false,
     "row073_runtime_paths_modified": false,
     "row075_pid_left_alone": true,
     "row075_progress_paths_modified": false,
+    "row076_077_not_started": true,
     "row076_runtime_paths_modified": false,
-    "sound_item_tracker_csv_deferred_reason": "contention_risk_with_parallel_agents_evidence_code_only_landing",
+    "sound_item_tracker_csv_deferred_reason": "deferred_to_primary_csv_mutator",
     "sound_item_tracker_csv_modified": false
   },
+  "product_completion_claimed": false,
   "proof_tier": "RUNTIME_PASS_BOUNDED",
   "qa_decision": "deps_unlocked_index_retained_limit_25_probe_pass_full_reconcile_deferred_for_row075_pcm_contention",
   "row074_contract": {
@@ -238,9 +246,9 @@
     ]
   },
   "row_complete": false,
-  "runtime_completion_claimed": false,
+  "runtime_completion_claimed": true,
   "schema_version": 1,
-  "status": "HOLD_LIBRARY_RECONCILE_IN_PROGRESS_DEPS_UNLOCKED",
+  "status": "HOLD_LIBRARY_THRESHOLDS_AND_EVENT_COUNT_CALIBRATION_ABSENT_RECONCILE_COMPLETE",
   "tracker_id": "TRK-W64-074",
-  "updated_at": "2026-07-21T05:11:00.000000Z"
+  "updated_at": "2026-07-21T07:52:32.230454Z"
 }
