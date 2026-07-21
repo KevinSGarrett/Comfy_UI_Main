@@ -231,6 +231,18 @@ script/ASR alignment when an ASR certificate exists, and AV event offset.
 NISQA, DNSMOS, CLAP, speaker embeddings, forced alignment, and omni-modal judges
 remain optional gates that must identify their exact implementation and scope.
 
+The first real retained audio shadow is now bound at
+`Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_AUDIO_SHADOW_20260721T221732Z.json`.
+The tracked 2.04-second 48 kHz stereo production mix matched its delivery
+manifest and passed all eleven deterministic contract/signal gates: full decode,
+sample rate, channel count, duration, loudness, clipping, DC offset, silence,
+true peak, stereo phase, and duplicate-segment checks. Its rendered waveform and
+spectrogram were inspected only as technical diagnostics. No listening, ASR,
+speaker, event-semantic, perceptual, or independent-juror authority is claimed;
+therefore product promotion remains false and the semantic audio gate stays
+`BLOCKED_UNQUALIFIED`. This lane is non-GPU and does not wait for 2x A40 stock or
+compete with a MaskFactory GPU lease.
+
 ### Golden masks
 
 MaskFactory or another admitted producer may supply candidate masks and alpha

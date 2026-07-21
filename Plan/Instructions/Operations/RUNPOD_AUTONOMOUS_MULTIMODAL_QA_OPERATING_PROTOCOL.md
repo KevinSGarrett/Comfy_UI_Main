@@ -70,6 +70,15 @@ quantization/offload package, run its bounded phase, retain the receipt, and unl
   durable volume, then keep each role blocked until its own registry activation
   contract is satisfied.
 
+Deterministic audio measurement is a non-GPU lane and must continue while a
+foreign workload owns the pod GPU. Compile it as an audio shadow requiring only
+`W64-AQA-ROLE-DETERMINISTIC`, retain exact artifact/manifest/diagnostic hashes,
+and record semantic audio as a separate release gate. Never substitute the
+visual reviewer for audio authority and never interpret waveform/spectrogram
+inspection as perceptual playback. The current canonical receipt is
+`Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_AUDIO_SHADOW_20260721T221732Z.json`;
+it passes deterministic gates only and cannot promote product.
+
 ## 4A. One-pod capacity migration
 
 1. Preferred profile: one pod with 2x A40, 96 GB aggregate VRAM, at least 100 GB

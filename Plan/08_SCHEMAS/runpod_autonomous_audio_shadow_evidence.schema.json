@@ -1,0 +1,95 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_audio_shadow_evidence.schema.json",
+  "title": "Wave64 Autonomous Audio Shadow Evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "evidence_id", "generated_at", "row_id", "source",
+    "technical_contract", "measurement", "diagnostic_review",
+    "semantic_release_gate", "product_promotion_eligible", "overall_disposition"
+  ],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.audio_shadow_evidence.v1"},
+    "evidence_id": {"$ref": "#/definitions/sha256"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "row_id": {"const": "W64-AQA-006"},
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_relative_path", "artifact_sha256", "manifest_relative_path",
+        "manifest_sha256", "manifest_declared_artifact_sha256", "hash_match"
+      ],
+      "properties": {
+        "artifact_relative_path": {"$ref": "#/definitions/relative_path"},
+        "artifact_sha256": {"$ref": "#/definitions/sha256"},
+        "manifest_relative_path": {"$ref": "#/definitions/relative_path"},
+        "manifest_sha256": {"$ref": "#/definitions/sha256"},
+        "manifest_declared_artifact_sha256": {"$ref": "#/definitions/sha256"},
+        "hash_match": {"const": true}
+      }
+    },
+    "technical_contract": {
+      "type": "object",
+      "required": ["schema_version", "contract_id", "preflight_disposition"],
+      "properties": {
+        "schema_version": {"const": "wave64.aqa.job_contract.v1"},
+        "preflight_disposition": {"const": "READY_FOR_LEASE"},
+        "promotion_disposition": {"const": "EVIDENCE_ONLY"}
+      }
+    },
+    "measurement": {
+      "type": "object",
+      "required": ["schema_version", "measurement_id", "artifact_sha256", "disposition"],
+      "properties": {
+        "schema_version": {"const": "wave64.aqa.audio_measurement.v1"},
+        "artifact_sha256": {"$ref": "#/definitions/sha256"},
+        "disposition": {"enum": ["PASS_DETERMINISTIC_GATES", "FAIL_DETERMINISTIC_GATES"]}
+      }
+    },
+    "diagnostic_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scope", "waveform_sha256", "spectrogram_sha256", "observations", "semantic_audio_review_claimed"],
+      "properties": {
+        "scope": {"const": "rendered_waveform_and_spectrogram_only"},
+        "waveform_sha256": {"$ref": "#/definitions/sha256"},
+        "spectrogram_sha256": {"$ref": "#/definitions/sha256"},
+        "observations": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "semantic_audio_review_claimed": {"const": false}
+      }
+    },
+    "semantic_release_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "required_for_product_release", "role_id", "role_registry_sha256",
+        "registry_state", "runtime_executed", "independent_perceptual_playback_present",
+        "disposition", "missing_authority"
+      ],
+      "properties": {
+        "required_for_product_release": {"const": true},
+        "role_id": {"const": "W64-AQA-ROLE-AUDIO-SEMANTIC"},
+        "role_registry_sha256": {"$ref": "#/definitions/sha256"},
+        "registry_state": {"type": "string", "minLength": 1},
+        "runtime_executed": {"const": false},
+        "independent_perceptual_playback_present": {"const": false},
+        "disposition": {"enum": ["BLOCKED_UNQUALIFIED", "SEMANTIC_REVIEW_REQUIRED"]},
+        "missing_authority": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "product_promotion_eligible": {"const": false},
+    "overall_disposition": {
+      "enum": [
+        "PASS_DETERMINISTIC_SHADOW_BLOCKED_SEMANTIC_AUDIO_AUTHORITY",
+        "PASS_DETERMINISTIC_SHADOW_SEMANTIC_REVIEW_REQUIRED",
+        "FAIL_DETERMINISTIC_SHADOW"
+      ]
+    }
+  },
+  "definitions": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "relative_path": {"type": "string", "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).{1,512}$"}
+  }
+}

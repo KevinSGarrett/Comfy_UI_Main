@@ -17,16 +17,37 @@ import jsonschema
 ROOT = Path(__file__).resolve().parents[3]
 SCHEMA_PATH = ROOT / "Plan/08_SCHEMAS/runpod_autonomous_multimodal_job_contract.schema.json"
 CONTRACT_ID_PLACEHOLDER = "0" * 64
-PRODUCTION_REQUIRED_ROLES = {
+VISUAL_PRODUCTION_REQUIRED_ROLES = {
     "W64-AQA-ROLE-DETERMINISTIC",
     "W64-AQA-ROLE-PRIMARY-VISUAL",
     "W64-AQA-ROLE-INDEPENDENT-JUROR",
 }
-SHADOW_REQUIRED_ROLES = {
+AUDIO_PRODUCTION_REQUIRED_ROLES = {
+    "W64-AQA-ROLE-DETERMINISTIC",
+    "W64-AQA-ROLE-AUDIO-SEMANTIC",
+    "W64-AQA-ROLE-INDEPENDENT-JUROR",
+}
+AV_PRODUCTION_REQUIRED_ROLES = VISUAL_PRODUCTION_REQUIRED_ROLES | {
+    "W64-AQA-ROLE-AUDIO-SEMANTIC"
+}
+VISUAL_SHADOW_REQUIRED_ROLES = {
     "W64-AQA-ROLE-DETERMINISTIC",
     "W64-AQA-ROLE-STRICT-VISUAL",
 }
-WORKFLOW_SHADOW_REQUIRED_ROLES = {"W64-AQA-ROLE-DETERMINISTIC"}
+DETERMINISTIC_SHADOW_REQUIRED_ROLES = {"W64-AQA-ROLE-DETERMINISTIC"}
+
+
+def _expected_required_roles(contract: dict[str, Any]) -> set[str]:
+    modality = contract["modality"]
+    if contract["execution_mode"] == "shadow_qualification":
+        if modality in {"audio", "workflow"}:
+            return DETERMINISTIC_SHADOW_REQUIRED_ROLES
+        return VISUAL_SHADOW_REQUIRED_ROLES
+    if modality == "audio":
+        return AUDIO_PRODUCTION_REQUIRED_ROLES
+    if modality == "av":
+        return AV_PRODUCTION_REQUIRED_ROLES
+    return VISUAL_PRODUCTION_REQUIRED_ROLES
 
 
 class ContractError(ValueError):
@@ -50,12 +71,7 @@ def _semantic_errors(contract: dict[str, Any]) -> list[str]:
     role_ids = [role["role_id"] for role in roles]
     role_map = {role["role_id"]: role for role in roles}
     required = set(profile["required_approval_roles"])
-    if contract["execution_mode"] == "production_release":
-        expected_required = PRODUCTION_REQUIRED_ROLES
-    elif contract["modality"] == "workflow":
-        expected_required = WORKFLOW_SHADOW_REQUIRED_ROLES
-    else:
-        expected_required = SHADOW_REQUIRED_ROLES
+    expected_required = _expected_required_roles(contract)
 
     if len(role_ids) != len(set(role_ids)):
         errors.append("review role IDs must be unique")

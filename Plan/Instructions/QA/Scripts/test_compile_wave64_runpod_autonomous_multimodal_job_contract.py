@@ -227,6 +227,77 @@ def test_workflow_shadow_requires_deterministic_role_without_visual_semantic_aut
     compiler.verify_contract(contract)
 
 
+def test_audio_shadow_runs_deterministic_stage_without_false_visual_authority() -> None:
+    compiler = load_compiler()
+    draft = valid_draft("audio")
+    deterministic = draft["quality_profile"]["review_roles"][0]
+    audio_semantic = {
+        "role_id": "W64-AQA-ROLE-AUDIO-SEMANTIC",
+        "authority": "audio_semantic",
+        "can_approve": False,
+        "required": False,
+    }
+    draft["execution_mode"] = "shadow_qualification"
+    draft["quality_profile"]["review_roles"] = [deterministic, audio_semantic]
+    draft["quality_profile"]["required_approval_roles"] = [
+        "W64-AQA-ROLE-DETERMINISTIC"
+    ]
+    draft["provenance"]["model_bindings"] = [
+        draft["provenance"]["model_bindings"][0]
+    ]
+    draft.pop("image_spec")
+    draft["audio_spec"] = {
+        "sample_rate_hz": 48000,
+        "channels": 2,
+        "duration_seconds": 2.0,
+        "lufs_target": -18.0,
+    }
+    contract = compiler.compile_contract(draft)
+    assert contract["preflight_disposition"] == "READY_FOR_LEASE"
+    assert contract["quality_profile"]["required_approval_roles"] == [
+        "W64-AQA-ROLE-DETERMINISTIC"
+    ]
+    assert "W64-AQA-ROLE-STRICT-VISUAL" not in {
+        role["role_id"] for role in contract["quality_profile"]["review_roles"]
+    }
+    compiler.verify_contract(contract)
+
+
+def test_audio_production_requires_semantic_audio_and_independent_juror() -> None:
+    compiler = load_compiler()
+    draft = valid_draft("audio")
+    draft.pop("image_spec")
+    draft["audio_spec"] = {
+        "sample_rate_hz": 48000,
+        "channels": 2,
+        "duration_seconds": 2.0,
+        "lufs_target": -18.0,
+    }
+    draft["quality_profile"]["review_roles"][1] = {
+        "role_id": "W64-AQA-ROLE-AUDIO-SEMANTIC",
+        "authority": "audio_semantic",
+        "can_approve": True,
+        "required": True,
+    }
+    draft["quality_profile"]["required_approval_roles"] = [
+        "W64-AQA-ROLE-DETERMINISTIC",
+        "W64-AQA-ROLE-AUDIO-SEMANTIC",
+        "W64-AQA-ROLE-INDEPENDENT-JUROR",
+    ]
+    draft["provenance"]["model_bindings"][1]["role_id"] = (
+        "W64-AQA-ROLE-AUDIO-SEMANTIC"
+    )
+    contract = compiler.compile_contract(draft)
+    compiler.verify_contract(contract)
+
+    missing_semantic = copy.deepcopy(draft)
+    missing_semantic["quality_profile"]["required_approval_roles"].remove(
+        "W64-AQA-ROLE-AUDIO-SEMANTIC"
+    )
+    with pytest.raises(compiler.ContractError, match="selected execution mode"):
+        compiler.compile_contract(missing_semantic)
+
+
 def test_tampering_breaks_immutable_identity() -> None:
     compiler = load_compiler()
     contract = compiler.compile_contract(valid_draft())

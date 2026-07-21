@@ -52,6 +52,16 @@ NISQA, DNSMOS, CLAP, event detection, lip sync, or an omni-modal judge count
 only when the exact implementation is qualified. Missing required semantic
 audio authority produces `BLOCKED`, not a fabricated PASS.
 
+Audio shadow execution is explicitly two-stage. A deterministic-only shadow may
+compile and measure a hash-bound artifact without a visual reviewer or GPU lease;
+its only possible success is `PASS_DETERMINISTIC_GATES` with evidence-only
+authority. Product release requires `W64-AQA-ROLE-AUDIO-SEMANTIC` and the
+independent juror in addition to deterministic approval. Rendered waveform or
+spectrogram inspection is technical diagnostic review, never listening, ASR,
+speaker, event-semantic, perceptual, or AV-sync approval. The canonical retained
+mix proof is
+`Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_AUDIO_SHADOW_20260721T221732Z.json`.
+
 ## Gate AQA-06: golden masks
 
 Measure completeness, leakage, boundary distance, fine-detail preservation,
