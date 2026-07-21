@@ -1,0 +1,172 @@
+{
+  "prompt": {
+    "3": {
+      "class_type": "KSampler",
+      "inputs": {
+        "seed": 6521847397,
+        "steps": 16,
+        "cfg": 3.6,
+        "sampler_name": "euler",
+        "scheduler": "normal",
+        "denoise": 0.1,
+        "model": [
+          "4",
+          0
+        ],
+        "positive": [
+          "8",
+          0
+        ],
+        "negative": [
+          "9",
+          0
+        ],
+        "latent_image": [
+          "12",
+          0
+        ]
+      }
+    },
+    "4": {
+      "class_type": "CheckpointLoaderSimple",
+      "inputs": {
+        "ckpt_name": "realvisxlV50_v50Bakedvae.safetensors"
+      }
+    },
+    "5": {
+      "class_type": "LoadImage",
+      "inputs": {
+        "image": "wave64_row017_w69_face_mask_v1_src_20260720T230123-0500.png"
+      }
+    },
+    "6": {
+      "class_type": "LoadImageMask",
+      "inputs": {
+        "image": "wave64_row017_w69_face_mask_v1_mask_20260720T230123-0500.png",
+        "channel": "red"
+      }
+    },
+    "7": {
+      "class_type": "VAEEncode",
+      "inputs": {
+        "pixels": [
+          "5",
+          0
+        ],
+        "vae": [
+          "4",
+          2
+        ]
+      }
+    },
+    "8": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "subtle photoreal facial skin and pore detail refinement inside the face oval, natural soft continuity across cheeks forehead nose and chin, preserve exact person identity, gaze, iris color, eyelid shape, lip boundary, mouth shape, facial hair, hair, clothing, background, framing, and portrait composition unchanged",
+        "clip": [
+          "4",
+          1
+        ]
+      }
+    },
+    "9": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "blank face, gray mask, identity change, eye color change, gaze drift, face shape drift, plastic skin, waxy skin, over-smoothed face, distorted eyes, crossed eyes, mouth rewrite, lipstick change, smile change, open mouth, new jewelry, clothing change, background change, hard mask edge, watermark, text",
+        "clip": [
+          "4",
+          1
+        ]
+      }
+    },
+    "10": {
+      "class_type": "VAEDecode",
+      "inputs": {
+        "samples": [
+          "3",
+          0
+        ],
+        "vae": [
+          "4",
+          2
+        ]
+      }
+    },
+    "11": {
+      "class_type": "SaveImage",
+      "inputs": {
+        "filename_prefix": "codex_row017_w69_inpaint_face_mask_v1_20260720T230123-0500",
+        "images": [
+          "14",
+          0
+        ]
+      }
+    },
+    "12": {
+      "class_type": "SetLatentNoiseMask",
+      "inputs": {
+        "samples": [
+          "7",
+          0
+        ],
+        "mask": [
+          "13",
+          0
+        ]
+      }
+    },
+    "13": {
+      "class_type": "FeatherMask",
+      "inputs": {
+        "mask": [
+          "6",
+          0
+        ],
+        "left": 20,
+        "top": 20,
+        "right": 20,
+        "bottom": 20
+      }
+    },
+    "14": {
+      "class_type": "ImageCompositeMasked",
+      "inputs": {
+        "destination": [
+          "5",
+          0
+        ],
+        "source": [
+          "10",
+          0
+        ],
+        "x": 0,
+        "y": 0,
+        "resize_source": false,
+        "mask": [
+          "13",
+          0
+        ]
+      }
+    },
+    "15": {
+      "class_type": "MaskToImage",
+      "inputs": {
+        "mask": [
+          "13",
+          0
+        ]
+      }
+    },
+    "16": {
+      "class_type": "SaveImage",
+      "inputs": {
+        "filename_prefix": "codex_row017_w69_inpaint_face_mask_v1_20260720T230123-0500_mask_preview",
+        "images": [
+          "15",
+          0
+        ]
+      }
+    }
+  },
+  "client_id": "cursor-row017-face-mask-runpod-55bbad14"
+}

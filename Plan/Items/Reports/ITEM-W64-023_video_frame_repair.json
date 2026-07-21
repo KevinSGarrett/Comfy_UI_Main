@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "report_id": "ITEM-W64-023-VIDEO-FRAME-REPAIR-20260711T152500-0500",
-  "timestamp": "2026-07-20T12:33:55-05:00",
+  "timestamp": "2026-07-20T22:55:45-05:00",
   "item_id": "ITEM-W64-023",
   "tracker_id": "TRK-W64-023",
   "workstream": "video_frame_repair",
@@ -108,7 +108,7 @@
     "completed_generation_count": 1,
     "generation_retry_allowed": false
   },
-  "next_action": "Keep rejects immutable. Install local Wan TI2V 5B payloads (0/3→3/3) before any new Wan seed; do not seed-spam Flux; do not invent gold masks; no HOLD; no COMPLETE.",
+  "next_action": "Keep rejects immutable. Install local Wan TI2V 5B payloads (0/3\u21923/3) before any new Wan seed; do not seed-spam Flux; do not invent gold masks; no HOLD; no COMPLETE.",
   "class_a_f_disposition_deepen": {
     "status": "BLOCKED_CLASS_F_WAN_PAYLOADS_AND_CLASS_A_GOLD_MASK",
     "class_f_codes": [
@@ -127,5 +127,54 @@
   },
   "complete_claimed": false,
   "notes_class_a_f_deepen": "Class A/F deepen 20260720T123355-0500: Wan TI2V 0/3; gold authority paths 4/4 ABSENT; :8188 reachable=False; no HOLD; no Flux seed; evidence Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_CLASS_A_F_BLOCKER_DISPOSITION_PACKET_20260720T123355-0500.json",
-  "evidence_class_a_f_deepen": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_CLASS_A_F_BLOCKER_DISPOSITION_PACKET_20260720T123355-0500.json"
+  "evidence_class_a_f_deepen": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_CLASS_A_F_BLOCKER_DISPOSITION_PACKET_20260720T123355-0500.json",
+  "pod_class_a_f_disposition": {
+    "status": "BLOCKED_CLASS_F_WAN_PAYLOAD_MISSING_ON_POD",
+    "runtime": "runpod",
+    "class_f_codes": [
+      "LOCAL_WAN_MODEL_PAYLOAD_MISSING"
+    ],
+    "class_a_codes": [
+      "Blocked_Gold_Mask_Dependency_Missing"
+    ],
+    "proof_tier": "POD_LIVE_INVENTORY_BLOCKER_BOUNDED",
+    "disposition_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_POD_CLASS_A_F_BLOCKER_DISPOSITION_PACKET_20260720T225545-0500.json",
+    "disposition_sha256": "F891E7FDFE67419D799950FF8162CB9E5CD5EA80915E8347248665B390FF3330",
+    "wan_ti2v_present_ratio": "0/3",
+    "gold_authority_paths_absent": "7/7",
+    "forbidden_seeds_retained": [
+      2272301,
+      2272401,
+      2272507
+    ],
+    "flux_seed_spam_this_landing": false,
+    "wan_download_this_landing": false,
+    "row_complete": false,
+    "csv_sync": "deferred"
+  },
+  "notes_pod_class_a_f": "RunPod Class A/F disposition 20260720T225545-0500: live /workspace inventory Wan 0/3; gold 7/7 absent; :8188 idle but no authorized Wan climb; Flux forbidden-seed cap retained; evidence Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_POD_CLASS_A_F_BLOCKER_DISPOSITION_PACKET_20260720T225545-0500.json",
+  "evidence_pod_class_a_f": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_POD_CLASS_A_F_BLOCKER_DISPOSITION_PACKET_20260720T225545-0500.json",
+  "pod_class_b_vlm_substitute": {
+    "status": "CLASS_B_VLM_SUBSTITUTE_REJECT_RETAINED",
+    "runtime": "runpod",
+    "proof_tier": "POD_CLASS_B_VLM_SUBSTITUTE_BOUNDED",
+    "disposition_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_POD_CLASS_B_VLM_SUBSTITUTE_20260721T041516Z.json",
+    "disposition_sha256": "e915065d3c44ef2cf464cc48a616846c3da6880ddae2efff28c82ad147646359",
+    "vlm_model": "qwen2.5vl:7b",
+    "slots_reviewed": 4,
+    "reject_retained_count": 4,
+    "pass_bounded_count": 0,
+    "immutable_row023_reject_reaffirmed": true,
+    "forbidden_seeds_retained": [
+      2272301,
+      2272401,
+      2272507
+    ],
+    "flux_seed_spam_this_landing": false,
+    "row_complete": false,
+    "csv_sync": "deferred"
+  },
+  "notes_pod_class_b_vlm": "RunPod Class B VLM substitute 20260721T041516Z: Wan/gold absent; qwen2.5vl:7b 4/4 REJECT_RETAINED including immutable seed2272301 midframe; Scenes contact/soft-body synthetic+VLM executed; no forbidden Flux seed spam; Row074 left alone; no COMPLETE.",
+  "evidence_pod_class_b_vlm": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_POD_CLASS_B_VLM_SUBSTITUTE_20260721T041516Z.json",
+  "next_action": "Keep rejects immutable. Install Wan TI2V 5B payloads (0/3) before any new Wan seed; continue Scenes+VLM contact/soft-body climbs without gold promotion; do not seed-spam Flux; no HOLD; no COMPLETE."
 }

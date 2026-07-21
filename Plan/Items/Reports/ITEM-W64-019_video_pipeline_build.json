@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1",
-  "timestamp": "2026-07-20T12:33:55-05:00",
+  "timestamp": "2026-07-20T22:55:45-05:00",
   "tracker_id": "TRK-W64-019",
   "item_id": "ITEM-W64-019",
   "status": "Blocked_Keyframe_And_Repair_Visual_Acceptance_Missing_Bounded_Wan_Pass",
@@ -47,7 +47,7 @@
     "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-023_LOCAL_WAN_MODEL_PAYLOAD_NEGATIVE_INVENTORY_20260720.json",
     "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_BODY_CONTACT_GOLD_MASK_NEGATIVE_INVENTORY_20260720.json"
   ],
-  "next_action": "Preserve immutable Row023 rejects. Class F Wan payloads still missing; Class A gold-mask authority paths absent. No HOLD. Clear keyframe only with promoted still authority. No COMPLETE.",
+  "next_action": "Preserve immutable Row023 rejects. Class F Wan payloads still missing on RunPod; Class A gold-mask authority paths absent on POD. No HOLD. Clear keyframe only with promoted still authority. No COMPLETE.",
   "notes_class_b": "Class B (0184b176/960ccf2a): offline Wan reaffirm + Flux span-repair VISUAL_QA_REJECT_RETAINED (not PASS); keyframe_manifest still missing; row_complete=false; never Complete. Blockers: KEYFRAME_MANIFEST_INTEGRATION_MISSING|FRAME_REPAIR_VISUAL_ACCEPTANCE_FAILED|CONTACT_SOFT_BODY_VIDEO_SCOPE_BLOCKED_GOLD_MASKS. Evidence: Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_KEYFRAME_REPAIR_GATES_CURRENT_DELTA_20260720.json",
   "evidence_current_delta": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_KEYFRAME_REPAIR_GATES_CURRENT_DELTA_20260720.json",
   "complete_claimed": false,
@@ -65,5 +65,40 @@
     "csv_sync": "deferred"
   },
   "notes_class_a_f_deepen": "Class A/F deepen 20260720T123355-0500: Wan TI2V 0/3; gold authority paths 4/4 ABSENT; :8188 reachable=False; no HOLD; no Flux seed; evidence Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_CLASS_A_F_BLOCKER_DISPOSITION_PACKET_20260720T123355-0500.json",
-  "evidence_class_a_f_deepen": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_CLASS_A_F_BLOCKER_DISPOSITION_PACKET_20260720T123355-0500.json"
+  "evidence_class_a_f_deepen": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_CLASS_A_F_BLOCKER_DISPOSITION_PACKET_20260720T123355-0500.json",
+  "pod_class_a_f_disposition": {
+    "status": "BLOCKED_CLASS_A_GOLD_MASK_CONTACT_SOFT_BODY",
+    "runtime": "runpod",
+    "class_a_codes": [
+      "CONTACT_SOFT_BODY_VIDEO_SCOPE_BLOCKED_GOLD_MASKS"
+    ],
+    "proof_tier": "POD_LIVE_INVENTORY_BLOCKER_BOUNDED",
+    "disposition_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_POD_CLASS_A_F_BLOCKER_DISPOSITION_PACKET_20260720T225545-0500.json",
+    "disposition_sha256": "F891E7FDFE67419D799950FF8162CB9E5CD5EA80915E8347248665B390FF3330",
+    "wan_exact_filename_hits": 0,
+    "eligible_body_contact_gold_authority_hits": 0,
+    "row_complete": false,
+    "csv_sync": "deferred"
+  },
+  "notes_pod_class_a_f": "RunPod Class A/F disposition 20260720T225545-0500: Wan TI2V 0/3 on /workspace; gold authority 7/7 ABSENT; pod :8188 idle reachable; no Flux seed; no Wan download; evidence Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_POD_CLASS_A_F_BLOCKER_DISPOSITION_PACKET_20260720T225545-0500.json",
+  "evidence_pod_class_a_f": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_POD_CLASS_A_F_BLOCKER_DISPOSITION_PACKET_20260720T225545-0500.json",
+  "pod_class_b_vlm_substitute": {
+    "status": "CLASS_B_VLM_SUBSTITUTE_REJECT_RETAINED",
+    "runtime": "runpod",
+    "proof_tier": "POD_CLASS_B_VLM_SUBSTITUTE_BOUNDED",
+    "disposition_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_POD_CLASS_B_VLM_SUBSTITUTE_20260721T041516Z.json",
+    "disposition_sha256": "e915065d3c44ef2cf464cc48a616846c3da6880ddae2efff28c82ad147646359",
+    "vlm_model": "qwen2.5vl:7b",
+    "slots_reviewed": 4,
+    "reject_retained_count": 4,
+    "pass_bounded_count": 0,
+    "wan_ti2v_present_ratio": "0/3",
+    "gold_authority_paths_present": 0,
+    "flux_seed_spam_this_landing": false,
+    "row_complete": false,
+    "csv_sync": "deferred"
+  },
+  "notes_pod_class_b_vlm": "RunPod Class B VLM substitute 20260721T041516Z: Wan/gold absent; qwen2.5vl:7b reviewed Row023 reject midframe + Scenes contact/soft-body slots (4/4 REJECT_RETAINED); no forbidden Flux seeds; Row074 left alone; no COMPLETE.",
+  "evidence_pod_class_b_vlm": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_POD_CLASS_B_VLM_SUBSTITUTE_20260721T041516Z.json",
+  "next_action": "Preserve immutable Row023 rejects. Class F Wan payloads still missing on RunPod. Contact/soft-body continues under synthetic Scenes+VLM bounded authority only — not gold promotion. No HOLD. No COMPLETE."
 }
