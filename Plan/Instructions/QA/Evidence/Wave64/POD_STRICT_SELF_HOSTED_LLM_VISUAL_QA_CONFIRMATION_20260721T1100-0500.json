@@ -1,0 +1,53 @@
+{
+  "capability_evidence": "Plan/Instructions/QA/Evidence/Wave64/POD_STRICT_SELF_HOSTED_LLM_VISUAL_QA_CAPABILITY_20260721T1100-0500.json",
+  "code_paths_wired": [
+    "Plan/07_IMPLEMENTATION/scripts/wave64_pod_strict_visual_qa.py",
+    "Plan/07_IMPLEMENTATION/scripts/validate_wave64_pod_strict_visual_qa_receipt.py",
+    "Plan/07_IMPLEMENTATION/scripts/wave64_autonomous_vlm_client.py",
+    "Plan/07_IMPLEMENTATION/scripts/validate_wave64_wan_ti2v_class_e_runtime_proof_claim.py",
+    "Plan/08_SCHEMAS/pod_strict_self_hosted_llm_visual_qa_receipt.schema.json",
+    "Plan/Instructions/POD_STRICT_SELF_HOSTED_LLM_VISUAL_QA_STRATEGY.md",
+    "Plan/00_PROJECT_CONTROL/MAIN_SESSION_INTEGRATION_HANDOFF_CURRENT.md"
+  ],
+  "created_utc": "2026-07-21T16:26:03.127963Z",
+  "fixture_hashes": {
+    "Plan/Instructions/QA/Evidence/Wave64/fixtures/pod_strict_visual_qa_selftest_20260721T1100/known_bad_motion_083156Z_strict_receipt.json": "2ed3d39b59b0485ce180f3265f7aaa0a2bc5b77c1d9bbf1f77bd5271c7d2b0a9",
+    "Plan/Instructions/QA/Evidence/Wave64/fixtures/pod_strict_visual_qa_selftest_20260721T1100/known_better_sharp_hand_still_strict_receipt.json": "a156e5684b2f0dc80b27acadbf9c8769d39a684326403dd23e1931f4f0b9975d",
+    "Plan/Instructions/QA/Evidence/Wave64/fixtures/pod_strict_visual_qa_selftest_20260721T1100/ollama_show_qwen2.5vl_32b.txt": "7cd1414460669b3cf732659dcc132cf9cbf9281e7670ced33439d026065c8127"
+  },
+  "git_tip_at_mutator": "e2960c44",
+  "hashes": {
+    "Plan/07_IMPLEMENTATION/scripts/validate_wave64_pod_strict_visual_qa_receipt.py": "b180b35ac0f21cff106124762d123d6400574261290ed61c3e66c9ad073ac1e0",
+    "Plan/07_IMPLEMENTATION/scripts/validate_wave64_wan_ti2v_class_e_runtime_proof_claim.py": "03c25fc8a6ed1a25e70db3f964359e215d5fcc1198d04f78ea25d7090cfe3f02",
+    "Plan/07_IMPLEMENTATION/scripts/wave64_autonomous_vlm_client.py": "89d519af53c254bad40fee1b9bf3c4e03540a9c08dc891a548b90705d628fe9e",
+    "Plan/07_IMPLEMENTATION/scripts/wave64_pod_strict_visual_qa.py": "dec5f3b19aeb5ac472e72bf4b11fb9dd7829d1d0ebc63902b81cd74fd5eab0d9",
+    "Plan/08_SCHEMAS/pod_strict_self_hosted_llm_visual_qa_receipt.schema.json": "fa57d53cba4907079dbfe5cace79db5480f719137ce0edd3de435a3db2225090",
+    "Plan/Instructions/POD_STRICT_SELF_HOSTED_LLM_VISUAL_QA_STRATEGY.md": "698c5ade575b95662a4621cfe72a7fd3686048445b664c73684df0cdea799bc8"
+  },
+  "model_show": "  Model\n    architecture        qwen25vl    \n    parameters          33.5B       \n    context length      128000      \n    embedding length    5120        \n    quantization        Q4_K_M      \n\n  Capabilities\n    completion    \n    vision        \n\n  Parameters\n    temperature    0.0001    \n\n  System\n    You are a helpful assistant.    \n\n  License\n    Apache License               \n    Version 2.0, January 2004    \n    ...                          \n\n",
+  "model_used_for_strict_review": "qwen2.5vl:32b",
+  "product_complete_claimed": false,
+  "schema_version": "wave64.pod_strict_visual_qa.confirmation.v1",
+  "self_test_known_better_still": {
+    "model": "qwen2.5vl:32b",
+    "note": "High bars may REJECT even stronger stills; REJECT here is allowed and proves bars were not weakened for PASS chase.",
+    "path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/pod_strict_visual_qa_selftest_20260721T1100/known_better_sharp_hand_still_strict_receipt.json",
+    "sha256": "a156e5684b2f0dc80b27acadbf9c8769d39a684326403dd23e1931f4f0b9975d",
+    "strict_pod_llm_review": "REJECT"
+  },
+  "self_test_reject_known_bad": {
+    "blocking_defect_codes": [
+      "MUSHY_FINGERS",
+      "LACK_OF_LIVING_MOTION"
+    ],
+    "expectation_met": true,
+    "model": "qwen2.5vl:32b",
+    "parameter_size": "33.5B",
+    "path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/pod_strict_visual_qa_selftest_20260721T1100/known_bad_motion_083156Z_strict_receipt.json",
+    "sha256": "2ed3d39b59b0485ce180f3265f7aaa0a2bc5b77c1d9bbf1f77bd5271c7d2b0a9",
+    "strict_pod_llm_review": "REJECT"
+  },
+  "stamp": "20260721T1100-0500",
+  "status": "implemented_now",
+  "was_already_in_place": false
+}

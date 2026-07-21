@@ -1,0 +1,178 @@
+{
+  "artifact": {
+    "bytes": 902892,
+    "media_kind": "still",
+    "paths": [
+      "/workspace/comfy_output/Scenes_xxx_001/C1_sharp_hand_start/RUNPOD_C1_SHARP_HAND_START_a1_20260721T092218Z_00001_.png"
+    ],
+    "prompt_id": null,
+    "sha256": "ac43980940f3ae3187249f485bdd94ec69550a9cb96d4df3ebf163c8712cbcc4"
+  },
+  "authority": {
+    "ec2_forbidden": true,
+    "endpoint": "http://127.0.0.1:11434",
+    "fail_closed": true,
+    "host": "runpod",
+    "local_comfy_runtime_forbidden": true,
+    "pod_id": "1q4ji0gg1fkhvt",
+    "runtime": "ollama_self_hosted"
+  },
+  "blocking_defects": [
+    {
+      "code": "NSFW_CONTENT",
+      "detail": "Image contains nudity, which may violate project policies regarding NSFW content.",
+      "region": "Entire image",
+      "severity": "blocking"
+    }
+  ],
+  "correction_guidance": [
+    "Ensure adherence to project policy regarding NSFW content. If allowed, provide explicit approval for such content in the pipeline settings."
+  ],
+  "forbidden_rubber_stamp_signals": {
+    "generation_receipt_is_not_pass": true,
+    "pipeline_ran_is_not_pass": true,
+    "smoke_model_forbidden_for_product": true,
+    "weak_vlm_pass_alone_is_not_product_pass": true
+  },
+  "generation_receipt_is_not_visual_approval": true,
+  "human_frame_read_retained": {
+    "required_when_already_gated": true,
+    "status": "not_run"
+  },
+  "lane": "PRODUCT",
+  "model": {
+    "approved_for_product": true,
+    "name": "qwen2.5vl:32b",
+    "ollama_show": {
+      "details": {
+        "families": [
+          "qwen25vl"
+        ],
+        "family": "qwen25vl",
+        "format": "gguf",
+        "parameter_size": "33.5B",
+        "parent_model": "",
+        "quantization_level": "Q4_K_M"
+      },
+      "model_info_keys": [
+        "general.architecture",
+        "general.file_type",
+        "general.parameter_count",
+        "general.quantization_version",
+        "qwen25vl.attention.head_count",
+        "qwen25vl.attention.head_count_kv",
+        "qwen25vl.attention.layer_norm_rms_epsilon",
+        "qwen25vl.block_count",
+        "qwen25vl.context_length",
+        "qwen25vl.embedding_length",
+        "qwen25vl.feed_forward_length",
+        "qwen25vl.rope.freq_base",
+        "qwen25vl.rope.mrope_section",
+        "qwen25vl.vision.attention.head_count",
+        "qwen25vl.vision.attention.layer_norm_epsilon",
+        "qwen25vl.vision.block_count",
+        "qwen25vl.vision.embedding_length",
+        "qwen25vl.vision.fullatt_block_indexes",
+        "qwen25vl.vision.num_channels",
+        "qwen25vl.vision.patch_size",
+        "qwen25vl.vision.rope.freq_base",
+        "qwen25vl.vision.spatial_merge_size",
+        "qwen25vl.vision.spatial_patch_size",
+        "qwen25vl.vision.temporal_patch_size",
+        "qwen25vl.vision.window_size",
+        "tokenizer.ggml.add_eos_token",
+        "tokenizer.ggml.add_padding_token",
+        "tokenizer.ggml.eos_token_id",
+        "tokenizer.ggml.merges",
+        "tokenizer.ggml.model",
+        "tokenizer.ggml.padding_token_id",
+        "tokenizer.ggml.pre",
+        "tokenizer.ggml.scores",
+        "tokenizer.ggml.token_type",
+        "tokenizer.ggml.tokens"
+      ]
+    },
+    "ollama_show_digest": "",
+    "ollama_show_family": "qwen25vl",
+    "parameter_size": "33.5B",
+    "role": "strict_product_reviewer"
+  },
+  "model_summary": "The image meets many criteria for hyperrealism and prompt adherence but contains nudity that may violate project policy. Additionally, while hands are mostly well-rendered, skin realism could be improved.",
+  "overall_decision": "REJECT",
+  "product_completion_claimed": false,
+  "raw_model_response": "{\n  \"anatomy_hands_fingers\": {\n    \"score\": 90,\n    \"applicable\": true,\n    \"notes\": \"Finger count is correct, separation between fingers is good, and joints appear natural.\"\n  },\n  \"identity_consistency\": {\n    \"score\": 85,\n    \"applicable\": true,\n    \"notes\": \"The face and body seem consistent with a single identity. However, the image lacks context to fully verify intent or consistency claims.\"\n  },\n  \"skin_realism\": {\n    \"score\": 70,\n    \"applicable\": true,\n    \"notes\": \"Skin appears somewhat smooth but not overly plastic or waxy. There is some microdetail present, though it could be more naturalistic in texture.\"\n  },\n  \"motion_temporal\": {\n    \"score\": 50,\n    \"applicable\": false,\n    \"notes\": \"This is a still image; motion cannot be assessed.\"\n  },\n  \"artifacts_cleanliness\": {\n    \"score\": 95,\n    \"applicable\": true,\n    \"notes\": \"No visible warping, mushiness, compression artifacts, or limb melt. Background is clean and intact.\"\n  },\n  \"prompt_adherence\": {\n    \"score\": 80,\n    \"applicable\": true,\n    \"notes\": \"The image shows a single adult woman with sharp separated fingers raised, matching the stated intent for hyperreal identity stills.\"\n  },\n  \"policy_project\": {\n    \"score\": 65,\n    \"applicable\": true,\n    \"notes\": \"The content is potentially NSFW due to nudity. Project policy coherence must be checked against explicit guidelines.\"\n  },\n  \"blocking_defects\": [\n    {\n      \"code\": \"NSFW_CONTENT\",\n      \"severity\": \"blocking\",\n      \"detail\": \"Image contains nudity, which may violate project policies regarding NSFW content.\",\n      \"region\": \"Entire image\"\n    }\n  ],\n  \"correction_guidance\": [\n    \"Ensure adherence to project policy regarding NSFW content. If allowed, provide explicit approval for such content in the pipeline settings.\"\n  ],\n  \"reviewer_confidence\": 0.9,\n  \"proposed_decision\": \"REJECT\",\n  \"summary\": \"The image meets many criteria for hyperrealism and prompt adherence but contains nudity that may violate project policy. Additionally, while hands are mostly well-rendered, skin realism could be improved.\"\n}",
+  "reviewer_confidence": 0.9,
+  "row074_pcm_left_alone": true,
+  "rubric_scores": {
+    "anatomy_hands_fingers": {
+      "applicable": true,
+      "notes": "Finger count is correct, separation between fingers is good, and joints appear natural.",
+      "pass": true,
+      "score": 90
+    },
+    "artifacts_cleanliness": {
+      "applicable": true,
+      "notes": "No visible warping, mushiness, compression artifacts, or limb melt. Background is clean and intact.",
+      "pass": true,
+      "score": 95
+    },
+    "identity_consistency": {
+      "applicable": true,
+      "notes": "The face and body seem consistent with a single identity. However, the image lacks context to fully verify intent or consistency claims.",
+      "pass": true,
+      "score": 85
+    },
+    "motion_temporal": {
+      "applicable": false,
+      "notes": "This is a still image; motion cannot be assessed.",
+      "pass": true,
+      "score": null
+    },
+    "policy_project": {
+      "applicable": true,
+      "notes": "The content is potentially NSFW due to nudity. Project policy coherence must be checked against explicit guidelines.",
+      "pass": false,
+      "score": 65
+    },
+    "prompt_adherence": {
+      "applicable": true,
+      "notes": "The image shows a single adult woman with sharp separated fingers raised, matching the stated intent for hyperreal identity stills.",
+      "pass": false,
+      "score": 80
+    },
+    "skin_realism": {
+      "applicable": true,
+      "notes": "Skin appears somewhat smooth but not overly plastic or waxy. There is some microdetail present, though it could be more naturalistic in texture.",
+      "pass": false,
+      "score": 70
+    }
+  },
+  "schema_version": "wave64.pod_strict_visual_qa.v1",
+  "self_test": {
+    "expectation_met": null,
+    "expected_decision": null,
+    "fixture_role": "known_better"
+  },
+  "strict_pod_llm_review": "REJECT",
+  "thresholds": {
+    "anatomy_hands_fingers_min": 90,
+    "artifacts_cleanliness_min": 85,
+    "default_decision": "REJECT",
+    "identity_consistency_min": 85,
+    "motion_temporal_min": 90,
+    "policy_project_min": 90,
+    "prompt_adherence_min": 85,
+    "reviewer_confidence_min": 0.75,
+    "skin_realism_min": 85
+  },
+  "vram_arbitration": {
+    "comfy_queue_idle_required": false,
+    "comfy_unload_before_review": false,
+    "comfy_unload_receipt": null,
+    "gpu_memory_free_mib_after_unload": 48001.0,
+    "gpu_memory_free_mib_before": 48001.0,
+    "notes": "Comfy and qwen2.5vl:32b must not co-reside on RTX 6000 Ada ~48GB when Wan/Flux weights are loaded; unload Comfy via /free before strict review, then unload VLM (keep_alive=0) before the next generation.",
+    "ollama_keep_alive": "0",
+    "unload_vlm_after_review": true
+  }
+}
