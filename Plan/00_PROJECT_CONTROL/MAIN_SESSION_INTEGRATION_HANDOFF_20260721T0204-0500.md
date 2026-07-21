@@ -1,4 +1,4 @@
-﻿# Main Session Integration Handoff — 2026-07-21T02:04-05:00
+# Main Session Integration Handoff — 2026-07-21T02:04-05:00
 
 ## Integration Summary
 
