@@ -108,7 +108,11 @@
     "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_PULID_FACE04_CALIB_20260721T142217Z.json",
     "Plan/Tracker/Evidence/TRK-W64-010_RUNPOD_C1_PULID_FACE04_CALIB_20260721T142217Z.json",
     "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_PULID_FACE04_VLM_20260721T142428Z.json",
-    "Plan/Tracker/Evidence/TRK-W64-010_RUNPOD_C1_PULID_FACE04_VLM_20260721T142428Z.json"
+    "Plan/Tracker/Evidence/TRK-W64-010_RUNPOD_C1_PULID_FACE04_VLM_20260721T142428Z.json",
+    "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_PULID_BODYFORWARD_CALIB_20260721T145336Z.json",
+    "Plan/Tracker/Evidence/TRK-W64-010_RUNPOD_C1_PULID_BODYFORWARD_CALIB_20260721T145336Z.json",
+    "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_PULID_BODYFORWARD_VLM_20260721T145516Z.json",
+    "Plan/Tracker/Evidence/TRK-W64-010_RUNPOD_C1_PULID_BODYFORWARD_VLM_20260721T145516Z.json"
   ],
   "exact_blocker": "No supplied artifact binds each generated person to a unique character_id, isolated identity references, and a per-character comparison crop.",
   "item_id": "ITEM-W64-010",
@@ -119,7 +123,7 @@
     "promoted_file_count": 14,
     "row_complete": false
   },
-  "next_action": "Continue personal-calibration climb on RunPod without inventing faces or a second character; keep Row010 blocked for portable multi-character pack; do not claim COMPLETE; Row074 HOLD coverage_complete leave alone; CSV via mutator only.",
+  "next_action": "Continue personal-calibration climb on RunPod without inventing faces or a second character; keep Row010 blocked for portable multi-character pack; do not claim COMPLETE; Row074 HOLD leave alone; Row076 leave alone until coverage_complete; CSV via mutator only.",
   "project_completion": {
     "final_certification_decision": "blocked",
     "full_project_complete": false,
@@ -358,5 +362,43 @@
   },
   "schema_version": "1.0",
   "status": "Blocked_Identity_Reference_Proof_Missing_Separation_And_Merge_Rejection_Pass",
-  "tracker_id": "TRK-W64-010"
+  "tracker_id": "TRK-W64-010",
+  "runpod_personal_calibration_pulid_bodyforward": {
+    "aggregate_scores": {
+      "face_consistency_mean": 0.6,
+      "face_consistency_n": 4,
+      "body_silhouette_consistency_mean": 0.9,
+      "body_silhouette_consistency_n": 3,
+      "same_person_likelihood_mean": 0.6143,
+      "same_person_likelihood_n": 7,
+      "solo_lock_trait_alignment_score": 0.0,
+      "per_face_scores": {
+        "face_01": 0.6,
+        "face_02": 0.6,
+        "face_03": 0.6,
+        "face_04": 0.6
+      },
+      "prior_pulid_face04_solo_lock": 0.0,
+      "prior_pulid_face04_face_mean": 0.7375,
+      "prior_lockfront_solo_lock": 0.0
+    },
+    "calib_evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_PULID_BODYFORWARD_CALIB_20260721T145336Z.json",
+    "vlm_evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_PULID_BODYFORWARD_VLM_20260721T145516Z.json",
+    "faces_invented": false,
+    "gate": {
+      "face_consistency_mean_min": 0.55,
+      "body_or_lock_min": 0.5,
+      "faces_ok": true,
+      "body_ok": true,
+      "lock_ok": false,
+      "lock_improved_vs_prior_zero": false,
+      "runtime_pass_bounded": false
+    },
+    "row_complete": false,
+    "status": "RUNTIME_FAIL_LOCK_TRAIT_NOT_IMPROVED_PULID_BODYFORWARD_VLM_NONCANONICAL",
+    "updated_at": "2026-07-21T14:57:45.409424Z",
+    "pullback": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_pulid_bodyforward_vlm_20260721T145516Z",
+    "note": "FACE_04 PuLID + FRONT body-forward; NONCANONICAL; no COMPLETE."
+  },
+  "row_complete": false
 }
