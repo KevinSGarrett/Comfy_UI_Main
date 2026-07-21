@@ -1,163 +1,165 @@
 {
-  "schema_version": "1.0",
-  "evidence_id": "TRK-W64-019_023_LOCAL_POD_WAN_TI2V_NEGATIVE_INVENTORY_20260720T233253-0500",
+  "blocker_class_retained": "F",
+  "blocker_id": "LOCAL_WAN_MODEL_PAYLOAD_MISSING",
+  "constraints": {
+    "flux_loras_untouched": true,
+    "forbidden_flux_seeds": [
+      "2272301",
+      "2272401",
+      "2272507"
+    ],
+    "no_complete": true,
+    "row074_untouched": true
+  },
   "created_iso": "2026-07-20T23:32:53-05:00",
   "created_utc": "2026-07-21T04:33:16.266533Z",
-  "tracker_ids": [
-    "TRK-W64-019",
-    "TRK-W64-023"
-  ],
+  "csv_sync": "synced_by_primary_csv_mutator_row019_023_local_pod_wan_ti2v_negative_inventory",
+  "csv_sync_tip": "6a4e72ba",
+  "evidence_id": "TRK-W64-019_023_LOCAL_POD_WAN_TI2V_NEGATIVE_INVENTORY_20260720T233253-0500",
+  "highest_proof_tier_achieved": "LOCAL_POD_INVENTORY_BLOCKER_BOUNDED",
   "item_ids": [
     "ITEM-W64-019",
     "ITEM-W64-023"
   ],
-  "mutation_this_landing": "evidence_only_local_pod_wan_ti2v_negative_inventory_reaffirm",
-  "row_complete": false,
-  "production_video_complete_claimed": false,
-  "csv_sync": "deferred_evidence_only_avoid_racing_designated_csv_mutator",
-  "proof_tier": "LOCAL_POD_INVENTORY_BLOCKER_BOUNDED",
-  "highest_proof_tier_achieved": "LOCAL_POD_INVENTORY_BLOCKER_BOUNDED",
-  "source_commit": "b8eaec66e26698a3ddf7f4054fc4eafba7c95211",
-  "blocker_class_retained": "F",
-  "blocker_id": "LOCAL_WAN_MODEL_PAYLOAD_MISSING",
-  "wan_ti2v_required_count": 3,
-  "wan_ti2v_absent_count_local": 3,
-  "wan_ti2v_absent_count_pod": 3,
-  "wan_ti2v_absent_ratio_local": "3/3",
-  "wan_ti2v_absent_ratio_pod": "3/3",
-  "wan_ti2v_present_ratio_local": "0/3",
-  "wan_ti2v_present_ratio_pod": "0/3",
-  "verdict": "WAN_TI2V_3_OF_3_ABSENT_LOCAL_AND_POD_FAIL_CLOSED",
-  "summary": "Hash-bound reaffirm: all three Wan 2.2 TI2V 5B payloads remain ABSENT on local search roots and on live RunPod pod 1q4ji0gg1fkhvt. Class F retained for TRK-W64-019/023. No download/scp attempted. Row074 untouched. No COMPLETE.",
-  "pod": {
-    "id": "1q4ji0gg1fkhvt",
-    "public_ip": "195.26.233.100",
-    "ssh_port": 52077,
-    "hostname": "82caae576b8a",
-    "models_dir": "/workspace/ComfyUI/models"
+  "ledger_vocabulary_sync": {
+    "note": "Mechanical CSV mutator Row019/023 local+pod Wan TI2V negative inventory sync from 091cc7d9,6a4e72ba; Wan 3/3 ABSENT local+pod; Class F retained; no COMPLETE.",
+    "product_completion": false,
+    "prove_commits": [
+      "091cc7d9",
+      "6a4e72ba"
+    ],
+    "synced_at": "2026-07-21T04:37:11.105133Z"
   },
   "local_inventory": {
-    "search_roots": [
+    "assets": [
       {
-        "root": "C:\\Comfy_UI_Main\\models",
-        "exists": true,
-        "exact_hits": 0
+        "alt_expected_local_path": "C:\\Comfy_UI_Main\\ComfyUI\\models\\diffusion_models\\wan2.2_ti2v_5B_fp16.safetensors",
+        "bytes": 9999658848,
+        "comfyui_model_subdir": "diffusion_models",
+        "expected_local_path": "C:\\Comfy_UI_Main\\models\\diffusion_models\\wan2.2_ti2v_5B_fp16.safetensors",
+        "filename": "wan2.2_ti2v_5B_fp16.safetensors",
+        "local_status": "ABSENT",
+        "observed_bytes": null,
+        "present": false,
+        "present_at": null,
+        "recursive_hits": [],
+        "role": "diffusion_model",
+        "sha256": "456f901338bd9eadbded3828b819109a9b68e8a525ca5cf8d0049a69fcfeca1e"
       },
       {
-        "root": "C:\\Comfy_UI_Main\\ComfyUI\\models",
-        "exists": true,
-        "exact_hits": 0
+        "alt_expected_local_path": "C:\\Comfy_UI_Main\\ComfyUI\\models\\text_encoders\\umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+        "bytes": 6735906897,
+        "comfyui_model_subdir": "text_encoders",
+        "expected_local_path": "C:\\Comfy_UI_Main\\models\\text_encoders\\umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+        "filename": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+        "local_status": "ABSENT",
+        "observed_bytes": null,
+        "present": false,
+        "present_at": null,
+        "recursive_hits": [],
+        "role": "text_encoder",
+        "sha256": "c3355d30191f1f066b26d93fba017ae9809dce6c627dda5f6a66eaa651204f68"
       },
       {
-        "root": "C:\\Comfy_UI",
-        "exists": true,
-        "exact_hits": 0
-      },
-      {
-        "root": "F:\\Models",
-        "exists": true,
-        "exact_hits": 0
-      },
-      {
-        "root": "C:\\Comfy_UI_Main\\Runtime_Data\\models",
-        "exists": false,
-        "exact_hits": 0
-      },
-      {
-        "root": "C:\\Users\\kevin\\.cache\\huggingface\\hub",
-        "exists": true,
-        "exact_hits": 0
+        "alt_expected_local_path": "C:\\Comfy_UI_Main\\ComfyUI\\models\\vae\\wan2.2_vae.safetensors",
+        "bytes": 1409400960,
+        "comfyui_model_subdir": "vae",
+        "expected_local_path": "C:\\Comfy_UI_Main\\models\\vae\\wan2.2_vae.safetensors",
+        "filename": "wan2.2_vae.safetensors",
+        "local_status": "ABSENT",
+        "observed_bytes": null,
+        "present": false,
+        "present_at": null,
+        "recursive_hits": [],
+        "role": "vae",
+        "sha256": "e40321bd36b9709991dae2530eb4ac303dd168276980d3e9bc4b6e2b75fed156"
       }
     ],
     "recursive_hits_by_filename": {
-      "wan2.2_ti2v_5B_fp16.safetensors": [],
       "umt5_xxl_fp8_e4m3fn_scaled.safetensors": [],
+      "wan2.2_ti2v_5B_fp16.safetensors": [],
       "wan2.2_vae.safetensors": []
     },
-    "assets": [
+    "runtime_data_models_exists": false,
+    "search_roots": [
       {
-        "filename": "wan2.2_ti2v_5B_fp16.safetensors",
-        "role": "diffusion_model",
-        "comfyui_model_subdir": "diffusion_models",
-        "bytes": 9999658848,
-        "sha256": "456f901338bd9eadbded3828b819109a9b68e8a525ca5cf8d0049a69fcfeca1e",
-        "expected_local_path": "C:\\Comfy_UI_Main\\models\\diffusion_models\\wan2.2_ti2v_5B_fp16.safetensors",
-        "alt_expected_local_path": "C:\\Comfy_UI_Main\\ComfyUI\\models\\diffusion_models\\wan2.2_ti2v_5B_fp16.safetensors",
-        "present": false,
-        "present_at": null,
-        "observed_bytes": null,
-        "local_status": "ABSENT",
-        "recursive_hits": []
+        "exact_hits": 0,
+        "exists": true,
+        "root": "C:\\Comfy_UI_Main\\models"
       },
       {
-        "filename": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
-        "role": "text_encoder",
-        "comfyui_model_subdir": "text_encoders",
-        "bytes": 6735906897,
-        "sha256": "c3355d30191f1f066b26d93fba017ae9809dce6c627dda5f6a66eaa651204f68",
-        "expected_local_path": "C:\\Comfy_UI_Main\\models\\text_encoders\\umt5_xxl_fp8_e4m3fn_scaled.safetensors",
-        "alt_expected_local_path": "C:\\Comfy_UI_Main\\ComfyUI\\models\\text_encoders\\umt5_xxl_fp8_e4m3fn_scaled.safetensors",
-        "present": false,
-        "present_at": null,
-        "observed_bytes": null,
-        "local_status": "ABSENT",
-        "recursive_hits": []
+        "exact_hits": 0,
+        "exists": true,
+        "root": "C:\\Comfy_UI_Main\\ComfyUI\\models"
       },
       {
-        "filename": "wan2.2_vae.safetensors",
-        "role": "vae",
-        "comfyui_model_subdir": "vae",
-        "bytes": 1409400960,
-        "sha256": "e40321bd36b9709991dae2530eb4ac303dd168276980d3e9bc4b6e2b75fed156",
-        "expected_local_path": "C:\\Comfy_UI_Main\\models\\vae\\wan2.2_vae.safetensors",
-        "alt_expected_local_path": "C:\\Comfy_UI_Main\\ComfyUI\\models\\vae\\wan2.2_vae.safetensors",
-        "present": false,
-        "present_at": null,
-        "observed_bytes": null,
-        "local_status": "ABSENT",
-        "recursive_hits": []
+        "exact_hits": 0,
+        "exists": true,
+        "root": "C:\\Comfy_UI"
+      },
+      {
+        "exact_hits": 0,
+        "exists": true,
+        "root": "F:\\Models"
+      },
+      {
+        "exact_hits": 0,
+        "exists": false,
+        "root": "C:\\Comfy_UI_Main\\Runtime_Data\\models"
+      },
+      {
+        "exact_hits": 0,
+        "exists": true,
+        "root": "C:\\Users\\kevin\\.cache\\huggingface\\hub"
       }
-    ],
-    "runtime_data_models_exists": false
+    ]
+  },
+  "mutation_this_landing": "evidence_only_local_pod_wan_ti2v_negative_inventory_reaffirm",
+  "next_action": "Stage/hash-bind all three Wan TI2V payloads locally then bounded scp to pod expected paths before any authorized Wan seed. Keep Class F. CSV deferred. Row074 left alone. No COMPLETE.",
+  "pod": {
+    "hostname": "82caae576b8a",
+    "id": "1q4ji0gg1fkhvt",
+    "models_dir": "/workspace/ComfyUI/models",
+    "public_ip": "195.26.233.100",
+    "ssh_port": 52077
   },
   "pod_inventory": {
+    "download_attempted": false,
+    "install_attempted": false,
     "live_scan": {
-      "hostname": "82caae576b8a",
-      "pod_id": "1q4ji0gg1fkhvt",
+      "absent_count": 3,
+      "absent_ratio": "3/3",
       "assets": [
         {
-          "filename": "wan2.2_ti2v_5B_fp16.safetensors",
           "expected_pod_path": "/workspace/ComfyUI/models/diffusion_models/wan2.2_ti2v_5B_fp16.safetensors",
-          "present": false,
-          "present_at": null,
+          "filename": "wan2.2_ti2v_5B_fp16.safetensors",
           "observed_bytes": null,
           "pod_status": "ABSENT",
+          "present": false,
+          "present_at": null,
           "recursive_hits": []
         },
         {
-          "filename": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
           "expected_pod_path": "/workspace/ComfyUI/models/text_encoders/umt5_xxl_fp8_e4m3fn_scaled.safetensors",
-          "present": false,
-          "present_at": null,
+          "filename": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
           "observed_bytes": null,
           "pod_status": "ABSENT",
+          "present": false,
+          "present_at": null,
           "recursive_hits": []
         },
         {
-          "filename": "wan2.2_vae.safetensors",
           "expected_pod_path": "/workspace/ComfyUI/models/vae/wan2.2_vae.safetensors",
-          "present": false,
-          "present_at": null,
+          "filename": "wan2.2_vae.safetensors",
           "observed_bytes": null,
           "pod_status": "ABSENT",
+          "present": false,
+          "present_at": null,
           "recursive_hits": []
         }
       ],
-      "present_count": 0,
-      "ratio": "0/3",
-      "absent_count": 3,
-      "absent_ratio": "3/3",
       "comfyui_8188_reachable": true,
+      "hostname": "82caae576b8a",
       "models_dir_listing": {
         "diffusion_models": [
           "put_diffusion_model_files_here",
@@ -170,37 +172,45 @@
           "put_vae_here",
           "ae.safetensors"
         ]
-      }
+      },
+      "pod_id": "1q4ji0gg1fkhvt",
+      "present_count": 0,
+      "ratio": "0/3"
     },
-    "download_attempted": false,
-    "install_attempted": false,
     "scp_attempted": false
   },
   "prior_inventory_citations": {
-    "pod_negative_inventory": {
-      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_POD_CLASS_A_F_NEGATIVE_INVENTORY_20260720T225545-0500.json",
-      "exists": true,
-      "bytes": 8130,
-      "sha256": "BC6FAB0E5F60D146C42ECC869EF6D02EE728D2D540272230E962E9F711ED7646"
-    },
     "local_negative_inventory": {
-      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-023_LOCAL_WAN_MODEL_PAYLOAD_NEGATIVE_INVENTORY_20260720T123121-0500.json",
-      "exists": true,
       "bytes": 2947,
+      "exists": true,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-023_LOCAL_WAN_MODEL_PAYLOAD_NEGATIVE_INVENTORY_20260720T123121-0500.json",
       "sha256": "A44F151C65AF2FA3777E71BEA34EC3878960D86BCD91056B049D4F35A0392030"
+    },
+    "pod_negative_inventory": {
+      "bytes": 8130,
+      "exists": true,
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_POD_CLASS_A_F_NEGATIVE_INVENTORY_20260720T225545-0500.json",
+      "sha256": "BC6FAB0E5F60D146C42ECC869EF6D02EE728D2D540272230E962E9F711ED7646"
     }
   },
+  "production_video_complete_claimed": false,
+  "proof_tier": "LOCAL_POD_INVENTORY_BLOCKER_BOUNDED",
+  "row_complete": false,
   "runtime_receipt_local": "runtime_artifacts/wave64_row019_023_local_pod_wan_inventory_20260720T233253/local_pod_wan_inventory_receipt.json",
   "runtime_receipt_sha256": "E3111E21AE2605BB7C6BE503559FFC90A83CA3AE83E82EBABB5211AF90A2FECB",
-  "constraints": {
-    "row074_untouched": true,
-    "no_complete": true,
-    "flux_loras_untouched": true,
-    "forbidden_flux_seeds": [
-      "2272301",
-      "2272401",
-      "2272507"
-    ]
-  },
-  "next_action": "Stage/hash-bind all three Wan TI2V payloads locally then bounded scp to pod expected paths before any authorized Wan seed. Keep Class F. CSV deferred. Row074 left alone. No COMPLETE."
+  "schema_version": "1.0",
+  "source_commit": "b8eaec66e26698a3ddf7f4054fc4eafba7c95211",
+  "summary": "Hash-bound reaffirm: all three Wan 2.2 TI2V 5B payloads remain ABSENT on local search roots and on live RunPod pod 1q4ji0gg1fkhvt. Class F retained for TRK-W64-019/023. No download/scp attempted. Row074 untouched. No COMPLETE.",
+  "tracker_ids": [
+    "TRK-W64-019",
+    "TRK-W64-023"
+  ],
+  "verdict": "WAN_TI2V_3_OF_3_ABSENT_LOCAL_AND_POD_FAIL_CLOSED",
+  "wan_ti2v_absent_count_local": 3,
+  "wan_ti2v_absent_count_pod": 3,
+  "wan_ti2v_absent_ratio_local": "3/3",
+  "wan_ti2v_absent_ratio_pod": "3/3",
+  "wan_ti2v_present_ratio_local": "0/3",
+  "wan_ti2v_present_ratio_pod": "0/3",
+  "wan_ti2v_required_count": 3
 }
