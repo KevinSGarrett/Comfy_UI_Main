@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_evidence_bundle.schema.json",
+  "title": "Wave64 Autonomous Immutable Evidence Bundle",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "bundle_id", "job_id", "contract_id", "contract_content_sha256",
+    "decision_sha256", "replayed_decision", "replay_disposition", "accepted_candidate_sha256",
+    "workflow_sha256", "rollback_parent_sha256", "records", "promotion_invariants"
+  ],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.evidence_bundle.v1"},
+    "bundle_id": {"$ref": "#/definitions/sha256"},
+    "job_id": {"type": "string", "pattern": "^W64-AQA-JOB-[A-Za-z0-9._-]{1,96}$"},
+    "contract_id": {"$ref": "#/definitions/sha256"},
+    "contract_content_sha256": {"$ref": "#/definitions/sha256"},
+    "decision_sha256": {"$ref": "#/definitions/sha256"},
+    "replayed_decision": {"enum": ["PASS", "REPAIR", "BLOCKED"]},
+    "replay_disposition": {"const": "MATCH"},
+    "accepted_candidate_sha256": {"$ref": "#/definitions/sha256"},
+    "workflow_sha256": {"$ref": "#/definitions/sha256"},
+    "rollback_parent_sha256": {"oneOf": [{"$ref": "#/definitions/sha256"}, {"type": "null"}]},
+    "records": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["record_type", "content_sha256", "size_bytes", "durable_relative_path"],
+        "properties": {
+          "record_type": {
+            "enum": [
+              "candidate", "workflow", "measurement", "review", "runtime_receipt",
+              "correction_state", "cost_receipt", "rollback_parent", "other"
+            ]
+          },
+          "content_sha256": {"$ref": "#/definitions/sha256"},
+          "size_bytes": {"type": "integer", "minimum": 1},
+          "durable_relative_path": {"type": "string", "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).{1,512}$"}
+        }
+      }
+    },
+    "promotion_invariants": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "replay_match_required", "integration_authority_required", "s3_presence_is_acceptance",
+        "git_presence_is_acceptance", "promotion_executed"
+      ],
+      "properties": {
+        "replay_match_required": {"const": true},
+        "integration_authority_required": {"const": true},
+        "s3_presence_is_acceptance": {"const": false},
+        "git_presence_is_acceptance": {"const": false},
+        "promotion_executed": {"const": false}
+      }
+    }
+  },
+  "definitions": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

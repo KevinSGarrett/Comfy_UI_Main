@@ -86,6 +86,12 @@ PATHS = {
     / "Plan/08_SCHEMAS/runpod_autonomous_correction_state.schema.json",
     "correction_policy": ROOT
     / "Plan/07_IMPLEMENTATION/scripts/run_wave64_runpod_autonomous_correction_policy.py",
+    "evidence_bundle_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_evidence_bundle.schema.json",
+    "promotion_transaction_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_promotion_transaction.schema.json",
+    "evidence_bundle_compiler": ROOT
+    / "Plan/07_IMPLEMENTATION/scripts/compile_and_replay_wave64_runpod_autonomous_evidence_bundle.py",
 }
 
 SECRET_PATTERNS = {
@@ -136,6 +142,8 @@ def collect_errors() -> list[str]:
         workflow_patch_policy = load_json(PATHS["workflow_patch_policy"])
         correction_attempt_schema = load_json(PATHS["correction_attempt_schema"])
         correction_state_schema = load_json(PATHS["correction_state_schema"])
+        evidence_bundle_schema = load_json(PATHS["evidence_bundle_schema"])
+        promotion_transaction_schema = load_json(PATHS["promotion_transaction_schema"])
     except (csv.Error, json.JSONDecodeError, OSError) as exc:
         return [f"parse failure: {exc}"]
 
@@ -314,6 +322,8 @@ def collect_errors() -> list[str]:
         jsonschema.Draft7Validator.check_schema(workflow_validation_schema)
         jsonschema.Draft7Validator.check_schema(correction_attempt_schema)
         jsonschema.Draft7Validator.check_schema(correction_state_schema)
+        jsonschema.Draft7Validator.check_schema(evidence_bundle_schema)
+        jsonschema.Draft7Validator.check_schema(promotion_transaction_schema)
     except ImportError:
         pass
     except Exception as exc:  # pragma: no cover - library supplies exact detail
