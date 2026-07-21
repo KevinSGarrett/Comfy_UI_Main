@@ -142,3 +142,16 @@ The machine record must contain `whole_frame_visual_scan`,
 `reject_on_any_global_defect`. A category outside the frame may be marked
 `not_applicable` only when it was explicitly inspected and a reason is recorded. A local
 target pass never overrides a defect elsewhere in the visible frame.
+
+## RunPod strict self-hosted LLM visual QA (binding)
+
+For autonomous product / Class A / Proof_Landed / identity GATE CLEARED paths, visual
+approval authority is the **high-end self-hosted Ollama vision model on RunPod**, not
+weak `qwen2.5vl:7b` / `llava:13b` rubber-stamps and not generation receipts.
+
+- Strategy: `Plan/Instructions/POD_STRICT_SELF_HOSTED_LLM_VISUAL_QA_STRATEGY.md`
+- Receipt schema: `Plan/08_SCHEMAS/pod_strict_self_hosted_llm_visual_qa_receipt.schema.json`
+- Executable: `Plan/07_IMPLEMENTATION/scripts/wave64_pod_strict_visual_qa.py`
+- Default model: `WAVE64_STRICT_VLM_MODEL=qwen2.5vl:32b` (fail closed if missing)
+- Dual gate: generation receipt ≠ visual approval; retain `human_frame_read` where already required
+- Smoke may use weaker models only when explicitly labeled `lane=SMOKE`
