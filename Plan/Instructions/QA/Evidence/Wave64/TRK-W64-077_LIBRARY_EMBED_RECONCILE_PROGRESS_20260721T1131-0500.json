@@ -1,0 +1,83 @@
+{
+  "created_at": "2026-07-21T11:31:39-05:00",
+  "csv_stamp": "synced_by_primary_csv_mutator_row077_library_embed_reconcile_start_sync",
+  "csv_sync_tip": "8451fa06",
+  "evidence_id": "TRK-W64-077-LIBRARY-EMBED-RECONCILE-START-20260721T1131-0500",
+  "evidence_links": [
+    "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-077_semantic_audio_embeddings.json",
+    "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-077_ACCEPTED_INDEX_RETAINED_LIBRARY_EMBED_SUMMARY_20260721.json",
+    "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-077_SEMANTIC_AUDIO_EMBEDDING_CURRENT_DELTA_20260719.json",
+    "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-POST073_EXCLUSIVE_PCM_HANDOFF_RANKING_074_076_077_20260720.json",
+    "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-077_LIBRARY_EMBED_RUNNER_ABSENT_AFTER_076_20260721T1119-0500.json",
+    "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_REVERB_DRYNESS_RECONCILE_PROGRESS_20260721T1119-0500.json"
+  ],
+  "explicit_non_claims": [
+    "COMPLETE",
+    "product_completion",
+    "library_authority",
+    "full_library_coverage"
+  ],
+  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+  "item_id": "ITEM-W64-077",
+  "library_authority": false,
+  "process": {
+    "action": "started_full_library_index_retained_embed_after_runner_landed",
+    "alive": true,
+    "command": "compile_wave64_semantic_audio_embeddings.py --mode index-retained --resume --retained-runtime-dir runtime_artifacts/embeddings/row077_library_20260720",
+    "exclusive_lane": "library_embed",
+    "pid": 41608,
+    "prior_row076_gate": {
+      "coverage_complete": true,
+      "evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_REVERB_DRYNESS_RECONCILE_PROGRESS_20260721T1119-0500.json",
+      "records": "39771/39771"
+    },
+    "prior_runner_absent": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-077_LIBRARY_EMBED_RUNNER_ABSENT_AFTER_076_20260721T1119-0500.json",
+    "python": "C:\\Comfy_UI_Main\\ComfyUI\\.venv\\Scripts\\python.exe",
+    "row074_left_alone": true,
+    "row076_left_alone": true
+  },
+  "product_completion_claimed": false,
+  "progress": {
+    "blocker_histogram": {},
+    "complete": false,
+    "coverage_complete": false,
+    "device": "cuda",
+    "embed_blocked": 0,
+    "embed_pass": 275,
+    "exact_blockers": 0,
+    "extension_histogram": {
+      ".wav": 275
+    },
+    "feature_pass_inputs": 275,
+    "limit": null,
+    "model_weights_loaded": true,
+    "next_record_index": 275,
+    "pcm_sha_verified": 275,
+    "percent_complete": 0.69,
+    "records_processed": 275,
+    "records_total": 39771,
+    "source_immutable_true": 275,
+    "started_at": "2026-07-21T16:28:26.247765Z",
+    "updated_at": "2026-07-21T16:31:25.750170Z",
+    "vectors_written": 275
+  },
+  "proof_tier": "RUNTIME_PASS_BOUNDED",
+  "remaining_blockers": [
+    "FULL_LIBRARY_EMBEDDING_RECONCILIATION_IN_PROGRESS",
+    "LIBRARY_AUTHORITY_NOT_GRANTED"
+  ],
+  "row_complete": false,
+  "runtime_completion_claimed": false,
+  "runtime_paths": {
+    "owner_path": "runtime_artifacts/embeddings/row077_library_20260720/FULL_RECONCILE_OWNER.txt",
+    "progress_path": "runtime_artifacts/embeddings/row077_library_20260720/progress.json",
+    "records_path": "runtime_artifacts/embeddings/row077_library_20260720/records.jsonl",
+    "retained_runtime_dir": "runtime_artifacts/embeddings/row077_library_20260720",
+    "vectors_path": "runtime_artifacts/embeddings/row077_library_20260720/vectors.jsonl"
+  },
+  "safe_next_action": "Leave exclusive Row077 owner running to coverage_complete; do not claim COMPLETE; do not invent vectors; leave Row074 HOLD and Row076 coverage_complete HOLD alone.",
+  "schema_version": "1.0",
+  "source_commit": "8451fa06",
+  "status": "HOLD_LIBRARY_EMBED_RECONCILE_IN_PROGRESS_HELDOUT_WEIGHTS_RUNTIME_BOUND",
+  "tracker_id": "TRK-W64-077"
+}
