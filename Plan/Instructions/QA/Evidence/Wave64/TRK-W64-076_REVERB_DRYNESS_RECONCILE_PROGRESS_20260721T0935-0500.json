@@ -1,0 +1,78 @@
+{
+  "created_at": "2026-07-21T09:35:38-05:00",
+  "csv_stamp": "synced_by_primary_csv_mutator_row076_reconcile_start_sync",
+  "csv_sync_tip": "eb018424",
+  "evidence_id": "TRK-W64-076-REVERB-RECONCILE-START-20260721T0935-0500",
+  "explicit_non_claims": [
+    "COMPLETE",
+    "product_completion",
+    "library_authority",
+    "full_library_coverage"
+  ],
+  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+  "item_id": "ITEM-W64-076",
+  "library_authority": false,
+  "process": {
+    "action": "started_full_library_index_retained_resume_after_row074_hold",
+    "alive": true,
+    "command": "analyze_wave64_audio_reverb_dryness.py --mode index-retained --resume --retained-runtime-dir runtime_artifacts/reverb_dryness/row076_index_retained_20260720",
+    "exclusive_lane": "library_pcm",
+    "parallel_077_refused": true,
+    "pid": 31808,
+    "prior_row074_gate": {
+      "coverage_complete": true,
+      "guardian_mode": "done_hold_stamped",
+      "records": "39771/39771",
+      "evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_MULTI_EVENT_SEGMENTATION_RECONCILE_PROGRESS_20260721T0252-0500.json"
+    },
+    "resumed_from_probe": {
+      "prior_limit": 25,
+      "prior_records_processed": 25
+    }
+  },
+  "product_completion_claimed": false,
+  "progress": {
+    "blocker_histogram": {},
+    "classification_ambiguous": 250,
+    "classification_dry": 0,
+    "classification_wet": 0,
+    "complete": false,
+    "coverage_complete": false,
+    "double_reverb_guard_enforced": 250,
+    "exact_blockers": 0,
+    "extension_histogram": {
+      ".wav": 250
+    },
+    "feature_pass_inputs": 250,
+    "limit": null,
+    "next_record_index": 250,
+    "pcm_sha_verified": 250,
+    "percent_complete": 0.63,
+    "records_processed": 250,
+    "records_total": 39771,
+    "reverb_pass": 250,
+    "source_immutable_true": 250,
+    "started_at": "2026-07-20T06:14:32.216741Z",
+    "updated_at": "2026-07-21T14:35:34.140006Z"
+  },
+  "proof_tier": "RUNTIME_PASS_BOUNDED",
+  "remaining_blockers": [
+    "FULL_LIBRARY_RECONCILE_IN_PROGRESS_TIME_BOUND",
+    "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+    "REPRESENTATIVE_ROOM_SOURCE_CALIBRATION_ABSENT",
+    "DOUBLE_REVERB_GUARD_LIBRARY_ENFORCEMENT_ABSENT"
+  ],
+  "row_complete": false,
+  "runtime_completion_claimed": false,
+  "runtime_paths": {
+    "owner_path": "runtime_artifacts/reverb_dryness/row076_index_retained_20260720/FULL_RECONCILE_OWNER.txt",
+    "progress_path": "runtime_artifacts/reverb_dryness/row076_index_retained_20260720/progress.json",
+    "records_path": "runtime_artifacts/reverb_dryness/row076_index_retained_20260720/records.jsonl",
+    "retained_runtime_dir": "runtime_artifacts/reverb_dryness/row076_index_retained_20260720"
+  },
+  "safe_next_action": "Do not kill healthy PID 31808; finish retained-index reverb/dryness reconcile to coverage_complete under frozen suggestion-only thresholds. Do not start Row077 library PCM until Row076 coverage_complete. No product COMPLETE.",
+  "schema_version": "1.0",
+  "source_commit": "eb018424",
+  "status": "HOLD_LIBRARY_RECONCILE_IN_PROGRESS_DEPS_UNLOCKED",
+  "tracker_id": "TRK-W64-076"
+}
