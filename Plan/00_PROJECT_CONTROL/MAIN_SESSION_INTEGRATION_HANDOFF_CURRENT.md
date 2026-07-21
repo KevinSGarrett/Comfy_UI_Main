@@ -1,19 +1,22 @@
-# Main Session Integration Handoff — 2026-07-21T00:06-05:00
+# Main Session Integration Handoff — 2026-07-21T00:10-05:00
 
 ## Integration Summary
 
 - Active platform: interactive Cursor (integration authority)
 - Branch: `codex/workflow_plan_update_improvements`
-- This pass: **WAVE64 RunPod hard runtime binding** — NEVER start/use EC2 for Wave64/Comfy/GPU/model recovery
-- Tip evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/WAVE64_RUNPOD_HARD_RUNTIME_BINDING_20260721T0006-0500.json`
-- Tip SHA256: `11C696D5182CB0BAE8C0A163DE23964F14ACA4EDF09D0F6FC132968DC7DD67EB`
-- **Hard binding:** Sole runtime = RunPod `1q4ji0gg1fkhvt` — `/workspace/wave64`, `/workspace/ComfyUI`, `source /workspace/paths.env`
-- EC2: **FORBIDDEN** for Wave64/Comfy/GPU generation and model recovery (remains stopped; no live authority)
-- Wan 019/023: **Class F** retained — 0/3 payloads on pod; prior binding citations retained
-- `row_complete=false`; no COMPLETE; Row074 untouched; CSV deferred
+- Binding: **RunPod ONLY** (`1q4ji0gg1fkhvt`) — NEVER EC2
+- Row084 Class E advance: live Comfy generation + VLM on pod
+  - `prompt_id=8681ba01-58a4-4a92-92cf-171d5c2daaf3`
+  - checkpoint=`realvisxlV50_v50Bakedvae.safetensors`
+  - proof_tier=`RUNTIME_COMFY_GENERATION_RECEIPT_WITH_VLM_REVIEW`
+  - packet=`Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_COMFY_GENERATION_PACKET_20260721.json`
+  - VLM=`Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_COMFY_GENERATION_VLM_REVIEW_20260721.json`
+- **ROW084-011 Class E remains FAIL/OPEN** (not cleared)
+- ROW084-012 Class C OPEN_HOLD unchanged (`0e0c3d86`)
+- `row_complete=false`; no COMPLETE; Row074 untouched
 
 ## Exact next action
 
-1. Route all Wave64/Comfy/GPU generation and model recovery through RunPod `1q4ji0gg1fkhvt` only (`source /workspace/paths.env`).
-2. Do **not** start or use EC2 for Wave64, ComfyUI, GPU, or model recovery.
-3. Leave Row074 alone; CSV via mutator only; no COMPLETE.
+1. Keep ROW084-011 FAIL/OPEN; do not claim COMPLETE from single-image gen receipt.
+2. Future Class E clearance still needs production mux/cut/camera/visual authority + compiler hard-fail removal.
+3. Leave Row074 alone. RunPod only for Wave64/Comfy/GPU.

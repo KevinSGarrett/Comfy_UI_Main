@@ -87,9 +87,14 @@
     "Plan/Tracker/Evidence/TRK-W64-010_RUNPOD_C1_FACE_TIGHTER_CALIB_20260721T043424Z.json",
     "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_FACE_TIGHTER_VLM_20260721T043808Z.json",
     "Plan/Tracker/Evidence/TRK-W64-010_RUNPOD_C1_FACE_TIGHTER_VLM_20260721T043808Z.json",
-    "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_face_tighter_vlm_20260721T043808Z/LOCAL_RUNTIME_RECEIPT.json"
+    "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_face_tighter_vlm_20260721T043808Z/LOCAL_RUNTIME_RECEIPT.json",
+    "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_PULID_FACE03_CALIB_20260721T045449Z.json",
+    "Plan/Tracker/Evidence/TRK-W64-010_RUNPOD_C1_PULID_FACE03_CALIB_20260721T045449Z.json",
+    "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_PULID_FACE03_VLM_20260721T045654Z.json",
+    "Plan/Tracker/Evidence/TRK-W64-010_RUNPOD_C1_PULID_FACE03_VLM_20260721T045654Z.json",
+    "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_pulid_face03_vlm_20260721T045654Z/LOCAL_RUNTIME_RECEIPT.json"
   ],
-  "next_action": "Continue autonomous personal-calibration climb on RunPod (Scenes locks + LoRAs + optional PuLID face lock when VRAM free) without waiting for new human USER_AUTHORITY media; keep row blocked for generic multi-character portable reference packet; do not invent faces; do not claim COMPLETE; leave Row074 alone; CSV deferred.",
+  "next_action": "Continue autonomous personal-calibration climb on RunPod (Scenes locks + LoRAs + PuLID face lock) without inventing faces; optional lock-trait prompt tighten if solo_lock remains 0.0; keep row blocked for generic multi-character portable reference packet; do not claim COMPLETE; leave Row074 alone; CSV via mutator only.",
   "class_a_offline_proof": {
     "lane": "Class_A_identity_reference_authority_offline_proof",
     "status": "BLOCKED_CLASS_F_A_USER_AUTHORITY_REFERENCE_CHAIN_ABSENT",
@@ -177,5 +182,50 @@
     "vlm_evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_FACE_TIGHTER_VLM_20260721T043808Z.json",
     "pullback": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_face_tighter_vlm_20260721T043808Z",
     "note": "Flux face-tighter follow-on (boosted Latina_milf + face-dominant lock prefix) rescored with qwen2.5vl:7b; face 0.475 below gate 0.55; body/lock ok; no COMPLETE; does not clear multi-character USER_AUTHORITY chain."
+  },
+  "runpod_personal_calibration_pulid_face03": {
+    "status": "RUNTIME_PASS_BOUNDED_PERSONAL_CALIBRATION_PULID_FACE03_VLM_NONCANONICAL",
+    "row_complete": false,
+    "faces_invented": false,
+    "vlm_model": "qwen2.5vl:7b",
+    "method": "side_by_side_panel_v2",
+    "candidate_sha256": "7fe521c083a0dca03a274820f6fc0c1c814dd385475a0e2fc906f58624825573",
+    "aggregate_scores": {
+      "face_consistency_mean": 0.775,
+      "face_consistency_n": 4,
+      "body_silhouette_consistency_mean": 0.9,
+      "body_silhouette_consistency_n": 2,
+      "same_person_likelihood_mean": 0.6667,
+      "solo_lock_trait_alignment_score": 0.0,
+      "per_face_scores": {
+        "face_01": 0.8,
+        "face_02": 0.85,
+        "face_03": 0.85,
+        "face_04": 0.6
+      }
+    },
+    "gate": {
+      "face_consistency_mean_min": 0.55,
+      "faces_ok": true,
+      "body_ok": true,
+      "lock_ok": false,
+      "runtime_pass_bounded": true
+    },
+    "pulid": {
+      "enabled": true,
+      "pulid_file": "pulid_flux_v0.9.1.safetensors",
+      "weight": 1.05,
+      "face_ref": "C1_USER_AUTHORITY_FACE_03.png"
+    },
+    "loras_used": [
+      "character1_flux_calibration/Latina_milf_flux.safetensors",
+      "character1_flux_calibration/saggy_flux.safetensors",
+      "character1_flux_calibration/FLUX_FD-LargeButt-SkinnyWaist-FP8.safetensors",
+      "balhaw_test/Thick_Body_Flux.safetensors"
+    ],
+    "calib_evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_PULID_FACE03_CALIB_20260721T045449Z.json",
+    "vlm_evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_PULID_FACE03_VLM_20260721T045654Z.json",
+    "pullback": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_pulid_face03_vlm_20260721T045654Z",
+    "note": "PuLID FACE_03 + Scenes locks + calibration/balhaw LoRAs; face 0.775 clears 0.55; solo lock 0.0; NONCANONICAL; no COMPLETE; does not clear multi-character USER_AUTHORITY chain."
   }
 }

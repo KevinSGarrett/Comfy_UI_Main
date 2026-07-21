@@ -4,16 +4,19 @@
 
 - Active platform: interactive Cursor (integration authority)
 - Branch: `codex/workflow_plan_update_improvements`
-- This pass: **WAVE64 RunPod hard runtime binding** — NEVER start/use EC2 for Wave64/Comfy/GPU/model recovery
-- Tip evidence: `Plan/Instructions/QA/Evidence/Runtime_Readiness/WAVE64_RUNPOD_HARD_RUNTIME_BINDING_20260721T0006-0500.json`
-- Tip SHA256: `11C696D5182CB0BAE8C0A163DE23964F14ACA4EDF09D0F6FC132968DC7DD67EB`
-- **Hard binding:** Sole runtime = RunPod `1q4ji0gg1fkhvt` — `/workspace/wave64`, `/workspace/ComfyUI`, `source /workspace/paths.env`
-- EC2: **FORBIDDEN** for Wave64/Comfy/GPU generation and model recovery (remains stopped; no live authority)
-- Wan 019/023: **Class F** retained — 0/3 payloads on pod; prior binding citations retained
-- `row_complete=false`; no COMPLETE; Row074 untouched; CSV deferred
+- Runtime authority: **RunPod ONLY** (`1q4ji0gg1fkhvt`) — no EC2
+- This pass: **ITEM/TRK-W64-010** PuLID+Scenes FACE_03 personal-calib + qwen2.5vl:7b panel-v2 re-score
+- Calib: `Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_PULID_FACE03_CALIB_20260721T045449Z.json`
+- Tip evidence: `Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_PULID_FACE03_VLM_20260721T045654Z.json`
+- Pullback: `Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_pulid_face03_vlm_20260721T045654Z`
+- Stack: `pulid_flux_v0.9.1` + FACE_03 + `character1_flux_calibration`/`balhaw_test` LoRAs + Scenes locks
+- Aggregate: face_consistency_mean **0.775** (gate 0.55 pass), body **0.9**, solo lock **0.0** (lock_ok false) → `RUNTIME_PASS_BOUNDED_PERSONAL_CALIBRATION_PULID_FACE03_VLM_NONCANONICAL` (`runtime_pass_bounded=true`)
+- Candidate sha256: `7fe521c083a0dca03a274820f6fc0c1c814dd385475a0e2fc906f58624825573`
+- `row_complete=false`; no COMPLETE; no invented faces; Row074 untouched; no HOLD 090+; CSV via mutator
+- Does **not** clear generic multi-character USER_AUTHORITY portable reference chain
 
 ## Exact next action
 
-1. Route all Wave64/Comfy/GPU generation and model recovery through RunPod `1q4ji0gg1fkhvt` only (`source /workspace/paths.env`).
-2. Do **not** start or use EC2 for Wave64, ComfyUI, GPU, or model recovery.
-3. Leave Row074 alone; CSV via mutator only; no COMPLETE.
+1. Optional: lock-trait prompt tighten / alternate FACE ref PuLID climb on RunPod when GPU free (still noncanonical).
+2. Leave Row074 alone; CSV via mutator only; do not claim Row010 COMPLETE.
+3. Never route this lane through EC2.
