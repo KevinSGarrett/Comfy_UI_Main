@@ -31,7 +31,15 @@ ROW073_ANALYSIS = f"{EVID}/TRK-W64-073_usable_bounds_decay_analysis.json"
 ROW073_SUMMARY = f"{EVID}/TRK-W64-073_ACCEPTED_INDEX_RETAINED_BOUNDS_SUMMARY_20260720.json"
 RUNPOD_SMOKE = f"{RUNTIME_EVID}/RUNPOD_1q4ji0gg1fkhvt_MECHANICAL_SMOKE_PASS_20260720T2244-0500.json"
 FLUX_CANARY = f"{RUNTIME_EVID}/RUNPOD_1q4ji0gg1fkhvt_FLUX_CANARY_GENERATION_PASS_20260721T034826Z.json"
+OLLAMA_VLM_SMOKE = (
+    f"{RUNTIME_EVID}/RUNPOD_1q4ji0gg1fkhvt_OLLAMA_VLM_FLUX_CANARY_SMOKE_PASS_20260721T041729Z.json"
+)
+VLM_ENDPOINT = "WAVE64_VLM_URL=http://127.0.0.1:11434"
+VLM_MODELS = "llava:13b / qwen2.5:7b-instruct"
 ROW010_CALIB = f"{EVID}/TRK-W64-010_RUNPOD_C1_LOCK_LORA_CALIB_20260721T035348Z.json"
+ROW010_VLM_IDENTITY = (
+    f"{EVID}/TRK-W64-010_RUNPOD_C1_LOCK_LORA_VLM_IDENTITY_20260721T041746Z.json"
+)
 ROW010_BLOCKER = f"{EVID}/TRK-W64-010_CLASS_A_F_USER_AUTHORITY_FACE_REF_BLOCKER_PACKAGE_20260720.json"
 ROW017_EMISSION = f"{EVID}/TRK-W64-017_RUNPOD_FUTURE_PRODUCER_EMISSION_PACKET_20260720T225140-0500.json"
 ROW017_READINESS = f"{EVID}/TRK-W64-017_FUTURE_PRODUCER_EMISSION_PROOF_READINESS_20260720.json"
@@ -42,10 +50,15 @@ ROW109_PACKET = (
 )
 ROW124_DELTA = f"{EVID}/TRK-W64-124_MULTI_REF_LISTENING_CURRENT_DELTA_20260720F.json"
 ROW124_ROW = f"{AUDIO_EVID}/WAVE64_AUTONOMOUS_HYPERREAL_SPEECH_ROW124.json"
-ROW084_VLM = f"{EVID}/TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_PRODUCTION_READINESS_PACKET_20260721.json"
+ROW084_PACKET = f"{EVID}/TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_PRODUCTION_READINESS_PACKET_20260721.json"
+ROW084_VLM_REVIEW = f"{EVID}/TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_VLM_REVIEW_20260721.json"
+ROW084_DELTA = f"{EVID}/TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719.json"
+ROW084_ARTIFACT = f"{EVID}/TRK-W64-084_canonical_video_timeline.json"
+ROW084_HOLD_012 = (
+    f"{EVID}/TRK-W64-084_ROW084-012_CLASS_C_SCHEMA_NATIVE_REVERSED_PTS_HOLD_PACKET_20260720.json"
+)
 
 ROW073_PROGRESS = ROOT / "runtime_artifacts/usable_bounds/row073_index_retained_20260720/progress.json"
-ROW074_PROGRESS = ROOT / "runtime_artifacts/multi_event_segmentation/row074_index_retained_20260720/progress.json"
 
 
 def git_short(rev: str = "HEAD") -> str:
@@ -113,14 +126,23 @@ def rewrite_csv(path: Path, id_col: str, updates: dict[str, dict[str, str]]) -> 
 
 def main() -> None:
     tip = git_short()
-    prove = ["cd517ee7", "581c21f8", "cf72e756", "7b2d9490", "b85b13a2", "77dac184", tip]
+    prove = [
+        "cd517ee7",
+        "581c21f8",
+        "cf72e756",
+        "7b2d9490",
+        "b85b13a2",
+        "77dac184",
+        "c44d1dd9",
+        "83da2a63",
+        "e1401895",
+        "73f185c5",
+        tip,
+    ]
 
     row073_live = json.loads(ROW073_PROGRESS.read_text(encoding="utf-8"))
-    row074_live = json.loads(ROW074_PROGRESS.read_text(encoding="utf-8"))
     p073 = int(row073_live["counts"]["records_processed"])
     t073 = int(row073_live["counts"]["records_total"])
-    p074 = int(row074_live["counts"]["records_processed"])
-    t074 = int(row074_live["counts"]["records_total"])
     assert row073_live.get("complete") is True and p073 == t073 == 39771
 
     row073_status = "Blocked_Library_Thresholds_And_Benchmark_Strata_Absent_Reconcile_Complete"
@@ -152,21 +174,6 @@ def main() -> None:
         extra={"runtime_completion_claimed": True, "product_completion_claimed": False},
     )
 
-    row074_complete = bool(row074_live.get("complete"))
-    row074_limit = row074_live.get("limit")
-    row074_notes = (
-        f"Post-073 exclusive PCM gate open (671082c5/8c2ce364); read-only progress "
-        f"{p074}/{t074}"
-        + (f" limit={row074_limit}" if row074_limit else "")
-        + f"; coverage_complete={str(row074_complete).lower()}; process left alone by mutator. "
-        f"Prior probe RUNTIME_PASS_BOUNDED (e9b3942b/49d2e3af); full reconcile deferred until "
-        f"exclusive owner completes library pass; row_complete=false; library_authority=false. "
-        f"Blockers: FULL_LIBRARY_RECONCILE_DEFERRED_OR_IN_PROGRESS|"
-        f"REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY|"
-        f"EVENT_COUNT_CALIBRATION_STRATA_ABSENT|DEDICATED_FULL_LIBRARY_RUNTIME_ABSENT. "
-        f"Evidence: {POST073_RANK}"
-    )
-
     row075_notes = (
         "Coverage_complete retained; Class F/D shortlist stop (d71ec94d/dce0fd1a): 13 candidates "
         "(5 labeled/6 pending/2 blocked); thresholds still frozen; BOTH blockers remain "
@@ -184,15 +191,21 @@ def main() -> None:
         f"{ROW109_PACKET}"
     )
 
+    vlm_endpoint_note = (
+        f"Durable RunPod Ollama VLM/LLM reviewer UP (e1401895/{tip}): {VLM_ENDPOINT} "
+        f"({VLM_MODELS}); Flux canary VLM smoke PASS_WITH_NOTES. Evidence: {OLLAMA_VLM_SMOKE}"
+    )
+
     row010_notes = (
         "Class A/F USER_AUTHORITY face-ref blocker (b9085976/db81ab66): per-character reference "
         "crops absent and not inventable; proof_tier=OFFLINE_INVENTORY_BLOCKER_BOUNDED; "
-        "RunPod personal-calibration RUNTIME_PASS_BOUNDED noncanonical (cf72e756): C1 lock+LoRA "
-        "calib does NOT clear generic multi-character USER_AUTHORITY chain; row_complete=false; "
-        "never Complete. Blockers: USER_AUTHORITY_PER_CHARACTER_REFERENCE_CROPS_ABSENT|"
+        "RunPod personal-calibration RUNTIME_PASS_BOUNDED noncanonical: C1 lock+LoRA calib "
+        "(035348Z/cf72e756) + side-by-side VLM identity RUNTIME_PASS_BOUNDED (73f185c5/041746Z) "
+        f"via {VLM_ENDPOINT} does NOT clear generic multi-character USER_AUTHORITY chain; "
+        "row_complete=false; never Complete. Blockers: USER_AUTHORITY_PER_CHARACTER_REFERENCE_CROPS_ABSENT|"
         "USER_AUTHORITY_FACE_BODY_REFERENCES_NOT_INVENTABLE|"
         "PORTABLE_MULTI_CHARACTER_REFERENCE_CHAIN_ABSENT|PERSONAL_CALIBRATION_CHARACTER1_EXCLUDED. "
-        f"Evidence: {ROW010_BLOCKER}; {ROW010_CALIB}; {FLUX_CANARY}"
+        f"Evidence: {ROW010_BLOCKER}; {ROW010_CALIB}; {ROW010_VLM_IDENTITY}; {OLLAMA_VLM_SMOKE}"
     )
 
     row017_notes = (
@@ -227,10 +240,28 @@ def main() -> None:
         f"Evidence: {ROW124_DELTA}; {ROW124_ROW}"
     )
 
+    row084_status = (
+        "Blocked_Visual_Qa_Pass_Bounded_Class_C_Schema_Native_Hold_And_Production_Completion_Blocked"
+    )
+    row084_decision = "row084_class_e_runpod_readiness_vlm_probed_no_complete"
+    row084_proof = "RUNTIME_PROBE_VISUAL_BOUNDED_WITH_VLM_REVIEW"
+    row084_notes = (
+        "Class E continue (c44d1dd9/83da2a63): RunPod Comfy :8188 re-probe "
+        f"{row084_proof}; Ollama qwen2.5vl:7b 3/3 frames reviewed. "
+        "ROW084-011 Class E FAIL/OPEN retained (production COMPLETE withheld); "
+        "ROW084-012 Class C OPEN_HOLD unchanged (0e0c3d86); ROW084-015/017/013 PASS retained; "
+        f"row_complete=false; NEVER Complete; Row074 left alone. Evidence: {ROW084_PACKET}; "
+        f"{ROW084_VLM_REVIEW}; {ROW084_DELTA}; {ROW084_HOLD_012}"
+    )
+    row084_evidence = (
+        f"{ROW084_ARTIFACT}; {ROW084_DELTA}; {ROW084_PACKET}; "
+        f"{ROW084_VLM_REVIEW}; {ROW084_HOLD_012}"
+    )
+
     autonomy_vlm_note = (
-        f"Autonomy/VLM bounded RunPod probe landed (77dac184): ROW084-011 Class E "
-        f"RUNTIME_PROBE_VISUAL_BOUNDED on pod 1q4ji0gg1fkhvt; ROW084-011 remains HOLD; "
-        f"no product COMPLETE. Evidence: {ROW084_VLM}"
+        f"Autonomy/VLM bounded RunPod probe continue (c44d1dd9/83da2a63): ROW084-011 Class E "
+        f"{row084_proof}; Ollama qwen2.5vl:7b 3/3; ROW084-011 remains FAIL/OPEN; "
+        f"no product COMPLETE. Evidence: {ROW084_PACKET}"
     )
 
     sound_tracker_updates = {
@@ -253,6 +284,12 @@ def main() -> None:
             "Notes": row109_notes,
             "Evidence_Path": ROW109_PACKET,
         },
+        "TRK-W64-084": {
+            "Status": row084_status,
+            "Status_Decision": row084_decision,
+            "Notes": row084_notes,
+            "Evidence_Path": row084_evidence,
+        },
     }
     sound_item_updates = {
         "ITEM-W64-073": {"Status": row073_status, "Notes": row073_notes},
@@ -261,6 +298,10 @@ def main() -> None:
         "ITEM-W64-109": {
             "Status": "Blocked_Synthetic_Fixture_Corpus_Present_Genuine_Media_And_Visual_QA_Absent",
             "Notes": row109_notes,
+        },
+        "ITEM-W64-084": {
+            "Status": row084_status,
+            "Notes": row084_notes,
         },
     }
 
@@ -331,11 +372,28 @@ def main() -> None:
     row124_delta["csv_sync_tip"] = tip
     dump_json(ROW124_DELTA, row124_delta)
 
+    sync_delta(
+        ROW084_DELTA,
+        status=row084_status,
+        proof_tier=row084_proof,
+        blockers=[
+            "PRODUCTION_COMPLETION_AND_ROW_COMPLETE_BLOCKED",
+            "CLOCK_SPAN_REVERSED_PTS_JSON_SCHEMA_NATIVE_ABSENT",
+            "COMPILER_HARD_FAIL_CLOSES_PRODUCTION_COMPLETION_ALLOWED",
+        ],
+        prove_commits=prove,
+        extra={"runtime_completion_claimed": False, "product_completion_claimed": False},
+    )
+    row084_packet = load_json(ROW084_PACKET)
+    row084_packet["csv_sync"] = "synced_by_primary_csv_mutator"
+    row084_packet["csv_sync_tip"] = tip
+    dump_json(ROW084_PACKET, row084_packet)
+
     print("tip", tip)
     print("synced Row073", p073, t073)
     print("synced Row074 read-only", p074, t074, "complete=", row074_complete)
     print("synced Flux canary + autonomy/VLM packet refs")
-    print("synced 010/017/019/023/075/109/124")
+    print("synced 010/017/019/023/075/084/109/124")
 
 
 if __name__ == "__main__":

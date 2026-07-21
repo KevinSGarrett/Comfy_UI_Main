@@ -1,5 +1,13 @@
 {
   "blocker_classification": {
+    "CLOCK_SPAN_REVERSED_PTS_JSON_SCHEMA_NATIVE_ABSENT": {
+      "check_id": "ROW084-012",
+      "class": "C",
+      "detail": "Deepened HOLD: Draft 2020-12 + Draft202012Validator accept equal/reversed PTS on published field schemas; hold packet + focused schema-alone proof test recorded. Compiler invariants remain fail-closed. Not cleared.",
+      "hold_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-012_CLASS_C_SCHEMA_NATIVE_REVERSED_PTS_HOLD_PACKET_20260720.json",
+      "hold_packet_sha256": "0e0c3d8648f939f24684be7a9b7ad70aef20b1289f6fadd30d90256dbdeb1ff7",
+      "status": "OPEN_HOLD"
+    },
     "MISSING_FRAME_POLICY_RUNTIME_ABSENT": {
       "class": "B",
       "detail": "Held-out ffmpeg PTS-gap detect + four-policy runtime bind complete.",
@@ -8,10 +16,10 @@
     "PRODUCTION_COMPLETION_AND_ROW_COMPLETE_BLOCKED": {
       "class": "E",
       "detail": "COMPLETE/row_complete intentionally withheld. RunPod Comfy Class E readiness/runtime re-probe + Ollama VLM review succeeded without granting production_completion_allowed.",
-      "status": "OPEN",
       "readiness_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_PRODUCTION_READINESS_PACKET_20260721.json",
       "readiness_packet_sha256": "cafe15b09d911b7f0428e19be81c8ee28e53a99066597568a9f9ea20e28498fc",
       "readiness_proof_tier": "RUNTIME_PROBE_VISUAL_BOUNDED_WITH_VLM_REVIEW",
+      "status": "OPEN",
       "vlm_review_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_VLM_REVIEW_20260721.json",
       "vlm_review_packet_sha256": "7a39fb1fe2261e3c7d66a2c8a6f8e2710f9c6aa5def35c51043ad4a444cab4ad"
     },
@@ -26,14 +34,6 @@
       "class": "B",
       "detail": "Held-out ffmpeg PTS-derived contiguous VFR segment map + per-segment roundtrip benchmark complete at RUNTIME_PASS_BOUNDED.",
       "status": "CLEARED"
-    },
-    "CLOCK_SPAN_REVERSED_PTS_JSON_SCHEMA_NATIVE_ABSENT": {
-      "check_id": "ROW084-012",
-      "class": "C",
-      "detail": "Deepened HOLD: Draft 2020-12 + Draft202012Validator accept equal/reversed PTS on published field schemas; hold packet + focused schema-alone proof test recorded. Compiler invariants remain fail-closed. Not cleared.",
-      "status": "OPEN_HOLD",
-      "hold_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-012_CLASS_C_SCHEMA_NATIVE_REVERSED_PTS_HOLD_PACKET_20260720.json",
-      "hold_packet_sha256": "0e0c3d8648f939f24684be7a9b7ad70aef20b1289f6fadd30d90256dbdeb1ff7"
     }
   },
   "checks": [
@@ -89,31 +89,31 @@
     },
     {
       "check_id": "ROW084-011",
-      "name": "canonical_timeline_compiler_production_complete",
-      "status": "FAIL",
-      "note": "Class E HOLD: production compiler completion / COMPLETE intentionally withheld. RunPod Comfy readiness/runtime re-probe + Ollama qwen2.5vl:7b VLM review (3/3 frames) at RUNTIME_PROBE_VISUAL_BOUNDED_WITH_VLM_REVIEW recorded; do not clear.",
       "class_e_readiness_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_PRODUCTION_READINESS_PACKET_20260721.json",
       "class_e_readiness_packet_sha256": "cafe15b09d911b7f0428e19be81c8ee28e53a99066597568a9f9ea20e28498fc",
+      "name": "canonical_timeline_compiler_production_complete",
+      "note": "Class E HOLD: production compiler completion / COMPLETE intentionally withheld. RunPod Comfy readiness/runtime re-probe + Ollama qwen2.5vl:7b VLM review (3/3 frames) at RUNTIME_PROBE_VISUAL_BOUNDED_WITH_VLM_REVIEW recorded; do not clear.",
       "runtime_receipt": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/runpod_class_e_20260721T041251Z/class_e_runtime_receipt.json",
       "runtime_receipt_sha256": "e28b237b26973b46fc5e2c44a7613677aadc5946a36bdbec02dc60ccfa8ef066",
+      "status": "FAIL",
       "vlm_review_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_VLM_REVIEW_20260721.json",
       "vlm_review_packet_sha256": "7a39fb1fe2261e3c7d66a2c8a6f8e2710f9c6aa5def35c51043ad4a444cab4ad"
     },
     {
       "check_id": "ROW084-012",
-      "name": "clock_span_reversed_pts_enforced_by_json_schema_alone",
-      "status": "FAIL",
-      "note": "Class C HOLD deepened: offline Draft202012Validator probe shows equal/reversed PTS validate under canonical_media_clock_span field schemas; schema-alone enforcement absent. Hold packet + test_clock_span_schema_alone_cannot_reject_reversed_pts. Compiler validate_clock_span_invariants remains authoritative. Not cleared.",
       "hold_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-012_CLASS_C_SCHEMA_NATIVE_REVERSED_PTS_HOLD_PACKET_20260720.json",
-      "hold_packet_sha256": "0e0c3d8648f939f24684be7a9b7ad70aef20b1289f6fadd30d90256dbdeb1ff7"
+      "hold_packet_sha256": "0e0c3d8648f939f24684be7a9b7ad70aef20b1289f6fadd30d90256dbdeb1ff7",
+      "name": "clock_span_reversed_pts_enforced_by_json_schema_alone",
+      "note": "Class C HOLD deepened: offline Draft202012Validator probe shows equal/reversed PTS validate under canonical_media_clock_span field schemas; schema-alone enforcement absent. Hold packet + test_clock_span_schema_alone_cannot_reject_reversed_pts. Compiler validate_clock_span_invariants remains authoritative. Not cleared.",
+      "status": "FAIL"
     },
     {
       "check_id": "ROW084-013",
       "name": "vfr_segment_map_benchmark_complete",
-      "status": "PASS",
       "note": "Offline media-backed VFR segment-map benchmark: ffprobe PTS-derived contiguous map + per-segment roundtrip on held-out_vfr_24_30 at RUNTIME_PASS_BOUNDED. No :8188. No COMPLETE/row_complete.",
       "runtime_receipt": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/held_out_vfr_segment_map_benchmark_receipt.json",
-      "runtime_receipt_sha256": "ec3e3861b1940d31a729ad2ca681b07f72e4cff5351b26ede3e85a82e78c5479"
+      "runtime_receipt_sha256": "ec3e3861b1940d31a729ad2ca681b07f72e4cff5351b26ede3e85a82e78c5479",
+      "status": "PASS"
     },
     {
       "check_id": "ROW084-014",
@@ -138,12 +138,12 @@
     {
       "check_id": "ROW084-017",
       "name": "registered_roundtrip_tolerances_runtime_authoritative",
-      "status": "PASS",
       "note": "Offline held-out fixed/fractional/VFR roundtrip benchmark binds wave64_audio_delivery_and_clock_profile_registry.row084_roundtrip_tolerances as runtime authority (status=runtime_authoritative_offline_bounded). No :8188. No COMPLETE/row_complete.",
+      "registry_path": "Plan/10_REGISTRIES/wave64_audio_delivery_and_clock_profile_registry.json",
+      "registry_sha256": "078d4d8637588bdfcc6febd9416040ce6250b4cc90903df83d85aa59f6ee6d74",
       "runtime_receipt": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/held_out_roundtrip_benchmark_receipt.json",
       "runtime_receipt_sha256": "ef027b15de4fd30a70060077563cb7a2432d1dd63dbfbb38f24cdbe942c3c669",
-      "registry_path": "Plan/10_REGISTRIES/wave64_audio_delivery_and_clock_profile_registry.json",
-      "registry_sha256": "078d4d8637588bdfcc6febd9416040ce6250b4cc90903df83d85aa59f6ee6d74"
+      "status": "PASS"
     },
     {
       "check_id": "ROW084-018",
@@ -280,6 +280,8 @@
     "VISUAL_QA_PASS_BOUNDED"
   ],
   "created_at": "2026-07-21T04:17:47Z",
+  "csv_sync": "synced_by_primary_csv_mutator_row084_class_e_continue",
+  "csv_sync_tip": "c1ad0d56",
   "dependency_authority": {
     "acceptance_commit": "b074c694518b7ebe78a1e7292db28427d7f75ca7",
     "dependency_satisfied": true,
@@ -291,6 +293,31 @@
   },
   "evidence_id": "TRK-W64-084_CANONICAL_VIDEO_TIMELINE_CURRENT_DELTA_20260719",
   "focused_local_test_result": {
+    "class_e_runpod_readiness_climb": {
+      "blocker_class": "E",
+      "blocker_codes_cleared": [],
+      "blocker_codes_held": [
+        "PRODUCTION_COMPLETION_AND_ROW_COMPLETE_BLOCKED"
+      ],
+      "cleared": false,
+      "comfyui_8188_serving": true,
+      "comfyui_new_generation_submitted": false,
+      "media_kind": "pulled_back_genuine_av_sync_mkv",
+      "media_sha256": "0c1153e675bd9209ce9c56d6c6694d9fb93118d69e3935fedcf77e626fed998a",
+      "packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_PRODUCTION_READINESS_PACKET_20260721.json",
+      "packet_sha256": "cafe15b09d911b7f0428e19be81c8ee28e53a99066597568a9f9ea20e28498fc",
+      "paths_env_sourced": true,
+      "production_completion_allowed": false,
+      "proof_tier": "RUNTIME_PROBE_VISUAL_BOUNDED_WITH_VLM_REVIEW",
+      "row_complete": false,
+      "runtime_receipt_sha256": "e28b237b26973b46fc5e2c44a7613677aadc5946a36bdbec02dc60ccfa8ef066",
+      "status": "HOLD",
+      "visual_frame_count": 3,
+      "vlm_model": "qwen2.5vl:7b",
+      "vlm_ok_frame_count": 3,
+      "vlm_review_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_VLM_REVIEW_20260721.json",
+      "vlm_review_packet_sha256": "7a39fb1fe2261e3c7d66a2c8a6f8e2710f9c6aa5def35c51043ad4a444cab4ad"
+    },
     "missing_frame_runtime_climb": {
       "blocker_class": "B",
       "blocker_codes_cleared": [
@@ -315,82 +342,57 @@
       "visual_review_authority_granted": true
     },
     "py_compile": "PASS",
-    "scope_interpretation": "RunPod Comfy Class E production-completion readiness/runtime re-probed and Ollama qwen2.5vl:7b VLM-reviewed 3 visual frames. ROW084-011 remains FAIL/OPEN. ROW084-012 Class C OPEN_HOLD unchanged. Row074 left alone. No COMPLETE/row_complete.",
-    "strict_command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
-    "strict_exit_code": 0,
-    "strict_result": "50 passed",
-    "total_focused_failed": 0,
-    "total_focused_passed": 50,
     "registered_tolerances_runtime_climb": {
       "blocker_class": "D",
       "blocker_codes_cleared": [
         "REGISTERED_ROUNDTRIP_TOLERANCES_NOT_RUNTIME_AUTHORITATIVE"
       ],
       "comfyui_8188_invoked": false,
-      "registered_roundtrip_tolerances_runtime_authoritative": true,
+      "production_completion_allowed": false,
       "proof_tier": "RUNTIME_PASS_BOUNDED",
       "receipt_sha256": "ef027b15de4fd30a70060077563cb7a2432d1dd63dbfbb38f24cdbe942c3c669",
+      "registered_roundtrip_tolerances_runtime_authoritative": true,
       "registry_sha256": "078d4d8637588bdfcc6febd9416040ce6250b4cc90903df83d85aa59f6ee6d74",
-      "tolerances_source": "wave64_audio_delivery_and_clock_profile_registry.row084_roundtrip_tolerances",
       "row_complete": false,
-      "production_completion_allowed": false,
-      "status": "PASS"
+      "status": "PASS",
+      "tolerances_source": "wave64_audio_delivery_and_clock_profile_registry.row084_roundtrip_tolerances"
     },
+    "schema_native_reversed_pts_hold_climb": {
+      "blocker_class": "C",
+      "blocker_codes_cleared": [],
+      "blocker_codes_held": [
+        "CLOCK_SPAN_REVERSED_PTS_JSON_SCHEMA_NATIVE_ABSENT"
+      ],
+      "cleared": false,
+      "clock_span_schema_sha256": "eb203bdae6a8b99df08e23e888dcd94f98b9991804603913ad14e8bf3f377d20",
+      "comfyui_8188_invoked": false,
+      "focused_proof_test": "test_clock_span_schema_alone_cannot_reject_reversed_pts",
+      "hold_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-012_CLASS_C_SCHEMA_NATIVE_REVERSED_PTS_HOLD_PACKET_20260720.json",
+      "hold_packet_sha256": "0e0c3d8648f939f24684be7a9b7ad70aef20b1289f6fadd30d90256dbdeb1ff7",
+      "production_completion_allowed": false,
+      "proof_tier": "CONTRACT_PASS_BOUNDED",
+      "row_complete": false,
+      "schema_alone_enforcement_present": false,
+      "status": "HOLD"
+    },
+    "scope_interpretation": "RunPod Comfy Class E production-completion readiness/runtime re-probed and Ollama qwen2.5vl:7b VLM-reviewed 3 visual frames. ROW084-011 remains FAIL/OPEN. ROW084-012 Class C OPEN_HOLD unchanged. Row074 left alone. No COMPLETE/row_complete.",
+    "strict_command": "python -m pytest -q Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
+    "strict_exit_code": 0,
+    "strict_result": "50 passed",
+    "total_focused_failed": 0,
+    "total_focused_passed": 50,
     "vfr_segment_map_benchmark_climb": {
       "blocker_class": "B",
       "blocker_codes_cleared": [
         "VFR_SEGMENT_MAP_BENCHMARK_ABSENT"
       ],
       "comfyui_8188_invoked": false,
-      "vfr_segment_map_benchmark_complete": true,
+      "production_completion_allowed": false,
       "proof_tier": "RUNTIME_PASS_BOUNDED",
       "receipt_sha256": "ec3e3861b1940d31a729ad2ca681b07f72e4cff5351b26ede3e85a82e78c5479",
       "row_complete": false,
-      "production_completion_allowed": false,
-      "status": "PASS"
-    },
-    "schema_native_reversed_pts_hold_climb": {
-      "blocker_class": "C",
-      "blocker_codes_held": [
-        "CLOCK_SPAN_REVERSED_PTS_JSON_SCHEMA_NATIVE_ABSENT"
-      ],
-      "blocker_codes_cleared": [],
-      "comfyui_8188_invoked": false,
-      "schema_alone_enforcement_present": false,
-      "cleared": false,
-      "proof_tier": "CONTRACT_PASS_BOUNDED",
-      "hold_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-012_CLASS_C_SCHEMA_NATIVE_REVERSED_PTS_HOLD_PACKET_20260720.json",
-      "hold_packet_sha256": "0e0c3d8648f939f24684be7a9b7ad70aef20b1289f6fadd30d90256dbdeb1ff7",
-      "clock_span_schema_sha256": "eb203bdae6a8b99df08e23e888dcd94f98b9991804603913ad14e8bf3f377d20",
-      "focused_proof_test": "test_clock_span_schema_alone_cannot_reject_reversed_pts",
-      "row_complete": false,
-      "production_completion_allowed": false,
-      "status": "HOLD"
-    },
-    "class_e_runpod_readiness_climb": {
-      "blocker_class": "E",
-      "blocker_codes_held": [
-        "PRODUCTION_COMPLETION_AND_ROW_COMPLETE_BLOCKED"
-      ],
-      "blocker_codes_cleared": [],
-      "cleared": false,
-      "comfyui_8188_serving": true,
-      "comfyui_new_generation_submitted": false,
-      "paths_env_sourced": true,
-      "proof_tier": "RUNTIME_PROBE_VISUAL_BOUNDED_WITH_VLM_REVIEW",
-      "packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_PRODUCTION_READINESS_PACKET_20260721.json",
-      "packet_sha256": "cafe15b09d911b7f0428e19be81c8ee28e53a99066597568a9f9ea20e28498fc",
-      "runtime_receipt_sha256": "e28b237b26973b46fc5e2c44a7613677aadc5946a36bdbec02dc60ccfa8ef066",
-      "vlm_review_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_VLM_REVIEW_20260721.json",
-      "vlm_review_packet_sha256": "7a39fb1fe2261e3c7d66a2c8a6f8e2710f9c6aa5def35c51043ad4a444cab4ad",
-      "vlm_model": "qwen2.5vl:7b",
-      "vlm_ok_frame_count": 3,
-      "media_kind": "pulled_back_genuine_av_sync_mkv",
-      "media_sha256": "0c1153e675bd9209ce9c56d6c6694d9fb93118d69e3935fedcf77e626fed998a",
-      "visual_frame_count": 3,
-      "row_complete": false,
-      "production_completion_allowed": false,
-      "status": "HOLD"
+      "status": "PASS",
+      "vfr_segment_map_benchmark_complete": true
     }
   },
   "focused_source_tests": {
@@ -400,7 +402,7 @@
     "total_focused_failed": 0,
     "total_focused_passed": 50
   },
-  "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "RUNTIME_PROBE_VISUAL_BOUNDED_WITH_VLM_REVIEW",
   "hold_decision": {
     "blockers": [
       {
@@ -417,9 +419,9 @@
           "ROW084-012"
         ],
         "detail": "Class C OPEN_HOLD deepened: Draft 2020-12 cannot natively enforce end_pts_exclusive > start_pts; hold packet recorded.",
-        "severity": "recorded_hold_not_cleared",
         "hold_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-012_CLASS_C_SCHEMA_NATIVE_REVERSED_PTS_HOLD_PACKET_20260720.json",
-        "hold_packet_sha256": "0e0c3d8648f939f24684be7a9b7ad70aef20b1289f6fadd30d90256dbdeb1ff7"
+        "hold_packet_sha256": "0e0c3d8648f939f24684be7a9b7ad70aef20b1289f6fadd30d90256dbdeb1ff7",
+        "severity": "recorded_hold_not_cleared"
       }
     ],
     "cleared_blockers": [
@@ -484,6 +486,18 @@
   "implementation_completion_claimed": false,
   "implementation_slice": {
     "camera_motion_policy_matrix_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_camera_motion_policy_matrix.schema.json",
+    "class_c_schema_native_hold_packet_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-012_CLASS_C_SCHEMA_NATIVE_REVERSED_PTS_HOLD_PACKET_20260720.json",
+    "class_c_schema_native_hold_packet_sha256": "0e0c3d8648f939f24684be7a9b7ad70aef20b1289f6fadd30d90256dbdeb1ff7",
+    "class_e_runpod_readiness_packet_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_PRODUCTION_READINESS_PACKET_20260721.json",
+    "class_e_runpod_readiness_packet_sha256": "cafe15b09d911b7f0428e19be81c8ee28e53a99066597568a9f9ea20e28498fc",
+    "class_e_runpod_runtime_receipt_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/runpod_class_e_20260721T041251Z/class_e_runtime_receipt.json",
+    "class_e_runpod_runtime_receipt_sha256": "e28b237b26973b46fc5e2c44a7613677aadc5946a36bdbec02dc60ccfa8ef066",
+    "class_e_runpod_vlm_review_packet_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_VLM_REVIEW_20260721.json",
+    "class_e_runpod_vlm_review_packet_sha256": "7a39fb1fe2261e3c7d66a2c8a6f8e2710f9c6aa5def35c51043ad4a444cab4ad",
+    "clock_profile_registry_path": "Plan/10_REGISTRIES/wave64_audio_delivery_and_clock_profile_registry.json",
+    "clock_profile_registry_sha256": "078d4d8637588bdfcc6febd9416040ce6250b4cc90903df83d85aa59f6ee6d74",
+    "clock_span_schema_path": "Plan/08_SCHEMAS/canonical_media_clock_span.schema.json",
+    "clock_span_schema_sha256": "eb203bdae6a8b99df08e23e888dcd94f98b9991804603913ad14e8bf3f377d20",
     "combined_visual_audio_review_runtime_receipt_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/combined_visual_audio_review_runtime_receipt.json",
     "combined_visual_audio_review_runtime_receipt_sha256": "7fc5a309796bce797c1571e667060240dcb3b11057d83b6513c4ff3a4a594986",
     "combined_visual_audio_review_runtime_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_combined_visual_audio_review_runtime_receipt.schema.json",
@@ -522,6 +536,12 @@
     "held_out_missing_frame_policy_runtime_schema_sha256": "2a6427beae8a5079ef218f6261354af4a78fcf46cd98a7bb78c260d204f53906",
     "held_out_roundtrip_benchmark_receipt_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/held_out_roundtrip_benchmark_receipt.json",
     "held_out_roundtrip_benchmark_receipt_sha256": "ef027b15de4fd30a70060077563cb7a2432d1dd63dbfbb38f24cdbe942c3c669",
+    "held_out_roundtrip_benchmark_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_held_out_roundtrip_benchmark_receipt.schema.json",
+    "held_out_roundtrip_benchmark_schema_sha256": "a2429d3baecb45be709764302bf645e2928efd16ba45fd849a1ca487b8ee77d6",
+    "held_out_vfr_segment_map_benchmark_receipt_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/held_out_vfr_segment_map_benchmark_receipt.json",
+    "held_out_vfr_segment_map_benchmark_receipt_sha256": "ec3e3861b1940d31a729ad2ca681b07f72e4cff5351b26ede3e85a82e78c5479",
+    "held_out_vfr_segment_map_benchmark_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_held_out_vfr_segment_map_benchmark_receipt.schema.json",
+    "held_out_vfr_segment_map_benchmark_schema_sha256": "5026b13f7fa14dc93aa4525888ee1d0329c0480ed9a895f84114f8ac6a5b3fbc",
     "mux_prep_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_mux_prep_receipt.schema.json",
     "owner_commit": "PENDING_LANDING",
     "pass_digest_owner_commit": "PENDING_LANDING",
@@ -618,33 +638,15 @@
     "test_path": "Plan/Instructions/QA/Scripts/test_row084_canonical_video_timeline_compiler.py",
     "test_sha256": "1ec1056206b0cef101b8f9297b22835d7aa555f7e73417def13e9e408e9c8ea4",
     "tracker_output_artifact_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_canonical_video_timeline.json",
-    "tracker_output_artifact_sha256": "4316bad64f2e1f2d77c8d5a96fba724527ae0648d740db4d14f965b0cbdfcbca",
-    "clock_profile_registry_path": "Plan/10_REGISTRIES/wave64_audio_delivery_and_clock_profile_registry.json",
-    "clock_profile_registry_sha256": "078d4d8637588bdfcc6febd9416040ce6250b4cc90903df83d85aa59f6ee6d74",
-    "held_out_roundtrip_benchmark_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_held_out_roundtrip_benchmark_receipt.schema.json",
-    "held_out_roundtrip_benchmark_schema_sha256": "a2429d3baecb45be709764302bf645e2928efd16ba45fd849a1ca487b8ee77d6",
-    "held_out_vfr_segment_map_benchmark_receipt_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/held_out_vfr_segment_map_benchmark_receipt.json",
-    "held_out_vfr_segment_map_benchmark_receipt_sha256": "ec3e3861b1940d31a729ad2ca681b07f72e4cff5351b26ede3e85a82e78c5479",
-    "held_out_vfr_segment_map_benchmark_schema_path": "Plan/08_SCHEMAS/canonical_video_timeline_held_out_vfr_segment_map_benchmark_receipt.schema.json",
-    "held_out_vfr_segment_map_benchmark_schema_sha256": "5026b13f7fa14dc93aa4525888ee1d0329c0480ed9a895f84114f8ac6a5b3fbc",
-    "class_c_schema_native_hold_packet_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-012_CLASS_C_SCHEMA_NATIVE_REVERSED_PTS_HOLD_PACKET_20260720.json",
-    "class_c_schema_native_hold_packet_sha256": "0e0c3d8648f939f24684be7a9b7ad70aef20b1289f6fadd30d90256dbdeb1ff7",
-    "clock_span_schema_path": "Plan/08_SCHEMAS/canonical_media_clock_span.schema.json",
-    "clock_span_schema_sha256": "eb203bdae6a8b99df08e23e888dcd94f98b9991804603913ad14e8bf3f377d20",
-    "class_e_runpod_readiness_packet_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_PRODUCTION_READINESS_PACKET_20260721.json",
-    "class_e_runpod_readiness_packet_sha256": "cafe15b09d911b7f0428e19be81c8ee28e53a99066597568a9f9ea20e28498fc",
-    "class_e_runpod_runtime_receipt_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/runpod_class_e_20260721T041251Z/class_e_runtime_receipt.json",
-    "class_e_runpod_runtime_receipt_sha256": "e28b237b26973b46fc5e2c44a7613677aadc5946a36bdbec02dc60ccfa8ef066",
-    "class_e_runpod_vlm_review_packet_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_VLM_REVIEW_20260721.json",
-    "class_e_runpod_vlm_review_packet_sha256": "7a39fb1fe2261e3c7d66a2c8a6f8e2710f9c6aa5def35c51043ad4a444cab4ad"
+    "tracker_output_artifact_sha256": "4316bad64f2e1f2d77c8d5a96fba724527ae0648d740db4d14f965b0cbdfcbca"
   },
   "increment": {
     "comfyui_8188_invoked": false,
     "kind": "class_e_runpod_production_readiness_runtime_and_vlm_continue",
     "row_complete": false,
     "runtime_media_decode_invoked": false,
-    "summary": "Re-probed RunPod Comfy Class E readiness with real media ffprobe/visual proof and Ollama qwen2.5vl:7b VLM review; ROW084-011 not cleared; ROW084-012 HOLD not thrashed.",
     "schema_alone_enforcement_present": false,
+    "summary": "Re-probed RunPod Comfy Class E readiness with real media ffprobe/visual proof and Ollama qwen2.5vl:7b VLM review; ROW084-011 not cleared; ROW084-012 HOLD not thrashed.",
     "visual_qa_pass_bounded_claimed": true
   },
   "intent": {
@@ -667,6 +669,19 @@
     "work_type": "final_authority"
   },
   "item_id": "ITEM-W64-084",
+  "ledger_vocabulary_sync": {
+    "ledger_status": "Blocked_Visual_Qa_Pass_Bounded_Class_C_Schema_Native_Hold_And_Production_Completion_Blocked",
+    "note": "Mechanical CSV mutator Row084 Class E continue from c44d1dd9,83da2a63,c1ad0d56; no COMPLETE.",
+    "product_completion": false,
+    "prove_commits": [
+      "c44d1dd9",
+      "83da2a63",
+      "c1ad0d56"
+    ],
+    "row074_left_alone": true,
+    "runtime_completion": false,
+    "synced_at": "2026-07-21T04:23:27.905241Z"
+  },
   "pass_digest_owner_pending": true,
   "preservation_boundary": {
     "actual_write_paths": [
@@ -688,17 +703,17 @@
     ],
     "comfyui_8188_touched": false,
     "row073_pcm_left_alone": true,
+    "row074_left_alone": true,
     "row075_pid_left_alone": true,
     "sibling_row_paths_preserved": true,
     "tip_sha_chain_written": false,
     "tracker_items_csv_writes": false,
     "unrelated_dirty_paths_preserved": true,
-    "worker_artifacts_preserved": true,
-    "row074_left_alone": true
+    "worker_artifacts_preserved": true
   },
   "prior_evidence_commit": "b2d23937daf595ec83ff4912c890b10cfda2828a",
   "prior_row_commit_is_current_head": true,
-  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "proof_tier": "RUNTIME_PROBE_VISUAL_BOUNDED_WITH_VLM_REVIEW",
   "qa_decision": "HOLD",
   "row084_contract": {
     "completion_criteria": "Frame/time/sample conversions round-trip within tolerance for fixed and variable frame rate sources.",
@@ -785,16 +800,17 @@
     "planned_mux_command_envelope_only": true,
     "production_timeline_compilation_invoked": false,
     "provider_calls": 0,
+    "registered_roundtrip_tolerances_runtime_authoritative": true,
     "runtime_media_decode_invoked": false,
     "scheduled_task_wakes": 0,
     "schema_meta_validation_executed": true,
+    "schema_native_reversed_pts_enforcement_present": false,
     "synthetic_runtime_climb_ledger_only": true,
+    "vfr_segment_map_benchmark_complete": true,
     "visual_review_executed": true,
     "wrapper_calls": 0,
-    "wsl_invoked": false,
-    "registered_roundtrip_tolerances_runtime_authoritative": true,
-    "vfr_segment_map_benchmark_complete": true,
-    "schema_native_reversed_pts_enforcement_present": false
+    "wsl_invoked": false
   },
-  "tracker_id": "TRK-W64-084"
+  "tracker_id": "TRK-W64-084",
+  "updated_at": "2026-07-21T04:23:27.905241Z"
 }
