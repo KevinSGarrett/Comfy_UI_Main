@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_s3_object_staging_receipt.schema.json",
+  "title": "Wave64 S3 Evidence Object Staging Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "receipt_id", "program_id", "generated_at_utc", "source_head",
+    "bucket", "region", "key", "content_sha256", "checksum_sha256_base64",
+    "content_length", "version_id", "server_side_encryption", "conditional_create_used",
+    "head_verification_passed", "metadata_verification_passed", "overwrite_performed",
+    "delete_performed", "s3_presence_is_acceptance", "product_promotion_granted",
+    "public_access_block_readable", "public_access_block_reason", "disposition"
+  ],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.s3_object_staging_receipt.v1"},
+    "receipt_id": {"$ref": "#/definitions/sha256"},
+    "program_id": {"const": "W64-AQA"},
+    "generated_at_utc": {"type": "string", "format": "date-time"},
+    "source_head": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+    "bucket": {"const": "comfy-ui-main-runtime-029530099913-us-east-1"},
+    "region": {"const": "us-east-1"},
+    "key": {"type": "string", "pattern": "^evidence/w64-aqa/qualification/objects/[a-f0-9]{64}\\.json$"},
+    "content_sha256": {"$ref": "#/definitions/sha256"},
+    "checksum_sha256_base64": {"type": "string", "minLength": 44, "maxLength": 44},
+    "content_length": {"const": 4141},
+    "version_id": {"type": "string", "minLength": 1},
+    "server_side_encryption": {"const": "AES256"},
+    "conditional_create_used": {"const": true},
+    "head_verification_passed": {"const": true},
+    "metadata_verification_passed": {"const": true},
+    "overwrite_performed": {"const": false},
+    "delete_performed": {"const": false},
+    "s3_presence_is_acceptance": {"const": false},
+    "product_promotion_granted": {"const": false},
+    "public_access_block_readable": {"const": false},
+    "public_access_block_reason": {"const": "SESSION_ROLE_LACKS_S3_GET_BUCKET_PUBLIC_ACCESS_BLOCK"},
+    "disposition": {"const": "PASS_CONTENT_ADDRESSED_S3_OBJECT_STAGING_ONLY"}
+  },
+  "definitions": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

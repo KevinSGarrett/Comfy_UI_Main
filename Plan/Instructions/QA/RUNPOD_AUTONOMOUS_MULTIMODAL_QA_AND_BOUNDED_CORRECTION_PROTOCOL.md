@@ -161,6 +161,13 @@ flags remain false.
 
 ## Gate AQA-08: correction admission
 
+Before any S3 evidence promotion, validate the exact bucket and prefix policy,
+content-derived key, conditional-create requirement, SHA-256 checksum, server-
+side encryption, version ID, metadata, and replayed object length. A staged
+object passes storage qualification only. It cannot substitute for bundle
+replay, integration-authority approval, known bucket public-access posture, or
+product acceptance.
+
 The proposed repair must identify exact defects, targets, allowed patch class,
 expected benefit, risks, protected checks, parent hash, and rollback. Arbitrary
 node creation, shell, secret access, cloud mutation, threshold change, or model

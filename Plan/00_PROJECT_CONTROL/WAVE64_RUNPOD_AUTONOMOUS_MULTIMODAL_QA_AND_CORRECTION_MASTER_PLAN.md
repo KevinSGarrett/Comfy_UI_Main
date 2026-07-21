@@ -354,6 +354,15 @@ manifest; bucket presence alone is not proof of deployment or QA. GitHub branch
 presence, a worker statement, a generated file, or a successful process exit is
 also not product acceptance.
 
+The retained receipt at
+`Plan/Tracker/Evidence/W64_AQA_S3_OBJECT_STAGING_RECEIPT_20260721T233801Z.json`
+qualifies one Codex-authority content-addressed object stage to the configured
+versioned bucket. Conditional create, SHA-256 checksum replay, AES-256 server-
+side encryption, metadata, version ID, and `HeadObject` verification pass. No
+overwrite or delete occurred, and S3 presence granted no product promotion.
+Bucket public-access-block inspection remains unavailable to the session role,
+so production bundle promotion stays unqualified.
+
 ## Security and cost controls
 
 - Secrets remain in process/credential stores and are never written to Plans,

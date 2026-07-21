@@ -161,6 +161,14 @@ PATHS = {
     / "Plan/Tracker/Evidence/W64_AQA_WORKFLOW_CANDIDATE_STAGING_20260721T232803Z/evidence.json",
     "workflow_candidate_staging_receipt": ROOT
     / "Plan/Tracker/Evidence/W64_AQA_WORKFLOW_CANDIDATE_STAGING_20260721T232803Z/receipts/candidate_write.receipt.json",
+    "s3_object_staging_receipt_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_s3_object_staging_receipt.schema.json",
+    "s3_evidence_staging_policy": ROOT
+    / "Plan/10_REGISTRIES/wave64_runpod_autonomous_s3_evidence_staging_policy.json",
+    "infrastructure_reconciliation_payload": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_INFRASTRUCTURE_RECONCILIATION_PAYLOAD_20260721T233456Z.json",
+    "s3_object_staging_receipt": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_S3_OBJECT_STAGING_RECEIPT_20260721T233801Z.json",
     "correction_attempt_schema": ROOT
     / "Plan/08_SCHEMAS/runpod_autonomous_correction_attempt.schema.json",
     "correction_state_schema": ROOT
@@ -298,6 +306,10 @@ def collect_errors() -> list[str]:
         workflow_candidate_stager_policy = load_json(PATHS["workflow_candidate_stager_policy"])
         workflow_candidate_staging_evidence = load_json(PATHS["workflow_candidate_staging_evidence"])
         workflow_candidate_staging_receipt = load_json(PATHS["workflow_candidate_staging_receipt"])
+        s3_object_staging_receipt_schema = load_json(PATHS["s3_object_staging_receipt_schema"])
+        s3_evidence_staging_policy = load_json(PATHS["s3_evidence_staging_policy"])
+        infrastructure_reconciliation_payload = load_json(PATHS["infrastructure_reconciliation_payload"])
+        s3_object_staging_receipt = load_json(PATHS["s3_object_staging_receipt"])
         correction_attempt_schema = load_json(PATHS["correction_attempt_schema"])
         correction_state_schema = load_json(PATHS["correction_state_schema"])
         evidence_bundle_schema = load_json(PATHS["evidence_bundle_schema"])
@@ -342,6 +354,8 @@ def collect_errors() -> list[str]:
         workflow_receipt_shadow_evidence,
         workflow_tool_qualification_evidence,
         workflow_candidate_staging_evidence,
+        infrastructure_reconciliation_payload,
+        s3_object_staging_receipt,
         registry,
     )
     for document in json_docs:
@@ -798,6 +812,51 @@ def collect_errors() -> list[str]:
             errors.append(f"workflow candidate staging manifest path missing: {relative_path}")
         elif hashlib.sha256(bound_path.read_bytes()).hexdigest() != expected_sha256:
             errors.append(f"workflow candidate staging manifest hash mismatch: {relative_path}")
+    s3_policy_required = {
+        "execution_authority": "CODEX_INTEGRATION_ONLY",
+        "bucket": "comfy-ui-main-runtime-029530099913-us-east-1",
+        "region": "us-east-1",
+        "key_prefix": "evidence/w64-aqa/qualification/objects",
+        "content_addressed_key_required": True,
+        "if_none_match_star_required": True,
+        "checksum_sha256_required": True,
+        "server_side_encryption": "AES256",
+        "bucket_versioning_required": True,
+        "head_verification_required": True,
+        "overwrite_allowed": False,
+        "delete_allowed": False,
+        "s3_presence_is_acceptance": False,
+        "product_promotion_allowed": False,
+        "credential_values_in_receipts_allowed": False,
+        "public_access_block_must_be_known_before_production_promotion": True,
+        "all_other_buckets_or_prefixes": "UNQUALIFIED_DENY",
+    }
+    if any(s3_evidence_staging_policy.get(key) != expected for key, expected in s3_policy_required.items()):
+        errors.append("S3 evidence staging policy is incomplete or weakened")
+    if s3_object_staging_receipt.get("receipt_id") != recompute_self_hash(
+        s3_object_staging_receipt, "receipt_id"
+    ):
+        errors.append("S3 object staging receipt self-hash mismatch")
+    payload_sha256 = hashlib.sha256(PATHS["infrastructure_reconciliation_payload"].read_bytes()).hexdigest()
+    if s3_object_staging_receipt.get("content_sha256") != payload_sha256:
+        errors.append("S3 object staging receipt does not bind the reconciliation payload")
+    expected_s3_key = f"evidence/w64-aqa/qualification/objects/{payload_sha256}.json"
+    if s3_object_staging_receipt.get("key") != expected_s3_key:
+        errors.append("S3 object staging key is not content-addressed")
+    s3_receipt_required = {
+        "server_side_encryption": "AES256",
+        "conditional_create_used": True,
+        "head_verification_passed": True,
+        "metadata_verification_passed": True,
+        "overwrite_performed": False,
+        "delete_performed": False,
+        "s3_presence_is_acceptance": False,
+        "product_promotion_granted": False,
+        "public_access_block_readable": False,
+        "disposition": "PASS_CONTENT_ADDRESSED_S3_OBJECT_STAGING_ONLY",
+    }
+    if any(s3_object_staging_receipt.get(key) != expected for key, expected in s3_receipt_required.items()):
+        errors.append("S3 object staging receipt claims changed")
     if migration_policy.get("decision_only") is not True:
         errors.append("migration controller must remain decision-only")
     if migration_policy.get("old_pod_stops_only_after_integration_switch") is not True:
@@ -900,6 +959,10 @@ def collect_errors() -> list[str]:
         jsonschema.Draft7Validator.check_schema(workflow_candidate_staging_receipt_schema)
         jsonschema.Draft7Validator(workflow_candidate_staging_receipt_schema).validate(
             workflow_candidate_staging_receipt
+        )
+        jsonschema.Draft7Validator.check_schema(s3_object_staging_receipt_schema)
+        jsonschema.Draft7Validator(s3_object_staging_receipt_schema).validate(
+            s3_object_staging_receipt
         )
         jsonschema.Draft7Validator.check_schema(correction_attempt_schema)
         jsonschema.Draft7Validator.check_schema(correction_state_schema)

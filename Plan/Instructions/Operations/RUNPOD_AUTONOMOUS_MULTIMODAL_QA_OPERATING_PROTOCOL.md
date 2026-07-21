@@ -28,6 +28,12 @@ Program: `W64-AQA`
 - Warn at 75% overlay use; block new downloads at 85% until reconciled.
 - S3 writes require an exact bucket/prefix, content hash, manifest, encryption
   policy, cost posture, and a non-secret receipt.
+- The qualified evidence-staging boundary is Codex integration authority only,
+  bucket `comfy-ui-main-runtime-029530099913-us-east-1`, prefix
+  `evidence/w64-aqa/qualification/objects`, a SHA-256-derived key, conditional
+  create, AES-256, versioning, and checksum-enabled `HeadObject` replay. Never
+  overwrite or delete qualification objects. This boundary does not authorize
+  an LLM cloud tool, a full bundle promotion, or product acceptance.
 - Every required role package is installed on the primary pod's durable volume.
   Installation is not activation; only an exact capacity-and-quality certificate
   can mark the package operational.
