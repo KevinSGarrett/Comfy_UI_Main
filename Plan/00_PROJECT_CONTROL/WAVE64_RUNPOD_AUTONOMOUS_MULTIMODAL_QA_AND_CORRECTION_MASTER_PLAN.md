@@ -308,6 +308,16 @@ RunPod contact, ComfyUI sandbox, candidate write, model inference, Coder
 proposal authority, or product promotion occurred. Those capabilities remain
 separately unqualified and cannot inherit authority from this PASS.
 
+The next retained qualification at
+`Plan/Tracker/Evidence/W64_AQA_WORKFLOW_LOGICAL_TOOL_QUALIFICATION_20260721T232000Z/evidence.json`
+executes exactly two logical actions against that same four-receipt bundle:
+`workflow_inspect` for `workflow.graph` and `validator_run` for
+`validate.workflow.v1`. Both recompute the gateway decision, bind the contract
+and job, enforce the separate shadow-only executor policy, return the same
+receipt-bound static PASS, and retain zero content, sandbox, target-write,
+network, runtime, or promotion claims. Other validator targets and production
+mode remain denied.
+
 ## Bounded correction policy
 
 - Preserve the accepted parent and immutable baseline before every repair.

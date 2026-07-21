@@ -139,6 +139,18 @@ PATHS = {
     / "Plan/Tracker/Evidence/W64_AQA_WORKFLOW_RECEIPT_BOUND_SHADOW_20260721T231000Z/workflow_validation.json",
     "workflow_receipt_shadow_evidence": ROOT
     / "Plan/Tracker/Evidence/W64_AQA_WORKFLOW_RECEIPT_BOUND_SHADOW_20260721T231000Z/evidence.json",
+    "workflow_tool_execution_receipt_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_workflow_tool_execution_receipt.schema.json",
+    "workflow_tool_executor_policy": ROOT
+    / "Plan/10_REGISTRIES/wave64_runpod_autonomous_workflow_tool_executor_policy.json",
+    "workflow_tool_executor": ROOT
+    / "Plan/07_IMPLEMENTATION/scripts/execute_wave64_runpod_autonomous_workflow_tool.py",
+    "workflow_tool_qualification_evidence": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_WORKFLOW_LOGICAL_TOOL_QUALIFICATION_20260721T232000Z/evidence.json",
+    "workflow_inspect_execution_receipt": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_WORKFLOW_LOGICAL_TOOL_QUALIFICATION_20260721T232000Z/workflow_inspect.receipt.json",
+    "validator_run_execution_receipt": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_WORKFLOW_LOGICAL_TOOL_QUALIFICATION_20260721T232000Z/validator_run.receipt.json",
     "correction_attempt_schema": ROOT
     / "Plan/08_SCHEMAS/runpod_autonomous_correction_attempt.schema.json",
     "correction_state_schema": ROOT
@@ -267,6 +279,11 @@ def collect_errors() -> list[str]:
         workflow_receipt_shadow_bundle = load_json(PATHS["workflow_receipt_shadow_bundle"])
         workflow_receipt_shadow_validation = load_json(PATHS["workflow_receipt_shadow_validation"])
         workflow_receipt_shadow_evidence = load_json(PATHS["workflow_receipt_shadow_evidence"])
+        workflow_tool_execution_receipt_schema = load_json(PATHS["workflow_tool_execution_receipt_schema"])
+        workflow_tool_executor_policy = load_json(PATHS["workflow_tool_executor_policy"])
+        workflow_tool_qualification_evidence = load_json(PATHS["workflow_tool_qualification_evidence"])
+        workflow_inspect_execution_receipt = load_json(PATHS["workflow_inspect_execution_receipt"])
+        validator_run_execution_receipt = load_json(PATHS["validator_run_execution_receipt"])
         correction_attempt_schema = load_json(PATHS["correction_attempt_schema"])
         correction_state_schema = load_json(PATHS["correction_state_schema"])
         evidence_bundle_schema = load_json(PATHS["evidence_bundle_schema"])
@@ -309,6 +326,7 @@ def collect_errors() -> list[str]:
         strict_model_admission_hold_evidence,
         tool_executor_qualification,
         workflow_receipt_shadow_evidence,
+        workflow_tool_qualification_evidence,
         registry,
     )
     for document in json_docs:
@@ -635,6 +653,71 @@ def collect_errors() -> list[str]:
             errors.append(f"workflow receipt shadow manifest path missing: {relative_path}")
         elif hashlib.sha256(bound_path.read_bytes()).hexdigest() != expected_sha256:
             errors.append(f"workflow receipt shadow manifest hash mismatch: {relative_path}")
+    if set(workflow_tool_executor_policy.get("qualified_actions", {})) != {
+        "workflow_inspect", "validator_run"
+    }:
+        errors.append("workflow logical tool executor exact action set changed")
+    if workflow_tool_executor_policy.get("execution_modes") != ["shadow_qualification"]:
+        errors.append("workflow logical tool executor must remain shadow-only")
+    workflow_tool_mandatory_controls = {
+        "parameters_required_empty": True,
+        "input_receipt_bundle_required": True,
+        "content_exposure_allowed": False,
+        "sandbox_execution_allowed": False,
+        "target_write_allowed": False,
+        "network_allowed": False,
+        "all_other_actions": "UNQUALIFIED_DENY",
+    }
+    if any(
+        workflow_tool_executor_policy.get(key) != expected
+        for key, expected in workflow_tool_mandatory_controls.items()
+    ):
+        errors.append("workflow logical tool executor controls are incomplete or weakened")
+    expected_logical_receipts = {
+        "workflow_inspect": (workflow_inspect_execution_receipt, "workflow.graph"),
+        "validator_run": (validator_run_execution_receipt, "validate.workflow.v1"),
+    }
+    logical_receipt_ids: set[str] = set()
+    for action_type, (receipt, logical_target) in expected_logical_receipts.items():
+        required_values = {
+            "action_type": action_type,
+            "logical_target": logical_target,
+            "disposition": "PASS_RECEIPT_BOUND_STATIC_WORKFLOW_TOOL",
+            "execution_performed": True,
+            "content_exposed": False,
+            "sandbox_execution_performed": False,
+            "target_write_performed": False,
+            "network_used": False,
+            "input_binding_disposition": "PASS_EXECUTOR_RECEIPT_BOUND",
+            "workflow_validation_disposition": "PASS_STATIC_VALIDATION",
+        }
+        for key, expected in required_values.items():
+            if receipt.get(key) != expected:
+                errors.append(f"canonical {action_type} receipt {key} mismatch")
+        if receipt.get("receipt_id") != recompute_self_hash(receipt, "receipt_id"):
+            errors.append(f"canonical {action_type} execution receipt self-hash mismatch")
+        logical_receipt_ids.add(receipt.get("receipt_id", ""))
+    if len(logical_receipt_ids) != 2:
+        errors.append("workflow logical tool execution receipts must be distinct")
+    if workflow_tool_qualification_evidence.get("disposition") != "PASS_EXACT_SHADOW_STATIC_WORKFLOW_LOGICAL_ACTIONS_ONLY":
+        errors.append("workflow logical tool qualification must remain exact and shadow-only")
+    logical_runtime_claims = workflow_tool_qualification_evidence.get("runtime_claims", {})
+    if any(logical_runtime_claims.get(key) is not False for key in (
+        "runpod_contacted", "gpu_used", "comfyui_execution_performed",
+        "sandbox_execution_performed", "model_inference_performed",
+        "candidate_write_performed", "content_exposed", "network_used",
+        "product_promotion_granted",
+    )):
+        errors.append("workflow logical tool qualification must not claim runtime or write authority")
+    logical_evidence_root = PATHS["workflow_tool_qualification_evidence"].parent
+    for relative_path, expected_sha256 in workflow_tool_qualification_evidence.get(
+        "file_manifest_sha256", {}
+    ).items():
+        bound_path = logical_evidence_root / relative_path
+        if not bound_path.is_file():
+            errors.append(f"workflow logical tool manifest path missing: {relative_path}")
+        elif hashlib.sha256(bound_path.read_bytes()).hexdigest() != expected_sha256:
+            errors.append(f"workflow logical tool manifest hash mismatch: {relative_path}")
     if migration_policy.get("decision_only") is not True:
         errors.append("migration controller must remain decision-only")
     if migration_policy.get("old_pod_stops_only_after_integration_switch") is not True:
@@ -727,6 +810,13 @@ def collect_errors() -> list[str]:
         )
         for receipt in workflow_receipt_shadow_bundle.get("receipts", {}).values():
             jsonschema.Draft7Validator(tool_executor_receipt_schema).validate(receipt)
+        jsonschema.Draft7Validator.check_schema(workflow_tool_execution_receipt_schema)
+        jsonschema.Draft7Validator(workflow_tool_execution_receipt_schema).validate(
+            workflow_inspect_execution_receipt
+        )
+        jsonschema.Draft7Validator(workflow_tool_execution_receipt_schema).validate(
+            validator_run_execution_receipt
+        )
         jsonschema.Draft7Validator.check_schema(correction_attempt_schema)
         jsonschema.Draft7Validator.check_schema(correction_state_schema)
         jsonschema.Draft7Validator.check_schema(evidence_bundle_schema)

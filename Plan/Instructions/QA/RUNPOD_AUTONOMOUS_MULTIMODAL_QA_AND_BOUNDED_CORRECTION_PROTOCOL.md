@@ -137,10 +137,19 @@ bounded digest receipt without content exposure, target writes, or network use.
 Qualification must retain negative coverage for decision tampering, denied or
 unqualified actions, nonempty parameters, traversal, absolute/URI/cross-job
 targets, sensitive filenames and suffixes, secret-like content, oversized
-or over-time artifacts, symlinks and reparse points, pre-open and during-read identity changes,
-policy expansion, weakened controls, receipt overwrite, and crash-before-publish.
+or over-time artifacts, symlinks and reparse points, pre-open and during-read
+identity changes, policy expansion, weakened controls, receipt overwrite, and
+crash-before-publish.
 A skipped host symlink fixture does not waive the platform-independent reparse
-classification test. All other tool actions remain `UNQUALIFIED_DENY`.
+classification test.
+
+The separate workflow logical executor qualifies only `workflow_inspect` on
+`workflow.graph` and `validator_run` on `validate.workflow.v1`, and only in
+shadow mode with the exact four-receipt bundle. Retain negative coverage for
+other validator targets, production mode, nonempty parameters, role/job/contract
+mismatch, policy expansion, limit changes, elapsed time, and any content,
+sandbox, write, or network enablement. Every other action remains
+`UNQUALIFIED_DENY`.
 
 ## Gate AQA-08: correction admission
 

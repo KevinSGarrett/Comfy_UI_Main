@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_workflow_tool_execution_receipt.schema.json",
+  "title": "Wave64 Workflow Logical Tool Execution Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "receipt_id", "request_id", "decision_id", "job_id",
+    "actor_role_id", "authority_binding_sha256", "gateway_policy_sha256",
+    "executor_policy_sha256", "action_type", "logical_target", "execution_performed",
+    "content_exposed", "sandbox_execution_performed", "target_write_performed",
+    "network_used", "input_receipt_bundle_id", "workflow_validation_id",
+    "workflow_validation_disposition", "input_binding_disposition", "findings_count",
+    "validation_result", "disposition", "reason_codes"
+  ],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.workflow_tool_execution_receipt.v1"},
+    "receipt_id": {"$ref": "#/definitions/sha256"},
+    "request_id": {"type": "string", "minLength": 1},
+    "decision_id": {"$ref": "#/definitions/sha256"},
+    "job_id": {"type": "string", "pattern": "^W64-AQA-JOB-[A-Za-z0-9._-]{1,96}$"},
+    "actor_role_id": {"type": "string", "pattern": "^W64-AQA-ROLE-[A-Z0-9-]+$"},
+    "authority_binding_sha256": {"$ref": "#/definitions/sha256"},
+    "gateway_policy_sha256": {"$ref": "#/definitions/sha256"},
+    "executor_policy_sha256": {"$ref": "#/definitions/sha256"},
+    "action_type": {"enum": ["workflow_inspect", "validator_run"]},
+    "logical_target": {"enum": ["workflow.graph", "validate.workflow.v1"]},
+    "execution_performed": {"const": true},
+    "content_exposed": {"const": false},
+    "sandbox_execution_performed": {"const": false},
+    "target_write_performed": {"const": false},
+    "network_used": {"const": false},
+    "input_receipt_bundle_id": {"$ref": "#/definitions/sha256"},
+    "workflow_validation_id": {"$ref": "#/definitions/sha256"},
+    "workflow_validation_disposition": {"enum": ["PASS_STATIC_VALIDATION", "FAIL_STATIC_VALIDATION"]},
+    "input_binding_disposition": {"const": "PASS_EXECUTOR_RECEIPT_BOUND"},
+    "findings_count": {"type": "integer", "minimum": 0, "maximum": 1024},
+    "validation_result": {"type": "object"},
+    "disposition": {
+      "enum": ["PASS_RECEIPT_BOUND_STATIC_WORKFLOW_TOOL", "COMPLETED_RECEIPT_BOUND_STATIC_VALIDATION_FAIL"]
+    },
+    "reason_codes": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[A-Z0-9_]+$"}
+    }
+  },
+  "definitions": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

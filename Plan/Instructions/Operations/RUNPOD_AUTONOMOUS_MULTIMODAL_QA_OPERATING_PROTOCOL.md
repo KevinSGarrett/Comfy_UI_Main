@@ -207,11 +207,18 @@ a digest and byte count only.
 It must record no content exposure, target write, or network use and publish
 atomically without overwriting an existing receipt.
 
-No other gateway action is executable yet. In particular, do not map
-`proposal_write`, `candidate_write`, `evidence_append`, `validator_run`,
-`workflow_inspect`, `object_info_read`, or `shadow_generation_submit` to this
-executor. Qualify each separately with exact roots, schemas, ceilings, rollback,
-and fault injection before runtime use.
+Two logical workflow actions have a separate qualified executor in shadow mode:
+`workflow_inspect` must target exactly `workflow.graph`, and `validator_run`
+must target exactly `validate.workflow.v1`. Both require the four-receipt input
+bundle, empty parameters, an exact admitted role, the contract-ID authority
+binding, at most 16 MiB total input, 4096 nodes, 1024 findings, and the
+five-second elapsed guard. They perform static validation only.
+
+Do not map any other validator target, `proposal_write`, `candidate_write`,
+`evidence_append`, `object_info_read`, or `shadow_generation_submit` to either
+qualified executor. Production mode, sandbox execution, content exposure,
+target writes, and network use remain denied. Qualify every expansion with its
+own exact schema, policy, limits, rollback, and fault campaign.
 
 ## 8. Incident and recovery
 

@@ -1,0 +1,31 @@
+{
+  "schema_version": "wave64.aqa.workflow_tool_executor_policy.v1",
+  "program_id": "W64-AQA",
+  "policy_id": "W64-AQA-WORKFLOW-TOOL-EXECUTOR-POLICY-001",
+  "qualified_actions": {
+    "workflow_inspect": {
+      "logical_target": "workflow.graph",
+      "roles": ["W64-AQA-ROLE-CONTROLLER", "W64-AQA-ROLE-WORKFLOW-ENGINEER"]
+    },
+    "validator_run": {
+      "logical_target": "validate.workflow.v1",
+      "roles": [
+        "W64-AQA-ROLE-CONTROLLER",
+        "W64-AQA-ROLE-DETERMINISTIC",
+        "W64-AQA-ROLE-WORKFLOW-ENGINEER"
+      ]
+    }
+  },
+  "execution_modes": ["shadow_qualification"],
+  "parameters_required_empty": true,
+  "input_receipt_bundle_required": true,
+  "max_total_input_bytes": 16777216,
+  "max_workflow_nodes": 4096,
+  "max_findings": 1024,
+  "max_elapsed_ms": 5000,
+  "content_exposure_allowed": false,
+  "sandbox_execution_allowed": false,
+  "target_write_allowed": false,
+  "network_allowed": false,
+  "all_other_actions": "UNQUALIFIED_DENY"
+}

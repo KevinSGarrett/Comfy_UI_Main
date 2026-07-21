@@ -1,0 +1,65 @@
+{
+  "schema_version": "wave64.aqa.workflow_logical_tool_qualification.v1",
+  "program_id": "W64-AQA",
+  "tracker_ids": ["W64-AQA-010", "W64-AQA-015"],
+  "observed_at_utc": "2026-07-21T23:20:00Z",
+  "source_head": "f632f957c8ebd95c45a3512dbea39f2106d116b8",
+  "job_id": "W64-AQA-JOB-workflow-receipt-shadow",
+  "contract_id": "ce6b898244cdb7bd013e689e0c4263f3740bbf2fb51570558b0e4f471cfb27ae",
+  "input_receipt_bundle_id": "e743ea2915da500352571051106f2dde1a8a51ea2249808ed1bab7650cf099f0",
+  "qualified_actions": {
+    "workflow_inspect": {
+      "logical_target": "workflow.graph",
+      "receipt_id": "91d47bfe45edc8e326411845c5650fe5312ca70d4835091d183da1e2cbc6272d",
+      "disposition": "PASS_RECEIPT_BOUND_STATIC_WORKFLOW_TOOL"
+    },
+    "validator_run": {
+      "logical_target": "validate.workflow.v1",
+      "receipt_id": "126bc3430010c6a5aeb63a1b9bb99cfb99ca42fb1d0cc067cb597a7aeec3bafc",
+      "disposition": "PASS_RECEIPT_BOUND_STATIC_WORKFLOW_TOOL"
+    }
+  },
+  "file_manifest_sha256": {
+    "validator_run.decision.json": "d3243c69d4a05aae3d939bb1e1eb3a2cf3d6c064c5c6a1dce7aad49a5e227e00",
+    "validator_run.receipt.json": "6c15b1b4dc6a82f3d73eba7aa1383fd3e05bacf78d373812098fafcb29c57310",
+    "validator_run.request.json": "588c1eb5eeacfcfa1974604e832b129a0220d4a096ec4100968764449663e47c",
+    "workflow_inspect.decision.json": "f60f0ba06e636fb4b30db11d16ff5e100d9e118f5c77cf0a5d1cb380ac475f7e",
+    "workflow_inspect.receipt.json": "66598793daf52da75601732d928599e43fe48f33df51409f9e6b7f23aeadbe36",
+    "workflow_inspect.request.json": "ef8f29690066377a502a36fc9f52c17974646ed42834ae3a241fd6627c8d9483"
+  },
+  "fault_coverage": [
+    "decision_recompute_mismatch",
+    "logical_target_outside_exact_qualification",
+    "production_mode_denial",
+    "nonempty_parameter_denial",
+    "role_denial",
+    "contract_job_and_authority_mismatch",
+    "policy_action_expansion",
+    "network_control_weakening",
+    "total_input_node_findings_and_elapsed_limits"
+  ],
+  "runtime_claims": {
+    "runpod_contacted": false,
+    "gpu_used": false,
+    "comfyui_execution_performed": false,
+    "sandbox_execution_performed": false,
+    "model_inference_performed": false,
+    "candidate_write_performed": false,
+    "content_exposed": false,
+    "network_used": false,
+    "product_promotion_granted": false
+  },
+  "remaining_unqualified": [
+    "all_validator_run_targets_except_validate.workflow.v1",
+    "production_release_mode",
+    "typed_patch_sandbox_execution",
+    "object_info_runtime_read",
+    "proposal_write",
+    "candidate_write",
+    "evidence_append",
+    "shadow_generation_submit",
+    "coder_proposal_authority",
+    "shell_git_cloud_tracker_promotion_and_arbitrary_network"
+  ],
+  "disposition": "PASS_EXACT_SHADOW_STATIC_WORKFLOW_LOGICAL_ACTIONS_ONLY"
+}
