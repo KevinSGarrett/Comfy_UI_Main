@@ -1,33 +1,53 @@
 {
-  "schema_version": "1.0",
-  "evidence_id": "TRK-W64-019_023_POD_CLASS_B_VLM_SUBSTITUTE_20260721",
-  "created_utc": "2026-07-21T04:15:16.181611Z",
+  "blocker_codes_retained": [
+    "FRAME_REPAIR_VISUAL_ACCEPTANCE_FAILED",
+    "LOCAL_WAN_MODEL_PAYLOAD_MISSING",
+    "SAME_SEED_RERUN_FORBIDDEN",
+    "Blocked_Gold_Mask_Dependency_Missing",
+    "CONTACT_SOFT_BODY_VIDEO_SCOPE_BLOCKED_GOLD_MASKS",
+    "KEYFRAME_MANIFEST_INTEGRATION_MISSING"
+  ],
+  "blocker_codes_shrunk_or_substituted": [
+    {
+      "clears_production_gold": false,
+      "code": "Blocked_Gold_Mask_Dependency_Missing",
+      "note": "Human gold remains ABSENT; synthetic Scenes+VLM provides bounded autonomous review authority only \u2014 not mask promotion.",
+      "scope": "contact_and_soft_body_review_subgates_only",
+      "substitution": "SYNTHETIC_SCENES_PLUS_VLM_BOUNDED"
+    }
+  ],
   "classification": "Class_B_Autonomous_VLM_Substitute_Bounded",
-  "runtime": "runpod",
-  "pod_id": "1q4ji0gg1fkhvt",
-  "hostname": "82caae576b8a",
-  "row_complete": false,
-  "product_completion_claimed": false,
-  "hold_emitted": false,
-  "csv_sync": "deferred_evidence_only",
+  "comfyui_queue": {
+    "foreign_prompt_id": "c44cf05b-17cd-4790-b540-56782a74171c",
+    "idle": false,
+    "note": "Foreign Flux/PuLID job observed during VLM-only landing; no queue steal; no generation this landing.",
+    "queue_pending_count": 0,
+    "queue_running_count": 1,
+    "reachable": true
+  },
+  "created_utc": "2026-07-21T04:15:16.181611Z",
+  "csv_sync": "synced_by_primary_csv_mutator_row019_023_pod_class_b_vlm",
+  "csv_sync_tip": "9b1d9d42",
+  "do_not": [
+    "flux_seed_spam_2272301_2272401_2272507",
+    "claim_COMPLETE_or_row_complete",
+    "promote_gold_masks_from_vlm",
+    "touch_row074_pcm",
+    "auto_download_wan_payloads",
+    "emit_HOLD_090_plus"
+  ],
+  "evidence_id": "TRK-W64-019_023_POD_CLASS_B_VLM_SUBSTITUTE_20260721",
+  "flux_generation_this_landing": false,
+  "flux_seed_spam_this_landing": false,
   "forbidden_seeds": [
     2272301,
     2272401,
     2272507
   ],
-  "flux_seed_spam_this_landing": false,
-  "flux_generation_this_landing": false,
-  "wan_download_this_landing": false,
-  "row074_pcm_touched": false,
-  "substitute_reason": "Wan TI2V payloads absent and human body/contact gold authority absent; advance Class B via Scenes Flux synthetic contact/soft-body frames + self-hosted Ollama VLM review (not gold-mask promotion).",
+  "highest_proof_tier_achieved": "POD_CLASS_B_VLM_SUBSTITUTE_BOUNDED",
+  "hold_emitted": false,
+  "hostname": "82caae576b8a",
   "inventory": {
-    "wan_ti2v_present_ratio": "0/3",
-    "wan_required_hits": {
-      "wan2.2_ti2v_5B_fp16.safetensors": [],
-      "umt5_xxl_fp8_e4m3fn_scaled.safetensors": [],
-      "wan2.2_vae.safetensors": []
-    },
-    "gold_authority_paths_present": 0,
     "gold_authority_paths": [
       {
         "path": "/workspace/Plan/Instructions/QA/Evidence/Mask_Factory/Body_Contact_Gold_Standards",
@@ -57,223 +77,213 @@
         "path": "/workspace/maskfactory/gold_standard/body_contact",
         "status": "ABSENT"
       }
-    ]
+    ],
+    "gold_authority_paths_present": 0,
+    "wan_required_hits": {
+      "umt5_xxl_fp8_e4m3fn_scaled.safetensors": [],
+      "wan2.2_ti2v_5B_fp16.safetensors": [],
+      "wan2.2_vae.safetensors": []
+    },
+    "wan_ti2v_present_ratio": "0/3"
   },
-  "comfyui_queue": {
-    "reachable": true,
-    "idle": false,
-    "queue_running_count": 1,
-    "queue_pending_count": 0,
-    "foreign_prompt_id": "c44cf05b-17cd-4790-b540-56782a74171c",
-    "note": "Foreign Flux/PuLID job observed during VLM-only landing; no queue steal; no generation this landing."
+  "ledger_vocabulary_sync": {
+    "note": "Mechanical CSV mutator Row019/023 Class B VLM sync from cd787d5b,9b1d9d42; 4/4 REJECT_RETAINED; Wan 0/3; gold absent; no COMPLETE.",
+    "product_completion": false,
+    "prove_commits": [
+      "cd787d5b",
+      "9b1d9d42"
+    ],
+    "synced_at": "2026-07-21T04:26:23.907502Z"
   },
-  "vlm": {
-    "provider": "ollama",
-    "endpoint": "http://127.0.0.1:11434",
-    "model": "qwen2.5vl:7b",
-    "authority_tier": "SYNTHETIC_PLUS_VLM_BOUNDED_NOT_GOLD_PROMOTION"
-  },
+  "never_complete_from_this_packet": true,
+  "next_action": "Keep Class F Wan payloads as external stage gate. Retain immutable Row023 rejects. Continue Scenes+VLM contact/soft-body climbs with non-forbidden seeds only when idle; do not claim COMPLETE.",
+  "packet_sha256": "e915065d3c44ef2cf464cc48a616846c3da6880ddae2efff28c82ad147646359",
+  "pod_id": "1q4ji0gg1fkhvt",
+  "product_completion_claimed": false,
+  "proof_tier": "POD_CLASS_B_VLM_SUBSTITUTE_BOUNDED",
   "reviews": [
     {
-      "slot_id": "row023_wan_reject_midframe",
-      "kind": "immutable_class_b_reject",
-      "role": "class_b_visual_reaffirm",
-      "source_mp4": "/workspace/wave64/Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260715T115203-0500/images/12_w64_row023_wan22_rerun_seed2272301_00001_.mp4",
-      "source_mp4_exists": true,
-      "source_mp4_sha256": "29823555e23ac47d58fd83740952817c0b6ddf379523dc3b61f6e8088d34949a",
-      "source_mp4_bytes": 58081,
       "frame_index": 24,
+      "image_bytes": 393514,
       "image_path": "/workspace/runtime_artifacts/row019_023_vlm_class_b_20260721/frames/row023_wan_reject_midframe_f0024.png",
       "image_sha256": "15caee52dee4450ca97c8403a406b96f2e5265a866df5fde4ebc73e85c2c0c0c",
-      "image_bytes": 393514,
+      "kind": "immutable_class_b_reject",
+      "overall_class_b_verdict": "REJECT_RETAINED",
+      "role": "class_b_visual_reaffirm",
+      "slot_id": "row023_wan_reject_midframe",
+      "source_mp4": "/workspace/wave64/Plan/Instructions/Operations/Pulled_Back_Artifacts/aws_gpu_workflow_smoke_20260715T115203-0500/images/12_w64_row023_wan22_rerun_seed2272301_00001_.mp4",
+      "source_mp4_bytes": 58081,
+      "source_mp4_exists": true,
+      "source_mp4_sha256": "29823555e23ac47d58fd83740952817c0b6ddf379523dc3b61f6e8088d34949a",
       "status": "REVIEWED",
       "vlm": {
-        "model": "qwen2.5vl:7b",
         "elapsed_s": 20.741,
+        "eval_count": 180,
+        "model": "qwen2.5vl:7b",
+        "parse_error": null,
         "parsed": {
-          "recognizable_anchor_identity": "unclear",
-          "symmetric_gray_side_lights": "fail",
-          "side_light_color_drift": "strong_violet_blue",
-          "hard_artifacts": "severe",
-          "hard_artifact_notes": "blurring, ghosting",
-          "contact_visible": "no",
-          "contact_plausibility": "unclear",
-          "soft_body_deformation_visible": "partial",
-          "soft_body_plausibility": "pass",
           "anatomy_coherence": "fail",
-          "duo_identity_separation": "solo",
-          "overall_class_b_verdict": "REJECT_RETAINED",
           "blocking_defects": [
             "blurring",
             "ghosting"
           ],
-          "notes": "Severe blurring and ghosting obscure details, making identity and contact plausibility unclear."
+          "contact_plausibility": "unclear",
+          "contact_visible": "no",
+          "duo_identity_separation": "solo",
+          "hard_artifact_notes": "blurring, ghosting",
+          "hard_artifacts": "severe",
+          "notes": "Severe blurring and ghosting obscure details, making identity and contact plausibility unclear.",
+          "overall_class_b_verdict": "REJECT_RETAINED",
+          "recognizable_anchor_identity": "unclear",
+          "side_light_color_drift": "strong_violet_blue",
+          "soft_body_deformation_visible": "partial",
+          "soft_body_plausibility": "pass",
+          "symmetric_gray_side_lights": "fail"
         },
-        "parse_error": null,
-        "eval_count": 180,
         "prompt_eval_count": 1373,
-        "raw_response_sha256": "ec3a1284f367c6d4cec468ee55d4a5c331760d0553103a44bda49663592d0cfa",
-        "raw_response_chars": 634
-      },
-      "overall_class_b_verdict": "REJECT_RETAINED"
+        "raw_response_chars": 634,
+        "raw_response_sha256": "ec3a1284f367c6d4cec468ee55d4a5c331760d0553103a44bda49663592d0cfa"
+      }
     },
     {
-      "slot_id": "scenes_s02_titfuck_contact_candidate",
-      "kind": "scenes_flux_contact_candidate",
-      "role": "synthetic_contact_vlm_authority",
-      "source_path": "/workspace/Characters/Scenes_xxx_001/04_SCENES/S02_titfuck_seated_threequarter_couch/renders/candidates/i11_cand_i11_00001_.png",
-      "source_exists": true,
+      "image_bytes": 1035580,
       "image_path": "/workspace/runtime_artifacts/row019_023_vlm_class_b_20260721/frames/scenes_s02_titfuck_contact_candidate.png",
       "image_sha256": "d31027a26f8db46c470cf774b3ec65d65ae62c1c17a4547bc5344aab0038f6d0",
-      "image_bytes": 1035580,
+      "kind": "scenes_flux_contact_candidate",
+      "overall_class_b_verdict": "REJECT_RETAINED",
+      "role": "synthetic_contact_vlm_authority",
+      "slot_id": "scenes_s02_titfuck_contact_candidate",
+      "source_exists": true,
+      "source_path": "/workspace/Characters/Scenes_xxx_001/04_SCENES/S02_titfuck_seated_threequarter_couch/renders/candidates/i11_cand_i11_00001_.png",
       "status": "REVIEWED",
       "vlm": {
-        "model": "qwen2.5vl:7b",
         "elapsed_s": 15.35,
+        "eval_count": 167,
+        "model": "qwen2.5vl:7b",
+        "parse_error": null,
         "parsed": {
-          "recognizable_anchor_identity": "pass",
-          "symmetric_gray_side_lights": "unclear",
-          "side_light_color_drift": "not_applicable",
-          "hard_artifacts": "mild",
-          "hard_artifact_notes": "blurring around edges",
-          "contact_visible": "yes",
-          "contact_plausibility": "pass",
-          "soft_body_deformation_visible": "no",
-          "soft_body_plausibility": "pass",
           "anatomy_coherence": "pass",
-          "duo_identity_separation": "solo",
-          "overall_class_b_verdict": "REJECT_RETAINED",
           "blocking_defects": [
             "blurring",
             "mild artifacts"
           ],
-          "notes": "Image quality issues present, affecting clarity."
+          "contact_plausibility": "pass",
+          "contact_visible": "yes",
+          "duo_identity_separation": "solo",
+          "hard_artifact_notes": "blurring around edges",
+          "hard_artifacts": "mild",
+          "notes": "Image quality issues present, affecting clarity.",
+          "overall_class_b_verdict": "REJECT_RETAINED",
+          "recognizable_anchor_identity": "pass",
+          "side_light_color_drift": "not_applicable",
+          "soft_body_deformation_visible": "no",
+          "soft_body_plausibility": "pass",
+          "symmetric_gray_side_lights": "unclear"
         },
-        "parse_error": null,
-        "eval_count": 167,
         "prompt_eval_count": 1373,
-        "raw_response_sha256": "16c6d002e148da791d4a704ffd1b52ca53f369ad19a20e79043e39f9da7fb018",
-        "raw_response_chars": 583
-      },
-      "overall_class_b_verdict": "REJECT_RETAINED"
+        "raw_response_chars": 583,
+        "raw_response_sha256": "16c6d002e148da791d4a704ffd1b52ca53f369ad19a20e79043e39f9da7fb018"
+      }
     },
     {
-      "slot_id": "scenes_softbody_titfuck_plate",
-      "kind": "scenes_softbody_plate",
-      "role": "synthetic_softbody_vlm_authority",
-      "source_path": "/workspace/Characters/Scenes_xxx_001/02_WORKFLOWS/assets/plates/archived_standing_softrect/duo_plate_titfuck_standing_softrect.png",
-      "source_exists": true,
+      "image_bytes": 534061,
       "image_path": "/workspace/runtime_artifacts/row019_023_vlm_class_b_20260721/frames/scenes_softbody_titfuck_plate.png",
       "image_sha256": "05ddc041043ce1c61db42077e7dfab242c844d4bc114b8c4adde4a85163fd6d0",
-      "image_bytes": 534061,
+      "kind": "scenes_softbody_plate",
+      "overall_class_b_verdict": "REJECT_RETAINED",
+      "role": "synthetic_softbody_vlm_authority",
+      "slot_id": "scenes_softbody_titfuck_plate",
+      "source_exists": true,
+      "source_path": "/workspace/Characters/Scenes_xxx_001/02_WORKFLOWS/assets/plates/archived_standing_softrect/duo_plate_titfuck_standing_softrect.png",
       "status": "REVIEWED",
       "vlm": {
-        "model": "qwen2.5vl:7b",
         "elapsed_s": 15.705,
+        "eval_count": 176,
+        "model": "qwen2.5vl:7b",
+        "parse_error": null,
         "parsed": {
-          "recognizable_anchor_identity": "pass",
-          "symmetric_gray_side_lights": "unclear",
-          "side_light_color_drift": "not_applicable",
-          "hard_artifacts": "mild",
-          "hard_artifact_notes": "slight pixelation",
-          "contact_visible": "no",
-          "contact_plausibility": "fail",
-          "soft_body_deformation_visible": "yes",
-          "soft_body_plausibility": "partial",
           "anatomy_coherence": "pass",
-          "duo_identity_separation": "unclear",
-          "overall_class_b_verdict": "REJECT_RETAINED",
           "blocking_defects": [
             "mild artifacts",
             "contact not visible"
           ],
-          "notes": "Image quality issues and lack of contact make it difficult to assess plausibility."
+          "contact_plausibility": "fail",
+          "contact_visible": "no",
+          "duo_identity_separation": "unclear",
+          "hard_artifact_notes": "slight pixelation",
+          "hard_artifacts": "mild",
+          "notes": "Image quality issues and lack of contact make it difficult to assess plausibility.",
+          "overall_class_b_verdict": "REJECT_RETAINED",
+          "recognizable_anchor_identity": "pass",
+          "side_light_color_drift": "not_applicable",
+          "soft_body_deformation_visible": "yes",
+          "soft_body_plausibility": "partial",
+          "symmetric_gray_side_lights": "unclear"
         },
-        "parse_error": null,
-        "eval_count": 176,
         "prompt_eval_count": 1373,
-        "raw_response_sha256": "f958aab73b237c72bf501a4965bd3a5eda3f1dfcc00426b574ff955d632dca44",
-        "raw_response_chars": 630
-      },
-      "overall_class_b_verdict": "REJECT_RETAINED"
+        "raw_response_chars": 630,
+        "raw_response_sha256": "f958aab73b237c72bf501a4965bd3a5eda3f1dfcc00426b574ff955d632dca44"
+      }
     },
     {
-      "slot_id": "scenes_stack_signal_penis_contact",
-      "kind": "scenes_qa_global_stack_signal",
-      "role": "synthetic_contact_signal_vlm_authority",
-      "source_path": "/workspace/Characters/Scenes_xxx_001/05_QA_GLOBAL/STACK_SIGNAL_one_penis_contact_i3.png",
-      "source_exists": true,
+      "image_bytes": 705772,
       "image_path": "/workspace/runtime_artifacts/row019_023_vlm_class_b_20260721/frames/scenes_stack_signal_penis_contact.png",
       "image_sha256": "752382d5c46e76e5d6dc53a73f81b2f67a397213745b99cea87d29fe2eb031b2",
-      "image_bytes": 705772,
+      "kind": "scenes_qa_global_stack_signal",
+      "overall_class_b_verdict": "REJECT_RETAINED",
+      "role": "synthetic_contact_signal_vlm_authority",
+      "slot_id": "scenes_stack_signal_penis_contact",
+      "source_exists": true,
+      "source_path": "/workspace/Characters/Scenes_xxx_001/05_QA_GLOBAL/STACK_SIGNAL_one_penis_contact_i3.png",
       "status": "REVIEWED",
       "vlm": {
-        "model": "qwen2.5vl:7b",
         "elapsed_s": 43.096,
+        "eval_count": 163,
+        "model": "qwen2.5vl:7b",
+        "parse_error": null,
         "parsed": {
-          "recognizable_anchor_identity": "fail",
-          "symmetric_gray_side_lights": "not_applicable",
-          "side_light_color_drift": "unclear",
-          "hard_artifacts": "mild",
-          "hard_artifact_notes": "visible noise",
-          "contact_visible": "yes",
-          "contact_plausibility": "pass",
-          "soft_body_deformation_visible": "no",
-          "soft_body_plausibility": "pass",
           "anatomy_coherence": "pass",
-          "duo_identity_separation": "partial",
-          "overall_class_b_verdict": "REJECT_RETAINED",
           "blocking_defects": [
             "mild artifacts",
             "contact visible"
           ],
-          "notes": "Image quality issues and contact visibility."
+          "contact_plausibility": "pass",
+          "contact_visible": "yes",
+          "duo_identity_separation": "partial",
+          "hard_artifact_notes": "visible noise",
+          "hard_artifacts": "mild",
+          "notes": "Image quality issues and contact visibility.",
+          "overall_class_b_verdict": "REJECT_RETAINED",
+          "recognizable_anchor_identity": "fail",
+          "side_light_color_drift": "unclear",
+          "soft_body_deformation_visible": "no",
+          "soft_body_plausibility": "pass",
+          "symmetric_gray_side_lights": "not_applicable"
         },
-        "parse_error": null,
-        "eval_count": 163,
         "prompt_eval_count": 1373,
-        "raw_response_sha256": "2fe807863a86873b954ed030f0bd89d48ee2f76cded5f5ec863b35ba478a098f",
-        "raw_response_chars": 581
-      },
-      "overall_class_b_verdict": "REJECT_RETAINED"
+        "raw_response_chars": 581,
+        "raw_response_sha256": "2fe807863a86873b954ed030f0bd89d48ee2f76cded5f5ec863b35ba478a098f"
+      }
     }
   ],
+  "row074_pcm_touched": false,
+  "row_complete": false,
+  "runtime": "runpod",
+  "schema_version": "1.0",
+  "substitute_reason": "Wan TI2V payloads absent and human body/contact gold authority absent; advance Class B via Scenes Flux synthetic contact/soft-body frames + self-hosted Ollama VLM review (not gold-mask promotion).",
   "summary": {
-    "slots_total": 4,
-    "slots_reviewed": 4,
+    "immutable_row023_reject_reaffirmed": true,
     "pass_bounded_count": 0,
     "reject_retained_count": 4,
-    "immutable_row023_reject_reaffirmed": true,
+    "slots_reviewed": 4,
+    "slots_total": 4,
     "synthetic_contact_softbody_vlm_executed": true
   },
-  "blocker_codes_retained": [
-    "FRAME_REPAIR_VISUAL_ACCEPTANCE_FAILED",
-    "LOCAL_WAN_MODEL_PAYLOAD_MISSING",
-    "SAME_SEED_RERUN_FORBIDDEN",
-    "Blocked_Gold_Mask_Dependency_Missing",
-    "CONTACT_SOFT_BODY_VIDEO_SCOPE_BLOCKED_GOLD_MASKS",
-    "KEYFRAME_MANIFEST_INTEGRATION_MISSING"
-  ],
-  "blocker_codes_shrunk_or_substituted": [
-    {
-      "code": "Blocked_Gold_Mask_Dependency_Missing",
-      "scope": "contact_and_soft_body_review_subgates_only",
-      "substitution": "SYNTHETIC_SCENES_PLUS_VLM_BOUNDED",
-      "clears_production_gold": false,
-      "note": "Human gold remains ABSENT; synthetic Scenes+VLM provides bounded autonomous review authority only \u2014 not mask promotion."
-    }
-  ],
-  "proof_tier": "POD_CLASS_B_VLM_SUBSTITUTE_BOUNDED",
-  "highest_proof_tier_achieved": "POD_CLASS_B_VLM_SUBSTITUTE_BOUNDED",
-  "never_complete_from_this_packet": true,
-  "do_not": [
-    "flux_seed_spam_2272301_2272401_2272507",
-    "claim_COMPLETE_or_row_complete",
-    "promote_gold_masks_from_vlm",
-    "touch_row074_pcm",
-    "auto_download_wan_payloads",
-    "emit_HOLD_090_plus"
-  ],
-  "next_action": "Keep Class F Wan payloads as external stage gate. Retain immutable Row023 rejects. Continue Scenes+VLM contact/soft-body climbs with non-forbidden seeds only when idle; do not claim COMPLETE.",
-  "packet_sha256": "e915065d3c44ef2cf464cc48a616846c3da6880ddae2efff28c82ad147646359"
+  "vlm": {
+    "authority_tier": "SYNTHETIC_PLUS_VLM_BOUNDED_NOT_GOLD_PROMOTION",
+    "endpoint": "http://127.0.0.1:11434",
+    "model": "qwen2.5vl:7b",
+    "provider": "ollama"
+  },
+  "wan_download_this_landing": false
 }
