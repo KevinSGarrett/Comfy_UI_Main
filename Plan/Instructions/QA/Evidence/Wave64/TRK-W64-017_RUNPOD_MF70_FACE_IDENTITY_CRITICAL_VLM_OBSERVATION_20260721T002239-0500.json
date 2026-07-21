@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0.0",
+  "record_type": "autonomous_reviewer_observation",
+  "reviewer_observation_id": "row017_runpod_mf70_face_identity_critical_vlm_20260721T002239-0500",
+  "revision": "1",
+  "status": "candidate_observation",
+  "created_at": "2026-07-21T00:22:39-05:00",
+  "role": "vlm_critic",
+  "model": "qwen2.5vl:7b",
+  "runtime_host": "runpod",
+  "endpoint": "http://127.0.0.1:11434/api/chat",
+  "artifact_ids": [
+    "7c8b6a515c706bf1489fa10c802236279ae507e0d6d70d7a01015071671428f1"
+  ],
+  "artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_face_identity_critical_20260721T002215-0500/images/codex_row017_mf70_face_identity_critical_20260721T002215-0500_00001_.png",
+    "sha256": "7c8b6a515c706bf1489fa10c802236279ae507e0d6d70d7a01015071671428f1"
+  },
+  "scope_bindings": [
+    {
+      "region": "mf70_face_identity_critical",
+      "owner": "character_instance_row017"
+    }
+  ],
+  "observations": [
+    {
+      "defect": "Mask edges are not perfectly defined, resulting in slight blurring around the face",
+      "region": "whole_frame"
+    }
+  ],
+  "metric_observations": [],
+  "uncertainty": 0.2,
+  "parsed_review": {
+    "frame_ok": true,
+    "identity_preserved": true,
+    "eyes_ok": true,
+    "mouth_ok": true,
+    "background_ok": true,
+    "hard_mask_edge": false,
+    "target_region_refined": true,
+    "global_defects": [
+      "Mask edges are not perfectly defined, resulting in slight blurring around the face"
+    ],
+    "summary": "The image shows a subtle identity-critical preservation pass with preserved eyes and mouth. The background remains unchanged, and the clothing is intact. However, there's minor blurring at the mask edges.",
+    "promotion_allowed": false,
+    "row_complete_allowed": false,
+    "uncertainty": 0.2
+  },
+  "promotion_authority": "none",
+  "promotion_allowed": false,
+  "row_complete_allowed": false,
+  "evidence_ids": [
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_RUNPOD_MF70_FACE_IDENTITY_CRITICAL_20260721T002215-0500_GLOBAL_REVIEW.json",
+    "Plan/Instructions/QA/Evidence/Image_Artifact_QA/ROW017_RUNPOD_MF70_FACE_IDENTITY_CRITICAL_VISUAL_QA_20260721T002215-0500.json"
+  ],
+  "provenance": {
+    "producer": "tmp_row017_runpod_mf70_face_identity_critical_vlm_deepen.py",
+    "source_refs": [
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_face_identity_critical_20260721T002215-0500/LOCAL_RUNTIME_RECEIPT.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_face_identity_critical_20260721T002215-0500/images/codex_row017_mf70_face_identity_critical_20260721T002215-0500_00001_.png"
+    ],
+    "evidence_refs": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/Row017_Canonical_Global_Reviews/ROW017_RUNPOD_MF70_FACE_IDENTITY_CRITICAL_20260721T002215-0500_GLOBAL_REVIEW.json",
+      "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-017_RUNPOD_FUTURE_PRODUCER_EMISSION_PACKET_20260721T002215-0500.json"
+    ]
+  }
+}
