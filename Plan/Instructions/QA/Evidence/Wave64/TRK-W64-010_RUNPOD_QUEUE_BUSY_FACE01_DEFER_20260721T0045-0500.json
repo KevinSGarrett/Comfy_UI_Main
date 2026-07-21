@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "artifact_type": "wave64_row010_runpod_queue_busy_face01_defer",
+  "evidence_id": "TRK-W64-010_RUNPOD_QUEUE_BUSY_FACE01_DEFER_20260721T0045-0500",
+  "created_at": "2026-07-21T05:45:00Z",
+  "created_iso_chicago_stamp": "20260721T0045-0500",
+  "tracker_id": "TRK-W64-010",
+  "item_id": "ITEM-W64-010",
+  "status": "DEFERRED_QUEUE_BUSY_FOREIGN_COMFY_JOBS",
+  "row_complete": false,
+  "implementation_completion_claimed": false,
+  "faces_invented": false,
+  "classification": "personal_calibration_noncanonical",
+  "pod": {
+    "id": "1q4ji0gg1fkhvt",
+    "host": "195.26.233.100",
+    "port": 52077,
+    "comfy": "http://127.0.0.1:8188"
+  },
+  "named_authority_promotion": "TRK-W64-010_C1_NAMED_AUTHORITY_PROMOTION_BINDINGS_20260721T0039-0500",
+  "attempt": {
+    "lane": "pulid_face01_lock_trait_tighten",
+    "face_ref": "C1_USER_AUTHORITY_FACE_01.png",
+    "face_ref_sha256": "eae4bc45cd029a812df8f8530d5c296eede73800b7ad9eeab35665468742602c",
+    "first_submit_prompt_id": "253879ca-7b20-4cab-9b49-e430a2722cc1",
+    "first_submit_result": "comfy_died_mid_job_connection_refused_no_output_image",
+    "comfy_restarted": true,
+    "relaunch_deferred_reason": "foreign_queue_busy_do_not_kill"
+  },
+  "queue_at_defer": {
+    "running": [
+      {
+        "prompt_id": "3c525270-e87d-4fe0-9930-4c564e512626",
+        "load_image": "wan22_ti2v_fullbody_seed711670301.png",
+        "note": "foreign wan22 TI2V / not FACE01"
+      }
+    ],
+    "pending": [
+      {
+        "prompt_id": "f415b039-e755-466a-8270-84fe288d6887",
+        "filename_prefix": "Scenes_xxx_001/controls/duo_titfuck_s21_poseex_openpose",
+        "note": "foreign pose extract / not FACE01"
+      }
+    ]
+  },
+  "boundaries": {
+    "no_kill_foreign_jobs": true,
+    "no_complete_claim": true,
+    "row074_untouched": true,
+    "no_hold_090_plus": true,
+    "runpod_only_no_ec2": true
+  },
+  "waiter": {
+    "script": "/workspace/runtime_artifacts/tmp_wait_idle_relaunch_face01.sh",
+    "action": "relaunch_FACE01_pipeline_when_queue_idle"
+  },
+  "note": "Named authority promotion landed and pod hashes verified 14/14. FACE01 PuLID climb deferred while foreign Comfy jobs occupy :8188; will climb when idle."
+}
