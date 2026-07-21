@@ -61,23 +61,41 @@ function Get-SshExecutable {
   throw "OpenSSH client ($Name.exe) not found on PATH or in System32\\OpenSSH."
 }
 
+function ConvertTo-UnixText {
+  param([Parameter(Mandatory = $true)][string]$Text)
+  return ($Text -replace "`r`n", "`n" -replace "`r", "`n")
+}
+
 function Invoke-PodBash {
   param(
     [Parameter(Mandatory = $true)][string]$ScriptBody
   )
-  $sshArgs = @(
-    "-i", $script:KeyPath,
-    "-p", "$RemotePort",
-    "-o", "BatchMode=yes",
-    "-o", "ConnectTimeout=20",
-    "-o", "StrictHostKeyChecking=accept-new",
-    "-o", "ServerAliveInterval=30",
-    "-o", "ServerAliveCountMax=240",
-    "${RemoteUser}@${RemoteHost}",
-    "bash -s"
-  )
-  $ScriptBody | & $script:SshExe @sshArgs
-  return $LASTEXITCODE
+  $unix = ConvertTo-UnixText -Text $ScriptBody
+  $tmp = Join-Path ([System.IO.Path]::GetTempPath()) ("wan22_podbash_{0}.sh" -f [guid]::NewGuid().ToString("N"))
+  $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+  [System.IO.File]::WriteAllText($tmp, $unix, $utf8NoBom)
+  $prevEap = $ErrorActionPreference
+  try {
+    $ErrorActionPreference = "Continue"
+    $sshArgs = @(
+      "-i", $script:KeyPath,
+      "-p", "$RemotePort",
+      "-o", "BatchMode=yes",
+      "-o", "ConnectTimeout=20",
+      "-o", "StrictHostKeyChecking=accept-new",
+      "-o", "ServerAliveInterval=30",
+      "-o", "ServerAliveCountMax=240",
+      "${RemoteUser}@${RemoteHost}",
+      "tr -d '\r' | bash -s"
+    )
+    $output = Get-Content -LiteralPath $tmp -Raw | & $script:SshExe @sshArgs 2>&1
+    $script:LastPodBashExitCode = $LASTEXITCODE
+    $script:LastPodBashOutput = $output
+    return $output
+  } finally {
+    $ErrorActionPreference = $prevEap
+    Remove-Item -LiteralPath $tmp -Force -ErrorAction SilentlyContinue
+  }
 }
 
 function Get-LocalHfTokenPresence {
@@ -188,8 +206,8 @@ do
 done
 '@
 
-$probeCapture = $probeCmd | & $script:SshExe -i $script:KeyPath -p $RemotePort -o BatchMode=yes -o ConnectTimeout=20 -o StrictHostKeyChecking=accept-new "${RemoteUser}@${RemoteHost}" "bash -s" 2>&1
-$probeRc = $LASTEXITCODE
+$probeCapture = Invoke-PodBash -ScriptBody $probeCmd
+$probeRc = $script:LastPodBashExitCode
 if ($probeRc -ne 0) {
   $result.status = "blocked"
   $result.blockers += "SSH_PROBE_FAILED_rc=$probeRc"
@@ -215,18 +233,25 @@ if ($StatusOnly) {
 
 if (-not $SkipDeploy) {
   Write-Host "Deploying companion script to $remoteOnPodSh"
-  $mkdirBody = "mkdir -p /workspace/tools '$remoteLogDir' '$remoteStateDir' && chmod +x '$remoteOnPodSh' 2>/dev/null || true"
-  $null = $mkdirBody | & $script:SshExe -i $script:KeyPath -p $RemotePort -o BatchMode=yes -o ConnectTimeout=20 -o StrictHostKeyChecking=accept-new "${RemoteUser}@${RemoteHost}" "bash -s"
-  & $script:ScpExe -i $script:KeyPath -P $RemotePort -o BatchMode=yes -o StrictHostKeyChecking=accept-new `
-    $localOnPodSh "${RemoteUser}@${RemoteHost}:${remoteOnPodSh}"
-  if ($LASTEXITCODE -ne 0) {
-    $result.status = "blocked"
-    $result.blockers += "SCP_DEPLOY_FAILED"
-    $result | ConvertTo-Json -Depth 8
-    exit 3
+  $null = Invoke-PodBash -ScriptBody "mkdir -p /workspace/tools '$remoteLogDir' '$remoteStateDir'"
+  # Normalize companion to LF before SCP so bash shebang/set -e survive Windows checkout.
+  $lfCompanion = Join-Path ([System.IO.Path]::GetTempPath()) ("fetch_wan22_ti2v_5b_on_pod_{0}.sh" -f [guid]::NewGuid().ToString("N"))
+  $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+  $companionText = ConvertTo-UnixText -Text (Get-Content -LiteralPath $localOnPodSh -Raw)
+  [System.IO.File]::WriteAllText($lfCompanion, $companionText, $utf8NoBom)
+  try {
+    & $script:ScpExe -i $script:KeyPath -P $RemotePort -o BatchMode=yes -o StrictHostKeyChecking=accept-new `
+      $lfCompanion "${RemoteUser}@${RemoteHost}:${remoteOnPodSh}"
+    if ($LASTEXITCODE -ne 0) {
+      $result.status = "blocked"
+      $result.blockers += "SCP_DEPLOY_FAILED"
+      $result | ConvertTo-Json -Depth 8
+      exit 3
+    }
+  } finally {
+    Remove-Item -LiteralPath $lfCompanion -Force -ErrorAction SilentlyContinue
   }
-  $chmodBody = "chmod +x '$remoteOnPodSh'"
-  $null = $chmodBody | & $script:SshExe -i $script:KeyPath -p $RemotePort -o BatchMode=yes -o ConnectTimeout=20 "${RemoteUser}@${RemoteHost}" "bash -s"
+  $null = Invoke-PodBash -ScriptBody "chmod +x '$remoteOnPodSh'; sed -i 's/\r$//' '$remoteOnPodSh'"
 }
 
 $tokenExportPrefix = ""
@@ -264,10 +289,10 @@ else
 fi
 "@
 
-$preOut = $preflight | & $script:SshExe -i $script:KeyPath -p $RemotePort -o BatchMode=yes -o ConnectTimeout=20 "${RemoteUser}@${RemoteHost}" "bash -s" 2>&1
+$preOut = Invoke-PodBash -ScriptBody $preflight
 $preHttp = $null
-foreach ($line in $preOut) {
-  if ($line -match "PREFLIGHT_HTTP=(\d+)") { $preHttp = $Matches[1] }
+foreach ($line in @($preOut)) {
+  if ("$line" -match "PREFLIGHT_HTTP=(\d+)") { $preHttp = $Matches[1] }
 }
 $authEff = (($preOut | Out-String) -match "AUTH_EFFECTIVE=present")
 $result.preflight_http = $preHttp
@@ -301,8 +326,8 @@ export WAN22_FETCH_LOG_FILE='$remoteLog'
 export WAN22_FETCH_STATUS_FILE='$remoteStatus'
 bash '$remoteOnPodSh'
 "@
-  $fg | & $script:SshExe -i $script:KeyPath -p $RemotePort -o BatchMode=yes -o ServerAliveInterval=30 -o ServerAliveCountMax=240 "${RemoteUser}@${RemoteHost}" "bash -s"
-  $rc = $LASTEXITCODE
+  $null = Invoke-PodBash -ScriptBody $fg
+  $rc = $script:LastPodBashExitCode
   $result.log_file = $remoteLog
   $result.status_file = $remoteStatus
   if ($rc -eq 0) {
@@ -347,8 +372,8 @@ sleep 3
 tail -n 40 '$remoteLog' || true
 "@
 
-$detOut = $detach | & $script:SshExe -i $script:KeyPath -p $RemotePort -o BatchMode=yes -o ConnectTimeout=20 "${RemoteUser}@${RemoteHost}" "bash -s" 2>&1
-$detRc = $LASTEXITCODE
+$detOut = Invoke-PodBash -ScriptBody $detach
+$detRc = $script:LastPodBashExitCode
 $result.detached_output = ($detOut | Out-String)
 $result.log_file = $remoteLog
 $result.status_file = $remoteStatus
@@ -361,9 +386,9 @@ if ($detRc -ne 0) {
 }
 
 $startedPid = $null
-foreach ($line in $detOut) {
-  if ($line -match "STARTED_PID=(\d+)") { $startedPid = $Matches[1]; break }
-  if ($line -match "ALREADY_RUNNING pid=(\d+)") { $startedPid = $Matches[1]; break }
+foreach ($line in @($detOut)) {
+  if ("$line" -match "STARTED_PID=(\d+)") { $startedPid = $Matches[1]; break }
+  if ("$line" -match "ALREADY_RUNNING pid=(\d+)") { $startedPid = $Matches[1]; break }
 }
 
 $result.fetch_pid = $startedPid

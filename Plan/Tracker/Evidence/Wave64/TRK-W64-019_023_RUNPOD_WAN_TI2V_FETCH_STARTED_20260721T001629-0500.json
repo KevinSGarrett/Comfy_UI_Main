@@ -1,0 +1,101 @@
+{
+  "actions_this_landing": {
+    "complete_claimed": false,
+    "ec2_touched": false,
+    "hf_download_attempted_on_pod": true,
+    "local_comfy_touched": false,
+    "pod_fetch_attempted": true,
+    "row074_touched": false
+  },
+  "approved_scripts": {
+    "companion_repo_path": "tools/fetch_wan22_ti2v_5b_on_pod.sh",
+    "local_orchestrator": "tools/Fetch-RunPodWan22Ti2V5B.ps1",
+    "on_pod_companion": "/workspace/tools/fetch_wan22_ti2v_5b_on_pod.sh",
+    "prior_blocker_code": "NO_APPROVED_RUNPOD_WAN_TI2V_FETCH_SCRIPT",
+    "prior_blocker_commit": "40f1e417",
+    "script_land_commit": "d7b93566"
+  },
+  "binding": {
+    "forbidden": [
+      "EC2",
+      "local_Comfy",
+      "EC2_mediated_copy"
+    ],
+    "hostname_observed": "82caae576b8a",
+    "models_dir": "/workspace/ComfyUI/models/{diffusion_models,text_encoders,vae}/",
+    "pod_id": "1q4ji0gg1fkhvt",
+    "sole_runtime": "RunPod",
+    "ssh": "root@195.26.233.100:52077"
+  },
+  "class_f": {
+    "clear_to": "ASSET_PRESENT_only_when_3_of_3_hash_verified",
+    "not_cleared_to": "COMPLETE",
+    "retained": true
+  },
+  "created_iso": "2026-07-21T00:16:29-05:00",
+  "csv_sync": "deferred_or_mechanical_notes_only",
+  "evidence_id": "TRK-W64-019_023_RUNPOD_WAN_TI2V_FETCH_STARTED_20260721T001629-0500",
+  "fetch": {
+    "hf_auth_pod_present": false,
+    "hf_auth_required": false,
+    "hf_repo": "Comfy-Org/Wan_2.2_ComfyUI_Repackaged",
+    "hf_rev": "fb1388adc906ab39ffc26ee40e96b22886b56bc4",
+    "log_file": "/workspace/logs/wan22_ti2v_5b_fetch/fetch_20260721T051629Z.log",
+    "method": "wget_resume_safe_direct_to_workspace_partial",
+    "mode": "detached_nohup",
+    "note": "HF public HEAD 200; fail-closed gated-auth path retained in script for 401/403",
+    "pid": 185006,
+    "preflight_http": "200",
+    "started_utc": "2026-07-21T05:16:29Z",
+    "status_file": "/workspace/runtime_artifacts/wan22_ti2v_5b_fetch/status_latest.json"
+  },
+  "item_ids": [
+    "ITEM-W64-019",
+    "ITEM-W64-023"
+  ],
+  "mutation_this_landing": "approved_fetch_script_landed_and_detached_pod_fetch_started",
+  "next_action": "Poll pod status_file/log until present_ratio=3/3 and sha256 verified; then land ASSET_PRESENT evidence + Tracker Notes (Class F can clear to ASSET_PRESENT only; no product COMPLETE). Row074 untouched. No EC2.",
+  "production_video_complete_claimed": false,
+  "progress_sample": {
+    "alive": true,
+    "approx_rate_MBps": 16,
+    "eta_class": "tens_of_minutes_not_hours",
+    "first_asset_expected_bytes": 9999658848,
+    "first_asset_partial_bytes": 1861493835,
+    "first_asset_partial_path": "/workspace/ComfyUI/models/diffusion_models/wan2.2_ti2v_5B_fp16.safetensors.partial",
+    "sampled_local_iso": "2026-07-21T00:18:19-05:00"
+  },
+  "required_assets": [
+    {
+      "bytes": 9999658848,
+      "expected_pod_path": "/workspace/ComfyUI/models/diffusion_models/wan2.2_ti2v_5B_fp16.safetensors",
+      "filename": "wan2.2_ti2v_5B_fp16.safetensors",
+      "live_status": "DOWNLOADING_PARTIAL",
+      "sha256": "456f901338bd9eadbded3828b819109a9b68e8a525ca5cf8d0049a69fcfeca1e"
+    },
+    {
+      "bytes": 6735906897,
+      "expected_pod_path": "/workspace/ComfyUI/models/text_encoders/umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+      "filename": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+      "live_status": "PENDING",
+      "sha256": "c3355d30191f1f066b26d93fba017ae9809dce6c627dda5f6a66eaa651204f68"
+    },
+    {
+      "bytes": 1409400960,
+      "expected_pod_path": "/workspace/ComfyUI/models/vae/wan2.2_vae.safetensors",
+      "filename": "wan2.2_vae.safetensors",
+      "live_status": "PENDING",
+      "sha256": "e40321bd36b9709991dae2530eb4ac303dd168276980d3e9bc4b6e2b75fed156"
+    }
+  ],
+  "row074_touched": false,
+  "row_complete": false,
+  "schema_version": "1.0",
+  "status": "in_progress",
+  "summary": "Approved tools/Fetch-RunPodWan22Ti2V5B.ps1 (+ on-pod companion) landed and executed. Detached wget fetch pid=185006 writing wan2.2_ti2v_5B_fp16.safetensors.partial under /workspace/ComfyUI/models/diffusion_models/ (~16MB/s). HF public preflight 200; no EC2; no local Comfy; Row074 untouched; row_complete=false.",
+  "tracker_ids": [
+    "TRK-W64-019",
+    "TRK-W64-023"
+  ],
+  "verdict": "WAN_TI2V_FETCH_IN_PROGRESS_DETACHED_ON_RUNPOD"
+}

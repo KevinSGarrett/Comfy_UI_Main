@@ -23,11 +23,25 @@ STATUS_FILE="${WAN22_FETCH_STATUS_FILE:-${STATE_DIR}/status_latest.json}"
 export WAN22_FETCH_LOG_FILE="$LOG_FILE"
 export WAN22_FETCH_STATUS_FILE="$STATUS_FILE"
 
-exec > >(tee -a "$LOG_FILE") 2>&1
+# If caller already redirected stdout/stderr to the log (nohup), do not tee
+# (avoids duplicated lines). Otherwise append to the log via tee.
+if [[ -t 1 ]]; then
+  exec > >(tee -a "$LOG_FILE") 2>&1
+elif [[ "${WAN22_FETCH_FORCE_TEE:-0}" == "1" ]]; then
+  exec > >(tee -a "$LOG_FILE") 2>&1
+fi
 
 echo "=== Wan22 TI2V 5B on-pod fetch start ${STAMP} ==="
 echo "hostname=$(hostname)"
 echo "log_file=${LOG_FILE}"
+
+# Keep all temp/cache on /workspace (pod /tmp is often too small for multi-GB HF downloads).
+mkdir -p /workspace/tmp/wan22_fetch_cache /workspace/tmp/wan22_fetch_tmpdir
+export TMPDIR="/workspace/tmp/wan22_fetch_tmpdir"
+export TMP="/workspace/tmp/wan22_fetch_tmpdir"
+export TEMP="/workspace/tmp/wan22_fetch_tmpdir"
+export HF_HOME="${HF_HOME:-/workspace/tmp/wan22_fetch_cache}"
+export HUGGINGFACE_HUB_CACHE="${HUGGINGFACE_HUB_CACHE:-/workspace/tmp/wan22_fetch_cache/hub}"
 
 if [[ -f /workspace/paths.env ]]; then
   set +u
@@ -178,47 +192,53 @@ download_one() {
   echo "DOWNLOAD_START ${fname} -> ${dest}"
   mkdir -p "$(dirname "$dest")"
 
-  if command -v huggingface-cli >/dev/null 2>&1; then
+  # Prefer wget/curl directly into /workspace (resume-safe). Avoid huggingface-cli
+  # defaulting into small /tmp even when HF_HOME is relocated.
+  if command -v wget >/dev/null 2>&1; then
+    if [[ -n "$HF_AUTH_TOKEN" ]]; then
+      wget -c --progress=dot:giga \
+        --header="Authorization: Bearer ${HF_AUTH_TOKEN}" \
+        -O "$partial" "$url"
+    else
+      wget -c --progress=dot:giga -O "$partial" "$url"
+    fi
+    got_cli=1
+  elif command -v curl >/dev/null 2>&1; then
+    if [[ -n "$HF_AUTH_TOKEN" ]]; then
+      curl -L --fail --retry 5 --retry-delay 5 -C - \
+        -H "Authorization: Bearer ${HF_AUTH_TOKEN}" \
+        -o "$partial" "$url"
+    else
+      curl -L --fail --retry 5 --retry-delay 5 -C - -o "$partial" "$url"
+    fi
+    got_cli=1
+  elif command -v huggingface-cli >/dev/null 2>&1; then
     local tmpdir
-    tmpdir="$(mktemp -d /tmp/wan22_fetch.XXXXXX)"
+    tmpdir="$(mktemp -d /workspace/tmp/wan22_fetch_tmpdir/wan22_fetch.XXXXXX)"
     set +e
     huggingface-cli download "$HF_REPO" \
       "split_files/${subdir}/${fname}" \
       --revision "$HF_REV" \
-      --local-dir "$tmpdir" \
-      --local-dir-use-symlinks False
+      --local-dir "$tmpdir"
     local rc=$?
     set -e
     if [[ $rc -eq 0 && -f "${tmpdir}/split_files/${subdir}/${fname}" ]]; then
       mv -f "${tmpdir}/split_files/${subdir}/${fname}" "$partial"
       got_cli=1
     else
-      echo "WARN huggingface-cli failed rc=${rc}; falling back to wget/curl"
-    fi
-    rm -rf "$tmpdir"
-  fi
-
-  if [[ "$got_cli" -eq 0 ]]; then
-    if command -v wget >/dev/null 2>&1; then
-      if [[ -n "$HF_AUTH_TOKEN" ]]; then
-        wget -c --progress=dot:giga \
-          --header="Authorization: Bearer ${HF_AUTH_TOKEN}" \
-          -O "$partial" "$url"
-      else
-        wget -c --progress=dot:giga -O "$partial" "$url"
-      fi
-    elif command -v curl >/dev/null 2>&1; then
-      if [[ -n "$HF_AUTH_TOKEN" ]]; then
-        curl -L --fail --retry 5 --retry-delay 5 -C - \
-          -H "Authorization: Bearer ${HF_AUTH_TOKEN}" \
-          -o "$partial" "$url"
-      else
-        curl -L --fail --retry 5 --retry-delay 5 -C - -o "$partial" "$url"
-      fi
-    else
-      echo "BLOCKER=NO_DOWNLOAD_TOOL huggingface-cli/wget/curl unavailable"
+      echo "BLOCKER=HF_CLI_DOWNLOAD_FAILED rc=${rc} file=${fname}"
+      rm -rf "$tmpdir"
       exit 15
     fi
+    rm -rf "$tmpdir"
+  else
+    echo "BLOCKER=NO_DOWNLOAD_TOOL wget/curl/huggingface-cli unavailable"
+    exit 15
+  fi
+
+  if [[ "$got_cli" -ne 1 ]]; then
+    echo "BLOCKER=DOWNLOAD_DID_NOT_PRODUCE_PARTIAL ${fname}"
+    exit 15
   fi
 
   if [[ -f "$partial" ]]; then
