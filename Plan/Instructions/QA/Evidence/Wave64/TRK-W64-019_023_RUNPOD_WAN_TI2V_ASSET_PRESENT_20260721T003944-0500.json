@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-019_023_RUNPOD_WAN_TI2V_ASSET_PRESENT_20260721T003944-0500",
+  "created_iso": "2026-07-21T00:39:44-05:00",
+  "tracker_ids": [
+    "TRK-W64-019",
+    "TRK-W64-023"
+  ],
+  "item_ids": [
+    "ITEM-W64-019",
+    "ITEM-W64-023"
+  ],
+  "mutation_this_landing": "wan_ti2v_3_of_3_hash_verified_on_runpod_asset_present",
+  "row_complete": false,
+  "production_video_complete_claimed": false,
+  "row074_touched": false,
+  "csv_sync": "mechanical_notes_asset_present_only",
+  "verdict": "WAN_TI2V_3_OF_3_ASSET_PRESENT_HASH_VERIFIED_ON_RUNPOD",
+  "status": "ASSET_PRESENT",
+  "class_f": {
+    "prior": "NO_APPROVED_RUNPOD_WAN_TI2V_FETCH_SCRIPT / assets absent",
+    "cleared_to": "ASSET_PRESENT",
+    "not_cleared_to": "COMPLETE",
+    "retained_product_blocker": true
+  },
+  "binding": {
+    "sole_runtime": "RunPod",
+    "pod_id": "1q4ji0gg1fkhvt",
+    "ssh": "root@195.26.233.100:52077",
+    "hostname_observed": "82caae576b8a",
+    "models_dir": "/workspace/ComfyUI/models/{diffusion_models,text_encoders,vae}/",
+    "forbidden": [
+      "EC2",
+      "local_Comfy",
+      "EC2_mediated_copy"
+    ]
+  },
+  "approved_scripts": {
+    "local_orchestrator": "tools/Fetch-RunPodWan22Ti2V5B.ps1",
+    "on_pod_companion": "/workspace/tools/fetch_wan22_ti2v_5b_on_pod.sh",
+    "script_land_commit": "d7b93566",
+    "fetch_started_evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_RUNPOD_WAN_TI2V_FETCH_STARTED_20260721T001629-0500.json",
+    "fetch_started_commit": "6a2a57ab"
+  },
+  "fetch": {
+    "mode": "detached_nohup_wget_resume_safe",
+    "pid": 185006,
+    "log_file": "/workspace/logs/wan22_ti2v_5b_fetch/fetch_20260721T051629Z.log",
+    "status_file": "/workspace/runtime_artifacts/wan22_ti2v_5b_fetch/status_latest.json",
+    "started_utc": "2026-07-21T05:16:29Z",
+    "completed_utc": "2026-07-21T05:39:44Z",
+    "hf_repo": "Comfy-Org/Wan_2.2_ComfyUI_Repackaged",
+    "hf_rev": "fb1388adc906ab39ffc26ee40e96b22886b56bc4",
+    "pod_status": "complete_3_of_3_verified",
+    "present_ratio": "3/3"
+  },
+  "assets": [
+    {
+      "filename": "wan2.2_ti2v_5B_fp16.safetensors",
+      "role": "diffusion_model",
+      "path": "/workspace/ComfyUI/models/diffusion_models/wan2.2_ti2v_5B_fp16.safetensors",
+      "bytes": 9999658848,
+      "expected_bytes": 9999658848,
+      "sha256": "456f901338bd9eadbded3828b819109a9b68e8a525ca5cf8d0049a69fcfeca1e",
+      "expected_sha256": "456f901338bd9eadbded3828b819109a9b68e8a525ca5cf8d0049a69fcfeca1e",
+      "verified": true,
+      "live_status": "ASSET_PRESENT"
+    },
+    {
+      "filename": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+      "role": "text_encoder",
+      "path": "/workspace/ComfyUI/models/text_encoders/umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+      "bytes": 6735906897,
+      "expected_bytes": 6735906897,
+      "sha256": "c3355d30191f1f066b26d93fba017ae9809dce6c627dda5f6a66eaa651204f68",
+      "expected_sha256": "c3355d30191f1f066b26d93fba017ae9809dce6c627dda5f6a66eaa651204f68",
+      "verified": true,
+      "live_status": "ASSET_PRESENT"
+    },
+    {
+      "filename": "wan2.2_vae.safetensors",
+      "role": "vae",
+      "path": "/workspace/ComfyUI/models/vae/wan2.2_vae.safetensors",
+      "bytes": 1409400960,
+      "expected_bytes": 1409400960,
+      "sha256": "e40321bd36b9709991dae2530eb4ac303dd168276980d3e9bc4b6e2b75fed156",
+      "expected_sha256": "e40321bd36b9709991dae2530eb4ac303dd168276980d3e9bc4b6e2b75fed156",
+      "verified": true,
+      "live_status": "ASSET_PRESENT"
+    }
+  ],
+  "actions_this_landing": {
+    "ec2_touched": false,
+    "local_comfy_touched": false,
+    "hf_download_completed_on_pod": true,
+    "pod_fetch_completed": true,
+    "row074_touched": false,
+    "complete_claimed": false,
+    "asset_present_claimed": true
+  },
+  "next_action": "Wan TI2V payloads are ASSET_PRESENT on RunPod. Proceed with bounded Wan video generation/proof under existing Class A/E product gates; do not claim row_complete or COMPLETE from asset presence alone. Row074 untouched. No EC2.",
+  "summary": "RunPod 1q4ji0gg1fkhvt Wan TI2V 3/3 present and sha256+bytes verified under /workspace/ComfyUI/models/{diffusion_models,text_encoders,vae}/ via approved Fetch-RunPodWan22Ti2V5B.ps1 wget path. Class F cleared to ASSET_PRESENT only. row_complete=false; no COMPLETE; Row074 untouched; EC2 untouched; local Comfy untouched."
+}
