@@ -1,20 +1,26 @@
-# Main Session Integration Handoff — 2026-07-20T23:20-05:00
+﻿# Main Session Integration Handoff — 2026-07-20T23:17:41-05:00
 
 ## Integration Summary
 
 - Active platform: interactive Cursor (integration authority)
+- Local authority: `C:\Comfy_UI_Main`
 - Branch: `codex/workflow_plan_update_improvements`
-- Pod `/workspace/wave64` matched local at shift start (`d11cd9b8`); tip has since advanced with parallel landings
-- This pass: **ITEM/TRK-W64-010** RunPod C1 lock+LoRA calib **VLM identity score** (below gate; noncanonical; no COMPLETE)
-- Tip evidence: `Plan/Instructions/QA/Evidence/Wave64/TRK-W64-010_RUNPOD_C1_LOCK_LORA_VLM_IDENTITY_20260721T041518Z.json`
-- Pullback: `Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_c1_lock_lora_vlm_identity_20260721T041518Z`
-- VLM: `qwen2.5vl:7b` on pod `1q4ji0gg1fkhvt`; candidate sha256 `990ebe2730b228d500ca158087edb19475736a72371d864b2ed6c93b1ffc1784`
-- Aggregates: face_consistency_mean `0.4375` (gate 0.55 fail), body `0.45` (fail), solo lock `0.95` (ok) → `RUNTIME_SCORED_PERSONAL_CALIBRATION_VLM_BELOW_GATE_NONCANONICAL`
-- Parallel tip (not this commit): Row017 face_mask_v1 VLM deepen `ROW017_RUNPOD_FACE_MASK_V1_VLM_DEEPEN_20260720T231741-0500`
-- No COMPLETE; Row074/Row073 PCM untouched; no HOLD 090+; CSV sync deferred
+- This pass: Row017 Class E **mid-flight deepen** — RunPod face_mask_v1 producer packaging + Ollama `qwen2.5vl:7b` VLM observation
+- Pod: `1q4ji0gg1fkhvt` `195.26.233.100:52077`
+- Producer stamp: `20260720T230123-0500` (prompt_id `cdc49586-042d-4be6-9340-b75688675e16`)
+- VLM stamp: `20260720T231741-0500`
+- Output SHA256: `ccae9713fa689e6622ad4adc9f330c8557e4b92c24a91cea4b98bf4b898a1bbd`
+- Tip deepen: `Plan/Instructions/QA/Evidence/Wave64/ROW017_RUNPOD_FACE_MASK_V1_VLM_DEEPEN_20260720T231741-0500.json`
+- GLOBAL_REVIEW validator: **PASS**; `vlm_ok=true`; candidate observation only (no promotion)
+- Parallel tip retained: Row010 RunPod C1 lock+LoRA VLM identity score (`TRK-W64-010_RUNPOD_C1_LOCK_LORA_VLM_IDENTITY_20260721T041518Z.json`) remains below gate / noncanonical
+- `row_complete=false`; no COMPLETE; Row074 left alone; no HOLD 090+; CSV deferred
+
+## Boundaries honored
+
+- No COMPLETE / Row074 / HOLD 090+ / CSV mutator / media invention
+- ComfyUI not re-run (queue had foreign work); packaging + VLM only on mid-flight emission
 
 ## Exact next action
 
-1. Prefer Flux face-tighter personal-calib follow-on + re-VLM on RunPod when GPU/Ollama free (still noncanonical), **or** Row017 unused prepared lane when `:8188` idle.
-2. Leave Row074/Row073 PCM alone; CSV via mutator only; do not claim COMPLETE or open HOLD 090+.
-3. Multi-character USER_AUTHORITY reference pack remains human/external Class F/A blocker.
+1. When pod `:8188` idle, climb unused prepared lane `micro_nomouth_v4` with producer+VLM.
+2. Keep Row017 blocked/non-complete; leave Row074 alone; no HOLD 090+.
