@@ -628,12 +628,12 @@ def build_library_blocker_packet(root: Path) -> dict[str, Any]:
             "product_completion": False,
             "runtime_completion": False,
             "safe_next_action": (
-                "Accept Rows071, 072, 075, 076, 079, 083, and 102; freeze a reference "
-                "calibration corpus with immutable train/calibration/final-test partitions; "
-                "bind multi-signal thresholds so no single model metric grants production "
-                "authority; retain failed candidates as immutable negative evidence; execute "
-                "genuine generated-sound QA with waveform/spectrogram review; then replace "
-                "this hold packet."
+                "Accept Rows072, 075, 076, 079, 083, and 102 (Row071 already accepted); "
+                "freeze a reference calibration corpus with immutable train/calibration/"
+                "final-test partitions; bind multi-signal thresholds so no single model "
+                "metric grants production authority; retain failed candidates as immutable "
+                "negative evidence; execute genuine generated-sound QA with waveform/"
+                "spectrogram review; then replace this hold packet."
             ),
         },
     }

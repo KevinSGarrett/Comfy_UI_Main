@@ -1025,7 +1025,7 @@ def build_production_blocker_packet(root: Path) -> dict[str, Any]:
             "product_completion": False,
             "runtime_completion": False,
             "safe_next_action": (
-                "Accept Rows071, 072, 073, 079, and 093 (Row068 already accepted); "
+                "Accept Rows072, 073, 079, and 093 (Rows068 and 071 already accepted); "
                 "bind rights-cleared source PCM with onset/usable-bounds and taxonomy "
                 "identity into a bounded deterministic transform engine; enforce "
                 "semantic similarity bounds, canonical-PCM dedup, and original "

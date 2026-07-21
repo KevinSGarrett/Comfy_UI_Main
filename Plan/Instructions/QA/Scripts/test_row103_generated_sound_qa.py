@@ -17,7 +17,7 @@ sys.modules[SPEC.name] = MOD
 SPEC.loader.exec_module(MOD)
 
 
-def test_dependency_admissions_fail_closed_including_held_or_absent_row102():
+def test_dependency_admissions_fail_closed_except_accepted_row071():
     admissions = MOD.evaluate_all_dependency_admissions(ROOT)
     assert set(admissions) == {
         "TRK-W64-071",
@@ -28,7 +28,18 @@ def test_dependency_admissions_fail_closed_including_held_or_absent_row102():
         "TRK-W64-083",
         "TRK-W64-102",
     }
-    for tracker_id in admissions:
+    row071 = admissions["TRK-W64-071"]
+    assert row071["dependency_satisfied"] is True
+    assert row071["row_complete"] is True
+    assert row071["blocker_codes"] == []
+    for tracker_id in (
+        "TRK-W64-072",
+        "TRK-W64-075",
+        "TRK-W64-076",
+        "TRK-W64-079",
+        "TRK-W64-083",
+        "TRK-W64-102",
+    ):
         admission = admissions[tracker_id]
         assert admission["dependency_satisfied"] is False
         assert admission["row_complete"] is False
