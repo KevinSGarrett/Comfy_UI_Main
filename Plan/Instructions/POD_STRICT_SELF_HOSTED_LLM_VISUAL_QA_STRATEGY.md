@@ -110,6 +110,14 @@ Submit templates `_tmp_w64_019_submit_*_wan.py` / `_tmp_w64_019_submit_sharp_han
 now stamp `strict_visual_gate_required=true` and `required_next_step` pointing at the
 Wan climb visual gate. Generation receipt alone is never visual approval.
 
+**Ad-hoc tmp scripts:** historical `tmp_row010_*_vlm_score.py` / `tmp_row017_*_vlm_deepen.py`
+(and copies under `tmp/`) must **not** approve product or identity climbs on weak
+`qwen2.5vl:7b`. They fail closed with a clear “use durable helper” error unless
+`--smoke` (which only delegates to `wave64_climb_strict_visual_gate` lane=SMOKE via
+`wave64_adhoc_historical_vlm_redirect.py`). Product / GATE CLEARED authority remains
+`wave64_row010_pulid_identity_climb_visual.py`, `wave64_row017_global_review_deepen_visual.py`,
+or `wave64_climb_strict_visual_gate` with the matching climb kind.
+
 ## Operator commands (pod)
 
 ```bash

@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Historical tmp_row017_runpod_mf70_pupils_iris_sclera_vlm_deepen.py ? FAIL CLOSED for product/identity climbs.
+"""Historical tmp_row010_pulid_face04_vlm_score.py ? FAIL CLOSED for product/identity climbs.
 
 Do not approve GATE CLEARED / product PASS with weak qwen2.5vl:7b.
 Use durable helper:
-  Plan/07_IMPLEMENTATION/scripts/wave64_row017_global_review_deepen_visual.py
-  (or wave64_climb_strict_visual_gate --climb-kind global_review_product)
+  Plan/07_IMPLEMENTATION/scripts/wave64_row010_pulid_identity_climb_visual.py
+  (or wave64_climb_strict_visual_gate --climb-kind row010_pulid_identity)
 
 Pass --smoke only for labeled SMOKE observation (delegates to durable smoke
 lane; requires --images and --out). Never product COMPLETE.
@@ -32,4 +32,4 @@ if str(_SCRIPTS) not in sys.path:
 from wave64_adhoc_historical_vlm_redirect import main_redirect  # noqa: E402
 
 if __name__ == "__main__":
-    raise SystemExit(main_redirect("row017", "tmp_row017_runpod_mf70_pupils_iris_sclera_vlm_deepen.py"))
+    raise SystemExit(main_redirect("row010", "tmp_row010_pulid_face04_vlm_score.py"))

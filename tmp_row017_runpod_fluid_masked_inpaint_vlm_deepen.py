@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Historical tmp_row017_runpod_mf70_pupils_iris_sclera_vlm_deepen.py ? FAIL CLOSED for product/identity climbs.
+"""Historical tmp_row017_runpod_fluid_masked_inpaint_vlm_deepen.py ? FAIL CLOSED for product/identity climbs.
 
 Do not approve GATE CLEARED / product PASS with weak qwen2.5vl:7b.
 Use durable helper:
@@ -32,4 +32,4 @@ if str(_SCRIPTS) not in sys.path:
 from wave64_adhoc_historical_vlm_redirect import main_redirect  # noqa: E402
 
 if __name__ == "__main__":
-    raise SystemExit(main_redirect("row017", "tmp_row017_runpod_mf70_pupils_iris_sclera_vlm_deepen.py"))
+    raise SystemExit(main_redirect("row017", "tmp_row017_runpod_fluid_masked_inpaint_vlm_deepen.py"))
