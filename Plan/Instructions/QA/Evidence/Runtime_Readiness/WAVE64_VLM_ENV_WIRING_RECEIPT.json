@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "WAVE64_VLM_ENV_WIRING_RECEIPT",
+  "classification": "LOCAL_HELPER_ENV_WIRING",
+  "scope": "Wire Wave64 whole-image visual-review helpers to pod Ollama env contract",
+  "row_complete": false,
+  "product_completion_claimed": false,
+  "row074_pcm_touched": false,
+  "env_contract": {
+    "WAVE64_VLM_URL": {
+      "precedence": ["WAVE64_VLM_URL", "OLLAMA_HOST", "http://127.0.0.1:11434"],
+      "pod_loopback_example": "http://127.0.0.1:11434"
+    },
+    "WAVE64_VLM_MODEL": {
+      "default": "llava:13b",
+      "precedence": ["WAVE64_VLM_MODEL", "llava:13b"]
+    },
+    "WAVE64_LLM_MODEL": {
+      "default": "qwen2.5:7b-instruct",
+      "precedence": ["WAVE64_LLM_MODEL", "qwen2.5:7b-instruct"]
+    }
+  },
+  "helpers": [
+    "Plan/07_IMPLEMENTATION/scripts/wave64_autonomous_vlm_client.py",
+    "Plan/07_IMPLEMENTATION/scripts/validate_global_whole_image_visual_review.py",
+    "Plan/Instructions/QA/Evidence/Runtime_Readiness/RunPod_1q4ji0gg1fkhvt/smoke_score_flux_canary_vlm.py"
+  ],
+  "cli": "python Plan/07_IMPLEMENTATION/scripts/validate_global_whole_image_visual_review.py --print-vlm-env",
+  "tests": [
+    "python -m unittest Plan.Instructions.QA.Scripts.test_wave64_autonomous_vlm_client -v",
+    "python -m unittest Plan.Instructions.QA.Scripts.test_global_whole_image_visual_review -v"
+  ],
+  "boundaries": [
+    "observation_only",
+    "no_COMPLETE",
+    "row074_pcm_left_alone"
+  ]
+}
