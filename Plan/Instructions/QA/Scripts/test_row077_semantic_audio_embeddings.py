@@ -35,25 +35,47 @@ def test_library_mode_emits_model_selected_heldout_bound_hold_without_false_comp
     payload = MOD.build_library_blocker_packet(ROOT)
     assert payload["row_complete"] is False
     assert payload["implementation_completion_claimed"] is False
-    assert payload["runtime_completion_claimed"] is False
     assert payload["library_authority"] is False
     assert payload["dependencies_unlocked"] is True
+    retained = payload.get("accepted_index_retained_library_embed_runtime") or {}
     weights_runtime = bool(payload["heldout_binding"].get("weights_runtime"))
-    if weights_runtime:
+    if retained.get("coverage_complete"):
         assert payload["status"] == (
-            "HOLD_LIBRARY_EMBEDDING_INDEX_ABSENT_HELDOUT_WEIGHTS_RUNTIME_BOUND"
+            "HOLD_LIBRARY_EMBED_RECONCILE_COMPLETE_AUTHORITY_NOT_GRANTED"
         )
-        assert payload["proof_tier"] == "RUNTIME_PASS_BOUNDED"
-        assert payload["highest_proof_tier_achieved"] == "RUNTIME_PASS_BOUNDED"
-        assert payload["heldout_binding"]["model_weights_loaded"] is True
-        assert payload["heldout_binding"]["emitter"] == MOD.HELDOUT_EMITTER_WEIGHTS_RUNTIME
-        assert payload["decision"]["heldout_weights_runtime"] is True
+        assert payload["runtime_completion_claimed"] is True
+        assert "LIBRARY_AUTHORITY_NOT_GRANTED" in payload["blocker_codes"]
+        assert "EMBEDDING_INDEX_LIBRARY_RUNTIME_ABSENT" not in payload["blocker_codes"]
+    elif retained.get("present"):
+        assert payload["status"] in {
+            "HOLD_LIBRARY_EMBED_PROBE_PASS_FULL_RECONCILE_DEFERRED",
+            "HOLD_LIBRARY_EMBED_RECONCILE_IN_PROGRESS_HELDOUT_WEIGHTS_RUNTIME_BOUND",
+        }
+        assert payload["runtime_completion_claimed"] is False
+        assert "EMBEDDING_INDEX_LIBRARY_RUNTIME_ABSENT" not in payload["blocker_codes"]
+        assert (
+            "FULL_LIBRARY_EMBEDDING_RECONCILIATION_IN_PROGRESS" in payload["blocker_codes"]
+            or "FULL_LIBRARY_EMBEDDING_RECONCILIATION_ABSENT" in payload["blocker_codes"]
+        )
     else:
-        assert payload["status"] == (
-            "HOLD_LIBRARY_EMBEDDING_INDEX_ABSENT_MODEL_SELECTED_HELDOUT_BOUND"
-        )
-        assert payload["proof_tier"] == "CONTRACT_PASS_BOUNDED"
-        assert payload["highest_proof_tier_achieved"] == "CONTRACT_PASS_BOUNDED"
+        assert payload["runtime_completion_claimed"] is False
+        if weights_runtime:
+            assert payload["status"] == (
+                "HOLD_LIBRARY_EMBEDDING_INDEX_ABSENT_HELDOUT_WEIGHTS_RUNTIME_BOUND"
+            )
+            assert payload["proof_tier"] == "RUNTIME_PASS_BOUNDED"
+            assert payload["highest_proof_tier_achieved"] == "RUNTIME_PASS_BOUNDED"
+            assert payload["heldout_binding"]["model_weights_loaded"] is True
+            assert payload["heldout_binding"]["emitter"] == MOD.HELDOUT_EMITTER_WEIGHTS_RUNTIME
+            assert payload["decision"]["heldout_weights_runtime"] is True
+        else:
+            assert payload["status"] == (
+                "HOLD_LIBRARY_EMBEDDING_INDEX_ABSENT_MODEL_SELECTED_HELDOUT_BOUND"
+            )
+            assert payload["proof_tier"] == "CONTRACT_PASS_BOUNDED"
+            assert payload["highest_proof_tier_achieved"] == "CONTRACT_PASS_BOUNDED"
+        assert "EMBEDDING_INDEX_LIBRARY_RUNTIME_ABSENT" in payload["blocker_codes"]
+        assert "FULL_LIBRARY_EMBEDDING_RECONCILIATION_ABSENT" in payload["blocker_codes"]
     assert payload["decision"]["status"] == "blocked"
     assert payload["decision"]["product_completion"] is False
     assert payload["decision"]["row077_acceptance"] == "held"
@@ -67,8 +89,6 @@ def test_library_mode_emits_model_selected_heldout_bound_hold_without_false_comp
     assert "PREPROCESSING_RUNTIME_UNBOUND" not in payload["blocker_codes"]
     assert "HELDOUT_RETRIEVAL_LIBRARY_METRICS_ABSENT" not in payload["blocker_codes"]
     assert "EMBEDDING_MODEL_WEIGHTS_NOT_INSTALLED" not in payload["blocker_codes"]
-    assert "EMBEDDING_INDEX_LIBRARY_RUNTIME_ABSENT" in payload["blocker_codes"]
-    assert "FULL_LIBRARY_EMBEDDING_RECONCILIATION_ABSENT" in payload["blocker_codes"]
     assert payload["model_selection"]["selected_asset_id"] == "laion_clap_general"
     assert payload["model_selection"]["weights_installed"] is True
     assert payload["heldout_binding"]["scope"] == "held_out_only"
@@ -77,6 +97,36 @@ def test_library_mode_emits_model_selected_heldout_bound_hold_without_false_comp
     assert payload["registry_revision"] == MOD.REGISTRY_REVISION
     assert payload["fixture_calibration"]["fixture_count"] == 5
     assert set(payload["required_embedding_spaces"]) == set(MOD.REQUIRED_EMBEDDING_SPACES)
+
+
+def test_preprocess_library_mono_pcm_pad_trim_and_peak_normalize():
+    import numpy as np
+
+    frames = np.asarray([[0.5], [-1.0], [0.25], [0.0]], dtype=np.float32)
+    samples, meta = MOD.preprocess_library_mono_pcm(
+        frames, sample_rate_hz=48000, target_hz=48000, fixed_frames=8
+    )
+    assert len(samples) == 8
+    assert meta["padded"] is True
+    assert meta["truncated"] is False
+    assert meta["resampled"] is False
+    assert max(abs(v) for v in samples[:4]) <= 1.0 + 1e-6
+    assert samples[4:] == [0.0, 0.0, 0.0, 0.0]
+    long_frames = np.ones((16, 1), dtype=np.float32)
+    trimmed, trim_meta = MOD.preprocess_library_mono_pcm(
+        long_frames, sample_rate_hz=48000, target_hz=48000, fixed_frames=8
+    )
+    assert len(trimmed) == 8
+    assert trim_meta["truncated"] is True
+
+
+def test_index_retained_mode_and_resume_flags_are_wired():
+    assert hasattr(MOD, "run_retained_index_library_embed_runtime")
+    assert hasattr(MOD, "assert_library_embed_runtime_deps")
+    assert MOD.DEFAULT_LIBRARY_RUNTIME_DIR.as_posix().endswith(
+        "runtime_artifacts/embeddings/row077_library_20260720"
+    )
+    assert MOD.LIBRARY_INDEX_REVISION.startswith("wave64_row077_library_embedding_index_")
 
 
 def test_registry_freezes_hashes_and_license_binds_selected_model():

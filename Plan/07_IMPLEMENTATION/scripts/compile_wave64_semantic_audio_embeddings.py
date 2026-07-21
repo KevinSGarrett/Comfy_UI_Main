@@ -5,7 +5,9 @@ Library embedding generation refuses authority without accepted Row069 inventory
 and Row070 canonical decode. Fixture mode may emit deterministic schema-validated
 synthetic audio/text embeddings, held-out retrieval proofs, unknown abstention,
 and non-certifying similarity policy without promoting library completion or
-loading production models.
+loading production models. Index-retained mode reconciles accepted Row071 feature
+records into real laion_clap_general embeddings under --resume progress without
+claiming library_authority or product COMPLETE.
 """
 
 from __future__ import annotations
@@ -14,7 +16,9 @@ import argparse
 import hashlib
 import json
 import math
+import os
 import struct
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -35,6 +39,12 @@ ROW069_DELTA = Path(
 ROW070_DELTA = Path(
     "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-070_CANONICAL_AUDIO_DECODE_CURRENT_DELTA_20260719.json"
 )
+DEFAULT_ROW071_RETAINED_RECORDS = Path(
+    "runtime_artifacts/audio_qa/row071_index_retained_20260719/records.jsonl"
+)
+DEFAULT_LIBRARY_RUNTIME_DIR = Path(
+    "runtime_artifacts/embeddings/row077_library_20260720"
+)
 
 COMPILER_REVISION = "wave64_row077_semantic_audio_embedding_compiler_v0.1.0"
 REGISTRY_REVISION = "wave64_row077_semantic_audio_embedding_registry_v0.1.0"
@@ -43,10 +53,12 @@ ITEM_ID = "ITEM-W64-077"
 SCHEMA_VERSION = "1.0.0"
 FIXTURE_INDEX_REVISION = "wave64_row077_fixture_embedding_index_v0.1.0"
 HELDOUT_INDEX_REVISION = "wave64_row077_heldout_embedding_index_v0.1.1"
+LIBRARY_INDEX_REVISION = "wave64_row077_library_embedding_index_v0.1.0"
 HELDOUT_ARTIFACT_REL = Path("runtime_artifacts/embeddings/row077_heldout_20260720")
 SELECTED_ASSET_ID = "laion_clap_general"
 VECTOR_DIM = 16
 PRODUCTION_VECTOR_DIM = 512
+RETAINED_CHECKPOINT_EVERY = 25
 HELDOUT_SLICE_SEEDS = (
     ("event", "footstep", "cloth"),
     ("material", "hardwood", "carpet"),
@@ -55,6 +67,7 @@ HELDOUT_SLICE_SEEDS = (
 )
 HELDOUT_EMITTER_FIXTURE = "fixture"
 HELDOUT_EMITTER_WEIGHTS_RUNTIME = "weights_runtime"
+_FEATURE_MOD: Any | None = None
 
 REQUIRED_EMBEDDING_SPACES = (
     "source_audio",
@@ -1171,7 +1184,607 @@ def load_heldout_binding_if_present(root: Path) -> dict[str, Any] | None:
     }
 
 
-def build_library_blocker_packet(root: Path) -> dict[str, Any]:
+def load_feature_module() -> Any:
+    global _FEATURE_MOD
+    if _FEATURE_MOD is not None:
+        return _FEATURE_MOD
+    import importlib.util
+
+    script = ROOT / "Plan/07_IMPLEMENTATION/scripts/extract_wave64_waveform_features.py"
+    spec = importlib.util.spec_from_file_location(
+        "wave64_row071_features_for_row077_embed", script
+    )
+    if spec is None or spec.loader is None:
+        raise SemanticAudioEmbeddingError("feature_module_load_failed")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    _FEATURE_MOD = mod
+    return mod
+
+
+def _empty_retained_embed_counts() -> dict[str, int]:
+    return {
+        "records_processed": 0,
+        "records_total": 0,
+        "embed_pass": 0,
+        "embed_blocked": 0,
+        "exact_blockers": 0,
+        "feature_pass_inputs": 0,
+        "feature_non_pass_inputs": 0,
+        "pcm_sha_verified": 0,
+        "source_immutable_true": 0,
+        "vectors_written": 0,
+        "analysis_truncated": 0,
+        "resampled_to_48k": 0,
+    }
+
+
+def resample_mono_linear(samples: list[float], *, src_hz: int, dst_hz: int) -> list[float]:
+    if src_hz <= 0 or dst_hz <= 0:
+        raise SemanticAudioEmbeddingError("invalid_sample_rate_for_resample")
+    if src_hz == dst_hz:
+        return list(samples)
+    if len(samples) < 2:
+        raise SemanticAudioEmbeddingError("resample_requires_at_least_two_samples")
+    duration = (len(samples) - 1) / float(src_hz)
+    out_count = max(2, int(round(duration * dst_hz)) + 1)
+    out: list[float] = []
+    for i in range(out_count):
+        t = i / float(dst_hz)
+        src_pos = t * float(src_hz)
+        left = int(math.floor(src_pos))
+        right = min(left + 1, len(samples) - 1)
+        left = min(left, len(samples) - 1)
+        frac = src_pos - left
+        out.append(((1.0 - frac) * samples[left]) + (frac * samples[right]))
+    return out
+
+
+def preprocess_library_mono_pcm(
+    frames_nc: Any,
+    *,
+    sample_rate_hz: int,
+    target_hz: int,
+    fixed_frames: int,
+) -> tuple[list[float], dict[str, Any]]:
+    """Apply frozen Row077 mono/peak-normalize/pad-or-trim contract to canonical frames."""
+    import numpy as np
+
+    arr = np.asarray(frames_nc, dtype=np.float32)
+    if arr.ndim != 2 or arr.shape[0] == 0 or arr.shape[1] < 1:
+        raise SemanticAudioEmbeddingError("invalid_frames_nc_for_preprocess")
+    mono = arr.mean(axis=1)
+    peak = float(np.max(np.abs(mono))) if mono.size else 0.0
+    if peak > 0.0:
+        mono = np.clip(mono / peak, -1.0, 1.0)
+    samples = [float(v) for v in mono.tolist()]
+    resampled = int(sample_rate_hz) != int(target_hz)
+    if resampled:
+        samples = resample_mono_linear(
+            samples, src_hz=int(sample_rate_hz), dst_hz=int(target_hz)
+        )
+    if len(samples) > fixed_frames:
+        start = (len(samples) - fixed_frames) // 2
+        samples = samples[start : start + fixed_frames]
+        truncated = True
+        padded = False
+    elif len(samples) < fixed_frames:
+        samples = samples + ([0.0] * (fixed_frames - len(samples)))
+        truncated = False
+        padded = True
+    else:
+        truncated = False
+        padded = False
+    if len(samples) != fixed_frames:
+        raise SemanticAudioEmbeddingError("preprocess_fixed_frames_mismatch")
+    meta = {
+        "source_sample_rate_hz": int(sample_rate_hz),
+        "target_sample_rate_hz": int(target_hz),
+        "fixed_frames": int(fixed_frames),
+        "resampled": resampled,
+        "truncated": truncated,
+        "padded": padded,
+        "preprocessed_pcm_sha256": vector_sha256(samples),
+    }
+    return samples, meta
+
+
+def build_compact_embed_record(
+    *,
+    relative_path: str,
+    extension: str,
+    role: str,
+    event_type: str,
+    asset_id: str,
+    feature_status: str,
+    embedding_sha256: str | None,
+    vector_dimension: int | None,
+    source_sha256: str | None,
+    canonical_pcm_sha256: str | None,
+    preprocessed_pcm_sha256: str | None,
+    sample_rate_hz: int | None,
+    frame_count_source: int | None,
+    pcm_sha_verified: bool,
+    source_immutable: bool | None,
+    analysis_truncated: bool,
+    resampled: bool,
+    device: str | None,
+    blocker_code: str | None,
+    blocker_codes: list[str],
+    blocker_detail: str | None = None,
+) -> dict[str, Any]:
+    technical_pass = (
+        feature_status == "pass"
+        and embedding_sha256 is not None
+        and vector_dimension == PRODUCTION_VECTOR_DIM
+        and pcm_sha_verified
+        and source_immutable is True
+        and not blocker_codes
+    )
+    status = "pass" if technical_pass else "blocked"
+    codes = list(blocker_codes)
+    if technical_pass:
+        codes = ["LIBRARY_AUTHORITY_NOT_GRANTED"]
+    compact: dict[str, Any] = {
+        "relative_path": relative_path,
+        "extension": extension,
+        "role": role,
+        "event_type": event_type,
+        "asset_id": asset_id,
+        "feature_status": feature_status,
+        "embed_status": status,
+        "technical_embed_pass": technical_pass,
+        "library_authority": False,
+        "embedding_index_revision": LIBRARY_INDEX_REVISION,
+        "embedding_space": "source_audio",
+        "modality": "audio",
+        "selected_asset_id": SELECTED_ASSET_ID,
+        "embedding_sha256": embedding_sha256,
+        "vector_dimension": vector_dimension,
+        "source_sha256": source_sha256,
+        "canonical_pcm_sha256": canonical_pcm_sha256,
+        "preprocessed_pcm_sha256": preprocessed_pcm_sha256,
+        "sample_rate_hz": sample_rate_hz,
+        "frame_count_source": frame_count_source,
+        "pcm_sha_verified": pcm_sha_verified,
+        "source_immutable": source_immutable,
+        "analysis_truncated": analysis_truncated,
+        "resampled_to_48k": resampled,
+        "device": device,
+        "blocker_code": blocker_code if not technical_pass else None,
+        "blocker_codes": codes,
+    }
+    if blocker_detail:
+        compact["blocker_detail"] = blocker_detail
+    return compact
+
+
+def assert_library_embed_runtime_deps(root: Path) -> dict[str, Any]:
+    """Fail closed before any library embed scan when deps/weights/CLAP stack are absent."""
+    row069 = evaluate_row069_admission(root)
+    row070 = evaluate_row070_admission(root)
+    if not row069.get("dependency_satisfied") or not row070.get("dependency_satisfied"):
+        raise SemanticAudioEmbeddingError(
+            "index_retained_requires_row069_and_row070_admission"
+        )
+    registry = load_registry(root)
+    selection = assert_model_selection_binding(registry)
+    if not weights_installed(root, registry):
+        raise SemanticAudioEmbeddingError(
+            "EMBEDDING_MODEL_WEIGHTS_NOT_INSTALLED:"
+            f"{selection.get('declared_local_path')}"
+        )
+    try:
+        _import_clap_stack()
+    except SemanticAudioEmbeddingError as exc:
+        raise SemanticAudioEmbeddingError(
+            f"CLAP_RUNTIME_DEPS_ABSENT:{exc}"
+        ) from exc
+    heldout = load_heldout_binding_if_present(root)
+    if heldout is None or heldout.get("metrics", {}).get("all_slices_pass") is not True:
+        raise SemanticAudioEmbeddingError("HELDOUT_RETRIEVAL_LIBRARY_METRICS_ABSENT")
+    return {
+        "registry": registry,
+        "selection": selection,
+        "row069": row069,
+        "row070": row070,
+        "heldout": heldout,
+    }
+
+
+def run_retained_index_library_embed_runtime(
+    root: Path,
+    *,
+    row071_records_path: Path | None = None,
+    runtime_dir: Path | None = None,
+    limit: int | None = None,
+    resume: bool = True,
+    checkpoint_every: int = RETAINED_CHECKPOINT_EVERY,
+) -> dict[str, Any]:
+    """Reconcile retained Row071 feature records into real CLAP library embeddings."""
+    deps = assert_library_embed_runtime_deps(root)
+    registry = deps["registry"]
+    selection = deps["selection"]
+    frozen = assert_frozen_hashes(registry)
+    feature_mod = load_feature_module()
+    decode = feature_mod.load_decode_module()
+    locator = decode.load_active_index_locator(root)
+    source_root = Path(locator["source_root"])
+    records_in = resolve_under(
+        root,
+        row071_records_path or DEFAULT_ROW071_RETAINED_RECORDS,
+        "row071_retained_records",
+    )
+    if not records_in.is_file():
+        raise SemanticAudioEmbeddingError("row071_retained_records_absent")
+
+    out_dir = resolve_under(
+        root,
+        runtime_dir or DEFAULT_LIBRARY_RUNTIME_DIR,
+        "retained_library_embed_runtime",
+    )
+    out_dir.mkdir(parents=True, exist_ok=True)
+    owner_marker = out_dir / "FULL_RECONCILE_OWNER.txt"
+    if limit is None:
+        owner_marker.write_text(
+            "owner=compile_wave64_semantic_audio_embeddings.py\n"
+            f"started={datetime.now(timezone.utc).isoformat()}\n"
+            f"pid={os.getpid()}\n"
+            "lane=library_embed_exclusive\n",
+            encoding="utf-8",
+        )
+    elif owner_marker.is_file():
+        raise SemanticAudioEmbeddingError(
+            "retained_library_embed_full_reconcile_in_progress_limit_runs_refused"
+        )
+
+    records_path = out_dir / "records.jsonl"
+    vectors_path = out_dir / "vectors.jsonl"
+    progress_path = out_dir / "progress.json"
+    receipt_path = out_dir / "retained_index_library_embed_receipt.json"
+
+    total_lines = 0
+    with records_in.open("r", encoding="utf-8") as handle:
+        for line in handle:
+            if line.strip():
+                total_lines += 1
+
+    counts = _empty_retained_embed_counts()
+    counts["records_total"] = total_lines
+    blocker_histogram: dict[str, int] = {}
+    extension_histogram: dict[str, int] = {}
+    started_at = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+    processed_paths: set[str] = set()
+    next_index = 0
+
+    if resume and progress_path.is_file() and records_path.is_file():
+        progress = load_json(progress_path)
+        if str(progress.get("row071_records_sha256") or "") == sha256_file(records_in):
+            counts = dict(progress.get("counts") or counts)
+            blocker_histogram = {
+                str(key): int(value)
+                for key, value in (progress.get("blocker_histogram") or {}).items()
+            }
+            extension_histogram = {
+                str(key): int(value)
+                for key, value in (progress.get("extension_histogram") or {}).items()
+            }
+            next_index = int(progress.get("next_record_index") or 0)
+            started_at = str(progress.get("started_at") or started_at)
+            with records_path.open("r", encoding="utf-8") as handle:
+                for line in handle:
+                    if not line.strip():
+                        continue
+                    compact = json.loads(line)
+                    processed_paths.add(str(compact.get("relative_path") or ""))
+        else:
+            records_path.write_text("", encoding="utf-8")
+            vectors_path.write_text("", encoding="utf-8")
+            next_index = 0
+            processed_paths = set()
+            counts = _empty_retained_embed_counts()
+            counts["records_total"] = total_lines
+            blocker_histogram = {}
+            extension_histogram = {}
+    else:
+        records_path.write_text("", encoding="utf-8")
+        vectors_path.write_text("", encoding="utf-8")
+        if progress_path.is_file() and not resume:
+            progress_path.unlink()
+
+    torch, processor, model, device = _load_clap_model(root, registry)
+    prep = registry["preprocessing_configuration"]
+    target_hz = int(prep["sample_rate_hz"])
+    fixed_frames = int(prep["fixed_frames"])
+
+    def write_progress(*, complete: bool) -> None:
+        payload = {
+            "schema_version": 1,
+            "tracker_id": TRACKER_ID,
+            "item_id": ITEM_ID,
+            "compiler_revision": COMPILER_REVISION,
+            "embedding_index_revision": LIBRARY_INDEX_REVISION,
+            "selected_asset_id": selection["selected_asset_id"],
+            "expected_key_file_sha256": selection["expected_key_file_sha256"],
+            "license_binding_sha256": selection["license_binding_sha256"],
+            "preprocessing_configuration_sha256": frozen[
+                "preprocessing_configuration_sha256"
+            ],
+            "taxonomy_revision_sha256": frozen["taxonomy_revision_sha256"],
+            "row071_records_path": str(records_in.relative_to(root)).replace("\\", "/"),
+            "row071_records_sha256": sha256_file(records_in),
+            "index_sha256": locator["index_sha256"],
+            "started_at": started_at,
+            "updated_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+            "next_record_index": next_index,
+            "limit": limit,
+            "complete": complete,
+            "counts": counts,
+            "blocker_histogram": blocker_histogram,
+            "extension_histogram": extension_histogram,
+            "records_path": str(records_path.relative_to(root)).replace("\\", "/"),
+            "vectors_path": str(vectors_path.relative_to(root)).replace("\\", "/"),
+            "device": device,
+            "model_weights_loaded": True,
+            "library_authority": False,
+            "row_complete": False,
+            "product_completion_claimed": False,
+        }
+        write_json(progress_path, payload)
+
+    with records_in.open("r", encoding="utf-8") as handle, records_path.open(
+        "a", encoding="utf-8"
+    ) as out_handle, vectors_path.open("a", encoding="utf-8") as vec_handle:
+        for line_index, line in enumerate(handle):
+            if line_index < next_index:
+                continue
+            stripped = line.strip()
+            if not stripped:
+                next_index = line_index + 1
+                continue
+            feature_rec = json.loads(stripped)
+            relative_path = str(feature_rec.get("relative_path") or "").replace("\\", "/")
+            if not relative_path:
+                next_index = line_index + 1
+                continue
+            if relative_path in processed_paths:
+                next_index = line_index + 1
+                continue
+            if limit is not None and counts["records_processed"] >= limit:
+                break
+
+            extension = str(feature_rec.get("extension") or Path(relative_path).suffix).lower()
+            feature_status = str(feature_rec.get("feature_status") or "")
+            role = str(feature_rec.get("role") or "")
+            event_type = str(feature_rec.get("event_type") or "")
+            asset_id = f"index:{relative_path}"
+            vector_values: list[float] | None = None
+
+            if feature_status != "pass":
+                blocker_code = str(feature_rec.get("blocker_code") or "FEATURE_NON_PASS")
+                compact = build_compact_embed_record(
+                    relative_path=relative_path,
+                    extension=extension,
+                    role=role,
+                    event_type=event_type,
+                    asset_id=asset_id,
+                    feature_status=feature_status,
+                    embedding_sha256=None,
+                    vector_dimension=None,
+                    source_sha256=feature_rec.get("source_sha256"),
+                    canonical_pcm_sha256=feature_rec.get("canonical_pcm_sha256"),
+                    preprocessed_pcm_sha256=None,
+                    sample_rate_hz=None,
+                    frame_count_source=None,
+                    pcm_sha_verified=False,
+                    source_immutable=feature_rec.get("source_immutable"),
+                    analysis_truncated=False,
+                    resampled=False,
+                    device=None,
+                    blocker_code=blocker_code,
+                    blocker_codes=[blocker_code],
+                )
+                counts["feature_non_pass_inputs"] += 1
+            else:
+                absolute = source_root / relative_path
+                try:
+                    frames_nc, sample_rate_hz, source_sha, _source_bytes, pcm_sha = (
+                        feature_mod.load_canonical_float_channels(root, absolute)
+                    )
+                    after_sha = sha256_file(absolute)
+                    source_immutable = after_sha == source_sha
+                    if source_sha != feature_rec.get("source_sha256"):
+                        raise SemanticAudioEmbeddingError(
+                            f"source_sha_mismatch:{relative_path}"
+                        )
+                    if pcm_sha != feature_rec.get("canonical_pcm_sha256"):
+                        raise SemanticAudioEmbeddingError(
+                            f"pcm_sha_mismatch:{relative_path}"
+                        )
+                    frame_count = int(frames_nc.shape[0])
+                    analysis_truncated = False
+                    mono, prep_meta = preprocess_library_mono_pcm(
+                        frames_nc,
+                        sample_rate_hz=int(sample_rate_hz),
+                        target_hz=target_hz,
+                        fixed_frames=fixed_frames,
+                    )
+                    encoded = _encode_audio_embeds(
+                        torch, processor, model, device, [mono], target_hz
+                    )
+                    vector_values = encoded[0]
+                    emb_sha = vector_sha256(vector_values)
+                    local_blockers: list[str] = []
+                    if not source_immutable:
+                        local_blockers.append("SOURCE_BYTES_CHANGED")
+                    compact = build_compact_embed_record(
+                        relative_path=relative_path,
+                        extension=extension,
+                        role=role,
+                        event_type=event_type,
+                        asset_id=asset_id,
+                        feature_status="pass",
+                        embedding_sha256=emb_sha,
+                        vector_dimension=PRODUCTION_VECTOR_DIM,
+                        source_sha256=source_sha,
+                        canonical_pcm_sha256=pcm_sha,
+                        preprocessed_pcm_sha256=prep_meta["preprocessed_pcm_sha256"],
+                        sample_rate_hz=target_hz,
+                        frame_count_source=frame_count,
+                        pcm_sha_verified=True,
+                        source_immutable=source_immutable,
+                        analysis_truncated=analysis_truncated,
+                        resampled=bool(prep_meta["resampled"]),
+                        device=device,
+                        blocker_code=local_blockers[0] if local_blockers else None,
+                        blocker_codes=local_blockers,
+                    )
+                    counts["feature_pass_inputs"] += 1
+                    counts["pcm_sha_verified"] += 1
+                    if source_immutable:
+                        counts["source_immutable_true"] += 1
+                    if prep_meta["resampled"]:
+                        counts["resampled_to_48k"] += 1
+                except Exception as exc:  # noqa: BLE001 - exact blocker capture
+                    compact = build_compact_embed_record(
+                        relative_path=relative_path,
+                        extension=extension,
+                        role=role,
+                        event_type=event_type,
+                        asset_id=asset_id,
+                        feature_status="pass",
+                        embedding_sha256=None,
+                        vector_dimension=None,
+                        source_sha256=feature_rec.get("source_sha256"),
+                        canonical_pcm_sha256=feature_rec.get("canonical_pcm_sha256"),
+                        preprocessed_pcm_sha256=None,
+                        sample_rate_hz=None,
+                        frame_count_source=None,
+                        pcm_sha_verified=False,
+                        source_immutable=feature_rec.get("source_immutable"),
+                        analysis_truncated=False,
+                        resampled=False,
+                        device=device,
+                        blocker_code="LIBRARY_EMBED_EXTRACTION_FAILED",
+                        blocker_codes=["LIBRARY_EMBED_EXTRACTION_FAILED"],
+                        blocker_detail=str(exc)[:500],
+                    )
+                    counts["feature_pass_inputs"] += 1
+                    vector_values = None
+
+            if compact.get("embed_status") == "pass" and vector_values is not None:
+                counts["embed_pass"] += 1
+                counts["vectors_written"] += 1
+                vec_handle.write(
+                    json.dumps(
+                        {
+                            "asset_id": asset_id,
+                            "relative_path": relative_path,
+                            "embedding_sha256": compact["embedding_sha256"],
+                            "vector_dimension": PRODUCTION_VECTOR_DIM,
+                            "dtype": "float32",
+                            "normalization": "l2_unit",
+                            "values": vector_values,
+                        },
+                        sort_keys=True,
+                    )
+                    + "\n"
+                )
+            else:
+                counts["embed_blocked"] += 1
+                counts["exact_blockers"] += 1
+                code = str(compact.get("blocker_code") or "EMBED_BLOCKED")
+                blocker_histogram[code] = blocker_histogram.get(code, 0) + 1
+            extension_histogram[extension] = extension_histogram.get(extension, 0) + 1
+            counts["records_processed"] += 1
+            out_handle.write(json.dumps(compact, sort_keys=True) + "\n")
+            processed_paths.add(relative_path)
+            next_index = line_index + 1
+            if counts["records_processed"] % checkpoint_every == 0:
+                out_handle.flush()
+                vec_handle.flush()
+                write_progress(complete=False)
+
+    coverage_complete = limit is None and counts["records_processed"] == counts["records_total"]
+    write_progress(complete=coverage_complete)
+
+    proof_tier = "RUNTIME_PASS_BOUNDED"
+    receipt = {
+        "schema_version": 1,
+        "evidence_id": "W64-ROW077-ACCEPTED-INDEX-RETAINED-LIBRARY-EMBED-20260721",
+        "tracker_id": TRACKER_ID,
+        "item_id": ITEM_ID,
+        "authority": "accepted_index_retained_library_embed_probe"
+        if limit is not None
+        else "accepted_index_retained_library_embed_reconcile",
+        "compiler_revision": COMPILER_REVISION,
+        "embedding_index_revision": LIBRARY_INDEX_REVISION,
+        "created_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "started_at": started_at,
+        "coverage_complete": coverage_complete,
+        "limit": limit,
+        "counts": counts,
+        "blocker_histogram": blocker_histogram,
+        "extension_histogram": extension_histogram,
+        "locator": {
+            "index_sha256": locator["index_sha256"],
+            "record_count": locator.get("record_count"),
+            "source_root": str(source_root),
+        },
+        "row069_admission": deps["row069"],
+        "row070_admission": deps["row070"],
+        "model_selection": {
+            "selected_asset_id": selection["selected_asset_id"],
+            "selected_model_revision": selection["selected_model_revision"],
+            "expected_key_file_sha256": selection["expected_key_file_sha256"],
+            "license_binding_sha256": selection["license_binding_sha256"],
+            "weights_installed": True,
+            "declared_local_path": selection["declared_local_path"],
+        },
+        "frozen_hashes": frozen,
+        "row071_records": {
+            "path": str(records_in.relative_to(root)).replace("\\", "/"),
+            "sha256": sha256_file(records_in),
+            "bytes": records_in.stat().st_size,
+        },
+        "records_path": str(records_path.relative_to(root)).replace("\\", "/"),
+        "vectors_path": str(vectors_path.relative_to(root)).replace("\\", "/"),
+        "records_sha256": sha256_file(records_path) if records_path.is_file() else None,
+        "records_bytes": records_path.stat().st_size if records_path.is_file() else 0,
+        "progress_path": str(progress_path.relative_to(root)).replace("\\", "/"),
+        "receipt_path": str(receipt_path.relative_to(root)).replace("\\", "/"),
+        "device": device,
+        "model_weights_loaded": True,
+        "library_authority": False,
+        "row_complete": False,
+        "product_completion_claimed": False,
+        "runtime_completion_claimed": bool(coverage_complete),
+        "proof_tier": proof_tier,
+        "highest_proof_tier_achieved": proof_tier,
+        "explicit_non_claims": [
+            "COMPLETE",
+            "product_completion",
+            "library_authority",
+            "full_library_coverage",
+        ],
+        "status": (
+            "RUNTIME_PASS_BOUNDED_LIBRARY_EMBED_RECONCILE_COMPLETE"
+            if coverage_complete
+            else "RUNTIME_PASS_BOUNDED_LIBRARY_EMBED_PROBE_OR_IN_PROGRESS"
+        ),
+    }
+    write_json(receipt_path, receipt)
+    receipt["receipt_sha256"] = sha256_file(receipt_path)
+    receipt["receipt_bytes"] = receipt_path.stat().st_size
+    write_json(receipt_path, receipt)
+    return receipt
+
+
+def build_library_blocker_packet(
+    root: Path,
+    *,
+    retained_runtime: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     row069 = evaluate_row069_admission(root)
     row070 = evaluate_row070_admission(root)
     registry = load_registry(root)
@@ -1219,6 +1832,11 @@ def build_library_blocker_packet(root: Path) -> dict[str, Any]:
         and installed
     )
 
+    retained = retained_runtime or {}
+    coverage_complete = bool(retained.get("coverage_complete"))
+    reconcile_started = bool(retained)
+    probe_only = retained.get("limit") is not None
+
     if not model_selected or not license_bound:
         blocker_codes.append("EMBEDDING_MODEL_NOT_SELECTED_OR_INSTALLED")
     elif not installed:
@@ -1227,70 +1845,124 @@ def build_library_blocker_packet(root: Path) -> dict[str, Any]:
         blocker_codes.append("PREPROCESSING_RUNTIME_UNBOUND")
     if not heldout_bound:
         blocker_codes.append("HELDOUT_RETRIEVAL_LIBRARY_METRICS_ABSENT")
-    for code in (
-        "EMBEDDING_INDEX_LIBRARY_RUNTIME_ABSENT",
-        "FULL_LIBRARY_EMBEDDING_RECONCILIATION_ABSENT",
-    ):
-        if code not in blocker_codes:
-            blocker_codes.append(code)
 
-    if deps_unlocked and model_selected and license_bound and hashes_frozen and heldout_bound:
+    if not coverage_complete:
+        if reconcile_started:
+            for code in (
+                "FULL_LIBRARY_EMBEDDING_RECONCILIATION_IN_PROGRESS",
+                "LIBRARY_AUTHORITY_NOT_GRANTED",
+            ):
+                if code not in blocker_codes:
+                    blocker_codes.append(code)
+            if probe_only and "FULL_LIBRARY_EMBEDDING_RECONCILIATION_ABSENT" not in blocker_codes:
+                blocker_codes.append("FULL_LIBRARY_EMBEDDING_RECONCILIATION_ABSENT")
+        else:
+            for code in (
+                "EMBEDDING_INDEX_LIBRARY_RUNTIME_ABSENT",
+                "FULL_LIBRARY_EMBEDDING_RECONCILIATION_ABSENT",
+            ):
+                if code not in blocker_codes:
+                    blocker_codes.append(code)
+    else:
+        for code in (
+            "LIBRARY_AUTHORITY_NOT_GRANTED",
+            "SIMILARITY_ALONE_CANNOT_CERTIFY",
+        ):
+            if code not in blocker_codes:
+                blocker_codes.append(code)
+
+    if coverage_complete and deps_unlocked and heldout_weights_runtime:
+        status = "HOLD_LIBRARY_EMBED_RECONCILE_COMPLETE_AUTHORITY_NOT_GRANTED"
+        proof_tier = "RUNTIME_PASS_BOUNDED"
+        runtime_completion = True
+        safe_next = (
+            "Full-library embedding reconcile covered retained Row071 records with "
+            "laion_clap_general weights. Do not claim product COMPLETE; library_authority "
+            "and promotion remain blocked until registered acceptance gates pass."
+        )
+    elif reconcile_started and deps_unlocked and heldout_weights_runtime:
+        status = (
+            "HOLD_LIBRARY_EMBED_PROBE_PASS_FULL_RECONCILE_DEFERRED"
+            if probe_only
+            else "HOLD_LIBRARY_EMBED_RECONCILE_IN_PROGRESS_HELDOUT_WEIGHTS_RUNTIME_BOUND"
+        )
+        proof_tier = "RUNTIME_PASS_BOUNDED"
+        runtime_completion = False
+        safe_next = (
+            "Bounded index-retained library embed probe passed. Resume --mode index-retained "
+            "--resume without --limit under runtime_artifacts/embeddings/row077_library_20260720 "
+            "before claiming Row077 runtime coverage."
+            if probe_only
+            else (
+                "Resume/finish retained-index library embed reconcile to coverage_complete. "
+                "Do not claim product COMPLETE; library_authority remains blocked."
+            )
+        )
+    elif deps_unlocked and model_selected and license_bound and hashes_frozen and heldout_bound:
         if heldout_weights_runtime:
             status = (
                 "HOLD_LIBRARY_EMBEDDING_INDEX_ABSENT_HELDOUT_WEIGHTS_RUNTIME_BOUND"
             )
             proof_tier = "RUNTIME_PASS_BOUNDED"
+            runtime_completion = False
             safe_next = (
                 "Held-out-only laion_clap_general weights runtime index/metrics are bound under "
-                "runtime_artifacts/embeddings/row077_heldout_* (emitter=weights_runtime). Build the "
-                "full-library embedding index only after Row075 releases library I/O. Do not start a "
-                "full-library PCM/embedding scan while Row075 owns library I/O."
+                "runtime_artifacts/embeddings/row077_heldout_*. Run "
+                "compile_wave64_semantic_audio_embeddings.py --mode index-retained --resume "
+                "--retained-runtime-dir runtime_artifacts/embeddings/row077_library_20260720."
             )
         else:
             status = "HOLD_LIBRARY_EMBEDDING_INDEX_ABSENT_MODEL_SELECTED_HELDOUT_BOUND"
             proof_tier = "CONTRACT_PASS_BOUNDED"
+            runtime_completion = False
             if installed:
                 safe_next = (
-                    "Model laion_clap_general weights are installed and hash-reconciled at the frozen "
-                    "key-file sha256; held-out-only index/metrics remain fixture-bound under "
-                    "runtime_artifacts/embeddings/row077_heldout_*. Run held-out weights-runtime "
-                    "index/metrics next, then build the full-library embedding index only after "
-                    "Row075 releases library I/O. Do not start a full-library PCM/embedding scan "
-                    "while Row075 owns library I/O."
+                    "Model laion_clap_general weights are installed and hash-reconciled; held-out "
+                    "index/metrics remain fixture-bound. Run held-out weights-runtime, then "
+                    "--mode index-retained --resume for the disjoint library runtime tree."
                 )
             else:
                 safe_next = (
-                    "Model laion_clap_general is selected, Apache-2.0 license-bound, and hash-frozen; "
-                    "held-out-only index/metrics are bound under runtime_artifacts/embeddings/"
-                    "row077_heldout_*. Install and hash-reconcile the selected weights, then build the "
-                    "full-library embedding index only after Row075 releases library I/O. Do not start a "
-                    "full-library PCM/embedding scan while Row075 owns library I/O."
+                    "Install and hash-reconcile laion_clap_general weights at declared_local_path, "
+                    "then run --mode index-retained --resume. Do not invent embedding vectors."
                 )
     elif deps_unlocked:
         status = "HOLD_LIBRARY_EMBEDDING_MODEL_AND_INDEX_ABSENT_DEPS_UNLOCKED"
         proof_tier = "CONTRACT_PASS_BOUNDED"
+        runtime_completion = False
         safe_next = (
             "Rows069-070 library authority is accepted. Select and license-bind one exact "
             "embedding model file-set; freeze preprocessing and taxonomy serialization "
-            "hashes; build a hash-bound held-out embedding index; prove exact or "
-            "tolerance-bound determinism and disjoint held-out retrieval across required "
-            "slices. Do not start a full-library PCM/embedding scan while Row075 owns library I/O."
+            "hashes; build held-out binding; then run --mode index-retained --resume."
         )
     else:
         status = "HOLD_ROW069_ROW070_DEPENDENCIES_AND_LIBRARY_EMBEDDING_RUNTIME_ABSENT"
         proof_tier = "CONTRACT_PASS_BOUNDED"
+        runtime_completion = False
         safe_next = (
             "Accept Row069 canonical inventory authority and Row070 deterministic "
             "canonical decode; select and license-bind one exact embedding model "
             "file-set; freeze preprocessing and taxonomy serialization hashes; "
-            "build a hash-bound held-out embedding index; prove exact or tolerance-bound "
-            "determinism and disjoint held-out retrieval across required slices; "
-            "then replace this hold packet with library embedding evidence."
+            "build a hash-bound held-out embedding index; then run index-retained "
+            "library embed reconciliation."
         )
 
     fixture_records = [extract_fixture_record(root, name) for name in FIXTURE_NAMES]
     assert_partitions_disjoint(fixture_records)
     prep = preprocessing_identity(registry)
+    retained_summary = {
+        "present": reconcile_started,
+        "coverage_complete": coverage_complete,
+        "limit": retained.get("limit"),
+        "counts": retained.get("counts") or {},
+        "progress_path": retained.get("progress_path"),
+        "records_path": retained.get("records_path"),
+        "vectors_path": retained.get("vectors_path"),
+        "receipt_path": retained.get("receipt_path"),
+        "device": retained.get("device"),
+        "model_weights_loaded": bool(retained.get("model_weights_loaded")),
+        "status": retained.get("status"),
+    }
     return {
         "schema_version": SCHEMA_VERSION,
         "evidence_id": "TRK-W64-077_semantic_audio_embeddings",
@@ -1300,7 +1972,7 @@ def build_library_blocker_packet(root: Path) -> dict[str, Any]:
         "registry_revision": REGISTRY_REVISION,
         "row_complete": False,
         "implementation_completion_claimed": False,
-        "runtime_completion_claimed": False,
+        "runtime_completion_claimed": bool(runtime_completion),
         "library_authority": False,
         "proof_tier": proof_tier,
         "highest_proof_tier_achieved": proof_tier,
@@ -1342,6 +2014,7 @@ def build_library_blocker_packet(root: Path) -> dict[str, Any]:
             "metrics_sha256": (heldout or {}).get("metrics", {}).get("metrics_sha256"),
             "all_slices_pass": bool((heldout or {}).get("metrics", {}).get("all_slices_pass")),
         },
+        "accepted_index_retained_library_embed_runtime": retained_summary,
         "embedding_registry": {
             "path": str(REGISTRY_PATH).replace("\\", "/"),
             "registry_revision": registry["registry_revision"],
@@ -1371,8 +2044,10 @@ def build_library_blocker_packet(root: Path) -> dict[str, Any]:
             "hashes_frozen": True,
             "heldout_bound": heldout_bound,
             "heldout_weights_runtime": heldout_weights_runtime,
+            "library_embed_runtime_started": reconcile_started,
+            "library_embed_coverage_complete": coverage_complete,
             "product_completion": False,
-            "runtime_completion": False,
+            "runtime_completion": runtime_completion,
             "safe_next_action": safe_next,
         },
     }
@@ -1387,7 +2062,9 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", default=str(ROOT))
     parser.add_argument(
-        "--mode", choices=("library", "fixture", "heldout"), default="library"
+        "--mode",
+        choices=("library", "fixture", "heldout", "index-retained"),
+        default="library",
     )
     parser.add_argument(
         "--emitter",
@@ -1397,6 +2074,24 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument("--fixture", default="audio_text_compatible_space")
     parser.add_argument("--output", default=str(DEFAULT_EVIDENCE))
+    parser.add_argument(
+        "--row071-retained-records",
+        default=str(DEFAULT_ROW071_RETAINED_RECORDS),
+    )
+    parser.add_argument(
+        "--retained-runtime-dir",
+        default=str(DEFAULT_LIBRARY_RUNTIME_DIR),
+    )
+    parser.add_argument(
+        "--write-retained-summary",
+        default=(
+            "Plan/Instructions/QA/Evidence/Wave64/"
+            "TRK-W64-077_ACCEPTED_INDEX_RETAINED_LIBRARY_EMBED_SUMMARY_20260721.json"
+        ),
+    )
+    parser.add_argument("--limit", type=int, default=None)
+    parser.add_argument("--resume", action="store_true", default=True)
+    parser.add_argument("--no-resume", action="store_false", dest="resume")
     args = parser.parse_args(argv)
     root = Path(args.root).resolve()
     if root != ROOT.resolve() and root != Path("C:/Comfy_UI_Main").resolve():
@@ -1450,8 +2145,56 @@ def main(argv: list[str] | None = None) -> int:
             )
         )
         return 0
+    elif args.mode == "index-retained":
+        retained = run_retained_index_library_embed_runtime(
+            root,
+            row071_records_path=Path(args.row071_retained_records),
+            runtime_dir=Path(args.retained_runtime_dir),
+            limit=args.limit,
+            resume=args.resume,
+        )
+        summary_path = resolve_under(root, Path(args.write_retained_summary), "retained_summary")
+        write_json(summary_path, retained)
+        payload = build_library_blocker_packet(root, retained_runtime=retained)
+        payload["accepted_index_retained_library_embed_runtime"]["summary_path"] = str(
+            summary_path.relative_to(root)
+        ).replace("\\", "/")
+        payload["accepted_index_retained_library_embed_runtime"]["summary_sha256"] = (
+            sha256_file(summary_path)
+        )
+        write_json(output, payload)
+        status = payload.get("status") or payload["decision"]["status"]
+        print(
+            json.dumps(
+                {
+                    "coverage_complete": bool(retained.get("coverage_complete")),
+                    "limit": retained.get("limit"),
+                    "mode": args.mode,
+                    "output": str(output),
+                    "proof_tier": payload.get("proof_tier"),
+                    "records_processed": (retained.get("counts") or {}).get(
+                        "records_processed"
+                    ),
+                    "records_total": (retained.get("counts") or {}).get("records_total"),
+                    "runtime_dir": str(
+                        resolve_under(root, Path(args.retained_runtime_dir), "runtime")
+                    ),
+                    "status": status,
+                },
+                sort_keys=True,
+            )
+        )
+        return 0
     else:
-        payload = build_library_blocker_packet(root)
+        retained = None
+        receipt_candidate = resolve_under(
+            root,
+            DEFAULT_LIBRARY_RUNTIME_DIR / "retained_index_library_embed_receipt.json",
+            "retained_library_embed_receipt",
+        )
+        if receipt_candidate.is_file():
+            retained = load_json(receipt_candidate)
+        payload = build_library_blocker_packet(root, retained_runtime=retained)
         if payload["decision"]["status"] != "blocked":
             raise SemanticAudioEmbeddingError(
                 "library_mode_must_remain_fail_closed_until_dependencies_accepted"
