@@ -6,18 +6,23 @@
       "Row074",
       "COMPLETE",
       "Wan_refetch",
-      "017_redo",
-      "Wan_I2V_this_landing"
+      "017_redo"
     ],
     "pod_id": "1q4ji0gg1fkhvt",
     "sole_runtime": "RunPod",
     "ssh": "root@195.26.233.100:52077"
   },
-  "blocker_id_cleared": "NO_SHARP_HAND_START_STILL",
-  "claim_tier": "class_e_start_still_available_wan_climb_deferred",
+  "bytes_gate": {
+    "artifact_bytes": 238646,
+    "delta_under": 11354,
+    "min_class_e_proof_bytes": 250000,
+    "note": "raw Comfy SaveVideo mp4 238646B < 250000; no bitrate-pad remux; bytes gate FAIL blocks Proof_Landed",
+    "ok": false
+  },
+  "claim_tier": "class_e_attempt_fail",
   "class_ladder": {
     "class_a": "product_visual_qa_open_human_claude_still_required",
-    "class_e": "start still NOW AVAILABLE; Wan Class E climb deferred to later landing (not this commit)",
+    "class_e": "sharp-hand climb completed but raw bytes <250KB \u2014 not Proof_Landed",
     "class_f": "ASSET_PRESENT retained",
     "not_claimed": [
       "row_complete",
@@ -28,93 +33,145 @@
       "production_video_lane_certification"
     ]
   },
-  "created_iso": "2026-07-21T04:22:30-05:00",
-  "created_utc": "2026-07-21T09:22:30Z",
-  "csv_sync": "synced_by_primary_csv_mutator_row019_023_sharp_hand_start_still_available",
+  "comfy_regen": {
+    "attempted": true,
+    "did_not_kill_foreign_jobs": true,
+    "note": "Queue idle at submit; I2V from c1_sharp_hand_start_still_20260721T092218Z_a1.png (sha=ac43980940f3ae31...); no Flux LoRAs on Wan; no Wan weight re-fetch; no 017 redo; Row074 untouched.",
+    "params": "704x1280/81f/38steps/cfg6.0/seed2272611",
+    "prompt_id": "12690f6a-06f4-43e8-b1b3-8708c9243547",
+    "waited_for_idle": true
+  },
+  "created_iso": "2026-07-21T04:37:00-05:00",
+  "created_utc": "2026-07-21T09:37:00Z",
+  "csv_sync": "synced_by_primary_csv_mutator_row019_023_wan_ti2v_sharp_hand_climb_bytes_fail",
   "ec2_touched": false,
-  "evidence_id": "TRK-W64-019_023_SHARP_HAND_START_STILL_AVAILABLE_20260721T042230-0500",
+  "evidence_id": "TRK-W64-019_023_WAN_TI2V_SHARP_HAND_CLIMB_BYTES_FAIL_20260721T043700-0500",
   "generation": {
-    "attempt": 1,
-    "checkpoint": "flux1-dev-fp8.safetensors",
-    "composition": "medium_hands_forward_waist_up",
-    "engine": "Flux+PuLID",
-    "face_ref": "/workspace/Characters/Scenes_xxx_001/01_CHARACTER_LOCKS/C1_female/refs/C1_USER_AUTHORITY_FACE_01.png",
-    "face_sha256": "eae4bc45cd029a812df8f8530d5c296eede73800b7ad9eeab35665468742602c",
-    "loras_flux_only": [
-      "character1_flux_calibration/Latina_milf_flux.safetensors",
-      "character1_flux_calibration/saggy_flux.safetensors",
-      "character1_flux_calibration/FLUX_FD-LargeButt-SkinnyWaist-FP8.safetensors",
-      "scenes_xxx_session/09_hands_feet/Realistic_Hands_Flux_v1.safetensors",
-      "scenes_xxx_session/05_skin_hyperreal/Skin_Pore_Flux1D_v1.2.safetensors",
-      "scenes_xxx_session/05_skin_hyperreal/Flux_Skin_Detailer.safetensors"
-    ],
-    "note": "Flux hand/skin LoRAs used for still only; NEVER wire into Wan.",
-    "prior_runtime_interrupt_discarded": "ce7eb9fb-e446-4445-83f7-e9ed33d7cc7d global_/interrupt storm",
-    "prompt_id": "2f011290-0463-4135-aa4a-da0ea0d2a8b8",
-    "pulid_file": "pulid_flux_v0.9.1.safetensors",
-    "pulid_weight": 1.0,
-    "resolution": [
-      832,
-      1152
-    ],
-    "seed": 17721261901,
-    "steps": 30
+    "artifact": {
+      "bytes": 238646,
+      "ffprobe": {
+        "bit_rate": 565679,
+        "codec": "h264",
+        "duration_seconds": 3.375,
+        "height": 1280,
+        "nb_frames": 81,
+        "width": 704
+      },
+      "filename": "w64_019_023_runpod_wan_ti2v_sharp_hand_climb_20260721T092833Z_00001_.mp4",
+      "local_pullback": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_wan_ti2v_sharp_hand_climb_20260721T092833Z/w64_019_023_runpod_wan_ti2v_sharp_hand_climb_20260721T092833Z_00001_.mp4",
+      "pod_path": "/workspace/comfy_output/video/w64_019_023_runpod_wan_ti2v_sharp_hand_climb_20260721T092833Z_00001_.mp4",
+      "sha256": "f2569ee7a6f42c232d67d6760cb972f459ceb35b8679a405effdad3d7e7832f2"
+    },
+    "cfg": 6.0,
+    "completed": true,
+    "fps": 24,
+    "height": 1280,
+    "length": 81,
+    "prompt_id": "12690f6a-06f4-43e8-b1b3-8708c9243547",
+    "seed": 2272611,
+    "status_str": "success",
+    "steps": 38,
+    "width": 704
   },
   "highest_proof_tier_achieved": "RUNPOD_FLUX_PULID_SHARP_HAND_START_STILL_HUMAN_PASS",
   "human_frame_read": {
-    "blunt_human_verdict": "PASS. Medium/hands-forward C1 still with both palms toward camera; all five digits per hand clearly separated with visible knuckle creases and nail beds; hand/palm skin shows pore grain and fine lines (not mushy/fused, not plastic). Suitable as Wan I2V start still. Wan climb NOT run this landing.",
+    "blunt_human_verdict": "PASS hands+skin on full frames: palms-forward raised hands retain clearly separated fingers with knuckle/nail structure; torso/face skin shows pore grain (not mushy/fused, not plastic wax). Secondary: motion looks weak/near-static vs requested breathing/blink/weight-shift. Bytes gate FAIL (238646<250000) so not Proof_Landed.",
     "fail_conditions_checked": [
       "mushy_fused_fingers",
       "plastic_skin"
     ],
     "fail_conditions_observed": [],
+    "frames_reviewed": [
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_wan_ti2v_sharp_hand_climb_20260721T092833Z/frames/frame_01.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_wan_ti2v_sharp_hand_climb_20260721T092833Z/frames/frame_02.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_wan_ti2v_sharp_hand_climb_20260721T092833Z/frames/frame_03.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_wan_ti2v_sharp_hand_climb_20260721T092833Z/frames/frame_04.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_wan_ti2v_sharp_hand_climb_20260721T092833Z/frames/frame_05.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_wan_ti2v_sharp_hand_climb_20260721T092833Z/frames/hand_crop_center.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_wan_ti2v_sharp_hand_climb_20260721T092833Z/frames/hand_crop_left.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_wan_ti2v_sharp_hand_climb_20260721T092833Z/frames/hand_crop_right.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_wan_ti2v_sharp_hand_climb_20260721T092833Z/frames/skin_crop_face_shoulder.png"
+    ],
     "pass": true,
     "performed": true,
-    "scope": "full_still_plus_hand_crops"
+    "scope": "hands_and_skin_full_frames_plus_crops",
+    "verdict": "pass"
   },
   "item_ids": [
     "ITEM-W64-019",
     "ITEM-W64-023"
   ],
+  "lane": {
+    "flux_loras_attached_to_wan": false,
+    "i2v_from_start_image": true,
+    "identity_safe_prompt": true,
+    "lane_id": "wan_2_2_ti2v_5b_primary_lane",
+    "pod_workflow": "/workspace/wave64/Workflows/video_generation/wan_2_2_ti2v_5b_primary_lane/workflow.api.json",
+    "repo_workflow": "Workflows/video_generation/wan_2_2_ti2v_5b_primary_lane/workflow.api.json",
+    "source_image": "c1_sharp_hand_start_still_20260721T092218Z_a1.png",
+    "source_sha256": "ac43980940f3ae3187249f485bdd94ec69550a9cb96d4df3ebf163c8712cbcc4"
+  },
   "local_comfy_touched": false,
-  "mutation_this_landing": "bounded_runpod_flux_pulid_sharp_hand_start_still",
-  "next_action": "Keep row_complete=false; Status FAIL/open with SHARP_HAND_START_STILL_AVAILABLE; no COMPLETE; Row074 alone; later one Wan I2V climb from staged still c1_sharp_hand_start_still_20260721T092218Z_a1.png (sha=ac43980940f3ae31...) \u2264704x1280/81f/36-40 steps simple breathing/blink; human_frame_read required; never attach Flux hand/skin LoRAs to Wan.",
-  "next_fix_advice": "1) Use staged comfy_input still as Wan I2V start. 2) Do not re-fetch Wan weights. 3) Never attach Flux hand/skin LoRAs to Wan. 4) Do not redo consumed 017 lanes. 5) Leave Row074 alone; no COMPLETE until Class E human pass.",
-  "prior_blocker": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_NO_SHARP_HAND_START_STILL_20260721T035530-0500.json",
+  "mutation_this_landing": "bounded_runpod_wan_ti2v_sharp_hand_climb_bytes_fail",
+  "next_action": "Keep row_complete=false; Status FAIL/open; no COMPLETE; Row074 alone; retry one Wan climb with higher raw bitrate targeting \u2265250KB.",
+  "next_fix_advice": "1) Keep same sharp-hand start still; raise SaveVideo bitrate/quality or steps slightly so raw mp4 clears \u2265250KB without pad remux. 2) Strengthen motion (clearer blink + breathing) without crouch. 3) Never attach Flux LoRAs to Wan; no Wan re-fetch; no 017 redo. 4) Proof_Landed only if human_frame_read=pass AND bytes OK.",
+  "policy_validator": "Plan/07_IMPLEMENTATION/scripts/validate_wave64_wan_ti2v_class_e_runtime_proof_claim.py",
   "production_completion_allowed": false,
   "production_video_complete_claimed": false,
-  "proof_tier": "RUNPOD_FLUX_PULID_SHARP_HAND_START_STILL_HUMAN_PASS",
+  "proof_tier": "RUNPOD_WAN_TI2V_BOUNDED_SHARP_HAND_CLIMB_BYTES_FAIL",
+  "reencode": {
+    "note": "forbidden pad path; prior REENCODE250K landings rejected",
+    "performed": false
+  },
   "row017_touched": false,
   "row074_touched": false,
   "row_complete": false,
   "schema_version": "1.0",
-  "staged_start_still": {
-    "bytes": 902892,
-    "filename": "c1_sharp_hand_start_still_20260721T092218Z_a1.png",
-    "hand_crops": [
-      "Plan/Instructions/Operations/Pulled_Back_Artifacts/sharp_hand_start_still_20260721T092218Z/hand_crop_left.png",
-      "Plan/Instructions/Operations/Pulled_Back_Artifacts/sharp_hand_start_still_20260721T092218Z/hand_crop_right.png"
-    ],
-    "local_pullback": "Plan/Instructions/Operations/Pulled_Back_Artifacts/sharp_hand_start_still_20260721T092218Z/c1_sharp_hand_start_still_20260721T092218Z_a1.png",
-    "output_path": "/workspace/comfy_output/Scenes_xxx_001/C1_sharp_hand_start/RUNPOD_C1_SHARP_HAND_START_a1_20260721T092218Z_00001_.png",
-    "pod_path": "/workspace/comfy_input/c1_sharp_hand_start_still_20260721T092218Z_a1.png",
-    "sha256": "ac43980940f3ae3187249f485bdd94ec69550a9cb96d4df3ebf163c8712cbcc4"
+  "status": "CLASS_E_PROOF_ATTEMPT_FAIL_REJECT_BYTES",
+  "summary": "Sharp-hand Wan climb prompt_id=12690f6a-06f4-43e8-b1b3-8708c9243547 raw 238646B (w64_019_023_runpod_wan_ti2v_sharp_hand_climb_20260721T092833Z_00001_.mp4) 704x1280/81f/38steps/cfg6.0 from c1_sharp_hand_start_still_20260721T092218Z_a1.png. human_frame_read hands+skin PASS; VLM FAIL/near-static; bytes gate FAIL (238646<250000). Status FAIL/REJECT not Proof_Landed. row_complete=false; no COMPLETE; Row074 untouched; EC2 untouched. tip=8b5cedf2.",
+  "technical_qa": {
+    "note": "ffprobe OK 704x1280/81f/h264/3.375s/bit_rate~566kbps but raw bytes 238646 < 250000 Class E floor.",
+    "performed": true,
+    "result": "fail_bytes_under_250kb",
+    "technical_pass": false
   },
-  "status": "SHARP_HAND_START_STILL_AVAILABLE_WAN_CLIMB_DEFERRED",
-  "summary": "SHARP_HAND_START_STILL_AVAILABLE tip=ff8049d3. Flux+PuLID prompt_id=2f011290-0463-4135-aa4a-da0ea0d2a8b8 seed=17721261901 staged /workspace/comfy_input/c1_sharp_hand_start_still_20260721T092218Z_a1.png sha256=ac43980940f3ae3187249f485bdd94ec69550a9cb96d4df3ebf163c8712cbcc4. Human gate PASS (separated fingers + pore microtexture). No Wan I2V this landing; Class E climb may resume later. row_complete=false; no COMPLETE; Row074 untouched; EC2 untouched; no 017 redo; no Wan re-fetch.",
-  "tip": "ff8049d3",
+  "tip": "8b5cedf2",
   "tracker_ids": [
     "TRK-W64-019",
     "TRK-W64-023"
   ],
-  "verdict": "SHARP_HAND_START_STILL_AVAILABLE",
+  "verdict": "WAN_TI2V_BOUNDED_SHARP_HAND_CLIMB_BYTES_FAIL_REJECT",
   "visual_qa": {
-    "note": "Human Read gate on full still + hand crops; VLM not required.",
-    "ollama_vlm_in_loop": false,
-    "pass": true,
+    "blunt_human_verdict": "Human hands+skin PASS; Ollama VLM FAIL (hands_ok=false, plastic_skin, near_static) secondary; raw bytes under 250KB. Do not Proof_Landed. Do not COMPLETE.",
+    "high_end_llm_in_loop": false,
+    "note": "Proof_Landed requires human_frame_read=pass AND bytes OK; bytes miss.",
+    "ollama_vlm_in_loop": true,
+    "pass": false,
     "performed": true,
-    "result": "sharp_hand_start_still_human_pass"
+    "result": "fail_bytes_gate_despite_human_hands_skin_pass",
+    "reviewer": "cursor_human_frame_read_hard_gate"
   },
-  "wan_i2v_submitted": false,
+  "vlm_review": {
+    "local_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_wan_ti2v_sharp_hand_climb_20260721T092833Z/vlm_review.json",
+    "model": "qwen2.5vl:7b",
+    "overridden_by_human_hands_skin": true,
+    "parsed": {
+      "defects": [
+        "Hands look mushy/fused/deformed",
+        "Skin looks plastic/waxy/oversmoothed"
+      ],
+      "garment_ok": false,
+      "hands_ok": false,
+      "identity_stable": true,
+      "motion_plausible": false,
+      "near_static": true,
+      "plastic_skin": true,
+      "summary": "The image exhibits issues with the hands and skin texture, making it appear unnatural.",
+      "verdict": "FAIL"
+    },
+    "pass": false,
+    "performed": true,
+    "verdict": "FAIL"
+  },
   "wan_refetch": false
 }
