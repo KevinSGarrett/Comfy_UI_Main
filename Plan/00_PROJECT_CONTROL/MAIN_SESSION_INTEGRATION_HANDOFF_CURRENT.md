@@ -20,3 +20,9 @@
 1. Keep ROW084-011 FAIL/OPEN; do not claim COMPLETE from single-image gen receipt.
 2. Future Class E clearance still needs production mux/cut/camera/visual authority + compiler hard-fail removal.
 3. Leave Row074 alone. RunPod only for Wave64/Comfy/GPU.
+
+## Commits Pushed This Pass
+
+1. a10b643b Land Row010 RunPod PuLID FACE03 identity climb with VLM gate clear.
+2. Tip finalize stamps primary commit ids.
+

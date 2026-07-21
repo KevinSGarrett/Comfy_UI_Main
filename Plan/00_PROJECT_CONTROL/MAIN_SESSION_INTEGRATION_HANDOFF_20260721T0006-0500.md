@@ -20,3 +20,9 @@
 1. Optional: lock-trait prompt tighten / alternate FACE ref PuLID climb on RunPod when GPU free (still noncanonical).
 2. Leave Row074 alone; CSV via mutator only; do not claim Row010 COMPLETE.
 3. Never route this lane through EC2.
+
+## Commits Pushed This Pass
+
+1. a10b643b Land Row010 RunPod PuLID FACE03 identity climb with VLM gate clear.
+2. Tip finalize stamps primary commit ids.
+
