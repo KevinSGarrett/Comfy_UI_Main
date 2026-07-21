@@ -1,26 +1,73 @@
 #!/usr/bin/env python3
-"""Validate the Wave64 Row017 whole-image review contract."""
+"""Validate the Wave64 Row017 whole-image review contract.
+
+Schema validation is offline/deterministic. Live pod Ollama visual observation
+uses the shared Wave64 VLM env contract (never COMPLETE / never Row074 PCM):
+
+  WAVE64_VLM_URL   → OLLAMA_HOST → http://127.0.0.1:11434
+  WAVE64_VLM_MODEL → llava:13b
+
+Use --print-vlm-env to emit the resolved endpoint receipt without scoring.
+"""
 from __future__ import annotations
 
 import argparse
 import json
 import re
+import sys
 from pathlib import Path
 
 GATES = ('whole_frame_visual_scan', 'required_target_region_check', 'required_non_target_region_scan')
 CATEGORIES = ('hands', 'face', 'body', 'background', 'contact', 'lighting')
 SHA256 = re.compile(r'^[0-9a-f]{64}$')
 
+_SCRIPTS = Path(__file__).resolve().parent
+if str(_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(_SCRIPTS))
+
+from wave64_autonomous_vlm_client import (  # noqa: E402
+    DEFAULT_VLM_MODEL,
+    resolve_base_url,
+    resolve_vlm_endpoint,
+    resolve_vlm_model,
+)
+
+# Re-export for related Wave64 visual-review helpers.
+__all__ = (
+    "CATEGORIES",
+    "GATES",
+    "DEFAULT_VLM_MODEL",
+    "load",
+    "main",
+    "resolve_base_url",
+    "resolve_vlm_model",
+    "validate_review",
+    "vlm_env_receipt",
+)
+
 
 def load(path: Path):
     return json.loads(path.read_text(encoding='utf-8-sig'))
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--input', required=True)
-    args = parser.parse_args()
-    obj = load(Path(args.input))
+def vlm_env_receipt() -> dict:
+    """Resolved pod Ollama endpoint for whole-image visual-review helpers."""
+    receipt = resolve_vlm_endpoint()
+    receipt.update(
+        {
+            "schema_version": "wave64.vlm_env.v1",
+            "helper": "validate_global_whole_image_visual_review",
+            "scope": "whole_image_visual_review_observation_only",
+            "row_complete": False,
+            "default_vlm_model": DEFAULT_VLM_MODEL,
+            "url_resolver": "resolve_base_url",
+            "model_resolver": "resolve_vlm_model",
+        }
+    )
+    return receipt
+
+
+def validate_review(obj: dict) -> list[str]:
     errors: list[str] = []
     required = ('schema_version', 'artifact', 'localized_change', *GATES, 'hands_face_body_background_contact_lighting_check', 'reject_on_any_global_defect', 'overall_decision')
     errors.extend(f'missing: {key}' for key in required if key not in obj)
@@ -82,6 +129,25 @@ def main() -> int:
             errors.append('pass requires zero global defects')
     if decision not in {'pass', 'reject', 'blocked'}:
         errors.append('overall_decision is invalid')
+    return errors
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--input', required=False, help='GLOBAL_REVIEW JSON path (omit with --print-vlm-env)')
+    parser.add_argument(
+        '--print-vlm-env',
+        action='store_true',
+        help='Print resolved WAVE64_VLM_URL / WAVE64_VLM_MODEL receipt and exit',
+    )
+    args = parser.parse_args()
+    if args.print_vlm_env:
+        print(json.dumps(vlm_env_receipt(), indent=2, sort_keys=True))
+        return 0
+    if not args.input:
+        parser.error('--input is required unless --print-vlm-env is set')
+    obj = load(Path(args.input))
+    errors = validate_review(obj)
     if errors:
         print('FAIL')
         for error in errors:

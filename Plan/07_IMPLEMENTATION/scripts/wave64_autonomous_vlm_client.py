@@ -1,10 +1,17 @@
 #!/usr/bin/env python3
 """Shared Wave64 autonomous VLM/LLM client (Ollama-compatible).
 
-Env precedence:
+Env precedence (URL):
   WAVE64_VLM_URL → OLLAMA_HOST → http://127.0.0.1:11434
 
+Env precedence (vision model):
+  WAVE64_VLM_MODEL → llava:13b
+
+Env precedence (text/LLM model):
+  WAVE64_LLM_MODEL → qwen2.5:7b-instruct
+
 Never promotes VLM output to human_gold, threshold unfreeze, or product COMPLETE.
+Never touches Row074 exclusive PCM.
 """
 
 from __future__ import annotations
@@ -16,8 +23,11 @@ import urllib.request
 from typing import Any
 
 
-DEFAULT_MODEL = "qwen2.5:7b-instruct"
+DEFAULT_VLM_MODEL = "llava:13b"
+DEFAULT_LLM_MODEL = "qwen2.5:7b-instruct"
+DEFAULT_MODEL = DEFAULT_LLM_MODEL  # back-compat alias for text helpers
 DEFAULT_TIMEOUT_S = 120
+DEFAULT_BASE_URL = "http://127.0.0.1:11434"
 
 
 class Wave64VlmClientError(RuntimeError):
@@ -29,9 +39,42 @@ def resolve_base_url(explicit: str | None = None) -> str:
         explicit
         or os.environ.get("WAVE64_VLM_URL")
         or os.environ.get("OLLAMA_HOST")
-        or "http://127.0.0.1:11434"
+        or DEFAULT_BASE_URL
     )
-    return str(raw).rstrip("/")
+    text = str(raw).strip()
+    if text and not text.startswith(("http://", "https://")):
+        text = f"http://{text}"
+    return text.rstrip("/")
+
+
+def resolve_vlm_model(explicit: str | None = None) -> str:
+    """Resolve pod vision model for whole-image / visual review."""
+    raw = explicit or os.environ.get("WAVE64_VLM_MODEL") or DEFAULT_VLM_MODEL
+    text = str(raw).strip()
+    return text or DEFAULT_VLM_MODEL
+
+
+def resolve_llm_model(explicit: str | None = None) -> str:
+    """Resolve pod text/LLM model (non-vision generate path)."""
+    raw = explicit or os.environ.get("WAVE64_LLM_MODEL") or DEFAULT_LLM_MODEL
+    text = str(raw).strip()
+    return text or DEFAULT_LLM_MODEL
+
+
+def resolve_vlm_endpoint(
+    *,
+    base_url: str | None = None,
+    model: str | None = None,
+) -> dict[str, Any]:
+    """Compact endpoint receipt for visual-review helpers (observation only)."""
+    return {
+        "WAVE64_VLM_URL": resolve_base_url(base_url),
+        "WAVE64_VLM_MODEL": resolve_vlm_model(model),
+        "WAVE64_LLM_MODEL": resolve_llm_model(),
+        "default_vlm_model": DEFAULT_VLM_MODEL,
+        "product_completion_claimed": False,
+        "row074_pcm_left_alone": True,
+    }
 
 
 def _http_json(
@@ -77,6 +120,8 @@ def probe_endpoint(base_url: str | None = None, *, timeout_s: float = 5.0) -> di
         "version": version.get("version"),
         "models": models,
         "reachable": True,
+        "vlm_model": resolve_vlm_model(),
+        "llm_model": resolve_llm_model(),
     }
 
 
@@ -84,15 +129,16 @@ def generate_text(
     prompt: str,
     *,
     base_url: str | None = None,
-    model: str = DEFAULT_MODEL,
+    model: str | None = None,
     system: str | None = None,
     timeout_s: float = DEFAULT_TIMEOUT_S,
     temperature: float = 0.0,
     format_json: bool = True,
 ) -> dict[str, Any]:
     base = resolve_base_url(base_url)
+    resolved_model = resolve_llm_model(model)
     payload: dict[str, Any] = {
-        "model": model,
+        "model": resolved_model,
         "prompt": prompt,
         "stream": False,
         "options": {"temperature": temperature},
@@ -119,11 +165,63 @@ def generate_text(
         parsed = None
     return {
         "base_url": base,
-        "model": model,
+        "model": resolved_model,
         "raw_text": text,
         "parsed_json": parsed,
         "eval_count": response.get("eval_count"),
         "total_duration_ns": response.get("total_duration"),
+    }
+
+
+def chat_with_images(
+    prompt: str,
+    images_b64: list[str],
+    *,
+    base_url: str | None = None,
+    model: str | None = None,
+    timeout_s: float = DEFAULT_TIMEOUT_S,
+    temperature: float = 0.0,
+    format_json: bool = True,
+    seed: int | None = None,
+    num_predict: int = 512,
+) -> dict[str, Any]:
+    """Ollama /api/chat vision path for whole-image visual review helpers."""
+    if not images_b64:
+        raise Wave64VlmClientError("images_required")
+    base = resolve_base_url(base_url)
+    resolved_model = resolve_vlm_model(model)
+    options: dict[str, Any] = {"temperature": temperature, "num_predict": num_predict}
+    if seed is not None:
+        options["seed"] = seed
+    payload: dict[str, Any] = {
+        "model": resolved_model,
+        "stream": False,
+        "options": options,
+        "messages": [{"role": "user", "content": prompt, "images": list(images_b64)}],
+    }
+    if format_json:
+        payload["format"] = "json"
+    response = _http_json(
+        "POST",
+        f"{base}/api/chat",
+        payload,
+        timeout_s=timeout_s,
+    )
+    message = response.get("message") if isinstance(response.get("message"), dict) else {}
+    text = message.get("content") if isinstance(message, dict) else None
+    if not isinstance(text, str) or not text.strip():
+        raise Wave64VlmClientError("empty_chat_response")
+    parsed = extract_json_object(text)
+    return {
+        "base_url": base,
+        "model": resolved_model,
+        "endpoint": f"{base}/api/chat",
+        "raw_text": text,
+        "parsed_json": parsed,
+        "eval_count": response.get("eval_count"),
+        "total_duration_ns": response.get("total_duration"),
+        "product_completion_claimed": False,
+        "row074_pcm_left_alone": True,
     }
 
 

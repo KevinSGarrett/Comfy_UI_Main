@@ -1,11 +1,14 @@
 from __future__ import annotations
 
+import importlib.util
 import json
+import os
 import subprocess
 import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[4]
 PLAN = ROOT / "Plan"
@@ -17,10 +20,57 @@ def run(path: Path) -> subprocess.CompletedProcess[str]:
     return subprocess.run([sys.executable, str(VALIDATOR), "--input", str(path)], cwd=ROOT, capture_output=True, text=True, check=False)
 
 
+def _load_validator():
+    scripts = str(PLAN / "07_IMPLEMENTATION/scripts")
+    if scripts not in sys.path:
+        sys.path.insert(0, scripts)
+    spec = importlib.util.spec_from_file_location("validate_global_whole_image_visual_review", VALIDATOR)
+    assert spec and spec.loader
+    mod = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = mod
+    spec.loader.exec_module(mod)
+    return mod
+
+
 class GlobalWholeImageVisualReviewTests(unittest.TestCase):
     def test_current_blocked_example_validates(self):
         result = run(EXAMPLE)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_print_vlm_env_defaults_to_llava_13b(self):
+        env = {k: v for k, v in os.environ.items() if not k.startswith(("WAVE64_VLM", "OLLAMA_HOST", "WAVE64_LLM"))}
+        result = subprocess.run(
+            [sys.executable, str(VALIDATOR), "--print-vlm-env"],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+            env=env,
+        )
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        payload = json.loads(result.stdout)
+        self.assertEqual(payload["WAVE64_VLM_URL"], "http://127.0.0.1:11434")
+        self.assertEqual(payload["WAVE64_VLM_MODEL"], "llava:13b")
+        self.assertFalse(payload["product_completion_claimed"])
+        self.assertTrue(payload["row074_pcm_left_alone"])
+        self.assertFalse(payload["row_complete"])
+
+    def test_vlm_env_receipt_reads_wave64_env(self):
+        mod = _load_validator()
+        with mock.patch.dict(
+            "os.environ",
+            {
+                "WAVE64_VLM_URL": "http://127.0.0.1:11434",
+                "WAVE64_VLM_MODEL": "llava:13b",
+            },
+            clear=True,
+        ):
+            receipt = mod.vlm_env_receipt()
+            self.assertEqual(mod.resolve_vlm_model(), "llava:13b")
+            self.assertEqual(mod.resolve_base_url(), "http://127.0.0.1:11434")
+        self.assertEqual(receipt["WAVE64_VLM_URL"], "http://127.0.0.1:11434")
+        self.assertEqual(receipt["WAVE64_VLM_MODEL"], "llava:13b")
+        self.assertEqual(mod.DEFAULT_VLM_MODEL, "llava:13b")
 
     def test_fully_bound_review_can_pass(self):
         value = self.passing()

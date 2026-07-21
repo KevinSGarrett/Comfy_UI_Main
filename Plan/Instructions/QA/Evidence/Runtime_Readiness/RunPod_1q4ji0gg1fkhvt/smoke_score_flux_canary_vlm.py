@@ -12,7 +12,7 @@ def env_url() -> str:
 
 def main() -> int:
     url = env_url()
-    model = os.environ.get("WAVE64_VLM_MODEL", "qwen2.5vl:7b")
+    model = os.environ.get("WAVE64_VLM_MODEL", "llava:13b")
     img = Path(os.environ.get("FLUX_CANARY_PNG", "/workspace/comfy_output/Scenes_xxx_001/canary/FLUX_CANARY_20260721_034826_00001_.png"))
     art = Path(os.environ["ART_DIR"])
     raw = img.read_bytes(); sha = hashlib.sha256(raw).hexdigest(); b64 = base64.b64encode(raw).decode("ascii")
