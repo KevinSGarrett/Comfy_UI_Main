@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-019_023_RUNPOD_BINDING_AUTHORITY_CORRECTION_20260721T0004-0500",
+  "created_iso": "2026-07-21T00:04:00-05:00",
+  "created_utc": "2026-07-21T05:04:00Z",
+  "classification": "RUNPOD_BINDING_AUTHORITY_CORRECTION",
+  "scope": "Correct TRK-W64-019/023 runtime authority: bind GPU generation and Wan model recovery to RunPod 1q4ji0gg1fkhvt only; revoke unauthorized EC2 start/use for Wan recovery vs user RunPod handoff; retain Class F until 3/3 Wan payloads hash-bound on pod without EC2",
+  "decision": "User RunPod handoff is the sole authorized GPU runtime for Wave64 generation and Wan TI2V model recovery. EC2 start/use for Wan recovery in TRK-W64-019_023_LOCAL_POD_S3_EC2_WAN_TI2V_RECOVERY_INVENTORY_20260720T234159-0500 was UNAUTHORIZED and is revoked. EC2 remains EC2_DEFERRED for generation and model recovery.",
+  "runtime_authority": "runpod_remote_only",
+  "binding_runtime": {
+    "pod_id": "1q4ji0gg1fkhvt",
+    "WAVE64_ROOT": "/workspace/wave64",
+    "COMFYUI_ROOT": "/workspace/ComfyUI",
+    "paths_env": "/workspace/paths.env",
+    "COMFY_URL": "http://127.0.0.1:8188",
+    "models_dir": "/workspace/ComfyUI/models",
+    "ssh": "root@195.26.233.100 -p 52077"
+  },
+  "ec2_authority": {
+    "status": "EC2_DEFERRED",
+    "wan_recovery_authorized": false,
+    "generation_authorized": false,
+    "unauthorized_action": "EC2 i-0560bf8d143f93bb1 start and live SHA verify for Wan TI2V recovery path",
+    "unauthorized_vs": "user RunPod handoff binding runtime to pod 1q4ji0gg1fkhvt",
+    "note": "Historical Jul 13 install-window ASSET_PRESENT_OK on EC2 retained as read-only citation only; not a live recovery authority."
+  },
+  "corrects_prior_evidence": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_LOCAL_POD_S3_EC2_WAN_TI2V_RECOVERY_INVENTORY_20260720T234159-0500.json",
+    "sha256": "2D5E986A31E960211E0E975AA7F34AB99D6AAEC26035E80E8B0303D02C07BDD8",
+    "source_commit": "f3f6cc84aa2e9693befd0670878527d5f481882f",
+    "revoked_fields": [
+      "recovery_path.authorized",
+      "ec2_authority.live_sha_verify as recovery authority",
+      "next_action EC2→staging→pod copy path"
+    ],
+    "retained_fields": [
+      "local/pod/S3 3/3 ABSENT inventory facts",
+      "historical EC2 install-window citation",
+      "Class F blocker_class_retained",
+      "required Wan payload SHA256 targets"
+    ]
+  },
+  "supporting_citations": {
+    "runpod_mechanical_smoke": {
+      "path": "Plan/Instructions/QA/Evidence/Runtime_Readiness/RUNPOD_1q4ji0gg1fkhvt_MECHANICAL_SMOKE_PASS_20260720T2244-0500.json",
+      "sha256": "0144FF7DAD52058E021F29CD4FDF69DAA02506CEBEF29BF44D5C7D98747D033D"
+    },
+    "prior_inventory_negative": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-019_023_LOCAL_POD_WAN_TI2V_NEGATIVE_INVENTORY_20260720T233253-0500.json"
+    }
+  },
+  "item_ids": [
+    "ITEM-W64-019",
+    "ITEM-W64-023"
+  ],
+  "tracker_ids": [
+    "TRK-W64-019",
+    "TRK-W64-023"
+  ],
+  "blocker_class_retained": "F",
+  "blocker_id": "LOCAL_WAN_MODEL_PAYLOAD_MISSING",
+  "wan_ti2v_present_ratio_pod": "0/3",
+  "wan_ti2v_required_count": 3,
+  "class_f_retained_until": "3/3 Wan TI2V payloads hash-bound on pod /workspace/ComfyUI/models/{diffusion_models,text_encoders,vae}/ without EC2 start or EC2-mediated copy",
+  "constraints": {
+    "no_complete": true,
+    "no_hf_scrape": true,
+    "row074_untouched": true,
+    "ec2_start_forbidden": true,
+    "ec2_wan_recovery_forbidden": true,
+    "csv_sync": "deferred_evidence_only"
+  },
+  "row_complete": false,
+  "product_completion_claimed": false,
+  "proof_tier": "RUNPOD_BINDING_AUTHORITY_CORRECTION_BOUNDED",
+  "highest_proof_tier_achieved": "RUNPOD_BINDING_AUTHORITY_CORRECTION_BOUNDED",
+  "mutation_this_landing": "authority_correction_only_no_runtime_mutation",
+  "source_commit": "519172e26dc771357e8a26010616c7027eba81e3",
+  "next_action": "Recover Wan TI2V payloads onto pod 1q4ji0gg1fkhvt via RunPod-authorized paths only (pod-local download, approved S3→pod, or user-directed pod transfer). Do not start EC2 or use EC2-mediated copy for generation or model recovery. Keep Class F until 3/3 hash-bound on pod. Row074 left alone. CSV deferred. No COMPLETE.",
+  "summary": "Hash-bound authority correction: GPU runtime and Wan TI2V recovery bind exclusively to RunPod pod 1q4ji0gg1fkhvt (/workspace/wave64, /workspace/ComfyUI, /workspace/paths.env). EC2 start/use for Wan recovery was UNAUTHORIZED vs user RunPod handoff and is revoked/deferred. Wan 019/023 remain Class F until 3/3 payloads exist on pod without EC2. Row074 untouched. No COMPLETE."
+}
