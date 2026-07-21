@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_tool_gateway_request.schema.json",
+  "title": "Wave64 Autonomous Tool Gateway Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "request_id", "job_id", "actor_role_id", "authority_binding_sha256",
+    "execution_mode", "action_type", "target", "parameters"
+  ],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.tool_gateway_request.v1"},
+    "request_id": {"type": "string", "pattern": "^W64-AQA-TOOL-[A-Za-z0-9._-]{1,96}$"},
+    "job_id": {"type": "string", "pattern": "^W64-AQA-JOB-[A-Za-z0-9._-]{1,96}$"},
+    "actor_role_id": {"type": "string", "pattern": "^W64-AQA-ROLE-[A-Z0-9-]+$"},
+    "authority_binding_sha256": {"$ref": "#/definitions/sha256"},
+    "execution_mode": {"enum": ["shadow_qualification", "production_release"]},
+    "action_type": {"type": "string", "pattern": "^[a-z][a-z0-9_]{0,63}$"},
+    "target": {"type": "string", "minLength": 1, "maxLength": 512},
+    "parameters": {"type": "object", "maxProperties": 32}
+  },
+  "definitions": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

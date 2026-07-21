@@ -64,6 +64,14 @@ PATHS = {
     / "Plan/08_SCHEMAS/runpod_autonomous_mask_measurement.schema.json",
     "mask_measurement": ROOT
     / "Plan/07_IMPLEMENTATION/scripts/measure_wave64_runpod_autonomous_mask_quality.py",
+    "tool_gateway_request_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_tool_gateway_request.schema.json",
+    "tool_gateway_decision_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_tool_gateway_decision.schema.json",
+    "tool_gateway_policy": ROOT
+    / "Plan/10_REGISTRIES/wave64_runpod_autonomous_tool_gateway_policy.json",
+    "tool_gateway": ROOT
+    / "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_runpod_autonomous_tool_gateway.py",
 }
 
 SECRET_PATTERNS = {
@@ -106,6 +114,9 @@ def collect_errors() -> list[str]:
         video_measurement_schema = load_json(PATHS["video_measurement_schema"])
         audio_measurement_schema = load_json(PATHS["audio_measurement_schema"])
         mask_measurement_schema = load_json(PATHS["mask_measurement_schema"])
+        tool_gateway_request_schema = load_json(PATHS["tool_gateway_request_schema"])
+        tool_gateway_decision_schema = load_json(PATHS["tool_gateway_decision_schema"])
+        tool_gateway_policy = load_json(PATHS["tool_gateway_policy"])
     except (csv.Error, json.JSONDecodeError, OSError) as exc:
         return [f"parse failure: {exc}"]
 
@@ -213,6 +224,21 @@ def collect_errors() -> list[str]:
     if workflow.get("proposal_only") is not True:
         errors.append("workflow engineer must be proposal-only")
 
+    if tool_gateway_policy.get("decision_only") is not True:
+        errors.append("tool gateway must remain decision-only until a separate executor qualifies")
+    if tool_gateway_policy.get("external_inference_allowed") is not False:
+        errors.append("tool gateway must forbid external inference")
+    forbidden_actions = set(tool_gateway_policy.get("forbidden_action_types", []))
+    required_forbidden_actions = {"shell", "git", "cloud", "tracker_write", "promotion", "secret_read", "arbitrary_network"}
+    if not required_forbidden_actions.issubset(forbidden_actions):
+        errors.append("tool gateway forbidden action coverage is incomplete")
+    workflow_actions = {
+        action_id for action_id, action in tool_gateway_policy.get("allowed_actions", {}).items()
+        if "W64-AQA-ROLE-WORKFLOW-ENGINEER" in action.get("roles", [])
+    }
+    if {"candidate_write", "evidence_append", "shadow_generation_submit"} & workflow_actions:
+        errors.append("workflow engineer must not write candidates/evidence or submit generation")
+
     modalities = set(schema.get("properties", {}).get("modality", {}).get("enum", []))
     required_modalities = {"image", "video", "audio", "av", "mask", "workflow"}
     if modalities != required_modalities:
@@ -257,6 +283,8 @@ def collect_errors() -> list[str]:
         jsonschema.Draft7Validator.check_schema(video_measurement_schema)
         jsonschema.Draft7Validator.check_schema(audio_measurement_schema)
         jsonschema.Draft7Validator.check_schema(mask_measurement_schema)
+        jsonschema.Draft7Validator.check_schema(tool_gateway_request_schema)
+        jsonschema.Draft7Validator.check_schema(tool_gateway_decision_schema)
     except ImportError:
         pass
     except Exception as exc:  # pragma: no cover - library supplies exact detail

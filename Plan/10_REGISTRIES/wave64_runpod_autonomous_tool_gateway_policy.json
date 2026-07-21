@@ -1,0 +1,83 @@
+{
+  "schema_version": "wave64.aqa.tool_gateway_policy.v1",
+  "program_id": "W64-AQA",
+  "policy_id": "W64-AQA-TOOL-POLICY-001",
+  "decision_only": true,
+  "external_inference_allowed": false,
+  "credential_values_allowed": false,
+  "absolute_paths_allowed": false,
+  "forbidden_action_types": [
+    "shell", "git", "cloud", "tracker_write", "promotion", "secret_read",
+    "arbitrary_network", "package_install", "model_download", "credential_use"
+  ],
+  "forbidden_parameter_keys": [
+    "api_key", "apikey", "authorization", "bearer", "command", "credential",
+    "cwd", "env", "environment", "executable", "password", "private_key",
+    "secret", "shell", "token"
+  ],
+  "allowed_actions": {
+    "artifact_read": {
+      "target_kind": "relative_path",
+      "target_prefixes": [
+        "jobs/{job_id}/inputs/", "jobs/{job_id}/candidates/", "jobs/{job_id}/evidence/"
+      ],
+      "roles": [
+        "W64-AQA-ROLE-CONTROLLER", "W64-AQA-ROLE-DETERMINISTIC",
+        "W64-AQA-ROLE-STRICT-VISUAL", "W64-AQA-ROLE-FAST-TRIAGE",
+        "W64-AQA-ROLE-PRIMARY-VISUAL", "W64-AQA-ROLE-INDEPENDENT-JUROR",
+        "W64-AQA-ROLE-AUDIO-SEMANTIC", "W64-AQA-ROLE-WORKFLOW-ENGINEER",
+        "W64-AQA-ROLE-GOLDEN-MASK", "W64-AQA-ROLE-SENIOR-ARBITER"
+      ],
+      "production_allowed": true
+    },
+    "proposal_write": {
+      "target_kind": "relative_path",
+      "target_prefixes": ["jobs/{job_id}/proposals/"],
+      "roles": [
+        "W64-AQA-ROLE-AUDIO-SEMANTIC", "W64-AQA-ROLE-WORKFLOW-ENGINEER",
+        "W64-AQA-ROLE-GOLDEN-MASK", "W64-AQA-ROLE-PRIMARY-VISUAL",
+        "W64-AQA-ROLE-INDEPENDENT-JUROR", "W64-AQA-ROLE-SENIOR-ARBITER"
+      ],
+      "production_allowed": true
+    },
+    "candidate_write": {
+      "target_kind": "relative_path",
+      "target_prefixes": ["jobs/{job_id}/candidates/"],
+      "roles": ["W64-AQA-ROLE-CONTROLLER", "W64-AQA-ROLE-DETERMINISTIC"],
+      "production_allowed": true
+    },
+    "evidence_append": {
+      "target_kind": "relative_path",
+      "target_prefixes": ["jobs/{job_id}/evidence/"],
+      "roles": ["W64-AQA-ROLE-CONTROLLER", "W64-AQA-ROLE-DETERMINISTIC"],
+      "production_allowed": true
+    },
+    "validator_run": {
+      "target_kind": "logical_id",
+      "targets": [
+        "measure.image.v1", "measure.video.v1", "measure.audio.v1", "measure.mask.v1",
+        "validate.workflow.v1", "regression.workflow.v1"
+      ],
+      "roles": ["W64-AQA-ROLE-CONTROLLER", "W64-AQA-ROLE-DETERMINISTIC", "W64-AQA-ROLE-WORKFLOW-ENGINEER"],
+      "production_allowed": true
+    },
+    "workflow_inspect": {
+      "target_kind": "logical_id",
+      "targets": ["workflow.graph"],
+      "roles": ["W64-AQA-ROLE-CONTROLLER", "W64-AQA-ROLE-WORKFLOW-ENGINEER"],
+      "production_allowed": true
+    },
+    "object_info_read": {
+      "target_kind": "logical_id",
+      "targets": ["comfyui.object_info"],
+      "roles": ["W64-AQA-ROLE-CONTROLLER", "W64-AQA-ROLE-WORKFLOW-ENGINEER"],
+      "production_allowed": true
+    },
+    "shadow_generation_submit": {
+      "target_kind": "logical_id",
+      "targets": ["comfyui.prompt"],
+      "roles": ["W64-AQA-ROLE-CONTROLLER"],
+      "production_allowed": false
+    }
+  }
+}
