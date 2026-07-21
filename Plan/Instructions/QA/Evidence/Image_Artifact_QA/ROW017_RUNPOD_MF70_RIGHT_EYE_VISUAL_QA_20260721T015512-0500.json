@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ROW017-RUNPOD-MF70-UNDER-EYE-VISUAL-QA-20260721T015512-0500",
+  "created_at": "2026-07-21T01:55:12-05:00",
+  "tracker_id": "TRK-W64-017",
+  "item_id": "ITEM-W64-017",
+  "localized_region": "mf70_right_eye",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+  "qa_decision": "pass_bounded_localized_mf70_right_eye_runpod_runtime_candidate",
+  "overall_decision": "pass",
+  "local_only": false,
+  "runtime_host": "runpod",
+  "direct_visual_inspection": true,
+  "fixture_only": false,
+  "generation_executed": true,
+  "runtime_receipt": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_right_eye_20260721T015512-0500/LOCAL_RUNTIME_RECEIPT.json",
+  "source": {
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_skin_tone_continuity_20260707T163000-0500/wave70_mf70_face_identity_source_canny_v3.png",
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d"
+  },
+  "mask": {
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_right_eye_20260707T174500-0500/wave70_mf70_right_eye_mask.png",
+    "sha256": "8bde85884cc71767086d561a8f3ca831d43237bed6da78c8cf6a336c32fbe66c",
+    "filename": "wave70_mf70_right_eye_mask.png"
+  },
+  "artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_right_eye_20260721T015512-0500/images/codex_row017_mf70_right_eye_20260721T015512-0500_00001_.png",
+    "sha256": "98019899c8ced4b0c43e46bbe1d2f35be7a57fb6f536764aebe0e8db7617752d"
+  },
+  "comparison_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_right_eye_20260721T015512-0500/images/qa_full_side_by_side.png",
+    "sha256": "c3134df613099cfc4413701792ef94e8f76e842e1b2d2f25be90673ae6aa92ee"
+  },
+  "face_crop_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_right_eye_20260721T015512-0500/images/qa_face_crop_side_by_side.png",
+    "sha256": "c3f18a3983e75b9765c94057fb6d1578aa7179a197fe525cc232693d7ba42b0c"
+  },
+  "eye_crop_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_right_eye_20260721T015512-0500/images/qa_eye_crop_side_by_side.png",
+    "sha256": "ac9468cecd88b9611c64dc60dde0a770af37dfdb730663d3e3a7faaa78c6988f"
+  },
+  "mouth_crop_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_right_eye_20260721T015512-0500/images/qa_mouth_crop_side_by_side.png",
+    "sha256": "8fb2c339e3f5a473f6f96c84cab3492d175e59f4e9f9df44cf45d64dfa798c29"
+  },
+  "difference_metrics": {
+    "full_image_diff_bbox": [
+      275,
+      296,
+      360,
+      356
+    ],
+    "face_mask_bbox": [
+      277,
+      298,
+      358,
+      354
+    ],
+    "face_crop_box": [
+      257,
+      278,
+      378,
+      374
+    ],
+    "mean_rgb_abs_diff": [
+      0.034622,
+      0.030501,
+      0.02838
+    ],
+    "rms_rgb_abs_diff": [
+      0.678813,
+      0.633016,
+      0.606948
+    ],
+    "face_region_mean_abs": 4.039536,
+    "eye_region_mean_abs": 0.0,
+    "mouth_region_mean_abs": 0.0,
+    "clothing_mean_abs": 0.0,
+    "background_corner_mean_abs": 0.0,
+    "changed_pixel_count": 2008,
+    "mask_pixel_count": 3576
+  },
+  "whole_frame_findings": [
+    "Fresh RunPod ComfyUI mf70 right_eye masked inpaint on wave70_mf70_face_identity_source_canny_v3 (seed 210810, RealVisXL baked VAE, denoise 0.05, FeatherMask 24px, cfg 3.5, steps 18) completed successfully (prompt_id 1f054e75-c249-4586-b9f8-6021faf95c9b).",
+    "Whole-frame identity, hair, navy blazer, patterned shirt, collar, dark studio background, lighting, and framing remain stable versus source.",
+    "Pixel delta is localized to mf70 right_eye bbox [277, 298, 358, 354]; clothing mean abs 0.0; background corner mean abs 0.0; 2008 changed pixels vs 3576-pixel right_eye mask.",
+    "Direct whole-frame + face/eye/mouth crop inspection: subtle right-eye skin preservation refinement without gray-mask failure, identity drift, wardrobe rewrite, background change, hard mask-edge seam, or gaze/iris rewrite.",
+    "Hands are outside this head-and-shoulders crop (not applicable); no global style drift observed."
+  ],
+  "global_defects": [],
+  "promotion_authorized": false,
+  "row_complete": false,
+  "product_completion_claimed": false,
+  "ec2": "RUNPOD_USED",
+  "docker_cvat": "not-needed",
+  "notes": [
+    "Class E future-producer emission proof via RunPod Comfy runtime after local :8188 was unreachable.",
+    "Does not claim COMPLETE; CSV deferred; Row074 left alone; HOLD 090+ untouched."
+  ],
+  "csv_update_deferred": true
+}
