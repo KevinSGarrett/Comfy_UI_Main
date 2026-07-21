@@ -55,7 +55,7 @@
     "product_completion": false,
     "row072_acceptance": "held",
     "runtime_completion": true,
-    "safe_next_action": "STOP Class D offline deepen. Residual-blocker packet recorded. Obtain human-gold library truth and/or wait for Row073 PCM lane free before any unfreeze/PCM re-listen. No Accept/COMPLETE on synthetic-only. CSV deferred.",
+    "safe_next_action": "STOP Row072 Class D offline metadata-first deepen. Wait for human-gold library onset truth before any PCM re-listen or threshold unfreeze. Row073 left alone; Row075 untouched; CSV via mutator only.",
     "status": "blocked"
   },
   "direct_evidence": {
@@ -149,20 +149,20 @@
   "ledger_status": "Blocked_Library_Thresholds_And_Benchmark_Strata_Absent_Reconcile_Complete",
   "ledger_vocabulary_sync": {
     "ledger_status": "Blocked_Library_Thresholds_And_Benchmark_Strata_Absent_Reconcile_Complete",
-    "note": "Class D residual stop 20260720: planning-freeze v0.2.0 + shortlist already stamped; no further offline Class D deepen; thresholds frozen; no COMPLETE; CSV deferred.",
+    "note": "Row072-only Class D metadata-first planning freeze 20260720: no safe offline increment; thresholds frozen; library strata truth absent; no COMPLETE; CSV deferred.",
     "product_completion": false,
-    "synced_at": "2026-07-20T17:34:05.103916Z"
+    "synced_at": "2026-07-21T03:47:27.439Z"
   },
   "library_authority": false,
   "proof_tier": "RUNTIME_PASS_BOUNDED",
-  "qa_decision": "class_d_residual_blocker_no_safe_metadata_increment;frozen_thresholds_and_library_strata_still_block_acceptance;no_product_complete",
+  "qa_decision": "row072_class_d_metadata_first_planning_freeze_no_safe_increment;frozen_thresholds_and_library_strata_still_block_acceptance;no_product_complete",
   "row_complete": false,
   "runtime_completion_claimed": true,
   "schema_version": 1,
-  "source_commit": "PENDING_THIS_PASS",
+  "source_commit": "e3b9cbaf863786ff2114150a74604959cef0d669",
   "status": "HOLD_LIBRARY_THRESHOLDS_AND_BENCHMARK_STRATA_ABSENT_RECONCILE_COMPLETE",
   "tracker_id": "TRK-W64-072",
-  "updated_at": "2026-07-20T17:34:05.103916Z",
+  "updated_at": "2026-07-21T03:47:27.439Z",
   "class_d_residual_blocker": {
     "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_075_CLASS_D_RESIDUAL_BLOCKER_PACKET_20260720T123330-0500.json",
     "alias_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_075_CLASS_D_RESIDUAL_BLOCKER_PACKET_20260720.json",
@@ -170,5 +170,14 @@
     "verdict": "NO_SAFE_CLASS_D_METADATA_PLANNING_INCREMENT_REMAINS",
     "proof_tier": "OFFLINE_INVENTORY_BLOCKER_BOUNDED",
     "note": "Class D offline deepen stop: thresholds/shortlist already stamped; no safe metadata planning increment without human-gold truth, threshold unfreeze, Row073 PCM, or false COMPLETE."
+  },
+  "class_d_metadata_first_planning_freeze": {
+    "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_CLASS_D_METADATA_FIRST_PLANNING_FREEZE_PACKET_20260720T224727-0500.json",
+    "alias_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-072_CLASS_D_METADATA_FIRST_PLANNING_FREEZE_PACKET_20260720.json",
+    "sha256": "171ab705066ede8afeb53c6d1847953fb22928126032c393dca15ba54ac8da89",
+    "verdict": "NO_SAFE_CLASS_D_METADATA_PLANNING_INCREMENT_REMAINS",
+    "proof_tier": "OFFLINE_INVENTORY_BLOCKER_BOUNDED",
+    "row075_touched": false,
+    "note": "Row072-only binding: metadata-first planning freeze; Row073 left alone; no library PCM; no threshold unfreeze; no COMPLETE."
   }
 }
