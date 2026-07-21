@@ -319,7 +319,7 @@ network, runtime, or promotion claims. Other validator targets and production
 mode remain denied.
 
 The retained local transaction at
-`Plan/Tracker/Evidence/W64_AQA_WORKFLOW_CANDIDATE_STAGING_20260721T234000Z/evidence.json`
+`Plan/Tracker/Evidence/W64_AQA_WORKFLOW_CANDIDATE_STAGING_20260721T232803Z/evidence.json`
 then admits one exact `candidate_write` target, verifies the four input receipts,
 applies a typed bounded patch, and publishes a new immutable candidate without
 altering the base workflow. Overwrite, path aliasing, policy weakening, invalid

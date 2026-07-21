@@ -110,7 +110,7 @@ def produce(output: Path, source_head: str, generated_at_utc: str) -> dict[str, 
         evidence = {
             "schema_version": "wave64.aqa.workflow_candidate_staging_evidence.v1",
             "program_id": "W64-AQA",
-            "evidence_id": "W64-AQA-WORKFLOW-CANDIDATE-STAGING-20260721T234000Z",
+            "evidence_id": "W64-AQA-WORKFLOW-CANDIDATE-STAGING-20260721T232803Z",
             "source_head": source_head,
             "generated_at_utc": generated_at_utc,
             "job_id": JOB_ID,

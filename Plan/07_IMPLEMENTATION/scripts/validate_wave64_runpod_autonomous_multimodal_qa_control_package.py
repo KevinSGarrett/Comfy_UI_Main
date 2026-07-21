@@ -158,9 +158,9 @@ PATHS = {
     "workflow_candidate_stager": ROOT
     / "Plan/07_IMPLEMENTATION/scripts/stage_wave64_runpod_autonomous_workflow_candidate.py",
     "workflow_candidate_staging_evidence": ROOT
-    / "Plan/Tracker/Evidence/W64_AQA_WORKFLOW_CANDIDATE_STAGING_20260721T234000Z/evidence.json",
+    / "Plan/Tracker/Evidence/W64_AQA_WORKFLOW_CANDIDATE_STAGING_20260721T232803Z/evidence.json",
     "workflow_candidate_staging_receipt": ROOT
-    / "Plan/Tracker/Evidence/W64_AQA_WORKFLOW_CANDIDATE_STAGING_20260721T234000Z/receipts/candidate_write.receipt.json",
+    / "Plan/Tracker/Evidence/W64_AQA_WORKFLOW_CANDIDATE_STAGING_20260721T232803Z/receipts/candidate_write.receipt.json",
     "correction_attempt_schema": ROOT
     / "Plan/08_SCHEMAS/runpod_autonomous_correction_attempt.schema.json",
     "correction_state_schema": ROOT
