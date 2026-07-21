@@ -1,0 +1,84 @@
+{
+  "created_at": "2026-07-21T10:45:19-05:00",
+  "csv_stamp": "synced_by_primary_csv_mutator_row076_reconcile_progress_sync",
+  "csv_sync_tip": "7709ec8e",
+  "evidence_id": "TRK-W64-076-REVERB-RECONCILE-PROGRESS-20260721T1045-0500",
+  "explicit_non_claims": [
+    "COMPLETE",
+    "product_completion",
+    "library_authority",
+    "full_library_coverage"
+  ],
+  "highest_proof_tier_achieved": "RUNTIME_PASS_BOUNDED",
+  "item_id": "ITEM-W64-076",
+  "library_authority": false,
+  "process": {
+    "action": "continued_full_library_index_retained_resume_notes_only_sync",
+    "alive": true,
+    "command": "analyze_wave64_audio_reverb_dryness.py --mode index-retained --resume --retained-runtime-dir runtime_artifacts/reverb_dryness/row076_index_retained_20260720",
+    "exclusive_lane": "library_pcm",
+    "parallel_077_refused": true,
+    "pid": 31808,
+    "pid_left_alone": true,
+    "prior_row074_gate": {
+      "coverage_complete": true,
+      "guardian_mode": "done_hold_stamped",
+      "records": "39771/39771",
+      "evidence": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-074_MULTI_EVENT_SEGMENTATION_RECONCILE_PROGRESS_20260721T0252-0500.json"
+    },
+    "prior_start_stamp": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-076_REVERB_DRYNESS_RECONCILE_PROGRESS_20260721T0935-0500.json",
+    "resumed_from_probe": {
+      "prior_limit": 25,
+      "prior_records_processed": 25
+    }
+  },
+  "product_completion_claimed": false,
+  "progress": {
+    "blocker_histogram": {
+      "DECODE_FAILED_CORRUPT_OR_UNREADABLE": 701,
+      "REVERB_EXTRACTION_FAILED": 4242
+    },
+    "classification_ambiguous": 15885,
+    "classification_dry": 2467,
+    "classification_wet": 30,
+    "complete": false,
+    "coverage_complete": false,
+    "double_reverb_guard_enforced": 18382,
+    "exact_blockers": 4943,
+    "extension_histogram": {
+      ".mp3": 2047,
+      ".wav": 21278
+    },
+    "feature_pass_inputs": 22624,
+    "limit": null,
+    "next_record_index": 23325,
+    "pcm_sha_verified": 18382,
+    "percent_complete": 58.65,
+    "records_processed": 23325,
+    "records_total": 39771,
+    "reverb_pass": 18382,
+    "source_immutable_true": 18382,
+    "started_at": "2026-07-20T06:14:32.216741Z",
+    "updated_at": "2026-07-21T15:45:18.419989Z"
+  },
+  "proof_tier": "RUNTIME_PASS_BOUNDED",
+  "remaining_blockers": [
+    "FULL_LIBRARY_RECONCILE_IN_PROGRESS_TIME_BOUND",
+    "REGISTERED_THRESHOLD_AUTHORITY_FROZEN_SYNTHETIC_ONLY",
+    "REPRESENTATIVE_ROOM_SOURCE_CALIBRATION_ABSENT",
+    "DOUBLE_REVERB_GUARD_LIBRARY_ENFORCEMENT_ABSENT"
+  ],
+  "row_complete": false,
+  "runtime_completion_claimed": false,
+  "runtime_paths": {
+    "owner_path": "runtime_artifacts/reverb_dryness/row076_index_retained_20260720/FULL_RECONCILE_OWNER.txt",
+    "progress_path": "runtime_artifacts/reverb_dryness/row076_index_retained_20260720/progress.json",
+    "records_path": "runtime_artifacts/reverb_dryness/row076_index_retained_20260720/records.jsonl",
+    "retained_runtime_dir": "runtime_artifacts/reverb_dryness/row076_index_retained_20260720"
+  },
+  "safe_next_action": "Do not kill healthy PID 31808; finish retained-index reverb/dryness reconcile to coverage_complete under frozen suggestion-only thresholds. Do not start Row077 library PCM until Row076 coverage_complete. No product COMPLETE. Avoid another Row010 PuLID lock-trait envelope (FACE/SIDE/BODYFORWARD/REAR already solo_lock=0.0). Row084 remains blocked on external gold masks.",
+  "schema_version": "1.0",
+  "source_commit": "7709ec8e",
+  "status": "HOLD_LIBRARY_RECONCILE_IN_PROGRESS_DEPS_UNLOCKED",
+  "tracker_id": "TRK-W64-076"
+}

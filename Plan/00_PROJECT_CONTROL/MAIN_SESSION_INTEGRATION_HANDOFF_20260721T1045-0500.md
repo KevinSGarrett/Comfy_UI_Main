@@ -1,4 +1,4 @@
-# Main Session Integration Handoff — CURRENT (2026-07-21T10:45-0500)
+# Main Session Integration Handoff — CURRENT (2026-07-21T10:40-0500)
 
 ## Integration Summary
 
@@ -7,7 +7,7 @@
 - Binding: **RunPod ONLY** (`1q4ji0gg1fkhvt`) — NEVER EC2; NEVER local Comfy
 - HEAD at handoff write: see git tip after push
 - Row074: coverage_complete HOLD stamped earlier (`4c7322d3`); guardian `done_hold_stamped`; **leave alone**
-- Row076: local PID **31808** still running retained-index reverb/dryness reconcile (`complete=false`; live peek **23325/39771 ~58.6%** at 20260721T1045-0500 Notes sync); **leave alone** until `coverage_complete`; do **NOT** start 077
+- Row076: local PID **31808** still running retained-index reverb/dryness reconcile (`complete=false`; peek ~12600/39771); **leave alone** until `coverage_complete`; do **NOT** start 077
 - Latest Row010 climb: PuLID REAR calib `20260721T153102Z` + VLM `20260721T153532Z` (`RUNTIME_FAIL_LOCK_TRAIT_NOT_IMPROVED` / face_mean 0.65; body 0.78; solo_lock 0.0; prompt_id `cd355612-76be-4481-838d-96d39db0205a`)
 - Prior Row010 SIDE climb retained (`151540Z`/`151831Z` LOCK_TRAIT_NOT_IMPROVED face_mean 0.7)
 - Prior Row010 BODYFORWARD climb retained (`145336Z`/`145516Z` LOCK_TRAIT_NOT_IMPROVED face_mean 0.6)
@@ -35,18 +35,16 @@
 - Invent body/contact gold for Row084; do not remove compiler hard-fail alone
 - False COMPLETE; Row010 stays NONCANONICAL without multi-char pack
 - Exhausted Row010 envelopes: FACE_01, FACE_03, FACE_02 face-tighter-v2, FACE_04 face-crop, LOCKFRONT (FACE_01), BODYFORWARD (FACE_04+FRONT), SIDE (FACE_04+C1_USER_AUTHORITY_SIDE), REAR (FACE_04+C1_REAR_AUTHORITY_PRIMARY/ASS this climb)
-- Another PuLID lock-trait climb that will re-hit `solo_lock=0.0` on the exhausted axis list above
 
-### OPEN (safe next work) — gates
+### OPEN (safe next work)
 
-1. **Row076 gate:** wait PID 31808 → `coverage_complete` (currently ~58.6%); then Notes sync + optional 077 start ranking; no kill; no COMPLETE until authority criteria met.
-2. **Row010 gate:** portable multi-character reference pack still ABSENT (`character_id_count=1`); solo_lock remains 0.0 across exhausted lock-trait envelopes. Prefer product-campaign acceptance path that does **not** claim COMPLETE — not another lock-trait PuLID redo.
-3. **Row084 gate:** blocked on external production gold contact/body masks + incomplete cut/camera matrix; compiler hard-fail not clearable on current evidence — do not invent gold.
-4. **Row074:** leave alone (HOLD coverage_complete).
-5. **Row017 / Wan:** exhausted / do not re-fetch.
+- Row010: further identity / product-campaign acceptance path still NONCANONICAL (solo_lock 0.0; multi-char pack absent). Prefer unused envelope — not a redo of exhausted list above
+- Row084: blocked on external gold masks — do not invent
+- Row074: leave alone (HOLD coverage_complete)
+- Row076: leave alone until coverage_complete; no 077 start
 
 ## Exact next action
 
-1. Leave Row074 HOLD and Row076 PID 31808 alone; no HOLD 090+; no COMPLETE; no Wan re-fetch; no redo 017; no invent 084 gold; no another solo_lock PuLID lock-trait envelope.
-2. Prefer waiting 076 coverage_complete, or a non-COMPLETE product-campaign / multi-char pack intake path if external assets arrive.
+1. Prefer next unused Row010 identity envelope or product-campaign acceptance path (still not COMPLETE).
+2. Leave Row074 HOLD and Row076 PID 31808 alone; no HOLD 090+; no COMPLETE; no Wan re-fetch; no redo 017; no invent 084 gold.
 3. RunPod only for Wave64/Comfy/GPU.
