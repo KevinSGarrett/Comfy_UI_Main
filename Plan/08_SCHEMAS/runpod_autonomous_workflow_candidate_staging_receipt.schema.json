@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_workflow_candidate_staging_receipt.schema.json",
+  "title": "Wave64 Workflow Candidate Staging Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "receipt_id", "request_id", "decision_id", "job_id",
+    "actor_role_id", "authority_binding_sha256", "gateway_policy_sha256",
+    "stager_policy_sha256", "patch_sha256", "base_workflow_sha256",
+    "candidate_workflow_sha256", "candidate_file_sha256", "workflow_validation_id",
+    "input_receipt_bundle_id", "normalized_target", "execution_performed",
+    "candidate_write_performed", "base_input_write_performed", "overwrite_performed",
+    "comfyui_execution_performed", "model_inference_performed", "network_used",
+    "copy_on_write_verified", "disposition", "reason_codes"
+  ],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.workflow_candidate_staging_receipt.v1"},
+    "receipt_id": {"$ref": "#/definitions/sha256"},
+    "request_id": {"type": "string", "minLength": 1},
+    "decision_id": {"$ref": "#/definitions/sha256"},
+    "job_id": {"type": "string", "pattern": "^W64-AQA-JOB-[A-Za-z0-9._-]{1,96}$"},
+    "actor_role_id": {"enum": ["W64-AQA-ROLE-CONTROLLER", "W64-AQA-ROLE-DETERMINISTIC"]},
+    "authority_binding_sha256": {"$ref": "#/definitions/sha256"},
+    "gateway_policy_sha256": {"$ref": "#/definitions/sha256"},
+    "stager_policy_sha256": {"$ref": "#/definitions/sha256"},
+    "patch_sha256": {"$ref": "#/definitions/sha256"},
+    "base_workflow_sha256": {"$ref": "#/definitions/sha256"},
+    "candidate_workflow_sha256": {"$ref": "#/definitions/sha256"},
+    "candidate_file_sha256": {"$ref": "#/definitions/sha256"},
+    "workflow_validation_id": {"$ref": "#/definitions/sha256"},
+    "input_receipt_bundle_id": {"$ref": "#/definitions/sha256"},
+    "normalized_target": {"type": "string", "pattern": "^jobs/W64-AQA-JOB-[A-Za-z0-9._-]{1,96}/candidates/workflow\\.candidate\\.json$"},
+    "execution_performed": {"const": true},
+    "candidate_write_performed": {"const": true},
+    "base_input_write_performed": {"const": false},
+    "overwrite_performed": {"const": false},
+    "comfyui_execution_performed": {"const": false},
+    "model_inference_performed": {"const": false},
+    "network_used": {"const": false},
+    "copy_on_write_verified": {"const": true},
+    "disposition": {"const": "PASS_TYPED_COPY_ON_WRITE_CANDIDATE_STAGED"},
+    "reason_codes": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[A-Z0-9_]+$"}
+    }
+  },
+  "definitions": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

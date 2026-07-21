@@ -64,6 +64,13 @@ write, sandbox, or use a network. Every remaining admitted action stays
 unqualified until it has an isolated implementation, exact target contract,
 rollback model, and fault campaign.
 
+The next isolated executor qualifies one shadow-only `candidate_write` target:
+`jobs/{job_id}/candidates/workflow.candidate.json`. It accepts only a receipt-
+bound typed patch, validates it against the immutable contract and allowlist,
+and atomically publishes a non-overwriting copy while proving the base input is
+unchanged. This stager does not execute ComfyUI, infer with a model, run a
+regression, contact RunPod, or promote the candidate.
+
 ### Phase lease and resource arbiter
 
 Owns the mutually exclusive `GENERATION`, `MEASUREMENT_GPU`, `REVIEW`, and

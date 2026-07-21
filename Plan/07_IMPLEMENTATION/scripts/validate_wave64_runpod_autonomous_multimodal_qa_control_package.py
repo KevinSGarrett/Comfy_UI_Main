@@ -151,6 +151,16 @@ PATHS = {
     / "Plan/Tracker/Evidence/W64_AQA_WORKFLOW_LOGICAL_TOOL_QUALIFICATION_20260721T232000Z/workflow_inspect.receipt.json",
     "validator_run_execution_receipt": ROOT
     / "Plan/Tracker/Evidence/W64_AQA_WORKFLOW_LOGICAL_TOOL_QUALIFICATION_20260721T232000Z/validator_run.receipt.json",
+    "workflow_candidate_staging_receipt_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_workflow_candidate_staging_receipt.schema.json",
+    "workflow_candidate_stager_policy": ROOT
+    / "Plan/10_REGISTRIES/wave64_runpod_autonomous_workflow_candidate_stager_policy.json",
+    "workflow_candidate_stager": ROOT
+    / "Plan/07_IMPLEMENTATION/scripts/stage_wave64_runpod_autonomous_workflow_candidate.py",
+    "workflow_candidate_staging_evidence": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_WORKFLOW_CANDIDATE_STAGING_20260721T234000Z/evidence.json",
+    "workflow_candidate_staging_receipt": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_WORKFLOW_CANDIDATE_STAGING_20260721T234000Z/receipts/candidate_write.receipt.json",
     "correction_attempt_schema": ROOT
     / "Plan/08_SCHEMAS/runpod_autonomous_correction_attempt.schema.json",
     "correction_state_schema": ROOT
@@ -284,6 +294,10 @@ def collect_errors() -> list[str]:
         workflow_tool_qualification_evidence = load_json(PATHS["workflow_tool_qualification_evidence"])
         workflow_inspect_execution_receipt = load_json(PATHS["workflow_inspect_execution_receipt"])
         validator_run_execution_receipt = load_json(PATHS["validator_run_execution_receipt"])
+        workflow_candidate_staging_receipt_schema = load_json(PATHS["workflow_candidate_staging_receipt_schema"])
+        workflow_candidate_stager_policy = load_json(PATHS["workflow_candidate_stager_policy"])
+        workflow_candidate_staging_evidence = load_json(PATHS["workflow_candidate_staging_evidence"])
+        workflow_candidate_staging_receipt = load_json(PATHS["workflow_candidate_staging_receipt"])
         correction_attempt_schema = load_json(PATHS["correction_attempt_schema"])
         correction_state_schema = load_json(PATHS["correction_state_schema"])
         evidence_bundle_schema = load_json(PATHS["evidence_bundle_schema"])
@@ -327,6 +341,7 @@ def collect_errors() -> list[str]:
         tool_executor_qualification,
         workflow_receipt_shadow_evidence,
         workflow_tool_qualification_evidence,
+        workflow_candidate_staging_evidence,
         registry,
     )
     for document in json_docs:
@@ -718,6 +733,71 @@ def collect_errors() -> list[str]:
             errors.append(f"workflow logical tool manifest path missing: {relative_path}")
         elif hashlib.sha256(bound_path.read_bytes()).hexdigest() != expected_sha256:
             errors.append(f"workflow logical tool manifest hash mismatch: {relative_path}")
+    candidate_stager_mandatory = {
+        "qualified_action": "candidate_write",
+        "execution_modes": ["shadow_qualification"],
+        "target_template": "jobs/{job_id}/candidates/workflow.candidate.json",
+        "parameters_required_empty": True,
+        "input_receipt_bundle_required": True,
+        "typed_patch_required": True,
+        "copy_on_write_required": True,
+        "immutable_candidate_required": True,
+        "base_input_write_allowed": False,
+        "overwrite_allowed": False,
+        "comfyui_execution_allowed": False,
+        "model_inference_allowed": False,
+        "network_allowed": False,
+        "production_mode_allowed": False,
+        "all_other_targets": "UNQUALIFIED_DENY",
+    }
+    if any(
+        workflow_candidate_stager_policy.get(key) != expected
+        for key, expected in candidate_stager_mandatory.items()
+    ):
+        errors.append("workflow candidate stager policy is incomplete or weakened")
+    candidate_receipt_required = {
+        "disposition": "PASS_TYPED_COPY_ON_WRITE_CANDIDATE_STAGED",
+        "candidate_write_performed": True,
+        "base_input_write_performed": False,
+        "overwrite_performed": False,
+        "comfyui_execution_performed": False,
+        "model_inference_performed": False,
+        "network_used": False,
+        "copy_on_write_verified": True,
+    }
+    for key, expected in candidate_receipt_required.items():
+        if workflow_candidate_staging_receipt.get(key) != expected:
+            errors.append(f"canonical workflow candidate staging receipt {key} mismatch")
+    if workflow_candidate_staging_receipt.get("receipt_id") != recompute_self_hash(
+        workflow_candidate_staging_receipt, "receipt_id"
+    ):
+        errors.append("canonical workflow candidate staging receipt self-hash mismatch")
+    if workflow_candidate_staging_evidence.get("disposition") != "PASS_TYPED_COPY_ON_WRITE_CANDIDATE_STAGING_ONLY":
+        errors.append("workflow candidate staging evidence disposition changed")
+    if workflow_candidate_staging_evidence.get("copy_on_write_verified") is not True:
+        errors.append("workflow candidate staging copy-on-write proof missing")
+    candidate_runtime_claims = workflow_candidate_staging_evidence.get("runtime_claims", {})
+    expected_candidate_claims = {
+        "runpod_contacted": False,
+        "gpu_used": False,
+        "comfyui_execution_performed": False,
+        "model_inference_performed": False,
+        "candidate_staging_write_performed": True,
+        "base_input_write_performed": False,
+        "network_used": False,
+        "production_promotion_granted": False,
+    }
+    if any(candidate_runtime_claims.get(key) != expected for key, expected in expected_candidate_claims.items()):
+        errors.append("workflow candidate staging runtime claims mismatch")
+    candidate_evidence_root = PATHS["workflow_candidate_staging_evidence"].parent
+    for relative_path, expected_sha256 in workflow_candidate_staging_evidence.get(
+        "file_manifest_sha256", {}
+    ).items():
+        bound_path = candidate_evidence_root / relative_path
+        if not bound_path.is_file():
+            errors.append(f"workflow candidate staging manifest path missing: {relative_path}")
+        elif hashlib.sha256(bound_path.read_bytes()).hexdigest() != expected_sha256:
+            errors.append(f"workflow candidate staging manifest hash mismatch: {relative_path}")
     if migration_policy.get("decision_only") is not True:
         errors.append("migration controller must remain decision-only")
     if migration_policy.get("old_pod_stops_only_after_integration_switch") is not True:
@@ -816,6 +896,10 @@ def collect_errors() -> list[str]:
         )
         jsonschema.Draft7Validator(workflow_tool_execution_receipt_schema).validate(
             validator_run_execution_receipt
+        )
+        jsonschema.Draft7Validator.check_schema(workflow_candidate_staging_receipt_schema)
+        jsonschema.Draft7Validator(workflow_candidate_staging_receipt_schema).validate(
+            workflow_candidate_staging_receipt
         )
         jsonschema.Draft7Validator.check_schema(correction_attempt_schema)
         jsonschema.Draft7Validator.check_schema(correction_state_schema)

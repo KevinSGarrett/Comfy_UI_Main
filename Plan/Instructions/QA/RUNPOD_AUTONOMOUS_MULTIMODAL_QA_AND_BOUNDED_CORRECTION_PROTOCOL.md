@@ -151,6 +151,14 @@ mismatch, policy expansion, limit changes, elapsed time, and any content,
 sandbox, write, or network enablement. Every other action remains
 `UNQUALIFIED_DENY`.
 
+For the exact workflow candidate stager, retain a successful bounded numeric
+copy-on-write fixture plus negative coverage for alternate targets, overwrite,
+production mode, nonempty parameters, policy weakening, invalid patch values,
+reparse roots, elapsed limits, publication crash, and a base-source race. The
+candidate receipt must prove immutable publication and unchanged base bytes,
+while all RunPod, GPU, ComfyUI execution, inference, regression, and promotion
+flags remain false.
+
 ## Gate AQA-08: correction admission
 
 The proposed repair must identify exact defects, targets, allowed patch class,

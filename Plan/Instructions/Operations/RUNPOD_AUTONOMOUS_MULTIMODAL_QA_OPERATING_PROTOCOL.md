@@ -220,6 +220,15 @@ qualified executor. Production mode, sandbox execution, content exposure,
 target writes, and network use remain denied. Qualify every expansion with its
 own exact schema, policy, limits, rollback, and fault campaign.
 
+One candidate stager is qualified locally for the exact shadow target
+`jobs/{job_id}/candidates/workflow.candidate.json`. It requires the immutable
+contract, all four digest receipts, the typed patch allowlist, an empty parameter
+object, and a pre-created plain sandbox directory tree. It publishes by
+no-overwrite atomic copy-on-write, verifies the base bytes remain unchanged, and
+removes its candidate if a source race is detected. It must never be treated as
+ComfyUI sandbox execution or regression evidence. Those steps wait for the
+repository-backed phase lease release.
+
 ## 8. Incident and recovery
 
 On crash, timeout, invalid JSON, OOM, queue conflict, missing model, storage
