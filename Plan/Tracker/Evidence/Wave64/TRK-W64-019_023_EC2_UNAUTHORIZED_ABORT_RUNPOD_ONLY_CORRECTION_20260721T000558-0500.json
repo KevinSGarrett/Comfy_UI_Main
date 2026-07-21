@@ -1,0 +1,76 @@
+{
+    "schema_version":  "1.0",
+    "evidence_id":  "TRK-W64-019_023_EC2_UNAUTHORIZED_ABORT_RUNPOD_ONLY_CORRECTION_20260721T000558-0500",
+    "created_iso":  "2026-07-21T00:05:58-0500",
+    "tracker_ids":  [
+                        "TRK-W64-019",
+                        "TRK-W64-023"
+                    ],
+    "item_ids":  [
+                     "ITEM-W64-019",
+                     "ITEM-W64-023"
+                 ],
+    "mutation_this_landing":  "evidence_only_ec2_unauthorized_abort_runpod_only_correction",
+    "row_complete":  false,
+    "production_video_complete_claimed":  false,
+    "row074_touched":  false,
+    "verdict":  "EC2_START_AND_COPY_ABORTED_UNAUTHORIZED_VS_RUNPOD_SOLE_RUNTIME",
+    "summary":  "Interactive Cursor recovery incorrectly started EC2 i-0560bf8d143f93bb1 and began Wan EC2-\u003elocal scp despite RunPod being the sole authorized runtime. User interrupt: abort EC2 path; stop instance; do not pull Wan from EC2; recovery corrected to RunPod-only.",
+    "ec2":  {
+                "instance_id":  "i-0560bf8d143f93bb1",
+                "region":  "us-east-1",
+                "action":  "stop_instances_verified",
+                "final_state":  "stopped",
+                "terminated":  false,
+                "unauthorized_relative_to":  "RunPod sole runtime handoff",
+                "prior_commit_claiming_ec2_recovery_authority":  "f3f6cc84"
+            },
+    "aborted":  {
+                    "ec2_scp_to_local_staging":  true,
+                    "staging_root":  "C:\\\\Comfy_UI_Main\\\\runtime_artifacts\\\\staging\\\\wan_ti2v_3",
+                    "partial_files_at_abort":  [
+                                                   {
+                                                       "filename":  "wan2.2_ti2v_5B_fp16.safetensors",
+                                                       "observed_bytes":  3329916928,
+                                                       "expected_bytes":  9999658848,
+                                                       "status":  "PARTIAL_ABORTED_DELETED"
+                                                   },
+                                                   {
+                                                       "filename":  "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+                                                       "observed_bytes":  4794646528,
+                                                       "expected_bytes":  6735906897,
+                                                       "status":  "PARTIAL_ABORTED_DELETED"
+                                                   },
+                                                   {
+                                                       "filename":  "wan2.2_vae.safetensors",
+                                                       "observed_bytes":  1409400960,
+                                                       "expected_bytes":  1409400960,
+                                                       "status":  "SIZE_COMPLETE_BUT_EC2_SOURCED_ABORTED_DELETED"
+                                                   }
+                                               ],
+                    "pod_scp_attempted":  false,
+                    "hf_download_attempted":  false,
+                    "instance_terminated":  false
+                },
+    "corrected_recovery_path":  {
+                                    "sole_runtime":  "RunPod",
+                                    "pod_id":  "1q4ji0gg1fkhvt",
+                                    "models_dir":  "/workspace/ComfyUI/models",
+                                    "allowed_wan_sources":  [
+                                                                "already_on_pod_files_under_/workspace/ComfyUI/models/{diffusion_models,text_encoders,vae}/",
+                                                                "user_authorized_download_DIRECTLY_TO_POD_only_if_approved_pod_side_fetch_script_exists_with_no_EC2_involvement"
+                                                            ],
+                                    "forbidden":  [
+                                                      "EC2 start for Wan recovery",
+                                                      "EC2-\u003elocal or EC2-\u003epod Wan copy",
+                                                      "HF download from this agent without explicit user authorization to pod-direct path"
+                                                  ]
+                                },
+    "safety_boundary":  {
+                            "ec2_started_this_session":  true,
+                            "ec2_final_state":  "stopped",
+                            "generation_executed":  false,
+                            "row074_untouched":  true,
+                            "complete_claimed":  false
+                        }
+}
