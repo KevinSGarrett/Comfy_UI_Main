@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "RUNPOD_1q4ji0gg1fkhvt_MECHANICAL_SMOKE_PASS_20260720T2244-0500",
+  "created_iso": "2026-07-20T22:44:00-05:00",
+  "classification": "RUNPOD_MECHANICAL_SMOKE_PASS",
+  "scope": "RunPod pod 1q4ji0gg1fkhvt SSH mechanical smoke — paths, ComfyUI loopback, Plan tree, models symlink, disk/GPU summary",
+  "runtime_authority": "runpod_remote",
+  "local_comfyui_touched": false,
+  "row073_pcm_touched": false,
+  "row_complete": false,
+  "product_completion_claimed": false,
+  "csv_sync": "deferred_evidence_only",
+  "proof_tier": "MECHANICAL_SMOKE_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "MECHANICAL_SMOKE_PASS_BOUNDED",
+  "pod": {
+    "id": "1q4ji0gg1fkhvt",
+    "name": "hyperreal-flux",
+    "public_ip": "195.26.233.100",
+    "ssh_port": 52077,
+    "gpu_model_agent_reported": "NVIDIA RTX 6000 Ada",
+    "gpu_count_agent_reported": 1,
+    "volume_mount_path": "/workspace"
+  },
+  "agent_result_citation": {
+    "parent_transcript_id": "485c50f8-1ac8-443e-9a2a-1eef55f00725",
+    "subagent_id": "663aa2a1-30a7-4791-9fc1-5ce09335ca57",
+    "status": "complete",
+    "confidence": "high",
+    "summary": "All five mechanical smoke checks PASS on pod 1q4ji0gg1fkhvt; ComfyUI already healthy — no restart.",
+    "restart_action": "none"
+  },
+  "checks": [
+    {
+      "id": 1,
+      "name": "paths.env",
+      "verdict": "PASS",
+      "WAVE64_ROOT": "/workspace/wave64",
+      "COMFYUI_ROOT": "/workspace/ComfyUI",
+      "SCENES_ROOT": "/workspace/Characters/Scenes_xxx_001",
+      "COMFY_URL": "http://127.0.0.1:8188"
+    },
+    {
+      "id": 2,
+      "name": "comfyui_http",
+      "verdict": "PASS",
+      "comfyui_version_agent_reported": "0.28.0",
+      "system_stats_reachable": true,
+      "queue_running_agent_reported": [],
+      "queue_pending_agent_reported": []
+    },
+    {
+      "id": 3,
+      "name": "plan_and_promptprofiles",
+      "verdict": "PASS",
+      "note": "Plan/ and PromptProfiles/ present under $WAVE64_ROOT (agent ls truncated by head)"
+    },
+    {
+      "id": 4,
+      "name": "runtime_data_models_symlink",
+      "verdict": "PASS",
+      "symlink_source": "$WAVE64_ROOT/Runtime_Data/models",
+      "symlink_target": "/workspace/ComfyUI/models"
+    },
+    {
+      "id": 5,
+      "name": "workspace_disk_and_gpu",
+      "verdict": "PASS",
+      "workspace_avail_agent_reported": "~129T",
+      "workspace_used_pct_agent_reported": "74%",
+      "gpu_agent_reported": "1× NVIDIA RTX 6000 Ada"
+    }
+  ],
+  "overall_verdict": "PASS",
+  "boundaries": {
+    "workspace_wipe": false,
+    "flux_lora_reupload": false,
+    "daz_character_bulk_sync": false,
+    "comfyui_restart_performed": false,
+    "local_comfyui_start": false,
+    "row073_pcm_touch": false,
+    "shared_csv_mutation": false,
+    "complete_claim": false
+  },
+  "next_action": "Use RunPod pod 1q4ji0gg1fkhvt as Wave64 runtime authority for ComfyUI API and GPU work; keep local C:\\Comfy_UI_Main as git/tracker authority only."
+}
