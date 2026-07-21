@@ -32,6 +32,13 @@ SMOKE_OK_STATUS_RE = re.compile(
     r"(Runtime_Smoke_Emitted|smoke_emission|SMOKE_EMISSION)",
     re.IGNORECASE,
 )
+# Honest Class E attempt FAIL/REJECT (bytes/VLM gate miss) — not proof success, not smoke.
+FAIL_OK_STATUS_RE = re.compile(
+    r"(Proof_Attempt_FAIL|PROOF_ATTEMPT_FAIL|class_e_attempt_fail|"
+    r"Class_E_Proof_Attempt_FAIL|FAIL_REJECT)",
+    re.IGNORECASE,
+)
+FAIL_CLAIM_TIERS = frozenset({"class_e_attempt_fail", "proof_attempt_fail"})
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -84,6 +91,9 @@ def evaluate_claim(packet: dict[str, Any], *, artifact_bytes: int | None = None)
     blob = _claim_language_blob(packet)
     uses_proof_success_language = bool(PROOF_SUCCESS_STATUS_RE.search(blob))
     uses_smoke_language = bool(SMOKE_OK_STATUS_RE.search(blob)) or claim_tier == "smoke_emission"
+    uses_fail_language = (
+        bool(FAIL_OK_STATUS_RE.search(blob)) or claim_tier in FAIL_CLAIM_TIERS
+    )
 
     checks: dict[str, bool] = {}
     failed: list[str] = []
@@ -105,7 +115,8 @@ def evaluate_claim(packet: dict[str, Any], *, artifact_bytes: int | None = None)
     mark("ec2_untouched", packet.get("ec2_touched") is not True)
 
     # Smoke may be tiny; Class E proof-success language may not.
-    if uses_proof_success_language and not uses_smoke_language:
+    # Explicit FAIL/REJECT attempt claims are allowed when proof-success language is absent.
+    if uses_proof_success_language and not uses_smoke_language and not uses_fail_language:
         mark("class_e_proof_min_bytes", bytes_value >= CLASS_E_PROOF_MIN_BYTES)
         mark("visual_review_performed_for_proof_success", visual_performed)
         mark("claim_tier_not_smoke_when_proof_success", claim_tier not in {"", "smoke_emission"})
@@ -116,6 +127,19 @@ def evaluate_claim(packet: dict[str, Any], *, artifact_bytes: int | None = None)
         )
         if visual_performed:
             mark("visual_review_pass_for_proof_success", visual_pass)
+    elif uses_fail_language:
+        mark("fail_claim_forbids_proof_success_language", not uses_proof_success_language)
+        mark(
+            "fail_claim_tier_or_status",
+            claim_tier in FAIL_CLAIM_TIERS or bool(FAIL_OK_STATUS_RE.search(blob)),
+        )
+        # A Class E attempt FAIL should still show the climb ran a visual/VLM gate.
+        mark("fail_attempt_visual_review_performed", visual_performed)
+        # Bytes below Class E proof floor is an acceptable FAIL reason; do not require ≥250KB.
+        mark(
+            "fail_attempt_not_claiming_proof_landed",
+            "proof_landed" not in blob.lower() or "fail" in blob.lower(),
+        )
     else:
         # Smoke path: forbid leftover proof-success language.
         mark("smoke_claim_forbids_proof_success_language", not uses_proof_success_language)
@@ -138,6 +162,7 @@ def evaluate_claim(packet: dict[str, Any], *, artifact_bytes: int | None = None)
         "claim_tier_observed": claim_tier or None,
         "uses_proof_success_language": uses_proof_success_language,
         "uses_smoke_language": uses_smoke_language,
+        "uses_fail_language": uses_fail_language,
         "artifact_bytes": bytes_value if bytes_value >= 0 else None,
         "thresholds": {
             "absolute_min_bytes": ABSOLUTE_MIN_BYTES,

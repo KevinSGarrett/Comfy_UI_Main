@@ -78,6 +78,27 @@ class WanTi2vClassEClaimPolicyTest(unittest.TestCase):
         result = module.evaluate_claim(packet)
         self.assertTrue(result["policy_pass"], result["failed_checks"])
 
+    def test_honest_fail_reject_below_bytes_floor_passes(self) -> None:
+        packet = {
+            "claim_tier": "class_e_attempt_fail",
+            "status": (
+                "Blocked_Product_Visual_Qa_Open_Bounded_Wan_Ti2v_"
+                "Class_E_Proof_Attempt_FAIL_Bytes_Gate"
+            ),
+            "verdict": "WAN_TI2V_BOUNDED_CLASS_E_PROOF_ATTEMPT_FAIL_REJECT",
+            "proof_tier": "RUNPOD_WAN_TI2V_BOUNDED_CLASS_E_PROOF_ATTEMPT_FAIL",
+            "row_complete": False,
+            "production_completion_allowed": False,
+            "production_video_complete_claimed": False,
+            "row074_touched": False,
+            "ec2_touched": False,
+            "vlm_review": {"performed": True, "pass": True},
+            "generation": {"artifact": {"bytes": 194351}},
+        }
+        result = module.evaluate_claim(packet)
+        self.assertTrue(result["policy_pass"], result["failed_checks"])
+        self.assertTrue(result["uses_fail_language"])
+
 
 if __name__ == "__main__":
     unittest.main()
