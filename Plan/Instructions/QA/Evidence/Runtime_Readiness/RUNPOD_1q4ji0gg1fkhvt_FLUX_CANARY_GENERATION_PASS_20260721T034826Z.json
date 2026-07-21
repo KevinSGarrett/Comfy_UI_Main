@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "RUNPOD_1q4ji0gg1fkhvt_FLUX_CANARY_GENERATION_PASS_20260721T034826Z",
+  "created_iso": "2026-07-21T03:48:26Z",
+  "classification": "RUNPOD_FLUX_CANARY_GENERATION_PASS",
+  "scope": "RunPod pod 1q4ji0gg1fkhvt hash-bound Flux canary generation — workflow, LoRA, prompt_id, and output artifact verified on live pod",
+  "runtime_authority": "runpod_remote",
+  "local_comfyui_touched": false,
+  "row073_pcm_touched": false,
+  "row_complete": false,
+  "product_completion_claimed": false,
+  "csv_sync": "deferred_evidence_only",
+  "proof_tier": "RUNTIME_GENERATION_PASS_HASH_BOUND",
+  "highest_proof_tier_achieved": "RUNTIME_GENERATION_PASS_HASH_BOUND",
+  "pod": {
+    "id": "1q4ji0gg1fkhvt",
+    "name": "hyperreal-flux",
+    "public_ip": "195.26.233.100",
+    "ssh_port": 52077,
+    "volume_mount_path": "/workspace",
+    "comfyui_version": "0.28.0",
+    "comfy_url": "http://127.0.0.1:8188"
+  },
+  "prior_evidence": {
+    "mechanical_smoke_pass": "Plan/Instructions/QA/Evidence/Runtime_Readiness/RUNPOD_1q4ji0gg1fkhvt_MECHANICAL_SMOKE_PASS_20260720T2244-0500.json",
+    "provisioned_audit": "Plan/Instructions/QA/Evidence/Runtime_Readiness/RUNPOD_1q4ji0gg1fkhvt_PROVISIONED_AUDIT_20260720T2247-0500.json"
+  },
+  "generation": {
+    "prompt_id": "be181500-1867-422d-9495-6ed0793a8092",
+    "client_id": "6ea897c2-b89b-408c-a136-de7c5d8c1f68",
+    "status": "success",
+    "completed": true,
+    "workflow": {
+      "filename": "flux_canary.api.json",
+      "pod_path": "/workspace/Characters/Scenes_xxx_001/02_WORKFLOWS/flux_canary.api.json",
+      "sha256": "535528abb2ec9ecdde48db8f2a2d3281c188317a3989fb9ef2acccf72df4edc6"
+    },
+    "checkpoint": {
+      "name": "flux1-dev-fp8.safetensors",
+      "pod_path": "/workspace/ComfyUI/models/checkpoints/flux1-dev-fp8.safetensors",
+      "sha256": "8e91b68084b53a7fc44ed2a3756d821e355ac1a7b6fe29be760c1db532f3d88a"
+    },
+    "lora": {
+      "name": "character1_flux_calibration/Latina_milf_flux.safetensors",
+      "pod_path": "/workspace/ComfyUI/models/loras/character1_flux_calibration/Latina_milf_flux.safetensors",
+      "sha256": "7fc64b649f1b3d57cdc9c8669847247d15a205e217789756414919aef40737f3",
+      "strength_model": 0.72,
+      "strength_clip": 0.55
+    },
+    "settings": {
+      "width": 512,
+      "height": 768,
+      "steps": 12,
+      "cfg": 1.0,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "seed": 424242,
+      "guidance": 3.5
+    },
+    "output": {
+      "filename": "FLUX_CANARY_20260721_034826_00001_.png",
+      "subfolder": "Scenes_xxx_001/canary",
+      "pod_path": "/workspace/comfy_output/Scenes_xxx_001/canary/FLUX_CANARY_20260721_034826_00001_.png",
+      "sha256": "786884e5c8fe5369d11ba2e91769b2f88919977dc4cdaf4981c6edbf42f2a14e",
+      "bytes": 378949,
+      "verified_on_pod": true,
+      "verified_in_comfy_history": true
+    }
+  },
+  "local_retention": {
+    "pulled_back": true,
+    "local_path": "Plan/Instructions/QA/Evidence/Runtime_Readiness/RunPod_1q4ji0gg1fkhvt/FLUX_CANARY_20260721_034826_00001_.png",
+    "local_sha256": "786884e5c8fe5369d11ba2e91769b2f88919977dc4cdaf4981c6edbf42f2a14e",
+    "local_bytes": 378949,
+    "byte_identical_to_pod": true
+  },
+  "overall_verdict": "PASS",
+  "boundaries": {
+    "local_comfyui_start": false,
+    "row073_pcm_touch": false,
+    "shared_csv_mutation": false,
+    "complete_claim": false,
+    "workspace_wipe": false,
+    "flux_lora_reupload": false
+  },
+  "next_action": "Use RunPod pod 1q4ji0gg1fkhvt as Wave64 GPU generation authority; route further Flux/ComfyUI API work through pod loopback :8188. Keep local C:\\Comfy_UI_Main as git/tracker authority only."
+}
