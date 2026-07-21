@@ -85,6 +85,15 @@ decoded still proves decode and gross frame structure only. The paired receipt
 has zero stream-start and duration deltas, but strict motion, semantic audio,
 AV-sync, and independent-juror gates remain unexecuted or unqualified.
 
+Known-bad image artifacts are first-class calibration evidence. Preserve their
+original lineage and rejection rather than regenerating or relabeling them. The
+current canonical image shadow is
+`Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_IMAGE_SHADOW_20260721T223341Z.json`:
+technical gates pass, Codex whole-image QA rejects the placement/shadow defects,
+and the bound 32B strict-model step remains held until the foreign GPU lease is
+released. A technical PASS must not enter promotion or correction retention by
+itself.
+
 ## 4A. One-pod capacity migration
 
 1. Preferred profile: one pod with 2x A40, 96 GB aggregate VRAM, at least 100 GB

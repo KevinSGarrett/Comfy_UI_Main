@@ -56,6 +56,12 @@ PATHS = {
     / "Plan/08_SCHEMAS/runpod_autonomous_image_measurement.schema.json",
     "image_measurement": ROOT
     / "Plan/07_IMPLEMENTATION/scripts/measure_wave64_runpod_autonomous_image_quality.py",
+    "image_shadow_evidence_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_image_shadow_evidence.schema.json",
+    "image_shadow_evidence_producer": ROOT
+    / "Plan/07_IMPLEMENTATION/scripts/produce_wave64_runpod_autonomous_image_shadow_evidence.py",
+    "image_shadow_evidence": ROOT
+    / "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_IMAGE_SHADOW_20260721T223341Z.json",
     "video_measurement_schema": ROOT
     / "Plan/08_SCHEMAS/runpod_autonomous_video_measurement.schema.json",
     "video_measurement": ROOT
@@ -189,6 +195,8 @@ def collect_errors() -> list[str]:
         job_contract_schema = load_json(PATHS["job_contract_schema"])
         phase_lease_schema = load_json(PATHS["phase_lease_schema"])
         image_measurement_schema = load_json(PATHS["image_measurement_schema"])
+        image_shadow_evidence_schema = load_json(PATHS["image_shadow_evidence_schema"])
+        image_shadow_evidence = load_json(PATHS["image_shadow_evidence"])
         video_measurement_schema = load_json(PATHS["video_measurement_schema"])
         audio_measurement_schema = load_json(PATHS["audio_measurement_schema"])
         audio_shadow_evidence_schema = load_json(PATHS["audio_shadow_evidence_schema"])
@@ -331,6 +339,24 @@ def collect_errors() -> list[str]:
     )
     if av_required_roles != {"W64-AQA-ROLE-DETERMINISTIC"}:
         errors.append("AV technical shadow must require deterministic authority only")
+    if (
+        image_shadow_evidence.get("overall_disposition")
+        != "PASS_DETERMINISTIC_IMAGE_GATES_REJECT_VISUAL_DEFECTS_STRICT_RUNTIME_HELD"
+    ):
+        errors.append("canonical image shadow must retain deterministic pass and visual rejection")
+    if image_shadow_evidence.get("product_promotion_eligible") is not False:
+        errors.append("canonical rejected image shadow must not grant product promotion")
+    if image_shadow_evidence.get("measurement", {}).get("disposition") != "PASS_DETERMINISTIC_GATES":
+        errors.append("canonical image shadow deterministic measurement must pass")
+    if image_shadow_evidence.get("codex_visual_review", {}).get("status") != "REJECT_KNOWN_BLOCKING_DEFECTS":
+        errors.append("canonical image shadow must retain the whole-image rejection")
+    image_defects = set(
+        image_shadow_evidence.get("codex_visual_review", {}).get("blocking_findings", [])
+    )
+    if image_defects != {"contact_placement_not_exact_target", "contact_shadow_not_clear"}:
+        errors.append("canonical image shadow blocking defect set changed")
+    if image_shadow_evidence.get("strict_model_gate", {}).get("runtime_executed") is not False:
+        errors.append("canonical image shadow must not claim held strict-model execution")
 
     runtime = registry.get("runtime_policy", {})
     expected_limits = {
@@ -479,6 +505,11 @@ def collect_errors() -> list[str]:
         jsonschema.Draft7Validator.check_schema(job_contract_schema)
         jsonschema.Draft7Validator.check_schema(phase_lease_schema)
         jsonschema.Draft7Validator.check_schema(image_measurement_schema)
+        jsonschema.Draft7Validator.check_schema(image_shadow_evidence_schema)
+        jsonschema.Draft7Validator(
+            image_shadow_evidence_schema,
+            format_checker=jsonschema.FormatChecker(),
+        ).validate(image_shadow_evidence)
         jsonschema.Draft7Validator.check_schema(video_measurement_schema)
         jsonschema.Draft7Validator.check_schema(audio_measurement_schema)
         jsonschema.Draft7Validator.check_schema(audio_shadow_evidence_schema)

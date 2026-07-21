@@ -214,6 +214,15 @@ lineage, perceptual metrics, identity/landmark evidence when applicable, and
 approved crops. Strict review covers anatomy, hands, identity, materials,
 lighting, geometry, background, seams, and prompt adherence.
 
+The first real retained image shadow is
+`Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_IMAGE_SHADOW_20260721T223341Z.json`.
+Its 1024x1024 artifact and historical lineage/review records match by hash, and
+all deterministic gates pass. Whole-image Codex QA nevertheless rejects the
+candidate: the hand remains on the shoulder/top sleeve rather than the requested
+lower upper arm, and the contact shadow is not clear. The exact installed 32B
+digest is bound for later strict-model replay, but that runtime did not execute
+under the existing typed foreign-workload hold. Product promotion remains false.
+
 ### Video and GIF
 
 Validate container, codec, duration, frame rate, frame count, decode, audio

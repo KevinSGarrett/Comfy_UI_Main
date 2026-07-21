@@ -38,6 +38,14 @@ hands, texture/material realism, lighting/shadow, perspective/geometry,
 background integrity, seams/compositing, and technical defects. Every finding
 has severity, evidence locator, confidence, and repairability.
 
+Deterministic image success never overrides a visual rejection. The canonical
+known-bad retained shadow at
+`Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_IMAGE_SHADOW_20260721T223341Z.json`
+passes decode, geometry, alpha, dynamic range, entropy, clipping, and sharpness,
+yet remains rejected because hand placement misses the lower-upper-arm target
+and the contact shadow is unclear. Its exact 32B digest is bound for later
+strict replay, but no strict-model runtime or product approval is claimed.
+
 ## Gate AQA-04: temporal review
 
 Evaluate sampled frames and metric-selected worst spans for temporal identity,
