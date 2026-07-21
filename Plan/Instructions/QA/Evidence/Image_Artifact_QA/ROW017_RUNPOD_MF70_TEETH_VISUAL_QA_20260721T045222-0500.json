@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "ROW017-RUNPOD-MF70-TEETH-VISUAL-QA-20260721T045222-0500",
+  "created_at": "2026-07-21T04:52:22-05:00",
+  "tracker_id": "TRK-W64-017",
+  "item_id": "ITEM-W64-017",
+  "localized_region": "mf70_teeth",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "highest_proof_tier_achieved": "VISUAL_QA_PASS_BOUNDED",
+  "qa_decision": "pass_bounded_localized_mf70_teeth_runpod_runtime_candidate",
+  "overall_decision": "pass",
+  "local_only": false,
+  "runtime_host": "runpod",
+  "direct_visual_inspection": true,
+  "fixture_only": false,
+  "generation_executed": true,
+  "runtime_receipt": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_teeth_20260721T045222-0500/LOCAL_RUNTIME_RECEIPT.json",
+  "source": {
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_skin_tone_continuity_20260707T163000-0500/wave70_mf70_face_identity_source_canny_v3.png",
+    "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d"
+  },
+  "mask": {
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_teeth_20260707T194500-0500/wave70_mf70_teeth_mask.png",
+    "sha256": "f2bc7f635a41035e37602f219997d34b24e8dcf481847a51aa42c4adecb9053e",
+    "filename": "wave70_mf70_teeth_mask.png"
+  },
+  "artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_teeth_20260721T045222-0500/images/codex_row017_mf70_teeth_20260721T045222-0500_00001_.png",
+    "sha256": "766890013f8428cc9e221c72acec50de2d2760ca651bc54e972ab65fd8b296d6"
+  },
+  "comparison_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_teeth_20260721T045222-0500/images/qa_full_side_by_side.png",
+    "sha256": "17eacea04be6fadc432125803ff8ef5ffb8e18f0699c1494ec4e1a9530be1443"
+  },
+  "face_crop_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_teeth_20260721T045222-0500/images/qa_face_crop_side_by_side.png",
+    "sha256": "ee1f914f6b1c31849c22d4160426fe20a5e5a30e1c900964e93c797aeee86ca9"
+  },
+  "eye_crop_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_teeth_20260721T045222-0500/images/qa_eye_crop_side_by_side.png",
+    "sha256": "b9857b6bf17edff14c382b1324e2f0fad1e7bc7759e6977c30d6c432ae1f9abe"
+  },
+  "mouth_crop_panel": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_teeth_20260721T045222-0500/images/qa_mouth_crop_side_by_side.png",
+    "sha256": "fdb3ebad363d94e42088311fd8ef3bee06e86f45975ed07317f3726b39fbe1d1"
+  },
+  "difference_metrics": {
+    "full_image_diff_bbox": [
+      340,
+      454,
+      403,
+      463
+    ],
+    "face_mask_bbox": [
+      340,
+      454,
+      403,
+      463
+    ],
+    "face_crop_box": [
+      320,
+      434,
+      423,
+      483
+    ],
+    "mean_rgb_abs_diff": [
+      0.003967,
+      0.00462,
+      0.003632
+    ],
+    "rms_rgb_abs_diff": [
+      0.205762,
+      0.21523,
+      0.176383
+    ],
+    "face_region_mean_abs": 4.236919,
+    "eye_region_mean_abs": 0.0,
+    "mouth_region_mean_abs": 0.114944,
+    "clothing_mean_abs": 0.0,
+    "background_corner_mean_abs": 0.0,
+    "changed_pixel_count": 328,
+    "mask_pixel_count": 380
+  },
+  "whole_frame_findings": [
+    "Fresh RunPod ComfyUI mf70_teeth masked inpaint on wave70_mf70_face_identity_source_canny_v3 (seed 210818, RealVisXL baked VAE, denoise 0.02, FeatherMask 10px, cfg 3.0, steps 18) completed successfully (prompt_id 9ff09e1c-3bc8-40a8-b1c3-a299d1060070).",
+    "Whole-frame identity, hair, white blazer, dark studio background, lighting, and framing remain stable versus source.",
+    "Pixel delta is localized to mf70_teeth bbox [340, 454, 403, 463]; clothing mean abs 0.0; background corner mean abs 0.0; 328 changed pixels vs 380-pixel teeth mask.",
+    "Direct whole-frame + face/eye/mouth crop inspection: subtle visible teeth band preservation refinement without gray-mask failure, identity drift, wardrobe rewrite, background change, hard mask-edge seam, or gaze/iris rewrite.",
+    "Hands are outside this head-and-shoulders crop (not applicable); no global style drift observed."
+  ],
+  "global_defects": [],
+  "promotion_authorized": false,
+  "row_complete": false,
+  "product_completion_claimed": false,
+  "ec2": "RUNPOD_USED",
+  "docker_cvat": "not-needed",
+  "notes": [
+    "Class E future-producer emission proof via RunPod Comfy runtime after local :8188 was unreachable.",
+    "Does not claim COMPLETE; CSV deferred; Row074 left alone; HOLD 090+ untouched."
+  ],
+  "csv_update_deferred": true
+}
