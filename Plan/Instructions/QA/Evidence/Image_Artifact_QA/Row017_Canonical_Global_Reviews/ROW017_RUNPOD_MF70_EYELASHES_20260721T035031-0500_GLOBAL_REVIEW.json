@@ -1,0 +1,107 @@
+{
+  "schema_version": "row017.v1",
+  "artifact": {
+    "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_eyelashes_20260721T035031-0500/images/codex_row017_mf70_eyelashes_20260721T035031-0500_00001_.png",
+    "sha256": "a31247ee4197a5f5a3f63d8a42fe67a8bdb941bf55af732aebd2ddc5ad156453"
+  },
+  "localized_change": {
+    "target_region": "mf70_eyelashes",
+    "source_artifact": {
+      "path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_skin_tone_continuity_20260707T163000-0500/wave70_mf70_face_identity_source_canny_v3.png",
+      "sha256": "ea99facf19b75dc0cb5fe7dc5e8d31ad6ed7ab74971c41c365e4d2f7c988d44d"
+    },
+    "mask_artifact": {
+      "path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_eyelashes_20260707T183000-0500/wave70_mf70_eyelashes_mask.png",
+      "sha256": "9437f87962b09df1e0f69f89ae771a242a1d5be2ffb50bd04e816882d1216051"
+    }
+  },
+  "whole_frame_visual_scan": {
+    "status": "pass",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/ROW017_RUNPOD_MF70_EYELASHES_VISUAL_QA_20260721T035031-0500.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_eyelashes_20260721T035031-0500/images/codex_row017_mf70_eyelashes_20260721T035031-0500_00001_.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_eyelashes_20260721T035031-0500/images/qa_full_side_by_side.png"
+    ],
+    "pre_edit_status": "pass",
+    "post_edit_status": "pass"
+  },
+  "required_target_region_check": {
+    "status": "pass",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/ROW017_RUNPOD_MF70_EYELASHES_VISUAL_QA_20260721T035031-0500.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_eyelashes_20260721T035031-0500/images/qa_face_crop_side_by_side.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_eyelashes_20260721T035031-0500/images/qa_mouth_crop_side_by_side.png"
+    ],
+    "target_region": "mf70_eyelashes",
+    "findings": [
+      "Fresh RunPod mf70 eyelashes climb remains a bounded eyelash edge detail preservation refinement with no gray-mask, face-replacement, gaze drift, or hard-edge failure."
+    ]
+  },
+  "required_non_target_region_scan": {
+    "status": "pass",
+    "evidence_paths": [
+      "Plan/Instructions/QA/Evidence/Image_Artifact_QA/ROW017_RUNPOD_MF70_EYELASHES_VISUAL_QA_20260721T035031-0500.json",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_eyelashes_20260721T035031-0500/images/qa_full_side_by_side.png",
+      "Plan/Instructions/Operations/Pulled_Back_Artifacts/runpod_comfyui_row017_mf70_eyelashes_20260721T035031-0500/images/qa_eye_crop_side_by_side.png"
+    ],
+    "regions_scanned": [
+      "eyebrows",
+      "mouth",
+      "face_identity",
+      "hair",
+      "wardrobe",
+      "background",
+      "lighting",
+      "framing"
+    ],
+    "findings": [
+      "Identity, eyebrows outside mask, mouth, hair, wardrobe, background, lighting, and framing remain stable; gaze symmetry preserved inside the eyelash mask."
+    ]
+  },
+  "hands_face_body_background_contact_lighting_check": {
+    "hands": {
+      "visibility": "not_visible",
+      "inspected": true,
+      "status": "not_applicable",
+      "reason": "Hands are outside this head-and-shoulders crop."
+    },
+    "face": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Face identity remains stable; only the eyelash mask is refined; gaze symmetry and non-mask eyebrows must hold."
+    },
+    "body": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Visible shoulders/clothing remain stable versus source."
+    },
+    "background": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Background corner remains stable; no seam regression."
+    },
+    "contact": {
+      "visibility": "not_applicable",
+      "inspected": true,
+      "status": "not_applicable",
+      "reason": "No multi-character contact interaction is required in this portrait."
+    },
+    "lighting": {
+      "visibility": "visible",
+      "inspected": true,
+      "status": "pass",
+      "reason": "Soft directional lighting remains coherent across the frame."
+    }
+  },
+  "reject_on_any_global_defect": {
+    "status": "pass",
+    "global_defects": [],
+    "rejection_applied": false
+  },
+  "overall_decision": "pass",
+  "proof_tier": "VISUAL_QA_PASS_BOUNDED",
+  "row_complete": false
+}
