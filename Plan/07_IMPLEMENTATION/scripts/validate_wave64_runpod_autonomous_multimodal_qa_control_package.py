@@ -66,6 +66,12 @@ PATHS = {
     / "Plan/08_SCHEMAS/runpod_autonomous_video_measurement.schema.json",
     "video_measurement": ROOT
     / "Plan/07_IMPLEMENTATION/scripts/measure_wave64_runpod_autonomous_video_quality.py",
+    "video_shadow_evidence_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_video_shadow_evidence.schema.json",
+    "video_shadow_evidence_producer": ROOT
+    / "Plan/07_IMPLEMENTATION/scripts/produce_wave64_runpod_autonomous_video_shadow_evidence.py",
+    "video_shadow_evidence": ROOT
+    / "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_VIDEO_SHADOW_20260721T224034Z.json",
     "audio_measurement_schema": ROOT
     / "Plan/08_SCHEMAS/runpod_autonomous_audio_measurement.schema.json",
     "audio_measurement": ROOT
@@ -198,6 +204,8 @@ def collect_errors() -> list[str]:
         image_shadow_evidence_schema = load_json(PATHS["image_shadow_evidence_schema"])
         image_shadow_evidence = load_json(PATHS["image_shadow_evidence"])
         video_measurement_schema = load_json(PATHS["video_measurement_schema"])
+        video_shadow_evidence_schema = load_json(PATHS["video_shadow_evidence_schema"])
+        video_shadow_evidence = load_json(PATHS["video_shadow_evidence"])
         audio_measurement_schema = load_json(PATHS["audio_measurement_schema"])
         audio_shadow_evidence_schema = load_json(PATHS["audio_shadow_evidence_schema"])
         audio_shadow_evidence = load_json(PATHS["audio_shadow_evidence"])
@@ -357,6 +365,24 @@ def collect_errors() -> list[str]:
         errors.append("canonical image shadow blocking defect set changed")
     if image_shadow_evidence.get("strict_model_gate", {}).get("runtime_executed") is not False:
         errors.append("canonical image shadow must not claim held strict-model execution")
+    if (
+        video_shadow_evidence.get("overall_disposition")
+        != "PASS_DETERMINISTIC_VIDEO_GATES_DIAGNOSTIC_CONTACT_SHEET_ONLY_STRICT_RUNTIME_HELD"
+    ):
+        errors.append("canonical video shadow must pass deterministic gates and retain review limits")
+    if video_shadow_evidence.get("product_promotion_eligible") is not False:
+        errors.append("canonical video shadow must not grant product promotion")
+    if video_shadow_evidence.get("measurement", {}).get("disposition") != "PASS_DETERMINISTIC_GATES":
+        errors.append("canonical video shadow deterministic measurement must pass")
+    video_metrics = video_shadow_evidence.get("measurement", {}).get("metrics", {})
+    if video_metrics.get("frame_count") != 49 or video_metrics.get("sample_count") != 24:
+        errors.append("canonical video shadow frame and sample counts changed")
+    if video_metrics.get("duplicate_sample_fraction") != 0.0:
+        errors.append("canonical video shadow must retain zero sampled duplicates")
+    if video_shadow_evidence.get("contact_sheet_review", {}).get("whole_clip_review_claimed") is not False:
+        errors.append("video contact sheet must not claim whole-clip review")
+    if video_shadow_evidence.get("strict_model_gate", {}).get("runtime_executed") is not False:
+        errors.append("canonical video shadow must not claim held strict-model execution")
 
     runtime = registry.get("runtime_policy", {})
     expected_limits = {
@@ -511,6 +537,11 @@ def collect_errors() -> list[str]:
             format_checker=jsonschema.FormatChecker(),
         ).validate(image_shadow_evidence)
         jsonschema.Draft7Validator.check_schema(video_measurement_schema)
+        jsonschema.Draft7Validator.check_schema(video_shadow_evidence_schema)
+        jsonschema.Draft7Validator(
+            video_shadow_evidence_schema,
+            format_checker=jsonschema.FormatChecker(),
+        ).validate(video_shadow_evidence)
         jsonschema.Draft7Validator.check_schema(audio_measurement_schema)
         jsonschema.Draft7Validator.check_schema(audio_shadow_evidence_schema)
         jsonschema.Draft7Validator(

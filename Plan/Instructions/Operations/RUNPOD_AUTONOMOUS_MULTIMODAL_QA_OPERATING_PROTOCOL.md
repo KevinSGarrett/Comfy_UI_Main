@@ -94,6 +94,14 @@ and the bound 32B strict-model step remains held until the foreign GPU lease is
 released. A technical PASS must not enter promotion or correction retention by
 itself.
 
+For video, run the full deterministic decode before constructing review inputs.
+Retain the exact sampled-frame hashes and metric-selected motion, exposure, and
+sharpness spans. The current canonical receipt is
+`Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_VIDEO_SHADOW_20260721T224034Z.json`:
+49 FFV1 frames and 24 samples pass with no sampled duplicates, while the viewed
+five-frame sheet remains diagnostic-only. Do not promote until strict sampled-
+video and whole-clip temporal review execute after the typed GPU hold clears.
+
 ## 4A. One-pod capacity migration
 
 1. Preferred profile: one pod with 2x A40, 96 GB aggregate VRAM, at least 100 GB

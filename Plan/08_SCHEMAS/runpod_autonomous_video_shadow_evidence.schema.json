@@ -1,0 +1,107 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_video_shadow_evidence.schema.json",
+  "title": "Wave64 Autonomous Video Shadow Evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "evidence_id", "generated_at", "row_id", "source",
+    "technical_contract", "measurement", "contact_sheet_review", "strict_model_gate",
+    "product_promotion_eligible", "overall_disposition"
+  ],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.video_shadow_evidence.v1"},
+    "evidence_id": {"$ref": "#/definitions/sha256"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "row_id": {"const": "W64-AQA-005"},
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "video_relative_path", "video_sha256", "delivery_manifest_relative_path",
+        "delivery_manifest_sha256", "original_source_sha256",
+        "original_technical_qa_relative_path", "original_technical_qa_sha256",
+        "av_shadow_evidence_relative_path", "av_shadow_evidence_sha256", "all_hashes_match"
+      ],
+      "properties": {
+        "video_relative_path": {"$ref": "#/definitions/relative_path"},
+        "video_sha256": {"$ref": "#/definitions/sha256"},
+        "delivery_manifest_relative_path": {"$ref": "#/definitions/relative_path"},
+        "delivery_manifest_sha256": {"$ref": "#/definitions/sha256"},
+        "original_source_sha256": {"$ref": "#/definitions/sha256"},
+        "original_technical_qa_relative_path": {"$ref": "#/definitions/relative_path"},
+        "original_technical_qa_sha256": {"$ref": "#/definitions/sha256"},
+        "av_shadow_evidence_relative_path": {"$ref": "#/definitions/relative_path"},
+        "av_shadow_evidence_sha256": {"$ref": "#/definitions/sha256"},
+        "all_hashes_match": {"const": true}
+      }
+    },
+    "technical_contract": {
+      "type": "object",
+      "required": ["schema_version", "contract_id", "modality", "preflight_disposition", "promotion_disposition"],
+      "properties": {
+        "schema_version": {"const": "wave64.aqa.job_contract.v1"},
+        "modality": {"const": "video"},
+        "preflight_disposition": {"const": "READY_FOR_LEASE"},
+        "promotion_disposition": {"const": "EVIDENCE_ONLY"}
+      }
+    },
+    "measurement": {
+      "type": "object",
+      "required": ["schema_version", "measurement_id", "artifact_sha256", "sample_manifest", "disposition"],
+      "properties": {
+        "schema_version": {"const": "wave64.aqa.video_measurement.v1"},
+        "artifact_sha256": {"$ref": "#/definitions/sha256"},
+        "sample_manifest": {"type": "array", "minItems": 2},
+        "disposition": {"enum": ["PASS_DETERMINISTIC_GATES", "FAIL_DETERMINISTIC_GATES"]}
+      }
+    },
+    "contact_sheet_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "frame_indices", "contact_sheet_sha256", "observations", "diagnostic_only",
+        "motion_review_claimed", "temporal_identity_claimed", "whole_clip_review_claimed",
+        "product_visual_approval_claimed"
+      ],
+      "properties": {
+        "frame_indices": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "integer", "minimum": 0}},
+        "contact_sheet_sha256": {"$ref": "#/definitions/sha256"},
+        "observations": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "diagnostic_only": {"const": true},
+        "motion_review_claimed": {"const": false},
+        "temporal_identity_claimed": {"const": false},
+        "whole_clip_review_claimed": {"const": false},
+        "product_visual_approval_claimed": {"const": false}
+      }
+    },
+    "strict_model_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "role_id", "model", "checkpoint_digest", "admission_evidence_sha256",
+        "runtime_executed", "disposition", "blocker_code"
+      ],
+      "properties": {
+        "role_id": {"const": "W64-AQA-ROLE-STRICT-VISUAL"},
+        "model": {"const": "qwen2.5vl:32b"},
+        "checkpoint_digest": {"$ref": "#/definitions/sha256"},
+        "admission_evidence_sha256": {"$ref": "#/definitions/sha256"},
+        "runtime_executed": {"const": false},
+        "disposition": {"const": "HELD_ACTIVE_FOREIGN_GPU_WORKLOAD"},
+        "blocker_code": {"const": "ACTIVE_FOREIGN_GPU_WORKLOAD_PRESENT"}
+      }
+    },
+    "product_promotion_eligible": {"const": false},
+    "overall_disposition": {
+      "enum": [
+        "PASS_DETERMINISTIC_VIDEO_GATES_DIAGNOSTIC_CONTACT_SHEET_ONLY_STRICT_RUNTIME_HELD",
+        "FAIL_DETERMINISTIC_VIDEO_GATES"
+      ]
+    }
+  },
+  "definitions": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "relative_path": {"type": "string", "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).{1,512}$"}
+  }
+}

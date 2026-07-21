@@ -231,6 +231,16 @@ flicker, temporal identity, scene continuity, object persistence, and boundary
 stability. Review representative frames, transitions, worst-metric spans, and
 the full clip only within the certified context/VRAM envelope.
 
+The first real retained video shadow is
+`Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_VIDEO_SHADOW_20260721T224034Z.json`.
+The lossless 480x640 24 fps source fully decodes as 49 frames; all 24 sampled
+frame hashes are retained, duplicate fraction is zero, motion is positive, and
+exposure/sharpness gates pass. The hash-bound frames 0/12/24/36/48 contact sheet
+shows stable gross subject, wardrobe, framing, and background structure. It is
+not a whole-clip motion or temporal-identity review, the bound 32B runtime did
+not execute under the foreign-workload hold, and product promotion remains
+false.
+
 ### Audio and audiovisual
 
 The current tier is deterministic unless a semantic audio model has a current

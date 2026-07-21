@@ -53,6 +53,15 @@ motion realism, flicker, object persistence, scene/background continuity,
 lighting continuity, boundary stability, compression and AV alignment when
 applicable. A still-frame PASS cannot approve a video.
 
+The canonical retained sampled-video shadow is
+`Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_VIDEO_SHADOW_20260721T224034Z.json`.
+It requires full decode and exact geometry/rate/duration/frame-count gates, then
+hashes 24 uniform samples and measures duplicate fraction, motion, exposure
+jumps, and minimum sharpness. Its separate five-frame contact sheet is a gross
+structure diagnostic only. It cannot approve motion realism, temporal identity,
+whole-clip continuity, or product quality, and the held 32B runtime is not
+reported as executed.
+
 ## Gate AQA-05: audio and AV
 
 Deterministic checks are mandatory. ASR, forced alignment, speaker identity,
