@@ -4,6 +4,7 @@
   "check_id": "ROW084-011",
   "clearable_on_current_evidence": false,
   "cleared": false,
+  "compiler_hard_fail_clearable_on_current_evidence": false,
   "created_at": "2026-07-21T10:25:00Z",
   "csv_sync": "synced_by_land_row084_compiler_hard_fail_blocker",
   "csv_sync_tip": "e8a61d46",
@@ -58,12 +59,12 @@
   "missing_artifact_authority": [
     {
       "id": "production_mux_replay_proof",
-      "note": "Identity probe on pulled-back genuine AV-sync MKV is not mux replay authority",
-      "status": "ABSENT"
+      "note": "Local frame-preserve remux from genuine sources passed 49f/32640smp/2.041s + decode-hash match; container sha\u2260gold. Identity probe alone remains non-authority.",
+      "status": "SATISFIED_THIS_CLIMB"
     },
     {
       "id": "production_cut_camera_benchmark_authority",
-      "note": "Prod-media histogram probe unclassified (mean=0.0297 max=0.3770); held-out lavfi calibration must not be re-labeled production",
+      "note": "observed_class=null under held-out thresholds (mean=0.0297 max=0.3770 moderate=14/24). Recommend sparse_motion class or production CAMERA_MOTION_MODERATE_MIN_FRAC\u22480.28; do not relabel lavfi.",
       "status": "ABSENT"
     },
     {
@@ -90,6 +91,10 @@
   "prior_class_e_prod_media_commit": "753e72f6",
   "product_completion_claimed": false,
   "production_completion_allowed": false,
+  "production_cut_camera_authority_granted": false,
+  "production_mux_replay_pass": true,
+  "related_climb_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_PROD_MUX_REPLAY_CUT_CAMERA_CALIB_20260721.json",
+  "related_climb_packet_sha256": "def604cfca906ceceda40c42bb45051b6f62412ec73c6a86baa8da8112d282b2",
   "row_complete": false,
   "runtime_authority_predicates": {
     "held_out_direct_receipt": {
@@ -114,20 +119,20 @@
       "roundtrip_evidence.within_tolerance"
     ]
   },
-  "safe_next_action": "Keep COMPILER_HARD_FAIL_CLOSES_PRODUCTION_COMPLETION_ALLOWED as OPEN Class E gate. Do not remove compile_wave64_canonical_video_timeline.py:845-847. Next actionable climb: production mux replay proof on non-lavfi media + production cut/camera calibration/benchmark authority that classifies the genuine AV-sync candidate (or a calibrated production substitute) + production combined visual/contact beyond held-out lavfi; only then consider hard-fail removal as a co-requisite under fail-closed production binder verification. Keep ROW084-012 OPEN_HOLD. Never COMPLETE / row_complete=true. Row074 untouched. Local+RunPod only.",
+  "safe_next_action": "Keep ROW084-011 FAIL/OPEN. Keep ROW084-012 OPEN_HOLD. Do not COMPLETE. Mux replay climbed to PASS; cut/camera still blocked on null observed_class. Next: implement sparse_motion class or production CAMERA_MOTION_MODERATE_MIN_FRAC profile (held-out keep 0.5), then re-classify genuine candidate; do not remove compiler hard-fail until cut/camera + visual production authority also bind.",
   "schema_version": "1.0",
-  "summary": "Gate COMPILER_HARD_FAIL_CLOSES_PRODUCTION_COMPLETION_ALLOWED is correctly FAIL/OPEN. Enforced at compile_wave64_canonical_video_timeline.py:844-847 (unconditional force false). Not clearable by bounded code/evidence on current Class E prod-media probe: production mux/cut/camera/visual authority still absent; removing the hard-fail would enable claim cheat. ROW084-012 OPEN_HOLD untouched; row_complete=false; never COMPLETE.",
+  "summary": "Gate COMPILER_HARD_FAIL_CLOSES_PRODUCTION_COMPLETION_ALLOWED remains correctly FAIL/OPEN. Production mux replay now PASS on genuine AV-sync sources, but cut/camera observed_class=null and production visual authority still absent; do not remove hard-fail. ROW084-012 OPEN_HOLD untouched; row_complete=false.",
   "tip_at_probe": "e8a61d46",
   "tracker_id": "TRK-W64-084",
-  "updated_at": "2026-07-21T10:21:10Z",
+  "updated_at": "2026-07-21T10:25:22Z",
   "why_not_clearable_now": {
     "reasons": [
-      "Removing lines 845-847 alone would let any compile caller set runtime_authority booleans true and obtain production_completion_allowed=true without production media proofs \u2014 that is a claim cheat, not clearance.",
-      "Class E prod-media cut/camera/mux probe (753e72f6 / receipt 09f614d31eaa) on genuine AV-sync MKV sha=0c1153e675bd proved mux identity only (not mux replay), hard_cuts=0, observed_class=null under held-out thresholds.",
-      "production_mux_replay_pass=false and production_cut_camera_authority_granted=false remain on the latest Class E receipt.",
+      "Removing compile_wave64_canonical_video_timeline.py:845-847 alone would enable claim cheat without full production predicates.",
+      "Production mux replay now PASS on genuine AV-sync sources (frame-preserve recipe; 49f/32640smp/2.041s; decode-hash match) \u2014 necessary but not sufficient.",
+      "Cut/camera observed_class remains null (mean=0.0297 max=0.3770 moderate=14/24); production_cut_camera_authority_granted=false.",
       "Combined visual QA remains held_out_lavfi_visual_qa_only; inventing lavfi-as-production is forbidden.",
-      "ROW084-012 Class C OPEN_HOLD (schema-native reversed PTS) stays; schema-native cheat for 012 is forbidden and orthogonal.",
-      "Delta still_absent co-lists production mux replay, production cut/camera authority, and hard fail-close removal \u2014 hard-fail removal is a co-requisite after production authority, not a solo unlock."
+      "ROW084-012 Class C OPEN_HOLD stays; orthogonal schema-native cheat forbidden.",
+      "Hard-fail removal remains a co-requisite after cut/camera + visual production authority bind \u2014 not a solo unlock after mux replay alone."
     ],
     "verdict": "NOT_CLEARABLE_BY_BOUNDED_FIX_ON_CURRENT_EVIDENCE"
   }

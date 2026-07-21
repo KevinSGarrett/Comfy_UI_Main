@@ -1,0 +1,118 @@
+[
+  {
+    "label": "gold_av_sync_0c1153e675bd",
+    "media_sha256": "0c1153e675bd9209ce9c56d6c6694d9fb93118d69e3935fedcf77e626fed998a",
+    "algorithm_id": "fixture_histogram_diff_v1",
+    "decode_scale": "64x64",
+    "frame_count": 49,
+    "pair_delta_count": 48,
+    "mean_hist_l1": 0.029653,
+    "max_hist_l1": 0.376953,
+    "p50_hist_l1": 0.01416,
+    "p90_hist_l1": 0.051432,
+    "p95_hist_l1": 0.071777,
+    "moderate_count_gt_mean_min": 14,
+    "moderate_required_for_camera_motion": 24,
+    "moderate_fraction": 0.2917,
+    "hard_cut_count": 0,
+    "hard_cuts": [],
+    "observed_class": null,
+    "classification_error": "unable to classify camera-motion profile: mean=0.0297 max=0.3770 moderate=14",
+    "gold_invented": false,
+    "spikes_gt_0_1": [
+      [
+        1,
+        0.376953
+      ],
+      [
+        2,
+        0.163574
+      ]
+    ],
+    "thresholds": {
+      "CUT_HIST_L1_HARD_THRESHOLD": 0.5,
+      "CAMERA_MOTION_MEAN_MIN": 0.02,
+      "CAMERA_MOTION_MAX_LT": 0.5,
+      "STATIC_MEAN_MAX": 0.02,
+      "STATIC_MAX_MAX": 0.05
+    },
+    "calibration_gap": {
+      "null_zone_reason": "mean>STATIC_MEAN_MAX and max<CUT and moderate<len//2",
+      "blocks_static": "mean=0.0297>STATIC_MEAN_MAX=0.02 and/or max=0.3770>STATIC_MAX_MAX=0.05",
+      "blocks_camera_motion": "moderate=14 < required=24 (mod_frac=0.292 < 0.5)",
+      "blocks_hard_cut": "max=0.3770 <= CUT=0.5",
+      "recommended_tool_changes": [
+        {
+          "id": "add_sparse_motion_class",
+          "detail": "Add observed_class=sparse_motion when mean>STATIC_MEAN_MAX, max<CUT_HIST_L1_HARD_THRESHOLD, and moderate_fraction in [0.15,0.50). Genuine AV-sync candidate sits here."
+        },
+        {
+          "id": "or_CAMERA_MOTION_MODERATE_MIN_FRAC_production_profile",
+          "detail": "Held-out keep frac>=0.5; production profile allow frac>=0.28. Observed mod_frac=0.292."
+        },
+        {
+          "id": "do_not_inflate_STATIC_MAX_MAX_to_cover_0_38",
+          "detail": "Raising STATIC_MAX_MAX to ~0.38 would mislabel sparse spike media as static and risk held-out pan/cut separation."
+        }
+      ]
+    }
+  },
+  {
+    "label": "prod_mux_replay_frame_preserve",
+    "media_sha256": "a496e6d51b366f0ee5645008f77d8d4f49c49b225d9f271348ab228aa9e9ebfb",
+    "algorithm_id": "fixture_histogram_diff_v1",
+    "decode_scale": "64x64",
+    "frame_count": 49,
+    "pair_delta_count": 48,
+    "mean_hist_l1": 0.029653,
+    "max_hist_l1": 0.376953,
+    "p50_hist_l1": 0.01416,
+    "p90_hist_l1": 0.051432,
+    "p95_hist_l1": 0.071777,
+    "moderate_count_gt_mean_min": 14,
+    "moderate_required_for_camera_motion": 24,
+    "moderate_fraction": 0.2917,
+    "hard_cut_count": 0,
+    "hard_cuts": [],
+    "observed_class": null,
+    "classification_error": "unable to classify camera-motion profile: mean=0.0297 max=0.3770 moderate=14",
+    "gold_invented": false,
+    "spikes_gt_0_1": [
+      [
+        1,
+        0.376953
+      ],
+      [
+        2,
+        0.163574
+      ]
+    ],
+    "thresholds": {
+      "CUT_HIST_L1_HARD_THRESHOLD": 0.5,
+      "CAMERA_MOTION_MEAN_MIN": 0.02,
+      "CAMERA_MOTION_MAX_LT": 0.5,
+      "STATIC_MEAN_MAX": 0.02,
+      "STATIC_MAX_MAX": 0.05
+    },
+    "calibration_gap": {
+      "null_zone_reason": "mean>STATIC_MEAN_MAX and max<CUT and moderate<len//2",
+      "blocks_static": "mean=0.0297>STATIC_MEAN_MAX=0.02 and/or max=0.3770>STATIC_MAX_MAX=0.05",
+      "blocks_camera_motion": "moderate=14 < required=24 (mod_frac=0.292 < 0.5)",
+      "blocks_hard_cut": "max=0.3770 <= CUT=0.5",
+      "recommended_tool_changes": [
+        {
+          "id": "add_sparse_motion_class",
+          "detail": "Add observed_class=sparse_motion when mean>STATIC_MEAN_MAX, max<CUT_HIST_L1_HARD_THRESHOLD, and moderate_fraction in [0.15,0.50). Genuine AV-sync candidate sits here."
+        },
+        {
+          "id": "or_CAMERA_MOTION_MODERATE_MIN_FRAC_production_profile",
+          "detail": "Held-out keep frac>=0.5; production profile allow frac>=0.28. Observed mod_frac=0.292."
+        },
+        {
+          "id": "do_not_inflate_STATIC_MAX_MAX_to_cover_0_38",
+          "detail": "Raising STATIC_MAX_MAX to ~0.38 would mislabel sparse spike media as static and risk held-out pan/cut separation."
+        }
+      ]
+    }
+  }
+]
