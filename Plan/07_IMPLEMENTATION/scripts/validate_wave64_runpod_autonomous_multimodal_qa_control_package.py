@@ -169,6 +169,16 @@ PATHS = {
     / "Plan/Tracker/Evidence/W64_AQA_INFRASTRUCTURE_RECONCILIATION_PAYLOAD_20260721T233456Z.json",
     "s3_object_staging_receipt": ROOT
     / "Plan/Tracker/Evidence/W64_AQA_S3_OBJECT_STAGING_RECEIPT_20260721T233801Z.json",
+    "s3_bundle_transaction_receipt_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_s3_bundle_transaction_receipt.schema.json",
+    "s3_bundle_transaction_policy": ROOT
+    / "Plan/10_REGISTRIES/wave64_runpod_autonomous_s3_bundle_transaction_policy.json",
+    "s3_bundle_transaction_evidence": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_S3_BUNDLE_TRANSACTION_20260721T234740Z/evidence.json",
+    "s3_bundle_transaction_receipt": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_S3_BUNDLE_TRANSACTION_20260721T234740Z/transaction.receipt.json",
+    "s3_bundle_transaction_replay_receipt": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_S3_BUNDLE_TRANSACTION_20260721T234740Z/transaction.replay.receipt.json",
     "correction_attempt_schema": ROOT
     / "Plan/08_SCHEMAS/runpod_autonomous_correction_attempt.schema.json",
     "correction_state_schema": ROOT
@@ -310,6 +320,11 @@ def collect_errors() -> list[str]:
         s3_evidence_staging_policy = load_json(PATHS["s3_evidence_staging_policy"])
         infrastructure_reconciliation_payload = load_json(PATHS["infrastructure_reconciliation_payload"])
         s3_object_staging_receipt = load_json(PATHS["s3_object_staging_receipt"])
+        s3_bundle_transaction_receipt_schema = load_json(PATHS["s3_bundle_transaction_receipt_schema"])
+        s3_bundle_transaction_policy = load_json(PATHS["s3_bundle_transaction_policy"])
+        s3_bundle_transaction_evidence = load_json(PATHS["s3_bundle_transaction_evidence"])
+        s3_bundle_transaction_receipt = load_json(PATHS["s3_bundle_transaction_receipt"])
+        s3_bundle_transaction_replay_receipt = load_json(PATHS["s3_bundle_transaction_replay_receipt"])
         correction_attempt_schema = load_json(PATHS["correction_attempt_schema"])
         correction_state_schema = load_json(PATHS["correction_state_schema"])
         evidence_bundle_schema = load_json(PATHS["evidence_bundle_schema"])
@@ -356,6 +371,7 @@ def collect_errors() -> list[str]:
         workflow_candidate_staging_evidence,
         infrastructure_reconciliation_payload,
         s3_object_staging_receipt,
+        s3_bundle_transaction_evidence,
         registry,
     )
     for document in json_docs:
@@ -857,6 +873,75 @@ def collect_errors() -> list[str]:
     }
     if any(s3_object_staging_receipt.get(key) != expected for key, expected in s3_receipt_required.items()):
         errors.append("S3 object staging receipt claims changed")
+    s3_bundle_policy_required = {
+        "execution_authority": "CODEX_INTEGRATION_ONLY",
+        "bucket": "comfy-ui-main-runtime-029530099913-us-east-1",
+        "key_prefix": "evidence/w64-aqa/qualification/bundles",
+        "content_addressed_objects_required": True,
+        "manifest_written_last": True,
+        "conditional_create_required": True,
+        "head_replay_required": True,
+        "resume_by_verified_reuse": True,
+        "overwrite_allowed": False,
+        "delete_allowed": False,
+        "rollback_is_nonpublication": True,
+        "s3_presence_is_acceptance": False,
+        "product_promotion_allowed": False,
+        "all_other_buckets_or_prefixes": "UNQUALIFIED_DENY",
+    }
+    if any(
+        s3_bundle_transaction_policy.get(key) != expected
+        for key, expected in s3_bundle_policy_required.items()
+    ):
+        errors.append("S3 bundle transaction policy is incomplete or weakened")
+    for label, receipt in (
+        ("first", s3_bundle_transaction_receipt),
+        ("replay", s3_bundle_transaction_replay_receipt),
+    ):
+        if receipt.get("receipt_id") != recompute_self_hash(receipt, "receipt_id"):
+            errors.append(f"S3 bundle {label} receipt self-hash mismatch")
+        for key, expected in {
+            "replay_disposition": "MATCH",
+            "manifest_written_last": True,
+            "resume_safe": True,
+            "overwrite_performed": False,
+            "delete_performed": False,
+            "s3_presence_is_acceptance": False,
+            "product_promotion_granted": False,
+            "disposition": "PASS_VERIFIED_RESUMABLE_S3_BUNDLE_STAGING_ONLY",
+        }.items():
+            if receipt.get(key) != expected:
+                errors.append(f"S3 bundle {label} receipt {key} mismatch")
+    if (s3_bundle_transaction_receipt.get("created_object_count"), s3_bundle_transaction_receipt.get("reused_object_count")) != (10, 0):
+        errors.append("S3 bundle first execution counts changed")
+    if (s3_bundle_transaction_replay_receipt.get("created_object_count"), s3_bundle_transaction_replay_receipt.get("reused_object_count")) != (0, 10):
+        errors.append("S3 bundle idempotent replay counts changed")
+    if s3_bundle_transaction_receipt.get("bundle_id") != s3_bundle_transaction_replay_receipt.get("bundle_id"):
+        errors.append("S3 bundle receipts do not bind the same bundle")
+    if s3_bundle_transaction_evidence.get("disposition") != "PASS_LIVE_RESUMABLE_S3_BUNDLE_STAGING_ONLY":
+        errors.append("S3 bundle transaction evidence disposition changed")
+    if s3_bundle_transaction_evidence.get("bundle_decision") != "BLOCKED":
+        errors.append("S3 qualification bundle must remain non-product BLOCKED")
+    s3_bundle_claims = s3_bundle_transaction_evidence.get("runtime_claims", {})
+    expected_bundle_claims = {
+        "runpod_contacted": False,
+        "gpu_used": False,
+        "comfyui_execution_performed": False,
+        "semantic_product_review_performed": False,
+        "s3_bundle_staging_performed": True,
+        "overwrite_performed": False,
+        "delete_performed": False,
+        "product_promotion_granted": False,
+    }
+    if any(s3_bundle_claims.get(key) != expected for key, expected in expected_bundle_claims.items()):
+        errors.append("S3 bundle transaction runtime claims mismatch")
+    s3_bundle_root = PATHS["s3_bundle_transaction_evidence"].parent
+    for relative_path, expected_sha256 in s3_bundle_transaction_evidence.get("file_manifest_sha256", {}).items():
+        bound_path = s3_bundle_root / relative_path
+        if not bound_path.is_file():
+            errors.append(f"S3 bundle evidence manifest path missing: {relative_path}")
+        elif hashlib.sha256(bound_path.read_bytes()).hexdigest() != expected_sha256:
+            errors.append(f"S3 bundle evidence manifest hash mismatch: {relative_path}")
     if migration_policy.get("decision_only") is not True:
         errors.append("migration controller must remain decision-only")
     if migration_policy.get("old_pod_stops_only_after_integration_switch") is not True:
@@ -963,6 +1048,13 @@ def collect_errors() -> list[str]:
         jsonschema.Draft7Validator.check_schema(s3_object_staging_receipt_schema)
         jsonschema.Draft7Validator(s3_object_staging_receipt_schema).validate(
             s3_object_staging_receipt
+        )
+        jsonschema.Draft7Validator.check_schema(s3_bundle_transaction_receipt_schema)
+        jsonschema.Draft7Validator(s3_bundle_transaction_receipt_schema).validate(
+            s3_bundle_transaction_receipt
+        )
+        jsonschema.Draft7Validator(s3_bundle_transaction_receipt_schema).validate(
+            s3_bundle_transaction_replay_receipt
         )
         jsonschema.Draft7Validator.check_schema(correction_attempt_schema)
         jsonschema.Draft7Validator.check_schema(correction_state_schema)

@@ -34,6 +34,12 @@ Program: `W64-AQA`
   create, AES-256, versioning, and checksum-enabled `HeadObject` replay. Never
   overwrite or delete qualification objects. This boundary does not authorize
   an LLM cloud tool, a full bundle promotion, or product acceptance.
+- Full qualification bundles use
+  `evidence/w64-aqa/qualification/bundles/{bundle_id}`. Verify every record
+  against deterministic replay, conditionally stage content-addressed records,
+  and write `bundle.json` last. On interruption, retain the immutable records
+  and resume by checksum-enabled head verification. Rollback is nonpublication,
+  never object deletion. A complete staged bundle still grants no acceptance.
 - Every required role package is installed on the primary pod's durable volume.
   Installation is not activation; only an exact capacity-and-quality certificate
   can mark the package operational.

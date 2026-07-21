@@ -363,6 +363,15 @@ overwrite or delete occurred, and S3 presence granted no product promotion.
 Bucket public-access-block inspection remains unavailable to the session role,
 so production bundle promotion stays unqualified.
 
+The live qualification at
+`Plan/Tracker/Evidence/W64_AQA_S3_BUNDLE_TRANSACTION_20260721T234740Z/evidence.json`
+stages nine unique records and writes the bundle manifest last. All ten objects
+pass conditional creation, checksum, encryption, metadata, version, and head
+verification. A second execution creates zero objects and verifies/reuses all
+ten, proving restart-safe idempotence. The bundle decision is deliberately
+`BLOCKED`; no RunPod, GPU, ComfyUI, semantic review, overwrite, delete, or
+promotion claim is made.
+
 ## Security and cost controls
 
 - Secrets remain in process/credential stores and are never written to Plans,

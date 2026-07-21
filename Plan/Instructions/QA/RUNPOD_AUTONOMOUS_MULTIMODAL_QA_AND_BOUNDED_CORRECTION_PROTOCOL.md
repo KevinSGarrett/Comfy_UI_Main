@@ -168,6 +168,13 @@ object passes storage qualification only. It cannot substitute for bundle
 replay, integration-authority approval, known bucket public-access posture, or
 product acceptance.
 
+For a complete S3 bundle transaction, inject a crash before manifest creation
+and prove rerun verifies and reuses the already staged content-addressed records.
+Require a second live replay with zero creates, all objects reused, and the
+manifest verified. Tampered metadata, missing checksums or versions, changed
+local records, policy weakening, overwrite, delete, and manifest-first ordering
+must fail closed.
+
 The proposed repair must identify exact defects, targets, allowed patch class,
 expected benefit, risks, protected checks, parent hash, and rollback. Arbitrary
 node creation, shell, secret access, cloud mutation, threshold change, or model

@@ -1,0 +1,65 @@
+{
+  "attempt_state": {
+    "ceilings": {
+      "no_progress": 2,
+      "per_defect": 2,
+      "total_generation": 4
+    },
+    "consecutive_no_progress": 0,
+    "defect_attempt": 0,
+    "total_generation_attempt": 1
+  },
+  "authority": {
+    "ec2_forbidden": true,
+    "fail_closed": true,
+    "host": "runpod",
+    "pod_id": "not-contacted-storage-only"
+  },
+  "blocking_defects": [
+    {
+      "code": "STORAGE_QUALIFICATION_ONLY",
+      "detail": "No runtime or semantic product review was performed.",
+      "severity": "blocking"
+    }
+  ],
+  "cost_usd": 0.0,
+  "decision": "BLOCKED",
+  "job_id": "W64-AQA-JOB-s3-bundle-qualification",
+  "lineage": {
+    "candidate_sha256": "f2a6aa4343fbc9cdd9d5f61542bf0301ee8c0bcf5b8b499e941d5d8e831a5d8a",
+    "quality_contract_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "source_sha256": null,
+    "workflow_sha256": "2e39d492fc073fd54bb3a35db0e91cdafb60e6ac122f1dafa30694d87deba1a2"
+  },
+  "measurements": [
+    {
+      "applicable": true,
+      "evidence_sha256": "e27668c5d78062615729f5d3cdcb3002e48ea18bc6f566a3ed85ce8d1466f52c",
+      "implementation_version": "v1",
+      "metric_id": "storage-integrity-only",
+      "passed": true
+    }
+  ],
+  "modality": "image",
+  "program_id": "W64-AQA",
+  "promotion_claimed": false,
+  "reviewers": [
+    {
+      "observation_sha256": "7b464b18fded29526175f4d68c8ebcdbc93d173ed5fadda2ff33b5c108b2a5bd",
+      "product_authority": false,
+      "response_valid": false,
+      "role_id": "W64-AQA-ROLE-PRIMARY-VISUAL",
+      "state": "BLOCKED_UNQUALIFIED"
+    },
+    {
+      "observation_sha256": "874da1c6bf83e8ff6d56d7793990b83ceb0a7e25d851f3577e00c293ee025a6d",
+      "product_authority": false,
+      "response_valid": false,
+      "role_id": "W64-AQA-ROLE-INDEPENDENT-JUROR",
+      "state": "BLOCKED_UNQUALIFIED"
+    }
+  ],
+  "rollback_parent_sha256": "bf29ecdc56cd7048441bcf39b181b06dd0a57034796e599770b88bbe2ba2576d",
+  "runtime_receipt_sha256": "a6583f14f20ffd14b874e365f31112ba7d4ea991c52cbedf387dc6ede6f1bfd1",
+  "schema_version": "wave64.aqa.decision.v1"
+}

@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_s3_bundle_transaction_receipt.schema.json",
+  "title": "Wave64 S3 Evidence Bundle Transaction Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "receipt_id", "program_id", "source_head", "bundle_id",
+    "bucket", "key_prefix", "policy_sha256", "replay_disposition", "objects",
+    "manifest", "created_object_count", "reused_object_count", "manifest_written_last",
+    "resume_safe", "overwrite_performed", "delete_performed", "rollback_disposition",
+    "s3_presence_is_acceptance", "product_promotion_granted", "disposition"
+  ],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.s3_bundle_transaction_receipt.v1"},
+    "receipt_id": {"$ref": "#/definitions/sha256"},
+    "program_id": {"const": "W64-AQA"},
+    "source_head": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+    "bundle_id": {"$ref": "#/definitions/sha256"},
+    "bucket": {"const": "comfy-ui-main-runtime-029530099913-us-east-1"},
+    "key_prefix": {"const": "evidence/w64-aqa/qualification/bundles"},
+    "policy_sha256": {"$ref": "#/definitions/sha256"},
+    "replay_disposition": {"const": "MATCH"},
+    "objects": {
+      "type": "array", "minItems": 1, "maxItems": 256,
+      "items": {"$ref": "#/definitions/object_receipt"}
+    },
+    "manifest": {"$ref": "#/definitions/object_receipt"},
+    "created_object_count": {"type": "integer", "minimum": 0},
+    "reused_object_count": {"type": "integer", "minimum": 0},
+    "manifest_written_last": {"const": true},
+    "resume_safe": {"const": true},
+    "overwrite_performed": {"const": false},
+    "delete_performed": {"const": false},
+    "rollback_disposition": {"const": "NONPUBLICATION_ONLY_CONTENT_ADDRESSED_OBJECTS_RETAINED"},
+    "s3_presence_is_acceptance": {"const": false},
+    "product_promotion_granted": {"const": false},
+    "disposition": {"const": "PASS_VERIFIED_RESUMABLE_S3_BUNDLE_STAGING_ONLY"}
+  },
+  "definitions": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "object_receipt": {
+      "type": "object", "additionalProperties": false,
+      "required": ["key", "content_sha256", "size_bytes", "version_id", "server_side_encryption", "status"],
+      "properties": {
+        "key": {"type": "string", "minLength": 1},
+        "content_sha256": {"$ref": "#/definitions/sha256"},
+        "size_bytes": {"type": "integer", "minimum": 1},
+        "version_id": {"type": "string", "minLength": 1},
+        "server_side_encryption": {"const": "AES256"},
+        "status": {"enum": ["CREATED_VERIFIED", "REUSED_VERIFIED"]}
+      }
+    }
+  }
+}
