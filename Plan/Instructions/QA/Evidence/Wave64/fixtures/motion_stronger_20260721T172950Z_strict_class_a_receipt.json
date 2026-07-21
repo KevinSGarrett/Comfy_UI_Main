@@ -1,0 +1,207 @@
+{
+  "artifact": {
+    "bytes": null,
+    "media_kind": "video_frames",
+    "paths": [
+      "/workspace/comfy_output/video/w64_019_023_runpod_wan_ti2v_motion_stronger_20260721T172950Z_frames8/frame_01.png",
+      "/workspace/comfy_output/video/w64_019_023_runpod_wan_ti2v_motion_stronger_20260721T172950Z_frames8/frame_02.png",
+      "/workspace/comfy_output/video/w64_019_023_runpod_wan_ti2v_motion_stronger_20260721T172950Z_frames8/frame_03.png",
+      "/workspace/comfy_output/video/w64_019_023_runpod_wan_ti2v_motion_stronger_20260721T172950Z_frames8/frame_04.png",
+      "/workspace/comfy_output/video/w64_019_023_runpod_wan_ti2v_motion_stronger_20260721T172950Z_frames8/frame_05.png",
+      "/workspace/comfy_output/video/w64_019_023_runpod_wan_ti2v_motion_stronger_20260721T172950Z_frames8/hand_crop_center.png",
+      "/workspace/comfy_output/video/w64_019_023_runpod_wan_ti2v_motion_stronger_20260721T172950Z_frames8/skin_crop_face_shoulder.png"
+    ],
+    "prompt_id": "f19ac102-2274-442a-9439-cd87a93087cd",
+    "sha256": null
+  },
+  "authority": {
+    "ec2_forbidden": true,
+    "endpoint": "http://127.0.0.1:11434",
+    "fail_closed": true,
+    "host": "runpod",
+    "local_comfy_runtime_forbidden": true,
+    "pod_id": "1q4ji0gg1fkhvt",
+    "runtime": "ollama_self_hosted"
+  },
+  "blocking_defects": [
+    {
+      "code": "MUSHY_HANDS",
+      "detail": "Fingers show some fusion and lack of natural joint articulation.",
+      "region": "Hands",
+      "severity": "major"
+    },
+    {
+      "code": "WEAK_MOTION",
+      "detail": "Near-static living-stills do not meet the criteria for strong motion as claimed in the intent.",
+      "region": "Entire sequence",
+      "severity": "blocking"
+    }
+  ],
+  "climb_kind": "wan_ti2v_class_a",
+  "correction_guidance": [
+    "Enhance hand detail and joint articulation to improve realism.",
+    "Increase dynamic motion between frames to better match the stated intent."
+  ],
+  "forbidden_rubber_stamp_signals": {
+    "generation_receipt_is_not_pass": true,
+    "pipeline_ran_is_not_pass": true,
+    "smoke_model_forbidden_for_product": true,
+    "weak_vlm_pass_alone_is_not_product_pass": true
+  },
+  "generation_receipt_is_not_visual_approval": true,
+  "human_frame_read_retained": {
+    "required_when_already_gated": true,
+    "status": "not_run"
+  },
+  "lane": "CLASS_A",
+  "model": {
+    "approved_for_product": true,
+    "name": "qwen2.5vl:32b",
+    "ollama_show": {
+      "details": {
+        "families": [
+          "qwen25vl"
+        ],
+        "family": "qwen25vl",
+        "format": "gguf",
+        "parameter_size": "33.5B",
+        "parent_model": "",
+        "quantization_level": "Q4_K_M"
+      },
+      "model_info_keys": [
+        "general.architecture",
+        "general.file_type",
+        "general.parameter_count",
+        "general.quantization_version",
+        "qwen25vl.attention.head_count",
+        "qwen25vl.attention.head_count_kv",
+        "qwen25vl.attention.layer_norm_rms_epsilon",
+        "qwen25vl.block_count",
+        "qwen25vl.context_length",
+        "qwen25vl.embedding_length",
+        "qwen25vl.feed_forward_length",
+        "qwen25vl.rope.freq_base",
+        "qwen25vl.rope.mrope_section",
+        "qwen25vl.vision.attention.head_count",
+        "qwen25vl.vision.attention.layer_norm_epsilon",
+        "qwen25vl.vision.block_count",
+        "qwen25vl.vision.embedding_length",
+        "qwen25vl.vision.fullatt_block_indexes",
+        "qwen25vl.vision.num_channels",
+        "qwen25vl.vision.patch_size",
+        "qwen25vl.vision.rope.freq_base",
+        "qwen25vl.vision.spatial_merge_size",
+        "qwen25vl.vision.spatial_patch_size",
+        "qwen25vl.vision.temporal_patch_size",
+        "qwen25vl.vision.window_size",
+        "tokenizer.ggml.add_eos_token",
+        "tokenizer.ggml.add_padding_token",
+        "tokenizer.ggml.eos_token_id",
+        "tokenizer.ggml.merges",
+        "tokenizer.ggml.model",
+        "tokenizer.ggml.padding_token_id",
+        "tokenizer.ggml.pre",
+        "tokenizer.ggml.scores",
+        "tokenizer.ggml.token_type",
+        "tokenizer.ggml.tokens"
+      ]
+    },
+    "ollama_show_digest": "",
+    "ollama_show_family": "qwen25vl",
+    "parameter_size": "33.5B",
+    "role": "strict_product_reviewer"
+  },
+  "model_summary": "The video sequence falls short of passing due to near-static living-stills and issues with hand realism, despite consistent identity and clean artifacts. The motion is weaker than intended, and the hands show some fusion and lack of natural detail.",
+  "overall_decision": "REJECT",
+  "producer_gate": "wave64_climb_strict_visual_gate",
+  "product_completion_claimed": false,
+  "raw_model_response": "{\n  \"anatomy_hands_fingers\": {\n    \"score\": 60,\n    \"applicable\": true,\n    \"notes\": \"Finger separation is somewhat clear, but there are minor issues with finger joints and slight mushiness in the hands.\"\n  },\n  \"identity_consistency\": {\n    \"score\": 95,\n    \"applicable\": true,\n    \"notes\": \"The identity remains consistent across all frames. The face and body features match well throughout the sequence.\"\n  },\n  \"skin_realism\": {\n    \"score\": 70,\n    \"applicable\": true,\n    \"notes\": \"Skin appears somewhat plastic or waxy, lacking natural microdetails. There is a slight oversmoothness that detracts from realism.\"\n  },\n  \"motion_temporal\": {\n    \"score\": 50,\n    \"applicable\": true,\n    \"notes\": \"There is minimal motion between frames. The changes in facial expressions and hand positions are subtle, indicating near-static living-stills rather than strong motion.\"\n  },\n  \"artifacts_cleanliness\": {\n    \"score\": 85,\n    \"applicable\": true,\n    \"notes\": \"No significant warping, mush, compression, or limb melt issues. Background remains clean and intact across all frames.\"\n  },\n  \"prompt_adherence\": {\n    \"score\": 70,\n    \"applicable\": true,\n    \"notes\": \"The images partially match the intent for strong motion, but the actual motion is weaker than expected. The hand positioning and facial expressions suggest some intended movement, but it's not as dynamic as stated.\"\n  },\n  \"policy_project\": {\n    \"score\": 90,\n    \"applicable\": true,\n    \"notes\": \"The content adheres to project/NSFW policy coherence for the specified lane.\"\n  },\n  \"blocking_defects\": [\n    {\n      \"code\": \"MUSHY_HANDS\",\n      \"severity\": \"major\",\n      \"detail\": \"Fingers show some fusion and lack of natural joint articulation.\",\n      \"region\": \"Hands\"\n    },\n    {\n      \"code\": \"WEAK_MOTION\",\n      \"severity\": \"blocking\",\n      \"detail\": \"Near-static living-stills do not meet the criteria for strong motion as claimed in the intent.\",\n      \"region\": \"Entire sequence\"\n    }\n  ],\n  \"correction_guidance\": [\n    \"Enhance hand detail and joint articulation to improve realism.\",\n    \"Increase dynamic motion between frames to better match the stated intent.\"\n  ],\n  \"reviewer_confidence\": 0.8,\n  \"proposed_decision\": \"REJECT\",\n  \"summary\": \"The video sequence falls short of passing due to near-static living-stills and issues with hand realism, despite consistent identity and clean artifacts. The motion is weaker than intended, and the hands show some fusion and lack of natural detail.\"\n}",
+  "reviewer_confidence": 0.8,
+  "row074_pcm_left_alone": true,
+  "rubric_scores": {
+    "anatomy_hands_fingers": {
+      "applicable": true,
+      "notes": "Finger separation is somewhat clear, but there are minor issues with finger joints and slight mushiness in the hands.",
+      "pass": false,
+      "score": 60
+    },
+    "artifacts_cleanliness": {
+      "applicable": true,
+      "notes": "No significant warping, mush, compression, or limb melt issues. Background remains clean and intact across all frames.",
+      "pass": true,
+      "score": 85
+    },
+    "identity_consistency": {
+      "applicable": true,
+      "notes": "The identity remains consistent across all frames. The face and body features match well throughout the sequence.",
+      "pass": true,
+      "score": 95
+    },
+    "motion_temporal": {
+      "applicable": true,
+      "notes": "There is minimal motion between frames. The changes in facial expressions and hand positions are subtle, indicating near-static living-stills rather than strong motion.",
+      "pass": false,
+      "score": 50
+    },
+    "policy_project": {
+      "applicable": true,
+      "notes": "The content adheres to project/NSFW policy coherence for the specified lane.",
+      "pass": true,
+      "score": 90
+    },
+    "prompt_adherence": {
+      "applicable": true,
+      "notes": "The images partially match the intent for strong motion, but the actual motion is weaker than expected. The hand positioning and facial expressions suggest some intended movement, but it's not as dynamic as stated.",
+      "pass": false,
+      "score": 70
+    },
+    "skin_realism": {
+      "applicable": true,
+      "notes": "Skin appears somewhat plastic or waxy, lacking natural microdetails. There is a slight oversmoothness that detracts from realism.",
+      "pass": false,
+      "score": 70
+    }
+  },
+  "schema_version": "wave64.pod_strict_visual_qa.v1",
+  "self_test": {
+    "expectation_met": null,
+    "expected_decision": null,
+    "fixture_role": "live_climb"
+  },
+  "strict_pod_llm_review": "REJECT",
+  "thresholds": {
+    "anatomy_hands_fingers_min": 90,
+    "artifacts_cleanliness_min": 85,
+    "default_decision": "REJECT",
+    "identity_consistency_min": 85,
+    "motion_temporal_min": 90,
+    "policy_project_min": 90,
+    "prompt_adherence_min": 85,
+    "reviewer_confidence_min": 0.75,
+    "skin_realism_min": 85
+  },
+  "vram_arbitration": {
+    "comfy_queue_idle_required": true,
+    "comfy_unload_before_review": true,
+    "comfy_unload_receipt": {
+      "after": {
+        "free_mib": 30713.0,
+        "total_mib": 49140.0,
+        "used_mib": 17928.0
+      },
+      "before": {
+        "free_mib": 30713.0,
+        "total_mib": 49140.0,
+        "used_mib": 17928.0
+      },
+      "comfy_url": "http://127.0.0.1:8188",
+      "error": null,
+      "ok": true
+    },
+    "gpu_memory_free_mib_after_unload": 30713.0,
+    "gpu_memory_free_mib_before": 30713.0,
+    "notes": "Comfy and qwen2.5vl:32b must not co-reside on RTX 6000 Ada ~48GB when Wan/Flux weights are loaded; unload Comfy via /free before strict review, then unload VLM (keep_alive=0) before the next generation.",
+    "ollama_keep_alive": "0",
+    "unload_vlm_after_review": true
+  }
+}
