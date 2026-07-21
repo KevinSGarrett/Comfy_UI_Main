@@ -17,7 +17,10 @@
       "class": "E",
       "comfy_generation_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_COMFY_GENERATION_PACKET_20260721.json",
       "comfy_generation_packet_sha256": "3d8cbead322e9b593db0d3b1befe5fd29c78b9962a9b7639c45daa89ca8b265a",
-      "detail": "COMPLETE/row_complete intentionally withheld. RunPod production-candidate AV-sync MKV cut/camera/mux identity probe (receipt 09f614d31eaa) deepens Class E without granting production_completion_allowed (unclassified camera profile; 0 hard cuts; mux identity \u2260 mux replay; compiler hard-fails production_completion_allowed). Prior Comfy gen prompt_id=8681ba01-58a4-4a92-92cf-171d5c2daaf3 retained as non-authority.",
+      "compiler_hard_fail_blocker_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_COMPILER_HARD_FAIL_NOT_CLEARABLE_BLOCKER_PACKET_20260721.json",
+      "compiler_hard_fail_blocker_packet_sha256": "b6771787aa50495737eb8ba7be35cd6f162ffd010bfefd9993559f687662a449",
+      "compiler_hard_fail_clearable": false,
+      "detail": "COMPLETE/row_complete intentionally withheld. COMPILER_HARD_FAIL_CLOSES_PRODUCTION_COMPLETION_ALLOWED remains correctly OPEN: compile_wave64_canonical_video_timeline.py:844-847 unconditionally forces production_completion_allowed=false. Not clearable on current evidence \u2014 production mux replay / cut-camera / visual beyond held-out lavfi still absent; removing hard-fail alone would enable claim cheat. Blocker packet b6771787aa50. ROW084-012 OPEN_HOLD untouched.",
       "generation_receipt": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/runpod_class_e_comfy_gen_20260721T050810Z/class_e_comfy_generation_receipt.json",
       "generation_receipt_sha256": "685883eb417da5eb8d2a33b755895925b8c59406fbc677a0dd349b833bed979d",
       "media_sha256": "0c1153e675bd9209ce9c56d6c6694d9fb93118d69e3935fedcf77e626fed998a",
@@ -112,11 +115,14 @@
       "class_e_prod_media_cut_camera_mux_receipt_sha256": "09f614d31eaab0b83840d93f8d63b0482714d971c1e19be5c284dd13a8fc65df",
       "class_e_readiness_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_PRODUCTION_READINESS_PACKET_20260721.json",
       "class_e_readiness_packet_sha256": "cafe15b09d911b7f0428e19be81c8ee28e53a99066597568a9f9ea20e28498fc",
+      "compiler_hard_fail_blocker_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_COMPILER_HARD_FAIL_NOT_CLEARABLE_BLOCKER_PACKET_20260721.json",
+      "compiler_hard_fail_blocker_packet_sha256": "b6771787aa50495737eb8ba7be35cd6f162ffd010bfefd9993559f687662a449",
+      "compiler_hard_fail_clearable": false,
       "generation_receipt": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/runpod_class_e_comfy_gen_20260721T050810Z/class_e_comfy_generation_receipt.json",
       "generation_receipt_sha256": "685883eb417da5eb8d2a33b755895925b8c59406fbc677a0dd349b833bed979d",
       "media_sha256": "0c1153e675bd9209ce9c56d6c6694d9fb93118d69e3935fedcf77e626fed998a",
       "name": "canonical_timeline_compiler_production_complete",
-      "note": "Class E HOLD: production COMPLETE intentionally withheld. RunPod genuine AV-sync MKV cut/camera/mux probe (RUNTIME_PROD_MEDIA_CUT_CAMERA_MUX_PROBE_BOUNDED); observed_class=null hard_cuts=0; mux identity only; compiler hard-fail retained. Prior Comfy gen prompt_id=8681ba01-58a4-4a92-92cf-171d5c2daaf3 is not mux/cut/camera authority \u2014 do not clear.",
+      "note": "Class E FAIL/OPEN retained. Gate #1 COMPILER_HARD_FAIL_CLOSES_PRODUCTION_COMPLETION_ALLOWED not clearable by bounded fix: enforced at compile_wave64_canonical_video_timeline.py:844-847; production mux/cut/camera/visual authority still absent after prod-media probe. Do not remove hard-fail; do not COMPLETE. ROW084-012 OPEN_HOLD unchanged.",
       "prompt_id": "8681ba01-58a4-4a92-92cf-171d5c2daaf3",
       "proof_tier": "RUNTIME_PROD_MEDIA_CUT_CAMERA_MUX_PROBE_BOUNDED",
       "runtime_receipt": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/runpod_class_e_20260721T041251Z/class_e_runtime_receipt.json",
@@ -306,8 +312,8 @@
     "VISUAL_QA_PASS_BOUNDED"
   ],
   "created_at": "2026-07-21T04:17:47Z",
-  "csv_sync": "synced_by_primary_csv_mutator_row084_class_e_prod_mux_cut_camera",
-  "csv_sync_tip": "753e72f6",
+  "csv_sync": "synced_by_land_row084_compiler_hard_fail_blocker",
+  "csv_sync_tip": "e8a61d46",
   "dependency_authority": {
     "acceptance_commit": "b074c694518b7ebe78a1e7292db28427d7f75ca7",
     "dependency_satisfied": true,
@@ -395,6 +401,19 @@
       "vlm_ok_frame_count": 3,
       "vlm_review_packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_VLM_REVIEW_20260721.json",
       "vlm_review_packet_sha256": "7a39fb1fe2261e3c7d66a2c8a6f8e2710f9c6aa5def35c51043ad4a444cab4ad"
+    },
+    "compiler_hard_fail_clearability": {
+      "blocker_class": "E",
+      "blocker_id": "COMPILER_HARD_FAIL_CLOSES_PRODUCTION_COMPLETION_ALLOWED",
+      "clearable_on_current_evidence": false,
+      "cleared": false,
+      "enforcement": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_canonical_video_timeline.py:844-847",
+      "packet": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_COMPILER_HARD_FAIL_NOT_CLEARABLE_BLOCKER_PACKET_20260721.json",
+      "packet_sha256": "b6771787aa50495737eb8ba7be35cd6f162ffd010bfefd9993559f687662a449",
+      "production_completion_allowed": false,
+      "row_complete": false,
+      "status": "HOLD",
+      "verdict": "NOT_CLEARABLE_BY_BOUNDED_FIX_ON_CURRENT_EVIDENCE"
     },
     "missing_frame_runtime_climb": {
       "blocker_class": "B",
@@ -566,11 +585,15 @@
     "class_e_runpod_prod_media_cut_camera_mux_packet_sha256": "bdb565972c64c025d9f26164110c6b82c3e86318f9aea95edce83eb8723dddd9",
     "class_e_runpod_prod_media_cut_camera_mux_receipt_path": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/runpod_class_e_prod_mux_cut_camera_20260721T101712Z/class_e_prod_media_cut_camera_mux_receipt.json",
     "class_e_runpod_prod_media_cut_camera_mux_receipt_sha256": "09f614d31eaab0b83840d93f8d63b0482714d971c1e19be5c284dd13a8fc65df",
+    "compiler_hard_fail_blocker_packet_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-011_COMPILER_HARD_FAIL_NOT_CLEARABLE_BLOCKER_PACKET_20260721.json",
+    "compiler_hard_fail_blocker_packet_sha256": "b6771787aa50495737eb8ba7be35cd6f162ffd010bfefd9993559f687662a449",
+    "compiler_hard_fail_clearable_on_current_evidence": false,
     "still_absent": [
       "production mux replay proof",
       "production cut/camera/benchmark authority beyond held-out lavfi",
       "compiler production_completion_allowed hard fail-close removal",
-      "production-candidate media camera class calibration (unclassified under held-out thresholds)"
+      "production-candidate media camera class calibration (unclassified under held-out thresholds)",
+      "production media combined visual/contact beyond held-out lavfi"
     ]
   },
   "implementation_completion_claimed": false,
@@ -732,12 +755,12 @@
   },
   "increment": {
     "comfyui_8188_invoked": false,
-    "kind": "class_e_runpod_prod_media_cut_camera_mux_probe",
+    "kind": "compiler_hard_fail_not_clearable_blocker_packet",
     "prompt_id": "8681ba01-58a4-4a92-92cf-171d5c2daaf3",
     "row_complete": false,
     "runtime_media_decode_invoked": true,
     "schema_alone_enforcement_present": false,
-    "summary": "RunPod genuine AV-sync MKV cut/camera/mux identity probe on sha256=0c1153e675bd\u2026; frames=49 hard_cuts=0 observed_class=null (unable to classify mean=0.0297 max=0.3770 moderate=14). ROW084-011 Class E remains OPEN (not cleared); ROW084-012 HOLD untouched; no COMPLETE/row_complete; prior Comfy gen receipt retained as non-authority; Row074 left alone; no new :8188 generation.",
+    "summary": "Gate COMPILER_HARD_FAIL_CLOSES_PRODUCTION_COMPLETION_ALLOWED is correctly FAIL/OPEN. Enforced at compile_wave64_canonical_video_timeline.py:844-847 (unconditional force false). Not clearable by bounded code/evidence on current Class E prod-media probe: production mux/cut/camera/visual authority still absent; removing the hard-fail would enable claim cheat. ROW084-012 OPEN_HOLD untouched; row_complete=false; never COMPLETE.",
     "visual_qa_pass_bounded_claimed": true
   },
   "intent": {
@@ -762,18 +785,17 @@
   "item_id": "ITEM-W64-084",
   "ledger_status": "Blocked_Visual_Qa_Pass_Bounded_Class_C_Schema_Native_Hold_And_Production_Completion_Blocked",
   "ledger_vocabulary_sync": {
+    "compiler_hard_fail_clearable": false,
     "ec2_unused": true,
     "ledger_status": "Blocked_Visual_Qa_Pass_Bounded_Class_C_Schema_Native_Hold_And_Production_Completion_Blocked",
-    "media_sha256": "0c1153e675bd9209ce9c56d6c6694d9fb93118d69e3935fedcf77e626fed998a",
-    "note": "Mechanical CSV mutator Row084 Class E prod-media cut/camera/mux from tip 753e72f6; no COMPLETE.",
-    "prior_prompt_id_non_authority": "8681ba01-58a4-4a92-92cf-171d5c2daaf3",
+    "note": "COMPILER_HARD_FAIL not-clearable blocker from tip e8a61d46; no COMPLETE.",
     "product_completion": false,
     "prove_commits": [
-      "753e72f6"
+      "e8a61d46"
     ],
     "row074_left_alone": true,
     "runtime_completion": false,
-    "synced_at": "2026-07-21T10:18:29.949785Z"
+    "synced_at": "2026-07-21T10:21:10Z"
   },
   "library_authority": false,
   "pass_digest_owner_pending": true,
@@ -880,7 +902,12 @@
     "writable_scope_note": "Disjoint from Row075 PID, Rows069-071 library, Row017 MF70, and sibling Row085 fixture paths. No Tracker/Items CSV writes."
   },
   "source_commit": "b8afaed0",
-  "status": "HOLD_ROW084_VISUAL_QA_PASS_BOUNDED_CLASS_E_COMFY_GEN_VLM_PROBED_NO_COMPLETE",
+  "status": "HOLD_ROW084_COMPILER_HARD_FAIL_NOT_CLEARABLE_NO_COMPLETE",
+  "status_decision": {
+    "decision": "HOLD_ROW084_COMPILER_HARD_FAIL_NOT_CLEARABLE_NO_COMPLETE",
+    "reason": "Compiler hard-fail gate remains correctly FAIL/OPEN; not clearable without production mux/cut/camera/visual authority. ROW084-012 OPEN_HOLD not thrashed; COMPLETE withheld.",
+    "safe_next_action": "Keep COMPILER_HARD_FAIL_CLOSES_PRODUCTION_COMPLETION_ALLOWED as OPEN Class E gate. Do not remove compile_wave64_canonical_video_timeline.py:845-847. Next actionable climb: production mux replay proof on non-lavfi media + production cut/camera calibration/benchmark authority that classifies the genuine AV-sync candidate (or a calibrated production substitute) + production combined visual/contact beyond held-out lavfi; only then consider hard-fail removal as a co-requisite under fail-closed production binder verification. Keep ROW084-012 OPEN_HOLD. Never COMPLETE / row_complete=true. Row074 untouched. Local+RunPod only."
+  },
   "test_and_runtime_boundary": {
     "camera_motion_normalization_complete": true,
     "camera_motion_policy_fixture_matrix_only": true,
@@ -919,5 +946,5 @@
     "wsl_invoked": false
   },
   "tracker_id": "TRK-W64-084",
-  "updated_at": "2026-07-21T10:18:29.949785Z"
+  "updated_at": "2026-07-21T10:21:10Z"
 }
