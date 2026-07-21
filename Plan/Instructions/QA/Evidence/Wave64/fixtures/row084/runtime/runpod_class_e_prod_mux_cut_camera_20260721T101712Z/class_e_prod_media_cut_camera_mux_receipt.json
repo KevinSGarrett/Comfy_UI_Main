@@ -1,0 +1,127 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "TRK-W64-084_ROW084_CLASS_E_RUNPOD_PROD_MEDIA_CUT_CAMERA_MUX_PROBE",
+  "tracker_id": "TRK-W64-084",
+  "item_id": "ITEM-W64-084",
+  "check_id": "ROW084-011",
+  "blocker_class": "E",
+  "blocker_id": "PRODUCTION_COMPLETION_AND_ROW_COMPLETE_BLOCKED",
+  "decision": "HOLD",
+  "cleared": false,
+  "row_complete": false,
+  "production_completion_allowed": false,
+  "production_mux_replay_pass": false,
+  "production_cut_camera_authority_granted": false,
+  "implementation_completion_claimed": false,
+  "product_completion_claimed": false,
+  "do_not_clear": [
+    "ROW084-011"
+  ],
+  "do_not_thrash": [
+    "ROW084-012"
+  ],
+  "row074_left_alone": true,
+  "comfyui_8188_invoked_for_new_generation": false,
+  "created_at": "2026-07-21T10:17:12Z",
+  "pod": {
+    "id": "1q4ji0gg1fkhvt",
+    "ssh": "root@195.26.233.100:52077"
+  },
+  "comfy_probe": {
+    "comfyui_serving": true,
+    "new_generation_submitted": false,
+    "queue_running": 0,
+    "queue_pending": 0,
+    "comfyui_version": "0.28.0",
+    "gpu_name": "cuda:0 NVIDIA RTX 6000 Ada Generation : cudaMallocAsync",
+    "vram_free": 18984841394,
+    "vram_total": 51002867712
+  },
+  "ffmpeg_version_line": "ffmpeg version 4.4.2-0ubuntu0.22.04.1 Copyright (c) 2000-2021 the FFmpeg developers",
+  "decode_command_base": [
+    "ffmpeg",
+    "-y",
+    "-i",
+    "/workspace/wave64/Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_av_sync_frame_aligned_20260714T202000-0500/strict_sync_mux_ffv1_pcm16_mono_frame_aligned.mkv",
+    "-an",
+    "-vsync",
+    "0",
+    "-vf",
+    "scale=64:64",
+    "-f",
+    "rawvideo",
+    "-pix_fmt",
+    "rgb24",
+    "<raw>"
+  ],
+  "media": {
+    "kind": "pulled_back_genuine_av_sync_mkv",
+    "path": "/workspace/wave64/Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_av_sync_frame_aligned_20260714T202000-0500/strict_sync_mux_ffv1_pcm16_mono_frame_aligned.mkv",
+    "bytes": 2073838,
+    "sha256": "0c1153e675bd9209ce9c56d6c6694d9fb93118d69e3935fedcf77e626fed998a",
+    "expected_sha256": "0c1153e675bd9209ce9c56d6c6694d9fb93118d69e3935fedcf77e626fed998a",
+    "sha256_matches_prior_readiness": true
+  },
+  "mux_identity": {
+    "format_name": "matroska,webm",
+    "duration": "2.041000",
+    "streams": [
+      {
+        "index": 0,
+        "codec_type": "video",
+        "codec_name": "ffv1",
+        "width": 480,
+        "height": 640,
+        "sample_rate": null,
+        "channels": null,
+        "avg_frame_rate": "24/1",
+        "nb_frames": null
+      },
+      {
+        "index": 1,
+        "codec_type": "audio",
+        "codec_name": "pcm_s16le",
+        "width": null,
+        "height": null,
+        "sample_rate": "16000",
+        "channels": 1,
+        "avg_frame_rate": "0/0",
+        "nb_frames": null
+      }
+    ],
+    "video_audio_stream_pair_present": true,
+    "note": "Identity probe only; not production mux replay authority"
+  },
+  "cut_camera_probe": {
+    "algorithm_id": "fixture_histogram_diff_v1",
+    "decode_scale": "64x64",
+    "frame_count": 49,
+    "pair_delta_count": 48,
+    "mean_hist_l1": 0.029653,
+    "max_hist_l1": 0.376953,
+    "hard_cuts": [],
+    "hard_cut_count": 0,
+    "observed_class": null,
+    "classification_error": "unable to classify mean=0.0297 max=0.3770 moderate=14",
+    "thresholds": {
+      "CUT_HIST_L1_HARD_THRESHOLD": 0.5,
+      "CAMERA_MOTION_MEAN_MIN": 0.02,
+      "CAMERA_MOTION_MAX_LT": 0.5,
+      "STATIC_MEAN_MAX": 0.02,
+      "STATIC_MAX_MAX": 0.05
+    },
+    "gold_invented": false,
+    "note": "Exercises held-out-calibrated histogram cut/camera algo on genuine pulled-back media without invented expected cut gold"
+  },
+  "remaining_gates_exact": [
+    "COMPILER_HARD_FAIL_CLOSES_PRODUCTION_COMPLETION_ALLOWED",
+    "production_mux_replay_proof_absent",
+    "production_cut_camera_benchmark_authority_beyond_held_out_lavfi_absent",
+    "ROW084-012_CLASS_C_OPEN_HOLD_SCHEMA_NATIVE_REVERSED_PTS",
+    "row_complete_acceptance_COMPLETE_withheld",
+    "production_media_combined_visual_contact_beyond_held_out_lavfi_absent",
+    "single_image_comfy_gen_is_not_mux_cut_camera_authority"
+  ],
+  "safe_next_action": "Keep ROW084-011 FAIL/OPEN. Keep ROW084-012 OPEN_HOLD. Do not COMPLETE. This probe deepens Class E with production-candidate media cut/camera/mux identity evidence; compiler still hard-fails production_completion_allowed.",
+  "summary": "RunPod genuine AV-sync MKV cut/camera/mux identity probe executed; production authority NOT granted; ROW084-011 remains FAIL/OPEN."
+}

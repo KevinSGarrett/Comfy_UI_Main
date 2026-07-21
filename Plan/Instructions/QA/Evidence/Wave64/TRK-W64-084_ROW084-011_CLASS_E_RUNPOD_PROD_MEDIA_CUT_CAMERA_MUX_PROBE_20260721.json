@@ -1,0 +1,138 @@
+{
+  "blocker_class": "E",
+  "blocker_id": "PRODUCTION_COMPLETION_AND_ROW_COMPLETE_BLOCKED",
+  "check_id": "ROW084-011",
+  "cleared": false,
+  "comfy_probe": {
+    "comfyui_serving": true,
+    "comfyui_version": "0.28.0",
+    "gpu_name": "cuda:0 NVIDIA RTX 6000 Ada Generation : cudaMallocAsync",
+    "new_generation_submitted": false,
+    "queue_pending": 0,
+    "queue_running": 0,
+    "vram_free": 18984841394,
+    "vram_total": 51002867712
+  },
+  "created_at": "2026-07-21T10:18:18Z",
+  "cut_camera_probe": {
+    "algorithm_id": "fixture_histogram_diff_v1",
+    "classification_error": "unable to classify mean=0.0297 max=0.3770 moderate=14",
+    "decode_scale": "64x64",
+    "frame_count": 49,
+    "gold_invented": false,
+    "hard_cut_count": 0,
+    "hard_cuts": [],
+    "max_hist_l1": 0.376953,
+    "mean_hist_l1": 0.029653,
+    "note": "Exercises held-out-calibrated histogram cut/camera algo on genuine pulled-back media without invented expected cut gold",
+    "observed_class": null,
+    "pair_delta_count": 48,
+    "thresholds": {
+      "CAMERA_MOTION_MAX_LT": 0.5,
+      "CAMERA_MOTION_MEAN_MIN": 0.02,
+      "CUT_HIST_L1_HARD_THRESHOLD": 0.5,
+      "STATIC_MAX_MAX": 0.05,
+      "STATIC_MEAN_MAX": 0.02
+    }
+  },
+  "decision": "HOLD",
+  "do_not_clear": [
+    "ROW084-011"
+  ],
+  "do_not_thrash": [
+    "ROW084-012"
+  ],
+  "evidence_id": "TRK-W64-084_ROW084-011_CLASS_E_RUNPOD_PROD_MEDIA_CUT_CAMERA_MUX_PROBE_20260721",
+  "highest_proof_tier_achieved": "RUNTIME_PROD_MEDIA_CUT_CAMERA_MUX_PROBE_BOUNDED",
+  "hold_012_unchanged": {
+    "exists": true,
+    "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-084_ROW084-012_CLASS_C_SCHEMA_NATIVE_REVERSED_PTS_HOLD_PACKET_20260720.json",
+    "sha256": "0e0c3d8648f939f24684be7a9b7ad70aef20b1289f6fadd30d90256dbdeb1ff7",
+    "status": "OPEN_HOLD",
+    "thrashed": false
+  },
+  "implementation_completion_claimed": false,
+  "item_id": "ITEM-W64-084",
+  "media": {
+    "bytes": 2073838,
+    "expected_sha256": "0c1153e675bd9209ce9c56d6c6694d9fb93118d69e3935fedcf77e626fed998a",
+    "kind": "pulled_back_genuine_av_sync_mkv",
+    "path": "/workspace/wave64/Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_av_sync_frame_aligned_20260714T202000-0500/strict_sync_mux_ffv1_pcm16_mono_frame_aligned.mkv",
+    "sha256": "0c1153e675bd9209ce9c56d6c6694d9fb93118d69e3935fedcf77e626fed998a",
+    "sha256_matches_prior_readiness": true
+  },
+  "mutation_this_landing": "evidence_only_class_e_runpod_prod_media_cut_camera_mux_probe",
+  "mux_identity": {
+    "duration": "2.041000",
+    "format_name": "matroska,webm",
+    "note": "Identity probe only; not production mux replay authority",
+    "streams": [
+      {
+        "avg_frame_rate": "24/1",
+        "channels": null,
+        "codec_name": "ffv1",
+        "codec_type": "video",
+        "height": 640,
+        "index": 0,
+        "nb_frames": null,
+        "sample_rate": null,
+        "width": 480
+      },
+      {
+        "avg_frame_rate": "0/0",
+        "channels": 1,
+        "codec_name": "pcm_s16le",
+        "codec_type": "audio",
+        "height": null,
+        "index": 1,
+        "nb_frames": null,
+        "sample_rate": "16000",
+        "width": null
+      }
+    ],
+    "video_audio_stream_pair_present": true
+  },
+  "pod": {
+    "id": "1q4ji0gg1fkhvt",
+    "name": "hyperreal-flux",
+    "public_ip": "195.26.233.100",
+    "ssh_port": 52077
+  },
+  "preservation_boundary": {
+    "class_e_011_not_cleared": true,
+    "comfyui_new_generation_not_submitted": true,
+    "gold_not_invented": true,
+    "prior_comfy_gen_prompt_id_retained": "8681ba01-58a4-4a92-92cf-171d5c2daaf3",
+    "row073_pcm_left_alone": true,
+    "row074_left_alone": true,
+    "row075_pid_left_alone": true,
+    "row084_012_hold_not_thrashed": true,
+    "unrelated_dirty_paths_preserved": true
+  },
+  "prior_comfy_generation_prompt_id": "8681ba01-58a4-4a92-92cf-171d5c2daaf3",
+  "product_completion_claimed": false,
+  "production_completion_allowed": false,
+  "production_cut_camera_authority_granted": false,
+  "production_mux_replay_pass": false,
+  "proof_tier": "RUNTIME_PROD_MEDIA_CUT_CAMERA_MUX_PROBE_BOUNDED",
+  "remaining_blockers": [
+    "COMPILER_HARD_FAIL_CLOSES_PRODUCTION_COMPLETION_ALLOWED",
+    "production_mux_replay_proof_absent",
+    "production_cut_camera_benchmark_authority_beyond_held_out_lavfi_absent",
+    "ROW084-012_CLASS_C_OPEN_HOLD_SCHEMA_NATIVE_REVERSED_PTS",
+    "row_complete_acceptance_COMPLETE_withheld",
+    "production_media_combined_visual_contact_beyond_held_out_lavfi_absent",
+    "single_image_comfy_gen_is_not_mux_cut_camera_authority"
+  ],
+  "row073_left_alone": true,
+  "row074_left_alone": true,
+  "row084_011_status": "FAIL",
+  "row_complete": false,
+  "runtime_dir": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/runpod_class_e_prod_mux_cut_camera_20260721T101712Z",
+  "runtime_receipt": "Plan/Instructions/QA/Evidence/Wave64/fixtures/row084/runtime/runpod_class_e_prod_mux_cut_camera_20260721T101712Z/class_e_prod_media_cut_camera_mux_receipt.json",
+  "runtime_receipt_sha256": "09f614d31eaab0b83840d93f8d63b0482714d971c1e19be5c284dd13a8fc65df",
+  "safe_next_action": "Keep ROW084-011 FAIL/OPEN. Keep ROW084-012 OPEN_HOLD. Do not COMPLETE. This probe deepens Class E with production-candidate media cut/camera/mux identity evidence; compiler still hard-fails production_completion_allowed.",
+  "schema_version": "1.0",
+  "summary": "RunPod genuine AV-sync MKV cut/camera/mux identity probe on sha256=0c1153e675bd\u2026; frames=49 hard_cuts=0 observed_class=null (unable to classify mean=0.0297 max=0.3770 moderate=14). ROW084-011 Class E remains OPEN (not cleared); ROW084-012 HOLD untouched; no COMPLETE/row_complete; prior Comfy gen receipt retained as non-authority; Row074 left alone; no new :8188 generation.",
+  "tracker_id": "TRK-W64-084"
+}
