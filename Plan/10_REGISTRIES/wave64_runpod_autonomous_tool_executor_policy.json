@@ -1,0 +1,23 @@
+{
+  "schema_version": "wave64.aqa.tool_executor_policy.v1",
+  "program_id": "W64-AQA",
+  "policy_id": "W64-AQA-TOOL-EXECUTOR-POLICY-001",
+  "qualified_actions": ["artifact_read"],
+  "artifact_read": {
+    "digest_only": true,
+    "content_exposure_allowed": false,
+    "target_write_allowed": false,
+    "network_allowed": false,
+    "parameters_required_empty": true,
+    "max_bytes": 16777216,
+    "max_elapsed_ms": 5000,
+    "chunk_bytes": 1048576,
+    "reject_symlinks_and_reparse_points": true,
+    "require_stable_identity_before_open_after": true,
+    "forbidden_basename_patterns": [
+      "^\\.env(?:\\..*)?$", "credential", "private[_-]?key", "secret", "token"
+    ],
+    "forbidden_suffixes": [".key", ".pem", ".p12", ".pfx"]
+  },
+  "all_other_actions": "UNQUALIFIED_DENY"
+}

@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
 import re
 import sys
@@ -104,6 +105,22 @@ PATHS = {
     / "Plan/10_REGISTRIES/wave64_runpod_autonomous_tool_gateway_policy.json",
     "tool_gateway": ROOT
     / "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_runpod_autonomous_tool_gateway.py",
+    "tool_executor_receipt_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_tool_executor_receipt.schema.json",
+    "tool_executor_policy": ROOT
+    / "Plan/10_REGISTRIES/wave64_runpod_autonomous_tool_executor_policy.json",
+    "tool_executor": ROOT
+    / "Plan/07_IMPLEMENTATION/scripts/execute_wave64_runpod_autonomous_readonly_tool.py",
+    "tool_executor_fixture": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_TOOL_EXECUTOR_QUALIFICATION_20260721/jobs/W64-AQA-JOB-tool-executor-qualification/evidence/video_shadow_binding.json",
+    "tool_executor_request": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_TOOL_EXECUTOR_QUALIFICATION_20260721/request.json",
+    "tool_executor_decision": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_TOOL_EXECUTOR_QUALIFICATION_20260721/decision.json",
+    "tool_executor_receipt": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_TOOL_EXECUTOR_QUALIFICATION_20260721/receipt.json",
+    "tool_executor_qualification": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_TOOL_EXECUTOR_QUALIFICATION_20260721/qualification.json",
     "workflow_patch_schema": ROOT
     / "Plan/08_SCHEMAS/runpod_autonomous_workflow_patch.schema.json",
     "workflow_validation_schema": ROOT
@@ -177,6 +194,14 @@ def load_csv(path: Path) -> list[dict[str, str]]:
         return list(csv.DictReader(handle))
 
 
+def recompute_self_hash(document: dict[str, Any], field: str) -> str:
+    candidate = dict(document)
+    candidate[field] = "0" * 64
+    return hashlib.sha256(
+        json.dumps(candidate, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+    ).hexdigest()
+
+
 def collect_errors() -> list[str]:
     errors: list[str] = []
     missing = [str(path.relative_to(ROOT)) for path in PATHS.values() if not path.is_file()]
@@ -218,6 +243,13 @@ def collect_errors() -> list[str]:
         tool_gateway_request_schema = load_json(PATHS["tool_gateway_request_schema"])
         tool_gateway_decision_schema = load_json(PATHS["tool_gateway_decision_schema"])
         tool_gateway_policy = load_json(PATHS["tool_gateway_policy"])
+        tool_executor_receipt_schema = load_json(PATHS["tool_executor_receipt_schema"])
+        tool_executor_policy = load_json(PATHS["tool_executor_policy"])
+        tool_executor_fixture = load_json(PATHS["tool_executor_fixture"])
+        tool_executor_request = load_json(PATHS["tool_executor_request"])
+        tool_executor_decision = load_json(PATHS["tool_executor_decision"])
+        tool_executor_receipt = load_json(PATHS["tool_executor_receipt"])
+        tool_executor_qualification = load_json(PATHS["tool_executor_qualification"])
         workflow_patch_schema = load_json(PATHS["workflow_patch_schema"])
         workflow_validation_schema = load_json(PATHS["workflow_validation_schema"])
         workflow_patch_policy = load_json(PATHS["workflow_patch_policy"])
@@ -261,6 +293,7 @@ def collect_errors() -> list[str]:
         phase_lease_shadow_evidence,
         phase_lease_runtime_canary_evidence,
         strict_model_admission_hold_evidence,
+        tool_executor_qualification,
         registry,
     )
     for document in json_docs:
@@ -474,6 +507,78 @@ def collect_errors() -> list[str]:
     }
     if {"candidate_write", "evidence_append", "shadow_generation_submit"} & workflow_actions:
         errors.append("workflow engineer must not write candidates/evidence or submit generation")
+    if tool_executor_policy.get("qualified_actions") != ["artifact_read"]:
+        errors.append("tool executor must qualify artifact_read only")
+    executor_read_policy = tool_executor_policy.get("artifact_read", {})
+    required_executor_controls = {
+        "digest_only": True,
+        "content_exposure_allowed": False,
+        "target_write_allowed": False,
+        "network_allowed": False,
+        "parameters_required_empty": True,
+        "reject_symlinks_and_reparse_points": True,
+        "require_stable_identity_before_open_after": True,
+    }
+    if any(
+        executor_read_policy.get(key) is not expected
+        for key, expected in required_executor_controls.items()
+    ):
+        errors.append("tool executor read-only controls are incomplete or weakened")
+    if executor_read_policy.get("max_bytes") != 16777216:
+        errors.append("tool executor byte ceiling must remain exactly 16 MiB")
+    if executor_read_policy.get("max_elapsed_ms") != 5000:
+        errors.append("tool executor elapsed-time ceiling must remain exactly five seconds")
+    if tool_executor_policy.get("all_other_actions") != "UNQUALIFIED_DENY":
+        errors.append("tool executor must deny all unqualified actions")
+    if tool_executor_decision.get("admission_disposition") != "ADMIT_FOR_SEPARATE_EXECUTOR":
+        errors.append("canonical tool executor decision must be admitted by the decision-only gate")
+    receipt_flags = {
+        "disposition": "PASS_READ_ONLY_ARTIFACT_DIGEST",
+        "execution_performed": True,
+        "content_exposed": False,
+        "target_write_performed": False,
+        "network_used": False,
+    }
+    for key, expected in receipt_flags.items():
+        if tool_executor_receipt.get(key) != expected:
+            errors.append(f"canonical tool executor receipt {key} must be {expected}")
+    if tool_executor_receipt.get("decision_id") != tool_executor_decision.get("decision_id"):
+        errors.append("tool executor receipt is not bound to the canonical decision")
+    if tool_executor_receipt.get("request_id") != tool_executor_request.get("request_id"):
+        errors.append("tool executor receipt is not bound to the canonical request")
+    if tool_executor_decision.get("decision_id") != recompute_self_hash(tool_executor_decision, "decision_id"):
+        errors.append("canonical tool executor decision self-hash mismatch")
+    if tool_executor_receipt.get("receipt_id") != recompute_self_hash(tool_executor_receipt, "receipt_id"):
+        errors.append("canonical tool executor receipt self-hash mismatch")
+    if tool_executor_qualification.get("disposition") != "PASS_READ_ONLY_ARTIFACT_DIGEST_EXECUTOR_ONLY":
+        errors.append("tool executor qualification must remain limited to read-only artifact digest")
+    qualification_runtime = tool_executor_qualification.get("runtime_claims", {})
+    if any(qualification_runtime.get(key) is not False for key in (
+        "runpod_contacted",
+        "gpu_used",
+        "comfyui_execution_performed",
+        "model_inference_performed",
+        "product_promotion_granted",
+    )):
+        errors.append("tool executor qualification must not claim runtime or promotion authority")
+    gateway_policy_sha256 = hashlib.sha256(
+        json.dumps(tool_gateway_policy, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+    ).hexdigest()
+    executor_policy_sha256 = hashlib.sha256(
+        json.dumps(tool_executor_policy, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+    ).hexdigest()
+    if tool_executor_receipt.get("gateway_policy_sha256") != gateway_policy_sha256:
+        errors.append("tool executor receipt gateway policy hash mismatch")
+    if tool_executor_receipt.get("executor_policy_sha256") != executor_policy_sha256:
+        errors.append("tool executor receipt executor policy hash mismatch")
+    fixture_sha256 = hashlib.sha256(PATHS["tool_executor_fixture"].read_bytes()).hexdigest()
+    if tool_executor_receipt.get("artifact_sha256") != fixture_sha256:
+        errors.append("tool executor receipt artifact hash mismatch")
+    source_path = ROOT / tool_executor_fixture.get("source_evidence_path", "")
+    if not source_path.is_file():
+        errors.append("tool executor qualification source evidence is missing")
+    elif hashlib.sha256(source_path.read_bytes()).hexdigest() != tool_executor_fixture.get("source_evidence_sha256"):
+        errors.append("tool executor qualification source evidence hash mismatch")
     if workflow_patch_policy.get("copy_on_write_required") is not True:
         errors.append("workflow patching must be copy-on-write")
     if workflow_patch_policy.get("graph_mutation_allowed") is not False:
@@ -557,6 +662,10 @@ def collect_errors() -> list[str]:
         jsonschema.Draft7Validator.check_schema(maskfactory_consumer_contract_schema)
         jsonschema.Draft7Validator.check_schema(tool_gateway_request_schema)
         jsonschema.Draft7Validator.check_schema(tool_gateway_decision_schema)
+        jsonschema.Draft7Validator.check_schema(tool_executor_receipt_schema)
+        jsonschema.Draft7Validator(tool_gateway_request_schema).validate(tool_executor_request)
+        jsonschema.Draft7Validator(tool_gateway_decision_schema).validate(tool_executor_decision)
+        jsonschema.Draft7Validator(tool_executor_receipt_schema).validate(tool_executor_receipt)
         jsonschema.Draft7Validator.check_schema(workflow_patch_schema)
         jsonschema.Draft7Validator.check_schema(workflow_validation_schema)
         jsonschema.Draft7Validator.check_schema(correction_attempt_schema)

@@ -47,6 +47,18 @@ Resolves a role from the role registry, checks checkpoint/digest, runtime,
 calibration and scope, constructs the bounded input package, enforces JSON
 schema, and records raw response hash. It does not grant promotion authority.
 
+### Deterministic tool admission and execution
+
+The model-facing gateway is a pure decision service. A physically separate
+executor recomputes the exact request, decision, policy, role, job, action, and
+target binding before doing anything. Its first qualified capability is a
+job-scoped `artifact_read` that returns a stable SHA-256 and byte count only.
+It rejects path escapes, sensitive names and content, oversized files,
+symlinks/reparse points, identity changes, nonempty parameters, and receipt
+overwrite; it cannot expose content, write the target, or use the network.
+Every other admitted action remains unqualified until it has its own isolated
+implementation, exact root/target contract, rollback model, and fault campaign.
+
 ### Phase lease and resource arbiter
 
 Owns the mutually exclusive `GENERATION`, `MEASUREMENT_GPU`, `REVIEW`, and

@@ -185,6 +185,26 @@ hold; switch to a non-mask lane without polling, competing, or stopping it.
   EC2 or claim current deployment.
 - Recurring Admission/Cursor/Claude/Health/Lifecycle tasks remain disabled.
 
+### Qualified read-only tool execution
+
+The gateway decision is never itself execution authority. For the currently
+qualified `artifact_read` scope, invoke
+`execute_wave64_runpod_autonomous_readonly_tool.py` only with the exact request,
+decision, policies, and an integration-authority-selected plain job root. The
+executor must recompute the gateway decision and reject mismatches, nonempty
+parameters, sensitive names or content, files above 16 MiB or the five-second
+elapsed guard, path escapes, symlinks/reparse points, and any identity change
+across lookup, open, read, and post-read verification. The receipt may disclose
+a digest and byte count only.
+It must record no content exposure, target write, or network use and publish
+atomically without overwriting an existing receipt.
+
+No other gateway action is executable yet. In particular, do not map
+`proposal_write`, `candidate_write`, `evidence_append`, `validator_run`,
+`workflow_inspect`, `object_info_read`, or `shadow_generation_submit` to this
+executor. Qualify each separately with exact roots, schemas, ceilings, rollback,
+and fault injection before runtime use.
+
 ## 8. Incident and recovery
 
 On crash, timeout, invalid JSON, OOM, queue conflict, missing model, storage

@@ -337,6 +337,19 @@ also not product acceptance.
 - Fail closed on missing hashes, unknown model identity, invalid JSON, stale
   calibration, unavailable reviewer, queue conflict, or budget exhaustion.
 
+The model-facing tool gateway remains decision-only. The first independently
+qualified executor action is `artifact_read`, and its scope is deliberately
+narrow: it recomputes the exact admission decision and policy hashes, accepts an
+integration-authority-supplied job root, rejects path escapes, sensitive names,
+secret-like content, symlinks and Windows reparse points, enforces a 16 MiB
+and five-second elapsed guard, verifies file identity before/open/after, and
+emits only a SHA-256, byte count, and immutable receipt. It never returns
+artifact bytes, writes the target, or uses a network. The retained qualification receipt is
+`Plan/Tracker/Evidence/W64_AQA_TOOL_EXECUTOR_QUALIFICATION_20260721/receipt.json`.
+Every write, validator, workflow-inspection, generation, shell, Git, cloud,
+Tracker, promotion, or network action remains unqualified and fail-closed until
+it receives a separate bounded executor and fault campaign.
+
 ## Implementation and activation sequence
 
 1. Land this static package, schema, registry, validator, Items, and Tracker.

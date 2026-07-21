@@ -1,0 +1,56 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_tool_executor_receipt.schema.json",
+  "title": "Wave64 Autonomous Read-Only Tool Executor Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "receipt_id", "request_id", "decision_id", "job_id",
+    "actor_role_id", "authority_binding_sha256", "gateway_policy_sha256",
+    "executor_policy_sha256", "action_type", "normalized_target", "disposition",
+    "execution_performed", "content_exposed", "target_write_performed", "network_used",
+    "byte_count", "artifact_sha256", "identity_before", "identity_open", "identity_after",
+    "reason_codes"
+  ],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.tool_executor_receipt.v1"},
+    "receipt_id": {"$ref": "#/definitions/sha256"},
+    "request_id": {"type": "string", "minLength": 1},
+    "decision_id": {"$ref": "#/definitions/sha256"},
+    "job_id": {"type": "string", "minLength": 1},
+    "actor_role_id": {"type": "string", "minLength": 1},
+    "authority_binding_sha256": {"$ref": "#/definitions/sha256"},
+    "gateway_policy_sha256": {"$ref": "#/definitions/sha256"},
+    "executor_policy_sha256": {"$ref": "#/definitions/sha256"},
+    "action_type": {"const": "artifact_read"},
+    "normalized_target": {"type": "string", "pattern": "^jobs/[^/]+/(?:inputs|candidates|evidence)/.+$"},
+    "disposition": {"const": "PASS_READ_ONLY_ARTIFACT_DIGEST"},
+    "execution_performed": {"const": true},
+    "content_exposed": {"const": false},
+    "target_write_performed": {"const": false},
+    "network_used": {"const": false},
+    "byte_count": {"type": "integer", "minimum": 0},
+    "artifact_sha256": {"$ref": "#/definitions/sha256"},
+    "identity_before": {"$ref": "#/definitions/file_identity"},
+    "identity_open": {"$ref": "#/definitions/file_identity"},
+    "identity_after": {"$ref": "#/definitions/file_identity"},
+    "reason_codes": {
+      "type": "array",
+      "const": ["ADMITTED_DECISION_RECOMPUTED", "BOUNDED_DIGEST_ONLY", "FILE_IDENTITY_STABLE"]
+    }
+  },
+  "definitions": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "file_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["device", "inode", "size", "mtime_ns"],
+      "properties": {
+        "device": {"type": "integer", "minimum": 0},
+        "inode": {"type": "integer", "minimum": 0},
+        "size": {"type": "integer", "minimum": 0},
+        "mtime_ns": {"type": "integer", "minimum": 0}
+      }
+    }
+  }
+}

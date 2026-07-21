@@ -117,6 +117,22 @@ wrong-frame, missing-score, missing-evidence, or internally contradictory
 responses. Permit a bounded schema retry, then another already qualified role,
 or emit `REVIEW_BLOCKED`.
 
+## Gate AQA-07T: tool execution and secret isolation
+
+An admission receipt is necessary but not sufficient for execution. The
+executor must independently recompute the exact request, decision, gateway
+policy, executor policy, actor, job, action, and target binding. The only
+currently qualified action is job-scoped `artifact_read`, and its result is a
+bounded digest receipt without content exposure, target writes, or network use.
+
+Qualification must retain negative coverage for decision tampering, denied or
+unqualified actions, nonempty parameters, traversal, absolute/URI/cross-job
+targets, sensitive filenames and suffixes, secret-like content, oversized
+or over-time artifacts, symlinks and reparse points, pre-open and during-read identity changes,
+policy expansion, weakened controls, receipt overwrite, and crash-before-publish.
+A skipped host symlink fixture does not waive the platform-independent reparse
+classification test. All other tool actions remain `UNQUALIFIED_DENY`.
+
 ## Gate AQA-08: correction admission
 
 The proposed repair must identify exact defects, targets, allowed patch class,

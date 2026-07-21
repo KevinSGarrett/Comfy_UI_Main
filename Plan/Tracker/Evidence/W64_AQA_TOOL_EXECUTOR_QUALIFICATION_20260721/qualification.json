@@ -1,0 +1,86 @@
+{
+  "schema_version": "wave64.aqa.tool_executor_qualification.v1",
+  "program_id": "W64-AQA",
+  "tracker_id": "W64-AQA-015",
+  "observed_at_utc": "2026-07-21T22:53:50Z",
+  "authoritative_base_head": "2eb4797e655e62dbfc3135685922f601ea259668",
+  "qualified_scope": {
+    "action_type": "artifact_read",
+    "result_surface": "sha256_byte_count_and_file_identity_only",
+    "max_bytes": 16777216,
+    "max_elapsed_ms": 5000,
+    "content_exposed": false,
+    "target_write_performed": false,
+    "network_used": false
+  },
+  "canonical_fixture": {
+    "path": "Plan/Tracker/Evidence/W64_AQA_TOOL_EXECUTOR_QUALIFICATION_20260721/jobs/W64-AQA-JOB-tool-executor-qualification/evidence/video_shadow_binding.json",
+    "sha256": "f0b574da3c5c2342a0cb934271633490ad4b7bdd8b61b3a46fe861337f20e10e",
+    "bound_source_evidence_path": "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_VIDEO_SHADOW_20260721T224034Z.json",
+    "bound_source_evidence_sha256": "4df202ff22c5f79e32b29959d49974ca0a615e1794cc565dffa712ee60f7a3ca"
+  },
+  "canonical_receipts": {
+    "request": "Plan/Tracker/Evidence/W64_AQA_TOOL_EXECUTOR_QUALIFICATION_20260721/request.json",
+    "decision": "Plan/Tracker/Evidence/W64_AQA_TOOL_EXECUTOR_QUALIFICATION_20260721/decision.json",
+    "execution": "Plan/Tracker/Evidence/W64_AQA_TOOL_EXECUTOR_QUALIFICATION_20260721/receipt.json",
+    "decision_id": "381399cb90f616d64c8ecd71326da2e65cd67e4a6b6f6cf0fc0c6dd1c2684827",
+    "execution_receipt_id": "9fd5b7f5b286317e357b1353a6dc4fea636e8d702b77e38e891109c427d4dbf5"
+  },
+  "fault_coverage": [
+    "decision_tampering",
+    "denied_and_unqualified_actions",
+    "nonempty_parameters",
+    "absolute_uri_traversal_and_cross_job_targets",
+    "sensitive_names_and_suffixes",
+    "secret_like_content_without_value_echo",
+    "oversized_artifact",
+    "elapsed_time_limit",
+    "symlink_or_windows_reparse_point",
+    "identity_change_during_open_read",
+    "policy_action_expansion",
+    "mandatory_control_weakening",
+    "immutable_receipt_overwrite",
+    "crash_before_atomic_publish"
+  ],
+  "validators": [
+    {
+      "command": "pytest -q <all Plan/Instructions/QA/Scripts/test_*runpod_autonomous*.py>",
+      "result": "PASS",
+      "passed": 191,
+      "skipped": 1,
+      "skip_reason": "host did not permit creation of the real symlink fixture; the platform-independent Windows reparse attribute classifier passed"
+    },
+    {
+      "command": "ruff check <all W64-AQA implementation and test Python paths>",
+      "result": "PASS"
+    },
+    {
+      "command": "python Plan/07_IMPLEMENTATION/scripts/validate_wave64_runpod_autonomous_multimodal_qa_control_package.py",
+      "result": "PASS_W64_AQA_CONTROL_PACKAGE_VALID"
+    }
+  ],
+  "disposition": "PASS_READ_ONLY_ARTIFACT_DIGEST_EXECUTOR_ONLY",
+  "unqualified_actions": [
+    "proposal_write",
+    "candidate_write",
+    "evidence_append",
+    "validator_run",
+    "workflow_inspect",
+    "object_info_read",
+    "shadow_generation_submit",
+    "shell",
+    "git",
+    "cloud",
+    "tracker_write",
+    "promotion",
+    "secret_read",
+    "arbitrary_network"
+  ],
+  "runtime_claims": {
+    "runpod_contacted": false,
+    "gpu_used": false,
+    "comfyui_execution_performed": false,
+    "model_inference_performed": false,
+    "product_promotion_granted": false
+  }
+}
