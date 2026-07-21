@@ -1,0 +1,142 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "RUNPOD_1q4ji0gg1fkhvt_PROVISIONED_AUDIT_20260720T2247-0500",
+  "created_iso": "2026-07-20T22:47:00-05:00",
+  "classification": "RUNPOD_PROVISIONED_AUDIT_READ_ONLY",
+  "scope": "RunPod pod 1q4ji0gg1fkhvt read-only provisioned audit — local provisioned.json vs live SSH stage verification; P1 pass and gap inventory",
+  "runtime_authority": "runpod_remote",
+  "local_comfyui_touched": false,
+  "row073_pcm_touched": false,
+  "row_complete": false,
+  "product_completion_claimed": false,
+  "csv_sync": "deferred_evidence_only",
+  "proof_tier": "PROVISIONED_AUDIT_BOUNDED",
+  "highest_proof_tier_achieved": "PROVISIONED_AUDIT_BOUNDED",
+  "pod": {
+    "id": "1q4ji0gg1fkhvt",
+    "name": "hyperreal-flux",
+    "public_ip": "195.26.233.100",
+    "ssh_port": 52077,
+    "volume_id": "o9qv2ld91c",
+    "volume_mount_path": "/workspace",
+    "status_agent_reported": "SSH_READY"
+  },
+  "agent_result_citation": {
+    "parent_transcript_id": "485c50f8-1ac8-443e-9a2a-1eef55f00725",
+    "subagent_id": "8ef57f26-775b-417c-81bc-b21793216074",
+    "status": "complete",
+    "confidence": "high",
+    "summary": "Read-only audit: provisioned.json matches live pod; P1 Comfy/Flux/LoRA OK; Character_1, Ultimate+sqlite, MF perception fetches, and deferred DAZ remain gaps.",
+    "upload_or_wipe_performed": false
+  },
+  "local_state_citation": {
+    "provisioned_json_path": "F:\\Characters\\Scenes_xxx_001\\00_MISSION\\RUNPOD\\state\\provisioned.json",
+    "provisioned_json_fields": {
+      "pod_id": "1q4ji0gg1fkhvt",
+      "volume_id": "o9qv2ld91c",
+      "status": "SSH_READY",
+      "comfy_status": "UP_RUNPOD_stageA_success_81s",
+      "flux_models": "ALL_7_VERIFIED",
+      "ip": "195.26.233.100",
+      "ssh_port": 52077
+    },
+    "priority_json_path": "F:\\Characters\\Scenes_xxx_001\\00_MISSION\\RUNPOD\\state\\priority.json",
+    "daz_library_priority": "DEFERRED_LAST",
+    "ult_missing_txt_path": "F:\\Characters\\Scenes_xxx_001\\00_MISSION\\RUNPOD\\state\\ult_missing.txt",
+    "ult_missing_line_count": 1255,
+    "pod_layout_path": "F:\\Characters\\Scenes_xxx_001\\00_MISSION\\RUNPOD\\TRANSFER_MANIFEST\\POD_LAYOUT.md",
+    "prior_mechanical_smoke_evidence": "Plan/Instructions/QA/Evidence/Runtime_Readiness/RUNPOD_1q4ji0gg1fkhvt_MECHANICAL_SMOKE_PASS_20260720T2244-0500.json"
+  },
+  "p1_verified": {
+    "overall_verdict": "PASS",
+    "checks": [
+      {
+        "id": "comfyui_http",
+        "verdict": "PASS",
+        "http_code_agent_reported": 200,
+        "endpoint": "http://127.0.0.1:8188/system_stats"
+      },
+      {
+        "id": "flux_models",
+        "verdict": "PASS",
+        "present_count_agent_reported": "7/7",
+        "local_provisioned_field": "ALL_7_VERIFIED"
+      },
+      {
+        "id": "loras",
+        "verdict": "PASS",
+        "character1_flux_calibration_size_agent_reported": "~1.0 GB",
+        "balhaw_test_size_agent_reported": "~22.6 GB"
+      },
+      {
+        "id": "scenes_wave64_mf_code",
+        "verdict": "PASS",
+        "note": "Scenes/Wave64/MaskedWarehouse/MF code+data present on pod per agent SSH probe"
+      }
+    ]
+  },
+  "gaps": [
+    {
+      "id": "character_1",
+      "verdict": "GAP",
+      "pod_size_agent_reported": "~3.4 GB",
+      "pod_file_count_agent_reported": 5682,
+      "target_size_agent_reported": "~42 GB",
+      "target_file_count_manifest": 13051,
+      "target_manifest_path": "F:\\Characters\\Scenes_xxx_001\\00_MISSION\\RUNPOD\\TRANSFER_MANIFEST\\TREE_CHARACTER_1_EVERY.txt"
+    },
+    {
+      "id": "ultimate_reference_images",
+      "verdict": "GAP",
+      "pod_size_agent_reported": "~4.2 GB",
+      "pod_file_count_agent_reported": 1405,
+      "target_size_agent_reported": "~7.9 GB",
+      "target_file_count_agent_reported": 2658,
+      "reference_library_sqlite_present": false,
+      "ult_missing_line_count": 1255,
+      "gap_tars_local_path": "F:\\Characters\\Scenes_xxx_001\\00_MISSION\\RUNPOD\\state\\ult_gap_tars\\"
+    },
+    {
+      "id": "mf_perception_models",
+      "verdict": "GAP",
+      "ok_count_agent_reported": 4,
+      "fail_count_agent_reported": 9,
+      "failed_keys_agent_reported": [
+        "schp",
+        "dwpose",
+        "mediapipe",
+        "sam2",
+        "groundingdino",
+        "densepose",
+        "faceparse"
+      ],
+      "note": "Retry failed on-pod fetches only; leave OK models untouched"
+    },
+    {
+      "id": "daz_library",
+      "verdict": "DEFERRED",
+      "pod_path_agent_reported": "absent",
+      "priority_json_field": "DEFERRED_LAST",
+      "note": "Do not start until P1–P7 closed per priority.json"
+    }
+  ],
+  "overall_verdict": "P1_OK_GAPS_REMAIN",
+  "boundaries": {
+    "workspace_wipe": false,
+    "flux_lora_reupload": false,
+    "daz_character_bulk_sync": false,
+    "comfyui_restart_performed": false,
+    "local_comfyui_start": false,
+    "row073_pcm_touch": false,
+    "shared_csv_mutation": false,
+    "complete_claim": false
+  },
+  "safe_next_actions": [
+    "Bounded Character_1 gap sync (tar/scp/extract) without re-uploading working Flux/LoRA/Scenes trees",
+    "Promote C1 rear authority PNGs to Scenes refs and /workspace/comfy_input per GAP_SYNC_CHECKLIST",
+    "Apply Ultimate gap tars and sync reference_library.sqlite; re-diff ult_missing.txt",
+    "Retry failed MF perception model fetches on pod only",
+    "Leave DAZ deferred until items 1–7 closed"
+  ],
+  "next_action": "Authorize bounded gap-sync jobs for Character_1, Ultimate+sqlite, and MF perception fetch retries on pod 1q4ji0gg1fkhvt; keep local C:\\Comfy_UI_Main as git/tracker authority only."
+}
