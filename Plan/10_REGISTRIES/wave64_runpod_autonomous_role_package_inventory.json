@@ -1,7 +1,7 @@
 {
   "schema_version": "wave64.aqa.role_package_inventory.v1",
   "program_id": "W64-AQA",
-  "observed_at_utc": "2026-07-22T03:55:31Z",
+  "observed_at_utc": "2026-07-22T05:58:00Z",
   "scope": "REPOSITORY_BACKED_STATIC_AND_SCOPED_RUNTIME_EVIDENCE",
   "runtime_policy": {
     "current_pod_remains_authoritative": true,
@@ -100,6 +100,16 @@
       "installation": {"state": "UPSTREAM_IDENTITY_VERIFIED_NOT_INSTALLED", "artifact_digest": null, "durable_root": null, "evidence": "Plan/Tracker/Evidence/W64_AQA_INTERNVL35_241B_A28B_NATIVE_HF_SOURCE_QUALIFICATION_20260722T030000Z.json"},
       "qualification": {"state": "NATIVE_HF_SOURCE_PINNED_LICENSE_ACCEPTED_INSTALLATION_PENDING", "required_gates": ["artifact_hash", "quantization", "capacity", "calibration", "runtime", "latency", "quality", "cost", "failure_injection"]},
       "authority": {"operational": false, "allowed_scope": "none until independent certificate", "forbidden": ["download_without_receipt", "trust_remote_code", "load", "inference", "product_approval", "promotion"]}
+    },
+    {
+      "package_id": "W64-AQA-PKG-LAION-CLAP-GENERAL",
+      "roles": ["audio_semantic_support", "audio_retrieval_support"],
+      "identity": {"display_name": "larger_clap_general", "publisher": "LAION", "repository_id": "laion/larger_clap_general", "source_url": "https://huggingface.co/laion/larger_clap_general", "identity_state": "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_PINNED", "license_state": "LOCAL_RUNTIME_LICENSE_NOT_REVERIFIED"},
+      "source_pin": {"revision": "ada0c23a36c4e8582805bb38fec3905903f18b41", "verified_at_utc": "2026-07-22T05:45:22Z", "aggregate_manifest_sha256": "b35a1ac3fc7cf0ed32822667e85240b0620cba5ed65988c0a707445ef7e593cc", "file_count": 15, "total_bytes": 777702854, "weight_sha256": "314eb00cce6ad68d25237b8446b659ccdb136ed4672c1bca470f142f72455026"},
+      "installation": {"state": "PROMOTED_EXACT_PACKAGE_IDENTITY_VERIFIED_ACTIVATION_PENDING", "artifact_digest": "b35a1ac3fc7cf0ed32822667e85240b0620cba5ed65988c0a707445ef7e593cc", "durable_root": "/workspace/ComfyUI/models/audio/embeddings/laion_clap_general", "evidence": "Plan/Tracker/Evidence/W64_AQA_LAION_CLAP_AUDIO_RUNTIME_CANARY_20260722T054522Z/laion_clap_audio_runtime_canary.json"},
+      "supporting_runtime_canary": {"state": "EXACT_FIXTURE_CUDA_INFERENCE_EMBEDDING_DETERMINISM_AND_PROCESS_EXIT_CLEANUP_PASS_SPEECH_EVENT_GATE_FAIL", "control_commit": "245f3a1562e48e0a21496cb29609654ee0554c56", "script_sha256": "07691b5c2248c3c46e69a376fd64b53a1a72923aa27d9252f7ad0d569a213873", "receipt_sha256": "ad0a53e22275e8467f06cfc13658cd641a7735a13bddd67140f581eb34078910", "evidence": "Plan/Tracker/Evidence/W64_AQA_LAION_CLAP_AUDIO_RUNTIME_CANARY_20260722T054522Z/integration_acceptance.json", "fixture_sha256": "5a07f0a654499266509453421c3efdc1b2e4ce83b8706e0138ebc4b1d3ad924a", "vector_dimension": 512, "repeat_max_abs_delta": 0.0, "load_seconds": 0.910125382244587, "inference_seconds": 0.5741430670022964, "peak_used_mib": 1984, "process_exit_cleanup_delta_mib": 0, "expected_top_label": "a person speaking clearly", "observed_top_label": "silence"},
+      "qualification": {"state": "IDENTITY_AND_BOUNDED_RUNTIME_PASS_SPEECH_EVENT_AND_BROAD_GATES_PENDING", "required_gates": ["license_reverification", "prospective_clean_speech_tone_silence_mixed_calibration", "general_quality", "cost", "failure_injection"]},
+      "authority": {"operational": false, "allowed_scope": "exact hash-bound package and retained-fixture embedding execution evidence under an exclusive coordinator lease", "forbidden": ["unleased_load", "speech_event_approval", "general_audio_semantic_approval", "speaker_identity", "forced_alignment", "av_sync", "product_approval", "promotion"]}
     },
     {
       "package_id": "W64-AQA-PKG-QWEN3-OMNI-30B-A3B",

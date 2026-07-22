@@ -1,0 +1,69 @@
+{
+  "schema_version": "wave64.aqa.integration_acceptance.v1",
+  "program_id": "W64-AQA",
+  "evaluated_at_utc": "2026-07-22T05:58:00Z",
+  "disposition": "PARTIALLY_ADOPTED",
+  "scope": "LAION CLAP promoted-package identity, exact-fixture CUDA inference, repeat determinism, speech-event gate, and process-exit cleanup",
+  "receipt_sha256": "ad0a53e22275e8467f06cfc13658cd641a7735a13bddd67140f581eb34078910",
+  "runtime_log_sha256": "04470381f570b9ec3d4c9546e87a2e478a90cfecc95d9815af16168e102e8626",
+  "accepted": {
+    "package_id": "W64-AQA-PKG-LAION-CLAP-GENERAL",
+    "upstream_revision": "ada0c23a36c4e8582805bb38fec3905903f18b41",
+    "file_count": 15,
+    "total_bytes": 777702854,
+    "aggregate_manifest_sha256": "b35a1ac3fc7cf0ed32822667e85240b0620cba5ed65988c0a707445ef7e593cc",
+    "fixture_sha256": "5a07f0a654499266509453421c3efdc1b2e4ce83b8706e0138ebc4b1d3ad924a",
+    "transformers_version": "4.46.3",
+    "torch_version": "2.4.1+cu124",
+    "model_load_seconds": 0.910125382244587,
+    "inference_seconds": 0.5741430670022964,
+    "vector_dimension": 512,
+    "finite_values": true,
+    "embedding_repeat_max_abs_delta": 0.0,
+    "embedding_repeat_tolerance": 0.000001,
+    "embedding_repeat_determinism": true,
+    "gpu_used_after_load_mib": 1862,
+    "gpu_used_after_inference_mib": 1984,
+    "gpu_used_after_worker_exit_mib": 648,
+    "process_exit_cleanup_delta_mib": 0,
+    "process_exit_cleanup": true
+  },
+  "rejected_gate": {
+    "gate": "exact_fixture_speech_event",
+    "expected_top_label": "a person speaking clearly",
+    "observed_top_label": "silence",
+    "observed_top_margin": 0.12160017713904381,
+    "cosine_similarities_in_label_order": [
+      0.05100511386990547,
+      0.04142701253294945,
+      -0.1511763036251068,
+      0.17260529100894928
+    ],
+    "labels": [
+      "a person speaking clearly",
+      "instrumental music",
+      "mechanical engine noise",
+      "silence"
+    ],
+    "reason": "The immutable mixed speech-plus-sustained-tone fixture did not rank the predeclared speech label first. The observed failure is retained without post-result label tuning."
+  },
+  "authority_granted": [
+    "exact promoted CLAP package identity",
+    "exact current-pod CUDA load and inference for this package and fixture",
+    "finite 512-dimensional audio and text embeddings for this run",
+    "exact-fixture embedding repeat determinism for this run",
+    "process-exit GPU cleanup for this run"
+  ],
+  "authority_not_granted": [
+    "exact-fixture speech-event recognition",
+    "general audio semantic quality",
+    "speaker identity",
+    "forced alignment",
+    "AV sync",
+    "independent juror authority",
+    "operational activation",
+    "product promotion"
+  ],
+  "rerun_policy": "Do not rerun this unchanged fixture and label gate. Any replacement speech-event calibration must be prospectively specified with clean speech, tone-only, silence, and mixed controls before execution.",
+  "next_action": "Advance a deterministic forced-alignment and audio-event calibration package against prospectively declared clean and adversarial fixtures; retain Omni host-memory discrimination as a separate held lane."
+}

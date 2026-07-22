@@ -743,12 +743,21 @@ first add non-destructive process-RSS, anonymous-memory, clean-file-cache,
 cgroup-memory, and delayed-availability observations and must never drop caches
 or touch foreign processes.
 
-The next dependency-unblocked current-pod gate is the promoted
-`laion/larger_clap_general` package at revision
-`ada0c23a36c4e8582805bb38fec3905903f18b41`. Its exact 15-file package is bound
-to aggregate manifest SHA-256
+The promoted `laion/larger_clap_general` package at revision
+`ada0c23a36c4e8582805bb38fec3905903f18b41` is now partially qualified. Its
+exact 15-file, 777,702,854-byte package matches aggregate manifest SHA-256
 `b35a1ac3fc7cf0ed32822667e85240b0620cba5ed65988c0a707445ef7e593cc`.
-The isolated canary must prove exact-package identity, offline CUDA load,
-512-dimensional audio/text embeddings, exact-fixture speech-vs-distractor
-behavior, repeatability, and process-exit cleanup. Passing grants only that
-bounded fixture scope and does not activate general audio QA.
+On the current pod it loaded in 0.910 seconds, produced finite 512-dimensional
+audio and text embeddings in 0.574 seconds, repeated with maximum absolute
+delta 0, and returned GPU use exactly to the 648 MiB pre-worker baseline after
+process exit.
+
+The predeclared speech-event gate failed truthfully: the retained mixed
+speech-plus-sustained-tone fixture ranked `silence` above `a person speaking
+clearly` with a 0.121600 margin. The result is retained without post-result
+label tuning. Exact-package identity, bounded CUDA inference, embedding shape,
+repeat determinism, and cleanup are accepted; speech-event recognition,
+general audio semantics, alignment, speaker, AV-sync, juror, operational, and
+product authority remain false. No unchanged rerun is allowed. The next audio
+lane must prospectively bind clean-speech, tone-only, silence, and mixed
+controls before forced-alignment or event-model execution.

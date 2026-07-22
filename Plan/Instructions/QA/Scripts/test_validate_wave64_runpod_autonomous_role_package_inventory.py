@@ -133,3 +133,24 @@ def test_omni_source_pin_and_storage_install_are_exact_but_not_operational() -> 
     assert not package["authority"]["operational"]
     package["install_admission"]["weight_bytes"] += 1
     assert any("Omni install admission mismatch" in error for error in MODULE.validate(data))
+
+
+def test_promoted_clap_runtime_is_exact_but_speech_authority_remains_forbidden() -> None:
+    data = copy.deepcopy(load_inventory())
+    package = next(
+        item
+        for item in data["packages"]
+        if item["identity"]["repository_id"] == "laion/larger_clap_general"
+    )
+    canary = package["supporting_runtime_canary"]
+    assert package["source_pin"]["revision"] == "ada0c23a36c4e8582805bb38fec3905903f18b41"
+    assert package["installation"]["artifact_digest"] == "b35a1ac3fc7cf0ed32822667e85240b0620cba5ed65988c0a707445ef7e593cc"
+    assert canary["vector_dimension"] == 512
+    assert canary["repeat_max_abs_delta"] == 0.0
+    assert canary["process_exit_cleanup_delta_mib"] == 0
+    assert canary["expected_top_label"] == "a person speaking clearly"
+    assert canary["observed_top_label"] == "silence"
+    assert "speech_event_approval" in package["authority"]["forbidden"]
+    assert not package["authority"]["operational"]
+    canary["observed_top_label"] = "a person speaking clearly"
+    assert any("supporting runtime canary mismatch" in error for error in MODULE.validate(data))

@@ -549,8 +549,8 @@ def collect_errors() -> list[str]:
     ):
         errors.append("role package inventory current-pod-only policy mismatch")
     inventory_packages = role_package_inventory.get("packages", [])
-    if len(inventory_packages) != 15:
-        errors.append("role package inventory must contain 15 exact package records")
+    if len(inventory_packages) != 16:
+        errors.append("role package inventory must contain 16 exact package records")
     if any(package.get("authority", {}).get("operational") is not False for package in inventory_packages):
         errors.append("role package inventory cannot claim operational authority")
     if role_package_identity_evidence.get("runpod_contacted") is not False:

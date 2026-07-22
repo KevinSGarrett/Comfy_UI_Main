@@ -29,6 +29,10 @@ EXPECTED_PLANNED = {
     "Qwen/Qwen3.5-397B-A17B",
 }
 
+EXPECTED_PROMOTED = {
+    "laion/larger_clap_general": "b35a1ac3fc7cf0ed32822667e85240b0620cba5ed65988c0a707445ef7e593cc",
+}
+
 PINNED_PLANNED = {
     "Qwen/Qwen3-ASR-1.7B": "7278e1e70fe206f11671096ffdd38061171dd6e5",
     "Qwen/Qwen3-Omni-30B-A3B-Thinking": "2f443cfc4c54b14a815c0e2bb9a9d6cbcd9a748b",
@@ -68,6 +72,7 @@ def validate(data: dict) -> list[str]:
         errors.append("package_id values must be unique")
     installed: dict[str, str | None] = {}
     planned: set[str] = set()
+    promoted: dict[str, str | None] = {}
     for item in packages:
         identity = item.get("identity", {})
         install = item.get("installation", {})
@@ -87,6 +92,53 @@ def validate(data: dict) -> list[str]:
             if install.get("durable_root") != "/workspace/ollama":
                 errors.append(f"{item.get('package_id')}: installed root mismatch")
             installed[identity.get("repository_id", "")] = digest
+        elif state == "PROMOTED_EXACT_PACKAGE_IDENTITY_VERIFIED_ACTIVATION_PENDING":
+            repository_id = identity.get("repository_id", "")
+            source_pin = item.get("source_pin", {})
+            supporting_canary = item.get("supporting_runtime_canary", {})
+            expected_source_pin = {
+                "revision": "ada0c23a36c4e8582805bb38fec3905903f18b41",
+                "verified_at_utc": "2026-07-22T05:45:22Z",
+                "aggregate_manifest_sha256": "b35a1ac3fc7cf0ed32822667e85240b0620cba5ed65988c0a707445ef7e593cc",
+                "file_count": 15,
+                "total_bytes": 777702854,
+                "weight_sha256": "314eb00cce6ad68d25237b8446b659ccdb136ed4672c1bca470f142f72455026",
+            }
+            expected_canary = {
+                "state": "EXACT_FIXTURE_CUDA_INFERENCE_EMBEDDING_DETERMINISM_AND_PROCESS_EXIT_CLEANUP_PASS_SPEECH_EVENT_GATE_FAIL",
+                "control_commit": "245f3a1562e48e0a21496cb29609654ee0554c56",
+                "script_sha256": "07691b5c2248c3c46e69a376fd64b53a1a72923aa27d9252f7ad0d569a213873",
+                "receipt_sha256": "ad0a53e22275e8467f06cfc13658cd641a7735a13bddd67140f581eb34078910",
+                "evidence": "Plan/Tracker/Evidence/W64_AQA_LAION_CLAP_AUDIO_RUNTIME_CANARY_20260722T054522Z/integration_acceptance.json",
+                "fixture_sha256": "5a07f0a654499266509453421c3efdc1b2e4ce83b8706e0138ebc4b1d3ad924a",
+                "vector_dimension": 512,
+                "repeat_max_abs_delta": 0.0,
+                "load_seconds": 0.910125382244587,
+                "inference_seconds": 0.5741430670022964,
+                "peak_used_mib": 1984,
+                "process_exit_cleanup_delta_mib": 0,
+                "expected_top_label": "a person speaking clearly",
+                "observed_top_label": "silence",
+            }
+            if repository_id != "laion/larger_clap_general":
+                errors.append(f"{item.get('package_id')}: unsupported promoted package")
+            if identity.get("identity_state") != "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_PINNED":
+                errors.append(f"{item.get('package_id')}: promoted identity state mismatch")
+            if identity.get("license_state") != "LOCAL_RUNTIME_LICENSE_NOT_REVERIFIED":
+                errors.append(f"{item.get('package_id')}: promoted license state mismatch")
+            if install.get("artifact_digest") != EXPECTED_PROMOTED.get(repository_id):
+                errors.append(f"{item.get('package_id')}: promoted artifact digest mismatch")
+            if install.get("durable_root") != "/workspace/ComfyUI/models/audio/embeddings/laion_clap_general":
+                errors.append(f"{item.get('package_id')}: promoted durable root mismatch")
+            if source_pin != expected_source_pin:
+                errors.append(f"{item.get('package_id')}: promoted source pin mismatch")
+            if supporting_canary != expected_canary:
+                errors.append(f"{item.get('package_id')}: supporting runtime canary mismatch")
+            if qualification.get("state") != "IDENTITY_AND_BOUNDED_RUNTIME_PASS_SPEECH_EVENT_AND_BROAD_GATES_PENDING":
+                errors.append(f"{item.get('package_id')}: promoted qualification state mismatch")
+            if "speech_event_approval" not in authority.get("forbidden", []):
+                errors.append(f"{item.get('package_id')}: failed speech gate must remain forbidden")
+            promoted[repository_id] = install.get("artifact_digest")
         elif state in {
             "UPSTREAM_IDENTITY_VERIFIED_NOT_INSTALLED",
             "INSTALLED_FILE_SET_VERIFIED_ACTIVATION_PENDING",
@@ -301,6 +353,8 @@ def validate(data: dict) -> list[str]:
         errors.append("installed digest inventory mismatch")
     if planned != EXPECTED_PLANNED:
         errors.append("planned official repository inventory mismatch")
+    if promoted != EXPECTED_PROMOTED:
+        errors.append("promoted exact package inventory mismatch")
     return errors
 
 

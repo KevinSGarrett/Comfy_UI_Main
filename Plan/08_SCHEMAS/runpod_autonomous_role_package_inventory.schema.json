@@ -38,8 +38,8 @@
     },
     "packages": {
       "type": "array",
-      "minItems": 15,
-      "maxItems": 15,
+      "minItems": 16,
+      "maxItems": 16,
       "items": {
         "type": "object",
         "additionalProperties": false,
@@ -65,7 +65,7 @@
             "additionalProperties": false,
             "required": ["state", "artifact_digest", "durable_root", "evidence"],
             "properties": {
-              "state": {"enum": ["INSTALLED_DIGEST_VERIFIED_ACTIVATION_SCOPED", "INSTALLED_FILE_SET_VERIFIED_ACTIVATION_PENDING", "STORAGE_INSTALL_ADMITTED_EXECUTION_PENDING", "UPSTREAM_IDENTITY_VERIFIED_NOT_INSTALLED", "EXTERNAL_CONSUMER_ONLY_NOT_INSTALLABLE"]},
+              "state": {"enum": ["INSTALLED_DIGEST_VERIFIED_ACTIVATION_SCOPED", "INSTALLED_FILE_SET_VERIFIED_ACTIVATION_PENDING", "PROMOTED_EXACT_PACKAGE_IDENTITY_VERIFIED_ACTIVATION_PENDING", "STORAGE_INSTALL_ADMITTED_EXECUTION_PENDING", "UPSTREAM_IDENTITY_VERIFIED_NOT_INSTALLED", "EXTERNAL_CONSUMER_ONLY_NOT_INSTALLABLE"]},
               "artifact_digest": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
               "durable_root": {"type": ["string", "null"]},
               "evidence": {"type": "string", "minLength": 1}
@@ -160,6 +160,27 @@
               "peak_used_mib": {"type": "integer", "minimum": 1},
               "process_exit_cleanup_delta_mib": {"type": "integer", "maximum": 1024},
               "coordinator_lease_mode": {"const": "exclusive"}
+            }
+          },
+          "supporting_runtime_canary": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["state", "control_commit", "script_sha256", "receipt_sha256", "evidence", "fixture_sha256", "vector_dimension", "repeat_max_abs_delta", "load_seconds", "inference_seconds", "peak_used_mib", "process_exit_cleanup_delta_mib", "expected_top_label", "observed_top_label"],
+            "properties": {
+              "state": {"const": "EXACT_FIXTURE_CUDA_INFERENCE_EMBEDDING_DETERMINISM_AND_PROCESS_EXIT_CLEANUP_PASS_SPEECH_EVENT_GATE_FAIL"},
+              "control_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+              "script_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "receipt_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "evidence": {"type": "string", "minLength": 1},
+              "fixture_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "vector_dimension": {"const": 512},
+              "repeat_max_abs_delta": {"const": 0.0},
+              "load_seconds": {"type": "number", "exclusiveMinimum": 0},
+              "inference_seconds": {"type": "number", "exclusiveMinimum": 0},
+              "peak_used_mib": {"type": "integer", "minimum": 1},
+              "process_exit_cleanup_delta_mib": {"type": "integer", "maximum": 1024},
+              "expected_top_label": {"const": "a person speaking clearly"},
+              "observed_top_label": {"const": "silence"}
             }
           },
           "authority": {
