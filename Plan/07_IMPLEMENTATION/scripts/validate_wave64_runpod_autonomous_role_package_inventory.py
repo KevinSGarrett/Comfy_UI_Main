@@ -207,13 +207,16 @@ def validate(data: dict) -> list[str]:
                     if omni_preflight != expected_omni_preflight:
                         errors.append(f"{item.get('package_id')}: Omni dependency preflight mismatch")
                     expected_omni_environment = {
-                        "state": "HASH_LOCKED_BUILD_ADMITTED_EXECUTION_PENDING",
+                        "state": "INSTALLED_METADATA_VERIFIED_IMPORT_PENDING",
+                        "root": "/workspace/w64_aqa/environments/Qwen3-Omni-30B-A3B-Thinking/transformers-5.2.0-qwen-omni-utils-0.0.9-py3.12.13-cu124/a19d160721dfb74cf89bc70eebec10f45b2e6f58b7a109726d658db7d361277c",
                         "lock_sha256": "a19d160721dfb74cf89bc70eebec10f45b2e6f58b7a109726d658db7d361277c",
-                        "package_count": 75,
-                        "wheel_count": 78,
-                        "target": "/workspace/w64_aqa/environments/Qwen3-Omni-30B-A3B-Thinking/transformers-5.2.0-qwen-omni-utils-0.0.9-py3.12.13-cu124/a19d160721dfb74cf89bc70eebec10f45b2e6f58b7a109726d658db7d361277c",
-                        "admission": "Plan/10_REGISTRIES/wave64_qwen3_omni_dependency_environment_admission.json",
-                        "evidence": "Plan/Tracker/Evidence/W64_AQA_QWEN3_OMNI_DEPENDENCY_LOCK_20260722T022803Z.json",
+                        "receipt_sha256": "d89ec8ba5588e8ba07f76522c74bfbfe51284c55baf934ab7f4729fed298deb8",
+                        "tree_sha256": "2ae7708993cab848861688ae1b89a2233d61fa02b49e1c14bf51b188a2dd59c5",
+                        "distribution_count": 75,
+                        "pip_check": "PASS_75_PACKAGES_COMPATIBLE",
+                        "active_environment_unchanged": True,
+                        "replay": "REUSED_VERIFIED_ENVIRONMENT",
+                        "evidence": "Plan/Tracker/Evidence/W64_AQA_QWEN3_OMNI_ENVIRONMENT_BUILD_20260722T024800Z/evidence.json",
                     }
                     if omni_environment != expected_omni_environment:
                         errors.append(f"{item.get('package_id')}: Omni dependency environment admission mismatch")

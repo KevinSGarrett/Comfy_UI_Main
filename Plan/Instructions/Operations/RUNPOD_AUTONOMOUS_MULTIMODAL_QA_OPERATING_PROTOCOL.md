@@ -428,3 +428,14 @@ Reuse the admitted Python 3.12.13 executable; do not install another Python.
 Require 25 GiB free, exact uv 0.11.30, and the lock-addressed target. A build
 may create the environment and install selected wheels only. It may not import
 model libraries, open weights, inspect GPU/lease state, or activate a role.
+
+The corrected isolated environment is installed at the `a19d1607` lock-addressed
+target. Its retained receipt binds 75 compatible distributions, 23,097 regular
+files, four symlinks, 5,749,106,791 regular-file bytes, and tree SHA-256
+`2ae7708993cab848861688ae1b89a2233d61fa02b49e1c14bf51b188a2dd59c5`.
+Direct `uv pip check` and full replay both pass, and the active environment
+metadata signature is unchanged. This is metadata/build authority only. Do not
+import the model libraries until a separately admitted import-only canary is
+pushed; that canary must block network, model construction, weight access,
+tensors, GPU/lease inspection, inference, service changes, audio/AV authority,
+activation, and product authority.

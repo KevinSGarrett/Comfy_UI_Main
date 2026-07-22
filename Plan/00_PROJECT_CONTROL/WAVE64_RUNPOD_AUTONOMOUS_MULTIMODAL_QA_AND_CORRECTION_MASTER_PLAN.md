@@ -626,10 +626,20 @@ Qwen3-Omni support paths. The active environment remains unchanged. This
 authorizes only resolution of a hash-locked isolated Transformers 5.2-plus
 environment; import, weights, GPU, lease, inference, and authority remain false.
 
-The isolated Omni dependency closure is now resolved and admitted. Its Pylock
-contains 75 packages and 78 SHA-256-bound wheels from only
-`files.pythonhosted.org` and `download-r2.pytorch.org`. It pins Transformers
-5.2.0, Qwen-Omni Utils 0.0.9 with Decord, Accelerate 1.14.0, and the existing
-Torch 2.4.1+cu124 baseline. vLLM and FlashAttention are deliberately excluded
-from this first import-capable environment. The already verified Python 3.12.13
-runtime is reuse-only; active ComfyUI cannot be modified.
+The isolated Omni dependency closure is resolved, corrected, built, and
+metadata-verified. Its Pylock contains 75 packages and 78 SHA-256-bound wheels
+from only `files.pythonhosted.org` and `download-r2.pytorch.org`. It pins
+Transformers 5.2.0, Qwen-Omni Utils 0.0.9, Accelerate 1.14.0, Torch
+2.4.1+cu124, and TorchVision 0.19.1+cu124. The optional Decord 0.6.0 extra was
+removed after `uv pip check` proved its published wheel's internal tag is
+CPython 3.6 only. vLLM and FlashAttention remain excluded. The verified Python
+3.12.13 runtime is reuse-only and active ComfyUI was not modified.
+
+The corrected lock-addressed build contains 75 compatible distributions,
+23,097 regular files, four symlinks, and 5,749,106,791 regular-file bytes at
+tree SHA-256 `2ae7708993cab848861688ae1b89a2233d61fa02b49e1c14bf51b188a2dd59c5`.
+Direct compatibility validation and full replay pass, and the active Python
+metadata signature is identical before and after. No model library was
+imported, no weights were opened, and no tensor, GPU, lease, inference,
+service, semantic, activation, or product authority is claimed. The next safe
+gate is a separately admitted import-only canary from a pushed commit.

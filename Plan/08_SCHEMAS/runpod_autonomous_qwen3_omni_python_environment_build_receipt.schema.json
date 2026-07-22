@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "runpod_autonomous_qwen3_omni_python_environment_build_receipt.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "program_id", "package_id", "status", "admission_commit", "admission_sha256", "lock_sha256", "environment_root", "python", "uv_version", "free_bytes_before", "distribution_count", "distributions", "pip_check", "environment_tree", "active_environment", "runtime_claims"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.qwen3_omni_python_environment_build_receipt.v1"},
+    "program_id": {"const": "W64-AQA"},
+    "package_id": {"const": "W64-AQA-PKG-QWEN3-OMNI-30B-A3B"},
+    "status": {"const": "ISOLATED_ENVIRONMENT_INSTALLED_METADATA_VERIFIED_IMPORT_PENDING"},
+    "admission_commit": {"const": "f483f7cf0b5c5dc9c07b8d917ea381e1de1b8935"},
+    "admission_sha256": {"const": "af3f8f8b787080cc40429a9bb9a7b507ed79656e7c27b975af0333d27a2431c1"},
+    "lock_sha256": {"const": "a19d160721dfb74cf89bc70eebec10f45b2e6f58b7a109726d658db7d361277c"},
+    "environment_root": {"const": "/workspace/w64_aqa/environments/Qwen3-Omni-30B-A3B-Thinking/transformers-5.2.0-qwen-omni-utils-0.0.9-py3.12.13-cu124/a19d160721dfb74cf89bc70eebec10f45b2e6f58b7a109726d658db7d361277c"},
+    "python": {"type": "object", "additionalProperties": false, "required": ["version", "base_executable", "base_executable_sha256"], "properties": {"version": {"const": "3.12.13"}, "base_executable": {"const": "/workspace/w64_aqa/runtimes/python/cpython-3.12.13-linux-x86_64-gnu/bin/python3.12"}, "base_executable_sha256": {"const": "7d43f6e86a6c6dd12005ec77eb2055f1be3f1bb3adedf8afe0a87973fa7371ce"}}},
+    "uv_version": {"const": "0.11.30"},
+    "free_bytes_before": {"type": "integer", "minimum": 26843545600},
+    "distribution_count": {"const": 75},
+    "distributions": {"type": "array", "minItems": 75, "maxItems": 75, "items": {"type": "object", "additionalProperties": false, "required": ["name", "version"], "properties": {"name": {"type": "string", "minLength": 1}, "version": {"type": "string", "minLength": 1}}}},
+    "pip_check": {"const": "PASS_75_PACKAGES_COMPATIBLE"},
+    "environment_tree": {"type": "object", "additionalProperties": false, "required": ["sha256", "regular_file_count", "symlink_count", "total_regular_file_bytes"], "properties": {"sha256": {"const": "2ae7708993cab848861688ae1b89a2233d61fa02b49e1c14bf51b188a2dd59c5"}, "regular_file_count": {"const": 23097}, "symlink_count": {"const": 4}, "total_regular_file_bytes": {"const": 5749106791}}},
+    "active_environment": {"type": "object", "additionalProperties": false, "required": ["python", "metadata_signature_before", "metadata_signature_after", "unchanged"], "properties": {"python": {"const": "python3"}, "metadata_signature_before": {"const": "713621c08135b7c00b6837d3fbe14ee3fa2f339e7ecd36c30f3beb7e48f4110d"}, "metadata_signature_after": {"const": "713621c08135b7c00b6837d3fbe14ee3fa2f339e7ecd36c30f3beb7e48f4110d"}, "unchanged": {"const": true}}},
+    "runtime_claims": {"type": "object", "additionalProperties": false, "required": ["model_library_imported", "model_constructed", "weights_loaded", "tensor_allocated", "gpu_or_lease_polled", "inference_performed", "service_changed", "role_activated", "audio_or_av_authority", "product_authority"], "properties": {"model_library_imported": {"const": false}, "model_constructed": {"const": false}, "weights_loaded": {"const": false}, "tensor_allocated": {"const": false}, "gpu_or_lease_polled": {"const": false}, "inference_performed": {"const": false}, "service_changed": {"const": false}, "role_activated": {"const": false}, "audio_or_av_authority": {"const": false}, "product_authority": {"const": false}}}
+  }
+}
