@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "runpod_autonomous_latentsync_import_canary_admission.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "program_id", "package_id", "status", "environment", "code", "imports", "decord_binary", "target_receipt", "authority", "environment_controls"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.latentsync_import_canary_admission.v1"},
+    "program_id": {"const": "W64-AQA"},
+    "package_id": {"const": "W64-AQA-PKG-LATENTSYNC-1.6"},
+    "status": {"const": "PACKAGE_AND_PROJECT_IMPORT_CANARY_ADMITTED_EXECUTION_PENDING"},
+    "environment": {"const": {"root": "/workspace/w64_aqa/environments/LatentSync-1.6/a229c3948406bc2cf6eaf4873e662e70c6a04746/fcda64087e19f7a23106b6b1d93bfc99ee7928a8c5516dd9815f4acbc04b599e", "receipt_path": "/workspace/w64_aqa/control/receipts/latentsync-1.6-environment-fcda6408.json", "receipt_sha256": "a13ba52cb63e871ada18550db06544fee51c58341d546edb276b3ecdf4c3f68e", "tree_sha256": "9e95a8d17cf8b38fb93b117327c9e68b68c4bfd5935cca81fb67fd6e1798028b", "python_version": "3.11.10"}},
+    "code": {"const": {"root": "/workspace/w64_aqa/code/LatentSync/a229c3948406bc2cf6eaf4873e662e70c6a04746", "commit": "a229c3948406bc2cf6eaf4873e662e70c6a04746", "tree": "51f62bc8aea02da92b1a349077cfb78d0456f742"}},
+    "imports": {"type": "array", "minItems": 18, "maxItems": 18, "uniqueItems": true, "items": {"type": "string"}},
+    "decord_binary": {"const": {"relative_path": "decord/libdecord.so", "bytes": 12465984, "sha256": "98b260c5812106648ba299279916fbe98439893e346d4efdcf5cde66ba8973da"}},
+    "target_receipt": {"const": "/workspace/w64_aqa/control/receipts/latentsync-1.6-import-canary-fcda6408.json"},
+    "authority": {"type": "object", "additionalProperties": false, "required": ["package_import", "project_code_import", "module_origin_inspection", "decord_binary_hash_read", "model_config_read", "weight_access", "model_construction", "tensor_allocation", "gpu_or_lease_poll", "inference", "service_change", "role_activation", "audio_visual_authority", "product_authority"], "properties": {"package_import": {"const": true}, "project_code_import": {"const": true}, "module_origin_inspection": {"const": true}, "decord_binary_hash_read": {"const": true}, "model_config_read": {"const": false}, "weight_access": {"const": false}, "model_construction": {"const": false}, "tensor_allocation": {"const": false}, "gpu_or_lease_poll": {"const": false}, "inference": {"const": false}, "service_change": {"const": false}, "role_activation": {"const": false}, "audio_visual_authority": {"const": false}, "product_authority": {"const": false}}},
+    "environment_controls": {"const": {"CUDA_VISIBLE_DEVICES": "", "HF_HUB_OFFLINE": "1", "TRANSFORMERS_OFFLINE": "1"}}
+  }
+}
