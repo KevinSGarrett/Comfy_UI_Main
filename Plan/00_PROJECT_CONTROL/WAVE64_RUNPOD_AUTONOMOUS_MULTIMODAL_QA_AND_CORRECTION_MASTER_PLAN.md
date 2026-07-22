@@ -761,3 +761,24 @@ general audio semantics, alignment, speaker, AV-sync, juror, operational, and
 product authority remain false. No unchanged rerun is allowed. The next audio
 lane must prospectively bind clean-speech, tone-only, silence, and mixed
 controls before forced-alignment or event-model execution.
+
+## Wav2Vec2 exact-matrix forced-alignment disposition
+
+The hash-bound `facebook/wav2vec2-lv-60-espeak-cv-ft` package at revision
+`ae45363bf3413b374fecd9dc8bc1df0e24c3b7f4` passed the frozen four-fixture
+matrix on the current pod. Clean speech and speech plus tone each produced
+greedy phoneme-token similarity `1.0`, complete monotonic transcript-bound
+spans, and mean aligned-token posterior above `0.91`. Tone-only and silence
+each produced similarity `0.0`, posterior below `0.003`, and correctly refused
+the speech gate. The model loaded in 1.222 seconds, incremental GPU use peaked
+at 1,842 MiB, and process exit returned to the 648 MiB baseline with delta `0`.
+
+This result is `ADOPTED` for exact-package identity, current-pod load and
+inference, this transcript-bound matrix, negative-control refusal, bounded
+capacity, and GPU cleanup. It does not grant general forced alignment,
+multispeaker or multilingual coverage, speaker identity, general audio
+semantics, AV sync, viseme/lip-sync integration, operational activation, or
+product promotion. The next bounded speech action is to bind the retained word
+and phoneme spans into prospective viseme and lip-sync fixtures, then expand
+calibration across speakers, accents, noise, duration, overlap, and transcript
+mismatch before any broader authority claim.

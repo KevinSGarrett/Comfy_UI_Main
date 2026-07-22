@@ -46,7 +46,9 @@ Record leading silence, speech onset, speech offset, trailing silence, total dur
 
 The current-pod phoneme lane uses the hash-locked `phonemizer-fork==3.3.2` and `espeakng-loader==0.2.4` environment. Its Linux wheel requires one declared exact embedded-data symlink; activation must create or reuse only that symlink, verify its immutable target, and fail closed on a non-symlink or foreign target. Import and deterministic text phonemization grant dependency authority only.
 
-Forced-alignment authority additionally requires the admitted Wav2Vec2 phoneme model to pass the immutable clean-speech, tone-only, silence, and speech-plus-tone matrix under the shared capacity lease. Speech fixtures must produce transcript-bound monotonic timing and negative controls must refuse speech alignment. Model load, inference, GPU cleanup, timing, refusal, and exact fixture hashes must all be retained before any operational or product claim.
+The admitted Wav2Vec2 phoneme model passed the immutable clean-speech, tone-only, silence, and speech-plus-tone matrix under an exclusive shared-capacity lease. Both speech fixtures produced complete monotonic transcript-bound phoneme spans, both negative controls refused the speech gate, peak incremental GPU use was 1,842 MiB, and process exit returned to the exact pre-worker baseline. This grants authority only for that exact package, runtime, transcript, and four-fixture matrix.
+
+General forced-alignment authority remains withheld until the same prospective process covers multiple speakers, accents, languages, noise levels, durations, overlaps, transcript mismatches, timing-boundary error, repeatability, and downstream viseme compilation. The retained matrix may seed those fixtures but may not be represented as speaker identity, general audio semantics, AV sync, operational activation, or product promotion.
 
 ## Multi-engine comparison
 

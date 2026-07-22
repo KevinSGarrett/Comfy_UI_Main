@@ -1,0 +1,89 @@
+{
+  "schema_version": "wave64.aqa.integration_acceptance.v1",
+  "program_id": "W64-AQA",
+  "item_ids": [
+    "W64-AQA-006",
+    "W64-AQA-014",
+    "W64-AQA-017",
+    "ITEM-W64-135"
+  ],
+  "accepted_at": "2026-07-22T07:00:41Z",
+  "adoption": "ADOPTED",
+  "source_control": {
+    "prospective_threshold_commit": "08a95e10",
+    "exact_provenance_correction_commit": "99cea0c1",
+    "post_result_threshold_tuning": false
+  },
+  "evidence": {
+    "path": "Plan/Tracker/Evidence/W64_AQA_WAV2VEC2_PHONEME_ALIGNMENT_CANARY_20260722T064900Z/canary_receipt.json",
+    "bytes": 42417,
+    "sha256": "404dbd97bbef08b966f6a39434b7256b97e42dc0c1a7c9cd56949f4f48878a93",
+    "status": "PASS_EXACT_MATRIX_AND_PROCESS_EXIT_CLEANUP"
+  },
+  "package": {
+    "package_id": "W64-AQA-PKG-WAV2VEC2-PHONEME-ALIGNER",
+    "repository": "facebook/wav2vec2-lv-60-espeak-cv-ft",
+    "revision": "ae45363bf3413b374fecd9dc8bc1df0e24c3b7f4",
+    "payload_file_count": 8,
+    "provenance_file_count": 1,
+    "weight_sha256": "3173bde9e9ce490fa0f989e413c42f25bc1820c020adc1e6b9b87025b3cfcc5e",
+    "install_receipt_sha256": "0290956ce208deb5bc928ac154e7f0ec822e0b4a2bffc4e95e4acff60aaef1a9"
+  },
+  "matrix": {
+    "fixture_count": 4,
+    "clean_speech": {
+      "greedy_similarity": 1.0,
+      "mean_aligned_token_posterior": 0.9239113743464039,
+      "speech_gate": true,
+      "passed": true
+    },
+    "tone_only": {
+      "greedy_similarity": 0.0,
+      "mean_aligned_token_posterior": 0.00225149549882189,
+      "speech_gate": false,
+      "passed": true
+    },
+    "silence": {
+      "greedy_similarity": 0.0,
+      "mean_aligned_token_posterior": 0.002576954961687179,
+      "speech_gate": false,
+      "passed": true
+    },
+    "speech_plus_tone": {
+      "greedy_similarity": 1.0,
+      "mean_aligned_token_posterior": 0.9124954745879846,
+      "speech_gate": true,
+      "passed": true
+    }
+  },
+  "capacity": {
+    "lease_id": "lease_97816200a3c541d0a8b79216ec8b184f",
+    "observation_id": "obs_41368f46693040ab851a38a1c24a9220",
+    "lease_released_at": "2026-07-22T06:59:27Z",
+    "load_seconds": 1.2216846272349358,
+    "incremental_loaded_mib": 1634,
+    "incremental_peak_mib": 1842,
+    "process_exit_cleanup_delta_mib": 0,
+    "cleanup_pass": true
+  },
+  "accepted_authority": [
+    "exact_package_identity",
+    "current_pod_model_load",
+    "current_pod_four_fixture_audio_inference",
+    "exact_transcript_bound_monotonic_phoneme_alignment_matrix",
+    "tone_and_silence_negative_control_refusal",
+    "bounded_capacity_observation",
+    "process_exit_gpu_cleanup"
+  ],
+  "withheld_authority": [
+    "general_forced_alignment",
+    "multispeaker_or_multilingual_alignment",
+    "speaker_identity",
+    "general_audio_semantics",
+    "audio_visual_sync",
+    "viseme_or_lip_sync_integration",
+    "operational_activation",
+    "product_promotion"
+  ],
+  "next_action": "Bind the accepted word and phoneme spans into the prospective viseme and lip-sync fixture path, then expand alignment calibration across speakers, accents, noise, duration, overlap, and transcript-mismatch refusals before general authority."
+}
