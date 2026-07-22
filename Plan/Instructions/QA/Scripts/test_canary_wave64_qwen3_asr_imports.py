@@ -136,3 +136,9 @@ def test_socket_creation_is_recorded_but_network_io_is_blocked() -> None:
         "socket.listen",
         "socket.sendto",
     }.issubset(MODULE.BLOCKED_AUDIT_EVENTS)
+
+
+def test_failure_message_retains_collected_side_effect_names() -> None:
+    source = SCRIPT_PATH.read_text(encoding="utf-8")
+    assert "blocked_events={blocked_events!r}" in source
+    assert "weight_open_attempts={weight_open_attempts!r}" in source

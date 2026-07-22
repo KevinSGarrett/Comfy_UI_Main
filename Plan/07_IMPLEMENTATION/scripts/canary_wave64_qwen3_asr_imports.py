@@ -135,7 +135,11 @@ def run_canary() -> dict:
     if not all(item["is_class"] for item in class_resolution.values()):
         raise RuntimeError("required Qwen3-ASR class resolution failed")
     if blocked_events or weight_open_attempts:
-        raise RuntimeError("import canary attempted a forbidden side effect")
+        raise RuntimeError(
+            "import canary attempted a forbidden side effect: "
+            f"blocked_events={blocked_events!r}, "
+            f"weight_open_attempts={weight_open_attempts!r}"
+        )
 
     return {
         "schema_version": "wave64.aqa.qwen3_asr_import_canary.v1",
