@@ -159,3 +159,29 @@ def test_process_exit_cleanup_is_required_for_capacity_authority() -> None:
     )
     assert exit_code == 1
     assert finalized["authority"]["current_pod_runtime_capacity"] is False
+
+
+def test_process_exit_cleanup_retains_inner_runtime_failure() -> None:
+    module = load_module()
+    evidence = {
+        "runtime": {},
+        "embedding_gate": None,
+        "error": "RuntimeError: inner failure",
+        "authority": {
+            "current_pod_runtime_capacity": False,
+            "exact_fixture_speech_event": False,
+            "exact_fixture_embedding_determinism": False,
+        },
+    }
+    finalized, exit_code = module.finalize_process_exit_cleanup(
+        evidence,
+        gpu_before_worker={"used_mib": 648},
+        gpu_after_worker_exit={"used_mib": 648},
+        worker_returncode=1,
+        worker_stdout="",
+        worker_stderr="inner failure",
+    )
+    assert exit_code == 1
+    assert finalized["error"] == "RuntimeError: inner failure"
+    assert finalized["status"] == "FAIL_RUNTIME_FIXTURE_GATE_OR_PROCESS_EXIT_CLEANUP"
+    assert finalized["runtime"]["process_exit_cleanup_pass"] is True

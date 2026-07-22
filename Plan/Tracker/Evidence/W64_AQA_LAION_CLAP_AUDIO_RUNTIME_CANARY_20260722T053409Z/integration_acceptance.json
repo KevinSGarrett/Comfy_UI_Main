@@ -1,0 +1,31 @@
+{
+  "schema_version": "wave64.aqa.integration_acceptance.v1",
+  "program_id": "W64-AQA",
+  "evaluated_at_utc": "2026-07-22T05:37:17Z",
+  "disposition": "REJECTED",
+  "scope": "LAION CLAP promoted-package exact-fixture runtime authority",
+  "runtime_log_sha256": "684bc91f07c508a9317d586b44f967e5d82510175454025d319fc5c866fa0903",
+  "receipt_present": false,
+  "failure": {
+    "code": "CLAP_OUTER_FINALIZER_NULL_GATE_DEREFERENCE",
+    "message": "The inner worker returned a runtime-failure evidence object with embedding_gate null. The outer cleanup finalizer assumed a dictionary, raised AttributeError, and failed to publish the immutable receipt.",
+    "lease_result": "failed",
+    "runtime_authority": false,
+    "package_authority": false
+  },
+  "correction": {
+    "strategy": "Treat a null or non-object embedding gate as a failed gate while preserving the inner worker error and cleanup telemetry in the published receipt.",
+    "corrected_control_sha256": "9ad9ecc442b310778e414f3e02b7f5069ac167bd0171cfad97ea4423051f82b1",
+    "focused_tests": "8 passed",
+    "ruff": "PASS"
+  },
+  "authority_not_granted": [
+    "promoted CLAP package identity",
+    "current-pod CLAP runtime capacity",
+    "exact-fixture speech-event observation",
+    "embedding determinism",
+    "general audio semantic quality",
+    "product promotion"
+  ],
+  "next_action": "Commit and push the fail-closed finalizer correction, then run one corrected canary from the new immutable control revision to expose and retain the original inner runtime result."
+}

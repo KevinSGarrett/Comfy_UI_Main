@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/workspace/w64_aqa/runtime_canary_control/46cbdadc13704b5cf936a89b09c989e487f1d214/canary_wave64_laion_clap_audio_runtime.py", line 506, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/workspace/w64_aqa/runtime_canary_control/46cbdadc13704b5cf936a89b09c989e487f1d214/canary_wave64_laion_clap_audio_runtime.py", line 493, in main
+    evidence, exit_code = runner(**runner_args)
+                          ^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/w64_aqa/runtime_canary_control/46cbdadc13704b5cf936a89b09c989e487f1d214/canary_wave64_laion_clap_audio_runtime.py", line 464, in run_isolated_canary
+    return finalize_process_exit_cleanup(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/w64_aqa/runtime_canary_control/46cbdadc13704b5cf936a89b09c989e487f1d214/canary_wave64_laion_clap_audio_runtime.py", line 411, in finalize_process_exit_cleanup
+    gate_pass = bool(evidence.get("embedding_gate", {}).get("passed"))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'get'

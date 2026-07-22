@@ -408,7 +408,8 @@ def finalize_process_exit_cleanup(
             "worker_stderr": worker_stderr[-4000:],
         }
     )
-    gate_pass = bool(evidence.get("embedding_gate", {}).get("passed"))
+    gate = evidence.get("embedding_gate")
+    gate_pass = bool(isinstance(gate, dict) and gate.get("passed"))
     worker_completed = worker_returncode in {0, 1} and evidence.get("error") is None
     passed = worker_completed and gate_pass and cleanup_pass
     evidence["schema_version"] = "wave64.aqa.laion_clap_audio_runtime_canary.v2"
