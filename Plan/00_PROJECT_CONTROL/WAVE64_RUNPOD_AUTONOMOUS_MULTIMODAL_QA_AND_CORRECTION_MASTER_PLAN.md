@@ -1008,3 +1008,14 @@ GPU, load a model, or infer. A separately observed foreign MaskFactory lease has
 left the shared coordinator in `RECOVERY_REQUIRED` with admission disabled; the
 ComfyUI shift did not clear or override it. Model-load execution remains pending
 while other safe lanes continue.
+
+W64-AQA-018 now also binds the promoted AnimateDiff SDXL v1.0 beta motion
+checkpoint to the exact versioned Wave42 S3 mirror object already recorded in
+the model registry. The current-pod regular file is 950,143,538 bytes with
+SHA-256 `fa4950a062e892fca50d4c441fcd6130d1ad68a621a0404d155be17580072978`,
+matching that immutable mirror record. This is a partial adoption: the mirror
+does not establish original-publisher identity, original-publisher hash
+provenance, or license authority. The retained exact-asset technical smoke is
+not promoted because its strict visual review failed frames 5-7 and found
+severe frame-7 color corruption. No new model load, generation, coordinator or
+GPU poll, activation, or workflow promotion occurred.
