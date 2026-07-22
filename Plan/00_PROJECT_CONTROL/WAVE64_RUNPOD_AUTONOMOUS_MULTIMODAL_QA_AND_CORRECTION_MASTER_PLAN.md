@@ -1126,3 +1126,13 @@ but path presence alone does not grant hash, provider, permission, compatibility
 or quality authority. The four `PLUS FACE (portraits)` IP-Adapter loaders per
 workflow remain preset-ambiguous until isolated `object_info` proves their exact
 encoder and adapter file selections. Activation remains fail closed.
+
+The nine required nonzero assets are now recovered from retained EC2 volume
+`vol-0eb9b2c6d3d2706d6` into the inactive RunPod quarantine model tree. All
+4,224,495,032 bytes pass source-to-destination SHA-256 equality. An ephemeral
+transfer key was removed from both endpoints, and the g5 source was returned to
+its stopped boundary without changing its type or DeleteOnTermination setting.
+This closes the missing-byte recovery action only: none of the files is
+loader-visible, and provider/permission completion, the renamed Double Kiss
+provenance edge, dependencies, `object_info`, model load, execution, visual
+quality, activation, and promotion remain fail closed.

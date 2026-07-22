@@ -1,0 +1,61 @@
+{
+  "schema_version": "wave64.aqa.quarantine_asset_recovery_package.v1",
+  "program_id": "W64-AQA",
+  "tracker_ids": ["W64-AQA-018"],
+  "status": "QUARANTINE_STORAGE_HASH_VERIFIED_NOT_ACTIVATED",
+  "source": {
+    "provider": "aws_ec2",
+    "region": "us-east-1",
+    "instance_id": "i-0560bf8d143f93bb1",
+    "instance_type": "g5.2xlarge",
+    "volume_id": "vol-0eb9b2c6d3d2706d6",
+    "root": "/home/ubuntu/ComfyUI/models",
+    "launch_time_utc": "2026-07-22T11:08:54Z",
+    "stop_requested_utc": "2026-07-22T11:16:35Z",
+    "stop_state_confirmed_utc": "2026-07-22T11:22:05Z",
+    "final_state": "stopped",
+    "delete_on_termination_unchanged": true
+  },
+  "destination": {
+    "provider": "runpod",
+    "pod_id": "1q4ji0gg1fkhvt",
+    "root": "/workspace/wave64_quarantine/aws_ec2_20260722/models",
+    "loader_visible": false,
+    "activated": false
+  },
+  "file_count": 9,
+  "total_bytes": 4224495032,
+  "files": [
+    {"relative_path": "controlnet/controlnet-openpose-sdxl-1.0.safetensors", "bytes": 2502139104, "sha256": "b8524e557a7df60d081f5d4a0eb109967d107df217943bf88c2d99b9ebcc06c5", "identity_boundary": "source_to_quarantine_hash_only_provider_permission_and_compatibility_pending"},
+    {"relative_path": "loras/wave42/flux/skin/flux_skin_Bombshell_Flux_V3.safetensors", "bytes": 153277376, "sha256": "e4c1a7eb7e89415198aff67d52735964fca0a29025cc6b6cb9c4eea507832fd1", "identity_boundary": "source_to_quarantine_hash_matches_main_flow_registry"},
+    {"relative_path": "loras/wave42/flux/skin/flux_skin_FC-Bandeau.safetensors", "bytes": 158614544, "sha256": "766b3dfb3f665d49522c7e94b0a58ab94a7763dd65199c8ea51066ee82daaf43", "identity_boundary": "source_to_quarantine_hash_matches_main_flow_registry"},
+    {"relative_path": "loras/wave42/flux/skin/flux_skin_OiledSkin_FluxDev.safetensors", "bytes": 343805450, "sha256": "4a0c0f8e8c45587aa12ead2e785c1f21df452d933a51793ec7e3e4e3d6eb1c03", "identity_boundary": "source_to_quarantine_hash_matches_main_flow_registry"},
+    {"relative_path": "loras/wave42/sdxl/pose_camera/sdxl_adult_male_Double_Kiss_POV.safetensors", "bytes": 228454548, "sha256": "81dfddb3246862a1353222a96b128ac0fe9e6113483563dbff7283a08487d6cd", "identity_boundary": "hash_matches_legacy_body_male_catalog_entry_but_renamed_path_requires_provenance_reconciliation"},
+    {"relative_path": "loras/wave42/sdxl/skin_imperfections/sdxl_hair_heavily_freckled_SDXL_NSFW.safetensors", "bytes": 228458596, "sha256": "344fd9735f04ccbdaafd2d0f7c2ab4cf8bd7f39cdf07675a9d71a47396471e3a", "identity_boundary": "source_to_quarantine_hash_matches_main_flow_registry"},
+    {"relative_path": "loras/wave42/sdxl/jewelry_accessories/sdxl_jewelry_accessories_Hands.safetensors", "bytes": 228465148, "sha256": "2b280402901408c3f5e2b02e9f197feb500796a4b93e57e638ba8454755be10c", "identity_boundary": "source_to_quarantine_hash_matches_main_flow_registry"},
+    {"relative_path": "sams/sam_vit_b_01ec64.pth", "bytes": 375042383, "sha256": "ec2df62732614e57411cdcf32a23ffdf28910380d03139ee0f4fcbe91eb8c912", "identity_boundary": "source_to_quarantine_hash_only_provider_permission_and_compatibility_pending"},
+    {"relative_path": "ultralytics/bbox/hand_yolov8n.pt", "bytes": 6237883, "sha256": "f3f23b865741cc8373a76dfac31a71ffd71356a480ca43266f294815b608e174", "identity_boundary": "source_to_quarantine_hash_only_provider_permission_and_compatibility_pending"}
+  ],
+  "transfer": {
+    "method": "ephemeral_ed25519_ec2_to_runpod_tar_stream",
+    "source_inventory_command_id": "1b4cd5fe-d229-4acb-bd6a-34490ced4646",
+    "transfer_command_id": "db029c05-decb-40a3-9f03-8f1850dec8ef",
+    "source_key_cleanup_command_id": "a7b68eda-fe88-4ee5-a37d-641eb090bc0b",
+    "warning": "tar returned nonzero only because the root-squashed destination rejected uid/gid restoration; all nine destination files subsequently matched source size and SHA-256",
+    "runpod_authorized_key_removed": true,
+    "ec2_private_key_removed": true
+  },
+  "authority": {
+    "complete_required_quarantine_asset_set": true,
+    "source_to_destination_hash_equality": true,
+    "live_runtime_presence": false,
+    "complete_provider_and_permission_identity": false,
+    "dependency_compatibility": false,
+    "object_info_compatibility": false,
+    "model_load": false,
+    "workflow_execution": false,
+    "quality": false,
+    "activation": false,
+    "promotion": false
+  }
+}
