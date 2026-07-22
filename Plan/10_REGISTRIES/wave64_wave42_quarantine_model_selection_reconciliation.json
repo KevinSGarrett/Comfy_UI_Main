@@ -1,0 +1,29 @@
+{
+  "schema_version": "wave64.aqa.quarantine_model_selection_reconciliation.v1",
+  "program_id": "W64-AQA",
+  "tracker_ids": ["W64-AQA-018"],
+  "status": "FAIL_CLOSED_MISSING_NONZERO_ASSETS_AND_UNRESOLVED_PRESET_BINDINGS",
+  "workflow_hashes": {"WAVE42_MAIN_FLOW_20260702.json": "5382d6cad24856662f7febca7356dbf0cf15080417324b58a5480c065e69401f", "Wave42_Runtime_Bound__UI__WAVE42_MAIN_FLOW_20260702.json": "60529aa2f6365a0a632222f7bdf7b2973970f066fac1e501b3ef6b796af904a2"},
+  "observed_counts": {
+    "source": {"distinct_type_reference_weight_bindings": 35, "present_bindings": 11, "missing_nonzero_bindings": 10, "missing_zero_weight_bindings": 14},
+    "runtime_bound": {"distinct_type_reference_weight_bindings": 33, "present_bindings": 10, "missing_nonzero_bindings": 9, "missing_zero_weight_bindings": 14}
+  },
+  "missing_nonzero_unique_assets": [
+    "controlnet/controlnet-openpose-sdxl-1.0.safetensors",
+    "loras/wave42/flux/skin/flux_skin_Bombshell_Flux_V3.safetensors",
+    "loras/wave42/flux/skin/flux_skin_FC-Bandeau.safetensors",
+    "loras/wave42/flux/skin/flux_skin_OiledSkin_FluxDev.safetensors",
+    "loras/wave42/sdxl/pose_camera/sdxl_adult_male_Double_Kiss_POV.safetensors",
+    "loras/wave42/sdxl/skin_imperfections/sdxl_hair_heavily_freckled_SDXL_NSFW.safetensors",
+    "loras/wave42/sdxl/jewelry_accessories/sdxl_jewelry_accessories_Hands.safetensors",
+    "sams/sam_vit_b_01ec64.pth",
+    "ultralytics/bbox/hand_yolov8n.pt"
+  ],
+  "missing_zero_weight_unique_assets": [
+    "loras/wave42/flux/fluids/flux_fluids_Dirty_Sweat_Movie.safetensors", "loras/wave42/flux/fluids/flux_fluids_flux_sweat_v2.safetensors", "loras/wave42/flux/fluids/flux_fluids_mascara-tears-v2.safetensors", "loras/wave42/flux/fluids/flux_fluids_Oily_skin_style_v1.safetensors", "loras/wave42/flux/fluids/flux_fluids_SWEATY.safetensors", "loras/wave42/flux/fluids/flux_fluids_Sweaty_1.safetensors", "loras/wave42/flux/hands/flux_hands_Better_hands_flux_v1_0.safetensors", "loras/wave42/flux/hands/flux_hands_Detailed_Hands-000001.safetensors", "loras/wave42/flux/hands/flux_hands_feminine_hands.safetensors", "loras/wave42/flux/hands/flux_hands_Hand_v2.safetensors", "loras/wave42/flux/skin/flux_skin_OiledSkin_FluxDev.safetensors", "loras/wave42/flux/style/flux_style_Hair_Style_Wet_Hair-Weak.safetensors", "loras/wave42/sdxl/fluids/sdxl_fluids_Sweaty_Realism_4-000006.safetensors", "loras/wave42/sdxl/jewelry_accessories/sdxl_jewelry_accessories_Hands.safetensors"
+  ],
+  "present_unique_assets": ["checkpoints/flux1-dev-fp8.safetensors", "checkpoints/flux1-schnell-fp8.safetensors", "checkpoints/RealVisXL_V5.0_fp16.safetensors", "text_encoders/qwen_3_4b.safetensors", "controlnet/controlnet-canny-sdxl-1.0-small.safetensors", "controlnet/controlnet-depth-sdxl-1.0-small.fp16.safetensors", "loras/wave42/sdxl/skin_texture/sdxl_skin_texture_Wet_Makeup__Runny_Mascara-000006.safetensors", "diffusion_models/z_image_turbo_bf16.safetensors", "upscale_models/RealESRGAN_x4plus.pth", "vae/ae.safetensors"],
+  "unresolved_presets": [{"node_type": "IPAdapterUnifiedLoader", "preset": "PLUS FACE (portraits)", "nodes_per_workflow": 4, "reason": "preset does not statically prove exact encoder and adapter file selection"}],
+  "verification_boundary": "Presence is an exact-path observation only. Assets without an accepted package retain hash, provider, permission, compatibility, and quality holds.",
+  "authority": {"loader_widget_extraction": true, "live_path_presence_check": true, "complete_required_asset_set": false, "exact_preset_binding": false, "all_present_asset_identity": false, "object_info_compatibility": false, "workflow_execution": false, "activation": false, "promotion": false}
+}

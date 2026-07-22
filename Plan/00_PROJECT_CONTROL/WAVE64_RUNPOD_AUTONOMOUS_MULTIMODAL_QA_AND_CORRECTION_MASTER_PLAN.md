@@ -1117,3 +1117,12 @@ controlnet-aux. This is not runtime compatibility: the inventory records Comfy
 core 0.26.0 while the current pod is tracked-clean ComfyUI 0.28.0 at
 `66655153499f89052aa72d5a869f556b25f0e9c6`. An isolated `object_info` gate
 must therefore prove all node types and model selections before activation.
+
+Exact loader-widget reconciliation now blocks both quarantined workflows for
+nine unique missing nonzero assets: OpenPose ControlNet, five actively weighted
+LoRAs, the hands LoRA, SAM ViT-B, and the hand YOLO detector. Fourteen additional
+zero-weight optional references are absent. Ten unique model paths are present,
+but path presence alone does not grant hash, provider, permission, compatibility,
+or quality authority. The four `PLUS FACE (portraits)` IP-Adapter loaders per
+workflow remain preset-ambiguous until isolated `object_info` proves their exact
+encoder and adapter file selections. Activation remains fail closed.
