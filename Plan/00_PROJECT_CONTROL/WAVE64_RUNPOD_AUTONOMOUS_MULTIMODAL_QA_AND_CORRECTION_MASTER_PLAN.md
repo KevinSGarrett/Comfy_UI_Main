@@ -1082,3 +1082,12 @@ applier remains nonzero at 0.45 and outside that expanded gate set. Static
 integrity is partially adopted, but loader presets do not prove exact runtime
 file selection. Dependencies, import, object-info binding, model load, visual
 quality, activation, and promotion remain false.
+
+The three promoted Wave42 SDXL LoRAs now pass exact live hash replay and Civitai
+hash-to-version binding for 685,369,060 total bytes. Provider permissions are
+not uniform: Wet Makeup records commercial image/rental categories; Big
+Areolas requires credit, disallows derivatives, and is marked NSFW; Latina XL
+records no commercial-use category. These permission fields are retained as
+machine-readable constraints, not treated as license acceptance, consent, or
+product authority. No workflow binding, model load, visual-quality review,
+activation, or promotion occurred.
