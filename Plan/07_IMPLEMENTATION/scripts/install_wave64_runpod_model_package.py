@@ -32,6 +32,10 @@ ADMITTED_PRODUCTION_MANIFESTS = {
         "repository_id": "Qwen/Qwen3-Omni-30B-A3B-Thinking",
         "revision": "2f443cfc4c54b14a815c0e2bb9a9d6cbcd9a748b",
     },
+    "84012eb3b62d7cbd4527d9dfb82fba1ee14a0f25a58173f4b6e57d35c16ef3bd": {
+        "repository_id": "facebook/wav2vec2-lv-60-espeak-cv-ft",
+        "revision": "ae45363bf3413b374fecd9dc8bc1df0e24c3b7f4",
+    },
 }
 
 

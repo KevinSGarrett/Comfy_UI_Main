@@ -13,6 +13,8 @@ ROOT = Path(__file__).resolve().parents[4]
 SCRIPT = ROOT / "Plan/07_IMPLEMENTATION/scripts/install_wave64_runpod_model_package.py"
 MANIFEST = ROOT / "Plan/10_REGISTRIES/wave64_runpod_qwen3_asr_17b_install_admission.json"
 OMNI_MANIFEST = ROOT / "Plan/10_REGISTRIES/wave64_runpod_qwen3_omni_30b_a3b_thinking_install_admission.json"
+ALIGNER_MANIFEST = ROOT / "Plan/10_REGISTRIES/wave64_wav2vec2_phoneme_aligner_install_admission.json"
+ALIGNER_SCHEMA = ROOT / "Plan/08_SCHEMAS/runpod_autonomous_wav2vec2_phoneme_aligner_install_admission.schema.json"
 SPEC = importlib.util.spec_from_file_location("model_package_installer", SCRIPT)
 assert SPEC and SPEC.loader
 MODULE = importlib.util.module_from_spec(SPEC)
@@ -170,6 +172,22 @@ def test_qwen3_omni_manifest_is_bound_for_production_storage_only() -> None:
     MODULE._verify_manifest_shape(manifest)
     assert manifest["storage"]["weight_bytes"] == 63440997640
     assert "gpu_probe" in manifest["authority"]["forbidden"]
+
+
+def test_wav2vec2_phoneme_aligner_manifest_is_bound_for_storage_only() -> None:
+    import jsonschema
+
+    manifest = json.loads(ALIGNER_MANIFEST.read_text(encoding="utf-8"))
+    schema = json.loads(ALIGNER_SCHEMA.read_text(encoding="utf-8"))
+    jsonschema.Draft202012Validator.check_schema(schema)
+    jsonschema.Draft202012Validator(schema).validate(manifest)
+    manifest_hash = hashlib.sha256(MODULE.canonical_bytes(manifest)).hexdigest()
+    assert manifest_hash == "84012eb3b62d7cbd4527d9dfb82fba1ee14a0f25a58173f4b6e57d35c16ef3bd"
+    assert manifest_hash in MODULE.ADMITTED_PRODUCTION_MANIFESTS
+    MODULE._verify_manifest_shape(manifest)
+    assert manifest["source"]["revision"] == "ae45363bf3413b374fecd9dc8bc1df0e24c3b7f4"
+    assert manifest["storage"]["weight_bytes"] == 1263535127
+    assert "forced_alignment_authority" in manifest["authority"]["forbidden"]
 
 
 def test_parallel_download_preserves_manifest_receipt_order(tmp_path: Path) -> None:
