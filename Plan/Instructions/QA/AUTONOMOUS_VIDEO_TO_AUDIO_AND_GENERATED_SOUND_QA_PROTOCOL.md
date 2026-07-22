@@ -109,6 +109,21 @@ Evidence is emitted at
 `Plan/Instructions/QA/Evidence/Wave64/TRK-W64-106_audio_av_qa_matrix.json`.
 The current delta remains a HOLD until those production authorities exist.
 
+## Row107 modular ComfyUI/API boundary
+
+Audio execution is split into exactly six bounded modules: analysis request,
+event manifest, selector result, generated candidate, mix render, and QA
+evaluation. Modules use unique namespaces and versioned record types. No module
+may contain credentials or own reasoning, dependency selection, retry policy,
+evidence acceptance, publication, promotion, or release decisions.
+
+Contract-only modules are inactive. Activation requires the exact workflow
+path, accepted producer dependencies, static graph/schema validation against
+the target runtime's `/object_info`, and an isolated runtime smoke under a
+coordinator lease. One oversized graph cannot substitute for these six module
+boundaries, and a workflow queue/history result remains evidence rather than
+external-controller authority.
+
 ## Benchmark requirements
 
 Benchmarks must include:

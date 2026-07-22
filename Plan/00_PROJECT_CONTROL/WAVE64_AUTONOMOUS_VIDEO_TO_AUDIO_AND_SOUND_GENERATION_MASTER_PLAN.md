@@ -380,6 +380,16 @@ Expose bounded ComfyUI/API modules for analysis requests, event manifests, selec
 
 Acceptance: workflows validate statically and at runtime; no giant monolithic graph; inputs/outputs use versioned schemas.
 
+Implemented contract slice (2026-07-22): six disjoint module contracts now
+cover analysis requests, event manifests, selector results, generated
+candidates, mix rendering, and QA evaluation. Each has a unique namespace,
+bounded node ceiling, typed record I/O, no embedded credentials, and no
+reasoning, dependency-selection, retry, evidence-acceptance, promotion, or
+release authority. Eleven static/adversarial tests pass. Runtime graphs remain
+unmaterialized and inactive until Rows091, 097, 105, and 106 are accepted and
+each graph passes exact object-info validation plus an isolated coordinator-
+leased smoke; runtime and product completion remain false.
+
 ### Row108 Runtime, cache, batch, and cost controls
 
 Implement local-first analysis, content-addressed feature/embedding caches, bounded GPU batches, EC2 selection only when justified, S3 transfer manifests, TTL/watchdog controls, and no-repeat proofs.

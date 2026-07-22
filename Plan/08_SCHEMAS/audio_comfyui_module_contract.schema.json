@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/audio_comfyui_module_contract.schema.json",
+  "title": "Wave64 Row107 Audio ComfyUI Module Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "module_id", "module_type", "revision", "status",
+    "workflow_namespace", "workflow_path", "maximum_node_count",
+    "input_record_types", "output_record_types", "allowed_operations",
+    "forbidden_authorities", "external_controller_authority",
+    "credentials_embedded", "runtime_active"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "module_id": {"type": "string", "pattern": "^W64-AUD-MOD-[0-9]{2}$"},
+    "module_type": {
+      "enum": [
+        "analysis_request", "event_manifest", "selector_result",
+        "generated_candidate", "mix_render", "qa_evaluation"
+      ]
+    },
+    "revision": {"type": "string", "minLength": 1},
+    "status": {"enum": ["contract_only", "static_validated", "runtime_qualified"]},
+    "workflow_namespace": {"type": "string", "pattern": "^wave64/audio/[a-z_]+$"},
+    "workflow_path": {"type": ["string", "null"]},
+    "maximum_node_count": {"type": "integer", "minimum": 1, "maximum": 40},
+    "input_record_types": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "output_record_types": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "allowed_operations": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "forbidden_authorities": {
+      "type": "array", "minItems": 5, "uniqueItems": true,
+      "contains": {"const": "release_or_promotion"},
+      "items": {"type": "string", "minLength": 1}
+    },
+    "external_controller_authority": {"const": true},
+    "credentials_embedded": {"const": false},
+    "runtime_active": {"type": "boolean"}
+  }
+}

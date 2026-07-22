@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "wave64_row107_audio_comfyui_module_registry",
+  "revision": "wave64_row107_audio_comfyui_module_registry_v0.1.0",
+  "status": "static_contract_only_runtime_held",
+  "runtime_completion_claimed": false,
+  "external_controller_authority": [
+    "reasoning", "dependency_selection", "retry_policy", "publication",
+    "promotion", "release", "evidence_acceptance"
+  ],
+  "required_module_types": [
+    "analysis_request", "event_manifest", "selector_result",
+    "generated_candidate", "mix_render", "qa_evaluation"
+  ],
+  "common_forbidden_authorities": [
+    "reasoning", "dependency_selection", "retry_policy",
+    "release_or_promotion", "evidence_acceptance"
+  ],
+  "modules": [
+    {
+      "schema_version": "1.0.0", "module_id": "W64-AUD-MOD-01",
+      "module_type": "analysis_request", "revision": "0.1.0",
+      "status": "contract_only", "workflow_namespace": "wave64/audio/analysis_request",
+      "workflow_path": null, "maximum_node_count": 16,
+      "input_record_types": ["canonical_media_manifest", "audio_analysis_request"],
+      "output_record_types": ["audio_feature_extraction_request"],
+      "allowed_operations": ["decode_probe", "feature_request_serialization"],
+      "forbidden_authorities": ["reasoning", "dependency_selection", "retry_policy", "release_or_promotion", "evidence_acceptance"],
+      "external_controller_authority": true, "credentials_embedded": false, "runtime_active": false
+    },
+    {
+      "schema_version": "1.0.0", "module_id": "W64-AUD-MOD-02",
+      "module_type": "event_manifest", "revision": "0.1.0",
+      "status": "contract_only", "workflow_namespace": "wave64/audio/event_manifest",
+      "workflow_path": null, "maximum_node_count": 24,
+      "input_record_types": ["visual_event_analysis_request", "immutable_visual_evidence_bundle"],
+      "output_record_types": ["visual_audio_event_manifest"],
+      "allowed_operations": ["bounded_visual_feature_execution", "event_manifest_serialization"],
+      "forbidden_authorities": ["reasoning", "dependency_selection", "retry_policy", "release_or_promotion", "evidence_acceptance"],
+      "external_controller_authority": true, "credentials_embedded": false, "runtime_active": false
+    },
+    {
+      "schema_version": "1.0.0", "module_id": "W64-AUD-MOD-03",
+      "module_type": "selector_result", "revision": "0.1.0",
+      "status": "contract_only", "workflow_namespace": "wave64/audio/selector_result",
+      "workflow_path": null, "maximum_node_count": 12,
+      "input_record_types": ["audio_selection_execution_request"],
+      "output_record_types": ["audio_candidate_score_record"],
+      "allowed_operations": ["registered_candidate_lookup", "score_feature_serialization"],
+      "forbidden_authorities": ["reasoning", "dependency_selection", "retry_policy", "release_or_promotion", "evidence_acceptance"],
+      "external_controller_authority": true, "credentials_embedded": false, "runtime_active": false
+    },
+    {
+      "schema_version": "1.0.0", "module_id": "W64-AUD-MOD-04",
+      "module_type": "generated_candidate", "revision": "0.1.0",
+      "status": "contract_only", "workflow_namespace": "wave64/audio/generated_candidate",
+      "workflow_path": null, "maximum_node_count": 32,
+      "input_record_types": ["generated_audio_execution_request"],
+      "output_record_types": ["generated_audio_asset_provenance"],
+      "allowed_operations": ["allowlisted_audio_generation", "candidate_provenance_serialization"],
+      "forbidden_authorities": ["reasoning", "dependency_selection", "retry_policy", "release_or_promotion", "evidence_acceptance"],
+      "external_controller_authority": true, "credentials_embedded": false, "runtime_active": false
+    },
+    {
+      "schema_version": "1.0.0", "module_id": "W64-AUD-MOD-05",
+      "module_type": "mix_render", "revision": "0.1.0",
+      "status": "contract_only", "workflow_namespace": "wave64/audio/mix_render",
+      "workflow_path": null, "maximum_node_count": 40,
+      "input_record_types": ["audio_mix_render_request", "audio_orchestration_state"],
+      "output_record_types": ["sample_accurate_mix_mux_receipt"],
+      "allowed_operations": ["clip_preparation", "spatial_render", "sample_accurate_mix", "mux"],
+      "forbidden_authorities": ["reasoning", "dependency_selection", "retry_policy", "release_or_promotion", "evidence_acceptance"],
+      "external_controller_authority": true, "credentials_embedded": false, "runtime_active": false
+    },
+    {
+      "schema_version": "1.0.0", "module_id": "W64-AUD-MOD-06",
+      "module_type": "qa_evaluation", "revision": "0.1.0",
+      "status": "contract_only", "workflow_namespace": "wave64/audio/qa_evaluation",
+      "workflow_path": null, "maximum_node_count": 24,
+      "input_record_types": ["audio_av_qa_execution_request", "sample_accurate_mix_mux_receipt"],
+      "output_record_types": ["audio_av_qa_matrix_evaluation"],
+      "allowed_operations": ["technical_measurement", "feature_extraction", "qa_receipt_serialization"],
+      "forbidden_authorities": ["reasoning", "dependency_selection", "retry_policy", "release_or_promotion", "evidence_acceptance"],
+      "external_controller_authority": true, "credentials_embedded": false, "runtime_active": false
+    }
+  ]
+}

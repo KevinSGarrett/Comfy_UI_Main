@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0.0",
+  "evidence_id": "TRK-W64-107_COMFYUI_AUDIO_INTEGRATION_CURRENT_DELTA_20260722",
+  "created_at": "2026-07-22T14:00:00Z",
+  "source_commit": "32872920e8dfea294788ae03387fa97254867970",
+  "tracker_id": "TRK-W64-107",
+  "item_id": "ITEM-W64-107",
+  "status": "HOLD_DEPENDENCIES_AND_RUNTIME_WORKFLOWS_ABSENT_WITH_STATIC_MODULAR_CONTRACT_PRESENT",
+  "row_complete": false,
+  "implementation_completion_claimed": true,
+  "runtime_completion_claimed": false,
+  "release_authority": false,
+  "qa_decision": "hold_with_six_module_static_contract_and_adversarial_authority_validation_only",
+  "implemented_contract": {
+    "module_types": [
+      "analysis_request", "event_manifest", "selector_result",
+      "generated_candidate", "mix_render", "qa_evaluation"
+    ],
+    "module_count": 6,
+    "unique_workflow_namespaces": true,
+    "maximum_nodes_per_module": 40,
+    "credentials_embedded": false,
+    "runtime_active_module_count": 0,
+    "external_controller_retains": [
+      "reasoning", "dependency_selection", "retry_policy", "publication",
+      "promotion", "release", "evidence_acceptance"
+    ]
+  },
+  "dependency_authority": {
+    "required": ["TRK-W64-091", "TRK-W64-097", "TRK-W64-105", "TRK-W64-106"],
+    "accepted_count": 0,
+    "all_dependencies_accepted": false
+  },
+  "validation": {
+    "targeted_tests": {"result": "PASS", "passed": 11, "failed": 0},
+    "ruff_check": "PASS",
+    "adversarial_cases": [
+      "missing_module", "duplicate_module_type", "duplicate_namespace",
+      "authority_omission", "embedded_credentials", "unqualified_activation",
+      "qualified_without_workflow_path", "oversized_module"
+    ]
+  },
+  "artifacts": [
+    {"path": "Plan/07_IMPLEMENTATION/scripts/validate_wave64_audio_comfyui_modules.py", "sha256": "0ec3982f293abf19bfec13b7cb08fe784c92418476167c754ade2f6f8bcce439"},
+    {"path": "Plan/08_SCHEMAS/audio_comfyui_module_contract.schema.json", "sha256": "ec11201b45fbd39ad2620df619e8f4850cc454333621ed98325581fcde921bc8"},
+    {"path": "Plan/10_REGISTRIES/wave64_row107_audio_comfyui_module_registry.json", "sha256": "8038e01149b99e6f3663c47135d30b90eff8dc5d7fab324f6d8cb5b4a58d3574"},
+    {"path": "Plan/Instructions/QA/Scripts/test_row107_audio_comfyui_modules.py", "sha256": "d0e5997bc44be321899f2c63465b7faf633cf970945e23fb2dd5eca3fb383228"},
+    {"path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-107_comfyui_audio_integration.json", "sha256": "f1dcd68bb07e5a04d3f3903d547343be1d1b745c4be90546d9bd524ec0cbda52"}
+  ],
+  "hold_boundary": {
+    "blocker_codes": [
+      "ROW107_DEPENDENCIES_NOT_ACCEPTED",
+      "AUDIO_WORKFLOW_GRAPHS_NOT_MATERIALIZED",
+      "COMFYUI_OBJECT_INFO_AND_RUNTIME_SMOKE_ABSENT"
+    ],
+    "pod_or_comfyui_mutated": false,
+    "product_completion": false,
+    "next_action": "Materialize each bounded API graph only after its producer dependency is accepted, then validate against exact object_info and run isolated runtime smokes under a coordinator lease."
+  }
+}
