@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "runpod_autonomous_qwen3_omni_dependency_preflight.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "program_id", "package_id", "classification", "model_root", "source_revision", "python_version", "config", "preprocessor", "assertions", "distribution_versions", "transformers_qwen3_omni_support_paths", "dependency_gaps", "next_action", "runtime_claims"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.qwen3_omni_dependency_preflight.v1"},
+    "program_id": {"const": "W64-AQA"},
+    "package_id": {"const": "W64-AQA-PKG-QWEN3-OMNI-30B-A3B"},
+    "classification": {"enum": ["MODEL_CONFIG_IDENTITY_FAIL", "CONFIG_IDENTITY_PASS_DEPENDENCY_ACTION_REQUIRED", "METADATA_DEPENDENCIES_PRESENT_IMPORT_AND_LOAD_UNQUALIFIED"]},
+    "model_root": {"type": "string", "pattern": "^/workspace/w64_aqa/models/Qwen3-Omni-30B-A3B-Thinking/[0-9a-f]{40}$"},
+    "source_revision": {"const": "2f443cfc4c54b14a815c0e2bb9a9d6cbcd9a748b"},
+    "python_version": {"type": "string", "minLength": 1},
+    "config": {"type": "object", "additionalProperties": false, "required": ["sha256", "model_type", "architectures", "transformers_version_recorded", "component_types"], "properties": {"sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}, "model_type": {"type": ["string", "null"]}, "architectures": {"type": ["array", "null"], "items": {"type": "string"}}, "transformers_version_recorded": {"type": ["string", "null"]}, "component_types": {"type": "object", "additionalProperties": false, "required": ["thinker", "audio", "vision", "text"], "properties": {"thinker": {"type": ["string", "null"]}, "audio": {"type": ["string", "null"]}, "vision": {"type": ["string", "null"]}, "text": {"type": ["string", "null"]}}}}},
+    "preprocessor": {"type": "object", "additionalProperties": false, "required": ["sha256", "processor_class"], "properties": {"sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}, "processor_class": {"type": ["string", "null"]}}},
+    "assertions": {"type": "object", "additionalProperties": false, "required": ["model_type_exact", "architecture_exact", "processor_class_exact", "component_types_exact", "revision_path_exact"], "properties": {"model_type_exact": {"type": "boolean"}, "architecture_exact": {"type": "boolean"}, "processor_class_exact": {"type": "boolean"}, "component_types_exact": {"type": "boolean"}, "revision_path_exact": {"type": "boolean"}}},
+    "distribution_versions": {"type": "object", "additionalProperties": false, "required": ["transformers", "torch", "accelerate", "qwen-omni-utils", "av", "librosa", "Pillow"], "properties": {"transformers": {"type": ["string", "null"]}, "torch": {"type": ["string", "null"]}, "accelerate": {"type": ["string", "null"]}, "qwen-omni-utils": {"type": ["string", "null"]}, "av": {"type": ["string", "null"]}, "librosa": {"type": ["string", "null"]}, "Pillow": {"type": ["string", "null"]}}},
+    "transformers_qwen3_omni_support_paths": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "dependency_gaps": {"type": "array", "uniqueItems": true, "items": {"enum": ["MODEL_CONFIG_IDENTITY_MISMATCH", "QWEN_OMNI_UTILS_DISTRIBUTION_MISSING", "TRANSFORMERS_DISTRIBUTION_MISSING", "INSTALLED_TRANSFORMERS_LACKS_QWEN3_OMNI_SUPPORT"]}},
+    "next_action": {"type": "string", "minLength": 1},
+    "runtime_claims": {"type": "object", "additionalProperties": false, "required": ["model_library_imported", "model_constructed", "weights_loaded", "tensor_allocated", "gpu_or_lease_polled", "inference_performed", "role_activated", "audio_or_av_authority", "product_authority"], "properties": {"model_library_imported": {"const": false}, "model_constructed": {"const": false}, "weights_loaded": {"const": false}, "tensor_allocated": {"const": false}, "gpu_or_lease_polled": {"const": false}, "inference_performed": {"const": false}, "role_activated": {"const": false}, "audio_or_av_authority": {"const": false}, "product_authority": {"const": false}}}
+  }
+}

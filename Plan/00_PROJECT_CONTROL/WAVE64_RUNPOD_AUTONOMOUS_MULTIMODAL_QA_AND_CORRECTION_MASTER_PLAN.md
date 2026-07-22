@@ -610,3 +610,11 @@ directory contains 27 regular files including its receipt, zero symlinks, and
 63,450,501,064 bytes. This closes storage and artifact-hash gates only. The
 model remains unloaded and has no GPU, lease, inference, semantic review,
 activation, or product authority.
+
+The Omni dependency preflight is now implemented but not yet executed. It reads
+only `config.json`, `preprocessor_config.json`, Python distribution metadata,
+and the installed Transformers file manifest. It verifies the top-level model,
+architecture, processor, thinker, audio, vision, text, and revision identities.
+It cannot import model libraries, open weights, allocate tensors, inspect GPU
+or lease state, use the network, or start a process. Any missing Transformers
+5.2-plus or Qwen-Omni support becomes a typed isolated-environment action.

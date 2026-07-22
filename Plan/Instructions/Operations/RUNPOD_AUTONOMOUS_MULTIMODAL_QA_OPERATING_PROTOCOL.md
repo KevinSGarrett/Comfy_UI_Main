@@ -405,3 +405,9 @@ target, all 26 source identities passed, and replay returned
 is an isolated, hash-locked Transformers 5.2-plus dependency environment. Do
 not import the model libraries or open weights until a separate import-only
 canary is admitted and pushed.
+
+Run `preflight_wave64_qwen3_omni_dependencies.py` only from a pushed commit and
+write one no-overwrite receipt in a commit-named control root. This command is
+metadata-only; execute it with the active pod Python solely to establish the
+dependency gap. A passing config identity does not permit importing libraries,
+building the model, reading safetensors, or changing the active environment.

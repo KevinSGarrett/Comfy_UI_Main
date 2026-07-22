@@ -162,6 +162,7 @@ def validate(data: dict) -> list[str]:
                 elif repository_id == "Qwen/Qwen3-Omni-30B-A3B-Thinking":
                     admission = item.get("install_admission", {})
                     omni_receipt = item.get("installation_receipt", {})
+                    omni_preflight = item.get("dependency_preflight", {})
                     if state != "INSTALLED_FILE_SET_VERIFIED_ACTIVATION_PENDING":
                         errors.append(f"{item.get('package_id')}: Omni storage install state mismatch")
                     if install.get("artifact_digest") != "46d9695468fac6ff986a683b42df3e8872a01f9e16703ee0772ca4ba2136d480":
@@ -193,6 +194,21 @@ def validate(data: dict) -> list[str]:
                     }
                     if omni_receipt != expected_omni_receipt:
                         errors.append(f"{item.get('package_id')}: Omni installation receipt mismatch")
+                    expected_omni_preflight = {
+                        "state": "METADATA_ONLY_IMPLEMENTED_EXECUTION_PENDING",
+                        "script": "Plan/07_IMPLEMENTATION/scripts/preflight_wave64_qwen3_omni_dependencies.py",
+                        "schema": "Plan/08_SCHEMAS/runpod_autonomous_qwen3_omni_dependency_preflight.schema.json",
+                        "controls": [
+                            "no_library_import",
+                            "no_weight_open",
+                            "no_tensor",
+                            "no_gpu_or_lease",
+                            "no_network",
+                            "no_process",
+                        ],
+                    }
+                    if omni_preflight != expected_omni_preflight:
+                        errors.append(f"{item.get('package_id')}: Omni dependency preflight mismatch")
             else:
                 if identity.get("identity_state") != "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_UNPINNED":
                     errors.append(f"{item.get('package_id')}: planned identity state mismatch")
