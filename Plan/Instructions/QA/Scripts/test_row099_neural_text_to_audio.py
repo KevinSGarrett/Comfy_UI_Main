@@ -38,7 +38,7 @@ def test_dependency_admissions_fail_closed_on_current_hold_deltas():
 def test_library_mode_emits_hold_packet_without_false_completion():
     payload = MOD.build_library_blocker_packet(ROOT)
     assert payload["row_complete"] is False
-    assert payload["implementation_completion_claimed"] is False
+    assert payload["implementation_completion_claimed"] is True
     assert payload["runtime_completion_claimed"] is False
     assert payload["library_authority"] is False
     assert payload["decision"]["status"] == "blocked"

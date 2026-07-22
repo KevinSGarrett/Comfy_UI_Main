@@ -232,6 +232,15 @@ fixtures validate the compiler only. Production acceptance additionally
 requires accepted Rows068, 071, 072, 073, 079, and 093, the bounded transform
 runtime and dedup index, genuine semantic proof, and independent audio review.
 
+## Row099 neural text-to-audio gate
+
+Require a structured prompt, registered and rights-eligible engine identity,
+deterministic seed, bounded candidate batch, and candidate-only output route.
+Generated audio remains selector-invisible and outside the approved library
+until Rows102-104 pass. Synthetic fixtures validate routing only; accepted
+Rows068, 079, 083, and 091, genuine engine runtime, and independent audio QA
+remain mandatory for production authority.
+
 ## Row102 generated-candidate staging gate
 
 Every generated candidate must immutably bind input, prompt/event, engine,

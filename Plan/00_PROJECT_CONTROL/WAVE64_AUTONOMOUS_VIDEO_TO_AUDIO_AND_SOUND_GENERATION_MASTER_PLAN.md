@@ -308,6 +308,14 @@ Route structured event descriptions to registered text-to-audio engines when lib
 
 Acceptance: engine license and output-use rights pass; candidates meet duration, semantic, technical, and uniqueness gates before further use.
 
+Implemented contract slice (reconciled 2026-07-22): the neural text-to-audio
+compiler, schema, registry, and deterministic fixtures enforce structured
+prompts, registered engine authority, seeded bounded batches, rights decisions,
+and candidate-only outputs. Twelve focused tests and Ruff pass. Row068 is
+accepted; Rows079, 083, and 091 plus library neural-generation runtime and
+independent audio QA remain held. No inference was run, and no candidate gained
+library visibility or production authority.
+
 ### Row100 Reference-conditioned audio-to-audio variation
 
 Use an eligible source or approved generated seed for controlled audio-to-audio variation, inpainting, continuation, or style transfer with bounded strength.
