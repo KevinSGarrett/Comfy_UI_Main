@@ -364,6 +364,16 @@ Measure event coverage, false events, contact/transient offset, endpoint drift, 
 
 Acceptance: fixture, synthetic, adversarial, and genuine-video tests pass; metrics link to exact media hashes.
 
+Implemented contract slice (2026-07-22): the Row106 evaluator, strict schema,
+policy registry, and adversarial suite bind event-manifest, mix/mux,
+generated-sound-QA, and global-review receipts to one exact run/video/audio hash
+triple. All seven required dimensions and decode, full-duration, peak,
+loudness, masking, and repetition checks must pass; no scalar or synthetic
+fixture can grant release authority. The deterministic 11-fixture suite is
+green, but Rows090, 091, 097, 103, and 105 remain held. Genuine-media and
+combined playback review are therefore still required and Row106 remains
+runtime/product incomplete.
+
 ### Row107 ComfyUI workflow and node integration
 
 Expose bounded ComfyUI/API modules for analysis requests, event manifests, selector results, generated candidates, mix rendering, and QA while the external controller retains reasoning and authority.

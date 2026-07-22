@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/audio_av_qa_matrix_evaluation.schema.json",
+  "title": "Wave64 Row106 Audio AV QA Matrix Evaluation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "tracker_id", "item_id", "record_type",
+    "evaluator_revision", "policy_revision", "run_id", "video_sha256",
+    "audio_sha256", "is_synthetic", "release_authority",
+    "dependency_admissions", "component_bindings", "dimensions",
+    "technical_checks", "decision", "receipt_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "tracker_id": {"const": "TRK-W64-106"},
+    "item_id": {"const": "ITEM-W64-106"},
+    "record_type": {"const": "audio_av_qa_matrix_evaluation"},
+    "evaluator_revision": {"type": "string", "minLength": 1},
+    "policy_revision": {"type": "string", "minLength": 1},
+    "run_id": {"type": "string", "minLength": 1},
+    "video_sha256": {"$ref": "#/$defs/sha256"},
+    "audio_sha256": {"$ref": "#/$defs/sha256"},
+    "is_synthetic": {"type": "boolean"},
+    "release_authority": {"const": false},
+    "dependency_admissions": {
+      "type": "object",
+      "minProperties": 5,
+      "additionalProperties": {"$ref": "#/$defs/dependency"}
+    },
+    "component_bindings": {
+      "type": "array", "minItems": 3, "uniqueItems": true,
+      "items": {"$ref": "#/$defs/binding"}
+    },
+    "dimensions": {
+      "type": "object", "additionalProperties": false,
+      "required": ["event_coverage", "false_event", "contact_offset", "endpoint_drift", "semantic_match", "room_consistency", "global_review"],
+      "properties": {
+        "event_coverage": {"$ref": "#/$defs/dimension"},
+        "false_event": {"$ref": "#/$defs/dimension"},
+        "contact_offset": {"$ref": "#/$defs/dimension"},
+        "endpoint_drift": {"$ref": "#/$defs/dimension"},
+        "semantic_match": {"$ref": "#/$defs/dimension"},
+        "room_consistency": {"$ref": "#/$defs/dimension"},
+        "global_review": {"$ref": "#/$defs/dimension"}
+      }
+    },
+    "technical_checks": {
+      "type": "object", "additionalProperties": false,
+      "required": ["decode_ok", "full_duration_reviewed", "clipping", "true_peak_dbfs", "integrated_loudness_lufs", "dialogue_masking_score", "repetition_score"],
+      "properties": {
+        "decode_ok": {"type": "boolean"},
+        "full_duration_reviewed": {"type": "boolean"},
+        "clipping": {"type": "boolean"},
+        "true_peak_dbfs": {"type": "number"},
+        "integrated_loudness_lufs": {"type": "number"},
+        "dialogue_masking_score": {"type": "number", "minimum": 0, "maximum": 1},
+        "repetition_score": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "decision": {
+      "type": "object", "additionalProperties": false,
+      "required": ["route", "status", "blocker_codes", "product_completion", "row106_acceptance"],
+      "properties": {
+        "route": {"enum": ["accept_fixture", "reject", "hold"]},
+        "status": {"enum": ["pass", "fail", "blocked"]},
+        "blocker_codes": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "product_completion": {"const": false},
+        "row106_acceptance": {"enum": ["fixture_only", "rejected", "held"]}
+      }
+    },
+    "receipt_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "dependency": {
+      "type": "object", "additionalProperties": false,
+      "required": ["tracker_id", "path", "sha256", "row_complete", "dependency_satisfied", "status"],
+      "properties": {
+        "tracker_id": {"type": "string"}, "path": {"type": "string"},
+        "sha256": {"$ref": "#/$defs/sha256"}, "row_complete": {"type": "boolean"},
+        "dependency_satisfied": {"type": "boolean"}, "status": {"type": "string"}
+      }
+    },
+    "binding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["component", "receipt_sha256", "run_id", "video_sha256", "audio_sha256"],
+      "properties": {
+        "component": {"type": "string", "minLength": 1},
+        "receipt_sha256": {"$ref": "#/$defs/sha256"}, "run_id": {"type": "string"},
+        "video_sha256": {"$ref": "#/$defs/sha256"}, "audio_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "dimension": {
+      "type": "object", "additionalProperties": false,
+      "required": ["value", "threshold", "comparison", "status"],
+      "properties": {
+        "value": {"type": "number"}, "threshold": {"type": "number"},
+        "comparison": {"enum": ["gte", "lte", "abs_lte"]}, "status": {"enum": ["pass", "fail"]}
+      }
+    }
+  }
+}

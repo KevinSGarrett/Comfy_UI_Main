@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0.0",
+  "evidence_id": "TRK-W64-106_AUDIO_AV_QA_MATRIX_CURRENT_DELTA_20260722",
+  "created_at": "2026-07-22T13:30:00Z",
+  "source_commit": "da94c497d38a3ec2dae9ac2d529919bf88ff25ba",
+  "tracker_id": "TRK-W64-106",
+  "item_id": "ITEM-W64-106",
+  "status": "HOLD_DEPENDENCIES_AND_GENUINE_AUDIO_AV_REVIEW_ABSENT_WITH_FAIL_CLOSED_MATRIX_PRESENT",
+  "row_complete": false,
+  "implementation_completion_claimed": true,
+  "runtime_completion_claimed": false,
+  "release_authority": false,
+  "qa_decision": "hold_with_fail_closed_hash_bound_audio_av_qa_matrix_and_synthetic_adversarial_calibration_only",
+  "implemented_contract": {
+    "required_dimensions": [
+      "event_coverage",
+      "false_event",
+      "contact_offset",
+      "endpoint_drift",
+      "semantic_match",
+      "room_consistency",
+      "global_review"
+    ],
+    "additional_hard_checks": [
+      "decode_ok",
+      "full_duration_reviewed",
+      "clipping_and_true_peak",
+      "integrated_loudness",
+      "dialogue_masking",
+      "repetition"
+    ],
+    "binding_rule": "Every component receipt must bind the same exact run_id, video_sha256, and audio_sha256.",
+    "authority_rule": "All dimensions and hard checks must pass; no single metric or synthetic fixture can grant release authority."
+  },
+  "dependency_authority": {
+    "required": ["TRK-W64-090", "TRK-W64-091", "TRK-W64-097", "TRK-W64-103", "TRK-W64-105"],
+    "accepted_count": 0,
+    "all_dependencies_accepted": false,
+    "blocker": "ROW106_DEPENDENCIES_NOT_ACCEPTED"
+  },
+  "validation": {
+    "targeted_tests": {"result": "PASS", "passed": 15, "failed": 0},
+    "ruff_check": "PASS",
+    "fixture_count": 11,
+    "genuine_media_executed": false,
+    "combined_playback_review_executed": false
+  },
+  "artifacts": [
+    {"path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_audio_av_qa_matrix.py", "sha256": "faa90dc77c5b9596227b739913c9147d12c8ffd865fa27abef04876fae180f0d"},
+    {"path": "Plan/08_SCHEMAS/audio_av_qa_matrix_evaluation.schema.json", "sha256": "8ae5323d86fd5896b2b37206c172aafe340b95c21f2ddeb280c22f4e8f8aa052"},
+    {"path": "Plan/10_REGISTRIES/wave64_row106_audio_av_qa_matrix_policy_registry.json", "sha256": "fc780f388cfcc581e1aa87101a01f5700eadac26dcf8139ff1f18e81dd0098c0"},
+    {"path": "Plan/Instructions/QA/Scripts/test_row106_audio_av_qa_matrix.py", "sha256": "dd4e30edec554890b91765275d8003e232dabe5ea6b9137b0f93fd869d999c6d"},
+    {"path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-106_audio_av_qa_matrix.json", "sha256": "8907c6c06cbb52267f49399b07a33120ff70c6d8dfe724a47d9c58004e4c205a"}
+  ],
+  "hold_boundary": {
+    "blocker_codes": [
+      "ROW106_DEPENDENCIES_NOT_ACCEPTED",
+      "GENUINE_MEDIA_REVIEW_AUTHORITY_ABSENT",
+      "COMBINED_PLAYBACK_REVIEW_ABSENT"
+    ],
+    "runtime_or_gpu_mutated": false,
+    "product_completion": false,
+    "next_action": "Accept prerequisite runtime evidence, then run the matrix on rights-bound genuine video/audio and perform combined full-duration playback review."
+  }
+}

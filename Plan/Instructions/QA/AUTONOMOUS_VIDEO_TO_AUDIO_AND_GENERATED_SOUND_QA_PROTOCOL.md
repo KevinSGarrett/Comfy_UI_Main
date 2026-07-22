@@ -89,6 +89,26 @@ whose predecessors passed. Per-stage retries, global retries, and cost are
 independently bounded. Publication requires every mandatory stage and all
 dependency authorities; synthetic runs never publish.
 
+## Row106 composite audio/AV matrix
+
+The composite matrix consumes independently produced component receipts; it
+does not replace their evaluators. Every receipt must bind the same run ID,
+video SHA-256, and audio SHA-256. Event coverage, false-event rate,
+contact/transient offset, endpoint drift, semantic/material match, room
+consistency, and global review are separately gated. Decode, full-duration
+review, clipping/true peak, loudness, dialogue masking, and repetition are
+additional hard checks.
+
+All gates must pass. A high score from one metric cannot override another
+failure. Synthetic and adversarial fixtures calibrate the implementation but
+never grant release authority. Production acceptance additionally requires
+accepted Rows090, 091, 097, 103, and 105, rights-bound genuine media, and a
+combined full-duration frame/contact/audio playback review.
+
+Evidence is emitted at
+`Plan/Instructions/QA/Evidence/Wave64/TRK-W64-106_audio_av_qa_matrix.json`.
+The current delta remains a HOLD until those production authorities exist.
+
 ## Benchmark requirements
 
 Benchmarks must include:

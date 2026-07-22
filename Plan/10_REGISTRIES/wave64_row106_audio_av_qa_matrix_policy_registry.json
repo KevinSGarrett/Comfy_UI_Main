@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0.0",
+  "revision": "wave64_row106_audio_av_qa_matrix_policy_v0.1.0",
+  "authority": "fail_closed_fixture_calibration_only_until_all_dependencies_and_genuine_media_review_are_accepted",
+  "required_dimensions": [
+    "event_coverage",
+    "false_event",
+    "contact_offset",
+    "endpoint_drift",
+    "semantic_match",
+    "room_consistency",
+    "global_review"
+  ],
+  "thresholds": {
+    "minimum_event_coverage": 0.95,
+    "maximum_false_event_rate": 0.02,
+    "maximum_contact_offset_ms": 20.0,
+    "maximum_endpoint_drift_ms": 20.0,
+    "minimum_semantic_match": 0.8,
+    "minimum_room_consistency": 0.8,
+    "minimum_global_review": 0.85,
+    "maximum_true_peak_dbfs": -1.0,
+    "integrated_loudness_min_lufs": -24.0,
+    "integrated_loudness_max_lufs": -14.0,
+    "maximum_dialogue_masking_score": 0.2,
+    "maximum_repetition_score": 0.25
+  },
+  "hard_rules": {
+    "all_dimensions_must_pass": true,
+    "decode_and_full_duration_review_required": true,
+    "all_component_receipts_must_bind_one_run_and_media_pair": true,
+    "single_metric_authority_forbidden": true,
+    "synthetic_release_authority_forbidden": true,
+    "genuine_media_and_combined_playback_review_required": true
+  }
+}
