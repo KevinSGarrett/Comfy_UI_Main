@@ -322,6 +322,14 @@ Use an eligible source or approved generated seed for controlled audio-to-audio 
 
 Acceptance: source derivative rights pass; structural similarity and requested variation are measured; identity drift, unwanted speech/music, or timing loss rejects the candidate.
 
+Implemented contract slice (reconciled 2026-07-22): the reference-variation
+evaluator, schema, policy, and deterministic fixtures enforce derivative rights,
+source immutability, conditioning-strength bounds, structural/timing
+preservation, requested variation, and rejection of identity drift or unwanted
+speech/music. Thirteen focused tests and Ruff pass. Rows072, 073, 083, 098,
+and 099 plus genuine audio-to-audio runtime and independent audio QA remain
+held; no candidate gained library or production authority.
+
 ### Row101 Video-conditioned Foley generation
 
 Generate complex continuous Foley candidates from video plus the canonical event script using registered MMAudio-compatible, HunyuanVideo-Foley-compatible, or future validated engines.

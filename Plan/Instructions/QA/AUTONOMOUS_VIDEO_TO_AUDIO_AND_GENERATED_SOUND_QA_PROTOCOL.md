@@ -241,6 +241,15 @@ until Rows102-104 pass. Synthetic fixtures validate routing only; accepted
 Rows068, 079, 083, and 091, genuine engine runtime, and independent audio QA
 remain mandatory for production authority.
 
+## Row100 reference-conditioned variation gate
+
+Bind the eligible source and derivative-rights decision, enforce bounded
+conditioning strength, measure structural/timing preservation and the requested
+change, and reject identity drift or unwanted speech/music. The source is
+immutable and outputs remain candidate-only. Synthetic fixtures validate the
+decision contract; accepted dependencies, genuine audio-to-audio runtime, and
+independent waveform, spectrogram, and playback QA are still required.
+
 ## Row102 generated-candidate staging gate
 
 Every generated candidate must immutably bind input, prompt/event, engine,

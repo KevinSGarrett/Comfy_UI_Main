@@ -2,7 +2,7 @@
   "schema_version": 1,
   "evidence_id": "W64-ROW100-REFERENCE-AUDIO-VARIATION-CURRENT-DELTA-20260719",
   "created_at": "2026-07-19T20:44:00Z",
-  "updated_at": "2026-07-19T20:44:00Z",
+  "updated_at": "2026-07-22T20:00:00Z",
   "source_commit": "5db320e0f4e2e292342be42399032b602fabee3c",
   "prior_audit_commit": "5db320e0f4e2e292342be42399032b602fabee3c",
   "tracker_id": "TRK-W64-100",
@@ -10,7 +10,7 @@
   "status": "HOLD_DEPENDENCIES_AND_REFERENCE_AUDIO_VARIATION_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
   "classification": "ROW100_FAIL_CLOSED_CONTRACT_SLICE_NO_FALSE_COMPLETION",
   "row_complete": false,
-  "implementation_completion_claimed": false,
+  "implementation_completion_claimed": true,
   "runtime_completion_claimed": false,
   "qa_decision": "hold_with_fail_closed_reference_audio_variation_contract_and_synthetic_fixture_calibration_only",
   "intent": {
@@ -37,7 +37,7 @@
     "note": "Dedicated reference-audio variation schema is introduced without mutating sibling-owned Row069/084/085/098/099/103 paths."
   },
   "row100_contract": {
-    "status": "Planned_Autonomous_Implementation_Required",
+    "status": "Implemented_Contract_Runtime_Held",
     "priority": "P0",
     "risk": "CRITICAL",
     "dependency_prerequisites": [
@@ -65,8 +65,8 @@
   },
   "implemented_slice": {
     "evaluator_path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_reference_audio_variation.py",
-    "evaluator_sha256": "76f8b154f6d75e22e5e7751fc3f4a8cb224d758f96e6d99ff911f4dddac6372d",
-    "evaluator_bytes": 23017,
+    "evaluator_sha256": "b46a2b11fe91ead159666475f318ec782453b2227d1683d2b3b24b8693cd298a",
+    "evaluator_bytes": 23015,
     "schema_path": "Plan/08_SCHEMAS/reference_audio_variation_evaluation.schema.json",
     "schema_sha256": "5f959aa67f5c29f07836c1454851723316d65c12a8388ee5f3ff9d191d632499",
     "schema_bytes": 7099,
@@ -74,11 +74,11 @@
     "policy_sha256": "75d2ab08ad43d950cd7c2742827c186311dd745e420d656b7135f38a334307d5",
     "policy_bytes": 2388,
     "test_path": "Plan/Instructions/QA/Scripts/test_row100_reference_audio_variation.py",
-    "test_sha256": "fc67fe6293f0d8d55b5b2f5c01c88e4cd0c6a27f02b20c95223c5d67ac7ddc2c",
-    "test_bytes": 6997,
+    "test_sha256": "99d4d9ee88caa0135ec33ebde1de098f1d3af172700f376c411e821d0a98e57d",
+    "test_bytes": 6995,
     "direct_evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-100_reference_audio_variation.json",
-    "direct_evidence_sha256": "211a577c117a19f97875fb98ae2f081b74680b71c549229008204612d3065703",
-    "direct_evidence_bytes": 66537,
+    "direct_evidence_sha256": "f2f5c076f4dd5e65080fd57fba6c6544dd0fbb880afd21b544f475739bb59e63",
+    "direct_evidence_bytes": 66626,
     "capabilities_now_present": [
       "frozen_evaluator_and_policy_revisions",
       "five_required_reference_variation_gates_with_fail_closed_results",
@@ -143,8 +143,8 @@
     {
       "tracker_id": "TRK-W64-098",
       "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-098_DETERMINISTIC_SOUND_VARIATION_CURRENT_DELTA_20260719.json",
-      "current_delta_sha256": "ff54ee3a83e140dda79d5c21f64de70fddf4e783fe9be281d459c08cce2a11b5",
-      "current_delta_bytes": 8805,
+      "current_delta_sha256": "ead39cf6915013fad2984bae227e1412e3eab8588d6c7e3a253e1130bf286cd4",
+      "current_delta_bytes": 9459,
       "dependency_satisfied": false,
       "row_complete": false,
       "reason": "Deterministic sound variation engine remains held; reference-conditioned variation cannot claim upstream variation authority."
@@ -152,8 +152,8 @@
     {
       "tracker_id": "TRK-W64-099",
       "current_delta_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-099_NEURAL_TEXT_TO_AUDIO_CURRENT_DELTA_20260719.json",
-      "current_delta_sha256": "a33304a765b31b99a558152453eb721ca6a048e9af6c03bef33aede578e11052",
-      "current_delta_bytes": 3426,
+      "current_delta_sha256": "6195f2ba455c526ba019e71f37dbce09b7e7a04e6bfe4988a5b83bc432913b73",
+      "current_delta_bytes": 3902,
       "dependency_satisfied": false,
       "row_complete": false,
       "reason": "Neural text-to-audio router remains held; generated-seed routes cannot claim accepted engine authority."
