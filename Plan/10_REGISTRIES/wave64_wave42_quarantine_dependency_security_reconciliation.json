@@ -20,6 +20,12 @@
     "implementation_notice": "src/custom_controlnet_aux/dwpose/__init__.py states that this preprocessor is licensed by CMU for non-commercial use only",
     "commercial_activation": "BLOCKED_REPLACE_IMPLEMENTATION_OR_OBTAIN_ACCEPTED_LICENSE_AUTHORITY"
   },
+  "commercial_replacement": {
+    "contract": "Plan/10_REGISTRIES/wave64_wave42_commercial_dwpose_replacement_contract.json",
+    "status": "PROJECT_OWNED_ONNXRUNTIME_ONLY_ADAPTER_AND_STATIC_WORKFLOW_CANDIDATES_IMPLEMENTED_TARGET_ENVIRONMENT_AND_RUNTIME_PENDING",
+    "pose_model": {"repository": "yzd-v/DWPose", "revision": "1a7144101628d69ee7a3768d1ee3a094070dc388", "file": "dw-ll_ucoco_384.onnx", "bytes": 134399116, "sha256": "724f4ff2439ed61afb86fb8a1951ec39c6220682803b4a8bd4f598cd913b1843", "license": "apache-2.0"},
+    "authority": {"architecture": true, "static_candidate_workflows": true, "adapter_implementation": true, "immutable_build_inputs": true, "target_environment": false, "commercial_runtime": false}
+  },
   "required_sandbox_policy": ["resolve every dependency to an immutable artifact hash in an isolated environment", "disable install.py model downloads and all runtime pip installation", "allow network only for exact reviewed immutable URLs during environment construction", "never authorize unsafe checkpoint fallback by filename alone", "bind any exceptional checkpoint loader to exact path plus SHA-256 and execute first in a disposable no-secret no-network sandbox", "replace or separately clear the non-commercial DWPose implementation before commercial activation"],
-  "authority": {"used_repository_pins_clean": true, "dependency_manifests_inventoried": true, "selected_dwpreprocessor_assets_identified": true, "dependency_lock_reproducible": false, "installer_side_effects_disabled": false, "hash_bound_unsafe_loader_policy": false, "commercial_dwpreprocessor_authority": false, "dependency_install": false, "custom_node_import": false, "object_info_compatibility": false, "workflow_execution": false, "activation": false, "promotion": false}
+  "authority": {"used_repository_pins_clean": true, "dependency_manifests_inventoried": true, "selected_dwpreprocessor_assets_identified": true, "commercial_replacement_static_design": true, "commercial_replacement_static_candidates": true, "commercial_replacement_adapter_implementation": true, "commercial_replacement_build_inputs_locked": true, "dependency_lock_reproducible": false, "installer_side_effects_disabled": false, "hash_bound_unsafe_loader_policy": false, "commercial_dwpreprocessor_authority": false, "dependency_install": false, "custom_node_import": false, "object_info_compatibility": false, "workflow_execution": false, "activation": false, "promotion": false}
 }

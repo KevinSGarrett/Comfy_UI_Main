@@ -1165,3 +1165,33 @@ revisions, but the pinned executed DWPose implementation explicitly states CMU
 non-commercial use only. Commercial activation therefore requires a reviewed
 replacement implementation or accepted license authority, plus immutable
 dependency locks and a disposable no-secret/no-network checkpoint sandbox.
+
+W64-AQA-018 now has a project-owned commercial DWPose replacement contract and
+deterministic copy-on-write workflow transformer. The design uses the exact
+Apache-2.0 `yolox_l.onnx` and `dw-ll_ucoco_384.onnx` artifacts through ONNX
+Runtime only; it forbids copied controlnet-aux DWPose code, TorchScript, pickle,
+subprocess, package installation, shell, and runtime network access. Static
+candidates were generated in the new inactive RunPod directory
+`/workspace/wave64_quarantine/aws_ec2_20260722/candidates/commercial_dwpose_v1`.
+The two original workflow hashes replayed unchanged, all three selected nodes
+were transformed, and zero legacy `DWPreprocessor` nodes remain in the
+candidates. This grants static design and candidate-transform authority only.
+The adapter implementation, immutable environment lock, `object_info`, frozen
+geometry equivalence, model load, workflow execution, activation, promotion,
+and commercial runtime authority remain false; a valid coordinator lease is
+still required before any runtime admission.
+
+The corresponding project-owned custom node is now statically implemented at
+`Plan/07_IMPLEMENTATION/comfyui_custom_nodes/wave64_commercial_dwpose`. It
+matches the pinned wrapper's seven serialized controls in order, verifies both
+model files as non-symlink regular files by exact size and SHA-256, requires
+ONNX Runtime 1.27.0 with `CUDAExecutionProvider`, implements YOLOX decoding and
+NMS, 133-point SimCC decoding, COCO WholeBody/OpenPose projection, filtering,
+and pose-map rendering, and fails closed for the unqualified Xinsr scaling
+mode. Exact CPython 3.11 Linux wheel identities for ONNX Runtime GPU, NumPy,
+and Pillow are recorded as offline build inputs. Local static tests pass, but
+the current pod exposes both GPU and CPU ONNX Runtime distributions and the
+pose ONNX was not found by the bounded storage lookup. The offline wheelhouse,
+target environment, target import, `object_info`, geometry equivalence, model
+load, execution, commercial runtime, activation, and promotion therefore
+remain unqualified and false.

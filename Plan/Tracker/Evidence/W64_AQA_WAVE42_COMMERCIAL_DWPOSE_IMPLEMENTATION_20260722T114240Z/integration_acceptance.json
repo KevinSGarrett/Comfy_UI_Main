@@ -1,0 +1,17 @@
+{
+  "schema_version": "wave64.aqa.commercial_dwpose_implementation_acceptance.v1",
+  "program_id": "W64-AQA",
+  "tracker_ids": ["W64-AQA-018"],
+  "evaluated_at_utc": "2026-07-22T11:42:40Z",
+  "disposition": "PARTIALLY_ADOPTED",
+  "repository_base_commit": "6939a3feca57a41908b39bcf985f137bd189628c",
+  "implementation": "Plan/07_IMPLEMENTATION/comfyui_custom_nodes/wave64_commercial_dwpose/__init__.py",
+  "runtime_lock": "Plan/07_IMPLEMENTATION/comfyui_custom_nodes/wave64_commercial_dwpose/runtime_lock.json",
+  "accepted": ["from-scratch project-owned adapter", "exact seven-control serialized widget compatibility", "hash-and-size-bound regular-file model gate", "CUDA-only ONNX Runtime inference policy", "YOLOX decode and NMS", "133-point SimCC decode", "COCO WholeBody to OpenPose field projection", "pose-map rendering", "body face and hand filtering", "unsupported Xinsr mode fails closed", "immutable Python wheel identities recorded"],
+  "local_validators": ["python -m py_compile passed", "pytest 3 passed", "ruff check passed"],
+  "forbidden_paths_tested_absent": ["torch.load", "torch.jit.load", "pickle", "subprocess", "pip install", "requests", "urllib"],
+  "target_runtime_observation": {"python": "3.11.10", "onnxruntime_gpu": "1.27.0", "onnxruntime_cpu_distribution_also_present": true, "numpy": "2.4.6", "Pillow": "12.3.0", "torch": "2.4.1+cu124", "qualification": false},
+  "blocking_findings": ["target currently exposes both onnxruntime-gpu and forbidden onnxruntime distributions", "exact pose ONNX was not found in the bounded storage search", "offline wheelhouse has not been staged", "target package has not been imported", "object_info and geometry equivalence have not run", "coordinator admission remains unavailable"],
+  "authority_not_granted": ["target environment", "target import", "object_info compatibility", "geometry equivalence", "model load", "workflow execution", "commercial runtime", "activation", "promotion"],
+  "next_action": "Stage exact models and an offline hash-verified wheelhouse in a disposable target environment, remove CPU/GPU distribution ambiguity there, and run import/object_info only after valid coordinator admission."
+}

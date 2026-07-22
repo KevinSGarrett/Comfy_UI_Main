@@ -1,0 +1,71 @@
+{
+  "schema_version": "wave64.aqa.commercial_dwpose_replacement_contract.v1",
+  "contract_id": "W64-AQA-018-COMMERCIAL-DWPOSE-V1",
+  "program_id": "W64-AQA",
+  "tracker_ids": ["W64-AQA-018"],
+  "evaluated_at_utc": "2026-07-22T11:42:40Z",
+  "status": "STATIC_CANDIDATE_WORKFLOWS_AND_PROJECT_OWNED_ADAPTER_IMPLEMENTED_RUNTIME_PENDING",
+  "source_workflows": [
+    {"filename": "WAVE42_MAIN_FLOW_20260702.json", "sha256": "5382d6cad24856662f7febca7356dbf0cf15080417324b58a5480c065e69401f", "node_ids": [978, 1019]},
+    {"filename": "Wave42_Runtime_Bound__UI__WAVE42_MAIN_FLOW_20260702.json", "sha256": "60529aa2f6365a0a632222f7bdf7b2973970f066fac1e501b3ef6b796af904a2", "node_ids": [978]}
+  ],
+  "transform": {
+    "source_node_type": "DWPreprocessor",
+    "candidate_node_type": "Wave64CommercialDWPosePreprocessor",
+    "preserve_widget_indexes": [0, 1, 2, 3, 4, 6],
+    "replace_widget_values": {"5": "dw-ll_ucoco_384.onnx"},
+    "required_source_bbox_model": "yolox_l.onnx",
+    "required_source_pose_model": "dw-ll_ucoco_384_bs5.torchscript.pt",
+    "output_types": ["IMAGE", "POSE_KEYPOINT"],
+    "in_place_write_forbidden": true
+  },
+  "runtime_assets": [
+    {"repository": "yzd-v/DWPose", "revision": "1a7144101628d69ee7a3768d1ee3a094070dc388", "file": "yolox_l.onnx", "bytes": 216746733, "sha256": "7860ae79de6c89a3c1eb72ae9a2756c0ccfbe04b7791bb5880afabd97855a411", "license": "apache-2.0"},
+    {"repository": "yzd-v/DWPose", "revision": "1a7144101628d69ee7a3768d1ee3a094070dc388", "file": "dw-ll_ucoco_384.onnx", "bytes": 134399116, "sha256": "724f4ff2439ed61afb86fb8a1951ec39c6220682803b4a8bd4f598cd913b1843", "license": "apache-2.0"}
+  ],
+  "adapter_requirements": [
+    "implement project-owned adapter from scratch without copying the non-commercial controlnet-aux DWPose module",
+    "use ONNX Runtime only for detector and pose inference",
+    "perform no torch.load, torch.jit.load, pickle, subprocess, pip, shell, or runtime network operation",
+    "accept only exact pre-staged model paths whose SHA-256 values match this contract",
+    "emit the existing IMAGE and POSE_KEYPOINT output contract",
+    "run first in a disposable no-secret no-network sandbox and compare keypoint geometry against frozen fixtures"
+  ],
+  "candidate_outputs": {
+    "directory": "/workspace/wave64_quarantine/aws_ec2_20260722/candidates/commercial_dwpose_v1",
+    "source_directory": "/workspace/wave64_quarantine/aws_ec2_20260722/workflows",
+    "manifest": {"filename": "W64_AQA_018_COMMERCIAL_DWPOSE_CANDIDATE_MANIFEST.json", "sha256": "8e2578b4ce622513c8b3ff836ca36fa9d96e8a8fbed0b22853c2bd2b1943b6c7"},
+    "workflows": [
+      {"filename": "WAVE42_MAIN_FLOW_20260702.json", "sha256": "c79b402f692eab9834d4a59a5ec083268084a052f9ef5562fc47014a9550b299", "replacement_node_ids": [978, 1019], "legacy_dwpreprocessor_nodes": 0},
+      {"filename": "Wave42_Runtime_Bound__UI__WAVE42_MAIN_FLOW_20260702.json", "sha256": "abc15d76e42369caba9427c9213983c25fd9d5db3c26ecf9324d830d4b00a8c6", "replacement_node_ids": [978], "legacy_dwpreprocessor_nodes": 0}
+    ],
+    "source_hashes_replayed_unchanged": true,
+    "comfyui_imported": false,
+    "model_loaded": false,
+    "workflow_executed": false
+  },
+  "implementation": {
+    "package": "Plan/07_IMPLEMENTATION/comfyui_custom_nodes/wave64_commercial_dwpose/__init__.py",
+    "runtime_lock": "Plan/07_IMPLEMENTATION/comfyui_custom_nodes/wave64_commercial_dwpose/runtime_lock.json",
+    "node_type": "Wave64CommercialDWPosePreprocessor",
+    "serialized_widget_order": ["detect_hand", "detect_body", "detect_face", "resolution", "bbox_detector", "pose_estimator", "scale_stick_for_xinsr_cn"],
+    "static_tests": "Plan/Instructions/QA/Scripts/test_wave64_commercial_dwpose_node.py",
+    "unsupported_fail_closed": ["scale_stick_for_xinsr_cn=enable", "CPUExecutionProvider", "unapproved model names", "symlinked models", "model size or SHA-256 drift"],
+    "target_environment_imported": false,
+    "object_info_executed": false,
+    "inference_executed": false
+  },
+  "authority": {
+    "commercial_replacement_architecture": true,
+    "deterministic_candidate_transform": true,
+    "exact_runtime_asset_identity": true,
+    "adapter_implementation": true,
+    "immutable_build_inputs": true,
+    "static_candidate_workflows": true,
+    "candidate_object_info": false,
+    "geometry_equivalence": false,
+    "workflow_execution": false,
+    "activation": false,
+    "promotion": false
+  }
+}
