@@ -1571,3 +1571,10 @@ not create a competing watcher or migrate independently. Current pod
 watcher emits verified migration completion after candidate, volume, disk,
 dual-GPU telemetry, coordinator rollback, and old-pod-stop gates pass. The
 watcher never touches AWS and never terminates pods.
+# Qwen3-VL 8B official manifest closure (2026-07-22)
+
+The installed `qwen3-vl:8b-instruct-q4_K_M` digest exactly equals official
+manifest `0533d74300e4f9bc367d675d4e64ffd073d50ff16a2b4096cc2e8a1cf8c96319`.
+Its config, model, Apache-2.0 license, and parameter layers are pinned beside
+the already exact 4B candidate. Comparative runtime, capacity, calibration,
+quality, cleanup, activation, and product authority remain pending.

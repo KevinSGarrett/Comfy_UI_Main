@@ -82,6 +82,22 @@ def test_qwen3vl4_license_drift_fails() -> None:
     assert any("Qwen3-VL 4B official identity mismatch" in error for error in MODULE.validate(data))
 
 
+def test_qwen3vl8_official_manifest_and_license_are_exact_but_runtime_is_not_operational() -> None:
+    data = copy.deepcopy(load_inventory())
+    package = next(item for item in data["packages"] if item["identity"]["repository_id"] == "qwen3-vl:8b-instruct-q4_K_M")
+    assert package["identity"]["identity_state"] == "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_PINNED"
+    assert package["identity"]["license_state"] == "APACHE-2.0_ACCEPTED_FOR_COMFY_UI_MAIN_PROJECT_USE"
+    assert package["static_qualification"]["manifest_sha256"] == package["installation"]["artifact_digest"]
+    assert package["authority"]["operational"] is False
+
+
+def test_qwen3vl8_official_manifest_drift_fails() -> None:
+    data = copy.deepcopy(load_inventory())
+    package = next(item for item in data["packages"] if item["identity"]["repository_id"] == "qwen3-vl:8b-instruct-q4_K_M")
+    package["static_qualification"]["config_sha256"] = "0" * 64
+    assert any("Qwen3-VL 8B official manifest mismatch" in error for error in MODULE.validate(data))
+
+
 def test_no_package_is_operational_without_certificate() -> None:
     data = copy.deepcopy(load_inventory())
     data["packages"][0]["authority"]["operational"] = True

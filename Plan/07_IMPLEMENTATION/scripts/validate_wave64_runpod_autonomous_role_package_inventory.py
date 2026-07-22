@@ -119,6 +119,28 @@ def validate(data: dict) -> list[str]:
                     errors.append(f"{item.get('package_id')}: Qwen3-VL 4B official identity mismatch")
                 if item.get("static_qualification") != expected_static:
                     errors.append(f"{item.get('package_id')}: Qwen3-VL 4B official manifest mismatch")
+            elif identity.get("repository_id") == "qwen3-vl:8b-instruct-q4_K_M":
+                expected_identity = {
+                    "display_name": "qwen3-vl:8b-instruct-q4_K_M",
+                    "publisher": "Ollama library / Qwen",
+                    "repository_id": "qwen3-vl:8b-instruct-q4_K_M",
+                    "source_url": "https://registry.ollama.ai/v2/library/qwen3-vl/manifests/8b-instruct-q4_K_M",
+                    "identity_state": "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_PINNED",
+                    "license_state": "APACHE-2.0_ACCEPTED_FOR_COMFY_UI_MAIN_PROJECT_USE",
+                }
+                expected_static = {
+                    "state": "OFFICIAL_MANIFEST_AND_APACHE_2_0_LICENSE_PASS_RUNTIME_PENDING",
+                    "evidence": "Plan/Tracker/Evidence/W64_AQA_QWEN3VL8_OFFICIAL_MANIFEST_IDENTITY_20260722.json",
+                    "manifest_sha256": EXPECTED_INSTALLED["qwen3-vl:8b-instruct-q4_K_M"],
+                    "config_sha256": "35dd26e0fdc8e15cb5a05bc93a8e22d1bd8966a5c82d79ba3ff6be173f1053ea",
+                    "model_sha256": "1329cd5ab37e5ef6faef37cd8ff8660ffc96ed5b47b34fddf8eb0912e6c82466",
+                    "license_sha256": "7339fa418c9ad3e8e12e74ad0fd26a9cc4be8703f9c110728a992b193be85cb2",
+                    "parameters_sha256": "f6417cb1e26962991f8e875a93f3cb0f92bc9b4955e004881251ccbf934a19d2",
+                }
+                if identity != expected_identity:
+                    errors.append(f"{item.get('package_id')}: Qwen3-VL 8B official identity mismatch")
+                if item.get("static_qualification") != expected_static:
+                    errors.append(f"{item.get('package_id')}: Qwen3-VL 8B official manifest mismatch")
         elif state == "PROMOTED_EXACT_PACKAGE_IDENTITY_VERIFIED_ACTIVATION_PENDING":
             repository_id = identity.get("repository_id", "")
             source_pin = item.get("source_pin", {})

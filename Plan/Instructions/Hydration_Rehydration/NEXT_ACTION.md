@@ -11,21 +11,22 @@ terminates pods.
 
 Evidence: `Plan/Tracker/Evidence/W64_AQA_GUARDED_2XA40_MIGRATION_WATCHER_POLICY_20260722.json`.
 
-## Immediate Next Action - Qwen3-VL 4B Static Closure - 2026-07-22
+## Immediate Next Action - Qwen3-VL 4B and 8B Static Closure - 2026-07-22
 
-The preferred fast-triage package `W64-AQA-PKG-QWEN3VL4` now has exact
-official-manifest identity and Apache-2.0 project-use acceptance. Its installed
-digest equals manifest `ee4b975b58c17ce268cd19d40db35d5edc64603035d2ffc1fee1968eb0947f7b`.
+The preferred Qwen3-VL 4B and 8B fast-triage packages now have exact official
+manifest identity and Apache-2.0 project-use acceptance. Their installed
+digests equal their official manifests.
 This is static authority only: runtime, calibration, quality, activation, and
-product approval remain false. Queue hash `2324f805...` has five prepared or
+product approval remain false. Queue hash `16e4f056...` has five prepared or
 qualified campaigns and nine held campaigns.
 
 Next GPU action remains Wav2Vec2 campaign 1 after fresh shared-coordinator
-admission and an exact lease. If unavailable, continue the next official
-identity/license dependency locally without a lease. RunPod remains the sole
+admission and an exact lease. If unavailable, reconcile the next installed
+fast-triage package `qwen2.5vl:7b` locally without a lease. RunPod remains the sole
 production platform; never use AWS as fallback.
 
 Evidence: `Plan/Tracker/Evidence/W64_AQA_QWEN3VL4_OFFICIAL_MANIFEST_IDENTITY_20260722.json`.
+Additional evidence: `Plan/Tracker/Evidence/W64_AQA_QWEN3VL8_OFFICIAL_MANIFEST_IDENTITY_20260722.json`.
 
 ## Immediate Next Action - RunPod-Only W64-AQA - 2026-07-22
 
