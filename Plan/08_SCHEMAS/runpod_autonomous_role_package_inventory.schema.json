@@ -52,7 +52,7 @@
               "publisher": {"type": "string", "minLength": 1},
               "repository_id": {"type": "string", "minLength": 1},
               "source_url": {"type": "string", "minLength": 1},
-              "identity_state": {"enum": ["LOCAL_DIGEST_VERIFIED_UPSTREAM_REVISION_UNVERIFIED", "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_UNPINNED", "EXTERNAL_RELEASE_REQUIRED"]},
+              "identity_state": {"enum": ["LOCAL_DIGEST_VERIFIED_UPSTREAM_REVISION_UNVERIFIED", "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_UNPINNED", "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_PINNED", "EXTERNAL_RELEASE_REQUIRED"]},
               "license_state": {"enum": ["APACHE-2.0_UPSTREAM_REPORTED_NOT_LOCALLY_ACCEPTED", "LOCAL_RUNTIME_LICENSE_NOT_REVERIFIED", "EXTERNAL_RELEASE_REQUIRED"]}
             }
           },
@@ -65,6 +65,16 @@
               "artifact_digest": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
               "durable_root": {"type": ["string", "null"]},
               "evidence": {"type": "string", "minLength": 1}
+            }
+          },
+          "source_pin": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["revision", "verified_at_utc", "admission_manifest"],
+            "properties": {
+              "revision": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+              "verified_at_utc": {"type": "string", "format": "date-time"},
+              "admission_manifest": {"type": "string", "minLength": 1}
             }
           },
           "qualification": {

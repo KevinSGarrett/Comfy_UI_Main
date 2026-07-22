@@ -288,3 +288,11 @@ vCPU, at no more than 0.70 USD/hour. It may nominate at most one idle candidate.
 It must not automatically download or load models, migrate work, stop the
 current pod, or create a second candidate. Continue on the 48 GB pod with
 sequential unload/reload, quantization and offload while the offer is absent.
+
+For the admitted Qwen3-ASR package, use only revision
+`7278e1e70fe206f11671096ffdd38061171dd6e5` and the exact twelve-file install
+manifest. Require at least 15,435,939,752 free bytes before starting, download
+into a private temporary sibling, verify Git-blob identities and both weight
+SHA-256 values, and publish atomically without overwrite. Storage installation
+must not probe the GPU or lease, load the model, install runtime dependencies,
+restart services, or activate the role.

@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "runpod_autonomous_model_install_admission.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "program_id", "package_id", "status", "source", "storage", "files", "authority"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.model_install_admission.v1"},
+    "program_id": {"const": "W64-AQA"},
+    "package_id": {"const": "W64-AQA-PKG-QWEN3-ASR-17B"},
+    "status": {"const": "STORAGE_INSTALL_ADMITTED_EXECUTION_PENDING"},
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository_id", "revision", "license", "license_decision", "source_url"],
+      "properties": {
+        "repository_id": {"const": "Qwen/Qwen3-ASR-1.7B"},
+        "revision": {"const": "7278e1e70fe206f11671096ffdd38061171dd6e5"},
+        "license": {"const": "apache-2.0"},
+        "license_decision": {"const": "ACCEPTED_FOR_COMFY_UI_MAIN_PROJECT_USE"},
+        "source_url": {"const": "https://huggingface.co/Qwen/Qwen3-ASR-1.7B"}
+      }
+    },
+    "storage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target_root", "minimum_free_bytes_before_install", "weight_bytes", "atomic_publish", "overwrite_forbidden"],
+      "properties": {
+        "target_root": {"const": "/workspace/w64_aqa/models/Qwen3-ASR-1.7B/7278e1e70fe206f11671096ffdd38061171dd6e5"},
+        "minimum_free_bytes_before_install": {"const": 15435939752},
+        "weight_bytes": {"const": 4698521512},
+        "atomic_publish": {"const": true},
+        "overwrite_forbidden": {"const": true}
+      }
+    },
+    "files": {
+      "type": "array",
+      "minItems": 12,
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "identity_kind", "identity", "bytes"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "identity_kind": {"enum": ["git_blob_sha1", "sha256"]},
+          "identity": {"type": "string", "pattern": "^[0-9a-f]{40}([0-9a-f]{24})?$"},
+          "bytes": {"type": ["integer", "null"], "minimum": 1}
+        }
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowed", "forbidden"],
+      "properties": {
+        "allowed": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+        "forbidden": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}}
+      }
+    }
+  }
+}

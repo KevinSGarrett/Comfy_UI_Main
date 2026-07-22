@@ -29,6 +29,10 @@ EXPECTED_PLANNED = {
     "Qwen/Qwen3.5-397B-A17B",
 }
 
+PINNED_PLANNED = {
+    "Qwen/Qwen3-ASR-1.7B": "7278e1e70fe206f11671096ffdd38061171dd6e5",
+}
+
 
 def validate(data: dict) -> list[str]:
     errors: list[str] = []
@@ -76,13 +80,25 @@ def validate(data: dict) -> list[str]:
         elif state == "UPSTREAM_IDENTITY_VERIFIED_NOT_INSTALLED":
             if install.get("artifact_digest") is not None or install.get("durable_root") is not None:
                 errors.append(f"{item.get('package_id')}: uninstalled package cannot claim artifact/root")
-            if identity.get("identity_state") != "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_UNPINNED":
-                errors.append(f"{item.get('package_id')}: planned identity state mismatch")
+            repository_id = identity.get("repository_id", "")
+            source_pin = item.get("source_pin")
+            if repository_id in PINNED_PLANNED:
+                if identity.get("identity_state") != "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_PINNED":
+                    errors.append(f"{item.get('package_id')}: pinned identity state mismatch")
+                if not isinstance(source_pin, dict) or source_pin.get("revision") != PINNED_PLANNED[repository_id]:
+                    errors.append(f"{item.get('package_id')}: source revision pin mismatch")
+                if "pinned_revision" in qualification.get("required_gates", []):
+                    errors.append(f"{item.get('package_id')}: completed revision gate must be removed")
+            else:
+                if identity.get("identity_state") != "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_UNPINNED":
+                    errors.append(f"{item.get('package_id')}: planned identity state mismatch")
+                if source_pin is not None:
+                    errors.append(f"{item.get('package_id')}: unpinned package cannot claim source pin")
+                if "pinned_revision" not in qualification.get("required_gates", []):
+                    errors.append(f"{item.get('package_id')}: pinned revision gate required")
             if not str(identity.get("source_url", "")).startswith("https://huggingface.co/"):
                 errors.append(f"{item.get('package_id')}: official source URL required")
-            if "pinned_revision" not in qualification.get("required_gates", []):
-                errors.append(f"{item.get('package_id')}: pinned revision gate required")
-            planned.add(identity.get("repository_id", ""))
+            planned.add(repository_id)
     if installed != EXPECTED_INSTALLED:
         errors.append("installed digest inventory mismatch")
     if planned != EXPECTED_PLANNED:

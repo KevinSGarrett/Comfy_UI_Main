@@ -476,3 +476,11 @@ Availability may create at most one idle candidate after admission; it cannot
 load models, migrate traffic, stop the current pod, or claim cost/quality
 equivalence. Every package and every new hardware envelope still requires an
 independent certificate.
+
+The first admitted missing package is `Qwen/Qwen3-ASR-1.7B` at verified
+revision `7278e1e70fe206f11671096ffdd38061171dd6e5`. Its two weight-shard
+SHA-256 identities, exact byte envelope, immutable `/workspace` target, license
+decision, and storage-only authority are bound in
+`wave64_runpod_qwen3_asr_17b_install_admission.json`. Admission is not
+installation: download, model load, inference, activation, service changes,
+lease polling, and product authority remain false until separately evidenced.

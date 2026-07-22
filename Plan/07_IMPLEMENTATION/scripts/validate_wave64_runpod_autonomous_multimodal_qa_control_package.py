@@ -51,6 +51,14 @@ PATHS = {
     / "Plan/07_IMPLEMENTATION/scripts/validate_wave64_runpod_autonomous_role_package_inventory.py",
     "role_package_identity_evidence": ROOT
     / "Plan/Tracker/Evidence/W64_AQA_ROLE_PACKAGE_IDENTITY_QUALIFICATION_20260722T001002Z.json",
+    "model_install_admission_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_model_install_admission.schema.json",
+    "qwen3_asr_install_admission": ROOT
+    / "Plan/10_REGISTRIES/wave64_runpod_qwen3_asr_17b_install_admission.json",
+    "model_install_admission_validator": ROOT
+    / "Plan/07_IMPLEMENTATION/scripts/validate_wave64_runpod_model_install_admission.py",
+    "qwen3_asr_install_admission_evidence": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_QWEN3_ASR_17B_INSTALL_ADMISSION_20260722T002600Z.json",
     "schema": ROOT
     / "Plan/08_SCHEMAS/runpod_autonomous_multimodal_qa_decision.schema.json",
     "job_contract_schema": ROOT
@@ -303,6 +311,9 @@ def collect_errors() -> list[str]:
         role_package_inventory = load_json(PATHS["role_package_inventory"])
         role_package_inventory_schema = load_json(PATHS["role_package_inventory_schema"])
         role_package_identity_evidence = load_json(PATHS["role_package_identity_evidence"])
+        model_install_admission_schema = load_json(PATHS["model_install_admission_schema"])
+        qwen3_asr_install_admission = load_json(PATHS["qwen3_asr_install_admission"])
+        qwen3_asr_install_admission_evidence = load_json(PATHS["qwen3_asr_install_admission_evidence"])
         schema = load_json(PATHS["schema"])
         job_contract_schema = load_json(PATHS["job_contract_schema"])
         phase_lease_schema = load_json(PATHS["phase_lease_schema"])
@@ -403,6 +414,8 @@ def collect_errors() -> list[str]:
         errors.append("role package inventory schema version mismatch")
     if role_package_inventory_schema.get("$id") != "runpod_autonomous_role_package_inventory.schema.json":
         errors.append("role package inventory schema identity mismatch")
+    if model_install_admission_schema.get("$id") != "runpod_autonomous_model_install_admission.schema.json":
+        errors.append("model install admission schema identity mismatch")
     if role_package_inventory.get("scope") != "METADATA_ONLY_NO_DOWNLOAD_LOAD_INFERENCE_OR_RUNPOD_CONTACT":
         errors.append("role package inventory must remain metadata-only")
     inventory_runtime = role_package_inventory.get("runtime_policy", {})
@@ -426,6 +439,14 @@ def collect_errors() -> list[str]:
         errors.append("static role package evidence cannot claim RunPod contact")
     if role_package_identity_evidence.get("planned_official_package_count") != 7:
         errors.append("planned official role package count mismatch")
+    if qwen3_asr_install_admission.get("status") != "STORAGE_INSTALL_ADMITTED_EXECUTION_PENDING":
+        errors.append("Qwen3-ASR install admission must remain execution-pending")
+    if qwen3_asr_install_admission.get("source", {}).get("revision") != "7278e1e70fe206f11671096ffdd38061171dd6e5":
+        errors.append("Qwen3-ASR install admission revision mismatch")
+    if qwen3_asr_install_admission_evidence.get("download_performed") is not False:
+        errors.append("Qwen3-ASR admission evidence cannot claim download")
+    if qwen3_asr_install_admission_evidence.get("gpu_or_lease_polled") is not False:
+        errors.append("Qwen3-ASR admission evidence cannot claim GPU or lease polling")
 
     json_docs = (
         requirements,
@@ -436,6 +457,8 @@ def collect_errors() -> list[str]:
         strict_model_admission_hold_evidence,
         role_package_inventory,
         role_package_identity_evidence,
+        qwen3_asr_install_admission,
+        qwen3_asr_install_admission_evidence,
         tool_executor_qualification,
         workflow_receipt_shadow_evidence,
         workflow_tool_qualification_evidence,
