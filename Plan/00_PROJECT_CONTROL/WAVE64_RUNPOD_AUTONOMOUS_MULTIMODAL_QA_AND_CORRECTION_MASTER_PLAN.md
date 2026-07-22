@@ -725,6 +725,15 @@ canonical asset catalog. No dependency environment, model load, synthesis,
 voice cloning, speaker identity, operational activation, or product promotion
 follows from this storage result.
 
+The separate Qwen3-TTS 12Hz 1.7B VoiceDesign package also passed its own exact
+live replay: 11 regular files and 4,520,159,099 bytes, with main weight SHA-256
+`391e8db219f292c515297cdceeb43e4eae67cdde35fa57e79a6a8a532fca0522`.
+It is independently bound to official revision
+`5ecdb67327fd37bb2e042aab12ff7391903235d3`; shared tokenizer bytes do not merge
+the Base and VoiceDesign authorities. This remains storage identity only, with
+dependency, load, synthesis, designed-voice quality, speaker identity,
+activation, and product authority false.
+
 Two Wave42 UI workflows and their 75-file fixture tree remain inactive under
 `/workspace/wave64_quarantine/aws_ec2_20260722`. Seventeen clean repositories at
 exact EC2-recorded pins remain dependency-free and inactive under
