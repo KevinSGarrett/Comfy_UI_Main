@@ -243,7 +243,7 @@ def build(admission_path: Path, lock_path: Path, receipt_path: Path, active_pyth
             "program_id": "W64-AQA",
             "package_id": EXPECTED_PACKAGE_ID,
             "status": "ISOLATED_ENVIRONMENT_INSTALLED_METADATA_VERIFIED_IMPORT_PENDING",
-            "admission_commit": "b15592a3d01915038b8836293d3f80fbbe5a5278",
+            "admission_commit": "f483f7cf0b5c5dc9c07b8d917ea381e1de1b8935",
             "admission_sha256": EXPECTED_ADMISSION_SHA256,
             "lock_sha256": EXPECTED_LOCK_SHA256,
             "environment_root": str(target),
