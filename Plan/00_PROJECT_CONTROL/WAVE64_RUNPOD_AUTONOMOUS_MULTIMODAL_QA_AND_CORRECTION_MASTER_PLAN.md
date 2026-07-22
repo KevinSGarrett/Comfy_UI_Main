@@ -890,3 +890,16 @@ GiB, leaving an estimated 53.335 GiB provider-quota reserve; another large
 admission requires fresh budgeting. Model configuration, weight access, model
 construction, GPU/lease polling, tensors, inference, rights-qualified video,
 identity, AV-sync, activation, and product authority remain pending.
+
+Row137 now has an immutable rights-scoped functional fixture at
+`/workspace/w64_aqa/fixtures/W64-AQA-017/latentsync-row137-fictional-adult-pd-speech-v1`.
+It binds a project-generated unnamed fictional adult face clip and the existing
+public-domain "Once upon a midnight" speech mix. The two files published
+atomically, hash-verified, replayed, and left no transient staging. All 49 video
+frames were already reviewed; subtle identity drift and side-light color drift
+remain deliberately retained as known defects, so the fixture is not golden
+identity or product-quality truth. The publisher did not poll the coordinator,
+GPU, load a model, or infer. A separately observed foreign MaskFactory lease has
+left the shared coordinator in `RECOVERY_REQUIRED` with admission disabled; the
+ComfyUI shift did not clear or override it. Model-load execution remains pending
+while other safe lanes continue.

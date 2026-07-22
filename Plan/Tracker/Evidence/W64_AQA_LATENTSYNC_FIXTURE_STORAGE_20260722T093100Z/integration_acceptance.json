@@ -1,0 +1,71 @@
+{
+  "schema_version": "wave64.aqa.latentsync_fixture_integration_acceptance.v1",
+  "program_id": "W64-AQA",
+  "tracker_id": "TRK-W64-137",
+  "observed_at_utc": "2026-07-22T09:31:00Z",
+  "source_commit": "babb15cc",
+  "decision": "ACCEPTED_FIXTURE_STORAGE_ONLY",
+  "fixture": {
+    "fixture_id": "latentsync-row137-fictional-adult-pd-speech-v1",
+    "admission_path": "Plan/10_REGISTRIES/wave64_latentsync_1_6_fixture_admission.json",
+    "admission_sha256": "3c40fe53f389b11b4428d1f9025849491c6b2ced43929243b1ceb4b622166718",
+    "target_root": "/workspace/w64_aqa/fixtures/W64-AQA-017/latentsync-row137-fictional-adult-pd-speech-v1",
+    "receipt_path": "/workspace/w64_aqa/control/receipts/latentsync-row137-fictional-adult-pd-speech-v1.json",
+    "receipt_sha256": "7995ce1df54280088c41c2c04144f4ee2afa2c8da316e214342e00df61e8712a",
+    "new_install_result": "NEW_ATOMIC_FIXTURE_INSTALL",
+    "replay_result": "REUSED_VERIFIED_FIXTURE",
+    "transient_staging_removed": true
+  },
+  "video": {
+    "sha256": "29823555e23ac47d58fd83740952817c0b6ddf379523dc3b61f6e8088d34949a",
+    "bytes": 58081,
+    "frames": 49,
+    "all_frames_reviewed": true,
+    "face_fixture_suitable": true,
+    "rights_basis": "project_generated_unnamed_fictional_adult_no_named_likeness_in_prompt",
+    "known_defects_retained": [
+      "subtle_identity_drift",
+      "gray_side_lights_drift_to_violet_blue"
+    ]
+  },
+  "audio": {
+    "sha256": "5a07f0a654499266509453421c3efdc1b2e4ce83b8706e0138ebc4b1d3ad924a",
+    "bytes": 391758,
+    "expected_transcript": "Once upon a midnight",
+    "voice_rights": "Public Domain Mark 1.0 LibriVox excerpt",
+    "foley_attribution_retained": true
+  },
+  "runtime_observation": {
+    "gpu_memory_used_mib_after_publish": 648,
+    "gpu_memory_free_mib_after_publish": 47993,
+    "gpu_or_lease_polled_by_installer": false,
+    "model_loaded": false,
+    "inference_performed": false
+  },
+  "coordinator_hold": {
+    "mode": "RECOVERY_REQUIRED",
+    "admission_enabled": false,
+    "foreign_project": "maskfactory",
+    "foreign_expired_lease_state": "RECOVERY_REQUIRED",
+    "foreign_lease_cleared_or_overridden": false,
+    "effect": "LATENTSYNC_MODEL_LOAD_PENDING_WITHOUT_BLOCKING_STORAGE_OR_OTHER_SAFE_LANES"
+  },
+  "validation": {
+    "fixture_admission_tests_passed": 5,
+    "fixture_publisher_and_admission_tests_passed": 9,
+    "ruff_passed": true,
+    "remote_hash_mismatches": 0,
+    "replay_passed": true,
+    "cleanup_passed": true
+  },
+  "authority": {
+    "fixture_storage_and_rights_scope_accepted": true,
+    "model_load": false,
+    "inference": false,
+    "golden_identity_truth": false,
+    "general_identity_preservation": false,
+    "general_av_sync_quality": false,
+    "product_authority": false
+  },
+  "next_action": "After the foreign coordinator recovery state is resolved by its owning project, acquire an exact comfyui_main coordinator lease and run a separately admitted LatentSync UNet model-load and unload canary; do not infer from the fixture before that pass."
+}
