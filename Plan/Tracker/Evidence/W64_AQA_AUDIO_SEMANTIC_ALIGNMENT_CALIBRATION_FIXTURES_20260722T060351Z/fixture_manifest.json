@@ -1,0 +1,72 @@
+{
+  "schema_version": "wave64.aqa.audio_semantic_alignment_calibration_fixture_manifest.v1",
+  "classification": "PROSPECTIVE_FIXTURE_MATRIX_BUILT_RUNTIME_MODELS_NOT_EXECUTED",
+  "plan_sha256": "03f8a45e1fc98a4378af2ec12142e03bff10a828e2b70477370fa7600b2d5aa5",
+  "source_sha256": "ff8325a1c2f8613d599af69284f5c4693d996a581230ccbbbb1aeba7affa9815",
+  "transcript": "We hold the frame steady and move on the beat.",
+  "fixtures": [
+    {
+      "fixture_id": "clean_speech",
+      "kind": "source_copy",
+      "expected_top_labels": [
+        "a person speaking clearly"
+      ],
+      "alignment_policy": "REQUIRE_EXACT_TRANSCRIPT_WORDS_AND_MONOTONIC_TIMES",
+      "path": "C:\\Comfy_UI_Main\\Plan\\Tracker\\Evidence\\W64_AQA_AUDIO_SEMANTIC_ALIGNMENT_CALIBRATION_FIXTURES_20260722T060351Z\\clean_speech.wav",
+      "sha256": "ff8325a1c2f8613d599af69284f5c4693d996a581230ccbbbb1aeba7affa9815",
+      "bytes": 153646,
+      "sample_rate_hz": 24000,
+      "channels": 1,
+      "frame_count": 76801
+    },
+    {
+      "fixture_id": "tone_only",
+      "kind": "synthetic_tone",
+      "expected_top_labels": [
+        "a steady electronic tone"
+      ],
+      "alignment_policy": "REQUIRE_NO_SPEECH_ALIGNMENT",
+      "path": "C:\\Comfy_UI_Main\\Plan\\Tracker\\Evidence\\W64_AQA_AUDIO_SEMANTIC_ALIGNMENT_CALIBRATION_FIXTURES_20260722T060351Z\\tone_only.wav",
+      "sha256": "86b408e05408d396cfef2a3d9de30bcd2cf45c89bb5b94e276b333db584ca4d1",
+      "bytes": 153646,
+      "sample_rate_hz": 24000,
+      "channels": 1,
+      "frame_count": 76801
+    },
+    {
+      "fixture_id": "silence",
+      "kind": "digital_silence",
+      "expected_top_labels": [
+        "silence"
+      ],
+      "alignment_policy": "REQUIRE_NO_SPEECH_ALIGNMENT",
+      "path": "C:\\Comfy_UI_Main\\Plan\\Tracker\\Evidence\\W64_AQA_AUDIO_SEMANTIC_ALIGNMENT_CALIBRATION_FIXTURES_20260722T060351Z\\silence.wav",
+      "sha256": "dddee7638516ce249409a281adef90982855aa32217c465dcbb093e128624e11",
+      "bytes": 153646,
+      "sample_rate_hz": 24000,
+      "channels": 1,
+      "frame_count": 76801
+    },
+    {
+      "fixture_id": "speech_plus_tone",
+      "kind": "deterministic_mix",
+      "expected_top_labels": [
+        "a person speaking clearly",
+        "a steady electronic tone"
+      ],
+      "alignment_policy": "REQUIRE_EXACT_TRANSCRIPT_WORDS_AND_MONOTONIC_TIMES",
+      "path": "C:\\Comfy_UI_Main\\Plan\\Tracker\\Evidence\\W64_AQA_AUDIO_SEMANTIC_ALIGNMENT_CALIBRATION_FIXTURES_20260722T060351Z\\speech_plus_tone.wav",
+      "sha256": "d9c78b7c20fcb46ef44dfb803467c6206448bd6b15539e180ce6a24a33eb94c8",
+      "bytes": 153646,
+      "sample_rate_hz": 24000,
+      "channels": 1,
+      "frame_count": 76801
+    }
+  ],
+  "authority": {
+    "semantic_calibration": false,
+    "forced_alignment": false,
+    "operational": false,
+    "product_promotion": false
+  }
+}
