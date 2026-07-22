@@ -484,3 +484,11 @@ decision, and storage-only authority are bound in
 `wave64_runpod_qwen3_asr_17b_install_admission.json`. Admission is not
 installation: download, model load, inference, activation, service changes,
 lease polling, and product authority remain false until separately evidenced.
+
+The storage installer is `install_wave64_runpod_model_package.py`. It pins the
+admission manifest's canonical SHA-256, enforces the free-space floor, resumes
+only inside a private revision-named staging directory, verifies small files by
+Git-blob identity and weights by SHA-256, rejects symlinks and extra files, and
+publishes by atomic no-overwrite rename. A completed target is reusable only
+after its receipt and every file reverify. The installer imports no model or GPU
+library and exposes no load, inference, service, lease, or activation action.

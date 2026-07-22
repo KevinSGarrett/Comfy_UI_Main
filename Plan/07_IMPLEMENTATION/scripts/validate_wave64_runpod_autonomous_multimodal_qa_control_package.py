@@ -57,6 +57,8 @@ PATHS = {
     / "Plan/10_REGISTRIES/wave64_runpod_qwen3_asr_17b_install_admission.json",
     "model_install_admission_validator": ROOT
     / "Plan/07_IMPLEMENTATION/scripts/validate_wave64_runpod_model_install_admission.py",
+    "model_package_installer": ROOT
+    / "Plan/07_IMPLEMENTATION/scripts/install_wave64_runpod_model_package.py",
     "qwen3_asr_install_admission_evidence": ROOT
     / "Plan/Tracker/Evidence/W64_AQA_QWEN3_ASR_17B_INSTALL_ADMISSION_20260722T002600Z.json",
     "schema": ROOT

@@ -296,3 +296,11 @@ into a private temporary sibling, verify Git-blob identities and both weight
 SHA-256 values, and publish atomically without overwrite. Storage installation
 must not probe the GPU or lease, load the model, install runtime dependencies,
 restart services, or activate the role.
+
+Run the installer only from the pushed commit that matches the admission
+manifest. On interruption, retain the private `.installing` directory and rerun
+the same bytes; verified files are reused and partial downloads resume. Do not
+manually rename or edit staging. On mismatch, preserve the failure evidence and
+do not publish. A verified storage receipt changes installation state only; it
+does not satisfy capacity, runtime, calibration, quality, cost, fault, or role
+activation gates.
