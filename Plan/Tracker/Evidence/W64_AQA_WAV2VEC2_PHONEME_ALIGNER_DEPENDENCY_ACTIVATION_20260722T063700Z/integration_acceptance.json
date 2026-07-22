@@ -1,0 +1,57 @@
+{
+  "schema_version": "wave64.aqa.phoneme_dependency_integration_acceptance.v1",
+  "program_id": "W64-AQA",
+  "tracker_ids": [
+    "W64-AQA-006",
+    "TRK-W64-135"
+  ],
+  "evaluated_at_utc": "2026-07-22T06:37:00Z",
+  "disposition": "PARTIALLY_ADOPTED",
+  "accepted": {
+    "input_path": "Plan/10_REGISTRIES/Locks/wave64_wav2vec2_phoneme_aligner_fork_py311_cu124.requirements.in",
+    "lock_path": "Plan/10_REGISTRIES/Locks/wave64_wav2vec2_phoneme_aligner_fork_py311_cu124.requirements.lock",
+    "lock_sha256": "7abfff8a8d3252776a10556648f4b9fb37f6cf734eebf4333004b57ccd2c484a",
+    "lock_bytes": 24867,
+    "distribution_count": 23,
+    "target_root": "/workspace/w64_aqa/environments/wav2vec2-phoneme-aligner/phonemizer-fork-3.3.2_espeakng-loader-0.2.4_py311/7abfff8a8d3252776a10556648f4b9fb37f6cf734eebf4333004b57ccd2c484a",
+    "target_file_count": 2419,
+    "target_bytes": 66609539,
+    "target_tree_manifest_sha256": "92834c7a92d1acf3bde825fdd6f74b752451bbf350e83b8809585c5734e777e6b",
+    "python_version": "3.11.10",
+    "phonemizer_fork_version": "3.3.2",
+    "espeakng_loader_version": "0.2.4",
+    "espeak_version": "1.52.0",
+    "espeak_library_sha256": "b15ce0803b26254e8a0d088c6b9281a2637b2b02613147cc320cfdefaf2c3ccf",
+    "espeak_data_file_count": 364,
+    "embedded_data_binding": "/home/runner/work/espeakng-loader/espeakng-loader/espeak-ng/_dynamic/share/espeak-ng-data",
+    "binding_policy": "exact symlink to the immutable target data directory; non-symlink or foreign target fails closed",
+    "deterministic_phonemization_repeat_equal": true,
+    "global_freeze_sha256_before_after": "e6dc10f8c84dd5736e91eb917d7084aa9f55bca8162019ac6c441a7f322c3a42",
+    "remote_receipt_sha256": "c0a148e6ebddbb7089df7679b68f2afaa1ddb8ed38d54d47473b64ccf5b3c956"
+  },
+  "rejected": {
+    "lock_sha256": "28d1c554f44b7da4a42310467c383dc1815fce69f824eeed1a16a5eb8ae5d534",
+    "requirements": [
+      "phonemizer==3.3.0",
+      "espeakng-loader==0.2.4"
+    ],
+    "reason": "The standard phonemizer 3.3.0 wrapper has no supported eSpeak data-path binding. The exact current-pod canary failed on the wheel's embedded build-time data path. That target and its historical lock receipt grant no runtime authority."
+  },
+  "authority_granted": [
+    "exact isolated Python dependency environment on the current production pod",
+    "exact eSpeak library and data activation binding",
+    "deterministic English text-to-phoneme canary for the one declared sentence"
+  ],
+  "authority_not_granted": [
+    "Wav2Vec2 model load",
+    "audio inference",
+    "word timing",
+    "phoneme timing",
+    "forced alignment",
+    "tone-only or silence refusal",
+    "general speech quality",
+    "operational activation",
+    "product promotion"
+  ],
+  "next_action": "Under the exact shared capacity lease, run the admitted Wav2Vec2 phoneme model against the immutable clean-speech, tone-only, silence, and speech-plus-tone matrix; require monotonic timing for speech fixtures, refusal for negative controls, process-exit GPU cleanup, and no authority beyond that matrix."
+}
