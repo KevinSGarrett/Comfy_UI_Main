@@ -218,12 +218,12 @@ def build(admission_path: Path, lock_path: Path, receipt_path: Path, active_pyth
         raise BuildError("base Python identity mismatch")
     uv_identity = run(["uv", "--version"])
     validate_uv_identity(uv_identity)
+    target.parent.mkdir(parents=True, exist_ok=True)
     free_bytes = shutil.disk_usage(target.parent).free
     if free_bytes < admission["resolution"]["minimum_free_bytes"]:
         raise BuildError("insufficient free space for admitted build")
     active_before = manifest_signature(active_python)
 
-    target.parent.mkdir(parents=True, exist_ok=True)
     try:
         run(["uv", "venv", "--python", str(base), str(staging)])
         run(["uv", "pip", "sync", "--python", str(staging / "bin/python"), str(lock_path)])
