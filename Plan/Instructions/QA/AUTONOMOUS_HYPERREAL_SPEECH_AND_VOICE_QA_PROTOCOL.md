@@ -66,6 +66,8 @@ The first video fixture must be immutable, rights/provenance qualified, face-det
 
 The 13-file model package now passes atomic storage installation and an independent full-file installer replay. The retained package contains 9,635,785,477 payload bytes including small repository files, and its installation receipt SHA-256 is `35510125ed8716193501f8ee5175abb2bc5c34f1610e29bd782865f1e3099b7d`. This is storage authority only; the next stage remains exact code, isolated dependencies, and an eligible video/identity fixture.
 
+The code checkout admission pins commit `a229c3948406bc2cf6eaf4873e662e70c6a04746` and tree `51f62bc8aea02da92b1a349077cfb78d0456f742`. GitHub does not report a verified signature for this commit, so exact commit/tree identity, official repository ownership, clean detached checkout, recorded license, and later code review are the acceptance basis; signature verification must not be claimed. Checkout admission permits no import, execution, dependency install, node activation, model load, or inference.
+
 ## Multi-engine comparison
 
 Hard-gate survivors are ranked by a versioned scorecard. The record must expose raw metrics, normalized metrics, weights, missing-metric handling, and final explanation. A missing mandatory metric blocks; it is never assigned a neutral score.
