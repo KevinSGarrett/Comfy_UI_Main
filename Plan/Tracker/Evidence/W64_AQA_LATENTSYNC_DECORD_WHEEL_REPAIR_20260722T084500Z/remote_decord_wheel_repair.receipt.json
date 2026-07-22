@@ -1,0 +1,81 @@
+{
+  "admission_commit": "c7ac27e0",
+  "admission_sha256": "72b269534e497270c846fddca7539e16aa9a57b58609ff0ca0113102cb758b5c",
+  "observed_defect": {
+    "filename_tag": "py3-none-manylinux2010_x86_64",
+    "internal_tag": "cp36-cp36m-manylinux2010_x86_64",
+    "record_defects": [
+      {
+        "actual_bytes": 7,
+        "actual_hash": "sha256=2gcXRGxvur2Z1iLmIE4fxL6cmywVZYD__8rzDGIEZDM",
+        "path": "decord-0.6.0.dist-info/top_level.txt",
+        "record_bytes": 17,
+        "record_hash": "sha256=8TBMC8W9caRfSBphoy47j2wFImKqCOgWKD3JVELo5e0"
+      }
+    ]
+  },
+  "package_id": "W64-AQA-PKG-LATENTSYNC-1.6",
+  "prior_attempts": [
+    {
+      "controller_commit": "60a488d0",
+      "reason": "source RECORD correctly omits twelve explicit ZIP directory entries; the first validator incorrectly compared RECORD rows with total ZIP entries",
+      "result": "FAIL_CLOSED_BEFORE_WHEEL_PUBLICATION",
+      "staging_removed": true
+    },
+    {
+      "controller_commit": "ef5d752b",
+      "reason": "source RECORD has one upstream hash and size defect for top_level.txt; admission did not yet bind that defect",
+      "result": "FAIL_CLOSED_BEFORE_WHEEL_PUBLICATION",
+      "staging_removed": true
+    }
+  ],
+  "program_id": "W64-AQA",
+  "repair": {
+    "allowed_changed_entries": [
+      "decord-0.6.0.dist-info/RECORD",
+      "decord-0.6.0.dist-info/WHEEL"
+    ],
+    "replacement_internal_tag": "py3-none-manylinux2010_x86_64"
+  },
+  "repaired_wheel": {
+    "binary_bytes": 12465984,
+    "binary_path": "decord/libdecord.so",
+    "binary_sha256": "98b260c5812106648ba299279916fbe98439893e346d4efdcf5cde66ba8973da",
+    "bytes": 13583977,
+    "changed_entries": [
+      "decord-0.6.0.dist-info/RECORD",
+      "decord-0.6.0.dist-info/WHEEL"
+    ],
+    "entry_count": 70,
+    "filename": "decord-0.6.0-py3-none-manylinux2010_x86_64.whl",
+    "record_integrity": "PASS",
+    "sha256": "7f966303534244867e2c7bb5640349465d6601139d393677a200c83d1e6f9cfa",
+    "wheel_metadata_sha256": "c920ad946c1010397bd118151dac11b8d2282bac1e7196b29ca34c23f1e86a8e"
+  },
+  "runtime_claims": {
+    "gpu_or_lease_polled": false,
+    "inference_performed": false,
+    "model_loaded": false,
+    "package_imported": false,
+    "package_installed": false,
+    "product_authority": false,
+    "project_code_imported": false,
+    "role_activated": false,
+    "service_changed": false,
+    "tensor_allocated": false
+  },
+  "schema_version": "wave64.aqa.latentsync_decord_wheel_repair_receipt.v1",
+  "source_wheel": {
+    "bytes": 13602299,
+    "filename": "decord-0.6.0-py3-none-manylinux2010_x86_64.whl",
+    "sha256": "51997f20be8958e23b7c4061ba45d0efcd86bffd5fe81c695d0befee0d442976",
+    "url": "https://files.pythonhosted.org/packages/11/79/936af42edf90a7bd4e41a6cac89c913d4b47fa48a26b042d5129a9242ee3/decord-0.6.0-py3-none-manylinux2010_x86_64.whl"
+  },
+  "status": "DECORD_WHEEL_METADATA_REPAIRED_HASHED_INSTALL_IMPORT_PENDING",
+  "wheelhouse_root": "/workspace/w64_aqa/wheelhouse/LatentSync-1.6/a229c3948406bc2cf6eaf4873e662e70c6a04746/decord-0.6.0-retag-v1/51997f20be8958e23b7c4061ba45d0efcd86bffd5fe81c695d0befee0d442976",
+  "wheelhouse_tree": {
+    "file_count": 1,
+    "sha256": "b710baa95bbc1584e45abebb037a2194249b44b375dddf5ef85aebf6f22d6efc",
+    "total_bytes": 13583977
+  }
+}
