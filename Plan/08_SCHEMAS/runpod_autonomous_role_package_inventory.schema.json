@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "runpod_autonomous_role_package_inventory.schema.json",
+  "title": "RunPod autonomous role package inventory",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "program_id", "observed_at_utc", "scope", "runtime_policy", "packages"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.role_package_inventory.v1"},
+    "program_id": {"const": "W64-AQA"},
+    "observed_at_utc": {"type": "string", "format": "date-time"},
+    "scope": {"const": "METADATA_ONLY_NO_DOWNLOAD_LOAD_INFERENCE_OR_RUNPOD_CONTACT"},
+    "runtime_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["current_pod_remains_authoritative", "single_gpu_role_at_a_time", "durable_root", "availability_lane"],
+      "properties": {
+        "current_pod_remains_authoritative": {"const": true},
+        "single_gpu_role_at_a_time": {"const": true},
+        "durable_root": {"const": "/workspace"},
+        "availability_lane": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["profile", "nonblocking", "maximum_idle_candidates", "auto_migrate", "auto_stop_current_pod"],
+          "properties": {
+            "profile": {"const": "2x NVIDIA A40; 96 GB aggregate VRAM; >=100 GB RAM; >=18 vCPU; <=0.70 USD/hour"},
+            "nonblocking": {"const": true},
+            "maximum_idle_candidates": {"const": 1},
+            "auto_migrate": {"const": false},
+            "auto_stop_current_pod": {"const": false}
+          }
+        }
+      }
+    },
+    "packages": {
+      "type": "array",
+      "minItems": 15,
+      "maxItems": 15,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["package_id", "roles", "identity", "installation", "qualification", "authority"],
+        "properties": {
+          "package_id": {"type": "string", "pattern": "^W64-AQA-PKG-[A-Z0-9-]+$"},
+          "roles": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+          "identity": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["display_name", "publisher", "repository_id", "source_url", "identity_state", "license_state"],
+            "properties": {
+              "display_name": {"type": "string", "minLength": 1},
+              "publisher": {"type": "string", "minLength": 1},
+              "repository_id": {"type": "string", "minLength": 1},
+              "source_url": {"type": "string", "minLength": 1},
+              "identity_state": {"enum": ["LOCAL_DIGEST_VERIFIED_UPSTREAM_REVISION_UNVERIFIED", "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_UNPINNED", "EXTERNAL_RELEASE_REQUIRED"]},
+              "license_state": {"enum": ["APACHE-2.0_UPSTREAM_REPORTED_NOT_LOCALLY_ACCEPTED", "LOCAL_RUNTIME_LICENSE_NOT_REVERIFIED", "EXTERNAL_RELEASE_REQUIRED"]}
+            }
+          },
+          "installation": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["state", "artifact_digest", "durable_root", "evidence"],
+            "properties": {
+              "state": {"enum": ["INSTALLED_DIGEST_VERIFIED_ACTIVATION_SCOPED", "UPSTREAM_IDENTITY_VERIFIED_NOT_INSTALLED", "EXTERNAL_CONSUMER_ONLY_NOT_INSTALLABLE"]},
+              "artifact_digest": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+              "durable_root": {"type": ["string", "null"]},
+              "evidence": {"type": "string", "minLength": 1}
+            }
+          },
+          "qualification": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["state", "required_gates"],
+            "properties": {
+              "state": {"enum": ["CURRENT_SCOPED_AUTHORITY_ONLY", "PENDING_ALL_RUNTIME_GATES", "EXTERNAL_RELEASE_PENDING"]},
+              "required_gates": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}}
+            }
+          },
+          "authority": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["operational", "allowed_scope", "forbidden"],
+            "properties": {
+              "operational": {"type": "boolean"},
+              "allowed_scope": {"type": "string"},
+              "forbidden": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}}
+            }
+          }
+        }
+      }
+    }
+  }
+}

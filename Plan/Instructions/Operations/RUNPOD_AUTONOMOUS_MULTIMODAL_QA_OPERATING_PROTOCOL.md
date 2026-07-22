@@ -270,3 +270,21 @@ After each accepted bounded increment, update truthful evidence, commit/push
 only reviewed exact paths, recompute dependencies, and move to the next
 unblocked tracker row. A single accepted artifact or blocked GPU lane is not a
 shift-complete condition.
+
+## 10. Role package and 2x A40 availability discipline
+
+Validate `wave64_runpod_autonomous_role_package_inventory.json` before any
+role install or activation action. `OFFICIAL_UPSTREAM_IDENTITY_VERIFIED` means
+only that the publisher repository exists; it grants no download, load,
+inference, tool, review, or promotion authority. Pin the revision, accept and
+record licensing, hash every artifact, keep it under `/workspace`, and issue
+separate capacity, calibration, runtime, quality, cost, and failure certificates.
+Only one GPU role may be resident unless the exact same-host topology has its
+own certificate.
+
+The continuous 2x A40 stock check must never pause current-pod work. Its exact
+filter is two NVIDIA A40 GPUs, 96 GB aggregate VRAM, at least 100 GB RAM and 18
+vCPU, at no more than 0.70 USD/hour. It may nominate at most one idle candidate.
+It must not automatically download or load models, migrate work, stop the
+current pod, or create a second candidate. Continue on the 48 GB pod with
+sequential unload/reload, quantization and offload while the offer is absent.

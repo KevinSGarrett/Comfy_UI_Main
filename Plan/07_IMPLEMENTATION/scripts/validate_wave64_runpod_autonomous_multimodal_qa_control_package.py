@@ -14,7 +14,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[3]
 PROGRAM = "W64-AQA"
-EXPECTED_IDS = {f"W64-AQA-{number:03d}" for number in range(1, 17)}
+EXPECTED_IDS = {f"W64-AQA-{number:03d}" for number in range(1, 18)}
 
 PATHS = {
     "master": ROOT
@@ -43,6 +43,14 @@ PATHS = {
     / "Plan/Instructions/QA/RUNPOD_AUTONOMOUS_MULTIMODAL_QA_AND_BOUNDED_CORRECTION_PROTOCOL.md",
     "registry": ROOT
     / "Plan/10_REGISTRIES/wave64_runpod_autonomous_multimodal_qa_role_registry.json",
+    "role_package_inventory": ROOT
+    / "Plan/10_REGISTRIES/wave64_runpod_autonomous_role_package_inventory.json",
+    "role_package_inventory_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_role_package_inventory.schema.json",
+    "role_package_inventory_validator": ROOT
+    / "Plan/07_IMPLEMENTATION/scripts/validate_wave64_runpod_autonomous_role_package_inventory.py",
+    "role_package_identity_evidence": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_ROLE_PACKAGE_IDENTITY_QUALIFICATION_20260722T001002Z.json",
     "schema": ROOT
     / "Plan/08_SCHEMAS/runpod_autonomous_multimodal_qa_decision.schema.json",
     "job_contract_schema": ROOT
@@ -292,6 +300,9 @@ def collect_errors() -> list[str]:
             PATHS["strict_model_admission_hold_evidence"]
         )
         registry = load_json(PATHS["registry"])
+        role_package_inventory = load_json(PATHS["role_package_inventory"])
+        role_package_inventory_schema = load_json(PATHS["role_package_inventory_schema"])
+        role_package_identity_evidence = load_json(PATHS["role_package_identity_evidence"])
         schema = load_json(PATHS["schema"])
         job_contract_schema = load_json(PATHS["job_contract_schema"])
         phase_lease_schema = load_json(PATHS["phase_lease_schema"])
@@ -388,6 +399,34 @@ def collect_errors() -> list[str]:
     if {row.get("Item_ID") for row in tracker} != EXPECTED_IDS:
         errors.append("tracker Item_ID references do not match the W64-AQA item set")
 
+    if role_package_inventory.get("schema_version") != "wave64.aqa.role_package_inventory.v1":
+        errors.append("role package inventory schema version mismatch")
+    if role_package_inventory_schema.get("$id") != "runpod_autonomous_role_package_inventory.schema.json":
+        errors.append("role package inventory schema identity mismatch")
+    if role_package_inventory.get("scope") != "METADATA_ONLY_NO_DOWNLOAD_LOAD_INFERENCE_OR_RUNPOD_CONTACT":
+        errors.append("role package inventory must remain metadata-only")
+    inventory_runtime = role_package_inventory.get("runtime_policy", {})
+    inventory_lane = inventory_runtime.get("availability_lane", {})
+    if inventory_runtime.get("current_pod_remains_authoritative") is not True:
+        errors.append("role package inventory must keep current pod authoritative")
+    if inventory_lane.get("nonblocking") is not True:
+        errors.append("2x A40 availability lane must remain nonblocking")
+    if (
+        inventory_lane.get("maximum_idle_candidates") != 1
+        or inventory_lane.get("auto_migrate") is not False
+        or inventory_lane.get("auto_stop_current_pod") is not False
+    ):
+        errors.append("2x A40 availability lane exceeds advisory authority")
+    inventory_packages = role_package_inventory.get("packages", [])
+    if len(inventory_packages) != 15:
+        errors.append("role package inventory must contain 15 exact package records")
+    if any(package.get("authority", {}).get("operational") is not False for package in inventory_packages):
+        errors.append("role package inventory cannot claim operational authority")
+    if role_package_identity_evidence.get("runpod_contacted") is not False:
+        errors.append("static role package evidence cannot claim RunPod contact")
+    if role_package_identity_evidence.get("planned_official_package_count") != 7:
+        errors.append("planned official role package count mismatch")
+
     json_docs = (
         requirements,
         evidence,
@@ -395,6 +434,8 @@ def collect_errors() -> list[str]:
         phase_lease_shadow_evidence,
         phase_lease_runtime_canary_evidence,
         strict_model_admission_hold_evidence,
+        role_package_inventory,
+        role_package_identity_evidence,
         tool_executor_qualification,
         workflow_receipt_shadow_evidence,
         workflow_tool_qualification_evidence,
@@ -1086,7 +1127,7 @@ def collect_errors() -> list[str]:
     required_phrases = (
         "Qwen3-Coder-Next",
         "Qwen3-Omni",
-        "Qwen3-ASR",
+        "Qwen3-ASR-1.7B",
         "Qwen3.5-397B",
         "Qwen3.5-122B",
         "InternVL3.5-241B",

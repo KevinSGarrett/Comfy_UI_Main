@@ -1,0 +1,140 @@
+{
+  "schema_version": "wave64.aqa.role_package_inventory.v1",
+  "program_id": "W64-AQA",
+  "observed_at_utc": "2026-07-22T00:10:02Z",
+  "scope": "METADATA_ONLY_NO_DOWNLOAD_LOAD_INFERENCE_OR_RUNPOD_CONTACT",
+  "runtime_policy": {
+    "current_pod_remains_authoritative": true,
+    "single_gpu_role_at_a_time": true,
+    "durable_root": "/workspace",
+    "availability_lane": {
+      "profile": "2x NVIDIA A40; 96 GB aggregate VRAM; >=100 GB RAM; >=18 vCPU; <=0.70 USD/hour",
+      "nonblocking": true,
+      "maximum_idle_candidates": 1,
+      "auto_migrate": false,
+      "auto_stop_current_pod": false
+    }
+  },
+  "packages": [
+    {
+      "package_id": "W64-AQA-PKG-QWEN25VL32",
+      "roles": ["strict_visual"],
+      "identity": {"display_name": "qwen2.5vl:32b", "publisher": "local_ollama", "repository_id": "qwen2.5vl:32b", "source_url": "local://ollama/qwen2.5vl:32b", "identity_state": "LOCAL_DIGEST_VERIFIED_UPSTREAM_REVISION_UNVERIFIED", "license_state": "LOCAL_RUNTIME_LICENSE_NOT_REVERIFIED"},
+      "installation": {"state": "INSTALLED_DIGEST_VERIFIED_ACTIVATION_SCOPED", "artifact_digest": "3edc3a52fe988de3e8ba4f99ac1f21a1bbc35e1af32a74983fe4e1667d6b6188", "durable_root": "/workspace/ollama", "evidence": "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_STRICT_MODEL_ADMISSION_HOLD_20260721T215000Z.json"},
+      "qualification": {"state": "CURRENT_SCOPED_AUTHORITY_ONLY", "required_gates": ["phase_lease", "capacity", "calibration", "runtime", "quality", "failure_injection"]},
+      "authority": {"operational": false, "allowed_scope": "digest-bound strict image and sampled-video canary only after lease release", "forbidden": ["product_approval", "promotion", "unleased_load"]}
+    },
+    {
+      "package_id": "W64-AQA-PKG-QWEN3VL4",
+      "roles": ["fast_triage"],
+      "identity": {"display_name": "qwen3-vl:4b-instruct-q4_K_M", "publisher": "local_ollama", "repository_id": "qwen3-vl:4b-instruct-q4_K_M", "source_url": "local://ollama/qwen3-vl:4b-instruct-q4_K_M", "identity_state": "LOCAL_DIGEST_VERIFIED_UPSTREAM_REVISION_UNVERIFIED", "license_state": "LOCAL_RUNTIME_LICENSE_NOT_REVERIFIED"},
+      "installation": {"state": "INSTALLED_DIGEST_VERIFIED_ACTIVATION_SCOPED", "artifact_digest": "ee4b975b58c17ce268cd19d40db35d5edc64603035d2ffc1fee1968eb0947f7b", "durable_root": "/workspace/ollama", "evidence": "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_STRICT_MODEL_ADMISSION_HOLD_20260721T215000Z.json"},
+      "qualification": {"state": "CURRENT_SCOPED_AUTHORITY_ONLY", "required_gates": ["phase_lease", "capacity", "triage_calibration", "runtime"]},
+      "authority": {"operational": false, "allowed_scope": "triage candidate only after activation", "forbidden": ["product_approval", "promotion", "unleased_load"]}
+    },
+    {
+      "package_id": "W64-AQA-PKG-QWEN3VL8",
+      "roles": ["fast_triage"],
+      "identity": {"display_name": "qwen3-vl:8b-instruct-q4_K_M", "publisher": "local_ollama", "repository_id": "qwen3-vl:8b-instruct-q4_K_M", "source_url": "local://ollama/qwen3-vl:8b-instruct-q4_K_M", "identity_state": "LOCAL_DIGEST_VERIFIED_UPSTREAM_REVISION_UNVERIFIED", "license_state": "LOCAL_RUNTIME_LICENSE_NOT_REVERIFIED"},
+      "installation": {"state": "INSTALLED_DIGEST_VERIFIED_ACTIVATION_SCOPED", "artifact_digest": "0533d74300e4f9bc367d675d4e64ffd073d50ff16a2b4096cc2e8a1cf8c96319", "durable_root": "/workspace/ollama", "evidence": "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_STRICT_MODEL_ADMISSION_HOLD_20260721T215000Z.json"},
+      "qualification": {"state": "CURRENT_SCOPED_AUTHORITY_ONLY", "required_gates": ["phase_lease", "capacity", "triage_calibration", "runtime"]},
+      "authority": {"operational": false, "allowed_scope": "triage candidate only after activation", "forbidden": ["product_approval", "promotion", "unleased_load"]}
+    },
+    {
+      "package_id": "W64-AQA-PKG-QWEN25VL7",
+      "roles": ["fast_triage"],
+      "identity": {"display_name": "qwen2.5vl:7b", "publisher": "local_ollama", "repository_id": "qwen2.5vl:7b", "source_url": "local://ollama/qwen2.5vl:7b", "identity_state": "LOCAL_DIGEST_VERIFIED_UPSTREAM_REVISION_UNVERIFIED", "license_state": "LOCAL_RUNTIME_LICENSE_NOT_REVERIFIED"},
+      "installation": {"state": "INSTALLED_DIGEST_VERIFIED_ACTIVATION_SCOPED", "artifact_digest": "5ced39dfa4bac325dc183dd1e4febaa1c46b3ea28bce48896c8e69c1e79611cc", "durable_root": "/workspace/ollama", "evidence": "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_STRICT_MODEL_ADMISSION_HOLD_20260721T215000Z.json"},
+      "qualification": {"state": "CURRENT_SCOPED_AUTHORITY_ONLY", "required_gates": ["phase_lease", "capacity", "triage_calibration", "runtime"]},
+      "authority": {"operational": false, "allowed_scope": "triage candidate only after activation", "forbidden": ["product_approval", "promotion", "unleased_load"]}
+    },
+    {
+      "package_id": "W64-AQA-PKG-LLAVA13",
+      "roles": ["fast_triage"],
+      "identity": {"display_name": "llava:13b", "publisher": "local_ollama", "repository_id": "llava:13b", "source_url": "local://ollama/llava:13b", "identity_state": "LOCAL_DIGEST_VERIFIED_UPSTREAM_REVISION_UNVERIFIED", "license_state": "LOCAL_RUNTIME_LICENSE_NOT_REVERIFIED"},
+      "installation": {"state": "INSTALLED_DIGEST_VERIFIED_ACTIVATION_SCOPED", "artifact_digest": "0d0eb4d7f485d7d0a21fd9b0c1d5b04da481d2150a097e81b64acb59758fdef6", "durable_root": "/workspace/ollama", "evidence": "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_STRICT_MODEL_ADMISSION_HOLD_20260721T215000Z.json"},
+      "qualification": {"state": "CURRENT_SCOPED_AUTHORITY_ONLY", "required_gates": ["phase_lease", "capacity", "triage_calibration", "runtime"]},
+      "authority": {"operational": false, "allowed_scope": "triage candidate only after activation", "forbidden": ["product_approval", "promotion", "unleased_load"]}
+    },
+    {
+      "package_id": "W64-AQA-PKG-QWEN25TEXT7",
+      "roles": ["text_planner"],
+      "identity": {"display_name": "qwen2.5:7b-instruct", "publisher": "local_ollama", "repository_id": "qwen2.5:7b-instruct", "source_url": "local://ollama/qwen2.5:7b-instruct", "identity_state": "LOCAL_DIGEST_VERIFIED_UPSTREAM_REVISION_UNVERIFIED", "license_state": "LOCAL_RUNTIME_LICENSE_NOT_REVERIFIED"},
+      "installation": {"state": "INSTALLED_DIGEST_VERIFIED_ACTIVATION_SCOPED", "artifact_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e", "durable_root": "/workspace/ollama", "evidence": "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_STRICT_MODEL_ADMISSION_HOLD_20260721T215000Z.json"},
+      "qualification": {"state": "CURRENT_SCOPED_AUTHORITY_ONLY", "required_gates": ["phase_lease", "capacity", "structured_output", "runtime"]},
+      "authority": {"operational": false, "allowed_scope": "nonvisual structured summaries after activation", "forbidden": ["visual_review", "audio_review", "mask_review", "promotion"]}
+    },
+    {
+      "package_id": "W64-AQA-PKG-LLAMA32VISION11",
+      "roles": ["smoke_only"],
+      "identity": {"display_name": "llama3.2-vision:11b", "publisher": "local_ollama", "repository_id": "llama3.2-vision:11b", "source_url": "local://ollama/llama3.2-vision:11b", "identity_state": "LOCAL_DIGEST_VERIFIED_UPSTREAM_REVISION_UNVERIFIED", "license_state": "LOCAL_RUNTIME_LICENSE_NOT_REVERIFIED"},
+      "installation": {"state": "INSTALLED_DIGEST_VERIFIED_ACTIVATION_SCOPED", "artifact_digest": "6f2f9757ae97e8a3f8ea33d6adb2b11d93d9a35bef277cd2c0b1b5af8e8d0b1e", "durable_root": "/workspace/ollama", "evidence": "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_STRICT_MODEL_ADMISSION_HOLD_20260721T215000Z.json"},
+      "qualification": {"state": "CURRENT_SCOPED_AUTHORITY_ONLY", "required_gates": ["phase_lease", "capacity", "smoke_runtime"]},
+      "authority": {"operational": false, "allowed_scope": "smoke candidate only", "forbidden": ["product_approval", "promotion", "unleased_load"]}
+    },
+    {
+      "package_id": "W64-AQA-PKG-QWEN36-35B-A3B",
+      "roles": ["controller"],
+      "identity": {"display_name": "Qwen3.6-35B-A3B", "publisher": "Qwen", "repository_id": "Qwen/Qwen3.6-35B-A3B", "source_url": "https://huggingface.co/Qwen/Qwen3.6-35B-A3B", "identity_state": "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_UNPINNED", "license_state": "APACHE-2.0_UPSTREAM_REPORTED_NOT_LOCALLY_ACCEPTED"},
+      "installation": {"state": "UPSTREAM_IDENTITY_VERIFIED_NOT_INSTALLED", "artifact_digest": null, "durable_root": null, "evidence": "Plan/Tracker/Evidence/W64_AQA_ROLE_PACKAGE_IDENTITY_QUALIFICATION_20260722T001002Z.json"},
+      "qualification": {"state": "PENDING_ALL_RUNTIME_GATES", "required_gates": ["pinned_revision", "license_acceptance", "artifact_hash", "quantization", "capacity", "calibration", "runtime", "latency", "quality", "cost", "failure_injection"]},
+      "authority": {"operational": false, "allowed_scope": "none until certificate", "forbidden": ["download_without_receipt", "load", "inference", "tool_authorization", "promotion"]}
+    },
+    {
+      "package_id": "W64-AQA-PKG-QWEN35-122B-A10B",
+      "roles": ["primary_visual"],
+      "identity": {"display_name": "Qwen3.5-122B-A10B", "publisher": "Qwen", "repository_id": "Qwen/Qwen3.5-122B-A10B", "source_url": "https://huggingface.co/Qwen/Qwen3.5-122B-A10B", "identity_state": "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_UNPINNED", "license_state": "APACHE-2.0_UPSTREAM_REPORTED_NOT_LOCALLY_ACCEPTED"},
+      "installation": {"state": "UPSTREAM_IDENTITY_VERIFIED_NOT_INSTALLED", "artifact_digest": null, "durable_root": null, "evidence": "Plan/Tracker/Evidence/W64_AQA_ROLE_PACKAGE_IDENTITY_QUALIFICATION_20260722T001002Z.json"},
+      "qualification": {"state": "PENDING_ALL_RUNTIME_GATES", "required_gates": ["pinned_revision", "license_acceptance", "artifact_hash", "quantization", "capacity", "calibration", "runtime", "latency", "quality", "cost", "failure_injection"]},
+      "authority": {"operational": false, "allowed_scope": "none until certificate", "forbidden": ["download_without_receipt", "load", "inference", "product_approval", "promotion"]}
+    },
+    {
+      "package_id": "W64-AQA-PKG-INTERNVL35-241B-A28B",
+      "roles": ["independent_juror"],
+      "identity": {"display_name": "InternVL3.5-241B-A28B", "publisher": "OpenGVLab", "repository_id": "OpenGVLab/InternVL3_5-241B-A28B", "source_url": "https://huggingface.co/OpenGVLab/InternVL3_5-241B-A28B", "identity_state": "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_UNPINNED", "license_state": "APACHE-2.0_UPSTREAM_REPORTED_NOT_LOCALLY_ACCEPTED"},
+      "installation": {"state": "UPSTREAM_IDENTITY_VERIFIED_NOT_INSTALLED", "artifact_digest": null, "durable_root": null, "evidence": "Plan/Tracker/Evidence/W64_AQA_ROLE_PACKAGE_IDENTITY_QUALIFICATION_20260722T001002Z.json"},
+      "qualification": {"state": "PENDING_ALL_RUNTIME_GATES", "required_gates": ["pinned_revision", "license_acceptance", "remote_code_review", "artifact_hash", "quantization", "capacity", "calibration", "runtime", "latency", "quality", "cost", "failure_injection"]},
+      "authority": {"operational": false, "allowed_scope": "none until independent certificate", "forbidden": ["download_without_receipt", "trust_remote_code_without_review", "load", "inference", "product_approval", "promotion"]}
+    },
+    {
+      "package_id": "W64-AQA-PKG-QWEN3-OMNI-30B-A3B",
+      "roles": ["audio_semantic", "av_semantic"],
+      "identity": {"display_name": "Qwen3-Omni-30B-A3B-Thinking", "publisher": "Qwen", "repository_id": "Qwen/Qwen3-Omni-30B-A3B-Thinking", "source_url": "https://huggingface.co/Qwen/Qwen3-Omni-30B-A3B-Thinking", "identity_state": "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_UNPINNED", "license_state": "APACHE-2.0_UPSTREAM_REPORTED_NOT_LOCALLY_ACCEPTED"},
+      "installation": {"state": "UPSTREAM_IDENTITY_VERIFIED_NOT_INSTALLED", "artifact_digest": null, "durable_root": null, "evidence": "Plan/Tracker/Evidence/W64_AQA_ROLE_PACKAGE_IDENTITY_QUALIFICATION_20260722T001002Z.json"},
+      "qualification": {"state": "PENDING_ALL_RUNTIME_GATES", "required_gates": ["pinned_revision", "license_acceptance", "artifact_hash", "quantization", "capacity", "duration_calibration", "runtime", "latency", "quality", "cost", "failure_injection"]},
+      "authority": {"operational": false, "allowed_scope": "none until audio and AV certificates", "forbidden": ["download_without_receipt", "load", "inference", "audio_approval", "av_approval", "promotion"]}
+    },
+    {
+      "package_id": "W64-AQA-PKG-QWEN3-ASR-17B",
+      "roles": ["asr", "audio_alignment_support"],
+      "identity": {"display_name": "Qwen3-ASR-1.7B", "publisher": "Qwen", "repository_id": "Qwen/Qwen3-ASR-1.7B", "source_url": "https://huggingface.co/Qwen/Qwen3-ASR-1.7B", "identity_state": "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_UNPINNED", "license_state": "APACHE-2.0_UPSTREAM_REPORTED_NOT_LOCALLY_ACCEPTED"},
+      "installation": {"state": "UPSTREAM_IDENTITY_VERIFIED_NOT_INSTALLED", "artifact_digest": null, "durable_root": null, "evidence": "Plan/Tracker/Evidence/W64_AQA_ROLE_PACKAGE_IDENTITY_QUALIFICATION_20260722T001002Z.json"},
+      "qualification": {"state": "PENDING_ALL_RUNTIME_GATES", "required_gates": ["pinned_revision", "license_acceptance", "artifact_hash", "capacity", "language_calibration", "runtime", "quality", "cost", "failure_injection"]},
+      "authority": {"operational": false, "allowed_scope": "none until ASR certificate", "forbidden": ["download_without_receipt", "load", "inference", "semantic_audio_approval", "promotion"]}
+    },
+    {
+      "package_id": "W64-AQA-PKG-QWEN3-CODER-NEXT",
+      "roles": ["workflow_engineer"],
+      "identity": {"display_name": "Qwen3-Coder-Next", "publisher": "Qwen", "repository_id": "Qwen/Qwen3-Coder-Next", "source_url": "https://huggingface.co/Qwen/Qwen3-Coder-Next", "identity_state": "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_UNPINNED", "license_state": "APACHE-2.0_UPSTREAM_REPORTED_NOT_LOCALLY_ACCEPTED"},
+      "installation": {"state": "UPSTREAM_IDENTITY_VERIFIED_NOT_INSTALLED", "artifact_digest": null, "durable_root": null, "evidence": "Plan/Tracker/Evidence/W64_AQA_ROLE_PACKAGE_IDENTITY_QUALIFICATION_20260722T001002Z.json"},
+      "qualification": {"state": "PENDING_ALL_RUNTIME_GATES", "required_gates": ["pinned_revision", "license_acceptance", "artifact_hash", "quantization", "capacity", "node_schema_suite", "patch_allowlist", "sandbox", "regression", "runtime", "quality", "cost", "failure_injection"]},
+      "authority": {"operational": false, "allowed_scope": "proposal only after certificate", "forbidden": ["download_without_receipt", "load", "inference", "arbitrary_shell", "credentials", "direct_workflow_promotion", "git", "tracker_write"]}
+    },
+    {
+      "package_id": "W64-AQA-PKG-QWEN35-397B-A17B",
+      "roles": ["senior_arbiter"],
+      "identity": {"display_name": "Qwen3.5-397B-A17B", "publisher": "Qwen", "repository_id": "Qwen/Qwen3.5-397B-A17B", "source_url": "https://huggingface.co/Qwen/Qwen3.5-397B-A17B", "identity_state": "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_UNPINNED", "license_state": "APACHE-2.0_UPSTREAM_REPORTED_NOT_LOCALLY_ACCEPTED"},
+      "installation": {"state": "UPSTREAM_IDENTITY_VERIFIED_NOT_INSTALLED", "artifact_digest": null, "durable_root": null, "evidence": "Plan/Tracker/Evidence/W64_AQA_ROLE_PACKAGE_IDENTITY_QUALIFICATION_20260722T001002Z.json"},
+      "qualification": {"state": "PENDING_ALL_RUNTIME_GATES", "required_gates": ["pinned_revision", "license_acceptance", "artifact_hash", "quantization", "capacity", "calibration", "runtime", "latency", "quality", "cost", "rollback", "failure_injection"]},
+      "authority": {"operational": false, "allowed_scope": "none until arbitration certificate", "forbidden": ["download_without_receipt", "load", "inference", "hard_gate_override", "product_approval", "promotion"]}
+    },
+    {
+      "package_id": "W64-AQA-PKG-GOLDEN-MASK-EXTERNAL",
+      "roles": ["golden_mask_consumer"],
+      "identity": {"display_name": "MaskFactory versioned release", "publisher": "MaskFactory", "repository_id": "external_release_required", "source_url": "external://MaskFactory/versioned-release", "identity_state": "EXTERNAL_RELEASE_REQUIRED", "license_state": "EXTERNAL_RELEASE_REQUIRED"},
+      "installation": {"state": "EXTERNAL_CONSUMER_ONLY_NOT_INSTALLABLE", "artifact_digest": null, "durable_root": null, "evidence": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_runpod_autonomous_maskfactory_consumer_contract.py"},
+      "qualification": {"state": "EXTERNAL_RELEASE_PENDING", "required_gates": ["versioned_release", "artifact_hashes", "license", "schemas", "target_semantics", "capacity", "quality", "rollback"]},
+      "authority": {"operational": false, "allowed_scope": "read-only consumer after versioned release", "forbidden": ["producer_generation", "refinement", "tournament", "golden_creation", "training", "serving", "cross_repository_write"]}
+    }
+  ]
+}

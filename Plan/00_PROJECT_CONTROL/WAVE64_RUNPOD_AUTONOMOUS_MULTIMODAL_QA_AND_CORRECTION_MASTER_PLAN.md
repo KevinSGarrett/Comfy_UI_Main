@@ -458,3 +458,21 @@ acceptance. Remaining optional roles, deferred MaskFactory integration, and
 2x A40 migration stay explicit tracker limitations. After this exit, selection
 defaults permanently to dependency-unblocked functional ComfyUI delivery rather
 than another broad infrastructure or inventory cycle.
+
+## Role package identity and nonblocking capacity lane
+
+The authoritative package inventory is
+`Plan/10_REGISTRIES/wave64_runpod_autonomous_role_package_inventory.json`.
+It separates official upstream identity, installed local digest, activation,
+qualification, and operational authority. A repository name or upstream license
+never implies that weights were downloaded, accepted, hashed, capacity-tested,
+or authorized. The concrete ASR target is `Qwen/Qwen3-ASR-1.7B`; the generic
+family label `Qwen3-ASR` is not an install target.
+
+The exact 2x A40 profile is checked continuously outside the runtime controller,
+but that availability lane is advisory and nonblocking. The existing pod remains
+authoritative and continues sequential unload/reload/offload qualification.
+Availability may create at most one idle candidate after admission; it cannot
+load models, migrate traffic, stop the current pod, or claim cost/quality
+equivalence. Every package and every new hardware envelope still requires an
+independent certificate.
