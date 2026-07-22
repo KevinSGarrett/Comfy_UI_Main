@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_flux2_klein_workflow_contract.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "program_id", "contract_id", "stack_id", "status", "official_template", "selected_api_candidate", "comfyui_checkout", "dependency_environment", "required_nodes", "compatibility_decision", "blockers", "authority"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.flux2_klein_workflow_contract.v1"},
+    "program_id": {"const": "W64-AQA"},
+    "contract_id": {"$ref": "#/$defs/sha256"},
+    "stack_id": {"const": "W64-AQA-GEN-FLUX2-KLEIN-4B-FP8"},
+    "status": {"const": "OFFICIAL_TEMPLATE_AND_SELECTED_FP8_API_CANDIDATE_STATICALLY_BOUND_RUNTIME_HELD"},
+    "official_template": {"$ref": "#/$defs/template"},
+    "selected_api_candidate": {"$ref": "#/$defs/fileBinding"},
+    "comfyui_checkout": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "commit", "project_version", "requirements", "source_bindings"],
+      "properties": {
+        "path": {"const": "ComfyUI"},
+        "commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "project_version": {"type": "string"},
+        "requirements": {"type": "array", "minItems": 4, "uniqueItems": true, "items": {"type": "string"}},
+        "source_bindings": {"type": "array", "minItems": 6, "uniqueItems": true, "items": {"$ref": "#/$defs/sourceBinding"}}
+      }
+    },
+    "dependency_environment": {
+      "type": "object", "additionalProperties": false,
+      "required": ["scope", "python_requirement", "observed_versions"],
+      "properties": {
+        "scope": {"const": "LOCAL_COMFYUI_VENV_OBSERVED_NOT_CURRENT_POD_AUTHORITY"},
+        "python_requirement": {"const": ">=3.10"},
+        "observed_versions": {
+          "type": "object", "additionalProperties": false,
+          "required": ["torch", "transformers", "tokenizers", "safetensors", "comfyui-workflow-templates", "comfyui-frontend-package"],
+          "properties": {
+            "torch": {"type": "string"}, "transformers": {"type": "string"}, "tokenizers": {"type": "string"},
+            "safetensors": {"type": "string"}, "comfyui-workflow-templates": {"type": "string"}, "comfyui-frontend-package": {"type": "string"}
+          }
+        }
+      }
+    },
+    "required_nodes": {"type": "array", "minItems": 13, "maxItems": 13, "uniqueItems": true, "items": {"type": "string"}},
+    "compatibility_decision": {
+      "type": "object", "additionalProperties": false,
+      "required": ["official_template_directly_executable_for_selected_stack", "reason", "candidate_patch_scope", "base_branch_removed", "selected_distilled_filename"],
+      "properties": {
+        "official_template_directly_executable_for_selected_stack": {"const": false},
+        "reason": {"const": "OFFICIAL_UI_TEMPLATE_CONTAINS_UNSELECTED_BASE_BRANCH_AND_NON_FP8_DISTILLED_FILENAME"},
+        "candidate_patch_scope": {"const": "DISTILLED_4_STEP_API_GRAPH_ONLY_EXACT_SELECTED_FP8_FILENAME"},
+        "base_branch_removed": {"const": true},
+        "selected_distilled_filename": {"const": "flux-2-klein-4b-fp8.safetensors"}
+      }
+    },
+    "blockers": {"type": "array", "minItems": 5, "uniqueItems": true, "items": {"type": "string"}},
+    "authority": {
+      "type": "object", "additionalProperties": false,
+      "required": ["official_source_identity", "static_workflow_contract", "local_dependency_observation", "current_pod_object_info", "current_pod_dependencies", "model_resolution", "runtime_smoke", "quality", "activation", "promotion"],
+      "properties": {
+        "official_source_identity": {"const": true},
+        "static_workflow_contract": {"const": true},
+        "local_dependency_observation": {"const": true},
+        "current_pod_object_info": {"const": false},
+        "current_pod_dependencies": {"const": false},
+        "model_resolution": {"const": false},
+        "runtime_smoke": {"const": false},
+        "quality": {"const": false},
+        "activation": {"const": false},
+        "promotion": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "fileBinding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "bytes", "sha256"],
+      "properties": {"path": {"type": "string"}, "bytes": {"type": "integer", "minimum": 1}, "sha256": {"$ref": "#/$defs/sha256"}}
+    },
+    "sourceBinding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "bytes", "sha256", "node_types"],
+      "properties": {
+        "path": {"type": "string"}, "bytes": {"type": "integer", "minimum": 1}, "sha256": {"$ref": "#/$defs/sha256"},
+        "node_types": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}
+      }
+    },
+    "template": {
+      "type": "object", "additionalProperties": false,
+      "required": ["repository", "revision", "path", "source_url", "bytes", "sha256", "installed_copy", "installed_package_version", "contains_base_and_distilled_branches", "distilled_filename"],
+      "properties": {
+        "repository": {"const": "Comfy-Org/workflow_templates"},
+        "revision": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "path": {"const": "templates/image_flux2_klein_text_to_image.json"},
+        "source_url": {"type": "string", "format": "uri"},
+        "bytes": {"type": "integer", "minimum": 1}, "sha256": {"$ref": "#/$defs/sha256"},
+        "installed_copy": {"$ref": "#/$defs/fileBinding"},
+        "installed_package_version": {"const": "0.11.2"},
+        "contains_base_and_distilled_branches": {"const": true},
+        "distilled_filename": {"const": "flux-2-klein-4b.safetensors"}
+      }
+    }
+  }
+}

@@ -69,7 +69,7 @@ def test_generation_role_binds_exact_inactive_stack_without_execution_authority(
     assert campaign["generation_stack"]["exact_storage_identity_bound"] is True
     assert campaign["generation_stack"]["executable"] is False
     assert campaign["generation_stack"]["current_pod_complete"] is False
-    assert campaign["generation_stack"]["dependency_bundle_id"] == "8ec6ccd1656e8aa369fbeb73bfd81d913fc7bfaf0d9943fb7bfcbad373c8edbb"
+    assert campaign["generation_stack"]["dependency_bundle_id"] == "e939807282ddd3cacc921754c851dd70d5f22f4d957f87d48ac226d1ee73d689"
     assert "PROJECT_LICENSE_ACCEPTANCE_MISSING" in campaign["blockers"]
     assert "EXACT_COMPANION_IDENTITIES_BOUND_CURRENT_POD_PROMOTION_INCOMPLETE" in campaign["blockers"]
     assert "EXACT_GENERATION_STACK_NOT_BOUND_TO_ROLE_PACKAGE_INVENTORY" not in campaign["blockers"]

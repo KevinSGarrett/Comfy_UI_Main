@@ -3,7 +3,7 @@
   "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_flux2_klein_dependency_bundle.schema.json",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "program_id", "bundle_id", "stack_id", "status", "pod_id", "provider_revision", "components", "provenance_decision", "comfyui_runtime", "workflow", "blockers", "authority"],
+  "required": ["schema_version", "program_id", "bundle_id", "stack_id", "status", "pod_id", "provider_revision", "components", "provenance_decision", "workflow_contract", "comfyui_runtime", "workflow", "blockers", "authority"],
   "properties": {
     "schema_version": {"const": "wave64.aqa.flux2_klein_dependency_bundle.v1"},
     "program_id": {"const": "W64-AQA"},
@@ -23,6 +23,17 @@
         "decision": {"const": "UPSTREAM_FAMILY_APACHE_2_EXACT_COMPANION_REDISTRIBUTION_AUTHORITY_NOT_ESTABLISHED"}
       }
     },
+    "workflow_contract": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "sha256", "contract_id", "candidate_path", "candidate_sha256"],
+      "properties": {
+        "path": {"const": "Plan/10_REGISTRIES/wave64_aqa_flux2_klein_workflow_contract.json"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "contract_id": {"$ref": "#/$defs/sha256"},
+        "candidate_path": {"const": "Plan/07_IMPLEMENTATION/workflows/w64_aqa_flux2_klein_4b_fp8_text_to_image_api.json"},
+        "candidate_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
     "comfyui_runtime": {
       "type": "object", "additionalProperties": false,
       "required": ["repository_commit", "static_flux2_support_present", "source_bindings", "current_pod_object_info_verified", "runtime_qualified"],
@@ -36,11 +47,14 @@
     },
     "workflow": {
       "type": "object", "additionalProperties": false,
-      "required": ["official_guide_url", "required_model_names_verified", "exact_workflow_hash_bound", "activated"],
+      "required": ["official_guide_url", "required_model_names_verified", "official_template_hash_bound", "selected_api_candidate_hash_bound", "static_node_bindings_complete", "exact_workflow_hash_bound", "activated"],
       "properties": {
         "official_guide_url": {"type": "string", "format": "uri"},
         "required_model_names_verified": {"const": true},
-        "exact_workflow_hash_bound": {"const": false},
+        "official_template_hash_bound": {"const": true},
+        "selected_api_candidate_hash_bound": {"const": true},
+        "static_node_bindings_complete": {"const": true},
+        "exact_workflow_hash_bound": {"const": true},
         "activated": {"const": false}
       }
     },

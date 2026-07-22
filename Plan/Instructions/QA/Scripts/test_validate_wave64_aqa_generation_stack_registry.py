@@ -30,6 +30,7 @@ def test_registry_binds_four_inactive_candidates_and_selects_smallest_exact_asse
     assert selected["stack_id"] == "W64-AQA-GEN-FLUX2-KLEIN-4B-FP8"
     assert selected["asset"]["bytes"] == 4070624520
     assert selected["execution"]["executable"] is False
+    assert selected["execution"]["workflow_bound"] is True
 
 
 def test_selected_stack_drift_is_rejected() -> None:

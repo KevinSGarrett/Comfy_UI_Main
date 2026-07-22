@@ -1,0 +1,87 @@
+{
+  "schema_version": "wave64.aqa.flux2_klein_workflow_contract.v1",
+  "program_id": "W64-AQA",
+  "contract_id": "4695dc701ecffeffb9d7e8fa6d08b7d056439f9037704537f79909e535a2424e",
+  "stack_id": "W64-AQA-GEN-FLUX2-KLEIN-4B-FP8",
+  "status": "OFFICIAL_TEMPLATE_AND_SELECTED_FP8_API_CANDIDATE_STATICALLY_BOUND_RUNTIME_HELD",
+  "official_template": {
+    "repository": "Comfy-Org/workflow_templates",
+    "revision": "4640e6e37d3972dbead1546c4ab829ceab5db706",
+    "path": "templates/image_flux2_klein_text_to_image.json",
+    "source_url": "https://raw.githubusercontent.com/Comfy-Org/workflow_templates/4640e6e37d3972dbead1546c4ab829ceab5db706/templates/image_flux2_klein_text_to_image.json",
+    "bytes": 69968,
+    "sha256": "237b436e577cdd2a97527766637e87af162b4c14fb293c9c269b470b7a2d0166",
+    "installed_copy": {
+      "path": "ComfyUI/.venv/Lib/site-packages/comfyui_workflow_templates_json/templates/image_flux2_klein_text_to_image.json",
+      "bytes": 69968,
+      "sha256": "237b436e577cdd2a97527766637e87af162b4c14fb293c9c269b470b7a2d0166"
+    },
+    "installed_package_version": "0.11.2",
+    "contains_base_and_distilled_branches": true,
+    "distilled_filename": "flux-2-klein-4b.safetensors"
+  },
+  "selected_api_candidate": {
+    "path": "Plan/07_IMPLEMENTATION/workflows/w64_aqa_flux2_klein_4b_fp8_text_to_image_api.json",
+    "bytes": 1966,
+    "sha256": "eaf9c0a11ef32afbceec0868a2f9ae0d615aa66c521df4ce235bfebe40b9f429"
+  },
+  "comfyui_checkout": {
+    "path": "ComfyUI",
+    "commit": "7747c342d4143f35e7c8031dddf3ee4455f10a2e",
+    "project_version": "0.27.0",
+    "requirements": [
+      "comfyui-frontend-package==1.45.20",
+      "comfyui-workflow-templates==0.11.2",
+      "transformers>=4.50.3",
+      "tokenizers>=0.13.3",
+      "safetensors>=0.4.2"
+    ],
+    "source_bindings": [
+      {"path": "ComfyUI/nodes.py", "bytes": 109520, "sha256": "c1f88a64ca13275af5cb555d303b3decb83c6d5ca3c624e643b4ff655b7efc22", "node_types": ["UNETLoader", "CLIPLoader", "VAELoader", "CLIPTextEncode", "ConditioningZeroOut", "VAEDecode", "SaveImage"]},
+      {"path": "ComfyUI/comfy_extras/nodes_custom_sampler.py", "bytes": 50781, "sha256": "88fa14c333315e7b3ab897c588c217f105a7cd57e231aaabf45be23c8bbef9af", "node_types": ["RandomNoise", "CFGGuider", "KSamplerSelect", "SamplerCustomAdvanced"]},
+      {"path": "ComfyUI/comfy_extras/nodes_flux.py", "bytes": 10829, "sha256": "a4917fd9d4aed2afdbdfc005a527b6381be942200054d7998477a16987e7aff9", "node_types": ["EmptyFlux2LatentImage", "Flux2Scheduler"]},
+      {"path": "ComfyUI/comfy/latent_formats.py", "bytes": 33247, "sha256": "c7bb213b594b02763474ee6053a6f431d7937572dd49bcb31eb375fd70e86b45", "node_types": []},
+      {"path": "ComfyUI/requirements.txt", "bytes": 568, "sha256": "dfb0977b23bfd9788690d6dfc156053170c1fe75a3b94fdbe7a06fc4d3e84429", "node_types": []},
+      {"path": "ComfyUI/pyproject.toml", "bytes": 2092, "sha256": "a43e0a8b67c68f9e96319e0ca3d07527b37f8ee24889ad40d8de1f1ddfb407de", "node_types": []}
+    ]
+  },
+  "dependency_environment": {
+    "scope": "LOCAL_COMFYUI_VENV_OBSERVED_NOT_CURRENT_POD_AUTHORITY",
+    "python_requirement": ">=3.10",
+    "observed_versions": {
+      "torch": "2.11.0+cu128",
+      "transformers": "5.13.0",
+      "tokenizers": "0.22.2",
+      "safetensors": "0.8.0",
+      "comfyui-workflow-templates": "0.11.2",
+      "comfyui-frontend-package": "1.45.20"
+    }
+  },
+  "required_nodes": ["UNETLoader", "CLIPLoader", "VAELoader", "CLIPTextEncode", "ConditioningZeroOut", "EmptyFlux2LatentImage", "RandomNoise", "CFGGuider", "KSamplerSelect", "Flux2Scheduler", "SamplerCustomAdvanced", "VAEDecode", "SaveImage"],
+  "compatibility_decision": {
+    "official_template_directly_executable_for_selected_stack": false,
+    "reason": "OFFICIAL_UI_TEMPLATE_CONTAINS_UNSELECTED_BASE_BRANCH_AND_NON_FP8_DISTILLED_FILENAME",
+    "candidate_patch_scope": "DISTILLED_4_STEP_API_GRAPH_ONLY_EXACT_SELECTED_FP8_FILENAME",
+    "base_branch_removed": true,
+    "selected_distilled_filename": "flux-2-klein-4b-fp8.safetensors"
+  },
+  "blockers": [
+    "CURRENT_POD_OBJECT_INFO_NOT_VERIFIED",
+    "CURRENT_POD_DEPENDENCY_ENVIRONMENT_NOT_VERIFIED",
+    "EXACT_COMPANION_PROMOTION_AND_MODEL_RESOLUTION_INCOMPLETE",
+    "ISOLATED_API_WORKFLOW_SMOKE_NOT_EXECUTED",
+    "GENERATION_OUTPUT_CAPACITY_QUALITY_CLEANUP_AND_FAILURE_INJECTION_NOT_QUALIFIED"
+  ],
+  "authority": {
+    "official_source_identity": true,
+    "static_workflow_contract": true,
+    "local_dependency_observation": true,
+    "current_pod_object_info": false,
+    "current_pod_dependencies": false,
+    "model_resolution": false,
+    "runtime_smoke": false,
+    "quality": false,
+    "activation": false,
+    "promotion": false
+  }
+}

@@ -75,3 +75,12 @@ def test_bundle_binds_fail_closed_companion_provenance_decision() -> None:
         for item in candidate["components"][1:]
     )
     module.validate_bundle(ROOT, candidate)
+
+
+def test_bundle_binds_static_workflow_without_runtime_authority() -> None:
+    module = load_module()
+    candidate = value(module)
+    assert candidate["workflow"]["exact_workflow_hash_bound"] is True
+    assert candidate["workflow"]["activated"] is False
+    assert candidate["authority"]["workflow"] is False
+    module.validate_bundle(ROOT, candidate)

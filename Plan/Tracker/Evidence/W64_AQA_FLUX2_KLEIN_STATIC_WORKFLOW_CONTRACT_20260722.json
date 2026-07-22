@@ -1,0 +1,91 @@
+{
+  "schema_version": "wave64.aqa.flux2_klein_static_workflow_evidence.v1",
+  "program_id": "W64-AQA",
+  "tracker_row": "W64-AQA-018",
+  "recorded_at": "2026-07-22T23:58:00Z",
+  "status": "PASS_OFFICIAL_TEMPLATE_AND_SELECTED_FP8_API_CANDIDATE_STATICALLY_BOUND_RUNTIME_HELD",
+  "official_template": {
+    "repository": "Comfy-Org/workflow_templates",
+    "revision": "4640e6e37d3972dbead1546c4ab829ceab5db706",
+    "path": "templates/image_flux2_klein_text_to_image.json",
+    "bytes": 69968,
+    "sha256": "237b436e577cdd2a97527766637e87af162b4c14fb293c9c269b470b7a2d0166",
+    "local_installed_package": "comfyui-workflow-templates==0.11.2",
+    "local_installed_copy_hash_equal": true,
+    "direct_selected_stack_compatibility": false,
+    "incompatibility": "CONTAINS_UNSELECTED_BASE_BRANCH_AND_NAMES_NON_FP8_DISTILLED_MODEL"
+  },
+  "selected_api_candidate": {
+    "path": "Plan/07_IMPLEMENTATION/workflows/w64_aqa_flux2_klein_4b_fp8_text_to_image_api.json",
+    "bytes": 1966,
+    "sha256": "eaf9c0a11ef32afbceec0868a2f9ae0d615aa66c521df4ce235bfebe40b9f429",
+    "nodes": 13,
+    "model": "flux-2-klein-4b-fp8.safetensors",
+    "text_encoder": "qwen_3_4b.safetensors",
+    "vae": "flux2-vae.safetensors",
+    "width": 1024,
+    "height": 1024,
+    "steps": 4,
+    "cfg": 1.0,
+    "sampler": "euler",
+    "base_branch_removed": true
+  },
+  "contract": {
+    "path": "Plan/10_REGISTRIES/wave64_aqa_flux2_klein_workflow_contract.json",
+    "bytes": 4693,
+    "sha256": "17cd98213203697466e8236ccede78fc74634cabb094be2e86258ddc6d131af4",
+    "contract_id": "4695dc701ecffeffb9d7e8fa6d08b7d056439f9037704537f79909e535a2424e"
+  },
+  "comfyui_static_binding": {
+    "checkout_commit": "7747c342d4143f35e7c8031dddf3ee4455f10a2e",
+    "project_version": "0.27.0",
+    "required_core_nodes": ["UNETLoader", "CLIPLoader", "VAELoader", "CLIPTextEncode", "ConditioningZeroOut", "EmptyFlux2LatentImage", "RandomNoise", "CFGGuider", "KSamplerSelect", "Flux2Scheduler", "SamplerCustomAdvanced", "VAEDecode", "SaveImage"],
+    "node_source_hashes_bound": true,
+    "local_dependency_versions": {
+      "torch": "2.11.0+cu128",
+      "transformers": "5.13.0",
+      "tokenizers": "0.22.2",
+      "safetensors": "0.8.0",
+      "comfyui-workflow-templates": "0.11.2",
+      "comfyui-frontend-package": "1.45.20"
+    },
+    "scope": "LOCAL_COMFYUI_VENV_OBSERVED_NOT_CURRENT_POD_AUTHORITY"
+  },
+  "propagated_bindings": {
+    "dependency_bundle_id": "e939807282ddd3cacc921754c851dd70d5f22f4d957f87d48ac226d1ee73d689",
+    "dependency_bundle_sha256": "93499620595d4a514da5c45fc25c755c3e03ffaa6ad9cdcaab92573971b39c85",
+    "generation_stack_sha256": "3c4915a8a12af1939feb5904346fcd5248d0bbff9bdc503424cef3ab6f973d43",
+    "prepared_transaction_id": "1c01db6118ea70a8f6881b081f8238d4a4cddc135a4b264887bee4102fa94340",
+    "prepared_transaction_sha256": "4e3ea7ac579c7c428f895e93733960270da4f0c4aabf4ad6f53dd037d12f6aab",
+    "queue_content_id": "ec4f9ad68a23ab96ad0b75c85790c46930f45d4fc7b4852238e9968d144e1b8f",
+    "queue_file_sha256": "ebeaea4bd224861903d17b96175fec429bb3506e56a1aca3b6886a779ab55a5c"
+  },
+  "validators": [
+    "validate_wave64_aqa_flux2_klein_workflow_contract.py",
+    "validate_wave64_aqa_flux2_klein_dependency_bundle.py",
+    "validate_wave64_aqa_generation_stack_registry.py",
+    "validate_wave64_aqa_model_storage_transaction.py",
+    "compile_wave64_aqa_sole_pod_qualification_queue.py --validate"
+  ],
+  "holds": [
+    "EXACT_COMPANION_REDISTRIBUTION_DECLARATION_AND_PROJECT_ACCEPTANCE_MISSING",
+    "CURRENT_POD_OBJECT_INFO_NOT_VERIFIED",
+    "CURRENT_POD_DEPENDENCY_ENVIRONMENT_NOT_VERIFIED",
+    "EXACT_COMPANION_MODEL_RESOLUTION_INCOMPLETE",
+    "ISOLATED_API_WORKFLOW_SMOKE_NOT_EXECUTED",
+    "RUNTIME_CAPACITY_QUALITY_CLEANUP_FAILURE_INJECTION_ACTIVATION_AND_PROMOTION_UNQUALIFIED"
+  ],
+  "next_action": "Advance the quarantined Wave42 workflow and custom-node pin static qualification while FLUX.2 acquisition and GPU execution remain held.",
+  "authority": {
+    "official_source_identity": true,
+    "static_workflow_contract": true,
+    "local_dependency_observation": true,
+    "current_pod_object_info": false,
+    "current_pod_dependencies": false,
+    "model_resolution": false,
+    "runtime_smoke": false,
+    "quality": false,
+    "activation": false,
+    "promotion": false
+  }
+}

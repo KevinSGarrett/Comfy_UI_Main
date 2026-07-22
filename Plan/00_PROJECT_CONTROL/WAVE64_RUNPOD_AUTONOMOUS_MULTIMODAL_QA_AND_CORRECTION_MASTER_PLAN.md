@@ -1480,3 +1480,27 @@ Exactly one recurring ComfyUI automation is active: the read-only
 ComfyUI automations remain paused. Its latest finalized July 18 anti-loop
 warning is adopted, but its SDXL target recommendation is rejected as stale
 because newer pushed FLUX.2 dependency commits changed the critical path.
+
+### Flux.2 Klein static workflow and dependency contract
+
+The official `image_flux2_klein_text_to_image.json` template is bound at
+`Comfy-Org/workflow_templates` revision `4640e6e3`: 69,968 bytes, SHA-256
+`237b436e…0166`. The installed `comfyui-workflow-templates==0.11.2` copy is
+byte-identical. Static inspection found that the upstream UI template contains
+both base and distilled branches and names the distilled non-FP8 file
+`flux-2-klein-4b.safetensors`; it is therefore not directly executable against
+the selected FP8-only stack.
+
+A separate 13-node API candidate now retains only the distilled four-step
+route and binds the exact selected `flux-2-klein-4b-fp8.safetensors`,
+`qwen_3_4b.safetensors`, and `flux2-vae.safetensors` filenames. It uses the
+core 1024-square, Euler, four-step, CFG 1.0 contract from the official
+distilled subgraph. Every required node is tied to exact source hashes in the
+authoritative ComfyUI checkout at `7747c342`; the local dependency environment
+is recorded exactly but is not current-pod authority.
+
+This closes the exact static workflow-hash, core-node, and local dependency
+binding gates only. Current-pod `object_info`, dependency parity, model
+resolution, isolated workflow smoke, output, cleanup, capacity, quality,
+failure injection, activation, and promotion remain false. The companion
+license hold still prohibits VAE acquisition and storage execution.

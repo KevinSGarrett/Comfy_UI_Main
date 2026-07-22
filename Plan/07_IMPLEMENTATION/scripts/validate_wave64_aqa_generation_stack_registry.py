@@ -62,8 +62,12 @@ def validate_registry(root: Path, registry: dict[str, Any]) -> dict[str, Any]:
         dependency.get("stack_id") != selected[0]["stack_id"]
         or dependency.get("authority", {}).get("component_identity") is not True
         or dependency.get("authority", {}).get("current_pod_complete") is not False
+        or dependency.get("workflow", {}).get("exact_workflow_hash_bound") is not True
+        or selected[0]["execution"].get("workflow_bound") is not True
     ):
         raise GenerationStackError("selected dependency bundle identity or authority drift")
+    if any(stack["execution"]["workflow_bound"] for stack in stacks[1:]):
+        raise GenerationStackError("unselected generation workflow gained authority")
     for stack in stacks:
         binding = stack["package_binding"]
         package_path = root / Path(binding["path"])

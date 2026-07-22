@@ -115,3 +115,22 @@ record an evidence-backed rejection. This six-hour automation is read-only and
 must not dispatch workers, mutate the repository, obtain leases, contact cloud
 runtimes, or change authority. Every other recurring ComfyUI automation stays
 paused unless the user explicitly changes that policy.
+
+Validate the selected static workflow and dependency contract with:
+
+```powershell
+python Plan/07_IMPLEMENTATION/scripts/validate_wave64_aqa_flux2_klein_workflow_contract.py
+```
+
+The official workflow-template bytes are an immutable upstream reference, not
+the selected execution graph. They contain an unselected base branch and a
+non-FP8 distilled filename. Use only the separately hash-bound 13-node API
+candidate for the selected FP8 stack after its remaining gates resolve. Never
+silently rename a model at submission time, run both upstream branches, or
+infer current-pod node/dependency availability from the local checkout.
+
+Static contract PASS proves JSON graph integrity, exact model names, four-step
+sampling parameters, node-source coverage, local installed-template equality,
+and local dependency observations. It does not prove current-pod object info,
+dependency parity, model resolution, execution, output quality, capacity,
+cleanup, failure isolation, activation, or promotion.

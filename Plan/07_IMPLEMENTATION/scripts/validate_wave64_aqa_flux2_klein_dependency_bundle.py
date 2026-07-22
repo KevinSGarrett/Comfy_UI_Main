@@ -16,6 +16,7 @@ ROOT = Path(__file__).resolve().parents[3]
 BUNDLE_PATH = Path("Plan/10_REGISTRIES/wave64_aqa_flux2_klein_4b_dependency_bundle.json")
 SCHEMA_PATH = Path("Plan/08_SCHEMAS/runpod_autonomous_flux2_klein_dependency_bundle.schema.json")
 PROVENANCE_SCHEMA_PATH = Path("Plan/08_SCHEMAS/runpod_autonomous_flux2_klein_companion_provenance_decision.schema.json")
+WORKFLOW_SCHEMA_PATH = Path("Plan/08_SCHEMAS/runpod_autonomous_flux2_klein_workflow_contract.schema.json")
 
 
 class DependencyBundleError(ValueError):
@@ -85,6 +86,21 @@ def validate_bundle(root: Path, value: dict[str, Any], verify_local_bytes: bool 
         or provenance.get("authority", {}).get("exact_companion_redistribution") is not False
     ):
         raise DependencyBundleError("companion provenance decision authority drift")
+    workflow_binding = value["workflow_contract"]
+    workflow_path = root / Path(workflow_binding["path"])
+    if sha256_file(workflow_path) != workflow_binding["sha256"]:
+        raise DependencyBundleError("workflow contract hash drift")
+    workflow_contract = load_json(workflow_path)
+    Draft202012Validator(load_json(root / WORKFLOW_SCHEMA_PATH)).validate(workflow_contract)
+    candidate_path = root / Path(workflow_binding["candidate_path"])
+    if (
+        workflow_contract.get("contract_id") != workflow_binding["contract_id"]
+        or workflow_contract.get("selected_api_candidate", {}).get("sha256") != workflow_binding["candidate_sha256"]
+        or sha256_file(candidate_path) != workflow_binding["candidate_sha256"]
+        or workflow_contract.get("authority", {}).get("static_workflow_contract") is not True
+        or workflow_contract.get("authority", {}).get("runtime_smoke") is not False
+    ):
+        raise DependencyBundleError("workflow contract identity or authority drift")
     for component in value["components"]:
         source = component.get("local_source")
         if source and source.get("evidence"):
