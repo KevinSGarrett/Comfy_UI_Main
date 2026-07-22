@@ -1041,3 +1041,13 @@ asserting license-acceptance authority. The existing
 `true_flux_schnell_reference_smoke` lane remains
 `deconstruct_only_not_promoted`; no execution bundle, model load, image QA,
 activation, workflow promotion, or product promotion is granted.
+
+Z-Image Turbo BF16 is partially adopted at the exact promoted-storage boundary.
+The current-pod regular file is 12,309,866,400 bytes with SHA-256
+`2407613050b809ffdff18a4ac99af83ea6b95443ecebdf80e064a79c825574a6`,
+matching `Comfy-Org/z_image_turbo` revision
+`d24c4cf2a0cd98a42f23467e27e3d76ee9438b8e`. That exact single-file provider
+record exposes no license metadata. Apache-2.0 metadata from a differently
+packaged upstream repository is therefore not inherited. The
+`flux_family_zimage` lane remains `deconstruct_only_not_promoted`; no model
+load, image-quality, activation, workflow, or product authority is granted.
