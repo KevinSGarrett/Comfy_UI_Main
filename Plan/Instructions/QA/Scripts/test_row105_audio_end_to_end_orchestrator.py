@@ -33,6 +33,13 @@ def test_live_dependencies_hold_all_execution() -> None:
     assert all(stage["state"] == "pending" for stage in run["stages"])
 
 
+def test_hold_packet_claims_implementation_only() -> None:
+    packet = MOD.build_hold_packet(ROOT)
+    assert packet["implementation_completion_claimed"] is True
+    assert packet["runtime_completion_claimed"] is False
+    assert packet["publication_authority"] is False
+
+
 def test_dag_is_content_addressed_and_root_only_is_ready() -> None:
     first = fixture_run()
     second = fixture_run()

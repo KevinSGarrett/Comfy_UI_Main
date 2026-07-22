@@ -413,6 +413,12 @@ pending because Rows083, 092, 097, and 104 are held. No stage adapter,
 ComfyUI/GPU runtime, media, selector, or publication target was mutated, so
 runtime and product completion remain false.
 
+Implementation-state reconciliation (2026-07-22): the hold packet now
+explicitly separates completed state-machine implementation from absent live
+DAG runtime and publication authority. Eleven focused Row105 tests and the
+combined 21-test Row104/105 suite pass; no stage adapter or external service was
+invoked.
+
 ### Row106 Automated event, mix, and AV QA matrix
 
 Measure event coverage, false events, contact/transient offset, endpoint drift, semantic/material match, repetition, room consistency, clipping, loudness, dialogue masking, and full-duration defects.

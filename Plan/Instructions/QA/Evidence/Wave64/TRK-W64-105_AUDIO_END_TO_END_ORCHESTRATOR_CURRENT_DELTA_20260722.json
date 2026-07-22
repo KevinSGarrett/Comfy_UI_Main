@@ -1,12 +1,13 @@
 {
   "schema_version": "1.0.0",
   "evidence_id": "W64-ROW105-AUDIO-END-TO-END-ORCHESTRATOR-CURRENT-DELTA-20260722",
-  "timestamp_utc": "2026-07-22T21:15:00Z",
+  "timestamp_utc": "2026-07-22T21:30:00Z",
   "tracker_id": "TRK-W64-105",
   "item_id": "ITEM-W64-105",
   "classification": "ROW105_FAIL_CLOSED_CONTENT_ADDRESSED_ORCHESTRATOR_SLICE_NO_FALSE_COMPLETION",
   "status": "HOLD_DEPENDENCIES_AND_AUDIO_ORCHESTRATOR_RUNTIME_ABSENT_WITH_FAIL_CLOSED_STATE_MACHINE_PRESENT",
   "row_complete": false,
+  "implementation_completion_claimed": true,
   "runtime_completion_claimed": false,
   "publication_authority": false,
   "implemented_scope": [
@@ -21,14 +22,14 @@
     "synthetic full-DAG publication denial"
   ],
   "artifact_hashes": [
-    {"path": "Plan/07_IMPLEMENTATION/scripts/orchestrate_wave64_audio_end_to_end.py", "bytes": 16660, "sha256": "23e4fea8573e4e69de2747ff4ea7d6b58eed0b42c7756c1e64a4089a58ff65a4"},
+    {"path": "Plan/07_IMPLEMENTATION/scripts/orchestrate_wave64_audio_end_to_end.py", "bytes": 16711, "sha256": "ddd750b210963396e87c4c7a3dbb3a7d97a28615f1dbbb941e3d8436be103c87"},
     {"path": "Plan/08_SCHEMAS/audio_orchestration_state.schema.json", "bytes": 5130, "sha256": "112726838dd5a2d6fa83a40e799a41c8f1d3b4cb6e2020aa0cb72e10b51a0086"},
     {"path": "Plan/10_REGISTRIES/wave64_row105_audio_orchestrator_policy_registry.json", "bytes": 1845, "sha256": "5d82278800ecb333548f3102dc7a7b71881f4ae9780fde4bfccf535d061cc8ec"},
-    {"path": "Plan/Instructions/QA/Scripts/test_row105_audio_end_to_end_orchestrator.py", "bytes": 4554, "sha256": "3cba29e6b95a7b11626e82456013ffad36773474baff1b1732c5562deeb42966"},
-    {"path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-105_audio_end_to_end_orchestrator.json", "bytes": 27361, "sha256": "13894d678e3e32ff4cedc29886e0f617308f1e0fa0f60c26a84a0afbb288f425"}
+    {"path": "Plan/Instructions/QA/Scripts/test_row105_audio_end_to_end_orchestrator.py", "bytes": 4828, "sha256": "914dda027ea5470961af4acfc23c41812ad911bd57e5d59216956a29c4983a8b"},
+    {"path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-105_audio_end_to_end_orchestrator.json", "bytes": 27407, "sha256": "dd8756667a29b0ebd8646c252004ebf3b22675afe473349d355110a1aea0d92f"}
   ],
   "validators": [
-    {"command": "pytest -q Plan/Instructions/QA/Scripts/test_row104_generated_asset_promotion.py Plan/Instructions/QA/Scripts/test_row105_audio_end_to_end_orchestrator.py", "result": "PASS_20", "stdout_sha256": "45d5719c610e7b17549225aa955d96271a10541aa246db7825984bcff935d3ee"},
+    {"command": "pytest -q Plan/Instructions/QA/Scripts/test_row104_generated_asset_promotion.py Plan/Instructions/QA/Scripts/test_row105_audio_end_to_end_orchestrator.py", "result": "PASS_21", "stdout_sha256": "269797b749aa520cc618622d280de28eb3968c5691168068516ae9704d10403f"},
     {"command": "ruff check Plan/07_IMPLEMENTATION/scripts/orchestrate_wave64_audio_end_to_end.py Plan/Instructions/QA/Scripts/test_row105_audio_end_to_end_orchestrator.py", "result": "PASS"},
     {"command": "python -m json.tool schema registry evidence", "result": "PASS"}
   ],

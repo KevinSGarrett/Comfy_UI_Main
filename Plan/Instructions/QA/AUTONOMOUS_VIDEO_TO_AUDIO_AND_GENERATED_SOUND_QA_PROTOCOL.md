@@ -276,3 +276,12 @@ origin retention, selector discovery, and evidence-preserving revocation.
 Synthetic fixtures cannot enter the library. Revocation removes eligibility but
 never deletes the asset or its evidence. Genuine publication, discovery, and
 revocation replay remain required for runtime and product authority.
+
+## Row105 end-to-end orchestration gate
+
+The ten-stage DAG uses content-addressed idempotency keys, predecessor-only
+inputs, immutable passed outputs, append-only transition hashes, crash-safe
+resume, bounded retries, and cost admission. Synthetic execution cannot publish.
+Live authority requires accepted dependencies, exact retained stage adapters,
+owned runtime execution, failure-injection proof, and successful publication
+replay without skipping any mandatory stage.

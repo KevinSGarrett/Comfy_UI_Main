@@ -330,6 +330,7 @@ def build_hold_packet(root: Path) -> dict[str, Any]:
         "tracker_id": TRACKER_ID,
         "item_id": ITEM_ID,
         "row_complete": False,
+        "implementation_completion_claimed": True,
         "runtime_completion_claimed": False,
         "publication_authority": False,
         "status": "HOLD_DEPENDENCIES_AND_AUDIO_ORCHESTRATOR_RUNTIME_ABSENT",
