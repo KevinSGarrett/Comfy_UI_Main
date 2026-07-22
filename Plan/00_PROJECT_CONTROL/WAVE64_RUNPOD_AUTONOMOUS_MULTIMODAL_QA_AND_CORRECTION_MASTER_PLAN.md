@@ -1136,3 +1136,18 @@ This closes the missing-byte recovery action only: none of the files is
 loader-visible, and provider/permission completion, the renamed Double Kiss
 provenance edge, dependencies, `object_info`, model load, execution, visual
 quality, activation, and promotion remain fail closed.
+
+Exact provider reconciliation now covers all nine recovered files. OpenPose is
+the Apache-2.0 xinsir artifact at immutable Hugging Face revision `23f966c`; SAM
+ViT-B exactly matches the official Meta checkpoint stream and Apache-2.0 model
+license; the hand detector exactly matches Bingsu/adetailer revision `1a67ee2`
+under that revision's AGPL-3.0 card. The detector contains pickle imports and
+SAM is also a PyTorch checkpoint, so both require isolated sandboxed loaders.
+All six LoRAs have exact Civitai by-hash bindings and use-permission snapshots.
+The Hands LoRA specifically requires credit, permits commercial use only through
+Civitai on-site rental, and forbids relicensing; this prevents unrestricted
+product use. Civitai permissions remain snapshots rather than SPDX licenses and
+must be rechecked before activation or distribution. The `adult_male` Double
+Kiss workflow path is accepted as a governed alias of the byte-identical legacy
+`body_male` catalog artifact. None of these static findings grants runtime or
+quality authority.
