@@ -12,7 +12,7 @@
     "source": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["name", "version", "url", "filename", "bytes", "sha256", "entry_count", "wheel_metadata_sha256", "binary_path", "binary_bytes", "binary_sha256", "observed_internal_tag"],
+      "required": ["name", "version", "url", "filename", "bytes", "sha256", "entry_count", "wheel_metadata_sha256", "binary_path", "binary_bytes", "binary_sha256", "observed_internal_tag", "record_defects"],
       "properties": {
         "name": {"const": "decord"},
         "version": {"const": "0.6.0"},
@@ -25,7 +25,8 @@
         "binary_path": {"const": "decord/libdecord.so"},
         "binary_bytes": {"const": 12465984},
         "binary_sha256": {"const": "98b260c5812106648ba299279916fbe98439893e346d4efdcf5cde66ba8973da"},
-        "observed_internal_tag": {"const": "cp36-cp36m-manylinux2010_x86_64"}
+        "observed_internal_tag": {"const": "cp36-cp36m-manylinux2010_x86_64"},
+        "record_defects": {"const": [{"path": "decord-0.6.0.dist-info/top_level.txt", "record_hash": "sha256=8TBMC8W9caRfSBphoy47j2wFImKqCOgWKD3JVELo5e0", "record_bytes": 17, "actual_hash": "sha256=2gcXRGxvur2Z1iLmIE4fxL6cmywVZYD__8rzDGIEZDM", "actual_bytes": 7}]}
       }
     },
     "repair": {

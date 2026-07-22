@@ -47,3 +47,9 @@ def test_source_hash_drift_fails_closed() -> None:
     admission = copy.deepcopy(load_admission())
     admission["source"]["sha256"] = "0" * 64
     assert "source wheel identity mismatch" in MODULE.validate(admission)
+
+
+def test_record_defect_drift_fails_closed() -> None:
+    admission = copy.deepcopy(load_admission())
+    admission["source"]["record_defects"][0]["actual_bytes"] = 8
+    assert "source wheel RECORD defect identity mismatch" in MODULE.validate(admission)

@@ -33,6 +33,16 @@ def validate(admission: dict) -> list[str]:
         errors.append("source wheel identity mismatch")
     if source.get("observed_internal_tag") != "cp36-cp36m-manylinux2010_x86_64":
         errors.append("source wheel defect identity mismatch")
+    if source.get("record_defects") != [
+        {
+            "path": "decord-0.6.0.dist-info/top_level.txt",
+            "record_hash": "sha256=8TBMC8W9caRfSBphoy47j2wFImKqCOgWKD3JVELo5e0",
+            "record_bytes": 17,
+            "actual_hash": "sha256=2gcXRGxvur2Z1iLmIE4fxL6cmywVZYD__8rzDGIEZDM",
+            "actual_bytes": 7,
+        }
+    ]:
+        errors.append("source wheel RECORD defect identity mismatch")
     if repair.get("replacement_internal_tag") != "py3-none-manylinux2010_x86_64":
         errors.append("replacement wheel tag mismatch")
     if repair.get("allowed_changed_entries") != [
