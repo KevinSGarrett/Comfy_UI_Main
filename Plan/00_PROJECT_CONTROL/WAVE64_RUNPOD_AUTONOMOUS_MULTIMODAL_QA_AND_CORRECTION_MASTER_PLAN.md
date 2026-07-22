@@ -1242,3 +1242,20 @@ modeling file, and no system-site-package inheritance; it is only a reuse
 candidate because `timm` and `einops` are absent. A new immutable overlay must
 add pinned copies of those two dependencies. No import, load, GPU use, or
 runtime authority was claimed by this static preflight.
+
+The immutable dependency action is now complete without mutating the verified
+Qwen3-Omni environment. Two official pure-Python wheels—`timm==1.0.28` and
+`einops==0.8.2`—were pinned by exact PyPI size and SHA-256, downloaded into a
+dedicated wheelhouse, and extracted into an atomic add-on overlay. The first
+builder attempt correctly failed before target creation because the deliberately
+minimal base environment has no `pip`; partial cleanup passed. The accepted
+builder therefore performs no resolver execution: it admits only exact
+`py3-none-any` wheels, verifies their purity metadata, and rejects traversal,
+symlink, duplicate-member, or hash drift before atomic publication. The final
+overlay contains 345 regular files and 9,389,082 bytes with tree digest
+`1191178fb3f8ff148b7330767f8d0e1dd0f3418cfacd29d0f3ce19490f6895b7`.
+Metadata-only validation under the base Python resolved all five active `timm`
+requirements across 75 base plus two overlay distributions with zero errors.
+No base file had a timestamp change after the build boundary. Package import,
+custom-code execution, model load, GPU use, runtime quality, and authority are
+still false until their separately admitted canaries pass.

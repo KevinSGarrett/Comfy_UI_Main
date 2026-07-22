@@ -87,8 +87,11 @@ def test_provisional_internvl_storage_is_exact_but_cannot_replace_juror() -> Non
         "TOKEN_COUNT_MISMATCH_FALLBACK_USES_CHAINED_ADVANCED_INDEX_ASSIGNMENT",
     ]
     assert package["dependency_preflight"]["reuse_candidate"]["missing_required_addons"] == ["timm", "einops"]
+    assert package["dependency_environment"]["lock_sha256"] == "9f7317aef1cf2beb0f67bc879b8d3676d542fb691dc61d337aff268474cda5a6"
+    assert package["dependency_environment"]["installed_tree_sha256"] == "1191178fb3f8ff148b7330767f8d0e1dd0f3418cfacd29d0f3ce19490f6895b7"
+    assert package["dependency_environment"]["metadata_validation"]["receipt_sha256"] == "e3fbd176c84114f5360f46cf5986e2514682539414f47dc09638da75e9ddc711"
     assert "full_remote_code_review" not in package["qualification"]["required_gates"]
-    assert "dependency_environment" in package["qualification"]["required_gates"]
+    assert "dependency_environment" not in package["qualification"]["required_gates"]
     assert "import_canary" in package["qualification"]["required_gates"]
     assert "independent_juror_substitution" in package["authority"]["forbidden"]
     assert package["authority"]["operational"] is False

@@ -360,7 +360,7 @@ def validate(data: dict) -> list[str]:
                         errors.append(f"{item.get('package_id')}: provisional InternVL audit digest mismatch")
                     if install.get("durable_root") != "/workspace/models/visual_critics/internvl3_5_8b_bf16":
                         errors.append(f"{item.get('package_id')}: provisional InternVL root mismatch")
-                    if qualification.get("state") != "EXACT_STORAGE_AND_STATIC_CODE_REVIEW_PASS_ENVIRONMENT_ACTION_AND_RUNTIME_GATES_PENDING":
+                    if qualification.get("state") != "EXACT_STORAGE_STATIC_CODE_AND_IMMUTABLE_METADATA_CLOSED_ENVIRONMENT_PASS_IMPORT_AND_RUNTIME_GATES_PENDING":
                         errors.append(f"{item.get('package_id')}: provisional InternVL qualification mismatch")
                     static_review = item.get("static_code_review", {})
                     if static_review.get("state") != "AST_AND_MANUAL_SEMANTIC_REVIEW_PASS_WITH_FAIL_CLOSED_QUALITY_GATES":
@@ -381,10 +381,34 @@ def validate(data: dict) -> list[str]:
                         errors.append(f"{item.get('package_id')}: provisional InternVL reuse candidate gaps mismatch")
                     if preflight.get("import_attempted") is not False or preflight.get("model_load_attempted") is not False:
                         errors.append(f"{item.get('package_id')}: provisional InternVL preflight must remain static")
+                    environment = item.get("dependency_environment", {})
+                    expected_environment = {
+                        "state": "IMMUTABLE_LAYERED_ENVIRONMENT_BUILT_METADATA_CLOSURE_PASS_IMPORT_PENDING",
+                        "root": "/workspace/w64_aqa/environments/InternVL3_5-8B/transformers-5.2.0-timm-1.0.28-einops-0.8.2-py3.12.13-cu124/9f7317aef1cf2beb0f67bc879b8d3676d542fb691dc61d337aff268474cda5a6",
+                        "lock_sha256": "9f7317aef1cf2beb0f67bc879b8d3676d542fb691dc61d337aff268474cda5a6",
+                        "admission_sha256": "5ef6117658e1555133e67bb5c536667676e02ef64d395530d2c535d087a071e4",
+                        "manifest_sha256": "429ecdddf96132ee46dc1b21d14d95d1ed6f83268a579a1e75db9291807e6ce7",
+                        "installed_tree_sha256": "1191178fb3f8ff148b7330767f8d0e1dd0f3418cfacd29d0f3ce19490f6895b7",
+                        "installed_file_count": 345,
+                        "installed_bytes": 9389082,
+                        "base_environment_mutated": False,
+                        "metadata_validation": {
+                            "state": "PASS_75_BASE_2_OVERLAY_5_REQUIREMENTS_ZERO_ERRORS",
+                            "receipt": "/workspace/wave64_evidence/internvl35_8b_layered_environment_metadata_20260722T124500Z.json",
+                            "receipt_sha256": "e3fbd176c84114f5360f46cf5986e2514682539414f47dc09638da75e9ddc711",
+                        },
+                        "import_attempted": False,
+                        "model_load_attempted": False,
+                        "evidence": "Plan/Tracker/Evidence/W64_AQA_INTERNVL35_8B_DEPENDENCY_OVERLAY_20260722T124500Z/integration_acceptance.json",
+                    }
+                    if environment != expected_environment:
+                        errors.append(f"{item.get('package_id')}: provisional InternVL dependency environment mismatch")
                     if "full_remote_code_review" in qualification.get("required_gates", []):
                         errors.append(f"{item.get('package_id')}: completed static review gate must be removed")
-                    if "dependency_environment" not in qualification.get("required_gates", []) or "import_canary" not in qualification.get("required_gates", []):
-                        errors.append(f"{item.get('package_id')}: provisional InternVL environment and import gates required")
+                    if "dependency_environment" in qualification.get("required_gates", []):
+                        errors.append(f"{item.get('package_id')}: completed dependency environment gate must be removed")
+                    if "import_canary" not in qualification.get("required_gates", []):
+                        errors.append(f"{item.get('package_id')}: provisional InternVL import gate required")
                     if "independent_juror_substitution" not in authority.get("forbidden", []):
                         errors.append(f"{item.get('package_id')}: provisional InternVL cannot substitute for the juror")
             else:
