@@ -141,16 +141,17 @@ class CampaignExecutor:
     def _store(self, artifact: bytes) -> tuple[str, str]:
         sha = digest(artifact)
         path = self.cas / sha[:2] / sha
+        try:
+            resolved_path = path.resolve()
+            resolved_path.relative_to(self.workspace)
+        except ValueError as exc:
+            raise ValueError("content-addressed artifact path escaped workspace") from exc
         path.parent.mkdir(parents=True, exist_ok=True)
         if path.exists() and path.read_bytes() != artifact:
             raise ValueError("content-address collision")
         if not path.exists():
             path.write_bytes(artifact)
-        try:
-            path.resolve().relative_to(self.workspace)
-        except ValueError as exc:
-            raise ValueError("content-addressed artifact path escaped workspace") from exc
-        return sha, path.relative_to(self.workspace).as_posix()
+        return sha, resolved_path.relative_to(self.workspace).as_posix()
 
     def _ordered_ready(self, remaining: set[str], dependencies: dict[str, set[str]], jobs: dict[str, dict[str, Any]], current_checkpoint: str | None) -> list[str]:
         completed = {node for node, result in self.results.items() if result["terminal_state"] == "PASS"}

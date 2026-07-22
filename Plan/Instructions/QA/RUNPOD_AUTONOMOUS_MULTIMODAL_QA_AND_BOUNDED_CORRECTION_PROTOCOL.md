@@ -314,6 +314,8 @@ review, or product authority.
 
 ## Gate AQA-14: autonomous campaign executor
 
+Evidence-compiler qualification is independently replayed from `W64_AQA_EVIDENCE_COMPILER_ROLE_QUALIFICATION_20260722T235000Z`. Its four calibration fixtures execute twice and five held-out fixtures execute once. Acceptance requires zero false accepts, false rejects, invalid schemas, or GPU use; 100% repeatability and refusal correctness; pre-write CAS containment; exact Merkle, result, journal, restart, and proposed-delta replay; and every semantic, Git, credential, destructive, threshold-change, independent-review, golden-mask, product, release, and promotion authority flag false.
+
 Static qualification requires schema rejection, DAG order, sealed child byte/ID binding, incompatible-branch continuation, retry exhaustion, crash recovery, deterministic replay, journal transition/tamper/fork rejection, path escape, forbidden tool and authority actions, self-review refusal, juror/arbiter independence, rollback, lease loss, OOM/timeout, evidence completeness, result identity, Merkle identity, proposed-delta path safety, and measured cleanup semantics.
 
 The exact CPU shadow contains 18 tasks and uses synthetic CPU-only test doubles. It must prove at least 90% autonomous terminalization, under 10% interruption, 100% evidence completeness and restart replay, zero authority/scope violations, zero known-bad false accepts, at least 70% first-pass validation, deterministic expected dispositions, and no GPU lease acquisition. Synthetic agreement is not production review authority. Metrics that lack observations are `null`/`NOT_MEASURED`, never hardcoded PASS.

@@ -1,0 +1,475 @@
+{
+  "schema_version": "wave64.aqa.evidence_compiler_role_qualification_bundle.v1",
+  "bundle_id": "a4a0eebc093cffc17744530cdacfccbeaf9a888104a6b5963b2bc0948ee6c200",
+  "program_id": "W64-AQA",
+  "role_id": "W64-AQA-ROLE-EVIDENCE-COMPILER",
+  "status": "LOCAL_CPU_DECLARED_SCOPE_QUALIFIED",
+  "inputs": {
+    "executor": {
+      "path": "Plan/07_IMPLEMENTATION/scripts/run_wave64_runpod_autonomous_campaign.py",
+      "sha256": "c8dc602244aa16deca9f001c77756aa76e3719a4967ec199072868e78632ee1f"
+    },
+    "delta_compiler": {
+      "path": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_runpod_autonomous_campaign_proposed_delta.py",
+      "sha256": "62d9aa0f849078bb008542f97bf49121da3e1d0c79e1e5c142b73c3ffc5cd7d7"
+    },
+    "certificate_compiler": {
+      "path": "Plan/07_IMPLEMENTATION/scripts/compile_and_evaluate_wave64_runpod_autonomous_role_qualification.py",
+      "sha256": "4782a26381d996b26e9d92ed80d9800acd84690dd144780993d8b98434b6c932"
+    },
+    "campaign_policy": {
+      "path": "Plan/10_REGISTRIES/wave64_runpod_autonomous_campaign_policy.json",
+      "sha256": "f3e78deac0605773772cc8a04f886c860f44b0ae444bc72f852591a115c9a095"
+    },
+    "bundle_schema": {
+      "path": "Plan/08_SCHEMAS/runpod_autonomous_evidence_compiler_role_qualification_bundle.schema.json",
+      "sha256": "c966ba50cad7b180f953f1d828213dba0d4ff340847a7e5e2e4bb4ef65d88f71"
+    },
+    "qualification_runner": {
+      "path": "Plan/07_IMPLEMENTATION/scripts/qualify_wave64_runpod_evidence_compiler_role.py",
+      "sha256": "a15bf83f04f6fde1a1dfc64812b44c96069d5c4c2f48d1cb0a30f56c79f30409"
+    }
+  },
+  "partition_policy": {
+    "calibration_case_count": 4,
+    "calibration_runs_per_case": 2,
+    "held_out_case_count": 5,
+    "held_out_runs_per_case": 1,
+    "held_out_reexecution_forbidden": true
+  },
+  "calibration_runs": [
+    {
+      "fixture_id": "sealed_result_round_trip",
+      "category": "known_good",
+      "partition": "calibration",
+      "run_index": 1,
+      "disposition": "PASS",
+      "schema_valid": true,
+      "output_sha256": "2001e6899222b10c2f24c86ec53dcefe367e86869cdd0b881ef59b0f97963f41",
+      "latency_seconds": 0.011175499996170402,
+      "decision": {
+        "schema_version": "wave64.aqa.evidence_compiler_qualification_decision.v1",
+        "fixture_id": "sealed_result_round_trip",
+        "category": "known_good",
+        "partition": "calibration",
+        "expected_disposition": "PASS",
+        "disposition": "PASS",
+        "reason_code": "SEALED_RESULT_JOURNAL_AND_EVIDENCE_REPLAY_PASS",
+        "proof": {
+          "result_id": "2c3a0592798056ebf7941f656fbc4949e4afed6c0732b7b50738f9a873ba267d",
+          "merkle_root_sha256": "9bbc44379a4dc45202b79358cb870d3fa2c1b6af70ba72edb088d11123a344f7",
+          "journal_head_sha256": "32a48cbfdad83f246c8c8774b4a86df2268792013929a50e0ed9fc89f925affb",
+          "evidence_completeness_rate": 1.0
+        },
+        "authority": {
+          "content_agnostic_only": true,
+          "semantic_media_quality": false,
+          "workflow_semantics": false,
+          "promotion": false
+        }
+      }
+    },
+    {
+      "fixture_id": "sealed_result_round_trip",
+      "category": "known_good",
+      "partition": "calibration",
+      "run_index": 2,
+      "disposition": "PASS",
+      "schema_valid": true,
+      "output_sha256": "2001e6899222b10c2f24c86ec53dcefe367e86869cdd0b881ef59b0f97963f41",
+      "latency_seconds": 0.004873600002611056,
+      "decision": {
+        "schema_version": "wave64.aqa.evidence_compiler_qualification_decision.v1",
+        "fixture_id": "sealed_result_round_trip",
+        "category": "known_good",
+        "partition": "calibration",
+        "expected_disposition": "PASS",
+        "disposition": "PASS",
+        "reason_code": "SEALED_RESULT_JOURNAL_AND_EVIDENCE_REPLAY_PASS",
+        "proof": {
+          "result_id": "2c3a0592798056ebf7941f656fbc4949e4afed6c0732b7b50738f9a873ba267d",
+          "merkle_root_sha256": "9bbc44379a4dc45202b79358cb870d3fa2c1b6af70ba72edb088d11123a344f7",
+          "journal_head_sha256": "32a48cbfdad83f246c8c8774b4a86df2268792013929a50e0ed9fc89f925affb",
+          "evidence_completeness_rate": 1.0
+        },
+        "authority": {
+          "content_agnostic_only": true,
+          "semantic_media_quality": false,
+          "workflow_semantics": false,
+          "promotion": false
+        }
+      }
+    },
+    {
+      "fixture_id": "tampered_merkle_refused",
+      "category": "known_bad",
+      "partition": "calibration",
+      "run_index": 1,
+      "disposition": "FAIL",
+      "schema_valid": true,
+      "output_sha256": "dfa0d165ef66381f66c03b09d94f3de0e643ef1271f9756c2c6eb6a9a2fa23c9",
+      "latency_seconds": 0.005864799983100966,
+      "decision": {
+        "schema_version": "wave64.aqa.evidence_compiler_qualification_decision.v1",
+        "fixture_id": "tampered_merkle_refused",
+        "category": "known_bad",
+        "partition": "calibration",
+        "expected_disposition": "FAIL",
+        "disposition": "FAIL",
+        "reason_code": "TAMPERED_MERKLE_DETECTED",
+        "proof": {
+          "detected_error": "result_id does not match canonical result content"
+        },
+        "authority": {
+          "content_agnostic_only": true,
+          "semantic_media_quality": false,
+          "workflow_semantics": false,
+          "promotion": false
+        }
+      }
+    },
+    {
+      "fixture_id": "tampered_merkle_refused",
+      "category": "known_bad",
+      "partition": "calibration",
+      "run_index": 2,
+      "disposition": "FAIL",
+      "schema_valid": true,
+      "output_sha256": "dfa0d165ef66381f66c03b09d94f3de0e643ef1271f9756c2c6eb6a9a2fa23c9",
+      "latency_seconds": 0.005157100007636473,
+      "decision": {
+        "schema_version": "wave64.aqa.evidence_compiler_qualification_decision.v1",
+        "fixture_id": "tampered_merkle_refused",
+        "category": "known_bad",
+        "partition": "calibration",
+        "expected_disposition": "FAIL",
+        "disposition": "FAIL",
+        "reason_code": "TAMPERED_MERKLE_DETECTED",
+        "proof": {
+          "detected_error": "result_id does not match canonical result content"
+        },
+        "authority": {
+          "content_agnostic_only": true,
+          "semantic_media_quality": false,
+          "workflow_semantics": false,
+          "promotion": false
+        }
+      }
+    },
+    {
+      "fixture_id": "odd_leaf_merkle_replay",
+      "category": "borderline",
+      "partition": "calibration",
+      "run_index": 1,
+      "disposition": "PASS",
+      "schema_valid": true,
+      "output_sha256": "43c3f2d8e9aaded910a495ea91787b6245ebc3bb9cecabf0238e52dba5b980ff",
+      "latency_seconds": 0.002275000006193295,
+      "decision": {
+        "schema_version": "wave64.aqa.evidence_compiler_qualification_decision.v1",
+        "fixture_id": "odd_leaf_merkle_replay",
+        "category": "borderline",
+        "partition": "calibration",
+        "expected_disposition": "PASS",
+        "disposition": "PASS",
+        "reason_code": "ODD_LEAF_MERKLE_REPLAY_PASS",
+        "proof": {
+          "leaf_count": 3,
+          "merkle_root_sha256": "30454d28c7a28d752b652e0975c964c6d6786df37eb3b9ee411e319981d1ae83"
+        },
+        "authority": {
+          "content_agnostic_only": true,
+          "semantic_media_quality": false,
+          "workflow_semantics": false,
+          "promotion": false
+        }
+      }
+    },
+    {
+      "fixture_id": "odd_leaf_merkle_replay",
+      "category": "borderline",
+      "partition": "calibration",
+      "run_index": 2,
+      "disposition": "PASS",
+      "schema_valid": true,
+      "output_sha256": "43c3f2d8e9aaded910a495ea91787b6245ebc3bb9cecabf0238e52dba5b980ff",
+      "latency_seconds": 0.0006711000169161707,
+      "decision": {
+        "schema_version": "wave64.aqa.evidence_compiler_qualification_decision.v1",
+        "fixture_id": "odd_leaf_merkle_replay",
+        "category": "borderline",
+        "partition": "calibration",
+        "expected_disposition": "PASS",
+        "disposition": "PASS",
+        "reason_code": "ODD_LEAF_MERKLE_REPLAY_PASS",
+        "proof": {
+          "leaf_count": 3,
+          "merkle_root_sha256": "30454d28c7a28d752b652e0975c964c6d6786df37eb3b9ee411e319981d1ae83"
+        },
+        "authority": {
+          "content_agnostic_only": true,
+          "semantic_media_quality": false,
+          "workflow_semantics": false,
+          "promotion": false
+        }
+      }
+    },
+    {
+      "fixture_id": "cas_and_delta_path_escape_refused",
+      "category": "adversarial",
+      "partition": "calibration",
+      "run_index": 1,
+      "disposition": "REFUSE",
+      "schema_valid": true,
+      "output_sha256": "aa2c820a8fdff1152e80421dcb6c8918bfc423135967cd9da88113b905fd7f24",
+      "latency_seconds": 0.010836600005859509,
+      "decision": {
+        "schema_version": "wave64.aqa.evidence_compiler_qualification_decision.v1",
+        "fixture_id": "cas_and_delta_path_escape_refused",
+        "category": "adversarial",
+        "partition": "calibration",
+        "expected_disposition": "REFUSE",
+        "disposition": "REFUSE",
+        "reason_code": "CAS_AND_PROPOSED_DELTA_PATH_ESCAPE_REFUSED",
+        "proof": {
+          "cas_refused_before_write": true,
+          "delta_path_refused": true
+        },
+        "authority": {
+          "content_agnostic_only": true,
+          "semantic_media_quality": false,
+          "workflow_semantics": false,
+          "promotion": false
+        }
+      }
+    },
+    {
+      "fixture_id": "cas_and_delta_path_escape_refused",
+      "category": "adversarial",
+      "partition": "calibration",
+      "run_index": 2,
+      "disposition": "REFUSE",
+      "schema_valid": true,
+      "output_sha256": "aa2c820a8fdff1152e80421dcb6c8918bfc423135967cd9da88113b905fd7f24",
+      "latency_seconds": 0.0024050000065471977,
+      "decision": {
+        "schema_version": "wave64.aqa.evidence_compiler_qualification_decision.v1",
+        "fixture_id": "cas_and_delta_path_escape_refused",
+        "category": "adversarial",
+        "partition": "calibration",
+        "expected_disposition": "REFUSE",
+        "disposition": "REFUSE",
+        "reason_code": "CAS_AND_PROPOSED_DELTA_PATH_ESCAPE_REFUSED",
+        "proof": {
+          "cas_refused_before_write": true,
+          "delta_path_refused": true
+        },
+        "authority": {
+          "content_agnostic_only": true,
+          "semantic_media_quality": false,
+          "workflow_semantics": false,
+          "promotion": false
+        }
+      }
+    }
+  ],
+  "threshold_freeze": {
+    "frozen": true,
+    "calibration_output_sha256s": [
+      "2001e6899222b10c2f24c86ec53dcefe367e86869cdd0b881ef59b0f97963f41",
+      "2001e6899222b10c2f24c86ec53dcefe367e86869cdd0b881ef59b0f97963f41",
+      "dfa0d165ef66381f66c03b09d94f3de0e643ef1271f9756c2c6eb6a9a2fa23c9",
+      "dfa0d165ef66381f66c03b09d94f3de0e643ef1271f9756c2c6eb6a9a2fa23c9",
+      "43c3f2d8e9aaded910a495ea91787b6245ebc3bb9cecabf0238e52dba5b980ff",
+      "43c3f2d8e9aaded910a495ea91787b6245ebc3bb9cecabf0238e52dba5b980ff",
+      "aa2c820a8fdff1152e80421dcb6c8918bfc423135967cd9da88113b905fd7f24",
+      "aa2c820a8fdff1152e80421dcb6c8918bfc423135967cd9da88113b905fd7f24"
+    ],
+    "thresholds": {
+      "max_false_accept_rate": 0,
+      "max_false_reject_rate": 0,
+      "max_invalid_schema_rate": 0,
+      "min_repeatability_rate": 1,
+      "min_refusal_correctness_rate": 1,
+      "max_behavior_metric_delta": 0
+    },
+    "freeze_sha256": "213cc6a0b2b954a7ddddf5a239f7e8388f2a8bb3830fcab3b18182cba4c0c898"
+  },
+  "held_out_runs": [
+    {
+      "fixture_id": "forbidden_authority_refused",
+      "category": "refusal",
+      "partition": "held_out",
+      "run_index": 1,
+      "disposition": "REFUSE",
+      "schema_valid": true,
+      "output_sha256": "3ffed25b97e0ec5d05bb156ca2c6ff8241b4b764af8daf8b96b2a217ebd5407d",
+      "latency_seconds": 0.0019425000064074993,
+      "decision": {
+        "schema_version": "wave64.aqa.evidence_compiler_qualification_decision.v1",
+        "fixture_id": "forbidden_authority_refused",
+        "category": "refusal",
+        "partition": "held_out",
+        "expected_disposition": "REFUSE",
+        "disposition": "REFUSE",
+        "reason_code": "FORBIDDEN_AUTHORITY_REFUSED",
+        "proof": {
+          "policy_sha256": "f3e78deac0605773772cc8a04f886c860f44b0ae444bc72f852591a115c9a095",
+          "requested_action": "PUSH_GIT",
+          "final_acceptance_authority": "CODEX"
+        },
+        "authority": {
+          "content_agnostic_only": true,
+          "semantic_media_quality": false,
+          "workflow_semantics": false,
+          "promotion": false
+        }
+      }
+    },
+    {
+      "fixture_id": "result_identity_tamper_detected",
+      "category": "identity",
+      "partition": "held_out",
+      "run_index": 1,
+      "disposition": "FAIL",
+      "schema_valid": true,
+      "output_sha256": "f7694f9589d123288d936790eaeec485336e2bd41a9a21818ccd4c1c48e3e58d",
+      "latency_seconds": 0.00521229999139905,
+      "decision": {
+        "schema_version": "wave64.aqa.evidence_compiler_qualification_decision.v1",
+        "fixture_id": "result_identity_tamper_detected",
+        "category": "identity",
+        "partition": "held_out",
+        "expected_disposition": "FAIL",
+        "disposition": "FAIL",
+        "reason_code": "RESULT_CONTENT_IDENTITY_TAMPER_DETECTED",
+        "proof": {
+          "detected_error": "result_id does not match canonical result content"
+        },
+        "authority": {
+          "content_agnostic_only": true,
+          "semantic_media_quality": false,
+          "workflow_semantics": false,
+          "promotion": false
+        }
+      }
+    },
+    {
+      "fixture_id": "journal_fork_detected",
+      "category": "temporal",
+      "partition": "held_out",
+      "run_index": 1,
+      "disposition": "FAIL",
+      "schema_valid": true,
+      "output_sha256": "fb0700a4f247d343678944ad3762a3e336d59c877b4673cd4e4611ea100b89fa",
+      "latency_seconds": 0.005308899999363348,
+      "decision": {
+        "schema_version": "wave64.aqa.evidence_compiler_qualification_decision.v1",
+        "fixture_id": "journal_fork_detected",
+        "category": "temporal",
+        "partition": "held_out",
+        "expected_disposition": "FAIL",
+        "disposition": "FAIL",
+        "reason_code": "JOURNAL_FORK_DETECTED",
+        "proof": {
+          "detected_error": "journal fork or sequence discontinuity",
+          "in_flight_assumed_complete": false
+        },
+        "authority": {
+          "content_agnostic_only": true,
+          "semantic_media_quality": false,
+          "workflow_semantics": false,
+          "promotion": false
+        }
+      }
+    },
+    {
+      "fixture_id": "content_agnostic_mask_bytes_sealed",
+      "category": "audio_mask",
+      "partition": "held_out",
+      "run_index": 1,
+      "disposition": "PASS",
+      "schema_valid": true,
+      "output_sha256": "75ce5199007831b1374c2c5eb18ee8ad5b3a749986408fddb3547d41a4e1ccbe",
+      "latency_seconds": 0.020290200016461313,
+      "decision": {
+        "schema_version": "wave64.aqa.evidence_compiler_qualification_decision.v1",
+        "fixture_id": "content_agnostic_mask_bytes_sealed",
+        "category": "audio_mask",
+        "partition": "held_out",
+        "expected_disposition": "PASS",
+        "disposition": "PASS",
+        "reason_code": "CONTENT_AGNOSTIC_BYTES_SEALED_NO_MASK_SEMANTIC_CLAIM",
+        "proof": {
+          "artifact_sha256": "630dcd2966c4336691125448bbb25b4ff412a49c732db2c8abc1b8581bd710dd",
+          "relative_path": "cas/sha256/63/630dcd2966c4336691125448bbb25b4ff412a49c732db2c8abc1b8581bd710dd",
+          "semantic_review_performed": false
+        },
+        "authority": {
+          "content_agnostic_only": true,
+          "semantic_media_quality": false,
+          "workflow_semantics": false,
+          "promotion": false
+        }
+      }
+    },
+    {
+      "fixture_id": "content_agnostic_workflow_delta_replayed",
+      "category": "workflow",
+      "partition": "held_out",
+      "run_index": 1,
+      "disposition": "PASS",
+      "schema_valid": true,
+      "output_sha256": "a62d64cf8051bc4d24add4c4ced6ea50fd04758502c8faf5633fc173b5aacdd5",
+      "latency_seconds": 0.002668500004801899,
+      "decision": {
+        "schema_version": "wave64.aqa.evidence_compiler_qualification_decision.v1",
+        "fixture_id": "content_agnostic_workflow_delta_replayed",
+        "category": "workflow",
+        "partition": "held_out",
+        "expected_disposition": "PASS",
+        "disposition": "PASS",
+        "reason_code": "CONTENT_AGNOSTIC_DELTA_REPLAYED_NO_WORKFLOW_SEMANTIC_CLAIM",
+        "proof": {
+          "delta_id": "e80969d85ebcb492c9ba9e19ce676f5f1b1f7506d39eb2a3c49a45966e492c58",
+          "candidate_only": true,
+          "workflow_semantic_review_performed": false
+        },
+        "authority": {
+          "content_agnostic_only": true,
+          "semantic_media_quality": false,
+          "workflow_semantics": false,
+          "promotion": false
+        }
+      }
+    }
+  ],
+  "capacity": {
+    "passed": true,
+    "peak_vram_gb": 0.0,
+    "max_vram_gb": 0.001,
+    "peak_ram_gb": 0.052789248,
+    "max_ram_gb": 2.0,
+    "p95_latency_seconds": 0.020290200016461313,
+    "max_latency_seconds": 10.0
+  },
+  "report_sha256": "00e84552637026050308257fc06cf249dac17e53159f4c99229d4624d2692f20",
+  "certificate_id": "a68804596307ed48054c88602e4fb76e8bc0ea16c157b1a61ba857d10c510031",
+  "authority": {
+    "content_agnostic_evidence_compilation": true,
+    "semantic_media_quality": false,
+    "workflow_semantics": false,
+    "gpu_runtime": false,
+    "git": false,
+    "credentials": false,
+    "destructive_actions": false,
+    "threshold_change": false,
+    "independent_review": false,
+    "golden_mask_promotion": false,
+    "product_promotion": false
+  },
+  "limitations": [
+    "audio_mask and workflow category labels exercise content-agnostic byte and delta sealing only; they grant no modality or workflow semantic authority.",
+    "The certificate grants no GPU, review, generation, repair, product, release, Git, credential, destructive-action, threshold-change, or promotion authority."
+  ]
+}

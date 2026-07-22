@@ -533,6 +533,8 @@ available, and work another CPU-safe qualification lane in the meantime.
 
 ## Autonomous campaign operation
 
+The local evidence compiler is qualified only under certificate `a6880459...`: content-addressed byte storage with containment checked before mutation, Merkle/result sealing, journal and restart verification, candidate-only proposed-delta containment, evidence completeness, and compact rendering. The certificate's `workflow` modality is a package-carrier constraint forced by the shared certificate schema, not workflow-semantic authority. Never use this certificate to satisfy media, mask, audio, graph, model, node, independent-review, product, release, or promotion gates.
+
 1. Admit one immutable campaign contract and verify every sealed child path, byte hash, embedded ID, repository identity, input, prompt, model, runtime, environment, policy, threshold, and manifest hash.
 2. Select `DEVELOPMENT_CAMPAIGN` or `MULTIMODAL_MEDIA_CAMPAIGN`; never mix mutable profile semantics into an admitted contract.
 3. Freeze the DAG, budgets, retry/repair limits, risk tiers, sampling seed/strata, expected outputs, authority prohibitions, and cleanup plan.

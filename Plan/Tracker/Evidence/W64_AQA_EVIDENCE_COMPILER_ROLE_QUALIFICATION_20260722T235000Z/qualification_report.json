@@ -1,0 +1,179 @@
+{
+  "schema_version": "wave64.aqa.role_qualification_report.v1",
+  "report_id": "W64-AQA-QUAL-evidence-compiler-local-v1",
+  "role_id": "W64-AQA-ROLE-EVIDENCE-COMPILER",
+  "model_id": "deterministic-tool/run_wave64_runpod_autonomous_campaign.py:evidence-compiler",
+  "checkpoint_sha256": "16a01a1df12e862ad8d87561525f1102fec2064af93725a3f215c4c202b0dc25",
+  "runtime_digest": "2e4aa78a3d83fe5c7840f59a779d287eb4bd3818ba70f3afe8b1e4e0a41db403",
+  "prompt_sha256": "80c07c24991b910060f37f545d41098d44e0cfe6e84318ff43ec434d694218c2",
+  "corpus_sha256": "f73dd53692e09cc93f54924ba87a3773ef2acefb0182a69c7261c7033500d960",
+  "execution_matrix_sha256": "16b64dc7d64dade6b72c4984b49d77ffc67c38719ae8a637f1fcb87aa93b4cee",
+  "issued_at": "2026-07-22T23:54:20Z",
+  "expires_at": "2027-07-22T23:54:20Z",
+  "scope": {
+    "modalities": [
+      "workflow"
+    ],
+    "max_width": 0,
+    "max_height": 0,
+    "max_duration_seconds": 0,
+    "quantization": "not_applicable_content_agnostic_cpu",
+    "gpu_profile": "local_cpu_no_gpu"
+  },
+  "capacity": {
+    "passed": true,
+    "peak_vram_gb": 0.0,
+    "max_vram_gb": 0.001,
+    "peak_ram_gb": 0.052789248,
+    "max_ram_gb": 2.0,
+    "p95_latency_seconds": 0.020290200016461313,
+    "max_latency_seconds": 10.0
+  },
+  "thresholds": {
+    "max_false_accept_rate": 0,
+    "max_false_reject_rate": 0,
+    "max_invalid_schema_rate": 0,
+    "min_repeatability_rate": 1,
+    "min_refusal_correctness_rate": 1,
+    "max_behavior_metric_delta": 0
+  },
+  "fixtures": [
+    {
+      "fixture_id": "sealed_result_round_trip",
+      "category": "known_good",
+      "partition": "calibration",
+      "expected_disposition": "PASS",
+      "runs": [
+        {
+          "disposition": "PASS",
+          "schema_valid": true,
+          "output_sha256": "2001e6899222b10c2f24c86ec53dcefe367e86869cdd0b881ef59b0f97963f41"
+        },
+        {
+          "disposition": "PASS",
+          "schema_valid": true,
+          "output_sha256": "2001e6899222b10c2f24c86ec53dcefe367e86869cdd0b881ef59b0f97963f41"
+        }
+      ]
+    },
+    {
+      "fixture_id": "tampered_merkle_refused",
+      "category": "known_bad",
+      "partition": "calibration",
+      "expected_disposition": "FAIL",
+      "runs": [
+        {
+          "disposition": "FAIL",
+          "schema_valid": true,
+          "output_sha256": "dfa0d165ef66381f66c03b09d94f3de0e643ef1271f9756c2c6eb6a9a2fa23c9"
+        },
+        {
+          "disposition": "FAIL",
+          "schema_valid": true,
+          "output_sha256": "dfa0d165ef66381f66c03b09d94f3de0e643ef1271f9756c2c6eb6a9a2fa23c9"
+        }
+      ]
+    },
+    {
+      "fixture_id": "odd_leaf_merkle_replay",
+      "category": "borderline",
+      "partition": "calibration",
+      "expected_disposition": "PASS",
+      "runs": [
+        {
+          "disposition": "PASS",
+          "schema_valid": true,
+          "output_sha256": "43c3f2d8e9aaded910a495ea91787b6245ebc3bb9cecabf0238e52dba5b980ff"
+        },
+        {
+          "disposition": "PASS",
+          "schema_valid": true,
+          "output_sha256": "43c3f2d8e9aaded910a495ea91787b6245ebc3bb9cecabf0238e52dba5b980ff"
+        }
+      ]
+    },
+    {
+      "fixture_id": "cas_and_delta_path_escape_refused",
+      "category": "adversarial",
+      "partition": "calibration",
+      "expected_disposition": "REFUSE",
+      "runs": [
+        {
+          "disposition": "REFUSE",
+          "schema_valid": true,
+          "output_sha256": "aa2c820a8fdff1152e80421dcb6c8918bfc423135967cd9da88113b905fd7f24"
+        },
+        {
+          "disposition": "REFUSE",
+          "schema_valid": true,
+          "output_sha256": "aa2c820a8fdff1152e80421dcb6c8918bfc423135967cd9da88113b905fd7f24"
+        }
+      ]
+    },
+    {
+      "fixture_id": "forbidden_authority_refused",
+      "category": "refusal",
+      "partition": "held_out",
+      "expected_disposition": "REFUSE",
+      "runs": [
+        {
+          "disposition": "REFUSE",
+          "schema_valid": true,
+          "output_sha256": "3ffed25b97e0ec5d05bb156ca2c6ff8241b4b764af8daf8b96b2a217ebd5407d"
+        }
+      ]
+    },
+    {
+      "fixture_id": "result_identity_tamper_detected",
+      "category": "identity",
+      "partition": "held_out",
+      "expected_disposition": "FAIL",
+      "runs": [
+        {
+          "disposition": "FAIL",
+          "schema_valid": true,
+          "output_sha256": "f7694f9589d123288d936790eaeec485336e2bd41a9a21818ccd4c1c48e3e58d"
+        }
+      ]
+    },
+    {
+      "fixture_id": "journal_fork_detected",
+      "category": "temporal",
+      "partition": "held_out",
+      "expected_disposition": "FAIL",
+      "runs": [
+        {
+          "disposition": "FAIL",
+          "schema_valid": true,
+          "output_sha256": "fb0700a4f247d343678944ad3762a3e336d59c877b4673cd4e4611ea100b89fa"
+        }
+      ]
+    },
+    {
+      "fixture_id": "content_agnostic_mask_bytes_sealed",
+      "category": "audio_mask",
+      "partition": "held_out",
+      "expected_disposition": "PASS",
+      "runs": [
+        {
+          "disposition": "PASS",
+          "schema_valid": true,
+          "output_sha256": "75ce5199007831b1374c2c5eb18ee8ad5b3a749986408fddb3547d41a4e1ccbe"
+        }
+      ]
+    },
+    {
+      "fixture_id": "content_agnostic_workflow_delta_replayed",
+      "category": "workflow",
+      "partition": "held_out",
+      "expected_disposition": "PASS",
+      "runs": [
+        {
+          "disposition": "PASS",
+          "schema_valid": true,
+          "output_sha256": "a62d64cf8051bc4d24add4c4ced6ea50fd04758502c8faf5633fc173b5aacdd5"
+        }
+      ]
+    }
+  ]
+}

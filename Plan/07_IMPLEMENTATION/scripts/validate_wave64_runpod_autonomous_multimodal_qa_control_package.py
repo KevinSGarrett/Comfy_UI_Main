@@ -81,6 +81,10 @@ PATHS = {
     / "Plan/10_REGISTRIES/wave64_runpod_autonomous_campaign_role_registry.json",
     "campaign_deterministic_role_reconciliation": ROOT
     / "Plan/Tracker/Evidence/W64_AQA_CAMPAIGN_DETERMINISTIC_ROLE_RECONCILIATION_20260722T234000Z/integration_acceptance.json",
+    "evidence_compiler_qualification_bundle_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_evidence_compiler_role_qualification_bundle.schema.json",
+    "evidence_compiler_qualification_acceptance": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_EVIDENCE_COMPILER_ROLE_QUALIFICATION_20260722T235000Z/integration_acceptance.json",
     "campaign_multimodal_qa_registry": ROOT
     / "Plan/10_REGISTRIES/wave64_runpod_autonomous_campaign_multimodal_qa_registry.json",
     "campaign_cpu_shadow_acceptance": ROOT
@@ -394,6 +398,11 @@ def recompute_self_hash(document: dict[str, Any], field: str) -> str:
     ).hexdigest()
 
 
+def canonical_text_sha256(path: Path) -> str:
+    """Hash repository text independent of Windows checkout line endings."""
+    return hashlib.sha256(path.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
+
+
 def collect_errors() -> list[str]:
     errors: list[str] = []
     missing = [str(path.relative_to(ROOT)) for path in PATHS.values() if not path.is_file()]
@@ -420,6 +429,12 @@ def collect_errors() -> list[str]:
         campaign_role_registry = load_json(PATHS["campaign_role_registry"])
         campaign_deterministic_role_reconciliation = load_json(
             PATHS["campaign_deterministic_role_reconciliation"]
+        )
+        evidence_compiler_qualification_bundle_schema = load_json(
+            PATHS["evidence_compiler_qualification_bundle_schema"]
+        )
+        evidence_compiler_qualification_acceptance = load_json(
+            PATHS["evidence_compiler_qualification_acceptance"]
         )
         role_package_inventory = load_json(PATHS["role_package_inventory"])
         role_package_inventory_schema = load_json(PATHS["role_package_inventory_schema"])
@@ -629,10 +644,10 @@ def collect_errors() -> list[str]:
         errors.append("campaign deterministic role scope or executor hold mismatch")
     if (
         not deterministic_certificate_path.is_file()
-        or hashlib.sha256(deterministic_certificate_path.read_bytes()).hexdigest()
+        or canonical_text_sha256(deterministic_certificate_path)
         != deterministic_role.get("certificate_sha256")
         or not deterministic_acceptance_path.is_file()
-        or hashlib.sha256(deterministic_acceptance_path.read_bytes()).hexdigest()
+        or canonical_text_sha256(deterministic_acceptance_path)
         != deterministic_role.get("acceptance_sha256")
     ):
         errors.append("campaign deterministic role evidence hash binding mismatch")
@@ -647,6 +662,52 @@ def collect_errors() -> list[str]:
         or reconciliation_effect.get("multimodal_campaign_admitted") is not False
     ):
         errors.append("campaign deterministic role reconciliation authority mismatch")
+    evidence_compiler_role = campaign_roles.get("W64-AQA-ROLE-EVIDENCE-COMPILER", {})
+    evidence_compiler_certificate_path = ROOT / evidence_compiler_role.get(
+        "certificate_path", ""
+    )
+    evidence_compiler_acceptance_path = ROOT / evidence_compiler_role.get(
+        "acceptance_path", ""
+    )
+    if (
+        evidence_compiler_qualification_bundle_schema.get("$id")
+        != "https://comfy-ui-main.local/schemas/runpod_autonomous_evidence_compiler_role_qualification_bundle.schema.json"
+        or evidence_compiler_role.get("qualification_state") != "QUALIFIED"
+        or evidence_compiler_role.get("qualification_scope")
+        != "CONTENT_AGNOSTIC_LOCAL_CPU_EVIDENCE_COMPILATION_ONLY"
+        or evidence_compiler_role.get("semantic_or_promotion_authority") is not False
+    ):
+        errors.append("campaign evidence compiler role scope mismatch")
+    if (
+        not evidence_compiler_certificate_path.is_file()
+        or canonical_text_sha256(evidence_compiler_certificate_path)
+        != evidence_compiler_role.get("certificate_sha256")
+        or not evidence_compiler_acceptance_path.is_file()
+        or canonical_text_sha256(evidence_compiler_acceptance_path)
+        != evidence_compiler_role.get("acceptance_sha256")
+    ):
+        errors.append("campaign evidence compiler evidence hash binding mismatch")
+    evidence_compiler_observations = evidence_compiler_qualification_acceptance.get(
+        "observations", {}
+    )
+    if (
+        evidence_compiler_qualification_acceptance.get("disposition")
+        != "ACCEPTED_CONTENT_AGNOSTIC_LOCAL_CPU_EVIDENCE_COMPILATION_SCOPE_ONLY"
+        or evidence_compiler_observations.get("false_accept_rate") != 0
+        or evidence_compiler_observations.get("false_reject_rate") != 0
+        or evidence_compiler_observations.get("repeatability_rate") != 1
+        or evidence_compiler_observations.get("refusal_correctness_rate") != 1
+        or evidence_compiler_observations.get("peak_vram_gb") != 0
+    ):
+        errors.append("campaign evidence compiler acceptance metrics mismatch")
+    for binding in evidence_compiler_qualification_acceptance.get("artifacts", {}).values():
+        bound_path = ROOT / binding.get("path", "")
+        if (
+            not bound_path.is_file()
+            or canonical_text_sha256(bound_path)
+            != binding.get("sha256")
+        ):
+            errors.append("campaign evidence compiler acceptance artifact drift")
     if role_package_inventory.get("scope") != "REPOSITORY_BACKED_STATIC_AND_SCOPED_RUNTIME_EVIDENCE":
         errors.append("role package inventory must bind static and scoped runtime evidence")
     inventory_runtime = role_package_inventory.get("runtime_policy", {})

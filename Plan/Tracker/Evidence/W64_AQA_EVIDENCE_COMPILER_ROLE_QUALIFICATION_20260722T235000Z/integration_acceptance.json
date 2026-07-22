@@ -1,0 +1,52 @@
+{
+  "schema_version": "wave64.aqa.evidence_compiler_role_qualification_integration_acceptance.v1",
+  "program_id": "W64-AQA",
+  "tracker_ids": ["W64-AQA-013", "W64-AQA-019"],
+  "disposition": "ACCEPTED_CONTENT_AGNOSTIC_LOCAL_CPU_EVIDENCE_COMPILATION_SCOPE_ONLY",
+  "bundle_id": "a4a0eebc093cffc17744530cdacfccbeaf9a888104a6b5963b2bc0948ee6c200",
+  "certificate_id": "a68804596307ed48054c88602e4fb76e8bc0ea16c157b1a61ba857d10c510031",
+  "artifacts": {
+    "execution_bundle": {
+      "path": "Plan/Tracker/Evidence/W64_AQA_EVIDENCE_COMPILER_ROLE_QUALIFICATION_20260722T235000Z/execution_bundle.json",
+      "sha256": "dae5e0085d54cda63464c7a5a202100d02b228215c9c14aab1afd1decea58846"
+    },
+    "qualification_report": {
+      "path": "Plan/Tracker/Evidence/W64_AQA_EVIDENCE_COMPILER_ROLE_QUALIFICATION_20260722T235000Z/qualification_report.json",
+      "sha256": "ee1e63fe198f2a81d9c03259508bc59fce2366a2d51821c084c5dc3e0cda07db"
+    },
+    "qualification_certificate": {
+      "path": "Plan/Tracker/Evidence/W64_AQA_EVIDENCE_COMPILER_ROLE_QUALIFICATION_20260722T235000Z/qualification_certificate.json",
+      "sha256": "1789cb89fa134e51cf23f860c2033876b3717280b7d1d87a7cd6c588acf6373b"
+    }
+  },
+  "observations": {
+    "calibration_case_count": 4,
+    "calibration_run_count": 8,
+    "held_out_case_count": 5,
+    "held_out_run_count": 5,
+    "repeatability_rate": 1.0,
+    "refusal_correctness_rate": 1.0,
+    "false_accept_rate": 0.0,
+    "false_reject_rate": 0.0,
+    "peak_vram_gb": 0.0,
+    "peak_ram_gb": 0.052789248,
+    "p95_latency_seconds": 0.020290200016461313
+  },
+  "accepted_scope": [
+    "content-addressed byte storage with pre-write workspace containment",
+    "Merkle root construction and replay",
+    "sealed campaign result content identity",
+    "journal hash-chain transition and fork verification",
+    "restart cursor with no assumed in-flight success",
+    "candidate-only proposed-delta identity and path containment",
+    "evidence completeness calculation and compact result rendering"
+  ],
+  "limitations": [
+    "Repository text identities use canonical Git LF bytes so Windows CRLF checkout filters cannot invalidate equivalent content.",
+    "The certificate schema requires a modality label; workflow denotes the package carrier only and grants no workflow semantic or runtime authority.",
+    "The audio_mask and workflow fixtures prove only content-agnostic byte and delta sealing, not audio, mask, media, graph, node, model, or quality evaluation.",
+    "No GPU, generation, repair, semantic review, independent-juror, golden-mask, Git, credential, destructive-action, threshold-change, product, activation, release, or promotion authority is granted.",
+    "The campaign executor remains blocked until every role required by a particular immutable contract is independently qualified."
+  ],
+  "next_action": "Use the qualified deterministic and evidence-compiler roles only within their exact CPU scopes; continue independent controller and reviewer role qualification before any multimodal campaign admission."
+}

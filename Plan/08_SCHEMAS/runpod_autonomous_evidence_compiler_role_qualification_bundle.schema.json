@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_evidence_compiler_role_qualification_bundle.schema.json",
+  "title": "Wave64 Evidence Compiler Role Qualification Bundle",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "bundle_id", "program_id", "role_id", "status", "inputs",
+    "partition_policy", "calibration_runs", "threshold_freeze", "held_out_runs",
+    "capacity", "report_sha256", "certificate_id", "authority", "limitations"
+  ],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.evidence_compiler_role_qualification_bundle.v1"},
+    "bundle_id": {"$ref": "#/$defs/sha256"},
+    "program_id": {"const": "W64-AQA"},
+    "role_id": {"const": "W64-AQA-ROLE-EVIDENCE-COMPILER"},
+    "status": {"enum": ["LOCAL_CPU_DECLARED_SCOPE_QUALIFIED", "FAILED_QUALIFICATION"]},
+    "inputs": {
+      "type": "object",
+      "minProperties": 4,
+      "additionalProperties": {"$ref": "#/$defs/binding"}
+    },
+    "partition_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["calibration_case_count", "calibration_runs_per_case", "held_out_case_count", "held_out_runs_per_case", "held_out_reexecution_forbidden"],
+      "properties": {
+        "calibration_case_count": {"const": 4},
+        "calibration_runs_per_case": {"const": 2},
+        "held_out_case_count": {"const": 5},
+        "held_out_runs_per_case": {"const": 1},
+        "held_out_reexecution_forbidden": {"const": true}
+      }
+    },
+    "calibration_runs": {"type": "array", "minItems": 8, "maxItems": 8, "items": {"$ref": "#/$defs/run"}},
+    "threshold_freeze": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["frozen", "calibration_output_sha256s", "thresholds", "freeze_sha256"],
+      "properties": {
+        "frozen": {"const": true},
+        "calibration_output_sha256s": {"type": "array", "minItems": 8, "maxItems": 8, "items": {"$ref": "#/$defs/sha256"}},
+        "thresholds": {"type": "object"},
+        "freeze_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "held_out_runs": {"type": "array", "minItems": 5, "maxItems": 5, "items": {"$ref": "#/$defs/run"}},
+    "capacity": {"type": "object"},
+    "report_sha256": {"$ref": "#/$defs/sha256"},
+    "certificate_id": {"$ref": "#/$defs/sha256"},
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["content_agnostic_evidence_compilation", "semantic_media_quality", "workflow_semantics", "gpu_runtime", "git", "credentials", "destructive_actions", "threshold_change", "independent_review", "golden_mask_promotion", "product_promotion"],
+      "properties": {
+        "content_agnostic_evidence_compilation": {"const": true},
+        "semantic_media_quality": {"const": false},
+        "workflow_semantics": {"const": false},
+        "gpu_runtime": {"const": false},
+        "git": {"const": false},
+        "credentials": {"const": false},
+        "destructive_actions": {"const": false},
+        "threshold_change": {"const": false},
+        "independent_review": {"const": false},
+        "golden_mask_promotion": {"const": false},
+        "product_promotion": {"const": false}
+      }
+    },
+    "limitations": {"type": "array", "minItems": 2, "items": {"type": "string", "minLength": 1}}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "binding": {
+      "type": "object", "additionalProperties": false, "required": ["path", "sha256"],
+      "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha256"}}
+    },
+    "run": {
+      "type": "object", "additionalProperties": false,
+      "required": ["fixture_id", "category", "partition", "run_index", "disposition", "schema_valid", "output_sha256", "latency_seconds", "decision"],
+      "properties": {
+        "fixture_id": {"type": "string", "minLength": 1},
+        "category": {"enum": ["known_good", "known_bad", "borderline", "adversarial", "refusal", "identity", "temporal", "audio_mask", "workflow"]},
+        "partition": {"enum": ["calibration", "held_out"]},
+        "run_index": {"type": "integer", "minimum": 1, "maximum": 2},
+        "disposition": {"enum": ["PASS", "FAIL", "REFUSE", "BLOCKED"]},
+        "schema_valid": {"const": true},
+        "output_sha256": {"$ref": "#/$defs/sha256"},
+        "latency_seconds": {"type": "number", "minimum": 0},
+        "decision": {"type": "object"}
+      }
+    }
+  }
+}
