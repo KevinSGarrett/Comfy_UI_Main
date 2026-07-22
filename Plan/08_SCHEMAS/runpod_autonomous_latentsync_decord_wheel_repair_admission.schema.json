@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "runpod_autonomous_latentsync_decord_wheel_repair_admission.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "program_id", "package_id", "status", "source", "repair", "targets", "network", "authority", "verification"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.latentsync_decord_wheel_repair_admission.v1"},
+    "program_id": {"const": "W64-AQA"},
+    "package_id": {"const": "W64-AQA-PKG-LATENTSYNC-1.6"},
+    "status": {"const": "DECORD_WHEEL_METADATA_REPAIR_ADMITTED_EXECUTION_PENDING"},
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version", "url", "filename", "bytes", "sha256", "entry_count", "wheel_metadata_sha256", "binary_path", "binary_bytes", "binary_sha256", "observed_internal_tag"],
+      "properties": {
+        "name": {"const": "decord"},
+        "version": {"const": "0.6.0"},
+        "url": {"const": "https://files.pythonhosted.org/packages/11/79/936af42edf90a7bd4e41a6cac89c913d4b47fa48a26b042d5129a9242ee3/decord-0.6.0-py3-none-manylinux2010_x86_64.whl"},
+        "filename": {"const": "decord-0.6.0-py3-none-manylinux2010_x86_64.whl"},
+        "bytes": {"const": 13602299},
+        "sha256": {"const": "51997f20be8958e23b7c4061ba45d0efcd86bffd5fe81c695d0befee0d442976"},
+        "entry_count": {"const": 70},
+        "wheel_metadata_sha256": {"const": "d24f09731316657ed32488ba245812cbb5047342b148776a371264e69966d856"},
+        "binary_path": {"const": "decord/libdecord.so"},
+        "binary_bytes": {"const": 12465984},
+        "binary_sha256": {"const": "98b260c5812106648ba299279916fbe98439893e346d4efdcf5cde66ba8973da"},
+        "observed_internal_tag": {"const": "cp36-cp36m-manylinux2010_x86_64"}
+      }
+    },
+    "repair": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["replacement_internal_tag", "allowed_changed_entries", "output_filename"],
+      "properties": {
+        "replacement_internal_tag": {"const": "py3-none-manylinux2010_x86_64"},
+        "allowed_changed_entries": {"const": ["decord-0.6.0.dist-info/WHEEL", "decord-0.6.0.dist-info/RECORD"]},
+        "output_filename": {"const": "decord-0.6.0-py3-none-manylinux2010_x86_64.whl"}
+      }
+    },
+    "targets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["wheelhouse_root", "receipt_path"],
+      "properties": {
+        "wheelhouse_root": {"const": "/workspace/w64_aqa/wheelhouse/LatentSync-1.6/a229c3948406bc2cf6eaf4873e662e70c6a04746/decord-0.6.0-retag-v1/51997f20be8958e23b7c4061ba45d0efcd86bffd5fe81c695d0befee0d442976"},
+        "receipt_path": {"const": "/workspace/w64_aqa/control/receipts/latentsync-decord-0.6.0-retag-51997f20.json"}
+      }
+    },
+    "network": {"const": {"allowed_hosts": ["files.pythonhosted.org"], "model_download_allowed": false}},
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["exact_wheel_download", "wheel_metadata_retag", "record_regeneration", "repaired_wheel_publish", "package_install", "package_import", "project_code_import", "model_load", "tensor_allocation", "gpu_or_lease_poll", "inference", "service_change", "role_activation", "product_authority"],
+      "properties": {
+        "exact_wheel_download": {"const": true},
+        "wheel_metadata_retag": {"const": true},
+        "record_regeneration": {"const": true},
+        "repaired_wheel_publish": {"const": true},
+        "package_install": {"const": false},
+        "package_import": {"const": false},
+        "project_code_import": {"const": false},
+        "model_load": {"const": false},
+        "tensor_allocation": {"const": false},
+        "gpu_or_lease_poll": {"const": false},
+        "inference": {"const": false},
+        "service_change": {"const": false},
+        "role_activation": {"const": false},
+        "product_authority": {"const": false}
+      }
+    },
+    "verification": {"const": ["source_hash_and_size", "zip_integrity", "path_and_symlink_safety", "exact_internal_tag_mismatch", "single_non_cpython_shared_library_identity", "only_wheel_and_record_content_changed", "record_hash_integrity", "repaired_wheel_hash", "wheelhouse_tree_digest", "no_install_import_or_runtime_claim"]}
+  }
+}

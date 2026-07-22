@@ -1,0 +1,41 @@
+{
+  "schema_version": "wave64.aqa.latentsync_environment_build_attempts.v1",
+  "program_id": "W64-AQA",
+  "package_id": "W64-AQA-PKG-LATENTSYNC-1.6",
+  "classification": "ENVIRONMENT_UNPUBLISHED_EXACT_DECORD_WHEEL_REPAIR_PENDING",
+  "admission_commit": "bef7fea1",
+  "lock_sha256": "862e85d3cbb3a1dd9a90dd9541bff24b20ae997c95326f9331b9e466dc6b40ff",
+  "attempts": [
+    {
+      "controller_commit": "a3f3aad6",
+      "result": "FAIL_CLOSED_BEFORE_ENVIRONMENT_PUBLICATION",
+      "reason": "uv used /root/.cache/uv and exhausted the 20 GiB root overlay while extracting the hash-bound onnx wheel",
+      "correction_commit": "a48ecc3b",
+      "staging_removed": true,
+      "environment_published": false,
+      "receipt_published": false
+    },
+    {
+      "controller_commit": "a48ecc3b",
+      "result": "FAIL_CLOSED_BEFORE_ENVIRONMENT_PUBLICATION",
+      "reason": "uv pip check found decord 0.6.0 built for a different platform because the PyPI filename is py3-none-manylinux2010_x86_64 while internal WHEEL metadata is cp36-cp36m-manylinux2010_x86_64",
+      "source_wheel_sha256": "51997f20be8958e23b7c4061ba45d0efcd86bffd5fe81c695d0befee0d442976",
+      "source_wheel_internal_metadata_sha256": "d24f09731316657ed32488ba245812cbb5047342b148776a371264e69966d856",
+      "staging_removed": true,
+      "scratch_removed": true,
+      "environment_published": false,
+      "receipt_published": false
+    }
+  ],
+  "execution_claims": {
+    "environment_created": false,
+    "packages_retained": false,
+    "package_imported": false,
+    "model_loaded": false,
+    "gpu_or_lease_polled": false,
+    "inference_performed": false,
+    "role_activated": false,
+    "product_authority": false
+  },
+  "next_action": "Create and validate an exact two-entry decord WHEEL/RECORD metadata repair, then derive a new lock and admission; independently import-test the repaired payload before any runtime claim."
+}
