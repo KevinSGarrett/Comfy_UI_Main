@@ -722,6 +722,22 @@ and rollback gates pass. The repository-backed disposition is
 `W64-AQA-018`; transfer integrity may advance package qualification but cannot
 mark any role or workflow operational.
 
+The accessible-source Google Drive archive is also accepted as recovery
+integrity, independently of RunPod activation. Its payload inventory contains
+335 unique paths and Drive object IDs totaling 395,510,389,604 bytes; a full
+machine parse found zero invalid sizes, invalid SHA-256 values, duplicate paths,
+or duplicate object IDs. The accepted completed classes are 283 selected local
+archive files and the 2,938-object S3 non-model archive. EC2 remains explicitly
+partial: 51 Drive objects are retained, while 411 audited model files totaling
+281,349,317,254 bytes remain on stopped `i-0560bf8d143f93bb1`. The instance must
+not be terminated because its root volume has `DeleteOnTermination=true`.
+Resume that archive only when g5 capacity exists or exact type-change authority
+is granted. The separately approved stale F: Docker VHD rehashed equal to its
+Drive object, but local execution policy rejected deletion before process start,
+so the source remains present. Archive integrity grants recovery authority only,
+not runtime, capacity, license, workflow, quality, cleanup-completion, or product
+authority.
+
 ## Qwen3-Omni exact-fixture runtime disposition
 
 The corrected current-pod Qwen3-Omni canary at revision

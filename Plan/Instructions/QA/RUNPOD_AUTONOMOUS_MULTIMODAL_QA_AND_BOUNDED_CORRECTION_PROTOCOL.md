@@ -264,6 +264,18 @@ model-name, exact clean node-pin, fixture-governance, sandbox execution,
 regression, security, and rollback evidence. Quarantine bytes may not be linked,
 installed, or promoted merely because source and destination hashes match.
 
+Archive and cleanup evidence is a separate authority lane. Accept an archive
+only after its complete inventory is parsed, exact byte totals recompute, every
+required digest has valid form, and paths plus provider object IDs are unique.
+Record partial source classes as partial; never let a completed local or S3
+archive conceal an incomplete EC2 archive. Never terminate an EC2 instance whose
+retained source volume has `DeleteOnTermination=true`. A deletion candidate must
+bind its exact literal path, size, source hash, recovery-object ID, active-path
+separation, and stopped-service proof. If execution policy blocks deletion, keep
+the source present and record `cleanup_pending`; do not bypass the policy or
+claim reclaimed space. Archive or cleanup success never grants model, workflow,
+reviewer, quality, activation, or product authority.
+
 ## Prospective audio semantic and forced-alignment calibration
 
 Before a semantic-audio or forced-alignment runtime can use a fixture for
