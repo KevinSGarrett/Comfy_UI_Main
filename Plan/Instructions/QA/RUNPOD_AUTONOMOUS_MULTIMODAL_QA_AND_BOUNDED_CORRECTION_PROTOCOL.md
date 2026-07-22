@@ -8,6 +8,13 @@ Default disposition is `REJECT` or `BLOCKED`. Generation completion, process
 success, bucket presence, Git push, model output, or one aggregate score is
 never product approval.
 
+RunPod pod `1q4ji0gg1fkhvt` is the sole active production runtime and storage
+platform. Local CPU-only work needs no lease; every RunPod GPU-affecting action
+requires shared-capacity coordinator admission. AWS, S3, and EC2 receipts are
+legacy audit lineage only. Never contact those services unless the user
+explicitly authorizes a named archival, recovery, cost, shutdown, or
+reconciliation task, and never treat a legacy cloud gate as a RunPod blocker.
+
 ## Gate AQA-00: contract and lineage
 
 Require job ID, modality, specification/rubric version, source hashes, workflow
@@ -172,9 +179,12 @@ candidate receipt must prove immutable publication and unchanged base bytes,
 while all RunPod, GPU, ComfyUI execution, inference, regression, and promotion
 flags remain false.
 
-## Gate AQA-08: correction admission
+## Gate AQA-08: correction admission and legacy AWS lineage
 
-Before any S3 evidence promotion, validate the exact bucket and prefix policy,
+The following S3 rules are retained for historical receipt interpretation only;
+they are not an active production workflow or next action. If the user later
+authorizes a specific S3 archival/recovery/reconciliation task, validate the
+exact bucket and prefix policy,
 content-derived key, conditional-create requirement, SHA-256 checksum, server-
 side encryption, version ID, metadata, and replayed object length. A staged
 object passes storage qualification only. It cannot substitute for bundle
@@ -193,14 +203,15 @@ bundle evidence, followed by one conditional content-addressed S3 binding object
 that names that commit and exact manifest version. The subsequent Git receipt
 must bind the payload hash and remote version. This is provenance, not promotion.
 
-The July 22 public-posture replay authenticated successfully as
+The retained July 22 public-posture replay authenticated successfully as
 `ComfyUIMainSessionRole`, but its inline policy does not allow
 `s3:GetBucketPublicAccessBlock`, `s3:GetBucketPolicyStatus`, `s3:GetBucketAcl`,
 `s3:GetAccountPublicAccessBlock`, or `s3:GetBucketOwnershipControls`. Do not
 substitute successful encryption, versioning, lifecycle, location, or object
 head reads for those denied facts. Request only those exact additive read
-actions (or accept an independently retained equivalent receipt); no write
-permission is required for this gate.
+actions (or accept an independently retained equivalent receipt) only if the
+user explicitly reopens that historical task. This missing permission is not a
+RunPod production blocker and no active permission request should be made.
 
 The proposed repair must identify exact defects, targets, allowed patch class,
 expected benefit, risks, protected checks, parent hash, and rollback. Arbitrary

@@ -1,3 +1,23 @@
+## Immediate Next Action - RunPod-Only W64-AQA - 2026-07-22
+
+RunPod pod `1q4ji0gg1fkhvt` is the sole active production runtime and storage
+platform. W64-AQA-012 is legacy AWS evidence lineage retained for audit only;
+it is not required, not an active blocker, and has no dependency edge into
+W64-AQA-013 or W64-AQA-016. Preserve every AWS/S3/EC2 receipt without rerun or
+deletion and do not contact those services without explicit task-specific user
+authorization.
+
+Next GPU action remains the exact Wav2Vec2 expanded-alignment campaign after
+shared-coordinator admission. Until then, use CPU-only local work without a
+lease. Current selected no-GPU action: reconcile the preferred fast-triage
+`qwen3-vl:4b-instruct-q4_K_M` installed digest to exact official upstream
+identity and license metadata without loading or activating the model. If that
+lane blocks, select another local or current-RunPod-safe dependency; never fall
+back to AWS.
+
+Evidence: `Plan/Tracker/Evidence/W64_AQA_RUNPOD_SOLE_PRODUCTION_RECLASSIFICATION_20260722.json`.
+Policy: `Plan/10_REGISTRIES/wave64_runpod_sole_production_platform_policy.json`.
+
 ## Immediate Next Action - Wave64 Script Validation - 2026-07-18T18:21:52-05:00
 
 Worked script parser row `TRK-W64-052` / `ITEM-W64-052`.

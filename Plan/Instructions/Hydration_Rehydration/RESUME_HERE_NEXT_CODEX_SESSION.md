@@ -1,3 +1,20 @@
+## Resume Here - RunPod-Only W64-AQA - 2026-07-22
+
+Authoritative pushed branch state now treats RunPod pod `1q4ji0gg1fkhvt` as
+the sole active production runtime and storage platform. W64-AQA-012 and every
+remaining AWS/S3/EC2 gate are historical audit evidence only, not active
+RunPod blockers. Preserve their receipts unchanged and do not access legacy
+cloud services without explicit task-specific user authorization.
+
+Wav2Vec2 expanded alignment remains first in the GPU queue and requires the
+shared capacity coordinator. CPU-only local work needs no lease. While GPU
+admission is unavailable, continue exact package/workflow/license dependencies
+locally, beginning with the preferred fast-triage Qwen3-VL 4B Ollama identity
+and license reconciliation. Never fall back to AWS.
+
+Evidence: `Plan/Tracker/Evidence/W64_AQA_RUNPOD_SOLE_PRODUCTION_RECLASSIFICATION_20260722.json`.
+Policy: `Plan/10_REGISTRIES/wave64_runpod_sole_production_platform_policy.json`.
+
 ## Immediate Next Action - Wave64 Script Validation - 2026-07-18T18:21:52-05:00
 
 Worked script parser row `TRK-W64-052` / `ITEM-W64-052`.

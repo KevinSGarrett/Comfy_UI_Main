@@ -1,6 +1,6 @@
 # Wave64 RunPod Autonomous Multimodal QA and Bounded-Correction Master Plan
 
-Updated: 2026-07-21 America/Chicago
+Updated: 2026-07-22 America/Chicago
 Program ID: `W64-AQA`
 
 ## Decision
@@ -9,7 +9,12 @@ The project will use a fail-closed, evidence-producing QA controller rather than
 one unrestricted "master LLM." Every required Qwen, InternVL, Omni, Coder,
 generation, QA, and golden-mask role is targeted to the existing self-hosted
 production RunPod `1q4ji0gg1fkhvt`. This RTX 6000 Ada 48 GB pod is the sole
-deployment target until the user explicitly changes that decision. Alternative
+active production runtime **and** storage platform until the user explicitly
+changes that decision. Local CPU-only repository/evidence work is allowed
+without a lease. Every GPU-affecting action requires the shared RunPod capacity
+coordinator. AWS, S3, and EC2 are historical migration evidence only and may
+not be accessed unless the user explicitly authorizes a specific archival,
+recovery, cost, shutdown, or reconciliation task. Alternative
 pod migration, 2x A40 stock checks, candidate creation, and migration holds are
 retired. The controller runs roles sequentially and may unload, reload,
 quantize, or CPU/NVMe-offload models under a shared-coordinator phase lease.
@@ -32,8 +37,10 @@ runtime authority.
 - ComfyUI and Ollama were healthy during the 2026-07-21 reconciliation.
 - The installed strict product reviewer is `qwen2.5vl:32b`. Installed smaller
   VLMs are smoke or triage helpers only.
-- EC2 is forbidden for current generation or review. Existing S3 objects with
-  EC2-era names are historical evidence, not permission to restart EC2.
+- AWS, S3, and EC2 are forbidden as automatic production fallbacks. Existing
+  cloud objects and receipts are retained audit evidence only, never active
+  RunPod blockers or authority. Do not read or mutate them without explicit
+  task-specific user authorization.
 - Sibling clones, recovery checkouts, transfer copies, WSL images, and backup
   directories are read-only evidence or recovery sources until exact bytes are
   deliberately reconciled into the authoritative repository.
@@ -363,10 +370,11 @@ hash, model/component hashes, reviewer digest, prompt/rubric versions,
 deterministic measurements, repair history, runtime/pod identity, cost and VRAM
 observations, decision, and rollback parent. Raw evidence is append-only.
 
-S3 remains an artifact/evidence store. Promotion requires a content hash and a
-manifest; bucket presence alone is not proof of deployment or QA. GitHub branch
-presence, a worker statement, a generated file, or a successful process exit is
-also not product acceptance.
+Historical S3 receipts remain retained artifact/evidence lineage only. They are
+not an active production store, a RunPod promotion dependency, or permission to
+contact AWS. GitHub branch presence, a worker statement, a generated file, a
+successful process exit, or historical bucket presence is not product
+acceptance.
 
 The retained receipt at
 `Plan/Tracker/Evidence/W64_AQA_S3_OBJECT_STAGING_RECEIPT_20260721T233801Z.json`
@@ -377,15 +385,12 @@ overwrite or delete occurred, and S3 presence granted no product promotion.
 Bucket public-access-block inspection remains unavailable to the session role,
 so production bundle promotion stays unqualified.
 
-The July 22 permission audit proves the cause rather than treating AWS
-authentication as authority: the active `ComfyUIMainSessionRole` inline policy
-omits the bucket public-access block, bucket policy status, bucket ACL, account
-public-access block, and ownership-controls read actions. All five exact calls
-were denied. AES-256 encryption, enabled versioning, `us-east-1`, three enabled
-lifecycle rules, and exact binding-object head replay passed, but none proves
-non-public posture. No AWS mutation occurred. Production promotion therefore
-remains held until those exact reads (or independently retained equivalents)
-pass and one real runtime bundle is accepted by integration authority.
+The July 22 permission audit is preserved without rerun or deletion. Its denied
+public-posture reads and passing encryption/versioning/head observations remain
+truthful historical facts, but the associated bucket-public-access gate is now
+stale migration-era tracking and does not block RunPod production. W64-AQA-012
+is reclassified as `LEGACY_AWS_EVIDENCE_LINEAGE_RETAINED_AUDIT_ONLY`; it has no
+active dependency edge into calibration or end-to-end RunPod delivery.
 
 The live qualification at
 `Plan/Tracker/Evidence/W64_AQA_S3_BUNDLE_TRANSACTION_20260721T234740Z/evidence.json`

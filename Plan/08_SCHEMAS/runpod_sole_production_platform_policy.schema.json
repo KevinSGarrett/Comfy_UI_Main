@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_sole_production_platform_policy.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "program_id", "policy_id", "status", "active_platform", "runpod", "local", "legacy_cloud", "execution_rules", "tracker_reclassification", "evidence_policy", "authority"],
+  "properties": {
+    "schema_version": {"const": "wave64.runpod_sole_production_platform_policy.v1"},
+    "program_id": {"const": "W64-AQA"},
+    "policy_id": {"const": "W64-RUNPOD-SOLE-PRODUCTION-20260722"},
+    "status": {"const": "RUNPOD_SOLE_ACTIVE_PRODUCTION_LOCAL_AND_CURRENT_RUNPOD_ONLY"},
+    "active_platform": {"const": "RUNPOD"},
+    "runpod": {
+      "type": "object", "additionalProperties": false,
+      "required": ["pod_id", "project", "production_runtime", "production_storage", "gpu_coordinator_required", "foreign_hold_override_forbidden"],
+      "properties": {
+        "pod_id": {"const": "1q4ji0gg1fkhvt"}, "project": {"const": "comfyui_main"},
+        "production_runtime": {"const": true}, "production_storage": {"const": true},
+        "gpu_coordinator_required": {"const": true}, "foreign_hold_override_forbidden": {"const": true}
+      }
+    },
+    "local": {
+      "type": "object", "additionalProperties": false,
+      "required": ["cpu_only_work_allowed_without_lease", "repository_work_allowed", "evidence_validation_allowed"],
+      "properties": {"cpu_only_work_allowed_without_lease": {"const": true}, "repository_work_allowed": {"const": true}, "evidence_validation_allowed": {"const": true}}
+    },
+    "legacy_cloud": {
+      "type": "object", "additionalProperties": false,
+      "required": ["platforms", "classification", "active_production_blocker", "automatic_access_allowed", "explicit_user_authorization_categories"],
+      "properties": {
+        "platforms": {"const": ["AWS", "S3", "EC2"]},
+        "classification": {"const": "HISTORICAL_MIGRATION_EVIDENCE_AUDIT_ONLY"},
+        "active_production_blocker": {"const": false}, "automatic_access_allowed": {"const": false},
+        "explicit_user_authorization_categories": {"const": ["archival", "recovery", "cost", "shutdown", "reconciliation"]}
+      }
+    },
+    "execution_rules": {"type": "array", "minItems": 6, "uniqueItems": true, "items": {"type": "string"}},
+    "tracker_reclassification": {
+      "type": "object", "additionalProperties": false,
+      "required": ["tracker_id", "classification", "required_for_runpod_production", "next_action"],
+      "properties": {
+        "tracker_id": {"const": "W64-AQA-012"}, "classification": {"const": "LEGACY_AWS_EVIDENCE_LINEAGE_RETAINED_AUDIT_ONLY"},
+        "required_for_runpod_production": {"const": false}, "next_action": {"const": "NONE_UNLESS_EXPLICIT_USER_AUTHORIZATION"}
+      }
+    },
+    "evidence_policy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["retain_existing_aws_s3_ec2_evidence", "delete_existing_evidence", "rerun_existing_evidence", "reinterpret_as_runpod_authority"],
+      "properties": {
+        "retain_existing_aws_s3_ec2_evidence": {"const": true}, "delete_existing_evidence": {"const": false},
+        "rerun_existing_evidence": {"const": false}, "reinterpret_as_runpod_authority": {"const": false}
+      }
+    },
+    "authority": {
+      "type": "object", "additionalProperties": false,
+      "required": ["platform_selection", "runpod_production", "aws_production", "s3_production", "ec2_production", "gpu_runtime", "product_promotion"],
+      "properties": {
+        "platform_selection": {"const": true}, "runpod_production": {"const": true},
+        "aws_production": {"const": false}, "s3_production": {"const": false}, "ec2_production": {"const": false},
+        "gpu_runtime": {"const": false}, "product_promotion": {"const": false}
+      }
+    }
+  }
+}

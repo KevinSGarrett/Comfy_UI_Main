@@ -1,0 +1,26 @@
+{
+  "schema_version": "wave64.aqa.runpod_sole_production_reclassification.v1",
+  "program_id": "W64-AQA",
+  "tracker_ids": ["W64-AQA-001", "W64-AQA-012", "W64-AQA-013", "W64-AQA-016"],
+  "evaluated_at_utc": "2026-07-22T18:01:40Z",
+  "disposition": "ADOPTED",
+  "repository_base_commit": "6a5a355c",
+  "active_platform": {"runtime": "RUNPOD", "storage": "RUNPOD", "pod_id": "1q4ji0gg1fkhvt"},
+  "reclassified": {
+    "W64-AQA-012": "LEGACY_AWS_EVIDENCE_LINEAGE_RETAINED_AUDIT_ONLY",
+    "required_for_runpod_production": false,
+    "active_dependency_edges_removed_from": ["W64-AQA-013", "W64-AQA-016"]
+  },
+  "preserved_evidence": [
+    "Plan/Tracker/Evidence/W64_AQA_S3_GIT_BINDING_RECEIPT_20260721T235517Z.json",
+    "Plan/Tracker/Evidence/W64_AQA_S3_PUBLIC_POSTURE_PERMISSION_AUDIT_20260722T175353Z.json"
+  ],
+  "supervisor_disposition": {
+    "audit": "C:/Users/kevin/.codex/automations/comfy-ui-main-timed-probe-anti-loop-supervisor/audits/TIMED_PROBE_ANTI_LOOP_20260710T112319-0500.json",
+    "adopted": "switch lanes instead of repeating a blocked runtime action",
+    "rejected": "its selected-inpaint target and repository state predate the current RunPod-only W64-AQA authority"
+  },
+  "execution_boundary": {"cpu_only_local_requires_lease": false, "runpod_gpu_requires_coordinator": true, "aws_s3_ec2_automatic_access": false},
+  "authority_not_granted": ["GPU lease", "model runtime", "quality", "activation", "promotion"],
+  "next_action": "Keep Wav2Vec2 first in the GPU queue; while admission is unavailable, advance the preferred fast-triage Qwen3-VL 4B exact upstream identity and license package locally without loading it."
+}

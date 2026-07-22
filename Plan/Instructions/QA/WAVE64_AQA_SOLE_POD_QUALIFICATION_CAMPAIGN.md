@@ -1,5 +1,13 @@
 # W64-AQA sole-pod qualification campaign
 
+RunPod pod `1q4ji0gg1fkhvt` is the sole active production runtime and storage
+platform. CPU-only local package, license, schema, workflow, and evidence work
+does not need a lease. Every GPU-affecting action requires the shared capacity
+coordinator. If admission is unavailable, switch to another local or current-
+RunPod-safe dependency lane; never fall back to AWS, S3, or EC2. Historical
+cloud receipts remain immutable audit evidence and W64-AQA-012 is not on the
+production critical path.
+
 The authoritative queue is
 `Plan/Tracker/Evidence/W64_AQA_SOLE_POD_QUALIFICATION_CAMPAIGN_QUEUE_20260722.json`.
 It is a repository plan, not a live coordinator snapshot and not runtime

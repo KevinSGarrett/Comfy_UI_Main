@@ -1,0 +1,57 @@
+{
+  "schema_version": "wave64.runpod_sole_production_platform_policy.v1",
+  "program_id": "W64-AQA",
+  "policy_id": "W64-RUNPOD-SOLE-PRODUCTION-20260722",
+  "status": "RUNPOD_SOLE_ACTIVE_PRODUCTION_LOCAL_AND_CURRENT_RUNPOD_ONLY",
+  "active_platform": "RUNPOD",
+  "runpod": {
+    "pod_id": "1q4ji0gg1fkhvt",
+    "project": "comfyui_main",
+    "production_runtime": true,
+    "production_storage": true,
+    "gpu_coordinator_required": true,
+    "foreign_hold_override_forbidden": true
+  },
+  "local": {
+    "cpu_only_work_allowed_without_lease": true,
+    "repository_work_allowed": true,
+    "evidence_validation_allowed": true
+  },
+  "legacy_cloud": {
+    "platforms": ["AWS", "S3", "EC2"],
+    "classification": "HISTORICAL_MIGRATION_EVIDENCE_AUDIT_ONLY",
+    "active_production_blocker": false,
+    "automatic_access_allowed": false,
+    "explicit_user_authorization_categories": ["archival", "recovery", "cost", "shutdown", "reconciliation"]
+  },
+  "execution_rules": [
+    "USE_LOCAL_OR_CURRENT_RUNPOD_ONLY_FOR_ACTIVE_PRODUCTION_WORK",
+    "REQUIRE_SHARED_CAPACITY_COORDINATOR_BEFORE_GPU_AFFECTING_ACTIONS",
+    "ALLOW_CPU_ONLY_LOCAL_WORK_WITHOUT_A_RUNPOD_LEASE",
+    "SWITCH_TO_LOCAL_OR_RUNPOD_SAFE_LANE_WHEN_GPU_ADMISSION_IS_BLOCKED",
+    "NEVER_FALL_BACK_TO_AWS_S3_OR_EC2_FOR_ACTIVE_PRODUCTION",
+    "DO_NOT_ACCESS_LEGACY_CLOUD_WITHOUT_EXPLICIT_TASK_SPECIFIC_USER_AUTHORIZATION",
+    "PRESERVE_LEGACY_EVIDENCE_WITHOUT_RERUN_DELETION_OR_AUTHORITY_EXPANSION"
+  ],
+  "tracker_reclassification": {
+    "tracker_id": "W64-AQA-012",
+    "classification": "LEGACY_AWS_EVIDENCE_LINEAGE_RETAINED_AUDIT_ONLY",
+    "required_for_runpod_production": false,
+    "next_action": "NONE_UNLESS_EXPLICIT_USER_AUTHORIZATION"
+  },
+  "evidence_policy": {
+    "retain_existing_aws_s3_ec2_evidence": true,
+    "delete_existing_evidence": false,
+    "rerun_existing_evidence": false,
+    "reinterpret_as_runpod_authority": false
+  },
+  "authority": {
+    "platform_selection": true,
+    "runpod_production": true,
+    "aws_production": false,
+    "s3_production": false,
+    "ec2_production": false,
+    "gpu_runtime": false,
+    "product_promotion": false
+  }
+}

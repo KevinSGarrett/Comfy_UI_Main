@@ -1164,6 +1164,11 @@ def collect_errors() -> list[str]:
         elif hashlib.sha256(bound_path.read_bytes()).hexdigest() != expected_sha256:
             errors.append(f"workflow candidate staging manifest hash mismatch: {relative_path}")
     s3_policy_required = {
+        "classification": "LEGACY_AWS_EVIDENCE_LINEAGE_AUDIT_ONLY",
+        "active_production_platform": False,
+        "runpod_critical_path_dependency": False,
+        "automatic_execution_allowed": False,
+        "explicit_task_specific_user_authorization_required": True,
         "execution_authority": "CODEX_INTEGRATION_ONLY",
         "bucket": "comfy-ui-main-runtime-029530099913-us-east-1",
         "region": "us-east-1",
@@ -1180,6 +1185,7 @@ def collect_errors() -> list[str]:
         "product_promotion_allowed": False,
         "credential_values_in_receipts_allowed": False,
         "public_access_block_must_be_known_before_production_promotion": True,
+        "public_access_block_requirement_scope": "HISTORICAL_AWS_PROMOTION_PATH_ONLY_NOT_RUNPOD_PRODUCTION",
         "all_other_buckets_or_prefixes": "UNQUALIFIED_DENY",
     }
     if any(s3_evidence_staging_policy.get(key) != expected for key, expected in s3_policy_required.items()):
