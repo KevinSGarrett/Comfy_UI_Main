@@ -263,3 +263,19 @@ candidate intake requires copy-on-write staging plus live `/object_info`, exact
 model-name, exact clean node-pin, fixture-governance, sandbox execution,
 regression, security, and rollback evidence. Quarantine bytes may not be linked,
 installed, or promoted merely because source and destination hashes match.
+
+## Prospective audio semantic and forced-alignment calibration
+
+Before a semantic-audio or forced-alignment runtime can use a fixture for
+authority, bind the fixture matrix in
+`Plan/10_REGISTRIES/wave64_audio_semantic_alignment_calibration_plan.json`.
+The minimum matrix is clean speech, tone-only, digital silence, and the
+deterministic speech-plus-tone mix. Expected labels, the exact transcript, and
+alignment/refusal behavior must be declared before model execution.
+
+Clean and mixed speech require exact transcript coverage, monotonic word and
+phoneme intervals, confidence, and sample-level bounds. Tone-only and silence
+must produce no speech alignment. A failed gate is retained without tuning its
+expected labels after the result; an unchanged failed run is not repeated.
+Fixture construction grants no model, semantic, alignment, operational, human
+review, or product authority.

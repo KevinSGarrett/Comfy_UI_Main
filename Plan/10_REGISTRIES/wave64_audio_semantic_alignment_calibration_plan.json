@@ -1,0 +1,34 @@
+{
+  "schema_version": "wave64.aqa.audio_semantic_alignment_calibration_plan.v1",
+  "program_id": "W64-AQA",
+  "tracker_ids": ["W64-AQA-006", "TRK-W64-135"],
+  "source": {
+    "relative_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_qwen3_tts_base_icl_clone_20260715T195516-0500/qwen3_tts_base_icl_clone_seed12401.wav",
+    "sha256": "ff8325a1c2f8613d599af69284f5c4693d996a581230ccbbbb1aeba7affa9815",
+    "bytes": 153646,
+    "transcript": "We hold the frame steady and move on the beat.",
+    "sample_rate_hz": 24000,
+    "channels": 1,
+    "sample_width_bytes": 2,
+    "frame_count": 76801
+  },
+  "synthesis": {
+    "tone_frequency_hz": 997.0,
+    "tone_peak": 0.12,
+    "mixed_speech_gain": 0.75,
+    "mixed_tone_gain": 0.25,
+    "output_subtype": "PCM_16_MONO"
+  },
+  "fixtures": [
+    {"fixture_id": "clean_speech", "kind": "source_copy", "expected_top_labels": ["a person speaking clearly"], "alignment_policy": "REQUIRE_EXACT_TRANSCRIPT_WORDS_AND_MONOTONIC_TIMES"},
+    {"fixture_id": "tone_only", "kind": "synthetic_tone", "expected_top_labels": ["a steady electronic tone"], "alignment_policy": "REQUIRE_NO_SPEECH_ALIGNMENT"},
+    {"fixture_id": "silence", "kind": "digital_silence", "expected_top_labels": ["silence"], "alignment_policy": "REQUIRE_NO_SPEECH_ALIGNMENT"},
+    {"fixture_id": "speech_plus_tone", "kind": "deterministic_mix", "expected_top_labels": ["a person speaking clearly", "a steady electronic tone"], "alignment_policy": "REQUIRE_EXACT_TRANSCRIPT_WORDS_AND_MONOTONIC_TIMES"}
+  ],
+  "authority": {
+    "prospective": true,
+    "unchanged_rerun_forbidden": true,
+    "operational": false,
+    "product_promotion": false
+  }
+}

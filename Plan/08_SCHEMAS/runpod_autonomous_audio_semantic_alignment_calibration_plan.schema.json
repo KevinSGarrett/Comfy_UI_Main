@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "runpod_autonomous_audio_semantic_alignment_calibration_plan.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "program_id", "tracker_ids", "source", "synthesis", "fixtures", "authority"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.audio_semantic_alignment_calibration_plan.v1"},
+    "program_id": {"const": "W64-AQA"},
+    "tracker_ids": {"const": ["W64-AQA-006", "TRK-W64-135"]},
+    "source": {
+      "type": "object", "additionalProperties": false,
+      "required": ["relative_path", "sha256", "bytes", "transcript", "sample_rate_hz", "channels", "sample_width_bytes", "frame_count"],
+      "properties": {
+        "relative_path": {"type": "string"}, "sha256": {"pattern": "^[0-9a-f]{64}$"},
+        "bytes": {"const": 153646}, "transcript": {"const": "We hold the frame steady and move on the beat."},
+        "sample_rate_hz": {"const": 24000}, "channels": {"const": 1},
+        "sample_width_bytes": {"const": 2}, "frame_count": {"const": 76801}
+      }
+    },
+    "synthesis": {
+      "type": "object", "additionalProperties": false,
+      "required": ["tone_frequency_hz", "tone_peak", "mixed_speech_gain", "mixed_tone_gain", "output_subtype"],
+      "properties": {
+        "tone_frequency_hz": {"const": 997.0}, "tone_peak": {"const": 0.12},
+        "mixed_speech_gain": {"const": 0.75}, "mixed_tone_gain": {"const": 0.25},
+        "output_subtype": {"const": "PCM_16_MONO"}
+      }
+    },
+    "fixtures": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"type": "object"}},
+    "authority": {
+      "type": "object", "additionalProperties": false,
+      "required": ["prospective", "unchanged_rerun_forbidden", "operational", "product_promotion"],
+      "properties": {
+        "prospective": {"const": true}, "unchanged_rerun_forbidden": {"const": true},
+        "operational": {"const": false}, "product_promotion": {"const": false}
+      }
+    }
+  }
+}
