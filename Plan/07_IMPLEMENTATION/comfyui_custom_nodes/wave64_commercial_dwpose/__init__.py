@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 from pathlib import Path
 from typing import Any
 
@@ -168,6 +169,9 @@ class Wave64CommercialDWPosePreprocessor:
         import onnxruntime as ort
         import torch
 
+        overlay = os.environ.get("WAVE64_DWPOSE_OVERLAY_SITE_PACKAGES")
+        if not overlay or not Path(ort.__file__).resolve().is_relative_to(Path(overlay).resolve()):
+            raise DWPoseContractError("ONNX Runtime must resolve from the qualified Wave64 overlay")
         if scale_stick_for_xinsr_cn != "disable":
             raise DWPoseContractError("xinsr stick scaling is not qualified by this replacement contract")
         if ort.__version__ != "1.27.0" or "CUDAExecutionProvider" not in ort.get_available_providers():

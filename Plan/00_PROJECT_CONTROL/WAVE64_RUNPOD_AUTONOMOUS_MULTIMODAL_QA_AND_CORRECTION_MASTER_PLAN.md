@@ -1205,3 +1205,13 @@ does. No environment was created and no package, custom node, model, or GPU was
 loaded. The next static design must preserve the ComfyUI Torch tensor boundary
 while excluding the base environment's separate CPU ONNX Runtime distribution;
 runtime import remains coordinator-gated.
+
+The deterministic offline overlay is now built atomically at
+`/workspace/wave64_quarantine/aws_ec2_20260722/candidates/commercial_dwpose_v1_overlay`.
+It contains 1,625 files totaling 907,900,649 bytes, only the GPU ONNX Runtime
+distribution metadata, the exact node, and both exact models. Its manifest and
+bundled assets replay to the recorded hashes, and the node now fails closed
+unless the imported ONNX Runtime module originates inside that overlay. The
+offline install did not import the node or ONNX Runtime, create a model session,
+use the GPU, or touch the coordinator. Import and `object_info` remain the first
+lease-gated canaries, followed separately by frozen geometry equivalence.

@@ -40,7 +40,8 @@ def test_node_identity_lock_and_forbidden_runtime_paths(tmp_path: Path) -> None:
     assert required == ["image", "detect_hand", "detect_body", "detect_face", "resolution", "bbox_detector", "pose_estimator", "scale_stick_for_xinsr_cn"]
     lock = json.loads(LOCK.read_text(encoding="utf-8"))
     assert lock["authority"]["wheelhouse_hash_replay"] is True
-    assert lock["authority"]["environment_created"] is False
+    assert lock["authority"]["offline_overlay_created"] is True
+    assert lock["authority"]["imports_qualified"] is False
     assert lock["forbidden_distributions"] == ["onnxruntime"]
     assert len(lock["wheels"]) == 6
     assert all(len(item["sha256"]) == 64 and item["bytes"] > 0 for item in lock["wheels"])
