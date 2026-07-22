@@ -1,0 +1,93 @@
+{
+  "schema_version": "wave64.aqa.flux2_klein_current_pod_reconciliation.v1",
+  "program_id": "W64-AQA",
+  "reconciliation_id": "49842c66e9b1687820c35b6f9ae2e7550b76100f75df4b2c8e596d2f77ec1a2b",
+  "tracker_ids": ["W64-AQA-014", "W64-AQA-018"],
+  "observed_at_utc": "2026-07-22T18:48:13Z",
+  "pod_id": "1q4ji0gg1fkhvt",
+  "probe": {
+    "scope": "CPU_ONLY_CURRENT_POD_OBJECT_INFO_DEPENDENCY_AND_FILE_IDENTITY",
+    "read_only": true,
+    "gpu_affecting": false,
+    "coordinator_lease_required": false,
+    "model_loaded": false,
+    "workflow_submitted": false,
+    "storage_mutated": false
+  },
+  "object_info": {
+    "node_count": 1098,
+    "required_nodes": ["CFGGuider", "CLIPLoader", "CLIPTextEncode", "ConditioningZeroOut", "EmptyFlux2LatentImage", "Flux2Scheduler", "KSamplerSelect", "RandomNoise", "SamplerCustomAdvanced", "SaveImage", "UNETLoader", "VAEDecode", "VAELoader"],
+    "missing_nodes": [],
+    "canonical_required_subset_bytes": 10310,
+    "canonical_required_subset_sha256": "d8766f94198af8a6a3b4fae7e66106632416f2bbfce130e27fbdd7d8bc56eeae",
+    "loader_options_present": {
+      "flux-2-klein-4b-fp8.safetensors": true,
+      "qwen_3_4b.safetensors": true,
+      "flux2-vae.safetensors": true
+    }
+  },
+  "runtime_environment": {
+    "comfyui_commit": "66655153499f89052aa72d5a869f556b25f0e9c6",
+    "versions": {
+      "torch": "2.4.1+cu124",
+      "transformers": "4.46.3",
+      "tokenizers": "0.20.3",
+      "safetensors": "0.8.0",
+      "comfyui-workflow-templates": "0.11.12",
+      "comfyui-frontend-package": "1.45.21"
+    },
+    "dependency_versions_observed": true,
+    "dependency_compatibility_qualified": false
+  },
+  "components": [
+    {
+      "role": "diffusion_model",
+      "path": "/workspace/ComfyUI/models/diffusion_models/flux-2-klein-4b-fp8.safetensors",
+      "expected": {"bytes": 4070624520, "sha256": "97ed34fe0567e436200f2faee3939b88f2b5d99f8af2a4dc16532c4245c0ccb6"},
+      "observed": {"bytes": 4070624520, "sha256": "97ed34fe0567e436200f2faee3939b88f2b5d99f8af2a4dc16532c4245c0ccb6"},
+      "match": true,
+      "state": "EXACT_CURRENT_POD_HASH_VERIFIED"
+    },
+    {
+      "role": "text_encoder",
+      "path": "/workspace/ComfyUI/models/text_encoders/qwen_3_4b.safetensors",
+      "expected": {"bytes": 8044982048, "sha256": "6c671498573ac2f7a5501502ccce8d2b08ea6ca2f661c458e708f36b36edfc5a"},
+      "observed": {"bytes": 8044982048, "sha256": "6c671498573ac2f7a5501502ccce8d2b08ea6ca2f661c458e708f36b36edfc5a"},
+      "match": true,
+      "state": "EXACT_CURRENT_POD_HASH_VERIFIED"
+    },
+    {
+      "role": "vae",
+      "path": "/workspace/ComfyUI/models/vae/flux2-vae.safetensors",
+      "expected": {"bytes": 336211292, "sha256": "868fe7b343cc8f3a19dbcfcafbc3d5f888802be3f89bd81b65b3621a066ce8f3"},
+      "observed": {"bytes": 336213556, "sha256": "d64f3a68e1cc4f9f4e29b6e0da38a0204fe9a49f2d4053f0ec1fa1ca02f9c4b5"},
+      "match": false,
+      "state": "HASH_DIFFERENT_KNOWN_FLUX2_DEV_VARIANT_BLOCKED"
+    }
+  ],
+  "decision": "OBJECT_INFO_AND_TWO_COMPONENTS_VERIFIED_EXACT_KLEIN_VAE_MISMATCH_HELD",
+  "blockers": [
+    "UPSTREAM_FAMILY_APACHE_2_EXACT_COMPANION_REDISTRIBUTION_DECLARATION_MISSING",
+    "PROJECT_LICENSE_ACCEPTANCE_MISSING",
+    "EXACT_KLEIN_VAE_CURRENT_POD_IDENTITY_MISMATCH",
+    "CURRENT_POD_DEPENDENCY_COMPATIBILITY_NOT_QUALIFIED",
+    "ISOLATED_API_WORKFLOW_SMOKE_NOT_EXECUTED",
+    "FRESH_COORDINATOR_ADMISSION_AND_EXACT_EXCLUSIVE_LEASE_REQUIRED",
+    "MODEL_LOAD_CLEANUP_CAPACITY_QUALITY_AND_FAILURE_INJECTION_NOT_QUALIFIED"
+  ],
+  "authority": {
+    "current_pod_object_info": true,
+    "diffusion_model_identity": true,
+    "text_encoder_identity": true,
+    "exact_klein_vae_identity": false,
+    "dependency_compatibility": false,
+    "license_acceptance": false,
+    "storage_mutation": false,
+    "model_load": false,
+    "runtime": false,
+    "capacity": false,
+    "quality": false,
+    "activation": false,
+    "promotion": false
+  }
+}

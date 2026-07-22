@@ -183,3 +183,27 @@ its exact US-WA-1 Secure Cloud 2xA40 migration target. It grants no campaign
 lease, creates no product authority, and does not change the active pod until
 verified migration-complete evidence is accepted. Never start a competing
 watcher or an independent migration.
+
+# FLUX.2 Klein current-pod reconciliation gate (2026-07-22)
+
+Validate the additive current-pod reconciliation before relying on FLUX.2
+object-info or component-presence claims:
+
+```powershell
+python Plan/07_IMPLEMENTATION/scripts/validate_wave64_aqa_flux2_klein_current_pod_reconciliation.py
+```
+
+PASS grants only these current-pod facts: the 13 selected API graph node types
+are visible, loader options include the three planned filenames, and the
+diffusion model plus Qwen text encoder match their exact planned hashes. The
+live VAE is hash-different and is the known FLUX.2 Dev variant, so exact Klein
+VAE identity remains false. Never infer model resolution from filename-only
+loader visibility.
+
+The probe is CPU-only and required no lease because it did not load a model,
+submit a workflow, mutate storage, or affect GPU state. Any later VAE move,
+copy, rename, download, or promotion is a shared-storage mutation and requires
+the exact coordinator permit plus a fresh transaction. Preserve the existing
+Dev VAE; never overwrite or delete it. Model load, smoke, cleanup, capacity,
+quality, failure injection, activation, and promotion remain GPU-gated and
+false.

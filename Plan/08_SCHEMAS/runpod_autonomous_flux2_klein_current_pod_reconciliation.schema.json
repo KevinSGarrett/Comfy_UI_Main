@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_flux2_klein_current_pod_reconciliation.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "program_id", "reconciliation_id", "tracker_ids", "observed_at_utc", "pod_id", "probe", "object_info", "runtime_environment", "components", "decision", "blockers", "authority"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.flux2_klein_current_pod_reconciliation.v1"},
+    "program_id": {"const": "W64-AQA"},
+    "reconciliation_id": {"$ref": "#/$defs/sha256"},
+    "tracker_ids": {"const": ["W64-AQA-014", "W64-AQA-018"]},
+    "observed_at_utc": {"type": "string", "format": "date-time"},
+    "pod_id": {"const": "1q4ji0gg1fkhvt"},
+    "probe": {
+      "type": "object", "additionalProperties": false,
+      "required": ["scope", "read_only", "gpu_affecting", "coordinator_lease_required", "model_loaded", "workflow_submitted", "storage_mutated"],
+      "properties": {
+        "scope": {"const": "CPU_ONLY_CURRENT_POD_OBJECT_INFO_DEPENDENCY_AND_FILE_IDENTITY"},
+        "read_only": {"const": true},
+        "gpu_affecting": {"const": false},
+        "coordinator_lease_required": {"const": false},
+        "model_loaded": {"const": false},
+        "workflow_submitted": {"const": false},
+        "storage_mutated": {"const": false}
+      }
+    },
+    "object_info": {
+      "type": "object", "additionalProperties": false,
+      "required": ["node_count", "required_nodes", "missing_nodes", "canonical_required_subset_bytes", "canonical_required_subset_sha256", "loader_options_present"],
+      "properties": {
+        "node_count": {"type": "integer", "minimum": 13},
+        "required_nodes": {"type": "array", "minItems": 13, "maxItems": 13, "uniqueItems": true, "items": {"type": "string"}},
+        "missing_nodes": {"const": []},
+        "canonical_required_subset_bytes": {"const": 10310},
+        "canonical_required_subset_sha256": {"const": "d8766f94198af8a6a3b4fae7e66106632416f2bbfce130e27fbdd7d8bc56eeae"},
+        "loader_options_present": {
+          "type": "object", "additionalProperties": false,
+          "required": ["flux-2-klein-4b-fp8.safetensors", "qwen_3_4b.safetensors", "flux2-vae.safetensors"],
+          "properties": {
+            "flux-2-klein-4b-fp8.safetensors": {"const": true},
+            "qwen_3_4b.safetensors": {"const": true},
+            "flux2-vae.safetensors": {"const": true}
+          }
+        }
+      }
+    },
+    "runtime_environment": {
+      "type": "object", "additionalProperties": false,
+      "required": ["comfyui_commit", "versions", "dependency_versions_observed", "dependency_compatibility_qualified"],
+      "properties": {
+        "comfyui_commit": {"const": "66655153499f89052aa72d5a869f556b25f0e9c6"},
+        "versions": {"type": "object", "additionalProperties": {"type": ["string", "null"]}},
+        "dependency_versions_observed": {"const": true},
+        "dependency_compatibility_qualified": {"const": false}
+      }
+    },
+    "components": {
+      "type": "array", "minItems": 3, "maxItems": 3,
+      "items": {"$ref": "#/$defs/component"}
+    },
+    "decision": {"const": "OBJECT_INFO_AND_TWO_COMPONENTS_VERIFIED_EXACT_KLEIN_VAE_MISMATCH_HELD"},
+    "blockers": {"type": "array", "minItems": 6, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "authority": {
+      "type": "object", "additionalProperties": false,
+      "required": ["current_pod_object_info", "diffusion_model_identity", "text_encoder_identity", "exact_klein_vae_identity", "dependency_compatibility", "license_acceptance", "storage_mutation", "model_load", "runtime", "capacity", "quality", "activation", "promotion"],
+      "properties": {
+        "current_pod_object_info": {"const": true},
+        "diffusion_model_identity": {"const": true},
+        "text_encoder_identity": {"const": true},
+        "exact_klein_vae_identity": {"const": false},
+        "dependency_compatibility": {"const": false},
+        "license_acceptance": {"const": false},
+        "storage_mutation": {"const": false},
+        "model_load": {"const": false},
+        "runtime": {"const": false},
+        "capacity": {"const": false},
+        "quality": {"const": false},
+        "activation": {"const": false},
+        "promotion": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "component": {
+      "type": "object", "additionalProperties": false,
+      "required": ["role", "path", "expected", "observed", "match", "state"],
+      "properties": {
+        "role": {"enum": ["diffusion_model", "text_encoder", "vae"]},
+        "path": {"type": "string", "pattern": "^/workspace/ComfyUI/models/"},
+        "expected": {"$ref": "#/$defs/fileIdentity"},
+        "observed": {"$ref": "#/$defs/fileIdentity"},
+        "match": {"type": "boolean"},
+        "state": {"enum": ["EXACT_CURRENT_POD_HASH_VERIFIED", "HASH_DIFFERENT_KNOWN_FLUX2_DEV_VARIANT_BLOCKED"]}
+      }
+    },
+    "fileIdentity": {
+      "type": "object", "additionalProperties": false,
+      "required": ["bytes", "sha256"],
+      "properties": {"bytes": {"type": "integer", "minimum": 1}, "sha256": {"$ref": "#/$defs/sha256"}}
+    }
+  }
+}

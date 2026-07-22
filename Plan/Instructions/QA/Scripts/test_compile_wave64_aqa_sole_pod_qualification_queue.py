@@ -71,22 +71,25 @@ def test_generation_role_binds_exact_inactive_stack_without_execution_authority(
     assert campaign["generation_stack"]["current_pod_complete"] is False
     assert campaign["generation_stack"]["dependency_bundle_id"] == "e939807282ddd3cacc921754c851dd70d5f22f4d957f87d48ac226d1ee73d689"
     assert "PROJECT_LICENSE_ACCEPTANCE_MISSING" in campaign["blockers"]
-    assert "EXACT_COMPANION_IDENTITIES_BOUND_CURRENT_POD_PROMOTION_INCOMPLETE" in campaign["blockers"]
+    assert "EXACT_KLEIN_VAE_CURRENT_POD_IDENTITY_MISMATCH" in campaign["blockers"]
+    assert "CURRENT_POD_DEPENDENCY_COMPATIBILITY_NOT_QUALIFIED" in campaign["blockers"]
+    assert "CURRENT_POD_OBJECT_INFO_AND_ISOLATED_WORKFLOW_SMOKE_NOT_VERIFIED" not in campaign["blockers"]
     assert "EXACT_GENERATION_STACK_NOT_BOUND_TO_ROLE_PACKAGE_INVENTORY" not in campaign["blockers"]
 
 
-def test_local_digest_and_upstream_name_do_not_grant_exact_role_readiness() -> None:
+def test_exact_strict_role_is_prepared_but_downgraded_identity_fails_closed() -> None:
     module = load_module()
     campaigns = module.compile_queue(ROOT)["campaigns"]
     strict = next(item for item in campaigns if item["role_id"] == "W64-AQA-ROLE-STRICT-VISUAL")
-    assert strict["readiness"] == "HELD_PREREQUISITES_INCOMPLETE"
-    assert any("PROJECT_LICENSE_ACCEPTANCE_MISSING" in value for value in strict["blockers"])
+    assert strict["readiness"] == "PREPARED_DEPENDENCIES_AND_COORDINATOR_GATE_REQUIRED"
+    assert strict["package_evidence"][0]["exact_identity_installed_and_license_accepted"] is True
+    assert strict["blockers"] == ["FRESH_COORDINATOR_ADMISSION_AND_EXACT_EXCLUSIVE_LEASE_REQUIRED"]
     controller = next(item for item in campaigns if item["role_id"] == "W64-AQA-ROLE-CONTROLLER")
     assert controller["readiness"] == "HELD_PREREQUISITES_INCOMPLETE"
     assert any("EXACT_ARTIFACT_NOT_INSTALLED" in value for value in controller["blockers"])
     inventory = json.loads((ROOT / module.INVENTORY_PATH).read_text(encoding="utf-8"))
     local = next(item for item in inventory["packages"] if item["package_id"] == "W64-AQA-PKG-QWEN25VL32")
-    local["identity"]["license_state"] = "PROJECT_LICENSE_ACCEPTED"
+    local["identity"]["identity_state"] = "LOCAL_DIGEST_VERIFIED_UPSTREAM_REVISION_UNVERIFIED"
     evidence, blockers = module.package_evidence(local)
     assert evidence["exact_identity_installed_and_license_accepted"] is False
     assert any("EXACT_UPSTREAM_REVISION_OR_IDENTITY_NOT_VERIFIED" in value for value in blockers)

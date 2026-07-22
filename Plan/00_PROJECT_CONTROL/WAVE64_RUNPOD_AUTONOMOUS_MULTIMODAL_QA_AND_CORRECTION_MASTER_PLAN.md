@@ -1587,3 +1587,35 @@ original path, byte count, SHA-256, containing commit, commit time, and invalid
 timestamp. Originals remain unchanged. Use the supersession for chronology and
 the original records only for their exact technical scopes. No runtime,
 quality, activation, or promotion authority is added.
+
+# FLUX.2 Klein current-pod read-only reconciliation (2026-07-22T18:48:13Z)
+
+A CPU-only, read-only probe of sole production pod `1q4ji0gg1fkhvt` closes
+the selected FLUX.2 graph's current-pod object-info gate for exactly 13 required
+node classes. The canonical required-node subset is 10,310 bytes with SHA-256
+`d8766f94...eeae`; all required classes and all three planned loader filenames
+are present. This probe needed no GPU lease and did not load a model, submit a
+workflow, or mutate storage.
+
+Live byte replay verifies the selected diffusion model and
+`qwen_3_4b.safetensors` at their planned sizes and hashes. The live
+`flux2-vae.safetensors` is instead the already known 336,213,556-byte FLUX.2
+Dev variant (`d64f3a68...c4b5`), not the required 336,211,292-byte Klein
+companion (`868fe7b3...e8f3`). A loader option proves only filename visibility;
+it does not convert this mismatch into valid model resolution.
+
+The pod is currently ComfyUI commit `66655153` with observed Torch,
+Transformers, Tokenizers, Safetensors, workflow-template, and frontend package
+versions recorded in the reconciliation. Version observation is not dependency
+compatibility or runtime qualification. The active FLUX.2 stack therefore no
+longer claims that object info or the Qwen file is missing, but it remains
+inactive on exact Klein VAE identity, companion redistribution authority,
+project license acceptance, dependency compatibility, isolated smoke, fresh
+GPU lease, model load and cleanup, capacity, quality, failure injection,
+activation, and promotion.
+
+Do not overwrite or delete the existing Dev VAE. After exact-artifact license
+authority is retained and accepted, prepare a new transaction that preserves
+the existing file under an explicit non-conflicting identity and promotes the
+exact Klein VAE atomically. Until then, Wav2Vec2 remains the first admitted GPU
+campaign; this FLUX.2 lane remains CPU-only and fail-closed.

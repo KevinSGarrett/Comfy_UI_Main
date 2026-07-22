@@ -16,6 +16,7 @@ ROOT = Path(__file__).resolve().parents[3]
 REGISTRY_PATH = Path("Plan/10_REGISTRIES/wave64_aqa_generation_stack_registry.json")
 SCHEMA_PATH = Path("Plan/08_SCHEMAS/runpod_autonomous_generation_stack_registry.schema.json")
 DEPENDENCY_SCHEMA_PATH = Path("Plan/08_SCHEMAS/runpod_autonomous_flux2_klein_dependency_bundle.schema.json")
+CURRENT_POD_RECONCILIATION_SCHEMA_PATH = Path("Plan/08_SCHEMAS/runpod_autonomous_flux2_klein_current_pod_reconciliation.schema.json")
 
 
 class GenerationStackError(ValueError):
@@ -66,6 +67,22 @@ def validate_registry(root: Path, registry: dict[str, Any]) -> dict[str, Any]:
         or selected[0]["execution"].get("workflow_bound") is not True
     ):
         raise GenerationStackError("selected dependency bundle identity or authority drift")
+    reconciliation_binding = selected[0]["current_pod_reconciliation"]
+    if not reconciliation_binding:
+        raise GenerationStackError("selected stack must bind its current-pod reconciliation")
+    reconciliation_path = root / Path(reconciliation_binding["path"])
+    if sha256_file(reconciliation_path) != reconciliation_binding["sha256"]:
+        raise GenerationStackError("selected current-pod reconciliation hash drift")
+    reconciliation = load_json(reconciliation_path)
+    Draft202012Validator(load_json(root / CURRENT_POD_RECONCILIATION_SCHEMA_PATH)).validate(reconciliation)
+    if (
+        reconciliation.get("pod_id") != registry["pod_id"]
+        or reconciliation.get("authority", {}).get("current_pod_object_info") is not True
+        or reconciliation.get("authority", {}).get("text_encoder_identity") is not True
+        or reconciliation.get("authority", {}).get("exact_klein_vae_identity") is not False
+        or reconciliation.get("authority", {}).get("runtime") is not False
+    ):
+        raise GenerationStackError("selected current-pod reconciliation authority drift")
     if any(stack["execution"]["workflow_bound"] for stack in stacks[1:]):
         raise GenerationStackError("unselected generation workflow gained authority")
     for stack in stacks:
@@ -96,6 +113,8 @@ def validate_registry(root: Path, registry: dict[str, Any]) -> dict[str, Any]:
             raise GenerationStackError(f"inactive candidate became executable: {stack['stack_id']}")
         if stack is not selected[0] and stack["dependency_bundle"] is not None:
             raise GenerationStackError(f"unselected candidate gained a dependency bundle: {stack['stack_id']}")
+        if stack is not selected[0] and stack["current_pod_reconciliation"] is not None:
+            raise GenerationStackError(f"unselected candidate gained a current-pod reconciliation: {stack['stack_id']}")
         if any(registry["authority"][key] for key in ("license_acceptance", "dependency_bundle", "workflow", "runtime", "capacity", "quality", "activation", "promotion")):
             raise GenerationStackError("registry grants unsupported execution authority")
     return selected[0]
