@@ -1337,3 +1337,36 @@ expected result, while every out-of-scope request must be refused. This creates
 by silently skipping categories it cannot judge. Declared model names are
 planning targets only until immutable checkpoint, runtime, prompt, lease,
 capacity, quality, cleanup, and lifecycle receipts bind each execution.
+
+## Sole-pod qualification campaign queue
+
+The frozen corpus and 12-role matrix now feed a deterministic 14-campaign
+queue. The queue binds its matrix, role registry, package inventory, campaign
+policy, and the exact admitted Wav2Vec2 and MIT AST inputs by SHA-256. It covers
+two supporting audio campaigns followed by all twelve required roles. Three
+campaigns are repository-prepared: the two exact audio admissions and the exact
+ASR-plus-Omni audio-semantic role after both dependency receipts. The other
+eleven role campaigns remain held on explicit package identity, project-license,
+installation, executor, storage, provisional-substitution, or external-release
+gates.
+
+The first GPU action is Wav2Vec2 expanded alignment: acquire one exact
+`comfyui_main` exclusive lease, execute calibration, freeze observed thresholds,
+execute held-out once, verify child-process and VRAM cleanup, release the lease,
+and retain immutable receipts. MIT AST AudioSet event calibration follows under
+a separate lease with the same discipline. Only then may the exact ASR-plus-Omni
+audio-semantic role campaign be considered. Every later role repeats the
+matrix-defined identity, lease, calibration, threshold-freeze, held-out,
+certificate, cleanup, release, and retention sequence.
+
+This queue is execution planning only. It intentionally contains no live
+coordinator snapshot, and `runnable_now` remains false until the recovery owner
+restores admission and an exact lease is granted. Idle GPU telemetry is not
+authority. ComfyUI must not override foreign recovery, run more than one GPU
+campaign at a time, enable an alternative-pod watcher, or use external
+inference. A local digest does not prove upstream identity or license; an
+upstream model name does not prove installed bytes; InternVL3.5-8B cannot
+substitute for the declared 241B independent juror; and golden-mask work remains
+a read-only external-release consumer lane. No runtime, capacity, quality,
+juror, golden-mask, activation, or promotion authority follows from queue
+construction.

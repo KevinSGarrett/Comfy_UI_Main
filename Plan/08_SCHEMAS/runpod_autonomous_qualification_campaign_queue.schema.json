@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_qualification_campaign_queue.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "program_id", "status", "inputs", "pod_gate", "campaigns", "coverage", "next_action", "queue_sha256", "authority"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.qualification_campaign_queue.v1"},
+    "program_id": {"const": "W64-AQA"},
+    "status": {"const": "SOLE_POD_QUEUE_FROZEN_RUNTIME_COORDINATOR_GATE_REQUIRED"},
+    "inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["execution_matrix", "role_registry", "package_inventory", "campaign_policy"],
+      "properties": {
+        "execution_matrix": {"$ref": "#/$defs/fileBinding"},
+        "role_registry": {"$ref": "#/$defs/fileBinding"},
+        "package_inventory": {"$ref": "#/$defs/fileBinding"},
+        "campaign_policy": {"$ref": "#/$defs/fileBinding"}
+      }
+    },
+    "pod_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pod_id", "project", "profile", "lease_mode", "one_gpu_campaign_at_a_time", "coordinator_admission_required", "runtime_snapshot_bound", "idle_telemetry_is_not_authority", "foreign_recovery_override_forbidden"],
+      "properties": {
+        "pod_id": {"const": "1q4ji0gg1fkhvt"},
+        "project": {"const": "comfyui_main"},
+        "profile": {"const": "comfyui_model_qualification"},
+        "lease_mode": {"const": "exclusive"},
+        "one_gpu_campaign_at_a_time": {"const": true},
+        "coordinator_admission_required": {"const": true},
+        "runtime_snapshot_bound": {"const": false},
+        "idle_telemetry_is_not_authority": {"const": true},
+        "foreign_recovery_override_forbidden": {"const": true}
+      }
+    },
+    "campaigns": {"type": "array", "minItems": 14, "maxItems": 14, "items": {"$ref": "#/$defs/campaign"}},
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pre_role_campaign_count", "role_campaign_count", "matrix_role_count", "all_matrix_roles_bound", "prepared_campaign_count", "held_campaign_count"],
+      "properties": {
+        "pre_role_campaign_count": {"const": 2},
+        "role_campaign_count": {"const": 12},
+        "matrix_role_count": {"const": 12},
+        "all_matrix_roles_bound": {"const": true},
+        "prepared_campaign_count": {"type": "integer", "minimum": 0},
+        "held_campaign_count": {"type": "integer", "minimum": 0}
+      }
+    },
+    "next_action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["campaign_id", "runnable_now", "required_transition", "execution_steps"],
+      "properties": {
+        "campaign_id": {"const": "W64-AQA-CAMPAIGN-WAV2VEC2-EXPANDED-ALIGNMENT"},
+        "runnable_now": {"const": false},
+        "required_transition": {"const": "OWNER_RESTORES_COORDINATOR_ADMISSION_AND_EXACT_LEASE_IS_GRANTED"},
+        "execution_steps": {"type": "array", "minItems": 7, "items": {"type": "string", "minLength": 1}, "uniqueItems": true}
+      }
+    },
+    "queue_sha256": {"$ref": "#/$defs/sha256"},
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["execution_planning", "runtime", "capacity", "quality", "independent_juror", "golden_mask", "activation", "promotion"],
+      "properties": {
+        "execution_planning": {"const": true},
+        "runtime": {"const": false},
+        "capacity": {"const": false},
+        "quality": {"const": false},
+        "independent_juror": {"const": false},
+        "golden_mask": {"const": false},
+        "activation": {"const": false},
+        "promotion": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "fileBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha256"}}
+    },
+    "campaign": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sequence", "campaign_id", "kind", "role_id", "component", "execution_lane", "package_ids", "package_evidence", "admission", "depends_on", "execution_steps", "readiness", "blockers", "operational"],
+      "properties": {
+        "sequence": {"type": "integer", "minimum": 1, "maximum": 14},
+        "campaign_id": {"type": "string", "pattern": "^W64-AQA-CAMPAIGN-[A-Z0-9-]+$"},
+        "kind": {"enum": ["supporting_component", "role_qualification"]},
+        "role_id": {"type": ["string", "null"]},
+        "component": {"type": ["string", "null"]},
+        "execution_lane": {"enum": ["exclusive_gpu", "local_deterministic", "external_release_consumer"]},
+        "package_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "package_evidence": {"type": "array", "items": {"$ref": "#/$defs/packageEvidence"}},
+        "admission": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/admissionBinding"}]},
+        "depends_on": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "execution_steps": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "readiness": {"enum": ["ADMITTED_COORDINATOR_GATE_REQUIRED", "PREPARED_DEPENDENCIES_AND_COORDINATOR_GATE_REQUIRED", "HELD_PREREQUISITES_INCOMPLETE"]},
+        "blockers": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+        "operational": {"const": false}
+      }
+    },
+    "packageEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["package_id", "identity_state", "license_state", "installation_state", "artifact_digest", "exact_identity_installed_and_license_accepted"],
+      "properties": {
+        "package_id": {"type": "string"},
+        "identity_state": {"type": "string"},
+        "license_state": {"type": "string"},
+        "installation_state": {"type": "string"},
+        "artifact_digest": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "exact_identity_installed_and_license_accepted": {"type": "boolean"}
+      }
+    },
+    "admissionBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "status", "package_id"],
+      "properties": {
+        "path": {"type": "string"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "status": {"type": "string"},
+        "package_id": {"type": "string"}
+      }
+    }
+  }
+}

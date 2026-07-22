@@ -1,0 +1,634 @@
+{
+  "schema_version": "wave64.aqa.qualification_campaign_queue.v1",
+  "program_id": "W64-AQA",
+  "status": "SOLE_POD_QUEUE_FROZEN_RUNTIME_COORDINATOR_GATE_REQUIRED",
+  "inputs": {
+    "execution_matrix": {
+      "path": "Plan/Tracker/Evidence/W64_AQA_ROLE_QUALIFICATION_EXECUTION_MATRIX_20260722.json",
+      "sha256": "e8e32d2bf8e3d52e56c62a07b670d9efbd27ce2f3cda4dbf058ee0dce61f264f"
+    },
+    "role_registry": {
+      "path": "Plan/10_REGISTRIES/wave64_runpod_autonomous_multimodal_qa_role_registry.json",
+      "sha256": "6e0cbc06a92628069d66244e0d067d4e7bd42211fd1fb27040b027034f16c46b"
+    },
+    "package_inventory": {
+      "path": "Plan/10_REGISTRIES/wave64_runpod_autonomous_role_package_inventory.json",
+      "sha256": "c964a306653f1cf7805a0bbbd640a1fc0738b7fcb3ec1b747b52bd7c832f68f1"
+    },
+    "campaign_policy": {
+      "path": "Plan/10_REGISTRIES/wave64_aqa_sole_pod_qualification_campaign_policy.json",
+      "sha256": "ae3d3baf0f06e3334936bad168f88d7e0bd351036007f06b4c03465bc7f71e65"
+    }
+  },
+  "pod_gate": {
+    "pod_id": "1q4ji0gg1fkhvt",
+    "project": "comfyui_main",
+    "profile": "comfyui_model_qualification",
+    "lease_mode": "exclusive",
+    "one_gpu_campaign_at_a_time": true,
+    "coordinator_admission_required": true,
+    "runtime_snapshot_bound": false,
+    "idle_telemetry_is_not_authority": true,
+    "foreign_recovery_override_forbidden": true
+  },
+  "campaigns": [
+    {
+      "sequence": 1,
+      "campaign_id": "W64-AQA-CAMPAIGN-WAV2VEC2-EXPANDED-ALIGNMENT",
+      "kind": "supporting_component",
+      "role_id": null,
+      "component": "wav2vec2_forced_alignment",
+      "execution_lane": "exclusive_gpu",
+      "package_ids": [
+        "W64-AQA-PKG-WAV2VEC2-PHONEME-ALIGNER"
+      ],
+      "package_evidence": [],
+      "admission": {
+        "path": "Plan/10_REGISTRIES/wave64_wav2vec2_expanded_alignment_execution_admission.json",
+        "sha256": "b9f8eb96d9a19029d8da744ac243d56527ec2c2a6f4530e9d0c95a6bc750c983",
+        "status": "EXPANDED_ALIGNMENT_PARTITION_EXECUTION_ADMITTED_RUNTIME_PENDING",
+        "package_id": "W64-AQA-PKG-WAV2VEC2-PHONEME-ALIGNER"
+      },
+      "depends_on": [],
+      "execution_steps": [
+        "acquire_exact_exclusive_lease",
+        "run_calibration_partition",
+        "freeze_observed_thresholds",
+        "run_held_out_partition_once",
+        "verify_process_exit_cleanup",
+        "release_lease",
+        "retain_immutable_receipts"
+      ],
+      "readiness": "ADMITTED_COORDINATOR_GATE_REQUIRED",
+      "blockers": [
+        "FRESH_COORDINATOR_ADMISSION_AND_EXACT_EXCLUSIVE_LEASE_REQUIRED"
+      ],
+      "operational": false
+    },
+    {
+      "sequence": 2,
+      "campaign_id": "W64-AQA-CAMPAIGN-MIT-AST-AUDIOSET-EVENTS",
+      "kind": "supporting_component",
+      "role_id": null,
+      "component": "mit_ast_audioset_event_detection",
+      "execution_lane": "exclusive_gpu",
+      "package_ids": [
+        "W64-AQA-PKG-MIT-AST-AUDIOSET-0.4593"
+      ],
+      "package_evidence": [],
+      "admission": {
+        "path": "Plan/10_REGISTRIES/wave64_mit_ast_audioset_event_canary_admission.json",
+        "sha256": "5cd770a95e082d0076d77fd0862c729f3bebec64d206ede00997a4835e6b2141",
+        "status": "MIT_AST_EXACT_EVENT_CANARY_ADMITTED_EXECUTION_PENDING",
+        "package_id": "W64-AQA-PKG-MIT-AST-AUDIOSET-0.4593"
+      },
+      "depends_on": [
+        "W64-AQA-CAMPAIGN-WAV2VEC2-EXPANDED-ALIGNMENT"
+      ],
+      "execution_steps": [
+        "acquire_exact_exclusive_lease",
+        "run_calibration_partition",
+        "freeze_observed_thresholds",
+        "run_held_out_partition_once",
+        "verify_process_exit_cleanup",
+        "release_lease",
+        "retain_immutable_receipts"
+      ],
+      "readiness": "ADMITTED_COORDINATOR_GATE_REQUIRED",
+      "blockers": [
+        "FRESH_COORDINATOR_ADMISSION_AND_EXACT_EXCLUSIVE_LEASE_REQUIRED"
+      ],
+      "operational": false
+    },
+    {
+      "sequence": 3,
+      "campaign_id": "W64-AQA-CAMPAIGN-ROLE-DETERMINISTIC",
+      "kind": "role_qualification",
+      "role_id": "W64-AQA-ROLE-DETERMINISTIC",
+      "component": null,
+      "execution_lane": "local_deterministic",
+      "package_ids": [],
+      "package_evidence": [],
+      "admission": null,
+      "depends_on": [],
+      "execution_steps": [
+        "admit_exact_model_runtime_and_prompt_identity",
+        "acquire_exact_coordinator_lease",
+        "run_calibration_partition",
+        "freeze_observed_thresholds",
+        "run_held_out_partition_once",
+        "compile_capacity_quality_repeatability_refusal_certificate",
+        "verify_process_exit_cleanup",
+        "release_lease",
+        "retain_evidence_and_keep_activation_false_until_acceptance"
+      ],
+      "readiness": "HELD_PREREQUISITES_INCOMPLETE",
+      "blockers": [
+        "ROLE_REPORT_EXECUTOR_NOT_BOUND_TO_FROZEN_MATRIX"
+      ],
+      "operational": false
+    },
+    {
+      "sequence": 4,
+      "campaign_id": "W64-AQA-CAMPAIGN-ROLE-AUDIO-SEMANTIC",
+      "kind": "role_qualification",
+      "role_id": "W64-AQA-ROLE-AUDIO-SEMANTIC",
+      "component": null,
+      "execution_lane": "exclusive_gpu",
+      "package_ids": [
+        "W64-AQA-PKG-QWEN3-ASR-17B",
+        "W64-AQA-PKG-QWEN3-OMNI-30B-A3B"
+      ],
+      "package_evidence": [
+        {
+          "package_id": "W64-AQA-PKG-QWEN3-ASR-17B",
+          "identity_state": "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_PINNED",
+          "license_state": "APACHE-2.0_ACCEPTED_FOR_COMFY_UI_MAIN_PROJECT_USE",
+          "installation_state": "INSTALLED_FILE_SET_VERIFIED_ACTIVATION_PENDING",
+          "artifact_digest": "e733f6863ecf6e3cd2d5579cd50c6e8cd35c78739316757633ad70c879edba60",
+          "exact_identity_installed_and_license_accepted": true
+        },
+        {
+          "package_id": "W64-AQA-PKG-QWEN3-OMNI-30B-A3B",
+          "identity_state": "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_PINNED",
+          "license_state": "APACHE-2.0_ACCEPTED_FOR_COMFY_UI_MAIN_PROJECT_USE",
+          "installation_state": "INSTALLED_FILE_SET_VERIFIED_ACTIVATION_PENDING",
+          "artifact_digest": "46d9695468fac6ff986a683b42df3e8872a01f9e16703ee0772ca4ba2136d480",
+          "exact_identity_installed_and_license_accepted": true
+        }
+      ],
+      "admission": null,
+      "depends_on": [
+        "W64-AQA-CAMPAIGN-WAV2VEC2-EXPANDED-ALIGNMENT",
+        "W64-AQA-CAMPAIGN-MIT-AST-AUDIOSET-EVENTS"
+      ],
+      "execution_steps": [
+        "admit_exact_model_runtime_and_prompt_identity",
+        "acquire_exact_coordinator_lease",
+        "run_calibration_partition",
+        "freeze_observed_thresholds",
+        "run_held_out_partition_once",
+        "compile_capacity_quality_repeatability_refusal_certificate",
+        "verify_process_exit_cleanup",
+        "release_lease",
+        "retain_evidence_and_keep_activation_false_until_acceptance"
+      ],
+      "readiness": "PREPARED_DEPENDENCIES_AND_COORDINATOR_GATE_REQUIRED",
+      "blockers": [
+        "DEPENDENT_CAMPAIGN_RECEIPTS_REQUIRED",
+        "FRESH_COORDINATOR_ADMISSION_AND_EXACT_EXCLUSIVE_LEASE_REQUIRED"
+      ],
+      "operational": false
+    },
+    {
+      "sequence": 5,
+      "campaign_id": "W64-AQA-CAMPAIGN-ROLE-FAST-TRIAGE",
+      "kind": "role_qualification",
+      "role_id": "W64-AQA-ROLE-FAST-TRIAGE",
+      "component": null,
+      "execution_lane": "exclusive_gpu",
+      "package_ids": [
+        "W64-AQA-PKG-QWEN3VL4",
+        "W64-AQA-PKG-QWEN3VL8",
+        "W64-AQA-PKG-QWEN25VL7",
+        "W64-AQA-PKG-LLAVA13"
+      ],
+      "package_evidence": [
+        {
+          "package_id": "W64-AQA-PKG-QWEN3VL4",
+          "identity_state": "LOCAL_DIGEST_VERIFIED_UPSTREAM_REVISION_UNVERIFIED",
+          "license_state": "LOCAL_RUNTIME_LICENSE_NOT_REVERIFIED",
+          "installation_state": "INSTALLED_DIGEST_VERIFIED_ACTIVATION_SCOPED",
+          "artifact_digest": "ee4b975b58c17ce268cd19d40db35d5edc64603035d2ffc1fee1968eb0947f7b",
+          "exact_identity_installed_and_license_accepted": false
+        },
+        {
+          "package_id": "W64-AQA-PKG-QWEN3VL8",
+          "identity_state": "LOCAL_DIGEST_VERIFIED_UPSTREAM_REVISION_UNVERIFIED",
+          "license_state": "LOCAL_RUNTIME_LICENSE_NOT_REVERIFIED",
+          "installation_state": "INSTALLED_DIGEST_VERIFIED_ACTIVATION_SCOPED",
+          "artifact_digest": "0533d74300e4f9bc367d675d4e64ffd073d50ff16a2b4096cc2e8a1cf8c96319",
+          "exact_identity_installed_and_license_accepted": false
+        },
+        {
+          "package_id": "W64-AQA-PKG-QWEN25VL7",
+          "identity_state": "LOCAL_DIGEST_VERIFIED_UPSTREAM_REVISION_UNVERIFIED",
+          "license_state": "LOCAL_RUNTIME_LICENSE_NOT_REVERIFIED",
+          "installation_state": "INSTALLED_DIGEST_VERIFIED_ACTIVATION_SCOPED",
+          "artifact_digest": "5ced39dfa4bac325dc183dd1e4febaa1c46b3ea28bce48896c8e69c1e79611cc",
+          "exact_identity_installed_and_license_accepted": false
+        },
+        {
+          "package_id": "W64-AQA-PKG-LLAVA13",
+          "identity_state": "LOCAL_DIGEST_VERIFIED_UPSTREAM_REVISION_UNVERIFIED",
+          "license_state": "LOCAL_RUNTIME_LICENSE_NOT_REVERIFIED",
+          "installation_state": "INSTALLED_DIGEST_VERIFIED_ACTIVATION_SCOPED",
+          "artifact_digest": "0d0eb4d7f485d7d0a21fd9b0c1d5b04da481d2150a097e81b64acb59758fdef6",
+          "exact_identity_installed_and_license_accepted": false
+        }
+      ],
+      "admission": null,
+      "depends_on": [],
+      "execution_steps": [
+        "admit_exact_model_runtime_and_prompt_identity",
+        "acquire_exact_coordinator_lease",
+        "run_calibration_partition",
+        "freeze_observed_thresholds",
+        "run_held_out_partition_once",
+        "compile_capacity_quality_repeatability_refusal_certificate",
+        "verify_process_exit_cleanup",
+        "release_lease",
+        "retain_evidence_and_keep_activation_false_until_acceptance"
+      ],
+      "readiness": "HELD_PREREQUISITES_INCOMPLETE",
+      "blockers": [
+        "W64-AQA-PKG-QWEN3VL4:EXACT_UPSTREAM_REVISION_OR_IDENTITY_NOT_VERIFIED",
+        "W64-AQA-PKG-QWEN3VL4:PROJECT_LICENSE_ACCEPTANCE_MISSING"
+      ],
+      "operational": false
+    },
+    {
+      "sequence": 6,
+      "campaign_id": "W64-AQA-CAMPAIGN-ROLE-TEXT-PLANNER",
+      "kind": "role_qualification",
+      "role_id": "W64-AQA-ROLE-TEXT-PLANNER",
+      "component": null,
+      "execution_lane": "exclusive_gpu",
+      "package_ids": [
+        "W64-AQA-PKG-QWEN25TEXT7"
+      ],
+      "package_evidence": [
+        {
+          "package_id": "W64-AQA-PKG-QWEN25TEXT7",
+          "identity_state": "LOCAL_DIGEST_VERIFIED_UPSTREAM_REVISION_UNVERIFIED",
+          "license_state": "LOCAL_RUNTIME_LICENSE_NOT_REVERIFIED",
+          "installation_state": "INSTALLED_DIGEST_VERIFIED_ACTIVATION_SCOPED",
+          "artifact_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+          "exact_identity_installed_and_license_accepted": false
+        }
+      ],
+      "admission": null,
+      "depends_on": [],
+      "execution_steps": [
+        "admit_exact_model_runtime_and_prompt_identity",
+        "acquire_exact_coordinator_lease",
+        "run_calibration_partition",
+        "freeze_observed_thresholds",
+        "run_held_out_partition_once",
+        "compile_capacity_quality_repeatability_refusal_certificate",
+        "verify_process_exit_cleanup",
+        "release_lease",
+        "retain_evidence_and_keep_activation_false_until_acceptance"
+      ],
+      "readiness": "HELD_PREREQUISITES_INCOMPLETE",
+      "blockers": [
+        "W64-AQA-PKG-QWEN25TEXT7:EXACT_UPSTREAM_REVISION_OR_IDENTITY_NOT_VERIFIED",
+        "W64-AQA-PKG-QWEN25TEXT7:PROJECT_LICENSE_ACCEPTANCE_MISSING"
+      ],
+      "operational": false
+    },
+    {
+      "sequence": 7,
+      "campaign_id": "W64-AQA-CAMPAIGN-ROLE-STRICT-VISUAL",
+      "kind": "role_qualification",
+      "role_id": "W64-AQA-ROLE-STRICT-VISUAL",
+      "component": null,
+      "execution_lane": "exclusive_gpu",
+      "package_ids": [
+        "W64-AQA-PKG-QWEN25VL32"
+      ],
+      "package_evidence": [
+        {
+          "package_id": "W64-AQA-PKG-QWEN25VL32",
+          "identity_state": "LOCAL_DIGEST_VERIFIED_UPSTREAM_REVISION_UNVERIFIED",
+          "license_state": "LOCAL_RUNTIME_LICENSE_NOT_REVERIFIED",
+          "installation_state": "INSTALLED_DIGEST_VERIFIED_ACTIVATION_SCOPED",
+          "artifact_digest": "3edc3a52fe988de3e8ba4f99ac1f21a1bbc35e1af32a74983fe4e1667d6b6188",
+          "exact_identity_installed_and_license_accepted": false
+        }
+      ],
+      "admission": null,
+      "depends_on": [],
+      "execution_steps": [
+        "admit_exact_model_runtime_and_prompt_identity",
+        "acquire_exact_coordinator_lease",
+        "run_calibration_partition",
+        "freeze_observed_thresholds",
+        "run_held_out_partition_once",
+        "compile_capacity_quality_repeatability_refusal_certificate",
+        "verify_process_exit_cleanup",
+        "release_lease",
+        "retain_evidence_and_keep_activation_false_until_acceptance"
+      ],
+      "readiness": "HELD_PREREQUISITES_INCOMPLETE",
+      "blockers": [
+        "W64-AQA-PKG-QWEN25VL32:EXACT_UPSTREAM_REVISION_OR_IDENTITY_NOT_VERIFIED",
+        "W64-AQA-PKG-QWEN25VL32:PROJECT_LICENSE_ACCEPTANCE_MISSING"
+      ],
+      "operational": false
+    },
+    {
+      "sequence": 8,
+      "campaign_id": "W64-AQA-CAMPAIGN-ROLE-GENERATION",
+      "kind": "role_qualification",
+      "role_id": "W64-AQA-ROLE-GENERATION",
+      "component": null,
+      "execution_lane": "exclusive_gpu",
+      "package_ids": [],
+      "package_evidence": [],
+      "admission": null,
+      "depends_on": [],
+      "execution_steps": [
+        "admit_exact_model_runtime_and_prompt_identity",
+        "acquire_exact_coordinator_lease",
+        "run_calibration_partition",
+        "freeze_observed_thresholds",
+        "run_held_out_partition_once",
+        "compile_capacity_quality_repeatability_refusal_certificate",
+        "verify_process_exit_cleanup",
+        "release_lease",
+        "retain_evidence_and_keep_activation_false_until_acceptance"
+      ],
+      "readiness": "HELD_PREREQUISITES_INCOMPLETE",
+      "blockers": [
+        "EXACT_GENERATION_STACK_NOT_BOUND_TO_ROLE_PACKAGE_INVENTORY"
+      ],
+      "operational": false
+    },
+    {
+      "sequence": 9,
+      "campaign_id": "W64-AQA-CAMPAIGN-ROLE-CONTROLLER",
+      "kind": "role_qualification",
+      "role_id": "W64-AQA-ROLE-CONTROLLER",
+      "component": null,
+      "execution_lane": "exclusive_gpu",
+      "package_ids": [
+        "W64-AQA-PKG-QWEN36-35B-A3B"
+      ],
+      "package_evidence": [
+        {
+          "package_id": "W64-AQA-PKG-QWEN36-35B-A3B",
+          "identity_state": "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_UNPINNED",
+          "license_state": "APACHE-2.0_UPSTREAM_REPORTED_NOT_LOCALLY_ACCEPTED",
+          "installation_state": "UPSTREAM_IDENTITY_VERIFIED_NOT_INSTALLED",
+          "artifact_digest": null,
+          "exact_identity_installed_and_license_accepted": false
+        }
+      ],
+      "admission": null,
+      "depends_on": [],
+      "execution_steps": [
+        "admit_exact_model_runtime_and_prompt_identity",
+        "acquire_exact_coordinator_lease",
+        "run_calibration_partition",
+        "freeze_observed_thresholds",
+        "run_held_out_partition_once",
+        "compile_capacity_quality_repeatability_refusal_certificate",
+        "verify_process_exit_cleanup",
+        "release_lease",
+        "retain_evidence_and_keep_activation_false_until_acceptance"
+      ],
+      "readiness": "HELD_PREREQUISITES_INCOMPLETE",
+      "blockers": [
+        "W64-AQA-PKG-QWEN36-35B-A3B:EXACT_ARTIFACT_NOT_INSTALLED",
+        "W64-AQA-PKG-QWEN36-35B-A3B:EXACT_UPSTREAM_REVISION_OR_IDENTITY_NOT_VERIFIED"
+      ],
+      "operational": false
+    },
+    {
+      "sequence": 10,
+      "campaign_id": "W64-AQA-CAMPAIGN-ROLE-PRIMARY-VISUAL",
+      "kind": "role_qualification",
+      "role_id": "W64-AQA-ROLE-PRIMARY-VISUAL",
+      "component": null,
+      "execution_lane": "exclusive_gpu",
+      "package_ids": [
+        "W64-AQA-PKG-QWEN35-122B-A10B"
+      ],
+      "package_evidence": [
+        {
+          "package_id": "W64-AQA-PKG-QWEN35-122B-A10B",
+          "identity_state": "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_UNPINNED",
+          "license_state": "APACHE-2.0_UPSTREAM_REPORTED_NOT_LOCALLY_ACCEPTED",
+          "installation_state": "UPSTREAM_IDENTITY_VERIFIED_NOT_INSTALLED",
+          "artifact_digest": null,
+          "exact_identity_installed_and_license_accepted": false
+        }
+      ],
+      "admission": null,
+      "depends_on": [],
+      "execution_steps": [
+        "admit_exact_model_runtime_and_prompt_identity",
+        "acquire_exact_coordinator_lease",
+        "run_calibration_partition",
+        "freeze_observed_thresholds",
+        "run_held_out_partition_once",
+        "compile_capacity_quality_repeatability_refusal_certificate",
+        "verify_process_exit_cleanup",
+        "release_lease",
+        "retain_evidence_and_keep_activation_false_until_acceptance"
+      ],
+      "readiness": "HELD_PREREQUISITES_INCOMPLETE",
+      "blockers": [
+        "W64-AQA-PKG-QWEN35-122B-A10B:EXACT_ARTIFACT_NOT_INSTALLED",
+        "W64-AQA-PKG-QWEN35-122B-A10B:EXACT_UPSTREAM_REVISION_OR_IDENTITY_NOT_VERIFIED"
+      ],
+      "operational": false
+    },
+    {
+      "sequence": 11,
+      "campaign_id": "W64-AQA-CAMPAIGN-ROLE-INDEPENDENT-JUROR",
+      "kind": "role_qualification",
+      "role_id": "W64-AQA-ROLE-INDEPENDENT-JUROR",
+      "component": null,
+      "execution_lane": "exclusive_gpu",
+      "package_ids": [
+        "W64-AQA-PKG-INTERNVL35-241B-A28B"
+      ],
+      "package_evidence": [
+        {
+          "package_id": "W64-AQA-PKG-INTERNVL35-241B-A28B",
+          "identity_state": "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_PINNED",
+          "license_state": "WEIGHTS_APACHE-2.0_AND_PROJECT_CODE_MIT_ACCEPTED_FOR_COMFY_UI_MAIN_PROJECT_USE",
+          "installation_state": "UPSTREAM_IDENTITY_VERIFIED_NOT_INSTALLED",
+          "artifact_digest": null,
+          "exact_identity_installed_and_license_accepted": false
+        }
+      ],
+      "admission": null,
+      "depends_on": [],
+      "execution_steps": [
+        "admit_exact_model_runtime_and_prompt_identity",
+        "acquire_exact_coordinator_lease",
+        "run_calibration_partition",
+        "freeze_observed_thresholds",
+        "run_held_out_partition_once",
+        "compile_capacity_quality_repeatability_refusal_certificate",
+        "verify_process_exit_cleanup",
+        "release_lease",
+        "retain_evidence_and_keep_activation_false_until_acceptance"
+      ],
+      "readiness": "HELD_PREREQUISITES_INCOMPLETE",
+      "blockers": [
+        "PROVISIONAL_INTERNVL35_8B_CANNOT_SUBSTITUTE_FOR_241B_TARGET",
+        "W64-AQA-PKG-INTERNVL35-241B-A28B:EXACT_ARTIFACT_NOT_INSTALLED"
+      ],
+      "operational": false
+    },
+    {
+      "sequence": 12,
+      "campaign_id": "W64-AQA-CAMPAIGN-ROLE-WORKFLOW-ENGINEER",
+      "kind": "role_qualification",
+      "role_id": "W64-AQA-ROLE-WORKFLOW-ENGINEER",
+      "component": null,
+      "execution_lane": "exclusive_gpu",
+      "package_ids": [
+        "W64-AQA-PKG-QWEN3-CODER-NEXT"
+      ],
+      "package_evidence": [
+        {
+          "package_id": "W64-AQA-PKG-QWEN3-CODER-NEXT",
+          "identity_state": "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_UNPINNED",
+          "license_state": "APACHE-2.0_UPSTREAM_REPORTED_NOT_LOCALLY_ACCEPTED",
+          "installation_state": "UPSTREAM_IDENTITY_VERIFIED_NOT_INSTALLED",
+          "artifact_digest": null,
+          "exact_identity_installed_and_license_accepted": false
+        }
+      ],
+      "admission": null,
+      "depends_on": [],
+      "execution_steps": [
+        "admit_exact_model_runtime_and_prompt_identity",
+        "acquire_exact_coordinator_lease",
+        "run_calibration_partition",
+        "freeze_observed_thresholds",
+        "run_held_out_partition_once",
+        "compile_capacity_quality_repeatability_refusal_certificate",
+        "verify_process_exit_cleanup",
+        "release_lease",
+        "retain_evidence_and_keep_activation_false_until_acceptance"
+      ],
+      "readiness": "HELD_PREREQUISITES_INCOMPLETE",
+      "blockers": [
+        "W64-AQA-PKG-QWEN3-CODER-NEXT:EXACT_ARTIFACT_NOT_INSTALLED",
+        "W64-AQA-PKG-QWEN3-CODER-NEXT:EXACT_UPSTREAM_REVISION_OR_IDENTITY_NOT_VERIFIED"
+      ],
+      "operational": false
+    },
+    {
+      "sequence": 13,
+      "campaign_id": "W64-AQA-CAMPAIGN-ROLE-GOLDEN-MASK",
+      "kind": "role_qualification",
+      "role_id": "W64-AQA-ROLE-GOLDEN-MASK",
+      "component": null,
+      "execution_lane": "external_release_consumer",
+      "package_ids": [
+        "W64-AQA-PKG-GOLDEN-MASK-EXTERNAL"
+      ],
+      "package_evidence": [
+        {
+          "package_id": "W64-AQA-PKG-GOLDEN-MASK-EXTERNAL",
+          "identity_state": "EXTERNAL_RELEASE_REQUIRED",
+          "license_state": "EXTERNAL_RELEASE_REQUIRED",
+          "installation_state": "EXTERNAL_CONSUMER_ONLY_NOT_INSTALLABLE",
+          "artifact_digest": null,
+          "exact_identity_installed_and_license_accepted": false
+        }
+      ],
+      "admission": null,
+      "depends_on": [],
+      "execution_steps": [
+        "admit_exact_model_runtime_and_prompt_identity",
+        "acquire_exact_coordinator_lease",
+        "run_calibration_partition",
+        "freeze_observed_thresholds",
+        "run_held_out_partition_once",
+        "compile_capacity_quality_repeatability_refusal_certificate",
+        "verify_process_exit_cleanup",
+        "release_lease",
+        "retain_evidence_and_keep_activation_false_until_acceptance"
+      ],
+      "readiness": "HELD_PREREQUISITES_INCOMPLETE",
+      "blockers": [
+        "MASKFACTORY_VERSIONED_RELEASE_REQUIRED",
+        "W64-AQA-PKG-GOLDEN-MASK-EXTERNAL:EXACT_ARTIFACT_NOT_INSTALLED",
+        "W64-AQA-PKG-GOLDEN-MASK-EXTERNAL:EXACT_UPSTREAM_REVISION_OR_IDENTITY_NOT_VERIFIED",
+        "W64-AQA-PKG-GOLDEN-MASK-EXTERNAL:PROJECT_LICENSE_ACCEPTANCE_MISSING"
+      ],
+      "operational": false
+    },
+    {
+      "sequence": 14,
+      "campaign_id": "W64-AQA-CAMPAIGN-ROLE-SENIOR-ARBITER",
+      "kind": "role_qualification",
+      "role_id": "W64-AQA-ROLE-SENIOR-ARBITER",
+      "component": null,
+      "execution_lane": "exclusive_gpu",
+      "package_ids": [
+        "W64-AQA-PKG-QWEN35-397B-A17B"
+      ],
+      "package_evidence": [
+        {
+          "package_id": "W64-AQA-PKG-QWEN35-397B-A17B",
+          "identity_state": "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_UNPINNED",
+          "license_state": "APACHE-2.0_UPSTREAM_REPORTED_NOT_LOCALLY_ACCEPTED",
+          "installation_state": "UPSTREAM_IDENTITY_VERIFIED_NOT_INSTALLED",
+          "artifact_digest": null,
+          "exact_identity_installed_and_license_accepted": false
+        }
+      ],
+      "admission": null,
+      "depends_on": [],
+      "execution_steps": [
+        "admit_exact_model_runtime_and_prompt_identity",
+        "acquire_exact_coordinator_lease",
+        "run_calibration_partition",
+        "freeze_observed_thresholds",
+        "run_held_out_partition_once",
+        "compile_capacity_quality_repeatability_refusal_certificate",
+        "verify_process_exit_cleanup",
+        "release_lease",
+        "retain_evidence_and_keep_activation_false_until_acceptance"
+      ],
+      "readiness": "HELD_PREREQUISITES_INCOMPLETE",
+      "blockers": [
+        "W64-AQA-PKG-QWEN35-397B-A17B:EXACT_ARTIFACT_NOT_INSTALLED",
+        "W64-AQA-PKG-QWEN35-397B-A17B:EXACT_UPSTREAM_REVISION_OR_IDENTITY_NOT_VERIFIED"
+      ],
+      "operational": false
+    }
+  ],
+  "coverage": {
+    "pre_role_campaign_count": 2,
+    "role_campaign_count": 12,
+    "matrix_role_count": 12,
+    "all_matrix_roles_bound": true,
+    "prepared_campaign_count": 3,
+    "held_campaign_count": 11
+  },
+  "next_action": {
+    "campaign_id": "W64-AQA-CAMPAIGN-WAV2VEC2-EXPANDED-ALIGNMENT",
+    "runnable_now": false,
+    "required_transition": "OWNER_RESTORES_COORDINATOR_ADMISSION_AND_EXACT_LEASE_IS_GRANTED",
+    "execution_steps": [
+      "acquire_exact_exclusive_lease",
+      "run_calibration_partition",
+      "freeze_observed_thresholds",
+      "run_held_out_partition_once",
+      "verify_process_exit_cleanup",
+      "release_lease",
+      "retain_immutable_receipts"
+    ]
+  },
+  "queue_sha256": "dd4118f5cf5f7a9f061c1c67d1d781b1cfaaffd325e6939132fe61746b2efd1b",
+  "authority": {
+    "execution_planning": true,
+    "runtime": false,
+    "capacity": false,
+    "quality": false,
+    "independent_juror": false,
+    "golden_mask": false,
+    "activation": false,
+    "promotion": false
+  }
+}

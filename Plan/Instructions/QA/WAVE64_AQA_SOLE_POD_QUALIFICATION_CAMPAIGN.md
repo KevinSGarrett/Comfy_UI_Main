@@ -1,0 +1,37 @@
+# W64-AQA sole-pod qualification campaign
+
+The authoritative queue is
+`Plan/Tracker/Evidence/W64_AQA_SOLE_POD_QUALIFICATION_CAMPAIGN_QUEUE_20260722.json`.
+It is a repository plan, not a live coordinator snapshot and not runtime
+authority. Replay it before selecting a campaign:
+
+```powershell
+python Plan/07_IMPLEMENTATION/scripts/compile_wave64_aqa_sole_pod_qualification_queue.py --validate Plan/Tracker/Evidence/W64_AQA_SOLE_POD_QUALIFICATION_CAMPAIGN_QUEUE_20260722.json
+```
+
+The first GPU campaign is the exact Wav2Vec2 expanded-alignment admission.
+Acquire a fresh `comfyui_main` / `comfyui_model_qualification` exclusive lease,
+run calibration, freeze the observed thresholds, run held-out once, verify child
+exit and VRAM cleanup, release the lease, and retain immutable receipts. The
+second GPU campaign is the exact MIT AST AudioSet event admission with the same
+partition discipline. Never inspect held-out results before threshold freeze or
+repeat an unchanged campaign.
+
+Idle GPU telemetry does not authorize execution. Admission must be enabled by
+the shared coordinator, and no ComfyUI action may clear, replace, or override a
+foreign recovery state or lease. Only one GPU campaign may be resident at a
+time. Alternative-pod watching and external inference remain disabled.
+
+After the two supporting audio campaigns, use the queue's role entries in
+sequence. A package is prepared only when exact identity or revision, project
+license acceptance, installed artifact digest, and role binding are all
+present. A local digest with unverified upstream revision, an upstream model
+name without installed bytes, or the provisional InternVL3.5-8B package cannot
+stand in for the declared 241B independent juror. Golden-mask handling remains
+a read-only consumer lane until MaskFactory publishes a versioned release.
+
+For every role: bind the exact checkpoint, runtime, prompt, corpus and matrix;
+acquire one exact lease; run calibration; freeze thresholds; run held-out once;
+compile the capacity/quality/repeatability/refusal certificate; verify cleanup;
+release; and keep activation false until Codex acceptance. Never infer broad
+quality, juror, golden-mask, activation, or promotion authority from this queue.
