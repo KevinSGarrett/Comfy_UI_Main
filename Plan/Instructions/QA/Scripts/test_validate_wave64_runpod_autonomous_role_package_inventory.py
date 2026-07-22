@@ -65,8 +65,12 @@ def test_asr_source_revision_and_storage_install_are_exact_but_not_operational()
     assert package["dependency_environment"]["distribution_count"] == 105
     assert package["import_canary"]["state"] == "IMPORT_ONLY_CLASS_RESOLUTION_PASS_RUNTIME_PENDING"
     assert package["import_canary"]["post_canary_tree_sha256"] == package["dependency_environment"]["tree_sha256"]
+    assert package["static_qualification"]["state"] == "LICENSE_AND_ARTIFACT_HASH_PASS"
+    assert package["identity"]["license_state"] == "APACHE-2.0_ACCEPTED_FOR_COMFY_UI_MAIN_PROJECT_USE"
     assert "dependency_environment" not in package["qualification"]["required_gates"]
     assert "import_canary" not in package["qualification"]["required_gates"]
+    assert "license_acceptance" not in package["qualification"]["required_gates"]
+    assert "artifact_hash" not in package["qualification"]["required_gates"]
     assert not package["authority"]["operational"]
     package["source_pin"]["revision"] = "0" * 40
     assert any("source revision pin mismatch" in error for error in MODULE.validate(data))

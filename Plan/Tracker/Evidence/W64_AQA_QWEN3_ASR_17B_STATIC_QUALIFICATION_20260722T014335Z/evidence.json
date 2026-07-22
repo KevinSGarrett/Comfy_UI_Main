@@ -1,0 +1,62 @@
+{
+  "schema_version": "wave64.aqa.qwen3_asr_static_qualification.v1",
+  "program_id": "W64-AQA",
+  "package_id": "W64-AQA-PKG-QWEN3-ASR-17B",
+  "observed_at_utc": "2026-07-22T01:43:35Z",
+  "disposition": "STATIC_LICENSE_AND_ARTIFACT_HASH_GATES_PASS_RUNTIME_PENDING",
+  "license": {
+    "spdx_id": "Apache-2.0",
+    "decision": "ACCEPTED_FOR_COMFY_UI_MAIN_PROJECT_USE",
+    "authoritative_source": "Plan/10_REGISTRIES/wave64_runpod_qwen3_asr_17b_install_admission.json",
+    "upstream_repository": "Qwen/Qwen3-ASR-1.7B",
+    "revision": "7278e1e70fe206f11671096ffdd38061171dd6e5"
+  },
+  "artifact_hash_certificate": {
+    "admission_manifest_sha256": "e733f6863ecf6e3cd2d5579cd50c6e8cd35c78739316757633ad70c879edba60",
+    "installation_receipt_sha256": "cd52de9d1c4495d42c007d648dfa0355aa57eec64457cbdf967ba9ef39aa004e",
+    "source_file_count": 12,
+    "weight_bytes": 4698521512,
+    "weights": [
+      {
+        "path": "model-00001-of-00002.safetensors",
+        "bytes": 4220320824,
+        "sha256": "a4cd1f1a04d90b757dc7f7dd26254e69a013b19e80efe590a83c6a3bde8608d6"
+      },
+      {
+        "path": "model-00002-of-00002.safetensors",
+        "bytes": 478200688,
+        "sha256": "6e0b9d9e09e2e0238e7ef3cc8a484ab387e91b90f1900bedf88bc92d7929ccfc"
+      }
+    ],
+    "verification_basis": [
+      "Plan/10_REGISTRIES/wave64_runpod_qwen3_asr_17b_install_admission.json",
+      "Plan/Tracker/Evidence/W64_AQA_QWEN3_ASR_17B_STORAGE_INSTALL_20260722T003615Z/remote_install_receipt.json",
+      "Plan/Tracker/Evidence/W64_AQA_QWEN3_ASR_17B_STORAGE_INSTALL_20260722T003615Z/evidence.json"
+    ]
+  },
+  "runtime_claims": {
+    "gpu_or_lease_polled": false,
+    "model_loaded": false,
+    "weights_loaded": false,
+    "inference_performed": false,
+    "role_activated": false,
+    "product_authority": false
+  },
+  "local_validation": {
+    "json_parse": "PASS",
+    "role_package_inventory_validator": "PASS",
+    "targeted_inventory_and_installer_tests": "12 passed",
+    "runpod_autonomous_and_qwen_regression": "247 passed, 2 skipped, 2098 deselected",
+    "ruff": "PASS",
+    "csv_shape": "PASS"
+  },
+  "remaining_gates": [
+    "capacity",
+    "language_calibration",
+    "runtime",
+    "quality",
+    "cost",
+    "failure_injection"
+  ],
+  "next_action": "After repository-backed GPU lease release, run a bounded capacity and model-construction gate before any transcription or role activation. Continue other non-GPU role admissions meanwhile."
+}

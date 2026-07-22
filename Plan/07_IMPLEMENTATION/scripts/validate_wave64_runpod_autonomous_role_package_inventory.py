@@ -99,6 +99,7 @@ def validate(data: dict) -> list[str]:
                     preflight = item.get("dependency_preflight", {})
                     environment = item.get("dependency_environment", {})
                     import_canary = item.get("import_canary", {})
+                    static_qualification = item.get("static_qualification", {})
                     expected_root = f"/workspace/w64_aqa/models/Qwen3-ASR-1.7B/{PINNED_PLANNED[repository_id]}"
                     if install.get("durable_root") != expected_root:
                         errors.append(f"{item.get('package_id')}: installed file-set root mismatch")
@@ -121,8 +122,13 @@ def validate(data: dict) -> list[str]:
                         errors.append(f"{item.get('package_id')}: completed dependency environment gate must be removed")
                     if "import_canary" in qualification.get("required_gates", []):
                         errors.append(f"{item.get('package_id')}: completed import canary gate must be removed")
-                    if qualification.get("state") != "IMPORT_CANARY_PASS_RUNTIME_GATES_PENDING":
+                    if qualification.get("state") != "STATIC_AND_IMPORT_GATES_PASS_RUNTIME_GATES_PENDING":
                         errors.append(f"{item.get('package_id')}: qualification state mismatch")
+                    for completed_gate in ("license_acceptance", "artifact_hash"):
+                        if completed_gate in qualification.get("required_gates", []):
+                            errors.append(
+                                f"{item.get('package_id')}: completed {completed_gate} gate must be removed"
+                            )
                     if environment.get("state") != "INSTALLED_IMPORT_VERIFIED_RUNTIME_PENDING":
                         errors.append(f"{item.get('package_id')}: dependency environment state mismatch")
                     if environment.get("receipt_sha256") != "e09c67aee503f511124b50af539067c9f82f1969490ab9b7d5127d9870c9dcd4":
@@ -141,6 +147,16 @@ def validate(data: dict) -> list[str]:
                     }
                     if import_canary != expected_canary:
                         errors.append(f"{item.get('package_id')}: import canary evidence mismatch")
+                    expected_static_qualification = {
+                        "state": "LICENSE_AND_ARTIFACT_HASH_PASS",
+                        "evidence": "Plan/Tracker/Evidence/W64_AQA_QWEN3_ASR_17B_STATIC_QUALIFICATION_20260722T014335Z/evidence.json",
+                        "admission_manifest_sha256": "e733f6863ecf6e3cd2d5579cd50c6e8cd35c78739316757633ad70c879edba60",
+                        "installation_receipt_sha256": "cd52de9d1c4495d42c007d648dfa0355aa57eec64457cbdf967ba9ef39aa004e",
+                    }
+                    if static_qualification != expected_static_qualification:
+                        errors.append(f"{item.get('package_id')}: static qualification evidence mismatch")
+                    if identity.get("license_state") != "APACHE-2.0_ACCEPTED_FOR_COMFY_UI_MAIN_PROJECT_USE":
+                        errors.append(f"{item.get('package_id')}: license decision mismatch")
             else:
                 if identity.get("identity_state") != "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_UNPINNED":
                     errors.append(f"{item.get('package_id')}: planned identity state mismatch")

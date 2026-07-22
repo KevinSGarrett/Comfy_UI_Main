@@ -368,3 +368,11 @@ accepted receipt is bound to commit `79b24a0a`, and its post-canary environment
 tree digest must equal the admitted pre-canary digest. Passing this import gate
 does not authorize model construction, weight access, CUDA, inference, a
 service, role activation, or any product decision.
+
+Static gate reconciliation: the Qwen3-ASR install admission is the
+authoritative `ACCEPTED_FOR_COMFY_UI_MAIN_PROJECT_USE` Apache-2.0 decision.
+The storage receipt is the artifact-hash certificate basis because it binds
+the exact revision, all twelve admitted source identities, both safetensor
+SHA-256 values, and the no-load runtime claims. Do not rerun or reinterpret
+these completed static gates. The next Qwen3-ASR actions require a released GPU
+lease: bounded model construction/capacity first, then calibration and runtime.

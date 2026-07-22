@@ -567,3 +567,12 @@ blocked side-effect events, and zero weight opens. The full 28,403-file,
 This closes only the import gate. Model construction, weights, tensors, GPU and
 lease access, transcription, alignment, semantic quality, capacity, runtime,
 latency, cost, recovery, activation, and product authority remain unqualified.
+
+The repository already contains the authoritative Apache-2.0 project-use
+decision in the pinned install admission. The verified storage receipt binds
+all twelve source files, including both safetensor shards at their exact
+SHA-256 values, to the admitted manifest and revision. A retained static
+qualification certificate now closes the license-decision and artifact-hash
+gates without contacting the pod or GPU. Capacity, language calibration,
+runtime, quality, cost, failure recovery, activation, and product authority
+remain open.
