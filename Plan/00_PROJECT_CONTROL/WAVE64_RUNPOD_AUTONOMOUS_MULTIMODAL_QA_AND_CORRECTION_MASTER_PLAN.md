@@ -1619,3 +1619,19 @@ authority is retained and accepted, prepare a new transaction that preserves
 the existing file under an explicit non-conflicting identity and promotes the
 exact Klein VAE atomically. Until then, Wav2Vec2 remains the first admitted GPU
 campaign; this FLUX.2 lane remains CPU-only and fail-closed.
+
+## FLUX.2 Klein isolated dependency-overlay admission
+
+The actual port-8188 service uses `/usr/bin/python3.11` from ComfyUI commit
+`66655153`. Its installed Transformers `4.46.3` is below that checkout's exact
+`>=4.50.3` requirement. Tokenizers is `0.20.3`; resolving Transformers 4.50.3
+requires Tokenizers 0.21.4. A no-cache RunPod pip dry-run selected exactly those
+two Linux wheels and retained their SHA-256 identities without installing them.
+
+The repair is a transaction-owned `PYTHONPATH` overlay, not a global upgrade.
+Its exact two wheels are installed in isolation; CPU-mode imports of
+Transformers 4.50.3, Tokenizers 0.21.4, `Qwen2Tokenizer`, and the checked-out
+FLUX encoder pass with CUDA hidden. It must never be attached to the live
+service. Later object-info or model-load use requires a disposable
+ComfyUI instance and the appropriate coordinator lease. No dependency,
+runtime, quality, activation, or promotion authority is granted.

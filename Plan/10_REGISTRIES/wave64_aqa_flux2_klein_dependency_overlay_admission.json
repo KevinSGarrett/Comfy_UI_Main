@@ -1,0 +1,42 @@
+{
+  "schema_version": "wave64.aqa.flux2_klein_dependency_overlay_admission.v1",
+  "program_id": "W64-AQA",
+  "admission_id": "cbf632b3850307664b71587a560c5a4e7554b42881fe86415356b50e4891eeeb",
+  "tracker_ids": ["W64-AQA-014", "W64-AQA-018"],
+  "observed_at_utc": "2026-07-22T19:02:47Z",
+  "pod_id": "1q4ji0gg1fkhvt",
+  "status": "BUILT_CPU_IMPORT_VERIFIED_LIVE_SERVICE_UNCHANGED",
+  "live_service": {
+    "comfyui_commit": "66655153499f89052aa72d5a869f556b25f0e9c6",
+    "python_executable": "/usr/bin/python3.11",
+    "python_version": "3.11.10",
+    "requirements_sha256": "a7de90826b3d1666402d77092e885b9825a8a8f79f4a71a2e7edf93d88563425",
+    "flux_encoder_source_sha256": "c522ad47ccdad9878f0e8ae4c219dadfc4f12409adceaa7e663571766cbbe46b",
+    "installed": {"transformers": "4.46.3", "tokenizers": "0.20.3", "torch": "2.4.1+cu124", "safetensors": "0.8.0"},
+    "required": {"transformers": ">=4.50.3", "tokenizers": ">=0.13.3", "safetensors": ">=0.4.2"},
+    "compatibility_decision": "FAIL_TRANSFORMERS_BELOW_COMFYUI_MINIMUM"
+  },
+  "resolver_probe": {
+    "command_class": "PIP_DRY_RUN_NO_CACHE_NO_INSTALL",
+    "python": "/usr/bin/python3.11",
+    "pip_version": "26.1.2",
+    "platform": "cp311_linux_x86_64",
+    "requested": "transformers==4.50.3",
+    "install_count": 2,
+    "live_environment_mutated": false
+  },
+  "overlay": {
+    "root": "/workspace/w64_aqa/environments/flux2-klein/comfyui-66655153-py311/transformers-4.50.3_tokenizers-0.21.4",
+    "packages": [
+      {"name": "transformers", "version": "4.50.3", "wheel": "transformers-4.50.3-py3-none-any.whl", "sha256": "6111610a43dec24ef32c3df0632c6b25b07d9711c01d9e1077bdd2ff6b14a38c"},
+      {"name": "tokenizers", "version": "0.21.4", "wheel": "tokenizers-0.21.4-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", "sha256": "51b7eabb104f46c1c50b486520555715457ae833d5aee9ff6ae853d1130506ff"}
+    ],
+    "build_protocol": ["verify_live_commit_and_requirements_hash", "download_exact_wheels_to_transaction_staging", "verify_wheel_sha256", "install_no_deps_to_transaction_owned_overlay", "run_cuda_hidden_import_and_version_probe", "write_tree_manifest_and_receipt", "leave_live_service_unchanged"],
+    "activation_protocol": "PYTHONPATH_PREPEND_ONLY_FOR_DISPOSABLE_LEASE_BOUND_COMFYUI_INSTANCE",
+    "build_receipt": {"created_at_utc": "2026-07-22T19:09:51Z", "file_count": 3604, "total_bytes": 105881854, "tree_manifest_sha256": "b383ddd0b640b1824f79d6736a0fe90cf65f9cc7d2aecb8ac5cc3f25d89bff38", "transformers": "4.50.3", "tokenizers": "0.21.4", "qwen2_tokenizer_import": true, "flux_encoder_import": true, "cpu_mode": true, "gpu_visible": false},
+    "built": true,
+    "activated": false
+  },
+  "blockers": ["EXACT_KLEIN_VAE_CURRENT_POD_IDENTITY_MISMATCH", "COMPANION_REDISTRIBUTION_AND_PROJECT_LICENSE_ACCEPTANCE_MISSING", "DISPOSABLE_OBJECT_INFO_AND_MODEL_LOAD_NOT_EXECUTED"],
+  "authority": {"live_mismatch_observed": true, "exact_resolution_prepared": true, "overlay_built": true, "dependency_import_compatibility": true, "live_service_mutation": false, "model_load": false, "runtime": false, "quality": false, "activation": false, "promotion": false}
+}

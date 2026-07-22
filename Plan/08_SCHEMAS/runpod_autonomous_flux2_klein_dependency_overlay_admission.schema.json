@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_flux2_klein_dependency_overlay_admission.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "program_id", "admission_id", "tracker_ids", "observed_at_utc", "pod_id", "status", "live_service", "resolver_probe", "overlay", "blockers", "authority"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.flux2_klein_dependency_overlay_admission.v1"},
+    "program_id": {"const": "W64-AQA"},
+    "admission_id": {"$ref": "#/$defs/sha256"},
+    "tracker_ids": {"const": ["W64-AQA-014", "W64-AQA-018"]},
+    "observed_at_utc": {"type": "string", "format": "date-time"},
+    "pod_id": {"const": "1q4ji0gg1fkhvt"},
+    "status": {"const": "BUILT_CPU_IMPORT_VERIFIED_LIVE_SERVICE_UNCHANGED"},
+    "live_service": {"type": "object"},
+    "resolver_probe": {"type": "object"},
+    "overlay": {"type": "object"},
+    "blockers": {"type": "array", "minItems": 3, "uniqueItems": true, "items": {"type": "string"}},
+    "authority": {
+      "type": "object", "additionalProperties": false,
+      "required": ["live_mismatch_observed", "exact_resolution_prepared", "overlay_built", "dependency_import_compatibility", "live_service_mutation", "model_load", "runtime", "quality", "activation", "promotion"],
+      "properties": {
+        "live_mismatch_observed": {"const": true}, "exact_resolution_prepared": {"const": true},
+        "overlay_built": {"const": true}, "dependency_import_compatibility": {"const": true},
+        "live_service_mutation": {"const": false}, "model_load": {"const": false},
+        "runtime": {"const": false}, "quality": {"const": false},
+        "activation": {"const": false}, "promotion": {"const": false}
+      }
+    }
+  },
+  "$defs": {"sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+}

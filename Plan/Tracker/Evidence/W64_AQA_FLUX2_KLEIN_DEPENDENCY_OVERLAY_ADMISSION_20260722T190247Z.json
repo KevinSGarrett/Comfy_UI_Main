@@ -1,0 +1,42 @@
+{
+  "schema_version": "wave64.aqa.flux2_klein_dependency_overlay_admission_evidence.v1",
+  "program_id": "W64-AQA",
+  "tracker_ids": ["W64-AQA-014", "W64-AQA-018"],
+  "recorded_at_utc": "2026-07-22T19:02:47Z",
+  "disposition": "PARTIALLY_ADOPTED",
+  "status": "PASS_EXACT_TWO_WHEEL_OVERLAY_BUILT_CPU_IMPORT_VERIFIED_LIVE_SERVICE_UNCHANGED",
+  "repository_base_commit": "bafd9a332094036d195e10ceb4dcf6102105e3ba",
+  "live_finding": {
+    "service_python": "/usr/bin/python3.11",
+    "comfyui_commit": "66655153499f89052aa72d5a869f556b25f0e9c6",
+    "requirements_transformers": ">=4.50.3",
+    "installed_transformers": "4.46.3",
+    "installed_tokenizers": "0.20.3",
+    "decision": "FAIL_TRANSFORMERS_BELOW_COMFYUI_MINIMUM"
+  },
+  "dry_run": {
+    "pod_id": "1q4ji0gg1fkhvt",
+    "command_class": "PIP_DRY_RUN_NO_CACHE_NO_INSTALL",
+    "resolved": [
+      {"name": "transformers", "version": "4.50.3", "sha256": "6111610a43dec24ef32c3df0632c6b25b07d9711c01d9e1077bdd2ff6b14a38c"},
+      {"name": "tokenizers", "version": "0.21.4", "sha256": "51b7eabb104f46c1c50b486520555715457ae833d5aee9ff6ae853d1130506ff"}
+    ],
+    "live_environment_mutated": false,
+    "gpu_used": false,
+    "aws_s3_ec2_accessed": false
+  },
+  "build": {"created_at_utc": "2026-07-22T19:09:51Z", "root": "/workspace/w64_aqa/environments/flux2-klein/comfyui-66655153-py311/transformers-4.50.3_tokenizers-0.21.4", "file_count": 3604, "total_bytes": 105881854, "tree_manifest_sha256": "b383ddd0b640b1824f79d6736a0fe90cf65f9cc7d2aecb8ac5cc3f25d89bff38", "qwen2_tokenizer_import": true, "flux_encoder_import": true, "cpu_mode": true, "gpu_visible": false, "live_service_mutated": false, "model_loaded": false},
+  "bindings": [
+    {"path": "Plan/10_REGISTRIES/wave64_aqa_flux2_klein_dependency_overlay_admission.json", "sha256": "c9985781aae2e49d4e2350aba9dc87a03a0d013d8ba130d0ee8c429e65bf8619"},
+    {"path": "Plan/08_SCHEMAS/runpod_autonomous_flux2_klein_dependency_overlay_admission.schema.json", "sha256": "39afc51348c99c01bd331b882ae34eac1b6b2a8b690b445f1dd5a1ea4f8b8743"},
+    {"path": "Plan/07_IMPLEMENTATION/scripts/validate_wave64_aqa_flux2_klein_dependency_overlay_admission.py", "sha256": "519ee42eb6bd6bee2ca3405c7605d37a6d4ec67d91ab5017b4577e1689d8089c"},
+    {"path": "Plan/Instructions/QA/Scripts/test_validate_wave64_aqa_flux2_klein_dependency_overlay_admission.py", "sha256": "877eb6e869f236259f1dccf9554f537c5c4a93abcfc80580b3f066f6a3611b1e"}
+  ],
+  "supervisor_control": {
+    "latest_finalized_audit": "C:/Users/kevin/.codex/automations/comfy-ui-main-timed-probe-anti-loop-supervisor/audits/CLAUDE_PM_ORCHESTRATION_20260722T183159Z.json",
+    "sha256": "3b6bea1eb48266dd20dc7a398e0e300f6fb55d6ba6a2adfb06478ddffcf0fc8e",
+    "disposition": "ADOPTED_NO_GPU_ALTERNATE_DURING_FOREIGN_RECOVERY"
+  },
+  "authority": {"mismatch_observed": true, "resolution_prepared": true, "overlay_built": true, "dependency_import_compatibility": true, "live_service_mutation": false, "model_load": false, "runtime": false, "quality": false, "activation": false, "promotion": false},
+  "next_action": "Keep the live service unchanged. After the coordinator grants an exact lease and the Klein VAE/license gates resolve, launch only a disposable overlay-bound ComfyUI instance for object-info and model-load qualification."
+}

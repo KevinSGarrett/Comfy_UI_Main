@@ -207,3 +207,14 @@ the exact coordinator permit plus a fresh transaction. Preserve the existing
 Dev VAE; never overwrite or delete it. Model load, smoke, cleanup, capacity,
 quality, failure injection, activation, and promotion remain GPU-gated and
 false.
+
+Validate the prepared FLUX.2 dependency overlay with:
+
+```powershell
+python Plan/07_IMPLEMENTATION/scripts/validate_wave64_aqa_flux2_klein_dependency_overlay_admission.py
+```
+
+PASS proves the live version mismatch, exact two-wheel resolution, immutable
+overlay tree, and CPU-mode import compatibility only. The live port-8188
+service remains unchanged. Attaching the overlay to a disposable ComfyUI instance or
+loading any model is a later lease-bound action.
