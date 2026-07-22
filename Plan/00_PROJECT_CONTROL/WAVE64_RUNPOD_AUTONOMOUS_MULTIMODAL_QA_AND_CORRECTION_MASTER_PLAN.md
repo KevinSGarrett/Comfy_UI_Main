@@ -1051,3 +1051,13 @@ record exposes no license metadata. Apache-2.0 metadata from a differently
 packaged upstream repository is therefore not inherited. The
 `flux_family_zimage` lane remains `deconstruct_only_not_promoted`; no model
 load, image-quality, activation, workflow, or product authority is granted.
+
+The CLIP ViT-H-14 image encoder required by the IP-Adapter lane now passes exact
+promoted-storage and provider binding at `h94/IP-Adapter` revision
+`018e402774aeeddd60609b4ecdb7e298259dc729`. Its current-pod file is
+2,528,373,448 bytes with SHA-256
+`6ca9667da1ca9e0b0f75e46bb030f7e011f44f86cbfb8d5a36590fcd7507b030`,
+matching the published LFS object; Apache-2.0 metadata is recorded without
+license-acceptance authority. This independently qualifies only the encoder's
+storage identity. The paired IP-Adapter weight, dependency bundle, model load,
+reference-conditioning quality, activation, and workflow promotion remain false.
