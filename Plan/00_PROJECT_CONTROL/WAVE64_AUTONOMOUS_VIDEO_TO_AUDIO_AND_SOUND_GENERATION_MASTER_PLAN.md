@@ -437,6 +437,16 @@ Integrate the current functional indexer, selector, Wave30 compiler/mixer, Wave3
 
 Acceptance: legacy structural capabilities have explicit adapter status; known limitations remain visible; no duplicate implementation is created where a compatible component exists.
 
+Implemented contract slice (2026-07-22): fifteen exact source files are
+hash/size bound to unique capability owners. The functional indexer is direct
+reuse; eleven selectors, routers, compilers, and evaluators require one
+versioned adapter; Wave31 force/spatial compilers and historical MMAudio proof
+remain evidence-only holds. No legacy component inherits production authority,
+all limitations remain explicit, and completed proof is guarded from needless
+rerun. Twelve adversarial tests pass. Dependency acceptance and runtime adapter
+materialization remain held, so no legacy source or runtime was mutated and
+product completion is false.
+
 ### Row112 Production acceptance and full-system certification
 
 Run the complete acceptance matrix over multiple genuine videos, event families, rooms, actors, materials, library retrievals, deterministic variants, and neural generations.

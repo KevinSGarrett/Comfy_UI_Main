@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0.0",
+  "evidence_id": "TRK-W64-111_AUDIO_EXISTING_COMPONENT_MIGRATION_CURRENT_DELTA_20260722",
+  "created_at": "2026-07-22T15:30:00Z",
+  "source_commit": "09b1946d2e4af7c07cc2d1b96a7d799610fd0a74",
+  "tracker_id": "TRK-W64-111",
+  "item_id": "ITEM-W64-111",
+  "status": "HOLD_DEPENDENCIES_AND_RUNTIME_ADAPTERS_ABSENT_WITH_HASH_BOUND_COMPATIBILITY_INVENTORY_PRESENT",
+  "row_complete": false,
+  "implementation_completion_claimed": true,
+  "runtime_completion_claimed": false,
+  "qa_decision": "hold_with_hash_verified_reuse_adapt_once_and_evidence_only_component_dispositions",
+  "inventory": {
+    "component_count": 15,
+    "unique_capability_count": 15,
+    "source_hashes_match": true,
+    "reuse_direct": 1,
+    "adapt_once": 11,
+    "evidence_only_hold": 3,
+    "replace_with_reason": 0,
+    "maximum_legacy_authority": "technical_qa",
+    "production_authority_inherited": false
+  },
+  "protected_boundaries": [
+    "functional index does not certify playback or event suitability",
+    "selectors and routers emit candidates only",
+    "Wave30 structural evidence does not replace Row091 or Row097 authority",
+    "Wave31 force/spatial compilers remain evidence-only below ownership and room runtime authority",
+    "historical MMAudio proof is not a generally qualified generation engine",
+    "strict QA evaluators cannot manufacture missing production review authority",
+    "completed proof is not reopened solely to fit new contracts"
+  ],
+  "dependency_authority": {
+    "required": ["TRK-W64-067", "TRK-W64-069", "TRK-W64-080", "TRK-W64-091", "TRK-W64-097", "TRK-W64-105"],
+    "all_dependencies_accepted": false
+  },
+  "validation": {
+    "targeted_tests": {"result": "PASS", "passed": 12, "failed": 0},
+    "ruff_check": "PASS",
+    "runtime_adapters_materialized": false
+  },
+  "artifacts": [
+    {"path": "Plan/07_IMPLEMENTATION/scripts/validate_wave64_audio_component_compatibility.py", "sha256": "5fe9b367cd69433f91a62e91c6d4f90ea175b33a9b436ee010ee9c4a2aa41893"},
+    {"path": "Plan/08_SCHEMAS/audio_component_adapter_record.schema.json", "sha256": "c6a42102761156c611f973ba4081836a0130a4bad92a1bdf9d38623c10cbe5ce"},
+    {"path": "Plan/10_REGISTRIES/wave64_row111_audio_component_compatibility_registry.json", "sha256": "781bf7b4dcaaddda6d2eb055487897e90f92be4efcbf9600a42e18da71fe12a9"},
+    {"path": "Plan/Instructions/QA/Scripts/test_row111_audio_component_compatibility.py", "sha256": "3341bdf332b40b0032ff29caf889add912beb4cd3592d577210da0ceb3851f7a"},
+    {"path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-111_audio_existing_component_migration.json", "sha256": "dc326a8107deb18b1aad52621821f388dd022b2001f968f8397b7be459a59f6f"}
+  ],
+  "hold_boundary": {
+    "blocker_codes": ["ROW111_DEPENDENCIES_NOT_ACCEPTED", "VERSIONED_RUNTIME_ADAPTERS_NOT_MATERIALIZED"],
+    "legacy_component_or_runtime_mutated": false,
+    "product_completion": false,
+    "next_action": "Materialize each adapt-once contract only when its destination dependency is accepted; retain direct reuse and evidence-only holds unchanged."
+  }
+}

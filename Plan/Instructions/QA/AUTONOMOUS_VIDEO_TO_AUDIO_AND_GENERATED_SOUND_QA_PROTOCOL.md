@@ -152,6 +152,19 @@ released mix or promoted generated asset must replay with every required event,
 exact final-artifact and authority hashes, and no unresolved blocker. Synthetic
 replay validates the mechanism but cannot grant release authority.
 
+## Row111 existing-component compatibility
+
+Every reused component has one unique capability owner and an exact source
+path, byte count, and SHA-256. Its disposition is `reuse_direct`, `adapt_once`,
+`evidence_only_hold`, or `replace_with_reason`. Adaptation requires a named
+versioned contract and cannot exceed the source component's authority ceiling.
+
+Known limitations and completed-proof guards are mandatory. File existence,
+historical runtime, or structural tests do not create production authority.
+Wave31 structural compilers and the historical MMAudio packet remain
+evidence-only until their modern ownership, model, runtime, and QA gates pass.
+Hash drift invalidates the inventory and must be reviewed before reuse.
+
 ## Benchmark requirements
 
 Benchmarks must include:
