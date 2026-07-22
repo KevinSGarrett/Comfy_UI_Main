@@ -1,0 +1,116 @@
+{
+  "schema_version": "wave64.aqa.role_qualification_corpus_source.v1",
+  "program_id": "W64-AQA",
+  "tracker_ids": ["W64-AQA-013"],
+  "status": "PROSPECTIVE_PRIVATE_CORPUS_SOURCE_DECLARED",
+  "cases": [
+    {
+      "case_id": "known_good_deterministic_image_decode",
+      "category": "known_good",
+      "partition": "calibration",
+      "modality": "image",
+      "source_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/images/codex_wave25_contact_lower_upper_arm_reposition_seed210705_00001_.png",
+      "truth_evidence_path": "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_IMAGE_SHADOW_20260721T223341Z.json",
+      "task_scope": "deterministic image decode and declared technical gates only",
+      "expected_disposition": "PASS",
+      "eligible_roles": ["W64-AQA-ROLE-DETERMINISTIC"]
+    },
+    {
+      "case_id": "known_bad_contact_placement",
+      "category": "known_bad",
+      "partition": "held_out",
+      "modality": "image",
+      "source_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/images/codex_wave25_contact_lower_upper_arm_reposition_seed210705_00001_.png",
+      "truth_evidence_path": "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_IMAGE_SHADOW_20260721T223341Z.json",
+      "task_scope": "strict whole-image contact placement and contact-shadow approval",
+      "expected_disposition": "FAIL",
+      "eligible_roles": ["W64-AQA-ROLE-STRICT-VISUAL", "W64-AQA-ROLE-PRIMARY-VISUAL", "W64-AQA-ROLE-INDEPENDENT-JUROR", "W64-AQA-ROLE-SENIOR-ARBITER"]
+    },
+    {
+      "case_id": "borderline_subtle_motion_video",
+      "category": "borderline",
+      "partition": "held_out",
+      "modality": "video",
+      "source_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_audio_chain_20260714T163400-0500/source_video_ffv1.mkv",
+      "truth_evidence_path": "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_VIDEO_SHADOW_20260721T224034Z.json",
+      "task_scope": "whole-clip motion realism temporal identity and continuity approval",
+      "expected_disposition": "REFUSE",
+      "eligible_roles": ["W64-AQA-ROLE-STRICT-VISUAL", "W64-AQA-ROLE-PRIMARY-VISUAL", "W64-AQA-ROLE-INDEPENDENT-JUROR", "W64-AQA-ROLE-SENIOR-ARBITER"]
+    },
+    {
+      "case_id": "adversarial_overlap_promotion_matrix",
+      "category": "adversarial",
+      "partition": "held_out",
+      "modality": "structured_record",
+      "source_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_speech_overlap_adversarial_promotion_20260716T014205-0500/immutable_adversarial_defect_matrix.json",
+      "truth_evidence_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_speech_overlap_adversarial_promotion_20260716T014205-0500/promotion_gate_decisions.json",
+      "task_scope": "detect immutable overlap and promotion-policy defects without waiving evidence",
+      "expected_disposition": "FAIL",
+      "eligible_roles": ["W64-AQA-ROLE-AUDIO-SEMANTIC", "W64-AQA-ROLE-INDEPENDENT-JUROR", "W64-AQA-ROLE-SENIOR-ARBITER"]
+    },
+    {
+      "case_id": "refusal_room_ambience_as_speech",
+      "category": "refusal",
+      "partition": "calibration",
+      "modality": "audio",
+      "source_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_audio_chain_20260714T163400-0500/ambience_room_tone_stem.wav",
+      "truth_evidence_path": "Plan/10_REGISTRIES/wave64_forced_alignment_audio_event_expansion_plan.json",
+      "task_scope": "speech transcript alignment on a declared nonspeech ambience control",
+      "expected_disposition": "REFUSE",
+      "eligible_roles": ["W64-AQA-ROLE-AUDIO-SEMANTIC", "W64-AQA-ROLE-INDEPENDENT-JUROR"]
+    },
+    {
+      "case_id": "identity_critical_mask_semantic_reject",
+      "category": "identity",
+      "partition": "held_out",
+      "modality": "mask",
+      "source_path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_face_identity_critical_20260707T142500-0500/wave70_mf70_face_identity_critical_mask.png",
+      "truth_evidence_path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_face_identity_critical.json",
+      "task_scope": "consumer-side strict semantic mask alignment and protected-neighbor approval",
+      "expected_disposition": "FAIL",
+      "eligible_roles": ["W64-AQA-ROLE-GOLDEN-MASK", "W64-AQA-ROLE-STRICT-VISUAL", "W64-AQA-ROLE-SENIOR-ARBITER"]
+    },
+    {
+      "case_id": "temporal_diagnostic_contact_sheet_limit",
+      "category": "temporal",
+      "partition": "calibration",
+      "modality": "video",
+      "source_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_audio_chain_20260714T163400-0500/source_video_ffv1.mkv",
+      "truth_evidence_path": "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_VIDEO_SHADOW_20260721T224034Z.json",
+      "task_scope": "infer whole-clip temporal authority from a diagnostic five-frame contact sheet",
+      "expected_disposition": "REFUSE",
+      "eligible_roles": ["W64-AQA-ROLE-STRICT-VISUAL", "W64-AQA-ROLE-PRIMARY-VISUAL", "W64-AQA-ROLE-INDEPENDENT-JUROR"]
+    },
+    {
+      "case_id": "audio_mask_cross_modal_authority_refusal",
+      "category": "audio_mask",
+      "partition": "held_out",
+      "modality": "audiovisual",
+      "source_path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_audio_chain_20260714T163400-0500/review_mux_ffv1_pcm48_stereo.mkv",
+      "truth_evidence_path": "Plan/Tracker/Evidence/W64_AQA_LAION_CLAP_AUDIO_RUNTIME_CANARY_20260722T054522Z/integration_acceptance.json",
+      "task_scope": "grant audio-linked golden-mask or independent-juror authority from bounded CLAP embedding evidence",
+      "expected_disposition": "REFUSE",
+      "eligible_roles": ["W64-AQA-ROLE-AUDIO-SEMANTIC", "W64-AQA-ROLE-GOLDEN-MASK", "W64-AQA-ROLE-INDEPENDENT-JUROR"]
+    },
+    {
+      "case_id": "workflow_copy_on_write_scope",
+      "category": "workflow",
+      "partition": "calibration",
+      "modality": "workflow",
+      "source_path": "Plan/Tracker/Evidence/W64_AQA_WORKFLOW_CANDIDATE_STAGING_20260721T232803Z/evidence.json",
+      "truth_evidence_path": "Plan/Tracker/Evidence/W64_AQA_WORKFLOW_CANDIDATE_STAGING_20260721T232803Z/evidence.json",
+      "task_scope": "recognize typed copy-on-write candidate staging while withholding sandbox execution and promotion",
+      "expected_disposition": "PASS",
+      "eligible_roles": ["W64-AQA-ROLE-WORKFLOW-ENGINEER", "W64-AQA-ROLE-CONTROLLER", "W64-AQA-ROLE-TEXT-PLANNER"]
+    }
+  ],
+  "authority": {
+    "source_admission": false,
+    "runtime_qualification": false,
+    "quality_qualification": false,
+    "independent_juror": false,
+    "golden_mask": false,
+    "operational_activation": false,
+    "product_promotion": false
+  }
+}

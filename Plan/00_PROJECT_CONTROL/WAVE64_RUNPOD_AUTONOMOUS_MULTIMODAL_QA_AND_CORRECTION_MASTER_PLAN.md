@@ -1313,3 +1313,19 @@ threshold by 118.910452 GiB. No download, concatenation, build, load,
 inference, visual-quality, arbitration, golden-mask, activation, or product
 authority is granted. The fail-closed sequence is maintained in
 `Plan/Instructions/QA/WAVE64_INTERNVL35_241B_JUROR_ADMISSION.md`.
+
+## Retained role-qualification corpus
+
+W64-AQA-013 now binds a private nine-case corpus spanning the required
+known-good, known-bad, borderline, adversarial, refusal, identity, temporal,
+audio-mask, and workflow categories across seven modalities. Every source and
+truth-evidence file is repository-relative, byte-counted, SHA-256 bound, and
+split prospectively into calibration and held-out partitions. Shared media may
+carry different expected outcomes only when the task scope is explicitly
+different, such as deterministic decode versus strict visual approval.
+
+This frozen corpus grants source admission only. Each required role must later
+run calibration first under its own exact coordinator lease, freeze thresholds,
+and execute held-out cases once. No model capacity, quality, repeatability,
+refusal, independent-juror, golden-mask, activation, or promotion authority is
+inferred from corpus construction.

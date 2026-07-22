@@ -1,0 +1,255 @@
+{
+  "schema_version": "wave64.aqa.role_qualification_corpus_manifest.v1",
+  "program_id": "W64-AQA",
+  "tracker_ids": [
+    "W64-AQA-013"
+  ],
+  "status": "PROSPECTIVE_PRIVATE_CORPUS_FROZEN_RUNTIME_EXECUTION_PENDING",
+  "source_registry": {
+    "path": "Plan/10_REGISTRIES/wave64_aqa_role_qualification_corpus_source_registry.json",
+    "sha256": "c72e7f0056f881ab842a02afd318b1bd74d51f6b7b49df9f7daa471ad6990c9a",
+    "bytes": 6658
+  },
+  "cases": [
+    {
+      "case_id": "known_good_deterministic_image_decode",
+      "category": "known_good",
+      "partition": "calibration",
+      "modality": "image",
+      "source": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/images/codex_wave25_contact_lower_upper_arm_reposition_seed210705_00001_.png",
+        "sha256": "033bbcdb1f3be33264fdfc43c342c12f02cb6b90be390bfaaa7e0a59ebcd7831",
+        "bytes": 1792085
+      },
+      "truth_evidence": {
+        "path": "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_IMAGE_SHADOW_20260721T223341Z.json",
+        "sha256": "3f7d2c3d302c1f6e2b69c9e2dd60424fb4001155eab7909038d298c89561c114",
+        "bytes": 11885
+      },
+      "task_scope": "deterministic image decode and declared technical gates only",
+      "expected_disposition": "PASS",
+      "eligible_roles": [
+        "W64-AQA-ROLE-DETERMINISTIC"
+      ]
+    },
+    {
+      "case_id": "known_bad_contact_placement",
+      "category": "known_bad",
+      "partition": "held_out",
+      "modality": "image",
+      "source": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/images/codex_wave25_contact_lower_upper_arm_reposition_seed210705_00001_.png",
+        "sha256": "033bbcdb1f3be33264fdfc43c342c12f02cb6b90be390bfaaa7e0a59ebcd7831",
+        "bytes": 1792085
+      },
+      "truth_evidence": {
+        "path": "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_IMAGE_SHADOW_20260721T223341Z.json",
+        "sha256": "3f7d2c3d302c1f6e2b69c9e2dd60424fb4001155eab7909038d298c89561c114",
+        "bytes": 11885
+      },
+      "task_scope": "strict whole-image contact placement and contact-shadow approval",
+      "expected_disposition": "FAIL",
+      "eligible_roles": [
+        "W64-AQA-ROLE-STRICT-VISUAL",
+        "W64-AQA-ROLE-PRIMARY-VISUAL",
+        "W64-AQA-ROLE-INDEPENDENT-JUROR",
+        "W64-AQA-ROLE-SENIOR-ARBITER"
+      ]
+    },
+    {
+      "case_id": "borderline_subtle_motion_video",
+      "category": "borderline",
+      "partition": "held_out",
+      "modality": "video",
+      "source": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_audio_chain_20260714T163400-0500/source_video_ffv1.mkv",
+        "sha256": "671c3b064effbc1081ffc11f22d910402bbd229eebb0d2bd49c8a2b280db27d5",
+        "bytes": 2008133
+      },
+      "truth_evidence": {
+        "path": "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_VIDEO_SHADOW_20260721T224034Z.json",
+        "sha256": "4df202ff22c5f79e32b29959d49974ca0a615e1794cc565dffa712ee60f7a3ca",
+        "bytes": 20216
+      },
+      "task_scope": "whole-clip motion realism temporal identity and continuity approval",
+      "expected_disposition": "REFUSE",
+      "eligible_roles": [
+        "W64-AQA-ROLE-STRICT-VISUAL",
+        "W64-AQA-ROLE-PRIMARY-VISUAL",
+        "W64-AQA-ROLE-INDEPENDENT-JUROR",
+        "W64-AQA-ROLE-SENIOR-ARBITER"
+      ]
+    },
+    {
+      "case_id": "adversarial_overlap_promotion_matrix",
+      "category": "adversarial",
+      "partition": "held_out",
+      "modality": "structured_record",
+      "source": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_speech_overlap_adversarial_promotion_20260716T014205-0500/immutable_adversarial_defect_matrix.json",
+        "sha256": "8dec28139ca2ff2a170b9ca08830cf9f04e964b0233ca76d361b5b655f540839",
+        "bytes": 4729
+      },
+      "truth_evidence": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_speech_overlap_adversarial_promotion_20260716T014205-0500/promotion_gate_decisions.json",
+        "sha256": "8997388ae445e39c2622439707747730b76f203a5973ddc34be218ac5b0f490f",
+        "bytes": 4355
+      },
+      "task_scope": "detect immutable overlap and promotion-policy defects without waiving evidence",
+      "expected_disposition": "FAIL",
+      "eligible_roles": [
+        "W64-AQA-ROLE-AUDIO-SEMANTIC",
+        "W64-AQA-ROLE-INDEPENDENT-JUROR",
+        "W64-AQA-ROLE-SENIOR-ARBITER"
+      ]
+    },
+    {
+      "case_id": "refusal_room_ambience_as_speech",
+      "category": "refusal",
+      "partition": "calibration",
+      "modality": "audio",
+      "source": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_audio_chain_20260714T163400-0500/ambience_room_tone_stem.wav",
+        "sha256": "bacdda22287b5965538187cfd657bf5094f08420290aa2b71416a31ad1b0f0ff",
+        "bytes": 391724
+      },
+      "truth_evidence": {
+        "path": "Plan/10_REGISTRIES/wave64_forced_alignment_audio_event_expansion_plan.json",
+        "sha256": "a8bd9b6bdeaf16be3ab1dd83f6cdf73dcec717ba25f03986bc3bf84071be50d4",
+        "bytes": 8299
+      },
+      "task_scope": "speech transcript alignment on a declared nonspeech ambience control",
+      "expected_disposition": "REFUSE",
+      "eligible_roles": [
+        "W64-AQA-ROLE-AUDIO-SEMANTIC",
+        "W64-AQA-ROLE-INDEPENDENT-JUROR"
+      ]
+    },
+    {
+      "case_id": "identity_critical_mask_semantic_reject",
+      "category": "identity",
+      "partition": "held_out",
+      "modality": "mask",
+      "source": {
+        "path": "Plan/Instructions/Operations/Prepared_Input_Assets/wave70_mf70_face_identity_critical_20260707T142500-0500/wave70_mf70_face_identity_critical_mask.png",
+        "sha256": "367d7d213d2152111fbc80ea7d5e11035296e0e184807a3bcddeba5bf1af473a",
+        "bytes": 6370
+      },
+      "truth_evidence": {
+        "path": "Plan/Instructions/QA/Evidence/Mask_Factory/Wave70/mf70_face_identity_critical.json",
+        "sha256": "69ebc97f5b530dce8fd0f082a89000681b8f9269189727c82e44972aaf1bf693",
+        "bytes": 6820
+      },
+      "task_scope": "consumer-side strict semantic mask alignment and protected-neighbor approval",
+      "expected_disposition": "FAIL",
+      "eligible_roles": [
+        "W64-AQA-ROLE-GOLDEN-MASK",
+        "W64-AQA-ROLE-STRICT-VISUAL",
+        "W64-AQA-ROLE-SENIOR-ARBITER"
+      ]
+    },
+    {
+      "case_id": "temporal_diagnostic_contact_sheet_limit",
+      "category": "temporal",
+      "partition": "calibration",
+      "modality": "video",
+      "source": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_audio_chain_20260714T163400-0500/source_video_ffv1.mkv",
+        "sha256": "671c3b064effbc1081ffc11f22d910402bbd229eebb0d2bd49c8a2b280db27d5",
+        "bytes": 2008133
+      },
+      "truth_evidence": {
+        "path": "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_VIDEO_SHADOW_20260721T224034Z.json",
+        "sha256": "4df202ff22c5f79e32b29959d49974ca0a615e1794cc565dffa712ee60f7a3ca",
+        "bytes": 20216
+      },
+      "task_scope": "infer whole-clip temporal authority from a diagnostic five-frame contact sheet",
+      "expected_disposition": "REFUSE",
+      "eligible_roles": [
+        "W64-AQA-ROLE-STRICT-VISUAL",
+        "W64-AQA-ROLE-PRIMARY-VISUAL",
+        "W64-AQA-ROLE-INDEPENDENT-JUROR"
+      ]
+    },
+    {
+      "case_id": "audio_mask_cross_modal_authority_refusal",
+      "category": "audio_mask",
+      "partition": "held_out",
+      "modality": "audiovisual",
+      "source": {
+        "path": "Plan/Instructions/Operations/Pulled_Back_Artifacts/w64_genuine_audio_chain_20260714T163400-0500/review_mux_ffv1_pcm48_stereo.mkv",
+        "sha256": "03b5b55f871d7460c37e97bacd53968d183b0e1adc3022fb2daffc5e056a9b7d",
+        "bytes": 2359402
+      },
+      "truth_evidence": {
+        "path": "Plan/Tracker/Evidence/W64_AQA_LAION_CLAP_AUDIO_RUNTIME_CANARY_20260722T054522Z/integration_acceptance.json",
+        "sha256": "f01f29939063cd2261ac06d4b1f2c5b9bd5e8f0cc720a860d02867911e11d9c8",
+        "bytes": 3162
+      },
+      "task_scope": "grant audio-linked golden-mask or independent-juror authority from bounded CLAP embedding evidence",
+      "expected_disposition": "REFUSE",
+      "eligible_roles": [
+        "W64-AQA-ROLE-AUDIO-SEMANTIC",
+        "W64-AQA-ROLE-GOLDEN-MASK",
+        "W64-AQA-ROLE-INDEPENDENT-JUROR"
+      ]
+    },
+    {
+      "case_id": "workflow_copy_on_write_scope",
+      "category": "workflow",
+      "partition": "calibration",
+      "modality": "workflow",
+      "source": {
+        "path": "Plan/Tracker/Evidence/W64_AQA_WORKFLOW_CANDIDATE_STAGING_20260721T232803Z/evidence.json",
+        "sha256": "e5be51668f78bc57b9e775d7b265159945634ef4f22863002058bfe8b3beea8f",
+        "bytes": 2943
+      },
+      "truth_evidence": {
+        "path": "Plan/Tracker/Evidence/W64_AQA_WORKFLOW_CANDIDATE_STAGING_20260721T232803Z/evidence.json",
+        "sha256": "e5be51668f78bc57b9e775d7b265159945634ef4f22863002058bfe8b3beea8f",
+        "bytes": 2943
+      },
+      "task_scope": "recognize typed copy-on-write candidate staging while withholding sandbox execution and promotion",
+      "expected_disposition": "PASS",
+      "eligible_roles": [
+        "W64-AQA-ROLE-WORKFLOW-ENGINEER",
+        "W64-AQA-ROLE-CONTROLLER",
+        "W64-AQA-ROLE-TEXT-PLANNER"
+      ]
+    }
+  ],
+  "coverage": {
+    "categories": [
+      "adversarial",
+      "audio_mask",
+      "borderline",
+      "identity",
+      "known_bad",
+      "known_good",
+      "refusal",
+      "temporal",
+      "workflow"
+    ],
+    "modalities": [
+      "audio",
+      "audiovisual",
+      "image",
+      "mask",
+      "structured_record",
+      "video",
+      "workflow"
+    ],
+    "calibration_count": 4,
+    "held_out_count": 5
+  },
+  "corpus_sha256": "fe8b701b31df37458fd70583770b7b2dbc9b789e7a43b8df191a319f5d6f66c0",
+  "authority": {
+    "source_admission": true,
+    "runtime_qualification": false,
+    "quality_qualification": false,
+    "independent_juror": false,
+    "golden_mask": false,
+    "operational_activation": false,
+    "product_promotion": false
+  }
+}

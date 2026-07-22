@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_role_qualification_corpus_manifest.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "program_id", "tracker_ids", "status", "source_registry", "cases", "coverage", "corpus_sha256", "authority"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.role_qualification_corpus_manifest.v1"},
+    "program_id": {"const": "W64-AQA"},
+    "tracker_ids": {"const": ["W64-AQA-013"]},
+    "status": {"const": "PROSPECTIVE_PRIVATE_CORPUS_FROZEN_RUNTIME_EXECUTION_PENDING"},
+    "source_registry": {"$ref": "#/$defs/binding"},
+    "cases": {"type": "array", "minItems": 9, "maxItems": 9, "items": {"$ref": "#/$defs/case"}},
+    "coverage": {
+      "type": "object", "additionalProperties": false,
+      "required": ["categories", "modalities", "calibration_count", "held_out_count"],
+      "properties": {
+        "categories": {"type": "array", "minItems": 9, "maxItems": 9, "uniqueItems": true, "items": {"type": "string"}},
+        "modalities": {"type": "array", "minItems": 4, "uniqueItems": true, "items": {"type": "string"}},
+        "calibration_count": {"type": "integer", "minimum": 4},
+        "held_out_count": {"type": "integer", "minimum": 4}
+      }
+    },
+    "corpus_sha256": {"$ref": "#/$defs/sha256"},
+    "authority": {
+      "type": "object", "additionalProperties": false,
+      "required": ["source_admission", "runtime_qualification", "quality_qualification", "independent_juror", "golden_mask", "operational_activation", "product_promotion"],
+      "properties": {
+        "source_admission": {"const": true},
+        "runtime_qualification": {"const": false}, "quality_qualification": {"const": false},
+        "independent_juror": {"const": false}, "golden_mask": {"const": false},
+        "operational_activation": {"const": false}, "product_promotion": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "binding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "sha256", "bytes"],
+      "properties": {"path": {"type": "string"}, "sha256": {"$ref": "#/$defs/sha256"}, "bytes": {"type": "integer", "minimum": 1}}
+    },
+    "case": {
+      "type": "object", "additionalProperties": false,
+      "required": ["case_id", "category", "partition", "modality", "source", "truth_evidence", "task_scope", "expected_disposition", "eligible_roles"],
+      "properties": {
+        "case_id": {"type": "string", "minLength": 1}, "category": {"type": "string"},
+        "partition": {"enum": ["calibration", "held_out"]}, "modality": {"type": "string"},
+        "source": {"$ref": "#/$defs/binding"}, "truth_evidence": {"$ref": "#/$defs/binding"},
+        "task_scope": {"type": "string", "minLength": 1}, "expected_disposition": {"enum": ["PASS", "FAIL", "REFUSE"]},
+        "eligible_roles": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^W64-AQA-ROLE-"}}
+      }
+    }
+  }
+}
