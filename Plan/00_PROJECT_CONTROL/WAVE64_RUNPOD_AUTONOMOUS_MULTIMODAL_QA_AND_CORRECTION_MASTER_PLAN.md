@@ -1108,3 +1108,12 @@ AnimateDiff or ADE node, so workflow binding is false. This missing binding is
 retained alongside the exact motion model's frames 5-7 continuity failure and
 severe frame-7 corruption. No dependency install, import, object-info binding,
 model load, activation, or promotion is authorized.
+
+Whole-workflow static ownership now covers all 40 raw node types in both
+quarantined Wave42 workflows. Five of the 17 clean pinned repositories are
+referenced; twelve are retained but unused. The 12 types absent from the older
+inventory are exactly registered by Comfy core, Impact Pack, Impact Subpack, or
+controlnet-aux. This is not runtime compatibility: the inventory records Comfy
+core 0.26.0 while the current pod is tracked-clean ComfyUI 0.28.0 at
+`66655153499f89052aa72d5a869f556b25f0e9c6`. An isolated `object_info` gate
+must therefore prove all node types and model selections before activation.

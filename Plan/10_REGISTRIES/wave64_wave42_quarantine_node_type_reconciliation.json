@@ -1,0 +1,24 @@
+{
+  "schema_version": "wave64.aqa.quarantine_node_type_reconciliation.v1",
+  "program_id": "W64-AQA",
+  "tracker_ids": ["W64-AQA-018"],
+  "status": "ALL_RAW_NODE_TYPES_STATICALLY_OWNED_CORE_VERSION_MISMATCH_OBJECT_INFO_PENDING",
+  "inventory": {"path": "Plan/10_REGISTRIES/main_flow_node_inventory.csv", "sha256": "10ab92fb9d8cfa43f7e8b6b2adc21dea202ad7ad9076c1ad7c932ca62ab73e60", "rows": 356, "unique_types": 28, "comfy_core_rows": 340, "ipadapter_rows": 2, "rgthree_rows": 1, "non_executable_note_rows": 13},
+  "raw_workflows": [
+    {"path": "/workspace/wave64_quarantine/aws_ec2_20260722/workflows/WAVE42_MAIN_FLOW_20260702.json", "sha256": "5382d6cad24856662f7febca7356dbf0cf15080417324b58a5480c065e69401f", "nodes": 699, "unique_types": 40, "inventory_missing_type_nodes": {"BboxDetectorSEGS": 1, "ConditioningCombine": 4, "ConditioningConcat": 90, "ConditioningSetAreaPercentage": 4, "DWPreprocessor": 2, "InpaintModelConditioning": 2, "MaskComposite": 8, "MaskToImage": 2, "SAMDetectorCombined": 1, "SAMLoader": 1, "SolidMask": 4, "UltralyticsDetectorProvider": 1}},
+    {"path": "/workspace/wave64_quarantine/aws_ec2_20260722/workflows/Wave42_Runtime_Bound__UI__WAVE42_MAIN_FLOW_20260702.json", "sha256": "60529aa2f6365a0a632222f7bdf7b2973970f066fac1e501b3ef6b796af904a2", "nodes": 661, "unique_types": 40, "inventory_missing_type_nodes": {"BboxDetectorSEGS": 1, "ConditioningCombine": 4, "ConditioningConcat": 90, "ConditioningSetAreaPercentage": 4, "DWPreprocessor": 1, "InpaintModelConditioning": 1, "MaskComposite": 2, "MaskToImage": 1, "SAMDetectorCombined": 1, "SAMLoader": 1, "SolidMask": 3, "UltralyticsDetectorProvider": 1}}
+  ],
+  "static_ownership": {
+    "comfy_core": ["ConditioningCombine", "ConditioningConcat", "ConditioningSetAreaPercentage", "InpaintModelConditioning", "MaskComposite", "MaskToImage", "SolidMask"],
+    "ComfyUI-Impact-Pack@429d0159ad429e64d2b3916e6e7be9c22d025c3c": ["BboxDetectorSEGS", "SAMDetectorCombined", "SAMLoader"],
+    "ComfyUI-Impact-Subpack@50c7b71a6a224734cc9b21963c6d1926816a97f1": ["UltralyticsDetectorProvider"],
+    "comfyui-controlnet-aux@83463c2e4b04e729268e57f638b4212e0da4badc": ["DWPreprocessor"]
+  },
+  "quarantine_pins": [
+    ["ComfyUI-AnimateDiff-Evolved", "d8d163cd90b1111f6227495e3467633676fbb346"], ["ComfyUI-Custom-Scripts", "609f3afaa74b2f88ef9ce8d939626065e3247469"], ["ComfyUI-GGUF", "6ea2651e7df66d7585f6ffee804b20e92fb38b8a"], ["ComfyUI-HunyuanVideoWrapper", "fcbd6729a9b0b8ff6037c598bbada4a6bdc6d967"], ["ComfyUI-Impact-Pack", "429d0159ad429e64d2b3916e6e7be9c22d025c3c"], ["ComfyUI-Impact-Subpack", "50c7b71a6a224734cc9b21963c6d1926816a97f1"], ["ComfyUI-KJNodes", "bc8e4ce4254bcd0050383386ee2f9d753dbf1fa5"], ["ComfyUI-LTXVideo", "4f45fd6c222eb06eb3e46605da62e7c889e4be5c"], ["ComfyUI-VideoHelperSuite", "4ee72c065db22c9d96c2427954dc69e7b908444b"], ["ComfyUI-WanVideoWrapper", "088128b224242e110d3906c6750e9a3a348a659b"], ["ComfyUI_IPAdapter_plus", "a0f451a5113cf9becb0847b92884cb10cbdec0ef"], ["ComfyUI_PuLID_Flux_ll", "7c7362b806c2c0f4bde8742ada9e7cb05b44d249"], ["ComfyUI_UltimateSDUpscale", "a5547db9e1d07d3318bb21e9e9c474f4c1e9c8df"], ["ComfyUI_essentials", "9d9f4bedfc9f0321c19faf71855e228c93bd0dc9"], ["comfyui-controlnet-aux", "83463c2e4b04e729268e57f638b4212e0da4badc"], ["comfyui-manager", "049a53f3d5b052ad24920353ec5f8beaac1ae2fa"], ["rgthree-comfy", "27b4f4cdcf3b127c29d5d8135ac1536ecbd4c383"]
+  ],
+  "referenced_quarantine_repositories": ["ComfyUI-Impact-Pack", "ComfyUI-Impact-Subpack", "ComfyUI_IPAdapter_plus", "comfyui-controlnet-aux", "rgthree-comfy"],
+  "unused_quarantine_repository_count": 12,
+  "core_compatibility": {"inventory_version": "0.26.0", "current_pod_head": "66655153499f89052aa72d5a869f556b25f0e9c6", "current_pod_version": "0.28.0", "tracked_source_clean": true, "status": "VERSION_MISMATCH_REQUIRES_OBJECT_INFO"},
+  "authority": {"raw_type_static_ownership": true, "pin_set_identity": true, "object_info_compatibility": false, "dependency_install": false, "custom_node_import": false, "workflow_execution": false, "activation": false, "promotion": false}
+}
