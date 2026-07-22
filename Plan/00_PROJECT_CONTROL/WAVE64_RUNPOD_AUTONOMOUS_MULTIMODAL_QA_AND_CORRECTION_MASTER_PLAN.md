@@ -734,6 +734,13 @@ the Base and VoiceDesign authorities. This remains storage identity only, with
 dependency, load, synthesis, designed-voice quality, speaker identity,
 activation, and product authority false.
 
+Kokoro 82M then passed an exact three-file, 327,738,002-byte live replay, but
+its canonical repository revision, license, and complete provider manifest are
+not bound in the current asset catalog. This is therefore only a partial
+storage adoption. Filename-based provenance inference is forbidden; provider,
+license, dependency, load, synthesis-quality, activation, and product authority
+remain false while another provenance-complete package may continue.
+
 Two Wave42 UI workflows and their 75-file fixture tree remain inactive under
 `/workspace/wave64_quarantine/aws_ec2_20260722`. Seventeen clean repositories at
 exact EC2-recorded pins remain dependency-free and inactive under
