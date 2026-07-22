@@ -97,6 +97,7 @@ def validate(data: dict) -> list[str]:
                 if state == "INSTALLED_FILE_SET_VERIFIED_ACTIVATION_PENDING":
                     receipt = item.get("installation_receipt", {})
                     preflight = item.get("dependency_preflight", {})
+                    environment = item.get("dependency_environment", {})
                     expected_root = f"/workspace/w64_aqa/models/Qwen3-ASR-1.7B/{PINNED_PLANNED[repository_id]}"
                     if install.get("durable_root") != expected_root:
                         errors.append(f"{item.get('package_id')}: installed file-set root mismatch")
@@ -115,8 +116,18 @@ def validate(data: dict) -> list[str]:
                         "INSTALLED_TRANSFORMERS_LACKS_QWEN3_ASR_SUPPORT",
                     ]:
                         errors.append(f"{item.get('package_id')}: dependency gaps mismatch")
-                    if "dependency_environment" not in qualification.get("required_gates", []):
-                        errors.append(f"{item.get('package_id')}: dependency environment gate required")
+                    if "dependency_environment" in qualification.get("required_gates", []):
+                        errors.append(f"{item.get('package_id')}: completed dependency environment gate must be removed")
+                    if "import_canary" not in qualification.get("required_gates", []):
+                        errors.append(f"{item.get('package_id')}: import canary gate required")
+                    if environment.get("state") != "INSTALLED_METADATA_VERIFIED_IMPORT_PENDING":
+                        errors.append(f"{item.get('package_id')}: dependency environment state mismatch")
+                    if environment.get("receipt_sha256") != "e09c67aee503f511124b50af539067c9f82f1969490ab9b7d5127d9870c9dcd4":
+                        errors.append(f"{item.get('package_id')}: dependency environment receipt mismatch")
+                    if environment.get("tree_sha256") != "6625aa3c76c411424ede40ce6275d0fb378a1d9a017c205f74ffd356386f7c4a":
+                        errors.append(f"{item.get('package_id')}: dependency environment tree mismatch")
+                    if environment.get("distribution_count") != 105:
+                        errors.append(f"{item.get('package_id')}: dependency environment distribution count mismatch")
             else:
                 if identity.get("identity_state") != "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_UNPINNED":
                     errors.append(f"{item.get('package_id')}: planned identity state mismatch")

@@ -101,6 +101,19 @@
               }
             }
           },
+          "dependency_environment": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["state", "root", "receipt_sha256", "tree_sha256", "distribution_count", "evidence"],
+            "properties": {
+              "state": {"const": "INSTALLED_METADATA_VERIFIED_IMPORT_PENDING"},
+              "root": {"type": "string", "pattern": "^/workspace/w64_aqa/environments/"},
+              "receipt_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "tree_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "distribution_count": {"const": 105},
+              "evidence": {"type": "string", "minLength": 1}
+            }
+          },
           "source_pin": {
             "type": "object",
             "additionalProperties": false,

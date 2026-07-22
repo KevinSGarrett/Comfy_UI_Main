@@ -524,3 +524,12 @@ official PyTorch wheel host. It pins `qwen-asr==0.0.6`,
 deliberately absent. Build authority is limited to a new immutable environment
 under `/workspace/w64_aqa`; it cannot mutate active ComfyUI or claim imports,
 GPU access, model load, inference, activation, or product authority.
+
+That exact isolated environment is now atomically published on the current pod.
+It contains Python 3.12.13 and exactly 105 compatible distributions; its 5.96 GB
+tree is retained by SHA-256. The active ComfyUI metadata signature before and
+after the build is identical. The initial inline metadata check had a quoting
+error after installation, so acceptance used an independent stdin-delivered
+metadata check; the correction changed no installed bytes. This completes only
+the dependency-environment gate. Import, model construction, GPU, weights,
+inference, role activation, and product decisions remain unqualified.

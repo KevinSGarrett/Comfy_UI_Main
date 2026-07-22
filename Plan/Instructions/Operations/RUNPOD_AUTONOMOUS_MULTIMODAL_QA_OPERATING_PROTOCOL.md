@@ -335,3 +335,11 @@ admitted immutable target. Sync only lock-selected wheels and retain the
 installed-distribution manifest and environment tree digest. A successful
 build still does not permit importing Qwen-ASR, Torch, or Transformers; that is
 a separate canary gate.
+
+Current dependency state: the exact environment is published at the admitted
+lock-addressed root, `uv pip check` passed all 105 packages, and the retained
+tree digest is `6625aa3c76c411424ede40ce6275d0fb378a1d9a017c205f74ffd356386f7c4a`.
+Treat it as immutable. The next gate is an import-only canary with CUDA hidden;
+it may import the isolated libraries and inspect registered classes, but it may
+not construct the model, open safetensors, allocate tensors, inspect the GPU or
+lease, run inference, bind a service, or activate the role.
