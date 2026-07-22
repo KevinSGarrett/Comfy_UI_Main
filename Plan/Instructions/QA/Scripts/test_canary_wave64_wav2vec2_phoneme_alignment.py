@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib.util
+import hashlib
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -32,6 +33,28 @@ def test_prospective_thresholds_are_frozen() -> None:
         False,
         True,
     ]
+
+
+def test_model_provenance_is_exact_and_separate_from_payload() -> None:
+    module = load_module()
+    assert len(module.MODEL_FILES) == 8
+    assert module.MODEL_PROVENANCE_FILES == {
+        ".w64_aqa_install_receipt.json": (
+            2168,
+            "0290956ce208deb5bc928ac154e7f0ec822e0b4a2bffc4e95e4acff60aaef1a9",
+        )
+    }
+
+
+def test_exact_file_validator_rejects_unpinned_member(tmp_path: Path) -> None:
+    module = load_module()
+    payload = b"pinned"
+    expected = {"payload.bin": (len(payload), hashlib.sha256(payload).hexdigest())}
+    (tmp_path / "payload.bin").write_bytes(payload)
+    module.validate_exact_files(tmp_path, expected)
+    (tmp_path / "unexpected.json").write_text("{}", encoding="utf-8")
+    with pytest.raises(module.CanaryError, match="file-set mismatch"):
+        module.validate_exact_files(tmp_path, expected)
 
 
 def test_ctc_collapse_and_similarity() -> None:

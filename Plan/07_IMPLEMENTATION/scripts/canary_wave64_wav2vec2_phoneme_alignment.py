@@ -60,6 +60,12 @@ MODEL_FILES: dict[str, tuple[int, str]] = {
         "d732ab2456c0c017930001dc9af0b41b3b93d25b2eb9740bf9d925508d7d87d0",
     ),
 }
+MODEL_PROVENANCE_FILES: dict[str, tuple[int, str]] = {
+    ".w64_aqa_install_receipt.json": (
+        2168,
+        "0290956ce208deb5bc928ac154e7f0ec822e0b4a2bffc4e95e4acff60aaef1a9",
+    ),
+}
 FIXTURES: dict[str, dict[str, Any]] = {
     "clean_speech": {
         "sha256": "ff8325a1c2f8613d599af69284f5c4693d996a581230ccbbbb1aeba7affa9815",
@@ -111,6 +117,11 @@ def validate_exact_files(root: Path, expected: dict[str, tuple[int, str]]) -> No
         path = observed[relative_path]
         if path.stat().st_size != expected_bytes or sha256_file(path) != expected_sha256:
             raise CanaryError(f"model package identity mismatch: {relative_path}")
+
+
+def validate_exact_model_package(root: Path) -> None:
+    """Validate the immutable payload plus the separately pinned install receipt."""
+    validate_exact_files(root, MODEL_FILES | MODEL_PROVENANCE_FILES)
 
 
 def validate_fixtures(root: Path) -> list[dict[str, Any]]:
@@ -265,7 +276,7 @@ def run_worker(
     environment_root: Path,
     lease: dict[str, Any],
 ) -> tuple[dict[str, Any], int]:
-    validate_exact_files(model_root, MODEL_FILES)
+    validate_exact_model_package(model_root)
     fixtures = validate_fixtures(fixture_root)
     sys.path.insert(0, str(environment_root.resolve(strict=True)))
     os.environ.update(
@@ -421,6 +432,10 @@ def run_worker(
             "revision": UPSTREAM_REVISION,
             "model_root": str(model_root),
             "file_count": len(MODEL_FILES),
+            "provenance_file_count": len(MODEL_PROVENANCE_FILES),
+            "install_receipt_sha256": MODEL_PROVENANCE_FILES[
+                ".w64_aqa_install_receipt.json"
+            ][1],
             "weight_sha256": MODEL_FILES["pytorch_model.bin"][1],
         },
         "lease": lease,
@@ -468,7 +483,7 @@ def run_isolated(
     lease: dict[str, Any],
     output_path: Path,
 ) -> tuple[dict[str, Any], int]:
-    validate_exact_files(model_root, MODEL_FILES)
+    validate_exact_model_package(model_root)
     validate_fixtures(fixture_root)
     before = gpu_snapshot()
     worker_output = output_path.parent / f".{output_path.name}.{uuid.uuid4().hex}.worker"
