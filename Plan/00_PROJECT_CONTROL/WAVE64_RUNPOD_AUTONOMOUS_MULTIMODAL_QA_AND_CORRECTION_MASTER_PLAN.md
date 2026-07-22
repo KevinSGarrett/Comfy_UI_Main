@@ -782,3 +782,14 @@ product promotion. The next bounded speech action is to bind the retained word
 and phoneme spans into prospective viseme and lip-sync fixtures, then expand
 calibration across speakers, accents, noise, duration, overlap, and transcript
 mismatch before any broader authority claim.
+
+The prospective Row136 control package is now frozen before execution. It
+binds the accepted canary receipt, a versioned English IPA-to-viseme registry,
+an exact output schema, and a deterministic compiler. The compiler creates a
+contiguous sample-level timeline with explicit inferred-silence gaps and a
+single center-sample owner for every output frame; adjacent-viseme
+coarticulation weights must remain bounded and normalized. It must compile both
+accepted speech fixtures with identical ordered phoneme-to-viseme coverage
+before exact-fixture authority is accepted. No rendered lip-sync, identity,
+AV-sync, general inventory, operational, or product authority follows from a
+control compilation.

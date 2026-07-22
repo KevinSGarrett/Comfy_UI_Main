@@ -50,6 +50,12 @@ The admitted Wav2Vec2 phoneme model passed the immutable clean-speech, tone-only
 
 General forced-alignment authority remains withheld until the same prospective process covers multiple speakers, accents, languages, noise levels, durations, overlaps, transcript mismatches, timing-boundary error, repeatability, and downstream viseme compilation. The retained matrix may seed those fixtures but may not be represented as speaker identity, general audio semantics, AV sync, operational activation, or product promotion.
 
+### IPA-to-viseme compilation
+
+Row136 consumes only an accepted speech fixture whose canary receipt, model package, transcript, fixture audio, and phoneme spans are hash bound. The mapping registry is versioned and must cover every observed IPA token without fallback substitution. The compiler inserts explicit silence for every unaligned sample gap, retains the model posterior only on aligned phoneme events, and requires a complete contiguous nonoverlapping sample timeline.
+
+Frame controls use exactly one center-sample owner per frame. Coarticulation may blend only the immediately adjacent visemes under the frozen attack/release policy; every weight is bounded and sums to one. Both accepted speech fixtures must compile deterministically and preserve the same ordered phoneme-to-viseme sequence before the exact fixture compiler is accepted. Compilation alone never proves rendered lip sync, identity preservation, AV sync, general phoneme coverage, operational activation, or product promotion.
+
 ## Multi-engine comparison
 
 Hard-gate survivors are ranked by a versioned scorecard. The record must expose raw metrics, normalized metrics, weights, missing-metric handling, and final explanation. A missing mandatory metric blocks; it is never assigned a neutral score.
