@@ -17,6 +17,7 @@ ALIGNER_MANIFEST = ROOT / "Plan/10_REGISTRIES/wave64_wav2vec2_phoneme_aligner_in
 ALIGNER_SCHEMA = ROOT / "Plan/08_SCHEMAS/runpod_autonomous_wav2vec2_phoneme_aligner_install_admission.schema.json"
 LATENTSYNC_MANIFEST = ROOT / "Plan/10_REGISTRIES/wave64_latentsync_1_6_install_admission.json"
 LATENTSYNC_SCHEMA = ROOT / "Plan/08_SCHEMAS/runpod_autonomous_latentsync_1_6_install_admission.schema.json"
+AST_MANIFEST = ROOT / "Plan/10_REGISTRIES/wave64_mit_ast_audioset_install_admission.json"
 SPEC = importlib.util.spec_from_file_location("model_package_installer", SCRIPT)
 assert SPEC and SPEC.loader
 MODULE = importlib.util.module_from_spec(SPEC)
@@ -208,6 +209,19 @@ def test_latentsync_manifest_is_bound_for_storage_only() -> None:
     assert len(manifest["files"]) == 13
     assert "lip_sync_authority" in manifest["authority"]["forbidden"]
     assert "identity_preservation_authority" in manifest["authority"]["forbidden"]
+
+
+def test_mit_ast_manifest_is_bound_for_storage_only() -> None:
+    manifest = json.loads(AST_MANIFEST.read_text(encoding="utf-8"))
+    manifest_hash = hashlib.sha256(MODULE.canonical_bytes(manifest)).hexdigest()
+    assert manifest_hash == "fe8a06746378cda105cd8825675dfe4f5d571a076be4818c35bc527985781c7d"
+    assert manifest_hash in MODULE.ADMITTED_PRODUCTION_MANIFESTS
+    MODULE._verify_manifest_shape(manifest)
+    assert manifest["source"]["revision"] == "f826b80d28226b62986cc218e5cec390b1096902"
+    assert manifest["storage"]["weight_bytes"] == 346404948
+    assert [item["path"] for item in manifest["files"]].count("model.safetensors") == 1
+    assert all(item["path"] != "pytorch_model.bin" for item in manifest["files"])
+    assert "audio_event_authority" in manifest["authority"]["forbidden"]
 
 
 def test_parallel_download_preserves_manifest_receipt_order(tmp_path: Path) -> None:

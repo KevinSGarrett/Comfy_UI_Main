@@ -40,6 +40,10 @@ ADMITTED_PRODUCTION_MANIFESTS = {
         "repository_id": "ByteDance/LatentSync-1.6",
         "revision": "c42c7e6c8e9c213626389fa7d9a3c444b8536353",
     },
+    "fe8a06746378cda105cd8825675dfe4f5d571a076be4818c35bc527985781c7d": {
+        "repository_id": "MIT/ast-finetuned-audioset-10-10-0.4593",
+        "revision": "f826b80d28226b62986cc218e5cec390b1096902",
+    },
 }
 
 
