@@ -61,8 +61,11 @@ def validate(data: dict) -> list[str]:
         "shared_coordinator_required": True,
         "sequential_residency_required": True,
         "cpu_nvme_offload_allowed": True,
-        "alternative_hardware_watcher": False,
+        "alternative_hardware_watcher": True,
         "alternative_pod_creation": False,
+        "authorized_watcher_candidate_creation": True,
+        "authorized_watcher_id": "runpod-us-wa-1-2xa40-guarded-migration-watcher",
+        "current_pod_authoritative_until_verified_migration_complete": True,
         "external_inference": False,
     }
     if current_pod != expected_current_pod:

@@ -295,10 +295,12 @@ inference, tool, review, or promotion authority. Pin the revision, accept and
 record licensing, hash every artifact, keep it under `/workspace`, and issue
 separate capacity, calibration, runtime, quality, cost, and failure certificates.
 Only one heavy GPU role may be resident unless the exact pair of coordinator
-profiles has passed shared-capacity and cleanup qualification. No hardware-stock
-watcher or migration candidate is active. All required Qwen, InternVL, Omni,
-Coder, generation, QA, and MaskFactory packages target `/workspace` on the
-current production pod and execute sequentially through the shared coordinator.
+profiles has passed shared-capacity and cleanup qualification. The authorized
+singleton 2xA40 watcher is active, but no migration candidate or authority
+switch is verified. All required Qwen, InternVL, Omni, Coder, generation, QA,
+and MaskFactory packages target `/workspace` on the current production pod and
+execute sequentially through the shared coordinator until verified migration
+completion.
 
 For the admitted Qwen3-ASR package, use only revision
 `7278e1e70fe206f11671096ffdd38061171dd6e5` and the exact twelve-file install
@@ -485,3 +487,13 @@ billing are independently verified. The current pod reported
 weights leave no safe runtime headroom. Installation and execution therefore
 require a separately admitted reproducible current-pod quantized/offloaded
 artifact. This runtime constraint must not block other current-pod lanes.
+# Authorized guarded 2xA40 watcher (2026-07-22)
+
+One migration watcher is active:
+`runpod-us-wa-1-2xa40-guarded-migration-watcher`. Do not create or run another
+watcher and do not initiate migration from project tooling. Continue all work
+against pod `1q4ji0gg1fkhvt` with the shared capacity coordinator. Change the
+authoritative pod only after verified migration-complete evidence binds the
+exact candidate, volume `o9qv2ld91c`, 100 GB disk, dual-A40 telemetry,
+coordinator rollback checks, and safe old-pod stop. The watcher has no AWS or
+pod-termination authority.

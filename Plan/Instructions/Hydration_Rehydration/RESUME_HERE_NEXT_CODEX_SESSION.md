@@ -1,7 +1,16 @@
+## Resume Here - Guarded 2xA40 Watcher Active - 2026-07-22
+
+Do not create a competing watcher or migrate independently. The only
+authorized watcher is `runpod-us-wa-1-2xa40-guarded-migration-watcher`; current
+pod `1q4ji0gg1fkhvt` and its shared coordinator remain authoritative until a
+verified migration-complete receipt arrives. No AWS fallback is allowed.
+
+Evidence: `Plan/Tracker/Evidence/W64_AQA_GUARDED_2XA40_MIGRATION_WATCHER_POLICY_20260722.json`.
+
 ## Resume Here - Qwen3-VL 4B Static Closure - 2026-07-22
 
 Pushed state must retain the exact official Qwen3-VL 4B manifest/license
-binding and queue hash `cf798ac4...`; no runtime or quality authority follows
+binding and queue hash `2324f805...`; no runtime or quality authority follows
 from it. Wav2Vec2 remains the first GPU campaign and requires a fresh exact
 shared-coordinator lease. When GPU work is unavailable, continue a local
 official identity/license dependency; never fall back to AWS.

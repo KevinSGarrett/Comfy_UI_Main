@@ -3,7 +3,7 @@
   "$id": "https://comfy-ui-main.local/schemas/runpod_sole_production_platform_policy.schema.json",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "program_id", "policy_id", "status", "active_platform", "runpod", "local", "legacy_cloud", "execution_rules", "tracker_reclassification", "evidence_policy", "authority"],
+  "required": ["schema_version", "program_id", "policy_id", "status", "active_platform", "runpod", "guarded_migration_watcher", "local", "legacy_cloud", "execution_rules", "tracker_reclassification", "evidence_policy", "authority"],
   "properties": {
     "schema_version": {"const": "wave64.runpod_sole_production_platform_policy.v1"},
     "program_id": {"const": "W64-AQA"},
@@ -17,6 +17,22 @@
         "pod_id": {"const": "1q4ji0gg1fkhvt"}, "project": {"const": "comfyui_main"},
         "production_runtime": {"const": true}, "production_storage": {"const": true},
         "gpu_coordinator_required": {"const": true}, "foreign_hold_override_forbidden": {"const": true}
+      }
+    },
+    "guarded_migration_watcher": {
+      "type": "object", "additionalProperties": false,
+      "required": ["automation_id", "status", "interval_minutes", "region", "cloud_type", "gpu_type", "gpu_count", "maximum_total_hourly_usd", "network_volume_id", "candidate_container_disk_gb", "competing_watcher_forbidden", "independent_project_migration_forbidden", "current_pod_authoritative_until_verified_migration_complete", "old_pod_stop_requires_candidate_volume_disk_dual_gpu_coordinator_and_rollback_checks", "aws_access", "pod_termination"],
+      "properties": {
+        "automation_id": {"const": "runpod-us-wa-1-2xa40-guarded-migration-watcher"},
+        "status": {"const": "ACTIVE_USER_AUTHORIZED_SINGLETON"},
+        "interval_minutes": {"const": 10}, "region": {"const": "US-WA-1"},
+        "cloud_type": {"const": "SECURE_CLOUD"}, "gpu_type": {"const": "NVIDIA A40"},
+        "gpu_count": {"const": 2}, "maximum_total_hourly_usd": {"const": 0.70},
+        "network_volume_id": {"const": "o9qv2ld91c"}, "candidate_container_disk_gb": {"const": 100},
+        "competing_watcher_forbidden": {"const": true}, "independent_project_migration_forbidden": {"const": true},
+        "current_pod_authoritative_until_verified_migration_complete": {"const": true},
+        "old_pod_stop_requires_candidate_volume_disk_dual_gpu_coordinator_and_rollback_checks": {"const": true},
+        "aws_access": {"const": false}, "pod_termination": {"const": false}
       }
     },
     "local": {

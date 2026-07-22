@@ -543,8 +543,11 @@ def collect_errors() -> list[str]:
         or inventory_current_pod.get("physical_vram_mib") != 49140
         or inventory_current_pod.get("shared_coordinator_required") is not True
         or inventory_current_pod.get("sequential_residency_required") is not True
-        or inventory_current_pod.get("alternative_hardware_watcher") is not False
+        or inventory_current_pod.get("alternative_hardware_watcher") is not True
         or inventory_current_pod.get("alternative_pod_creation") is not False
+        or inventory_current_pod.get("authorized_watcher_candidate_creation") is not True
+        or inventory_current_pod.get("authorized_watcher_id") != "runpod-us-wa-1-2xa40-guarded-migration-watcher"
+        or inventory_current_pod.get("current_pod_authoritative_until_verified_migration_complete") is not True
         or inventory_current_pod.get("external_inference") is not False
     ):
         errors.append("role package inventory current-pod-only policy mismatch")
@@ -855,10 +858,16 @@ def collect_errors() -> list[str]:
         errors.append("current-pod capacity policy must bind the runtime pod ID")
     if one_pod.get("gpu_type") != runtime.get("gpu") or one_pod.get("gpu_count") != 1:
         errors.append("current-pod capacity policy must bind the one RTX 6000 Ada GPU")
-    if one_pod.get("alternative_pod_watcher_enabled") is not False:
-        errors.append("alternative-pod watcher must remain disabled")
+    if one_pod.get("alternative_pod_watcher_enabled") is not True:
+        errors.append("authorized alternative-pod watcher must remain enabled")
     if one_pod.get("candidate_creation_enabled") is not False:
-        errors.append("alternative-pod candidate creation must remain disabled")
+        errors.append("project alternative-pod candidate creation must remain disabled")
+    if one_pod.get("authorized_watcher_candidate_creation_enabled") is not True:
+        errors.append("authorized watcher candidate creation must remain enabled")
+    if one_pod.get("authorized_watcher_id") != "runpod-us-wa-1-2xa40-guarded-migration-watcher":
+        errors.append("authorized alternative-pod watcher identity mismatch")
+    if one_pod.get("current_pod_authoritative_until_verified_migration_complete") is not True:
+        errors.append("current pod must remain authoritative until verified migration completion")
     if one_pod.get("external_inference_enabled") is not False:
         errors.append("current-pod capacity policy must forbid external inference")
     if one_pod.get("all_required_roles_target_current_pod") is not True:
@@ -1379,15 +1388,25 @@ def collect_errors() -> list[str]:
         errors.append("migration controller must remain decision-only")
     if migration_policy.get("old_pod_stops_only_after_integration_switch") is not True:
         errors.append("migration policy must forbid old-pod stop before integration switch")
-    if migration_policy.get("status") != "RETIRED_CURRENT_PRODUCTION_POD_ONLY":
-        errors.append("alternative-pod migration policy must remain retired")
+    if migration_policy.get("status") != "GUARDED_2XA40_WATCHER_ACTIVE_CURRENT_POD_AUTHORITATIVE":
+        errors.append("guarded 2xA40 migration policy status mismatch")
     if migration_policy.get("migration_candidates_enabled") is not False:
-        errors.append("alternative-pod migration candidates must remain disabled")
-    if migration_policy.get("stock_watcher_enabled") is not False:
-        errors.append("alternative-pod stock watcher must remain disabled")
+        errors.append("project migration candidates must remain disabled")
+    if migration_policy.get("authorized_watcher_candidate_creation_enabled") is not True:
+        errors.append("authorized watcher candidate creation must remain enabled")
+    if migration_policy.get("stock_watcher_enabled") is not True:
+        errors.append("authorized stock watcher must remain enabled")
+    if migration_policy.get("authorized_automation_id") != "runpod-us-wa-1-2xa40-guarded-migration-watcher":
+        errors.append("guarded migration watcher identity mismatch")
+    if migration_policy.get("current_pod_authoritative_until_verified_migration_complete") is not True:
+        errors.append("migration policy released current pod authority early")
+    if migration_policy.get("watcher_never_touches_aws") is not True:
+        errors.append("guarded migration watcher AWS boundary mismatch")
+    if migration_policy.get("watcher_never_terminates_pods") is not True:
+        errors.append("guarded migration watcher termination boundary mismatch")
     current_profile = migration_policy.get("current_production_profile", {})
     if current_profile.get("pod_id") != runtime.get("current_pod_id"):
-        errors.append("retired migration policy must bind the current production pod")
+        errors.append("guarded migration policy must bind the current production pod")
 
     modalities = set(schema.get("properties", {}).get("modality", {}).get("enum", []))
     required_modalities = {"image", "video", "audio", "av", "mask", "workflow"}

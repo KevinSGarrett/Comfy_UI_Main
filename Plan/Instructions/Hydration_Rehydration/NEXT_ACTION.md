@@ -1,10 +1,23 @@
+## Infrastructure Policy - Guarded 2xA40 Watcher Active - 2026-07-22
+
+The single authorized automation is
+`runpod-us-wa-1-2xa40-guarded-migration-watcher`. It checks every 10 minutes
+for exactly 2x NVIDIA A40 Secure Cloud in US-WA-1, volume `o9qv2ld91c`, total
+price at or below $0.70/hr, and a 100 GB candidate container disk. Do not
+create another watcher or migrate independently. Pod `1q4ji0gg1fkhvt` remains
+authoritative and all GPU work still requires the shared coordinator until a
+verified migration-complete receipt arrives. The watcher never touches AWS or
+terminates pods.
+
+Evidence: `Plan/Tracker/Evidence/W64_AQA_GUARDED_2XA40_MIGRATION_WATCHER_POLICY_20260722.json`.
+
 ## Immediate Next Action - Qwen3-VL 4B Static Closure - 2026-07-22
 
 The preferred fast-triage package `W64-AQA-PKG-QWEN3VL4` now has exact
 official-manifest identity and Apache-2.0 project-use acceptance. Its installed
 digest equals manifest `ee4b975b58c17ce268cd19d40db35d5edc64603035d2ffc1fee1968eb0947f7b`.
 This is static authority only: runtime, calibration, quality, activation, and
-product approval remain false. Queue hash `cf798ac4...` has five prepared or
+product approval remain false. Queue hash `2324f805...` has five prepared or
 qualified campaigns and nine held campaigns.
 
 Next GPU action remains Wav2Vec2 campaign 1 after fresh shared-coordinator

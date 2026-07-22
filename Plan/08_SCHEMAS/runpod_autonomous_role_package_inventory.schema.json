@@ -21,7 +21,7 @@
         "current_pod_only": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["pod_id", "gpu", "physical_vram_mib", "shared_coordinator_required", "sequential_residency_required", "cpu_nvme_offload_allowed", "alternative_hardware_watcher", "alternative_pod_creation", "external_inference"],
+          "required": ["pod_id", "gpu", "physical_vram_mib", "shared_coordinator_required", "sequential_residency_required", "cpu_nvme_offload_allowed", "alternative_hardware_watcher", "alternative_pod_creation", "authorized_watcher_candidate_creation", "authorized_watcher_id", "current_pod_authoritative_until_verified_migration_complete", "external_inference"],
           "properties": {
             "pod_id": {"const": "1q4ji0gg1fkhvt"},
             "gpu": {"const": "NVIDIA RTX 6000 Ada Generation"},
@@ -29,8 +29,11 @@
             "shared_coordinator_required": {"const": true},
             "sequential_residency_required": {"const": true},
             "cpu_nvme_offload_allowed": {"const": true},
-            "alternative_hardware_watcher": {"const": false},
+            "alternative_hardware_watcher": {"const": true},
             "alternative_pod_creation": {"const": false},
+            "authorized_watcher_candidate_creation": {"const": true},
+            "authorized_watcher_id": {"const": "runpod-us-wa-1-2xa40-guarded-migration-watcher"},
+            "current_pod_authoritative_until_verified_migration_complete": {"const": true},
             "external_inference": {"const": false}
           }
         }

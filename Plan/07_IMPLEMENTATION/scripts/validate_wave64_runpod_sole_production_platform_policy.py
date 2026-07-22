@@ -65,6 +65,15 @@ def validate_policy(root: Path, value: dict[str, Any]) -> None:
                 raise PlatformPolicyError(f"legacy AWS lineage remains on active dependency edge: {row_id}")
     if value["legacy_cloud"]["active_production_blocker"] or value["legacy_cloud"]["automatic_access_allowed"]:
         raise PlatformPolicyError("legacy cloud authority expanded")
+    watcher = value["guarded_migration_watcher"]
+    if watcher["automation_id"] != "runpod-us-wa-1-2xa40-guarded-migration-watcher":
+        raise PlatformPolicyError("authorized migration watcher identity drift")
+    if watcher["current_pod_authoritative_until_verified_migration_complete"] is not True:
+        raise PlatformPolicyError("current pod authority was released without migration completion")
+    if watcher["competing_watcher_forbidden"] is not True or watcher["independent_project_migration_forbidden"] is not True:
+        raise PlatformPolicyError("singleton guarded migration boundary drift")
+    if watcher["aws_access"] or watcher["pod_termination"]:
+        raise PlatformPolicyError("guarded watcher authority expanded")
 
 
 def main() -> int:

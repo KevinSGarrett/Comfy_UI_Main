@@ -23,15 +23,15 @@ def test_inventory_is_valid() -> None:
     assert MODULE.validate(load_inventory()) == []
 
 
-def test_alternative_hardware_watcher_cannot_be_enabled() -> None:
+def test_only_authorized_alternative_hardware_watcher_is_enabled() -> None:
     data = copy.deepcopy(load_inventory())
-    data["runtime_policy"]["current_pod_only"]["alternative_hardware_watcher"] = True
+    data["runtime_policy"]["current_pod_only"]["authorized_watcher_id"] = "competing-watcher"
     assert "current-pod-only runtime policy mismatch" in MODULE.validate(data)
 
 
-def test_alternative_pod_creation_cannot_be_enabled() -> None:
+def test_current_pod_must_remain_authoritative_during_candidate_creation() -> None:
     data = copy.deepcopy(load_inventory())
-    data["runtime_policy"]["current_pod_only"]["alternative_pod_creation"] = True
+    data["runtime_policy"]["current_pod_only"]["current_pod_authoritative_until_verified_migration_complete"] = False
     assert "current-pod-only runtime policy mismatch" in MODULE.validate(data)
 
 

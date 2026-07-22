@@ -12,6 +12,24 @@
     "gpu_coordinator_required": true,
     "foreign_hold_override_forbidden": true
   },
+  "guarded_migration_watcher": {
+    "automation_id": "runpod-us-wa-1-2xa40-guarded-migration-watcher",
+    "status": "ACTIVE_USER_AUTHORIZED_SINGLETON",
+    "interval_minutes": 10,
+    "region": "US-WA-1",
+    "cloud_type": "SECURE_CLOUD",
+    "gpu_type": "NVIDIA A40",
+    "gpu_count": 2,
+    "maximum_total_hourly_usd": 0.70,
+    "network_volume_id": "o9qv2ld91c",
+    "candidate_container_disk_gb": 100,
+    "competing_watcher_forbidden": true,
+    "independent_project_migration_forbidden": true,
+    "current_pod_authoritative_until_verified_migration_complete": true,
+    "old_pod_stop_requires_candidate_volume_disk_dual_gpu_coordinator_and_rollback_checks": true,
+    "aws_access": false,
+    "pod_termination": false
+  },
   "local": {
     "cpu_only_work_allowed_without_lease": true,
     "repository_work_allowed": true,
@@ -27,6 +45,9 @@
   "execution_rules": [
     "USE_LOCAL_OR_CURRENT_RUNPOD_ONLY_FOR_ACTIVE_PRODUCTION_WORK",
     "REQUIRE_SHARED_CAPACITY_COORDINATOR_BEFORE_GPU_AFFECTING_ACTIONS",
+    "ALLOW_ONLY_THE_USER_AUTHORIZED_2XA40_GUARDED_MIGRATION_WATCHER",
+    "KEEP_CURRENT_POD_AUTHORITATIVE_UNTIL_VERIFIED_MIGRATION_COMPLETE",
+    "DO_NOT_CREATE_A_COMPETING_WATCHER_OR_MIGRATE_INDEPENDENTLY",
     "ALLOW_CPU_ONLY_LOCAL_WORK_WITHOUT_A_RUNPOD_LEASE",
     "SWITCH_TO_LOCAL_OR_RUNPOD_SAFE_LANE_WHEN_GPU_ADMISSION_IS_BLOCKED",
     "NEVER_FALL_BACK_TO_AWS_S3_OR_EC2_FOR_ACTIVE_PRODUCTION",

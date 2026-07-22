@@ -49,3 +49,24 @@ def test_cpu_and_gpu_lease_boundaries_are_distinct() -> None:
     assert value["local"]["cpu_only_work_allowed_without_lease"] is True
     assert value["runpod"]["gpu_coordinator_required"] is True
     assert value["runpod"]["foreign_hold_override_forbidden"] is True
+
+
+def test_only_exact_user_authorized_guarded_migration_watcher_is_active() -> None:
+    module = load_module()
+    value = policy(module)
+    watcher = value["guarded_migration_watcher"]
+    assert watcher["automation_id"] == "runpod-us-wa-1-2xa40-guarded-migration-watcher"
+    assert watcher["gpu_type"] == "NVIDIA A40"
+    assert watcher["gpu_count"] == 2
+    assert watcher["maximum_total_hourly_usd"] == 0.70
+    assert watcher["network_volume_id"] == "o9qv2ld91c"
+    assert watcher["current_pod_authoritative_until_verified_migration_complete"] is True
+    assert watcher["pod_termination"] is False
+
+
+def test_competing_watcher_authority_drift_fails() -> None:
+    module = load_module()
+    value = copy.deepcopy(policy(module))
+    value["guarded_migration_watcher"]["competing_watcher_forbidden"] = False
+    with pytest.raises(Exception):
+        module.validate_policy(ROOT, value)

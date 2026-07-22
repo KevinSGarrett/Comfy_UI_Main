@@ -69,8 +69,11 @@ def test_current_and_future_authority_are_separated() -> None:
     assert one_pod["pod_id"] == registry["runtime_policy"]["current_pod_id"]
     assert one_pod["gpu_type"] == "NVIDIA RTX 6000 Ada Generation"
     assert one_pod["gpu_count"] == 1
-    assert not one_pod["alternative_pod_watcher_enabled"]
+    assert one_pod["alternative_pod_watcher_enabled"]
+    assert one_pod["authorized_watcher_id"] == "runpod-us-wa-1-2xa40-guarded-migration-watcher"
+    assert one_pod["current_pod_authoritative_until_verified_migration_complete"]
     assert not one_pod["candidate_creation_enabled"]
+    assert one_pod["authorized_watcher_candidate_creation_enabled"]
     assert not one_pod["external_inference_enabled"]
     assert one_pod["all_required_roles_target_current_pod"]
 

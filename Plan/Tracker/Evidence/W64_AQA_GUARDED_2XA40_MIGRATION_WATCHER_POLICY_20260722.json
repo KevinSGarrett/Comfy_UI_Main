@@ -1,0 +1,42 @@
+{
+  "schema_version": "wave64.aqa.guarded_2xa40_migration_watcher_policy.v1",
+  "program_id": "W64-AQA",
+  "observed_at_utc": "2026-07-22T18:20:00Z",
+  "authorization_source": "USER_AUTHORIZED_INFRASTRUCTURE_POLICY_UPDATE",
+  "automation": {
+    "id": "runpod-us-wa-1-2xa40-guarded-migration-watcher",
+    "status": "ACTIVE",
+    "interval_minutes": 10,
+    "singleton": true
+  },
+  "exact_offer": {
+    "region": "US-WA-1",
+    "cloud_type": "SECURE_CLOUD",
+    "gpu_type": "NVIDIA A40",
+    "gpu_count": 2,
+    "maximum_total_hourly_usd": 0.70,
+    "network_volume_id": "o9qv2ld91c",
+    "candidate_container_disk_gb": 100
+  },
+  "current_authority": {
+    "authoritative_pod_id": "1q4ji0gg1fkhvt",
+    "continue_current_work": true,
+    "shared_coordinator_required": true,
+    "migration_complete_received": false
+  },
+  "fail_closed_boundaries": {
+    "competing_watcher_allowed": false,
+    "independent_project_migration_allowed": false,
+    "aws_access_allowed": false,
+    "pod_termination_allowed": false,
+    "old_pod_stop_before_candidate_volume_disk_dual_gpu_coordinator_and_rollback_checks": false
+  },
+  "authority": {
+    "watcher_policy_recorded": true,
+    "candidate_available": false,
+    "migration_started_by_this_change": false,
+    "migration_complete": false,
+    "new_pod_runtime_authority": false
+  },
+  "next_action": "Continue current work on pod 1q4ji0gg1fkhvt; accept no migration authority until the singleton watcher emits a verified migration-complete receipt."
+}

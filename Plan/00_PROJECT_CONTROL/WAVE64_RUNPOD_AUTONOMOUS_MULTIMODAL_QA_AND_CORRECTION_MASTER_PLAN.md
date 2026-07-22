@@ -502,9 +502,10 @@ never implies that weights were downloaded, accepted, hashed, capacity-tested,
 or authorized. The concrete ASR target is `Qwen/Qwen3-ASR-1.7B`; the generic
 family label `Qwen3-ASR` is not an install target.
 
-No alternative-hardware watcher or migration candidate is active. The existing
-pod remains authoritative and continues sequential unload/reload/offload
-qualification. The shared coordinator serializes Comfy_UI_Main and MaskFactory
+The user-authorized singleton 2xA40 watcher is active, but no migration
+candidate or authority switch has been verified. The existing pod remains
+authoritative and continues sequential unload/reload/offload qualification.
+The shared coordinator serializes Comfy_UI_Main and MaskFactory
 GPU phases; CPU-only installation, hashing, static validation, and evidence work
 continue without a GPU lease. Every package requires an independent current-pod
 capacity, runtime, calibration, quality, cleanup, and failure certificate.
@@ -1375,11 +1376,11 @@ matrix-defined identity, lease, calibration, threshold-freeze, held-out,
 certificate, cleanup, release, and retention sequence.
 
 This queue is execution planning only. It intentionally contains no live
-coordinator snapshot, and `runnable_now` remains false until the recovery owner
-restores admission and an exact lease is granted. Idle GPU telemetry is not
+coordinator snapshot, and `runnable_now` remains false until fresh coordinator
+admission and an exact lease are granted. Idle GPU telemetry is not
 authority. ComfyUI must not override foreign recovery, run more than one GPU
-campaign at a time, enable an alternative-pod watcher, or use external
-inference. A local digest does not prove upstream identity or license; an
+campaign at a time, create a competing watcher, migrate independently, or use
+external inference. A local digest does not prove upstream identity or license; an
 upstream model name does not prove installed bytes; InternVL3.5-8B cannot
 substitute for the declared 241B independent juror; and golden-mask work remains
 a read-only external-release consumer lane. No runtime, capacity, quality,
@@ -1557,3 +1558,16 @@ accepted for Comfy_UI_Main project use. This closes only identity and license;
 runtime, capacity, calibration, quality, activation, promotion, and product
 authority remain false until the queued current-RunPod campaign passes under a
 fresh shared-coordinator lease.
+# Guarded 2xA40 singleton migration watcher (2026-07-22)
+
+The user-authorized automation
+`runpod-us-wa-1-2xa40-guarded-migration-watcher` supersedes historical
+statements forbidding every alternative-hardware watcher. It is the only
+allowed watcher and checks every 10 minutes for exactly 2x NVIDIA A40 Secure
+Cloud in US-WA-1 on network volume `o9qv2ld91c` at a total price no greater
+than $0.70/hr. A candidate must use a 100 GB container disk. Comfy_UI_Main must
+not create a competing watcher or migrate independently. Current pod
+`1q4ji0gg1fkhvt` and the shared coordinator remain authoritative until the
+watcher emits verified migration completion after candidate, volume, disk,
+dual-GPU telemetry, coordinator rollback, and old-pod-stop gates pass. The
+watcher never touches AWS and never terminates pods.

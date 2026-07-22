@@ -174,3 +174,12 @@ runtime identity. Do not infer operational or quality authority. Keep the
 fast-triage campaign in queue sequence 5 and require fresh shared-coordinator
 admission, exact model/prompt identity, calibration and held-out partitions,
 refusal checks, cleanup proof, and Codex acceptance before activation.
+# Guarded migration watcher coexistence (2026-07-22)
+
+Qualification campaigns continue on pod `1q4ji0gg1fkhvt` under the shared
+coordinator. The singleton watcher
+`runpod-us-wa-1-2xa40-guarded-migration-watcher` may observe and qualify only
+its exact US-WA-1 Secure Cloud 2xA40 migration target. It grants no campaign
+lease, creates no product authority, and does not change the active pod until
+verified migration-complete evidence is accepted. Never start a competing
+watcher or an independent migration.
