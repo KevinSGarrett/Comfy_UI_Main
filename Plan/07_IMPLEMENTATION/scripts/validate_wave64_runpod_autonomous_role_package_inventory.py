@@ -163,6 +163,7 @@ def validate(data: dict) -> list[str]:
                     admission = item.get("install_admission", {})
                     omni_receipt = item.get("installation_receipt", {})
                     omni_preflight = item.get("dependency_preflight", {})
+                    omni_environment = item.get("dependency_environment", {})
                     if state != "INSTALLED_FILE_SET_VERIFIED_ACTIVATION_PENDING":
                         errors.append(f"{item.get('package_id')}: Omni storage install state mismatch")
                     if install.get("artifact_digest") != "46d9695468fac6ff986a683b42df3e8872a01f9e16703ee0772ca4ba2136d480":
@@ -205,6 +206,17 @@ def validate(data: dict) -> list[str]:
                     }
                     if omni_preflight != expected_omni_preflight:
                         errors.append(f"{item.get('package_id')}: Omni dependency preflight mismatch")
+                    expected_omni_environment = {
+                        "state": "HASH_LOCKED_BUILD_ADMITTED_EXECUTION_PENDING",
+                        "lock_sha256": "ddd947030a1815dc668d5b94e2e64f375351e846668bcf8bbd0c5e08b527d95a",
+                        "package_count": 75,
+                        "wheel_count": 78,
+                        "target": "/workspace/w64_aqa/environments/Qwen3-Omni-30B-A3B-Thinking/transformers-5.2.0-qwen-omni-utils-0.0.9-py3.12.13-cu124/ddd947030a1815dc668d5b94e2e64f375351e846668bcf8bbd0c5e08b527d95a",
+                        "admission": "Plan/10_REGISTRIES/wave64_qwen3_omni_dependency_environment_admission.json",
+                        "evidence": "Plan/Tracker/Evidence/W64_AQA_QWEN3_OMNI_DEPENDENCY_LOCK_20260722T022803Z.json",
+                    }
+                    if omni_environment != expected_omni_environment:
+                        errors.append(f"{item.get('package_id')}: Omni dependency environment admission mismatch")
             else:
                 if identity.get("identity_state") != "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_UNPINNED":
                     errors.append(f"{item.get('package_id')}: planned identity state mismatch")

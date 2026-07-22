@@ -95,6 +95,8 @@ def test_omni_source_pin_and_storage_install_are_exact_but_not_operational() -> 
         "QWEN_OMNI_UTILS_DISTRIBUTION_MISSING",
         "INSTALLED_TRANSFORMERS_LACKS_QWEN3_OMNI_SUPPORT",
     ]
+    assert package["dependency_environment"]["state"] == "HASH_LOCKED_BUILD_ADMITTED_EXECUTION_PENDING"
+    assert package["dependency_environment"]["package_count"] == 75
     assert "pinned_revision" not in package["qualification"]["required_gates"]
     assert "artifact_hash" not in package["qualification"]["required_gates"]
     assert not package["authority"]["operational"]

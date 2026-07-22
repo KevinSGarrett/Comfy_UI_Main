@@ -417,3 +417,10 @@ Current Omni preflight result is
 Qwen-Omni Utils and installed Transformers support are absent. Do not upgrade
 active ComfyUI. Resolve an exact Python target and hash-locked Transformers
 5.2-plus closure, review it, then build a new immutable environment.
+
+Use only `wave64_qwen3_omni_transformers_5_2_0_py312_cu124.pylock.toml` at
+SHA-256 `ddd947030a1815dc668d5b94e2e64f375351e846668bcf8bbd0c5e08b527d95a`.
+Reuse the admitted Python 3.12.13 executable; do not install another Python.
+Require 25 GiB free, exact uv 0.11.30, and the lock-addressed target. A build
+may create the environment and install selected wheels only. It may not import
+model libraries, open weights, inspect GPU/lease state, or activate a role.

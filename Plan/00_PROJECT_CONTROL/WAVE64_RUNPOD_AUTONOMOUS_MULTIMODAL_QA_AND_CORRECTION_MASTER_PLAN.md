@@ -625,3 +625,11 @@ revision assertions passed. The active Python 3.11.10 environment has Torch
 Qwen3-Omni support paths. The active environment remains unchanged. This
 authorizes only resolution of a hash-locked isolated Transformers 5.2-plus
 environment; import, weights, GPU, lease, inference, and authority remain false.
+
+The isolated Omni dependency closure is now resolved and admitted. Its Pylock
+contains 75 packages and 78 SHA-256-bound wheels from only
+`files.pythonhosted.org` and `download-r2.pytorch.org`. It pins Transformers
+5.2.0, Qwen-Omni Utils 0.0.9 with Decord, Accelerate 1.14.0, and the existing
+Torch 2.4.1+cu124 baseline. vLLM and FlashAttention are deliberately excluded
+from this first import-capable environment. The already verified Python 3.12.13
+runtime is reuse-only; active ComfyUI cannot be modified.
