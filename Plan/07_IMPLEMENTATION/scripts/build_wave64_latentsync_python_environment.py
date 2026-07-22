@@ -14,8 +14,8 @@ import sys
 import tomllib
 
 
-EXPECTED_ADMISSION_SHA256 = "d6c268984911f7d0e0f771ecdb814b9e29a401b32a0e265f068b05ae434b4e1b"
-EXPECTED_LOCK_SHA256 = "862e85d3cbb3a1dd9a90dd9541bff24b20ae997c95326f9331b9e466dc6b40ff"
+EXPECTED_ADMISSION_SHA256 = "6df31de0b4871d9240f3926494c281be1faf4f297a2b3daa094c1302ff664e30"
+EXPECTED_LOCK_SHA256 = "fcda64087e19f7a23106b6b1d93bfc99ee7928a8c5516dd9815f4acbc04b599e"
 EXPECTED_PACKAGE_ID = "W64-AQA-PKG-LATENTSYNC-1.6"
 EXPECTED_UV_VERSION = "0.11.30"
 EXPECTED_PYTHON_VERSION = "3.11.10"
@@ -33,6 +33,10 @@ EXPECTED_LOCAL_WHEELS = {
     "python_speech_features-0.6-py3-none-any.whl": (
         5891,
         "7c754cba8f6d46e8eff77014cd179e4ffd1b141772b0113e925eee45c63f3a05",
+    ),
+    "decord-0.6.0-py3-none-manylinux2010_x86_64.whl": (
+        13583977,
+        "7f966303534244867e2c7bb5640349465d6601139d393677a200c83d1e6f9cfa",
     ),
 }
 RUNTIME_CLAIMS = {
@@ -162,21 +166,36 @@ def distribution_signature(executable: Path | str) -> str:
 
 
 def local_wheel_manifest(admission: dict) -> list[dict[str, str | int]]:
-    root = Path(admission["local_wheelhouse"]["root"])
-    if not root.is_dir() or root.is_symlink():
-        raise BuildError("local wheelhouse is missing or unsafe")
     observed: list[dict[str, str | int]] = []
-    for filename, (expected_bytes, expected_hash) in sorted(EXPECTED_LOCAL_WHEELS.items()):
-        path = root / filename
-        if not path.is_file() or path.is_symlink():
-            raise BuildError(f"local wheel is missing or unsafe: {filename}")
-        size = path.stat().st_size
-        digest = sha256_file(path)
-        if size != expected_bytes or digest != expected_hash:
-            raise BuildError(f"local wheel identity mismatch: {filename}")
-        observed.append({"filename": filename, "bytes": size, "sha256": digest})
-    if {path.name for path in root.iterdir()} != set(EXPECTED_LOCAL_WHEELS):
-        raise BuildError("local wheelhouse contains an unexpected entry")
+    roots = [
+        (
+            Path(admission["local_wheelhouse"]["root"]),
+            {
+                "antlr4_python3_runtime-4.9.3-py3-none-any.whl",
+                "insightface-0.7.3-cp311-cp311-linux_x86_64.whl",
+                "python_speech_features-0.6-py3-none-any.whl",
+            },
+        ),
+        (
+            Path(admission["repaired_wheelhouse"]["root"]),
+            {"decord-0.6.0-py3-none-manylinux2010_x86_64.whl"},
+        ),
+    ]
+    for root, expected_filenames in roots:
+        if not root.is_dir() or root.is_symlink():
+            raise BuildError("local wheelhouse is missing or unsafe")
+        if {path.name for path in root.iterdir()} != expected_filenames:
+            raise BuildError("local wheelhouse contains an unexpected entry")
+        for filename in sorted(expected_filenames):
+            expected_bytes, expected_hash = EXPECTED_LOCAL_WHEELS[filename]
+            path = root / filename
+            if not path.is_file() or path.is_symlink():
+                raise BuildError(f"local wheel is missing or unsafe: {filename}")
+            size = path.stat().st_size
+            digest = sha256_file(path)
+            if size != expected_bytes or digest != expected_hash:
+                raise BuildError(f"local wheel identity mismatch: {filename}")
+            observed.append({"filename": filename, "bytes": size, "sha256": digest})
     return observed
 
 
@@ -283,7 +302,7 @@ def build(admission_path: Path, lock_path: Path, receipt_path: Path, active_pyth
             "program_id": "W64-AQA",
             "package_id": EXPECTED_PACKAGE_ID,
             "status": "ISOLATED_ENVIRONMENT_INSTALLED_METADATA_VERIFIED_IMPORT_PENDING",
-            "admission_commit": "bef7fea1",
+            "admission_commit": "928d361a",
             "admission_sha256": EXPECTED_ADMISSION_SHA256,
             "lock_sha256": EXPECTED_LOCK_SHA256,
             "environment_root": str(target),
