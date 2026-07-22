@@ -1,0 +1,60 @@
+{
+  "schema_version": "wave64.aqa.mit_ast_event_canary_admission.v1",
+  "program_id": "W64-AQA",
+  "tracker_ids": ["W64-AQA-006", "TRK-W64-128", "TRK-W64-141", "TRK-W64-142"],
+  "status": "MIT_AST_EXACT_EVENT_CANARY_ADMITTED_EXECUTION_PENDING",
+  "model": {
+    "package_id": "W64-AQA-PKG-MIT-AST-AUDIOSET-0.4593",
+    "repository": "MIT/ast-finetuned-audioset-10-10-0.4593",
+    "revision": "f826b80d28226b62986cc218e5cec390b1096902",
+    "root": "/workspace/w64_aqa/models/ast-finetuned-audioset-10-10-0.4593/f826b80d28226b62986cc218e5cec390b1096902",
+    "manifest_sha256": "fe8a06746378cda105cd8825675dfe4f5d571a076be4818c35bc527985781c7d",
+    "weight_path": "model.safetensors",
+    "weight_bytes": 346404948,
+    "weight_sha256": "ae0c1e2ad4e1381d851fa9bf298ba13ebc9c5a914cdee2dbe427a6583869924d",
+    "install_receipt_sha256": "45acf496dee55bce1bfe906e5083347bb6c84b8946ce670b9e92f151a4afe6fa"
+  },
+  "environment": {
+    "root": "/workspace/w64_aqa/environments/Qwen3-Omni-30B-A3B-Thinking/transformers-5.2.0-qwen-omni-utils-0.0.9-py3.12.13-cu124/a19d160721dfb74cf89bc70eebec10f45b2e6f58b7a109726d658db7d361277c",
+    "lock_sha256": "a19d160721dfb74cf89bc70eebec10f45b2e6f58b7a109726d658db7d361277c",
+    "environment_receipt_sha256": "d89ec8ba5588e8ba07f76522c74bfbfe51284c55baf934ab7f4729fed298deb8",
+    "python": "3.12.13",
+    "required_distributions": {"numpy": "2.4.6", "safetensors": "0.8.0", "torch": "2.4.1+cu124", "transformers": "5.2.0"}
+  },
+  "plan": {
+    "path": "Plan/10_REGISTRIES/wave64_forced_alignment_audio_event_expansion_plan.json",
+    "sha256": "a8bd9b6bdeaf16be3ab1dd83f6cdf73dcec717ba25f03986bc3bf84071be50d4",
+    "case_ids": ["event_room_ambience", "event_cloth_body_shift", "event_speech_foley_ambience_mix", "event_two_speaker_overlap"]
+  },
+  "lease": {
+    "project": "comfyui_main",
+    "profile": "comfyui_model_qualification",
+    "mode": "exclusive",
+    "minimum_reserved_peak_gib": 4.0,
+    "required_free_vram_mib": 4096,
+    "minimum_host_available_bytes": 8589934592
+  },
+  "execution": {
+    "device": "cuda:0",
+    "dtype": "float16",
+    "offline_only": true,
+    "isolated_child_process": true,
+    "timeout_seconds": 600,
+    "post_exit_wait_seconds": 2,
+    "cleanup_tolerance_mib": 1024,
+    "top_k": 10,
+    "calibration_top_k_gate": 3,
+    "held_out_requires_matching_calibration_receipt": true,
+    "unchanged_rerun_forbidden": true
+  },
+  "authority": {
+    "exact_package_identity": true,
+    "exact_case_execution": true,
+    "calibration_threshold_freeze": true,
+    "general_audio_event_recognition": false,
+    "beats_equivalence": false,
+    "independent_listening_review": false,
+    "operational_activation": false,
+    "product_promotion": false
+  }
+}

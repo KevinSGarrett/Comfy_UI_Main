@@ -1,0 +1,50 @@
+{
+  "schema_version": "wave64.aqa.integration_acceptance.v1",
+  "program_id": "W64-AQA",
+  "tracker_ids": ["W64-AQA-006", "TRK-W64-128", "TRK-W64-141", "TRK-W64-142"],
+  "evaluated_at_utc": "2026-07-22T10:14:32Z",
+  "disposition": "ADOPTED",
+  "scope": "Static admission of the exact MIT AST AudioSet event calibration and held-out canary only",
+  "repository_base_commit": "130d63a15f8873a8d2961f56588455cc39e04acd",
+  "admission_sha256": "5cd770a95e082d0076d77fd0862c729f3bebec64d206ede00997a4835e6b2141",
+  "executor_sha256": "512bc24a941b4ff991bdea5376da1a38271228f3af21e0b602f8b83b0f53e987",
+  "tests_sha256": "4f3b8f2eed254cd5da99caf93c94f79622e316636958aac29f5f734c4a8d826d",
+  "accepted": {
+    "exact_six_file_package_identity_bound": true,
+    "exact_environment_and_distribution_versions_bound": true,
+    "exact_four_case_plan_and_source_identities_bound": true,
+    "sanitized_exact_lease_required": true,
+    "offline_local_model_only": true,
+    "calibration_before_held_out_enforced": true,
+    "held_out_requires_matching_calibration_receipt": true,
+    "isolated_process_cleanup_gate_present": true,
+    "unchanged_rerun_forbidden": true,
+    "prospective_label_family_gate_frozen": true,
+    "test_result": "6 passed; 22 passed with adjacent package suites",
+    "ruff_result": "PASS",
+    "python_compile_result": "PASS",
+    "semantic_identity_check": "PASS",
+    "diff_check_result": "PASS"
+  },
+  "runtime": {
+    "status": "PENDING_FOREIGN_COORDINATOR_RECOVERY_HOLD",
+    "foreign_lease_id": "lease_f31c0165ee8f4c9bb31e5ef96ef87d22",
+    "foreign_project": "maskfactory",
+    "foreign_state": "RECOVERY_REQUIRED",
+    "override_attempted": false
+  },
+  "authority_granted": [
+    "static exact AST event canary admission",
+    "prospective calibration-to-held-out execution sequencing"
+  ],
+  "authority_not_granted": [
+    "AST model load or inference",
+    "calibration or held-out runtime pass",
+    "general audio-event recognition",
+    "BEATs equivalence",
+    "independent listening review",
+    "operational activation",
+    "product promotion"
+  ],
+  "next_action": "After the foreign coordinator hold is resolved by its owner, acquire an exact comfyui_main lease and execute the AST calibration partition once; freeze observed thresholds before any held-out execution."
+}

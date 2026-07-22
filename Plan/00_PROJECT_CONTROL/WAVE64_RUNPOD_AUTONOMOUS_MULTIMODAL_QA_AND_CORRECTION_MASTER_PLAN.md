@@ -841,6 +841,19 @@ lane action is to admit an exact isolated AST dependency/load/event canary and
 execute it only after the foreign coordinator recovery hold clears and an
 exact sanitized `comfyui_main` lease is acquired.
 
+That isolated AST canary is now statically admitted. It binds the exact six-file
+installed package, the already accepted Python 3.12.13 / Torch 2.4.1 CUDA 12.4
+/ Transformers 5.2.0 environment, the immutable four-case expansion plan, and
+the retained WAV identities. Calibration and held-out partitions are separate
+immutable executions; held-out measurement requires a passing calibration
+receipt with the same plan and model identities. The runner is offline-only,
+requires a sanitized exact `comfyui_main` exclusive lease, executes in a child
+process, and fails closed on package, source, environment, lease, capacity, or
+cleanup drift. Its calibration gate checks prospectively declared AudioSet
+label families in the top three; held-out results are measurements only and do
+not grant single-model authority. Execution remains pending while the foreign
+MaskFactory coordinator recovery hold exists.
+
 The prospective Row136 control package is now frozen before execution. It
 binds the accepted canary receipt, a versioned English IPA-to-viseme registry,
 an exact output schema, and a deterministic compiler. The compiler creates a
