@@ -1,0 +1,142 @@
+{
+  "authority": {
+    "av_sync_or_motion_review": false,
+    "exact_fixture_structured_audio_observation": true,
+    "general_asr_quality": false,
+    "general_audio_semantic_quality": false,
+    "independent_juror": false,
+    "process_exit_cleanup": false,
+    "product_promotion": false,
+    "worker_runtime_completed": true
+  },
+  "error": null,
+  "identity": {
+    "audio_bytes": 391758,
+    "audio_sha256": "5a07f0a654499266509453421c3efdc1b2e4ce83b8706e0138ebc4b1d3ad924a",
+    "model_manifest_sha256": "46d9695468fac6ff986a683b42df3e8872a01f9e16703ee0772ca4ba2136d480",
+    "model_receipt": "/workspace/w64_aqa/models/Qwen3-Omni-30B-A3B-Thinking/2f443cfc4c54b14a815c0e2bb9a9d6cbcd9a748b/.w64_aqa_install_receipt.json",
+    "model_revision": "2f443cfc4c54b14a815c0e2bb9a9d6cbcd9a748b",
+    "offload_root": "/workspace/w64_aqa/offload/W64-AQA-006"
+  },
+  "offline_policy": {
+    "external_inference": false,
+    "hub_offline": true,
+    "local_audio_path_only": true,
+    "local_model_path_only": true,
+    "service_binding": false
+  },
+  "package_id": "W64-AQA-PKG-QWEN3-OMNI-30B-A3B",
+  "program_id": "W64-AQA",
+  "raw_response": "<think>\nGot it, let's tackle the problem. First, the user requested a review of the attached audio with specific instructions: return ONLY one JSON object containing exactly the keys transcript (string), language (string), speech_intelligible (boolean), clipping_or_distortion (string), background_audio (string), audible_events (array of strings), quality_observations (array of strings), semantic_summary (string), and confidence (number from 0 to 1), while being concise and reporting only audible facts without markdown or inference. Then, analyzing the audio content: it begins with a male voice saying 'Once upon a midnight' followed by a loud, low-pitched, sustained electronic tone that cuts off the speech; the speech is clear but incomplete due to the tone, the tone is a single continuous sound with no distortion, there is no background audio beyond the tone, audible events include the speech and tone, quality observations note the abrupt cutoff and tone interference, the semantic summary describes the incomplete phrase and tone, and confidence is 0.95 due to the clear speech despite the interruption. Next, reasoning through the requirements: the transcript must capture only what was heard ('Once upon a midnight'), language is English, speech_intelligible is true since the words are clear despite cutoff, clipping_or_distortion is 'None' as the tone is clean, background_audio is 'None', audible_events list the speech and tone, quality_observations include the abrupt cutoff and tone interference, semantic_summary concisely states the phrase and tone, and confidence reflects high clarity despite interruption. Finally, the JSON object is constructed with all values strictly derived from audible evidence: transcript 'Once upon a midnight', language 'English', speech_intelligible true, clipping_or_distortion 'None', background_audio 'None', audible_events ['Male voice speaking', 'Loud sustained electronic tone'], quality_observations ['Speech abruptly cut off', 'Loud electronic tone interferes with speech'], semantic_summary 'A male voice says \"Once upon a midnight\" before being cut off by a loud, sustained electronic tone', confidence 0.95.\n</think>\n\n{\n  \"transcript\": \"Once upon a midnight\",\n  \"language\": \"English\",\n  \"speech_intelligible\": true,\n  \"clipping_or_distortion\": \"None\",\n  \"background_audio\": \"None\",\n  \"audible_events\": [\"Male voice speaking\", \"Loud sustained electronic tone\"],\n  \"quality_observations\": [\"Speech abruptly cut off\", \"Loud electronic tone interferes with speech\"],\n  \"semantic_summary\": \"A male voice says \\\"Once upon a midnight\\\" before being cut off by a loud, sustained electronic tone.\",\n  \"confidence\": 0.95\n}",
+  "runtime": {
+    "attention": "sdpa",
+    "cleanup_boundary": "isolated_worker_process_exit",
+    "cpu_memory_limit_gib": 360,
+    "device_map": "auto",
+    "device_map_summary": {
+      "module_count": 54,
+      "target_counts": {
+        "0": 30,
+        "cpu": 24
+      }
+    },
+    "dtype": "bfloat16",
+    "duration_seconds": 1556.5128307789564,
+    "gpu_after_in_process_cleanup": {
+      "free_mib": 12431,
+      "name": "NVIDIA RTX 6000 Ada Generation",
+      "total_mib": 49140,
+      "used_mib": 36210,
+      "utilization_percent": 0
+    },
+    "gpu_after_inference": {
+      "free_mib": 10879,
+      "name": "NVIDIA RTX 6000 Ada Generation",
+      "total_mib": 49140,
+      "used_mib": 37762,
+      "utilization_percent": 73
+    },
+    "gpu_after_worker_process_exit": {
+      "free_mib": 47993,
+      "name": "NVIDIA RTX 6000 Ada Generation",
+      "total_mib": 49140,
+      "used_mib": 648,
+      "utilization_percent": 0
+    },
+    "gpu_before": {
+      "free_mib": 47982,
+      "name": "NVIDIA RTX 6000 Ada Generation",
+      "total_mib": 49140,
+      "used_mib": 659,
+      "utilization_percent": 0
+    },
+    "gpu_before_worker_process": {
+      "free_mib": 47993,
+      "name": "NVIDIA RTX 6000 Ada Generation",
+      "total_mib": 49140,
+      "used_mib": 648,
+      "utilization_percent": 0
+    },
+    "gpu_loaded": {
+      "free_mib": 11063,
+      "name": "NVIDIA RTX 6000 Ada Generation",
+      "total_mib": 49140,
+      "used_mib": 37578,
+      "utilization_percent": 0
+    },
+    "gpu_memory_limit_gib": 36,
+    "host_memory_available_after_worker_exit_bytes": 400992796672,
+    "host_memory_available_before_bytes": 432883052544,
+    "host_memory_available_before_worker_bytes": 432916774912,
+    "host_memory_available_delta_bytes": -31923978240,
+    "in_process_cleanup_delta_mib": 35551,
+    "inference_seconds": 1153.6751466020942,
+    "load_seconds": 364.7017790749669,
+    "max_new_tokens": 512,
+    "offload_dir": "/workspace/w64_aqa/offload/W64-AQA-006/qwen3-omni-audio-sp2fnzcr",
+    "offload_dir_removed": true,
+    "process_exit_cleanup_delta_mib": 0,
+    "process_exit_gpu_cleanup_pass": true,
+    "process_exit_host_cleanup_pass": false,
+    "versions": {
+      "torch": "2.4.1+cu124",
+      "transformers": "5.2.0"
+    },
+    "worker_returncode": 0,
+    "worker_stderr": "ding weights:  99%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589| 1395/1407 [05:55<00:16,  1.37s/it, Materializing param=thinker.visual.merger_list.1.mlp.0.bias]\nLoading weights:  99%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589| 1396/1407 [05:55<00:15,  1.37s/it, Materializing param=thinker.visual.merger_list.1.mlp.0.weight]\nLoading weights:  99%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589| 1396/1407 [05:55<00:15,  1.37s/it, Materializing param=thinker.visual.merger_list.1.mlp.0.weight]\nLoading weights:  99%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589| 1397/1407 [05:55<00:13,  1.37s/it, Materializing param=thinker.visual.merger_list.1.mlp.2.bias]  \nLoading weights:  99%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589| 1397/1407 [05:55<00:13,  1.37s/it, Materializing param=thinker.visual.merger_list.1.mlp.2.bias]\nLoading weights:  99%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589| 1398/1407 [05:55<00:12,  1.37s/it, Materializing param=thinker.visual.merger_list.1.mlp.2.weight]\nLoading weights:  99%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589| 1398/1407 [05:55<00:12,  1.37s/it, Materializing param=thinker.visual.merger_list.1.mlp.2.weight]\nLoading weights:  99%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589| 1399/1407 [05:55<00:10,  1.37s/it, Materializing param=thinker.visual.merger_list.2.ln_q.bias]   \nLoading weights:  99%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589| 1399/1407 [05:55<00:10,  1.37s/it, Materializing param=thinker.visual.merger_list.2.ln_q.bias]\nLoading weights: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589| 1400/1407 [05:55<00:09,  1.37s/it, Materializing param=thinker.visual.merger_list.2.ln_q.weight]\nLoading weights: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589| 1400/1407 [05:55<00:09,  1.37s/it, Materializing param=thinker.visual.merger_list.2.ln_q.weight]\nLoading weights: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589| 1401/1407 [05:55<00:08,  1.37s/it, Materializing param=thinker.visual.merger_list.2.mlp.0.bias] \nLoading weights: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589| 1401/1407 [05:55<00:08,  1.37s/it, Materializing param=thinker.visual.merger_list.2.mlp.0.bias]\nLoading weights: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589| 1402/1407 [05:55<00:06,  1.37s/it, Materializing param=thinker.visual.merger_list.2.mlp.0.weight]\nLoading weights: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589| 1402/1407 [05:55<00:06,  1.37s/it, Materializing param=thinker.visual.merger_list.2.mlp.0.weight]\nLoading weights: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589| 1403/1407 [05:55<00:05,  1.37s/it, Materializing param=thinker.visual.merger_list.2.mlp.2.bias]  \nLoading weights: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589| 1403/1407 [05:55<00:05,  1.37s/it, Materializing param=thinker.visual.merger_list.2.mlp.2.bias]\nLoading weights: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589| 1404/1407 [05:55<00:04,  1.37s/it, Materializing param=thinker.visual.merger_list.2.mlp.2.weight]\nLoading weights: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589| 1404/1407 [05:55<00:04,  1.37s/it, Materializing param=thinker.visual.merger_list.2.mlp.2.weight]\nLoading weights: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589| 1405/1407 [05:55<00:02,  1.37s/it, Materializing param=thinker.visual.patch_embed.proj.bias]     \nLoading weights: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589| 1405/1407 [05:55<00:02,  1.37s/it, Materializing param=thinker.visual.patch_embed.proj.bias]\nLoading weights: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589| 1406/1407 [05:55<00:01,  1.37s/it, Materializing param=thinker.visual.patch_embed.proj.weight]\nLoading weights: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589| 1406/1407 [05:55<00:01,  1.37s/it, Materializing param=thinker.visual.patch_embed.proj.weight]\nLoading weights: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 1407/1407 [05:55<00:00,  1.37s/it, Materializing param=thinker.visual.pos_embed.weight]       \nLoading weights: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 1407/1407 [05:55<00:00,  1.37s/it, Materializing param=thinker.visual.pos_embed.weight]\nLoading weights: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 1407/1407 [05:55<00:00,  3.96it/s, Materializing param=thinker.visual.pos_embed.weight]\nThe following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.\nSome parameters are on the meta device because they were offloaded to the cpu.\nThe image processor of type `Qwen2VLImageProcessor` is now loaded as a fast processor by default, even if the model checkpoint was saved with a slow processor. This is a breaking change and may produce slightly different outputs. To continue using the slow processor, instantiate this class with `use_fast=False`. \nSetting `pad_token_id` to `eos_token_id`:151645 for open-end generation.\n",
+    "worker_stdout": "{\"status\": \"PASS_WORKER_EXACT_FIXTURE_AUDIO_SEMANTIC_RESPONSE\", \"output\": \"/workspace/w64_aqa/runtime_canary_receipts/W64_AQA_QWEN3_OMNI_AUDIO_SEMANTIC_RUNTIME_CANARY_20260722T045353Z/.qwen3_omni_audio_semantic_runtime_canary.json.3f9ae8f902c646289b5002fbddda2e9a.worker\"}\n"
+  },
+  "schema_version": "wave64.aqa.qwen3_omni_audio_semantic_runtime_canary.v2",
+  "semantic_review": {
+    "gate": {
+      "disposition": "PASS_EXACT_FIXTURE_STRUCTURED_AUDIO_SEMANTIC_RESPONSE",
+      "expected_normalized": "once upon a midnight",
+      "expected_phrase_present": true,
+      "extra_keys": [],
+      "missing_keys": [],
+      "observed_transcript_normalized": "once upon a midnight",
+      "passed": true,
+      "schema_keys_exact": true,
+      "speech_intelligible_true": true,
+      "type_errors": []
+    },
+    "payload": {
+      "audible_events": [
+        "Male voice speaking",
+        "Loud sustained electronic tone"
+      ],
+      "background_audio": "None",
+      "clipping_or_distortion": "None",
+      "confidence": 0.95,
+      "language": "English",
+      "quality_observations": [
+        "Speech abruptly cut off",
+        "Loud electronic tone interferes with speech"
+      ],
+      "semantic_summary": "A male voice says \"Once upon a midnight\" before being cut off by a loud, sustained electronic tone.",
+      "speech_intelligible": true,
+      "transcript": "Once upon a midnight"
+    }
+  },
+  "status": "FAIL_RUNTIME_SEMANTIC_OR_PROCESS_EXIT_CLEANUP"
+}

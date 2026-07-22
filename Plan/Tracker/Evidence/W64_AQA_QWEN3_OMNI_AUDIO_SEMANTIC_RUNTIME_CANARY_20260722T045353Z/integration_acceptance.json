@@ -1,0 +1,48 @@
+{
+  "schema_version": "wave64.aqa.integration_acceptance.v1",
+  "program_id": "W64-AQA",
+  "evaluated_at_utc": "2026-07-22T05:25:55Z",
+  "disposition": "PARTIALLY_ADOPTED",
+  "scope": "Qwen3-Omni exact-fixture structured semantic-audio runtime and cleanup authority",
+  "receipt_sha256": "3af25e9654939a2fcd600a65d9e90ccac67fa310e6dde2e279921ab221c30e67",
+  "runtime_log_sha256": "ea179c0a33e6476a5ecf3bd54c8ac22f23c01c079a6191102c5aa6b9239460f1",
+  "accepted": {
+    "model_revision": "2f443cfc4c54b14a815c0e2bb9a9d6cbcd9a748b",
+    "model_manifest_sha256": "46d9695468fac6ff986a683b42df3e8872a01f9e16703ee0772ca4ba2136d480",
+    "audio_sha256": "5a07f0a654499266509453421c3efdc1b2e4ce83b8706e0138ebc4b1d3ad924a",
+    "worker_runtime_completed": true,
+    "exact_fixture_structured_audio_observation": true,
+    "expected_phrase_present": true,
+    "schema_keys_exact": true,
+    "load_seconds": 364.7017790749669,
+    "inference_seconds": 1153.6751466020942,
+    "peak_observed_gpu_used_mib": 37762,
+    "gpu_used_after_worker_exit_mib": 648,
+    "process_exit_gpu_cleanup": true,
+    "offload_dir_removed": true
+  },
+  "held": {
+    "process_exit_host_cleanup": false,
+    "host_memory_available_before_worker_bytes": 432916774912,
+    "host_memory_available_after_worker_exit_bytes": 400992796672,
+    "host_memory_available_delta_bytes": -31923978240,
+    "reason": "The isolated worker exited and GPU/offload cleanup passed, but immediate post-exit MemAvailable remained 31,923,978,240 bytes below its pre-worker baseline. This may include reclaimable file-cache pressure, but no cleanup authority is granted without a bounded discriminating observation.",
+    "unchanged_rerun_allowed": false
+  },
+  "authority_granted": [
+    "exact-fixture structured audio observation",
+    "exact current-pod model load and inference execution",
+    "process-exit GPU cleanup for this run"
+  ],
+  "authority_not_granted": [
+    "full current-pod lifecycle cleanup",
+    "general semantic audio quality",
+    "general ASR quality",
+    "forced alignment",
+    "speaker identity",
+    "AV sync or motion review",
+    "independent juror",
+    "product promotion"
+  ],
+  "next_action": "Advance the lightweight promoted CLAP package canary while the high-cost Omni lane remains held; before another Omni attempt, add a bounded host-memory discriminator that records process RSS, anonymous memory, clean file cache, cgroup memory, and delayed MemAvailable without dropping caches or touching foreign processes."
+}

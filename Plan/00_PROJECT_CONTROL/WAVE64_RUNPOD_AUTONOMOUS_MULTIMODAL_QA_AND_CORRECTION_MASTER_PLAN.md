@@ -721,3 +721,34 @@ identities, fixture governance, isolated sandbox, regression, security, cleanup,
 and rollback gates pass. The repository-backed disposition is
 `W64-AQA-018`; transfer integrity may advance package qualification but cannot
 mark any role or workflow operational.
+
+## Qwen3-Omni exact-fixture runtime disposition
+
+The corrected current-pod Qwen3-Omni canary at revision
+`2f443cfc4c54b14a815c0e2bb9a9d6cbcd9a748b` loaded and executed successfully
+against the retained audio SHA-256
+`5a07f0a654499266509453421c3efdc1b2e4ce83b8706e0138ebc4b1d3ad924a`.
+Its response had the exact required schema, recognized "Once upon a midnight",
+and passed the exact-fixture intelligibility gate. Load took 364.702 seconds,
+inference took 1,153.675 seconds, observed GPU use peaked at 37,762 MiB, worker
+process exit returned GPU use to the 648 MiB baseline, and the temporary offload
+directory was removed.
+
+The run is `PARTIALLY_ADOPTED`, not operational. Immediate post-worker
+`MemAvailable` was 31,923,978,240 bytes below the pre-worker observation, so
+full lifecycle cleanup, general semantic-audio quality, ASR quality, forced
+alignment, speaker identity, AV sync, independent-juror, and product authority
+remain false. No unchanged high-cost rerun is allowed. A later Omni attempt must
+first add non-destructive process-RSS, anonymous-memory, clean-file-cache,
+cgroup-memory, and delayed-availability observations and must never drop caches
+or touch foreign processes.
+
+The next dependency-unblocked current-pod gate is the promoted
+`laion/larger_clap_general` package at revision
+`ada0c23a36c4e8582805bb38fec3905903f18b41`. Its exact 15-file package is bound
+to aggregate manifest SHA-256
+`b35a1ac3fc7cf0ed32822667e85240b0620cba5ed65988c0a707445ef7e593cc`.
+The isolated canary must prove exact-package identity, offline CUDA load,
+512-dimensional audio/text embeddings, exact-fixture speech-vs-distractor
+behavior, repeatability, and process-exit cleanup. Passing grants only that
+bounded fixture scope and does not activate general audio QA.
