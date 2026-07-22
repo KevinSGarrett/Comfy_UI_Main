@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/video_conditioned_foley_decision.schema.json",
+  "title": "Wave64 Row101 Video-Conditioned Foley Decision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "tracker_id", "video_sha256", "event_script_sha256", "candidate_sha256", "engine", "anchors", "anchor_decisions", "alignments", "runtime_evidence_sha256", "is_synthetic", "decision", "report_sha256"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "tracker_id": {"const": "TRK-W64-101"},
+    "video_sha256": {"$ref": "#/$defs/sha256"},
+    "event_script_sha256": {"$ref": "#/$defs/sha256"},
+    "candidate_sha256": {"$ref": "#/$defs/sha256"},
+    "runtime_evidence_sha256": {"anyOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]},
+    "is_synthetic": {"type": "boolean"},
+    "engine": {
+      "type": "object", "additionalProperties": false,
+      "required": ["family", "revision", "model_sha256", "qualification_evidence_sha256", "qualified"],
+      "properties": {
+        "family": {"enum": ["mmaudio", "hunyuanvideo_foley"]},
+        "revision": {"type": "string", "minLength": 1},
+        "model_sha256": {"$ref": "#/$defs/sha256"},
+        "qualification_evidence_sha256": {"anyOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]},
+        "qualified": {"type": "boolean"}
+      }
+    },
+    "anchors": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/anchor"}},
+    "anchor_decisions": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/anchorDecision"}},
+    "alignments": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/alignment"}},
+    "decision": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "candidate_authority", "production_authority", "blocker_codes"],
+      "properties": {
+        "status": {"enum": ["pass", "blocked"]},
+        "candidate_authority": {"type": "boolean"},
+        "production_authority": {"type": "boolean"},
+        "blocker_codes": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "report_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "anchor": {
+      "type": "object", "additionalProperties": false,
+      "required": ["anchor_id", "source_sha256", "start_sample", "end_sample", "trusted_exact_one_shot"],
+      "properties": {
+        "anchor_id": {"type": "string", "minLength": 1}, "source_sha256": {"$ref": "#/$defs/sha256"},
+        "start_sample": {"type": "integer", "minimum": 0}, "end_sample": {"type": "integer", "minimum": 1},
+        "trusted_exact_one_shot": {"const": true}
+      }
+    },
+    "anchorDecision": {
+      "type": "object", "additionalProperties": false,
+      "required": ["anchor_id", "action", "explicit"],
+      "properties": {"anchor_id": {"type": "string", "minLength": 1}, "action": {"enum": ["retain", "supplement", "blend_explicit"]}, "explicit": {"const": true}, "generated_gain_db": {"type": "number"}}
+    },
+    "alignment": {
+      "type": "object", "additionalProperties": false,
+      "required": ["anchor_id", "onset_error_ms", "coverage"],
+      "properties": {"anchor_id": {"type": "string", "minLength": 1}, "onset_error_ms": {"type": "number", "minimum": 0}, "coverage": {"type": "number", "minimum": 0, "maximum": 1}}
+    }
+  }
+}

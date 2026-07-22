@@ -312,6 +312,20 @@ Generate complex continuous Foley candidates from video plus the canonical event
 
 Acceptance: candidates are compared against deterministic event anchors and may supplement, not overwrite, trusted exact one-shots without an explicit blend decision.
 
+Implemented contract slice (2026-07-22): the Row101 evaluator binds video,
+canonical event script, candidate, model, engine revision, qualification, and
+runtime evidence hashes. Every trusted exact one-shot requires one explicit
+`retain`, `supplement`, or `blend_explicit` decision plus an alignment result;
+silent overwrite is not representable. Production requires a registered and
+independently qualified engine, all five accepted dependencies, genuine runtime
+evidence, onset error at or below 50 ms, and anchor coverage at or above 0.8.
+
+The historical MMAudio execution remains candidate-only evidence: it proves a
+genuine technical video-to-audio run, but lacks independent playback/contact
+review and production certification. All five Row101 dependencies are currently
+held, so runtime and production authority remain false and no generation rerun
+was performed.
+
 ### Row102 Generated-asset provenance and candidate staging
 
 Store generated candidates outside the approved library with prompt/event manifest hashes, source hashes, engine identity, seed, environment, output hashes, rights, and QA state.
@@ -461,9 +475,9 @@ multimodal release, and replay reconstruction evidence across at least three
 unique genuine-video hashes. Synthetic fixtures exercise the mechanism but are
 structurally forbidden from granting certification authority.
 
-The live audit found 5 accepted, 36 held, 3 ambiguous, and 1 absent dependency
-records. Rows086-088 have competing current deltas and Row101 has no current
-delta. All eight genuine-production gates remain absent. Therefore Row112's
+The latest live audit found 5 accepted, 37 held, 3 ambiguous, and no absent
+dependency records. Rows086-088 have competing current deltas and Row101 now
+has an implemented but held contract. All eight genuine-production gates remain absent. Therefore Row112's
 certification matrix is implemented and tested, but Row112 acceptance, runtime
 completion, production authority, and product completion remain false.
 

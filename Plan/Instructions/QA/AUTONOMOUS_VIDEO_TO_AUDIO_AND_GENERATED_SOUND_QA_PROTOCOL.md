@@ -201,3 +201,17 @@ AV sync, global QA, multimodal release, and replay reconstruction. These gates
 must cover at least three unique genuine-video hashes. A rollup record cannot
 substitute for an individual gate, and any synthetic dependency, gate, or video
 fixture is calibration-only and cannot grant production authority.
+
+## Row101 video-conditioned Foley gate
+
+Bind the exact video, canonical event script, generated candidate, engine
+family and revision, model, qualification record, and runtime record by SHA-256.
+Each trusted deterministic one-shot anchor must have exactly one explicit
+decision (`retain`, `supplement`, or `blend_explicit`) and exactly one alignment
+measurement. `overwrite` and implicit replacement are forbidden.
+
+Production eligibility requires Rows083, 091, 092, 097, and 099 to be accepted,
+the engine to be registered and independently qualified, genuine runtime proof,
+onset error no greater than 50 ms, and coverage of at least 0.8 for every
+anchor. Historical or synthetic execution may establish candidate evidence but
+cannot establish current production authority.

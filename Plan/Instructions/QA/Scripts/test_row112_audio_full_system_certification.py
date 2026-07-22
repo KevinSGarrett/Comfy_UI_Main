@@ -35,9 +35,9 @@ def test_current_dependency_matrix_is_exact_45_and_fail_closed():
     assert not all(item["accepted"] for item in dependencies)
 
 
-def test_current_matrix_detects_absent_and_ambiguous_rows():
+def test_current_matrix_detects_held_row101_and_ambiguous_rows():
     by_id = {item["tracker_id"]: item for item in MOD.inspect_all_dependencies(ROOT)}
-    assert by_id["TRK-W64-101"]["disposition"] == "absent"
+    assert by_id["TRK-W64-101"]["disposition"] == "held"
     for tracker in ("TRK-W64-086", "TRK-W64-087", "TRK-W64-088"):
         assert by_id[tracker]["disposition"] == "ambiguous"
         assert len(by_id[tracker]["candidate_paths"]) > 1
