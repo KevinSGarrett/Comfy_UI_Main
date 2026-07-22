@@ -141,6 +141,13 @@ def validate(data: dict) -> list[str]:
                     errors.append(f"{item.get('package_id')}: Qwen3-VL 8B official identity mismatch")
                 if item.get("static_qualification") != expected_static:
                     errors.append(f"{item.get('package_id')}: Qwen3-VL 8B official manifest mismatch")
+            elif identity.get("repository_id") == "qwen2.5vl:7b":
+                expected_identity = {"display_name": "qwen2.5vl:7b", "publisher": "Ollama library / Qwen", "repository_id": "qwen2.5vl:7b", "source_url": "https://registry.ollama.ai/v2/library/qwen2.5vl/manifests/7b", "identity_state": "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_PINNED", "license_state": "APACHE-2.0_ACCEPTED_FOR_COMFY_UI_MAIN_PROJECT_USE"}
+                expected_static = {"state": "OFFICIAL_MANIFEST_AND_APACHE_2_0_LICENSE_PASS_RUNTIME_PENDING", "evidence": "Plan/Tracker/Evidence/W64_AQA_QWEN25VL7_OFFICIAL_MANIFEST_IDENTITY_20260722.json", "manifest_sha256": EXPECTED_INSTALLED["qwen2.5vl:7b"], "config_sha256": "83b9da835d9f13632a97e550cc8fd02ff7f39b88a843f0a8923330890682977a", "model_sha256": "a99b7f834d754b88f122d865f32758ba9f0994a83f8363df2c1e71c17605a025", "template_sha256": "a242d8dfdc8f8c2b0586ee85fba70adb408fb633aba2836fe1b05f2c46631474", "system_sha256": "75357d685f238b6afd7738be9786fdafde641eb6ca9a3be7471939715a68a4de", "license_sha256": "832dd9e00a68dd83b3c3fb9f5588dad7dcf337a0db50f7d9483f310cd292e92e", "parameters_sha256": "52d2a7aa3a380c606bd1cd3d6f777a9c65a1c77c2e0cb091eed2968a5ef04dc3"}
+                if identity != expected_identity:
+                    errors.append(f"{item.get('package_id')}: Qwen2.5-VL 7B official identity mismatch")
+                if item.get("static_qualification") != expected_static:
+                    errors.append(f"{item.get('package_id')}: Qwen2.5-VL 7B official manifest mismatch")
         elif state == "PROMOTED_EXACT_PACKAGE_IDENTITY_VERIFIED_ACTIVATION_PENDING":
             repository_id = identity.get("repository_id", "")
             source_pin = item.get("source_pin", {})

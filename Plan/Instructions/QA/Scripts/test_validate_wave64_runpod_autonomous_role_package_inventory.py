@@ -98,6 +98,16 @@ def test_qwen3vl8_official_manifest_drift_fails() -> None:
     assert any("Qwen3-VL 8B official manifest mismatch" in error for error in MODULE.validate(data))
 
 
+def test_qwen25vl7_official_manifest_and_license_are_exact_but_runtime_is_false() -> None:
+    data = copy.deepcopy(load_inventory())
+    package = next(item for item in data["packages"] if item["identity"]["repository_id"] == "qwen2.5vl:7b")
+    assert package["static_qualification"]["manifest_sha256"] == package["installation"]["artifact_digest"]
+    assert package["identity"]["license_state"] == "APACHE-2.0_ACCEPTED_FOR_COMFY_UI_MAIN_PROJECT_USE"
+    assert package["authority"]["operational"] is False
+    package["static_qualification"]["license_sha256"] = "0" * 64
+    assert any("Qwen2.5-VL 7B official manifest mismatch" in error for error in MODULE.validate(data))
+
+
 def test_no_package_is_operational_without_certificate() -> None:
     data = copy.deepcopy(load_inventory())
     data["packages"][0]["authority"]["operational"] = True
