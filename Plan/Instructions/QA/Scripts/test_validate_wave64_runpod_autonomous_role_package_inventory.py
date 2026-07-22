@@ -55,6 +55,24 @@ def test_no_package_is_operational_without_certificate() -> None:
     assert any("operational must remain false" in error for error in MODULE.validate(data))
 
 
+def test_independent_juror_uses_pinned_native_hf_without_remote_code() -> None:
+    data = copy.deepcopy(load_inventory())
+    package = next(
+        item
+        for item in data["packages"]
+        if item["identity"]["repository_id"] == "OpenGVLab/InternVL3_5-241B-A28B-HF"
+    )
+    assert package["source_pin"]["revision"] == "b941ed62ed4e2b711be4271b55034c2c97c57f33"
+    assert package["source_pin"]["native_hf_format"] is True
+    assert package["source_pin"]["weight_shard_count"] == 97
+    assert package["installation"]["state"] == "UPSTREAM_IDENTITY_VERIFIED_NOT_INSTALLED"
+    assert "trust_remote_code" in package["authority"]["forbidden"]
+    assert "remote_code_review" not in package["qualification"]["required_gates"]
+    assert not package["authority"]["operational"]
+    package["source_pin"]["source_manifest_sha256"] = "0" * 64
+    assert any("native HF source pin mismatch" in error for error in MODULE.validate(data))
+
+
 def test_asr_source_revision_and_storage_install_are_exact_but_not_operational() -> None:
     data = copy.deepcopy(load_inventory())
     package = next(item for item in data["packages"] if item["identity"]["repository_id"] == "Qwen/Qwen3-ASR-1.7B")

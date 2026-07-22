@@ -22,7 +22,7 @@ EXPECTED_INSTALLED = {
 EXPECTED_PLANNED = {
     "Qwen/Qwen3.6-35B-A3B",
     "Qwen/Qwen3.5-122B-A10B",
-    "OpenGVLab/InternVL3_5-241B-A28B",
+    "OpenGVLab/InternVL3_5-241B-A28B-HF",
     "Qwen/Qwen3-Omni-30B-A3B-Thinking",
     "Qwen/Qwen3-ASR-1.7B",
     "Qwen/Qwen3-Coder-Next",
@@ -32,6 +32,7 @@ EXPECTED_PLANNED = {
 PINNED_PLANNED = {
     "Qwen/Qwen3-ASR-1.7B": "7278e1e70fe206f11671096ffdd38061171dd6e5",
     "Qwen/Qwen3-Omni-30B-A3B-Thinking": "2f443cfc4c54b14a815c0e2bb9a9d6cbcd9a748b",
+    "OpenGVLab/InternVL3_5-241B-A28B-HF": "b941ed62ed4e2b711be4271b55034c2c97c57f33",
 }
 
 
@@ -232,6 +233,29 @@ def validate(data: dict) -> list[str]:
                     }
                     if omni_import_canary != expected_omni_import_canary:
                         errors.append(f"{item.get('package_id')}: Omni import canary evidence mismatch")
+                elif repository_id == "OpenGVLab/InternVL3_5-241B-A28B-HF":
+                    expected_source_pin = {
+                        "revision": "b941ed62ed4e2b711be4271b55034c2c97c57f33",
+                        "verified_at_utc": "2026-07-22T03:00:00Z",
+                        "native_hf_format": True,
+                        "source_manifest_sha256": "3011b54a9235a92b161253b400f9ffa9726310c76f7b4c8f9d89335562b03413",
+                        "source_file_count": 136,
+                        "source_total_bytes": 481433908402,
+                        "weight_shard_count": 97,
+                        "weight_bytes": 481403989568,
+                        "evidence": "Plan/Tracker/Evidence/W64_AQA_INTERNVL35_241B_A28B_NATIVE_HF_SOURCE_QUALIFICATION_20260722T030000Z.json",
+                    }
+                    if source_pin != expected_source_pin:
+                        errors.append(f"{item.get('package_id')}: native HF source pin mismatch")
+                    if identity.get("license_state") != "WEIGHTS_APACHE-2.0_AND_PROJECT_CODE_MIT_ACCEPTED_FOR_COMFY_UI_MAIN_PROJECT_USE":
+                        errors.append(f"{item.get('package_id')}: independent juror license decision mismatch")
+                    if qualification.get("state") != "NATIVE_HF_SOURCE_PINNED_LICENSE_ACCEPTED_INSTALLATION_PENDING":
+                        errors.append(f"{item.get('package_id')}: independent juror qualification state mismatch")
+                    for completed_gate in ("pinned_revision", "license_acceptance", "remote_code_review"):
+                        if completed_gate in qualification.get("required_gates", []):
+                            errors.append(f"{item.get('package_id')}: completed or avoided {completed_gate} gate remains open")
+                    if "trust_remote_code" not in authority.get("forbidden", []):
+                        errors.append(f"{item.get('package_id')}: native HF route must forbid remote code")
             else:
                 if identity.get("identity_state") != "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_UNPINNED":
                     errors.append(f"{item.get('package_id')}: planned identity state mismatch")

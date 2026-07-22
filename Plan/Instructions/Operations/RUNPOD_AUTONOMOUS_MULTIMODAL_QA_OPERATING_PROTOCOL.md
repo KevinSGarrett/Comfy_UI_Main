@@ -449,3 +449,13 @@ loopback/ephemeral bind probe; all network, process, shell, and weight-file
 events remained blocked. Post-canary full replay retained the exact environment
 tree digest. This closes only the import/class-resolution gate. Runtime and
 semantic qualification still require an owned GPU lease and separate evidence.
+
+For the independent juror, use only the official native Transformers repository
+`OpenGVLab/InternVL3_5-241B-A28B-HF` at revision `b941ed62...`. Do not use the
+custom-code repository or `trust_remote_code`; the native route exposes no
+Python files or `auto_map`. Its 136-file source manifest and all 97 weight-shard
+SHA-256 values are pinned. The unquantized source is 481,433,908,402 bytes and
+does not fit the current remaining workspace, so installation requires a
+separately admitted reproducible quantized/offloaded artifact and durable
+storage budget. This storage constraint cannot block other current-pod lanes or
+the 2x A40 availability watcher.
