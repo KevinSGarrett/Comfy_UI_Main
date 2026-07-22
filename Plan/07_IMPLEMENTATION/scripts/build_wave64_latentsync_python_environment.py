@@ -62,9 +62,13 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
-def run(command: list[str]) -> str:
+def run(command: list[str], *, environment: dict[str, str] | None = None) -> str:
+    process_environment = os.environ.copy()
+    if environment:
+        process_environment.update(environment)
     completed = subprocess.run(
         command,
+        env=process_environment,
         text=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
@@ -103,7 +107,7 @@ def load_admission(path: Path, lock_path: Path) -> tuple[dict, dict]:
     return admission, lock
 
 
-def validate_paths(admission: dict, receipt_path: Path) -> tuple[Path, Path]:
+def validate_paths(admission: dict, receipt_path: Path) -> tuple[Path, Path, Path]:
     target_text = admission["targets"]["environment_root"]
     target = Path(target_text)
     if not target_text.startswith("/workspace/w64_aqa/environments/LatentSync-1.6/"):
@@ -111,11 +115,12 @@ def validate_paths(admission: dict, receipt_path: Path) -> tuple[Path, Path]:
     if target.name != EXPECTED_LOCK_SHA256:
         raise BuildError("environment target is not lock-addressed")
     staging = target.with_name(f".{target.name}.installing")
-    if any(path.is_symlink() for path in (target, staging, receipt_path)):
-        raise BuildError("environment target, staging, or receipt path is a symlink")
+    scratch = target.with_name(f".{target.name}.uv-scratch")
+    if any(path.is_symlink() for path in (target, staging, scratch, receipt_path)):
+        raise BuildError("environment target, staging, scratch, or receipt path is a symlink")
     if not receipt_path.as_posix().startswith("/workspace/w64_aqa/control/receipts/"):
         raise BuildError("unsafe receipt target")
-    return target, staging
+    return target, staging, scratch
 
 
 def python_identity(executable: Path) -> dict[str, str]:
@@ -227,12 +232,12 @@ def verify_replay(target: Path, receipt_path: Path, expected_distributions: list
 
 def build(admission_path: Path, lock_path: Path, receipt_path: Path, active_python: str) -> dict:
     admission, lock = load_admission(admission_path, lock_path)
-    target, staging = validate_paths(admission, receipt_path)
+    target, staging, scratch = validate_paths(admission, receipt_path)
     expected_distributions = expected_distribution_manifest(lock)
     if target.exists() or receipt_path.exists():
         return verify_replay(target, receipt_path, expected_distributions)
-    if staging.exists():
-        raise BuildError("stale staging environment requires independent disposition")
+    if staging.exists() or scratch.exists():
+        raise BuildError("stale staging or scratch path requires independent disposition")
 
     base = Path(admission["base_python"]["executable"])
     identity = python_identity(base)
@@ -249,9 +254,22 @@ def build(admission_path: Path, lock_path: Path, receipt_path: Path, active_pyth
 
     receipt_temp: Path | None = None
     try:
-        run(["uv", "venv", "--python", str(base), str(staging)])
-        run(["uv", "pip", "sync", "--python", str(staging / "bin/python"), str(lock_path)])
-        run(["uv", "pip", "check", "--python", str(staging / "bin/python")])
+        scratch_tmp = scratch / "tmp"
+        scratch_tmp.mkdir(parents=True, exist_ok=False)
+        install_environment = {
+            "TMPDIR": str(scratch_tmp),
+            "UV_CACHE_DIR": str(scratch / "uv-cache"),
+            "UV_NO_CACHE": "1",
+        }
+        run(["uv", "venv", "--python", str(base), str(staging)], environment=install_environment)
+        run(
+            ["uv", "pip", "sync", "--python", str(staging / "bin/python"), str(lock_path)],
+            environment=install_environment,
+        )
+        run(
+            ["uv", "pip", "check", "--python", str(staging / "bin/python")],
+            environment=install_environment,
+        )
         distributions = distribution_manifest(staging / "bin/python")
         if distributions != expected_distributions:
             raise BuildError("installed distribution manifest does not match runtime lock")
@@ -259,6 +277,7 @@ def build(admission_path: Path, lock_path: Path, receipt_path: Path, active_pyth
         active_after = distribution_signature(active_python)
         if active_before != active_after:
             raise BuildError("active Python distribution metadata changed")
+        shutil.rmtree(scratch)
         receipt = {
             "schema_version": "wave64.aqa.latentsync_python_environment_build_receipt.v1",
             "program_id": "W64-AQA",
@@ -275,6 +294,16 @@ def build(admission_path: Path, lock_path: Path, receipt_path: Path, active_pyth
             },
             "uv_version": EXPECTED_UV_VERSION,
             "free_bytes_before": free_bytes,
+            "prior_attempts": [
+                {
+                    "controller_commit": "a3f3aad6",
+                    "result": "FAIL_CLOSED_BEFORE_ENVIRONMENT_PUBLICATION",
+                    "reason": "uv used the root-filesystem default cache and exhausted available root space while extracting the hash-bound onnx wheel",
+                    "staging_removed": True,
+                    "environment_published": False,
+                    "receipt_published": False,
+                }
+            ],
             "distribution_count": len(distributions),
             "distributions": distributions,
             "pip_check": "PASS_149_PACKAGES_COMPATIBLE",
@@ -301,6 +330,8 @@ def build(admission_path: Path, lock_path: Path, receipt_path: Path, active_pyth
     except Exception:
         if receipt_temp and receipt_temp.exists() and not receipt_temp.is_symlink():
             receipt_temp.unlink()
+        if scratch.exists() and not scratch.is_symlink():
+            shutil.rmtree(scratch)
         if staging.exists() and not staging.is_symlink():
             shutil.rmtree(staging)
         raise

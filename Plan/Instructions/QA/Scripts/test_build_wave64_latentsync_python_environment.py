@@ -97,6 +97,8 @@ def test_receipt_write_is_no_overwrite(tmp_path: Path) -> None:
 
 def test_source_contains_no_gpu_model_or_project_import_operations() -> None:
     source = SCRIPT.read_text(encoding="utf-8")
+    assert '"UV_CACHE_DIR": str(scratch / "uv-cache")' in source
+    assert '"UV_NO_CACHE": "1"' in source
     forbidden = [
         "nvidia-smi",
         "torch.cuda",
