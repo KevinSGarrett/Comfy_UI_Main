@@ -138,6 +138,16 @@ def test_qwen25text7_identity_and_license_are_exact_but_runtime_is_false() -> No
     assert any("Qwen2.5 text 7B official manifest mismatch" in error for error in MODULE.validate(data))
 
 
+def test_llama32vision11_identity_is_exact_but_license_aup_and_runtime_are_held() -> None:
+    data = copy.deepcopy(load_inventory())
+    package = next(item for item in data["packages"] if item["identity"]["repository_id"] == "llama3.2-vision:11b")
+    assert package["static_qualification"]["manifest_sha256"] == package["installation"]["artifact_digest"]
+    assert package["identity"]["license_state"] == "LLAMA32_COMMUNITY_LICENSE_AND_AUP_REVIEW_REQUIRED_NOT_ACCEPTED"
+    assert package["authority"]["operational"] is False
+    package["static_qualification"]["aup_sha256"] = "0" * 64
+    assert any("Llama 3.2 Vision manifest mismatch" in error for error in MODULE.validate(data))
+
+
 def test_no_package_is_operational_without_certificate() -> None:
     data = copy.deepcopy(load_inventory())
     data["packages"][0]["authority"]["operational"] = True

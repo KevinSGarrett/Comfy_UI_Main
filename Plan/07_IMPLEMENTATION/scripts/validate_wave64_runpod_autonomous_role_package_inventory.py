@@ -169,6 +169,13 @@ def validate(data: dict) -> list[str]:
                     errors.append(f"{item.get('package_id')}: Qwen2.5 text 7B official identity mismatch")
                 if item.get("static_qualification") != expected_static:
                     errors.append(f"{item.get('package_id')}: Qwen2.5 text 7B official manifest mismatch")
+            elif identity.get("repository_id") == "llama3.2-vision:11b":
+                expected_identity = {"display_name": "llama3.2-vision:11b", "publisher": "Ollama library / Meta", "repository_id": "llama3.2-vision:11b", "source_url": "https://registry.ollama.ai/v2/library/llama3.2-vision/manifests/11b", "identity_state": "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_PINNED", "license_state": "LLAMA32_COMMUNITY_LICENSE_AND_AUP_REVIEW_REQUIRED_NOT_ACCEPTED"}
+                expected_static = {"state": "OFFICIAL_MANIFEST_PASS_LLAMA32_LICENSE_AND_AUP_REVIEW_REQUIRED_RUNTIME_PENDING", "evidence": "Plan/Tracker/Evidence/W64_AQA_LLAMA32VISION11_OFFICIAL_MANIFEST_LICENSE_HOLD_20260722.json", "manifest_sha256": EXPECTED_INSTALLED["llama3.2-vision:11b"], "config_sha256": "1506fb8a72846f147af74cb2c91f0a266f75f3d9e9be94605aa40b4b7da513c3", "model_sha256": "9999d473417a8e179d993498195be5f42cab963acc75f4a6b15d981e8b68abed", "template_sha256": "715415638c9c4c0cb2b78783da041b97bd1205f8b9f9494bd7e5a850cb443602", "aup_sha256": "d3ed60b917572dd5aa69bf5ff7825f2db00d65e73dc07a43fbc31c60eb31449e", "license_sha256": "fcc5a6bec9daf9b561a68827b67ab6088e1dba9d1fa2a50d7bbcc8384e0a265d", "parameters_sha256": "fefc914e46e6024467471837a48a24251db2c6f3f58395943da7bf9dc6f70fb6"}
+                if identity != expected_identity:
+                    errors.append(f"{item.get('package_id')}: Llama 3.2 Vision identity or license hold mismatch")
+                if item.get("static_qualification") != expected_static:
+                    errors.append(f"{item.get('package_id')}: Llama 3.2 Vision manifest mismatch")
         elif state == "PROMOTED_EXACT_PACKAGE_IDENTITY_VERIFIED_ACTIVATION_PENDING":
             repository_id = identity.get("repository_id", "")
             source_pin = item.get("source_pin", {})
