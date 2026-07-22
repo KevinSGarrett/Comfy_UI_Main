@@ -36,6 +36,10 @@ ADMITTED_PRODUCTION_MANIFESTS = {
         "repository_id": "facebook/wav2vec2-lv-60-espeak-cv-ft",
         "revision": "ae45363bf3413b374fecd9dc8bc1df0e24c3b7f4",
     },
+    "e9606b2e06b7a3283d893d6f15a882a7e2c488dc9f339cd24707c018d9d3bbc7": {
+        "repository_id": "ByteDance/LatentSync-1.6",
+        "revision": "c42c7e6c8e9c213626389fa7d9a3c444b8536353",
+    },
 }
 
 

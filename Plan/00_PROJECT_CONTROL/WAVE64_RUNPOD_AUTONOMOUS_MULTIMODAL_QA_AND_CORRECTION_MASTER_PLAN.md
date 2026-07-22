@@ -806,3 +806,15 @@ product promotion remain false. The next bounded action is an isolated Row137
 candidate using immutable source video/audio and the accepted control track,
 followed by temporal, identity, frame-integrity, whole-video, cleanup, and
 rollback QA.
+
+Row137 has begun with an exact current-pod admission rather than an unpinned
+workflow install. Official LatentSync code is pinned at commit
+`a229c3948406bc2cf6eaf4873e662e70c6a04746`; the model package is pinned at
+revision `c42c7e6c8e9c213626389fa7d9a3c444b8536353` with 13 exact files and
+9,635,782,864 weight bytes. The current pod has sufficient published inference
+VRAM; the storage-reconciliation estimate falls from 73.0 GiB to 64.026 GiB
+after this package and remains above the 50 GiB safety margin. Shared-filesystem
+`df` output is not billing or quota authority. No admitted model bytes or eligible face-video
+fixture were present at preflight. The storage transaction is therefore
+admitted first, with model load, code/dependency activation, inference, source
+video, identity, AV sync, operational, and product authority all false.

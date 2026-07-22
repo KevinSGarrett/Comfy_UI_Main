@@ -15,6 +15,8 @@ MANIFEST = ROOT / "Plan/10_REGISTRIES/wave64_runpod_qwen3_asr_17b_install_admiss
 OMNI_MANIFEST = ROOT / "Plan/10_REGISTRIES/wave64_runpod_qwen3_omni_30b_a3b_thinking_install_admission.json"
 ALIGNER_MANIFEST = ROOT / "Plan/10_REGISTRIES/wave64_wav2vec2_phoneme_aligner_install_admission.json"
 ALIGNER_SCHEMA = ROOT / "Plan/08_SCHEMAS/runpod_autonomous_wav2vec2_phoneme_aligner_install_admission.schema.json"
+LATENTSYNC_MANIFEST = ROOT / "Plan/10_REGISTRIES/wave64_latentsync_1_6_install_admission.json"
+LATENTSYNC_SCHEMA = ROOT / "Plan/08_SCHEMAS/runpod_autonomous_latentsync_1_6_install_admission.schema.json"
 SPEC = importlib.util.spec_from_file_location("model_package_installer", SCRIPT)
 assert SPEC and SPEC.loader
 MODULE = importlib.util.module_from_spec(SPEC)
@@ -188,6 +190,24 @@ def test_wav2vec2_phoneme_aligner_manifest_is_bound_for_storage_only() -> None:
     assert manifest["source"]["revision"] == "ae45363bf3413b374fecd9dc8bc1df0e24c3b7f4"
     assert manifest["storage"]["weight_bytes"] == 1263535127
     assert "forced_alignment_authority" in manifest["authority"]["forbidden"]
+
+
+def test_latentsync_manifest_is_bound_for_storage_only() -> None:
+    import jsonschema
+
+    manifest = json.loads(LATENTSYNC_MANIFEST.read_text(encoding="utf-8"))
+    schema = json.loads(LATENTSYNC_SCHEMA.read_text(encoding="utf-8"))
+    jsonschema.Draft202012Validator.check_schema(schema)
+    jsonschema.Draft202012Validator(schema).validate(manifest)
+    manifest_hash = hashlib.sha256(MODULE.canonical_bytes(manifest)).hexdigest()
+    assert manifest_hash == "e9606b2e06b7a3283d893d6f15a882a7e2c488dc9f339cd24707c018d9d3bbc7"
+    assert manifest_hash in MODULE.ADMITTED_PRODUCTION_MANIFESTS
+    MODULE._verify_manifest_shape(manifest)
+    assert manifest["source"]["revision"] == "c42c7e6c8e9c213626389fa7d9a3c444b8536353"
+    assert manifest["storage"]["weight_bytes"] == 9635782864
+    assert len(manifest["files"]) == 13
+    assert "lip_sync_authority" in manifest["authority"]["forbidden"]
+    assert "identity_preservation_authority" in manifest["authority"]["forbidden"]
 
 
 def test_parallel_download_preserves_manifest_receipt_order(tmp_path: Path) -> None:

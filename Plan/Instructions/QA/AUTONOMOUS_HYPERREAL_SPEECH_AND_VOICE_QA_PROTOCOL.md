@@ -58,6 +58,12 @@ Frame controls use exactly one center-sample owner per frame. Coarticulation may
 
 The frozen compiler passed both accepted speech fixtures: each output has 59 contiguous sample events, 77 single-owner frame controls, full silence/closure/plosive/fricative/vowel/rapid-transition coverage, and the same ordered 30-token IPA-to-viseme sequence. The tone-contaminated fixture shifted some accepted alignment boundaries by at most 20.125 ms and differed on six primary frame labels; those values are retained as diagnostics and are not promotion thresholds. Exact two-fixture compilation is accepted, while rendered lip-sync and all broader authority remain withheld.
 
+### LatentSync admission boundary
+
+Row137 uses official LatentSync code pinned at commit `a229c3948406bc2cf6eaf4873e662e70c6a04746` and the exact 13-file `ByteDance/LatentSync-1.6` model package at revision `c42c7e6c8e9c213626389fa7d9a3c444b8536353`. Storage installation is a separate no-load transaction. Code checkout, dependency environment, source video, audio/control binding, identity baseline, capacity lease, inference, temporal QA, whole-video visual review, cleanup, rollback, and promotion each require later evidence.
+
+The first video fixture must be immutable, rights/provenance qualified, face-detectable, and suitable for identity comparison. Absence of such a fixture blocks inference but does not block exact model storage or isolated dependency work. Official demo media may be used only for a non-product capability diagnostic unless its subject and media rights are separately accepted.
+
 ## Multi-engine comparison
 
 Hard-gate survivors are ranked by a versioned scorecard. The record must expose raw metrics, normalized metrics, weights, missing-metric handling, and final explanation. A missing mandatory metric blocks; it is never assigned a neutral score.
