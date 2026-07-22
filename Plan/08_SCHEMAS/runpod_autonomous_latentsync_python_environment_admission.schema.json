@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "runpod_autonomous_latentsync_python_environment_admission.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "program_id", "package_id", "status", "resolution", "base_python", "local_wheelhouse", "targets", "network", "authority", "verification"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.latentsync_python_environment_admission.v1"},
+    "program_id": {"const": "W64-AQA"},
+    "package_id": {"const": "W64-AQA-PKG-LATENTSYNC-1.6"},
+    "status": {"const": "DEPENDENCY_ENVIRONMENT_BUILD_ADMITTED_EXECUTION_PENDING"},
+    "resolution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lock_path", "lock_sha256", "package_count", "wheel_count", "sdist_count", "python_version", "uv_version", "platform", "torch_backend", "minimum_free_bytes"],
+      "properties": {
+        "lock_path": {"const": "Plan/10_REGISTRIES/Locks/pylock.wave64_latentsync_1_6_py311_cu121_local_wheels.toml"},
+        "lock_sha256": {"const": "862e85d3cbb3a1dd9a90dd9541bff24b20ae997c95326f9331b9e466dc6b40ff"},
+        "package_count": {"const": 149},
+        "wheel_count": {"const": 155},
+        "sdist_count": {"const": 126},
+        "python_version": {"const": "3.11.10"},
+        "uv_version": {"const": "0.11.30"},
+        "platform": {"const": "x86_64-manylinux_2_28"},
+        "torch_backend": {"const": "cu121"},
+        "minimum_free_bytes": {"const": 21474836480}
+      }
+    },
+    "base_python": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["executable", "sha256", "install_allowed"],
+      "properties": {
+        "executable": {"const": "/usr/bin/python3"},
+        "sha256": {"const": "45c68b7ca1e3765a06756734c15af204ca9c0588a3f6d7a6d8bb8ed58e3e2a1a"},
+        "install_allowed": {"const": false}
+      }
+    },
+    "local_wheelhouse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["root", "tree_sha256", "wheels"],
+      "properties": {
+        "root": {"const": "/workspace/w64_aqa/wheelhouse/LatentSync-1.6/a229c3948406bc2cf6eaf4873e662e70c6a04746/06610318056d7345485f7623316882c20fbd07913aa05f28aa6ef79458db16a7"},
+        "tree_sha256": {"const": "139140835f9e003c87187ee9d1f81edd458474ffb00c128fb3d844b505680ff6"},
+        "wheels": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name", "filename", "bytes", "sha256"],
+            "properties": {
+              "name": {"type": "string", "minLength": 1},
+              "filename": {"type": "string", "pattern": "^[^/]+\\.whl$"},
+              "bytes": {"type": "integer", "minimum": 1},
+              "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+            }
+          }
+        }
+      }
+    },
+    "targets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["environment_root", "active_comfyui_environment_mutable", "global_python_environment_mutable"],
+      "properties": {
+        "environment_root": {"const": "/workspace/w64_aqa/environments/LatentSync-1.6/a229c3948406bc2cf6eaf4873e662e70c6a04746/862e85d3cbb3a1dd9a90dd9541bff24b20ae997c95326f9331b9e466dc6b40ff"},
+        "active_comfyui_environment_mutable": {"const": false},
+        "global_python_environment_mutable": {"const": false}
+      }
+    },
+    "network": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowed_hosts", "model_download_allowed"],
+      "properties": {
+        "allowed_hosts": {"const": ["files.pythonhosted.org", "download-r2.pytorch.org"]},
+        "model_download_allowed": {"const": false}
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["environment_create", "locked_wheel_install", "project_code_import", "model_library_import", "model_load", "weight_access", "tensor_allocation", "gpu_or_lease_poll", "inference", "service_change", "role_activation", "audio_visual_authority", "product_authority"],
+      "properties": {
+        "environment_create": {"const": true},
+        "locked_wheel_install": {"const": true},
+        "project_code_import": {"const": false},
+        "model_library_import": {"const": false},
+        "model_load": {"const": false},
+        "weight_access": {"const": false},
+        "tensor_allocation": {"const": false},
+        "gpu_or_lease_poll": {"const": false},
+        "inference": {"const": false},
+        "service_change": {"const": false},
+        "role_activation": {"const": false},
+        "audio_visual_authority": {"const": false},
+        "product_authority": {"const": false}
+      }
+    },
+    "verification": {"const": ["free_space", "base_python_hash", "lock_hash", "local_wheel_hashes", "remote_wheel_hashes", "installed_distribution_manifest", "pip_check", "environment_tree_digest", "no_active_environment_change", "no_runtime_claim"]}
+  }
+}
