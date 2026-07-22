@@ -759,6 +759,17 @@ first add non-destructive process-RSS, anonymous-memory, clean-file-cache,
 cgroup-memory, and delayed-availability observations and must never drop caches
 or touch foreign processes.
 
+That prospective cleanup discriminator is now implemented before any rerun. It
+captures global available/cache/reclaimable memory plus container-scoped
+`memory.current`, anonymous, and file-cache counters before the child starts
+and after it exits. Cleanup acceptance prefers return of cgroup current memory,
+then return of anonymous memory with reclaimable file-cache retention, and only
+then the legacy global-availability tolerance. If all scoped signals drift, the
+result is `INDETERMINATE_SHARED_HOST_MEMORY_DELTA`, not a claimed process leak;
+exact semantic and GPU-cleanup results remain separately visible while lifecycle
+authority stays false. The probe is read-only, bounded to the canary invocation,
+does not drop caches, and does not inspect, signal, or mutate foreign processes.
+
 The promoted `laion/larger_clap_general` package at revision
 `ada0c23a36c4e8582805bb38fec3905903f18b41` is now partially qualified. Its
 exact 15-file, 777,702,854-byte package matches aggregate manifest SHA-256

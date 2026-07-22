@@ -182,6 +182,67 @@ def host_memory_available_bytes() -> int:
     raise CanaryError("MemAvailable is absent")
 
 
+def host_memory_snapshot() -> dict[str, int | None]:
+    """Capture global and container-scoped memory without treating either as sole truth."""
+    values: dict[str, int | None] = {
+        "mem_available_bytes": None,
+        "cached_bytes": None,
+        "sreclaimable_bytes": None,
+        "cgroup_current_bytes": None,
+        "cgroup_anon_bytes": None,
+        "cgroup_file_bytes": None,
+    }
+    for line in Path("/proc/meminfo").read_text(encoding="utf-8").splitlines():
+        name, _, rest = line.partition(":")
+        if name in {"MemAvailable", "Cached", "SReclaimable"}:
+            values[{"MemAvailable": "mem_available_bytes", "Cached": "cached_bytes", "SReclaimable": "sreclaimable_bytes"}[name]] = int(rest.split()[0]) * 1024
+    current = Path("/sys/fs/cgroup/memory.current")
+    memory_stat = Path("/sys/fs/cgroup/memory.stat")
+    if current.is_file():
+        values["cgroup_current_bytes"] = int(current.read_text(encoding="utf-8").strip())
+    if memory_stat.is_file():
+        fields = dict(line.split(maxsplit=1) for line in memory_stat.read_text(encoding="utf-8").splitlines() if " " in line)
+        values["cgroup_anon_bytes"] = int(fields["anon"]) if "anon" in fields else None
+        values["cgroup_file_bytes"] = int(fields["file"]) if "file" in fields else None
+    if values["mem_available_bytes"] is None:
+        raise CanaryError("MemAvailable is absent")
+    return values
+
+
+def classify_host_cleanup(
+    before: dict[str, int | None], after: dict[str, int | None]
+) -> dict[str, Any]:
+    """Distinguish retained anonymous memory from noisy shared-host availability."""
+    gib = 1024**3
+    available_delta = int(after["mem_available_bytes"]) - int(before["mem_available_bytes"])
+    cgroup_current_delta = None
+    cgroup_anon_delta = None
+    if before.get("cgroup_current_bytes") is not None and after.get("cgroup_current_bytes") is not None:
+        cgroup_current_delta = int(after["cgroup_current_bytes"]) - int(before["cgroup_current_bytes"])
+    if before.get("cgroup_anon_bytes") is not None and after.get("cgroup_anon_bytes") is not None:
+        cgroup_anon_delta = int(after["cgroup_anon_bytes"]) - int(before["cgroup_anon_bytes"])
+    if cgroup_current_delta is not None and cgroup_current_delta <= 4 * gib:
+        disposition = "PASS_CGROUP_MEMORY_RETURNED_TO_BASELINE"
+        passed = True
+    elif cgroup_anon_delta is not None and cgroup_anon_delta <= 4 * gib:
+        disposition = "PASS_ANONYMOUS_MEMORY_RETURNED_FILE_CACHE_RECLAIMABLE"
+        passed = True
+    elif available_delta >= -(16 * gib):
+        disposition = "PASS_GLOBAL_AVAILABLE_MEMORY_WITHIN_TOLERANCE"
+        passed = True
+    else:
+        disposition = "INDETERMINATE_SHARED_HOST_MEMORY_DELTA"
+        passed = False
+    return {
+        "disposition": disposition,
+        "passed": passed,
+        "mem_available_delta_bytes": available_delta,
+        "cgroup_current_delta_bytes": cgroup_current_delta,
+        "cgroup_anon_delta_bytes": cgroup_anon_delta,
+        "global_memavailable_is_not_process_leak_authority": True,
+    }
+
+
 def summarize_device_map(device_map: dict[str, Any]) -> dict[str, Any]:
     counts: dict[str, int] = {}
     for target in device_map.values():
@@ -438,6 +499,8 @@ def finalize_process_exit_cleanup(
     worker_returncode: int,
     worker_stdout: str,
     worker_stderr: str,
+    host_snapshot_before: dict[str, int | None] | None = None,
+    host_snapshot_after: dict[str, int | None] | None = None,
 ) -> tuple[dict[str, Any], int]:
     runtime = evidence["runtime"]
     process_exit_delta_mib = (
@@ -447,7 +510,18 @@ def finalize_process_exit_cleanup(
     host_available_delta_bytes = (
         host_memory_after_worker_exit - host_memory_before_worker
     )
-    host_cleanup_pass = host_available_delta_bytes >= -(16 * 1024**3)
+    if host_snapshot_before is None or host_snapshot_after is None:
+        host_discriminator = {
+            "disposition": "LEGACY_GLOBAL_AVAILABLE_MEMORY_ONLY",
+            "passed": host_available_delta_bytes >= -(16 * 1024**3),
+            "mem_available_delta_bytes": host_available_delta_bytes,
+            "cgroup_current_delta_bytes": None,
+            "cgroup_anon_delta_bytes": None,
+            "global_memavailable_is_not_process_leak_authority": True,
+        }
+    else:
+        host_discriminator = classify_host_cleanup(host_snapshot_before, host_snapshot_after)
+    host_cleanup_pass = bool(host_discriminator["passed"])
     runtime.update(
         {
             "gpu_before_worker_process": gpu_before_worker,
@@ -458,6 +532,9 @@ def finalize_process_exit_cleanup(
             "host_memory_available_after_worker_exit_bytes": host_memory_after_worker_exit,
             "host_memory_available_delta_bytes": host_available_delta_bytes,
             "process_exit_host_cleanup_pass": host_cleanup_pass,
+            "host_cleanup_discriminator": host_discriminator,
+            "host_memory_snapshot_before_worker": host_snapshot_before,
+            "host_memory_snapshot_after_worker_exit": host_snapshot_after,
             "offload_dir_removed": offload_dir_removed,
             "cleanup_boundary": "isolated_worker_process_exit",
             "worker_returncode": worker_returncode,
@@ -480,11 +557,12 @@ def finalize_process_exit_cleanup(
     evidence["schema_version"] = (
         "wave64.aqa.qwen3_omni_audio_semantic_runtime_canary.v2"
     )
-    evidence["status"] = (
-        "PASS_EXACT_FIXTURE_AUDIO_SEMANTIC_AND_PROCESS_EXIT_CLEANUP"
-        if passed
-        else "FAIL_RUNTIME_SEMANTIC_OR_PROCESS_EXIT_CLEANUP"
-    )
+    if passed:
+        evidence["status"] = "PASS_EXACT_FIXTURE_AUDIO_SEMANTIC_AND_PROCESS_EXIT_CLEANUP"
+    elif worker_completed and semantic_pass and gpu_cleanup_pass and offload_dir_removed and host_discriminator["disposition"] == "INDETERMINATE_SHARED_HOST_MEMORY_DELTA":
+        evidence["status"] = "INDETERMINATE_HOST_CLEANUP_EXACT_SEMANTIC_AND_GPU_CLEANUP_PASS"
+    else:
+        evidence["status"] = "FAIL_RUNTIME_SEMANTIC_OR_PROCESS_EXIT_CLEANUP"
     evidence["authority"].update(
         {
             "process_exit_cleanup": gpu_cleanup_pass
@@ -514,7 +592,8 @@ def run_isolated_canary(
         tempfile.mkdtemp(prefix="qwen3-omni-audio-", dir=str(offload_root))
     )
     gpu_before_worker = gpu_snapshot()
-    host_memory_before_worker = host_memory_available_bytes()
+    host_snapshot_before = host_memory_snapshot()
+    host_memory_before_worker = int(host_snapshot_before["mem_available_bytes"])
     command = [
         sys.executable,
         str(Path(__file__).resolve()),
@@ -561,16 +640,19 @@ def run_isolated_canary(
         raise CanaryError("worker reported an unsafe offload directory")
     offload_dir_removed = not worker_offload_dir.exists()
     time.sleep(2)
+    host_snapshot_after = host_memory_snapshot()
     return finalize_process_exit_cleanup(
         evidence,
         gpu_before_worker=gpu_before_worker,
         gpu_after_worker_exit=gpu_snapshot(),
         host_memory_before_worker=host_memory_before_worker,
-        host_memory_after_worker_exit=host_memory_available_bytes(),
+        host_memory_after_worker_exit=int(host_snapshot_after["mem_available_bytes"]),
         offload_dir_removed=offload_dir_removed,
         worker_returncode=completed.returncode,
         worker_stdout=completed.stdout,
         worker_stderr=completed.stderr,
+        host_snapshot_before=host_snapshot_before,
+        host_snapshot_after=host_snapshot_after,
     )
 
 

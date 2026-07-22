@@ -174,3 +174,48 @@ def test_process_exit_cleanup_rejects_retained_offload_directory() -> None:
     )
     assert exit_code == 1
     assert finalized["authority"]["process_exit_cleanup"] is False
+
+
+def test_host_cleanup_prefers_cgroup_return_over_global_noise() -> None:
+    module = load_module()
+    gib = 1024**3
+    before = {"mem_available_bytes": 400 * gib, "cached_bytes": 20 * gib, "sreclaimable_bytes": gib, "cgroup_current_bytes": 40 * gib, "cgroup_anon_bytes": 35 * gib, "cgroup_file_bytes": 5 * gib}
+    after = {"mem_available_bytes": 368 * gib, "cached_bytes": 50 * gib, "sreclaimable_bytes": gib, "cgroup_current_bytes": 41 * gib, "cgroup_anon_bytes": 35 * gib, "cgroup_file_bytes": 6 * gib}
+    result = module.classify_host_cleanup(before, after)
+    assert result["passed"] is True
+    assert result["disposition"] == "PASS_CGROUP_MEMORY_RETURNED_TO_BASELINE"
+
+
+def test_host_cleanup_is_indeterminate_not_leak_when_all_signals_drift() -> None:
+    module = load_module()
+    gib = 1024**3
+    before = {"mem_available_bytes": 400 * gib, "cgroup_current_bytes": 40 * gib, "cgroup_anon_bytes": 35 * gib}
+    after = {"mem_available_bytes": 368 * gib, "cgroup_current_bytes": 70 * gib, "cgroup_anon_bytes": 65 * gib}
+    result = module.classify_host_cleanup(before, after)
+    assert result["passed"] is False
+    assert result["disposition"] == "INDETERMINATE_SHARED_HOST_MEMORY_DELTA"
+    assert result["global_memavailable_is_not_process_leak_authority"] is True
+
+
+def test_finalize_distinguishes_indeterminate_host_cleanup() -> None:
+    module = load_module()
+    gib = 1024**3
+    evidence = {"runtime": {}, "semantic_review": {"gate": {"passed": True}}, "error": None, "authority": {"process_exit_cleanup": False, "exact_fixture_structured_audio_observation": False}}
+    before = {"mem_available_bytes": 400 * gib, "cgroup_current_bytes": 40 * gib, "cgroup_anon_bytes": 35 * gib}
+    after = {"mem_available_bytes": 368 * gib, "cgroup_current_bytes": 70 * gib, "cgroup_anon_bytes": 65 * gib}
+    finalized, exit_code = module.finalize_process_exit_cleanup(
+        evidence,
+        gpu_before_worker={"used_mib": 648},
+        gpu_after_worker_exit={"used_mib": 648},
+        host_memory_before_worker=400 * gib,
+        host_memory_after_worker_exit=368 * gib,
+        offload_dir_removed=True,
+        worker_returncode=0,
+        worker_stdout="",
+        worker_stderr="",
+        host_snapshot_before=before,
+        host_snapshot_after=after,
+    )
+    assert exit_code == 1
+    assert finalized["status"] == "INDETERMINATE_HOST_CLEANUP_EXACT_SEMANTIC_AND_GPU_CLEANUP_PASS"
+    assert finalized["authority"]["process_exit_cleanup"] is False
