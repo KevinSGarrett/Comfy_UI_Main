@@ -1,0 +1,40 @@
+{
+  "schema_version": "wave64.aqa.integration_acceptance.v1",
+  "program_id": "W64-AQA",
+  "evaluated_at_utc": "2026-07-22T04:50:39Z",
+  "disposition": "REJECTED",
+  "scope": "Qwen3-Omni exact-fixture structured semantic-audio runtime authority",
+  "receipt_sha256": "85f4b0a03c94a408b10d7db9e2f8cc59f652d699e5a4185077555817172bb4f3",
+  "runtime_log_sha256": "37838bb44c2d4cdbd6c49d4e0225d7b94037b324d3e9c74da1bd8d4eab60d8d5",
+  "decision": {
+    "runtime_semantic_authority": false,
+    "process_exit_gpu_cleanup_accepted": true,
+    "process_exit_host_cleanup_accepted": true,
+    "model_identity_accepted": true,
+    "audio_identity_accepted": true
+  },
+  "failure": {
+    "code": "QWEN3_OMNI_TEXT_ONLY_RETURN_SHAPE_MISMATCH",
+    "message": "The exact Transformers 5.2.0 implementation returns the thinker result directly when return_audio is false; the canary incorrectly unpacked it as a two-item Qwen-compatible tuple and then treated the string key 'sequences' as a generation object.",
+    "model_load_seconds": 386.6730625256896,
+    "inference_seconds": 1244.243155889213,
+    "peak_observed_gpu_used_mib": 37590,
+    "gpu_used_after_worker_exit_mib": 648,
+    "offload_dir_removed": true
+  },
+  "correction": {
+    "strategy": "Normalize only the two explicit supported text-only return shapes before decode and reject every ambiguous shape.",
+    "corrected_control_sha256": "2c333be2f519c9ce67e8ad42507c0c6692998df53e96b747dbfe2a5b977aa9b3",
+    "source_contract": "huggingface/transformers v5.2.0 modeling_qwen3_omni_moe.py lines 4036-4045",
+    "focused_tests": "15 passed",
+    "ruff": "PASS"
+  },
+  "authority_not_granted": [
+    "exact-fixture structured audio observation",
+    "general semantic audio quality",
+    "general ASR quality",
+    "AV sync or motion review",
+    "independent juror",
+    "product promotion"
+  ]
+}

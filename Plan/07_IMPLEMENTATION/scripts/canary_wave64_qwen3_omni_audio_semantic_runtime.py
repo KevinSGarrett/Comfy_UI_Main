@@ -190,6 +190,28 @@ def summarize_device_map(device_map: dict[str, Any]) -> dict[str, Any]:
     return {"target_counts": counts, "module_count": len(device_map)}
 
 
+def unwrap_text_generation_result(generation_result: Any) -> Any:
+    """Normalize Qwen3-Omni text-only return shapes across pinned APIs.
+
+    Transformers 5.2.0 returns the thinker result directly when
+    ``return_audio=False``. Earlier Qwen examples and compatible builds return
+    ``(thinker_result, None)``. Accept only those two explicit shapes.
+    """
+    if hasattr(generation_result, "sequences"):
+        return generation_result
+    if (
+        isinstance(generation_result, tuple)
+        and len(generation_result) == 2
+        and hasattr(generation_result[0], "sequences")
+        and generation_result[1] is None
+    ):
+        return generation_result[0]
+    raise CanaryError(
+        "unsupported Qwen3-Omni text-only generation return shape: "
+        f"{type(generation_result).__name__}"
+    )
+
+
 def build_prompt() -> str:
     return (
         "Review the attached audio. Return ONLY one JSON object with exactly these keys: "
@@ -309,7 +331,7 @@ def run_worker(
         )
         inputs = inputs.to(model.device).to(model.dtype)
         inference_started = time.monotonic()
-        text_ids, _ = model.generate(
+        generation_result = model.generate(
             **inputs,
             return_audio=False,
             thinker_return_dict_in_generate=True,
@@ -317,6 +339,7 @@ def run_worker(
             max_new_tokens=max_new_tokens,
             do_sample=False,
         )
+        text_ids = unwrap_text_generation_result(generation_result)
         torch.cuda.synchronize()
         inference_seconds = time.monotonic() - inference_started
         inferred = gpu_snapshot()

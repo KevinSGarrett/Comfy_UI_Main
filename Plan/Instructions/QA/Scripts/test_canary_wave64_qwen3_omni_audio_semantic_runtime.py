@@ -93,6 +93,33 @@ def test_device_map_summary_counts_cpu_and_gpu_targets() -> None:
     assert result == {"target_counts": {"0": 2, "cpu": 1}, "module_count": 3}
 
 
+def test_generation_result_unwrap_accepts_transformers_5_2_direct_shape() -> None:
+    module = load_module()
+
+    class Result:
+        sequences = object()
+
+    result = Result()
+    assert module.unwrap_text_generation_result(result) is result
+
+
+def test_generation_result_unwrap_accepts_qwen_compatible_tuple_shape() -> None:
+    module = load_module()
+
+    class Result:
+        sequences = object()
+
+    result = Result()
+    assert module.unwrap_text_generation_result((result, None)) is result
+
+
+@pytest.mark.parametrize("value", ["sequences", (object(), None), (object(), 1)])
+def test_generation_result_unwrap_rejects_ambiguous_shapes(value) -> None:
+    module = load_module()
+    with pytest.raises(module.CanaryError, match="unsupported Qwen3-Omni"):
+        module.unwrap_text_generation_result(value)
+
+
 def test_process_exit_cleanup_can_accept_scoped_semantic_worker() -> None:
     module = load_module()
     evidence = {
