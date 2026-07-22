@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_correction_transaction_receipt.schema.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "receipt_id", "job_id", "contract_id", "attempt_id", "previous_state_id", "next_state_id", "candidate_staging_receipt_id", "measurement_receipt_id", "sandbox_receipt_id", "evidence_file_sha256", "state_publish_status", "transition_disposition", "resume_safe", "comfyui_execution_performed", "runtime_measurement_performed", "network_used", "overwrite_performed", "delete_performed", "promotion_authorized", "disposition"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.correction_transaction_receipt.v1"},
+    "receipt_id": {"$ref": "#/definitions/sha256"},
+    "job_id": {"type": "string"}, "contract_id": {"$ref": "#/definitions/sha256"}, "attempt_id": {"type": "string"},
+    "previous_state_id": {"$ref": "#/definitions/sha256"}, "next_state_id": {"$ref": "#/definitions/sha256"},
+    "candidate_staging_receipt_id": {"$ref": "#/definitions/sha256"}, "measurement_receipt_id": {"$ref": "#/definitions/sha256"}, "sandbox_receipt_id": {"$ref": "#/definitions/sha256"},
+    "evidence_file_sha256": {"type": "array", "minItems": 3, "maxItems": 3, "uniqueItems": true, "items": {"$ref": "#/definitions/sha256"}},
+    "state_publish_status": {"enum": ["CREATED_IMMUTABLE", "REUSED_EXACT_AFTER_REPLAY"]},
+    "transition_disposition": {"enum": ["RETAIN_CANDIDATE_EXIT_REPAIR_LOOP", "REVERT_CANDIDATE_CONTINUE", "EXHAUSTED_BLOCKED"]},
+    "resume_safe": {"const": true}, "comfyui_execution_performed": {"const": false}, "runtime_measurement_performed": {"const": false}, "network_used": {"const": false}, "overwrite_performed": {"const": false}, "delete_performed": {"const": false}, "promotion_authorized": {"const": false},
+    "disposition": {"const": "PASS_RECEIPT_BOUND_CORRECTION_TRANSACTION_FIXTURE_ONLY"}
+  },
+  "definitions": {"sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+}

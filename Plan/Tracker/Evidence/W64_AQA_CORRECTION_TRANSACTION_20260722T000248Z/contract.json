@@ -1,0 +1,103 @@
+{
+  "attempt_policy": {
+    "max_no_progress_cycles": 2,
+    "max_repairs_per_defect": 2,
+    "max_total_generations": 4
+  },
+  "authority_policy": {
+    "ec2_allowed": false,
+    "external_inference_allowed": false,
+    "generation_host": "runpod_only",
+    "local_comfyui_allowed": false,
+    "model_can_promote": false,
+    "secrets_visible_to_models": false,
+    "triage_can_approve": false,
+    "workflow_model_proposal_only": true
+  },
+  "contract_id": "ce6b898244cdb7bd013e689e0c4263f3740bbf2fb51570558b0e4f471cfb27ae",
+  "created_at": "2026-07-21T23:10:00Z",
+  "execution_mode": "shadow_qualification",
+  "job_id": "W64-AQA-JOB-workflow-receipt-shadow",
+  "modality": "workflow",
+  "preflight_disposition": "READY_FOR_LEASE",
+  "promotion_disposition": "EVIDENCE_ONLY",
+  "provenance": {
+    "calibration_ids": [
+      "workflow-receipt-binding-shadow-v1"
+    ],
+    "input_artifacts": [],
+    "model_bindings": [
+      {
+        "checkpoint_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "model_id": "deterministic-python-validator",
+        "qualification_state": "QUALIFIED",
+        "role_id": "W64-AQA-ROLE-DETERMINISTIC",
+        "runtime_digest": "python-local-shadow"
+      }
+    ],
+    "workflow_sha256": "15384b1a84c88e05fa9f87dfa4552e583f8ed96918e4e7b449585fa7067ba9c2"
+  },
+  "quality_profile": {
+    "hard_gates": [
+      {
+        "gate_id": "static_graph",
+        "metric": "static_graph_valid",
+        "on_failure": "REJECT",
+        "operator": "eq",
+        "threshold": true
+      }
+    ],
+    "profile_id": "workflow-receipt-binding-shadow-v1",
+    "required_approval_roles": [
+      "W64-AQA-ROLE-DETERMINISTIC"
+    ],
+    "review_roles": [
+      {
+        "authority": "deterministic",
+        "can_approve": true,
+        "required": true,
+        "role_id": "W64-AQA-ROLE-DETERMINISTIC"
+      },
+      {
+        "authority": "workflow",
+        "can_approve": false,
+        "required": false,
+        "role_id": "W64-AQA-ROLE-WORKFLOW-ENGINEER"
+      }
+    ]
+  },
+  "requested_outputs": [
+    {
+      "durable_relative_path": "aqa/jobs/workflow-receipt-shadow/validation.json",
+      "media_type": "application/json",
+      "output_id": "validation"
+    }
+  ],
+  "resource_budget": {
+    "deadline_seconds": 120,
+    "max_gpu_hour_usd": 0.7,
+    "max_gpu_seconds": 60,
+    "max_output_bytes": 1048576,
+    "secondary_burst": {
+      "eligible_gpu_classes": [],
+      "enabled": false,
+      "idle_ttl_seconds": 0,
+      "max_cost_usd": 0,
+      "max_seconds": 0
+    }
+  },
+  "revision": 1,
+  "rollback_policy": {
+    "previous_accepted_artifact_sha256": null,
+    "promotion_requires_replay": true,
+    "retain_failed_evidence": true,
+    "revert_on_regression": true
+  },
+  "schema_version": "wave64.aqa.job_contract.v1",
+  "workflow_spec": {
+    "object_info_sha256": "f4a05fcdd5a63762b1394468f8e853f790d9201ed08af20985c0d7f5be7e9d3b",
+    "patch_allowlist_id": "W64-AQA-WORKFLOW-PATCH-ALLOWLIST-001",
+    "regression_suite_id": "workflow-regression-v1",
+    "sandbox_required": true
+  }
+}

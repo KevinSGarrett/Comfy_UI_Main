@@ -187,6 +187,18 @@ PATHS = {
     / "Plan/Tracker/Evidence/W64_AQA_S3_GIT_BINDING_PAYLOAD_20260721T235517Z.json",
     "s3_git_binding_receipt": ROOT
     / "Plan/Tracker/Evidence/W64_AQA_S3_GIT_BINDING_RECEIPT_20260721T235517Z.json",
+    "correction_measurement_receipt_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_correction_measurement_receipt.schema.json",
+    "correction_sandbox_receipt_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_correction_sandbox_receipt.schema.json",
+    "correction_transaction_receipt_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_correction_transaction_receipt.schema.json",
+    "correction_transaction_policy": ROOT
+    / "Plan/10_REGISTRIES/wave64_runpod_autonomous_correction_transaction_policy.json",
+    "correction_transaction_evidence": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_CORRECTION_TRANSACTION_20260722T000248Z/evidence.json",
+    "correction_transaction_receipt": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_CORRECTION_TRANSACTION_20260722T000248Z/journal/0001.receipt.json",
     "correction_attempt_schema": ROOT
     / "Plan/08_SCHEMAS/runpod_autonomous_correction_attempt.schema.json",
     "correction_state_schema": ROOT
@@ -337,6 +349,12 @@ def collect_errors() -> list[str]:
         s3_git_binding_policy = load_json(PATHS["s3_git_binding_policy"])
         s3_git_binding_payload = load_json(PATHS["s3_git_binding_payload"])
         s3_git_binding_receipt = load_json(PATHS["s3_git_binding_receipt"])
+        correction_measurement_receipt_schema = load_json(PATHS["correction_measurement_receipt_schema"])
+        correction_sandbox_receipt_schema = load_json(PATHS["correction_sandbox_receipt_schema"])
+        correction_transaction_receipt_schema = load_json(PATHS["correction_transaction_receipt_schema"])
+        correction_transaction_policy = load_json(PATHS["correction_transaction_policy"])
+        correction_transaction_evidence = load_json(PATHS["correction_transaction_evidence"])
+        correction_transaction_receipt = load_json(PATHS["correction_transaction_receipt"])
         correction_attempt_schema = load_json(PATHS["correction_attempt_schema"])
         correction_state_schema = load_json(PATHS["correction_state_schema"])
         evidence_bundle_schema = load_json(PATHS["evidence_bundle_schema"])
@@ -386,6 +404,7 @@ def collect_errors() -> list[str]:
         s3_bundle_transaction_evidence,
         s3_git_binding_payload,
         s3_git_binding_receipt,
+        correction_transaction_evidence,
         registry,
     )
     for document in json_docs:
@@ -991,6 +1010,63 @@ def collect_errors() -> list[str]:
     }.items():
         if s3_git_binding_receipt.get(key) != expected:
             errors.append(f"S3 Git binding receipt {key} mismatch")
+    correction_transaction_required = {
+        "execution_modes": ["shadow_qualification"],
+        "candidate_staging_disposition": "PASS_TYPED_COPY_ON_WRITE_CANDIDATE_STAGED",
+        "measurement_deterministic_required": True,
+        "synthetic_sandbox_disposition": "PASS_SYNTHETIC_SANDBOX_FIXTURE_ONLY",
+        "comfyui_execution_required_false": True,
+        "immutable_state_publish_required": True,
+        "immutable_receipt_publish_required": True,
+        "resume_by_exact_replay_required": True,
+        "overwrite_allowed": False,
+        "delete_allowed": False,
+        "network_allowed": False,
+        "production_mode_allowed": False,
+        "promotion_allowed": False,
+    }
+    if any(
+        correction_transaction_policy.get(key) != expected
+        for key, expected in correction_transaction_required.items()
+    ):
+        errors.append("correction transaction policy is incomplete or weakened")
+    if correction_transaction_receipt.get("receipt_id") != recompute_self_hash(
+        correction_transaction_receipt, "receipt_id"
+    ):
+        errors.append("correction transaction receipt self-hash mismatch")
+    for key, expected in {
+        "state_publish_status": "REUSED_EXACT_AFTER_REPLAY",
+        "transition_disposition": "REVERT_CANDIDATE_CONTINUE",
+        "resume_safe": True,
+        "comfyui_execution_performed": False,
+        "runtime_measurement_performed": False,
+        "network_used": False,
+        "overwrite_performed": False,
+        "delete_performed": False,
+        "promotion_authorized": False,
+        "disposition": "PASS_RECEIPT_BOUND_CORRECTION_TRANSACTION_FIXTURE_ONLY",
+    }.items():
+        if correction_transaction_receipt.get(key) != expected:
+            errors.append(f"correction transaction receipt {key} mismatch")
+    if correction_transaction_evidence.get("disposition") != "PASS_RECEIPT_BOUND_CORRECTION_CRASH_RESUME_REVERT_FIXTURE_ONLY":
+        errors.append("correction transaction evidence disposition changed")
+    for key in ("crash_after_state_publish_observed", "completed_replay_exact", "accepted_parent_preserved"):
+        if correction_transaction_evidence.get(key) is not True:
+            errors.append(f"correction transaction evidence {key} proof missing")
+    correction_claims = correction_transaction_evidence.get("runtime_claims", {})
+    if any(correction_claims.get(key) is not False for key in (
+        "runpod_contacted", "gpu_used", "comfyui_execution_performed",
+        "runtime_measurement_performed", "network_used", "overwrite_performed",
+        "delete_performed", "product_promotion_granted",
+    )):
+        errors.append("correction transaction evidence overclaims runtime or promotion")
+    correction_root = PATHS["correction_transaction_evidence"].parent
+    for relative_path, expected_sha256 in correction_transaction_evidence.get("file_manifest_sha256", {}).items():
+        bound_path = correction_root / relative_path
+        if not bound_path.is_file():
+            errors.append(f"correction transaction manifest path missing: {relative_path}")
+        elif hashlib.sha256(bound_path.read_bytes()).hexdigest() != expected_sha256:
+            errors.append(f"correction transaction manifest hash mismatch: {relative_path}")
     if migration_policy.get("decision_only") is not True:
         errors.append("migration controller must remain decision-only")
     if migration_policy.get("old_pod_stops_only_after_integration_switch") is not True:
@@ -1107,6 +1183,12 @@ def collect_errors() -> list[str]:
         )
         jsonschema.Draft7Validator.check_schema(s3_git_binding_receipt_schema)
         jsonschema.Draft7Validator(s3_git_binding_receipt_schema).validate(s3_git_binding_receipt)
+        jsonschema.Draft7Validator.check_schema(correction_measurement_receipt_schema)
+        jsonschema.Draft7Validator.check_schema(correction_sandbox_receipt_schema)
+        jsonschema.Draft7Validator.check_schema(correction_transaction_receipt_schema)
+        jsonschema.Draft7Validator(correction_transaction_receipt_schema).validate(
+            correction_transaction_receipt
+        )
         jsonschema.Draft7Validator.check_schema(correction_attempt_schema)
         jsonschema.Draft7Validator.check_schema(correction_state_schema)
         jsonschema.Draft7Validator.check_schema(evidence_bundle_schema)

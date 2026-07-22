@@ -245,6 +245,13 @@ removes its candidate if a source race is detected. It must never be treated as
 ComfyUI sandbox execution or regression evidence. Those steps wait for the
 repository-backed phase lease release.
 
+Correction transactions must bind three immutable files: candidate-staging,
+deterministic measurement, and sandbox receipt. Publish the next state before
+the transaction receipt. If interrupted at that boundary, rerun must verify and
+reuse the exact state, then publish the receipt; a completed rerun must return
+the same receipt. Any divergent journal byte fails closed. Synthetic sandbox
+fixtures never count as ComfyUI execution.
+
 ## 8. Incident and recovery
 
 On crash, timeout, invalid JSON, OOM, queue conflict, missing model, storage

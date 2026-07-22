@@ -185,6 +185,13 @@ expected benefit, risks, protected checks, parent hash, and rollback. Arbitrary
 node creation, shell, secret access, cloud mutation, threshold change, or model
 substitution outside the eligible set is rejected.
 
+The correction attempt must name the raw SHA-256 of its candidate-staging,
+measurement, and sandbox receipts. Cross-check job, contract, parent, candidate,
+scores, protected categories, and staging receipt identity. Inject a crash after
+state publication and before receipt publication; exact replay must recover,
+while altered evidence or journal bytes fail. Fixture-only receipts cannot grant
+runtime or promotion authority.
+
 ## Gate AQA-09: improvement and regression
 
 Rerun failed gates, adjacent regions/spans, protected invariants, and a reduced

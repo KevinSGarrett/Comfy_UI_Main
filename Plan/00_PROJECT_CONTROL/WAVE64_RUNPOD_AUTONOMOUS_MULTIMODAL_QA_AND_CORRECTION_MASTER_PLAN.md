@@ -331,6 +331,14 @@ unqualified pending an owned phase lease.
 ## Bounded correction policy
 
 - Preserve the accepted parent and immutable baseline before every repair.
+- The retained Row011 fixture at
+  `Plan/Tracker/Evidence/W64_AQA_CORRECTION_TRANSACTION_20260722T000248Z/evidence.json`
+  binds the exact candidate-staging, deterministic-measurement, and synthetic-
+  sandbox receipts. It injects a crash after immutable state publication,
+  resumes by exact reuse, completes an immutable receipt, and replays exactly.
+  The non-improving candidate reverts to the accepted parent. This proves
+  transaction recovery only; ComfyUI/runtime measurement and promotion remain
+  false until the owned current-pod E2E run.
 - Repair only the failed region, frame span, audio span, or workflow parameter
   set when lineage permits targeted correction.
 - Default ceiling: two repair attempts for one defect category.

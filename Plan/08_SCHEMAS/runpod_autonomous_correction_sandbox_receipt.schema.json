@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_correction_sandbox_receipt.schema.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "receipt_id", "job_id", "contract_id", "candidate_artifact_sha256", "candidate_staging_receipt_id", "static_validation_passed", "synthetic_fixture_only", "comfyui_execution_performed", "model_inference_performed", "network_used", "disposition"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.correction_sandbox_receipt.v1"},
+    "receipt_id": {"$ref": "#/definitions/sha256"},
+    "job_id": {"type": "string", "pattern": "^W64-AQA-JOB-"},
+    "contract_id": {"$ref": "#/definitions/sha256"},
+    "candidate_artifact_sha256": {"$ref": "#/definitions/sha256"},
+    "candidate_staging_receipt_id": {"$ref": "#/definitions/sha256"},
+    "static_validation_passed": {"const": true},
+    "synthetic_fixture_only": {"const": true},
+    "comfyui_execution_performed": {"const": false},
+    "model_inference_performed": {"const": false},
+    "network_used": {"const": false},
+    "disposition": {"const": "PASS_SYNTHETIC_SANDBOX_FIXTURE_ONLY"}
+  },
+  "definitions": {"sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+}
