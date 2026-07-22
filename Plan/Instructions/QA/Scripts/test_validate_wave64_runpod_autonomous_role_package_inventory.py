@@ -49,6 +49,39 @@ def test_installed_digest_drift_fails() -> None:
     assert "installed digest inventory mismatch" in MODULE.validate(data)
 
 
+def test_qwen3vl4_official_manifest_and_license_are_exact_but_runtime_is_not_operational() -> None:
+    data = copy.deepcopy(load_inventory())
+    package = next(
+        item for item in data["packages"] if item["identity"]["repository_id"] == "qwen3-vl:4b-instruct-q4_K_M"
+    )
+    assert package["identity"]["identity_state"] == "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_PINNED"
+    assert package["identity"]["license_state"] == "APACHE-2.0_ACCEPTED_FOR_COMFY_UI_MAIN_PROJECT_USE"
+    assert package["static_qualification"]["manifest_sha256"] == package["installation"]["artifact_digest"]
+    assert package["static_qualification"]["license_sha256"] == (
+        "7339fa418c9ad3e8e12e74ad0fd26a9cc4be8703f9c110728a992b193be85cb2"
+    )
+    assert package["qualification"]["state"] == "CURRENT_SCOPED_AUTHORITY_ONLY"
+    assert package["authority"]["operational"] is False
+
+
+def test_qwen3vl4_official_manifest_drift_fails() -> None:
+    data = copy.deepcopy(load_inventory())
+    package = next(
+        item for item in data["packages"] if item["identity"]["repository_id"] == "qwen3-vl:4b-instruct-q4_K_M"
+    )
+    package["static_qualification"]["model_sha256"] = "0" * 64
+    assert any("Qwen3-VL 4B official manifest mismatch" in error for error in MODULE.validate(data))
+
+
+def test_qwen3vl4_license_drift_fails() -> None:
+    data = copy.deepcopy(load_inventory())
+    package = next(
+        item for item in data["packages"] if item["identity"]["repository_id"] == "qwen3-vl:4b-instruct-q4_K_M"
+    )
+    package["identity"]["license_state"] = "LOCAL_RUNTIME_LICENSE_NOT_REVERIFIED"
+    assert any("Qwen3-VL 4B official identity mismatch" in error for error in MODULE.validate(data))
+
+
 def test_no_package_is_operational_without_certificate() -> None:
     data = copy.deepcopy(load_inventory())
     data["packages"][0]["authority"]["operational"] = True

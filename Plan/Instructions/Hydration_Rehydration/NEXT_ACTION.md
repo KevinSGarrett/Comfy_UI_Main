@@ -1,3 +1,19 @@
+## Immediate Next Action - Qwen3-VL 4B Static Closure - 2026-07-22
+
+The preferred fast-triage package `W64-AQA-PKG-QWEN3VL4` now has exact
+official-manifest identity and Apache-2.0 project-use acceptance. Its installed
+digest equals manifest `ee4b975b58c17ce268cd19d40db35d5edc64603035d2ffc1fee1968eb0947f7b`.
+This is static authority only: runtime, calibration, quality, activation, and
+product approval remain false. Queue hash `cf798ac4...` has five prepared or
+qualified campaigns and nine held campaigns.
+
+Next GPU action remains Wav2Vec2 campaign 1 after fresh shared-coordinator
+admission and an exact lease. If unavailable, continue the next official
+identity/license dependency locally without a lease. RunPod remains the sole
+production platform; never use AWS as fallback.
+
+Evidence: `Plan/Tracker/Evidence/W64_AQA_QWEN3VL4_OFFICIAL_MANIFEST_IDENTITY_20260722.json`.
+
 ## Immediate Next Action - RunPod-Only W64-AQA - 2026-07-22
 
 RunPod pod `1q4ji0gg1fkhvt` is the sole active production runtime and storage

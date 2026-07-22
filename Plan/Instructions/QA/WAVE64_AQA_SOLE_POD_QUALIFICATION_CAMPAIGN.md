@@ -166,3 +166,11 @@ submit a workflow, perform GPU inference, or write outside its transaction-
 owned evidence directory. Object-info PASS grants only import and schema
 compatibility for that retained snapshot. It does not grant model resolution,
 model load, workflow execution, quality, activation, or promotion.
+# Qwen3-VL 4B static admission update (2026-07-22)
+
+`W64-AQA-PKG-QWEN3VL4` has exact official-manifest identity and accepted
+Apache-2.0 project-use licensing. Treat the manifest digest as the immutable
+runtime identity. Do not infer operational or quality authority. Keep the
+fast-triage campaign in queue sequence 5 and require fresh shared-coordinator
+admission, exact model/prompt identity, calibration and held-out partitions,
+refusal checks, cleanup proof, and Codex acceptance before activation.

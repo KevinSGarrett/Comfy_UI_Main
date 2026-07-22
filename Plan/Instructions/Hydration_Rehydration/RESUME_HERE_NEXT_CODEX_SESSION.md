@@ -1,3 +1,13 @@
+## Resume Here - Qwen3-VL 4B Static Closure - 2026-07-22
+
+Pushed state must retain the exact official Qwen3-VL 4B manifest/license
+binding and queue hash `cf798ac4...`; no runtime or quality authority follows
+from it. Wav2Vec2 remains the first GPU campaign and requires a fresh exact
+shared-coordinator lease. When GPU work is unavailable, continue a local
+official identity/license dependency; never fall back to AWS.
+
+Evidence: `Plan/Tracker/Evidence/W64_AQA_QWEN3VL4_OFFICIAL_MANIFEST_IDENTITY_20260722.json`.
+
 ## Resume Here - RunPod-Only W64-AQA - 2026-07-22
 
 Authoritative pushed branch state now treats RunPod pod `1q4ji0gg1fkhvt` as

@@ -1545,3 +1545,15 @@ execution, quality, activation, and promotion all remain false. After the
 foreign recovery owner releases the coordinator, the next exact Wave42 action
 is one no-network/no-secret import and object-info canary under an exact
 `comfyui_main` lease, with no model session or workflow submission.
+# Qwen3-VL 4B official manifest closure (2026-07-22)
+
+The installed fast-triage package `qwen3-vl:4b-instruct-q4_K_M` is now bound
+to the exact official Ollama manifest SHA-256
+`ee4b975b58c17ce268cd19d40db35d5edc64603035d2ffc1fee1968eb0947f7b`,
+which equals the retained installed digest. The exact config, model,
+Apache-2.0 license, and parameter layer digests are recorded in
+`W64_AQA_QWEN3VL4_OFFICIAL_MANIFEST_IDENTITY_20260722.json`. Apache-2.0 is
+accepted for Comfy_UI_Main project use. This closes only identity and license;
+runtime, capacity, calibration, quality, activation, promotion, and product
+authority remain false until the queued current-RunPod campaign passes under a
+fresh shared-coordinator lease.

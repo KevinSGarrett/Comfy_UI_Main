@@ -94,6 +94,28 @@ def validate(data: dict) -> list[str]:
             if install.get("durable_root") != "/workspace/ollama":
                 errors.append(f"{item.get('package_id')}: installed root mismatch")
             installed[identity.get("repository_id", "")] = digest
+            if identity.get("repository_id") == "qwen3-vl:4b-instruct-q4_K_M":
+                expected_identity = {
+                    "display_name": "qwen3-vl:4b-instruct-q4_K_M",
+                    "publisher": "Ollama library / Qwen",
+                    "repository_id": "qwen3-vl:4b-instruct-q4_K_M",
+                    "source_url": "https://registry.ollama.ai/v2/library/qwen3-vl/manifests/4b-instruct-q4_K_M",
+                    "identity_state": "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_PINNED",
+                    "license_state": "APACHE-2.0_ACCEPTED_FOR_COMFY_UI_MAIN_PROJECT_USE",
+                }
+                expected_static = {
+                    "state": "OFFICIAL_MANIFEST_AND_APACHE_2_0_LICENSE_PASS_RUNTIME_PENDING",
+                    "evidence": "Plan/Tracker/Evidence/W64_AQA_QWEN3VL4_OFFICIAL_MANIFEST_IDENTITY_20260722.json",
+                    "manifest_sha256": EXPECTED_INSTALLED["qwen3-vl:4b-instruct-q4_K_M"],
+                    "config_sha256": "1b50ee65d6560b990272302c6df3026990f58d355bc400a66e4337c60e898876",
+                    "model_sha256": "16b83be682148a4d8201dbf720ea7eace5de98b69f63f05e0c908b4d7977ecb5",
+                    "license_sha256": "7339fa418c9ad3e8e12e74ad0fd26a9cc4be8703f9c110728a992b193be85cb2",
+                    "parameters_sha256": "f6417cb1e26962991f8e875a93f3cb0f92bc9b4955e004881251ccbf934a19d2",
+                }
+                if identity != expected_identity:
+                    errors.append(f"{item.get('package_id')}: Qwen3-VL 4B official identity mismatch")
+                if item.get("static_qualification") != expected_static:
+                    errors.append(f"{item.get('package_id')}: Qwen3-VL 4B official manifest mismatch")
         elif state == "PROMOTED_EXACT_PACKAGE_IDENTITY_VERIFIED_ACTIVATION_PENDING":
             repository_id = identity.get("repository_id", "")
             source_pin = item.get("source_pin", {})

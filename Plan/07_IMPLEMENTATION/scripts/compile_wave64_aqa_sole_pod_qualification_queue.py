@@ -343,7 +343,7 @@ def compile_queue(root: Path) -> dict[str, Any]:
         },
         "next_action": {
             "campaign_id": campaigns[0]["campaign_id"], "runnable_now": False,
-            "required_transition": "OWNER_RESTORES_COORDINATOR_ADMISSION_AND_EXACT_LEASE_IS_GRANTED",
+            "required_transition": "FRESH_COORDINATOR_ADMISSION_AND_EXACT_LEASE_IS_GRANTED",
             "execution_steps": campaigns[0]["execution_steps"],
         },
         "queue_sha256": "0" * 64,
