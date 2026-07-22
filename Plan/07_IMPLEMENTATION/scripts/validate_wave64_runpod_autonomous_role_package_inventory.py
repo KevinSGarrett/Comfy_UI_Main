@@ -97,7 +97,14 @@ def validate(data: dict) -> list[str]:
             if install.get("durable_root") != "/workspace/ollama":
                 errors.append(f"{item.get('package_id')}: installed root mismatch")
             installed[identity.get("repository_id", "")] = digest
-            if identity.get("repository_id") == "qwen3-vl:4b-instruct-q4_K_M":
+            if identity.get("repository_id") == "qwen2.5vl:32b":
+                expected_identity = {"display_name": "qwen2.5vl:32b", "publisher": "Ollama library / Qwen", "repository_id": "qwen2.5vl:32b", "source_url": "https://registry.ollama.ai/v2/library/qwen2.5vl/manifests/32b", "identity_state": "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_PINNED", "license_state": "APACHE-2.0_ACCEPTED_FOR_COMFY_UI_MAIN_PROJECT_USE"}
+                expected_static = {"state": "OFFICIAL_MANIFEST_AND_APACHE_2_0_LICENSE_PASS_RUNTIME_QUALITY_PENDING", "evidence": "Plan/Tracker/Evidence/W64_AQA_QWEN25VL32_OFFICIAL_MANIFEST_IDENTITY_20260722.json", "manifest_sha256": EXPECTED_INSTALLED["qwen2.5vl:32b"], "config_sha256": "61b48efc2682c959abf0f3f82975623333ce38356fb4eceffde0718553a77ec4", "model_sha256": "043a363c6ca35e3b1a29b8a5b0bbd28474820239bbc5ad943c9be18f0dc77b66", "template_sha256": "a242d8dfdc8f8c2b0586ee85fba70adb408fb633aba2836fe1b05f2c46631474", "system_sha256": "75357d685f238b6afd7738be9786fdafde641eb6ca9a3be7471939715a68a4de", "license_sha256": "832dd9e00a68dd83b3c3fb9f5588dad7dcf337a0db50f7d9483f310cd292e92e", "parameters_sha256": "52d2a7aa3a380c606bd1cd3d6f777a9c65a1c77c2e0cb091eed2968a5ef04dc3"}
+                if identity != expected_identity:
+                    errors.append(f"{item.get('package_id')}: Qwen2.5-VL 32B official identity mismatch")
+                if item.get("static_qualification") != expected_static:
+                    errors.append(f"{item.get('package_id')}: Qwen2.5-VL 32B official manifest mismatch")
+            elif identity.get("repository_id") == "qwen3-vl:4b-instruct-q4_K_M":
                 expected_identity = {
                     "display_name": "qwen3-vl:4b-instruct-q4_K_M",
                     "publisher": "Ollama library / Qwen",
