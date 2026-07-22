@@ -46,7 +46,7 @@ def test_item_tracker_and_requirement_ids_match() -> None:
         row["id"] for row in json.loads(requirements_path.read_text(encoding="utf-8"))["requirements"]
     }
     assert item_ids == tracker_ids == requirement_ids
-    assert len(item_ids) == 18
+    assert len(item_ids) == 19
 
 
 def test_current_and_future_authority_are_separated() -> None:

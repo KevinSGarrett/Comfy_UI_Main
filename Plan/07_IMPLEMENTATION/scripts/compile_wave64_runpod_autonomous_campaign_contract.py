@@ -20,6 +20,12 @@ ID_PLACEHOLDER = "0" * 64
 IMPLEMENTER = "W64-AQA-ROLE-IMPLEMENTER"
 REVIEWER = "W64-AQA-ROLE-REVIEWER"
 JUROR = "W64-AQA-ROLE-INDEPENDENT-JUROR"
+ARBITER = "W64-AQA-ROLE-ARBITER"
+CLOSED_LOOP_STAGES = {
+    "GENERATE_OR_IMPLEMENT", "DETERMINISTIC_QA", "PRIMARY_REVIEW",
+    "INDEPENDENT_FAMILY_JUROR", "CONSENSUS_OR_ARBITER", "DEFECT_TAXONOMY",
+    "TARGETED_REPAIR", "REGRESSION_QA", "RE_REVIEW", "TERMINALIZE",
+}
 
 
 class CampaignError(ValueError):
@@ -91,25 +97,57 @@ def semantic_validate(contract: dict[str, Any]) -> list[str]:
     unknown_job_roles = {job["role_id"] for job in jobs} - set(by_role)
     if unknown_job_roles:
         errors.append(f"jobs reference undeclared roles: {sorted(unknown_job_roles)}")
-    missing_roles = {IMPLEMENTER, REVIEWER, JUROR} - set(by_role)
+    required_roles = (IMPLEMENTER, REVIEWER, JUROR, ARBITER)
+    missing_roles = set(required_roles) - set(by_role)
     if missing_roles:
         errors.append(f"required campaign roles are missing: {sorted(missing_roles)}")
-    elif any(by_role[role]["qualification_state"] != "QUALIFIED" for role in (IMPLEMENTER, REVIEWER, JUROR)):
-        errors.append("campaign roles must be independently qualified")
     else:
-        families = [by_role[role]["family_id"] for role in (IMPLEMENTER, REVIEWER, JUROR)]
-        if len(set(families)) != 3:
-            errors.append("implementer, reviewer, and juror must use independent model families")
-        checkpoints = [by_role[role]["checkpoint_sha256"] for role in (IMPLEMENTER, REVIEWER, JUROR)]
-        if len(set(checkpoints)) != 3:
-            errors.append("implementer, reviewer, and juror must use independent checkpoints")
+        families = [by_role[role]["family_id"] for role in required_roles]
+        if len(set(families)) != 4:
+            errors.append("implementer, reviewer, juror, and arbiter must use independent model families")
+        checkpoints = [by_role[role]["checkpoint_sha256"] for role in required_roles]
+        if len(set(checkpoints)) != 4:
+            errors.append("implementer, reviewer, juror, and arbiter must use independent checkpoints")
+        qualified = all(by_role[role]["qualification_state"] == "QUALIFIED" for role in required_roles)
+        expected_admission = (
+            "READY_CPU_SHADOW"
+            if qualified and all(job["phase"] == "CPU" for job in jobs)
+            else "READY_FOR_LEASE"
+            if qualified
+            else "BLOCKED_UNQUALIFIED"
+        )
+        if contract["admission_disposition"] != expected_admission:
+            errors.append("admission disposition does not match role qualification and phase requirements")
+    if contract["campaign_profile"] == "MULTIMODAL_MEDIA_CAMPAIGN" and contract["bulk_manifest"] is None:
+        errors.append("multimodal media campaigns require a frozen bulk manifest")
+    if contract["campaign_profile"] == "DEVELOPMENT_CAMPAIGN" and contract["bulk_manifest"] is not None:
+        errors.append("development campaigns must not attach a multimodal bulk manifest")
+    if contract["qualification_mode"] != "STATIC_SHADOW":
+        missing_stages = CLOSED_LOOP_STAGES - {job["stage"] for job in jobs}
+        if missing_stages:
+            errors.append(f"non-shadow campaign is missing closed-loop stages: {sorted(missing_stages)}")
     return errors
 
 
 def compile_contract(draft: dict[str, Any]) -> dict[str, Any]:
     if "campaign_id" in draft:
         raise CampaignError("draft must not supply campaign_id")
+    if "admission_disposition" in draft:
+        raise CampaignError("draft must not supply admission_disposition")
     contract = copy.deepcopy(draft)
+    bindings = {item.get("role_id"): item for item in contract.get("model_bindings", [])}
+    required_roles = (IMPLEMENTER, REVIEWER, JUROR, ARBITER)
+    qualified = all(
+        role in bindings and bindings[role].get("qualification_state") == "QUALIFIED"
+        for role in required_roles
+    )
+    contract["admission_disposition"] = (
+        "READY_CPU_SHADOW"
+        if qualified and all(job.get("phase") == "CPU" for job in contract.get("jobs", []))
+        else "READY_FOR_LEASE"
+        if qualified
+        else "BLOCKED_UNQUALIFIED"
+    )
     contract["campaign_id"] = ID_PLACEHOLDER
     validator = jsonschema.Draft7Validator(_schema(), format_checker=jsonschema.FormatChecker())
     try:
@@ -145,11 +183,37 @@ def topological_order(contract: dict[str, Any]) -> list[str]:
     return _topological_order(nodes, deps)
 
 
+def verify_sealed_job_bytes(contract: dict[str, Any], repository_root: Path) -> None:
+    """Bind every referenced child contract to safe path, bytes, SHA-256, and embedded ID."""
+
+    root = repository_root.resolve()
+    for job in contract["jobs"]:
+        if not _is_safe_relative(job["contract_path"]):
+            raise CampaignError(f"contract path escapes repository: {job['node_id']}")
+        path = (root / job["contract_path"]).resolve()
+        try:
+            path.relative_to(root)
+        except ValueError as exc:
+            raise CampaignError(f"contract path escapes repository: {job['node_id']}") from exc
+        if not path.is_file():
+            raise CampaignError(f"sealed child contract is missing: {job['node_id']}")
+        payload = path.read_bytes()
+        if hashlib.sha256(payload).hexdigest() != job["contract_sha256"]:
+            raise CampaignError(f"sealed child contract hash mismatch: {job['node_id']}")
+        try:
+            child = json.loads(payload)
+        except json.JSONDecodeError as exc:
+            raise CampaignError(f"sealed child contract is invalid JSON: {job['node_id']}") from exc
+        if child.get("contract_id") != job["contract_id"]:
+            raise CampaignError(f"sealed child embedded contract_id mismatch: {job['node_id']}")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("document", type=Path)
     parser.add_argument("--output", type=Path)
     parser.add_argument("--verify", action="store_true")
+    parser.add_argument("--verify-job-bytes", type=Path, help="Verify child contracts under this repository root")
     args = parser.parse_args()
     try:
         document = json.loads(args.document.read_text(encoding="utf-8"))
@@ -158,6 +222,8 @@ def main() -> int:
             result = document
         else:
             result = compile_contract(document)
+        if args.verify_job_bytes:
+            verify_sealed_job_bytes(result, args.verify_job_bytes)
         rendered = json.dumps(result, indent=2, sort_keys=True) + "\n"
         if args.output:
             if args.output.exists():

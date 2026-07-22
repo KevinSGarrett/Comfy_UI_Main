@@ -218,3 +218,9 @@ PASS proves the live version mismatch, exact two-wheel resolution, immutable
 overlay tree, and CPU-mode import compatibility only. The live port-8188
 service remains unchanged. Attaching the overlay to a disposable ComfyUI instance or
 loading any model is a later lease-bound action.
+
+## Campaign executor rollout lane
+
+W64-AQA-019 is the CPU-safe orchestration and evidence-compaction lane for the sole production RunPod architecture. Its static schemas, journal, CAS/Merkle, result seal, policy, role families, coordinator adapter contract, renderer, proposed-delta compiler, and exact 18-task CPU shadow require no GPU lease. They grant no model, media, workflow, reviewer, golden-mask, runtime, or product authority.
+
+The role registry remains `BLOCKED_UNQUALIFIED`. After static and crash/restart replay acceptance, a 5–10-artifact isolated image/short-video/audio shadow may run only when its exact generator, deterministic QA, primary reviewer, independent juror, arbiter, audio/Omni, repair, and evidence roles are independently qualified. Each GPU phase requires a fresh valid shared-coordinator lease; CPU-only work does not. A passing small multimodal shadow permits only a 25–100-artifact qualification expansion, not production promotion or long-duration operation.

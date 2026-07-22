@@ -1645,3 +1645,20 @@ FLUX encoder pass with CUDA hidden. It must never be attached to the live
 service. Later object-info or model-load use requires a disposable
 ComfyUI instance and the appropriate coordinator lease. No dependency,
 runtime, quality, activation, or promotion authority is granted.
+
+## RunPod autonomous campaign execution and evidence compaction (W64-AQA-019)
+
+The campaign executor replaces per-child micro-handoffs with one immutable admission contract, internal atomic checkpoints, and one sealed Codex acceptance packet. It has two profiles under identical journal, CAS/Merkle, replay, lease, and authority rules:
+
+- `DEVELOPMENT_CAMPAIGN` implements or repairs code and workflows, runs tests and review, and emits candidate-only diffs.
+- `MULTIMODAL_MEDIA_CAMPAIGN` generates and repairs image, video, audio, AV, workflow, and golden-mask candidates in bulk, performs modality-specific QA and independent review, and emits a quarantined or recommended batch without self-promotion.
+
+The closed loop is `GENERATE_OR_IMPLEMENT -> DETERMINISTIC_QA -> PRIMARY_REVIEW -> INDEPENDENT_FAMILY_JUROR -> CONSENSUS_OR_ARBITER -> DEFECT_TAXONOMY -> TARGETED_REPAIR -> REGRESSION_QA -> RE_REVIEW -> TERMINALIZE`. Ordinary retries, repairs, model reloads, and child completion remain internal. Only authority or scope changes, unknown credential/license decisions, exhausted immutable budgets, foreign-lease conflicts, destructive actions, and final sealed acceptance escalate to Codex.
+
+Bulk manifests freeze prompt and negative-prompt hashes, seeds, source assets, workflow/node/model/environment hashes, dimensions, FPS, duration, audio parameters, candidate counts, quality tiers, expected outputs, sampling seeds, and strata. Scheduling groups by checkpoint, environment, modality, resolution, capacity, and residency group. GPU phases are serialized behind a valid shared-coordinator campaign lease; CPU-only branches continue without a lease when their dependencies are unaffected.
+
+The executor cannot push Git, spend money, read credentials, weaken thresholds, perform destructive actions, override foreign leases, grant product or golden-mask promotion authority, or self-promote. Every implementer/generator, primary reviewer, independent juror, and arbiter binding uses a distinct independently qualified family and checkpoint. Unqualified roles remain representable and produce `BLOCKED_UNQUALIFIED` or `ABSTAINED`.
+
+Commit `aa0474d2` is a provisional static checkpoint only. The corrected framework adds sealed child-byte/ID verification, a separate campaign lease, legal state transitions and genesis hash, crash cursor with no assumed in-flight success, path-safe proposed deltas, a result content ID, CAS/Merkle evidence, measured-or-`null` metrics, targeted repair and rollback, risk-tiered review, and modality QA. The exact 18-task CPU shadow is evidence for static orchestration only. Production roles remain `BLOCKED_UNQUALIFIED`; the 5–10-artifact image/short-video/audio shadow, 25–100-artifact expansion, and 24–72-hour campaigns remain gated.
+
+Promotion requires at least 90% autonomous terminalization, less than 10% interruption, 100% evidence completeness, 100% restart replay, zero scope or authority violations, zero known-bad false accepts, at least 80–90% agreement with accepted Codex decisions, at least 70% first-pass validation progressing toward 85%, complete measured cleanup, modality thresholds, and measured reductions in reloads, coordinator churn, round trips, and evidence volume. The 80–90% RunPod execution, 5–15% Claude escalation, 5–10% Codex authority, 70–90% round-trip reduction, and 3–8x throughput figures are targets, never current claims.

@@ -311,3 +311,15 @@ must produce no speech alignment. A failed gate is retained without tuning its
 expected labels after the result; an unchanged failed run is not repeated.
 Fixture construction grants no model, semantic, alignment, operational, human
 review, or product authority.
+
+## Gate AQA-14: autonomous campaign executor
+
+Static qualification requires schema rejection, DAG order, sealed child byte/ID binding, incompatible-branch continuation, retry exhaustion, crash recovery, deterministic replay, journal transition/tamper/fork rejection, path escape, forbidden tool and authority actions, self-review refusal, juror/arbiter independence, rollback, lease loss, OOM/timeout, evidence completeness, result identity, Merkle identity, proposed-delta path safety, and measured cleanup semantics.
+
+The exact CPU shadow contains 18 tasks and uses synthetic CPU-only test doubles. It must prove at least 90% autonomous terminalization, under 10% interruption, 100% evidence completeness and restart replay, zero authority/scope violations, zero known-bad false accepts, at least 70% first-pass validation, deterministic expected dispositions, and no GPU lease acquisition. Synthetic agreement is not production review authority. Metrics that lack observations are `null`/`NOT_MEASURED`, never hardcoded PASS.
+
+Critical identity, anatomy, golden-mask, safety, release, and promotion artifacts require 100% deterministic and independent-family review. Standard or low-risk repetitive artifacts may use 100% deterministic checks plus seeded stratified independent sampling; any defect or disagreement threshold expands review to 100%. Every sampling seed and stratum is replayable.
+
+Image QA covers decode, dimensions, duplicates, prompt/subject compliance, composition, anatomy, hands/face, identity, realism, artifacts, text, masks, and consistency. Video QA covers container/codec/frame/FPS/duration, corrupt or frozen frames, flicker, identity/anatomy drift, motion/physics, camera/scene continuity, lip movement, and visual quality. Audio QA covers decode/format/duration, clipping/silence/noise/loudness, intelligibility, ASR/alignment, identity, events, spatial behavior, and mix balance. AV QA adds sync, causality, alignment, intelligibility, and truncation. Workflow QA covers schema/node/model binding, bounds, paths, static and isolated runtime, outputs, and replay. Golden-mask work remains candidate-only until independent qualified policy evidence supports a recommendation and Codex accepts it.
+
+After static and replay gates, admit only a 5–10-artifact isolated image/short-video/audio shadow when all exact roles and runtimes are qualified and each GPU phase holds a coordinator lease. Expand to 25–100 artifacts only after modality quality, false-accept, cleanup, repair, disagreement, cost, reload, and churn gates pass. Long or 24–72-hour campaigns remain blocked until then.

@@ -14,7 +14,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[3]
 PROGRAM = "W64-AQA"
-EXPECTED_IDS = {f"W64-AQA-{number:03d}" for number in range(1, 19)}
+EXPECTED_IDS = {f"W64-AQA-{number:03d}" for number in range(1, 20)}
 
 PATHS = {
     "master": ROOT
@@ -53,6 +53,36 @@ PATHS = {
     / "Plan/Instructions/Operations/RUNPOD_AUTONOMOUS_MULTIMODAL_QA_OPERATING_PROTOCOL.md",
     "qa": ROOT
     / "Plan/Instructions/QA/RUNPOD_AUTONOMOUS_MULTIMODAL_QA_AND_BOUNDED_CORRECTION_PROTOCOL.md",
+    "campaign_contract_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_campaign_contract.schema.json",
+    "campaign_journal_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_campaign_journal.schema.json",
+    "campaign_result_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_campaign_result.schema.json",
+    "campaign_lease_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_campaign_lease.schema.json",
+    "campaign_bulk_manifest_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_campaign_bulk_manifest.schema.json",
+    "campaign_proposed_delta_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_campaign_proposed_delta.schema.json",
+    "campaign_contract_compiler": ROOT
+    / "Plan/07_IMPLEMENTATION/scripts/compile_wave64_runpod_autonomous_campaign_contract.py",
+    "campaign_bulk_manifest_compiler": ROOT
+    / "Plan/07_IMPLEMENTATION/scripts/compile_wave64_runpod_autonomous_campaign_bulk_manifest.py",
+    "campaign_proposed_delta_compiler": ROOT
+    / "Plan/07_IMPLEMENTATION/scripts/compile_wave64_runpod_autonomous_campaign_proposed_delta.py",
+    "campaign_executor": ROOT
+    / "Plan/07_IMPLEMENTATION/scripts/run_wave64_runpod_autonomous_campaign.py",
+    "campaign_cpu_shadow": ROOT
+    / "Plan/07_IMPLEMENTATION/scripts/run_wave64_runpod_autonomous_campaign_cpu_shadow.py",
+    "campaign_policy": ROOT
+    / "Plan/10_REGISTRIES/wave64_runpod_autonomous_campaign_policy.json",
+    "campaign_role_registry": ROOT
+    / "Plan/10_REGISTRIES/wave64_runpod_autonomous_campaign_role_registry.json",
+    "campaign_multimodal_qa_registry": ROOT
+    / "Plan/10_REGISTRIES/wave64_runpod_autonomous_campaign_multimodal_qa_registry.json",
+    "campaign_cpu_shadow_acceptance": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_AUTONOMOUS_CAMPAIGN_CPU_SHADOW_20260722T224015Z/integration_acceptance.json",
     "registry": ROOT
     / "Plan/10_REGISTRIES/wave64_runpod_autonomous_multimodal_qa_role_registry.json",
     "role_package_inventory": ROOT

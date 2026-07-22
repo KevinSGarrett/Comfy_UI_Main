@@ -517,3 +517,18 @@ start a service, run inference, grant tool access, or activate the controller
 without a separately admitted dependency environment and a fresh exact
 coordinator lease. The next CPU-only action is isolated dependency resolution
 and import-only class/config verification with CUDA hidden and network blocked.
+
+## Autonomous campaign operation
+
+1. Admit one immutable campaign contract and verify every sealed child path, byte hash, embedded ID, repository identity, input, prompt, model, runtime, environment, policy, threshold, and manifest hash.
+2. Select `DEVELOPMENT_CAMPAIGN` or `MULTIMODAL_MEDIA_CAMPAIGN`; never mix mutable profile semantics into an admitted contract.
+3. Freeze the DAG, budgets, retry/repair limits, risk tiers, sampling seed/strata, expected outputs, authority prohibitions, and cleanup plan.
+4. Run CPU phases without a lease. Before every GPU-affecting phase, acquire and validate a separate shared-coordinator campaign lease; serialize GPU work and release with the exact outcome.
+5. Batch ready work by environment, checkpoint, modality, resolution, capacity, and residency group. Continue dependency-independent CPU branches after failure; never treat a failed prerequisite as satisfied.
+6. Execute the internal closed loop through implementation/generation, deterministic QA, primary review, independent juror, arbiter when required, defect taxonomy, targeted repair, regression QA, re-review, and terminalization. Do not interrupt Codex for ordinary internal progress.
+7. Repair only defective artifacts, frames, spans, stems, nodes, tests, or code regions. Bind recipe versions, detect no progress, bound champion/challenger selection, roll back to the last accepted checkpoint, and never weaken thresholds.
+8. Retain candidates rather than silently replacing them. Record PASS, FAIL, ABSTAIN, or QUARANTINE with calibrated confidence and exact threshold hashes.
+9. Write append-only canonical events, CAS artifacts, child receipts, restart cursor, Merkle manifest, measured cleanup, and measured-or-`NOT_MEASURED` metrics.
+10. Return one sealed candidate packet to Codex. RunPod may recommend but cannot commit, push, promote, spend, read credentials, destroy, override a foreign lease, or grant final authority.
+
+Escalate only for authority/scope changes, unknown credentials or licenses, exhausted immutable budgets, foreign-lease conflict, destructive action, or final sealed acceptance. Production role qualification and multimodal rollout remain blocked after the CPU shadow.

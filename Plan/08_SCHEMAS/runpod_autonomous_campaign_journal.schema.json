@@ -3,10 +3,11 @@
   "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_campaign_journal.schema.json",
   "title": "Wave64 RunPod Autonomous Campaign Append-Only Journal",
   "type": "object", "additionalProperties": false,
-  "required": ["schema_version", "campaign_id", "events", "restart_cursor"],
+  "required": ["schema_version", "campaign_id", "genesis_hash", "events", "restart_cursor"],
   "properties": {
     "schema_version": {"const": "wave64.aqa.campaign_journal.v1"},
     "campaign_id": {"$ref": "#/definitions/sha256"},
+    "genesis_hash": {"$ref": "#/definitions/sha256"},
     "events": {
       "type": "array", "minItems": 1,
       "items": {

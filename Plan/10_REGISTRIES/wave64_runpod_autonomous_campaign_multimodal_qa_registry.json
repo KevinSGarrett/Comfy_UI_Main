@@ -1,0 +1,29 @@
+{
+  "schema_version": "wave64.aqa.campaign_multimodal_qa_registry.v1",
+  "registry_id": "W64-AQA-CAMPAIGN-MULTIMODAL-QA-001",
+  "status": "BLOCKED_UNQUALIFIED",
+  "decision_states": ["PASS", "FAIL", "ABSTAIN", "QUARANTINE"],
+  "confidence_rule": "Use independently calibrated confidence and threshold-version hashes; natural-language labels never determine completion.",
+  "modalities": {
+    "IMAGE": ["decode_integrity", "dimensions", "duplicates", "prompt_subject_compliance", "composition", "anatomy", "hands_face", "identity", "realism", "artifacts", "text_defects", "mask_leakage_coverage_topology", "cross_image_consistency"],
+    "VIDEO": ["container_codec", "frame_count_fps_duration", "black_corrupt_frames", "temporal_flicker", "identity_anatomy_drift", "motion_coherence", "physics", "camera_scene_continuity", "lip_movement", "duplicate_frozen_frames", "visual_quality"],
+    "AUDIO": ["decode_sample_rate_channels_duration", "clipping", "silence_noise", "loudness", "intelligibility", "asr_forced_alignment", "voice_identity", "event_correctness", "room_spatial_behavior", "music_foley_dialogue_balance"],
+    "AV": ["av_sync", "lip_sync", "event_visual_causality", "temporal_alignment", "mix_intelligibility", "boundary_truncation"],
+    "WORKFLOW": ["schema_node_model_binding", "parameter_bounds", "path_safety", "static_validation", "isolated_runtime", "output_integrity", "deterministic_replay"],
+    "GOLDEN_MASK": ["decode_integrity", "coverage", "topology", "boundary_quality", "identity_anatomy_safety", "independent_policy_evidence"]
+  },
+  "review_independence": {
+    "generator_primary_juror_arbiter_distinct_families": true,
+    "self_review_forbidden": true,
+    "unqualified_role_disposition": "ABSTAIN_OR_BLOCK"
+  },
+  "risk_tiers": {
+    "CRITICAL": {"deterministic_review_percent": 100, "independent_review_percent": 100},
+    "HIGH": {"deterministic_review_percent": 100, "independent_review_percent": 100},
+    "STANDARD": {"deterministic_review_percent": 100, "independent_review": "STRATIFIED_SAMPLING"},
+    "LOW": {"deterministic_review_percent": 100, "independent_review": "STRATIFIED_SAMPLING"}
+  },
+  "sampling": {"seed_required": true, "strata_required": true, "expand_to_100_percent_on_defect_or_disagreement_threshold": true},
+  "repair": {"target_only_defective_regions": true, "changed_regions_plus_regression_sample": true, "no_progress_detection": true, "rollback_last_accepted_checkpoint": true, "recipe_version_hash_required": true, "champion_challenger_bounded": true, "threshold_weakening_forbidden": true},
+  "golden_mask_authority": "RunPod may generate, measure, compare, repair, and independently review candidates; only qualified policy evidence may recommend promotion, and Codex retains final authority."
+}

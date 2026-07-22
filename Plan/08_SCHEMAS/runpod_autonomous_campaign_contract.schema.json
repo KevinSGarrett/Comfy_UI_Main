@@ -4,11 +4,14 @@
   "title": "Wave64 RunPod Autonomous Campaign Contract",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "campaign_id", "campaign_name", "repository", "policy", "jobs", "dag", "model_bindings", "authority"],
+  "required": ["schema_version", "campaign_id", "campaign_name", "campaign_profile", "qualification_mode", "admission_disposition", "repository", "policy", "jobs", "dag", "model_bindings", "bulk_manifest", "authority"],
   "properties": {
     "schema_version": {"const": "wave64.aqa.campaign.v1"},
     "campaign_id": {"$ref": "#/definitions/sha256"},
     "campaign_name": {"type": "string", "pattern": "^[A-Za-z0-9._-]{1,128}$"},
+    "campaign_profile": {"enum": ["DEVELOPMENT_CAMPAIGN", "MULTIMODAL_MEDIA_CAMPAIGN"]},
+    "qualification_mode": {"enum": ["STATIC_SHADOW", "ISOLATED_QUALIFICATION", "PRODUCTION_CANDIDATE"]},
+    "admission_disposition": {"enum": ["READY_CPU_SHADOW", "READY_FOR_LEASE", "BLOCKED_UNQUALIFIED"]},
     "repository": {
       "type": "object", "additionalProperties": false,
       "required": ["remote", "commit_sha256", "tree_sha256"],
@@ -33,7 +36,7 @@
       "type": "array", "minItems": 1,
       "items": {
         "type": "object", "additionalProperties": false,
-        "required": ["node_id", "contract_path", "contract_sha256", "contract_id", "input_sha256", "runtime_sha256", "prompt_sha256", "role_id", "phase", "continue_unrelated_branches"],
+        "required": ["node_id", "contract_path", "contract_sha256", "contract_id", "input_sha256", "runtime_sha256", "prompt_sha256", "environment_sha256", "role_id", "phase", "stage", "modality", "risk_tier", "residency_group", "estimated_vram_gib", "continue_unrelated_branches"],
         "properties": {
           "node_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]{1,96}$"},
           "contract_path": {"type": "string", "pattern": "^(?![A-Za-z]:|/|.*(?:^|[\\\\/])\\.\\.(?:[\\\\/]|$)).+$"},
@@ -42,8 +45,14 @@
           "input_sha256": {"$ref": "#/definitions/sha256"},
           "runtime_sha256": {"$ref": "#/definitions/sha256"},
           "prompt_sha256": {"$ref": "#/definitions/sha256"},
+          "environment_sha256": {"$ref": "#/definitions/sha256"},
           "role_id": {"type": "string", "pattern": "^W64-AQA-ROLE-[A-Z0-9-]+$"},
           "phase": {"enum": ["CPU", "GPU"]},
+          "stage": {"enum": ["GENERATE_OR_IMPLEMENT", "DETERMINISTIC_QA", "PRIMARY_REVIEW", "INDEPENDENT_FAMILY_JUROR", "CONSENSUS_OR_ARBITER", "DEFECT_TAXONOMY", "TARGETED_REPAIR", "REGRESSION_QA", "RE_REVIEW", "TERMINALIZE"]},
+          "modality": {"enum": ["CODE", "WORKFLOW", "IMAGE", "VIDEO", "AUDIO", "AV", "GOLDEN_MASK"]},
+          "risk_tier": {"enum": ["CRITICAL", "HIGH", "STANDARD", "LOW"]},
+          "residency_group": {"type": "string", "pattern": "^[A-Za-z0-9._-]{1,96}$"},
+          "estimated_vram_gib": {"type": "number", "minimum": 0, "maximum": 48},
           "continue_unrelated_branches": {"const": true}
         }
       }
@@ -60,7 +69,7 @@
       }
     },
     "model_bindings": {
-      "type": "array", "minItems": 3,
+      "type": "array", "minItems": 4,
       "items": {
         "type": "object", "additionalProperties": false,
         "required": ["role_id", "family_id", "checkpoint_sha256", "qualification_state"],
@@ -71,6 +80,12 @@
           "qualification_state": {"enum": ["QUALIFIED", "UNQUALIFIED", "REVOKED"]}
         }
       }
+    },
+    "bulk_manifest": {
+      "anyOf": [
+        {"type": "null"},
+        {"type": "object", "additionalProperties": false, "required": ["relative_path", "sha256"], "properties": {"relative_path": {"type": "string", "pattern": "^(?![A-Za-z]:|/|.*(?:^|[\\\\/])\\.\\.(?:[\\\\/]|$)).+$"}, "sha256": {"$ref": "#/definitions/sha256"}}}
+      ]
     },
     "authority": {
       "type": "object", "additionalProperties": false,

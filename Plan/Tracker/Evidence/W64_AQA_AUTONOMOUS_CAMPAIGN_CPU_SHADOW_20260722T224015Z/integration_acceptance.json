@@ -1,0 +1,63 @@
+{
+  "schema_version": "wave64.aqa.campaign_static_acceptance.v1",
+  "item_id": "W64-AQA-019",
+  "status": "PASS_STATIC_CPU_SHADOW_ONLY",
+  "acceptance_authority": "CODEX",
+  "provisional_base_commit": "aa0474d29257d43cdf5f0194b5b2f044bed5be1f",
+  "campaign_result_id": "0e95406cee0a933b817daa944b79bb254404cb737af184616f4a6c801965be7f",
+  "profiles": ["DEVELOPMENT_CAMPAIGN", "MULTIMODAL_MEDIA_CAMPAIGN"],
+  "executed_profile": "DEVELOPMENT_CAMPAIGN",
+  "qualification_mode": "STATIC_SHADOW",
+  "task_count": 18,
+  "metrics": {
+    "autonomous_terminalization_rate": 1.0,
+    "interruption_rate": 0.0,
+    "evidence_completeness_rate": 1.0,
+    "restart_replay_rate": 1.0,
+    "scope_authority_violations": 0,
+    "known_bad_false_accepts": 0,
+    "expected_outcome_agreement_rate": 1.0,
+    "first_pass_validation_rate": 0.8333333333333334,
+    "repair_success_rate": 0.5,
+    "model_reloads": 1,
+    "coordinator_churn": 0,
+    "gpu_lease_acquisitions": 0,
+    "raw_evidence_bytes": 5138,
+    "compacted_evidence_bytes": 6339,
+    "evidence_size_reduction_qualified": false
+  },
+  "validators": [
+    {"command": "pytest -q Plan/Instructions/QA/Scripts/test_compile_wave64_runpod_autonomous_campaign_contract.py Plan/Instructions/QA/Scripts/test_run_wave64_runpod_autonomous_campaign.py Plan/Instructions/QA/Scripts/test_evaluate_wave64_runpod_autonomous_campaign_tool_gateway.py Plan/Instructions/QA/Scripts/test_compile_wave64_runpod_autonomous_campaign_proposed_delta.py Plan/Instructions/QA/Scripts/test_compile_wave64_runpod_autonomous_campaign_bulk_manifest.py Plan/Instructions/QA/Scripts/test_run_wave64_runpod_autonomous_campaign_cpu_shadow.py Plan/Instructions/QA/Scripts/test_validate_wave64_runpod_autonomous_multimodal_qa_control_package.py", "result": "PASS", "tests": 48},
+    {"command": "python Plan/07_IMPLEMENTATION/scripts/validate_wave64_runpod_autonomous_multimodal_qa_control_package.py", "result": "PASS", "classification": "W64_AQA_CONTROL_PACKAGE_VALID"},
+    {"command": "ruff check <campaign implementation and test paths>", "result": "PASS"}
+  ],
+  "hashes": {
+    "executor_sha256": "c14ae6edae3c88990839399dea161ee06e76934ea03657fd43e6427d830413fd",
+    "shadow_runner_sha256": "89346717e68972c2a25801f2e8adfca27460f149c58bfe43919bf2dcd318d9f2",
+    "contract_schema_sha256": "b875100c5a1c22d5f22e999c26e10c268c068b549afad6fbe783322b9c32df21",
+    "journal_schema_sha256": "ffc8f31b2ac4ed8da2f78e14c7344643b8e38bb16ca76e26f00b2e92597402dc",
+    "result_schema_sha256": "823ee701e50d46f22276305f53739901a500af2079f41dda4e316b985e4388c9",
+    "campaign_contract_sha256": "e752ba271f47b3ee860c9d015908ca97bc39dae2285c642c6e2a1d76edca8472",
+    "journal_sha256": "e8eba4327c4e17995b757231c3b65d32e807ca275368f04e3995fd6cda8592cc",
+    "sealed_result_sha256": "500a02b7e2a0e573e115009a3d219525256f7a88dd3be7ad4c6c0c526ae54d02",
+    "shadow_assertions_sha256": "7cfa9ddf3f9d2444214e1ec6cf94e8834373b30564866392510b32f09e24d2df"
+  },
+  "truth_boundaries": {
+    "synthetic_test_double_roles_only": true,
+    "production_roles_qualified": false,
+    "multimodal_shadow_run": false,
+    "runtime_autonomy_operational": false,
+    "product_or_golden_mask_promotion_authority": false,
+    "aws_accessed": false,
+    "gpu_used": false
+  },
+  "remaining_gates": [
+    "Independent qualification of every production role and model family",
+    "Authenticated shared-coordinator adapter runtime qualification",
+    "5-10-artifact isolated image short-video and audio shadow",
+    "Modality-specific quality thresholds and calibrated independent review",
+    "Measured production false-accept false-reject agreement disagreement cleanup cost reload churn and throughput",
+    "Evidence compaction size reduction on realistic receipts",
+    "25-100-artifact expansion before any long-duration campaign"
+  ]
+}

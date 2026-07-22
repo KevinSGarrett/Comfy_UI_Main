@@ -239,3 +239,13 @@ recorded as evidence.
 - MaskFactory unavailable: continue non-mask lanes; mask-required jobs block.
 - Cost ceiling reached: stop paid work and preserve resumable state.
 - Invalid model response: bounded retry, alternate qualified reviewer, or block.
+
+## Campaign scheduler and evidence compactor
+
+`run_wave64_runpod_autonomous_campaign.py` composes sealed child job contracts without mutating them. The campaign contract selects `DEVELOPMENT_CAMPAIGN` or `MULTIMODAL_MEDIA_CAMPAIGN`, freezes repository/input/model/runtime/prompt/environment identities, and defines a dependency DAG with stage, modality, risk, capacity, and residency metadata. Referenced child bytes, path, SHA-256, and embedded `contract_id` are verified before admission.
+
+The scheduler batches ready work by CPU/GPU phase, environment, model checkpoint, and residency group. CPU siblings continue after an incompatible branch fails; dependants block. GPU work remains serial and requires the separate `wave64.aqa.campaign_lease.v1` object backed by the shared coordinator. No scheduler state infers concurrency or foreign-lease authority.
+
+Events use a versioned genesis hash, canonical event hashes, legal transition checks, and a restart cursor that never assumes in-flight success. Artifacts and child receipts are content addressed, a Merkle root seals the evidence set, and `result_id` seals the complete result. The compact renderer reports batch metrics, anomalies, samples, repair history, cleanup, blockers, and proposed path-safe Plan/Items/Tracker deltas while preserving every detailed receipt by hash.
+
+Generator/implementer, primary reviewer, independent-family juror, and arbiter are separate qualified families and checkpoints. The media profile freezes manifests and provides image, video, audio, AV, workflow, and golden-mask QA with calibrated PASS/FAIL/ABSTAIN/QUARANTINE decisions, defect taxonomies, targeted repairs, risk-tiered review, seeded stratified sampling, and automatic expansion to full review. The executor remains `BLOCKED_UNQUALIFIED` until each exact role is independently qualified.

@@ -6,6 +6,10 @@
   "max_repair_attempts": 1,
   "continue_unrelated_branches": true,
   "abstain_on_unqualified_role": true,
+  "profiles": ["DEVELOPMENT_CAMPAIGN", "MULTIMODAL_MEDIA_CAMPAIGN"],
+  "closed_loop_stages": ["GENERATE_OR_IMPLEMENT", "DETERMINISTIC_QA", "PRIMARY_REVIEW", "INDEPENDENT_FAMILY_JUROR", "CONSENSUS_OR_ARBITER", "DEFECT_TAXONOMY", "TARGETED_REPAIR", "REGRESSION_QA", "RE_REVIEW", "TERMINALIZE"],
+  "ordinary_internal_events_do_not_escalate": ["RETRY", "REPAIR", "MODEL_RELOAD", "CHILD_TERMINALIZATION"],
+  "escalation_conditions": ["AUTHORITY_CHANGE", "SCOPE_CHANGE", "UNKNOWN_CREDENTIAL_OR_LICENSE", "BUDGET_EXHAUSTED", "FOREIGN_LEASE_CONFLICT", "DESTRUCTIVE_ACTION", "FINAL_SEALED_ACCEPTANCE"],
   "gpu_phases_require_shared_coordinator_lease": true,
   "cpu_phases_require_lease": false,
   "allowed_tools": [

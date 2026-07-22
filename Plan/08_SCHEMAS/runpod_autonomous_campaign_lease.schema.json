@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_campaign_lease.schema.json",
+  "title": "Wave64 RunPod Autonomous Campaign Lease",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "campaign_id", "lease_id", "coordinator_receipt_sha256", "owner", "phase", "capacity_gib", "state", "expires_at", "foreign_override_allowed"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.campaign_lease.v1"},
+    "campaign_id": {"$ref": "#/definitions/sha256"},
+    "lease_id": {"type": "string", "minLength": 8, "maxLength": 160},
+    "coordinator_receipt_sha256": {"$ref": "#/definitions/sha256"},
+    "owner": {"type": "string", "minLength": 1, "maxLength": 128},
+    "phase": {"const": "GPU"},
+    "capacity_gib": {"type": "number", "exclusiveMinimum": 0, "maximum": 46},
+    "state": {"enum": ["GRANTED", "VALID", "LOST", "RELEASED", "BLOCKED_FOREIGN_LEASE"]},
+    "expires_at": {"type": "string", "format": "date-time"},
+    "foreign_override_allowed": {"const": false}
+  },
+  "definitions": {"sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+}

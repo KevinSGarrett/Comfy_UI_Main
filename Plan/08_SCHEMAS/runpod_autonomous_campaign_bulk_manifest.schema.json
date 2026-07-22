@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_campaign_bulk_manifest.schema.json",
+  "title": "Wave64 Frozen Multimodal Campaign Manifest",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "manifest_id", "profile", "prompts", "negative_prompts", "seeds", "source_assets", "workflows", "models", "environment_sha256", "outputs", "generation_parameters", "sampling"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.campaign_bulk_manifest.v1"},
+    "manifest_id": {"$ref": "#/definitions/sha256"},
+    "profile": {"const": "MULTIMODAL_MEDIA_CAMPAIGN"},
+    "prompts": {"type": "array", "minItems": 1, "items": {"$ref": "#/definitions/hashed_ref"}},
+    "negative_prompts": {"type": "array", "items": {"$ref": "#/definitions/hashed_ref"}},
+    "seeds": {"type": "array", "minItems": 1, "items": {"type": "integer", "minimum": 0}},
+    "source_assets": {"type": "array", "items": {"$ref": "#/definitions/hashed_ref"}},
+    "workflows": {"type": "array", "minItems": 1, "items": {"$ref": "#/definitions/hashed_ref"}},
+    "models": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["checkpoint_sha256", "role_id", "family_id", "residency_group"], "properties": {"checkpoint_sha256": {"$ref": "#/definitions/sha256"}, "role_id": {"type": "string"}, "family_id": {"type": "string"}, "residency_group": {"type": "string"}}}},
+    "environment_sha256": {"$ref": "#/definitions/sha256"},
+    "outputs": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["artifact_id", "modality", "candidate_count", "quality_tier"], "properties": {"artifact_id": {"type": "string"}, "modality": {"enum": ["IMAGE", "VIDEO", "AUDIO", "AV", "GOLDEN_MASK"]}, "candidate_count": {"type": "integer", "minimum": 1}, "quality_tier": {"enum": ["CRITICAL", "HIGH", "STANDARD", "LOW"]}}}},
+    "generation_parameters": {"type": "object", "additionalProperties": true, "required": ["dimensions", "frame_rate", "duration_seconds", "audio_sample_rate", "audio_channels"], "properties": {"dimensions": {"type": "string"}, "frame_rate": {"type": "number", "minimum": 0}, "duration_seconds": {"type": "number", "minimum": 0}, "audio_sample_rate": {"type": "integer", "minimum": 0}, "audio_channels": {"type": "integer", "minimum": 0}}},
+    "sampling": {"type": "object", "additionalProperties": false, "required": ["seed", "strata", "expand_to_full_review_on_threshold"], "properties": {"seed": {"type": "integer", "minimum": 0}, "strata": {"type": "array", "items": {"type": "string"}}, "expand_to_full_review_on_threshold": {"const": true}}}
+  },
+  "definitions": {"sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}, "hashed_ref": {"type": "object", "additionalProperties": false, "required": ["relative_path", "sha256"], "properties": {"relative_path": {"type": "string", "pattern": "^(?![A-Za-z]:|/|.*(?:^|[\\\\/])\\.\\.(?:[\\\\/]|$)).+$"}, "sha256": {"$ref": "#/definitions/sha256"}}}}
+}
