@@ -813,6 +813,18 @@ binding only. General, multilingual, or overlap alignment, audio-event
 recognition, independent listening, operational activation, and product
 promotion remain false until their separate runtime and review gates pass.
 
+The expanded Wav2Vec2 executor is also statically admitted. It reuses only the
+previously accepted exact model and dependency environment, requires an exact
+sanitized `comfyui_main` exclusive lease, and runs calibration and held-out
+partitions as separate immutable worker processes. Held-out execution requires
+a passing calibration receipt bound to the same plan and model revision.
+Transcript mismatch must lose at least `0.15` greedy similarity relative to the
+matched calibration source; nonspeech and overlap remain refusal controls; and
+Spanish/code-switch results remain diagnostic with no language authority. The
+executor is runtime-pending while the coordinator retains the foreign
+MaskFactory recovery hold. Audio-event execution is intentionally excluded
+until a separate exact event-model admission exists.
+
 The prospective Row136 control package is now frozen before execution. It
 binds the accepted canary receipt, a versioned English IPA-to-viseme registry,
 an exact output schema, and a deterministic compiler. The compiler creates a

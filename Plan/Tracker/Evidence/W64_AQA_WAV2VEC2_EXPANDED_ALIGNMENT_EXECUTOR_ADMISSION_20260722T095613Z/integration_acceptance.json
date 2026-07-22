@@ -1,0 +1,47 @@
+{
+  "schema_version": "wave64.aqa.integration_acceptance.v1",
+  "program_id": "W64-AQA",
+  "tracker_ids": ["W64-AQA-006", "TRK-W64-135"],
+  "evaluated_at_utc": "2026-07-22T09:56:13Z",
+  "disposition": "ADOPTED",
+  "scope": "Static admission of the partition-aware expanded Wav2Vec2 alignment executor only",
+  "repository_base_commit": "bae36b3bc9fe8fcf7da923cadb57375767a4386d",
+  "admission_sha256": "b9f8eb96d9a19029d8da744ac243d56527ec2c2a6f4530e9d0c95a6bc750c983",
+  "executor_sha256": "8bbdf7aa5c29afdd23a261feec4711fdd3e92af1c272e97380474b67618b9e9c",
+  "tests_sha256": "3c3dd2d075c2913266612844e3364de684e9724c265492f7f4f8f7425db1e709",
+  "accepted": {
+    "exact_plan_identity_bound": true,
+    "accepted_model_and_weight_identity_bound": true,
+    "accepted_canary_identity_bound": true,
+    "accepted_environment_and_activation_identity_bound": true,
+    "sanitized_exact_lease_required": true,
+    "calibration_before_held_out_enforced": true,
+    "held_out_requires_matching_calibration_receipt": true,
+    "isolated_process_cleanup_gate_present": true,
+    "unchanged_rerun_forbidden": true,
+    "test_result": "6 passed",
+    "ruff_result": "PASS",
+    "diff_check_result": "PASS"
+  },
+  "runtime": {
+    "status": "PENDING_FOREIGN_COORDINATOR_RECOVERY_HOLD",
+    "foreign_lease_id": "lease_f31c0165ee8f4c9bb31e5ef96ef87d22",
+    "foreign_project": "maskfactory",
+    "foreign_state": "RECOVERY_REQUIRED",
+    "override_attempted": false
+  },
+  "authority_granted": [
+    "static executor admission",
+    "exact calibration-to-held-out control sequencing"
+  ],
+  "authority_not_granted": [
+    "expanded matrix runtime pass",
+    "general forced alignment",
+    "multilingual alignment",
+    "overlap alignment",
+    "audio-event execution or recognition",
+    "operational activation",
+    "product promotion"
+  ],
+  "next_action": "After the foreign coordinator hold is resolved by its owner, acquire an exact comfyui_main lease and run calibration once; only a passing immutable calibration receipt may authorize the held-out run."
+}

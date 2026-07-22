@@ -1,0 +1,47 @@
+{
+  "schema_version": "wave64.aqa.wav2vec2_expanded_alignment_execution_admission.v1",
+  "program_id": "W64-AQA",
+  "tracker_ids": ["W64-AQA-006", "TRK-W64-135"],
+  "status": "EXPANDED_ALIGNMENT_PARTITION_EXECUTION_ADMITTED_RUNTIME_PENDING",
+  "plan": {
+    "path": "Plan/10_REGISTRIES/wave64_forced_alignment_audio_event_expansion_plan.json",
+    "sha256": "a8bd9b6bdeaf16be3ab1dd83f6cdf73dcec717ba25f03986bc3bf84071be50d4"
+  },
+  "model": {
+    "package_id": "W64-AQA-PKG-WAV2VEC2-PHONEME-ALIGNER",
+    "repository": "facebook/wav2vec2-lv-60-espeak-cv-ft",
+    "revision": "ae45363bf3413b374fecd9dc8bc1df0e24c3b7f4",
+    "root": "/workspace/w64_aqa/models/wav2vec2-lv-60-espeak-cv-ft/ae45363bf3413b374fecd9dc8bc1df0e24c3b7f4",
+    "weight_sha256": "3173bde9e9ce490fa0f989e413c42f25bc1820c020adc1e6b9b87025b3cfcc5e",
+    "accepted_canary_sha256": "404dbd97bbef08b966f6a39434b7256b97e42dc0c1a7c9cd56949f4f48878a93"
+  },
+  "environment": {
+    "root": "/workspace/w64_aqa/environments/wav2vec2-phoneme-aligner/phonemizer-fork-3.3.2_espeakng-loader-0.2.4_py311/7abfff8a8d3252776a10556648f4b9fb37f6cf734eebf4333004b57ccd2c484a",
+    "tree_manifest_sha256": "92834c7a92d1acf3bde825fdd6f74b752451bbf350e83b8809585c5734e77e6b",
+    "activation_receipt_sha256": "c0a148e6ebddbb7089df7679b68f2afaa1ddb8ed38d54d47473b64ccf5b3c956"
+  },
+  "lease": {
+    "project": "comfyui_main",
+    "profile": "comfyui_model_qualification",
+    "mode": "exclusive",
+    "minimum_reserved_peak_gib": 4.0,
+    "required_free_vram_mib": 4096,
+    "cleanup_tolerance_mib": 1024
+  },
+  "partitions": {
+    "calibration": ["align_qwen_english", "align_ambience_refusal", "align_foley_refusal"],
+    "held_out": ["align_natural_english", "align_spanish_diagnostic", "align_code_switch_diagnostic", "align_transcript_mismatch_refusal", "align_overlap_refusal"],
+    "held_out_requires_calibration_receipt": true,
+    "unchanged_rerun_forbidden": true
+  },
+  "authority": {
+    "exact_package_reuse": true,
+    "partitioned_alignment_execution": true,
+    "audio_event_execution": false,
+    "general_forced_alignment": false,
+    "multilingual_alignment": false,
+    "overlap_alignment": false,
+    "operational_activation": false,
+    "product_promotion": false
+  }
+}
