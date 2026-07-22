@@ -15,28 +15,20 @@
     "durable_root": "/workspace",
     "ollama_models_root": "/workspace/ollama",
     "one_pod_capacity_policy": {
-      "state": "BLOCKED_NO_US_WA_1_2XA40_STOCK_CANDIDATE_NOT_CREATED",
-      "current_profile": "1x RTX 6000 Ada 48GB",
-      "preferred_profile": {
-        "gpu_type": "NVIDIA A40",
-        "gpu_count": 2,
-        "aggregate_vram_gib": 96,
-        "minimum_ram_gib": 100,
-        "minimum_vcpu": 18,
-        "aggregate_vram_is_single_allocation": false,
-        "requires_same_host_topology_certificate": true
-      },
-      "performance_fallback_profile": {
-        "gpu_type": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
-        "gpu_count": 1,
-        "aggregate_vram_gib": 96,
-        "minimum_ram_gib": 124,
-        "minimum_vcpu": 32,
-        "aggregate_vram_is_single_allocation": true,
-        "requires_blackwell_runtime_certificate": true
-      },
-      "old_pod_stops_only_after_candidate_acceptance": true,
-      "candidate_failure_returns_to_current_pod": true
+      "state": "CURRENT_PRODUCTION_POD_ONLY",
+      "pod_id": "1q4ji0gg1fkhvt",
+      "gpu_type": "NVIDIA RTX 6000 Ada Generation",
+      "gpu_count": 1,
+      "vram_mib": 49140,
+      "host_memory_total_bytes": 540844122112,
+      "host_memory_available_bytes_at_last_probe": 438214877184,
+      "vcpu": 128,
+      "workspace_free_bytes_at_last_probe": 142706362155008,
+      "alternative_pod_watcher_enabled": false,
+      "candidate_creation_enabled": false,
+      "external_inference_enabled": false,
+      "required_residency_methods": ["sequential_execute", "unload", "reload", "quantize", "cpu_offload", "nvme_offload"],
+      "all_required_roles_target_current_pod": true
     },
     "secondary_burst_policy": {
       "state": "DISABLED_REQUIRES_FUTURE_USER_APPROVAL",

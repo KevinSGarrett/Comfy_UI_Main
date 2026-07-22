@@ -63,10 +63,14 @@ def test_current_and_future_authority_are_separated() -> None:
     assert registry["runtime_policy"]["primary_pod_first_for_every_role"]
     assert registry["runtime_policy"]["secondary_burst_policy"]["default_power_state"] == "STOPPED"
     one_pod = registry["runtime_policy"]["one_pod_capacity_policy"]
-    assert one_pod["preferred_profile"]["gpu_type"] == "NVIDIA A40"
-    assert one_pod["preferred_profile"]["gpu_count"] == 2
-    assert not one_pod["preferred_profile"]["aggregate_vram_is_single_allocation"]
-    assert one_pod["old_pod_stops_only_after_candidate_acceptance"]
+    assert one_pod["state"] == "CURRENT_PRODUCTION_POD_ONLY"
+    assert one_pod["pod_id"] == registry["runtime_policy"]["current_pod_id"]
+    assert one_pod["gpu_type"] == "NVIDIA RTX 6000 Ada Generation"
+    assert one_pod["gpu_count"] == 1
+    assert not one_pod["alternative_pod_watcher_enabled"]
+    assert not one_pod["candidate_creation_enabled"]
+    assert not one_pod["external_inference_enabled"]
+    assert one_pod["all_required_roles_target_current_pod"]
 
 
 def test_attempt_ceilings_are_fail_closed() -> None:

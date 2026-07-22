@@ -758,16 +758,20 @@ def collect_errors() -> list[str]:
     if runtime.get("external_inference_forbidden") is not True:
         errors.append("registry must forbid external inference")
     one_pod = runtime.get("one_pod_capacity_policy", {})
-    preferred = one_pod.get("preferred_profile", {})
-    fallback = one_pod.get("performance_fallback_profile", {})
-    if preferred.get("gpu_type") != "NVIDIA A40" or preferred.get("gpu_count") != 2:
-        errors.append("preferred one-pod profile must be 2x NVIDIA A40")
-    if preferred.get("aggregate_vram_is_single_allocation") is not False:
-        errors.append("2x A40 aggregate VRAM must not be treated as one allocation")
-    if fallback.get("gpu_type") != "NVIDIA RTX PRO 6000 Blackwell Server Edition":
-        errors.append("one-pod performance fallback must be RTX PRO 6000 Blackwell Server")
-    if one_pod.get("old_pod_stops_only_after_candidate_acceptance") is not True:
-        errors.append("current pod must remain until candidate acceptance")
+    if one_pod.get("state") != "CURRENT_PRODUCTION_POD_ONLY":
+        errors.append("capacity policy must select the current production pod only")
+    if one_pod.get("pod_id") != runtime.get("current_pod_id"):
+        errors.append("current-pod capacity policy must bind the runtime pod ID")
+    if one_pod.get("gpu_type") != runtime.get("gpu") or one_pod.get("gpu_count") != 1:
+        errors.append("current-pod capacity policy must bind the one RTX 6000 Ada GPU")
+    if one_pod.get("alternative_pod_watcher_enabled") is not False:
+        errors.append("alternative-pod watcher must remain disabled")
+    if one_pod.get("candidate_creation_enabled") is not False:
+        errors.append("alternative-pod candidate creation must remain disabled")
+    if one_pod.get("external_inference_enabled") is not False:
+        errors.append("current-pod capacity policy must forbid external inference")
+    if one_pod.get("all_required_roles_target_current_pod") is not True:
+        errors.append("every required role must target the current production pod")
     burst = runtime.get("secondary_burst_policy", {})
     if burst.get("default_power_state") != "STOPPED":
         errors.append("secondary burst pod must be stopped by default")
@@ -1281,11 +1285,15 @@ def collect_errors() -> list[str]:
         errors.append("migration controller must remain decision-only")
     if migration_policy.get("old_pod_stops_only_after_integration_switch") is not True:
         errors.append("migration policy must forbid old-pod stop before integration switch")
-    migration_preferred = migration_policy.get("preferred_profile", {})
-    if migration_preferred.get("gpu_type") != "NVIDIA A40" or migration_preferred.get("gpu_count") != 2:
-        errors.append("migration preferred profile must remain exact 2x A40")
-    if migration_preferred.get("maximum_hourly_usd") != 0.70:
-        errors.append("migration preferred 2x A40 price ceiling must remain 0.70 USD/hour")
+    if migration_policy.get("status") != "RETIRED_CURRENT_PRODUCTION_POD_ONLY":
+        errors.append("alternative-pod migration policy must remain retired")
+    if migration_policy.get("migration_candidates_enabled") is not False:
+        errors.append("alternative-pod migration candidates must remain disabled")
+    if migration_policy.get("stock_watcher_enabled") is not False:
+        errors.append("alternative-pod stock watcher must remain disabled")
+    current_profile = migration_policy.get("current_production_profile", {})
+    if current_profile.get("pod_id") != runtime.get("current_pod_id"):
+        errors.append("retired migration policy must bind the current production pod")
 
     modalities = set(schema.get("properties", {}).get("modality", {}).get("enum", []))
     required_modalities = {"image", "video", "audio", "av", "mask", "workflow"}

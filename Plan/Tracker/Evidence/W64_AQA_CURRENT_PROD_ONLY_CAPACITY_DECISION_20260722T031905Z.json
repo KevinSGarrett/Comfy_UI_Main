@@ -1,0 +1,70 @@
+{
+  "schema_version": "wave64.aqa.current_prod_only_capacity_decision.v1",
+  "program_id": "W64-AQA",
+  "observed_at_utc": "2026-07-22T03:19:05Z",
+  "decision": "CURRENT_PRODUCTION_POD_ONLY",
+  "decision_source": "explicit_user_direction",
+  "supersedes": "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_MULTIMODAL_QA_CAPACITY_OPTIONS_20260721.json",
+  "current_production_pod": {
+    "pod_id": "1q4ji0gg1fkhvt",
+    "name": "hyperreal-flux",
+    "desired_status": "RUNNING",
+    "gpu_type": "NVIDIA RTX 6000 Ada Generation",
+    "gpu_count": 1,
+    "vram_mib": 49140,
+    "gpu_used_mib": 648,
+    "gpu_free_mib": 47993,
+    "gpu_utilization_percent": 0,
+    "host_memory_total_bytes": 540844122112,
+    "host_memory_available_bytes": 438214877184,
+    "swap_bytes": 0,
+    "vcpu": 128,
+    "workspace_filesystem_reported_free_bytes": 142706362155008,
+    "hourly_compute_usd": 0.77,
+    "network_volume_id": "o9qv2ld91c"
+  },
+  "coordination": {
+    "active_lease_count": 0,
+    "queued_request_count": 0,
+    "coordinator_mode_at_capacity_probe": "OFF",
+    "coordinator_activation": {
+      "observed_at_utc": "2026-07-22T03:23:20Z",
+      "mode": "ON_IDLE",
+      "daemon_alive": true,
+      "admission_enabled": true,
+      "telemetry_fresh": true,
+      "hardware_availability_watcher": false
+    },
+    "automatic_process_termination": false,
+    "shared_coordinator_required_before_gpu_affecting_work": true,
+    "maskfactory_producer_authority_unchanged": true
+  },
+  "retired_paths": {
+    "alternative_pod_stock_watching": true,
+    "alternative_pod_candidate_creation": true,
+    "migration_holds": true,
+    "external_inference": true,
+    "matching_2xa40_local_automation_manifest_count": 0
+  },
+  "required_current_pod_strategy": [
+    "install every required role under the durable workspace",
+    "run one heavy GPU role at a time unless exact shared profiles qualify",
+    "use sequential unload and reload",
+    "use exact quantization plus CPU or NVMe offload for oversized roles",
+    "qualify capacity latency quality cleanup failure and cost independently",
+    "continue another same-pod lane when one role is temporarily held"
+  ],
+  "internvl_capacity_truth": {
+    "unquantized_source_bytes": 481433908402,
+    "fits_reported_workspace_storage": true,
+    "unquantized_runtime_has_safe_memory_headroom": false,
+    "quantized_or_offloaded_current_pod_artifact_required": true
+  },
+  "claims_not_established": [
+    "any unqualified role is operational",
+    "unquantized InternVL runtime fit",
+    "quality equivalence of any quantized role",
+    "shared heavy GPU residency",
+    "MaskFactory release-package acceptance"
+  ]
+}

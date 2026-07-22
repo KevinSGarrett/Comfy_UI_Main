@@ -118,17 +118,22 @@ sharpness spans. The current canonical receipt is
 five-frame sheet remains diagnostic-only. Do not promote until strict sampled-
 video and whole-clip temporal review execute after the typed GPU hold clears.
 
-## 4A. One-pod capacity migration
+## 4A. Current-production-pod capacity
 
-1. Preferred profile: one pod with 2x A40, 96 GB aggregate VRAM, at least 100 GB
-   RAM and 18 vCPU. Require same-host topology, peer access, NCCL/tensor-parallel,
-   per-GPU OOM, aggregate throughput, and role-quality canaries.
-2. Performance fallback: one RTX PRO 6000 Blackwell 96 GB pod with at least
-   124 GB RAM and 32 vCPU. Treat its contiguous VRAM and Blackwell runtime as a
-   different execution envelope; never reuse A40 certificates.
-3. Capture live price, stock, datacenter, storage compatibility, CUDA/container,
-   and bounded migration cost before creation. No candidate starts without a
-   maximum overlap duration and automatic failure teardown.
+1. The sole active target is RunPod `1q4ji0gg1fkhvt`: one RTX 6000 Ada with
+   49,140 MiB VRAM. The latest direct probe measured 540,844,122,112 total host-
+   memory bytes, 438,214,877,184 available bytes, 128 CPUs, and
+   142,706,362,155,008 filesystem-reported free bytes under `/workspace`.
+2. Alternative pod stock watching, candidate creation, migration, and external
+   inference are disabled. Do not wait for future hardware before installing or
+   qualifying a required role on the current pod.
+3. Run at most one heavy GPU role at a time unless the shared coordinator has
+   separately qualified the exact shared profiles. Use sequential unload/reload,
+   quantization, CPU offload, NVMe offload, bounded context, and chunked media.
+4. Before authority, record exact package hashes, precision, peak VRAM, peak host
+   RAM, storage, latency, quality, cleanup, failure recovery, and cost. A role
+   that misses a gate remains unqualified; immediately test a safer same-pod
+   envelope or continue another current-pod role rather than waiting for hardware.
 4. Do not assume simultaneous writable access to one network volume. Attach only
    where the provider guarantees it, otherwise transfer immutable packages and
    artifacts by hash through approved durable storage.
@@ -271,7 +276,7 @@ only reviewed exact paths, recompute dependencies, and move to the next
 unblocked tracker row. A single accepted artifact or blocked GPU lane is not a
 shift-complete condition.
 
-## 10. Role package and 2x A40 availability discipline
+## 10. Role package and current-pod residency discipline
 
 Validate `wave64_runpod_autonomous_role_package_inventory.json` before any
 role install or activation action. `OFFICIAL_UPSTREAM_IDENTITY_VERIFIED` means
@@ -279,15 +284,11 @@ only that the publisher repository exists; it grants no download, load,
 inference, tool, review, or promotion authority. Pin the revision, accept and
 record licensing, hash every artifact, keep it under `/workspace`, and issue
 separate capacity, calibration, runtime, quality, cost, and failure certificates.
-Only one GPU role may be resident unless the exact same-host topology has its
-own certificate.
-
-The continuous 2x A40 stock check must never pause current-pod work. Its exact
-filter is two NVIDIA A40 GPUs, 96 GB aggregate VRAM, at least 100 GB RAM and 18
-vCPU, at no more than 0.70 USD/hour. It may nominate at most one idle candidate.
-It must not automatically download or load models, migrate work, stop the
-current pod, or create a second candidate. Continue on the 48 GB pod with
-sequential unload/reload, quantization and offload while the offer is absent.
+Only one heavy GPU role may be resident unless the exact pair of coordinator
+profiles has passed shared-capacity and cleanup qualification. No hardware-stock
+watcher or migration candidate is active. All required Qwen, InternVL, Omni,
+Coder, generation, QA, and MaskFactory packages target `/workspace` on the
+current production pod and execute sequentially through the shared coordinator.
 
 For the admitted Qwen3-ASR package, use only revision
 `7278e1e70fe206f11671096ffdd38061171dd6e5` and the exact twelve-file install
@@ -455,11 +456,10 @@ For the independent juror, use only the official native Transformers repository
 custom-code repository or `trust_remote_code`; the native route exposes no
 Python files or `auto_map`. Its 136-file source manifest and all 97 weight-shard
 SHA-256 values are pinned. The unquantized source is 481,433,908,402 bytes and
-fits the latest filesystem-reported 144,954,176,372,736 free bytes. Treat that
+fits the latest filesystem-reported 142,706,362,155,008 free bytes. Treat that
 filesystem value only as a capacity observation until durable-storage quota and
-billing are independently verified. The unquantized package does not fit the
-preferred 2x A40 profile's nominal 96 GB VRAM plus 100 GB host RAM, so runtime
-installation still requires a separately admitted reproducible
-quantized/offloaded artifact. Neither this runtime constraint nor storage
-verification may block other current-pod lanes or the 2x A40 availability
-watcher.
+billing are independently verified. The current pod reported
+438,214,877,184 available host-memory bytes and 47,993 MiB free VRAM; the raw
+weights leave no safe runtime headroom. Installation and execution therefore
+require a separately admitted reproducible current-pod quantized/offloaded
+artifact. This runtime constraint must not block other current-pod lanes.

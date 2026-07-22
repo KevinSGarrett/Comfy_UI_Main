@@ -7,13 +7,15 @@ Program ID: `W64-AQA`
 
 The project will use a fail-closed, evidence-producing QA controller rather than
 one unrestricted "master LLM." Every required Qwen, InternVL, Omni, Coder,
-generation, QA, and golden-mask role is targeted to one self-hosted RunPod. The
-current RTX 6000 Ada 48 GB pod remains authoritative during migration. The
-preferred budget target is one pod with 2x A40 GPUs (96 GB aggregate VRAM,
-at least 100 GB RAM and 18 vCPU); the performance fallback is one RTX PRO 6000
-Blackwell 96 GB pod with at least 124 GB RAM and 32 vCPU. The controller runs
-roles sequentially and may unload, reload, tensor-parallelize, quantize, or
-CPU/NVMe-offload models under an exclusive phase lease.
+generation, QA, and golden-mask role is targeted to the existing self-hosted
+production RunPod `1q4ji0gg1fkhvt`. This RTX 6000 Ada 48 GB pod is the sole
+deployment target until the user explicitly changes that decision. Alternative
+pod migration, 2x A40 stock checks, candidate creation, and migration holds are
+retired. The controller runs roles sequentially and may unload, reload,
+quantize, or CPU/NVMe-offload models under a shared-coordinator phase lease.
+Large roles are not deferred for different hardware: each receives an exact
+current-pod package, capacity canary, quality calibration, and bounded operating
+envelope before authority.
 
 This package is additive to the existing Wave64 autonomous model-intelligence,
 image, video, audio, speech, and MaskFactory programs. It does not promote their
@@ -92,10 +94,10 @@ to durable primary-pod storage and evaluated one at a time with checkpoint-
 specific quantization and CPU/NVMe offload. No large role is operational merely
 because its files exist: the exact quantization must pass memory, latency,
 structured-output, calibration, and quality floors. A capacity failure leaves
-that role blocked. A secondary 48 GB pod may accept an independently packaged
-burst phase after its per-job budget gate passes; the design does not pretend
-that aggregate VRAM behaves as one allocation: the 2x A40 target requires an
-exact same-host tensor-parallel/NCCL topology certificate.
+that role unqualified while a safer precision, quantization, sharding, or
+CPU/NVMe-offload envelope is tested on the same production pod. No secondary
+pod, external inference service, or future-hardware wait is part of the active
+strategy.
 
 ## Phase-safe GPU protocol
 
@@ -176,9 +178,9 @@ anatomy/identity failures, complex temporal defects, or reviewer disagreement.
 Its primary-pod package may use a qualified lower precision plus CPU/NVMe
 offload, and it never reviews every candidate. If the exact package cannot meet
 capacity or quality floors, senior arbitration remains blocked; no smaller model
-inherits its authority. The 2x A40 profile may use same-host tensor parallelism;
-the single 96 GB Blackwell profile uses contiguous VRAM. Both must independently
-prove the exact senior quantization/offload package and acceptable latency.
+inherits its authority. On the current production pod it must use an exact
+quantized and CPU/NVMe-offloaded package with measured peak VRAM, host RAM,
+latency, cleanup, and quality behavior.
 
 ### Audio and audiovisual authority
 
@@ -259,8 +261,8 @@ true peak, stereo phase, and duplicate-segment checks. Its rendered waveform and
 spectrogram were inspected only as technical diagnostics. No listening, ASR,
 speaker, event-semantic, perceptual, or independent-juror authority is claimed;
 therefore product promotion remains false and the semantic audio gate stays
-`BLOCKED_UNQUALIFIED`. This lane is non-GPU and does not wait for 2x A40 stock or
-compete with a MaskFactory GPU lease.
+`BLOCKED_UNQUALIFIED`. This lane is non-GPU and does not compete with a
+MaskFactory GPU lease.
 
 The paired lossless AV review mux is retained at
 `Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_AV_SHADOW_20260721T222452Z.json`.
@@ -428,9 +430,9 @@ it receives a separate bounded executor and fault campaign.
     the existing pod using measured quantization/offload envelopes.
 11. Qualify Omni, ASR, Coder, and golden-mask roles independently by modality,
     duration, resolution, memory, latency, and quality scope.
-12. Canary a one-pod 2x A40 profile first and a single 96 GB Blackwell profile
-    only if A40 capacity/latency fails; migrate after volume, tensor topology,
-    model residency, failure recovery, cost, and quality-equivalence gates pass.
+12. Qualify every remaining role on the current production pod using one-resident-
+    GPU-role scheduling, exact quantization/offload envelopes, cleanup proof, and
+    measured quality; never wait for or create an alternative pod.
 
 ## Pursuing-goal strategy
 
@@ -454,12 +456,13 @@ The infrastructure phase exits earlier and without weakening those role gates:
 one retained current-pod shadow job must pass admission, workflow execution or
 generation, deterministic and contract-applicable semantic QA, one bounded
 correction, evidence replay, owned cleanup, and fail-closed evidence-only
-acceptance. Remaining optional roles, deferred MaskFactory integration, and
-2x A40 migration stay explicit tracker limitations. After this exit, selection
+acceptance. Remaining unqualified required roles and deferred MaskFactory
+integration stay explicit tracker limitations, but neither blocks other
+current-pod lanes. After this exit, selection
 defaults permanently to dependency-unblocked functional ComfyUI delivery rather
 than another broad infrastructure or inventory cycle.
 
-## Role package identity and nonblocking capacity lane
+## Role package identity and current-production-pod capacity lane
 
 The authoritative package inventory is
 `Plan/10_REGISTRIES/wave64_runpod_autonomous_role_package_inventory.json`.
@@ -469,13 +472,12 @@ never implies that weights were downloaded, accepted, hashed, capacity-tested,
 or authorized. The concrete ASR target is `Qwen/Qwen3-ASR-1.7B`; the generic
 family label `Qwen3-ASR` is not an install target.
 
-The exact 2x A40 profile is checked continuously outside the runtime controller,
-but that availability lane is advisory and nonblocking. The existing pod remains
-authoritative and continues sequential unload/reload/offload qualification.
-Availability may create at most one idle candidate after admission; it cannot
-load models, migrate traffic, stop the current pod, or claim cost/quality
-equivalence. Every package and every new hardware envelope still requires an
-independent certificate.
+No alternative-hardware watcher or migration candidate is active. The existing
+pod remains authoritative and continues sequential unload/reload/offload
+qualification. The shared coordinator serializes Comfy_UI_Main and MaskFactory
+GPU phases; CPU-only installation, hashing, static validation, and evidence work
+continue without a GPU lease. Every package requires an independent current-pod
+capacity, runtime, calibration, quality, cleanup, and failure certificate.
 
 The first admitted missing package is `Qwen/Qwen3-ASR-1.7B` at verified
 revision `7278e1e70fe206f11671096ffdd38061171dd6e5`. Its two weight-shard
@@ -660,11 +662,11 @@ InternVL3.5-241B-A28B-HF repository. Revision `b941ed62...` has no custom
 Python files or `auto_map`, so `trust_remote_code` is now forbidden. Its
 136-file manifest, all 97 weight-shard hashes, Apache-2.0 weight metadata, and
 the official project's MIT code license are pinned and accepted for project
-use. The raw source is 481,433,908,402 bytes and fits the latest
-filesystem-reported 144,954,176,372,736 free bytes, although durable-storage
-quota and billing have not yet been independently verified. It cannot fit the
-preferred 2x A40 profile's nominal 96 GB VRAM plus 100 GB host RAM as an
-unquantized runtime. No download or runtime claim is made. A reproducibly
-hash-locked quantized/offloaded artifact, runtime-capacity proof, and durable
+use. The raw source is 481,433,908,402 bytes and fits the current pod's latest
+filesystem-reported 142,706,362,155,008 free bytes. The same probe measured
+540,844,122,112 total host-memory bytes, 438,214,877,184 available bytes, 128
+CPUs, and 47,993 MiB free VRAM. The unquantized package leaves no safe runtime
+headroom and is not admitted for loading. A reproducibly hash-locked
+quantized/offloaded artifact, current-pod runtime-capacity proof, and durable
 storage verification are the next juror gates while all other current-pod lanes
-and the 2x A40 watcher remain nonblocking.
+remain nonblocking.

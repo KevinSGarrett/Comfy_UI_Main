@@ -156,14 +156,16 @@ A reviewer role may be `ACTIVE_STRICT`, `ACTIVE_TRIAGE`, `SHADOW`,
 - latency and monetary-cost envelope;
 - known limitations, fallback, expiry, and rollback.
 
-The current 48 GB pod remains the first qualification and rollback target. The
+The current 48 GB RTX 6000 Ada production pod is the sole qualification,
+execution, and rollback target. The
 122B, 241B, and 397B packages must declare exact precision, quantization,
 CPU/NVMe offload, peak VRAM/RAM/storage, latency, and quality envelopes. A model
-that downloads or starts but misses any floor remains blocked. The preferred
-single-pod successor is 2x A40 (96 GB aggregate); it must prove same-host GPU
-topology and tensor-parallel/NCCL behavior because aggregate VRAM is not one
-allocation. The fallback is one RTX PRO 6000 Blackwell with 96 GB contiguous
-VRAM. Either successor is a new runtime identity and qualifies independently.
+that downloads or starts but misses any floor remains unqualified while a safer
+same-pod quantization or offload envelope is evaluated. Alternative pod
+watching, candidate creation, migration, and external inference are disabled.
+The scheduler permits only coordinator-admitted residency and must unload its
+own models and prove VRAM cleanup before the next Comfy_UI_Main or MaskFactory
+GPU phase.
 
 ## Decision order
 

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib.util
+import sys
 from pathlib import Path
 
 import pytest
@@ -148,3 +149,16 @@ def test_duplicate_candidate_out_of_order_gate_and_tampered_state_are_denied() -
     state["authoritative_pod_id"] = "tampered"
     with pytest.raises(module.MigrationError, match="hash chain"):
         module.transition(state, event("QUALIFICATION_GATE", candidate="candidate-pod", gate="storage_binding", passed=True))
+
+
+def test_production_cli_fails_closed_after_alternative_pod_strategy_retirement(
+    monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    module = load_controller()
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        ["controller", "initialize", "current-pod", "volume-1"],
+    )
+    assert module.main() == 1
+    assert "alternative-pod migration is retired" in capsys.readouterr().err

@@ -191,6 +191,11 @@ def main() -> int:
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     try:
+        policy = _load_json(POLICY_PATH)
+        if policy.get("migration_candidates_enabled") is not True:
+            raise MigrationError(
+                "alternative-pod migration is retired; use current-production-pod residency"
+            )
         result = initialize_state(args.current_pod_id, args.network_volume_id) if args.command == "initialize" else transition(_load_json(args.state), _load_json(args.event))
         rendered = json.dumps(result, indent=2, sort_keys=True) + "\n"
         if args.output:
