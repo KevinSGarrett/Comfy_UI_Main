@@ -170,3 +170,46 @@ def test_qwen3_omni_manifest_is_bound_for_production_storage_only() -> None:
     MODULE._verify_manifest_shape(manifest)
     assert manifest["storage"]["weight_bytes"] == 63440997640
     assert "gpu_probe" in manifest["authority"]["forbidden"]
+
+
+def test_parallel_download_preserves_manifest_receipt_order(tmp_path: Path) -> None:
+    manifest, payloads = fixture_manifest()
+    target = tmp_path / "parallel"
+    calls: list[str] = []
+    result = MODULE.install(
+        manifest,
+        target,
+        fetch=fake_fetcher(payloads, calls),
+        free_bytes=10_000,
+        production_target=False,
+        download_workers=4,
+    )
+    assert result["replay"] == "NEW_ATOMIC_INSTALL"
+    assert len(calls) == 12
+    assert [item["path"] for item in result["files"]] == [
+        item["path"] for item in manifest["files"]
+    ]
+
+
+def test_parallel_download_bounds_and_crash_mode_fail_closed(tmp_path: Path) -> None:
+    manifest, payloads = fixture_manifest()
+    fetch = fake_fetcher(payloads, [])
+    with pytest.raises(MODULE.InstallError, match="between 1 and 8"):
+        MODULE.install(
+            manifest,
+            tmp_path / "workers",
+            fetch=fetch,
+            free_bytes=10_000,
+            production_target=False,
+            download_workers=9,
+        )
+    with pytest.raises(MODULE.InstallError, match="requires serial"):
+        MODULE.install(
+            manifest,
+            tmp_path / "crash",
+            fetch=fetch,
+            free_bytes=10_000,
+            production_target=False,
+            download_workers=2,
+            crash_after_files=1,
+        )

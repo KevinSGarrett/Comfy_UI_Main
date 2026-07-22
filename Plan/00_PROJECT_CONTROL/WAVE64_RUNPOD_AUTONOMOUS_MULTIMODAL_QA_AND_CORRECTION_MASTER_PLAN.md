@@ -592,3 +592,13 @@ of Transformers 5.2 or later must be handled in a later immutable isolated
 environment. Download, import, quantization, model load, GPU, lease, inference,
 audio/AV authority, activation, and product decisions are not implied by this
 admission.
+
+The first Omni storage invocation used the installer default of one download
+worker. It was intentionally interrupted after retaining 4,357,229,845 staging
+bytes because the observed single-stream rate would make the bounded gate
+unnecessarily long. No target or receipt was published, and no GPU or lease
+action occurred. The installer now supports one through eight download workers
+while preserving serial mode as the default. Parallel mode keeps one distinct
+path per task and returns verified receipt records in manifest order. The
+production resume is bounded to four workers and reuses verified files and the
+existing range-resumable partial shard.

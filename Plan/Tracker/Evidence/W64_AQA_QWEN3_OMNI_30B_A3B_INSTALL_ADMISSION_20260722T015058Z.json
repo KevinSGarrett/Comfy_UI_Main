@@ -53,5 +53,20 @@
     "ruff": "PASS",
     "csv_shape": "PASS"
   },
-  "next_action": "Commit and push the exact admission and multi-manifest installer binding, then execute the storage-only atomic installer on the current pod without GPU or lease access."
+  "execution_history": [
+    {
+      "commit": "c966fda7f0ab3dfddbacd83f79fb998a6c8d05a7",
+      "mode": "serial_storage_download",
+      "result": "INTERRUPTED_FOR_BOUNDED_PARALLEL_RESUME_NO_RECEIPT",
+      "retained_staging_bytes_at_stop": 4357229845,
+      "target_published": false,
+      "gpu_or_lease_polled": false
+    }
+  ],
+  "resume_validation": {
+    "installer_tests": "8 passed",
+    "runpod_autonomous_qwen_regression": "252 passed, 2 skipped, 2100 deselected",
+    "ruff": "PASS"
+  },
+  "next_action": "Commit and push the bounded parallel-resume implementation, then resume the same private staging directory with four workers and accept only a complete exact-hash receipt."
 }

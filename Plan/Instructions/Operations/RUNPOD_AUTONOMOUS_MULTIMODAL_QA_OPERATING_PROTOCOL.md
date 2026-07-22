@@ -391,3 +391,10 @@ Do not install Omni runtime dependencies into active ComfyUI. Its current
 official recommendation is Transformers 5.2 or later in a new environment;
 resolve, hash-lock, build, and import-test that environment only after the
 storage receipt is independently accepted.
+
+Omni download concurrency is bounded: production may use exactly four workers
+for this admission. Each worker owns one manifest path; receipt order remains
+the manifest order. One through eight is the only accepted implementation
+range, serial remains the default, and crash-injection tests remain serial.
+After interruption, retain the private `.installing` directory and `.part`
+file, then resume the same manifest; never rename partial bytes manually.

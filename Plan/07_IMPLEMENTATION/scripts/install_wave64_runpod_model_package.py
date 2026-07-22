@@ -14,6 +14,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 from collections.abc import Callable
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Any
 
@@ -137,8 +138,13 @@ def install(
     free_bytes: int | None = None,
     production_target: bool = True,
     crash_after_files: int | None = None,
+    download_workers: int = 1,
 ) -> dict[str, Any]:
     _verify_manifest_shape(manifest)
+    if download_workers < 1 or download_workers > 8:
+        raise InstallError("download_workers must be between 1 and 8")
+    if download_workers > 1 and crash_after_files is not None:
+        raise InstallError("crash injection requires serial download mode")
     declared_target = manifest["storage"]["target_root"]
     if production_target:
         manifest_hash = hashlib.sha256(canonical_bytes(manifest)).hexdigest()
@@ -181,25 +187,29 @@ def install(
 
     source = manifest["source"]
     base = f"https://huggingface.co/{source['repository_id']}/resolve/{source['revision']}"
-    completed = 0
-    verified_files: list[dict[str, Any]] = []
-    for record in manifest["files"]:
+    def fetch_and_verify(record: dict[str, Any]) -> dict[str, Any]:
         relative = Path(record["path"])
         destination = staging / relative
         destination.parent.mkdir(parents=True, exist_ok=True)
         if destination.exists():
             try:
-                verified_files.append(verify_file(destination, record))
-                completed += 1
-                continue
+                return verify_file(destination, record)
             except InstallError:
                 destination.unlink()
         quoted = "/".join(urllib.parse.quote(part) for part in record["path"].split("/"))
         fetch(f"{base}/{quoted}", destination)
-        verified_files.append(verify_file(destination, record))
-        completed += 1
-        if crash_after_files is not None and completed == crash_after_files:
-            raise InstallError("injected crash after verified file")
+        return verify_file(destination, record)
+
+    records = manifest["files"]
+    if download_workers == 1:
+        verified_files = []
+        for completed, record in enumerate(records, start=1):
+            verified_files.append(fetch_and_verify(record))
+            if crash_after_files is not None and completed == crash_after_files:
+                raise InstallError("injected crash after verified file")
+    else:
+        with ThreadPoolExecutor(max_workers=download_workers) as executor:
+            verified_files = list(executor.map(fetch_and_verify, records))
 
     expected_names = {record["path"] for record in manifest["files"]}
     observed_names = {
@@ -244,11 +254,12 @@ def install(
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("manifest", type=Path)
+    parser.add_argument("--download-workers", type=int, default=1)
     args = parser.parse_args()
     manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
     target = Path(manifest["storage"]["target_root"])
     try:
-        result = install(manifest, target)
+        result = install(manifest, target, download_workers=args.download_workers)
     except (InstallError, json.JSONDecodeError, OSError) as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 1
