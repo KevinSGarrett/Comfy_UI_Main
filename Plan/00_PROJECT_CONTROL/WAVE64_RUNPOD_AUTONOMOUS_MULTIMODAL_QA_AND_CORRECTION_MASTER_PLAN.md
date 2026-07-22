@@ -1099,3 +1099,12 @@ published LFS hashes and the revision-pinned `config.json` independently hashes
 to the live value. Apache-2.0 metadata is recorded without license acceptance.
 Storage and provider identity are adopted; dependency environment, model load,
 synthesis quality, lifecycle cleanup, activation, and promotion remain false.
+
+The quarantined AnimateDiff-Evolved checkout passes clean exact-pin identity at
+commit `d8d163cd90b1111f6227495e3467633676fbb346`, tree
+`87c687b5bf14e6d9885f9ec770d767584d2e5c66`, with 62 tracked files and
+Apache-2.0 code metadata. Neither quarantined Wave42 workflow contains an
+AnimateDiff or ADE node, so workflow binding is false. This missing binding is
+retained alongside the exact motion model's frames 5-7 continuity failure and
+severe frame-7 corruption. No dependency install, import, object-info binding,
+model load, activation, or promotion is authorized.
