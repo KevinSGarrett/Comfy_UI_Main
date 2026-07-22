@@ -1,0 +1,73 @@
+{
+  "schema_version": "wave64.aqa.role_qualification_partition_discipline_evidence.v1",
+  "program_id": "W64-AQA",
+  "tracker_ids": ["W64-AQA-013", "W64-AQA-014"],
+  "status": "CALIBRATION_REPEATABILITY_AND_SINGLE_PASS_HELD_OUT_ENGINE_PASS_EXECUTORS_PENDING",
+  "finding_corrected": "The prior report schema required two runs for every fixture while the frozen execution plan requires held-out execution exactly once; simply allowing one run would have falsely counted held-out fixtures as repeatability evidence.",
+  "bindings": {
+    "execution_matrix": {
+      "path": "Plan/Tracker/Evidence/W64_AQA_ROLE_QUALIFICATION_EXECUTION_MATRIX_20260722.json",
+      "sha256": "e8e32d2bf8e3d52e56c62a07b670d9efbd27ce2f3cda4dbf058ee0dce61f264f"
+    },
+    "report_schema": {
+      "path": "Plan/08_SCHEMAS/runpod_autonomous_role_qualification_report.schema.json",
+      "sha256": "e599d64ae226e6343df5b9712b438b84e4958046c039085289dca94130e02602"
+    },
+    "certificate_schema": {
+      "path": "Plan/08_SCHEMAS/runpod_autonomous_role_qualification_certificate.schema.json",
+      "sha256": "1868d9fe20a60c3bf9c3b48081ea06ac8c2b7a7f496aee4fd38c3f74cbba5db9"
+    },
+    "compiler": {
+      "path": "Plan/07_IMPLEMENTATION/scripts/compile_and_evaluate_wave64_runpod_autonomous_role_qualification.py",
+      "sha256": "4782a26381d996b26e9d92ed80d9800acd84690dd144780993d8b98434b6c932"
+    },
+    "tests": {
+      "path": "Plan/Instructions/QA/Scripts/test_compile_and_evaluate_wave64_runpod_autonomous_role_qualification.py",
+      "sha256": "0e4b1b57d4dbf7b2ae36ac45a50640d71851bdac4fa3245d445eb9a64bef04ae"
+    },
+    "role_package_inventory": {
+      "path": "Plan/10_REGISTRIES/wave64_runpod_autonomous_role_package_inventory.json",
+      "sha256": "c964a306653f1cf7805a0bbbd640a1fc0738b7fcb3ec1b747b52bd7c832f68f1"
+    },
+    "role_package_inventory_schema": {
+      "path": "Plan/08_SCHEMAS/runpod_autonomous_role_package_inventory.schema.json",
+      "sha256": "2998af2abc325dc4afbe0cf7753a9eee9842232a19cf360d6ef6296da627809e"
+    },
+    "control_package_validator": {
+      "path": "Plan/07_IMPLEMENTATION/scripts/validate_wave64_runpod_autonomous_multimodal_qa_control_package.py",
+      "sha256": "6c71299bc593d1a7b39960cd61dd68c1058cf113626087441f000d22c55f0a16"
+    }
+  },
+  "enforced_invariants": [
+    "every fixture declares calibration or held_out partition",
+    "calibration fixtures require at least two runs",
+    "held-out fixtures require exactly one run",
+    "repeatability is calculated only across calibration fixtures",
+    "calibration and held-out fixture and run counts are explicit certificate metrics",
+    "report and certificate bind the execution-matrix SHA-256",
+    "execution-matrix identity drift suspends an otherwise qualified certificate",
+    "both calibration and held-out partitions must be represented",
+    "the package inventory schema and aggregate validator recognize all 17 retained package records including the provisional InternVL3.5-8B record without granting it juror substitution authority"
+  ],
+  "validation": {
+    "focused_tests_passed": 8,
+    "inventory_and_control_package_tests_passed": 18,
+    "ruff_check_passed": true,
+    "role_package_inventory_validator_passed": true,
+    "aggregate_control_package_validator_passed": true,
+    "runtime_contacted": false,
+    "model_loaded": false,
+    "held_out_executed": false
+  },
+  "next_action": "Bind the deterministic role executor to the frozen matrix, run calibration cases at least twice, freeze thresholds, run each held-out case exactly once, and compile the first scoped certificate without contacting the GPU pod.",
+  "authority": {
+    "partition_contract": true,
+    "certificate_compilation": true,
+    "deterministic_role_operational": false,
+    "runtime": false,
+    "capacity": false,
+    "quality": false,
+    "activation": false,
+    "promotion": false
+  }
+}

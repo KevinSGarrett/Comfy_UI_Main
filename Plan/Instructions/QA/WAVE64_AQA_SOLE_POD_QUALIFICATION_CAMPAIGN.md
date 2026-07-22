@@ -35,3 +35,10 @@ acquire one exact lease; run calibration; freeze thresholds; run held-out once;
 compile the capacity/quality/repeatability/refusal certificate; verify cleanup;
 release; and keep activation false until Codex acceptance. Never infer broad
 quality, juror, golden-mask, activation, or promotion authority from this queue.
+
+Qualification reports must label every fixture `calibration` or `held_out` and
+bind the execution-matrix SHA-256. Calibration fixtures require at least two
+runs and are the only source of repeatability metrics. Every held-out fixture
+must have exactly one run; repeated held-out execution is a contract failure,
+not additional confidence. A certificate with matrix-identity drift must be
+suspended.

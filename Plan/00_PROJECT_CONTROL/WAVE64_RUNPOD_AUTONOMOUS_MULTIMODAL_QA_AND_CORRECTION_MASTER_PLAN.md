@@ -1370,3 +1370,21 @@ substitute for the declared 241B independent juror; and golden-mask work remains
 a read-only external-release consumer lane. No runtime, capacity, quality,
 juror, golden-mask, activation, or promotion authority follows from queue
 construction.
+
+The role-certificate engine now matches this prospective partition discipline.
+Every report binds the execution-matrix hash and labels each fixture as
+calibration or held-out. Calibration fixtures require repeated runs and alone
+contribute to repeatability. Held-out fixtures execute exactly once; a repeated
+held-out run is rejected instead of being miscounted as repeatability evidence.
+Certificates expose calibration, held-out, held-out-run, and repeatability
+fixture counts, and matrix-identity drift suspends an otherwise qualified
+scope. This contract correction grants no role authority by itself; the first
+deterministic executor and report remain pending.
+
+The aggregate control-package replay also exposed a stale 16-package schema
+limit after the retained provisional InternVL3.5-8B record raised the truthful
+inventory to 17. The inventory schema and aggregate validator now agree on all
+17 records and accept the provisional package's static review, layered
+environment, license, loader, and storage evidence extensions. This is schema
+reconciliation only: the 8B package remains non-operational and cannot
+substitute for the declared 241B independent juror.

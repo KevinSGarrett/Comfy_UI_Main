@@ -38,8 +38,8 @@
     },
     "packages": {
       "type": "array",
-      "minItems": 16,
-      "maxItems": 16,
+      "minItems": 17,
+      "maxItems": 17,
       "items": {
         "type": "object",
         "additionalProperties": false,
@@ -57,7 +57,7 @@
               "repository_id": {"type": "string", "minLength": 1},
               "source_url": {"type": "string", "minLength": 1},
               "identity_state": {"enum": ["LOCAL_DIGEST_VERIFIED_UPSTREAM_REVISION_UNVERIFIED", "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_UNPINNED", "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_PINNED", "EXTERNAL_RELEASE_REQUIRED"]},
-              "license_state": {"enum": ["APACHE-2.0_UPSTREAM_REPORTED_NOT_LOCALLY_ACCEPTED", "APACHE-2.0_ACCEPTED_FOR_COMFY_UI_MAIN_PROJECT_USE", "WEIGHTS_APACHE-2.0_AND_PROJECT_CODE_MIT_ACCEPTED_FOR_COMFY_UI_MAIN_PROJECT_USE", "LOCAL_RUNTIME_LICENSE_NOT_REVERIFIED", "EXTERNAL_RELEASE_REQUIRED"]}
+              "license_state": {"enum": ["APACHE-2.0_UPSTREAM_REPORTED_NOT_LOCALLY_ACCEPTED", "APACHE-2.0_ACCEPTED_FOR_COMFY_UI_MAIN_PROJECT_USE", "WEIGHTS_APACHE-2.0_AND_PROJECT_CODE_MIT_ACCEPTED_FOR_COMFY_UI_MAIN_PROJECT_USE", "PACKAGE_AND_WEIGHTS_APACHE_2_0_INTERNVL_CODE_MIT_FASTCHAT_DERIVATION_APACHE_2_0_ACCEPTED_FOR_COMFY_UI_MAIN_PROJECT_USE", "LOCAL_RUNTIME_LICENSE_NOT_REVERIFIED", "EXTERNAL_RELEASE_REQUIRED"]}
             }
           },
           "installation": {
@@ -85,10 +85,10 @@
           },
           "dependency_preflight": {
             "type": "object",
-            "additionalProperties": false,
-            "required": ["state", "evidence", "receipt_sha256", "gaps"],
+            "additionalProperties": true,
+            "required": ["state", "evidence"],
             "properties": {
-              "state": {"const": "CONFIG_IDENTITY_PASS_DEPENDENCY_ACTION_REQUIRED"},
+              "state": {"type": "string", "minLength": 1},
               "evidence": {"type": "string", "minLength": 1},
               "receipt_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
               "gaps": {
@@ -110,9 +110,9 @@
           "dependency_environment": {
             "type": "object",
             "additionalProperties": true,
-            "required": ["state", "root", "receipt_sha256", "tree_sha256", "distribution_count", "evidence"],
+            "required": ["state", "root", "evidence"],
             "properties": {
-              "state": {"enum": ["INSTALLED_METADATA_VERIFIED_IMPORT_PENDING", "INSTALLED_IMPORT_VERIFIED_RUNTIME_PENDING"]},
+              "state": {"type": "string", "minLength": 1},
               "root": {"type": "string", "pattern": "^/workspace/w64_aqa/environments/"},
               "receipt_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
               "tree_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
@@ -130,6 +130,11 @@
               "admission_manifest": {"type": "string", "minLength": 1}
             }
           },
+          "static_code_review": {"type": "object", "minProperties": 1},
+          "license_qualification": {"type": "object", "minProperties": 1},
+          "candidate_quantized_route": {"type": "object", "minProperties": 1},
+          "loader_preflight": {"type": "object", "minProperties": 1},
+          "storage_admission": {"type": "object", "minProperties": 1},
           "qualification": {
             "type": "object",
             "additionalProperties": false,

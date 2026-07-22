@@ -62,12 +62,18 @@ def compile_certificate(report: dict[str, Any]) -> dict[str, Any]:
     if _parse_time(report["expires_at"]) <= _parse_time(report["issued_at"]):
         raise QualificationError("qualification expiration must follow issuance")
     categories = {fixture["category"] for fixture in report["fixtures"]}
+    partitions = {fixture["partition"] for fixture in report["fixtures"]}
     run_count = false_accepts = false_rejects = invalid_schema = refusal_total = refusal_correct = 0
-    repeatable = 0
+    repeatable = repeatability_fixture_count = held_out_run_count = 0
     for fixture in report["fixtures"]:
+        if fixture["partition"] == "calibration" and len(fixture["runs"]) < 2:
+            raise QualificationError("calibration fixtures require at least two runs for repeatability")
+        if fixture["partition"] == "held_out" and len(fixture["runs"]) != 1:
+            raise QualificationError("held-out fixtures must execute exactly once")
         outcomes = set()
         for run in fixture["runs"]:
             run_count += 1
+            held_out_run_count += int(fixture["partition"] == "held_out")
             outcomes.add((run["disposition"], run["schema_valid"]))
             invalid_schema += int(not run["schema_valid"])
             expected, observed = fixture["expected_disposition"], run["disposition"]
@@ -78,15 +84,23 @@ def compile_certificate(report: dict[str, Any]) -> dict[str, Any]:
             if expected == "REFUSE":
                 refusal_total += 1
                 refusal_correct += int(observed == "REFUSE")
-        repeatable += int(len(outcomes) == 1)
+        if fixture["partition"] == "calibration":
+            repeatability_fixture_count += 1
+            repeatable += int(len(outcomes) == 1)
     fixture_count = len(report["fixtures"])
+    calibration_fixture_count = sum(fixture["partition"] == "calibration" for fixture in report["fixtures"])
+    held_out_fixture_count = fixture_count - calibration_fixture_count
     metrics = {
         "fixture_count": fixture_count,
+        "calibration_fixture_count": calibration_fixture_count,
+        "held_out_fixture_count": held_out_fixture_count,
         "run_count": run_count,
+        "held_out_run_count": held_out_run_count,
+        "repeatability_fixture_count": repeatability_fixture_count,
         "false_accept_rate": false_accepts / run_count,
         "false_reject_rate": false_rejects / run_count,
         "invalid_schema_rate": invalid_schema / run_count,
-        "repeatability_rate": repeatable / fixture_count,
+        "repeatability_rate": repeatable / repeatability_fixture_count if repeatability_fixture_count else 0.0,
         "refusal_correctness_rate": refusal_correct / refusal_total if refusal_total else 0.0,
     }
     capacity = report["capacity"]
@@ -100,6 +114,8 @@ def compile_certificate(report: dict[str, Any]) -> dict[str, Any]:
     reasons: set[str] = set()
     if categories != REQUIRED_CATEGORIES:
         reasons.add("REQUIRED_FIXTURE_COVERAGE_INCOMPLETE")
+    if partitions != {"calibration", "held_out"}:
+        reasons.add("CALIBRATION_OR_HELD_OUT_PARTITION_MISSING")
     if not capacity_pass:
         reasons.add("CAPACITY_OR_LATENCY_QUALIFICATION_FAILED")
     if metrics["false_accept_rate"] > thresholds["max_false_accept_rate"]:
@@ -122,6 +138,7 @@ def compile_certificate(report: dict[str, Any]) -> dict[str, Any]:
         "role_id": report["role_id"], "model_id": report["model_id"],
         "checkpoint_sha256": report["checkpoint_sha256"], "runtime_digest": report["runtime_digest"],
         "prompt_sha256": report["prompt_sha256"], "corpus_sha256": report["corpus_sha256"],
+        "execution_matrix_sha256": report["execution_matrix_sha256"],
         "issued_at": report["issued_at"], "expires_at": report["expires_at"],
         "scope": report["scope"], "thresholds": thresholds, "metrics": metrics,
         "coverage_categories": sorted(categories),
@@ -150,9 +167,9 @@ def evaluate_drift(
     elif when >= _parse_time(baseline["expires_at"]):
         disposition, reasons = "SUSPEND_EXPIRED", {"BASELINE_CERTIFICATE_EXPIRED"}
     else:
-        fingerprint_fields = ("role_id", "model_id", "checkpoint_sha256", "runtime_digest", "prompt_sha256", "corpus_sha256")
+        fingerprint_fields = ("role_id", "model_id", "checkpoint_sha256", "runtime_digest", "prompt_sha256", "corpus_sha256", "execution_matrix_sha256")
         if any(current[field] != baseline[field] for field in fingerprint_fields):
-            disposition, reasons = "SUSPEND_FINGERPRINT_DRIFT", {"MODEL_RUNTIME_PROMPT_OR_CORPUS_FINGERPRINT_CHANGED"}
+            disposition, reasons = "SUSPEND_FINGERPRINT_DRIFT", {"MODEL_RUNTIME_PROMPT_CORPUS_OR_MATRIX_FINGERPRINT_CHANGED"}
         elif current["scope"] != baseline["scope"]:
             disposition, reasons = "SUSPEND_SCOPE_DRIFT", {"QUALIFIED_SCOPE_CHANGED"}
         else:

@@ -6,7 +6,7 @@
   "additionalProperties": false,
   "required": [
     "schema_version", "certificate_id", "report_sha256", "role_id", "model_id",
-    "checkpoint_sha256", "runtime_digest", "prompt_sha256", "corpus_sha256",
+    "checkpoint_sha256", "runtime_digest", "prompt_sha256", "corpus_sha256", "execution_matrix_sha256",
     "issued_at", "expires_at", "scope", "thresholds", "metrics", "coverage_categories",
     "qualification_disposition", "operational_authority_granted", "reason_codes"
   ],
@@ -20,16 +20,21 @@
     "runtime_digest": {"$ref": "#/definitions/sha256"},
     "prompt_sha256": {"$ref": "#/definitions/sha256"},
     "corpus_sha256": {"$ref": "#/definitions/sha256"},
+    "execution_matrix_sha256": {"$ref": "#/definitions/sha256"},
     "issued_at": {"type": "string"},
     "expires_at": {"type": "string"},
     "scope": {"type": "object"},
     "thresholds": {"type": "object"},
     "metrics": {
       "type": "object", "additionalProperties": false,
-      "required": ["fixture_count", "run_count", "false_accept_rate", "false_reject_rate", "invalid_schema_rate", "repeatability_rate", "refusal_correctness_rate"],
+      "required": ["fixture_count", "calibration_fixture_count", "held_out_fixture_count", "run_count", "held_out_run_count", "repeatability_fixture_count", "false_accept_rate", "false_reject_rate", "invalid_schema_rate", "repeatability_rate", "refusal_correctness_rate"],
       "properties": {
         "fixture_count": {"type": "integer", "minimum": 0},
+        "calibration_fixture_count": {"type": "integer", "minimum": 0},
+        "held_out_fixture_count": {"type": "integer", "minimum": 0},
         "run_count": {"type": "integer", "minimum": 0},
+        "held_out_run_count": {"type": "integer", "minimum": 0},
+        "repeatability_fixture_count": {"type": "integer", "minimum": 0},
         "false_accept_rate": {"type": "number", "minimum": 0, "maximum": 1},
         "false_reject_rate": {"type": "number", "minimum": 0, "maximum": 1},
         "invalid_schema_rate": {"type": "number", "minimum": 0, "maximum": 1},

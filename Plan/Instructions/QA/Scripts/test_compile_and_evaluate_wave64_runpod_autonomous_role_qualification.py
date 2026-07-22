@@ -4,6 +4,8 @@ import copy
 import importlib.util
 from pathlib import Path
 
+import pytest
+
 
 ROOT = Path(__file__).resolve().parents[4]
 COMPILER_PATH = ROOT / "Plan/07_IMPLEMENTATION/scripts/compile_and_evaluate_wave64_runpod_autonomous_role_qualification.py"
@@ -22,19 +24,25 @@ def report() -> dict:
     fixtures = []
     for index, category in enumerate(CATEGORIES):
         expected = "PASS" if category == "known_good" else "REFUSE" if category == "refusal" else "FAIL"
+        partition = "calibration" if index < 4 else "held_out"
+        runs = [
+            {"disposition": expected, "schema_valid": True, "output_sha256": f"{index + 1:x}" * 64},
+            {"disposition": expected, "schema_valid": True, "output_sha256": f"{index + 1:x}" * 64},
+        ] if partition == "calibration" else [
+            {"disposition": expected, "schema_valid": True, "output_sha256": f"{index + 1:x}" * 64},
+        ]
         fixtures.append({
             "fixture_id": f"fixture-{category}", "category": category,
+            "partition": partition,
             "expected_disposition": expected,
-            "runs": [
-                {"disposition": expected, "schema_valid": True, "output_sha256": f"{index + 1:x}" * 64},
-                {"disposition": expected, "schema_valid": True, "output_sha256": f"{index + 1:x}" * 64},
-            ],
+            "runs": runs,
         })
     return {
         "schema_version": "wave64.aqa.role_qualification_report.v1",
         "report_id": "W64-AQA-QUAL-test-001", "role_id": "W64-AQA-ROLE-PRIMARY-VISUAL",
         "model_id": "model-test", "checkpoint_sha256": "a" * 64,
         "runtime_digest": "b" * 64, "prompt_sha256": "c" * 64, "corpus_sha256": "d" * 64,
+        "execution_matrix_sha256": "e" * 64,
         "issued_at": "2026-07-21T00:00:00Z", "expires_at": "2026-08-21T00:00:00Z",
         "scope": {"modalities": ["image"], "max_width": 2048, "max_height": 2048, "max_duration_seconds": 0, "quantization": "int4", "gpu_profile": "2xA40"},
         "capacity": {"passed": True, "peak_vram_gb": 40, "max_vram_gb": 48, "peak_ram_gb": 70, "max_ram_gb": 100, "p95_latency_seconds": 12, "max_latency_seconds": 30},
@@ -50,6 +58,10 @@ def test_complete_capacity_and_quality_report_qualifies_deterministically() -> N
     assert first["qualification_disposition"] == "QUALIFIED_FOR_DECLARED_SCOPE"
     assert first["operational_authority_granted"] is True
     assert set(first["coverage_categories"]) == set(CATEGORIES)
+    assert first["metrics"]["calibration_fixture_count"] == 4
+    assert first["metrics"]["held_out_fixture_count"] == 5
+    assert first["metrics"]["held_out_run_count"] == 5
+    assert first["metrics"]["repeatability_fixture_count"] == 4
 
 
 def test_missing_coverage_capacity_false_accept_schema_and_repeatability_fail() -> None:
@@ -89,6 +101,26 @@ def test_fingerprint_scope_behavior_and_expiration_drift_suspend_scope() -> None
     behavior["fixtures"][1]["runs"][0]["disposition"] = "PASS"
     assert module.evaluate_drift(baseline, behavior, "2026-07-22T00:00:00Z")["disposition"] == "SUSPEND_BEHAVIOR_DRIFT"
     assert module.evaluate_drift(baseline, report(), "2026-08-21T00:00:00Z")["disposition"] == "SUSPEND_EXPIRED"
+
+
+def test_partition_discipline_rejects_single_calibration_and_repeated_held_out() -> None:
+    module = load_compiler()
+    single_calibration = report()
+    single_calibration["fixtures"][0]["runs"] = single_calibration["fixtures"][0]["runs"][:1]
+    with pytest.raises(module.QualificationError, match="calibration fixtures require at least two runs"):
+        module.compile_certificate(single_calibration)
+    repeated_held_out = report()
+    repeated_held_out["fixtures"][4]["runs"].append(copy.deepcopy(repeated_held_out["fixtures"][4]["runs"][0]))
+    with pytest.raises(module.QualificationError, match="held-out fixtures must execute exactly once"):
+        module.compile_certificate(repeated_held_out)
+
+
+def test_matrix_identity_drift_suspends_scope() -> None:
+    module = load_compiler()
+    baseline = module.compile_certificate(report())
+    changed = report()
+    changed["execution_matrix_sha256"] = "f" * 64
+    assert module.evaluate_drift(baseline, changed, "2026-07-22T00:00:00Z")["disposition"] == "SUSPEND_FINGERPRINT_DRIFT"
 
 
 def test_failed_baseline_never_becomes_operational() -> None:
