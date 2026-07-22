@@ -1,0 +1,16 @@
+{
+  "schema_version": "wave64.aqa.internvl35_8b_import_canary_admission.v1",
+  "program_id": "W64-AQA",
+  "tracker_ids": ["W64-AQA-009", "W64-AQA-017"],
+  "evaluated_at_utc": "2026-07-22T12:43:43Z",
+  "disposition": "PARTIALLY_ADOPTED",
+  "repository_base_commit": "03e8c93f631eae16a92607c4adc09e001fcba868",
+  "admission": {"path": "Plan/10_REGISTRIES/wave64_internvl35_8b_import_canary_admission.json", "sha256": "2f723b1b9341087553fb3abe44c83060248aa8316f065997371d54d93589f191", "lock_sha256": "02e6f2566da9e5ab2002ac15d456c32e8770f72102c21b9b8f6b9eef413c55d9"},
+  "runner": {"path": "Plan/07_IMPLEMENTATION/scripts/run_wave64_internvl_import_canary.py", "sha256": "d567bafa96710cd6824d6fa05884b8fe68cacb3295f13170815ae69a3fc3cf82"},
+  "admitted_scope": {"custom_code_files": 5, "offline": true, "network_socket_forbidden": true, "process_spawn_forbidden": true, "bytecode_write_forbidden": true, "cuda_visible_devices_empty": true, "expected_class_identities": 4, "expected_stdout_lines": ["FlashAttention2 is not installed."], "unexpected_stderr_forbidden": true, "source_pycache_mutation_forbidden": true},
+  "coordinator": {"mode": "RECOVERY_REQUIRED", "admission_enabled": false, "foreign_project": "maskfactory", "foreign_lease_id": "lease_f31c0165ee8f4c9bb31e5ef96ef87d22", "foreign_lease_result": "lease_expired", "override_attempted": false, "telemetry_recorded_at_utc": "2026-07-22T12:39:47Z", "gpu_total_mib": 49140, "gpu_used_mib": 648, "gpu_free_mib": 47993, "gpu_utilization_percent": 0},
+  "execution": {"state": "ADMITTED_NOT_EXECUTED_FOREIGN_COORDINATOR_RECOVERY_HOLD", "receipt": null},
+  "authority_granted": ["exact import-only canary admission"],
+  "authority_not_granted": ["custom-code import", "class resolution", "config instantiation", "model instantiation", "weight access", "model load", "GPU use", "capacity", "quality", "independent juror", "241B substitution", "operational activation", "promotion"],
+  "next_action": "After the foreign owner restores coordinator admission, acquire an exact comfyui_main lease and execute this import-only canary once; review the receipt before admitting any model load."
+}

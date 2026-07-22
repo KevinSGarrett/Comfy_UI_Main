@@ -360,7 +360,7 @@ def validate(data: dict) -> list[str]:
                         errors.append(f"{item.get('package_id')}: provisional InternVL audit digest mismatch")
                     if install.get("durable_root") != "/workspace/models/visual_critics/internvl3_5_8b_bf16":
                         errors.append(f"{item.get('package_id')}: provisional InternVL root mismatch")
-                    if qualification.get("state") != "EXACT_STORAGE_STATIC_CODE_AND_IMMUTABLE_METADATA_CLOSED_ENVIRONMENT_PASS_IMPORT_AND_RUNTIME_GATES_PENDING":
+                    if qualification.get("state") != "EXACT_STORAGE_STATIC_CODE_AND_IMMUTABLE_ENVIRONMENT_PASS_IMPORT_CANARY_ADMITTED_EXECUTION_HELD_RUNTIME_GATES_PENDING":
                         errors.append(f"{item.get('package_id')}: provisional InternVL qualification mismatch")
                     static_review = item.get("static_code_review", {})
                     if static_review.get("state") != "AST_AND_MANUAL_SEMANTIC_REVIEW_PASS_WITH_FAIL_CLOSED_QUALITY_GATES":
@@ -394,15 +394,28 @@ def validate(data: dict) -> list[str]:
                         "base_environment_mutated": False,
                         "metadata_validation": {
                             "state": "PASS_75_BASE_2_OVERLAY_5_REQUIREMENTS_ZERO_ERRORS",
-                            "receipt": "/workspace/wave64_evidence/internvl35_8b_layered_environment_metadata_20260722T124500Z.json",
+                            "receipt": "/workspace/wave64_evidence/internvl35_8b_layered_environment_metadata_20260722T123557Z.json",
                             "receipt_sha256": "e3fbd176c84114f5360f46cf5986e2514682539414f47dc09638da75e9ddc711",
                         },
                         "import_attempted": False,
                         "model_load_attempted": False,
-                        "evidence": "Plan/Tracker/Evidence/W64_AQA_INTERNVL35_8B_DEPENDENCY_OVERLAY_20260722T124500Z/integration_acceptance.json",
+                        "evidence": "Plan/Tracker/Evidence/W64_AQA_INTERNVL35_8B_DEPENDENCY_OVERLAY_20260722T123557Z/integration_acceptance.json",
                     }
                     if environment != expected_environment:
                         errors.append(f"{item.get('package_id')}: provisional InternVL dependency environment mismatch")
+                    expected_import_canary = {
+                        "state": "EXACT_ADMISSION_READY_EXECUTION_HELD_BY_FOREIGN_COORDINATOR_RECOVERY",
+                        "admission": "Plan/10_REGISTRIES/wave64_internvl35_8b_import_canary_admission.json",
+                        "admission_sha256": "2f723b1b9341087553fb3abe44c83060248aa8316f065997371d54d93589f191",
+                        "lock_sha256": "02e6f2566da9e5ab2002ac15d456c32e8770f72102c21b9b8f6b9eef413c55d9",
+                        "runner_sha256": "d567bafa96710cd6824d6fa05884b8fe68cacb3295f13170815ae69a3fc3cf82",
+                        "coordinator_mode": "RECOVERY_REQUIRED",
+                        "foreign_lease_id": "lease_f31c0165ee8f4c9bb31e5ef96ef87d22",
+                        "executed": False,
+                        "evidence": "Plan/Tracker/Evidence/W64_AQA_INTERNVL35_8B_IMPORT_CANARY_ADMISSION_20260722T124343Z/integration_acceptance.json",
+                    }
+                    if item.get("import_canary") != expected_import_canary:
+                        errors.append(f"{item.get('package_id')}: provisional InternVL import admission mismatch")
                     if "full_remote_code_review" in qualification.get("required_gates", []):
                         errors.append(f"{item.get('package_id')}: completed static review gate must be removed")
                     if "dependency_environment" in qualification.get("required_gates", []):

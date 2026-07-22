@@ -1,0 +1,28 @@
+{
+  "schema_version": "wave64.aqa.internvl_import_canary_admission.v1",
+  "program_id": "W64-AQA",
+  "tracker_ids": ["W64-AQA-009", "W64-AQA-017"],
+  "evaluated_at_utc": "2026-07-22T12:42:12Z",
+  "lock_material": {
+    "source_root": "/workspace/models/visual_critics/internvl3_5_8b_bf16",
+    "source_revision": "9bb6a56ad9cc69db95e2d4eeb15a52bbcac4ef79",
+    "custom_code_files": [
+      {"filename": "configuration_intern_vit.py", "bytes": 5546, "sha256": "6530df52748e4f7766568825e1d11f55dfa6cc421990020a640c548dc6cd2646"},
+      {"filename": "configuration_internvl_chat.py", "bytes": 4700, "sha256": "e9fdff47225fd380d940a4a2b6818b303fd2a5fdddf44fce0a75b05a4beb1539"},
+      {"filename": "conversation.py", "bytes": 15309, "sha256": "b1b9f280e9cb9211e519e2b8071002b57cc742aadb2f49b05fa674ee3c7d83ee"},
+      {"filename": "modeling_intern_vit.py", "bytes": 18151, "sha256": "a33ec11c517041c7fcbaaff3d736d846498468efaf4a64400a89d55132d5f638"},
+      {"filename": "modeling_internvl_chat.py", "bytes": 16518, "sha256": "ec972dd3d1c7f5da06455034d5cfe54968a9555dff60804edee9a7fb5759db34"}
+    ],
+    "environment": {"root": "/workspace/w64_aqa/environments/InternVL3_5-8B/transformers-5.2.0-timm-1.0.28-einops-0.8.2-py3.12.13-cu124/9f7317aef1cf2beb0f67bc879b8d3676d542fb691dc61d337aff268474cda5a6", "manifest_sha256": "429ecdddf96132ee46dc1b21d14d95d1ed6f83268a579a1e75db9291807e6ce7", "python": "/workspace/w64_aqa/environments/Qwen3-Omni-30B-A3B-Thinking/transformers-5.2.0-qwen-omni-utils-0.0.9-py3.12.13-cu124/a19d160721dfb74cf89bc70eebec10f45b2e6f58b7a109726d658db7d361277c/bin/python"},
+    "expected_result": {
+      "resolved_classes": {"InternVLChatConfig": "internvl3_5_8b_bf16.configuration_internvl_chat.InternVLChatConfig", "InternVisionModel": "internvl3_5_8b_bf16.modeling_intern_vit.InternVisionModel", "InternVLChatModel": "internvl3_5_8b_bf16.modeling_internvl_chat.InternVLChatModel", "Qwen3ForCausalLM": "transformers.models.qwen3.modeling_qwen3.Qwen3ForCausalLM"},
+      "versions": {"python": "3.12.13", "torch": "2.4.1+cu124", "transformers": "5.2.0"},
+      "stdout_lines": ["FlashAttention2 is not installed."]
+    },
+    "policy": {"coordinator_admission_required": true, "offline": true, "network_socket_forbidden": true, "process_spawn_forbidden": true, "bytecode_write_forbidden": true, "cuda_visible_devices_empty": true, "flash_attention_forbidden": true, "config_instantiation_forbidden": true, "model_instantiation_forbidden": true, "weight_access_forbidden": true, "model_load_forbidden": true, "inference_forbidden": true}
+  },
+  "lock_sha256": "02e6f2566da9e5ab2002ac15d456c32e8770f72102c21b9b8f6b9eef413c55d9",
+  "runner_sha256": "d567bafa96710cd6824d6fa05884b8fe68cacb3295f13170815ae69a3fc3cf82",
+  "execution_state": "ADMITTED_NOT_EXECUTED_FOREIGN_COORDINATOR_RECOVERY_HOLD",
+  "authority": {"import_canary_admitted": true, "custom_code_import": false, "class_resolution": false, "model_load": false, "gpu_use": false, "runtime": false, "activation": false}
+}

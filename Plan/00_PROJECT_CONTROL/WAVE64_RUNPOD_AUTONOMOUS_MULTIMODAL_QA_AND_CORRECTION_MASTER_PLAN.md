@@ -1259,3 +1259,15 @@ requirements across 75 base plus two overlay distributions with zero errors.
 No base file had a timestamp change after the build boundary. Package import,
 custom-code execution, model load, GPU use, runtime quality, and authority are
 still false until their separately admitted canaries pass.
+
+The next import-only canary is now fully admitted but not executed. Its lock
+binds the five reviewed source hashes, exact interpreter and overlay manifest,
+expected InternVL and Qwen3 class identities, exact versions, and the one
+allowed FlashAttention-absent message. The runner forces offline operation,
+disables bytecode writes and CUDA visibility, verifies the source tree did not
+gain cache directories, and grants no config instantiation, model
+instantiation, weight access, model load, GPU, or inference authority. A fresh
+coordinator read still reports the expired foreign MaskFactory lease in
+`RECOVERY_REQUIRED`; ComfyUI did not clear or override it, so `executed` remains
+false. Once that owner restores admission, the canary must run once under an
+exact `comfyui_main` lease before any load/unload capacity canary is admitted.
