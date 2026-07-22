@@ -1,0 +1,50 @@
+{
+  "schema_version": "wave64.aqa.s3_public_posture_permission_audit.v1",
+  "program_id": "W64-AQA",
+  "tracker_ids": ["W64-AQA-012"],
+  "evaluated_at_utc": "2026-07-22T17:53:53Z",
+  "disposition": "BLOCKED_EXACT_READ_PERMISSIONS_ABSENT",
+  "repository_base_commit": "c755155c",
+  "aws_identity": {
+    "account": "029530099913",
+    "role": "arn:aws:iam::029530099913:role/ComfyUIMainSessionRole",
+    "session_arn": "arn:aws:sts::029530099913:assumed-role/ComfyUIMainSessionRole/comfy-ui-main-session",
+    "inline_policy": "ComfyUIMainSessionScopedRuntimeAccess"
+  },
+  "bucket": "comfy-ui-main-runtime-029530099913-us-east-1",
+  "read_results": {
+    "s3:GetBucketPublicAccessBlock": "ACCESS_DENIED_NO_IDENTITY_BASED_ALLOW",
+    "s3:GetBucketPolicyStatus": "ACCESS_DENIED_NO_IDENTITY_BASED_ALLOW",
+    "s3:GetBucketAcl": "ACCESS_DENIED_NO_IDENTITY_BASED_ALLOW",
+    "s3:GetAccountPublicAccessBlock": "ACCESS_DENIED_NO_IDENTITY_BASED_ALLOW",
+    "s3:GetBucketOwnershipControls": "ACCESS_DENIED_NO_IDENTITY_BASED_ALLOW",
+    "s3:GetEncryptionConfiguration": "PASS_AES256_SSE_C_BLOCKED",
+    "s3:GetBucketVersioning": "PASS_ENABLED",
+    "s3:GetBucketLocation": "PASS_US_EAST_1_NULL_LOCATION_CONSTRAINT",
+    "s3:GetLifecycleConfiguration": "PASS_THREE_ENABLED_RULES"
+  },
+  "inline_policy_observation": {
+    "public_posture_read_actions_present": false,
+    "allowed_bucket_metadata_actions": ["s3:GetBucketLocation", "s3:GetBucketVersioning", "s3:GetEncryptionConfiguration", "s3:GetLifecycleConfiguration", "s3:ListBucket", "s3:PutLifecycleConfiguration"]
+  },
+  "binding_replay": {
+    "key": "evidence/w64-aqa/qualification/bindings/372bc28ac1af30a496da71c72bb1dac6308b1993/3ea09369540213bb2463000d0874cca3b3051067ba1cf11dc6d179bf1099140b.json",
+    "version_id": "FnDF0QnA5HFZj8OCSZy637NYs_jx0pk4",
+    "content_length": 1087,
+    "checksum_sha256_base64": "PqCTaVQCE7skYwANCHTMo7MFEGe6HPEdxtF5vxCZFAs=",
+    "server_side_encryption": "AES256",
+    "head_replay_passed": true
+  },
+  "minimum_additive_read_actions_requested": ["s3:GetBucketPublicAccessBlock", "s3:GetBucketPolicyStatus", "s3:GetBucketAcl", "s3:GetAccountPublicAccessBlock", "s3:GetBucketOwnershipControls"],
+  "mutations_performed": false,
+  "authority": {
+    "aws_authentication": true,
+    "binding_object_replay": true,
+    "bucket_encryption_observed": true,
+    "bucket_versioning_observed": true,
+    "bucket_public_access_posture": false,
+    "runtime_bundle_acceptance": false,
+    "product_promotion": false
+  },
+  "next_action": "Grant only the five named read actions to the existing session role or provide an independently retained public-posture receipt; then replay the exact reads and still require one integration-authority-accepted runtime bundle before promotion."
+}

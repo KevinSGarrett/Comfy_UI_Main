@@ -193,6 +193,15 @@ bundle evidence, followed by one conditional content-addressed S3 binding object
 that names that commit and exact manifest version. The subsequent Git receipt
 must bind the payload hash and remote version. This is provenance, not promotion.
 
+The July 22 public-posture replay authenticated successfully as
+`ComfyUIMainSessionRole`, but its inline policy does not allow
+`s3:GetBucketPublicAccessBlock`, `s3:GetBucketPolicyStatus`, `s3:GetBucketAcl`,
+`s3:GetAccountPublicAccessBlock`, or `s3:GetBucketOwnershipControls`. Do not
+substitute successful encryption, versioning, lifecycle, location, or object
+head reads for those denied facts. Request only those exact additive read
+actions (or accept an independently retained equivalent receipt); no write
+permission is required for this gate.
+
 The proposed repair must identify exact defects, targets, allowed patch class,
 expected benefit, risks, protected checks, parent hash, and rollback. Arbitrary
 node creation, shell, secret access, cloud mutation, threshold change, or model

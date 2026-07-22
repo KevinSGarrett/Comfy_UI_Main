@@ -377,6 +377,16 @@ overwrite or delete occurred, and S3 presence granted no product promotion.
 Bucket public-access-block inspection remains unavailable to the session role,
 so production bundle promotion stays unqualified.
 
+The July 22 permission audit proves the cause rather than treating AWS
+authentication as authority: the active `ComfyUIMainSessionRole` inline policy
+omits the bucket public-access block, bucket policy status, bucket ACL, account
+public-access block, and ownership-controls read actions. All five exact calls
+were denied. AES-256 encryption, enabled versioning, `us-east-1`, three enabled
+lifecycle rules, and exact binding-object head replay passed, but none proves
+non-public posture. No AWS mutation occurred. Production promotion therefore
+remains held until those exact reads (or independently retained equivalents)
+pass and one real runtime bundle is accepted by integration authority.
+
 The live qualification at
 `Plan/Tracker/Evidence/W64_AQA_S3_BUNDLE_TRANSACTION_20260721T234740Z/evidence.json`
 stages nine unique records and writes the bundle manifest last. All ten objects
