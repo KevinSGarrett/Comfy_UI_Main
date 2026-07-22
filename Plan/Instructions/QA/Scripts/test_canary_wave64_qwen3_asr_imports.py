@@ -4,6 +4,7 @@ import ast
 import importlib.util
 import json
 from pathlib import Path
+import socket
 
 import jsonschema
 import pytest
@@ -71,6 +72,7 @@ def test_schema_accepts_minimal_valid_shape() -> None:
             "bytecode_writes_disabled": True,
             "blocked_side_effect_events": [],
             "socket_create_event_count": 1,
+            "loopback_ephemeral_bind_probe_count": 1,
             "weight_file_open_attempts": [],
         },
         "measurements": {
@@ -136,6 +138,41 @@ def test_socket_creation_is_recorded_but_network_io_is_blocked() -> None:
         "socket.listen",
         "socket.sendto",
     }.issubset(MODULE.BLOCKED_AUDIT_EVENTS)
+
+
+@pytest.mark.parametrize(
+    ("family", "address"),
+    [
+        (socket.AF_INET, ("127.0.0.1", 0)),
+        (socket.AF_INET6, ("::1", 0, 0, 0)),
+    ],
+)
+def test_loopback_ephemeral_bind_probe_is_narrowly_classified(
+    family: socket.AddressFamily, address: tuple
+) -> None:
+    probe = socket.socket(family, socket.SOCK_STREAM)
+    try:
+        assert MODULE.is_loopback_ephemeral_bind_probe((probe, address))
+    finally:
+        probe.close()
+
+
+@pytest.mark.parametrize(
+    "address",
+    [
+        ("0.0.0.0", 0),
+        ("127.0.0.1", 8188),
+        ("8.8.8.8", 0),
+        ("::", 0, 0, 0),
+    ],
+)
+def test_non_loopback_or_fixed_port_bind_is_not_classified(address: tuple) -> None:
+    family = socket.AF_INET6 if ":" in address[0] else socket.AF_INET
+    probe = socket.socket(family, socket.SOCK_STREAM)
+    try:
+        assert not MODULE.is_loopback_ephemeral_bind_probe((probe, address))
+    finally:
+        probe.close()
 
 
 def test_failure_message_retains_collected_side_effect_names() -> None:

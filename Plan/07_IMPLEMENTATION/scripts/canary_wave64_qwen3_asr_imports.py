@@ -6,10 +6,12 @@ from __future__ import annotations
 import argparse
 import importlib
 import importlib.metadata as metadata
+import ipaddress
 import json
 import os
 from pathlib import Path
 import platform
+import socket
 import sys
 import tempfile
 import time
@@ -39,6 +41,24 @@ BLOCKED_AUDIT_EVENTS = {
     "subprocess.Popen",
     "os.system",
 }
+
+
+def is_loopback_ephemeral_bind_probe(args: tuple) -> bool:
+    if len(args) < 2:
+        return False
+    candidate_socket, address = args[0], args[1]
+    if not isinstance(address, tuple) or len(address) < 2:
+        return False
+    try:
+        host = ipaddress.ip_address(address[0])
+        port = int(address[1])
+    except (TypeError, ValueError):
+        return False
+    return (
+        host.is_loopback
+        and port == 0
+        and getattr(candidate_socket, "family", None) in {socket.AF_INET, socket.AF_INET6}
+    )
 
 
 def resident_bytes() -> int:
@@ -92,11 +112,15 @@ def run_canary() -> dict:
     validate_environment()
     blocked_events: list[str] = []
     socket_create_events: list[str] = []
+    loopback_ephemeral_bind_probes: list[str] = []
     weight_open_attempts: list[str] = []
 
     def audit(event: str, args: tuple) -> None:
         if event in RECORDED_NON_IO_AUDIT_EVENTS:
             socket_create_events.append(event)
+            return
+        if event == "socket.bind" and is_loopback_ephemeral_bind_probe(args):
+            loopback_ephemeral_bind_probes.append(event)
             return
         if event in BLOCKED_AUDIT_EVENTS:
             blocked_events.append(event)
@@ -161,6 +185,9 @@ def run_canary() -> dict:
             "bytecode_writes_disabled": True,
             "blocked_side_effect_events": blocked_events,
             "socket_create_event_count": len(socket_create_events),
+            "loopback_ephemeral_bind_probe_count": len(
+                loopback_ephemeral_bind_probes
+            ),
             "weight_file_open_attempts": weight_open_attempts,
         },
         "measurements": {
