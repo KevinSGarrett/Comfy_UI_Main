@@ -371,6 +371,14 @@ Evaluate decode integrity, duration, onset, event count, silence, clipping, loud
 
 Acceptance: thresholds are calibrated on real reference sounds; no single model metric can grant production authority; failed candidates remain immutable negative evidence.
 
+Implemented contract slice (reconciled 2026-07-22): the evaluator, schema,
+policy, and deterministic fixtures enforce technical, semantic, timing,
+acoustic, deduplication, and negative-evidence gates. A single model score
+cannot promote a candidate, and failed evidence is immutable. Thirteen focused
+tests and Ruff pass. Rows072, 075, 076, 079, 083, and 102 plus calibrated real-
+audio thresholds, genuine waveform/spectrogram QA, and runtime remain held, so
+no generated candidate or product authority is accepted.
+
 ### Row104 Generated-asset promotion and reusable-library ingestion
 
 Promote only passing generated sounds into a versioned generated-asset library with canonical tags, provenance, QA bundle, license, attribution, deduplication, and revocation status.

@@ -258,3 +258,21 @@ Candidate staging is outside the approved library and selector-invisible until
 Row104 promotion. Staging is an evidence boundary and must never implement
 content-based suppression. Synthetic fixtures prove the contract only; genuine
 runtime staging and accepted Rows098-101 remain required for Row102 acceptance.
+
+## Row103 generated-sound QA gate
+
+Require independent technical, semantic, timing, acoustic, deduplication, and
+negative-evidence results. No single learned metric grants production authority,
+and rejected candidates remain immutable evidence. Synthetic fixtures validate
+decision behavior only; accepted dependencies, calibrated real-reference
+thresholds, genuine waveform/spectrogram inspection, playback review, and
+runtime proof remain required.
+
+## Row104 generated-asset promotion gate
+
+Promotion requires accepted rights, immutable provenance, Row103 QA, exact and
+near-duplicate decisions, content-addressed no-clobber publication, generated-
+origin retention, selector discovery, and evidence-preserving revocation.
+Synthetic fixtures cannot enter the library. Revocation removes eligibility but
+never deletes the asset or its evidence. Genuine publication, discovery, and
+revocation replay remain required for runtime and product authority.

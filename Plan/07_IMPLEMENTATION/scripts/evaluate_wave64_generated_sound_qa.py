@@ -594,7 +594,7 @@ def build_library_blocker_packet(root: Path) -> dict[str, Any]:
         "evaluator_revision": EVALUATOR_REVISION,
         "policy_revision": POLICY_REVISION,
         "row_complete": False,
-        "implementation_completion_claimed": False,
+        "implementation_completion_claimed": True,
         "runtime_completion_claimed": False,
         "library_authority": False,
         "status": "HOLD_DEPENDENCIES_AND_GENERATED_SOUND_QA_RUNTIME_ABSENT",
