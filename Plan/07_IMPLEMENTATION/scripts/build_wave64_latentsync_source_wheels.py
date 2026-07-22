@@ -329,7 +329,11 @@ def build(admission_path: Path, builder_lock_path: Path, source_lock_path: Path,
 
         run(["uv", "venv", "--python", str(base), str(builder_dir)])
         builder_python = builder_dir / "bin/python"
-        run(["uv", "pip", "sync", "--python", str(builder_python), str(builder_lock_path)])
+        staged_builder_lock = staging / "pylock.builder.toml"
+        shutil.copyfile(builder_lock_path, staged_builder_lock)
+        if sha256_file(staged_builder_lock) != EXPECTED_BUILDER_LOCK_SHA256:
+            raise BuildError("staged builder lock hash mismatch")
+        run(["uv", "pip", "sync", "--python", str(builder_python), str(staged_builder_lock)])
         run(["uv", "pip", "check", "--python", str(builder_python)])
         distributions = distribution_manifest(builder_python)
         observed = {row["name"]: row["version"] for row in distributions}
@@ -361,7 +365,10 @@ def build(admission_path: Path, builder_lock_path: Path, source_lock_path: Path,
             raise BuildError("active Python distribution metadata changed")
         for child in list(staging.iterdir()):
             if child != wheels_dir:
-                shutil.rmtree(child)
+                if child.is_dir() and not child.is_symlink():
+                    shutil.rmtree(child)
+                else:
+                    child.unlink()
         for wheel in list(wheels_dir.iterdir()):
             os.replace(wheel, staging / wheel.name)
         wheels_dir.rmdir()
@@ -376,13 +383,22 @@ def build(admission_path: Path, builder_lock_path: Path, source_lock_path: Path,
             "source_dependency_lock_sha256": EXPECTED_SOURCE_LOCK_SHA256,
             "wheelhouse_root": str(target),
             "free_bytes_before": free_bytes,
-            "prior_attempt": {
-                "controller_commit": "b3d95949",
-                "result": "FAIL_CLOSED_BEFORE_BUILD_EXECUTION",
-                "reason": "insightface archive contains a safe nested third-party setup.py in addition to the required root setup.py",
-                "staging_removed": True,
-                "wheelhouse_published": False,
-            },
+            "prior_attempts": [
+                {
+                    "controller_commit": "b3d95949",
+                    "result": "FAIL_CLOSED_BEFORE_BUILD_EXECUTION",
+                    "reason": "insightface archive contains a safe nested third-party setup.py in addition to the required root setup.py",
+                    "staging_removed": True,
+                    "wheelhouse_published": False,
+                },
+                {
+                    "controller_commit": "127563b8",
+                    "result": "FAIL_CLOSED_BEFORE_BUILD_EXECUTION",
+                    "reason": "uv requires the staged PEP 751 lock basename to begin with pylock.",
+                    "staging_removed": True,
+                    "wheelhouse_published": False,
+                },
+            ],
             "builder": {
                 "python_version": builder["python_version"],
                 "python_sha256": builder["python_sha256"],
