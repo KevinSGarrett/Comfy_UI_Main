@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "runpod_autonomous_latentsync_import_canary_receipt.schema.json",
+  "type": "object",
+  "required": ["schema_version", "program_id", "package_id", "status", "admission_commit", "admission_sha256", "environment_receipt_sha256", "environment_root", "code", "environment_controls", "imports", "import_count", "decord_binary", "runtime_claims"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.latentsync_import_canary_receipt.v1"},
+    "program_id": {"const": "W64-AQA"},
+    "package_id": {"const": "W64-AQA-PKG-LATENTSYNC-1.6"},
+    "status": {"const": "PACKAGE_AND_PROJECT_IMPORTS_PASS_MODEL_LOAD_PENDING"},
+    "admission_commit": {"const": "326c11ef"},
+    "admission_sha256": {"const": "62d2eed99f8ea586ec5709ccf3c9f29a911bf6f7dbc99f87a90315c09813f1b0"},
+    "environment_receipt_sha256": {"const": "a13ba52cb63e871ada18550db06544fee51c58341d546edb276b3ecdf4c3f68e"},
+    "import_count": {"const": 18},
+    "imports": {"type": "array", "minItems": 18, "maxItems": 18, "items": {"type": "object", "required": ["name", "origin"]}},
+    "decord_binary": {"type": "object", "required": ["path", "bytes", "sha256"], "properties": {"bytes": {"const": 12465984}, "sha256": {"const": "98b260c5812106648ba299279916fbe98439893e346d4efdcf5cde66ba8973da"}}}
+  }
+}
