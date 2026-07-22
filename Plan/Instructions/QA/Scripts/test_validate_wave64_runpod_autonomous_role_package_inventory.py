@@ -68,9 +68,29 @@ def test_independent_juror_uses_pinned_native_hf_without_remote_code() -> None:
     assert package["installation"]["state"] == "UPSTREAM_IDENTITY_VERIFIED_NOT_INSTALLED"
     assert "trust_remote_code" in package["authority"]["forbidden"]
     assert "remote_code_review" not in package["qualification"]["required_gates"]
+    assert package["candidate_quantized_route"]["combined_bytes"] == 131260400544
+    assert package["candidate_quantized_route"]["model_header"]["general_architecture"] == "qwen3moe"
+    assert package["candidate_quantized_route"]["projector_header"]["projector_type"] == "internvl"
+    assert package["loader_preflight"]["revision"] == "e8e6c7af2456fd50bb62f7a2bbd642e6fb14ae77"
+    assert package["loader_preflight"]["internvl_3_5_explicitly_documented"] is False
+    assert package["storage_admission"]["exact_live_free_quota_known"] is False
+    assert package["storage_admission"]["minimum_free_before_download_gib"] == 172.24577417969704
+    assert package["storage_admission"]["download_started"] is False
+    assert "download_without_storage_admission" in package["authority"]["forbidden"]
     assert not package["authority"]["operational"]
     package["source_pin"]["source_manifest_sha256"] = "0" * 64
     assert any("native HF source pin mismatch" in error for error in MODULE.validate(data))
+
+
+def test_independent_juror_download_gate_fails_closed_on_drift() -> None:
+    data = copy.deepcopy(load_inventory())
+    package = next(
+        item
+        for item in data["packages"]
+        if item["identity"]["repository_id"] == "OpenGVLab/InternVL3_5-241B-A28B-HF"
+    )
+    package["storage_admission"]["download_started"] = True
+    assert any("storage admission mismatch" in error for error in MODULE.validate(data))
 
 
 def test_provisional_internvl_storage_is_exact_but_cannot_replace_juror() -> None:

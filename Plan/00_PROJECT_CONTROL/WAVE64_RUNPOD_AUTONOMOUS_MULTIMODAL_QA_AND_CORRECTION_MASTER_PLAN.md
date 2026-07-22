@@ -1283,3 +1283,33 @@ retention: any candidate promotion must include the exact package README plus
 the pinned InternVL MIT and FastChat Apache-2.0 license texts. This closes the
 license-acceptance gate only; it grants no import, runtime, quality, juror,
 activation, or product authority.
+
+The 241B independent-juror route now has a bounded static admission decision.
+The pinned community `i1-IQ4_XS` candidate consists of three raw continuation
+parts totaling 125,283,908,960 bytes and requires ordered concatenation; its
+separate pinned Q8 vision projector is 5,976,491,584 bytes. HTTP 206 range
+audits fetched only the first 8 MiB of the model's first part and projector.
+The complete metadata regions fit within those bounds and identify
+`qwen3moe` for the language model and `internvl` for the projector. No model or
+projector payload was downloaded.
+
+Pinned llama.cpp revision
+`e8e6c7af2456fd50bb62f7a2bbd642e6fb14ae77` contains both the `qwen3moe`
+architecture mapping and an InternVL multimodal projector implementation.
+This is a static identifier match, not a runtime qualification: the official
+multimodal documentation describes the subsystem as under heavy development
+and names InternVL 2.5 and InternVL 3, not InternVL 3.5. The current pod has no
+pinned llama.cpp runtime binary, so a reproducible immutable build plus exact
+metadata-open, projector-open, single-image, capacity, cleanup, and quality
+campaigns remain mandatory.
+
+Storage admission fails closed. The four files total 131,260,400,544 bytes
+(122.245774 GiB). Preserving the required 50 GiB post-install reserve requires
+at least 172.245775 GiB exact free quota before transfer. The latest defensible
+project estimate is only 53.335322 GiB, while the 1,000 GB control-plane volume
+size and shared-backend `df` do not prove current tenant free quota. The
+candidate alone exceeds that estimate by 68.910452 GiB and the full admission
+threshold by 118.910452 GiB. No download, concatenation, build, load,
+inference, visual-quality, arbitration, golden-mask, activation, or product
+authority is granted. The fail-closed sequence is maintained in
+`Plan/Instructions/QA/WAVE64_INTERNVL35_241B_JUROR_ADMISSION.md`.

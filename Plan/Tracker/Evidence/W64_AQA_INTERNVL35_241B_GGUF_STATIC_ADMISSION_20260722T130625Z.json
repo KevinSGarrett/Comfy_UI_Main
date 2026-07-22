@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "evidence_id": "W64_AQA_INTERNVL35_241B_GGUF_STATIC_ADMISSION_20260722T130625Z",
+  "timestamp_utc": "2026-07-22T13:06:25Z",
+  "work_item_id": "W64-AQA-009",
+  "decision": "NO_DOWNLOAD_STORAGE_AND_RUNTIME_GATES_PENDING",
+  "scope": "Header-only static compatibility and storage admission for a candidate InternVL3.5-241B-A28B independent-juror route",
+  "network_actions": {
+    "model_or_projector_payload_downloaded": false,
+    "bounded_header_ranges_only": true,
+    "maximum_bytes_per_source": 8388608,
+    "audit_script": "Plan/07_IMPLEMENTATION/scripts/audit_wave64_gguf_remote_header.py",
+    "audit_script_sha256": "ad771849608a885fec4229a399d37515ae6843d889dfacfcedc49f8afeb03989"
+  },
+  "candidate": {
+    "model": {
+      "repository_id": "mradermacher/InternVL3_5-241B-A28B-i1-GGUF",
+      "revision": "a5d7824f8e2b9ea813bab7aad36bd2b505ac2f74e",
+      "license_card": "apache-2.0",
+      "quantization": "i1-IQ4_XS",
+      "multipart_concatenation_required": true,
+      "parts": [
+        {"filename": "InternVL3_5-241B-A28B.i1-IQ4_XS.gguf.part1of3", "bytes": 41875931136, "sha256": "6b40342482ce538351042b4b5fde2ebc30cb89861cac0c056a42dc2015731c25"},
+        {"filename": "InternVL3_5-241B-A28B.i1-IQ4_XS.gguf.part2of3", "bytes": 41875931136, "sha256": "3b0f6f1952ae3742d73a9a696acd43745ac09df279c7d52bf38f6c50d55a1479"},
+        {"filename": "InternVL3_5-241B-A28B.i1-IQ4_XS.gguf.part3of3", "bytes": 41532046688, "sha256": "b919c1e516368bd1e3ea7a12bfbc1ebfb638e8fa003fe17e771c4d7aaf09485a"}
+      ],
+      "total_bytes": 125283908960,
+      "provider_usage_finding": "README explicitly directs users to concatenate multi-part files",
+      "header_audit": {
+        "source": "part1of3 only; later files are raw continuation parts and do not start with GGUF magic",
+        "http_status": 206,
+        "content_range": "bytes 0-8388607/41875931136",
+        "received_bytes": 8388608,
+        "gguf_version": 3,
+        "tensor_count": 1131,
+        "metadata_count": 53,
+        "metadata_end_offset": 5930811,
+        "general_architecture": "qwen3moe",
+        "general_type": "model",
+        "general_name": "InternVL3_5 241B A28B",
+        "general_file_type": 30,
+        "general_quantization_version": 2
+      }
+    },
+    "projector": {
+      "repository_id": "mradermacher/InternVL3_5-241B-A28B-GGUF",
+      "revision": "cba880f5aab84c74eaeed388c2209346b76c3bf8",
+      "license_card": "apache-2.0",
+      "filename": "InternVL3_5-241B-A28B.mmproj-Q8_0.gguf",
+      "bytes": 5976491584,
+      "sha256": "15d6aa2ad647525f72c954f8825e3973be6d78849ba05f07e4413da957baf126",
+      "header_audit": {
+        "http_status": 206,
+        "content_range": "bytes 0-8388607/5976491584",
+        "received_bytes": 8388608,
+        "gguf_version": 3,
+        "tensor_count": 685,
+        "metadata_count": 37,
+        "metadata_end_offset": 1955,
+        "general_architecture": "clip",
+        "general_type": "mmproj",
+        "clip_projector_type": "internvl",
+        "clip_has_vision_encoder": true,
+        "image_size": 448,
+        "patch_size": 14,
+        "projection_dim": 4096
+      }
+    },
+    "combined_bytes": 131260400544,
+    "combined_gib": 122.24577417969704
+  },
+  "loader_preflight": {
+    "repository_id": "ggml-org/llama.cpp",
+    "revision": "e8e6c7af2456fd50bb62f7a2bbd642e6fb14ae77",
+    "revision_date_utc": "2026-07-22T12:32:54Z",
+    "license": "MIT",
+    "source_files": [
+      {"path": "src/llama-arch.cpp", "bytes": 70922, "sha256": "a08bd316acbf12acaabdf7d6c9a9fc60eca53ff9d682a11fab2ae0ae6ecc871d", "finding": "qwen3moe architecture identifier present"},
+      {"path": "tools/mtmd/models/internvl.cpp", "bytes": 2684, "sha256": "1e8c245a0e36f822e6ff6b8b709e1f262b5a87625ab6a0d399dab349951b456c", "finding": "internvl projector implementation present"},
+      {"path": "tools/mtmd/README.md", "bytes": 5627, "sha256": "5821ef525780b71085f68da7e4ea1dd9b90241fbba91cb928519b06eb2f76c42", "finding": "multimodal support described as under heavy development; supported family list names InternVL 2.5 and InternVL 3 but not InternVL 3.5"},
+      {"path": "conversion/internvl.py", "bytes": 4450, "sha256": "d5903957a9d6bdeb8e2a70ea071ddf7f39e1be00b6cc16d4eb5977f66c8a1f36", "finding": "InternVL vision conversion implementation present"}
+    ],
+    "architecture_identifier_match": true,
+    "projector_identifier_match": true,
+    "internvl_3_5_explicitly_documented": false,
+    "llama_cpp_runtime_binary_present_on_current_pod": false,
+    "conclusion": "Static identifiers are loader-compatible, but exact InternVL3.5 runtime compatibility and quality are unproven. A pinned build and bounded open/smoke campaign remain mandatory."
+  },
+  "storage_admission": {
+    "network_volume_id": "o9qv2ld91c",
+    "network_volume_control_plane_size_gb": 1000,
+    "exact_live_free_quota_known": false,
+    "shared_mfs_df_rejected_as_tenant_quota_evidence": true,
+    "latest_conservative_reserve_evidence": "Plan/Tracker/Evidence/W64_AQA_LATENTSYNC_1_6_ENVIRONMENT_BUILD_20260722T090000Z/integration_acceptance.json",
+    "latest_conservative_free_reserve_gib": 53.335322,
+    "minimum_post_install_reserve_gib": 50.0,
+    "minimum_free_before_download_gib": 172.24577417969704,
+    "shortfall_to_artifact_gib": 68.91045217969705,
+    "shortfall_to_artifact_plus_reserve_gib": 118.91045217969705,
+    "admitted": false
+  },
+  "truth_boundaries": [
+    "Community repository metadata and bounded headers do not qualify runtime, quality, repeatability, or independent-juror authority.",
+    "No model part, projector payload, loader build, concatenated artifact, or inference output was created.",
+    "The foreign coordinator recovery state was not cleared or overridden.",
+    "The 8B provisional package does not substitute for the 241B independent juror."
+  ],
+  "next_exact_action": "After exact live free quota is independently proven at or above 172.245775 GiB and the coordinator admits work, build pinned llama.cpp in an immutable prefix; only then admit exact-part downloads, hash replay, concatenation, whole-file hash, metadata open, projector open, single-image capacity smoke, cleanup, and quality gates."
+}

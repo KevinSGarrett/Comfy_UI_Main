@@ -334,13 +334,84 @@ def validate(data: dict) -> list[str]:
                         errors.append(f"{item.get('package_id')}: native HF source pin mismatch")
                     if identity.get("license_state") != "WEIGHTS_APACHE-2.0_AND_PROJECT_CODE_MIT_ACCEPTED_FOR_COMFY_UI_MAIN_PROJECT_USE":
                         errors.append(f"{item.get('package_id')}: independent juror license decision mismatch")
-                    if qualification.get("state") != "NATIVE_HF_SOURCE_PINNED_LICENSE_ACCEPTED_INSTALLATION_PENDING":
+                    expected_quantized_route = {
+                        "state": "COMMUNITY_QUANT_PINNED_HEADER_COMPATIBILITY_PASS_DOWNLOAD_NOT_ADMITTED",
+                        "model_repository_id": "mradermacher/InternVL3_5-241B-A28B-i1-GGUF",
+                        "model_revision": "a5d7824f8e2b9ea813bab7aad36bd2b505ac2f74e",
+                        "quantization": "i1-IQ4_XS",
+                        "multipart_concatenation_required": True,
+                        "model_part_count": 3,
+                        "model_part_bytes": [41875931136, 41875931136, 41532046688],
+                        "model_part_sha256": [
+                            "6b40342482ce538351042b4b5fde2ebc30cb89861cac0c056a42dc2015731c25",
+                            "3b0f6f1952ae3742d73a9a696acd43745ac09df279c7d52bf38f6c50d55a1479",
+                            "b919c1e516368bd1e3ea7a12bfbc1ebfb638e8fa003fe17e771c4d7aaf09485a",
+                        ],
+                        "model_total_bytes": 125283908960,
+                        "model_header": {
+                            "general_architecture": "qwen3moe",
+                            "gguf_version": 3,
+                            "tensor_count": 1131,
+                            "metadata_count": 53,
+                            "metadata_end_offset": 5930811,
+                        },
+                        "projector_repository_id": "mradermacher/InternVL3_5-241B-A28B-GGUF",
+                        "projector_revision": "cba880f5aab84c74eaeed388c2209346b76c3bf8",
+                        "projector_filename": "InternVL3_5-241B-A28B.mmproj-Q8_0.gguf",
+                        "projector_bytes": 5976491584,
+                        "projector_sha256": "15d6aa2ad647525f72c954f8825e3973be6d78849ba05f07e4413da957baf126",
+                        "projector_header": {
+                            "general_architecture": "clip",
+                            "general_type": "mmproj",
+                            "projector_type": "internvl",
+                            "image_size": 448,
+                            "patch_size": 14,
+                            "projection_dim": 4096,
+                        },
+                        "combined_bytes": 131260400544,
+                        "evidence": "Plan/Tracker/Evidence/W64_AQA_INTERNVL35_241B_GGUF_STATIC_ADMISSION_20260722T130625Z.json",
+                    }
+                    if item.get("candidate_quantized_route") != expected_quantized_route:
+                        errors.append(f"{item.get('package_id')}: independent juror quantized route mismatch")
+                    loader_preflight = item.get("loader_preflight", {})
+                    if loader_preflight.get("revision") != "e8e6c7af2456fd50bb62f7a2bbd642e6fb14ae77":
+                        errors.append(f"{item.get('package_id')}: independent juror loader pin mismatch")
+                    if loader_preflight.get("model_architecture") != "qwen3moe" or loader_preflight.get("projector_type") != "internvl":
+                        errors.append(f"{item.get('package_id')}: independent juror header identifiers mismatch")
+                    if loader_preflight.get("internvl_3_5_explicitly_documented") is not False:
+                        errors.append(f"{item.get('package_id')}: InternVL3.5 support must remain unproven")
+                    if loader_preflight.get("runtime_binary_present_on_pod") is not False:
+                        errors.append(f"{item.get('package_id')}: absent pinned loader runtime mismatch")
+                    storage = item.get("storage_admission", {})
+                    expected_storage = {
+                        "state": "DOWNLOAD_HELD_EXACT_LIVE_FREE_QUOTA_AND_RESERVE_GATES_FAIL",
+                        "network_volume_id": "o9qv2ld91c",
+                        "network_volume_size_gb_control_plane": 1000,
+                        "exact_live_free_quota_known": False,
+                        "candidate_bytes": 131260400544,
+                        "candidate_gib": 122.24577417969704,
+                        "minimum_post_install_reserve_gib": 50.0,
+                        "minimum_free_before_download_gib": 172.24577417969704,
+                        "latest_conservative_free_reserve_gib": 53.335322,
+                        "shortfall_to_artifact_gib": 68.91045217969705,
+                        "shortfall_to_artifact_plus_reserve_gib": 118.91045217969705,
+                        "download_started": False,
+                        "evidence": "Plan/Tracker/Evidence/W64_AQA_INTERNVL35_241B_GGUF_STATIC_ADMISSION_20260722T130625Z.json",
+                    }
+                    if storage != expected_storage:
+                        errors.append(f"{item.get('package_id')}: independent juror storage admission mismatch")
+                    if qualification.get("state") != "NATIVE_SOURCE_AND_GGUF_HEADER_IDENTIFIERS_PINNED_DOWNLOAD_HELD_STORAGE_BUILD_AND_RUNTIME_GATES_PENDING":
                         errors.append(f"{item.get('package_id')}: independent juror qualification state mismatch")
                     for completed_gate in ("pinned_revision", "license_acceptance", "remote_code_review"):
                         if completed_gate in qualification.get("required_gates", []):
                             errors.append(f"{item.get('package_id')}: completed or avoided {completed_gate} gate remains open")
+                    for required_gate in ("exact_live_free_quota", "minimum_50_gib_post_install_reserve", "pinned_loader_build", "multipart_concatenation_hash"):
+                        if required_gate not in qualification.get("required_gates", []):
+                            errors.append(f"{item.get('package_id')}: independent juror {required_gate} gate required")
                     if "trust_remote_code" not in authority.get("forbidden", []):
                         errors.append(f"{item.get('package_id')}: native HF route must forbid remote code")
+                    if "download_without_storage_admission" not in authority.get("forbidden", []):
+                        errors.append(f"{item.get('package_id')}: storage-unadmitted download must be forbidden")
                 elif repository_id == "OpenGVLab/InternVL3_5-8B":
                     expected_source_pin = {
                         "revision": "9bb6a56ad9cc69db95e2d4eeb15a52bbcac4ef79",
