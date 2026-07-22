@@ -818,3 +818,12 @@ after this package and remains above the 50 GiB safety margin. Shared-filesystem
 fixture were present at preflight. The storage transaction is therefore
 admitted first, with model load, code/dependency activation, inference, source
 video, identity, AV sync, operational, and product authority all false.
+
+The storage stage subsequently passed: all 13 files and 9,635,785,477 payload
+bytes were verified, atomically published, and rehashed through a read-only
+`REUSED_VERIFIED_INSTALL` replay. The retained receipt SHA-256 is
+`35510125ed8716193501f8ee5175abb2bc5c34f1610e29bd782865f1e3099b7d`.
+This advances only exact storage authority. Code checkout, isolated dependency
+environment, source-video and identity fixture, model load, inference, visual
+and temporal review, cleanup, rollback, operational activation, and product
+promotion remain pending.

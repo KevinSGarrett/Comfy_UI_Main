@@ -64,6 +64,8 @@ Row137 uses official LatentSync code pinned at commit `a229c3948406bc2cf6eaf4873
 
 The first video fixture must be immutable, rights/provenance qualified, face-detectable, and suitable for identity comparison. Absence of such a fixture blocks inference but does not block exact model storage or isolated dependency work. Official demo media may be used only for a non-product capability diagnostic unless its subject and media rights are separately accepted.
 
+The 13-file model package now passes atomic storage installation and an independent full-file installer replay. The retained package contains 9,635,785,477 payload bytes including small repository files, and its installation receipt SHA-256 is `35510125ed8716193501f8ee5175abb2bc5c34f1610e29bd782865f1e3099b7d`. This is storage authority only; the next stage remains exact code, isolated dependencies, and an eligible video/identity fixture.
+
 ## Multi-engine comparison
 
 Hard-gate survivors are ranked by a versioned scorecard. The record must expose raw metrics, normalized metrics, weights, missing-metric handling, and final explanation. A missing mandatory metric blocks; it is never assigned a neutral score.
