@@ -208,10 +208,10 @@ def validate(data: dict) -> list[str]:
                         errors.append(f"{item.get('package_id')}: Omni dependency preflight mismatch")
                     expected_omni_environment = {
                         "state": "HASH_LOCKED_BUILD_ADMITTED_EXECUTION_PENDING",
-                        "lock_sha256": "ddd947030a1815dc668d5b94e2e64f375351e846668bcf8bbd0c5e08b527d95a",
+                        "lock_sha256": "a19d160721dfb74cf89bc70eebec10f45b2e6f58b7a109726d658db7d361277c",
                         "package_count": 75,
                         "wheel_count": 78,
-                        "target": "/workspace/w64_aqa/environments/Qwen3-Omni-30B-A3B-Thinking/transformers-5.2.0-qwen-omni-utils-0.0.9-py3.12.13-cu124/ddd947030a1815dc668d5b94e2e64f375351e846668bcf8bbd0c5e08b527d95a",
+                        "target": "/workspace/w64_aqa/environments/Qwen3-Omni-30B-A3B-Thinking/transformers-5.2.0-qwen-omni-utils-0.0.9-py3.12.13-cu124/a19d160721dfb74cf89bc70eebec10f45b2e6f58b7a109726d658db7d361277c",
                         "admission": "Plan/10_REGISTRIES/wave64_qwen3_omni_dependency_environment_admission.json",
                         "evidence": "Plan/Tracker/Evidence/W64_AQA_QWEN3_OMNI_DEPENDENCY_LOCK_20260722T022803Z.json",
                     }

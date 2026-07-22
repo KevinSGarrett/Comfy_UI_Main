@@ -56,6 +56,25 @@ def test_key_versions_and_runtime_authority_fail_closed() -> None:
     assert "dependency build admission exceeds non-runtime authority" in errors
 
 
+def test_incompatible_decord_wheel_fails_closed() -> None:
+    admission, lock = load_inputs()
+    lock = copy.deepcopy(lock)
+    lock["packages"].append(
+        {
+            "name": "decord",
+            "version": "0.6.0",
+            "wheels": [
+                {
+                    "url": "https://files.pythonhosted.org/decord.whl",
+                    "hashes": {"sha256": "0" * 64},
+                }
+            ],
+        }
+    )
+    errors = MODULE.validate(admission, lock, LOCK)
+    assert "Python 3.12 environment cannot include the CPython 3.6-tagged Decord wheel" in errors
+
+
 def test_base_python_cannot_be_reinstalled_or_substituted() -> None:
     admission, lock = load_inputs()
     admission = copy.deepcopy(admission)

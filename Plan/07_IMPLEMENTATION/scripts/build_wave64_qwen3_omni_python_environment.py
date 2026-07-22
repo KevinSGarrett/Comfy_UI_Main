@@ -13,8 +13,8 @@ import sys
 from pathlib import Path
 
 
-EXPECTED_ADMISSION_SHA256 = "71417720fc542cb0581182a326b672a7e073bf31eeb8a9e37ab8b8314b92b1a0"
-EXPECTED_LOCK_SHA256 = "ddd947030a1815dc668d5b94e2e64f375351e846668bcf8bbd0c5e08b527d95a"
+EXPECTED_ADMISSION_SHA256 = "af3f8f8b787080cc40429a9bb9a7b507ed79656e7c27b975af0333d27a2431c1"
+EXPECTED_LOCK_SHA256 = "a19d160721dfb74cf89bc70eebec10f45b2e6f58b7a109726d658db7d361277c"
 EXPECTED_PACKAGE_ID = "W64-AQA-PKG-QWEN3-OMNI-30B-A3B"
 EXPECTED_UV_VERSION = "0.11.30"
 EXPECTED_PYTHON_VERSION = "3.12.13"
@@ -23,12 +23,12 @@ EXPECTED_DISTRIBUTION_COUNT = 75
 EXPECTED_KEY_DISTRIBUTIONS = {
     "accelerate": "1.14.0",
     "av": "18.0.0",
-    "decord": "0.6.0",
     "librosa": "0.11.0",
     "pillow": "12.3.0",
     "qwen-omni-utils": "0.0.9",
     "soundfile": "0.14.0",
     "torch": "2.4.1+cu124",
+    "torchvision": "0.19.1+cu124",
     "transformers": "5.2.0",
 }
 RUNTIME_CLAIMS = {

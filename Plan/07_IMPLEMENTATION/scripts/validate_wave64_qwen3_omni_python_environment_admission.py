@@ -11,17 +11,17 @@ import tomllib
 from urllib.parse import urlparse
 
 
-LOCK_SHA256 = "ddd947030a1815dc668d5b94e2e64f375351e846668bcf8bbd0c5e08b527d95a"
+LOCK_SHA256 = "a19d160721dfb74cf89bc70eebec10f45b2e6f58b7a109726d658db7d361277c"
 EXPECTED_HOSTS = {"files.pythonhosted.org", "download-r2.pytorch.org"}
 EXPECTED_KEY_PACKAGES = {
     "accelerate": "1.14.0",
     "av": "18.0.0",
-    "decord": "0.6.0",
     "librosa": "0.11.0",
     "pillow": "12.3.0",
     "qwen-omni-utils": "0.0.9",
     "soundfile": "0.14.0",
     "torch": "2.4.1+cu124",
+    "torchvision": "0.19.1+cu124",
     "transformers": "5.2.0",
 }
 
@@ -76,6 +76,8 @@ def validate(admission: dict, lock: dict, lock_path: Path) -> list[str]:
             errors.append(f"{name}: required version mismatch")
     if "vllm" in names or "flash-attn" in names:
         errors.append("minimal Transformers environment cannot include vLLM or FlashAttention")
+    if "decord" in names:
+        errors.append("Python 3.12 environment cannot include the CPython 3.6-tagged Decord wheel")
     if resolution.get("python_version") != "3.12.13" or resolution.get("uv_version") != "0.11.30":
         errors.append("Python or uv build identity mismatch")
     base = admission.get("base_python", {})
