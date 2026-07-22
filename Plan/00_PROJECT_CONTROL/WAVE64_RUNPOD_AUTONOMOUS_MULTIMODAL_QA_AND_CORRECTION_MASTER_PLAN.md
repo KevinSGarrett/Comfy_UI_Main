@@ -1578,3 +1578,12 @@ manifest `0533d74300e4f9bc367d675d4e64ffd073d50ff16a2b4096cc2e8a1cf8c96319`.
 Its config, model, Apache-2.0 license, and parameter layers are pinned beside
 the already exact 4B candidate. Comparative runtime, capacity, calibration,
 quality, cleanup, activation, and product authority remain pending.
+# Evidence chronology supersession (2026-07-22T18:23:34Z)
+
+Four preserved pushed evidence records carried timestamps later than their
+containing commits. The immutable supersession
+`W64_AQA_EVIDENCE_CHRONOLOGY_SUPERSESSION_20260722T182334Z.json` binds each
+original path, byte count, SHA-256, containing commit, commit time, and invalid
+timestamp. Originals remain unchanged. Use the supersession for chronology and
+the original records only for their exact technical scopes. No runtime,
+quality, activation, or promotion authority is added.

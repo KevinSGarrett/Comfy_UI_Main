@@ -10,7 +10,7 @@ Evidence: `Plan/Tracker/Evidence/W64_AQA_GUARDED_2XA40_MIGRATION_WATCHER_POLICY_
 ## Resume Here - Qwen3-VL 4B and 8B Static Closure - 2026-07-22
 
 Pushed state must retain the exact official Qwen3-VL 4B and 8B manifest/license
-bindings and queue hash `16e4f056...`; no runtime or quality authority follows
+bindings and queue hash `fdeff00b...`; no runtime or quality authority follows
 from it. Wav2Vec2 remains the first GPU campaign and requires a fresh exact
 shared-coordinator lease. When GPU work is unavailable, continue a local
 official identity/license dependency, next `qwen2.5vl:7b`; never fall back to AWS.

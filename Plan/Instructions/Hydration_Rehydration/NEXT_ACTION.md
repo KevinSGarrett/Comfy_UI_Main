@@ -17,7 +17,7 @@ The preferred Qwen3-VL 4B and 8B fast-triage packages now have exact official
 manifest identity and Apache-2.0 project-use acceptance. Their installed
 digests equal their official manifests.
 This is static authority only: runtime, calibration, quality, activation, and
-product approval remain false. Queue hash `16e4f056...` has five prepared or
+product approval remain false. Queue hash `fdeff00b...` has five prepared or
 qualified campaigns and nine held campaigns.
 
 Next GPU action remains Wav2Vec2 campaign 1 after fresh shared-coordinator

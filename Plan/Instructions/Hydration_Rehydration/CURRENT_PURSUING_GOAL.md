@@ -7523,3 +7523,23 @@ Continue the full autonomous project without waiting on worker-runtime recovery.
 
 Evidence: `Plan/Instructions/QA/Evidence/Wave64/ROW017_CANONICAL_GLOBAL_REVIEW_NORMALIZATION_20260718T163008-0500.json`.
  ## Wave64 Row050 Current Items/Tracker Coverage Revalidation - 2026-07-18T17:02:39-05:00
+## Current Goal - W64-AQA RunPod Qualification And Product-Authoritative Slice - 2026-07-22
+
+RunPod is the sole production runtime and storage platform. Continue on current
+pod `1q4ji0gg1fkhvt` under the shared coordinator until the authorized singleton
+2xA40 watcher emits verified migration completion. Never use AWS as fallback.
+
+Wav2Vec2 expanded alignment remains the first admitted GPU campaign. Under one
+fresh exact exclusive lease, execute calibration, freeze thresholds, execute
+held-out once, prove process cleanup, retain immutable receipts, and release.
+MIT AST follows separately only after Wav2Vec2 passes. When GPU admission is
+unavailable, continue exact no-GPU model identity, license, workflow,
+dependency, and evidence-integrity work without loading models.
+
+The Qwen3-VL 4B and 8B official manifest/license bindings are static-only.
+The chronology supersession is authoritative for four preserved records with
+invalid future timestamps. Do not expand any static, storage, load, refusal, or
+deterministic evidence into runtime quality, independent review, golden-mask,
+activation, promotion, or project completion. Continue until one exact product
+vertical slice has independent semantic review and promotion remains fail
+closed unless every required gate passes.
