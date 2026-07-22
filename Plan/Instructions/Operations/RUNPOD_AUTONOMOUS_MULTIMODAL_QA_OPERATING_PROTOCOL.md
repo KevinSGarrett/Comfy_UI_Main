@@ -523,6 +523,14 @@ grant tool access, or activate the controller until the fresh dependency and
 import gates pass; GPU phases additionally require a fresh exact coordinator
 lease.
 
+The fresh controller environment admission and atomic builder are prepared, but
+three CPU-only build attempts were rolled back before publication because wheel
+extraction exceeded the network-volume project quota. The target, staging, and
+receipt remain absent. Reflink cloning is unsupported; hardlink cloning and
+mutating the accepted Omni tree are forbidden because they do not provide
+independent immutable bytes. Replay only after authorized storage capacity is
+available, and work another CPU-safe qualification lane in the meantime.
+
 ## Autonomous campaign operation
 
 1. Admit one immutable campaign contract and verify every sealed child path, byte hash, embedded ID, repository identity, input, prompt, model, runtime, environment, policy, threshold, and manifest hash.

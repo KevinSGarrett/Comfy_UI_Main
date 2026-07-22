@@ -109,6 +109,12 @@ PATHS = {
     / "Plan/08_SCHEMAS/runpod_autonomous_qwen36_controller_environment_reuse_decision.schema.json",
     "qwen36_environment_reuse_decision": ROOT
     / "Plan/10_REGISTRIES/wave64_qwen36_controller_environment_reuse_decision.json",
+    "qwen36_python_environment_admission_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_qwen36_controller_python_environment_admission.schema.json",
+    "qwen36_python_environment_admission": ROOT
+    / "Plan/10_REGISTRIES/wave64_qwen36_controller_python_environment_admission.json",
+    "qwen36_python_environment_build_hold": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_QWEN36_CONTROLLER_ENVIRONMENT_BUILD_HOLD_20260722T231534Z/integration_acceptance.json",
     "model_install_admission_schema": ROOT
     / "Plan/08_SCHEMAS/runpod_autonomous_model_install_admission.schema.json",
     "qwen3_asr_install_admission": ROOT
@@ -420,6 +426,9 @@ def collect_errors() -> list[str]:
         qwen36_import_canary_receipt = load_json(PATHS["qwen36_import_canary_receipt"])
         qwen36_environment_reuse_decision_schema = load_json(PATHS["qwen36_environment_reuse_decision_schema"])
         qwen36_environment_reuse_decision = load_json(PATHS["qwen36_environment_reuse_decision"])
+        qwen36_python_environment_admission_schema = load_json(PATHS["qwen36_python_environment_admission_schema"])
+        qwen36_python_environment_admission = load_json(PATHS["qwen36_python_environment_admission"])
+        qwen36_python_environment_build_hold = load_json(PATHS["qwen36_python_environment_build_hold"])
         model_install_admission_schema = load_json(PATHS["model_install_admission_schema"])
         qwen3_asr_install_admission = load_json(PATHS["qwen3_asr_install_admission"])
         qwen3_asr_install_admission_evidence = load_json(PATHS["qwen3_asr_install_admission_evidence"])
@@ -594,6 +603,10 @@ def collect_errors() -> list[str]:
         errors.append("Qwen3.6 controller import canary schema identity mismatch")
     if qwen36_environment_reuse_decision_schema.get("$id") != "runpod_autonomous_qwen36_controller_environment_reuse_decision.schema.json":
         errors.append("Qwen3.6 controller environment reuse decision schema identity mismatch")
+    if qwen36_python_environment_admission_schema.get("$id") != "runpod_autonomous_qwen36_controller_python_environment_admission.schema.json":
+        errors.append("Qwen3.6 controller Python environment admission schema identity mismatch")
+    if qwen36_python_environment_build_hold.get("status") != "PREPARED_BUILD_HELD_STORAGE_QUOTA":
+        errors.append("Qwen3.6 controller environment build hold truth boundary mismatch")
     if role_package_inventory.get("scope") != "REPOSITORY_BACKED_STATIC_AND_SCOPED_RUNTIME_EVIDENCE":
         errors.append("role package inventory must bind static and scoped runtime evidence")
     inventory_runtime = role_package_inventory.get("runtime_policy", {})
@@ -1523,6 +1536,9 @@ def collect_errors() -> list[str]:
         )
         jsonschema.Draft202012Validator(qwen36_environment_reuse_decision_schema).validate(
             qwen36_environment_reuse_decision
+        )
+        jsonschema.Draft202012Validator(qwen36_python_environment_admission_schema).validate(
+            qwen36_python_environment_admission
         )
         jsonschema.Draft7Validator.check_schema(job_contract_schema)
         jsonschema.Draft7Validator.check_schema(phase_lease_schema)

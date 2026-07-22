@@ -123,6 +123,19 @@
               "evidence": {"type": "string", "minLength": 1}
             }
           },
+          "fresh_environment_build": {
+            "type": "object",
+            "additionalProperties": true,
+            "required": ["state", "admission", "admission_sha256", "evidence", "target_published", "rollback_verified"],
+            "properties": {
+              "state": {"type": "string", "minLength": 1},
+              "admission": {"type": "string", "minLength": 1},
+              "admission_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "evidence": {"type": "string", "minLength": 1},
+              "target_published": {"type": "boolean"},
+              "rollback_verified": {"type": "boolean"}
+            }
+          },
           "source_pin": {
             "type": "object",
             "additionalProperties": true,
