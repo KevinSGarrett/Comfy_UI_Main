@@ -1,0 +1,66 @@
+{
+  "schema_version": "wave64.aqa.latentsync_model_load_admission.v1",
+  "program_id": "W64-AQA",
+  "tracker_id": "TRK-W64-137",
+  "status": "LATENTSYNC_UNET_MODEL_LOAD_CANARY_ADMITTED_EXECUTION_PENDING",
+  "environment": {
+    "root": "/workspace/w64_aqa/environments/LatentSync-1.6/a229c3948406bc2cf6eaf4873e662e70c6a04746/fcda64087e19f7a23106b6b1d93bfc99ee7928a8c5516dd9815f4acbc04b599e",
+    "receipt_path": "/workspace/w64_aqa/control/receipts/latentsync-1.6-environment-fcda6408.json",
+    "receipt_sha256": "a13ba52cb63e871ada18550db06544fee51c58341d546edb276b3ecdf4c3f68e",
+    "import_receipt_path": "/workspace/w64_aqa/control/receipts/latentsync-1.6-import-canary-fcda6408.json",
+    "import_receipt_sha256": "a5b8f074a3ab8ed02c8e2d1c2eb84777fd97e46fa158c9728cabb537f0ffc8dd"
+  },
+  "code": {
+    "root": "/workspace/w64_aqa/code/LatentSync/a229c3948406bc2cf6eaf4873e662e70c6a04746",
+    "commit": "a229c3948406bc2cf6eaf4873e662e70c6a04746",
+    "tree": "51f62bc8aea02da92b1a349077cfb78d0456f742",
+    "unet_source_path": "latentsync/models/unet.py",
+    "unet_source_sha256": "9064845c34ebb9d4c854a56705b249130471822c101e84c0bf9df7ff2f604fe6",
+    "config_path": "configs/unet/stage2_512.yaml",
+    "config_sha256": "652bbf469d3baf68f1b364fd47409901cd8d1bf8bb7754133aa69a28132312e6"
+  },
+  "model": {
+    "root": "/workspace/w64_aqa/models/LatentSync-1.6/c42c7e6c8e9c213626389fa7d9a3c444b8536353",
+    "install_manifest_sha256": "e9606b2e06b7a3283d893d6f15a882a7e2c488dc9f339cd24707c018d9d3bbc7",
+    "revision": "c42c7e6c8e9c213626389fa7d9a3c444b8536353",
+    "checkpoint_path": "latentsync_unet.pt",
+    "checkpoint_sha256": "0a478e89eb660f82da4c35dbdde8a5adfb27f99d1b4e50edd03729e1e98316d3",
+    "checkpoint_bytes": 5072222488
+  },
+  "lease": {
+    "project": "comfyui_main",
+    "profile": "comfyui_model_qualification",
+    "mode": "exclusive",
+    "minimum_reserved_peak_gib": 12.0,
+    "required_free_vram_mib": 12288,
+    "minimum_host_available_bytes": 21474836480
+  },
+  "execution": {
+    "device": "cuda:0",
+    "dtype": "float16",
+    "isolated_child_process": true,
+    "timeout_seconds": 600,
+    "post_exit_wait_seconds": 2,
+    "cleanup_tolerance_mib": 1024,
+    "minimum_loaded_delta_mib": 1024,
+    "forward_inference": false,
+    "fixture_consumption": false,
+    "target_receipt": "/workspace/w64_aqa/control/receipts/latentsync-1.6-unet-model-load.json"
+  },
+  "authority": {
+    "lease_receipt_validation": true,
+    "model_config_read": true,
+    "checkpoint_weight_load": true,
+    "cuda_model_residency": true,
+    "parameter_inventory": true,
+    "process_exit_cleanup": true,
+    "forward_inference": false,
+    "fixture_read": false,
+    "identity_preservation": false,
+    "av_sync": false,
+    "quality_authority": false,
+    "role_activation": false,
+    "product_approval": false,
+    "promotion": false
+  }
+}
