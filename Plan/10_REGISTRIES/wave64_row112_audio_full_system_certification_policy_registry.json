@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "revision": "wave64_row112_audio_full_system_certification_policy_v0.1.0",
+  "required_dependency_range": {"first": 67, "last": 111, "count": 45},
+  "required_production_gates": [
+    "genuine_runtime", "rights", "provenance", "full_duration_review",
+    "av_sync", "global_qa", "multimodal_release", "replay_reconstruction"
+  ],
+  "minimum_genuine_video_count": 3,
+  "rules": {
+    "all_dependencies_must_have_one_unambiguous_current_delta": true,
+    "row_complete_boolean_required": true,
+    "pass_like_status_required": true,
+    "all_production_gates_must_be_independently_hash_bound": true,
+    "synthetic_or_fixture_evidence_forbidden": true,
+    "unique_genuine_video_hashes_required": true,
+    "single_gate_or_rollup_cannot_grant_certification": true,
+    "release_authority_is_codex_final_acceptance_only": true
+  }
+}

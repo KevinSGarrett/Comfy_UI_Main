@@ -453,6 +453,20 @@ Run the complete acceptance matrix over multiple genuine videos, event families,
 
 Acceptance: all prerequisite rows pass; exact production artifacts, full-duration listening records, visual/contact review, AV sync, provenance, rights, global QA, and multimodal certification are present. Otherwise the row remains blocked with exact failing dependencies.
 
+Implemented certification-matrix slice (2026-07-22): the fail-closed evaluator
+enumerates every dependency from Row067 through Row111 and requires exactly one
+unambiguous, hash-bound current delta per row. It independently binds genuine
+runtime, rights, provenance, full-duration review, AV sync, global QA,
+multimodal release, and replay reconstruction evidence across at least three
+unique genuine-video hashes. Synthetic fixtures exercise the mechanism but are
+structurally forbidden from granting certification authority.
+
+The live audit found 5 accepted, 36 held, 3 ambiguous, and 1 absent dependency
+records. Rows086-088 have competing current deltas and Row101 has no current
+delta. All eight genuine-production gates remain absent. Therefore Row112's
+certification matrix is implemented and tested, but Row112 acceptance, runtime
+completion, production authority, and product completion remain false.
+
 ## Dependency phases
 
 1. `control_and_inventory`: Rows067-070.

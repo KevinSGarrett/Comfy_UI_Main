@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/audio_full_system_certification_report.schema.json",
+  "title": "Wave64 Row112 Audio Full-System Certification Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "tracker_id", "item_id", "record_type",
+    "policy_revision", "is_synthetic", "dependency_admissions",
+    "production_gates", "genuine_video_sha256s", "decision", "report_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "tracker_id": {"const": "TRK-W64-112"},
+    "item_id": {"const": "ITEM-W64-112"},
+    "record_type": {"const": "audio_full_system_certification_report"},
+    "policy_revision": {"type": "string", "minLength": 1},
+    "is_synthetic": {"type": "boolean"},
+    "dependency_admissions": {"type": "array", "minItems": 45, "maxItems": 45, "items": {"$ref": "#/$defs/dependency"}},
+    "production_gates": {
+      "type": "object", "additionalProperties": false,
+      "required": ["genuine_runtime", "rights", "provenance", "full_duration_review", "av_sync", "global_qa", "multimodal_release", "replay_reconstruction"],
+      "properties": {
+        "genuine_runtime": {"$ref": "#/$defs/gate"}, "rights": {"$ref": "#/$defs/gate"},
+        "provenance": {"$ref": "#/$defs/gate"}, "full_duration_review": {"$ref": "#/$defs/gate"},
+        "av_sync": {"$ref": "#/$defs/gate"}, "global_qa": {"$ref": "#/$defs/gate"},
+        "multimodal_release": {"$ref": "#/$defs/gate"}, "replay_reconstruction": {"$ref": "#/$defs/gate"}
+      }
+    },
+    "genuine_video_sha256s": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/sha256"}},
+    "decision": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "certification_authority", "row112_acceptance", "product_completion", "blocker_codes"],
+      "properties": {
+        "status": {"enum": ["pass", "blocked", "failed"]},
+        "certification_authority": {"type": "boolean"},
+        "row112_acceptance": {"enum": ["fixture_only", "held", "accepted"]},
+        "product_completion": {"type": "boolean"},
+        "blocker_codes": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}
+      }
+    },
+    "report_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "dependency": {
+      "type": "object", "additionalProperties": false,
+      "required": ["tracker_id", "disposition", "candidate_paths", "evidence_sha256", "row_complete", "status", "accepted"],
+      "properties": {
+        "tracker_id": {"type": "string", "pattern": "^TRK-W64-(0(6[7-9]|[7-9][0-9])|1(0[0-9]|1[01]))$"},
+        "disposition": {"enum": ["accepted", "held", "absent", "ambiguous", "invalid"]},
+        "candidate_paths": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "evidence_sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+        "row_complete": {"type": "boolean"}, "status": {"type": "string"}, "accepted": {"type": "boolean"}
+      }
+    },
+    "gate": {
+      "type": "object", "additionalProperties": false,
+      "required": ["evidence_path", "evidence_sha256", "artifact_sha256", "accepted", "is_synthetic"],
+      "properties": {
+        "evidence_path": {"type": ["string", "null"]},
+        "evidence_sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+        "artifact_sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+        "accepted": {"type": "boolean"}, "is_synthetic": {"type": "boolean"}
+      }
+    }
+  }
+}

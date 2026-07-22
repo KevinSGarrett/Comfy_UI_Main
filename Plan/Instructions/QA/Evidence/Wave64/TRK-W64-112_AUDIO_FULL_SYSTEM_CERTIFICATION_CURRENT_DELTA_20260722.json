@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0.0",
+  "evidence_id": "TRK-W64-112_AUDIO_FULL_SYSTEM_CERTIFICATION_CURRENT_DELTA_20260722",
+  "created_at": "2026-07-22T16:30:00Z",
+  "source_commit": "572913e1",
+  "tracker_id": "TRK-W64-112",
+  "item_id": "ITEM-W64-112",
+  "status": "HOLD_DEPENDENCIES_AND_GENUINE_PRODUCTION_AUTHORITY_ABSENT_WITH_FAIL_CLOSED_CERTIFICATION_MATRIX_PRESENT",
+  "row_complete": false,
+  "implementation_completion_claimed": true,
+  "runtime_completion_claimed": false,
+  "qa_decision": "hold_with_strict_dependency_and_genuine_production_certification_matrix",
+  "dependency_audit": {
+    "required_count": 45,
+    "accepted": 5,
+    "held": 36,
+    "ambiguous": 3,
+    "absent": 1,
+    "ambiguous_tracker_ids": ["TRK-W64-086", "TRK-W64-087", "TRK-W64-088"],
+    "absent_tracker_ids": ["TRK-W64-101"]
+  },
+  "certification_contract": {
+    "required_gates": [
+      "genuine_runtime",
+      "rights",
+      "provenance",
+      "full_duration_review",
+      "av_sync",
+      "global_qa",
+      "multimodal_release",
+      "replay_reconstruction"
+    ],
+    "minimum_unique_genuine_videos": 3,
+    "all_gates_independently_hash_bound": true,
+    "synthetic_certification_forbidden": true,
+    "rollup_substitution_forbidden": true
+  },
+  "validation": {
+    "targeted_tests": {"result": "PASS", "passed": 20, "failed": 0},
+    "ruff_check": "PASS",
+    "live_certification_authority": false
+  },
+  "artifacts": [
+    {"path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_audio_full_system_certification.py", "sha256": "a895e40d05f124059bcc44cbcb81ffc8a3d110bc5c8ddb3e40519f58d61b1be5"},
+    {"path": "Plan/08_SCHEMAS/audio_full_system_certification_report.schema.json", "sha256": "b3e384c442dedfe6e00ff4c5141cd4ab5b4e00b4e931bd60c09a548df4acd711"},
+    {"path": "Plan/10_REGISTRIES/wave64_row112_audio_full_system_certification_policy_registry.json", "sha256": "03be8ccf7747caf9e91b132066805724f7fd824c01d20153deb5e131ab014f1a"},
+    {"path": "Plan/Instructions/QA/Scripts/test_row112_audio_full_system_certification.py", "sha256": "e94a4c590bb77baa737875175f056614afb34367d9785959086f14f1954247ca"},
+    {"path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-112_audio_full_system_certification.json", "sha256": "8d36708a066777a60d3062366a7b4a19f5dc38b040d2dea5adff7bec0f637772"}
+  ],
+  "hold_boundary": {
+    "blocker_codes": [
+      "ROW112_ALL_DEPENDENCIES_NOT_ACCEPTED",
+      "GENUINE_PRODUCTION_CERTIFICATION_PACKET_ABSENT"
+    ],
+    "runtime_or_service_mutated": false,
+    "production_authority": false,
+    "product_completion": false,
+    "next_action": "Implement the absent Row101 video-conditioned Foley contract while preserving Row086-088 ambiguity as an explicit reconciliation hold."
+  }
+}

@@ -186,3 +186,18 @@ Train, calibration, and final test partitions remain separate. Generated outputs
 ## Completion rule
 
 Rows067-112 remain planned or blocked until their exact implementation, tests, runtime evidence, and QA pass. Row112 cannot pass while any prerequisite row is incomplete or while required playback/production authority is absent.
+
+## Row112 certification-matrix gate
+
+Row112 must inspect all 45 dependency rows, Rows067-111, from exactly one
+unambiguous current delta per tracker. A dependency is accepted only when
+`row_complete` is the boolean `true`, its status is pass-like, and its evidence
+hash matches the inspected file. Missing, invalid, held, or competing current
+deltas are exact blockers.
+
+Certification additionally requires independently hash-bound evidence and
+artifact hashes for genuine runtime, rights, provenance, full-duration review,
+AV sync, global QA, multimodal release, and replay reconstruction. These gates
+must cover at least three unique genuine-video hashes. A rollup record cannot
+substitute for an individual gate, and any synthetic dependency, gate, or video
+fixture is calibration-only and cannot grant production authority.
