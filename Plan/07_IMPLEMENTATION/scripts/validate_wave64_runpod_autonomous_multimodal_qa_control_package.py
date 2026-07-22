@@ -79,6 +79,8 @@ PATHS = {
     / "Plan/10_REGISTRIES/wave64_runpod_autonomous_campaign_policy.json",
     "campaign_role_registry": ROOT
     / "Plan/10_REGISTRIES/wave64_runpod_autonomous_campaign_role_registry.json",
+    "campaign_deterministic_role_reconciliation": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_CAMPAIGN_DETERMINISTIC_ROLE_RECONCILIATION_20260722T234000Z/integration_acceptance.json",
     "campaign_multimodal_qa_registry": ROOT
     / "Plan/10_REGISTRIES/wave64_runpod_autonomous_campaign_multimodal_qa_registry.json",
     "campaign_cpu_shadow_acceptance": ROOT
@@ -415,6 +417,10 @@ def collect_errors() -> list[str]:
             PATHS["strict_model_admission_hold_evidence"]
         )
         registry = load_json(PATHS["registry"])
+        campaign_role_registry = load_json(PATHS["campaign_role_registry"])
+        campaign_deterministic_role_reconciliation = load_json(
+            PATHS["campaign_deterministic_role_reconciliation"]
+        )
         role_package_inventory = load_json(PATHS["role_package_inventory"])
         role_package_inventory_schema = load_json(PATHS["role_package_inventory_schema"])
         role_package_identity_evidence = load_json(PATHS["role_package_identity_evidence"])
@@ -607,6 +613,40 @@ def collect_errors() -> list[str]:
         errors.append("Qwen3.6 controller Python environment admission schema identity mismatch")
     if qwen36_python_environment_build_hold.get("status") != "PREPARED_BUILD_HELD_STORAGE_QUOTA":
         errors.append("Qwen3.6 controller environment build hold truth boundary mismatch")
+    campaign_roles = {
+        role.get("role_id"): role for role in campaign_role_registry.get("roles", [])
+    }
+    deterministic_role = campaign_roles.get("W64-AQA-ROLE-DETERMINISTIC", {})
+    deterministic_certificate_path = ROOT / deterministic_role.get("certificate_path", "")
+    deterministic_acceptance_path = ROOT / deterministic_role.get("acceptance_path", "")
+    if (
+        campaign_role_registry.get("executor_status") != "BLOCKED_UNQUALIFIED"
+        or deterministic_role.get("qualification_state") != "QUALIFIED"
+        or deterministic_role.get("qualification_scope")
+        != "DECLARED_LOCAL_DETERMINISTIC_SCOPE_ONLY"
+        or deterministic_role.get("semantic_or_promotion_authority") is not False
+    ):
+        errors.append("campaign deterministic role scope or executor hold mismatch")
+    if (
+        not deterministic_certificate_path.is_file()
+        or hashlib.sha256(deterministic_certificate_path.read_bytes()).hexdigest()
+        != deterministic_role.get("certificate_sha256")
+        or not deterministic_acceptance_path.is_file()
+        or hashlib.sha256(deterministic_acceptance_path.read_bytes()).hexdigest()
+        != deterministic_role.get("acceptance_sha256")
+    ):
+        errors.append("campaign deterministic role evidence hash binding mismatch")
+    reconciliation_effect = campaign_deterministic_role_reconciliation.get(
+        "campaign_effect", {}
+    )
+    if (
+        campaign_deterministic_role_reconciliation.get("disposition")
+        != "ACCEPTED_EXISTING_CERTIFICATE_FOR_EXACT_DECLARED_LOCAL_SCOPE"
+        or reconciliation_effect.get("executor_operational") is not False
+        or reconciliation_effect.get("other_roles_remain_unqualified") is not True
+        or reconciliation_effect.get("multimodal_campaign_admitted") is not False
+    ):
+        errors.append("campaign deterministic role reconciliation authority mismatch")
     if role_package_inventory.get("scope") != "REPOSITORY_BACKED_STATIC_AND_SCOPED_RUNTIME_EVIDENCE":
         errors.append("role package inventory must bind static and scoped runtime evidence")
     inventory_runtime = role_package_inventory.get("runtime_policy", {})

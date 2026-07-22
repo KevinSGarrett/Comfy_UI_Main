@@ -1656,6 +1656,8 @@ runtime, quality, activation, or promotion authority is granted.
 
 ## RunPod autonomous campaign execution and evidence compaction (W64-AQA-019)
 
+The campaign registry accepts the already-issued deterministic-role certificate `81329165...` only for its exact declared local CPU measurement and refusal scope. Its certificate, report, execution bundle, and prior Codex acceptance are hash-bound in the reconciliation receipt. This does not qualify the evidence compiler or any controller, implementer, reviewer, juror, arbiter, audio-semantic, workflow, repair, generation, visual, or promotion role. The executor therefore remains `BLOCKED_UNQUALIFIED`, and a contract requiring an unavailable role must terminalize as blocked or abstained.
+
 The campaign executor replaces per-child micro-handoffs with one immutable admission contract, internal atomic checkpoints, and one sealed Codex acceptance packet. It has two profiles under identical journal, CAS/Merkle, replay, lease, and authority rules:
 
 - `DEVELOPMENT_CAMPAIGN` implements or repairs code and workflows, runs tests and review, and emits candidate-only diffs.
