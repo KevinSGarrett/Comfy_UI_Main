@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "runpod_autonomous_latentsync_source_wheel_build_receipt.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "program_id", "package_id", "status", "admission_sha256", "builder_lock_sha256", "source_dependency_lock_sha256", "wheelhouse_root", "free_bytes_before", "prior_attempts", "builder", "sources", "static_audits", "wheels", "wheelhouse_tree", "active_environment", "runtime_claims"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.latentsync_source_wheel_build_receipt.v1"},
+    "program_id": {"const": "W64-AQA"},
+    "package_id": {"const": "W64-AQA-PKG-LATENTSYNC-1.6"},
+    "status": {"const": "SOURCE_WHEELS_BUILT_HASHED_METADATA_VERIFIED_RUNTIME_INSTALL_PENDING"},
+    "admission_sha256": {"const": "cbfdab14ce7ab4f703c6f175bc5e1c52f544aac692d8c4315afd86af5fd20871"},
+    "builder_lock_sha256": {"const": "06610318056d7345485f7623316882c20fbd07913aa05f28aa6ef79458db16a7"},
+    "source_dependency_lock_sha256": {"const": "ac29c11ced5d4be9b22ff4c0fcec9a9d48361d9dfcb1996bf2fdd2a8526b9605"},
+    "wheelhouse_root": {"const": "/workspace/w64_aqa/wheelhouse/LatentSync-1.6/a229c3948406bc2cf6eaf4873e662e70c6a04746/06610318056d7345485f7623316882c20fbd07913aa05f28aa6ef79458db16a7"},
+    "free_bytes_before": {"type": "integer", "minimum": 10737418240},
+    "prior_attempts": {"type": "array", "minItems": 2, "maxItems": 2},
+    "builder": {"type": "object"},
+    "sources": {"type": "array", "minItems": 3, "maxItems": 3},
+    "static_audits": {"type": "array", "minItems": 3, "maxItems": 3},
+    "wheels": {"type": "array", "minItems": 3, "maxItems": 3},
+    "wheelhouse_tree": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["file_count", "sha256", "total_bytes"],
+      "properties": {
+        "file_count": {"const": 3},
+        "sha256": {"const": "139140835f9e003c87187ee9d1f81edd458474ffb00c128fb3d844b505680ff6"},
+        "total_bytes": {"const": 1215560}
+      }
+    },
+    "active_environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["python", "metadata_signature_before", "metadata_signature_after", "unchanged"],
+      "properties": {
+        "python": {"const": "python3"},
+        "metadata_signature_before": {"const": "713621c08135b7c00b6837d3fbe14ee3fa2f339e7ecd36c30f3beb7e48f4110d"},
+        "metadata_signature_after": {"const": "713621c08135b7c00b6837d3fbe14ee3fa2f339e7ecd36c30f3beb7e48f4110d"},
+        "unchanged": {"const": true}
+      }
+    },
+    "runtime_claims": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["package_imported", "project_code_imported", "runtime_environment_installed", "model_loaded", "tensor_allocated", "gpu_or_lease_polled", "inference_performed", "service_changed", "role_activated", "product_authority"],
+      "properties": {
+        "package_imported": {"const": false},
+        "project_code_imported": {"const": false},
+        "runtime_environment_installed": {"const": false},
+        "model_loaded": {"const": false},
+        "tensor_allocated": {"const": false},
+        "gpu_or_lease_polled": {"const": false},
+        "inference_performed": {"const": false},
+        "service_changed": {"const": false},
+        "role_activated": {"const": false},
+        "product_authority": {"const": false}
+      }
+    }
+  }
+}

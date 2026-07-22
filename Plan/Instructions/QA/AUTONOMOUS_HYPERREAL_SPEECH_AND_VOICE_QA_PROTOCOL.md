@@ -72,6 +72,8 @@ The detached checkout now passes exact HEAD/tree identity, a clean 124-file inve
 
 The Python 3.11/cu121 dependency graph now has an accepted 149-package `uv` pylock (`ac29c11...b9605`) whose 281 wheel/source artifact entries all carry SHA-256 values and use only `files.pythonhosted.org` or `download-r2.pytorch.org`. A prior resolver output (`c237e2bb...5a59a`) is rejected because its selected Jinja2 and MarkupSafe wheels carried no SHA-256 values. The accepted lock still grants no install authority: `antlr4-python3-runtime==4.9.3`, `insightface==0.7.3`, and `python-speech-features==0.6` are source-only and require a separately hash-bound build environment and retained wheel receipts before runtime-environment admission.
 
+Those three source-only packages now have accepted local wheels built by the six-package hash-locked Python 3.11 builder. All three source archives passed hash, traversal, link, and setup-script process/network scans; the resulting three wheels pass metadata, RECORD, path, symlink, ZIP-integrity, hash, tree, and replay verification. Two pre-build failures are retained as evidence and published no wheelhouse. This grants exact source-wheel identity only; isolated runtime installation, imports, model load, inference, visual/temporal review, activation, and product authority remain pending.
+
 ## Multi-engine comparison
 
 Hard-gate survivors are ranked by a versioned scorecard. The record must expose raw metrics, normalized metrics, weights, missing-metric handling, and final explanation. A missing mandatory metric blocks; it is never assigned a neutral score.

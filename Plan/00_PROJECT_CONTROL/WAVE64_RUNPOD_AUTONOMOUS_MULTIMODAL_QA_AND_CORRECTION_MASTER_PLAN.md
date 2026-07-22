@@ -845,3 +845,15 @@ packages are built into retained, hash-bound wheels in a separately controlled
 builder and the resulting isolated environment is admitted. In parallel, the
 immutable rights-qualified face-video identity fixture remains required before
 any model-load lease or inference.
+
+The three source-only LatentSync dependencies now pass a separately admitted,
+hash-locked wheel build. The retained wheelhouse contains exactly three files,
+1,215,560 bytes, tree SHA-256
+`139140835f9e003c87187ee9d1f81edd458474ffb00c128fb3d844b505680ff6`;
+all archives pass metadata, RECORD, path, symlink, ZIP-integrity, and controller
+replay checks. The global Python distribution signature stayed unchanged. This
+does not use the receipt's logical filesystem free-byte value as billing or
+volume-quota authority, and it does not grant runtime install, import, model,
+inference, activation, quality, or product authority. The next gate is the
+isolated cu121 runtime environment plus the immutable rights-qualified video
+fixture.
