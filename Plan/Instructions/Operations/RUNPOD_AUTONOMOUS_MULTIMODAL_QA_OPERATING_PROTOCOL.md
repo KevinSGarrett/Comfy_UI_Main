@@ -455,7 +455,11 @@ For the independent juror, use only the official native Transformers repository
 custom-code repository or `trust_remote_code`; the native route exposes no
 Python files or `auto_map`. Its 136-file source manifest and all 97 weight-shard
 SHA-256 values are pinned. The unquantized source is 481,433,908,402 bytes and
-does not fit the current remaining workspace, so installation requires a
-separately admitted reproducible quantized/offloaded artifact and durable
-storage budget. This storage constraint cannot block other current-pod lanes or
-the 2x A40 availability watcher.
+fits the latest filesystem-reported 144,954,176,372,736 free bytes. Treat that
+filesystem value only as a capacity observation until durable-storage quota and
+billing are independently verified. The unquantized package does not fit the
+preferred 2x A40 profile's nominal 96 GB VRAM plus 100 GB host RAM, so runtime
+installation still requires a separately admitted reproducible
+quantized/offloaded artifact. Neither this runtime constraint nor storage
+verification may block other current-pod lanes or the 2x A40 availability
+watcher.

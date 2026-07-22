@@ -660,7 +660,11 @@ InternVL3.5-241B-A28B-HF repository. Revision `b941ed62...` has no custom
 Python files or `auto_map`, so `trust_remote_code` is now forbidden. Its
 136-file manifest, all 97 weight-shard hashes, Apache-2.0 weight metadata, and
 the official project's MIT code license are pinned and accepted for project
-use. The raw source is 481,433,908,402 bytes, exceeding current free workspace;
-no download or runtime claim is made. A reproducibly hash-locked
-quantized/offloaded artifact and storage budget are the next juror gates while
-all other current-pod lanes and the 2x A40 watcher remain nonblocking.
+use. The raw source is 481,433,908,402 bytes and fits the latest
+filesystem-reported 144,954,176,372,736 free bytes, although durable-storage
+quota and billing have not yet been independently verified. It cannot fit the
+preferred 2x A40 profile's nominal 96 GB VRAM plus 100 GB host RAM as an
+unquantized runtime. No download or runtime claim is made. A reproducibly
+hash-locked quantized/offloaded artifact, runtime-capacity proof, and durable
+storage verification are the next juror gates while all other current-pod lanes
+and the 2x A40 watcher remain nonblocking.
