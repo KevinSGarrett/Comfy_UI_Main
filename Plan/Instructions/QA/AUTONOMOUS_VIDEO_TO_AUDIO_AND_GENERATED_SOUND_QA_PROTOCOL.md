@@ -223,6 +223,15 @@ onset error no greater than 50 ms, and coverage of at least 0.8 for every
 anchor. Historical or synthetic execution may establish candidate evidence but
 cannot establish current production authority.
 
+## Row098 deterministic-variation gate
+
+Every variation must bind an immutable source hash and bounded transform recipe,
+retain event identity and anchors, remain inside semantic similarity limits,
+avoid canonical-PCM duplicates, and preserve rights provenance. Synthetic
+fixtures validate the compiler only. Production acceptance additionally
+requires accepted Rows068, 071, 072, 073, 079, and 093, the bounded transform
+runtime and dedup index, genuine semantic proof, and independent audio review.
+
 ## Row102 generated-candidate staging gate
 
 Every generated candidate must immutably bind input, prompt/event, engine,

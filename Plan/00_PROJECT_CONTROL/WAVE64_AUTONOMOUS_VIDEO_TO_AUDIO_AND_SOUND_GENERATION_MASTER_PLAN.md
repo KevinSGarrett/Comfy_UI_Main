@@ -294,6 +294,14 @@ Generate reusable variations through bounded pitch, duration, envelope, EQ, tran
 
 Acceptance: variants retain event identity, pass semantic similarity bounds, avoid canonical-PCM duplicates, preserve license provenance, and never modify originals.
 
+Implemented contract slice (reconciled 2026-07-22): the deterministic compiler,
+schema, registry, and eight synthetic fixtures enforce bounded transforms,
+semantic and anchor preservation, canonical-PCM deduplication, rights lineage,
+and original immutability. Ten focused tests and Ruff pass. Rows068 and 071 are
+accepted; Rows072, 073, 079, and 093 plus the transform runtime, dedup index,
+semantic runtime proof, and independent audio review remain held. No source PCM
+or runtime was mutated, so Row098 acceptance and product completion are false.
+
 ### Row099 Neural text-to-audio generation router
 
 Route structured event descriptions to registered text-to-audio engines when library retrieval is insufficient, generating multiple seeded candidates with exact engine/model/config provenance.
