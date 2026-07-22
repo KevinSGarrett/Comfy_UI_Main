@@ -73,6 +73,29 @@ def test_independent_juror_uses_pinned_native_hf_without_remote_code() -> None:
     assert any("native HF source pin mismatch" in error for error in MODULE.validate(data))
 
 
+def test_provisional_internvl_storage_is_exact_but_cannot_replace_juror() -> None:
+    data = copy.deepcopy(load_inventory())
+    package = next(item for item in data["packages"] if item["identity"]["repository_id"] == "OpenGVLab/InternVL3_5-8B")
+    assert package["source_pin"]["revision"] == "9bb6a56ad9cc69db95e2d4eeb15a52bbcac4ef79"
+    assert package["source_pin"]["source_file_count"] == 24
+    assert package["source_pin"]["source_total_bytes"] == 17072800269
+    assert package["installation"]["artifact_digest"] == "410f3673d769f25c3a69676676863cabceb550e340bc384855bed2c429dcce31"
+    assert package["static_code_review"]["reviewer_script_sha256"] == "2b4fa339162decd1a88ff5b47d7819dfe685410e60144c655666ad128e19c3da"
+    assert package["static_code_review"]["remote_receipt_sha256"] == "fef7ea03da4388acfb38b5d999d03396b0b53c9635978a669e05af92b462bd83"
+    assert package["static_code_review"]["quality_findings"] == [
+        "FLASH_ATTN_IMPORT_CATCHES_BROAD_EXCEPTION",
+        "TOKEN_COUNT_MISMATCH_FALLBACK_USES_CHAINED_ADVANCED_INDEX_ASSIGNMENT",
+    ]
+    assert package["dependency_preflight"]["reuse_candidate"]["missing_required_addons"] == ["timm", "einops"]
+    assert "full_remote_code_review" not in package["qualification"]["required_gates"]
+    assert "dependency_environment" in package["qualification"]["required_gates"]
+    assert "import_canary" in package["qualification"]["required_gates"]
+    assert "independent_juror_substitution" in package["authority"]["forbidden"]
+    assert package["authority"]["operational"] is False
+    package["source_pin"]["source_total_bytes"] += 1
+    assert any("provisional InternVL source pin mismatch" in error for error in MODULE.validate(data))
+
+
 def test_asr_source_revision_and_storage_install_are_exact_but_not_operational() -> None:
     data = copy.deepcopy(load_inventory())
     package = next(item for item in data["packages"] if item["identity"]["repository_id"] == "Qwen/Qwen3-ASR-1.7B")

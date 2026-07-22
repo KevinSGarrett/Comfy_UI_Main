@@ -1,7 +1,7 @@
 {
   "schema_version": "wave64.aqa.role_package_inventory.v1",
   "program_id": "W64-AQA",
-  "observed_at_utc": "2026-07-22T05:58:00Z",
+  "observed_at_utc": "2026-07-22T12:18:07Z",
   "scope": "REPOSITORY_BACKED_STATIC_AND_SCOPED_RUNTIME_EVIDENCE",
   "runtime_policy": {
     "current_pod_remains_authoritative": true,
@@ -91,6 +91,17 @@
       "installation": {"state": "UPSTREAM_IDENTITY_VERIFIED_NOT_INSTALLED", "artifact_digest": null, "durable_root": null, "evidence": "Plan/Tracker/Evidence/W64_AQA_ROLE_PACKAGE_IDENTITY_QUALIFICATION_20260722T001002Z.json"},
       "qualification": {"state": "PENDING_ALL_RUNTIME_GATES", "required_gates": ["pinned_revision", "license_acceptance", "artifact_hash", "quantization", "capacity", "calibration", "runtime", "latency", "quality", "cost", "failure_injection"]},
       "authority": {"operational": false, "allowed_scope": "none until certificate", "forbidden": ["download_without_receipt", "load", "inference", "product_approval", "promotion"]}
+    },
+    {
+      "package_id": "W64-AQA-PKG-INTERNVL35-8B-BF16-PROVISIONAL",
+      "roles": ["provisional_visual_juror_canary"],
+      "identity": {"display_name": "InternVL3.5-8B BF16", "publisher": "OpenGVLab", "repository_id": "OpenGVLab/InternVL3_5-8B", "source_url": "https://huggingface.co/OpenGVLab/InternVL3_5-8B", "identity_state": "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_PINNED", "license_state": "APACHE-2.0_METADATA_RECORDED_ACCEPTANCE_PENDING"},
+      "source_pin": {"revision": "9bb6a56ad9cc69db95e2d4eeb15a52bbcac4ef79", "verified_at_utc": "2026-07-22T12:10:57Z", "custom_code_required": true, "source_file_count": 24, "source_total_bytes": 17072800269, "weight_shard_count": 4, "weight_bytes": 17056729432, "storage_audit_sha256": "410f3673d769f25c3a69676676863cabceb550e340bc384855bed2c429dcce31"},
+      "installation": {"state": "INSTALLED_FILE_SET_VERIFIED_ACTIVATION_PENDING", "artifact_digest": "410f3673d769f25c3a69676676863cabceb550e340bc384855bed2c429dcce31", "durable_root": "/workspace/models/visual_critics/internvl3_5_8b_bf16", "evidence": "Plan/Tracker/Evidence/W64_AQA_INTERNVL35_8B_STORAGE_RECONCILIATION_20260722T121057Z/integration_acceptance.json"},
+      "static_code_review": {"state": "AST_AND_MANUAL_SEMANTIC_REVIEW_PASS_WITH_FAIL_CLOSED_QUALITY_GATES", "custom_code_files": ["configuration_intern_vit.py", "configuration_internvl_chat.py", "conversation.py", "modeling_intern_vit.py", "modeling_internvl_chat.py"], "reviewer_script_sha256": "2b4fa339162decd1a88ff5b47d7819dfe685410e60144c655666ad128e19c3da", "remote_receipt": "/workspace/wave64_evidence/internvl35_8b_custom_code_ast_review_20260722T122600Z.json", "remote_receipt_sha256": "fef7ea03da4388acfb38b5d999d03396b0b53c9635978a669e05af92b462bd83", "risk_findings": [], "top_level_effects": ["four local conversation-template registrations", "four Transformers logger initializations", "optional flash_attn import try block", "optional apex import try block"], "quality_findings": ["FLASH_ATTN_IMPORT_CATCHES_BROAD_EXCEPTION", "TOKEN_COUNT_MISMATCH_FALLBACK_USES_CHAINED_ADVANCED_INDEX_ASSIGNMENT"], "evidence": "Plan/Tracker/Evidence/W64_AQA_INTERNVL35_8B_CODE_DEPENDENCY_PREFLIGHT_20260722T121807Z/integration_acceptance.json"},
+      "dependency_preflight": {"state": "BASE_ENVIRONMENT_INCOMPATIBLE_VERIFIED_OMNI_ENVIRONMENT_REUSE_CANDIDATE_NEEDS_TWO_ADDONS", "base_environment": {"python": "3.11", "torch": "2.4.1+cu124", "transformers": "4.46.3", "timm": "1.0.28", "einops": "0.8.2", "accelerate": null, "flash_attn": null, "apex": null, "gaps": ["TRANSFORMERS_4_46_3_LACKS_QWEN3", "ACCELERATE_MISSING"]}, "reuse_candidate": {"root": "/workspace/w64_aqa/environments/Qwen3-Omni-30B-A3B-Thinking/transformers-5.2.0-qwen-omni-utils-0.0.9-py3.12.13-cu124/a19d160721dfb74cf89bc70eebec10f45b2e6f58b7a109726d658db7d361277c", "lock_sha256": "a19d160721dfb74cf89bc70eebec10f45b2e6f58b7a109726d658db7d361277c", "tree_sha256": "2ae7708993cab848861688ae1b89a2233d61fa02b49e1c14bf51b188a2dd59c5", "python": "3.12.13", "torch": "2.4.1+cu124", "transformers": "5.2.0", "accelerate": "1.14.0", "qwen3_modeling_file_present": true, "system_site_packages": false, "missing_required_addons": ["timm", "einops"]}, "optional_accelerators_absent": ["flash_attn", "apex"], "import_attempted": false, "model_load_attempted": false, "evidence": "Plan/Tracker/Evidence/W64_AQA_INTERNVL35_8B_CODE_DEPENDENCY_PREFLIGHT_20260722T121807Z/integration_acceptance.json"},
+      "qualification": {"state": "EXACT_STORAGE_AND_STATIC_CODE_REVIEW_PASS_ENVIRONMENT_ACTION_AND_RUNTIME_GATES_PENDING", "required_gates": ["license_acceptance", "dependency_environment", "import_canary", "capacity", "calibration", "runtime", "latency", "quality", "repeatability", "refusal", "cleanup", "failure_injection"]},
+      "authority": {"operational": false, "allowed_scope": "none until exact provisional certificate", "forbidden": ["unreviewed_trust_remote_code", "unleased_load", "inference", "independent_juror_substitution", "product_approval", "promotion"]}
     },
     {
       "package_id": "W64-AQA-PKG-INTERNVL35-241B-A28B",

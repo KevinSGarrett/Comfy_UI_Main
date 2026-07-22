@@ -1215,3 +1215,30 @@ unless the imported ONNX Runtime module originates inside that overlay. The
 offline install did not import the node or ONNX Runtime, create a model session,
 use the GPU, or touch the coordinator. Import and `object_info` remain the first
 lease-gated canaries, followed separately by frozen geometry equivalence.
+
+W64-AQA-009 now also records the existing current-pod InternVL3.5-8B BF16
+package as a provisional visual-juror canary. An independent provider replay
+matched all 24 primary files and 17,072,800,269 bytes to official revision
+`9bb6a56ad9cc69db95e2d4eeb15a52bbcac4ef79`; all four safetensor shards match
+their published SHA-256 values, with zero missing, extra, or mismatched primary
+files. A high-risk-pattern scan of the five custom-code files found no network,
+shell, pickle, dynamic-execution, raw checkpoint-load, or arbitrary file-open
+calls, but full semantic review and an immutable dependency environment remain
+required before import. This 8B package cannot substitute for the pinned
+241B-A28B independent juror and grants no load, inference, quality, juror,
+activation, or promotion authority.
+
+The five pinned custom-code files now have both an AST receipt and a manual
+semantic review. They contain no network, shell, pickle, dynamic execution,
+raw checkpoint load, or arbitrary file-open path. Top-level effects are limited
+to four local conversation-template registrations and optional FlashAttention
+and Apex import attempts. Two code-quality findings remain explicit gates: the
+FlashAttention import catches a broad exception, and the token-count mismatch
+fallback uses chained advanced-index assignment that may not update the source
+embedding tensor. The pod base stack cannot resolve `Qwen3ForCausalLM` because
+it has Transformers 4.46.3 and no Accelerate. The immutable, already verified
+Qwen3-Omni environment has Transformers 5.2.0, Accelerate 1.14.0, the Qwen3
+modeling file, and no system-site-package inheritance; it is only a reuse
+candidate because `timm` and `einops` are absent. A new immutable overlay must
+add pinned copies of those two dependencies. No import, load, GPU use, or
+runtime authority was claimed by this static preflight.

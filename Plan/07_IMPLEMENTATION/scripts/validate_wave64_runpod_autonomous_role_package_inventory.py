@@ -23,6 +23,7 @@ EXPECTED_PLANNED = {
     "Qwen/Qwen3.6-35B-A3B",
     "Qwen/Qwen3.5-122B-A10B",
     "OpenGVLab/InternVL3_5-241B-A28B-HF",
+    "OpenGVLab/InternVL3_5-8B",
     "Qwen/Qwen3-Omni-30B-A3B-Thinking",
     "Qwen/Qwen3-ASR-1.7B",
     "Qwen/Qwen3-Coder-Next",
@@ -37,6 +38,7 @@ PINNED_PLANNED = {
     "Qwen/Qwen3-ASR-1.7B": "7278e1e70fe206f11671096ffdd38061171dd6e5",
     "Qwen/Qwen3-Omni-30B-A3B-Thinking": "2f443cfc4c54b14a815c0e2bb9a9d6cbcd9a748b",
     "OpenGVLab/InternVL3_5-241B-A28B-HF": "b941ed62ed4e2b711be4271b55034c2c97c57f33",
+    "OpenGVLab/InternVL3_5-8B": "9bb6a56ad9cc69db95e2d4eeb15a52bbcac4ef79",
 }
 
 
@@ -339,6 +341,52 @@ def validate(data: dict) -> list[str]:
                             errors.append(f"{item.get('package_id')}: completed or avoided {completed_gate} gate remains open")
                     if "trust_remote_code" not in authority.get("forbidden", []):
                         errors.append(f"{item.get('package_id')}: native HF route must forbid remote code")
+                elif repository_id == "OpenGVLab/InternVL3_5-8B":
+                    expected_source_pin = {
+                        "revision": "9bb6a56ad9cc69db95e2d4eeb15a52bbcac4ef79",
+                        "verified_at_utc": "2026-07-22T12:10:57Z",
+                        "custom_code_required": True,
+                        "source_file_count": 24,
+                        "source_total_bytes": 17072800269,
+                        "weight_shard_count": 4,
+                        "weight_bytes": 17056729432,
+                        "storage_audit_sha256": "410f3673d769f25c3a69676676863cabceb550e340bc384855bed2c429dcce31",
+                    }
+                    if state != "INSTALLED_FILE_SET_VERIFIED_ACTIVATION_PENDING":
+                        errors.append(f"{item.get('package_id')}: provisional InternVL install state mismatch")
+                    if source_pin != expected_source_pin:
+                        errors.append(f"{item.get('package_id')}: provisional InternVL source pin mismatch")
+                    if install.get("artifact_digest") != expected_source_pin["storage_audit_sha256"]:
+                        errors.append(f"{item.get('package_id')}: provisional InternVL audit digest mismatch")
+                    if install.get("durable_root") != "/workspace/models/visual_critics/internvl3_5_8b_bf16":
+                        errors.append(f"{item.get('package_id')}: provisional InternVL root mismatch")
+                    if qualification.get("state") != "EXACT_STORAGE_AND_STATIC_CODE_REVIEW_PASS_ENVIRONMENT_ACTION_AND_RUNTIME_GATES_PENDING":
+                        errors.append(f"{item.get('package_id')}: provisional InternVL qualification mismatch")
+                    static_review = item.get("static_code_review", {})
+                    if static_review.get("state") != "AST_AND_MANUAL_SEMANTIC_REVIEW_PASS_WITH_FAIL_CLOSED_QUALITY_GATES":
+                        errors.append(f"{item.get('package_id')}: provisional InternVL static review mismatch")
+                    if static_review.get("reviewer_script_sha256") != "2b4fa339162decd1a88ff5b47d7819dfe685410e60144c655666ad128e19c3da":
+                        errors.append(f"{item.get('package_id')}: provisional InternVL reviewer script mismatch")
+                    if static_review.get("remote_receipt_sha256") != "fef7ea03da4388acfb38b5d999d03396b0b53c9635978a669e05af92b462bd83":
+                        errors.append(f"{item.get('package_id')}: provisional InternVL static review receipt mismatch")
+                    if static_review.get("quality_findings") != [
+                        "FLASH_ATTN_IMPORT_CATCHES_BROAD_EXCEPTION",
+                        "TOKEN_COUNT_MISMATCH_FALLBACK_USES_CHAINED_ADVANCED_INDEX_ASSIGNMENT",
+                    ]:
+                        errors.append(f"{item.get('package_id')}: provisional InternVL quality findings mismatch")
+                    preflight = item.get("dependency_preflight", {})
+                    if preflight.get("state") != "BASE_ENVIRONMENT_INCOMPATIBLE_VERIFIED_OMNI_ENVIRONMENT_REUSE_CANDIDATE_NEEDS_TWO_ADDONS":
+                        errors.append(f"{item.get('package_id')}: provisional InternVL dependency preflight mismatch")
+                    if preflight.get("reuse_candidate", {}).get("missing_required_addons") != ["timm", "einops"]:
+                        errors.append(f"{item.get('package_id')}: provisional InternVL reuse candidate gaps mismatch")
+                    if preflight.get("import_attempted") is not False or preflight.get("model_load_attempted") is not False:
+                        errors.append(f"{item.get('package_id')}: provisional InternVL preflight must remain static")
+                    if "full_remote_code_review" in qualification.get("required_gates", []):
+                        errors.append(f"{item.get('package_id')}: completed static review gate must be removed")
+                    if "dependency_environment" not in qualification.get("required_gates", []) or "import_canary" not in qualification.get("required_gates", []):
+                        errors.append(f"{item.get('package_id')}: provisional InternVL environment and import gates required")
+                    if "independent_juror_substitution" not in authority.get("forbidden", []):
+                        errors.append(f"{item.get('package_id')}: provisional InternVL cannot substitute for the juror")
             else:
                 if identity.get("identity_state") != "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_UNPINNED":
                     errors.append(f"{item.get('package_id')}: planned identity state mismatch")

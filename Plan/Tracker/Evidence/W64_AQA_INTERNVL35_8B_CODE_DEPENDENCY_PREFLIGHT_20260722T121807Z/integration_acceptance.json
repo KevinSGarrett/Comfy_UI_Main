@@ -1,0 +1,41 @@
+{
+  "schema_version": "wave64.aqa.internvl35_8b_code_dependency_preflight.v1",
+  "program_id": "W64-AQA",
+  "tracker_ids": ["W64-AQA-009", "W64-AQA-017"],
+  "evaluated_at_utc": "2026-07-22T12:18:07Z",
+  "disposition": "PARTIALLY_ADOPTED",
+  "repository_base_commit": "cefdf64c4a936ee32bfd468b650a14b6f62b52e7",
+  "package": {"repository": "OpenGVLab/InternVL3_5-8B", "revision": "9bb6a56ad9cc69db95e2d4eeb15a52bbcac4ef79", "root": "/workspace/models/visual_critics/internvl3_5_8b_bf16", "custom_code_required": true},
+  "static_review": {
+    "files": [
+      {"name": "configuration_intern_vit.py", "bytes": 5546, "sha256": "6530df52748e4f7766568825e1d11f55dfa6cc421990020a640c548dc6cd2646"},
+      {"name": "configuration_internvl_chat.py", "bytes": 4700, "sha256": "e9fdff47225fd380d940a4a2b6818b303fd2a5fdddf44fce0a75b05a4beb1539"},
+      {"name": "conversation.py", "bytes": 15309, "sha256": "b1b9f280e9cb9211e519e2b8071002b57cc742aadb2f49b05fa674ee3c7d83ee"},
+      {"name": "modeling_intern_vit.py", "bytes": 18151, "sha256": "a33ec11c517041c7fcbaaff3d736d846498468efaf4a64400a89d55132d5f638"},
+      {"name": "modeling_internvl_chat.py", "bytes": 16518, "sha256": "ec972dd3d1c7f5da06455034d5cfe54968a9555dff60804edee9a7fb5759db34"}
+    ],
+    "reviewer_script_sha256": "2b4fa339162decd1a88ff5b47d7819dfe685410e60144c655666ad128e19c3da",
+    "remote_receipt": {"path": "/workspace/wave64_evidence/internvl35_8b_custom_code_ast_review_20260722T122600Z.json", "sha256": "fef7ea03da4388acfb38b5d999d03396b0b53c9635978a669e05af92b462bd83"},
+    "risk_findings": [],
+    "top_level_effects": ["conversation.py registers four local prompt templates", "four files initialize Transformers loggers", "modeling_intern_vit.py attempts optional flash_attn import", "modeling_intern_vit.py attempts optional apex import"],
+    "manual_semantic_result": "PASS_WITH_FAIL_CLOSED_QUALITY_GATES",
+    "quality_findings": [
+      {"id": "FLASH_ATTN_IMPORT_CATCHES_BROAD_EXCEPTION", "file": "modeling_intern_vit.py", "line": 23, "effect": "A dependency or initialization defect can be silently treated as absence; keep FlashAttention disabled until import and numerical gates pass."},
+      {"id": "TOKEN_COUNT_MISMATCH_FALLBACK_USES_CHAINED_ADVANCED_INDEX_ASSIGNMENT", "file": "modeling_internvl_chat.py", "line": 138, "effect": "The mismatch fallback may assign into an advanced-index temporary instead of input_embeds; require exact token-count fixtures and fail on fallback warnings."}
+    ]
+  },
+  "configuration_requirements": {"language_architecture": "Qwen3ForCausalLM", "torch_dtype": "bfloat16", "dynamic_image_size": true, "use_thumbnail": true},
+  "dependency_preflight": {
+    "base_environment": {"python": "3.11", "torch": "2.4.1+cu124", "transformers": "4.46.3", "timm": "1.0.28", "einops": "0.8.2", "packaging": "24.1", "torchvision": "0.19.1+cu124", "pillow": "12.3.0", "safetensors": "0.8.0", "accelerate": null, "flash_attn": null, "apex": null, "result": "INCOMPATIBLE_QWEN3_CLASS_AND_ACCELERATE_ABSENT"},
+    "verified_reuse_candidate": {"root": "/workspace/w64_aqa/environments/Qwen3-Omni-30B-A3B-Thinking/transformers-5.2.0-qwen-omni-utils-0.0.9-py3.12.13-cu124/a19d160721dfb74cf89bc70eebec10f45b2e6f58b7a109726d658db7d361277c", "lock_sha256": "a19d160721dfb74cf89bc70eebec10f45b2e6f58b7a109726d658db7d361277c", "tree_sha256": "2ae7708993cab848861688ae1b89a2233d61fa02b49e1c14bf51b188a2dd59c5", "python": "3.12.13", "torch": "2.4.1+cu124", "transformers": "5.2.0", "accelerate": "1.14.0", "qwen3_modeling_file_present": true, "system_site_packages": false, "missing_required_addons": ["timm", "einops"], "result": "REUSE_CANDIDATE_ONLY"},
+    "optional_accelerators_absent": ["flash_attn", "apex"],
+    "method": "distribution metadata and exact file presence only",
+    "import_attempted": false,
+    "model_load_attempted": false,
+    "gpu_used": false
+  },
+  "coordinator_boundary": {"mode": "RECOVERY_REQUIRED", "admission_enabled": false, "override_attempted": false},
+  "authority_granted": ["static semantic review of the five exact custom-code files", "dependency incompatibility finding", "immutable environment reuse-candidate selection"],
+  "authority_not_granted": ["license acceptance", "dependency environment completion", "custom-code import", "model load", "GPU use", "capacity", "quality", "repeatability", "refusal", "cleanup", "independent juror", "241B substitution", "operational activation", "promotion"],
+  "next_action": "Build a new immutable overlay from the verified Transformers 5.2 environment plus pinned timm and einops without mutating the source environment; after coordinator admission returns, run import-only class resolution before any model load."
+}

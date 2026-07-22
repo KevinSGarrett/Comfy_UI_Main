@@ -1,0 +1,22 @@
+{
+  "schema_version": "wave64.aqa.internvl35_8b_storage_reconciliation.v1",
+  "program_id": "W64-AQA",
+  "tracker_ids": ["W64-AQA-009", "W64-AQA-017"],
+  "evaluated_at_utc": "2026-07-22T12:10:57Z",
+  "disposition": "PARTIALLY_ADOPTED",
+  "repository_base_commit": "cefdf64c4a936ee32bfd468b650a14b6f62b52e7",
+  "provider": {"repository": "OpenGVLab/InternVL3_5-8B", "revision": "9bb6a56ad9cc69db95e2d4eeb15a52bbcac4ef79", "license_metadata": "apache-2.0", "custom_code_required": true},
+  "storage": {"root": "/workspace/models/visual_critics/internvl3_5_8b_bf16", "expected_files": 24, "actual_primary_files": 24, "extra_primary_files": [], "total_primary_bytes": 17072800269, "matching_files": 24, "mismatches": 0},
+  "weight_shards": [
+    {"filename": "model-00001-of-00004.safetensors", "bytes": 4982437672, "sha256": "8948bf3bae28444c3a5f9120429acff1121ff3716b5f5e4a5041d511cab0bd12"},
+    {"filename": "model-00002-of-00004.safetensors", "bytes": 3848612416, "sha256": "0646e5f2b3a811150998a7cb47bbbd38d5e812b2f2be365a2f6fe52c5c789c13"},
+    {"filename": "model-00003-of-00004.safetensors", "bytes": 4999903176, "sha256": "e834ec95e94830b3da4a23df06abc296ba48756589eec359bdbfcc541358721a"},
+    {"filename": "model-00004-of-00004.safetensors", "bytes": 3225776168, "sha256": "8c33a67f6ea2cc5c35fd631a763d70b52e4b132e12ca331c1767c0a95326840e"}
+  ],
+  "remote_audit": {"path": "/workspace/wave64_evidence/internvl35_8b_storage_audit_20260722T120800Z.json", "sha256": "410f3673d769f25c3a69676676863cabceb550e340bc384855bed2c429dcce31"},
+  "static_code_scan": {"result": "HIGH_RISK_PATTERN_SCAN_PASS_FULL_SEMANTIC_REVIEW_PENDING", "patterns_absent": ["subprocess", "os.system", "requests", "urllib", "socket", "torch.load", "pickle", "exec", "eval", "open"]},
+  "live_coordinator": {"observed_at_utc": "2026-07-22T12:04:32Z", "mode": "RECOVERY_REQUIRED", "admission_enabled": false, "foreign_lease_id": "lease_f31c0165ee8f4c9bb31e5ef96ef87d22", "foreign_project": "maskfactory", "override_attempted": false},
+  "authority_granted": ["exact storage identity for the provisional InternVL3.5-8B package"],
+  "authority_not_granted": ["license acceptance", "remote custom-code execution", "dependency environment", "model load", "GPU use", "capacity", "quality", "repeatability", "refusal", "cleanup", "independent juror", "241B substitution", "operational activation", "promotion"],
+  "next_action": "Complete semantic review of the five custom-code files and construct an immutable import-only environment without loading the model; retain all runtime work behind coordinator admission."
+}
