@@ -411,3 +411,9 @@ write one no-overwrite receipt in a commit-named control root. This command is
 metadata-only; execute it with the active pod Python solely to establish the
 dependency gap. A passing config identity does not permit importing libraries,
 building the model, reading safetensors, or changing the active environment.
+
+Current Omni preflight result is
+`CONFIG_IDENTITY_PASS_DEPENDENCY_ACTION_REQUIRED`: exact config identity passed;
+Qwen-Omni Utils and installed Transformers support are absent. Do not upgrade
+active ComfyUI. Resolve an exact Python target and hash-locked Transformers
+5.2-plus closure, review it, then build a new immutable environment.

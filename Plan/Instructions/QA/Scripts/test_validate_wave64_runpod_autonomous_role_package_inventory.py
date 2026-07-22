@@ -90,8 +90,11 @@ def test_omni_source_pin_and_storage_install_are_exact_but_not_operational() -> 
     assert package["install_admission"]["weight_shard_count"] == 16
     assert package["install_admission"]["weight_bytes"] == 63440997640
     assert package["installation_receipt"]["replay"] == "REUSED_VERIFIED_INSTALL"
-    assert package["dependency_preflight"]["state"] == "METADATA_ONLY_IMPLEMENTED_EXECUTION_PENDING"
-    assert "no_gpu_or_lease" in package["dependency_preflight"]["controls"]
+    assert package["dependency_preflight"]["state"] == "CONFIG_IDENTITY_PASS_DEPENDENCY_ACTION_REQUIRED"
+    assert package["dependency_preflight"]["gaps"] == [
+        "QWEN_OMNI_UTILS_DISTRIBUTION_MISSING",
+        "INSTALLED_TRANSFORMERS_LACKS_QWEN3_OMNI_SUPPORT",
+    ]
     assert "pinned_revision" not in package["qualification"]["required_gates"]
     assert "artifact_hash" not in package["qualification"]["required_gates"]
     assert not package["authority"]["operational"]

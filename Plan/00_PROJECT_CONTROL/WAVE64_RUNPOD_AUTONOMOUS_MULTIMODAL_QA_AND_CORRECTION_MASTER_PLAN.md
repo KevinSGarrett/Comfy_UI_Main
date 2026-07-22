@@ -618,3 +618,10 @@ architecture, processor, thinker, audio, vision, text, and revision identities.
 It cannot import model libraries, open weights, allocate tensors, inspect GPU
 or lease state, use the network, or start a process. Any missing Transformers
 5.2-plus or Qwen-Omni support becomes a typed isolated-environment action.
+
+The pushed preflight executed successfully. All eight configuration and
+revision assertions passed. The active Python 3.11.10 environment has Torch
+2.4.1+cu124 and Transformers 4.46.3, but lacks Qwen-Omni Utils and contains no
+Qwen3-Omni support paths. The active environment remains unchanged. This
+authorizes only resolution of a hash-locked isolated Transformers 5.2-plus
+environment; import, weights, GPU, lease, inference, and authority remain false.

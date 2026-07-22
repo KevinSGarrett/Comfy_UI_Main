@@ -195,16 +195,12 @@ def validate(data: dict) -> list[str]:
                     if omni_receipt != expected_omni_receipt:
                         errors.append(f"{item.get('package_id')}: Omni installation receipt mismatch")
                     expected_omni_preflight = {
-                        "state": "METADATA_ONLY_IMPLEMENTED_EXECUTION_PENDING",
-                        "script": "Plan/07_IMPLEMENTATION/scripts/preflight_wave64_qwen3_omni_dependencies.py",
-                        "schema": "Plan/08_SCHEMAS/runpod_autonomous_qwen3_omni_dependency_preflight.schema.json",
-                        "controls": [
-                            "no_library_import",
-                            "no_weight_open",
-                            "no_tensor",
-                            "no_gpu_or_lease",
-                            "no_network",
-                            "no_process",
+                        "state": "CONFIG_IDENTITY_PASS_DEPENDENCY_ACTION_REQUIRED",
+                        "evidence": "Plan/Tracker/Evidence/W64_AQA_QWEN3_OMNI_30B_A3B_DEPENDENCY_PREFLIGHT_20260722T022053Z/evidence.json",
+                        "receipt_sha256": "b9a8d357d385f16a38d4fe36b3bd8930b220548c77dc227c780d8c4de513ca38",
+                        "gaps": [
+                            "QWEN_OMNI_UTILS_DISTRIBUTION_MISSING",
+                            "INSTALLED_TRANSFORMERS_LACKS_QWEN3_OMNI_SUPPORT",
                         ],
                     }
                     if omni_preflight != expected_omni_preflight:
