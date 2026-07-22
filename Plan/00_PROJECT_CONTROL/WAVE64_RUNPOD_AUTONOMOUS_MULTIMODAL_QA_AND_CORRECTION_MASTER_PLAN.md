@@ -1030,3 +1030,14 @@ exactly matching the provider's published LFS object. Provider metadata reports
 A prior exact-hash bounded EC2 smoke remains historical evidence, not current-pod
 capacity, lifecycle, or image-quality qualification. No GPU or coordinator poll,
 model load, generation, activation, or product promotion occurred in this gate.
+
+Flux.1 Schnell FP8 promoted storage is now independently bound to official
+`Comfy-Org/flux1-schnell` revision
+`7d679837b018bfeb28eca55734b335efcd0e7100`. The current-pod regular file is
+17,236,328,572 bytes with SHA-256
+`ead426278b49030e9da5df862994f25ce94ab2ee4df38b556ddddb3db093bf72`,
+matching the published LFS object. Apache-2.0 metadata is recorded without
+asserting license-acceptance authority. The existing
+`true_flux_schnell_reference_smoke` lane remains
+`deconstruct_only_not_promoted`; no execution bundle, model load, image QA,
+activation, workflow promotion, or product promotion is granted.
