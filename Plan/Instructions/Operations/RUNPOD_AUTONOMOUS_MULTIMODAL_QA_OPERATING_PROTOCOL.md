@@ -398,3 +398,10 @@ the manifest order. One through eight is the only accepted implementation
 range, serial remains the default, and crash-injection tests remain serial.
 After interruption, retain the private `.installing` directory and `.part`
 file, then resume the same manifest; never rename partial bytes manually.
+
+Current Omni storage state: revision `2f443cfc` is published at its immutable
+target, all 26 source identities passed, and replay returned
+`REUSED_VERIFIED_INSTALL`. Treat the directory as read-only. The next safe gate
+is an isolated, hash-locked Transformers 5.2-plus dependency environment. Do
+not import the model libraries or open weights until a separate import-only
+canary is admitted and pushed.

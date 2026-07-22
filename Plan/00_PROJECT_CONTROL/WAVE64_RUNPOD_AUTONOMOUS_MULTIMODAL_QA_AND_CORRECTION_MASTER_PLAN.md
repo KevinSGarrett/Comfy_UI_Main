@@ -602,3 +602,11 @@ while preserving serial mode as the default. Parallel mode keeps one distinct
 path per task and returns verified receipt records in manifest order. The
 production resume is bounded to four workers and reuses verified files and the
 existing range-resumable partial shard.
+
+The four-worker resume completed and atomically published the exact Omni
+revision. All 26 source identities and sixteen shard SHA-256 values passed; a
+second existing-target replay returned `REUSED_VERIFIED_INSTALL`. The durable
+directory contains 27 regular files including its receipt, zero symlinks, and
+63,450,501,064 bytes. This closes storage and artifact-hash gates only. The
+model remains unloaded and has no GPU, lease, inference, semantic review,
+activation, or product authority.

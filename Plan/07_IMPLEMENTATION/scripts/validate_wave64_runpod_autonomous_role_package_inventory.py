@@ -161,14 +161,20 @@ def validate(data: dict) -> list[str]:
                         errors.append(f"{item.get('package_id')}: license decision mismatch")
                 elif repository_id == "Qwen/Qwen3-Omni-30B-A3B-Thinking":
                     admission = item.get("install_admission", {})
-                    if state != "STORAGE_INSTALL_ADMITTED_EXECUTION_PENDING":
-                        errors.append(f"{item.get('package_id')}: Omni storage admission state mismatch")
+                    omni_receipt = item.get("installation_receipt", {})
+                    if state != "INSTALLED_FILE_SET_VERIFIED_ACTIVATION_PENDING":
+                        errors.append(f"{item.get('package_id')}: Omni storage install state mismatch")
+                    if install.get("artifact_digest") != "46d9695468fac6ff986a683b42df3e8872a01f9e16703ee0772ca4ba2136d480":
+                        errors.append(f"{item.get('package_id')}: Omni artifact digest mismatch")
+                    if install.get("durable_root") != "/workspace/w64_aqa/models/Qwen3-Omni-30B-A3B-Thinking/2f443cfc4c54b14a815c0e2bb9a9d6cbcd9a748b":
+                        errors.append(f"{item.get('package_id')}: Omni durable root mismatch")
                     if identity.get("license_state") != "APACHE-2.0_ACCEPTED_FOR_COMFY_UI_MAIN_PROJECT_USE":
                         errors.append(f"{item.get('package_id')}: Omni license decision mismatch")
-                    if qualification.get("state") != "STORAGE_INSTALL_ADMITTED_RUNTIME_GATES_PENDING":
+                    if qualification.get("state") != "STORAGE_INSTALLED_RUNTIME_GATES_PENDING":
                         errors.append(f"{item.get('package_id')}: Omni qualification state mismatch")
-                    if "pinned_revision" in qualification.get("required_gates", []):
-                        errors.append(f"{item.get('package_id')}: completed Omni revision gate must be removed")
+                    for completed_gate in ("pinned_revision", "artifact_hash"):
+                        if completed_gate in qualification.get("required_gates", []):
+                            errors.append(f"{item.get('package_id')}: completed Omni {completed_gate} gate must be removed")
                     expected_admission = {
                         "manifest_sha256": "46d9695468fac6ff986a683b42df3e8872a01f9e16703ee0772ca4ba2136d480",
                         "target_root": "/workspace/w64_aqa/models/Qwen3-Omni-30B-A3B-Thinking/2f443cfc4c54b14a815c0e2bb9a9d6cbcd9a748b",
@@ -178,6 +184,15 @@ def validate(data: dict) -> list[str]:
                     }
                     if admission != expected_admission:
                         errors.append(f"{item.get('package_id')}: Omni install admission mismatch")
+                    expected_omni_receipt = {
+                        "remote_path": "/workspace/w64_aqa/models/Qwen3-Omni-30B-A3B-Thinking/2f443cfc4c54b14a815c0e2bb9a9d6cbcd9a748b/.w64_aqa_install_receipt.json",
+                        "sha256": "f9fd05a3f2c8379178bd943794d0dc945f81b033b32870f229e832732557668a",
+                        "file_count": 27,
+                        "total_bytes": 63450501064,
+                        "replay": "REUSED_VERIFIED_INSTALL",
+                    }
+                    if omni_receipt != expected_omni_receipt:
+                        errors.append(f"{item.get('package_id')}: Omni installation receipt mismatch")
             else:
                 if identity.get("identity_state") != "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_UNPINNED":
                     errors.append(f"{item.get('package_id')}: planned identity state mismatch")
