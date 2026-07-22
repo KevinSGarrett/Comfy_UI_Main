@@ -10,7 +10,9 @@ import json
 import os
 import re
 import subprocess
+import sys
 import time
+import uuid
 from pathlib import Path
 from typing import Any
 
@@ -230,6 +232,116 @@ def run_canary(
     return evidence, 0 if passed else 1
 
 
+def finalize_process_exit_cleanup(
+    evidence: dict[str, Any],
+    *,
+    gpu_before_worker: dict[str, Any],
+    gpu_after_worker_exit: dict[str, Any],
+    worker_returncode: int,
+    worker_stdout: str,
+    worker_stderr: str,
+) -> tuple[dict[str, Any], int]:
+    """Make post-process GPU cleanup authoritative without hiding worker telemetry."""
+    runtime = evidence["runtime"]
+    runtime["gpu_after_in_process_cleanup"] = runtime.pop("gpu_after_cleanup")
+    runtime["in_process_cleanup_delta_mib"] = runtime.pop("cleanup_delta_mib")
+    runtime["in_process_cleanup_pass"] = runtime.pop("cleanup_pass")
+    process_exit_delta_mib = (
+        gpu_after_worker_exit["used_mib"] - gpu_before_worker["used_mib"]
+    )
+    process_exit_cleanup_pass = process_exit_delta_mib <= 1024
+    runtime.update(
+        {
+            "gpu_before_worker_process": gpu_before_worker,
+            "gpu_after_worker_process_exit": gpu_after_worker_exit,
+            "process_exit_cleanup_delta_mib": process_exit_delta_mib,
+            "process_exit_cleanup_pass": process_exit_cleanup_pass,
+            "cleanup_boundary": "isolated_worker_process_exit",
+            "worker_returncode": worker_returncode,
+            "worker_stdout": worker_stdout[-4000:],
+            "worker_stderr": worker_stderr[-4000:],
+        }
+    )
+    transcription = evidence.get("transcription")
+    transcript_pass = bool(
+        transcription and transcription["gate"]["expected_phrase_present"]
+    )
+    worker_completed = worker_returncode in {0, 1} and evidence.get("error") is None
+    passed = worker_completed and transcript_pass and process_exit_cleanup_pass
+    evidence["schema_version"] = "wave64.aqa.qwen3_asr_runtime_canary.v2"
+    evidence["status"] = (
+        "PASS_RUNTIME_TRANSCRIPT_AND_PROCESS_EXIT_CLEANUP"
+        if passed
+        else "FAIL_RUNTIME_OR_TRANSCRIPT_OR_PROCESS_EXIT_CLEANUP"
+    )
+    evidence["authority"].update(
+        {
+            "runtime_capacity": passed,
+            "exact_fixture_transcription": transcript_pass,
+        }
+    )
+    return evidence, 0 if passed else 1
+
+
+def run_isolated_canary(
+    *,
+    model_root: Path,
+    audio_path: Path,
+    expected_audio_sha256: str,
+    expected_phrase: str,
+    max_new_tokens: int,
+    output_path: Path,
+) -> tuple[dict[str, Any], int]:
+    """Run CUDA work in a child so cleanup can be measured after process exit."""
+    validate_inputs(model_root, audio_path, expected_audio_sha256)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    worker_output = output_path.parent / f".{output_path.name}.{uuid.uuid4().hex}.worker"
+    gpu_before_worker = gpu_snapshot()
+    command = [
+        sys.executable,
+        str(Path(__file__).resolve()),
+        "--inner-worker",
+        "--model-root",
+        str(model_root),
+        "--audio",
+        str(audio_path),
+        "--expected-audio-sha256",
+        expected_audio_sha256,
+        "--expected-phrase",
+        expected_phrase,
+        "--max-new-tokens",
+        str(max_new_tokens),
+        "--output",
+        str(worker_output),
+    ]
+    completed = subprocess.run(
+        command,
+        check=False,
+        capture_output=True,
+        text=True,
+        timeout=600,
+    )
+    try:
+        if not worker_output.is_file():
+            raise CanaryError(
+                "isolated ASR worker did not emit evidence; "
+                f"returncode={completed.returncode}; stderr={completed.stderr[-1000:]}"
+            )
+        evidence = json.loads(worker_output.read_text(encoding="utf-8"))
+    finally:
+        worker_output.unlink(missing_ok=True)
+    time.sleep(2)
+    gpu_after_worker_exit = gpu_snapshot()
+    return finalize_process_exit_cleanup(
+        evidence,
+        gpu_before_worker=gpu_before_worker,
+        gpu_after_worker_exit=gpu_after_worker_exit,
+        worker_returncode=completed.returncode,
+        worker_stdout=completed.stdout,
+        worker_stderr=completed.stderr,
+    )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--model-root", type=Path, required=True)
@@ -238,17 +350,22 @@ def main() -> int:
     parser.add_argument("--expected-phrase", required=True)
     parser.add_argument("--max-new-tokens", type=int, default=64)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--inner-worker", action="store_true", help=argparse.SUPPRESS)
     args = parser.parse_args()
     if args.output.exists():
         raise SystemExit("output already exists; runtime evidence is immutable")
     try:
-        evidence, exit_code = run_canary(
-            model_root=args.model_root,
-            audio_path=args.audio,
-            expected_audio_sha256=args.expected_audio_sha256,
-            expected_phrase=args.expected_phrase,
-            max_new_tokens=args.max_new_tokens,
-        )
+        runner = run_canary if args.inner_worker else run_isolated_canary
+        runner_args = {
+            "model_root": args.model_root,
+            "audio_path": args.audio,
+            "expected_audio_sha256": args.expected_audio_sha256,
+            "expected_phrase": args.expected_phrase,
+            "max_new_tokens": args.max_new_tokens,
+        }
+        if not args.inner_worker:
+            runner_args["output_path"] = args.output
+        evidence, exit_code = runner(**runner_args)
     except (CanaryError, OSError, json.JSONDecodeError) as exc:
         print(f"ERROR: {exc}")
         return 2

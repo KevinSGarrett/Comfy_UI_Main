@@ -78,3 +78,63 @@ def test_input_validation_fails_closed_on_model_identity_mismatch(
     digest = hashlib.sha256(audio.read_bytes()).hexdigest()
     with pytest.raises(module.CanaryError, match="mismatch"):
         module.validate_inputs(model_root, audio, digest)
+
+
+def test_process_exit_cleanup_can_qualify_framework_context_release() -> None:
+    module = load_module()
+    evidence = {
+        "schema_version": "wave64.aqa.qwen3_asr_runtime_canary.v1",
+        "status": "FAIL_RUNTIME_OR_TRANSCRIPT_OR_CLEANUP",
+        "runtime": {
+            "gpu_after_cleanup": {"used_mib": 4458},
+            "cleanup_delta_mib": 3810,
+            "cleanup_pass": False,
+        },
+        "transcription": {"gate": {"expected_phrase_present": True}},
+        "error": None,
+        "authority": {
+            "runtime_capacity": False,
+            "exact_fixture_transcription": False,
+        },
+    }
+    finalized, exit_code = module.finalize_process_exit_cleanup(
+        evidence,
+        gpu_before_worker={"used_mib": 648},
+        gpu_after_worker_exit={"used_mib": 648},
+        worker_returncode=1,
+        worker_stdout="worker receipt written",
+        worker_stderr="framework warning",
+    )
+    assert exit_code == 0
+    assert finalized["status"] == "PASS_RUNTIME_TRANSCRIPT_AND_PROCESS_EXIT_CLEANUP"
+    assert finalized["runtime"]["in_process_cleanup_delta_mib"] == 3810
+    assert finalized["runtime"]["process_exit_cleanup_delta_mib"] == 0
+    assert finalized["authority"]["exact_fixture_transcription"] is True
+
+
+def test_process_exit_cleanup_fails_on_true_residency_delta() -> None:
+    module = load_module()
+    evidence = {
+        "runtime": {
+            "gpu_after_cleanup": {"used_mib": 4458},
+            "cleanup_delta_mib": 3810,
+            "cleanup_pass": False,
+        },
+        "transcription": {"gate": {"expected_phrase_present": True}},
+        "error": None,
+        "authority": {
+            "runtime_capacity": False,
+            "exact_fixture_transcription": False,
+        },
+    }
+    finalized, exit_code = module.finalize_process_exit_cleanup(
+        evidence,
+        gpu_before_worker={"used_mib": 648},
+        gpu_after_worker_exit={"used_mib": 2048},
+        worker_returncode=1,
+        worker_stdout="",
+        worker_stderr="",
+    )
+    assert exit_code == 1
+    assert finalized["runtime"]["process_exit_cleanup_pass"] is False
+    assert finalized["authority"]["runtime_capacity"] is False
