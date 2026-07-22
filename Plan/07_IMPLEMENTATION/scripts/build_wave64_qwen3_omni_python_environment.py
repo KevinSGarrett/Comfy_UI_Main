@@ -134,6 +134,12 @@ def manifest_signature(executable: str) -> str:
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
+def validate_uv_identity(output: str) -> None:
+    fields = output.split()
+    if fields[:2] != ["uv", EXPECTED_UV_VERSION]:
+        raise BuildError("uv version mismatch")
+
+
 def tree_manifest(root: Path) -> dict:
     digest = hashlib.sha256()
     regular_file_count = 0
@@ -210,9 +216,8 @@ def build(admission_path: Path, lock_path: Path, receipt_path: Path, active_pyth
     identity = python_identity(base)
     if identity["version"] != EXPECTED_PYTHON_VERSION or identity["sha256"] != EXPECTED_BASE_PYTHON_SHA256:
         raise BuildError("base Python identity mismatch")
-    uv_version = run(["uv", "--version"])
-    if uv_version != f"uv {EXPECTED_UV_VERSION}":
-        raise BuildError("uv version mismatch")
+    uv_identity = run(["uv", "--version"])
+    validate_uv_identity(uv_identity)
     free_bytes = shutil.disk_usage(target.parent).free
     if free_bytes < admission["resolution"]["minimum_free_bytes"]:
         raise BuildError("insufficient free space for admitted build")

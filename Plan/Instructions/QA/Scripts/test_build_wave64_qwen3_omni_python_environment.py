@@ -67,6 +67,12 @@ def test_distribution_gate_checks_count_and_key_versions() -> None:
         MODULE.validate_distributions(rows)
 
 
+def test_uv_identity_accepts_platform_suffix_but_not_another_version() -> None:
+    MODULE.validate_uv_identity("uv 0.11.30 (x86_64-unknown-linux-gnu)")
+    with pytest.raises(MODULE.BuildError, match="uv version mismatch"):
+        MODULE.validate_uv_identity("uv 0.11.29 (x86_64-unknown-linux-gnu)")
+
+
 def test_tree_manifest_is_deterministic_and_symlink_aware(tmp_path: Path) -> None:
     (tmp_path / "a.txt").write_text("a", encoding="utf-8")
     nested = tmp_path / "nested"
