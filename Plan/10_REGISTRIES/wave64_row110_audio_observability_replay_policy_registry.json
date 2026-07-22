@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0.0",
+  "revision": "wave64_row110_audio_observability_replay_policy_v0.1.0",
+  "required_event_types": [
+    "stage_timing", "model_identity", "cache_observation",
+    "candidate_ranking", "transform_lineage", "mix_decision",
+    "qa_score", "authority_decision"
+  ],
+  "optional_event_types": ["candidate_rejection", "retry", "external_blocker"],
+  "release_requirements": {
+    "all_required_event_types_present": true,
+    "exact_artifact_sha256_required": true,
+    "authority_evidence_sha256_required": true,
+    "unresolved_external_blockers_forbidden": true,
+    "replay_must_match_recorded_projection": true
+  },
+  "ledger_rules": {
+    "append_only": true,
+    "strict_sequence": true,
+    "hash_chain_required": true,
+    "event_ids_unique": true,
+    "payloads_content_addressed": true,
+    "queue_and_history_are_observations_only": true,
+    "missing_external_dependency_must_be_explicit": true
+  }
+}

@@ -1,0 +1,280 @@
+{
+  "schema_version": "1.0.0",
+  "evidence_id": "TRK-W64-110_audio_observability_replay",
+  "tracker_id": "TRK-W64-110",
+  "item_id": "ITEM-W64-110",
+  "status": "HOLD_DEPENDENCIES_AND_GENUINE_RUN_REPLAY_ABSENT_WITH_FAIL_CLOSED_LEDGER_PRESENT",
+  "row_complete": false,
+  "implementation_completion_claimed": true,
+  "runtime_completion_claimed": false,
+  "dependency_admissions": {
+    "TRK-W64-102": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-102_GENERATED_ASSET_PROVENANCE_CURRENT_DELTA_20260719.json",
+      "sha256": "8f67f7298980f9f56d7de8c124c65ab45df2b262bbc1e58ff7712a4381ab0e27",
+      "row_complete": false,
+      "dependency_satisfied": false,
+      "status": "HOLD_DEPENDENCIES_AND_GENERATED_ASSET_STAGING_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT"
+    },
+    "TRK-W64-105": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-105_AUDIO_END_TO_END_ORCHESTRATOR_CURRENT_DELTA_20260722.json",
+      "sha256": "ca698f31e58f5ee46d3bb3efd9d2f57ad0e70a5bdc824135575e7c8df2b589e6",
+      "row_complete": false,
+      "dependency_satisfied": false,
+      "status": "HOLD_DEPENDENCIES_AND_AUDIO_ORCHESTRATOR_RUNTIME_ABSENT_WITH_FAIL_CLOSED_STATE_MACHINE_PRESENT"
+    },
+    "TRK-W64-106": {
+      "path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-106_AUDIO_AV_QA_MATRIX_CURRENT_DELTA_20260722.json",
+      "sha256": "f04a161213de2767ed355b4a2fb3a258f6d2d4e8a4b977eb02f8cec30f5ed512",
+      "row_complete": false,
+      "dependency_satisfied": false,
+      "status": "HOLD_DEPENDENCIES_AND_GENUINE_AUDIO_AV_REVIEW_ABSENT_WITH_FAIL_CLOSED_MATRIX_PRESENT"
+    }
+  },
+  "fixture_replay": {
+    "schema_version": "1.0.0",
+    "tracker_id": "TRK-W64-110",
+    "item_id": "ITEM-W64-110",
+    "record_type": "audio_observability_run_ledger",
+    "policy_revision": "wave64_row110_audio_observability_replay_policy_v0.1.0",
+    "run_id": "audio-run-50627c0a4f583db40cc0da90",
+    "is_synthetic": true,
+    "events": [
+      {
+        "sequence": 1,
+        "event_id": "e01",
+        "event_type": "stage_timing",
+        "payload": {
+          "stage_id": "analysis",
+          "duration_ms": 12.0
+        },
+        "payload_sha256": "313c3b49b78dc556d6ef7f8bea0244509d9efe5749fa324fad6ab4d037849847",
+        "previous_event_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "event_sha256": "58b7d315b815872f0a7424da22bc8c3cfd33f7b6a2f45f54905ec0f64f89fd96"
+      },
+      {
+        "sequence": 2,
+        "event_id": "e02",
+        "event_type": "model_identity",
+        "payload": {
+          "model_id": "fixture-model",
+          "model_sha256": "48534c461f2a72a7bf83d8d913f39d34562bbd5f43fc4224280f6768a05c7cef"
+        },
+        "payload_sha256": "aabb3fa90556486ab7abacfd0a0415efe9c41da5570600658de06f7711b83178",
+        "previous_event_sha256": "58b7d315b815872f0a7424da22bc8c3cfd33f7b6a2f45f54905ec0f64f89fd96",
+        "event_sha256": "345b8210aa2cedac8a80bab142327902924f03375fb0116ef62f8686964813c4"
+      },
+      {
+        "sequence": 3,
+        "event_id": "e03",
+        "event_type": "cache_observation",
+        "payload": {
+          "cache_key": "9fc5d42f0818c4b00c14cd421e94dacc1eb66e8889582cde494660c84fbc257b",
+          "cache_hit": true
+        },
+        "payload_sha256": "485ecc6f6f0194802d4b4614bfd9dd73e60562883bd6c5d191eb7ce989fd2864",
+        "previous_event_sha256": "345b8210aa2cedac8a80bab142327902924f03375fb0116ef62f8686964813c4",
+        "event_sha256": "d00052ca17c826e3ef7afdfbc72e67671b24e5048fe011efb488d585adab4769"
+      },
+      {
+        "sequence": 4,
+        "event_id": "e04",
+        "event_type": "candidate_ranking",
+        "payload": {
+          "candidate_ids": [
+            "candidate-a",
+            "candidate-b"
+          ],
+          "ranking_sha256": "8b44cf122938e0030bd3117dd573ae3084778c10c4206d84b5eea035ec2ea248"
+        },
+        "payload_sha256": "c77c35af316f38738d3d40f63fbdc79c0c301ef26f4ed2073868e2c126004b7e",
+        "previous_event_sha256": "d00052ca17c826e3ef7afdfbc72e67671b24e5048fe011efb488d585adab4769",
+        "event_sha256": "62a3c1e63979e737230850bbc072ac1d438737256f49ccd524a5239562fbd25b"
+      },
+      {
+        "sequence": 5,
+        "event_id": "e05",
+        "event_type": "candidate_rejection",
+        "payload": {
+          "candidate_id": "candidate-b",
+          "reason_codes": [
+            "SEMANTIC_MISMATCH"
+          ]
+        },
+        "payload_sha256": "629cf0b4660b4ce9442b7ece85095ed91767df7e1fdd6abf88d5edf540d4d2e0",
+        "previous_event_sha256": "62a3c1e63979e737230850bbc072ac1d438737256f49ccd524a5239562fbd25b",
+        "event_sha256": "8f82f4f853f283e091c77f42cbf48d76c7f4f79fac432f046825d25b5b13fa56"
+      },
+      {
+        "sequence": 6,
+        "event_id": "e06",
+        "event_type": "transform_lineage",
+        "payload": {
+          "input_sha256": "f5c7cc41803518e4daea6d1e96c57fc5c0363b6dfaddf09e1a392cb9b59b70ab",
+          "transform_sha256": "b67186395c3f591d6b3f738ea48e385adcc41f9d928852b13acfd9883b159226",
+          "output_sha256": "6bae475c5385e839a04d4d7a509780be1a8952af2edafb07783f2112367656f6"
+        },
+        "payload_sha256": "7034f5890cd572a5fee06be0e2ec862d26b99aca2c9f8fd433ea69f3f2830cb3",
+        "previous_event_sha256": "8f82f4f853f283e091c77f42cbf48d76c7f4f79fac432f046825d25b5b13fa56",
+        "event_sha256": "ae90f8969b92562dbbd175ead8689b2175f33ec9b061d2a47ecd9c4e61f7009d"
+      },
+      {
+        "sequence": 7,
+        "event_id": "e07",
+        "event_type": "mix_decision",
+        "payload": {
+          "mix_sha256": "92067766b5eae2af1d41a530df88d5b9359130a7abff319e94d9119e22bc8752",
+          "decision_sha256": "13e9a5bf1472dc442764986b0e6774b16876c87758223b7897a338ce29b399eb"
+        },
+        "payload_sha256": "eb47fbe37db69958d0eb96bb0d8ea12aecac9fa070027edeaf65f08ebb9aca1b",
+        "previous_event_sha256": "ae90f8969b92562dbbd175ead8689b2175f33ec9b061d2a47ecd9c4e61f7009d",
+        "event_sha256": "dbaf387cfbbfbd3c5f06497df472d40de0d290bc532862b07c868b6bd6a2772d"
+      },
+      {
+        "sequence": 8,
+        "event_id": "e08",
+        "event_type": "qa_score",
+        "payload": {
+          "evidence_sha256": "7950ac052ff0385cede452565ee0d2c32ad901112442ef33c685599d6bb958f9",
+          "status": "pass"
+        },
+        "payload_sha256": "31240202eca18b6b8f0a7e8f4bdfc6900275e75a2d64e9ee41b508ac009728a5",
+        "previous_event_sha256": "dbaf387cfbbfbd3c5f06497df472d40de0d290bc532862b07c868b6bd6a2772d",
+        "event_sha256": "632ca2b6ac6b429eee9e53a4e2de880eb861681a425eda71c156817f2585258d"
+      },
+      {
+        "sequence": 9,
+        "event_id": "e09",
+        "event_type": "authority_decision",
+        "payload": {
+          "authority_evidence_sha256": "0a1982f1550348b52927655561567656230c258ba5411463dfb4f79cf61dfcd1",
+          "final_artifact_sha256": "0a8187ac01f7418dfb411ee4fa100c5eb166ead4283f6ba49ad90d91a70a2242",
+          "status": "fixture_only"
+        },
+        "payload_sha256": "70965c936c7f6e7ccbf6ec91d37ec38368f8f0d438d7cbc2bca4738853443d4c",
+        "previous_event_sha256": "632ca2b6ac6b429eee9e53a4e2de880eb861681a425eda71c156817f2585258d",
+        "event_sha256": "21d2d38970db5ad82b15274af9af7709bd1ceddb05f4c1a4615685701334b89f"
+      }
+    ],
+    "recorded_projection": {
+      "event_count": 9,
+      "event_type_counts": {
+        "stage_timing": 1,
+        "model_identity": 1,
+        "cache_observation": 1,
+        "candidate_ranking": 1,
+        "candidate_rejection": 1,
+        "transform_lineage": 1,
+        "mix_decision": 1,
+        "qa_score": 1,
+        "authority_decision": 1
+      },
+      "model_sha256s": [
+        "48534c461f2a72a7bf83d8d913f39d34562bbd5f43fc4224280f6768a05c7cef"
+      ],
+      "cache_hits": 1,
+      "ranked_candidate_ids": [
+        "candidate-a",
+        "candidate-b"
+      ],
+      "rejected_candidate_ids": [
+        "candidate-b"
+      ],
+      "transform_sha256s": [
+        "b67186395c3f591d6b3f738ea48e385adcc41f9d928852b13acfd9883b159226"
+      ],
+      "mix_sha256": "92067766b5eae2af1d41a530df88d5b9359130a7abff319e94d9119e22bc8752",
+      "qa_evidence_sha256s": [
+        "7950ac052ff0385cede452565ee0d2c32ad901112442ef33c685599d6bb958f9"
+      ],
+      "retry_count": 0,
+      "authority_evidence_sha256": "0a1982f1550348b52927655561567656230c258ba5411463dfb4f79cf61dfcd1",
+      "final_artifact_sha256": "0a8187ac01f7418dfb411ee4fa100c5eb166ead4283f6ba49ad90d91a70a2242",
+      "external_blocker_codes": [],
+      "reconstructable": true
+    },
+    "decision": {
+      "status": "pass",
+      "release_authority": false,
+      "row110_acceptance": "fixture_only",
+      "blocker_codes": []
+    },
+    "ledger_sha256": "b018d7432c5d564a5f347e4c9b4f4b82c639f3aa53bdfbb2d2cbbb367cc26d1b"
+  },
+  "live_blocker_ledger": {
+    "schema_version": "1.0.0",
+    "tracker_id": "TRK-W64-110",
+    "item_id": "ITEM-W64-110",
+    "record_type": "audio_observability_run_ledger",
+    "policy_revision": "wave64_row110_audio_observability_replay_policy_v0.1.0",
+    "run_id": "audio-run-c564c8b59a999d45f8fe0515",
+    "is_synthetic": false,
+    "events": [
+      {
+        "sequence": 1,
+        "event_id": "b01",
+        "event_type": "external_blocker",
+        "payload": {
+          "blocker_code": "ROW110_DEPENDENCIES_NOT_ACCEPTED",
+          "evidence_sha256": "4a4c5d3110fd8c7a77f42b2606614a57cc25c33ff8c3403a089c20861ae186e9"
+        },
+        "payload_sha256": "9bc575fd07d6da0a48b1c1a488efa1cc91f2209b1465f390b7d99bcf2a73aa5e",
+        "previous_event_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "event_sha256": "b193d7c152e4fcf76a2993ba1d02c0c82255dc716bb0e8ed8b58df86a2e56076"
+      }
+    ],
+    "recorded_projection": {
+      "event_count": 1,
+      "event_type_counts": {
+        "external_blocker": 1
+      },
+      "model_sha256s": [],
+      "cache_hits": 0,
+      "ranked_candidate_ids": [],
+      "rejected_candidate_ids": [],
+      "transform_sha256s": [],
+      "mix_sha256": null,
+      "qa_evidence_sha256s": [],
+      "retry_count": 0,
+      "authority_evidence_sha256": null,
+      "final_artifact_sha256": null,
+      "external_blocker_codes": [
+        "ROW110_DEPENDENCIES_NOT_ACCEPTED"
+      ],
+      "reconstructable": false
+    },
+    "decision": {
+      "status": "blocked",
+      "release_authority": false,
+      "row110_acceptance": "held",
+      "blocker_codes": [
+        "MISSING_EVENT_TYPE_AUTHORITY_DECISION",
+        "MISSING_EVENT_TYPE_CACHE_OBSERVATION",
+        "MISSING_EVENT_TYPE_CANDIDATE_RANKING",
+        "MISSING_EVENT_TYPE_MIX_DECISION",
+        "MISSING_EVENT_TYPE_MODEL_IDENTITY",
+        "MISSING_EVENT_TYPE_QA_SCORE",
+        "MISSING_EVENT_TYPE_STAGE_TIMING",
+        "MISSING_EVENT_TYPE_TRANSFORM_LINEAGE",
+        "RUN_NOT_RECONSTRUCTABLE"
+      ]
+    },
+    "ledger_sha256": "f2b3e233dee6c4adf609901b1b7da0c4b4aa7ffe63fa41844818c55cf95358a8"
+  },
+  "implementation": {
+    "script": "Plan/07_IMPLEMENTATION/scripts/record_replay_wave64_audio_observability.py",
+    "script_sha256": "a30160a2909e6d92112e6fe01a66d906f402b393ce6bc954d5bfce9f5fcb111a",
+    "schema": "Plan/08_SCHEMAS/audio_observability_run_ledger.schema.json",
+    "schema_sha256": "fdd5c6d6e5741137073b31f18f07fdd6754614d93d73f0c87b06e98869c096a0",
+    "policy": "Plan/10_REGISTRIES/wave64_row110_audio_observability_replay_policy_registry.json",
+    "policy_sha256": "f8d7f8a8feb8ad8fbc44c79452ec8154cda0d2ca97a6948b40246db6141db783"
+  },
+  "decision": {
+    "status": "blocked",
+    "row110_acceptance": "held",
+    "product_completion": false,
+    "blocker_codes": [
+      "ROW110_DEPENDENCIES_NOT_ACCEPTED",
+      "GENUINE_RELEASE_OR_PROMOTION_RUN_REPLAY_ABSENT"
+    ]
+  }
+}

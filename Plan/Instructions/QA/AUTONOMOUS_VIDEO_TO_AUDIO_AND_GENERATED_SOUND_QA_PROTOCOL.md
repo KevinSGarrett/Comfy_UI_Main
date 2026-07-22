@@ -139,6 +139,19 @@ exclusive coordinator lease. Completion additionally requires actual cost,
 TTL/watchdog, and final lease-release evidence. Synthetic receipts never grant
 runtime authority.
 
+## Row110 observability and deterministic replay
+
+Every audio run uses an append-only, strictly sequenced hash chain. Events
+retain stage timing, exact model hashes, cache observations, candidate ranking
+and rejection reasons, transform lineage, mix decisions, QA evidence, retries,
+authority evidence, final artifact hashes, and explicit external blockers.
+
+Replay recomputes the projection from immutable events. Payload, parent,
+sequence, event, ledger, or recorded-projection mismatch fails closed. A
+released mix or promoted generated asset must replay with every required event,
+exact final-artifact and authority hashes, and no unresolved blocker. Synthetic
+replay validates the mechanism but cannot grant release authority.
+
 ## Benchmark requirements
 
 Benchmarks must include:

@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0.0",
+  "evidence_id": "TRK-W64-110_AUDIO_OBSERVABILITY_REPLAY_CURRENT_DELTA_20260722",
+  "created_at": "2026-07-22T15:00:00Z",
+  "source_commit": "6196794a",
+  "tracker_id": "TRK-W64-110",
+  "item_id": "ITEM-W64-110",
+  "status": "HOLD_DEPENDENCIES_AND_GENUINE_RUN_REPLAY_ABSENT_WITH_FAIL_CLOSED_LEDGER_PRESENT",
+  "row_complete": false,
+  "implementation_completion_claimed": true,
+  "runtime_completion_claimed": false,
+  "qa_decision": "hold_with_append_only_hash_chained_deterministic_replay_and_explicit_blocker_reconstruction",
+  "implemented_contract": {
+    "append_only": true,
+    "strict_sequence": true,
+    "hash_chain_required": true,
+    "unique_event_ids": true,
+    "payloads_content_addressed": true,
+    "required_event_types": [
+      "stage_timing", "model_identity", "cache_observation",
+      "candidate_ranking", "transform_lineage", "mix_decision",
+      "qa_score", "authority_decision"
+    ],
+    "optional_diagnostic_events": ["candidate_rejection", "retry", "external_blocker"],
+    "release_requires_exact_artifact_and_authority_hashes": true,
+    "unresolved_external_blockers_prevent_release": true,
+    "synthetic_release_forbidden": true
+  },
+  "dependency_authority": {
+    "required": ["TRK-W64-102", "TRK-W64-105", "TRK-W64-106"],
+    "accepted_count": 0,
+    "all_dependencies_accepted": false
+  },
+  "validation": {
+    "targeted_tests": {"result": "PASS", "passed": 16, "failed": 0},
+    "ruff_check": "PASS",
+    "fixture_reconstructable": true,
+    "genuine_release_or_promotion_replay_executed": false
+  },
+  "artifacts": [
+    {"path": "Plan/07_IMPLEMENTATION/scripts/record_replay_wave64_audio_observability.py", "sha256": "a30160a2909e6d92112e6fe01a66d906f402b393ce6bc954d5bfce9f5fcb111a"},
+    {"path": "Plan/08_SCHEMAS/audio_observability_run_ledger.schema.json", "sha256": "fdd5c6d6e5741137073b31f18f07fdd6754614d93d73f0c87b06e98869c096a0"},
+    {"path": "Plan/10_REGISTRIES/wave64_row110_audio_observability_replay_policy_registry.json", "sha256": "f8d7f8a8feb8ad8fbc44c79452ec8154cda0d2ca97a6948b40246db6141db783"},
+    {"path": "Plan/Instructions/QA/Scripts/test_row110_audio_observability_replay.py", "sha256": "0431ae79a9e4daba8a726a7370c548e3bb3ac989b3e02ea66727fe844af1b4b6"},
+    {"path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-110_audio_observability_replay.json", "sha256": "15c40de11812d4d52ab62625caae2c043870c4e6a05d068b3ba7645c00973887"}
+  ],
+  "hold_boundary": {
+    "blocker_codes": ["ROW110_DEPENDENCIES_NOT_ACCEPTED", "GENUINE_RELEASE_OR_PROMOTION_RUN_REPLAY_ABSENT"],
+    "runtime_or_publication_mutated": false,
+    "product_completion": false,
+    "next_action": "Replay the first accepted genuine release or promoted-asset run from exact immutable inputs after Rows102, 105, and 106 are accepted."
+  }
+}

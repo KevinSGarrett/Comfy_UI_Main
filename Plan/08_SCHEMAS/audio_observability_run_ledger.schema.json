@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/audio_observability_run_ledger.schema.json",
+  "title": "Wave64 Row110 Audio Observability Run Ledger",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "tracker_id", "item_id", "record_type",
+    "policy_revision", "run_id", "is_synthetic", "events",
+    "recorded_projection", "decision", "ledger_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "tracker_id": {"const": "TRK-W64-110"},
+    "item_id": {"const": "ITEM-W64-110"},
+    "record_type": {"const": "audio_observability_run_ledger"},
+    "policy_revision": {"type": "string", "minLength": 1},
+    "run_id": {"type": "string", "pattern": "^audio-run-[a-f0-9]{24}$"},
+    "is_synthetic": {"type": "boolean"},
+    "events": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/event"}},
+    "recorded_projection": {"$ref": "#/$defs/projection"},
+    "decision": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "release_authority", "row110_acceptance", "blocker_codes"],
+      "properties": {
+        "status": {"enum": ["pass", "blocked", "failed"]},
+        "release_authority": {"type": "boolean"},
+        "row110_acceptance": {"enum": ["fixture_only", "held", "accepted"]},
+        "blocker_codes": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}
+      }
+    },
+    "ledger_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "event": {
+      "type": "object", "additionalProperties": false,
+      "required": ["sequence", "event_id", "event_type", "payload", "payload_sha256", "previous_event_sha256", "event_sha256"],
+      "properties": {
+        "sequence": {"type": "integer", "minimum": 1},
+        "event_id": {"type": "string", "minLength": 1},
+        "event_type": {"enum": ["stage_timing", "model_identity", "cache_observation", "candidate_ranking", "candidate_rejection", "transform_lineage", "mix_decision", "qa_score", "retry", "authority_decision", "external_blocker"]},
+        "payload": {"type": "object"}, "payload_sha256": {"$ref": "#/$defs/sha256"},
+        "previous_event_sha256": {"$ref": "#/$defs/sha256"}, "event_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "projection": {
+      "type": "object", "additionalProperties": false,
+      "required": ["event_count", "event_type_counts", "model_sha256s", "cache_hits", "ranked_candidate_ids", "rejected_candidate_ids", "transform_sha256s", "mix_sha256", "qa_evidence_sha256s", "retry_count", "authority_evidence_sha256", "final_artifact_sha256", "external_blocker_codes", "reconstructable"],
+      "properties": {
+        "event_count": {"type": "integer", "minimum": 1},
+        "event_type_counts": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+        "model_sha256s": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/sha256"}},
+        "cache_hits": {"type": "integer", "minimum": 0},
+        "ranked_candidate_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "rejected_candidate_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "transform_sha256s": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/sha256"}},
+        "mix_sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+        "qa_evidence_sha256s": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/sha256"}},
+        "retry_count": {"type": "integer", "minimum": 0},
+        "authority_evidence_sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+        "final_artifact_sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+        "external_blocker_codes": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "reconstructable": {"type": "boolean"}
+      }
+    }
+  }
+}

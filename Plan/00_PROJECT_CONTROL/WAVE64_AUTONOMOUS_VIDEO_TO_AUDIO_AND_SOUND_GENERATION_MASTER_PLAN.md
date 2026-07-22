@@ -420,6 +420,17 @@ Record stage timings, model versions, cache hits, candidate rankings, rejection 
 
 Acceptance: any released mix and promoted generated asset can be reconstructed or its exact external dependency blocker identified.
 
+Implemented contract slice (2026-07-22): an append-only, strictly sequenced,
+hash-chained ledger records stage timing, model identity, cache observations,
+candidate rankings and rejections, transform lineage, mix decisions, QA,
+retries, final authority, and explicit external blockers. Replay recomputes a
+deterministic projection and rejects payload, parent, sequence, event, ledger,
+or projection tampering. Release requires exact final-artifact and authority
+hashes, a complete event set, no unresolved blockers, and replay equality;
+synthetic release is forbidden. Sixteen tests pass. Rows102, 105, and 106 and
+a genuine release/promotion replay remain held, so product completion is
+false.
+
 ### Row111 Existing-component migration and compatibility
 
 Integrate the current functional indexer, selector, Wave30 compiler/mixer, Wave31 force/spatial compilers, MMAudio proof, and Rows025-033 evaluators behind the new contracts without reopening completed proof.
