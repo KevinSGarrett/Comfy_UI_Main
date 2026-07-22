@@ -741,6 +741,16 @@ storage adoption. Filename-based provenance inference is forbidden; provider,
 license, dependency, load, synthesis-quality, activation, and product authority
 remain false while another provenance-complete package may continue.
 
+Flux.2 Klein 4B FP8 is the next provenance-complete promoted storage package.
+Its single regular 4,070,624,520-byte live file independently rehashed to the
+published SHA-256
+`97ed34fe0567e436200f2faee3939b88f2b5d99f8af2a4dc16532c4245c0ccb6`
+and binds immutable provider revision
+`c30fa39e0d916333415ae96c66169d8cfdca3e63` plus Apache-2.0 metadata. Storage,
+provider revision, published hash, and license metadata are accepted. Existing
+license-acceptance authority, complete execution-bundle, load, generation,
+activation, and promotion gates remain false and are not bypassed.
+
 Two Wave42 UI workflows and their 75-file fixture tree remain inactive under
 `/workspace/wave64_quarantine/aws_ec2_20260722`. Seventeen clean repositories at
 exact EC2-recorded pins remain dependency-free and inactive under
