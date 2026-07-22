@@ -84,6 +84,19 @@ It adds full decode, stream-start, and audio/video duration alignment, but its
 single decoded-frame diagnostic grants no motion, continuity, AV-sync semantic,
 perceptual-audio, or product-visual authority.
 
+The first qualified ASR slice is narrower than the full audio-semantic role.
+Receipt
+`Plan/Tracker/Evidence/W64_AQA_QWEN3_ASR_RUNTIME_CANARY_20260722T035531Z/qwen3_asr_runtime_canary.json`
+binds exact Qwen3-ASR revision `7278e1e`, exact retained audio SHA-256
+`5a07f0a6...d924a`, the observed transcript `Once upon a midnight.`, and
+post-worker cleanup. Accept it only for exact-fixture transcription and
+current-pod runtime capacity. Require isolated child-process CUDA execution and
+a parent GPU snapshot after child exit; a worker-local `empty_cache()` snapshot
+is diagnostic and cannot prove unload. General ASR quality, other languages or
+durations, forced alignment, listening, speaker/event meaning, Omni audio or AV
+semantics, independent-juror agreement, and promotion remain blocked. Retain
+the predecessor in-process-cleanup failure beside the accepted rerun.
+
 ## Gate AQA-06: golden masks
 
 Measure completeness, leakage, boundary distance, fine-detail preservation,

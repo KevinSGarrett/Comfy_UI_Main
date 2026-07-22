@@ -23,16 +23,16 @@ def test_inventory_is_valid() -> None:
     assert MODULE.validate(load_inventory()) == []
 
 
-def test_availability_lane_cannot_block_current_pod() -> None:
+def test_alternative_hardware_watcher_cannot_be_enabled() -> None:
     data = copy.deepcopy(load_inventory())
-    data["runtime_policy"]["availability_lane"]["nonblocking"] = False
-    assert "2x A40 lane must be exact and nonblocking" in MODULE.validate(data)
+    data["runtime_policy"]["current_pod_only"]["alternative_hardware_watcher"] = True
+    assert "current-pod-only runtime policy mismatch" in MODULE.validate(data)
 
 
-def test_availability_lane_cannot_auto_migrate() -> None:
+def test_alternative_pod_creation_cannot_be_enabled() -> None:
     data = copy.deepcopy(load_inventory())
-    data["runtime_policy"]["availability_lane"]["auto_migrate"] = True
-    assert "2x A40 lane authority is too broad" in MODULE.validate(data)
+    data["runtime_policy"]["current_pod_only"]["alternative_pod_creation"] = True
+    assert "current-pod-only runtime policy mismatch" in MODULE.validate(data)
 
 
 def test_uninstalled_package_cannot_claim_digest() -> None:
@@ -89,6 +89,11 @@ def test_asr_source_revision_and_storage_install_are_exact_but_not_operational()
     assert "import_canary" not in package["qualification"]["required_gates"]
     assert "license_acceptance" not in package["qualification"]["required_gates"]
     assert "artifact_hash" not in package["qualification"]["required_gates"]
+    assert "capacity" not in package["qualification"]["required_gates"]
+    assert "runtime" not in package["qualification"]["required_gates"]
+    assert package["runtime_canary"]["state"] == "EXACT_FIXTURE_TRANSCRIPTION_AND_PROCESS_EXIT_CLEANUP_PASS"
+    assert package["runtime_canary"]["process_exit_cleanup_delta_mib"] == 5
+    assert package["runtime_canary"]["audio_sha256"] == "5a07f0a654499266509453421c3efdc1b2e4ce83b8706e0138ebc4b1d3ad924a"
     assert not package["authority"]["operational"]
     package["source_pin"]["revision"] = "0" * 40
     assert any("source revision pin mismatch" in error for error in MODULE.validate(data))

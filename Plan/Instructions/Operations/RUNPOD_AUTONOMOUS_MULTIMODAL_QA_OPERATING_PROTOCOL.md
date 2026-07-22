@@ -386,8 +386,20 @@ authoritative `ACCEPTED_FOR_COMFY_UI_MAIN_PROJECT_USE` Apache-2.0 decision.
 The storage receipt is the artifact-hash certificate basis because it binds
 the exact revision, all twelve admitted source identities, both safetensor
 SHA-256 values, and the no-load runtime claims. Do not rerun or reinterpret
-these completed static gates. The next Qwen3-ASR actions require a released GPU
-lease: bounded model construction/capacity first, then calibration and runtime.
+these completed static gates.
+
+The exact-revision runtime canary now passes on the current production pod for
+one hash-bound retained audio fixture. Invoke it only through an exclusive
+shared-coordinator lease and from commit `0854c5b7` or a later reviewed commit.
+The parent process must launch CUDA inference in an isolated child, retain the
+child's in-process GPU observation, wait for child exit, and make the parent's
+post-exit GPU snapshot authoritative for cleanup. The accepted receipt records
+`Once upon a midnight.`, English, 5,656 MiB peak GPU use, 10.843-second load,
+10.260-second inference, and a +5 MiB post-exit delta. This grants exact-fixture
+transcription and current-pod runtime-capacity authority only. It does not grant
+general ASR quality, forced alignment, listening, speaker, event, semantic
+audio, AV-sync, product-promotion, or service-binding authority. The first
+in-process-only cleanup failure remains retained and must not be deleted.
 
 For Qwen3-Omni storage, use only repository
 `Qwen/Qwen3-Omni-30B-A3B-Thinking` at revision

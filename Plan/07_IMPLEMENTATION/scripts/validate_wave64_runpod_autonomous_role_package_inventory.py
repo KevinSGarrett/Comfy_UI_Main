@@ -40,19 +40,27 @@ def validate(data: dict) -> list[str]:
     errors: list[str] = []
     if data.get("schema_version") != "wave64.aqa.role_package_inventory.v1":
         errors.append("schema_version mismatch")
-    if data.get("scope") != "METADATA_ONLY_NO_DOWNLOAD_LOAD_INFERENCE_OR_RUNPOD_CONTACT":
-        errors.append("scope must remain metadata-only")
+    if data.get("scope") != "REPOSITORY_BACKED_STATIC_AND_SCOPED_RUNTIME_EVIDENCE":
+        errors.append("scope must bind static and scoped runtime evidence")
     policy = data.get("runtime_policy", {})
     if policy.get("current_pod_remains_authoritative") is not True:
         errors.append("current pod must remain authoritative")
     if policy.get("single_gpu_role_at_a_time") is not True or policy.get("durable_root") != "/workspace":
         errors.append("current-pod residency policy mismatch")
-    lane = policy.get("availability_lane", {})
-    expected_profile = "2x NVIDIA A40; 96 GB aggregate VRAM; >=100 GB RAM; >=18 vCPU; <=0.70 USD/hour"
-    if lane.get("profile") != expected_profile or lane.get("nonblocking") is not True:
-        errors.append("2x A40 lane must be exact and nonblocking")
-    if lane.get("maximum_idle_candidates") != 1 or lane.get("auto_migrate") is not False or lane.get("auto_stop_current_pod") is not False:
-        errors.append("2x A40 lane authority is too broad")
+    current_pod = policy.get("current_pod_only", {})
+    expected_current_pod = {
+        "pod_id": "1q4ji0gg1fkhvt",
+        "gpu": "NVIDIA RTX 6000 Ada Generation",
+        "physical_vram_mib": 49140,
+        "shared_coordinator_required": True,
+        "sequential_residency_required": True,
+        "cpu_nvme_offload_allowed": True,
+        "alternative_hardware_watcher": False,
+        "alternative_pod_creation": False,
+        "external_inference": False,
+    }
+    if current_pod != expected_current_pod:
+        errors.append("current-pod-only runtime policy mismatch")
 
     packages = data.get("packages", [])
     ids = [item.get("package_id") for item in packages]
@@ -103,6 +111,7 @@ def validate(data: dict) -> list[str]:
                     environment = item.get("dependency_environment", {})
                     import_canary = item.get("import_canary", {})
                     static_qualification = item.get("static_qualification", {})
+                    runtime_canary = item.get("runtime_canary", {})
                     expected_root = f"/workspace/w64_aqa/models/Qwen3-ASR-1.7B/{PINNED_PLANNED[repository_id]}"
                     if install.get("durable_root") != expected_root:
                         errors.append(f"{item.get('package_id')}: installed file-set root mismatch")
@@ -125,9 +134,14 @@ def validate(data: dict) -> list[str]:
                         errors.append(f"{item.get('package_id')}: completed dependency environment gate must be removed")
                     if "import_canary" in qualification.get("required_gates", []):
                         errors.append(f"{item.get('package_id')}: completed import canary gate must be removed")
-                    if qualification.get("state") != "STATIC_AND_IMPORT_GATES_PASS_RUNTIME_GATES_PENDING":
+                    if qualification.get("state") != "STATIC_IMPORT_AND_EXACT_FIXTURE_RUNTIME_PASS_BROAD_GATES_PENDING":
                         errors.append(f"{item.get('package_id')}: qualification state mismatch")
-                    for completed_gate in ("license_acceptance", "artifact_hash"):
+                    for completed_gate in (
+                        "license_acceptance",
+                        "artifact_hash",
+                        "capacity",
+                        "runtime",
+                    ):
                         if completed_gate in qualification.get("required_gates", []):
                             errors.append(
                                 f"{item.get('package_id')}: completed {completed_gate} gate must be removed"
@@ -158,6 +172,23 @@ def validate(data: dict) -> list[str]:
                     }
                     if static_qualification != expected_static_qualification:
                         errors.append(f"{item.get('package_id')}: static qualification evidence mismatch")
+                    expected_runtime_canary = {
+                        "state": "EXACT_FIXTURE_TRANSCRIPTION_AND_PROCESS_EXIT_CLEANUP_PASS",
+                        "control_commit": "0854c5b706c4292b96dce62c82895764984a4a41",
+                        "script_sha256": "54facb0be9813d4171aee76493a8afa8cb4250762c87f49ac12497700c1e5200",
+                        "receipt_sha256": "fcac29d05809997fbeddd913dca5f988713b5b48cc6375ebd1e3207990b43d33",
+                        "evidence": "Plan/Tracker/Evidence/W64_AQA_QWEN3_ASR_RUNTIME_CANARY_20260722T035531Z/qwen3_asr_runtime_canary.json",
+                        "audio_sha256": "5a07f0a654499266509453421c3efdc1b2e4ce83b8706e0138ebc4b1d3ad924a",
+                        "transcript": "Once upon a midnight.",
+                        "language": "English",
+                        "load_seconds": 10.843007050454617,
+                        "inference_seconds": 10.259523160755634,
+                        "peak_used_mib": 5656,
+                        "process_exit_cleanup_delta_mib": 5,
+                        "coordinator_lease_mode": "exclusive",
+                    }
+                    if runtime_canary != expected_runtime_canary:
+                        errors.append(f"{item.get('package_id')}: runtime canary evidence mismatch")
                     if identity.get("license_state") != "APACHE-2.0_ACCEPTED_FOR_COMFY_UI_MAIN_PROJECT_USE":
                         errors.append(f"{item.get('package_id')}: license decision mismatch")
                 elif repository_id == "Qwen/Qwen3-Omni-30B-A3B-Thinking":

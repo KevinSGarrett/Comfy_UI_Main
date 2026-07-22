@@ -105,6 +105,10 @@ PATHS = {
     / "Plan/08_SCHEMAS/runpod_autonomous_qwen3_asr_import_canary.schema.json",
     "qwen3_asr_import_canary": ROOT
     / "Plan/07_IMPLEMENTATION/scripts/canary_wave64_qwen3_asr_imports.py",
+    "qwen3_asr_runtime_canary_receipt": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_QWEN3_ASR_RUNTIME_CANARY_20260722T035531Z/qwen3_asr_runtime_canary.json",
+    "qwen3_asr_runtime_integration_acceptance": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_QWEN3_ASR_RUNTIME_CANARY_20260722T035531Z/integration_acceptance.json",
     "schema": ROOT
     / "Plan/08_SCHEMAS/runpod_autonomous_multimodal_qa_decision.schema.json",
     "job_contract_schema": ROOT
@@ -372,6 +376,12 @@ def collect_errors() -> list[str]:
         qwen3_asr_environment_build_evidence = load_json(PATHS["qwen3_asr_environment_build_evidence"])
         qwen3_asr_environment_build_receipt = load_json(PATHS["qwen3_asr_environment_build_receipt"])
         qwen3_asr_import_canary_schema = load_json(PATHS["qwen3_asr_import_canary_schema"])
+        qwen3_asr_runtime_canary_receipt = load_json(
+            PATHS["qwen3_asr_runtime_canary_receipt"]
+        )
+        qwen3_asr_runtime_integration_acceptance = load_json(
+            PATHS["qwen3_asr_runtime_integration_acceptance"]
+        )
         schema = load_json(PATHS["schema"])
         job_contract_schema = load_json(PATHS["job_contract_schema"])
         phase_lease_schema = load_json(PATHS["phase_lease_schema"])
@@ -482,20 +492,22 @@ def collect_errors() -> list[str]:
         errors.append("Python environment build receipt schema identity mismatch")
     if qwen3_asr_import_canary_schema.get("$id") != "runpod_autonomous_qwen3_asr_import_canary.schema.json":
         errors.append("Qwen3-ASR import canary schema identity mismatch")
-    if role_package_inventory.get("scope") != "METADATA_ONLY_NO_DOWNLOAD_LOAD_INFERENCE_OR_RUNPOD_CONTACT":
-        errors.append("role package inventory must remain metadata-only")
+    if role_package_inventory.get("scope") != "REPOSITORY_BACKED_STATIC_AND_SCOPED_RUNTIME_EVIDENCE":
+        errors.append("role package inventory must bind static and scoped runtime evidence")
     inventory_runtime = role_package_inventory.get("runtime_policy", {})
-    inventory_lane = inventory_runtime.get("availability_lane", {})
+    inventory_current_pod = inventory_runtime.get("current_pod_only", {})
     if inventory_runtime.get("current_pod_remains_authoritative") is not True:
         errors.append("role package inventory must keep current pod authoritative")
-    if inventory_lane.get("nonblocking") is not True:
-        errors.append("2x A40 availability lane must remain nonblocking")
     if (
-        inventory_lane.get("maximum_idle_candidates") != 1
-        or inventory_lane.get("auto_migrate") is not False
-        or inventory_lane.get("auto_stop_current_pod") is not False
+        inventory_current_pod.get("pod_id") != "1q4ji0gg1fkhvt"
+        or inventory_current_pod.get("physical_vram_mib") != 49140
+        or inventory_current_pod.get("shared_coordinator_required") is not True
+        or inventory_current_pod.get("sequential_residency_required") is not True
+        or inventory_current_pod.get("alternative_hardware_watcher") is not False
+        or inventory_current_pod.get("alternative_pod_creation") is not False
+        or inventory_current_pod.get("external_inference") is not False
     ):
-        errors.append("2x A40 availability lane exceeds advisory authority")
+        errors.append("role package inventory current-pod-only policy mismatch")
     inventory_packages = role_package_inventory.get("packages", [])
     if len(inventory_packages) != 15:
         errors.append("role package inventory must contain 15 exact package records")
@@ -543,6 +555,35 @@ def collect_errors() -> list[str]:
         errors.append("Qwen3-ASR dependency preflight commit binding mismatch")
     if qwen3_asr_dependency_preflight_evidence.get("remote_receipt_sha256") != dependency_receipt_sha256:
         errors.append("Qwen3-ASR dependency preflight evidence hash mismatch")
+    runtime_receipt_sha256 = hashlib.sha256(
+        PATHS["qwen3_asr_runtime_canary_receipt"].read_bytes()
+    ).hexdigest()
+    if runtime_receipt_sha256 != "fcac29d05809997fbeddd913dca5f988713b5b48cc6375ebd1e3207990b43d33":
+        errors.append("Qwen3-ASR runtime canary receipt hash mismatch")
+    if qwen3_asr_runtime_canary_receipt.get("status") != "PASS_RUNTIME_TRANSCRIPT_AND_PROCESS_EXIT_CLEANUP":
+        errors.append("Qwen3-ASR runtime canary did not pass")
+    if qwen3_asr_runtime_canary_receipt.get("transcription", {}).get("text") != "Once upon a midnight.":
+        errors.append("Qwen3-ASR exact-fixture transcript mismatch")
+    runtime_authority = qwen3_asr_runtime_canary_receipt.get("authority", {})
+    if runtime_authority.get("exact_fixture_transcription") is not True:
+        errors.append("Qwen3-ASR exact-fixture authority missing")
+    if any(
+        runtime_authority.get(key) is not False
+        for key in (
+            "general_asr_quality",
+            "forced_alignment",
+            "semantic_audio_quality",
+            "product_promotion",
+        )
+    ):
+        errors.append("Qwen3-ASR runtime receipt exceeds exact-fixture authority")
+    if qwen3_asr_runtime_integration_acceptance.get("disposition") != "PARTIALLY_ADOPTED_EXACT_FIXTURE_ASR_RUNTIME_ONLY":
+        errors.append("Qwen3-ASR integration acceptance disposition mismatch")
+    if (
+        qwen3_asr_runtime_integration_acceptance.get("accepted_receipt", {}).get("sha256")
+        != runtime_receipt_sha256
+    ):
+        errors.append("Qwen3-ASR integration acceptance receipt binding mismatch")
     if qwen3_asr_dependency_preflight_evidence.get("retained_non_authoritative_control_copy", {}).get("authority") != "none":
         errors.append("mistyped Qwen3-ASR control copy must remain non-authoritative")
     if any(qwen3_asr_dependency_preflight_evidence.get("runtime_claims", {}).values()):
@@ -1327,8 +1368,7 @@ def collect_errors() -> list[str]:
         "two no-progress",
         "EC2",
         "RunPod",
-        "A40",
-        "RTX A6000",
+        "RTX 6000 Ada",
     )
     lowered = all_text.lower()
     for phrase in required_phrases:
@@ -1343,6 +1383,11 @@ def collect_errors() -> list[str]:
         import jsonschema
 
         jsonschema.Draft7Validator.check_schema(schema)
+        jsonschema.Draft202012Validator.check_schema(role_package_inventory_schema)
+        jsonschema.Draft202012Validator(
+            role_package_inventory_schema,
+            format_checker=jsonschema.FormatChecker(),
+        ).validate(role_package_inventory)
         jsonschema.Draft7Validator.check_schema(job_contract_schema)
         jsonschema.Draft7Validator.check_schema(phase_lease_schema)
         jsonschema.Draft7Validator.check_schema(image_measurement_schema)

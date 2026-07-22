@@ -591,6 +591,21 @@ gates without contacting the pod or GPU. Capacity, language calibration,
 runtime, quality, cost, failure recovery, activation, and product authority
 remain open.
 
+The first functional Qwen3-ASR runtime gate is now accepted at exact-fixture
+scope. Under an exclusive shared-coordinator lease, revision `7278e1e` loaded
+offline, transcribed retained audio SHA-256 `5a07f0a6...d924a` as
+`Once upon a midnight.`, identified English, and exited back to within +5 MiB
+of the parent's pre-worker GPU baseline. The original worker-local cleanup
+measurement saw 3,810 MiB of CUDA context residency and failed; that receipt is
+retained. Commit `0854c5b7` corrected the evidence boundary by isolating CUDA
+work in a child and measuring again only after child exit, without changing the
+model, audio, phrase, or threshold. This closes current-pod capacity, exact
+fixture transcription, runtime, and cleanup only. General ASR quality,
+language/duration calibration, forced alignment, audio semantics, AV review,
+cost, fault injection, activation, and promotion remain open. The next bounded
+functional gate is Qwen3-Omni audio-semantic review of the same retained
+fixture under a new exclusive lease.
+
 The next non-GPU admission targets Qwen3-Omni-30B-A3B-Thinking as the planned
 audio and audiovisual semantic reviewer. Official metadata pins revision
 `2f443cfc4c54b14a815c0e2bb9a9d6cbcd9a748b`, 26 source files, and sixteen

@@ -1,18 +1,22 @@
 {
   "schema_version": "wave64.aqa.role_package_inventory.v1",
   "program_id": "W64-AQA",
-  "observed_at_utc": "2026-07-22T00:10:02Z",
-  "scope": "METADATA_ONLY_NO_DOWNLOAD_LOAD_INFERENCE_OR_RUNPOD_CONTACT",
+  "observed_at_utc": "2026-07-22T03:55:31Z",
+  "scope": "REPOSITORY_BACKED_STATIC_AND_SCOPED_RUNTIME_EVIDENCE",
   "runtime_policy": {
     "current_pod_remains_authoritative": true,
     "single_gpu_role_at_a_time": true,
     "durable_root": "/workspace",
-    "availability_lane": {
-      "profile": "2x NVIDIA A40; 96 GB aggregate VRAM; >=100 GB RAM; >=18 vCPU; <=0.70 USD/hour",
-      "nonblocking": true,
-      "maximum_idle_candidates": 1,
-      "auto_migrate": false,
-      "auto_stop_current_pod": false
+    "current_pod_only": {
+      "pod_id": "1q4ji0gg1fkhvt",
+      "gpu": "NVIDIA RTX 6000 Ada Generation",
+      "physical_vram_mib": 49140,
+      "shared_coordinator_required": true,
+      "sequential_residency_required": true,
+      "cpu_nvme_offload_allowed": true,
+      "alternative_hardware_watcher": false,
+      "alternative_pod_creation": false,
+      "external_inference": false
     }
   },
   "packages": [
@@ -122,8 +126,9 @@
       "dependency_environment": {"state": "INSTALLED_IMPORT_VERIFIED_RUNTIME_PENDING", "root": "/workspace/w64_aqa/environments/Qwen3-ASR-1.7B/qwen-asr-0.0.6-py3.12.13-cu124/241dfaab72cea25fe705693ef715e8368d171720ae3dc37e1c17ecc81b18ba22", "receipt_sha256": "e09c67aee503f511124b50af539067c9f82f1969490ab9b7d5127d9870c9dcd4", "tree_sha256": "6625aa3c76c411424ede40ce6275d0fb378a1d9a017c205f74ffd356386f7c4a", "distribution_count": 105, "evidence": "Plan/Tracker/Evidence/W64_AQA_QWEN3_ASR_17B_ENVIRONMENT_BUILD_20260722T010500Z/evidence.json"},
       "import_canary": {"state": "IMPORT_ONLY_CLASS_RESOLUTION_PASS_RUNTIME_PENDING", "commit": "79b24a0a8bd03100fb8e086e57c346685002a94f", "script_sha256": "8469b3761f7ea9df9867b4a57f5641660692731bc39b83b509a87673973c8a56", "receipt_sha256": "2e734d753744cf1c017fc9f92de111a0cee0a76d45ff8612a93ee70d10e0126f", "post_canary_tree_sha256": "6625aa3c76c411424ede40ce6275d0fb378a1d9a017c205f74ffd356386f7c4a", "evidence": "Plan/Tracker/Evidence/W64_AQA_QWEN3_ASR_17B_IMPORT_CANARY_20260722T013835Z/evidence.json"},
       "static_qualification": {"state": "LICENSE_AND_ARTIFACT_HASH_PASS", "evidence": "Plan/Tracker/Evidence/W64_AQA_QWEN3_ASR_17B_STATIC_QUALIFICATION_20260722T014335Z/evidence.json", "admission_manifest_sha256": "e733f6863ecf6e3cd2d5579cd50c6e8cd35c78739316757633ad70c879edba60", "installation_receipt_sha256": "cd52de9d1c4495d42c007d648dfa0355aa57eec64457cbdf967ba9ef39aa004e"},
-      "qualification": {"state": "STATIC_AND_IMPORT_GATES_PASS_RUNTIME_GATES_PENDING", "required_gates": ["capacity", "language_calibration", "runtime", "quality", "cost", "failure_injection"]},
-      "authority": {"operational": false, "allowed_scope": "none until ASR certificate", "forbidden": ["download_without_receipt", "load", "inference", "semantic_audio_approval", "promotion"]}
+      "runtime_canary": {"state": "EXACT_FIXTURE_TRANSCRIPTION_AND_PROCESS_EXIT_CLEANUP_PASS", "control_commit": "0854c5b706c4292b96dce62c82895764984a4a41", "script_sha256": "54facb0be9813d4171aee76493a8afa8cb4250762c87f49ac12497700c1e5200", "receipt_sha256": "fcac29d05809997fbeddd913dca5f988713b5b48cc6375ebd1e3207990b43d33", "evidence": "Plan/Tracker/Evidence/W64_AQA_QWEN3_ASR_RUNTIME_CANARY_20260722T035531Z/qwen3_asr_runtime_canary.json", "audio_sha256": "5a07f0a654499266509453421c3efdc1b2e4ce83b8706e0138ebc4b1d3ad924a", "transcript": "Once upon a midnight.", "language": "English", "load_seconds": 10.843007050454617, "inference_seconds": 10.259523160755634, "peak_used_mib": 5656, "process_exit_cleanup_delta_mib": 5, "coordinator_lease_mode": "exclusive"},
+      "qualification": {"state": "STATIC_IMPORT_AND_EXACT_FIXTURE_RUNTIME_PASS_BROAD_GATES_PENDING", "required_gates": ["language_calibration", "quality", "cost", "failure_injection"]},
+      "authority": {"operational": false, "allowed_scope": "hash-bound retained fixture transcription under an exclusive coordinator lease", "forbidden": ["download_without_receipt", "unleased_load", "general_asr_quality", "forced_alignment", "semantic_audio_approval", "promotion"]}
     },
     {
       "package_id": "W64-AQA-PKG-QWEN3-CODER-NEXT",

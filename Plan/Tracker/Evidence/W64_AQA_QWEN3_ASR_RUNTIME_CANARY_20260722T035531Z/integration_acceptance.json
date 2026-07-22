@@ -1,0 +1,61 @@
+{
+  "schema_version": "wave64.aqa.integration_acceptance.v1",
+  "program_id": "W64-AQA",
+  "row_ids": [
+    "W64-AQA-006",
+    "W64-AQA-017"
+  ],
+  "observed_at_utc": "2026-07-22T03:55:31Z",
+  "disposition": "PARTIALLY_ADOPTED_EXACT_FIXTURE_ASR_RUNTIME_ONLY",
+  "control": {
+    "commit": "0854c5b706c4292b96dce62c82895764984a4a41",
+    "script": "Plan/07_IMPLEMENTATION/scripts/canary_wave64_qwen3_asr_runtime.py",
+    "script_sha256": "54facb0be9813d4171aee76493a8afa8cb4250762c87f49ac12497700c1e5200"
+  },
+  "accepted_receipt": {
+    "path": "Plan/Tracker/Evidence/W64_AQA_QWEN3_ASR_RUNTIME_CANARY_20260722T035531Z/qwen3_asr_runtime_canary.json",
+    "sha256": "fcac29d05809997fbeddd913dca5f988713b5b48cc6375ebd1e3207990b43d33",
+    "status": "PASS_RUNTIME_TRANSCRIPT_AND_PROCESS_EXIT_CLEANUP"
+  },
+  "retained_predecessor_failure": {
+    "path": "Plan/Tracker/Evidence/W64_AQA_QWEN3_ASR_RUNTIME_CANARY_20260722T034724Z/qwen3_asr_runtime_canary.json",
+    "sha256": "6ad44906a1ecc8725b6e632f4f6b0d413a5ff1d37ff49c10ada19cf64455a24e",
+    "status": "FAIL_RUNTIME_OR_TRANSCRIPT_OR_CLEANUP",
+    "reason": "in-process CUDA context residency was measured before worker process exit"
+  },
+  "fixture": {
+    "sha256": "5a07f0a654499266509453421c3efdc1b2e4ce83b8706e0138ebc4b1d3ad924a",
+    "duration_seconds": 2.04,
+    "sample_rate_hz": 48000,
+    "channels": 2
+  },
+  "accepted_observations": {
+    "model_revision": "7278e1e70fe206f11671096ffdd38061171dd6e5",
+    "transcript": "Once upon a midnight.",
+    "language": "English",
+    "load_seconds": 10.843007050454617,
+    "inference_seconds": 10.259523160755634,
+    "peak_gpu_used_mib": 5656,
+    "in_process_cleanup_delta_mib": 3810,
+    "process_exit_cleanup_delta_mib": 5,
+    "process_exit_cleanup_pass": true
+  },
+  "coordination": {
+    "lease_mode": "exclusive",
+    "successful_run_lease_id": "lease_94c90df6b88c45258b9992bf055cafda",
+    "lease_released": true,
+    "coordinator_state_after_run": "ON_IDLE",
+    "active_lease_after_run": null
+  },
+  "authority": {
+    "current_pod_runtime_capacity_for_exact_model_and_fixture": true,
+    "exact_fixture_transcription": true,
+    "general_asr_quality": false,
+    "forced_alignment": false,
+    "semantic_audio_quality": false,
+    "av_sync_or_motion_review": false,
+    "product_promotion": false,
+    "service_activation": false
+  },
+  "next_action": "Run Qwen3-Omni audio-semantic review against the same retained fixture under a new exclusive coordinator lease."
+}
