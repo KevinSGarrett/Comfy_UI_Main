@@ -196,16 +196,26 @@ def audit_and_extract(source_archive: Path, destination: Path) -> dict:
     roots = [path for path in destination.iterdir() if path.is_dir()]
     if len(roots) != 1:
         raise BuildError("source archive must contain one root directory")
+    root_setup = roots[0] / "setup.py"
+    if not root_setup.is_file() or root_setup.is_symlink():
+        raise BuildError("source archive root setup.py is missing or unsafe")
     scripts = sorted(roots[0].rglob("setup.py"))
-    if len(scripts) != 1:
-        raise BuildError("source archive must contain exactly one setup.py")
-    findings = scan_build_script(scripts[0])
+    findings = sorted(
+        {
+            f"{script.relative_to(roots[0]).as_posix()}:{finding}"
+            for script in scripts
+            for finding in scan_build_script(script)
+        }
+    )
     if findings:
         raise BuildError(f"source build script static gate failed: {findings}")
     return {
         "archive_member_count": len(members),
         "root": roots[0].name,
-        "setup_script": scripts[0].relative_to(roots[0]).as_posix(),
+        "root_setup_script": "setup.py",
+        "scanned_setup_scripts": [
+            script.relative_to(roots[0]).as_posix() for script in scripts
+        ],
         "static_findings": findings,
     }
 
@@ -366,6 +376,13 @@ def build(admission_path: Path, builder_lock_path: Path, source_lock_path: Path,
             "source_dependency_lock_sha256": EXPECTED_SOURCE_LOCK_SHA256,
             "wheelhouse_root": str(target),
             "free_bytes_before": free_bytes,
+            "prior_attempt": {
+                "controller_commit": "b3d95949",
+                "result": "FAIL_CLOSED_BEFORE_BUILD_EXECUTION",
+                "reason": "insightface archive contains a safe nested third-party setup.py in addition to the required root setup.py",
+                "staging_removed": True,
+                "wheelhouse_published": False,
+            },
             "builder": {
                 "python_version": builder["python_version"],
                 "python_sha256": builder["python_sha256"],

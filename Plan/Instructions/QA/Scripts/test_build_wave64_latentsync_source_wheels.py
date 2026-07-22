@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import importlib.util
+import io
 from pathlib import Path
+import tarfile
 import zipfile
 
 import pytest
@@ -41,6 +43,23 @@ def test_static_scan_rejects_process_or_network_build_logic(
     setup = tmp_path / "setup.py"
     setup.write_text(source, encoding="utf-8")
     assert expected in MODULE.scan_build_script(setup)
+
+
+def test_source_audit_accepts_safe_nested_setup_script(tmp_path: Path) -> None:
+    archive_path = tmp_path / "fixture.tar.gz"
+    files = {
+        "fixture-1.0/setup.py": b"from setuptools import setup\nsetup(name='fixture', version='1')\n",
+        "fixture-1.0/vendor/setup.py": b"from setuptools import setup\nsetup(name='vendor', version='1')\n",
+    }
+    with tarfile.open(archive_path, "w:gz") as archive:
+        for name, payload in files.items():
+            info = tarfile.TarInfo(name)
+            info.size = len(payload)
+            archive.addfile(info, io.BytesIO(payload))
+    observed = MODULE.audit_and_extract(archive_path, tmp_path / "extract")
+    assert observed["root_setup_script"] == "setup.py"
+    assert observed["scanned_setup_scripts"] == ["setup.py", "vendor/setup.py"]
+    assert observed["static_findings"] == []
 
 
 def test_wheel_inspection_binds_metadata_record_and_hash(tmp_path: Path) -> None:
