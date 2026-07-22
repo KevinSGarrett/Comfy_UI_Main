@@ -343,3 +343,11 @@ Treat it as immutable. The next gate is an import-only canary with CUDA hidden;
 it may import the isolated libraries and inspect registered classes, but it may
 not construct the model, open safetensors, allocate tensors, inspect the GPU or
 lease, run inference, bind a service, or activate the role.
+
+Run `canary_wave64_qwen3_asr_imports.py` only from the pushed commit that
+contains its schema and tests. Set `CUDA_VISIBLE_DEVICES` empty,
+`NVIDIA_VISIBLE_DEVICES=none`, both Hugging Face and Transformers offline, and
+`PYTHONDONTWRITEBYTECODE=1`. Write one no-overwrite receipt under a commit-named
+control root. After the canary, recompute the environment tree digest; any byte
+change, network attempt, weight-file open, missing class, or nonempty GPU
+visibility rejects the canary.

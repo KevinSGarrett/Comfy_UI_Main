@@ -533,3 +533,12 @@ error after installation, so acceptance used an independent stdin-delivered
 metadata check; the correction changed no installed bytes. This completes only
 the dependency-environment gate. Import, model construction, GPU, weights,
 inference, role activation, and product decisions remain unqualified.
+
+The import-only canary is independently bounded before execution. It must run
+from the immutable environment with CUDA hidden, Hugging Face and Transformers
+offline, bytecode writes disabled, and an audit hook that rejects network,
+subprocess, shell, and model-weight file opens. Its only positive authority is
+to import the isolated Qwen-ASR, Transformers, and Torch libraries and resolve
+the four required class objects. Model construction, tensor requests, weight
+access, GPU or lease polling, inference, services, activation, and product
+authority remain false.

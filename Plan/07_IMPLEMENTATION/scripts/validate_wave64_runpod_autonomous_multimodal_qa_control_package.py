@@ -91,6 +91,10 @@ PATHS = {
     / "Plan/Tracker/Evidence/W64_AQA_QWEN3_ASR_17B_ENVIRONMENT_BUILD_20260722T010500Z/evidence.json",
     "qwen3_asr_environment_build_receipt": ROOT
     / "Plan/Tracker/Evidence/W64_AQA_QWEN3_ASR_17B_ENVIRONMENT_BUILD_20260722T010500Z/remote_environment_build.receipt.json",
+    "qwen3_asr_import_canary_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_qwen3_asr_import_canary.schema.json",
+    "qwen3_asr_import_canary": ROOT
+    / "Plan/07_IMPLEMENTATION/scripts/canary_wave64_qwen3_asr_imports.py",
     "schema": ROOT
     / "Plan/08_SCHEMAS/runpod_autonomous_multimodal_qa_decision.schema.json",
     "job_contract_schema": ROOT
@@ -357,6 +361,7 @@ def collect_errors() -> list[str]:
         python_environment_build_receipt_schema = load_json(PATHS["python_environment_build_receipt_schema"])
         qwen3_asr_environment_build_evidence = load_json(PATHS["qwen3_asr_environment_build_evidence"])
         qwen3_asr_environment_build_receipt = load_json(PATHS["qwen3_asr_environment_build_receipt"])
+        qwen3_asr_import_canary_schema = load_json(PATHS["qwen3_asr_import_canary_schema"])
         schema = load_json(PATHS["schema"])
         job_contract_schema = load_json(PATHS["job_contract_schema"])
         phase_lease_schema = load_json(PATHS["phase_lease_schema"])
@@ -465,6 +470,8 @@ def collect_errors() -> list[str]:
         errors.append("Python environment admission schema identity mismatch")
     if python_environment_build_receipt_schema.get("$id") != "runpod_autonomous_python_environment_build_receipt.schema.json":
         errors.append("Python environment build receipt schema identity mismatch")
+    if qwen3_asr_import_canary_schema.get("$id") != "runpod_autonomous_qwen3_asr_import_canary.schema.json":
+        errors.append("Qwen3-ASR import canary schema identity mismatch")
     if role_package_inventory.get("scope") != "METADATA_ONLY_NO_DOWNLOAD_LOAD_INFERENCE_OR_RUNPOD_CONTACT":
         errors.append("role package inventory must remain metadata-only")
     inventory_runtime = role_package_inventory.get("runtime_policy", {})
