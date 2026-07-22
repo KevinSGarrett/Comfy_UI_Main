@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_flux2_klein_dependency_bundle.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "program_id", "bundle_id", "stack_id", "status", "pod_id", "provider_revision", "components", "comfyui_runtime", "workflow", "blockers", "authority"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.flux2_klein_dependency_bundle.v1"},
+    "program_id": {"const": "W64-AQA"},
+    "bundle_id": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "stack_id": {"const": "W64-AQA-GEN-FLUX2-KLEIN-4B-FP8"},
+    "status": {"const": "EXACT_COMPONENT_IDENTITIES_BOUND_TWO_CURRENT_POD_PROMOTIONS_PENDING"},
+    "pod_id": {"const": "1q4ji0gg1fkhvt"},
+    "provider_revision": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "components": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"$ref": "#/$defs/component"}},
+    "comfyui_runtime": {
+      "type": "object", "additionalProperties": false,
+      "required": ["repository_commit", "static_flux2_support_present", "source_bindings", "current_pod_object_info_verified", "runtime_qualified"],
+      "properties": {
+        "repository_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "static_flux2_support_present": {"const": true},
+        "source_bindings": {"type": "array", "minItems": 4, "items": {"$ref": "#/$defs/fileBinding"}, "uniqueItems": true},
+        "current_pod_object_info_verified": {"const": false},
+        "runtime_qualified": {"const": false}
+      }
+    },
+    "workflow": {
+      "type": "object", "additionalProperties": false,
+      "required": ["official_guide_url", "required_model_names_verified", "exact_workflow_hash_bound", "activated"],
+      "properties": {
+        "official_guide_url": {"type": "string", "format": "uri"},
+        "required_model_names_verified": {"const": true},
+        "exact_workflow_hash_bound": {"const": false},
+        "activated": {"const": false}
+      }
+    },
+    "blockers": {"type": "array", "minItems": 7, "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "authority": {
+      "type": "object", "additionalProperties": false,
+      "required": ["component_identity", "current_pod_complete", "license_acceptance", "workflow", "object_info", "model_load", "capacity", "quality", "activation", "promotion"],
+      "properties": {
+        "component_identity": {"const": true},
+        "current_pod_complete": {"const": false},
+        "license_acceptance": {"const": false},
+        "workflow": {"const": false},
+        "object_info": {"const": false},
+        "model_load": {"const": false},
+        "capacity": {"const": false},
+        "quality": {"const": false},
+        "activation": {"const": false},
+        "promotion": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "fileBinding": {"type": "object", "additionalProperties": false, "required": ["path", "sha256"], "properties": {"path": {"type": "string"}, "sha256": {"$ref": "#/$defs/sha256"}}},
+    "component": {
+      "type": "object", "additionalProperties": false,
+      "required": ["role", "filename", "bytes", "sha256", "provider_path", "provider_commit", "current_pod_path", "current_pod_state", "local_source", "license_state"],
+      "properties": {
+        "role": {"enum": ["diffusion_model", "text_encoder", "vae"]},
+        "filename": {"type": "string"}, "bytes": {"type": "integer", "minimum": 1}, "sha256": {"$ref": "#/$defs/sha256"},
+        "provider_path": {"type": "string"}, "provider_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "current_pod_path": {"type": "string", "pattern": "^/workspace/ComfyUI/models/"},
+        "current_pod_state": {"enum": ["PROMOTED_HASH_VERIFIED", "NOT_IN_ACCEPTED_PROMOTED_LEDGER"]},
+        "local_source": {"type": ["object", "null"]},
+        "license_state": {"enum": ["APACHE_2_METADATA_PROJECT_ACCEPTANCE_PENDING", "REDISTRIBUTION_LICENSE_METADATA_MISSING"]}
+      }
+    }
+  }
+}

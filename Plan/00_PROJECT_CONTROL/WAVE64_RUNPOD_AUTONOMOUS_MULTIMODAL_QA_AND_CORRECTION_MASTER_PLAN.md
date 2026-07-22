@@ -1420,3 +1420,22 @@ license metadata. The queue binds the registry and selected promoted package
 by SHA-256 but keeps the generation campaign `HELD_PREREQUISITES_INCOMPLETE`.
 No ComfyUI restart, model load, workflow activation, GPU poll, runtime claim,
 quality claim, or product promotion occurred.
+
+### Flux.2 Klein exact dependency closure
+
+The selected Flux.2 Klein 4B FP8 candidate now binds its three exact model
+components: the promoted distilled diffusion model, the 8,044,982,048-byte
+`qwen_3_4b.safetensors` text encoder, and the 336,211,292-byte Klein
+`flux2-vae.safetensors`. Primary ComfyUI guidance identifies those companion
+filenames for the 4B workflow. The text encoder's retained local source matches
+the primary distribution SHA-256, but neither companion appears in the accepted
+current-pod promoted ledger.
+
+The retained 336,213,556-byte Flux.2 Dev VAE has a different SHA-256 and is
+explicitly barred from substituting for the Klein companion. The authoritative
+ComfyUI checkout at `7747c342` contains statically hash-bound Flux.2 model,
+latent, node, and Qwen text-encoder support, but this grants no current-pod
+`object_info` or runtime authority. Companion redistribution license metadata,
+project license acceptance, exact workflow hash, companion promotion, object
+info, lease, load, cleanup, capacity, quality, failure injection, activation,
+and promotion all remain held.

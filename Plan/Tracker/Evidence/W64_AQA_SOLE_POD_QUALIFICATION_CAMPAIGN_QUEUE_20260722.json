@@ -21,7 +21,7 @@
     },
     "generation_stack_registry": {
       "path": "Plan/10_REGISTRIES/wave64_aqa_generation_stack_registry.json",
-      "sha256": "98fcaa1e019dc5a9bac941e9afad36c041b58b9e4feaaf35d74cb1e2a660607a"
+      "sha256": "f60998bc9af38b3a4cdd5a5fc5a72e6c1aafde04f64a23f78a40711adde2d94c"
     }
   },
   "pod_gate": {
@@ -364,12 +364,16 @@
       "certificate": null,
       "generation_stack": {
         "path": "Plan/10_REGISTRIES/wave64_aqa_generation_stack_registry.json",
-        "sha256": "98fcaa1e019dc5a9bac941e9afad36c041b58b9e4feaaf35d74cb1e2a660607a",
+        "sha256": "f60998bc9af38b3a4cdd5a5fc5a72e6c1aafde04f64a23f78a40711adde2d94c",
         "stack_id": "W64-AQA-GEN-FLUX2-KLEIN-4B-FP8",
         "package_id": "W64-AQA-PROMOTED-FLUX2-KLEIN-4B-FP8",
         "package_path": "Plan/10_REGISTRIES/wave64_flux2_klein_4b_fp8_promoted_storage_package.json",
         "package_sha256": "63c65de182027e9d0f2669e4e0e941c36992e451996266cf0037a97457a19d51",
         "asset_sha256": "97ed34fe0567e436200f2faee3939b88f2b5d99f8af2a4dc16532c4245c0ccb6",
+        "dependency_bundle_path": "Plan/10_REGISTRIES/wave64_aqa_flux2_klein_4b_dependency_bundle.json",
+        "dependency_bundle_sha256": "0b402aff647bc8864bca38aecb9e105b69987b05d2ff4a719c16814c2621d055",
+        "dependency_bundle_id": "9d45db5c13eea70a12b925a3f35146c4305d7efe04410f9dc17e8098f6ed0847",
+        "current_pod_complete": false,
         "state": "SELECTED_INACTIVE",
         "exact_storage_identity_bound": true,
         "executable": false
@@ -388,9 +392,10 @@
       ],
       "readiness": "HELD_PREREQUISITES_INCOMPLETE",
       "blockers": [
+        "COMPANION_REDISTRIBUTION_LICENSE_METADATA_MISSING",
         "CURRENT_POD_CAPACITY_NOT_QUALIFIED",
         "CURRENT_POD_MODEL_LOAD_AND_CLEANUP_NOT_QUALIFIED",
-        "EXACT_TEXT_ENCODER_AND_VAE_DEPENDENCIES_INCOMPLETE",
+        "EXACT_COMPANION_IDENTITIES_BOUND_CURRENT_POD_PROMOTION_INCOMPLETE",
         "EXACT_WORKFLOW_HASH_NOT_BOUND",
         "FRESH_COORDINATOR_ADMISSION_AND_EXACT_EXCLUSIVE_LEASE_REQUIRED",
         "GENERATION_QUALITY_AND_FAILURE_INJECTION_NOT_QUALIFIED",
@@ -675,7 +680,7 @@
       "retain_immutable_receipts"
     ]
   },
-  "queue_sha256": "5b9601b877f0c4710fd0207f5344db848962e7e6d7750eccb72baaaeb8ef014f",
+  "queue_sha256": "92c8bf0bce87ba0142ed5f0671070fdcc3e4300f6a688a5431f632bc1eb55edb",
   "authority": {
     "execution_planning": true,
     "runtime": false,

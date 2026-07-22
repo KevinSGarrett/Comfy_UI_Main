@@ -146,12 +146,16 @@
     },
     "generationStackBinding": {
       "type": "object", "additionalProperties": false,
-      "required": ["path", "sha256", "stack_id", "package_id", "package_path", "package_sha256", "asset_sha256", "state", "exact_storage_identity_bound", "executable"],
+      "required": ["path", "sha256", "stack_id", "package_id", "package_path", "package_sha256", "asset_sha256", "dependency_bundle_path", "dependency_bundle_sha256", "dependency_bundle_id", "current_pod_complete", "state", "exact_storage_identity_bound", "executable"],
       "properties": {
         "path": {"type": "string"}, "sha256": {"$ref": "#/$defs/sha256"},
         "stack_id": {"type": "string"}, "package_id": {"type": "string"},
         "package_path": {"type": "string"}, "package_sha256": {"$ref": "#/$defs/sha256"},
         "asset_sha256": {"$ref": "#/$defs/sha256"},
+        "dependency_bundle_path": {"type": "string"},
+        "dependency_bundle_sha256": {"$ref": "#/$defs/sha256"},
+        "dependency_bundle_id": {"$ref": "#/$defs/sha256"},
+        "current_pod_complete": {"const": false},
         "state": {"const": "SELECTED_INACTIVE"},
         "exact_storage_identity_bound": {"const": true},
         "executable": {"const": false}

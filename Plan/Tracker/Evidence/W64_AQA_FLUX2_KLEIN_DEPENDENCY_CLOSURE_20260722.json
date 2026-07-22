@@ -1,0 +1,49 @@
+{
+  "schema_version": "wave64.aqa.flux2_klein_dependency_closure_acceptance.v1",
+  "program_id": "W64-AQA",
+  "tracker_ids": ["W64-AQA-014", "W64-AQA-018"],
+  "evaluated_at_utc": "2026-07-22T17:07:41Z",
+  "disposition": "PARTIALLY_ADOPTED",
+  "repository_base_commit": "ede9d05fe04c503974c610c147ce3a6feda712e0",
+  "scope": "Exact Flux.2 Klein 4B component identity and static ComfyUI support only",
+  "dependency_bundle": {
+    "bundle_id": "9d45db5c13eea70a12b925a3f35146c4305d7efe04410f9dc17e8098f6ed0847",
+    "component_count": 3,
+    "identity_complete": true,
+    "current_pod_complete": false,
+    "promoted_component_count": 1,
+    "missing_from_accepted_promoted_ledger_count": 2
+  },
+  "components": [
+    {"role": "diffusion_model", "bytes": 4070624520, "sha256": "97ed34fe0567e436200f2faee3939b88f2b5d99f8af2a4dc16532c4245c0ccb6", "state": "PROMOTED_HASH_VERIFIED"},
+    {"role": "text_encoder", "bytes": 8044982048, "sha256": "6c671498573ac2f7a5501502ccce8d2b08ea6ca2f661c458e708f36b36edfc5a", "state": "EXACT_LOCAL_SOURCE_NOT_IN_ACCEPTED_PROMOTED_LEDGER"},
+    {"role": "vae", "bytes": 336211292, "sha256": "868fe7b343cc8f3a19dbcfcafbc3d5f888802be3f89bd81b65b3621a066ce8f3", "state": "EXACT_PRIMARY_IDENTITY_NOT_LOCAL_OR_IN_ACCEPTED_PROMOTED_LEDGER"}
+  ],
+  "mismatch_guard": {
+    "retained_local_dev_vae_bytes": 336213556,
+    "retained_local_dev_vae_sha256": "d64f3a68e1cc4f9f4e29b6e0da38a0204fe9a49f2d4053f0ec1fa1ca02f9c4b5",
+    "substitution_allowed": false
+  },
+  "primary_sources": [
+    {"url": "https://docs.comfy.org/tutorials/flux/flux-2-klein", "claim": "4B workflow requires qwen_3_4b.safetensors, a 4B diffusion model, and flux2-vae.safetensors"},
+    {"url": "https://huggingface.co/Comfy-Org/vae-text-encorder-for-flux-klein-4b/commit/8556e4d870cda7c53c7942b190bfeea5be9bd411", "claim": "text encoder exact LFS SHA-256 and byte count"},
+    {"url": "https://huggingface.co/Comfy-Org/vae-text-encorder-for-flux-klein-4b/commit/a9e4ca87c16db4c4e1a16406a9ddb300ab0ae246", "claim": "Klein VAE exact LFS SHA-256 and byte count"}
+  ],
+  "queue": {"queue_sha256": "92c8bf0bce87ba0142ed5f0671070fdcc3e4300f6a688a5431f632bc1eb55edb", "file_sha256": "cac0124f22b6b5c963f50c59ba5fefffec14e0b73f3f23e4e0ff95c96bbf56d9", "generation_readiness": "HELD_PREREQUISITES_INCOMPLETE"},
+  "bindings": [
+    {"path": "Plan/10_REGISTRIES/wave64_aqa_flux2_klein_4b_dependency_bundle.json", "sha256": "0b402aff647bc8864bca38aecb9e105b69987b05d2ff4a719c16814c2621d055"},
+    {"path": "Plan/08_SCHEMAS/runpod_autonomous_flux2_klein_dependency_bundle.schema.json", "sha256": "7008b94fcf021b73b276c04a2fb4e4f1bf5d3e91a6a6cfdc1bdf11d4c7a98b5f"},
+    {"path": "Plan/07_IMPLEMENTATION/scripts/validate_wave64_aqa_flux2_klein_dependency_bundle.py", "sha256": "ac6aaa14fa55badc92a34180811c62c89df37d79d42361ca86892d8e9ca2c10c"},
+    {"path": "Plan/Instructions/QA/Scripts/test_validate_wave64_aqa_flux2_klein_dependency_bundle.py", "sha256": "3c72c60a19213ae70b4c3c81603a27580b04ad062be833161563dd846b842ab1"},
+    {"path": "Plan/10_REGISTRIES/wave64_aqa_generation_stack_registry.json", "sha256": "f60998bc9af38b3a4cdd5a5fc5a72e6c1aafde04f64a23f78a40711adde2d94c"},
+    {"path": "Plan/08_SCHEMAS/runpod_autonomous_generation_stack_registry.schema.json", "sha256": "f1556ef589628d28720c663b787dcd8fe89b679b9531e85e8b60184b01077b17"},
+    {"path": "Plan/07_IMPLEMENTATION/scripts/validate_wave64_aqa_generation_stack_registry.py", "sha256": "57f304d93622a77485b7e4f90a8d2cb4d48c91662de4a0f56f64976c198de228"},
+    {"path": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_aqa_sole_pod_qualification_queue.py", "sha256": "6fcaeb401fc963d7adcb8c0f1ed6b3ef0a48becb094801273f93711d159f4ad3"},
+    {"path": "Plan/08_SCHEMAS/runpod_autonomous_qualification_campaign_queue.schema.json", "sha256": "4d5cdc9be4043ed957ea1cffeb3c980a5cfc76eb75110f252dc5c268f493cbac"},
+    {"path": "Plan/Instructions/QA/Scripts/test_compile_wave64_aqa_sole_pod_qualification_queue.py", "sha256": "ef584fcfb1200bdb9334a1bb4c65f63bede6c54e310d28ce939a85d3e1a75fa4"}
+  ],
+  "validation": {"dependency_bundle_replay": "PASS", "generation_registry_replay": "PASS", "qualification_queue_replay": "PASS", "focused_pytest": {"status": "PASS", "passed": 18}, "ruff": "PASS", "pod_contacted": false, "model_loaded": false, "workflow_activated": false},
+  "authority_granted": ["three exact component identities", "local text-encoder source identity", "Dev-VAE mismatch rejection", "static ComfyUI Flux.2 source support binding"],
+  "authority_not_granted": ["companion redistribution license authority", "project license acceptance", "current-pod companion presence", "exact workflow hash", "current-pod object_info", "model load cleanup capacity quality failure injection activation or promotion"],
+  "next_action": "Prepare but do not execute an atomic companion storage transaction: retain the exact local qwen text encoder, acquire the exact Klein VAE bytes, stage and hash both, and promote only when shared-runtime mutation is coordinator-safe."
+}

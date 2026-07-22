@@ -63,3 +63,17 @@ Do not remove its license-acceptance, text-encoder/VAE dependency, workflow,
 coordinator lease, model-load/cleanup, capacity, quality, or failure-injection
 blocks until separately retained evidence passes. Never infer generation
 runtime or quality authority from a promoted model file or a registry binding.
+
+Replay the selected Flux.2 Klein dependency identity before any companion
+transfer or workflow work:
+
+```powershell
+python Plan/07_IMPLEMENTATION/scripts/validate_wave64_aqa_flux2_klein_dependency_bundle.py
+```
+
+The bundle is identity-complete, not current-pod-complete. Promote only the
+exact `qwen_3_4b.safetensors` hash and exact Klein VAE hash through a separate
+atomic storage transaction. Never substitute the retained Flux.2 Dev VAE: its
+size and hash differ from the Klein companion. Storage promotion still does not
+authorize `object_info`, model load, generation, visual QA, activation, or
+product promotion.

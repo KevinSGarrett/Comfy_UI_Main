@@ -19,6 +19,7 @@ INVENTORY_PATH = Path("Plan/10_REGISTRIES/wave64_runpod_autonomous_role_package_
 POLICY_PATH = Path("Plan/10_REGISTRIES/wave64_aqa_sole_pod_qualification_campaign_policy.json")
 GENERATION_STACK_PATH = Path("Plan/10_REGISTRIES/wave64_aqa_generation_stack_registry.json")
 GENERATION_STACK_SCHEMA_PATH = Path("Plan/08_SCHEMAS/runpod_autonomous_generation_stack_registry.schema.json")
+GENERATION_DEPENDENCY_SCHEMA_PATH = Path("Plan/08_SCHEMAS/runpod_autonomous_flux2_klein_dependency_bundle.schema.json")
 SCHEMA_PATH = Path("Plan/08_SCHEMAS/runpod_autonomous_qualification_campaign_queue.schema.json")
 DEFAULT_OUTPUT = Path("Plan/Tracker/Evidence/W64_AQA_SOLE_POD_QUALIFICATION_CAMPAIGN_QUEUE_20260722.json")
 
@@ -108,6 +109,25 @@ def generation_stack_evidence(root: Path, registry: dict[str, Any]) -> tuple[dic
     stack = selected[0]
     package_binding = stack["package_binding"]
     asset = stack["asset"]
+    dependency_binding = stack.get("dependency_bundle")
+    if not dependency_binding:
+        raise QueueError("selected generation stack has no dependency bundle")
+    dependency_path = root / Path(dependency_binding["path"])
+    if sha256_file(dependency_path) != dependency_binding["sha256"]:
+        raise QueueError("selected generation dependency bundle hash drift")
+    dependency = load_json(dependency_path)
+    Draft202012Validator(load_json(root / GENERATION_DEPENDENCY_SCHEMA_PATH)).validate(dependency)
+    dependency_for_id = json.loads(json.dumps(dependency))
+    dependency_for_id["bundle_id"] = "0" * 64
+    expected_dependency_id = hashlib.sha256(canonical_bytes(dependency_for_id)).hexdigest()
+    component_states = [item.get("current_pod_state") for item in dependency.get("components", [])]
+    if (
+        dependency.get("bundle_id") != expected_dependency_id
+        or dependency.get("stack_id") != stack["stack_id"]
+        or dependency.get("authority", {}).get("current_pod_complete") is not False
+        or component_states != ["PROMOTED_HASH_VERIFIED", "NOT_IN_ACCEPTED_PROMOTED_LEDGER", "NOT_IN_ACCEPTED_PROMOTED_LEDGER"]
+    ):
+        raise QueueError("selected generation dependency identity or authority drift")
     return ({
         "path": GENERATION_STACK_PATH.as_posix(),
         "sha256": sha256_file(root / GENERATION_STACK_PATH),
@@ -116,6 +136,10 @@ def generation_stack_evidence(root: Path, registry: dict[str, Any]) -> tuple[dic
         "package_path": package_binding["path"],
         "package_sha256": package_binding["sha256"],
         "asset_sha256": asset["sha256"],
+        "dependency_bundle_path": dependency_binding["path"],
+        "dependency_bundle_sha256": dependency_binding["sha256"],
+        "dependency_bundle_id": dependency["bundle_id"],
+        "current_pod_complete": dependency["authority"]["current_pod_complete"],
         "state": stack["selection_state"],
         "exact_storage_identity_bound": stack["execution"]["exact_storage_identity_bound"],
         "executable": stack["execution"]["executable"],

@@ -68,8 +68,10 @@ def test_generation_role_binds_exact_inactive_stack_without_execution_authority(
     assert campaign["generation_stack"]["stack_id"] == "W64-AQA-GEN-FLUX2-KLEIN-4B-FP8"
     assert campaign["generation_stack"]["exact_storage_identity_bound"] is True
     assert campaign["generation_stack"]["executable"] is False
+    assert campaign["generation_stack"]["current_pod_complete"] is False
+    assert campaign["generation_stack"]["dependency_bundle_id"] == "9d45db5c13eea70a12b925a3f35146c4305d7efe04410f9dc17e8098f6ed0847"
     assert "PROJECT_LICENSE_ACCEPTANCE_MISSING" in campaign["blockers"]
-    assert "EXACT_TEXT_ENCODER_AND_VAE_DEPENDENCIES_INCOMPLETE" in campaign["blockers"]
+    assert "EXACT_COMPANION_IDENTITIES_BOUND_CURRENT_POD_PROMOTION_INCOMPLETE" in campaign["blockers"]
     assert "EXACT_GENERATION_STACK_NOT_BOUND_TO_ROLE_PACKAGE_INVENTORY" not in campaign["blockers"]
 
 
@@ -104,7 +106,9 @@ def test_provisional_juror_and_external_mask_release_fail_closed() -> None:
 def test_matrix_role_drift_and_admission_status_drift_are_rejected(tmp_path: Path) -> None:
     module = load_module()
     copied = tmp_path / "repo"
-    for relative in (module.MATRIX_PATH, module.ROLE_REGISTRY_PATH, module.INVENTORY_PATH, module.POLICY_PATH, module.GENERATION_STACK_PATH, module.GENERATION_STACK_SCHEMA_PATH, module.SCHEMA_PATH):
+    registry = json.loads((ROOT / module.GENERATION_STACK_PATH).read_text(encoding="utf-8"))
+    dependency_path = Path(next(item for item in registry["stacks"] if item["selection_state"] == "SELECTED_INACTIVE")["dependency_bundle"]["path"])
+    for relative in (module.MATRIX_PATH, module.ROLE_REGISTRY_PATH, module.INVENTORY_PATH, module.POLICY_PATH, module.GENERATION_STACK_PATH, module.GENERATION_STACK_SCHEMA_PATH, module.GENERATION_DEPENDENCY_SCHEMA_PATH, dependency_path, module.SCHEMA_PATH):
         target = copied / relative
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_bytes((ROOT / relative).read_bytes())
@@ -131,8 +135,9 @@ def test_matrix_role_drift_and_admission_status_drift_are_rejected(tmp_path: Pat
 def test_generation_stack_package_hash_drift_is_rejected(tmp_path: Path, package_index: int) -> None:
     module = load_module()
     copied = tmp_path / "repo"
-    relatives = (module.MATRIX_PATH, module.ROLE_REGISTRY_PATH, module.INVENTORY_PATH, module.POLICY_PATH, module.GENERATION_STACK_PATH, module.GENERATION_STACK_SCHEMA_PATH, module.SCHEMA_PATH)
     registry = json.loads((ROOT / module.GENERATION_STACK_PATH).read_text(encoding="utf-8"))
+    dependency_path = Path(next(item for item in registry["stacks"] if item["selection_state"] == "SELECTED_INACTIVE")["dependency_bundle"]["path"])
+    relatives = (module.MATRIX_PATH, module.ROLE_REGISTRY_PATH, module.INVENTORY_PATH, module.POLICY_PATH, module.GENERATION_STACK_PATH, module.GENERATION_STACK_SCHEMA_PATH, module.GENERATION_DEPENDENCY_SCHEMA_PATH, dependency_path, module.SCHEMA_PATH)
     policy = json.loads((ROOT / module.POLICY_PATH).read_text(encoding="utf-8"))
     package_paths = [Path(stack["package_binding"]["path"]) for stack in registry["stacks"]]
     admission_paths = [Path(item["admission_path"]) for item in policy["pre_role_campaigns"]]

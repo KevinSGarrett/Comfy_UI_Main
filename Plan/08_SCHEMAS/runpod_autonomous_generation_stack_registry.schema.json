@@ -41,12 +41,13 @@
     },
     "stack": {
       "type": "object", "additionalProperties": false,
-      "required": ["stack_id", "priority", "selection_state", "package_binding", "asset", "execution", "blockers"],
+      "required": ["stack_id", "priority", "selection_state", "package_binding", "dependency_bundle", "asset", "execution", "blockers"],
       "properties": {
         "stack_id": {"type": "string", "minLength": 1},
         "priority": {"type": "integer", "minimum": 1, "maximum": 4},
         "selection_state": {"enum": ["SELECTED_INACTIVE", "RETAINED_INACTIVE_CANDIDATE"]},
         "package_binding": {"$ref": "#/$defs/fileBinding"},
+        "dependency_bundle": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/fileBinding"}]},
         "asset": {
           "type": "object", "additionalProperties": false,
           "required": ["package_id", "repository", "revision", "license_metadata", "root", "path", "bytes", "sha256"],
