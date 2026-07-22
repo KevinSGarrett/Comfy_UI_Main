@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
   "catalog_id": "wave64_hyperreal_audio_model_asset_acquisition_catalog",
-  "snapshot_date": "2026-07-15",
-  "status": "provider_resolved_candidates_not_installed_or_production_ready",
+  "snapshot_date": "2026-07-22",
+  "status": "provider_resolved_candidates_mixed_storage_runtime_states_not_production_ready",
   "authority": {
     "project_root": "C:/Comfy_UI_Main",
     "acquisition_controller": "Plan/07_IMPLEMENTATION/scripts/manage_model_asset_acquisition.py",
@@ -587,6 +587,35 @@
       ],
       "file_set_policy": "resolve_all_required_repository_files_at_pinned_revision_before_acquisition",
       "disposition": "acquire_when_selected_lane_is_active",
+      "production_ready": false
+    },
+    {
+      "asset_id": "mit_ast_audioset_0_4593",
+      "capability": "audioset_527_class_audio_event_classification",
+      "provider": "huggingface",
+      "authority_level": "official_or_creator_published_model_repository",
+      "repo_id": "MIT/ast-finetuned-audioset-10-10-0.4593",
+      "revision": "f826b80d28226b62986cc218e5cec390b1096902",
+      "revision_policy": "immutable_commit_required",
+      "license": "bsd-3-clause",
+      "gated": false,
+      "priority": "P0",
+      "required_by_rows": [
+        "TRK-W64-118",
+        "TRK-W64-128",
+        "TRK-W64-141",
+        "TRK-W64-142",
+        "TRK-W64-147"
+      ],
+      "key_files": [
+        {
+          "filename": "model.safetensors",
+          "bytes": 346404948,
+          "sha256": "ae0c1e2ad4e1381d851fa9bf298ba13ebc9c5a914cdee2dbe427a6583869924d"
+        }
+      ],
+      "file_set_policy": "resolve_all_required_repository_files_at_pinned_revision_before_acquisition",
+      "disposition": "installed_storage_only_runtime_qualification_pending",
       "production_ready": false
     },
     {
@@ -1488,6 +1517,7 @@
       "latentsync_1_6",
       "laion_clap_general",
       "laion_clap_music_speech",
+      "mit_ast_audioset_0_4593",
       "whisper_large_v3_turbo",
       "pyannote_diarization_community_1",
       "emotion2vec_plus_large",
@@ -1528,6 +1558,7 @@
       "fishaudio_s2_pro",
       "laion_clap_general",
       "laion_clap_music_speech",
+      "mit_ast_audioset_0_4593",
       "indextts2",
       "f5_tts",
       "spark_tts_0_5b",
@@ -1587,7 +1618,8 @@
       "hunyuanvideo_foley_xl",
       "stable_audio_3_small_sfx",
       "stable_audio_3_medium",
-      "laion_clap_general"
+      "laion_clap_general",
+      "mit_ast_audioset_0_4593"
     ],
     "TRK-W64-133": [
       "qwen3_tts_1_7b_customvoice",
@@ -1617,7 +1649,14 @@
       "whisper_large_v3_turbo",
       "laion_clap_general",
       "laion_clap_music_speech",
+      "mit_ast_audioset_0_4593",
       "pyannote_diarization_community_1",
+      "emotion2vec_plus_large"
+    ],
+    "TRK-W64-142": [
+      "laion_clap_general",
+      "mit_ast_audioset_0_4593",
+      "whisper_large_v3_turbo",
       "emotion2vec_plus_large"
     ],
     "TRK-W64-145": [
@@ -1653,6 +1692,7 @@
       "latentsync_1_6",
       "laion_clap_general",
       "laion_clap_music_speech",
+      "mit_ast_audioset_0_4593",
       "whisper_large_v3_turbo",
       "pyannote_diarization_community_1",
       "emotion2vec_plus_large",
@@ -1679,8 +1719,8 @@
   "deferred_or_exact_blocked": [
     {
       "asset_id": "beats_official_audioset_checkpoint",
-      "status": "exact_official_checkpoint_sha256_required",
-      "reason": "Do not substitute an unverified community Hugging Face mirror for the Microsoft-published checkpoint."
+      "status": "official_onedrive_http_403_exact_checkpoint_still_blocked",
+      "reason": "Do not substitute an unverified community mirror; MIT AST is the separately admitted event-classification fallback, not BEATs equivalence."
     },
     {
       "asset_id": "mfa_language_models",

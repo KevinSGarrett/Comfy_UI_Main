@@ -825,6 +825,22 @@ executor is runtime-pending while the coordinator retains the foreign
 MaskFactory recovery hold. Audio-event execution is intentionally excluded
 until a separate exact event-model admission exists.
 
+The MIT AST AudioSet fallback is now installed and byte-verified on the current
+production pod at immutable Hugging Face revision
+`f826b80d28226b62986cc218e5cec390b1096902`. The selected
+`model.safetensors` is exactly `346404948` bytes with SHA-256
+`ae0c1e2ad4e1381d851fa9bf298ba13ebc9c5a914cdee2dbe427a6583869924d`;
+atomic installation and verified replay both passed without polling GPU or
+lease state. This is a storage-identity adoption only. The official BEATs
+AudioSet checkpoint remains separately blocked because its original-author
+OneDrive download endpoints returned HTTP 403, and AST is not evidence of
+BEATs equivalence. AST dependency activation, model load, inference,
+calibration and held-out event recognition, independent listening review,
+operational activation, and product promotion remain false. The next event
+lane action is to admit an exact isolated AST dependency/load/event canary and
+execute it only after the foreign coordinator recovery hold clears and an
+exact sanitized `comfyui_main` lease is acquired.
+
 The prospective Row136 control package is now frozen before execution. It
 binds the accepted canary receipt, a versioned English IPA-to-viseme registry,
 an exact output schema, and a deterministic compiler. The compiler creates a
