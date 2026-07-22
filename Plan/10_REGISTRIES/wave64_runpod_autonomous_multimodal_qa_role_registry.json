@@ -30,19 +30,6 @@
       "required_residency_methods": ["sequential_execute", "unload", "reload", "quantize", "cpu_offload", "nvme_offload"],
       "all_required_roles_target_current_pod": true
     },
-    "secondary_burst_policy": {
-      "state": "DISABLED_REQUIRES_FUTURE_USER_APPROVAL",
-      "default_power_state": "STOPPED",
-      "eligible_gpu_classes": ["A40", "RTX A6000"],
-      "minimum_vram_gib": 48,
-      "minimum_ram_gib": 50,
-      "minimum_vcpu": 9,
-      "requires_per_job_cost_ceiling": true,
-      "requires_idle_ttl": true,
-      "requires_fail_safe_stop": true,
-      "shared_vram_assumed": false,
-      "shared_writable_volume_assumed": false
-    },
     "max_repair_attempts_per_defect": 2,
     "max_total_generation_attempts": 4,
     "max_no_progress_cycles": 2
@@ -177,7 +164,7 @@
       "role_id": "W64-AQA-ROLE-SENIOR-ARBITER",
       "kind": "senior_image_video_mask_and_disagreement_arbitration",
       "target_model": "Qwen3.5-397B-A17B",
-      "deployment_target": "primary_one_pod_only",
+      "deployment_target": "current_production_pod_only",
       "residency": "on_demand_sequential_quantized_and_cpu_nvme_offloaded",
       "state": "BLOCKED_UNQUALIFIED",
       "operational": false,

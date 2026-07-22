@@ -145,10 +145,13 @@ subjective intent changes, policy exceptions, and genuinely unresolved adjudicat
 
 ## Target self-hosted service topology
 
-The best architecture is a pool of isolated role packages with one deterministic
-policy authority on one pod. Packages load on demand and are never assumed to
-be resident together. The current pod is replaced only after the candidate
-one-pod profile passes storage, runtime, role, rollback, and cost canaries.
+The active architecture is a pool of isolated role packages with one
+deterministic policy authority on the current production pod. Packages load on
+demand and are never assumed to be resident together. No replacement-pod,
+2x-A40, or external-inference branch is active: oversized roles must first use
+exact quantization, bounded context, sequential unload/reload, and CPU or NVMe
+offload on this pod. A failing role remains unqualified but does not stop other
+dependency-unblocked current-pod roles.
 
 ### Controller and fast planner
 
@@ -394,9 +397,9 @@ head replay. The binding is evidence lineage only and grants no acceptance.
   receipts, prompts, logs, tests, tracker notes, or worker packets.
 - Reviewer and repair services receive only allowlisted tools and paths.
 - Model cards, prompts, metadata, archives, and generated text are untrusted.
-- Model downloads and pod migration require an exact storage/cost receipt and a
-  reversible rollout plan. The current pod stays intact until the candidate
-  one-pod profile passes canary and rollback gates.
+- Model downloads and package activation require exact storage/cost receipts
+  and reversible package-level rollout. The current pod remains authoritative;
+  no alternate-pod migration gate or hardware-availability wait is active.
 - Record pod cost, run duration, storage target, and unexpected overlay growth.
 - Fail closed on missing hashes, unknown model identity, invalid JSON, stale
   calibration, unavailable reviewer, queue conflict, or budget exhaustion.
@@ -697,3 +700,24 @@ headroom and is not admitted for loading. A reproducibly hash-locked
 quantized/offloaded artifact, current-pod runtime-capacity proof, and durable
 storage verification are the next juror gates while all other current-pod lanes
 remain nonblocking.
+
+## Current-pod promoted storage intake
+
+The additive 2026-07-22 storage reconciliation accepted byte transfer for 56
+live files totaling 55,804,915,269 bytes plus three hash-verified symlink
+aliases. Source, staging, and live SHA-256 values are equal with zero reported
+mismatches. The accepted live set includes Qwen3-TTS Base and VoiceDesign,
+LAION CLAP, Kokoro, SDXL Base, Flux 2 Klein FP8, selected Wave42 generation
+assets, and retained MaskFactory provenance manifests. This is storage authority
+only; package identity, revision, license, dependency, capacity, runtime,
+quality, cleanup, failure, cost, rollback, and product authority remain separate.
+
+Two Wave42 UI workflows and their 75-file fixture tree remain inactive under
+`/workspace/wave64_quarantine/aws_ec2_20260722`. Seventeen clean repositories at
+exact EC2-recorded pins remain dependency-free and inactive under
+`/workspace/custom_node_quarantine/aws_ec2_pins_20260722`. No quarantined path
+may be linked into active ComfyUI until live `/object_info`, exact model and node
+identities, fixture governance, isolated sandbox, regression, security, cleanup,
+and rollback gates pass. The repository-backed disposition is
+`W64-AQA-018`; transfer integrity may advance package qualification but cannot
+mark any role or workflow operational.

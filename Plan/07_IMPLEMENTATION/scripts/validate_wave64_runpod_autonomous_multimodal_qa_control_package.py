@@ -14,7 +14,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[3]
 PROGRAM = "W64-AQA"
-EXPECTED_IDS = {f"W64-AQA-{number:03d}" for number in range(1, 18)}
+EXPECTED_IDS = {f"W64-AQA-{number:03d}" for number in range(1, 19)}
 
 PATHS = {
     "master": ROOT
@@ -33,6 +33,8 @@ PATHS = {
     / "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_MULTIMODAL_QA_CAPACITY_OPTIONS_20260721.json",
     "current_prod_only_capacity_evidence": ROOT
     / "Plan/Tracker/Evidence/W64_AQA_CURRENT_PROD_ONLY_CAPACITY_DECISION_20260722T031905Z.json",
+    "current_pod_promoted_storage_evidence": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_CURRENT_POD_PROMOTED_STORAGE_RECONCILIATION_20260722.json",
     "phase_lease_shadow_evidence": ROOT
     / "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_PHASE_LEASE_SHADOW_20260721.json",
     "phase_lease_runtime_canary_evidence": ROOT
@@ -350,6 +352,9 @@ def collect_errors() -> list[str]:
         requirements = load_json(PATHS["requirements"])
         evidence = load_json(PATHS["evidence"])
         capacity_evidence = load_json(PATHS["capacity_evidence"])
+        promoted_storage_evidence = load_json(
+            PATHS["current_pod_promoted_storage_evidence"]
+        )
         phase_lease_shadow_evidence = load_json(PATHS["phase_lease_shadow_evidence"])
         phase_lease_runtime_canary_evidence = load_json(
             PATHS["phase_lease_runtime_canary_evidence"]
@@ -477,6 +482,41 @@ def collect_errors() -> list[str]:
 
     if {row.get("Item_ID") for row in tracker} != EXPECTED_IDS:
         errors.append("tracker Item_ID references do not match the W64-AQA item set")
+
+    promoted = promoted_storage_evidence.get("accepted_transfer_integrity", {})
+    quarantine = promoted_storage_evidence.get("quarantine", {})
+    promoted_truth = promoted_storage_evidence.get("qualification_truth", {})
+    promoted_runtime = promoted_storage_evidence.get("runtime_policy", {})
+    if (
+        promoted.get("live_promoted_file_count") != 56
+        or promoted.get("live_promoted_bytes") != 55804915269
+        or promoted.get("hash_mismatch_count") != 0
+        or promoted.get("symlink_alias_count") != 3
+    ):
+        errors.append("promoted-storage transfer-integrity summary mismatch")
+    if (
+        quarantine.get("wave42_file_count") != 77
+        or quarantine.get("wave42_activated") is not False
+        or quarantine.get("custom_node_repository_count") != 17
+        or quarantine.get("dependencies_installed") is not False
+        or quarantine.get("custom_nodes_activated") is not False
+    ):
+        errors.append("promoted-storage quarantine boundary mismatch")
+    if (
+        promoted_truth.get("storage_transfer_operational") is not True
+        or promoted_truth.get("model_runtime_qualified") is not False
+        or promoted_truth.get("workflow_qualified") is not False
+        or promoted_truth.get("product_promotion") is not False
+    ):
+        errors.append("promoted-storage authority must remain transfer-only")
+    if (
+        promoted_runtime.get("sole_production_pod") != "1q4ji0gg1fkhvt"
+        or promoted_runtime.get("alternative_pod_watching") is not False
+        or promoted_runtime.get("alternative_pod_creation") is not False
+        or promoted_runtime.get("external_inference") is not False
+        or promoted_runtime.get("shared_coordinator_required") is not True
+    ):
+        errors.append("promoted-storage current-pod-only policy mismatch")
 
     if role_package_inventory.get("schema_version") != "wave64.aqa.role_package_inventory.v1":
         errors.append("role package inventory schema version mismatch")
@@ -823,11 +863,8 @@ def collect_errors() -> list[str]:
         errors.append("current-pod capacity policy must forbid external inference")
     if one_pod.get("all_required_roles_target_current_pod") is not True:
         errors.append("every required role must target the current production pod")
-    burst = runtime.get("secondary_burst_policy", {})
-    if burst.get("default_power_state") != "STOPPED":
-        errors.append("secondary burst pod must be stopped by default")
-    if burst.get("shared_vram_assumed") is not False:
-        errors.append("secondary burst policy must not assume cross-pod shared VRAM")
+    if "secondary_burst_policy" in runtime:
+        errors.append("secondary burst policy must be absent under current-pod-only authority")
 
     roles = {entry.get("role_id"): entry for entry in registry.get("roles", [])}
     required_roles = {
@@ -860,8 +897,8 @@ def collect_errors() -> list[str]:
         errors.append("triage role must explicitly forbid PASS_PRODUCT")
 
     arbiter = roles.get("W64-AQA-ROLE-SENIOR-ARBITER", {})
-    if arbiter.get("deployment_target") != "primary_one_pod_only":
-        errors.append("senior arbiter must target the one primary pod")
+    if arbiter.get("deployment_target") != "current_production_pod_only":
+        errors.append("senior arbiter must target the current production pod")
     if arbiter.get("operational") is not False:
         errors.append("unqualified senior arbiter must not be operational")
 

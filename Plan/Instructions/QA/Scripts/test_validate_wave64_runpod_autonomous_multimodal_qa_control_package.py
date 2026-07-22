@@ -46,7 +46,7 @@ def test_item_tracker_and_requirement_ids_match() -> None:
         row["id"] for row in json.loads(requirements_path.read_text(encoding="utf-8"))["requirements"]
     }
     assert item_ids == tracker_ids == requirement_ids
-    assert len(item_ids) == 17
+    assert len(item_ids) == 18
 
 
 def test_current_and_future_authority_are_separated() -> None:
@@ -58,10 +58,12 @@ def test_current_and_future_authority_are_separated() -> None:
     assert roles["W64-AQA-ROLE-STRICT-VISUAL"]["model"] == "qwen2.5vl:32b"
     assert not roles["W64-AQA-ROLE-FAST-TRIAGE"]["product_approval_sufficient"]
     assert not roles["W64-AQA-ROLE-SENIOR-ARBITER"]["operational"]
-    assert roles["W64-AQA-ROLE-SENIOR-ARBITER"]["deployment_target"] == "primary_one_pod_only"
+    assert roles["W64-AQA-ROLE-SENIOR-ARBITER"]["deployment_target"] == (
+        "current_production_pod_only"
+    )
     assert roles["W64-AQA-ROLE-WORKFLOW-ENGINEER"]["proposal_only"]
     assert registry["runtime_policy"]["primary_pod_first_for_every_role"]
-    assert registry["runtime_policy"]["secondary_burst_policy"]["default_power_state"] == "STOPPED"
+    assert "secondary_burst_policy" not in registry["runtime_policy"]
     one_pod = registry["runtime_policy"]["one_pod_capacity_policy"]
     assert one_pod["state"] == "CURRENT_PRODUCTION_POD_ONLY"
     assert one_pod["pod_id"] == registry["runtime_policy"]["current_pod_id"]

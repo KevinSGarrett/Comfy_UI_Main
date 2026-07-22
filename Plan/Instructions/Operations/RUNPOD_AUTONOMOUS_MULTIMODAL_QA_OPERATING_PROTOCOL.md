@@ -137,16 +137,15 @@ video and whole-clip temporal review execute after the typed GPU hold clears.
    RAM, storage, latency, quality, cleanup, failure recovery, and cost. A role
    that misses a gate remains unqualified; immediately test a safer same-pod
    envelope or continue another current-pod role rather than waiting for hardware.
-4. Do not assume simultaneous writable access to one network volume. Attach only
-   where the provider guarantees it, otherwise transfer immutable packages and
-   artifacts by hash through approved durable storage.
-5. Keep the current pod unchanged while the candidate proves ComfyUI, model
-   inventory, generation, every claimed role, evidence replay, crash recovery,
-   queue drain, and rollback. A model role can remain blocked after migration.
-6. Drain the current pod, switch runtime identity, and stop the old pod only after
-   all migration gates pass. Candidate failure returns to the current pod.
-7. A second long-lived inference pod remains forbidden unless the user later
-   approves a separate burst policy and dollar ceiling.
+5. Do not assume simultaneous writable access to one network volume. Transfer
+   immutable packages and artifacts by hash through approved durable storage.
+6. Keep the current pod authoritative while each package independently proves
+   identity, license, dependencies, capacity, runtime, quality, cleanup, failure
+   recovery, cost, replay, and rollback. Storage presence never activates a role.
+7. Do not create, watch, or wait for replacement or burst pods. A second
+   inference pod remains forbidden unless the user later changes this policy.
+8. When one role is held, record its exact gate and continue the next
+   dependency-unblocked current-pod role; never reduce the required role set.
 
 ## 5. Bounded repair execution
 

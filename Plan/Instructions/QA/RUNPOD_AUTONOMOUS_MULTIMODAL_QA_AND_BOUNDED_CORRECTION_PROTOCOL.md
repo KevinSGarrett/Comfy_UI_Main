@@ -247,3 +247,19 @@ Promotion requires all applicable deterministic gates, an eligible strict
 review when required, complete evidence, unexpired calibration, no blocking
 defect, no protected regression, and integration-authority acceptance. Future
 reviewer names or planned metrics have no authority until qualified.
+
+## Promoted storage and quarantine rule
+
+Hash-equal transfer proves only byte integrity. Before a promoted model or
+support package can participate in QA, generation, correction, or promotion,
+bind its aggregate manifest, upstream identity, revision, license, dependency
+closure, precision, resource envelope, isolated runtime, cleanup, failure,
+quality, latency, cost, and rollback evidence. Missing gates keep that exact
+package inactive while other current-pod lanes continue.
+
+Content under `/workspace/wave64_quarantine` or
+`/workspace/custom_node_quarantine` is never part of active ComfyUI. Workflow
+candidate intake requires copy-on-write staging plus live `/object_info`, exact
+model-name, exact clean node-pin, fixture-governance, sandbox execution,
+regression, security, and rollback evidence. Quarantine bytes may not be linked,
+installed, or promoted merely because source and destination hashes match.
