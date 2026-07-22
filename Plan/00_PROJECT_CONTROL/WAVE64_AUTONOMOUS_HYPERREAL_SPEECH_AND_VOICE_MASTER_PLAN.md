@@ -175,6 +175,10 @@ Phase D: Rows141-148 certify evaluation, orchestration, and production behavior.
 
 Rows may run in parallel only when their declared input authorities are immutable and their output paths do not overlap. Existing Rows025-033 remain the portfolio-level production gates and are updated only after real evidence from this expansion exists.
 
+### Row148 fail-closed certification controller
+
+Row148 now has a deterministic certification evaluator. It requires complete pass-like evidence for every Row113-147 dependency, ten separately hash-bound production gates, at least two character identities and engines, at least three scenes and genuine mux videos, independent full-duration playback, replay, and rollback. Synthetic fixtures prove only the gate mechanism. Until every dependency and genuine production binding passes, Row148 remains held and grants no runtime, listening, lip-sync, release, or product authority.
+
 ## Required evidence
 
 Each row requires source citations, implementation hashes, tests, exact dependency versions, runtime manifests where applicable, artifact hashes, QA records, blocker/pass decisions, and explicit prohibited claims. Final certification requires multiple characters, male and female voice profiles, short and long lines, emotional and neutral delivery, multilingual cases where supported, close and distant acoustics, overlapping dialogue, nonverbal vocal events, multiple scenes, and muxed-video playback review.

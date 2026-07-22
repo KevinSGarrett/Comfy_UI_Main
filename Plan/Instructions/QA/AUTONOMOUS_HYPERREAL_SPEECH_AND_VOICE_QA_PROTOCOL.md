@@ -93,3 +93,5 @@ Final certification includes multiple approved male and female character voices,
 ## No-false-completion rule
 
 Planning, schema validation, model download, model-load smoke, one candidate, automated metrics, or one listening review cannot complete the system. Row148 requires a hash-bound multi-character, multi-engine, multi-scene production matrix with zero unresolved blocking defects and explicit authority.
+
+The Row148 evaluator must fail closed unless Rows113-147 are complete and pass-like; genuine runtime, rights, provenance, independent playback, identity continuity, AV sync, adversarial QA, ComfyUI integration, replay, and rollback gates are each accepted and independently hash bound; and the minimum character, engine, scene, and mux-video coverage floors are satisfied. Synthetic mechanism fixtures never grant certification.

@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/speech_full_system_certification_report.schema.json",
+  "title": "Wave64 Row148 Speech Full-System Certification Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "tracker_id", "item_id", "record_type", "policy_revision", "is_synthetic", "dependency_admissions", "production_gates", "coverage", "decision", "report_sha256"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "tracker_id": {"const": "TRK-W64-148"},
+    "item_id": {"const": "ITEM-W64-148"},
+    "record_type": {"const": "speech_full_system_certification_report"},
+    "policy_revision": {"type": "string", "minLength": 1},
+    "is_synthetic": {"type": "boolean"},
+    "dependency_admissions": {"type": "array", "minItems": 35, "maxItems": 35, "items": {"$ref": "#/$defs/dependency"}},
+    "production_gates": {
+      "type": "object", "additionalProperties": false,
+      "required": ["genuine_runtime", "rights", "provenance", "independent_playback", "identity_continuity", "av_sync", "adversarial_qa", "comfyui_integration", "replay", "rollback"],
+      "properties": {
+        "genuine_runtime": {"$ref": "#/$defs/gate"}, "rights": {"$ref": "#/$defs/gate"},
+        "provenance": {"$ref": "#/$defs/gate"}, "independent_playback": {"$ref": "#/$defs/gate"},
+        "identity_continuity": {"$ref": "#/$defs/gate"}, "av_sync": {"$ref": "#/$defs/gate"},
+        "adversarial_qa": {"$ref": "#/$defs/gate"}, "comfyui_integration": {"$ref": "#/$defs/gate"},
+        "replay": {"$ref": "#/$defs/gate"}, "rollback": {"$ref": "#/$defs/gate"}
+      }
+    },
+    "coverage": {
+      "type": "object", "additionalProperties": false,
+      "required": ["character_sha256s", "engine_ids", "scene_sha256s", "mux_video_sha256s"],
+      "properties": {
+        "character_sha256s": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/sha256"}},
+        "engine_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "scene_sha256s": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/sha256"}},
+        "mux_video_sha256s": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/sha256"}}
+      }
+    },
+    "decision": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "certification_authority", "row148_acceptance", "product_completion", "blocker_codes"],
+      "properties": {
+        "status": {"enum": ["pass", "blocked", "failed"]},
+        "certification_authority": {"type": "boolean"},
+        "row148_acceptance": {"enum": ["fixture_only", "held", "accepted"]},
+        "product_completion": {"type": "boolean"},
+        "blocker_codes": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}
+      }
+    },
+    "report_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "dependency": {
+      "type": "object", "additionalProperties": false,
+      "required": ["tracker_id", "evidence_path", "evidence_sha256", "row_complete", "status", "accepted"],
+      "properties": {
+        "tracker_id": {"type": "string", "pattern": "^TRK-W64-1(1[3-9]|[2-3][0-9]|4[0-7])$"},
+        "evidence_path": {"type": ["string", "null"]},
+        "evidence_sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+        "row_complete": {"type": "boolean"}, "status": {"type": "string"}, "accepted": {"type": "boolean"}
+      }
+    },
+    "gate": {
+      "type": "object", "additionalProperties": false,
+      "required": ["evidence_path", "evidence_sha256", "artifact_sha256", "accepted", "is_synthetic"],
+      "properties": {
+        "evidence_path": {"type": ["string", "null"]},
+        "evidence_sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+        "artifact_sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+        "accepted": {"type": "boolean"}, "is_synthetic": {"type": "boolean"}
+      }
+    }
+  }
+}
