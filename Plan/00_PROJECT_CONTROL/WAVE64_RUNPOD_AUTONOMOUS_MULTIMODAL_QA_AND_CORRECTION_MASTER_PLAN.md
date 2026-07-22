@@ -827,3 +827,11 @@ This advances only exact storage authority. Code checkout, isolated dependency
 environment, source-video and identity fixture, model load, inference, visual
 and temporal review, cleanup, rollback, operational activation, and product
 promotion remain pending.
+
+The official code checkout also passes exact detached HEAD/tree verification:
+commit `a229c3948406bc2cf6eaf4873e662e70c6a04746`, tree
+`51f62bc8aea02da92b1a349077cfb78d0456f742`, 124 tracked files and
+10,801,107 bytes, with a clean worktree, no submodules, and no symlinks. No
+project code was imported or executed. The unsigned-commit caveat remains; the
+next gate is an isolated hash-locked dependency environment plus an immutable
+rights-qualified face-video identity fixture.

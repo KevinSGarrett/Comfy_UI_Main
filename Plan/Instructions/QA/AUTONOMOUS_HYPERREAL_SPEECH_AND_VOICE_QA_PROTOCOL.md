@@ -68,6 +68,8 @@ The 13-file model package now passes atomic storage installation and an independ
 
 The code checkout admission pins commit `a229c3948406bc2cf6eaf4873e662e70c6a04746` and tree `51f62bc8aea02da92b1a349077cfb78d0456f742`. GitHub does not report a verified signature for this commit, so exact commit/tree identity, official repository ownership, clean detached checkout, recorded license, and later code review are the acceptance basis; signature verification must not be claimed. Checkout admission permits no import, execution, dependency install, node activation, model load, or inference.
 
+The detached checkout now passes exact HEAD/tree identity, a clean 124-file inventory totaling 10,801,107 bytes, no submodules, and no symlinks. No project code was imported or executed. This grants checkout identity only; semantic review, dependency lock/build, import, runtime, and product gates remain pending.
+
 ## Multi-engine comparison
 
 Hard-gate survivors are ranked by a versioned scorecard. The record must expose raw metrics, normalized metrics, weights, missing-metric handling, and final explanation. A missing mandatory metric blocks; it is never assigned a neutral score.
