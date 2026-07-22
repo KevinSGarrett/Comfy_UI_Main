@@ -550,3 +550,20 @@ connect, bind, DNS, listen, send, or receive. The corrected policy records
 socket construction as a non-I/O capability probe while continuing to reject
 every audited network-I/O action. This correction requires a new pushed canary
 and does not retroactively accept the first attempt.
+
+The next pushed attempt also failed closed, this time on `socket.bind`. An
+independent outer audit retained its exact arguments: IPv6 loopback `::1`,
+ephemeral port `0`, stream socket. The final policy recognizes only IPv4 or
+IPv6 loopback at port zero as a recorded local capability probe. Wildcard,
+external, malformed, and fixed-port binds remain rejected, as do every
+connect, DNS, listen, send, subprocess, shell, and weight-file event.
+
+The commit-addressed rerun passed. Qwen-ASR, Transformers, and Torch imported,
+and all four required Qwen3-ASR classes resolved. The receipt records one
+socket-construction event, one exact loopback/ephemeral bind probe, zero
+blocked side-effect events, and zero weight opens. The full 28,403-file,
+5.96-GB environment tree retained the exact pre-canary digest
+`6625aa3c76c411424ede40ce6275d0fb378a1d9a017c205f74ffd356386f7c4a`.
+This closes only the import gate. Model construction, weights, tensors, GPU and
+lease access, transcription, alignment, semantic quality, capacity, runtime,
+latency, cost, recovery, activation, and product authority remain unqualified.

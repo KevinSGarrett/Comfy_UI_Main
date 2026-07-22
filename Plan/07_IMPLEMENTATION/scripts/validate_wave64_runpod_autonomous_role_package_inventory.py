@@ -98,6 +98,7 @@ def validate(data: dict) -> list[str]:
                     receipt = item.get("installation_receipt", {})
                     preflight = item.get("dependency_preflight", {})
                     environment = item.get("dependency_environment", {})
+                    import_canary = item.get("import_canary", {})
                     expected_root = f"/workspace/w64_aqa/models/Qwen3-ASR-1.7B/{PINNED_PLANNED[repository_id]}"
                     if install.get("durable_root") != expected_root:
                         errors.append(f"{item.get('package_id')}: installed file-set root mismatch")
@@ -118,9 +119,11 @@ def validate(data: dict) -> list[str]:
                         errors.append(f"{item.get('package_id')}: dependency gaps mismatch")
                     if "dependency_environment" in qualification.get("required_gates", []):
                         errors.append(f"{item.get('package_id')}: completed dependency environment gate must be removed")
-                    if "import_canary" not in qualification.get("required_gates", []):
-                        errors.append(f"{item.get('package_id')}: import canary gate required")
-                    if environment.get("state") != "INSTALLED_METADATA_VERIFIED_IMPORT_PENDING":
+                    if "import_canary" in qualification.get("required_gates", []):
+                        errors.append(f"{item.get('package_id')}: completed import canary gate must be removed")
+                    if qualification.get("state") != "IMPORT_CANARY_PASS_RUNTIME_GATES_PENDING":
+                        errors.append(f"{item.get('package_id')}: qualification state mismatch")
+                    if environment.get("state") != "INSTALLED_IMPORT_VERIFIED_RUNTIME_PENDING":
                         errors.append(f"{item.get('package_id')}: dependency environment state mismatch")
                     if environment.get("receipt_sha256") != "e09c67aee503f511124b50af539067c9f82f1969490ab9b7d5127d9870c9dcd4":
                         errors.append(f"{item.get('package_id')}: dependency environment receipt mismatch")
@@ -128,6 +131,16 @@ def validate(data: dict) -> list[str]:
                         errors.append(f"{item.get('package_id')}: dependency environment tree mismatch")
                     if environment.get("distribution_count") != 105:
                         errors.append(f"{item.get('package_id')}: dependency environment distribution count mismatch")
+                    expected_canary = {
+                        "state": "IMPORT_ONLY_CLASS_RESOLUTION_PASS_RUNTIME_PENDING",
+                        "commit": "79b24a0a8bd03100fb8e086e57c346685002a94f",
+                        "script_sha256": "8469b3761f7ea9df9867b4a57f5641660692731bc39b83b509a87673973c8a56",
+                        "receipt_sha256": "2e734d753744cf1c017fc9f92de111a0cee0a76d45ff8612a93ee70d10e0126f",
+                        "post_canary_tree_sha256": "6625aa3c76c411424ede40ce6275d0fb378a1d9a017c205f74ffd356386f7c4a",
+                        "evidence": "Plan/Tracker/Evidence/W64_AQA_QWEN3_ASR_17B_IMPORT_CANARY_20260722T013835Z/evidence.json",
+                    }
+                    if import_canary != expected_canary:
+                        errors.append(f"{item.get('package_id')}: import canary evidence mismatch")
             else:
                 if identity.get("identity_state") != "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_UNPINNED":
                     errors.append(f"{item.get('package_id')}: planned identity state mismatch")

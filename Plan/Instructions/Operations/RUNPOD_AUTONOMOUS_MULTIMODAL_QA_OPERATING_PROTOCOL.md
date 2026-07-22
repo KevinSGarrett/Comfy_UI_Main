@@ -354,6 +354,17 @@ visibility rejects the canary.
 
 Audit classification: `socket.__new__` alone is a recorded non-I/O capability
 probe. It cannot establish a connection or transfer data and does not pass or
-fail the canary by itself. `socket.connect`, `connect_ex`, `bind`, DNS lookup,
-listen, and send operations remain hard-blocked, as do subprocess and shell
-execution. Never generalize this exception to other socket events.
+fail the canary by itself. `socket.connect`, `connect_ex`, DNS lookup, listen,
+and send operations remain hard-blocked, as do subprocess and shell execution.
+Bind remains hard-blocked except for the exact local probe below. Never
+generalize either exception to other socket events.
+
+Observed import behavior adds one further exact exception: an IPv4 or IPv6
+loopback stream bind at ephemeral port zero may be recorded as a local
+capability probe. The classifier must verify loopback address, port zero, and
+AF_INET or AF_INET6. Wildcard addresses, external addresses, fixed ports,
+malformed addresses, connect, DNS, listen, and send remain hard-blocked. The
+accepted receipt is bound to commit `79b24a0a`, and its post-canary environment
+tree digest must equal the admitted pre-canary digest. Passing this import gate
+does not authorize model construction, weight access, CUDA, inference, a
+service, role activation, or any product decision.

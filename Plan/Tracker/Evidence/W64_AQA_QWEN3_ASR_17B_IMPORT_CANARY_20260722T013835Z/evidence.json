@@ -1,0 +1,72 @@
+{
+  "schema_version": "wave64.aqa.qwen3_asr_import_canary_evidence.v1",
+  "program_id": "W64-AQA",
+  "package_id": "W64-AQA-PKG-QWEN3-ASR-17B",
+  "observed_at_utc": "2026-07-22T01:38:35Z",
+  "accepted_commit": "79b24a0a8bd03100fb8e086e57c346685002a94f",
+  "script_sha256": "8469b3761f7ea9df9867b4a57f5641660692731bc39b83b509a87673973c8a56",
+  "remote_control_root": "/workspace/w64_aqa/import_canary_control/79b24a0a8bd03100fb8e086e57c346685002a94f",
+  "receipt": {
+    "remote_path": "/workspace/w64_aqa/import_canary_control/79b24a0a8bd03100fb8e086e57c346685002a94f/import_canary.receipt.json",
+    "mirror": "Plan/Tracker/Evidence/W64_AQA_QWEN3_ASR_17B_IMPORT_CANARY_20260722T013835Z/remote_import_canary.receipt.json",
+    "sha256": "2e734d753744cf1c017fc9f92de111a0cee0a76d45ff8612a93ee70d10e0126f",
+    "schema_validation": "PASS"
+  },
+  "environment_immutability": {
+    "root": "/workspace/w64_aqa/environments/Qwen3-ASR-1.7B/qwen-asr-0.0.6-py3.12.13-cu124/241dfaab72cea25fe705693ef715e8368d171720ae3dc37e1c17ecc81b18ba22",
+    "tree_sha256_before": "6625aa3c76c411424ede40ce6275d0fb378a1d9a017c205f74ffd356386f7c4a",
+    "tree_sha256_after": "6625aa3c76c411424ede40ce6275d0fb378a1d9a017c205f74ffd356386f7c4a",
+    "regular_files": 28403,
+    "symlinks": 4,
+    "bytes": 5959086773,
+    "result": "PASS_UNCHANGED"
+  },
+  "audit_history": [
+    {
+      "commit": "c4b860b6e963a36eb47e0e02107de1f20b3e42ce",
+      "result": "FAILED_CLOSED_NO_RECEIPT_ACCEPTED",
+      "finding": "one socket.__new__ capability event; no connection or data operation"
+    },
+    {
+      "commit": "33142c865cc76da55869b8f04b0a692a07122c4e",
+      "result": "FAILED_CLOSED_NO_RECEIPT_ACCEPTED",
+      "finding": "one socket.bind attempt to IPv6 loopback ::1 at ephemeral port 0"
+    },
+    {
+      "commit": "79b24a0a8bd03100fb8e086e57c346685002a94f",
+      "result": "PASS",
+      "finding": "the exact loopback ephemeral bind probe was recorded; every non-loopback or fixed-port bind and every connect, DNS, listen, send, process, shell, and weight-file event remained blocked"
+    }
+  ],
+  "positive_claims": {
+    "qwen_asr_library_imported": true,
+    "transformers_library_imported": true,
+    "torch_library_imported": true,
+    "required_qwen3_asr_classes_resolved": true
+  },
+  "local_validation": {
+    "json_parse": "PASS",
+    "receipt_schema": "PASS",
+    "role_package_inventory_validator": "PASS",
+    "targeted_tests": "20 passed",
+    "runpod_autonomous_and_qwen_regression": "247 passed, 2 skipped, 2098 deselected",
+    "installer_tests": "5 passed",
+    "ruff": "PASS"
+  },
+  "explicitly_unqualified": [
+    "model_construction",
+    "model_weight_open_or_load",
+    "tensor_allocation",
+    "gpu_or_lease_polling",
+    "capacity",
+    "transcription_or_alignment",
+    "semantic_audio_quality",
+    "latency",
+    "cost",
+    "failure_recovery",
+    "service_binding",
+    "role_activation",
+    "product_authority"
+  ],
+  "next_action": "Verify and retain the installed upstream license artifact without GPU or model load, then wait for repository-backed lease release before bounded capacity and runtime qualification."
+}
