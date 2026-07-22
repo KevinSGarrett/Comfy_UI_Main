@@ -439,3 +439,13 @@ import the model libraries until a separately admitted import-only canary is
 pushed; that canary must block network, model construction, weight access,
 tensors, GPU/lease inspection, inference, service changes, audio/AV authority,
 activation, and product authority.
+
+The pushed CPU-only Omni import canary passed from commit `6a1fa04b` with CUDA
+hidden and both Hugging Face and Transformers offline flags set. Qwen Omni
+Utils, Transformers 5.2.0, Torch 2.4.1+cu124, and TorchVision 0.19.1+cu124
+imported, and the config, processor, and conditional-generation classes
+resolved. The canary recorded only one socket construction and one exact
+loopback/ephemeral bind probe; all network, process, shell, and weight-file
+events remained blocked. Post-canary full replay retained the exact environment
+tree digest. This closes only the import/class-resolution gate. Runtime and
+semantic qualification still require an owned GPU lease and separate evidence.

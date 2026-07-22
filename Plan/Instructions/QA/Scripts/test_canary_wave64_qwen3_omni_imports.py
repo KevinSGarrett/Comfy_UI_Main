@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parents[4]
 SCRIPT = ROOT / "Plan/07_IMPLEMENTATION/scripts/canary_wave64_qwen3_omni_imports.py"
 ADMISSION = ROOT / "Plan/10_REGISTRIES/wave64_qwen3_omni_import_canary_admission.json"
 SCHEMA = ROOT / "Plan/08_SCHEMAS/runpod_autonomous_qwen3_omni_import_canary.schema.json"
+RECEIPT = ROOT / "Plan/Tracker/Evidence/W64_AQA_QWEN3_OMNI_IMPORT_CANARY_20260722T025500Z/remote_import_canary.receipt.json"
 SPEC = importlib.util.spec_from_file_location("canary_qwen3_omni_imports", SCRIPT)
 assert SPEC and SPEC.loader
 MODULE = importlib.util.module_from_spec(SPEC)
@@ -63,6 +64,19 @@ def test_schema_and_required_classes_are_exact() -> None:
         "Qwen3OmniMoeProcessor",
         "Qwen3OmniMoeForConditionalGeneration",
     ]
+
+
+def test_real_receipt_passes_schema_and_retains_fail_closed_claims() -> None:
+    schema = json.loads(SCHEMA.read_text(encoding="utf-8"))
+    receipt = json.loads(RECEIPT.read_text(encoding="utf-8"))
+    jsonschema.Draft202012Validator(schema).validate(receipt)
+    assert receipt["runtime_claims"]["model_library_imported"] is True
+    assert receipt["runtime_claims"]["required_classes_resolved"] is True
+    assert not any(
+        value
+        for key, value in receipt["runtime_claims"].items()
+        if key not in {"model_library_imported", "required_classes_resolved"}
+    )
 
 
 def test_source_has_no_model_construction_inference_or_cuda_api_calls() -> None:

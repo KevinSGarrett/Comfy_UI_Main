@@ -164,6 +164,7 @@ def validate(data: dict) -> list[str]:
                     omni_receipt = item.get("installation_receipt", {})
                     omni_preflight = item.get("dependency_preflight", {})
                     omni_environment = item.get("dependency_environment", {})
+                    omni_import_canary = item.get("import_canary", {})
                     if state != "INSTALLED_FILE_SET_VERIFIED_ACTIVATION_PENDING":
                         errors.append(f"{item.get('package_id')}: Omni storage install state mismatch")
                     if install.get("artifact_digest") != "46d9695468fac6ff986a683b42df3e8872a01f9e16703ee0772ca4ba2136d480":
@@ -172,9 +173,9 @@ def validate(data: dict) -> list[str]:
                         errors.append(f"{item.get('package_id')}: Omni durable root mismatch")
                     if identity.get("license_state") != "APACHE-2.0_ACCEPTED_FOR_COMFY_UI_MAIN_PROJECT_USE":
                         errors.append(f"{item.get('package_id')}: Omni license decision mismatch")
-                    if qualification.get("state") != "STORAGE_INSTALLED_RUNTIME_GATES_PENDING":
+                    if qualification.get("state") != "STORAGE_DEPENDENCY_IMPORT_GATES_PASS_RUNTIME_GATES_PENDING":
                         errors.append(f"{item.get('package_id')}: Omni qualification state mismatch")
-                    for completed_gate in ("pinned_revision", "artifact_hash"):
+                    for completed_gate in ("pinned_revision", "artifact_hash", "dependency_environment", "import_canary"):
                         if completed_gate in qualification.get("required_gates", []):
                             errors.append(f"{item.get('package_id')}: completed Omni {completed_gate} gate must be removed")
                     expected_admission = {
@@ -207,7 +208,7 @@ def validate(data: dict) -> list[str]:
                     if omni_preflight != expected_omni_preflight:
                         errors.append(f"{item.get('package_id')}: Omni dependency preflight mismatch")
                     expected_omni_environment = {
-                        "state": "INSTALLED_METADATA_VERIFIED_IMPORT_PENDING",
+                        "state": "INSTALLED_IMPORT_VERIFIED_RUNTIME_PENDING",
                         "root": "/workspace/w64_aqa/environments/Qwen3-Omni-30B-A3B-Thinking/transformers-5.2.0-qwen-omni-utils-0.0.9-py3.12.13-cu124/a19d160721dfb74cf89bc70eebec10f45b2e6f58b7a109726d658db7d361277c",
                         "lock_sha256": "a19d160721dfb74cf89bc70eebec10f45b2e6f58b7a109726d658db7d361277c",
                         "receipt_sha256": "d89ec8ba5588e8ba07f76522c74bfbfe51284c55baf934ab7f4729fed298deb8",
@@ -220,6 +221,17 @@ def validate(data: dict) -> list[str]:
                     }
                     if omni_environment != expected_omni_environment:
                         errors.append(f"{item.get('package_id')}: Omni dependency environment admission mismatch")
+                    expected_omni_import_canary = {
+                        "state": "IMPORT_ONLY_CLASS_RESOLUTION_PASS_RUNTIME_PENDING",
+                        "commit": "6a1fa04b",
+                        "script_sha256": "01a9107601db6580e714d4be6425125b1d1e58b8d62bc65d8b289ddcd0a5a5c8",
+                        "admission_sha256": "c25935363d2e641d584a7a0fa56e45be3048a1404be315f8c93bda3cf191d2c0",
+                        "receipt_sha256": "213cdc57cf72a537ff979767ff08599d9cd8ff717518bc9f8762c696d4b2e47c",
+                        "post_canary_tree_sha256": "2ae7708993cab848861688ae1b89a2233d61fa02b49e1c14bf51b188a2dd59c5",
+                        "evidence": "Plan/Tracker/Evidence/W64_AQA_QWEN3_OMNI_IMPORT_CANARY_20260722T025500Z/evidence.json",
+                    }
+                    if omni_import_canary != expected_omni_import_canary:
+                        errors.append(f"{item.get('package_id')}: Omni import canary evidence mismatch")
             else:
                 if identity.get("identity_state") != "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_UNPINNED":
                     errors.append(f"{item.get('package_id')}: planned identity state mismatch")

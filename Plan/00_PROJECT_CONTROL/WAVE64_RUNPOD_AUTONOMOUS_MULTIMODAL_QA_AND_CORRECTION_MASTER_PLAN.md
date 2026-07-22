@@ -643,3 +643,14 @@ metadata signature is identical before and after. No model library was
 imported, no weights were opened, and no tensor, GPU, lease, inference,
 service, semantic, activation, or product authority is claimed. The next safe
 gate is a separately admitted import-only canary from a pushed commit.
+
+The separately admitted CPU-only import canary then passed from pushed commit
+`6a1fa04b`. Qwen Omni Utils, Transformers, Torch, and TorchVision imported and
+the exact Qwen3-Omni config, processor, and conditional-generation classes
+resolved in 26.877 seconds with a 495,255,552-byte RSS increase. CUDA was
+hidden, network and weight-file operations were blocked, the GPU lease was not
+polled, and the full post-canary environment replay retained tree SHA-256
+`2ae7708993cab848861688ae1b89a2233d61fa02b49e1c14bf51b188a2dd59c5`.
+No model construction, weights, tensors, inference, semantic authority,
+activation, or product authority is implied. Runtime qualification remains a
+typed GPU-lease hold while independent-juror source qualification continues.
