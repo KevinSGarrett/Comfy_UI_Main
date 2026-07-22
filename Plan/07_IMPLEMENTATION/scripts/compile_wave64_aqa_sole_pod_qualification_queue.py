@@ -131,6 +131,7 @@ def compile_queue(root: Path) -> dict[str, Any]:
             "package_ids": [package_id],
             "package_evidence": [],
             "admission": {"path": admission_path.as_posix(), "sha256": sha256_file(root / admission_path), "status": admission["status"], "package_id": package_id},
+            "certificate": None,
             "depends_on": source.get("depends_on", []),
             "execution_steps": source["execution_steps"],
             "readiness": "ADMITTED_COORDINATOR_GATE_REQUIRED",
@@ -153,6 +154,7 @@ def compile_queue(root: Path) -> dict[str, Any]:
             exact_by_id[package_id] = item["exact_identity_installed_and_license_accepted"]
             blockers.extend(package_blockers)
         mode = binding["binding_mode"]
+        certificate_binding = None
         if mode == "all":
             package_gate = bool(exact_by_id) and all(exact_by_id.values())
         elif mode == "any":
@@ -162,14 +164,47 @@ def compile_queue(root: Path) -> dict[str, Any]:
             package_gate = exact_by_id[preferred]
             blockers = [value for value in blockers if value.startswith(f"{preferred}:")]
         elif mode == "none":
-            package_gate = False
+            certificate_path_value = binding.get("certificate_path")
+            if certificate_path_value:
+                certificate_path = Path(certificate_path_value)
+                bundle_path = Path(binding.get("bundle_path", ""))
+                certificate = load_json(root / certificate_path)
+                bundle = load_json(root / bundle_path)
+                if (
+                    certificate.get("role_id") != role_id
+                    or certificate.get("qualification_disposition") != "QUALIFIED_FOR_DECLARED_SCOPE"
+                    or certificate.get("operational_authority_granted") is not True
+                    or certificate.get("execution_matrix_sha256") != sha256_file(root / MATRIX_PATH)
+                    or bundle.get("role_id") != role_id
+                    or bundle.get("certificate_id") != certificate.get("certificate_id")
+                    or bundle.get("inputs", {}).get("matrix", {}).get("sha256") != sha256_file(root / MATRIX_PATH)
+                    or bundle.get("inputs", {}).get("executor", {}).get("sha256")
+                    != sha256_file(root / Path(bundle.get("inputs", {}).get("executor", {}).get("path", "")))
+                    or bundle.get("authority", {}).get("declared_local_deterministic_scope") is not True
+                ):
+                    raise QueueError(f"local certificate is not valid for current matrix: {role_id}")
+                certificate_binding = {
+                    "path": certificate_path.as_posix(),
+                    "sha256": sha256_file(root / certificate_path),
+                    "certificate_id": certificate["certificate_id"],
+                    "qualification_disposition": certificate["qualification_disposition"],
+                    "bundle_path": bundle_path.as_posix(),
+                    "bundle_sha256": sha256_file(root / bundle_path),
+                    "bundle_id": bundle["bundle_id"],
+                }
+                package_gate = True
+            else:
+                package_gate = False
         else:
             raise QueueError(f"unsupported binding mode: {mode}")
         depends_on = binding.get("depends_on", [])
         unknown_dependencies = set(depends_on) - campaign_ids
         if unknown_dependencies:
             raise QueueError(f"role campaign has unknown dependencies: {sorted(unknown_dependencies)}")
-        if package_gate:
+        if certificate_binding:
+            readiness = "QUALIFIED_DECLARED_LOCAL_SCOPE"
+            blockers = []
+        elif package_gate:
             readiness = "PREPARED_DEPENDENCIES_AND_COORDINATOR_GATE_REQUIRED"
             blockers.append("FRESH_COORDINATOR_ADMISSION_AND_EXACT_EXCLUSIVE_LEASE_REQUIRED")
             if depends_on:
@@ -190,11 +225,12 @@ def compile_queue(root: Path) -> dict[str, Any]:
             "package_ids": binding["package_ids"],
             "package_evidence": evidence,
             "admission": None,
+            "certificate": certificate_binding,
             "depends_on": depends_on,
             "execution_steps": matrix["execution_order"],
             "readiness": readiness,
             "blockers": blockers,
-            "operational": role_plan["operational"],
+            "operational": bool(certificate_binding) or role_plan["operational"],
         })
         campaign_ids.add(campaign_id)
     if [campaign["sequence"] for campaign in campaigns] != list(range(1, 15)):

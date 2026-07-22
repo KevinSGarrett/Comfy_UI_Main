@@ -88,7 +88,7 @@
     "campaign": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["sequence", "campaign_id", "kind", "role_id", "component", "execution_lane", "package_ids", "package_evidence", "admission", "depends_on", "execution_steps", "readiness", "blockers", "operational"],
+      "required": ["sequence", "campaign_id", "kind", "role_id", "component", "execution_lane", "package_ids", "package_evidence", "admission", "certificate", "depends_on", "execution_steps", "readiness", "blockers", "operational"],
       "properties": {
         "sequence": {"type": "integer", "minimum": 1, "maximum": 14},
         "campaign_id": {"type": "string", "pattern": "^W64-AQA-CAMPAIGN-[A-Z0-9-]+$"},
@@ -99,11 +99,12 @@
         "package_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
         "package_evidence": {"type": "array", "items": {"$ref": "#/$defs/packageEvidence"}},
         "admission": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/admissionBinding"}]},
+        "certificate": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/certificateBinding"}]},
         "depends_on": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
         "execution_steps": {"type": "array", "minItems": 1, "items": {"type": "string"}},
-        "readiness": {"enum": ["ADMITTED_COORDINATOR_GATE_REQUIRED", "PREPARED_DEPENDENCIES_AND_COORDINATOR_GATE_REQUIRED", "HELD_PREREQUISITES_INCOMPLETE"]},
+        "readiness": {"enum": ["ADMITTED_COORDINATOR_GATE_REQUIRED", "PREPARED_DEPENDENCIES_AND_COORDINATOR_GATE_REQUIRED", "QUALIFIED_DECLARED_LOCAL_SCOPE", "HELD_PREREQUISITES_INCOMPLETE"]},
         "blockers": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
-        "operational": {"const": false}
+        "operational": {"type": "boolean"}
       }
     },
     "packageEvidence": {
@@ -128,6 +129,17 @@
         "sha256": {"$ref": "#/$defs/sha256"},
         "status": {"type": "string"},
         "package_id": {"type": "string"}
+      }
+    },
+    "certificateBinding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "sha256", "certificate_id", "qualification_disposition", "bundle_path", "bundle_sha256", "bundle_id"],
+      "properties": {
+        "path": {"type": "string"}, "sha256": {"$ref": "#/$defs/sha256"},
+        "certificate_id": {"$ref": "#/$defs/sha256"},
+        "qualification_disposition": {"const": "QUALIFIED_FOR_DECLARED_SCOPE"},
+        "bundle_path": {"type": "string"}, "bundle_sha256": {"$ref": "#/$defs/sha256"},
+        "bundle_id": {"$ref": "#/$defs/sha256"}
       }
     }
   }

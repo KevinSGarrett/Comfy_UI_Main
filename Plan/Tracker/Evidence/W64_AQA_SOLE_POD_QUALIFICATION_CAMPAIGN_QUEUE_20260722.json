@@ -17,7 +17,7 @@
     },
     "campaign_policy": {
       "path": "Plan/10_REGISTRIES/wave64_aqa_sole_pod_qualification_campaign_policy.json",
-      "sha256": "ae3d3baf0f06e3334936bad168f88d7e0bd351036007f06b4c03465bc7f71e65"
+      "sha256": "854f3aa33694e3173c65474fe85947163aeab26d415e2164e02cf25191f2b808"
     }
   },
   "pod_gate": {
@@ -49,6 +49,7 @@
         "status": "EXPANDED_ALIGNMENT_PARTITION_EXECUTION_ADMITTED_RUNTIME_PENDING",
         "package_id": "W64-AQA-PKG-WAV2VEC2-PHONEME-ALIGNER"
       },
+      "certificate": null,
       "depends_on": [],
       "execution_steps": [
         "acquire_exact_exclusive_lease",
@@ -82,6 +83,7 @@
         "status": "MIT_AST_EXACT_EVENT_CANARY_ADMITTED_EXECUTION_PENDING",
         "package_id": "W64-AQA-PKG-MIT-AST-AUDIOSET-0.4593"
       },
+      "certificate": null,
       "depends_on": [
         "W64-AQA-CAMPAIGN-WAV2VEC2-EXPANDED-ALIGNMENT"
       ],
@@ -110,6 +112,15 @@
       "package_ids": [],
       "package_evidence": [],
       "admission": null,
+      "certificate": {
+        "path": "Plan/Tracker/Evidence/W64_AQA_DETERMINISTIC_ROLE_QUALIFICATION_20260722T163804Z/qualification_certificate.json",
+        "sha256": "7b5acff66011d828ab43647a02a65e5f05ec0bcb4ce33cac868f48a497909eeb",
+        "certificate_id": "81329165d759a60fc0b112dff3b606163a38bffa48b9c0f4d90a0ee4400296a1",
+        "qualification_disposition": "QUALIFIED_FOR_DECLARED_SCOPE",
+        "bundle_path": "Plan/Tracker/Evidence/W64_AQA_DETERMINISTIC_ROLE_QUALIFICATION_20260722T163804Z/execution_bundle.json",
+        "bundle_sha256": "13944f6dcedfaf31b2acefb802d932215f734a97953070bd7e27d8d7d2e72d6a",
+        "bundle_id": "f385abbb1b4eda4b7ccd84f2b277818b782a167fd48eedb4c6724d60c9464253"
+      },
       "depends_on": [],
       "execution_steps": [
         "admit_exact_model_runtime_and_prompt_identity",
@@ -122,11 +133,9 @@
         "release_lease",
         "retain_evidence_and_keep_activation_false_until_acceptance"
       ],
-      "readiness": "HELD_PREREQUISITES_INCOMPLETE",
-      "blockers": [
-        "ROLE_REPORT_EXECUTOR_NOT_BOUND_TO_FROZEN_MATRIX"
-      ],
-      "operational": false
+      "readiness": "QUALIFIED_DECLARED_LOCAL_SCOPE",
+      "blockers": [],
+      "operational": true
     },
     {
       "sequence": 4,
@@ -158,6 +167,7 @@
         }
       ],
       "admission": null,
+      "certificate": null,
       "depends_on": [
         "W64-AQA-CAMPAIGN-WAV2VEC2-EXPANDED-ALIGNMENT",
         "W64-AQA-CAMPAIGN-MIT-AST-AUDIOSET-EVENTS"
@@ -228,6 +238,7 @@
         }
       ],
       "admission": null,
+      "certificate": null,
       "depends_on": [],
       "execution_steps": [
         "admit_exact_model_runtime_and_prompt_identity",
@@ -268,6 +279,7 @@
         }
       ],
       "admission": null,
+      "certificate": null,
       "depends_on": [],
       "execution_steps": [
         "admit_exact_model_runtime_and_prompt_identity",
@@ -308,6 +320,7 @@
         }
       ],
       "admission": null,
+      "certificate": null,
       "depends_on": [],
       "execution_steps": [
         "admit_exact_model_runtime_and_prompt_identity",
@@ -337,6 +350,7 @@
       "package_ids": [],
       "package_evidence": [],
       "admission": null,
+      "certificate": null,
       "depends_on": [],
       "execution_steps": [
         "admit_exact_model_runtime_and_prompt_identity",
@@ -376,6 +390,7 @@
         }
       ],
       "admission": null,
+      "certificate": null,
       "depends_on": [],
       "execution_steps": [
         "admit_exact_model_runtime_and_prompt_identity",
@@ -416,6 +431,7 @@
         }
       ],
       "admission": null,
+      "certificate": null,
       "depends_on": [],
       "execution_steps": [
         "admit_exact_model_runtime_and_prompt_identity",
@@ -456,6 +472,7 @@
         }
       ],
       "admission": null,
+      "certificate": null,
       "depends_on": [],
       "execution_steps": [
         "admit_exact_model_runtime_and_prompt_identity",
@@ -496,6 +513,7 @@
         }
       ],
       "admission": null,
+      "certificate": null,
       "depends_on": [],
       "execution_steps": [
         "admit_exact_model_runtime_and_prompt_identity",
@@ -536,6 +554,7 @@
         }
       ],
       "admission": null,
+      "certificate": null,
       "depends_on": [],
       "execution_steps": [
         "admit_exact_model_runtime_and_prompt_identity",
@@ -578,6 +597,7 @@
         }
       ],
       "admission": null,
+      "certificate": null,
       "depends_on": [],
       "execution_steps": [
         "admit_exact_model_runtime_and_prompt_identity",
@@ -603,8 +623,8 @@
     "role_campaign_count": 12,
     "matrix_role_count": 12,
     "all_matrix_roles_bound": true,
-    "prepared_campaign_count": 3,
-    "held_campaign_count": 11
+    "prepared_campaign_count": 4,
+    "held_campaign_count": 10
   },
   "next_action": {
     "campaign_id": "W64-AQA-CAMPAIGN-WAV2VEC2-EXPANDED-ALIGNMENT",
@@ -620,7 +640,7 @@
       "retain_immutable_receipts"
     ]
   },
-  "queue_sha256": "dd4118f5cf5f7a9f061c1c67d1d781b1cfaaffd325e6939132fe61746b2efd1b",
+  "queue_sha256": "979c0802b9d09cc09eef931c64f47202e4bff5b3055041154b8edeb700f5e6c6",
   "authority": {
     "execution_planning": true,
     "runtime": false,

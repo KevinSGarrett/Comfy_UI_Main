@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_deterministic_role_qualification_bundle.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "bundle_id", "program_id", "role_id", "status", "inputs", "partition_policy", "calibration_runs", "threshold_freeze", "held_out_runs", "capacity", "report_sha256", "certificate_id", "authority"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.deterministic_role_qualification_bundle.v1"},
+    "bundle_id": {"$ref": "#/$defs/sha256"},
+    "program_id": {"const": "W64-AQA"},
+    "role_id": {"const": "W64-AQA-ROLE-DETERMINISTIC"},
+    "status": {"const": "LOCAL_DETERMINISTIC_DECLARED_SCOPE_QUALIFIED"},
+    "inputs": {
+      "type": "object", "additionalProperties": false,
+      "required": ["matrix", "corpus", "image_evaluator", "certificate_compiler", "executor"],
+      "properties": {
+        "matrix": {"$ref": "#/$defs/fileBinding"}, "corpus": {"$ref": "#/$defs/fileBinding"},
+        "image_evaluator": {"$ref": "#/$defs/fileBinding"}, "certificate_compiler": {"$ref": "#/$defs/fileBinding"},
+        "executor": {"$ref": "#/$defs/fileBinding"}
+      }
+    },
+    "partition_policy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["calibration_case_count", "calibration_runs_per_case", "held_out_case_count", "held_out_runs_per_case", "held_out_reexecution_forbidden"],
+      "properties": {
+        "calibration_case_count": {"const": 4}, "calibration_runs_per_case": {"const": 2},
+        "held_out_case_count": {"const": 5}, "held_out_runs_per_case": {"const": 1},
+        "held_out_reexecution_forbidden": {"const": true}
+      }
+    },
+    "calibration_runs": {"type": "array", "minItems": 8, "maxItems": 8, "items": {"$ref": "#/$defs/run"}},
+    "threshold_freeze": {
+      "type": "object", "additionalProperties": false,
+      "required": ["frozen", "calibration_output_sha256s", "thresholds", "freeze_sha256"],
+      "properties": {
+        "frozen": {"const": true},
+        "calibration_output_sha256s": {"type": "array", "minItems": 8, "maxItems": 8, "items": {"$ref": "#/$defs/sha256"}},
+        "thresholds": {"type": "object"}, "freeze_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "held_out_runs": {"type": "array", "minItems": 5, "maxItems": 5, "items": {"$ref": "#/$defs/run"}},
+    "capacity": {"type": "object"},
+    "report_sha256": {"$ref": "#/$defs/sha256"},
+    "certificate_id": {"$ref": "#/$defs/sha256"},
+    "authority": {
+      "type": "object", "additionalProperties": false,
+      "required": ["declared_local_deterministic_scope", "gpu_runtime", "visual_semantics", "audio_semantics", "independent_juror", "golden_mask", "activation", "promotion"],
+      "properties": {
+        "declared_local_deterministic_scope": {"const": true}, "gpu_runtime": {"const": false},
+        "visual_semantics": {"const": false}, "audio_semantics": {"const": false},
+        "independent_juror": {"const": false}, "golden_mask": {"const": false},
+        "activation": {"const": false}, "promotion": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "fileBinding": {"type": "object", "additionalProperties": false, "required": ["path", "sha256"], "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha256"}}},
+    "run": {
+      "type": "object", "additionalProperties": false,
+      "required": ["case_id", "category", "partition", "run_index", "disposition", "schema_valid", "output_sha256", "latency_seconds", "decision"],
+      "properties": {
+        "case_id": {"type": "string"}, "category": {"type": "string"},
+        "partition": {"enum": ["calibration", "held_out"]}, "run_index": {"type": "integer", "minimum": 1, "maximum": 2},
+        "disposition": {"enum": ["PASS", "REFUSE"]}, "schema_valid": {"const": true},
+        "output_sha256": {"$ref": "#/$defs/sha256"}, "latency_seconds": {"type": "number", "minimum": 0},
+        "decision": {"type": "object"}
+      }
+    }
+  }
+}

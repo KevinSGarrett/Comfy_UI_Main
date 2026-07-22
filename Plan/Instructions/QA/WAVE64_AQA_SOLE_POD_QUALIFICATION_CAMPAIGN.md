@@ -42,3 +42,10 @@ runs and are the only source of repeatability metrics. Every held-out fixture
 must have exactly one run; repeated held-out execution is a contract failure,
 not additional confidence. A certificate with matrix-identity drift must be
 suspended.
+
+The deterministic campaign is accepted at
+`Plan/Tracker/Evidence/W64_AQA_DETERMINISTIC_ROLE_QUALIFICATION_20260722T163804Z`.
+Use its executor only in `validate` mode. The existing output directory is an
+immutable guard: `execute` must fail before any held-out re-execution. Its
+certificate is operational only for deterministic 1024-square image technical
+gates and matrix-declared out-of-scope refusal. It is not semantic QA.

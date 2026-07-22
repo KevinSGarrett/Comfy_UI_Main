@@ -45,6 +45,19 @@ def test_audio_order_is_alignment_then_event_then_exact_audio_role() -> None:
     assert audio["depends_on"] == [campaigns[0]["campaign_id"], campaigns[1]["campaign_id"]]
 
 
+def test_deterministic_role_is_qualified_only_by_current_matrix_bound_certificate() -> None:
+    module = load_module()
+    campaign = next(
+        item for item in module.compile_queue(ROOT)["campaigns"]
+        if item["role_id"] == "W64-AQA-ROLE-DETERMINISTIC"
+    )
+    assert campaign["readiness"] == "QUALIFIED_DECLARED_LOCAL_SCOPE"
+    assert campaign["operational"] is True
+    assert campaign["blockers"] == []
+    assert campaign["certificate"]["certificate_id"] == "81329165d759a60fc0b112dff3b606163a38bffa48b9c0f4d90a0ee4400296a1"
+    assert campaign["certificate"]["bundle_id"] == "f385abbb1b4eda4b7ccd84f2b277818b782a167fd48eedb4c6724d60c9464253"
+
+
 def test_local_digest_and_upstream_name_do_not_grant_exact_role_readiness() -> None:
     module = load_module()
     campaigns = module.compile_queue(ROOT)["campaigns"]

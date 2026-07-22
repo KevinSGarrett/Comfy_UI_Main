@@ -1388,3 +1388,15 @@ inventory to 17. The inventory schema and aggregate validator now agree on all
 environment, license, loader, and storage evidence extensions. This is schema
 reconciliation only: the 8B package remains non-operational and cannot
 substitute for the declared 241B independent juror.
+
+The local deterministic role is now the first accepted matrix-bound role
+certificate. Four calibration cases ran twice before a zero-tolerance threshold
+freeze; the five held-out cases then ran exactly once. The one in-scope positive
+replayed the retained 1024-square image through the exact deterministic image
+evaluator twice with identical measurement identity. The remaining eight role
+cases correctly refused semantic requests outside deterministic authority.
+Observed peak VRAM was 0, peak working set was 0.153 GB, and p95 decision latency
+was 0.177 seconds. The certificate grants only declared local deterministic
+image-gate and policy-refusal scope. It grants no visual or audio semantics,
+GPU runtime, juror, golden-mask, activation, or promotion authority. Replay
+validation reads retained evidence and does not execute held-out cases again.
