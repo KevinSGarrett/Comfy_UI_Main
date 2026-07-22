@@ -1,0 +1,43 @@
+{
+  "schema_version": "wave64.aqa.integration_acceptance.v1",
+  "program_id": "W64-AQA",
+  "tracker_ids": ["W64-AQA-006", "TRK-W64-135"],
+  "evaluated_at_utc": "2026-07-22T09:48:21Z",
+  "disposition": "ADOPTED",
+  "scope": "Exact-source admission and prospective expanded forced-alignment and audio-event case binding only",
+  "repository_base_commit": "429621f79d8bd404092bea1b1f3b15939be6df05",
+  "plan_sha256": "a8bd9b6bdeaf16be3ab1dd83f6cdf73dcec717ba25f03986bc3bf84071be50d4",
+  "schema_sha256": "f869bd0e181ab9907c2906a17150e21f0a92055de0b597d4114abc69b0113a3d",
+  "protocol_sha256": "2ebc75d68d801c7cd56def3251b3c2796378f7df8ffe0e5d7d54fc10c70566eb",
+  "accepted": {
+    "exact_source_count": 8,
+    "exact_source_identity_pass_count": 8,
+    "alignment_case_count": 8,
+    "event_case_count": 4,
+    "calibration_and_held_out_partitions_present": true,
+    "distinct_public_domain_natural_speaker_present": true,
+    "spanish_and_code_switch_diagnostics_present": true,
+    "transcript_mismatch_refusal_present": true,
+    "two_speaker_overlap_refusal_present": true,
+    "nonspeech_refusal_controls_present": true,
+    "validator_test_result": "6 passed",
+    "ruff_result": "PASS",
+    "diff_check_result": "PASS"
+  },
+  "authority_granted": [
+    "exact retained source admission",
+    "prospective alignment and event case binding",
+    "calibration-before-held-out execution order"
+  ],
+  "authority_not_granted": [
+    "forced-alignment generalization",
+    "multilingual alignment",
+    "overlap alignment",
+    "audio-event recognition",
+    "independent audio judgment",
+    "operational activation",
+    "golden-mask authority",
+    "product promotion"
+  ],
+  "next_action": "Under separately admitted immutable model identities, execute calibration partitions first, freeze observed thresholds, then execute held-out partitions once without post-result tuning."
+}

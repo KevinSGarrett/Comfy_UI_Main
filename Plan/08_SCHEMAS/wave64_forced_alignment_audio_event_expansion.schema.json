@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "wave64_forced_alignment_audio_event_expansion.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "program_id", "tracker_ids", "status", "sources", "alignment_cases", "event_cases", "execution_order", "authority"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.forced_alignment_audio_event_expansion.v1"},
+    "program_id": {"const": "W64-AQA"},
+    "tracker_ids": {"const": ["W64-AQA-006", "TRK-W64-135"]},
+    "status": {"const": "PROSPECTIVE_EXPANDED_MATRIX_FROZEN_EXECUTION_PENDING"},
+    "sources": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["source_id", "relative_path", "sha256", "bytes", "sample_rate_hz", "channels", "sample_width_bytes", "frame_count", "speaker_class", "language", "transcript", "rights_basis"],
+        "properties": {
+          "source_id": {"type": "string", "minLength": 1},
+          "relative_path": {"type": "string", "pattern": "^Plan/Instructions/Operations/Pulled_Back_Artifacts/"},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "bytes": {"type": "integer", "minimum": 1},
+          "sample_rate_hz": {"type": "integer", "minimum": 8000},
+          "channels": {"type": "integer", "minimum": 1, "maximum": 2},
+          "sample_width_bytes": {"type": "integer", "minimum": 2, "maximum": 3},
+          "frame_count": {"type": "integer", "minimum": 1},
+          "speaker_class": {"type": "string", "minLength": 1},
+          "language": {"type": "string", "minLength": 1},
+          "transcript": {"type": ["string", "null"]},
+          "rights_basis": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "alignment_cases": {"type": "array", "minItems": 8, "maxItems": 8, "items": {"type": "object"}},
+    "event_cases": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"type": "object"}},
+    "execution_order": {"type": "array", "minItems": 8, "maxItems": 8, "items": {"type": "string"}},
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_admission", "prospective_case_binding", "forced_alignment_generalization", "multilingual_alignment", "overlap_alignment", "audio_event_recognition", "independent_audio_judgment", "operational_activation", "product_promotion"],
+      "properties": {
+        "source_admission": {"const": true},
+        "prospective_case_binding": {"const": true},
+        "forced_alignment_generalization": {"const": false},
+        "multilingual_alignment": {"const": false},
+        "overlap_alignment": {"const": false},
+        "audio_event_recognition": {"const": false},
+        "independent_audio_judgment": {"const": false},
+        "operational_activation": {"const": false},
+        "product_promotion": {"const": false}
+      }
+    }
+  }
+}

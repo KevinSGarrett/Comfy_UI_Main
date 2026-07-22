@@ -799,6 +799,20 @@ and phoneme spans into prospective viseme and lip-sync fixtures, then expand
 calibration across speakers, accents, noise, duration, overlap, and transcript
 mismatch before any broader authority claim.
 
+The first expanded calibration package is now prospectively frozen. It binds
+eight exact retained sources spanning a generated English speaker, a distinct
+public-domain natural English speaker, Spanish, English-Spanish code switching,
+room ambience, rights-scoped cloth/body-shift foley, a speech/foley/ambience
+mix, and two-speaker overlap. Eight forced-alignment cases add natural-speaker,
+language-scoped diagnostic, transcript-mismatch, overlap-refusal, ambience-
+refusal, and foley-refusal coverage; four audio-event cases add calibration and
+held-out label-family controls. Calibration partitions must run first, observed
+thresholds must be frozen before held-out inspection, and unchanged reruns are
+forbidden. This package grants exact-source admission and prospective case
+binding only. General, multilingual, or overlap alignment, audio-event
+recognition, independent listening, operational activation, and product
+promotion remain false until their separate runtime and review gates pass.
+
 The prospective Row136 control package is now frozen before execution. It
 binds the accepted canary receipt, a versioned English IPA-to-viseme registry,
 an exact output schema, and a deterministic compiler. The compiler creates a
