@@ -1,0 +1,68 @@
+{
+  "schema_version": "wave64.aqa.integration_acceptance.v1",
+  "program_id": "W64-AQA",
+  "tracker_id": "TRK-W64-136",
+  "item_id": "ITEM-W64-136",
+  "accepted_at": "2026-07-22T07:11:38Z",
+  "adoption": "ADOPTED",
+  "source_control": {
+    "prospective_control_commit": "019c6c03",
+    "post_result_mapping_or_policy_tuning": false
+  },
+  "inputs": {
+    "canary_receipt_sha256": "404dbd97bbef08b966f6a39434b7256b97e42dc0c1a7c9cd56949f4f48878a93",
+    "mapping_registry_sha256": "da04cbd728a327f0f7f97923423cf4a60601ad8da0c9f7370f216f94184d7500",
+    "output_schema_sha256": "1cc7c9b7012326b18be7191977d9c291cd358a1d8081cf7a2f1b6c5d4b07227b"
+  },
+  "outputs": {
+    "clean_speech": {
+      "path": "Plan/Tracker/Evidence/W64_AQA_WAV2VEC2_PHONEME_VISEME_COMPILATION_20260722T071000Z/clean_speech_viseme_controls.json",
+      "bytes": 61151,
+      "sha256": "64a6bc3c98b8018498b856526299d73209a3c3ec2ea2eb9e5e99dbf5bab6261b",
+      "status": "PASS_EXACT_ACCEPTED_ALIGNMENT_TO_VISEME_CONTROLS",
+      "event_count": 59,
+      "frame_count": 77
+    },
+    "speech_plus_tone": {
+      "path": "Plan/Tracker/Evidence/W64_AQA_WAV2VEC2_PHONEME_VISEME_COMPILATION_20260722T071000Z/speech_plus_tone_viseme_controls.json",
+      "bytes": 60963,
+      "sha256": "0f15a7bab06272dd9dfaf1a0d0d0614651cfeecf64d4e706de09618c18f4cd12",
+      "status": "PASS_EXACT_ACCEPTED_ALIGNMENT_TO_VISEME_CONTROLS",
+      "event_count": 59,
+      "frame_count": 77
+    }
+  },
+  "paired_comparison": {
+    "aligned_phoneme_count_each": 30,
+    "ordered_phoneme_viseme_sequence_equal": true,
+    "ordered_sequence_sha256": "809e085e06522f2a409683cb1a12119800128e32cce12c97380492a0fadef36d",
+    "required_category_coverage_equal_and_complete": true,
+    "all_gates_pass_each": true,
+    "primary_frame_viseme_agreement": {
+      "matching_frames": 71,
+      "total_frames": 77,
+      "ratio": 0.922077922077922
+    },
+    "maximum_absolute_aligned_boundary_delta_seconds": 0.02012500000000017,
+    "maximum_absolute_frame_control_delta": 0.4125625,
+    "diagnostic_deltas_are_promotion_thresholds": false
+  },
+  "accepted_authority": [
+    "exact_accepted_alignment_input",
+    "versioned_english_ipa_to_viseme_mapping",
+    "complete_nonoverlapping_sample_control_timeline",
+    "single_owner_frame_center_controls",
+    "adjacent_coarticulation_weight_normalization",
+    "exact_two_fixture_deterministic_compilation"
+  ],
+  "withheld_authority": [
+    "general_phoneme_inventory",
+    "multispeaker_or_multilingual_viseme_quality",
+    "rendered_lip_sync",
+    "identity_preservation",
+    "audio_visual_sync",
+    "operational_activation",
+    "product_promotion"
+  ],
+  "next_action": "Bind the accepted exact-fixture control track into an isolated identity-preserving lip-sync candidate path with immutable source video and audio, then run temporal, identity, frame-integrity, whole-video, cleanup, and rollback QA before Row137 authority."
+}

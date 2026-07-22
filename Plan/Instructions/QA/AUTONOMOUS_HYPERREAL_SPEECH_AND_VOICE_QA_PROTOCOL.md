@@ -56,6 +56,8 @@ Row136 consumes only an accepted speech fixture whose canary receipt, model pack
 
 Frame controls use exactly one center-sample owner per frame. Coarticulation may blend only the immediately adjacent visemes under the frozen attack/release policy; every weight is bounded and sums to one. Both accepted speech fixtures must compile deterministically and preserve the same ordered phoneme-to-viseme sequence before the exact fixture compiler is accepted. Compilation alone never proves rendered lip sync, identity preservation, AV sync, general phoneme coverage, operational activation, or product promotion.
 
+The frozen compiler passed both accepted speech fixtures: each output has 59 contiguous sample events, 77 single-owner frame controls, full silence/closure/plosive/fricative/vowel/rapid-transition coverage, and the same ordered 30-token IPA-to-viseme sequence. The tone-contaminated fixture shifted some accepted alignment boundaries by at most 20.125 ms and differed on six primary frame labels; those values are retained as diagnostics and are not promotion thresholds. Exact two-fixture compilation is accepted, while rendered lip-sync and all broader authority remain withheld.
+
 ## Multi-engine comparison
 
 Hard-gate survivors are ranked by a versioned scorecard. The record must expose raw metrics, normalized metrics, weights, missing-metric handling, and final explanation. A missing mandatory metric blocks; it is never assigned a neutral score.

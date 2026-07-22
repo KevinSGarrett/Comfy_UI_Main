@@ -793,3 +793,16 @@ accepted speech fixtures with identical ordered phoneme-to-viseme coverage
 before exact-fixture authority is accepted. No rendered lip-sync, identity,
 AV-sync, general inventory, operational, or product authority follows from a
 control compilation.
+
+Both frozen Row136 compilations passed. Each contains 59 contiguous sample
+events, 77 single-owner frame controls, normalized adjacent-viseme blends, and
+complete required category coverage. Clean speech and speech plus tone preserve
+the identical ordered 30-token IPA-to-viseme sequence. Their maximum observed
+aligned-boundary difference is 20.125 ms and 71 of 77 primary frame labels
+agree; these are retained diagnostics, not retroactive promotion thresholds.
+The exact two-fixture compiler is accepted, but rendered lip sync, identity
+preservation, AV sync, general phoneme inventory, operational activation, and
+product promotion remain false. The next bounded action is an isolated Row137
+candidate using immutable source video/audio and the accepted control track,
+followed by temporal, identity, frame-integrity, whole-video, cleanup, and
+rollback QA.
