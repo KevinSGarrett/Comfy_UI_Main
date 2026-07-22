@@ -857,3 +857,20 @@ volume-quota authority, and it does not grant runtime install, import, model,
 inference, activation, quality, or product authority. The next gate is the
 isolated cu121 runtime environment plus the immutable rights-qualified video
 fixture.
+
+The isolated LatentSync environment now passes after two retained fail-closed
+install attempts exposed root-cache placement and the upstream decord wheel's
+false internal CPython 3.6 tag plus one incorrect RECORD entry. A separately
+admitted repair changed only decord's `WHEEL` and `RECORD`; its shared library
+remains byte-identical at SHA-256
+`98b260c5812106648ba299279916fbe98439893e346d4efdcf5cde66ba8973da`.
+The repaired-wheel v2 lock installs exactly 149 distributions under Python
+3.11.10/cu121, passes `uv pip check`, preserves the global Python metadata
+signature, and replays against environment tree SHA-256
+`9e95a8d17cf8b38fb93b117327c9e68b68c4bfd5935cca81fb67fd6e1798028b`.
+All 18 admitted package and project imports also pass with CUDA hidden and
+offline model controls. The conservative retained-environment size is 10.691
+GiB, leaving an estimated 53.335 GiB provider-quota reserve; another large
+admission requires fresh budgeting. Model configuration, weight access, model
+construction, GPU/lease polling, tensors, inference, rights-qualified video,
+identity, AV-sync, activation, and product authority remain pending.
