@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_role_qualification_execution_matrix.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "program_id", "tracker_ids", "status", "corpus", "role_registry", "role_plans", "coverage", "execution_order", "matrix_sha256", "authority"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.role_qualification_execution_matrix.v1"},
+    "program_id": {"const": "W64-AQA"},
+    "tracker_ids": {"const": ["W64-AQA-013", "W64-AQA-014"]},
+    "status": {"const": "EXECUTION_MATRIX_FROZEN_MODEL_IDENTITIES_AND_RUNTIME_RECEIPTS_PENDING"},
+    "corpus": {"$ref": "#/$defs/binding"},
+    "role_registry": {"$ref": "#/$defs/binding"},
+    "role_plans": {"type": "array", "minItems": 12, "maxItems": 12, "items": {"$ref": "#/$defs/role_plan"}},
+    "coverage": {
+      "type": "object", "additionalProperties": false,
+      "required": ["role_count", "categories_per_role", "cases_per_role", "total_role_case_bindings"],
+      "properties": {
+        "role_count": {"const": 12}, "categories_per_role": {"const": 9},
+        "cases_per_role": {"const": 9}, "total_role_case_bindings": {"const": 108}
+      }
+    },
+    "execution_order": {"const": ["admit_exact_model_runtime_and_prompt_identity", "acquire_exact_coordinator_lease", "run_calibration_partition", "freeze_observed_thresholds", "run_held_out_partition_once", "compile_capacity_quality_repeatability_refusal_certificate", "verify_process_exit_cleanup", "release_lease", "retain_evidence_and_keep_activation_false_until_acceptance"]},
+    "matrix_sha256": {"$ref": "#/$defs/sha256"},
+    "authority": {
+      "type": "object", "additionalProperties": false,
+      "required": ["execution_planning", "model_identity", "runtime", "quality", "independent_juror", "golden_mask", "activation", "promotion"],
+      "properties": {
+        "execution_planning": {"const": true}, "model_identity": {"const": false},
+        "runtime": {"const": false}, "quality": {"const": false},
+        "independent_juror": {"const": false}, "golden_mask": {"const": false},
+        "activation": {"const": false}, "promotion": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "binding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {"path": {"type": "string"}, "sha256": {"$ref": "#/$defs/sha256"}}
+    },
+    "case_plan": {
+      "type": "object", "additionalProperties": false,
+      "required": ["case_id", "category", "partition", "source_sha256", "truth_evidence_sha256", "task_scope", "in_scope", "expected_disposition"],
+      "properties": {
+        "case_id": {"type": "string"}, "category": {"type": "string"},
+        "partition": {"enum": ["calibration", "held_out"]},
+        "source_sha256": {"$ref": "#/$defs/sha256"}, "truth_evidence_sha256": {"$ref": "#/$defs/sha256"},
+        "task_scope": {"type": "string"}, "in_scope": {"type": "boolean"},
+        "expected_disposition": {"enum": ["PASS", "FAIL", "REFUSE"]}
+      }
+    },
+    "role_plan": {
+      "type": "object", "additionalProperties": false,
+      "required": ["role_id", "kind", "registry_state", "declared_model_targets", "cases", "coverage_complete", "operational"],
+      "properties": {
+        "role_id": {"type": "string", "pattern": "^W64-AQA-ROLE-"}, "kind": {"type": "string"},
+        "registry_state": {"type": "string"}, "declared_model_targets": {"type": "array", "items": {"type": "string"}},
+        "cases": {"type": "array", "minItems": 9, "maxItems": 9, "items": {"$ref": "#/$defs/case_plan"}},
+        "coverage_complete": {"const": true}, "operational": {"const": false}
+      }
+    }
+  }
+}

@@ -1329,3 +1329,11 @@ run calibration first under its own exact coordinator lease, freeze thresholds,
 and execute held-out cases once. No model capacity, quality, repeatability,
 refusal, independent-juror, golden-mask, activation, or promotion authority is
 inferred from corpus construction.
+
+The corpus is expanded into a frozen 12-role execution matrix. Every role
+receives all nine required categories; role-relevant cases keep their declared
+expected result, while every out-of-scope request must be refused. This creates
+108 explicit role-case bindings and prevents a specialist from gaining credit
+by silently skipping categories it cannot judge. Declared model names are
+planning targets only until immutable checkpoint, runtime, prompt, lease,
+capacity, quality, cleanup, and lifecycle receipts bind each execution.
