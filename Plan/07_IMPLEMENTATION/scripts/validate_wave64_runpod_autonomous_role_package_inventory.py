@@ -20,7 +20,7 @@ EXPECTED_INSTALLED = {
 }
 
 EXPECTED_PLANNED = {
-    "Qwen/Qwen3.6-35B-A3B",
+    "Qwen/Qwen3.6-35B-A3B-FP8",
     "Qwen/Qwen3.5-122B-A10B",
     "OpenGVLab/InternVL3_5-241B-A28B-HF",
     "OpenGVLab/InternVL3_5-8B",
@@ -35,6 +35,7 @@ EXPECTED_PROMOTED = {
 }
 
 PINNED_PLANNED = {
+    "Qwen/Qwen3.6-35B-A3B-FP8": "95a723d08a9490559dae23d0cff1d9466213d989",
     "Qwen/Qwen3-ASR-1.7B": "7278e1e70fe206f11671096ffdd38061171dd6e5",
     "Qwen/Qwen3-Omni-30B-A3B-Thinking": "2f443cfc4c54b14a815c0e2bb9a9d6cbcd9a748b",
     "OpenGVLab/InternVL3_5-241B-A28B-HF": "b941ed62ed4e2b711be4271b55034c2c97c57f33",

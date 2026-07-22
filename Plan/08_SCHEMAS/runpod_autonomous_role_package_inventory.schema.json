@@ -83,7 +83,7 @@
               "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
               "file_count": {"type": "integer", "minimum": 1},
               "total_bytes": {"type": "integer", "minimum": 1},
-              "replay": {"const": "REUSED_VERIFIED_INSTALL"}
+              "replay": {"enum": ["REUSED_VERIFIED_INSTALL", "ADOPTED_EXACT_VERIFIED_EXISTING_INSTALL"]}
             }
           },
           "dependency_preflight": {
@@ -148,6 +148,7 @@
             }
           },
           "install_admission": {"type": "object", "minProperties": 1},
+          "storage_audit": {"type": "object", "minProperties": 1},
           "import_canary": {"type": "object", "minProperties": 1},
           "static_qualification": {"type": "object", "minProperties": 1},
           "runtime_canary": {

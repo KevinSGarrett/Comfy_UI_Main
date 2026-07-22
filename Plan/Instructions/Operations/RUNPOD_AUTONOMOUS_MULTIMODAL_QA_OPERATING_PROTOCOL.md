@@ -497,3 +497,23 @@ authoritative pod only after verified migration-complete evidence binds the
 exact candidate, volume `o9qv2ld91c`, 100 GB disk, dual-A40 telemetry,
 coordinator rollback checks, and safe old-pod stop. The watcher has no AWS or
 pod-termination authority.
+
+# Qwen3.6 controller FP8 storage state (2026-07-22)
+
+The only admitted controller artifact is
+`Qwen/Qwen3.6-35B-A3B-FP8` at revision
+`95a723d08a9490559dae23d0cff1d9466213d989`. Its immutable root is
+`/workspace/w64_aqa/models/controller/Qwen3.6-35B-A3B-FP8/95a723d08a9490559dae23d0cff1d9466213d989`.
+The canonical admission digest is
+`89dd14c6054e3f8f15882d59480cb0b3972b497d4825302c9749346291ae397c`;
+the standard receipt digest is
+`d7876c0985235681ba82a551cc4f9192ff4e0d37f76822c95a0b32bcf91bd2da`.
+All 56 primary files and 37,493,015,668 bytes pass exact identity replay with no
+extra primary file or symlink. The standard receipt is control metadata.
+
+Treat this as storage-only acceptance. Do not import model libraries, open
+safetensors, construct tensors, load the model, inspect or claim GPU capacity,
+start a service, run inference, grant tool access, or activate the controller
+without a separately admitted dependency environment and a fresh exact
+coordinator lease. The next CPU-only action is isolated dependency resolution
+and import-only class/config verification with CUDA hidden and network blocked.

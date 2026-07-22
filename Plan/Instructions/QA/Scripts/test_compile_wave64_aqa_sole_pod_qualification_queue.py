@@ -85,8 +85,9 @@ def test_exact_strict_role_is_prepared_but_downgraded_identity_fails_closed() ->
     assert strict["package_evidence"][0]["exact_identity_installed_and_license_accepted"] is True
     assert strict["blockers"] == ["FRESH_COORDINATOR_ADMISSION_AND_EXACT_EXCLUSIVE_LEASE_REQUIRED"]
     controller = next(item for item in campaigns if item["role_id"] == "W64-AQA-ROLE-CONTROLLER")
-    assert controller["readiness"] == "HELD_PREREQUISITES_INCOMPLETE"
-    assert any("EXACT_ARTIFACT_NOT_INSTALLED" in value for value in controller["blockers"])
+    assert controller["readiness"] == "PREPARED_DEPENDENCIES_AND_COORDINATOR_GATE_REQUIRED"
+    assert controller["package_evidence"][0]["exact_identity_installed_and_license_accepted"] is True
+    assert controller["blockers"] == ["FRESH_COORDINATOR_ADMISSION_AND_EXACT_EXCLUSIVE_LEASE_REQUIRED"]
     inventory = json.loads((ROOT / module.INVENTORY_PATH).read_text(encoding="utf-8"))
     local = next(item for item in inventory["packages"] if item["package_id"] == "W64-AQA-PKG-QWEN25VL32")
     local["identity"]["identity_state"] = "LOCAL_DIGEST_VERIFIED_UPSTREAM_REVISION_UNVERIFIED"

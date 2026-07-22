@@ -24,6 +24,10 @@ class InstallError(RuntimeError):
 
 
 ADMITTED_PRODUCTION_MANIFESTS = {
+    "89dd14c6054e3f8f15882d59480cb0b3972b497d4825302c9749346291ae397c": {
+        "repository_id": "Qwen/Qwen3.6-35B-A3B-FP8",
+        "revision": "95a723d08a9490559dae23d0cff1d9466213d989",
+    },
     "e733f6863ecf6e3cd2d5579cd50c6e8cd35c78739316757633ad70c879edba60": {
         "repository_id": "Qwen/Qwen3-ASR-1.7B",
         "revision": "7278e1e70fe206f11671096ffdd38061171dd6e5",
@@ -151,6 +155,7 @@ def install(
     production_target: bool = True,
     crash_after_files: int | None = None,
     download_workers: int = 1,
+    adopt_verified_existing: bool = False,
 ) -> dict[str, Any]:
     _verify_manifest_shape(manifest)
     if download_workers < 1 or download_workers > 8:
@@ -181,15 +186,35 @@ def install(
     receipt_name = ".w64_aqa_install_receipt.json"
     if target.exists():
         receipt_path = target / receipt_name
-        if not target.is_dir() or target.is_symlink() or not receipt_path.is_file():
+        if not target.is_dir() or target.is_symlink():
             raise InstallError("target exists without a valid installation receipt")
-        receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
-        if receipt.get("manifest_sha256") != manifest_hash:
-            raise InstallError("existing target receipt manifest mismatch")
+        if not receipt_path.is_file() and not adopt_verified_existing:
+            raise InstallError("target exists without a valid installation receipt")
         verified = [verify_file(target / record["path"], record) for record in manifest["files"]]
-        if receipt.get("files") != verified:
-            raise InstallError("existing target receipt file inventory mismatch")
-        return {**receipt, "replay": "REUSED_VERIFIED_INSTALL"}
+        expected_names = {record["path"] for record in manifest["files"]}
+        observed_names = {
+            path.relative_to(target).as_posix()
+            for path in target.rglob("*")
+            if path.is_file()
+            and not path.is_symlink()
+            and path.relative_to(target).as_posix() != receipt_name
+        }
+        if observed_names != expected_names or any(path.is_symlink() for path in target.rglob("*")):
+            raise InstallError("existing target file set is not exact")
+        if receipt_path.is_file():
+            receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+            if receipt.get("manifest_sha256") != manifest_hash:
+                raise InstallError("existing target receipt manifest mismatch")
+            if receipt.get("files") != verified:
+                raise InstallError("existing target receipt file inventory mismatch")
+            return {**receipt, "replay": "REUSED_VERIFIED_INSTALL"}
+        receipt = build_receipt(manifest, manifest_hash, declared_target, verified)
+        with receipt_path.open("x", encoding="utf-8", newline="\n") as handle:
+            json.dump(receipt, handle, indent=2)
+            handle.write("\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+        return {**receipt, "replay": "ADOPTED_EXACT_VERIFIED_EXISTING_INSTALL"}
 
     target.parent.mkdir(parents=True, exist_ok=True)
     staging = target.parent / f".{target.name}.installing"
@@ -234,7 +259,27 @@ def install(
     if any(path.is_symlink() for path in staging.rglob("*")):
         raise InstallError("staging contains a symlink")
 
-    receipt = {
+    receipt = build_receipt(manifest, manifest_hash, declared_target, verified_files)
+    receipt_path = staging / receipt_name
+    if receipt_path.exists():
+        raise InstallError("staging receipt already exists")
+    with receipt_path.open("x", encoding="utf-8", newline="\n") as handle:
+        json.dump(receipt, handle, indent=2)
+        handle.write("\n")
+        handle.flush()
+        os.fsync(handle.fileno())
+    os.replace(staging, target)
+    return {**receipt, "replay": "NEW_ATOMIC_INSTALL"}
+
+
+def build_receipt(
+    manifest: dict[str, Any],
+    manifest_hash: str,
+    declared_target: str,
+    verified_files: list[dict[str, Any]],
+) -> dict[str, Any]:
+    source = manifest["source"]
+    return {
         "schema_version": "wave64.aqa.model_install_receipt.v1",
         "program_id": "W64-AQA",
         "package_id": manifest["package_id"],
@@ -251,27 +296,23 @@ def install(
             "product_authority": False,
         },
     }
-    receipt_path = staging / receipt_name
-    if receipt_path.exists():
-        raise InstallError("staging receipt already exists")
-    with receipt_path.open("x", encoding="utf-8", newline="\n") as handle:
-        json.dump(receipt, handle, indent=2)
-        handle.write("\n")
-        handle.flush()
-        os.fsync(handle.fileno())
-    os.replace(staging, target)
-    return {**receipt, "replay": "NEW_ATOMIC_INSTALL"}
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("manifest", type=Path)
     parser.add_argument("--download-workers", type=int, default=1)
+    parser.add_argument("--adopt-verified-existing", action="store_true")
     args = parser.parse_args()
     manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
     target = Path(manifest["storage"]["target_root"])
     try:
-        result = install(manifest, target, download_workers=args.download_workers)
+        result = install(
+            manifest,
+            target,
+            download_workers=args.download_workers,
+            adopt_verified_existing=args.adopt_verified_existing,
+        )
     except (InstallError, json.JSONDecodeError, OSError) as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 1

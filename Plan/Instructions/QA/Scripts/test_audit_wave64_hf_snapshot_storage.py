@@ -80,3 +80,24 @@ def test_audit_fails_authority_on_missing_drift_extra_and_revision(tmp_path: Pat
         assert "revision mismatch" in str(error)
     else:
         raise AssertionError("revision drift was accepted")
+
+
+def test_audit_excludes_standard_install_receipt_from_primary_file_set(tmp_path: Path) -> None:
+    module = _module()
+    model = tmp_path / "model.safetensors"
+    model.write_bytes(b"weight")
+    (tmp_path / ".w64_aqa_install_receipt.json").write_text("{}", encoding="utf-8")
+    provider = {
+        "sha": "revision",
+        "siblings": [
+            {
+                "rfilename": model.name,
+                "size": model.stat().st_size,
+                "lfs": {"sha256": module._sha256(model)},
+            }
+        ],
+    }
+    receipt = module.audit_snapshot(tmp_path, "publisher/model", "revision", lambda *_: provider)
+    assert receipt["control_files"] == [".w64_aqa_install_receipt.json"]
+    assert receipt["extra_primary_files"] == []
+    assert receipt["authority"]["storage_identity"] is True

@@ -96,9 +96,11 @@ failure rate, structured-output reliability, and cost ceiling are evidenced.
 
 ### Tier P4: large-model role qualification
 
-Qwen3.5 122B/397B, InternVL 241B, Qwen3-Omni, and Qwen3-Coder-Next are installed
-to durable primary-pod storage and evaluated one at a time with checkpoint-
-specific quantization and CPU/NVMe offload. No large role is operational merely
+Qwen3.5 122B/397B, InternVL 241B, Qwen3-Omni, Qwen3-Coder-Next, and the
+Qwen3.6 controller are installed to durable primary-pod storage only when their
+exact package admission passes, then evaluated one at a time with checkpoint-
+specific quantization and CPU/NVMe offload. Installation is tracked per role;
+it is not a blanket current-state claim. No large role is operational merely
 because its files exist: the exact quantization must pass memory, latency,
 structured-output, calibration, and quality floors. A capacity failure leaves
 that role unqualified while a safer precision, quantization, sharding, or
@@ -154,18 +156,26 @@ subjective intent changes, policy exceptions, and genuinely unresolved adjudicat
 
 The active architecture is a pool of isolated role packages with one
 deterministic policy authority on the current production pod. Packages load on
-demand and are never assumed to be resident together. No replacement-pod,
-2x-A40, or external-inference branch is active: oversized roles must first use
-exact quantization, bounded context, sequential unload/reload, and CPU or NVMe
-offload on this pod. A failing role remains unqualified but does not stop other
-dependency-unblocked current-pod roles.
+demand and are never assumed to be resident together. No project-owned
+replacement-pod or external-inference branch is active. The user-authorized
+singleton `runpod-us-wa-1-2xa40-guarded-migration-watcher` is the only
+alternative-hardware exception and acts only under its separate fail-closed
+policy. Oversized roles continue to use exact quantization, bounded context,
+sequential unload/reload, and CPU or NVMe offload on the current pod until
+verified migration-complete evidence changes authority. A failing role remains
+unqualified but does not stop other dependency-unblocked current-pod roles.
 
 ### Controller and fast planner
 
 A qualified Qwen3.6-35B-A3B-class service is the target request compiler,
 triage reviewer, correction planner, and route explainer. On the current pod it
-requires a measured quantized exclusive-phase deployment. Until then, installed
-small models provide bounded triage and deterministic code owns decisions.
+requires a measured quantized exclusive-phase deployment. The official FP8
+package at revision `95a723d0` is installed with all 56 primary files and
+37,493,015,668 bytes independently verified. This closes storage identity,
+license, and FP8 artifact gates only; dependency, load, capacity, calibration,
+quality, refusal, cleanup, and operational authority remain pending. Until those
+gates pass, installed small models provide bounded triage and deterministic code
+owns decisions.
 
 ### Primary visual reviewer
 

@@ -18,6 +18,8 @@ ALIGNER_SCHEMA = ROOT / "Plan/08_SCHEMAS/runpod_autonomous_wav2vec2_phoneme_alig
 LATENTSYNC_MANIFEST = ROOT / "Plan/10_REGISTRIES/wave64_latentsync_1_6_install_admission.json"
 LATENTSYNC_SCHEMA = ROOT / "Plan/08_SCHEMAS/runpod_autonomous_latentsync_1_6_install_admission.schema.json"
 AST_MANIFEST = ROOT / "Plan/10_REGISTRIES/wave64_mit_ast_audioset_install_admission.json"
+CONTROLLER_MANIFEST = ROOT / "Plan/10_REGISTRIES/wave64_aqa_qwen36_35b_a3b_fp8_install_admission.json"
+CONTROLLER_SCHEMA = ROOT / "Plan/08_SCHEMAS/runpod_autonomous_qwen36_controller_fp8_install_admission.schema.json"
 SPEC = importlib.util.spec_from_file_location("model_package_installer", SCRIPT)
 assert SPEC and SPEC.loader
 MODULE = importlib.util.module_from_spec(SPEC)
@@ -156,6 +158,65 @@ def test_target_overwrite_and_authority_expansion_fail(tmp_path: Path) -> None:
         )
 
 
+def test_adopt_exact_verified_existing_requires_explicit_mode(tmp_path: Path) -> None:
+    manifest, payloads = fixture_manifest()
+    target = tmp_path / "published"
+    for name, payload in payloads.items():
+        path = target / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(payload)
+    with pytest.raises(MODULE.InstallError, match="without a valid installation receipt"):
+        MODULE.install(manifest, target, free_bytes=10_000, production_target=False)
+    result = MODULE.install(
+        manifest,
+        target,
+        free_bytes=10_000,
+        production_target=False,
+        adopt_verified_existing=True,
+    )
+    assert result["replay"] == "ADOPTED_EXACT_VERIFIED_EXISTING_INSTALL"
+    assert (target / ".w64_aqa_install_receipt.json").is_file()
+    assert not result["runtime_claims"]["model_loaded"]
+
+
+def test_adopt_existing_rejects_extra_file(tmp_path: Path) -> None:
+    manifest, payloads = fixture_manifest()
+    target = tmp_path / "published"
+    for name, payload in payloads.items():
+        path = target / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(payload)
+    (target / "client-cache.json").write_text("{}", encoding="utf-8")
+    with pytest.raises(MODULE.InstallError, match="file set is not exact"):
+        MODULE.install(
+            manifest,
+            target,
+            free_bytes=10_000,
+            production_target=False,
+            adopt_verified_existing=True,
+        )
+
+
+def test_adopt_existing_does_not_hide_nested_receipt_named_extra(tmp_path: Path) -> None:
+    manifest, payloads = fixture_manifest()
+    target = tmp_path / "published"
+    for name, payload in payloads.items():
+        path = target / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(payload)
+    nested = target / "nested" / ".w64_aqa_install_receipt.json"
+    nested.parent.mkdir()
+    nested.write_text("{}", encoding="utf-8")
+    with pytest.raises(MODULE.InstallError, match="file set is not exact"):
+        MODULE.install(
+            manifest,
+            target,
+            free_bytes=10_000,
+            production_target=False,
+            adopt_verified_existing=True,
+        )
+
+
 def test_production_target_is_exact(tmp_path: Path) -> None:
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
     with pytest.raises(MODULE.InstallError, match="CLI target differs"):
@@ -175,6 +236,24 @@ def test_qwen3_omni_manifest_is_bound_for_production_storage_only() -> None:
     MODULE._verify_manifest_shape(manifest)
     assert manifest["storage"]["weight_bytes"] == 63440997640
     assert "gpu_probe" in manifest["authority"]["forbidden"]
+
+
+def test_qwen36_controller_fp8_manifest_is_bound_for_production_storage_only() -> None:
+    import jsonschema
+
+    manifest = json.loads(CONTROLLER_MANIFEST.read_text(encoding="utf-8"))
+    schema = json.loads(CONTROLLER_SCHEMA.read_text(encoding="utf-8"))
+    jsonschema.Draft202012Validator.check_schema(schema)
+    jsonschema.Draft202012Validator(schema).validate(manifest)
+    manifest_hash = hashlib.sha256(MODULE.canonical_bytes(manifest)).hexdigest()
+    assert manifest_hash == "89dd14c6054e3f8f15882d59480cb0b3972b497d4825302c9749346291ae397c"
+    assert manifest_hash in MODULE.ADMITTED_PRODUCTION_MANIFESTS
+    MODULE._verify_manifest_shape(manifest)
+    assert manifest["source"]["revision"] == "95a723d08a9490559dae23d0cff1d9466213d989"
+    assert manifest["storage"]["weight_bytes"] == 37463662160
+    assert manifest["storage"]["minimum_free_bytes_before_install"] == 91180106868
+    assert len(manifest["files"]) == 56
+    assert "tool_authorization" in manifest["authority"]["forbidden"]
 
 
 def test_wav2vec2_phoneme_aligner_manifest_is_bound_for_storage_only() -> None:

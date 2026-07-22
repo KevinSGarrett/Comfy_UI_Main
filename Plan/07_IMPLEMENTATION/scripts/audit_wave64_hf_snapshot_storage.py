@@ -43,11 +43,19 @@ def audit_snapshot(
     if provider.get("sha") != revision:
         raise ValueError("provider revision mismatch")
     expected = {item["rfilename"]: item for item in provider["siblings"]}
+    control_names = {".w64_aqa_install_receipt.json"}
     actual = {
         path.relative_to(root).as_posix(): path
         for path in root.rglob("*")
-        if path.is_file() and not path.is_symlink()
+        if path.is_file()
+        and not path.is_symlink()
+        and path.relative_to(root).as_posix() not in control_names
     }
+    control_files = sorted(
+        path.relative_to(root).as_posix()
+        for path in root.rglob("*")
+        if path.is_file() and path.relative_to(root).as_posix() in control_names
+    )
     files: list[dict[str, Any]] = []
     for name, item in sorted(expected.items()):
         path = actual.get(name)
@@ -70,6 +78,7 @@ def audit_snapshot(
         "root": str(root),
         "expected_files": len(expected),
         "actual_primary_files": len(actual),
+        "control_files": control_files,
         "extra_primary_files": sorted(set(actual) - set(expected)),
         "total_primary_bytes": sum(path.stat().st_size for path in actual.values()),
         "matching_files": sum(record["match"] for record in files),

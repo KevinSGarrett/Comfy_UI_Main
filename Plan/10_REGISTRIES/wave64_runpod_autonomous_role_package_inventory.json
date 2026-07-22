@@ -1,7 +1,7 @@
 {
   "schema_version": "wave64.aqa.role_package_inventory.v1",
   "program_id": "W64-AQA",
-  "observed_at_utc": "2026-07-22T18:38:38Z",
+  "observed_at_utc": "2026-07-22T19:28:00Z",
   "scope": "REPOSITORY_BACKED_STATIC_AND_SCOPED_RUNTIME_EVIDENCE",
   "runtime_policy": {
     "current_pod_remains_authoritative": true,
@@ -89,9 +89,13 @@
     {
       "package_id": "W64-AQA-PKG-QWEN36-35B-A3B",
       "roles": ["controller"],
-      "identity": {"display_name": "Qwen3.6-35B-A3B", "publisher": "Qwen", "repository_id": "Qwen/Qwen3.6-35B-A3B", "source_url": "https://huggingface.co/Qwen/Qwen3.6-35B-A3B", "identity_state": "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_UNPINNED", "license_state": "APACHE-2.0_UPSTREAM_REPORTED_NOT_LOCALLY_ACCEPTED"},
-      "installation": {"state": "UPSTREAM_IDENTITY_VERIFIED_NOT_INSTALLED", "artifact_digest": null, "durable_root": null, "evidence": "Plan/Tracker/Evidence/W64_AQA_ROLE_PACKAGE_IDENTITY_QUALIFICATION_20260722T001002Z.json"},
-      "qualification": {"state": "PENDING_ALL_RUNTIME_GATES", "required_gates": ["pinned_revision", "license_acceptance", "artifact_hash", "quantization", "capacity", "calibration", "runtime", "latency", "quality", "cost", "failure_injection"]},
+      "identity": {"display_name": "Qwen3.6-35B-A3B-FP8", "publisher": "Qwen", "repository_id": "Qwen/Qwen3.6-35B-A3B-FP8", "source_url": "https://huggingface.co/Qwen/Qwen3.6-35B-A3B-FP8", "identity_state": "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_PINNED", "license_state": "APACHE-2.0_ACCEPTED_FOR_COMFY_UI_MAIN_PROJECT_USE"},
+      "source_pin": {"revision": "95a723d08a9490559dae23d0cff1d9466213d989", "verified_at_utc": "2026-07-22T19:22:58Z", "format": "official_hugging_face_fp8", "source_file_count": 56, "source_total_bytes": 37493015668, "weight_bytes": 37463662160, "admission_manifest_sha256": "89dd14c6054e3f8f15882d59480cb0b3972b497d4825302c9749346291ae397c"},
+      "installation": {"state": "INSTALLED_FILE_SET_VERIFIED_ACTIVATION_PENDING", "artifact_digest": "89dd14c6054e3f8f15882d59480cb0b3972b497d4825302c9749346291ae397c", "durable_root": "/workspace/w64_aqa/models/controller/Qwen3.6-35B-A3B-FP8/95a723d08a9490559dae23d0cff1d9466213d989", "evidence": "Plan/Tracker/Evidence/W64_AQA_QWEN36_CONTROLLER_FP8_STORAGE_INSTALL_20260722T192258Z/integration_acceptance.json"},
+      "install_admission": {"path": "Plan/10_REGISTRIES/wave64_aqa_qwen36_35b_a3b_fp8_install_admission.json", "sha256": "89dd14c6054e3f8f15882d59480cb0b3972b497d4825302c9749346291ae397c", "minimum_free_bytes_before_install": 91180106868},
+      "installation_receipt": {"remote_path": "/workspace/w64_aqa/models/controller/Qwen3.6-35B-A3B-FP8/95a723d08a9490559dae23d0cff1d9466213d989/.w64_aqa_install_receipt.json", "sha256": "d7876c0985235681ba82a551cc4f9192ff4e0d37f76822c95a0b32bcf91bd2da", "file_count": 56, "total_bytes": 37493015668, "replay": "ADOPTED_EXACT_VERIFIED_EXISTING_INSTALL"},
+      "storage_audit": {"state": "EXACT_PRIMARY_FILE_SET_AND_IDENTITIES_PASS", "sha256": "b592f0a3fd7df03aa04fa6bd7387a4c4e4b5a60576412427ce914b6126c3caf5", "matching_files": 56, "mismatches": 0, "extra_primary_files": 0, "control_files": [".w64_aqa_install_receipt.json"]},
+      "qualification": {"state": "STORAGE_IDENTITY_AND_FP8_QUANTIZATION_PASS_RUNTIME_GATES_PENDING", "required_gates": ["dependency_environment", "capacity", "calibration", "runtime", "latency", "quality", "cost", "failure_injection"]},
       "authority": {"operational": false, "allowed_scope": "none until certificate", "forbidden": ["download_without_receipt", "load", "inference", "tool_authorization", "promotion"]}
     },
     {
