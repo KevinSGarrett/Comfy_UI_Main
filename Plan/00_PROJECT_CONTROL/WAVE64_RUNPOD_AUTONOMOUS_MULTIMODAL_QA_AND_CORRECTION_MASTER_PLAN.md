@@ -1019,3 +1019,14 @@ provenance, or license authority. The retained exact-asset technical smoke is
 not promoted because its strict visual review failed frames 5-7 and found
 severe frame-7 color corruption. No new model load, generation, coordinator or
 GPU poll, activation, or workflow promotion occurred.
+
+The SDXL Base 1.0 promoted checkpoint is now independently rebound to the
+official provider record at immutable revision
+`462165984030d82259a11f4367a4eed129e94a7b`. Its current-pod regular file is
+6,938,078,334 bytes with SHA-256
+`31e35c80fc4829d14f90153f4c74cd59c90b779f6afe05a74cd6120b893f7e5b`,
+exactly matching the provider's published LFS object. Provider metadata reports
+`openrail++`; that records metadata but does not assert user license acceptance.
+A prior exact-hash bounded EC2 smoke remains historical evidence, not current-pod
+capacity, lifecycle, or image-quality qualification. No GPU or coordinator poll,
+model load, generation, activation, or product promotion occurred in this gate.
