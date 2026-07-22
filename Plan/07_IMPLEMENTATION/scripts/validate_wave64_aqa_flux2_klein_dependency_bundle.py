@@ -15,6 +15,7 @@ from jsonschema import Draft202012Validator
 ROOT = Path(__file__).resolve().parents[3]
 BUNDLE_PATH = Path("Plan/10_REGISTRIES/wave64_aqa_flux2_klein_4b_dependency_bundle.json")
 SCHEMA_PATH = Path("Plan/08_SCHEMAS/runpod_autonomous_flux2_klein_dependency_bundle.schema.json")
+PROVENANCE_SCHEMA_PATH = Path("Plan/08_SCHEMAS/runpod_autonomous_flux2_klein_companion_provenance_decision.schema.json")
 
 
 class DependencyBundleError(ValueError):
@@ -65,6 +66,25 @@ def validate_bundle(root: Path, value: dict[str, Any], verify_local_bytes: bool 
         raise DependencyBundleError("diffusion model must remain the sole promoted component")
     if any(item["current_pod_state"] != "NOT_IN_ACCEPTED_PROMOTED_LEDGER" for item in (text_encoder, vae)):
         raise DependencyBundleError("companion promotion state drift")
+    expected_license_states = [
+        "APACHE_2_EXACT_PROVIDER_METADATA_PROJECT_ACCEPTANCE_PENDING",
+        "UPSTREAM_FAMILY_APACHE_2_EXACT_ARTIFACT_REDISTRIBUTION_DECLARATION_MISSING",
+        "UPSTREAM_FAMILY_APACHE_2_EXACT_ARTIFACT_REDISTRIBUTION_DECLARATION_MISSING",
+    ]
+    if [item["license_state"] for item in value["components"]] != expected_license_states:
+        raise DependencyBundleError("component license state drift")
+    provenance_binding = value["provenance_decision"]
+    provenance_path = root / Path(provenance_binding["path"])
+    if sha256_file(provenance_path) != provenance_binding["sha256"]:
+        raise DependencyBundleError("companion provenance decision hash drift")
+    provenance = load_json(provenance_path)
+    Draft202012Validator(load_json(root / PROVENANCE_SCHEMA_PATH)).validate(provenance)
+    if (
+        provenance.get("decision_id") != provenance_binding["decision_id"]
+        or provenance.get("decision") != provenance_binding["decision"]
+        or provenance.get("authority", {}).get("exact_companion_redistribution") is not False
+    ):
+        raise DependencyBundleError("companion provenance decision authority drift")
     for component in value["components"]:
         source = component.get("local_source")
         if source and source.get("evidence"):

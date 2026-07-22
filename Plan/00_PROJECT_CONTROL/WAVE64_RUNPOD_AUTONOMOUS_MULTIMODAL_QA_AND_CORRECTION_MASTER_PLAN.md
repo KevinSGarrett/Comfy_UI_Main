@@ -1453,3 +1453,30 @@ unresolved, live quota is unverified, foreign recovery remains unresolved, and
 no exact shared-storage mutation permit exists. Cleanup and rollback are
 restricted to transaction-owned partials and newly promoted files; no
 pre-existing target or unrelated staging root may be removed.
+
+### Flux.2 Klein companion provenance decision
+
+The upstream `black-forest-labs/FLUX.2-klein-4B` model family declares
+Apache-2.0 at immutable revision `e7b7dc27`. That family metadata is not treated
+as exact-artifact redistribution authority for the selected Comfy-Org
+companions. The selected text encoder is one 8,044,982,048-byte consolidated
+file while the BFL Diffusers distribution is two files totaling
+8,044,981,992 bytes. The selected 336,211,292-byte Comfy VAE also differs from
+the 168,120,878-byte BFL Diffusers VAE. The Comfy-Org companion repository has
+no model card or repository license metadata and no provider declaration was
+found linking those exact packaged bytes to the upstream license.
+
+The project therefore records a closed decision, not an unresolved research
+loop: upstream-family Apache-2.0 is observed, exact companion identities are
+bound, and exact companion redistribution authority is not established. Do not
+acquire the missing VAE, execute the prepared storage transaction, or grant
+license acceptance unless exact-artifact metadata or a provider declaration is
+retained and explicitly accepted. Move the no-GPU lane to exact workflow, node,
+and dependency-version binding while this external declaration gate is held.
+
+Exactly one recurring ComfyUI automation is active: the read-only
+`comfy-ui-main-timed-probe-anti-loop-supervisor`, scheduled every six hours as
+“Comfy_UI_Main autonomous PM and evidence auditor.” All other recurring
+ComfyUI automations remain paused. Its latest finalized July 18 anti-loop
+warning is adopted, but its SDXL target recommendation is rejected as stale
+because newer pushed FLUX.2 dependency commits changed the critical path.

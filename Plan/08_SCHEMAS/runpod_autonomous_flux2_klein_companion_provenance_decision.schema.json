@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_flux2_klein_companion_provenance_decision.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "program_id", "decision_id", "stack_id", "status", "observed_at", "upstream_family", "selected_companions", "byte_equivalence", "decision", "required_resolution", "authority"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.flux2_klein_companion_provenance_decision.v1"},
+    "program_id": {"const": "W64-AQA"},
+    "decision_id": {"$ref": "#/$defs/sha256"},
+    "stack_id": {"const": "W64-AQA-GEN-FLUX2-KLEIN-4B-FP8"},
+    "status": {"const": "HELD_EXACT_ARTIFACT_REDISTRIBUTION_DECLARATION_MISSING"},
+    "observed_at": {"type": "string", "format": "date-time"},
+    "upstream_family": {
+      "type": "object", "additionalProperties": false,
+      "required": ["repository", "revision", "license", "license_metadata_url", "text_encoder_distribution", "vae_distribution"],
+      "properties": {
+        "repository": {"const": "black-forest-labs/FLUX.2-klein-4B"},
+        "revision": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "license": {"const": "apache-2.0"},
+        "license_metadata_url": {"type": "string", "format": "uri"},
+        "text_encoder_distribution": {"$ref": "#/$defs/distribution"},
+        "vae_distribution": {"$ref": "#/$defs/distribution"}
+      }
+    },
+    "selected_companions": {
+      "type": "array", "minItems": 2, "maxItems": 2,
+      "items": {"$ref": "#/$defs/selectedCompanion"}
+    },
+    "byte_equivalence": {
+      "type": "object", "additionalProperties": false,
+      "required": ["text_encoder", "vae", "conversion_or_redistribution_declaration_found"],
+      "properties": {
+        "text_encoder": {"const": false},
+        "vae": {"const": false},
+        "conversion_or_redistribution_declaration_found": {"const": false}
+      }
+    },
+    "decision": {"const": "UPSTREAM_FAMILY_APACHE_2_EXACT_COMPANION_REDISTRIBUTION_AUTHORITY_NOT_ESTABLISHED"},
+    "required_resolution": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": {"enum": ["EXACT_ARTIFACT_LICENSE_METADATA", "PROVIDER_DECLARATION_LINKING_EXACT_ARTIFACTS_TO_APACHE_2_SOURCE", "PROJECT_ACCEPTANCE_OF_DOCUMENTED_EXACT_ARTIFACT_CHAIN"]}
+    },
+    "authority": {
+      "type": "object", "additionalProperties": false,
+      "required": ["upstream_family_license_observed", "exact_companion_identity", "exact_companion_redistribution", "project_license_acceptance", "acquisition", "storage_mutation", "runtime", "activation", "promotion"],
+      "properties": {
+        "upstream_family_license_observed": {"const": true},
+        "exact_companion_identity": {"const": true},
+        "exact_companion_redistribution": {"const": false},
+        "project_license_acceptance": {"const": false},
+        "acquisition": {"const": false},
+        "storage_mutation": {"const": false},
+        "runtime": {"const": false},
+        "activation": {"const": false},
+        "promotion": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "distribution": {
+      "type": "object", "additionalProperties": false,
+      "required": ["format", "files", "total_file_bytes", "source_url"],
+      "properties": {
+        "format": {"type": "string"},
+        "files": {"type": "integer", "minimum": 1},
+        "total_file_bytes": {"type": "integer", "minimum": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "source_url": {"type": "string", "format": "uri"}
+      }
+    },
+    "selectedCompanion": {
+      "type": "object", "additionalProperties": false,
+      "required": ["role", "repository", "revision", "path", "bytes", "sha256", "source_url", "repository_model_card", "repository_license_metadata"],
+      "properties": {
+        "role": {"enum": ["text_encoder", "vae"]},
+        "repository": {"const": "Comfy-Org/vae-text-encorder-for-flux-klein-4b"},
+        "revision": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "path": {"type": "string", "minLength": 1},
+        "bytes": {"type": "integer", "minimum": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "source_url": {"type": "string", "format": "uri"},
+        "repository_model_card": {"const": false},
+        "repository_license_metadata": {"const": false}
+      }
+    }
+  }
+}

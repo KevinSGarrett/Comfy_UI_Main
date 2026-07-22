@@ -64,3 +64,14 @@ def test_schema_rejects_runtime_or_promotion_authority() -> None:
     candidate = resign(module, candidate)
     with pytest.raises(Exception):
         module.validate_bundle(ROOT, candidate)
+
+
+def test_bundle_binds_fail_closed_companion_provenance_decision() -> None:
+    module = load_module()
+    candidate = value(module)
+    assert candidate["provenance_decision"]["decision"].endswith("NOT_ESTABLISHED")
+    assert all(
+        item["license_state"].endswith("DECLARATION_MISSING")
+        for item in candidate["components"][1:]
+    )
+    module.validate_bundle(ROOT, candidate)

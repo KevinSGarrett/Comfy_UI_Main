@@ -3,7 +3,7 @@
   "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_flux2_klein_dependency_bundle.schema.json",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "program_id", "bundle_id", "stack_id", "status", "pod_id", "provider_revision", "components", "comfyui_runtime", "workflow", "blockers", "authority"],
+  "required": ["schema_version", "program_id", "bundle_id", "stack_id", "status", "pod_id", "provider_revision", "components", "provenance_decision", "comfyui_runtime", "workflow", "blockers", "authority"],
   "properties": {
     "schema_version": {"const": "wave64.aqa.flux2_klein_dependency_bundle.v1"},
     "program_id": {"const": "W64-AQA"},
@@ -13,6 +13,16 @@
     "pod_id": {"const": "1q4ji0gg1fkhvt"},
     "provider_revision": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
     "components": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"$ref": "#/$defs/component"}},
+    "provenance_decision": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "sha256", "decision_id", "decision"],
+      "properties": {
+        "path": {"const": "Plan/10_REGISTRIES/wave64_aqa_flux2_klein_companion_provenance_decision.json"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "decision_id": {"$ref": "#/$defs/sha256"},
+        "decision": {"const": "UPSTREAM_FAMILY_APACHE_2_EXACT_COMPANION_REDISTRIBUTION_AUTHORITY_NOT_ESTABLISHED"}
+      }
+    },
     "comfyui_runtime": {
       "type": "object", "additionalProperties": false,
       "required": ["repository_commit", "static_flux2_support_present", "source_bindings", "current_pod_object_info_verified", "runtime_qualified"],
@@ -65,7 +75,7 @@
         "current_pod_path": {"type": "string", "pattern": "^/workspace/ComfyUI/models/"},
         "current_pod_state": {"enum": ["PROMOTED_HASH_VERIFIED", "NOT_IN_ACCEPTED_PROMOTED_LEDGER"]},
         "local_source": {"type": ["object", "null"]},
-        "license_state": {"enum": ["APACHE_2_METADATA_PROJECT_ACCEPTANCE_PENDING", "REDISTRIBUTION_LICENSE_METADATA_MISSING"]}
+        "license_state": {"enum": ["APACHE_2_EXACT_PROVIDER_METADATA_PROJECT_ACCEPTANCE_PENDING", "UPSTREAM_FAMILY_APACHE_2_EXACT_ARTIFACT_REDISTRIBUTION_DECLARATION_MISSING"]}
       }
     }
   }

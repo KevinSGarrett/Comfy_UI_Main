@@ -90,3 +90,28 @@ fresh content ID. Never edit the current record to imply that quota, remote
 targets, permit, acquisition, transfer, or promotion occurred. Never overwrite
 a hash-different target or delete anything outside the transaction-owned
 staging directory.
+
+Validate the companion provenance decision before any acquisition or transfer:
+
+```powershell
+python Plan/07_IMPLEMENTATION/scripts/validate_wave64_aqa_flux2_klein_companion_provenance.py
+```
+
+The BFL 4B family Apache-2.0 label and the exact Comfy-Org companion identities
+are separate facts. The selected consolidated text encoder and Comfy VAE are
+byte-distinct from BFL's Diffusers distributions, and the Comfy-Org repository
+has no model card, exact-artifact license metadata, or retained provider
+declaration linking those packaged bytes to the upstream license. Until one of
+the decision's explicit resolution artifacts is retained and accepted, keep
+exact companion redistribution, project license acceptance, acquisition,
+storage mutation, runtime, activation, and promotion false. Do not repeat the
+same web/license probe against an unchanged repository; advance workflow, node,
+and dependency-version binding instead.
+
+Before selecting a new major batch, changing the pursuing goal, or accepting a
+completion claim, read the latest finalized audit from the sole active
+`comfy-ui-main-timed-probe-anti-loop-supervisor`. Adopt its recommendation or
+record an evidence-backed rejection. This six-hour automation is read-only and
+must not dispatch workers, mutate the repository, obtain leases, contact cloud
+runtimes, or change authority. Every other recurring ComfyUI automation stays
+paused unless the user explicitly changes that policy.
