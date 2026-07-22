@@ -115,15 +115,18 @@ def python_identity(executable: Path) -> dict:
 
 
 def distribution_manifest(executable: str) -> list[dict[str, str]]:
-    source = (
-        "import importlib.metadata as m,json\n"
-        "rows=[]\n"
-        "for d in m.distributions():\n"
-        " n=(d.metadata.get('Name') or '').strip().lower().replace('_','-')\n"
-        " if n: rows.append({'name':n,'version':d.version})\n"
-        "print(json.dumps(sorted(rows,key=lambda x:(x['name'],x['version'])),separators=(',',':')))\n"
+    observed = json.loads(run(["uv", "pip", "list", "--python", executable, "--format", "json"]))
+    rows = sorted(
+        (
+            {
+                "name": item["name"].strip().lower().replace("_", "-"),
+                "version": item["version"],
+            }
+            for item in observed
+            if item.get("name")
+        ),
+        key=lambda item: (item["name"], item["version"]),
     )
-    rows = json.loads(run([executable, "-c", source]))
     if len({item["name"] for item in rows}) != len(rows):
         raise BuildError("installed distribution identity is duplicated")
     return rows
