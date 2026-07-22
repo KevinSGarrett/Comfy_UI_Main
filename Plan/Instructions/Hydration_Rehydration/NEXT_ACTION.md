@@ -17,12 +17,12 @@ The preferred Qwen3-VL 4B and 8B fast-triage packages now have exact official
 manifest identity and Apache-2.0 project-use acceptance. Their installed
 digests equal their official manifests.
 This is static authority only: runtime, calibration, quality, activation, and
-product approval remain false. Queue hash `e84670f9...` has five prepared or
+product approval remain false. Queue hash `6a863ca7...` has five prepared or
 qualified campaigns and nine held campaigns.
 
 Next GPU action remains Wav2Vec2 campaign 1 after fresh shared-coordinator
 admission and an exact lease. LLaVA identity is exact but license acceptance is
-held. If unavailable, reconcile `qwen2.5:7b-instruct` locally without a lease. RunPod remains the sole
+held. If unavailable, reconcile strict reviewer `qwen2.5vl:32b` locally without a lease. RunPod remains the sole
 production platform; never use AWS as fallback.
 
 Evidence: `Plan/Tracker/Evidence/W64_AQA_QWEN3VL4_OFFICIAL_MANIFEST_IDENTITY_20260722.json`.

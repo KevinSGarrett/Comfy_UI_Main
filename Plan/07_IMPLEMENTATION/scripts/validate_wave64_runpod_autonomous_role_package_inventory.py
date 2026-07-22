@@ -155,6 +155,13 @@ def validate(data: dict) -> list[str]:
                     errors.append(f"{item.get('package_id')}: LLaVA 13B official identity or license hold mismatch")
                 if item.get("static_qualification") != expected_static:
                     errors.append(f"{item.get('package_id')}: LLaVA 13B official manifest mismatch")
+            elif identity.get("repository_id") == "qwen2.5:7b-instruct":
+                expected_identity = {"display_name": "qwen2.5:7b-instruct", "publisher": "Ollama library / Qwen", "repository_id": "qwen2.5:7b-instruct", "source_url": "https://registry.ollama.ai/v2/library/qwen2.5/manifests/7b-instruct", "identity_state": "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_PINNED", "license_state": "APACHE-2.0_ACCEPTED_FOR_COMFY_UI_MAIN_PROJECT_USE"}
+                expected_static = {"state": "OFFICIAL_MANIFEST_AND_APACHE_2_0_LICENSE_PASS_RUNTIME_PENDING", "evidence": "Plan/Tracker/Evidence/W64_AQA_QWEN25TEXT7_OFFICIAL_MANIFEST_IDENTITY_20260722.json", "manifest_sha256": EXPECTED_INSTALLED["qwen2.5:7b-instruct"], "config_sha256": "2f15b3218f0552c60647ce60ada83632d2c09755b16259b13e3e4458e9ae419d", "model_sha256": "2bada8a7450677000f678be90653b85d364de7db25eb5ea54136ada5f3933730", "system_sha256": "66b9ea09bd5b7099cbb4fc820f31b575c0366fa439b08245566692c6784e281e", "template_sha256": "eb4402837c7829a690fa845de4d7f3fd842c2adee476d5341da8a46ea9255175", "license_sha256": "832dd9e00a68dd83b3c3fb9f5588dad7dcf337a0db50f7d9483f310cd292e92e"}
+                if identity != expected_identity:
+                    errors.append(f"{item.get('package_id')}: Qwen2.5 text 7B official identity mismatch")
+                if item.get("static_qualification") != expected_static:
+                    errors.append(f"{item.get('package_id')}: Qwen2.5 text 7B official manifest mismatch")
         elif state == "PROMOTED_EXACT_PACKAGE_IDENTITY_VERIFIED_ACTIVATION_PENDING":
             repository_id = identity.get("repository_id", "")
             source_pin = item.get("source_pin", {})
