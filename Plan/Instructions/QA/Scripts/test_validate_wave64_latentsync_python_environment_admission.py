@@ -12,7 +12,7 @@ import jsonschema
 ROOT = Path(__file__).resolve().parents[4]
 SCRIPT = ROOT / "Plan/07_IMPLEMENTATION/scripts/validate_wave64_latentsync_python_environment_admission.py"
 ADMISSION = ROOT / "Plan/10_REGISTRIES/wave64_latentsync_1_6_dependency_environment_admission.json"
-LOCK = ROOT / "Plan/10_REGISTRIES/Locks/pylock.wave64_latentsync_1_6_py311_cu121_local_wheels.toml"
+LOCK = ROOT / "Plan/10_REGISTRIES/Locks/pylock.wave64_latentsync_1_6_py311_cu121_local_runtime_wheels_v2.toml"
 SCHEMA = ROOT / "Plan/08_SCHEMAS/runpod_autonomous_latentsync_python_environment_admission.schema.json"
 SPEC = importlib.util.spec_from_file_location("validate_latentsync_environment_admission", SCRIPT)
 assert SPEC and SPEC.loader

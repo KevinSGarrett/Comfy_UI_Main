@@ -3,7 +3,7 @@
   "$id": "runpod_autonomous_latentsync_python_environment_admission.schema.json",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "program_id", "package_id", "status", "resolution", "base_python", "local_wheelhouse", "targets", "network", "authority", "verification"],
+  "required": ["schema_version", "program_id", "package_id", "status", "resolution", "base_python", "local_wheelhouse", "repaired_wheelhouse", "targets", "network", "authority", "verification"],
   "properties": {
     "schema_version": {"const": "wave64.aqa.latentsync_python_environment_admission.v1"},
     "program_id": {"const": "W64-AQA"},
@@ -14,8 +14,8 @@
       "additionalProperties": false,
       "required": ["lock_path", "lock_sha256", "package_count", "wheel_count", "sdist_count", "python_version", "uv_version", "platform", "torch_backend", "minimum_free_bytes"],
       "properties": {
-        "lock_path": {"const": "Plan/10_REGISTRIES/Locks/pylock.wave64_latentsync_1_6_py311_cu121_local_wheels.toml"},
-        "lock_sha256": {"const": "862e85d3cbb3a1dd9a90dd9541bff24b20ae997c95326f9331b9e466dc6b40ff"},
+        "lock_path": {"const": "Plan/10_REGISTRIES/Locks/pylock.wave64_latentsync_1_6_py311_cu121_local_runtime_wheels_v2.toml"},
+        "lock_sha256": {"const": "fcda64087e19f7a23106b6b1d93bfc99ee7928a8c5516dd9815f4acbc04b599e"},
         "package_count": {"const": 149},
         "wheel_count": {"const": 155},
         "sdist_count": {"const": 126},
@@ -61,12 +61,19 @@
         }
       }
     },
+    "repaired_wheelhouse": {
+      "const": {
+        "root": "/workspace/w64_aqa/wheelhouse/LatentSync-1.6/a229c3948406bc2cf6eaf4873e662e70c6a04746/decord-0.6.0-retag-v1/51997f20be8958e23b7c4061ba45d0efcd86bffd5fe81c695d0befee0d442976",
+        "tree_sha256": "b710baa95bbc1584e45abebb037a2194249b44b375dddf5ef85aebf6f22d6efc",
+        "wheel": {"name": "decord", "filename": "decord-0.6.0-py3-none-manylinux2010_x86_64.whl", "bytes": 13583977, "sha256": "7f966303534244867e2c7bb5640349465d6601139d393677a200c83d1e6f9cfa"}
+      }
+    },
     "targets": {
       "type": "object",
       "additionalProperties": false,
       "required": ["environment_root", "active_comfyui_environment_mutable", "global_python_environment_mutable"],
       "properties": {
-        "environment_root": {"const": "/workspace/w64_aqa/environments/LatentSync-1.6/a229c3948406bc2cf6eaf4873e662e70c6a04746/862e85d3cbb3a1dd9a90dd9541bff24b20ae997c95326f9331b9e466dc6b40ff"},
+        "environment_root": {"const": "/workspace/w64_aqa/environments/LatentSync-1.6/a229c3948406bc2cf6eaf4873e662e70c6a04746/fcda64087e19f7a23106b6b1d93bfc99ee7928a8c5516dd9815f4acbc04b599e"},
         "active_comfyui_environment_mutable": {"const": false},
         "global_python_environment_mutable": {"const": false}
       }

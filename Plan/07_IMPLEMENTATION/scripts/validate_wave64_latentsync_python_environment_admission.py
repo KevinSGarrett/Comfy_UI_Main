@@ -11,9 +11,14 @@ import tomllib
 from urllib.parse import urlparse
 
 
-LOCK_SHA256 = "862e85d3cbb3a1dd9a90dd9541bff24b20ae997c95326f9331b9e466dc6b40ff"
+LOCK_SHA256 = "fcda64087e19f7a23106b6b1d93bfc99ee7928a8c5516dd9815f4acbc04b599e"
 EXPECTED_HOSTS = {"files.pythonhosted.org", "download-r2.pytorch.org"}
 EXPECTED_LOCAL_WHEELS = {
+    "decord": (
+        "decord-0.6.0-py3-none-manylinux2010_x86_64.whl",
+        13583977,
+        "7f966303534244867e2c7bb5640349465d6601139d393677a200c83d1e6f9cfa",
+    ),
     "antlr4-python3-runtime": (
         "antlr4_python3_runtime-4.9.3-py3-none-any.whl",
         144589,
@@ -96,6 +101,12 @@ def validate(admission: dict, lock: dict, lock_path: Path) -> list[str]:
         item.get("name"): (item.get("filename"), item.get("bytes"), item.get("sha256"))
         for item in admission.get("local_wheelhouse", {}).get("wheels", [])
     }
+    repaired_wheel = admission.get("repaired_wheelhouse", {}).get("wheel", {})
+    admitted_local[repaired_wheel.get("name")] = (
+        repaired_wheel.get("filename"),
+        repaired_wheel.get("bytes"),
+        repaired_wheel.get("sha256"),
+    )
     if admitted_local != EXPECTED_LOCAL_WHEELS:
         errors.append("admission local wheel identity mismatch")
     if admission.get("base_python") != {
