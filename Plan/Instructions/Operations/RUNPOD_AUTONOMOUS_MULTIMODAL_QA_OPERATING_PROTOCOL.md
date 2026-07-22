@@ -279,6 +279,14 @@ only reviewed exact paths, recompute dependencies, and move to the next
 unblocked tracker row. A single accepted artifact or blocked GPU lane is not a
 shift-complete condition.
 
+The W64-AQA infrastructure exit is accepted at
+`Plan/Tracker/Evidence/W64_AQA_E2E_SHADOW_20260722T034500Z/integration_acceptance.json`.
+The preceding rectangular-source run is retained as a rejected packet because
+visual review caught aspect-ratio distortion that deterministic dimensions did
+not. Do not reopen broad infrastructure setup by default. Continue functional
+ComfyUI delivery and advance a remaining LLM qualification when a concrete
+workflow, artifact, modality, or acceptance gate needs it.
+
 ## 10. Role package and current-pod residency discipline
 
 Validate `wave64_runpod_autonomous_role_package_inventory.json` before any

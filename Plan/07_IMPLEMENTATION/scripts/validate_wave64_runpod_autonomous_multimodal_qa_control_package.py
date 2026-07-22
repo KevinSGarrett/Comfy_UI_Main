@@ -41,6 +41,10 @@ PATHS = {
     / "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_STRICT_MODEL_ADMISSION_HOLD_20260721T215000Z.json",
     "strict_model_runtime_canary_evidence": ROOT
     / "Plan/Tracker/Evidence/W64_AQA_STRICT_MODEL_RUNTIME_CANARY_20260722T032600Z.json",
+    "e2e_shadow_rejected_integration_acceptance": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_E2E_SHADOW_20260722T033900Z/integration_acceptance.json",
+    "e2e_shadow_accepted_integration_acceptance": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_E2E_SHADOW_20260722T034500Z/integration_acceptance.json",
     "shared_runpod_capacity_lease_adapter": ROOT
     / "Plan/07_IMPLEMENTATION/scripts/shared_runpod_capacity_lease.py",
     "operations": ROOT

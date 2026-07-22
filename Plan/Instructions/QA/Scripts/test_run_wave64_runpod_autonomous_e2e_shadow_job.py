@@ -5,6 +5,7 @@ import importlib.util
 import io
 import json
 from pathlib import Path
+from types import SimpleNamespace
 
 from PIL import Image
 
@@ -125,6 +126,30 @@ def fake_remote(module, *, foreign: bool = False):
         raise AssertionError(request)
 
     return remote
+
+
+def test_ssh_transport_sends_large_request_on_stdin(
+    monkeypatch,
+) -> None:
+    module = load_runner()
+    request = {"action": "upload", "content_b64": "x" * 200_000}
+    observed = {}
+
+    def fake_run(command, **kwargs):
+        observed["command"] = command
+        observed["input"] = kwargs["input"]
+        return SimpleNamespace(returncode=0, stdout='{"status":"PASS"}', stderr="")
+
+    monkeypatch.setattr(module.subprocess, "run", fake_run)
+    result = module.ssh_json(
+        "root@example.invalid",
+        22,
+        request,
+        timeout_seconds=30,
+    )
+    assert result == {"status": "PASS"}
+    assert len(" ".join(observed["command"])) < 50_000
+    assert json.loads(observed["input"]) == request
 
 
 def test_full_shadow_job_repairs_replays_and_cleans_up(tmp_path: Path) -> None:

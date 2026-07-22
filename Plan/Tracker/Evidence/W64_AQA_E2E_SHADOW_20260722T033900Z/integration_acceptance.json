@@ -1,0 +1,34 @@
+{
+  "schema_version": "wave64.aqa.integration_acceptance.v1",
+  "program_id": "W64-AQA",
+  "tracker_id": "W64-AQA-016",
+  "reviewed_at_utc": "2026-07-22T03:37:44Z",
+  "disposition": "REJECTED",
+  "reason_code": "VISUAL_GEOMETRY_DISTORTION_SOURCE_ASPECT_MISMATCH",
+  "producer_disposition": "PASS_EVIDENCE_ONLY_SHADOW_INFRASTRUCTURE",
+  "infrastructure_exit_accepted": false,
+  "source": {
+    "path": "Plan/Instructions/Operations/Prepared_Input_Assets/canny_full_body_standing_w70_v1/controlnet_canny_full_body_standing_w70_v1.png",
+    "sha256": "9f62f5fe0c9cd44d71de521ba6eb5efb63c7d096632c94eee8b63ad7c83f11ad",
+    "width": 768,
+    "height": 1024,
+    "aspect_ratio": 0.75
+  },
+  "initial_candidate": {
+    "sha256": "300b0c61b9a65150314891f52e6c8f88cfb8ee76419c4b4c7298f6167a1e1e2f",
+    "width": 64,
+    "height": 64
+  },
+  "candidate": {
+    "sha256": "a62aed1290c6597b6be92981b7d06a1e5071ad11ae886e426dbd0b649a5f17bd",
+    "width": 128,
+    "height": 128,
+    "aspect_ratio": 1.0
+  },
+  "visual_review": {
+    "performed": true,
+    "finding": "The full-body edge subject is visibly forced from 3:4 into 1:1; deterministic dimension gates passed but the declared geometry-preservation meaning did not.",
+    "correction": "Use a square tracked source for this square-resize infrastructure contract or add an aspect-preserving policy before accepting a non-square source."
+  },
+  "retention": "Retained as negative QA evidence proving integration review can reject a producer PASS."
+}

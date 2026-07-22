@@ -1,0 +1,115 @@
+{
+  "attempt_policy": {
+    "max_no_progress_cycles": 2,
+    "max_repairs_per_defect": 2,
+    "max_total_generations": 4
+  },
+  "authority_policy": {
+    "ec2_allowed": false,
+    "external_inference_allowed": false,
+    "generation_host": "runpod_only",
+    "local_comfyui_allowed": false,
+    "model_can_promote": false,
+    "secrets_visible_to_models": false,
+    "triage_can_approve": false,
+    "workflow_model_proposal_only": true
+  },
+  "contract_id": "083cecdabf3e105f625406201801b7cb94427ca0f0ce7c970ec41edc6d0422b6",
+  "created_at": "2026-07-22T03:37:13.227612Z",
+  "execution_mode": "shadow_qualification",
+  "image_spec": {
+    "alpha_required": false,
+    "color_space": "sRGB",
+    "height": 128,
+    "width": 128
+  },
+  "job_id": "W64-AQA-JOB-e2e-shadow-resize-20260721",
+  "modality": "workflow",
+  "preflight_disposition": "READY_FOR_LEASE",
+  "promotion_disposition": "EVIDENCE_ONLY",
+  "provenance": {
+    "calibration_ids": [
+      "w64-aqa-deterministic-image-fixtures-v1"
+    ],
+    "input_artifacts": [
+      {
+        "artifact_id": "source-fixture",
+        "durable_relative_path": "aqa/shadow/e2e-resize/w64_aqa_shadow_source_eae4bc45cd02.png",
+        "sha256": "eae4bc45cd029a812df8f8530d5c296eede73800b7ad9eeab35665468742602c"
+      }
+    ],
+    "model_bindings": [
+      {
+        "checkpoint_sha256": "1e237182c477904524523b62b2f66050769d5f59c4e9203f115352412c1957e4",
+        "model_id": "measure_wave64_runpod_autonomous_image_quality.py",
+        "qualification_state": "QUALIFIED",
+        "role_id": "W64-AQA-ROLE-DETERMINISTIC",
+        "runtime_digest": "python-canonical-root"
+      }
+    ],
+    "workflow_sha256": "67585d2ae949502d60ea0da55a5664ded2fecb8b00536f9e0a9799d40c83f595"
+  },
+  "quality_profile": {
+    "hard_gates": [
+      {
+        "gate_id": "decode",
+        "metric": "decode_success",
+        "on_failure": "REJECT",
+        "operator": "eq",
+        "threshold": true
+      }
+    ],
+    "profile_id": "w64-aqa-e2e-shadow-resize-v1",
+    "required_approval_roles": [
+      "W64-AQA-ROLE-DETERMINISTIC"
+    ],
+    "review_roles": [
+      {
+        "authority": "deterministic",
+        "can_approve": true,
+        "required": true,
+        "role_id": "W64-AQA-ROLE-DETERMINISTIC"
+      },
+      {
+        "authority": "workflow",
+        "can_approve": false,
+        "required": false,
+        "role_id": "W64-AQA-ROLE-WORKFLOW-ENGINEER"
+      }
+    ]
+  },
+  "requested_outputs": [
+    {
+      "durable_relative_path": "aqa/shadow/e2e-resize/corrected.png",
+      "media_type": "image/png",
+      "output_id": "corrected-image"
+    }
+  ],
+  "resource_budget": {
+    "deadline_seconds": 180,
+    "max_gpu_hour_usd": 0.05,
+    "max_gpu_seconds": 120,
+    "max_output_bytes": 1048576,
+    "secondary_burst": {
+      "eligible_gpu_classes": [],
+      "enabled": false,
+      "idle_ttl_seconds": 0,
+      "max_cost_usd": 0,
+      "max_seconds": 0
+    }
+  },
+  "revision": 1,
+  "rollback_policy": {
+    "previous_accepted_artifact_sha256": null,
+    "promotion_requires_replay": true,
+    "retain_failed_evidence": true,
+    "revert_on_regression": true
+  },
+  "schema_version": "wave64.aqa.job_contract.v1",
+  "workflow_spec": {
+    "object_info_sha256": "e3737926e45ab85e37eaddf0188321a61351f1f59107fbecccd3cad5ecbaf0f9",
+    "patch_allowlist_id": "W64-AQA-WORKFLOW-PATCH-ALLOWLIST-001",
+    "regression_suite_id": "w64-aqa-e2e-shadow-resize-v1",
+    "sandbox_required": true
+  }
+}

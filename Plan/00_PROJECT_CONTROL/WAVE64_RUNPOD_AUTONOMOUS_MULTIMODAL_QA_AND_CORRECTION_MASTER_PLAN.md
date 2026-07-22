@@ -463,6 +463,17 @@ current-pod lanes. After this exit, selection
 defaults permanently to dependency-unblocked functional ComfyUI delivery rather
 than another broad infrastructure or inventory cycle.
 
+The exit gate passed on 2026-07-22. A first current-pod runtime packet was
+retained but integration-rejected because independent visual review caught a
+3:4 source forced into a distorted 1:1 candidate despite deterministic PASS.
+The corrected square-source packet then passed shared admission, current-pod
+ComfyUI execution, one bounded correction, deterministic QA, applicable semantic
+scope handling, independent visual review, evidence replay, owned cleanup, and
+fail-closed evidence-only acceptance. It grants no product, generative-model,
+identity, or image-quality authority. The default project lane is now functional
+ComfyUI delivery; remaining model qualifications are advanced as explicit gates
+for real output milestones rather than as another broad setup cycle.
+
 ## Role package identity and current-production-pod capacity lane
 
 The authoritative package inventory is

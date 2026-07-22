@@ -100,7 +100,7 @@ def safe_target(root, relative, expected_pattern):
         raise RuntimeError("owned artifact escapes root")
     return target
 
-request = json.loads(base64.b64decode(sys.argv[1]).decode("utf-8"))
+request = json.loads(sys.stdin.read())
 action = request["action"]
 if action == "probe":
     result = probe()
@@ -227,12 +227,10 @@ def ssh_json(
     timeout_seconds: int,
 ) -> dict[str, Any]:
     encoded_program = base64.b64encode(REMOTE_PROGRAM.encode("utf-8")).decode("ascii")
-    encoded_request = base64.b64encode(canonical_bytes(request)).decode("ascii")
     remote_command = (
         "python3 -c \"import base64;exec(base64.b64decode('"
         + encoded_program
-        + "'))\" "
-        + encoded_request
+        + "'))\""
     )
     completed = subprocess.run(
         [
@@ -241,6 +239,7 @@ def ssh_json(
         ],
         check=False,
         capture_output=True,
+        input=canonical_bytes(request).decode("utf-8"),
         text=True,
         timeout=timeout_seconds,
     )
@@ -815,7 +814,7 @@ def run_shadow_job(
     write_json(bundle_path, bundle)
     write_json(replay_path, replay)
     try:
-        retained_artifact_dir = str(artifact_dir.relative_to(ROOT)).replace("\\", "/")
+        retained_artifact_dir = artifact_dir.resolve().relative_to(ROOT.resolve()).as_posix()
     except ValueError:
         retained_artifact_dir = str(artifact_dir)
     return {
@@ -841,7 +840,6 @@ def run_shadow_job(
             "no generative checkpoint loaded",
             "no visual semantic reviewer applicable to this contract",
             "remaining model roles retain their independent qualification states",
-            "2x A40 availability and migration remain unproven",
         ],
     }
 
