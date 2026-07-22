@@ -835,3 +835,13 @@ commit `a229c3948406bc2cf6eaf4873e662e70c6a04746`, tree
 project code was imported or executed. The unsigned-commit caveat remains; the
 next gate is an isolated hash-locked dependency environment plus an immutable
 rights-qualified face-video identity fixture.
+
+The LatentSync Python 3.11/cu121 graph now passes exact dependency-lock
+validation at 149 packages: lock `ac29c11ced5d4be9b22ff4c0fcec9a9d48361d9dfcb1996bf2fdd2a8526b9605`,
+with 152 wheel entries, 129 source entries, and no missing artifact hashes. A
+prior resolver output is explicitly rejected for two unhashed transitive
+artifacts. Runtime installation remains blocked until three source-only
+packages are built into retained, hash-bound wheels in a separately controlled
+builder and the resulting isolated environment is admitted. In parallel, the
+immutable rights-qualified face-video identity fixture remains required before
+any model-load lease or inference.

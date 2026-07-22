@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "runpod_autonomous_latentsync_dependency_lock_evidence.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "program_id",
+    "package_id",
+    "observed_at_utc",
+    "classification",
+    "source",
+    "resolver",
+    "strict_binary_probe",
+    "rejected_resolution_probe",
+    "lock",
+    "source_wheel_gate",
+    "execution_claims"
+  ],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.latentsync_dependency_lock_evidence.v1"},
+    "program_id": {"const": "W64-AQA"},
+    "package_id": {"const": "W64-AQA-PKG-LATENTSYNC-1.6"},
+    "observed_at_utc": {"type": "string", "format": "date-time"},
+    "classification": {"const": "HASH_LOCK_RESOLVED_SOURCE_WHEEL_BUILD_ADMISSION_PENDING"},
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code_commit", "requirements_path", "requirements_sha256"],
+      "properties": {
+        "code_commit": {"const": "a229c3948406bc2cf6eaf4873e662e70c6a04746"},
+        "requirements_path": {"const": "/workspace/w64_aqa/code/LatentSync/a229c3948406bc2cf6eaf4873e662e70c6a04746/requirements.txt"},
+        "requirements_sha256": {"const": "087132f23b8faf8d60fbd3b43d40599b4e52c9a10b949aacd3675f04f5c72348"}
+      }
+    },
+    "resolver": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version", "python", "platform", "torch_backend", "exclude_newer", "index_strategy"],
+      "properties": {
+        "name": {"const": "uv"},
+        "version": {"const": "0.11.30"},
+        "python": {"const": "3.11.10"},
+        "platform": {"const": "x86_64-manylinux_2_28"},
+        "torch_backend": {"const": "cu121"},
+        "exclude_newer": {"const": "2026-07-22T07:30:00Z"},
+        "index_strategy": {"const": "pypi_default_with_torch_backend_cu121_and_transport_directive_removed_only"}
+      }
+    },
+    "strict_binary_probe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["result", "exit_code", "first_exact_blocker", "environment_mutated"],
+      "properties": {
+        "result": {"const": "FAIL_CLOSED_SOURCE_ONLY_PACKAGE_PRESENT"},
+        "exit_code": {"const": 1},
+        "first_exact_blocker": {"const": "python-speech-features==0.6 has no usable wheel"},
+        "environment_mutated": {"const": false}
+      }
+    },
+    "rejected_resolution_probe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["result", "rejected_lock_sha256", "exact_defects", "installed_or_activated"],
+      "properties": {
+        "result": {"const": "REJECTED_UNHASHED_TRANSITIVE_ARTIFACTS"},
+        "rejected_lock_sha256": {"const": "c237e2bb33187c44f54972cf2f6717059b0c91eca1faf75d942c21963e15a59a"},
+        "exact_defects": {"const": ["jinja2==3.1.6 wheel missing SHA-256", "markupsafe==3.0.3 wheel missing SHA-256"]},
+        "installed_or_activated": {"const": false}
+      }
+    },
+    "lock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "line_count", "byte_count", "package_count", "wheel_entry_count", "sdist_entry_count", "hosts", "key_packages"],
+      "properties": {
+        "path": {"const": "Plan/10_REGISTRIES/Locks/wave64_latentsync_1_6_py311_cu121.pylock.toml"},
+        "sha256": {"const": "ac29c11ced5d4be9b22ff4c0fcec9a9d48361d9dfcb1996bf2fdd2a8526b9605"},
+        "line_count": {"const": 916},
+        "byte_count": {"const": 95593},
+        "package_count": {"const": 149},
+        "wheel_entry_count": {"const": 152},
+        "sdist_entry_count": {"const": 129},
+        "hosts": {"const": ["download-r2.pytorch.org", "files.pythonhosted.org"]},
+        "key_packages": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["torch", "torchvision", "numpy", "diffusers", "transformers", "insightface", "python-speech-features", "onnxruntime-gpu"],
+          "properties": {
+            "torch": {"const": "2.5.1+cu121"},
+            "torchvision": {"const": "0.20.1+cu121"},
+            "numpy": {"const": "1.26.4"},
+            "diffusers": {"const": "0.32.2"},
+            "transformers": {"const": "4.48.0"},
+            "insightface": {"const": "0.7.3"},
+            "python-speech-features": {"const": "0.6"},
+            "onnxruntime-gpu": {"const": "1.21.0"}
+          }
+        }
+      }
+    },
+    "source_wheel_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "sdist_only_packages", "build_environment_hash_lock_required", "runtime_install_admitted"],
+      "properties": {
+        "status": {"const": "PENDING_SEPARATE_CONTROLLED_BUILD"},
+        "sdist_only_packages": {
+          "const": [
+            {"name": "antlr4-python3-runtime", "version": "4.9.3", "sha256": "f224469b4168294902bb1efa80a8bf7855f24c99aef99cbefc1bcd3cce77881b"},
+            {"name": "insightface", "version": "0.7.3", "sha256": "f191f719612ebb37018f41936814500544cd0f86e6fcd676c023f354c668ddf7"},
+            {"name": "python-speech-features", "version": "0.6", "sha256": "a0aebf746464bc929dc3162cb369d7ff967c398c5120ddf5fb40a65f01b92b11"}
+          ]
+        },
+        "build_environment_hash_lock_required": {"const": true},
+        "runtime_install_admitted": {"const": false}
+      }
+    },
+    "execution_claims": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["global_environment_mutated", "environment_created", "packages_installed", "project_code_imported", "model_loaded", "gpu_or_lease_polled", "inference_performed", "role_activated", "product_authority"],
+      "properties": {
+        "global_environment_mutated": {"const": false},
+        "environment_created": {"const": false},
+        "packages_installed": {"const": false},
+        "project_code_imported": {"const": false},
+        "model_loaded": {"const": false},
+        "gpu_or_lease_polled": {"const": false},
+        "inference_performed": {"const": false},
+        "role_activated": {"const": false},
+        "product_authority": {"const": false}
+      }
+    }
+  }
+}

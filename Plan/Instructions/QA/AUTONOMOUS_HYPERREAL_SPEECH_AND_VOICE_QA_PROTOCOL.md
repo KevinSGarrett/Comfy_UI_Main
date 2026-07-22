@@ -70,6 +70,8 @@ The code checkout admission pins commit `a229c3948406bc2cf6eaf4873e662e70c6a0474
 
 The detached checkout now passes exact HEAD/tree identity, a clean 124-file inventory totaling 10,801,107 bytes, no submodules, and no symlinks. No project code was imported or executed. This grants checkout identity only; semantic review, dependency lock/build, import, runtime, and product gates remain pending.
 
+The Python 3.11/cu121 dependency graph now has an accepted 149-package `uv` pylock (`ac29c11...b9605`) whose 281 wheel/source artifact entries all carry SHA-256 values and use only `files.pythonhosted.org` or `download-r2.pytorch.org`. A prior resolver output (`c237e2bb...5a59a`) is rejected because its selected Jinja2 and MarkupSafe wheels carried no SHA-256 values. The accepted lock still grants no install authority: `antlr4-python3-runtime==4.9.3`, `insightface==0.7.3`, and `python-speech-features==0.6` are source-only and require a separately hash-bound build environment and retained wheel receipts before runtime-environment admission.
+
 ## Multi-engine comparison
 
 Hard-gate survivors are ranked by a versioned scorecard. The record must expose raw metrics, normalized metrics, weights, missing-metric handling, and final explanation. A missing mandatory metric blocks; it is never assigned a neutral score.

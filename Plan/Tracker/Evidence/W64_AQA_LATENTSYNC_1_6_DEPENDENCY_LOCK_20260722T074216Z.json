@@ -1,0 +1,74 @@
+{
+  "schema_version": "wave64.aqa.latentsync_dependency_lock_evidence.v1",
+  "program_id": "W64-AQA",
+  "package_id": "W64-AQA-PKG-LATENTSYNC-1.6",
+  "observed_at_utc": "2026-07-22T07:42:16Z",
+  "classification": "HASH_LOCK_RESOLVED_SOURCE_WHEEL_BUILD_ADMISSION_PENDING",
+  "source": {
+    "code_commit": "a229c3948406bc2cf6eaf4873e662e70c6a04746",
+    "requirements_path": "/workspace/w64_aqa/code/LatentSync/a229c3948406bc2cf6eaf4873e662e70c6a04746/requirements.txt",
+    "requirements_sha256": "087132f23b8faf8d60fbd3b43d40599b4e52c9a10b949aacd3675f04f5c72348"
+  },
+  "resolver": {
+    "name": "uv",
+    "version": "0.11.30",
+    "python": "3.11.10",
+    "platform": "x86_64-manylinux_2_28",
+    "torch_backend": "cu121",
+    "exclude_newer": "2026-07-22T07:30:00Z",
+    "index_strategy": "pypi_default_with_torch_backend_cu121_and_transport_directive_removed_only"
+  },
+  "strict_binary_probe": {
+    "result": "FAIL_CLOSED_SOURCE_ONLY_PACKAGE_PRESENT",
+    "exit_code": 1,
+    "first_exact_blocker": "python-speech-features==0.6 has no usable wheel",
+    "environment_mutated": false
+  },
+  "rejected_resolution_probe": {
+    "result": "REJECTED_UNHASHED_TRANSITIVE_ARTIFACTS",
+    "rejected_lock_sha256": "c237e2bb33187c44f54972cf2f6717059b0c91eca1faf75d942c21963e15a59a",
+    "exact_defects": ["jinja2==3.1.6 wheel missing SHA-256", "markupsafe==3.0.3 wheel missing SHA-256"],
+    "installed_or_activated": false
+  },
+  "lock": {
+    "path": "Plan/10_REGISTRIES/Locks/wave64_latentsync_1_6_py311_cu121.pylock.toml",
+    "sha256": "ac29c11ced5d4be9b22ff4c0fcec9a9d48361d9dfcb1996bf2fdd2a8526b9605",
+    "line_count": 916,
+    "byte_count": 95593,
+    "package_count": 149,
+    "wheel_entry_count": 152,
+    "sdist_entry_count": 129,
+    "hosts": ["download-r2.pytorch.org", "files.pythonhosted.org"],
+    "key_packages": {
+      "torch": "2.5.1+cu121",
+      "torchvision": "0.20.1+cu121",
+      "numpy": "1.26.4",
+      "diffusers": "0.32.2",
+      "transformers": "4.48.0",
+      "insightface": "0.7.3",
+      "python-speech-features": "0.6",
+      "onnxruntime-gpu": "1.21.0"
+    }
+  },
+  "source_wheel_gate": {
+    "status": "PENDING_SEPARATE_CONTROLLED_BUILD",
+    "sdist_only_packages": [
+      {"name": "antlr4-python3-runtime", "version": "4.9.3", "sha256": "f224469b4168294902bb1efa80a8bf7855f24c99aef99cbefc1bcd3cce77881b"},
+      {"name": "insightface", "version": "0.7.3", "sha256": "f191f719612ebb37018f41936814500544cd0f86e6fcd676c023f354c668ddf7"},
+      {"name": "python-speech-features", "version": "0.6", "sha256": "a0aebf746464bc929dc3162cb369d7ff967c398c5120ddf5fb40a65f01b92b11"}
+    ],
+    "build_environment_hash_lock_required": true,
+    "runtime_install_admitted": false
+  },
+  "execution_claims": {
+    "global_environment_mutated": false,
+    "environment_created": false,
+    "packages_installed": false,
+    "project_code_imported": false,
+    "model_loaded": false,
+    "gpu_or_lease_polled": false,
+    "inference_performed": false,
+    "role_activated": false,
+    "product_authority": false
+  }
+}
