@@ -222,3 +222,12 @@ the engine to be registered and independently qualified, genuine runtime proof,
 onset error no greater than 50 ms, and coverage of at least 0.8 for every
 anchor. Historical or synthetic execution may establish candidate evidence but
 cannot establish current production authority.
+
+## Row102 generated-candidate staging gate
+
+Every generated candidate must immutably bind input, prompt/event, engine,
+model/configuration, seed, environment, output, rights decision, and QA state.
+Candidate staging is outside the approved library and selector-invisible until
+Row104 promotion. Staging is an evidence boundary and must never implement
+content-based suppression. Synthetic fixtures prove the contract only; genuine
+runtime staging and accepted Rows098-101 remain required for Row102 acceptance.

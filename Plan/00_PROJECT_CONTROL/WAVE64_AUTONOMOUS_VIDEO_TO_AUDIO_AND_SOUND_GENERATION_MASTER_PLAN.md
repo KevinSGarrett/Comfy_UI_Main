@@ -332,6 +332,15 @@ Store generated candidates outside the approved library with prompt/event manife
 
 Acceptance: no generated file is reusable from the production selector until promoted; staging is an evidence boundary, not content suppression.
 
+Implemented contract slice (reconciled 2026-07-22): the existing evaluator,
+schema, policy, and 10 deterministic fixtures bind input, prompt, engine, seed,
+output, rights, and staging-boundary gates. Selector visibility and approved-
+library writes are denied before Row104 promotion; content-based suppression is
+not used. Twenty-seven Row102/103 tests pass. Row068 rights authority is
+accepted and Row101 is now present, but Rows098-101 remain held and no genuine
+candidate-staging runtime exists, so Row102 runtime and product completion stay
+false.
+
 ### Row103 Generated-sound autonomous QA
 
 Evaluate decode integrity, duration, onset, event count, silence, clipping, loudness, spectral defects, semantic alignment, material/action fit, timing, diversity, source leakage, and acoustic suitability.

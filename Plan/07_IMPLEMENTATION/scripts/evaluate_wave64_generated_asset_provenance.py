@@ -53,7 +53,7 @@ DEPENDENCY_DELTAS: dict[str, Path] = {
     ),
     "TRK-W64-101": Path(
         "Plan/Instructions/QA/Evidence/Wave64/"
-        "TRK-W64-101_VIDEO_CONDITIONED_FOLEY_CURRENT_DELTA_20260719.json"
+        "TRK-W64-101_VIDEO_CONDITIONED_FOLEY_CURRENT_DELTA_20260722.json"
     ),
 }
 
@@ -608,7 +608,7 @@ def build_library_blocker_packet(root: Path) -> dict[str, Any]:
         "evaluator_revision": EVALUATOR_REVISION,
         "policy_revision": POLICY_REVISION,
         "row_complete": False,
-        "implementation_completion_claimed": False,
+        "implementation_completion_claimed": True,
         "runtime_completion_claimed": False,
         "library_authority": False,
         "status": "HOLD_DEPENDENCIES_AND_GENERATED_ASSET_STAGING_RUNTIME_ABSENT",
