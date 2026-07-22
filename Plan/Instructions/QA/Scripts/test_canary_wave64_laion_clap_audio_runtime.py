@@ -76,6 +76,24 @@ def test_validate_audio_binds_exact_hash(tmp_path: Path) -> None:
         module.validate_audio(audio, "0" * 64)
 
 
+def test_audio_preprocessor_uses_pinned_audios_keyword() -> None:
+    module = load_module()
+    observed = {}
+
+    def processor(**kwargs):
+        observed.update(kwargs)
+        return {"input_features": "fixture"}
+
+    result = module.prepare_audio_inputs(processor, [0.0, 0.25], 48000)
+    assert result == {"input_features": "fixture"}
+    assert observed == {
+        "audios": [[0.0, 0.25]],
+        "sampling_rate": 48000,
+        "return_tensors": "pt",
+        "padding": True,
+    }
+
+
 class FakeVector:
     def __init__(self, values):
         self.values = list(values)
