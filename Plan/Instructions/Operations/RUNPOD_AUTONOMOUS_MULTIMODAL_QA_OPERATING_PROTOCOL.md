@@ -311,3 +311,10 @@ file-verified at its immutable target; a completed replay returned
 `latest` alias, move it into Ollama, import weights, or add service bindings.
 The next lease-independent step is an import-only configuration/dependency
 preflight that must fail before any tensor allocation.
+
+Use `preflight_wave64_qwen3_asr_dependencies.py` for that gate. The command is
+metadata-only: model configuration and installed distribution records are its
+entire read authority. Treat `CONFIG_IDENTITY_PASS_DEPENDENCY_ACTION_REQUIRED`
+as an admitted next-step result, never as permission to upgrade the active
+ComfyUI Python environment. Build a hash-locked isolated environment under a
+new immutable path only after a separate dependency admission is reviewed.

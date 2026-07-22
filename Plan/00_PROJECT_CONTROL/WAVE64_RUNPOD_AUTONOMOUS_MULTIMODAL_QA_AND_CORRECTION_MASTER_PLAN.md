@@ -499,3 +499,11 @@ remote receipt mirror is byte-identical to the pod receipt. This proves storage
 installation only. It does not prove that runtime dependencies import, the model
 fits or loads, transcription is correct, latency or cost is acceptable, faults
 recover, or the ASR role can participate in a product decision.
+
+The next gate is a metadata-only dependency preflight. It may read the admitted
+model configuration, Python version, installed distribution metadata, and the
+installed Transformers file manifest. It must not import Torch, Transformers,
+Qwen-ASR, construct a model, allocate a tensor, inspect CUDA, poll the GPU lease,
+or access the network. Missing support is a typed dependency action, not a model
+failure. Any dependency remediation must use a separately admitted immutable
+isolated environment and may not mutate the active ComfyUI environment.
