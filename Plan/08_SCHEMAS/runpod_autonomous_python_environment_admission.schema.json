@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "runpod_autonomous_python_environment_admission.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "program_id", "package_id", "status", "resolution", "targets", "network", "authority", "verification"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.python_environment_admission.v1"},
+    "program_id": {"const": "W64-AQA"},
+    "package_id": {"const": "W64-AQA-PKG-QWEN3-ASR-17B"},
+    "status": {"const": "DEPENDENCY_ENVIRONMENT_BUILD_ADMITTED_EXECUTION_PENDING"},
+    "resolution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lock_path", "lock_sha256", "package_count", "wheel_count", "python_version", "uv_version", "platform", "torch_backend", "minimum_free_bytes"],
+      "properties": {
+        "lock_path": {"const": "Plan/10_REGISTRIES/Locks/wave64_qwen3_asr_0_0_6_py312_cu124.pylock.toml"},
+        "lock_sha256": {"const": "241dfaab72cea25fe705693ef715e8368d171720ae3dc37e1c17ecc81b18ba22"},
+        "package_count": {"const": 105},
+        "wheel_count": {"const": 109},
+        "python_version": {"const": "3.12.13"},
+        "uv_version": {"const": "0.11.30"},
+        "platform": {"const": "x86_64-manylinux_2_28"},
+        "torch_backend": {"const": "cu124"},
+        "minimum_free_bytes": {"type": "integer", "minimum": 21474836480}
+      }
+    },
+    "targets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["python_install_root", "environment_root", "active_comfyui_environment_mutable"],
+      "properties": {
+        "python_install_root": {"const": "/workspace/w64_aqa/runtimes/python"},
+        "environment_root": {"type": "string", "pattern": "^/workspace/w64_aqa/environments/Qwen3-ASR-1\\.7B/"},
+        "active_comfyui_environment_mutable": {"const": false}
+      }
+    },
+    "network": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowed_hosts", "model_download_allowed"],
+      "properties": {
+        "allowed_hosts": {
+          "type": "array",
+          "const": ["files.pythonhosted.org", "download-r2.pytorch.org", "github.com", "objects.githubusercontent.com"]
+        },
+        "model_download_allowed": {"const": false}
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["python_install", "environment_create", "locked_wheel_install", "model_library_import", "model_load", "tensor_allocation", "gpu_or_lease_poll", "inference", "service_change", "role_activation", "product_authority"],
+      "properties": {
+        "python_install": {"const": true},
+        "environment_create": {"const": true},
+        "locked_wheel_install": {"const": true},
+        "model_library_import": {"const": false},
+        "model_load": {"const": false},
+        "tensor_allocation": {"const": false},
+        "gpu_or_lease_poll": {"const": false},
+        "inference": {"const": false},
+        "service_change": {"const": false},
+        "role_activation": {"const": false},
+        "product_authority": {"const": false}
+      }
+    },
+    "verification": {
+      "type": "array",
+      "const": ["free_space", "python_exact_version", "lock_hash", "wheel_hashes", "installed_distribution_manifest", "environment_tree_digest", "no_active_environment_change", "no_runtime_claim"]
+    }
+  }
+}

@@ -515,3 +515,12 @@ distribution and no installed Transformers Qwen3-ASR support files. Therefore
 the file set remains installed and non-operational. The admitted next step is a
 hash-locked isolated dependency environment; the active ComfyUI environment is
 not an upgrade target.
+
+The official minimal Transformers dependency closure is resolved and hash
+locked for Python 3.12.13, Linux x86-64, and CUDA 12.4. The lock contains 105
+packages and 109 SHA-256-bound wheels from only PyPI's file host and the
+official PyTorch wheel host. It pins `qwen-asr==0.0.6`,
+`transformers==4.57.6`, and `torch==2.4.1+cu124`; vLLM and FlashAttention are
+deliberately absent. Build authority is limited to a new immutable environment
+under `/workspace/w64_aqa`; it cannot mutate active ComfyUI or claim imports,
+GPU access, model load, inference, activation, or product authority.

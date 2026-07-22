@@ -326,3 +326,12 @@ environment. First resolve and retain an official dependency lock with hashes;
 then create an immutable isolated environment and prove an import-only canary.
 Model construction, CUDA access, weight load, and inference remain forbidden
 until their later gates are explicitly admitted.
+
+For the isolated dependency build, use only
+`wave64_qwen3_asr_0_0_6_py312_cu124.pylock.toml` at SHA-256
+`241dfaab72cea25fe705693ef715e8368d171720ae3dc37e1c17ecc81b18ba22`.
+Require at least 20 GiB free, exact `uv 0.11.30`, exact Python 3.12.13, and the
+admitted immutable target. Sync only lock-selected wheels and retain the
+installed-distribution manifest and environment tree digest. A successful
+build still does not permit importing Qwen-ASR, Torch, or Transformers; that is
+a separate canary gate.

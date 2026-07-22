@@ -73,6 +73,16 @@ PATHS = {
     / "Plan/Tracker/Evidence/W64_AQA_QWEN3_ASR_17B_DEPENDENCY_PREFLIGHT_20260722T005102Z/evidence.json",
     "qwen3_asr_dependency_preflight_receipt": ROOT
     / "Plan/Tracker/Evidence/W64_AQA_QWEN3_ASR_17B_DEPENDENCY_PREFLIGHT_20260722T005102Z/remote_dependency_preflight.receipt.json",
+    "python_environment_admission_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_python_environment_admission.schema.json",
+    "qwen3_asr_dependency_lock": ROOT
+    / "Plan/10_REGISTRIES/Locks/wave64_qwen3_asr_0_0_6_py312_cu124.pylock.toml",
+    "qwen3_asr_environment_admission": ROOT
+    / "Plan/10_REGISTRIES/wave64_qwen3_asr_17b_dependency_environment_admission.json",
+    "python_environment_admission_validator": ROOT
+    / "Plan/07_IMPLEMENTATION/scripts/validate_wave64_runpod_python_environment_admission.py",
+    "qwen3_asr_dependency_lock_evidence": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_QWEN3_ASR_17B_DEPENDENCY_LOCK_20260722T010000Z.json",
     "schema": ROOT
     / "Plan/08_SCHEMAS/runpod_autonomous_multimodal_qa_decision.schema.json",
     "job_contract_schema": ROOT
@@ -333,6 +343,9 @@ def collect_errors() -> list[str]:
         qwen3_asr_dependency_preflight_schema = load_json(PATHS["qwen3_asr_dependency_preflight_schema"])
         qwen3_asr_dependency_preflight_evidence = load_json(PATHS["qwen3_asr_dependency_preflight_evidence"])
         qwen3_asr_dependency_preflight_receipt = load_json(PATHS["qwen3_asr_dependency_preflight_receipt"])
+        python_environment_admission_schema = load_json(PATHS["python_environment_admission_schema"])
+        qwen3_asr_environment_admission = load_json(PATHS["qwen3_asr_environment_admission"])
+        qwen3_asr_dependency_lock_evidence = load_json(PATHS["qwen3_asr_dependency_lock_evidence"])
         schema = load_json(PATHS["schema"])
         job_contract_schema = load_json(PATHS["job_contract_schema"])
         phase_lease_schema = load_json(PATHS["phase_lease_schema"])
@@ -437,6 +450,8 @@ def collect_errors() -> list[str]:
         errors.append("model install admission schema identity mismatch")
     if qwen3_asr_dependency_preflight_schema.get("$id") != "runpod_autonomous_qwen3_asr_dependency_preflight.schema.json":
         errors.append("Qwen3-ASR dependency preflight schema identity mismatch")
+    if python_environment_admission_schema.get("$id") != "runpod_autonomous_python_environment_admission.schema.json":
+        errors.append("Python environment admission schema identity mismatch")
     if role_package_inventory.get("scope") != "METADATA_ONLY_NO_DOWNLOAD_LOAD_INFERENCE_OR_RUNPOD_CONTACT":
         errors.append("role package inventory must remain metadata-only")
     inventory_runtime = role_package_inventory.get("runtime_policy", {})
@@ -502,6 +517,35 @@ def collect_errors() -> list[str]:
         errors.append("mistyped Qwen3-ASR control copy must remain non-authoritative")
     if any(qwen3_asr_dependency_preflight_evidence.get("runtime_claims", {}).values()):
         errors.append("Qwen3-ASR dependency evidence contains a false runtime claim")
+    dependency_lock_sha256 = hashlib.sha256(PATHS["qwen3_asr_dependency_lock"].read_bytes()).hexdigest()
+    environment_resolution = qwen3_asr_environment_admission.get("resolution", {})
+    environment_authority = qwen3_asr_environment_admission.get("authority", {})
+    if dependency_lock_sha256 != "241dfaab72cea25fe705693ef715e8368d171720ae3dc37e1c17ecc81b18ba22":
+        errors.append("Qwen3-ASR dependency lock hash mismatch")
+    if qwen3_asr_environment_admission.get("status") != "DEPENDENCY_ENVIRONMENT_BUILD_ADMITTED_EXECUTION_PENDING":
+        errors.append("Qwen3-ASR environment build admission status mismatch")
+    if environment_resolution.get("package_count") != 105 or environment_resolution.get("wheel_count") != 109:
+        errors.append("Qwen3-ASR environment resolution count mismatch")
+    if environment_resolution.get("python_version") != "3.12.13":
+        errors.append("Qwen3-ASR environment Python version mismatch")
+    if any(
+        environment_authority.get(key) is not False
+        for key in (
+            "model_library_import",
+            "model_load",
+            "tensor_allocation",
+            "gpu_or_lease_poll",
+            "inference",
+            "service_change",
+            "role_activation",
+            "product_authority",
+        )
+    ):
+        errors.append("Qwen3-ASR environment admission exceeds build authority")
+    if qwen3_asr_dependency_lock_evidence.get("lock", {}).get("sha256") != dependency_lock_sha256:
+        errors.append("Qwen3-ASR dependency lock evidence hash mismatch")
+    if any(qwen3_asr_dependency_lock_evidence.get("execution_claims", {}).values()):
+        errors.append("Qwen3-ASR dependency lock evidence contains an execution claim")
 
     json_docs = (
         requirements,
@@ -518,6 +562,8 @@ def collect_errors() -> list[str]:
         qwen3_asr_remote_install_receipt,
         qwen3_asr_dependency_preflight_evidence,
         qwen3_asr_dependency_preflight_receipt,
+        qwen3_asr_environment_admission,
+        qwen3_asr_dependency_lock_evidence,
         tool_executor_qualification,
         workflow_receipt_shadow_evidence,
         workflow_tool_qualification_evidence,
