@@ -1,0 +1,57 @@
+{
+  "schema_version": "wave64.aqa.qwen3_omni_install_admission_evidence.v1",
+  "program_id": "W64-AQA",
+  "package_id": "W64-AQA-PKG-QWEN3-OMNI-30B-A3B",
+  "observed_at_utc": "2026-07-22T01:50:58Z",
+  "disposition": "STORAGE_INSTALL_ADMITTED_EXECUTION_PENDING",
+  "official_identity": {
+    "repository_id": "Qwen/Qwen3-Omni-30B-A3B-Thinking",
+    "revision": "2f443cfc4c54b14a815c0e2bb9a9d6cbcd9a748b",
+    "revision_last_modified_utc": "2025-09-22T14:17:44Z",
+    "gated": false,
+    "private": false,
+    "source_api": "https://huggingface.co/api/models/Qwen/Qwen3-Omni-30B-A3B-Thinking?blobs=true",
+    "source_model_card": "https://huggingface.co/Qwen/Qwen3-Omni-30B-A3B-Thinking",
+    "official_code_repository": "https://github.com/QwenLM/Qwen3-Omni"
+  },
+  "license": {
+    "spdx_id": "Apache-2.0",
+    "model_card_metadata": "license=other; license_name=apache-2.0",
+    "official_repository_license": "Apache License Version 2.0",
+    "decision": "ACCEPTED_FOR_COMFY_UI_MAIN_PROJECT_USE"
+  },
+  "admission": {
+    "manifest": "Plan/10_REGISTRIES/wave64_runpod_qwen3_omni_30b_a3b_thinking_install_admission.json",
+    "canonical_manifest_sha256": "46d9695468fac6ff986a683b42df3e8872a01f9e16703ee0772ca4ba2136d480",
+    "source_file_count": 26,
+    "weight_shard_count": 16,
+    "weight_bytes": 63440997640,
+    "minimum_free_bytes_before_install": 79547125000,
+    "observed_workspace_free_bytes": 145773754646,
+    "target_root": "/workspace/w64_aqa/models/Qwen3-Omni-30B-A3B-Thinking/2f443cfc4c54b14a815c0e2bb9a9d6cbcd9a748b"
+  },
+  "runtime_dependency_note": {
+    "official_current_recommendation": "Transformers 5.2.0 or later in a new isolated environment",
+    "admission_effect": "none; dependency resolution is a separate post-storage gate"
+  },
+  "runtime_claims": {
+    "download_started": false,
+    "model_loaded": false,
+    "gpu_or_lease_polled": false,
+    "inference_performed": false,
+    "role_activated": false,
+    "audio_or_av_authority": false,
+    "product_authority": false
+  },
+  "local_validation": {
+    "json_parse": "PASS",
+    "admission_schema": "PASS",
+    "omni_admission_validator": "PASS",
+    "role_package_inventory_validator": "PASS",
+    "targeted_tests": "17 passed",
+    "runpod_autonomous_qwen_regression": "252 passed, 2 skipped, 2098 deselected",
+    "ruff": "PASS",
+    "csv_shape": "PASS"
+  },
+  "next_action": "Commit and push the exact admission and multi-manifest installer binding, then execute the storage-only atomic installer on the current pod without GPU or lease access."
+}

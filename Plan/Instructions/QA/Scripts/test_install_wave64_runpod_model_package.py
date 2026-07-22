@@ -12,6 +12,7 @@ import pytest
 ROOT = Path(__file__).resolve().parents[4]
 SCRIPT = ROOT / "Plan/07_IMPLEMENTATION/scripts/install_wave64_runpod_model_package.py"
 MANIFEST = ROOT / "Plan/10_REGISTRIES/wave64_runpod_qwen3_asr_17b_install_admission.json"
+OMNI_MANIFEST = ROOT / "Plan/10_REGISTRIES/wave64_runpod_qwen3_omni_30b_a3b_thinking_install_admission.json"
 SPEC = importlib.util.spec_from_file_location("model_package_installer", SCRIPT)
 assert SPEC and SPEC.loader
 MODULE = importlib.util.module_from_spec(SPEC)
@@ -160,3 +161,12 @@ def test_production_target_is_exact(tmp_path: Path) -> None:
             free_bytes=20_000_000_000,
             production_target=True,
         )
+
+
+def test_qwen3_omni_manifest_is_bound_for_production_storage_only() -> None:
+    manifest = json.loads(OMNI_MANIFEST.read_text(encoding="utf-8"))
+    manifest_hash = hashlib.sha256(MODULE.canonical_bytes(manifest)).hexdigest()
+    assert manifest_hash in MODULE.ADMITTED_PRODUCTION_MANIFESTS
+    MODULE._verify_manifest_shape(manifest)
+    assert manifest["storage"]["weight_bytes"] == 63440997640
+    assert "gpu_probe" in manifest["authority"]["forbidden"]

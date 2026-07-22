@@ -376,3 +376,18 @@ the exact revision, all twelve admitted source identities, both safetensor
 SHA-256 values, and the no-load runtime claims. Do not rerun or reinterpret
 these completed static gates. The next Qwen3-ASR actions require a released GPU
 lease: bounded model construction/capacity first, then calibration and runtime.
+
+For Qwen3-Omni storage, use only repository
+`Qwen/Qwen3-Omni-30B-A3B-Thinking` at revision
+`2f443cfc4c54b14a815c0e2bb9a9d6cbcd9a748b`. The manifest contains exactly
+26 files and sixteen safetensor shards totaling 63,440,997,640 bytes. Require
+79,547,125,000 free bytes before starting. Publish only by same-volume atomic
+rename to the revision-addressed root and never overwrite an existing target.
+The installer may download and hash files but may not inspect GPU or lease
+state, load the model, install dependencies, restart a service, activate a
+role, or produce an audio, AV, or product decision.
+
+Do not install Omni runtime dependencies into active ComfyUI. Its current
+official recommendation is Transformers 5.2 or later in a new environment;
+resolve, hash-lock, build, and import-test that environment only after the
+storage receipt is independently accepted.

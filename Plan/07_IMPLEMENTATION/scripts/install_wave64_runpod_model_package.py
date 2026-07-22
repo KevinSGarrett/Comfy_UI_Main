@@ -22,7 +22,16 @@ class InstallError(RuntimeError):
     pass
 
 
-ADMISSION_MANIFEST_SHA256 = "e733f6863ecf6e3cd2d5579cd50c6e8cd35c78739316757633ad70c879edba60"
+ADMITTED_PRODUCTION_MANIFESTS = {
+    "e733f6863ecf6e3cd2d5579cd50c6e8cd35c78739316757633ad70c879edba60": {
+        "repository_id": "Qwen/Qwen3-ASR-1.7B",
+        "revision": "7278e1e70fe206f11671096ffdd38061171dd6e5",
+    },
+    "46d9695468fac6ff986a683b42df3e8872a01f9e16703ee0772ca4ba2136d480": {
+        "repository_id": "Qwen/Qwen3-Omni-30B-A3B-Thinking",
+        "revision": "2f443cfc4c54b14a815c0e2bb9a9d6cbcd9a748b",
+    },
+}
 
 
 def canonical_bytes(value: Any) -> bytes:
@@ -107,10 +116,13 @@ def _verify_manifest_shape(manifest: dict[str, Any]) -> None:
     if manifest.get("status") != "STORAGE_INSTALL_ADMITTED_EXECUTION_PENDING":
         raise InstallError("manifest is not admitted for storage installation")
     source = manifest.get("source", {})
-    if source.get("repository_id") != "Qwen/Qwen3-ASR-1.7B":
-        raise InstallError("repository is not admitted")
-    if source.get("revision") != "7278e1e70fe206f11671096ffdd38061171dd6e5":
-        raise InstallError("revision is not admitted")
+    identity = (source.get("repository_id"), source.get("revision"))
+    admitted_identities = {
+        (item["repository_id"], item["revision"])
+        for item in ADMITTED_PRODUCTION_MANIFESTS.values()
+    }
+    if identity not in admitted_identities:
+        raise InstallError("repository or revision is not admitted")
     forbidden = set(manifest.get("authority", {}).get("forbidden", []))
     for action in ("model_load", "inference", "gpu_probe", "lease_poll", "role_activation"):
         if action not in forbidden:
@@ -129,8 +141,15 @@ def install(
     _verify_manifest_shape(manifest)
     declared_target = manifest["storage"]["target_root"]
     if production_target:
-        if hashlib.sha256(canonical_bytes(manifest)).hexdigest() != ADMISSION_MANIFEST_SHA256:
+        manifest_hash = hashlib.sha256(canonical_bytes(manifest)).hexdigest()
+        admitted = ADMITTED_PRODUCTION_MANIFESTS.get(manifest_hash)
+        if admitted is None:
             raise InstallError("production admission manifest identity mismatch")
+        source = manifest["source"]
+        if source.get("repository_id") != admitted["repository_id"]:
+            raise InstallError("production repository identity mismatch")
+        if source.get("revision") != admitted["revision"]:
+            raise InstallError("production revision identity mismatch")
         if target.as_posix() != declared_target:
             raise InstallError("CLI target differs from admitted target")
         if not target.as_posix().startswith("/workspace/w64_aqa/models/"):

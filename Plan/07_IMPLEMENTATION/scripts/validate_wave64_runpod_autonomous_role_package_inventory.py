@@ -31,6 +31,7 @@ EXPECTED_PLANNED = {
 
 PINNED_PLANNED = {
     "Qwen/Qwen3-ASR-1.7B": "7278e1e70fe206f11671096ffdd38061171dd6e5",
+    "Qwen/Qwen3-Omni-30B-A3B-Thinking": "2f443cfc4c54b14a815c0e2bb9a9d6cbcd9a748b",
 }
 
 
@@ -80,6 +81,7 @@ def validate(data: dict) -> list[str]:
         elif state in {
             "UPSTREAM_IDENTITY_VERIFIED_NOT_INSTALLED",
             "INSTALLED_FILE_SET_VERIFIED_ACTIVATION_PENDING",
+            "STORAGE_INSTALL_ADMITTED_EXECUTION_PENDING",
         }:
             if state == "UPSTREAM_IDENTITY_VERIFIED_NOT_INSTALLED" and (
                 install.get("artifact_digest") is not None or install.get("durable_root") is not None
@@ -94,7 +96,7 @@ def validate(data: dict) -> list[str]:
                     errors.append(f"{item.get('package_id')}: source revision pin mismatch")
                 if "pinned_revision" in qualification.get("required_gates", []):
                     errors.append(f"{item.get('package_id')}: completed revision gate must be removed")
-                if state == "INSTALLED_FILE_SET_VERIFIED_ACTIVATION_PENDING":
+                if repository_id == "Qwen/Qwen3-ASR-1.7B" and state == "INSTALLED_FILE_SET_VERIFIED_ACTIVATION_PENDING":
                     receipt = item.get("installation_receipt", {})
                     preflight = item.get("dependency_preflight", {})
                     environment = item.get("dependency_environment", {})
@@ -157,6 +159,25 @@ def validate(data: dict) -> list[str]:
                         errors.append(f"{item.get('package_id')}: static qualification evidence mismatch")
                     if identity.get("license_state") != "APACHE-2.0_ACCEPTED_FOR_COMFY_UI_MAIN_PROJECT_USE":
                         errors.append(f"{item.get('package_id')}: license decision mismatch")
+                elif repository_id == "Qwen/Qwen3-Omni-30B-A3B-Thinking":
+                    admission = item.get("install_admission", {})
+                    if state != "STORAGE_INSTALL_ADMITTED_EXECUTION_PENDING":
+                        errors.append(f"{item.get('package_id')}: Omni storage admission state mismatch")
+                    if identity.get("license_state") != "APACHE-2.0_ACCEPTED_FOR_COMFY_UI_MAIN_PROJECT_USE":
+                        errors.append(f"{item.get('package_id')}: Omni license decision mismatch")
+                    if qualification.get("state") != "STORAGE_INSTALL_ADMITTED_RUNTIME_GATES_PENDING":
+                        errors.append(f"{item.get('package_id')}: Omni qualification state mismatch")
+                    if "pinned_revision" in qualification.get("required_gates", []):
+                        errors.append(f"{item.get('package_id')}: completed Omni revision gate must be removed")
+                    expected_admission = {
+                        "manifest_sha256": "46d9695468fac6ff986a683b42df3e8872a01f9e16703ee0772ca4ba2136d480",
+                        "target_root": "/workspace/w64_aqa/models/Qwen3-Omni-30B-A3B-Thinking/2f443cfc4c54b14a815c0e2bb9a9d6cbcd9a748b",
+                        "source_file_count": 26,
+                        "weight_shard_count": 16,
+                        "weight_bytes": 63440997640,
+                    }
+                    if admission != expected_admission:
+                        errors.append(f"{item.get('package_id')}: Omni install admission mismatch")
             else:
                 if identity.get("identity_state") != "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_UNPINNED":
                     errors.append(f"{item.get('package_id')}: planned identity state mismatch")

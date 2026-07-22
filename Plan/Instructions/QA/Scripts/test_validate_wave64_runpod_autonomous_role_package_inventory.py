@@ -74,3 +74,22 @@ def test_asr_source_revision_and_storage_install_are_exact_but_not_operational()
     assert not package["authority"]["operational"]
     package["source_pin"]["revision"] = "0" * 40
     assert any("source revision pin mismatch" in error for error in MODULE.validate(data))
+
+
+def test_omni_source_pin_and_storage_admission_are_exact_but_not_installed() -> None:
+    data = copy.deepcopy(load_inventory())
+    package = next(
+        item
+        for item in data["packages"]
+        if item["identity"]["repository_id"]
+        == "Qwen/Qwen3-Omni-30B-A3B-Thinking"
+    )
+    assert package["source_pin"]["revision"] == "2f443cfc4c54b14a815c0e2bb9a9d6cbcd9a748b"
+    assert package["installation"]["state"] == "STORAGE_INSTALL_ADMITTED_EXECUTION_PENDING"
+    assert package["installation"]["artifact_digest"] is None
+    assert package["install_admission"]["weight_shard_count"] == 16
+    assert package["install_admission"]["weight_bytes"] == 63440997640
+    assert "pinned_revision" not in package["qualification"]["required_gates"]
+    assert not package["authority"]["operational"]
+    package["install_admission"]["weight_bytes"] += 1
+    assert any("Omni install admission mismatch" in error for error in MODULE.validate(data))

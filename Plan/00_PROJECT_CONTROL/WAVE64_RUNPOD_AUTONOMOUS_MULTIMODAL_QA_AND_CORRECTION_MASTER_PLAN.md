@@ -576,3 +576,19 @@ qualification certificate now closes the license-decision and artifact-hash
 gates without contacting the pod or GPU. Capacity, language calibration,
 runtime, quality, cost, failure recovery, activation, and product authority
 remain open.
+
+The next non-GPU admission targets Qwen3-Omni-30B-A3B-Thinking as the planned
+audio and audiovisual semantic reviewer. Official metadata pins revision
+`2f443cfc4c54b14a815c0e2bb9a9d6cbcd9a748b`, 26 source files, and sixteen
+SHA-256-bound safetensor shards totaling 63,440,997,640 bytes. The model card
+uses `license_name: apache-2.0`, and the official Qwen3-Omni repository carries
+the Apache-2.0 license. The current pod reported 145,773,754,646 free workspace
+bytes, exceeding the 79,547,125,000-byte admission floor.
+
+This is storage authority only. The generic installer is now bound to both the
+existing Qwen3-ASR manifest and this exact Omni manifest; no arbitrary
+repository or revision is admitted. The official current runtime recommendation
+of Transformers 5.2 or later must be handled in a later immutable isolated
+environment. Download, import, quantization, model load, GPU, lease, inference,
+audio/AV authority, activation, and product decisions are not implied by this
+admission.
