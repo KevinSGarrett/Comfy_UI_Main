@@ -1,0 +1,31 @@
+{
+  "schema_version": "wave64.aqa.quarantine_static_admission.v1",
+  "program_id": "W64-AQA",
+  "tracker_ids": ["W64-AQA-018"],
+  "status": "STATIC_PIN_AND_WORKFLOW_BINDINGS_VERIFIED_QUARANTINE_RETAINED",
+  "custom_node": {
+    "repository": "https://github.com/cubiq/ComfyUI_IPAdapter_plus.git",
+    "commit": "a0f451a5113cf9becb0847b92884cb10cbdec0ef",
+    "tree": "525f6f9c9a9804f178c13a81dd6e45dd3f7ceae3",
+    "tracked_files": 34,
+    "index_sha256": "27a58fb09282a0400cfe0bc02c96d4d03119d6999260c3e9e133727811ceefeb",
+    "clean_worktree": true,
+    "license_metadata": "GPL-3.0 license",
+    "dependency_manifest_present": false,
+    "quarantine_path": "/workspace/custom_node_quarantine/aws_ec2_pins_20260722/repos/ComfyUI_IPAdapter_plus"
+  },
+  "asset_packages": [
+    "Plan/10_REGISTRIES/wave64_clip_vit_h14_ipadapter_promoted_storage_package.json",
+    "Plan/10_REGISTRIES/wave64_ipadapter_plus_sdxl_promoted_storage_package.json"
+  ],
+  "workflows": [
+    {"path": "/workspace/wave64_quarantine/aws_ec2_20260722/workflows/WAVE42_MAIN_FLOW_20260702.json", "sha256": "5382d6cad24856662f7febca7356dbf0cf15080417324b58a5480c065e69401f", "total_nodes": 699, "ipadapter_nodes": 50, "unified_loaders": 4, "appliers": 46, "zero_weight_appliers": 45, "nonzero_weight_appliers": 1, "strict_gate_appliers": 45, "optional_off_default_appliers": 1},
+    {"path": "/workspace/wave64_quarantine/aws_ec2_20260722/workflows/Wave42_Runtime_Bound__UI__WAVE42_MAIN_FLOW_20260702.json", "sha256": "60529aa2f6365a0a632222f7bdf7b2973970f066fac1e501b3ef6b796af904a2", "total_nodes": 661, "ipadapter_nodes": 50, "unified_loaders": 4, "appliers": 46, "zero_weight_appliers": 45, "nonzero_weight_appliers": 1, "strict_gate_appliers": 45, "optional_off_default_appliers": 1}
+  ],
+  "retained_findings": [
+    "Each workflow has one legacy nonzero IPAdapter applier at weight 0.45 that is not covered by the 45 explicit strict-gate appliers.",
+    "The 45 expanded body-part and multi-character appliers default to zero and retain explicit strict spatial-quality gates.",
+    "Unified loader preset names do not themselves prove exact runtime model-path selection; object_info and isolated runtime binding remain required."
+  ],
+  "authority": {"quarantine_integrity": true, "custom_node_pin_identity": true, "workflow_static_node_binding": true, "asset_storage_pair": true, "dependency_install": false, "custom_node_import": false, "object_info_binding": false, "model_load": false, "visual_quality": false, "activation": false, "workflow_promotion": false, "product_promotion": false}
+}

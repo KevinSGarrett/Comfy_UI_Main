@@ -1070,3 +1070,15 @@ matching the published LFS object. Together with the accepted CLIP ViT-H-14
 encoder, this proves the two-file storage identity pair and nothing beyond it.
 Custom-node code and dependencies, model load, conditioning quality, activation,
 workflow promotion, license acceptance, and product authority remain false.
+
+The quarantined `ComfyUI_IPAdapter_plus` checkout now passes read-only static
+identity at commit `a0f451a5113cf9becb0847b92884cb10cbdec0ef`, tree
+`525f6f9c9a9804f178c13a81dd6e45dd3f7ceae3`, with 34 tracked files and a
+clean worktree. Its GPL-3.0 code metadata remains distinct from the model
+assets' Apache-2.0 metadata. Both quarantined Wave42 workflows have 50
+IP-Adapter nodes: four unified loaders and 46 appliers. Forty-five expanded
+appliers default to zero and carry explicit strict spatial gates; one legacy
+applier remains nonzero at 0.45 and outside that expanded gate set. Static
+integrity is partially adopted, but loader presets do not prove exact runtime
+file selection. Dependencies, import, object-info binding, model load, visual
+quality, activation, and promotion remain false.
