@@ -17,6 +17,8 @@ MATRIX_PATH = Path("Plan/Tracker/Evidence/W64_AQA_ROLE_QUALIFICATION_EXECUTION_M
 ROLE_REGISTRY_PATH = Path("Plan/10_REGISTRIES/wave64_runpod_autonomous_multimodal_qa_role_registry.json")
 INVENTORY_PATH = Path("Plan/10_REGISTRIES/wave64_runpod_autonomous_role_package_inventory.json")
 POLICY_PATH = Path("Plan/10_REGISTRIES/wave64_aqa_sole_pod_qualification_campaign_policy.json")
+GENERATION_STACK_PATH = Path("Plan/10_REGISTRIES/wave64_aqa_generation_stack_registry.json")
+GENERATION_STACK_SCHEMA_PATH = Path("Plan/08_SCHEMAS/runpod_autonomous_generation_stack_registry.schema.json")
 SCHEMA_PATH = Path("Plan/08_SCHEMAS/runpod_autonomous_qualification_campaign_queue.schema.json")
 DEFAULT_OUTPUT = Path("Plan/Tracker/Evidence/W64_AQA_SOLE_POD_QUALIFICATION_CAMPAIGN_QUEUE_20260722.json")
 
@@ -77,11 +79,55 @@ def package_evidence(package: dict[str, Any]) -> tuple[dict[str, Any], list[str]
     }, blockers)
 
 
+def generation_stack_evidence(root: Path, registry: dict[str, Any]) -> tuple[dict[str, Any], list[str]]:
+    Draft202012Validator(load_json(root / GENERATION_STACK_SCHEMA_PATH)).validate(registry)
+    selected = [stack for stack in registry["stacks"] if stack["selection_state"] == "SELECTED_INACTIVE"]
+    if len(selected) != 1 or selected[0]["stack_id"] != registry["selected_stack_id"]:
+        raise QueueError("generation registry must have exactly one selected inactive stack")
+    for candidate in registry["stacks"]:
+        candidate_binding = candidate["package_binding"]
+        candidate_path = root / Path(candidate_binding["path"])
+        if sha256_file(candidate_path) != candidate_binding["sha256"]:
+            raise QueueError(f"generation package hash drift: {candidate['stack_id']}")
+        candidate_package = load_json(candidate_path)
+        candidate_asset = candidate["asset"]
+        candidate_file = candidate_package.get("files", [{}])[0]
+        if (
+            candidate_package.get("package_id") != candidate_asset["package_id"]
+            or candidate_package.get("repository") != candidate_asset["repository"]
+            or candidate_package.get("revision") != candidate_asset["revision"]
+            or candidate_package.get("license_metadata") != candidate_asset["license_metadata"]
+            or candidate_package.get("root") != candidate_asset["root"]
+            or candidate_file.get("path") != candidate_asset["path"]
+            or candidate_file.get("bytes") != candidate_asset["bytes"]
+            or candidate_file.get("sha256") != candidate_asset["sha256"]
+            or candidate_package.get("license_acceptance_authority") is not False
+            or candidate["execution"]["executable"] is not False
+        ):
+            raise QueueError(f"generation stack identity or authority drift: {candidate['stack_id']}")
+    stack = selected[0]
+    package_binding = stack["package_binding"]
+    asset = stack["asset"]
+    return ({
+        "path": GENERATION_STACK_PATH.as_posix(),
+        "sha256": sha256_file(root / GENERATION_STACK_PATH),
+        "stack_id": stack["stack_id"],
+        "package_id": asset["package_id"],
+        "package_path": package_binding["path"],
+        "package_sha256": package_binding["sha256"],
+        "asset_sha256": asset["sha256"],
+        "state": stack["selection_state"],
+        "exact_storage_identity_bound": stack["execution"]["exact_storage_identity_bound"],
+        "executable": stack["execution"]["executable"],
+    }, list(stack["blockers"]))
+
+
 def compile_queue(root: Path) -> dict[str, Any]:
     matrix = load_json(root / MATRIX_PATH)
     role_registry = load_json(root / ROLE_REGISTRY_PATH)
     inventory = load_json(root / INVENTORY_PATH)
     policy = load_json(root / POLICY_PATH)
+    generation_registry = load_json(root / GENERATION_STACK_PATH)
     required_pod_policy = {
         "pod_id": "1q4ji0gg1fkhvt",
         "project": "comfyui_main",
@@ -132,6 +178,7 @@ def compile_queue(root: Path) -> dict[str, Any]:
             "package_evidence": [],
             "admission": {"path": admission_path.as_posix(), "sha256": sha256_file(root / admission_path), "status": admission["status"], "package_id": package_id},
             "certificate": None,
+            "generation_stack": None,
             "depends_on": source.get("depends_on", []),
             "execution_steps": source["execution_steps"],
             "readiness": "ADMITTED_COORDINATOR_GATE_REQUIRED",
@@ -155,6 +202,7 @@ def compile_queue(root: Path) -> dict[str, Any]:
             blockers.extend(package_blockers)
         mode = binding["binding_mode"]
         certificate_binding = None
+        generation_stack_binding = None
         if mode == "all":
             package_gate = bool(exact_by_id) and all(exact_by_id.values())
         elif mode == "any":
@@ -193,6 +241,14 @@ def compile_queue(root: Path) -> dict[str, Any]:
                     "bundle_id": bundle["bundle_id"],
                 }
                 package_gate = True
+            elif binding.get("generation_stack_path"):
+                if Path(binding["generation_stack_path"]) != GENERATION_STACK_PATH:
+                    raise QueueError(f"unexpected generation stack registry: {role_id}")
+                if role_id != "W64-AQA-ROLE-GENERATION":
+                    raise QueueError(f"generation stack bound to non-generation role: {role_id}")
+                generation_stack_binding, generation_blockers = generation_stack_evidence(root, generation_registry)
+                blockers.extend(generation_blockers)
+                package_gate = False
             else:
                 package_gate = False
         else:
@@ -226,6 +282,7 @@ def compile_queue(root: Path) -> dict[str, Any]:
             "package_evidence": evidence,
             "admission": None,
             "certificate": certificate_binding,
+            "generation_stack": generation_stack_binding,
             "depends_on": depends_on,
             "execution_steps": matrix["execution_order"],
             "readiness": readiness,
@@ -245,6 +302,7 @@ def compile_queue(root: Path) -> dict[str, Any]:
             "role_registry": {"path": ROLE_REGISTRY_PATH.as_posix(), "sha256": sha256_file(root / ROLE_REGISTRY_PATH)},
             "package_inventory": {"path": INVENTORY_PATH.as_posix(), "sha256": sha256_file(root / INVENTORY_PATH)},
             "campaign_policy": {"path": POLICY_PATH.as_posix(), "sha256": sha256_file(root / POLICY_PATH)},
+            "generation_stack_registry": {"path": GENERATION_STACK_PATH.as_posix(), "sha256": sha256_file(root / GENERATION_STACK_PATH)},
         },
         "pod_gate": {
             "pod_id": policy["pod_policy"]["pod_id"], "project": policy["pod_policy"]["project"],

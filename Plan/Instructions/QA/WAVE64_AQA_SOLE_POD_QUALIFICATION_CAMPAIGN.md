@@ -49,3 +49,17 @@ Use its executor only in `validate` mode. The existing output directory is an
 immutable guard: `execute` must fail before any held-out re-execution. Its
 certificate is operational only for deterministic 1024-square image technical
 gates and matrix-declared out-of-scope refusal. It is not semantic QA.
+
+Validate the inactive generation candidates before using the generation queue
+entry:
+
+```powershell
+python Plan/07_IMPLEMENTATION/scripts/validate_wave64_aqa_generation_stack_registry.py
+```
+
+The selected `W64-AQA-GEN-FLUX2-KLEIN-4B-FP8` record proves exact promoted
+storage identity and candidate ordering only. It is deliberately non-executable.
+Do not remove its license-acceptance, text-encoder/VAE dependency, workflow,
+coordinator lease, model-load/cleanup, capacity, quality, or failure-injection
+blocks until separately retained evidence passes. Never infer generation
+runtime or quality authority from a promoted model file or a registry binding.

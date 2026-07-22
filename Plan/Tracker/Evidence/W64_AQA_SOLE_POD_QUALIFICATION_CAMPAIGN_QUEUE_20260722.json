@@ -17,7 +17,11 @@
     },
     "campaign_policy": {
       "path": "Plan/10_REGISTRIES/wave64_aqa_sole_pod_qualification_campaign_policy.json",
-      "sha256": "854f3aa33694e3173c65474fe85947163aeab26d415e2164e02cf25191f2b808"
+      "sha256": "e164e2819ffb2ea0389c25050281a388773d50190f5ebadbe43f686a63f80041"
+    },
+    "generation_stack_registry": {
+      "path": "Plan/10_REGISTRIES/wave64_aqa_generation_stack_registry.json",
+      "sha256": "98fcaa1e019dc5a9bac941e9afad36c041b58b9e4feaaf35d74cb1e2a660607a"
     }
   },
   "pod_gate": {
@@ -50,6 +54,7 @@
         "package_id": "W64-AQA-PKG-WAV2VEC2-PHONEME-ALIGNER"
       },
       "certificate": null,
+      "generation_stack": null,
       "depends_on": [],
       "execution_steps": [
         "acquire_exact_exclusive_lease",
@@ -84,6 +89,7 @@
         "package_id": "W64-AQA-PKG-MIT-AST-AUDIOSET-0.4593"
       },
       "certificate": null,
+      "generation_stack": null,
       "depends_on": [
         "W64-AQA-CAMPAIGN-WAV2VEC2-EXPANDED-ALIGNMENT"
       ],
@@ -121,6 +127,7 @@
         "bundle_sha256": "13944f6dcedfaf31b2acefb802d932215f734a97953070bd7e27d8d7d2e72d6a",
         "bundle_id": "f385abbb1b4eda4b7ccd84f2b277818b782a167fd48eedb4c6724d60c9464253"
       },
+      "generation_stack": null,
       "depends_on": [],
       "execution_steps": [
         "admit_exact_model_runtime_and_prompt_identity",
@@ -168,6 +175,7 @@
       ],
       "admission": null,
       "certificate": null,
+      "generation_stack": null,
       "depends_on": [
         "W64-AQA-CAMPAIGN-WAV2VEC2-EXPANDED-ALIGNMENT",
         "W64-AQA-CAMPAIGN-MIT-AST-AUDIOSET-EVENTS"
@@ -239,6 +247,7 @@
       ],
       "admission": null,
       "certificate": null,
+      "generation_stack": null,
       "depends_on": [],
       "execution_steps": [
         "admit_exact_model_runtime_and_prompt_identity",
@@ -280,6 +289,7 @@
       ],
       "admission": null,
       "certificate": null,
+      "generation_stack": null,
       "depends_on": [],
       "execution_steps": [
         "admit_exact_model_runtime_and_prompt_identity",
@@ -321,6 +331,7 @@
       ],
       "admission": null,
       "certificate": null,
+      "generation_stack": null,
       "depends_on": [],
       "execution_steps": [
         "admit_exact_model_runtime_and_prompt_identity",
@@ -351,6 +362,18 @@
       "package_evidence": [],
       "admission": null,
       "certificate": null,
+      "generation_stack": {
+        "path": "Plan/10_REGISTRIES/wave64_aqa_generation_stack_registry.json",
+        "sha256": "98fcaa1e019dc5a9bac941e9afad36c041b58b9e4feaaf35d74cb1e2a660607a",
+        "stack_id": "W64-AQA-GEN-FLUX2-KLEIN-4B-FP8",
+        "package_id": "W64-AQA-PROMOTED-FLUX2-KLEIN-4B-FP8",
+        "package_path": "Plan/10_REGISTRIES/wave64_flux2_klein_4b_fp8_promoted_storage_package.json",
+        "package_sha256": "63c65de182027e9d0f2669e4e0e941c36992e451996266cf0037a97457a19d51",
+        "asset_sha256": "97ed34fe0567e436200f2faee3939b88f2b5d99f8af2a4dc16532c4245c0ccb6",
+        "state": "SELECTED_INACTIVE",
+        "exact_storage_identity_bound": true,
+        "executable": false
+      },
       "depends_on": [],
       "execution_steps": [
         "admit_exact_model_runtime_and_prompt_identity",
@@ -365,7 +388,13 @@
       ],
       "readiness": "HELD_PREREQUISITES_INCOMPLETE",
       "blockers": [
-        "EXACT_GENERATION_STACK_NOT_BOUND_TO_ROLE_PACKAGE_INVENTORY"
+        "CURRENT_POD_CAPACITY_NOT_QUALIFIED",
+        "CURRENT_POD_MODEL_LOAD_AND_CLEANUP_NOT_QUALIFIED",
+        "EXACT_TEXT_ENCODER_AND_VAE_DEPENDENCIES_INCOMPLETE",
+        "EXACT_WORKFLOW_HASH_NOT_BOUND",
+        "FRESH_COORDINATOR_ADMISSION_AND_EXACT_EXCLUSIVE_LEASE_REQUIRED",
+        "GENERATION_QUALITY_AND_FAILURE_INJECTION_NOT_QUALIFIED",
+        "PROJECT_LICENSE_ACCEPTANCE_MISSING"
       ],
       "operational": false
     },
@@ -391,6 +420,7 @@
       ],
       "admission": null,
       "certificate": null,
+      "generation_stack": null,
       "depends_on": [],
       "execution_steps": [
         "admit_exact_model_runtime_and_prompt_identity",
@@ -432,6 +462,7 @@
       ],
       "admission": null,
       "certificate": null,
+      "generation_stack": null,
       "depends_on": [],
       "execution_steps": [
         "admit_exact_model_runtime_and_prompt_identity",
@@ -473,6 +504,7 @@
       ],
       "admission": null,
       "certificate": null,
+      "generation_stack": null,
       "depends_on": [],
       "execution_steps": [
         "admit_exact_model_runtime_and_prompt_identity",
@@ -514,6 +546,7 @@
       ],
       "admission": null,
       "certificate": null,
+      "generation_stack": null,
       "depends_on": [],
       "execution_steps": [
         "admit_exact_model_runtime_and_prompt_identity",
@@ -555,6 +588,7 @@
       ],
       "admission": null,
       "certificate": null,
+      "generation_stack": null,
       "depends_on": [],
       "execution_steps": [
         "admit_exact_model_runtime_and_prompt_identity",
@@ -598,6 +632,7 @@
       ],
       "admission": null,
       "certificate": null,
+      "generation_stack": null,
       "depends_on": [],
       "execution_steps": [
         "admit_exact_model_runtime_and_prompt_identity",
@@ -640,7 +675,7 @@
       "retain_immutable_receipts"
     ]
   },
-  "queue_sha256": "979c0802b9d09cc09eef931c64f47202e4bff5b3055041154b8edeb700f5e6c6",
+  "queue_sha256": "5b9601b877f0c4710fd0207f5344db848962e7e6d7750eccb72baaaeb8ef014f",
   "authority": {
     "execution_planning": true,
     "runtime": false,

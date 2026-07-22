@@ -11,12 +11,13 @@
     "inputs": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["execution_matrix", "role_registry", "package_inventory", "campaign_policy"],
+      "required": ["execution_matrix", "role_registry", "package_inventory", "campaign_policy", "generation_stack_registry"],
       "properties": {
         "execution_matrix": {"$ref": "#/$defs/fileBinding"},
         "role_registry": {"$ref": "#/$defs/fileBinding"},
         "package_inventory": {"$ref": "#/$defs/fileBinding"},
-        "campaign_policy": {"$ref": "#/$defs/fileBinding"}
+        "campaign_policy": {"$ref": "#/$defs/fileBinding"},
+        "generation_stack_registry": {"$ref": "#/$defs/fileBinding"}
       }
     },
     "pod_gate": {
@@ -88,7 +89,7 @@
     "campaign": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["sequence", "campaign_id", "kind", "role_id", "component", "execution_lane", "package_ids", "package_evidence", "admission", "certificate", "depends_on", "execution_steps", "readiness", "blockers", "operational"],
+      "required": ["sequence", "campaign_id", "kind", "role_id", "component", "execution_lane", "package_ids", "package_evidence", "admission", "certificate", "generation_stack", "depends_on", "execution_steps", "readiness", "blockers", "operational"],
       "properties": {
         "sequence": {"type": "integer", "minimum": 1, "maximum": 14},
         "campaign_id": {"type": "string", "pattern": "^W64-AQA-CAMPAIGN-[A-Z0-9-]+$"},
@@ -100,6 +101,7 @@
         "package_evidence": {"type": "array", "items": {"$ref": "#/$defs/packageEvidence"}},
         "admission": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/admissionBinding"}]},
         "certificate": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/certificateBinding"}]},
+        "generation_stack": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/generationStackBinding"}]},
         "depends_on": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
         "execution_steps": {"type": "array", "minItems": 1, "items": {"type": "string"}},
         "readiness": {"enum": ["ADMITTED_COORDINATOR_GATE_REQUIRED", "PREPARED_DEPENDENCIES_AND_COORDINATOR_GATE_REQUIRED", "QUALIFIED_DECLARED_LOCAL_SCOPE", "HELD_PREREQUISITES_INCOMPLETE"]},
@@ -140,6 +142,19 @@
         "qualification_disposition": {"const": "QUALIFIED_FOR_DECLARED_SCOPE"},
         "bundle_path": {"type": "string"}, "bundle_sha256": {"$ref": "#/$defs/sha256"},
         "bundle_id": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "generationStackBinding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "sha256", "stack_id", "package_id", "package_path", "package_sha256", "asset_sha256", "state", "exact_storage_identity_bound", "executable"],
+      "properties": {
+        "path": {"type": "string"}, "sha256": {"$ref": "#/$defs/sha256"},
+        "stack_id": {"type": "string"}, "package_id": {"type": "string"},
+        "package_path": {"type": "string"}, "package_sha256": {"$ref": "#/$defs/sha256"},
+        "asset_sha256": {"$ref": "#/$defs/sha256"},
+        "state": {"const": "SELECTED_INACTIVE"},
+        "exact_storage_identity_bound": {"const": true},
+        "executable": {"const": false}
       }
     }
   }

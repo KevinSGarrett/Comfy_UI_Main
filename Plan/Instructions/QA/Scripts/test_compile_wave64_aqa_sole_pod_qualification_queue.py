@@ -58,6 +58,21 @@ def test_deterministic_role_is_qualified_only_by_current_matrix_bound_certificat
     assert campaign["certificate"]["bundle_id"] == "f385abbb1b4eda4b7ccd84f2b277818b782a167fd48eedb4c6724d60c9464253"
 
 
+def test_generation_role_binds_exact_inactive_stack_without_execution_authority() -> None:
+    module = load_module()
+    campaign = next(
+        item for item in module.compile_queue(ROOT)["campaigns"]
+        if item["role_id"] == "W64-AQA-ROLE-GENERATION"
+    )
+    assert campaign["readiness"] == "HELD_PREREQUISITES_INCOMPLETE"
+    assert campaign["generation_stack"]["stack_id"] == "W64-AQA-GEN-FLUX2-KLEIN-4B-FP8"
+    assert campaign["generation_stack"]["exact_storage_identity_bound"] is True
+    assert campaign["generation_stack"]["executable"] is False
+    assert "PROJECT_LICENSE_ACCEPTANCE_MISSING" in campaign["blockers"]
+    assert "EXACT_TEXT_ENCODER_AND_VAE_DEPENDENCIES_INCOMPLETE" in campaign["blockers"]
+    assert "EXACT_GENERATION_STACK_NOT_BOUND_TO_ROLE_PACKAGE_INVENTORY" not in campaign["blockers"]
+
+
 def test_local_digest_and_upstream_name_do_not_grant_exact_role_readiness() -> None:
     module = load_module()
     campaigns = module.compile_queue(ROOT)["campaigns"]
@@ -89,7 +104,7 @@ def test_provisional_juror_and_external_mask_release_fail_closed() -> None:
 def test_matrix_role_drift_and_admission_status_drift_are_rejected(tmp_path: Path) -> None:
     module = load_module()
     copied = tmp_path / "repo"
-    for relative in (module.MATRIX_PATH, module.ROLE_REGISTRY_PATH, module.INVENTORY_PATH, module.POLICY_PATH, module.SCHEMA_PATH):
+    for relative in (module.MATRIX_PATH, module.ROLE_REGISTRY_PATH, module.INVENTORY_PATH, module.POLICY_PATH, module.GENERATION_STACK_PATH, module.GENERATION_STACK_SCHEMA_PATH, module.SCHEMA_PATH):
         target = copied / relative
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_bytes((ROOT / relative).read_bytes())
@@ -109,6 +124,35 @@ def test_matrix_role_drift_and_admission_status_drift_are_rejected(tmp_path: Pat
     admission["status"] = "DRIFTED"
     (copied / first_admission).write_text(json.dumps(admission), encoding="utf-8")
     with pytest.raises(module.QueueError, match="admission status drift"):
+        module.compile_queue(copied)
+
+
+@pytest.mark.parametrize("package_index", [0, 1])
+def test_generation_stack_package_hash_drift_is_rejected(tmp_path: Path, package_index: int) -> None:
+    module = load_module()
+    copied = tmp_path / "repo"
+    relatives = (module.MATRIX_PATH, module.ROLE_REGISTRY_PATH, module.INVENTORY_PATH, module.POLICY_PATH, module.GENERATION_STACK_PATH, module.GENERATION_STACK_SCHEMA_PATH, module.SCHEMA_PATH)
+    registry = json.loads((ROOT / module.GENERATION_STACK_PATH).read_text(encoding="utf-8"))
+    policy = json.loads((ROOT / module.POLICY_PATH).read_text(encoding="utf-8"))
+    package_paths = [Path(stack["package_binding"]["path"]) for stack in registry["stacks"]]
+    admission_paths = [Path(item["admission_path"]) for item in policy["pre_role_campaigns"]]
+    certificate_paths = [
+        Path(binding[key])
+        for binding in policy["role_bindings"]
+        for key in ("certificate_path", "bundle_path")
+        if binding.get(key)
+    ]
+    executor_paths = []
+    for bundle_path in [path for path in certificate_paths if path.name == "execution_bundle.json"]:
+        bundle = json.loads((ROOT / bundle_path).read_text(encoding="utf-8"))
+        executor_paths.append(Path(bundle["inputs"]["executor"]["path"]))
+    for relative in (*relatives, *package_paths, *admission_paths, *certificate_paths, *executor_paths):
+        target = copied / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes((ROOT / relative).read_bytes())
+    drifted_package = copied / package_paths[package_index]
+    drifted_package.write_bytes(drifted_package.read_bytes() + b"\n")
+    with pytest.raises(module.QueueError, match="package hash drift"):
         module.compile_queue(copied)
 
 

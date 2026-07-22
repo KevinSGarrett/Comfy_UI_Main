@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_generation_stack_registry.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "program_id", "role_id", "status", "pod_id", "selected_stack_id", "stacks", "authority"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.generation_stack_registry.v1"},
+    "program_id": {"const": "W64-AQA"},
+    "role_id": {"const": "W64-AQA-ROLE-GENERATION"},
+    "status": {"const": "EXACT_STORAGE_BOUND_INACTIVE_EXECUTION_STACK_INCOMPLETE"},
+    "pod_id": {"const": "1q4ji0gg1fkhvt"},
+    "selected_stack_id": {"type": "string", "minLength": 1},
+    "stacks": {
+      "type": "array", "minItems": 4, "maxItems": 4,
+      "items": {"$ref": "#/$defs/stack"}
+    },
+    "authority": {
+      "type": "object", "additionalProperties": false,
+      "required": ["storage_identity", "candidate_selection", "license_acceptance", "dependency_bundle", "workflow", "runtime", "capacity", "quality", "activation", "promotion"],
+      "properties": {
+        "storage_identity": {"const": true},
+        "candidate_selection": {"const": true},
+        "license_acceptance": {"const": false},
+        "dependency_bundle": {"const": false},
+        "workflow": {"const": false},
+        "runtime": {"const": false},
+        "capacity": {"const": false},
+        "quality": {"const": false},
+        "activation": {"const": false},
+        "promotion": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "fileBinding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha256"}}
+    },
+    "stack": {
+      "type": "object", "additionalProperties": false,
+      "required": ["stack_id", "priority", "selection_state", "package_binding", "asset", "execution", "blockers"],
+      "properties": {
+        "stack_id": {"type": "string", "minLength": 1},
+        "priority": {"type": "integer", "minimum": 1, "maximum": 4},
+        "selection_state": {"enum": ["SELECTED_INACTIVE", "RETAINED_INACTIVE_CANDIDATE"]},
+        "package_binding": {"$ref": "#/$defs/fileBinding"},
+        "asset": {
+          "type": "object", "additionalProperties": false,
+          "required": ["package_id", "repository", "revision", "license_metadata", "root", "path", "bytes", "sha256"],
+          "properties": {
+            "package_id": {"type": "string", "minLength": 1},
+            "repository": {"type": "string", "minLength": 1},
+            "revision": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+            "license_metadata": {"type": ["string", "null"]},
+            "root": {"type": "string", "pattern": "^/workspace/"},
+            "path": {"type": "string", "minLength": 1},
+            "bytes": {"type": "integer", "minimum": 1},
+            "sha256": {"$ref": "#/$defs/sha256"}
+          }
+        },
+        "execution": {
+          "type": "object", "additionalProperties": false,
+          "required": ["inactive", "exact_storage_identity_bound", "license_accepted", "dependencies_complete", "workflow_bound", "runtime_qualified", "capacity_qualified", "quality_qualified", "executable"],
+          "properties": {
+            "inactive": {"const": true},
+            "exact_storage_identity_bound": {"const": true},
+            "license_accepted": {"const": false},
+            "dependencies_complete": {"const": false},
+            "workflow_bound": {"const": false},
+            "runtime_qualified": {"const": false},
+            "capacity_qualified": {"const": false},
+            "quality_qualified": {"const": false},
+            "executable": {"const": false}
+          }
+        },
+        "blockers": {"type": "array", "minItems": 6, "items": {"type": "string", "minLength": 1}, "uniqueItems": true}
+      }
+    }
+  }
+}

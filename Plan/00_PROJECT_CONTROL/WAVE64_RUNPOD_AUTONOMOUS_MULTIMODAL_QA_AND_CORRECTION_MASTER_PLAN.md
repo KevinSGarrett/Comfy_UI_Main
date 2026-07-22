@@ -1400,3 +1400,23 @@ was 0.177 seconds. The certificate grants only declared local deterministic
 image-gate and policy-refusal scope. It grants no visual or audio semantics,
 GPU runtime, juror, golden-mask, activation, or promotion authority. Replay
 validation reads retained evidence and does not execute held-out cases again.
+
+## Inactive generation-stack binding
+
+The generation role now has a fail-closed, exact storage-bound candidate
+registry. Four already promoted and independently hash-verified model assets
+are ordered without activating any of them: Flux.2 Klein 4B FP8, SDXL Base
+1.0, Flux.1 Schnell FP8, and Z-Image Turbo BF16. Flux.2 Klein is the selected
+first candidate because its 4,070,624,520-byte artifact is the smallest exact
+promoted option and binds an immutable provider revision, model SHA-256, and
+Apache-2.0 metadata. Selection is planning authority only.
+
+The selected record is explicitly not an executable stack. Project license
+acceptance, exact text-encoder and VAE dependencies, workflow hash, fresh
+coordinator admission and lease, current-pod load and cleanup, capacity,
+generation quality, and failure injection remain open gates. The other three
+assets remain inactive candidates; Z-Image additionally lacks exact-artifact
+license metadata. The queue binds the registry and selected promoted package
+by SHA-256 but keeps the generation campaign `HELD_PREREQUISITES_INCOMPLETE`.
+No ComfyUI restart, model load, workflow activation, GPU poll, runtime claim,
+quality claim, or product promotion occurred.

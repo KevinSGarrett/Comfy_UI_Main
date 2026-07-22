@@ -1,0 +1,66 @@
+{
+  "schema_version": "wave64.aqa.generation_stack_binding_acceptance.v1",
+  "program_id": "W64-AQA",
+  "tracker_ids": ["W64-AQA-014", "W64-AQA-018"],
+  "evaluated_at_utc": "2026-07-22T16:56:18Z",
+  "disposition": "PARTIALLY_ADOPTED",
+  "scope": "Exact promoted generation-asset identity, inactive candidate ordering, and queue binding only",
+  "repository_base_commit": "a3db97b51bc0b97d8de7395c67a3fbbb96de5431",
+  "selected_stack": {
+    "stack_id": "W64-AQA-GEN-FLUX2-KLEIN-4B-FP8",
+    "package_id": "W64-AQA-PROMOTED-FLUX2-KLEIN-4B-FP8",
+    "reason": "smallest exact promoted generation candidate with immutable provider revision, artifact SHA-256, and Apache-2.0 metadata",
+    "artifact_bytes": 4070624520,
+    "artifact_sha256": "97ed34fe0567e436200f2faee3939b88f2b5d99f8af2a4dc16532c4245c0ccb6",
+    "inactive": true,
+    "executable": false
+  },
+  "candidate_coverage": {
+    "candidate_count": 4,
+    "exact_promoted_package_bindings": 4,
+    "selected_inactive_count": 1,
+    "retained_inactive_candidate_count": 3,
+    "runtime_qualified_count": 0,
+    "quality_qualified_count": 0
+  },
+  "queue": {
+    "queue_sha256": "5b9601b877f0c4710fd0207f5344db848962e7e6d7750eccb72baaaeb8ef014f",
+    "file_sha256": "d92a44165f64dd7dc07b42a56eb961c9d1ddda65b77041850c401dfdfe539c5a",
+    "generation_readiness": "HELD_PREREQUISITES_INCOMPLETE",
+    "prepared_or_qualified_campaign_count": 4,
+    "held_campaign_count": 10
+  },
+  "bindings": [
+    {"path": "Plan/10_REGISTRIES/wave64_aqa_generation_stack_registry.json", "sha256": "98fcaa1e019dc5a9bac941e9afad36c041b58b9e4feaaf35d74cb1e2a660607a"},
+    {"path": "Plan/08_SCHEMAS/runpod_autonomous_generation_stack_registry.schema.json", "sha256": "e6b9429cdd01233a7d585579b5995f41b9f1c55ba0cd5e6c717e55d2306fe22d"},
+    {"path": "Plan/07_IMPLEMENTATION/scripts/validate_wave64_aqa_generation_stack_registry.py", "sha256": "3920434d67c9ec7d0fa8f86d6cb31d46cb09964fa072428992674994d7d34556"},
+    {"path": "Plan/Instructions/QA/Scripts/test_validate_wave64_aqa_generation_stack_registry.py", "sha256": "b21b24d181195c4ca9652494b7fd99a95cd28caa71f78425a0acd18fe5a29b93"},
+    {"path": "Plan/10_REGISTRIES/wave64_aqa_sole_pod_qualification_campaign_policy.json", "sha256": "e164e2819ffb2ea0389c25050281a388773d50190f5ebadbe43f686a63f80041"},
+    {"path": "Plan/07_IMPLEMENTATION/scripts/compile_wave64_aqa_sole_pod_qualification_queue.py", "sha256": "41d66ea539b24df9cceddee56c515dfe228b16fc6c8878f567497c4d6e99451b"},
+    {"path": "Plan/08_SCHEMAS/runpod_autonomous_qualification_campaign_queue.schema.json", "sha256": "98f07ac20b23bea20cb590f9f4e6c1990b9eec76012b29420e50e17eb42c2cf2"},
+    {"path": "Plan/Instructions/QA/Scripts/test_compile_wave64_aqa_sole_pod_qualification_queue.py", "sha256": "1de739fc1f1b9fd223d041bd092c997c96b69ff221662cb567936188af819e95"}
+  ],
+  "validation": {
+    "registry_replay": "PASS",
+    "queue_compile_and_replay": "PASS",
+    "focused_pytest": {"status": "PASS", "passed": 14},
+    "ruff": "PASS",
+    "pod_contacted": false,
+    "workflow_activated": false,
+    "model_loaded": false
+  },
+  "authority_granted": [
+    "exact promoted storage identity for four generation candidates",
+    "inactive candidate ordering with Flux.2 Klein 4B FP8 selected first",
+    "qualification queue binding to the selected inactive candidate"
+  ],
+  "authority_not_granted": [
+    "project license acceptance",
+    "complete text encoder VAE or dependency bundle",
+    "workflow binding or activation",
+    "coordinator admission or lease",
+    "model load cleanup capacity runtime quality or failure-injection qualification",
+    "product promotion"
+  ],
+  "next_action": "While the coordinator remains recovery-held, resolve the selected Flux.2 project-license decision and bind its exact text-encoder, VAE, ComfyUI-node, and workflow dependencies without loading the model."
+}
