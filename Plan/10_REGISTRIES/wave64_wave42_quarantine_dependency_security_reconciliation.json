@@ -1,0 +1,25 @@
+{
+  "schema_version": "wave64.aqa.quarantine_dependency_security_reconciliation.v1",
+  "program_id": "W64-AQA",
+  "tracker_ids": ["W64-AQA-018"],
+  "evaluated_at_utc": "2026-07-22T11:33:58Z",
+  "status": "FAIL_CLOSED_UNPINNED_DEPENDENCIES_INSTALL_SIDE_EFFECTS_UNSAFE_LOADERS_AND_NONCOMMERCIAL_CODE_NOTICE",
+  "repositories": [
+    {"name": "ComfyUI-Impact-Pack", "pin": "429d0159ad429e64d2b3916e6e7be9c22d025c3c", "clean": true, "manifest_dependency_count": 10, "findings": ["all requirements are unpinned", "sam2 resolves from mutable git HEAD", "installer downloads SAM when absent and mutates model/config directories", "additional dependency code can invoke runtime pip install"]},
+    {"name": "ComfyUI-Impact-Subpack", "pin": "50c7b71a6a224734cc9b21963c6d1926816a97f1", "clean": true, "manifest_dependency_count": 5, "findings": ["ultralytics lower bound is not an exact lock", "installer downloads three models from mutable main URLs", "safe-first torch loader can retry weights_only false for a base-filename-only whitelist", "hash-bound whitelist and immutable model URL enforcement are absent"]},
+    {"name": "ComfyUI_IPAdapter_plus", "pin": "a0f451a5113cf9becb0847b92884cb10cbdec0ef", "clean": true, "manifest_dependency_count": 0, "findings": ["runtime dependencies are inherited rather than declared", "model files use Comfy safe_load", "IPAdapterLoadEmbeds performs raw torch.load on user-selected ipadpt input"]},
+    {"name": "comfyui-controlnet-aux", "pin": "83463c2e4b04e729268e57f638b4212e0da4badc", "clean": true, "manifest_dependency_count": 25, "findings": ["requirements are mostly unpinned", "many model paths use raw torch.load", "model downloads resolve mutable repository state by default", "executed DWPose module contains an explicit CMU non-commercial-use notice"]},
+    {"name": "rgthree-comfy", "pin": "27b4f4cdcf3b127c29d5d8135ac1536ecbd4c383", "clean": true, "manifest_dependency_count": 0, "findings": ["no Python runtime requirements", "frontend build dependencies use semver ranges but built assets are retained in the pin"]}
+  ],
+  "selected_dwpreprocessor": {
+    "source_workflow_nodes": [978, 1019],
+    "runtime_bound_workflow_nodes": [978],
+    "widgets": ["enable", "enable", "disable", 1024, "yolox_l.onnx", "dw-ll_ucoco_384_bs5.torchscript.pt", "disable"],
+    "bbox_model": {"repository": "yzd-v/DWPose", "revision": "1a7144101628d69ee7a3768d1ee3a094070dc388", "file": "yolox_l.onnx", "bytes": 216746733, "sha256": "7860ae79de6c89a3c1eb72ae9a2756c0ccfbe04b7791bb5880afabd97855a411", "license": "apache-2.0"},
+    "pose_model": {"repository": "hr16/DWPose-TorchScript-BatchSize5", "revision": "359d662a9b33b73f6d0f21732baf8845f17bb4be", "file": "dw-ll_ucoco_384_bs5.torchscript.pt", "bytes": 135059124, "sha256": "d86a0b2b59fddc0901a7076e9f59c9f8602602133ed72511c693fd11eea23d91", "license": "apache-2.0"},
+    "implementation_notice": "src/custom_controlnet_aux/dwpose/__init__.py states that this preprocessor is licensed by CMU for non-commercial use only",
+    "commercial_activation": "BLOCKED_REPLACE_IMPLEMENTATION_OR_OBTAIN_ACCEPTED_LICENSE_AUTHORITY"
+  },
+  "required_sandbox_policy": ["resolve every dependency to an immutable artifact hash in an isolated environment", "disable install.py model downloads and all runtime pip installation", "allow network only for exact reviewed immutable URLs during environment construction", "never authorize unsafe checkpoint fallback by filename alone", "bind any exceptional checkpoint loader to exact path plus SHA-256 and execute first in a disposable no-secret no-network sandbox", "replace or separately clear the non-commercial DWPose implementation before commercial activation"],
+  "authority": {"used_repository_pins_clean": true, "dependency_manifests_inventoried": true, "selected_dwpreprocessor_assets_identified": true, "dependency_lock_reproducible": false, "installer_side_effects_disabled": false, "hash_bound_unsafe_loader_policy": false, "commercial_dwpreprocessor_authority": false, "dependency_install": false, "custom_node_import": false, "object_info_compatibility": false, "workflow_execution": false, "activation": false, "promotion": false}
+}

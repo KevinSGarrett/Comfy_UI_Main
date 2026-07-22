@@ -1151,3 +1151,17 @@ must be rechecked before activation or distribution. The `adult_male` Double
 Kiss workflow path is accepted as a governed alias of the byte-identical legacy
 `body_male` catalog artifact. None of these static findings grants runtime or
 quality authority.
+
+Static dependency and loader review now covers all five workflow-used pinned
+repositories. Their checkouts remain clean, but the dependency manifests are
+not reproducible locks: Impact Pack includes mutable git-HEAD SAM2; Impact
+Subpack uses a ranged Ultralytics dependency and mutable model downloads;
+controlnet-aux has 25 mostly unpinned requirements; installers can mutate model
+and config paths. The Subpack unsafe fallback is filename-whitelisted rather
+than hash-bound, and other used repositories expose raw checkpoint loaders.
+No installer or import was run. The selected DWPose widgets resolve an
+Apache-2.0 ONNX detector and Apache-2.0 TorchScript pose model at exact provider
+revisions, but the pinned executed DWPose implementation explicitly states CMU
+non-commercial use only. Commercial activation therefore requires a reviewed
+replacement implementation or accepted license authority, plus immutable
+dependency locks and a disposable no-secret/no-network checkpoint sandbox.
