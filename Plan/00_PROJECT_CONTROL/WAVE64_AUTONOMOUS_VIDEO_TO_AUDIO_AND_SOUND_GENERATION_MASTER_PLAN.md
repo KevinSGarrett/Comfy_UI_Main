@@ -347,6 +347,17 @@ Implement the transaction coordinator from video/scene inputs through perception
 
 Acceptance: runs are idempotent, content-addressed, restartable, cost-bounded, and cannot skip a required gate.
 
+Current bounded implementation: a ten-stage content-addressed state machine
+now enforces mandatory predecessor order, immutable passed outputs,
+same-output idempotent replay, different-output rejection, append-only
+hash-chained events, crash/resume without passed-stage reruns, per-stage and
+global retry budgets, cost admission, and publication denial. Deterministic
+fixtures pass out-of-order, replay, tamper, retry-exhaustion, cost-overrun,
+crash/resume, and complete synthetic-DAG scenarios. The live DAG remains fully
+pending because Rows083, 092, 097, and 104 are held. No stage adapter,
+ComfyUI/GPU runtime, media, selector, or publication target was mutated, so
+runtime and product completion remain false.
+
 ### Row106 Automated event, mix, and AV QA matrix
 
 Measure event coverage, false events, contact/transient offset, endpoint drift, semantic/material match, repetition, room consistency, clipping, loudness, dialogue masking, and full-duration defects.

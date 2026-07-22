@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "wave64_row105_audio_orchestrator_policy_registry",
+  "revision": "wave64_row105_audio_orchestrator_policy_v0.1.0",
+  "tracker_id": "TRK-W64-105",
+  "authority": "planning_freeze_not_runtime_or_publication_acceptance",
+  "dependency_prerequisites": ["TRK-W64-083", "TRK-W64-092", "TRK-W64-097", "TRK-W64-104"],
+  "global_max_attempts": 16,
+  "per_stage_max_attempts": 2,
+  "maximum_fixture_cost_usd": 1.0,
+  "mandatory_stages": [
+    {"stage_id": "normalize_inputs", "predecessors": []},
+    {"stage_id": "audio_intelligence", "predecessors": ["normalize_inputs"]},
+    {"stage_id": "visual_event_intelligence", "predecessors": ["normalize_inputs"]},
+    {"stage_id": "candidate_selection_or_generation", "predecessors": ["audio_intelligence", "visual_event_intelligence"]},
+    {"stage_id": "clip_preparation", "predecessors": ["candidate_selection_or_generation"]},
+    {"stage_id": "spatial_render", "predecessors": ["clip_preparation"]},
+    {"stage_id": "sample_accurate_mix_mux", "predecessors": ["spatial_render"]},
+    {"stage_id": "global_audio_av_qa", "predecessors": ["sample_accurate_mix_mux"]},
+    {"stage_id": "generated_asset_promotion", "predecessors": ["global_audio_av_qa"]},
+    {"stage_id": "publication", "predecessors": ["generated_asset_promotion"]}
+  ],
+  "invariants": {
+    "content_addressed_run_and_stage_keys": true,
+    "immutable_passed_stage_outputs": true,
+    "predecessor_pass_required": true,
+    "idempotent_same_output_replay": true,
+    "different_output_replay_rejected": true,
+    "resume_never_reruns_passed_stage": true,
+    "bounded_global_and_stage_retries": true,
+    "publication_requires_all_stages": true,
+    "synthetic_run_cannot_publish": true,
+    "dependency_hold_blocks_execution": true,
+    "append_only_hash_chained_event_log": true
+  }
+}

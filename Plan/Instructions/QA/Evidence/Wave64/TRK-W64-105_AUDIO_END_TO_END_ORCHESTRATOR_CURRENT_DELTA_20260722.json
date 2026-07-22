@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0.0",
+  "evidence_id": "W64-ROW105-AUDIO-END-TO-END-ORCHESTRATOR-CURRENT-DELTA-20260722",
+  "timestamp_utc": "2026-07-22T13:29:32Z",
+  "tracker_id": "TRK-W64-105",
+  "item_id": "ITEM-W64-105",
+  "classification": "ROW105_FAIL_CLOSED_CONTENT_ADDRESSED_ORCHESTRATOR_SLICE_NO_FALSE_COMPLETION",
+  "status": "HOLD_DEPENDENCIES_AND_AUDIO_ORCHESTRATOR_RUNTIME_ABSENT_WITH_FAIL_CLOSED_STATE_MACHINE_PRESENT",
+  "row_complete": false,
+  "runtime_completion_claimed": false,
+  "publication_authority": false,
+  "implemented_scope": [
+    "content-addressed run and stage idempotency keys",
+    "ten-stage mandatory DAG with immutable predecessor-only consumption",
+    "append-only hash-chained transition events",
+    "same-output replay idempotency and different-output rejection",
+    "crash serialization and resume without rerunning passed stages",
+    "per-stage and global retry budgets",
+    "cost-budget admission",
+    "dependency and stage-order fail-closed gates",
+    "synthetic full-DAG publication denial"
+  ],
+  "artifact_hashes": [
+    {"path": "Plan/07_IMPLEMENTATION/scripts/orchestrate_wave64_audio_end_to_end.py", "bytes": 16660, "sha256": "23e4fea8573e4e69de2747ff4ea7d6b58eed0b42c7756c1e64a4089a58ff65a4"},
+    {"path": "Plan/08_SCHEMAS/audio_orchestration_state.schema.json", "bytes": 5130, "sha256": "112726838dd5a2d6fa83a40e799a41c8f1d3b4cb6e2020aa0cb72e10b51a0086"},
+    {"path": "Plan/10_REGISTRIES/wave64_row105_audio_orchestrator_policy_registry.json", "bytes": 1845, "sha256": "5d82278800ecb333548f3102dc7a7b71881f4ae9780fde4bfccf535d061cc8ec"},
+    {"path": "Plan/Instructions/QA/Scripts/test_row105_audio_end_to_end_orchestrator.py", "bytes": 4554, "sha256": "3cba29e6b95a7b11626e82456013ffad36773474baff1b1732c5562deeb42966"},
+    {"path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-105_audio_end_to_end_orchestrator.json", "bytes": 27361, "sha256": "341d5690bdbeb0785c91fbadd1b915cf7d29095b642f992fe0c622d9ad3e5299"}
+  ],
+  "validators": [
+    {"command": "pytest -q Plan/Instructions/QA/Scripts/test_row104_generated_asset_promotion.py Plan/Instructions/QA/Scripts/test_row105_audio_end_to_end_orchestrator.py", "result": "PASS_20", "stdout_sha256": "45d5719c610e7b17549225aa955d96271a10541aa246db7825984bcff935d3ee"},
+    {"command": "ruff check Plan/07_IMPLEMENTATION/scripts/orchestrate_wave64_audio_end_to_end.py Plan/Instructions/QA/Scripts/test_row105_audio_end_to_end_orchestrator.py", "result": "PASS"},
+    {"command": "python -m json.tool schema registry evidence", "result": "PASS"}
+  ],
+  "dependency_state": {
+    "TRK-W64-083": "held",
+    "TRK-W64-092": "held",
+    "TRK-W64-097": "held",
+    "TRK-W64-104": "held"
+  },
+  "truth_boundaries": [
+    "The live-mode DAG remains pending and blocked; no stage adapter or runtime was invoked.",
+    "The crash/resume and full-DAG proofs use deterministic synthetic hashes only.",
+    "No ComfyUI queue, GPU, generated asset, library selector, mix, mux, publication target, cloud service, or coordinator lease was mutated.",
+    "Runtime, media quality, publication, and product authority remain false."
+  ],
+  "decision": {
+    "status": "blocked",
+    "row105_acceptance": "held",
+    "product_completion": false,
+    "safe_next_action": "Accept Rows083, 092, 097, and 104; bind exact retained stage adapters and media hashes; then execute owned crash/resume, retry, cost, no-skip, publication, and failure-injection campaigns."
+  }
+}

@@ -75,6 +75,20 @@ Revocation creates a new immutable decision receipt, removes selector
 eligibility, and preserves both the asset and prior evidence. Rewriting or
 deleting prior evidence is forbidden.
 
+## End-to-end orchestration and recovery
+
+The audio run coordinator executes a content-addressed mandatory-stage DAG.
+Every stage key binds the request, immutable predecessor outputs, and exact
+implementation revision. A passed output is immutable: replay with the same
+output is idempotent and replay with a different output fails closed. No stage
+may run before every predecessor is pass-like.
+
+Transition events are append-only and hash chained. Resume validates the run
+receipt and event chain, preserves passed branches, and readies only stages
+whose predecessors passed. Per-stage retries, global retries, and cost are
+independently bounded. Publication requires every mandatory stage and all
+dependency authorities; synthetic runs never publish.
+
 ## Benchmark requirements
 
 Benchmarks must include:

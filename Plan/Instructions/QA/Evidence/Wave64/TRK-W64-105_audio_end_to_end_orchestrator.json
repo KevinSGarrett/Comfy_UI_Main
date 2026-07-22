@@ -1,0 +1,700 @@
+{
+  "decision": {
+    "product_completion": false,
+    "row105_acceptance": "held",
+    "safe_next_action": "Accept Rows083, 092, 097, and 104; bind exact stage adapters and retained inputs; then execute crash/resume, retry-budget, cost-budget, no-skip, publication, and failure-injection campaigns under owned runtime authority.",
+    "status": "blocked"
+  },
+  "dependency_admissions": {
+    "TRK-W64-083": {
+      "blocker_codes": [
+        "TRK_W64_083_NOT_ACCEPTED"
+      ],
+      "dependency_satisfied": false,
+      "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-083_RETRIEVAL_FALLBACK_CALIBRATION_CURRENT_DELTA_20260719.json",
+      "evidence_sha256": "aa01f744028a788ea3a3b125a9af529f24e3b0080120dcf2e397be6516fa825f",
+      "row_complete": false,
+      "tracker_id": "TRK-W64-083"
+    },
+    "TRK-W64-092": {
+      "blocker_codes": [
+        "TRK_W64_092_NOT_ACCEPTED"
+      ],
+      "dependency_satisfied": false,
+      "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-092_EVENT_UNCERTAINTY_FALLBACK_CURRENT_DELTA_20260719.json",
+      "evidence_sha256": "0c7c086ba22c4705f2c47bbe8a307ac8cdcecb33aa0df781e5f884ee5e1f1ea9",
+      "row_complete": false,
+      "tracker_id": "TRK-W64-092"
+    },
+    "TRK-W64-097": {
+      "blocker_codes": [
+        "TRK_W64_097_NOT_ACCEPTED"
+      ],
+      "dependency_satisfied": false,
+      "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-097_SAMPLE_ACCURATE_MIX_MUX_CURRENT_DELTA_20260719.json",
+      "evidence_sha256": "87ce0fdc3e40f0d185e1afb1d140167f71a9d3fde02183b0b218ac5c1a86a3ed",
+      "row_complete": false,
+      "tracker_id": "TRK-W64-097"
+    },
+    "TRK-W64-104": {
+      "blocker_codes": [
+        "TRK_W64_104_NOT_ACCEPTED"
+      ],
+      "dependency_satisfied": false,
+      "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-104_GENERATED_ASSET_PROMOTION_CURRENT_DELTA_20260722.json",
+      "evidence_sha256": "aeef5cf553c9c9db5f71111399bed562b560191b3d9007dbe1316b1f154e379d",
+      "row_complete": false,
+      "tracker_id": "TRK-W64-104"
+    }
+  },
+  "evidence_id": "TRK-W64-105_audio_end_to_end_orchestrator",
+  "fixture_proof": {
+    "idempotent_replay_identical": true,
+    "initial_after_stage": {
+      "cost_budget": {
+        "committed_usd": 0.01,
+        "currency": "USD",
+        "maximum_usd": 1.0
+      },
+      "dag_sha256": "ff7aef7fca42a889f046bc37cd52115aa1ab391657614e660180911f43f10ce8",
+      "decision": {
+        "blocker_codes": [],
+        "publication_allowed": false,
+        "row105_acceptance": "held",
+        "runtime_completion": false,
+        "status": "running"
+      },
+      "dependency_admissions": {
+        "TRK-W64-083": {
+          "blocker_codes": [],
+          "dependency_satisfied": true,
+          "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-083_RETRIEVAL_FALLBACK_CALIBRATION_CURRENT_DELTA_20260719.json",
+          "evidence_sha256": "1e0eecd82e1bab4467b564ab49602a579aa1ebf05ada0ea8b8cb31239a0b452c",
+          "row_complete": true,
+          "tracker_id": "TRK-W64-083"
+        },
+        "TRK-W64-092": {
+          "blocker_codes": [],
+          "dependency_satisfied": true,
+          "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-092_EVENT_UNCERTAINTY_FALLBACK_CURRENT_DELTA_20260719.json",
+          "evidence_sha256": "ba623efee9bd718ccbce31b9fe6ce77a5e6ce424cd45c3de6d12eefe394437ab",
+          "row_complete": true,
+          "tracker_id": "TRK-W64-092"
+        },
+        "TRK-W64-097": {
+          "blocker_codes": [],
+          "dependency_satisfied": true,
+          "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-097_SAMPLE_ACCURATE_MIX_MUX_CURRENT_DELTA_20260719.json",
+          "evidence_sha256": "f94f508ef1fe6b6eee2a7903f0a9f0caa4da2c0cb3892bd6e7e5ee5a4e1ac21b",
+          "row_complete": true,
+          "tracker_id": "TRK-W64-097"
+        },
+        "TRK-W64-104": {
+          "blocker_codes": [],
+          "dependency_satisfied": true,
+          "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-104_GENERATED_ASSET_PROMOTION_CURRENT_DELTA_20260722.json",
+          "evidence_sha256": "b26f03ef3beb183f4de17ceb1477fc81084589268ef945258639563a1236b1d9",
+          "row_complete": true,
+          "tracker_id": "TRK-W64-104"
+        }
+      },
+      "event_log": [
+        {
+          "event_sha256": "a7df6e632e3d579858c84798aaad289580cbbb2d352955b1f1ee4bbd3b3b1f1d",
+          "event_type": "stage_passed",
+          "payload_sha256": "94a5e52de125840b2034b1bb4dbf3fdd9904a91e39a5cbe098eb5a8eb5500277",
+          "previous_event_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+          "sequence": 1,
+          "stage_id": "normalize_inputs"
+        }
+      ],
+      "is_synthetic": true,
+      "item_id": "ITEM-W64-105",
+      "orchestrator_revision": "wave64_row105_audio_orchestrator_v0.1.0",
+      "policy_revision": "wave64_row105_audio_orchestrator_policy_v0.1.0",
+      "policy_sha256": "5d82278800ecb333548f3102dc7a7b71881f4ae9780fde4bfccf535d061cc8ec",
+      "receipt_sha256": "7299b7d011079a3fc78550ff5c3e6c3504bbc4364671fa44024373f4c202f0bb",
+      "record_type": "audio_orchestration_state",
+      "request_sha256": "5647a2e162dbd39520c385e1156275cab51bae2ca737494b143c69c1b74f3d3e",
+      "retry_budget": {
+        "global_max_attempts": 16,
+        "global_used_attempts": 1,
+        "per_stage_max_attempts": 2
+      },
+      "run_id": "audio-run-93150db55a397789adb87746",
+      "schema_version": "1.0.0",
+      "stages": [
+        {
+          "attempts": 1,
+          "blocker_codes": [],
+          "idempotency_key": "824a61c0fb30ed2d99946c2096f0df5e7e99472d420bbe90bb64261b1c8c1682",
+          "implementation_revision": "normalize_inputs_v1",
+          "input_hashes": [
+            "5647a2e162dbd39520c385e1156275cab51bae2ca737494b143c69c1b74f3d3e"
+          ],
+          "output_sha256": "d32a3b148e159dfaa4704cd819f3cfcc6bc1c351f3ae6c3769c2d1499c3ef5ab",
+          "predecessors": [],
+          "stage_id": "normalize_inputs",
+          "state": "pass"
+        },
+        {
+          "attempts": 0,
+          "blocker_codes": [],
+          "idempotency_key": "902d6aba1f241d1dbcf95449013a652e3f2aec8a48cc6d7caf9cc4bd2aa285a3",
+          "implementation_revision": "audio_intelligence_v1",
+          "input_hashes": [
+            "5647a2e162dbd39520c385e1156275cab51bae2ca737494b143c69c1b74f3d3e",
+            "d32a3b148e159dfaa4704cd819f3cfcc6bc1c351f3ae6c3769c2d1499c3ef5ab"
+          ],
+          "output_sha256": null,
+          "predecessors": [
+            "normalize_inputs"
+          ],
+          "stage_id": "audio_intelligence",
+          "state": "ready"
+        },
+        {
+          "attempts": 0,
+          "blocker_codes": [],
+          "idempotency_key": "0f4783d5d95f74159b0eabac8688e9b5cf9bdf0a86bfdb91cff6e5d81d43a02c",
+          "implementation_revision": "visual_event_intelligence_v1",
+          "input_hashes": [
+            "5647a2e162dbd39520c385e1156275cab51bae2ca737494b143c69c1b74f3d3e",
+            "d32a3b148e159dfaa4704cd819f3cfcc6bc1c351f3ae6c3769c2d1499c3ef5ab"
+          ],
+          "output_sha256": null,
+          "predecessors": [
+            "normalize_inputs"
+          ],
+          "stage_id": "visual_event_intelligence",
+          "state": "ready"
+        },
+        {
+          "attempts": 0,
+          "blocker_codes": [],
+          "idempotency_key": "bd4fdbc133a73e2daf004c7df3930723f01e339503675cbcbbc9fff7198df308",
+          "implementation_revision": "candidate_selection_or_generation_v1",
+          "input_hashes": [],
+          "output_sha256": null,
+          "predecessors": [
+            "audio_intelligence",
+            "visual_event_intelligence"
+          ],
+          "stage_id": "candidate_selection_or_generation",
+          "state": "pending"
+        },
+        {
+          "attempts": 0,
+          "blocker_codes": [],
+          "idempotency_key": "0a0c8fb76abc73aec000c62b1b921d7a661fa84391a5fdbcb1138c0c3c533861",
+          "implementation_revision": "clip_preparation_v1",
+          "input_hashes": [],
+          "output_sha256": null,
+          "predecessors": [
+            "candidate_selection_or_generation"
+          ],
+          "stage_id": "clip_preparation",
+          "state": "pending"
+        },
+        {
+          "attempts": 0,
+          "blocker_codes": [],
+          "idempotency_key": "ecbc08bbea81ddcb076b75335b69413a9b89017723a3b7f72dd9cafa2c2f575f",
+          "implementation_revision": "spatial_render_v1",
+          "input_hashes": [],
+          "output_sha256": null,
+          "predecessors": [
+            "clip_preparation"
+          ],
+          "stage_id": "spatial_render",
+          "state": "pending"
+        },
+        {
+          "attempts": 0,
+          "blocker_codes": [],
+          "idempotency_key": "a1cc19c23cc337b488553c1aaf8e9e47d38bf6dd5925c5bb5bca362c2415a53f",
+          "implementation_revision": "sample_accurate_mix_mux_v1",
+          "input_hashes": [],
+          "output_sha256": null,
+          "predecessors": [
+            "spatial_render"
+          ],
+          "stage_id": "sample_accurate_mix_mux",
+          "state": "pending"
+        },
+        {
+          "attempts": 0,
+          "blocker_codes": [],
+          "idempotency_key": "998e25405649941094d593cc8a92931d613b2fa6947db4124843acc8f587a2a6",
+          "implementation_revision": "global_audio_av_qa_v1",
+          "input_hashes": [],
+          "output_sha256": null,
+          "predecessors": [
+            "sample_accurate_mix_mux"
+          ],
+          "stage_id": "global_audio_av_qa",
+          "state": "pending"
+        },
+        {
+          "attempts": 0,
+          "blocker_codes": [],
+          "idempotency_key": "37284bebf62df8a718cdf709486d9915fa8b2e8e8f709279d65ec5bcf66cc978",
+          "implementation_revision": "generated_asset_promotion_v1",
+          "input_hashes": [],
+          "output_sha256": null,
+          "predecessors": [
+            "global_audio_av_qa"
+          ],
+          "stage_id": "generated_asset_promotion",
+          "state": "pending"
+        },
+        {
+          "attempts": 0,
+          "blocker_codes": [],
+          "idempotency_key": "56a82e5eb462e8bd20a95b7a6354c5dd15139a294a5563b5726da31ef0efb13f",
+          "implementation_revision": "publication_v1",
+          "input_hashes": [],
+          "output_sha256": null,
+          "predecessors": [
+            "generated_asset_promotion"
+          ],
+          "stage_id": "publication",
+          "state": "pending"
+        }
+      ],
+      "tracker_id": "TRK-W64-105"
+    },
+    "resumed": {
+      "cost_budget": {
+        "committed_usd": 0.01,
+        "currency": "USD",
+        "maximum_usd": 1.0
+      },
+      "dag_sha256": "ff7aef7fca42a889f046bc37cd52115aa1ab391657614e660180911f43f10ce8",
+      "decision": {
+        "blocker_codes": [],
+        "publication_allowed": false,
+        "row105_acceptance": "held",
+        "runtime_completion": false,
+        "status": "running"
+      },
+      "dependency_admissions": {
+        "TRK-W64-083": {
+          "blocker_codes": [],
+          "dependency_satisfied": true,
+          "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-083_RETRIEVAL_FALLBACK_CALIBRATION_CURRENT_DELTA_20260719.json",
+          "evidence_sha256": "1e0eecd82e1bab4467b564ab49602a579aa1ebf05ada0ea8b8cb31239a0b452c",
+          "row_complete": true,
+          "tracker_id": "TRK-W64-083"
+        },
+        "TRK-W64-092": {
+          "blocker_codes": [],
+          "dependency_satisfied": true,
+          "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-092_EVENT_UNCERTAINTY_FALLBACK_CURRENT_DELTA_20260719.json",
+          "evidence_sha256": "ba623efee9bd718ccbce31b9fe6ce77a5e6ce424cd45c3de6d12eefe394437ab",
+          "row_complete": true,
+          "tracker_id": "TRK-W64-092"
+        },
+        "TRK-W64-097": {
+          "blocker_codes": [],
+          "dependency_satisfied": true,
+          "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-097_SAMPLE_ACCURATE_MIX_MUX_CURRENT_DELTA_20260719.json",
+          "evidence_sha256": "f94f508ef1fe6b6eee2a7903f0a9f0caa4da2c0cb3892bd6e7e5ee5a4e1ac21b",
+          "row_complete": true,
+          "tracker_id": "TRK-W64-097"
+        },
+        "TRK-W64-104": {
+          "blocker_codes": [],
+          "dependency_satisfied": true,
+          "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-104_GENERATED_ASSET_PROMOTION_CURRENT_DELTA_20260722.json",
+          "evidence_sha256": "b26f03ef3beb183f4de17ceb1477fc81084589268ef945258639563a1236b1d9",
+          "row_complete": true,
+          "tracker_id": "TRK-W64-104"
+        }
+      },
+      "event_log": [
+        {
+          "event_sha256": "a7df6e632e3d579858c84798aaad289580cbbb2d352955b1f1ee4bbd3b3b1f1d",
+          "event_type": "stage_passed",
+          "payload_sha256": "94a5e52de125840b2034b1bb4dbf3fdd9904a91e39a5cbe098eb5a8eb5500277",
+          "previous_event_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+          "sequence": 1,
+          "stage_id": "normalize_inputs"
+        }
+      ],
+      "is_synthetic": true,
+      "item_id": "ITEM-W64-105",
+      "orchestrator_revision": "wave64_row105_audio_orchestrator_v0.1.0",
+      "policy_revision": "wave64_row105_audio_orchestrator_policy_v0.1.0",
+      "policy_sha256": "5d82278800ecb333548f3102dc7a7b71881f4ae9780fde4bfccf535d061cc8ec",
+      "receipt_sha256": "7299b7d011079a3fc78550ff5c3e6c3504bbc4364671fa44024373f4c202f0bb",
+      "record_type": "audio_orchestration_state",
+      "request_sha256": "5647a2e162dbd39520c385e1156275cab51bae2ca737494b143c69c1b74f3d3e",
+      "retry_budget": {
+        "global_max_attempts": 16,
+        "global_used_attempts": 1,
+        "per_stage_max_attempts": 2
+      },
+      "run_id": "audio-run-93150db55a397789adb87746",
+      "schema_version": "1.0.0",
+      "stages": [
+        {
+          "attempts": 1,
+          "blocker_codes": [],
+          "idempotency_key": "824a61c0fb30ed2d99946c2096f0df5e7e99472d420bbe90bb64261b1c8c1682",
+          "implementation_revision": "normalize_inputs_v1",
+          "input_hashes": [
+            "5647a2e162dbd39520c385e1156275cab51bae2ca737494b143c69c1b74f3d3e"
+          ],
+          "output_sha256": "d32a3b148e159dfaa4704cd819f3cfcc6bc1c351f3ae6c3769c2d1499c3ef5ab",
+          "predecessors": [],
+          "stage_id": "normalize_inputs",
+          "state": "pass"
+        },
+        {
+          "attempts": 0,
+          "blocker_codes": [],
+          "idempotency_key": "902d6aba1f241d1dbcf95449013a652e3f2aec8a48cc6d7caf9cc4bd2aa285a3",
+          "implementation_revision": "audio_intelligence_v1",
+          "input_hashes": [
+            "5647a2e162dbd39520c385e1156275cab51bae2ca737494b143c69c1b74f3d3e",
+            "d32a3b148e159dfaa4704cd819f3cfcc6bc1c351f3ae6c3769c2d1499c3ef5ab"
+          ],
+          "output_sha256": null,
+          "predecessors": [
+            "normalize_inputs"
+          ],
+          "stage_id": "audio_intelligence",
+          "state": "ready"
+        },
+        {
+          "attempts": 0,
+          "blocker_codes": [],
+          "idempotency_key": "0f4783d5d95f74159b0eabac8688e9b5cf9bdf0a86bfdb91cff6e5d81d43a02c",
+          "implementation_revision": "visual_event_intelligence_v1",
+          "input_hashes": [
+            "5647a2e162dbd39520c385e1156275cab51bae2ca737494b143c69c1b74f3d3e",
+            "d32a3b148e159dfaa4704cd819f3cfcc6bc1c351f3ae6c3769c2d1499c3ef5ab"
+          ],
+          "output_sha256": null,
+          "predecessors": [
+            "normalize_inputs"
+          ],
+          "stage_id": "visual_event_intelligence",
+          "state": "ready"
+        },
+        {
+          "attempts": 0,
+          "blocker_codes": [],
+          "idempotency_key": "bd4fdbc133a73e2daf004c7df3930723f01e339503675cbcbbc9fff7198df308",
+          "implementation_revision": "candidate_selection_or_generation_v1",
+          "input_hashes": [],
+          "output_sha256": null,
+          "predecessors": [
+            "audio_intelligence",
+            "visual_event_intelligence"
+          ],
+          "stage_id": "candidate_selection_or_generation",
+          "state": "pending"
+        },
+        {
+          "attempts": 0,
+          "blocker_codes": [],
+          "idempotency_key": "0a0c8fb76abc73aec000c62b1b921d7a661fa84391a5fdbcb1138c0c3c533861",
+          "implementation_revision": "clip_preparation_v1",
+          "input_hashes": [],
+          "output_sha256": null,
+          "predecessors": [
+            "candidate_selection_or_generation"
+          ],
+          "stage_id": "clip_preparation",
+          "state": "pending"
+        },
+        {
+          "attempts": 0,
+          "blocker_codes": [],
+          "idempotency_key": "ecbc08bbea81ddcb076b75335b69413a9b89017723a3b7f72dd9cafa2c2f575f",
+          "implementation_revision": "spatial_render_v1",
+          "input_hashes": [],
+          "output_sha256": null,
+          "predecessors": [
+            "clip_preparation"
+          ],
+          "stage_id": "spatial_render",
+          "state": "pending"
+        },
+        {
+          "attempts": 0,
+          "blocker_codes": [],
+          "idempotency_key": "a1cc19c23cc337b488553c1aaf8e9e47d38bf6dd5925c5bb5bca362c2415a53f",
+          "implementation_revision": "sample_accurate_mix_mux_v1",
+          "input_hashes": [],
+          "output_sha256": null,
+          "predecessors": [
+            "spatial_render"
+          ],
+          "stage_id": "sample_accurate_mix_mux",
+          "state": "pending"
+        },
+        {
+          "attempts": 0,
+          "blocker_codes": [],
+          "idempotency_key": "998e25405649941094d593cc8a92931d613b2fa6947db4124843acc8f587a2a6",
+          "implementation_revision": "global_audio_av_qa_v1",
+          "input_hashes": [],
+          "output_sha256": null,
+          "predecessors": [
+            "sample_accurate_mix_mux"
+          ],
+          "stage_id": "global_audio_av_qa",
+          "state": "pending"
+        },
+        {
+          "attempts": 0,
+          "blocker_codes": [],
+          "idempotency_key": "37284bebf62df8a718cdf709486d9915fa8b2e8e8f709279d65ec5bcf66cc978",
+          "implementation_revision": "generated_asset_promotion_v1",
+          "input_hashes": [],
+          "output_sha256": null,
+          "predecessors": [
+            "global_audio_av_qa"
+          ],
+          "stage_id": "generated_asset_promotion",
+          "state": "pending"
+        },
+        {
+          "attempts": 0,
+          "blocker_codes": [],
+          "idempotency_key": "56a82e5eb462e8bd20a95b7a6354c5dd15139a294a5563b5726da31ef0efb13f",
+          "implementation_revision": "publication_v1",
+          "input_hashes": [],
+          "output_sha256": null,
+          "predecessors": [
+            "generated_asset_promotion"
+          ],
+          "stage_id": "publication",
+          "state": "pending"
+        }
+      ],
+      "tracker_id": "TRK-W64-105"
+    }
+  },
+  "item_id": "ITEM-W64-105",
+  "live_hold_run": {
+    "cost_budget": {
+      "committed_usd": 0.0,
+      "currency": "USD",
+      "maximum_usd": 1.0
+    },
+    "dag_sha256": "ff7aef7fca42a889f046bc37cd52115aa1ab391657614e660180911f43f10ce8",
+    "decision": {
+      "blocker_codes": [
+        "ROW105_DEPENDENCIES_NOT_ACCEPTED",
+        "TRK_W64_083_NOT_ACCEPTED",
+        "TRK_W64_092_NOT_ACCEPTED",
+        "TRK_W64_097_NOT_ACCEPTED",
+        "TRK_W64_104_NOT_ACCEPTED"
+      ],
+      "publication_allowed": false,
+      "row105_acceptance": "held",
+      "runtime_completion": false,
+      "status": "blocked"
+    },
+    "dependency_admissions": {
+      "TRK-W64-083": {
+        "blocker_codes": [
+          "TRK_W64_083_NOT_ACCEPTED"
+        ],
+        "dependency_satisfied": false,
+        "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-083_RETRIEVAL_FALLBACK_CALIBRATION_CURRENT_DELTA_20260719.json",
+        "evidence_sha256": "aa01f744028a788ea3a3b125a9af529f24e3b0080120dcf2e397be6516fa825f",
+        "row_complete": false,
+        "tracker_id": "TRK-W64-083"
+      },
+      "TRK-W64-092": {
+        "blocker_codes": [
+          "TRK_W64_092_NOT_ACCEPTED"
+        ],
+        "dependency_satisfied": false,
+        "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-092_EVENT_UNCERTAINTY_FALLBACK_CURRENT_DELTA_20260719.json",
+        "evidence_sha256": "0c7c086ba22c4705f2c47bbe8a307ac8cdcecb33aa0df781e5f884ee5e1f1ea9",
+        "row_complete": false,
+        "tracker_id": "TRK-W64-092"
+      },
+      "TRK-W64-097": {
+        "blocker_codes": [
+          "TRK_W64_097_NOT_ACCEPTED"
+        ],
+        "dependency_satisfied": false,
+        "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-097_SAMPLE_ACCURATE_MIX_MUX_CURRENT_DELTA_20260719.json",
+        "evidence_sha256": "87ce0fdc3e40f0d185e1afb1d140167f71a9d3fde02183b0b218ac5c1a86a3ed",
+        "row_complete": false,
+        "tracker_id": "TRK-W64-097"
+      },
+      "TRK-W64-104": {
+        "blocker_codes": [
+          "TRK_W64_104_NOT_ACCEPTED"
+        ],
+        "dependency_satisfied": false,
+        "evidence_path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-104_GENERATED_ASSET_PROMOTION_CURRENT_DELTA_20260722.json",
+        "evidence_sha256": "aeef5cf553c9c9db5f71111399bed562b560191b3d9007dbe1316b1f154e379d",
+        "row_complete": false,
+        "tracker_id": "TRK-W64-104"
+      }
+    },
+    "event_log": [],
+    "is_synthetic": false,
+    "item_id": "ITEM-W64-105",
+    "orchestrator_revision": "wave64_row105_audio_orchestrator_v0.1.0",
+    "policy_revision": "wave64_row105_audio_orchestrator_policy_v0.1.0",
+    "policy_sha256": "5d82278800ecb333548f3102dc7a7b71881f4ae9780fde4bfccf535d061cc8ec",
+    "receipt_sha256": "8c5beec062f4c135cdefb3df89f76776799530ec12f5ced9745ba19fd715c807",
+    "record_type": "audio_orchestration_state",
+    "request_sha256": "3f92088b183950381456e1e7446bf2d111e5a547e6320ea8c01676cd49d2ebf2",
+    "retry_budget": {
+      "global_max_attempts": 16,
+      "global_used_attempts": 0,
+      "per_stage_max_attempts": 2
+    },
+    "run_id": "audio-run-ce9b7352c1d574a314692e3f",
+    "schema_version": "1.0.0",
+    "stages": [
+      {
+        "attempts": 0,
+        "blocker_codes": [],
+        "idempotency_key": "b154bc6637a445b0c4665a1601825ef5ed928eb5d4815bd3c5d573944a1d8799",
+        "implementation_revision": "normalize_inputs_v1",
+        "input_hashes": [],
+        "output_sha256": null,
+        "predecessors": [],
+        "stage_id": "normalize_inputs",
+        "state": "pending"
+      },
+      {
+        "attempts": 0,
+        "blocker_codes": [],
+        "idempotency_key": "59cd06070ee75ad917d66465d477c41e52786bbc536673555c094d5c3aa0bfc5",
+        "implementation_revision": "audio_intelligence_v1",
+        "input_hashes": [],
+        "output_sha256": null,
+        "predecessors": [
+          "normalize_inputs"
+        ],
+        "stage_id": "audio_intelligence",
+        "state": "pending"
+      },
+      {
+        "attempts": 0,
+        "blocker_codes": [],
+        "idempotency_key": "a6c740dd87610b9800d8584a0d665a9dbbca7f9579d842d9c51c338a5c15c454",
+        "implementation_revision": "visual_event_intelligence_v1",
+        "input_hashes": [],
+        "output_sha256": null,
+        "predecessors": [
+          "normalize_inputs"
+        ],
+        "stage_id": "visual_event_intelligence",
+        "state": "pending"
+      },
+      {
+        "attempts": 0,
+        "blocker_codes": [],
+        "idempotency_key": "bd4fdbc133a73e2daf004c7df3930723f01e339503675cbcbbc9fff7198df308",
+        "implementation_revision": "candidate_selection_or_generation_v1",
+        "input_hashes": [],
+        "output_sha256": null,
+        "predecessors": [
+          "audio_intelligence",
+          "visual_event_intelligence"
+        ],
+        "stage_id": "candidate_selection_or_generation",
+        "state": "pending"
+      },
+      {
+        "attempts": 0,
+        "blocker_codes": [],
+        "idempotency_key": "0a0c8fb76abc73aec000c62b1b921d7a661fa84391a5fdbcb1138c0c3c533861",
+        "implementation_revision": "clip_preparation_v1",
+        "input_hashes": [],
+        "output_sha256": null,
+        "predecessors": [
+          "candidate_selection_or_generation"
+        ],
+        "stage_id": "clip_preparation",
+        "state": "pending"
+      },
+      {
+        "attempts": 0,
+        "blocker_codes": [],
+        "idempotency_key": "ecbc08bbea81ddcb076b75335b69413a9b89017723a3b7f72dd9cafa2c2f575f",
+        "implementation_revision": "spatial_render_v1",
+        "input_hashes": [],
+        "output_sha256": null,
+        "predecessors": [
+          "clip_preparation"
+        ],
+        "stage_id": "spatial_render",
+        "state": "pending"
+      },
+      {
+        "attempts": 0,
+        "blocker_codes": [],
+        "idempotency_key": "a1cc19c23cc337b488553c1aaf8e9e47d38bf6dd5925c5bb5bca362c2415a53f",
+        "implementation_revision": "sample_accurate_mix_mux_v1",
+        "input_hashes": [],
+        "output_sha256": null,
+        "predecessors": [
+          "spatial_render"
+        ],
+        "stage_id": "sample_accurate_mix_mux",
+        "state": "pending"
+      },
+      {
+        "attempts": 0,
+        "blocker_codes": [],
+        "idempotency_key": "998e25405649941094d593cc8a92931d613b2fa6947db4124843acc8f587a2a6",
+        "implementation_revision": "global_audio_av_qa_v1",
+        "input_hashes": [],
+        "output_sha256": null,
+        "predecessors": [
+          "sample_accurate_mix_mux"
+        ],
+        "stage_id": "global_audio_av_qa",
+        "state": "pending"
+      },
+      {
+        "attempts": 0,
+        "blocker_codes": [],
+        "idempotency_key": "37284bebf62df8a718cdf709486d9915fa8b2e8e8f709279d65ec5bcf66cc978",
+        "implementation_revision": "generated_asset_promotion_v1",
+        "input_hashes": [],
+        "output_sha256": null,
+        "predecessors": [
+          "global_audio_av_qa"
+        ],
+        "stage_id": "generated_asset_promotion",
+        "state": "pending"
+      },
+      {
+        "attempts": 0,
+        "blocker_codes": [],
+        "idempotency_key": "56a82e5eb462e8bd20a95b7a6354c5dd15139a294a5563b5726da31ef0efb13f",
+        "implementation_revision": "publication_v1",
+        "input_hashes": [],
+        "output_sha256": null,
+        "predecessors": [
+          "generated_asset_promotion"
+        ],
+        "stage_id": "publication",
+        "state": "pending"
+      }
+    ],
+    "tracker_id": "TRK-W64-105"
+  },
+  "publication_authority": false,
+  "row_complete": false,
+  "runtime_completion_claimed": false,
+  "schema_version": "1.0.0",
+  "status": "HOLD_DEPENDENCIES_AND_AUDIO_ORCHESTRATOR_RUNTIME_ABSENT",
+  "tracker_id": "TRK-W64-105"
+}
