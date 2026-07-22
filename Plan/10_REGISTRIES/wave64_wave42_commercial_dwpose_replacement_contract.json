@@ -4,7 +4,7 @@
   "program_id": "W64-AQA",
   "tracker_ids": ["W64-AQA-018"],
   "evaluated_at_utc": "2026-07-22T11:42:40Z",
-  "status": "STATIC_CANDIDATE_WORKFLOWS_AND_PROJECT_OWNED_ADAPTER_IMPLEMENTED_RUNTIME_PENDING",
+  "status": "STATIC_CANDIDATES_ADAPTER_MODELS_AND_OFFLINE_WHEELHOUSE_HASH_VERIFIED_ENVIRONMENT_AND_RUNTIME_PENDING",
   "source_workflows": [
     {"filename": "WAVE42_MAIN_FLOW_20260702.json", "sha256": "5382d6cad24856662f7febca7356dbf0cf15080417324b58a5480c065e69401f", "node_ids": [978, 1019]},
     {"filename": "Wave42_Runtime_Bound__UI__WAVE42_MAIN_FLOW_20260702.json", "sha256": "60529aa2f6365a0a632222f7bdf7b2973970f066fac1e501b3ef6b796af904a2", "node_ids": [978]}
@@ -47,10 +47,13 @@
   "implementation": {
     "package": "Plan/07_IMPLEMENTATION/comfyui_custom_nodes/wave64_commercial_dwpose/__init__.py",
     "runtime_lock": "Plan/07_IMPLEMENTATION/comfyui_custom_nodes/wave64_commercial_dwpose/runtime_lock.json",
+    "runtime_staging_package": "Plan/10_REGISTRIES/wave64_wave42_commercial_dwpose_runtime_staging_package.json",
     "node_type": "Wave64CommercialDWPosePreprocessor",
     "serialized_widget_order": ["detect_hand", "detect_body", "detect_face", "resolution", "bbox_detector", "pose_estimator", "scale_stick_for_xinsr_cn"],
     "static_tests": "Plan/Instructions/QA/Scripts/test_wave64_commercial_dwpose_node.py",
     "unsupported_fail_closed": ["scale_stick_for_xinsr_cn=enable", "CPUExecutionProvider", "unapproved model names", "symlinked models", "model size or SHA-256 drift"],
+    "exact_models_staged": true,
+    "offline_wheelhouse_staged": true,
     "target_environment_imported": false,
     "object_info_executed": false,
     "inference_executed": false
@@ -61,6 +64,7 @@
     "exact_runtime_asset_identity": true,
     "adapter_implementation": true,
     "immutable_build_inputs": true,
+    "runtime_storage_staging": true,
     "static_candidate_workflows": true,
     "candidate_object_info": false,
     "geometry_equivalence": false,

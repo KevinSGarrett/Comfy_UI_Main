@@ -39,9 +39,11 @@ def test_node_identity_lock_and_forbidden_runtime_paths(tmp_path: Path) -> None:
     required = list(module.Wave64CommercialDWPosePreprocessor.INPUT_TYPES()["required"])
     assert required == ["image", "detect_hand", "detect_body", "detect_face", "resolution", "bbox_detector", "pose_estimator", "scale_stick_for_xinsr_cn"]
     lock = json.loads(LOCK.read_text(encoding="utf-8"))
+    assert lock["authority"]["wheelhouse_hash_replay"] is True
     assert lock["authority"]["environment_created"] is False
     assert lock["forbidden_distributions"] == ["onnxruntime"]
-    assert all(len(item["sha256"]) == 64 for item in lock["wheels"])
+    assert len(lock["wheels"]) == 6
+    assert all(len(item["sha256"]) == 64 and item["bytes"] > 0 for item in lock["wheels"])
 
 
 def test_yolox_decode_nms_and_shape_gate() -> None:

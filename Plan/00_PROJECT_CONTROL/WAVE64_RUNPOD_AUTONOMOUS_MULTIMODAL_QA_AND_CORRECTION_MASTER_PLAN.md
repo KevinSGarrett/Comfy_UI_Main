@@ -1195,3 +1195,13 @@ pose ONNX was not found by the bounded storage lookup. The offline wheelhouse,
 target environment, target import, `object_info`, geometry equivalence, model
 load, execution, commercial runtime, activation, and promotion therefore
 remain unqualified and false.
+
+The inactive RunPod runtime-staging directory now contains both exact ONNX
+models and a six-wheel offline direct-dependency set for CPython 3.11 Linux.
+All eight files independently replay to their contract or official PyPI sizes
+and SHA-256 values. A nonzero initial transfer shell caused by text formatting
+is retained as a finding and does not supply acceptance; the independent replay
+does. No environment was created and no package, custom node, model, or GPU was
+loaded. The next static design must preserve the ComfyUI Torch tensor boundary
+while excluding the base environment's separate CPU ONNX Runtime distribution;
+runtime import remains coordinator-gated.
