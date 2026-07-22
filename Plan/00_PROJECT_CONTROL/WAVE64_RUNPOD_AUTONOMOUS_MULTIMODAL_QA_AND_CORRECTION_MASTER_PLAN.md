@@ -712,6 +712,19 @@ assets, and retained MaskFactory provenance manifests. This is storage authority
 only; package identity, revision, license, dependency, capacity, runtime,
 quality, cleanup, failure, cost, rollback, and product authority remain separate.
 
+The first promoted package replay now closes exact storage identity for
+Qwen3-TTS 12Hz 1.7B Base only. The live directory contains exactly 11 regular
+files and 4,544,170,364 bytes, with no extra member; an independent current-pod
+SHA-256 replay matched every transfer-ledger entry, including main weight
+`38fc7fc51c5e776e840414b6fd443962e9411b9654888fd7913e4da643cb857c`
+and speech-tokenizer weight
+`836b7b357f5ea43e889936a3709af68dfe3751881acefe4ecf0dbd30ba571258`.
+The package is bound to official revision
+`fd4b254389122332181a7c3db7f27e918eec64e3` and Apache-2.0 metadata from the
+canonical asset catalog. No dependency environment, model load, synthesis,
+voice cloning, speaker identity, operational activation, or product promotion
+follows from this storage result.
+
 Two Wave42 UI workflows and their 75-file fixture tree remain inactive under
 `/workspace/wave64_quarantine/aws_ec2_20260722`. Seventeen clean repositories at
 exact EC2-recorded pins remain dependency-free and inactive under
