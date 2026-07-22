@@ -1,0 +1,45 @@
+{
+  "schema_version": "wave64.aqa.qwen36_controller_dependency_preflight_acceptance.v1",
+  "item_id": "W64-AQA-017",
+  "status": "PARTIALLY_ADOPTED_METADATA_ONLY",
+  "acceptance_authority": "CODEX",
+  "pod_id": "1q4ji0gg1fkhvt",
+  "execution_lane": "CPU_ONLY_NO_COORDINATOR_LEASE_REQUIRED",
+  "receipt": {
+    "path": "Plan/Tracker/Evidence/W64_AQA_QWEN36_CONTROLLER_DEPENDENCY_PREFLIGHT_20260722T230000Z/remote_dependency_preflight.receipt.json",
+    "sha256": "b2be4415340a2ce358ccb231d42377455486626148e445133bc4880075dfa902"
+  },
+  "implementation": {
+    "path": "Plan/07_IMPLEMENTATION/scripts/preflight_wave64_qwen36_controller_dependencies.py",
+    "sha256": "9609757adc0d0df8f50efae0dadebbd35c3a75390cdde4914d2da60ec414663a"
+  },
+  "schema": {
+    "path": "Plan/08_SCHEMAS/runpod_autonomous_qwen36_controller_dependency_preflight.schema.json",
+    "sha256": "b9d45ff881c32f403850b98f38867094d09764385673a84eabc1c7237cb8f561"
+  },
+  "findings": {
+    "admitted_metadata_files_exact": 4,
+    "observed_model_type": "qwen3_5_moe",
+    "observed_architecture": "Qwen3_5MoeForConditionalGeneration",
+    "candidate_transformers_version": "5.2.0",
+    "candidate_support_paths": 4,
+    "candidate_lock_sha256": "a19d160721dfb74cf89bc70eebec10f45b2e6f58b7a109726d658db7d361277c",
+    "disposition": "COMPATIBLE_WITH_CANDIDATE_LOCK_METADATA_ONLY"
+  },
+  "validators": [
+    {"command": "pytest -q Plan/Instructions/QA/Scripts/test_preflight_wave64_qwen36_controller_dependencies.py", "result": "PASS", "tests": 5},
+    {"command": "ruff check Plan/07_IMPLEMENTATION/scripts/preflight_wave64_qwen36_controller_dependencies.py Plan/Instructions/QA/Scripts/test_preflight_wave64_qwen36_controller_dependencies.py", "result": "PASS"},
+    {"command": "jsonschema Draft202012 receipt validation", "result": "PASS"}
+  ],
+  "authority": {
+    "dependency_metadata_qualified": true,
+    "environment_reuse_admitted": false,
+    "import_qualified": false,
+    "weights_opened": false,
+    "gpu_used": false,
+    "runtime_qualified": false,
+    "role_operational": false,
+    "product_authority": false
+  },
+  "next_action": "Issue a package-specific immutable-environment reuse admission, then run an import-only class/config canary. Do not open weights or request GPU capacity."
+}

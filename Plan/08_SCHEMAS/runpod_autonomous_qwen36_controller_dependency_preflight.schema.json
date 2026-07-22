@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "runpod_autonomous_qwen36_controller_dependency_preflight.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "program_id", "package_id", "admission_digest", "source_revision", "model_root", "disposition", "candidate_lock_sha256", "compatible_lock_sha256", "candidate_is_existing_omni_lock", "python_version", "metadata_files", "observed", "distribution_versions", "transformers_support_paths", "assertions", "next_action", "runtime_claims"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.qwen36_controller_dependency_preflight.v1"},
+    "program_id": {"const": "W64-AQA"},
+    "package_id": {"const": "W64-AQA-PKG-QWEN36-35B-A3B"},
+    "admission_digest": {"const": "89dd14c6054e3f8f15882d59480cb0b3972b497d4825302c9749346291ae397c"},
+    "source_revision": {"const": "95a723d08a9490559dae23d0cff1d9466213d989"},
+    "model_root": {"type": "string", "pattern": "^/workspace/w64_aqa/models/controller/Qwen3\\.6-35B-A3B-FP8/95a723d08a9490559dae23d0cff1d9466213d989$"},
+    "disposition": {"enum": ["BLOCKED_MODEL_METADATA_IDENTITY", "NEW_LOCK_RESOLUTION_REQUIRED", "COMPATIBLE_WITH_CANDIDATE_LOCK_METADATA_ONLY"]},
+    "candidate_lock_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "compatible_lock_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "candidate_is_existing_omni_lock": {"type": "boolean"},
+    "python_version": {"type": "string", "minLength": 1},
+    "metadata_files": {"type": "object", "additionalProperties": {"$ref": "#/$defs/fileIdentity"}, "minProperties": 4, "maxProperties": 4},
+    "observed": {"type": "object"},
+    "distribution_versions": {"type": "object"},
+    "transformers_support_paths": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "assertions": {"type": "object", "additionalProperties": {"type": "boolean"}},
+    "next_action": {"type": "string", "minLength": 1},
+    "runtime_claims": {"type": "object", "additionalProperties": false, "required": ["model_library_imported", "model_constructed", "weights_opened", "weights_loaded", "tensor_allocated", "network_accessed", "subprocess_started", "gpu_or_lease_polled", "role_activated", "product_authority"], "properties": {"model_library_imported": {"const": false}, "model_constructed": {"const": false}, "weights_opened": {"const": false}, "weights_loaded": {"const": false}, "tensor_allocated": {"const": false}, "network_accessed": {"const": false}, "subprocess_started": {"const": false}, "gpu_or_lease_polled": {"const": false}, "role_activated": {"const": false}, "product_authority": {"const": false}}}
+  },
+  "$defs": {"fileIdentity": {"type": "object", "additionalProperties": false, "required": ["bytes", "git_blob_sha1", "sha256"], "properties": {"bytes": {"type": "integer", "minimum": 1}, "git_blob_sha1": {"type": "string", "pattern": "^[0-9a-f]{40}$"}, "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}}}
+}

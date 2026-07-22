@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "runpod_autonomous_qwen36_controller_import_canary.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "program_id", "package_id", "status", "environment_root", "environment_lock_sha256", "python_version", "distribution_versions", "transformers_imported_version", "class_resolution", "measurements", "isolation", "runtime_claims"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.qwen36_controller_import_canary.v1"},
+    "program_id": {"const": "W64-AQA"},
+    "package_id": {"const": "W64-AQA-PKG-QWEN36-35B-A3B"},
+    "status": {"const": "IMPORT_ONLY_CLASS_RESOLUTION_PASS_RUNTIME_PENDING"},
+    "environment_root": {"type": "string", "pattern": "^/workspace/w64_aqa/environments/"},
+    "environment_lock_sha256": {"const": "a19d160721dfb74cf89bc70eebec10f45b2e6f58b7a109726d658db7d361277c"},
+    "python_version": {"type": "string"},
+    "distribution_versions": {"type": "object"},
+    "transformers_imported_version": {"const": "5.2.0"},
+    "class_resolution": {"type": "object", "minProperties": 2},
+    "measurements": {"type": "object"},
+    "isolation": {"type": "object", "additionalProperties": false, "required": ["offline", "cuda_hidden", "blocked_side_effect_events", "weight_file_open_attempts"], "properties": {"offline": {"const": true}, "cuda_hidden": {"const": true}, "blocked_side_effect_events": {"type": "array", "maxItems": 0}, "weight_file_open_attempts": {"type": "array", "maxItems": 0}}},
+    "runtime_claims": {"type": "object", "additionalProperties": false, "required": ["model_library_imported", "required_classes_resolved", "model_constructed", "weights_opened", "tensor_allocation_requested", "gpu_or_lease_polled", "inference_performed", "environment_mutated", "role_activated", "product_authority"], "properties": {"model_library_imported": {"const": true}, "required_classes_resolved": {"const": true}, "model_constructed": {"const": false}, "weights_opened": {"const": false}, "tensor_allocation_requested": {"const": false}, "gpu_or_lease_polled": {"const": false}, "inference_performed": {"const": false}, "environment_mutated": {"const": false}, "role_activated": {"const": false}, "product_authority": {"const": false}}}
+  }
+}

@@ -177,6 +177,14 @@ quality, refusal, cleanup, and operational authority remain pending. Until those
 gates pass, installed small models provide bounded triage and deterministic code
 owns decisions.
 
+The CPU-only metadata preflight binds four exact admitted JSON files and confirms
+that the package identifies as `qwen3_5_moe`. Although a diagnostic import-only
+attempt resolved the expected classes with no weight or GPU access, the proposed
+shared environment failed its immutable-tree identity check (`2ae77089...`
+expected, `67890cf5...` observed). The reuse decision is rejected and retained
+for audit. The next controller action is a fresh lock-addressed environment
+build followed by a new import-only canary; no runtime or role authority exists.
+
 ### Primary visual reviewer
 
 The current `qwen2.5vl:32b` strict lane remains active while a quantized/offloaded

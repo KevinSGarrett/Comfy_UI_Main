@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "runpod_autonomous_qwen36_controller_environment_reuse_admission.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "admission_id", "program_id", "package_id", "source_revision", "preflight", "environment", "status", "allowed_next_action", "prohibitions", "authority"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.qwen36_controller_environment_reuse_admission.v1"},
+    "admission_id": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "program_id": {"const": "W64-AQA"},
+    "package_id": {"const": "W64-AQA-PKG-QWEN36-35B-A3B"},
+    "source_revision": {"const": "95a723d08a9490559dae23d0cff1d9466213d989"},
+    "preflight": {"$ref": "#/$defs/binding"},
+    "environment": {"type": "object", "additionalProperties": false, "required": ["root", "lock_sha256", "tree_sha256", "build_receipt_sha256", "active_environment_unchanged", "reuse_scope"], "properties": {"root": {"type": "string", "pattern": "^/workspace/w64_aqa/environments/Qwen3-Omni-30B-A3B-Thinking/.+/[0-9a-f]{64}$"}, "lock_sha256": {"const": "a19d160721dfb74cf89bc70eebec10f45b2e6f58b7a109726d658db7d361277c"}, "tree_sha256": {"const": "2ae7708993cab848861688ae1b89a2233d61fa02b49e1c14bf51b188a2dd59c5"}, "build_receipt_sha256": {"const": "d89ec8ba5588e8ba07f76522c74bfbfe51284c55baf934ab7f4729fed298deb8"}, "active_environment_unchanged": {"const": true}, "reuse_scope": {"const": "QWEN36_CONTROLLER_IMPORT_ONLY_CANARY"}}},
+    "status": {"const": "ADMITTED_FOR_IMPORT_ONLY_CANARY"},
+    "allowed_next_action": {"const": "IMPORT_ONLY_CLASS_AND_CONFIG_RESOLUTION"},
+    "prohibitions": {"type": "array", "minItems": 8, "uniqueItems": true, "items": {"enum": ["environment_mutation", "network", "subprocess_package_install", "weight_file_open", "model_construction", "tensor_allocation", "gpu_or_lease_poll", "inference", "role_activation", "product_authority"]}},
+    "authority": {"type": "object", "additionalProperties": false, "required": ["environment_reuse_admitted", "import_qualified", "runtime_qualified", "role_operational"], "properties": {"environment_reuse_admitted": {"const": true}, "import_qualified": {"const": false}, "runtime_qualified": {"const": false}, "role_operational": {"const": false}}}
+  },
+  "$defs": {"binding": {"type": "object", "additionalProperties": false, "required": ["path", "sha256", "disposition"], "properties": {"path": {"type": "string", "pattern": "^Plan/Tracker/Evidence/"}, "sha256": {"const": "b2be4415340a2ce358ccb231d42377455486626148e445133bc4880075dfa902"}, "disposition": {"const": "COMPATIBLE_WITH_CANDIDATE_LOCK_METADATA_ONLY"}}}}
+}

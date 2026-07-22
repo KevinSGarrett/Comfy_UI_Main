@@ -62,6 +62,13 @@ def package_evidence(package: dict[str, Any]) -> tuple[dict[str, Any], list[str]
     installed = artifact_digest is not None and (
         "INSTALLED" in installation_state or "PROMOTED" in installation_state
     )
+    dependency_required = "dependency_environment" in package.get("qualification", {}).get(
+        "required_gates", []
+    )
+    dependency_state = package.get("dependency_environment", {}).get("state")
+    dependency_environment_ready = not dependency_required or (
+        isinstance(dependency_state, str) and "INSTALLED" in dependency_state
+    )
     exact = identity_exact and license_accepted and installed
     blockers: list[str] = []
     if not identity_exact or "UPSTREAM_REVISION_UNVERIFIED" in identity_state:
@@ -70,6 +77,8 @@ def package_evidence(package: dict[str, Any]) -> tuple[dict[str, Any], list[str]
         blockers.append(f"{package['package_id']}:PROJECT_LICENSE_ACCEPTANCE_MISSING")
     if not installed:
         blockers.append(f"{package['package_id']}:EXACT_ARTIFACT_NOT_INSTALLED")
+    if not dependency_environment_ready:
+        blockers.append(f"{package['package_id']}:DEPENDENCY_ENVIRONMENT_NOT_IMPORT_VERIFIED")
     return ({
         "package_id": package["package_id"],
         "identity_state": identity_state,
@@ -77,6 +86,9 @@ def package_evidence(package: dict[str, Any]) -> tuple[dict[str, Any], list[str]
         "installation_state": installation_state,
         "artifact_digest": artifact_digest,
         "exact_identity_installed_and_license_accepted": exact,
+        "dependency_environment_required": dependency_required,
+        "dependency_environment_state": dependency_state,
+        "dependency_environment_ready": dependency_environment_ready,
     }, blockers)
 
 
@@ -224,7 +236,10 @@ def compile_queue(root: Path) -> dict[str, Any]:
                 raise QueueError(f"unknown package binding: {package_id}")
             item, package_blockers = package_evidence(packages[package_id])
             evidence.append(item)
-            exact_by_id[package_id] = item["exact_identity_installed_and_license_accepted"]
+            exact_by_id[package_id] = (
+                item["exact_identity_installed_and_license_accepted"]
+                and item["dependency_environment_ready"]
+            )
             blockers.extend(package_blockers)
         mode = binding["binding_mode"]
         certificate_binding = None

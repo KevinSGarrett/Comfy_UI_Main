@@ -112,14 +112,17 @@
     "packageEvidence": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["package_id", "identity_state", "license_state", "installation_state", "artifact_digest", "exact_identity_installed_and_license_accepted"],
+      "required": ["package_id", "identity_state", "license_state", "installation_state", "artifact_digest", "exact_identity_installed_and_license_accepted", "dependency_environment_required", "dependency_environment_state", "dependency_environment_ready"],
       "properties": {
         "package_id": {"type": "string"},
         "identity_state": {"type": "string"},
         "license_state": {"type": "string"},
         "installation_state": {"type": "string"},
         "artifact_digest": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
-        "exact_identity_installed_and_license_accepted": {"type": "boolean"}
+        "exact_identity_installed_and_license_accepted": {"type": "boolean"},
+        "dependency_environment_required": {"type": "boolean"},
+        "dependency_environment_state": {"type": ["string", "null"]},
+        "dependency_environment_ready": {"type": "boolean"}
       }
     },
     "admissionBinding": {

@@ -511,12 +511,17 @@ the standard receipt digest is
 All 56 primary files and 37,493,015,668 bytes pass exact identity replay with no
 extra primary file or symlink. The standard receipt is control metadata.
 
-Treat this as storage-only acceptance. Do not import model libraries, open
-safetensors, construct tensors, load the model, inspect or claim GPU capacity,
-start a service, run inference, grant tool access, or activate the controller
-without a separately admitted dependency environment and a fresh exact
-coordinator lease. The next CPU-only action is isolated dependency resolution
-and import-only class/config verification with CUDA hidden and network blocked.
+The metadata-only preflight subsequently verified the four admitted JSON files
+and found `qwen3_5_moe` support in Transformers 5.2.0. A diagnostic import-only
+canary resolved both required classes without opening weights or touching GPU,
+but the candidate Omni environment's current tree hash was `67890cf5...`, not
+its recorded `2ae77089...` identity. Reuse is therefore rejected and the import
+receipt grants no authority. Resolve and build a fresh lock-addressed controller
+environment before a new import-only canary. Do not open safetensors, construct
+tensors, load the model, request GPU capacity, start a service, run inference,
+grant tool access, or activate the controller until the fresh dependency and
+import gates pass; GPU phases additionally require a fresh exact coordinator
+lease.
 
 ## Autonomous campaign operation
 
