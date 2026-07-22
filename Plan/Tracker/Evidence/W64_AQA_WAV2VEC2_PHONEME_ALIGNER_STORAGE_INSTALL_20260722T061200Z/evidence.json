@@ -1,0 +1,25 @@
+{
+  "schema_version": "wave64.aqa.storage_install_acceptance.v1",
+  "program_id": "W64-AQA",
+  "tracker_ids": ["W64-AQA-006", "TRK-W64-135"],
+  "evaluated_at_utc": "2026-07-22T06:12:00Z",
+  "disposition": "ADOPTED",
+  "control_commit": "2d088fa51bded8a3c17d5d75aa9c10a3ecd61a11",
+  "package_id": "W64-AQA-PKG-WAV2VEC2-PHONEME-ALIGNER",
+  "repository_id": "facebook/wav2vec2-lv-60-espeak-cv-ft",
+  "revision": "ae45363bf3413b374fecd9dc8bc1df0e24c3b7f4",
+  "manifest_sha256": "84012eb3b62d7cbd4527d9dfb82fba1ee14a0f25a58173f4b6e57d35c16ef3bd",
+  "installation_receipt_sha256": "0290956ce208deb5bc928ac154e7f0ec822e0b4a2bffc4e95e4acff60aaef1a9",
+  "target_root": "/workspace/w64_aqa/models/wav2vec2-lv-60-espeak-cv-ft/ae45363bf3413b374fecd9dc8bc1df0e24c3b7f4",
+  "accepted": {
+    "file_count": 8,
+    "weight_bytes": 1263535127,
+    "weight_sha256": "3173bde9e9ce490fa0f989e413c42f25bc1820c020adc1e6b9b87025b3cfcc5e",
+    "atomic_install": "NEW_ATOMIC_INSTALL",
+    "verified_replay": "REUSED_VERIFIED_INSTALL",
+    "gpu_or_lease_polled": false
+  },
+  "authority_granted": ["exact package storage identity on the current production pod"],
+  "authority_not_granted": ["dependency environment", "model load", "inference", "word alignment", "phoneme alignment", "semantic quality", "operational activation", "product promotion"],
+  "next_action": "Resolve and hash-lock phonemizer 3.3.0 plus espeakng-loader 0.2.4 in an isolated current-pod environment, then run an import-only canary before any GPU model load."
+}
