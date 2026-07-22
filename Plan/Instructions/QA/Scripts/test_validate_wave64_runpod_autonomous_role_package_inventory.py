@@ -90,6 +90,9 @@ def test_provisional_internvl_storage_is_exact_but_cannot_replace_juror() -> Non
     assert package["dependency_environment"]["lock_sha256"] == "9f7317aef1cf2beb0f67bc879b8d3676d542fb691dc61d337aff268474cda5a6"
     assert package["dependency_environment"]["installed_tree_sha256"] == "1191178fb3f8ff148b7330767f8d0e1dd0f3418cfacd29d0f3ce19490f6895b7"
     assert package["dependency_environment"]["metadata_validation"]["receipt_sha256"] == "e3fbd176c84114f5360f46cf5986e2514682539414f47dc09638da75e9ddc711"
+    assert package["license_qualification"]["state"] == "PROJECT_USE_ACCEPTED_NOTICE_RETENTION_REQUIRED"
+    assert package["license_qualification"]["standalone_license_file_in_snapshot"] is False
+    assert "license_acceptance" not in package["qualification"]["required_gates"]
     assert package["import_canary"]["admission_sha256"] == "2f723b1b9341087553fb3abe44c83060248aa8316f065997371d54d93589f191"
     assert package["import_canary"]["executed"] is False
     assert "full_remote_code_review" not in package["qualification"]["required_gates"]

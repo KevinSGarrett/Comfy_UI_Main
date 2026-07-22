@@ -1271,3 +1271,15 @@ coordinator read still reports the expired foreign MaskFactory lease in
 `RECOVERY_REQUIRED`; ComfyUI did not clear or override it, so `executed` remains
 false. Once that owner restores admission, the canary must run once under an
 exact `comfyui_main` lease before any load/unload capacity canary is admitted.
+
+Project-use license reconciliation is also complete for this exact provisional
+package. The pinned package README (SHA-256 `47383e97...`) declares the project,
+weights, and Qwen3 component Apache-2.0. Four exact InternVL code files carry
+MIT headers; `conversation.py` records derivation from FastChat, whose official
+pinned repository license is Apache-2.0. The model snapshot has no standalone
+`LICENSE` file, so that absence is retained as a packaging finding rather than
+silently inferred away. Use in Comfy_UI_Main is accepted only with notice
+retention: any candidate promotion must include the exact package README plus
+the pinned InternVL MIT and FastChat Apache-2.0 license texts. This closes the
+license-acceptance gate only; it grants no import, runtime, quality, juror,
+activation, or product authority.

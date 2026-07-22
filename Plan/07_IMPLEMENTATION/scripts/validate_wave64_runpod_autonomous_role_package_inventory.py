@@ -360,7 +360,19 @@ def validate(data: dict) -> list[str]:
                         errors.append(f"{item.get('package_id')}: provisional InternVL audit digest mismatch")
                     if install.get("durable_root") != "/workspace/models/visual_critics/internvl3_5_8b_bf16":
                         errors.append(f"{item.get('package_id')}: provisional InternVL root mismatch")
-                    if qualification.get("state") != "EXACT_STORAGE_STATIC_CODE_AND_IMMUTABLE_ENVIRONMENT_PASS_IMPORT_CANARY_ADMITTED_EXECUTION_HELD_RUNTIME_GATES_PENDING":
+                    if identity.get("license_state") != "PACKAGE_AND_WEIGHTS_APACHE_2_0_INTERNVL_CODE_MIT_FASTCHAT_DERIVATION_APACHE_2_0_ACCEPTED_FOR_COMFY_UI_MAIN_PROJECT_USE":
+                        errors.append(f"{item.get('package_id')}: provisional InternVL license state mismatch")
+                    expected_license = {
+                        "state": "PROJECT_USE_ACCEPTED_NOTICE_RETENTION_REQUIRED",
+                        "evidence": "Plan/Tracker/Evidence/W64_AQA_INTERNVL35_8B_LICENSE_RECONCILIATION_20260722T125200Z/integration_acceptance.json",
+                        "standalone_license_file_in_snapshot": False,
+                        "package_readme_sha256": "47383e9746907dbfabfcad9c786aab81e43586b5e4b0bb07ad893d8b58f3b1e9",
+                        "internvl_mit_license_sha256": "8f03d25fbcffafa2254d4d1414bf2a38423a966006b4a6964ee21f728d610bff",
+                        "fastchat_apache_2_0_license_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+                    }
+                    if item.get("license_qualification") != expected_license:
+                        errors.append(f"{item.get('package_id')}: provisional InternVL license qualification mismatch")
+                    if qualification.get("state") != "EXACT_STORAGE_STATIC_CODE_LICENSE_AND_IMMUTABLE_ENVIRONMENT_PASS_IMPORT_CANARY_ADMITTED_EXECUTION_HELD_RUNTIME_GATES_PENDING":
                         errors.append(f"{item.get('package_id')}: provisional InternVL qualification mismatch")
                     static_review = item.get("static_code_review", {})
                     if static_review.get("state") != "AST_AND_MANUAL_SEMANTIC_REVIEW_PASS_WITH_FAIL_CLOSED_QUALITY_GATES":
@@ -420,6 +432,8 @@ def validate(data: dict) -> list[str]:
                         errors.append(f"{item.get('package_id')}: completed static review gate must be removed")
                     if "dependency_environment" in qualification.get("required_gates", []):
                         errors.append(f"{item.get('package_id')}: completed dependency environment gate must be removed")
+                    if "license_acceptance" in qualification.get("required_gates", []):
+                        errors.append(f"{item.get('package_id')}: completed license gate must be removed")
                     if "import_canary" not in qualification.get("required_gates", []):
                         errors.append(f"{item.get('package_id')}: provisional InternVL import gate required")
                     if "independent_juror_substitution" not in authority.get("forbidden", []):
