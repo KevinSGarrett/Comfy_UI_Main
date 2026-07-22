@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0.0",
+  "evidence_id": "TRK-W64-108_AUDIO_RUNTIME_CACHE_COST_CURRENT_DELTA_20260722",
+  "created_at": "2026-07-22T14:30:00Z",
+  "source_commit": "66542691e7e09ada9af49f0607db9bbfd4de918c",
+  "tracker_id": "TRK-W64-108",
+  "item_id": "ITEM-W64-108",
+  "status": "HOLD_DEPENDENCIES_AND_LIVE_LEASE_TTL_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTROL_SLICE_PRESENT",
+  "row_complete": false,
+  "implementation_completion_claimed": true,
+  "runtime_completion_claimed": false,
+  "qa_decision": "hold_with_content_addressed_cache_resumable_batch_cost_transfer_and_exact_lease_controls",
+  "implemented_contract": {
+    "sole_current_runtime": {"provider": "runpod", "pod_id": "1q4ji0gg1fkhvt"},
+    "cache_key_fields": [
+      "source_sha256", "model_sha256", "configuration_sha256",
+      "implementation_sha256", "decoder_sha256"
+    ],
+    "maximum_batch_items": 16,
+    "maximum_estimated_peak_vram_gib": 46.0,
+    "minimum_free_storage_gib_after_admission": 50.0,
+    "passed_items_reused_without_rerun": true,
+    "changed_identity_rejected": true,
+    "estimate_required_before_admission": true,
+    "actual_cost_required_before_completion": true,
+    "content_addressed_transfer_manifest_required": true,
+    "exact_sanitized_coordinator_lease_required": true,
+    "ttl_watchdog_and_final_release_required": true
+  },
+  "dependency_authority": {
+    "required": ["TRK-W64-069", "TRK-W64-077", "TRK-W64-099", "TRK-W64-101", "TRK-W64-105"],
+    "accepted": ["TRK-W64-069"],
+    "held": ["TRK-W64-077", "TRK-W64-099", "TRK-W64-105"],
+    "absent": ["TRK-W64-101"],
+    "all_dependencies_accepted": false
+  },
+  "validation": {
+    "targeted_tests": {"result": "PASS", "passed": 15, "failed": 0},
+    "ruff_check": "PASS",
+    "live_runtime_executed": false,
+    "coordinator_lease_acquired": false
+  },
+  "artifacts": [
+    {"path": "Plan/07_IMPLEMENTATION/scripts/control_wave64_audio_runtime_cache_cost.py", "sha256": "b8d726ef255788ee4167a7ea897223b29f95670644d0b63e58444b587e2a9d91"},
+    {"path": "Plan/08_SCHEMAS/audio_runtime_control_receipt.schema.json", "sha256": "1ffd2e58e067107bc513d4858dca1611f594e2ec6c6434852e2a1e4c57b802b5"},
+    {"path": "Plan/10_REGISTRIES/wave64_row108_audio_runtime_cache_cost_policy_registry.json", "sha256": "50bda8f932c71e78cf9d087dc49ca466ff4dc684b77938c1e82a28fea9c63207"},
+    {"path": "Plan/Instructions/QA/Scripts/test_row108_audio_runtime_cache_cost.py", "sha256": "86a47c41108c6e22b534131c6300237c5a4ad79e2ff66e08632db0106c92025f"},
+    {"path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-108_audio_runtime_cache_cost.json", "sha256": "9a171fdffebe0503ca2800b97b1a287afae45e51ba07885dbf7f379b3f120218"}
+  ],
+  "hold_boundary": {
+    "blocker_codes": [
+      "ROW108_DEPENDENCIES_NOT_ACCEPTED",
+      "EXACT_COORDINATOR_LEASE_ABSENT",
+      "TTL_WATCHDOG_RECEIPT_ABSENT",
+      "FINAL_LEASE_RELEASE_RECEIPT_ABSENT"
+    ],
+    "pod_or_cloud_mutated": false,
+    "product_completion": false,
+    "next_action": "After dependencies pass, admit one exact bounded batch on pod 1q4ji0gg1fkhvt under a sanitized exclusive coordinator lease and retain cost, transfer, watchdog, and final-release receipts."
+  }
+}

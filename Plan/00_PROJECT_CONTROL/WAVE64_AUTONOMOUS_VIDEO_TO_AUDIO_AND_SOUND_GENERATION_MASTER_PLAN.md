@@ -396,6 +396,18 @@ Implement local-first analysis, content-addressed feature/embedding caches, boun
 
 Acceptance: cache invalidation follows model/config hashes; interrupted batches resume; cost estimates and actuals are recorded.
 
+Implemented contract slice (2026-07-22): cache keys bind source, model,
+configuration, implementation, and decoder hashes; any identity change
+invalidates reuse. Batches are capped at 16 items and 46 GiB estimated peak
+VRAM, passed items resume as immutable reuse, cost estimates gate admission,
+and actual cost plus watchdog/final-release receipts gate completion. Transfer
+manifests bind exact hashes, sizes, and unique destinations. The sole current
+runtime is RunPod pod `1q4ji0gg1fkhvt`; alternate providers are disabled and
+live admission requires a sanitized exclusive coordinator lease. Fifteen
+tests pass. Row069 is accepted, Rows077/099/105 are held, and Row101 evidence
+is absent, so no runtime or cloud mutation occurred and product completion is
+false.
+
 ### Row109 Benchmark, calibration, and adversarial corpus
 
 Create representative annotated clips and audio fixtures for footsteps, heel strikes, body contacts, clothing, props, rooms, occlusions, multiple actors, cuts, ambiguous materials, and intentionally silent events.

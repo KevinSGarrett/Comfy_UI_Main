@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0.0",
+  "revision": "wave64_row108_audio_runtime_cache_cost_policy_v0.1.0",
+  "sole_current_runtime": {
+    "provider": "runpod",
+    "pod_id": "1q4ji0gg1fkhvt",
+    "alternate_provider_allowed": false
+  },
+  "cache_key_fields": [
+    "source_sha256", "model_sha256", "configuration_sha256",
+    "implementation_sha256", "decoder_sha256"
+  ],
+  "batch_limits": {
+    "maximum_items": 16,
+    "maximum_estimated_peak_vram_gib": 46.0,
+    "minimum_free_storage_gib_after_admission": 50.0,
+    "maximum_retry_attempts_per_item": 2
+  },
+  "cost_rules": {
+    "currency": "USD",
+    "estimate_required_before_admission": true,
+    "actual_required_before_completion": true,
+    "overrun_requires_new_authority": true
+  },
+  "runtime_rules": {
+    "exact_coordinator_lease_required": true,
+    "foreign_or_expired_lease_rejected": true,
+    "lease_tokens_forbidden_in_evidence": true,
+    "content_addressed_transfer_manifest_required": true,
+    "passed_items_never_reexecuted_without_identity_change": true,
+    "ttl_and_final_release_receipts_required_for_runtime_completion": true
+  }
+}

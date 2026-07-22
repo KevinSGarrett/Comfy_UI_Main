@@ -124,6 +124,21 @@ coordinator lease. One oversized graph cannot substitute for these six module
 boundaries, and a workflow queue/history result remains evidence rather than
 external-controller authority.
 
+## Row108 runtime, cache, batch, and cost controls
+
+Feature and embedding cache keys bind exact source, model, configuration,
+implementation, and decoder hashes. A change to any field invalidates reuse.
+Resume preserves hash-matched passed items and never reruns them merely to
+refresh evidence; a changed retained input identity fails closed.
+
+Every batch is bounded by item count, estimated peak VRAM, storage reserve,
+retry count, and USD budget before admission. Transfer manifests bind source
+hash, byte count, unique destination, and verification state. Live work is
+limited to the registered sole RunPod pod and requires an exact sanitized
+exclusive coordinator lease. Completion additionally requires actual cost,
+TTL/watchdog, and final lease-release evidence. Synthetic receipts never grant
+runtime authority.
+
 ## Benchmark requirements
 
 Benchmarks must include:
