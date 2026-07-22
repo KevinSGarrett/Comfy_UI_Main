@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "runpod_autonomous_latentsync_source_wheel_build_admission.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "program_id", "package_id", "status", "source_dependency_lock", "builder", "sources", "targets", "network", "static_gates", "authority", "verification"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.latentsync_source_wheel_build_admission.v1"},
+    "program_id": {"const": "W64-AQA"},
+    "package_id": {"const": "W64-AQA-PKG-LATENTSYNC-1.6"},
+    "status": {"const": "SOURCE_WHEEL_BUILD_ADMITTED_EXECUTION_PENDING"},
+    "source_dependency_lock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"const": "Plan/10_REGISTRIES/Locks/wave64_latentsync_1_6_py311_cu121.pylock.toml"},
+        "sha256": {"const": "ac29c11ced5d4be9b22ff4c0fcec9a9d48361d9dfcb1996bf2fdd2a8526b9605"}
+      }
+    },
+    "builder": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lock_path", "lock_sha256", "package_count", "wheel_entry_count", "python_executable", "python_version", "python_sha256", "uv_version", "minimum_free_bytes"],
+      "properties": {
+        "lock_path": {"const": "Plan/10_REGISTRIES/Locks/wave64_latentsync_1_6_source_wheel_builder_py311.pylock.toml"},
+        "lock_sha256": {"const": "06610318056d7345485f7623316882c20fbd07913aa05f28aa6ef79458db16a7"},
+        "package_count": {"const": 6},
+        "wheel_entry_count": {"const": 7},
+        "python_executable": {"const": "/usr/bin/python3"},
+        "python_version": {"const": "3.11.10"},
+        "python_sha256": {"const": "45c68b7ca1e3765a06756734c15af204ca9c0588a3f6d7a6d8bb8ed58e3e2a1a"},
+        "uv_version": {"const": "0.11.30"},
+        "minimum_free_bytes": {"type": "integer", "minimum": 10737418240}
+      }
+    },
+    "sources": {
+      "const": [
+        {
+          "name": "antlr4-python3-runtime",
+          "version": "4.9.3",
+          "filename": "antlr4-python3-runtime-4.9.3.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/3e/38/7859ff46355f76f8d19459005ca000b6e7012f2f1ca597746cbcd1fbfe5e/antlr4-python3-runtime-4.9.3.tar.gz",
+          "sha256": "f224469b4168294902bb1efa80a8bf7855f24c99aef99cbefc1bcd3cce77881b"
+        },
+        {
+          "name": "insightface",
+          "version": "0.7.3",
+          "filename": "insightface-0.7.3.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/0b/8d/0f4af90999ca96cf8cb846eb5ae27c5ef5b390f9c090dd19e4fa76364c13/insightface-0.7.3.tar.gz",
+          "sha256": "f191f719612ebb37018f41936814500544cd0f86e6fcd676c023f354c668ddf7"
+        },
+        {
+          "name": "python-speech-features",
+          "version": "0.6",
+          "filename": "python_speech_features-0.6.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/ff/d1/94c59e20a2631985fbd2124c45177abaa9e0a4eee8ba8a305aa26fc02a8e/python_speech_features-0.6.tar.gz",
+          "sha256": "a0aebf746464bc929dc3162cb369d7ff967c398c5120ddf5fb40a65f01b92b11"
+        }
+      ]
+    },
+    "targets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["wheelhouse_root", "receipt_path", "active_comfyui_environment_mutable"],
+      "properties": {
+        "wheelhouse_root": {"const": "/workspace/w64_aqa/wheelhouse/LatentSync-1.6/a229c3948406bc2cf6eaf4873e662e70c6a04746/06610318056d7345485f7623316882c20fbd07913aa05f28aa6ef79458db16a7"},
+        "receipt_path": {"const": "/workspace/w64_aqa/control/receipts/latentsync-1.6-source-wheels-a229c394-06610318.json"},
+        "active_comfyui_environment_mutable": {"const": false}
+      }
+    },
+    "network": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowed_hosts", "model_download_allowed"],
+      "properties": {
+        "allowed_hosts": {"const": ["files.pythonhosted.org"]},
+        "model_download_allowed": {"const": false}
+      }
+    },
+    "static_gates": {
+      "const": ["archive_hash", "archive_path_safety", "archive_symlink_rejection", "setup_script_network_and_process_scan", "exact_builder_lock", "wheel_metadata_identity", "wheel_record_present", "wheel_archive_path_safety"]
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["exact_sdist_download", "isolated_builder_create", "exact_sdist_build_execution", "wheel_publish", "package_import", "project_code_import", "runtime_environment_install", "model_load", "tensor_allocation", "gpu_or_lease_poll", "inference", "service_change", "role_activation", "product_authority"],
+      "properties": {
+        "exact_sdist_download": {"const": true},
+        "isolated_builder_create": {"const": true},
+        "exact_sdist_build_execution": {"const": true},
+        "wheel_publish": {"const": true},
+        "package_import": {"const": false},
+        "project_code_import": {"const": false},
+        "runtime_environment_install": {"const": false},
+        "model_load": {"const": false},
+        "tensor_allocation": {"const": false},
+        "gpu_or_lease_poll": {"const": false},
+        "inference": {"const": false},
+        "service_change": {"const": false},
+        "role_activation": {"const": false},
+        "product_authority": {"const": false}
+      }
+    },
+    "verification": {
+      "const": ["free_space", "base_python_identity", "builder_lock_hash", "builder_distribution_manifest", "source_hashes", "static_gates", "three_output_wheels", "wheel_hashes", "wheel_metadata", "wheelhouse_tree_digest", "active_environment_unchanged", "no_runtime_claim"]
+    }
+  }
+}
