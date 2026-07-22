@@ -68,6 +68,19 @@ def test_record_regeneration_rehashes_changed_entry() -> None:
     assert rows[MODULE.RECORD_PATH] == ["", ""]
 
 
+def test_record_verification_allows_explicit_directory_entries() -> None:
+    contents = {
+        "decord/": b"",
+        MODULE.WHEEL_PATH: b"wheel",
+        MODULE.RECORD_PATH: b"",
+    }
+    contents[MODULE.RECORD_PATH] = (
+        f"{MODULE.WHEEL_PATH},{MODULE.record_digest(b'wheel')},5\n"
+        f"{MODULE.RECORD_PATH},,\n"
+    ).encode()
+    MODULE.verify_record(contents)
+
+
 def test_unsafe_member_paths_fail() -> None:
     assert MODULE.safe_member_path("decord/__init__.py")
     assert not MODULE.safe_member_path("../escape")

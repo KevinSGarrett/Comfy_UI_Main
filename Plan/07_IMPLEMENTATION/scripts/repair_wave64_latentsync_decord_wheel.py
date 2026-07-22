@@ -127,7 +127,8 @@ def download_source(admission: dict, destination: Path) -> dict:
 
 def verify_record(contents: dict[str, bytes]) -> None:
     rows = list(csv.reader(io.StringIO(contents[RECORD_PATH].decode("utf-8"))))
-    if len(rows) != len(contents):
+    file_names = {name for name in contents if not name.endswith("/")}
+    if len(rows) != len(file_names):
         raise RepairError("wheel RECORD entry count mismatch")
     observed_names: set[str] = set()
     for row in rows:
@@ -139,8 +140,8 @@ def verify_record(contents: dict[str, bytes]) -> None:
                 raise RepairError("wheel RECORD self-entry must be unhashed")
         elif row[1] != record_digest(contents[row[0]]) or row[2] != str(len(contents[row[0]])):
             raise RepairError(f"wheel RECORD hash or size mismatch: {row[0]}")
-    if observed_names != set(contents):
-        raise RepairError("wheel RECORD does not cover every entry")
+    if observed_names != file_names:
+        raise RepairError("wheel RECORD does not cover every non-directory entry")
 
 
 def inspect_source(path: Path) -> tuple[list[zipfile.ZipInfo], dict[str, bytes]]:
