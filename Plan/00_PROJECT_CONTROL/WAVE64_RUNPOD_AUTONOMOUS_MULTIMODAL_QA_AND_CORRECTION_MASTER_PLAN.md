@@ -1061,3 +1061,12 @@ matching the published LFS object; Apache-2.0 metadata is recorded without
 license-acceptance authority. This independently qualifies only the encoder's
 storage identity. The paired IP-Adapter weight, dependency bundle, model load,
 reference-conditioning quality, activation, and workflow promotion remain false.
+
+The paired IP-Adapter Plus SDXL weight also passes exact promoted-storage and
+provider binding at the same `h94/IP-Adapter` revision. Its current-pod file is
+847,517,512 bytes with SHA-256
+`3f5062b8400c94b7159665b21ba5c62acdcd7682262743d7f2aefedef00e6581`,
+matching the published LFS object. Together with the accepted CLIP ViT-H-14
+encoder, this proves the two-file storage identity pair and nothing beyond it.
+Custom-node code and dependencies, model load, conditioning quality, activation,
+workflow promotion, license acceptance, and product authority remain false.
