@@ -148,6 +148,13 @@ def validate(data: dict) -> list[str]:
                     errors.append(f"{item.get('package_id')}: Qwen2.5-VL 7B official identity mismatch")
                 if item.get("static_qualification") != expected_static:
                     errors.append(f"{item.get('package_id')}: Qwen2.5-VL 7B official manifest mismatch")
+            elif identity.get("repository_id") == "llava:13b":
+                expected_identity = {"display_name": "llava:13b", "publisher": "Ollama library / LLaVA", "repository_id": "llava:13b", "source_url": "https://registry.ollama.ai/v2/library/llava/manifests/13b", "identity_state": "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_PINNED", "license_state": "LLAMA2_COMMUNITY_LICENSE_REVIEW_REQUIRED_NOT_ACCEPTED"}
+                expected_static = {"state": "OFFICIAL_MANIFEST_PASS_LLAMA2_LICENSE_REVIEW_REQUIRED_RUNTIME_PENDING", "evidence": "Plan/Tracker/Evidence/W64_AQA_LLAVA13_OFFICIAL_MANIFEST_LICENSE_HOLD_20260722.json", "manifest_sha256": EXPECTED_INSTALLED["llava:13b"], "config_sha256": "652f7b0bc7d42ec99a57baa76e2d2cc908f01bd95e78e9cafaca5b7beca339db", "model_sha256": "87d5b13e5157d3a67f8e10a46d8a846ec2b68c1f731e3dfe1546a585432b8fa0", "projector_sha256": "42037f9f4c1b801eebaec1545ed144b8b0fa8259672158fb69c8c68f02cfe00c", "license_sha256": "41774062cd349c744e8ee986c1aaf5784b7e42fbe306619536fa7386d421da78", "template_sha256": "9fb057c3f08a7a6d4cce5b18cfe081b27efcff3a0cc4a3868269f261ac5ef59a", "parameters_sha256": "7215dae26124d3f5709e81906f0f2f103dde3e136b6dd89e0a24c63a0ba33f42"}
+                if identity != expected_identity:
+                    errors.append(f"{item.get('package_id')}: LLaVA 13B official identity or license hold mismatch")
+                if item.get("static_qualification") != expected_static:
+                    errors.append(f"{item.get('package_id')}: LLaVA 13B official manifest mismatch")
         elif state == "PROMOTED_EXACT_PACKAGE_IDENTITY_VERIFIED_ACTIVATION_PENDING":
             repository_id = identity.get("repository_id", "")
             source_pin = item.get("source_pin", {})
