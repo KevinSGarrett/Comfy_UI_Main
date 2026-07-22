@@ -61,6 +61,10 @@ PATHS = {
     / "Plan/07_IMPLEMENTATION/scripts/install_wave64_runpod_model_package.py",
     "qwen3_asr_install_admission_evidence": ROOT
     / "Plan/Tracker/Evidence/W64_AQA_QWEN3_ASR_17B_INSTALL_ADMISSION_20260722T002600Z.json",
+    "qwen3_asr_storage_install_evidence": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_QWEN3_ASR_17B_STORAGE_INSTALL_20260722T003615Z/evidence.json",
+    "qwen3_asr_remote_install_receipt": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_QWEN3_ASR_17B_STORAGE_INSTALL_20260722T003615Z/remote_install_receipt.json",
     "schema": ROOT
     / "Plan/08_SCHEMAS/runpod_autonomous_multimodal_qa_decision.schema.json",
     "job_contract_schema": ROOT
@@ -316,6 +320,8 @@ def collect_errors() -> list[str]:
         model_install_admission_schema = load_json(PATHS["model_install_admission_schema"])
         qwen3_asr_install_admission = load_json(PATHS["qwen3_asr_install_admission"])
         qwen3_asr_install_admission_evidence = load_json(PATHS["qwen3_asr_install_admission_evidence"])
+        qwen3_asr_storage_install_evidence = load_json(PATHS["qwen3_asr_storage_install_evidence"])
+        qwen3_asr_remote_install_receipt = load_json(PATHS["qwen3_asr_remote_install_receipt"])
         schema = load_json(PATHS["schema"])
         job_contract_schema = load_json(PATHS["job_contract_schema"])
         phase_lease_schema = load_json(PATHS["phase_lease_schema"])
@@ -449,6 +455,17 @@ def collect_errors() -> list[str]:
         errors.append("Qwen3-ASR admission evidence cannot claim download")
     if qwen3_asr_install_admission_evidence.get("gpu_or_lease_polled") is not False:
         errors.append("Qwen3-ASR admission evidence cannot claim GPU or lease polling")
+    if qwen3_asr_storage_install_evidence.get("disposition") != "INSTALLED_FILE_SET_VERIFIED_ACTIVATION_PENDING":
+        errors.append("Qwen3-ASR storage install disposition mismatch")
+    if qwen3_asr_storage_install_evidence.get("replay_result") != "REUSED_VERIFIED_INSTALL":
+        errors.append("Qwen3-ASR storage install replay is not verified")
+    remote_receipt_sha256 = hashlib.sha256(PATHS["qwen3_asr_remote_install_receipt"].read_bytes()).hexdigest()
+    if remote_receipt_sha256 != "cd52de9d1c4495d42c007d648dfa0355aa57eec64457cbdf967ba9ef39aa004e":
+        errors.append("Qwen3-ASR remote install receipt mirror hash mismatch")
+    if qwen3_asr_remote_install_receipt.get("status") != "INSTALLED_BYTES_VERIFIED_NOT_LOADED_OR_ACTIVATED":
+        errors.append("Qwen3-ASR remote install receipt status mismatch")
+    if any(qwen3_asr_remote_install_receipt.get("runtime_claims", {}).values()):
+        errors.append("Qwen3-ASR storage receipt contains a false runtime claim")
 
     json_docs = (
         requirements,
@@ -461,6 +478,8 @@ def collect_errors() -> list[str]:
         role_package_identity_evidence,
         qwen3_asr_install_admission,
         qwen3_asr_install_admission_evidence,
+        qwen3_asr_storage_install_evidence,
+        qwen3_asr_remote_install_receipt,
         tool_executor_qualification,
         workflow_receipt_shadow_evidence,
         workflow_tool_qualification_evidence,

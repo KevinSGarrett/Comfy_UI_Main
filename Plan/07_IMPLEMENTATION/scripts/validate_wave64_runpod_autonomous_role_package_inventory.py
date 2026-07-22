@@ -77,8 +77,13 @@ def validate(data: dict) -> list[str]:
             if install.get("durable_root") != "/workspace/ollama":
                 errors.append(f"{item.get('package_id')}: installed root mismatch")
             installed[identity.get("repository_id", "")] = digest
-        elif state == "UPSTREAM_IDENTITY_VERIFIED_NOT_INSTALLED":
-            if install.get("artifact_digest") is not None or install.get("durable_root") is not None:
+        elif state in {
+            "UPSTREAM_IDENTITY_VERIFIED_NOT_INSTALLED",
+            "INSTALLED_FILE_SET_VERIFIED_ACTIVATION_PENDING",
+        }:
+            if state == "UPSTREAM_IDENTITY_VERIFIED_NOT_INSTALLED" and (
+                install.get("artifact_digest") is not None or install.get("durable_root") is not None
+            ):
                 errors.append(f"{item.get('package_id')}: uninstalled package cannot claim artifact/root")
             repository_id = identity.get("repository_id", "")
             source_pin = item.get("source_pin")
@@ -89,6 +94,17 @@ def validate(data: dict) -> list[str]:
                     errors.append(f"{item.get('package_id')}: source revision pin mismatch")
                 if "pinned_revision" in qualification.get("required_gates", []):
                     errors.append(f"{item.get('package_id')}: completed revision gate must be removed")
+                if state == "INSTALLED_FILE_SET_VERIFIED_ACTIVATION_PENDING":
+                    receipt = item.get("installation_receipt", {})
+                    expected_root = f"/workspace/w64_aqa/models/Qwen3-ASR-1.7B/{PINNED_PLANNED[repository_id]}"
+                    if install.get("durable_root") != expected_root:
+                        errors.append(f"{item.get('package_id')}: installed file-set root mismatch")
+                    if install.get("artifact_digest") != "e733f6863ecf6e3cd2d5579cd50c6e8cd35c78739316757633ad70c879edba60":
+                        errors.append(f"{item.get('package_id')}: install manifest digest mismatch")
+                    if receipt.get("sha256") != "cd52de9d1c4495d42c007d648dfa0355aa57eec64457cbdf967ba9ef39aa004e":
+                        errors.append(f"{item.get('package_id')}: installation receipt mismatch")
+                    if receipt.get("replay") != "REUSED_VERIFIED_INSTALL":
+                        errors.append(f"{item.get('package_id')}: verified install replay required")
             else:
                 if identity.get("identity_state") != "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_UNPINNED":
                     errors.append(f"{item.get('package_id')}: planned identity state mismatch")

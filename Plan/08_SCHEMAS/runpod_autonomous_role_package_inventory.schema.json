@@ -61,10 +61,22 @@
             "additionalProperties": false,
             "required": ["state", "artifact_digest", "durable_root", "evidence"],
             "properties": {
-              "state": {"enum": ["INSTALLED_DIGEST_VERIFIED_ACTIVATION_SCOPED", "UPSTREAM_IDENTITY_VERIFIED_NOT_INSTALLED", "EXTERNAL_CONSUMER_ONLY_NOT_INSTALLABLE"]},
+              "state": {"enum": ["INSTALLED_DIGEST_VERIFIED_ACTIVATION_SCOPED", "INSTALLED_FILE_SET_VERIFIED_ACTIVATION_PENDING", "UPSTREAM_IDENTITY_VERIFIED_NOT_INSTALLED", "EXTERNAL_CONSUMER_ONLY_NOT_INSTALLABLE"]},
               "artifact_digest": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
               "durable_root": {"type": ["string", "null"]},
               "evidence": {"type": "string", "minLength": 1}
+            }
+          },
+          "installation_receipt": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["remote_path", "sha256", "file_count", "total_bytes", "replay"],
+            "properties": {
+              "remote_path": {"type": "string", "pattern": "^/workspace/"},
+              "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "file_count": {"type": "integer", "minimum": 1},
+              "total_bytes": {"type": "integer", "minimum": 1},
+              "replay": {"const": "REUSED_VERIFIED_INSTALL"}
             }
           },
           "source_pin": {

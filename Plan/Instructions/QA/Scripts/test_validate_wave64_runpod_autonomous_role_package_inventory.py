@@ -55,10 +55,11 @@ def test_no_package_is_operational_without_certificate() -> None:
     assert any("operational must remain false" in error for error in MODULE.validate(data))
 
 
-def test_asr_source_revision_is_exact_and_still_uninstalled() -> None:
+def test_asr_source_revision_and_storage_install_are_exact_but_not_operational() -> None:
     data = copy.deepcopy(load_inventory())
     package = next(item for item in data["packages"] if item["identity"]["repository_id"] == "Qwen/Qwen3-ASR-1.7B")
     assert package["source_pin"]["revision"] == "7278e1e70fe206f11671096ffdd38061171dd6e5"
-    assert package["installation"]["state"] == "UPSTREAM_IDENTITY_VERIFIED_NOT_INSTALLED"
+    assert package["installation"]["state"] == "INSTALLED_FILE_SET_VERIFIED_ACTIVATION_PENDING"
+    assert not package["authority"]["operational"]
     package["source_pin"]["revision"] = "0" * 40
     assert any("source revision pin mismatch" in error for error in MODULE.validate(data))

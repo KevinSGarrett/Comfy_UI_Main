@@ -492,3 +492,10 @@ Git-blob identity and weights by SHA-256, rejects symlinks and extra files, and
 publishes by atomic no-overwrite rename. A completed target is reusable only
 after its receipt and every file reverify. The installer imports no model or GPU
 library and exposes no load, inference, service, lease, or activation action.
+
+The current pod now contains the exact Qwen3-ASR file set at the admitted
+revision. The first install and a verification-only replay passed; the retained
+remote receipt mirror is byte-identical to the pod receipt. This proves storage
+installation only. It does not prove that runtime dependencies import, the model
+fits or loads, transcription is correct, latency or cost is acceptable, faults
+recover, or the ASR role can participate in a product decision.

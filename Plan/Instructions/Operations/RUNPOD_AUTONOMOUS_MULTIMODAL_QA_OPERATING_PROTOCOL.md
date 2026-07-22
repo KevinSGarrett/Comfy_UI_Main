@@ -304,3 +304,10 @@ manually rename or edit staging. On mismatch, preserve the failure evidence and
 do not publish. A verified storage receipt changes installation state only; it
 does not satisfy capacity, runtime, calibration, quality, cost, fault, or role
 activation gates.
+
+Current storage state: Qwen3-ASR-1.7B revision `7278e1e` is installed and
+file-verified at its immutable target; a completed replay returned
+`REUSED_VERIFIED_INSTALL`. Treat the directory as read-only. Do not create a
+`latest` alias, move it into Ollama, import weights, or add service bindings.
+The next lease-independent step is an import-only configuration/dependency
+preflight that must fail before any tensor allocation.
