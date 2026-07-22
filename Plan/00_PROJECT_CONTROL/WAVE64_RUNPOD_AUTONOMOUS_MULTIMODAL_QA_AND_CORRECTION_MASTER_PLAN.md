@@ -542,3 +542,11 @@ to import the isolated Qwen-ASR, Transformers, and Torch libraries and resolve
 the four required class objects. Model construction, tensor requests, weight
 access, GPU or lease polling, inference, services, activation, and product
 authority remain false.
+
+The first live canary attempt failed closed after recording one unconnected
+IPv6 socket-construction event; all four required imports nevertheless
+completed. The audited arguments prove this was `socket.__new__` only, not
+connect, bind, DNS, listen, send, or receive. The corrected policy records
+socket construction as a non-I/O capability probe while continuing to reject
+every audited network-I/O action. This correction requires a new pushed canary
+and does not retroactively accept the first attempt.

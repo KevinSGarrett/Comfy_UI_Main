@@ -40,13 +40,14 @@
     "isolation": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["cuda_visible_devices", "nvidia_visible_devices", "offline", "bytecode_writes_disabled", "blocked_side_effect_events", "weight_file_open_attempts"],
+      "required": ["cuda_visible_devices", "nvidia_visible_devices", "offline", "bytecode_writes_disabled", "blocked_side_effect_events", "socket_create_event_count", "weight_file_open_attempts"],
       "properties": {
         "cuda_visible_devices": {"const": ""},
         "nvidia_visible_devices": {"const": "none"},
         "offline": {"const": true},
         "bytecode_writes_disabled": {"const": true},
         "blocked_side_effect_events": {"type": "array", "maxItems": 0},
+        "socket_create_event_count": {"type": "integer", "minimum": 0},
         "weight_file_open_attempts": {"type": "array", "maxItems": 0}
       }
     },

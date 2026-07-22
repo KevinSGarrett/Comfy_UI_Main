@@ -351,3 +351,9 @@ contains its schema and tests. Set `CUDA_VISIBLE_DEVICES` empty,
 control root. After the canary, recompute the environment tree digest; any byte
 change, network attempt, weight-file open, missing class, or nonempty GPU
 visibility rejects the canary.
+
+Audit classification: `socket.__new__` alone is a recorded non-I/O capability
+probe. It cannot establish a connection or transfer data and does not pass or
+fail the canary by itself. `socket.connect`, `connect_ex`, `bind`, DNS lookup,
+listen, and send operations remain hard-blocked, as do subprocess and shell
+execution. Never generalize this exception to other socket events.

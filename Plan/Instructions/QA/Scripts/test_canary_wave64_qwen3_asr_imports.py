@@ -70,6 +70,7 @@ def test_schema_accepts_minimal_valid_shape() -> None:
             "offline": True,
             "bytecode_writes_disabled": True,
             "blocked_side_effect_events": [],
+            "socket_create_event_count": 1,
             "weight_file_open_attempts": [],
         },
         "measurements": {
@@ -124,3 +125,14 @@ def test_expected_distribution_identity_is_exact() -> None:
         "transformers": "4.57.6",
         "torch": "2.4.1+cu124",
     }
+
+
+def test_socket_creation_is_recorded_but_network_io_is_blocked() -> None:
+    assert MODULE.RECORDED_NON_IO_AUDIT_EVENTS == {"socket.__new__"}
+    assert {
+        "socket.bind",
+        "socket.connect",
+        "socket.getaddrinfo",
+        "socket.listen",
+        "socket.sendto",
+    }.issubset(MODULE.BLOCKED_AUDIT_EVENTS)

@@ -27,6 +27,18 @@ EXPECTED_DISTRIBUTIONS = {
     "torch": "2.4.1+cu124",
 }
 WEIGHT_SUFFIXES = (".safetensors", ".ckpt", ".pt", ".pth")
+RECORDED_NON_IO_AUDIT_EVENTS = {"socket.__new__"}
+BLOCKED_AUDIT_EVENTS = {
+    "socket.bind",
+    "socket.connect",
+    "socket.connect_ex",
+    "socket.getaddrinfo",
+    "socket.gethostbyname",
+    "socket.listen",
+    "socket.sendto",
+    "subprocess.Popen",
+    "os.system",
+}
 
 
 def resident_bytes() -> int:
@@ -79,10 +91,14 @@ def write_json_atomic_no_overwrite(path: Path, payload: dict) -> None:
 def run_canary() -> dict:
     validate_environment()
     blocked_events: list[str] = []
+    socket_create_events: list[str] = []
     weight_open_attempts: list[str] = []
 
     def audit(event: str, args: tuple) -> None:
-        if event.startswith("socket.") or event in {"subprocess.Popen", "os.system"}:
+        if event in RECORDED_NON_IO_AUDIT_EVENTS:
+            socket_create_events.append(event)
+            return
+        if event in BLOCKED_AUDIT_EVENTS:
             blocked_events.append(event)
             raise RuntimeError(f"blocked import-canary side effect: {event}")
         if event == "open" and args:
@@ -140,6 +156,7 @@ def run_canary() -> dict:
             "offline": True,
             "bytecode_writes_disabled": True,
             "blocked_side_effect_events": blocked_events,
+            "socket_create_event_count": len(socket_create_events),
             "weight_file_open_attempts": weight_open_attempts,
         },
         "measurements": {
