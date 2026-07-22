@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "runpod_autonomous_qwen3_omni_import_canary.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "program_id", "package_id", "status", "environment_root", "python_version", "distribution_versions", "imported_versions", "class_resolution", "isolation", "measurements", "runtime_claims"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.qwen3_omni_import_canary.v1"},
+    "program_id": {"const": "W64-AQA"},
+    "package_id": {"const": "W64-AQA-PKG-QWEN3-OMNI-30B-A3B"},
+    "status": {"const": "IMPORT_ONLY_CLASS_RESOLUTION_PASS_RUNTIME_PENDING"},
+    "environment_root": {"const": "/workspace/w64_aqa/environments/Qwen3-Omni-30B-A3B-Thinking/transformers-5.2.0-qwen-omni-utils-0.0.9-py3.12.13-cu124/a19d160721dfb74cf89bc70eebec10f45b2e6f58b7a109726d658db7d361277c"},
+    "python_version": {"const": "3.12.13"},
+    "distribution_versions": {"const": {"qwen-omni-utils": "0.0.9", "transformers": "5.2.0", "torch": "2.4.1+cu124", "torchvision": "0.19.1+cu124", "av": "18.0.0"}},
+    "imported_versions": {"const": {"transformers": "5.2.0", "torch": "2.4.1+cu124", "torchvision": "0.19.1+cu124"}},
+    "class_resolution": {"type": "object", "additionalProperties": false, "required": ["Qwen3OmniMoeConfig", "Qwen3OmniMoeProcessor", "Qwen3OmniMoeForConditionalGeneration"], "patternProperties": {"^Qwen3Omni": {"type": "object", "additionalProperties": false, "required": ["is_class", "module"], "properties": {"is_class": {"const": true}, "module": {"type": "string", "minLength": 1}}}}},
+    "isolation": {"type": "object", "additionalProperties": false, "required": ["cuda_visible_devices", "nvidia_visible_devices", "offline", "bytecode_writes_disabled", "blocked_side_effect_events", "socket_create_event_count", "loopback_ephemeral_bind_probe_count", "weight_file_open_attempts"], "properties": {"cuda_visible_devices": {"const": ""}, "nvidia_visible_devices": {"const": "none"}, "offline": {"const": true}, "bytecode_writes_disabled": {"const": true}, "blocked_side_effect_events": {"type": "array", "maxItems": 0}, "socket_create_event_count": {"type": "integer", "minimum": 0}, "loopback_ephemeral_bind_probe_count": {"type": "integer", "minimum": 0}, "weight_file_open_attempts": {"type": "array", "maxItems": 0}}},
+    "measurements": {"type": "object", "additionalProperties": false, "required": ["import_duration_ms", "rss_before_bytes", "rss_after_bytes", "rss_delta_bytes"], "properties": {"import_duration_ms": {"type": "number", "minimum": 0}, "rss_before_bytes": {"type": "integer", "minimum": 1}, "rss_after_bytes": {"type": "integer", "minimum": 1}, "rss_delta_bytes": {"type": "integer"}}},
+    "runtime_claims": {"type": "object", "additionalProperties": false, "required": ["model_library_imported", "required_classes_resolved", "model_constructed", "weights_opened", "tensor_allocation_requested", "gpu_or_lease_polled", "inference_performed", "service_changed", "role_activated", "audio_or_av_authority", "product_authority"], "properties": {"model_library_imported": {"const": true}, "required_classes_resolved": {"const": true}, "model_constructed": {"const": false}, "weights_opened": {"const": false}, "tensor_allocation_requested": {"const": false}, "gpu_or_lease_polled": {"const": false}, "inference_performed": {"const": false}, "service_changed": {"const": false}, "role_activated": {"const": false}, "audio_or_av_authority": {"const": false}, "product_authority": {"const": false}}}
+  }
+}
