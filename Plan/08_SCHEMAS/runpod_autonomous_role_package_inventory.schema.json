@@ -79,6 +79,28 @@
               "replay": {"const": "REUSED_VERIFIED_INSTALL"}
             }
           },
+          "dependency_preflight": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["state", "evidence", "receipt_sha256", "gaps"],
+            "properties": {
+              "state": {"const": "CONFIG_IDENTITY_PASS_DEPENDENCY_ACTION_REQUIRED"},
+              "evidence": {"type": "string", "minLength": 1},
+              "receipt_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "gaps": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": {
+                  "enum": [
+                    "QWEN_ASR_DISTRIBUTION_MISSING",
+                    "TRANSFORMERS_DISTRIBUTION_MISSING",
+                    "INSTALLED_TRANSFORMERS_LACKS_QWEN3_ASR_SUPPORT"
+                  ]
+                }
+              }
+            }
+          },
           "source_pin": {
             "type": "object",
             "additionalProperties": false,

@@ -96,6 +96,7 @@ def validate(data: dict) -> list[str]:
                     errors.append(f"{item.get('package_id')}: completed revision gate must be removed")
                 if state == "INSTALLED_FILE_SET_VERIFIED_ACTIVATION_PENDING":
                     receipt = item.get("installation_receipt", {})
+                    preflight = item.get("dependency_preflight", {})
                     expected_root = f"/workspace/w64_aqa/models/Qwen3-ASR-1.7B/{PINNED_PLANNED[repository_id]}"
                     if install.get("durable_root") != expected_root:
                         errors.append(f"{item.get('package_id')}: installed file-set root mismatch")
@@ -105,6 +106,17 @@ def validate(data: dict) -> list[str]:
                         errors.append(f"{item.get('package_id')}: installation receipt mismatch")
                     if receipt.get("replay") != "REUSED_VERIFIED_INSTALL":
                         errors.append(f"{item.get('package_id')}: verified install replay required")
+                    if preflight.get("state") != "CONFIG_IDENTITY_PASS_DEPENDENCY_ACTION_REQUIRED":
+                        errors.append(f"{item.get('package_id')}: dependency preflight state mismatch")
+                    if preflight.get("receipt_sha256") != "ce3e2d78a2bfb13827f0aa4a73cc89d7dc8bb615192b7c3c71fef290d5267b0e":
+                        errors.append(f"{item.get('package_id')}: dependency preflight receipt mismatch")
+                    if preflight.get("gaps") != [
+                        "QWEN_ASR_DISTRIBUTION_MISSING",
+                        "INSTALLED_TRANSFORMERS_LACKS_QWEN3_ASR_SUPPORT",
+                    ]:
+                        errors.append(f"{item.get('package_id')}: dependency gaps mismatch")
+                    if "dependency_environment" not in qualification.get("required_gates", []):
+                        errors.append(f"{item.get('package_id')}: dependency environment gate required")
             else:
                 if identity.get("identity_state") != "OFFICIAL_UPSTREAM_IDENTITY_VERIFIED_REVISION_UNPINNED":
                     errors.append(f"{item.get('package_id')}: planned identity state mismatch")

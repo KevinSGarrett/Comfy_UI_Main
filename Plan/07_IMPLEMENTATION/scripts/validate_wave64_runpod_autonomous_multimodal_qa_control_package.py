@@ -69,6 +69,10 @@ PATHS = {
     / "Plan/08_SCHEMAS/runpod_autonomous_qwen3_asr_dependency_preflight.schema.json",
     "qwen3_asr_dependency_preflight": ROOT
     / "Plan/07_IMPLEMENTATION/scripts/preflight_wave64_qwen3_asr_dependencies.py",
+    "qwen3_asr_dependency_preflight_evidence": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_QWEN3_ASR_17B_DEPENDENCY_PREFLIGHT_20260722T005102Z/evidence.json",
+    "qwen3_asr_dependency_preflight_receipt": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_QWEN3_ASR_17B_DEPENDENCY_PREFLIGHT_20260722T005102Z/remote_dependency_preflight.receipt.json",
     "schema": ROOT
     / "Plan/08_SCHEMAS/runpod_autonomous_multimodal_qa_decision.schema.json",
     "job_contract_schema": ROOT
@@ -327,6 +331,8 @@ def collect_errors() -> list[str]:
         qwen3_asr_storage_install_evidence = load_json(PATHS["qwen3_asr_storage_install_evidence"])
         qwen3_asr_remote_install_receipt = load_json(PATHS["qwen3_asr_remote_install_receipt"])
         qwen3_asr_dependency_preflight_schema = load_json(PATHS["qwen3_asr_dependency_preflight_schema"])
+        qwen3_asr_dependency_preflight_evidence = load_json(PATHS["qwen3_asr_dependency_preflight_evidence"])
+        qwen3_asr_dependency_preflight_receipt = load_json(PATHS["qwen3_asr_dependency_preflight_receipt"])
         schema = load_json(PATHS["schema"])
         job_contract_schema = load_json(PATHS["job_contract_schema"])
         phase_lease_schema = load_json(PATHS["phase_lease_schema"])
@@ -473,6 +479,29 @@ def collect_errors() -> list[str]:
         errors.append("Qwen3-ASR remote install receipt status mismatch")
     if any(qwen3_asr_remote_install_receipt.get("runtime_claims", {}).values()):
         errors.append("Qwen3-ASR storage receipt contains a false runtime claim")
+    dependency_receipt_sha256 = hashlib.sha256(
+        PATHS["qwen3_asr_dependency_preflight_receipt"].read_bytes()
+    ).hexdigest()
+    if dependency_receipt_sha256 != "ce3e2d78a2bfb13827f0aa4a73cc89d7dc8bb615192b7c3c71fef290d5267b0e":
+        errors.append("Qwen3-ASR dependency preflight receipt mirror hash mismatch")
+    expected_dependency_gaps = [
+        "QWEN_ASR_DISTRIBUTION_MISSING",
+        "INSTALLED_TRANSFORMERS_LACKS_QWEN3_ASR_SUPPORT",
+    ]
+    if qwen3_asr_dependency_preflight_receipt.get("classification") != "CONFIG_IDENTITY_PASS_DEPENDENCY_ACTION_REQUIRED":
+        errors.append("Qwen3-ASR dependency preflight classification mismatch")
+    if qwen3_asr_dependency_preflight_receipt.get("dependency_gaps") != expected_dependency_gaps:
+        errors.append("Qwen3-ASR dependency preflight gaps mismatch")
+    if any(qwen3_asr_dependency_preflight_receipt.get("runtime_claims", {}).values()):
+        errors.append("Qwen3-ASR dependency preflight contains a false runtime claim")
+    if qwen3_asr_dependency_preflight_evidence.get("pushed_preflight_commit") != "b5d996d1ae0f46e9dc08788647d7ac0013264dcb":
+        errors.append("Qwen3-ASR dependency preflight commit binding mismatch")
+    if qwen3_asr_dependency_preflight_evidence.get("remote_receipt_sha256") != dependency_receipt_sha256:
+        errors.append("Qwen3-ASR dependency preflight evidence hash mismatch")
+    if qwen3_asr_dependency_preflight_evidence.get("retained_non_authoritative_control_copy", {}).get("authority") != "none":
+        errors.append("mistyped Qwen3-ASR control copy must remain non-authoritative")
+    if any(qwen3_asr_dependency_preflight_evidence.get("runtime_claims", {}).values()):
+        errors.append("Qwen3-ASR dependency evidence contains a false runtime claim")
 
     json_docs = (
         requirements,
@@ -487,6 +516,8 @@ def collect_errors() -> list[str]:
         qwen3_asr_install_admission_evidence,
         qwen3_asr_storage_install_evidence,
         qwen3_asr_remote_install_receipt,
+        qwen3_asr_dependency_preflight_evidence,
+        qwen3_asr_dependency_preflight_receipt,
         tool_executor_qualification,
         workflow_receipt_shadow_evidence,
         workflow_tool_qualification_evidence,

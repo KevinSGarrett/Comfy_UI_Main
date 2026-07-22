@@ -60,6 +60,8 @@ def test_asr_source_revision_and_storage_install_are_exact_but_not_operational()
     package = next(item for item in data["packages"] if item["identity"]["repository_id"] == "Qwen/Qwen3-ASR-1.7B")
     assert package["source_pin"]["revision"] == "7278e1e70fe206f11671096ffdd38061171dd6e5"
     assert package["installation"]["state"] == "INSTALLED_FILE_SET_VERIFIED_ACTIVATION_PENDING"
+    assert package["dependency_preflight"]["state"] == "CONFIG_IDENTITY_PASS_DEPENDENCY_ACTION_REQUIRED"
+    assert "dependency_environment" in package["qualification"]["required_gates"]
     assert not package["authority"]["operational"]
     package["source_pin"]["revision"] = "0" * 40
     assert any("source revision pin mismatch" in error for error in MODULE.validate(data))

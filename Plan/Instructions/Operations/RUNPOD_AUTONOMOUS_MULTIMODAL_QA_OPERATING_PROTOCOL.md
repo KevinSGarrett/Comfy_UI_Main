@@ -318,3 +318,11 @@ entire read authority. Treat `CONFIG_IDENTITY_PASS_DEPENDENCY_ACTION_REQUIRED`
 as an admitted next-step result, never as permission to upgrade the active
 ComfyUI Python environment. Build a hash-locked isolated environment under a
 new immutable path only after a separate dependency admission is reviewed.
+
+Current preflight result: config identity passed and dependency action is
+required. The active environment lacks both the `qwen-asr` distribution and
+Transformers Qwen3-ASR support files. Do not run `pip install` in the active
+environment. First resolve and retain an official dependency lock with hashes;
+then create an immutable isolated environment and prove an import-only canary.
+Model construction, CUDA access, weight load, and inference remain forbidden
+until their later gates are explicitly admitted.

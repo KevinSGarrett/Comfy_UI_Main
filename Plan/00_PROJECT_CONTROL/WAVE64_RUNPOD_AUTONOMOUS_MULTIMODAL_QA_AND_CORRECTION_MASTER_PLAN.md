@@ -507,3 +507,11 @@ Qwen-ASR, construct a model, allocate a tensor, inspect CUDA, poll the GPU lease
 or access the network. Missing support is a typed dependency action, not a model
 failure. Any dependency remediation must use a separately admitted immutable
 isolated environment and may not mutate the active ComfyUI environment.
+
+The pushed metadata-only preflight ran on the current pod and passed all four
+model/config identity assertions. It found the active environment has Python
+3.11.10, Torch 2.4.1+cu124, and Transformers 4.46.3, but no `qwen-asr`
+distribution and no installed Transformers Qwen3-ASR support files. Therefore
+the file set remains installed and non-operational. The admitted next step is a
+hash-locked isolated dependency environment; the active ComfyUI environment is
+not an upgrade target.
