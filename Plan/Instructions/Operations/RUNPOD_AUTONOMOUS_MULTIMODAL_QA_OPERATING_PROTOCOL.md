@@ -14,10 +14,12 @@ Program: `W64-AQA`
    MaskFactory stores, and `F:/Models` as read-only evidence unless a separate
    exact-path reconciliation authorizes bytes.
 6. An idle ComfyUI queue and empty Ollama residency are necessary but not
-   sufficient. Classify active foreign GPU workloads immediately before lease
-   acquisition and again before inference. If one is present, emit a no-action
-   hold receipt, preserve it, and switch tracker lanes; never kill, unload, or
-   delay the foreign owner through an uncoordinated lock.
+   sufficient. Before every GPU-affecting action, obtain and validate an exact
+   shared-coordinator lease with fresh telemetry, reserved peak VRAM, intensity,
+   and lease-mode evidence. Retain foreign process and internal lock observations
+   in the receipt, but do not treat process presence or a project-internal lock as
+   cross-project authority. Never kill, unload, or steal another owner's process,
+   model, or lease.
 
 ## 2. Storage rules
 
@@ -105,10 +107,11 @@ Known-bad image artifacts are first-class calibration evidence. Preserve their
 original lineage and rejection rather than regenerating or relabeling them. The
 current canonical image shadow is
 `Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_IMAGE_SHADOW_20260721T223341Z.json`:
-technical gates pass, Codex whole-image QA rejects the placement/shadow defects,
-and the bound 32B strict-model step remains held until the foreign GPU lease is
-released. A technical PASS must not enter promotion or correction retention by
-itself.
+technical gates pass, Codex whole-image QA rejects the placement/shadow defects.
+The bound 32B model has now passed an exact-digest load, missing-media refusal,
+and unload canary under an exclusive shared-coordinator lease, but it has not yet
+reviewed this artifact or passed image-quality calibration. A technical or
+generic runtime PASS must not enter promotion or correction retention by itself.
 
 For video, run the full deterministic decode before constructing review inputs.
 Retain the exact sampled-frame hashes and metric-selected motion, exposure, and

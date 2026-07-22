@@ -3,9 +3,9 @@ from __future__ import annotations
 import base64
 import importlib.util
 import io
+import json
 from pathlib import Path
 
-import pytest
 from PIL import Image
 
 
@@ -153,19 +153,21 @@ def test_full_shadow_job_repairs_replays_and_cleans_up(tmp_path: Path) -> None:
     assert (artifact_dir / "evidence_bundle.json").is_file()
 
 
-def test_foreign_workload_blocks_before_upload_or_execution(tmp_path: Path) -> None:
+def test_foreign_workload_is_observed_but_does_not_override_capacity_lease(tmp_path: Path) -> None:
     module = load_runner()
     source = tmp_path / "source.png"
     source.write_bytes(png_bytes((64, 64)))
-    with pytest.raises(module.ShadowJobError, match="ACTIVE_FOREIGN_GPU_WORKLOAD_PRESENT"):
-        module.run_shadow_job(
-            source_path=source,
-            artifact_dir=tmp_path / "evidence",
-            host="root@example.invalid",
-            port=22,
-            pod_id="pod-test",
-            network_volume_id="volume-test",
-            hourly_compute_usd=0.77,
-            remote=fake_remote(module, foreign=True),
-        )
-    assert not (tmp_path / "evidence").exists()
+    artifact_dir = tmp_path / "evidence"
+    result = module.run_shadow_job(
+        source_path=source,
+        artifact_dir=artifact_dir,
+        host="root@example.invalid",
+        port=22,
+        pod_id="pod-test",
+        network_volume_id="volume-test",
+        hourly_compute_usd=0.77,
+        remote=fake_remote(module, foreign=True),
+    )
+    runtime = json.loads((artifact_dir / "runtime_receipt.json").read_text())
+    assert runtime["preflight"]["active_foreign_workloads"]
+    assert result["accepted_disposition"] == "PASS_EVIDENCE_ONLY_SHADOW_INFRASTRUCTURE"

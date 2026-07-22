@@ -97,14 +97,6 @@ def test_safe_canary_loads_refuses_unloads_and_grants_no_product_authority() -> 
     [
         ({"queue_pending": 1}, "COMFYUI_QUEUE_NOT_IDLE"),
         ({"loaded_models": ["qwen2.5vl:7b"]}, "UNOWNED_OLLAMA_RESIDENCY_PRESENT"),
-        (
-            {
-                "active_foreign_workloads": [
-                    {"pid": 123, "workload_class": "maskfactory_strict_visual_burst"}
-                ]
-            },
-            "ACTIVE_FOREIGN_GPU_WORKLOAD_PRESENT",
-        ),
         ({"overlay": {"used_percent": 85.0}}, "OVERLAY_PRESSURE"),
         ({"gpu": {"free_mib": 29000}}, "INSUFFICIENT_FREE_VRAM"),
         ({"installed_models": []}, "STRICT_MODEL_DIGEST_ABSENT_OR_CHANGED"),
@@ -123,6 +115,28 @@ def test_unsafe_preflight_fails_before_model_load(changes: dict, match: str) -> 
             remote=remote,
         )
     assert calls == ["probe"]
+
+
+def test_foreign_workload_is_retained_but_does_not_override_capacity() -> None:
+    module = load_producer()
+    remote, calls = remote_fixture(
+        module,
+        pre_changes={
+            "active_foreign_workloads": [
+                {"pid": 123, "workload_class": "maskfactory_strict_visual_burst"}
+            ]
+        },
+    )
+    result = module.run_canary(
+        host="root@example.invalid",
+        port=22,
+        pod_id="pod-test",
+        network_volume_id="volume-test",
+        hourly_compute_usd=0.77,
+        remote=remote,
+    )
+    assert result["preflight_snapshot"]["active_foreign_workloads"]
+    assert calls == ["probe", "infer", "unload", "probe"]
 
 
 def test_admission_snapshot_retains_typed_blockers_without_action() -> None:
@@ -148,10 +162,10 @@ def test_admission_snapshot_retains_typed_blockers_without_action() -> None:
     assert calls == ["probe"]
     assert result["admission_disposition"] == "BLOCKED_NO_ACTION"
     assert result["blocker_codes"] == [
-        "ACTIVE_FOREIGN_GPU_WORKLOAD_PRESENT",
         "INSUFFICIENT_FREE_VRAM",
         "UNOWNED_OLLAMA_RESIDENCY_PRESENT",
     ]
+    assert result["resource_snapshot"]["active_foreign_workloads"]
     assert result["resource_mutations"] == []
     assert result["inference_executed"] is False
 

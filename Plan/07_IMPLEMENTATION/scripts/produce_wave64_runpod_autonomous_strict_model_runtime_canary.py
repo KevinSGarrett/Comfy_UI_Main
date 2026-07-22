@@ -100,9 +100,6 @@ request = json.loads(sys.argv[1])
 if request["action"] == "probe":
     result = probe()
 elif request["action"] == "infer":
-    active_foreign = foreign_workloads()
-    if active_foreign:
-        raise RuntimeError("foreign workload appeared before inference: " + json.dumps(active_foreign))
     schema = {
         "type": "object",
         "properties": {
@@ -205,8 +202,8 @@ def _preflight_reasons(snapshot: dict[str, Any]) -> list[str]:
         reasons.append("COMFYUI_SYSTEM_STATS_UNHEALTHY")
     if snapshot.get("loaded_models"):
         reasons.append("UNOWNED_OLLAMA_RESIDENCY_PRESENT")
-    if snapshot.get("active_foreign_workloads"):
-        reasons.append("ACTIVE_FOREIGN_GPU_WORKLOAD_PRESENT")
+    # Foreign process presence is retained in evidence but is not itself a veto;
+    # the shared capacity lease and live VRAM threshold govern admission.
     if snapshot.get("overlay", {}).get("used_percent", 100) >= 85:
         reasons.append("OVERLAY_PRESSURE")
     if snapshot.get("gpu", {}).get("free_mib", 0) < 30000:
@@ -415,12 +412,19 @@ def main() -> int:
     args = parser.parse_args()
     if args.output.exists():
         raise SystemExit("output already exists; runtime evidence is immutable")
+    shared_lease = None
+    if not args.admission_only:
+        from shared_runpod_capacity_lease import validate_shared_runpod_lease
+
+        shared_lease = validate_shared_runpod_lease()
     runner = capture_admission_snapshot if args.admission_only else run_canary
     evidence = runner(
         host=args.host, port=args.port, pod_id=args.pod_id,
         network_volume_id=args.network_volume_id,
         hourly_compute_usd=args.hourly_compute_usd,
     )
+    if shared_lease is not None:
+        evidence["shared_runpod_capacity_lease"] = shared_lease
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(
         json.dumps(evidence, indent=2, sort_keys=True) + "\n",

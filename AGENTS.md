@@ -23,3 +23,15 @@ Pre-existing dirty or untracked paths are preserved and outside the active sessi
 The signed pipeline is mandatory for dispatched worker work. It is not a requirement for the active top-level interactive Cursor session to dispatch its own direct analysis or implementation back to itself.
 
 Interactive Cursor shifts must not false-stop: continue autonomously until end-to-end project/tracker complete per `.cursor/rules/continuous-autonomous-until-project-complete.mdc` (switch lanes on blockers; never treat one row as shift-complete).
+
+## Shared RunPod GPU Capacity Authority
+
+Cross-project GPU admission for the current 48 GB RunPod is governed by
+`C:\Users\kevin\.codex\shared_runpod_coordinator\README.md`. Before a GPU-affecting
+action, request and validate a capacity lease. CPU-only work never needs a lease.
+MaskFactory process presence, `runs/gpu.lock`, `/workspace/tmp/gpu.lock`, and
+ComfyUI queue idleness are not by themselves cross-project exclusion authority.
+They remain internal workflow/critical-section evidence. Qualified shared work
+may run concurrently when the coordinator's 40 GB peak budget, 8 GB reserve,
+fresh telemetry, and intensity rules pass. Never kill or steal another owner's
+process or internal lock.

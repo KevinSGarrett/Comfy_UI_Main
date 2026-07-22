@@ -1,0 +1,273 @@
+{
+  "authority_granted": "CAPACITY_AND_MISSING_MEDIA_REFUSAL_CONTROL_ONLY",
+  "canary_disposition": "PASS_MODEL_LOAD_REFUSAL_AND_UNLOAD",
+  "claims_not_proven": [
+    "image review quality",
+    "sampled-video review quality",
+    "full strict visual role qualification",
+    "independent reviewer authority",
+    "OOM or crash recovery",
+    "artifact promotion"
+  ],
+  "cleanup_receipt": {
+    "done": true,
+    "done_reason": "unload",
+    "method": "ollama_keep_alive_zero_exact_owned_model"
+  },
+  "contract_id": "b7eb6f3c891f383605451f5d5b3807a07af96ba7e7dcb35b46bcf928efe9c887",
+  "final_controller_state": {
+    "blocked_reasons": [],
+    "controller_id": "W64-AQA-CTRL-primary",
+    "journal": [
+      {
+        "details": {
+          "controller_id": "W64-AQA-CTRL-primary"
+        },
+        "event": "CONTROLLER_INITIALIZED",
+        "event_hash": "d90fd6e04a2d881e90e4779cea5dd5f1b51f9497eb86acbe7271f84c2e5d4b90",
+        "previous_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "sequence": 0,
+        "timestamp": "2026-07-22T03:26:11.530354Z"
+      },
+      {
+        "details": {
+          "lease_id": "W64-AQA-LEASE-19dfb728c7cf44f4b0f962dd",
+          "phase": "model_load"
+        },
+        "event": "LEASE_ACQUIRED",
+        "event_hash": "044a04f8e5207bc1ebcee8601faa9bd989f59063faab740eac5e34fdb5bda392",
+        "previous_hash": "d90fd6e04a2d881e90e4779cea5dd5f1b51f9497eb86acbe7271f84c2e5d4b90",
+        "sequence": 1,
+        "timestamp": "2026-07-22T03:26:11.536353Z"
+      },
+      {
+        "details": {
+          "lease_id": "W64-AQA-LEASE-19dfb728c7cf44f4b0f962dd"
+        },
+        "event": "LEASE_DRAINING",
+        "event_hash": "f444ebb7270d73cdf62cec6c6432d8e531b2399f9cc09b66c3b9939113824773",
+        "previous_hash": "044a04f8e5207bc1ebcee8601faa9bd989f59063faab740eac5e34fdb5bda392",
+        "sequence": 2,
+        "timestamp": "2026-07-22T03:26:57.051677Z"
+      },
+      {
+        "details": {
+          "actual_cost_usd": 0.009735152777777655,
+          "lease_id": "W64-AQA-LEASE-19dfb728c7cf44f4b0f962dd"
+        },
+        "event": "LEASE_RELEASED",
+        "event_hash": "10958c52769e72123e8425439a3b3fe0670cf02c4f66099729e6ff7c3095fc8b",
+        "previous_hash": "f444ebb7270d73cdf62cec6c6432d8e531b2399f9cc09b66c3b9939113824773",
+        "sequence": 3,
+        "timestamp": "2026-07-22T03:26:57.051677Z"
+      }
+    ],
+    "lease": null,
+    "revision": 4,
+    "schema_version": "wave64.aqa.phase_lease.v1",
+    "state": "IDLE"
+  },
+  "inference_receipt": {
+    "done": true,
+    "done_reason": "stop",
+    "elapsed_seconds": 42.257,
+    "eval_count": 21,
+    "load_duration_ns": 36443651606,
+    "media_generation_executed": false,
+    "media_supplied": false,
+    "parsed_response": {
+      "decision": "REFUSE",
+      "reason_code": "MISSING_MEDIA"
+    },
+    "prompt_eval_count": 54,
+    "prompt_id": "w64-aqa-missing-media-refusal-v1",
+    "response_sha256": "cd43d7d7ca90fd0111c914eac490d0747035252d5ae4de8ed2528e9b99ece127",
+    "total_duration_ns": 42246255980
+  },
+  "lease": {
+    "acquired_at": "2026-07-22T03:26:11.536353Z",
+    "contract_id": "b7eb6f3c891f383605451f5d5b3807a07af96ba7e7dcb35b46bcf928efe9c887",
+    "estimated_cost_usd": 0.06416666666666666,
+    "expires_at": "2026-07-22T03:36:11.536353Z",
+    "heartbeat_at": "2026-07-22T03:26:11.536353Z",
+    "lease_id": "W64-AQA-LEASE-19dfb728c7cf44f4b0f962dd",
+    "max_cost_usd": 0.07,
+    "owner": "W64-AQA-JOB-strict-model-runtime-canary-20260721",
+    "phase": "model_load",
+    "resource_snapshot_sha256": "3c6054d375277a2bf35431ba3ac71f02f55f00b58e18424e896645c35e017af2"
+  },
+  "postflight_snapshot": {
+    "active_foreign_workloads": [
+      {
+        "pid": 3690967,
+        "workload_class": "maskfactory_hand_tournament"
+      }
+    ],
+    "comfyui_system_stats_healthy": true,
+    "gpu": {
+      "free_mib": 47987,
+      "name": "NVIDIA RTX 6000 Ada Generation",
+      "total_mib": 49140,
+      "used_mib": 654,
+      "utilization_percent": 68
+    },
+    "installed_models": [
+      {
+        "digest": "3edc3a52fe988de3e8ba4f99ac1f21a1bbc35e1af32a74983fe4e1667d6b6188",
+        "name": "qwen2.5vl:32b"
+      },
+      {
+        "digest": "ee4b975b58c17ce268cd19d40db35d5edc64603035d2ffc1fee1968eb0947f7b",
+        "name": "qwen3-vl:4b-instruct-q4_K_M"
+      },
+      {
+        "digest": "0533d74300e4f9bc367d675d4e64ffd073d50ff16a2b4096cc2e8a1cf8c96319",
+        "name": "qwen3-vl:8b-instruct-q4_K_M"
+      },
+      {
+        "digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+        "name": "qwen2.5:7b-instruct"
+      },
+      {
+        "digest": "5ced39dfa4bac325dc183dd1e4febaa1c46b3ea28bce48896c8e69c1e79611cc",
+        "name": "qwen2.5vl:7b"
+      },
+      {
+        "digest": "0d0eb4d7f485d7d0a21fd9b0c1d5b04da481d2150a097e81b64acb59758fdef6",
+        "name": "llava:13b"
+      },
+      {
+        "digest": "6f2f9757ae97e8a3f8ea33d6adb2b11d93d9a35bef277cd2c0b1b5af8e8d0b1e",
+        "name": "llama3.2-vision:11b"
+      }
+    ],
+    "loaded_models": [],
+    "observed_at": "2026-07-22T03:26:56Z",
+    "overlay": {
+      "free_bytes": 5507543040,
+      "path": "/",
+      "total_bytes": 21474836480,
+      "used_bytes": 15967293440,
+      "used_percent": 74.354
+    },
+    "queue_pending": 0,
+    "queue_running": 0,
+    "workspace": {
+      "free_bytes": 143172054155264,
+      "path": "/workspace",
+      "total_bytes": 525782544482304,
+      "used_bytes": 382610490327040,
+      "used_percent": 72.77
+    }
+  },
+  "preflight_snapshot": {
+    "active_foreign_workloads": [
+      {
+        "pid": 3690967,
+        "workload_class": "maskfactory_hand_tournament"
+      }
+    ],
+    "comfyui_system_stats_healthy": true,
+    "gpu": {
+      "free_mib": 47993,
+      "name": "NVIDIA RTX 6000 Ada Generation",
+      "total_mib": 49140,
+      "used_mib": 648,
+      "utilization_percent": 0
+    },
+    "installed_models": [
+      {
+        "digest": "3edc3a52fe988de3e8ba4f99ac1f21a1bbc35e1af32a74983fe4e1667d6b6188",
+        "name": "qwen2.5vl:32b"
+      },
+      {
+        "digest": "ee4b975b58c17ce268cd19d40db35d5edc64603035d2ffc1fee1968eb0947f7b",
+        "name": "qwen3-vl:4b-instruct-q4_K_M"
+      },
+      {
+        "digest": "0533d74300e4f9bc367d675d4e64ffd073d50ff16a2b4096cc2e8a1cf8c96319",
+        "name": "qwen3-vl:8b-instruct-q4_K_M"
+      },
+      {
+        "digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+        "name": "qwen2.5:7b-instruct"
+      },
+      {
+        "digest": "5ced39dfa4bac325dc183dd1e4febaa1c46b3ea28bce48896c8e69c1e79611cc",
+        "name": "qwen2.5vl:7b"
+      },
+      {
+        "digest": "0d0eb4d7f485d7d0a21fd9b0c1d5b04da481d2150a097e81b64acb59758fdef6",
+        "name": "llava:13b"
+      },
+      {
+        "digest": "6f2f9757ae97e8a3f8ea33d6adb2b11d93d9a35bef277cd2c0b1b5af8e8d0b1e",
+        "name": "llama3.2-vision:11b"
+      }
+    ],
+    "loaded_models": [],
+    "observed_at": "2026-07-22T03:26:09Z",
+    "overlay": {
+      "free_bytes": 5507547136,
+      "path": "/",
+      "total_bytes": 21474836480,
+      "used_bytes": 15967289344,
+      "used_percent": 74.353
+    },
+    "queue_pending": 0,
+    "queue_running": 0,
+    "workspace": {
+      "free_bytes": 143107464232960,
+      "path": "/workspace",
+      "total_bytes": 525782544482304,
+      "used_bytes": 382675080249344,
+      "used_percent": 72.782
+    }
+  },
+  "produced_at": "2026-07-22T03:26:57.057792Z",
+  "producer_identity": {
+    "producer_script_sha256": "a653cc088fd2e5ae999187478a59abaf79af3d5ff24987ffd5ea5231c028e907",
+    "shared_lease_adapter_sha256": "833014fc905c17ad7972f988453153527405c883b20d80fb508d9ae7ab1338c4"
+  },
+  "product_approval_granted": false,
+  "program_id": "W64-AQA",
+  "request_contract": {
+    "decision_authority": "capacity_and_refusal_control_only",
+    "media_generation": false,
+    "model_digest": "3edc3a52fe988de3e8ba4f99ac1f21a1bbc35e1af32a74983fe4e1667d6b6188",
+    "model_id": "qwen2.5vl:32b",
+    "pod_id": "1q4ji0gg1fkhvt",
+    "product_approval": false,
+    "prompt_id": "w64-aqa-missing-media-refusal-v1",
+    "schema_version": "wave64.aqa.strict_model_runtime_canary.v1"
+  },
+  "resource_mutations": [
+    {
+      "action": "load_infer_keep_alive_zero_unload",
+      "model_id": "qwen2.5vl:32b",
+      "owned": true,
+      "type": "ephemeral_model_residency"
+    }
+  ],
+  "runtime": {
+    "gpu_profile": "NVIDIA RTX 6000 Ada Generation",
+    "hourly_compute_usd": 0.77,
+    "network_volume_id": "o9qv2ld91c",
+    "pod_id": "1q4ji0gg1fkhvt",
+    "remote_endpoint_retained": false
+  },
+  "schema_version": "wave64.aqa.strict_model_runtime_canary.v1",
+  "shared_runpod_capacity_lease": {
+    "expires_at": "2026-07-22T03:46:08Z",
+    "lease_id": "lease_389b70fd9e8a48de88c9c8b379994817",
+    "lease_mode": "exclusive",
+    "profile": "comfyui_model_qualification",
+    "project": "comfyui_main",
+    "reserved_peak_gb": 30.0,
+    "token_retained": false
+  },
+  "tracker_ids": [
+    "W64-AQA-003",
+    "W64-AQA-008"
+  ]
+}

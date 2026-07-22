@@ -31,12 +31,18 @@ PATHS = {
     / "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_MULTIMODAL_QA_EXTERNAL_STATE_RECONCILIATION_20260721.json",
     "capacity_evidence": ROOT
     / "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_MULTIMODAL_QA_CAPACITY_OPTIONS_20260721.json",
+    "current_prod_only_capacity_evidence": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_CURRENT_PROD_ONLY_CAPACITY_DECISION_20260722T031905Z.json",
     "phase_lease_shadow_evidence": ROOT
     / "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_PHASE_LEASE_SHADOW_20260721.json",
     "phase_lease_runtime_canary_evidence": ROOT
     / "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_PHASE_LEASE_RUNTIME_CANARY_20260721T213703Z.json",
     "strict_model_admission_hold_evidence": ROOT
     / "Plan/Tracker/Evidence/WAVE64_RUNPOD_AUTONOMOUS_STRICT_MODEL_ADMISSION_HOLD_20260721T215000Z.json",
+    "strict_model_runtime_canary_evidence": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_STRICT_MODEL_RUNTIME_CANARY_20260722T032600Z.json",
+    "shared_runpod_capacity_lease_adapter": ROOT
+    / "Plan/07_IMPLEMENTATION/scripts/shared_runpod_capacity_lease.py",
     "operations": ROOT
     / "Plan/Instructions/Operations/RUNPOD_AUTONOMOUS_MULTIMODAL_QA_OPERATING_PROTOCOL.md",
     "qa": ROOT

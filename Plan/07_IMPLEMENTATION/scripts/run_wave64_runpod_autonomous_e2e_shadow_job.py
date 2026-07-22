@@ -126,7 +126,7 @@ elif action == "object_info":
     result = {name: all_info[name] for name in required}
 elif action == "execute":
     before = probe()
-    if before["active_foreign_workloads"] or before["loaded_models"] or before["queue_running"] or before["queue_pending"]:
+    if before["loaded_models"] or before["queue_running"] or before["queue_pending"]:
         raise RuntimeError("runtime ownership changed before workflow execution")
     submitted = http_json("POST", "http://127.0.0.1:8188/prompt", {"prompt": request["workflow"], "client_id": request["client_id"]}, timeout=15)
     prompt_id = submitted.get("prompt_id")
@@ -284,8 +284,8 @@ def workflow(input_filename: str, width: int, height: int, prefix: str) -> dict[
 
 def assert_preflight(snapshot: dict[str, Any]) -> None:
     reasons: list[str] = []
-    if snapshot.get("active_foreign_workloads"):
-        reasons.append("ACTIVE_FOREIGN_GPU_WORKLOAD_PRESENT")
+    # Foreign process presence is evidence, not a cross-project capacity veto.
+    # The local capacity-aware lease validates qualified peak + live free VRAM.
     if snapshot.get("loaded_models"):
         reasons.append("UNOWNED_OLLAMA_RESIDENCY_PRESENT")
     if snapshot.get("queue_running") or snapshot.get("queue_pending"):
@@ -859,6 +859,9 @@ def main() -> int:
     args = parser.parse_args()
     if args.output.exists():
         raise SystemExit("output already exists; shadow summaries are immutable")
+    from shared_runpod_capacity_lease import validate_shared_runpod_lease
+
+    shared_lease = validate_shared_runpod_lease()
     summary = run_shadow_job(
         source_path=args.source,
         artifact_dir=args.artifact_dir,
@@ -868,6 +871,7 @@ def main() -> int:
         network_volume_id=args.network_volume_id,
         hourly_compute_usd=args.hourly_compute_usd,
     )
+    summary["shared_runpod_capacity_lease"] = shared_lease
     args.output.parent.mkdir(parents=True, exist_ok=True)
     write_json(args.output, summary)
     print(json.dumps({"status": "PASS", "output": str(args.output), "bundle_id": summary["evidence_bundle_id"]}, indent=2))

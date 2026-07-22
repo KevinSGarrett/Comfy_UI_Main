@@ -222,8 +222,9 @@ Its 1024x1024 artifact and historical lineage/review records match by hash, and
 all deterministic gates pass. Whole-image Codex QA nevertheless rejects the
 candidate: the hand remains on the shoulder/top sleeve rather than the requested
 lower upper arm, and the contact shadow is not clear. The exact installed 32B
-digest is bound for later strict-model replay, but that runtime did not execute
-under the existing typed foreign-workload hold. Product promotion remains false.
+digest has passed a coordinator-admitted load, missing-media refusal, and clean
+unload canary. It has not reviewed this artifact or passed image-quality
+calibration. Product promotion remains false.
 
 ### Video and GIF
 
@@ -239,9 +240,9 @@ The lossless 480x640 24 fps source fully decodes as 49 frames; all 24 sampled
 frame hashes are retained, duplicate fraction is zero, motion is positive, and
 exposure/sharpness gates pass. The hash-bound frames 0/12/24/36/48 contact sheet
 shows stable gross subject, wardrobe, framing, and background structure. It is
-not a whole-clip motion or temporal-identity review, the bound 32B runtime did
-not execute under the foreign-workload hold, and product promotion remains
-false.
+not a whole-clip motion or temporal-identity review. The bound 32B model's
+generic runtime canary passes, but sampled-video calibration and this artifact's
+strict review have not executed, so product promotion remains false.
 
 ### Audio and audiovisual
 
